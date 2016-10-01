@@ -1292,8 +1292,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int focus_pool;
 
-        std::map<std::string, const recipe *> learned_recipes;
-
         std::vector<matype_id> ma_styles;
         matype_id style_selected;
         bool keep_hands_free;
@@ -1531,6 +1529,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
+
+        /** Learned recipes (not including autolearned ones) */
+        std::map<std::string, const recipe *> learned_recipes;
 };
 
 #endif
