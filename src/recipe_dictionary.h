@@ -31,6 +31,11 @@ class recipe_dictionary
         /** Returns all recipes which could use component */
         const std::set<const recipe *> &of_component( const itype_id &id ) const;
 
+        /** Returns all recipes that can be automatically learned */
+        const std::set<const recipe *> &all_autolearn() const {
+            return autolearn;
+        }
+
         size_t size() const;
         std::map<std::string, recipe>::const_iterator begin() const;
         std::map<std::string, recipe>::const_iterator end() const;
@@ -56,6 +61,7 @@ class recipe_dictionary
     private:
         std::map<std::string, recipe> recipes;
         std::map<std::string, recipe> uncraft;
+        std::set<const recipe *> autolearn;
         std::map<std::string, std::set<const recipe *>> category;
         std::map<itype_id, std::set<const recipe *>> component;
 

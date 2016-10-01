@@ -382,10 +382,18 @@ void recipe_dictionary::finalize()
             bk.time = pages * 10; // @todo allow specifying time in requirement_data
         }
     }
+
+    // Cache auto-learn recipes
+    for( const auto &e : recipe_dict.recipes ) {
+        if( e.second.autolearn ) {
+            recipe_dict.autolearn.insert( &e.second );
+        }
+    }
 }
 
 void recipe_dictionary::reset()
 {
+    recipe_dict.autolearn.clear();
     recipe_dict.component.clear();
     recipe_dict.category.clear();
     recipe_dict.recipes.clear();
