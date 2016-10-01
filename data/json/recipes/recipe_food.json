@@ -210,7 +210,7 @@
     ]
   },
   {
-    "result": "meat_pickled",
+    "result": "offal_pickled",
     "type": "recipe",
     "id_suffix": "jarred",
     "category": "CC_FOOD",
