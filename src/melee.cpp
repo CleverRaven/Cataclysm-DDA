@@ -1062,7 +1062,7 @@ matec_id player::pick_technique(Creature &t,
         // TODO: these are the stat reqs for tec_disarm
         // dice(   dex_cur +    get_skill_level("unarmed"),  8) >
         // dice(p->dex_cur + p->get_skill_level("melee"),   10))
-        if (tec.disarms && !t.has_weapon() && !t.weapon.has_flag (NO_DISARM) && !t.weapon.has_flag (NO_UNWIELD) ) {
+        if (tec.disarms && !t.has_weapon() ) {
             continue;
         }
 
@@ -1295,7 +1295,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
     }
 
     player *p = dynamic_cast<player*>( &t );
-    if( technique.disarms && p != nullptr && p->is_armed() ) {
+    if( technique.disarms && p != nullptr && p->is_armed() && !p->weapon.has_flag (NO_DISARM) && !p->weapon.has_flag (NO_UNWIELD) ) {
         g->m.add_item_or_charges( p->pos(), p->remove_weapon() );
         if( p->is_player() ) {
             add_msg_if_npc( _("<npcname> disarms you!") );
