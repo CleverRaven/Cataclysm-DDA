@@ -371,7 +371,7 @@ class Creature
         virtual int get_armor_type( damage_type dt, body_part bp ) const = 0;
 
         virtual float get_dodge() const;
-        virtual float get_melee() const;
+        virtual float get_melee() const = 0;
         virtual float get_hit() const;
 
         virtual int get_speed() const;
@@ -400,8 +400,8 @@ class Creature
         virtual int get_bash_bonus() const;
         virtual int get_cut_bonus() const;
 
-        virtual float get_dodge_base() const;
-        virtual float get_hit_base() const;
+        virtual float get_dodge_base() const = 0;
+        virtual float get_hit_base() const = 0;
         virtual float get_dodge_bonus() const;
         virtual float get_hit_bonus() const;
 

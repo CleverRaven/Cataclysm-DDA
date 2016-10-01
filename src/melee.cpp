@@ -220,7 +220,7 @@ float player::hit_roll() const
 
     hit *= std::max( 0.25f, 1.0f - encumb( bp_torso ) / 100.0f );
 
-    return normal_roll( hit, 25.0f );
+    return normal_roll( hit * 5, 25.0f );
 }
 
 void player::add_miss_reason(const char *reason, unsigned int weight)
@@ -621,13 +621,10 @@ double player::crit_chance( float roll_hit, float target_dodge, const item &weap
 
 float player::get_dodge_base() const
 {
-    // Creature::get_dodge_base includes stat calculations already
-    ///\EFFECT_DODGE increases dodge_base
-    return Character::get_dodge_base() + get_skill_level( skill_dodge );
+    // @todo Remove this override?
+    return Character::get_dodge_base();
 }
 
-//Returns 1/2*DEX + dodge skill level + static bonuses from mutations
-//Return numbers range from around 4 (starting player, no boosts) to 29 (20 DEX, 10 dodge, +9 mutations)
 float player::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
@@ -650,17 +647,18 @@ float player::get_dodge() const
         ret /= 4;
     }
 
+    // Each dodge after the first subtracts equivalent of 2 points of dodge skill
     if( dodges_left <= 0 ) {
         ret += dodges_left * 2 - 2;
     }
 
     // Speed below 100 linearly decreases dodge effectiveness
     int speed_stat = get_speed();
-    if( ret > 0.0f && speed_stat < 100 ) {
+    if( speed_stat < 100 ) {
         ret *= speed_stat / 100.0f;
     }
 
-    return ret;
+    return std::max( 0.0f, ret );
 }
 
 float player::dodge_roll()

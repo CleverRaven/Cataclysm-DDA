@@ -1341,13 +1341,24 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
     return 0;
 }
 
+float monster::get_hit_base() const
+{
+    return type->melee_skill;
+}
+
+float monster::get_dodge_base() const
+{
+    return type->sk_dodge;
+}
+
+
 float monster::hit_roll() const {
-    float hit = type->melee_skill;
+    float hit = get_hit();
     if( has_effect( effect_bouldering ) ) {
         hit /= 4;
     }
 
-    return normal_roll( hit, 25.0f );
+    return normal_roll( hit * 5, 25.0f );
 }
 
 bool monster::has_grab_break_tec() const
@@ -1407,7 +1418,7 @@ float monster::get_dodge() const
         return ret;
     }
 
-    ret += type->sk_dodge;
+    ret += Creature::get_dodge();
     if( has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) || has_effect( effect_beartrap ) || has_effect( effect_tied ) ) {
         ret /= 2;
     }
@@ -1416,7 +1427,7 @@ float monster::get_dodge() const
         ret /= 4;
     }
 
-    return ret + get_dodge_bonus();
+    return ret;
 }
 
 float monster::get_melee() const

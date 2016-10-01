@@ -558,7 +558,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Returns the bonus bashing damage the player deals based on their stats */
         float bonus_damage( bool random ) const;
-        /** Returns Creature::get_hit_base() modified by weapon skill */
+        /** Returns weapon skill */
         float get_hit_base() const override;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         float hit_roll() const override;

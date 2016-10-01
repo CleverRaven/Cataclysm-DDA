@@ -1207,10 +1207,6 @@ float Creature::get_dodge() const
 {
     return get_dodge_base() + get_dodge_bonus();
 }
-float Creature::get_melee() const
-{
-    return 0;
-}
 float Creature::get_hit() const
 {
     return get_hit_base() + get_hit_bonus();
@@ -1219,14 +1215,6 @@ float Creature::get_hit() const
 int Creature::get_speed_base() const
 {
     return speed_base;
-}
-float Creature::get_dodge_base() const
-{
-    return 0;
-}
-float Creature::get_hit_base() const
-{
-    return 0;
 }
 int Creature::get_speed_bonus() const
 {
