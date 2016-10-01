@@ -695,7 +695,7 @@ static std::string build_resource_list(
                                                      FILENAMES[dirname_label], true );
 
     for( auto &resource_dir : resource_dirs ) {
-        read_from_file( resource_dir + "/" + FILENAMES[filename_label], [&]( std::istream &fin ) {
+        read_from_file_istream( resource_dir + "/" + FILENAMES[filename_label], [&]( std::istream &fin ) {
             std::string resource_name;
             // should only have 2 values inside it, otherwise is going to only load the last 2 values
             while( !fin.eof() ) {
@@ -1915,7 +1915,7 @@ void options_manager::load()
 {
     const auto file = FILENAMES["options"];
 
-    if( !read_from_file_optional( file, *this ) ) {
+    if( !read_from_file_optional_json_deserializer( file, *this ) ) {
         if (load_legacy()) {
             if (save()) {
                 remove_file(FILENAMES["legacy_options"]);
@@ -1951,8 +1951,8 @@ bool options_manager::load_legacy()
         }
     };
 
-    return read_from_file_optional( FILENAMES["legacy_options"], reader ) ||
-           read_from_file_optional( FILENAMES["legacy_options2"], reader );
+    return read_from_file_optional_istream( FILENAMES["legacy_options"], reader ) ||
+           read_from_file_optional_istream( FILENAMES["legacy_options2"], reader );
 }
 
 bool use_narrow_sidebar()

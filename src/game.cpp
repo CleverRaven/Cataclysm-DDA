@@ -3561,14 +3561,14 @@ bool game::load_master(std::string worldname)
 {
     using namespace std::placeholders;
     const auto datafile = world_generator->all_worlds[worldname]->world_path + "/master.gsav";
-    return read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
+    return read_from_file_optional_istream( datafile, std::bind( &game::unserialize_master, this, _1 ));
 }
 
 void game::load_uistate(std::string worldname)
 {
     using namespace std::placeholders;
     const auto savefile = world_generator->all_worlds[worldname]->world_path + "/uistate.json";
-    read_from_file_optional( savefile, uistate );
+    read_from_file_optional_json_deserializer( savefile, uistate );
 }
 
 void game::load(std::string worldname, std::string name)
@@ -3585,14 +3585,18 @@ void game::load(std::string worldname, std::string name)
     // This should be initialized more globally (in player/Character constructor)
     u.ret_null = item( "null", 0 );
     u.weapon = item("null", 0);
-    if( !read_from_file( playerfile, std::bind( &game::unserialize, this, _1 ) ) ) {
+		
+    if( !read_from_file_istream( playerfile, std::bind( &game::unserialize, this, _1 ) ) ) {
         return;
     }
 
-    read_from_file_optional( worldpath + name + ".weather", std::bind( &game::load_weather, this, _1 ) );
+    read_from_file_optional_istream( worldpath + name + ".weather", 
+		std::bind( &game::load_weather, this, _1 ) );
+
     nextweather = int(calendar::turn);
 
-    read_from_file_optional( worldpath + name + ".log", std::bind( &player::load_memorial_file, &u, _1 ) );
+    read_from_file_optional_istream( worldpath + name + ".log", 
+		std::bind( &player::load_memorial_file, &u, _1 ) );
 
     // Now that the player's worn items are updated, their sight limits need to be
     // recalculated. (This would be cleaner if u.worn were private.)

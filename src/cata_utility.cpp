@@ -374,7 +374,8 @@ bool write_to_file_exclusive( const std::string &path,
     }
 }
 
-bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
+bool read_from_file_istream( const std::string &path,
+                             const std::function<void( std::istream & )> &reader )
 {
     try {
         std::ifstream fin( path, std::ios::binary );
@@ -393,42 +394,42 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
     }
 }
 
-bool read_from_file( const std::string &path, const std::function<void( JsonIn & )> &reader )
+bool read_from_file_jsonin( const std::string &path, const std::function<void( JsonIn & )> &reader )
 {
-    return read_from_file( path, [&reader]( std::istream & fin ) {
+    return read_from_file_istream( path, [&reader]( std::istream & fin ) {
         JsonIn jsin( fin );
         reader( jsin );
     } );
 }
 
-bool read_from_file( const std::string &path, JsonDeserializer &reader )
+bool read_from_file_json_deserializer( const std::string &path, JsonDeserializer &reader )
 {
-    return read_from_file( path, [&reader]( JsonIn & jsin ) {
+    return read_from_file_jsonin( path, [&reader]( JsonIn & jsin ) {
         reader.deserialize( jsin );
     } );
 }
 
-bool read_from_file_optional( const std::string &path,
-                              const std::function<void( std::istream & )> &reader )
+bool read_from_file_optional_istream( const std::string &path,
+                                      const std::function<void( std::istream & )> &reader )
 {
     // Note: slight race condition here, but we'll ignore it. Worst case: the file
     // exists and got removed before reading it -> reading fails with a message
     // Or file does not exists, than everything works fine because it's optional anyway.
-    return file_exist( path ) && read_from_file( path, reader );
+    return file_exist( path ) && read_from_file_istream( path, reader );
 }
 
-bool read_from_file_optional( const std::string &path,
-                              const std::function<void( JsonIn & )> &reader )
+bool read_from_file_optional_jsonin( const std::string &path,
+                                     const std::function<void( JsonIn & )> &reader )
 {
-    return read_from_file_optional( path, [&reader]( std::istream & fin ) {
+    return read_from_file_optional_istream( path, [&reader]( std::istream & fin ) {
         JsonIn jsin( fin );
         reader( jsin );
     } );
 }
 
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader )
+bool read_from_file_optional_json_deserializer( const std::string &path, JsonDeserializer &reader )
 {
-    return read_from_file_optional( path, [&reader]( JsonIn & jsin ) {
+    return read_from_file_optional_jsonin( path, [&reader]( JsonIn & jsin ) {
         reader.deserialize( jsin );
     } );
 }

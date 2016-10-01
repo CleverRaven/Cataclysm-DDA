@@ -617,7 +617,7 @@ void auto_pickup::load(const bool bCharacter)
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
     }
 
-    if( !read_from_file_optional( sFile, *this ) ) {
+    if( !read_from_file_optional_json_deserializer( sFile, *this ) ) {
         if (load_legacy(bCharacter)) {
             if (save(bCharacter)) {
                 remove_file(sFile);
@@ -672,10 +672,11 @@ bool auto_pickup::load_legacy(const bool bCharacter)
     auto &rules = vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB];
 
     using namespace std::placeholders;
-    const auto reader = std::bind( &auto_pickup::load_legacy_rules, this, std::ref( rules ), _1 );
-    if( !read_from_file_optional( sFile, reader ) ) {
+    const std::function<void( std::istream & )> & reader = 
+		std::bind( &auto_pickup::load_legacy_rules, this, std::ref( rules ), _1 );
+    if( !read_from_file_optional_istream( sFile, reader ) ) {
         if( !bCharacter ) {
-            return read_from_file_optional( FILENAMES["legacy_autopickup"], reader );
+            return read_from_file_optional_istream( FILENAMES["legacy_autopickup"], reader );
         } else {
             return false;
         }

@@ -237,7 +237,9 @@ int sokoban_game::start_game()
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
     using namespace std::placeholders;
-    read_from_file( FILENAMES["sokoban"], std::bind( &sokoban_game::parse_level, this, _1 ) );
+    read_from_file_istream( FILENAMES["sokoban"], [this]( std::istream &is ) { 
+		parse_level( is );
+	} );
 
     WINDOW *w_sokoban = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
     WINDOW_PTR w_sokobanptr( w_sokoban );

@@ -1467,12 +1467,17 @@ bool worldfactory::load_world_options(WORLDPTR &world)
 
     using namespace std::placeholders;
     const auto path = world->world_path + "/" + FILENAMES["worldoptions"];
-    if( read_from_file_optional( path, std::bind( &WORLD::load_options, world, _1 ) ) ) {
+
+    if( read_from_file_optional_jsonin( path, [world]( JsonIn &js ) { world->load_options( js ); } ) ) {
         return true;
     }
 
     const auto legacy_path = world->world_path + "/" + FILENAMES["legacy_worldoptions"];
-    if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, world, _1 ) ) ) {
+    auto legacy_options_reader = [world]( std::istream &is ) {
+        world->load_legacy_options( is );
+    };
+
+    if( read_from_file_optional_istream( legacy_path, legacy_options_reader ) ) {
         if( save_world( world ) ) {
             // Remove old file as the options have been saved to the new file.
             remove_file( legacy_path );

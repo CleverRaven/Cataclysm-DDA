@@ -912,7 +912,7 @@ void color_manager::load_custom(const std::string &sPath)
 {
     const auto file = ( sPath.empty() ) ? FILENAMES["custom_colors"] : sPath;
 
-    read_from_file_optional( file, *this );
+    read_from_file_optional_json_deserializer( file, *this );
     finalize(); // Need to finalize regardless of success
 }
 

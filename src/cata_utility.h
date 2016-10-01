@@ -140,18 +140,24 @@ class JsonDeserializer;
  * exist. They simply ignore the call and return `false` immediately (without calling the callback).
  * They can be used for loading legacy files.
  *
+ * These are specifically named and not overloaded. This is because overloading results in
+ * ambiguity compile time errors in MSVC unless you specifically declare the callback type,
+ * or cast it (which is messy and prone to breaking if you don't know about the issue).
+ *
  * @return `true` is the file was read without any errors, `false` upon any error.
  */
 /**@{*/
-bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
-bool read_from_file( const std::string &path, const std::function<void( JsonIn & )> &reader );
-bool read_from_file( const std::string &path, JsonDeserializer &reader );
+bool read_from_file_istream( const std::string &path,
+                             const std::function<void( std::istream & )> &reader );
+bool read_from_file_jsonin( const std::string &path,
+                            const std::function<void( JsonIn & )> &reader );
+bool read_from_file_json_deserializer( const std::string &path, JsonDeserializer &reader );
 
-bool read_from_file_optional( const std::string &path,
-                              const std::function<void( std::istream & )> &reader );
-bool read_from_file_optional( const std::string &path,
-                              const std::function<void( JsonIn & )> &reader );
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
+bool read_from_file_optional_istream( const std::string &path,
+                                      const std::function<void( std::istream & )> &reader );
+bool read_from_file_optional_jsonin( const std::string &path,
+                                     const std::function<void( JsonIn & )> &reader );
+bool read_from_file_optional_json_deserializer( const std::string &path, JsonDeserializer &reader );
 /**@}*/
 /**
  * Same as ofstream_wrapper, but uses exclusive I/O (@ref fopen_exclusive).

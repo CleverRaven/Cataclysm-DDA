@@ -400,7 +400,8 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
               om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
 
     using namespace std::placeholders;
-    if( !read_from_file_optional( quad_path.str(), std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
+    if( !read_from_file_optional_jsonin( quad_path.str(), 
+		std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
         // If it doesn't exist, trigger generating it.
         return NULL;
     }

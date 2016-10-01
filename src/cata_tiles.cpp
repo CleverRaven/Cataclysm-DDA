@@ -206,7 +206,7 @@ void cata_tiles::get_tile_information(std::string config_path, std::string &json
         }
     };
 
-    if( !read_from_file( config_path, reader ) ) {
+    if( !read_from_file_istream( config_path, reader ) ) {
         json_path = default_json;
         tileset_path = default_tileset;
     }

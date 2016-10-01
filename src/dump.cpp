@@ -250,7 +250,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             header.push_back( to_string( i ) );
         }
 
-        auto dump = [&rows]( const standard_npc &who, const item &gun) {
+        auto dump = [&rows, cycles]( const standard_npc &who, const item &gun ) {
             std::vector<std::string> r( 1, string_format( "%s %s", who.get_name().c_str(), gun.tname().c_str() ) );
             double penalty = MIN_RECOIL;
             for( int i = 0; i <= cycles; ++i ) {
