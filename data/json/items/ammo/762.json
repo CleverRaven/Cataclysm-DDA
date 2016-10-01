@@ -23,7 +23,7 @@
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
-    "id": "762_m87",
+    "id": "762_m67",
     "copy-from": "762_m43",
     "type": "AMMO",
     "name": "7.62x39mm M67",
@@ -51,7 +51,7 @@
   },
   {
     "id": "reloaded_762_m87",
-    "copy-from": "762_m87",
+    "copy-from": "762_m67",
     "type": "AMMO",
     "name": "reloaded 7.62x39mm M67",
     "name_plural": "reloaded 7.62x39mm M67",
