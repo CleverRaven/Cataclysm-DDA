@@ -872,7 +872,7 @@
             "Frostbite"
         ],
         "desc": [
-            "Your %s is frostnipped and has gone numb.",
+            "Your %s is frostnipped, it is starting to swell and ache.",
             "Your %s is frostbitten!  Its tissues are frozen from the cold!"
         ],
         "part_descs": true,
