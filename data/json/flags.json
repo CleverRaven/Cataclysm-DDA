@@ -257,12 +257,5 @@
     "context": [ "ARMOR", "armor_data" ],
     "info": " This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>.",
     "pseudo": true
-  },
-  {
-    "id": "NO_DISARM",
-    "type": "json_flag",
-    "context": [ "GENERIC", "TOOL" ],
-    "description": "Prevents disarm techniques from working.",
-    "info": "This weapon <good>cannot be disarmed</good>." 
   }
 ]
