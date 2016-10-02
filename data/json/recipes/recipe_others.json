@@ -5228,9 +5228,9 @@
   "components":
     [
      [
-     [ "glass_shard", 48 ],
-     [ "flask_glass", 12 ],
-     [ "jar_glass", 6 ]
+     [ "glass_shard", 28 ],
+     [ "flask_glass", 6 ],
+     [ "jar_glass", 4 ]
      ]
     ]
 },{
