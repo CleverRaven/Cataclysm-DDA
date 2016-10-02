@@ -865,15 +865,20 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
     T out;
     double scalar;
 
+    // Object via which to report errors which differs for proportional/relative values
+    JsonObject err = jo;
+
     // dont require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
     if( jo.get_object( "relative" ).read( name, out ) ) {
+        err = jo.get_object( "relative" );
         strict = false;
         out += val;
 
     } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
+        err = jo.get_object( "proportional" );
         if( scalar <= 0 || scalar == 1 ) {
-            jo.throw_error( "invalid proportional scalar", name );
+            err.throw_error( "invalid proportional scalar", name );
         }
         strict = false;
         out = val * scalar;
@@ -884,11 +889,11 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
     }
 
     if( out < lo || out > hi ) {
-        jo.throw_error( "value outside supported range", name );
+        err.throw_error( "value outside supported range", name );
     }
 
     if( strict && out == val ) {
-        report_strict_violation( jo, "assignment does not update value", name );
+        report_strict_violation( err, "assignment does not update value", name );
     }
 
     val = out;
@@ -999,15 +1004,20 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
     units::volume out;
     double scalar;
 
+    // Object via which to report errors which differs for proportional/relative values
+    JsonObject err = jo;
+
     // dont require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
     if( jo.get_object( "relative" ).read( name, tmp ) ) {
+        err = jo.get_object( "relative" );
         strict = false;
         out = val + tmp * units::legacy_volume_factor;
 
     } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
+        err = jo.get_object( "proportional" );
         if( scalar <= 0 || scalar == 1 ) {
-            jo.throw_error( "invalid proportional scalar", name );
+            err.throw_error( "invalid proportional scalar", name );
         }
         strict = false;
         out = val * scalar;
@@ -1020,11 +1030,11 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
     }
 
     if( out < lo || out > hi ) {
-        jo.throw_error( "value outside supported range", name );
+        err.throw_error( "value outside supported range", name );
     }
 
     if( strict && out == val ) {
-        report_strict_violation( jo, "assignment does not update value", name );
+        report_strict_violation( err, "assignment does not update value", name );
     }
 
     val = out;
