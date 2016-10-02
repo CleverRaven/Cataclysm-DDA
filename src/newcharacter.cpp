@@ -530,7 +530,8 @@ bool player::create(character_type type, std::string tempname)
     // Learn recipes
     for( const auto &e : recipe_dict ) {
         const auto &r = e.second;
-        if( !has_recipe_autolearned( r ) && has_recipe_requirements( r ) ) {
+        if( !has_recipe_autolearned( r ) &&
+            has_recipe_requirements( r ) ) {
             learn_recipe( &r );
         }
     }

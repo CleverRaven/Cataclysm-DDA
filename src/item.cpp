@@ -1757,14 +1757,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } else { // use the contained item
             tid = contents.front().typeId();
         }
-        const auto &rec = recipe_dict.of_component( tid );
-        if( !rec.empty() ) {
+        const auto &known_recipes = g->u.get_learned_recipes().of_component( tid );
+        if( !known_recipes.empty() ) {
             temp1.str( "" );
             const inventory &inv = g->u.crafting_inventory();
-            // only want known recipes
-            std::vector<const recipe *> known_recipes;
-            std::copy_if( rec.begin(), rec.end(), std::back_inserter( known_recipes ),
-                          [&]( const recipe *r ) { return g->u.knows_recipe( r ); } );
 
             if( known_recipes.size() > 24 ) {
                 insert_separation_line();

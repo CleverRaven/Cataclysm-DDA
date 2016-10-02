@@ -198,16 +198,13 @@ const recipe *select_crafting_recipe( int &batch_size )
             if( batch ) {
                 batch_recipes( crafting_inv, helpers, current, available, chosen );
             } else {
+                const auto &learned_recipes = g->u.get_learned_recipes();
 
                 if( filterstring.empty() ) {
-                    current = recipe_dict.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
+                    current = learned_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
                 } else {
-                    current = recipe_dict.search( filterstring );
+                    current = learned_recipes.search( filterstring );
                 }
-
-                current.erase( std::remove_if( current.begin(), current.end(), [&]( const recipe * e ) {
-                    return ( g->u.has_recipe( e, crafting_inv, helpers ) == -1 );
-                } ), current.end() );
 
                 // cache recipe availability on first display
                 for( const auto e : current ) {

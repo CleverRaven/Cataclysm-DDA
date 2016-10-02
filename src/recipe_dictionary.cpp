@@ -29,18 +29,18 @@ const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
     return iter != recipe_dict.uncraft.end() ? iter->second : null_recipe;
 }
 
-std::vector<const recipe *> recipe_dictionary::search( const std::string &txt )
+std::vector<const recipe *> recipe_subset::search( const std::string &txt ) const
 {
     std::vector<const recipe *> res;
-    for( const auto &e : recipe_dict.recipes ) {
-        if( lcmatch( item::nname( e.second.result ), txt ) ) {
-            res.push_back( &e.second );
+    for( const auto &e : recipes ) {
+        if( lcmatch( item::nname( e.second->result ), txt ) ) {
+            res.push_back( e.second );
         }
     }
     return res;
 }
 
-std::vector<const recipe *> recipe_dictionary::in_category( const std::string &cat,
+std::vector<const recipe *> recipe_subset::in_category( const std::string &cat,
         const std::string &subcat ) const
 {
     std::vector<const recipe *> res;
@@ -58,7 +58,7 @@ std::vector<const recipe *> recipe_dictionary::in_category( const std::string &c
     return res;
 }
 
-const std::set<const recipe *> &recipe_dictionary::of_component( const itype_id &id ) const
+const std::set<const recipe *> &recipe_subset::of_component( const itype_id &id ) const
 {
     auto iter = component.find( id );
     return iter != component.end() ? iter->second : null_match;
@@ -353,15 +353,6 @@ void recipe_dictionary::finalize()
             }
         }
 
-        // add recipe to category and component caches
-        recipe_dict.category[r.category].insert( &r );
-
-        for( const auto &opts : r.requirements().get_components() ) {
-            for( const item_comp &comp : opts ) {
-                recipe_dict.component[comp.type].insert( &r );
-            }
-        }
-
         // if reversible and no specific uncraft recipe exists use this recipe
         if( r.reversible && !recipe_dict.uncraft.count( r.result ) ) {
             recipe_dict.uncraft[ r.result ] = r;
@@ -394,8 +385,6 @@ void recipe_dictionary::finalize()
 void recipe_dictionary::reset()
 {
     recipe_dict.autolearn.clear();
-    recipe_dict.component.clear();
-    recipe_dict.category.clear();
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
 }
@@ -420,5 +409,12 @@ void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &
 
 void recipe_subset::add( const recipe *r )
 {
+    // add recipe to category and component caches
+    for( const auto &opts : r->requirements().get_components() ) {
+        for( const item_comp &comp : opts ) {
+            component[comp.type].insert( r );
+        }
+    }
+    category[r->category].insert( r );
     recipes[r->ident()] = r;
 }

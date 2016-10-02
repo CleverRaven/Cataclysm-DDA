@@ -620,8 +620,8 @@ void player::serialize(JsonOut &json) const
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes" );
     json.start_array();
-    for( auto iter = learned_recipes.begin(); iter != learned_recipes.end(); ++iter ) {
-        json.write( iter->first );
+    for( const auto &entry : get_learned_recipes() ) {
+        json.write( entry.first );
     }
     json.end_array();
 
@@ -746,8 +746,10 @@ void player::deserialize(JsonIn &jsin)
 
     parray = data.get_array("learned_recipes");
     if ( !parray.empty() ) {
-        std::string pstr;
         learned_recipes.clear();
+        valid_autolearn_skills.clear(); // Invalidates the cache
+
+        std::string pstr;
         while ( parray.has_more() ) {
             if ( parray.read_next(pstr) ) {
                 learned_recipes.add( &recipe_dict[ pstr ] );

@@ -23,14 +23,6 @@ class recipe_dictionary
          */
         const recipe &operator[]( const std::string &id ) const;
 
-        /** Get all recipes in given category (optionally restricted to subcategory) */
-        std::vector<const recipe *> in_category(
-            const std::string &cat,
-            const std::string &subcat = std::string() ) const;
-
-        /** Returns all recipes which could use component */
-        const std::set<const recipe *> &of_component( const itype_id &id ) const;
-
         /** Returns all recipes that can be automatically learned */
         const std::set<const recipe *> &all_autolearn() const {
             return autolearn;
@@ -42,9 +34,6 @@ class recipe_dictionary
 
         /** Returns disassembly recipe (or null recipe if no match) */
         static const recipe &get_uncraft( const itype_id &id );
-
-        /** Find recipe by result name (left anchored partial matches are supported) */
-        static std::vector<const recipe *> search( const std::string &txt );
 
         static void load( JsonObject &jo, const std::string &src, bool uncraft );
 
@@ -62,8 +51,6 @@ class recipe_dictionary
         std::map<std::string, recipe> recipes;
         std::map<std::string, recipe> uncraft;
         std::set<const recipe *> autolearn;
-        std::map<std::string, std::set<const recipe *>> category;
-        std::map<itype_id, std::set<const recipe *>> component;
 
         static void finalize_internal( std::map<std::string, recipe> &obj );
 };
@@ -79,11 +66,24 @@ class recipe_subset
             return recipes.find( id ) != recipes.end();
         }
 
+        /** Get all recipes in given category (optionally restricted to subcategory) */
+        std::vector<const recipe *> in_category(
+            const std::string &cat,
+            const std::string &subcat = std::string() ) const;
+
+        /** Returns all recipes which could use component */
+        const std::set<const recipe *> &of_component( const itype_id &id ) const;
+
+        /** Find recipe by result name (left anchored partial matches are supported) */
+        std::vector<const recipe *> search( const std::string &txt ) const;
+
         size_t size() const {
             return recipes.size();
         }
 
         void clear() {
+            component.clear();
+            category.clear();
             recipes.clear();
         }
 
@@ -97,6 +97,8 @@ class recipe_subset
 
     private:
         std::map<std::string, const recipe *> recipes;
+        std::map<std::string, std::set<const recipe *>> category;
+        std::map<itype_id, std::set<const recipe *>> component;
 };
 
 #endif

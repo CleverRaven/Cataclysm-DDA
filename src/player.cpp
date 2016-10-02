@@ -11851,6 +11851,21 @@ bool player::studied_all_recipes(const itype &book) const
     return true;
 }
 
+const recipe_subset &player::get_learned_recipes() const
+{
+    // Cache validity check
+    if( _skills != valid_autolearn_skills ) {
+        for( const auto &r : recipe_dict.all_autolearn() ) {
+            if( has_recipe_autolearned( *r ) ) {
+                learned_recipes.add( r );
+            }
+        }
+        valid_autolearn_skills = _skills; // Reassign the validity stamp
+    }
+
+    return learned_recipes;
+}
+
 void player::try_to_sleep()
 {
     int vpart = -1;
@@ -12853,15 +12868,7 @@ bool player::can_decomp_learn( const recipe &rec ) const
 
 bool player::knows_recipe(const recipe *rec) const
 {
-    if( learned_recipes.has( rec->ident() ) ) {
-        return true;
-    }
-
-    if( has_recipe_autolearned( *rec ) ) {
-        return true;
-    }
-
-    return false;
+    return get_learned_recipes().has( rec->ident() );
 }
 
 int player::has_recipe( const recipe *r, const inventory &crafting_inv,

@@ -1146,11 +1146,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec );
         int exceeds_recipe_requirements( const recipe &rec ) const;
-        bool has_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_autolearned( const recipe &rec ) const;
+        bool has_recipe_requirements( const recipe &rec ) const;
         bool can_decomp_learn( const recipe &rec ) const;
 
         bool studied_all_recipes( const itype &book ) const;
+
+        /** Returns all known recipes */
+        const recipe_subset &get_learned_recipes() const;
 
         // crafting.cpp
         float lighting_craft_speed_multiplier( const recipe & rec ) const;
@@ -1531,8 +1534,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
 
-        /** Learned recipes (not including autolearned ones) */
-        recipe_subset learned_recipes;
+        /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
+        mutable recipe_subset learned_recipes;
+
+        /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
+        mutable decltype( _skills ) valid_autolearn_skills;
 };
 
 #endif
