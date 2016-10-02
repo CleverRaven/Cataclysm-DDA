@@ -3722,8 +3722,7 @@
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
      [ "scrap", 12 ],
-     [ "pipe", 3 ],
-     [ "material_aluminium_ingot", 1 ]
+     [ "pipe", 3 ]
      ]
     ]
 },{

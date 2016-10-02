@@ -158,8 +158,7 @@
     [
       [ "steel_chunk", 1 ],
       [ "scrap", 3 ],
-      [ "knife_butter", 2 ],
-      [ "material_aluminium_ingot", 1 ]
+      [ "knife_butter", 2 ]
     ]
   ]
 },{
@@ -179,10 +178,7 @@
   ],
   "components": [
     [ [ "amplifier", 1 ] ],
-    [
-      [ "wire", 6 ],
-      [ "material_aluminium_ingot", 2 ]
-    ],
+    [ [ "wire", 6 ] ],
     [ [ "2x4", 2 ] ],
     [ [ "nail", 12 ] ]
   ]
@@ -2374,10 +2370,7 @@
   "components": [
     [ [ "processor", 1 ] ],
     [ [ "scrap", 2 ] ],
-    [
-      [ "wire", 5 ],
-      [ "material_aluminium_ingot", 2 ]
-    ],
+    [ [ "wire", 5 ] ],
     [ [ "power_supply", 2 ] ],
     [ [ "transponder", 1 ] ],
     [ [ "e_scrap", 2 ] ],
