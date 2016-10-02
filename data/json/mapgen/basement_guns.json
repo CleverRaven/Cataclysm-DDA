@@ -36,8 +36,8 @@
             "fill_ter": "t_rock",
             "rotation": [ 0, 3 ],
             "terrain": {
-                "|": "t_rock_smooth",
-                "-": "t_rock_smooth",
+                "|": "t_wall",
+                "-": "t_wall",
                 "<": "t_stairs_up",
                 "+": "t_door_c",
                 ".": "t_rock_floor",
