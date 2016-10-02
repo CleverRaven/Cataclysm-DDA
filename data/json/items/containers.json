@@ -84,7 +84,7 @@
         "id": "glass",
         "symbol": ",",
         "color": "cyan",
-        "name": "glass",
+        "name": "glass cup",
         "name_plural": "glasses",
         "description": "A tall glass, just begging for a frosty one!",
         "price": 400,
