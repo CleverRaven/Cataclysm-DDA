@@ -879,6 +879,11 @@
         "speed_name": "Frostbite",
         "max_intensity": 2,
         "dur_add_perc": 0,
+        "base_mods": {
+            "pain_min": [5],
+            "pain_chance": [50],
+            "pain_max_val": [20]
+        },
         "scaling_mods": {
             "speed_mod": [-5],
             "pkill_tick": [10],
@@ -1618,3 +1623,4 @@
         "id": "cough_suppress"
     }
 ]
+
