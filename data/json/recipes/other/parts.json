@@ -9,8 +9,7 @@
     "time": 8000,
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "welder", 60 ], [ "welder_crude", 90 ], [ "toolset", 90 ], [ "oxy_torch", 12 ] ] ],
+    "using": [ [ "welding_standard", 6 ] ],
     "components": [ [ [ "material_aluminium_ingot", 8 ] ] ]
   }
 ]
