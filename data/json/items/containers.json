@@ -192,7 +192,7 @@
         "to_hit":-1,
         "material":"steel",
         "contains":1,
-		"watertight": true,
+        "watertight": true,
         "qualities": [["CONTAIN", 1]]
     },
     {
