@@ -612,8 +612,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         mission *miss = p->chatbin.mission_selected;
         const auto &type = miss->get_type();
         // TODO: make it a member of the mission class, maybe at mission instance specific data
-        std::string ret = mission_dialogue( type.id, topic);
-        if (ret.empty()) {
+        const std::string &ret = miss->dialogue_for_topic( topic );
+        if( ret.empty() ) {
             debugmsg("Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%d) or topic(%s)",
                      type.id.c_str(), topic.c_str());
             return "";
