@@ -24,8 +24,6 @@ enum npc_mission : int;
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 
-std::string mission_dialogue(mission_type_id id, const std::string &state);
-
 enum mission_origin {
     ORIGIN_NULL = 0,
     ORIGIN_GAME_START, // Given when the game starts
@@ -173,6 +171,8 @@ struct mission_type {
     std::function<void(mission *)> end = mission_end::standard;
     std::function<void(mission *)> fail = mission_fail::standard;
 
+    std::map<std::string, std::string> dialogue;
+
     mission_type() = default;
     mission_type(mission_type_id ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
                  bool URGENT,
@@ -203,14 +203,11 @@ struct mission_type {
     static const std::vector<mission_type> &get_all();
 
     static void reset();
-    static void load_mission_type( JsonObject & );
+    static void load_mission_type( JsonObject & );    
+
+    static void check_consistency();
 
     void load( JsonObject & );
-private:
-    /**
-     * All the known mission templates.
-     */
-    static std::vector<mission_type> types;
 };
 
 class mission : public JsonSerializer, public JsonDeserializer
@@ -300,6 +297,9 @@ public:
     bool is_complete( int npc_id ) const;
     /** Checks if the player has failed the matching mission and returns true if they have. */
     bool has_failed() const;
+
+    // @todo Give topics a string_id
+    std::string dialogue_for_topic( const std::string &topic ) const;
 
     /**
      * Create a new mission of the given type and assign it to the given npc.
