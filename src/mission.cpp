@@ -10,6 +10,9 @@
 #include "npc_class.h"
 
 #include <sstream>
+#include <memory>
+#include <unordered_map>
+#include <algorithm>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -33,32 +36,48 @@ mission mission_type::create( const int npc_id ) const
     return ret;
 }
 
-std::unordered_map<int, mission> mission::active_missions;
+std::unordered_map<int, std::unique_ptr<mission>> world_missions;
 
 mission* mission::reserve_new( const mission_type_id type, const int npc_id )
 {
-    const mission tmp = mission_type::get( type )->create( npc_id );
-    auto &result = active_missions[tmp.uid];
-    result = tmp;
-    return &result;
+    const auto tmp = mission_type::get( type )->create( npc_id );
+    // @todo Warn about overwrite?
+    auto &iter = world_missions[ tmp.uid ];
+    iter = std::unique_ptr<mission>( new mission( tmp ) );
+    return iter.get();
 }
 
 mission *mission::find( int id )
 {
-    const auto iter = active_missions.find( id );
-    if( iter != active_missions.end() ) {
-        return &iter->second;
+    const auto iter = world_missions.find( id );
+    if( iter != world_missions.end() ) {
+        return iter->second.get();
     }
     dbg( D_ERROR ) << "requested mission with uid " << id << " does not exist";
     debugmsg( "requested mission with uid %d does not exist", id );
     return nullptr;
 }
 
+std::vector<mission *> mission::get_all_active()
+{
+    std::vector<mission *> ret;
+    for( auto &pr : world_missions ) {
+        ret.push_back( pr.second.get() );
+    }
+
+    return ret;
+}
+
+void mission::add_existing( const mission &m )
+{
+    world_missions[ m.uid ] = std::unique_ptr<mission>( new mission( m ) );
+}
+
 void mission::process_all()
 {
-    for( auto & e : active_missions ) {
-        auto &m = e.second;
-        if( m.deadline > 0 && !m.failed && int( calendar::turn ) > m.deadline ) {
+    for( auto &e : world_missions ) {
+        auto &m = *e.second.get();
+        if( m.deadline > 0 && m.in_progress() && int( calendar::turn ) > m.deadline ) {
             m.fail();
         }
     }
@@ -87,7 +106,7 @@ std::vector<int> mission::to_uid_vector( const std::vector<mission*> &vec )
 
 void mission::clear_all()
 {
-    active_missions.clear();
+    world_missions.clear();
 }
 
 void mission::on_creature_death( Creature &poor_dead_dude )
@@ -123,8 +142,11 @@ void mission::on_creature_death( Creature &poor_dead_dude )
         return;
     }
     const auto dead_guys_id = p->getID();
-    for( auto & e : active_missions ) {
-        auto &i = e.second;
+    for( auto & e : world_missions ) {
+        auto &i = *e.second;
+        if( !i.in_progress() ) {
+            continue;
+        }
         //complete the mission if you needed killing
         if( i.type->goal == MGOAL_ASSASSINATE && i.target_npc_id == dead_guys_id ) {
             i.step_complete( 1 );
@@ -161,15 +183,15 @@ void mission::assign( player &u )
     }
     player_id = u.getID();
     u.on_mission_assignment( *this );
-    if( !was_started ) {
+    if( status == mission_status::yet_to_start ) {
         type->start( this );
-        was_started = true;
+        status = mission_status::in_progress;
     }
 }
 
 void mission::fail()
 {
-    failed = true;
+    status = mission_status::failure;
     if( g->u.getID() == player_id ) {
         g->u.on_mission_finished( *this );
     }
@@ -212,6 +234,8 @@ void mission::wrap_up()
         // that have been assigned to the current player.
         debugmsg( "mission::wrap_up called, player %d was assigned, but current player is %d", player_id, u.getID() );
     }
+
+    status = mission_status::success;
     u.on_mission_finished( *this );
     std::vector<item_comp> comps;
     switch( type->goal ) {
@@ -232,9 +256,7 @@ void mission::wrap_up()
 
 bool mission::is_complete( const int _npc_id ) const
 {
-    // TODO: maybe not g->u, but more generalized?
     auto &u = g->u;
-    inventory tmp_inv = u.crafting_inventory();
     switch( type->goal ) {
         case MGOAL_GO_TO:
             {
@@ -251,6 +273,8 @@ bool mission::is_complete( const int _npc_id ) const
             break;
 
         case MGOAL_FIND_ITEM:
+        {
+            inventory tmp_inv = u.crafting_inventory();
             // TODO: check for count_by_charges and use appropriate player::has_* function
             if (!tmp_inv.has_amount(type->item_id, item_count)) {
                 return tmp_inv.has_amount( type->item_id, 1 ) && tmp_inv.has_charges( type->item_id, item_count );
@@ -258,6 +282,7 @@ bool mission::is_complete( const int _npc_id ) const
             if( npc_id != -1 && npc_id != _npc_id ) {
                 return false;
             }
+        }
             return true;
 
         case MGOAL_FIND_ANY_ITEM:
@@ -376,7 +401,12 @@ const std::string &mission::get_item_id() const
 
 bool mission::has_failed() const
 {
-    return failed;
+    return status == mission_status::failure;
+}
+
+bool mission::in_progress() const
+{
+    return status == mission_status::in_progress;
 }
 
 int mission::get_npc_id() const
@@ -421,6 +451,7 @@ void mission::load_info(std::istream &data)
         }
     } while (tmpdesc != "<>");
     description = description.substr( 0, description.size() - 1 ); // Ending ' '
+    bool failed; // Dummy, no one has saves this old
     data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
          uid >> target.x >> target.y >> itemid >> item_num >> deadline >> npc_id >>
          good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
@@ -463,7 +494,7 @@ mission::mission()
 {
     type = NULL;
     description = "";
-    failed = false;
+    status = mission_status::yet_to_start;
     value = 0;
     uid = -1;
     target = tripoint(INT_MIN, INT_MIN, INT_MIN);
@@ -480,7 +511,6 @@ mission::mission()
     bad_fac_id = -1;
     step = 0;
     player_id = -1;
-    was_started = false;
 }
 
 mission_type::mission_type(mission_type_id ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
@@ -494,3 +524,41 @@ mission_type::mission_type(mission_type_id ID, std::string NAME, mission_goal GO
 {
 };
 
+namespace io {
+static const std::map<std::string, mission::mission_status> status_map = {{
+    { "yet_to_start", mission::mission_status::yet_to_start },
+    { "in_progress", mission::mission_status::in_progress },
+    { "success", mission::mission_status::success },
+    { "failure", mission::mission_status::failure }
+}};
+template<>
+mission::mission_status string_to_enum<mission::mission_status>( const std::string &data )
+{
+    return string_to_enum_look_up( status_map, data );
+}
+
+template<>
+const std::string enum_to_string<mission::mission_status>( mission::mission_status data )
+{
+    const auto iter = std::find_if( status_map.begin(), status_map.end(),
+    [data]( const std::pair<std::string, mission::mission_status> &pr ) {
+        return pr.second == data;
+    } );
+
+    if( iter == status_map.end() ) {
+        throw InvalidEnumString{};
+    }
+
+    return iter->first;
+}
+} // namespace io
+
+mission::mission_status mission::status_from_string( const std::string &s )
+{
+    return io::string_to_enum<mission::mission_status>( s );
+}
+
+const std::string mission::status_to_string( mission::mission_status st )
+{
+    return io::enum_to_string<mission::mission_status>( st );
+}

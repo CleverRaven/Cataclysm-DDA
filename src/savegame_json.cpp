@@ -1817,7 +1817,22 @@ void mission::deserialize(JsonIn &jsin)
     }
 
     jo.read("description", description);
-    jo.read("failed", failed);
+
+    bool failed;
+    bool was_started;
+    std::string status_string;
+    if( jo.read( "status", status_string ) ) {
+        status = status_from_string( status_string );
+    } else if( jo.read( "failed", failed ) && failed ) {
+        status = mission_status::failure;
+    } else if( jo.read("was_started", was_started ) && !was_started ) {
+        status = mission_status::yet_to_start;
+    } else {
+        // Note: old code had no idea of successful missions!
+        // We can't check properly here, since most of the game isn't loaded
+        status = mission_status::in_progress;
+    }
+
     jo.read("value", value);
     jo.read("reward", reward);
     jo.read("uid", uid );
@@ -1860,7 +1875,6 @@ void mission::deserialize(JsonIn &jsin)
     jo.read("good_fac_id", good_fac_id );
     jo.read("bad_fac_id", bad_fac_id );
     jo.read("player_id", player_id );
-    jo.read("was_started", was_started );
 }
 
 void mission::serialize(JsonOut &json) const
@@ -1869,7 +1883,7 @@ void mission::serialize(JsonOut &json) const
 
     json.member("type_id", type->id);
     json.member("description", description);
-    json.member("failed", failed);
+    json.member( "status", status_to_string( status ) );
     json.member("value", value);
     json.member("reward", reward);
     json.member("uid", uid);
@@ -1895,7 +1909,6 @@ void mission::serialize(JsonOut &json) const
     json.member("step", step);
     json.member("follow_up", follow_up);
     json.member("player_id", player_id);
-    json.member("was_started", was_started);
 
     json.end_object();
 }
