@@ -1,0 +1,16 @@
+[
+  {
+    "result": "xlframe",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 8000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "tools": [ [ [ "welder", 60 ], [ "welder_crude", 90 ], [ "toolset", 90 ], [ "oxy_torch", 12 ] ] ],
+    "components": [ [ [ "material_aluminium_ingot", 8 ] ] ]
+  }
+]
