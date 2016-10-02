@@ -198,12 +198,12 @@ const recipe *select_crafting_recipe( int &batch_size )
             if( batch ) {
                 batch_recipes( crafting_inv, helpers, current, available, chosen );
             } else {
-                const auto &learned_recipes = g->u.get_learned_recipes();
+                const auto &available_recipes = g->u.get_available_recipes( crafting_inv, &helpers );
 
                 if( filterstring.empty() ) {
-                    current = learned_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
+                    current = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
                 } else {
-                    current = learned_recipes.search( filterstring );
+                    current = available_recipes.search( filterstring );
                 }
 
                 // cache recipe availability on first display

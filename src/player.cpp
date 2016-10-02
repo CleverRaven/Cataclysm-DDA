@@ -11857,13 +11857,54 @@ const recipe_subset &player::get_learned_recipes() const
     if( _skills != valid_autolearn_skills ) {
         for( const auto &r : recipe_dict.all_autolearn() ) {
             if( has_recipe_autolearned( *r ) ) {
-                learned_recipes.add( r );
+                learned_recipes.include( r );
             }
         }
         valid_autolearn_skills = _skills; // Reassign the validity stamp
     }
 
     return learned_recipes;
+}
+
+const recipe_subset player::get_recipes_from_books( const inventory &crafting_inv ) const
+{
+    recipe_subset res;
+
+    for( const auto &stack : crafting_inv.const_slice() ) {
+        const item &candidate = stack->front();
+
+        if( !candidate.is_book() || !items_identified.count( candidate.typeId() ) ) {
+            continue;
+        }
+
+        for( auto const &elem : candidate.type->book->recipes ) {
+            if( get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
+                res.include( elem.recipe );
+            }
+        }
+    }
+
+    return res;
+}
+
+const recipe_subset player::get_available_recipes( const inventory &crafting_inv, const std::vector<npc *> *helpers ) const
+{
+    recipe_subset res( get_learned_recipes() );
+
+    res += get_recipes_from_books( crafting_inv );
+
+    if( helpers != nullptr ) {
+        const auto not_too_hard = [ this ]( const recipe &r ) {
+            return get_skill_level( r.skill_used ) >= int( r.difficulty * 0.8f );
+        };
+
+        for( npc *np : *helpers ) {
+            res.include_if( np->get_learned_recipes(), not_too_hard );
+            res.include_if( np->get_recipes_from_books( crafting_inv ), not_too_hard );
+        }
+    }
+
+    return res;
 }
 
 void player::try_to_sleep()
@@ -12868,7 +12909,7 @@ bool player::can_decomp_learn( const recipe &rec ) const
 
 bool player::knows_recipe(const recipe *rec) const
 {
-    return get_learned_recipes().has( rec->ident() );
+    return get_learned_recipes().contains( rec->ident() );
 }
 
 int player::has_recipe( const recipe *r, const inventory &crafting_inv,
@@ -12911,7 +12952,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
 
 void player::learn_recipe( const recipe * const rec )
 {
-    learned_recipes.add( rec );
+    learned_recipes.include( rec );
 }
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)

@@ -60,20 +60,31 @@ extern recipe_dictionary recipe_dict;
 class recipe_subset
 {
     public:
-        void add( const recipe *r );
-
-        bool has( const std::string &id ) const {
+        recipe_subset &operator+=( const recipe_subset &rhs );
+        /** Include a recipe to the subset. */
+        void include( const recipe *r );
+        /**
+         * Include a recipe to the subset. Based on the condition.
+         * @param pred Unary predicate that accepts a @ref recipe.
+         */
+        template<class Predicate>
+        void include_if( const recipe_subset &subset, Predicate pred ) {
+            for( const auto &elem : subset ) {
+                if( pred( *elem.second ) ) {
+                    include( elem.second );
+                }
+            }
+        }
+        /** Check if the subset contains a recipe with the specified @param id. */
+        bool contains( const std::string &id ) const {
             return recipes.find( id ) != recipes.end();
         }
-
         /** Get all recipes in given category (optionally restricted to subcategory) */
         std::vector<const recipe *> in_category(
             const std::string &cat,
             const std::string &subcat = std::string() ) const;
-
         /** Returns all recipes which could use component */
         const std::set<const recipe *> &of_component( const itype_id &id ) const;
-
         /** Find recipe by result name (left anchored partial matches are supported) */
         std::vector<const recipe *> search( const std::string &txt ) const;
 

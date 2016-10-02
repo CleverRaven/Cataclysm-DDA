@@ -407,7 +407,15 @@ void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &
     }
 }
 
-void recipe_subset::add( const recipe *r )
+recipe_subset &recipe_subset::operator+=( const recipe_subset &rhs )
+{
+    for( const auto &elem : rhs ) {
+        include( elem.second );
+    }
+    return *this;
+}
+
+void recipe_subset::include( const recipe *r )
 {
     // add recipe to category and component caches
     for( const auto &opts : r->requirements().get_components() ) {
