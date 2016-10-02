@@ -93,8 +93,8 @@
         "weight": 375,
         "volume": 1,
         "bashing": 1,
-		"contains": 2,
-		"watertight": true
+        "contains": 2,
+        "watertight": true
     },
     {
         "type":"CONTAINER",
@@ -109,8 +109,8 @@
         "weight": 300,
         "volume": 1,
         "bashing": 1,
-		"contains": 1,
-		"watertight": true,
+        "contains": 1,
+        "watertight": true,
         "qualities": [["CONTAIN", 1]]
     },
     {
@@ -126,8 +126,8 @@
         "weight": 400,
         "volume": 1,
         "bashing": 1,
-		"contains": 1,
-		"watertight": true,
+        "contains": 1,
+        "watertight": true,
         "qualities": [["CONTAIN", 1]]
     },
     {
@@ -143,8 +143,8 @@
         "weight": 500,
         "volume": 1,
         "bashing": 1,
-		"contains": 1,
-		"watertight": true,
+        "contains": 1,
+        "watertight": true,
         "qualities": [["CONTAIN", 1]]
     },
     {
