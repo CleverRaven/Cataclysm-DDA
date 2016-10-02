@@ -2098,8 +2098,8 @@
   ],
   "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
   "components": [
-    [ [ "wire", 20 ], [ "wire_barbed", 20 ] ],
-    [ [ "duct_tape", 300 ] ]
+    [ [ "copper", 100 ], [ "scrap_copper", 1 ] ],
+    [ [ "duct_tape", 100 ] ]
   ]
 },{
   "type" : "recipe",
