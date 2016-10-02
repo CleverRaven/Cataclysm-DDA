@@ -2195,7 +2195,7 @@
   ],
   "components": [
     [
-      [ "pipe", 4 ]
+      [ "material_aluminium_ingot", 8 ]
     ]
   ]
 },{
@@ -3722,7 +3722,8 @@
      [ "steel_lump", 1 ],
      [ "steel_chunk", 4 ],
      [ "scrap", 12 ],
-     [ "pipe", 3 ]
+     [ "pipe", 3 ],
+     [ "material_aluminium_ingot", 1 ]
      ]
     ]
 },{

@@ -158,7 +158,8 @@
     [
       [ "steel_chunk", 1 ],
       [ "scrap", 3 ],
-      [ "knife_butter", 2 ]
+      [ "knife_butter", 2 ],
+      [ "material_aluminium_ingot", 1 ]
     ]
   ]
 },{
@@ -178,7 +179,10 @@
   ],
   "components": [
     [ [ "amplifier", 1 ] ],
-    [ [ "wire", 6 ] ],
+    [
+      [ "wire", 6 ],
+      [ "material_aluminium_ingot", 2 ]
+    ],
     [ [ "2x4", 2 ] ],
     [ [ "nail", 12 ] ]
   ]
@@ -2098,8 +2102,8 @@
   ],
   "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
   "components": [
-    [ [ "wire", 20 ], [ "wire_barbed", 20 ] ],
-    [ [ "duct_tape", 300 ] ]
+    [ [ "copper", 100 ], [ "scrap_copper", 1 ] ],
+    [ [ "duct_tape", 100 ] ]
   ]
 },{
   "type" : "recipe",
@@ -2370,7 +2374,10 @@
   "components": [
     [ [ "processor", 1 ] ],
     [ [ "scrap", 2 ] ],
-    [ [ "wire", 5 ] ],
+    [
+      [ "wire", 5 ],
+      [ "material_aluminium_ingot", 2 ]
+    ],
     [ [ "power_supply", 2 ] ],
     [ [ "transponder", 1 ] ],
     [ [ "e_scrap", 2 ] ],
