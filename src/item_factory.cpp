@@ -1137,16 +1137,19 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
 }
 
-void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "ammo", slot.ammo_id );
-    assign( jo, "max_charges", slot.max_charges );
-    assign( jo, "initial_charges", slot.def_charges );
-    assign( jo, "charges_per_use", slot.charges_per_use );
-    assign( jo, "turns_per_charge", slot.turns_per_charge );
-    assign( jo, "revert_to", slot.revert_to );
-    assign( jo, "revert_msg", slot.revert_msg );
-    assign( jo, "sub", slot.subtype );
+    bool strict = src == "core";
+
+    // @todo update tool slot to use signed integers (int) throughout
+    assign( jo, "ammo", slot.ammo_id, strict );
+    assign( jo, "max_charges", slot.max_charges, strict, 0L );
+    assign( jo, "initial_charges", slot.def_charges, strict, 0L );
+    assign( jo, "charges_per_use", slot.charges_per_use, strict, static_cast<decltype( slot.charges_per_use )>( 0 ) );
+    assign( jo, "turns_per_charge", slot.turns_per_charge, strict, static_cast<decltype( slot.turns_per_charge )>( 0 ) );
+    assign( jo, "revert_to", slot.revert_to, strict );
+    assign( jo, "revert_msg", slot.revert_msg, strict );
+    assign( jo, "sub", slot.subtype, strict );
 }
 
 void Item_factory::load_tool( JsonObject &jo, const std::string &src )
