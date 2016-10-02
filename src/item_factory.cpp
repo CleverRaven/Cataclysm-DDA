@@ -1051,7 +1051,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "dispersion", slot.dispersion, strict );
     assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, int( MIN_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict, 0 );
-    assign( jo, "handling", slot.handling, strict, 0 );
+    assign( jo, "handling", slot.handling, strict );
     assign( jo, "durability", slot.durability, strict, 0, 10 );
     assign( jo, "burst", slot.burst, strict, 1 );
     assign( jo, "loudness", slot.loudness, strict );
