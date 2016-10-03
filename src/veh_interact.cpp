@@ -1020,7 +1020,8 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
             // always display total battery capacity and percentage charge
             auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
                 int pct = ( double( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
-                right_print( w, y, 1, c_yellow, "%i    %3i%%", pt.ammo_capacity(), pct );
+                right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
+                             "%i    %3i%%", pt.ammo_capacity(), pct );
             };
            opts.push_back( part_option { "BATTERY", &pt, enable && enable( pt ) ? hotkey++ : '\0', details } );
         }

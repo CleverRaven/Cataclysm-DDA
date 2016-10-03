@@ -2643,7 +2643,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
     std::set<itype_id> opts;
     for( const auto &pt : parts ) {
-        if( pt.is_tank() && pt.ammo_current() != "null" ) {
+        if( ( pt.is_tank() || pt.is_battery() || pt.is_reactor() ) && pt.ammo_current() != "null" ) {
             opts.emplace( pt.ammo_current() );
         }
     }
