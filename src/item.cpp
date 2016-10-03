@@ -2238,6 +2238,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         modtext += _( "sawn-off ");
     }
 
+    if( has_flag( "DIAMOND" ) ) {
+        modtext += std::string( _( "diamond" ) ) + " ";
+    }
+
     if(has_flag("WET"))
        ret << _(" (wet)");
 
@@ -2565,6 +2569,8 @@ int item::damage_cut() const
         }
         return *std::max_element( opts.begin(), opts.end() );
 
+    } else if( has_flag( "DIAMOND" ) ) {
+        res *= 1.3;
     }
 
     return std::max( res, 0 );

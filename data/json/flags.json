@@ -52,6 +52,12 @@
     "conflicts": [ "PARTIAL_DEAF" ]
   },
   {
+    "id": "DIAMOND",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "This item has a <good>diamond coating</good> improving it's cutting damage</info>."
+  },
+  {
     "id": "ELECTRIC_IMMUNE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

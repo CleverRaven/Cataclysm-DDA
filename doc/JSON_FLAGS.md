@@ -781,6 +781,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
 - ```CHOP``` Does cutting damage, with a high chance of getting stuck.
+- ```DIAMOND``` Diamond coating adds 30% bonus to cutting damage
 - ```MESSY``` Resistant to getting stuck in a monster. Potentially cause more gore in the future?
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
