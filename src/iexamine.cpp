@@ -60,7 +60,8 @@ void iexamine::none(player &p, const tripoint &examp)
 void iexamine::cvdmachine( player &p, const tripoint & ) {
     // Select an item to which it is possible to apply a diamond coating
     auto loc = g->inv_map_splice( []( const item &e ) {
-        return e.is_cutting_weapon() && e.made_of( material_id( "steel" ) ) && !e.has_flag( "DIAMOND" );
+        return e.is_cutting_weapon() && e.made_of( material_id( "steel" ) ) &&
+               !e.has_flag( "DIAMOND" ) && !e.has_flag( "NO_CVD" );
     }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
 
     if( !loc ) {

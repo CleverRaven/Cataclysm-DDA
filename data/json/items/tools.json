@@ -4060,7 +4060,7 @@
     },
     "techniques": [ "RAPID", "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 19 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD" ]
   },
   {
     "id": "knife_steak",
