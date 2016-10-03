@@ -114,39 +114,6 @@
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
   },
   {
-    "id": "diamond_bayonet",
-    "copy-from": "bayonet",
-    "type": "GUNMOD",
-    "name": "diamond bayonet",
-    "description": "This bayonet incorporates a layer of diamond-like carbon on its edges, increasing its lethality.",
-    "proportional": {
-      "price": 4,
-      "cutting": 2
-    }
-  },
-  {
-    "id": "diamond_pistol_bayonet",
-    "copy-from": "pistol_bayonet",
-    "type": "GUNMOD",
-    "name": "diamond pistol bayonet",
-    "description": "This pistol bayonet incorporates a layer of diamond-like carbon on its edges, increasing its lethality.",
-    "proportional": {
-      "price": 4,
-      "cutting": 2
-    }
-  },
-  {
-    "id": "diamond_sword_bayonet",
-    "copy-from": "sword_bayonet",
-    "type": "GUNMOD",
-    "name": "diamond sword bayonet",
-    "description": "This sword bayonet is coated with a layer of diamond-like carbon, greatly augmenting its cutting damage.",
-    "proportional": {
-      "price": 4,
-      "cutting": 2
-    }
-  },
-  {
     "id": "grip",
     "type": "GUNMOD",
     "name": "forward grip",

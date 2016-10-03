@@ -5220,63 +5220,6 @@
   ]
 },
 {
-    "type" : "recipe",
-    "result": "diamond_bayonet",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": 500,
-    "reversible": true,
-        "book_learn": [[ "recipe_lab_cvd", 9 ]],
-    "components": [
-        [
-            [ "diamond_knife", 1 ]
-        ],
-        [
-            [ "string_36", 1 ]
-        ]
-    ]
-},
-{
-    "type" : "recipe",
-    "result": "diamond_sword_bayonet",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": 500,
-    "reversible": true,
-        "book_learn": [[ "recipe_lab_cvd", 9 ]],
-    "components": [
-        [
-            [ "diamond_machete", 1 ]
-        ],
-        [
-            [ "string_36", 1 ]
-        ]
-    ]
-},
-{
-    "type" : "recipe",
-    "result": "diamond_pistol_bayonet",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": 500,
-    "reversible": true,
-        "book_learn": [[ "recipe_lab_cvd", 9 ]],
-    "components": [
-        [
-            [ "diamond_knife", 1 ]
-        ],
-        [
-            [ "string_6", 2 ]
-        ]
-    ]
-},
-{
 "type" : "recipe",
 "result": "surv_rocket_launcher",
 "category": "CC_WEAPON",

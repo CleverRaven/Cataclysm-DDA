@@ -25,6 +25,84 @@
     "replace": "battery_car"
   },
   {
+    "id": "diamond_bayonet",
+    "type": "MIGRATION",
+    "replace": "bayonet",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_broadsword",
+    "type": "MIGRATION",
+    "replace": "broadsword",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_katana",
+    "type": "MIGRATION",
+    "replace": "katana",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_knife",
+    "type": "MIGRATION",
+    "replace": "knife_combat",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_kukri",
+    "type": "MIGRATION",
+    "replace": "kukri",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_machete",
+    "type": "MIGRATION",
+    "replace": "machete",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_nodachi",
+    "type": "MIGRATION",
+    "replace": "nodachi",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_pistol_bayonet",
+    "type": "MIGRATION",
+    "replace": "pistol_bayonet",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_punch_dagger",
+    "type": "MIGRATION",
+    "replace": "punch_dagger",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_rapier",
+    "type": "MIGRATION",
+    "replace": "rapier",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_sword_bayonet",
+    "type": "MIGRATION",
+    "replace": "sword_bayonet",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_wakizashi",
+    "type": "MIGRATION",
+    "replace": "wakizashi",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_zweihander",
+    "type": "MIGRATION",
+    "replace": "zweihander",
+    "flags": [ "DIAMOND" ]
+  },
+  {
       "id": "fish_bait_bread",
       "type": "MIGRATION",
       "replace": "fish_bait"
