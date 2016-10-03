@@ -477,8 +477,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
         if( pt.is_tank() && type->parts[p].fuel != "null" ) {
             int qty = pt.ammo_capacity() * veh_fuel_mult / 100;
-            qty /= to_milliliter( units::legacy_volume_factor );
             qty *= std::max( item::find_type( type->parts[p].fuel )->stack_size, 1 );
+            qty /= to_milliliter( units::legacy_volume_factor );
             pt.ammo_set( type->parts[ p ].fuel, qty );
         }
 
