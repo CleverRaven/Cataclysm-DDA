@@ -880,7 +880,7 @@
         "max_intensity": 2,
         "dur_add_perc": 0,
         "base_mods": {
-            "pain_min": [5],
+            "pain_min": [1],
             "pain_chance": [50],
             "pain_max_val": [20]
         },
