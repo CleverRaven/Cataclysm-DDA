@@ -1000,10 +1000,6 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
     };
 
     for( auto &pt : veh->parts ) {
-        if( pt.is_broken() ) {
-            continue;
-        }
-
         if( pt.is_tank() && !pt.is_broken() ) {
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
@@ -1029,30 +1025,22 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
         }
     }
 
+    auto details_ammo = []( const vehicle_part &pt, WINDOW *w, int y ) {
+        if( pt.ammo_remaining() ) {
+            right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
+                         "%s   %5i", item::nname( pt.ammo_current() ).c_str(), pt.ammo_remaining() );
+        }
+    };
+
     for( auto &pt : veh->parts ) {
         if( pt.is_reactor() && !pt.is_broken() ) {
-            // if reactor is fuelled then display contents in scaled plutonium units
-            auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
-                if( pt.ammo_remaining() ) {
-                    right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                                 "%s    %4i", item::nname( pt.ammo_current() ).c_str(), pt.ammo_remaining() );
-                }
-            };
-            opts.push_back( part_option { "REACTOR", &pt, enable ? enable( pt ) : false, details } );
+            opts.push_back( part_option { "REACTOR", &pt, enable ? enable( pt ) : false, details_ammo } );
         }
     }
 
     for( auto &pt : veh->parts ) {
         if( pt.is_turret() && !pt.is_broken() ) {
-            // if turret is loaded then display details about contained ammo
-            auto details = [&]( const vehicle_part &pt, WINDOW *w, int y ) {
-                if( pt.ammo_current() != "null" ) {
-                    right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                                 "%s   %5i", item::nname( pt.ammo_current() ).c_str(),
-                                 pt.ammo_remaining() );
-                }
-            };
-            opts.push_back( part_option { "TURRET", &pt, enable ? enable( pt ) : false, details } );
+            opts.push_back( part_option { "TURRET", &pt, enable ? enable( pt ) : false, details_ammo } );
         }
     }
 
