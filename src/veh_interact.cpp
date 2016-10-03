@@ -2323,7 +2323,7 @@ void veh_interact::complete_vehicle()
             pt.base.reload( g->u, std::move( src ), qty );
 
         } else {
-            debugmsg( "complete_vehicle refill broken" );
+            debugmsg( "vehicle part is not reloadable" );
             break;
         }
 
