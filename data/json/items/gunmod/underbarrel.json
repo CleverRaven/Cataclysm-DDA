@@ -41,7 +41,7 @@
     "dispersion_modifier": 10,
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "flags": [ "NON_STUCK", "SPEAR", "BAYONET" ]
+    "flags": [ "NON_STUCK", "SPEAR" ]
   },
   {
     "id": "bipod",
@@ -341,7 +341,7 @@
     "mod_targets": [ "pistol" ],
     "dispersion_modifier": 15,
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "flags": [ "STAB", "BAYONET" ]
+    "flags": [ "STAB" ]
   },
   {
     "id": "rm121aux",
@@ -386,7 +386,7 @@
     "dispersion_modifier": 20,
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
-    "flags": [ "NON_STUCK", "CHOP", "BAYONET" ]
+    "flags": [ "NON_STUCK", "CHOP" ]
   },
   {
     "id": "u_shotgun",

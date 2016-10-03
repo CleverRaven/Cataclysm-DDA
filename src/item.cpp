@@ -2548,26 +2548,26 @@ int item::damage_bash() const
 
 int item::damage_cut() const
 {
-    int total = type->melee_cut;
-    if (is_gun()) {
-        static const std::string FLAG_BAYONET( "BAYONET" );
-        for( auto &elem : contents ) {
-            if( elem.has_flag( FLAG_BAYONET ) ) {
-                return elem.type->melee_cut;
-            }
-        }
-    }
-
     if( is_null() ) {
         return 0;
     }
 
-    total -= total * damage() * 0.1;
-    if (total > 0) {
-        return total;
-    } else {
-        return 0;
+    // effectiveness is reduced by 10% per damage level
+    int res = type->melee_cut;
+    res -= res * damage() * 0.1;
+
+    if( is_gun() ) {
+        std::vector<int> opts = { res };
+        for( const auto &e : gun_all_modes() ) {
+            if( e.second.target != this && e.second.melee() ) {
+                opts.push_back( e.second.target->damage_cut() );
+            }
+        }
+        return *std::max_element( opts.begin(), opts.end() );
+
     }
+
+    return std::max( res, 0 );
 }
 
 int item::damage_by_type( damage_type dt ) const
