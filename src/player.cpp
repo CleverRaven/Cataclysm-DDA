@@ -5934,22 +5934,18 @@ int player::addiction_level( add_type type ) const
     return iter != addictions.end() ? iter->intensity : 0;
 }
 
-void player::siphon( vehicle &veh, const itype_id &desired_liquid )
+void player::siphon( vehicle &veh, const itype_id &type )
 {
-    const int used_item_amount = veh.drain( desired_liquid, veh.fuel_capacity( desired_liquid ) );
-    const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
-    item used_item( desired_liquid, calendar::turn, used_item_amount / fuel_per_charge );
-    if( used_item.charges <= 0 ) {
-        add_msg( _( "There is not enough %s left to siphon it." ), used_item.type_name().c_str() );
-        veh.refill( desired_liquid, used_item_amount );
+    auto qty = veh.fuel_left( type );
+    if( qty <= 0 ) {
+        add_msg( m_bad, _( "There is not enough %s left to siphon it." ), item::nname( type ).c_str() );
         return;
     }
-    // refill fraction parts (if fuel_per_charge > 1), so we don't have to consider them later
-    veh.refill( desired_liquid, used_item_amount % fuel_per_charge );
 
-    g->handle_liquid( used_item, nullptr, 1, nullptr, &veh );
-    // TODO: maybe add the message about the siphoned amount again.
-    veh.refill( desired_liquid, used_item.charges * fuel_per_charge );
+    item liquid( type, calendar::turn, qty );
+    if( g->handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
+        veh.drain( type, qty - liquid.charges );
+    }
 }
 
 void player::cough(bool harmful, int loudness)
