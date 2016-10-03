@@ -27,7 +27,7 @@
   {
     "id": "diamond_bayonet",
     "type": "MIGRATION",
-    "replace": "bayonet",
+    "replace": "knife_combat",
     "flags": [ "DIAMOND" ]
   },
   {

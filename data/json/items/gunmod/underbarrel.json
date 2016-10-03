@@ -24,26 +24,6 @@
     "flags": [ "FIRE_100" ]
   },
   {
-    "id": "bayonet",
-    "type": "GUNMOD",
-    "name": "bayonet",
-    "description": "A bayonet is a stabbing weapon that can be attached to the front of a shotgun, submachine gun or rifle, allowing a melee attack to deal piercing damage.",
-    "weight": 387,
-    "volume": 2,
-    "price": 4000,
-    "to_hit": -1,
-    "cutting": 12,
-    "material": [ "steel" ],
-    "symbol": ":",
-    "color": "light_gray",
-    "location": "underbarrel",
-    "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
-    "dispersion_modifier": 10,
-    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "flags": [ "NON_STUCK", "SPEAR" ]
-  },
-  {
     "id": "bipod",
     "type": "GUNMOD",
     "name": "bipod",
@@ -243,6 +223,20 @@
     },
     "dispersion_modifier": 60,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
+  },
+  {
+    "id": "makeshift_bayonet",
+    "copy-from": "spike",
+    "type": "GENERIC",
+    "name": "makeshift bayonet",
+    "description": "A makeshift version of a bayonet that consists of a mere spike with some string.",
+    "gunmod_data": {
+      "location": "underbarrel",
+      "mod_targets": [ "shotgun", "rifle" ],
+      "dispersion_modifier": 10,
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+      "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
+    }
   },
   {
     "id": "masterkey",

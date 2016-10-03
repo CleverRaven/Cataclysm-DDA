@@ -3976,7 +3976,7 @@
     "category": "weapons",
     "name": "combat knife",
     "name_plural": "combat knives",
-    "description": "This is a military combat knife designed for close quarters conflict.  It is light and extremely sharp, and could be deadly in the right hands.  It could be used to butcher corpses.",
+    "description": "This is a military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.",
     "weight": 558,
     "volume": 2,
     "price": 10000,
@@ -3986,6 +3986,13 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
+    "gunmod_data": {
+      "location": "underbarrel",
+      "mod_targets": [ "shotgun", "rifle" ],
+      "dispersion_modifier": 10,
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+      "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
+    },
     "techniques": "RAPID",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 19 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ]
@@ -4034,7 +4041,7 @@
     "category": "weapons",
     "name": "RM42 fighting knife",
     "name_plural": "RM42 fighting knives",
-    "description": "This sturdy matte black Rivtech combat dagger features a long and slim double-edged blade with a spear-point and a distinctive slip-resistant grip.  Originally manufactured for the military, it was very popular in films and among collectors due to its fearsome appearance.",
+    "description": "This sturdy matte black Rivtech combat dagger features a long and slim double-edged blade with a spear-point and a distinctive slip-resistant grip which can also be used to affix it to a suitable firearm.  Originally manufactured for the military, it was very popular in films and among collectors due to its fearsome appearance.",
     "weight": 188,
     "volume": 3,
     "price": 45000,
@@ -4044,6 +4051,13 @@
     "material": [ "ceramic", "plastic" ],
     "symbol": "/",
     "color": "dark_gray",
+    "gunmod_data": {
+      "location": "underbarrel",
+      "mod_targets": [ "shotgun", "rifle" ],
+      "dispersion_modifier": 10,
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+      "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
+    },
     "techniques": [ "RAPID", "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 19 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ]

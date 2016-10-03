@@ -1674,7 +1674,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "bayonet",
+  "result": "makeshift_bayonet",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_MODS",
   "skill_used": "fabrication",
