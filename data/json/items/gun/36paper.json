@@ -1,29 +1,31 @@
+Cataclysm web linting tool
+
+
 [
-	{
+  {
     "id": "colt_navy",
     "type": "GUN",
-    "symbol": "(",
-    "color": "light_gray",
     "name": "Colt M1861 Navy",
     "name_plural": "Colt M1861 Navy",
     "description": "The Colt Model 1861 Navy cap & ball .36-caliber revolver was a six-shot, single-action percussion weapon produced by Colt's Manufacturing Company from 1861 until 1873.",
-    "price": 30000,
-    "material": ["steel", "wood"],
-    "flags": "RELOAD_ONE",
-    "skill": "pistol",
-    "ammo": "36paper",
     "weight": 1190,
     "volume": 3,
-    "bashing": 8,
+    "price": 30000,
     "to_hit": -1,
+    "bashing": 8,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": "36paper",
+    "skill": "pistol",
     "dispersion": 120,
     "durability": 7,
     "clip_size": 6,
-    "reload" : 130,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
-   },
-   
-   {
+    "reload": 130,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "flags": [ "RELOAD_ONE" ]
+  },
+  {
     "id": "pistol_pepperbox",
     "type": "GUN",
     "name": "pepperbox pistol",
@@ -44,5 +46,7 @@
     "reload": 1200,
     "valid_mod_locations": [ [ "accessories", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
-   }
+  }
 ]
+
+ Submit
