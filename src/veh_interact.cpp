@@ -444,6 +444,19 @@ bool veh_interact::can_install_part() {
         return false;
     }
 
+    if( sel_vpart_info->has_flag( "FUNNEL" ) ) {
+        auto opts = veh->parts_at_relative( ddx, ddy );
+        if( std::none_of( opts.begin(), opts.end(), [&]( const int e ) {
+            return veh->parts[e].is_tank();
+        } ) ) {
+            werase( w_msg );
+            fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_ltred,
+                            _( "Funnels need to be installed over a tank." ) );
+            wrefresh( w_msg );
+            return false;
+        }
+    }
+
     bool is_engine = sel_vpart_info->has_flag("ENGINE");
     bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
     //count current engines, muscle engines don't require higher skill
