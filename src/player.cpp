@@ -11856,7 +11856,7 @@ const recipe_subset &player::get_learned_recipes() const
     // Cache validity check
     if( _skills != valid_autolearn_skills ) {
         for( const auto &r : recipe_dict.all_autolearn() ) {
-            if( has_recipe_autolearned( *r ) ) {
+            if( meets_skill_requirements( r->autolearn_requirements ) ) {
                 learned_recipes.include( r );
             }
         }
@@ -12893,12 +12893,6 @@ int player::exceeds_recipe_requirements( const recipe &rec ) const
 bool player::has_recipe_requirements( const recipe &rec ) const
 {
     return exceeds_recipe_requirements( rec ) >= 0;
-}
-
-bool player::has_recipe_autolearned( const recipe &rec ) const
-{
-    return !rec.autolearn_requirements.empty() &&
-           meets_skill_requirements( rec.autolearn_requirements );
 }
 
 bool player::can_decomp_learn( const recipe &rec ) const
