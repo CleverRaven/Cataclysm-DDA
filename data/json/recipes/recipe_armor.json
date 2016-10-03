@@ -849,7 +849,7 @@
   "time": 3500,
   "reversible": true,
   "decomp_learn": 0,
-  "note": "OK, I sewed the shirt and pants together, and added laces to the top, so I can put the thing on.",
+  "//": "OK, I sewed the shirt and pants together, and added laces to the top, so I can put the thing on.",
   "book_learn": [[ "mag_tailor", 0 ] , ["manual_tailor", 0] , ["textbook_tailor", 0]],
   "tools": [
     [
@@ -1259,7 +1259,7 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
-  "note": "zero Encumbrance, without elastic, at skill 2? seems tricky",
+  "//": "zero Encumbrance, without elastic, at skill 2? seems tricky",
   "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
   "tools": [
     [
@@ -1347,7 +1347,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 3,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+  "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 35700,
   "autolearn": true,
   "tools": [
@@ -1369,7 +1369,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 2,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+  "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 21000,
   "autolearn": true,
    "qualities" : [
@@ -1465,7 +1465,7 @@
   "skill_used": "tailor",
   "skills_required": [ "survival", 1 ],
   "difficulty": 3,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+  "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 200000,
   "autolearn": true,
   "tools": [
@@ -1488,7 +1488,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 2,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+  "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 100000,
   "autolearn": true,
    "qualities" : [
@@ -1527,7 +1527,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 6,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+  "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 200000,
   "autolearn": true,
   "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
@@ -1551,7 +1551,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 5,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+  "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 100000,
   "autolearn": true,
    "qualities" : [
@@ -2416,7 +2416,7 @@
   "skill_used": "tailor",
   "skills_required": [ "survival", 1 ],
   "difficulty": 2,
-  "note": "You try keeping 12 feet of fur sorted out!",
+  "//": "You try keeping 12 feet of fur sorted out!",
   "time": 9000,
   "reversible": true,
   "autolearn": true,
@@ -2461,7 +2461,7 @@
   "skill_used": "tailor",
   "skills_required": ["fabrication", 1],
   "difficulty": 2,
-  "note": "Airtight takes some skills.",
+  "//": "Airtight takes some skills.",
   "time": 5000,
   "reversible": true,
   "decomp_learn": 3,
@@ -3579,7 +3579,7 @@
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 5,
-  "note": "Whilst the trenchcoat needs 6 skill this'll need at least 4.",
+  "//": "Whilst the trenchcoat needs 6 skill this'll need at least 4.",
   "time": 28000,
   "autolearn": true,
   "qualities" : [
@@ -4351,7 +4351,7 @@
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 5],
   "difficulty": 6,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.  The sleeveless survivor trenchcoat is the exception with the premade wearable items.",
+  "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.  The sleeveless survivor trenchcoat is the exception with the premade wearable items.",
   "time": 59500,
   "autolearn": true,
   "qualities" : [
@@ -4403,7 +4403,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 5,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+  "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 35000,
   "autolearn": true,
    "qualities" : [
@@ -8138,7 +8138,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 3,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+  "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 35700,
   "autolearn": true,
   "tools": [
@@ -8160,7 +8160,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 2,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+  "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 21000,
   "autolearn": true,
    "qualities" : [
@@ -8200,7 +8200,7 @@
   "skill_used": "tailor",
   "skills_required": [ "survival", 1 ],
   "difficulty": 3,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+  "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 200000,
   "autolearn": true,
   "tools": [
@@ -8223,7 +8223,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 2,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+  "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 100000,
   "autolearn": true,
    "qualities" : [
@@ -8262,7 +8262,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 6,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+  "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 200000,
   "autolearn": true,
   "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
@@ -8286,7 +8286,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 5,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+  "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 100000,
   "autolearn": true,
    "qualities" : [
@@ -8355,7 +8355,7 @@
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 5],
   "difficulty": 6,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.  The sleeveless survivor duster is the exception with the premade wearable items.",
+  "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.  The sleeveless survivor duster is the exception with the premade wearable items.",
   "time": 59500,
   "autolearn": true,
   "qualities" : [
@@ -8408,7 +8408,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 5,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+  "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 35000,
   "autolearn": true,
    "qualities" : [
