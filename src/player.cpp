@@ -11054,7 +11054,6 @@ bool player::gunmod_remove( item &gun, item& mod )
     return true;
 }
 
-/** @return Odds for success (pair.first) and gunmod damage (pair.second) */
 std::pair<int, int> player::gunmod_installation_odds( const item& gun, const item& mod ) const
 {
     // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun

@@ -197,13 +197,19 @@ void inventory_column::select( size_t new_index, int step )
 void inventory_column::move_selection( int step )
 {
     if( step == 0 ) {
-        return;
+        return; // Nothing to do
     }
+    // The lambda returns 'index' incremented by 'step' using division remainder (number of entries) to loop over the entries.
+    // Negative step '-k' (backwards) is equivalent to '-k + N' (forward), where:
+    //     N = entries.size()  - number of elements,
+    //     k = |step|          - absolute step (k <= N).
     const auto get_incremented = [ this ]( size_t index, int step ) -> size_t {
         return ( index + step + entries.size() ) % entries.size();
     };
-
+    // Make the requested step
     size_t index = get_incremented( selected_index, step );
+    // If the new selection does not meet the requirements, proceed with small steps (either +1 or -1) until we find one that does.
+    // Stop when full turn is made - further looping is pointless.
     while( index != selected_index && ( !entries[index].is_selectable() || is_selected_by_category( entries[index] ) ) ) {
         index = get_incremented( index, ( step > 0 ? 1 : -1 ) );
     }

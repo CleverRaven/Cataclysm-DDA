@@ -215,6 +215,7 @@ class gunmod_inventory_preset : public inventory_selector_preset
         }
 
     protected:
+        /** @return Odds for successful installation (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> get_odds( const item_location &gun ) const {
             return p.gunmod_installation_odds( *gun, gunmod );
         }

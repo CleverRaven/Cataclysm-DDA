@@ -483,6 +483,10 @@ class game
 
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
+        /**
+          * Execute customized inventory menu for the specified @ref gunmod.
+          * @return Either location of the selected gunmod or null location if none was selected.
+          */
         item_location inv_for_gunmod( const item &gunmod, const std::string &title );
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
