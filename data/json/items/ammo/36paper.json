@@ -1,21 +1,21 @@
 [
-	{
-        "type" : "AMMO",
-        "id" : "36navy",
-        "price" : 5000,
-        "name" : ".36 paper cartridge",
-        "symbol" : "=",
-        "color" : "white",
-        "description" : "A paper cartridge containing a premeasured amount of black powder and a .36 projectile.  Used by the Colt M1861 Navy.",
-        "material" : ["steel", "powder"],
-        "volume" : 1,
-        "weight" : 6,
-        "ammo_type" : "36paper",
-        "damage" : 17,
-        "range" : 15,
-        "dispersion" : 120,
-        "recoil" : 210,
-        "count" : 25,
-        "effects" : ["COOKOFF"]
-    }
+  {
+    "id": "36navy",
+    "type": "AMMO",
+    "name": ".36 paper cartridge",
+    "description": "A paper cartridge containing a premeasured amount of black powder and a .36 projectile.  Used by the Colt M1861 Navy.",
+    "weight": 6,
+    "volume": 1,
+    "price": 5000,
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "white",
+    "count": 25,
+    "ammo_type": "36paper",
+    "range": 15,
+    "damage": 17,
+    "dispersion": 120,
+    "recoil": 210,
+    "effects": [ "COOKOFF" ]
+  }
 ]
