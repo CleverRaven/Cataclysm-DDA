@@ -109,7 +109,6 @@ class veh_interact
         void display_grid();
         void display_veh();
         void display_stats();
-        void display_contents();
         void display_name();
         void display_mode( char mode );
         void display_list( size_t pos, std::vector<const vpart_info *> list, const int header = 0 );
