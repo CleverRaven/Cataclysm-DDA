@@ -205,7 +205,9 @@ ifdef RELEASE
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
-  DEBUG =
+  ifndef DEBUG_SYMBOLS
+    DEBUG =
+  endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
   CHECKS = astyle-check lint-check
@@ -618,7 +620,9 @@ all: version $(CHECKS) $(TARGET) $(L10N) tests
 $(TARGET): $(ODIR) $(OBJS)
 	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 ifdef RELEASE
+  ifndef DEBUG_SYMBOLS
 	$(STRIP) $(TARGET)
+  endif
 endif
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(ODIR) $(OBJS)
