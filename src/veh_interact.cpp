@@ -971,7 +971,7 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
         vehicle_part *part;
 
         /** Can @param action be run for this entry? */
-        bool enabled;
+        char hotkey;
 
         /** Writes any extra details for this entry */
         std::function<void( const vehicle_part &pt, WINDOW *w, int y )> details;
@@ -998,6 +998,8 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
         right_print   ( w, y, 1, c_ltgray, _( "Ammo     Qty" ) );
     };
 
+    char hotkey = 'a';
+
     for( auto &pt : veh->parts ) {
         if( pt.is_tank() && !pt.is_broken() ) {
             // if tank contains something then display the contents in milliliters
@@ -1009,7 +1011,7 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                                  round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) );
                 }
             };
-            opts.push_back( part_option { "TANK", &pt, enable ? enable( pt ) : false, details } );
+            opts.push_back( part_option { "TANK", &pt, enable && enable( pt ) ? hotkey++ : '\0', details } );
         }
     }
 
@@ -1020,7 +1022,7 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                 int pct = ( double( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
                 right_print( w, y, 1, c_yellow, "%i    %3i%%", pt.ammo_capacity(), pct );
             };
-           opts.push_back( part_option { "BATTERY", &pt, enable ? enable( pt ) : false, details } );
+           opts.push_back( part_option { "BATTERY", &pt, enable && enable( pt ) ? hotkey++ : '\0', details } );
         }
     }
 
@@ -1033,17 +1035,26 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
     for( auto &pt : veh->parts ) {
         if( pt.is_reactor() && !pt.is_broken() ) {
-            opts.push_back( part_option { "REACTOR", &pt, enable ? enable( pt ) : false, details_ammo } );
+            opts.push_back( part_option { "REACTOR", &pt, enable && enable( pt ) ? hotkey++ : '\0', details_ammo } );
         }
     }
 
     for( auto &pt : veh->parts ) {
         if( pt.is_turret() && !pt.is_broken() ) {
-            opts.push_back( part_option { "TURRET", &pt, enable ? enable( pt ) : false, details_ammo } );
+            opts.push_back( part_option { "TURRET", &pt, enable && enable( pt ) ? hotkey++ : '\0', details_ammo } );
         }
     }
 
-    int pos = enable && action ? 0 : -1;
+    int pos = -1;
+    if( enable && action ) {
+        do {
+            if( ++pos >= int( opts.size() ) ) {
+                pos = -1;
+                break; // nothing could be selected
+            }
+        } while( !opts[pos].hotkey );
+    }
+
     while( true ) {
         werase( w_list );
         std::string last;
@@ -1060,9 +1071,11 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
             }
 
             // print part name
-            nc_color col = opts[idx].enabled ? c_white : c_dkgray;
-            trim_and_print( w_list, y, 3, getmaxx( w_list ) - 3,
-                            idx == pos ? hilite( col ) : col, pt.name().c_str() );
+            nc_color col = opts[idx].hotkey ? c_white : c_dkgray;
+            trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1,
+                            idx == pos ? hilite( col ) : col,
+                            "<color_dkgray>%c </color>%s",
+                            opts[idx].hotkey ? opts[idx].hotkey : ' ', pt.name().c_str() );
 
             // print extra columns (if any)
             opts[idx].details( pt, w_list, y );
@@ -1070,20 +1083,44 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
         }
         wrefresh( w_list );
 
-        if( !enable || !action ) {
-            return;
+        if( !std::any_of( opts.begin(), opts.end(), []( const part_option &e ) { return e.hotkey; } ) ) {
+            return; // nothing is selectable
         }
 
         const std::string input = main_context.handle_input();
-        if( input == "CONFIRM" && opts[pos].enabled ) {
+        if( input == "CONFIRM" && opts[pos].hotkey ) {
             action( *opts[pos].part );
             break;
 
         } else if( input == "QUIT" ) {
             break;
 
+        } else if( input == "UP" ) {
+            do {
+                if( --pos < 0 ) {
+                    pos = opts.size() - 1;
+                }
+            } while( !opts[pos].hotkey );
+
+        } else if( input == "DOWN" ) {
+            do {
+                if( ++pos >= int( opts.size() ) ) {
+                    pos = 0;
+                }
+            } while( !opts[pos].hotkey );
+
         } else {
-            move_in_list( pos, input, opts.size() );
+            // did we try and activate a hotkey option?
+            char hotkey = main_context.get_raw_input().get_first_input();
+            if( hotkey ) {
+                auto iter = std::find_if( opts.begin(), opts.end(), [&hotkey]( const part_option &e ) {
+                    return e.hotkey == hotkey;
+                } );
+                if( iter != opts.end() ) {
+                    action( *iter->part );
+                    break;
+                }
+            }
         }
     }
 
