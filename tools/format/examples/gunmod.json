@@ -16,7 +16,6 @@
     "acceptable_ammo": [ "22", "9mm", "38", "40", "57", "46" ],
     "install_time": 60000,
     "dispersion_modifier": 30,
-    "recoil_modifier": 30,
     "loudness_modifier": 2,
     "mode_modifier": [ [ "AUTO", "auto", 3 ] ],
     "min_skills": [ [ "gun", 4 ], [ "mechanics", 3 ] ],
