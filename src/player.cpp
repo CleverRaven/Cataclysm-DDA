@@ -10921,21 +10921,6 @@ void player::use(int inventory_position)
         }
 
         invoke_item( used );
-    } else if (used->is_gunmod()) {
-        int gunpos = g->inv_for_filter( _("Select gun to modify:" ), [&used]( const item& e ) {
-            return e.gunmod_compatible( *used, false, false );
-        }, _( "You don't have compatible guns." ) );
-
-        if( gunpos == INT_MIN ) {
-            add_msg_if_player( m_info, _( "Never mind." ) );
-            return;
-        }
-
-        item& gun = i_at( gunpos );
-        if( gun.gunmod_compatible( *used ) ) {
-            gunmod_add( gun, *used );
-        }
-        return;
 
     } else if (used->is_bionic()) {
         if( install_bionics( *used->type ) ) {
