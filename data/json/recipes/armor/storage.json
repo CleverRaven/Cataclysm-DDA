@@ -1,0 +1,18 @@
+[
+  {
+    "result": "flintlock_pouch",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ [ "gun", 1 ] ],
+    "time": 80000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "components": [
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "sinew", 20 ], [ "thread", 20 ], [ "plant_fibre", 20 ] ]
+    ]
+  }
+]
