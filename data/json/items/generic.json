@@ -52,18 +52,6 @@
     },
     {
         "type":"GENERIC",
-        "id": "cvd_machine",
-        "symbol": "$",
-        "color": "red",
-        "name": "cvd machine",
-        "name_plural": "none",
-        "description": "seeing this is a bug",
-        "price": 0,
-        "volume": 0,
-        "flags": ["PSEUDO", "TRADER_AVOID"]
-    },
-    {
-        "type":"GENERIC",
         "id": "null",
         "symbol": "$",
         "color": "red",
