@@ -2300,7 +2300,7 @@ void veh_interact::complete_vehicle()
     }
 
     case 'f': {
-        if( g->u.activity.targets.size() < 1 || !g->u.activity.targets.front() ) {
+        if( g->u.activity.targets.empty() || !g->u.activity.targets.front() ) {
             debugmsg( "Activity ACT_VEHICLE: missing refill source" );
             break;
         }
