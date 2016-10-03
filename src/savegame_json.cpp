@@ -1584,9 +1584,11 @@ void vehicle_part::deserialize(JsonIn &jsin)
         { "napalm_tank", "tank" }
     };
 
-    if( deprecated.count( pid.str() ) ) {
-        pid = vpart_str_id( deprecated[pid.str()] );
+    auto dep = deprecated.find( pid.str() );
+    if( dep != deprecated.end() ) {
+        pid = vpart_str_id( dep->second );
     }
+
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
         if( pid.str() == "wheel_underbody" ) {
