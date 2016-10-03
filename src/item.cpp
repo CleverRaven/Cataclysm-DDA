@@ -4336,7 +4336,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
     auto opts = gunmods();
     opts.push_back( this );
 
-    for( auto e : opts ) {
+    for( const auto e : opts ) {
         if( e->is_gun() ) {
             for( auto m : e->type->gun->modes ) {
                 // prefix attached gunmods, eg. M203_DEFAULT to avoid index key collisions
@@ -4354,7 +4354,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
         }
         if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( this ),
+                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
                                                        std::get<1>( m.second ), std::get<2>( m.second ) } );
             }
         }
