@@ -34,7 +34,8 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     inv_s.add_nearby_items( radius );
 
     if( inv_s.empty() ) {
-        const std::string msg = ( none_message.empty() ) ? _( "You don't have the necessary item at hand." )
+        const std::string msg = none_message.empty()
+                                ? _( "You don't have the necessary item at hand." )
                                 : none_message;
         popup( msg, PF_GET_KEY );
         return item_location();
@@ -159,11 +160,11 @@ item *game::inv_map_for_liquid( const item &liquid, const std::string &title, in
                                         liquid.tname().c_str() ) ).get_item();
 }
 
-class gunmod_inventory_preset: public inventory_selector_preset
+class gunmod_inventory_preset : public inventory_selector_preset
 {
     public:
         gunmod_inventory_preset( const player &p, const item &gunmod ) : p( p ), gunmod( gunmod ) {
-            append_cell( [ this ]( const item_location & loc ) -> std::string {
+            append_cell( [ this ]( const item_location & loc ) {
                 const auto odds = get_odds( loc );
 
                 if( odds.first >= 100 ) {
