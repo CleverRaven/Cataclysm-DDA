@@ -5936,30 +5936,29 @@ void vehicle::update_time( const calendar &update_to )
     // Get one weather data set per veh, they don't differ much across veh area
     const tripoint veh_loc = real_global_pos3();
     auto accum_weather = sum_conditions( update_from, update_to, veh_loc );
-    if( !funnels.empty() ) {
-        double rain_amount = 0.0;
-        // TODO: double acid_amount = 0.0;
-        for( int part : funnels ) {
-            if( parts[ part ].is_broken() ) {
-                continue;
-            }
 
-            const tripoint part_loc = veh_loc + parts[part].precalc[0];
-            if( !is_sm_tile_outside( part_loc ) ) {
-                continue;
-            }
+    for( int idx : funnels ) {
+        const auto &pt = parts[idx];
 
-            const int part_size = part_info( part ).size / units::legacy_volume_factor;
-            const double funnel_area_mm = M_PI * part_size * part_size;
-            // TODO: would be clearer to use the data from the trap, which can be gathered
-            // via the place_trap iuse_actor
-            rain_amount += funnel_charges_per_turn( funnel_area_mm, accum_weather.rain_amount );
+        // we need an unbroken funnel mounted on the exterior of the vehicle
+        if( pt.is_broken() || !is_sm_tile_outside( veh_loc + pt.precalc[0] ) ) {
+            continue;
         }
 
-        const int rain_val = divide_roll_remainder( rain_amount, 1.0 );
-        if( rain_val > 0 ) {
-            refill( "water", rain_val );
-            add_msg( m_debug, "%s got %d water from funnels", name.c_str(), rain_val );
+        // we need an empty tank (or one already containing water) below the funnel
+        auto tank = std::find_if( parts.begin(), parts.end(), [&pt]( const vehicle_part &e ) {
+            return pt.mount == e.mount && e.is_tank() && e.can_reload( "water" );
+        } );
+
+        if( tank == parts.end() ) {
+            continue;
+        }
+
+        double area = pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
+        int qty = divide_roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ), 1.0 );
+
+        if( qty > 0 ) {
+            tank->ammo_set( "water", tank->ammo_remaining() + qty );
         }
     }
 
