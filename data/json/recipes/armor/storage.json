@@ -8,7 +8,6 @@
     "difficulty": 3,
     "skills_required": [ [ "gun", 1 ] ],
     "time": 80000,
-    "reversible": false,
     "autolearn": true,
     "tools": [ [ [ "sewing_kit", 20 ] ] ],
     "components": [
