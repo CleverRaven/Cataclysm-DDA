@@ -91,10 +91,11 @@
         "price_postapoc": 0,
         "material": "glass",
         "weight": 375,
-        "volume": 1,
+        "volume": 2,
         "bashing": 1,
         "contains": 2,
         "watertight": true
+        "qualities": [["CONTAIN", 1]]
     },
     {
         "type":"CONTAINER",
