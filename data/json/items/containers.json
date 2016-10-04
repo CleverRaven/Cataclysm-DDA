@@ -94,7 +94,7 @@
         "volume": 2,
         "bashing": 1,
         "contains": 2,
-        "watertight": true
+        "watertight": true,
         "qualities": [["CONTAIN", 1]]
     },
     {
