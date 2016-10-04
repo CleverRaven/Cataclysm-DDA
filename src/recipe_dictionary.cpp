@@ -410,38 +410,37 @@ void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &
 
 void recipe_subset::include( const recipe *r, int custom_difficulty )
 {
-    const bool needs_difficulty = custom_difficulty > r->difficulty;
-
+    if( custom_difficulty < 0 ) {
+        custom_difficulty = r->difficulty;
+    }
+    // We always prefer lower difficulty for the subset, but we save it only if it's not default
     if( recipes.count( r ) > 0 ) {
         const auto iter = difficulties.find( r );
-
-        if( needs_difficulty ) {
-            if( iter != difficulties.end() ) {
-                // Always prefer the easiest recipe
-                iter->second = std::min( iter->second, custom_difficulty );
+        // See if we need to lower the difficulty of the existing recipe
+        if( iter != difficulties.end() && custom_difficulty < iter->second ) {
+            if( custom_difficulty != r->difficulty ) {
+                iter->second = custom_difficulty; // Added again with lower difficulty
             } else {
-                difficulties[r] = custom_difficulty;
+                difficulties.erase( iter ); // No need to keep the default difficulty. Free some memory
             }
-        } else if( iter != difficulties.end() ) {
-            difficulties.erase( iter ); // No need to keep it
+        } else if( custom_difficulty < r->difficulty ) {
+            difficulties[r] = custom_difficulty; // Added again with lower difficulty
         }
-
-        return; // No other actions required
-    }
-
-    if( needs_difficulty ) {
-        difficulties[r] = custom_difficulty;
-    }
-
-    // add recipe to category and component caches
-    for( const auto &opts : r->requirements().get_components() ) {
-        for( const item_comp &comp : opts ) {
-            component[comp.type].insert( r );
+    } else {
+        // add recipe to category and component caches
+        for( const auto &opts : r->requirements().get_components() ) {
+            for( const item_comp &comp : opts ) {
+                component[comp.type].insert( r );
+            }
         }
+        category[r->category].insert( r );
+        // Set the difficulty is it's not the default
+        if( custom_difficulty != r->difficulty ) {
+            difficulties[r] = custom_difficulty;
+        }
+        // insert the recipe
+        recipes.insert( r );
     }
-
-    category[r->category].insert( r );
-    recipes.insert( r );
 }
 
 void recipe_subset::include( const recipe_subset &subset )
