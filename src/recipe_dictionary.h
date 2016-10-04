@@ -60,12 +60,12 @@ extern recipe_dictionary recipe_dict;
 class recipe_subset
 {
     public:
-        recipe_subset &operator+=( const recipe_subset &rhs );
         /**
          * Include a recipe to the subset.
          * @param custom_difficulty If specified, it defines custom difficulty for the recipe
          */
         void include( const recipe *r, int custom_difficulty = -1 );
+        void include( const recipe_subset &subset );
         /**
          * Include a recipe to the subset. Based on the condition.
          * @param pred Unary predicate that accepts a @ref recipe.
@@ -88,7 +88,7 @@ class recipe_subset
          * Get custom difficulty for the recipe.
          * @return Either custom difficulty if it was specified, or recipe default difficulty.
          */
-        int get_difficulty( const recipe *r ) const;
+        int get_custom_difficulty( const recipe *r ) const;
 
         /** Get all recipes in given category (optionally restricted to subcategory) */
         std::vector<const recipe *> in_category(

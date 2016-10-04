@@ -11895,16 +11895,16 @@ const recipe_subset player::get_available_recipes( const inventory &crafting_inv
 {
     recipe_subset res( get_learned_recipes() );
 
-    res += get_recipes_from_books( crafting_inv );
+    res.include( get_recipes_from_books( crafting_inv ) );
 
     if( helpers != nullptr ) {
-        const auto can_understand = [ this ]( const recipe &r ) {
-            return get_skill_level( r.skill_used ) >= int( r.difficulty * 0.8f );
-        };
-
         for( npc *np : *helpers ) {
-            res.include_if( np->get_learned_recipes(), can_understand );
-            res.include_if( np->get_recipes_from_books( np->inv ), can_understand );
+            // Directly form the helper's inventory
+            res.include( get_recipes_from_books( np->inv ) );
+            // Being told what to do
+            res.include_if( np->get_learned_recipes(), [ this ]( const recipe &r ) {
+                return get_skill_level( r.skill_used ) >= int( r.difficulty * 0.8f ); // Skilled enough to understand
+            } );
         }
     }
 
@@ -12922,7 +12922,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
     }
 
     const auto available = get_available_recipes( crafting_inv, &helpers );
-    return available.contains( r ) ? available.get_difficulty( r ) : -1;
+    return available.contains( r ) ? available.get_custom_difficulty( r ) : -1;
 }
 
 void player::learn_recipe( const recipe * const rec )

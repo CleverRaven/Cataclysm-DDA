@@ -408,46 +408,50 @@ void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &
     }
 }
 
-recipe_subset &recipe_subset::operator+=( const recipe_subset &rhs )
-{
-    for( const auto &elem : rhs ) {
-        include( elem, rhs.get_difficulty( elem ) );
-    }
-    return *this;
-}
-
 void recipe_subset::include( const recipe *r, int custom_difficulty )
 {
-    const bool exists = recipes.count( r ) > 0;
+    const bool needs_difficulty = custom_difficulty > r->difficulty;
 
-    if( exists ) {
+    if( recipes.count( r ) > 0 ) {
         const auto iter = difficulties.find( r );
-        if( iter != difficulties.end() ) {
-            if( custom_difficulty > r->difficulty ) {
+
+        if( needs_difficulty ) {
+            if( iter != difficulties.end() ) {
+                // Always prefer the easiest recipe
                 iter->second = std::min( iter->second, custom_difficulty );
             } else {
-                difficulties.erase( iter ); // No need to keep it
+                difficulties[r] = custom_difficulty;
             }
+        } else if( iter != difficulties.end() ) {
+            difficulties.erase( iter ); // No need to keep it
         }
+
+        return; // No other actions required
     }
 
-    if( custom_difficulty > r->difficulty ) {
+    if( needs_difficulty ) {
         difficulties[r] = custom_difficulty;
     }
 
-    if( !exists ) {
-        // add recipe to category and component caches
-        for( const auto &opts : r->requirements().get_components() ) {
-            for( const item_comp &comp : opts ) {
-                component[comp.type].insert( r );
-            }
+    // add recipe to category and component caches
+    for( const auto &opts : r->requirements().get_components() ) {
+        for( const item_comp &comp : opts ) {
+            component[comp.type].insert( r );
         }
-        category[r->category].insert( r );
-        recipes.insert( r );
+    }
+
+    category[r->category].insert( r );
+    recipes.insert( r );
+}
+
+void recipe_subset::include( const recipe_subset &subset )
+{
+    for( const auto &elem : subset ) {
+        include( elem, subset.get_custom_difficulty( elem ) );
     }
 }
 
-int recipe_subset::get_difficulty( const recipe *r ) const
+int recipe_subset::get_custom_difficulty( const recipe *r ) const
 {
     const auto iter = difficulties.find( r );
     if( iter != difficulties.end() ) {
