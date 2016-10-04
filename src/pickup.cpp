@@ -927,7 +927,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 units::volume volume_picked_up = 0;
                 for( size_t i = 0; i < getitem.size(); i++ ) {
                     if( getitem[i].pick ) {
-                        item &temp = stacked_here[i].begin()->_item;
+                        item temp = stacked_here[i].begin()->_item;
                         if( temp.count_by_charges() && getitem[i].count < temp.charges && getitem[i].count != 0 ) {
                             temp.charges = getitem[i].count;
                         }
