@@ -175,7 +175,9 @@ const recipe *select_crafting_recipe( int &batch_size )
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     std::string filterstring = "";
 
+    const auto &available_recipes = g->u.get_available_recipes( crafting_inv, &helpers );
     std::map<const recipe *, bool> availability_cache;
+
     do {
         if( redraw ) {
             // When we switch tabs, redraw the header
@@ -193,23 +195,22 @@ const recipe *select_crafting_recipe( int &batch_size )
             TAB_MODE m = ( batch ) ? BATCH : ( filterstring == "" ) ? NORMAL : FILTERED;
             draw_recipe_tabs( w_head, tab.cur(), m );
             draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), m );
-            current.clear();
+
             available.clear();
             if( batch ) {
+                current.clear();
                 batch_recipes( crafting_inv, helpers, current, available, chosen );
             } else {
-                const auto &available_recipes = g->u.get_available_recipes( crafting_inv, &helpers );
-
                 if( filterstring.empty() ) {
                     current = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
                 } else {
                     current = available_recipes.search( filterstring );
                 }
-
+                available.reserve( current.size() );
                 // cache recipe availability on first display
                 for( const auto e : current ) {
                     if( !availability_cache.count( e ) ) {
-                        availability_cache.emplace( e, e->can_make_with_inventory( crafting_inv, helpers ) );
+                        availability_cache.emplace( e, e->requirements().can_make_with_inventory( crafting_inv ) );
                     }
                 }
 
