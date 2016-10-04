@@ -197,9 +197,13 @@ const recipe *select_crafting_recipe( int &batch_size )
             draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), m );
 
             available.clear();
+
             if( batch ) {
                 current.clear();
-                batch_recipes( crafting_inv, helpers, current, available, chosen );
+                for( int i = 1; i <= 20; i++ ) {
+                    current.push_back( chosen );
+                    available.push_back( chosen->requirements().can_make_with_inventory( crafting_inv, i ) );
+                }
             } else {
                 if( filterstring.empty() ) {
                     current = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );

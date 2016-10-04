@@ -7414,7 +7414,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
             for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
-                    const bool can_make = r->can_make_with_inventory( crafting_inv );
+                    const bool can_make = r->requirements().can_make_with_inventory( crafting_inv );
                     item dummy( r->result );
 
                     dmenu.addentry(counter++, can_make, -1, dummy.display_name());

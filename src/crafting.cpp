@@ -249,31 +249,13 @@ std::vector<item> player::get_eligible_containers_for_crafting()
 
 bool player::can_make( const recipe *r, int batch_size )
 {
-    if( has_trait( "DEBUG_HS" ) ) {
-        return true;
-    }
-
     const inventory &crafting_inv = crafting_inventory();
-    return r->can_make_with_inventory( crafting_inv, batch_size );
-}
 
-bool recipe::can_make_with_inventory( const inventory &crafting_inv, int batch ) const
-{
-    return can_make_with_inventory( crafting_inv, g->u.get_crafting_helpers(), batch );
-}
-
-bool recipe::can_make_with_inventory( const inventory &crafting_inv,
-                                      const std::vector<npc *> &helpers,
-                                      int batch ) const
-{
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
-        return true;
-    }
-
-    if( !g->u.knows_recipe( this ) && -1 == g->u.has_recipe( this, crafting_inv, helpers ) ) {
+    if( has_recipe( r, crafting_inv, get_crafting_helpers() ) < 0 ) {
         return false;
     }
-    return requirements().can_make_with_inventory( crafting_inv, batch );
+
+    return r->requirements().can_make_with_inventory( crafting_inv, batch_size );
 }
 
 const inventory &player::crafting_inventory()
@@ -305,20 +287,6 @@ const inventory &player::crafting_inventory()
 void player::invalidate_crafting_inventory()
 {
     cached_turn = -1;
-}
-
-void batch_recipes( const inventory &crafting_inv,
-                    const std::vector<npc *> &helpers,
-                    std::vector<const recipe *> &current,
-                    std::vector<bool> &available, const recipe *rec )
-{
-    current.clear();
-    available.clear();
-
-    for( int i = 1; i <= 20; i++ ) {
-        current.push_back( rec );
-        available.push_back( rec->can_make_with_inventory( crafting_inv, helpers, i ) );
-    }
 }
 
 int recipe::batch_time( int batch ) const

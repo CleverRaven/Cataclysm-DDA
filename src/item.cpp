@@ -1772,7 +1772,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             } else {
                 const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
                 [ &inv ]( const recipe *r ) {
-                    if( r->can_make_with_inventory( inv ) ) {
+                    if( r->requirements().can_make_with_inventory( inv ) ) {
                         return nname( r->result );
                     } else {
                         return string_format( "<dark>%s</dark>", nname( r->result ).c_str() );
