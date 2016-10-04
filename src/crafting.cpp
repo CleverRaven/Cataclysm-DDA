@@ -1177,7 +1177,7 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 
     activity.values.push_back( pos );
     activity.coords.push_back( ground ? this->pos() : tripoint_min );
-    activity.str_values.push_back( obj.typeId() );
+    activity.str_values.push_back( r.result );
 
     return true;
 }
