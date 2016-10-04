@@ -196,7 +196,7 @@
         "cutting" : 20,
         "price" : 52000,
         "max_charges": 1,
-        "charges_per_use": 1,
+        "charges_per_use": 0,
         "ammo": "essence_dull_type",
         "use_action": [
           "MEDITATE",
@@ -234,7 +234,7 @@
         "charges_per_use": 1,
         "turns_per_charge": 1,
         "revert_to": "hexenhammer",
-        "ammo": "NULL",
+        "ammo": "essence_dull_type",
         "use_action": {
           "type": "explosion",
           "no_deactivate_msg": "\"Du nicht können halt Hammerzeit.\"",

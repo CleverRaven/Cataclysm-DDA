@@ -500,8 +500,8 @@
                 "=": "t_bridge",
                 "P": "t_column",
                 "<": "t_stairs_up",
-                "b": "t_floor",
-                "t": "t_floor"
+                "b": "t_rock_floor",
+                "t": "t_rock_floor"
             },
             "furniture": {
                 "t": "f_table"
