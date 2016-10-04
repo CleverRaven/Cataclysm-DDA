@@ -11873,7 +11873,11 @@ const recipe_subset player::get_recipes_from_books( const inventory &crafting_in
     for( const auto &stack : crafting_inv.const_slice() ) {
         const item &candidate = stack->front();
 
-        if( !candidate.is_book() || !items_identified.count( candidate.typeId() ) ) {
+        if( !candidate.is_book() ) {
+            continue;
+        }
+        // NPCs don't need to identify books
+        if( is_player() && !items_identified.count( candidate.typeId() ) ) {
             continue;
         }
 
@@ -11894,13 +11898,13 @@ const recipe_subset player::get_available_recipes( const inventory &crafting_inv
     res += get_recipes_from_books( crafting_inv );
 
     if( helpers != nullptr ) {
-        const auto not_too_hard = [ this ]( const recipe &r ) {
+        const auto can_understand = [ this ]( const recipe &r ) {
             return get_skill_level( r.skill_used ) >= int( r.difficulty * 0.8f );
         };
 
         for( npc *np : *helpers ) {
-            res.include_if( np->get_learned_recipes(), not_too_hard );
-            res.include_if( np->get_recipes_from_books( crafting_inv ), not_too_hard );
+            res.include_if( np->get_learned_recipes(), can_understand );
+            res.include_if( np->get_recipes_from_books( np->inv ), can_understand );
         }
     }
 
