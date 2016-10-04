@@ -32,11 +32,12 @@ const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
 std::vector<const recipe *> recipe_subset::search( const std::string &txt ) const
 {
     std::vector<const recipe *> res;
-    for( const auto &e : recipes ) {
-        if( lcmatch( item::nname( e.second->result ), txt ) ) {
-            res.push_back( e.second );
-        }
-    }
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ),
+    [ &txt ]( const recipe * r ) {
+        return lcmatch( item::nname( r->result ), txt );
+    } );
+
     return res;
 }
 
@@ -410,19 +411,47 @@ void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &
 recipe_subset &recipe_subset::operator+=( const recipe_subset &rhs )
 {
     for( const auto &elem : rhs ) {
-        include( elem.second );
+        include( elem, rhs.get_difficulty( elem ) );
     }
     return *this;
 }
 
-void recipe_subset::include( const recipe *r )
+void recipe_subset::include( const recipe *r, int custom_difficulty )
 {
-    // add recipe to category and component caches
-    for( const auto &opts : r->requirements().get_components() ) {
-        for( const item_comp &comp : opts ) {
-            component[comp.type].insert( r );
+    const bool exists = recipes.count( r ) > 0;
+
+    if( exists ) {
+        const auto iter = difficulties.find( r );
+        if( iter != difficulties.end() ) {
+            if( custom_difficulty > r->difficulty ) {
+                iter->second = std::min( iter->second, custom_difficulty );
+            } else {
+                difficulties.erase( iter ); // No need to keep it
+            }
         }
     }
-    category[r->category].insert( r );
-    recipes[r->ident()] = r;
+
+    if( custom_difficulty > r->difficulty ) {
+        difficulties[r] = custom_difficulty;
+    }
+
+    if( !exists ) {
+        // add recipe to category and component caches
+        for( const auto &opts : r->requirements().get_components() ) {
+            for( const item_comp &comp : opts ) {
+                component[comp.type].insert( r );
+            }
+        }
+        category[r->category].insert( r );
+        recipes.insert( r );
+    }
+}
+
+int recipe_subset::get_difficulty( const recipe *r ) const
+{
+    const auto iter = difficulties.find( r );
+    if( iter != difficulties.end() ) {
+        return iter->second;
+    }
+    return r->difficulty;
 }

@@ -11879,7 +11879,7 @@ const recipe_subset player::get_recipes_from_books( const inventory &crafting_in
 
         for( auto const &elem : candidate.type->book->recipes ) {
             if( get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
-                res.include( elem.recipe );
+                res.include( elem.recipe, elem.skill_level );
             }
         }
     }
@@ -12903,7 +12903,7 @@ bool player::can_decomp_learn( const recipe &rec ) const
 
 bool player::knows_recipe(const recipe *rec) const
 {
-    return get_learned_recipes().contains( rec->ident() );
+    return get_learned_recipes().contains( rec );
 }
 
 int player::has_recipe( const recipe *r, const inventory &crafting_inv,
@@ -12917,31 +12917,8 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
         return r->difficulty;
     }
 
-    int difficulty = INT_MAX;
-
-    // Iterate over the nearby items and see if there's a book that has the recipe.
-    const_invslice slice = crafting_inv.const_slice();
-    for( auto stack = slice.cbegin(); stack != slice.cend(); ++stack ) {
-        // We are only checking qualities, so we only care about the first item in the stack.
-        const item &candidate = (*stack)->front();
-        if( candidate.is_book() && items_identified.count( candidate.typeId() ) ) {
-            for( auto const &elem : candidate.type->book->recipes ) {
-                if( elem.recipe == r && get_skill_level( r->skill_used ) >= elem.skill_level ) {
-                    difficulty = std::min( difficulty, elem.skill_level );
-                }
-            }
-        }
-    }
-
-    if( get_skill_level( r->skill_used ) >= (int)( r->difficulty * 0.8f ) ) {
-        for( const npc *np : helpers ) {
-            if( np->knows_recipe( r ) ) {
-                difficulty = std::min( difficulty, r->difficulty );
-            }
-        }
-    }
-
-    return difficulty < INT_MAX ? difficulty : -1;
+    const auto available = get_available_recipes( crafting_inv, &helpers );
+    return available.contains( r ) ? available.get_difficulty( r ) : -1;
 }
 
 void player::learn_recipe( const recipe * const rec )

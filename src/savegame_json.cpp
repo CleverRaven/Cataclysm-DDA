@@ -621,7 +621,7 @@ void player::serialize(JsonOut &json) const
     json.member( "learned_recipes" );
     json.start_array();
     for( const auto &entry : get_learned_recipes() ) {
-        json.write( entry.first );
+        json.write( entry->ident() );
     }
     json.end_array();
 
