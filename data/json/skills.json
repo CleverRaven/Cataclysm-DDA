@@ -152,5 +152,12 @@
         "name" : "submachine guns",
         "description" : "Comprised of an automatic rifle carbine designed to fire a pistol cartridge, submachine guns can reload and fire quickly, sometimes in bursts, but they are relatively inaccurate and may be prone to mechanical failures.",
         "tags" : ["combat_skill"]
+    },
+    {
+        "type" : "skill",
+        "ident" : "weapon",
+        "name" : "weapon",
+        "description" : "seeing this is a bug",
+        "tags" : ["contextual_skill"]
     }
 ]

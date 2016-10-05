@@ -742,8 +742,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
         }
         for( const auto &sk : type->min_skills ) {
-            std::string txt = sk.first == "weapon" ? _( "weapon" ) : skill_id( sk.first )->name();
-            req.push_back( string_format( "%s %d", txt.c_str(), sk.second ) );
+            req.push_back( string_format( "%s %d", skill_id( sk.first )->name().c_str(), sk.second ) );
         }
         if( !req.empty() ) {
             info.emplace_back( "BASE", _("<bold>Minimum requirements:</bold>") );
@@ -5784,6 +5783,25 @@ std::string item::label( unsigned int quantity ) const
 bool item::has_infinite_charges() const
 {
     return charges == INFINITE_CHARGES;
+}
+
+skill_id item::contextualize_skill( const skill_id &id ) const
+{
+    if( id->is_contextual_skill() ) {
+        static const skill_id weapon_skill( "weapon" );
+
+        if( id == weapon_skill ) {
+            if( is_gun() ) {
+                return gun_skill();
+            } else if( is_weap() ) {
+                return weap_skill();
+            }
+        }
+
+        debugmsg( "%s is not a suitable context for %s skill.", tname().c_str(), id.c_str() );
+    }
+
+    return id;
 }
 
 item_category::item_category() : id(), name(), sort_rank( 0 )

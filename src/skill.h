@@ -16,12 +16,16 @@ using skill_id = string_id<Skill>;
 
 class Skill
 {
+        friend class string_id<Skill>;
+
         skill_id _ident;
 
         std::string _name;
         std::string _description;
         std::set<std::string> _tags;
-
+        // these are not real skills, they depend on context
+        static std::map<skill_id, Skill> contextual_skills;
+        static const Skill &find_skill( const skill_id &id );
     public:
         static std::vector<Skill> skills;
         static void load_skill( JsonObject &jsobj );
@@ -62,6 +66,7 @@ class Skill
         }
 
         bool is_combat_skill() const;
+        bool is_contextual_skill() const;
 };
 
 class SkillLevel : public JsonSerializer, public JsonDeserializer
