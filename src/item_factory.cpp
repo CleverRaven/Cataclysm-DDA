@@ -1599,8 +1599,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     }
     while( jarr.has_more() ) {
         JsonArray cur = jarr.next_array();
-        auto sk = cur.get_string( 0 );
-        if( sk != "weapon" && !skill_id( sk ).is_valid() ) {
+        const auto sk = skill_id( cur.get_string( 0 ) );
+        if( sk != skill_id( "weapon" ) && !sk.is_valid() ) {
             jo.throw_error( string_format( "invalid skill: %s", sk.c_str() ), "min_skills" );
         }
         new_item_template->min_skills[ sk ] = cur.get_int( 1 );

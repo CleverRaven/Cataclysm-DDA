@@ -10140,8 +10140,8 @@ bool player::can_use( const item& it, bool interactive, const skill_id &context 
 
     // Then check skills
     const auto& reqs = it.type->min_skills;
-    return std::none_of( reqs.begin(), reqs.end(), [&]( const std::pair<std::string, int>& e ) {
-        auto sk = skill_id( e.first );
+    return std::none_of( reqs.begin(), reqs.end(), [&]( const std::pair<skill_id, int>& e ) {
+        auto sk = e.first;
         if( !sk.is_valid() ) {
             sk = context;
         }
