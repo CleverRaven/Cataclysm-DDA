@@ -13,6 +13,7 @@
     "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
     "components": [
       [ [ "gunpowder", 100 ], [ "chem_black_powder", 200 ] ],
+      [ [ "smpistol_primer", 25 ] ],
       [ [ "bag_plastic", 1 ], [ "paper", 12 ] ]
     ]
   },
@@ -30,6 +31,7 @@
     "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
     "components": [
       [ [ "gunpowder", 160 ], [ "chem_black_powder", 320 ] ],
+      [ [ "lgpistol_primer", 25 ] ],
       [ [ "bag_plastic", 1 ], [ "paper", 12 ] ]
     ]
   },
