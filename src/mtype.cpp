@@ -172,8 +172,7 @@ itype_id mtype::get_meat_itype() const
         if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
             return "meat_tainted";
         } else if( made_of( material_id( "iflesh" ) ) ) {
-            //In the future, insects could drop insect flesh rather than plain ol' meat.
-            return "meat_tainted";
+            return "meat_insect_tainted";
         } else if( made_of( material_id( "veggy" ) ) ) {
             return "veggy_tainted";
         } else if( made_of( material_id( "bone" ) ) ) {
@@ -189,8 +188,7 @@ itype_id mtype::get_meat_itype() const
                 return "meat";
             }
         } else if( made_of( material_id( "iflesh" ) ) ) {
-            //In the future, insects could drop insect flesh rather than plain ol' meat.
-            return "meat";
+            return "meat_insect";
         } else if( made_of( material_id( "veggy" ) ) ) {
             return "veggy";
         } else if( made_of( material_id( "bone" ) ) ) {
