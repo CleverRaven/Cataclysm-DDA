@@ -5,7 +5,7 @@
     "ident": "no_olg_guns",
     "name": "No Antique Firearms",
     "author": "Rivet-the-Zombie",
-    "description": "Removes antique firearms and those that are no longer in production.",
+    "description": "Removes antique and pre-Cold War firearms.",
     "category": "item_exclude",
     "path": "modinfo.json"
 },{
@@ -31,12 +31,6 @@
         "mosin44_ebr",
         "mn_ebr_kit",
         "mn_classic_kit",
-        "sig_p230",
-        "sigp230mag",
-        "skorpion_61",
-        "skorpion61mag",
-        "walther_ppk",
-        "ppkmag",
         "tokarev",
         "tokarevmag",
         "ppsh",
@@ -57,9 +51,6 @@
         "blun_flechette"
         "flintlock_ammo",
         "flintlock_shot",
-        "32_acp",
-        "reloaded_32_acp",
-        "32_casing",
         "762_54R",
         "reloaded_762_54R",
         "762R_casing",
