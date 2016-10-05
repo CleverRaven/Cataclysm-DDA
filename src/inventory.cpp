@@ -402,7 +402,6 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             }
         }
         // Kludges for now!
-        ter_id terrain_id = g->m.ter( p );
         if (g->m.has_nearby_fire( p, 0 )) {
             item fire("fire", 0);
             fire.charges = 1;
@@ -412,13 +411,6 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         item water = g->m.water_from( p );
         if( !water.is_null() ) {
             add_item( water );
-        }
-        // add cvd forge from terrain
-        if (terrain_id == t_cvdmachine) {
-            item cvd_machine("cvd_machine", 0);
-            cvd_machine.charges = 1;
-            cvd_machine.item_tags.insert("PSEUDO");
-            add_item(cvd_machine);
         }
         // kludge that can probably be done better to check specifically for toilet water to use in
         // crafting

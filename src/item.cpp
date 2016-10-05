@@ -2238,6 +2238,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         modtext += _( "sawn-off ");
     }
 
+    if( has_flag( "DIAMOND" ) ) {
+        modtext += std::string( _( "diamond" ) ) + " ";
+    }
+
     if(has_flag("WET"))
        ret << _(" (wet)");
 
@@ -2548,26 +2552,28 @@ int item::damage_bash() const
 
 int item::damage_cut() const
 {
-    int total = type->melee_cut;
-    if (is_gun()) {
-        static const std::string FLAG_BAYONET( "BAYONET" );
-        for( auto &elem : contents ) {
-            if( elem.has_flag( FLAG_BAYONET ) ) {
-                return elem.type->melee_cut;
-            }
-        }
-    }
-
     if( is_null() ) {
         return 0;
     }
 
-    total -= total * damage() * 0.1;
-    if (total > 0) {
-        return total;
-    } else {
-        return 0;
+    // effectiveness is reduced by 10% per damage level
+    int res = type->melee_cut;
+    res -= res * damage() * 0.1;
+
+    if( is_gun() ) {
+        std::vector<int> opts = { res };
+        for( const auto &e : gun_all_modes() ) {
+            if( e.second.target != this && e.second.melee() ) {
+                opts.push_back( e.second.target->damage_cut() );
+            }
+        }
+        return *std::max_element( opts.begin(), opts.end() );
+
+    } else if( has_flag( "DIAMOND" ) ) {
+        res *= 1.3;
     }
+
+    return std::max( res, 0 );
 }
 
 int item::damage_by_type( damage_type dt ) const
@@ -2620,10 +2626,12 @@ bool item::has_flag( const std::string &f ) const
 {
     bool ret = false;
 
-    // gunmods fired separately from the base gun do not contribute to base gun flags
-    for( const auto e : gunmods() ) {
-        if( !e->is_gun() && e->has_flag( f ) ) {
-            return true;
+    if( json_flag::get( f ).inherit() ) {
+        for( const auto e : gunmods() ) {
+            // gunmods fired separately from the base gun do not contribute to base gun flags
+            if( !e->is_gun() && e->has_flag( f ) ) {
+                return true;
+            }
         }
     }
 
@@ -4328,7 +4336,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
     auto opts = gunmods();
     opts.push_back( this );
 
-    for( auto e : opts ) {
+    for( const auto e : opts ) {
         if( e->is_gun() ) {
             for( auto m : e->type->gun->modes ) {
                 // prefix attached gunmods, eg. M203_DEFAULT to avoid index key collisions
@@ -4346,7 +4354,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
         }
         if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( this ),
+                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
                                                        std::get<1>( m.second ), std::get<2>( m.second ) } );
             }
         }

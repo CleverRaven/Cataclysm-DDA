@@ -260,7 +260,6 @@
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [
       [ [ "chisel", -1 ] ],
-      [ [ "cvd_machine", -1 ] ],
       [ [ "oxy_torch", 2 ], [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ] ]
     ],
     "components": [

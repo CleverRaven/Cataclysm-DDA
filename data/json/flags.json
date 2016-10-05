@@ -52,6 +52,13 @@
     "conflicts": [ "PARTIAL_DEAF" ]
   },
   {
+    "id": "DIAMOND",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "This item has a <good>diamond coating</good> improving it's cutting damage</info>.",
+    "inherit": false
+  },
+  {
     "id": "ELECTRIC_IMMUNE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -89,6 +96,12 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
+  },
+  {
+    "id": "NO_CVD",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "Item can never be used with a CVD machine."
   },
   {
     "id": "NO_QUICKDRAW",

@@ -1,16 +1,5 @@
 [
   {
-    "id": "makeshift_bayonet",
-    "copy-from": "bayonet",
-    "type": "GUNMOD",
-    "name": "makeshift bayonet",
-    "description": "A makeshift version of a bayonet that consists of a mere spike with some string.  It still makes a decent melee weapon providing reach attacks when attached to long arm, smg or crossbow.",
-    "proportional": {
-      "price": 0.5,
-      "cutting": 0.75
-    }
-  },
-  {
     "id": "makeshift_kevlar",
     "copy-from": "kevlar",
     "type": "ARMOR",
