@@ -599,7 +599,7 @@ rule_state safemode::check_monster( const std::string &creature_name_in,
     if( iter != safemode_rules.end() ) {
         const auto &tmp = ( iter->second )[( int )attitude_in];
         if( tmp.state == RULE_BLACKLISTED ) {
-            const int check_dist = ( tmp.proximity == 0 ) ? 50 : tmp.proximity;
+            const int check_dist = ( tmp.proximity == 0 ) ? 60 : tmp.proximity;
             if( proximity <= check_dist ) {
                 return RULE_BLACKLISTED;
             }
