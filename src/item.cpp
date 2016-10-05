@@ -3968,7 +3968,7 @@ int item::gun_range( const player *p ) const
     if( p == nullptr ) {
         return ret;
     }
-    if( !p->can_use( *this, false ) ) {
+    if( !p->meets_requirements( *this ) ) {
         return 0;
     }
 

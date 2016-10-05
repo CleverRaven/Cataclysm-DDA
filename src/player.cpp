@@ -10109,16 +10109,6 @@ hint_rating player::rate_action_change_side( const item &it ) const {
     return HINT_GOOD;
 }
 
-bool player::can_use( const item& it, bool interactive, const item *context ) const {
-    const std::string unmet = enumerate_unmet_requirements( it, *context );
-
-    if( !unmet.empty() && interactive ) {
-        add_msg_if_player( m_bad, _( "You need at least %s to use the %s." ), unmet.c_str(), it.tname().c_str() );
-    }
-
-    return unmet.empty();
-}
-
 bool player::can_reload( const item& it, const itype_id& ammo ) const {
 
     if( !it.is_reloadable_with( ammo ) ) {
@@ -11073,7 +11063,7 @@ void player::gunmod_add( item &gun, item &mod )
     }
 
     // first check at least the minimum requirements are met
-    if( !( can_use( mod, true, &gun ) || has_trait( "DEBUG_HS" ) ) ) {
+    if( !has_trait( "DEBUG_HS" ) && !can_use( mod, gun ) ) {
         return;
     }
 

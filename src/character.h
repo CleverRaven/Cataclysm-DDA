@@ -416,6 +416,11 @@ class Character : public Creature, public visitable<Character>
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
+        /**
+         * Checks if character stats and skills meet minimum requirements for the item.
+         * Prints an appropriate message if requirements not met.
+         */
+        bool can_use( const item& it, const item &context = null_context ) const;
 
         void drop_inventory_overflow();
 
@@ -447,11 +452,14 @@ class Character : public Creature, public visitable<Character>
         /** Checks whether the character's skills meet the required */
         bool meets_skill_requirements( const std::map<skill_id, int> &req,
                                        const item &context = null_context ) const;
-        /** Returns a human-readable string of unmet requirements (both stats and skills) */
+        /** Checks whether the character's stats meets the stats required by the item */
+        bool meets_stat_requirements( const item &it ) const;
+        /** Checks whether the character meets overall requirements to be able to use the item */
+        bool meets_requirements( const item &it, const item &context = null_context ) const;
+        /** Returns a string of missed requirements (both stats and skills) */
         std::string enumerate_unmet_requirements( const item &it, const item &context = null_context ) const;
 
         // --------------- Other Stuff ---------------
-
 
         /** return the calendar::turn the character expired */
         int get_turn_died() const

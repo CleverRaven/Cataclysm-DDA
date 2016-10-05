@@ -849,13 +849,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Creates the UI and handles player input for picking martial arts styles */
         bool pick_style();
         /**
-         * Checks if player stats and skills meet minimum requirements for the item
-         * @param interactive controls whether informative messages are printed if item requirements not met
-         * @param context alternative skill to check when @ref itype::min_skills contains invalid (pseudo) skill
-         */
-        bool can_use( const item& it, bool interactive = true, const item *context = nullptr ) const;
-
-        /**
          * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
          * @param ammo if set also check item currently compatible with this specific ammo or magazine
          * @note items currently loaded with a detachable magazine are considered reloadable

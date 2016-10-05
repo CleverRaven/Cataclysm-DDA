@@ -919,6 +919,29 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
     }
 }
 
+bool Character::can_use( const item& it, const item& context ) const {
+    if( !meets_requirements( it, context ) ) {
+        const std::string unmet( enumerate_unmet_requirements( it, context ) );
+
+        if( context.is_null() ) {
+            add_msg_if_player( m_bad, _( "You need at least %s to use this %s." ),
+                               unmet.c_str(), it.tname().c_str() );
+            add_msg_if_npc( m_bad, _( "%s needs at least %s to use this %s." ),
+                            get_name().c_str(), unmet.c_str(), it.tname().c_str() );
+        } else {
+            add_msg_if_player( m_bad, _( "You need at least %s to use this %s with your %s." ),
+                               unmet.c_str(), it.tname().c_str(), context.tname().c_str() );
+            add_msg_if_npc( m_bad, _( "%s needs at least %s to use this %s with their %s." ),
+                            get_name().c_str(), unmet.c_str(), it.tname().c_str(),
+                            context.tname().c_str() );
+        }
+
+        return false;
+    }
+
+    return true;
+}
+
 void Character::drop_inventory_overflow() {
     if( volume_carried() > volume_capacity() ) {
         for( auto &item_to_drop :
@@ -1066,6 +1089,19 @@ bool Character::meets_skill_requirements( const std::map<skill_id, int> &req, co
     return std::all_of( req.begin(), req.end(), [this, &context]( const std::pair<skill_id, int> &pr ) {
         return get_skill_level( pr.first, context ) >= pr.second;
     });
+}
+
+bool Character::meets_stat_requirements( const item &it ) const
+{
+    return get_str() >= it.type->min_str &&
+           get_dex() >= it.type->min_dex &&
+           get_int() >= it.type->min_int &&
+           get_per() >= it.type->min_per;
+}
+
+bool Character::meets_requirements( const item &it, const item &context ) const
+{
+    return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, context );
 }
 
 void Character::normalize()
