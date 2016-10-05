@@ -296,10 +296,6 @@ player::player() : Character()
 
     empty_traits();
 
-    for( auto &skill : Skill::skills ) {
-        set_skill_level( skill.ident(), 0 );
-    }
-
     for( int i = 0; i < num_bp; i++ ) {
         temp_cur[i] = BODYTEMP_NORM;
         frostbite_timer[i] = 0;
