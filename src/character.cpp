@@ -971,30 +971,46 @@ bool Character::worn_with_flag( const std::string &flag ) const
     } );
 }
 
-SkillLevel& Character::get_skill_level(const skill_id &ident)
+SkillLevel& Character::get_skill_level( const skill_id &ident )
 {
-    if( !ident ) {
-        static SkillLevel none;
-        none.level( 0 );
-        return none;
+    static SkillLevel null_skill;
+
+    if( ident && ident->is_contextual_skill() ) {
+        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident->name().c_str(),
+                  get_name().c_str() );
+    } else {
+        return _skills[ident];
     }
-    return _skills[ident];
+
+    null_skill.level( 0 );
+    return null_skill;
 }
 
-SkillLevel const& Character::get_skill_level(const skill_id &ident) const
+SkillLevel const& Character::get_skill_level( const skill_id &ident, const item &context ) const
 {
+    static const SkillLevel null_skill;
+
     if( !ident ) {
-        static const SkillLevel none{};
-        return none;
+        return null_skill;
     }
 
-    const auto iter = _skills.find( ident );
+    const auto iter = _skills.find( context.is_null() ? ident : context.contextualize_skill( ident ) );
+
     if( iter != _skills.end() ) {
         return iter->second;
     }
 
-    static SkillLevel const dummy_result;
-    return dummy_result;
+    if( ident->is_contextual_skill() ) {
+        if( context.is_null() ) {
+            debugmsg( "Skill \"%s\" possessed by %s requires a non-empty context.", ident->name().c_str(),
+                      get_name().c_str() );
+        } else {
+            debugmsg( "Item \"%s\" hasn't provided a suitable context for skill \"%s\" possessed by %s.",
+                      context.tname().c_str(), ident->name().c_str(), get_name().c_str() );
+        }
+    }
+
+    return null_skill;
 }
 
 void Character::set_skill_level( const skill_id &ident, const int level )
@@ -1012,8 +1028,7 @@ std::map<skill_id, int> Character::compare_skill_requirements( const std::map<sk
     std::map<skill_id, int> res;
 
     for( const auto &elem : req ) {
-        const int diff = get_skill_level( context.contextualize_skill( elem.first ) ) - elem.second;
-
+        const int diff = get_skill_level( elem.first, context ) - elem.second;
         if( diff != 0 ) {
             res[elem.first] = diff;
         }
@@ -1039,7 +1054,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 
     for( const auto &elem : it.type->min_skills ) {
         check_req( context.contextualize_skill( elem.first )->name().c_str(),
-                   get_skill_level( context.contextualize_skill( elem.first ) ),
+                   get_skill_level( elem.first, context ),
                    elem.second );
     }
 
@@ -1049,7 +1064,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 bool Character::meets_skill_requirements( const std::map<skill_id, int> &req, const item &context ) const
 {
     return std::all_of( req.begin(), req.end(), [this, &context]( const std::pair<skill_id, int> &pr ) {
-        return get_skill_level( context.contextualize_skill( pr.first ) ) >= pr.second;
+        return get_skill_level( pr.first, context ) >= pr.second;
     });
 }
 

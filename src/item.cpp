@@ -5797,12 +5797,6 @@ skill_id item::contextualize_skill( const skill_id &id ) const
                 return weap_skill();
             }
         }
-
-        if( is_null() ) {
-            debugmsg( "Skill %s requires non-null context.", id.c_str() );
-        } else {
-            debugmsg( "%s is not a suitable context for %s skill.", tname().c_str(), id.c_str() );
-        }
     }
 
     return id;
