@@ -41,6 +41,8 @@ const skill_id skill_throw( "throw" );
 
 const std::string debug_nodmg( "DEBUG_NODMG" );
 
+const item Character::null_context;
+
 Character::Character() : Creature(), visitable<Character>()
 {
     str_max = 0;
@@ -1005,13 +1007,12 @@ void Character::boost_skill_level( const skill_id &ident, const int delta )
     set_skill_level( ident, delta + get_skill_level( ident ) );
 }
 
-std::map<skill_id, int> Character::compare_skill_requirements( const std::map<skill_id, int> &req, const item *context ) const
+std::map<skill_id, int> Character::compare_skill_requirements( const std::map<skill_id, int> &req, const item &context ) const
 {
     std::map<skill_id, int> res;
 
     for( const auto &elem : req ) {
-        const skill_id skill = context != nullptr ? context->contextualize_skill( elem.first ) : elem.first;
-        const int diff = get_skill_level( skill ) - elem.second;
+        const int diff = get_skill_level( context.contextualize_skill( elem.first ) ) - elem.second;
 
         if( diff != 0 ) {
             res[elem.first] = diff;
@@ -1021,7 +1022,7 @@ std::map<skill_id, int> Character::compare_skill_requirements( const std::map<sk
     return res;
 }
 
-std::string Character::enumerate_unmet_requirements( const item &it, const item *context ) const
+std::string Character::enumerate_unmet_requirements( const item &it, const item &context ) const
 {
     std::vector<std::string> unmet_reqs;
 
@@ -1037,17 +1038,18 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
     check_req( _( "perception" ),   get_per(), it.type->min_per );
 
     for( const auto &elem : it.type->min_skills ) {
-        const skill_id skill = context != nullptr ? context->contextualize_skill( elem.first ) : elem.first;
-        check_req( elem.first->name().c_str(), get_skill_level( skill ), elem.second );
+        check_req( context.contextualize_skill( elem.first )->name().c_str(),
+                   get_skill_level( context.contextualize_skill( elem.first ) ),
+                   elem.second );
     }
 
     return enumerate_as_string( unmet_reqs );
 }
 
-bool Character::meets_skill_requirements( const std::map<skill_id, int> &req ) const
+bool Character::meets_skill_requirements( const std::map<skill_id, int> &req, const item &context ) const
 {
-    return std::all_of( req.begin(), req.end(), [this]( const std::pair<skill_id, int> &pr ) {
-        return get_skill_level( pr.first ) >= pr.second;
+    return std::all_of( req.begin(), req.end(), [this, &context]( const std::pair<skill_id, int> &pr ) {
+        return get_skill_level( context.contextualize_skill( pr.first ) ) >= pr.second;
     });
 }
 

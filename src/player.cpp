@@ -10114,7 +10114,7 @@ hint_rating player::rate_action_change_side( const item &it ) const {
 }
 
 bool player::can_use( const item& it, bool interactive, const item *context ) const {
-    const std::string unmet = enumerate_unmet_requirements( it, context );
+    const std::string unmet = enumerate_unmet_requirements( it, *context );
 
     if( !unmet.empty() && interactive ) {
         add_msg_if_player( m_bad, _( "You need at least %s to use the %s." ), unmet.c_str(), it.tname().c_str() );
@@ -11092,7 +11092,7 @@ void player::gunmod_add( item &gun, item &mod )
     if( mod.has_flag( "INSTALL_DIFFICULT" ) && !has_trait( "DEBUG_HS" ) ) {
         int chances = 1; // start with 1 in 6 (~17% chance)
 
-        for( const auto &elem : compare_skill_requirements( mod.type->min_skills, &gun ) ) {
+        for( const auto &elem : compare_skill_requirements( mod.type->min_skills, gun ) ) {
             // gain an additional chance for every level above the minimum requirement
             chances += std::max( elem.second, 0 );
         }

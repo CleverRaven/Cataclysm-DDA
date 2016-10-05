@@ -253,6 +253,9 @@ class Character : public Creature, public visitable<Character>
         bool made_of( const material_id &m ) const override;
 
  private:
+        /** Null item to provide context for skills */
+        static const item null_context;
+
         /** Retrieves a stat mod of a mutation. */
         int get_mod(std::string mut, std::string arg) const;
  protected:
@@ -439,11 +442,13 @@ class Character : public Creature, public visitable<Character>
          * @param context An item to provide context for contextual skills. Can be null.
          * @return Difference in skills. Positive numbers - exceeds; negative - lacks; empty map - no difference.
          */
-        std::map<skill_id, int> compare_skill_requirements( const std::map<skill_id, int> &req, const item *context = nullptr ) const;
+        std::map<skill_id, int> compare_skill_requirements( const std::map<skill_id, int> &req,
+                                                            const item &context = null_context ) const;
         /** Checks whether the character's skills meet the required */
-        bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
+        bool meets_skill_requirements( const std::map<skill_id, int> &req,
+                                       const item &context = null_context ) const;
         /** Returns a human-readable string of unmet requirements (both stats and skills) */
-        std::string enumerate_unmet_requirements( const item &it, const item *context = nullptr ) const;
+        std::string enumerate_unmet_requirements( const item &it, const item &context = null_context ) const;
 
         // --------------- Other Stuff ---------------
 
