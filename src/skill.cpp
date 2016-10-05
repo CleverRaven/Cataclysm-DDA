@@ -106,21 +106,6 @@ skill_id Skill::from_legacy_int( const int legacy_id )
     return skills.front().ident(); // return a non-null id because callers might not expect a null-id
 }
 
-skill_id Skill::random_skill_with_tag( const std::string &tag)
-{
-    std::vector<Skill const*> valid;
-    for (auto const &s : skills) {
-        if (s._tags.count(tag)) {
-            valid.push_back(&s);
-        }
-    }
-    if( valid.empty() ) {
-        debugmsg( "could not find a skill with the %s tag", tag.c_str() );
-        return skills.front().ident();
-    }
-    return random_entry( valid )->ident();
-}
-
 skill_id Skill::random_skill()
 {
     return skills[rng( 0, skills.size() - 1 )].ident();
