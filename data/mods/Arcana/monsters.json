@@ -746,6 +746,6 @@
         ["FLAMETHROWER", 10]
     ],
     "description":"A massive, reptilian creature with batlike wings.  Its body is withered and rotten, large chunks of flesh stripped to the bone, and the membranes of its wings are in tatters.  You wonder how such a large beast could fly in the first place, let alone in that condition.",
-    "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "WARM", "FIREPROOF", "FLIES", "BASHES", "POISON", "BONES", "BLEED", "REVIVES", "NO_BREATHE", "PRIORITIZE_TARGETS"]
+    "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "WARM", "FIREPROOF", "FLIES", "POISON", "BONES", "BLEED", "REVIVES", "NO_BREATHE", "PRIORITIZE_TARGETS"]
     }
 ]
