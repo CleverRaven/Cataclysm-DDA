@@ -15,7 +15,7 @@
     "color": "light_gray",
     "ammo": "44paper",
     "skill": "pistol",
-    "dispersion": 120,
+    "dispersion": 400,
     "durability": 7,
     "clip_size": 5,
     "reload": 160,
