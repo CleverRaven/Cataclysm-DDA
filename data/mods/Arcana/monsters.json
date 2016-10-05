@@ -683,7 +683,7 @@
     "id" : "mon_archon",
     "name": "archon",
     "species":"MUTANT",
-    "default_faction":"cult",
+    "default_faction":"archon",
     "symbol":"H",
     "color":"yellow",
     "size":"LARGE",
