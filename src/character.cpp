@@ -1005,6 +1005,22 @@ void Character::boost_skill_level( const skill_id &ident, const int delta )
     set_skill_level( ident, delta + get_skill_level( ident ) );
 }
 
+std::map<skill_id, int> Character::compare_skill_requirements( const std::map<skill_id, int> &req, const item *context ) const
+{
+    std::map<skill_id, int> res;
+
+    for( const auto &elem : req ) {
+        const skill_id skill = context != nullptr ? context->contextualize_skill( elem.first ) : elem.first;
+        const int diff = get_skill_level( skill ) - elem.second;
+
+        if( diff != 0 ) {
+            res[elem.first] = diff;
+        }
+    }
+
+    return res;
+}
+
 bool Character::meets_skill_requirements( const std::map<skill_id, int> &req ) const
 {
     return std::all_of( req.begin(), req.end(), [this]( const std::pair<skill_id, int> &pr ) {

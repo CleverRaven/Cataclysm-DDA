@@ -10113,7 +10113,7 @@ hint_rating player::rate_action_change_side( const item &it ) const {
     return HINT_GOOD;
 }
 
-bool player::can_use( const item& it, bool interactive, const skill_id &context ) const {
+bool player::can_use( const item& it, bool interactive, const item *context ) const {
     // First check stats
     std::string fail_stat;
     int min_stat = 0;
@@ -10139,19 +10139,19 @@ bool player::can_use( const item& it, bool interactive, const skill_id &context 
     }
 
     // Then check skills
-    const auto& reqs = it.type->min_skills;
-    return std::none_of( reqs.begin(), reqs.end(), [&]( const std::pair<skill_id, int>& e ) {
-        auto sk = e.first;
-        if( !sk.is_valid() ) {
-            sk = context;
-        }
-        if( !sk.is_valid() || get_skill_level( sk ) >= e.second ) {
-            return false;
+    const auto &diff = compare_skill_requirements( it.type->min_skills, context );
+
+    return std::none_of( diff.begin(), diff.end(), [&]( const std::pair<skill_id, int> &elem ) {
+        if( elem.second >= 0 ) {
+            return true;
         }
         if( interactive ) {
             add_msg_if_player( m_bad, _( "You need at least %s %i to use the %s" ),
-                               sk->name().c_str(), e.second, it.tname().c_str() );
+                               elem.first->name().c_str(),
+                               it.type->min_skills.at( elem.first ),
+                               it.tname().c_str() );
         }
+
         return true;
     });
 }
@@ -11110,7 +11110,7 @@ void player::gunmod_add( item &gun, item &mod )
     }
 
     // first check at least the minimum requirements are met
-    if( !( can_use( mod, true, gun.gun_skill() ) || has_trait( "DEBUG_HS" ) ) ) {
+    if( !( can_use( mod, true, &gun ) || has_trait( "DEBUG_HS" ) ) ) {
         return;
     }
 
@@ -11125,10 +11125,9 @@ void player::gunmod_add( item &gun, item &mod )
     if( mod.has_flag( "INSTALL_DIFFICULT" ) && !has_trait( "DEBUG_HS" ) ) {
         int chances = 1; // start with 1 in 6 (~17% chance)
 
-        for( const auto &e : mod.type->min_skills ) {
+        for( const auto &elem : compare_skill_requirements( mod.type->min_skills, &gun ) ) {
             // gain an additional chance for every level above the minimum requirement
-            skill_id sk = e.first == "weapon" ? gun.gun_skill() : skill_id( e.first );
-            chances += std::max( get_skill_level( sk ) - e.second, 0 );
+            chances += std::max( elem.second, 0 );
         }
 
         // cap success from skill alone to 1 in 5 (~83% chance)
@@ -12813,8 +12812,8 @@ void player::practice( const skill_id &id, int amount, int cap )
 int player::exceeds_recipe_requirements( const recipe &rec ) const
 {
     int over = rec.skill_used ? get_skill_level( rec.skill_used ) - rec.difficulty : 0;
-    for( const auto &required_skill : rec.required_skills ) {
-        over = std::min( over, get_skill_level( required_skill.first ) - required_skill.second );
+    for( const auto &elem : compare_skill_requirements( rec.required_skills ) ) {
+        over = std::min( over, elem.second );
     }
     return over;
 }

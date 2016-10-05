@@ -853,7 +853,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param interactive controls whether informative messages are printed if item requirements not met
          * @param context alternative skill to check when @ref itype::min_skills contains invalid (pseudo) skill
          */
-        bool can_use( const item& it, bool interactive = true, const skill_id &context = skill_id::NULL_ID ) const;
+        bool can_use( const item& it, bool interactive = true, const item *context = nullptr ) const;
 
         /**
          * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)

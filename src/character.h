@@ -434,6 +434,13 @@ class Character : public Creature, public visitable<Character>
         void set_skill_level( const skill_id &ident, int level );
         void boost_skill_level( const skill_id &ident, int delta );
 
+        /** Calculates skill difference
+         * @param req Required skills to be compared with.
+         * @param context An item to provide context for contextual skills. Can be null.
+         * @return Difference in skills. Positive numbers - exceeds; negative - lacks; empty map - no difference.
+         */
+        std::map<skill_id, int> compare_skill_requirements( const std::map<skill_id, int> &req, const item *context = nullptr ) const;
+
         bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
 
         // --------------- Other Stuff ---------------
