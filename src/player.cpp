@@ -10114,46 +10114,13 @@ hint_rating player::rate_action_change_side( const item &it ) const {
 }
 
 bool player::can_use( const item& it, bool interactive, const item *context ) const {
-    // First check stats
-    std::string fail_stat;
-    int min_stat = 0;
-    if( it.type->min_str > get_str() ) {
-        fail_stat = "strength";
-        min_stat = it.type->min_str;
-    } else if( it.type->min_dex > get_dex() ) {
-        fail_stat = "dexterity";
-        min_stat = it.type->min_dex;
-    } else if( it.type->min_int > get_int() ) {
-        fail_stat = "intelligence";
-        min_stat = it.type->min_int;
-    } else if( it.type->min_per > get_per() ) {
-        fail_stat = "perception";
-        min_stat = it.type->min_per;
-    }
-    if( !fail_stat.empty() ) {
-        if( interactive ) {
-            add_msg_if_player( m_bad, _( "You need at least %s %i to use the %s" ),
-                               fail_stat.c_str(), min_stat, it.tname().c_str() );
-        }
-        return false;
+    const std::string unmet = enumerate_unmet_requirements( it, context );
+
+    if( !unmet.empty() && interactive ) {
+        add_msg_if_player( m_bad, _( "You need at least %s to use the %s." ), unmet.c_str(), it.tname().c_str() );
     }
 
-    // Then check skills
-    const auto &diff = compare_skill_requirements( it.type->min_skills, context );
-
-    return std::none_of( diff.begin(), diff.end(), [&]( const std::pair<skill_id, int> &elem ) {
-        if( elem.second >= 0 ) {
-            return true;
-        }
-        if( interactive ) {
-            add_msg_if_player( m_bad, _( "You need at least %s %i to use the %s" ),
-                               elem.first->name().c_str(),
-                               it.type->min_skills.at( elem.first ),
-                               it.tname().c_str() );
-        }
-
-        return true;
-    });
+    return unmet.empty();
 }
 
 bool player::can_reload( const item& it, const itype_id& ammo ) const {

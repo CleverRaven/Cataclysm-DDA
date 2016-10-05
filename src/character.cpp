@@ -1021,6 +1021,29 @@ std::map<skill_id, int> Character::compare_skill_requirements( const std::map<sk
     return res;
 }
 
+std::string Character::enumerate_unmet_requirements( const item &it, const item *context ) const
+{
+    std::vector<std::string> unmet_reqs;
+
+    const auto check_req = [ &unmet_reqs ]( const std::string &name, int cur, int req ) {
+        if( cur < req ) {
+            unmet_reqs.push_back( string_format( "%s %d", name.c_str(), req ) );
+        }
+    };
+
+    check_req( _( "strength" ),     get_str(), it.type->min_str );
+    check_req( _( "dexterity" ),    get_dex(), it.type->min_dex );
+    check_req( _( "intelligence" ), get_int(), it.type->min_int );
+    check_req( _( "perception" ),   get_per(), it.type->min_per );
+
+    for( const auto &elem : it.type->min_skills ) {
+        const skill_id skill = context != nullptr ? context->contextualize_skill( elem.first ) : elem.first;
+        check_req( elem.first->name().c_str(), get_skill_level( skill ), elem.second );
+    }
+
+    return enumerate_as_string( unmet_reqs );
+}
+
 bool Character::meets_skill_requirements( const std::map<skill_id, int> &req ) const
 {
     return std::all_of( req.begin(), req.end(), [this]( const std::pair<skill_id, int> &pr ) {
