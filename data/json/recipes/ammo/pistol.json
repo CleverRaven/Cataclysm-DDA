@@ -1,5 +1,39 @@
 [
   {
+    "result": "36navy",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 15000,
+    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 3 ] ],
+    "using": [ [ "ammo_bullet", 30 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "components": [
+      [ [ "gunpowder", 100 ], [ "chem_black_powder", 200 ] ],
+      [ [ "bag_plastic", 1 ], [ "paper", 12 ] ]
+    ]
+  },
+  {
+    "result": "44army",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 20000,
+    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 3 ] ],
+    "using": [ [ "ammo_bullet", 45 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "components": [
+      [ [ "gunpowder", 160 ], [ "chem_black_powder", 320 ] ],
+      [ [ "bag_plastic", 1 ], [ "paper", 12 ] ]
+    ]
+  },
+  {
     "result": "reloaded_9mm",
     "type": "recipe",
     "category": "CC_AMMO",

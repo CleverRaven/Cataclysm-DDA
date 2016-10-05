@@ -54,28 +54,6 @@
     "flags": [ "NEVER_JAMS" ]
   },
   {
-    "id": "pistol_pepperbox",
-    "type": "GUN",
-    "name": "pepperbox pistol",
-    "description": "An elegantly crafted, ornate pepperbox.  This primitive revolver has six barrels, making it unwieldy to shoot.",
-    "weight": 876,
-    "volume": 3,
-    "price": 45000,
-    "to_hit": -4,
-    "bashing": 5,
-    "material": [ "iron", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": "flintlock",
-    "skill": "pistol",
-    "dispersion": 540,
-    "durability": 6,
-    "clip_size": 6,
-    "reload": 1200,
-    "valid_mod_locations": [ [ "accessories", 1 ] ],
-    "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
-  },
-  {
     "id": "rifle_flintlock",
     "type": "GUN",
     "name": "flintlock rifle",
