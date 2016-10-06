@@ -64,7 +64,7 @@
         "id" : "mutation_bear",
         "name" : "Bear",
         "category" : "URSINE",
-        "mutagen_message" : "You feel an urge to...patrol? the forests?",
+        "mutagen_message" : "You feel an urge to...patrol?  the forests?",
         "iv_message" : "You feel yourself quite equipped for wilderness survival.",
         "memorial_message" : "Became one with the bears."
     },{

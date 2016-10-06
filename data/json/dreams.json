@@ -540,7 +540,7 @@
     },{
         "type" : "dream",
         "messages" : [
-            "Boing! and you've pounced another yummy critter.",
+            "Boing!  and you've pounced another yummy critter.",
             "Your nightmare of sentient rats turns successful, as you grab their King and shake it apart!"
             ],
         "category" : "MUTCAT_FELINE",

@@ -76,7 +76,7 @@
     "followup": "MISSION_FREE_MERCHANTS_EVAC_3",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "This is a bit more involved than the last request, we recently lost a scavenger party coming to trade with us and would like you to investigate.  We strongly suspect a raider band or horde caught them off-guard. I can give you the coordinates of their last radio message but little else.  In either case, deal with the threat so that the scavengers can continue to pass through in relative safety.  The best reward I can offer is a claim to the supplies they were carrying.",
+      "offer": "This is a bit more involved than the last request, we recently lost a scavenger party coming to trade with us and would like you to investigate.  We strongly suspect a raider band or horde caught them off-guard.  I can give you the coordinates of their last radio message but little else.  In either case, deal with the threat so that the scavengers can continue to pass through in relative safety.  The best reward I can offer is a claim to the supplies they were carrying.",
       "accepted": "Our community survives on trade, we appreciate it.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
       "advice": "If you can, get a friend or two to help you.",
@@ -193,7 +193,7 @@
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
     "dialogue": {
       "describe": "With the black box in hand, we need to find a lab.",
-      "offer": "Thanks to your searching we've got the black box but now we need to have a look'n-side her.  Now, most buildings don't have power anymore but there are a few that might be of use.  Have you ever seen one of those science labs that have popped up in the middle of nowhere? Them suckers have a glowing terminal out front so I know they have power somewhere inside'em.  If you can get inside and find a computer lab that still works you ought to be able to find out what's in the black box.",
+      "offer": "Thanks to your searching we've got the black box but now we need to have a look'n-side her.  Now, most buildings don't have power anymore but there are a few that might be of use.  Have you ever seen one of those science labs that have popped up in the middle of nowhere?  Them suckers have a glowing terminal out front so I know they have power somewhere inside'em.  If you can get inside and find a computer lab that still works you ought to be able to find out what's in the black box.",
       "accepted": "Fuck ya, America!",
       "rejected": "Do you have any better ideas?",
       "advice": "When I was play'n with the terminal for the one I ran into it kept asking for an ID card.  Finding one would be the first order of business.",
@@ -236,7 +236,7 @@
     "followup": "MISSION_GET_BLACK_BOX",
     "dialogue": {
       "describe": "Does our flag still yet wave?",
-      "offer": "Does our flag still yet wave? We're battered but not yet out of the fight, we need the old colors!",
+      "offer": "Does our flag still yet wave?  We're battered but not yet out of the fight, we need the old colors!",
       "accepted": "Hell ya!  Find me one of those big ol' American flags.",
       "rejected": "Seriously?  God damned commie...",
       "advice": "Find a large federal building or school, they must have one.",
@@ -327,7 +327,7 @@
       "accepted": "I wish you the best of luck, may whatever god you please guide your path.",
       "rejected": "Ya, I guess the stress may just be getting to me...",
       "advice": "I suppose a large church or cathedral may have something.",
-      "inquire": "Any luck? Please find me a small relic. Any relic will do.",
+      "inquire": "Any luck?  Please find me a small relic.  Any relic will do.",
       "success": "Thank you, I need some time alone now...",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
@@ -530,7 +530,7 @@
     "followup": "MISSION_KILL_100_Z",
     "dialogue": {
       "describe": "The eater of the dead... something was ripping zombies to shreds and only leaving a few scattered limbs...",
-      "offer": "A few days ago another survivor and I were trying to avoid the cities by staying in the woods during the day and foraging for gear at night. It worked well against the normal zed's but one night something caught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My buddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?",
+      "offer": "A few days ago another survivor and I were trying to avoid the cities by staying in the woods during the day and foraging for gear at night.  It worked well against the normal zed's but one night something caught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My buddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?",
       "accepted": "Thanks, make sure you're ready for whatever the beast is.",
       "rejected": "Hey, I know I wouldn't volunteer for it either.",
       "advice": "I'd carry a shotgun at least, it sounded pretty big.",
@@ -795,7 +795,7 @@
       "rejected": "Come back when you get a chance, we could use a few good men.",
       "advice": "I'd recommend having two deputies... it would be a death trap if a single man got surrounded.",
       "inquire": "Has the leadership been dealt with?",
-      "success": "Marshal, you continue to impress us.If you are interested, I recently received a message that a unit was deploying into our AO.I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.The bird dropped them off next to a pump station.  Can't tell you much more.If you cound locate the captain in charge, I'm sure he could use your skills. Don't forget to wear your badge when meeting with them.Thank you once again marshal.",
+      "success": "Marshal, you continue to impress us.If you are interested, I recently received a message that a unit was deploying into our AO.I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.The bird dropped them off next to a pump station.  Can't tell you much more.If you cound locate the captain in charge, I'm sure he could use your skills.  Don't forget to wear your badge when meeting with them.Thank you once again marshal.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }
@@ -1693,7 +1693,7 @@
     "destination": "farm",
     "dialogue": {
       "describe": "I just need a place to start over...",
-      "offer": "I've accepted that everyone I used to know is dead... one way or another.  I really wish I could have done something to save my brother but he was one of the first to go. I'd like to start over, just rebuild at one of the farms in the countryside.  Can you help me secure one?",
+      "offer": "I've accepted that everyone I used to know is dead... one way or another.  I really wish I could have done something to save my brother but he was one of the first to go.  I'd like to start over, just rebuild at one of the farms in the countryside.  Can you help me secure one?",
       "accepted": "Thank you, let's find a remote one so we don't have to worry about many zombies.",
       "rejected": "Please, I just don't know what to do otherwise.",
       "advice": "Traveling the backroads would be a good way to search for one.",
