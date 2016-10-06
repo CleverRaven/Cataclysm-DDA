@@ -89,5 +89,28 @@
     "durability": 8,
     "clip_size": 6,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+  },
+  {
+    "id": "henry_big_boy",
+    "copy-from": "rifle_manual",
+    "type": "GUN",
+    "name": "Henry Big Boy .44",
+    "name_plural": "Henry Big Boy .44",
+    "description": "One of the most famous lever action rifles ever produced, the Henry Big Boy is chambered in the powerful .44 magnum cartidge.  Go get 'em cowboy!",
+    "weight": 3937,
+    "volume": 12,
+    "price": 89995,
+    "//": "Modern reproduction M.S.R.P",
+    "bashing": 12,
+    "to_hit": -2,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammmo": "44",
+    "ranged_damage": 2,
+    "dispersion": 228,
+    "durability": 8,
+    "clip_size": 10,
+    "valid_mod_locations": [ ["accessories", 2 ], ["barrel": 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ] ]
   }
 ]
