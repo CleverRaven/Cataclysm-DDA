@@ -134,6 +134,30 @@
   ]
 },{
   "type" : "recipe",
+  "result": "meat_insect_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "time": 15000,
+  "autolearn": true,
+  "batch_time_factors":[67, 5],
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 7 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "meat_insect", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "sweetbread",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -661,6 +685,19 @@
   "qualities" : [ { "id":"COOK","level":1 } ],
   "tools": [ [ [ "char_smoker", 15 ] ] ],
   "components": [ [ [ "meat", 3 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "meat_insect_smoked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 60000,
+  "autolearn": true,
+  "batch_time_factors":[83, 3],
+  "qualities" : [ { "id":"COOK","level":1 } ],
+  "tools": [ [ [ "char_smoker", 15 ] ] ],
+  "components": [ [ [ "meat_insect", 3 ] ] ]
 },{
   "type" : "recipe",
   "result": "fish_smoked",
@@ -1457,7 +1494,8 @@
   "components": [
     [
       [ "meat", 1 ],
-      [ "fish", 1 ]
+      [ "fish", 1 ],
+      [ "meat_insect", 1 ]
     ],
     [
       [ "veggy", 1 ],
@@ -1492,6 +1530,7 @@
   "components": [
     [
       [ "meat", 2 ],
+      [ "meat_insect", 2 ],
       [ "fish", 2 ]
     ],
     [
@@ -3225,6 +3264,38 @@
     ],
     [
       [ "meat", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "jerky_insect",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 60000,
+  "autolearn": true,
+  "batch_time_factors":[83, 5],
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 10 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "salt_water", 1 ],
+      [ "saline", 5 ],
+      [ "salt", 5 ],
+      [ "soysauce", 1 ],
+      [ "seasoning_salt", 5 ],
+      [ "pepper", 10 ],
+      [ "chem_saltpetre", 2 ]
+    ],
+    [
+      [ "meat_insect", 1 ]
     ]
   ]
 },{
