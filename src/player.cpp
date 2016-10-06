@@ -9307,21 +9307,151 @@ int player::drink_from_hands(item& water) {
     return charges_consumed;
 }
 
-
-// @todo Properly split meds and food instead of hacking around
-bool player::consume_med( item &target, const tripoint &pos )
+bool player::can_feed_battery_with( const item &it ) const
 {
-    item *the_med = nullptr;
-    if( target.is_medication_container() ) {
-        the_med = &target.contents.front();
-    } else if( target.is_medication() ) {
-        the_med = &target;
-    } else {
-        debugmsg( "%s tried to use a %s as medication", name.c_str(), target.tname().c_str() );
+    if( !has_active_bionic( "bio_batteries" ) ) {
+        return false;
+    }
+    return it.is_ammo() && it.ammo_type() == ammotype( "battery" );
+}
+
+bool player::feed_battery_with( item &it )
+{
+    if( !can_feed_battery_with( it ) ) {
         return false;
     }
 
-    const itype_id tool_type = the_med->type->comestible->tool;
+    const long amount = std::min( long( max_power_level - power_level ), it.charges );
+
+    if( amount <= 0 ) {
+        add_msg_player_or_npc( m_info, _( "Your internal power storage is fully powered." ),
+                                       _( "<npcname>'s internal power storage is fully powered." ) );
+        return false;
+    }
+
+    charge_power( it.charges );
+    it.charges -= amount;
+
+    add_msg_player_or_npc( m_info, _( "You recharge your battery system with the %s." ),
+                                   _( "<npcname> recharges their battery system with the %s." ),
+                                   it.tname().c_str() );
+    mod_moves( -250 );
+    return true;
+}
+
+bool player::can_feed_reactor_with( const item &it ) const
+{
+    const std::set<ammotype> acceptable = {{ ammotype( "reactor_slurry" ),
+                                             ammotype( "plutonium" ) }};
+
+    if( !has_active_bionic( "bio_reactor" ) && !has_active_bionic( "bio_advreactor" ) ) {
+        return false;
+    }
+    return it.is_ammo() && acceptable.count( it.ammo_type() );
+}
+
+bool player::feed_reactor_with( item &it )
+{
+    if( !can_feed_reactor_with( it ) ) {
+        return false;
+    }
+
+    static const std::map<itype_id, int> contained_charges = {
+        { "plut_cell",         PLUTONIUM_CHARGES * 10 },
+        { "plut_slurry_dense", PLUTONIUM_CHARGES },
+        { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
+    };
+
+    const auto iter = contained_charges.find( it.typeId() );
+
+    if( iter == contained_charges.end() ) {
+        return false;
+    }
+
+    const int amount = iter->second;
+    if( amount >= PLUTONIUM_CHARGES * 10 && !query_yn( _( "Thats a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
+        return false;
+    }
+
+    add_msg_player_or_npc( _( "You add your %s to your reactor's tank." ),
+                           _( "<npcname> pours %s into their reactor's tank." ),
+                           it.tname().c_str() );
+
+    tank_plut += amount; // @todo Encapsulate
+    it.charges -= 1;
+    mod_moves( -250 );
+    return true;
+}
+
+bool player::can_feed_furnace_with( const item &it ) const
+{
+    if( !has_active_bionic( "bio_furnace" ) ) {
+        return false;
+    }
+    return it.flammable() && it.typeId() != "corpse";
+}
+
+bool player::feed_furnace_with( item &it )
+{
+    if( !can_feed_furnace_with( it ) ) {
+        return false;
+    }
+    if( it.is_book() && it.type->book->skill && !query_yn( _( "Really eat %s?" ), it.tname().c_str() ) ) {
+        return false;
+    }
+    int amount = ( it.volume() / 250_ml + it.weight() ) / 9;
+    if( it.made_of( material_id( "leather" ) ) ) {
+        amount /= 4;
+    }
+    if( it.made_of( material_id( "wood" ) ) ) {
+        amount /= 2;
+    }
+
+    add_msg_player_or_npc( _( "You eat your %s." ),
+                           _( "<npcname> eats a %s." ), it.tname().c_str() );
+
+    charge_power( amount );
+    it.charges = 0;
+
+    mod_moves( -250 );
+    return true;
+}
+
+bool player::can_consume_as_is( const item &it ) const
+{
+    return it.is_food() || can_feed_battery_with( it )
+                        || can_feed_reactor_with( it )
+                        || can_feed_furnace_with( it );
+}
+
+bool player::can_consume( const item &it ) const
+{
+    if( can_consume_as_is( it ) ) {
+        return true;
+    }
+    return !it.is_container_empty() && can_consume_as_is( it.contents.front() );
+}
+
+item &player::as_comestible( item &it ) const
+{
+    if( can_consume_as_is( it ) ) {
+        return it;
+    }
+    if( !it.is_container_empty() && can_consume_as_is( it.contents.front() ) ) {
+        return it.contents.front();
+    }
+    static item null_comestible;
+    return null_comestible;
+}
+
+// @todo Properly split meds and food instead of hacking around
+bool player::consume_med( item &target )
+{
+    if( !target.is_medication() ) {
+        return false;
+    }
+
+    const itype_id tool_type = target.type->comestible->tool;
     const auto req_tool = item::find_type( tool_type );
     if( req_tool->tool ) {
         if( !( has_amount( tool_type, 1 ) && has_charges( tool_type, req_tool->tool->charges_per_use ) ) ) {
@@ -9332,8 +9462,8 @@ bool player::consume_med( item &target, const tripoint &pos )
     }
 
     long amount_used = 1;
-    if( the_med->type->has_use() ) {
-        amount_used = the_med->type->invoke( this, the_med, pos );
+    if( target.type->has_use() ) {
+        amount_used = target.type->invoke( this, &target, pos() );
         if( amount_used <= 0 ) {
             return false;
         }
@@ -9341,99 +9471,56 @@ bool player::consume_med( item &target, const tripoint &pos )
 
     // @todo Get the target it was used on
     // Otherwise injecting someone will give us addictions etc.
-    consume_effects( *the_med );
+    consume_effects( target );
     mod_moves( -250 );
-    the_med->charges -= amount_used;
-    return the_med->charges <= 0;
+    target.charges -= amount_used;
+    return target.charges <= 0;
 }
 
 bool player::consume_item( item &target )
 {
     if( target.is_null() ) {
-        add_msg_if_player( m_info, _("You do not have that item."));
+        add_msg_if_player( m_info, _( "You do not have that item." ) );
         return false;
     }
-    if (is_underwater()) {
-        add_msg_if_player( m_info, _("You can't do that while underwater."));
+    if( is_underwater() ) {
+        add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return false;
     }
 
-    item &comest = target.is_food_container_for( *this ) ? target.contents.front() : target;
+    item &comest = as_comestible( target );
 
-    if( !comest.is_food_for( *this ) ) {
-        add_msg_if_player( m_info, _( "You can't eat your %s." ), comest.tname().c_str() );
+    if( comest.is_null() ) {
+        add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname().c_str() );
         if(is_npc()) {
-            debugmsg("%s tried to eat a %s", name.c_str(), comest.tname().c_str());
+            debugmsg("%s tried to eat a %s", name.c_str(), target.tname().c_str());
         }
         return false;
     }
 
-    if( comest.is_medication() ) {
-        return consume_med( target, pos() );
-    } else if( comest.is_food() ) {
-        if( !eat( comest ) ) {
-            return false;
-        }
-    } else if( comest.is_ammo() && has_active_bionic( "bio_batteries" ) &&
-               comest.ammo_type() == ammotype( "battery" ) ) {
-        int max_change = max_power_level - power_level;
-        if( max_change == 0 ) {
-            add_msg_if_player(m_info, _("Your internal power storage is fully powered."));
-        }
-        charge_power( comest.charges );
-        comest.mod_charges( -max_change + 1 ); //there's a flat subtraction later
-    } else if( comest.is_ammo() &&  ( has_active_bionic("bio_reactor") ||
-                                      has_active_bionic("bio_advreactor") ) &&
-                                    ( comest.ammo_type() == ammotype( "reactor_slurry" ) ||
-                                      comest.ammo_type() == ammotype( "plutonium" ) ) ) {
+    if( consume_med( comest ) ||
+        eat( comest ) ||
+        feed_battery_with( comest ) ||
+        feed_reactor_with( comest ) ||
+        feed_furnace_with( comest ) ) {
 
-        if( comest.typeId() == "plut_cell" &&
-            query_yn( _( "Thats a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
-            tank_plut += PLUTONIUM_CHARGES * 10;
-        } else if( comest.typeId() == "plut_slurry_dense" ) {
-            tank_plut += PLUTONIUM_CHARGES;
-        } else if( comest.typeId() == "plut_slurry" ) {
-            tank_plut += PLUTONIUM_CHARGES / 2;
+        if( target.is_container() ) {
+            target.on_contents_changed();
         }
 
-        add_msg_player_or_npc( _( "You add your %s to your reactor's tank." ),
-                               _( "<npcname> pours %s into their reactor's tank." ),
-                               comest.tname().c_str() );
-
-        mod_moves( -250 );
-    } else {
-        if (comest.is_book()) {
-            if( comest.type->book->skill && !query_yn( _( "Really eat %s?" ), comest.tname().c_str() ) ) {
-                return false;
-            }
-        }
-        int charge = ( comest.volume() / 250_ml + comest.weight() ) / 9;
-        if (comest.made_of( material_id( "leather" ) )) {
-            charge /= 4;
-        }
-        if (comest.made_of( material_id( "wood" ) )) {
-            charge /= 2;
-        }
-        charge_power( charge );
-        comest.mod_charges( -comest.charges );
-        add_msg_player_or_npc( _("You eat your %s."), _("<npcname> eats a %s."),
-                               comest.tname().c_str() );
+        return comest.charges <= 0;
     }
 
-    comest.mod_charges( -1 );
-
-    if( target.is_food_container_for( *this ) ) {
-        target.on_contents_changed();
-    }
-
-    return comest.charges <= 0;
+    return false;
 }
 
 bool player::consume(int target_position)
 {
     auto &target = i_at( target_position );
-    const bool was_in_container = target.is_food_container_for( *this );
+
     if( consume_item( target ) ) {
+        const bool was_in_container = !can_consume_as_is( target );
+
         if( was_in_container ) {
             i_rem( &target.contents.front() );
         } else {
@@ -10900,18 +10987,16 @@ bool player::invoke_item( item* used, const tripoint &pt )
 
     // Food can't be invoked here - it is already invoked as a part of consumption
     // Same for meds
-    if( used->is_food() || used->is_food_container() ||
-        used->is_medication() || used->is_medication_container() ) {
-        bool med = used->is_medication() || used->is_medication_container();
-        bool in_container = used->is_food_container() || used->is_medication_container();
-        bool consumed = med ? consume_med( *used, pt ) : consume_item( *used );
-        if( consumed ) {
-            i_rem( in_container ? &used->contents.front() : used );
+    if( can_consume( *used ) ) {
+        const bool was_in_container = !can_consume_as_is( *used );
+
+        if( consume_item( *used ) ) {
+            i_rem( was_in_container ? &used->contents.front() : used );
+            return true;
         }
 
-        return consumed;
+        return false;
     }
-
 
     if( used->type->use_methods.size() < 2 ) {
         const long charges_used = used->type->invoke( this, used, pt );
@@ -10957,16 +11042,15 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
 
     // Food can't be invoked here - it is already invoked as a part of consumption
     // Same for meds
-    if( used->is_food() || used->is_food_container() ||
-        used->is_medication() || used->is_medication_container() ) {
-        bool med = used->is_medication() || used->is_medication_container();
-        bool in_container = used->is_food_container() || used->is_medication_container();
-        bool consumed = med ? consume_med( *used, pt ) : consume_item( *used );
-        if( consumed ) {
-            i_rem( in_container ? &used->contents.front() : used );
+    if( can_consume( *used ) ) {
+        const bool was_in_container = !can_consume_as_is( *used );
+
+        if( consume_item( *used ) ) {
+            i_rem( was_in_container ? &used->contents.front() : used );
+            return true;
         }
 
-        return consumed;
+        return false;
     }
 
     long charges_used = actually_used->type->invoke( this, actually_used, pt, method );

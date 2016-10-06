@@ -626,6 +626,7 @@ bool player::eat( item &food, bool force )
         vitamin_mod( v.first, qty );
     }
 
+    food.mod_charges( -1 );
     return true;
 }
 
@@ -850,7 +851,7 @@ void player::consume_effects( item &food, bool rotten )
 
 hint_rating player::rate_action_eat( const item &it ) const
 {
-    if( !it.is_food_container_for( *this ) && !it.is_food_for( *this ) ) {
+    if( !can_consume( it ) ) {
         return HINT_CANT;
     }
 

@@ -4451,7 +4451,7 @@ enum consumption_result {
 // Returns true if we destroyed the item through consumption
 consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
-    bool consuming_contents = it.is_food_container_for( p );
+    bool consuming_contents = it.is_food_container();
     item &to_eat = consuming_contents ? it.contents.front() : it;
     const auto comest = to_eat.type->comestible.get();
     if( comest == nullptr ) {
