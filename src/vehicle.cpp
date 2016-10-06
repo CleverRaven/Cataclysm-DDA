@@ -6108,19 +6108,18 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
         return base.ammo_set( ammo, qty ).ammo_remaining();
     }
 
-    if( qty < 0 ) {
-        qty = ammo_capacity();
-    }
-
     if( is_battery() || is_reactor() ) {
-        base.ammo_set( ammo, qty );
+        base.ammo_set( ammo, qty >= 0 ? qty : ammo_capacity() );
         return base.ammo_remaining();
     }
 
-    if( is_tank() && item::find_type( ammo )->phase == LIQUID ) {
+    const itype *liquid = item::find_type( ammo );
+    if( is_tank() && liquid->phase == LIQUID ) {
         base.contents.clear();
-        base.emplace_back( ammo, calendar::turn, std::min( qty, ammo_capacity() ) );
-        return std::min( qty, ammo_capacity() );
+        auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
+        long limit = units::from_milliliter( ammo_capacity() ) / stack;
+        base.emplace_back( ammo, calendar::turn, qty >= 0 ? std::min( qty, limit ) : limit );
+        return qty;
     }
 
     return -1;
