@@ -1101,6 +1101,8 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
             return; // nothing is selectable
         }
 
+        move_cursor( opts[pos].part->mount.y + ddy, -( opts[pos].part->mount.x + ddx ) );
+
         const std::string input = main_context.handle_input();
         if( input == "CONFIRM" && opts[pos].hotkey ) {
             action( *opts[pos].part );
