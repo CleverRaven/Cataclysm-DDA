@@ -2289,6 +2289,7 @@ void veh_interact::complete_vehicle()
             if( src->contents.front().charges == 0 ) {
                 src->contents.erase( src->contents.begin() );
             }
+            veh->invalidate_mass();
 
         } else if( pt.is_reactor() ) {
             auto qty = src->charges;

@@ -5959,6 +5959,7 @@ void vehicle::update_time( const calendar &update_to )
 
         if( qty > 0 ) {
             tank->ammo_set( "water", tank->ammo_remaining() + qty );
+            invalidate_mass();
         }
     }
 
