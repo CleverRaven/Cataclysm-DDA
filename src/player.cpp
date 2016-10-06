@@ -3691,7 +3691,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             if( rpm > 0 ) {
                 right_print( w, speedoy, 1, c_white, "%s <color_%s>%4d</color>", _( "rpm" ),
                              veh->overspeed( eng ) ? "red" : "ltblue", rpm );
-           }            
+           }
         }
 
     } else {  // Not in vehicle
@@ -9357,86 +9357,76 @@ bool player::consume_item( item &target )
         add_msg_if_player( m_info, _("You can't do that while underwater."));
         return false;
     }
-    item *to_eat = nullptr;
-    bool in_container = target.is_food_container( this );
-    if( in_container ) {
-        to_eat = &target.contents.front();
-    } else if( target.is_food( this ) ) {
-        to_eat = &target;
-    } else {
-        add_msg_if_player(m_info, _("You can't eat your %s."), target.tname().c_str());
+
+    item &comest = target.is_food_container( this ) ? target.contents.front() : target;
+
+    if( !comest.is_food( this ) ) {
+        add_msg_if_player( m_info, _( "You can't eat your %s." ), comest.tname().c_str() );
         if(is_npc()) {
-            debugmsg("%s tried to eat a %s", name.c_str(), target.tname().c_str());
+            debugmsg("%s tried to eat a %s", name.c_str(), comest.tname().c_str());
         }
         return false;
     }
 
-    if( to_eat->is_medication() ) {
+    if( comest.is_medication() ) {
         return consume_med( target, pos() );
-    } else if( to_eat->is_food() ) {
-        if( to_eat->type->comestible->comesttype == "FOOD" ||
-            to_eat->type->comestible->comesttype == "DRINK") {
-            if( !eat( *to_eat ) ) {
+    } else if( comest.is_food() ) {
+        if( !eat( comest ) ) {
+            return false;
+        }
+    } else if( comest.is_ammo() && has_active_bionic( "bio_batteries" ) &&
+               comest.ammo_type() == ammotype( "battery" ) ) {
+        int max_change = max_power_level - power_level;
+        if( max_change == 0 ) {
+            add_msg_if_player(m_info, _("Your internal power storage is fully powered."));
+        }
+        charge_power( comest.charges );
+        comest.mod_charges( -max_change + 1 ); //there's a flat subtraction later
+    } else if( comest.is_ammo() &&  ( has_active_bionic("bio_reactor") ||
+                                      has_active_bionic("bio_advreactor") ) &&
+                                    ( comest.ammo_type() == ammotype( "reactor_slurry" ) ||
+                                      comest.ammo_type() == ammotype( "plutonium" ) ) ) {
+
+        if( comest.typeId() == "plut_cell" &&
+            query_yn( _( "Thats a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
+            tank_plut += PLUTONIUM_CHARGES * 10;
+        } else if( comest.typeId() == "plut_slurry_dense" ) {
+            tank_plut += PLUTONIUM_CHARGES;
+        } else if( comest.typeId() == "plut_slurry" ) {
+            tank_plut += PLUTONIUM_CHARGES / 2;
+        }
+
+        add_msg_player_or_npc( _( "You add your %s to your reactor's tank." ),
+                               _( "<npcname> pours %s into their reactor's tank." ),
+                               comest.tname().c_str() );
+
+        mod_moves( -250 );
+    } else {
+        if (comest.is_book()) {
+            if( comest.type->book->skill && !query_yn( _( "Really eat %s?" ), comest.tname().c_str() ) ) {
                 return false;
             }
-        } else {
-            debugmsg("Unknown comestible type of item: %s\n", to_eat->tname().c_str());
         }
-
-    } else {
- // Consume other type of items.
-        // For when bionics let you eat fuel
-        if (to_eat->is_ammo() && has_active_bionic("bio_batteries") &&
-            to_eat->type->ammo->type.count( ammotype( "battery" ) ) ) {
-            const int factor = 1;
-            int max_change = max_power_level - power_level;
-            if (max_change == 0) {
-                add_msg_if_player(m_info, _("Your internal power storage is fully powered."));
-            }
-            charge_power(to_eat->charges / factor);
-            to_eat->charges -= max_change * factor; //negative charges seem to be okay
-            to_eat->charges++; //there's a flat subtraction later
-        } else if( to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") ||
-                                           has_active_bionic("bio_advreactor") ) &&
-                   ( to_eat->type->ammo->type.count( ammotype( "plut_slurry" ) ) ||
-                     to_eat->type->ammo->type.count( ammotype( "plutonium" ) ) ) ) {
-            if( to_eat->typeId() == "plut_cell" &&
-                query_yn( _( "Thats a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
-                tank_plut += PLUTONIUM_CHARGES * 10;
-            } else if (to_eat->typeId() == "plut_slurry_dense") {
-                tank_plut += PLUTONIUM_CHARGES;
-            } else if (to_eat->typeId() == "plut_slurry") {
-                tank_plut += PLUTONIUM_CHARGES / 2;
-            }
-            add_msg_player_or_npc( _("You add your %s to your reactor's tank."), _("<npcname> pours %s into their reactor's tank."),
-            to_eat->tname().c_str());
-        } else if (!to_eat->is_food() && !to_eat->is_food_container(this)) {
-            if (to_eat->is_book()) {
-                if (to_eat->type->book->skill && !query_yn(_("Really eat %s?"), to_eat->tname().c_str())) {
-                    return false;
-                }
-            }
-            int charge = (to_eat->volume() / 250_ml + to_eat->weight()) / 9;
-            if (to_eat->made_of( material_id( "leather" ) )) {
-                charge /= 4;
-            }
-            if (to_eat->made_of( material_id( "wood" ) )) {
-                charge /= 2;
-            }
-            charge_power(charge);
-            to_eat->charges = 0;
-            add_msg_player_or_npc( _("You eat your %s."), _("<npcname> eats a %s."),
-                                     to_eat->tname().c_str());
+        int charge = ( comest.volume() / 250_ml + comest.weight() ) / 9;
+        if (comest.made_of( material_id( "leather" ) )) {
+            charge /= 4;
         }
-        moves -= 250;
+        if (comest.made_of( material_id( "wood" ) )) {
+            charge /= 2;
+        }
+        charge_power( charge );
+        comest.mod_charges( -comest.charges );
+        add_msg_player_or_npc( _("You eat your %s."), _("<npcname> eats a %s."),
+                               comest.tname().c_str() );
     }
 
-    to_eat->charges -= 1;
-    if( in_container ) {
+    comest.mod_charges( -1 );
+
+    if( target.is_food_container( this ) ) {
         target.on_contents_changed();
     }
 
-    return to_eat->charges <= 0;
+    return comest.charges <= 0;
 }
 
 bool player::consume(int target_position)
