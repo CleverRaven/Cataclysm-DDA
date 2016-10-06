@@ -106,7 +106,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammmo": "44",
+    "ammo": "44",
     "ranged_damage": 2,
     "dispersion": 228,
     "durability": 8,
