@@ -559,7 +559,7 @@
     [
       [ "tallow_tainted", 2 ],
       [ "meat_tainted", 3 ],
-      [ "meat_tainted_insect", 3 ],
+      [ "meat_insect_tainted", 3 ],
       [ "dry_meat_tainted", 3 ],
       [ "slime_scrap", 5 ],
       [ "fetus", 1 ],
@@ -739,7 +739,7 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "meat_insect_tainted", 2 ]
+      [ "meat_insect_tainted", 2 ],
       [ "spider_egg", 2 ],
       [ "chitin_piece", 6 ]
     ],
