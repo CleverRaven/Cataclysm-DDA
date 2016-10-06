@@ -71,7 +71,11 @@ player_activity veh_interact::run( vehicle &veh, int x, int y )
             time = vp->install_time( g->u );
             break;
         case 'r':
-            time = pt->is_broken() ? vp->install_time( g->u ) : ( vp->repair_time( g->u ) * pt->base.damage() );
+            if( pt->is_broken() ) {
+                time = vp->install_time( g->u );
+            } else {
+                time = vp->repair_time( g->u ) * double( pt->base.damage() ) / pt->base.max_damage();
+            }
             break;
         case 'o':
             time = vp->removal_time( g->u );
