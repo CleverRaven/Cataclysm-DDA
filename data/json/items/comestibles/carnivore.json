@@ -110,10 +110,11 @@
   },
   {
     "id": "meat_insect",
-    "copy-from": "iflesh",
+    "copy-from": "flesh",
     "type": "COMESTIBLE",
     "name": "chunk of insect meat",
     "name_plural": "chunks of insect meat",
+    "material": "iflesh",
     "description": "Freshly cut insect meat.  You could eat it raw, but cooking it is better.",
     "weight": 200,
     "volume": 1,
@@ -125,7 +126,7 @@
   },
   {
     "id": "meat_insect_cooked",
-    "copy-from": "meat",
+    "copy-from": "meat_insect",
     "type": "COMESTIBLE",
     "name": "seared insect meat",
     "description": "Freshly cooked insect meat.  Very nutritious.",
