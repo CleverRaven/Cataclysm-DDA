@@ -9799,6 +9799,23 @@
     },
     {
         "type" : "COMESTIBLE",
+        "id" : "dry_meat_insect",
+        "name" : "dehydrated insect meat",
+        "weight" : 56,
+        "color" : "ltred",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : -3,
+        "nutrition" : 18,
+        "description" : "Dehydrated insect flakes.  With proper storage, this dried food will remain edible for an incredibly long time.",
+        "price" : 900,
+        "material" : "flesh",
+        "volume" : 1,
+        "charges" : 2,
+        "fun" : 0
+    },
+    {
+        "type" : "COMESTIBLE",
         "id" : "dry_hflesh",
         "name" : "dehydrated human flesh",
         "name_plural" : "dehydrated human flesh",
