@@ -445,8 +445,7 @@ bool veh_interact::can_install_part() {
     }
 
     if( sel_vpart_info->has_flag( "FUNNEL" ) ) {
-        auto opts = veh->parts_at_relative( ddx, ddy );
-        if( std::none_of( opts.begin(), opts.end(), [&]( const int e ) {
+        if( std::none_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
             return veh->parts[e].is_tank();
         } ) ) {
             werase( w_msg );
