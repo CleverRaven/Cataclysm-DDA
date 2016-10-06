@@ -116,13 +116,22 @@
     "name_plural": "chunks of insect meat",
     "material": "iflesh",
     "description": "Freshly cut insect meat.  You could eat it raw, but cooking it is better.",
+    "proportional": {
+        "calories": 0.8,
+        "parasites": 1.2
+    },
+    "relative": {
+        "vitamins": [ 
+      [ "calcium", 2.4 ],
+      [ "iron", 0.4 ],
+      [ "vitB", 1.2 ]
+    ],
+        "fun": -6
+    },
     "weight": 200,
     "volume": 1,
     "price": 500,
-    "spoils_in": 24,
-    "calories": 220,
-    "healthy": -1,
-    "fun": -6
+    "spoils_in": 24
   },
   {
     "id": "meat_insect_cooked",
@@ -131,10 +140,9 @@
     "name": "seared insect meat",
     "description": "Freshly cooked insect meat.  Very nutritious.",
     "proportional": { "price": 1.5 },
-    "calories": 220,
     "parasites": 0,
     "healthy": 0,
-    "fun": 0,
+    "fun": -2,
     "flags": [ "EATEN_HOT" ]
   },
   {
