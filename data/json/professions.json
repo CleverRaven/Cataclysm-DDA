@@ -2120,7 +2120,7 @@
         "type" : "profession",
         "ident": "trans_human",
         "name": "Post-Human Cyborg",
-        "description": "As a welthy trans-humanist you decided to put yourself on the frontline of augemetive technology to bring forth the future. You are now a walking example of what humanity could of had become.",
+        "description": "As a welthy trans-humanist you decided to put yourself on the frontline of augemetive technology to bring forth the future.  You are now a walking example of what humanity could of had become.",
         "points": 4,
         "CBMs":[
             "bio_str_enhancer",
