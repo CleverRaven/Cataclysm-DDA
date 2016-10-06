@@ -180,7 +180,7 @@
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "mechanics",
+    "skill_used": "fabrication",
     "difficulty": 3,
     "time": 30000,
     "autolearn": true,
