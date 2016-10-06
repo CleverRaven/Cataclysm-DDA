@@ -3517,38 +3517,29 @@ bool item::is_ammo() const
     return type->ammo.get() != nullptr;
 }
 
-bool item::is_food(player const*u) const
+bool item::is_food_for( const player &p ) const
 {
-    if( !u ) {
-        return is_food();
-    }
-
     if( is_null() ) {
         return false;
     }
-
-    if( type->comestible ) {
+    if( is_food() ) {
         return true;
     }
-
-    if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && type->ammo->type.count( ammotype( "battery" ) ) ) {
+    if( p.has_active_bionic( "bio_batteries" ) && is_ammo() && ammo_type() == ammotype( "battery" ) ) {
         return true;
     }
-
-    if( ( u->has_active_bionic( "bio_reactor" ) ||
-          u->has_active_bionic( "bio_advreactor" ) ) &&
-        is_ammo() && ( type->ammo->type.count( ammotype( "plut_slurry" ) ) ||
-                       type->ammo->type.count( ammotype( "plutonium" ) ) ) ) {
+    if( ( p.has_active_bionic( "bio_reactor" ) || p.has_active_bionic( "bio_advreactor" ) ) && is_ammo() && ( ammo_type() == ammotype( "reactor_slurry" ) || ammo_type() == ammotype( "plutonium" ) ) ) {
         return true;
     }
-    if (u->has_active_bionic("bio_furnace") && flammable() && typeId() != "corpse")
+    if( p.has_active_bionic( "bio_furnace" ) && flammable() && typeId() != "corpse" ) {
         return true;
+    }
     return false;
 }
 
-bool item::is_food_container(player const*u) const
+bool item::is_food_container_for( const player &p ) const
 {
-    return (contents.size() >= 1 && contents.front().is_food(u));
+    return !contents.empty() && contents.front().is_food_for( p );
 }
 
 bool item::is_food() const

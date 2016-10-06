@@ -850,7 +850,7 @@ void player::consume_effects( item &food, bool rotten )
 
 hint_rating player::rate_action_eat( const item &it ) const
 {
-    if( !it.is_food_container( this ) && !it.is_food( this ) ) {
+    if( !it.is_food_container_for( *this ) && !it.is_food_for( *this ) ) {
         return HINT_CANT;
     }
 

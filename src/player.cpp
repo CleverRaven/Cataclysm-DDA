@@ -9358,9 +9358,9 @@ bool player::consume_item( item &target )
         return false;
     }
 
-    item &comest = target.is_food_container( this ) ? target.contents.front() : target;
+    item &comest = target.is_food_container_for( *this ) ? target.contents.front() : target;
 
-    if( !comest.is_food( this ) ) {
+    if( !comest.is_food_for( *this ) ) {
         add_msg_if_player( m_info, _( "You can't eat your %s." ), comest.tname().c_str() );
         if(is_npc()) {
             debugmsg("%s tried to eat a %s", name.c_str(), comest.tname().c_str());
@@ -9422,7 +9422,7 @@ bool player::consume_item( item &target )
 
     comest.mod_charges( -1 );
 
-    if( target.is_food_container( this ) ) {
+    if( target.is_food_container_for( *this ) ) {
         target.on_contents_changed();
     }
 
@@ -9432,7 +9432,7 @@ bool player::consume_item( item &target )
 bool player::consume(int target_position)
 {
     auto &target = i_at( target_position );
-    const bool was_in_container = target.is_food_container( this );
+    const bool was_in_container = target.is_food_container_for( *this );
     if( consume_item( target ) ) {
         if( was_in_container ) {
             i_rem( &target.contents.front() );
