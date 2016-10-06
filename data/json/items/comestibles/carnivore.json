@@ -109,6 +109,34 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
+    "id": "meat_insect",
+    "copy-from": "iflesh",
+    "type": "COMESTIBLE",
+    "name": "chunk of insect meat",
+    "name_plural": "chunks of insect meat",
+    "description": "Freshly cut insect meat.  You could eat it raw, but cooking it is better.",
+    "weight": 200,
+    "volume": 1,
+    "price": 500,
+    "spoils_in": 24,
+    "calories": 220,
+    "healthy": -1,
+    "fun": -6
+  },
+  {
+    "id": "meat_insect_cooked",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": "seared insect meat",
+    "description": "Freshly cooked insect meat.  Very nutritious.",
+    "proportional": { "price": 1.5 },
+    "calories": 220,
+    "parasites": 0,
+    "healthy": 0,
+    "fun": 0,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
     "id": "offal",
     "copy-from": "meat",
     "type": "COMESTIBLE",
@@ -216,6 +244,28 @@
     }
   },
   {
+    "id": "jerky_insect",
+    "copy-from": "meat_insect",
+    "type": "COMESTIBLE",
+    "name": "insect jerky",
+    "name_plural": "insect jerky",
+    "description": "Salted, dried insect meat that never goes bad, but will make you thirsty.",
+    "weight": 40,
+    "container": "bag_plastic",
+    "color": "brown",
+    "charges": 3,
+    "stack_size": 3,
+    "parasites": 0,
+    "healthy": 0,
+    "spoils_in": 0,
+    "quench": -5,
+    "fun": 4,
+    "proportional": {
+      "price": 0.64,
+      "calories": 0.34
+    }
+  },
+  {
     "id": "salted_fish",
     "copy-from": "fish",
     "type": "COMESTIBLE",
@@ -264,6 +314,28 @@
     "name": "smoked meat",
     "//": "3 chunks of meat.",
     "description": "Tasty meat that has been heavily smoked for long term preservation.",
+    "weight": 162,
+    "volume": 3,
+    "color": "brown",
+    "charges": 3,
+    "parasites": 0,
+    "spoils_in": 0,
+    "healthy": 0,
+    "quench": -1,
+    "fun": 5,
+    "proportional": {
+      "price": 6,
+      "calories": 0.95
+    },
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "meat_insect_smoked",
+    "copy-from": "meat_insect",
+    "type": "COMESTIBLE",
+    "name": "smoked insect meat",
+    "//": "3 chunks of meat.",
+    "description": "Tasty insect meat that has been heavily smoked for long term preservation.",
     "weight": 162,
     "volume": 3,
     "color": "brown",
