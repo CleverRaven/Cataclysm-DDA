@@ -797,6 +797,9 @@ public:
         void unload(int pos = INT_MIN);
 
         unsigned int get_seed() const;
+
+        /** If invoked, NPCs will be reloaded before next turn. */
+        void set_npcs_dirty();
 private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
         void read(); // Read a book  'R' (or 'a')
@@ -925,6 +928,8 @@ private:
         // remoteveh() cache
         int remoteveh_cache_turn;
         vehicle *remoteveh_cache;
+        /** Has a NPC been spawned since last load? */
+        bool npcs_dirty;
 
         std::unique_ptr<special_game> gamemode;
 
