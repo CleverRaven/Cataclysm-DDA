@@ -10884,7 +10884,7 @@ void player::use(int inventory_position)
         read(inventory_position);
         return;
 
-    } else if (used->is_gun()) {
+    } else if( used->is_gun() && !used->is_gunmod() ) {
         auto mods = used->gunmods();
 
         if( mods.empty() ) {
