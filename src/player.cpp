@@ -10999,19 +10999,6 @@ bool player::invoke_item( item* used, const tripoint &pt )
         return false;
     }
 
-    // Food can't be invoked here - it is already invoked as a part of consumption
-    // Same for meds
-    if( can_consume( *used ) ) {
-        const bool was_in_container = !can_consume_as_is( *used );
-
-        if( consume_item( *used ) ) {
-            i_rem( was_in_container ? &used->contents.front() : used );
-            return true;
-        }
-
-        return false;
-    }
-
     if( used->type->use_methods.size() < 2 ) {
         const long charges_used = used->type->invoke( this, used, pt );
         return used->is_tool() && consume_charges( *used, charges_used );
@@ -11052,19 +11039,6 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     if( actually_used == nullptr ) {
         debugmsg( "Tried to invoke a method %s on item %s, which doesn't have this method",
                   method.c_str(), used->tname().c_str() );
-    }
-
-    // Food can't be invoked here - it is already invoked as a part of consumption
-    // Same for meds
-    if( can_consume( *used ) ) {
-        const bool was_in_container = !can_consume_as_is( *used );
-
-        if( consume_item( *used ) ) {
-            i_rem( was_in_container ? &used->contents.front() : used );
-            return true;
-        }
-
-        return false;
     }
 
     long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
