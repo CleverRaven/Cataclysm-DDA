@@ -790,7 +790,6 @@ public:
  bool is_armor() const;
  bool is_book() const;
  bool is_salvageable() const;
- bool is_disassemblable() const;
 
  bool is_tool() const;
  bool is_tool_reversible() const;

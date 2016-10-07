@@ -1402,6 +1402,11 @@ bool game::do_turn()
         overmap_buffer.process_mongroups();
         lua_callback("on_day_passed");
     }
+    
+    // Run a LUA callback once per minute
+    if (calendar::turn.seconds() == 0) {
+        lua_callback("on_minute_passed");
+    }
 
     // Move hordes every 5 min
     if( calendar::once_every(MINUTES(5)) ) {
@@ -2136,6 +2141,11 @@ input_context get_default_mode_input_context()
     ctxt.register_action("morale");
     ctxt.register_action("messages");
     ctxt.register_action("help");
+    ctxt.register_action("open_keybindings");
+    ctxt.register_action("open_options");
+    ctxt.register_action("open_autopickup");
+    ctxt.register_action("open_safemode");
+    ctxt.register_action("open_color");
     ctxt.register_action("debug");
     ctxt.register_action("debug_scent");
     ctxt.register_action("debug_mode");
@@ -2145,6 +2155,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("toggle_fullscreen");
     ctxt.register_action("toggle_pixel_minimap");
     ctxt.register_action("action_menu");
+    ctxt.register_action("main_menu");
     ctxt.register_action("item_action_menu");
     ctxt.register_action("ANY_INPUT");
     ctxt.register_action("COORDINATE");
@@ -2464,8 +2475,19 @@ bool game::handle_action()
     // of location clicked.
     tripoint mouse_target = tripoint_min;
 
+    // quit prompt check (ACTION_QUIT only grabs 'Q')
+    if(uquit == QUIT_WATCH && action == "QUIT") {
+        uquit = QUIT_DIED;
+        return false;
+    }
+
     if( act == ACTION_NULL ) {
         act = look_up_action(action);
+
+        if ( act == ACTION_MAIN_MENU ) {
+            act = handle_main_menu();
+        }
+
         if( act == ACTION_ACTIONMENU ) {
             // No auto-move actions have or can be set at this point.
             u.clear_destination();
@@ -2521,12 +2543,6 @@ bool game::handle_action()
             u.clear_destination();
             destination_preview.clear();
         }
-    }
-
-    // quit prompt check (ACTION_QUIT only grabs 'Q')
-    if(uquit == QUIT_WATCH && action == "QUIT") {
-        uquit = QUIT_DIED;
-        return false;
     }
 
     if( act == ACTION_NULL ) {
@@ -2606,6 +2622,7 @@ bool game::handle_action()
         case NUM_ACTIONS:
             break; // dummy entries
         case ACTION_ACTIONMENU:
+        case ACTION_MAIN_MENU:
             break; // handled above
 
         case ACTION_TIMEOUT:
@@ -2810,10 +2827,9 @@ bool game::handle_action()
             }
             break;
 
-        case ACTION_LIST_ITEMS: {
+        case ACTION_LIST_ITEMS:
             list_items_monsters();
-        }
-        break;
+            break;
 
         case ACTION_ZONES:
             zones_manager();
@@ -3283,6 +3299,31 @@ bool game::handle_action()
 
         case ACTION_HELP:
             display_help();
+            refresh_all();
+            break;
+
+        case ACTION_KEYBINDINGS:
+            ctxt.display_help();
+            refresh_all();
+            break;
+
+        case ACTION_OPTIONS:
+            get_options().show( true );
+            refresh_all();
+            break;
+
+        case ACTION_AUTOPICKUP:
+            get_auto_pickup().show();
+            refresh_all();
+            break;
+
+        case ACTION_SAFEMODE:
+            get_safemode().show();
+            refresh_all();
+            break;
+
+        case ACTION_COLOR:
+            all_colors.show_gui();
             refresh_all();
             break;
 
@@ -4088,9 +4129,9 @@ void game::debug()
         case 13: {
             add_msg( m_info, _( "Recipe debug." ) );
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
-            for( auto cur_recipe : recipe_dict ) {
-                if( !( u.learned_recipes.find( cur_recipe->ident() ) != u.learned_recipes.end() ) )  {
-                    u.learn_recipe( ( recipe * )cur_recipe, true );
+            for( const auto &e : recipe_dict ) {
+                if( !( u.learned_recipes.find( e.first ) != u.learned_recipes.end() ) )  {
+                    u.learn_recipe( &e.second );
                 }
             }
             add_msg( m_good, _( "You know how to craft that now." ) );
@@ -10806,13 +10847,7 @@ void game::butcher()
             continue;
         }
 
-        const recipe *cur_recipe = get_disassemble_recipe(items[i].typeId());
-        if( cur_recipe == nullptr && !items[i].is_book() ) {
-            continue;
-        }
-
-        if( items[i].is_book() ||
-            u.can_disassemble( items[i], cur_recipe, crafting_inv, false ) ) {
+        if( u.can_disassemble( items[i], crafting_inv ) ) {
             disassembles.push_back(i);
         } else if( first_item_without_tools == nullptr ) {
             first_item_without_tools = &items[i];
@@ -10837,9 +10872,8 @@ void game::butcher()
 
         if( first_item_without_tools != nullptr ) {
             add_msg( m_info, _("You don't have the necessary tools to disassemble any items here.") );
-            const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->typeId() );
             // Just for the "You need x to disassemble y" messages
-            u.can_disassemble( *first_item_without_tools, cur_recipe, crafting_inv, true );
+            u.can_disassemble( *first_item_without_tools, crafting_inv, true );
         }
         return;
     }

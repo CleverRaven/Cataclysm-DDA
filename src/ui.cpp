@@ -12,6 +12,7 @@
 #include "options.h"
 #include "game.h"
 #include "player.h"
+#include "cata_utility.h"
 
 #ifdef debuguimenu
 #define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)
@@ -195,17 +196,6 @@ void uimenu::init()
     last_fsize = -1;
     last_vshift = -1;
     hotkeys = DEFAULT_HOTKEYS;
-}
-
-/*
- * case insensitive string::find( string::findstr ). findstr must be lowercased
- */
-bool lcmatch(const std::string &str, const std::string &findstr)
-{
-    std::string ret = "";
-    ret.reserve( str.size() );
-    transform( str.begin(), str.end(), std::back_inserter(ret), tolower );
-    return ( (int)ret.find( findstr ) != -1 );
 }
 
 /*

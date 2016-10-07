@@ -11,12 +11,8 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "9mm_casing", 1 ] ],
-      [ [ "gunpowder", 3 ] ]
-    ]
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
+    "components": [ [ [ "gunpowder", 3 ] ] ]
   },
   {
     "result": "reloaded_9mmP",
@@ -30,12 +26,8 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_pistol", 3 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "9mm_casing", 1 ] ],
-      [ [ "gunpowder", 4 ] ]
-    ]
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
+    "components": [ [ [ "gunpowder", 4 ] ] ]
   },
   {
     "result": "reloaded_9mmP2",
@@ -49,12 +41,8 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "9mm_casing", 1 ] ],
-      [ [ "gunpowder", 5 ] ]
-    ]
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
+    "components": [ [ [ "gunpowder", 5 ] ] ]
   },
   {
     "result": "reloaded_9mmfmj",
@@ -68,11 +56,7 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "9mm_casing", 1 ] ],
-      [ [ "gunpowder", 3 ] ]
-    ]
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
+    "components": [ [ [ "gunpowder", 3 ] ] ]
   }
 ]

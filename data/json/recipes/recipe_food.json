@@ -5,9 +5,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -34,9 +32,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 90000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -64,9 +60,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 90000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -96,9 +90,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "qualities":[
@@ -122,9 +114,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "qualities":[
@@ -148,7 +138,6 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 18000,
   "autolearn": true,
   "batch_time_factors":[67, 5],
@@ -173,9 +162,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "qualities":[
@@ -203,9 +190,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "qualities":[
@@ -233,9 +218,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "qualities":[
@@ -263,9 +246,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "qualities":[
@@ -293,9 +274,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "qualities":[
@@ -322,7 +301,6 @@
   "difficulty": 2,
   "time": 10000,
   "result_mult": 2,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -348,13 +326,12 @@
 },{
   "type" : "recipe",
   "result": "lard",
-  "byproducts": { "id" : "cracklins" },
+  "byproducts": [ [ "cracklins" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -381,7 +358,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -411,9 +387,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 3000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "qualities":[
@@ -432,9 +406,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 3000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "qualities":[
@@ -453,10 +425,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 3000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
   "flags": ["BLIND_HARD"],
   "qualities":[
@@ -475,9 +444,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 3000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "qualities":[
@@ -496,9 +463,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 3000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "qualities":[
@@ -519,7 +484,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 9000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CONTAIN","level":1,"amount":1}
@@ -581,8 +545,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 18000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
   "batch_time_factors":[67, 5],
   "qualities" : [
@@ -607,7 +569,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 18000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "tools": [
@@ -629,7 +590,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 16000,
-  "reversible": false,
   "autolearn": true,
   "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the fish",
   "qualities" : [
@@ -674,7 +634,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 16000,
-  "reversible": false,
   "autolearn": true,
   "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the onions",
   "qualities" : [
@@ -720,8 +679,6 @@
   "difficulty": 2,
   "book_learn": [[ "cookbook_sushi", 2 ]],
   "time": 10000,
-  "reversible": false,
-  "autolearn": false,
   "qualities" : [
     {"id":"COOK","level":2,"amount":1},
     {"id":"CONTAIN","level":1,"amount":1}
@@ -761,8 +718,6 @@
   "difficulty": 2,
   "book_learn": [[ "cookbook_sushi", 2 ]],
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"CONTAIN","level":1,"amount":1}
@@ -796,8 +751,6 @@
   "difficulty": 3,
   "book_learn": [[ "cookbook_sushi", 3 ]],
   "time": 8000,
-  "reversible": false,
-  "autolearn": false,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"CONTAIN","level":1,"amount":1}
@@ -842,8 +795,6 @@
   "difficulty": 3,
   "book_learn": [[ "cookbook_sushi", 3 ]],
   "time": 6000,
-  "reversible": false,
-  "autolearn": false,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"CONTAIN","level":1,"amount":1}
@@ -880,8 +831,6 @@
   "difficulty": 3,
   "book_learn": [[ "cookbook_sushi", 3 ]],
   "time": 6000,
-  "reversible": false,
-  "autolearn": false,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"CONTAIN","level":1,"amount":1}
@@ -918,8 +867,6 @@
   "difficulty": 4,
   "book_learn": [[ "cookbook_sushi", 4 ]],
   "time": 9000,
-  "reversible": false,
-  "autolearn": false,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"CONTAIN","level":1,"amount":1}
@@ -954,7 +901,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 12000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "qualities":[
@@ -980,8 +926,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 12000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [ [ "cookbook_human", 4 ] ],
   "batch_time_factors":[83, 3],
   "qualities":[
@@ -1004,9 +948,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 4000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -1023,10 +965,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 4000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [ [ "cookbook_human", 0 ] ],
   "components": [
     [
@@ -1042,9 +981,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 4000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -1117,10 +1054,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 4000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [ [ "cookbook_human", 0 ] ],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -1195,7 +1129,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "qualities" : [
@@ -1236,7 +1169,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "qualities" : [
@@ -1268,8 +1200,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "batch_time_factors":[83, 3],
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
@@ -1299,9 +1229,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "qualities":[
@@ -1340,8 +1268,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "batch_time_factors":[83, 3],
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
@@ -1380,7 +1306,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -1414,7 +1339,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -1444,9 +1368,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 4000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":1,"amount":1}
@@ -1469,9 +1391,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 4000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -1495,10 +1415,9 @@
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 1,
-  "byproducts": "plant_fibre",
+  "byproducts": [ [ "plant_fibre" ] ],
   "skills_required": [ "survival", 1 ],
   "time": 18000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
@@ -1525,7 +1444,6 @@
   "difficulty": 1,
   "skills_required": [ "survival", 1 ],
   "time": 4000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":1,"amount":1}
@@ -1554,7 +1472,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 8000,
-  "reversible": false,
   "autolearn": true,
    "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the morel",
   "qualities" : [
@@ -1598,8 +1515,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 12000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
   ["manual_survival", 1], ["survival_book", 1]],
   "qualities":[
@@ -1626,7 +1541,6 @@
   "difficulty": 2,
   "skills_required": [ "survival", 2 ],
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
@@ -1657,7 +1571,6 @@
   "difficulty": 3,
   "skills_required": [ "survival", 2 ],
   "time": 8000,
-  "reversible": false,
   "autolearn": true,
    "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the dandelions",
   "qualities" : [
@@ -1703,7 +1616,6 @@
   "difficulty": 3,
   "skills_required": [ "survival", 2 ],
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
@@ -1731,9 +1643,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_PASTA",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
@@ -1762,9 +1672,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 2500,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1785,9 +1693,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -1810,7 +1716,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
@@ -1846,7 +1751,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
@@ -1898,8 +1802,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 10000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_human", 1 ]],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
@@ -1940,7 +1842,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -1968,7 +1869,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":1,"amount":1}
@@ -1994,7 +1894,6 @@
    "skill_used": "cooking",
    "difficulty": 1,
    "time": 20000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -2026,7 +1925,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 8000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"COOK","level":2,"amount":1}
@@ -2054,7 +1952,6 @@
    "skill_used": "cooking",
    "difficulty": 1,
    "time": 20000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -2082,9 +1979,7 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 20000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -2114,9 +2009,7 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 20000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -2148,9 +2041,7 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 20000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -2187,10 +2078,7 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 20000,
-   "reversible": false,
-   "autolearn": false,
   "book_learn": [[ "cookbook_human", 0 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -2220,10 +2108,7 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 20000,
-   "reversible": false,
-   "autolearn": false,
   "book_learn": [[ "cookbook_human", 0 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -2259,7 +2144,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 16000,
-  "reversible": false,
   "autolearn": true,
   "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the potatoes",
   "qualities" : [
@@ -2295,9 +2179,7 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 10000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
@@ -2327,9 +2209,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 3000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -2352,9 +2232,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 300,
-  "reversible": false,
   "autolearn": true,
   "components": [
       [
@@ -2371,9 +2249,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -2405,7 +2281,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -2438,8 +2313,6 @@
   "difficulty": 2,
   "skills_required": [ "survival", 2 ],
   "time": 10000,
-  "reversible": false,
-  "autolearn": false,
   "batch_time_factors":[80, 4],
   "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
   ["manual_survival", 1], ["mag_survival", 1] , ["family_cookbook", 1]],
@@ -2473,8 +2346,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 12000,
-  "reversible": false,
-  "autolearn": false,
   "batch_time_factors":[80, 4],
   "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
   ["manual_survival", 1], ["mag_survival", 1] , ["family_cookbook", 1]],
@@ -2509,7 +2380,6 @@
   "difficulty": 3,
   "result_mult": 12,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -2593,7 +2463,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "contained": true,
   "batch_time_factors":[80, 4],
@@ -2612,7 +2481,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors": [ 80, 4 ],
   "qualities": [ { "id": "COOK","level": 2,"amount": 1 } ],
@@ -2624,9 +2492,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -2657,9 +2523,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "tools": [
@@ -2684,9 +2548,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -2704,9 +2566,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -2719,13 +2579,12 @@
 },{
   "type" : "recipe",
   "result": "can_coconut",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CONTAIN","level":1,"amount":1},
@@ -2751,7 +2610,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 12000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
@@ -2787,7 +2645,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
@@ -2804,13 +2661,12 @@
   "type" : "recipe",
   "result": "starch",
   "id_suffix": "from_fibrous_stuff",
-  "byproducts": { "id" : "plant_fibre", "amount" : 5 },
+  "byproducts": [ [ "plant_fibre", 5 ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
@@ -2824,13 +2680,12 @@
 },{
   "type" : "recipe",
   "result": "oj",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
@@ -2846,13 +2701,12 @@
 },{
   "type" : "recipe",
   "result": "cranberry_juice",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
@@ -2871,13 +2725,12 @@
 },{
   "type" : "recipe",
   "result": "apple_cider",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 7000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
@@ -2898,7 +2751,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
@@ -2922,9 +2774,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 500,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -2943,7 +2793,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 7000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -2963,7 +2812,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 7000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -2982,7 +2830,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 7000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -3007,7 +2854,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 7000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -3038,7 +2884,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 7000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -3057,7 +2902,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 7000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -3076,7 +2920,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 7000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -3095,7 +2938,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[50, 5],
   "qualities" : [
@@ -3136,7 +2978,6 @@
   "skill_used": "cooking",
   "difficulty": 5, "//": "Gelatin from bones is just boiling them long enough.  Gelatin from pectin is harder.  Instead of duping the ingredients, *1.5 them for aforementioned pectin.",
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[50, 5],
   "qualities" : [
@@ -3192,7 +3033,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 40000,
-  "reversible": false,
   "book_learn": [ [ "cookbook_human", 4 ] ],
   "batch_time_factors":[50, 5],
   "qualities" : [
@@ -3226,7 +3066,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 5],
   "tools": [
@@ -3260,7 +3099,6 @@
   "difficulty": 3,
   "time": 30000,
   "batch_time_factors":[83, 5],
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -3293,8 +3131,6 @@
   "difficulty": 3,
   "time": 30000,
   "batch_time_factors":[83, 5],
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
   "tools": [
     [
@@ -3326,7 +3162,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -3352,7 +3187,6 @@
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -3405,7 +3239,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -3476,7 +3309,6 @@
   "difficulty": 5,
   "skills_required": [ "survival", 4 ],
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[50, 5],
   "book_learn": [["survival_book", 3] , ["textbook_survival", 3] ,
@@ -3517,7 +3349,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -3575,7 +3406,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -3605,8 +3435,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "batch_time_factors":[80, 4],
   "book_learn": [[ "cookbook_human", 1 ]],
   "qualities":[
@@ -3636,7 +3464,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -3711,7 +3538,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "contained": true,
   "batch_time_factors":[83, 5],
@@ -3757,7 +3583,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -3830,7 +3655,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -3886,7 +3710,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -3974,7 +3797,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -4037,8 +3859,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "batch_time_factors":[80, 4],
   "book_learn": [[ "cookbook_human", 2 ]],
   "qualities":[
@@ -4092,7 +3912,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
@@ -4133,7 +3952,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities": [
   {"id":"COOK","level":3,"amount":1} ],
@@ -4174,7 +3992,6 @@
   "difficulty": 1,
   "time": 15000,
   "batch_time_factors":[50, 4],
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
@@ -4204,7 +4021,6 @@
   "difficulty": 2,
   "time": 20000,
   "batch_time_factors":[50, 4],
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
@@ -4263,7 +4079,6 @@
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 30000,
-  "autolearn": false,
   "book_learn": [[ "family_cookbook", 5 ]],
   "qualities":[
     {"id":"BOIL","level":2}
@@ -4290,8 +4105,6 @@
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 45000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "family_cookbook", 5 ]],
   "qualities":[
     {"id":"BUTCHER","level":20},
@@ -4366,8 +4179,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "family_cookbook", 4 ]],
   "batch_time_factors": [ 83, 3 ],
   "qualities" : [
@@ -4411,7 +4222,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
@@ -4442,7 +4252,6 @@
   "difficulty": 2,
   "time": 18000,
   "batch_time_factors":[50, 4],
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -4477,7 +4286,6 @@
   "difficulty": 1,
   "time": 18000,
   "batch_time_factors":[50, 4],
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -4507,7 +4315,6 @@
   "difficulty": 3,
   "time": 90000,
   "batch_time_factors":[50, 4],
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -4542,7 +4349,6 @@
   "difficulty": 2,
   "time": 28000,
   "batch_time_factors":[50, 4],
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -4576,7 +4382,6 @@
   "difficulty": 1,
   "time": 14000,
   "batch_time_factors":[50, 4],
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -4605,9 +4410,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[82, 4],
   "qualities":[
@@ -4638,7 +4441,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
@@ -4694,7 +4496,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
@@ -4761,9 +4562,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 3000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[82, 4],
   "qualities":[
@@ -4793,7 +4592,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 3000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
@@ -4844,7 +4642,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 300,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
@@ -4906,7 +4703,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[82, 4],
   "qualities":[
@@ -4940,7 +4736,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 9000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
@@ -5001,7 +4796,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 9000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
@@ -5075,7 +4869,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ],
                 [ ["rock_quern", -1], ["clay_quern", -1] ] ],
@@ -5086,9 +4879,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -5115,9 +4906,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -5180,7 +4969,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 9000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -5210,7 +4998,6 @@
   "skills_required": [ "survival", 2 ],
   "difficulty": 1,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -5231,7 +5018,6 @@
   "skill_used": "survival",
   "difficulty": 1,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_EASY"],
   "qualities":[
@@ -5249,7 +5035,6 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 1,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":1,"amount":1}
@@ -5275,8 +5060,6 @@
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 48000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [ ["family_cookbook", 5], ["survival_book", 3] , ["textbook_survival", 3] ],
   "qualities":[
     {"id":"COOK","level":3,"amount":1},
@@ -5320,7 +5103,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -5412,7 +5194,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -5444,7 +5225,6 @@
   "difficulty": 1,
   "time": 10000,
   "batch_time_factors":[80, 4],
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"BOIL","level":1,"amount":1}
@@ -5474,7 +5254,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -5527,7 +5306,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 12000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -5573,7 +5351,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 12000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -5672,7 +5449,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 12000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -5722,7 +5498,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 12000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -5764,7 +5539,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 12000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -5814,7 +5588,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 12000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -5918,7 +5691,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 12000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -5972,7 +5744,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 18000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -6053,7 +5824,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 12000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -6155,7 +5925,6 @@
   "difficulty": 1,
   "result_mult": 2,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -6184,7 +5953,6 @@
   "difficulty": 1,
   "result_mult": 2,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -6212,7 +5980,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 8000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -6253,15 +6020,12 @@
 },{
         "type" : "recipe",
   "result": "seasoning_italian",
-  "override": true,
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 4,
   "result_mult": 2,
   "time": 8000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["cookbook_italian", 2]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
@@ -6297,7 +6061,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -6386,7 +6149,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -6443,7 +6205,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -6484,8 +6245,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -6519,7 +6278,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
      {"id":"BOIL","level":2},
@@ -6558,7 +6316,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -6609,7 +6366,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -6653,8 +6409,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -6707,8 +6461,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_human", 2 ]],
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -6760,8 +6512,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -6821,7 +6571,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 8000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [ { "id" : "COOK","level" : 1,"amount" : 1 } ],
   "tools": [ [ [ "hotplate", 8 ], [ "char_smoker", 8 ], [ "toolset", 8 ], [ "fire", -1 ] ] ],
@@ -6838,8 +6587,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities":[
     {"id":"CONTAIN","level":1,"amount":1}
@@ -6868,8 +6615,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -6909,8 +6654,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -6958,8 +6701,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -7000,8 +6741,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_italian", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -7046,8 +6785,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_italian", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -7092,8 +6829,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -7137,8 +6872,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -7182,8 +6915,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_italian", 3 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
@@ -7228,8 +6959,6 @@
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["textbook_chemistry", 6] , ["adv_chemistry", 6] , ["atomic_survival", 4] , ["survival_book", 5] , [ "recipe_labchem", 5]],
   "qualities":[
     {"id":"CHEM","level":2,"amount":1}
@@ -7253,7 +6982,6 @@
   "skill_used": "cooking",
   "difficulty": 6,
   "time": 48000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2,"amount":1}
@@ -7284,7 +7012,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 48000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
@@ -7316,7 +7043,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2,"amount":1}
@@ -7410,8 +7136,6 @@
   "skill_used": "cooking",
   "difficulty": 7,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["adv_chemistry", 7] , ["textbook_chemistry", 8] , ["recipe_labchem", 6]],
   "qualities":[
     {"id":"CHEM","level":2,"amount":1}
@@ -7445,8 +7169,6 @@
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 90000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["adv_chemistry", 6] , ["textbook_chemistry", 6] , ["recipe_labchem", 5]],
   "qualities":[
     { "id": "CONTAIN", "level": 1 },
@@ -8242,7 +7964,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -8279,7 +8000,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -8316,8 +8036,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -8354,7 +8072,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -8393,7 +8110,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -8564,7 +8280,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 2750,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -8591,7 +8306,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
@@ -8604,7 +8318,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ],
@@ -8618,7 +8331,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
@@ -8631,7 +8343,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
@@ -8644,7 +8355,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8669,7 +8379,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8694,7 +8403,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -8718,9 +8426,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 20,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -8732,9 +8438,7 @@
         "category": "CC_FOOD",
         "subcategory": "CSC_FOOD_DRINKS",
         "skill_used": "cooking",
-        "difficulty": 0,
         "time": 20,
-        "reversible": false,
         "autolearn": true,
         "flags": ["BLIND_EASY"],
         "components": [ [
@@ -8753,9 +8457,7 @@
         "category": "CC_FOOD",
         "subcategory": "CSC_FOOD_DRINKS",
         "skill_used": "cooking",
-        "difficulty": 0,
         "time": 20,
-        "reversible": false,
         "autolearn": true,
         "flags": ["BLIND_EASY"],
         "components": [ [
@@ -8776,7 +8478,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 7000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     { "id": "COOK", "level": 2 }
@@ -8792,7 +8493,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 7000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     { "id": "COOK", "level": 2 }
@@ -8808,7 +8508,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 7000,
-  "reversible": false,
   "autolearn": true,
   "qualities": [ { "id": "COOK", "level": 2 } ],
   "tools": [ [ [ "hotplate", 4 ], [ "char_smoker", 4 ], [ "toolset", 4 ], [ "fire", -1 ] ] ],
@@ -8840,7 +8539,6 @@
    "skill_used": "cooking",
    "difficulty": 3,
    "time": 9000,
-   "reversible": false,
    "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -8887,7 +8585,6 @@
    "skill_used": "cooking",
    "difficulty": 1,
    "time": 4000,
-   "reversible": false,
    "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -8924,7 +8621,6 @@
   "skill_used": "cooking",
   "difficulty": 6,
   "time": 18000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -8957,8 +8653,6 @@
    "skill_used": "cooking",
    "difficulty": 2,
    "time": 7500,
-   "reversible": false,
-   "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -9040,7 +8734,6 @@
    "skill_used": "cooking",
    "difficulty": 2,
    "time": 7500,
-   "reversible": false,
    "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -9137,8 +8830,6 @@
    "skill_used": "cooking",
    "difficulty": 3,
    "time": 9000,
-   "reversible": false,
-   "autolearn": false,
    "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -9185,7 +8876,6 @@
    "skill_used": "cooking",
    "difficulty": 3,
    "time": 8000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -9229,7 +8919,6 @@
    "skill_used": "cooking",
    "difficulty": 3,
    "time": 8000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -9265,8 +8954,6 @@
    "skill_used": "cooking",
    "difficulty": 3,
    "time": 8000,
-   "reversible": false,
-   "autolearn": false,
    "book_learn": [[ "cookbook_human", 2 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -9298,9 +8985,7 @@
    "category": "CC_FOOD",
    "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 5000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"COOK","level":1,"amount":1}
@@ -9328,9 +9013,7 @@
    "category" : "CC_FOOD",
   "subcategory" : "CSC_FOOD_MEAT",
    "skill_used" : "cooking",
-   "difficulty" : 0,
    "time" : 1000,
-   "reversible" : false,
    "autolearn" : true,
    "batch_time_factors" : [ 67, 5 ],
    "qualities" : [
@@ -9351,7 +9034,6 @@
    "skill_used": "cooking",
    "difficulty": 2,
    "time": 8000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -9393,7 +9075,6 @@
    "skill_used": "cooking",
    "difficulty": 2,
    "time": 8000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -9433,7 +9114,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -9477,8 +9157,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -9521,7 +9199,6 @@
    "skill_used": "cooking",
    "difficulty": 2,
    "time": 8000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -9553,8 +9230,6 @@
    "skill_used": "cooking",
    "difficulty": 2,
    "time": 8000,
-   "reversible": false,
-   "autolearn": false,
   "book_learn": [[ "cookbook_human", 1 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -9594,8 +9269,6 @@
    "skill_used": "cooking",
    "difficulty": 2,
    "time": 8000,
-   "reversible": false,
-   "autolearn": false,
   "book_learn": [[ "cookbook_human", 1 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -9627,7 +9300,6 @@
    "skill_used": "cooking",
    "difficulty": 2,
    "time": 3500,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -9653,8 +9325,6 @@
    "skill_used": "cooking",
    "difficulty": 3,
    "time": 8000,
-   "reversible": false,
-   "autolearn": false,
    "book_learn": [[ "cookbook_human", 3 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -9698,7 +9368,6 @@
    "skill_used": "cooking",
    "difficulty": 2,
    "time": 6000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -9739,7 +9408,6 @@
    "skill_used": "cooking",
    "difficulty": 1,
    "time": 8000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -9781,8 +9449,6 @@
    "skill_used": "cooking",
    "difficulty": 1,
    "time": 8000,
-   "reversible": false,
-   "autolearn": false,
    "book_learn": [[ "cookbook_human", 1 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -9820,7 +9486,6 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 3000,
    "reversible": true,
    "autolearn": true,
@@ -9849,7 +9514,6 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 4000,
    "reversible": true,
    "autolearn": true,
@@ -9873,9 +9537,7 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 4000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
@@ -9902,9 +9564,7 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 4000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
@@ -9931,9 +9591,7 @@
    "category": "CC_FOOD",
    "subcategory": "CSC_FOOD_VEGGI",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 4000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
@@ -9958,10 +9616,8 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 3000,
    "reversible": true,
-   "autolearn": false,
    "book_learn": [[ "cookbook_human", 4 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
@@ -9984,9 +9640,7 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 5000,
-   "reversible": false,
    "autolearn": true,
    "tools": [
     [
@@ -10009,7 +9663,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -10042,7 +9695,6 @@
    "skill_used": "cooking",
    "difficulty": 4,
    "time": 18000,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
@@ -10138,7 +9790,6 @@
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -10179,7 +9830,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "qualities":[
@@ -10332,9 +9982,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -10405,7 +10053,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -10476,13 +10123,12 @@
 },{
   "type" : "recipe",
   "result": "juice",
-  "byproducts": "juice_pulp",
+  "byproducts": [ [ "juice_pulp" ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
@@ -10540,13 +10186,12 @@
   "type" : "recipe",
   "result": "juice",
   "id_suffix": "fresh",
-  "byproducts": { "id" : "juice_pulp", "amount" : 2 },
+  "byproducts": [ [ "juice_pulp", 2 ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
@@ -10585,7 +10230,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
@@ -10636,7 +10280,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
@@ -10692,9 +10335,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "qualities":[
@@ -10714,9 +10355,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -10737,9 +10376,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 90000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[50, 4],
   "qualities":[
@@ -10767,7 +10404,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 3500,
-  "reversible": false,
   "autolearn": true,
   "qualities":[ {"id":"COOK","level":2,"amount":1} ],
   "tools": [ [ [ "hotplate", 2 ], [ "char_smoker", 2 ], [ "toolset", 2 ], [ "fire", -1 ] ] ],
@@ -10786,8 +10422,6 @@
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 90000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_creepy", 5 ], [ "recipe_serum", 6 ]],
   "qualities":[
     {"id":"CONTAIN","level":1,"amount":1},
@@ -10815,7 +10449,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 18000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "qualities":[
@@ -10839,7 +10472,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 18000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "qualities":[
@@ -10865,7 +10497,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 5],
   "qualities" : [
@@ -10900,7 +10531,6 @@
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "contained": true,
   "batch_time_factors":[83, 5],
@@ -10944,7 +10574,6 @@
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "contained": true,
   "batch_time_factors":[83, 5],
@@ -10988,7 +10617,6 @@
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "contained": true,
   "batch_time_factors":[83, 5],
@@ -11032,7 +10660,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "contained": true,
   "batch_time_factors":[83, 5],
@@ -11088,7 +10715,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "contained": true,
   "batch_time_factors":[83, 5],
@@ -11154,7 +10780,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "contained": true,
   "batch_time_factors":[83, 5],
@@ -11199,7 +10824,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "contained": true,
   "batch_time_factors":[83, 5],
@@ -11277,7 +10901,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "contained": true,
   "batch_time_factors":[83, 5],
@@ -11365,7 +10988,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "contained": true,
   "batch_time_factors":[83, 5],
@@ -11436,8 +11058,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 24000,
-  "reversible": false,
-  "autolearn": false,
   "contained": true,
   "batch_time_factors":[83, 5],
   "book_learn": [[ "cookbook_human", 4 ]],
@@ -11502,7 +11122,6 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "contained": true,
   "batch_time_factors":[83, 5],
@@ -11604,7 +11223,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "qualities":[
@@ -11635,7 +11253,6 @@
   "difficulty": 3,
   "time": 35000,
   "batch_time_factors":[50, 4],
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"COOK","level":3,"amount":1}
@@ -11674,7 +11291,6 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 3000,
    "reversible": true,
    "autolearn": true,
@@ -11740,9 +11356,7 @@
    "category": "CC_FOOD",
    "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 1500,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
@@ -11772,9 +11386,7 @@
    "category" : "CC_FOOD",
    "subcategory" : "CSC_FOOD_SNACK",
    "skill_used" : "cooking",
-   "difficulty" : 0,
    "time" : 1500,
-   "reversible" : false,
    "autolearn" : true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
@@ -11801,9 +11413,7 @@
    "category": "CC_FOOD",
    "subcategory": "CSC_FOOD_VEGGI",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 1500,
-   "reversible": false,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
@@ -11828,9 +11438,7 @@
    "category" : "CC_FOOD",
    "subcategory" : "CSC_FOOD_SNACK",
    "skill_used" : "cooking",
-   "difficulty" : 0,
    "time" : 1500,
-   "reversible" : false,
    "autolearn" : true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
@@ -11854,7 +11462,6 @@
    "category": "CC_FOOD",
    "subcategory": "CSC_FOOD_SNACK",
    "skill_used": "cooking",
-   "difficulty": 0,
    "time": 1500,
    "reversible": true,
    "autolearn": true,
@@ -11881,9 +11488,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"COOK","level":1,"amount":1}
@@ -11910,8 +11515,6 @@
   "skills_required": [ "survival", 6 ],
   "difficulty": 5,
   "time": 12000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["textbook_survival", 5] , ["atomic_survival", 4] , ["survival_book", 3]],
   "qualities" : [
     {"id":"BOIL","level":1,"amount":1},
@@ -11942,9 +11545,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 1500,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -11964,9 +11565,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 1500,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -11989,7 +11588,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -12039,7 +11637,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 3500,
-  "reversible": false,
   "autolearn": true,
   "components": [
     [
@@ -12062,7 +11659,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 3000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -12081,9 +11677,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 0,
   "time": 3000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -12105,7 +11699,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 4000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
@@ -12146,7 +11739,6 @@
   "skills_required": [ "survival", 4 ],
   "difficulty": 5,
   "time": 15000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"BOIL","level":1,"amount":1}
@@ -12183,7 +11775,6 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 5,
   "time": 7000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     { "id": "COOK", "level": 2 }
@@ -12216,7 +11807,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"COOK","level":1,"amount":1},
@@ -12247,13 +11837,12 @@
 {
   "type" : "recipe",
   "result": "honey_bottled",
-  "byproducts": { "id" : "wax", "amount" : 4 },
+  "byproducts": [ [ "wax", 4 ] ],
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "qualities" :
     [
@@ -12281,7 +11870,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities" :
     [
@@ -12319,8 +11907,6 @@
   "difficulty": 3,
   "skills_required": [ "tailor", 1 ],
   "time": 30000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "survival_book", 6 ], [ "scots_cookbook", 3 ]],
   "batch_time_factors":[50, 4],
   "qualities":[
@@ -12368,8 +11954,6 @@
   "difficulty": 3,
   "skills_required": [ "tailor", 1 ],
   "time": 30000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
   "batch_time_factors":[50, 4],
   "qualities":[
@@ -12422,8 +12006,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 12000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "family_cookbook", 4 ], [ "scots_cookbook", 2 ]],
   "batch_time_factors":[50, 4],
   "qualities":[
@@ -12462,8 +12044,6 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [ [ "family_cookbook", 6 ], [ "scots_cookbook", 2 ] ],
   "batch_time_factors":[50, 4],
   "qualities":[
@@ -12511,7 +12091,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "qualities" :
     [
@@ -12534,7 +12113,6 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -12567,7 +12145,6 @@
   "skills_required": [ "survival", 4 ],
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
@@ -12593,8 +12170,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [ [ "family_cookbook", 2 ] ],
   "qualities":[
     {"id":"COOK","level":3,"amount":1},
@@ -12634,8 +12209,6 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [ [ "family_cookbook", 2 ] ],
   "qualities":[
     {"id":"COOK","level":3,"amount":1},

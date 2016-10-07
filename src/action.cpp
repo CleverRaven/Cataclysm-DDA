@@ -294,6 +294,18 @@ std::string action_ident( action_id act )
             return "SEC_SELECT";
         case ACTION_AUTOATTACK:
             return "autoattack";
+        case ACTION_MAIN_MENU:
+            return "main_menu";
+        case ACTION_KEYBINDINGS:
+            return "open_keybindings";
+        case ACTION_OPTIONS:
+            return "open_options";
+        case ACTION_AUTOPICKUP:
+            return "open_autopickup";
+        case ACTION_SAFEMODE:
+            return "open_safemode";
+        case ACTION_COLOR:
+            return "open_color";
         case ACTION_NULL:
             return "null";
         default:
@@ -332,6 +344,12 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_MORALE:
         case ACTION_MESSAGES:
         case ACTION_HELP:
+        case ACTION_MAIN_MENU:
+        case ACTION_KEYBINDINGS:
+        case ACTION_OPTIONS:
+        case ACTION_AUTOPICKUP:
+        case ACTION_SAFEMODE:
+        case ACTION_COLOR:
         // Debug Functions
         case ACTION_TOGGLE_SIDEBAR_STYLE:
         case ACTION_TOGGLE_FULLSCREEN:
@@ -447,12 +465,8 @@ bool can_butcher_at( const tripoint &p )
             if( factor != INT_MIN ) {
                 has_corpse = true;
             }
-        } else {
-            const recipe *cur_recipe = get_disassemble_recipe( items_it.typeId() );
-            if( cur_recipe != NULL &&
-                g->u.can_disassemble( items_it, cur_recipe, crafting_inv, false ) ) {
-                has_item = true;
-            }
+        } else if( g->u.can_disassemble( items_it, crafting_inv ) ) {
+            has_item = true;
         }
     }
     return has_corpse || has_item;
@@ -798,6 +812,50 @@ action_id handle_action_menu()
 
 #undef REGISTER_ACTION
 #undef REGISTER_CATEGORY
+}
+
+action_id handle_main_menu()
+{
+    const input_context ctxt = get_default_mode_input_context();
+    std::vector<uimenu_entry> entries;
+
+    auto REGISTER_ACTION = [&]( action_id name ) {
+        entries.push_back( uimenu_entry( name, true, hotkey_for_action( name ),
+                                         ctxt.get_action_name( action_ident( name ) )
+                                       )
+                         );
+    };
+
+    REGISTER_ACTION( ACTION_HELP );
+    REGISTER_ACTION( ACTION_KEYBINDINGS );
+    REGISTER_ACTION( ACTION_OPTIONS );
+    REGISTER_ACTION( ACTION_AUTOPICKUP );
+    REGISTER_ACTION( ACTION_SAFEMODE );
+    REGISTER_ACTION( ACTION_COLOR );
+    REGISTER_ACTION( ACTION_ACTIONMENU );
+    REGISTER_ACTION( ACTION_QUICKSAVE );
+    REGISTER_ACTION( ACTION_SAVE );
+
+    int width = 0;
+    for( auto &entrie : entries ) {
+        if( width < ( int )entrie.txt.length() ) {
+            width = entrie.txt.length();
+        }
+    }
+    //border=2, selectors=3, after=3 for balance.
+    width += 2 + 3 + 3;
+    int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
+    int iy = ( TERMY > ( int )entries.size() + 2 ) ? ( TERMY - ( int )entries.size() - 2 ) / 2 - 1 : 0;
+    int selection = ( int ) uimenu( true, std::max( ix, 0 ), std::min( width, TERMX - 2 ),
+                                    std::max( iy, 0 ), _( "MAIN MENU" ), entries );
+
+    g->draw();
+
+    if( selection < 0 || selection > NUM_ACTIONS ) {
+        return ACTION_NULL;
+    } else {
+        return ( action_id ) selection;
+    }
 }
 
 bool choose_direction( const std::string &message, int &x, int &y )

@@ -55,6 +55,7 @@
 #include "overlay_ordering.h"
 #include "vitamin.h"
 #include "fault.h"
+#include "recipe_dictionary.h"
 
 #include <map>
 #include <iterator>
@@ -10784,11 +10785,15 @@ hint_rating player::rate_action_mend( const item &it ) const
 
 hint_rating player::rate_action_disassemble( const item &it )
 {
-    if( can_disassemble( it, crafting_inventory(), false ) ) {
-        return HINT_GOOD;
-    }
+    if( can_disassemble( it, crafting_inventory() ) ) {
+        return HINT_GOOD; // possible
 
-    return HINT_CANT;
+    } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
+        return HINT_IFFY; // potentially possible but we currently lack requirements
+
+    } else {
+        return HINT_CANT; // never possible
+    }
 }
 
 hint_rating player::rate_action_use( const item &it ) const
@@ -12822,10 +12827,6 @@ void player::practice( const skill_id &id, int amount, int cap )
 
 int player::exceeds_recipe_requirements( const recipe &rec ) const
 {
-    if( !rec.valid_learn() ) {
-        return -1;
-    }
-
     int over = rec.skill_used ? get_skill_level( rec.skill_used ) - rec.difficulty : 0;
     for( const auto &required_skill : rec.required_skills ) {
         over = std::min( over, get_skill_level( required_skill.first ) - required_skill.second );
@@ -12866,10 +12867,6 @@ bool player::knows_recipe(const recipe *rec) const
 int player::has_recipe( const recipe *r, const inventory &crafting_inv,
                         const std::vector<npc *> &helpers ) const
 {
-    if( !r->valid_to_learn ) {
-        return -1;
-    }
-
     if( !r->skill_used ) {
         return 0;
     }
@@ -12905,13 +12902,9 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
     return difficulty < INT_MAX ? difficulty : -1;
 }
 
-void player::learn_recipe( const recipe * const rec, bool force )
+void player::learn_recipe( const recipe * const rec )
 {
-    if( force || rec->valid_learn() ) {
-        learned_recipes[rec->ident()] = rec;
-    } else {
-        debugmsg( "Tried to learn unlearnable recipe %s", rec->ident().c_str() );
-    }
+    learned_recipes[rec->ident()] = rec;
 }
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
