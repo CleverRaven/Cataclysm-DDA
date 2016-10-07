@@ -16,8 +16,6 @@ using skill_id = string_id<Skill>;
 
 class Skill
 {
-        friend class string_id<Skill>;
-
         skill_id _ident;
 
         std::string _name;
@@ -25,13 +23,14 @@ class Skill
         std::set<std::string> _tags;
         // these are not real skills, they depend on context
         static std::map<skill_id, Skill> contextual_skills;
-        static const Skill &find_skill( const skill_id &id );
     public:
         static std::vector<Skill> skills;
         static void load_skill( JsonObject &jsobj );
         // For loading old saves that still have integer-based ids.
         static skill_id from_legacy_int( int legacy_id );
         static skill_id random_skill();
+
+        static const Skill &get( const skill_id &id );
 
         static size_t skill_count();
         // clear skill vector, every skill pointer becames invalid!

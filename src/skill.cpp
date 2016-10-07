@@ -16,7 +16,7 @@ const skill_id string_id<Skill>::NULL_ID( "none" );
 
 static const Skill invalid_skill;
 
-const Skill &Skill::find_skill( const skill_id &id )
+const Skill &Skill::get( const skill_id &id )
 {
     for( const Skill &skill : Skill::skills ) {
         if( skill.ident() == id ) {
@@ -35,13 +35,13 @@ const Skill &Skill::find_skill( const skill_id &id )
 template<>
 const Skill &string_id<Skill>::obj() const
 {
-    return Skill::find_skill( *this );
+    return Skill::get( *this );
 }
 
 template<>
 bool string_id<Skill>::is_valid() const
 {
-    return Skill::find_skill( *this ) != invalid_skill;
+    return Skill::get( *this ) != invalid_skill;
 }
 
 Skill::Skill()
