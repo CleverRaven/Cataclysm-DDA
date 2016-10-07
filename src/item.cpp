@@ -3519,16 +3519,13 @@ bool item::is_ammo() const
 
 bool item::is_food() const
 {
-    return type->comestible != nullptr;
+    return type->comestible != nullptr && ( type->comestible->comesttype == "FOOD" ||
+                                            type->comestible->comesttype == "DRINK" );
 }
 
 bool item::is_medication() const
 {
-    if( type->comestible == nullptr || type->comestible->comesttype != "MED" ) {
-        return false;
-    }
-
-    return true;
+    return type->comestible != nullptr && type->comestible->comesttype == "MED";
 }
 
 bool item::is_brewable() const

@@ -400,14 +400,6 @@ bool player::eat( item &food, bool force )
     if( !food.is_food() ) {
         return false;
     }
-
-    if( food.type->comestible->comesttype != "FOOD" &&
-        food.type->comestible->comesttype != "DRINK" ) {
-
-        debugmsg( "Unknown comestible type of item: %s\n", food.tname().c_str() );
-        return false;
-    }
-
     // Check if it's rotten before eating!
     food.calc_rot( global_square_location() );
     const auto edible = can_eat( food, is_player() && !force, force );
