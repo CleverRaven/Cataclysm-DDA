@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <string>
-#include <unordered_map>
 
 #include "omdata.h"
 #include "itype.h"
@@ -23,8 +22,6 @@ enum npc_mission : int;
 
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
-
-std::string mission_dialogue(mission_type_id id, const std::string &state);
 
 enum mission_origin {
     ORIGIN_NULL = 0,
@@ -173,6 +170,8 @@ struct mission_type {
     std::function<void(mission *)> end = mission_end::standard;
     std::function<void(mission *)> fail = mission_fail::standard;
 
+    std::map<std::string, std::string> dialogue;
+
     mission_type() = default;
     mission_type(mission_type_id ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
                  bool URGENT,
@@ -203,28 +202,28 @@ struct mission_type {
     static const std::vector<mission_type> &get_all();
 
     static void reset();
-    static void load_mission_type( JsonObject & );
+    static void load_mission_type( JsonObject & );    
+
+    static void check_consistency();
 
     void load( JsonObject & );
-private:
-    /**
-     * All the known mission templates.
-     */
-    static std::vector<mission_type> types;
 };
 
 class mission : public JsonSerializer, public JsonDeserializer
 {
+public:
+    enum class mission_status {
+        yet_to_start,
+        in_progress,
+        success,
+        failure
+    };
 private:
     friend struct mission_type; // so mission_type::create is simpler
     friend struct mission_start; // so it can initialize some properties
         const mission_type *type;
         std::string description;// Basic descriptive text
-        /**
-         * True if the mission is failed. Failed missions are completed per definition
-         * and should not be reused. Failed mission should not be changed further.
-         */
-        bool failed;
+        mission_status status;
         unsigned long value;    // Cash/Favor value of completing this
         npc_favor reward;       // If there's a special reward for completing it
         int uid;                // Unique ID number, used for referencing elsewhere
@@ -244,7 +243,6 @@ private:
         int step;               // How much have we completed?
         mission_type_id follow_up;   // What mission do we get after this succeeds?
         int player_id; // The id of the player that has accepted this mission.
-        bool was_started; // whether @ref mission_type::start had been called
 public:
 
         std::string name();
@@ -300,6 +298,11 @@ public:
     bool is_complete( int npc_id ) const;
     /** Checks if the player has failed the matching mission and returns true if they have. */
     bool has_failed() const;
+    /** Checks if the mission is started, but not failed and not succeeded. */
+    bool in_progress() const;
+
+    // @todo Give topics a string_id
+    std::string dialogue_for_topic( const std::string &topic ) const;
 
     /**
      * Create a new mission of the given type and assign it to the given npc.
@@ -330,21 +333,21 @@ public:
 
     // Don't use this, it's only for loading legacy saves.
     static void unserialize_legacy( std::istream &fin );
-    // Serializes and unserializes all missions in @ref active_missions
+    // Serializes and unserializes all missions
     static void serialize_all( JsonOut &json );
     static void unserialize_all( JsonIn &jsin );
     /** Converts a vector mission ids to a vector of mission pointers. Invalid ids are skipped! */
     static std::vector<mission*> to_ptr_vector( const std::vector<int> &vec );
     static std::vector<int> to_uid_vector( const std::vector<mission*> &vec );
 
-private:
-    /**
-     * Missions which have been created, they might have been assigned or can be assigned or
-     * are already done. They are stored with the main save.
-     * Key is the mission id (@ref uid).
-     */
-    static std::unordered_map<int, mission> active_missions;
+    // For save/load
+    static std::vector<mission*> get_all_active();
+    static void add_existing( const mission &m );
 
+    static mission_status status_from_string( const std::string &s );
+    static const std::string status_to_string( mission_status st );
+
+private:
     // Don't use this, it's only for loading legacy saves.
     void load_info(std::istream &info);
 

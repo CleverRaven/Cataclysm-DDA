@@ -405,18 +405,22 @@ item recipe::create_result() const
     if( charges >= 0 ) {
         newit.charges = charges;
     }
-    if( contained == true ) {
-        newit = newit.in_container( container );
-    }
-    if( result_mult != 1 ) {
-        newit.charges *= result_mult;
-    }
+
     if( !newit.craft_has_charges() ) {
         newit.charges = 0;
+    } else if( result_mult != 1 ) {
+        // @todo Make it work for charge-less items
+        newit.charges *= result_mult;
     }
+
     if( newit.has_flag( "VARSIZE" ) ) {
         newit.item_tags.insert( "FIT" );
     }
+
+    if( contained == true ) {
+        newit = newit.in_container( container );
+    }
+
     return newit;
 }
 
@@ -424,8 +428,11 @@ std::vector<item> recipe::create_results( int batch ) const
 {
     std::vector<item> items;
 
-    if( contained || !item::count_by_charges( result ) ) {
-        for( int i = 0; i < batch; i++ ) {
+    const bool by_charges = item::count_by_charges( result );
+    if( contained || !by_charges ) {
+        // by_charges items get their charges multiplied in create_result
+        const int num_results = by_charges ? batch : batch * result_mult;
+        for( int i = 0; i < num_results; i++ ) {
             item newit = create_result();
             items.push_back( newit );
         }
@@ -1170,7 +1177,7 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 
     activity.values.push_back( pos );
     activity.coords.push_back( ground ? this->pos() : tripoint_min );
-    activity.str_values.push_back( r.ident() );
+    activity.str_values.push_back( r.result );
 
     return true;
 }

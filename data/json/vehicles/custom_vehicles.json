@@ -87,7 +87,7 @@
             {"x": -3, "y": -1, "part": "frame_vertical"},
             {"x": -3, "y": -1, "part": "windshield"},
             {"x": -3, "y": -1, "part": "v_curtain"},
-            {"x": -3, "y": -1, "part": "gas_tank"},
+            {"x": -3, "y": -1, "part": "tank", "fuel": "gasoline"},
             {"x": -3, "y": -1, "part": "roof"},
             {"x": -3, "y": 2, "part": "frame_vertical"},
             {"x": -3, "y": 2, "part": "windshield"},

@@ -25,8 +25,7 @@
         "id": "ig_vp_xlframe",
         "subtype": "collection",
         "entries": [
-            {"item": "pipe", "count": [0, 4]},
-            {"item": "scrap", "count": [2, 4]}
+            {"item": "material_aluminium_ingot", "count": [1, 4]}
         ]
     },
     {
@@ -793,7 +792,7 @@
         "item" : "minireactor",
         "difficulty" : 6,
         "location" : "fuel_source",
-        "flags" : ["FUEL_TANK", "REACTOR"],
+        "flags" : ["REACTOR"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [6, 11]},
             {"item": "steel_chunk", "count": [6, 11]},

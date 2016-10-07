@@ -1,0 +1,526 @@
+[
+  {
+    "result": "bastsandals",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": 30000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "components": [ [ [ "plant_fibre", 140 ], [ "sinew", 140 ], [ "thread", 140 ] ] ]
+  },
+  {
+    "result": "boots",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": 35000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 10 ] ] ],
+    "components": [ [ [ "leather", 10 ], [ "tanned_hide", 2 ] ] ]
+  },
+  {
+    "result": "boots_bone",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 40000,
+    "autolearn": true,
+    "book_learn": [ [ "manual_tailor", 2 ], [ "textbook_tailor", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "sewing_kit", 18 ] ] ],
+    "components": [
+      [ [ "bone", 18 ], [ "bone_human", 18 ], [ "bone_tainted", 36 ] ],
+      [ [ "leather", 6 ], [ "fur", 6 ] ]
+    ]
+  },
+  {
+    "result": "boots_chitin",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": 40000,
+    "autolearn": true,
+    "components": [
+      [ [ "string_36", 1 ], [ "string_6", 4 ] ],
+      [ [ "chitin_piece", 8 ] ],
+      [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ]
+    ]
+  },
+  {
+    "result": "boots_fsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 8,
+    "skills_required": [ "fabrication", 6 ],
+    "time": 120000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
+      [ [ "sewing_kit", 80 ] ]
+    ],
+    "components": [
+      [ [ "nomex", 8 ] ],
+      [ [ "kevlar_plate", 4 ] ],
+      [ [ "duct_tape", 200 ] ],
+      [ [ "nomex_socks", 1 ] ],
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ]
+    ]
+  },
+  {
+    "result": "boots_fur",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": 40000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_survival", 1 ] ],
+    "tools": [ [ [ "sewing_kit", 13 ] ] ],
+    "components": [
+      [ [ "leather", 7 ], [ "tanned_hide", 1 ] ],
+      [ [ "fur", 7 ], [ "tanned_pelt", 1 ] ]
+    ]
+  },
+  {
+    "result": "boots_h20survivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ "fabrication", 6 ],
+    "time": 120000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
+      [ [ "sewing_kit", 80 ] ]
+    ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "kevlar_plate", 4 ] ],
+      [ [ "duct_tape", 200 ] ],
+      [ [ "wetsuit_booties", 1 ] ],
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ]
+    ]
+  },
+  {
+    "result": "boots_hsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ "fabrication", 5 ],
+    "time": 120000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ],
+      [ [ "sewing_kit", 60 ] ]
+    ],
+    "components": [
+      [ [ "rag", 4 ] ],
+      [ [ "leather", 4 ] ],
+      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
+      [ [ "kevlar_plate", 4 ] ],
+      [ [ "duct_tape", 100 ] ],
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
+    ]
+  },
+  {
+    "result": "boots_larmor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": 40000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "sewing_kit", 24 ] ] ],
+    "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ], [ "fur", 18 ], [ "tanned_pelt", 3 ] ] ]
+  },
+  {
+    "result": "boots_lsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ "fabrication", 3 ],
+    "time": 120000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
+      [ [ "sewing_kit", 80 ] ]
+    ],
+    "components": [
+      [ [ "rag", 8 ] ],
+      [ [ "kevlar_plate", 4 ] ],
+      [ [ "duct_tape", 100 ] ],
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
+    ]
+  },
+  {
+    "result": "boots_plate",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 480000,
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3, "amount": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "forge", 250 ], [ "oxy_torch", 50 ] ]
+    ],
+    "components": [
+      [ [ "steel_lump", 8 ], [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
+      [ [ "fur", 16 ], [ "tanned_pelt", 3 ], [ "leather", 16 ], [ "tanned_hide", 3 ] ]
+    ]
+  },
+  {
+    "result": "boots_survivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 4 ],
+    "time": 120000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
+      [ [ "sewing_kit", 80 ] ]
+    ],
+    "components": [
+      [ [ "leather", 8 ], [ "tanned_hide", 2 ] ],
+      [ [ "kevlar_plate", 4 ] ],
+      [ [ "duct_tape", 100 ] ],
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
+    ]
+  },
+  {
+    "result": "boots_western",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": 35000,
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "components": [ [ [ "leather", 9 ], [ "tanned_hide", 2 ] ] ]
+  },
+  {
+    "result": "boots_winter",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": 360000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 80 ] ] ],
+    "components": [
+      [ [ "felt_patch", 20 ] ],
+      [ [ "bag_plastic", 8 ] ]
+    ]
+  },
+  {
+    "result": "boots_wsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ "fabrication", 5 ],
+    "time": 120000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
+      [ [ "sewing_kit", 80 ] ]
+    ],
+    "components": [
+      [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
+      [ [ "kevlar_plate", 4 ] ],
+      [ [ "duct_tape", 100 ] ],
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
+    ]
+  },
+  {
+    "result": "boots_xlsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 4 ],
+    "time": 180000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ],
+      [ [ "sewing_kit", 160 ] ]
+    ],
+    "components": [
+      [ [ "leather", 24 ], [ "tanned_hide", 4 ] ],
+      [ [ "rag", 6 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "boots_combat", 2 ], [ "kevlar_plate", 10 ] ],
+      [ [ "duct_tape", 200 ] ]
+    ]
+  },
+  {
+    "result": "clogs",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 80000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "components": [ [ [ "2x4", 2 ], [ "stick", 2 ], [ "splinter", 2 ] ] ]
+  },
+  {
+    "result": "footrags",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "time": 1000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "rag", 6 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "footrags_fur",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "time": 1500,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "fur", 9 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "footrags_leather",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "time": 1500,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "leather", 9 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "footrags_wool",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "time": 1000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "felt_patch", 6 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "leathersandals",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 20000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 5 ] ] ],
+    "components": [ [ [ "leather", 3 ] ] ]
+  },
+  {
+    "result": "mocassins",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 30000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_survival", 0 ], [ "pocket_survival", 0 ] ],
+    "tools": [ [ [ "sewing_kit", 5 ] ] ],
+    "components": [ [ [ "fur", 2 ] ] ]
+  },
+  {
+    "result": "nomex_socks",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": 24000,
+    "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "tools": [ [ [ "sewing_kit", 12 ] ] ],
+    "components": [ [ [ "nomex", 9 ] ] ]
+  },
+  {
+    "result": "shoes_birchbark",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": 60000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_survival", 1 ], [ "pocket_survival", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "components": [ [ [ "birchbark", 3 ] ] ]
+  },
+  {
+    "result": "socks",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "time": 10000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 4 ] ] ],
+    "components": [ [ [ "rag", 2 ] ] ]
+  },
+  {
+    "result": "socks_bag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "survival",
+    "time": 1000,
+    "autolearn": true,
+    "components": [ [ [ "plastic_shopping_bag", 2 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "socks_wool",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 60000,
+    "autolearn": true,
+    "tools": [ [ [ "knitting_needles", -1 ], [ "tailors_kit", -1 ] ] ],
+    "components": [ [ [ "yarn", 75 ] ] ]
+  },
+  {
+    "result": "stockings",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 10000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 6 ] ] ],
+    "components": [ [ [ "rag", 8 ] ] ]
+  },
+  {
+    "result": "straw_sandals",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 28000,
+    "autolearn": true,
+    "components": [ [ [ "straw_pile", 4 ], [ "birchbark", 6 ] ] ]
+  },
+  {
+    "result": "swim_fins",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "tailor", 2 ],
+    "time": 30000,
+    "book_learn": [ [ "mag_swimming", 3 ], [ "manual_swimming", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ],
+      [ [ "sewing_kit", 20 ] ]
+    ],
+    "components": [
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "duct_tape", 80 ], [ "medical_tape", 80 ] ],
+      [ [ "superglue", 1 ] ]
+    ]
+  },
+  {
+    "result": "thermal_socks",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "skills_required": [ "tailor", 2 ],
+    "time": 60000,
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "sewing_kit", 6 ] ],
+      [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ]
+    ],
+    "components": [
+      [ [ "rag", 2 ], [ "socks", 1 ], [ "socks_wool", 1 ] ],
+      [ [ "element", 2 ] ],
+      [ [ "cable", 4 ] ]
+    ]
+  },
+  {
+    "result": "wetsuit_booties",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": 120000,
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
+    "tools": [
+      [ [ "sewing_kit", 10 ] ],
+      [ [ "soldering_iron", 5 ], [ "welder", 5 ], [ "hotplate", 5 ], [ "toolset", 5 ] ]
+    ],
+    "components": [
+      [ [ "neoprene", 2 ] ],
+      [ [ "rag", 2 ] ]
+    ]
+  }
+]

@@ -3,6 +3,7 @@
 #include "rng.h"
 #include "generic_factory.h"
 #include "calendar.h"
+#include "item.h"
 
 #include <algorithm>
 
@@ -249,6 +250,18 @@ void mission_type::load( JsonObject &jo )
     mandatory( jo, was_loaded, "difficulty", difficulty );
     mandatory( jo, was_loaded, "value", value );
 
+    auto djo = jo.get_object( "dialogue" );
+    // @todo There should be a cleaner way to do it
+    mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
+    mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
+    mandatory( djo, was_loaded, "accepted", dialogue[ "accepted" ] );
+    mandatory( djo, was_loaded, "rejected", dialogue[ "rejected" ] );
+    mandatory( djo, was_loaded, "advice", dialogue[ "advice" ] );
+    mandatory( djo, was_loaded, "inquire", dialogue[ "inquire" ] );
+    mandatory( djo, was_loaded, "success", dialogue[ "success" ] );
+    mandatory( djo, was_loaded, "success_lie", dialogue[ "success_lie" ] );
+    mandatory( djo, was_loaded, "failure", dialogue[ "failure" ] );
+
     optional( jo, was_loaded, "urgent", urgent );
     optional( jo, was_loaded, "item", item_id );
     optional( jo, was_loaded, "count", item_count, 1 );
@@ -281,6 +294,15 @@ void mission_type::load( JsonObject &jo )
 
     if( jo.has_member( "destination" ) ) {
         target_id = oter_id( jo.get_string( "destination" ) );
+    }
+}
+
+void mission_type::check_consistency()
+{
+    for( const auto &m : get_all() ) {
+        if( !m.item_id.empty() && !item::type_is_defined( m.item_id ) ) {
+            debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
+        }
     }
 }
 

@@ -266,12 +266,6 @@ void recipe_dictionary::finalize_internal( std::map<std::string, recipe> &obj )
             continue;
         }
 
-        if( r.result_mult != 1 && !item::count_by_charges( r.result ) ) {
-            debugmsg( "Recipe %s has result_mult but result is not counted by charges", id );
-            it = obj.erase( it );
-            continue;
-        }
-
         if( std::any_of( r.byproducts.begin(), r.byproducts.end(),
         []( const std::pair<itype_id, int> &bp ) {
         return !item::type_is_defined( bp.first );

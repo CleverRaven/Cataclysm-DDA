@@ -2176,30 +2176,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "xlframe",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_PARTS",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 8000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
-  "tools": [
-    [
-      [ "welder", 60 ],
-      [ "welder_crude", 90 ],
-      [ "toolset", 90 ],
-      [ "oxy_torch", 12 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "pipe", 4 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "foldframe",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
@@ -5228,9 +5204,9 @@
   "components":
     [
      [
-     [ "glass_shard", 48 ],
-     [ "flask_glass", 12 ],
-     [ "jar_glass", 6 ]
+     [ "glass_shard", 28 ],
+     [ "flask_glass", 6 ],
+     [ "jar_glass", 4 ]
      ]
     ]
 },{
@@ -5858,13 +5834,13 @@
 },{
   "type" : "recipe",
   "result": "plastic_chunk",
-  "byproducts": [ [ "plastic_chunk", 14 ] ],
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 50000,
   "autolearn": true,
+  "result_mult": 15,
   "qualities":[
     {"id":"CHEM","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1}

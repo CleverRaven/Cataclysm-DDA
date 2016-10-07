@@ -442,7 +442,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```FOLDABLE```
 - ```FORGE``` Acts as a forge for crafting.
 - ```FRIDGE``` Can refrigerate items.
-- ```FUEL_TANK``` Storage device for a fuel type.
 - ```FUNNEL```
 - ```HORN``` Generates noise when used.
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
@@ -780,10 +779,11 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ### Flags
 
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
-- ```BAYONET``` If the item is attached to a gun (as gunmod), the gun will use the cutting damage from the mod instead of its own.
 - ```CHOP``` Does cutting damage, with a high chance of getting stuck.
+- ```DIAMOND``` Diamond coating adds 30% bonus to cutting damage
 - ```MESSY``` Resistant to getting stuck in a monster. Potentially cause more gore in the future?
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
+- ```NO_CVD``` Item can never be used with a CVD machine
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```NO_UNWIELD``` Cannot unwield this item.
 - ```REACH_ATTACK``` Allows to perform reach attack.

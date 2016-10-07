@@ -134,6 +134,65 @@
   ]
 },{
   "type" : "recipe",
+  "result": "sweetbread",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "difficulty": 4,
+  "skill_used": "cooking",
+  "time": 40000,
+  "autolearn": true,
+  "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the sweetbreads",
+  "batch_time_factors":[67, 5],
+  "qualities":[
+    {"id":"CUT","level":1},
+    {"id":"BOIL","level":2},
+    {"id":"COOK","level":2}
+  ], "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 7 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "cooking_oil", -1 ],
+      [ "tallow", -1 ],
+      [ "lard", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "offal", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "salt_water", 1 ],
+      [ "saline", 5 ],
+      [ "salt", 10 ]
+    ],
+    [
+      [ "vinegar", 1 ],
+      [ "lemon", 1 ],
+      [ "irradiated_lemon", 1 ]
+    ],
+    [
+      [ "flour", 1 ],
+      [ "cornmeal", 1 ],
+      [ "flatbread", 1 ],
+      [ "tortilla_corn", 1 ],
+      [ "bread", 1 ],
+      [ "wastebread", 1 ],
+      [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
+      [ "hardtack", 1 ],
+      [ "crackers", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "offal_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -156,7 +215,85 @@
       [ "offal", 1 ]
     ]
   ]
-},{
+  },
+  {
+    "result": "offal_canned",
+    "type": "recipe",
+    "id_suffix": "jarred",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 30000,
+    "batch_time_factors": [ 83, 5 ],
+    "autolearn": true,
+    "container": "jar_glass_sealed",
+    "result_mult": 2,
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [ [ [ "hotplate", 10 ], [ "char_smoker", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "jar_glass", 1 ] ],
+      [ [ "offal", 2 ] ]
+    ]
+  },
+  {
+    "result": "offal_canned",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": 24000,
+    "batch_time_factors": [ 83, 5 ],
+    "autolearn": true,
+    "contained": true,
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [
+      [ [ "hotplate", 10 ], [ "char_smoker", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ],
+      [ [ "can_sealer", -1 ] ]
+    ],
+    "components": [
+      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "offal", 1 ] ]
+    ]
+  },
+  {
+    "result": "offal_pickled",
+    "type": "recipe",
+    "id_suffix": "jarred",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 30000,
+    "batch_time_factors": [ 83, 5 ],
+    "autolearn": true,
+    "container": "jar_glass_sealed",
+    "result_mult": 2,
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [ [ [ "hotplate", 20 ], [ "char_smoker", 20 ], [ "toolset", 20 ], [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "jar_glass", 1 ] ],
+      [ [ "offal", 2 ] ],
+      [ [ "vinegar", 1 ] ]
+    ]
+  },
+  {
   "type" : "recipe",
   "result": "stomach_boiled",
   "category": "CC_FOOD",
@@ -1770,14 +1907,14 @@
     ],
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
       [ "can_chicken", 2 ],
-      [ "meat_canned", 2 ],
+      [ "meat_canned", 1 ],
       [ "fish", 1 ],
-      [ "dry_fish", 2],
-      [ "rehydrated_fish", 2],
-      [ "fish_canned", 2],
+      [ "dry_fish", 1],
+      [ "rehydrated_fish", 1],
+      [ "fish_canned", 1],
       [ "can_salmon", 2],
       [ "can_tuna", 2],
       [ "bacon", 2 ],
@@ -2026,9 +2163,9 @@
   "components": [
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "can_chicken", 2 ]
     ],
     [
@@ -2058,9 +2195,9 @@
   "components": [
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "can_chicken", 2 ]
     ],
     [
@@ -3206,9 +3343,9 @@
     ],
     [
       [ "jerky", 6 ],
-      [ "dry_meat", 4 ],
+      [ "dry_meat", 2 ],
       [ "meat_smoked", 2 ],
-      [ "dry_fish", 9 ],
+      [ "dry_fish", 3 ],
       [ "salted_fish", 6 ],
       [ "fish_smoked", 3 ]
     ],
@@ -5275,11 +5412,11 @@
       [ "bacon", 2 ],
       [ "meat_cooked", 1 ],
       [ "meat_smoked", 1 ],
-      [ "dry_meat", 2 ],
-      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 1 ],
+      [ "rehydrated_meat", 1 ],
       [ "sausage", 2 ],
       [ "jerky", 3 ],
-      [ "salted_fish", 3 ],
+      [ "salted_fish", 2 ],
       [ "meat_pickled", 1 ],
       [ "meat_vac", 1 ],
       [ "meat_canned", 1 ],
@@ -6348,9 +6485,9 @@
     ],
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "can_chicken", 2 ]
     ],
     [
@@ -6438,9 +6575,9 @@
     ],
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "can_chicken", 2 ]
     ],
     [
@@ -6771,7 +6908,7 @@
     ],
     [
       [ "meat", 2 ],
-      [ "meat_canned", 1 ],
+      [ "meat_canned", 2 ],
       [ "can_chicken", 1 ],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
@@ -6815,7 +6952,7 @@
     ],
     [
       [ "meat", 2 ],
-      [ "meat_canned", 1 ],
+      [ "meat_canned", 2 ],
       [ "can_chicken", 1 ],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
@@ -8934,9 +9071,9 @@
   "components": [
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "can_chicken", 2 ]
     ],
     [
@@ -9435,9 +9572,9 @@
     ],
     [
       [ "meat", 1],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
       [ "can_chicken", 2 ]
     ]
   ]
@@ -11825,8 +11962,8 @@
     ],
     [
       [ "meat", 1 ],
-      [ "dry_meat", 2 ],
-      [ "rehydrated_meat", 2 ]
+      [ "dry_meat", 1 ],
+      [ "rehydrated_meat", 1 ]
     ],
     [
       [ "water", 1 ],

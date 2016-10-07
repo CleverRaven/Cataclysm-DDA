@@ -737,7 +737,7 @@ void npc::spawn_at(int x, int y, int z)
     position.z = z;
     const point pos_om = sm_to_om_copy( mapx, mapy );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
-    om.npcs.push_back(this);
+    om.add_npc( *this );
 }
 
 void npc::spawn_at_random_city(overmap *o)

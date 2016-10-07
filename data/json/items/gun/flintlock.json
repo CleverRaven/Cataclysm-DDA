@@ -96,7 +96,6 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 1200,
-    "built_in_mods": [ "bayonet" ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
   }
