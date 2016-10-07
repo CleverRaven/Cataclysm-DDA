@@ -5,6 +5,7 @@
 #include "copyable_unique_ptr.h"
 #include "item.h"
 #include "player_activity.h"
+#include "recipe_dictionary.h"
 #include "weighted_list.h"
 #include "game_constants.h"
 
@@ -1139,10 +1140,20 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void learn_recipe( const recipe *rec );
         int exceeds_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_requirements( const recipe &rec ) const;
-        bool has_recipe_autolearned( const recipe &rec ) const;
         bool can_decomp_learn( const recipe &rec ) const;
 
         bool studied_all_recipes( const itype &book ) const;
+
+        /** Returns all known recipes. */
+        const recipe_subset &get_learned_recipes() const;
+        /** Returns all recipes that are known from the books (either in inventory or nearby). */
+        const recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
+        /**
+          * Returns all available recipes (from books and npc companions)
+          * @param helpers List of NPCs that could help with crafting.
+          */
+        const recipe_subset get_available_recipes( const inventory &crafting_inv,
+                                                   const std::vector<npc *> *helpers = nullptr ) const;
 
         // crafting.cpp
         float lighting_craft_speed_multiplier( const recipe & rec ) const;
@@ -1284,8 +1295,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::array<int, num_bp> body_wetness;
 
         int focus_pool;
-
-        std::map<std::string, const recipe *> learned_recipes;
 
         std::vector<matype_id> ma_styles;
         matype_id style_selected;
@@ -1524,6 +1533,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
+
+        /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
+        mutable recipe_subset learned_recipes;
+
+        /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
+        mutable decltype( _skills ) valid_autolearn_skills;
 };
 
 #endif

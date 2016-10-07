@@ -4,10 +4,12 @@
 #include <string>
 #include <map>
 #include <functional>
+#include <set>
+#include <vector>
 
-#include "crafting.h"
-
-extern recipe_dictionary recipe_dict;
+class JsonObject;
+struct recipe;
+typedef std::string itype_id;
 
 class recipe_dictionary
 {
@@ -21,31 +23,17 @@ class recipe_dictionary
          */
         const recipe &operator[]( const std::string &id ) const;
 
-        /** Get all recipes in given category (optionally restricted to subcategory) */
-        std::vector<const recipe *> in_category(
-            const std::string &cat,
-            const std::string &subcat = std::string() ) const;
+        /** Returns all recipes that can be automatically learned */
+        const std::set<const recipe *> &all_autolearn() const {
+            return autolearn;
+        }
 
-        /** Returns all recipes which could use component */
-        const std::set<const recipe *> &of_component( const itype_id &id ) const;
+        size_t size() const;
+        std::map<std::string, recipe>::const_iterator begin() const;
+        std::map<std::string, recipe>::const_iterator end() const;
 
         /** Returns disassembly recipe (or null recipe if no match) */
         static const recipe &get_uncraft( const itype_id &id );
-
-        /** Find recipe by result name (left anchored partial matches are supported) */
-        static std::vector<const recipe *> search( const std::string &txt );
-
-        size_t size() const {
-            return recipes.size();
-        }
-
-        std::map<std::string, recipe>::const_iterator begin() const {
-            return recipes.begin();
-        }
-
-        std::map<std::string, recipe>::const_iterator end() const {
-            return recipes.end();
-        }
 
         static void load( JsonObject &jo, const std::string &src, bool uncraft );
 
@@ -62,10 +50,78 @@ class recipe_dictionary
     private:
         std::map<std::string, recipe> recipes;
         std::map<std::string, recipe> uncraft;
-        std::map<std::string, std::set<const recipe *>> category;
-        std::map<itype_id, std::set<const recipe *>> component;
+        std::set<const recipe *> autolearn;
 
         static void finalize_internal( std::map<std::string, recipe> &obj );
+};
+
+extern recipe_dictionary recipe_dict;
+
+class recipe_subset
+{
+    public:
+        /**
+         * Include a recipe to the subset.
+         * @param custom_difficulty If specified, it defines custom difficulty for the recipe
+         */
+        void include( const recipe *r, int custom_difficulty = -1 );
+        void include( const recipe_subset &subset );
+        /**
+         * Include a recipe to the subset. Based on the condition.
+         * @param pred Unary predicate that accepts a @ref recipe.
+         */
+        template<class Predicate>
+        void include_if( const recipe_subset &subset, Predicate pred ) {
+            for( const auto &elem : subset ) {
+                if( pred( *elem ) ) {
+                    include( elem );
+                }
+            }
+        }
+
+        /** Check if the subset contains a recipe with the specified @param id. */
+        bool contains( const recipe *r ) const {
+            return recipes.find( r ) != recipes.end();
+        }
+
+        /**
+         * Get custom difficulty for the recipe.
+         * @return Either custom difficulty if it was specified, or recipe default difficulty.
+         */
+        int get_custom_difficulty( const recipe *r ) const;
+
+        /** Get all recipes in given category (optionally restricted to subcategory) */
+        std::vector<const recipe *> in_category(
+            const std::string &cat,
+            const std::string &subcat = std::string() ) const;
+        /** Returns all recipes which could use component */
+        const std::set<const recipe *> &of_component( const itype_id &id ) const;
+        /** Find recipe by result name (left anchored partial matches are supported) */
+        std::vector<const recipe *> search( const std::string &txt ) const;
+
+        size_t size() const {
+            return recipes.size();
+        }
+
+        void clear() {
+            component.clear();
+            category.clear();
+            recipes.clear();
+        }
+
+        std::set<const recipe *>::const_iterator begin() const {
+            return recipes.begin();
+        }
+
+        std::set<const recipe *>::const_iterator end() const {
+            return recipes.end();
+        }
+
+    private:
+        std::set<const recipe *> recipes;
+        std::map<const recipe *, int> difficulties;
+        std::map<std::string, std::set<const recipe *>> category;
+        std::map<itype_id, std::set<const recipe *>> component;
 };
 
 #endif

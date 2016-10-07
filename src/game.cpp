@@ -4151,9 +4151,7 @@ void game::debug()
             add_msg( m_info, _( "Recipe debug." ) );
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( const auto &e : recipe_dict ) {
-                if( !( u.learned_recipes.find( e.first ) != u.learned_recipes.end() ) )  {
-                    u.learn_recipe( &e.second );
-                }
+                u.learn_recipe( &e.second );
             }
             add_msg( m_good, _( "You know how to craft that now." ) );
         }

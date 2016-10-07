@@ -5,6 +5,7 @@
 #include "item_factory.h"
 #include "init.h"
 #include "cata_utility.h"
+#include "crafting.h"
 
 #include <algorithm>
 #include <numeric>
@@ -28,18 +29,19 @@ const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
     return iter != recipe_dict.uncraft.end() ? iter->second : null_recipe;
 }
 
-std::vector<const recipe *> recipe_dictionary::search( const std::string &txt )
+std::vector<const recipe *> recipe_subset::search( const std::string &txt ) const
 {
     std::vector<const recipe *> res;
-    for( const auto &e : recipe_dict.recipes ) {
-        if( lcmatch( item::nname( e.second.result ), txt ) ) {
-            res.push_back( &e.second );
-        }
-    }
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ),
+    [ &txt ]( const recipe * r ) {
+        return lcmatch( item::nname( r->result ), txt );
+    } );
+
     return res;
 }
 
-std::vector<const recipe *> recipe_dictionary::in_category( const std::string &cat,
+std::vector<const recipe *> recipe_subset::in_category( const std::string &cat,
         const std::string &subcat ) const
 {
     std::vector<const recipe *> res;
@@ -57,7 +59,7 @@ std::vector<const recipe *> recipe_dictionary::in_category( const std::string &c
     return res;
 }
 
-const std::set<const recipe *> &recipe_dictionary::of_component( const itype_id &id ) const
+const std::set<const recipe *> &recipe_subset::of_component( const itype_id &id ) const
 {
     auto iter = component.find( id );
     return iter != component.end() ? iter->second : null_match;
@@ -224,6 +226,21 @@ void recipe_dictionary::load( JsonObject &jo, const std::string &src, bool uncra
     }
 }
 
+size_t recipe_dictionary::size() const
+{
+    return recipes.size();
+}
+
+std::map<std::string, recipe>::const_iterator recipe_dictionary::begin() const
+{
+    return recipes.begin();
+}
+
+std::map<std::string, recipe>::const_iterator recipe_dictionary::end() const
+{
+    return recipes.end();
+}
+
 void recipe_dictionary::finalize_internal( std::map<std::string, recipe> &obj )
 {
     for( auto it = obj.begin(); it != obj.end(); ) {
@@ -337,15 +354,6 @@ void recipe_dictionary::finalize()
             }
         }
 
-        // add recipe to category and component caches
-        recipe_dict.category[r.category].insert( &r );
-
-        for( const auto &opts : r.requirements().get_components() ) {
-            for( const item_comp &comp : opts ) {
-                recipe_dict.component[comp.type].insert( &r );
-            }
-        }
-
         // if reversible and no specific uncraft recipe exists use this recipe
         if( r.reversible && !recipe_dict.uncraft.count( r.result ) ) {
             recipe_dict.uncraft[ r.result ] = r;
@@ -366,12 +374,18 @@ void recipe_dictionary::finalize()
             bk.time = pages * 10; // @todo allow specifying time in requirement_data
         }
     }
+
+    // Cache auto-learn recipes
+    for( const auto &e : recipe_dict.recipes ) {
+        if( e.second.autolearn ) {
+            recipe_dict.autolearn.insert( &e.second );
+        }
+    }
 }
 
 void recipe_dictionary::reset()
 {
-    recipe_dict.component.clear();
-    recipe_dict.category.clear();
+    recipe_dict.autolearn.clear();
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
 }
@@ -392,4 +406,55 @@ void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &
             ++it;
         }
     }
+}
+
+void recipe_subset::include( const recipe *r, int custom_difficulty )
+{
+    if( custom_difficulty < 0 ) {
+        custom_difficulty = r->difficulty;
+    }
+    // We always prefer lower difficulty for the subset, but we save it only if it's not default
+    if( recipes.count( r ) > 0 ) {
+        const auto iter = difficulties.find( r );
+        // See if we need to lower the difficulty of the existing recipe
+        if( iter != difficulties.end() && custom_difficulty < iter->second ) {
+            if( custom_difficulty != r->difficulty ) {
+                iter->second = custom_difficulty; // Added again with lower difficulty
+            } else {
+                difficulties.erase( iter ); // No need to keep the default difficulty. Free some memory
+            }
+        } else if( custom_difficulty < r->difficulty ) {
+            difficulties[r] = custom_difficulty; // Added again with lower difficulty
+        }
+    } else {
+        // add recipe to category and component caches
+        for( const auto &opts : r->requirements().get_components() ) {
+            for( const item_comp &comp : opts ) {
+                component[comp.type].insert( r );
+            }
+        }
+        category[r->category].insert( r );
+        // Set the difficulty is it's not the default
+        if( custom_difficulty != r->difficulty ) {
+            difficulties[r] = custom_difficulty;
+        }
+        // insert the recipe
+        recipes.insert( r );
+    }
+}
+
+void recipe_subset::include( const recipe_subset &subset )
+{
+    for( const auto &elem : subset ) {
+        include( elem, subset.get_custom_difficulty( elem ) );
+    }
+}
+
+int recipe_subset::get_custom_difficulty( const recipe *r ) const
+{
+    const auto iter = difficulties.find( r );
+    if( iter != difficulties.end() ) {
+        return iter->second;
+    }
+    return r->difficulty;
 }

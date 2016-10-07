@@ -7278,6 +7278,8 @@ bool multicooker_hallu(player *p)
 
 int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 {
+    static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
+
     if (t) {
         if (it->charges == 0) {
             it->active = false;
@@ -7436,19 +7438,13 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 
             int counter = 1;
 
-            for( const auto &e : recipe_dict ) {
-                const auto r = e.second;
-                if( r.category == "CC_FOOD" && ( r.subcategory == "CSC_FOOD_MEAT" ||
-                                                 r.subcategory == "CSC_FOOD_VEGGI" ||
-                                                 r.subcategory == "CSC_FOOD_PASTA" ) ) {
+            for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
+                if( multicooked_subcats.count( r->subcategory ) > 0 ) {
+                    dishes.push_back( r );
+                    const bool can_make = r->requirements().can_make_with_inventory( crafting_inv );
+                    item dummy( r->result );
 
-                    if( p->knows_recipe( &r ) ) {
-                        dishes.push_back( &r );
-                        const bool can_make = r.can_make_with_inventory( crafting_inv );
-                        item dummy( r.result );
-
-                        dmenu.addentry(counter++, can_make, -1, dummy.display_name());
-                    }
+                    dmenu.addentry(counter++, can_make, -1, dummy.display_name());
                 }
             }
 

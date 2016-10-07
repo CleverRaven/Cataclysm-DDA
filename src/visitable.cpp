@@ -119,6 +119,19 @@ bool visitable<T>::has_quality( const quality_id &qual, int level, int qty ) con
 }
 
 template <>
+bool visitable<inventory>::has_quality( const quality_id &qual, int level, int qty ) const
+{
+    long res = 0;
+    for( const auto &stack : static_cast<const inventory *>( this )->items ) {
+        res += stack.size() * stack.front().has_quality( qual, level, qty );
+        if( res >= qty ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+template <>
 bool visitable<vehicle_selector>::has_quality( const quality_id &qual, int level, int qty ) const
 {
     for( const auto& cursor : static_cast<const vehicle_selector &>( *this ) ) {
@@ -706,6 +719,16 @@ long visitable<T>::charges_of( const std::string &what, int limit ) const
 }
 
 template <>
+long visitable<inventory>::charges_of( const std::string &what, int limit ) const
+{
+    long res = 0;
+    for( const auto &stack : static_cast<const inventory *>( this )->items ) {
+        res += stack.size() * stack.front().charges_of( what, limit );
+    }
+    return res;
+}
+
+template <>
 long visitable<Character>::charges_of( const std::string &what, int limit ) const
 {
     auto self = static_cast<const Character *>( this );
@@ -747,6 +770,16 @@ template <typename T>
 int visitable<T>::amount_of( const std::string& what, bool pseudo, int limit ) const
 {
     return amount_of_internal( *this, what, pseudo, limit );
+}
+
+template <>
+int visitable<inventory>::amount_of( const std::string& what, bool pseudo, int limit ) const
+{
+    int res = 0;
+    for( const auto &stack : static_cast<const inventory *>( this )->items ) {
+        res += stack.size() * stack.front().amount_of( what, pseudo, limit );
+    }
+    return std::min( res, limit );
 }
 
 template <>
