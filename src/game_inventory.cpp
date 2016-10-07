@@ -172,12 +172,12 @@ class gunmod_inventory_preset : public inventory_selector_preset
                 }
 
                 return string_format( "<color_ltgreen>%d%%</color>", odds.first );
-            }, _( "SUCCESS" ) );
+            }, _( "SUCCESS CHANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
                 const auto odds = get_odds( loc );
                 return odds.second > 0 ? string_format( "<color_red>%d%%</color>", odds.second ) : std::string();
-            }, _( "DAMAGE" ) );
+            }, _( "DAMAGE RISK" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
