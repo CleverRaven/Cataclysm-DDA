@@ -779,7 +779,7 @@ int visitable<inventory>::amount_of( const std::string& what, bool pseudo, int l
     for( const auto &stack : static_cast<const inventory *>( this )->items ) {
         res += stack.size() * stack.front().amount_of( what, pseudo, limit );
     }
-    return res;
+    return std::min( res, limit );
 }
 
 template <>
