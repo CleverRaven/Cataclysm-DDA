@@ -1004,7 +1004,7 @@
       { "item": "steel_chunk", "count": [ 2, 5 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
-    "flags": [ "FUEL_TANK", "REACTOR" ]
+    "flags": [ "REACTOR" ]
   },
   {
     "id": "vgen2",
@@ -1031,7 +1031,7 @@
       { "item": "scrap", "count": [ 4, 12 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
-    "flags": [ "ENGINE", "TOOL_NONE", "FUEL_TANK" ]
+    "flags": [ "ENGINE", "TOOL_NONE" ]
   },
   {
     "id": "vgen2",

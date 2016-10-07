@@ -42,8 +42,6 @@ struct fuel_type {
     /** Id of the item type that represents the fuel. It may not be valid for certain pseudo
      * fuel types like muscle. */
     itype_id id;
-    /** Color when displaying information about. */
-    nc_color color;
     /** See @ref vehicle::consume_fuel */
     int coeff;
     /** Factor is used when transforming from item charges to fuel amount. */
@@ -124,9 +122,6 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Translated name of a part inclusive of any current status effects */
     std::string name() const;
 
-    /** Ammo type (@ref ammunition_type) that can be contained by a part */
-    ammotype ammo_type() const;
-
     /** Specific type of fuel, charges or ammunition currently contained by a part */
     itype_id ammo_current() const;
 
@@ -195,6 +190,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /** Can this part store electrical charge? */
     bool is_battery() const;
+
+    /** Is this part a reactor? */
+    bool is_reactor() const;
 
     /** Can this part function as a turret? */
     bool is_turret() const;
@@ -450,12 +448,6 @@ private:
 
     units::volume total_folded_volume() const;
 
-    // Gets the fuel color for a given fuel
-    nc_color get_fuel_color ( const itype_id &fuel_type ) const;
-
-    // Whether a fuel indicator should be printed
-    bool should_print_fuel_indicator (itype_id fuelType, bool fullsize) const;
-
     // Vehical fuel indicator (by fuel)
     void print_fuel_indicator (void *w, int y, int x, itype_id fuelType,
                                bool verbose = false, bool desc = false) const;
@@ -695,11 +687,11 @@ public:
     int print_part_desc (WINDOW *win, int y1, int max_y, int width, int p, int hl = -1) const;
 
     // Get all printable fuel types
-    std::vector< itype_id > get_printable_fuel_types (bool fullsize) const;
+    std::vector<itype_id> get_printable_fuel_types() const;
 
     // Vehicle fuel indicators (all of them)
-    void print_fuel_indicators (void *w, int y, int x, int startIndex = 0, bool fullsize = false,
-                               bool verbose = false, bool desc = false, bool isHorizontal = false) const;
+    void print_fuel_indicators( WINDOW *win, int y, int x, int startIndex = 0, bool fullsize = false,
+                                bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
 
     // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts (int idir, int dir, const point &pivot);
@@ -1100,7 +1092,6 @@ public:
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
     std::set<label> labels;            // stores labels
     std::vector<int> alternators;      // List of alternator indices
-    std::vector<int> fuel;             // List of fuel tank indices
     std::vector<int> engines;          // List of engine indices
     std::vector<int> reactors;         // List of reactor indices
     std::vector<int> solar_panels;     // List of solar panel indices

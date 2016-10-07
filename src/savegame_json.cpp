@@ -1547,13 +1547,50 @@ void vehicle_part::deserialize(JsonIn &jsin)
     vpart_str_id pid;
     data.read("id", pid);
 
-    // swap deprecated charger gun for laser rifle
-    if( pid.str() == "laser_gun" ) {
-        pid = vpart_str_id( "laser_rifle" );
-    }
+    std::map<std::string, std::pair<std::string,itype_id>> deprecated = {
+        { "laser_gun", { "laser_rifle", "none" } },
+        { "battery_truck", { "battery_car", "battery" } },
 
-    if( pid.str() == "battery_truck" ) {
-        pid = vpart_str_id( "battery_car" );
+        { "diesel_tank_little", { "tank_little", "diesel" } },
+        { "diesel_tank_small", { "tank_small", "diesel" } },
+        { "diesel_tank_medium", { "tank_medium", "diesel" } },
+        { "diesel_tank", { "tank", "diesel" } },
+        { "external_diesel_tank_small", { "external_tank_small", "diesel" } },
+        { "external_diesel_tank", { "external_tank", "diesel" } },
+
+        { "gas_tank_little", { "tank_little", "gasoline" } },
+        { "gas_tank_small", { "tank_small", "gasoline" } },
+        { "gas_tank_medium", { "tank_medium", "gasoline" } },
+        { "gas_tank", { "tank", "gasoline" } },
+        { "external_gas_tank_small", { "external_tank_small", "gasoline" } },
+        { "external_gas_tank", { "external_tank", "gasoline" } },
+
+        { "water_dirty_tank_little", { "tank_little", "water" } },
+        { "water_dirty_tank_small", { "tank_small", "water" } },
+        { "water_dirty_tank_medium", { "tank_medium", "water" } },
+        { "water_dirty_tank", { "tank", "water" } },
+        { "external_water_dirty_tank_small", { "external_tank_small", "water" } },
+        { "external_water_dirty_tank", { "external_tank", "water" } },
+        { "dirty_water_tank_barrel", { "tank_barrel", "water" } },
+
+        { "water_tank_little", { "tank_little", "water_clean" } },
+        { "water_tank_small", { "tank_small", "water_clean" } },
+        { "water_tank_medium", { "tank_medium", "water_clean" } },
+        { "water_tank", { "tank", "water_clean" } },
+        { "external_water_tank_small", { "external_tank_small", "water_clean" } },
+        { "external_water_tank", { "external_tank", "water_clean" } },
+        { "water_tank_barrel", { "tank_barrel", "water_clean" } },
+
+        { "napalm_tank", { "tank", "napalm" } }
+    };
+
+    // required for compatibility with 0.C saves
+    itype_id legacy_fuel;
+
+    auto dep = deprecated.find( pid.str() );
+    if( dep != deprecated.end() ) {
+        pid = vpart_str_id( dep->second.first );
+        legacy_fuel = dep->second.second;
     }
 
     // if we don't know what type of part it is, it'll cause problems later.
@@ -1589,16 +1626,20 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("target_second_y", target.second.y);
     data.read("target_second_z", target.second.z);
 
+    if( legacy_fuel.empty() ) {
+        legacy_fuel = id.obj().fuel_type;
+    }
+
     // with VEHICLE tag migrate fuel tanks only if amount field exists
     if( base.has_flag( "VEHICLE") ) {
-        if( data.has_int( "amount" ) && ammo_capacity() > 0 && id.obj().fuel_type != "battery" ) {
-            ammo_set( id.obj().fuel_type, data.get_int( "amount" ) );
+        if( data.has_int( "amount" ) && ammo_capacity() > 0 && legacy_fuel != "battery" ) {
+            ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
 
     // without VEHICLE flag always migrate both batteries and fuel tanks
     } else {
         if( ammo_capacity() > 0 ) {
-            ammo_set( id.obj().fuel_type, data.get_int( "amount" ) );
+            ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
         base.item_tags.insert( "VEHICLE" );
     }
