@@ -2596,6 +2596,10 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
 
         std::string partname = vp.name();
 
+        if( vp.is_tank() && vp.ammo_current() != "null" ) {
+            partname += string_format( " (%s)", item::nname( vp.ammo_current() ).c_str() );
+        }
+
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
             partname += string_format(_(" (vol: %d/%d)"), stored_volume( pl[i] ) / units::legacy_volume_factor, max_volume( pl[i] ) / units::legacy_volume_factor );
