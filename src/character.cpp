@@ -924,16 +924,15 @@ bool Character::can_use( const item& it, const item& context ) const {
         const std::string unmet( enumerate_unmet_requirements( it, context ) );
 
         if( context.is_null() ) {
-            add_msg_if_player( m_bad, _( "You need at least %s to use this %s." ),
-                               unmet.c_str(), it.tname().c_str() );
-            add_msg_if_npc( m_bad, _( "%s needs at least %s to use this %s." ),
-                            get_name().c_str(), unmet.c_str(), it.tname().c_str() );
+            //~ %1$s - list of unmet requirements, %2$s - item name.
+            add_msg_player_or_npc( m_bad, _( "You need at least %1$s to use this %2$s." ),
+                                          _( "<npcname> needs at least %1$s to use this %2$s." ),
+                                          unmet.c_str(), it.tname().c_str() );
         } else {
-            add_msg_if_player( m_bad, _( "You need at least %s to use this %s with your %s." ),
-                               unmet.c_str(), it.tname().c_str(), context.tname().c_str() );
-            add_msg_if_npc( m_bad, _( "%s needs at least %s to use this %s with their %s." ),
-                            get_name().c_str(), unmet.c_str(), it.tname().c_str(),
-                            context.tname().c_str() );
+            //~ %1$s - list of unmet requirements, %2$s - item name, %3$s - indirect item name.
+            add_msg_player_or_npc( m_bad, _( "You need at least %1$s to use this %2$s with your %3$s." ),
+                                          _( "<npcname> needs at least %1$s to use this %2$s with their %3$s." ),
+                                          unmet.c_str(), it.tname().c_str(), context.tname().c_str() );
         }
 
         return false;
