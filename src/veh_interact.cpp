@@ -26,6 +26,7 @@
 #include <iterator>
 #include <algorithm>
 #include <numeric>
+#include <cassert>
 
 #ifdef _MSC_VER
 #include <math.h>
@@ -74,6 +75,7 @@ player_activity veh_interact::run( vehicle &veh, int x, int y )
             if( pt->is_broken() ) {
                 time = vp->install_time( g->u );
             } else {
+                assert( pt->base.max_damage() > 0 ); // why repairing part that cannot be damaged?
                 time = vp->repair_time( g->u ) * double( pt->base.damage() ) / pt->base.max_damage();
             }
             break;
