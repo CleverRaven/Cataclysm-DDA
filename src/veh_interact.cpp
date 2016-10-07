@@ -703,7 +703,9 @@ void veh_interact::do_install()
         const std::string action = main_context.handle_input();
         if (action == "FILTER" ){
             filter = string_input_popup( _("Set Filter"),
-                                        50, filter, "", "", 100, false);
+                                        50, filter,
+                                        _("{f:} to filter by part flag, {pgt} and {plt} to filter by power, combine with ',', otherwise it searches by name"),
+                                         "", 100, false );
             tab = 7;//Move to the user filter tab.
             display_grid();
             display_stats();
