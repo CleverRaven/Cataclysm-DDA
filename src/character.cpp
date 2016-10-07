@@ -1,4 +1,5 @@
 #include "character.h"
+#include "catalua.h"
 #include "game.h"
 #include "map.h"
 #include "map_selector.h"
@@ -14,6 +15,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "player.h"
+#include "projectile.h"
 #include "mutation.h"
 #include "vehicle.h"
 
@@ -37,6 +39,7 @@ const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_webbed( "webbed" );
 
+const skill_id skill_dodge( "dodge" );
 const skill_id skill_throw( "throw" );
 
 const std::string debug_nodmg( "DEBUG_NODMG" );
@@ -2154,4 +2157,157 @@ long Character::ammo_count_for( const item &gun )
     }
 
     return ret;
+}
+
+static int dodge_practice_amt( const Character &who, int damage )
+{
+    if( damage <= 0 ) {
+        return 0;
+    }
+
+    float enc = ( who.encumb( bp_leg_l ) + who.encumb( bp_leg_r ) ) / 20.0f +
+                ( who.encumb( bp_torso ) / 10.0f );
+    if( enc >= 5.0f ) {
+        return 0;
+    }
+
+    const int prac = roll_remainder( ( 5.0f - enc ) * damage );
+    add_msg( m_debug, "%s: dodge practice: %d", who.disp_name().c_str(), prac );
+    return prac;
+}
+
+void Character::deal_melee_hit( Creature *source, int hit_spread, bool crit,
+                                const damage_instance &d, dealt_damage_instance &dealt_dam )
+{
+    Creature::deal_melee_hit( source, hit_spread, crit, d, dealt_dam );
+    practice( skill_dodge, dodge_practice_amt( *this, dealt_dam.total_damage() ), 10 );
+}
+
+void Character::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
+{
+    Creature::deal_projectile_attack( source, attack );
+    practice( skill_dodge, dodge_practice_amt( *this, attack.dealt_dam.total_damage() ), 10 );
+}
+
+int Character::adjust_for_focus( int amount ) const
+{
+    int effective_focus = focus_pool;
+    if( has_trait( "SLOWLEARNER" ) ) {
+        effective_focus -= 15;
+    } else if( has_trait( "FASTLEARNER" ) ) {
+        effective_focus += 15;
+    }
+
+    return roll_remainder( amount * effective_focus / 100.0 );
+}
+
+void Character::practice( const skill_id &id, int amount, int cap )
+{
+    SkillLevel &level = get_skill_level( id );
+    const Skill &skill = id.obj();
+    // Double amount, but only if level.exercise isn't a small negative number?
+    if (level.exercise() < 0) {
+        if (amount >= -level.exercise()) {
+            amount -= level.exercise();
+        } else {
+            amount += amount;
+        }
+    }
+
+    if( !level.can_train() ) {
+        // If leveling is disabled, don't train, don't drain focus, don't print anything
+        // Leaving as a skill method rather than global for possible future skill cap setting
+        return;
+    }
+
+    bool isSavant = has_trait("SAVANT");
+
+    skill_id savantSkill( NULL_ID );
+    SkillLevel savantSkillLevel = SkillLevel();
+
+    if (isSavant) {
+        for( auto const &skill : Skill::skills ) {
+            if( get_skill_level( skill.ident() ) > savantSkillLevel ) {
+                savantSkill = skill.ident();
+                savantSkillLevel = get_skill_level( skill.ident() );
+            }
+        }
+    }
+
+    amount = adjust_for_focus(amount);
+
+    if (has_trait("PACIFIST") && skill.is_combat_skill()) {
+        if(!one_in(3)) {
+          amount = 0;
+        }
+    }
+    if (has_trait("PRED2") && skill.is_combat_skill()) {
+        if(one_in(3)) {
+          amount *= 2;
+        }
+    }
+    if (has_trait("PRED3") && skill.is_combat_skill()) {
+        amount *= 2;
+    }
+
+    if (has_trait("PRED4") && skill.is_combat_skill()) {
+        amount *= 3;
+    }
+
+    if (isSavant && id != savantSkill ) {
+        amount /= 2;
+    }
+
+
+
+    if (get_skill_level( id ) > cap) { //blunt grinding cap implementation for crafting
+        amount = 0;
+        int curLevel = get_skill_level( id );
+        if(is_player() && one_in(5)) {//remind the player intermittently that no skill gain takes place
+            add_msg(m_info, _("This task is too simple to train your %s beyond %d."),
+                    skill.name().c_str(), curLevel);
+        }
+    }
+
+    if (amount > 0 && level.isTraining()) {
+        int oldLevel = get_skill_level( id );
+        get_skill_level( id ).train(amount);
+        int newLevel = get_skill_level( id );
+        if (is_player() && newLevel > oldLevel) {
+            add_msg(m_good, _("Your skill in %s has increased to %d!"), skill.name().c_str(), newLevel);
+            lua_callback("on_skill_increased");
+        }
+        if(is_player() && newLevel > cap) {
+            //inform player immediately that the current recipe can't be used to train further
+            add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
+                    skill.name().c_str());
+        }
+
+        int chance_to_drop = focus_pool;
+        focus_pool -= chance_to_drop / 100;
+        // Apex Predators don't think about much other than killing.
+        // They don't lose Focus when practicing combat skills.
+        if ((rng(1, 100) <= (chance_to_drop % 100)) && (!(has_trait("PRED4") &&
+                                                          skill.is_combat_skill()))) {
+            focus_pool--;
+        }
+    }
+
+    get_skill_level( id ).practice();
+}
+
+int Character::get_focus() const
+{
+    return focus_pool;
+}
+
+void Character::set_focus( int val )
+{
+    focus_pool = std::max( 0, val );
+}
+
+int Character::mod_focus( int val )
+{
+    set_focus( get_focus() + val );
+    return get_focus();
 }

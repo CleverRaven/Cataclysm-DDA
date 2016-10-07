@@ -1044,9 +1044,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns wind resistance provided by armor, etc **/
         int get_wind_resistance(body_part bp) const;
 
-        int adjust_for_focus(int amount) const;
-        void practice( const skill_id &s, int amount, int cap = 99 );
-
         /** Legacy activity assignment, should not be used where resuming is important. */
         void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN,
                              std::string name = "");
@@ -1282,8 +1279,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
         std::array<int, num_bp> drench_capacity;
         std::array<int, num_bp> body_wetness;
-
-        int focus_pool;
 
         std::map<std::string, const recipe *> learned_recipes;
 

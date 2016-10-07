@@ -5178,6 +5178,10 @@ int player::impact( const int force, const tripoint &p )
         add_effect( effect_downed, 1 + rng( 0, int(mod * 3) ) );
     }
 
+    if( total_dealt > 0 ) {
+        practice( skill_dodge, 5 * total_dealt, 10 );
+    }
+
     return total_dealt;
 }
 
@@ -12641,121 +12645,6 @@ bool player::is_wearing_power_armor(bool *hasHelmet) const {
         }
     }
     return result;
-}
-
-int player::adjust_for_focus(int amount) const
-{
-    int effective_focus = focus_pool;
-    if (has_trait("FASTLEARNER"))
-    {
-        effective_focus += 15;
-    }
-    if (has_trait("SLOWLEARNER"))
-    {
-        effective_focus -= 15;
-    }
-    double tmp = amount * (effective_focus / 100.0);
-    int ret = int(tmp);
-    if (rng(0, 100) < 100 * (tmp - ret))
-    {
-        ret++;
-    }
-    return ret;
-}
-
-void player::practice( const skill_id &id, int amount, int cap )
-{
-    SkillLevel &level = get_skill_level( id );
-    const Skill &skill = id.obj();
-    // Double amount, but only if level.exercise isn't a small negative number?
-    if (level.exercise() < 0) {
-        if (amount >= -level.exercise()) {
-            amount -= level.exercise();
-        } else {
-            amount += amount;
-        }
-    }
-
-    if( !level.can_train() ) {
-        // If leveling is disabled, don't train, don't drain focus, don't print anything
-        // Leaving as a skill method rather than global for possible future skill cap setting
-        return;
-    }
-
-    bool isSavant = has_trait("SAVANT");
-
-    skill_id savantSkill( NULL_ID );
-    SkillLevel savantSkillLevel = SkillLevel();
-
-    if (isSavant) {
-        for( auto const &skill : Skill::skills ) {
-            if( get_skill_level( skill.ident() ) > savantSkillLevel ) {
-                savantSkill = skill.ident();
-                savantSkillLevel = get_skill_level( skill.ident() );
-            }
-        }
-    }
-
-    amount = adjust_for_focus(amount);
-
-    if (has_trait("PACIFIST") && skill.is_combat_skill()) {
-        if(!one_in(3)) {
-          amount = 0;
-        }
-    }
-    if (has_trait("PRED2") && skill.is_combat_skill()) {
-        if(one_in(3)) {
-          amount *= 2;
-        }
-    }
-    if (has_trait("PRED3") && skill.is_combat_skill()) {
-        amount *= 2;
-    }
-
-    if (has_trait("PRED4") && skill.is_combat_skill()) {
-        amount *= 3;
-    }
-
-    if (isSavant && id != savantSkill ) {
-        amount /= 2;
-    }
-
-
-
-    if (get_skill_level( id ) > cap) { //blunt grinding cap implementation for crafting
-        amount = 0;
-        int curLevel = get_skill_level( id );
-        if(is_player() && one_in(5)) {//remind the player intermittently that no skill gain takes place
-            add_msg(m_info, _("This task is too simple to train your %s beyond %d."),
-                    skill.name().c_str(), curLevel);
-        }
-    }
-
-    if (amount > 0 && level.isTraining()) {
-        int oldLevel = get_skill_level( id );
-        get_skill_level( id ).train(amount);
-        int newLevel = get_skill_level( id );
-        if (is_player() && newLevel > oldLevel) {
-            add_msg(m_good, _("Your skill in %s has increased to %d!"), skill.name().c_str(), newLevel);
-            lua_callback("on_skill_increased");
-        }
-        if(is_player() && newLevel > cap) {
-            //inform player immediately that the current recipe can't be used to train further
-            add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
-                    skill.name().c_str());
-        }
-
-        int chance_to_drop = focus_pool;
-        focus_pool -= chance_to_drop / 100;
-        // Apex Predators don't think about much other than killing.
-        // They don't lose Focus when practicing combat skills.
-        if ((rng(1, 100) <= (chance_to_drop % 100)) && (!(has_trait("PRED4") &&
-                                                          skill.is_combat_skill()))) {
-            focus_pool--;
-        }
-    }
-
-    get_skill_level( id ).practice();
 }
 
 int player::exceeds_recipe_requirements( const recipe &rec ) const

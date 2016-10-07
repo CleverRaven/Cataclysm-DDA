@@ -272,6 +272,14 @@ class Character : public Creature, public visitable<Character>
         /** Applies encumbrance from items only */
         void item_encumb( std::array<encumbrance_data, num_bp> &vals, const item &new_item ) const;
  public:
+
+        int adjust_for_focus( int amount ) const;
+        void practice( const skill_id &s, int amount, int cap = 20 );
+
+        void deal_melee_hit( Creature *source, int hit_spread, bool crit,
+                             const damage_instance &d, dealt_damage_instance &dealt_dam ) override;
+        void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
+
         /** Handles things like destruction of armor, etc. */
         void mutation_effect(std::string mut);
         /** Handles what happens when you lose a mutation. */
@@ -536,6 +544,10 @@ class Character : public Creature, public visitable<Character>
         virtual void on_item_wear( const item & ) {};
         virtual void on_item_takeoff( const item & ) {};
 
+        int get_focus() const;
+        void set_focus( int val );
+        int mod_focus( int mod );
+
     protected:
         Character();
         Character(const Character &) = default;
@@ -569,6 +581,8 @@ class Character : public Creature, public visitable<Character>
         /** How healthy the character is. */
         int healthy;
         int healthy_mod;
+
+        int focus_pool;
 
         std::array<encumbrance_data, num_bp> encumbrance_cache;
 

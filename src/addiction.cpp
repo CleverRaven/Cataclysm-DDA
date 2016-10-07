@@ -172,8 +172,8 @@ void addict_effect( player &u, addiction &add )
                                          _( "Your body is SOO booorrrring.  Just a little sip to liven things up?" ) );
                     u.add_morale( MORALE_CRAVING_MUTAGEN, -20, -200 );
                 }
-                if( u.focus_pool > 40 && one_in( 800 - 20 * in ) ) {
-                    u.focus_pool -= ( in );
+                if( u.get_focus() > 40 && one_in( 800 - 20 * in ) ) {
+                    u.mod_focus( -in );
                     u.add_msg_if_player( m_warning,
                                          _( "You daydream what it'd be like if you were *different*.  Different is good." ) );
                 }
@@ -350,8 +350,8 @@ void marloss_add( player &u, int in, const char *msg )
     if( one_in( 800 - 20 * in ) ) {
         u.add_morale( MORALE_CRAVING_MARLOSS, -5, -25 );
         u.add_msg_if_player( m_info, msg );
-        if( u.focus_pool > 40 ) {
-            u.focus_pool -= in;
+        if( u.get_focus() > 40 ) {
+            u.mod_focus( -in );
         }
     }
 }
