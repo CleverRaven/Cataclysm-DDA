@@ -7,7 +7,7 @@
         "name" : "battery",
         "name_plural" : "batteries",
         "symbol" : "=",
-        "color" : "light_gray",
+        "color" : "yellow",
         "description" : "A set of universal batteries.  Used to charge almost any electronic device.",
         "material" : "iron",
         "volume" : 1,

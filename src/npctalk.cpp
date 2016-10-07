@@ -612,8 +612,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         mission *miss = p->chatbin.mission_selected;
         const auto &type = miss->get_type();
         // TODO: make it a member of the mission class, maybe at mission instance specific data
-        std::string ret = mission_dialogue( type.id, topic);
-        if (ret.empty()) {
+        const std::string &ret = miss->dialogue_for_topic( topic );
+        if( ret.empty() ) {
             debugmsg("Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%d) or topic(%s)",
                      type.id.c_str(), topic.c_str());
             return "";
@@ -3050,10 +3050,8 @@ void talk_function::clear_mission( npc &p )
         return;
     }
     const auto it = std::find( p.chatbin.missions_assigned.begin(), p.chatbin.missions_assigned.end(), miss );
-    // This function might get called twice or more if the player chooses the talk responses
-    // "train skill" -> "Never mind" -> "train skill", each "train skill" response calls this function,
-    // it also called when the dialogue is left through the other reward options.
     if( it == p.chatbin.missions_assigned.end() ) {
+        debugmsg( "clear_mission: mission_selected not in assigned" );
         return;
     }
     p.chatbin.missions_assigned.erase( it );

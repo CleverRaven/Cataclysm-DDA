@@ -64,7 +64,6 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ALTERNATOR", VPFLAG_ALTERNATOR },
     { "ENGINE", VPFLAG_ENGINE },
     { "FRIDGE", VPFLAG_FRIDGE },
-    { "FUEL_TANK", VPFLAG_FUEL_TANK },
     { "LIGHT", VPFLAG_LIGHT },
     { "WINDOW", VPFLAG_WINDOW },
     { "CURTAIN", VPFLAG_CURTAIN },
@@ -84,11 +83,7 @@ std::vector<const vpart_info*> vehicle_part_int_types;
 
 static std::map<vpart_str_id, vpart_info> abstract_parts;
 
-/**
- * JSON data dependent upon as-yet unparsed definitions
- * first: JSON data, second: source identifier
- */
-static std::list<std::pair<std::string, std::string>> deferred;
+static DynamicDataLoader::deferred_json deferred;
 
 template<>
 const vpart_str_id string_id<vpart_info>::NULL_ID( "null" );
@@ -291,27 +286,8 @@ void vpart_info::set_flag( const std::string &flag )
 
 void vpart_info::finalize()
 {
-    auto& dyn = DynamicDataLoader::get_instance();
-
-    while( !deferred.empty() ) {
-        auto n = deferred.size();
-        auto it = deferred.begin();
-        for( decltype(deferred)::size_type idx = 0; idx != n; ++idx ) {
-            try {
-                std::istringstream str( it->first );
-                JsonIn jsin( str );
-                JsonObject jo = jsin.get_object();
-                dyn.load_object( jo, it->second );
-            } catch( const std::exception &err ) {
-                debugmsg( "Error loading data from json: %s", err.what() );
-            }
-            ++it;
-        }
-        deferred.erase( deferred.begin(), it );
-        if( deferred.size() == n ) {
-            debugmsg( "JSON contains circular dependency: discarded %i templates", n );
-            break;
-        }
+    if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
+        debugmsg( "JSON contains circular dependency: discarded %i vehicle parts", deferred.size() );
     }
 
     for( auto& e : vehicle_part_types ) {
@@ -509,9 +485,6 @@ void vpart_info::check()
         if( part.size < 0 ) {
             debugmsg( "vehicle part %s has negative size", part.id.c_str() );
         }
-        if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::type_is_defined( part.fuel_type ) ) {
-            debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)", part.id.c_str(), part.fuel_type.c_str() );
-        }
         if( !item::type_is_defined( part.item ) ) {
             debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.item.c_str() );
         }
@@ -648,6 +621,7 @@ void vehicle_prototype::load(JsonObject &jo)
         assign( part, "ammo", pt.with_ammo, true, 0, 100 );
         assign( part, "ammo_types", pt.ammo_types, true );
         assign( part, "ammo_qty", pt.ammo_qty, true, 0 );
+        assign( part, "fuel", pt.fuel, true );
 
         vproto.parts.push_back( pt );
     }
@@ -750,6 +724,16 @@ void vehicle_prototype::finalize()
                 }
                 if( pt.ammo_types.empty() ) {
                     pt.ammo_types.insert( default_ammo( base->gun->ammo ) );
+                }
+            }
+
+            if( base->container ) {
+                if( !item::type_is_defined( pt.fuel ) ) {
+                    debugmsg( "init_vehicles: tank %s specified invalid fuel in %s", pt.part.c_str(), id.c_str() );
+                }
+            } else {
+                if( pt.fuel != "null" ) {
+                    debugmsg( "init_vehicles: non-tank %s with fuel in %s", pt.part.c_str(), id.c_str() );
                 }
             }
 

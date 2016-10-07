@@ -49,6 +49,8 @@ static t_string_set item_blacklist;
 static t_string_set item_whitelist;
 static bool item_whitelist_is_exclusive = false;
 
+static DynamicDataLoader::deferred_json deferred;
+
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
 static void set_allergy_flags( itype &item_template );
@@ -109,28 +111,8 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
 }
 
 void Item_factory::finalize() {
-
-    auto& dyn = DynamicDataLoader::get_instance();
-
-    while( !deferred.empty() ) {
-        auto n = deferred.size();
-        auto it = deferred.begin();
-        for( decltype(deferred)::size_type idx = 0; idx != n; ++idx ) {
-            try {
-                std::istringstream str( it->first );
-                JsonIn jsin( str );
-                JsonObject jo = jsin.get_object();
-                dyn.load_object( jo, it->second );
-            } catch( const std::exception &err ) {
-                debugmsg( "Error loading data from json: %s", err.what() );
-            }
-            ++it;
-        }
-        deferred.erase( deferred.begin(), it );
-        if( deferred.size() == n ) {
-            debugmsg( "JSON contains circular dependency: discarded %i templates", n );
-            break;
-        }
+    if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
+        debugmsg( "JSON contains circular dependency: discarded %i templates", deferred.size() );
     }
 
     finalize_item_blacklist();
@@ -146,6 +128,10 @@ void Item_factory::finalize() {
                     obj.use_methods.emplace( u.second, usage_from_string( u.second ) );
                 }
             }
+        }
+
+        if( obj.gunmod ) {
+            obj.use_methods.emplace( "GUNMOD_ATTACH", usage_from_string( "GUNMOD_ATTACH" ) );
         }
 
         if( obj.engine && get_world_option<bool>( "NO_FAULTS" ) ) {
@@ -319,7 +305,7 @@ void Item_factory::finalize_item_blacklist()
         }
 
         // remove any recipes used to craft the blacklisted item
-        recipe_dict.delete_if( [&]( recipe &r ) {
+        recipe_dictionary::delete_if( [&]( const recipe &r ) {
             return r.result == e.first;
         } );
     }
@@ -467,6 +453,7 @@ void Item_factory::init()
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
+    add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
     add_iuse( "HACKSAW", &iuse::hacksaw );
     add_iuse( "HAIRKIT", &iuse::hairkit );
     add_iuse( "HAMMER", &iuse::hammer );
@@ -1069,7 +1056,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "dispersion", slot.dispersion, strict );
     assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, int( MIN_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict, 0 );
-    assign( jo, "handling", slot.handling, strict, 0 );
+    assign( jo, "handling", slot.handling, strict );
     assign( jo, "durability", slot.durability, strict, 0, 10 );
     assign( jo, "burst", slot.burst, strict, 1 );
     assign( jo, "loudness", slot.loudness, strict );
@@ -1155,16 +1142,19 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
 }
 
-void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "ammo", slot.ammo_id );
-    assign( jo, "max_charges", slot.max_charges );
-    assign( jo, "initial_charges", slot.def_charges );
-    assign( jo, "charges_per_use", slot.charges_per_use );
-    assign( jo, "turns_per_charge", slot.turns_per_charge );
-    assign( jo, "revert_to", slot.revert_to );
-    assign( jo, "revert_msg", slot.revert_msg );
-    assign( jo, "sub", slot.subtype );
+    bool strict = src == "core";
+
+    // @todo update tool slot to use signed integers (int) throughout
+    assign( jo, "ammo", slot.ammo_id, strict );
+    assign( jo, "max_charges", slot.max_charges, strict, 0L );
+    assign( jo, "initial_charges", slot.def_charges, strict, 0L );
+    assign( jo, "charges_per_use", slot.charges_per_use, strict, static_cast<decltype( slot.charges_per_use )>( 0 ) );
+    assign( jo, "turns_per_charge", slot.turns_per_charge, strict, static_cast<decltype( slot.turns_per_charge )>( 0 ) );
+    assign( jo, "revert_to", slot.revert_to, strict );
+    assign( jo, "revert_msg", slot.revert_msg, strict );
+    assign( jo, "sub", slot.subtype, strict );
 }
 
 void Item_factory::load_tool( JsonObject &jo, const std::string &src )

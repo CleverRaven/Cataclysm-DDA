@@ -21,7 +21,7 @@
         "qualities": [ { "id": "WRENCH", "level": 1 } ]
       }
     },
-    "flags": [ "FUEL_TANK", "FOLDABLE", "REVERSIBLE" ]
+    "flags": [ "FOLDABLE", "REVERSIBLE" ]
   },
   {
     "id": "battery_motorbike",
@@ -82,8 +82,7 @@
       { "item": "steel_chunk", "count": [ 5, 10 ] },
       { "item": "scrap", "count": [ 5, 10 ] },
       { "item": "medium_storage_battery", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "storage_battery_removable",

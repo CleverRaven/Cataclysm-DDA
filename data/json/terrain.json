@@ -4697,6 +4697,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE"],
+        "examine_action": "cvdmachine",
         "bash": {
             "str_min": 8, "str_max": 150,
             "sound": "crunch!",

@@ -372,21 +372,25 @@ bool item::covers( const body_part bp ) const
         debugmsg( "bad body part %d to check in item::covers", static_cast<int>( bp ) );
         return false;
     }
-    if( is_gun() ) {
-        // Currently only used for guns with the should strap mod, other guns might
-        // go on another bodypart.
-        return bp == bp_torso;
-    }
     return get_covered_body_parts().test(bp);
 }
 
 std::bitset<num_bp> item::get_covered_body_parts() const
 {
+    std::bitset<num_bp> res;
+
+    if( is_gun() ) {
+        // Currently only used for guns with the should strap mod, other guns might
+        // go on another bodypart.
+        res.set( bp_torso );
+    }
+
     const auto armor = find_armor_data();
     if( armor == nullptr ) {
-        return std::bitset<num_bp>();
+        return res;
     }
-    auto res = armor->covers;
+
+    res |= armor->covers;
 
     switch (get_side()) {
         case LEFT:
@@ -1410,20 +1414,19 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Made from: %s" ),
                                   components_to_string().c_str() ) ) );
     } else {
-        const recipe *dis_recipe = get_disassemble_recipe( typeId() );
-        if( dis_recipe != nullptr && !dis_recipe->requirements().is_empty() ) {
-            const auto &dis_req = dis_recipe->requirements().disassembly_requirements();
-            const auto components = dis_req.get_components();
+        const auto &dis = recipe_dictionary::get_uncraft( typeId() );
+        const auto &req = dis.disassembly_requirements();
+        if( !req.is_empty() ) {
+            const auto components = req.get_components();
             const std::string components_list = enumerate_as_string( components.begin(), components.end(),
             []( const std::vector<item_comp> &comps ) {
                 return comps.front().to_string();
             } );
-            const std::string dis_time = calendar::print_duration( dis_recipe->time / 100 );
 
             insert_separation_line();
             info.push_back( iteminfo( "DESCRIPTION",
                 string_format( _( "Disassembling this item takes %s and might yield: %s." ),
-                dis_time.c_str(), components_list.c_str() ) ) );
+                               calendar::print_duration( dis.time / 100 ).c_str(), components_list.c_str() ) ) );
         }
     }
 
@@ -1754,17 +1757,15 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } else { // use the contained item
             tid = contents.front().typeId();
         }
-        const std::vector<recipe *> &rec = recipe_dict.of_component( tid );
+        const auto &rec = recipe_dict.of_component( tid );
         if( !rec.empty() ) {
             temp1.str( "" );
             const inventory &inv = g->u.crafting_inventory();
             // only want known recipes
-            std::vector<recipe *> known_recipes;
-            for( recipe *r : rec ) {
-                if( g->u.knows_recipe( r ) ) {
-                    known_recipes.push_back( r );
-                }
-            }
+            std::vector<const recipe *> known_recipes;
+            std::copy_if( rec.begin(), rec.end(), std::back_inserter( known_recipes ),
+                          [&]( const recipe *r ) { return g->u.knows_recipe( r ); } );
+
             if( known_recipes.size() > 24 ) {
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -2237,6 +2238,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         modtext += _( "sawn-off ");
     }
 
+    if( has_flag( "DIAMOND" ) ) {
+        modtext += std::string( _( "diamond" ) ) + " ";
+    }
+
     if(has_flag("WET"))
        ret << _(" (wet)");
 
@@ -2547,26 +2552,28 @@ int item::damage_bash() const
 
 int item::damage_cut() const
 {
-    int total = type->melee_cut;
-    if (is_gun()) {
-        static const std::string FLAG_BAYONET( "BAYONET" );
-        for( auto &elem : contents ) {
-            if( elem.has_flag( FLAG_BAYONET ) ) {
-                return elem.type->melee_cut;
-            }
-        }
-    }
-
     if( is_null() ) {
         return 0;
     }
 
-    total -= total * damage() * 0.1;
-    if (total > 0) {
-        return total;
-    } else {
-        return 0;
+    // effectiveness is reduced by 10% per damage level
+    int res = type->melee_cut;
+    res -= res * damage() * 0.1;
+
+    if( is_gun() ) {
+        std::vector<int> opts = { res };
+        for( const auto &e : gun_all_modes() ) {
+            if( e.second.target != this && e.second.melee() ) {
+                opts.push_back( e.second.target->damage_cut() );
+            }
+        }
+        return *std::max_element( opts.begin(), opts.end() );
+
+    } else if( has_flag( "DIAMOND" ) ) {
+        res *= 1.3;
     }
+
+    return std::max( res, 0 );
 }
 
 int item::damage_by_type( damage_type dt ) const
@@ -2619,10 +2626,12 @@ bool item::has_flag( const std::string &f ) const
 {
     bool ret = false;
 
-    // gunmods fired separately from the base gun do not contribute to base gun flags
-    for( const auto e : gunmods() ) {
-        if( !e->is_gun() && e->has_flag( f ) ) {
-            return true;
+    if( json_flag::get( f ).inherit() ) {
+        for( const auto e : gunmods() ) {
+            // gunmods fired separately from the base gun do not contribute to base gun flags
+            if( !e->is_gun() && e->has_flag( f ) ) {
+                return true;
+            }
         }
     }
 
@@ -3634,14 +3643,6 @@ bool item::is_salvageable() const
     return !has_flag("NO_SALVAGE");
 }
 
-bool item::is_disassemblable() const
-{
-    if( is_null() ) {
-        return false;
-    }
-    return get_disassemble_recipe(typeId()) != NULL;
-}
-
 bool item::is_funnel_container(units::volume &bigger_than) const
 {
     if ( ! is_watertight_container() ) {
@@ -4335,7 +4336,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
     auto opts = gunmods();
     opts.push_back( this );
 
-    for( auto e : opts ) {
+    for( const auto e : opts ) {
         if( e->is_gun() ) {
             for( auto m : e->type->gun->modes ) {
                 // prefix attached gunmods, eg. M203_DEFAULT to avoid index key collisions
@@ -4353,7 +4354,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
         }
         if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( this ),
+                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
                                                        std::get<1>( m.second ), std::get<2>( m.second ) } );
             }
         }
