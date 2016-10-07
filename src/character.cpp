@@ -41,6 +41,8 @@ const skill_id skill_throw( "throw" );
 
 const std::string debug_nodmg( "DEBUG_NODMG" );
 
+const item Character::null_context;
+
 Character::Character() : Creature(), visitable<Character>()
 {
     str_max = 0;
@@ -917,6 +919,28 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
     }
 }
 
+bool Character::can_use( const item& it, const item& context ) const {
+    if( !meets_requirements( it, context ) ) {
+        const std::string unmet( enumerate_unmet_requirements( it, context ) );
+
+        if( context.is_null() ) {
+            //~ %1$s - list of unmet requirements, %2$s - item name.
+            add_msg_player_or_npc( m_bad, _( "You need at least %1$s to use this %2$s." ),
+                                          _( "<npcname> needs at least %1$s to use this %2$s." ),
+                                          unmet.c_str(), it.tname().c_str() );
+        } else {
+            //~ %1$s - list of unmet requirements, %2$s - item name, %3$s - indirect item name.
+            add_msg_player_or_npc( m_bad, _( "You need at least %1$s to use this %2$s with your %3$s." ),
+                                          _( "<npcname> needs at least %1$s to use this %2$s with their %3$s." ),
+                                          unmet.c_str(), it.tname().c_str(), context.tname().c_str() );
+        }
+
+        return false;
+    }
+
+    return true;
+}
+
 void Character::drop_inventory_overflow() {
     if( volume_carried() > volume_capacity() ) {
         for( auto &item_to_drop :
@@ -969,30 +993,46 @@ bool Character::worn_with_flag( const std::string &flag ) const
     } );
 }
 
-SkillLevel& Character::get_skill_level(const skill_id &ident)
+SkillLevel& Character::get_skill_level( const skill_id &ident )
 {
-    if( !ident ) {
-        static SkillLevel none;
-        none.level( 0 );
-        return none;
+    static SkillLevel null_skill;
+
+    if( ident && ident->is_contextual_skill() ) {
+        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident->name().c_str(),
+                  get_name().c_str() );
+    } else {
+        return _skills[ident];
     }
-    return _skills[ident];
+
+    null_skill.level( 0 );
+    return null_skill;
 }
 
-SkillLevel const& Character::get_skill_level(const skill_id &ident) const
+SkillLevel const& Character::get_skill_level( const skill_id &ident, const item &context ) const
 {
+    static const SkillLevel null_skill;
+
     if( !ident ) {
-        static const SkillLevel none{};
-        return none;
+        return null_skill;
     }
 
-    const auto iter = _skills.find( ident );
+    const auto iter = _skills.find( context.is_null() ? ident : context.contextualize_skill( ident ) );
+
     if( iter != _skills.end() ) {
         return iter->second;
     }
 
-    static SkillLevel const dummy_result;
-    return dummy_result;
+    if( ident->is_contextual_skill() ) {
+        if( context.is_null() ) {
+            debugmsg( "Skill \"%s\" possessed by %s requires a non-empty context.", ident->name().c_str(),
+                      get_name().c_str() );
+        } else {
+            debugmsg( "Item \"%s\" hasn't provided a suitable context for skill \"%s\" possessed by %s.",
+                      context.tname().c_str(), ident->name().c_str(), get_name().c_str() );
+        }
+    }
+
+    return null_skill;
 }
 
 void Character::set_skill_level( const skill_id &ident, const int level )
@@ -1005,11 +1045,62 @@ void Character::boost_skill_level( const skill_id &ident, const int delta )
     set_skill_level( ident, delta + get_skill_level( ident ) );
 }
 
-bool Character::meets_skill_requirements( const std::map<skill_id, int> &req ) const
+std::map<skill_id, int> Character::compare_skill_requirements( const std::map<skill_id, int> &req, const item &context ) const
 {
-    return std::all_of( req.begin(), req.end(), [this]( const std::pair<skill_id, int> &pr ) {
-        return get_skill_level( pr.first ) >= pr.second;
+    std::map<skill_id, int> res;
+
+    for( const auto &elem : req ) {
+        const int diff = get_skill_level( elem.first, context ) - elem.second;
+        if( diff != 0 ) {
+            res[elem.first] = diff;
+        }
+    }
+
+    return res;
+}
+
+std::string Character::enumerate_unmet_requirements( const item &it, const item &context ) const
+{
+    std::vector<std::string> unmet_reqs;
+
+    const auto check_req = [ &unmet_reqs ]( const std::string &name, int cur, int req ) {
+        if( cur < req ) {
+            unmet_reqs.push_back( string_format( "%s %d", name.c_str(), req ) );
+        }
+    };
+
+    check_req( _( "strength" ),     get_str(), it.type->min_str );
+    check_req( _( "dexterity" ),    get_dex(), it.type->min_dex );
+    check_req( _( "intelligence" ), get_int(), it.type->min_int );
+    check_req( _( "perception" ),   get_per(), it.type->min_per );
+
+    for( const auto &elem : it.type->min_skills ) {
+        check_req( context.contextualize_skill( elem.first )->name().c_str(),
+                   get_skill_level( elem.first, context ),
+                   elem.second );
+    }
+
+    return enumerate_as_string( unmet_reqs );
+}
+
+bool Character::meets_skill_requirements( const std::map<skill_id, int> &req, const item &context ) const
+{
+    return std::all_of( req.begin(), req.end(), [this, &context]( const std::pair<skill_id, int> &pr ) {
+        return get_skill_level( pr.first, context ) >= pr.second;
     });
+}
+
+bool Character::meets_stat_requirements( const item &it ) const
+{
+    return get_str() >= it.type->min_str &&
+           get_dex() >= it.type->min_dex &&
+           get_int() >= it.type->min_int &&
+           get_per() >= it.type->min_per;
+}
+
+bool Character::meets_requirements( const item &it, const item &context ) const
+{
+    return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, context );
 }
 
 void Character::normalize()

@@ -1050,7 +1050,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 ### Tags
 
-- ```"gun_types"``` Define gun related skills?
+- ```combat_skill``` The skill is considered a combat skill. It's affected by "PACIFIST", "PRED1", "PRED2", "PRED3", and "PRED4" traits.
+- ```contextual_skill``` The skill is abstract, it depends on context (an indirect item to which it's applied). Neither player nor NPCs can possess it.
 
 ## Scenarios
 

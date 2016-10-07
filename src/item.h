@@ -1483,6 +1483,9 @@ public:
 
         bool has_infinite_charges() const;
 
+        /** Puts the skill in context of the item */
+        skill_id contextualize_skill( const skill_id &id ) const;
+
     private:
         std::string name;
         double damage_ = 0;
