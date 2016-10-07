@@ -9388,7 +9388,7 @@ bool player::can_feed_furnace_with( const item &it ) const
     if( !has_active_bionic( "bio_furnace" ) ) {
         return false;
     }
-    return it.flammable() && it.typeId() != "corpse";
+    return it.flammable() && !it.has_flag( "RADIOACTIVE" ) && it.typeId() != "corpse";
 }
 
 bool player::feed_furnace_with( item &it )
@@ -9396,9 +9396,7 @@ bool player::feed_furnace_with( item &it )
     if( !can_feed_furnace_with( it ) ) {
         return false;
     }
-    if( it.is_book() && it.type->book->skill && !query_yn( _( "Really eat %s?" ), it.tname().c_str() ) ) {
-        return false;
-    }
+
     int amount = ( it.volume() / 250_ml + it.weight() ) / 9;
     if( it.made_of( material_id( "leather" ) ) ) {
         amount /= 4;
@@ -9407,8 +9405,24 @@ bool player::feed_furnace_with( item &it )
         amount /= 2;
     }
 
-    add_msg_player_or_npc( _( "You eat your %s." ),
-                           _( "<npcname> eats a %s." ), it.tname().c_str() );
+    amount = std::min( max_power_level - power_level, amount );
+
+    if( is_player() ) {
+        if( amount <= 0 ) {
+            if( !query_yn( _( "Burning this %s in your internal furnace won't give you more energy.  Do it anyway?" ),
+                           it.tname().c_str() ) ) {
+                return false;
+            }
+        } else {
+            if( !query_yn( _( "Burn this %s in your internal furnace (provides %d points of energy)?" ),
+                           it.tname().c_str(), amount ) ) {
+                return false;
+            }
+        }
+    }
+
+    add_msg_player_or_npc( _( "You digest your %s for energy." ),
+                           _( "<npcname> digests a %s. for energy." ), it.tname().c_str() );
 
     charge_power( amount );
     it.charges = 0;
