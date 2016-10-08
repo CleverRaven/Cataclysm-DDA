@@ -985,6 +985,15 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                              std::function<void(const vehicle_part &pt)> action )
 {
     struct part_option {
+        part_option( const std::string &key, vehicle_part *part, char hotkey,
+                     std::function<void( const vehicle_part &pt, WINDOW *w, int y )> details ) :
+            key( key ), part( part ), hotkey( hotkey ), details( details ) {}
+
+        part_option( const std::string &key, vehicle_part *part, char hotkey,
+                     std::function<void( const vehicle_part &pt, WINDOW *w, int y )> details,
+                     std::function<void( const vehicle_part &pt )> message ) :
+            key( key ), part( part ), hotkey( hotkey ), details( details ), message( message ) {}
+
         std::string key;
         vehicle_part *part;
 
@@ -993,6 +1002,9 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
         /** Writes any extra details for this entry */
         std::function<void( const vehicle_part &pt, WINDOW *w, int y )> details;
+
+        /** Writes to message window when part is selected */
+        std::function<void( const vehicle_part &pt )> message;
     };
 
     std::vector<part_option> opts;
@@ -1029,7 +1041,7 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                                  round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) );
                 }
             };
-            opts.push_back( part_option { "TANK", &pt, enable && enable( pt ) ? hotkey++ : '\0', details } );
+            opts.emplace_back( "TANK", &pt, enable && enable( pt ) ? hotkey++ : '\0', details );
         }
     }
 
@@ -1041,7 +1053,7 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              "%i    %3i%%", pt.ammo_capacity(), pct );
             };
-           opts.push_back( part_option { "BATTERY", &pt, enable && enable( pt ) ? hotkey++ : '\0', details } );
+           opts.emplace_back( "BATTERY", &pt, enable && enable( pt ) ? hotkey++ : '\0', details );
         }
     }
 
@@ -1054,13 +1066,13 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
     for( auto &pt : veh->parts ) {
         if( pt.is_reactor() && !pt.is_broken() ) {
-            opts.push_back( part_option { "REACTOR", &pt, enable && enable( pt ) ? hotkey++ : '\0', details_ammo } );
+            opts.emplace_back( "REACTOR", &pt, enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
         }
     }
 
     for( auto &pt : veh->parts ) {
         if( pt.is_turret() && !pt.is_broken() ) {
-            opts.push_back( part_option { "TURRET", &pt, enable && enable( pt ) ? hotkey++ : '\0', details_ammo } );
+            opts.emplace_back( "TURRET", &pt, enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
         }
     }
 
@@ -1107,6 +1119,10 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
         }
 
         move_cursor( opts[pos].part->mount.y + ddy, -( opts[pos].part->mount.x + ddx ) );
+
+        if( opts[pos].message ) {
+            opts[pos].message( *opts[pos].part );
+        }
 
         const std::string input = main_context.handle_input();
         if( input == "CONFIRM" && opts[pos].hotkey ) {
