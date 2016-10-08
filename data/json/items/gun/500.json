@@ -1,26 +1,5 @@
 [
   {
-    "id": "sw_500",
-    "copy-from": "pistol_revolver",
-    "type": "GUN",
-    "name": "S&W 500",
-    "name_plural": "S&W 500",
-    "description": "The 5-shot Smith and Wesson 500 revolver fires the comparably-named .500 S&W Magnum.  It's an impressive weapon.",
-    "weight": 2055,
-    "volume": 3,
-    "price": 90000,
-    "to_hit": -2,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "ammo": "500",
-    "dispersion": 280,
-    "durability": 8,
-    "clip_size": 5,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ] ]
-  },
-  {
     "id": "bh_m89",
     "copy-from": "rifle_manual",
     "type": "GUN",
@@ -40,5 +19,26 @@
     "durability": 8,
     "clip_size": 7,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ] ]
+  },
+  {
+    "id": "sw_500",
+    "copy-from": "pistol_revolver",
+    "type": "GUN",
+    "name": "S&W 500",
+    "name_plural": "S&W 500",
+    "description": "The 5-shot Smith and Wesson 500 revolver fires the comparably-named .500 S&W Magnum.  It's an impressive weapon.",
+    "weight": 2055,
+    "volume": 3,
+    "price": 90000,
+    "to_hit": -2,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": "500",
+    "dispersion": 280,
+    "durability": 8,
+    "clip_size": 5,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ] ]
   }
 ]
