@@ -735,10 +735,6 @@ public:
     int fuel_left (const itype_id &ftype, bool recurse = false) const;
     int fuel_capacity (const itype_id &ftype) const;
 
-    // refill fuel tank(s) with given type of fuel
-    // returns amount of leftover fuel
-    int refill (const itype_id &ftype, int amount);
-
     // drains a fuel type (e.g. for the kitchen unit)
     // returns amount actually drained, does not engage reactor
     int drain (const itype_id &ftype, int amount);

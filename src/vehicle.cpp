@@ -2942,26 +2942,6 @@ int vehicle::fuel_capacity (const itype_id &ftype) const
     } );
 }
 
-int vehicle::refill (const itype_id & ftype, int amount)
-{
-    for( auto &p : parts ) {
-        if( amount <= 0 ) {
-            break;
-        }
-        if( !p.is_broken() && ftype == p.ammo_current() ) {
-            int qty = std::min( long( amount ), p.ammo_capacity() - p.ammo_remaining() );
-            p.ammo_set( p.ammo_current(), p.ammo_remaining() + qty );
-            amount -= qty;
-        }
-    }
-
-    if( ftype != fuel_type_battery && ftype != fuel_type_plasma ) {
-        invalidate_mass();
-    }
-
-    return amount;
-}
-
 int vehicle::drain (const itype_id & ftype, int amount) {
     if( ftype == fuel_type_battery ) {
         // Batteries get special handling to take advantage of jumper

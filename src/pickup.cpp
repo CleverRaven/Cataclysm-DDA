@@ -147,20 +147,23 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         choice = selectmenu.ret;
     }
 
+    auto veh_tool = [&]( const itype_id & obj ) {
+        item pseudo( obj );
+        itype_id ammo = pseudo.ammo_default();
+        if( veh->fuel_left( ammo ) < pseudo.ammo_required() ) {
+            return false;
+        }
+        pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_required() ) );
+        g->u.invoke_item( &pseudo );
+        pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
+        return true;
+    };
+
     switch( static_cast<options>( choice ) ) {
 
-        case USE_HOTPLATE: {
-            item pseudo( "hotplate" );
-            itype_id ammo = pseudo.ammo_default();
-            pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
-
-            if( pseudo.ammo_sufficient() ) {
-                g->u.invoke_item( &pseudo );
-                pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
-                veh->refill( ammo, pseudo.ammo_remaining() );
-            }
+        case USE_HOTPLATE:
+            veh_tool( "hotplate" );
             return DONE;
-        }
 
         case FILL_CONTAINER:
             g->u.siphon( *veh, "water_clean" );
@@ -175,15 +178,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         }
 
         case USE_WELDER: {
-            item pseudo( "welder" );
-            itype_id ammo = pseudo.ammo_default();
-            pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
-
-            if( pseudo.ammo_sufficient() ) {
-                g->u.invoke_item( &pseudo );
-                pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
-                veh->refill( ammo, pseudo.ammo_remaining() );
-
+            if( veh_tool( "welder" ) ) {
                 // Evil hack incoming
                 auto &act = g->u.activity;
                 if( act.type == ACT_REPAIR_ITEM ) {
@@ -199,26 +194,40 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             return DONE;
         }
 
-        case USE_PURIFIER: {
-            item pseudo( "water_purifier" );
-            itype_id ammo = pseudo.ammo_default();
-            pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
-
-            if( pseudo.ammo_sufficient() ) {
-                g->u.invoke_item( &pseudo );
-            }
-
-            veh->refill( ammo, pseudo.ammo_remaining() );
+        case USE_PURIFIER:
+            veh_tool( "water_purifier" );
             return DONE;
-        }
 
         case PURIFY_TANK: {
-            const int max_water = std::min( veh->fuel_left( "water" ),
-                                            veh->fuel_capacity( "water_clean" ) - veh->fuel_left( "water_clean" ) );
-            const int purify_amount = std::min( veh->fuel_left( "battery" ), max_water );
-            veh->drain( "battery", purify_amount );
-            veh->drain( "water", purify_amount );
-            veh->refill( "water_clean", purify_amount );
+            // energy cost in charges per milliliter
+            double cost = item::find_type( "water_purifier" )->charges_to_use() / to_milliliter(
+                              units::legacy_volume_factor );
+
+            // get all vehicle parts
+            std::vector<vehicle_part *> tanks;
+            std::transform( veh->parts.begin(), veh->parts.end(), std::back_inserter( tanks ),
+            []( vehicle_part & e ) {
+                return &e;
+            } );
+
+            // exclude any that don't contain water
+            tanks.erase( std::remove_if( tanks.begin(), tanks.end(), []( const vehicle_part * e ) {
+                return e->ammo_current() != "water";
+            } ), tanks.end() );
+
+            // sort tanks in ascending order of contained volume
+            std::sort( tanks.begin(), tanks.end(), []( const vehicle_part * lhs, const vehicle_part * rhs ) {
+                return lhs->ammo_remaining() < rhs->ammo_remaining();
+            } );
+
+            // iterate through tanks until either all have been purified or we have insufficient power
+            for( auto &e : tanks ) {
+                if( veh->fuel_left( "battery" ) < e->ammo_remaining() * cost ) {
+                    break;
+                }
+                veh->discharge_battery( e->ammo_remaining() * cost );
+                e->ammo_set( "water_clean", e->ammo_remaining() );
+            }
             return DONE;
         }
 
