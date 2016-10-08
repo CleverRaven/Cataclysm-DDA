@@ -38,11 +38,13 @@ class veh_interact
 {
     public:
         static player_activity run( vehicle &veh, int x, int y );
+        static player_activity refill( vehicle &veh, item_location &&liquid );
 
         static void complete_vehicle();
 
     private:
-        veh_interact( vehicle &veh, int x, int y );
+        veh_interact( vehicle &veh, int x = 0, int y = 0 );
+        ~veh_interact();
 
         item_location target;
 

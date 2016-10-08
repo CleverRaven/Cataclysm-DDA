@@ -54,6 +54,7 @@ void act_vehicle_siphon(vehicle* veh);
 player_activity veh_interact::run( vehicle &veh, int x, int y )
 {
     veh_interact vehint( veh, x, y );
+    vehint.do_main_loop();
     g->refresh_all();
 
     const auto *pt = vehint.sel_vehicle_part;
@@ -137,7 +138,10 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     countDurability();
     cache_tool_availability();
     allocate_windows();
-    do_main_loop();
+}
+
+veh_interact::~veh_interact()
+{
     deallocate_windows();
 }
 
@@ -278,14 +282,6 @@ void veh_interact::do_main_loop()
 
 void veh_interact::deallocate_windows()
 {
-    werase(w_grid);
-    werase(w_mode);
-    werase(w_msg);
-    werase(w_disp);
-    werase(w_parts);
-    werase(w_stats);
-    werase(w_list);
-    werase(w_name);
     delwin(w_grid);
     delwin(w_mode);
     delwin(w_msg);
@@ -294,7 +290,6 @@ void veh_interact::deallocate_windows()
     delwin(w_stats);
     delwin(w_list);
     delwin(w_name);
-    erase();
 }
 
 void veh_interact::cache_tool_availability()
