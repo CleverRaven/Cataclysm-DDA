@@ -10375,7 +10375,17 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
     } );
 
-    for( auto &veh : nearby_vehicles_for( liquid.typeId() ) ) {
+    std::set<vehicle *> opts;
+    for( const auto &e : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        auto veh = g->m.veh_at( e );
+        if( veh && std::any_of( veh->parts.begin(), veh->parts.end(), [&liquid]( const vehicle_part &pt ) {
+            // cannot refill using active liquids (those that rot) due to #18570
+            return !liquid.active && pt.can_reload( liquid.typeId() );
+        } ) ) {
+            opts.insert( veh );
+        }
+    }
+    for( auto veh : opts ) {
         if( veh == source_veh ) {
             continue;
         }
@@ -10384,7 +10394,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             if( create_activity() ) {
                 serialize_liquid_target( u.activity, *veh );
             } else if( u.pour_into( *veh, liquid ) ) {
-                u.mod_moves( -100 );
+                u.mod_moves( -1000 ); // consistent with veh_interact::do_refill activity
             }
         } );
     }
