@@ -360,12 +360,11 @@ task_reason veh_interact::cant_do (char mode)
         valid_target = !need_repair.empty() && cpart >= 0;
         has_tools = true; // checked later
         break;
+
     case 'm': // mend mode
         enough_morale = g->u.has_morale_to_craft();
-        valid_target = cpart >= 0 && std::any_of( parts_here.begin(), parts_here.end(), [this]( int e ) {
-            return g->u.has_trait( "DEBUG_HS" ) ?
-                !veh->parts[ e ].faults_potential().empty() :
-                !veh->parts[ e ].faults().empty();
+        valid_target = std::any_of( veh->parts.begin(), veh->parts.end(), []( const vehicle_part &pt ) {
+            return !pt.faults().empty();
         } );
         has_tools = true; // checked later
         break;
@@ -880,7 +879,7 @@ void veh_interact::do_mend()
             return;
 
         case INVALID_TARGET:
-            mvwprintz( w_msg, 0, 1, c_ltred, _( "No faulty parts here." ) );
+            mvwprintz( w_msg, 0, 1, c_ltred, _( "No faulty parts require mending." ) );
             wrefresh( w_msg );
             return;
 
@@ -890,59 +889,20 @@ void veh_interact::do_mend()
             return;
 
         default:
-            break;
-    }
-
-    std::vector<int> opts;
-    std::copy_if( parts_here.begin(), parts_here.end(), std::back_inserter( opts ), [this]( int e ) {
-        if( g->u.has_trait( "DEBUG_HS" ) ) {
-            return !veh->parts[ e ].faults_potential().empty();
-        }
-        return !veh->parts[ e ].faults().empty();
-    } );
-
-    mvwprintz( w_mode, 0, 1, c_ltgray, _( "Choose a part here to mend:" ) );
-    wrefresh( w_mode );
-    int pos = 0;
-    while ( true ) {
-        sel_vehicle_part = &veh->parts[ opts[ pos ] ];
-        sel_vpart_info = &sel_vehicle_part->info();
-        werase( w_parts );
-        int idx = std::distance( parts_here.begin(), std::find( parts_here.begin(), parts_here.end(), opts[ pos ] ) );
-        veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, idx );
-        wrefresh( w_parts );
-
-        werase( w_list );
-        int y = 0;
-        for( const auto& e : sel_vehicle_part->faults() ) {
-            y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_ltgray,
-                                 _( "* <color_red>Faulty %1$s</color>" ), e.obj().name().c_str() );
-            y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltgray, e.obj().description() );
-            y++;
-        }
-        wrefresh( w_list );
-
-        const std::string action = main_context.handle_input();
-        if( ( action == "MEND" || action == "CONFIRM" ) ) {
-            g->u.mend_item( veh->part_base( opts[ pos ] ) );
-            sel_cmd = 'q';
-            return;
-
-        } else if( action == "QUIT" ) {
-            werase( w_parts );
-            veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
-            wrefresh( w_parts );
-            werase( w_msg );
             wrefresh( w_msg );
-            werase( w_list );
-            wrefresh( w_list );
             break;
-
-        } else {
-            move_in_list( pos, action, opts.size() );
-        }
     }
 
+    auto sel = []( const vehicle_part &pt ) { return !pt.faults().empty(); };
+
+    auto act = [&]( const vehicle_part &pt ) {
+        g->u.mend_item( veh->part_base( veh->index_of_part( &pt ) ) );
+        sel_cmd = 'q';
+        return;
+    };
+
+    overview( sel, act );
+    display_mode(' ');
 }
 
 void veh_interact::do_refill()
@@ -1043,7 +1003,20 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                              pt.ammo_current() != "null" ? item::nname( pt.ammo_current() ).c_str() : "",
                              pt.enabled ? _( "Yes" ) : _( "No" ) );
             };
-            opts.push_back( part_option { "ENGINE", &pt, enable && enable( pt ) ? hotkey++ : '\0', details } );
+
+            // display engine fauls (if any)
+            auto msg = [&]( const vehicle_part &pt ) {
+                werase( w_msg );
+                int y = 0;
+                for( const auto& e : pt.faults() ) {
+                    y += fold_and_print( w_msg, y, 1, getmaxx( w_msg ) - 2, c_red,
+                                         _( "Faulty %1$s" ), e.obj().name().c_str() );
+                    y += fold_and_print( w_msg, y, 3, getmaxx( w_msg ) - 4, c_ltgray, e.obj().description() );
+                    y++;
+                }
+                wrefresh( w_msg );
+            };
+            opts.emplace_back( "ENGINE", &pt, enable && enable( pt ) ? hotkey++ : '\0', details, msg );
         }
     }
 
