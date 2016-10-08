@@ -6078,6 +6078,10 @@ itype_id vehicle_part::ammo_current() const
         return base.contents.front().typeId();
     }
 
+    if( is_engine() ) {
+        return info().fuel_type != "muscle" ? info().fuel_type : "null";
+    }
+
     return "null";
 }
 

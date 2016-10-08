@@ -1011,6 +1011,10 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
     std::map<std::string, std::function<void(WINDOW *, int)>> headers;
 
+    headers["ENGINE"] = []( WINDOW *w, int y ) {
+        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_ltgray, _( "Engines" ) );
+        right_print   ( w, y, 1, c_ltgray, _( "Fuel     Use" ) );
+    };
     headers["TANK"] = []( WINDOW *w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_ltgray, _( "Tanks" ) );
         right_print   ( w, y, 1, c_ltgray, _( "Contents     Qty" ) );
@@ -1031,8 +1035,20 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
     char hotkey = 'a';
 
     for( auto &pt : veh->parts ) {
-        if( pt.is_tank() && !pt.is_broken() ) {
+        if( pt.is_engine() && !pt.is_broken() ) {
             // if tank contains something then display the contents in milliliters
+            auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
+                right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
+                             "%s     <color_ltgray>%3s</color>",
+                             pt.ammo_current() != "null" ? item::nname( pt.ammo_current() ).c_str() : "",
+                             pt.enabled ? _( "Yes" ) : _( "No" ) );
+            };
+            opts.push_back( part_option { "ENGINE", &pt, enable && enable( pt ) ? hotkey++ : '\0', details } );
+        }
+    }
+
+    for( auto &pt : veh->parts ) {
+        if( pt.is_tank() && !pt.is_broken() ) {
             auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
                 if( pt.ammo_current() != "null" ) {
                     auto stack = units::legacy_volume_factor / item::find_type( pt.ammo_current() )->stack_size;
