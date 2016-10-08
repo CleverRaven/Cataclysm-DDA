@@ -847,11 +847,7 @@
     "clip_size": 1,
     "reload": 1000,
     "valid_mod_locations": [],
-    "ammo_effects": [
-      "SHOT",
-      "FRAG",
-      "FLASHBANG"
-    ],
+    "ammo_effects": [ "SHOT", "FRAG", "FLASHBANG" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
