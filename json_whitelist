@@ -21,7 +21,6 @@ data/json/recipes/armor/*.json result
 data/json/recipes/other/materials.json
 data/json/recipes/other/other.json
 data/json/recipes/other/parts.json
-data/json/terrain.json id
 data/json/vehicleparts/*
 data/json/npcs/missiondef.json id
 
