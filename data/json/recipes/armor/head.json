@@ -182,7 +182,7 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "mechanics",
     "difficulty": 2,
-	"skills_required": [ "fabrication", 1 ],
+    "skills_required": [ "fabrication", 1 ],
     "time": 30000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ] ],
