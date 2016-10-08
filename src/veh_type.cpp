@@ -390,6 +390,14 @@ void vpart_info::check()
                 part.removal_reqs = { { requirement_id( "vehicle_weld_removal" ), 1 } };
                 part.repair_reqs  = { { requirement_id( "welding_standard" ), 5 } };
             }
+
+        } else {
+            if( part.has_flag( "REVERSIBLE" ) ) {
+                if( !part.removal_reqs.empty() ) {
+                    debugmsg( "vehicle part %s specifies both REVERSIBLE and removal", part.id.c_str() );
+                }
+                part.removal_reqs = part.install_reqs;
+            }
         }
 
         // add the base item to the installation requirements
@@ -536,6 +544,10 @@ requirement_data vpart_info::repair_requirements() const
 }
 
 static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &ch ) {
+    if( sk.empty() ) {
+        return mv;
+    }
+
     int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&ch]( int lhs, const std::pair<skill_id,int>& rhs ) {
         return lhs + std::max( rhs.second - std::min( ch.get_skill_level( rhs.first ).level(), MAX_SKILL ), 0 );
     } );

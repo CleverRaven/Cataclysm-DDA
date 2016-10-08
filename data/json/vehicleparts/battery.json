@@ -8,7 +8,6 @@
     "symbol": "o",
     "color": "yellow",
     "broken_color": "red",
-    "difficulty": 2,
     "durability": 120,
     "folded_volume": 25,
     "breaks_into": [
@@ -16,7 +15,13 @@
       { "item": "steel_chunk", "count": [ 6, 9 ] },
       { "item": "scrap", "count": [ 6, 9 ] }
     ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    "requirements": {
+      "install": {
+        "time": 5000,
+        "qualities": [ { "id": "WRENCH", "level": 1 } ]
+      }
+    },
+    "flags": [ "FOLDABLE", "REVERSIBLE" ]
   },
   {
     "id": "battery_motorbike",
@@ -30,8 +35,7 @@
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
       { "item": "scrap", "count": [ 4, 7 ] }
-    ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    ]
   },
   {
     "id": "medium_storage_battery",
