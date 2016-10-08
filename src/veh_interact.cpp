@@ -106,6 +106,38 @@ player_activity veh_interact::run( vehicle &veh, int x, int y )
     return vehint.serialize_activity();
 }
 
+item_location veh_interact::select_tank( const vehicle &veh, const item &liquid )
+{
+    item_location res;
+
+    if( liquid.active ) {
+        // cannot refill using active liquids (those that rot) due to #18570
+        return res;
+    }
+
+    auto sel = [&]( const vehicle_part &pt ) {
+        return pt.is_tank() && pt.can_reload( liquid.typeId() );
+    };
+
+    auto act = [&]( const vehicle_part &pt ) {
+        res = const_cast<vehicle &>( veh ).part_base( veh.index_of_part( &pt ) );
+    };
+
+    int opts = std::count_if( veh.parts.cbegin(), veh.parts.cend(), sel );
+
+    if( opts == 1 ) {
+        act( *std::find_if( veh.parts.cbegin(), veh.parts.cend(), sel ) );
+
+    } else if( opts != 0 ) {
+        veh_interact vehint( const_cast<vehicle &>( veh ) );
+        vehint.display_mode( 'f' );
+        vehint.overview( sel, act );
+        g->refresh_all();
+    }
+
+    return res;
+}
+
 /**
  * Creates a blank veh_interact window.
  */

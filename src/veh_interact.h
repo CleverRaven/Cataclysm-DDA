@@ -38,7 +38,9 @@ class veh_interact
 {
     public:
         static player_activity run( vehicle &veh, int x, int y );
-        static player_activity refill( vehicle &veh, item_location &&liquid );
+
+        /** Prompt for a suitable tank that can be used to contain @param liquid */
+        static item_location select_tank( const vehicle &veh, const item &liquid );
 
         static void complete_vehicle();
 
