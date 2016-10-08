@@ -1,19 +1,17 @@
 [
   {
     "id": "cinnamon",
-    "copy-from": "salt",
+    "copy-from": "spice",
     "type": "COMESTIBLE",
     "name": "cinnamon",
     "name_plural": "cinnamon",
     "description": "Ground cinnamon bark with a sweet but slightly spicy aroma.",
     "price": 500,
-    "color": "brown",
-    "quench": -5,
-    "healthy": 0
+    "color": "brown"
   },
   {
     "id": "chilly-p",
-    "copy-from": "salt",
+    "copy-from": "spice",
     "type": "COMESTIBLE",
     "name": "chili powder",
     "name_plural": "chili powder",
@@ -21,12 +19,12 @@
     "price": 40,
     "container": "bag_plastic",
     "color": "red",
-    "quench": -5,
+    "healthy": -1,
     "stim": 1
   },
   {
     "id": "curry_powder",
-    "copy-from": "salt",
+    "copy-from": "spice",
     "type": "COMESTIBLE",
     "name": "curry powder",
     "name_plural": "curry powder",
@@ -34,42 +32,34 @@
     "price": 40,
     "container": "bag_plastic",
     "color": "red",
-    "quench": -5,
+    "healthy": -1,
     "stim": 1
   },
   {
     "id": "pepper",
-    "copy-from": "salt",
+    "copy-from": "spice",
     "type": "COMESTIBLE",
     "name": "black pepper",
     "name_plural": "black pepper",
     "description": "Ground black spice berries with a pungent aroma.",
     "price": 250,
     "color": "dark_gray",
-    "quench": -5
+    "healthy": -1
   },
   {
     "id": "salt",
+    "copy-from": "spice",
     "type": "COMESTIBLE",
     "name": "salt",
     "name_plural": "salt",
     "description": "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
-    "weight": 5,
-    "volume": 1,
     "price": 400,
-    "container": "bottle_plastic_small",
-    "material": "powder",
-    "symbol": "%",
-    "color": "white",
-    "comestible_type": "FOOD",
-    "charges": 100,
     "quench": -10,
-    "healthy": -1,
-    "fun": -5
+    "healthy": -1
   },
   {
     "id": "seasoning_italian",
-    "copy-from": "salt",
+    "copy-from": "spice",
     "type": "COMESTIBLE",
     "name": "Italian seasoning",
     "name_plural": "Italian seasoning",
@@ -77,7 +67,6 @@
     "price": 290,
     "color": "green",
     "quench": -1,
-    "healthy": 0,
     "fun": -1
   },
   {
@@ -91,8 +80,23 @@
     "color": "brown"
   },
   {
+    "abstract": "spice",
+    "type": "COMESTIBLE",
+    "name": "spice",
+    "weight": 5,
+    "volume": 1,
+    "container": "bottle_plastic_small",
+    "material": "powder",
+    "symbol": "%",
+    "color": "white",
+    "comestible_type": "FOOD",
+    "charges": 100,
+    "quench": -5,
+    "fun": -5
+  },
+  {
     "id": "sugar",
-    "copy-from": "salt",
+    "copy-from": "spice",
     "type": "COMESTIBLE",
     "name": "sugar",
     "name_plural": "sugar",
@@ -101,6 +105,7 @@
     "container": "box_small",
     "material": [ "powder", "junk" ],
     "quench": -1,
+    "healthy": -1,
     "fun": 0
   },
   {
