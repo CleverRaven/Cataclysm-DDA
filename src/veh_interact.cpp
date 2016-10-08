@@ -130,7 +130,14 @@ item_location veh_interact::select_tank( const vehicle &veh, const item &liquid 
 
     } else if( opts != 0 ) {
         veh_interact vehint( const_cast<vehicle &>( veh ) );
-        vehint.display_mode( 'f' );
+
+        auto stack = units::legacy_volume_factor / liquid.type->stack_size;
+
+        vehint.set_title( _( "Select target tank for <color_%s>%.1fL %s</color>" ),
+                          get_all_colors().get_name( liquid.color() ).c_str(),
+                          round_up( to_liter( liquid.charges * stack ), 1 ),
+                          liquid.tname().c_str() );
+
         vehint.overview( sel, act );
         g->refresh_all();
     }
