@@ -70,26 +70,16 @@ const std::array<fuel_type, 7> &get_fuel_types()
 {
 
     static const std::array<fuel_type, 7> fuel_types = {{
-        fuel_type {fuel_type_gasoline,  100, 1},
-        fuel_type {fuel_type_diesel,    100, 1},
-        fuel_type {fuel_type_battery,   1,   1},
-        fuel_type {fuel_type_plutonium, 1,   1000},
-        fuel_type {fuel_type_plasma,    100, 100},
-        fuel_type {fuel_type_water,     1,   1},
-        fuel_type {fuel_type_muscle,    0,   1}
+        fuel_type {fuel_type_gasoline,  100 },
+        fuel_type {fuel_type_diesel,    100 },
+        fuel_type {fuel_type_battery,   1,  },
+        fuel_type {fuel_type_plutonium, 1   },
+        fuel_type {fuel_type_plasma,    100 },
+        fuel_type {fuel_type_water,     1,  },
+        fuel_type {fuel_type_muscle,    0,  }
     }};
 
     return fuel_types;
-}
-
-int fuel_charges_to_amount_factor( const itype_id &ftype )
-{
-    for( auto & ft : get_fuel_types() ) {
-        if( ft.id == ftype ) {
-            return ft.charges_to_amount_factor;
-        }
-    }
-    return 1;
 }
 
 // Map stack methods.
