@@ -196,9 +196,11 @@ void veh_interact::allocate_windows()
 
     wrefresh(w_border);
     delwin( w_border );
-    display_grid();
     display_name();
+    display_grid();
     display_stats();
+    display_veh();
+    move_cursor(0, 0); // display w_disp & w_parts
 }
 
 bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data &reqs,
@@ -234,10 +236,6 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
 
 void veh_interact::do_main_loop()
 {
-    display_grid();
-    display_stats ();
-    display_veh   ();
-    move_cursor (0, 0); // display w_disp & w_parts
     bool finish = false;
     while (!finish) {
         overview();
