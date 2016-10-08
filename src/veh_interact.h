@@ -82,6 +82,8 @@ class veh_interact
 
         player_activity serialize_activity();
 
+        void set_title( std::string msg, ... ) const;
+
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::ostringstream &msg, const requirement_data &reqs,
                           const std::map<skill_id, int> &skills, int moves ) const;
@@ -116,7 +118,7 @@ class veh_interact
         void display_veh();
         void display_stats();
         void display_name();
-        void display_mode( char mode );
+        void display_mode();
         void display_list( size_t pos, std::vector<const vpart_info *> list, const int header = 0 );
         void display_details( const vpart_info *part );
         size_t display_esc( WINDOW *w );
