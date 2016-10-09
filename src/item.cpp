@@ -3488,7 +3488,7 @@ bool item::is_melee() const
 
 bool item::is_melee( damage_type dt ) const
 {
-    if( is_null() || is_gun() || is_gunmod() || is_food() || is_ammo() ||
+    if( is_null() || is_gunmod() || is_food() || is_ammo() ||
         is_food_container() || is_armor() || is_book() || is_bionic() ) {
         return false;
     }

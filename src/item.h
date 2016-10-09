@@ -379,7 +379,11 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /** Is this item an effective melee weapon for the given damage type? */
     bool is_melee( damage_type dt ) const;
 
-    /** Is this item an effective melee weapon any damage type? */
+    /**
+     *  Is this item an effective melee weapon for any damage type?
+     *  @see item::is_gun()
+     *  @note an item can be both a gun and melee weapon concurrently
+     */
     bool is_melee() const;
 
     /**
@@ -1194,6 +1198,12 @@ public:
          */
         /*@{*/
         bool is_gunmod() const;
+
+        /**
+         *  Can this item be used to perform a ranged attack?
+         *  @see item::is_melee()
+         *  @note an item can be both a gun and melee weapon concurrently
+         */
         bool is_gun() const;
 
         /** Quantity of ammunition currently loaded in tool, gun or axuiliary gunmod */
