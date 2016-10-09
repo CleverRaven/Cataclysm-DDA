@@ -33,6 +33,12 @@ static const int screen_border_gap = 1;
 /** The minimal occupancy ratio (see @refer get_columns_occupancy_ratio()) to align columns to the center */
 static const double min_ratio_to_center = 0.65;
 
+struct navigation_mode_data {
+    navigation_mode next_mode;
+    std::string name;
+    nc_color color;
+};
+
 bool inventory_entry::operator==( const inventory_entry &other ) const {
     return get_category_ptr() == other.get_category_ptr() && location == other.location;
 }
@@ -968,16 +974,12 @@ void inventory_selector::draw_footer( WINDOW *w ) const
     nc_color msg_color = c_ltgray;
 
     if( has_available_choices() ) {
-        switch( navigation ) {
-            case navigation_mode::ITEM:
-                msg_str = _( "Item selection; [TAB] switches mode, arrows select." );
-                break;
-
-            case navigation_mode::CATEGORY:
-                msg_str = _( "Category selection; [TAB] switches mode, arrows select." );
-                msg_color = h_white;
-                break;
-        }
+        //~ %1$s - category name, %2$s, %3$s - key names
+        msg_str = string_format( _( "%1$s; %2$s switches mode, %3$s confirms." ),
+                                 get_navigation_data().name.c_str(),
+                                 ctxt.get_desc( "CATEGORY_SELECTION" ).c_str(),
+                                 ctxt.get_desc( "CONFIRM" ).c_str() );
+        msg_color = get_navigation_data().color;
     } else {
         msg_str = _( "There are no available choices." );
         msg_color = i_red;
@@ -1135,12 +1137,7 @@ void inventory_selector::toggle_active_column( int direction )
 
 void inventory_selector::toggle_navigation_mode()
 {
-    static const std::map<navigation_mode, navigation_mode> next_mode = {
-        { navigation_mode::ITEM, navigation_mode::CATEGORY },
-        { navigation_mode::CATEGORY, navigation_mode::ITEM }
-    };
-
-    navigation = next_mode.at( navigation );
+    navigation = get_navigation_data().next_mode;
     for( auto &elem : columns ) {
         elem->set_mode( navigation );
     }
@@ -1155,6 +1152,16 @@ void inventory_selector::append_column( inventory_column &column )
     }
 
     columns.push_back( &column );
+}
+
+const navigation_mode_data &inventory_selector::get_navigation_data() const
+{
+    static const std::map<navigation_mode, navigation_mode_data> mode_data = {
+        { navigation_mode::ITEM,     { navigation_mode::CATEGORY, _( "Item selection mode" ),     c_ltgray } },
+        { navigation_mode::CATEGORY, { navigation_mode::ITEM,     _( "Category selection mode" ), h_white  } }
+    };
+
+    return mode_data.at( navigation );
 }
 
 item_location inventory_pick_selector::execute()

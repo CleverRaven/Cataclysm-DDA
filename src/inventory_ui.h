@@ -27,6 +27,8 @@ enum class navigation_mode : int {
     CATEGORY
 };
 
+struct navigation_mode_data;
+
 class inventory_entry
 {
     public:
@@ -448,6 +450,8 @@ class inventory_selector
 
         /** Entry has been added */
         virtual void on_entry_add( const inventory_entry & ) {}
+
+        const navigation_mode_data &get_navigation_data() const;
 
     private:
         WINDOW *w_inv;
