@@ -996,7 +996,7 @@ classes = {
             { name = "is_tool_reversible", rval = "bool", args = { } },
             { name = "is_two_handed", rval = "bool", args = { "player" } },
             { name = "is_watertight_container", rval = "bool", args = { } },
-            { name = "is_weap", rval = "bool", args = { } },
+            { name = "is_melee", rval = "bool", args = { } },
             { name = "label", rval = "string", args = { } },
             { name = "label", rval = "string", args = { "int" } },
             { name = "charges_per_volume", rval = "int", args = { "volume" } },
@@ -1049,7 +1049,7 @@ classes = {
             { name = "type_name", rval = "string", args = { "int" } },
             { name = "type_name", rval = "string", args = { } },
             { name = "volume", rval = "volume", args = { } },
-            { name = "weap_skill", rval = "skill_id", args = { } },
+            { name = "melee_skill", rval = "skill_id", args = { } },
             { name = "weight", rval = "int", args = { } },
         }
     },
