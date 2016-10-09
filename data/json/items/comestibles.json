@@ -6254,6 +6254,22 @@
     },
     {
         "type" : "COMESTIBLE",
+        "id" : "sugar",
+        "name" : "sugar",
+        "name_plural" : "sugar",
+        "weight" : 5,
+        "color" : "white",
+        "container" : "box_small",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "description" : "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
+        "price" : 550,
+        "material" : ["powder", "junk"],
+        "volume" : 1,
+        "charges" : 100
+    },
+    {
+        "type" : "COMESTIBLE",
         "id" : "yeast",
         "name" : "yeast",
         "weight" : 11,

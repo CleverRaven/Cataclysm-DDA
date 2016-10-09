@@ -78,19 +78,5 @@
     "description": "Salt mixed with a fragrant blend of secret herbs and spices.",
     "price": 250,
     "color": "brown"
-  },
-  {
-    "id": "sugar",
-    "copy-from": "spice",
-    "type": "COMESTIBLE",
-    "name": "sugar",
-    "name_plural": "sugar",
-    "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
-    "price": 550,
-    "container": "box_small",
-    "material": [ "powder", "junk" ],
-    "quench": -1,
-    "healthy": -1,
-    "fun": 0
   }
 ]
