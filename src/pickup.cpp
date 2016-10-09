@@ -149,13 +149,12 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
     auto veh_tool = [&]( const itype_id & obj ) {
         item pseudo( obj );
-        itype_id ammo = pseudo.ammo_default();
-        if( veh->fuel_left( ammo ) < pseudo.ammo_required() ) {
+        if( veh->fuel_left( "battery" ) < pseudo.ammo_required() ) {
             return false;
         }
-        pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_required() ) );
+        pseudo.ammo_set( "battery", veh->discharge_battery( pseudo.ammo_required() ) );
         g->u.invoke_item( &pseudo );
-        pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
+        veh->charge_battery( pseudo.ammo_remaining() );
         return true;
     };
 
