@@ -522,6 +522,12 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
 {
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
+    if( weap.has_flag("UNARMED_WEAPON") ) {
+        // Unarmed attack: 1/2 of unarmed skill is to-hit
+        ///\EFFECT_UNARMED increases crit chance with UNARMED_WEAPON
+        weapon_crit_chance = 0.5 + 0.05 * get_skill_level( skill_unarmed );
+    }
+
     if( weap.type->m_to_hit > 0 ) {
         weapon_crit_chance = std::max( weapon_crit_chance, 0.5 + 0.1 * weap.type->m_to_hit );
     } else if( weap.type->m_to_hit < 0 ) {
