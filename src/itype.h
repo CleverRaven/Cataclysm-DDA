@@ -650,7 +650,7 @@ public:
     bool rigid = true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
 
     /** Damage output in melee for zero or more damage types */
-    std::array<int, NUM_DT> melee;
+    std::array<int, NUM_DT> melee = {};
 
     int m_to_hit  = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable
 
