@@ -1,6 +1,7 @@
 [
   {
     "id": "colt_navy",
+    "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "Colt M1861 Navy",
     "name_plural": "Colt M1861 Navy",
@@ -11,19 +12,17 @@
     "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "light_gray",
     "ammo": "36paper",
-    "skill": "pistol",
     "dispersion": 450,
     "durability": 7,
     "clip_size": 6,
-    "reload": 140,
+    "proportional": { "reload": 2 },
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
     "id": "pistol_pepperbox",
+    "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "pepperbox pistol",
     "description": "An elegantly crafted, ornate pepperbox.  This primitive revolver has six barrels, making it unwieldy to shoot.",
@@ -33,14 +32,12 @@
     "to_hit": -4,
     "bashing": 5,
     "material": [ "iron", "wood" ],
-    "symbol": "(",
     "color": "brown",
     "ammo": "36paper",
-    "skill": "pistol",
     "dispersion": 540,
     "durability": 6,
     "clip_size": 6,
-    "reload": 150,
+    "proportional": { "reload": 2 },
     "valid_mod_locations": [ [ "accessories", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
   }

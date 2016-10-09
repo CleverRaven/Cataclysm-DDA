@@ -7,14 +7,15 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
-    "time": 15000,
+    "time": 600,
+    "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 3 ] ],
-    "using": [ [ "ammo_bullet", 30 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "charges": 1,
+    "using": [ [ "ammo_bullet", 1 ], [ "paper_casing", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "gunpowder", 100 ], [ "chem_black_powder", 200 ] ],
-      [ [ "smpistol_primer", 25 ] ],
-      [ [ "bag_plastic", 1 ], [ "paper", 12 ] ]
+      [ [ "gunpowder", 4 ], [ "chem_black_powder", 8 ] ],
+      [ [ "smpistol_primer", 1 ] ]
     ]
   },
   {
@@ -25,14 +26,15 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
-    "time": 20000,
+    "time": 800,
+    "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 3 ] ],
-    "using": [ [ "ammo_bullet", 45 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "charges": 1,
+    "using": [ [ "ammo_bullet", 2 ], [ "paper_casing", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "gunpowder", 160 ], [ "chem_black_powder", 320 ] ],
-      [ [ "lgpistol_primer", 25 ] ],
-      [ [ "bag_plastic", 1 ], [ "paper", 12 ] ]
+      [ [ "gunpowder", 6 ], [ "chem_black_powder", 12 ] ],
+      [ [ "lgpistol_primer", 1 ] ]
     ]
   },
   {
