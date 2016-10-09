@@ -80,21 +80,6 @@
     "color": "brown"
   },
   {
-    "abstract": "spice",
-    "type": "COMESTIBLE",
-    "name": "spice",
-    "weight": 5,
-    "volume": 1,
-    "container": "bottle_plastic_small",
-    "material": "powder",
-    "symbol": "%",
-    "color": "white",
-    "comestible_type": "FOOD",
-    "charges": 100,
-    "quench": -5,
-    "fun": -5
-  },
-  {
     "id": "sugar",
     "copy-from": "spice",
     "type": "COMESTIBLE",
