@@ -6,7 +6,6 @@
     "name": "chili powder",
     "name_plural": "chili powder",
     "description": "Chilly P, Yo!  Not very good on its own, but it might help if you use it properly, or in meth.",
-    "container": "bag_plastic",
     "color": "red"
   },
   {
@@ -25,7 +24,6 @@
     "name": "curry powder",
     "name_plural": "curry powder",
     "description": "A blend of spices meant to be used in some South Asian dishes.  Could be eaten raw, but why would you do that?",
-    "container": "bag_plastic",
     "color": "red"
   },
   {
