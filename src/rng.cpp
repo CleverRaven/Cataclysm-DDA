@@ -2,6 +2,7 @@
 #include "rng.h"
 #include <stdlib.h>
 #include <random>
+#include <chrono>
 
 long rng( long val1, long val2 )
 {
@@ -91,6 +92,6 @@ double rng_normal( double lo, double hi )
 
 double normal_roll( double mean, double stddev )
 {
-    static std::default_random_engine eng;
+    static std::default_random_engine eng( std::chrono::system_clock::now().time_since_epoch().count() );
     return std::normal_distribution<double>( mean, stddev )( eng );
 }

@@ -63,7 +63,7 @@ void check_near( float prob, float expected, float tolerance )
     }
 }
 
-const int num_iters = 1000;
+const int num_iters = 10000;
 
 TEST_CASE("Character attacking a zombie", "[melee]") {
     monster zed( mtype_id( "mon_zombie" ) );
@@ -81,7 +81,7 @@ TEST_CASE("Character attacking a zombie", "[melee]") {
         dude.weapon = item( "2x4" );
         float prob = brute_probability( dude, zed, num_iters );
         INFO( full_attack_details( dude ) );
-        check_near( prob, 0.75f, 0.05f );
+        check_near( prob, 0.8f, 0.05f );
     }
 
     SECTION("10/10/10/10, 8 all skills, katana") {
@@ -89,7 +89,7 @@ TEST_CASE("Character attacking a zombie", "[melee]") {
         dude.weapon = item( "katana" );
         float prob = brute_probability( dude, zed, num_iters );
         INFO( full_attack_details( dude ) );
-        check_near( prob, 0.95f, 0.05f );
+        check_near( prob, 0.975f, 0.025f );
     }
 }
 
@@ -100,15 +100,15 @@ TEST_CASE("Character attacking a manhack", "[melee]") {
     SECTION("8/8/8/8, no skills, unarmed") {
         standard_npc dude( "TestCharacter", {}, 0, 8, 8, 8, 8 );
         float prob = brute_probability( dude, manhack, num_iters );
-        INFO( "Has get_hit() == " + std::to_string( dude.get_hit() ) );
-        check_near( prob, 0.15f, 0.05f );
+        INFO( full_attack_details( dude ) );
+        check_near( prob, 0.2f, 0.05f );
     }
 
     SECTION("8/8/8/8, 3 all skills, two-by-four") {
         standard_npc dude( "TestCharacter", {}, 3, 8, 8, 8, 8 );
         dude.weapon = item( "2x4" );
         float prob = brute_probability( dude, manhack, num_iters );
-        INFO( "Has get_hit() == " + std::to_string( dude.get_hit() ) );
+        INFO( full_attack_details( dude ) );
         check_near( prob, 0.4f, 0.05f );
     }
 
@@ -116,7 +116,7 @@ TEST_CASE("Character attacking a manhack", "[melee]") {
         standard_npc dude( "TestCharacter", {}, 8, 10, 10, 10, 10 );
         dude.weapon = item( "katana" );
         float prob = brute_probability( dude, manhack, num_iters );
-        INFO( "Has get_hit() == " + std::to_string( dude.get_hit() ) );
+        INFO( full_attack_details( dude ) );
         check_near( prob, 0.7f, 0.05f );
     }
 }
