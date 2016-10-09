@@ -4113,9 +4113,10 @@ ff.......|....|WWWWWWWW|\n\
         }
 
         int loot_variant; //only used for weapons testing variant.
-        switch (rng(1, 7)) {
+        switch (rng(1, 4)) {
+
+        // Weapons testing
         case 1:
-        case 2: // Weapons testing
             loot_variant = rng(1, 100); //The variants have a 67/22/7/4 split.
             add_spawn(mon_secubot, 1,            6,            6);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
@@ -4181,8 +4182,9 @@ ff.......|....|WWWWWWWW|\n\
                 spawn_item(SEEX + 1, SEEY    , "solar_panel_v3"); //quantum solar panel, 6 panels in one!
             }
             break;
-        case 3:
-        case 4: { // Netherworld access
+
+        // Netherworld access
+        case 2: {
             bool monsters_end = false;
             if (!one_in(4)) { // Trapped netherworld monsters
                 monsters_end = true;
@@ -4230,8 +4232,9 @@ ff.......|....|WWWWWWWW|\n\
             ter_set(SEEX + 1, 7, t_radio_tower);
         }
         break;
-        case 5:
-        case 6: { // Bionics
+
+        // Bionics
+        case 3: {
             add_spawn(mon_secubot, 1,            6,            6);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
             add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
@@ -4259,7 +4262,8 @@ ff.......|....|WWWWWWWW|\n\
             }
         break;
 
-        case 7: // CVD Forge
+        // CVD Forge
+        case 4:
             add_spawn(mon_secubot, 1,            6,            6);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
             add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
@@ -10522,7 +10526,6 @@ int map::place_npc(int x, int y, std::string type)
     temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
     temp->setx( x );
     temp->sety( y );
-    g->load_npcs();
     return temp->getID();
 }
 

@@ -742,8 +742,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
         }
         for( const auto &sk : type->min_skills ) {
-            std::string txt = sk.first == "weapon" ? _( "weapon" ) : skill_id( sk.first )->name();
-            req.push_back( string_format( "%s %d", txt.c_str(), sk.second ) );
+            req.push_back( string_format( "%s %d", skill_id( sk.first )->name().c_str(), sk.second ) );
         }
         if( !req.empty() ) {
             info.emplace_back( "BASE", _("<bold>Minimum requirements:</bold>") );
@@ -1757,14 +1756,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } else { // use the contained item
             tid = contents.front().typeId();
         }
-        const auto &rec = recipe_dict.of_component( tid );
-        if( !rec.empty() ) {
+        const auto &known_recipes = g->u.get_learned_recipes().of_component( tid );
+        if( !known_recipes.empty() ) {
             temp1.str( "" );
             const inventory &inv = g->u.crafting_inventory();
-            // only want known recipes
-            std::vector<const recipe *> known_recipes;
-            std::copy_if( rec.begin(), rec.end(), std::back_inserter( known_recipes ),
-                          [&]( const recipe *r ) { return g->u.knows_recipe( r ); } );
 
             if( known_recipes.size() > 24 ) {
                 insert_separation_line();
@@ -1776,7 +1771,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             } else {
                 const std::string recipes = enumerate_as_string( known_recipes.begin(), known_recipes.end(),
                 [ &inv ]( const recipe *r ) {
-                    if( r->can_make_with_inventory( inv ) ) {
+                    if( r->requirements().can_make_with_inventory( inv ) ) {
                         return nname( r->result );
                     } else {
                         return string_format( "<dark>%s</dark>", nname( r->result ).c_str() );
@@ -2238,6 +2233,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         modtext += _( "sawn-off ");
     }
 
+    if( has_flag( "DIAMOND" ) ) {
+        modtext += std::string( _( "diamond" ) ) + " ";
+    }
+
     if(has_flag("WET"))
        ret << _(" (wet)");
 
@@ -2548,26 +2547,28 @@ int item::damage_bash() const
 
 int item::damage_cut() const
 {
-    int total = type->melee_cut;
-    if (is_gun()) {
-        static const std::string FLAG_BAYONET( "BAYONET" );
-        for( auto &elem : contents ) {
-            if( elem.has_flag( FLAG_BAYONET ) ) {
-                return elem.type->melee_cut;
-            }
-        }
-    }
-
     if( is_null() ) {
         return 0;
     }
 
-    total -= total * damage() * 0.1;
-    if (total > 0) {
-        return total;
-    } else {
-        return 0;
+    // effectiveness is reduced by 10% per damage level
+    int res = type->melee_cut;
+    res -= res * damage() * 0.1;
+
+    if( is_gun() ) {
+        std::vector<int> opts = { res };
+        for( const auto &e : gun_all_modes() ) {
+            if( e.second.target != this && e.second.melee() ) {
+                opts.push_back( e.second.target->damage_cut() );
+            }
+        }
+        return *std::max_element( opts.begin(), opts.end() );
+
+    } else if( has_flag( "DIAMOND" ) ) {
+        res *= 1.3;
     }
+
+    return std::max( res, 0 );
 }
 
 int item::damage_by_type( damage_type dt ) const
@@ -2620,10 +2621,12 @@ bool item::has_flag( const std::string &f ) const
 {
     bool ret = false;
 
-    // gunmods fired separately from the base gun do not contribute to base gun flags
-    for( const auto e : gunmods() ) {
-        if( !e->is_gun() && e->has_flag( f ) ) {
-            return true;
+    if( json_flag::get( f ).inherit() ) {
+        for( const auto e : gunmods() ) {
+            // gunmods fired separately from the base gun do not contribute to base gun flags
+            if( !e->is_gun() && e->has_flag( f ) ) {
+                return true;
+            }
         }
     }
 
@@ -3961,7 +3964,7 @@ int item::gun_range( const player *p ) const
     if( p == nullptr ) {
         return ret;
     }
-    if( !p->can_use( *this, false ) ) {
+    if( !p->meets_requirements( *this ) ) {
         return 0;
     }
 
@@ -4328,7 +4331,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
     auto opts = gunmods();
     opts.push_back( this );
 
-    for( auto e : opts ) {
+    for( const auto e : opts ) {
         if( e->is_gun() ) {
             for( auto m : e->type->gun->modes ) {
                 // prefix attached gunmods, eg. M203_DEFAULT to avoid index key collisions
@@ -4346,7 +4349,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
         }
         if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( this ),
+                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
                                                        std::get<1>( m.second ), std::get<2>( m.second ) } );
             }
         }
@@ -5776,6 +5779,23 @@ std::string item::label( unsigned int quantity ) const
 bool item::has_infinite_charges() const
 {
     return charges == INFINITE_CHARGES;
+}
+
+skill_id item::contextualize_skill( const skill_id &id ) const
+{
+    if( id->is_contextual_skill() ) {
+        static const skill_id weapon_skill( "weapon" );
+
+        if( id == weapon_skill ) {
+            if( is_gun() ) {
+                return gun_skill();
+            } else if( is_weap() ) {
+                return weap_skill();
+            }
+        }
+    }
+
+    return id;
 }
 
 item_category::item_category() : id(), name(), sort_rank( 0 )

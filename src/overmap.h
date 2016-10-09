@@ -328,6 +328,8 @@ public:
     int num_mongroups() const;
     bool monster_check(const std::pair<tripoint, monster> &candidate) const;
     int num_monsters() const;
+
+    void add_npc( npc &who );
     // TODO: make private
   std::vector<radio_tower> radios;
   std::vector<npc *> npcs;

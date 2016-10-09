@@ -170,6 +170,7 @@ public:
     int fishing_rod         ( player*, item*, bool, const tripoint& );
     int fish_trap           ( player*, item*, bool, const tripoint& );
     int gun_repair          ( player*, item*, bool, const tripoint& );
+    int gunmod_attach       ( player*, item*, bool, const tripoint& );
     int misc_repair         ( player*, item*, bool, const tripoint& );
     int rm13armor_off       ( player*, item*, bool, const tripoint& );
     int rm13armor_on        ( player*, item*, bool, const tripoint& );

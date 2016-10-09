@@ -247,14 +247,14 @@ void player::randomize( const bool random_scenario, points_left &points )
         }
         g->scen = random_entry( scenarios );
     }
-    
+
     if( g->scen->profsize() > 0 ) {
         g->u.prof = g->scen->random_profession();
     } else {
         g->u.prof = profession::weighted_random();
     }
     g->u.start_location = g->scen->random_start_location();
-    
+
     str_max = rng( 6, HIGH_STAT - 2 );
     dex_max = rng( 6, HIGH_STAT - 2 );
     int_max = rng( 6, HIGH_STAT - 2 );
@@ -530,10 +530,7 @@ bool player::create(character_type type, std::string tempname)
     // Learn recipes
     for( const auto &e : recipe_dict ) {
         const auto &r = e.second;
-        if( !has_recipe_autolearned( r ) &&
-            has_recipe_requirements( r ) &&
-            learned_recipes.find( r.ident() ) == learned_recipes.end() ) {
-
+        if( !knows_recipe( &r ) && has_recipe_requirements( r ) ) {
             learn_recipe( &r );
         }
     }
@@ -1632,7 +1629,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             auto req_skill = r.required_skills.find( currentSkill->ident() );
             int skill = req_skill != r.required_skills.end() ? req_skill->second : 0;
 
-            if( !prof_u.has_recipe_autolearned( r ) &&
+            if( !prof_u.knows_recipe( &r ) &&
                 ( r.skill_used == currentSkill->ident() || skill > 0 ) &&
                 prof_u.has_recipe_requirements( r ) )  {
 

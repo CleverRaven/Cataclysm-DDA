@@ -23,7 +23,6 @@ using vpart_str_id = string_id<vpart_info>;
 enum task_reason {
     UNKNOWN_TASK = -1, //No such task
     CAN_DO, //Task can be done
-    CANT_REFILL, // All fuel tanks are broken or player don't have properly fuel
     INVALID_TARGET, //No valid target ie can't "change tire" if no tire present
     LACK_TOOLS, //Player doesn't have all the tools they need
     NOT_FREE, //Part is attached to something else and can't be unmounted
@@ -44,6 +43,8 @@ class veh_interact
 
     private:
         veh_interact( vehicle &veh, int x, int y );
+
+        item_location target;
 
         int ddx = 0;
         int ddy = 0;
@@ -108,12 +109,19 @@ class veh_interact
         void display_grid();
         void display_veh();
         void display_stats();
-        void display_contents();
         void display_name();
         void display_mode( char mode );
         void display_list( size_t pos, std::vector<const vpart_info *> list, const int header = 0 );
         void display_details( const vpart_info *part );
         size_t display_esc( WINDOW *w );
+
+        /**
+          * Display overview of parts
+          * @param enable used to determine if a part can be selected
+          * @param action callback run when a part is selected
+          */
+        void overview( std::function<bool( const vehicle_part &pt )> enable = {},
+                       std::function<void( const vehicle_part &pt )> action = {} );
 
         void countDurability();
 

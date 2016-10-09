@@ -175,6 +175,7 @@
   {
     "id": "medikit",
     "type": "COMESTIBLE",
+    "comestible_type": "MED",
     "name": "medikit",
     "description": "A PRM brand medikit.  Can be quickly applied in battlefield situations, though it is designed to quickly attach itself to damaged tissue, not disinfect.",
     "weight": 400,
@@ -183,7 +184,6 @@
     "material": "spess_plastic",
     "symbol": "+",
     "color": "red",
-    "comestible_type": "MED",
     "charges": 3,
     "stack_size": 6,
     "use_action": {
@@ -258,6 +258,7 @@
   {
     "id": "stamina_vial",
     "type": "COMESTIBLE",
+    "comestible_type": "MED",
     "name": "stamina tonic",
     "description": "Containing a slew of charged organic chemicals, this 3-layer slurry might go down hard but provides a noticeable endurance boost for hardcore athletes and demanding soldiers alike.  Like most PRM products it is designed for short-term use only, and may upset the body's balance.",
     "weight": 720,
@@ -269,7 +270,6 @@
     "material": [ "glass" ],
     "symbol": ")",
     "color": "blue",
-    "comestible_type": "MED",
     "charges": 3,
     "nutrition": 12,
     "fun": -5,
@@ -465,6 +465,7 @@
   {
     "id": "antidote_posion",
     "type": "COMESTIBLE",
+    "comestible_type": "MED",
     "name": "triffid antidote",
     "description": "A handmade brew to ward off basic poisons.  Works on a wide variety of known poisons, but may not be up to the task of the nastier venoms.  Cures and blocks biological poisons.",
     "weight": 175,
@@ -475,7 +476,6 @@
     "material": [ "powder" ],
     "symbol": ",",
     "color": "ltgreen",
-    "comestible_type": "MED",
     "use_action": {
       "type": "consume_drug",
       "tools_needed": "syringe",
@@ -488,6 +488,7 @@
   {
     "id": "antidote_badpoison",
     "type": "COMESTIBLE",
+    "comestible_type": "MED",
     "name": "triffid neutralizer",
     "description": "A concentrated medical brew to neutralize most known toxins and flush them out of the system.  Unlike royal jelly, it blocks future attacks for a time.",
     "weight": 175,
@@ -498,7 +499,6 @@
     "material": [ "powder" ],
     "symbol": ",",
     "color": "ltgreen",
-    "comestible_type": "MED",
     "use_action": {
       "type": "consume_drug",
       "tools_needed": "syringe",

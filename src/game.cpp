@@ -917,9 +917,16 @@ void game::load_npcs()
             continue;
         }
 
-        const tripoint p = temp->global_sm_location();
+        const tripoint sm_loc = temp->global_sm_location();
+        // NPCs who are out of bounds before placement would be pushed into bounds
+        // This can cause NPCs to teleport around, so we don't want that
+        if( sm_loc.x < get_levx() || sm_loc.x >= get_levx() + MAPSIZE ||
+            sm_loc.y < get_levy() || sm_loc.y >= get_levy() + MAPSIZE ) {
+            continue;
+        }
+
         add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d:%d (%d:%d:%d)",
-                 get_levx(), get_levy(), get_levz(), p.x, p.y, p.z );
+                 get_levx(), get_levy(), get_levz(), sm_loc.x, sm_loc.y, sm_loc.z );
         temp->place_on_map();
         if( !m.inbounds( temp->pos() ) ) {
             continue;
@@ -939,6 +946,8 @@ void game::load_npcs()
     for( auto npc : just_added ) {
         npc->on_load();
     }
+
+    npcs_dirty = false;
 }
 
 void game::unload_npcs()
@@ -1395,6 +1404,11 @@ bool game::do_turn()
         gamemode->per_turn();
         calendar::turn.increment();
     }
+
+    if( npcs_dirty ) {
+        load_npcs();
+    }
+
     process_events();
     mission::process_all();
     if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
@@ -1402,7 +1416,7 @@ bool game::do_turn()
         overmap_buffer.process_mongroups();
         lua_callback("on_day_passed");
     }
-    
+
     // Run a LUA callback once per minute
     if (calendar::turn.seconds() == 0) {
         lua_callback("on_minute_passed");
@@ -1723,6 +1737,11 @@ const weather_generator &game::get_cur_weather_gen() const
 unsigned int game::get_seed() const
 {
     return seed;
+}
+
+void game::set_npcs_dirty()
+{
+    npcs_dirty = true;
 }
 
 void game::update_weather()
@@ -4132,9 +4151,7 @@ void game::debug()
             add_msg( m_info, _( "Recipe debug." ) );
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( const auto &e : recipe_dict ) {
-                if( !( u.learned_recipes.find( e.first ) != u.learned_recipes.end() ) )  {
-                    u.learn_recipe( &e.second );
-                }
+                u.learn_recipe( &e.second );
             }
             add_msg( m_good, _( "You know how to craft that now." ) );
         }
@@ -7495,52 +7512,6 @@ void game::use_item(int pos)
 void game::use_wielded_item()
 {
     u.use_wielded();
-}
-
-bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
-{
-    const vpart_info &part_info = part->info();
-    if (!part_info.has_flag("FUEL_TANK")) {
-        return false;
-    }
-    const itype_id &ftype = part->ammo_current();
-    const long avail = u.charges_of( ftype );
-    if( avail <= 0 ) {
-        return false;
-    } else if (test) {
-        return true;
-    }
-
-    const long fuel_per_charge = fuel_charges_to_amount_factor( ftype );
-    long req = ceil( ( part->ammo_capacity() - part->ammo_remaining() ) / double( fuel_per_charge ) );
-    long qty = std::min( req, avail );
-    part->ammo_set( ftype, part->ammo_remaining() + ( qty * double( fuel_per_charge ) ) );
-
-    veh.invalidate_mass();
-    if (ftype == "battery") {
-        add_msg(_("You recharge %s's battery."), veh.name.c_str());
-        if ( part->ammo_remaining() == part->ammo_capacity() ) {
-            add_msg(m_good, _("The battery is fully charged."));
-        }
-    } else if (ftype == "gasoline" || ftype == "diesel") {
-        add_msg(_("You refill %s's fuel tank."), veh.name.c_str());
-        if ( part->ammo_remaining() == part->ammo_capacity() ) {
-            add_msg(m_good, _("The tank is full."));
-        }
-    } else if (ftype == "plut_cell") {
-        add_msg(_("You refill %s's reactor."), veh.name.c_str());
-        if ( part->ammo_remaining() == part->ammo_capacity() ) {
-            add_msg(m_good, _("The reactor is full."));
-        }
-    }
-
-    u.use_charges( ftype, qty );
-    return true;
-}
-
-bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
-{
-    return refill_vehicle_part(veh, &veh.parts[part], test);
 }
 
 void game::handbrake()

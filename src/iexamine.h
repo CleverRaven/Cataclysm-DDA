@@ -49,6 +49,7 @@ void toilet( player &p, const tripoint &examp );
 void elevator( player &p, const tripoint &examp );
 void controls_gate( player &p, const tripoint &examp );
 void cardreader( player &p, const tripoint &examp );
+void cvdmachine( player &p, const tripoint &examp );
 void rubble( player &p, const tripoint &examp );
 void crate( player &p, const tripoint &examp );
 void chainfence( player &p, const tripoint &examp );

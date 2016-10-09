@@ -49,7 +49,7 @@ struct pickup_count {
 };
 
 struct item_idx {
-    item item;
+    item _item;
     size_t idx;
 };
 
@@ -272,9 +272,9 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
     for( size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++ ) {
         for( size_t i = 0; i < here.size(); i++ ) {
             bPickup = false;
-            if( here[i].begin()->item.volume() / units::legacy_volume_factor == ( int )iVol ) {
+            if( here[i].begin()->_item.volume() / units::legacy_volume_factor == ( int )iVol ) {
                 iNumChecked++;
-                const std::string sItemName = here[i].begin()->item.tname( 1, false );
+                const std::string sItemName = here[i].begin()->_item.tname( 1, false );
 
                 //Check the Pickup Rules
                 if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
@@ -292,8 +292,8 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
                 //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
                 //items will either be in the autopickup list ("true") or unmatched ("")
                 if( !bPickup && get_option<int>( "AUTO_PICKUP_ZERO" ) ) {
-                    if( here[i].begin()->item.volume() == 0 &&
-                        here[i].begin()->item.weight() <= get_option<int>( "AUTO_PICKUP_ZERO" ) * 50 &&
+                    if( here[i].begin()->_item.volume() == 0 &&
+                        here[i].begin()->_item.weight() <= get_option<int>( "AUTO_PICKUP_ZERO" ) * 50 &&
                         get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
                         bPickup = true;
                     }
@@ -629,7 +629,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
         item &it = here[i];
         bool found_stack = false;
         for( auto &stack : stacked_here ) {
-            if( stack.begin()->item.stacks_with( it ) ) {
+            if( stack.begin()->_item.stacks_with( it ) ) {
                 item_idx el = { it, i };
                 stack.push_back( el );
                 found_stack = true;
@@ -800,8 +800,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
             if( idx >= 0 && idx < ( int )stacked_here.size() ) {
                 if( itemcount != 0 || getitem[idx].count == 0 ) {
-                    item &item = stacked_here[idx].begin()->item;
-                    int amount_available = item.count_by_charges() ? item.charges : stacked_here[idx].size();
+                    item &temp = stacked_here[idx].begin()->_item;
+                    int amount_available = temp.count_by_charges() ? temp.charges : stacked_here[idx].size();
                     if( itemcount >= amount_available ) {
                         itemcount = 0;
                     }
@@ -824,7 +824,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 update = true;
             }
 
-            item &selected_item = stacked_here[selected].begin()->item;
+            item &selected_item = stacked_here[selected].begin()->_item;
 
             werase( w_item_info );
             if( selected >= 0 && selected <= ( int )stacked_here.size() - 1 ) {
@@ -859,7 +859,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 mvwprintw( w_pickup, 1 + ( cur_it % maxitems ), 0,
                            "                                        " );
                 if( cur_it < ( int )stacked_here.size() ) {
-                    item &this_item = stacked_here[cur_it].begin()->item;
+                    item &this_item = stacked_here[cur_it].begin()->_item;
                     nc_color icolor = this_item.color_in_inventory();
                     if( cur_it == selected ) {
                         icolor = hilite( icolor );
@@ -927,7 +927,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 units::volume volume_picked_up = 0;
                 for( size_t i = 0; i < getitem.size(); i++ ) {
                     if( getitem[i].pick ) {
-                        item temp = stacked_here[i].begin()->item;
+                        item temp = stacked_here[i].begin()->_item;
                         if( temp.count_by_charges() && getitem[i].count < temp.charges && getitem[i].count != 0 ) {
                             temp.charges = getitem[i].count;
                         }
@@ -987,10 +987,10 @@ void Pickup::pick_up( const tripoint &pos, int min )
     std::vector<std::pair<int, int>> pick_values;
     for( size_t i = 0; i < stacked_here.size(); i++ ) {
         if( getitem[i].pick ) {
-            if( stacked_here[i].begin()->item.count_by_charges() ) {
+            if( stacked_here[i].begin()->_item.count_by_charges() ) {
                 item_idx &it = *stacked_here[i].begin();
-                size_t count = getitem[i].count == 0 ? it.item.charges : getitem[i].count;
-                size_t num_picked = std::min( ( size_t )it.item.charges, count );
+                size_t count = getitem[i].count == 0 ? it._item.charges : getitem[i].count;
+                size_t num_picked = std::min( ( size_t )it._item.charges, count );
                 pick_values.push_back( { it.idx, num_picked } );
             } else {
                 size_t count = getitem[i].count == 0 ? stacked_here[i].size() : getitem[i].count;

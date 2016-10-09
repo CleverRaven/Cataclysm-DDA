@@ -175,7 +175,9 @@ const recipe *select_crafting_recipe( int &batch_size )
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     std::string filterstring = "";
 
+    const auto &available_recipes = g->u.get_available_recipes( crafting_inv, &helpers );
     std::map<const recipe *, bool> availability_cache;
+
     do {
         if( redraw ) {
             // When we switch tabs, redraw the header
@@ -193,26 +195,26 @@ const recipe *select_crafting_recipe( int &batch_size )
             TAB_MODE m = ( batch ) ? BATCH : ( filterstring == "" ) ? NORMAL : FILTERED;
             draw_recipe_tabs( w_head, tab.cur(), m );
             draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), m );
-            current.clear();
+
             available.clear();
+
             if( batch ) {
-                batch_recipes( crafting_inv, helpers, current, available, chosen );
-            } else {
-
-                if( filterstring.empty() ) {
-                    current = recipe_dict.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
-                } else {
-                    current = recipe_dict.search( filterstring );
+                current.clear();
+                for( int i = 1; i <= 20; i++ ) {
+                    current.push_back( chosen );
+                    available.push_back( chosen->requirements().can_make_with_inventory( crafting_inv, i ) );
                 }
-
-                current.erase( std::remove_if( current.begin(), current.end(), [&]( const recipe * e ) {
-                    return ( g->u.has_recipe( e, crafting_inv, helpers ) == -1 );
-                } ), current.end() );
-
+            } else {
+                if( filterstring.empty() ) {
+                    current = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
+                } else {
+                    current = available_recipes.search( filterstring );
+                }
+                available.reserve( current.size() );
                 // cache recipe availability on first display
                 for( const auto e : current ) {
                     if( !availability_cache.count( e ) ) {
-                        availability_cache.emplace( e, e->can_make_with_inventory( crafting_inv, helpers ) );
+                        availability_cache.emplace( e, e->requirements().can_make_with_inventory( crafting_inv ) );
                     }
                 }
 
@@ -388,7 +390,8 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 mvwprintz( w_data, ypos++, 30, col, _( "Required skills: %s" ),
                            ( current[line]->required_skills_string().c_str() ) );
-                mvwprintz( w_data, ypos++, 30, col, _( "Difficulty: %d" ), current[line]->difficulty );
+                mvwprintz( w_data, ypos++, 30, col, _( "Difficulty: %d" ),
+                           available_recipes.get_custom_difficulty( current[line] ) );
                 if( !current[line]->skill_used ) {
                     mvwprintz( w_data, ypos++, 30, col, _( "Your skill level: N/A" ) );
                 } else {

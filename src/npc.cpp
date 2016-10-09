@@ -94,10 +94,6 @@ npc::npc()
     restock = -1;
     companion_mission = "";
     companion_mission_time = 0;
-    for( auto &skill : Skill::skills ) {
-        set_skill_level( skill.ident(), 0 );
-    }
-
     // ret_null is a bit more than just a regular "null", it is the "fist" for unarmed attacks
     ret_null = item( "null", 0 );
     last_updated = calendar::turn;
@@ -737,7 +733,7 @@ void npc::spawn_at(int x, int y, int z)
     position.z = z;
     const point pos_om = sm_to_om_copy( mapx, mapy );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
-    om.npcs.push_back(this);
+    om.add_npc( *this );
 }
 
 void npc::spawn_at_random_city(overmap *o)

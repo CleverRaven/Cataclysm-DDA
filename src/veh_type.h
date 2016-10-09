@@ -59,7 +59,6 @@ enum vpart_bitflags : int {
     VPFLAG_ALTERNATOR,
     VPFLAG_ENGINE,
     VPFLAG_FRIDGE,
-    VPFLAG_FUEL_TANK,
     VPFLAG_LIGHT,
     VPFLAG_WINDOW,
     VPFLAG_CURTAIN,
@@ -242,6 +241,7 @@ struct vehicle_prototype {
         int with_ammo = 0;
         std::set<itype_id> ammo_types;
         std::pair<int, int> ammo_qty = { -1, -1 };
+        itype_id fuel = "null";
     };
 
     std::string name;

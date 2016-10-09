@@ -130,6 +130,10 @@ void Item_factory::finalize() {
             }
         }
 
+        if( obj.gunmod ) {
+            obj.use_methods.emplace( "GUNMOD_ATTACH", usage_from_string( "GUNMOD_ATTACH" ) );
+        }
+
         if( obj.engine && get_world_option<bool>( "NO_FAULTS" ) ) {
             obj.engine->faults.clear();
         }
@@ -449,6 +453,7 @@ void Item_factory::init()
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
+    add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
     add_iuse( "HACKSAW", &iuse::hacksaw );
     add_iuse( "HAIRKIT", &iuse::hairkit );
     add_iuse( "HAMMER", &iuse::hammer );
@@ -1594,8 +1599,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     }
     while( jarr.has_more() ) {
         JsonArray cur = jarr.next_array();
-        auto sk = cur.get_string( 0 );
-        if( sk != "weapon" && !skill_id( sk ).is_valid() ) {
+        const auto sk = skill_id( cur.get_string( 0 ) );
+        if( !sk.is_valid() ) {
             jo.throw_error( string_format( "invalid skill: %s", sk.c_str() ), "min_skills" );
         }
         new_item_template->min_skills[ sk ] = cur.get_int( 1 );

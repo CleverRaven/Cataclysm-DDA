@@ -296,10 +296,6 @@ player::player() : Character()
 
     empty_traits();
 
-    for( auto &skill : Skill::skills ) {
-        set_skill_level( skill.ident(), 0 );
-    }
-
     for( int i = 0; i < num_bp; i++ ) {
         temp_cur[i] = BODYTEMP_NORM;
         frostbite_timer[i] = 0;
@@ -5934,22 +5930,18 @@ int player::addiction_level( add_type type ) const
     return iter != addictions.end() ? iter->intensity : 0;
 }
 
-void player::siphon( vehicle &veh, const itype_id &desired_liquid )
+void player::siphon( vehicle &veh, const itype_id &type )
 {
-    const int used_item_amount = veh.drain( desired_liquid, veh.fuel_capacity( desired_liquid ) );
-    const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
-    item used_item( desired_liquid, calendar::turn, used_item_amount / fuel_per_charge );
-    if( used_item.charges <= 0 ) {
-        add_msg( _( "There is not enough %s left to siphon it." ), used_item.type_name().c_str() );
-        veh.refill( desired_liquid, used_item_amount );
+    auto qty = veh.fuel_left( type );
+    if( qty <= 0 ) {
+        add_msg( m_bad, _( "There is not enough %s left to siphon it." ), item::nname( type ).c_str() );
         return;
     }
-    // refill fraction parts (if fuel_per_charge > 1), so we don't have to consider them later
-    veh.refill( desired_liquid, used_item_amount % fuel_per_charge );
 
-    g->handle_liquid( used_item, nullptr, 1, nullptr, &veh );
-    // TODO: maybe add the message about the siphoned amount again.
-    veh.refill( desired_liquid, used_item.charges * fuel_per_charge );
+    item liquid( type, calendar::turn, qty );
+    if( g->handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
+        veh.drain( type, qty - liquid.charges );
+    }
 }
 
 void player::cough(bool harmful, int loudness)
@@ -10113,49 +10105,6 @@ hint_rating player::rate_action_change_side( const item &it ) const {
     return HINT_GOOD;
 }
 
-bool player::can_use( const item& it, bool interactive, const skill_id &context ) const {
-    // First check stats
-    std::string fail_stat;
-    int min_stat = 0;
-    if( it.type->min_str > get_str() ) {
-        fail_stat = "strength";
-        min_stat = it.type->min_str;
-    } else if( it.type->min_dex > get_dex() ) {
-        fail_stat = "dexterity";
-        min_stat = it.type->min_dex;
-    } else if( it.type->min_int > get_int() ) {
-        fail_stat = "intelligence";
-        min_stat = it.type->min_int;
-    } else if( it.type->min_per > get_per() ) {
-        fail_stat = "perception";
-        min_stat = it.type->min_per;
-    }
-    if( !fail_stat.empty() ) {
-        if( interactive ) {
-            add_msg_if_player( m_bad, _( "You need at least %s %i to use the %s" ),
-                               fail_stat.c_str(), min_stat, it.tname().c_str() );
-        }
-        return false;
-    }
-
-    // Then check skills
-    const auto& reqs = it.type->min_skills;
-    return std::none_of( reqs.begin(), reqs.end(), [&]( const std::pair<std::string, int>& e ) {
-        auto sk = skill_id( e.first );
-        if( !sk.is_valid() ) {
-            sk = context;
-        }
-        if( !sk.is_valid() || get_skill_level( sk ) >= e.second ) {
-            return false;
-        }
-        if( interactive ) {
-            add_msg_if_player( m_bad, _( "You need at least %s %i to use the %s" ),
-                               sk->name().c_str(), e.second, it.tname().c_str() );
-        }
-        return true;
-    });
-}
-
 bool player::can_reload( const item& it, const itype_id& ammo ) const {
 
     if( !it.is_reloadable_with( ammo ) ) {
@@ -10921,21 +10870,6 @@ void player::use(int inventory_position)
         }
 
         invoke_item( used );
-    } else if (used->is_gunmod()) {
-        int gunpos = g->inv_for_filter( _("Select gun to modify:" ), [&used]( const item& e ) {
-            return e.gunmod_compatible( *used, false, false );
-        }, _( "You don't have compatible guns." ) );
-
-        if( gunpos == INT_MIN ) {
-            add_msg_if_player( m_info, _( "Never mind." ) );
-            return;
-        }
-
-        item& gun = i_at( gunpos );
-        if( gun.gunmod_compatible( *used ) ) {
-            gunmod_add( gun, *used );
-        }
-        return;
 
     } else if (used->is_bionic()) {
         if( install_bionics( *used->type ) ) {
@@ -11125,7 +11059,7 @@ void player::gunmod_add( item &gun, item &mod )
     }
 
     // first check at least the minimum requirements are met
-    if( !( can_use( mod, true, gun.gun_skill() ) || has_trait( "DEBUG_HS" ) ) ) {
+    if( !has_trait( "DEBUG_HS" ) && !can_use( mod, gun ) ) {
         return;
     }
 
@@ -11140,10 +11074,9 @@ void player::gunmod_add( item &gun, item &mod )
     if( mod.has_flag( "INSTALL_DIFFICULT" ) && !has_trait( "DEBUG_HS" ) ) {
         int chances = 1; // start with 1 in 6 (~17% chance)
 
-        for( const auto &e : mod.type->min_skills ) {
+        for( const auto &elem : compare_skill_requirements( mod.type->min_skills, gun ) ) {
             // gain an additional chance for every level above the minimum requirement
-            skill_id sk = e.first == "weapon" ? gun.gun_skill() : skill_id( e.first );
-            chances += std::max( get_skill_level( sk ) - e.second, 0 );
+            chances += std::max( elem.second, 0 );
         }
 
         // cap success from skill alone to 1 in 5 (~83% chance)
@@ -11849,6 +11782,66 @@ bool player::studied_all_recipes(const itype &book) const
         }
     }
     return true;
+}
+
+const recipe_subset &player::get_learned_recipes() const
+{
+    // Cache validity check
+    if( _skills != valid_autolearn_skills ) {
+        for( const auto &r : recipe_dict.all_autolearn() ) {
+            if( meets_skill_requirements( r->autolearn_requirements ) ) {
+                learned_recipes.include( r );
+            }
+        }
+        valid_autolearn_skills = _skills; // Reassign the validity stamp
+    }
+
+    return learned_recipes;
+}
+
+const recipe_subset player::get_recipes_from_books( const inventory &crafting_inv ) const
+{
+    recipe_subset res;
+
+    for( const auto &stack : crafting_inv.const_slice() ) {
+        const item &candidate = stack->front();
+
+        if( !candidate.is_book() ) {
+            continue;
+        }
+        // NPCs don't need to identify books
+        if( is_player() && !items_identified.count( candidate.typeId() ) ) {
+            continue;
+        }
+
+        for( auto const &elem : candidate.type->book->recipes ) {
+            if( get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
+                res.include( elem.recipe, elem.skill_level );
+            }
+        }
+    }
+
+    return res;
+}
+
+const recipe_subset player::get_available_recipes( const inventory &crafting_inv, const std::vector<npc *> *helpers ) const
+{
+    recipe_subset res( get_learned_recipes() );
+
+    res.include( get_recipes_from_books( crafting_inv ) );
+
+    if( helpers != nullptr ) {
+        for( npc *np : *helpers ) {
+            // Directly form the helper's inventory
+            res.include( get_recipes_from_books( np->inv ) );
+            // Being told what to do
+            res.include_if( np->get_learned_recipes(), [ this ]( const recipe &r ) {
+                return get_skill_level( r.skill_used ) >= int( r.difficulty * 0.8f ); // Skilled enough to understand
+            } );
+        }
+    }
+
+    return res;
 }
 
 void player::try_to_sleep()
@@ -12828,21 +12821,15 @@ void player::practice( const skill_id &id, int amount, int cap )
 int player::exceeds_recipe_requirements( const recipe &rec ) const
 {
     int over = rec.skill_used ? get_skill_level( rec.skill_used ) - rec.difficulty : 0;
-    for( const auto &required_skill : rec.required_skills ) {
-        over = std::min( over, get_skill_level( required_skill.first ) - required_skill.second );
+    for( const auto &elem : compare_skill_requirements( rec.required_skills ) ) {
+        over = std::min( over, elem.second );
     }
     return over;
 }
 
 bool player::has_recipe_requirements( const recipe &rec ) const
 {
-    return ( exceeds_recipe_requirements( rec ) > -1 );
-}
-
-bool player::has_recipe_autolearned( const recipe &rec ) const
-{
-    return !rec.autolearn_requirements.empty() &&
-           meets_skill_requirements( rec.autolearn_requirements );
+    return exceeds_recipe_requirements( rec ) >= 0;
 }
 
 bool player::can_decomp_learn( const recipe &rec ) const
@@ -12853,15 +12840,7 @@ bool player::can_decomp_learn( const recipe &rec ) const
 
 bool player::knows_recipe(const recipe *rec) const
 {
-    if( learned_recipes.find( rec->ident() ) != learned_recipes.end() ) {
-        return true;
-    }
-
-    if( has_recipe_autolearned( *rec ) ) {
-        return true;
-    }
-
-    return false;
+    return get_learned_recipes().contains( rec );
 }
 
 int player::has_recipe( const recipe *r, const inventory &crafting_inv,
@@ -12875,36 +12854,13 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
         return r->difficulty;
     }
 
-    int difficulty = INT_MAX;
-
-    // Iterate over the nearby items and see if there's a book that has the recipe.
-    const_invslice slice = crafting_inv.const_slice();
-    for( auto stack = slice.cbegin(); stack != slice.cend(); ++stack ) {
-        // We are only checking qualities, so we only care about the first item in the stack.
-        const item &candidate = (*stack)->front();
-        if( candidate.is_book() && items_identified.count( candidate.typeId() ) ) {
-            for( auto const &elem : candidate.type->book->recipes ) {
-                if( elem.recipe == r && get_skill_level( r->skill_used ) >= elem.skill_level ) {
-                    difficulty = std::min( difficulty, elem.skill_level );
-                }
-            }
-        }
-    }
-
-    if( get_skill_level( r->skill_used ) >= (int)( r->difficulty * 0.8f ) ) {
-        for( const npc *np : helpers ) {
-            if( np->knows_recipe( r ) ) {
-                difficulty = std::min( difficulty, r->difficulty );
-            }
-        }
-    }
-
-    return difficulty < INT_MAX ? difficulty : -1;
+    const auto available = get_available_recipes( crafting_inv, &helpers );
+    return available.contains( r ) ? available.get_custom_difficulty( r ) : -1;
 }
 
 void player::learn_recipe( const recipe * const rec )
 {
-    learned_recipes[rec->ident()] = rec;
+    learned_recipes.include( rec );
 }
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)

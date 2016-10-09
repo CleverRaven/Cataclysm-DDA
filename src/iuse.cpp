@@ -5642,6 +5642,33 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
+int iuse::gunmod_attach( player *p, item *it, bool, const tripoint& ) {
+    if( !it || !it->is_gunmod() ) {
+        debugmsg( "tried to attach non-gunmod" );
+        return 0;
+    }
+
+    if( !p ) {
+        return 0;
+    }
+
+    int gunpos = g->inv_for_filter( _( "Select gun to modify:" ), [&it]( const item &e ) {
+        return e.gunmod_compatible( *it, false, false );
+    }, _( "You don't have compatible guns." ) );
+
+    if( gunpos == INT_MIN ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return 0;
+    }
+
+    item& gun = p->i_at( gunpos );
+    if( gun.gunmod_compatible( *it ) ) {
+        p->gunmod_add( gun, *it );
+    }
+
+    return 0;
+}
+
 int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
 {
     if( !it->ammo_sufficient() ) {
@@ -7251,6 +7278,8 @@ bool multicooker_hallu(player *p)
 
 int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 {
+    static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
+
     if (t) {
         if (it->charges == 0) {
             it->active = false;
@@ -7409,19 +7438,13 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 
             int counter = 1;
 
-            for( const auto &e : recipe_dict ) {
-                const auto r = e.second;
-                if( r.category == "CC_FOOD" && ( r.subcategory == "CSC_FOOD_MEAT" ||
-                                                 r.subcategory == "CSC_FOOD_VEGGI" ||
-                                                 r.subcategory == "CSC_FOOD_PASTA" ) ) {
+            for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
+                if( multicooked_subcats.count( r->subcategory ) > 0 ) {
+                    dishes.push_back( r );
+                    const bool can_make = r->requirements().can_make_with_inventory( crafting_inv );
+                    item dummy( r->result );
 
-                    if( p->knows_recipe( &r ) ) {
-                        dishes.push_back( &r );
-                        const bool can_make = r.can_make_with_inventory( crafting_inv );
-                        item dummy( r.result );
-
-                        dmenu.addentry(counter++, can_make, -1, dummy.display_name());
-                    }
+                    dmenu.addentry(counter++, can_make, -1, dummy.display_name());
                 }
             }
 
