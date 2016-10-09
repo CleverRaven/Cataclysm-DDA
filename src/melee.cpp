@@ -364,27 +364,6 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
             sfx::generate_melee_sound( pos(), t.pos(), 1, t.is_monster(), material);
             int dam = dealt_dam.total_damage();
 
-            bool bashing = (d.type_damage(DT_BASH) >= 10 && !unarmed_attack());
-            bool cutting = (d.type_damage(DT_CUT) >= 10);
-            bool stabbing = (d.type_damage(DT_STAB) >= 10);
-
-            // Set the highest damage type to true.
-            if( !unarmed_attack() ) {
-                if( d.type_damage(DT_BASH) > d.type_damage(DT_CUT) ) {
-                    if( d.type_damage(DT_BASH) > d.type_damage(DT_STAB) ) {
-                        bashing = true;
-                    } else {
-                        stabbing = true;
-                    }
-                } else {
-                    if( d.type_damage(DT_CUT) > d.type_damage(DT_STAB) ) {
-                        cutting = true;
-                    } else {
-                        stabbing = true;
-                    }
-                }
-            }
-
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
             if( !has_active_bionic( "bio_cqb" ) ) {
                 melee_train( *this, 2, 5 );
