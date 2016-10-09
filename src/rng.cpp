@@ -92,6 +92,7 @@ double rng_normal( double lo, double hi )
 
 double normal_roll( double mean, double stddev )
 {
-    static std::default_random_engine eng( std::chrono::system_clock::now().time_since_epoch().count() );
+    static std::default_random_engine eng(
+        std::chrono::system_clock::now().time_since_epoch().count() );
     return std::normal_distribution<double>( mean, stddev )( eng );
 }
