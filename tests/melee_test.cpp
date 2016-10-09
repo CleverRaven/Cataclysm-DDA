@@ -44,6 +44,25 @@ static std::string full_attack_details( const player &dude )
     return ss.str();
 }
 
+inline std::string percent_string( float f )
+{
+    // Using stringstream for prettier precision printing
+    std::stringstream ss;
+    ss << 100.0f * f << "%";
+    return ss.str();
+}
+
+void check_near( float prob, float expected, float tolerance )
+{
+    const float low = expected - tolerance;
+    const float high = expected + tolerance;
+    THEN( "The chance to hit is between " + percent_string( low ) +
+          " and " + percent_string( high ) ) {
+        REQUIRE( prob > low );
+        REQUIRE( prob < high );
+    }
+}
+
 const int num_iters = 1000;
 
 TEST_CASE("Character attacking a zombie", "[melee]") {
@@ -54,10 +73,7 @@ TEST_CASE("Character attacking a zombie", "[melee]") {
         standard_npc dude( "TestCharacter", {}, 0, 8, 8, 8, 8 );
         float prob = brute_probability( dude, zed, num_iters );
         INFO( full_attack_details( dude ) );
-        THEN( "The chance to hit is near 60%" ) {
-            REQUIRE( prob > 0.5f );
-            REQUIRE( prob < 0.7f );
-        }
+        
     }
 
     SECTION("8/8/8/8, 3 all skills, two-by-four") {
@@ -65,10 +81,7 @@ TEST_CASE("Character attacking a zombie", "[melee]") {
         dude.weapon = item( "2x4" );
         float prob = brute_probability( dude, zed, num_iters );
         INFO( full_attack_details( dude ) );
-        THEN( "The chance to hit is near 70%" ) {
-            REQUIRE( prob > 0.6f );
-            REQUIRE( prob < 0.8f );
-        }
+        check_near( prob, 0.75f, 0.05f );
     }
 
     SECTION("10/10/10/10, 8 all skills, katana") {
@@ -76,9 +89,7 @@ TEST_CASE("Character attacking a zombie", "[melee]") {
         dude.weapon = item( "katana" );
         float prob = brute_probability( dude, zed, num_iters );
         INFO( full_attack_details( dude ) );
-        THEN( "The chance to hit is near 95%" ) {
-            REQUIRE( prob > 0.9f );
-        }
+        check_near( prob, 0.95f, 0.05f );
     }
 }
 
@@ -90,10 +101,7 @@ TEST_CASE("Character attacking a manhack", "[melee]") {
         standard_npc dude( "TestCharacter", {}, 0, 8, 8, 8, 8 );
         float prob = brute_probability( dude, manhack, num_iters );
         INFO( "Has get_hit() == " + std::to_string( dude.get_hit() ) );
-        THEN( "The chance to hit is near 15%" ) {
-            REQUIRE( prob > 0.1f );
-            REQUIRE( prob < 0.2f );
-        }
+        check_near( prob, 0.15f, 0.05f );
     }
 
     SECTION("8/8/8/8, 3 all skills, two-by-four") {
@@ -101,10 +109,7 @@ TEST_CASE("Character attacking a manhack", "[melee]") {
         dude.weapon = item( "2x4" );
         float prob = brute_probability( dude, manhack, num_iters );
         INFO( "Has get_hit() == " + std::to_string( dude.get_hit() ) );
-        THEN( "The chance to hit is near 30%" ) {
-            REQUIRE( prob > 0.3f );
-            REQUIRE( prob < 0.5f );
-        }
+        check_near( prob, 0.4f, 0.05f );
     }
 
     SECTION("10/10/10/10, 8 all skills, katana") {
@@ -112,10 +117,7 @@ TEST_CASE("Character attacking a manhack", "[melee]") {
         dude.weapon = item( "katana" );
         float prob = brute_probability( dude, manhack, num_iters );
         INFO( "Has get_hit() == " + std::to_string( dude.get_hit() ) );
-        THEN( "The chance to hit is near 70%" ) {
-            REQUIRE( prob > 0.6f );
-            REQUIRE( prob < 0.8f );
-        }
+        check_near( prob, 0.7f, 0.05f );
     }
 }
 
@@ -137,30 +139,21 @@ TEST_CASE("Zombie attacking a character", "[melee]") {
             REQUIRE( dude.get_dodge() > zed.get_hit() - 0.5f );
         }
 
-        THEN( "The chance to hit is near 50%" ) {
-            REQUIRE( prob > 0.4f );
-            REQUIRE( prob < 0.6f );
-        }
+        check_near( prob, 0.5f, 0.05f );
     }
 
     SECTION("10/10/10/10, 3 all skills, good cotton armor") {
         standard_npc dude( "TestCharacter", { "hoodie", "jeans", "long_underpants", "long_undertop", "longshirt" }, 3, 10, 10, 10, 10 );
         float prob = brute_probability( zed, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
-        THEN( "The chance to hit is near 20%" ) {
-            REQUIRE( prob > 0.1f );
-            REQUIRE( prob < 0.3f );
-        }
+        check_near( prob, 0.2f, 0.05f );
     }
 
     SECTION("10/10/10/10, 8 all skills, survivor suit") {
         standard_npc dude( "TestCharacter", { "survivor_suit" }, 8, 10, 10, 10, 10 );
         float prob = brute_probability( zed, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
-        THEN( "The chance to hit is near 5%" ) {
-            REQUIRE( prob > 0.025f );
-            REQUIRE( prob < 0.1f );
-        }
+        check_near( prob, 0.025f, 0.0125f );
     }
 }
 
@@ -177,30 +170,21 @@ TEST_CASE("Manhack attacking a character", "[melee]") {
             REQUIRE( dude.get_dodge_bonus() > -0.5f );
         }
 
-        THEN( "The chance to hit is near 80%" ) {
-            REQUIRE( prob > 0.7f );
-            REQUIRE( prob < 0.9f );
-        }
+        check_near( prob, 0.9f, 0.05f );
     }
 
     SECTION("10/10/10/10, 3 all skills, good cotton armor") {
         standard_npc dude( "TestCharacter", { "hoodie", "jeans", "long_underpants", "long_undertop", "longshirt" }, 3, 10, 10, 10, 10 );
         float prob = brute_probability( manhack, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
-        THEN( "The chance to hit is near 60%" ) {
-            REQUIRE( prob > 0.5f );
-            REQUIRE( prob < 0.7f );
-        }
+        check_near( prob, 0.6f, 0.05f );
     }
 
     SECTION("10/10/10/10, 8 all skills, survivor suit") {
         standard_npc dude( "TestCharacter", { "survivor_suit" }, 8, 10, 10, 10, 10 );
         float prob = brute_probability( manhack, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
-        THEN( "The chance to hit is near 30%" ) {
-            REQUIRE( prob > 0.2f );
-            REQUIRE( prob < 0.4f );
-        }
+        check_near( prob, 0.25f, 0.05f );
     }
 }
 
@@ -217,28 +201,20 @@ TEST_CASE("Hulk smashing a character", "[melee], [monattack]") {
             REQUIRE( dude.get_dodge_bonus() > -0.5f );
         }
 
-        THEN( "The chance to hit is near 95%" ) {
-            REQUIRE( prob > 0.9f );
-        }
+        check_near( prob, 0.95f, 0.05f );
     }
 
     SECTION("10/10/10/10, 3 all skills, good cotton armor") {
         standard_npc dude( "TestCharacter", { "hoodie", "jeans", "long_underpants", "long_undertop", "longshirt" }, 3, 10, 10, 10, 10 );
         float prob = brute_special_probability( zed, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
-        THEN( "The chance to hit is near 70%" ) {
-            REQUIRE( prob > 0.6f );
-            REQUIRE( prob < 0.8f );
-        }
+        check_near( prob, 0.75f, 0.05f );
     }
 
     SECTION("10/10/10/10, 8 all skills, survivor suit") {
         standard_npc dude( "TestCharacter", { "survivor_suit" }, 8, 10, 10, 10, 10 );
         float prob = brute_special_probability( zed, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
-        THEN( "The chance to hit is near 20%" ) {
-            REQUIRE( prob > 0.1f );
-            REQUIRE( prob < 0.3f );
-        }
+        check_near( prob, 0.2f, 0.05f );
     }
 }
