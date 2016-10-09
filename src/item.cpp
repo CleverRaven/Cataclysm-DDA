@@ -2539,7 +2539,8 @@ int item::attack_time() const
 
 int item::damage_melee( damage_type dt ) const
 {
-    if( is_null() || dt >= NUM_DT ) {
+    assert( dt >= DT_NULL && dt < NUM_DT );
+    if( is_null() ) {
         return 0;
     }
 
