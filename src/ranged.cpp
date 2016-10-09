@@ -687,7 +687,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // The damage dealt due to item's weight and player's strength
     ///\EFFECT_STR increases throwing damage
     int real_dam = ( (thrown.weight() / 452)
-                     + (thrown.type->melee_dam / 2)
+                     + (thrown.damage_melee(DT_BASH) / 2)
                      + (str_cur / 2) )
                    / (2.0 + (vol / 4.0));
     if( real_dam > thrown.weight() / 40 ) {
@@ -745,10 +745,12 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "SHATTER_SELF" );
     }
 
-    if( rng(0, 100) < 20 + skill_level * 12 && thrown.type->melee_cut > 0 ) {
-        int cut = thrown.melee_damage( DT_CUT );
-        int stab = thrown.melee_damage( DT_STAB );
-        proj.impact.add_damage( cut > stab ? DT_CUT : DT_STAB, cut > stab ? cut : stab );
+    if( rng(0, 100) < 20 + skill_level * 12 ) {
+        int cut = thrown.damage_melee( DT_CUT );
+        int stab = thrown.damage_melee( DT_STAB );
+        if( cut || stab ) {
+            proj.impact.add_damage( cut > stab ? DT_CUT : DT_STAB, cut > stab ? cut : stab );
+        }
     }
 
     // Put the item into the projectile

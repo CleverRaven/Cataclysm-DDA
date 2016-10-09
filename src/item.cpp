@@ -2540,27 +2540,39 @@ int item::damage_melee( damage_type dt ) const
     int res = 0;
 
     switch( dt ) {
-        case DT_BASH:
-            res += type->melee_dam;
+        case DT_BASH: {
+            auto dmg = type->melee.find( DT_BASH );
+            if( dmg != type->melee.end() ) {
+                res = dmg->second;
+            }
             if( has_flag( "REDUCED_BASHING" ) ) {
                 res *= 0.5;
             }
+        }
 
-        case DT_CUT:
+        case DT_CUT: {
             if( !( has_flag( "SPEAR" ) || has_flag( "STAB" ) ) ) {
-                res += type->melee_cut;
+                auto dmg = type->melee.find( DT_CUT );
+                if( dmg != type->melee.end() ) {
+                    res = dmg->second;
+                }
             }
             if( has_flag( "DIAMOND" ) ) {
                 res *= 1.3;
             }
+        }
 
-        case DT_STAB:
+        case DT_STAB: {
             if( has_flag( "SPEAR" ) || has_flag( "STAB" ) ) {
-                res += type->melee_cut;
+                auto dmg = type->melee.find( DT_CUT );
+                if( dmg != type->melee.end() ) {
+                    res = dmg->second;
+                }
             }
             if( has_flag( "DIAMOND" ) ) {
                 res *= 1.3;
             }
+        }
 
         default:
             break;

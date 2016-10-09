@@ -453,7 +453,7 @@ void player::reach_attack( const tripoint &p )
                         g->m.has_flag( "THIN_OBSTACLE", p ) &&
                         x_in_y( skill, 10 ) ) ) {
             ///\EFFECT_STR increases bash effects when reach attacking past something
-            g->m.bash( p, str_cur + weapon.type->melee_dam );
+            g->m.bash( p, str_cur + weapon.damage_melee( DT_BASH ) );
             handle_melee_wear();
             mod_moves( -move_cost );
             return;

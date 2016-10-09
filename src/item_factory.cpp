@@ -1531,8 +1531,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     assign( jo, "price", new_item_template->price );
     assign( jo, "price_postapoc", new_item_template->price_post );
     assign( jo, "integral_volume", new_item_template->integral_volume );
-    assign( jo, "bashing", new_item_template->melee_dam, strict, 1 );
-    assign( jo, "cutting", new_item_template->melee_cut, strict, 1 );
+    assign( jo, "bashing", new_item_template->melee[DT_BASH], strict, 0 );
+    assign( jo, "cutting", new_item_template->melee[DT_CUT], strict, 0 );
     assign( jo, "to_hit", new_item_template->m_to_hit, strict );
     assign( jo, "container", new_item_template->default_container );
     assign( jo, "rigid", new_item_template->rigid );
@@ -2092,10 +2092,12 @@ const std::string &Item_factory::calc_category( const itype *it )
     if( it->bionic ) {
         return category_id_cbm;
     }
-    if (it->melee_dam > 7 || it->melee_cut > 5) {
-        return category_id_weapons;
-    }
-    return category_id_other;
+
+    bool weap = std::any_of( it->melee.begin(), it->melee.end(), []( const std::pair<damage_type, int> &e ) {
+        return e.second > MELEE_STAT;
+    } );
+
+    return weap ? category_id_weapons : category_id_other;
 }
 
 std::vector<Group_tag> Item_factory::get_all_group_names()
