@@ -220,7 +220,7 @@ const skill_id &skill_by_dt( damage_type dt )
 
         default:
             return NULL_ID;
-   }
+    }
 }
 
 damage_unit load_damage_unit( JsonObject &curr )
