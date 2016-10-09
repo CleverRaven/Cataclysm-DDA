@@ -249,7 +249,7 @@ void player::roll_all_damage( bool crit, damage_instance &di, bool average, cons
 }
 
 static void melee_train( player &p, int lo, int hi ) {
-    p.practice( skill_melee, rng( lo, hi ) );
+    p.practice( skill_melee, ceil( rng( lo, hi ) / 2.0 ) );
 
     if( p.unarmed_attack() ) {
         p.practice( skill_unarmed, rng( lo, hi ) );
