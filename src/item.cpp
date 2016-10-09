@@ -705,7 +705,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         int dmg_stab = damage_melee( DT_STAB );
 
         if( dmg_bash ) {
-            info.emplace_back( "BASE", _( "Bash: " ), "", dmg_bash, true, "", false );
+            info.emplace_back( "BASE", _( "Bash: " ),is "", dmg_bash, true, "", false );
         }
         if( dmg_cut ) {
             info.emplace_back( "BASE", ( dmg_bash ? space : std::string() ) + _( "Cut: " ),
@@ -2021,8 +2021,8 @@ void item::on_wield( player &p, int mv )
         float d = 32.0; // arbitrary linear scaling factor
         if( is_gun() ) {
             d /= std::max( (float)p.get_skill_level( gun_skill() ),  1.0f );
-        } else if( is_weap() ) {
-            d /= std::max( (float)p.get_skill_level( weap_skill() ), 1.0f );
+        } else if( is_melee() ) {
+            d /= std::max( (float)p.get_skill_level( melee_skill() ), 1.0f );
         }
 
         int penalty = get_var( "volume", type->volume / units::legacy_volume_factor ) * d;
@@ -3477,9 +3477,28 @@ bool item::is_ammo_container() const
     return !is_magazine() && !contents.empty() && contents.front().is_ammo();
 }
 
-bool item::is_weap() const
+bool item::is_melee() const
 {
-    return weap_skill() != NULL_ID;
+    for( auto idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {
+        if( is_melee( static_cast<damage_type>( idx ) ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool item::is_melee( damage_type dt ) const
+{
+    if( is_null() || is_gun() || is_gunmod() || is_food() || is_ammo() ||
+        is_food_container() || is_armor() || is_book() || is_bionic() ) {
+        return false;
+    }
+
+    if( dt == DT_BASH && has_flag( "UNARMED_WEAPON" ) ) {
+        return true;
+    }
+
+    return damage_melee( dt ) > MELEE_STAT;
 }
 
 const islot_armor *item::find_armor_data() const
@@ -3801,10 +3820,9 @@ std::string item::gun_type() const
     return gun_skill().c_str();
 }
 
-skill_id item::weap_skill() const
+skill_id item::melee_skill() const
 {
-    if( is_null() || is_gun() || is_gunmod() || is_food() || is_ammo() ||
-        is_food_container() || is_armor() || is_book() || is_bionic() ) {
+    if( !is_melee() ) {
         return NULL_ID;
     }
 
@@ -3812,23 +3830,19 @@ skill_id item::weap_skill() const
         return skill_unarmed;
     }
 
-    using dmg_pair = std::pair<skill_id, int>;
-    std::vector<dmg_pair> opts;
-
     int hi = 0;
     skill_id res = NULL_ID;
 
     for( auto idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {
-        auto dt = static_cast<damage_type>( idx );
-        auto val = damage_melee( dt );
-        auto sk = skill_by_dt( dt );
-        if( val > MELEE_STAT && val > hi && sk ) {
+        auto val = damage_melee( static_cast<damage_type>( idx ) );
+        auto sk  = skill_by_dt ( static_cast<damage_type>( idx ) );
+        if( val > hi && sk ) {
             hi = val;
             res = sk;
         }
     }
 
-    return NULL_ID;
+    return res;
 }
 
 int item::gun_dispersion( bool with_ammo ) const
@@ -5782,8 +5796,8 @@ skill_id item::contextualize_skill( const skill_id &id ) const
         if( id == weapon_skill ) {
             if( is_gun() ) {
                 return gun_skill();
-            } else if( is_weap() ) {
-                return weap_skill();
+            } else if( is_melee() ) {
+                return melee_skill();
             }
         }
     }

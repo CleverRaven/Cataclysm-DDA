@@ -10345,7 +10345,7 @@ int player::item_store_cost( const item& it, const item& /* container */, bool e
     ///\EFFECT_STABBING decreases time taken to store a stabbing weapon
     ///\EFFECT_CUTTING decreases time taken to store a cutting weapon
     ///\EFFECT_BASHING decreases time taken to store a bashing weapon
-    int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.weap_skill() );
+    int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
     return item_handling_cost( it, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
 }
 
@@ -13036,7 +13036,7 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     ///\EFFECT_STABBING decreases time taken to draw stabbing weapons from sheathes
     ///\EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
     ///\EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
-    int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() );
+    int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
     mv += item_handling_cost( weapon, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
 
     moves -= mv;

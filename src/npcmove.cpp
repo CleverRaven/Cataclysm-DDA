@@ -2180,7 +2180,7 @@ bool npc::wield_better_weapon()
 
     visit_items( [this, &compare_weapon]( item *node ) {
         // Skip some bad items
-        if( !node->is_weap() ) {
+        if( !node->is_melee() ) {
             return VisitResponse::SKIP;
         }
 

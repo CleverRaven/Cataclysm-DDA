@@ -151,7 +151,7 @@ int player::get_hit_weapon( const item &weap ) const
     ///\EFFECT_BASHING improves hit chance for bashing weapons
     ///\EFFECT_CUTTING improves hit chance for cutting weapons
     ///\EFFECT_STABBING improves hit chance for piercing weapons
-    auto bonus = get_skill_level( weap.weap_skill() );
+    auto bonus = get_skill_level( weap.melee_skill() );
 
     // CQB bionic acts as a lower bound providing item uses a weapon skill
     if( bonus < BIO_CQB_LEVEL && has_active_bionic( "bio_cqb" ) ) {
@@ -295,7 +295,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
         if( !has_active_bionic( "bio_cqb" ) ) {
             practice( skill_melee, rng( 5, 10 ) );
-            practice( weapon.weap_skill(), rng( 5, 10 ) );
+            practice( weapon.melee_skill(), rng( 5, 10 ) );
         }
 
         // Cap stumble penalty, heavy weapons are quite weak already
@@ -379,7 +379,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
             if( !has_active_bionic( "bio_cqb" ) ) {
                 practice( skill_melee, rng( 2, 5 ) );
-                practice( weapon.weap_skill(), rng( 2, 5 ) );
+                practice( weapon.melee_skill(), rng( 2, 5 ) );
             }
 
             if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE)) {
@@ -522,7 +522,7 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
     ///\EFFECT_CUTTING increases crit chance with cutting weapons
     ///\EFFECT_STABBING increases crit chance with piercing weapons
     ///\EFFECT_UNARMED increases crit chance with unarmed weapons
-    int sk = get_skill_level( weap.weap_skill() );
+    int sk = get_skill_level( weap.melee_skill() );
     if( has_active_bionic( "bio_cqb" ) ) {
         sk = std::max( sk, BIO_CQB_LEVEL );
     }

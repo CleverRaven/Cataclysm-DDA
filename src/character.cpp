@@ -591,7 +591,7 @@ item& Character::i_add(item it)
     last_item = item_type_id;
 
     if( it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
-        it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container() ) {
+        it.is_book() || it.is_tool() || it.is_melee() || it.is_food_container() ) {
         inv.unsort();
     }
 

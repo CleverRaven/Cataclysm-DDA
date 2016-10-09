@@ -376,14 +376,17 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     bool is_two_handed( const player &u ) const;
 
-    /** The weapon is considered a suitable melee weapon. */
-    bool is_weap() const;
+    /** Is this item an effective melee weapon for the given damage type? */
+    bool is_melee( damage_type dt ) const;
+
+    /** Is this item an effective melee weapon any damage type? */
+    bool is_melee() const;
 
     /**
      * The most relevant skill used with this melee weapon. Can be "null" if this is not a weapon.
      * Note this function returns null if the item is a gun for which you can use gun_skill() instead.
      */
-    skill_id weap_skill() const;
+    skill_id melee_skill() const;
     /*@}*/
 
     /** Max range weapon usable for melee attack accounting for player/NPC abilities */
