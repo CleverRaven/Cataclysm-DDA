@@ -37,7 +37,8 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
         names,
         components,
         tools,
-        result_qualities;
+        result_qualities,
+        skills;
     std::string pattern = txt; //Copy the search string.
     size_t split;
     if( ( split = pattern.find( ',' ) ) != std::string::npos ) {
@@ -64,6 +65,9 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
                     break;
                 case 't'://search by requirement
                     tools.push_back( query.substr( split + 1 ) );
+                    break;
+                case 's'://search by skill.
+                    skills.push_back( query.substr( split + 1 ) );
                     break;
             }
         }
@@ -132,11 +136,17 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
             } );
         } );
     };
+    auto skill_match = [skills]( const recipe * r ) {
+        return std::any_of( skills.begin() , skills.end(),
+        [r]( const std::string & skill ) {
+            return lcmatch( r->required_skills_string(), skill );
+        } );
+    };
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ),
     [&]( const recipe * r ) {//sadly it seems easier to copy the scope here for the moment
         return name_match( r ) || tools_match( r ) ||
                result_quality_match( r ) || requirement_quality_match( r ) ||
-               component_match( r );
+               component_match( r ) || skill_match( r );
     } );
 
     return res;
