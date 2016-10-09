@@ -1,15 +1,5 @@
 [
   {
-    "id": "cinnamon",
-    "copy-from": "spice",
-    "type": "COMESTIBLE",
-    "name": "cinnamon",
-    "name_plural": "cinnamon",
-    "description": "Ground cinnamon bark with a sweet but slightly spicy aroma.",
-    "price": 500,
-    "color": "brown"
-  },
-  {
     "id": "chilly-p",
     "copy-from": "spice",
     "type": "COMESTIBLE",
@@ -21,6 +11,16 @@
     "color": "red",
     "healthy": -1,
     "stim": 1
+  },
+  {
+    "id": "cinnamon",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": "cinnamon",
+    "name_plural": "cinnamon",
+    "description": "Ground cinnamon bark with a sweet but slightly spicy aroma.",
+    "price": 500,
+    "color": "brown"
   },
   {
     "id": "curry_powder",
@@ -96,6 +96,7 @@
   {
     "id": "wild_herbs",
     "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "name": "wild herbs",
     "name_plural": "wild herbs",
     "description": "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, and burdock.",
@@ -105,7 +106,6 @@
     "material": "veggy",
     "symbol": "%",
     "color": "green",
-    "comestible_type": "FOOD",
     "charges": 20,
     "stack_size": 100,
     "nutrition": 1,

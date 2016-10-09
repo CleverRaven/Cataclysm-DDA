@@ -2,6 +2,7 @@
   {
     "abstract": "spice",
     "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "name": "Spice",
     "//": "Spices are inedible in their base form but useful in crafting",
     "weight": 5,
@@ -10,7 +11,6 @@
     "material": "powder",
     "symbol": "%",
     "color": "white",
-    "comestible_type": "FOOD",
     "charges": 100,
     "quench": -5,
     "fun": -5
