@@ -97,4 +97,10 @@ constexpr double accuracy_goodhit  = 0.5;
 constexpr double accuracy_standard = 0.8;
 constexpr double accuracy_grazing  = 1.0;
 
+/** Minimum item damage output of relevant type to allow using with relevant weapon skill */
+#define MELEE_STAT 5
+
+/** Effective lower bound to combat skill levels when CQB bionic is active */
+#define BIO_CQB_LEVEL 5
+
 #endif

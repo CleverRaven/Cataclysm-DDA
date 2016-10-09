@@ -4479,7 +4479,9 @@ int player::intimidation() const
     if (weapon.is_gun()) {
         ret += 10;
     }
-    if (weapon.damage_bash() >= 12 || weapon.damage_cut() >= 12) {
+    if( weapon.damage_melee( DT_BASH ) >= 12 ||
+        weapon.damage_melee( DT_CUT  ) >= 12 ||
+        weapon.damage_melee( DT_STAB ) >= 12 ) {
         ret += 5;
     }
     if (has_trait("SAPIOVORE")) {
@@ -13738,13 +13740,17 @@ void player::blossoms()
 
 float player::power_rating() const
 {
+    int dmg = std::max( { weapon.damage_melee( DT_BASH ),
+                          weapon.damage_melee( DT_CUT ),
+                          weapon.damage_melee( DT_STAB ) } );
+
     int ret = 2;
     // Small guns can be easily hidden from view
     if( weapon.volume() <= 250_ml ) {
         ret = 2;
     } else if( weapon.is_gun() ) {
         ret = 4;
-    } else if( weapon.damage_bash() + weapon.damage_cut() > 20 ) {
+    } else if( dmg > 12 ) {
         ret = 3; // Melee weapon or weapon-y tool
     }
     if( has_trait("HUGE") || has_trait("HUGE_OK") ) {

@@ -746,10 +746,9 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     if( rng(0, 100) < 20 + skill_level * 12 && thrown.type->melee_cut > 0 ) {
-        const auto type =
-            ( thrown.has_flag("SPEAR") || thrown.has_flag("STAB") ) ?
-            DT_STAB : DT_CUT;
-        proj.impact.add_damage( type, thrown.type->melee_cut );
+        int cut = thrown.melee_damage( DT_CUT );
+        int stab = thrown.melee_damage( DT_STAB );
+        proj.impact.add_damage( cut > stab ? DT_CUT : DT_STAB, cut > stab ? cut : stab );
     }
 
     // Put the item into the projectile

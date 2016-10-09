@@ -367,29 +367,18 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * takes. The actual time depends heavily on the attacker, see melee.cpp.
      */
     int attack_time() const;
-    /**
-     * Damage of type @ref DT_BASH that is caused by using this item as melee weapon.
-     */
-    int damage_bash() const;
-    /**
-     * Damage of type @ref DT_CUT that is caused by using this item as melee weapon.
-     */
-    int damage_cut() const;
-    /**
-     * Damage of a given type that is caused by using this item as melee weapon.
-     * NOTE: Does NOT respect the legacy "stabbing is cutting"!
-     */
-    int damage_by_type( damage_type dt ) const;
+
+    /** Damage of given type caused when this item is used as melee weapon */
+    int damage_melee( damage_type dt ) const;
+
     /**
      * Whether the character needs both hands to wield this item.
      */
     bool is_two_handed( const player &u ) const;
+
     /** The weapon is considered a suitable melee weapon. */
     bool is_weap() const;
-    /** The item is considered a bashing weapon (inflicts a considerable bash damage). */
-    bool is_bashing_weapon() const;
-    /** The item is considered a cutting weapon (inflicts a considerable cutting damage). */
-    bool is_cutting_weapon() const;
+
     /**
      * The most relevant skill used with this melee weapon. Can be "null" if this is not a weapon.
      * Note this function returns null if the item is a gun for which you can use gun_skill() instead.

@@ -68,7 +68,8 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     size_t num_drops = rng( 4, 6 );
     player const *const foe = dynamic_cast<player *>( source );
     if( proj == nullptr && foe != nullptr ) {
-        if( foe->weapon.is_cutting_weapon() ) {
+        int dmg = std::max( foe->weapon.damage_melee( DT_CUT ), foe->weapon.damage_melee( DT_STAB ) );
+        if( dmg > MELEE_STAT ) {
             num_drops += rng( 3, 4 );
         }
 

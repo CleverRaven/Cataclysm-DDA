@@ -357,7 +357,7 @@ bool ma_requirements::is_valid_weapon( const item &i ) const
         }
     }
     for( const auto &pr : min_damage ) {
-        if( i.damage_by_type( pr.first ) < pr.second ) {
+        if( i.damage_melee( pr.first ) < pr.second ) {
             return false;
         }
     }

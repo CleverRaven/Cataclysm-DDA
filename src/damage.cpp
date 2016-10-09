@@ -202,6 +202,27 @@ const std::string &name_by_dt( const damage_type &dt )
     return err_msg;
 }
 
+const skill_id &skill_by_dt( damage_type dt )
+{
+    static skill_id skill_bashing( "bashing" );
+    static skill_id skill_cutting( "cutting" );
+    static skill_id skill_stabbing( "stabbing" );
+
+    switch( dt ) {
+        case DT_BASH:
+            return skill_bashing;
+
+        case DT_CUT:
+            return skill_cutting;
+
+        case DT_STAB:
+            return skill_stabbing;
+
+        default:
+            return NULL_ID;
+   }
+}
+
 damage_unit load_damage_unit( JsonObject &curr )
 {
     damage_type dt = dt_by_name( curr.get_string( "damage_type" ) );
