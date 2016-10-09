@@ -123,7 +123,7 @@ bool visitable<inventory>::has_quality( const quality_id &qual, int level, int q
 {
     long res = 0;
     for( const auto &stack : static_cast<const inventory *>( this )->items ) {
-        res += stack.size() * stack.front().has_quality( qual, level, qty );
+        res += stack.size() * has_quality_internal( stack.front(), qual, level, qty );
         if( res >= qty ) {
             return true;
         }
@@ -723,7 +723,7 @@ long visitable<inventory>::charges_of( const std::string &what, int limit ) cons
 {
     long res = 0;
     for( const auto &stack : static_cast<const inventory *>( this )->items ) {
-        res += stack.size() * stack.front().charges_of( what, limit );
+        res += stack.size() * charges_of_internal( stack.front(), what, limit );
     }
     return res;
 }

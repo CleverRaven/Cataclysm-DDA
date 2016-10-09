@@ -114,8 +114,8 @@ standard_npc::standard_npc( const std::string &name, const std::vector<itype_id>
     int_cur = std::max( s_int, 0 );
     int_max = std::max( s_int, 0 );
 
-    for( auto &e: _skills ) {
-        e.second = std::min( std::max( sk_lvl, 0 ), MAX_SKILL );
+    for( auto &e: Skill::skills ) {
+        set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
 
     for( const auto &e : clothing ) {

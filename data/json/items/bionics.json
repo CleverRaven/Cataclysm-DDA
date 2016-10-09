@@ -412,7 +412,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Leukocyte Breeder System CBM",
-    "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.  It is supposed to run continously and may cause unpleasant side effects when turned off.",
+    "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.  It is supposed to run continuously and may cause unpleasant side effects when turned off.",
     "price": 6000,
     "difficulty": 7
   },

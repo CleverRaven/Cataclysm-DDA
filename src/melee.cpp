@@ -145,7 +145,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
     return true;
 }
 
-int player::get_hit_weapon( const item &weap ) const
+float player::get_hit_weapon( const item &weap ) const
 {
     ///\EFFECT_UNARMED improves hit chance for unarmed weapons
     ///\EFFECT_BASHING improves hit chance for bashing weapons
@@ -162,44 +162,35 @@ int player::get_hit_weapon( const item &weap ) const
     return bonus + ( get_skill_level( skill_melee ) / 2.0f );
 }
 
-int player::get_hit_base() const
+float player::get_hit_base() const
 {
     // Character::get_hit_base includes stat calculations already
     return Character::get_hit_base() + get_hit_weapon( weapon );
 }
 
-int player::hit_roll() const
+float player::hit_roll() const
 {
-    //Unstable ground chance of failure
-    if( has_effect( effect_bouldering) && one_in(8) ) {
-        add_msg_if_player(m_bad, _("The ground shifts beneath your feet!"));
-        return 0;
-    }
-
     // Dexterity, skills, weapon and martial arts
-    int numdice = get_hit();
+    float hit = get_hit();
     // Drunken master makes us hit better
-    if (has_trait("DRUNKEN")) {
-        if (unarmed_attack()) {
-            numdice += int(get_effect_dur( effect_drunk ) / 300);
-        } else {
-            numdice += int(get_effect_dur( effect_drunk ) / 400);
-        }
+    if( has_trait( "DRUNKEN" ) ) {
+        hit += get_effect_dur( effect_drunk ) / ( is_armed() ? 300.0f : 400.0f );
     }
 
     // Farsightedness makes us hit worse
     if( has_trait( "HYPEROPIC" ) && !is_wearing( "glasses_reading" )
         && !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
-        numdice -= 2;
+        hit -= 2.0f;
     }
 
-    if( numdice < 1 ) {
-        numdice = 1;
+    //Unstable ground chance of failure
+    if( has_effect( effect_bouldering ) ) {
+        hit *= 0.75f;
     }
 
-    int sides = 10 - divide_roll_remainder( encumb( bp_torso ), 10.0f );
-    sides = std::max( sides, 2 );
-    return dice( numdice, sides );
+    hit *= std::max( 0.25f, 1.0f - encumb( bp_torso ) / 100.0f );
+
+    return normal_roll( hit * 5, 25.0f );
 }
 
 void player::add_miss_reason(const char *reason, unsigned int weight)
@@ -274,16 +265,16 @@ static void melee_train( player &p, int lo, int hi ) {
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
 void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique)
 {
-    if (!t.is_player()) {
+    if( !t.is_player() ) {
         // @todo Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
-        t.add_effect( effect_hit_by_player, 100); // Flag as attacked by us for AI
+        t.add_effect( effect_hit_by_player, 100 ); // Flag as attacked by us for AI
     }
 
     const bool critical_hit = scored_crit( t.dodge_roll() );
 
     int move_cost = attack_speed( weapon );
 
-    const int hit_spread = t.deal_melee_attack(this, hit_roll());
+    const float hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( hit_spread < 0 ) {
         int stumble_pen = stumble(*this);
         sfx::generate_melee_sound( pos(), t.pos(), 0, 0);
@@ -295,21 +286,23 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
                     add_msg(reason_for_miss);
             }
 
-            if (has_miss_recovery_tec())
-                add_msg(_("You feint."));
-            else if (stumble_pen >= 60)
-                add_msg(m_bad, _("You miss and stumble with the momentum."));
-            else if (stumble_pen >= 10)
-                add_msg(_("You swing wildly and miss."));
-            else
-                add_msg(_("You miss."));
+            if( has_miss_recovery_tec( )) {
+                add_msg( _( "You feint." ) );
+            } else if( stumble_pen >= 60 ) {
+                add_msg( m_bad, _( "You miss and stumble with the momentum." ) );
+            } else if( stumble_pen >= 10 ) {
+                add_msg( _( "You swing wildly and miss." ) );
+            } else {
+                add_msg( _( "You miss." ) );
+            }
         } else if( g->u.sees( *this ) ) {
-            if (stumble_pen >= 60)
-                add_msg( _("%s misses and stumbles with the momentum."),name.c_str());
-            else if (stumble_pen >= 10)
-                add_msg(_("%s swings wildly and misses."),name.c_str());
-            else
-                add_msg(_("%s misses."),name.c_str());
+            if( stumble_pen >= 60 ) {
+                add_msg( _( "%s misses and stumbles with the momentum." ), name.c_str() );
+            } else if( stumble_pen >= 10 ) {
+                add_msg( _( "%s swings wildly and misses." ), name.c_str());
+            } else {
+                add_msg( _("%s misses."), name.c_str() );
+            }
         }
 
         t.on_dodge( this, get_melee() );
@@ -509,7 +502,7 @@ int stumble(player &u)
            ( u.weapon.weight() / ( u.str_cur * 10 + 13.0f ) );
 }
 
-bool player::scored_crit(int target_dodge) const
+bool player::scored_crit( float target_dodge ) const
 {
     return rng_float( 0, 1.0 ) < crit_chance( hit_roll(), target_dodge, weapon );
 }
@@ -521,7 +514,7 @@ inline double limit_probability( double unbounded_probability ) {
     return std::max( std::min( unbounded_probability, 1.0 ), 0.0 );
 }
 
-double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) const
+double player::crit_chance( float roll_hit, float target_dodge, const item &weap ) const
 {
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
@@ -586,82 +579,51 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
     return chance_triple;
 }
 
-int player::get_dodge_base() const
+float player::get_dodge_base() const
 {
-    // Creature::get_dodge_base includes stat calculations already
-    ///\EFFECT_DODGE increases dodge_base
-    return Character::get_dodge_base() + get_skill_level( skill_dodge );
+    // @todo Remove this override?
+    return Character::get_dodge_base();
 }
 
-//Returns 1/2*DEX + dodge skill level + static bonuses from mutations
-//Return numbers range from around 4 (starting player, no boosts) to 29 (20 DEX, 10 dodge, +9 mutations)
-int player::get_dodge() const
+float player::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() ) {
-        return 0;
+        return 0.0f;
     }
 
-    int ret = Creature::get_dodge();
+    float ret = Creature::get_dodge();
     // Chop in half if we are unable to move
     if( has_effect( effect_beartrap ) || has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ) {
         ret /= 2;
     }
-    return ret;
-}
 
-int player::dodge_roll()
-{
-    ///\EFFECT_DEX decreases chance of falling over when dodging on roller blades
-
-    ///\EFFECT_DODGE decreases chances of falling over when dodging on roller blades
-    if( is_wearing("roller_blades") &&
-        one_in( (get_dex() + get_skill_level( skill_dodge )) / 3 ) &&
-        !has_effect( effect_downed) ) {
-        // Skaters have a 67% chance to avoid knockdown, and get up a turn quicker.
-        if (has_trait("PROF_SKATER")) {
-            if (one_in(3)) {
-                add_msg_if_player(m_bad, _("You overbalance and stumble!"));
-                add_effect( effect_downed, 2);
-            } else {
-                add_msg_if_player(m_good, _("You nearly fall, but recover thanks to your skating experience."));
-            }
-        } else {
-            add_msg_if_player(_("Fighting on wheels is hard!"));
-            add_effect( effect_downed, 3);
-        }
+    // @todo What about the skates?
+    if( is_wearing("roller_blades") ) {
+        ret /= has_trait( "PROF_SKATER" ) ? 2 : 5;
     }
 
-    if (has_effect( effect_bouldering)) {
-        ///\EFFECT_DEX decreases chance of falling when dodging while bouldering
-        if(one_in(get_dex())) {
-            add_msg_if_player(m_bad, _("You slip as the ground shifts beneath your feet!"));
-            add_effect( effect_downed, 3);
-            return 0;
-        }
-    }
-    int dodge_stat = get_dodge();
-
-    if (dodges_left <= 0) { // We already dodged this turn
-        ///\EFFECT_DEX increases chance of being allowed to dodge multiple times per turn
-
-        ///\EFFECT_DODGE increases chance of being allowed to dodge multiple times per turn
-        const int dodge_dex = get_skill_level( skill_dodge ) + dex_cur;
-        if( rng(0, dodge_dex + 15) <= dodge_dex ) {
-            dodge_stat = rng( dodge_stat/2, dodge_stat ); //Penalize multiple dodges per turn
-        } else {
-            dodge_stat = 0;
-        }
+    if( has_effect( effect_bouldering ) ) {
+        ret /= 4;
     }
 
-    const int roll = dice(dodge_stat, 10);
+    // Each dodge after the first subtracts equivalent of 2 points of dodge skill
+    if( dodges_left <= 0 ) {
+        ret += dodges_left * 2 - 2;
+    }
+
     // Speed below 100 linearly decreases dodge effectiveness
     int speed_stat = get_speed();
     if( speed_stat < 100 ) {
-        return roll * speed_stat / 100;
+        ret *= speed_stat / 100.0f;
     }
 
-    return roll;
+    return std::max( 0.0f, ret );
+}
+
+float player::dodge_roll()
+{
+    return get_dodge() * 5;
 }
 
 float player::bonus_damage( bool random ) const

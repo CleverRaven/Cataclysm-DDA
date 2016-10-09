@@ -1210,7 +1210,6 @@
         "id" : "gummy_vitamins",
         "copy-from": "vitamins",
         "type" : "COMESTIBLE",
-        "comestible_type" : "MED",
         "name" : "gummy vitamin",
         "description" : "Essential dietary nutrients conveniently packaged in a fruit-flavored chewy candy form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
         "fun" : 4,
