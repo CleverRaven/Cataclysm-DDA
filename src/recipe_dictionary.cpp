@@ -89,7 +89,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
             return false;
         } );
     };
-    auto quality_match = [result_qualities]( const recipe * r ) {
+    auto result_quality_match = [result_qualities]( const recipe * r ) {
         return std::any_of( result_qualities.begin(),
                             result_qualities.end(),
         [r]( const std::string & result_quality ) {
@@ -99,13 +99,28 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
             [result_quality]( std::pair<quality_id, int> quality ) {
                 return lcmatch( quality.first->name, result_quality );
             } );
-        }
-                          );
+        } );
+    };
+    auto requirement_quality_match = [requirement_qualities]( const recipe * r ) {
+        return std::any_of( requirement_qualities.begin(),
+                            requirement_qualities.end(),
+        [r]( const std::string & requirement_quality ) {
+            const auto &req_sets = r->requirements().get_qualities();
+            for( auto req_set : req_sets )
+                if( std::any_of( req_set.begin(),
+                                 req_set.end(),
+                [requirement_quality]( const quality_requirement & qr ) {
+                return lcmatch( qr.type->name, requirement_quality );
+                } ) ) {
+                return true;
+            }
+            return false;
+        } );
     };
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ),
     [&]( const recipe * r ) {//sadly it seems easier to copy the scope here for the moment
         return name_match( r ) || tools_match( r ) ||
-               quality_match( r );//lcmatch( item::nname( r->result ), txt );
+               result_quality_match( r ) || requirement_quality_match( r );
     } );
 
     return res;
