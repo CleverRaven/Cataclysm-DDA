@@ -54,6 +54,7 @@
     "name_plural": "salt",
     "description": "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
     "price": 400,
+    "color": "white",
     "quench": -10,
     "healthy": -1
   },
