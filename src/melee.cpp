@@ -242,23 +242,18 @@ void player::roll_all_damage( bool crit, damage_instance &di, bool average, cons
 static void melee_train( player &p, int lo, int hi ) {
     p.practice( skill_melee, ceil( rng( lo, hi ) / 2.0 ) );
 
-    if( !p.is_armed() ) {
-        p.practice( skill_unarmed, rng( lo, hi ) );
+    // allocate XP proportional to damage stats
+    int cut  = p.weapon.damage_melee( DT_CUT );
+    int stab = p.weapon.damage_melee( DT_STAB );
+    int bash = p.weapon.damage_melee( DT_BASH );
 
-    } else {
-        // when using a weapon allocate XP proportional to damage stats
-        int cut  = p.weapon.damage_melee( DT_CUT );
-        int stab = p.weapon.damage_melee( DT_STAB );
-        int bash = p.weapon.damage_melee( DT_BASH );
+    double total = std::max( cut + stab + bash, 1 );
+    p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ) );
+    p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ) );
 
-        double total = std::max( cut + stab + bash, 1 );
-        p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ) );
-        p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ) );
-
-        // unarmed weapons deal bashing damage but train unarmed skill
-        p.practice( p.unarmed_attack() ? skill_unarmed : skill_bashing,
-                    ceil( bash / total * rng( lo, hi ) ) );
-    }
+    // unarmed weapons deal bashing damage but train unarmed skill
+    p.practice( p.unarmed_attack() ? skill_unarmed : skill_bashing,
+                ceil( bash / total * rng( lo, hi ) ) );
 }
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
