@@ -117,10 +117,26 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
             return false;
         } );
     };
+    auto component_match = [components]( const recipe * r ) {
+        return std::any_of( components.begin(),
+                            components.end(),
+        [r]( const std::string & component ) {
+            const auto &required_comp = r->requirements().get_components();
+            return std::any_of( required_comp.begin(),
+                                required_comp.end(),
+            [component]( const std::vector<item_comp> &items ) {
+                return std::any_of( items.begin(), items.end(),
+                [component]( const item_comp & comp ) {
+                    return lcmatch( item::nname( comp.type ), component );
+                } );
+            } );
+        } );
+    };
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ),
     [&]( const recipe * r ) {//sadly it seems easier to copy the scope here for the moment
         return name_match( r ) || tools_match( r ) ||
-               result_quality_match( r ) || requirement_quality_match( r );
+               result_quality_match( r ) || requirement_quality_match( r ) ||
+               component_match( r );
     } );
 
     return res;
