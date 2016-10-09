@@ -7,6 +7,7 @@
     "//": "Spices are inedible in their base form but useful in crafting",
     "weight": 5,
     "volume": 1,
+    "price": 250,
     "container": "bottle_plastic_small",
     "material": "powder",
     "symbol": "%",
