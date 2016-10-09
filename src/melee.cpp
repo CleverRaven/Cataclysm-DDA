@@ -248,6 +248,25 @@ void player::roll_all_damage( bool crit, damage_instance &di, bool average, cons
     roll_stab_damage( crit, di, average, weap );
 }
 
+static void melee_train( player &p, int lo, int hi ) {
+    p.practice( skill_melee, rng( lo, hi ) );
+
+    if( p.unarmed_attack() ) {
+        p.practice( skill_unarmed, rng( lo, hi ) );
+
+    } else {
+        // when using a weapon allocate XP proportional to damage stats
+        int cut  = p.weapon.damage_melee( DT_CUT );
+        int stab = p.weapon.damage_melee( DT_STAB );
+        int bash = p.weapon.damage_melee( DT_BASH );
+
+        double total = std::max( cut + stab + bash, 1 );
+        p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ) );
+        p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ) );
+        p.practice( skill_stabbing, ceil( bash / total * rng( lo, hi ) ) );
+    }
+}
+
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
 void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique)
@@ -294,8 +313,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
         if( !has_active_bionic( "bio_cqb" ) ) {
-            practice( skill_melee, rng( 5, 10 ) );
-            practice( weapon.melee_skill(), rng( 5, 10 ) );
+            melee_train( *this, 5, 10 );
         }
 
         // Cap stumble penalty, heavy weapons are quite weak already
@@ -378,8 +396,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
             if( !has_active_bionic( "bio_cqb" ) ) {
-                practice( skill_melee, rng( 2, 5 ) );
-                practice( weapon.melee_skill(), rng( 2, 5 ) );
+                melee_train( *this, 2, 5 );
             }
 
             if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE)) {
