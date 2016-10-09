@@ -121,8 +121,7 @@ void Item_factory::finalize() {
         itype& obj = *e.second;
 
         if( obj.item_tags.count( "STAB" ) || obj.item_tags.count( "SPEAR" ) ) {
-            obj.melee[DT_STAB] = obj.melee[DT_CUT];
-            obj.melee.erase( DT_CUT );
+            std::swap(obj.melee[DT_CUT], obj.melee[DT_STAB]);
         }
 
         // add usage methods (with default values) based upon qualities
@@ -2098,8 +2097,8 @@ const std::string &Item_factory::calc_category( const itype *it )
         return category_id_cbm;
     }
 
-    bool weap = std::any_of( it->melee.begin(), it->melee.end(), []( const std::pair<damage_type, int> &e ) {
-        return e.second > MELEE_STAT;
+    bool weap = std::any_of( it->melee.begin(), it->melee.end(), []( int qty ) {
+        return qty > MELEE_STAT;
     } );
 
     return weap ? category_id_weapons : category_id_other;

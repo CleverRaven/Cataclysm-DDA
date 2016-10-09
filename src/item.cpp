@@ -705,7 +705,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         int dmg_stab = damage_melee( DT_STAB );
 
         if( dmg_bash ) {
-            info.emplace_back( "BASE", _( "Bash: " ),is "", dmg_bash, true, "", false );
+            info.emplace_back( "BASE", _( "Bash: " ), "", dmg_bash, true, "", false );
         }
         if( dmg_cut ) {
             info.emplace_back( "BASE", ( dmg_bash ? space : std::string() ) + _( "Cut: " ),
@@ -2539,14 +2539,12 @@ int item::attack_time() const
 
 int item::damage_melee( damage_type dt ) const
 {
-    if( is_null() ) {
+    if( is_null() || dt >= NUM_DT ) {
         return 0;
     }
 
-    auto dmg = type->melee.find( dt );
-    int res = dmg != type->melee.end() ? dmg->second : 0;
-
     // effectiveness is reduced by 10% per damage level
+    int res = type->melee[ dt ];
     res -= res * damage() * 0.1;
 
     // apply type specific flags

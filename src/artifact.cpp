@@ -1266,10 +1266,8 @@ void it_artifact_tool::serialize(JsonOut &json) const
     json.member("volume", volume / units::legacy_volume_factor);
     json.member("weight", weight);
 
-    auto dmg_bash = melee.find( DT_BASH );
-    auto dmg_cut = melee.find( DT_CUT );
-    json.member( "melee_dam", dmg_bash != melee.end() ? dmg_bash->second : 0 );
-    json.member( "melee_cut", dmg_cut != melee.end() ? dmg_cut->second : 0 );
+    json.member( "melee_dam", melee[DT_BASH] );
+    json.member( "melee_cut", melee[DT_CUT] );
 
     json.member("m_to_hit", m_to_hit);
 
@@ -1315,10 +1313,8 @@ void it_artifact_armor::serialize(JsonOut &json) const
     json.member("volume", volume / units::legacy_volume_factor);
     json.member("weight", weight);
 
-    auto dmg_bash = melee.find( DT_BASH );
-    auto dmg_cut = melee.find( DT_CUT );
-    json.member( "melee_dam", dmg_bash != melee.end() ? dmg_bash->second : 0 );
-    json.member( "melee_cut", dmg_cut != melee.end() ? dmg_cut->second : 0 );
+    json.member( "melee_dam", melee[DT_BASH] );
+    json.member( "melee_cut", melee[DT_CUT] );
 
     json.member("m_to_hit", m_to_hit);
 
