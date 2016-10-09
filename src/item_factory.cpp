@@ -248,7 +248,7 @@ void Item_factory::finalize() {
         npc_implied_flags( *e.second );
 
         if( obj.comestible ) {
-            obj.comestible->spoils *= 600; // JSON specifies hours so convert to turns
+            obj.comestible->spoils *= HOURS( 1 ); // JSON specifies hours so convert to turns
 
             if( get_world_option<bool>( "NO_VITAMINS" ) ) {
                 obj.comestible->vitamins.clear();
