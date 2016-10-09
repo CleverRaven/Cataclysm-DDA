@@ -748,8 +748,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     if( rng(0, 100) < 20 + skill_level * 12 ) {
         int cut = thrown.damage_melee( DT_CUT );
         int stab = thrown.damage_melee( DT_STAB );
-        if( cut || stab ) {
-            proj.impact.add_damage( cut > stab ? DT_CUT : DT_STAB, cut > stab ? cut : stab );
+        if( cut > 0 || stab > 0 ) {
+            proj.impact.add_damage( cut > stab ? DT_CUT : DT_STAB, std::max( cut, stab ) );
         }
     }
 
