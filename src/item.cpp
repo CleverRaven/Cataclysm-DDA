@@ -700,17 +700,23 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "BASE", _( "<bold>Rigid</bold>: " ), _( "No (contents increase volume)" ) );
         }
 
-        if( damage_melee( DT_BASH ) ) {
-            info.emplace_back( "BASE", _( "Bash: " ), "", damage_melee( DT_BASH ), true, "", false );
+        int dmg_bash = damage_melee( DT_BASH );
+        int dmg_cut  = damage_melee( DT_CUT );
+        int dmg_stab = damage_melee( DT_STAB );
+
+        if( dmg_bash ) {
+            info.emplace_back( "BASE", _( "Bash: " ), "", dmg_bash, true, "", false );
         }
-        if( damage_melee( DT_CUT ) ) {
-            info.emplace_back( "BASE", _( "Cut: " ), "", damage_melee( DT_CUT ), true, "", false );
+        if( dmg_cut ) {
+            info.emplace_back( "BASE", ( dmg_bash ? space : std::string() ) + _( "Cut: " ),
+                               "", dmg_cut, true, "", false );
         }
-        if( damage_melee( DT_STAB ) ) {
-            info.emplace_back( "BASE", _( "Pierce: " ), "", damage_melee( DT_STAB ), true, "", false );
+        if( dmg_stab ) {
+            info.emplace_back( "BASE", ( ( dmg_bash || dmg_cut ) ? space : std::string() ) + _( "Pierce: " ),
+                               "", dmg_stab, true, "", false );
         }
 
-        if( damage_melee( DT_BASH ) || damage_melee( DT_CUT ) || damage_melee( DT_STAB ) ) {
+        if( dmg_bash || dmg_cut || dmg_stab ) {
             info.push_back( iteminfo( "BASE", space + _( "To-hit bonus: " ),
                                       ( ( type->m_to_hit > 0 ) ? "+" : "" ),
                                       type->m_to_hit, true, "" ) );
@@ -2537,7 +2543,7 @@ int item::damage_melee( damage_type dt ) const
         return 0;
     }
 
-    auto dmg = type->melee.find( DT_BASH );
+    auto dmg = type->melee.find( dt );
     int res = dmg != type->melee.end() ? dmg->second : 0;
 
     // effectiveness is reduced by 10% per damage level
