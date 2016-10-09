@@ -11,6 +11,7 @@
 #include "input.h"
 #include "worldfactory.h"
 #include "catacharset.h"
+#include "game_constants.h"
 
 #ifdef TILES
 #include "cata_tiles.h"
@@ -843,7 +844,7 @@ void options_manager::init()
 
     add("SAFEMODEPROXIMITY", "general", _("Safe Mode proximity distance"),
         _("If safe mode is enabled, distance to hostiles at which safe mode should show a warning. 0 = Max player viewdistance."),
-        0, 50, 0
+        0, MAX_VIEW_DISTANCE, 0
         );
 
     add("SAFEMODEVEH", "general", _("Safe Mode when driving"),
