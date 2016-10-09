@@ -92,24 +92,5 @@
     "quench": -1,
     "healthy": -1,
     "fun": 0
-  },
-  {
-    "id": "wild_herbs",
-    "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
-    "name": "wild herbs",
-    "name_plural": "wild herbs",
-    "description": "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, and burdock.",
-    "weight": 7,
-    "volume": 1,
-    "price": 190,
-    "material": "veggy",
-    "symbol": "%",
-    "color": "green",
-    "charges": 20,
-    "stack_size": 100,
-    "nutrition": 1,
-    "quench": -1,
-    "fun": -1
   }
 ]
