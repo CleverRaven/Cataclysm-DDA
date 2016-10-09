@@ -13,8 +13,7 @@
         "calories" : 1000,
         "description" : "Not very nutritious.  Warning: contains calories, unsuitable for breatharians.",
         "price" : 100,
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -1656,8 +1655,7 @@
         "description" : "A bone from some creature or other.  Could be eaten or used to make some stuff, like needles.",
         "price" : 0,
         "material" : "bone",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -1673,8 +1671,7 @@
         "description" : "A fluid bladder from a plant based lifeform.  Not very nutritious, but fine to eat anyway.",
         "price" : 0,
         "material" : "veggy",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -1737,8 +1734,7 @@
         "price" : 500,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 2,
-        "fun" : 0
+        "charges" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -1917,8 +1913,7 @@
         "description" : "Delicious lunch meat.  Can be eaten cold.",
         "price" : 3, "//" : "*Looking for ~$6 per pound here.",
         "material" : "flesh",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -1937,8 +1932,7 @@
         "price" : 1000,
         "material" : "flesh",
         "volume" : 4,
-        "charges" : 40, "//" : "320 nutrition, net loss from 400 as cooked meat, but lasts much longer.",
-        "fun" : 0
+        "charges" : 40, "//" : "320 nutrition, net loss from 400 as cooked meat, but lasts much longer."
     },
     {
         "type" : "COMESTIBLE",
@@ -1957,8 +1951,7 @@
         "price" : 2000,
         "material" : "hflesh",
         "volume" : 4,
-        "charges" : 40,
-        "fun" : 0
+        "charges" : 40
     },
     {
         "type" : "COMESTIBLE",
@@ -1976,8 +1969,7 @@
         "price" : 600,
         "material" : "veggy",
         "flags" : "TRADER_AVOID",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -2211,8 +2203,7 @@
         "description" : "A bone from a human being.  Could be eaten or used to make some stuff, if you're feeling sufficiently ghoulish.",
         "price" : 0, "//" : "Not for use in normal food recipes.",
         "material" : ["bone", "hflesh"],
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -2290,8 +2281,7 @@
         "price" : 0,
         "material" : "veggy",
         "flags": "TRADER_AVOID",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -2648,8 +2638,7 @@
         "price" : 700,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT", "TRADER_AVOID"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT", "TRADER_AVOID"]
     },
     {
         "type" : "COMESTIBLE",
@@ -2668,8 +2657,7 @@
         "price" : 700,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -3377,8 +3365,7 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 2,
-        "flags" : ["EATEN_COLD"],
-        "fun" : 0
+        "flags" : ["EATEN_COLD"]
     },
     {
         "type" : "COMESTIBLE",
@@ -3395,8 +3382,7 @@
         "material" : "veggy",
         "volume" : 2,
         "charges" : 2,
-        "flags" : ["EATEN_COLD"],
-        "fun" : 0
+        "flags" : ["EATEN_COLD"]
     },
     {
         "type" : "COMESTIBLE",
@@ -3413,8 +3399,7 @@
         "material" : "hflesh",
         "volume" : 2,
         "charges" : 2,
-        "flags" : ["EATEN_COLD"],
-        "fun" : 0
+        "flags" : ["EATEN_COLD"]
     },
     {
         "type" : "COMESTIBLE",
@@ -4031,8 +4016,7 @@
         "price" : 50,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 2,
-        "fun" : 0
+        "charges" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -4089,8 +4073,7 @@
         "price" : 120,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -4127,8 +4110,7 @@
         "description": "A handful of raw hard nuts from a hickory tree, their shells have been removed.",
         "price" : 0,
         "material" : "veggy",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -4285,8 +4267,7 @@
         "price" : 100,
         "material" : "veggy",
         "volume" : 3,
-        "charges" : 4,
-        "fun" : 0
+        "charges" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -4368,8 +4349,7 @@
         "description" : "Juicy red tomato.  It gained popularity in Italy after being brought back from the New World.",
         "price" : 90,
         "material" : "veggy",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -4454,8 +4434,7 @@
         "price" : 400,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -4496,8 +4475,7 @@
         "price" : 300,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -4668,8 +4646,7 @@
         "price" : 170, "//" : "Thinking this is a single ear here.",
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -4709,8 +4686,7 @@
         "price" : 180,
         "material" : "veggy",
         "volume" : 3,
-        "charges" : 4,
-        "fun" : 0
+        "charges" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -4746,8 +4722,7 @@
         "description" : "An irradiated tomato will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price" : 120,
         "material" : "veggy",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -4766,8 +4741,7 @@
         "price" : 420,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -4785,8 +4759,7 @@
         "price" : 320,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -4843,8 +4816,7 @@
         "price" : 210,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -4976,8 +4948,7 @@
         "material" : "wheat",
         "volume" : 6,
         "charges" : 2,
-        "flags" : ["EATEN_HOT", "TRADER_AVOID"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT", "TRADER_AVOID"]
     },
     {
         "type" : "COMESTIBLE",
@@ -4996,8 +4967,7 @@
         "material" : "wheat",
         "volume" : 8,
         "charges" : 2,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -5095,8 +5065,7 @@
         "price" : 250,
         "material" : ["flesh", "wheat"],
         "volume" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -5238,8 +5207,7 @@
         "price" : 150,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -5278,8 +5246,7 @@
         "price" : 200,
         "material" : "veggy",
         "volume" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -6281,8 +6248,7 @@
         "nutrition" : 42,
         "description" : "A serving of acorns that have been hulled, chopped, and boiled in water before being thoroughly toasted until dry.  Filling and nutritious.",
         "price" : 90,
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -6544,8 +6510,7 @@
         "description" : "This is a simple dish made by cooking the pumpkin pulp and then mashing.",
         "price" : 50,
         "material" : "veggy",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -6564,8 +6529,7 @@
         "material" : "wheat",
         "volume" : 2,
         "charges" : 6,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -6924,8 +6888,7 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 7,
-        "fun" : 0
+        "charges" : 7
     },
     {
         "type" : "COMESTIBLE",
@@ -7492,8 +7455,7 @@
         "price" : 250,
         "material" : "veggy",
         "volume" : 1,
-        "stack_size" : 2,
-        "fun" : 0
+        "stack_size" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -7592,8 +7554,7 @@
         "price" : 500,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 2,
-        "fun" : 0
+        "charges" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -7735,7 +7696,6 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "fun" : 0,
         "seed_data": {
             "plant_name": "cannabis",
             "fruit": "cannabis",
@@ -7800,7 +7760,6 @@
         "quench": 10,
         "nutrition": 10,
         "charges": 5,
-        "fun": 0,
         "phase": "liquid"
     },
     {
@@ -7859,7 +7818,6 @@
         "quench": -2,
         "nutrition": 5,
         "charges": 5,
-        "fun": 0,
         "phase": "liquid",
         "flags" : ["USE_EAT_VERB"]
     },
@@ -8561,8 +8519,7 @@
         "description" : "So-called ramen noodles.  Can be eaten raw.",
         "price" : 200,
         "material" : "wheat",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -8913,8 +8870,7 @@
         "price" : 150,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 3,
-        "fun" : 0
+        "charges" : 3
     },
     {
         "type": "COMESTIBLE",
@@ -8933,8 +8889,7 @@
         "price": 190,
         "material": "fruit",
         "volume": 1,
-        "charges": 3,
-        "fun": 0
+        "charges": 3
     },
     {
         "type" : "COMESTIBLE",
@@ -9357,8 +9312,7 @@
         "price" : 410,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 4,
-        "fun" : 0
+        "charges" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -9412,8 +9366,7 @@
         "price" : 420,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 4,
-        "fun" : 0
+        "charges" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -9450,8 +9403,7 @@
         "price" : 900,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 2,
-        "fun" : 0
+        "charges" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -9468,8 +9420,7 @@
         "price" : 0,
         "material" : "hflesh",
         "volume" : 1,
-        "charges" : 2,
-        "fun" : 0
+        "charges" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -9523,8 +9474,7 @@
         "price" : 900,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 2,
-        "fun" : 0
+        "charges" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -9967,8 +9917,7 @@
         "description" : "Dried salad with water added, not very tasty but still a decent substitution for real salad.",
         "price" : 250,
         "material" : "veggy",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },{
         "type" : "COMESTIBLE",
         "id" : "cucumber",
@@ -9984,8 +9933,7 @@
         "description" : "Come from the gourd family, not tasty but very juicy.",
         "price" : 300,
         "material" : "veggy",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },{
         "type" : "COMESTIBLE",
         "id" : "seed_cucumber",
@@ -10023,8 +9971,7 @@
         "description" : "An irradiated cucumber will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price" : 320,
         "material" : "veggy",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },{
         "type" : "COMESTIBLE",
         "id" : "celery",
@@ -10039,8 +9986,7 @@
         "description" : "Neither tasty nor very nutritious, but it goes well with salad.",
         "price" : 200,
         "material" : "veggy",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -10113,8 +10059,7 @@
         "description" : "An irradiated cluster of celery will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price" : 220,
         "material" : "veggy",
-        "volume" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "id": "soysauce",
@@ -10352,8 +10297,7 @@
         "price" : 0,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 2,
-        "fun" : 0
+        "charges" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -10476,8 +10420,7 @@
         "price" : 350,
         "material" : "veggy",
         "volume" : 1,
-        "stack_size" : 2,
-        "fun" : 0
+        "stack_size" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -11015,7 +10958,6 @@
         "volume" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "fun" : 0,
         "seed_data": {
             "plant_name": "pumpkin",
             "fruit": "pumpkin",
@@ -11041,7 +10983,6 @@
         "volume" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "fun" : 0,
         "seed_data": {
             "plant_name": "sunflower",
             "fruit": "seed_sunflower",
