@@ -248,6 +248,8 @@ void Item_factory::finalize() {
         npc_implied_flags( *e.second );
 
         if( obj.comestible ) {
+            obj.comestible->spoils *= HOURS( 1 ); // JSON specifies hours so convert to turns
+
             if( get_world_option<bool>( "NO_VITAMINS" ) ) {
                 obj.comestible->vitamins.clear();
             } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
@@ -1200,26 +1202,25 @@ void Item_factory::load_book( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "comestible_type", slot.comesttype );
-    assign( jo, "tool", slot.tool );
-    assign( jo, "charges", slot.def_charges );
-    assign( jo, "quench", slot.quench );
-    assign( jo, "fun", slot.fun );
-    assign( jo, "stim", slot.stim );
-    assign( jo, "healthy", slot.healthy );
-    assign( jo, "parasites", slot.parasites );
+    bool strict = src == "core";
 
-    if( jo.read( "spoils_in", slot.spoils ) ) {
-        slot.spoils *= 600; // JSON specifies hours so convert to turns
-    }
+    assign( jo, "comestible_type", slot.comesttype, strict );
+    assign( jo, "tool", slot.tool, strict );
+    assign( jo, "charges", slot.def_charges, strict, 1L );
+    assign( jo, "quench", slot.quench, strict );
+    assign( jo, "fun", slot.fun, strict );
+    assign( jo, "stim", slot.stim, strict );
+    assign( jo, "healthy", slot.healthy, strict );
+    assign( jo, "parasites", slot.parasites, strict, 0 );
+    assign( jo, "spoils_in", slot.spoils, strict, 0 );
 
     if( jo.has_string( "addiction_type" ) ) {
         slot.add = addiction_type( jo.get_string( "addiction_type" ) );
     }
 
-    assign( jo, "addiction_potential", slot.addict );
+    assign( jo, "addiction_potential", slot.addict, strict );
 
     bool got_calories = false;
 
