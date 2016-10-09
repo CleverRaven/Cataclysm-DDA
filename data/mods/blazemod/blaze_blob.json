@@ -1224,6 +1224,7 @@
   {
     "id": "water",
     "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
     "category": "food",
     "name": "water",
     "name_plural": "water",
@@ -1235,7 +1236,6 @@
     "container": "bottle_plastic",
     "symbol": "~",
     "color": "light_cyan",
-    "comestible_type": "DRINK",
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "explosion": {
