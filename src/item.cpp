@@ -2537,49 +2537,28 @@ int item::damage_melee( damage_type dt ) const
         return 0;
     }
 
-    int res = 0;
+    auto dmg = type->melee.find( DT_BASH );
+    int res = dmg != type->melee.end() ? dmg->second : 0;
 
+    // effectiveness is reduced by 10% per damage level
+    res -= res * damage() * 0.1;
+
+    // apply type specific flags
     switch( dt ) {
-        case DT_BASH: {
-            auto dmg = type->melee.find( DT_BASH );
-            if( dmg != type->melee.end() ) {
-                res = dmg->second;
-            }
+        case DT_BASH:
             if( has_flag( "REDUCED_BASHING" ) ) {
                 res *= 0.5;
             }
-        }
 
-        case DT_CUT: {
-            if( !( has_flag( "SPEAR" ) || has_flag( "STAB" ) ) ) {
-                auto dmg = type->melee.find( DT_CUT );
-                if( dmg != type->melee.end() ) {
-                    res = dmg->second;
-                }
-            }
+        case DT_CUT:
+        case DT_STAB:
             if( has_flag( "DIAMOND" ) ) {
                 res *= 1.3;
             }
-        }
-
-        case DT_STAB: {
-            if( has_flag( "SPEAR" ) || has_flag( "STAB" ) ) {
-                auto dmg = type->melee.find( DT_CUT );
-                if( dmg != type->melee.end() ) {
-                    res = dmg->second;
-                }
-            }
-            if( has_flag( "DIAMOND" ) ) {
-                res *= 1.3;
-            }
-        }
 
         default:
             break;
     }
-
-    // effectiveness is reduced by 10% per damage level
-    res -= res * damage() * 0.1;
 
     // consider any melee gunmods
     if( is_gun() ) {

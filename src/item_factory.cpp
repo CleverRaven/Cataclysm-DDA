@@ -120,6 +120,11 @@ void Item_factory::finalize() {
     for( auto& e : m_templates ) {
         itype& obj = *e.second;
 
+        if( obj.item_tags.count( "STAB" ) || obj.item_tags.count( "SPEAR" ) ) {
+            obj.melee[DT_STAB] = obj.melee[DT_CUT];
+            obj.melee.erase( DT_CUT );
+        }
+
         // add usage methods (with default values) based upon qualities
         // if a method was already set the specific values remain unchanged
         for( const auto &q : obj.qualities ) {
