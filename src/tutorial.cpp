@@ -229,7 +229,7 @@ void tutorial_game::post_action( action_id act )
                 add_message( LESSON_GOT_TOOL );
             } else if( it.is_food() ) {
                 add_message( LESSON_GOT_FOOD );
-            } else if( it.is_weap() ) {
+            } else if( it.is_melee() ) {
                 add_message( LESSON_GOT_WEAPON );
             }
 

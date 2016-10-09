@@ -7417,7 +7417,7 @@ void game::smash()
     const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
     bool didit = false;
     ///\EFFECT_STR increases smashing capability
-    int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
+    int smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
     tripoint smashp;
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"

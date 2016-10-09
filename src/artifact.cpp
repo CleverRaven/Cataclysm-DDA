@@ -675,8 +675,8 @@ std::string new_artifact()
         art->weight = rng(info->weight_min, info->weight_max);
         // Set up the basic weapon type
         artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
-        art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
-        art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
+        art->melee[DT_BASH] = rng(weapon->bash_min, weapon->bash_max);
+        art->melee[DT_CUT] = rng(weapon->cut_min, weapon->cut_max);
         art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
         if( weapon->tag != "" ) {
             art->item_tags.insert(weapon->tag);
@@ -688,8 +688,8 @@ std::string new_artifact()
                 weapon = &(artifact_weapon_data[ info->extra_weapons[select] ]);
                 art->volume += weapon->volume;
                 art->weight += weapon->weight;
-                art->melee_dam += rng(weapon->bash_min, weapon->bash_max);
-                art->melee_cut += rng(weapon->cut_min, weapon->cut_max);
+                art->melee[DT_BASH] += rng(weapon->bash_min, weapon->bash_max);
+                art->melee[DT_CUT] += rng(weapon->cut_min, weapon->cut_max);
                 art->m_to_hit += rng(weapon->to_hit_min, weapon->to_hit_max);
                 if( weapon->tag != "" ) {
                     art->item_tags.insert(weapon->tag);
@@ -796,8 +796,8 @@ std::string new_artifact()
         art->materials.push_back(info->material);
         art->volume = info->volume;
         art->weight = info->weight;
-        art->melee_dam = info->melee_bash;
-        art->melee_cut = info->melee_cut;
+        art->melee[DT_BASH] = info->melee_bash;
+        art->melee[DT_CUT] = info->melee_cut;
         art->m_to_hit = info->melee_hit;
         art->armor->covers = info->covers;
         art->armor->encumber = info->encumb;
@@ -910,8 +910,8 @@ std::string new_natural_artifact(artifact_natural_property prop)
     art->materials.push_back( material_id( "stone" ) );
     art->volume = rng(shape_data->volume_min, shape_data->volume_max);
     art->weight = rng(shape_data->weight_min, shape_data->weight_max);
-    art->melee_dam = 0;
-    art->melee_cut = 0;
+    art->melee[DT_BASH] = 0;
+    art->melee[DT_CUT] = 0;
     art->m_to_hit = 0;
 
     art->create_name(property_data->name, shape_data->name);
@@ -1011,8 +1011,8 @@ std::string architects_cube()
     art->weight = rng(info->weight_min, info->weight_max);
     // Set up the basic weapon type
     artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
-    art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
-    art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
+    art->melee[DT_BASH] = rng(weapon->bash_min, weapon->bash_max);
+    art->melee[DT_CUT] = rng(weapon->cut_min, weapon->cut_max);
     art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
     if( weapon->tag != "" ) {
         art->item_tags.insert(weapon->tag);
@@ -1125,8 +1125,8 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     }
     volume = jo.get_int("volume") * units::legacy_volume_factor;
     weight = jo.get_int("weight");
-    melee_dam = jo.get_int("melee_dam");
-    melee_cut = jo.get_int("melee_cut");
+    melee[DT_BASH] = jo.get_int("melee_dam");
+    melee[DT_CUT] = jo.get_int("melee_cut");
     m_to_hit = jo.get_int("m_to_hit");
     item_tags = jo.get_tags("item_flags");
 
@@ -1195,8 +1195,8 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     }
     volume = jo.get_int("volume") * units::legacy_volume_factor;
     weight = jo.get_int("weight");
-    melee_dam = jo.get_int("melee_dam");
-    melee_cut = jo.get_int("melee_cut");
+    melee[DT_BASH] = jo.get_int("melee_dam");
+    melee[DT_CUT] = jo.get_int("melee_cut");
     m_to_hit = jo.get_int("m_to_hit");
     item_tags = jo.get_tags("item_flags");
 
@@ -1265,8 +1265,10 @@ void it_artifact_tool::serialize(JsonOut &json) const
     json.end_array();
     json.member("volume", volume / units::legacy_volume_factor);
     json.member("weight", weight);
-    json.member("melee_dam", melee_dam);
-    json.member("melee_cut", melee_cut);
+
+    json.member( "melee_dam", melee[DT_BASH] );
+    json.member( "melee_cut", melee[DT_CUT] );
+
     json.member("m_to_hit", m_to_hit);
 
     json.member("item_flags", item_tags);
@@ -1310,8 +1312,10 @@ void it_artifact_armor::serialize(JsonOut &json) const
     json.end_array();
     json.member("volume", volume / units::legacy_volume_factor);
     json.member("weight", weight);
-    json.member("melee_dam", melee_dam);
-    json.member("melee_cut", melee_cut);
+
+    json.member( "melee_dam", melee[DT_BASH] );
+    json.member( "melee_cut", melee[DT_CUT] );
+
     json.member("m_to_hit", m_to_hit);
 
     json.member("item_flags", item_tags);
