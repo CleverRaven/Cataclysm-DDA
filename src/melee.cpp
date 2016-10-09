@@ -251,7 +251,7 @@ void player::roll_all_damage( bool crit, damage_instance &di, bool average, cons
 static void melee_train( player &p, int lo, int hi ) {
     p.practice( skill_melee, ceil( rng( lo, hi ) / 2.0 ) );
 
-    if( p.unarmed_attack() ) {
+    if( !p.is_armed() ) {
         p.practice( skill_unarmed, rng( lo, hi ) );
 
     } else {
@@ -263,7 +263,10 @@ static void melee_train( player &p, int lo, int hi ) {
         double total = std::max( cut + stab + bash, 1 );
         p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ) );
         p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ) );
-        p.practice( skill_stabbing, ceil( bash / total * rng( lo, hi ) ) );
+
+        // unarmed weapons deal bashing damage but train unarmed skill
+        p.practice( p.unarmed_attack() ? skill_unarmed : skill_bashing,
+                    ceil( bash / total * rng( lo, hi ) ) );
     }
 }
 
