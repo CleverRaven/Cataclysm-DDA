@@ -154,8 +154,8 @@ int player::get_hit_weapon( const item &weap ) const
     auto bonus = get_skill_level( weap.weap_skill() );
 
     // CQB bionic acts as a lower bound providing item uses a weapon skill
-    if( bonus < 5 && has_active_bionic( "bio_cqb" ) ) {
-        bonus = 5;
+    if( bonus < BIO_CQB_LEVEL && has_active_bionic( "bio_cqb" ) ) {
+        bonus = BIO_CQB_LEVEL;
     }
 
     ///\EFFECT_MELEE improves hit chance for all items (including non-weapons)
