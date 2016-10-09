@@ -2555,12 +2555,14 @@ int item::damage_melee( damage_type dt ) const
             if( has_flag( "REDUCED_BASHING" ) ) {
                 res *= 0.5;
             }
+            break;
 
         case DT_CUT:
         case DT_STAB:
             if( has_flag( "DIAMOND" ) ) {
                 res *= 1.3;
             }
+            break;
 
         default:
             break;
