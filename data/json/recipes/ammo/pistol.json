@@ -11,11 +11,12 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 3 ] ],
     "charges": 1,
-    "using": [ [ "ammo_bullet", 1 ], [ "paper_casing", 1 ] ],
+    "using": [ [ "ammo_bullet", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "gunpowder", 4 ], [ "chem_black_powder", 8 ] ],
-      [ [ "smpistol_primer", 1 ] ]
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },
   {
@@ -30,11 +31,12 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 3 ] ],
     "charges": 1,
-    "using": [ [ "ammo_bullet", 2 ], [ "paper_casing", 1 ] ],
+    "using": [ [ "ammo_bullet", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "gunpowder", 6 ], [ "chem_black_powder", 12 ] ],
-      [ [ "lgpistol_primer", 1 ] ]
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
   },
   {

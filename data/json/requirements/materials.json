@@ -12,12 +12,6 @@
     "components": [ [ [ "lead", 1 ], [ "bismuth", 1 ], [ "silver_small", 1 ], [ "gold_small", 1 ] ] ]
   },
   {
-    "id": "paper_casing",
-    "type": "requirement",
-    "//": "Materials used for paper cartridges",
-    "components": [ [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
-  },
-  {
     "id": "fabric_standard",
     "type": "requirement",
     "//": "Materials used for crafting or repairing clothing or sheeting",
