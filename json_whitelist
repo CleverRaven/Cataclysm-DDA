@@ -10,6 +10,7 @@ data/json/items/ammo/*
 data/json/items/armor/boots.json id
 data/json/items/book/* id
 data/json/items/bionics.json id
+data/json/items/comestibles/spice.json id
 data/json/items/gun/* id
 data/json/items/gunmod/* id
 data/json/items/magazine/* id
