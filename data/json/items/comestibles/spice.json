@@ -8,9 +8,7 @@
     "description": "Chilly P, Yo!  Not very good on its own, but it might help if you use it properly, or in meth.",
     "price": 40,
     "container": "bag_plastic",
-    "color": "red",
-    "healthy": -1,
-    "stim": 1
+    "color": "red"
   },
   {
     "id": "cinnamon",
@@ -31,9 +29,7 @@
     "description": "A blend of spices meant to be used in some South Asian dishes.  Could be eaten raw, but why would you do that?",
     "price": 40,
     "container": "bag_plastic",
-    "color": "red",
-    "healthy": -1,
-    "stim": 1
+    "color": "red"
   },
   {
     "id": "pepper",
@@ -43,8 +39,7 @@
     "name_plural": "black pepper",
     "description": "Ground black spice berries with a pungent aroma.",
     "price": 250,
-    "color": "dark_gray",
-    "healthy": -1
+    "color": "dark_gray"
   },
   {
     "id": "salt",
@@ -54,9 +49,7 @@
     "name_plural": "salt",
     "description": "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
     "price": 400,
-    "color": "white",
-    "quench": -10,
-    "healthy": -1
+    "color": "white"
   },
   {
     "id": "seasoning_italian",
@@ -66,9 +59,7 @@
     "name_plural": "Italian seasoning",
     "description": "A fragrant mix of dried oregano, basil, thyme and other spices.",
     "price": 290,
-    "color": "green",
-    "quench": -1,
-    "fun": -1
+    "color": "green"
   },
   {
     "id": "seasoning_salt",

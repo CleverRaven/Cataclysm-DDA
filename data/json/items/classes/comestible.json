@@ -10,8 +10,6 @@
     "container": "bottle_plastic_small",
     "material": "powder",
     "symbol": "%",
-    "charges": 100,
-    "quench": -5,
-    "fun": -5
+    "charges": 100
   }
 ]
