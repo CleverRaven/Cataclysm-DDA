@@ -37,6 +37,7 @@ const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_webbed( "webbed" );
 
+const skill_id skill_dodge( "dodge" );
 const skill_id skill_throw( "throw" );
 
 const std::string debug_nodmg( "DEBUG_NODMG" );
@@ -96,7 +97,7 @@ const std::string &Character::symbol() const
     return character_symbol;
 }
 
-void Character::mod_stat( const std::string &stat, int modifier )
+void Character::mod_stat( const std::string &stat, float modifier )
 {
     if( stat == "str" ) {
         mod_str_bonus( modifier );
@@ -1713,15 +1714,16 @@ void Character::update_health(int external_modifiers)
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
 
-int Character::get_dodge_base() const
+float Character::get_dodge_base() const
 {
     ///\EFFECT_DEX increases dodge base
-    return Creature::get_dodge_base() + (get_dex() / 2);
+    ///\EFFECT_DODGE increases dodge_base
+    return get_dex() / 2.0f + get_skill_level( skill_dodge );
 }
-int Character::get_hit_base() const
+float Character::get_hit_base() const
 {
     ///\EFFECT_DEX increases hit base, slightly
-    return Creature::get_hit_base() + (get_dex() / 4) + 3;
+    return get_dex() / 4.0f;
 }
 
 hp_part Character::body_window( bool precise ) const

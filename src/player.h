@@ -418,9 +418,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void add_martialart(const matype_id &ma_id);
 
         /** Returns the to hit bonus from martial arts buffs */
-        int mabuff_tohit_bonus() const;
+        float mabuff_tohit_bonus() const;
         /** Returns the dodge bonus from martial arts buffs */
-        int mabuff_dodge_bonus() const;
+        float mabuff_dodge_bonus() const;
         /** Returns the block bonus from martial arts buffs */
         int mabuff_block_bonus() const;
         /** Returns the speed bonus from martial arts buffs */
@@ -434,7 +434,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
         /** Returns value of player's stable footing */
-        int stability_roll() const override;
+        float stability_roll() const override;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */
@@ -549,27 +549,27 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit(body_part bp, damage_instance &dam) override;
         /** Called after the player has successfully dodged an attack */
-        void on_dodge( Creature *source, int difficulty ) override;
+        void on_dodge( Creature *source, float difficulty ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, body_part bp_hit = num_bp,
-                     int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) override;
+                     float difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) override;
         /** Handles effects that happen when the player is damaged and aware of the fact. */
         void on_hurt( Creature *source, bool disturb = true );
 
         /** Returns the bonus bashing damage the player deals based on their stats */
         float bonus_damage( bool random ) const;
-        /** Returns Creature::get_hit_base() modified by weapon skill */
-        int get_hit_base() const override;
+        /** Returns weapon skill */
+        float get_hit_base() const override;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
-        int hit_roll() const override;
+        float hit_roll() const override;
         /** Returns the chance to crit given a hit roll and target's dodge roll */
-        double crit_chance( int hit_roll, int target_dodge, const item &weap ) const;
+        double crit_chance( float hit_roll, float target_dodge, const item &weap ) const;
         /** Returns true if the player scores a critical hit */
-        bool scored_crit(int target_dodge = 0) const;
+        bool scored_crit( float target_dodge = 0.0f ) const;
         /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
         int attack_speed( const item &weap, bool average = false ) const;
         /** Gets melee accuracy component from weapon+skills */
-        int get_hit_weapon( const item &weap ) const;
+        float get_hit_weapon( const item &weap ) const;
         /** NPC-related item rating functions */
         double weapon_value( const item &weap, long ammo = 10 ) const; // Evaluates item as a weapon
         double gun_value( const item &weap, long ammo = 10 ) const; // Evaluates item as a gun
@@ -604,14 +604,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles combat effects, returns a string of any valid combat effect messages */
         std::string melee_special_effects(Creature &t, damage_instance &d, const ma_technique &tec);
         /** Returns Creature::get_dodge_base modified by the player's skill level */
-        int get_dodge_base() const override;   // Returns the players's dodge, modded by clothing etc
+        float get_dodge_base() const override;   // Returns the players's dodge, modded by clothing etc
         /** Returns Creature::get_dodge() modified by any player effects */
-        int get_dodge() const override;
+        float get_dodge() const override;
         /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
-        int dodge_roll() override;
+        float dodge_roll() override;
 
         /** Returns melee skill level, to be used to throttle dodge practice. **/
-        int get_melee() const override;
+        float get_melee() const override;
         /**
          * Adds a reason for why the player would miss a melee attack.
          *
@@ -1326,7 +1326,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         //Record of player stats, for posterity only
         stats *lifetime_stats();
         stats get_stats() const; // for serialization
-        void mod_stat( const std::string &stat, int modifier ) override;
+        void mod_stat( const std::string &stat, float modifier ) override;
 
         int getID () const;
         // sets the ID, will *only* succeed when the current id is 0 (=not initialized)
