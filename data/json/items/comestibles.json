@@ -14,7 +14,6 @@
         "description" : "Not very nutritious.  Warning: contains calories, unsuitable for breatharians.",
         "price" : 100,
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -35,7 +34,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
@@ -57,7 +55,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 2
     },
@@ -79,7 +76,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
@@ -101,7 +97,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
@@ -120,7 +115,6 @@
         "price" : 55,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : -1
     },
@@ -145,7 +139,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
@@ -170,7 +163,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : -1
     },
@@ -195,7 +187,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
@@ -220,7 +211,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
@@ -242,7 +232,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
@@ -264,7 +253,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
@@ -289,7 +277,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
@@ -311,7 +298,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
@@ -335,7 +321,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 6
     },
@@ -357,7 +342,6 @@
         "material" : ["junk", "fruit"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 6
     },
@@ -379,7 +363,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
@@ -402,7 +385,6 @@
         "material" : "milk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 1
     },
@@ -424,7 +406,6 @@
         "material" : ["milk", "junk"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -445,7 +426,6 @@
         "material" : "veggy",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 1
     },
@@ -466,7 +446,6 @@
         "material" : "veggy",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -487,7 +466,6 @@
         "material" : "bone",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -508,7 +486,6 @@
         "material" : ["bone", "hflesh"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -729,7 +706,6 @@
         "material" : "veggy",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
         "fun" : 2
     },
@@ -1048,7 +1024,6 @@
         "material" : "alcohol",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "stack_size" : 7,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
@@ -1075,7 +1050,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 4
     },
@@ -1151,7 +1125,6 @@
         "material" : ["alcohol", "water", "milk"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 20,
         "flags": [ "EATEN_HOT" ]
     },
@@ -1176,7 +1149,7 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1, "//" : "Includes cola, so presumed to be a 250mL cocktail like the others.",
+        "//" : "Includes cola, so presumed to be a 250mL cocktail like the others.",
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -1201,7 +1174,6 @@
         "material" : ["alcohol", "fruit"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -1226,7 +1198,6 @@
         "material" : ["alcohol", "fruit"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -1252,7 +1223,6 @@
         "material" : ["alcohol", "junk"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -1276,7 +1246,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 10
     },
@@ -1373,7 +1342,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 8
     },
@@ -1423,7 +1391,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 10
     },
@@ -1448,7 +1415,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 14
     },
@@ -1473,7 +1439,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 14
     },
@@ -1498,7 +1463,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 14,
         "flags": [ "EATEN_COLD" ]
     },
@@ -1523,7 +1487,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 14
     },
@@ -1548,7 +1511,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 18,
         "flags": [ "EATEN_COLD" ]
     },
@@ -1569,7 +1531,6 @@
         "price" : 90,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
     },
@@ -1591,7 +1552,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 8
     },
@@ -1614,7 +1574,6 @@
         "price" : 100,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
     },
@@ -1639,7 +1598,6 @@
         "price" : 300,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -1660,7 +1618,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 7
     },
@@ -1682,7 +1639,6 @@
         "material" : "hflesh",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : -50
     },
     {
@@ -1701,7 +1657,6 @@
         "price" : 0,
         "material" : "bone",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -1719,7 +1674,6 @@
         "price" : 0,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -1739,7 +1693,6 @@
         "price" : 0,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 1,
         "fun" : -20
     },
@@ -1965,7 +1918,6 @@
         "price" : 3, "//" : "*Looking for ~$6 per pound here.",
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -2025,7 +1977,6 @@
         "material" : "veggy",
         "flags" : "TRADER_AVOID",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -2045,7 +1996,6 @@
         "price" : 60,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -10
     },
     {
@@ -2064,7 +2014,6 @@
         "price" : 0,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -8
     },
     {
@@ -2084,7 +2033,6 @@
         "price" : 0,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 1
     },
     {
@@ -2103,7 +2051,6 @@
         "price" : 0,
         "material" : "veggy",
         "volume" : 2,
-        "charges" : 1,
         "fun" : -12
     },
     {
@@ -2122,7 +2069,6 @@
         "description" : "Sticky, gooey carbohydrate paste extracted from plants.  Spoils rather quickly if not prepared for storage.",
         "price" : 0,
         "volume" : 1,
-        "charges" : 1,
         "fun" : -14
     },
     {
@@ -2162,7 +2108,6 @@
         "price" : 200,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 2,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
@@ -2208,7 +2153,6 @@
         "price" : 50,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -2231,7 +2175,6 @@
         "material" : "flesh",
         "flags" : "TRADER_AVOID",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -10
     },
     {
@@ -2251,7 +2194,6 @@
         "price" : 0, "//" : "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes except for charcoal.",
         "material" : "bone",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -10
     },
     {
@@ -2270,7 +2212,6 @@
         "price" : 0, "//" : "Not for use in normal food recipes.",
         "material" : ["bone", "hflesh"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -2291,7 +2232,6 @@
         "price" : 0, "//" : "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes.",
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -10
     },
     {
@@ -2330,7 +2270,6 @@
         "description" : "A little hunk of glop that fell off a blob monster.  It doesn't seem hostile, but it does wiggle occasionally.",
         "price" : 0,
         "volume" : 1,
-        "charges" : 1,
         "fun" : -10
     },
     {
@@ -2352,7 +2291,6 @@
         "material" : "veggy",
         "flags": "TRADER_AVOID",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -2370,7 +2308,6 @@
         "price" : 750,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : -5
     },
@@ -2389,7 +2326,6 @@
         "price" : 750,
         "material" : "hflesh",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : -5
     },
@@ -2408,7 +2344,6 @@
         "price" : 375,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : -3
     },
@@ -2427,7 +2362,6 @@
         "price" : 375,
         "material" : "hflesh",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : -3
     },
@@ -2596,7 +2530,6 @@
         "price" : 900,
         "material" : ["flesh", "junk"],
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 18
     },
@@ -2715,7 +2648,6 @@
         "price" : 700,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT", "TRADER_AVOID"],
         "fun" : 0
     },
@@ -2736,7 +2668,6 @@
         "price" : 700,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -2756,7 +2687,6 @@
         "price" : 900,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -2775,7 +2705,6 @@
         "price" : 120,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -2794,7 +2723,6 @@
         "price" : 180,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -2813,7 +2741,6 @@
         "price" : 120,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -4
     },
     {
@@ -2832,7 +2759,6 @@
         "price" : 100,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -2851,7 +2777,6 @@
         "price" : 190,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -2869,7 +2794,6 @@
         "price" : 190,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -2887,7 +2811,6 @@
         "price" : 160,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -4
     },
     {
@@ -3280,7 +3203,6 @@
         "price" : 100,
         "material" : "junk",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -6
     },
     {
@@ -3399,7 +3321,6 @@
         "price" : 130,
         "material" : "junk",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 10
     },
     {
@@ -3651,7 +3572,6 @@
         "price" : 250,
         "material" : "wheat",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -3671,7 +3591,6 @@
         "price" : 175,
         "material" : ["fruit", "wheat"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 6
     },
     {
@@ -3691,7 +3610,6 @@
         "price" : 175,
         "material" : ["wheat", "honey"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 6
     },
     {
@@ -3711,7 +3629,6 @@
         "price" : 175,
         "material" : "wheat",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 6
     },
     {
@@ -3873,7 +3790,6 @@
         "price" : 140,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -3
     },
     {
@@ -3893,7 +3809,6 @@
         "price" : 140,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["HIDDEN_POISON", "TRADER_AVOID"],
         "fun" : -3
     },
@@ -3914,7 +3829,6 @@
         "price" : 140,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : "HIDDEN_HALLU",
         "fun" : -3
     },{
@@ -3933,7 +3847,6 @@
         "price" : 150,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 1
     },
     {
@@ -3953,7 +3866,6 @@
         "price" : 2000,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 1
     },
     {
@@ -3971,7 +3883,6 @@
         "price" : 1500,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 4
     },
     {
@@ -4045,7 +3956,6 @@
         "price" : 400,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -4065,7 +3975,6 @@
         "price": 410,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -4085,7 +3994,6 @@
         "price" : 400,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -4105,7 +4013,6 @@
         "price" : 410,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -4182,7 +4089,6 @@
         "price" : 120,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -4222,7 +4128,6 @@
         "price" : 0,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -4241,7 +4146,6 @@
         "price" : 90,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -4423,7 +4327,6 @@
         "price" : 100,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -2
     },
     {
@@ -4466,7 +4369,6 @@
         "price" : 90,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -4552,7 +4454,6 @@
         "price" : 400,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -4595,7 +4496,6 @@
         "price" : 300,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -4638,7 +4538,6 @@
         "price" : 50,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -1,
         "fun_comment" : "Raw onions probably aren't all that tasty to most people."
     },
@@ -4680,7 +4579,6 @@
         "price" : 600,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -18,
         "fun_comment" : "Who in their right mind would eat an entire garlic bulb raw?"
     },
@@ -4770,7 +4668,6 @@
         "price" : 170, "//" : "Thinking this is a single ear here.",
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -4831,7 +4728,6 @@
         "price" : 180,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -2
     },
     {
@@ -4851,7 +4747,6 @@
         "price" : 120,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -4871,7 +4766,6 @@
         "price" : 420,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -4891,7 +4785,6 @@
         "price" : 320,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -4911,7 +4804,6 @@
         "price" : 100,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -1,
         "fun_comment" : "Raw onions probably aren't all that tasty to most people."
     },
@@ -4951,7 +4843,6 @@
         "price" : 210,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -4972,7 +4863,6 @@
         "price" : 320,
         "material" : ["flesh", "junk"],
         "volume" : 5,
-        "charges" : 1,
         "fun" : -3
     },
     {
@@ -5012,7 +4902,6 @@
         "price" : 200,
         "material" : ["flesh", "junk", "milk"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : -3
     },
     {
@@ -5031,7 +4920,6 @@
         "price" : 90,
         "material" : ["flesh", "junk", "milk"],
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -5051,7 +4939,6 @@
         "price" : 120,
         "material" : "wheat",
         "volume" : 3,
-        "charges" : 1,
         "fun" : -8
     },
     {
@@ -5069,7 +4956,6 @@
         "price" : 120,
         "material" : "wheat",
         "volume" : 3,
-        "charges" : 1,
         "fun" : -8
     },
     {
@@ -5129,7 +5015,6 @@
         "price" : 150,
         "material" : "wheat",
         "volume" : 3,
-        "charges" : 1,
         "fun" : -6
     },
     {
@@ -5210,7 +5095,6 @@
         "price" : 250,
         "material" : ["flesh", "wheat"],
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -5231,7 +5115,6 @@
         "material" : "milk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 15
     },
     {
@@ -5251,7 +5134,6 @@
         "material" : ["milk", "junk"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 20
     },
     {
@@ -5272,7 +5154,6 @@
         "material" : "veggy",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -5338,7 +5219,6 @@
         "material" : "veggy",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 4
     },
     {
@@ -5358,7 +5238,6 @@
         "price" : 150,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -5379,7 +5258,6 @@
         "price" : 200,
         "material" : ["flesh", "veggy"],
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -5400,7 +5278,6 @@
         "price" : 200,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -5420,7 +5297,6 @@
         "price" : 400,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : -8
     },
@@ -5441,7 +5317,6 @@
         "price" : 400,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 7
     },
     {
@@ -5461,7 +5336,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 1
     },
     {
@@ -5480,7 +5354,6 @@
         "price" : 200,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -5501,7 +5374,6 @@
         "price" : 200,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -5520,7 +5392,6 @@
         "price" : 500,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 1
     },
     {
@@ -5539,7 +5410,6 @@
         "price" : 400,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 1
     },
     {
@@ -5558,7 +5428,6 @@
         "price" : 310,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -5578,7 +5447,6 @@
         "price" : 500,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -5616,7 +5484,6 @@
         "price" : 3500,
         "material" : "honey",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 9
     },
     {
@@ -5634,7 +5501,6 @@
         "description" : "A large chunk of beeswax.  Not very tasty or nourishing, but okay in an emergency.",
         "price" : 1500,
         "volume" : 1,
-        "charges" : 1,
         "fun" : -5
     },
     {
@@ -5654,7 +5520,6 @@
         "description" : "A translucent hexagonal chunk of wax, filled with dense, milky jelly.  Delicious, and rich with the most beneficial substances the hive can produce, it is useful for curing all sorts of afflictions.",
         "price" : 20000, "//" : "Didn't precisely exist pre-cataclysm, so tough to price.",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 7
     },
     {
@@ -5674,7 +5539,6 @@
         "price" : 21000,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 7
     },
     {
@@ -5697,7 +5561,6 @@
         "price" : 0,
         "material" : "hflesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -60
     },
     {
@@ -5719,7 +5582,6 @@
         "price" : 0,
         "material" : "hflesh",
         "volume" : 8,
-        "charges" : 1,
         "fun" : -20
     },
     {
@@ -5741,7 +5603,6 @@
         "price" : 0,
         "material" : "hflesh",
         "volume" : 20,
-        "charges" : 1,
         "fun" : -20
     },
     {
@@ -5758,7 +5619,6 @@
         "price" : 80,
         "material" : "egg",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -10
     },
 {
@@ -5775,7 +5635,6 @@
         "price" : 80,
         "material" : "egg",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -20
     },
     {
@@ -5813,7 +5672,6 @@
         "price" : 0,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 4,
         "fun" : 30
     },
@@ -5836,7 +5694,6 @@
         "price" : 0,
         "material" : "fruit",
         "volume" : 0,
-        "charges" : 1,
         "stack_size" : 10,
         "fun" : 30,
         "seed_data": {
@@ -5864,7 +5721,6 @@
         "price" : 0,
         "material" : "fruit",
         "volume" : 0,
-        "charges" : 1,
         "stack_size" : 10,
         "fun" : 30
     },
@@ -5885,7 +5741,6 @@
         "price" : 0,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 4,
         "fun" : 30
     },
@@ -6023,7 +5878,6 @@
         "price" : 100,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -6104,7 +5958,6 @@
         "price" : 100,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -6228,7 +6081,6 @@
         "price" : 500,
         "material" : "wheat",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -6376,7 +6228,6 @@
         "price" : 100,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
@@ -6395,7 +6246,6 @@
         "price" : 0,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -6432,7 +6282,6 @@
         "description" : "A serving of acorns that have been hulled, chopped, and boiled in water before being thoroughly toasted until dry.  Filling and nutritious.",
         "price" : 90,
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -6513,7 +6362,6 @@
         "price" : 95,
         "material" : "egg",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -6554,7 +6402,6 @@
         "price" : 90,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -3
     },
     {
@@ -6611,7 +6458,6 @@
         "price" : 90,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -1,
         "seed_data": {
             "plant_name": "beans",
@@ -6660,7 +6506,6 @@
         "price" : 100,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -3
     },
     {
@@ -6680,7 +6525,6 @@
         "price" : 150,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
     },
@@ -6701,7 +6545,6 @@
         "price" : 50,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -7576,7 +7419,6 @@
         "price" : 0,
         "material" : ["wheat", "junk"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 20
     },
     {
@@ -7594,7 +7436,6 @@
         "price" : 0,
         "material" : ["wheat", "junk"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 20
     },
     {
@@ -7612,7 +7453,6 @@
         "price" : 0,
         "material" : ["wheat", "junk"],
         "volume" : 3,
-        "charges" : 1,
         "fun" : 30
     },
     {
@@ -8037,7 +7877,6 @@
         "price" : 250,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -8077,7 +7916,6 @@
         "price" : 500,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -8236,7 +8074,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 2,
         "flags" : ["USE_EAT_VERB", "EATEN_COLD"]
     },
@@ -8258,7 +8095,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 3,
         "flags" : [ "USE_EAT_VERB", "EATEN_COLD" ]
     },
@@ -8549,7 +8385,6 @@
         "material" : "milk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : -12
     },
     {
@@ -8727,7 +8562,6 @@
         "price" : 200,
         "material" : "wheat",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -8746,7 +8580,6 @@
         "price" : 160,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 4
     },
     {
@@ -8765,7 +8598,6 @@
         "price" : 180,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -8784,7 +8616,6 @@
         "price": 200,
         "material": "fruit",
         "volume": 1,
-        "charges": 1,
         "fun": 2
     },
     {
@@ -8803,7 +8634,6 @@
         "price" : 200,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 4
     },{
         "type" : "COMESTIBLE",
@@ -8819,7 +8649,6 @@
         "comestible_type": "FOOD",
         "addiction_type": "caffeine",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 40,
         "weight" : 1
     },{
@@ -8836,7 +8665,6 @@
         "comestible_type": "FOOD",
         "addiction_type": "caffeine",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 40,
         "weight" : 1
     },{
@@ -8856,7 +8684,6 @@
         "price" : 110,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -8876,7 +8703,6 @@
         "price": 140,
         "material": "fruit",
         "volume": 1,
-        "charges": 1,
         "fun": 3
     },
     {
@@ -8895,7 +8721,6 @@
         "price" : 200,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -8914,7 +8739,6 @@
         "price" : 210,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -8991,7 +8815,6 @@
         "price" : 500,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "bashing" : 2,
         "fun" : 1
     },
@@ -9012,7 +8835,6 @@
         "price" : 140,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 4
     },
     {
@@ -9072,7 +8894,6 @@
         "price" : 160,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 4
     },
     {
@@ -9319,7 +9140,6 @@
         "price" : 400,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 4
     },
     {
@@ -9339,7 +9159,6 @@
         "price": 410,
         "material": "fruit",
         "volume": 1,
-        "charges": 1,
         "fun": 4
     },
     {
@@ -9379,7 +9198,6 @@
         "price" : 400,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 4
     },
     {
@@ -9399,7 +9217,6 @@
         "price": 410,
         "material": "fruit",
         "volume": 1,
-        "charges": 1,
         "fun": 4
     },
     {
@@ -9419,7 +9236,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 2,
         "flags" : ["USE_EAT_VERB", "EATEN_COLD"]
     },
@@ -9505,7 +9321,6 @@
         "price" : 180,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -9524,7 +9339,6 @@
         "price" : 190,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 7
     },
     {
@@ -9562,7 +9376,6 @@
         "price" : 200,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -9581,7 +9394,6 @@
         "price" : 210,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 7
     },
     {
@@ -9912,7 +9724,6 @@
         "price" : 250,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -9931,7 +9742,6 @@
         "price" : 250,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -9950,7 +9760,6 @@
         "price" : 140,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -9969,7 +9778,6 @@
         "price" : 2700,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -9988,7 +9796,6 @@
         "price" : 270,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -10007,7 +9814,6 @@
         "price" : 160,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -10091,7 +9897,6 @@
         "price" : 250,
         "material" : "egg",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 4,
         "fun" : -8
     },{
@@ -10110,7 +9915,6 @@
         "price" : 250,
         "material" : "egg",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 4,
         "fun" : -12
     },
@@ -10131,7 +9935,6 @@
         "price" : 350,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 1
     },{
         "type" : "COMESTIBLE",
@@ -10148,7 +9951,6 @@
         "price" : 220,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -2
     },{
         "type" : "COMESTIBLE",
@@ -10166,7 +9968,6 @@
         "price" : 250,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },{
         "type" : "COMESTIBLE",
@@ -10184,7 +9985,6 @@
         "price" : 300,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },{
         "type" : "COMESTIBLE",
@@ -10224,7 +10024,6 @@
         "price" : 320,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },{
         "type" : "COMESTIBLE",
@@ -10241,7 +10040,6 @@
         "price" : 200,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -10281,7 +10079,6 @@
         "price" : 100,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -4
     },
     {
@@ -10300,7 +10097,6 @@
         "price" : 110,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },{
@@ -10318,7 +10114,6 @@
         "price" : 220,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 0
     },
     {
@@ -10498,7 +10293,6 @@
         "price" : 95,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -10519,7 +10313,6 @@
         "price" : 150,
         "material" : "junk",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -10580,7 +10373,6 @@
         "material" : "flesh",
         "flags" : "TRADER_AVOID",
         "volume" : 5,
-        "charges" : 1,
         "stack_size" : 1,
         "fun" : -12
     },{
@@ -10601,7 +10393,6 @@
         "price" : 0,
         "material" : "flesh",
         "volume" : 5,
-        "charges" : 1,
         "stack_size" : 1,
         "fun" : -12
     },
@@ -10622,7 +10413,6 @@
         "price" : 50,
         "material" : "hflesh",
         "volume" : 5,
-        "charges" : 1,
         "stack_size" : 1,
         "fun" : -12
     },
@@ -10644,7 +10434,6 @@
         "material" : ["fur", "flesh"],
         "flags": ["NO_SALVAGE", "TRADER_AVOID"],
         "volume" : 5,
-        "charges" : 1,
         "stack_size" : 1,
         "fun" : -24
     },
@@ -10667,7 +10456,6 @@
         "material" : ["fur", "flesh"],
         "flags": ["NO_SALVAGE"],
         "volume" : 5,
-        "charges" : 1,
         "stack_size" : 1,
         "fun" : -24
     },{
@@ -10737,7 +10525,6 @@
         "material" : ["alcohol", "junk"],
         "volume" : 2,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -10786,7 +10573,6 @@
         "material" : ["alcohol", "honey"],
         "volume" : 2,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -10811,7 +10597,6 @@
         "material" : "alcohol",
         "volume" : 2,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -10882,7 +10667,6 @@
         "material" : "milk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 14
     },
@@ -10901,7 +10685,6 @@
         "price" : 1250,
         "volume" : 2,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : -5
     },
@@ -10923,7 +10706,6 @@
         "price" : 550,
         "material" : ["milk", "wheat"],
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -11011,7 +10793,6 @@
         "price" : 500,
         "material" : ["milk", "wheat"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 8
     },
     {
@@ -11031,7 +10812,6 @@
         "price" : 200,
         "material" : ["fruit", "wheat"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 15
     },
     {
@@ -11052,7 +10832,6 @@
         "price" : 500,
         "material" : [ "honey", "wheat" ],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 10
     },
     {
@@ -11072,7 +10851,6 @@
         "price" : 200,
         "material" : "wheat",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -11138,7 +10916,6 @@
         "price" : 1000,
         "material" : ["junk", "honey"],
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 20,
         "fun" : -1
     },
@@ -11176,7 +10953,6 @@
         "symbol" : ",",
         "material" : ["veggy"],
         "volume" : 1,
-        "charges" : 1,
         "price" : 0
     },{
         "type" : "COMESTIBLE",
@@ -11287,7 +11063,6 @@
         "symbol" : ",",
         "material" : ["veggy"],
         "volume" : 1,
-        "charges" : 1,
         "price" : 0
 },{
         "type": "COMESTIBLE",
@@ -11306,7 +11081,6 @@
         "symbol" : ",",
         "material" : ["veggy"],
         "volume" : 1,
-        "charges" : 1,
         "price" : 0
 },{
         "type" : "COMESTIBLE",
@@ -11345,7 +11119,6 @@
        "symbol" : ",",
        "material" : ["veggy"],
        "volume" : 1,
-       "charges" : 1,
        "price" : 0
 },{
         "type" : "COMESTIBLE",
@@ -11389,7 +11162,6 @@
        "price" : 100,
        "volume" : 1,
        "phase" : "liquid",
-       "charges" : 1,
        "flags" : ["EATEN_HOT"],
        "fun" : 1
 },{
@@ -11408,7 +11180,6 @@
        "symbol" : ",",
        "material" : ["veggy"],
        "volume" : 1,
-       "charges" : 1,
        "price" : 0
 },{
         "type" : "COMESTIBLE",

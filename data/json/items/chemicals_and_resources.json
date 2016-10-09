@@ -264,7 +264,6 @@
     "price" : 0,
     "volume" : 1,
     "phase" : "liquid",
-    "charges" : 1,
     "category" : "chems",
     "fun" : -1
    },
@@ -285,7 +284,6 @@
     "price" : 0,
     "volume" : 1,
     "phase" : "liquid",
-    "charges" : 1,
     "category" : "chems",
     "fun" : -30
    },
@@ -306,7 +304,6 @@
     "price" : 0,
     "volume" : 1,
     "phase" : "liquid",
-    "charges" : 1,
     "category" : "chems",
     "fun" : -15
    },
@@ -327,7 +324,6 @@
     "price" : 2000,
     "volume" : 1,
     "phase" : "liquid",
-    "charges" : 1,
     "category" : "chems",
     "fun" : -30
    },
@@ -347,7 +343,6 @@
     "price" : 0,
     "volume" : 1,
     "phase" : "liquid",
-    "charges" : 1,
     "category" : "chems",
     "fun" : -20
    },
@@ -419,7 +414,6 @@
     "weight" : 200,
     "bashing" : 1,
     "ammo_type" : "components",
-    "charges" : 1,
     "phase" : "liquid",
     "container" : "bottle_glass"
    },
@@ -509,7 +503,6 @@
     "weight" : 325,
     "bashing" : 1,
     "ammo_type" : "components",
-    "charges" : 1,
     "phase" : "liquid",
     "container" : "bottle_glass"
    },
@@ -597,7 +590,6 @@
     "weight" : 300,
     "bashing" : 1,
     "ammo_type" : "components",
-    "charges" : 1,
     "phase" : "liquid",
     "container" : "bottle_glass"
    },
