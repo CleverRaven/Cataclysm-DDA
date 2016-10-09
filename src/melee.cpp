@@ -77,7 +77,7 @@ bool player::is_armed() const
 
 bool player::unarmed_attack() const
 {
-    return weapon.has_flag("UNARMED_WEAPON");
+    return !is_armed() || weapon.has_flag( "UNARMED_WEAPON" );
 }
 
 bool player::handle_melee_wear( float wear_multiplier )
