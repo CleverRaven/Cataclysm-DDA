@@ -704,8 +704,8 @@ void veh_interact::do_install()
         if (action == "FILTER" ){
             filter = string_input_popup( _("Set Filter"),
                                         50, filter,
-                                        _("{f:} to filter by part flag, {pgt} and {plt} to filter by power, combine with ',', otherwise it searches by name"),
-                                         "", 100, false );
+                                        "",
+                                        _("Filter"), 100, false );
             tab = 7;//Move to the user filter tab.
             display_grid();
             display_stats();
@@ -2419,51 +2419,5 @@ void veh_interact::complete_vehicle()
 }
 bool veh_interact::filter_function( const vpart_info *p ) const
 {
-    std::string sPattern = filter;
-    size_t iPos;
-    bool hasExclude = false;
-    if( sPattern.find( "-" ) != std::string::npos ) {
-        hasExclude = true;
-    }
-    do {
-        iPos = sPattern.find( "," );
-        bool exclude = false;
-        std::string pat = ( iPos == std::string::npos ) ? sPattern : sPattern.substr( 0, iPos );
-        if( pat.substr( 0, 1 ) == "-" ) {
-            exclude = true;
-            pat = pat.substr( 1, pat.size() - 1 );
-        } else if( hasExclude ) {
-            hasExclude = false;
-        }
-        std::string namepat = pat;
-        std::transform( namepat.begin(), namepat.end(), namepat.begin(), tolower );
-
-        if( lcmatch( p->name(), namepat ) ) {
-            return !exclude;
-        }
-        if( pat.find( "{", 0 ) != std::string::npos ) {
-            std::string adv_pat_type = pat.substr( 1, pat.find( ":" ) - 1 );
-            std::string adv_pat_search = pat.substr( pat.find( ":" ) + 1,
-                                         ( pat.find( "}" ) - pat.find( ":" ) ) - 1 );
-            std::transform( adv_pat_search.begin(),
-                            adv_pat_search.end(),
-                            adv_pat_search.begin(),
-                            adv_pat_type == "f" ? toupper : tolower );
-            if( adv_pat_type == "f" ) { //Search flags
-                if( p->has_flag( adv_pat_search ) ) {
-                    return !exclude;
-                }
-            } else if( adv_pat_type == "pgt" || adv_pat_type == "plt" ) { //Filter by power production/usage
-                int req = std::atoi( adv_pat_search.c_str() );
-                if( ( adv_pat_type == "pgt" ) ? ( p->power >= req || p->epower >= req )
-                    : ( p->power <= req || p->epower <= req ) ) {
-                    return !exclude;
-                }
-            }
-        }
-        if( iPos != std::string::npos ) {
-            sPattern = sPattern.substr( iPos + 1, sPattern.size() );
-        }
-    } while( iPos != std::string::npos );
-    return hasExclude;
+    return lcmatch( p->name(), filter );
 }
