@@ -1221,7 +1221,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                            m.mode.c_str(), m.qty );
             }
 
-            auto cur = ammo ? ammo : m->ammo_data();
+            const itype *cur = ammo ? ammo : m->ammo_data();
             if( cur ) {
                 auto str = string_format( m->ammo_remaining() ?
                                           _( "Ammo: <color_%s>%s</color> (%d/%d)" ) :
