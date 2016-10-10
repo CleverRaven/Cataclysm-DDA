@@ -117,6 +117,12 @@ itype_id turret_data::ammo_current() const
     if( opts.count( part->ammo_pref ) ) {
         return part->ammo_pref;
     }
+    if( opts.count( part->info().default_ammo ) ) {
+        return part->info().default_ammo;
+    }
+    if( opts.count( part->base.ammo_default() ) ) {
+        return part->base.ammo_default();
+    }
     return opts.empty() ? "null" : *opts.begin();
 }
 
