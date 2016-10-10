@@ -948,7 +948,6 @@ void veh_interact::do_mend()
     };
 
     overview( sel, act );
-    display_mode(' ');
 }
 
 void veh_interact::do_refill()
