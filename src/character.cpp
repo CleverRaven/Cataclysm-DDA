@@ -2075,11 +2075,6 @@ bool Character::pour_into( item &container, item &liquid )
 
 bool Character::pour_into( vehicle &veh, item &liquid )
 {
-    if( liquid.active ) {
-        // cannot refill using active liquids (those that rot) due to #18570
-        return false;
-    }
-
     auto sel = [&]( const vehicle_part &pt ) {
         return pt.is_tank() && pt.can_reload( liquid.typeId() );
     };

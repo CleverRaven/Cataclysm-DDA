@@ -6160,6 +6160,11 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
 
 bool vehicle_part::fill_with( item &liquid, long qty )
 {
+    if( liquid.active ) {
+        // cannot refill using active liquids (those that rot) due to #18570
+        return false;
+    }
+
     if( !(is_tank() && can_reload( liquid.typeId() ) ) ) {
         return false;
     }
