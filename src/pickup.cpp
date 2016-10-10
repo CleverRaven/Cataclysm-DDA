@@ -152,7 +152,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         if( veh->fuel_left( "battery" ) < pseudo.ammo_required() ) {
             return false;
         }
-        pseudo.ammo_set( "battery", veh->discharge_battery( pseudo.ammo_required() ) );
+        pseudo.ammo_set( "battery", veh->discharge_battery( pseudo.ammo_capacity() ) );
         g->u.invoke_item( &pseudo );
         veh->charge_battery( pseudo.ammo_remaining() );
         return true;
