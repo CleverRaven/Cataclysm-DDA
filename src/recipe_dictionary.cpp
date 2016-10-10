@@ -41,16 +41,17 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
         skills;
     std::string pattern = txt; //Copy the search string.
     size_t split;
+    // Check for subqueries(separated by commas)
     if( ( split = pattern.find( ',' ) ) != std::string::npos ) {
         while( ( split = pattern.find( ',' ) ) != std::string::npos ) {
             subqueries.push_back( pattern.substr( 0, split ) );
             pattern = pattern.substr( split + 1 );
         }
-    } else {
+    } else {// If no subqueries exist, then the entire string should be copied
         subqueries.push_back( pattern );
     }
     for( const auto &query : subqueries ) {
-        if( ( split = query.find( ':' ) ) == std::string::npos ) { //search by name
+        if( ( split = query.find( ':' ) ) == std::string::npos ) { // search by name
             names.push_back( query );
         } else {
             switch( query[split - 1] ) { // Find the appropriate key
@@ -94,25 +95,21 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
             } );
         };
         auto result_quality_match = [result_qualities]( const recipe * r ) {
-            return std::any_of( result_qualities.begin(),
-                                result_qualities.end(),
+            return std::any_of( result_qualities.begin(), result_qualities.end(),
             [r]( const std::string & result_quality ) {
                 const auto &result = item( r->result );
-                return std::any_of( result.type->qualities.begin(),
-                                    result.type->qualities.end(),
+                return std::any_of( result.type->qualities.begin(), result.type->qualities.end(),
                 [result_quality]( std::pair<quality_id, int> quality ) {
                     return lcmatch( quality.first->name, result_quality );
                 } );
             } );
         };
         auto requirement_quality_match = [requirement_qualities]( const recipe * r ) {
-            return std::any_of( requirement_qualities.begin(),
-                                requirement_qualities.end(),
+            return std::any_of( requirement_qualities.begin(), requirement_qualities.end(),
             [r]( const std::string & requirement_quality ) {
                 const auto &req_sets = r->requirements().get_qualities();
                 for( auto req_set : req_sets )
-                    if( std::any_of( req_set.begin(),
-                                     req_set.end(),
+                    if( std::any_of( req_set.begin(), req_set.end(),
                     [requirement_quality]( const quality_requirement & qr ) {
                     return lcmatch( qr.type->name, requirement_quality );
                     } ) ) {
@@ -122,12 +119,10 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
             } );
         };
         auto component_match = [components]( const recipe * r ) {
-            return std::any_of( components.begin(),
-                                components.end(),
+            return std::any_of( components.begin(), components.end(),
             [r]( const std::string & component ) {
                 const auto &required_comp = r->requirements().get_components();
-                return std::any_of( required_comp.begin(),
-                                    required_comp.end(),
+                return std::any_of( required_comp.begin(), required_comp.end(),
                 [component]( const std::vector<item_comp> &items ) {
                     return std::any_of( items.begin(), items.end(),
                     [component]( const item_comp & comp ) {
