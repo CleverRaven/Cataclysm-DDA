@@ -2327,9 +2327,7 @@ void veh_interact::complete_vehicle()
         auto &pt = veh->parts[ vehicle_part ];
         if( pt.is_tank() && src->is_watertight_container() && !src->contents.empty() ) {
 
-            int qty = std::min( src->contents.front().charges, pt.ammo_capacity() - pt.ammo_remaining() );
-            pt.ammo_set( src->contents.front().typeId(), pt.ammo_remaining() + qty );
-            src->contents.front().charges -= qty;
+            pt.base.fill_with( src->contents.front() );
 
             if( src->contents.front().charges == 0 ) {
                 src->contents.erase( src->contents.begin() );
