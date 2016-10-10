@@ -5977,6 +5977,10 @@ vehicle_part::vehicle_part( const vpart_str_id& vp, int const dx, int const dy, 
     }
 }
 
+vehicle_part::operator bool() const {
+    return id != vpart_id( NULL_ID );
+}
+
 const vpart_str_id &vehicle_part::get_id() const
 {
     return id.id();
@@ -6154,6 +6158,15 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
     return false;
 }
 
+bool vehicle_part::fill_with( item &liquid, long qty )
+{
+    if( !(is_tank() && can_reload( liquid.typeId() ) ) ) {
+        return false;
+    }
+
+    base.fill_with( liquid, qty );
+    return true;
+}
 
 const std::set<fault_id>& vehicle_part::faults() const
 {

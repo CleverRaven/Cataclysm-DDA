@@ -41,8 +41,8 @@ class veh_interact
     public:
         static player_activity run( vehicle &veh, int x, int y );
 
-        /** Prompt for a suitable tank that matches the selector function */
-        static item_location select_tank( const vehicle &veh, const part_selector &sel,
+        /** Prompt for a part matching the selector function */
+        static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
                                           const std::string &title = std::string() );
 
         static void complete_vehicle();

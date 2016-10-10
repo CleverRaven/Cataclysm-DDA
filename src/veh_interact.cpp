@@ -109,12 +109,13 @@ player_activity veh_interact::run( vehicle &veh, int x, int y )
     return vehint.serialize_activity();
 }
 
-item_location veh_interact::select_tank( const vehicle &veh, const part_selector& sel, const std::string &title )
+vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector &sel, const std::string &title )
 {
-    item_location res;
+    static vehicle_part null_part;
+    vehicle_part *res = &null_part;
 
     auto act = [&]( const vehicle_part &pt ) {
-        res = const_cast<vehicle &>( veh ).part_base( veh.index_of_part( &pt ) );
+        res = const_cast<vehicle_part *>( &pt );
     };
 
     int opts = std::count_if( veh.parts.cbegin(), veh.parts.cend(), sel );
@@ -124,12 +125,12 @@ item_location veh_interact::select_tank( const vehicle &veh, const part_selector
 
     } else if( opts != 0 ) {
         veh_interact vehint( const_cast<vehicle &>( veh ) );
-        vehint.set_title( title.empty() ? _( "Select tank" ) : title );
+        vehint.set_title( title.empty() ? _( "Select part" ) : title );
         vehint.overview( sel, act );
         g->refresh_all();
     }
 
-    return res;
+    return *res;
 }
 
 /**
