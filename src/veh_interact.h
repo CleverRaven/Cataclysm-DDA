@@ -36,7 +36,7 @@ struct vehicle_part;
 
 class veh_interact
 {
-    using part_selector = std::function<bool(const vehicle_part &pt)>;
+        using part_selector = std::function<bool( const vehicle_part &pt )>;
 
     public:
         static player_activity run( vehicle &veh, int x, int y );
