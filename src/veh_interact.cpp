@@ -109,18 +109,9 @@ player_activity veh_interact::run( vehicle &veh, int x, int y )
     return vehint.serialize_activity();
 }
 
-item_location veh_interact::select_tank( const vehicle &veh, const item &liquid )
+item_location veh_interact::select_tank( const vehicle &veh, const part_selector& sel, const std::string &title )
 {
     item_location res;
-
-    if( liquid.active ) {
-        // cannot refill using active liquids (those that rot) due to #18570
-        return res;
-    }
-
-    auto sel = [&]( const vehicle_part &pt ) {
-        return pt.is_tank() && pt.can_reload( liquid.typeId() );
-    };
 
     auto act = [&]( const vehicle_part &pt ) {
         res = const_cast<vehicle &>( veh ).part_base( veh.index_of_part( &pt ) );
@@ -133,14 +124,7 @@ item_location veh_interact::select_tank( const vehicle &veh, const item &liquid 
 
     } else if( opts != 0 ) {
         veh_interact vehint( const_cast<vehicle &>( veh ) );
-
-        auto stack = units::legacy_volume_factor / liquid.type->stack_size;
-
-        vehint.set_title( _( "Select target tank for <color_%s>%.1fL %s</color>" ),
-                          get_all_colors().get_name( liquid.color() ).c_str(),
-                          round_up( to_liter( liquid.charges * stack ), 1 ),
-                          liquid.tname().c_str() );
-
+        vehint.set_title( title.empty() ? _( "Select tank" ) : title );
         vehint.overview( sel, act );
         g->refresh_all();
     }

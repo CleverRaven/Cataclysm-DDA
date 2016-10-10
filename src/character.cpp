@@ -17,6 +17,7 @@
 #include "mutation.h"
 #include "vehicle.h"
 #include "veh_interact.h"
+#include "cata_utility.h"
 
 #include <algorithm>
 
@@ -2074,7 +2075,22 @@ bool Character::pour_into( item &container, item &liquid )
 
 bool Character::pour_into( vehicle &veh, item &liquid )
 {
-    auto tank = veh_interact::select_tank( veh, liquid );
+    if( liquid.active ) {
+        // cannot refill using active liquids (those that rot) due to #18570
+        return false;
+    }
+
+    auto sel = [&]( const vehicle_part &pt ) {
+        return pt.is_tank() && pt.can_reload( liquid.typeId() );
+    };
+
+    auto stack = units::legacy_volume_factor / liquid.type->stack_size;
+    auto title = string_format( _( "Select target tank for <color_%s>%.1fL %s</color>" ),
+                                get_all_colors().get_name( liquid.color() ).c_str(),
+                                round_up( to_liter( liquid.charges * stack ), 1 ),
+                                liquid.tname().c_str() );
+
+    auto tank = veh_interact::select_tank( veh, sel, title );
     if( !tank ) {
         return false;
     }

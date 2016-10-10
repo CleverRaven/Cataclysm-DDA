@@ -36,11 +36,14 @@ struct vehicle_part;
 
 class veh_interact
 {
+    using part_selector = std::function<bool(const vehicle_part &pt)>;
+
     public:
         static player_activity run( vehicle &veh, int x, int y );
 
-        /** Prompt for a suitable tank that can be used to contain @param liquid */
-        static item_location select_tank( const vehicle &veh, const item &liquid );
+        /** Prompt for a suitable tank that matches the selector function */
+        static item_location select_tank( const vehicle &veh, const part_selector &sel,
+                                          const std::string &title = std::string() );
 
         static void complete_vehicle();
 
