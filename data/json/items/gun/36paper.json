@@ -16,7 +16,6 @@
     "dispersion": 450,
     "durability": 7,
     "clip_size": 6,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "proportional": { "reload": 2 }
   }
 ]
