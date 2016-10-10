@@ -718,18 +718,19 @@ void veh_interact::do_install()
                                                    part.location == "fuel_source" ||
                                                    part.location == "on_battery_mount" ||
                                                    (part.location.empty() && part.has_flag("FUEL_TANK")); };
+
     // Other: everything that's not in the other filters
     tab_filters[tab_filters.size()-2] = [&](const vpart_info *part) {
         for (size_t i=1; i < tab_filters.size()-2; i++ ) {
             if( tab_filters[i](part) ) return false;
         }
         return true; };
-    std::string filter;
-    //The user specified filter
-    tab_filters[7] = [&](const vpart_info *p){
-        return lcmatch( p->name(), filter );
-    };
-    std::vector<const vpart_info*> tab_vparts = can_mount; // full list of mountable parts, to be filtered according to tab
+
+    std::string filter; // The user specified filter
+    tab_filters[7] = [&](const vpart_info *p){ return lcmatch( p->name(), filter ); };
+
+    // full list of mountable parts, to be filtered according to tab
+    std::vector<const vpart_info*> tab_vparts = can_mount;
 
     int pos = 0;
     size_t tab = 0;
@@ -746,7 +747,7 @@ void veh_interact::do_install()
         }
         wrefresh(w_list);
 
-        sel_vpart_info = (!tab_vparts.empty()) ? tab_vparts[pos] : NULL; // filtered list can be empty
+        sel_vpart_info = tab_vparts.empty() ? nullptr : tab_vparts[pos]; // filtered list can be empty
 
         display_details( sel_vpart_info );
 
@@ -754,18 +755,15 @@ void veh_interact::do_install()
 
         const std::string action = main_context.handle_input();
         if ( action == "FILTER" ){
-            filter = string_input_popup( _("Set Filter"),
-                                        50, filter,
-                                        "",
-                                        _("Filter"), 100, false );
-            tab = 7;// Move to the user filter tab.
+            filter = string_input_popup( _( "Search for part" ), 50, filter, "", _( "Filter" ), 100, false );
+            tab = 7; // Move to the user filter tab.
             display_grid();
             display_stats();
-            display_veh();// Fix the (currently) mangled windows
-            move_cursor(0,0);// Wake up the vehicle display
+            display_veh(); // Fix the (currently) mangled windows
+            move_cursor(0,0); // Wake up the vehicle display
         }
         if (action == "REPAIR" ){
-            filter = "";
+            filter.clear();
             tab = 0;
         }
         if (action == "INSTALL" || action == "CONFIRM"){
