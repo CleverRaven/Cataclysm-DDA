@@ -1476,7 +1476,7 @@ struct weldrig_hack {
             return;
         }
 
-        veh->refill( "battery", pseudo.charges );
+        veh->charge_battery( pseudo.charges );
         pseudo.charges = 0;
     }
 };

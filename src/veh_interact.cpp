@@ -51,23 +51,17 @@ const skill_id skill_mechanics( "mechanics" );
 
 void act_vehicle_siphon(vehicle* veh);
 
-player_activity veh_interact::run( vehicle &veh, int x, int y )
+player_activity veh_interact::serialize_activity()
 {
-    veh_interact vehint( veh, x, y );
-    g->refresh_all();
+    const auto *pt = sel_vehicle_part;
+    const auto *vp = sel_vpart_info;
 
-    const auto *pt = vehint.sel_vehicle_part;
-    const auto *vp = vehint.sel_vpart_info;
-
-    if( vehint.sel_cmd == 'q' || vehint.sel_cmd == ' ' || !vp ) {
+    if( sel_cmd == 'q' || sel_cmd == ' ' || !vp ) {
         return player_activity();
     }
 
-    // sel_cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName
-    // Note that even if letters are remapped in keybindings sel_cmd will still use the above.
-    // Stored in activity.index and used in the complete_vehicle() callback to finish task.
     int time = 1000;
-    switch( vehint.sel_cmd ) {
+    switch( sel_cmd ) {
         case 'i':
             time = vp->install_time( g->u );
             break;
@@ -86,20 +80,67 @@ player_activity veh_interact::run( vehicle &veh, int x, int y )
             time = vp->removal_time( g->u ) + vp->install_time( g->u );
             break;
     }
-    player_activity res( ACT_VEHICLE, time, (int) vehint.sel_cmd );
+    player_activity res( ACT_VEHICLE, time, (int) sel_cmd );
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
-    point q = veh.coord_translate( pt ? pt->mount : veh.parts[0].mount );
-    res.values.push_back( veh.global_x() + q.x );    // values[0]
-    res.values.push_back( veh.global_y() + q.y );    // values[1]
-    res.values.push_back( vehint.ddx );   // values[2]
-    res.values.push_back( vehint.ddy );   // values[3]
-    res.values.push_back( -vehint.ddx );   // values[4]
-    res.values.push_back( -vehint.ddy );   // values[5]
-    res.values.push_back( veh.index_of_part( pt ) ); // values[6]
+    point q = veh->coord_translate( pt ? pt->mount : veh->parts[0].mount );
+    res.values.push_back( veh->global_x() + q.x );    // values[0]
+    res.values.push_back( veh->global_y() + q.y );    // values[1]
+    res.values.push_back( ddx );   // values[2]
+    res.values.push_back( ddy );   // values[3]
+    res.values.push_back( -ddx );   // values[4]
+    res.values.push_back( -ddy );   // values[5]
+    res.values.push_back( veh->index_of_part( pt ) ); // values[6]
     res.str_values.push_back( vp->id.str() );
-    res.targets.emplace_back( std::move( vehint.target ) );
+    res.targets.emplace_back( std::move( target ) );
+
+    return res;
+}
+
+player_activity veh_interact::run( vehicle &veh, int x, int y )
+{
+    veh_interact vehint( veh, x, y );
+    vehint.do_main_loop();
+    g->refresh_all();
+    return vehint.serialize_activity();
+}
+
+item_location veh_interact::select_tank( const vehicle &veh, const item &liquid )
+{
+    item_location res;
+
+    if( liquid.active ) {
+        // cannot refill using active liquids (those that rot) due to #18570
+        return res;
+    }
+
+    auto sel = [&]( const vehicle_part &pt ) {
+        return pt.is_tank() && pt.can_reload( liquid.typeId() );
+    };
+
+    auto act = [&]( const vehicle_part &pt ) {
+        res = const_cast<vehicle &>( veh ).part_base( veh.index_of_part( &pt ) );
+    };
+
+    int opts = std::count_if( veh.parts.cbegin(), veh.parts.cend(), sel );
+
+    if( opts == 1 ) {
+        act( *std::find_if( veh.parts.cbegin(), veh.parts.cend(), sel ) );
+
+    } else if( opts != 0 ) {
+        veh_interact vehint( const_cast<vehicle &>( veh ) );
+
+        auto stack = units::legacy_volume_factor / liquid.type->stack_size;
+
+        vehint.set_title( _( "Select target tank for <color_%s>%.1fL %s</color>" ),
+                          get_all_colors().get_name( liquid.color() ).c_str(),
+                          round_up( to_liter( liquid.charges * stack ), 1 ),
+                          liquid.tname().c_str() );
+
+        vehint.overview( sel, act );
+        g->refresh_all();
+    }
 
     return res;
 }
@@ -137,7 +178,10 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     countDurability();
     cache_tool_availability();
     allocate_windows();
-    do_main_loop();
+}
+
+veh_interact::~veh_interact()
+{
     deallocate_windows();
 }
 
@@ -192,9 +236,24 @@ void veh_interact::allocate_windows()
 
     wrefresh(w_border);
     delwin( w_border );
-    display_grid();
     display_name();
+    display_grid();
     display_stats();
+    display_veh();
+    move_cursor(0, 0); // display w_disp & w_parts
+}
+
+void veh_interact::set_title( std::string msg, ... ) const
+{
+    va_list args;
+    va_start( args, msg );
+    const auto str = vstring_format( msg, args );
+    va_end( args );
+
+    werase( w_mode );
+    nc_color col = c_ltgray;
+    print_colored_text( w_mode, 0, 1, col, col, str );
+    wrefresh( w_mode );
 }
 
 bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data &reqs,
@@ -230,13 +289,10 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
 
 void veh_interact::do_main_loop()
 {
-    display_grid();
-    display_stats ();
-    display_veh   ();
-    move_cursor (0, 0); // display w_disp & w_parts
     bool finish = false;
     while (!finish) {
         overview();
+        display_mode();
         const std::string action = main_context.handle_input();
         int dx, dy;
         if (main_context.get_direction(dx, dy, action)) {
@@ -272,20 +328,11 @@ void veh_interact::do_main_loop()
         if (sel_cmd != ' ') {
             finish = true;
         }
-        display_mode (' ');
     }
 }
 
 void veh_interact::deallocate_windows()
 {
-    werase(w_grid);
-    werase(w_mode);
-    werase(w_msg);
-    werase(w_disp);
-    werase(w_parts);
-    werase(w_stats);
-    werase(w_list);
-    werase(w_name);
     delwin(w_grid);
     delwin(w_mode);
     delwin(w_msg);
@@ -294,7 +341,6 @@ void veh_interact::deallocate_windows()
     delwin(w_stats);
     delwin(w_list);
     delwin(w_name);
-    erase();
 }
 
 void veh_interact::cache_tool_availability()
@@ -580,7 +626,6 @@ void veh_interact::move_fuel_cursor(int delta)
 void veh_interact::do_install()
 {
     const task_reason reason = cant_do('i');
-    display_mode('i');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason) {
@@ -600,8 +645,8 @@ void veh_interact::do_install()
     default:
         break; // no reason, all is well
     }
-    mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:"));
-    wrefresh (w_mode);
+
+    set_title( _( "Choose new part to install here:" ) );
 
     std::array<std::string,7> tab_list = { { pgettext("Vehicle Parts|","All"),
                                              pgettext("Vehicle Parts|","Cargo"),
@@ -791,7 +836,6 @@ bool veh_interact::move_in_list(int &pos, const std::string &action, const int s
 void veh_interact::do_repair()
 {
     const task_reason reason = cant_do('r');
-    display_mode('r');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason) {
@@ -817,8 +861,9 @@ void veh_interact::do_repair()
     default:
         break; // no reason, all is well
     }
-    mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to repair:"));
-    wrefresh (w_mode);
+
+    set_title( _( "Choose a part here to repair:" ) );
+
     int pos = 0;
     while (true) {
         auto &pt = veh->parts[parts_here[need_repair[pos]]];
@@ -870,7 +915,6 @@ void veh_interact::do_repair()
 
 void veh_interact::do_mend()
 {
-    display_mode( 'm' );
     werase( w_msg );
 
     switch( cant_do( 'm' ) ) {
@@ -901,8 +945,8 @@ void veh_interact::do_mend()
         return !veh->parts[ e ].faults().empty();
     } );
 
-    mvwprintz( w_mode, 0, 1, c_ltgray, _( "Choose a part here to mend:" ) );
-    wrefresh( w_mode );
+    set_title( _( "Choose a part here to mend:" ) );
+
     int pos = 0;
     while ( true ) {
         sel_vehicle_part = &veh->parts[ opts[ pos ] ];
@@ -947,7 +991,7 @@ void veh_interact::do_mend()
 
 void veh_interact::do_refill()
 {
-    display_mode( 'f' );
+    set_title( _( "Select part to refill:" ) );
     werase( w_msg );
     wrefresh( w_msg );
 
@@ -978,7 +1022,6 @@ void veh_interact::do_refill()
     };
 
     overview( sel, act );
-    display_mode(' ');
 }
 
 void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
@@ -1207,7 +1250,7 @@ bool veh_interact::can_remove_part( int idx ) {
 void veh_interact::do_remove()
 {
     const task_reason reason = cant_do('o');
-    display_mode('o');
+
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason) {
@@ -1232,8 +1275,8 @@ void veh_interact::do_remove()
     default:
         break; // no reason, all is well
     }
-    mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to remove:"));
-    wrefresh (w_mode);
+
+    set_title( _( "Choose a part here to remove:" ) );
 
     int pos = 0;
     for( size_t i = 0; i < parts_here.size(); i++ ) {
@@ -1274,7 +1317,6 @@ void veh_interact::do_remove()
 void veh_interact::do_siphon()
 {
     const task_reason reason = cant_do('s');
-    display_mode('s');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason) {
@@ -1306,7 +1348,6 @@ void veh_interact::do_siphon()
 void veh_interact::do_tirechange()
 {
     const task_reason reason = cant_do('c');
-    display_mode('c');
     werase( w_msg );
     int msg_width = getmaxx(w_msg);
 
@@ -1331,8 +1372,9 @@ void veh_interact::do_tirechange()
     default:
         break; // no reason, all is well
     }
-    mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose wheel to use as replacement:"));
-    wrefresh (w_mode);
+
+    set_title( _( "Choose wheel to use as replacement:" ) );
+
     int pos = 0;
     while (true) {
         sel_vpart_info = wheel_types[pos];
@@ -1366,7 +1408,6 @@ void veh_interact::do_tirechange()
  */
 void veh_interact::do_rename()
 {
-    display_mode('e');
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
     if(name.length() > 0) {
         (veh->name = name);
@@ -1388,7 +1429,6 @@ void veh_interact::do_rename()
  */
 void veh_interact::do_relabel()
 {
-    display_mode('a');
     const task_reason reason = cant_do('a');
     if (reason == INVALID_TARGET) {
         mvwprintz(w_msg, 0, 1, c_ltred, _("There are no parts here to label."));
@@ -1497,7 +1537,6 @@ void veh_interact::move_cursor (int dx, int dy)
 
     werase (w_msg);
     wrefresh (w_msg);
-    display_mode (' ');
 }
 
 void veh_interact::display_grid()
@@ -1748,13 +1787,13 @@ void veh_interact::display_name()
  * Prints the list of usable commands, and highlights the hotkeys used to activate them.
  * @param mode What command we are currently using. ' ' for no command.
  */
-void veh_interact::display_mode(char mode)
+void veh_interact::display_mode()
 {
     werase (w_mode);
 
     size_t esc_pos = display_esc(w_mode);
 
-    if (mode == ' ') {
+    // broken indendation preserved to avoid breaking git history for large number of lines
         const std::array<std::string, 9> actions = { {
             { _("<i>nstall") },
             { _("<r>epair") },
@@ -1791,7 +1830,7 @@ void veh_interact::display_mode(char mode)
                            enabled[i] ? c_ltgray : c_dkgray, enabled[i] ? c_ltgreen : c_green,
                            actions[i]);
         }
-    }
+
     wrefresh (w_mode);
 }
 
@@ -2288,27 +2327,35 @@ void veh_interact::complete_vehicle()
         auto &pt = veh->parts[ vehicle_part ];
         if( pt.is_tank() && src->is_watertight_container() && !src->contents.empty() ) {
 
-            int qty = std::min( src->contents.front().charges, pt.ammo_capacity() - pt.ammo_remaining() );
-            pt.ammo_set( src->contents.front().typeId(), pt.ammo_remaining() + qty );
-            src->contents.front().charges -= qty;
+            pt.base.fill_with( src->contents.front() );
+
+            if ( pt.ammo_remaining() != pt.ammo_capacity() ) {
+                //~ 1$s vehicle name, 2$s tank name
+                add_msg( m_good, _( "You refill the %1$s's %2$s." ),
+                         veh->name.c_str(), pt.name().c_str() );
+            } else {
+                //~ 1$s vehicle name, 2$s tank name
+                add_msg( m_good, _( "You completely refill the %1$s's %2$s." ),
+                         veh->name.c_str(), pt.name().c_str() );
+            }
 
             if( src->contents.front().charges == 0 ) {
                 src->contents.erase( src->contents.begin() );
+            } else {
+                add_msg( m_good, _( "There's some left over!" ) );
             }
-            veh->invalidate_mass();
 
         } else if( pt.is_reactor() ) {
             auto qty = src->charges;
             pt.base.reload( g->u, std::move( src ), qty );
 
+            //~ 1$s vehicle name, 2$s reactor name
+            add_msg( m_good, _( "You refuel the %1$s's %2$s." ),
+                     veh->name.c_str(), pt.name().c_str() );
+
         } else {
             debugmsg( "vehicle part is not reloadable" );
             break;
-        }
-
-        add_msg( m_good, _( "You refill the %1$s's %2$s." ), veh->name.c_str(), pt.name().c_str() );
-        if ( pt.ammo_remaining() == pt.ammo_capacity() ) {
-            add_msg( m_good, _( "The %s is full." ), pt.name().c_str() );
         }
 
         veh->invalidate_mass();

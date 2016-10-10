@@ -70,26 +70,16 @@ const std::array<fuel_type, 7> &get_fuel_types()
 {
 
     static const std::array<fuel_type, 7> fuel_types = {{
-        fuel_type {fuel_type_gasoline,  100, 1},
-        fuel_type {fuel_type_diesel,    100, 1},
-        fuel_type {fuel_type_battery,   1,   1},
-        fuel_type {fuel_type_plutonium, 1,   1000},
-        fuel_type {fuel_type_plasma,    100, 100},
-        fuel_type {fuel_type_water,     1,   1},
-        fuel_type {fuel_type_muscle,    0,   1}
+        fuel_type {fuel_type_gasoline,  100 },
+        fuel_type {fuel_type_diesel,    100 },
+        fuel_type {fuel_type_battery,   1,  },
+        fuel_type {fuel_type_plutonium, 1   },
+        fuel_type {fuel_type_plasma,    100 },
+        fuel_type {fuel_type_water,     1,  },
+        fuel_type {fuel_type_muscle,    0,  }
     }};
 
     return fuel_types;
-}
-
-int fuel_charges_to_amount_factor( const itype_id &ftype )
-{
-    for( auto & ft : get_fuel_types() ) {
-        if( ft.id == ftype ) {
-            return ft.charges_to_amount_factor;
-        }
-    }
-    return 1;
 }
 
 // Map stack methods.
@@ -2940,26 +2930,6 @@ int vehicle::fuel_capacity (const itype_id &ftype) const
     return std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs, const vehicle_part &rhs ) {
         return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_capacity() : 0 );
     } );
-}
-
-int vehicle::refill (const itype_id & ftype, int amount)
-{
-    for( auto &p : parts ) {
-        if( amount <= 0 ) {
-            break;
-        }
-        if( !p.is_broken() && ftype == p.ammo_current() ) {
-            int qty = std::min( long( amount ), p.ammo_capacity() - p.ammo_remaining() );
-            p.ammo_set( p.ammo_current(), p.ammo_remaining() + qty );
-            amount -= qty;
-        }
-    }
-
-    if( ftype != fuel_type_battery && ftype != fuel_type_plasma ) {
-        invalidate_mass();
-    }
-
-    return amount;
 }
 
 int vehicle::drain (const itype_id & ftype, int amount) {
