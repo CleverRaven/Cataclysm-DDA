@@ -5962,7 +5962,8 @@
       [ "honey_bottled", 1],
       [ "honey_glassed", 1],
       [ "syrup", 1 ],
-      [ "beet_syrup", 1]
+      [ "beet_syrup", 1],
+      [ "molasses", 1 ]
     ]
   ]
 },{
@@ -6288,7 +6289,9 @@
     ],
     [
       [ "sugar", 5 ],
-      [ "syrup", 1 ]
+      [ "syrup", 1 ],
+      [ "beet_syrup", 1 ],
+      [ "molasses", 1 ]
     ],
     [
       [ "water", 1 ],
