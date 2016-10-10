@@ -197,10 +197,6 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             return DONE;
 
         case PURIFY_TANK: {
-            // energy cost in charges per milliliter
-            double cost = item::find_type( "water_purifier" )->charges_to_use() / to_milliliter(
-                              units::legacy_volume_factor );
-
             // get all vehicle parts
             std::vector<vehicle_part *> tanks;
             std::transform( veh->parts.begin(), veh->parts.end(), std::back_inserter( tanks ),
@@ -219,6 +215,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             } );
 
             // iterate through tanks until either all have been purified or we have insufficient power
+            double cost = item::find_type( "water_purifier" )->charges_to_use();
             for( auto &e : tanks ) {
                 if( veh->fuel_left( "battery" ) < e->ammo_remaining() * cost ) {
                     add_msg( m_bad, _( "The %1$s's has insufficient power to purify more water" ),
