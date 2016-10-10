@@ -156,6 +156,7 @@
     "id" : "ammo_rifle_milspec",
     "//" : "Military specification rifle ammo found at military sites.",
     "items": [
+      [ "12mm", 40 ],
       [ "3006_incendiary", 20 ],
       [ "50_incendiary", 10 ],
       [ "50bmg", 30 ],
@@ -166,8 +167,7 @@
       [ "8mm_fmj", 30 ],
       [ "8mm_hvp", 10 ],
       [ "8mm_inc", 20 ],
-      [ "8mm_jhp", 10 ],
-      [ "12mm", 10 ]
+      [ "8mm_jhp", 10 ]
     ]
   },
   {
