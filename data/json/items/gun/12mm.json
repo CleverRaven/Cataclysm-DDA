@@ -13,7 +13,6 @@
     "material": "steel",
     "ammo": "12mm",
     "skill": "rifle",
-    "ranged_damage": 5,
     "dispersion": 45,
     "durability": 8,
     "ups_charges": 5,
