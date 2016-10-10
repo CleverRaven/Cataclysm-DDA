@@ -578,7 +578,6 @@ void veh_interact::do_install()
     display_mode('i');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
-    std::string filter;
     switch (reason) {
     case LOW_MORALE:
         mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
@@ -668,13 +667,15 @@ void veh_interact::do_install()
                                                    part.location == "fuel_source" ||
                                                    part.location == "on_battery_mount" ||
                                                    (part.location.empty() && part.has_flag("FUEL_TANK")); };
-
-    tab_filters[tab_filters.size()-2] = [&](const vpart_info *part) { // Other: everything that's not in the other filters
+    // Other: everything that's not in the other filters
+    tab_filters[tab_filters.size()-2] = [&](const vpart_info *part) {
         for (size_t i=1; i < tab_filters.size()-2; i++ ) {
             if( tab_filters[i](part) ) return false;
         }
         return true; };
-    tab_filters[7] = [&](const vpart_info *p){//The user specified filter
+    std::string filter;
+    //The user specified filter
+    tab_filters[7] = [&](const vpart_info *p){
         return lcmatch( p->name(), filter );
     };
     std::vector<const vpart_info*> tab_vparts = can_mount; // full list of mountable parts, to be filtered according to tab
@@ -701,15 +702,16 @@ void veh_interact::do_install()
         bool can_install = can_install_part();
 
         const std::string action = main_context.handle_input();
-        if (action == "FILTER" ){
+        if ( action == "FILTER" ){
             filter = string_input_popup( _("Set Filter"),
                                         50, filter,
                                         "",
                                         _("Filter"), 100, false );
-            tab = 7;//Move to the user filter tab.
+            tab = 7;// Move to the user filter tab.
             display_grid();
             display_stats();
-            display_veh();//Fix the (currently) mangled windows
+            display_veh();// Fix the (currently) mangled windows
+            move_cursor(0,0);// Wake up the vehicle display
         }
         if (action == "REPAIR" ){
             filter = "";
