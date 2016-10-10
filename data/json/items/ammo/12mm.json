@@ -8,7 +8,7 @@
     "weight": 11,
     "volume": 1,
     "price": 50000,
-    "material": ["steel"],
+    "material": [ "steel" ],
     "symbol": "=",
     "color": "blue",
     "count": 20,
