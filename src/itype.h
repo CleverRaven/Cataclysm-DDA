@@ -584,15 +584,19 @@ struct itype {
     /*@}*/
 
 protected:
-    std::string id; /** unique string identifier for this type */
+    std::string id = "null"; /** unique string identifier for this type */
 
     // private because is should only be accessed through itype::nname!
     // name and name_plural are not translated automatically
     // nname() is used for display purposes
-    std::string name;        // Proper name, singular form, in American English.
-    std::string name_plural; // name, plural form, in American English.
+    std::string name = "none";        // Proper name, singular form, in American English.
+    std::string name_plural = "none"; // name, plural form, in American English.
 
 public:
+    itype() {
+        melee.fill( 0 );
+    }
+
     std::string snippet_category;
     std::string description; // Flavor text
 
@@ -746,8 +750,6 @@ public:
     long invoke( player *p, item *it, const tripoint &pos ) const; // Picks first method or returns 0
     long invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const;
     long tick( player *p, item *it, const tripoint &pos ) const;
-
-    itype() : id("null"), name("none"), name_plural("none") {}
 
     virtual ~itype() { };
 };
