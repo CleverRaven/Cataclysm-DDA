@@ -172,9 +172,6 @@ class veh_interact
         void allocate_windows();
         void do_main_loop();
         void deallocate_windows();
-
-        /*Filter stuff*/
-        std::string filter;
 };
 
 #endif

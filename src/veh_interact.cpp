@@ -578,6 +578,7 @@ void veh_interact::do_install()
     display_mode('i');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
+    std::string filter;
     switch (reason) {
     case LOW_MORALE:
         mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
@@ -969,7 +970,7 @@ void veh_interact::do_refill()
 
     auto act = [&]( const vehicle_part &pt ) {
         auto validate = [&]( const item &obj ) {
-            if( pt.is_tank() ) { 
+            if( pt.is_tank() ) {
                 // cannot refill using active liquids (those that rot) due to #18570
                 if( obj.is_watertight_container() && !obj.contents.empty() && !obj.contents.front().active ) {
                     return pt.can_reload( obj.contents.front().typeId() );
