@@ -42,6 +42,9 @@ static inline const char * status_color( bool status )
     return status ? good : bad;
 }
 
+/** Can part currently be reloaded with anything? */
+static auto can_refill = []( const vehicle_part &pt ) { return pt.can_reload(); };
+
 namespace {
 const std::string repair_hotkeys("r1234567890");
 const quality_id LIFT( "LIFT" );
@@ -417,7 +420,7 @@ task_reason veh_interact::cant_do (char mode)
         break;
 
     case 'f':
-        return CAN_DO; // always allow display of fuel menu
+        return std::any_of( veh->parts.begin(), veh->parts.end(), can_refill ) ? CAN_DO : INVALID_TARGET;
 
     case 'o': // remove mode
         enough_morale = g->u.has_morale_to_craft();
@@ -991,11 +994,13 @@ void veh_interact::do_mend()
 
 void veh_interact::do_refill()
 {
-    set_title( _( "Select part to refill:" ) );
     werase( w_msg );
+    if( cant_do( 'f' ) ) {
+        mvwprintz( w_msg, 0, 1, c_ltred, _( "No parts can currently be refilled" ) );
+    }
     wrefresh( w_msg );
 
-    auto sel = []( const vehicle_part &pt ) { return pt.is_tank() || pt.is_reactor(); };
+    set_title( _( "Select part to refill:" ) );
 
     auto act = [&]( const vehicle_part &pt ) {
         auto validate = [&]( const item &obj ) {
@@ -1021,7 +1026,7 @@ void veh_interact::do_refill()
         return;
     };
 
-    overview( sel, act );
+    overview( can_refill, act );
 }
 
 void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
