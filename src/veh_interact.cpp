@@ -34,7 +34,6 @@
 #define ISNAN std::isnan
 #endif
 
-
 static inline const char * status_color( bool status )
 {
     static const char *good = "green";
@@ -129,6 +128,7 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     main_context.register_action("CONFIRM");
     main_context.register_action("HELP_KEYBINDINGS");
     main_context.register_action("FILTER");
+
     countDurability();
     cache_tool_availability();
     allocate_windows();
@@ -753,7 +753,7 @@ void veh_interact::do_install()
 
             if(action == "PREV_TAB") {
                 tab = ( tab < 1 ) ? tab_list.size() - 1 : tab - 1;
-            } else if (action == "NEXT_TAB"){
+            } else if (action == "NEXT_TAB") {
                 tab = ( tab < tab_list.size() - 1 ) ? tab + 1 : 0;
             }
 
