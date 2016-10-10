@@ -5696,7 +5696,9 @@
       [ "milk", 1 ],
       [ "milk_powder", 1 ],
       [ "con_milk", 1 ],
-      [ "can_coconut", 1 ],
+      [ "can_coconut", 1 ]
+    ],
+    [
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ]
@@ -5745,7 +5747,9 @@
       [ "milk", 1 ],
       [ "milk_powder", 1 ],
       [ "con_milk", 1 ],
-      [ "can_coconut", 1 ],
+      [ "can_coconut", 1 ]
+    ],
+    [
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ]
@@ -5848,7 +5852,9 @@
       [ "milk", 1 ],
       [ "milk_powder", 1 ],
       [ "con_milk", 1 ],
-      [ "can_coconut", 1 ],
+      [ "can_coconut", 1 ]
+    ],
+    [
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ]
