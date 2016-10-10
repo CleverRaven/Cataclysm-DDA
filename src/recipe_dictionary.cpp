@@ -32,14 +32,16 @@ const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
 std::vector<const recipe *> recipe_subset::search( const std::string &txt ) const
 {
     std::vector<const recipe *> res;
-    std::vector<std::string> subqueries;
-    std::vector<std::string> requirement_qualities,
+    std::vector<std::string> subqueries,
+        requirement_qualities,
         names,
         components,
         tools,
         result_qualities,
         skills;
-    std::string pattern = txt; //Copy the search string.
+    
+    //Copy the search string so that it may be altered
+    std::string pattern = txt; 
     size_t split;
     // Check for subqueries(separated by commas)
     if( ( split = pattern.find( ',' ) ) != std::string::npos ) {
