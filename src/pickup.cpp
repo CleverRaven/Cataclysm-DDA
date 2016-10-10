@@ -130,10 +130,8 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         selectmenu.addentry( USE_PURIFIER, true, 'p', _( "Purify water in carried container" ) );
     }
 
-    if( has_purify && veh->fuel_left( "battery" ) > 0 &&
-        veh->fuel_left( "water" ) > 0 &&
-        veh->fuel_capacity( "water_clean" ) > veh->fuel_left( "water_clean" ) ) {
-        selectmenu.addentry( PURIFY_TANK, true, 'P', _( "Purify water in vehicle's tank" ) );
+    if( has_purify && veh->fuel_left( "battery" ) > 0 && veh->fuel_left( "water" ) > 0 ) {
+        selectmenu.addentry( PURIFY_TANK, true, 'P', _( "Purify water in vehicle tanks" ) );
     }
 
     int choice;
@@ -152,7 +150,8 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         if( veh->fuel_left( "battery" ) < pseudo.ammo_required() ) {
             return false;
         }
-        pseudo.ammo_set( "battery", veh->discharge_battery( pseudo.ammo_capacity() ) );
+        auto qty = pseudo.ammo_capacity() - veh->discharge_battery( pseudo.ammo_capacity() );
+        pseudo.ammo_set( "battery", qty );
         g->u.invoke_item( &pseudo );
         veh->charge_battery( pseudo.ammo_remaining() );
         return true;
@@ -222,10 +221,15 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             // iterate through tanks until either all have been purified or we have insufficient power
             for( auto &e : tanks ) {
                 if( veh->fuel_left( "battery" ) < e->ammo_remaining() * cost ) {
+                    add_msg( m_bad, _( "The %1$s's has insufficient power to purify more water" ),
+                             veh->name.c_str() );
                     break;
                 }
                 veh->discharge_battery( e->ammo_remaining() * cost );
                 e->ammo_set( "water_clean", e->ammo_remaining() );
+                //~ 1$s - vehicle name, 2$s - tank name
+                add_msg( m_good, _( "You purify the contents of the %1$s's %2$s" ),
+                         veh->name.c_str(), e->name().c_str() );
             }
             return DONE;
         }
