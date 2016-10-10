@@ -72,76 +72,76 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
             }
         }
     }
-    auto name_match = [names]( const recipe * r ) {
-        return std::any_of( names.begin(), names.end(), [r]( const std::string & name ) {
-            return lcmatch( item::nname( r->result ), name );
-        } );
-    };
-    auto tools_match = [tools]( const recipe * r ) {
-        return std::any_of( tools.begin(), tools.end(),
-        [r]( const std::string & tool ) {
-            const auto &toolsets =
-                r->requirements().get_tools();// Get all the possible sets of tools that are required for the recipe variations
-            for( const auto &toolset : toolsets ) {// Iterate over each toolset
-                for( const auto &t : toolset ) // Attempt to match each tool
-                    if( lcmatch( t.to_string() , tool ) ) {
-                        return true;
-                    }
-            }
-            return false;
-        } );
-    };
-    auto result_quality_match = [result_qualities]( const recipe * r ) {
-        return std::any_of( result_qualities.begin(),
-                            result_qualities.end(),
-        [r]( const std::string & result_quality ) {
-            const auto &result = item( r->result );
-            return std::any_of( result.type->qualities.begin(),
-                                result.type->qualities.end(),
-            [result_quality]( std::pair<quality_id, int> quality ) {
-                return lcmatch( quality.first->name, result_quality );
-            } );
-        } );
-    };
-    auto requirement_quality_match = [requirement_qualities]( const recipe * r ) {
-        return std::any_of( requirement_qualities.begin(),
-                            requirement_qualities.end(),
-        [r]( const std::string & requirement_quality ) {
-            const auto &req_sets = r->requirements().get_qualities();
-            for( auto req_set : req_sets )
-                if( std::any_of( req_set.begin(),
-                                 req_set.end(),
-                [requirement_quality]( const quality_requirement & qr ) {
-                return lcmatch( qr.type->name, requirement_quality );
-                } ) ) {
-                return true;
-            }
-            return false;
-        } );
-    };
-    auto component_match = [components]( const recipe * r ) {
-        return std::any_of( components.begin(),
-                            components.end(),
-        [r]( const std::string & component ) {
-            const auto &required_comp = r->requirements().get_components();
-            return std::any_of( required_comp.begin(),
-                                required_comp.end(),
-            [component]( const std::vector<item_comp> &items ) {
-                return std::any_of( items.begin(), items.end(),
-                [component]( const item_comp & comp ) {
-                    return lcmatch( item::nname( comp.type ), component );
-                } );
-            } );
-        } );
-    };
-    auto skill_match = [skills]( const recipe * r ) {
-        return std::any_of( skills.begin() , skills.end(),
-        [r]( const std::string & skill ) {
-            return lcmatch( r->required_skills_string(), skill );
-        } );
-    };
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ),
     [&]( const recipe * r ) {//sadly it seems easier to copy the scope here for the moment
+        auto name_match = [names]( const recipe * r ) {
+            return std::any_of( names.begin(), names.end(), [r]( const std::string & name ) {
+                return lcmatch( item::nname( r->result ), name );
+            } );
+        };
+        auto tools_match = [tools]( const recipe * r ) {
+            return std::any_of( tools.begin(), tools.end(),
+            [r]( const std::string & tool ) {
+                const auto &toolsets =
+                    r->requirements().get_tools();// Get all the possible sets of tools that are required for the recipe variations
+                for( const auto &toolset : toolsets ) {// Iterate over each toolset
+                    for( const auto &t : toolset ) // Attempt to match each tool
+                        if( lcmatch( t.to_string() , tool ) ) {
+                            return true;
+                        }
+                }
+                return false;
+            } );
+        };
+        auto result_quality_match = [result_qualities]( const recipe * r ) {
+            return std::any_of( result_qualities.begin(),
+                                result_qualities.end(),
+            [r]( const std::string & result_quality ) {
+                const auto &result = item( r->result );
+                return std::any_of( result.type->qualities.begin(),
+                                    result.type->qualities.end(),
+                [result_quality]( std::pair<quality_id, int> quality ) {
+                    return lcmatch( quality.first->name, result_quality );
+                } );
+            } );
+        };
+        auto requirement_quality_match = [requirement_qualities]( const recipe * r ) {
+            return std::any_of( requirement_qualities.begin(),
+                                requirement_qualities.end(),
+            [r]( const std::string & requirement_quality ) {
+                const auto &req_sets = r->requirements().get_qualities();
+                for( auto req_set : req_sets )
+                    if( std::any_of( req_set.begin(),
+                                     req_set.end(),
+                    [requirement_quality]( const quality_requirement & qr ) {
+                    return lcmatch( qr.type->name, requirement_quality );
+                    } ) ) {
+                    return true;
+                }
+                return false;
+            } );
+        };
+        auto component_match = [components]( const recipe * r ) {
+            return std::any_of( components.begin(),
+                                components.end(),
+            [r]( const std::string & component ) {
+                const auto &required_comp = r->requirements().get_components();
+                return std::any_of( required_comp.begin(),
+                                    required_comp.end(),
+                [component]( const std::vector<item_comp> &items ) {
+                    return std::any_of( items.begin(), items.end(),
+                    [component]( const item_comp & comp ) {
+                        return lcmatch( item::nname( comp.type ), component );
+                    } );
+                } );
+            } );
+        };
+        auto skill_match = [skills]( const recipe * r ) {
+            return std::any_of( skills.begin() , skills.end(),
+            [r]( const std::string & skill ) {
+                return lcmatch( r->required_skills_string(), skill );
+            } );
+        };
         return name_match( r ) || tools_match( r ) ||
                result_quality_match( r ) || requirement_quality_match( r ) ||
                component_match( r ) || skill_match( r );
