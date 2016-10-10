@@ -675,7 +675,7 @@ void veh_interact::do_install()
         }
         return true; };
     tab_filters[7] = [&](const vpart_info *p){//The user specified filter
-        return filter_function(p);
+        return lcmatch( p->name(), filter );
     };
     std::vector<const vpart_info*> tab_vparts = can_mount; // full list of mountable parts, to be filtered according to tab
 
@@ -970,7 +970,7 @@ void veh_interact::do_refill()
 
     auto act = [&]( const vehicle_part &pt ) {
         auto validate = [&]( const item &obj ) {
-            if( pt.is_tank() ) {
+            if( pt.is_tank() ) { 
                 // cannot refill using active liquids (those that rot) due to #18570
                 if( obj.is_watertight_container() && !obj.contents.empty() && !obj.contents.front().active ) {
                     return pt.can_reload( obj.contents.front().typeId() );
@@ -2416,8 +2416,4 @@ void veh_interact::complete_vehicle()
         break;
     }
     g->u.invalidate_crafting_inventory();
-}
-bool veh_interact::filter_function( const vpart_info *p ) const
-{
-    return lcmatch( p->name(), filter );
 }

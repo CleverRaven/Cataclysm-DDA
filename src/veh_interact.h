@@ -174,7 +174,6 @@ class veh_interact
         void deallocate_windows();
 
         /*Filter stuff*/
-        bool filter_function( const vpart_info * ) const;
         std::string filter;
 };
 
