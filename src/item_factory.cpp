@@ -120,6 +120,10 @@ void Item_factory::finalize() {
     for( auto& e : m_templates ) {
         itype& obj = *e.second;
 
+        if( obj.item_tags.count( "STAB" ) || obj.item_tags.count( "SPEAR" ) ) {
+            std::swap(obj.melee[DT_CUT], obj.melee[DT_STAB]);
+        }
+
         // add usage methods (with default values) based upon qualities
         // if a method was already set the specific values remain unchanged
         for( const auto &q : obj.qualities ) {
@@ -248,6 +252,8 @@ void Item_factory::finalize() {
         npc_implied_flags( *e.second );
 
         if( obj.comestible ) {
+            obj.comestible->spoils *= HOURS( 1 ); // JSON specifies hours so convert to turns
+
             if( get_world_option<bool>( "NO_VITAMINS" ) ) {
                 obj.comestible->vitamins.clear();
             } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
@@ -1200,26 +1206,25 @@ void Item_factory::load_book( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::string & )
+void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::string &src )
 {
-    assign( jo, "comestible_type", slot.comesttype );
-    assign( jo, "tool", slot.tool );
-    assign( jo, "charges", slot.def_charges );
-    assign( jo, "quench", slot.quench );
-    assign( jo, "fun", slot.fun );
-    assign( jo, "stim", slot.stim );
-    assign( jo, "healthy", slot.healthy );
-    assign( jo, "parasites", slot.parasites );
+    bool strict = src == "core";
 
-    if( jo.read( "spoils_in", slot.spoils ) ) {
-        slot.spoils *= 600; // JSON specifies hours so convert to turns
-    }
+    assign( jo, "comestible_type", slot.comesttype, strict );
+    assign( jo, "tool", slot.tool, strict );
+    assign( jo, "charges", slot.def_charges, strict, 1L );
+    assign( jo, "quench", slot.quench, strict );
+    assign( jo, "fun", slot.fun, strict );
+    assign( jo, "stim", slot.stim, strict );
+    assign( jo, "healthy", slot.healthy, strict );
+    assign( jo, "parasites", slot.parasites, strict, 0 );
+    assign( jo, "spoils_in", slot.spoils, strict, 0 );
 
     if( jo.has_string( "addiction_type" ) ) {
         slot.add = addiction_type( jo.get_string( "addiction_type" ) );
     }
 
-    assign( jo, "addiction_potential", slot.addict );
+    assign( jo, "addiction_potential", slot.addict, strict );
 
     bool got_calories = false;
 
@@ -1531,8 +1536,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     assign( jo, "price", new_item_template->price );
     assign( jo, "price_postapoc", new_item_template->price_post );
     assign( jo, "integral_volume", new_item_template->integral_volume );
-    assign( jo, "bashing", new_item_template->melee_dam, strict, 1 );
-    assign( jo, "cutting", new_item_template->melee_cut, strict, 1 );
+    assign( jo, "bashing", new_item_template->melee[DT_BASH], strict, 0 );
+    assign( jo, "cutting", new_item_template->melee[DT_CUT], strict, 0 );
     assign( jo, "to_hit", new_item_template->m_to_hit, strict );
     assign( jo, "container", new_item_template->default_container );
     assign( jo, "rigid", new_item_template->rigid );
@@ -2092,10 +2097,12 @@ const std::string &Item_factory::calc_category( const itype *it )
     if( it->bionic ) {
         return category_id_cbm;
     }
-    if (it->melee_dam > 7 || it->melee_cut > 5) {
-        return category_id_weapons;
-    }
-    return category_id_other;
+
+    bool weap = std::any_of( it->melee.begin(), it->melee.end(), []( int qty ) {
+        return qty > MELEE_STAT;
+    } );
+
+    return weap ? category_id_weapons : category_id_other;
 }
 
 std::vector<Group_tag> Item_factory::get_all_group_names()

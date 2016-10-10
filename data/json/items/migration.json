@@ -25,6 +25,11 @@
     "replace": "battery_car"
   },
   {
+    "id": "bayonet",
+    "type": "MIGRATION",
+    "replace": "knife_combat"
+  },
+  {
     "id": "diamond_bayonet",
     "type": "MIGRATION",
     "replace": "knife_combat",

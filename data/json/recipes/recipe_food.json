@@ -6138,6 +6138,8 @@
       [ "honey_bottled", 1 ],
       [ "honey_glassed", 1 ],
       [ "syrup", 1 ],
+      [ "beet_syrup", 1 ],
+      [ "molasses", 1 ],
       [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ],
       [ "juice_pulp", 4 ]
@@ -6147,6 +6149,8 @@
       [ "wild_herbs", 20 ],
       [ "pepper", 20 ],
       [ "cinnamon", 20 ],
+      [ "chilly-p", 20 ],
+      [ "curry_powder", 20 ],
       [ "seed_garlic", 6 ],
       [ "garlic", 1 ],
       [ "rehydrated_veggy", 1 ],
@@ -6492,7 +6496,7 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "curry_powder", 1]
+      [ "curry_powder", 25 ]
     ]
   ]
 },{
@@ -6535,7 +6539,7 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "curry_powder", 1]
+      [ "curry_powder", 25 ]
     ]
   ]
 },{
@@ -6587,7 +6591,7 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "chilly-p", 1]
+      [ "chilly-p", 25]
     ]
   ]
 },{
@@ -6638,7 +6642,7 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "chilly-p", 1]
+      [ "chilly-p", 25]
     ]
   ]
 },{
@@ -9353,7 +9357,7 @@
       [ "sausage", 2 ]
     ],
     [
-      [ "curry_powder", 1]
+      [ "curry_powder", 20 ]
     ],
     [
       [ "ketchup", 4]
@@ -9423,7 +9427,7 @@
       [ "mannwurst", 2 ]
     ],
     [
-      [ "curry_powder", 1]
+      [ "curry_powder", 20 ]
     ],
     [
       [ "ketchup", 4]
@@ -12382,6 +12386,46 @@
     [
       [ "cinnamon", 5 ]
     ]
+  ]
+},
+{
+  "result": "hot_chocolate",
+  "type": "recipe",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 5000,
+  "autolearn": true,
+  "result_mult": 2,
+  "qualities": [ { "id": "COOK", "level": 3 } ],
+  "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+  "components": [
+    [ [ "chocolate", 1 ] ],
+    [ [ "milk", 1 ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
+    [ [ "water", 1 ] ],
+    [ [ "sugar", 10 ] ]
+  ]
+},
+{
+  "result": "mex_chocolate",
+  "type": "recipe",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 5000,
+  "book_learn": [ [ "family_cookbook", 2 ] ],
+  "result_mult": 2,
+  "qualities": [ { "id": "COOK", "level": 3 } ],
+  "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+  "components": [
+    [ [ "chocolate", 1 ] ],
+    [ [ "milk", 1 ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
+    [ [ "water", 1 ] ],
+    [ [ "sugar", 10 ] ],
+    [ [ "chilly-p", 5 ] ],
+    [ [ "cinnamon", 5 ] ]
   ]
 }
 ]

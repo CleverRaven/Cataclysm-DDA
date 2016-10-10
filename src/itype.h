@@ -12,6 +12,7 @@
 #include "vitamin.h"
 #include "emit.h"
 #include "units.h"
+#include "damage.h"
 
 #include <string>
 #include <vector>
@@ -648,8 +649,9 @@ public:
 
     bool rigid = true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
 
-    int melee_dam = 0; // Bonus for melee damage; may be a penalty
-    int melee_cut = 0; // Cutting damage in melee
+    /** Damage output in melee for zero or more damage types */
+    std::array<int, NUM_DT> melee = {};
+
     int m_to_hit  = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable
 
     unsigned light_emission = 0;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.

@@ -142,7 +142,7 @@ class Character : public Creature, public visitable<Character>
         virtual void set_stomach_food(int n_stomach_food);
         virtual void set_stomach_water(int n_stomach_water);
 
-        void mod_stat( const std::string &stat, int modifier ) override;
+        void mod_stat( const std::string &stat, float modifier ) override;
 
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion ) const;
@@ -151,8 +151,8 @@ class Character : public Creature, public visitable<Character>
         double aim_per_move( const item &gun, double recoil ) const;
 
         /** Combat getters */
-        int get_dodge_base() const override;
-        int get_hit_base() const override;
+        float get_dodge_base() const override;
+        float get_hit_base() const override;
 
         /** Handles health fluctuations over time */
         virtual void update_health(int external_modifiers = 0);

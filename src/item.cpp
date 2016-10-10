@@ -58,6 +58,7 @@ const skill_id skill_melee( "melee" );
 const skill_id skill_bashing( "bashing" );
 const skill_id skill_cutting( "cutting" );
 const skill_id skill_stabbing( "stabbing" );
+const skill_id skill_unarmed( "unarmed" );
 
 const quality_id quality_jack( "JACK" );
 const quality_id quality_lift( "LIFT" );
@@ -699,15 +700,23 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "BASE", _( "<bold>Rigid</bold>: " ), _( "No (contents increase volume)" ) );
         }
 
-        if( damage_bash() > 0 || damage_cut() > 0 ) {
-            info.push_back( iteminfo( "BASE", _( "Bash: " ), "", damage_bash(), true, "", false ) );
-            if( has_flag( "SPEAR" ) ) {
-                info.push_back( iteminfo( "BASE", space + _( "Pierce: " ), "", damage_cut(), true, "", false ) );
-            } else if( has_flag( "STAB" ) ) {
-                info.push_back( iteminfo( "BASE", space + _( "Stab: " ), "", damage_cut(), true, "", false ) );
-            } else {
-                info.push_back( iteminfo( "BASE", space + _( "Cut: " ), "", damage_cut(), true, "", false ) );
-            }
+        int dmg_bash = damage_melee( DT_BASH );
+        int dmg_cut  = damage_melee( DT_CUT );
+        int dmg_stab = damage_melee( DT_STAB );
+
+        if( dmg_bash ) {
+            info.emplace_back( "BASE", _( "Bash: " ), "", dmg_bash, true, "", false );
+        }
+        if( dmg_cut ) {
+            info.emplace_back( "BASE", ( dmg_bash ? space : std::string() ) + _( "Cut: " ),
+                               "", dmg_cut, true, "", false );
+        }
+        if( dmg_stab ) {
+            info.emplace_back( "BASE", ( ( dmg_bash || dmg_cut ) ? space : std::string() ) + _( "Pierce: " ),
+                               "", dmg_stab, true, "", false );
+        }
+
+        if( dmg_bash || dmg_cut || dmg_stab ) {
             info.push_back( iteminfo( "BASE", space + _( "To-hit bonus: " ),
                                       ( ( type->m_to_hit > 0 ) ? "+" : "" ),
                                       type->m_to_hit, true, "" ) );
@@ -1665,8 +1674,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
-        if( debug_mode || ( g->u.get_skill_level( skill_melee ) > 2 && ( damage_bash() > 0 ||
-                            damage_cut() > 0 || type->m_to_hit > 0 ) ) ) {
+        if( debug_mode || ( g->u.get_skill_level( skill_melee ) > 2 && ( damage_melee( DT_BASH ) > 0 ||
+                            damage_melee( DT_CUT ) > 0 || damage_melee( DT_STAB ) > 0 || type->m_to_hit > 0 ) ) ) {
             damage_instance non_crit;
             g->u.roll_all_damage( false, non_crit, true, *this );
             damage_instance crit;
@@ -2012,8 +2021,8 @@ void item::on_wield( player &p, int mv )
         float d = 32.0; // arbitrary linear scaling factor
         if( is_gun() ) {
             d /= std::max( (float)p.get_skill_level( gun_skill() ),  1.0f );
-        } else if( is_weap() ) {
-            d /= std::max( (float)p.get_skill_level( weap_skill() ), 1.0f );
+        } else if( is_melee() ) {
+            d /= std::max( (float)p.get_skill_level( melee_skill() ), 1.0f );
         }
 
         int penalty = get_var( "volume", type->volume / units::legacy_volume_factor ) * d;
@@ -2528,63 +2537,49 @@ int item::attack_time() const
     return ret;
 }
 
-int item::damage_bash() const
+int item::damage_melee( damage_type dt ) const
 {
-    int total = type->melee_dam;
-    if( is_null() ) {
-        return 0;
-    }
-    total -= total * damage() * 0.1;
-    if(has_flag("REDUCED_BASHING")) {
-        total *= 0.5;
-    }
-    if (total > 0) {
-        return total;
-    } else {
-        return 0;
-    }
-}
-
-int item::damage_cut() const
-{
+    assert( dt >= DT_NULL && dt < NUM_DT );
     if( is_null() ) {
         return 0;
     }
 
     // effectiveness is reduced by 10% per damage level
-    int res = type->melee_cut;
+    int res = type->melee[ dt ];
     res -= res * damage() * 0.1;
 
-    if( is_gun() ) {
-        std::vector<int> opts = { res };
-        for( const auto &e : gun_all_modes() ) {
-            if( e.second.target != this && e.second.melee() ) {
-                opts.push_back( e.second.target->damage_cut() );
-            }
-        }
-        return *std::max_element( opts.begin(), opts.end() );
-
-    } else if( has_flag( "DIAMOND" ) ) {
-        res *= 1.3;
-    }
-
-    return std::max( res, 0 );
-}
-
-int item::damage_by_type( damage_type dt ) const
-{
+    // apply type specific flags
     switch( dt ) {
         case DT_BASH:
-            return damage_bash();
+            if( has_flag( "REDUCED_BASHING" ) ) {
+                res *= 0.5;
+            }
+            break;
+
         case DT_CUT:
-            return ( has_flag( "SPEAR" ) || has_flag( "STAB" ) ) ? 0 : damage_cut();
         case DT_STAB:
-            return ( has_flag( "SPEAR" ) || has_flag( "STAB" ) ) ? damage_cut() : 0;
+            if( has_flag( "DIAMOND" ) ) {
+                res *= 1.3;
+            }
+            break;
+
         default:
             break;
     }
 
-    return 0;
+    // consider any melee gunmods
+    if( is_gun() ) {
+        std::vector<int> opts = { res };
+        for( const auto &e : gun_all_modes() ) {
+            if( e.second.target != this && e.second.melee() ) {
+                opts.push_back( e.second.target->damage_melee( dt ) );
+            }
+        }
+        return *std::max_element( opts.begin(), opts.end() );
+
+    }
+
+    return std::max( res, 0 );
 }
 
 int item::reach_range( const player &p ) const
@@ -3481,31 +3476,19 @@ bool item::is_ammo_container() const
     return !is_magazine() && !contents.empty() && contents.front().is_ammo();
 }
 
-bool item::is_weap() const
+bool item::is_melee() const
 {
-    if( is_null() )
-        return false;
-
-    if (is_gun() || is_food() || is_ammo() || is_food_container() || is_armor() ||
-            is_book() || is_tool() || is_bionic() || is_gunmod())
-        return false;
-    return (type->melee_dam > 7 || type->melee_cut > 5);
+    for( auto idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {
+        if( is_melee( static_cast<damage_type>( idx ) ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
-bool item::is_bashing_weapon() const
+bool item::is_melee( damage_type dt ) const
 {
-    if( is_null() )
-        return false;
-
-    return (type->melee_dam >= 8);
-}
-
-bool item::is_cutting_weapon() const
-{
-    if( is_null() )
-        return false;
-
-    return (type->melee_cut >= 8 && !has_flag("SPEAR"));
+    return damage_melee( dt ) > MELEE_STAT;
 }
 
 const islot_armor *item::find_armor_data() const
@@ -3827,15 +3810,29 @@ std::string item::gun_type() const
     return gun_skill().c_str();
 }
 
-skill_id item::weap_skill() const
+skill_id item::melee_skill() const
 {
-    if( !is_weap() && !is_tool() ) {
+    if( !is_melee() ) {
         return NULL_ID;
     }
 
-    if (type->melee_dam >= type->melee_cut) return skill_bashing;
-    if( has_flag("STAB") || has_flag( "SPEAR" ) ) return skill_stabbing;
-    return skill_cutting;
+    if( has_flag( "UNARMED_WEAPON" ) ) {
+        return skill_unarmed;
+    }
+
+    int hi = 0;
+    skill_id res = NULL_ID;
+
+    for( auto idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {
+        auto val = damage_melee( static_cast<damage_type>( idx ) );
+        auto sk  = skill_by_dt ( static_cast<damage_type>( idx ) );
+        if( val > hi && sk ) {
+            hi = val;
+            res = sk;
+        }
+    }
+
+    return res;
 }
 
 int item::gun_dispersion( bool with_ammo ) const
@@ -5789,8 +5786,8 @@ skill_id item::contextualize_skill( const skill_id &id ) const
         if( id == weapon_skill ) {
             if( is_gun() ) {
                 return gun_skill();
-            } else if( is_weap() ) {
-                return weap_skill();
+            } else if( is_melee() ) {
+                return melee_skill();
             }
         }
     }
