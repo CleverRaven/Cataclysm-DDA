@@ -53,40 +53,38 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
         if( ( split = query.find( ':' ) ) == std::string::npos ) { //search by name
             names.push_back( query );
         } else {
-            switch( query[split - 1] ) { //Find the appropriate key
-                case 'Q'://search by quality
+            switch( query[split - 1] ) { // Find the appropriate key
+                case 'Q':// search by the qualities of the result
                     result_qualities.push_back( query.substr( split + 1 ) );
                     break;
-                case 'q':
+                case 'q':// search by the qualities of the requirements
                     requirement_qualities.push_back( query.substr( split + 1 ) );
                     break;
-                case 'c'://search by component
+                case 'c':// search by component
                     components.push_back( query.substr( split + 1 ) );
                     break;
-                case 't'://search by requirement
+                case 't':// search by tools
                     tools.push_back( query.substr( split + 1 ) );
                     break;
-                case 's'://search by skill.
+                case 's':// search by skill.
                     skills.push_back( query.substr( split + 1 ) );
                     break;
             }
         }
     }
-    auto name_match =
-    [names]( const recipe * r ) {
-        return std::any_of( names.begin(), names.end(),
-        [r]( const std::string & name ) {
+    auto name_match = [names]( const recipe * r ) {
+        return std::any_of( names.begin(), names.end(), [r]( const std::string & name ) {
             return lcmatch( item::nname( r->result ), name );
         } );
     };
-    auto tools_match =
-    [tools]( const recipe * r ) {
+    auto tools_match = [tools]( const recipe * r ) {
         return std::any_of( tools.begin(), tools.end(),
         [r]( const std::string & tool ) {
-            const auto c = r->requirements().get_tools();
-            for( const auto &t : c ) {
-                for( auto z : t )
-                    if( lcmatch( z.to_string() , tool ) ) {
+            const auto &toolsets =
+                r->requirements().get_tools();// Get all the possible sets of tools that are required for the recipe variations
+            for( const auto &toolset : toolsets ) {// Iterate over each toolset
+                for( const auto &t : toolset ) // Attempt to match each tool
+                    if( lcmatch( t.to_string() , tool ) ) {
                         return true;
                     }
             }
@@ -97,9 +95,9 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
         return std::any_of( result_qualities.begin(),
                             result_qualities.end(),
         [r]( const std::string & result_quality ) {
-            auto a = item( r->result );
-            return std::any_of( a.type->qualities.begin(),
-                                a.type->qualities.end(),
+            const auto &result = item( r->result );
+            return std::any_of( result.type->qualities.begin(),
+                                result.type->qualities.end(),
             [result_quality]( std::pair<quality_id, int> quality ) {
                 return lcmatch( quality.first->name, result_quality );
             } );
