@@ -23,7 +23,8 @@
       ["m107a1mag", 50],
       ["m2010mag", 10 ],
       ["scarhmag", 50],
-      ["scarhbigmag", 20]
+      ["scarhbigmag", 20],
+      ["hk_g80mag", 5]
     ]
   },
   {
