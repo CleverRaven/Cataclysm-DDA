@@ -24,9 +24,7 @@
   {
     "id": "guns_pistol_obscure",
     "type": "item_group",
-    "items": [
-      [ "pistol_flintlock", 50 ]
-    ]
+    "items": [ [ "pistol_flintlock", 50 ] ]
   },
   {
     "id": "guns_pistol_improvised",
