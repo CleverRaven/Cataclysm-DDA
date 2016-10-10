@@ -2077,13 +2077,7 @@ bool Character::pour_into( vehicle &veh, item &liquid )
         return false;
     }
 
-    auto qty = liquid.charges_per_volume( tank->get_container_capacity() );
-    if( !tank->contents.empty() ) {
-        qty -= tank->contents.front().charges;
-    }
-
-    tank->fill_with( liquid, qty );
-
+    tank->fill_with( liquid );
     add_msg_if_player( _( "You refill the %1$s with %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
 
     if( liquid.charges > 0 ) {
