@@ -1223,10 +1223,15 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 
             auto cur = ammo ? ammo : m->ammo_data();
             if( cur ) {
-                mvwprintw( w_target, line_number++, 1,
-                           m->ammo_remaining() ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
-                           cur->nname( std::max( m->ammo_remaining(), 1L ) ).c_str(),
-                           m->ammo_remaining(), m->ammo_capacity() );
+                auto str = string_format( m->ammo_remaining() ?
+                                          _( "Ammo: <color_%s>%s</color> (%d/%d)" ) :
+                                          _( "Ammo: <color_%s>%s</color>" ),
+                                          get_all_colors().get_name( cur->color ).c_str(),
+                                          cur->nname( std::max( m->ammo_remaining(), 1L ) ).c_str(),
+                                          m->ammo_remaining(), m->ammo_capacity() );
+
+                nc_color col = c_ltgray;
+                print_colored_text( w_target, line_number++, 1, col, col, str );
             }
             line_number++;
         }
