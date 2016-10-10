@@ -2329,23 +2329,33 @@ void veh_interact::complete_vehicle()
 
             pt.base.fill_with( src->contents.front() );
 
+            if ( pt.ammo_remaining() != pt.ammo_capacity() ) {
+                //~ 1$s vehicle name, 2$s tank name
+                add_msg( m_good, _( "You refill the %1$s's %2$s." ),
+                         veh->name.c_str(), pt.name().c_str() );
+            } else {
+                //~ 1$s vehicle name, 2$s tank name
+                add_msg( m_good, _( "You completely refill the %1$s's %2$s." ),
+                         veh->name.c_str(), pt.name().c_str() );
+            }
+
             if( src->contents.front().charges == 0 ) {
                 src->contents.erase( src->contents.begin() );
+            } else {
+                add_msg( m_good, _( "There's some left over!" ) );
             }
-            veh->invalidate_mass();
 
         } else if( pt.is_reactor() ) {
             auto qty = src->charges;
             pt.base.reload( g->u, std::move( src ), qty );
 
+            //~ 1$s vehicle name, 2$s reactor name
+            add_msg( m_good, _( "You refuel the %1$s's %2$s." ),
+                     veh->name.c_str(), pt.name().c_str() );
+
         } else {
             debugmsg( "vehicle part is not reloadable" );
             break;
-        }
-
-        add_msg( m_good, _( "You refill the %1$s's %2$s." ), veh->name.c_str(), pt.name().c_str() );
-        if ( pt.ammo_remaining() == pt.ammo_capacity() ) {
-            add_msg( m_good, _( "The %s is full." ), pt.name().c_str() );
         }
 
         veh->invalidate_mass();
