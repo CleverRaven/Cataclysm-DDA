@@ -2939,8 +2939,36 @@ bool game::handle_action()
                             break;
 
                         case turret_data::status::ready: {
-                            tripoint pos = u.pos();
-                            auto trajectory = pl_target_ui( TARGET_MODE_TURRET_MANUAL, &*turret.base(), turret.range() );
+
+                            const itype *ammo = turret.ammo_data();
+
+                            target_callback switch_mode;
+                            target_callback switch_ammo;
+
+                            switch_mode = [&turret,&ammo]( item *obj ) {
+                                obj->gun_cycle_mode();
+                                return ammo;
+                            };
+
+                            const auto opts = turret.ammo_options();
+                            if( opts.size() > 1 ) {
+                                switch_ammo = [&turret,&ammo,&opts]( item * ) {
+                                    auto iter = opts.find( ammo->get_id() );
+                                    if( ++iter == opts.end() ) {
+                                        iter = opts.begin();
+                                    }
+                                    return ammo = item::find_type( *iter );
+                                };
+                            }
+
+                            auto trajectory = pl_target_ui( TARGET_MODE_TURRET_MANUAL, &*turret.base(),
+                                                            turret.range(), ammo,
+                                                            switch_mode, switch_ammo );
+
+                            if( ammo ) {
+                                turret.ammo_select( ammo->get_id() );
+                            }
+
                             if( !trajectory.empty() ) {
                                 turret.fire( u, trajectory.back() );
                             }
