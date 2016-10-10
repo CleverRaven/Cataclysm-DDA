@@ -126,12 +126,14 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig?" ) );
     }
 
-    if( has_purify && veh->fuel_left( "battery" ) > 0 ) {
-        selectmenu.addentry( USE_PURIFIER, true, 'p', _( "Purify water in carried container" ) );
-    }
+    if( has_purify ) {
+        bool can_purify = veh->fuel_left( "battery" ) >= item::find_type( "water_purifier" )->charges_to_use();
 
-    if( has_purify && veh->fuel_left( "battery" ) > 0 && veh->fuel_left( "water" ) > 0 ) {
-        selectmenu.addentry( PURIFY_TANK, true, 'P', _( "Purify water in vehicle tanks" ) );
+        selectmenu.addentry( USE_PURIFIER, can_purify,
+                             'p', _( "Purify water in carried container" ) );
+
+        selectmenu.addentry( PURIFY_TANK, can_purify && veh->fuel_left( "water" ),
+                             'P', _( "Purify water in vehicle tank" ) );
     }
 
     int choice;
