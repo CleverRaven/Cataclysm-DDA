@@ -227,5 +227,10 @@
     "id": "UPS_on",
     "type": "MIGRATION",
     "replace": "UPS_off"
+  },
+  {
+    "id": "pistol_pepperbox",
+    "type": "MIGRATION",
+    "replace": "colt_navy"
   }
 ]
