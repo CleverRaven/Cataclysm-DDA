@@ -34,7 +34,6 @@
 #define ISNAN std::isnan
 #endif
 
-bool lcmatch(const std::string&, const std::string&);
 
 static inline const char * status_color( bool status )
 {
@@ -970,7 +969,7 @@ void veh_interact::do_refill()
 
     auto act = [&]( const vehicle_part &pt ) {
         auto validate = [&]( const item &obj ) {
-            if( pt.is_tank() ) { 
+            if( pt.is_tank() ) {
                 // cannot refill using active liquids (those that rot) due to #18570
                 if( obj.is_watertight_container() && !obj.contents.empty() && !obj.contents.front().active ) {
                     return pt.can_reload( obj.contents.front().typeId() );
