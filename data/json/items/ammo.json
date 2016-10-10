@@ -422,7 +422,7 @@
         "volume" : 1,
         "weight" : 11,
         "ammo_type" : "12mm",
-        "damage" : 5,
+        "damage" : 45,
         "pierce" : 40,
         "range" : 70,
         "dispersion" : 45,
