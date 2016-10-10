@@ -174,6 +174,7 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     main_context.register_action("NEXT_TAB");
     main_context.register_action("CONFIRM");
     main_context.register_action("HELP_KEYBINDINGS");
+    main_context.register_action("FILTER");
 
     countDurability();
     cache_tool_availability();
@@ -648,23 +649,25 @@ void veh_interact::do_install()
 
     set_title( _( "Choose new part to install here:" ) );
 
-    std::array<std::string,7> tab_list = { { pgettext("Vehicle Parts|","All"),
+    std::array<std::string,8> tab_list = { { pgettext("Vehicle Parts|","All"),
                                              pgettext("Vehicle Parts|","Cargo"),
                                              pgettext("Vehicle Parts|","Light"),
                                              pgettext("Vehicle Parts|","Util"),
                                              pgettext("Vehicle Parts|","Hull"),
                                              pgettext("Vehicle Parts|","Internal"),
-                                             pgettext("Vehicle Parts|","Other") } };
+                                             pgettext("Vehicle Parts|","Other"),
+                                             pgettext("Vehicle Parts|","Filter")} };
 
-    std::array<std::string,7> tab_list_short = { { pgettext("Vehicle Parts|","A"),
+    std::array<std::string,8> tab_list_short = { { pgettext("Vehicle Parts|","A"),
                                                    pgettext("Vehicle Parts|","C"),
                                                    pgettext("Vehicle Parts|","L"),
                                                    pgettext("Vehicle Parts|","U"),
                                                    pgettext("Vehicle Parts|","H"),
                                                    pgettext("Vehicle Parts|","I"),
-                                                   pgettext("Vehicle Parts|","O") } };
+                                                   pgettext("Vehicle Parts|","O"),
+                                                   pgettext("Vehicle Parts|","F")} };
 
-    std::array <std::function<bool(const vpart_info*)>,7> tab_filters; // filter for each tab, last one
+    std::array <std::function<bool(const vpart_info*)>,8> tab_filters; // filter for each tab, last one
     tab_filters[0] = [&](const vpart_info *) { return true; }; // All
     tab_filters[1] = [&](const vpart_info *p) { auto &part = *p;
                                                    return part.has_flag(VPFLAG_CARGO) && // Cargo
@@ -714,14 +717,20 @@ void veh_interact::do_install()
                                                    part.has_flag(VPFLAG_CONTROLS) ||
                                                    part.location == "fuel_source" ||
                                                    part.location == "on_battery_mount" ||
-                                                   part.location.empty(); };
-    tab_filters[tab_filters.size()-1] = [&](const vpart_info *part) { // Other: everything that's not in the other filters
-        for (size_t i=1; i < tab_filters.size()-1; i++ ) {
+                                                   (part.location.empty() && part.has_flag("FUEL_TANK")); };
+
+    // Other: everything that's not in the other filters
+    tab_filters[tab_filters.size()-2] = [&](const vpart_info *part) {
+        for (size_t i=1; i < tab_filters.size()-2; i++ ) {
             if( tab_filters[i](part) ) return false;
         }
         return true; };
 
-    std::vector<const vpart_info*> tab_vparts = can_mount; // full list of mountable parts, to be filtered according to tab
+    std::string filter; // The user specified filter
+    tab_filters[7] = [&](const vpart_info *p){ return lcmatch( p->name(), filter ); };
+
+    // full list of mountable parts, to be filtered according to tab
+    std::vector<const vpart_info*> tab_vparts = can_mount;
 
     int pos = 0;
     size_t tab = 0;
@@ -738,13 +747,25 @@ void veh_interact::do_install()
         }
         wrefresh(w_list);
 
-        sel_vpart_info = (!tab_vparts.empty()) ? tab_vparts[pos] : NULL; // filtered list can be empty
+        sel_vpart_info = tab_vparts.empty() ? nullptr : tab_vparts[pos]; // filtered list can be empty
 
         display_details( sel_vpart_info );
 
         bool can_install = can_install_part();
 
         const std::string action = main_context.handle_input();
+        if ( action == "FILTER" ){
+            filter = string_input_popup( _( "Search for part" ), 50, filter, "", _( "Filter" ), 100, false );
+            tab = 7; // Move to the user filter tab.
+            display_grid();
+            display_stats();
+            display_veh(); // Fix the (currently) mangled windows
+            move_cursor(0,0); // Wake up the vehicle display
+        }
+        if (action == "REPAIR" ){
+            filter.clear();
+            tab = 0;
+        }
         if (action == "INSTALL" || action == "CONFIRM"){
             if (can_install) {
                 const auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->item ];
@@ -777,13 +798,13 @@ void veh_interact::do_install()
             werase (w_msg);
             wrefresh(w_msg);
             break;
-        } else if (action == "PREV_TAB" || action == "NEXT_TAB") {
+        } else if (action == "PREV_TAB" || action == "NEXT_TAB"|| action == "FILTER" || action == "REPAIR" ) {
             tab_vparts.clear();
             pos = 0;
 
             if(action == "PREV_TAB") {
                 tab = ( tab < 1 ) ? tab_list.size() - 1 : tab - 1;
-            } else {
+            } else if (action == "NEXT_TAB") {
                 tab = ( tab < tab_list.size() - 1 ) ? tab + 1 : 0;
             }
 
