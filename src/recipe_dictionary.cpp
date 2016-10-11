@@ -39,9 +39,9 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
         tools,
         result_qualities,
         skills;
-    
+
     //Copy the search string so that it may be altered
-    std::string pattern = txt; 
+    std::string pattern = txt;
     size_t split;
     // Check for subqueries(separated by commas)
     if( ( split = pattern.find( ',' ) ) != std::string::npos ) {
