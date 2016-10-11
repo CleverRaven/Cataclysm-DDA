@@ -1138,8 +1138,8 @@
     "armor_bash": 18,
     "armor_cut": 14,
     "vision_day": 50,
-    "path_settings": { "max_dist": 10 },
     "starting_ammo": { "40mm_frag": 100, "556": 1000 },
+    "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
     "death_drops": {
       "groups": [
@@ -4737,8 +4737,8 @@
     "armor_bash": 24,
     "armor_cut": 30,
     "vision_day": 50,
-    "path_settings": { "max_dist": 20 },
     "starting_ammo": { "120mm_HEAT": 40, "40mm_frag": 100, "556": 1000 },
+    "path_settings": { "max_dist": 20 },
     "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
     "death_drops": {
       "groups": [
@@ -6574,8 +6574,8 @@
     "armor_cut": 0,
     "vision_day": 50,
     "vision_night": 3,
-    "path_settings": { "max_dist": 5 },
     "starting_ammo": { "bot_manhack": 3 },
+    "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "SCIENCE", 20 ] ],
     "death_drops": "mon_zombie_scientist_death_drops",
     "death_function": [ "NORMAL" ],
