@@ -255,6 +255,17 @@ struct islot_book {
     recipe_list_t recipes;
 };
 
+struct islot_mod {
+    /** If non-empty restrict mod to items with those base (before modifiers) ammo types */
+    std::set<ammotype> acceptable_ammo;
+
+    /** If set modifies parent ammo to this type */
+    ammotype ammo_modifier = NULL_ID;
+
+    /** If non-empty replaces the compatible magazines for the parent item */
+    std::map< ammotype, std::set<itype_id> > magazine_adaptor;
+};
+
 /**
  * Common data for ranged things: guns, gunmods and ammo.
  * The values of the gun itself, its mods and its current ammo (optional) are usually summed
@@ -390,12 +401,6 @@ struct islot_gunmod : common_ranged_data {
     /** What kind of weapons can this gunmod be used with (eg. "rifle", "crossbow")? */
     std::set<std::string> usable;
 
-    /** If non-empty restrict mod to guns with those base (before modifiers) ammo types */
-    std::set<ammotype> acceptable_ammo;
-
-    /** If changed from the default of "NULL" modifies parent guns ammo to this type */
-    ammotype ammo_modifier = NULL_ID;
-
     /** @todo add documentation */
     int sight_dispersion = -1;
 
@@ -411,9 +416,6 @@ struct islot_gunmod : common_ranged_data {
 
     /** Increases base gun UPS consumption by this many charges per shot */
     int ups_charges = 0;
-
-    /** If non-empty replaces the compatible magazines for the base gun */
-    std::map< ammotype, std::set<itype_id> > magazine_adaptor;
 
     /** Firing modes added to or replacing those of the base gun */
     std::map<std::string, std::tuple<std::string, int, std::set<std::string>>> mode_modifier;
@@ -571,6 +573,7 @@ struct itype {
     copyable_unique_ptr<islot_brewable> brewable;
     copyable_unique_ptr<islot_armor> armor;
     copyable_unique_ptr<islot_book> book;
+    copyable_unique_ptr<islot_mod> mod;
     copyable_unique_ptr<islot_engine> engine;
     copyable_unique_ptr<islot_wheel> wheel;
     copyable_unique_ptr<islot_gun> gun;

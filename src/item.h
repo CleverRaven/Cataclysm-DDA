@@ -797,6 +797,7 @@ public:
     bool is_brewable() const;
     bool is_engine() const;
     bool is_wheel() const;
+    bool is_toolmod() const;
 
     bool is_faulty() const;
 
@@ -1188,6 +1189,10 @@ public:
          */
         void add_technique( const matec_id & tech );
         /*@}*/
+
+        /** Returns all toolmods currently attached to this item (always empty if item not a tool) */
+        std::vector<item *> toolmods();
+        std::vector<const item *> toolmods() const;
 
         /**
          * @name Gun and gunmod functions
