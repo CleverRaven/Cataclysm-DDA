@@ -1865,7 +1865,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
             "RECHARGE",
             "PLOW",
             "REAPER",
-            "PLANTER"
+            "PLANTER",
             "SCOOP"
         }};
 
