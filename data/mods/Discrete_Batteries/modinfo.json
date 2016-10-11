@@ -1,0 +1,10 @@
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "discrete_batteries",
+    "name": "Discrete Batteries",
+    "author": "Coolthulhu",
+    "description": "Adds battery mods that allow using vehicle batteries as magazines for electric items.",
+    "category": "items",
+    "path": ""
+}
