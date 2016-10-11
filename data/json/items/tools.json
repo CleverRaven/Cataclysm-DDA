@@ -474,21 +474,6 @@
     "flags": [ "BAROMETER" ]
   },
   {
-    "id": "battery_compartment",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": "extra battery mod",
-    "description": "This is a homemade battery compartment made with spare electronics.  With enough electronics skill, you could attach this to any electronic tool to double the amount of batteries it can hold.  Doing so will increase the item's volume proportionally to the increased battery capacity.",
-    "weight": 142,
-    "volume": 1,
-    "price": 1000,
-    "to_hit": -2,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "dark_gray",
-    "use_action": "EXTRA_BATTERY"
-  },
-  {
     "id": "battery_ups",
     "type": "TOOL",
     "category": "spare_parts",
@@ -2186,21 +2171,6 @@
     "symbol": ";",
     "color": "brown",
     "use_action": "DOGFOOD"
-  },
-  {
-    "id": "double_plutonium_core",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": "reactor core expansion device",
-    "description": "This is an expansion device for use on plutonium-powered equipment.  With enough electronics skill, you could attach this to an atomic tool to double the amount of plutonium it can hold.  Note that this device is incompatible with the atomic battery mod.",
-    "weight": 694,
-    "volume": 3,
-    "price": 10000,
-    "to_hit": -2,
-    "material": [ "superalloy", "plastic" ],
-    "symbol": ";",
-    "color": "dark_gray",
-    "use_action": "DOUBLE_REACTOR"
   },
   {
     "id": "dynamite",

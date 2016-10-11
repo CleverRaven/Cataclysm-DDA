@@ -1565,10 +1565,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         if( is_tool() ) {
-            if( has_flag( "DOUBLE_AMMO" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This tool has <good>double</good> the normal <info>maximum charges</info>." ) ) );
-            }
             if( has_flag( "USE_UPS" ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This tool has been modified to use a <info>universal power supply</info> and is <neutral>not compatible</neutral> with <info>standard batteries</info>." ) ) );
@@ -2497,12 +2493,6 @@ units::volume item::volume( bool integral ) const
         if( gunmod_find( "barrel_small" ) ) {
             ret -= type->gun->barrel_length;
         }
-    }
-
-    if( has_flag("DOUBLE_AMMO") ) {
-        // Batteries have volume 1 per 100 charges
-        // TODO: De-hardcode this
-        ret += type->maximum_charges() * 2.50_ml;
     }
 
     return ret;
@@ -4024,10 +4014,6 @@ long item::ammo_capacity() const
         res = type->tool->max_charges;
         for( const auto e : toolmods() ) {
             res *= e->type->mod->capacity_multiplier;
-        }
-
-        if( has_flag("DOUBLE_AMMO") ) {
-            res *= 2;
         }
     }
 

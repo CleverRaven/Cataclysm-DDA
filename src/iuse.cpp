@@ -136,43 +136,6 @@ const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 
-void remove_double_ammo_mod( item &it, player &p )
-{
-    if( !it.item_tags.count( "DOUBLE_AMMO" ) || it.item_tags.count( "DOUBLE_REACTOR" )) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the double battery capacity mod of your %s!" ),
-                         it.tname().c_str() );
-    item mod( "battery_compartment" );
-    p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "DOUBLE_AMMO" );
-    // Easier to remove all batteries than to check for the actual real maximum
-    if( it.ammo_remaining() > 0 ) {
-        item batteries( "battery", calendar::turn, it.ammo_remaining() );
-        p.i_add_or_drop( batteries, 1 );
-        it.ammo_unset();
-    }
-}
-
-void remove_double_plut_mod( item &it, player &p )
-{
-    if( !it.item_tags.count( "DOUBLE_AMMO" ) && !it.item_tags.count( "DOUBLE_REACTOR" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the double plutonium capacity mod of your %s!" ),
-                         it.tname().c_str() );
-    item mod( "double_plutonium_core" );
-    p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "DOUBLE_AMMO" );
-    it.item_tags.erase( "DOUBLE_REACTOR" );
-    // Easier to remove all cells than to check for the actual real maximum
-    if( it.ammo_remaining() >= 500 ) {
-        item batteries( "plut_cell", calendar::turn, it.ammo_remaining() / 500 );
-        p.i_add_or_drop( batteries, 1 );
-        it.ammo_unset();
-    }
-}
-
 void remove_ups_mod( item &it, player &p )
 {
     if( !it.has_flag( "USE_UPS" ) ) {
@@ -2166,46 +2129,6 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
 void remove_battery_mods( item &modded, player &p )
 {
     remove_ups_mod( modded, p );
-    remove_double_ammo_mod( modded, p );
-    remove_double_plut_mod( modded, p );
-}
-
-int iuse::extra_battery(player *p, item *, bool, const tripoint& )
-{
-    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
-    item &modded = p->i_at( inventory_index );
-
-    if( modded.is_null() ) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-
-    if (modded.has_flag("DOUBLE_AMMO")) {
-        p->add_msg_if_player(m_info, _("That item has already had its battery capacity doubled."));
-        return 0;
-    }
-
-    remove_battery_mods( modded, *p );
-
-    p->add_msg_if_player( _( "You double the battery capacity of your %s!" ), modded.tname().c_str() );
-    modded.item_tags.insert("DOUBLE_AMMO");
-    return 1;
-}
-
-int iuse::double_reactor(player *p, item *, bool, const tripoint& )
-{
-    int inventory_index = g->inv_for_tools_powered_by( ammotype( "plutonium" ), _( "Modify what?" ) );
-    item &modded = p->i_at( inventory_index );
-
-    if( modded.is_null() ) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-
-    p->add_msg_if_player( _( "You double the plutonium capacity of your %s!" ), modded.tname().c_str() );
-    modded.item_tags.insert("DOUBLE_AMMO");
-    modded.item_tags.insert("DOUBLE_REACTOR");   //This flag lets the remove_ functions know that this is a plutonium tool without taking extra steps.
-    return 1;
 }
 
 int iuse::ups_battery(player *p, item *, bool, const tripoint& )
@@ -2296,9 +2219,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 
 int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
 {
-    static const std::vector<std::string> removable_mods = {{
-        "DOUBLE_AMMO", "USE_UPS", "ATOMIC_AMMO"
-    }};
+    static const std::vector<std::string> removable_mods = {{ "USE_UPS", }};
 
     int inventory_index = g->inv_for_filter( _( "Detach power mods from what?" ), []( const item & itm ) {
         return itm.is_tool() && itm.has_any_flag( removable_mods );
