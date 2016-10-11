@@ -6258,7 +6258,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
 
         int m_part = 0;
         const auto &pi = part_info( i );
-        m_part += item::find_type( pi.item )->weight;
+        m_part += parts[i].base.weight();
         for( const auto &j : get_items( i ) ) {
             //m_part += j.type->weight;
             // Change back to the above if it runs too slowly
