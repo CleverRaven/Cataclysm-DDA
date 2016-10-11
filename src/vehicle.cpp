@@ -1847,58 +1847,43 @@ int vehicle::install_part( int dx, int dy, const vpart_str_id &id, item&& obj, b
 
 int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
 {
+    // Should be checked before installing the part
+    bool enable = true;
+    if( new_part.is_engine() ) {
+        // Nothing, always enabled
+    } else {
+        // @todo read toggle groups from JSON
+        static const std::vector<std::string> enable_like = {{
+            "CONE_LIGHT",
+            "CIRCLE_LIGHT",
+            "AISLE_LIGHT",
+            "DOME_LIGHT",
+            "ATOMIC_LIGHT",
+            "STEREO",
+            "CHIMES",
+            "FRIDGE",
+            "RECHARGE",
+            "PLOW",
+            "REAPER",
+            "PLANTER"
+            "SCOOP"
+        }};
+
+        for( const std::string &flag : enable_like ) {
+            if( new_part.info().has_flag( flag ) ) {
+                enable = has_part( flag, true );
+                break;
+            }
+        }
+    }
+
     parts.push_back( new_part );
     auto &pt = parts.back();
 
+    pt.enabled = enable;
+
     pt.mount.x = dx;
     pt.mount.y = dy;
-
-    // @todo read toggle groups from JSON
-    if( pt.is_engine() ) {
-        pt.enabled = true;
-
-    } else if( pt.info().has_flag( "CONE_LIGHT" ) ) {
-        pt.enabled = has_part( "CONE_LIGHT", true );
-
-    } else if( pt.info().has_flag( "CIRCLE_LIGHT" ) ) {
-        pt.enabled = has_part( "CIRCLE_LIGHT", true );
-
-    } else if( pt.info().has_flag( "AISLE_LIGHT" ) ) {
-        pt.enabled = has_part( "AISLE_LIGHT", true );
-
-    } else if( pt.info().has_flag( "DOME_LIGHT" ) ) {
-        pt.enabled = has_part( "DOME_LIGHT", true );
-
-    } else if( pt.info().has_flag( "ATOMIC_LIGHT" ) ) {
-        pt.enabled = has_part( "ATOMIC_LIGHT", true );
-
-    } else if( pt.info().has_flag( "STEREO" ) ) {
-        pt.enabled = has_part( "STEREO", true );
-
-    } else if( pt.info().has_flag( "CHIMES" ) ) {
-        pt.enabled = has_part( "CHIMES", true );
-
-    } else if( pt.info().has_flag( "FRIDGE" ) ) {
-        pt.enabled = has_part( "FRIDGE", true );
-
-    } else if( pt.info().has_flag( "RECHARGE" ) ) {
-        pt.enabled = has_part( "RECHARGE", true );
-
-    } else if( pt.info().has_flag( "PLOW" ) ) {
-        pt.enabled = has_part( "PLOW", true );
-
-    } else if( pt.info().has_flag( "REAPER" ) ) {
-        pt.enabled = has_part( "REAPER", true );
-
-    } else if( pt.info().has_flag( "PLANTER" ) ) {
-        pt.enabled = has_part( "PLANTER", true );
-
-    } else if( pt.info().has_flag( "SCOOP" ) ) {
-        pt.enabled = has_part( "SCOOP", true );
-
-    } else {
-        pt.enabled = false;
-    }
 
     refresh();
     return parts.size() - 1;
