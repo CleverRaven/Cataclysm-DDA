@@ -94,7 +94,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": 20000,
-    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
     "tools": [
       [ [ "sewing_kit", 10 ] ],
       [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
@@ -711,7 +711,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": 20000,
-    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
     "tools": [
       [ [ "sewing_kit", 10 ] ],
       [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
