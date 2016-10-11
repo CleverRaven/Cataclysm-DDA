@@ -14,10 +14,9 @@
     "count": 20,
     "stack_size": 40,
     "ammo_type": "12mm",
-    "range": 70,
     "damage": 50,
     "pierce": 40,
     "dispersion": 45,
-    "recoil": 105
+    "recoil": 100
   }
 ]
