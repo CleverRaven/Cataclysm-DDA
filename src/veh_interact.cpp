@@ -237,8 +237,8 @@ void veh_interact::allocate_windows()
 
     wrefresh(w_border);
     delwin( w_border );
-    display_name();
     display_grid();
+    display_name();
     display_stats();
     display_veh();
     move_cursor(0, 0); // display w_disp & w_parts
