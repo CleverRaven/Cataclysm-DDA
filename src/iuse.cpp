@@ -2112,10 +2112,6 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     return thread_needed / 2;
 }
 
-void remove_battery_mods( item &modded, player &p )
-{
-}
-
 int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 {
     if( p->is_npc() ) {
@@ -2173,19 +2169,30 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 
 int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
 {
-    static const std::vector<std::string> removable_mods = {{ "USE_UPS", }};
-
-    int inventory_index = g->inv_for_filter( _( "Detach power mods from what?" ), []( const item & itm ) {
-        return itm.is_tool() && itm.has_any_flag( removable_mods );
-    } );
-    item &modded = p->i_at( inventory_index );
-    if( modded.is_null() ) {
-        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+    if( !p ) {
         return 0;
     }
 
-    remove_battery_mods( modded, *p );
-    remove_radio_mod( modded, *p );
+    // can remove mods from unloaded tools only
+    auto filter = []( const item &e ) {
+        return !e.toolmods().empty() && !e.ammo_remaining() && !e.magazine_current();
+    };
+
+    auto loc = g->inv_map_splice( filter, _( "Remove mods from tool?" ), 1,
+                                  _( "You don't have unloaded modified tools." ) );
+
+    if( !loc ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return 0;
+    }
+
+    auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), [&loc]( const item& e ) {
+        return e.is_toolmod();
+    } );
+    p->i_add_or_drop( *mod );
+    loc->contents.erase( mod );
+
+    remove_radio_mod( *loc, *p );
     return 0;
 }
 
