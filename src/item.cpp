@@ -2152,8 +2152,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     else if( is_gun() || is_tool() || is_magazine() ) {
         ret.str("");
         ret << label(quantity);
-        for( const auto mod : gunmods() ) {
-            if( !type->gun->built_in_mods.count( mod->typeId() ) ) {
+        for( const auto mod : is_gun() ? gunmods() : toolmods() ) {
+            if( !type->gun || !type->gun->built_in_mods.count( mod->typeId() ) ) {
                 ret << "+";
             }
         }
