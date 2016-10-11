@@ -32,16 +32,8 @@ const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
 std::vector<const recipe *> recipe_subset::search( const std::string &txt ) const
 {
     std::vector<const recipe *> res;
-    std::vector<std::string> subqueries,
-        requirement_qualities,
-        names,
-        components,
-        tools,
-        result_qualities,
-        skills;
 
     size_t split;
-
     split = txt.find( ":" );
     std::string key = "", value;
     if( split != std::string::npos ) {
