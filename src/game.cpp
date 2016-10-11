@@ -87,6 +87,7 @@
 #include "item_factory.h"
 #include "scent_map.h"
 #include "safemode_ui.h"
+#include "game_constants.h"
 
 #include <map>
 #include <set>
@@ -5895,7 +5896,7 @@ faction *game::faction_by_ident(std::string id)
 
 Creature *game::is_hostile_nearby()
 {
-    int distance = (get_option<int>( "SAFEMODEPROXIMITY" ) <= 0) ? 60 : get_option<int>( "SAFEMODEPROXIMITY" );
+    int distance = (get_option<int>( "SAFEMODEPROXIMITY" ) <= 0) ? MAX_VIEW_DISTANCE : get_option<int>( "SAFEMODEPROXIMITY" );
     return is_hostile_within(distance);
 }
 
@@ -5943,7 +5944,7 @@ int game::mon_info(WINDOW *w)
     const int startrow = use_narrow_sidebar() ? 1 : 0;
 
     int newseen = 0;
-    const int iProxyDist = (get_option<int>( "SAFEMODEPROXIMITY" ) <= 0) ? 60 : get_option<int>( "SAFEMODEPROXIMITY" );
+    const int iProxyDist = (get_option<int>( "SAFEMODEPROXIMITY" ) <= 0) ? MAX_VIEW_DISTANCE : get_option<int>( "SAFEMODEPROXIMITY" );
     // 7 0 1    unique_types uses these indices;
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
@@ -7417,7 +7418,7 @@ void game::smash()
     const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
     bool didit = false;
     ///\EFFECT_STR increases smashing capability
-    int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
+    int smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
     tripoint smashp;
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
@@ -10375,7 +10376,17 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
     } );
 
-    for( auto &veh : nearby_vehicles_for( liquid.typeId() ) ) {
+    std::set<vehicle *> opts;
+    for( const auto &e : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        auto veh = g->m.veh_at( e );
+        if( veh && std::any_of( veh->parts.begin(), veh->parts.end(), [&liquid]( const vehicle_part &pt ) {
+            // cannot refill using active liquids (those that rot) due to #18570
+            return !liquid.active && pt.can_reload( liquid.typeId() );
+        } ) ) {
+            opts.insert( veh );
+        }
+    }
+    for( auto veh : opts ) {
         if( veh == source_veh ) {
             continue;
         }
@@ -10384,7 +10395,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             if( create_activity() ) {
                 serialize_liquid_target( u.activity, *veh );
             } else if( u.pour_into( *veh, liquid ) ) {
-                u.mod_moves( -100 );
+                u.mod_moves( -1000 ); // consistent with veh_interact::do_refill activity
             }
         } );
     }

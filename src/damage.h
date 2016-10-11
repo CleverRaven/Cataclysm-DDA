@@ -2,6 +2,7 @@
 #define DAMAGE_H
 
 #include "enums.h"
+#include "string_id.h"
 #include <string>
 #include <vector>
 #include <set>
@@ -10,6 +11,9 @@
 class item;
 class monster;
 class JsonObject;
+
+class Skill;
+using skill_id = string_id<Skill>;
 
 enum body_part : int;
 
@@ -85,6 +89,8 @@ struct resistances {
 
 damage_type dt_by_name( const std::string &name );
 const std::string &name_by_dt( const damage_type &dt );
+
+const skill_id &skill_by_dt( damage_type dt );
 
 damage_instance load_damage_instance( JsonObject &jo );
 damage_instance load_damage_instance( JsonArray &jarr );

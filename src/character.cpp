@@ -16,6 +16,7 @@
 #include "player.h"
 #include "mutation.h"
 #include "vehicle.h"
+#include "veh_interact.h"
 
 #include <algorithm>
 
@@ -37,6 +38,7 @@ const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_webbed( "webbed" );
 
+const skill_id skill_dodge( "dodge" );
 const skill_id skill_throw( "throw" );
 
 const std::string debug_nodmg( "DEBUG_NODMG" );
@@ -96,7 +98,7 @@ const std::string &Character::symbol() const
     return character_symbol;
 }
 
-void Character::mod_stat( const std::string &stat, int modifier )
+void Character::mod_stat( const std::string &stat, float modifier )
 {
     if( stat == "str" ) {
         mod_str_bonus( modifier );
@@ -591,7 +593,7 @@ item& Character::i_add(item it)
     last_item = item_type_id;
 
     if( it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
-        it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container() ) {
+        it.is_book() || it.is_tool() || it.is_melee() || it.is_food_container() ) {
         inv.unsort();
     }
 
@@ -1713,15 +1715,16 @@ void Character::update_health(int external_modifiers)
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
 
-int Character::get_dodge_base() const
+float Character::get_dodge_base() const
 {
     ///\EFFECT_DEX increases dodge base
-    return Creature::get_dodge_base() + (get_dex() / 2);
+    ///\EFFECT_DODGE increases dodge_base
+    return get_dex() / 2.0f + get_skill_level( skill_dodge );
 }
-int Character::get_hit_base() const
+float Character::get_hit_base() const
 {
     ///\EFFECT_DEX increases hit base, slightly
-    return Creature::get_hit_base() + (get_dex() / 4) + 3;
+    return get_dex() / 4.0f;
 }
 
 hp_part Character::body_window( bool precise ) const
@@ -2071,25 +2074,16 @@ bool Character::pour_into( item &container, item &liquid )
 
 bool Character::pour_into( vehicle &veh, item &liquid )
 {
-    const itype_id &ftype = liquid.typeId();
-    const int fuel_per_charge = fuel_charges_to_amount_factor( ftype );
-    const int fuel_cap = veh.fuel_capacity( ftype );
-    const int fuel_amnt = veh.fuel_left( ftype );
-    if( fuel_cap <= 0 ) {
-        //~ %1$s - transport name, %2$s liquid fuel name
-        add_msg_if_player( m_info, _( "The %1$s doesn't use %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
-        return false;
-    } else if( fuel_amnt >= fuel_cap ) {
-        add_msg_if_player( m_info, _( "The %s is already full." ), veh.name.c_str() );
+    auto tank = veh_interact::select_tank( veh, liquid );
+    if( !tank ) {
         return false;
     }
-    const int charges_to_move = std::min<int>( liquid.charges, ( fuel_cap - fuel_amnt ) / fuel_per_charge );
-    liquid.charges -= charges_to_move + (veh.refill( ftype, charges_to_move * fuel_per_charge ) / fuel_per_charge);
-    if( veh.fuel_left( ftype ) < fuel_cap ) {
-        add_msg_if_player( _( "You refill the %1$s with %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
-    } else {
-        add_msg_if_player( _( "You refill the %1$s with %2$s to its maximum." ), veh.name.c_str(),
-                 liquid.type_name().c_str() );
+
+    tank->fill_with( liquid );
+    add_msg_if_player( _( "You refill the %1$s with %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
+
+    if( liquid.charges > 0 ) {
+        add_msg_if_player( _( "There's some left over!" ) );
     }
     return true;
 }

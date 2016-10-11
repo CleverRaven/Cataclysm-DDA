@@ -53,7 +53,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": 30000,
-    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
     "tools": [
       [ [ "sewing_kit", 10 ] ],
@@ -73,7 +73,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": 20000,
-    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
     "tools": [
       [ [ "sewing_kit", 5 ] ],
@@ -92,7 +92,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": 30000,
-    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
     "tools": [
       [ [ "sewing_kit", 10 ] ],
@@ -112,7 +112,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": 20000,
-    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
     "tools": [
       [ [ "sewing_kit", 5 ] ],

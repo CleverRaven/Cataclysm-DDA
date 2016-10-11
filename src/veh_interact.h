@@ -39,10 +39,14 @@ class veh_interact
     public:
         static player_activity run( vehicle &veh, int x, int y );
 
+        /** Prompt for a suitable tank that can be used to contain @param liquid */
+        static item_location select_tank( const vehicle &veh, const item &liquid );
+
         static void complete_vehicle();
 
     private:
-        veh_interact( vehicle &veh, int x, int y );
+        veh_interact( vehicle &veh, int x = 0, int y = 0 );
+        ~veh_interact();
 
         item_location target;
 
@@ -75,6 +79,10 @@ class veh_interact
 
         int max_lift; // maximum level of available lifting equipment (if any)
         int max_jack; // maximum level of available jacking equipment (if any)
+
+        player_activity serialize_activity();
+
+        void set_title( std::string msg, ... ) const;
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::ostringstream &msg, const requirement_data &reqs,
@@ -110,7 +118,7 @@ class veh_interact
         void display_veh();
         void display_stats();
         void display_name();
-        void display_mode( char mode );
+        void display_mode();
         void display_list( size_t pos, std::vector<const vpart_info *> list, const int header = 0 );
         void display_details( const vpart_info *part );
         size_t display_esc( WINDOW *w );

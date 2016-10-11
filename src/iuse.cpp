@@ -2977,6 +2977,11 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
         fail_action = _("You pry, but cannot pop open the crate.");
         noisy = true;
         difficulty = 6;
+    } else if (g->m.furn(dirx, diry) == f_coffin_c) {
+        succ_action = _("You wedge open the coffin.");
+        fail_action = _("You pry, but the coffin remains closed.");
+        noisy = true;
+        difficulty = 5;
     } else if (type == t_window_domestic || type == t_curtains || type == t_window_no_curtains) {
         succ_action = _("You pry open the window.");
         fail_action = _("You pry, but cannot pry open the window.");
@@ -3003,6 +3008,9 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
         p->add_msg_if_player(m_good, succ_action);
         if (g->m.furn(dirx, diry) == f_crate_c) {
             g->m.furn_set(dirx, diry, f_crate_o);
+        }
+        if (g->m.furn(dirx, diry) == f_coffin_c) {
+            g->m.furn_set(dirx, diry, f_coffin_o);
         } else {
             g->m.ter_set(dirx, diry, new_type);
         }

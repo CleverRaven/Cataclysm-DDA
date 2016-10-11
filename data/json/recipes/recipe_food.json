@@ -5462,7 +5462,9 @@
       [ "milk", 1 ],
       [ "milk_powder", 1 ],
       [ "con_milk", 1 ],
-      [ "can_coconut", 1 ],
+      [ "can_coconut", 1 ]
+    ],
+    [
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ]
@@ -5507,7 +5509,9 @@
       [ "milk", 1 ],
       [ "milk_powder", 1 ],
       [ "con_milk", 1 ],
-      [ "can_coconut", 1 ],
+      [ "can_coconut", 1 ]
+    ],
+    [
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ]
@@ -5605,7 +5609,9 @@
       [ "milk", 1 ],
       [ "milk_powder", 1 ],
       [ "con_milk", 1 ],
-      [ "can_coconut", 1 ],
+      [ "can_coconut", 1 ]
+    ],
+    [
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ]
@@ -5696,7 +5702,9 @@
       [ "milk", 1 ],
       [ "milk_powder", 1 ],
       [ "con_milk", 1 ],
-      [ "can_coconut", 1 ],
+      [ "can_coconut", 1 ]
+    ],
+    [
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ]
@@ -5745,7 +5753,9 @@
       [ "milk", 1 ],
       [ "milk_powder", 1 ],
       [ "con_milk", 1 ],
-      [ "can_coconut", 1 ],
+      [ "can_coconut", 1 ]
+    ],
+    [
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ]
@@ -5848,7 +5858,9 @@
       [ "milk", 1 ],
       [ "milk_powder", 1 ],
       [ "con_milk", 1 ],
-      [ "can_coconut", 1 ],
+      [ "can_coconut", 1 ]
+    ],
+    [
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ]
@@ -5950,7 +5962,8 @@
       [ "honey_bottled", 1],
       [ "honey_glassed", 1],
       [ "syrup", 1 ],
-      [ "beet_syrup", 1]
+      [ "beet_syrup", 1],
+      [ "molasses", 1 ]
     ]
   ]
 },{
@@ -5982,6 +5995,7 @@
       [ "sugar", 15 ],
       [ "syrup", 1 ],
       [ "beet_syrup", 1],
+      [ "molasses", 1 ],
       [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
@@ -6275,7 +6289,9 @@
     ],
     [
       [ "sugar", 5 ],
-      [ "syrup", 1 ]
+      [ "syrup", 1 ],
+      [ "beet_syrup", 1 ],
+      [ "molasses", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -10508,7 +10524,8 @@
       [ "honey_bottled", 1 ],
       [ "honey_glassed", 1 ],
       [ "honeycomb", 1 ],
-      [ "syrup", 1 ]
+      [ "syrup", 1 ],
+      [ "beet_syrup", 1 ]
     ]
   ]
 },{

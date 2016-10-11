@@ -114,8 +114,8 @@ standard_npc::standard_npc( const std::string &name, const std::vector<itype_id>
     int_cur = std::max( s_int, 0 );
     int_max = std::max( s_int, 0 );
 
-    for( auto &e: _skills ) {
-        e.second = std::min( std::max( sk_lvl, 0 ), MAX_SKILL );
+    for( auto &e: Skill::skills ) {
+        set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
 
     for( const auto &e : clothing ) {
@@ -1586,7 +1586,7 @@ int npc::smash_ability() const
 {
     if( !is_following() || rules.allow_bash ) {
         ///\EFFECT_STR_NPC increases smash ability
-        return str_cur + weapon.type->melee_dam;
+        return str_cur + weapon.damage_melee( DT_BASH );
     }
 
     // Not allowed to bash
