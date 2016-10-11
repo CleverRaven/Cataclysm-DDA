@@ -8,6 +8,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "damage.h"
+#include "pathfinding.h"
 
 #include <bitset>
 #include <string>
@@ -310,8 +311,8 @@ struct mtype {
         mongroup_id upgrade_group;
         mtype_id burn_into;
 
-        // Pathfinding settings
-        int max_path_length;
+        // Monster's ability to destroy terrain and vehicles
+        int bash_skill;
 
         // Default constructor
         mtype ();
@@ -329,6 +330,8 @@ struct mtype {
 
         /** Emission sources that cycle each turn the monster remains alive */
         std::set<emit_id> emit_fields;
+
+        pathfinding_settings path_settings;
 
         // Used to fetch the properly pluralized monster type name
         std::string nname(unsigned int quantity = 1) const;

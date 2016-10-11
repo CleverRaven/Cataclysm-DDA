@@ -409,6 +409,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          */
         void on_load();
 
+        const pathfinding_settings &get_pathfinding_settings() const override;
+        std::set<tripoint> get_path_avoid() const override;
+
     private:
         int hp;
         std::map<std::string, mon_special_attack> special_attacks;

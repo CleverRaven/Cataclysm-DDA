@@ -89,7 +89,7 @@
     "armor_cut": 2,
     "vision_day": 5,
     "vision_night": 5,
-    "max_path_length": 5,
+    "path_settings": { "max_dist": 5 },
     "special_attacks": [
       {
         "type": "bite",
@@ -365,7 +365,7 @@
     "armor_cut": 0,
     "vision_day": 30,
     "vision_night": 10,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
@@ -572,7 +572,7 @@
     "armor_cut": 0,
     "vision_day": 30,
     "vision_night": 10,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
@@ -1138,7 +1138,7 @@
     "armor_bash": 18,
     "armor_cut": 14,
     "vision_day": 50,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "starting_ammo": { "40mm_frag": 100, "556": 1000 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
     "death_drops": {
@@ -1203,7 +1203,7 @@
     "armor_bash": 0,
     "armor_cut": 0,
     "vision_day": 40,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "death_drops": {
       "subtype": "collection",
       "groups": [
@@ -1242,7 +1242,7 @@
     "armor_bash": 12,
     "armor_cut": 8,
     "vision_day": 50,
-    "max_path_length": 5,
+    "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "COPBOT", 3 ] ],
     "death_drops": {
       "groups": [
@@ -1279,7 +1279,7 @@
     "armor_cut": 0,
     "vision_day": 40,
     "vision_night": 10,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "special_attacks": [
       {
         "type": "leap",
@@ -1318,7 +1318,7 @@
     "armor_bash": 2,
     "armor_cut": 0,
     "vision_day": 40,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -1356,7 +1356,7 @@
     "armor_cut": 0,
     "vision_day": 40,
     "vision_night": 5,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
@@ -1388,7 +1388,7 @@
     "armor_cut": 0,
     "vision_day": 40,
     "vision_night": 5,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
@@ -1585,7 +1585,7 @@
     "armor_cut": 0,
     "vision_day": 40,
     "vision_night": 12,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT" ]
@@ -1698,7 +1698,7 @@
     "armor_cut": 0,
     "vision_day": 40,
     "vision_night": 5,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
@@ -2208,7 +2208,7 @@
     "armor_bash": 4,
     "armor_cut": 0,
     "vision_day": 40,
-    "max_path_length": 5,
+    "path_settings": { "max_dist": 5 },
     "special_attacks": [
       {
         "type": "leap",
@@ -3285,7 +3285,7 @@
     "armor_bash": 0,
     "armor_cut": 5,
     "vision_day": 50,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "death_function": [ "MELT" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "BONES", "NOGIB" ]
   },
@@ -3377,7 +3377,7 @@
     "armor_bash": 4,
     "armor_cut": 12,
     "vision_day": 50,
-    "max_path_length": 50,
+    "path_settings": { "max_dist": 50 },
     "special_attacks": [ [ "PARROT", 0 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "ARTHROPOD_BLOOD", "FAT", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
@@ -3507,7 +3507,7 @@
     "armor_cut": 1,
     "vision_day": 40,
     "vision_night": 7,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -3692,7 +3692,7 @@
     "dodge": 2,
     "armor_bash": 0,
     "armor_cut": 0,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
@@ -3943,7 +3943,7 @@
     "armor_cut": 18,
     "vision_day": 30,
     "vision_night": 15,
-    "max_path_length": 5,
+    "path_settings": { "max_dist": 5 },
     "special_attacks": [
       [ "SHRIEK_ALERT", 6 ],
       [ "SHRIEK_STUN", 1 ]
@@ -3977,7 +3977,7 @@
     "armor_bash": 12,
     "armor_cut": 8,
     "vision_day": 50,
-    "max_path_length": 5,
+    "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "RIOTBOT", 1 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": {
@@ -4014,7 +4014,7 @@
     "armor_cut": 0,
     "vision_day": 1,
     "vision_night": 30,
-    "max_path_length": 5,
+    "path_settings": { "max_dist": 5 },
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "WARM", "AQUATIC", "BONES", "FAT" ]
   },
@@ -4044,7 +4044,7 @@
     "armor_cut": 0,
     "vision_day": 1,
     "vision_night": 30,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "BONES" ]
@@ -4074,7 +4074,7 @@
     "armor_cut": 0,
     "vision_day": 1,
     "vision_night": 30,
-    "max_path_length": 5,
+    "path_settings": { "max_dist": 5 },
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "WARM", "VENOM", "SWIMS", "LEATHER", "BONES" ]
   },
@@ -4225,7 +4225,7 @@
     "dodge": 0,
     "armor_bash": 10,
     "armor_cut": 30,
-    "max_path_length": 5,
+    "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "PARROT", 40 ] ],
     "death_function": [ "MELT" ],
     "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "REGENERATES_50", "ABSORBS", "REGEN_MORALE", "NOGIB" ]
@@ -4291,7 +4291,7 @@
     "armor_bash": 12,
     "armor_cut": 12,
     "vision_day": 50,
-    "max_path_length": 5,
+    "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "TAZER", 5 ] ],
     "death_drops": {
       "groups": [
@@ -4737,7 +4737,7 @@
     "armor_bash": 24,
     "armor_cut": 30,
     "vision_day": 50,
-    "max_path_length": 20,
+    "path_settings": { "max_dist": 20 },
     "starting_ammo": { "120mm_HEAT": 40, "40mm_frag": 100, "556": 1000 },
     "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
     "death_drops": {
@@ -4906,7 +4906,7 @@
     "dodge": 0,
     "armor_bash": 12,
     "armor_cut": 8,
-    "max_path_length": 5,
+    "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "FLAMETHROWER", 10 ] ],
     "death_drops": {
       "groups": [
@@ -5152,7 +5152,7 @@
     "armor_cut": 0,
     "vision_day": 40,
     "vision_night": 5,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
@@ -6332,7 +6332,7 @@
     "armor_cut": 2,
     "vision_day": 50,
     "vision_night": 5,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "UPGRADE", 10 ] ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "death_drops": "default_zombie_death_drops",
@@ -6365,7 +6365,7 @@
     "armor_cut": 0,
     "vision_day": 50,
     "vision_night": 5,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "RESURRECT", 0 ] ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "death_drops": "default_zombie_death_drops",
@@ -6397,7 +6397,7 @@
     "armor_bash": 0,
     "armor_cut": 0,
     "vision_day": 50,
-    "max_path_length": 10,
+    "path_settings": { "max_dist": 10 },
     "special_attacks": [
       {
         "type": "bite",
@@ -6435,7 +6435,7 @@
     "armor_cut": 5,
     "vision_day": 45,
     "vision_night": 15,
-    "max_path_length": 5,
+    "path_settings": { "max_dist": 5 },
     "special_attacks": [
       {
         "type": "leap",
@@ -6526,7 +6526,7 @@
     "armor_cut": 0,
     "vision_day": 40,
     "vision_night": 3,
-    "max_path_length": 4,
+    "path_settings": { "max_dist": 4 },
     "special_attacks": [
       {
         "type": "bite",
@@ -6574,7 +6574,7 @@
     "armor_cut": 0,
     "vision_day": 50,
     "vision_night": 3,
-    "max_path_length": 5,
+    "path_settings": { "max_dist": 5 },
     "starting_ammo": { "bot_manhack": 3 },
     "special_attacks": [ [ "SCIENCE", 20 ] ],
     "death_drops": "mon_zombie_scientist_death_drops",
@@ -6862,7 +6862,7 @@
     "armor_acid": 4,
     "vision_day": 50,
     "vision_night": 3,
-    "max_path_length": 3,
+    "path_settings": { "max_dist": 3 },
     "special_attacks": [
       [ "SHRIEK", 20 ],
       {

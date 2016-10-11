@@ -41,10 +41,10 @@ mtype::mtype()
     upgrade_into = NULL_ID;
     upgrade_group = NULL_ID;
     burn_into = NULL_ID;
-    max_path_length = 0;
     dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
     luminance = 0;
+    bash_skill = 0;
     flags.insert( MF_HUMAN );
     flags.insert( MF_BONES );
     flags.insert( MF_LEATHER );

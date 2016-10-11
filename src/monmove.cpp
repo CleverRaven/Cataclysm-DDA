@@ -637,12 +637,11 @@ void monster::move()
             path.erase( path.begin() );
         }
 
-        int max_len = type->max_path_length;
-        if( max_len >= rl_dist( pos(), goal ) &&
+        const auto &pf_settings = get_pathfinding_settings();
+        if( pf_settings.max_dist >= rl_dist( pos(), goal ) &&
             ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
             // We need a new path
-            // Path length 4 times the path length, because pathfinding accounts for difficult terrain
-            path = g->m.route( pos(), goal, bash_estimate(), max_len * 4 );
+            path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
         }
 
         // Try to respect old paths, even if we can't pathfind at the moment
@@ -690,13 +689,35 @@ void monster::move()
         const float distance_to_target = trig_dist( pos(), destination );
         for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
             if( candidate.z != posz() ) {
-                if( !g->m.valid_move( pos(), candidate, false, true ) ) {
-                    // Can't phase through floor
+                if( !g->m.has_zlevels() ) {
+                    // Z-moves are only allowed in z-level mode, for obvious reasons
                     continue;
                 }
 
-                if( !can_fly && candidate.z > posz() && !g->m.has_floor_or_support( candidate ) ) {
+                bool can_z_move = true;
+                if( !g->m.valid_move( pos(), candidate, false, true ) ) {
+                    // Can't phase through floor
+                    can_z_move = false;
+                }
+
+                if( can_z_move && !can_fly && candidate.z > posz() && !g->m.has_floor_or_support( candidate ) ) {
                     // Can't "jump" up a whole z-level
+                    can_z_move = false;
+                }
+
+                // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
+                // @todo Remove z-level stair bullshit teleport after aligning all stairs
+                if( !can_z_move &&
+                    posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
+                    posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
+                    const tripoint &upper = candidate.z > posz() ? candidate : pos();
+                    const tripoint &lower = candidate.z > posz() ? pos() : candidate;
+                    if( g->m.has_flag( TFLAG_GOES_DOWN, upper ) && g->m.has_flag( TFLAG_GOES_UP, lower ) ) {
+                        can_z_move = true;
+                    }
+                }
+
+                if( !can_z_move ) {
                     continue;
                 }
             }
@@ -981,16 +1002,7 @@ int monster::bash_estimate()
 
 int monster::bash_skill()
 {
-    int ret = type->melee_dice * type->melee_sides; // IOW, the critter's max bashing damage
-    if( has_flag( MF_BORES ) ) {
-        ret *= 15; // This is for stuff that goes through solid rock: minerbots, dark wyrms, etc
-    } else if( has_flag( MF_DESTROYS ) ) {
-        ret *= 2.5;
-    } else if( !has_flag( MF_BASHES ) ) {
-        ret = 0;
-    }
-
-    return ret;
+    return type->bash_skill;
 }
 
 int monster::group_bash_skill( const tripoint &target )
@@ -1532,7 +1544,7 @@ bool monster::will_reach( int x, int y )
         return false;
     }
 
-    std::vector<tripoint> path = g->m.route( pos(), tripoint( x, y, posz() ), 0, 100 );
+    auto path = g->m.route( pos(), tripoint( x, y, posz() ), get_pathfinding_settings() );
     if( path.empty() ) {
         return false;
     }
@@ -1557,7 +1569,7 @@ bool monster::will_reach( int x, int y )
 int monster::turns_to_reach( int x, int y )
 {
     // This function is a(n old) temporary hack that should soon be removed
-    std::vector<tripoint> path = g->m.route( pos(), tripoint( x, y, posz() ), 0, 100 );
+    auto path = g->m.route( pos(), tripoint( x, y, posz() ), get_pathfinding_settings() );
     if( path.empty() ) {
         return 999;
     }
