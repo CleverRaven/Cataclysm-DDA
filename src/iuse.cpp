@@ -173,22 +173,6 @@ void remove_double_plut_mod( item &it, player &p )
     }
 }
 
-void remove_atomic_mod( item &it, player &p )
-{
-    if( !it.item_tags.count( "ATOMIC_AMMO" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the plutonium cells from your %s!" ), it.tname().c_str() );
-    item mod( "battery_atomic" );
-    mod.charges = it.charges;
-    it.ammo_unset();
-    p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "ATOMIC_AMMO" );
-    it.item_tags.erase( "NO_UNLOAD" );
-    it.item_tags.erase( "RADIOACTIVE" );
-    it.item_tags.erase( "LEAK_DAM" );
-}
-
 void remove_ups_mod( item &it, player &p )
 {
     if( !it.has_flag( "USE_UPS" ) ) {
@@ -2181,7 +2165,6 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
 
 void remove_battery_mods( item &modded, player &p )
 {
-    remove_atomic_mod( modded, p );
     remove_ups_mod( modded, p );
     remove_double_ammo_mod( modded, p );
     remove_double_plut_mod( modded, p );
@@ -2225,32 +2208,6 @@ int iuse::double_reactor(player *p, item *, bool, const tripoint& )
     return 1;
 }
 
-int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
-{
-    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
-    item &modded = p->i_at( inventory_index );
-
-    if( modded.is_null() ) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-    if (modded.has_flag("ATOMIC_AMMO")) {
-        p->add_msg_if_player(m_info,
-                             _("That item has already had its battery modified to accept plutonium cells."));
-        return 0;
-    }
-
-    remove_battery_mods( modded, *p );
-    remove_ammo( &modded, *p ); // remove batteries, item::charges is now plutonium
-
-    p->add_msg_if_player( _( "You modify your %s to run off plutonium cells!" ), modded.tname().c_str() );
-    modded.item_tags.insert("ATOMIC_AMMO");
-    modded.item_tags.insert("RADIOACTIVE");
-    modded.item_tags.insert("LEAK_DAM");
-    modded.item_tags.insert("NO_UNLOAD");
-    modded.charges = it->charges;
-    return 1;
-}
 int iuse::ups_battery(player *p, item *, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
@@ -5666,6 +5623,32 @@ int iuse::gunmod_attach( player *p, item *it, bool, const tripoint& ) {
         p->gunmod_add( gun, *it );
     }
 
+    return 0;
+}
+
+int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
+    if( !it || !it->is_toolmod() ) {
+        debugmsg( "tried to attach non-toolmod" );
+        return 0;
+    }
+
+    if( !p ) {
+        return 0;
+    }
+
+    // can only attach to unmodified unloaded tools that use compatible ammo
+    auto loc = g->inv_map_splice( [&it]( const item &e ) {
+            return e.is_tool() && e.toolmods().empty() &&
+                   !e.ammo_remaining() && !e.magazine_current() &&
+                   it->type->mod->acceptable_ammo.count( e.ammo_type( false ) );
+        }, _( "Select tool to modify:" ), 1, _( "You don't have compatible tools." ) );
+
+    if( !loc ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return 0;
+    }
+
+    loc->contents.push_back( p->i_rem( it ) );
     return 0;
 }
 

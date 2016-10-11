@@ -163,7 +163,6 @@ public:
     int bell                ( player*, item*, bool, const tripoint& );
     int seed                ( player*, item*, bool, const tripoint& );
     int oxygen_bottle       ( player*, item*, bool, const tripoint& );
-    int atomic_battery      ( player*, item*, bool, const tripoint& );
     int ups_battery         ( player*, item*, bool, const tripoint& );
     int radio_mod           ( player*, item*, bool, const tripoint& );
     int remove_all_mods     ( player*, item*, bool, const tripoint& );
@@ -171,6 +170,7 @@ public:
     int fish_trap           ( player*, item*, bool, const tripoint& );
     int gun_repair          ( player*, item*, bool, const tripoint& );
     int gunmod_attach       ( player*, item*, bool, const tripoint& );
+    int toolmod_attach      ( player*, item*, bool, const tripoint& );
     int misc_repair         ( player*, item*, bool, const tripoint& );
     int rm13armor_off       ( player*, item*, bool, const tripoint& );
     int rm13armor_on        ( player*, item*, bool, const tripoint& );

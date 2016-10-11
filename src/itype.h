@@ -264,6 +264,9 @@ struct islot_mod {
 
     /** If non-empty replaces the compatible magazines for the parent item */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
+
+    /** Proportional adjusgtment of parent item ammo capacity */
+    float capacity_multiplier = 1.0;
 };
 
 /**

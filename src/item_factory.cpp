@@ -134,8 +134,9 @@ void Item_factory::finalize() {
             }
         }
 
-        if( obj.gunmod ) {
-            obj.use_methods.emplace( "GUNMOD_ATTACH", usage_from_string( "GUNMOD_ATTACH" ) );
+        if( obj.mod ) {
+            std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
+            obj.use_methods.emplace( func, usage_from_string( func ) );
         }
 
         if( obj.engine && get_world_option<bool>( "NO_FAULTS" ) ) {
@@ -402,7 +403,6 @@ void Item_factory::init()
     add_iuse( "ANTIPARASITIC", &iuse::antiparasitic );
     add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flamable );
     add_iuse( "ARTIFACT", &iuse::artifact );
-    add_iuse( "ATOMIC_BATTERY", &iuse::atomic_battery );
     add_iuse( "ATOMIC_CAFF", &iuse::atomic_caff );
     add_iuse( "BATTLETORCH_LIT", &iuse::battletorch_lit );
     add_iuse( "BELL", &iuse::bell );
@@ -460,6 +460,7 @@ void Item_factory::init()
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
     add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
+    add_iuse( "TOOLMOD_ATTACH", &iuse::toolmod_attach );
     add_iuse( "HACKSAW", &iuse::hacksaw );
     add_iuse( "HAIRKIT", &iuse::hairkit );
     add_iuse( "HAMMER", &iuse::hammer );
@@ -1193,6 +1194,7 @@ void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src
     bool strict = src == "core";
 
     assign( jo, "ammo_modifier", slot.ammo_modifier, strict );
+    assign( jo, "capacity_multiplier", slot.capacity_multiplier, strict );
 
     if( jo.has_member( "acceptable_ammo" ) ) {
         slot.acceptable_ammo.clear();

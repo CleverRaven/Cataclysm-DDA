@@ -1569,10 +1569,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This tool has <good>double</good> the normal <info>maximum charges</info>." ) ) );
             }
-            if( has_flag( "ATOMIC_AMMO" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This tool has been modified to run off <info>plutonium cells</info> instead of batteries." ) ) );
-            }
             if( has_flag( "USE_UPS" ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This tool has been modified to use a <info>universal power supply</info> and is <neutral>not compatible</neutral> with <info>standard batteries</info>." ) ) );
@@ -2234,10 +2230,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         }
     }
 
-    if (has_flag("ATOMIC_AMMO")) {
-        modtext += _( "atomic " );
-    }
-
     if( gunmod_find( "barrel_small" ) ) {
         modtext += _( "sawn-off ");
     }
@@ -2413,11 +2405,6 @@ int item::weight( bool include_contents ) const
         ret -= std::min( max_barrel_weight, barrel_weight );
     }
 
-    // tool mods also add about a pound of weight
-    if( has_flag("ATOMIC_AMMO") ) {
-        ret += 250;
-    }
-
     if( include_contents ) {
         for( auto &elem : contents ) {
             ret += elem.weight();
@@ -2510,11 +2497,6 @@ units::volume item::volume( bool integral ) const
         if( gunmod_find( "barrel_small" ) ) {
             ret -= type->gun->barrel_length;
         }
-    }
-
-    // Battery mods also add volume
-    if( has_flag("ATOMIC_AMMO") ) {
-        ret += 250_ml;
     }
 
     if( has_flag("DOUBLE_AMMO") ) {
@@ -4040,17 +4022,20 @@ long item::ammo_capacity() const
 
     if( is_tool() ) {
         res = type->tool->max_charges;
+        for( const auto e : toolmods() ) {
+            res *= e->type->mod->capacity_multiplier;
+        }
 
         if( has_flag("DOUBLE_AMMO") ) {
             res *= 2;
-        }
-        if( has_flag("ATOMIC_AMMO") ) {
-            res *= 100;
         }
     }
 
     if( is_gun() ) {
         res = type->gun->clip;
+        for( const auto e : gunmods() ) {
+            res *= e->type->mod->capacity_multiplier;
+        }
     }
 
     if( is_magazine() ) {
@@ -4169,10 +4154,6 @@ itype_id item::ammo_current() const
 ammotype item::ammo_type( bool conversion ) const
 {
     if( conversion ) {
-        if( has_flag( "ATOMIC_AMMO" ) ) {
-            return ammotype( "plutonium" );
-        }
-
         auto mods = is_gun() ? gunmods() : toolmods();
         for( const auto e : mods ) {
             if( e->type->mod->ammo_modifier ) {
