@@ -641,8 +641,8 @@ void monster::move()
         if( max_len >= rl_dist( pos(), goal ) &&
             ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
             // We need a new path
-            // Path length is twice the listed because pathfinding accounts for hard terrain
-            path = g->m.route( pos(), goal, bash_estimate(), max_len * 2 );
+            // Path length 4 times the path length, because pathfinding accounts for difficult terrain
+            path = g->m.route( pos(), goal, bash_estimate(), max_len * 4 );
         }
 
         // Try to respect old paths, even if we can't pathfind at the moment
