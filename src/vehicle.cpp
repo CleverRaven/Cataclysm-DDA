@@ -1848,9 +1848,9 @@ int vehicle::install_part( int dx, int dy, const vpart_str_id &id, item&& obj, b
 int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
 {
     // Should be checked before installing the part
-    bool enable = true;
+    bool enable = false;
     if( new_part.is_engine() ) {
-        // Nothing, always enabled
+        enable = true;
     } else {
         // @todo read toggle groups from JSON
         static const std::vector<std::string> enable_like = {{
