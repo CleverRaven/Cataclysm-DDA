@@ -632,6 +632,8 @@ void monster::move()
     bool moved = false;
     tripoint destination;
 
+    // If true, don't try to greedily avoid locally bad paths
+    bool pathed = false;
     if( !wander() ) {
         while( !path.empty() && path.front() == pos() ) {
             path.erase( path.begin() );
@@ -648,6 +650,7 @@ void monster::move()
         if( !path.empty() && path.back() == goal ) {
             destination = path.front();
             moved = true;
+            pathed = true;
         } else {
             // Straight line forward, probably because we can't pathfind (well enough)
             destination = goal;
@@ -683,17 +686,12 @@ void monster::move()
         // Implement both avoiding obstacles and staggering.
         moved = false;
         float switch_chance = 0.0;
-        const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
+        const bool can_bash = bash_skill() > 0;
         // This is a float and using trig_dist() because that Does the Right Thing(tm)
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos(), destination );
         for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
             if( candidate.z != posz() ) {
-                if( !g->m.has_zlevels() ) {
-                    // Z-moves are only allowed in z-level mode, for obvious reasons
-                    continue;
-                }
-
                 bool can_z_move = true;
                 if( !g->m.valid_move( pos(), candidate, false, true ) ) {
                     // Can't phase through floor
@@ -733,7 +731,7 @@ void monster::move()
             // Allow non-stumbling critters to stumble when most direct choice is bad
             bool bad_choice = false;
             // Bail out if we can't move there and we can't bash.
-            if( !can_move_to( candidate ) ) {
+            if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash ) {
                     continue;
                 }
@@ -767,7 +765,8 @@ void monster::move()
                 // If we stumble, pick a random square, otherwise take the first one,
                 // which is the most direct path.
                 // Except if the direct path is bad, then check others
-                if( !staggers && !bad_choice ) {
+                // Or if the path is given by pathfinder
+                if( !staggers && ( !bad_choice || pathed ) ) {
                     break;
                 }
             }
@@ -788,6 +787,7 @@ void monster::move()
     } else {
         moves -= 100;
         stumble();
+        path.clear();
     }
 }
 
@@ -849,7 +849,7 @@ tripoint monster::scent_move()
         ( fleeing && bestsmell == 0 ) ) {
         return next;
     }
-    const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
+    const bool can_bash = bash_skill() > 0;
     for( const auto &dest : g->m.points_in_radius( pos(), 1 ) ) {
         int smell = g->scent.get( dest );
         if( ( can_move_to( dest ) || ( dest == g->u.pos() ) ||
@@ -978,7 +978,7 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
     bool try_bash = !can_move_to( p ) || one_in( 3 );
-    bool can_bash = g->m.is_bashable( p ) && ( has_flag( MF_BASHES ) || has_flag( MF_BORES ) );
+    bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
 
     if( try_bash && can_bash ) {
         int bashskill = group_bash_skill( p );

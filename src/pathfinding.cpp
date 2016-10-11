@@ -302,7 +302,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 const int rating = ( bash == 0 || cost != 0 ) ? -1 :
                                    bash_rating_internal( bash, furniture, terrain, false, veh, part );
 
-                if( cost == 0 && rating <= 0 && !terrain.open && veh == nullptr ) {
+                if( cost == 0 && rating <= 0 && ( !doors || !terrain.open ) && veh == nullptr ) {
                     layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calc costs
                     continue;
                 }
@@ -313,7 +313,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                     // Only try to open INSIDE doors from the inside
                     if( doors && terrain.open &&
                         ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !is_outside( cur ) ) ) {
-                        newg += 4; // To open and then move onto the tile
+                        // To open and then move onto the tile
+                        newg += 4;
                     } else if( veh != nullptr ) {
                         part = veh->obstacle_at_part( part );
                         int dummy = -1;
@@ -322,12 +323,13 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                               veh_at_internal( cur, dummy ) == veh ) ) {
                             // Handle car doors, but don't try to path through curtains
                             newg += 10; // One turn to open, 4 to move there
-                        } else if( part != -1 && bash > 0 ) {
+                        } else if( part >= 0 && bash > 0 ) {
                             // Car obstacle that isn't a door
                             // @todo Account for armor
                             int hp = veh->parts[part].hp();
                             if( hp / 20 > bash ) {
                                 // Threshold damage thing means we just can't bash this down
+                                layer.state[index] = ASL_CLOSED;
                                 continue;
                             } else if( hp / 10 > bash ) {
                                 // Threshold damage thing means we will fail to deal damage pretty often
@@ -335,8 +337,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                             }
 
                             newg += 2 * hp / bash + 8 + 4;
-                        } else {
-                            if( !veh->part_flag( part, VPFLAG_OPENABLE ) ) {
+                        } else if( part >= 0 ) {
+                            if( !doors || !veh->part_flag( part, VPFLAG_OPENABLE ) ) {
                                 // Won't be openable, don't try from other sides
                                 layer.state[index] = ASL_CLOSED;
                             }
@@ -351,7 +353,13 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         // Desperate measures, avoid whenever possible
                         newg += 500;
                     } else {
-                        continue; // Unbashable and unopenable from here
+                        // Unbashable and unopenable from here
+                        if( !doors || !terrain.open ) {
+                            // Or anywhere else for that matter
+                            layer.state[index] = ASL_CLOSED;
+                        }
+
+                        continue;
                     }
                 }
 
@@ -378,7 +386,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                                 layer.state[index] = ASL_CLOSED;
                                 continue;
                             }
-                        } else {
+                        } else if( trapavoid ) {
                             // Otherwise it's walkable
                             newg += 500;
                         }
