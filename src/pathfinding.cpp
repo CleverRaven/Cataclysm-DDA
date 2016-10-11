@@ -207,6 +207,11 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
     }
 
+    // If expected path length is greater than max distance, allow only line path, like above
+    if( rl_dist( f, t ) > maxdist ) {
+        return ret;
+    }
+
     const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     int minx = std::min( f.x, t.x ) - pad;
     int miny = std::min( f.y, t.y ) - pad;
@@ -420,8 +425,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
     } while( !done && !pf.empty() );
 
-    ret.reserve( rl_dist( f, t ) * 2 );
     if( done ) {
+        ret.reserve( rl_dist( f, t ) * 2 );
         tripoint cur = t;
         // Just to limit max distance, in case something weird happens
         for( int fdist = maxdist; fdist != 0; fdist-- ) {

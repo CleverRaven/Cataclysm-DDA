@@ -309,6 +309,10 @@ struct mtype {
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
         mtype_id burn_into;
+
+        // Pathfinding settings
+        int max_path_length;
+
         // Default constructor
         mtype ();
         /**

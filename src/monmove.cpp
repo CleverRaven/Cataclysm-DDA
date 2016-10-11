@@ -146,6 +146,7 @@ void monster::set_dest( const tripoint &p )
 void monster::unset_dest()
 {
     goal = pos();
+    path.clear();
 }
 
 // Move towards p for f more turns--generally if we hear a sound there
@@ -530,19 +531,17 @@ void monster::move()
 
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
-    if( !is_hallucination() && has_flag( MF_ABSORBS ) && !g->m.has_flag( TFLAG_SEALED, pos() ) ) {
-        if( !g->m.i_at( pos() ).empty() ) {
-            if( g->u.sees( *this ) ) {
-                add_msg(
-                    _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                    name().c_str() );
-            }
-            static const auto volume_per_hp = units::from_milliliter( 250 );
-            for( auto &elem : g->m.i_at( pos() ) ) {
-                hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            }
-            g->m.i_clear( pos() );
+    if( !is_hallucination() && has_flag( MF_ABSORBS ) && !g->m.has_flag( TFLAG_SEALED, pos() ) &&
+        !g->m.has_items( pos() ) ) {
+        if( g->u.sees( *this ) ) {
+            add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
+                     name().c_str() );
         }
+        static const auto volume_per_hp = units::from_milliliter( 250 );
+        for( auto &elem : g->m.i_at( pos() ) ) {
+            hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
+        }
+        g->m.i_clear( pos() );
     }
 
     const bool pacified = has_effect( effect_pacified );
@@ -633,10 +632,28 @@ void monster::move()
     bool moved = false;
     tripoint destination;
 
-    // CONCRETE PLANS - Most likely based on sight
     if( !wander() ) {
-        destination = goal;
-        moved = true;
+        while( !path.empty() && path.front() == pos() ) {
+            path.erase( path.begin() );
+        }
+
+        int max_len = type->max_path_length;
+        if( max_len >= rl_dist( pos(), goal ) &&
+            ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
+            // We need a new path
+            // Path length is twice the listed because pathfinding accounts for hard terrain
+            path = g->m.route( pos(), goal, bash_estimate(), max_len * 2 );
+        }
+
+        // Try to respect old paths, even if we can't pathfind at the moment
+        if( !path.empty() && path.back() == goal ) {
+            destination = path.front();
+            moved = true;
+        } else {
+            // Straight line forward, probably because we can't pathfind (well enough)
+            destination = goal;
+            moved = true;
+        }
     }
     if( !moved && has_flag( MF_SMELLS ) ) {
         // No sight... or our plans are invalid (e.g. moving through a transparent, but
@@ -957,7 +974,7 @@ int monster::bash_estimate()
     if( has_flag( MF_GROUP_BASH ) ) {
         // Right now just give them a boost so they try to bash a lot of stuff.
         // TODO: base it on number of nearby friendlies.
-        estimate += 20;
+        estimate *= 2;
     }
     return estimate;
 }
@@ -969,7 +986,10 @@ int monster::bash_skill()
         ret *= 15; // This is for stuff that goes through solid rock: minerbots, dark wyrms, etc
     } else if( has_flag( MF_DESTROYS ) ) {
         ret *= 2.5;
+    } else if( !has_flag( MF_BASHES ) ) {
+        ret = 0;
     }
+
     return ret;
 }
 

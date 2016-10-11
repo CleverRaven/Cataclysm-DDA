@@ -421,6 +421,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int next_upgrade_time();
         bool upgrades;
         int upgrade_time;
+        /** Found path. Note: Not used by monsters that don't pathfind! **/
+        std::vector<tripoint> path;
 
     protected:
         void store( JsonOut &jsout ) const;

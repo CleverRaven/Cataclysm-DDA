@@ -461,6 +461,7 @@ void mtype::load( JsonObject &jo )
     optional( jo, was_loaded, "vision_day", vision_day, 40 );
     optional( jo, was_loaded, "vision_night", vision_night, 1 );
     optional( jo, was_loaded, "armor_stab", armor_stab, 0.8f * armor_cut );
+    optional( jo, was_loaded, "max_path_length", max_path_length, 0 );
     optional( jo, was_loaded, "attack_effs", atk_effs, mon_attack_effect_reader{} );
 
     // TODO: make this work with `was_loaded`
