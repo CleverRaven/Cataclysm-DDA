@@ -5,7 +5,6 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "difficulty": 0,
     "time": 500,
     "reversible": true,
     "autolearn": true,
@@ -28,8 +27,8 @@
     "tools": [ [ [ "hotplate", 25 ], [ "toolset", 25 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "paper", 5 ], [ "rolling_paper", 32 ] ],
-      [ [ "acid", 2 ] ],
-      [ [ "ammonia", 1 ] ],
+      [ [ "acid", 2 ], [ "chem_sulphuric_acid", 2 ], [ "chem_nitric_acid", 2 ] ],
+      [ [ "ammonia", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ],
       [ [ "soap", 3 ], [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "lard", 2 ], [ "cooking_oil", 2 ] ]
     ]
   },
@@ -75,7 +74,6 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "difficulty": 0,
     "time": 3000,
     "autolearn": true,
     "qualities" : [ { "id": "CUT", "level": 1 } ],
@@ -190,13 +188,13 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "difficulty": 0,
     "time": 500,
+    "reversible": true,
     "autolearn": true,
     "components": [
       [ [ "rag", 1 ] ],
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "chem_ethanol", 500 ], [ "denat_alcohol", 500 ], [ "lamp_oil", 500 ], [ "gasoline", 500 ], [ "diesel", 500 ] ]
+      [ [ "gasoline", 500 ], [ "diesel", 500 ], [ "chem_ethanol", 500 ], [ "denat_alcohol", 500 ], [ "lamp_oil", 500 ] ]
     ]
   },
   {
@@ -225,12 +223,13 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": 5000,
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
-      [ [ "gasoline", 200 ], [ "diesel", 200 ], [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "shot_bird", 6 ], [ "shot_00", 3 ], [ "shot_slug", 2 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 1 ] ]
+      [ [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "gasoline", 200 ], [ "diesel", 200 ], [ "shot_bird", 6 ], [ "shot_00", 3 ], [ "shot_slug", 2 ] ],
+      [ [ "string_6", 1 ] ]
     ]
   },
   {
@@ -280,6 +279,7 @@
     "skill_used": "cooking",
     "difficulty": 7,
     "time": 120000,
+    "reversible": true,
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
     "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "soldering_iron", 30 ] ] ],
     "components": [
@@ -296,12 +296,13 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": 15000,
+    "reversible": true,
     "book_learn": [ [ "manual_launcher", 2 ], [ "textbook_anarch", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "can_drink_unsealed", 1 ] ],
       [ [ "chem_black_powder", 100 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 1 ] ]
+      [ [ "string_6", 1 ] ]
     ]
   },
   {
@@ -312,13 +313,14 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": 25000,
+    "reversible": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "jug_plastic", 1 ] ],
       [ [ "chem_black_powder", 600 ] ],
       [ [ "scrap", 20 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 1 ] ]
+      [ [ "string_6", 1 ] ]
     ]
   },
   {
@@ -329,13 +331,14 @@
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": 300000,
+    "reversible": true,
     "book_learn": [ [ "manual_launcher", 9 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "keg", 1 ], [ "keg_steel", 1] ],
       [ [ "chem_rdx", 575 ] ],
       [ [ "chem_hmtd", 200 ] ],
-      [ [ "string_36", 5 ], [ "string_6", 20 ] ],
+      [ [ "string_36", 5 ], [ "string_6", 30 ] ],
       [ [ "scrap", 50 ] ]
     ]
   },
@@ -347,13 +350,14 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": 30000,
+    "reversible": true,
     "book_learn": [[ "manual_launcher", 4 ] , [ "textbook_anarch", 5 ]],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
       [ [ "chem_rdx", 2 ] ],
       [ [ "chem_hmtd", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 1 ] ],
+      [ [ "string_6", 1 ] ],
       [ [ "material_sand", 50 ] ]
     ]
   }

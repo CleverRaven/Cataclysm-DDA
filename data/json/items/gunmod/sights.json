@@ -13,8 +13,8 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "bow" ],
-    "aim_cost": 6,
-    "sight_dispersion": 45
+    "sight_dispersion": 45,
+    "aim_cost": 6
   },
   {
     "id": "holo_sight",
@@ -29,9 +29,9 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "pistol", "launcher" ],
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
-    "aim_cost": 6,
     "sight_dispersion": 60,
+    "aim_cost": 6,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
   {
@@ -49,16 +49,16 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
-    "aim_cost": 6,
     "sight_dispersion": 120,
+    "aim_cost": 6,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "pistol_scope",
     "type": "GUNMOD",
     "name": "pistol scope",
-    "description": "A small scope intended for use on a handgun. Increases weight but improves accuracy greatly.",
+    "description": "A small scope intended for use on a handgun.  Increases weight but improves accuracy greatly.",
     "weight": 212,
     "volume": 1,
     "price": 54000,
@@ -67,9 +67,9 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "pistol", "crossbow" ],
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
-    "aim_cost": 10,
     "sight_dispersion": 30,
+    "aim_cost": 10,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
   {
@@ -86,9 +86,9 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol", "crossbow", "launcher" ],
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 2 ] ],
-    "aim_cost": 4,
     "sight_dispersion": 90,
+    "aim_cost": 4,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 2 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
   {
@@ -104,10 +104,23 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "rifle", "crossbow", "launcher" ],
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
     "install_time": 30000,
-    "aim_cost": 10,
     "sight_dispersion": 0,
+    "aim_cost": 10,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
+  },
+  {
+    "id": "riv_scope",
+    "copy-from": "rifle_scope",
+    "type": "GUNMOD",
+    "name": "RS1219 scope",
+    "description": "An integral component of the RM11B rifle system, the RS1219 Accipiter digital scope provides auto-adjusting focal length, a user-selectable reticle, and an offset reflex sight for close objectives.",
+    "weight": 0,
+    "volume": 0,
+    "price": 0,
+    "material": [ "superalloy", "ceramic" ],
+    "proportional": { "aim_cost": 0.8 },
+    "flags": [ "ZOOM", "IRREMOVABLE" ]
   }
 ]

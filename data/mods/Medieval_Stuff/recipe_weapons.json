@@ -6,7 +6,7 @@
   "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 6,
-  "time": 300000,
+  "time": 50000,
   "book_learn": [[ "textbook_armschina", 5 ]],
   "qualities":[
     {"id":"HAMMER","level":3}
@@ -38,7 +38,7 @@
   "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 7,
-  "time": 240000,
+  "time": 55000,
   "book_learn": [[ "textbook_armschina", 5 ]],
   "qualities": [
     {"id":"HAMMER","level":1}
@@ -90,7 +90,7 @@
   "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 6,
-  "time": 240000,
+  "time": 45000,
   "book_learn": [[ "textbook_weapwest", 4 ]],
   "qualities": [
     {"id":"HAMMER","level":1}
@@ -122,7 +122,7 @@
   "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 7,
-  "time": 240000,
+  "time": 55000,
   "book_learn": [[ "textbook_weapwest", 5 ]],
   "qualities": [
     {"id":"HAMMER","level":1}
@@ -154,7 +154,7 @@
   "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 4,
-  "time": 300000,
+  "time": 30000,
   "book_learn": [[ "textbook_weapwest", 4 ]],
   "qualities":[
     {"id":"HAMMER","level":3}

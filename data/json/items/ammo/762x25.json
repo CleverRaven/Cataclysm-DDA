@@ -19,7 +19,7 @@
     "damage": 24,
     "pierce": 2,
     "dispersion": 120,
-    "recoil": 195,
+    "recoil": 540,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -33,9 +33,9 @@
     "relative": {
       "range": 2,
       "damage": 4,
-      "pierce": 3,
-      "recoil": 45
-    }
+      "pierce": 3
+    },
+    "proportional": { "recoil": 1.1 }
   },
   {
     "id": "762_25typeP",

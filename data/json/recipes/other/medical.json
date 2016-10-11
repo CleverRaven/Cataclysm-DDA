@@ -24,7 +24,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "firstaid",
-    "difficulty": 0,
     "time": 50000,
     "autolearn": true,
     "qualities": [

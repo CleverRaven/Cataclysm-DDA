@@ -10,7 +10,6 @@
   "time": 20000,
   "reversible": true,
   "decomp_learn": 4,
-  "autolearn": false,
   "book_learn": [["advanced_electronics", 3] , ["textbook_electronics", 3]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
@@ -46,7 +45,6 @@
   "time": 20000,
   "reversible": true,
   "decomp_learn": 4,
-  "autolearn": false,
   "book_learn": [["advanced_electronics", 3] , ["textbook_electronics", 3]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
@@ -90,7 +88,6 @@
   "time": 20000,
   "reversible": true,
   "decomp_learn": 5,
-  "autolearn": false,
   "book_learn": [["advanced_electronics", 4] , ["textbook_electronics", 4]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
@@ -126,7 +123,6 @@
   "difficulty": 5,
   "time": 20000,
   "reversible": true,
-  "autolearn": false,
   "book_learn": [["advanced_electronics", 4] , ["textbook_electronics", 4] , ["textbook_carpentry", 5]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
    "tools" : [
@@ -155,10 +151,7 @@
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
   "skill_used": "electronics",
-  "difficulty": 0,
   "time": 3000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "radio_book", 1 ] , [ "textbook_anarch", 1 ]],
   "qualities":[ {"id":"SAW_M","level":1,"amount":1} ],
   "components": [
@@ -178,7 +171,6 @@
   "time": 5000,
   "reversible": true,
   "decomp_learn": 3,
-  "autolearn": false,
   "book_learn": [[ "radio_book", 3 ] , [ "textbook_anarch", 5 ]],
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
@@ -200,7 +192,6 @@
   "time": 4000,
   "reversible": true,
   "decomp_learn": 1,
-  "autolearn": false,
   "book_learn": [[ "radio_book", 3 ] , [ "manual_electronics", 1 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -222,8 +213,6 @@
   "skill_used": "electronics",
   "difficulty": 1,
   "time": 6500,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 2 ] , [ "advanced_electronics", 2 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -244,7 +233,6 @@
   "skill_used": "electronics",
   "difficulty": 1,
   "time": 7000,
-  "reversible": false,
   "autolearn": [[ "electronics", 3 ]],
   "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 1 ] , [ "advanced_electronics", 1 ]],
   "tools": [
@@ -264,7 +252,6 @@
   "time": 12000,
   "reversible": true,
   "decomp_learn": 2,
-  "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "radio_book", 1 ] , [ "textbook_electronics", 2 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -288,7 +275,6 @@
   "time": 14000,
   "reversible": true,
   "decomp_learn": 3,
-  "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 2 ] , [ "textbook_anarch", 3 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -311,7 +297,6 @@
   "difficulty": 3,
   "time": 10000,
   "reversible": true,
-  "autolearn": false,
   "book_learn": [[ "manual_electronics", 3 ] , [ "mag_electronics", 4 ] , [ "textbook_electronics", 2 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -347,7 +332,6 @@
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_LIGHTING",
   "skill_used": "electronics",
-  "difficulty": 0,
   "time": 10000,
   "components": [
     [ [ "lightstrip_dead", 1 ] ],
@@ -361,8 +345,6 @@
   "skill_used": "electronics",
   "difficulty": 1,
   "time": 15000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ]],
   "tools": [
     [
@@ -492,8 +474,6 @@
   "skills_required": [ "electronics", 1 ],
   "difficulty": 2,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ] , [ "textbook_anarch", 2 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "components": [
@@ -597,9 +577,7 @@
   "skills_required": [ "fabrication", 6 ],
   "difficulty": 6,
   "time": 60000,
-  "reversible": false,
   "decomp_learn": 4,
-  "autolearn": false,
   "book_learn": [[ "recipe_atomic_battery", 6 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -622,9 +600,7 @@
   "skills_required": [ "fabrication", 7 ],
   "difficulty": 7,
   "time": 60000,
-  "reversible": false,
   "decomp_learn": 4,
-  "autolearn": false,
   "book_learn": [[ "recipe_atomic_battery", 7 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -647,8 +623,6 @@
   "skill_used": "electronics",
   "difficulty": 1,
   "time": 15000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "radio_book", 1 ] , [ "textbook_anarch", 2 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -670,7 +644,6 @@
   "difficulty": 2,
   "time": 30000,
   "reversible": true,
-  "autolearn": false,
   "book_learn": [[ "textbook_anarch", 2 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -694,7 +667,6 @@
   "difficulty": 2,
   "time": 25000,
   "reversible": true,
-  "autolearn": false,
   "book_learn": [[ "radio_book", 2] , [ "textbook_anarch", 3 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -720,7 +692,6 @@
   "time": 25000,
   "reversible": true,
   "decomp_learn": 2,
-  "autolearn": false,
   "book_learn": [[ "advanced_electronics", 3 ] , [ "manual_electronics", 2 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "components": [
@@ -744,7 +715,6 @@
   "time": 30000,
   "reversible": true,
   "decomp_learn": 2,
-  "autolearn": false,
   "book_learn": [[ "advanced_electronics", 1 ] , [ "mag_electronics", 3 ] , [ "manual_electronics", 2 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "components": [
@@ -770,9 +740,7 @@
   "skills_required" : [[ "electronics", 3 ], [ "survival", 3 ]],
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
   "decomp_learn": 4,
-  "autolearn": false,
   "book_learn": [[ "textbook_survival", 3 ] , [ "advanced_electronics", 3 ] , [ "manual_electronics", 3 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1},
@@ -804,7 +772,6 @@
   "time": 30000,
   "reversible": true,
   "decomp_learn": 2,
-  "autolearn": false,
   "book_learn": [[ "advanced_electronics", 1 ] , [ "mag_electronics", 3 ] , [ "manual_electronics", 2 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -837,7 +804,6 @@
   "time": 25000,
   "reversible": true,
   "decomp_learn": 3,
-  "autolearn": false,
   "book_learn": [[ "advanced_electronics", 2 ] , [ "textbook_electronics", 3 ] , [ "textbook_anarch", 3 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -861,7 +827,6 @@
   "time": 11000,
   "reversible": true,
   "decomp_learn": 2,
-  "autolearn": false,
   "book_learn": [[ "mag_electronics", 2 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -885,7 +850,6 @@
   "time": 30000,
   "reversible": true,
   "decomp_learn": 4,
-  "autolearn": false,
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
     [
@@ -912,7 +876,6 @@
   "time": 35000,
   "reversible": true,
   "decomp_learn": 4,
-  "autolearn": false,
   "book_learn": [[ "textbook_anarch", 3 ] , [ "advanced_electronics", 5 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -938,7 +901,6 @@
   "time": 40000,
   "reversible": true,
   "note": "you might be able to reverse-engineer assembly, but not the music",
-  "autolearn": false,
   "book_learn": [[ "textbook_electronics", 6 ] , [ "textbook_robots", 5 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -965,7 +927,6 @@
   "time": 60000,
   "reversible": true,
   "note": "as with mp3, no learning how to encode the software from taking it apart",
-  "autolearn": false,
   "book_learn": [[ "textbook_electronics", 7 ] , [ "textbook_robots", 6 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -993,7 +954,6 @@
   "time": 35000,
   "reversible": true,
   "decomp_learn": 5,
-  "autolearn": false,
   "book_learn": [["advanced_electronics", 4] , ["textbook_electronics", 4] , ["atomic_survival", 3]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1018,7 +978,6 @@
   "time": 35000,
   "reversible": true,
   "decomp_learn": 7,
-  "autolearn": false,
   "book_learn": [["advanced_electronics", 6] , ["textbook_electronics", 6] , ["atomic_survival", 5]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1070,7 +1029,6 @@
   "time" : 85000,
   "reversible" : true,
   "decomp_learn" : 4,
-  "autolearn" : false,
   "book_learn": [[ "recipe_lab_elec", 7 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools" : [
@@ -1097,7 +1055,6 @@
   "time": 50000,
   "reversible": true,
   "decomp_learn": 5,
-  "autolearn": false,
   "book_learn": [[ "recipe_augs", 6 ] , [ "recipe_lab_elec", 6 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1125,11 +1082,10 @@
   "subcategory": "CSC_ELECTRONIC_CBMS",
   "skill_used": "electronics",
   "skills_required": [ "firstaid", 5 ],
-  "difficulty": 12,
+  "difficulty": 10,
   "time": 70000,
   "reversible": true,
   "decomp_learn": 8,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 8 ] , [ "recipe_augs", 7 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1162,7 +1118,6 @@
   "time": 50000,
   "reversible": true,
   "decomp_learn": 7,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_augs", 7 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1191,7 +1146,6 @@
   "time": 50000,
   "reversible": true,
   "decomp_learn": 7,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_augs", 7 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1217,8 +1171,6 @@
   "skills_required": [ "mechanics", 10 ],
   "difficulty": 10,
   "time": 50000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 10 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1244,8 +1196,6 @@
   "skills_required": [ "firstaid", 10 ],
   "difficulty": 10,
   "time": 50000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 10 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1280,8 +1230,6 @@
   "skills_required": [ "computer", 10 ],
   "difficulty": 10,
   "time": 50000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 10 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1312,8 +1260,6 @@
   "skills_required": [ "computer", 10 ],
   "difficulty": 10,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 10 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1336,7 +1282,6 @@
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 7 ], [ "recipe_mil_augs", 6 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1363,7 +1308,6 @@
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mil_augs", 6 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1390,7 +1334,6 @@
   "difficulty": 9,
   "time": 50000,
   "reversible": true,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 8 ] , [ "recipe_mil_augs", 7 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1418,7 +1361,6 @@
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
-  "autolearn": false,
   "decomp_learn": 7,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_augs", 6 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
@@ -1446,7 +1388,6 @@
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
-  "autolearn": false,
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 5 ] , [ "recipe_augs", 5 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
@@ -1475,7 +1416,6 @@
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
-  "autolearn": false,
   "decomp_learn": 7,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
@@ -1504,7 +1444,6 @@
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
-  "autolearn": false,
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "qualities":[
@@ -1535,7 +1474,6 @@
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
-  "autolearn": false,
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "qualities":[
@@ -1566,7 +1504,6 @@
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
-  "autolearn": false,
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "qualities":[
@@ -1597,7 +1534,6 @@
   "difficulty": 6,
   "time": 50000,
   "reversible": true,
-  "autolearn": false,
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 6 ]],
   "qualities":[
@@ -1628,7 +1564,6 @@
   "time": 50000,
   "reversible": true,
   "decomp_learn": 6,
-  "autolearn": false,
   "book_learn": [["textbook_mechanics", 8] , ["textbook_electronics", 7] , ["advanced_electronics", 7] , ["textbook_robots", 6]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1678,7 +1613,6 @@
   "time": 50000,
   "reversible": true,
   "decomp_learn": 5,
-  "autolearn": false,
   "book_learn": [["textbook_robots", 8]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1737,7 +1671,6 @@
   "time": 20000,
   "reversible": true,
   "decomp_learn": 4,
-  "autolearn": false,
   "book_learn": [["textbook_mechanics", 6] , ["textbook_electronics", 8] , ["textbook_fabrication", 8] , ["welding_book", 5]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1762,7 +1695,6 @@
   "time": 60000,
   "reversible": true,
   "decomp_learn": 4,
-  "autolearn": false,
   "book_learn": [["textbook_mechanics", 6] , ["textbook_electronics", 8] , ["textbook_fabrication", 8] , ["welding_book", 5]],
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
@@ -1798,7 +1730,6 @@
   "time": 60000,
   "reversible": true,
   "decomp_learn": 3,
-  "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["manual_fabrication", 3] , ["manual_electronics", 3] , ["manual_mechanics", 3]],
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
@@ -1833,7 +1764,6 @@
   "time": 60000,
   "reversible": true,
   "decomp_learn": 3,
-  "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["manual_fabrication", 3] , ["manual_electronics", 3] , ["manual_mechanics", 3]],
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1},
@@ -1867,7 +1797,6 @@
   "time": 10000,
   "reversible": true,
   "decomp_learn": 3,
-  "autolearn": false,
   "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1892,7 +1821,6 @@
   "time": 20000,
   "reversible": true,
   "decomp_learn": 3,
-  "autolearn": false,
   "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1917,7 +1845,6 @@
   "time": 9000,
   "reversible": true,
   "decomp_learn": 8,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "textbook_robots", 9 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1952,7 +1879,6 @@
   "time": 12000,
   "reversible": true,
   "decomp_learn": 9,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 8 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -1992,7 +1918,6 @@
   "time": 9000,
   "reversible": true,
   "decomp_learn": 8,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "textbook_robots", 9 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -2020,8 +1945,6 @@
   "skills_required": [ "computer", 4 ],
   "difficulty": 7,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "textbook_robots", 7 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -2073,7 +1996,6 @@
   "difficulty": 3,
   "time": 20000,
   "reversible": true,
-  "autolearn": false,
   "book_learn": [[ "recipe_caseless", 6 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "components": [
@@ -2092,7 +2014,6 @@
   "difficulty": 3,
   "time": 30000,
   "reversible": true,
-  "autolearn": false,
   "book_learn": [[ "recipe_caseless", 6 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "components": [
@@ -2111,7 +2032,6 @@
   "difficulty": 4,
   "time": 3000,
   "reversible": true,
-  "autolearn": false,
   "book_learn": [[ "recipe_caseless", 8 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "components": [
@@ -2132,7 +2052,6 @@
   "book_learn": [["advanced_electronics", 3] , ["textbook_electronics", 3]],
   "difficulty": 4,
   "time": 750,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "components": [
@@ -2151,7 +2070,6 @@
   "book_learn": [["advanced_electronics", 3] , ["textbook_electronics", 3]],
   "difficulty": 4,
   "time": 750,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "components": [
@@ -2171,7 +2089,6 @@
   "time": 20000,
   "reversible": true,
   "decomp_learn": 2,
-  "autolearn": false,
   "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 2]],
   "qualities" : [
     {"id":"HAMMER","level":1,"amount":1},
@@ -2192,7 +2109,6 @@
   "skills_required" : [ "electronics", 2 ],
   "difficulty": 5,
   "time": 40000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"SAW_M","level":1,"amount":1},
@@ -2201,8 +2117,8 @@
   ],
   "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
   "components": [
-    [ [ "wire", 20 ], [ "wire_barbed", 20 ] ],
-    [ [ "duct_tape", 300 ] ]
+    [ [ "copper", 100 ], [ "scrap_copper", 1 ] ],
+    [ [ "duct_tape", 100 ] ]
   ]
 },{
   "type" : "recipe",
@@ -2214,7 +2130,6 @@
   "time": 25000,
   "reversible": true,
   "decomp_learn": 5,
-  "autolearn": false,
   "book_learn": [["textbook_mechanics", 6] , ["textbook_carpentry", 6] , ["advanced_electronics", 5] , ["textbook_electronics", 5]],
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1},
@@ -2249,7 +2164,6 @@
   "time": 20000,
   "reversible": true,
   "decomp_learn": 4,
-  "autolearn": false,
   "book_learn": [["textbook_mechanics", 4] , ["textbook_carpentry", 4] , ["advanced_electronics", 3] , ["textbook_electronics", 3]],
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
@@ -2309,7 +2223,6 @@
   "difficulty": 8,
   "time": 120000,
   "reversible": true,
-  "autolearn": false,
   "book_learn": [ ["textbook_mechanics", 8], [ "textbook_robots", 7 ] ],
   "qualities":[
       {"id":"HAMMER","level":2,"amount":1},
@@ -2370,8 +2283,6 @@
   "skills_required": [ "computer", 3 ],
   "difficulty": 7,
   "time": 180000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [ [ "textbook_electronics", 6 ], ["advanced_electronics", 6 ] ],
   "qualities":[ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -2398,7 +2309,6 @@
   "skills_required": [ "computer", 1 ],
   "difficulty": 5,
   "time": 90000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"SCREW","level":1,"amount":1},
@@ -2425,7 +2335,6 @@
   "difficulty": 4,
   "time": 40000,
   "reversible": true,
-  "autolearn": false,
   "book_learn": [[ "advanced_electronics", 4 ] , [ "mag_electronics", 6 ] , [ "manual_electronics", 5 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
@@ -2469,7 +2378,6 @@
   "time": 15000,
   "reversible": true,
   "decomp_learn": 4,
-  "autolearn": false,
   "book_learn": [[ "repeater_mod_guide", 2 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
@@ -2499,7 +2407,6 @@
   "difficulty": 3,
   "time": 20000,
   "reversible": true,
-  "autolearn": false,
   "book_learn": [["advanced_electronics", 4] , ["textbook_electronics", 3] , ["textbook_fabrication", 3] , ["manual_fabrication", 4]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
    "tools" : [

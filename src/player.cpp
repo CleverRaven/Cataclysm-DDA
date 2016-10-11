@@ -55,6 +55,7 @@
 #include "overlay_ordering.h"
 #include "vitamin.h"
 #include "fault.h"
+#include "recipe_dictionary.h"
 
 #include <map>
 #include <iterator>
@@ -201,6 +202,48 @@ player_morale_ptr::~player_morale_ptr()
 {
 }
 
+struct stat_mod {
+    int strength = 0;
+    int dexterity = 0;
+    int intelligence = 0;
+    int perception = 0;
+
+    int speed = 0;
+};
+
+static stat_mod get_pain_penalty( const player &p )
+{
+    stat_mod ret;
+    int pain = p.get_perceived_pain();
+    if( pain <= 0 ) {
+        return ret;
+    }
+
+    int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
+
+    bool ceno = p.has_trait( "CENOBITE" );
+    if( !ceno ) {
+        ret.strength = stat_penalty;
+        ret.dexterity = stat_penalty;
+    }
+
+    if( !p.has_trait( "INT_SLIME" ) ) {
+        ret.intelligence = 1 + stat_penalty;
+    } else {
+        ret.intelligence = 1 + pain / 5;
+    }
+
+    ret.perception = stat_penalty * 2 / 3;
+
+    ret.speed = std::pow( pain, 0.7f );
+    if( ceno ) {
+        ret.speed /= 2;
+    }
+
+    ret.speed = std::min( ret.speed, 50 );
+    return ret;
+}
+
 player::player() : Character()
 {
     id = -1; // -1 is invalid
@@ -252,10 +295,6 @@ player::player() : Character()
     next_expected_position = tripoint_min;
 
     empty_traits();
-
-    for( auto &skill : Skill::skills ) {
-        set_skill_level( skill.ident(), 0 );
-    }
 
     for( int i = 0; i < num_bp; i++ ) {
         temp_cur[i] = BODYTEMP_NORM;
@@ -376,18 +415,13 @@ void player::reset_stats()
 
     // Pain
     if( get_perceived_pain() > 0 ) {
-        if( !( has_trait( "CENOBITE" ) ) ) {
-            mod_str_bonus( -get_perceived_pain() / 15 );
-            mod_dex_bonus( -get_perceived_pain() / 15 );
-            add_miss_reason( _( "Your pain distracts you!" ), unsigned( get_perceived_pain() / 15 ) );
-        }
-        mod_per_bonus( -get_perceived_pain() / 20 );
-        if( !( has_trait( "INT_SLIME" ) ) ) {
-            mod_int_bonus( -( 1 + ( get_perceived_pain() / 25 ) ) );
-        } else if( has_trait( "INT_SLIME" ) ) {
-            // Having one's brain throughout one's body does have its downsides.
-            // Be glad we don't assess permanent damage.
-            mod_int_bonus( -( 1 + get_perceived_pain() ) );
+        const auto ppen = get_pain_penalty( *this );
+        mod_str_bonus( -ppen.strength );
+        mod_dex_bonus( -ppen.dexterity );
+        mod_int_bonus( -ppen.intelligence );
+        mod_per_bonus( -ppen.perception );
+        if( ppen.dexterity > 0 ) {
+            add_miss_reason( _( "Your pain distracts you!" ), unsigned( ppen.dexterity ) );
         }
     }
     // Morale
@@ -446,8 +480,9 @@ void player::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20 - ( encumb(
-                         bp_torso ) / 10 ) );
+    mod_dodge_bonus( mabuff_dodge_bonus() -
+                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f -
+                     ( encumb( bp_torso ) / 10.0f ) );
     // Whiskers don't work so well if they're covered
     if( has_trait( "WHISKERS" ) && !wearing_something_on( bp_mouth ) ) {
         mod_dodge_bonus( 1 );
@@ -766,7 +801,7 @@ void player::update_bodytemp()
         vehwindspeed = abs( veh->velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
-    std::string omtername = otermap[cur_om_ter].name;
+    std::string omtername = cur_om_ter->name;
     bool sheltered = g->is_sheltered( pos() );
     int total_windpower = get_local_windpower( weather.windpower + vehwindspeed, omtername, sheltered );
 
@@ -1503,17 +1538,8 @@ void player::recalc_speed_bonus()
     }
     mod_speed_bonus( -carry_penalty );
 
-    if( get_perceived_pain() > 0 ) {
-        int pain_penalty = int( get_perceived_pain() * .7 );
-        // Cenobites aren't slowed nearly as much by pain
-        if( has_trait( "CENOBITE" ) ) {
-            pain_penalty /= 4;
-        }
-        if( pain_penalty > 60 ) {
-            pain_penalty = 60;
-        }
-        mod_speed_bonus( -pain_penalty );
-    }
+    mod_speed_bonus( -get_pain_penalty( *this ).speed );
+
     if( get_painkiller() >= 10 ) {
         int pkill_penalty = int( get_painkiller() * .1 );
         if( pkill_penalty > 30 ) {
@@ -1832,7 +1858,7 @@ bool player::is_immune_effect( const efftype_id &eff ) const
     return false;
 }
 
-int player::stability_roll() const
+float player::stability_roll() const
 {
     ///\EFFECT_STR improves player stability roll
 
@@ -1841,8 +1867,7 @@ int player::stability_roll() const
     ///\EFFECT_DEX slightly improves player stability roll
 
     ///\EFFECT_MELEE improves player stability roll
-    int stability = ( get_melee() ) + get_str() + ( get_per() / 3 ) + ( get_dex() / 4 );
-    return stability;
+    return get_melee() + get_str() + ( get_per() / 3.0f ) + ( get_dex() / 4.0f );
 }
 
 bool player::is_immune_damage( const damage_type dt ) const
@@ -1979,7 +2004,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
 
     //Figure out the location
     const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
-    std::string tername = otermap[cur_ter].name;
+    const std::string &tername = cur_ter->name;
 
     //Were they in a town, or out in the wilderness?
     const auto global_sm_pos = global_sm_location();
@@ -2259,7 +2284,7 @@ void player::add_memorial_log( const char *male_msg, const char *female_msg, ...
                               );
 
     const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
-    std::string location = otermap[cur_ter].name;
+    const std::string &location = cur_ter->name;
 
     std::stringstream log_message;
     log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << msg;
@@ -2320,7 +2345,7 @@ stats player::get_stats() const
     return player_stats;
 }
 
-void player::mod_stat( const std::string &stat, int modifier )
+void player::mod_stat( const std::string &stat, float modifier )
 {
     if( stat == "thirst" ) {
         mod_thirst( modifier );
@@ -2412,19 +2437,23 @@ void player::disp_info()
     }
     if( get_perceived_pain() > 0 ) {
         effect_name.push_back( _( "Pain" ) );
+        const auto ppen = get_pain_penalty( *this );
         std::stringstream pain_text;
-        // Cenobites aren't markedly physically impaired by pain.
-        if( ( get_perceived_pain() >= 15 ) && ( !( has_trait( "CENOBITE" ) ) ) ) {
-            pain_text << _( "Strength" ) << " -" << get_perceived_pain() / 15 << "   " << _( "Dexterity" ) <<
-                      " -" <<
-                      get_perceived_pain() / 15 << "   ";
+        if( ppen.strength > 0 ) {
+            pain_text << _( "Strength" ) << " -" << ppen.strength << "   ";
         }
-        // They do find the sensations distracting though.
-        // Pleasurable...but distracting.
-        if( get_perceived_pain() >= 20 ) {
-            pain_text << _( "Perception" ) << " -" << get_perceived_pain() / 15 << "   ";
+        if( ppen.dexterity > 0 ) {
+            pain_text << _( "Dexterity" ) << " -" << ppen.dexterity << "   ";
         }
-        pain_text << _( "Intelligence" ) << " -" << 1 + get_perceived_pain() / 25;
+        if( ppen.intelligence > 0 ) {
+            pain_text << _( "Intelligence" ) << " -" << ppen.intelligence << "   ";
+        }
+        if( ppen.perception > 0 ) {
+            pain_text << _( "Perception" ) << " -" << ppen.perception << "   ";
+        }
+        if( ppen.speed > 0 ) {
+            pain_text << _( "Speed" ) << " -" << ppen.speed << "%   ";
+        }
         effect_text.push_back( pain_text.str() );
     }
     if( stim > 0 ) {
@@ -2791,13 +2820,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                        ( abs( pen ) < 10 ? " " : "" ), abs( pen ) );
         line++;
     }
-    pen = int( get_perceived_pain() * .7 );
-    if( has_trait( "CENOBITE" ) ) {
-        pen /= 4;
-    }
-    if( pen > 60 ) {
-        pen = 60;
-    }
+    pen = get_pain_penalty( *this ).speed;
     if( pen >= 1 ) {
         mvwprintz( w_speed, line, 1, c_red, _( "Pain                -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
@@ -3055,12 +3078,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     s += run_cost_text( int( encumb( bp_leg_l ) * 0.15 ) );
                     s += swim_cost_text( ( encumb( bp_leg_l ) / 10 ) * ( 50 - get_skill_level(
                                              skill_swimming ) * 2 ) / 2 );
-                    s += dodge_skill_text( -( encumb( bp_leg_l ) / 10 ) / 4.0 );
+                    s += dodge_skill_text( -encumb( bp_leg_l ) / 10.0 / 4.0 );
                 } else if( line == 9 ) { //Right Leg
                     s += run_cost_text( int( encumb( bp_leg_r ) * 0.15 ) );
                     s += swim_cost_text( ( encumb( bp_leg_r ) / 10 ) * ( 50 - get_skill_level(
                                              skill_swimming ) * 2 ) / 2 );
-                    s += dodge_skill_text( -( encumb( bp_leg_r ) / 10 ) / 4.0 );
+                    s += dodge_skill_text( -encumb( bp_leg_r ) / 10.0 / 4.0 );
                 } else if( line == 10 ) { //Left Foot
                     s += run_cost_text( int( encumb( bp_foot_l ) * 0.25 ) );
                 } else if( line == 11 ) { //Right Foot
@@ -4038,8 +4061,7 @@ bool player::overmap_los( const tripoint &omt, int sight_points )
     for( size_t i = 0; i < line.size() && sight_points >= 0; i++ ) {
         const tripoint &pt = line[i];
         const oter_id &ter = overmap_buffer.ter( pt );
-        const int cost = otermap[ter].see_cost;
-        sight_points -= cost;
+        sight_points -= int( ter->see_cost );
         if( sight_points < 0 ) {
             return false;
         }
@@ -4457,7 +4479,9 @@ int player::intimidation() const
     if (weapon.is_gun()) {
         ret += 10;
     }
-    if (weapon.damage_bash() >= 12 || weapon.damage_cut() >= 12) {
+    if( weapon.damage_melee( DT_BASH ) >= 12 ||
+        weapon.damage_melee( DT_CUT  ) >= 12 ||
+        weapon.damage_melee( DT_STAB ) >= 12 ) {
         ret += 5;
     }
     if (has_trait("SAPIOVORE")) {
@@ -4486,7 +4510,7 @@ bool player::is_dead_state() const
     return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
 }
 
-void player::on_dodge( Creature *source, int difficulty )
+void player::on_dodge( Creature *source, float difficulty )
 {
     static const matec_id tec_none( "tec_none" );
 
@@ -4500,7 +4524,7 @@ void player::on_dodge( Creature *source, int difficulty )
     }
 
     // Even if we are not to train still call practice to prevent skill rust
-    difficulty = std::max( difficulty, 0 );
+    difficulty = std::max( difficulty, 0.0f );
     practice( skill_dodge, difficulty * 2, difficulty );
 
     ma_ondodge_effects();
@@ -4515,7 +4539,7 @@ void player::on_dodge( Creature *source, int difficulty )
 }
 
 void player::on_hit( Creature *source, body_part bp_hit,
-                     int /*difficulty*/ , dealt_projectile_attack const* const proj ) {
+                     float /*difficulty*/ , dealt_projectile_attack const* const proj ) {
     check_dead_state();
     bool u_see = g->u.sees( *this );
     if( source == nullptr || proj != nullptr ) {
@@ -4802,13 +4826,12 @@ void player::mod_pain(int npain) {
         if( has_trait( "NOPAIN" ) ) {
             return;
         }
-        if( npain > 1 ) { // if it's 1 it'll just become 0, which is bad
-            if( has_trait( "PAINRESIST" ) ) {
-                npain = npain * 4 / rng( 4,8 );
-            }
-            // Dwarves get better pain-resist, what with mining and all
+        if( npain > 1 ) {
+            // if it's 1 it'll just become 0, which is bad
             if( has_trait( "PAINRESIST_TROGLO" ) ) {
-                npain = npain * 4 / rng( 6,9 );
+                npain = roll_remainder( npain * 0.5f );
+            } else if( has_trait( "PAINRESIST" ) ) {
+                npain = roll_remainder( npain * 0.67f );
             }
         }
     }
@@ -5909,22 +5932,18 @@ int player::addiction_level( add_type type ) const
     return iter != addictions.end() ? iter->intensity : 0;
 }
 
-void player::siphon( vehicle &veh, const itype_id &desired_liquid )
+void player::siphon( vehicle &veh, const itype_id &type )
 {
-    const int used_item_amount = veh.drain( desired_liquid, veh.fuel_capacity( desired_liquid ) );
-    const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
-    item used_item( desired_liquid, calendar::turn, used_item_amount / fuel_per_charge );
-    if( used_item.charges <= 0 ) {
-        add_msg( _( "There is not enough %s left to siphon it." ), used_item.type_name().c_str() );
-        veh.refill( desired_liquid, used_item_amount );
+    auto qty = veh.fuel_left( type );
+    if( qty <= 0 ) {
+        add_msg( m_bad, _( "There is not enough %s left to siphon it." ), item::nname( type ).c_str() );
         return;
     }
-    // refill fraction parts (if fuel_per_charge > 1), so we don't have to consider them later
-    veh.refill( desired_liquid, used_item_amount % fuel_per_charge );
 
-    g->handle_liquid( used_item, nullptr, 1, nullptr, &veh );
-    // TODO: maybe add the message about the siphoned amount again.
-    veh.refill( desired_liquid, used_item.charges * fuel_per_charge );
+    item liquid( type, calendar::turn, qty );
+    if( g->handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
+        veh.drain( type, qty - liquid.charges );
+    }
 }
 
 void player::cough(bool harmful, int loudness)
@@ -7272,7 +7291,6 @@ void player::hardcoded_effects(effect &it)
         }
     } else if( id == effect_grabbed ) {
         blocks_left -= 1;
-        dodges_left = 0;
         int zed_number = 0;
         for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ){
             if (g->mon_at(dest) != -1){
@@ -10088,49 +10106,6 @@ hint_rating player::rate_action_change_side( const item &it ) const {
     return HINT_GOOD;
 }
 
-bool player::can_use( const item& it, bool interactive, const skill_id &context ) const {
-    // First check stats
-    std::string fail_stat;
-    int min_stat = 0;
-    if( it.type->min_str > get_str() ) {
-        fail_stat = "strength";
-        min_stat = it.type->min_str;
-    } else if( it.type->min_dex > get_dex() ) {
-        fail_stat = "dexterity";
-        min_stat = it.type->min_dex;
-    } else if( it.type->min_int > get_int() ) {
-        fail_stat = "intelligence";
-        min_stat = it.type->min_int;
-    } else if( it.type->min_per > get_per() ) {
-        fail_stat = "perception";
-        min_stat = it.type->min_per;
-    }
-    if( !fail_stat.empty() ) {
-        if( interactive ) {
-            add_msg_if_player( m_bad, _( "You need at least %s %i to use the %s" ),
-                               fail_stat.c_str(), min_stat, it.tname().c_str() );
-        }
-        return false;
-    }
-
-    // Then check skills
-    const auto& reqs = it.type->min_skills;
-    return std::none_of( reqs.begin(), reqs.end(), [&]( const std::pair<std::string, int>& e ) {
-        auto sk = skill_id( e.first );
-        if( !sk.is_valid() ) {
-            sk = context;
-        }
-        if( !sk.is_valid() || get_skill_level( sk ) >= e.second ) {
-            return false;
-        }
-        if( interactive ) {
-            add_msg_if_player( m_bad, _( "You need at least %s %i to use the %s" ),
-                               sk->name().c_str(), e.second, it.tname().c_str() );
-        }
-        return true;
-    });
-}
-
 bool player::can_reload( const item& it, const itype_id& ammo ) const {
 
     if( !it.is_reloadable_with( ammo ) ) {
@@ -10369,7 +10344,7 @@ int player::item_store_cost( const item& it, const item& /* container */, bool e
     ///\EFFECT_STABBING decreases time taken to store a stabbing weapon
     ///\EFFECT_CUTTING decreases time taken to store a cutting weapon
     ///\EFFECT_BASHING decreases time taken to store a bashing weapon
-    int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.weap_skill() );
+    int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
     return item_handling_cost( it, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
 }
 
@@ -10760,11 +10735,15 @@ hint_rating player::rate_action_mend( const item &it ) const
 
 hint_rating player::rate_action_disassemble( const item &it )
 {
-    if( can_disassemble( it, crafting_inventory(), false ) ) {
-        return HINT_GOOD;
-    }
+    if( can_disassemble( it, crafting_inventory() ) ) {
+        return HINT_GOOD; // possible
 
-    return HINT_CANT;
+    } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
+        return HINT_IFFY; // potentially possible but we currently lack requirements
+
+    } else {
+        return HINT_CANT; // never possible
+    }
 }
 
 hint_rating player::rate_action_use( const item &it ) const
@@ -10892,21 +10871,6 @@ void player::use(int inventory_position)
         }
 
         invoke_item( used );
-    } else if (used->is_gunmod()) {
-        int gunpos = g->inv_for_filter( _("Select gun to modify:" ), [&used]( const item& e ) {
-            return e.gunmod_compatible( *used, false, false );
-        }, _( "You don't have compatible guns." ) );
-
-        if( gunpos == INT_MIN ) {
-            add_msg_if_player( m_info, _( "Never mind." ) );
-            return;
-        }
-
-        item& gun = i_at( gunpos );
-        if( gun.gunmod_compatible( *used ) ) {
-            gunmod_add( gun, *used );
-        }
-        return;
 
     } else if (used->is_bionic()) {
         if( install_bionics( *used->type ) ) {
@@ -11096,7 +11060,7 @@ void player::gunmod_add( item &gun, item &mod )
     }
 
     // first check at least the minimum requirements are met
-    if( !( can_use( mod, true, gun.gun_skill() ) || has_trait( "DEBUG_HS" ) ) ) {
+    if( !has_trait( "DEBUG_HS" ) && !can_use( mod, gun ) ) {
         return;
     }
 
@@ -11111,10 +11075,9 @@ void player::gunmod_add( item &gun, item &mod )
     if( mod.has_flag( "INSTALL_DIFFICULT" ) && !has_trait( "DEBUG_HS" ) ) {
         int chances = 1; // start with 1 in 6 (~17% chance)
 
-        for( const auto &e : mod.type->min_skills ) {
+        for( const auto &elem : compare_skill_requirements( mod.type->min_skills, gun ) ) {
             // gain an additional chance for every level above the minimum requirement
-            skill_id sk = e.first == "weapon" ? gun.gun_skill() : skill_id( e.first );
-            chances += std::max( get_skill_level( sk ) - e.second, 0 );
+            chances += std::max( elem.second, 0 );
         }
 
         // cap success from skill alone to 1 in 5 (~83% chance)
@@ -11820,6 +11783,66 @@ bool player::studied_all_recipes(const itype &book) const
         }
     }
     return true;
+}
+
+const recipe_subset &player::get_learned_recipes() const
+{
+    // Cache validity check
+    if( _skills != valid_autolearn_skills ) {
+        for( const auto &r : recipe_dict.all_autolearn() ) {
+            if( meets_skill_requirements( r->autolearn_requirements ) ) {
+                learned_recipes.include( r );
+            }
+        }
+        valid_autolearn_skills = _skills; // Reassign the validity stamp
+    }
+
+    return learned_recipes;
+}
+
+const recipe_subset player::get_recipes_from_books( const inventory &crafting_inv ) const
+{
+    recipe_subset res;
+
+    for( const auto &stack : crafting_inv.const_slice() ) {
+        const item &candidate = stack->front();
+
+        if( !candidate.is_book() ) {
+            continue;
+        }
+        // NPCs don't need to identify books
+        if( is_player() && !items_identified.count( candidate.typeId() ) ) {
+            continue;
+        }
+
+        for( auto const &elem : candidate.type->book->recipes ) {
+            if( get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
+                res.include( elem.recipe, elem.skill_level );
+            }
+        }
+    }
+
+    return res;
+}
+
+const recipe_subset player::get_available_recipes( const inventory &crafting_inv, const std::vector<npc *> *helpers ) const
+{
+    recipe_subset res( get_learned_recipes() );
+
+    res.include( get_recipes_from_books( crafting_inv ) );
+
+    if( helpers != nullptr ) {
+        for( npc *np : *helpers ) {
+            // Directly form the helper's inventory
+            res.include( get_recipes_from_books( np->inv ) );
+            // Being told what to do
+            res.include_if( np->get_learned_recipes(), [ this ]( const recipe &r ) {
+                return get_skill_level( r.skill_used ) >= int( r.difficulty * 0.8f ); // Skilled enough to understand
+            } );
+        }
+    }
+
+    return res;
 }
 
 void player::try_to_sleep()
@@ -12798,26 +12821,16 @@ void player::practice( const skill_id &id, int amount, int cap )
 
 int player::exceeds_recipe_requirements( const recipe &rec ) const
 {
-    if( !rec.valid_learn() ) {
-        return -1;
-    }
-
     int over = rec.skill_used ? get_skill_level( rec.skill_used ) - rec.difficulty : 0;
-    for( const auto &required_skill : rec.required_skills ) {
-        over = std::min( over, get_skill_level( required_skill.first ) - required_skill.second );
+    for( const auto &elem : compare_skill_requirements( rec.required_skills ) ) {
+        over = std::min( over, elem.second );
     }
     return over;
 }
 
 bool player::has_recipe_requirements( const recipe &rec ) const
 {
-    return ( exceeds_recipe_requirements( rec ) > -1 );
-}
-
-bool player::has_recipe_autolearned( const recipe &rec ) const
-{
-    return !rec.autolearn_requirements.empty() &&
-           meets_skill_requirements( rec.autolearn_requirements );
+    return exceeds_recipe_requirements( rec ) >= 0;
 }
 
 bool player::can_decomp_learn( const recipe &rec ) const
@@ -12828,24 +12841,12 @@ bool player::can_decomp_learn( const recipe &rec ) const
 
 bool player::knows_recipe(const recipe *rec) const
 {
-    if( learned_recipes.find( rec->ident() ) != learned_recipes.end() ) {
-        return true;
-    }
-
-    if( has_recipe_autolearned( *rec ) ) {
-        return true;
-    }
-
-    return false;
+    return get_learned_recipes().contains( rec );
 }
 
 int player::has_recipe( const recipe *r, const inventory &crafting_inv,
                         const std::vector<npc *> &helpers ) const
 {
-    if( !r->valid_to_learn ) {
-        return -1;
-    }
-
     if( !r->skill_used ) {
         return 0;
     }
@@ -12854,40 +12855,13 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
         return r->difficulty;
     }
 
-    int difficulty = INT_MAX;
-
-    // Iterate over the nearby items and see if there's a book that has the recipe.
-    const_invslice slice = crafting_inv.const_slice();
-    for( auto stack = slice.cbegin(); stack != slice.cend(); ++stack ) {
-        // We are only checking qualities, so we only care about the first item in the stack.
-        const item &candidate = (*stack)->front();
-        if( candidate.is_book() && items_identified.count( candidate.typeId() ) ) {
-            for( auto const &elem : candidate.type->book->recipes ) {
-                if( elem.recipe == r && get_skill_level( r->skill_used ) >= elem.skill_level ) {
-                    difficulty = std::min( difficulty, elem.skill_level );
-                }
-            }
-        }
-    }
-
-    if( get_skill_level( r->skill_used ) >= (int)( r->difficulty * 0.8f ) ) {
-        for( const npc *np : helpers ) {
-            if( np->knows_recipe( r ) ) {
-                difficulty = std::min( difficulty, r->difficulty );
-            }
-        }
-    }
-
-    return difficulty < INT_MAX ? difficulty : -1;
+    const auto available = get_available_recipes( crafting_inv, &helpers );
+    return available.contains( r ) ? available.get_custom_difficulty( r ) : -1;
 }
 
-void player::learn_recipe( const recipe * const rec, bool force )
+void player::learn_recipe( const recipe * const rec )
 {
-    if( force || rec->valid_learn() ) {
-        learned_recipes[rec->ident()] = rec;
-    } else {
-        debugmsg( "Tried to learn unlearnable recipe %s", rec->ident().c_str() );
-    }
+    learned_recipes.include( rec );
 }
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
@@ -13061,7 +13035,7 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     ///\EFFECT_STABBING decreases time taken to draw stabbing weapons from sheathes
     ///\EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
     ///\EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
-    int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() );
+    int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
     mv += item_handling_cost( weapon, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
 
     moves -= mv;
@@ -13090,7 +13064,7 @@ nc_color encumb_color(int level)
  return c_red;
 }
 
-int player::get_melee() const
+float player::get_melee() const
 {
     return get_skill_level( skill_id( "melee" ) );
 }
@@ -13765,13 +13739,17 @@ void player::blossoms()
 
 float player::power_rating() const
 {
+    int dmg = std::max( { weapon.damage_melee( DT_BASH ),
+                          weapon.damage_melee( DT_CUT ),
+                          weapon.damage_melee( DT_STAB ) } );
+
     int ret = 2;
     // Small guns can be easily hidden from view
     if( weapon.volume() <= 250_ml ) {
         ret = 2;
     } else if( weapon.is_gun() ) {
         ret = 4;
-    } else if( weapon.damage_bash() + weapon.damage_cut() > 20 ) {
+    } else if( dmg > 12 ) {
         ret = 3; // Melee weapon or weapon-y tool
     }
     if( has_trait("HUGE") || has_trait("HUGE_OK") ) {

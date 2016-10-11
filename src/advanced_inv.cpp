@@ -224,31 +224,28 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
 
     //print inventory's current and total weight + volume
     if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN ) {
-        //right align
-        int hrightcol = columns -
-                        to_string( convert_weight( g->u.weight_carried() ) ).length() - 3 - //"xxx.y/"
-                        to_string( convert_weight( g->u.weight_capacity() ) ).length() - 3 - //"xxx.y_"
-                        to_string( g->u.volume_carried() / units::legacy_volume_factor ).length() - 1 - //"xxx/"
-                        to_string( g->u.volume_capacity() / units::legacy_volume_factor ).length() - 1; //"xxx|"
-        nc_color color = c_ltgreen;//red color if overload
-        if( g->u.weight_carried() > g->u.weight_capacity() ) {
-            color = c_red;
-        }
-        mvwprintz( window, 4, hrightcol, color, "%.1f", convert_weight( g->u.weight_carried() ) );
-        wprintz( window, c_ltgray, "/%.1f ", convert_weight( g->u.weight_capacity() ) );
-        if( g->u.volume_carried() > g->u.volume_capacity() ) {
-            color = c_red;
-        } else {
-            color = c_ltgreen;
-        }
-        wprintz( window, color, "%d", g->u.volume_carried() / units::legacy_volume_factor );
-        wprintz( window, c_ltgray, "/%d ", g->u.volume_capacity() / units::legacy_volume_factor );
+        const double weight_carried = convert_weight( g->u.weight_carried() );
+        const double weight_capacity = convert_weight( g->u.weight_capacity() );
+        const double volume_carried = round_up( units::to_liter( g->u.volume_carried() ), 1 );
+        const double volume_capacity = round_up( units::to_liter( g->u.volume_capacity() ), 1 );
+        // align right, so calculate formated head length 
+        const std::string head = string_format( "%.1f/%.1f %s  %.1f/%.1f L",
+                                                weight_carried, weight_capacity, weight_units(),
+                                                volume_carried, volume_capacity );
+        const int hrightcol = columns - 1 - head.length();
+        nc_color color = weight_carried > weight_capacity ? c_red : c_ltgreen;
+        mvwprintz( window, 4, hrightcol, color, "%.1f", weight_carried );
+        wprintz( window, c_ltgray, "/%.1f %s  ", weight_capacity, weight_units() );
+        color = volume_carried > volume_capacity ? c_red : c_ltgreen;
+        wprintz( window, color, "%.1f", volume_carried );
+        wprintz( window, c_ltgray, "/%-.1f L", volume_capacity );
     } else { //print square's current and total weight + volume
         std::string head;
         if( pane.get_area() == AIM_ALL ) {
-            head = string_format( "%3.1f %3d",
+            head = string_format( "%3.1f %s  %.1f L",
                                   convert_weight( squares[pane.get_area()].weight ),
-                                  squares[pane.get_area()].volume / units::legacy_volume_factor );
+                                  weight_units(),
+                                  round_up( units::to_liter( squares[pane.get_area()].volume ), 1 ) );
         } else {
             units::volume maxvolume = 0;
             auto &s = squares[pane.get_area()];
@@ -259,7 +256,11 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             } else {
                 maxvolume = g->m.max_volume( s.pos );
             }
-            head = string_format( "%3.1f %3d/%3d", convert_weight( s.weight ), s.volume / units::legacy_volume_factor, maxvolume / units::legacy_volume_factor );
+            head = string_format( "%3.1f %s  %.1f/%-.1f L",
+                                  convert_weight( s.weight ),
+                                  weight_units(),
+                                  round_up( units::to_liter( s.volume ), 1 ),
+                                  round_up( units::to_liter( maxvolume ), 1 ) );
         }
         mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str() );
     }
@@ -361,13 +362,22 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         mvwprintz( window, 6 + x, weight_startpos, print_color, "%5.*f", w_precision, it_weight );
 
         //print volume column
-        int it_vol = sitem.volume / units::legacy_volume_factor;
+        double it_vol = units::to_liter( sitem.volume );
+        size_t v_precision;
         print_color = ( it_vol > 0 ) ? thiscolor : thiscolordark;
-        if( it_vol > 9999 ) {
-            it_vol = 9999;
-            print_color = selected ? hilite( c_red ) : c_red;
+        if( it_vol >= 100 ) {
+            if( it_vol >= 10000 ) {
+                it_vol = 9999;
+                print_color = selected ? hilite( c_red ) : c_red;
+            }
+            v_precision = 0;
+        } else if( it_vol >= 10 ) {
+            v_precision = 1;
+        } else {
+            v_precision = 2;
         }
-        mvwprintz( window, 6 + x, vol_startpos, print_color, "%4d", it_vol );
+        mvwprintz( window, 6 + x, vol_startpos, print_color, "%4.*f",
+                   v_precision, round_up( it_vol, v_precision ) );
 
         if( active && sitem.autopickup ) {
             mvwprintz( window, 6 + x, 1, magenta_background( it.color_in_inventory() ), "%s",

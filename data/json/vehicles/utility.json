@@ -80,8 +80,8 @@
             {"x": 0, "y": 0, "part": "controls"},
             {"x": 0, "y": 0, "part": "vehicle_alarm"},
             {"x": 0, "y": 0, "part": "horn_car"},
-            {"x": -1, "y": -2, "part": "diesel_tank"},
-            {"x": -1, "y": 2, "part": "diesel_tank"},
+            {"x": -1, "y": -2, "part": "tank", "fuel": "diesel"},
+            {"x": -1, "y": 2, "part": "tank", "fuel": "diesel"},
             {"x": 1, "y": 0, "part": "diesel_engine_i6"},
             {"x": 1, "y": 0, "part": "alternator_truck"},
             {"x": 1, "y": 0, "part": "battery_car"},
@@ -167,7 +167,7 @@
             {"x": 0, "y": 0, "part": "generator_7500w"},
             {"x": 0, "y": 0, "part": "wheel_small"},
             {"x": 1, "y": 0, "part": "frame_cover"},
-            {"x": 1, "y": 0, "part": "gas_tank_small"},
+            {"x": 1, "y": 0, "part": "tank_small", "fuel": "gasoline"},
             {"x": 1, "y": 0, "part": "stowboard_vertical"},
             {"x": 1, "y": 0, "part": "controls"},
             {"x": 1, "y": 0, "part": "wheel_small"}
@@ -233,7 +233,7 @@
             { "x":  1, "y":  0, "part": "diesel_engine_i6" },
             { "x":  1, "y":  0, "part": "alternator_truck"},
             { "x":  1, "y":  0, "part": "battery_car" },
-            { "x": -1, "y":  0, "part": "diesel_tank" },
+            { "x": -1, "y":  0, "part": "tank", "fuel": "diesel" },
             { "x": -1, "y":  1, "part": "muffler" }
         ]
     }

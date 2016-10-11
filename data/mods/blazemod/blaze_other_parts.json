@@ -16,8 +16,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "223rack",
@@ -36,8 +35,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "22rack",
@@ -56,8 +54,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 3, 8 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "308rack",
@@ -76,8 +73,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "45rack",
@@ -96,8 +92,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 3, 8 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "50bmgrack",
@@ -116,8 +111,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "556rack",
@@ -136,8 +130,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "9mmrack",
@@ -156,8 +149,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 3, 8 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "Waisle_horizontal",
@@ -238,8 +230,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "cargo_space_external",
@@ -274,8 +265,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "drive_by_wire_controls",
@@ -314,8 +304,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "harpoonrack",
@@ -335,8 +324,7 @@
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "nailrack",
@@ -355,8 +343,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 3, 8 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "omnomnicam",
@@ -397,8 +384,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 3, 8 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "ram_alloy",
@@ -546,8 +532,7 @@
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "sboltrack",
@@ -566,8 +551,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "shardrack",
@@ -586,8 +570,7 @@
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 3, 8 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "solar_array",
@@ -669,8 +652,7 @@
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "tearer",
@@ -791,8 +773,7 @@
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
-    ],
-    "flags": [ "FUEL_TANK" ]
+    ]
   },
   {
     "id": "wiring",

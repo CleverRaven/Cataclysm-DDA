@@ -7,10 +7,13 @@
 #include "cursesdef.h" // WINDOW
 #include "string_id.h"
 #include "int_id.h"
+#include "requirements.h"
+#include "player_activity.h"
 
 #include <string>
 #include <vector>
 #include <map>
+#include <sstream>
 
 class vpart_info;
 using vpart_id = int_id<vpart_info>;
@@ -20,7 +23,6 @@ using vpart_str_id = string_id<vpart_info>;
 enum task_reason {
     UNKNOWN_TASK = -1, //No such task
     CAN_DO, //Task can be done
-    CANT_REFILL, // All fuel tanks are broken or player don't have properly fuel
     INVALID_TARGET, //No valid target ie can't "change tire" if no tire present
     LACK_TOOLS, //Player doesn't have all the tools they need
     NOT_FREE, //Part is attached to something else and can't be unmounted
@@ -35,19 +37,24 @@ struct vehicle_part;
 class veh_interact
 {
     public:
-        veh_interact( vehicle &veh, int x, int y );
+        static player_activity run( vehicle &veh, int x, int y );
+
+        /** Prompt for a suitable tank that can be used to contain @param liquid */
+        static item_location select_tank( const vehicle &veh, const item &liquid );
+
+        static void complete_vehicle();
+
+    private:
+        veh_interact( vehicle &veh, int x = 0, int y = 0 );
+        ~veh_interact();
+
+        item_location target;
 
         int ddx = 0;
         int ddy = 0;
         const vpart_info *sel_vpart_info = nullptr;
         char sel_cmd = ' '; //Command currently being run by the player
 
-        /** Get selected vehicle part (if any) */
-        const vehicle_part *part() const {
-            return sel_vehicle_part;
-        }
-
-    private:
         const vehicle_part *sel_vehicle_part = nullptr;
 
         int cpart = -1;
@@ -65,9 +72,6 @@ class veh_interact
 
         vehicle *veh;
         bool has_wrench;
-        bool has_welder;
-        bool has_goggles;
-        bool has_duct_tape;
         bool has_jack;
         bool has_wheel;
         inventory crafting_inv;
@@ -75,6 +79,14 @@ class veh_interact
 
         int max_lift; // maximum level of available lifting equipment (if any)
         int max_jack; // maximum level of available jacking equipment (if any)
+
+        player_activity serialize_activity();
+
+        void set_title( std::string msg, ... ) const;
+
+        /** Format list of requirements returning true if all are met */
+        bool format_reqs( std::ostringstream &msg, const requirement_data &reqs,
+                          const std::map<skill_id, int> &skills, int moves ) const;
 
         int part_at( int dx, int dy );
         void move_cursor( int dx, int dy );
@@ -105,22 +117,24 @@ class veh_interact
         void display_grid();
         void display_veh();
         void display_stats();
-        void display_contents();
         void display_name();
-        void display_mode( char mode );
+        void display_mode();
         void display_list( size_t pos, std::vector<const vpart_info *> list, const int header = 0 );
         void display_details( const vpart_info *part );
         size_t display_esc( WINDOW *w );
 
-        void countDurability();
-        friend nc_color getDurabilityColor( const int &dur );
-        std::string getDurabilityDescription( const int &dur );
+        /**
+          * Display overview of parts
+          * @param enable used to determine if a part can be selected
+          * @param action callback run when a part is selected
+          */
+        void overview( std::function<bool( const vehicle_part &pt )> enable = {},
+                       std::function<void( const vehicle_part &pt )> action = {} );
 
-        int durabilityPercent = 100;
+        void countDurability();
+
         std::string totalDurabilityText;
-        std::string worstDurabilityText;
-        nc_color totalDurabilityColor = c_green;
-        nc_color worstDurabilityColor = c_green;
+        nc_color totalDurabilityColor;
 
         /** Store the most damaged part's index, or -1 if they're all healthy. */
         int mostDamagedPart = -1;
@@ -167,8 +181,5 @@ class veh_interact
         void do_main_loop();
         void deallocate_windows();
 };
-
-void complete_vehicle();
-nc_color getDurabilityColor( const int &dur );
 
 #endif

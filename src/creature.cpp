@@ -724,46 +724,41 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part bp, int 
 
     // Apply damage multiplier from skill, critical hits or grazes after all other modifications.
     const int adjusted_damage = du.amount * du.damage_multiplier;
-    switch (du.type) {
-    case DT_BASH:
-        damage += adjusted_damage;
-        // add up pain before using mod_pain since certain traits modify that
-        pain += adjusted_damage / 4;
-        mod_moves(-rng(0, damage * 2)); // bashing damage reduces moves
-        break;
-    case DT_CUT:
-        damage += adjusted_damage;
-        pain += (adjusted_damage + sqrt(double(adjusted_damage))) / 4;
-        break;
-    case DT_STAB: // stab differs from cut in that it ignores some armor
-        damage += adjusted_damage;
-        pain += (adjusted_damage + sqrt(double(adjusted_damage))) / 4;
-        break;
-    case DT_HEAT: // heat damage sets us on fire sometimes
-        damage += adjusted_damage;
-        pain += adjusted_damage / 4;
-        if( rng(0, 100) < adjusted_damage ) {
-            add_effect( effect_onfire, rng(1, 3), bp );
-        }
-        break;
-    case DT_ELECTRIC: // Electrical damage adds a major speed/dex debuff
-        damage += adjusted_damage;
-        pain += adjusted_damage / 4;
-        add_effect( effect_zapped, std::max( adjusted_damage, 2 ) );
-        break;
-    case DT_COLD: // cold damage slows us a bit and hurts less
-        damage += adjusted_damage;
-        pain += adjusted_damage / 6;
-        mod_moves(-adjusted_damage * 80);
-        break;
-    case DT_ACID: // Acid damage and acid burns are super painful
-        damage += adjusted_damage;
-        pain += adjusted_damage / 3;
-        break;
-    default:
-        damage += adjusted_damage;
-        pain += adjusted_damage / 4;
+    if( adjusted_damage <= 0 ) {
+        return;
     }
+
+    float div = 4.0f;
+
+    switch( du.type ) {
+        case DT_BASH:
+            // Bashing damage is less painful
+            div = 5.0f;
+            break;
+
+        case DT_HEAT:
+            // heat damage sets us on fire sometimes
+            if( rng( 0, 100 ) < adjusted_damage ) {
+                add_effect( effect_onfire, rng( 1, 3 ), bp );
+            }
+            break;
+
+        case DT_ELECTRIC:
+            // Electrical damage adds a major speed/dex debuff
+            add_effect( effect_zapped, std::max( adjusted_damage, 2 ) );
+            break;
+
+        case DT_ACID:
+            // Acid damage and acid burns are more painful
+            div = 3.0f;
+            break;
+
+        default:
+            break;
+    }
+
+    damage += adjusted_damage;
+    pain += roll_remainder( adjusted_damage / div );
 }
 
 /*
@@ -1208,15 +1203,11 @@ int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();
 }
-int Creature::get_dodge() const
+float Creature::get_dodge() const
 {
     return get_dodge_base() + get_dodge_bonus();
 }
-int Creature::get_melee() const
-{
-    return 0;
-}
-int Creature::get_hit() const
+float Creature::get_hit() const
 {
     return get_hit_base() + get_hit_bonus();
 }
@@ -1225,19 +1216,11 @@ int Creature::get_speed_base() const
 {
     return speed_base;
 }
-int Creature::get_dodge_base() const
-{
-    return 0;
-}
-int Creature::get_hit_base() const
-{
-    return 0;
-}
 int Creature::get_speed_bonus() const
 {
     return speed_bonus;
 }
-int Creature::get_dodge_bonus() const
+float Creature::get_dodge_bonus() const
 {
     return dodge_bonus;
 }
@@ -1245,7 +1228,7 @@ int Creature::get_block_bonus() const
 {
     return block_bonus; //base is 0
 }
-int Creature::get_hit_bonus() const
+float Creature::get_hit_bonus() const
 {
     return hit_bonus; //base is 0
 }
@@ -1281,7 +1264,7 @@ int Creature::get_throw_resist() const
     return throw_resist;
 }
 
-void Creature::mod_stat( const std::string &stat, int modifier )
+void Creature::mod_stat( const std::string &stat, float modifier )
 {
     if( stat == "speed" ) {
         mod_speed_bonus( modifier );
@@ -1331,7 +1314,7 @@ void Creature::set_speed_bonus(int nspeed)
 {
     speed_bonus = nspeed;
 }
-void Creature::set_dodge_bonus(int ndodge)
+void Creature::set_dodge_bonus( float ndodge )
 {
     dodge_bonus = ndodge;
 }
@@ -1339,7 +1322,7 @@ void Creature::set_block_bonus(int nblock)
 {
     block_bonus = nblock;
 }
-void Creature::set_hit_bonus(int nhit)
+void Creature::set_hit_bonus( float nhit )
 {
     hit_bonus = nhit;
 }
@@ -1355,7 +1338,7 @@ void Creature::mod_speed_bonus(int nspeed)
 {
     speed_bonus += nspeed;
 }
-void Creature::mod_dodge_bonus(int ndodge)
+void Creature::mod_dodge_bonus( float ndodge )
 {
     dodge_bonus += ndodge;
 }
@@ -1363,7 +1346,7 @@ void Creature::mod_block_bonus(int nblock)
 {
     block_bonus += nblock;
 }
-void Creature::mod_hit_bonus(int nhit)
+void Creature::mod_hit_bonus( float nhit )
 {
     hit_bonus += nhit;
 }
@@ -1473,14 +1456,9 @@ bool Creature::is_symbol_highlighted() const
 body_part Creature::select_body_part(Creature *source, int hit_roll) const
 {
     // Get size difference (-1,0,1);
-    int szdif = source->get_size() - get_size();
-    if(szdif < -1) {
-        szdif = -1;
-    } else if (szdif > 1) {
-        szdif = 1;
-    }
+    int szdif = std::min( 1, std::max( -1, source->get_size() - get_size() ) );
 
-    add_msg( m_debug, "hit roll = %d", hit_roll);
+    add_msg( m_debug, "hit roll = %d", hit_roll );
     add_msg( m_debug, "source size = %d", source->get_size() );
     add_msg( m_debug, "target size = %d", get_size() );
     add_msg( m_debug, "difference = %d", szdif );

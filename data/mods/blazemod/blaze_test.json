@@ -44,7 +44,7 @@
     "time": 108000,
     "reversible": false,
     "autolearn": true,
-    "byproducts": { "id": "vpower" },
+    "byproducts": [ [ "vpower" ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 }
@@ -77,7 +77,7 @@
     "skills_required": [ [ "mechanics", 5 ], [ "electronics", 3 ] ],
     "time": 108000,
     "autolearn": true,
-    "byproducts": { "id": "vpower" },
+    "byproducts": [ [ "vpower" ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 }
@@ -260,7 +260,6 @@
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [
       [ [ "chisel", -1 ] ],
-      [ [ "cvd_machine", -1 ] ],
       [ [ "oxy_torch", 2 ], [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ] ]
     ],
     "components": [
@@ -848,11 +847,7 @@
     "clip_size": 1,
     "reload": 1000,
     "valid_mod_locations": [],
-    "ammo_effects": [
-      "SHOT",
-      "FRAG",
-      "FLASHBANG"
-    ],
+    "ammo_effects": [ "SHOT", "FRAG", "FLASHBANG" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
@@ -1005,7 +1000,7 @@
       { "item": "steel_chunk", "count": [ 2, 5 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
-    "flags": [ "FUEL_TANK", "REACTOR" ]
+    "flags": [ "REACTOR" ]
   },
   {
     "id": "vgen2",
@@ -1032,7 +1027,7 @@
       { "item": "scrap", "count": [ 4, 12 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
-    "flags": [ "ENGINE", "TOOL_NONE", "FUEL_TANK" ]
+    "flags": [ "ENGINE", "TOOL_NONE" ]
   },
   {
     "id": "vgen2",

@@ -12,6 +12,7 @@
 #include "vitamin.h"
 #include "emit.h"
 #include "units.h"
+#include "damage.h"
 
 #include <string>
 #include <vector>
@@ -276,10 +277,6 @@ struct common_ranged_data {
      * Dispersion "bonus" from gun.
      */
     int dispersion = 0;
-    /**
-     * Recoil "bonus" from gun.
-     */
-    int recoil = 0;
 };
 
 struct islot_engine
@@ -375,6 +372,15 @@ struct islot_gun : common_ranged_data {
 
     /** Burst size for AUTO mode (legacy field for items not migrated to specify modes ) */
     int burst = 0;
+
+    /** How easy is control of recoil? If unset value automatically derived from weapon type */
+    int handling = -1;
+
+    /**
+     *  Additional recoil applied per shot before effects of handling are considered
+     *  @note useful for adding recoil effect to guns which otherwise consume no ammo
+     */
+    int recoil = 0;
 };
 
 struct islot_gunmod : common_ranged_data {
@@ -411,6 +417,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Firing modes added to or replacing those of the base gun */
     std::map<std::string, std::tuple<std::string, int, std::set<std::string>>> mode_modifier;
+
+    /** Relative adjustment to base gun handling */
+    int handling = 0;
 };
 
 struct islot_magazine {
@@ -475,6 +484,9 @@ struct islot_ammo : common_ranged_data {
      * appropriate value is calculated based upon the other properties of the ammo
      */
     int loudness = -1;
+
+    /** Recoil (per shot), roughly equivalent to kinetic energy (in Joules) */
+    int recoil = 0;
 
     /**
      * Should this ammo explode in fire?
@@ -572,15 +584,19 @@ struct itype {
     /*@}*/
 
 protected:
-    std::string id; /** unique string identifier for this type */
+    std::string id = "null"; /** unique string identifier for this type */
 
     // private because is should only be accessed through itype::nname!
     // name and name_plural are not translated automatically
     // nname() is used for display purposes
-    std::string name;        // Proper name, singular form, in American English.
-    std::string name_plural; // name, plural form, in American English.
+    std::string name = "none";        // Proper name, singular form, in American English.
+    std::string name_plural = "none"; // name, plural form, in American English.
 
 public:
+    itype() {
+        melee.fill( 0 );
+    }
+
     std::string snippet_category;
     std::string description; // Flavor text
 
@@ -616,7 +632,7 @@ public:
     int min_dex = 0;
     int min_int = 0;
     int min_per = 0;
-    std::map<std::string, int> min_skills;
+    std::map<skill_id, int> min_skills;
 
     // Should the item explode when lit on fire
     bool explode_in_fire = false;
@@ -637,8 +653,9 @@ public:
 
     bool rigid = true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
 
-    int melee_dam = 0; // Bonus for melee damage; may be a penalty
-    int melee_cut = 0; // Cutting damage in melee
+    /** Damage output in melee for zero or more damage types */
+    std::array<int, NUM_DT> melee;
+
     int m_to_hit  = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable
 
     unsigned light_emission = 0;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
@@ -733,8 +750,6 @@ public:
     long invoke( player *p, item *it, const tripoint &pos ) const; // Picks first method or returns 0
     long invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const;
     long tick( player *p, item *it, const tripoint &pos ) const;
-
-    itype() : id("null"), name("none"), name_plural("none") {}
 
     virtual ~itype() { };
 };

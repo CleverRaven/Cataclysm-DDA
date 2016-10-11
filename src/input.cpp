@@ -19,7 +19,6 @@
 #include <algorithm>
 
 extern bool tile_iso;
-extern bool lcmatch( const std::string &str, const std::string &findstr ); // ui.cpp
 
 static const std::string default_context_id( "default" );
 
@@ -1310,10 +1309,9 @@ void input_context::set_iso( bool mode )
 }
 
 std::vector<std::string> input_context::filter_strings_by_phrase(
-    const std::vector<std::string> &strings, std::string phrase ) const
+    const std::vector<std::string> &strings, const std::string &phrase ) const
 {
     std::vector<std::string> filtered_strings;
-    transform( phrase.begin(), phrase.end(), phrase.begin(), tolower );
 
     for( auto &str : strings ) {
         if( lcmatch( remove_color_tags( get_action_name( str ) ), phrase ) ) {

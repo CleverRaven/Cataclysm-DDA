@@ -141,7 +141,6 @@ struct defense_game : public special_game {
         void refresh_setup( WINDOW *w, int selection );
         void init_mtypes();
         void init_constructions();
-        void init_recipes();
         void init_map();
         std::vector<itype_id> carvan_items( caravan_category cat );
 

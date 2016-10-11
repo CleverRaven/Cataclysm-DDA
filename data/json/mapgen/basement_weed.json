@@ -1,0 +1,61 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "basement"
+        ],
+        "method": "json",
+        "weight": 1000,
+        "object": {
+            "rows": [
+                "|----------------------|",
+                "|c....................c|",
+                "|c.ddd..ddd..ddd..ddd.c|",
+                "|c.ddd..ddd..ddd..ddd.c|",
+                "|c.ddd..ddd..ddd..ddd.c|",
+                "|c....................c|",
+                "|c.ddd..ddd..ddd..ddd.c|",
+                "|c.ddd..ddd..ddd..ddd.c|",
+                "|c.ddd..ddd..ddd..ddd.c|",
+                "|c....................c|",
+                "|c.ddd..ddd..ddd..ddd.c|",
+                "|c.ddd..ddd..ddd..ddd.c|",
+                "|c.ddd..ddd..ddd..ddd.c|",
+                "|c....................c|",
+                "|c....................c|",
+                "|......................|",
+                "|.........|++|.........|",
+                "|.........|..|.........|",
+                "|.........|<<|.........|",
+                "------------------------",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "rotation": [ 0, 3 ],
+            "fill_ter": "t_rock",
+            "terrain": {
+                "|": "t_wall",
+                "-": "t_wall",
+                "<": "t_stairs_up",
+                "+": "t_door_c",
+                ".": "t_rock_floor",
+                "c": "t_rock_floor",
+                "d": "t_dirt"
+            },
+            "furniture": {
+                "c": "f_counter"
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 1, 19 ], "chance": 2 }
+            ],
+            "place_loot": [
+                { "item":  "seed_weed",  "chance":  96, "x": [ 3, 20 ], "y": [ 2, 12 ], "repeat": [1, 10] },
+                { "item":  "weed",       "chance":  80, "x": [ 3, 20 ], "y": [ 2, 12 ], "repeat": [1, 10] },
+                { "group": "stoner",     "chance":  10, "x": 1,         "y": [ 1, 14 ], "repeat": [1, 10] },
+                { "group": "stoner",     "chance":  10, "x": 22,        "y": [ 1, 14 ], "repeat": [1, 10] }
+            ]
+        }
+    }
+]

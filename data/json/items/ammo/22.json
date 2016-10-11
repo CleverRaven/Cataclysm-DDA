@@ -21,7 +21,7 @@
     "type": "AMMO",
     "name": ".22 FMJ",
     "name_plural": ".22 FMJ",
-    "description": ".22 Long Rifle ammunition with 30gr FMJ bullets.  The .22LR round is extremely weak with very low stopping power, short range, and negligible recoil.  It is most useful for training and hunting small animals.",
+    "description": ".22 Long Rifle ammunition with 30gr FMJ bullets.  The .22LR round is extremely weak with very low stopping power, short range, and negligible recoil.  It is most useful for rifle training, and hunting small animals.",
     "relative": {
       "damage": -1,
       "pierce": 2
@@ -32,7 +32,7 @@
     "type": "AMMO",
     "name": ".22 LR",
     "name_plural": ".22 LR",
-    "description": ".22 Long Rifle ammunition with 40gr unjacketed bullets.  The .22LR round is extremely weak with very low stopping power, short range, and negligible recoil.  It is most useful for training and hunting small animals.",
+    "description": ".22 Long Rifle ammunition with 40gr unjacketed bullets.  The .22LR round is extremely weak with very low stopping power, short range, and negligible recoil.  It is most useful for rifle training, and hunting small animals.",
     "weight": 3,
     "volume": 1,
     "price": 2500,
@@ -46,7 +46,7 @@
     "range": 13,
     "damage": 12,
     "dispersion": 60,
-    "recoil": 90,
+    "recoil": 150,
     "effects": [ "COOKOFF" ]
   },
   {

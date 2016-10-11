@@ -16,6 +16,8 @@
 #include "mapsharing.h"
 #include "sounds.h"
 #include "cata_utility.h"
+#include "auto_pickup.h"
+#include "safemode_ui.h"
 
 //TODO replace these with filesystem.h
 #include <sys/stat.h>
@@ -79,7 +81,7 @@ void game::print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMe
     }
 
     center_print( w_open, window_height - 1, c_red,
-                  _( "Please report bugs to kevin.granade@gmail.com or post on the forums." ) );
+                  _( "Please report bugs on github.com/CleverRaven/Cataclysm-DDA/ or the forums." ) );
 
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
@@ -273,7 +275,7 @@ bool game::opening_screen()
     vMenuItems.push_back( pgettext( "Main Menu", "Lo<a|A>d" ) );
     vMenuItems.push_back( pgettext( "Main Menu", "<W|w>orld" ) );
     vMenuItems.push_back( pgettext( "Main Menu", "<S|s>pecial" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<O|o>ptions" ) );
+    vMenuItems.push_back( pgettext( "Main Menu", "Se<t|T>tings" ) );
     vMenuItems.push_back( pgettext( "Main Menu", "H<e|E|?>lp" ) );
     vMenuItems.push_back( pgettext( "Main Menu", "<C|c>redits" ) );
     vMenuItems.push_back( pgettext( "Main Menu", "<Q|q>uit" ) );
@@ -303,6 +305,18 @@ bool game::opening_screen()
     std::vector<std::vector<std::string>> vWorldHotkeys;
     for( auto item : vWorldSubItems ) {
         vWorldHotkeys.push_back( get_hotkeys( item ) );
+    }
+
+    std::vector<std::string> vSettingsSubItems;
+    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );
+    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "K<e|E>ybindings" ) );
+    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<A|a>utopickup" ) );
+    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<S|s>afemode" ) );
+    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<C|c>olors" ) );
+
+    std::vector<std::vector<std::string>> vSettingsHotkeys;
+    for( auto item : vSettingsSubItems ) {
+        vSettingsHotkeys.push_back( get_hotkeys( item ) );
     }
 
     mmenu_refresh_title();
@@ -379,9 +393,10 @@ bool game::opening_screen()
             }
             // also check special keys
             if( action == "QUIT" ) {
-                // Quit
-                sel1 = 8;
-                action = "CONFIRM";
+                if( query_yn( "Really quit?" ) ) {
+                    sel1 = 8;
+                    action = "CONFIRM";
+                }
             } else if( action == "LEFT" ) {
                 if( sel1 > 0 ) {
                     sel1--;
@@ -398,9 +413,7 @@ bool game::opening_screen()
                 sfx::play_variant_sound( "menu_move", "default", 100 );
             }
             if( ( action == "UP" || action == "CONFIRM" ) && sel1 > 0 ) {
-                if( sel1 == 5 ) {
-                    get_options().show();
-                } else if( sel1 == 6 ) {
+                if( sel1 == 6 ) {
                     display_help();
                 } else if( sel1 == 7 ) {
                     display_credits();
@@ -669,6 +682,63 @@ bool game::opening_screen()
                             continue;
                         }
                         start = true;
+                    }
+                }
+            } else if( sel1 == 5 ) {  // Settings Menu
+                int settings_subs_to_display = vSettingsSubItems.size();
+                std::vector<std::string> settings_subs;
+                int xoffset = 46 + iMenuOffsetX + extra_w / 2;
+                int yoffset = iMenuOffsetY - 2;
+                int xlen = 0;
+                for( int i = 0; i < settings_subs_to_display; ++i ) {
+                    settings_subs.push_back( vSettingsSubItems[i] );
+                    xlen += vSettingsSubItems[i].size() + 2; // Open and close brackets added
+                }
+                xlen += settings_subs.size() - 1;
+                if( settings_subs.size() > 1 ) {
+                    xoffset -= 6;
+                }
+                print_menu_items( w_open, settings_subs, sel2, yoffset, xoffset - ( xlen / 4 ) );
+                wrefresh( w_open );
+                refresh();
+                std::string action = ctxt.handle_input();
+                std::string sInput = ctxt.get_raw_input().text;
+                for( int i = 0; i < settings_subs_to_display; ++i ) {
+                    for( auto hotkey : vSettingsHotkeys[i] ) {
+                        if( sInput == hotkey ) {
+                            sel2 = i;
+                            action = "CONFIRM";
+                        }
+                    }
+                }
+
+                if( action == "LEFT" ) {
+                    if( sel2 > 0 ) {
+                        --sel2;
+                    } else {
+                        sel2 = settings_subs_to_display - 1;
+                    }
+                } else if( action == "RIGHT" ) {
+                    if( sel2 < settings_subs_to_display - 1 ) {
+                        ++sel2;
+                    } else {
+                        sel2 = 0;
+                    }
+                } else if( action == "DOWN" || action == "QUIT" ) {
+                    layer = 1;
+                }
+
+                if( action == "UP" || action == "CONFIRM" ) {
+                    if( sel2 == 0 ) {
+                        get_options().show( true );
+                    } else if( sel2 == 1 ) {
+                        ctxt.display_help();
+                    } else if( sel2 == 2 ) {
+                        get_auto_pickup().show();
+                    } else if( sel2 == 3 ) {
+                        get_safemode().show();
+                    } else if( sel2 == 4 ) {
+                        all_colors.show_gui();
                     }
                 }
             }

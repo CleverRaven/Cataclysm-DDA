@@ -142,7 +142,7 @@ class Character : public Creature, public visitable<Character>
         virtual void set_stomach_food(int n_stomach_food);
         virtual void set_stomach_water(int n_stomach_water);
 
-        void mod_stat( const std::string &stat, int modifier ) override;
+        void mod_stat( const std::string &stat, float modifier ) override;
 
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion ) const;
@@ -151,8 +151,8 @@ class Character : public Creature, public visitable<Character>
         double aim_per_move( const item &gun, double recoil ) const;
 
         /** Combat getters */
-        int get_dodge_base() const override;
-        int get_hit_base() const override;
+        float get_dodge_base() const override;
+        float get_hit_base() const override;
 
         /** Handles health fluctuations over time */
         virtual void update_health(int external_modifiers = 0);
@@ -253,6 +253,9 @@ class Character : public Creature, public visitable<Character>
         bool made_of( const material_id &m ) const override;
 
  private:
+        /** Null item to provide context for skills */
+        static const item null_context;
+
         /** Retrieves a stat mod of a mutation. */
         int get_mod(std::string mut, std::string arg) const;
  protected:
@@ -413,6 +416,11 @@ class Character : public Creature, public visitable<Character>
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
+        /**
+         * Checks if character stats and skills meet minimum requirements for the item.
+         * Prints an appropriate message if requirements not met.
+         */
+        bool can_use( const item& it, const item &context = null_context ) const;
 
         void drop_inventory_overflow();
 
@@ -430,14 +438,28 @@ class Character : public Creature, public visitable<Character>
         SkillLevel &get_skill_level( const skill_id &ident );
 
         /** for serialization */
-        SkillLevel const& get_skill_level(const skill_id &ident) const;
+        SkillLevel const& get_skill_level(const skill_id &ident, const item &context = null_context ) const;
         void set_skill_level( const skill_id &ident, int level );
         void boost_skill_level( const skill_id &ident, int delta );
 
-        bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
+        /** Calculates skill difference
+         * @param req Required skills to be compared with.
+         * @param context An item to provide context for contextual skills. Can be null.
+         * @return Difference in skills. Positive numbers - exceeds; negative - lacks; empty map - no difference.
+         */
+        std::map<skill_id, int> compare_skill_requirements( const std::map<skill_id, int> &req,
+                                                            const item &context = null_context ) const;
+        /** Checks whether the character's skills meet the required */
+        bool meets_skill_requirements( const std::map<skill_id, int> &req,
+                                       const item &context = null_context ) const;
+        /** Checks whether the character's stats meets the stats required by the item */
+        bool meets_stat_requirements( const item &it ) const;
+        /** Checks whether the character meets overall requirements to be able to use the item */
+        bool meets_requirements( const item &it, const item &context = null_context ) const;
+        /** Returns a string of missed requirements (both stats and skills) */
+        std::string enumerate_unmet_requirements( const item &it, const item &context = null_context ) const;
 
         // --------------- Other Stuff ---------------
-
 
         /** return the calendar::turn the character expired */
         int get_turn_died() const

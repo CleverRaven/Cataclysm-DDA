@@ -112,7 +112,6 @@ class editmap
         int tmaxx;
         int tmaxy;
         bool uberdraw;
-        std::map<oter_id, int> oter_special;
 
         editmap();
         ~editmap();

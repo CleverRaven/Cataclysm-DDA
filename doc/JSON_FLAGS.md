@@ -442,7 +442,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```FOLDABLE```
 - ```FORGE``` Acts as a forge for crafting.
 - ```FRIDGE``` Can refrigerate items.
-- ```FUEL_TANK``` Storage device for a fuel type.
 - ```FUNNEL```
 - ```HORN``` Generates noise when used.
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
@@ -471,6 +470,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```REAPER``` Cuts down mature crops, depositing them on the square.
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
 - ```REMOTE_CONTROLS```
+- ```REVERSIBLE``` Removal has identical requirements to installation but is twice as quick
 - ```ROOF``` Covers a section of the vehicle. Areas of the vehicle that have a roof and roofs on surrounding sections, are considered inside. Otherwise they're outside.
 - ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part. Also mops up liquids.
 - ```SEAT``` A seat where the player can sit or sleep.
@@ -639,7 +639,7 @@ Techniques may be used by tools, armors, weapons and anything else that can be w
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
 
 - ```ALARMCLOCK``` Has an alarm-clock feature.
-- ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevent body part would.
+- ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
 - ```BAROMETER``` This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure).
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
 - ```BLIND``` Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
@@ -780,10 +780,11 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ### Flags
 
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
-- ```BAYONET``` If the item is attached to a gun (as gunmod), the gun will use the cutting damage from the mod instead of its own.
 - ```CHOP``` Does cutting damage, with a high chance of getting stuck.
+- ```DIAMOND``` Diamond coating adds 30% bonus to cutting damage
 - ```MESSY``` Resistant to getting stuck in a monster. Potentially cause more gore in the future?
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
+- ```NO_CVD``` Item can never be used with a CVD machine
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```NO_UNWIELD``` Cannot unwield this item.
 - ```REACH_ATTACK``` Allows to perform reach attack.
@@ -798,6 +799,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ## Guns
 
 - ```BACKBLAST``` Causes a small explosion behind the person firing the weapon. Currently not implemented?
+- ```BIPOD``` Handling bonus only applies on MOUNTABLE map/vehicle tiles
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD).
 - ```DISABLE_SIGHTS``` Prevents use of the base weapon sights
@@ -1049,7 +1051,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 ### Tags
 
-- ```"gun_types"``` Define gun related skills?
+- ```combat_skill``` The skill is considered a combat skill. It's affected by "PACIFIST", "PRED1", "PRED2", "PRED3", and "PRED4" traits.
+- ```contextual_skill``` The skill is abstract, it depends on context (an indirect item to which it's applied). Neither player nor NPCs can possess it.
 
 ## Scenarios
 

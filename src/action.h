@@ -102,6 +102,12 @@ enum action_id : int {
     ACTION_MORALE,
     ACTION_MESSAGES,
     ACTION_HELP,
+    ACTION_MAIN_MENU,
+    ACTION_KEYBINDINGS,
+    ACTION_OPTIONS,
+    ACTION_AUTOPICKUP,
+    ACTION_SAFEMODE,
+    ACTION_COLOR,
     // Debug Functions
     ACTION_TOGGLE_SIDEBAR_STYLE,
     ACTION_TOGGLE_FULLSCREEN,
@@ -152,6 +158,7 @@ std::string press_x( action_id act, std::string act_desc );
 action_id get_movement_direction_from_delta( const int dx, const int dy, const int dz = 0 );
 
 action_id handle_action_menu(); // Show the action menu.
+action_id handle_main_menu(); // Show the ingame main menu.
 
 /**
  * Check whether we can interact with something using the

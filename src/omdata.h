@@ -4,6 +4,7 @@
 #include "color.h"
 #include "json.h"
 #include "enums.h"
+#include "int_id.h"
 #include "string_id.h"
 #include <string>
 #include <vector>
@@ -45,21 +46,25 @@ enum oter_flags {
     num_oter_flags
 };
 
+struct oter_t;
+using oter_id = int_id<oter_t>;
+using oter_str_id = string_id<oter_t>;
+
 struct oter_t {
-        std::string id;      // definitive identifier
-        unsigned loadid;          // position in termap / terlist
+        oter_str_id id;      /// definitive identifier
+        oter_id loadid;      /// position in 'terlist'
         std::string name;
         long sym; // This is a long, so we can support curses linedrawing
         nc_color color;
         unsigned char see_cost; // Affects how far the player can see in the overmap
         std::string extras;
         int mondensity;
-        // bool disable_default_mapgen;
-        // automatically set. We can be wasteful of memory here for num_oters * sizeof(extrastuff), if it'll save us from thousands of string ops
-        std::string
-        id_base; // base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
-        unsigned loadid_base; // self || directional_peers[0]? or seperate base_oter_map ?
-        std::vector<int> directional_peers; // fast reliable (?) method of determining whatever_west, etc.
+        /**
+         * base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
+         */
+        std::string id_base;
+        int loadid_base;                        /// self || directional_peers[0]? or seperate base_oter_map ?
+        std::vector<oter_id> directional_peers; /// fast reliable method of determining whatever_west, etc.
         std::string
         id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.
 
@@ -72,6 +77,8 @@ struct oter_t {
     private:
         std::bitset<num_oter_flags> flags; //contains a bitset for all the bools this terrain might have.
     public:
+        static size_t count();  /// Overall number of loaded objects
+
         bool has_flag( oter_flags flag ) const {
             return flags[flag];
         }
@@ -81,48 +88,12 @@ struct oter_t {
         }
 };
 
-struct oter_id {
-    unsigned _val; // just numeric index of oter_t, but typically invoked as string
+// @todo: Deprecate these operators
+bool operator==( const oter_id &lhs, const char *rhs );
+bool operator!=( const oter_id &lhs, const char *rhs );
+bool operator>=( const oter_id &lhs, const char *rhs );
+bool operator<=( const oter_id &lhs, const char *rhs );
 
-    // Hi, I'm an
-    operator int() const;
-    // pretending to be a
-    operator std::string const &() const;
-    // in order to map
-    operator oter_t() const;
-
-    const oter_t &t() const;
-
-    // set and compare by string
-    const unsigned &operator=( const int &i );
-    bool operator!=( const char *v ) const;
-    bool operator==( const char *v ) const;
-    bool operator>=( const char *v ) const;
-    bool operator<=( const char *v ) const;
-
-    // or faster, with another oter_id
-    bool operator!=( const oter_id &v ) const;
-    bool operator==( const oter_id &v ) const;
-
-
-    // initialize as raw value
-    oter_id() : _val( 0 ) { };
-    oter_id( int i ) : _val( i ) { };
-    // or as "something" by consulting otermap
-    oter_id( const std::string &v );
-    oter_id( const char *v );
-
-    // these std::string functions are provided for convenience, for others,
-    //  best invoke as actual string; std::string( ter(1, 2, 3) ).substr(...
-    const char *c_str() const;
-    size_t size() const;
-    int find( const std::string &v, const int start, const int end ) const;
-    int compare( size_t pos, size_t len, const char *s, size_t n = 0 ) const;
-};
-
-
-
-//typedef std::string oter_id;
 typedef oter_id oter_iid;
 
 // LINE_**** corresponds to the ACS_**** macros in ncurses, and are patterned

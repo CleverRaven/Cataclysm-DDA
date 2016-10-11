@@ -7,33 +7,23 @@
   {
     "id": "helicopter",
     "type": "item_group",
-    "items": [
-      [ "bayonet", 10 ],
-      [ "pistol_bayonet", 4 ]
-    ]
+    "items": [ [ "pistol_bayonet", 4 ] ]
   },
   {
     "id": "mil_accessories",
     "type": "item_group",
-    "items": [
-      [ "bayonet", 10 ],
-      [ "pistol_bayonet", 4 ]
-    ]
+    "items": [ [ "pistol_bayonet", 4 ] ]
   },
   {
     "id": "mil_surplus",
     "type": "item_group",
-    "items": [
-      [ "bayonet", 10 ],
-      [ "pistol_bayonet", 4 ]
-    ]
+    "items": [ [ "pistol_bayonet", 4 ] ]
   },
   {
     "id": "museum_melee",
     "type": "item_group",
     "items": [
       [ "sword_bayonet", 10 ],
-      [ "bayonet", 10 ],
       [ "pistol_bayonet", 4 ]
     ]
   },
@@ -42,7 +32,6 @@
     "type": "item_group",
     "items": [
       [ "sword_bayonet", 10 ],
-      [ "bayonet", 10 ],
       [ "pistol_bayonet", 4 ]
     ]
   }

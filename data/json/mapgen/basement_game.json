@@ -1,0 +1,308 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "basement"
+        ],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "rows": [
+                "|----|                  ",
+                "|...i|                  ",
+                "|&...|                  ",
+                "|....|                  ",
+                "|--+--------------------",
+                "|............fffrrrrrrc|",
+                "|......................|",
+                "|...........ccccccccccc|",
+                "|......................|",
+                "|..asssssc............a|",
+                "|........s.......pp....|",
+                "|c...tt..s.......pp....|",
+                "|c...tt..s.......pp...a|",
+                "|........a.............|",
+                "|......................|",
+                "|b.....................|",
+                "|b........|++|.........|",
+                "|b........|..|.........|",
+                "|bbbbbbbbb|<<|.........|",
+                "------------------------",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "rotation": [ 0, 3 ],
+            "fill_ter": "t_rock",
+            "terrain": {
+                "|": "t_wall",
+                "-": "t_wall",
+                "<": "t_stairs_up",
+                "+": "t_door_c",
+                ".": "t_rock_floor",
+                "s": "t_rock_floor",
+                "c": "t_rock_floor",
+                "t": "t_rock_floor",
+                "f": "t_rock_floor",
+                "r": "t_rock_floor",
+                "a": "t_rock_floor",
+                "p": "t_rock_floor",
+                "b": "t_rock_floor"
+            },
+            "furniture": {
+                "c": "f_counter",
+                "p": "f_pool_table",
+                "t": "f_table",
+                "s": "f_sofa",
+                "a": "f_armchair",
+                "r": "f_rack",
+                "f": "f_fridge",
+                "i": "f_sink",
+                "&": "f_toilet",
+                "b": "f_bookcase"
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 5, 19 ], "chance": 2 }
+            ],
+            "place_loot": [
+                { "group": "alcohol",               "chance":  96, "x": [ 16, 20 ], "y":  5         },
+                { "group": "fridgesnacks",          "chance":  80, "x": [ 13, 20 ], "y":  5         },
+                { "group": "pool_table",            "chance":  90, "x": [ 17, 18 ], "y": [ 10, 12 ] },
+                { "group": "homebooks",             "chance":  70, "x": [ 1,  9  ], "y": 18         },
+                { "group": "homebooks",             "chance":  70, "x": 1,          "y": [ 15, 18 ] },
+                { "group": "magazines",             "chance":  30, "x": [ 6,  7 ],  "y": 15         }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "basement"
+        ],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "rows": [
+                "|----|                  ",
+                "|...i|                  ",
+                "|&...|                  ",
+                "|....|                  ",
+                "|--+--------------------",
+                "|............fffrrrrrrc|",
+                "|......................|",
+                "|...........ccccccccccc|",
+                "|......................|",
+                "|..asssssc............a|",
+                "|........s.......pp....|",
+                "|c...tt..s.......pp....|",
+                "|c...tt..s.......pp...a|",
+                "|........a.............|",
+                "|......................|",
+                "|b.............aaaaaa..|",
+                "|b........|++|--------+|",
+                "|b........|..|.........|",
+                "|bbbbbbbbb|<<|ccccwcccd|",
+                "------------------------",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "rotation": [ 0, 3 ],
+            "fill_ter": "t_rock",
+            "terrain": {
+                "|": "t_wall",
+                "-": "t_wall",
+                "<": "t_stairs_up",
+                "+": "t_door_c",
+                ".": "t_rock_floor",
+                "s": "t_rock_floor",
+                "c": "t_rock_floor",
+                "t": "t_rock_floor",
+                "f": "t_rock_floor",
+                "r": "t_rock_floor",
+                "a": "t_rock_floor",
+                "p": "t_rock_floor",
+                "b": "t_rock_floor"
+            },
+            "furniture": {
+                "c": "f_counter",
+                "p": "f_pool_table",
+                "t": "f_table",
+                "s": "f_sofa",
+                "a": "f_armchair",
+                "r": "f_rack",
+                "f": "f_fridge",
+                "i": "f_sink",
+                "&": "f_toilet",
+                "b": "f_bookcase",
+                "w": "f_washer",
+                "d": "f_dryer"
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 5, 19 ], "chance": 2 }
+            ],
+            "place_loot": [
+                { "group": "alcohol",               "chance":  96, "x": [ 16, 20 ], "y":  5         },
+                { "group": "fridgesnacks",          "chance":  80, "x": [ 13, 20 ], "y":  5         },
+                { "group": "pool_table",            "chance":  90, "x": [ 17, 18 ], "y": [ 10, 12 ] },
+                { "group": "homebooks",             "chance":  70, "x": [ 1,  9  ], "y": 18         },
+                { "group": "homebooks",             "chance":  70, "x": 1,          "y": [ 15, 18 ] },
+                { "group": "magazines",             "chance":  30, "x": [ 6,  7 ],  "y": 15         },
+                { "group": "dresser",               "chance":  80, "x": 18,         "y": 18         },
+                { "group": "dresser",               "chance":  80, "x": 22,         "y": 18         },
+                { "group": "cleaning",              "chance":  80, "x": [ 14, 18 ], "y": 18         }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "basement"
+        ],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "rows": [
+                "|----|                  ",
+                "|...i|                  ",
+                "|&...|                  ",
+                "|....|                  ",
+                "|--+--------------------",
+                "|............fffrrrrrrc|",
+                "|......................|",
+                "|...........ccccccccccc|",
+                "|......................|",
+                "|..ssssssc............a|",
+                "|........s.......pp....|",
+                "|c...tt..s.......pp....|",
+                "|c...tt..s.......pp...a|",
+                "|........s.............|",
+                "|......................|",
+                "|......................|",
+                "|..ttttt..|++|.........|",
+                "|.........|..|.........|",
+                "|.caaaaac.|<<|.........|",
+                "------------------------",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "rotation": [ 0, 3 ],
+            "fill_ter": "t_rock",
+            "terrain": {
+                "|": "t_wall",
+                "-": "t_wall",
+                "<": "t_stairs_up",
+                "+": "t_door_c",
+                ".": "t_rock_floor",
+                "s": "t_rock_floor",
+                "c": "t_rock_floor",
+                "t": "t_rock_floor",
+                "f": "t_rock_floor",
+                "r": "t_rock_floor",
+                "a": "t_rock_floor",
+                "p": "t_rock_floor"
+            },
+            "furniture": {
+                "c": "f_counter",
+                "p": "f_pool_table",
+                "t": "f_table",
+                "s": "f_sofa",
+                "a": "f_armchair",
+                "r": "f_rack",
+                "f": "f_fridge",
+                "i": "f_sink",
+                "&": "f_toilet"
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 5, 19 ], "chance": 2 }
+            ],
+            "place_loot": [
+                { "group": "alcohol",               "chance":  96, "x": [ 16, 20 ], "y":  5 },
+                { "group": "fridgesnacks",          "chance":  80, "x": [ 13, 20 ], "y":  5 },
+                { "group": "pool_table",            "chance":  90, "x": [ 17, 18 ], "y": [ 10, 12 ] },
+                { "group": "livingroom",            "chance":  60, "x": [ 9,  23 ], "y": [ 5,  15 ] }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "basement"
+        ],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "rows": [
+                "|----|                  ",
+                "|...i|                  ",
+                "|&...|                  ",
+                "|....|                  ",
+                "|--+--------------------",
+                "|............fffrrrrrrc|",
+                "|......................|",
+                "|...........ccccccccccc|",
+                "|......................|",
+                "|..ssssssc............a|",
+                "|........s.......pp....|",
+                "|c...tt..s.......pp....|",
+                "|c...tt..s.......pp...a|",
+                "|........s.............|",
+                "|......................|",
+                "|..............aaaaaa..|",
+                "|..ttttt..|++|--------+|",
+                "|.........|..|.........|",
+                "|.caaaaac.|<<|ccccwcccd|",
+                "------------------------",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "rotation": [ 0, 3 ],
+            "fill_ter": "t_rock",
+            "terrain": {
+                "|": "t_wall",
+                "-": "t_wall",
+                "<": "t_stairs_up",
+                "+": "t_door_c",
+                ".": "t_rock_floor",
+                "s": "t_rock_floor",
+                "c": "t_rock_floor",
+                "t": "t_rock_floor",
+                "f": "t_rock_floor",
+                "r": "t_rock_floor",
+                "a": "t_rock_floor",
+                "p": "t_rock_floor"
+            },
+            "furniture": {
+                "c": "f_counter",
+                "p": "f_pool_table",
+                "t": "f_table",
+                "s": "f_sofa",
+                "a": "f_armchair",
+                "r": "f_rack",
+                "f": "f_fridge",
+                "i": "f_sink",
+                "&": "f_toilet",
+                "w": "f_washer",
+                "d": "f_dryer"
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 5, 19 ], "chance": 2 }
+            ],
+            "place_loot": [
+                { "group": "alcohol",               "chance":  96, "x": [ 16, 20 ], "y":  5 },
+                { "group": "fridgesnacks",          "chance":  80, "x": [ 13, 20 ], "y":  5 },
+                { "group": "pool_table",            "chance":  90, "x": [ 17, 18 ], "y": [ 10, 12 ] },
+                { "group": "livingroom",            "chance":  60, "x": [ 9,  23 ], "y": [ 5,  15 ] },
+                { "group": "dresser",               "chance":  80, "x": 18,         "y": 18         },
+                { "group": "dresser",               "chance":  80, "x": 22,         "y": 18         },
+                { "group": "cleaning",              "chance":  80, "x": [ 14, 18 ], "y": 18         }
+            ]
+        }
+    }
+]

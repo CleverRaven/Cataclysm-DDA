@@ -462,6 +462,7 @@
         "fire_resist" : 1,
         "chip_resist" : 8,
         "density" : 9,
+        "soft":true,
         "burn_data": [
             { "fuel": 1, "smoke": 3, "burn": 1, "chance": 5 },
             { "fuel": 1, "smoke": 5, "burn": 2 },

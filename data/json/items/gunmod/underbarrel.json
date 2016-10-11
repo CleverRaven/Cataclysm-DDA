@@ -12,55 +12,35 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow" ],
-    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "gun_data": {
-      "skill": "launcher",
       "ammo": "gasoline",
-      "clip_size": 400,
+      "skill": "launcher",
       "dispersion": 300,
-      "durability": 10
+      "durability": 10,
+      "clip_size": 400
     },
     "dispersion_modifier": 30,
+    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "FIRE_100" ]
-  },
-  {
-    "id": "bayonet",
-    "type": "GUNMOD",
-    "name": "bayonet",
-    "description": "A bayonet is a stabbing weapon that can be attached to the front of a shotgun, submachine gun or rifle, allowing a melee attack to deal piercing damage.",
-    "weight": 387,
-    "volume": 2,
-    "price": 4000,
-    "cutting": 12,
-    "to_hit": -1,
-    "material": [ "steel" ],
-    "symbol": ":",
-    "color": "light_gray",
-    "location": "underbarrel",
-    "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "dispersion_modifier": 10,
-    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
-    "flags": [ "NON_STUCK", "SPEAR", "BAYONET" ]
   },
   {
     "id": "bipod",
     "type": "GUNMOD",
     "name": "bipod",
-    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Aside from increased weight, there are no drawbacks.",
+    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil they are useable only on certain surfaces and are slow to equip.",
     "weight": 400,
     "volume": 2,
     "price": 68000,
-    "bashing": 10,
     "to_hit": -1,
+    "bashing": 10,
     "material": "steel",
     "symbol": ":",
     "color": "brown",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "launcher" ],
+    "handling_modifier": 18,
     "min_skills": [ [ "weapon", 2 ] ],
-    "dispersion_modifier": -45,
-    "recoil_modifier": -15
+    "flags": [ "BIPOD", "SLOW_WIELD" ]
   },
   {
     "id": "combination_gun_shotgun",
@@ -77,12 +57,12 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
     "gun_data": {
-      "skill": "shotgun",
       "ammo": "shot",
-      "clip_size": 1,
-      "dispersion": 20,
+      "skill": "shotgun",
       "range": 2,
-      "durability": 10
+      "dispersion": 20,
+      "durability": 10,
+      "clip_size": 1
     },
     "dispersion_modifier": 15,
     "flags": [ "RELOAD_ONE", "IRREMOVABLE", "TRADER_AVOID" ]
@@ -102,56 +82,22 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
     "gun_data": {
-      "skill": "shotgun",
       "ammo": "shot",
-      "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-      "clip_size": 1,
+      "skill": "shotgun",
       "ranged_damage": 2,
       "dispersion": 555,
-      "recoil": 300,
       "durability": 6,
-      "loudness": 175
+      "loudness": 175,
+      "clip_size": 1,
+      "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
     },
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
-  },
-  {
-    "id": "diamond_bayonet",
-    "type": "GUNMOD",
-    "copy-from": "bayonet",
-    "name": "diamond bayonet",
-    "description": "This bayonet incorporates a layer of diamond-like carbon on its edges, increasing its lethality.",
-    "proportional": {
-      "price": 4.0,
-      "cutting": 2.0
-    }
-  },
-  {
-    "id": "diamond_pistol_bayonet",
-    "copy-from": "pistol_bayonet",
-    "type": "GUNMOD",
-    "name": "diamond pistol bayonet",
-    "description": "This pistol bayonet incorporates a layer of diamond-like carbon on its edges, increasing its lethality.",
-    "proportional": {
-      "price": 4.0,
-      "cutting": 2.0
-    }
-  },
-  {
-    "id": "diamond_sword_bayonet",
-    "copy-from": "sword_bayonet",
-    "type": "GUNMOD",
-    "name": "diamond sword bayonet",
-    "description": "This sword bayonet is coated with a layer of diamond-like carbon, greatly augmenting its cutting damage.",
-    "proportional": {
-      "price": 4.0,
-      "cutting": 2.0
-    }
   },
   {
     "id": "grip",
     "type": "GUNMOD",
     "name": "forward grip",
-    "description": "A grip placed forward on the barrel allows for greater control and accuracy.  Aside from increased weight, there are no drawbacks.",
+    "description": "A grip placed forward on the barrel allows for greater control.  Not as effective as a bipod but usable under all conditions.",
     "weight": 113,
     "volume": 1,
     "price": 6000,
@@ -160,9 +106,8 @@
     "color": "brown",
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
-    "min_skills": [ [ "weapon", 2 ] ],
-    "dispersion_modifier": -30,
-    "recoil_modifier": -30
+    "handling_modifier": 6,
+    "min_skills": [ [ "weapon", 2 ] ]
   },
   {
     "id": "ksg_aux_shotgun",
@@ -177,15 +122,14 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
     "gun_data": {
-      "skill": "shotgun",
       "ammo": "shot",
-      "clip_size": 7,
+      "skill": "shotgun",
       "ranged_damage": 3,
       "dispersion": 45,
-      "recoil": 15,
       "durability": 10,
-      "reload": 120,
-      "loudness": 200
+      "loudness": 200,
+      "clip_size": 7,
+      "reload": 120
     },
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
   },
@@ -203,9 +147,9 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
+    "sight_dispersion": 300,
     "aim_cost": 1,
-    "sight_dispersion": 300
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
   },
   {
     "id": "lemat_revolver_shotgun",
@@ -221,14 +165,13 @@
     "location": "underbarrel",
     "mod_targets": [ "pistol" ],
     "gun_data": {
-      "skill": "shotgun",
       "ammo": "shot",
-      "clip_size": 1,
-      "dispersion": 300,
-      "ranged_damage": 2,
+      "skill": "shotgun",
       "range": -2,
-      "recoil": 375,
-      "durability": 10
+      "ranged_damage": 2,
+      "dispersion": 300,
+      "durability": 10,
+      "clip_size": 1
     },
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
   },
@@ -246,15 +189,15 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "gun_data": {
-      "skill": "launcher",
       "ammo": "40mm",
-      "clip_size": 1,
+      "skill": "launcher",
       "dispersion": 300,
-      "durability": 10
+      "durability": 10,
+      "clip_size": 1
     },
-    "dispersion_modifier": 30
+    "dispersion_modifier": 30,
+    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
   },
   {
     "id": "m320_mod",
@@ -270,16 +213,30 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "gun_data": {
-      "skill": "launcher",
       "ammo": "40mm",
-      "clip_size": 1,
+      "skill": "launcher",
       "dispersion": 20,
       "durability": 10,
+      "clip_size": 1,
       "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
     },
-    "dispersion_modifier": 60
+    "dispersion_modifier": 60,
+    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
+  },
+  {
+    "id": "makeshift_bayonet",
+    "copy-from": "spike",
+    "type": "GENERIC",
+    "name": "makeshift bayonet",
+    "description": "A makeshift version of a bayonet that consists of a mere spike with some string.",
+    "gunmod_data": {
+      "location": "underbarrel",
+      "mod_targets": [ "shotgun", "rifle" ],
+      "dispersion_modifier": 10,
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+      "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
+    }
   },
   {
     "id": "masterkey",
@@ -294,15 +251,15 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "gun_data": {
-      "skill": "shotgun",
       "ammo": "shot",
-      "clip_size": 4,
+      "skill": "shotgun",
       "dispersion": 30,
-      "durability": 10
+      "durability": 10,
+      "clip_size": 4
     },
     "dispersion_modifier": 15,
+    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
@@ -318,15 +275,15 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "gun_data": {
-      "skill": "launcher",
       "ammo": "40mm",
-      "clip_size": 1,
+      "skill": "launcher",
       "dispersion": 450,
-      "durability": 10
+      "durability": 10,
+      "clip_size": 1
     },
-    "dispersion_modifier": 60
+    "dispersion_modifier": 60,
+    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
   },
   {
     "id": "pistol_bayonet",
@@ -336,16 +293,16 @@
     "weight": 122,
     "volume": 1,
     "price": 4000,
-    "cutting": 6,
     "to_hit": -4,
+    "cutting": 6,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "pistol" ],
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "dispersion_modifier": 15,
-    "flags": [ "STAB", "BAYONET" ]
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
+    "flags": [ "STAB" ]
   },
   {
     "id": "rm121aux",
@@ -360,20 +317,17 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
     "gun_data": {
-      "skill": "shotgun",
       "ammo": "20x66mm",
+      "skill": "shotgun",
       "dispersion": 100,
-      "recoil": 50,
       "durability": 9,
       "reload": 125
     },
     "dispersion_modifier": 30,
+    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
     "magazine_well": 1,
-    "magazines": [
-      [ "20x66mm", [ "20x66_10_mag"] ]
-    ],
+    "magazines": [ [ "20x66mm", [ "20x66_10_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
   {
@@ -390,10 +344,10 @@
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
     "dispersion_modifier": 20,
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
-    "flags": [ "NON_STUCK", "CHOP", "BAYONET" ]
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
+    "flags": [ "NON_STUCK", "CHOP" ]
   },
   {
     "id": "u_shotgun",
@@ -408,15 +362,15 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
-    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "gun_data": {
-      "skill": "shotgun",
       "ammo": "shot",
-      "clip_size": 2,
+      "skill": "shotgun",
       "dispersion": 75,
-      "durability": 10
+      "durability": 10,
+      "clip_size": 2
     },
     "dispersion_modifier": 30,
+    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   }
 ]

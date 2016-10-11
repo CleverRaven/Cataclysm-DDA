@@ -45,7 +45,6 @@
     "ammo": "5x50",
     "skill": "pistol",
     "dispersion": 440,
-    "recoil": 50,
     "durability": 9,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],

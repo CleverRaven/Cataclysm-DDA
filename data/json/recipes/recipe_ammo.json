@@ -8,8 +8,6 @@
   "skills_required": ["electronics",  7],
   "difficulty": 8,
   "time": 95000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mininuke_launch", 5]],
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
@@ -44,8 +42,6 @@
   "skills_required": ["electronics",  7],
   "difficulty": 8,
   "time": 95000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 10 ]],
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
@@ -70,8 +66,6 @@
   "skills_required": ["electronics",  7],
   "difficulty": 8,
   "time": 95000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 10 ]],
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
@@ -93,9 +87,7 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
-  "difficulty": 0,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
   "flags": ["BLIND_EASY"],
   "qualities":[
@@ -114,7 +106,6 @@
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [[ "glassblowing_book", 5 ]],
   "tools": [
@@ -145,7 +136,6 @@
     "skills_required": [ "gun", 4 ],
     "difficulty": 2,
     "time": 45000,
-    "reversible": false,
     "autolearn": true,
     "book_learn": [[ "textbook_fabrication", 1 ]],
     "tools": [
@@ -179,7 +169,6 @@
   "skills_required": [ "cooking", 2 ],
   "difficulty" : 2,
   "time" : 30000,
-  "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ], ["textbook_survival", 1], ["survival_book", 1]],
   "qualities":[
@@ -208,7 +197,6 @@
   "skills_required": [[ "archery", 2 ], [ "survival", 1 ]],
   "difficulty" : 3,
   "time" : 11000,
-  "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ] , [ "book_archery", 3]],
   "qualities":[
@@ -259,7 +247,6 @@
   "skills_required": [ "survival", 1 ],
   "difficulty" : 1,
   "time" : 11000,
-  "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ] , [ "pocket_survival", 1], [ "book_archery", 2]],
   "qualities":[
@@ -309,7 +296,6 @@
   "skills_required": [ "survival", 2 ],
   "difficulty" : 1,
   "time" : 14000,
-  "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 2 ] , [ "book_archery", 2]],
   "qualities":[
@@ -355,7 +341,6 @@
   "difficulty" : 3,
   "time" : 5000,
   "reversible" : true,
-  "autolearn" : false,
   "book_learn" : [[ "recipe_arrows", 5 ]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
@@ -390,7 +375,6 @@
   "skills_required": [[ "archery", 2 ], [ "survival", 1 ]],
   "difficulty" : 3,
   "time" : 14000,
-  "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities":[
@@ -435,7 +419,6 @@
   "skills_required": [[ "archery", 3 ], [ "survival", 1 ]],
   "difficulty" : 4,
   "time" : 20000,
-  "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities":[
@@ -474,7 +457,6 @@
   "skills_required": [[ "survival", 3 ], [ "archery", 1 ]],
   "difficulty" : 4,
   "time" : 20000,
-  "reversible" : false,
   "autolearn" : true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
@@ -516,7 +498,6 @@
   "skills_required": [[ "archery", 3 ], [ "survival", 1]],
   "difficulty" : 4,
   "time" : 17000,
-  "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 2 ] , [ "pocket_survival", 2]],
   "qualities":[
@@ -567,7 +548,6 @@
   "skills_required": [[ "archery", 5 ], [ "survival", 1]],
   "difficulty" : 5,
   "time" : 18000,
-  "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities" : [
@@ -612,7 +592,6 @@
   "skills_required": [[ "archery", 5 ], [ "survival", 1 ]],
   "difficulty" : 5,
   "time" : 20000,
-  "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 4 ]],
   "qualities" : [
@@ -654,7 +633,6 @@
   "reversible" : true,
   "decomp_learn": 6,
   "note": "you just take the warhead off or put it on, rather than making the warhead",
-  "autolearn" : false,
   "book_learn" : [[ "recipe_arrows", 6 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
@@ -682,8 +660,6 @@
   "skills_required": [[ "archery", 5 ], [ "mechanics", 3 ]],
   "difficulty" : 7,
   "time" : 5000,
-  "reversible" : false,
-  "autolearn" : false,
   "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
@@ -725,7 +701,6 @@
   "skills_required": [ "archery", 1 ],
   "difficulty": 1,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -747,7 +722,6 @@
   "skills_required": ["archery", 3],
   "difficulty": 3,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 2 ]],
   "qualities":[
@@ -768,7 +742,6 @@
   "skills_required": ["archery", 5],
   "difficulty": 5,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 2 ]],
   "qualities":[
@@ -798,8 +771,6 @@
   "skills_required": ["archery", 3],
   "difficulty": 4,
   "time": 10000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn" : [[ "recipe_arrows", 7 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1}
@@ -830,7 +801,6 @@
   "skill_used": "fabrication",
   "difficulty": 2,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -853,7 +823,6 @@
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
@@ -873,8 +842,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
   "tools": [
     [
@@ -914,8 +881,6 @@
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
@@ -955,8 +920,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
   "tools": [
     [
@@ -996,8 +959,6 @@
   "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 12500,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_pistol", 3 ]],
   "tools": [
     [
@@ -1037,8 +998,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 30000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
@@ -1078,8 +1037,6 @@
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
@@ -1119,8 +1076,6 @@
   "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
@@ -1160,8 +1115,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
@@ -1201,8 +1154,6 @@
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 5 ]],
   "tools": [
     [
@@ -1242,8 +1193,6 @@
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
   "tools": [
     [
@@ -1286,8 +1235,6 @@
   "skills_required": [ "gun", 7 ],
   "difficulty": 7,
   "time": 10000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 6 ] , [ "manual_pistol", 7 ]],
   "tools": [
     [
@@ -1330,8 +1277,6 @@
   "skills_required": [ "gun", 7 ],
   "difficulty": 9,
   "time": 10000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 7 ] , [ "manual_pistol", 8 ]],
   "tools": [
     [
@@ -1374,8 +1319,6 @@
   "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 50000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
@@ -1415,8 +1358,6 @@
   "skills_required": [ "gun", 3 ],
   "difficulty": 4,
   "time": 50000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
@@ -1456,8 +1397,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 40000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 3 ]],
   "tools": [
     [
@@ -1500,8 +1439,6 @@
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 40000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
@@ -1544,8 +1481,6 @@
   "skills_required": [ "gun", 2],
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 2], [ "mag_rifle", 3 ]],
   "tools": [
     [
@@ -1589,8 +1524,6 @@
   "skills_required": [ "gun", 3],
   "difficulty": 4,
   "time": 28000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 2], [ "mag_rifle", 3 ]],
   "tools": [
     [
@@ -1634,7 +1567,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
@@ -1661,7 +1593,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
@@ -1688,8 +1619,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 1 ] , [ "mag_rifle", 2 ]],
   "tools": [
     [
@@ -1733,8 +1662,6 @@
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
@@ -1778,8 +1705,6 @@
   "skills_required": [ "gun", 5 ],
   "difficulty": 6,
   "time": 15000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 5 ]],
   "tools": [
     [
@@ -1818,8 +1743,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 10000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 1 ] , [ "mag_rifle", 3 ]],
   "tools": [
     [
@@ -1862,8 +1785,6 @@
   "skills_required": [ "gun", 2 ],
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 3 ]],
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
@@ -1889,8 +1810,6 @@
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
@@ -1933,8 +1852,6 @@
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 3 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
@@ -1977,8 +1894,6 @@
   "skills_required": [ "gun", 7 ],
   "difficulty": 8,
   "time": 9000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 8 ]],
   "tools": [
     [
@@ -2024,8 +1939,6 @@
   "skills_required": [ "gun", 7 ],
   "difficulty": 8,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 7 ]],
   "tools": [
     [
@@ -2063,8 +1976,6 @@
   "skills_required": [ "gun", 7 ],
   "difficulty": 8,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 6 ]],
   "tools": [
     [
@@ -2107,8 +2018,6 @@
   "skills_required": [ "gun", 7 ],
   "difficulty": 7,
   "time": 2500,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 2 ]],
   "tools": [
     [
@@ -2146,8 +2055,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 10000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
@@ -2190,8 +2097,6 @@
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 10000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 4 ]],
   "tools": [
     [
@@ -2234,8 +2139,6 @@
   "skills_required": [ "gun", 5 ],
   "difficulty": 6,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 5 ]],
   "tools": [
     [
@@ -2273,7 +2176,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 500,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "qualities":[
@@ -2312,7 +2214,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 500,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "qualities":[
@@ -2346,7 +2247,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 500,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "qualities":[
@@ -2377,8 +2277,6 @@
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
     {"id":"HAMMER","level":3,"amount":1}
@@ -2410,8 +2308,6 @@
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
     {"id":"HAMMER","level":3,"amount":1}
@@ -2443,8 +2339,6 @@
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [[ "mag_rifle", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
     {"id":"HAMMER","level":3,"amount":1}
@@ -2476,8 +2370,6 @@
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [[ "mag_rifle", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
     {"id":"HAMMER","level":3,"amount":1}
@@ -2509,8 +2401,6 @@
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": 45000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [[ "manual_shotgun", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
     {"id":"HAMMER","level":3,"amount":1}
@@ -2543,7 +2433,6 @@
   "time": 10000,
   "reversible": true,
   "decomp_learn": 4,
-  "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 4 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
@@ -2564,7 +2453,6 @@
   "skills_required" : [["archery", 3], [ "survival", 1 ]],
   "difficulty" : 5,
   "time" : 56000,
-  "reversible" : false,
   "autolearn" : true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
@@ -2599,7 +2487,6 @@
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 120000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
@@ -2617,7 +2504,6 @@
   "skill_used": "fabrication",
   "difficulty": 2,
   "time": 100000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1},
@@ -2654,8 +2540,6 @@
     "skills_required": [ "gun", 4 ],
     "difficulty": 4,
     "time": 30000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
     "tools": [
       [
@@ -2698,8 +2582,6 @@
     "skills_required": [ "gun", 4 ],
     "difficulty": 4,
     "time": 30000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
     "tools": [
       [
@@ -2742,8 +2624,6 @@
     "skills_required": [ "gun", 4 ],
     "difficulty": 4,
     "time": 35000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
     "tools": [
       [
@@ -2786,8 +2666,6 @@
   "skills_required": [ "gun", 5 ],
   "difficulty": 6,
   "time": 8000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_caseless" , 4 ]],
   "tools": [
     [
@@ -2831,8 +2709,6 @@
     "skills_required": [ "gun", 4 ],
     "difficulty": 5,
     "time": 25000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [["recipe_bullets" , 3 ] , [ "manual_pistol", 4 ]],
     "tools": [
       [
@@ -2875,8 +2751,6 @@
     "skills_required": [ "gun", 5 ],
     "difficulty": 5,
     "time" : 15000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [[ "recipe_bullets", 4 ], [ "mag_rifle", 5 ]],
     "tools": [
       [
@@ -2919,8 +2793,6 @@
     "skills_required": [ "gun", 1 ],
     "difficulty": 2,
     "time": 5000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [[ "recipe_bullets", 5 ]],
     "tools": [
       [
@@ -2961,7 +2833,6 @@
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
     "time": 20000,
-    "reversible": false,
     "autolearn": true,
     "components": [
       [
@@ -2990,7 +2861,6 @@
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
     "time": 20000,
-    "reversible": false,
     "autolearn": true,
     "components": [
       [
@@ -3010,73 +2880,6 @@
         [ "paper", 10 ]
       ]
     ]
-  },{
-    "type" : "recipe",
-    "result": "36navy",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_PISTOL",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 3,
-    "time": 15000,
-    "reversible": false,
-    "autolearn": false,
-    "book_learn": [[ "manual_pistol", 3 ] , [ "recipe_bullets", 3 ]],
-    "qualities":[
-      {"id":"CUT","level":1,"amount":1}
-    ],
-    "components": [
-      [
-        [ "gunpowder", 100 ],
-        [ "chem_black_powder", 200 ]
-      ],
-      [
-        [ "lead", 30 ],
-        [ "gold_small", 30 ],
-        [ "silver_small", 30 ],
-        [ "tin", 30 ],
-        [ "bismuth", 30 ],
-        [ "solder_wire", 30 ]
-      ],
-      [
-        [ "bag_plastic", 1 ],
-        [ "paper", 12 ]
-      ]
-    ]
-  },
-  {
-    "type" : "recipe",
-    "result": "44army",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_PISTOL",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 3,
-    "time": 20000,
-    "reversible": false,
-    "autolearn": false,
-    "book_learn": [[ "manual_pistol", 3 ] , [ "recipe_bullets", 3 ]],
-    "qualities":[
-      {"id":"CUT","level":1,"amount":1}
-    ],
-    "components": [
-      [
-        [ "gunpowder", 160 ],
-        [ "chem_black_powder", 320 ]
-      ],
-      [
-        [ "lead", 45 ],
-        [ "gold_small", 45 ],
-        [ "silver_small", 45],
-        [ "tin", 45 ],
-        [ "bismuth", 45 ],
-        [ "solder_wire", 45 ]
-      ],
-      [
-        [ "bag_plastic", 1 ],
-        [ "paper", 12 ]
-      ]
-    ]
   },
   {
     "type": "recipe",
@@ -3087,8 +2890,6 @@
     "skills_required": [ "gun", 4 ],
     "difficulty": 4,
     "time" : 10000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [[ "recipe_bullets", 3 ], [ "mag_rifle", 4 ]],
     "tools": [
       [
@@ -3123,93 +2924,6 @@
       ]
     ]
   },
-  {
-    "type" : "recipe",
-    "result": "fish_bait_meat",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": 1000,
-    "reversible": false,
-    "autolearn": false,
-    "book_learn": [["mag_survival", 1], ["textbook_survival", 1], ["survival_book", 1], ["pocket_survival", 1]],
-    "qualities" : [
-      {"id":"CUT","level":1,"amount":1}
-    ],
-    "components": [
-      [
-        [ "meat", 1 ]
-      ]
-    ]
-  },
- {
-    "type" : "recipe",
-    "result": "fish_bait_fish",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": 1000,
-    "reversible": false,
-    "autolearn": false,
-    "book_learn": [["mag_survival", 1], ["textbook_survival", 1], ["survival_book", 1], ["pocket_survival", 1]],
-    "qualities" : [
-      {"id":"CUT","level":1,"amount":1}
-    ],
-    "components": [
-      [
-        [ "fish", 1 ]
-      ]
-    ]
-  },
- {
-    "type" : "recipe",
-    "result": "fish_bait_veggy",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": 1000,
-    "reversible": false,
-    "autolearn": false,
-    "book_learn": [["mag_survival", 1], ["textbook_survival", 1], ["survival_book", 1], ["pocket_survival", 1]],
-    "qualities" : [
-      {"id":"CUT","level":1,"amount":1}
-    ],
-    "components": [
-      [
-        [ "corn", 1 ],
-        [ "irradiated_corn", 1 ],
-        [ "irradiated_carrot", 1 ],
-        [ "carrot", 1 ]
-      ]
-    ]
-  },
- {
-    "type" : "recipe",
-    "result": "fish_bait_bread",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": 1000,
-    "reversible": false,
-    "autolearn": false,
-    "book_learn": [["mag_survival", 1], ["textbook_survival", 1], ["survival_book", 1], ["pocket_survival", 1]],
-    "qualities" : [
-      {"id":"CUT","level":1,"amount":1}
-    ],
-    "components": [
-      [
-        [ "bread", 1 ],
-        [ "wastebread", 1 ],
-        [ "cornbread", 1 ],
-        [ "macaroni_raw", 1 ],
-        [ "spaghetti_raw", 1 ]
-      ]
-    ]
-  },
 {
   "type" : "recipe",
   "result": "reloaded_700nx",
@@ -3219,8 +2933,6 @@
   "skills_required": [ "gun", 7 ],
   "difficulty": 9,
   "time": 5000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 7 ]],
   "tools": [
     [
@@ -3264,7 +2976,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 2,
   "time": 180000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1},
@@ -3289,8 +3000,6 @@
   "skill_used": "cooking",
   "difficulty": 7,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "qualities":[
     {"id":"CHEM","level":2,"amount":1}
   ], "book_learn": [["textbook_gaswarfare" , 8, "" ], ["textbook_anarch" , 7, "Stuff THE MAN doesn't want you to know" ], ["recipe_labchem", 6 ]],
@@ -3311,8 +3020,6 @@
 "skill_used": "fabrication",
 "difficulty": 3,
 "time": 8000,
-"reversible": false,
-"autolearn": false,
 "book_learn": [[ "manual_launcher", 4 ]],
 "qualities":[
 {"id":"HAMMER","level":3,"amount":1},
@@ -3354,8 +3061,6 @@
 "skill_used": "fabrication",
 "difficulty": 4,
 "time": 30000,
-"reversible": false,
-"autolearn": false,
 "book_learn": [[ "manual_launcher", 5 ]],
 "qualities":[
 {"id":"HAMMER","level":3,"amount":1},
@@ -3388,8 +3093,6 @@
 "skill_used": "fabrication",
 "difficulty": 5,
 "time": 20000,
-"reversible": false,
-"autolearn": false,
 "book_learn": [[ "manual_launcher", 6 ]],
 "qualities":[
 {"id":"HAMMER","level":3,"amount":1},
@@ -3425,8 +3128,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
   "tools": [
     [
@@ -3463,8 +3164,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [["recipe_bullets" , 1 ] , [ "manual_pistol", 2 ]],
   "tools": [
     [
@@ -3504,8 +3203,6 @@
   "skills_required": [ "survival", 2 ],
   "difficulty": 4,
   "time": 8000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_gaswarfare", 4 ] , ["textbook_chemistry", 4] , ["adv_chemistry", 4] , [ "recipe_labchem", 4]],
   "qualities":[
     {"id":"CHEM","level":1,"amount":1}
@@ -3533,8 +3230,6 @@
   "skills_required": [ "survival", 2 ],
   "difficulty": 3,
   "time": 8000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_gaswarfare", 3 ], ["textbook_chemistry", 4], ["adv_chemistry", 3], [ "recipe_labchem", 3], [ "textbook_anarch", 3]],
   "qualities":[ {"id":"CHEM","level":1,"amount":1} ],
   "tools": [

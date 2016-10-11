@@ -417,7 +417,7 @@ ifdef LUA
 
   ifdef LUA_USE_PKGCONFIG
     # On unix-like systems, use pkg-config to find lua
-    LUA_CANDIDATES = lua5.2 lua-5.2 lua5.1 lua-5.1 lua
+    LUA_CANDIDATES = lua5.3 lua5.2 lua-5.3 lua-5.2 lua5.1 lua-5.1 lua
     LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
         $(shell if $(PKG_CONFIG) --silence-errors --exists $(lua); then echo $(lua);fi)))
     LUA_PKG = $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
@@ -868,9 +868,8 @@ lint-check: json_whitelist $(ODIR)/lint.cache
 $(ODIR)/lint.cache: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
 ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
 	@for file in $?; do \
-	    echo -n "Linting $$file: "; \
-	    perl tools/format/format.pl -cq $$file || exit 65; \
-	    echo OK; \
+	    echo "Linting $$file"; \
+	    perl tools/format/format.pl -cqv $$file || exit 65; \
 	done;
 	@touch $@
 else

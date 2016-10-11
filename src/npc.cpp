@@ -94,10 +94,6 @@ npc::npc()
     restock = -1;
     companion_mission = "";
     companion_mission_time = 0;
-    for( auto &skill : Skill::skills ) {
-        set_skill_level( skill.ident(), 0 );
-    }
-
     // ret_null is a bit more than just a regular "null", it is the "fist" for unarmed attacks
     ret_null = item( "null", 0 );
     last_updated = calendar::turn;
@@ -118,8 +114,8 @@ standard_npc::standard_npc( const std::string &name, const std::vector<itype_id>
     int_cur = std::max( s_int, 0 );
     int_max = std::max( s_int, 0 );
 
-    for( auto &e: _skills ) {
-        e.second = std::min( std::max( sk_lvl, 0 ), MAX_SKILL );
+    for( auto &e: Skill::skills ) {
+        set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
 
     for( const auto &e : clothing ) {
@@ -737,7 +733,7 @@ void npc::spawn_at(int x, int y, int z)
     position.z = z;
     const point pos_om = sm_to_om_copy( mapx, mapy );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
-    om.npcs.push_back(this);
+    om.add_npc( *this );
 }
 
 void npc::spawn_at_random_city(overmap *o)
@@ -1590,7 +1586,7 @@ int npc::smash_ability() const
 {
     if( !is_following() || rules.allow_bash ) {
         ///\EFFECT_STR_NPC increases smash ability
-        return str_cur + weapon.type->melee_dam;
+        return str_cur + weapon.damage_melee( DT_BASH );
     }
 
     // Not allowed to bash

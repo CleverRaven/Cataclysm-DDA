@@ -30,7 +30,7 @@
     "range": 14,
     "damage": 22,
     "dispersion": 30,
-    "recoil": 125,
+    "recoil": 250,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -43,11 +43,11 @@
     "price": 2700,
     "count": 20,
     "relative": {
-      "damage": 4,
+      "damage": 10,
       "pierce": 4,
-      "dispersion": -10,
-      "recoil": 60
-    }
+      "dispersion": -10
+    },
+    "proportional": { "recoil": 1.5 }
   },
   {
     "id": "reloaded_38_fmj",
