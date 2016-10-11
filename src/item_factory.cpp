@@ -542,7 +542,6 @@ void Item_factory::init()
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
     add_iuse( "UNPACK_ITEM", &iuse::unpack_item );
-    add_iuse( "UPS_BATTERY", &iuse::ups_battery );
     add_iuse( "VACCINE", &iuse::vaccine );
     add_iuse( "VACUTAINER", &iuse::vacutainer );
     add_iuse( "VIBE", &iuse::vibe );

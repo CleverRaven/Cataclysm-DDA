@@ -161,7 +161,6 @@ public:
     int bell                ( player*, item*, bool, const tripoint& );
     int seed                ( player*, item*, bool, const tripoint& );
     int oxygen_bottle       ( player*, item*, bool, const tripoint& );
-    int ups_battery         ( player*, item*, bool, const tripoint& );
     int radio_mod           ( player*, item*, bool, const tripoint& );
     int remove_all_mods     ( player*, item*, bool, const tripoint& );
     int fishing_rod         ( player*, item*, bool, const tripoint& );

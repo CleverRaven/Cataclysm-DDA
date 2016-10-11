@@ -136,20 +136,6 @@ const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 
-void remove_ups_mod( item &it, player &p )
-{
-    if( !it.has_flag( "USE_UPS" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the UPS Conversion Pack from your %s!" ), it.tname().c_str() );
-    item mod( "battery_ups" );
-    p.i_add_or_drop( mod, 1 );
-    it.ammo_unset();
-    it.item_tags.erase( "USE_UPS" );
-    it.item_tags.erase( "NO_UNLOAD" );
-    it.item_tags.erase( "NO_RELOAD" );
-}
-
 void remove_radio_mod( item &it, player &p )
 {
     if( !it.has_flag( "RADIO_MOD" ) ) {
@@ -2128,39 +2114,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
 
 void remove_battery_mods( item &modded, player &p )
 {
-    remove_ups_mod( modded, p );
 }
-
-int iuse::ups_battery(player *p, item *, bool, const tripoint& )
-{
-    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
-    item &modded = p->i_at( inventory_index );
-
-    if( modded.is_null() ) {
-        p->add_msg_if_player(_("You do not have that item!"));
-        return 0;
-    }
-    if (modded.has_flag("USE_UPS")) {
-        p->add_msg_if_player(_("That item has already had its battery modified to use a UPS!"));
-        return 0;
-    }
-    if( modded.typeId() == "UPS_off" || modded.typeId() == "adv_UPS_off" ) {
-        p->add_msg_if_player( _( "You want to power a UPS with another UPS?  Very clever." ) );
-        return 0;
-    }
-
-    remove_battery_mods( modded, *p );
-    remove_ammo( &modded, *p );
-
-    p->add_msg_if_player( _( "You modify your %s to run off a UPS!" ), modded.tname().c_str() );
-    modded.item_tags.insert("USE_UPS");
-    modded.item_tags.insert("NO_UNLOAD");
-    modded.item_tags.insert("NO_RELOAD");
-    //Perhaps keep the modded charges at 1 or 0?
-    modded.ammo_unset();
-    return 1;
-}
-
 
 int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 {
@@ -5557,12 +5511,20 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
         return 0;
     }
 
-    // can only attach to unmodified unloaded tools that use compatible ammo
-    auto loc = g->inv_map_splice( [&it]( const item &e ) {
-            return e.is_tool() && e.toolmods().empty() &&
-                   !e.ammo_remaining() && !e.magazine_current() &&
-                   it->type->mod->acceptable_ammo.count( e.ammo_type( false ) );
-        }, _( "Select tool to modify:" ), 1, _( "You don't have compatible tools." ) );
+    auto filter = [&it]( const item &e ) {
+        // don't allow ups battery mods on a UPS
+        if( it->has_flag( "USE_UPS" ) && ( e.typeId() == "UPS_off" || e.typeId() == "adv_UPS_off" ) ) {
+            return false;
+        }
+
+        // can only attach to unmodified unloaded tools that use compatible ammo
+        return e.is_tool() && e.toolmods().empty() &&
+               !e.ammo_remaining() && !e.magazine_current() &&
+               it->type->mod->acceptable_ammo.count( e.ammo_type( false ) );
+    };
+
+    auto loc = g->inv_map_splice( filter, _( "Select tool to modify:" ), 1,
+                                  _( "You don't have compatible tools." ) );
 
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
