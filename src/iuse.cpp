@@ -2296,21 +2296,29 @@ int iuse::ups_battery(player *p, item *, bool, const tripoint& )
 
 int iuse::magazine_battery(player *p, item *mod, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
-    item &modded = p->i_at( inventory_index );
+    static const ammotype bat_type( "battery" );
+    const auto filter = [ mod ]( const item &it ) {
+        return it.is_tool() && &it != mod && it.ammo_type() == bat_type &&
+        !it.has_flag( "NO_UNLOAD" ) && it.magazine_integral();
+    };
 
-    if( modded.is_null() ) {
-        p->add_msg_if_player(_("You do not have that item!"));
+    item_location loc = g->inv_map_splice( filter, _( "Modify what?" ), 1, _( "You don't have compatible battery-powered tools." ) );
+
+    if( loc.get_item() == nullptr || loc->ammo_type() != bat_type ) {
+        p->add_msg_if_player( _("Never mind.") );
         return 0;
     }
-    if( modded.has_flag( "BATTERY_AMMO" ) ) {
-        p->add_msg_if_player( _("That item has already had its battery modified to use a vehicle battery!") );
-        return 0;
-    }
+
+    item &modded = *loc.get_item();
 
     // @todo Fix NO_UNLOAD items and allow them here
-    if( modded.has_flag( "NO_UNLOAD" ) ) {
+    if( !modded.magazine_integral() || modded.has_flag( "NO_UNLOAD" ) ) {
         p->add_msg_if_player( _("That item has a non-standard battery compartment, it can't be modified that way!") );
+        return 0;
+    }
+
+    if( modded.has_flag( "BATTERY_AMMO" ) ) {
+        p->add_msg_if_player( _("That item has already had its battery modified to use a vehicle battery!") );
         return 0;
     }
 
