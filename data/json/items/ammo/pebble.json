@@ -13,7 +13,7 @@
     "range": 2,
     "damage": 6,
     "pierce": 3,
-    "dispersion": 90
+    "dispersion": 90,
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
@@ -28,7 +28,7 @@
     "count": 20,
     "range": 1,
     "damage": 3,
-    "dispersion": 120
+    "dispersion": 120,
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
