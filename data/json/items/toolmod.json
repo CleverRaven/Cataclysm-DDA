@@ -59,17 +59,10 @@
     "copy-from": "mod_battery",
     "type": "TOOLMOD",
     "category": "spare_parts",
-    "color": "light_green",
     "name": "battery compartment mod",
     "description": "A battery compartment mod that allows using high-density, rechargeable vehicle batteries in regular tools.",
+    "color": "light_green",
     "acceptable_ammo": [ "battery" ],
-    "magazine_adaptor": [ [
-        "battery", [
-            "small_storage_battery",
-            "medium_storage_battery",
-            "battery_motorbike",
-            "battery_car"
-        ]
-    ] ]
+    "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "medium_storage_battery", "battery_motorbike", "battery_car" ] ] ]
   }
 ]

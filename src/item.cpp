@@ -4184,8 +4184,7 @@ bool item::magazine_integral() const
 {
     // Finds the first mod which changes magazines and returns if it adds a list of them (can just unset instead)
     // If no mod changes them, checks if there is a magazine set for the base item type
-    auto mods = is_gun() ? gunmods() : toolmods();
-    for( const auto m : mods ) {
+    for( const auto m : is_gun() ? gunmods() : toolmods() ) {
         const auto &mod_mags = m->type->mod->magazine_adaptor;
         if( !mod_mags.empty() ) {
             return std::none_of( mod_mags.begin(), mod_mags.end(), []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
