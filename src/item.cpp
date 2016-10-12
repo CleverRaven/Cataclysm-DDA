@@ -1399,11 +1399,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         if( !magazine_integral() ) {
-            const auto cur_mag = magazine_current();
-            if( cur_mag != nullptr ) {
-                info.emplace_back( "TOOL", _( "Loaded: " ), string_format( "<stat>%s (%d)</stat>",
-                                                                           cur_mag->tname().c_str(),
-                                                                           cur_mag->ammo_remaining() ) );
+            if( magazine_current() ) {
+                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", magazine_current()->tname().c_str() ) );
             }
 
             insert_separation_line();
