@@ -43,8 +43,6 @@ const skill_id skill_throw( "throw" );
 
 const std::string debug_nodmg( "DEBUG_NODMG" );
 
-const item Character::null_context;
-
 Character::Character() : Creature(), visitable<Character>()
 {
     str_max = 0;
@@ -922,10 +920,12 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
 }
 
 bool Character::can_use( const item& it, const item& context ) const {
-    if( !meets_requirements( it, context ) ) {
-        const std::string unmet( enumerate_unmet_requirements( it, context ) );
+    const auto &ctx = !context.is_null() ? context : it;
 
-        if( context.is_null() ) {
+    if( !meets_requirements( it, ctx ) ) {
+        const std::string unmet( enumerate_unmet_requirements( it, ctx ) );
+
+        if( &it == &ctx ) {
             //~ %1$s - list of unmet requirements, %2$s - item name.
             add_msg_player_or_npc( m_bad, _( "You need at least %1$s to use this %2$s." ),
                                           _( "<npcname> needs at least %1$s to use this %2$s." ),
@@ -934,7 +934,7 @@ bool Character::can_use( const item& it, const item& context ) const {
             //~ %1$s - list of unmet requirements, %2$s - item name, %3$s - indirect item name.
             add_msg_player_or_npc( m_bad, _( "You need at least %1$s to use this %2$s with your %3$s." ),
                                           _( "<npcname> needs at least %1$s to use this %2$s with their %3$s." ),
-                                          unmet.c_str(), it.tname().c_str(), context.tname().c_str() );
+                                          unmet.c_str(), it.tname().c_str(), ctx.tname().c_str() );
         }
 
         return false;
