@@ -307,8 +307,7 @@ void construction_menu()
             bool highlight = ( current == select );
 
             trim_and_print( w_list, i, 0, w_list_width,
-                            construction_color( con_name, highlight ), "%c %s",
-                            ( current < ( int )hotkeys.size() ) ? hotkeys[current] : ' ',
+                            construction_color( con_name, highlight ), "%s",
                             con_name.c_str() );
         }
 
