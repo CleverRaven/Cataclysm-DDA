@@ -1,0 +1,49 @@
+[
+  {
+    "id": "bearing",
+    "type": "AMMO",
+    "copy-from": "pebble",
+    "name": "bearings",
+    "description": "A box of ball bearings, useful as ammunition for slings.",
+    "weight": 10,
+    "price": 500,
+    "material": "steel",
+    "color": "dark_gray",
+    "count": 50,
+    "range": 15,
+    "damage": 6,
+    "pierce": 1
+  },
+  {
+    "id": "marble",
+    "type": "AMMO",
+    "copy-from": "pebble",
+    "name": "marble",
+    "description": "A handful of glass marbles, useful as ammunition for slings or slingshots.",
+    "weight": 3,
+    "price": 200,
+    "material": "glass",
+    "count": 20,
+    "range": 18,
+    "damage": 3,
+    "dispersion": 12
+  },
+  {
+    "id": "pebble",
+    "type": "AMMO",
+    "name": "pebble",
+    "description": "A handful of pebbles, useful as ammunition for slings or slingshots.",
+    "weight": 5,
+    "volume": 1,
+    "price": 100,
+    "material": "stone",
+    "symbol": "=",
+    "color": "light_gray",
+    "count": 10,
+    "ammo_type": "pebble",
+    "range": 10,
+    "damage": 2,
+    "dispersion": 14,
+    "effects": [ "NEVER_MISFIRES" ]
+  }
+]
