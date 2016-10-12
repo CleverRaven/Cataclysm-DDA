@@ -260,7 +260,7 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
         if( !hasSkill ) {
             ok = false;
         }
-        //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name
+        //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
         msg << string_format( _( "> <color_%1$s>%2$s %3$i</color>\n" ), status_color( hasSkill ),
                               e.first.obj().name().c_str(), e.second );
     }
