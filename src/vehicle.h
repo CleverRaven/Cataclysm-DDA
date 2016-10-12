@@ -112,6 +112,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     vehicle_part( const vpart_str_id& vp, int dx, int dy, item&& it );
 
+    /** Check this instance is non-null (not default constructed) */
     explicit operator bool() const;
 
     bool has_flag(int const flag) const noexcept { return flag & flags; }
