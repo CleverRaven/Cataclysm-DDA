@@ -9537,9 +9537,16 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
     std::vector<std::string> names;
     std::transform( opts.begin(), opts.end(), std::back_inserter( names ), []( const reload_option& e ) {
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
-            //~ magazine with ammo (count)
-            return string_format( _( "%s with %s (%d)" ), e.ammo->type_name().c_str(),
-                                  e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ).c_str(), e.ammo->ammo_remaining() );
+            if( e.ammo->has_flag( "NO_UNLOAD" ) ) {
+                // This ammo is not a real object that can be recovered but pseudo-object
+                // For example, "battery" content of car battery
+                //~ magazine with ammo count
+                return string_format( _( "%s (%d)" ), e.ammo->type_name().c_str(), e.ammo->ammo_remaining() );
+            } else {
+                //~ magazine with ammo (count)
+                return string_format( _( "%s with %s (%d)" ), e.ammo->type_name().c_str(),
+                                      e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ).c_str(), e.ammo->ammo_remaining() );
+            }
 
         } else if( e.ammo->is_ammo_container() && g->u.is_worn( *e.ammo ) ) {
             // worn ammo containers should be named by their contents with their location also updated below

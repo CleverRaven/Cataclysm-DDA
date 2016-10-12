@@ -1399,6 +1399,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         if( !magazine_integral() ) {
+            const auto cur_mag = magazine_current();
+            if( cur_mag != nullptr ) {
+                info.emplace_back( "TOOL", _( "Loaded: " ), string_format( "<stat>%s (%d)</stat>",
+                                                                           cur_mag->tname().c_str(),
+                                                                           cur_mag->ammo_remaining() ) );
+            }
+
             insert_separation_line();
             const auto compat = magazine_compatible();
             info.emplace_back( "TOOL", _( "<bold>Compatible magazines:</bold> " ),
