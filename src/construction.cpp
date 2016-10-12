@@ -24,6 +24,7 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "item_group.h"
+#include "cata_utility.h"
 
 #include <algorithm>
 #include <map>
@@ -194,11 +195,12 @@ void construction_menu()
     draw_grid( w_con, w_list_width + w_list_x0 );
 
     //tabcount needs to be increased to add more categories
-    int tabcount = 9;
+    int tabcount = 10;
     std::string construct_cat[] = {_( "All" ), _( "Constructions" ), _( "Furniture" ),
                                    _( "Digging and Mining" ), _( "Repairing" ),
                                    _( "Reinforcing" ), _( "Decorative" ),
-                                   _( "Farming and Woodcutting" ), _( "Others" )
+                                   _( "Farming and Woodcutting" ), _( "Others" ),
+                                   _( "Filter" )
                                   };
 
     bool update_info = true;
@@ -230,15 +232,17 @@ void construction_menu()
     ctxt.register_action( "PREV_TAB", _( "Move tab left" ) );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
-    ctxt.register_action( "SCROLL_STAGE_UP" );
-    ctxt.register_action( "SCROLL_STAGE_DOWN" );
+    ctxt.register_action( "LEFT" );
+    ctxt.register_action( "RIGHT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-
-    std::string hotkeys = ctxt.get_available_single_char_hotkeys();
+    ctxt.register_action( "FILTER" );
+    
+    std::string filter;
+    std::string hotkeys;
 
     do {
         if( update_cat ) {
@@ -271,10 +275,20 @@ void construction_menu()
                 case 8:
                     category_name = "OTHER";
                     break;
+                case 9:
+                    category_name = "FILTER";
+                    break;
             }
 
             if( category_name == "ALL" ) {
                 constructs = available;
+            } else if( category_name == "FILTER" ) {
+                constructs.clear();
+                std::copy_if( available.begin(), available.end(),
+                    std::back_inserter( constructs ),
+                    [&](const std::string &a){
+                        return lcmatch(a, filter);
+                    } );
             } else {
                 constructs = cat_available[category_name];
             }
@@ -472,8 +486,13 @@ void construction_menu()
 
         const std::string action = ctxt.handle_input();
         const long raw_input_char = ctxt.get_raw_input().get_first_input();
-
-        if( action == "DOWN" ) {
+        if( action == "FILTER" ){
+            update_info = true;
+            update_cat = true;
+            tabindex = 9;
+            select = 0;
+            filter = string_input_popup( _( "Search" ), 50, filter, "", _( "Filter" ), 100, false );
+        } else if( action == "DOWN" ) {
             update_info = true;
             if( select < ( int )constructs.size() - 1 ) {
                 select++;
@@ -500,19 +519,19 @@ void construction_menu()
             update_cat = true;
             select = 0;
             tabindex = ( tabindex + 1 ) % tabcount;
-        } else if( action == "PAGE_DOWN" ) {
+        } else if( action == "RIGHT" ) {
             update_info = true;
             select += 15;
             if( select > ( int )constructs.size() - 1 ) {
                 select = constructs.size() - 1;
             }
-        } else if( action == "PAGE_UP" ) {
+        } else if( action == "LEFT" ) {
             update_info = true;
             select -= 15;
             if( select < 0 ) {
                 select = 0;
             }
-        } else if( action == "SCROLL_STAGE_UP" ) {
+        } else if( action == "PAGE_UP" ) {
             update_info = true;
             if( current_construct_breakpoint > 0 ) {
                 current_construct_breakpoint--;
@@ -520,7 +539,7 @@ void construction_menu()
             if( current_construct_breakpoint < 0 ) {
                 current_construct_breakpoint = 0;
             }
-        } else if( action == "SCROLL_STAGE_DOWN" ) {
+        } else if( action == "PAGE_DOWN" ) {
             update_info = true;
             if( current_construct_breakpoint < total_project_breakpoints - 1 ) {
                 current_construct_breakpoint++;
