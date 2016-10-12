@@ -68,7 +68,7 @@
   },
   {
     "id": "tihar",
-    "copy_from": "rifle_base",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "pneumatic assault rifle",
     "description": "A multistroke pneumatic rifle handcrafted from scrap.  It is very quiet and deadly.",
@@ -95,7 +95,7 @@
   },
   {
     "id": "wristrocket",
-    "copy_from": "sling",
+    "copy-from": "sling",
     "type": "GUN",
     "name": "brace slingshot",
     "description": "A modern slingshot with a wrist brace, it is easy to use, accurate, and quite powerful.",
