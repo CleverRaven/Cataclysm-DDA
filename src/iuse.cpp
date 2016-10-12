@@ -136,18 +136,6 @@ const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 
-void remove_battery_magazine_mod( item &it, player &p )
-{
-    if( !it.has_flag( "BATTERY_AMMO" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the battery compartment mod from your %s!" ), it.tname().c_str() );
-    item mod( "magazine_battery_mod" );
-    p.i_add_or_drop( mod, 1 );
-    remove_ammo( &it, p );
-    it.item_tags.erase( "BATTERY_AMMO" );
-}
-
 void remove_radio_mod( item &it, player &p )
 {
     if( !it.has_flag( "RADIO_MOD" ) ) {
@@ -2123,46 +2111,6 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     p->consume_items( comps );
     return thread_needed / 2;
 }
-
-    item_location loc = g->inv_map_splice( filter, _( "Modify what?" ), 1, _( "You don't have compatible battery-powered tools." ) );
-
-    if( loc.get_item() == nullptr || loc->ammo_type() != bat_type ) {
-        p->add_msg_if_player( _("Never mind.") );
-        return 0;
-    }
-
-    item &modded = *loc.get_item();
-
-    // @todo Fix NO_UNLOAD items and allow them here
-    if( !modded.magazine_integral() || modded.has_flag( "NO_UNLOAD" ) ) {
-        p->add_msg_if_player( _("That item has a non-standard battery compartment, it can't be modified that way!") );
-        return 0;
-    }
-
-    if( modded.has_flag( "BATTERY_AMMO" ) ) {
-        p->add_msg_if_player( _("That item has already had its battery modified to use a vehicle battery!") );
-        return 0;
-    }
-
-    remove_battery_mods( modded, *p );
-    remove_ammo( &modded, *p );
-
-    p->add_msg_if_player( _( "You modify your %s to run off a vehicle battery!" ), modded.tname().c_str() );
-    modded.item_tags.insert( "BATTERY_AMMO" );
-    modded.ammo_unset();
-
-    if( modded.contents.empty() && !mod->contents.empty() ) {
-        modded.emplace_back( mod->contents.front() );
-        mod->contents.clear();
-    } else {
-        for( auto &cont : mod->contents ) {
-            p->i_add_or_drop( cont );
-        }
-    }
-
-    return 1;
-}
-
 
 int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 {

@@ -1575,33 +1575,28 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                     _( "* This tool has a <info>rechargeable power cell</info> and can be recharged in any <neutral>UPS-compatible recharging station</neutral>. You could charge it with <info>standard batteries</info>, but unloading it is impossible." ) ) );
             }
-            if( has_flag( "BATTERY_AMMO" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This tool has been modified to run off <info>vehicle batteries</info> instead of regular compact batteries." ) ) );
+        }
+
+        if( has_flag( "RADIO_ACTIVATION" ) ) {
+            if( has_flag( "RADIO_MOD" ) ) {
+                info.emplace_back( "DESCRIPTION", _( "* This item has been modified to listen to <info>radio signals</info>.  It can still be activated manually." ) );
+            } else {
+                info.emplace_back( "DESCRIPTION", _( "* This item can only be activated by a <info>radio signal</info>." ) );
             }
-            if( has_flag( "RADIO_ACTIVATION" ) ) {
-                if( has_flag( "RADIO_MOD" ) ) {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This item has been modified to listen to <info>radio signals</info>.  It can still be activated manually." ) ) );
-                } else {
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This item can only be activated by a <info>radio signal</info>." ) ) );
-                }
 
-                std::string signame;
-                if( has_flag( "RADIOSIGNAL_1" ) ) {
-                    signame = "<color_c_red>red</color> radio signal.";
-                } else if( has_flag( "RADIOSIGNAL_2" ) ) {
-                    signame = "<color_c_blue>blue</color> radio signal.";
-                } else if( has_flag( "RADIOSIGNAL_3" ) ) {
-                    signame = "<color_c_green>green</color> radio signal.";
-                }
+            std::string signame;
+            if( has_flag( "RADIOSIGNAL_1" ) ) {
+                signame = "<color_c_red>red</color> radio signal.";
+            } else if( has_flag( "RADIOSIGNAL_2" ) ) {
+                signame = "<color_c_blue>blue</color> radio signal.";
+            } else if( has_flag( "RADIOSIGNAL_3" ) ) {
+                signame = "<color_c_green>green</color> radio signal.";
+            }
 
-                info.emplace_back( "DESCRIPTION", string_format( _( "* It will be activated by the %s radio signal." ), signame.c_str() ) );
+            info.emplace_back( "DESCRIPTION", string_format( _( "* It will be activated by the %s radio signal." ), signame.c_str() ) );
 
-                if( has_flag( "RADIO_INVOKE_PROC" ) ) {
-                    info.emplace_back( "DESCRIPTION",_( "* Activating this item with a <info>radio signal</info> will <neutral>detonate</neutral> it immediately." ) );
-                }
+            if( has_flag( "RADIO_INVOKE_PROC" ) ) {
+                info.emplace_back( "DESCRIPTION",_( "* Activating this item with a <info>radio signal</info> will <neutral>detonate</neutral> it immediately." ) );
             }
         }
 
@@ -2219,12 +2214,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (is_tool() && has_flag("USE_UPS")){
         ret << _(" (UPS)");
     }
-
-    if( is_tool() && has_flag( "BATTERY_AMMO" ) ) {
-        ret << _( " (v. battery)" );
-    }
-
-    if (is_tool() && has_flag("RADIO_MOD")){
+    if( has_flag( "RADIO_MOD" ) ) {
         ret << _(" (radio:");
         if( has_flag( "RADIOSIGNAL_1" ) ) {
             ret << _("R)");
@@ -4192,22 +4182,22 @@ std::set<std::string> item::ammo_effects( bool with_ammo ) const
 
 bool item::magazine_integral() const
 {
-    // finds first ammo type which specifies at least one magazine
+    // Finds the first mod which changes magazines and returns if it adds a list of them (can just unset instead)
+    // If no mod changes them, checks if there is a magazine set for the base item type
+    auto mods = is_gun() ? gunmods() : toolmods();
+    for( const auto m : mods ) {
+        const auto &mod_mags = m->type->mod->magazine_adaptor;
+        if( !mod_mags.empty() ) {
+            return std::none_of( mod_mags.begin(), mod_mags.end(), []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
+                return !e.second.empty();
+            } );
+        }
+    }
+
     const auto& mags = type->magazines;
-    if( std::any_of( mags.begin(), mags.end(),
-        []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
-            return !e.second.empty();
-        })
-    ) {
-        return false;
-    }
-
-    // Now check battery mod
-    if( is_tool() && has_flag( "BATTERY_AMMO" ) ) {
-        return false;
-    }
-
-    return true;
+    return std::none_of( mags.begin(), mags.end(), []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
+        return !e.second.empty();
+    } );
 }
 
 itype_id item::magazine_default( bool conversion ) const
@@ -4227,13 +4217,8 @@ std::set<itype_id> item::magazine_compatible( bool conversion ) const
         }
     }
 
-    // @todo Wrap it in gunmod-like toolmod structure to avoid special cases
-    auto use_type = is_tool() && has_flag( "BATTERY_AMMO" ) ?
-        find_type( "magazine_battery_mod" ) :
-        type;
-
-    auto mags = use_type->magazines.find( ammo_type( conversion ) );
-    return mags != use_type->magazines.end() ? mags->second : std::set<itype_id>();
+    auto mags = type->magazines.find( ammo_type( conversion ) );
+    return mags != type->magazines.end() ? mags->second : std::set<itype_id>();
 }
 
 item * item::magazine_current()

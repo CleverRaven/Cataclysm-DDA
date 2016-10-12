@@ -70,12 +70,6 @@ public:
 
 // TOOLS
     int sew_advanced        ( player*, item*, bool, const tripoint& );
-<<<<<<< HEAD
-    int extra_battery       ( player*, item*, bool, const tripoint& );
-    int double_reactor      ( player*, item*, bool, const tripoint& );
-    int magazine_battery    ( player*, item*, bool, const tripoint& );
-=======
->>>>>>> master
     int scissors            ( player*, item*, bool, const tripoint& );
     int extinguisher        ( player*, item*, bool, const tripoint& );
     int hammer              ( player*, item*, bool, const tripoint& );

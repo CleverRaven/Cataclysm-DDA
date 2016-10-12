@@ -1,19 +1,14 @@
 [
   {
     "id": "magazine_battery_mod",
-    "type": "TOOL",
-    "symbol": ";",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
     "color": "light_green",
-    "ammo": "battery",
     "name": "battery compartment mod",
     "description": "A battery compartment mod that allows using high-density, rechargeable vehicle batteries in regular tools.",
-    "price": 2000,
-    "material": ["plastic", "aluminum"],
-    "weight": 500,
-    "volume": 1,
-    "category" : "spare_parts",
-    "use_action": "MAGAZINE_BATTERY",
-    "magazines": [ [
+    "acceptable_ammo": [ "battery" ],
+    "magazine_adaptor": [ [
         "battery", [
             "small_storage_battery",
             "medium_storage_battery",
