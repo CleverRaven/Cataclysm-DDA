@@ -33,16 +33,16 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
 {
     std::vector<const recipe *> res;
 
-    std::string pattern = trim( txt );
+    std::string prepped = trim( txt );
     // meaningless value avoids potential garbage showing up
     // as the key (potentially affecting run)
     char key = ' ';
     std::string value;
-    if( txt.size() > 2 && txt[1] == ':' ) {
-        key = txt[0];
-        value = txt.substr( 2 );
+    if( prepped.size() > 2 && txt[1] == ':' ) {
+        key = prepped[0];
+        value = prepped.substr( 2 );
     } else {
-        value = txt;
+        value = prepped;
     }
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ),
