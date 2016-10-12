@@ -439,6 +439,7 @@
   {
     "result": "shorts_cargo",
     "type": "recipe",
+    "id_suffix": "from fabric"
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -448,6 +449,18 @@
     "book_learn": [ [ "manual_tailor", 1 ] ],
     "tools": [ [ [ "sewing_kit", 12 ] ] ],
     "components": [ [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "shorts_cargo",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "time": 30000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "sewing_kit", 12 ] ] ],
+    "components": [ [ [ "pants_cargo", 1 ] ] ]
   },
   {
     "result": "shorts_denim",
