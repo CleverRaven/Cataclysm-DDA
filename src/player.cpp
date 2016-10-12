@@ -9537,7 +9537,7 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
     std::vector<std::string> names;
     std::transform( opts.begin(), opts.end(), std::back_inserter( names ), []( const reload_option& e ) {
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
-            if( e.ammo->ammo_data()->get_id() == "battery" ) {
+            if( e.ammo->ammo_current() == "battery" ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
                 //~ magazine with ammo count
                 return string_format( _( "%s (%d)" ), e.ammo->type_name().c_str(), e.ammo->ammo_remaining() );
