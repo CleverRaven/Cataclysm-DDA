@@ -1,8 +1,8 @@
 [
   {
     "id": "bearing",
-    "type": "AMMO",
     "copy-from": "pebble",
+    "type": "AMMO",
     "name": "bearings",
     "description": "A box of ball bearings, useful as ammunition for slings.",
     "weight": 10,
@@ -16,8 +16,8 @@
   },
   {
     "id": "marble",
-    "type": "AMMO",
     "copy-from": "pebble",
+    "type": "AMMO",
     "name": "marble",
     "description": "A handful of glass marbles, useful as ammunition for slings or slingshots.",
     "weight": 3,
