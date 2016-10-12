@@ -1400,7 +1400,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         if( !magazine_integral() ) {
             if( magazine_current() ) {
-                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", magazine_current()->tname().c_str() ) );
+                info.emplace_back( "TOOL", _( "Magazine: " ), string_format( "<stat>%s</stat>", magazine_current()->tname().c_str() ) );
             }
 
             insert_separation_line();
