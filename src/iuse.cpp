@@ -5525,8 +5525,7 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
         }
 
         // can only attach to unmodified unloaded tools that use compatible ammo
-        return e.is_tool() && e.toolmods().empty() &&
-               !e.ammo_remaining() && !e.magazine_current() &&
+        return e.is_tool() && e.toolmods().empty() && !e.magazine_current() &&
                it->type->mod->acceptable_ammo.count( e.ammo_type( false ) );
     };
 
@@ -5538,7 +5537,10 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
         return 0;
     }
 
-    loc->contents.push_back( p->i_rem( it ) );
+    if( !loc->ammo_remaining() || g->unload( *loc ) ) {
+        loc->contents.push_back( p->i_rem( it ) );
+    }
+
     return 0;
 }
 
