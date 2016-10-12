@@ -1455,7 +1455,7 @@ void player::perform_special_attacks(Creature &t)
     }
 }
 
-std::string player::melee_special_effects(Creature &t, damage_instance &d, const ma_technique &tec)
+std::string player::melee_special_effects(Creature &t, damage_instance &d, const ma_technique &)
 {
     std::stringstream dump;
 
