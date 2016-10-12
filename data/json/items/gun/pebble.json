@@ -43,7 +43,7 @@
     "dispersion": 150,
     "durability": 6,
     "clip_size": 1,
-    "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP" ]
+    "flags": [ "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP" ]
   },
   {
     "id": "slingshot",
@@ -64,10 +64,11 @@
     "dispersion": 75,
     "durability": 6,
     "clip_size": 1,
-    "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP" ]
+    "flags": [ "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP" ]
   },
   {
     "id": "tihar",
+    "copy_from": "rifle_base",
     "type": "GUN",
     "name": "pneumatic assault rifle",
     "description": "A multistroke pneumatic rifle handcrafted from scrap.  It is very quiet and deadly.",
@@ -90,27 +91,24 @@
     "clip_size": 15,
     "reload": 500,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ] ],
-    "flags": [ "MODE_BURST", "STR_RELOAD", "RELOAD_ONE" ]
+    "flags": [ "STR_RELOAD", "RELOAD_ONE" ]
   },
   {
     "id": "wristrocket",
+    "copy_from": "sling",
     "type": "GUN",
     "name": "brace slingshot",
     "description": "A modern slingshot with a wrist brace, it is easy to use, accurate, and quite powerful.",
     "weight": 322,
     "volume": 2,
     "price": 3000,
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "pebble",
     "skill": "archery",
-    "range": 8,
-    "ranged_damage": 5,
-    "dispersion": 45,
-    "durability": 7,
+    "range": 10,
     "clip_size": 1,
-    "flags": [ "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP" ]
+    "flags": [ "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP" ]
   }
 ]
