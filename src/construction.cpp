@@ -226,8 +226,8 @@ void construction_menu()
     input_context ctxt( "CONSTRUCTION" );
     ctxt.register_action( "UP", _( "Move cursor up" ) );
     ctxt.register_action( "DOWN", _( "Move cursor down" ) );
-    ctxt.register_action( "RIGHT", _( "Move tab right" ) );
-    ctxt.register_action( "LEFT", _( "Move tab left" ) );
+    ctxt.register_action( "NEXT_TAB", _( "Move tab right" ) );
+    ctxt.register_action( "PREV_TAB", _( "Move tab left" ) );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "SCROLL_STAGE_UP" );
@@ -487,7 +487,7 @@ void construction_menu()
             } else {
                 select = constructs.size() - 1;
             }
-        } else if( action == "LEFT" ) {
+        } else if( action == "PREV_TAB" ) {
             update_info = true;
             update_cat = true;
             select = 0;
@@ -495,7 +495,7 @@ void construction_menu()
             if( tabindex < 0 ) {
                 tabindex = tabcount - 1;
             }
-        } else if( action == "RIGHT" ) {
+        } else if( action == "NEXT_TAB" ) {
             update_info = true;
             update_cat = true;
             select = 0;
