@@ -867,9 +867,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 ### Flags that apply to items, not to item types.
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
 
-- ```ATOMIC_AMMO``` The tool has the atomic mod and runs on plutonium instead of normal batteries.
 - ```COLD``` Item is cold (see EATEN_COLD).
-- ```DOUBLE_AMMO``` The tool has the double battery mod and has its max_charges doubled.
 - ```FIT``` Reduces encumbrance by one.
 - ```HOT``` Item is hot (see EATEN_HOT).
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).

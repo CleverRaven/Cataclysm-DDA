@@ -134,8 +134,9 @@ void Item_factory::finalize() {
             }
         }
 
-        if( obj.gunmod ) {
-            obj.use_methods.emplace( "GUNMOD_ATTACH", usage_from_string( "GUNMOD_ATTACH" ) );
+        if( obj.mod ) {
+            std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
+            obj.use_methods.emplace( func, usage_from_string( func ) );
         }
 
         if( obj.engine && get_world_option<bool>( "NO_FAULTS" ) ) {
@@ -402,7 +403,6 @@ void Item_factory::init()
     add_iuse( "ANTIPARASITIC", &iuse::antiparasitic );
     add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flamable );
     add_iuse( "ARTIFACT", &iuse::artifact );
-    add_iuse( "ATOMIC_BATTERY", &iuse::atomic_battery );
     add_iuse( "ATOMIC_CAFF", &iuse::atomic_caff );
     add_iuse( "BATTLETORCH_LIT", &iuse::battletorch_lit );
     add_iuse( "BELL", &iuse::bell );
@@ -434,14 +434,12 @@ void Item_factory::init()
     add_iuse( "DOGFOOD", &iuse::dogfood );
     add_iuse( "DOG_WHISTLE", &iuse::dog_whistle );
     add_iuse( "DOLLCHAT", &iuse::talking_doll );
-    add_iuse( "DOUBLE_REACTOR", &iuse::double_reactor );
     add_iuse( "ECIG", &iuse::ecig );
     add_iuse( "EHANDCUFFS", &iuse::ehandcuffs );
     add_iuse( "EINKTABLETPC", &iuse::einktabletpc );
     add_iuse( "ELEC_CHAINSAW_OFF", &iuse::elec_chainsaw_off );
     add_iuse( "ELEC_CHAINSAW_ON", &iuse::elec_chainsaw_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
-    add_iuse( "EXTRA_BATTERY", &iuse::extra_battery );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
     add_iuse( "FIRECRACKER", &iuse::firecracker );
     add_iuse( "FIRECRACKER_ACT", &iuse::firecracker_act );
@@ -460,6 +458,7 @@ void Item_factory::init()
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
     add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
+    add_iuse( "TOOLMOD_ATTACH", &iuse::toolmod_attach );
     add_iuse( "HACKSAW", &iuse::hacksaw );
     add_iuse( "HAIRKIT", &iuse::hairkit );
     add_iuse( "HAMMER", &iuse::hammer );
@@ -543,7 +542,6 @@ void Item_factory::init()
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
     add_iuse( "UNPACK_ITEM", &iuse::unpack_item );
-    add_iuse( "UPS_BATTERY", &iuse::ups_battery );
     add_iuse( "VACCINE", &iuse::vaccine );
     add_iuse( "VACUTAINER", &iuse::vacutainer );
     add_iuse( "VIBE", &iuse::vibe );
@@ -802,7 +800,22 @@ void Item_factory::check_definitions() const
                     msg << "gunmod does not specify location" << "\n";
             }
 
-            check_ammo_type( msg, type->gunmod->ammo_modifier );
+        }
+        if( type->mod ) {
+            check_ammo_type( msg, type->mod->ammo_modifier );
+
+            for( const auto &e : type->mod->acceptable_ammo ) {
+                check_ammo_type( msg, e );
+            }
+
+            for( const auto &e : type->mod->magazine_adaptor ) {
+                check_ammo_type( msg, e.first );
+                for( const itype_id &mag : e.second ) {
+                    if( !find_template( mag )->magazine ) {
+                        msg << "magazine adaptor refers to undefined magazine" << mag << "\n";
+                    }
+                }
+            }
         }
         if( type->magazine ) {
             check_ammo_type( msg, type->magazine->type );
@@ -1173,6 +1186,45 @@ void Item_factory::load_tool( JsonObject &jo, const std::string &src )
     }
 }
 
+void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src )
+{
+    bool strict = src == "core";
+
+    assign( jo, "ammo_modifier", slot.ammo_modifier, strict );
+    assign( jo, "capacity_multiplier", slot.capacity_multiplier, strict );
+
+    if( jo.has_member( "acceptable_ammo" ) ) {
+        slot.acceptable_ammo.clear();
+        for( auto &e : jo.get_tags( "acceptable_ammo" ) ) {
+            slot.acceptable_ammo.insert( ammotype( e ) );
+        }
+    }
+
+    JsonArray mags = jo.get_array( "magazine_adaptor" );
+    if( !mags.empty() ) {
+        slot.magazine_adaptor.clear();
+    }
+    while( mags.has_more() ) {
+        JsonArray arr = mags.next_array();
+
+        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (eg. 9mm)
+        JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
+
+        while( compat.has_more() ) {
+            slot.magazine_adaptor[ ammo ].insert( compat.next_string() );
+        }
+    }
+}
+
+void Item_factory::load_toolmod( JsonObject &jo, const std::string &src )
+{
+    auto def = load_definition( jo, src );
+    if( def ) {
+        load_slot( def->mod, jo, src );
+        load_basic_info( jo, def, src );
+    }
+}
+
 void Item_factory::load_tool_armor( JsonObject &jo, const std::string &src )
 {
     auto def = load_definition( jo, src );
@@ -1329,7 +1381,6 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
 
     assign( jo, "damage_modifier", slot.damage );
     assign( jo, "loudness_modifier", slot.loudness );
-    assign( jo, "ammo_modifier", slot.ammo_modifier );
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
     assign( jo, "sight_dispersion", slot.sight_dispersion );
@@ -1341,28 +1392,6 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
 
     if( jo.has_member( "mod_targets" ) ) {
         slot.usable = jo.get_tags( "mod_targets");
-    }
-
-    if( jo.has_member( "acceptable_ammo" ) ) {
-        slot.acceptable_ammo.clear();
-        for( auto &e : jo.get_tags( "acceptable_ammo" ) ) {
-            slot.acceptable_ammo.insert( ammotype( e ) );
-        }
-    }
-
-    JsonArray mags = jo.get_array( "magazine_adaptor" );
-    if( !mags.empty() ) {
-        slot.magazine_adaptor.clear();
-    }
-    while( mags.has_more() ) {
-        JsonArray arr = mags.next_array();
-
-        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (eg. 9mm)
-        JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
-
-        while( compat.has_more() ) {
-            slot.magazine_adaptor[ ammo ].insert( compat.next_string() );
-        }
     }
 
     if( jo.has_array( "mode_modifier" ) ) {
@@ -1386,6 +1415,7 @@ void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )
     auto def = load_definition( jo, src );
     if( def ) {
         load_slot( def->gunmod, jo, src );
+        load_slot( def->mod, jo, src );
         load_basic_info( jo, def, src );
     }
 }
