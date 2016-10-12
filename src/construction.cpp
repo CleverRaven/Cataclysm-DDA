@@ -242,7 +242,6 @@ void construction_menu()
     ctxt.register_action( "FILTER" );
     
     std::string filter;
-    std::string hotkeys;
 
     do {
         if( update_cat ) {
@@ -486,11 +485,13 @@ void construction_menu()
         const std::string action = ctxt.handle_input();
         const long raw_input_char = ctxt.get_raw_input().get_first_input();
         if( action == "FILTER" ){
-            update_info = true;
-            update_cat = true;
-            tabindex = 9;
-            select = 0;
             filter = string_input_popup( _( "Search" ), 50, filter, "", _( "Filter" ), 100, false );
+            if( filter != "" ){
+                update_info = true;
+                update_cat = true;
+                tabindex = 9;
+                select = 0;
+            }
         } else if( action == "DOWN" ) {
             update_info = true;
             if( select < ( int )constructs.size() - 1 ) {
@@ -549,7 +550,6 @@ void construction_menu()
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
-            hotkeys = ctxt.get_available_single_char_hotkeys();
             draw_grid( w_con, w_list_width + w_list_x0 );
         } else if( action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) {
             update_info = true;
@@ -561,16 +561,10 @@ void construction_menu()
         } else if( action == "ANY_INPUT" || action == "CONFIRM" ) {
             if( action == "CONFIRM" ) {
                 chosen = select;
-            } else {
-                // Get the index corresponding to the key pressed.
-                chosen = hotkeys.find_first_of( static_cast<char>( raw_input_char ) );
-                if( chosen == ( int )std::string::npos ) {
-                    continue;
-                }
             }
             if( chosen < ( int )constructs.size() ) {
                 if( player_can_build( g->u, total_inv, constructs[chosen] ) ) {
-                    place_construction( constructs[chosen] );
+                    struction( constructs[chosen] );
                     exit = true;
                 } else {
                     popup( _( "You can't build that!" ) );
