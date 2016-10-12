@@ -10284,8 +10284,9 @@ void player::mend_item( item_location&& obj, bool interactive )
                 if ( !hasSkill && f.second ) {
                     f.second = false;
                 }
-                descr << string_format( "> <color_%1$s>%2$s %3$i</color>\n", hasSkill ? "c_green" : "c_red",
-                                        _( e.first.obj().name().c_str() ), e.second );
+                //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
+                descr << string_format( _( "> <color_%1$s>%2$s %3$i</color>\n" ), hasSkill ? "c_green" : "c_red",
+                                        e.first.obj().name().c_str(), e.second );
             }
 
             std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
