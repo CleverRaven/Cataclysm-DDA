@@ -33,9 +33,69 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt ) cons
 {
     std::vector<const recipe *> res;
 
+    std::string prepped = trim( txt );
+    // meaningless value avoids potential garbage showing up
+    // as the key (potentially affecting run)
+    char key = ' ';
+    std::string value;
+    if( prepped.size() > 2 && txt[1] == ':' ) {
+        key = prepped[0];
+        value = prepped.substr( 2 );
+    } else {
+        value = prepped;
+    }
+
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ),
-    [ &txt ]( const recipe * r ) {
-        return lcmatch( item::nname( r->result ), txt );
+    [&]( const recipe * r ) {//sadly it seems easier to copy the scope here for the moment
+        switch( key ) {
+            case 'Q': {
+                const auto &result = item::find_type( r->result );
+                return std::any_of( result->qualities.begin(), result->qualities.end(),
+                [&]( const std::pair<quality_id, int> &quality ) {
+                    return lcmatch( quality.first->name, value );
+                } );
+            }
+            break;
+            case 't': {
+                const auto &toolsets =
+                    r->requirements().get_tools();
+                return std::any_of( toolsets.begin(), toolsets.end(),
+                [&]( const std::vector<tool_comp> &tool_set ) {
+                    return std::any_of( tool_set.begin(), tool_set.end(),
+                    [&]( const tool_comp & t ) {
+                        return lcmatch( t.to_string(), value );
+                    } );
+                } );
+            }
+            break;
+            case 's':
+                return lcmatch( r->required_skills_string(), value );
+                break;
+            case 'q': {
+                const auto &req_sets = r->requirements().get_qualities();
+                return std::any_of( req_sets.begin(), req_sets.end(),
+                [value]( const std::vector<quality_requirement> &req_set ) {
+                    return std::any_of( req_set.begin(), req_set.end(),
+                    [value]( const quality_requirement & qr ) {
+                        return lcmatch( qr.to_string(), value );
+                    } );
+                } );
+            }
+            break;
+            case 'c': {
+                const auto &required_comp = r->requirements().get_components();
+                return std::any_of( required_comp.begin(), required_comp.end(),
+                [&]( const std::vector<item_comp> &items ) {
+                    return std::any_of( items.begin(), items.end(),
+                    [&]( const item_comp & comp ) {
+                        return lcmatch( item::nname( comp.type ), value );
+                    } );
+                } );
+            }
+            break;
+            default:
+                return lcmatch( item::nname( r->result ), value );
+        }
     } );
 
     return res;
