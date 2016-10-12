@@ -1638,6 +1638,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("target_second_x", target.second.x);
     data.read("target_second_y", target.second.y);
     data.read("target_second_z", target.second.z);
+    data.read("ammo_pref", ammo_pref);
 
     if( legacy_fuel.empty() ) {
         legacy_fuel = id.obj().fuel_type;
@@ -1693,6 +1694,7 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("target_second_x", target.second.x);
     json.member("target_second_y", target.second.y);
     json.member("target_second_z", target.second.z);
+    json.member("ammo_pref", ammo_pref);
     json.end_object();
 }
 

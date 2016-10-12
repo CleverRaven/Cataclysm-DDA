@@ -230,6 +230,9 @@ private:
     item base;
     std::list<item> items; // inventory
 
+    /** Preferred ammo type when multiple are available */
+    itype_id ammo_pref = "null";
+
 public:
     const vpart_str_id &get_id() const;
     const vpart_info &info() const;
@@ -279,6 +282,12 @@ class turret_data {
 
         /** Specific ammo type or returns "null" if no ammo available */
         itype_id ammo_current() const;
+
+        /** What ammo is available for this turret (may be multiple if uses tanks) */
+        std::set<itype_id> ammo_options() const;
+
+        /** Attempts selecting ammo type and returns true if selection was valid */
+        bool ammo_select( const itype_id &ammo );
 
         /** Effects inclusive of any from ammo loaded from tanks */
         std::set<std::string> ammo_effects() const;

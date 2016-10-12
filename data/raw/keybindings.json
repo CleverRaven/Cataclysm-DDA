@@ -1266,6 +1266,17 @@
     },
     {
         "type" : "keybinding",
+        "id":"SWITCH_AMMO",
+        "name":"Switch ammo",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"o"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"SWITCH_MODE",
         "name":"Switch Firing Mode",
         "bindings":[
