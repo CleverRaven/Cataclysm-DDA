@@ -483,10 +483,9 @@ void construction_menu()
         wrefresh( w_list );
 
         const std::string action = ctxt.handle_input();
-        const long raw_input_char = ctxt.get_raw_input().get_first_input();
         if( action == "FILTER" ){
             filter = string_input_popup( _( "Search" ), 50, filter, "", _( "Filter" ), 100, false );
-            if( filter != "" ){
+            if( !filter.empty() ){
                 update_info = true;
                 update_cat = true;
                 tabindex = 9;
@@ -564,7 +563,7 @@ void construction_menu()
             }
             if( chosen < ( int )constructs.size() ) {
                 if( player_can_build( g->u, total_inv, constructs[chosen] ) ) {
-                    struction( constructs[chosen] );
+                    place_construction( constructs[chosen] );
                     exit = true;
                 } else {
                     popup( _( "You can't build that!" ) );
