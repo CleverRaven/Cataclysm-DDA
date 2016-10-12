@@ -6165,7 +6165,7 @@ bool vehicle_part::fill_with( item &liquid, long qty )
         return false;
     }
 
-    if( !(is_tank() && can_reload( liquid.typeId() ) ) ) {
+    if( !is_tank() || !can_reload( liquid.typeId() ) ) {
         return false;
     }
 
