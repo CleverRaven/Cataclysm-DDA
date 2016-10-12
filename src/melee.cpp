@@ -838,75 +838,6 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
     di.add_damage( DT_STAB, cut_dam, 0, armor_mult, stab_mul );
 }
 
-// Chance of a weapon sticking is based on weapon attack type.
-// Only an issue for cutting and piercing weapons.
-// Attack modes are "CHOP", "STAB", and "SLICE".
-// "SPEAR" is synonymous with "STAB".
-// Weapons can have a "low_stick" flag indicating they
-// Have a feature to prevent sticking, such as a spear with a crossbar,
-// Or a stabbing blade designed to resist sticking.
-int player::roll_stuck_penalty(bool stabbing, const ma_technique &tec) const
-{
-    (void)tec;
-    // The cost of the weapon getting stuck, in units of move points.
-    const int weapon_speed = attack_speed( weapon );
-    int stuck_cost = weapon_speed;
-    int attack_skill = stabbing ? get_skill_level( skill_stabbing ) : get_skill_level( skill_cutting );
-
-    if( has_active_bionic("bio_cqb") ) {
-        attack_skill = BIO_CQB_LEVEL;
-    }
-
-    const float cut_damage = weapon.damage_melee( stabbing ? DT_STAB : DT_CUT );
-    const float bash_damage = weapon.damage_melee( DT_BASH );
-    float cut_bash_ratio = 0.0;
-
-    // Scale cost along with the ratio between cutting and bashing damage of the weapon.
-    if( cut_damage > 0.0f || bash_damage > 0.0f ) {
-        cut_bash_ratio = cut_damage / ( cut_damage + bash_damage );
-    }
-    stuck_cost *= cut_bash_ratio;
-
-    if( weapon.has_flag("SLICE") ) {
-        // Slicing weapons assumed to have a very low chance of sticking.
-        stuck_cost *= 0.25;
-    } else if( weapon.has_flag("STAB") ) {
-        // Stabbing has a moderate change of sticking.
-        stuck_cost *= 0.50;
-    } else if( weapon.has_flag("SPEAR") ) {
-        // Spears should be a bit easier to manage
-        stuck_cost *= 0.25;
-    } else if( weapon.has_flag("CHOP") ) {
-        // Chopping has a high chance of sticking.
-        stuck_cost *= 1.00;
-    } else {
-        // Items with no attack type are assumed to be improvised weapons,
-        // and get a very high stick cost.
-        stuck_cost *= 2.00;
-    }
-
-    if( weapon.has_flag("NON_STUCK") ) {
-        // Greatly reduce sticking frequency/severity if the weapon has an anti-sticking feature.
-        stuck_cost /= 4;
-    }
-
-    // Reduce cost based on player skill, by 10.5 move/level on average.
-    ///\EFFECT_STABBING reduces duration of stuck stabbing weapon
-
-    ///\EFFECT_CUTTING reduces duration of stuck cutting weapon
-    stuck_cost -= dice( attack_skill, 20 );
-    // And also strength. This time totally reliable 5 moves per point
-    ///\EFFECT_STR reduce duration of weapon getting stuck
-    stuck_cost -= 5 * str_cur;
-    // Make sure cost doesn't go negative.
-    stuck_cost = std::max( stuck_cost, 0 );
-
-    // Cap stuck penalty at 2x weapon speed
-    stuck_cost = std::min( stuck_cost, 2 * weapon_speed );
-
-    return stuck_cost;
-}
-
 matec_id player::pick_technique(Creature &t,
                                 bool crit, bool dodge_counter, bool block_counter)
 {
@@ -1624,69 +1555,8 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
         remove_weapon();
     }
 
-    const float wear_modifier = !t.is_hallucination() ? 1.0f : 0.0f;
-    handle_melee_wear( weapon, wear_modifier );
-
-    // The skill used to counter stuck penalty
-    const bool stab = d.type_damage(DT_STAB) > d.type_damage(DT_CUT);
-    int used_skill = stab ? get_skill_level( skill_stabbing ) : get_skill_level( skill_cutting );
-    if( has_active_bionic("bio_cqb") ) {
-        used_skill = BIO_CQB_LEVEL;
-    }
-
-    int cutting_penalty = roll_stuck_penalty( stab, tec );
-    // Some weapons splatter a lot of blood around.
-    // TODO: this function shows total damage done by this attack, not final damage inflicted.
-    if (d.total_damage() > 10 && weapon.has_flag("MESSY") ) { //Check if you do non minor damage
-        cutting_penalty /= 6; // Harder to get stuck
-        g->m.add_splash( t.bloodType(), tarpos, 1, 3 );
-    }
-    // Getting your weapon stuck
-    ///\EFFECT_STR decreases chance of getting weapon stuck
-    if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) && !t.is_hallucination()) {
-        dump << string_format(_("Your %1$s gets stuck in %2$s, pulling it out of your hands!"),
-                              weapon.tname().c_str(), target.c_str());
-        // TODO: better speed debuffs for target, possibly through effects
-        if (monster *m = dynamic_cast<monster *>(&t)) {
-            m->add_item(remove_weapon());
-        } else {
-            // Happens if 't' is not of 'monster' origin (attacking an NPC)
-            g->m.add_item_or_charges( tarpos, remove_weapon(), 1 );
-        }
-
-        t.mod_moves(-30);
-        if (weapon.has_flag("HURT_WHEN_PULLED") && one_in(3)) {
-            //Sharp objects that injure wielder when pulled from hands (so cutting damage only)
-            dump << std::endl << string_format(_("You are hurt by the %s being pulled from your hands!"),
-                                               weapon.tname().c_str());
-            auto hand_hurt = one_in(2) ? bp_hand_l : bp_hand_r;
-            deal_damage( this, hand_hurt, damage_instance::physical( 0, weapon.damage_melee( DT_CUT ) / 2, 0) );
-        }
-    } else {
-        // Approximately "this would kill the target". Unless the target has limb-based hp.
-        if( d.total_damage() > t.get_hp() ) {
-            cutting_penalty /= 2;
-            ///\EFFECT_STABBING reduces chance of weapon getting stuck, if STABBING>CUTTING
-
-            ///\EFFECT_CUTTING reduces chance of weapon getting stuck, if CUTTING>STABBING
-            cutting_penalty -= rng( used_skill, used_skill * 2 + 2 );
-        }
-        if( cutting_penalty >= 50 && !t.is_hallucination() ) {
-            dump << string_format(_("Your %1$s gets stuck in %2$s but you yank it free!"), weapon.tname().c_str(),
-                                  target.c_str());
-        }
-
-        if( weapon.has_flag("SPEAR") ) {
-            ///\EFFECT_STABBING increases damage when pulling out a stuck spear
-            const int stabbing_skill = get_skill_level( skill_stabbing );
-            d.add_damage( DT_CUT, rng( 1, stabbing_skill ) ); //add some extra damage for pulling out a spear
-            t.mod_moves(-30);
-        }
-    }
-    if( cutting_penalty > 0 && !t.is_hallucination() ) {
-        // Don't charge more than 1 turn of stuck penalty
-        // It scales with attack time and low attack time is bad enough on its own
-        mod_moves( std::max( -100, -cutting_penalty ) );
+    if( !t.is_hallucination() ) {
+        handle_melee_wear( weapon );
     }
 
     // on-hit effects for martial arts

@@ -586,8 +586,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
         /** Adds player's total stab damage to the damage instance */
         void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
-        /** Returns the number of moves unsticking a weapon will penalize for */
-        int roll_stuck_penalty( bool stabbing, const ma_technique &tec ) const;
+
         std::vector<matec_id> get_all_techniques() const;
 
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
