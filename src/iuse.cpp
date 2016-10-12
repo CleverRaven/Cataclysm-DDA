@@ -5546,6 +5546,9 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
     }
 
     if( !loc->ammo_remaining() || g->unload( *loc ) ) {
+        p->add_msg_if_player( m_good, _( "You attach the %1$s to the %2$s" ),
+                              it->tname().c_str(), loc->tname().c_str() );
+
         loc->contents.push_back( p->i_rem( it ) );
     }
 
