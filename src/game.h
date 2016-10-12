@@ -342,7 +342,10 @@ class game
                                       std::vector<Creature *> t, int target,
                                       item *relevant, target_mode mode );
 
-        /** Targetting UI callback, should return pointer to effective ammo data */
+        /**
+         * Targetting UI callback is passed the item being targeted (if any)
+         * and should return pointer to effective ammo data (if any)
+         */
         using target_callback = std::function<const itype *(item *obj)>;
 
         /**
