@@ -21,30 +21,30 @@
         "effects" : ["NEVER_MISFIRES"]
     },
   {
-    "type": "AMMO",
-    "copy-from": "marble",
     "id": "pebble_clay",
+    "copy-from": "marble",
+    "type": "AMMO",
     "name": "clay pellet",
-    "color": "brown",
     "description": "A handful of round projectiles made of clay, useful for slings or slingshots.",
-    "material": "clay",
     "weight": 6,
-    "dispersion": 130,
+    "material": "clay",
+    "color": "brown",
     "count": 40,
-    "effects" : ["NEVER_MISFIRES"]
+    "dispersion": 130,
+    "effects": [ "NEVER_MISFIRES" ]
   },
   {
-    "type": "AMMO",
-    "copy-from": "bearing",
     "id": "bearing_lead",
+    "copy-from": "bearing",
+    "type": "AMMO",
     "name": "lead pellet",
     "description": "Hefty round projectiles cast from lead, useful as ammunition for slings.",
-    "material": "lead",
     "weight": 12,
+    "material": "lead",
+    "count": 30,
     "damage": 7,
     "pierce": 2,
-    "count": 30,
-    "effects": ["NEVER_MISFIRES"]
+    "effects": [ "NEVER_MISFIRES" ]
   },
    {
     "type" : "AMMO",
