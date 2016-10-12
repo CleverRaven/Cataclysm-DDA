@@ -780,8 +780,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ### Flags
 
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
-- ```DIAMOND``` Diamond coating adds 30% bonus to cutting damage
-- ```MESSY``` Resistant to getting stuck in a monster. Potentially cause more gore in the future?
+- ```DIAMOND``` Diamond coating adds 30% bonus to cutting and piercing damage
+- ```MESSY``` Creates more mess when pulping
 - ```NO_CVD``` Item can never be used with a CVD machine
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```NO_UNWIELD``` Cannot unwield this item.
