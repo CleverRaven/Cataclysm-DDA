@@ -1105,7 +1105,8 @@ bool Character::meets_stat_requirements( const item &it ) const
 
 bool Character::meets_requirements( const item &it, const item &context ) const
 {
-    return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, context );
+    const auto &ctx = !context.is_null() ? context : it;
+    return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
 void Character::normalize()
