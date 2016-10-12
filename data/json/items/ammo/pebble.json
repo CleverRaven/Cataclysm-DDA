@@ -10,9 +10,10 @@
     "material": "steel",
     "color": "dark_gray",
     "count": 50,
-    "range": 15,
+    "range": 4,
     "damage": 6,
-    "pierce": 1
+    "pierce": 1,
+    "dispersion": 120
   },
   {
     "id": "marble",
@@ -24,9 +25,9 @@
     "price": 200,
     "material": "glass",
     "count": 20,
-    "range": 18,
+    "range": 2,
     "damage": 3,
-    "dispersion": 12
+    "dispersion": 120
   },
   {
     "id": "pebble",
@@ -41,9 +42,8 @@
     "color": "light_gray",
     "count": 10,
     "ammo_type": "pebble",
-    "range": 10,
     "damage": 2,
-    "dispersion": 14,
+    "dispersion": 150,
     "effects": [ "NEVER_MISFIRES" ]
   }
 ]
