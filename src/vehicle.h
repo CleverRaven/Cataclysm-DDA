@@ -112,6 +112,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     vehicle_part( const vpart_str_id& vp, int dx, int dy, item&& it );
 
+    /** Check this instance is non-null (not default constructed) */
+    explicit operator bool() const;
+
     bool has_flag(int const flag) const noexcept { return flag & flags; }
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
     int  remove_flag(int const flag)    noexcept { return flags &= ~flag; }
@@ -149,6 +152,12 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /* Can part in current state be reloaded optionally with specific @ref obj */
     bool can_reload( const itype_id &obj = "" ) const;
+
+    /**
+     *  Try adding @param liquid to tank optionally limited by @param qty
+     *  @return whether any of the liquid was consumed (which may be less than qty)
+     */
+    bool fill_with( item &liquid, long qty = LONG_MAX );
 
     /** Current faults affecting this part (if any) */
     const std::set<fault_id>& faults() const;

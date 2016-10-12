@@ -17,6 +17,7 @@
 #include "mutation.h"
 #include "vehicle.h"
 #include "veh_interact.h"
+#include "cata_utility.h"
 
 #include <algorithm>
 
@@ -2074,13 +2075,26 @@ bool Character::pour_into( item &container, item &liquid )
 
 bool Character::pour_into( vehicle &veh, item &liquid )
 {
-    auto tank = veh_interact::select_tank( veh, liquid );
+    auto sel = [&]( const vehicle_part &pt ) {
+        return pt.is_tank() && pt.can_reload( liquid.typeId() );
+    };
+
+    auto stack = units::legacy_volume_factor / liquid.type->stack_size;
+    auto title = string_format( _( "Select target tank for <color_%s>%.1fL %s</color>" ),
+                                get_all_colors().get_name( liquid.color() ).c_str(),
+                                round_up( to_liter( liquid.charges * stack ), 1 ),
+                                liquid.tname().c_str() );
+
+    auto &tank = veh_interact::select_part( veh, sel, title );
     if( !tank ) {
         return false;
     }
 
-    tank->fill_with( liquid );
-    add_msg_if_player( _( "You refill the %1$s with %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
+    tank.fill_with( liquid );
+
+    //~ $1 - vehicle name, $2 - part name, $3 - liquid type
+    add_msg_if_player( _( "You refill the %1$s's %2$s with %3$s." ),
+                       veh.name.c_str(), tank.name().c_str(), liquid.type_name().c_str() );
 
     if( liquid.charges > 0 ) {
         add_msg_if_player( _( "There's some left over!" ) );

@@ -42,6 +42,9 @@ static inline const char * status_color( bool status )
     return status ? good : bad;
 }
 
+/** Can part currently be reloaded with anything? */
+static auto can_refill = []( const vehicle_part &pt ) { return pt.can_reload(); };
+
 namespace {
 const std::string repair_hotkeys("r1234567890");
 const quality_id LIFT( "LIFT" );
@@ -106,21 +109,13 @@ player_activity veh_interact::run( vehicle &veh, int x, int y )
     return vehint.serialize_activity();
 }
 
-item_location veh_interact::select_tank( const vehicle &veh, const item &liquid )
+vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector &sel, const std::string &title )
 {
-    item_location res;
-
-    if( liquid.active ) {
-        // cannot refill using active liquids (those that rot) due to #18570
-        return res;
-    }
-
-    auto sel = [&]( const vehicle_part &pt ) {
-        return pt.is_tank() && pt.can_reload( liquid.typeId() );
-    };
+    static vehicle_part null_part;
+    vehicle_part *res = &null_part;
 
     auto act = [&]( const vehicle_part &pt ) {
-        res = const_cast<vehicle &>( veh ).part_base( veh.index_of_part( &pt ) );
+        res = const_cast<vehicle_part *>( &pt );
     };
 
     int opts = std::count_if( veh.parts.cbegin(), veh.parts.cend(), sel );
@@ -130,19 +125,12 @@ item_location veh_interact::select_tank( const vehicle &veh, const item &liquid 
 
     } else if( opts != 0 ) {
         veh_interact vehint( const_cast<vehicle &>( veh ) );
-
-        auto stack = units::legacy_volume_factor / liquid.type->stack_size;
-
-        vehint.set_title( _( "Select target tank for <color_%s>%.1fL %s</color>" ),
-                          get_all_colors().get_name( liquid.color() ).c_str(),
-                          round_up( to_liter( liquid.charges * stack ), 1 ),
-                          liquid.tname().c_str() );
-
+        vehint.set_title( title.empty() ? _( "Select part" ) : title );
         vehint.overview( sel, act );
         g->refresh_all();
     }
 
-    return res;
+    return *res;
 }
 
 /**
@@ -417,7 +405,7 @@ task_reason veh_interact::cant_do (char mode)
         break;
 
     case 'f':
-        return CAN_DO; // always allow display of fuel menu
+        return std::any_of( veh->parts.begin(), veh->parts.end(), can_refill ) ? CAN_DO : INVALID_TARGET;
 
     case 'o': // remove mode
         enough_morale = g->u.has_morale_to_craft();
@@ -973,11 +961,13 @@ void veh_interact::do_mend()
 
 void veh_interact::do_refill()
 {
-    set_title( _( "Select part to refill:" ) );
     werase( w_msg );
+    if( cant_do( 'f' ) ) {
+        mvwprintz( w_msg, 0, 1, c_ltred, _( "No parts can currently be refilled" ) );
+    }
     wrefresh( w_msg );
 
-    auto sel = []( const vehicle_part &pt ) { return pt.is_tank() || pt.is_reactor(); };
+    set_title( _( "Select part to refill:" ) );
 
     auto act = [&]( const vehicle_part &pt ) {
         auto validate = [&]( const item &obj ) {
@@ -1003,7 +993,7 @@ void veh_interact::do_refill()
         return;
     };
 
-    overview( sel, act );
+    overview( can_refill, act );
 }
 
 void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
