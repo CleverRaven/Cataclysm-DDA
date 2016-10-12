@@ -812,7 +812,8 @@ static std::string print_recoil( const player &p)
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
 static int draw_targeting_window( WINDOW *w_target, const std::string &name, player &p, target_mode mode,
-                                  input_context &ctxt, const std::vector<aim_type> &aim_types )
+                                  input_context &ctxt, const std::vector<aim_type> &aim_types,
+                                  bool switch_mode, bool switch_ammo )
 {
     draw_border(w_target);
     // Draw the "title" of the window.
@@ -844,12 +845,16 @@ static int draw_targeting_window( WINDOW *w_target, const std::string &name, pla
         // Reserve a line for mouse instructions.
         --text_y;
     }
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
-        // Reserve lines for aiming and firing instructions.
+
+    // Reserve lines for aiming and firing instructions.
+    if( mode == TARGET_MODE_FIRE ) {
         text_y -= ( 3 + aim_types.size() );
     } else {
         text_y -= 2;
     }
+
+    text_y -= switch_mode ? 1 : 0;
+    text_y -= switch_ammo ? 1 : 0;
 
     // The -1 is the -2 from above, but adjusted since this is a total, not an index.
     int lines_used = getmaxy(w_target) - 1 - text_y;
@@ -877,8 +882,11 @@ static int draw_targeting_window( WINDOW *w_target, const std::string &name, pla
         mvwprintz( w_target, text_y++, 1, c_white, _( "%c to switch aiming modes." ), front_or( "SWITCH_AIM", ' ' ) );
     }
 
-    if( mode == TARGET_MODE_TURRET_MANUAL ) {
+    if( switch_mode ) {
         mvwprintz( w_target, text_y++, 1, c_white, _( "%c to switch firing modes." ), front_or( "SWITCH_MODE", ' ' ) );
+    }
+    if( switch_ammo) {
+        mvwprintz( w_target, text_y++, 1, c_white, _( "%c to switch ammo." ), front_or( "SWITCH_AMMO", ' ' ) );
     }
 
     if( is_mouse_enabled() ) {
@@ -980,7 +988,9 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
 }
 
 // TODO: Shunt redundant drawing code elsewhere
-std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int range )
+std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int range, const itype *ammo,
+                                          const target_callback &on_mode_change,
+                                          const target_callback &on_ammo_change )
 {
     static const std::vector<tripoint> empty_result{};
     std::vector<tripoint> ret;
@@ -1047,13 +1057,12 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
     ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "SWITCH_MODE" );
+    ctxt.register_action( "SWITCH_AMMO" );
 
     if( mode == TARGET_MODE_FIRE ) {
         ctxt.register_action( "AIM" );
         ctxt.register_action( "SWITCH_AIM" );
-    }
-    if( mode == TARGET_MODE_TURRET_MANUAL ) {
-        ctxt.register_action( "SWITCH_MODE" );
     }
 
     std::vector<aim_type> aim_types;
@@ -1107,7 +1116,10 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         aim_mode = aim_types.begin();
     }
 
-    int num_instruction_lines = draw_targeting_window( w_target, relevant ? relevant->tname() : "", u, mode, ctxt, aim_types );
+    int num_instruction_lines = draw_targeting_window( w_target, relevant ? relevant->tname() : "", u,
+                                                       mode, ctxt, aim_types,
+                                                       bool( on_mode_change ), bool( on_ammo_change ) );
+
     bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
     std::string enemiesmsg;
@@ -1209,11 +1221,17 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                            m.mode.c_str(), m.qty );
             }
 
-            if( m->ammo_data() ) {
-                mvwprintw( w_target, line_number++, 1,
-                           m->ammo_capacity() > 1 ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
-                           item::nname( m->ammo_current(), m->ammo_remaining() ).c_str(),
-                           m->ammo_remaining(), m->ammo_capacity() );
+            const itype *cur = ammo ? ammo : m->ammo_data();
+            if( cur ) {
+                auto str = string_format( m->ammo_remaining() ?
+                                          _( "Ammo: <color_%s>%s</color> (%d/%d)" ) :
+                                          _( "Ammo: <color_%s>%s</color>" ),
+                                          get_all_colors().get_name( cur->color ).c_str(),
+                                          cur->nname( std::max( m->ammo_remaining(), 1L ) ).c_str(),
+                                          m->ammo_remaining(), m->ammo_capacity() );
+
+                nc_color col = c_ltgray;
+                print_colored_text( w_target, line_number++, 1, col, col, str );
             }
             line_number++;
         }
@@ -1338,7 +1356,13 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 return empty_result;
             }
         } else if( action == "SWITCH_MODE" ) {
-            relevant->gun_cycle_mode();
+            if( on_mode_change ) {
+                ammo = on_mode_change( relevant );
+            }
+        } else if( action == "SWITCH_AMMO" ) {
+            if( on_ammo_change ) {
+                ammo = on_ammo_change( relevant );
+            }
         } else if( action == "SWITCH_AIM" ) {
             aim_mode++;
             if( aim_mode == aim_types.end() ) {

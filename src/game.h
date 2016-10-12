@@ -85,6 +85,7 @@ enum weather_type : int;
 enum action_id : int;
 
 struct special_game;
+struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
 using itype_id = std::string;
@@ -341,8 +342,23 @@ class game
                                       std::vector<Creature *> t, int target,
                                       item *relevant, target_mode mode );
 
-        /** Prompts for target and returns trajectory to it */
-        std::vector<tripoint> pl_target_ui( target_mode mode, item *relevant, int range );
+        /**
+         * Targetting UI callback is passed the item being targeted (if any)
+         * and should return pointer to effective ammo data (if any)
+         */
+        using target_callback = std::function<const itype *(item *obj)>;
+
+        /**
+         *  Prompts for target and returns trajectory to it
+         *  @param relevant active item (if any)
+         *  @param ammo effective ammo data (derived from @param relevant if unspecified)
+         *  @param on_mode_change callback when user attempts changing firing mode
+         *  @param on_ammo_change callback when user attempts changing ammo
+         */
+        std::vector<tripoint> pl_target_ui( target_mode mode, item *relevant, int range,
+                                            const itype *ammo = nullptr,
+                                            const target_callback &on_mode_change = target_callback(),
+                                            const target_callback &on_ammo_change = target_callback() );
 
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();

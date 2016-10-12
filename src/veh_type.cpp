@@ -204,6 +204,7 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "power", def.power );
     assign( jo, "epower", def.epower );
     assign( jo, "fuel_type", def.fuel_type );
+    assign( jo, "default_ammo", def.default_ammo );
     assign( jo, "folded_volume", def.folded_volume );
     assign( jo, "size", def.size );
     assign( jo, "difficulty", def.difficulty );
@@ -481,6 +482,9 @@ void vpart_info::check()
         }
         if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0 ) {
             debugmsg( "vehicle part %s has folding part with zero folded volume", part.name().c_str() );
+        }
+        if( !item::type_is_defined( part.default_ammo ) ) {
+            debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(), part.item.c_str() );
         }
         if( part.size < 0 ) {
             debugmsg( "vehicle part %s has negative size", part.id.c_str() );

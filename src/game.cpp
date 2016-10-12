@@ -2939,8 +2939,32 @@ bool game::handle_action()
                             break;
 
                         case turret_data::status::ready: {
-                            tripoint pos = u.pos();
-                            auto trajectory = pl_target_ui( TARGET_MODE_TURRET_MANUAL, &*turret.base(), turret.range() );
+                            // if more than one firing mode provide callback to cyle through them
+                            target_callback switch_mode;
+                            if( turret.base()->gun_all_modes().size() > 1 ) {
+                                switch_mode = [&turret]( item *obj ) {
+                                    obj->gun_cycle_mode();
+                                    // currently gun modes dont change ammo but they may in the future
+                                    return turret.ammo_current() == "null" ? nullptr :
+                                           item::find_type( turret.ammo_current() );
+                                };
+                            }
+
+                            // if multiple ammo types available provide callback to cycle alternatives
+                            target_callback switch_ammo;
+                            if( turret.ammo_options().size() > 1 ) {
+                                switch_ammo = [&turret]( item * ) {
+                                    const auto opts = turret.ammo_options();
+                                    auto iter = opts.find( turret.ammo_current() );
+                                    turret.ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
+                                    return item::find_type( turret.ammo_current() );
+                                };
+                            }
+
+                            auto trajectory = pl_target_ui( TARGET_MODE_TURRET_MANUAL, &*turret.base(),
+                                                            turret.range(), turret.ammo_data(),
+                                                            switch_mode, switch_ammo );
+
                             if( !trajectory.empty() ) {
                                 turret.fire( u, trajectory.back() );
                             }

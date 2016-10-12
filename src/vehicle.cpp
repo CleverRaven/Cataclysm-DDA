@@ -5977,6 +5977,10 @@ vehicle_part::vehicle_part( const vpart_str_id& vp, int const dx, int const dy, 
     }
 }
 
+vehicle_part::operator bool() const {
+    return id != vpart_id( NULL_ID );
+}
+
 const vpart_str_id &vehicle_part::get_id() const
 {
     return id.id();
@@ -6046,6 +6050,10 @@ itype_id vehicle_part::ammo_current() const
 
     if( is_tank() && !base.contents.empty() ) {
         return base.contents.front().typeId();
+    }
+
+    if( is_engine() ) {
+        return info().fuel_type != "muscle" ? info().fuel_type : "null";
     }
 
     return "null";
@@ -6154,6 +6162,20 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
     return false;
 }
 
+bool vehicle_part::fill_with( item &liquid, long qty )
+{
+    if( liquid.active ) {
+        // cannot refill using active liquids (those that rot) due to #18570
+        return false;
+    }
+
+    if( !is_tank() || !can_reload( liquid.typeId() ) ) {
+        return false;
+    }
+
+    base.fill_with( liquid, qty );
+    return true;
+}
 
 const std::set<fault_id>& vehicle_part::faults() const
 {
@@ -6258,7 +6280,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
 
         int m_part = 0;
         const auto &pi = part_info( i );
-        m_part += item::find_type( pi.item )->weight;
+        m_part += parts[i].base.weight();
         for( const auto &j : get_items( i ) ) {
             //m_part += j.type->weight;
             // Change back to the above if it runs too slowly

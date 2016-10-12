@@ -161,6 +161,7 @@
     "id": "ammo_rifle_milspec",
     "//": "Military specification rifle ammo found at military sites.",
     "items": [
+      [ "12mm", 40 ],
       [ "3006_incendiary", 20 ],
       [ "50_incendiary", 10 ],
       [ "50bmg", 30 ],

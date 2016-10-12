@@ -94,10 +94,22 @@ class recipe_subset
         std::vector<const recipe *> in_category(
             const std::string &cat,
             const std::string &subcat = std::string() ) const;
+
         /** Returns all recipes which could use component */
         const std::set<const recipe *> &of_component( const itype_id &id ) const;
-        /** Find recipe by result name (left anchored partial matches are supported) */
-        std::vector<const recipe *> search( const std::string &txt ) const;
+
+        enum class search_type {
+            name,
+            skill,
+            component,
+            tool,
+            quality,
+            quality_result
+        };
+
+        /** Find recipes matching query (left anchored partial matches are supported) */
+        std::vector<const recipe *> search( const std::string &txt,
+                                            const search_type key = search_type::name ) const;
 
         size_t size() const {
             return recipes.size();

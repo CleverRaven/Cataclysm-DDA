@@ -16,6 +16,7 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "vehicle_selector.h"
+#include "veh_interact.h"
 
 #include <map>
 #include <vector>
@@ -126,12 +127,15 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig?" ) );
     }
 
-    if( has_purify && veh->fuel_left( "battery" ) > 0 ) {
-        selectmenu.addentry( USE_PURIFIER, true, 'p', _( "Purify water in carried container" ) );
-    }
+    if( has_purify ) {
+        bool can_purify = veh->fuel_left( "battery" ) >=
+                          item::find_type( "water_purifier" )->charges_to_use();
 
-    if( has_purify && veh->fuel_left( "battery" ) > 0 && veh->fuel_left( "water" ) > 0 ) {
-        selectmenu.addentry( PURIFY_TANK, true, 'P', _( "Purify water in vehicle tanks" ) );
+        selectmenu.addentry( USE_PURIFIER, can_purify,
+                             'p', _( "Purify water in carried container" ) );
+
+        selectmenu.addentry( PURIFY_TANK, can_purify && veh->fuel_left( "water" ),
+                             'P', _( "Purify water in vehicle tank" ) );
     }
 
     int choice;
@@ -197,36 +201,31 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             return DONE;
 
         case PURIFY_TANK: {
-            // get all vehicle parts
-            std::vector<vehicle_part *> tanks;
-            std::transform( veh->parts.begin(), veh->parts.end(), std::back_inserter( tanks ),
-            []( vehicle_part & e ) {
-                return &e;
-            } );
+            auto sel = []( const vehicle_part & pt ) {
+                return pt.is_tank() && pt.ammo_current() == "water";
+            };
 
-            // exclude any that don't contain water
-            tanks.erase( std::remove_if( tanks.begin(), tanks.end(), []( const vehicle_part * e ) {
-                return e->ammo_current() != "water";
-            } ), tanks.end() );
+            auto title = string_format( _( "Purify <color_%s>water</color> in tank" ),
+                                        get_all_colors().get_name( item::find_type( "water" )->color ).c_str() );
 
-            // sort tanks in ascending order of contained volume
-            std::sort( tanks.begin(), tanks.end(), []( const vehicle_part * lhs, const vehicle_part * rhs ) {
-                return lhs->ammo_remaining() < rhs->ammo_remaining();
-            } );
+            auto &tank = veh_interact::select_part( *veh, sel, title );
 
-            // iterate through tanks until either all have been purified or we have insufficient power
-            double cost = item::find_type( "water_purifier" )->charges_to_use();
-            for( auto &e : tanks ) {
-                if( veh->fuel_left( "battery" ) < e->ammo_remaining() * cost ) {
-                    add_msg( m_bad, _( "The %1$s's has insufficient power to purify more water" ),
-                             veh->name.c_str() );
-                    break;
+            if( tank ) {
+                double cost = item::find_type( "water_purifier" )->charges_to_use();
+
+                if( veh->fuel_left( "battery" ) < tank.ammo_remaining() * cost ) {
+                    //~ $1 - vehicle name, $2 - part name
+                    add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
+                             veh->name.c_str(), tank.name().c_str() );
+
+                } else {
+                    //~ $1 - vehicle name, $2 - part name
+                    add_msg( m_good, _( "You purify the contents of the %1$s's %2$s" ),
+                             veh->name.c_str(), tank.name().c_str() );
+
+                    veh->discharge_battery( tank.ammo_remaining() * cost );
+                    tank.ammo_set( "water_clean", tank.ammo_remaining() );
                 }
-                veh->discharge_battery( e->ammo_remaining() * cost );
-                e->ammo_set( "water_clean", e->ammo_remaining() );
-                //~ 1$s - vehicle name, 2$s - tank name
-                add_msg( m_good, _( "You purify the contents of the %1$s's %2$s" ),
-                         veh->name.c_str(), e->name().c_str() );
             }
             return DONE;
         }

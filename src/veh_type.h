@@ -126,6 +126,9 @@ class vpart_info
         /** Fuel type of engine or tank */
         itype_id fuel_type = "null";
 
+        /** Default ammo (for turrets) */
+        itype_id default_ammo = "null";
+
         /** Volume of a foldable part when folded */
         units::volume folded_volume = 0;
 

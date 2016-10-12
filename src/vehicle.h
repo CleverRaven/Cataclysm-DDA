@@ -112,6 +112,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     vehicle_part( const vpart_str_id& vp, int dx, int dy, item&& it );
 
+    /** Check this instance is non-null (not default constructed) */
+    explicit operator bool() const;
+
     bool has_flag(int const flag) const noexcept { return flag & flags; }
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
     int  remove_flag(int const flag)    noexcept { return flags &= ~flag; }
@@ -149,6 +152,12 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /* Can part in current state be reloaded optionally with specific @ref obj */
     bool can_reload( const itype_id &obj = "" ) const;
+
+    /**
+     *  Try adding @param liquid to tank optionally limited by @param qty
+     *  @return whether any of the liquid was consumed (which may be less than qty)
+     */
+    bool fill_with( item &liquid, long qty = LONG_MAX );
 
     /** Current faults affecting this part (if any) */
     const std::set<fault_id>& faults() const;
@@ -230,6 +239,9 @@ private:
     item base;
     std::list<item> items; // inventory
 
+    /** Preferred ammo type when multiple are available */
+    itype_id ammo_pref = "null";
+
 public:
     const vpart_str_id &get_id() const;
     const vpart_info &info() const;
@@ -279,6 +291,12 @@ class turret_data {
 
         /** Specific ammo type or returns "null" if no ammo available */
         itype_id ammo_current() const;
+
+        /** What ammo is available for this turret (may be multiple if uses tanks) */
+        std::set<itype_id> ammo_options() const;
+
+        /** Attempts selecting ammo type and returns true if selection was valid */
+        bool ammo_select( const itype_id &ammo );
 
         /** Effects inclusive of any from ammo loaded from tanks */
         std::set<std::string> ammo_effects() const;

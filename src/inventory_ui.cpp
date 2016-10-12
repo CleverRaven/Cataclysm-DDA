@@ -869,7 +869,9 @@ void inventory_selector::on_action( const std::string &action )
     if( action == "CATEGORY_SELECTION" ) {
         toggle_navigation_mode();
     } else if( action == "LEFT" ) {
-        toggle_active_column();
+        toggle_active_column( -1 );
+    } else if( action == "RIGHT" ) {
+        toggle_active_column( 1 );
     } else {
         for( auto &elem : columns ) {
             elem->on_action( action );
@@ -940,12 +942,20 @@ bool inventory_selector::is_overflown() const {
     return get_columns_occupancy_ratio() > 1.0;
 }
 
-void inventory_selector::toggle_active_column()
+void inventory_selector::toggle_active_column( int direction )
 {
+    if( columns.empty() ) {
+        return;
+    }
+
     size_t index = active_column_index;
 
     do {
-        index = ( index + 1 < columns.size() ) ? index + 1 : 0;
+        if( direction >= 0 ) {
+            index = index + 1 < columns.size() ? index + 1 : 0;
+        } else {
+            index = index > 0 ? index - 1 : columns.size() - 1;
+        }
     } while( index != active_column_index && !get_column( index ).activatable() );
 
     set_active_column( index );
@@ -989,7 +999,7 @@ item_location inventory_pick_selector::execute()
             return entry->location.clone();
         } else if( action == "QUIT" ) {
             return item_location();
-        } else if( action == "RIGHT" || action == "CONFIRM" ) {
+        } else if( action == "CONFIRM" ) {
             return get_active_column().get_selected().location.clone();
         } else {
             on_action( action );

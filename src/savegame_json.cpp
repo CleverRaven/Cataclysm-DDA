@@ -1522,6 +1522,17 @@ void item::io( Archive& archive )
     if( contents.empty() && is_non_resealable_container() ) {
         convert( type->container->unseals_into );
     }
+
+    // Migrate legacy toolmod flags
+    if( has_flag( "ATOMIC_AMMO" ) ) {
+        emplace_back( "battery_atomic" );
+    } else if( has_flag( "DOUBLE_AMMO" ) ) {
+        emplace_back( "battery_compartment" );
+    } else if( has_flag( "USE_UPS" ) ) {
+        emplace_back( "battery_ups" );
+    } else if( has_flag( "DOUBLE_REACTOR" ) ) {
+        emplace_back( "double_plutonium_core" );
+    }
 }
 
 void item::deserialize(JsonObject &data)
@@ -1627,6 +1638,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("target_second_x", target.second.x);
     data.read("target_second_y", target.second.y);
     data.read("target_second_z", target.second.z);
+    data.read("ammo_pref", ammo_pref);
 
     if( legacy_fuel.empty() ) {
         legacy_fuel = id.obj().fuel_type;
@@ -1682,6 +1694,7 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("target_second_x", target.second.x);
     json.member("target_second_y", target.second.y);
     json.member("target_second_z", target.second.z);
+    json.member("ammo_pref", ammo_pref);
     json.end_object();
 }
 

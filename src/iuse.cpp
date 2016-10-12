@@ -136,73 +136,6 @@ const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 
-void remove_double_ammo_mod( item &it, player &p )
-{
-    if( !it.item_tags.count( "DOUBLE_AMMO" ) || it.item_tags.count( "DOUBLE_REACTOR" )) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the double battery capacity mod of your %s!" ),
-                         it.tname().c_str() );
-    item mod( "battery_compartment" );
-    p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "DOUBLE_AMMO" );
-    // Easier to remove all batteries than to check for the actual real maximum
-    if( it.ammo_remaining() > 0 ) {
-        item batteries( "battery", calendar::turn, it.ammo_remaining() );
-        p.i_add_or_drop( batteries, 1 );
-        it.ammo_unset();
-    }
-}
-
-void remove_double_plut_mod( item &it, player &p )
-{
-    if( !it.item_tags.count( "DOUBLE_AMMO" ) && !it.item_tags.count( "DOUBLE_REACTOR" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the double plutonium capacity mod of your %s!" ),
-                         it.tname().c_str() );
-    item mod( "double_plutonium_core" );
-    p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "DOUBLE_AMMO" );
-    it.item_tags.erase( "DOUBLE_REACTOR" );
-    // Easier to remove all cells than to check for the actual real maximum
-    if( it.ammo_remaining() >= 500 ) {
-        item batteries( "plut_cell", calendar::turn, it.ammo_remaining() / 500 );
-        p.i_add_or_drop( batteries, 1 );
-        it.ammo_unset();
-    }
-}
-
-void remove_atomic_mod( item &it, player &p )
-{
-    if( !it.item_tags.count( "ATOMIC_AMMO" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the plutonium cells from your %s!" ), it.tname().c_str() );
-    item mod( "battery_atomic" );
-    mod.charges = it.charges;
-    it.ammo_unset();
-    p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "ATOMIC_AMMO" );
-    it.item_tags.erase( "NO_UNLOAD" );
-    it.item_tags.erase( "RADIOACTIVE" );
-    it.item_tags.erase( "LEAK_DAM" );
-}
-
-void remove_ups_mod( item &it, player &p )
-{
-    if( !it.has_flag( "USE_UPS" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the UPS Conversion Pack from your %s!" ), it.tname().c_str() );
-    item mod( "battery_ups" );
-    p.i_add_or_drop( mod, 1 );
-    it.ammo_unset();
-    it.item_tags.erase( "USE_UPS" );
-    it.item_tags.erase( "NO_UNLOAD" );
-    it.item_tags.erase( "NO_RELOAD" );
-}
-
 void remove_battery_magazine_mod( item &it, player &p )
 {
     if( !it.has_flag( "BATTERY_AMMO" ) ) {
@@ -2191,117 +2124,6 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     return thread_needed / 2;
 }
 
-void remove_battery_mods( item &modded, player &p )
-{
-    remove_atomic_mod( modded, p );
-    remove_ups_mod( modded, p );
-    remove_double_ammo_mod( modded, p );
-    remove_double_plut_mod( modded, p );
-    remove_battery_magazine_mod( modded, p );
-}
-
-int iuse::extra_battery(player *p, item *, bool, const tripoint& )
-{
-    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
-    item &modded = p->i_at( inventory_index );
-
-    if( modded.is_null() ) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-
-    if (modded.has_flag("DOUBLE_AMMO")) {
-        p->add_msg_if_player(m_info, _("That item has already had its battery capacity doubled."));
-        return 0;
-    }
-
-    remove_battery_mods( modded, *p );
-
-    p->add_msg_if_player( _( "You double the battery capacity of your %s!" ), modded.tname().c_str() );
-    modded.item_tags.insert("DOUBLE_AMMO");
-    return 1;
-}
-
-int iuse::double_reactor(player *p, item *, bool, const tripoint& )
-{
-    int inventory_index = g->inv_for_tools_powered_by( ammotype( "plutonium" ), _( "Modify what?" ) );
-    item &modded = p->i_at( inventory_index );
-
-    if( modded.is_null() ) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-
-    p->add_msg_if_player( _( "You double the plutonium capacity of your %s!" ), modded.tname().c_str() );
-    modded.item_tags.insert("DOUBLE_AMMO");
-    modded.item_tags.insert("DOUBLE_REACTOR");   //This flag lets the remove_ functions know that this is a plutonium tool without taking extra steps.
-    return 1;
-}
-
-int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
-{
-    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
-    item &modded = p->i_at( inventory_index );
-
-    if( modded.is_null() ) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-    if (modded.has_flag("ATOMIC_AMMO")) {
-        p->add_msg_if_player(m_info,
-                             _("That item has already had its battery modified to accept plutonium cells."));
-        return 0;
-    }
-
-    remove_battery_mods( modded, *p );
-    remove_ammo( &modded, *p ); // remove batteries, item::charges is now plutonium
-
-    p->add_msg_if_player( _( "You modify your %s to run off plutonium cells!" ), modded.tname().c_str() );
-    modded.item_tags.insert("ATOMIC_AMMO");
-    modded.item_tags.insert("RADIOACTIVE");
-    modded.item_tags.insert("LEAK_DAM");
-    modded.item_tags.insert("NO_UNLOAD");
-    modded.charges = it->charges;
-    return 1;
-}
-int iuse::ups_battery(player *p, item *, bool, const tripoint& )
-{
-    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
-    item &modded = p->i_at( inventory_index );
-
-    if( modded.is_null() ) {
-        p->add_msg_if_player(_("You do not have that item!"));
-        return 0;
-    }
-    if (modded.has_flag("USE_UPS")) {
-        p->add_msg_if_player(_("That item has already had its battery modified to use a UPS!"));
-        return 0;
-    }
-    if( modded.typeId() == "UPS_off" || modded.typeId() == "adv_UPS_off" ) {
-        p->add_msg_if_player( _( "You want to power a UPS with another UPS?  Very clever." ) );
-        return 0;
-    }
-
-    remove_battery_mods( modded, *p );
-    remove_ammo( &modded, *p );
-
-    p->add_msg_if_player( _( "You modify your %s to run off a UPS!" ), modded.tname().c_str() );
-    modded.item_tags.insert("USE_UPS");
-    modded.item_tags.insert("NO_UNLOAD");
-    modded.item_tags.insert("NO_RELOAD");
-    //Perhaps keep the modded charges at 1 or 0?
-    modded.ammo_unset();
-    return 1;
-}
-
-int iuse::magazine_battery(player *p, item *mod, bool, const tripoint& )
-{
-    static const ammotype bat_type( "battery" );
-    const auto filter = [ mod ]( const item &it ) {
-        return it.is_tool() && &it != mod && it.ammo_type() == bat_type &&
-        !it.has_flag( "NO_UNLOAD" ) && it.magazine_integral();
-    };
-
     item_location loc = g->inv_map_splice( filter, _( "Modify what?" ), 1, _( "You don't have compatible battery-powered tools." ) );
 
     if( loc.get_item() == nullptr || loc->ammo_type() != bat_type ) {
@@ -2399,21 +2221,30 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 
 int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
 {
-    static const std::vector<std::string> removable_mods = {{
-        "DOUBLE_AMMO", "USE_UPS", "ATOMIC_AMMO", "BATTERY_AMMO", "RADIO_MOD"
-    }};
-
-    int inventory_index = g->inv_for_filter( _( "Detach power/radio mods from what?" ), []( const item & itm ) {
-        return itm.is_tool() && itm.has_any_flag( removable_mods );
-    } );
-    item &modded = p->i_at( inventory_index );
-    if( modded.is_null() ) {
-        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+    if( !p ) {
         return 0;
     }
 
-    remove_battery_mods( modded, *p );
-    remove_radio_mod( modded, *p );
+    // can remove mods from unloaded tools only
+    auto filter = []( const item &e ) {
+        return !e.toolmods().empty() && !e.ammo_remaining() && !e.magazine_current();
+    };
+
+    auto loc = g->inv_map_splice( filter, _( "Remove mods from tool?" ), 1,
+                                  _( "You don't have unloaded modified tools." ) );
+
+    if( !loc ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return 0;
+    }
+
+    auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), [&loc]( const item& e ) {
+        return e.is_toolmod();
+    } );
+    p->i_add_or_drop( *mod );
+    loc->contents.erase( mod );
+
+    remove_radio_mod( *loc, *p );
     return 0;
 }
 
@@ -3037,6 +2868,11 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
         fail_action = _("You pry, but cannot pop open the crate.");
         noisy = true;
         difficulty = 6;
+    } else if (g->m.furn(dirx, diry) == f_coffin_c) {
+        succ_action = _("You wedge open the coffin.");
+        fail_action = _("You pry, but the coffin remains closed.");
+        noisy = true;
+        difficulty = 5;
     } else if (type == t_window_domestic || type == t_curtains || type == t_window_no_curtains) {
         succ_action = _("You pry open the window.");
         fail_action = _("You pry, but cannot pry open the window.");
@@ -3063,6 +2899,9 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
         p->add_msg_if_player(m_good, succ_action);
         if (g->m.furn(dirx, diry) == f_crate_c) {
             g->m.furn_set(dirx, diry, f_crate_o);
+        }
+        if (g->m.furn(dirx, diry) == f_coffin_c) {
+            g->m.furn_set(dirx, diry, f_coffin_o);
         } else {
             g->m.ter_set(dirx, diry, new_type);
         }
@@ -5724,6 +5563,42 @@ int iuse::gunmod_attach( player *p, item *it, bool, const tripoint& ) {
     item& gun = p->i_at( gunpos );
     if( gun.gunmod_compatible( *it ) ) {
         p->gunmod_add( gun, *it );
+    }
+
+    return 0;
+}
+
+int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
+    if( !it || !it->is_toolmod() ) {
+        debugmsg( "tried to attach non-toolmod" );
+        return 0;
+    }
+
+    if( !p ) {
+        return 0;
+    }
+
+    auto filter = [&it]( const item &e ) {
+        // don't allow ups battery mods on a UPS
+        if( it->has_flag( "USE_UPS" ) && ( e.typeId() == "UPS_off" || e.typeId() == "adv_UPS_off" ) ) {
+            return false;
+        }
+
+        // can only attach to unmodified unloaded tools that use compatible ammo
+        return e.is_tool() && e.toolmods().empty() && !e.magazine_current() &&
+               it->type->mod->acceptable_ammo.count( e.ammo_type( false ) );
+    };
+
+    auto loc = g->inv_map_splice( filter, _( "Select tool to modify:" ), 1,
+                                  _( "You don't have compatible tools." ) );
+
+    if( !loc ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return 0;
+    }
+
+    if( !loc->ammo_remaining() || g->unload( *loc ) ) {
+        loc->contents.push_back( p->i_rem( it ) );
     }
 
     return 0;
