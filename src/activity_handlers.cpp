@@ -1030,18 +1030,15 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
 
-    int cut_power = p->weapon.type->melee_cut;
     // Stabbing weapons are a lot less effective at pulping
-    if( p->weapon.has_flag("STAB") || p->weapon.has_flag("SPEAR") ) {
-        cut_power /= 2;
-    }
+    int cut_power = std::max( p->weapon.damage_melee( DT_CUT ), p->weapon.damage_melee( DT_STAB ) / 2 );
 
     // Slicing weapons are a moderately less effective at pulping
     if( p->weapon.has_flag("SLICE") ) {
         cut_power = cut_power * 2 / 3;
     }
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = sqrt( (p->str_cur + p->weapon.type->melee_dam) * ( cut_power + 1.0f ) );
+    float pulp_power = sqrt( ( p->str_cur + p->weapon.damage_melee( DT_BASH ) ) * ( cut_power + 1.0f ) );
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
 
@@ -1223,7 +1220,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
 {
     //Grab this now, in case the vehicle gets shifted
     vehicle *veh = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
-    complete_vehicle();
+    veh_interact::complete_vehicle();
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
     // is to be examined again.
@@ -1479,7 +1476,7 @@ struct weldrig_hack {
             return;
         }
 
-        veh->refill( "battery", pseudo.charges );
+        veh->charge_battery( pseudo.charges );
         pseudo.charges = 0;
     }
 };

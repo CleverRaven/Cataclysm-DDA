@@ -98,6 +98,10 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         player_activity &operator=( player_activity && ) = default;
         player_activity &operator=( const player_activity & );
 
+        explicit operator bool() const {
+            return type != ACT_NULL;
+        }
+
         // Question to ask when the activity is to be stoped,
         // e.g. "Stop doing something?", already translated.
         const std::string &get_stop_phrase() const;

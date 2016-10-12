@@ -2,68 +2,126 @@
 #define RECIPE_DICTIONARY_H
 
 #include <string>
-#include <vector>
 #include <map>
-#include <list>
 #include <functional>
+#include <set>
+#include <vector>
 
+class JsonObject;
 struct recipe;
-using itype_id = std::string; // From itype.h
+typedef std::string itype_id;
 
-/**
-*   Repository class for recipes.
-*
-*   This class is aimed at making (fast) recipe lookups easier from the outside.
-*/
 class recipe_dictionary
 {
+        friend class Item_factory; // allow removal of blacklisted recipes
+
     public:
-        void add( recipe *rec );
-        void remove( recipe *rec );
+        /**
+         * Look up a recipe by qualified identifier
+         * @warning this is not always the same as the result
+         * @return matching recipe or null recipe if none found
+         */
+        const recipe &operator[]( const std::string &id ) const;
 
-        void finalize();
-        void clear();
-
-        /** Returns a list of recipes in the 'cat' category */
-        const std::vector<recipe *> &in_category( const std::string &cat );
-        /** Returns a list of recipes in which the component with itype_id 'id' can be used */
-        const std::vector<recipe *> &of_component( const itype_id &id );
-
-        /** Allows for lookup like: 'recipe_dict[name]'. */
-        recipe *operator[]( const std::string &rec_name ) {
-            return by_name[rec_name];
+        /** Returns all recipes that can be automatically learned */
+        const std::set<const recipe *> &all_autolearn() const {
+            return autolearn;
         }
+
+        size_t size() const;
+        std::map<std::string, recipe>::const_iterator begin() const;
+        std::map<std::string, recipe>::const_iterator end() const;
+
+        /** Returns disassembly recipe (or null recipe if no match) */
+        static const recipe &get_uncraft( const itype_id &id );
+
+        static void load( JsonObject &jo, const std::string &src, bool uncraft );
+
+        static void finalize();
+        static void reset();
+
+    protected:
+        /**
+         * Remove all recipes matching the predicate
+         * @warning must not be called after finalize()
+         */
+        static void delete_if( const std::function<bool( const recipe & )> &pred );
+
+    private:
+        std::map<std::string, recipe> recipes;
+        std::map<std::string, recipe> uncraft;
+        std::set<const recipe *> autolearn;
+
+        static void finalize_internal( std::map<std::string, recipe> &obj );
+};
+
+extern recipe_dictionary recipe_dict;
+
+class recipe_subset
+{
+    public:
+        /**
+         * Include a recipe to the subset.
+         * @param custom_difficulty If specified, it defines custom difficulty for the recipe
+         */
+        void include( const recipe *r, int custom_difficulty = -1 );
+        void include( const recipe_subset &subset );
+        /**
+         * Include a recipe to the subset. Based on the condition.
+         * @param pred Unary predicate that accepts a @ref recipe.
+         */
+        template<class Predicate>
+        void include_if( const recipe_subset &subset, Predicate pred ) {
+            for( const auto &elem : subset ) {
+                if( pred( *elem ) ) {
+                    include( elem );
+                }
+            }
+        }
+
+        /** Check if the subset contains a recipe with the specified @param id. */
+        bool contains( const recipe *r ) const {
+            return recipes.find( r ) != recipes.end();
+        }
+
+        /**
+         * Get custom difficulty for the recipe.
+         * @return Either custom difficulty if it was specified, or recipe default difficulty.
+         */
+        int get_custom_difficulty( const recipe *r ) const;
+
+        /** Get all recipes in given category (optionally restricted to subcategory) */
+        std::vector<const recipe *> in_category(
+            const std::string &cat,
+            const std::string &subcat = std::string() ) const;
+        /** Returns all recipes which could use component */
+        const std::set<const recipe *> &of_component( const itype_id &id ) const;
+        /** Find recipe by result name (left anchored partial matches are supported) */
+        std::vector<const recipe *> search( const std::string &txt ) const;
+
         size_t size() const {
             return recipes.size();
         }
 
-        /** Allows for iteration over all recipes like: 'for( recipe &r : recipe_dict )'. */
-        std::list<recipe *>::const_iterator begin() const {
+        void clear() {
+            component.clear();
+            category.clear();
+            recipes.clear();
+        }
+
+        std::set<const recipe *>::const_iterator begin() const {
             return recipes.begin();
         }
-        std::list<recipe *>::const_iterator end() const {
+
+        std::set<const recipe *>::const_iterator end() const {
             return recipes.end();
         }
 
-        /**
-         * Goes over all recipes and calls the predicate, if it returns true, the recipe
-         * is removed *and* deleted.
-         */
-        void delete_if( const std::function<bool( recipe & )> &pred );
-
     private:
-        std::list<recipe *> recipes;
-
-        std::map<const std::string, std::vector<recipe *>> by_category;
-        std::map<const itype_id, std::vector<recipe *>> by_component;
-
-        std::map<const std::string, recipe *> by_name;
-
-        /** Maps a component to a list of recipes. So we can look up what we can make with an item */
-        void add_to_component_lookup( recipe *r );
-        void remove_from_component_lookup( recipe *r );
+        std::set<const recipe *> recipes;
+        std::map<const recipe *, int> difficulties;
+        std::map<std::string, std::set<const recipe *>> category;
+        std::map<itype_id, std::set<const recipe *>> component;
 };
-
-extern recipe_dictionary recipe_dict;
 
 #endif

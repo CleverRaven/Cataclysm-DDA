@@ -57,6 +57,40 @@ void iexamine::none(player &p, const tripoint &examp)
     add_msg(_("That is a %s."), g->m.name(examp).c_str());
 }
 
+void iexamine::cvdmachine( player &p, const tripoint & ) {
+    // Select an item to which it is possible to apply a diamond coating
+    auto loc = g->inv_map_splice( []( const item &e ) {
+        return e.is_melee( DT_CUT ) && e.made_of( material_id( "steel" ) ) &&
+               !e.has_flag( "DIAMOND" ) && !e.has_flag( "NO_CVD" );
+    }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
+
+    if( !loc ) {
+        return;
+    }
+
+    // Require materials proportional to selected item volume
+    auto qty = loc->volume() / units::legacy_volume_factor;
+    auto reqs = *requirement_id( "cvd_diamond" ) * qty;
+    if( !reqs.can_make_with_inventory( p.crafting_inventory() ) ) {
+        popup( "%s", reqs.list_missing().c_str() );
+        return;
+    }
+
+    // Consume materials
+    for( const auto& e : reqs.get_components() ) {
+        p.consume_items( e );
+    }
+    for( const auto& e : reqs.get_tools() ) {
+        p.consume_tools( e );
+    }
+    p.invalidate_crafting_inventory();
+
+    // Apply flag to item
+    loc->item_tags.insert( "DIAMOND" );
+    add_msg( m_good, "You apply a diamond coating to your %s", loc->type_name().c_str() );
+    p.mod_moves( -1000 );
+}
+
 void iexamine::gaspump(player &p, const tripoint &examp)
 {
     if (!query_yn(_("Use the %s?"), g->m.tername(examp).c_str())) {
@@ -3353,6 +3387,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
 {
     if ("none" == function_name) {
         return &iexamine::none;
+    }
+    if ("cvdmachine" == function_name) {
+        return &iexamine::cvdmachine;
     }
     if ("gaspump" == function_name) {
         return &iexamine::gaspump;

@@ -24,51 +24,50 @@ typedef int nc_color; // From color.h
 using itype_id     = std::string; // From itype.h
 using requirement_id = string_id<requirement_data>;
 
-struct byproduct {
-    itype_id result;
-    int charges_mult;
-    int amount;
-
-    byproduct() : byproduct( "null" ) {}
-
-    byproduct( itype_id res, int mult = 1, int amnt = 1 )
-        : result( res ), charges_mult( mult ), amount( amnt ) {
-    }
-};
-
 struct recipe {
-    private:
-        std::string ident_;
-
-        friend void load_recipe( JsonObject &jsobj, const std::string &src, bool uncraft );
+        friend class recipe_dictionary;
 
     public:
-        itype_id result;
-        int time; // in movement points (100 per turn)
-        int difficulty;
-        bool valid_to_learn;
+        recipe();
+
+        itype_id result = "null";
+
+        operator bool() const {
+            return result != "null";
+        }
+
+        std::string category;
+        std::string subcategory;
+
+        int time = 0; // in movement points (100 per turn)
+        int difficulty = 0;
 
         /** Fetch combined requirement data (inline and via "using" syntax) */
         const requirement_data& requirements() const {
             return requirements_;
         }
 
+        /** If recipe can be used for disassembly fetch the combined requirements */
+        requirement_data disassembly_requirements() const {
+            return reversible ? requirements().disassembly_requirements() : requirement_data();
+        }
+
         /** Combined requirements cached when recipe finalized */
         requirement_data requirements_;
 
-        /** Second field is the multiplier */
-        std::vector<std::pair<requirement_id, int>> reqs;
+        std::map<itype_id,int> byproducts;
 
-        std::vector<byproduct> byproducts;
-        std::string cat;
         // Does the item spawn contained in container?
-        bool contained;
+        bool contained = false;
         // What does the item spawn contained in? Unset ("null") means default container.
-        itype_id container;
-        std::string subcat;
+        itype_id container = "null";
+
         skill_id skill_used;
         std::map<skill_id, int> required_skills;
-        bool reversible; // can the item be disassembled?
+
+        /** set learning requirements equal to required skills at finalization? */
+        bool autolearn = false;
+
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
 
@@ -77,19 +76,11 @@ struct recipe {
 
         // maximum achievable time reduction, as percentage of the original time.
         // if zero then the recipe has no batch crafting time reduction.
-        double batch_rscale;
-        int batch_rsize; // minimum batch size to needed to reach batch_rscale
-        int result_mult; // used by certain batch recipes that create more than one stack of the result
+        double batch_rscale = 0.0;
+        int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
+        int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
 
-        // only used during loading json data: book_id is the id of an book item, other stuff is copied
-        // into @ref islot_book::recipes.
-        struct bookdata_t {
-            std::string book_id;
-            int skill_level;
-            std::string recipe_name;
-            bool hidden;
-        };
-        std::vector<bookdata_t> booksets;
+        std::map<itype_id,int> booksets;
         std::set<std::string> flags;
 
         const std::string &ident() const;
@@ -97,8 +88,6 @@ struct recipe {
         //Create a string list to describe the skill requirements fir this recipe
         // Format: skill_name(amount), skill_name(amount)
         std::string required_skills_string() const;
-
-        recipe();
 
         // Create an item instance as if the recipe was just finished,
         // Contain charges multiplier
@@ -110,18 +99,10 @@ struct recipe {
 
         bool has_byproducts() const;
 
-        bool can_make_with_inventory( const inventory &crafting_inv, int batch = 1 ) const;
-        bool can_make_with_inventory( const inventory &crafting_inv,
-                                      const std::vector<npc *> &helpers,
-                                      int batch = 1 ) const;
         bool check_eligible_containers_for_crafting( int batch = 1 ) const;
 
-        // Can this recipe be memorized?
-        bool valid_learn() const;
-
         int print_items( WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1 ) const;
-        void print_item( WINDOW *w, int ypos, int xpos, nc_color col,
-                         const byproduct &bp, int batch = 1 ) const;
+
         int print_time( WINDOW *w, int ypos, int xpos, int width, nc_color col,
                         int batch = 1 ) const;
 
@@ -129,6 +110,20 @@ struct recipe {
 
         bool has_flag( const std::string &flag_name ) const;
 
+    private:
+        std::string ident_;
+
+        /** Abstract recipes can be inherited from but are themselves disposed of at finalization */
+        bool abstract = false;
+
+        /** Can recipe be used for disassembly of @ref result via @ref disassembly_requirements */
+        bool reversible = false;
+
+        /** External requirements (via "using" syntax) where second field is multiplier */
+        std::vector<std::pair<requirement_id, int>> reqs_external;
+
+        /** Requires specified inline with the recipe (and replaced upon inheritance) */
+        std::vector<std::pair<requirement_id, int>> reqs_internal;
 };
 
 // removes any (removable) ammo from the item and stores it in the
@@ -137,26 +132,15 @@ void remove_ammo( item *dis_item, player &p );
 // same as above but for each item in the list
 void remove_ammo( std::list<item> &dis_items, player &p );
 
-void load_recipe( JsonObject &jsobj, const std::string &src, bool uncraft );
-void reset_recipes();
-const recipe *recipe_by_name( const std::string &name );
-const recipe *get_disassemble_recipe( const itype_id &type );
-void finalize_recipes();
 // Show the "really disassemble?" query along with a list of possible results.
 // Returns false if the player answered no to the query.
 bool query_dissamble( const item &dis_item );
 const recipe *select_crafting_recipe( int &batch_size );
-void pick_recipes( const inventory &crafting_inv,
-                   const std::vector<npc *> &helpers,
-                   std::vector<const recipe *> &current,
-                   std::vector<bool> &available, std::string tab,
-                   std::string subtab, std::string filter );
+
 void batch_recipes( const inventory &crafting_inv,
                     const std::vector<npc *> &helpers,
                     std::vector<const recipe *> &current,
                     std::vector<bool> &available, const recipe *r );
-
-void check_recipe_definitions();
 
 void set_item_spoilage( item &newit, float used_age_tally, int used_age_count );
 void set_item_food( item &newit );

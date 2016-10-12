@@ -155,5 +155,46 @@
             ]
         },
         "flags" : ["SCEN_ONLY"]
+    },
+    {
+        "type" : "profession",
+        "ident": "trans_human",
+        "name": "Post-Human Cyborg",
+        "description": "As a wealthy trans-humanist you decided to put yourself on the frontline of augmentative technology to bring forth the future.  You are now a walking example of what humanity could had become.",
+        "points": 8,
+        "CBMs":[
+            "bio_str_enhancer",
+            "bio_dex_enhancer",
+            "bio_int_enhancer",
+            "bio_eye_enhancer",
+            "bio_speed",
+            "bio_eye_optic",
+            "bio_sunglasses",
+            "bio_ears",
+            "bio_digestion",
+            "bio_recycler",
+            "bio_purifier"
+        ],
+        "items": {
+            "both": [
+                "hat_knit",
+                "tshirt",
+                "jacket_light",
+                "knit_scarf",
+                "gloves_light",
+                "boots"
+            ],
+            "male": [
+                "briefs",
+                "socks",
+                "pants"
+            ],
+            "female": [
+                "bra",
+                "panties",
+                "stockings",
+                "skirt"
+            ]
+        }
     }
 ]

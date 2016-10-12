@@ -4,7 +4,7 @@
     "type": "GUN",
     "name": "Desert Eagle .44",
     "name_plural": "Desert Eagle .44",
-    "description": "One of the most recognizable handguns due to its popularity in movies, the Desert Eagle is better known for its menacing appearance than its performance.  It's highly inaccurate, but its heavy weight reduces recoil.",
+    "description": "One of the most recognizable handguns due to its popularity in movies and video games, the Desert Eagle is better known for its menacing appearance than its performance.  It's a large pistol, but its heavy weight reduces recoil.",
     "weight": 1800,
     "volume": 3,
     "price": 87500,
@@ -25,6 +25,28 @@
       [ "45", [ "m1911mag", "m1911bigmag" ] ],
       [ "9mm", [ "glockmag", "glockbigmag" ] ]
     ]
+  },
+  {
+    "id": "henry_big_boy",
+    "copy-from": "rifle_manual",
+    "type": "GUN",
+    "name": "Henry Big Boy .44",
+    "name_plural": "Henry Big Boy .44",
+    "//": "Modern reproduction M.S.R.P",
+    "description": "One of the most famous lever action rifles ever produced, the Henry Big Boy is chambered in the powerful .44 magnum cartidge.  Go get 'em cowboy!",
+    "weight": 3937,
+    "volume": 12,
+    "price": 89995,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "color": "dark_gray",
+    "ammo": "44",
+    "ranged_damage": 2,
+    "dispersion": 180,
+    "durability": 8,
+    "clip_size": 10,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "lemat_revolver",

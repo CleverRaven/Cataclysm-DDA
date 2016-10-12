@@ -119,10 +119,7 @@
     "durability": 8,
     "ups_charges": 249,
     "valid_mod_locations": [],
-    "ammo_effects": [
-      "LASER",
-      "WIDE"
-    ],
+    "ammo_effects": [ "LASER", "WIDE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "MOUNTED_GUN" ]
   },
   {
@@ -147,10 +144,7 @@
     "burst": 5,
     "ups_charges": 29,
     "valid_mod_locations": [],
-    "ammo_effects": [
-      "LASER",
-      "WIDE"
-    ],
+    "ammo_effects": [ "LASER", "WIDE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "MOUNTED_GUN" ]
   },
   {
@@ -174,11 +168,7 @@
     "durability": 8,
     "ups_charges": 499,
     "valid_mod_locations": [],
-    "ammo_effects": [
-      "EXPLOSIVE",
-      "LASER",
-      "WIDE"
-    ],
+    "ammo_effects": [ "EXPLOSIVE", "LASER", "WIDE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "MOUNTED_GUN" ]
   },
   {
@@ -257,11 +247,7 @@
     "ups_charges": 249,
     "reload": 200,
     "valid_mod_locations": [],
-    "ammo_effects": [
-      "FRAG",
-      "TRAIL",
-      "WIDE"
-    ]
+    "ammo_effects": [ "FRAG", "TRAIL", "WIDE" ]
   },
   {
     "id": "ripper",
@@ -415,11 +401,7 @@
     "durability": 8,
     "ups_charges": 249,
     "valid_mod_locations": [],
-    "ammo_effects": [
-      "BOUNCE",
-      "LIGHTNING",
-      "MOUNTED_GUN"
-    ],
+    "ammo_effects": [ "BOUNCE", "LIGHTNING", "MOUNTED_GUN" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
   {

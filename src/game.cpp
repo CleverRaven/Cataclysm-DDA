@@ -87,6 +87,7 @@
 #include "item_factory.h"
 #include "scent_map.h"
 #include "safemode_ui.h"
+#include "game_constants.h"
 
 #include <map>
 #include <set>
@@ -836,7 +837,7 @@ bool game::start_game(std::string worldname)
     u.next_climate_control_check = 0;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
-    //Reset character safemode/pickup rules
+    //Reset character safe mode/pickup rules
     get_auto_pickup().clear_character_rules();
     get_safemode().clear_character_rules();
 
@@ -917,9 +918,16 @@ void game::load_npcs()
             continue;
         }
 
-        const tripoint p = temp->global_sm_location();
+        const tripoint sm_loc = temp->global_sm_location();
+        // NPCs who are out of bounds before placement would be pushed into bounds
+        // This can cause NPCs to teleport around, so we don't want that
+        if( sm_loc.x < get_levx() || sm_loc.x >= get_levx() + MAPSIZE ||
+            sm_loc.y < get_levy() || sm_loc.y >= get_levy() + MAPSIZE ) {
+            continue;
+        }
+
         add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d:%d (%d:%d:%d)",
-                 get_levx(), get_levy(), get_levz(), p.x, p.y, p.z );
+                 get_levx(), get_levy(), get_levz(), sm_loc.x, sm_loc.y, sm_loc.z );
         temp->place_on_map();
         if( !m.inbounds( temp->pos() ) ) {
             continue;
@@ -939,6 +947,8 @@ void game::load_npcs()
     for( auto npc : just_added ) {
         npc->on_load();
     }
+
+    npcs_dirty = false;
 }
 
 void game::unload_npcs()
@@ -1395,12 +1405,22 @@ bool game::do_turn()
         gamemode->per_turn();
         calendar::turn.increment();
     }
+
+    if( npcs_dirty ) {
+        load_npcs();
+    }
+
     process_events();
     mission::process_all();
     if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
         calendar::turn.seconds() == 0) { // Midnight!
         overmap_buffer.process_mongroups();
         lua_callback("on_day_passed");
+    }
+
+    // Run a LUA callback once per minute
+    if (calendar::turn.seconds() == 0) {
+        lua_callback("on_minute_passed");
     }
 
     // Move hordes every 5 min
@@ -1720,6 +1740,11 @@ unsigned int game::get_seed() const
     return seed;
 }
 
+void game::set_npcs_dirty()
+{
+    npcs_dirty = true;
+}
+
 void game::update_weather()
 {
     if( weather == WEATHER_NULL || calendar::turn >= nextweather ) {
@@ -1790,7 +1815,7 @@ void game::increase_kill_count( const mtype_id& id )
 void game::handle_key_blocking_activity()
 {
     // If player is performing a task and a monster is dangerously close, warn them
-    // regardless of previous safemode warnings
+    // regardless of previous safe mode warnings
     if( u.activity.type != ACT_NULL && u.activity.type != ACT_AIM &&
         u.activity.moves_left > 0 && !u.activity.warned_of_proximity ) {
         Creature *hostile_critter = is_hostile_very_close();
@@ -2136,6 +2161,11 @@ input_context get_default_mode_input_context()
     ctxt.register_action("morale");
     ctxt.register_action("messages");
     ctxt.register_action("help");
+    ctxt.register_action("open_keybindings");
+    ctxt.register_action("open_options");
+    ctxt.register_action("open_autopickup");
+    ctxt.register_action("open_safemode");
+    ctxt.register_action("open_color");
     ctxt.register_action("debug");
     ctxt.register_action("debug_scent");
     ctxt.register_action("debug_mode");
@@ -2145,6 +2175,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("toggle_fullscreen");
     ctxt.register_action("toggle_pixel_minimap");
     ctxt.register_action("action_menu");
+    ctxt.register_action("main_menu");
     ctxt.register_action("item_action_menu");
     ctxt.register_action("ANY_INPUT");
     ctxt.register_action("COORDINATE");
@@ -2464,8 +2495,19 @@ bool game::handle_action()
     // of location clicked.
     tripoint mouse_target = tripoint_min;
 
+    // quit prompt check (ACTION_QUIT only grabs 'Q')
+    if(uquit == QUIT_WATCH && action == "QUIT") {
+        uquit = QUIT_DIED;
+        return false;
+    }
+
     if( act == ACTION_NULL ) {
         act = look_up_action(action);
+
+        if ( act == ACTION_MAIN_MENU ) {
+            act = handle_main_menu();
+        }
+
         if( act == ACTION_ACTIONMENU ) {
             // No auto-move actions have or can be set at this point.
             u.clear_destination();
@@ -2521,12 +2563,6 @@ bool game::handle_action()
             u.clear_destination();
             destination_preview.clear();
         }
-    }
-
-    // quit prompt check (ACTION_QUIT only grabs 'Q')
-    if(uquit == QUIT_WATCH && action == "QUIT") {
-        uquit = QUIT_DIED;
-        return false;
     }
 
     if( act == ACTION_NULL ) {
@@ -2606,6 +2642,7 @@ bool game::handle_action()
         case NUM_ACTIONS:
             break; // dummy entries
         case ACTION_ACTIONMENU:
+        case ACTION_MAIN_MENU:
             break; // handled above
 
         case ACTION_TIMEOUT:
@@ -2810,10 +2847,9 @@ bool game::handle_action()
             }
             break;
 
-        case ACTION_LIST_ITEMS: {
+        case ACTION_LIST_ITEMS:
             list_items_monsters();
-        }
-        break;
+            break;
 
         case ACTION_ZONES:
             zones_manager();
@@ -3217,6 +3253,8 @@ bool game::handle_action()
                 add_msg( m_info, _( "Creature whitelisted: %s" ), get_safemode().lastmon_whitelist.c_str() );
                 set_safe_mode( SAFE_MODE_ON );
                 mostseen = 0;
+            } else {
+                get_safemode().show();
             }
             break;
 
@@ -3283,6 +3321,31 @@ bool game::handle_action()
 
         case ACTION_HELP:
             display_help();
+            refresh_all();
+            break;
+
+        case ACTION_KEYBINDINGS:
+            ctxt.display_help();
+            refresh_all();
+            break;
+
+        case ACTION_OPTIONS:
+            get_options().show( true );
+            refresh_all();
+            break;
+
+        case ACTION_AUTOPICKUP:
+            get_auto_pickup().show();
+            refresh_all();
+            break;
+
+        case ACTION_SAFEMODE:
+            get_safemode().show();
+            refresh_all();
+            break;
+
+        case ACTION_COLOR:
+            all_colors.show_gui();
             refresh_all();
             break;
 
@@ -4088,10 +4151,8 @@ void game::debug()
         case 13: {
             add_msg( m_info, _( "Recipe debug." ) );
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
-            for( auto cur_recipe : recipe_dict ) {
-                if( !( u.learned_recipes.find( cur_recipe->ident() ) != u.learned_recipes.end() ) )  {
-                    u.learn_recipe( ( recipe * )cur_recipe, true );
-                }
+            for( const auto &e : recipe_dict ) {
+                u.learn_recipe( &e.second );
             }
             add_msg( m_good, _( "You know how to craft that now." ) );
         }
@@ -5835,7 +5896,7 @@ faction *game::faction_by_ident(std::string id)
 
 Creature *game::is_hostile_nearby()
 {
-    int distance = (get_option<int>( "SAFEMODEPROXIMITY" ) <= 0) ? 60 : get_option<int>( "SAFEMODEPROXIMITY" );
+    int distance = (get_option<int>( "SAFEMODEPROXIMITY" ) <= 0) ? MAX_VIEW_DISTANCE : get_option<int>( "SAFEMODEPROXIMITY" );
     return is_hostile_within(distance);
 }
 
@@ -5883,7 +5944,7 @@ int game::mon_info(WINDOW *w)
     const int startrow = use_narrow_sidebar() ? 1 : 0;
 
     int newseen = 0;
-    const int iProxyDist = (get_option<int>( "SAFEMODEPROXIMITY" ) <= 0) ? 60 : get_option<int>( "SAFEMODEPROXIMITY" );
+    const int iProxyDist = (get_option<int>( "SAFEMODEPROXIMITY" ) <= 0) ? MAX_VIEW_DISTANCE : get_option<int>( "SAFEMODEPROXIMITY" );
     // 7 0 1    unique_types uses these indices;
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
@@ -6002,7 +6063,7 @@ int game::mon_info(WINDOW *w)
                 vec.push_back( critter.type );
             }
         } else if( p != nullptr ) {
-            //Safemode NPC check
+            //Safe mode NPC check
 
             const int npc_dist = rl_dist( u.pos(), p->pos() );
             safemode_state = get_safemode().check_monster(get_safemode().npc_type_name(), p->attitude_to( u ), npc_dist);
@@ -6043,7 +6104,7 @@ int game::mon_info(WINDOW *w)
         if (safe_mode == SAFE_MODE_ON) {
             set_safe_mode( SAFE_MODE_STOP );
         }
-    } else if (autosafemode && newseen == 0) { // Auto-safemode
+    } else if (autosafemode && newseen == 0) { // Auto-safe mode
         turnssincelastmon++;
         if (turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF) {
             set_safe_mode( SAFE_MODE_ON );
@@ -7357,7 +7418,7 @@ void game::smash()
     const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_time() * 0.8;
     bool didit = false;
     ///\EFFECT_STR increases smashing capability
-    int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
+    int smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
     tripoint smashp;
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
@@ -7454,52 +7515,6 @@ void game::use_wielded_item()
     u.use_wielded();
 }
 
-bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
-{
-    const vpart_info &part_info = part->info();
-    if (!part_info.has_flag("FUEL_TANK")) {
-        return false;
-    }
-    const itype_id &ftype = part->ammo_current();
-    const long avail = u.charges_of( ftype );
-    if( avail <= 0 ) {
-        return false;
-    } else if (test) {
-        return true;
-    }
-
-    const long fuel_per_charge = fuel_charges_to_amount_factor( ftype );
-    long req = ceil( ( part->ammo_capacity() - part->ammo_remaining() ) / double( fuel_per_charge ) );
-    long qty = std::min( req, avail );
-    part->ammo_set( ftype, part->ammo_remaining() + ( qty * double( fuel_per_charge ) ) );
-
-    veh.invalidate_mass();
-    if (ftype == "battery") {
-        add_msg(_("You recharge %s's battery."), veh.name.c_str());
-        if ( part->ammo_remaining() == part->ammo_capacity() ) {
-            add_msg(m_good, _("The battery is fully charged."));
-        }
-    } else if (ftype == "gasoline" || ftype == "diesel") {
-        add_msg(_("You refill %s's fuel tank."), veh.name.c_str());
-        if ( part->ammo_remaining() == part->ammo_capacity() ) {
-            add_msg(m_good, _("The tank is full."));
-        }
-    } else if (ftype == "plut_cell") {
-        add_msg(_("You refill %s's reactor."), veh.name.c_str());
-        if ( part->ammo_remaining() == part->ammo_capacity() ) {
-            add_msg(m_good, _("The reactor is full."));
-        }
-    }
-
-    u.use_charges( ftype, qty );
-    return true;
-}
-
-bool game::pl_refill_vehicle(vehicle &veh, int part, bool test)
-{
-    return refill_vehicle_part(veh, &veh.parts[part], test);
-}
-
 void game::handbrake()
 {
     vehicle *veh = m.veh_at(u.pos());
@@ -7526,62 +7541,11 @@ void game::handbrake()
 
 void game::exam_vehicle( vehicle &veh, int cx, int cy )
 {
-    veh_interact vehint( veh, cx, cy );
-
-    if( vehint.sel_cmd == 'q' ) {
-        refresh_all();
-        return;
-    }
-
-    if (vehint.sel_cmd != ' '&& vehint.sel_vpart_info != nullptr ) {
-        int time = 200;
-        int skill = u.get_skill_level( skill_id( "mechanics" ) );
-        int diff = vehint.sel_vpart_info->difficulty + 3;
-        int setup = (calendar::turn == veh.last_repair_turn ? 0 : 1);
-        ///\EFFECT_MECHANICS reduces time spent examining vehicle
-        int setuptime = std::max(setup * 3000, setup * 6000 - skill * 400);
-        int dmg = 1000;
-        if (vehint.sel_cmd == 'r') {
-            dmg = 1000 - vehint.part()->hp() * 1000 / vehint.sel_vpart_info->durability;
-        }
-        int mintime = 300 + diff * dmg;
-        // sel_cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName
-        // Note that even if letters are remapped in keybindings sel_cmd will still use the above.
-        // Stored in activity.index and used in the complete_vehicle() callback to finish task.
-        switch (vehint.sel_cmd) {
-        case 'i':
-            time = vehint.sel_vpart_info->install_time( u );
-            break;
-        case 'r':
-            time = setuptime + std::max(mintime, (8 * diff - skill * 4) * dmg);
-            break;
-        case 'o':
-            time = vehint.sel_vpart_info->removal_time( u );
-            break;
-        case 'c':
-            time = vehint.sel_vpart_info->removal_time( u ) +
-                   vehint.sel_vpart_info->install_time( u );
-            break;
-        }
-        u.assign_activity( ACT_VEHICLE, time, (int)vehint.sel_cmd );
-
-        // if we're working on an existing part, use that part as the reference point
-        // otherwise (e.g. installing a new frame), just use part 0
-        point q = veh.coord_translate( vehint.part() ? vehint.part()->mount : veh.parts[0].mount );
-        u.activity.values.push_back(veh.global_x() + q.x);    // values[0]
-        u.activity.values.push_back(veh.global_y() + q.y);    // values[1]
-        u.activity.values.push_back(vehint.ddx);   // values[2]
-        u.activity.values.push_back(vehint.ddy);   // values[3]
-        u.activity.values.push_back(-vehint.ddx);   // values[4]
-        u.activity.values.push_back(-vehint.ddy);   // values[5]
-        // values[6]
-        u.activity.values.push_back( veh.index_of_part( vehint.part() ) );
-
-        u.activity.str_values.push_back( vehint.sel_vpart_info->id.str() );
-
+    auto act = veh_interact::run( veh, cx, cy );
+    if( act ) {
         u.moves = 0;
+        u.assign_activity( act );
     }
-    refresh_all();
 }
 
 bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int bash_dmg )
@@ -10412,7 +10376,17 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
     } );
 
-    for( auto &veh : nearby_vehicles_for( liquid.typeId() ) ) {
+    std::set<vehicle *> opts;
+    for( const auto &e : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        auto veh = g->m.veh_at( e );
+        if( veh && std::any_of( veh->parts.begin(), veh->parts.end(), [&liquid]( const vehicle_part &pt ) {
+            // cannot refill using active liquids (those that rot) due to #18570
+            return !liquid.active && pt.can_reload( liquid.typeId() );
+        } ) ) {
+            opts.insert( veh );
+        }
+    }
+    for( auto veh : opts ) {
         if( veh == source_veh ) {
             continue;
         }
@@ -10421,7 +10395,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             if( create_activity() ) {
                 serialize_liquid_target( u.activity, *veh );
             } else if( u.pour_into( *veh, liquid ) ) {
-                u.mod_moves( -100 );
+                u.mod_moves( -1000 ); // consistent with veh_interact::do_refill activity
             }
         } );
     }
@@ -10857,13 +10831,7 @@ void game::butcher()
             continue;
         }
 
-        const recipe *cur_recipe = get_disassemble_recipe(items[i].typeId());
-        if( cur_recipe == nullptr && !items[i].is_book() ) {
-            continue;
-        }
-
-        if( items[i].is_book() ||
-            u.can_disassemble( items[i], cur_recipe, crafting_inv, false ) ) {
+        if( u.can_disassemble( items[i], crafting_inv ) ) {
             disassembles.push_back(i);
         } else if( first_item_without_tools == nullptr ) {
             first_item_without_tools = &items[i];
@@ -10888,9 +10856,8 @@ void game::butcher()
 
         if( first_item_without_tools != nullptr ) {
             add_msg( m_info, _("You don't have the necessary tools to disassemble any items here.") );
-            const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->typeId() );
             // Just for the "You need x to disassemble y" messages
-            u.can_disassemble( *first_item_without_tools, cur_recipe, crafting_inv, true );
+            u.can_disassemble( *first_item_without_tools, crafting_inv, true );
         }
         return;
     }

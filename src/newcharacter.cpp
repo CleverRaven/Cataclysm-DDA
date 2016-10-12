@@ -247,14 +247,14 @@ void player::randomize( const bool random_scenario, points_left &points )
         }
         g->scen = random_entry( scenarios );
     }
-    
+
     if( g->scen->profsize() > 0 ) {
         g->u.prof = g->scen->random_profession();
     } else {
         g->u.prof = profession::weighted_random();
     }
     g->u.start_location = g->scen->random_start_location();
-    
+
     str_max = rng( 6, HIGH_STAT - 2 );
     dex_max = rng( 6, HIGH_STAT - 2 );
     int_max = rng( 6, HIGH_STAT - 2 );
@@ -528,12 +528,10 @@ bool player::create(character_type type, std::string tempname)
     }
 
     // Learn recipes
-    for( auto &cur_recipe : recipe_dict ) {
-        if( cur_recipe->valid_learn() && !has_recipe_autolearned( *cur_recipe ) &&
-            has_recipe_requirements( *cur_recipe ) &&
-            learned_recipes.find( cur_recipe->ident() ) == learned_recipes.end() ) {
-
-            learn_recipe( &*cur_recipe );
+    for( const auto &e : recipe_dict ) {
+        const auto &r = e.second;
+        if( !knows_recipe( &r ) && has_recipe_requirements( r ) ) {
+            learn_recipe( &r );
         }
     }
 
@@ -1625,19 +1623,20 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
         }
 
         std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
-        for( auto cur_recipe : recipe_dict ) {
+        for( const auto &e : recipe_dict ) {
+            const auto &r = e.second;
             //Find out if the current skill and its level is in the requirement list
-            auto req_skill = cur_recipe->required_skills.find( currentSkill->ident() );
-            int skill = (req_skill != cur_recipe->required_skills.end()) ? req_skill->second : 0;
+            auto req_skill = r.required_skills.find( currentSkill->ident() );
+            int skill = req_skill != r.required_skills.end() ? req_skill->second : 0;
 
-            if( !prof_u.has_recipe_autolearned( *cur_recipe ) &&
-                ( cur_recipe->skill_used == currentSkill->ident() || skill > 0 ) &&
-                prof_u.has_recipe_requirements( *cur_recipe ) &&
-                cur_recipe->valid_learn() )  {
+            if( !prof_u.knows_recipe( &r ) &&
+                ( r.skill_used == currentSkill->ident() || skill > 0 ) &&
+                prof_u.has_recipe_requirements( r ) )  {
 
-                recipes[cur_recipe->skill_used.obj().name()].push_back(
-                    make_pair( item::nname( cur_recipe->result ),
-                               (skill > 0) ? skill : cur_recipe->difficulty ) );
+                recipes[r.skill_used->name()].emplace_back(
+                    item::nname( r.result ),
+                    (skill > 0) ? skill : r.difficulty
+                );
             }
         }
 

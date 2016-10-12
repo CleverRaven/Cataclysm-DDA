@@ -279,10 +279,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  get_armor_cut( body_part bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_bash( body_part bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_type( damage_type dt, body_part bp ) const override;
-        int  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
-        int  get_melee() const override; // For determining attack skill when awarding dodge practice.
-        int  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
-        int  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
+
+        float get_hit_base() const override;
+        float get_dodge_base() const override;
+
+        float  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
+        float  get_melee() const override; // For determining attack skill when awarding dodge practice.
+        float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
+        float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
@@ -291,12 +295,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         bool has_grab_break_tec() const override;
 
-        int stability_roll() const override;
+        float stability_roll() const override;
         // We just dodged an attack from something
-        void on_dodge( Creature *source, int difficulty ) override;
+        void on_dodge( Creature *source, float difficulty ) override;
         // Something hit us (possibly null source)
         void on_hit( Creature *source, body_part bp_hit = num_bp,
-                     int difficulty = INT_MIN, dealt_projectile_attack const *const proj = nullptr ) override;
+                     float difficulty = INT_MIN, dealt_projectile_attack const *const proj = nullptr ) override;
         // Get torso - monsters don't have body parts (yet?)
         body_part get_random_body_part( bool main ) const override;
 
