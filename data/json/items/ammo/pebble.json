@@ -10,10 +10,11 @@
     "material": "steel",
     "color": "dark_gray",
     "count": 50,
-    "range": 4,
+    "range": 2,
     "damage": 6,
-    "pierce": 1,
-    "dispersion": 120
+    "pierce": 3,
+    "dispersion": 90
+    "effects": [ "NEVER_MISFIRES" ]
   },
   {
     "id": "marble",
@@ -28,6 +29,7 @@
     "range": 2,
     "damage": 3,
     "dispersion": 120
+    "effects": [ "NEVER_MISFIRES" ]
   },
   {
     "id": "pebble",
