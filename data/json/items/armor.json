@@ -4916,7 +4916,7 @@
     "coverage": 90,
     "encumbrance": 8,
     "storage": 4,
-    "warmth": 25,
+    "warmth": 15,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ]
   },
@@ -4933,9 +4933,9 @@
     "color": "cyan",
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 90,
-    "encumbrance": 20,
-    "storage": 2,
-    "warmth": 10,
+    "encumbrance": 12,
+    "storage": 5,
+    "warmth": 25,
     "material_thickness": 1,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
