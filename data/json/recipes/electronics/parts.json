@@ -10,7 +10,7 @@
     "time": 30000,
     "reversible": true,
     "decomp_learn": 2,
-    "book_learn": [ [ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3 ] ],
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [
       [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
@@ -35,7 +35,7 @@
     "time": 30000,
     "reversible": true,
     "decomp_learn": 2,
-    "book_learn": [ [ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3 ] ],
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [
       [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],

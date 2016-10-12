@@ -2173,26 +2173,24 @@ int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    // can remove mods from unloaded tools only
-    auto filter = []( const item &e ) {
-        return !e.toolmods().empty() && !e.ammo_remaining() && !e.magazine_current();
-    };
-
-    auto loc = g->inv_map_splice( filter, _( "Remove mods from tool?" ), 1,
-                                  _( "You don't have unloaded modified tools." ) );
+    auto loc = g->inv_map_splice( []( const item &e ) { return !e.toolmods().empty(); },
+                                  _( "Remove mods from tool?" ), 1,
+                                  _( "You don't have any modified tools." ) );
 
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
         return 0;
     }
 
-    auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), [&loc]( const item& e ) {
-        return e.is_toolmod();
-    } );
-    p->i_add_or_drop( *mod );
-    loc->contents.erase( mod );
+    if( !loc->ammo_remaining() || g->unload( *loc ) ) {
+        auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), [&loc]( const item& e ) {
+            return e.is_toolmod();
+        } );
+        p->i_add_or_drop( *mod );
+        loc->contents.erase( mod );
 
-    remove_radio_mod( *loc, *p );
+        remove_radio_mod( *loc, *p );
+    }
     return 0;
 }
 
@@ -5532,7 +5530,7 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
             return false;
         }
 
-        // can only attach to unmodified unloaded tools that use compatible ammo
+        // can only attach to unmodified tools that use compatible ammo
         return e.is_tool() && e.toolmods().empty() && !e.magazine_current() &&
                it->type->mod->acceptable_ammo.count( e.ammo_type( false ) );
     };
@@ -5546,6 +5544,10 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
     }
 
     if( !loc->ammo_remaining() || g->unload( *loc ) ) {
+        //~ $1 - toolmod, $2 - base item
+        p->add_msg_if_player( m_good, _( "You attach the %1$s to the %2$s" ),
+                              it->tname().c_str(), loc->tname().c_str() );
+
         loc->contents.push_back( p->i_rem( it ) );
     }
 

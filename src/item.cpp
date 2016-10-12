@@ -1399,6 +1399,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         if( !magazine_integral() ) {
+            if( magazine_current() ) {
+                info.emplace_back( "TOOL", _( "Magazine: " ), string_format( "<stat>%s</stat>", magazine_current()->tname().c_str() ) );
+            }
+
             insert_separation_line();
             const auto compat = magazine_compatible();
             info.emplace_back( "TOOL", _( "<bold>Compatible magazines:</bold> " ),
@@ -4182,10 +4186,20 @@ std::set<std::string> item::ammo_effects( bool with_ammo ) const
 
 bool item::magazine_integral() const
 {
-    // finds first ammo type which specifies at least one magazine
+    // Finds the first mod which changes magazines and returns if it adds a list of them (can just unset instead)
+    // If no mod changes them, checks if there is a magazine set for the base item type
+    for( const auto m : is_gun() ? gunmods() : toolmods() ) {
+        const auto &mod_mags = m->type->mod->magazine_adaptor;
+        if( !mod_mags.empty() ) {
+            return std::none_of( mod_mags.begin(), mod_mags.end(), []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
+                return !e.second.empty();
+            } );
+        }
+    }
+
     const auto& mags = type->magazines;
     return std::none_of( mags.begin(), mags.end(), []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
-        return e.second.size();
+        return !e.second.empty();
     } );
 }
 

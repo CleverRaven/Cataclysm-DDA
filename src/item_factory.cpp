@@ -810,9 +810,10 @@ void Item_factory::check_definitions() const
 
             for( const auto &e : type->mod->magazine_adaptor ) {
                 check_ammo_type( msg, e.first );
-                for( const itype_id &mag : e.second ) {
-                    if( !find_template( mag )->magazine ) {
-                        msg << "magazine adaptor refers to undefined magazine" << mag << "\n";
+                for( const itype_id &opt : e.second ) {
+                    const itype *mag = find_template( opt );
+                    if( !mag->magazine || mag->magazine->type != e.first ) {
+                        msg << "invalid magazine " << opt << " in magazine adaptor\n";
                     }
                 }
             }
@@ -844,9 +845,10 @@ void Item_factory::check_definitions() const
         }
 
         for( const auto& typ : type->magazines ) {
-            for( const auto& mag : typ.second ) {
-                if( !has_template( mag ) || !find_template( mag )->magazine ) {
-                    msg << string_format("invalid magazine.") << "\n";
+            for( const auto& opt : typ.second ) {
+                const itype *mag = find_template( opt );
+                if( !mag->magazine || mag->magazine->type != typ.first ) {
+                    msg << "invalid magazine " << opt << "\n";
                 }
             }
         }
