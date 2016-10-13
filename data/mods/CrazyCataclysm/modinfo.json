@@ -9,11 +9,6 @@
     "category": "misc_additions",
     "path": ""
   },{
-    "type" : "ITEM_WHITELIST",
-    "items" : [
-      "granade"
-    ]
-  },{
     "type" : "MONSTER_WHITELIST",
     "monsters" : [
       "mon_zombie_dancer",

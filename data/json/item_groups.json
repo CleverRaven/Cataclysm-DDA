@@ -5680,7 +5680,6 @@
       ["smokebomb", 500],
       ["dynamite", 500],
       ["mininuke", 50],
-      ["granade", 1],
       ["c4", 500],
       ["tool_black_powder_bomb", 100]
     ]
