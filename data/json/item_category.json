@@ -84,6 +84,12 @@
     "sort_rank": -9
   },
   {
+    "id": "fuel",
+    "type": "ITEM_CATEGORY",
+    "name": "FUEL",
+    "sort_rank": -8
+  },
+  {
     "id": "chems",
     "type": "ITEM_CATEGORY",
     "name": "CHEMICAL STUFF",
