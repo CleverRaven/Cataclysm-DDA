@@ -2116,3 +2116,13 @@ void monster::on_load()
     add_msg( m_debug, "on_load() by %s, %d turns, healed %d hp, %d speed",
              name().c_str(), dt, healed, healed_speed );
 }
+
+const pathfinding_settings &monster::get_pathfinding_settings() const
+{
+    return type->path_settings;
+}
+
+std::set<tripoint> monster::get_path_avoid() const
+{
+    return std::set<tripoint>();
+}

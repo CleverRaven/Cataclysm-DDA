@@ -29,6 +29,7 @@ using material_id = string_id<material_type>;
 class field;
 class field_entry;
 enum field_id : int;
+struct pathfinding_settings;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
@@ -450,6 +451,11 @@ class Creature
 
         virtual int weight_capacity() const;
         virtual int get_weight() const;
+
+        /** Returns settings for pathfinding. */
+        virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
+        /** Returns a set of points we do not want to path through. */
+        virtual std::set<tripoint> get_path_avoid() const = 0;
 
         int moves;
         bool underwater;

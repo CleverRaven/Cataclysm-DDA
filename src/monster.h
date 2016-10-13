@@ -409,6 +409,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          */
         void on_load();
 
+        const pathfinding_settings &get_pathfinding_settings() const override;
+        std::set<tripoint> get_path_avoid() const override;
+
     private:
         int hp;
         std::map<std::string, mon_special_attack> special_attacks;
@@ -421,6 +424,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int next_upgrade_time();
         bool upgrades;
         int upgrade_time;
+        /** Found path. Note: Not used by monsters that don't pathfind! **/
+        std::vector<tripoint> path;
 
     protected:
         void store( JsonOut &jsout ) const;
