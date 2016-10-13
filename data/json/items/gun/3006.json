@@ -115,7 +115,6 @@
     "copy-from": "rifle_manual",
     "type": "GUN",
     "name": "Remington 700",
-    "name_plural": "Remington 700",
     "description": "A very popular and durable hunting or sniping rifle.  Popular among SWAT and US Marine snipers.  Highly damaging, but perhaps not as accurate as the competing Browning BLR.",
     "weight": 4080,
     "volume": 12,
