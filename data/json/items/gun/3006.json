@@ -3,7 +3,6 @@
     "id": "browning_blr",
     "type": "GUN",
     "name": "Browning BLR",
-    "name_plural": "Browning BLR",
     "description": "A highly accurate lever-action hunting rifle chambered for the powerful .30-06 round.  Notable for using a detachable magazine instead of a traditional tube.",
     "weight": 3135,
     "volume": 12,
