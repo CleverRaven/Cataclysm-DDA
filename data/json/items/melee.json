@@ -1149,14 +1149,14 @@
         "name" : "tonfa",
         "description" : "A hard plastic truncheon commonly employed by police.  Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",
         "weight" : 575,
-        "to_hit" : 2,
+        "to_hit" : 1,
         "color" : "dark_gray",
         "symbol" : "/",
         "material": "plastic",
-        "techniques" : ["WBLOCK_2", "RAPID"],
+        "techniques" : ["WBLOCK_2", "tec_tonfa_spin"],
         "flags" : ["DURABLE_MELEE", "UNARMED WEAPON"],
         "volume" : 8,
-        "bashing" : 12,
+        "bashing" : 8,
         "price" : 19500
     },
     {
@@ -1165,14 +1165,14 @@
         "name" : "wooden tonfa",
         "description" : "A stout wooden truncheon of the sort commonly employed by police.  Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",
         "weight" : 921,
-        "to_hit" : 2,
+        "to_hit" : 1,
         "color" : "brown",
         "symbol" : "/",
         "material" : ["wood"],
-        "techniques" : ["WBLOCK_2", "RAPID"],
+        "techniques" : ["WBLOCK_2", "tec_tonfa_spin"],
         "flags" : ["DURABLE_MELEE", "UNARMED WEAPON"],
         "volume" : 8,
-        "bashing" : 14,
+        "bashing" : 9,
         "price" : 19500
     },
     {
@@ -1183,7 +1183,6 @@
         "name_plural" : "PR-24 batons (retracted)",
         "description" : "The Monadnock PR-24 baton is a collapsible, lightweight, side-handle baton used by law enforcement all over the world.  The PR designation is rumored to mean Public Relations.",
         "weight" : 680,
-        "to_hit" : 1,
         "color" : "dark_gray",
         "symbol" : "/",
         "material" : ["aluminum", "plastic"],
@@ -1195,7 +1194,7 @@
             "msg": "You snap open your PR-24 baton."
         },
         "volume" : 4,
-        "bashing" : 5,
+        "bashing" : 4,
         "price" : 30000
     },
     {
@@ -1206,19 +1205,19 @@
         "name_plural" : "PR-24 batons (extended)",
         "description" : "The Monadnock PR-24 baton is a collapsible, lightweight, side-handle baton used by law enforcement all over the world.  The PR designation is rumored to mean Public Relations.",
         "weight" : 680,
-        "to_hit" : 2,
+        "to_hit" : 1,
         "color" : "dark_gray",
         "symbol" : "/",
         "material" : ["aluminum", "plastic"],
-        "techniques" : ["WBLOCK_2", "RAPID", "UNARMED WEAPON"],
-        "flags" : ["DURABLE_MELEE"],
+        "techniques" : ["WBLOCK_2", "tec_tonfa_spin"],
+        "flags" : ["DURABLE_MELEE", "UNARMED WEAPON"],
         "use_action": {
             "type": "transform",
             "target": "PR24-retracted",
             "msg": "You collapse your PR-24 baton."
         },
         "volume" : 8,
-        "bashing" : 13,
+        "bashing" : 8,
         "price" : 30000
     },
     {
