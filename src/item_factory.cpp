@@ -46,8 +46,6 @@ static const std::string category_id_other("other");
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
-static t_string_set item_whitelist;
-static bool item_whitelist_is_exclusive = false;
 
 static DynamicDataLoader::deferred_json deferred;
 
@@ -61,13 +59,7 @@ extern const double MIN_RECOIL;
 
 bool item_is_blacklisted(const std::string &id)
 {
-    if (item_whitelist.count(id) > 0) {
-        return false;
-    } else if (item_blacklist.count(id) > 0) {
-        return true;
-    }
-    // Return true if the whitelist mode is exclusive and the whitelist is populated.
-    return item_whitelist_is_exclusive && !item_whitelist.empty();
+    return item_blacklist.count( id );
 }
 
 
@@ -286,11 +278,6 @@ void Item_factory::finalize() {
 
 void Item_factory::finalize_item_blacklist()
 {
-    for (t_string_set::const_iterator a = item_whitelist.begin(); a != item_whitelist.end(); ++a) {
-        if (!has_template(*a)) {
-            debugmsg("item on whitelist %s does not exist", a->c_str());
-        }
-    }
     for (t_string_set::const_iterator a = item_blacklist.begin(); a != item_blacklist.end(); ++a) {
         if (!has_template(*a)) {
             debugmsg("item on blacklist %s does not exist", a->c_str());
@@ -338,14 +325,6 @@ void add_to_set( t_string_set &s, JsonObject &json, const std::string &name )
 void Item_factory::load_item_blacklist( JsonObject &json )
 {
     add_to_set( item_blacklist, json, "items" );
-}
-
-void Item_factory::load_item_whitelist( JsonObject &json )
-{
-    if( json.has_string( "mode" ) && json.get_string( "mode" ) == "EXCLUSIVE" ) {
-        item_whitelist_is_exclusive = true;
-    }
-    add_to_set( item_whitelist, json, "items" );
 }
 
 Item_factory::~Item_factory()
@@ -1815,8 +1794,6 @@ void Item_factory::clear()
 
     m_templates.clear();
     item_blacklist.clear();
-    item_whitelist.clear();
-    item_whitelist_is_exclusive = false;
 }
 
 Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)
