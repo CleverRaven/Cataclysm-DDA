@@ -1166,7 +1166,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( mod->handling != 0 ) {
             info.emplace_back( "GUNMOD", _( "Handling modifier: " ), mod->handling > 0 ? "+" : "", mod->handling, true );
         }
-        if( type->mod->ammo_modifier ) {
+        if( type->mod && type->mod->ammo_modifier ) {
             info.push_back( iteminfo( "GUNMOD",
                                       string_format( _( "Ammo: <stat>%s</stat>" ), ammo_name( type->mod->ammo_modifier ).c_str() ) ) );
         }
