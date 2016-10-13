@@ -96,7 +96,10 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet_fmj", 1 ], [ "ammo_9mm", 1 ] ],
-    "components": [ [ [ "gunpowder", 3 ] ] ]
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
+    "components": [
+      [ [ "gunpowder", 3 ] ],
+      [ [ "copper", 1 ] ]
+    ]
   }
 ]
