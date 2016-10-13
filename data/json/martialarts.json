@@ -310,7 +310,6 @@
                 "id" : "biojutsu_static",
                 "name" : "Biojutsu",
                 "unarmed_allowed" : true,
-                "melee_allowed" : true,
                 "min_unarmed" : 2,
                 "description" : "+1 Blocks",
                 "bonus_blocks" : 1
@@ -319,14 +318,9 @@
         "techniques" : [
             "tec_biojutsu_counter",
             "tec_biojutsu_rapid_unarmed",
-            "tec_biojutsu_rapid_armed",
             "tec_biojutsu_impale",
             "tec_biojutsu_sweep",
             "tec_biojutsu_wide"
-        ],
-        "weapons" : [
-            "bio_claws_weapon",
-            "bio_blade_weapon"
         ]
     },{
         "type" : "martial_art",
@@ -408,7 +402,6 @@
         ],
         "weapons" : [
             "baton-extended",
-            "bio_blade_weapon",
             "bowling_pin",
             "cudgel",
             "diveknife",
@@ -428,15 +421,12 @@
             "pipe",
             "pointy_stick",
             "pool_cue",
-            "PR24-extended",
             "primitive_knife",
             "q_staff",
             "rebar",
             "scythe",
             "scythe_war",
             "shock_staff",
-            "shocktonfa_off",
-            "shocktonfa_on",
             "sickle",
             "shishkebab_off",
             "shishkebab_on",
@@ -448,8 +438,6 @@
             "stick",
             "survivor_machete",
             "tanto",
-            "tonfa",
-            "tonfa_wood",
             "kukri",
             "knife_rambo",
             "knife_rm42",
