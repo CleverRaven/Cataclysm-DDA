@@ -86,6 +86,7 @@ automatically_convertible = {
     "GUNMOD",
     "item_action",
     "ITEM_CATEGORY",
+    "json_flag",
     "keybinding",
     "MAGAZINE",
     "mission_definition",
@@ -643,6 +644,10 @@ def extract(item, infilename):
         for mod_loc in item["valid_mod_locations"]:
             writestr(outfile, mod_loc[0], **kwargs)
             wrote = True
+    if "info" in item:
+       c = "Please leave anything in <angle brackets> unchanged."
+       writestr(outfile, item["info"], comment=c, **kwargs)
+       wrote = True
     if not wrote:
         print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))
 
