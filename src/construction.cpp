@@ -209,7 +209,6 @@ void construction_menu()
     bool isnew = true;
     int tabindex = 0;
     int select = 0;
-    int chosen = 0;
     int offset = 0;
     bool exit = false;
     std::string category_name = "";
@@ -230,16 +229,13 @@ void construction_menu()
     input_context ctxt( "CONSTRUCTION" );
     ctxt.register_action( "UP", _( "Move cursor up" ) );
     ctxt.register_action( "DOWN", _( "Move cursor down" ) );
-    ctxt.register_action( "NEXT_TAB", _( "Move tab right" ) );
-    ctxt.register_action( "PREV_TAB", _( "Move tab left" ) );
+    ctxt.register_action( "RIGHT", _( "Move tab right" ) );
+    ctxt.register_action( "LEFT", _( "Move tab left" ) );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
-    ctxt.register_action( "LEFT" );
-    ctxt.register_action( "RIGHT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
     
@@ -310,6 +306,9 @@ void construction_menu()
         werase( w_list );
         // Print new tab listing
         mvwprintz( w_con, 1, 1, c_yellow, "<< %s >>", construct_cat[tabindex].c_str() );
+        // Print the next tab in a "faded" color
+        mvwprintz( w_con, 1, 7 + construct_cat[tabindex].size(), c_brown,
+                   construct_cat[( tabindex + 1 ) % 10].c_str());
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
@@ -338,6 +337,10 @@ void construction_menu()
 
             if( !constructs.empty() ) {
                 std::string current_desc = constructs[select];
+                mvwprintz( w_con, w_height - 5, ( w_list_width + w_list_x0 + 2 ), c_white,
+                           _("Press %s or %s to change tabs."), 
+                           ctxt.get_desc("LEFT").c_str(),
+                           ctxt.get_desc("RIGHT").c_str() );
                 mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white,
                            _( "Press %s to search." ), ctxt.get_desc( "FILTER" ).c_str() );
                 // Print instructions for toggling recipe hiding.
@@ -479,7 +482,7 @@ void construction_menu()
                     mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white, _( "v [N]ext stage(s)" ) );
                 }
                 // Leave room for above/below indicators
-                int ypos = 3;
+                int ypos = 4;
                 nc_color stored_color = color_stage;
                 for( size_t i = static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] );
                      i < full_construct_buffer.size(); i++ ) {
@@ -525,7 +528,7 @@ void construction_menu()
             } else {
                 select = constructs.size() - 1;
             }
-        } else if( action == "PREV_TAB" ) {
+        } else if( action == "LEFT" ) {
             update_info = true;
             update_cat = true;
             select = 0;
@@ -533,23 +536,11 @@ void construction_menu()
             if( tabindex < 0 ) {
                 tabindex = tabcount - 1;
             }
-        } else if( action == "NEXT_TAB" ) {
+        } else if( action == "RIGHT" ) {
             update_info = true;
             update_cat = true;
             select = 0;
             tabindex = ( tabindex + 1 ) % tabcount;
-        } else if( action == "RIGHT" ) {
-            update_info = true;
-            select += 15;
-            if( select > ( int )constructs.size() - 1 ) {
-                select = constructs.size() - 1;
-            }
-        } else if( action == "LEFT" ) {
-            update_info = true;
-            select -= 15;
-            if( select < 0 ) {
-                select = 0;
-            }
         } else if( action == "PAGE_UP" ) {
             update_info = true;
             if( current_construct_breakpoint > 0 ) {
@@ -577,21 +568,15 @@ void construction_menu()
             select = 0;
             offset = 0;
             load_available_constructions( available, cat_available, hide_unconstructable );
-        } else if( action == "ANY_INPUT" || action == "CONFIRM" ) {
-            if( action == "CONFIRM" ) {
-                chosen = select;
-            }
-            if( chosen < ( int )constructs.size() ) {
-                if( player_can_build( g->u, total_inv, constructs[chosen] ) ) {
-                    place_construction( constructs[chosen] );
-                    uistate.last_construction = constructs[chosen];
-                    exit = true;
-                } else {
-                    popup( _( "You can't build that!" ) );
-                    select = chosen;
-                    draw_grid( w_con, w_list_width + w_list_x0 );
-                    update_info = true;
-                }
+        } else if( action == "CONFIRM" ) {
+            if( player_can_build( g->u, total_inv, constructs[select] ) ) {
+                place_construction( constructs[select] );
+                uistate.last_construction = constructs[select];
+                exit = true;
+            } else {
+                popup( _( "You can't build that!" ) );
+                draw_grid( w_con, w_list_width + w_list_x0 );
+                update_info = true;
             }
         }
     } while( !exit );
