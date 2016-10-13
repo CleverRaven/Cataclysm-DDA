@@ -230,6 +230,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -279,6 +280,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -323,6 +325,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -402,6 +405,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -440,6 +444,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -481,6 +486,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -531,6 +537,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -575,6 +582,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -613,6 +621,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -2471,6 +2480,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
