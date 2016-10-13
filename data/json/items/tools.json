@@ -3756,27 +3756,6 @@
     "flags": [ "STAB" ]
   },
   {
-    "id": "jacqueshammer",
-    "type": "TOOL",
-    "name": "jacqueshammer",
-    "//": "All of this is SUPPOSED to be in French.",
-    "description": "Ce jacqueshammer marche a l'essence.  Utilisez-le (si charge) pour creuser un trou dans un terrain solide adjacent.",
-    "weight": 15875,
-    "volume": 20,
-    "price": 40000,
-    "to_hit": -8,
-    "bashing": 14,
-    "cutting": 6,
-    "material": "steel",
-    "symbol": ";",
-    "color": "light_gray",
-    "ammo": "gasoline",
-    "max_charges": 400,
-    "charges_per_use": 10,
-    "use_action": "JACKHAMMER",
-    "flags": [ "STAB" ]
-  },
-  {
     "id": "jar_sauerkraut_pickled",
     "type": "GENERIC",
     "category": "food",

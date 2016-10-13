@@ -11,8 +11,7 @@
     "type" : "ITEM_BLACKLIST",
     "items" : [
       "granade",
-      "granade_act",
-      "jacqueshammer"
+      "granade_act"
     ]
   }
 ]

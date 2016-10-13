@@ -11,8 +11,7 @@
   },{
     "type" : "ITEM_WHITELIST",
     "items" : [
-      "granade",
-      "jacqueshammer"
+      "granade"
     ]
   },{
     "type" : "MONSTER_WHITELIST",
