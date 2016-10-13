@@ -269,8 +269,6 @@ class Item_factory
         // The key is the id of the item_category.
         CategoryMap m_categories;
 
-        void create_inital_categories();
-
         /**
          * Called before creating a new template and handles inheritance via copy-from
          * May defer instantiation of the template if depends on other objects not as-yet loaded
@@ -309,9 +307,6 @@ class Item_factory
         void load( islot_ammo &slot, JsonObject &jo, const std::string &src );
         void load( islot_seed &slot, JsonObject &jo, const std::string &src );
         void load( islot_artifact &slot, JsonObject &jo, const std::string &src );
-
-        // used to add the default categories
-        void add_category( const std::string &id, int sort_rank, const std::string &name );
 
         //json data handlers
         void set_use_methods_from_json( JsonObject &jo, std::string member,

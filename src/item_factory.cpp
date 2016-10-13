@@ -577,47 +577,9 @@ void Item_factory::init()
     add_actor( new ups_based_armor_actor() );
     add_actor( new place_trap_actor() );
 
-    create_inital_categories();
-
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"] = new Item_group( Item_group::G_COLLECTION, 100 );
-}
-
-void Item_factory::create_inital_categories()
-{
-    // Load default categories with their default sort_rank
-    // Negative rank so the default categories come before all
-    // the explicit defined categories from json
-    // (assuming the category definitions in json use positive sort_ranks).
-    // Note that json data might override these settings
-    // (simply define a category in json with the id
-    // taken from category_id_* and that definition will get
-    // used - see load_item_category)
-    add_category(category_id_guns, -22, _("GUNS"));
-    add_category(category_id_magazines, -21, _("MAGAZINES"));
-    add_category(category_id_ammo, -20, _("AMMO"));
-    add_category(category_id_weapons, -19, _("WEAPONS"));
-    add_category(category_id_tools, -18, _("TOOLS"));
-    add_category(category_id_clothing, -17, _("CLOTHING"));
-    add_category(category_id_food, -16, _("FOOD"));
-    add_category(category_id_drugs, -15, _("DRUGS"));
-    add_category(category_id_books, -14, _("BOOKS"));
-    add_category(category_id_mods, -13, _("MODS"));
-    add_category(category_id_cbm, -12, _("BIONICS"));
-    add_category(category_id_mutagen, -11, _("MUTAGEN"));
-    add_category(category_id_veh_parts, -10, _("VEHICLE PARTS"));
-    add_category(category_id_other, -9, _("OTHER"));
-}
-
-void Item_factory::add_category(const std::string &id, int sort_rank, const std::string &name)
-{
-    // unconditionally override any existing definition
-    // as there should be none.
-    item_category &cat = m_categories[id];
-    cat.id = id;
-    cat.sort_rank = sort_rank;
-    cat.name = name;
 }
 
 bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype& ammo ) const
@@ -1809,7 +1771,6 @@ void Item_factory::clear()
     m_template_groups.clear();
 
     m_categories.clear();
-    create_inital_categories();
     // Also clear functions refering to lua
     iuse_function_list.clear();
 

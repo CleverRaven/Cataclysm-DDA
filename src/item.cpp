@@ -5053,17 +5053,9 @@ const item_category &item::get_category() const
     if(is_container() && !contents.empty()) {
         return contents.front().get_category();
     }
-    if(type != 0) {
-        if(type->category == 0) {
-            // Category not set? Set it now.
-            itype *t = const_cast<itype *>(type);
-            t->category = item_controller->get_category(item_controller->calc_category(t));
-        }
-        return *type->category;
-    }
-    // null-item -> null-category
+
     static item_category null_category;
-    return null_category;
+    return type ? *type->category : null_category;
 }
 
 bool item_matches_locator(const item &it, const itype_id &id, int)
