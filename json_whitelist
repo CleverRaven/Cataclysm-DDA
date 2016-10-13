@@ -5,6 +5,9 @@
 # sort order. This can be useful for limiting merge conflicts when multiple
 # authors are both working on a file. If unspecified the default is unsorted.
 
+# Linter unit tests
+tools/format/examples/*
+
 # Core
 data/json/items/ammo/*
 data/json/items/armor.json id
