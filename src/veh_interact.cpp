@@ -176,10 +176,6 @@ veh_interact::~veh_interact()
 
 void veh_interact::allocate_windows()
 {
-    // border window
-    WINDOW *w_border = newwin( TERMY, TERMX, 0, 0 );
-    draw_border(w_border);
-
     // grid window
     const int grid_w = TERMX - 2; // exterior borders take 2
     const int grid_h = TERMY - 2; // exterior borders take 2
@@ -206,12 +202,6 @@ void veh_interact::allocate_windows()
     int list_x = 1 + disp_w + 1;
     int msg_x  = list_x + pane_w + 1;
 
-    // match grid lines
-    mvwputch(w_border, mode_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-    mvwputch(w_border, mode_h + 1, TERMX - 1, BORDER_COLOR, LINE_XOXX); // -|
-    mvwputch(w_border, mode_h + 1 + page_size + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-    mvwputch(w_border, mode_h + 1 + page_size + 1, TERMX - 1, BORDER_COLOR, LINE_XOXX); // -|
-
     // make the windows
     w_mode  = newwin( mode_h,    grid_w, 1,       1 );
     w_msg   = newwin( page_size, pane_w, pane_y,  msg_x  );
@@ -223,8 +213,6 @@ void veh_interact::allocate_windows()
 
     w_details = NULL; // only pops up when in install menu
 
-    wrefresh(w_border);
-    delwin( w_border );
     display_grid();
     display_name();
     display_stats();
@@ -1568,6 +1556,20 @@ void veh_interact::move_cursor (int dx, int dy)
 
 void veh_interact::display_grid()
 {
+    // border window
+    WINDOW *w_border = newwin( TERMY, TERMX, 0, 0 );
+    draw_border( w_border );
+
+    // match grid lines
+    const int y_mode = getmaxy( w_mode ) + 1;
+    mvwputch( w_border, y_mode, 0, BORDER_COLOR, LINE_XXXO );         // |-
+    mvwputch( w_border, y_mode, TERMX - 1, BORDER_COLOR, LINE_XOXX ); // -|
+    const int y_list = getbegy( w_list ) + getmaxy( w_list );
+    mvwputch( w_border, y_list, 0, BORDER_COLOR, LINE_XXXO );         // |-
+    mvwputch( w_border, y_list, TERMX - 1, BORDER_COLOR, LINE_XOXX ); // -|
+    wrefresh( w_border );
+    delwin( w_border );
+
     const int grid_w = getmaxx(w_grid);
 
     // Two lines dividing the three middle sections.
