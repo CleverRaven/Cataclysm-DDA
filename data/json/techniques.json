@@ -607,21 +607,6 @@
         ]
     },{
         "type" : "technique",
-        "id" : "tec_biojutsu_rapid_armed",
-        "name" : "quick slash",
-        "min_melee" : 0,
-        "messages" : [
-            "You quickly slash %s",
-            "<npcname> quickly slashes %s"
-        ],
-        "mult_bonuses" : [
-            ["movecost", 0.5],
-            ["damage", "bash", 0.66],
-            ["damage", "cut", 0.66],
-            ["damage", "stab", 0.66]
-        ]
-    },{
-        "type" : "technique",
         "id" : "tec_biojutsu_impale",
         "name" : "biojutsu impale",
         "min_melee" : 3,
