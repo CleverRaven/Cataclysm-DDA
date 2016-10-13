@@ -1503,12 +1503,6 @@
     ]
   },
   {
-    "result": "joint",
-    "type": "uncraft",
-    "time": 500,
-    "components": [ [ [ "weed", 1 ] ] ]
-  },
-  {
     "result": "kiln_done",
     "type": "uncraft",
     "skill_used": "fabrication",
