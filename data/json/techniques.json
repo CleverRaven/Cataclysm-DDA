@@ -223,6 +223,17 @@
         "stun_dur" : 2
     },{
         "type" : "technique",
+        "id" : "tec_tonfa_spin",
+        "name" : "Tonfa Spin Strike",
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
+        "messages" : [
+            "You spin-strike %s",
+            "<npcname> spin-strikes %s"
+        ],
+        "bash_mult" : 1.5,
+    },{
+        "type" : "technique",
         "id" : "tec_boxing_cross",
         "name" : "Cross",
         "min_unarmed" : 2,
