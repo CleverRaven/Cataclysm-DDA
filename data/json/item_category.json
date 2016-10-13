@@ -1,0 +1,26 @@
+[
+  {
+    "id": "chems",
+    "type": "ITEM_CATEGORY",
+    "name": "CHEMICAL STUFF",
+    "sort_rank": 5
+  },
+  {
+    "id": "spare_parts",
+    "type": "ITEM_CATEGORY",
+    "name": "SPARE PARTS",
+    "sort_rank": 8
+  },
+  {
+    "id": "veh_parts",
+    "type": "ITEM_CATEGORY",
+    "name": "VEHICLE PARTS",
+    "sort_rank": 10
+  },
+  {
+    "id": "armor",
+    "type": "ITEM_CATEGORY",
+    "name": "ARMOR",
+    "sort_rank": 20
+  }
+]
