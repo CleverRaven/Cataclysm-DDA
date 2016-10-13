@@ -242,7 +242,7 @@ void construction_menu()
     ctxt.register_action( "FILTER" );
     
     std::string filter;
-
+    int previous_index = 0;
     do {
         if( update_cat ) {
             update_cat = false;
@@ -278,9 +278,10 @@ void construction_menu()
                     category_name = "FILTER";
                     break;
             }
-
+            
             if( category_name == "ALL" ) {
                 constructs = available;
+                previous_index = tabindex;
             } else if( category_name == "FILTER" ) {
                 constructs.clear();
                 std::copy_if( available.begin(), available.end(),
@@ -290,6 +291,7 @@ void construction_menu()
                     } );
             } else {
                 constructs = cat_available[category_name];
+                previous_index = tabindex;
             }
         }
         // Erase existing tab selection & list of constructions
@@ -325,6 +327,8 @@ void construction_menu()
 
             if( !constructs.empty() ) {
                 std::string current_desc = constructs[select];
+                mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white,
+                           _( "Press %s to search." ), ctxt.get_desc( "FILTER" ).c_str() );
                 // Print instructions for toggling recipe hiding.
                 mvwprintz( w_con, w_height - 3, ( w_list_width + w_list_x0 + 2 ), c_white,
                            _( "Press %s to toggle unavailable constructions." ),
@@ -332,7 +336,6 @@ void construction_menu()
                 mvwprintz( w_con, w_height - 2, ( w_list_width + w_list_x0 + 2 ), c_white,
                            _( "Press %s to view and edit key-bindings." ),
                            ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
-
                 // Print construction name
                 mvwprintz( w_con, 1, ( w_list_width + w_list_x0 + 2 ), c_white, "%s", current_desc.c_str() );
 
@@ -489,6 +492,11 @@ void construction_menu()
                 update_info = true;
                 update_cat = true;
                 tabindex = 9;
+                select = 0;
+            }else if( previous_index !=9 ){
+                tabindex = previous_index;
+                update_info = true;
+                update_cat = true;
                 select = 0;
             }
         } else if( action == "DOWN" ) {
