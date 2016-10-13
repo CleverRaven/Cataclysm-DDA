@@ -155,10 +155,11 @@
     "//": "Less common rifles including those only used by police/paramilitary forces.",
     "items": [
       [ "acr", 25 ],
+      [ "combination_gun", 10 ],
       [ "fn_fal", 40],
       [ "hk_g3", 40 ],
       [ "hk_g36", 30 ],
-      [ "henry_big_boy", 10],
+      [ "henry_big_boy", 10 ],
       [ "l_base_223", 40 ],
       [ "l_car_223", 10 ],
       [ "l_dsr_223", 5 ],
