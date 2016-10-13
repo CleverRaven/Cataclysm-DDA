@@ -296,10 +296,6 @@ void veh_interact::do_main_loop()
             // Siphoning may have started a player activity. If so, we should close the
             // vehicle dialog and continue with the activity.
             finish = g->u.activity.type != ACT_NULL;
-            // Horrible hack warning:
-            // Part display doesn't have a dedicated display function
-            // Siphon menu obscures it, so it has to be redrawn
-            move_cursor( 0, 0 );
         } else if (action == "TIRE_CHANGE") {
             do_tirechange();
         } else if (action == "RELABEL") {
@@ -320,6 +316,10 @@ void veh_interact::do_main_loop()
             display_name();
             display_stats();
             display_veh();
+            // Horrible hack warning:
+            // Part display doesn't have a dedicated display function
+            // Siphon menu obscures it, so it has to be redrawn
+            move_cursor( 0, 0 );
         }
     }
 }
