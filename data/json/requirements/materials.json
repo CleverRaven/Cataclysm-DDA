@@ -12,6 +12,15 @@
     "components": [ [ [ "lead", 1 ], [ "bismuth", 1 ], [ "silver_small", 1 ], [ "gold_small", 1 ] ] ]
   },
   {
+    "id": "ammo_bullet",
+    "type": "requirement",
+    "//": "Materials used when forming copper-jacketed bullets",
+    "components": [
+      [ [ "lead", 2 ], [ "bismuth", 2 ], [ "silver_small", 2 ], [ "gold_small", 2 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
     "id": "cvd_diamond",
     "type": "requirement",
     "//": "Materials required to apply diamond coating (per 250ml volume)",
