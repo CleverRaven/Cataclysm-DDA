@@ -181,7 +181,7 @@
     "id": "spider_steak_cooked",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "category": "meat",
+    "category": "food",
     "name": "arachnotron fillet",
     "description": "Cooked arachnotron fillets, without any seasoning.  Not terrible tasting, just not all that exciting.",
     "weight": 175,
