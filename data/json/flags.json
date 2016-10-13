@@ -277,5 +277,12 @@
     "context": [ "GENERIC", "TOOL" ],
     "description": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
     "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>." 
+  },
+  {
+    "id": "NO_DISARM",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "Prevents weapon from being disarmed.",
+    "info": "This weapon <good>cannot be forcibly removed from your grasp</good>." 
   }
 ]
