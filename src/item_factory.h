@@ -161,30 +161,11 @@ class Item_factory
         void finalize();
 
         /**
-         * @name Item categories
-         */
-        /*@{*/
-        /**
-         * Load item category definition from json. The loaded category is stored
-         * and can be accessed through @ref get_category.
+         * Load item category definition from json
          * @param jo The json object to load data from.
          * @throw std::string if the json object contains invalid data.
          */
         void load_item_category( JsonObject &jo );
-        /**
-         * Determine and return the category id of the given type based on the type of item.
-         * E.g. if the item type is food, it returns the id of the food category.
-         * This should only be used as fallback for item types that have no explicit category
-         * setting in the json data.
-         */
-        const std::string &calc_category( const itype *ity );
-        /**
-         * Get the category from the category id.
-         * This will never return null, a new category is created if the category does not exist.
-         * The returned value stays valid as long as this object is not reset nor deleted.
-         */
-        const item_category *get_category( const std::string &id );
-        /*@}*/
 
         /** Migrations transform items loaded from legacy saves */
         void load_migration( JsonObject &jo );
@@ -260,14 +241,11 @@ class Item_factory
          */
         bool check_ammo_type( std::ostream &msg, const ammotype &ammo ) const;
 
-        typedef std::map<std::string, item_category> CategoryMap;
         // Map with all the defined item categories,
-        // get_category returns a value from this map. This map
-        // should only grow, categories should never be removed from
-        // it as itype::category contains a pointer to the values
-        // of this map (which has been returned by get_category).
+        // This map should only grow, categories should never be removed from
+        // it as itype::category contains a pointer to the values of this map
         // The key is the id of the item_category.
-        CategoryMap m_categories;
+        std::map<std::string, item_category> categories;
 
         /**
          * Called before creating a new template and handles inheritance via copy-from

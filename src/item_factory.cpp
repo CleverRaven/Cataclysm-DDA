@@ -53,6 +53,7 @@ static DynamicDataLoader::deferred_json deferred;
 
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
+static const std::string calc_category( const itype *it );
 static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
@@ -143,8 +144,15 @@ void Item_factory::finalize() {
             obj.engine->faults.clear();
         }
 
-        if( !obj.category ) {
-            obj.category = get_category( calc_category( &obj ) );
+        // If no category was forced via JSON automatically calculate one now
+        if( obj.category_force.empty() ) {
+            obj.category_force = calc_category( &obj );
+        }
+
+        // If category exists assign now otherwise throw error later in @see check_definitions()
+        auto cat = categories.find( obj.category_force );
+        if( cat != categories.end() ) {
+            obj.category = &cat->second;
         }
 
         // use pre-cataclysm price as default if post-cataclysm price unspecified
@@ -607,6 +615,10 @@ void Item_factory::check_definitions() const
     for( const auto &elem : m_templates ) {
         std::ostringstream msg;
         const itype *type = elem.second.get();
+
+        if( !type->category ) {
+            msg << "undefined category " << type->category_force << "\n";
+        }
 
         if( type->weight < 0 ) {
             msg << "negative weight" << "\n";
@@ -1525,6 +1537,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
         m_templates[ new_item_template->id ].reset( new_item_template );
     }
 
+    assign( jo, "category", new_item_template->category_force, strict );
     assign( jo, "weight", new_item_template->weight, strict, 0 );
     assign( jo, "volume", new_item_template->volume );
     assign( jo, "price", new_item_template->price );
@@ -1647,10 +1660,6 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
         new_item_template->countdown_action = usage_from_object( tmp ).second;
     }
 
-    if( jo.has_member( "category" ) ) {
-        new_item_template->category = get_category( jo.get_string( "category" ) );
-    }
-
     load_slot_optional( new_item_template->container, jo, "container_data", src );
     load_slot_optional( new_item_template->armor, jo, "armor_data", src );
     load_slot_optional( new_item_template->book, jo, "book_data", src );
@@ -1670,7 +1679,7 @@ void Item_factory::load_item_category(JsonObject &jo)
     // reuse an existing definition,
     // override the name and the sort_rank if
     // these are present in the json
-    item_category &cat = m_categories[id];
+    item_category &cat = categories[id];
     cat.id = id;
     if (jo.has_member("name")) {
         cat.name = _(jo.get_string("name").c_str());
@@ -1770,7 +1779,8 @@ void Item_factory::clear()
     }
     m_template_groups.clear();
 
-    m_categories.clear();
+    categories.clear();
+
     // Also clear functions refering to lua
     iuse_function_list.clear();
 
@@ -2047,21 +2057,7 @@ phase_id string_to_enum<phase_id>( const std::string &data )
 }
 } // namespace io
 
-const item_category *Item_factory::get_category(const std::string &id)
-{
-    const CategoryMap::const_iterator a = m_categories.find(id);
-    if (a != m_categories.end()) {
-        return &a->second;
-    }
-    // Unknown / invalid category id, improvise and make this
-    // a new category with at least a name.
-    item_category &cat = m_categories[id];
-    cat.id = id;
-    cat.name = id;
-    return &cat;
-}
-
-const std::string &Item_factory::calc_category( const itype *it )
+const std::string calc_category( const itype *it )
 {
     if( it->gun && !it->gunmod ) {
         return category_id_guns;
