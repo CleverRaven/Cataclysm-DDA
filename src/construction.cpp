@@ -338,7 +338,7 @@ void construction_menu()
             if( !constructs.empty() ) {
                 std::string current_desc = constructs[select];
                 mvwprintz( w_con, w_height - 5, ( w_list_width + w_list_x0 + 2 ), c_white,
-                           _("Press %s or %s to change tabs."), 
+                           _("Press %s or %s to tab."), 
                            ctxt.get_desc("LEFT").c_str(),
                            ctxt.get_desc("RIGHT").c_str() );
                 mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white,
