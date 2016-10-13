@@ -160,7 +160,7 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
     }
 
     if( mon.path_settings.bash_strength < 0 ) {
-        mon.path_settings.max_length = mon.bash_skill;
+        mon.path_settings.bash_strength = mon.bash_skill;
     }
 }
 
