@@ -29,21 +29,6 @@
 #include <algorithm>
 #include <sstream>
 
-static const std::string category_id_guns("guns");
-static const std::string category_id_ammo("ammo");
-static const std::string category_id_weapons("weapons");
-static const std::string category_id_tools("tools");
-static const std::string category_id_clothing("clothing");
-static const std::string category_id_drugs("drugs");
-static const std::string category_id_food("food");
-static const std::string category_id_books("books");
-static const std::string category_id_mods("mods");
-static const std::string category_id_magazines("magazines");
-static const std::string category_id_cbm("bionics");
-static const std::string category_id_mutagen("mutagen");
-static const std::string category_id_veh_parts("veh_parts");
-static const std::string category_id_other("other");
-
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
@@ -53,7 +38,7 @@ static DynamicDataLoader::deferred_json deferred;
 
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
-static const std::string calc_category( const itype *it );
+static const std::string calc_category( const itype &obj );
 static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
@@ -146,7 +131,7 @@ void Item_factory::finalize() {
 
         // If no category was forced via JSON automatically calculate one now
         if( obj.category_force.empty() ) {
-            obj.category_force = calc_category( &obj );
+            obj.category_force = calc_category( obj );
         }
 
         // If category exists assign now otherwise throw error later in @see check_definitions()
@@ -2057,41 +2042,41 @@ phase_id string_to_enum<phase_id>( const std::string &data )
 }
 } // namespace io
 
-const std::string calc_category( const itype *it )
+const std::string calc_category( const itype &obj )
 {
-    if( it->gun && !it->gunmod ) {
-        return category_id_guns;
+    if( obj.gun && !obj.gunmod ) {
+        return "guns";
     }
-    if( it->magazine ) {
-        return category_id_magazines;
+    if( obj.magazine ) {
+        return "magazines";
     }
-    if( it->ammo ) {
-        return category_id_ammo;
+    if( obj.ammo ) {
+        return "ammo";
     }
-    if( it->tool ) {
-        return category_id_tools;
+    if( obj.tool ) {
+        return "tools";
     }
-    if( it->armor ) {
-        return category_id_clothing;
+    if( obj.armor ) {
+        return "clothing";
     }
-    if (it->comestible) {
-        return it->comestible->comesttype == "MED" ? category_id_drugs : category_id_food;
+    if (obj.comestible) {
+        return obj.comestible->comesttype == "MED" ? "drugs" : "food";
     }
-    if( it->book ) {
-        return category_id_books;
+    if( obj.book ) {
+        return "books";
     }
-    if( it->gunmod ) {
-        return category_id_mods;
+    if( obj.gunmod ) {
+        return "mods";
     }
-    if( it->bionic ) {
-        return category_id_cbm;
+    if( obj.bionic ) {
+        return "bionics";
     }
 
-    bool weap = std::any_of( it->melee.begin(), it->melee.end(), []( int qty ) {
+    bool weap = std::any_of( obj.melee.begin(), obj.melee.end(), []( int qty ) {
         return qty > MELEE_STAT;
     } );
 
-    return weap ? category_id_weapons : category_id_other;
+    return weap ? "weapons" : "other";
 }
 
 std::vector<Group_tag> Item_factory::get_all_group_names()
