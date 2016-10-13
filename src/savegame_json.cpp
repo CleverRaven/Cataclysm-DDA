@@ -1350,6 +1350,8 @@ void monster::load(JsonObject &data)
 
     faction = mfaction_str_id( data.get_string( "faction", "" ) );
     last_updated = data.get_int( "last_updated", calendar::turn );
+
+    data.read( "path", path );
 }
 
 /*
@@ -1396,6 +1398,8 @@ void monster::store(JsonOut &json) const
     json.member("last_updated", last_updated);
 
     json.member( "inv", inv );
+
+    json.member( "path", path );
 }
 
 void mon_special_attack::serialize(JsonOut &json) const

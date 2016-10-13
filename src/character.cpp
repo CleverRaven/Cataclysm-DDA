@@ -69,6 +69,8 @@ Character::Character() : Creature(), visitable<Character>()
     stomach_water = 0;
 
     name = "";
+
+    path_settings = pathfinding_settings{ 0, 1000, 1000, true, false, true };
 }
 
 field_id Character::bloodType() const

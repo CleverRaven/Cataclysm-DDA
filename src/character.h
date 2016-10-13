@@ -7,6 +7,7 @@
 #include "bionics.h"
 #include "skill.h"
 #include "map_selector.h"
+#include "pathfinding.h"
 
 #include <map>
 
@@ -596,6 +597,12 @@ class Character : public Creature, public visitable<Character>
 
         // turn the character expired, if -1 it has not been set yet.
         int turn_died = -1;
+
+        /**
+         * Cache for pathfinding settings.
+         * Most of it isn't changed too often, hence mutable.
+         */
+        mutable pathfinding_settings path_settings;
 
     private:
         /** Needs (hunger, thirst, fatigue, etc.) */

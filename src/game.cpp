@@ -3463,7 +3463,7 @@ bool game::try_get_left_click_action( action_id &act, const tripoint &mouse_targ
     }
 
     if (new_destination) {
-        destination_preview = m.route( u.pos(), mouse_target, 0, 1000 );
+        destination_preview = m.route( u.pos(), mouse_target, u.get_pathfinding_settings(), u.get_path_avoid() );
         return false;
     }
 
@@ -4665,7 +4665,7 @@ void game::debug()
                 break;
             }
 
-            auto rt = m.route( u.pos(), dest, 0, 1000 );
+            auto rt = m.route( u.pos(), dest, u.get_pathfinding_settings(), u.get_path_avoid() );
             u.set_destination( rt );
             if( !u.has_destination() ) {
                 popup( "Couldn't find path" );
@@ -9138,7 +9138,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                 add_msg(_("You can't see that destination."));
                 continue;
             }
-            auto route = m.route( u.pos(), lp, 0, 1000 );
+
+            auto route = m.route( u.pos(), lp, u.get_pathfinding_settings(), u.get_path_avoid() );
             if( route.size() > 1 ) {
                 route.pop_back();
                 u.set_destination( route );
@@ -9707,7 +9708,7 @@ int game::list_items(const int iLastState)
                 if( !u.sees( u.pos() + active_pos ) ) {
                     add_msg(_("You can't see that destination."));
                 }
-                auto route = m.route( u.pos(), u.pos() + active_pos, 0, 1000 );
+                auto route = m.route( u.pos(), u.pos() + active_pos, u.get_pathfinding_settings(), u.get_path_avoid() );
                 if( route.size() > 1 ) {
                     route.pop_back();
                     u.set_destination( route );
