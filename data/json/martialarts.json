@@ -310,6 +310,7 @@
                 "id" : "biojutsu_static",
                 "name" : "Biojutsu",
                 "unarmed_allowed" : true,
+                "melee_allowed" : true,
                 "min_unarmed" : 2,
                 "description" : "+1 Blocks",
                 "bonus_blocks" : 1
@@ -321,6 +322,10 @@
             "tec_biojutsu_impale",
             "tec_biojutsu_sweep",
             "tec_biojutsu_wide"
+        ],
+        "weapons" : [
+            "bio_claws_weapon",
+            "bio_blade_weapon"
         ]
     },{
         "type" : "martial_art",
@@ -403,6 +408,7 @@
         "weapons" : [
             "baton-extended",
             "bowling_pin",
+            "bio_blade_weapon",
             "cudgel",
             "diveknife",
             "firemachete_off",
