@@ -225,8 +225,8 @@ void veh_interact::allocate_windows()
 
     wrefresh(w_border);
     delwin( w_border );
-    display_name();
     display_grid();
+    display_name();
     display_stats();
     display_veh();
     move_cursor(0, 0); // display w_disp & w_parts
@@ -280,13 +280,15 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
 void veh_interact::do_main_loop()
 {
     bool finish = false;
-    while (!finish) {
+    while( !finish ) {
         overview();
         display_mode();
         const std::string action = main_context.handle_input();
+        bool redraw = true;
         int dx, dy;
         if (main_context.get_direction(dx, dy, action)) {
             move_cursor(dx, dy);
+            redraw = false;
         } else if (action == "QUIT") {
             finish = true;
         } else if (action == "INSTALL") {
@@ -306,17 +308,30 @@ void veh_interact::do_main_loop()
             // Siphoning may have started a player activity. If so, we should close the
             // vehicle dialog and continue with the activity.
             finish = g->u.activity.type != ACT_NULL;
+            // Horrible hack warning:
+            // Part display doesn't have a dedicated display function
+            // Siphon menu obscures it, so it has to be redrawn
+            move_cursor( 0, 0 );
         } else if (action == "TIRE_CHANGE") {
             do_tirechange();
         } else if (action == "RELABEL") {
             do_relabel();
         } else if (action == "NEXT_TAB") {
             move_fuel_cursor(1);
+            redraw = false;
         } else if (action == "PREV_TAB") {
             move_fuel_cursor(-1);
+            redraw = false;
         }
         if (sel_cmd != ' ') {
             finish = true;
+        }
+
+        if( !finish && redraw ) {
+            display_grid();
+            display_name();
+            display_stats();
+            display_veh();
         }
     }
 }
@@ -1435,9 +1450,6 @@ void veh_interact::do_rename()
             overmap_buffer.add_vehicle( veh );
         }
     }
-    display_grid();
-    display_name();
-    display_stats();
     // refresh w_disp & w_part windows:
     move_cursor(0, 0);
 }
@@ -1455,9 +1467,6 @@ void veh_interact::do_relabel()
     }
     std::string text = string_input_popup(_("New label:"), 20, veh->get_label(-ddx, -ddy));
     veh->set_label(-ddx, -ddy, text); // empty input removes the label
-    display_grid();
-    display_name();
-    display_stats();
     // refresh w_disp & w_part windows:
     move_cursor(0, 0);
 }
