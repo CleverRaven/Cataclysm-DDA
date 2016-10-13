@@ -464,12 +464,12 @@
         "name": "pair of nail knuckles",
         "name_plural": "pairs of nail knuckles",
         "description": "A pair of knuckles consisting of two small squares of wood with several nails coming through them.  Useful in nasty street fights.",
-        "material": "wood",
+        "material": [ "wood", "steel" ],
         "volume": 1,
         "weight": 430,
         "bashing": 4,
         "cutting": 6,
-        "flags" : ["UNARMED_WEAPON"]
+        "flags" : ["UNARMED_WEAPON", "NO_DISARM"]
     },
     {
         "type":"GENERIC",
@@ -1018,7 +1018,7 @@
         "volume" : 1,
         "bashing" : 2,
         "cutting" : 10,
-        "flags" : ["STAB", "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE"],
+        "flags" : ["STAB", "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_DISARM"],
         "price" : 10000,
         "qualities": [["CUT", 1], ["BUTCHER", 14]]
     },
@@ -1035,7 +1035,7 @@
         "material" : ["steel"],
         "bashing" : 1,
         "cutting" : 6,
-        "flags" : ["SLICE", "UNARMED_WEAPON", "DURABLE_MELEE"],
+        "flags" : ["SLICE", "UNARMED_WEAPON", "DURABLE_MELEE", "NO_DISARM"],
         "price" : 20000,
         "qualities": [["BUTCHER", 14]]
     },
@@ -1051,7 +1051,7 @@
         "volume": 1,
         "weight": 430,
         "bashing": 8,
-        "flags" : ["UNARMED_WEAPON"]
+        "flags" : ["UNARMED_WEAPON", "NO_DISARM"]
     },
     {
         "type":"GENERIC",
@@ -1065,7 +1065,7 @@
         "weight": 1150,
         "cutting": 16,
         "to_hit": 2,
-        "flags" : ["UNARMED_WEAPON", "CHOP"],
+        "flags" : ["UNARMED_WEAPON", "CHOP", "NO_DISARM"],
         "techniques": ["WBLOCK_1"]
     },
     {
@@ -1080,7 +1080,7 @@
         "volume": 2,
         "weight": 970,
         "bashing": 12,
-        "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"]
+        "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE", "NO_DISARM"]
     },
     {
         "type":"GENERIC",
@@ -1094,7 +1094,7 @@
         "material": "steel",
         "weight": 320,
         "bashing": 6,
-        "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"]
+        "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE", "NO_DISARM"]
     },
     {
         "type":"GENERIC",
@@ -1149,14 +1149,14 @@
         "name" : "tonfa",
         "description" : "A hard plastic truncheon commonly employed by police.  Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",
         "weight" : 575,
-        "to_hit" : 2,
+        "to_hit" : 1,
         "color" : "dark_gray",
         "symbol" : "/",
         "material": "plastic",
-        "techniques" : ["WBLOCK_2", "RAPID"],
-        "flags" : ["DURABLE_MELEE"],
+        "techniques" : ["WBLOCK_2", "tec_tonfa_spin"],
+        "flags" : ["DURABLE_MELEE", "UNARMED WEAPON"],
         "volume" : 8,
-        "bashing" : 12,
+        "bashing" : 8,
         "price" : 19500
     },
     {
@@ -1165,14 +1165,14 @@
         "name" : "wooden tonfa",
         "description" : "A stout wooden truncheon of the sort commonly employed by police.  Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",
         "weight" : 921,
-        "to_hit" : 2,
+        "to_hit" : 1,
         "color" : "brown",
         "symbol" : "/",
         "material" : ["wood"],
-        "techniques" : ["WBLOCK_2", "RAPID"],
-        "flags" : ["DURABLE_MELEE"],
+        "techniques" : ["WBLOCK_2", "tec_tonfa_spin"],
+        "flags" : ["DURABLE_MELEE", "UNARMED WEAPON"],
         "volume" : 8,
-        "bashing" : 14,
+        "bashing" : 9,
         "price" : 19500
     },
     {
@@ -1183,19 +1183,18 @@
         "name_plural" : "PR-24 batons (retracted)",
         "description" : "The Monadnock PR-24 baton is a collapsible, lightweight, side-handle baton used by law enforcement all over the world.  The PR designation is rumored to mean Public Relations.",
         "weight" : 680,
-        "to_hit" : 1,
         "color" : "dark_gray",
         "symbol" : "/",
         "material" : ["aluminum", "plastic"],
         "techniques" : ["WBLOCK_1"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE", "UNARMED WEAPON"],
         "use_action": {
             "type": "transform",
             "target": "PR24-extended",
             "msg": "You snap open your PR-24 baton."
         },
         "volume" : 4,
-        "bashing" : 5,
+        "bashing" : 4,
         "price" : 30000
     },
     {
@@ -1206,19 +1205,19 @@
         "name_plural" : "PR-24 batons (extended)",
         "description" : "The Monadnock PR-24 baton is a collapsible, lightweight, side-handle baton used by law enforcement all over the world.  The PR designation is rumored to mean Public Relations.",
         "weight" : 680,
-        "to_hit" : 2,
+        "to_hit" : 1,
         "color" : "dark_gray",
         "symbol" : "/",
         "material" : ["aluminum", "plastic"],
-        "techniques" : ["WBLOCK_2", "RAPID"],
-        "flags" : ["DURABLE_MELEE"],
+        "techniques" : ["WBLOCK_2", "tec_tonfa_spin"],
+        "flags" : ["DURABLE_MELEE", "UNARMED WEAPON"],
         "use_action": {
             "type": "transform",
             "target": "PR24-retracted",
             "msg": "You collapse your PR-24 baton."
         },
         "volume" : 8,
-        "bashing" : 13,
+        "bashing" : 8,
         "price" : 30000
     },
     {
