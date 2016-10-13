@@ -25,6 +25,7 @@
 #include "vehicle.h"
 #include "item_group.h"
 #include "cata_utility.h"
+#include "uistate.h"
 
 #include <algorithm>
 #include <map>
@@ -205,6 +206,7 @@ void construction_menu()
 
     bool update_info = true;
     bool update_cat = true;
+    bool isnew = true;
     int tabindex = 0;
     int select = 0;
     int chosen = 0;
@@ -292,6 +294,15 @@ void construction_menu()
             } else {
                 constructs = cat_available[category_name];
                 previous_index = tabindex;
+            }
+            if( isnew ){
+                if( !uistate.last_construction.empty() ){
+                    select = std::distance(constructs.begin(),
+                                            std::find( constructs.begin(),
+                                                        constructs.end(),
+                                                        uistate.last_construction ));
+                }
+                filter = uistate.construction_filter;
             }
         }
         // Erase existing tab selection & list of constructions
@@ -499,6 +510,7 @@ void construction_menu()
                 update_cat = true;
                 select = 0;
             }
+            uistate.construction_filter = filter;
         } else if( action == "DOWN" ) {
             update_info = true;
             if( select < ( int )constructs.size() - 1 ) {
@@ -572,6 +584,7 @@ void construction_menu()
             if( chosen < ( int )constructs.size() ) {
                 if( player_can_build( g->u, total_inv, constructs[chosen] ) ) {
                     place_construction( constructs[chosen] );
+                    uistate.last_construction = constructs[chosen];
                     exit = true;
                 } else {
                     popup( _( "You can't build that!" ) );
