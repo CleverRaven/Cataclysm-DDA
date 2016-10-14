@@ -1528,23 +1528,35 @@ void item::io( Archive& archive )
     }
 
     // Migrate legacy toolmod flags
-    if( !is_toolmod() ) {
+    if( is_tool() && !has_flag( "TOOLMOD_MIGRATE" ) ) {
+
+        // first tag this tool as being migrated so this block is skipped on next load
+        item_tags.insert( "TOOLMOD_MIGRATE" );
+
+        // now remove any nested toolmods (#18797)
+        contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item &e ) {
+            return e.is_toolmod();
+        } ), contents.end() );
+
+        // then using legacy flags insert either zero or one toolmods
         if( has_flag( "ATOMIC_AMMO" ) ) {
-            item_tags.erase( "ATOMIC_AMMO" );
             emplace_back( "battery_atomic" );
 
         } else if( has_flag( "DOUBLE_AMMO" ) ) {
-            item_tags.erase( "DOUBLE_AMMO" );
             emplace_back( "battery_compartment" );
 
         } else if( has_flag( "USE_UPS" ) ) {
-            item_tags.erase( "USE_UPS" );
             emplace_back( "battery_ups" );
 
         } else if( has_flag( "DOUBLE_REACTOR" ) ) {
-            item_tags.erase( "DOUBLE_REACTOR" );
             emplace_back( "double_plutonium_core" );
         }
+
+        // finally remove any legacy toolmod flags
+        item_tags.erase( "ATOMIC_AMMO" );
+        item_tags.erase( "DOUBLE_AMMO" );
+        item_tags.erase( "DOUBLE_REACTOR" );
+        item_tags.erase( "USE_UPS" );
     }
 }
 
