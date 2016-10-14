@@ -21,6 +21,7 @@ data/json/items/tools.json id
 data/json/monsters.json id
 data/json/monsters/* id
 data/json/npcs/missiondef.json id
+data/json/recipes/ammo/other.json result
 data/json/recipes/armor/*.json result
 data/json/recipes/chem/drugs.json result
 data/json/recipes/electronics/*.json result

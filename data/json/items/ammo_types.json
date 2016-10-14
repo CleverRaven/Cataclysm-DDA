@@ -271,6 +271,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "sprayable",
+        "name" : "sprayable liquid",
+        "default" : "water"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "flammable",
         "name" : "flammable liquid",
         "default" : "gasoline"
@@ -441,6 +447,6 @@
         "type" : "ammunition_type",
         "id" : "chemical_spray",
         "name" : "sprayable chemical",
-        "default" : "gas_fungicidal"
+        "default" : "gas_chloramine"
     }
 ]
