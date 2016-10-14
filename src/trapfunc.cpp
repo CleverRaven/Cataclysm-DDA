@@ -395,7 +395,7 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
     }
     if( shots == 2 || g->m.tr_at( p ).loadid == tr_shotgun_1 ) {
         g->m.remove_trap( p );
-        g->m.spawn_item( p, "shotgun_sawn" );
+        g->m.spawn_item( p, "shotgun_s" );
         g->m.spawn_item( p, "string_6" );
     } else {
         g->m.add_trap( p, tr_shotgun_1 );
