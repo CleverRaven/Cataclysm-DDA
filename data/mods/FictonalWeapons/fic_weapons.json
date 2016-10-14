@@ -22,9 +22,8 @@
     "durability": 9,
     "clip_size": 6,
     "reload": 80,
-    "loudness" : 160,
     "built_in_mods": ["m203"],
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
    "id": "gunsword",
@@ -50,7 +49,6 @@
     "durability": 10,
     "clip_size": 2,
     "reload": 80,
-    "loudness" : 160,
     "valid_mod_locations": [[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 2 ],[ "muzzle", 1 ]],
     "techniques": ["WBLOCK_2"]
   },
@@ -101,8 +99,7 @@
     "bashing": 11,
     "to_hit": -4,
     "ranged_damage": -4,
-    "range": -70,
-    "dispersion": 200,
+    "dispersion": 700,
     "sight_dispersion": 90,
     "durability": 4,
     "clip_size": 1,
@@ -112,8 +109,8 @@
   },
   {
     "id": "hk_mp5eod",
+    "copy-from": "smg_base",
     "type": "GUN",
-    "symbol": "(",
     "color": "dark_gray",
     "name": "H&K MP5A5 EOD",
     "name_plural": "H&K MP5",
@@ -135,9 +132,8 @@
       [ "BURST", "3 rd.", 3 ],
       [ "AUTO", "auto", 8 ]
     ],
-    "loudness" : 150,
     "built_in_mods": ["m203"],
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]],
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
       [ "9mm", [ "mp5mag", "mp5bigmag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
