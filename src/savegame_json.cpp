@@ -1580,7 +1580,7 @@ void item::io( Archive& archive )
             if( ( i->typeId() == "battery_atomic" && ++n_atomic > 1 ) ||
                 ( i->typeId() == "battery_compartment" && ++n_compartment > 1 ) ||
                 ( i->typeId() == "battery_ups" && ++n_ups > 1 ) ||
-                ( i->typeId() == "battery_plutonium" && ++n_plutonium > 1 ) ) {
+                ( i->typeId() == "double_plutonium_core" && ++n_plutonium > 1 ) ) {
                 contents.erase( i++ );
             } else {
                 ++i;
