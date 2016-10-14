@@ -745,7 +745,7 @@ public:
 
     const pathfinding_settings &get_pathfinding_settings() const override;
     const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
-    std::set<tripoint> get_path_avoid() const;
+    std::set<tripoint> get_path_avoid() const override;
 
 // Item discovery and fetching
  void find_item  (); // Look around and pick an item
