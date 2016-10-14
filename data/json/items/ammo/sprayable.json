@@ -13,6 +13,7 @@
     "symbol": "=",
     "color": "green",
     "count": 40,
+    "stack_size": 1,
     "ammo_type": "sprayable",
     "effects": [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL" ]
   }
