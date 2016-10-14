@@ -805,11 +805,11 @@
         "description": "A large and sturdy canvas sack.  Smells faintly of earth and hard work.",
         "price": 0,
         "weight": 415,
-        "volume": 4,
+        "volume": 40,
         "to_hit": -5,
         "material": "cotton",
         "rigid": false,
-        "contains": 60,
+        "contains": 40,
         "seals": true
     },
     {

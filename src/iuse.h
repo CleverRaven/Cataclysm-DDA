@@ -35,7 +35,6 @@ public:
     int ecig                ( player*, item*, bool, const tripoint& );
     int antibiotic          ( player*, item*, bool, const tripoint& );
     int eyedrops            ( player*, item*, bool, const tripoint& );
-    int fungicide           ( player*, item*, bool, const tripoint& );
     int antifungal          ( player*, item*, bool, const tripoint& );
     int antiparasitic       ( player*, item*, bool, const tripoint& );
     int anticonvulsant      ( player*, item*, bool, const tripoint& );

@@ -450,7 +450,6 @@ void Item_factory::init()
     add_iuse( "FLUMED", &iuse::flumed );
     add_iuse( "FLUSLEEP", &iuse::flusleep );
     add_iuse( "FLU_VACCINE", &iuse::flu_vaccine );
-    add_iuse( "FUNGICIDE", &iuse::fungicide );
     add_iuse( "FUN_HALLU", &iuse::fun_hallu );
     add_iuse( "GEIGER", &iuse::geiger );
     add_iuse( "GRANADE", &iuse::granade );
