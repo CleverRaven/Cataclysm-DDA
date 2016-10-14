@@ -745,7 +745,7 @@
         "volume" : 1,
         "weight" : 1,
         "ammo_type" : "components",
-        "count" : 200
+        "count" : 250
     },
     {   "type" : "AMMO",
         "id" : "shotgun_primer",

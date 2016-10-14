@@ -6,6 +6,18 @@
     "components": [ [ [ "duct_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
+    "id": "alkali_strong",
+    "type": "requirement",
+    "//": "Materials used in chemical reactions requiring a strong alkali",
+    "components": [ [ [ "ammonia", 1 ], [ "lye_powder", 125 ] ] ]
+  },
+  {
+    "id": "alkali_weak",
+    "type": "requirement",
+    "//": "Materials used in chemical reactions requiring a weak alkali",
+    "components": [ [ [ "bleach", 1 ], [ "lye_powder", 25 ] ] ]
+  },
+  {
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
