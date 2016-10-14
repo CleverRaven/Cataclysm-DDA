@@ -102,6 +102,7 @@ automatically_convertible = {
     "STATIONARY_ITEM",
     "terrain",
     "TOOL",
+    "TOOLMOD",
     "TOOL_ARMOR",
     "tool_quality",
     "trap",
@@ -127,6 +128,7 @@ needs_plural = {
     "MONSTER"
     "STATIONARY_ITEM",
     "TOOL",
+    "TOOLMOD",
     "TOOL_ARMOR",
     "VAR_VEH_PART",
 }
