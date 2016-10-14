@@ -1522,9 +1522,11 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_str_id &id) cons
 
     }
 
-    //All parts after the first must be installed on or next to an existing part
+    // All parts after the first must be installed on or next to an existing part
+    // the exception is when a single part vehicle is being repaired
     if(!parts.empty()) {
-        if(!has_structural_part(dx, dy) &&
+        if(!((parts.size() == 1) && parts[0].removed) &&
+                !has_structural_part(dx, dy) &&
                 !has_structural_part(dx+1, dy) &&
                 !has_structural_part(dx, dy+1) &&
                 !has_structural_part(dx-1, dy) &&
