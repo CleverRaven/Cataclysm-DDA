@@ -1602,7 +1602,6 @@
       ["thorazine", 7],
       ["prozac", 10],
       ["antibiotics", 25],
-      ["antifungal", 2],
       ["antiparasitic", 3],
       ["survnote", 1],
       ["diazepam", 4],
@@ -7272,7 +7271,6 @@
       ["heroin", 1],
       ["crack", 4],
       ["crackpipe", 7],
-      ["antifungal", 1],
       ["antiparasitic", 2],
       ["diazepam", 1],
       ["lsd", 6]
@@ -7981,7 +7979,6 @@
       ["pickaxe", 1],
       ["makeshift_machete", 4],
       ["flamethrower_crude", 6],
-      ["antifungal", 1],
       ["antiparasitic", 5],
       ["diazepam", 1],
       ["throw_extinguisher", 2],

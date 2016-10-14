@@ -309,36 +309,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "antifungal",
-  "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_DRUGS",
-  "skill_used": "cooking",
-  "difficulty": 4,
-  "time": 30000,
-  "book_learn": [["textbook_chemistry", 5] , ["adv_chemistry", 4] , ["pocket_survival", 5] , ["atomic_survival", 5] , ["textbook_survival", 5] , ["survival_book", 5] , [ "recipe_labchem", 4]],
-  "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 20 ],
-      [ "hotplate", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "fungicide", 10 ]
-    ],
-    [
-      [ "ammonia", 2 ],
-      [ "lye_powder", 200 ]
-    ],
-    [
-      [ "salt", 10 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "antiparasitic",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",

@@ -184,6 +184,24 @@
     "time": 18
   },
   {
+    "id": "pharmacopeia",
+    "type": "BOOK",
+    "name": "Modern Pharmacopeia",
+    "name_plural": "copies of the Modern Pharmacopeia",
+    "description": "A large reference book listing medical drugs and their uses.  This is the 17th edition",
+    "weight": 1280,
+    "volume": 8,
+    "price": 8900,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "cooking",
+    "required_level": 5,
+    "max_level": 6,
+    "intelligence": 12,
+    "time": 60
+  },
+  {
     "id": "recipe_alpha",
     "type": "BOOK",
     "name": "PE050 \"Alpha\": Preliminary Report",
