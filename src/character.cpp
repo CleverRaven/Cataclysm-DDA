@@ -761,7 +761,7 @@ void Character::remove_mission_items( int mission_id )
 std::vector<const item *> Character::get_ammo( const ammotype &at ) const
 {
     return items_with( [at]( const item & it ) {
-        return it.is_ammo() && it.ammo_type() == at;
+        return it.is_ammo() && it.type->ammo->type.count( at );
     } );
 }
 
@@ -781,12 +781,12 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
                 return VisitResponse::SKIP;
             }
             if( node->is_ammo_container() && !node->contents.front().made_of( SOLID ) ) {
-                if( node->contents.front().ammo_type() == ammo ) {
+                if( node->contents.front().type->ammo->type.count( ammo ) ) {
                     out = item_location( src, node );
                 }
                 return VisitResponse::SKIP;
             }
-            if( node->is_ammo() && node->ammo_type() == ammo ) {
+            if( node->is_ammo() && node->type->ammo->type.count( ammo ) ) {
                 out = item_location( src, node );
             }
             return nested ? VisitResponse::NEXT : VisitResponse::SKIP;

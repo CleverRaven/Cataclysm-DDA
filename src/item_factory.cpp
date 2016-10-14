@@ -632,7 +632,7 @@ bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype& ammo ) co
     }
 
     if( std::none_of( m_templates.begin(), m_templates.end(), [&ammo]( const decltype(m_templates)::value_type& e ) {
-        return e.second->ammo && e.second->ammo->type == ammo;
+        return e.second->ammo && e.second->ammo->type.count( ammo );
     } ) ) {
         msg << string_format("there is no actual ammo of type %s defined", ammo.c_str()) << "\n";
         return false;
@@ -739,7 +739,12 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->ammo ) {
-            check_ammo_type( msg, type->ammo->type );
+            if( type->ammo->type.empty() ) {
+                msg << "must define at least one ammo type" << "\n";
+            }
+            for( const auto &e : type->ammo->type ) {
+                check_ammo_type( msg, e );
+            }
             if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
@@ -830,7 +835,7 @@ void Item_factory::check_definitions() const
                 msg << string_format("invalid count %i", type->magazine->count) << "\n";
             }
             const itype *da = find_template( type->magazine->default_ammo );
-            if( !( da->ammo && da->ammo->type == type->magazine->type ) ) {
+            if( !( da->ammo && da->ammo->type.count( type->magazine->type ) ) ) {
                 msg << string_format( "invalid default_ammo %s", type->magazine->default_ammo.c_str() ) << "\n";
             }
             if( type->magazine->reliability < 0 || type->magazine->reliability > 100) {
