@@ -8719,7 +8719,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             place_items("tools_earthworking", 60, 4, 4, 7, 19, true, 0);
             place_items("tools_earthworking", 60, 16, 5, 19, 19, true, 0);
             place_items("mechanics", 40, 8, 4, 15, 19, true, 0);
-            place_items("home_hw", 50, 4, 19, 7, 19, true, 0);
+            place_items("supplies_farming", 50, 4, 19, 7, 19, true, 0);
             place_items("tools_common", 50, 4, 19, 7, 19, true, 0);
             for (int x = 4; x <= 6; x++) {
                 for (int y = 4; y <= 6; y++) {
