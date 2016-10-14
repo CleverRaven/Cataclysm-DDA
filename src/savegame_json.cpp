@@ -1553,6 +1553,40 @@ void item::io( Archive& archive )
 
         }
     }
+
+    // Fix fallout from #18797, which exponentially duplicates migrated toolmods
+    if( is_toolmod() ) {
+        // duplication would add an extra toolmod inside each toolmod on load;
+        // delete the nested copies
+        if( typeId() == "battery_atomic" || typeId() == "battery_compartment" ||
+            typeId() == "battery_ups" || typeId() == "double_plutonium_core" ) {
+            // Be conservative and only delete nested mods of the same type
+            contents.remove_if( [this]( const item &cont ) {
+                    return cont.typeId() == typeId();
+                        } );
+        }
+    }
+
+    if( is_tool() ) {
+        // duplication would add an extra toolmod inside each tool on load;
+        // delete the duplicates so there is only one copy of each toolmod
+        int n_atomic = 0,
+            n_compartment = 0,
+            n_ups = 0,
+            n_plutonium = 0;
+
+        // not safe to use remove_if with a stateful predicate
+        for( auto i = contents.begin(); i != contents.end(); ) {
+            if( ( i->typeId() == "battery_atomic" && ++n_atomic > 1 ) ||
+                ( i->typeId() == "battery_compartment" && ++n_compartment > 1 ) ||
+                ( i->typeId() == "battery_ups" && ++n_ups > 1 ) ||
+                ( i->typeId() == "battery_plutonium" && ++n_plutonium > 1 ) ) {
+                contents.erase( i++ );
+            } else {
+                ++i;
+            }
+        }
+    }
 }
 
 void item::deserialize(JsonObject &data)
