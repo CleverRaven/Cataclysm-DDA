@@ -1529,21 +1529,28 @@ void item::io( Archive& archive )
 
     // Migrate legacy toolmod flags
     if( !is_toolmod() ) {
-        if( has_flag( "ATOMIC_AMMO" ) ) {
+        if( item_tags.count( "ATOMIC_AMMO" ) ) {
             item_tags.erase( "ATOMIC_AMMO" );
+            item_tags.erase( "NO_UNLOAD" );
+            item_tags.erase( "RADIOACTIVE" );
+            item_tags.erase( "LEAK_DAM" );
             emplace_back( "battery_atomic" );
 
-        } else if( has_flag( "DOUBLE_AMMO" ) ) {
+        } else if( item_tags.count( "DOUBLE_REACTOR" ) ) {
+            item_tags.erase( "DOUBLE_REACTOR" );
+            item_tags.erase( "DOUBLE_AMMO" );
+            emplace_back( "double_plutonium_core" );
+
+        } else if( item_tags.count( "DOUBLE_AMMO" ) ) {
             item_tags.erase( "DOUBLE_AMMO" );
             emplace_back( "battery_compartment" );
 
-        } else if( has_flag( "USE_UPS" ) ) {
+        } else if( item_tags.count( "USE_UPS" ) ) {
             item_tags.erase( "USE_UPS" );
+            item_tags.erase( "NO_RELOAD" );
+            item_tags.erase( "NO_UNLOAD" );
             emplace_back( "battery_ups" );
 
-        } else if( has_flag( "DOUBLE_REACTOR" ) ) {
-            item_tags.erase( "DOUBLE_REACTOR" );
-            emplace_back( "double_plutonium_core" );
         }
     }
 }
