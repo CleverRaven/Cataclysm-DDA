@@ -1,0 +1,24 @@
+[
+  {
+    "id": "watercannon",
+    "type": "GUN",
+    "name": "water cannon",
+    "//": "currently only compatible with unstacked volume 1 liquids",
+    "description": "A water cannon from a fire truck.  Mounted on a vehicle, it could be used to stop fires or \"protesters\".",
+    "weight": 24500,
+    "volume": 50,
+    "price": 50000,
+    "material": "steel",
+    "symbol": "&",
+    "color": "dark_gray",
+    "ammo": "sprayable",
+    "skill": "launcher",
+    "range": 15,
+    "dispersion": 800,
+    "durability": 10,
+    "burst": 5,
+    "clip_size": 5,
+    "ammo_effects": [ "JET", "NEVER_MISFIRES" ],
+    "flags": [ "MOUNTED_GUN", "NO_RELOAD", "NEVER_JAMS" ]
+  }
+]
