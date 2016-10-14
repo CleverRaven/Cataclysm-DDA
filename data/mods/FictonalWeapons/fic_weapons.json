@@ -1,30 +1,29 @@
 [
   {
-    "id": "ficrico",
+    "id": "boomlighter",
     "type": "GUN",
     "symbol": "[",
     "color": "dark_gray",
-    "name": "Rico 454",
-    "name_plural": "Rico 454s",
-    "description": "Handmade by a master gunsmith, this deadly accurate and powerful pistol packs a punch with precision, power and flair.  Comes with a one of a kind integrated 40mm IGL.",
-    "price": 250000,
-    "material": ["steel", "plastic"],
+    "name": "Boomlighter 454",
+    "name_plural": "Boomlighter 454s",
+    "description": "Handmade by a master gunsmith, this deadly accurate and powerful pistol packs a punch with precision, power and flair.  Comes with a one of a kind integrated flamethrower. Feed the hungry NPCs.",
+    "price": 175000,
+    "material": [ "steel", "ceramic" ],
     "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "pistol",
     "ammo": "454",
     "weight": 2500,
-    "volume": 5,
-    "bashing": 7,
+    "volume": 2,
+    "bashing": 10,
     "to_hit": -1,
     "ranged_damage": 3,
-    "dispersion": 140,
+    "dispersion": 180,
     "sight_dispersion": 90,
     "durability": 9,
-    "clip_size": 6,
+    "clip_size": 8,
     "reload": 80,
-    "loudness" : 160,
-    "built_in_mods": ["m203"],
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "built_in_mods": ["boom_flamer"],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
    "id": "gunsword",
@@ -50,7 +49,6 @@
     "durability": 10,
     "clip_size": 2,
     "reload": 80,
-    "loudness" : 160,
     "valid_mod_locations": [[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 2 ],[ "muzzle", 1 ]],
     "techniques": ["WBLOCK_2"]
   },
@@ -101,8 +99,7 @@
     "bashing": 11,
     "to_hit": -4,
     "ranged_damage": -4,
-    "range": -70,
-    "dispersion": 200,
+    "dispersion": 700,
     "sight_dispersion": 90,
     "durability": 4,
     "clip_size": 1,
@@ -111,23 +108,22 @@
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
-    "id": "hk_mp5eod",
+    "id": "eagle_1776",
+    "copy-from": "smg_base",
     "type": "GUN",
-    "symbol": "(",
     "color": "dark_gray",
-    "name": "H&K MP5A5 EOD",
-    "name_plural": "H&K MP5",
-    "description": "The Heckler & Koch MP5 is one of the most widely-used submachine guns in the world, and has been adopted by special police forces and militaries alike.  This one has been modified with an integrated m203 allowing you to survive the end of days.",
-    "price": 280000,
+    "name": "Eagle 1776",
+    "name_plural": "Eagle 1776",
+    "description": "You see before you a marvel of american engineering: a powerful .44 Magnum submachine gun, made from fine parts assembled in America. Eagle EOD. From the arsenal of freedom!",
+    "price": 580000,
     "material": ["steel", "plastic"],
-    "skill": "smg",
-    "ammo": "9mm",
+    "ammo": "44",
     "weight": 3100,
     "volume": 7,
     "bashing": 10,
     "to_hit": -2,
     "ranged_damage": 1,
-    "dispersion": 150,
+    "dispersion": 280,
     "sight_dispersion": 75,
     "durability": 7,
     "modes": [
@@ -135,15 +131,12 @@
       [ "BURST", "3 rd.", 3 ],
       [ "AUTO", "auto", 8 ]
     ],
-    "loudness" : 150,
-    "built_in_mods": ["m203"],
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]],
+    "built_in_mods": ["m320_mod"],
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
+      [ "44", [ "e1776mag", "deaglemag" ] ],
       [ "9mm", [ "mp5mag", "mp5bigmag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "45", [ "ump45mag" ] ],
-      [ "46", [ "hk46mag", "hk46bigmag" ] ],
-      [ "57", [ "fn57mag" ] ]
+      [ "45", [ "ump45mag" ] ]
     ]
   },
   {
@@ -169,10 +162,9 @@
     "dispersion": 100,
     "sight_dispersion": 50,
     "durability": 6,
-    "clip_size": 0,
     "reload": 0,
     "loudness" : 25,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "arccan",
@@ -191,15 +183,13 @@
     "weight": 2700,
     "volume": 8,
     "bashing": 7,
-    "ranged_damage": 8,
+    "ranged_damage": 16,
     "range": 15,
     "dispersion": 250,
-    "sight_dispersion": 150,
     "durability": 7,
-    "clip_size": 0,
     "reload": 0,
     "loudness" : 45,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "m1911ds",
