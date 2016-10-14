@@ -95,6 +95,9 @@ endif
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
+# Explicitly let 'char' to be 'signed char' to fix #18776
+OTHERS += -fsigned-char
+
 VERSION = 0.C
 
 TARGET_NAME = cataclysm
