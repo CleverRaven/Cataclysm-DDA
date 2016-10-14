@@ -4684,7 +4684,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
             g->m.add_trap(p, tr_shotgun_1);
         } else {
             g->m.remove_trap(p);
-            g->m.spawn_item(p, "shotgun_sawn");
+            g->m.spawn_item(p, "shotgun_s");
             g->m.spawn_item(p, "string_6");
         }
     } else if ( t == tr_landmine_buried || t == tr_landmine ) {
