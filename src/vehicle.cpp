@@ -2577,7 +2577,9 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
 
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
-            partname += string_format(_(" (vol: %d/%d)"), stored_volume( pl[i] ) / units::legacy_volume_factor, max_volume( pl[i] ) / units::legacy_volume_factor );
+            partname += string_format( _(" (vol: %.1f/%.1f L)"),
+                                       units::to_liter( stored_volume( pl[i] ) ),
+                                       units::to_liter( max_volume( pl[i] ) ) );
         }
 
         bool armor = part_flag(pl[i], "ARMOR");
