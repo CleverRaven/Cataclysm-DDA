@@ -30,7 +30,7 @@
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ] ],
     "use_action": "BOLTCUTTERS",
-    "flags": [ "CHOP", "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ]
   },
   {
     "id": "broken_manhack_fire",

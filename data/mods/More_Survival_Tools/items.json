@@ -190,8 +190,7 @@
     "bashing": 5,
     "cutting": 3,
     "to_hit": -1,
-    "qualities": [["CUT", 1], ["BUTCHER", 6], ["SAW_W", 1], ["AXE", 1], ["HAMMER", 1]],
-    "flags": ["CHOP"]
+    "qualities": [["CUT", 1], ["BUTCHER", 6], ["SAW_W", 1], ["AXE", 1], ["HAMMER", 1]]
   },{
     "id": "atlatl",
     "type": "GUN",
@@ -544,7 +543,6 @@
     "volume": 14,
     "bashing": 11,
     "cutting": 8,
-    "flags" : ["CHOP"],
     "qualities": [["AXE", 2]]
   },{
     "id": "makeshift_shovel",

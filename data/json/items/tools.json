@@ -321,7 +321,7 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "AXE", 3 ] ],
-    "flags": [ "CHOP", "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE" ]
   },
   {
     "id": "bag_apple_vac",
@@ -489,7 +489,7 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "AXE", 2 ] ],
-    "flags": [ "CHOP", "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
     "id": "battletorch",
@@ -984,7 +984,7 @@
       "success_message": "Charge!!",
       "lacks_fuel_message": "No strength to fight!"
     },
-    "flags": [ "CHOP", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "broadfire_on",
@@ -1021,7 +1021,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "FIRE", "CHOP", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
   {
     "id": "broadsword",
@@ -1040,7 +1040,7 @@
     "color": "light_gray",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "CHOP", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "bubblewrap",
@@ -1305,7 +1305,7 @@
     "revert_to": "carver_off",
     "qualities": [ [ "BUTCHER", 25 ] ],
     "use_action": "CARVER_ON",
-    "flags": [ "CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
     "id": "catfood",
@@ -1364,7 +1364,7 @@
     "techniques": "SWEEP",
     "qualities": [ [ "AXE", 2 ] ],
     "use_action": "CHAINSAW_ON",
-    "flags": [ "CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
     "id": "char_forge",
@@ -1564,7 +1564,7 @@
     "revert_to": "circsaw_off",
     "qualities": [ [ "SAW_W", 2 ], [ "SAW_M", 2 ], [ "BUTCHER", 60 ] ],
     "use_action": "CIRCSAW_ON",
-    "flags": [ "CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
     "id": "clarinet",
@@ -1711,7 +1711,7 @@
     "techniques": "SWEEP",
     "qualities": [ [ "AXE", 1 ] ],
     "use_action": "COMBATSAW_ON",
-    "flags": [ "CHOP", "MESSY", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
   {
     "id": "con_mix",
@@ -1763,7 +1763,7 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "AXE", 2 ] ],
-    "flags": [ "CHOP", "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE" ]
   },
   {
     "id": "copper_knife",
@@ -2013,7 +2013,7 @@
     "revert_to": "cs_lajatang_off",
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "CS_LAJATANG_ON",
-    "flags": [ "CHOP", "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
     "id": "cutlass",
@@ -2033,7 +2033,7 @@
     "color": "dark_gray",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "CHOP", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "damaged_shelter_kit",
@@ -2127,7 +2127,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "CUT", 1 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "CHOP", "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE" ]
   },
   {
     "id": "dog_whistle",
@@ -2306,7 +2306,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ] ],
-    "flags": [ "CHOP", "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ]
   },
   {
     "id": "eink_tablet_pc",
@@ -2370,7 +2370,7 @@
     "techniques": "SWEEP",
     "qualities": [ [ "AXE", 2 ] ],
     "use_action": "ELEC_CHAINSAW_ON",
-    "flags": [ "CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
     "id": "elec_hairtrimmer",
@@ -2535,7 +2535,7 @@
     "color": "light_gray",
     "techniques": [ "BRUTAL" ],
     "qualities": [ [ "AXE", 2 ] ],
-    "flags": [ "CHOP", "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
     "id": "fire_drill",
@@ -2670,7 +2670,7 @@
       "success_message": "The Sun rises.",
       "lacks_fuel_message": "Time stands still."
     },
-    "flags": [ "FIRE", "SLICE", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "FIRE", "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "firekatana_on",
@@ -2707,7 +2707,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "FIRE", "SLICE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
   {
     "id": "firemachete_off",
@@ -2738,7 +2738,7 @@
       "failure_message": "Click.",
       "lacks_fuel_message": "Click."
     },
-    "flags": [ "FIRE", "CHOP", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "FIRE", "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "firemachete_on",
@@ -2779,7 +2779,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "FIRE", "CHOP", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
   {
     "id": "fish_trap",
@@ -3072,8 +3072,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ] ],
-    "flags": [ "CHOP" ]
+    "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ] ]
   },
   {
     "id": "gasbomb_makeshift",
@@ -3815,7 +3814,7 @@
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "SLICE", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "kevlar_plate",
@@ -3906,7 +3905,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
-    "flags": [ "CHOP", "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE" ]
   },
   {
     "id": "knife_combat",
@@ -3951,7 +3950,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 30 ] ],
-    "flags": [ "SHEATH_KNIFE", "CHOP" ]
+    "flags": [ "SHEATH_KNIFE" ]
   },
   {
     "id": "knife_rambo",
@@ -4109,7 +4108,7 @@
     "color": "dark_gray",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 18 ] ],
-    "flags": [ "CHOP", "DURABLE_MELEE", "SHEATH_KNIFE" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
   {
     "id": "l-stick",
@@ -4366,8 +4365,7 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ] ],
-    "flags": [ "CHOP" ]
+    "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ] ]
   },
   {
     "id": "machete",
@@ -4386,7 +4384,7 @@
     "color": "dark_gray",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "CHOP", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "magnifying_glass",
@@ -4463,7 +4461,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": "WBLOCK_1",
-    "flags": [ "CHOP", "REACH_ATTACK" ]
+    "flags": [ "REACH_ATTACK" ]
   },
   {
     "id": "makeshift_hammer",
@@ -4515,7 +4513,7 @@
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -27 ] ],
-    "flags": [ "CHOP", "SHEATH_SWORD" ]
+    "flags": [ "SHEATH_SWORD" ]
   },
   {
     "id": "makeshift_sealer",
@@ -5014,7 +5012,7 @@
     "color": "light_gray",
     "techniques": [ "RAPID", "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "SLICE", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "noise_emitter",
@@ -5685,8 +5683,7 @@
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 2 ] ],
-    "flags": [ "CHOP" ]
+    "qualities": [ [ "AXE", 2 ] ]
   },
   {
     "id": "primitive_hammer",
@@ -6351,7 +6348,7 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 1 ] ],
-    "flags": [ "CHOP", "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ]
   },
   {
     "id": "sewing_kit",
@@ -6439,7 +6436,7 @@
       "failure_message": "Aw, dangit.  It fails to start!",
       "lacks_fuel_message": "This thing needs some fuel!"
     },
-    "flags": [ "FIRE", "CHOP", "SHEATH_SWORD" ]
+    "flags": [ "FIRE", "SHEATH_SWORD" ]
   },
   {
     "id": "shishkebab_on",
@@ -6477,7 +6474,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "FIRE", "CHOP", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
   },
   {
     "id": "shock_staff",
@@ -6883,7 +6880,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "SLICE", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "survivor_mess_kit",
@@ -7253,7 +7250,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_3", "WIDE" ],
-    "flags": [ "FIRE", "SLICE", "LIGHT_240", "FLAMING", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID" ]
   },
   {
     "id": "thermometer",
@@ -7826,7 +7823,7 @@
     "turns_per_charge": 1,
     "revert_to": "trimmer_off",
     "use_action": "TRIMMER_ON",
-    "flags": [ "CHOP", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
     "id": "tripwire",
@@ -8111,7 +8108,7 @@
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 13 ] ],
-    "flags": [ "SLICE", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "washboard",
@@ -8344,7 +8341,7 @@
       "success_message": "Die Klinge deines Schwertes brennt!",
       "lacks_fuel_message": "Dein Flammenschwert hat keinen Brennstoff mehr."
     },
-    "flags": [ "CHOP", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "zweifire_on",
@@ -8381,7 +8378,7 @@
         "moves": 30
       }
     ],
-    "flags": [ "CHOP", "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
   {
     "id": "zweihander",
@@ -8399,6 +8396,6 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
-    "flags": [ "CHOP", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   }
 ]

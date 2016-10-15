@@ -1033,10 +1033,6 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     // Stabbing weapons are a lot less effective at pulping
     int cut_power = std::max( p->weapon.damage_melee( DT_CUT ), p->weapon.damage_melee( DT_STAB ) / 2 );
 
-    // Slicing weapons are a moderately less effective at pulping
-    if( p->weapon.has_flag("SLICE") ) {
-        cut_power = cut_power * 2 / 3;
-    }
     ///\EFFECT_STR increases pulping power, with diminishing returns
     float pulp_power = sqrt( ( p->str_cur + p->weapon.damage_melee( DT_BASH ) ) * ( cut_power + 1.0f ) );
     // Multiplier to get the chance right + some bonus for survival skill

@@ -346,8 +346,7 @@
     "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 20,
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
-    "flags": [ "NON_STUCK", "CHOP" ]
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ]
   },
   {
     "id": "u_shotgun",
