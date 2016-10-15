@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <map>
+#include <set>
 #include <array>
 #include <random>
 #include <functional>
@@ -63,6 +64,12 @@ class npc_class
     public:
         npc_class_id id;
         bool was_loaded = false;
+
+        Group_tag worn_override;
+        Group_tag carry_override;
+        Group_tag weapon_override;
+
+        std::set<std::string> traits;
 
         npc_class();
 
