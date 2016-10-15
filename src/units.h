@@ -237,6 +237,12 @@ class volume_in_milliliter_tag
 
 using volume = quantity<int, volume_in_milliliter_tag>;
 
+const volume volume_min = units::volume( std::numeric_limits<units::volume::value_type>::min(),
+                          units::volume::unit_type{} );
+
+const volume volume_max = units::volume( std::numeric_limits<units::volume::value_type>::max(),
+                          units::volume::unit_type{} );
+
 template<typename value_type>
 inline constexpr quantity<value_type, volume_in_milliliter_tag> from_milliliter(
     const value_type v )
