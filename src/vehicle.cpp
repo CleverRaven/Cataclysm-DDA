@@ -1527,7 +1527,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_str_id &id) cons
     
     bool repairingStructural = false;
 
-    for( int i = 0; i < parts.size(); ++i ) {
+    for( size_t i = 0; i < parts.size(); ++i ) {
         if (parts[i].removed &&
                 part_info( i, true ).location == part_location_structure) {
             repairingStructural = true;
