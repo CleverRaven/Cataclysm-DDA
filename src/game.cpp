@@ -5180,11 +5180,13 @@ void game::list_missions()
             if (tab == 3) {
                 tab = 0;
             }
+            selection = 0;
         } else if (action == "LEFT") {
             tab--;
             if (tab < 0) {
                 tab = 2;
             }
+            selection = 0;
         } else if (action == "DOWN") {
             selection++;
             if (selection >= umissions.size()) {
