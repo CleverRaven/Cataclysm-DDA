@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <cstddef>
+#include <limits>
 
 namespace units
 {
