@@ -119,7 +119,7 @@
     "material": ["steel", "plastic"],
     "ammo": "44",
     "weight": 3100,
-    "volume": 7,
+    "volume": 5,
     "bashing": 10,
     "to_hit": -2,
     "ranged_damage": 1,
