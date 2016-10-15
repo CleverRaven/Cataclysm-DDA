@@ -460,7 +460,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * Ammo type, basically the "form" of the ammo that fits into the gun/tool.
      */
-    ammotype type;
+    std::set<ammotype> type;
     /**
      * Type id of casings, can be "null" for no casings at all.
      */

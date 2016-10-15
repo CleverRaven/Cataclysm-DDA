@@ -142,7 +142,7 @@ std::set<itype_id> turret_data::ammo_options() const
     } else {
         for( const auto &e : veh->fuels_left() ) {
             const itype *fuel = item::find_type( e.first );
-            if( fuel->ammo && fuel->ammo->type == part->base.ammo_type() &&
+            if( fuel->ammo && fuel->ammo->type.count( part->base.ammo_type() ) &&
                 e.second > part->base.ammo_required() ) {
 
                 opts.insert( fuel->get_id() );

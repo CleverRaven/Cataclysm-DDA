@@ -29,7 +29,7 @@ const vpart_info *biggest_tank( const ammotype ammo ) {
         }
 
         const itype *fuel = item::find_type( e->fuel_type );
-        return fuel->ammo && fuel->ammo->type == ammo;
+        return fuel->ammo && fuel->ammo->type.count( ammo );
     } );
 
     if( res.empty() ) { 
