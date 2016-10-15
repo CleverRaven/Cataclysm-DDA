@@ -80,6 +80,7 @@ void mdeath::normal(monster *z)
     const std::vector<material_id> gib_mats = {{
         material_id( "flesh" ), material_id( "hflesh" ),
         material_id( "veggy" ), material_id( "iflesh" ),
+        material_id( "bone" )
     }};
     const bool gibbable = !z->type->has_flag( MF_NOGIB ) &&
         std::any_of( gib_mats.begin(), gib_mats.end(), [&z]( const material_id &gm ) {
