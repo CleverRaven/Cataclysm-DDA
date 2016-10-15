@@ -1232,7 +1232,7 @@
       [ "solder_wire", 400 ]
     ],
     [
-      [ "cu_pipe", 3]
+      [ "copper", 200 ]
     ]
   ]
 },{
@@ -1274,7 +1274,7 @@
       [ "solder_wire", 400 ]
     ],
     [
-      [ "cu_pipe", 2 ]
+      [ "copper", 200 ]
     ]
   ]
 },{
@@ -1316,7 +1316,7 @@
       [ "solder_wire", 675 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 340 ]
     ]
   ]
 },{
@@ -1436,7 +1436,7 @@
       [ "solder_wire", 400 ]
     ],
     [
-      [ "cu_pipe", 4 ]
+      [ "copper", 200 ]
     ]
   ]
 },{
@@ -1478,7 +1478,7 @@
       [ "solder_wire", 400 ]
     ],
     [
-      [ "cu_pipe", 4 ]
+      [ "copper", 200 ]
     ]
   ]
 },{
@@ -1521,7 +1521,7 @@
       [ "solder_wire", 60]
     ],
     [
-      [ "cu_pipe", 3]
+      [ "copper", 30 ]
     ]
   ]
 },{
@@ -1564,7 +1564,7 @@
       [ "solder_wire", 90]
     ],
     [
-      [ "cu_pipe", 3]
+      [ "copper", 45 ]
     ]
   ]
 },{
@@ -1650,8 +1650,8 @@
       [ "gunpowder", 120 ]
     ],
     [
-      ["22_casing", 30 ],
-      ["cu_pipe", 2]
+      [ "22_casing", 30 ],
+      [ "copper", 30 ]
     ],
     [
       [ "lead", 60 ],
@@ -1694,7 +1694,7 @@
     ],
     [
       [ "22_casing", 30 ],
-      [ "cu_pipe", 4]
+      [ "copper", 30 ]
     ],
     [
       [ "lead", 60 ],
@@ -1737,7 +1737,7 @@
     ],
     [
       [ "22_casing", 30 ],
-      [ "cu_pipe", 3]
+      [ "copper", 30 ]
     ],
     [
       [ "incendiary", 60 ]
@@ -1782,7 +1782,7 @@
       [ "solder_wire", 100 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 50 ]
     ]
   ]
 },{
@@ -1849,7 +1849,7 @@
       [ "solder_wire", 80 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 40 ]
     ]
   ]
 },{
@@ -1891,7 +1891,7 @@
       [ "solder_wire", 80 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 40 ]
     ]
   ]
 },{
@@ -1936,7 +1936,7 @@
       [ "solder_wire", 200 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 100 ]
     ]
   ]
  },{
@@ -1973,7 +1973,7 @@
       [ "scrap", 3 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 10 ]
     ]
 ]
   },{
@@ -2015,7 +2015,7 @@
       [ "solder_wire", 380 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 190 ]
     ]
   ]
 },{
@@ -2052,7 +2052,7 @@
       [ "incendiary", 80 ]
     ],
     [
-      [ "cu_pipe", 6 ]
+      [ "copper", 40 ]
     ]
   ]
 },{
@@ -2094,7 +2094,7 @@
       [ "solder_wire", 120 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 60 ]
     ]
   ]
 },{
@@ -2136,7 +2136,7 @@
       [ "solder_wire", 120 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 60 ]
     ]
   ]
 },{
@@ -2173,7 +2173,7 @@
       [ "incendiary", 120 ]
     ],
     [
-      [ "cu_pipe", 2 ]
+      [ "copper", 60 ]
     ]
   ]
 },{
@@ -2580,7 +2580,7 @@
         [ "solder_wire", 150 ]
       ],
       [
-        [ "cu_pipe", 2 ]
+        [ "copper", 75 ]
       ]
     ]
   },{
@@ -2622,7 +2622,7 @@
         [ "solder_wire", 200 ]
       ],
       [
-        [ "cu_pipe", 2 ]
+        [ "copper", 100 ]
       ]
     ]
    },{
@@ -2664,7 +2664,7 @@
         [ "solder_wire", 250 ]
       ],
       [
-        [ "cu_pipe", 2 ]
+        [ "copper", 175 ]
       ]
     ]
   },{
@@ -2749,7 +2749,7 @@
         [ "solder_wire", 400 ]
       ],
       [
-        [ "cu_pipe", 3 ]
+        [ "copper", 200 ]
       ]
     ]
 },{
@@ -2791,7 +2791,7 @@
         [ "solder_wire", 80 ]
       ],
       [
-        [ "cu_pipe", 3 ]
+        [ "copper", 40 ]
       ]
     ]
   },{
@@ -2930,7 +2930,7 @@
         [ "solder_wire", 60 ]
       ],
       [
-        [ "cu_pipe", 3 ]
+        [ "copper", 30 ]
       ]
     ]
   },
@@ -2973,7 +2973,7 @@
       [ "solder_wire", 420 ]
     ],
     [
-      [ "cu_pipe", 4 ]
+      [ "copper", 210 ]
     ]
   ]
 },
@@ -3201,7 +3201,7 @@
       [ "solder_wire", 200 ]
     ],
     [
-      [ "cu_pipe", 2 ]
+      [ "copper", 100 ]
     ]
   ]
 },{
