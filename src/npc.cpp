@@ -2349,7 +2349,7 @@ mfaction_id npc::get_monster_faction() const
         return player_fac.id();
     }
 
-    if( has_trait( "VESPA" ) ) {
+    if( has_trait( "BEE" ) ) {
         return bee_fac.id();
     }
 

@@ -871,7 +871,7 @@ void mapgen_hive(map *m, oter_id, mapgendata dat, int turn, float)
     }
 
     if( is_center ) {
-        m->place_npc( SEEX, SEEY, "vespa" );
+        m->place_npc( SEEX, SEEY, "apis" );
     }
 }
 

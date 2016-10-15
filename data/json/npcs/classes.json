@@ -392,8 +392,8 @@
         ]
     },{
         "type" : "npc_class",
-        "id" : "NC_VESPA",
-        "name" : "Vespa",
+        "id" : "NC_APIS",
+        "name" : "Apis",
         "job_description" : "I'm bugged - I shouldn't talk to you.",
         "common" : false,
         "bonus_dex" : { "rng" : [ 5, 10 ] },
@@ -410,7 +410,7 @@
         "comment": "NPCs can't run yet and we want this one to be fast, so road runner.",
         "traits": [
             [ "THRESH_INSECT", 100 ],
-            [ "VESPA", 100 ],
+            [ "BEE", 100 ],
             [ "MANDIBLES", 100 ],
             [ "TAIL_STING", 100 ],
             [ "INSECT_ARMS_OK", 100 ],

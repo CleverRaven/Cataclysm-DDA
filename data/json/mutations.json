@@ -5132,8 +5132,8 @@
         "description" : "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
     },{
         "type" : "mutation",
-        "id" : "VESPA",
-        "name" : "vespa",
+        "id" : "BEE",
+        "name" : "Bee",
         "points" : 0,
         "valid" : false,
         "description" : "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.",

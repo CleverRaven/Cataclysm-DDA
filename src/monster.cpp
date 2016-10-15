@@ -681,7 +681,7 @@ monster_attitude monster::attitude( const Character *u ) const
         const std::string mycus_thresh( "MYCUS_THRESH" );
         const std::string terrifying( "TERRIFYING" );
         if( faction == faction_bee ) {
-            if( u->has_trait( "VESPA" ) ) {
+            if( u->has_trait( "BEE" ) ) {
                 return MATT_FRIEND;
             } else if( u->has_trait( "FLOWERS" ) ) {
                 effective_anger -= 10;
