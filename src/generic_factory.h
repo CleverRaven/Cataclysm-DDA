@@ -1006,7 +1006,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
         if( obj.has_string( name ) ) {
             units::volume::value_type tmp;
             std::string suffix;
-            auto str = std::istringstream( obj.get_string( name ) );
+            auto str = std::istringstream( std::move( obj.get_string( name ) ) );
             str >> tmp >> suffix;
             if( str.peek() != std::istringstream::traits_type::eof() ) {
                 obj.throw_error( "syntax error when specifying volume", name );
