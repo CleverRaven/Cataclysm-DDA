@@ -675,6 +675,7 @@
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
         "name" : "heroin",
+        "name_plural" : "heroin",
         "description" : "An extremely strong opioid narcotic derived from morphine.  Incredibly addictive, the risk of overdose is extreme, and the drug is contraindicated for nearly all medical purposes.",
         "weight" : 1,
         "volume" : 1,
