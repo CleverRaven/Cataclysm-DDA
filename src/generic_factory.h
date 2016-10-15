@@ -997,7 +997,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
                     const units::volume lo = units::volume_min,
                     const units::volume hi = units::volume_max )
 {
-    auto parse = [&name]( JsonObject &obj, units::volume &out ) {
+    auto parse = [&name]( JsonObject & obj, units::volume & out ) {
         if( obj.has_int( name ) ) {
             out = obj.get_int( name ) * units::legacy_volume_factor;
             return true;
@@ -1043,7 +1043,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
     } else if( jo.get_object( "proportional" ).has_member( name ) ) {
         double scalar;
         err = jo.get_object( "proportional" );
-        if( !err.read( name, scalar) || scalar <= 0 || scalar == 1 ) {
+        if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
             err.throw_error( "invalid proportional scalar", name );
         }
         strict = false;
