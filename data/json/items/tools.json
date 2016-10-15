@@ -6699,12 +6699,6 @@
     "flags": [ "SPEAR" ]
   },
   {
-    "id": "spare_parts",
-    "name": "SPARE PARTS",
-    "sort_rank": 8,
-    "type": "ITEM_CATEGORY"
-  },
-  {
     "id": "spear_knife",
     "type": "TOOL",
     "category": "weapons",

@@ -29,21 +29,6 @@
 #include <algorithm>
 #include <sstream>
 
-static const std::string category_id_guns("guns");
-static const std::string category_id_ammo("ammo");
-static const std::string category_id_weapons("weapons");
-static const std::string category_id_tools("tools");
-static const std::string category_id_clothing("clothing");
-static const std::string category_id_drugs("drugs");
-static const std::string category_id_food("food");
-static const std::string category_id_books("books");
-static const std::string category_id_mods("mods");
-static const std::string category_id_magazines("magazines");
-static const std::string category_id_cbm("bionics");
-static const std::string category_id_mutagen("mutagen");
-static const std::string category_id_veh_parts("veh_parts");
-static const std::string category_id_other("other");
-
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 
@@ -51,6 +36,7 @@ static DynamicDataLoader::deferred_json deferred;
 
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
+static const std::string calc_category( const itype &obj );
 static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
@@ -135,8 +121,15 @@ void Item_factory::finalize() {
             obj.engine->faults.clear();
         }
 
-        if( !obj.category ) {
-            obj.category = get_category( calc_category( &obj ) );
+        // If no category was forced via JSON automatically calculate one now
+        if( obj.category_force.empty() ) {
+            obj.category_force = calc_category( obj );
+        }
+
+        // If category exists assign now otherwise throw error later in @see check_definitions()
+        auto cat = categories.find( obj.category_force );
+        if( cat != categories.end() ) {
+            obj.category = &cat->second;
         }
 
         // use pre-cataclysm price as default if post-cataclysm price unspecified
@@ -556,47 +549,9 @@ void Item_factory::init()
     add_actor( new ups_based_armor_actor() );
     add_actor( new place_trap_actor() );
 
-    create_inital_categories();
-
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"] = new Item_group( Item_group::G_COLLECTION, 100 );
-}
-
-void Item_factory::create_inital_categories()
-{
-    // Load default categories with their default sort_rank
-    // Negative rank so the default categories come before all
-    // the explicit defined categories from json
-    // (assuming the category definitions in json use positive sort_ranks).
-    // Note that json data might override these settings
-    // (simply define a category in json with the id
-    // taken from category_id_* and that definition will get
-    // used - see load_item_category)
-    add_category(category_id_guns, -22, _("GUNS"));
-    add_category(category_id_magazines, -21, _("MAGAZINES"));
-    add_category(category_id_ammo, -20, _("AMMO"));
-    add_category(category_id_weapons, -19, _("WEAPONS"));
-    add_category(category_id_tools, -18, _("TOOLS"));
-    add_category(category_id_clothing, -17, _("CLOTHING"));
-    add_category(category_id_food, -16, _("FOOD"));
-    add_category(category_id_drugs, -15, _("DRUGS"));
-    add_category(category_id_books, -14, _("BOOKS"));
-    add_category(category_id_mods, -13, _("MODS"));
-    add_category(category_id_cbm, -12, _("BIONICS"));
-    add_category(category_id_mutagen, -11, _("MUTAGEN"));
-    add_category(category_id_veh_parts, -10, _("VEHICLE PARTS"));
-    add_category(category_id_other, -9, _("OTHER"));
-}
-
-void Item_factory::add_category(const std::string &id, int sort_rank, const std::string &name)
-{
-    // unconditionally override any existing definition
-    // as there should be none.
-    item_category &cat = m_categories[id];
-    cat.id = id;
-    cat.sort_rank = sort_rank;
-    cat.name = name;
 }
 
 bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype& ammo ) const
@@ -624,6 +579,10 @@ void Item_factory::check_definitions() const
     for( const auto &elem : m_templates ) {
         std::ostringstream msg;
         const itype *type = elem.second.get();
+
+        if( !type->category ) {
+            msg << "undefined category " << type->category_force << "\n";
+        }
 
         if( type->weight < 0 ) {
             msg << "negative weight" << "\n";
@@ -1547,6 +1506,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
         m_templates[ new_item_template->id ].reset( new_item_template );
     }
 
+    assign( jo, "category", new_item_template->category_force, strict );
     assign( jo, "weight", new_item_template->weight, strict, 0 );
     assign( jo, "volume", new_item_template->volume );
     assign( jo, "price", new_item_template->price );
@@ -1669,10 +1629,6 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
         new_item_template->countdown_action = usage_from_object( tmp ).second;
     }
 
-    if( jo.has_member( "category" ) ) {
-        new_item_template->category = get_category( jo.get_string( "category" ) );
-    }
-
     load_slot_optional( new_item_template->container, jo, "container_data", src );
     load_slot_optional( new_item_template->armor, jo, "armor_data", src );
     load_slot_optional( new_item_template->book, jo, "book_data", src );
@@ -1695,7 +1651,7 @@ void Item_factory::load_item_category(JsonObject &jo)
     // reuse an existing definition,
     // override the name and the sort_rank if
     // these are present in the json
-    item_category &cat = m_categories[id];
+    item_category &cat = categories[id];
     cat.id = id;
     if (jo.has_member("name")) {
         cat.name = _(jo.get_string("name").c_str());
@@ -1795,8 +1751,8 @@ void Item_factory::clear()
     }
     m_template_groups.clear();
 
-    m_categories.clear();
-    create_inital_categories();
+    categories.clear();
+
     // Also clear functions refering to lua
     iuse_function_list.clear();
 
@@ -2071,55 +2027,41 @@ phase_id string_to_enum<phase_id>( const std::string &data )
 }
 } // namespace io
 
-const item_category *Item_factory::get_category(const std::string &id)
+const std::string calc_category( const itype &obj )
 {
-    const CategoryMap::const_iterator a = m_categories.find(id);
-    if (a != m_categories.end()) {
-        return &a->second;
+    if( obj.gun && !obj.gunmod ) {
+        return "guns";
     }
-    // Unknown / invalid category id, improvise and make this
-    // a new category with at least a name.
-    item_category &cat = m_categories[id];
-    cat.id = id;
-    cat.name = id;
-    return &cat;
-}
-
-const std::string &Item_factory::calc_category( const itype *it )
-{
-    if( it->gun && !it->gunmod ) {
-        return category_id_guns;
+    if( obj.magazine ) {
+        return "magazines";
     }
-    if( it->magazine ) {
-        return category_id_magazines;
+    if( obj.ammo ) {
+        return "ammo";
     }
-    if( it->ammo ) {
-        return category_id_ammo;
+    if( obj.tool ) {
+        return "tools";
     }
-    if( it->tool ) {
-        return category_id_tools;
+    if( obj.armor ) {
+        return "clothing";
     }
-    if( it->armor ) {
-        return category_id_clothing;
+    if (obj.comestible) {
+        return obj.comestible->comesttype == "MED" ? "drugs" : "food";
     }
-    if (it->comestible) {
-        return it->comestible->comesttype == "MED" ? category_id_drugs : category_id_food;
+    if( obj.book ) {
+        return "books";
     }
-    if( it->book ) {
-        return category_id_books;
+    if( obj.gunmod ) {
+        return "mods";
     }
-    if( it->gunmod ) {
-        return category_id_mods;
-    }
-    if( it->bionic ) {
-        return category_id_cbm;
+    if( obj.bionic ) {
+        return "bionics";
     }
 
-    bool weap = std::any_of( it->melee.begin(), it->melee.end(), []( int qty ) {
+    bool weap = std::any_of( obj.melee.begin(), obj.melee.end(), []( int qty ) {
         return qty > MELEE_STAT;
     } );
 
-    return weap ? category_id_weapons : category_id_other;
+    return weap ? "weapons" : "other";
 }
 
 std::vector<Group_tag> Item_factory::get_all_group_names()

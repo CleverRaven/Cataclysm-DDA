@@ -585,7 +585,6 @@
   {
     "id": "jar_3l_glass",
     "type": "CONTAINER",
-    "category": "other",
     "name": "3L glass jar",
     "description": "A three-liter glass jar with a metal screw top lid, used for canning.",
     "weight": 365,

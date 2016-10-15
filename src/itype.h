@@ -598,6 +598,9 @@ protected:
     std::string name = "none";        // Proper name, singular form, in American English.
     std::string name_plural = "none"; // name, plural form, in American English.
 
+    /** If set via JSON forces item category to this (preventing automatic assignment) */
+    std::string category_force;
+
 public:
     itype() {
         melee.fill( 0 );

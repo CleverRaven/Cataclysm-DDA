@@ -1,10 +1,5 @@
 [
     {
-        "type" : "ITEM_CATEGORY",
-        "id" : "veh_parts",
-        "name" : "VEHICLE PARTS",
-        "sort_rank" : 10
-    },{
         "type":"GENERIC",
         "id" : "foldframe",
         "name" : "foldable-light frame",
