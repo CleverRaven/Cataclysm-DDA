@@ -7776,7 +7776,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "hotel_tower", "s_restaurant", "cathedral", "s_restaurant_fast", "megastore" ],
+      "terrain": [ "hiway", "road", "bridge", "hotel_tower", "s_restaurant", "cathedral", "s_restaurant_fast", "megastore", "museum" ],
       "message": "You add roads and tourist attractions to your map."
     }
   },

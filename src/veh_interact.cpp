@@ -176,10 +176,6 @@ veh_interact::~veh_interact()
 
 void veh_interact::allocate_windows()
 {
-    // border window
-    WINDOW *w_border = newwin( TERMY, TERMX, 0, 0 );
-    draw_border(w_border);
-
     // grid window
     const int grid_w = TERMX - 2; // exterior borders take 2
     const int grid_h = TERMY - 2; // exterior borders take 2
@@ -206,12 +202,6 @@ void veh_interact::allocate_windows()
     int list_x = 1 + disp_w + 1;
     int msg_x  = list_x + pane_w + 1;
 
-    // match grid lines
-    mvwputch(w_border, mode_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-    mvwputch(w_border, mode_h + 1, TERMX - 1, BORDER_COLOR, LINE_XOXX); // -|
-    mvwputch(w_border, mode_h + 1 + page_size + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-    mvwputch(w_border, mode_h + 1 + page_size + 1, TERMX - 1, BORDER_COLOR, LINE_XOXX); // -|
-
     // make the windows
     w_mode  = newwin( mode_h,    grid_w, 1,       1 );
     w_msg   = newwin( page_size, pane_w, pane_y,  msg_x  );
@@ -223,10 +213,8 @@ void veh_interact::allocate_windows()
 
     w_details = NULL; // only pops up when in install menu
 
-    wrefresh(w_border);
-    delwin( w_border );
-    display_name();
     display_grid();
+    display_name();
     display_stats();
     display_veh();
     move_cursor(0, 0); // display w_disp & w_parts
@@ -280,13 +268,15 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
 void veh_interact::do_main_loop()
 {
     bool finish = false;
-    while (!finish) {
+    while( !finish ) {
         overview();
         display_mode();
         const std::string action = main_context.handle_input();
+        bool redraw = true;
         int dx, dy;
         if (main_context.get_direction(dx, dy, action)) {
             move_cursor(dx, dy);
+            redraw = false;
         } else if (action == "QUIT") {
             finish = true;
         } else if (action == "INSTALL") {
@@ -312,11 +302,24 @@ void veh_interact::do_main_loop()
             do_relabel();
         } else if (action == "NEXT_TAB") {
             move_fuel_cursor(1);
+            redraw = false;
         } else if (action == "PREV_TAB") {
             move_fuel_cursor(-1);
+            redraw = false;
         }
         if (sel_cmd != ' ') {
             finish = true;
+        }
+
+        if( !finish && redraw ) {
+            display_grid();
+            display_name();
+            display_stats();
+            display_veh();
+            // Horrible hack warning:
+            // Part display doesn't have a dedicated display function
+            // Siphon menu obscures it, so it has to be redrawn
+            move_cursor( 0, 0 );
         }
     }
 }
@@ -1435,9 +1438,6 @@ void veh_interact::do_rename()
             overmap_buffer.add_vehicle( veh );
         }
     }
-    display_grid();
-    display_name();
-    display_stats();
     // refresh w_disp & w_part windows:
     move_cursor(0, 0);
 }
@@ -1455,9 +1455,6 @@ void veh_interact::do_relabel()
     }
     std::string text = string_input_popup(_("New label:"), 20, veh->get_label(-ddx, -ddy));
     veh->set_label(-ddx, -ddy, text); // empty input removes the label
-    display_grid();
-    display_name();
-    display_stats();
     // refresh w_disp & w_part windows:
     move_cursor(0, 0);
 }
@@ -1559,6 +1556,20 @@ void veh_interact::move_cursor (int dx, int dy)
 
 void veh_interact::display_grid()
 {
+    // border window
+    WINDOW *w_border = newwin( TERMY, TERMX, 0, 0 );
+    draw_border( w_border );
+
+    // match grid lines
+    const int y_mode = getmaxy( w_mode ) + 1;
+    mvwputch( w_border, y_mode, 0, BORDER_COLOR, LINE_XXXO );         // |-
+    mvwputch( w_border, y_mode, TERMX - 1, BORDER_COLOR, LINE_XOXX ); // -|
+    const int y_list = getbegy( w_list ) + getmaxy( w_list );
+    mvwputch( w_border, y_list, 0, BORDER_COLOR, LINE_XXXO );         // |-
+    mvwputch( w_border, y_list, TERMX - 1, BORDER_COLOR, LINE_XOXX ); // -|
+    wrefresh( w_border );
+    delwin( w_border );
+
     const int grid_w = getmaxx(w_grid);
 
     // Two lines dividing the three middle sections.

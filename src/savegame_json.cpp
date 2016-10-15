@@ -1350,6 +1350,8 @@ void monster::load(JsonObject &data)
 
     faction = mfaction_str_id( data.get_string( "faction", "" ) );
     last_updated = data.get_int( "last_updated", calendar::turn );
+
+    data.read( "path", path );
 }
 
 /*
@@ -1396,6 +1398,8 @@ void monster::store(JsonOut &json) const
     json.member("last_updated", last_updated);
 
     json.member( "inv", inv );
+
+    json.member( "path", path );
 }
 
 void mon_special_attack::serialize(JsonOut &json) const
@@ -1524,14 +1528,23 @@ void item::io( Archive& archive )
     }
 
     // Migrate legacy toolmod flags
-    if( has_flag( "ATOMIC_AMMO" ) ) {
-        emplace_back( "battery_atomic" );
-    } else if( has_flag( "DOUBLE_AMMO" ) ) {
-        emplace_back( "battery_compartment" );
-    } else if( has_flag( "USE_UPS" ) ) {
-        emplace_back( "battery_ups" );
-    } else if( has_flag( "DOUBLE_REACTOR" ) ) {
-        emplace_back( "double_plutonium_core" );
+    if( !is_toolmod() ) {
+        if( has_flag( "ATOMIC_AMMO" ) ) {
+            item_tags.erase( "ATOMIC_AMMO" );
+            emplace_back( "battery_atomic" );
+
+        } else if( has_flag( "DOUBLE_AMMO" ) ) {
+            item_tags.erase( "DOUBLE_AMMO" );
+            emplace_back( "battery_compartment" );
+
+        } else if( has_flag( "USE_UPS" ) ) {
+            item_tags.erase( "USE_UPS" );
+            emplace_back( "battery_ups" );
+
+        } else if( has_flag( "DOUBLE_REACTOR" ) ) {
+            item_tags.erase( "DOUBLE_REACTOR" );
+            emplace_back( "double_plutonium_core" );
+        }
     }
 }
 

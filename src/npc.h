@@ -743,6 +743,10 @@ public:
  void move_away_from( const tripoint &p, bool no_bashing = false );
  void move_pause(); // Same as if the player pressed '.'
 
+    const pathfinding_settings &get_pathfinding_settings() const override;
+    const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
+    std::set<tripoint> get_path_avoid() const override;
+
 // Item discovery and fetching
  void find_item  (); // Look around and pick an item
  void pick_up_item (); // Move to, or grab, our targeted item

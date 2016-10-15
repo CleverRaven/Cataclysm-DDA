@@ -1649,13 +1649,16 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     load_slot_optional( new_item_template->armor, jo, "armor_data", src );
     load_slot_optional( new_item_template->book, jo, "book_data", src );
     load_slot_optional( new_item_template->gun, jo, "gun_data", src );
-    load_slot_optional( new_item_template->gunmod, jo, "gunmod_data", src );
     load_slot_optional( new_item_template->bionic, jo, "bionic_data", src );
     load_slot_optional( new_item_template->spawn, jo, "spawn_data", src );
     load_slot_optional( new_item_template->ammo, jo, "ammo_data", src );
     load_slot_optional( new_item_template->seed, jo, "seed_data", src );
     load_slot_optional( new_item_template->artifact, jo, "artifact_data", src );
     load_slot_optional( new_item_template->brewable, jo, "brewable", src );
+
+    // optional gunmod slot may also specify mod data
+    load_slot_optional( new_item_template->gunmod, jo, "gunmod_data", src );
+    load_slot_optional( new_item_template->mod, jo, "gunmod_data", src );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
