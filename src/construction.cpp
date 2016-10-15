@@ -306,9 +306,6 @@ void construction_menu()
         werase( w_list );
         // Print new tab listing
         mvwprintz( w_con, 1, 1, c_yellow, "<< %s >>", construct_cat[tabindex].c_str() );
-        // Print the next tab in a "faded" color
-        mvwprintz( w_con, 1, 7 + construct_cat[tabindex].size(), c_brown,
-                   construct_cat[( tabindex + 1 ) % 10].c_str());
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
