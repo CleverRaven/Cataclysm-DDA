@@ -5147,15 +5147,19 @@ void game::list_missions()
             const auto miss = umissions[selection];
             mvwprintz(w_missions, 4, 31, c_white, "%s", miss->get_description().c_str());
             if( miss->has_deadline() ) {
-                // TODO: proper formatting of turns, see calendar class, it has some nice functions
-                mvwprintz(w_missions, 5, 31, c_white, _("Deadline: %d (%d)"),
-                          int(miss->get_deadline()), int(calendar::turn));
+                calendar deadline( miss->get_deadline() );
+                std::string dl = string_format( season_name_upper( deadline.get_season() ) + ", day " +
+                                 std::to_string( deadline.days() + 1 ) + " " + deadline.print_time() );
+                mvwprintz( w_missions, 5, 31, c_white, _( "Deadline: %s" ), dl.c_str() );
+                mvwprintz( w_missions, 6, 31, c_white, _( "Time remaining: %s" ),
+                           deadline.get_turn() <= calendar::turn ? _( "None!" ) :
+                           calendar::print_duration( deadline.get_turn() - calendar::turn ).c_str() );
             }
             if( miss->has_target() ) {
                 const tripoint pos = u.global_omt_location();
                 // TODO: target does not contain a z-component, targets are assumed to be on z=0
-                mvwprintz(w_missions, 6, 31, c_white, _("Target: (%d, %d)   You: (%d, %d)"),
-                          miss->get_target().x, miss->get_target().y, pos.x, pos.y);
+                mvwprintz( w_missions, 7, 31, c_white, _( "Target: (%d, %d)   You: (%d, %d)" ),
+                           miss->get_target().x, miss->get_target().y, pos.x, pos.y );
             }
         } else {
             std::string nope;
