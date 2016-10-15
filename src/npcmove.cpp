@@ -269,7 +269,7 @@ void npc::move()
              name.c_str(), target_name.c_str(), ai_cache.danger, confident_shoot_range( weapon ) );
 
     //faction opinion determines if it should consider you hostile
-    if( my_fac != nullptr && my_fac->likes_u < -10 && is_enemy() && sees( g->u ) ) {
+    if( my_fac != nullptr && my_fac->likes_u < -10 && !is_enemy() && sees( g->u ) ) {
         add_msg( m_debug, "NPC %s turning hostile because my_fac->likes_u %d < -10",
                  name.c_str(), my_fac->likes_u );
         if (op_of_u.fear > 10 + personality.aggression + personality.bravery) {

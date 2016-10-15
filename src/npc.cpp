@@ -16,6 +16,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "monfaction.h"
+#include "mutation.h"
 #include "npc_class.h"
 #include "json.h"
 #include "sounds.h"
@@ -1582,9 +1583,10 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         // For now, make it symmetric.
         return other.attitude_to( *this );
     }
-    // Fallback to use the same logic as player, even through it's wrong:
-    // Hostile (towards the player) npcs should see friendly monsters as hostile, too.
-    switch( m->attitude( this ) ) {
+
+    // @todo Get rid of the ugly cast without duplicating checks
+    const monster &m = dynamic_cast<const monster &>( other );
+    switch( m.attitude( this ) ) {
         case MATT_FOLLOW:
         case MATT_FPASSIVE:
         case MATT_IGNORE:
@@ -1686,26 +1688,45 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
         trim_and_print(w, line++, column, iWidth, c_red, _("Wielding a %s"), weapon.tname().c_str());
     }
 
+    const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( std::string &str_in, nc_color color ) {
+        // @todo Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
+        size_t split;
+        do {
+            split = (str_in.length() <= iWidth) ? std::string::npos : str_in.find_last_of(' ', iWidth);
+            if (split == std::string::npos) {
+                mvwprintz(w, line, column, color, str_in.c_str());
+            } else {
+                mvwprintz(w, line, column, color, str_in.substr(0, split).c_str());
+            }
+            str_in = str_in.substr(split + 1);
+            line++;
+        } while (split != std::string::npos && line <= last_line);
+    };
+
     const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(), []( const item &it ) {
         return it.tname();
     } );
-    if( worn_str.empty() ) {
-        return line;
+    if( !worn_str.empty() ) {
+        std::string wearing = _( "Wearing: " ) + remove_color_tags( worn_str );
+        enumerate_print( wearing, c_blue );
     }
-    std::string wearing = _( "Wearing: " ) + remove_color_tags( worn_str );
-    // @todo Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
-    size_t split;
-    do {
-        split = (wearing.length() <= iWidth) ? std::string::npos :
-                                     wearing.find_last_of(' ', iWidth);
-        if (split == std::string::npos) {
-            mvwprintz(w, line, column, c_blue, wearing.c_str());
-        } else {
-            mvwprintz(w, line, column, c_blue, wearing.substr(0, split).c_str());
+
+    const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
+    const std::string trait_str = enumerate_as_string( my_mutations.begin(), my_mutations.end(),
+        [ this, visibility_cap ]( const std::pair<std::string, trait_data> &pr ) {
+        const auto &mut_branch = mutation_branch::get( pr.first );
+        // Finally some use for visibility trait of mutations
+        // @todo Balance this formula
+        if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap ) {
+            return mut_branch.name;
         }
-        wearing = wearing.substr(split + 1);
-        line++;
-    } while (split != std::string::npos && line <= last_line);
+
+        return std::string();
+    } );
+    if( !trait_str.empty() ) {
+        std::string mutations = _( "Traits: " ) + remove_color_tags( trait_str );
+        enumerate_print( mutations, c_green );
+    }
 
     return line;
 }

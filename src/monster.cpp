@@ -648,7 +648,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-monster_attitude monster::attitude(player *u) const
+monster_attitude monster::attitude( const Character *u ) const
 {
     if( friendly != 0 ) {
         if( has_effect( effect_docile ) ) {
@@ -658,70 +658,80 @@ monster_attitude monster::attitude(player *u) const
             return MATT_FRIEND;
         }
         // Zombies don't understand not attacking NPCs, but dogs and bots should.
-        npc *np = dynamic_cast< npc* >( u );
+        const npc *np = dynamic_cast< const npc * >( u );
         if( np != nullptr && np->attitude != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
             return MATT_FRIEND;
         }
     }
-    if (has_effect( effect_run)) {
+    if( has_effect( effect_run ) ) {
         return MATT_FLEE;
     }
-    if (has_effect( effect_pacified)) {
+    if( has_effect( effect_pacified ) ) {
         return MATT_ZLAVE;
     }
 
     int effective_anger  = anger;
     int effective_morale = morale;
 
-    if (u != NULL) {
-        if (((type->in_species( MAMMAL ) && u->has_trait("PHEROMONE_MAMMAL")) ||
-             (type->in_species( INSECT ) && u->has_trait("PHEROMONE_INSECT"))) &&
-            effective_anger >= 10) {
+    if( u != nullptr ) {
+        // Those are checked quite often, so avoiding string construction is a good idea
+        const string_id<monfaction> faction_bee( "bee" );
+        const std::string pheromone_mammal( "PHEROMONE_MAMMAL" );
+        const std::string pheromone_insect( "PHEROMONE_INSECT" );
+        const std::string mycus_thresh( "MYCUS_THRESH" );
+        const std::string terrifying( "TERRIFYING" );
+        if( faction == faction_bee ) {
+            if( u->has_trait( "VESPA" ) ) {
+                return MATT_FRIEND;
+            } else if( u->has_trait( "FLOWERS" ) ) {
+                effective_anger -= 10;
+            }
+        }
+
+        if( type->in_species( FUNGUS ) && u->has_trait( mycus_thresh ) ) {
+            return MATT_FRIEND;
+        }
+
+        if( effective_anger >= 10 &&
+            ( (type->in_species( MAMMAL ) && u->has_trait( pheromone_mammal ) ) ||
+              (type->in_species( INSECT ) && u->has_trait( pheromone_insect ) ) ) ) {
             effective_anger -= 20;
         }
 
-        if ( (type->id == mon_bee) && (u->has_trait("FLOWERS"))) {
-            effective_anger -= 10;
-        }
-
-        if (u->has_trait("TERRIFYING")) {
+        
+        if( u->has_trait( terrifying ) ) {
             effective_morale -= 10;
         }
 
-        if (u->has_trait("ANIMALEMPATH") && has_flag(MF_ANIMAL)) {
-            if (effective_anger >= 10) {
+        if( has_flag( MF_ANIMAL ) ) {
+            if( u->has_trait("ANIMALEMPATH") ) {
                 effective_anger -= 10;
+                if( effective_anger < 10 ) {
+                    effective_morale += 5;
+                }
+            } else if( u->has_trait("ANIMALDISCORD") ) {
+                if( effective_anger >= 10 ) {
+                    effective_anger += 10;
+                }
+                if( effective_anger < 10 ) {
+                    effective_morale -= 5;
+                }
             }
-            if (effective_anger < 10) {
-                effective_morale += 5;
-            }
-        }
-        if (u->has_trait("ANIMALDISCORD") && has_flag(MF_ANIMAL)) {
-            if (effective_anger >= 10) {
-                effective_anger += 10;
-            }
-            if (effective_anger < 10) {
-                effective_morale -= 5;
-            }
-        }
-        if( type->in_species( FUNGUS ) && u->has_trait("MYCUS_THRESH") ) {
-            // We. Are. The Mycus.
-            effective_anger = 0;
         }
     }
 
-    if (effective_morale < 0) {
-        if (effective_morale + effective_anger > 0) {
+    if( effective_morale < 0 ) {
+        if( effective_morale + effective_anger > 0 && get_hp() > get_hp_max() / 3 ) {
             return MATT_FOLLOW;
         }
         return MATT_FLEE;
     }
 
-    if (effective_anger <= 0) {
+    if( effective_anger <= 0 ) {
         return MATT_IGNORE;
     }
 
-    if (effective_anger < 10) {
+    if( effective_anger < 10 ) {
         return MATT_FOLLOW;
     }
 
