@@ -1523,9 +1523,20 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_str_id &id) cons
     }
 
     // All parts after the first must be installed on or next to an existing part
-    // the exception is when a single part vehicle is being repaired
+    // the exception is when a single tile only structural object is being repaired
+    
+    bool repairingStructural = false;
+
+    for( int i = 0; i < parts.size(); ++i ) {
+        if (parts[i].removed &&
+                part_info( i, true ).location == part_location_structure) {
+            repairingStructural = true;
+            break;
+        }
+    }
+
     if(!parts.empty()) {
-        if(!((parts.size() == 1) && parts[0].removed) &&
+        if(!repairingStructural &&
                 !has_structural_part(dx, dy) &&
                 !has_structural_part(dx+1, dy) &&
                 !has_structural_part(dx, dy+1) &&
