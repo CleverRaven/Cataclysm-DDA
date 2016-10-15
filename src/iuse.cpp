@@ -2843,14 +2843,15 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
     if (dice(4, difficulty) < dice(2, p->get_skill_level( skill_mechanics )) + dice(2, p->str_cur)) {
         p->practice( skill_mechanics, 1);
         p->add_msg_if_player(m_good, succ_action);
+
         if (g->m.furn(dirx, diry) == f_crate_c) {
             g->m.furn_set(dirx, diry, f_crate_o);
-        }
-        if (g->m.furn(dirx, diry) == f_coffin_c) {
+        } else if (g->m.furn(dirx, diry) == f_coffin_c) {
             g->m.furn_set(dirx, diry, f_coffin_o);
         } else {
             g->m.ter_set(dirx, diry, new_type);
         }
+
         if (noisy) {
             sounds::sound(dirp, 12, _("crunch!"));
         }
