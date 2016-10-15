@@ -610,7 +610,7 @@ mtype_id MonsterGenerator::get_valid_hallucination() const
 {
     std::vector<mtype_id> potentials;
     for( const auto &mon : mon_templates->get_all() ) {
-        if( mon.id != NULL_ID && mon.id != mon_generator ) {
+        if( mon.id != NULL_ID && mon.id != mon_generator && mon.id.str() != "debug_mon" ) {
             potentials.push_back( mon.id );
         }
     }
