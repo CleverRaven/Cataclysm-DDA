@@ -1413,7 +1413,7 @@ void mon_special_attack::serialize(JsonOut &json) const
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h
 
-static void migrate_toolmod( item &item );
+static void migrate_toolmod( item &it );
 
 template<typename Archive>
 void item::io( Archive& archive )
@@ -1535,49 +1535,49 @@ void item::io( Archive& archive )
     }
 }
 
-static void migrate_toolmod( item &i )
+static void migrate_toolmod( item &it )
 {
     // Convert legacy flags on tools to contained toolmods
-    if( i.is_tool() ) {
-        if( i.item_tags.count( "ATOMIC_AMMO" ) ) {
-            i.item_tags.erase( "ATOMIC_AMMO" );
-            i.item_tags.erase( "NO_UNLOAD" );
-            i.item_tags.erase( "RADIOACTIVE" );
-            i.item_tags.erase( "LEAK_DAM" );
-            i.emplace_back( "battery_atomic" );
+    if( it.is_tool() ) {
+        if( it.item_tags.count( "ATOMIC_AMMO" ) ) {
+            it.item_tags.erase( "ATOMIC_AMMO" );
+            it.item_tags.erase( "NO_UNLOAD" );
+            it.item_tags.erase( "RADIOACTIVE" );
+            it.item_tags.erase( "LEAK_DAM" );
+            it.emplace_back( "battery_atomic" );
 
-        } else if( i.item_tags.count( "DOUBLE_REACTOR" ) ) {
-            i.item_tags.erase( "DOUBLE_REACTOR" );
-            i.item_tags.erase( "DOUBLE_AMMO" );
-            i.emplace_back( "double_plutonium_core" );
+        } else if( it.item_tags.count( "DOUBLE_REACTOR" ) ) {
+            it.item_tags.erase( "DOUBLE_REACTOR" );
+            it.item_tags.erase( "DOUBLE_AMMO" );
+            it.emplace_back( "double_plutonium_core" );
 
-        } else if( i.item_tags.count( "DOUBLE_AMMO" ) ) {
-            i.item_tags.erase( "DOUBLE_AMMO" );
-            i.emplace_back( "battery_compartment" );
+        } else if( it.item_tags.count( "DOUBLE_AMMO" ) ) {
+            it.item_tags.erase( "DOUBLE_AMMO" );
+            it.emplace_back( "battery_compartment" );
 
-        } else if( i.item_tags.count( "USE_UPS" ) ) {
-            i.item_tags.erase( "USE_UPS" );
-            i.item_tags.erase( "NO_RELOAD" );
-            i.item_tags.erase( "NO_UNLOAD" );
-            i.emplace_back( "battery_ups" );
+        } else if( it.item_tags.count( "USE_UPS" ) ) {
+            it.item_tags.erase( "USE_UPS" );
+            it.item_tags.erase( "NO_RELOAD" );
+            it.item_tags.erase( "NO_UNLOAD" );
+            it.emplace_back( "battery_ups" );
 
         }
     }
 
     // Fix fallout from #18797, which exponentially duplicates migrated toolmods
-    if( i.is_toolmod() ) {
+    if( it.is_toolmod() ) {
         // duplication would add an extra toolmod inside each toolmod on load;
         // delete the nested copies
-        if( i.typeId() == "battery_atomic" || i.typeId() == "battery_compartment" ||
-            i.typeId() == "battery_ups" || i.typeId() == "double_plutonium_core" ) {
+        if( it.typeId() == "battery_atomic" || it.typeId() == "battery_compartment" ||
+            it.typeId() == "battery_ups" || it.typeId() == "double_plutonium_core" ) {
             // Be conservative and only delete nested mods of the same type
-            i.contents.remove_if( [&]( const item &cont ) {
-                    return cont.typeId() == i.typeId();
+            it.contents.remove_if( [&]( const item &cont ) {
+                    return cont.typeId() == it.typeId();
                         } );
         }
     }
 
-    if( i.is_tool() ) {
+    if( it.is_tool() ) {
         // duplication would add an extra toolmod inside each tool on load;
         // delete the duplicates so there is only one copy of each toolmod
         int n_atomic = 0,
@@ -1586,14 +1586,14 @@ static void migrate_toolmod( item &i )
             n_plutonium = 0;
 
         // not safe to use remove_if with a stateful predicate
-        for( auto it = i.contents.begin(); it != i.contents.end(); ) {
-            if( ( it->typeId() == "battery_atomic" && ++n_atomic > 1 ) ||
-                ( it->typeId() == "battery_compartment" && ++n_compartment > 1 ) ||
-                ( it->typeId() == "battery_ups" && ++n_ups > 1 ) ||
-                ( it->typeId() == "double_plutonium_core" && ++n_plutonium > 1 ) ) {
-                i.contents.erase( it++ );
+        for( auto i = it.contents.begin(); i != it.contents.end(); ) {
+            if( ( i->typeId() == "battery_atomic" && ++n_atomic > 1 ) ||
+                ( i->typeId() == "battery_compartment" && ++n_compartment > 1 ) ||
+                ( i->typeId() == "battery_ups" && ++n_ups > 1 ) ||
+                ( i->typeId() == "double_plutonium_core" && ++n_plutonium > 1 ) ) {
+                it.contents.erase( i++ );
             } else {
-                ++it;
+                ++i;
             }
         }
     }
