@@ -79,6 +79,8 @@ void MonsterGenerator::reset()
 
     mon_species->reset();
     mon_species->insert( species_type() );
+
+    hallucination_monsters.clear();
 }
 
 static int calc_bash_skill( const mtype &t )
@@ -108,6 +110,12 @@ void MonsterGenerator::finalize_mtypes()
         }
 
         finalize_pathfinding_settings( mon );
+    }
+
+    for( const auto &mon : mon_templates->get_all() ) {
+        if( mon.id != NULL_ID && mon.id != mon_generator && mon.id.str() != "debug_mon" ) {
+            hallucination_monsters.push_back( mon.id );
+        }
     }
 }
 
@@ -608,14 +616,7 @@ const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
 
 mtype_id MonsterGenerator::get_valid_hallucination() const
 {
-    std::vector<mtype_id> potentials;
-    for( const auto &mon : mon_templates->get_all() ) {
-        if( mon.id != NULL_ID && mon.id != mon_generator && mon.id.str() != "debug_mon" ) {
-            potentials.push_back( mon.id );
-        }
-    }
-
-    return random_entry( potentials );
+    return random_entry( hallucination_monsters );
 }
 
 m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const
