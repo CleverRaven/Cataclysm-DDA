@@ -1133,7 +1133,7 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 
     // last chance to back out
     if( interactive &&
-        ( get_option<bool>( "QUERY_DISASSEMBLE" ) || r.time > MOVES( MINUTES( 15 ) ) ) &&
+        get_option<bool>( "QUERY_DISASSEMBLE" ) &&
         !query_yn( _( "Disassembling the %s will take about %s. Continue?" ),
                    obj.tname().c_str(), calendar::print_duration( r.time / 100 ).c_str() ) ) {
         return false;
