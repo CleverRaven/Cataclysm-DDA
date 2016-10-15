@@ -4423,7 +4423,6 @@
       ["carver_off", 7],
       ["jackhammer", 2],
       ["elec_jackhammer", 1],
-      ["jacqueshammer", 2],
       ["pickaxe", 1],
       ["ring", 12],
       ["diamond_ring", 1],
@@ -5681,7 +5680,6 @@
       ["smokebomb", 500],
       ["dynamite", 500],
       ["mininuke", 50],
-      ["granade", 1],
       ["c4", 500],
       ["tool_black_powder_bomb", 100]
     ]
@@ -6212,7 +6210,6 @@
       ["pickaxe", 1],
       ["jackhammer", 2],
       ["elec_jackhammer", 1],
-      ["jacqueshammer", 2],
       ["dynamite", 5],
       ["UPS_off", 5],
       ["bio_tools", 10],
@@ -6438,7 +6435,6 @@
       ["rock", 40],
       ["jackhammer", 2],
       ["elec_jackhammer", 1],
-      ["jacqueshammer", 2],
       ["flashlight", 40],
       ["dynamite", 5],
       ["matches", 60],

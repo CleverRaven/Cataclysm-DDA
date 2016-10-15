@@ -223,7 +223,6 @@ class Item_factory
         void add_item_type( itype *new_type );
 
         void load_item_blacklist( JsonObject &jo );
-        void load_item_whitelist( JsonObject &jo );
 
         /**
          * A list of *all* known item type ids. Each is suitable as input to

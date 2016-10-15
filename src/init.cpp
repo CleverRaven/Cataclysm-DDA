@@ -215,7 +215,6 @@ void DynamicDataLoader::initialize()
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
     add( "ITEM_BLACKLIST", []( JsonObject &jo ) { item_controller->load_item_blacklist( jo ); } );
-    add( "ITEM_WHITELIST", []( JsonObject &jo ) { item_controller->load_item_whitelist( jo ); } );
     add( "WORLD_OPTION", &load_world_option );
 
     // loaded earlier.
