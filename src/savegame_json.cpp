@@ -1591,7 +1591,7 @@ static void migrate_toolmod( item &it )
                 ( i->typeId() == "battery_compartment" && ++n_compartment > 1 ) ||
                 ( i->typeId() == "battery_ups" && ++n_ups > 1 ) ||
                 ( i->typeId() == "double_plutonium_core" && ++n_plutonium > 1 ) ) {
-                it.contents.erase( i++ );
+                i = it.contents.erase( i );
             } else {
                 ++i;
             }
