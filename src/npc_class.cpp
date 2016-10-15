@@ -4,6 +4,7 @@
 #include "rng.h"
 #include "generic_factory.h"
 #include "item_group.h"
+#include "mutation.h"
 
 #include <list>
 
@@ -144,6 +145,12 @@ void npc_class::check_consistency()
                 debugmsg( "Invalid skill %s", pr.first.c_str() );
             }
         }
+
+        for( const auto &pr : cl.traits ) {
+            if( mutation_branch::has( pr.first ) ) {
+                debugmsg( "Invalid trait %s", pr.first.c_str() );
+            }
+        }
     }
 }
 
@@ -230,7 +237,13 @@ void npc_class::load( JsonObject &jo )
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
 
-    optional( jo, was_loaded, "traits", traits );
+    if( jo.has_array( "traits" ) ) {
+        JsonArray jarr = jo.get_array( "traits" );
+        while( jarr.has_more() ) {
+            JsonArray jarr_in = jarr.next_array();
+            traits[ jarr_in.get_string( 0 ) ] = jarr_in.get_int( 1 );
+        }
+    }
 
     if( jo.has_array( "skills" ) ) {
         JsonArray jarr = jo.get_array( "skills" );

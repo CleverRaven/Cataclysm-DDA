@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <map>
-#include <set>
 #include <array>
 #include <random>
 #include <functional>
@@ -69,7 +68,7 @@ class npc_class
         Group_tag carry_override;
         Group_tag weapon_override;
 
-        std::set<std::string> traits;
+        std::map<std::string, int> traits;
 
         npc_class();
 
