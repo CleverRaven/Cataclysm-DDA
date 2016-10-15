@@ -114,7 +114,7 @@
     "color": "dark_gray",
     "name": "Eagle 1776",
     "name_plural": "Eagle 1776",
-    "description": "You see before you a marvel of american engineering: a powerful .44 Magnum submachine gun, made from fine parts assembled in America. Eagle EOD. From the arsenal of freedom!",
+    "description": "You see before you a marvel of American engineering: a powerful .44 Magnum submachine gun, made from fine parts assembled in America, including an integral grenade launcher. Eagle 1776: From the arsenal of freedom!",
     "price": 580000,
     "material": ["steel", "plastic"],
     "ammo": "44",
