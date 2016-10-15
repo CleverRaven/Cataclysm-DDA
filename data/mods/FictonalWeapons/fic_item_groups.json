@@ -21,7 +21,7 @@
       "type" : "item_group",
       "id" : "guns_pistol_rare",
       "items":[
-        ["ficrico", 2],
+        ["boomlighter", 2],
         ["gunsword", 2],
         ["gunknife", 2],
         ["50pistol", 2],
