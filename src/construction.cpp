@@ -331,13 +331,14 @@ void construction_menu()
             }
 
             //leave room for top and bottom UI text
-            int available_buffer_height = w_height - 5 - 3;
+            int available_buffer_height = w_height - 7 - 3;
             int available_window_width = w_width - ( w_list_width + w_list_x0 + 2 ) - 1;
             nc_color color_stage = c_white;
 
             if( !constructs.empty() ) {
                 std::string current_desc = constructs[select];
-                mvwprintz( w_con, w_height - 5, ( w_list_width + w_list_x0 + 2 ), c_white,
+                trim_and_print( w_con, w_height - 5, ( w_list_width + w_list_x0 + 2 ),
+                           available_window_width, c_white,
                            _("Press %s or %s to tab."), 
                            ctxt.get_desc("LEFT").c_str(),
                            ctxt.get_desc("RIGHT").c_str() );
@@ -479,10 +480,10 @@ void construction_menu()
                 if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                          available_buffer_height ) < full_construct_buffer.size() ) {
                     // Print next stage indicator if more breakpoints are remaining after screen height
-                    mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white, _( "v [N]ext stage(s)" ) );
+                    mvwprintz( w_con, w_height - 6, ( w_list_width + w_list_x0 + 2 ), c_white, _( "v [N]ext stage(s)" ) );
                 }
                 // Leave room for above/below indicators
-                int ypos = 4;
+                int ypos = 3;
                 nc_color stored_color = color_stage;
                 for( size_t i = static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] );
                      i < full_construct_buffer.size(); i++ ) {
