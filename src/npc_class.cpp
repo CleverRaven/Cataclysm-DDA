@@ -127,6 +127,18 @@ void npc_class::check_consistency()
             debugmsg( "Missing shopkeeper item group %s", cl.shopkeeper_item_group.c_str() );
         }
 
+        if( !cl.worn_override.empty() && !item_group::group_is_defined( cl.worn_override ) ) {
+            debugmsg( "Missing worn override item group %s", cl.worn_override.c_str() );
+        }
+
+        if( !cl.carry_override.empty() && !item_group::group_is_defined( cl.carry_override ) ) {
+            debugmsg( "Missing carry override item group %s", cl.carry_override.c_str() );
+        }
+
+        if( !cl.weapon_override.empty() && !item_group::group_is_defined( cl.weapon_override ) ) {
+            debugmsg( "Missing weapon override item group %s", cl.weapon_override.c_str() );
+        }
+
         for( const auto &pr : cl.skills ) {
             if( !pr.first.is_valid() ) {
                 debugmsg( "Invalid skill %s", pr.first.c_str() );

@@ -352,7 +352,6 @@ void npc::randomize( const npc_class_id &type )
         hp_cur[i] = hp_max[i];
     }
 
-    inv.clear();
     starting_weapon( type );
     starting_clothes( *this, type, male );
     starting_inv( *this, type );
@@ -648,6 +647,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         ret.push_back( random_item_from( type, "extra" ) );
     }
 
+    who.worn.clear();
     for( item &it : ret ) {
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
@@ -662,6 +662,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
 void starting_inv( npc &me, const npc_class_id &type )
 {
     std::list<item> res;
+    me.inv.clear();
     if( item_group::group_is_defined( type->carry_override ) ) {
         me.inv += item_group::items_from( type->carry_override );
         return;
