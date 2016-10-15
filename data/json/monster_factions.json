@@ -6,7 +6,11 @@
         "by_mood" : [""]
     },{
         "type" : "MONSTER_FACTION",
-        "name" : "player"
+        "name" : "human"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "player",
+        "base_faction" : "human"
     },{
         "type" : "MONSTER_FACTION",
         "name" : "zombie",
@@ -69,6 +73,12 @@
         "name" : "insect",
         "neutral" : ["military", "defense_bot", "utility_bot", "zombie"],
         "by_mood" : "insect"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "bee",
+        "base_faction" : "insect",
+        "neutral" : ["military", "defense_bot", "utility_bot"],
+        "by_mood" : ["insect", "zombie"]
     },{
         "type" : "MONSTER_FACTION",
         "name" : "roach",

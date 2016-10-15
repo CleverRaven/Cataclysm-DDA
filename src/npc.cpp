@@ -15,6 +15,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "mission.h"
+#include "monfaction.h"
 #include "npc_class.h"
 #include "json.h"
 #include "sounds.h"
@@ -1291,6 +1292,10 @@ void npc::say( const std::string line, ... ) const
     std::string formatted_line = vstring_format(line, ap);
     va_end(ap);
     parse_tags( formatted_line, g->u, *this );
+    if( has_trait( "MUTE" ) ) {
+        return;
+    }
+
     const bool sees = g->u.sees( *this );
     const bool deaf = g->u.is_deaf();
     if( sees && !deaf ) {
@@ -1568,7 +1573,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
     if( other.is_npc() ) {
         // Hostile NPCs are also hostile towards player's allied
-        if( is_enemy() && g->u.attitude_to( other ) == A_FRIENDLY ) {
+        if( is_enemy() && other.attitude_to( g->u ) == A_FRIENDLY ) {
             return A_HOSTILE;
         }
 
@@ -1579,7 +1584,23 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
     }
     // Fallback to use the same logic as player, even through it's wrong:
     // Hostile (towards the player) npcs should see friendly monsters as hostile, too.
-    return player::attitude_to( other );
+    switch( m->attitude( this ) ) {
+        case MATT_FOLLOW:
+        case MATT_FPASSIVE:
+        case MATT_IGNORE:
+        case MATT_FLEE:
+            return A_NEUTRAL;
+        case MATT_FRIEND:
+        case MATT_ZLAVE:
+            return A_FRIENDLY;
+        case MATT_ATTACK:
+            return A_HOSTILE;
+        case MATT_NULL:
+        case NUM_MONSTER_ATTITUDES:
+            break;
+    }
+
+    return A_NEUTRAL;
 }
 
 int npc::smash_ability() const
@@ -2296,3 +2317,20 @@ std::set<tripoint> npc::get_path_avoid() const
     return ret;
 }
 
+mfaction_id npc::get_monster_faction() const
+{
+    // Those can't be static int_ids, because mods add factions
+    static const string_id<monfaction> human_fac( "human" );
+    static const string_id<monfaction> player_fac( "player" );
+    static const string_id<monfaction> bee_fac( "bee" );
+    
+    if( is_friend() ) {
+        return player_fac.id();
+    }
+
+    if( has_trait( "VESPA" ) ) {
+        return bee_fac.id();
+    }
+
+    return human_fac.id();
+}
