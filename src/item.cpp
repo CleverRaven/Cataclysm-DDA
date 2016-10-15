@@ -3142,12 +3142,12 @@ int item::damage() const {
 
 int item::min_damage() const
 {
-    return count_by_charges() ? 0 : -1;
+    return type ? type->damage_min : 0;
 }
 
 int item::max_damage() const
 {
-    return count_by_charges() ? 0 : 4;
+    return type ? type->damage_max : 0;
 }
 
 bool item::mod_damage( double qty, damage_type dt )

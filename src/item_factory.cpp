@@ -593,6 +593,9 @@ void Item_factory::check_definitions() const
         if( type->price < 0 ) {
             msg << "negative price" << "\n";
         }
+        if( type->damage_min > 0 || type->damage_max < 0 || type->damage_min > type->damage_max ) {
+            msg << "invalid damage range" << "\n";
+        }
         if( type->description.empty() ) {
             msg << "empty description" << "\n";
         }
@@ -919,7 +922,17 @@ void load_optional_enum_array( std::vector<E> &vec, JsonObject &jo, const std::s
 
 itype * Item_factory::load_definition( JsonObject& jo, const std::string &src ) {
     if( !jo.has_string( "copy-from" ) ) {
-        return new itype();
+        itype *res = new itype();
+
+        // adjust type specific defaults
+        auto opt = jo.get_string( "type" );
+
+        // ammo and comestibles by default do not have differing damage levels
+        if( opt == "AMMO" || opt == "COMESTIBLE" ) {
+            res->damage_min = 0;
+            res->damage_max = 0;
+        }
+        return res;
     }
 
     auto base = m_templates.find( jo.get_string( "copy-from" ) );
@@ -1524,6 +1537,12 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     assign( jo, "emits", new_item_template->emits );
     assign( jo, "magazine_well", new_item_template->magazine_well );
     assign( jo, "explode_in_fire", new_item_template->explode_in_fire );
+
+    if( jo.has_member( "damage_states" ) ) {
+        auto arr = jo.get_array( "damage_states" );
+        new_item_template->damage_min = arr.get_int( 0 );
+        new_item_template->damage_max = arr.get_int( 1 );
+    }
 
     new_item_template->name = jo.get_string( "name" );
     if( jo.has_member( "name_plural" ) ) {

@@ -674,6 +674,9 @@ public:
     nc_color color = c_white; // Color on the map (color.h)
     std::string sym;
 
+    int damage_min = -1; /** Minimum amount of damage to an item (state of maximum repair) */
+    int damage_max =  4; /** Maximum amount of damage to an item (state before destroyed) */
+
     /** Magazine types (if any) for each ammo type that can be used to reload this item */
     std::map< ammotype, std::set<itype_id> > magazines;
 
