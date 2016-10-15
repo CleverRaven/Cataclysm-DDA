@@ -20,6 +20,7 @@
 #include "messages.h"
 #include "artifact.h"
 #include "itype.h"
+#include "ammo.h"
 #include "iuse_actor.h"
 #include "compatibility.h"
 #include "translations.h"
@@ -274,7 +275,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
 
     // check ammo is valid for the item
     const itype *atype = item_controller->find_template( ammo );
-    if( !atype->ammo || atype->ammo->type != ammo_type() ) {
+    if( !atype->ammo || !atype->ammo->type.count( ammo_type() ) ) {
         debugmsg( "Tried to set invalid ammo of %s for %s", atype->nname( qty ).c_str(), tname().c_str() );
         return *this;
     }
@@ -886,7 +887,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             if( ammo_remaining() > 0 ) {
                 info.emplace_back( "AMMO", _( "Ammunition: " ), ammo_data()->nname( ammo_remaining() ) );
             } else if( is_ammo() ) {
-                info.emplace_back( "AMMO", _( "Type: " ), ammo_name( ammo_type() ) );
+                info.emplace_back( "AMMO", _( "Types: " ),
+                                   enumerate_as_string( type->ammo->type.begin(), type->ammo->type.end(),
+                                                        []( const ammotype &e ) { return e->name(); }, false ) );
             }
 
             const auto& ammo = *ammo_data()->ammo;
@@ -3612,7 +3615,7 @@ bool item::is_reloadable_with( const itype_id& ammo ) const
                 }
             } else {
                 auto at = find_type( ammo );
-                if( !at->ammo || ammo_type() != at->ammo->type ) {
+                if( !at->ammo || !at->ammo->type.count( ammo_type() ) ) {
                     return false;
                 }
             }
@@ -4159,8 +4162,6 @@ ammotype item::ammo_type( bool conversion ) const
         return type->tool->ammo_id;
     } else if( is_magazine() ) {
         return type->magazine->type;
-    } else if( is_ammo() ) {
-        return type->ammo->type;
     }
     return NULL_ID;
 }

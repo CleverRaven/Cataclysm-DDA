@@ -1,5 +1,24 @@
 [
   {
+    "id": "fungicide",
+    "type": "AMMO",
+    "category": "chems",
+    "name": "fungicide",
+    "name_plural": "fungicide",
+    "description": "Agricultural grade chemical anti-fungal powder designed to destroy infections in plants.",
+    "weight": 10,
+    "volume": 1,
+    "price": 1100,
+    "price_postapoc": 5000,
+    "container": "bag_canvas",
+    "material": "powder",
+    "symbol": "!",
+    "color": "green",
+    "count": 1000,
+    "stack_size": 25,
+    "ammo_type": "components"
+  },
+  {
     "id": "incendiary",
     "type": "AMMO",
     "category": "chems",

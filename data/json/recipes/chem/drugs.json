@@ -1,0 +1,19 @@
+[
+  {
+    "result": "antifungal",
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 180000,
+    "book_learn": [ [ "pharmacopeia", 6 ] ],
+    "using": [ [ "alkali_strong", 2 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [
+      [ [ "fire", -1 ], [ "toolset", 20 ], [ "hotplate", 20 ] ],
+      [ [ "thermometer", -1 ] ]
+    ],
+    "components": [ [ [ "fungicide", 250 ] ] ]
+  }
+]

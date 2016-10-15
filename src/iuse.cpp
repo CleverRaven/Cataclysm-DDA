@@ -493,69 +493,6 @@ int iuse::eyedrops(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::fungicide(player *p, item *it, bool, const tripoint& )
-{
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return 0;
-    }
-
-    const bool has_fungus = p->has_effect( effect_fungus);
-    const bool has_spores = p->has_effect( effect_spores);
-
-    if( p->is_npc() && !has_fungus && !has_spores ) {
-        return 0;
-    }
-
-    p->add_msg_player_or_npc( _("You use your fungicide."), _("<npcname> uses some fungicide") );
-    if (has_fungus && (one_in(3))) {
-        p->remove_effect( effect_fungus);
-        p->add_msg_if_player(m_warning,
-                             _("You feel a burning sensation under your skin that quickly fades away."));
-    }
-    if (has_spores && (one_in(2))) {
-        if (!p->has_effect( effect_fungus)) {
-            p->add_msg_if_player(m_warning, _("Your skin grows warm for a moment."));
-        }
-        p->remove_effect( effect_spores);
-        int spore_count = rng(1, 6);
-        if (spore_count > 0) {
-            for (int i = p->posx() - 1; i <= p->posx() + 1; i++) {
-                for (int j = p->posy() - 1; j <= p->posy() + 1; j++) {
-                    tripoint dest( i, j, p->posz() );
-                    if (spore_count == 0) {
-                        break;
-                    }
-                    if (i == p->posx() && j == p->posy()) {
-                        continue;
-                    }
-                    if (g->m.passable(i, j) && x_in_y(spore_count, 8)) {
-                        const int zid = g->mon_at(dest);
-                        if (zid >= 0) {  // Spores hit a monster
-                            if (g->u.sees(i, j) &&
-                                !g->zombie(zid).type->in_species( FUNGUS )) {
-                                add_msg(m_warning, _("The %s is covered in tiny spores!"),
-                                        g->zombie(zid).name().c_str());
-                            }
-                            monster &critter = g->zombie( zid );
-                            if( !critter.make_fungus() ) {
-                                critter.die( p ); // counts as kill by player
-                            }
-                        } else {
-                            g->summon_mon(mon_spore, dest);
-                        }
-                        spore_count--;
-                    }
-                }
-                if (spore_count == 0) {
-                    break;
-                }
-            }
-        }
-    }
-    return it->type->charges_to_use();
-}
-
 int iuse::antifungal(player *p, item *it, bool, const tripoint& )
 {
     if (p->is_underwater()) {

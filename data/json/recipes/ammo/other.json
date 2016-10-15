@@ -1,5 +1,20 @@
 [
   {
+    "result": "gas_fungicidal",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 15000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "textbook_gaswarfare", 4 ], [ "adv_chemistry", 5 ] ],
+    "using": [ [ "alkali_weak", 1 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "fire", -1 ], [ "toolset", 25 ], [ "hotplate", 25 ] ] ],
+    "components": [ [ [ "fungicide", 250 ] ] ]
+  },
+  {
     "result": "signal_flare",
     "type": "recipe",
     "category": "CC_AMMO",

@@ -15,7 +15,10 @@
     "phase": "liquid",
     "container": "bottle_plastic",
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
+    "ammo_data": {
+      "ammo_type": [ "water", "sprayable" ],
+      "ammo_effects": [ "BEANBAG", "RECOVER_100" ]
+    },
     "flags": [ "EATEN_COLD" ]
   },
   {

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "gas_fungicidal",
+    "type": "AMMO",
+    "category": "chems",
+    "name": "sprayable fungicide",
+    "description": "A volatile liquid that can be aerosolised to produce clouds of fungicidal gas.  Best be used with some kind of mask or mouth protection.",
+    "weight": 1,
+    "volume": 1,
+    "price": 3500,
+    "phase": "liquid",
+    "container": "jerrycan",
+    "symbol": "=",
+    "color": "green",
+    "count": 40,
+    "stack_size": 1,
+    "ammo_type": "sprayable",
+    "effects": [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL" ]
+  }
+]
