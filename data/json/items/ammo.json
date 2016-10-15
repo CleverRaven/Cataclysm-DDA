@@ -44,36 +44,6 @@
         "ammo_type" : "money"
     },{
        "type" : "AMMO",
-        "id" : "string_6",
-        "category" : "spare_parts",
-        "price" : 9000,
-        "name" : "small string",
-        "symbol" : ",",
-        "color" : "light_gray",
-        "description" : "A 6-inch long piece of cotton string.",
-        "material" : "cotton",
-        "flags": ["NO_SALVAGE"],
-        "volume" : 1,
-        "weight" : 6,
-        "ammo_type" : "components",
-        "stack_size" : 18
-    },{
-       "type" : "AMMO",
-        "id" : "string_36",
-        "category" : "spare_parts",
-        "price" : 9000,
-        "name" : "long string",
-        "symbol" : ",",
-        "color" : "light_gray",
-        "description" : "A 3-foot long piece of cotton string.  Disassemble it to cut it into smaller pieces.",
-        "material" : "cotton",
-        "flags": ["NO_SALVAGE"],
-        "volume" : 1,
-        "weight" : 36,
-        "ammo_type" : "components",
-        "stack_size" : 3
-    },{
-       "type" : "AMMO",
         "id" : "thread",
         "category" : "spare_parts",
         "price" : 5000,
