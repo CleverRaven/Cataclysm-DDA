@@ -214,6 +214,11 @@ void npc_class::load( JsonObject &jo )
     bonus_per = load_distribution( jo, "bonus_per" );
 
     optional( jo, was_loaded, "shopkeeper_item_group", shopkeeper_item_group, "EMPTY_GROUP" );
+    optional( jo, was_loaded, "worn_override", worn_override );
+    optional( jo, was_loaded, "carry_override", carry_override );
+    optional( jo, was_loaded, "weapon_override", weapon_override );
+
+    optional( jo, was_loaded, "traits", traits );
 
     if( jo.has_array( "skills" ) ) {
         JsonArray jarr = jo.get_array( "skills" );
