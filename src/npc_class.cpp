@@ -147,7 +147,7 @@ void npc_class::check_consistency()
         }
 
         for( const auto &pr : cl.traits ) {
-            if( mutation_branch::has( pr.first ) ) {
+            if( !mutation_branch::has( pr.first ) ) {
                 debugmsg( "Invalid trait %s", pr.first.c_str() );
             }
         }
