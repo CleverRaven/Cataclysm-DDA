@@ -35,7 +35,7 @@
             ]
         },
         "worn_override": "NC_DEBUG_worn",
-        "carry_override": "NC_DEBUG_carry",
+        "carry_override": "NC_DEBUG_carried",
         "weapon_override": "NC_DEBUG_weapon",
         "traits": [ "DEBUG_NODMG" ]
     },{
