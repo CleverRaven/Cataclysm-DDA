@@ -814,17 +814,19 @@ void construct::done_trunk_plank( const tripoint &p )
 
 const vpart_str_id &vpart_from_item( const std::string &item_id )
 {
-    for( auto vp : vpart_info::get_all() ) {
-        if( vp->item == item_id && vp->has_flag( "INITIAL_PART" ) ) {
-            return vp->id;
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( vp.item == item_id && vp.has_flag( "INITIAL_PART" ) ) {
+            return vp.id;
         }
     }
     // The INITIAL_PART flag is optional, if no part (based on the given item) has it, just use the
     // first part that is based in the given item (this is fine for example if there is only one
     // such type anyway).
-    for( auto vp : vpart_info::get_all() ) {
-        if( vp->item == item_id ) {
-            return vp->id;
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( vp.item == item_id ) {
+            return vp.id;
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
@@ -1220,11 +1222,12 @@ std::vector<std::string> construction::get_folded_time_string( int width ) const
 void finalize_constructions()
 {
     std::vector<item_comp> frame_items;
-    for( auto &vp : vpart_info::get_all() ) {
-        if( !vp->has_flag( "INITIAL_PART" ) ) {
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( !vp.has_flag( "INITIAL_PART" ) ) {
             continue;
         }
-        frame_items.push_back( item_comp( vp->item, 1 ) );
+        frame_items.push_back( item_comp( vp.item, 1 ) );
     }
 
     if( frame_items.empty() ) {
