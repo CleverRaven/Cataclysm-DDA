@@ -60,7 +60,7 @@
         "name_plural" : ".20 DREAD Pellets",
         "symbol" : "=",
         "color" : "light_gray",
-        "description" : "Small .20 caliber ferromagnetic pellets. These pellets are propelled with the help of electromagnets; therefore they do not produce much sound, flash or heat signature.",
+        "description" : "Small .20 caliber ferromagnetic pellets.  These pellets are propelled with the help of electromagnets; therefore they do not produce much sound, flash or heat signature.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 4,
