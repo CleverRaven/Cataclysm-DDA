@@ -812,7 +812,7 @@ void construct::done_trunk_plank( const tripoint &p )
     }
 }
 
-const vpart_str_id &vpart_from_item( const std::string &item_id )
+const vpart_id &vpart_from_item( const std::string &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
@@ -830,7 +830,7 @@ const vpart_str_id &vpart_from_item( const std::string &item_id )
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
-    static const vpart_str_id frame_id( "frame_vertical_2" );
+    static const vpart_id frame_id( "frame_vertical_2" );
     return frame_id;
 }
 

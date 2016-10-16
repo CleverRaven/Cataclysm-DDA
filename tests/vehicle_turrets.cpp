@@ -52,7 +52,7 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine]" ) {
             const int idx = veh->install_part( 0, 0, e->id, true );
             REQUIRE( idx >= 0 );
 
-            REQUIRE( veh->install_part( 0,  0, vpart_str_id( "storage_battery" ), true ) >= 0 );
+            REQUIRE( veh->install_part( 0,  0, vpart_id( "storage_battery" ), true ) >= 0 );
             veh->charge_battery( 10000 );
 
             auto ammo = veh->turret_query( veh->parts[idx] ).base()->ammo_type();

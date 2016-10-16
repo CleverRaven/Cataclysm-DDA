@@ -1489,7 +1489,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
                 col = mt.color;
             }
         } else if (category == C_VEHICLE_PART) {
-            const vpart_str_id vpid( id.substr( 3 ) );
+            const vpart_id vpid( id.substr( 3 ) );
             if( vpid.is_valid() ) {
                 const vpart_info &v = vpid.obj();
                 sym = v.sym;
@@ -2101,7 +2101,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
     // Gets the visible part, should work fine once tileset vp_ids are updated to work with the vehicle part json ids
     // get the vpart_id
     char part_mod = 0;
-    const vpart_str_id &vp_id = veh->part_id_string(veh_part, part_mod);
+    const vpart_id &vp_id = veh->part_id_string(veh_part, part_mod);
     const char sym = veh->face.dir_symbol(veh->part_sym(veh_part));
     std::string subcategory(1, sym);
 
