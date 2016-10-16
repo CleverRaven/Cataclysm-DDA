@@ -614,26 +614,15 @@
   ]
 },{
   "type" : "recipe",
-  "override": true,
   "result": "plant_fibre",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "survival",
   "difficulty": 1,
-  "result_mult": 2,
   "time": 6000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "distaff_spindle", -1 ]
-    ]
-  ],
   "components": [
-    [
-      [ "dogbane", 1 ],
-      [ "cattail_stalk", 1 ],
-      [ "weed", 1 ]
-    ]
+    [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ], [ "weed", 1 ] ]
   ]
 },{
   "type" : "recipe",
