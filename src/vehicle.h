@@ -233,8 +233,11 @@ public:
     std::pair<tripoint, tripoint> target;
 
 private:
+    /** What type of part is this? */
     vpart_id id;
-    vpart_info *info_cache = nullptr;
+
+    /** As a performance optimisation we cache the part information here on first lookup */
+    mutable const vpart_info *info_cache = nullptr;
 
     item base;
     std::list<item> items; // inventory
@@ -243,6 +246,7 @@ private:
     itype_id ammo_pref = "null";
 
 public:
+    /** Get part definition common to all parts of this type */
     const vpart_info &info() const;
 
     // json saving/loading
