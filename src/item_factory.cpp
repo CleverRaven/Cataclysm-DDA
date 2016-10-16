@@ -25,6 +25,7 @@
 #include "ui.h"
 #include "veh_type.h"
 #include "field.h"
+#include "ammo.h"
 
 #include <algorithm>
 #include <sstream>
@@ -312,6 +313,11 @@ void Item_factory::finalize_item_blacklist()
         // remove any recipes used to craft the blacklisted item or that use it as a container
         recipe_dictionary::delete_if( [&]( const recipe &r ) {
             return r.result == iter->first || r.container == iter->first;
+        } );
+
+        // remove any ammunition types which use a blacklisted item as their default
+        ammunition_type::delete_if( [&]( const ammunition_type &a ) {
+            return a.default_ammotype() == iter->first;
         } );
 
         // remove any vehicle prototypes containing parts dependent upon a blacklisted base item
