@@ -1111,8 +1111,6 @@ void iexamine::locked_object( player &p, const tripoint &examp) {
     if ( !has_prying_tool ) {
         add_msg(m_info, _("If only you had a crowbar..."));
         return;
-    } else if ( !query_yn(_("Use your crowbar to open this?")) ) {
-        return;
     }
 
     // See crate prying for why a dummy item is used
