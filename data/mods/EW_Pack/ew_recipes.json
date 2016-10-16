@@ -76,7 +76,7 @@
 ]
 },{
         "type" : "recipe",
-  "result": "autofire_654",
+  "result": "imp_autofire_654",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_MODS",
   "skill_used": "fabrication",
