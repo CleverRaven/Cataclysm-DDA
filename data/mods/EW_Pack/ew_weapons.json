@@ -200,7 +200,7 @@
     "durability": 8,
     "burst": 30,
     "clip_size": 90,
-    "reload": 300,
+    "reload": 50,
     "valid_mod_locations": [[ "accessories", 2],[ "magazine", 2],["underbarrel", 1]]
   }
 ]
