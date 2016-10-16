@@ -557,7 +557,10 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
             batch = !batch;
             if( batch ) {
-                batch_line = line;
+
+                //checks if line's value is greater than current
+                batch_line = (batch_line >= (int)current.size() ? 0 : line);
+
                 chosen = current[batch_line];
             } else {
                 line = batch_line;
