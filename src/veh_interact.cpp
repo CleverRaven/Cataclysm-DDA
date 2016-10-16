@@ -2083,7 +2083,7 @@ void veh_interact::countDurability()
  * @param vpid The id of the vpart type to look for.
  * @return The item that was consumed.
  */
-item consume_vpart_item( const vpart_str_id &vpid )
+item consume_vpart_item( const vpart_id &vpid )
 {
     std::vector<bool> candidates;
     const itype_id itid = vpid.obj().item;
@@ -2215,7 +2215,7 @@ void veh_interact::complete_vehicle()
     int dx = g->u.activity.values[4];
     int dy = g->u.activity.values[5];
     int vehicle_part = g->u.activity.values[6];
-    const vpart_str_id part_id( g->u.activity.str_values[0] );
+    const vpart_id part_id( g->u.activity.str_values[0] );
 
     const vpart_info &vpinfo = part_id.obj();
 

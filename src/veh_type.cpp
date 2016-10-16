@@ -75,14 +75,14 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "VISION", VPFLAG_EXTENDS_VISION }
 };
 
-static std::map<vpart_str_id, vpart_info> vpart_info_all;
+static std::map<vpart_id, vpart_info> vpart_info_all;
 
-static std::map<vpart_str_id, vpart_info> abstract_parts;
+static std::map<vpart_id, vpart_info> abstract_parts;
 
 static DynamicDataLoader::deferred_json deferred;
 
 template<>
-const vpart_str_id string_id<vpart_info>::NULL_ID( "null" );
+const vpart_id string_id<vpart_info>::NULL_ID( "null" );
 
 template<>
 bool string_id<vpart_info>::is_valid() const
@@ -147,8 +147,8 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     vpart_info def;
 
     if( jo.has_string( "copy-from" ) ) {
-        auto const base = vpart_info_all.find( vpart_str_id( jo.get_string( "copy-from" ) ) );
-        auto const ab = abstract_parts.find( vpart_str_id( jo.get_string( "copy-from" ) ) );
+        auto const base = vpart_info_all.find( vpart_id( jo.get_string( "copy-from" ) ) );
+        auto const ab = abstract_parts.find( vpart_id( jo.get_string( "copy-from" ) ) );
         if( base != vpart_info_all.end() ) {
             def = base->second;
         } else if( ab != abstract_parts.end() ) {
@@ -160,9 +160,9 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_string( "abstract" ) ) {
-        def.id = vpart_str_id( jo.get_string( "abstract" ) );
+        def.id = vpart_id( jo.get_string( "abstract" ) );
     } else {
-        def.id = vpart_str_id( jo.get_string( "id" ) );
+        def.id = vpart_id( jo.get_string( "id" ) );
     }
 
     assign( jo, "name", def.name_ );
@@ -465,7 +465,7 @@ void vpart_info::reset()
     abstract_parts.clear();
 }
 
-const std::map<vpart_str_id, vpart_info> &vpart_info::all()
+const std::map<vpart_id, vpart_info> &vpart_info::all()
 {
     return vpart_info_all;
 }
@@ -575,7 +575,7 @@ void vehicle_prototype::load(JsonObject &jo)
 
         part_def pt;
         pt.pos = point( part.get_int( "x" ), part.get_int( "y" ) );
-        pt.part = vpart_str_id( part.get_string( "part" ) );
+        pt.part = vpart_id( part.get_string( "part" ) );
 
         assign( part, "ammo", pt.with_ammo, true, 0, 100 );
         assign( part, "ammo_types", pt.ammo_types, true );

@@ -16,7 +16,7 @@
 using itype_id = std::string;
 
 class vpart_info;
-using vpart_str_id = string_id<vpart_info>;
+using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 class vehicle;
@@ -79,7 +79,7 @@ class vpart_info
 {
     public:
         /** Unique identifier for this part */
-        vpart_str_id id;
+        vpart_id id;
 
         /** Translated name of a part */
         std::string name() const;
@@ -214,7 +214,7 @@ class vpart_info
         static void check();
         static void reset();
 
-        static const std::map<vpart_str_id, vpart_info> &all();
+        static const std::map<vpart_id, vpart_info> &all();
 };
 
 struct vehicle_item_spawn {
@@ -235,7 +235,7 @@ struct vehicle_item_spawn {
 struct vehicle_prototype {
     struct part_def {
         point pos;
-        vpart_str_id part;
+        vpart_id part;
         int with_ammo = 0;
         std::set<itype_id> ammo_types;
         std::pair<int, int> ammo_qty = { -1, -1 };
