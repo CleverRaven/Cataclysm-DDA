@@ -2333,10 +2333,11 @@ void veh_interact::complete_vehicle()
         }
 
         if( pt.is_broken() ) {
+            const int dir = pt.direction;
             veh->break_part_into_pieces( vehicle_part, g->u.posx(), g->u.posy() );
             veh->remove_part( vehicle_part );
-            veh->install_part( dx, dy, part_id, std::move( base ) );
-
+            const int partnum = veh->install_part( dx, dy, part_id, std::move( base ) );
+            veh->parts[partnum].direction = dir;
         } else {
             veh->set_hp( pt, pt.info().durability );
         }
