@@ -5841,3 +5841,8 @@ bool item::is_filthy() const
 {
     return has_flag( "FILTHY" ) && ( get_world_option<bool>( "FILTHY_MORALE" ) || g->u.has_trait( "SQUEAMISH" ) );
 }
+
+bool item::on_drop( const tripoint &pos )
+{
+    return type->drop_action && type->drop_action.call( &g->u, this, false, pos );
+}

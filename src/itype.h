@@ -630,6 +630,9 @@ public:
     /** Is item destroyed after the countdown action is run? */
     bool countdown_destroy = false;
 
+    /** Action to take BEFORE the item is placed on map. If it returns non-zero, item won't be placed. */
+    use_function drop_action;
+
     /** Fields to emit when item is in active state */
     std::set<emit_id> emits;
 

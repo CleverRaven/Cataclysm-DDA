@@ -55,5 +55,18 @@
     "//": "Slow infrequent leak of toxic gas (example: bloated zombie movement)",
     "field": "fd_toxic_gas",
     "chance": 15
+  },
+  {
+    "id": "emit_acid_splash",
+    "type": "emit",
+    "//": "Small amount of strong acid - stacks, but weak on its own",
+    "field": "fd_acid"
+  },
+  {
+    "id": "emit_acid_drop",
+    "type": "emit",
+    "//": "Small amount of strong acid - will need more to melt anything",
+    "field": "fd_acid",
+    "chance": 50
   }
 ]

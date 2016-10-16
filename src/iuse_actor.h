@@ -27,6 +27,8 @@ using ammotype = string_id<ammunition_type>;
 using itype_id = std::string;
 class material_type;
 using material_id = string_id<material_type>;
+class emit;
+using emit_id = string_id<emit>;
 
 /**
  * Transform an item into a specific type.
@@ -132,6 +134,8 @@ class explosion_iuse : public iuse_actor
         /** Call game::flashbang? */
         bool do_flashbang = false;
         bool flashbang_player_immune = false;
+        /** Skips charge check */
+        bool instant = false;
         /** Create fields of this type around the center of the explosion */
         int fields_radius = -1;
         field_id fields_type;
@@ -861,6 +865,21 @@ class place_trap_actor : public iuse_actor
         void load( JsonObject &jo ) override;
         long use( player*, item*, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
+};
+
+class emit_actor : public iuse_actor
+{
+    public:
+        std::set<emit_id> emits;
+        /** If true multiplies the emits by number of charges on the item. */
+        bool scale_qty = false;
+
+        emit_actor( const std::string &type = "emit_actor" ) : iuse_actor( type ) {}
+        ~emit_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player*, item*, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        void finalize( const itype_id &my_item_type ) override;
 };
 
 #endif

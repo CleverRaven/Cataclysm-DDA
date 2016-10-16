@@ -2579,10 +2579,16 @@ bool field_type_dangerous( field_id id )
     return ft.dangerous[0] || ft.dangerous[1] || ft.dangerous[2];
 }
 
-void map::emit_field( const tripoint &pos, const emit_id &src )
+void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
 {
-    if( src.is_valid() &&  x_in_y( src->chance(), 100 ) ) {
-        propagate_field( pos, src->field(), src->qty(), src->density() );
+    if( !src.is_valid() ) {
+        return;
+    }
+
+    float chance = src->chance() * mul;
+    if( src.is_valid() &&  x_in_y( chance, 100 ) ) {
+        int qty = chance > 100.0f ? roll_remainder( src->qty() * chance / 100.0f ) : src->qty();
+        propagate_field( pos, src->field(), qty, src->density() );
     }
 }
 

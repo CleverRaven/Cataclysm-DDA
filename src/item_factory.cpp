@@ -266,6 +266,10 @@ void Item_factory::finalize() {
         for( auto &e : obj.use_methods ) {
             e.second.get_actor_ptr()->finalize( obj.id );
         }
+
+        if( obj.drop_action.get_actor_ptr() != nullptr ) {
+            obj.drop_action.get_actor_ptr()->finalize( obj.id );
+        }
     }
 }
 
@@ -548,6 +552,7 @@ void Item_factory::init()
     add_actor( new unfold_vehicle_iuse() );
     add_actor( new ups_based_armor_actor() );
     add_actor( new place_trap_actor() );
+    add_actor( new emit_actor() );
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
@@ -1627,6 +1632,14 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     } else if( jo.has_object( "countdown_action" ) ) {
         auto tmp = jo.get_object( "countdown_action" );
         new_item_template->countdown_action = usage_from_object( tmp ).second;
+    }
+
+    if( jo.has_string( "drop_action" ) ) {
+        new_item_template->drop_action = usage_from_string( jo.get_string( "drop_action" ) );
+
+    } else if( jo.has_object( "drop_action" ) ) {
+        auto tmp = jo.get_object( "drop_action" );
+        new_item_template->drop_action = usage_from_object( tmp ).second;
     }
 
     load_slot_optional( new_item_template->container, jo, "container_data", src );

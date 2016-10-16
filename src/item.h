@@ -411,6 +411,14 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     bool use_charges( const itype_id& what, long& qty, std::list<item>& used, const tripoint& pos );
 
+    /**
+     * Invokes item type's @ref drop_action.
+     * This function can change the item.
+     * @param pos Where is the item being placed. Note: the item isn't there yet.
+     * @return true if the item was destroyed during placement.
+     */
+    bool on_drop( const tripoint &pos );
+
  /**
   * Consume a specific amount of items of a specific type.
   * This includes this item, and any of its contents (recursively).

@@ -4497,15 +4497,22 @@ item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_ra
     }
 
 
-    const bool tryaddcharges = new_item.charges != -1 && new_item.count_by_charges();
     std::vector<tripoint> ps = closest_tripoints_first(overflow_radius, p);
     for( const auto &p_it : ps ) {
-        if( !inbounds(p_it) || new_item.volume() > free_volume(p_it) ||
-            has_flag("DESTROY_ITEM", p_it) || has_flag("NOITEM", p_it) ) {
+        if( !inbounds( p_it ) ) {
             continue;
         }
 
-        if( tryaddcharges ) {
+        if( new_item.on_drop( p_it ) ) {
+            return nulitem;
+        }
+
+        if( new_item.volume() > free_volume( p_it ) ||
+            has_flag( "DESTROY_ITEM", p_it ) || has_flag( "NOITEM", p_it ) ) {
+            continue;
+        }
+
+        if( new_item.charges != -1 && new_item.count_by_charges() ) {
             for( auto &i : i_at( p_it ) ) {
                 if( i.merge_charges( new_item ) ) {
                     return i;

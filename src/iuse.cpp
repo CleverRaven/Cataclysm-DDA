@@ -3574,6 +3574,8 @@ int iuse::acidbomb_act(player *p, item *it, bool, const tripoint &pos)
                 g->m.add_field( tmp, fd_acid, 3, 0 );
             }
         }
+
+        return 1;
     }
     return 0;
 }

@@ -975,8 +975,11 @@ void add_corpse( const tripoint &p );
         void propagate_field( const tripoint &center, field_id fid,
                               int amount, int max_density = MAX_FIELD_DENSITY );
 
-        /** Runs one cycle of emission @ref src which **may** result in propagation of fields */
-        void emit_field( const tripoint &pos, const emit_id &src );
+        /**
+         * Runs one cycle of emission @ref src which **may** result in propagation of fields
+         * @param mul Multiplies the chance and possibly qty (if `chance*mul > 100`) of the emission
+         */
+        void emit_field( const tripoint &pos, const emit_id &src, float mul = 1.0f );
 
 // End of 3D field function block
 
