@@ -5056,7 +5056,7 @@ const item_category &item::get_category() const
     }
 
     static item_category null_category;
-    return type ? *type->category : null_category;
+    return type->category ? *type->category : null_category;
 }
 
 bool item_matches_locator(const item &it, const itype_id &id, int)
