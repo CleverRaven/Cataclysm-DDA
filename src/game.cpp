@@ -5171,19 +5171,12 @@ void game::list_missions()
                            miss->get_target().x, miss->get_target().y, pos.x, pos.y );
             }
         } else {
-            std::string nope;
-            switch (tab) {
-            case 0:
-                nope = _("You have no active missions!");
-                break;
-            case 1:
-                nope = _("You haven't completed any missions!");
-                break;
-            case 2:
-                nope = _("You haven't failed any missions!");
-                break;
-            }
-            mvwprintz(w_missions, 4, 31, c_ltred, "%s", nope.c_str());
+            static const std::string nope[] = {
+                _( "You have no active missions!" ),
+                _( "You haven't completed any missions!" ),
+                _( "You haven't failed any missions!" )
+            };
+            mvwprintz( w_missions, 4, 31, c_ltred, "%s", nope[tab].c_str() );
         }
 
         wrefresh(w_missions);
