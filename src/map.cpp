@@ -4434,7 +4434,7 @@ void map::spawn_item(const tripoint &p, const std::string &type_id,
         return;
     }
 
-    if( item_is_blacklisted( type_id ) ) {
+    if( item_controller->is_blacklisted( type_id ) ) {
         return;
     }
     // recurse to spawn (quantity - 1) items

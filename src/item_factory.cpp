@@ -29,9 +29,6 @@
 #include <algorithm>
 #include <sstream>
 
-typedef std::set<std::string> t_string_set;
-static t_string_set item_blacklist;
-
 static DynamicDataLoader::deferred_json deferred;
 
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
@@ -42,12 +39,6 @@ static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
 
 extern const double MIN_RECOIL;
-
-bool item_is_blacklisted(const std::string &id)
-{
-    return item_blacklist.count( id );
-}
-
 
 static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
                                        std::bitset<num_bp> &parts, bool &sided )
@@ -86,6 +77,11 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
     } else {
         return false;
     }
+}
+
+bool Item_factory::is_blacklisted( const itype_id &id ) const
+{
+    return blacklist.count( id );
 }
 
 void Item_factory::finalize() {
@@ -271,53 +267,58 @@ void Item_factory::finalize() {
 
 void Item_factory::finalize_item_blacklist()
 {
-    for (t_string_set::const_iterator a = item_blacklist.begin(); a != item_blacklist.end(); ++a) {
-        if (!has_template(*a)) {
-            debugmsg("item on blacklist %s does not exist", a->c_str());
+    for( const auto &e : blacklist ) {
+        if( !has_template( e ) ) {
+            debugmsg( "item on blacklist %s does not exist", e.c_str() );
         }
-
     }
 
-    for( auto &e : m_templates ) {
-        if( !item_is_blacklisted( e.first ) ) {
+    // iterate through all vehicle prototypes
+    for( auto &veh : vehicle_prototype::get_all() ) {
+        auto &proto = const_cast<vehicle_prototype&>( veh.obj() );
+
+        // removing blacklistems from any item spawn lists
+        for( vehicle_item_spawn &sp : proto.item_spawns ) {
+            auto &opts = sp.item_ids;
+            opts.erase( std::remove_if( opts.begin(), opts.end(), [&]( const itype_id &e ) {
+                return is_blacklisted( e );
+            } ), opts.end() );
+        }
+    }
+
+    for( auto iter = m_templates.begin(); iter != m_templates.end(); ) {
+        if( !is_blacklisted( iter->first ) ) {
+            ++iter;
             continue;
         }
         for( auto &g : m_template_groups ) {
-            g.second->remove_item( e.first );
+            g.second->remove_item( iter->first );
         }
 
         // remove any blacklisted items from requirements
         for( auto &r : requirement_data::all() ) {
-            const_cast<requirement_data &>( r.second ).blacklist_item( e.first );
+            const_cast<requirement_data &>( r.second ).blacklist_item( iter->first );
         }
 
-        // remove any recipes used to craft the blacklisted item
+        // remove any recipes used to craft the blacklisted item or that use it as a container
         recipe_dictionary::delete_if( [&]( const recipe &r ) {
-            return r.result == e.first;
+            return r.result == iter->first || r.container == iter->first;
         } );
-    }
 
-    for( auto &vid : vehicle_prototype::get_all() ) {
-        vehicle_prototype &prototype = const_cast<vehicle_prototype&>( vid.obj() );
-        for( vehicle_item_spawn &vis : prototype.item_spawns ) {
-            auto &vec = vis.item_ids;
-            const auto iter = std::remove_if( vec.begin(), vec.end(), item_is_blacklisted );
-            vec.erase( iter, vec.end() );
-        }
+        iter = m_templates.erase( iter );
     }
 }
 
-void add_to_set( t_string_set &s, JsonObject &json, const std::string &name )
+void Item_factory::load_item_blacklist( JsonObject &jo, const std::string &src )
 {
-    JsonArray jarr = json.get_array( name );
-    while( jarr.has_more() ) {
-        s.insert( jarr.next_string() );
+    if( src == "core" ) {
+        jo.throw_error( "only mods can specify blacklists" );
     }
-}
 
-void Item_factory::load_item_blacklist( JsonObject &json )
-{
-    add_to_set( item_blacklist, json, "items" );
+    auto arr = jo.get_array( "items" );
+    while( arr.has_more() ) {
+        blacklist.insert( arr.next_string() );
+    }
 }
 
 Item_factory::~Item_factory()
@@ -1757,7 +1758,7 @@ void Item_factory::clear()
     iuse_function_list.clear();
 
     m_templates.clear();
-    item_blacklist.clear();
+    blacklist.clear();
 }
 
 Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)
