@@ -2,24 +2,19 @@
     {
         "type" : "AMMO",
         "id" : "handloaded_654",
-        "price" : 3400,
+        "copy-from": "654",
         "name" : "wildcat 6.54x42mm",
         "name_plural" : "wildcat 6.54x42mm",
         "symbol" : "=",
         "color" : "dark_gray",
         "//": "+2 softpoint bonus to damage.",
         "description" : "Inspired by the improved .270, Alexander Sarafanov himself developed the 6.54x42mm rifle cartridge for his new SVS-24 Assault Rifle.  This one has been handloaded with a jacketed soft point bullet.",
-        "material" : "steel",
-        "volume" : 1,
-        "weight" : 14,
-        "ammo_type" : "654",
-        "casing" : "654_casing",
-        "damage" : 44,
-        "pierce" : 3,
-        "range" : 38,
-        "dispersion" : 90,
-        "recoil" : 1500,
-        "count" : 30,
+        "proportional": {
+            "weight": 1.2,
+            "damage": 1.1,
+            "pierce": 0.5,
+            "dispersion": 4.5
+        },
         "effects" : ["COOKOFF"]
     },
     {
