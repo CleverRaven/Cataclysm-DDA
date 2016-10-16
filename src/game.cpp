@@ -5086,6 +5086,8 @@ void game::list_missions()
 
     int tab = 0;
     size_t selection = 0;
+    // content ranges from y=3 to FULL_SCREEN_HEIGHT - 2
+    const int entries_per_page = FULL_SCREEN_HEIGHT - 4;
     input_context ctxt("MISSIONS");
     ctxt.register_cardinal();
     ctxt.register_action("CONFIRM");
@@ -5105,13 +5107,14 @@ void game::list_missions()
             umissions = u.get_failed_missions();
             break;
         }
+        const int top_of_page = entries_per_page * ( selection / entries_per_page ); // entries_per_page * page number
+        const int bottom_of_page = std::min( top_of_page + entries_per_page - 1, (int)umissions.size() - 1 );
 
         for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
             mvwputch(w_missions, 2, i, BORDER_COLOR, LINE_OXOX);
             mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
 
             if (i > 2 && i < FULL_SCREEN_HEIGHT - 1) {
-                mvwputch(w_missions, i, 0, BORDER_COLOR, LINE_XOXO);
                 mvwputch(w_missions, i, 30, BORDER_COLOR, LINE_XOXO);
                 mvwputch(w_missions, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO);
             }
@@ -5130,16 +5133,19 @@ void game::list_missions()
         mvwputch(w_missions, 2, 30, BORDER_COLOR, (tab == 1) ? LINE_XOXX : LINE_XXXX); // + || -|
         mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, 30, BORDER_COLOR, LINE_XXOX); // _|_
 
-        for (size_t i = 0; i < umissions.size(); i++) {
+        draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), 3, 0 );
+
+        for( int i = top_of_page; i <= bottom_of_page; i++ ) {
             const auto miss = umissions[i];
             nc_color col = c_white;
             if( u.get_active_mission() == miss ) {
                 col = c_ltred;
             }
-            if (selection == i) {
-                mvwprintz(w_missions, 3 + i, 1, hilite(col), "%s", miss->name().c_str());
+            const int y = i - top_of_page + 3;
+            if( (int)selection == i ) {
+                mvwprintz( w_missions, y, 1, hilite( col ), "%s", miss->name().c_str() );
             } else {
-                mvwprintz(w_missions, 3 + i, 1, col, "%s", miss->name().c_str());
+                mvwprintz( w_missions, y, 1, col, "%s", miss->name().c_str() );
             }
         }
 
