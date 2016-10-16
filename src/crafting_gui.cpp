@@ -264,7 +264,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             if( current.empty() ) {
                 line = 0;
             } else {
-                line = std::min( line, (int)current.size() - 1 );
+                line = std::min( line, ( int )current.size() - 1 );
             }
         }
 
