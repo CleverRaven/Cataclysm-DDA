@@ -112,15 +112,16 @@ VehicleFunction_json::VehicleFunction_json( JsonObject &jo )
 
 void VehicleFunction_json::apply( map &m, const std::string &terrain_name ) const
 {
-    for(auto i = number.get(); i > 0; i--) {
-        if(! location) {
-            size_t replace = placement.find("%t");
-            const VehicleLocation* loc = vplacement_id(replace != std::string::npos
-                ? placement.substr(0,replace) + terrain_name + placement.substr(replace+2)
-                : placement).obj().pick();
+    for( auto i = number.get(); i > 0; i-- ) {
+        if( ! location ) {
+            size_t replace = placement.find( "%t" );
+            const VehicleLocation *loc = vplacement_id( replace != std::string::npos ?
+                                         placement.substr( 0, replace ) + terrain_name +
+                                         placement.substr( replace + 2 ) :
+                                         placement ).obj().pick();
 
-            if(! loc) {
-                debugmsg("vehiclefunction_json: unable to get location to place vehicle.");
+            if( ! loc ) {
+                debugmsg( "vehiclefunction_json: unable to get location to place vehicle." );
                 return;
             }
             m.add_vehicle( vehicle, loc->pick_point(), loc->pick_facing(), fuel, status );
@@ -164,11 +165,10 @@ void VehicleSpawn::load( JsonObject &jo )
                 type.throw_error( "load_vehicle_spawn: unable to find builtin function", "vehicle_function" );
             }
 
-            spawn.add(type.get_float("weight"), std::make_shared<VehicleFunction_builtin>(
-                builtin_functions[type.get_string("vehicle_function")]));
-        }
-        else {
-            type.throw_error("load_vehicle_spawn: missing required vehicle_json (object) or vehicle_function (string).");
+            spawn.add( type.get_float( "weight" ), std::make_shared<VehicleFunction_builtin>
+                       ( builtin_functions[type.get_string( "vehicle_function" )] ) );
+        } else {
+            type.throw_error( "load_vehicle_spawn: missing required vehicle_json (object) or vehicle_function (string)." );
         }
     }
 }
