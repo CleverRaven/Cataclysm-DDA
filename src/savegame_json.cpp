@@ -1740,8 +1740,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
 void vehicle_part::serialize(JsonOut &json) const
 {
     json.start_object();
-    // TODO: the json classes should automatically convert the int-id to the string-id and the inverse
-    json.member("id", id.id().str());
+    json.member("id", id.str());
     json.member("base", base);
     json.member("mount_dx", mount.x);
     json.member("mount_dy", mount.y);

@@ -11,7 +11,6 @@
 #include "item_stack.h"
 #include "active_item_cache.h"
 #include "string_id.h"
-#include "int_id.h"
 #include "units.h"
 
 #include <vector>
@@ -26,7 +25,6 @@ class player;
 class vehicle;
 class vpart_info;
 enum vpart_bitflags : int;
-using vpart_id = int_id<vpart_info>;
 using vpart_str_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
@@ -235,7 +233,7 @@ public:
     std::pair<tripoint, tripoint> target;
 
 private:
-    vpart_id id;         // id in map of parts (vehicle_part_types key)
+    vpart_str_id id;
     item base;
     std::list<item> items; // inventory
 
@@ -243,7 +241,6 @@ private:
     itype_id ammo_pref = "null";
 
 public:
-    const vpart_str_id &get_id() const;
     const vpart_info &info() const;
 
     // json saving/loading

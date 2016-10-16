@@ -140,10 +140,11 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     : ddx( x ), ddy( y ), veh( &veh ), main_context( "VEH_INTERACT" )
 {
     // Only build the shapes map and the wheel list once
-    for( auto vp : vpart_info::get_all() ) {
-        vpart_shapes[ vp->name() + vp->item ].push_back( vp );
-        if( vp->has_flag( "WHEEL" ) ) {
-            wheel_types.push_back( vp );
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        vpart_shapes[ vp.name() + vp.item ].push_back( &vp );
+        if( vp.has_flag( "WHEEL" ) ) {
+            wheel_types.push_back( &vp );
         }
     }
 
@@ -1519,15 +1520,15 @@ void veh_interact::move_cursor (int dx, int dy)
     can_mount.clear();
     if (!obstruct) {
         int divider_index = 0;
-        for( auto vp : vpart_info::get_all() ) {
-            if( veh->can_mount( vdx, vdy, vp->id ) ) {
-                const vpart_info &vpi = *vp;
-                if ( vpi.id != vpart_shapes[ vpi.name()+ vpi.item][0]->id )
+        for( const auto &e : vpart_info::all() ) {
+            const vpart_info &vp = e.second;
+            if( veh->can_mount( vdx, vdy, vp.id ) ) {
+                if ( vp.id != vpart_shapes[ vp.name()+ vp.item][0]->id )
                     continue; // only add first shape to install list
-                if (can_potentially_install(vpi)) {
-                    can_mount.insert( can_mount.begin() + divider_index++, &vpi );
+                if (can_potentially_install(vp)) {
+                    can_mount.insert( can_mount.begin() + divider_index++, &vp );
                 } else {
-                    can_mount.push_back( &vpi );
+                    can_mount.push_back( &vp );
                 }
             }
         }

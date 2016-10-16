@@ -1510,7 +1510,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_str_id &id) cons
         const vpart_info &other_part = parts[elem].info();
 
         //Parts with no location can stack with each other (but not themselves)
-        if( part.loadid == other_part.loadid ||
+        if( part.id == other_part.id ||
                 (!part.location.empty() && part.location == other_part.location)) {
             return false;
         }
@@ -2379,7 +2379,7 @@ int vehicle::index_of_part(const vehicle_part *const part, bool const check_remo
       if (!check_removed && next_part.removed) {
         continue;
       }
-      if( part->get_id() == next_part.get_id() && part->mount == next_part.mount ) {
+      if( part->id == next_part.id && part->mount == next_part.mount ) {
         return index;
       }
     }
@@ -2475,7 +2475,7 @@ const vpart_str_id &vehicle::part_id_string(int const p, char &part_mod) const
     }
 
     int displayed_part = part_displayed_at(parts[p].mount.x, parts[p].mount.y);
-    const vpart_str_id &idinfo = parts[displayed_part].get_id();
+    const vpart_str_id &idinfo = parts[displayed_part].id;
 
     if (part_flag (displayed_part, VPFLAG_OPENABLE) && parts[displayed_part].open) {
         part_mod = 1; // open
@@ -5690,7 +5690,7 @@ void vehicle::open_or_close(int const part_index, bool const opening)
         const int delta = dx * dx + dy * dy;
 
         const bool is_near = (delta == 1);
-        const bool is_id = part_info(next_index).loadid == part_info(part_index).loadid;
+        const bool is_id = part_info(next_index).id == part_info(part_index).id;
         const bool do_next = !!parts[next_index].open ^ opening;
 
         if (is_near && is_id && do_next) {
@@ -5963,12 +5963,7 @@ vehicle_part::vehicle_part( const vpart_str_id& vp, int const dx, int const dy, 
 }
 
 vehicle_part::operator bool() const {
-    return id != vpart_id( NULL_ID );
-}
-
-const vpart_str_id &vehicle_part::get_id() const
-{
-    return id.id();
+    return id != vpart_str_id( NULL_ID );
 }
 
 item vehicle_part::properties_to_item() const
