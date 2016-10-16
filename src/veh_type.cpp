@@ -440,7 +440,7 @@ void vpart_info::check()
             debugmsg( "vehicle part %s has folding part with zero folded volume", part.name().c_str() );
         }
         if( !item::type_is_defined( part.default_ammo ) ) {
-            debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(), part.item.c_str() );
+            debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(), part.default_ammo.c_str() );
         }
         if( part.size < 0 ) {
             debugmsg( "vehicle part %s has negative size", part.id.c_str() );
