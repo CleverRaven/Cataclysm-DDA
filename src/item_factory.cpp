@@ -297,27 +297,38 @@ void Item_factory::finalize_item_blacklist()
     }
 
     for( auto iter = m_templates.begin(); iter != m_templates.end(); ) {
-        if( !is_blacklisted( iter->first ) ) {
+        const auto &black = iter->first;
+
+        if( !is_blacklisted( black ) ) {
             ++iter;
             continue;
         }
         for( auto &g : m_template_groups ) {
-            g.second->remove_item( iter->first );
+            g.second->remove_item( black );
+        }
+
+        // drop migrations referring to blacklisted items (to avoid spurious warnings later)
+        for( auto m = migrations.begin(); m != migrations.end(); ) {
+            if( m->second.replace == black || m->second.contents.count( black ) ) {
+                migrations.erase( m++ );
+            } else {
+                ++m;
+            }
         }
 
         // remove any blacklisted items from requirements
         for( auto &r : requirement_data::all() ) {
-            const_cast<requirement_data &>( r.second ).blacklist_item( iter->first );
+            const_cast<requirement_data &>( r.second ).blacklist_item( black );
         }
 
         // remove any recipes used to craft the blacklisted item or that use it as a container
         recipe_dictionary::delete_if( [&]( const recipe &r ) {
-            return r.result == iter->first || r.container == iter->first;
+            return r.result == black || r.container == black;
         } );
 
         // remove any ammunition types which use a blacklisted item as their default
         ammunition_type::delete_if( [&]( const ammunition_type &a ) {
-            return a.default_ammotype() == iter->first;
+            return a.default_ammotype() == black;
         } );
 
         // remove any vehicle prototypes containing parts dependent upon a blacklisted base item
@@ -325,13 +336,13 @@ void Item_factory::finalize_item_blacklist()
             return std::any_of( v.parts.begin(), v.parts.end(),
                 [&]( const vehicle_prototype::part_def &def ) {
                     // we skip any invalid parts so vehicle prototype finalization emits warning
-                    return def.part.is_valid() && def.part->item == iter->first;
+                    return def.part.is_valid() && def.part->item == black;
             } );
         } );
 
         // remove any vehicle parts that with blacklisted base item
         vpart_info::delete_if( [&]( const vpart_info &v ) {
-            return v.item == iter->first;
+            return v.item == black;
         } );
 
         iter = m_templates.erase( iter );
