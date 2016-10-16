@@ -3129,11 +3129,14 @@ iuse_actor *emit_actor::clone() const
 
 void emit_actor::finalize( const itype_id &my_item_type )
 {
+    /*
+    // @todo This must be called after all finalization
     for( const auto& e : emits ) {
         if( !e.is_valid() ) {
             debugmsg( "Item %s has unknown emit source %s", my_item_type.c_str(), e.c_str() );
         }
     }
+    */
 
     if( scale_qty && !item::count_by_charges( my_item_type ) ) {
         debugmsg( "Item %s has emit_actor with scale_qty, but is not counted by charges", my_item_type.c_str() );
