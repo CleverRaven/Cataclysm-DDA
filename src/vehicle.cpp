@@ -6230,7 +6230,10 @@ bool vehicle_part::is_turret() const
 
 const vpart_info &vehicle_part::info() const
 {
-    return id.obj();
+    if( !info_cache ) {
+        info_cache = &id.obj();
+    }
+    return *info_cache;
 }
 
 void vehicle::invalidate_mass()

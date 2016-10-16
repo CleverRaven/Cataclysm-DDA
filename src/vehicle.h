@@ -234,6 +234,8 @@ public:
 
 private:
     vpart_id id;
+    vpart_info *info_cache = nullptr;
+
     item base;
     std::list<item> items; // inventory
 
