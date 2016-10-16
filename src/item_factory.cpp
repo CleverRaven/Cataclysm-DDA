@@ -314,6 +314,20 @@ void Item_factory::finalize_item_blacklist()
             return r.result == iter->first || r.container == iter->first;
         } );
 
+        // remove any vehicle prototypes containing parts dependent upon a blacklisted base item
+        vehicle_prototype::delete_if( [&]( const vehicle_prototype &v ) {
+            return std::any_of( v.parts.begin(), v.parts.end(),
+                [&]( const vehicle_prototype::part_def &def ) {
+                    // we skip any invalid parts so vehicle prototype finalization emits warning
+                    return def.part.is_valid() && def.part->item == iter->first;
+            } );
+        } );
+
+        // remove any vehicle parts that with blacklisted base item
+        vpart_info::delete_if( [&]( const vpart_info &v ) {
+            return v.item == iter->first;
+        } );
+
         iter = m_templates.erase( iter );
     }
 }

@@ -470,6 +470,13 @@ const std::map<vpart_id, vpart_info> &vpart_info::all()
     return vpart_info_all;
 }
 
+void vpart_info::delete_if( const std::function<bool( const vpart_info & )> &pred )
+{
+    for( auto iter = vpart_info_all.begin(); iter != vpart_info_all.end(); ) {
+        pred( iter->second ) ? vpart_info_all.erase( iter++ ) : ++iter;
+    }
+}
+
 std::string vpart_info::name() const
 {
     if( name_.empty() ) {
@@ -649,12 +656,12 @@ void vehicle_prototype::finalize()
         blueprint.name = _(proto.name.c_str());
 
         for( auto &pt : proto.parts ) {
-            auto base = item::find_type( pt.part->item );
-
             if( !pt.part.is_valid() ) {
                 debugmsg("unknown vehicle part %s in %s", pt.part.c_str(), id.c_str());
                 continue;
             }
+
+            auto base = item::find_type( pt.part->item );
 
             if( blueprint.install_part( pt.pos.x, pt.pos.y, pt.part ) < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
@@ -727,4 +734,11 @@ std::vector<vproto_id> vehicle_prototype::get_all()
         result.push_back( vp.first );
     }
     return result;
+}
+
+void vehicle_prototype::delete_if( const std::function<bool( const vehicle_prototype & )> &pred )
+{
+    for( auto iter = vtypes.begin(); iter != vtypes.end(); ) {
+        pred( iter->second ) ? vtypes.erase( iter++ ) : ++iter;
+    }
 }
