@@ -81,6 +81,15 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
 
 bool Item_factory::is_blacklisted( const itype_id &id ) const
 {
+    // never blacklist null item or any definitions dependent upon it
+    if( id == "null" ) {
+        return false;
+    }
+    // if whitelist is set only items on it are available
+    if( !whitelist.empty() && !whitelist.count( id ) ) {
+        return true;
+    }
+    // otherwise remove any specifically blacklisted items
     return blacklist.count( id );
 }
 
@@ -318,6 +327,18 @@ void Item_factory::load_item_blacklist( JsonObject &jo, const std::string &src )
     auto arr = jo.get_array( "items" );
     while( arr.has_more() ) {
         blacklist.insert( arr.next_string() );
+    }
+}
+
+void Item_factory::load_item_whitelist( JsonObject &jo, const std::string &src )
+{
+    if( src == "core" ) {
+        jo.throw_error( "only mods can specify whitelists" );
+    }
+
+    auto arr = jo.get_array( "items" );
+    while( arr.has_more() ) {
+        whitelist.insert( arr.next_string() );
     }
 }
 
@@ -1759,6 +1780,7 @@ void Item_factory::clear()
 
     m_templates.clear();
     blacklist.clear();
+    whitelist.clear();
 }
 
 Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)

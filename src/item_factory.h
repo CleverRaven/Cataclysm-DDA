@@ -206,6 +206,8 @@ class Item_factory
 
         void load_item_blacklist( JsonObject &jo, const std::string &src );
 
+        void load_item_whitelist( JsonObject &jo, const std::string &src );
+
         /**
          * A list of *all* known item type ids. Each is suitable as input to
          * @ref find_template or as parameter to @ref item::item.
@@ -234,6 +236,7 @@ class Item_factory
         GroupMap m_template_groups;
 
         std::set<std::string> blacklist;
+        std::set<std::string> whitelist;
 
         /** Checks that ammo is listed in ammo_name().
          * At least one instance of this ammo type should be defined.
