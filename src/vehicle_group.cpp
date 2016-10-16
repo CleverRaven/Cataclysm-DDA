@@ -79,7 +79,8 @@ void VehiclePlacement::load( JsonObject &jo )
     while( locations.has_more() ) {
         JsonObject jloc = locations.next_object();
 
-        placement.add(jmapgen_int(jloc, "x"), jmapgen_int(jloc, "y"), VehicleFacings(jloc, "facing"));
+        placement.add( jmapgen_int( jloc, "x" ), jmapgen_int( jloc, "y" ),
+                       VehicleFacings( jloc, "facing" ) );
     }
 }
 
@@ -93,11 +94,11 @@ const VehicleLocation *VehiclePlacement::pick() const
     return &( locations[rng( 0, locations.size() - 1 )] );
 }
 
-VehicleFunction_json::VehicleFunction_json(JsonObject &jo)
-    : vehicle(jo.get_string("vehicle")),
-    number(jo, "number"),
-    fuel(jo.get_int("fuel")),
-    status(jo.get_int("status"))
+VehicleFunction_json::VehicleFunction_json( JsonObject &jo )
+    : vehicle( jo.get_string( "vehicle" ) ),
+      number( jo, "number" ),
+      fuel( jo.get_int( "fuel" ) ),
+      status( jo.get_int( "status" ) )
 {
     if( jo.has_string( "placement" ) ) {
         placement = jo.get_string( "placement" );
@@ -122,10 +123,9 @@ void VehicleFunction_json::apply( map &m, const std::string &terrain_name ) cons
                 debugmsg("vehiclefunction_json: unable to get location to place vehicle.");
                 return;
             }
-            m.add_vehicle(vehicle, loc->pick_point(), loc->pick_facing(), fuel, status);
-        }
-        else {
-            m.add_vehicle(vehicle, location->pick_point(), location->pick_facing(), fuel, status);
+            m.add_vehicle( vehicle, loc->pick_point(), loc->pick_facing(), fuel, status );
+        } else {
+            m.add_vehicle( vehicle, location->pick_point(), location->pick_facing(), fuel, status );
         }
     }
 }
@@ -151,7 +151,6 @@ bool string_id<VehicleSpawn>::is_valid() const
 void VehicleSpawn::load( JsonObject &jo )
 {
     VehicleSpawn &spawn = vspawns[vspawn_id( jo.get_string( "id" ) )];
-
     JsonArray types = jo.get_array( "spawn_types" );
 
     while( types.has_more() ) {
@@ -197,9 +196,10 @@ void builtin_no_vehicles( map &, const std::string & )
 
 void builtin_jackknifed_semi( map &m, const std::string &terrainid )
 {
-    const VehicleLocation* loc = vplacement_id(terrainid+"_semi").obj().pick();
-    if(! loc) {
-        debugmsg("builtin_jackknifed_semi unable to get location to place vehicle. placement %s", (terrainid+"_semi").c_str());
+    const VehicleLocation *loc = vplacement_id( terrainid + "_semi" ).obj().pick();
+    if( ! loc ) {
+        debugmsg( "builtin_jackknifed_semi unable to get location to place vehicle. placement %s",
+                  ( terrainid + "_semi" ).c_str() );
         return;
     }
 
@@ -231,14 +231,14 @@ void builtin_pileup( map &m, const std::string & )
     int num_cars = rng( 5, 12 );
 
     for( int i = 0; i < num_cars; i++ ) {
-        const VehicleLocation* loc = vplacement_id("pileup").obj().pick();
-        if(! loc) {
-            debugmsg("builtin_pileup unable to get location to place vehicle.");
+        const VehicleLocation *loc = vplacement_id( "pileup" ).obj().pick();
+        if( ! loc ) {
+            debugmsg( "builtin_pileup unable to get location to place vehicle." );
             return;
         }
 
-        last_added_car = m.add_vehicle(vgroup_id("city_pileup"), loc->pick_point(),
-            loc->pick_facing(), -1, 1);
+        last_added_car = m.add_vehicle( vgroup_id( "city_pileup" ), loc->pick_point(),
+                                        loc->pick_facing(), -1, 1 );
         if( last_added_car != nullptr ) {
             last_added_car->name = _( "pile-up" );
         } else {
@@ -278,7 +278,8 @@ void builtin_parkinglot( map &m, const std::string & )
         pos_p.z = m.get_abs_sub().z;
 
         if( !m.veh_at( pos_p ) ) {
-            m.add_vehicle(vgroup_id("parkinglot"), pos_p, (one_in(2)?0:180) + (one_in(10)*rng(0,179)), -1, -1);
+            m.add_vehicle( vgroup_id( "parkinglot" ), pos_p,
+                           ( one_in( 2 ) ? 0 : 180 ) + ( one_in( 10 ) * rng( 0, 179 ) ), -1, -1 );
         }
     }
 }
