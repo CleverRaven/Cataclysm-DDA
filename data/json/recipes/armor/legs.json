@@ -439,7 +439,6 @@
   {
     "result": "shorts_cargo",
     "type": "recipe",
-    "id_suffix": "from_fabric",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -453,6 +452,7 @@
   {
     "result": "shorts_cargo",
     "type": "recipe",
+    "id_suffix": "from_pants"
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
