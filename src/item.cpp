@@ -1057,7 +1057,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             []( const std::pair<std::string, gun_mode>& e ) {
                 return e.second.qty > 1 && !e.second.melee();
         } ) ) {
-            info.emplace_back( "GUN", _( "Reccomended strength (burst): "), "",
+            info.emplace_back( "GUN", _( "Recomended strength (burst): "), "",
                                ceil( mod->type->weight / 333.0 ), true, "", true, true );
         }
 
