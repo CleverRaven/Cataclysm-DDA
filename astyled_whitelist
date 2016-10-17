@@ -22,9 +22,11 @@ src/debug.cpp
 src/dependency_tree.cpp
 src/drawing_primitives.cpp
 src/editmap.cpp
+src/emit.cpp
 src/explosion.cpp
 src/fault.cpp
 src/flag.cpp
+src/game_inventory.cpp
 src/gamemode.cpp
 src/gates.cpp
 src/help.cpp
@@ -73,7 +75,9 @@ src/tileray.cpp
 src/translations.cpp
 src/trap.cpp
 src/trapfunc.cpp
+src/turret.cpp
 src/tutorial.cpp
+src/vehicle_group.cpp
 src/vehicle_selector.cpp
 src/version.cpp
 src/vitamin.cpp
@@ -115,7 +119,6 @@ src/debug.h
 src/dependency_tree.h
 src/drawing_primitives.h
 src/editmap.h
-src/emit.cpp
 src/emit.h
 src/event.h
 src/explosion.h
@@ -125,7 +128,6 @@ src/filesystem.h
 src/fire.h
 src/flag.h
 src/game_constants.h
-src/game_inventory.cpp
 src/gates.h
 src/generic_factory.h
 src/get_version.h
@@ -196,10 +198,10 @@ src/tile_id_data.h
 src/tileray.h
 src/translations.h
 src/trap.h
-src/turret.cpp
 src/tutorial.h
 src/ui.h
 src/units.h
+src/vehicle_group.h
 src/veh_interact.h
 src/veh_type.h
 src/vehicle_selector.h
