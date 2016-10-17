@@ -277,7 +277,6 @@ void explosion_iuse::load( JsonObject &obj )
     }
     obj.read( "do_flashbang", do_flashbang );
     obj.read( "flashbang_player_immune", flashbang_player_immune );
-    obj.read( "instant", instant );
     obj.read( "fields_radius", fields_radius );
     if( obj.has_member( "fields_type" ) || fields_radius > 0 ) {
         fields_type = field_from_ident( obj.get_string( "fields_type" ) );
@@ -299,7 +298,7 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         }
         return 0;
     }
-    if( !instant && it->charges > 0 ) {
+    if( it->charges > 0 ) {
         if (no_deactivate_msg.empty()) {
             p->add_msg_if_player(m_warning,
                                  _("You've already set the %s's timer you might want to get away from it."), it->tname().c_str());

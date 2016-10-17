@@ -134,8 +134,6 @@ class explosion_iuse : public iuse_actor
         /** Call game::flashbang? */
         bool do_flashbang = false;
         bool flashbang_player_immune = false;
-        /** Skips charge check */
-        bool instant = false;
         /** Create fields of this type around the center of the explosion */
         int fields_radius = -1;
         field_id fields_type;
