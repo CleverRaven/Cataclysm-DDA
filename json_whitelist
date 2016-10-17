@@ -6,6 +6,7 @@
 # authors are both working on a file. If unspecified the default is unsorted.
 
 # Core
+data/json/bionics.json id
 data/json/item_category.json sort_rank
 data/json/items/ammo/*
 data/json/items/armor.json id
