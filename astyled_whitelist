@@ -45,6 +45,7 @@ src/mattack_actors.cpp
 src/mission_end.cpp
 src/mission_fail.cpp
 src/mission_place.cpp
+src/mission_ui.cpp
 src/mod_manager_ui.cpp
 src/mondefense.cpp
 src/monfaction.cpp
