@@ -132,7 +132,7 @@ void game::list_missions()
             }
         } else if (action == "UP") {
             if (selection == 0) {
-                selection = umissions.size() - 1;
+                selection = umissions.empty() ? 0 : umissions.size() - 1;
             } else {
                 selection--;
             }
