@@ -206,7 +206,7 @@
           { "point": "terrain", "id": "t_tree_young", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 10, 30 ] }
         ],
         "place_items": [
-          { "item": "forest", "repeat": [ 0, 5 ],  "chance": 80, "x": [ 2, 21], "y": [ 5, 19] }
+          { "item": "forest", "repeat": [ 0, 5 ],  "chance": 80, "x": [ 2, 21 ], "y": [ 5, 19 ] }
         ]
     }
   },
@@ -347,12 +347,7 @@
           { "point": "bash", "x": [ 11, 12], "y":  7, "repeat": [ 0, 2] },
           { "point": "bash", "x": [ 1, 9], "y":  11, "repeat": [ 0, 8] },
           { "point": "bash", "x": [ 13, 15], "y":  20, "repeat": [ 0, 4] },
-          { "point": "bash", "x": [ 17, 21], "y":  [ 13, 15], "repeat": [ 4, 10] },
-          { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-          { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-          { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-          { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 21,23 ], "repeat": [ 5, 8 ] },
-          { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": [ 0,3 ], "repeat": [ 8, 10 ] }
+          { "point": "bash", "x": [ 17, 21], "y":  [ 13, 15], "repeat": [ 4, 10] }
         ],
         "place_items": [
           { "item": "trash_forest", "repeat": [ 0, 20 ], "chance": 80, "x": [ 2, 21], "y": [ 5, 19] }
@@ -433,8 +428,8 @@
         "G": "f_oven"
         },
         "add": [
-          { "item": "teddy", "x": 14, "y": 2},
-          { "item": "locket", "x": 14, "y": 2}
+          { "item": "teddy", "x": 14, "y": 2 },
+          { "item": "locket", "x": 14, "y": 2 }
         ],
         "set": [
           { "point": "bash", "x": [ 1, 20], "y":  20, "repeat": [ 4, 10 ] },
@@ -445,7 +440,7 @@
           { "vehicle": "car", "x": 5, "y": 7, "rotation": 0, "fuel": 0, "status": 1, "chance": 80  }
         ],
         "place_items": [
-          { "item": "trash_forest", "repeat": [ 0, 2 ], "chance": 80, "x": [ 2, 21], "y": [ 5, 19] }
+          { "item": "trash_forest", "repeat": [ 0, 2 ], "chance": 80, "x": [ 2, 21 ], "y": [ 5, 19 ] }
         ]
     }
   },
