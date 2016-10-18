@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 
 
 void game::list_missions()
@@ -16,7 +17,16 @@ void game::list_missions()
                                  ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
                                  ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
-    int tab = 0;
+    enum class tab_mode : int
+    {
+        TAB_ACTIVE = 0,
+        TAB_COMPLETED,
+        TAB_FAILED,
+        NUM_TABS,
+        FIRST_TAB = 0,
+        LAST_TAB = NUM_TABS - 1
+    };
+    tab_mode tab = tab_mode::FIRST_TAB;
     size_t selection = 0;
     // content ranges from y=3 to FULL_SCREEN_HEIGHT - 2
     const int entries_per_page = FULL_SCREEN_HEIGHT - 4;
@@ -28,16 +38,27 @@ void game::list_missions()
     while( true ) {
         werase( w_missions );
         std::vector<mission *> umissions;
+        if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
+            debugmsg( "The sanity check failed because tab=%d", ( int )tab );
+            tab = tab_mode::FIRST_TAB;
+        }
         switch( tab ) {
-            case 0:
+            case tab_mode::TAB_ACTIVE:
                 umissions = u.get_active_missions();
                 break;
-            case 1:
+            case tab_mode::TAB_COMPLETED:
                 umissions = u.get_completed_missions();
                 break;
-            case 2:
+            case tab_mode::TAB_FAILED:
                 umissions = u.get_failed_missions();
                 break;
+            default:
+                break;
+        }
+        if( ( !umissions.empty() && selection >= umissions.size() ) ||
+            ( umissions.empty() && selection != 0 ) ) {
+            debugmsg( "Sanity check failed: selection=%d, size=%d", ( int )selection, ( int )umissions.size() );
+            selection = 0;
         }
         // entries_per_page * page number
         const int top_of_page = entries_per_page * ( selection / entries_per_page );
@@ -54,9 +75,9 @@ void game::list_missions()
             }
         }
 
-        draw_tab( w_missions, 7, _( "ACTIVE MISSIONS" ), tab == 0 );
-        draw_tab( w_missions, 30, _( "COMPLETED MISSIONS" ), tab == 1 );
-        draw_tab( w_missions, 56, _( "FAILED MISSIONS" ), tab == 2 );
+        draw_tab( w_missions, 7, _( "ACTIVE MISSIONS" ), tab == tab_mode::TAB_ACTIVE );
+        draw_tab( w_missions, 30, _( "COMPLETED MISSIONS" ), tab == tab_mode::TAB_COMPLETED );
+        draw_tab( w_missions, 56, _( "FAILED MISSIONS" ), tab == tab_mode::TAB_FAILED );
 
         mvwputch( w_missions, 2, 0, BORDER_COLOR, LINE_OXXO ); // |^
         mvwputch( w_missions, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX ); // ^|
@@ -65,7 +86,8 @@ void game::list_missions()
         mvwputch( w_missions, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR,
                   LINE_XOOX ); // _|
 
-        mvwputch( w_missions, 2, 30, BORDER_COLOR, ( tab == 1 ) ? LINE_XOXX : LINE_XXXX ); // + || -|
+        mvwputch( w_missions, 2, 30, BORDER_COLOR,
+                  tab == tab_mode::TAB_COMPLETED ? LINE_XOXX : LINE_XXXX ); // + || -|
         mvwputch( w_missions, FULL_SCREEN_HEIGHT - 1, 30, BORDER_COLOR, LINE_XXOX ); // _|_
 
         draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), 3, 0 );
@@ -96,7 +118,7 @@ void game::list_missions()
                                                 std::to_string( deadline.days() + 1 ) + " " + deadline.print_time() );
                 mvwprintz( w_missions, y++, 31, c_white, _( "Deadline: %s" ), dl.c_str() );
 
-                if( tab != 1 ) {
+                if( tab != tab_mode::TAB_COMPLETED ) {
                     // There's no point in displaying this for a completed mission.
                     // @TODO: But displaying when you completed it would be useful.
                     mvwprintz( w_missions, y++, 31, c_white, _( "Time remaining: %s" ),
@@ -111,26 +133,26 @@ void game::list_missions()
                            miss->get_target().x, miss->get_target().y, pos.x, pos.y );
             }
         } else {
-            static const std::string nope[] = {
-                _( "You have no active missions!" ),
-                _( "You haven't completed any missions!" ),
-                _( "You haven't failed any missions!" )
+            static const std::map< tab_mode, std::string > nope = {
+                { tab_mode::TAB_ACTIVE, _( "You have no active missions!" ) },
+                { tab_mode::TAB_COMPLETED, _( "You haven't completed any missions!" ) },
+                { tab_mode::TAB_FAILED, _( "You haven't failed any missions!" ) }
             };
-            mvwprintz( w_missions, 4, 31, c_ltred, "%s", nope[tab].c_str() );
+            mvwprintz( w_missions, 4, 31, c_ltred, "%s", nope.at( tab ).c_str() );
         }
 
         wrefresh( w_missions );
         const std::string action = ctxt.handle_input();
         if( action == "RIGHT" ) {
-            tab++;
-            if( tab == 3 ) {
-                tab = 0;
+            tab = ( tab_mode )( ( int )tab + 1 );
+            if( tab >= tab_mode::NUM_TABS ) {
+                tab = tab_mode::FIRST_TAB;
             }
             selection = 0;
         } else if( action == "LEFT" ) {
-            tab--;
-            if( tab < 0 ) {
-                tab = 2;
+            tab = ( tab_mode )( ( int )tab - 1 );
+            if( tab < tab_mode::FIRST_TAB ) {
+                tab = tab_mode::LAST_TAB;
             }
             selection = 0;
         } else if( action == "DOWN" ) {
@@ -145,7 +167,7 @@ void game::list_missions()
                 selection--;
             }
         } else if( action == "CONFIRM" ) {
-            if( tab == 0 && selection < umissions.size() ) {
+            if( tab == tab_mode::TAB_ACTIVE && selection < umissions.size() ) {
                 u.set_active_mission( *umissions[selection] );
             }
             break;
