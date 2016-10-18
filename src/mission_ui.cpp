@@ -92,9 +92,14 @@ void game::list_missions()
                 std::string dl = string_format( season_name_upper( deadline.get_season() ) + ", day " +
                                  std::to_string( deadline.days() + 1 ) + " " + deadline.print_time() );
                 mvwprintz( w_missions, y++, 31, c_white, _( "Deadline: %s" ), dl.c_str() );
-                mvwprintz( w_missions, y++, 31, c_white, _( "Time remaining: %s" ),
-                           deadline.get_turn() <= calendar::turn ? _( "None!" ) :
-                           calendar::print_duration( deadline.get_turn() - calendar::turn ).c_str() );
+
+                if( tab != 1 ) {
+                    // There's no point in displaying this for a completed mission.
+                    // @TODO: But displaying when you completed it would be useful.
+                    mvwprintz( w_missions, y++, 31, c_white, _( "Time remaining: %s" ),
+                               deadline.get_turn() <= calendar::turn ? _( "None!" ) :
+                               calendar::print_duration( deadline.get_turn() - calendar::turn ).c_str() );
+                }
             }
             if( miss->has_target() ) {
                 const tripoint pos = u.global_omt_location();
