@@ -39,7 +39,7 @@
           "+": "t_chaingate_l",
           "&": "t_atm",
           "5": "t_gas_pump",
-          "s": "t_little_column",
+          "s": "t_little_column"
         },
         "furniture": {
           "9": "f_aut_gas_console"
