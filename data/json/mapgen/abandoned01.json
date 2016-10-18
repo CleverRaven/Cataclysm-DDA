@@ -150,7 +150,7 @@
           "T": "t_tree"
         },
         "set": [
-          { "point": "terrain", "id": "t_dirt", "x": [ 0, 23], "y": [ 0, 23 ], "repeat": [ 15, 30 ] },
+          { "point": "terrain", "id": "t_dirt", "x": [ 0, 23], "y": [ 0, 23 ], "repeat": [ 15, 30 ] }
         ],
         "place_items": [
           { "item": "forest", "repeat": [ 0, 5 ], "chance": 80, "x": [ 2, 21 ], "y": [ 5, 19 ] }
