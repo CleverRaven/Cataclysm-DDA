@@ -17,8 +17,7 @@ void game::list_missions()
                                  ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
                                  ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
-    enum class tab_mode : int
-    {
+    enum class tab_mode : int {
         TAB_ACTIVE = 0,
         TAB_COMPLETED,
         TAB_FAILED,
