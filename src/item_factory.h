@@ -334,6 +334,16 @@ class Item_factory
         void add_actor( iuse_actor *ptr );
 
         std::map<itype_id, migration> migrations;
+<<<<<<< 642d0de5256eaf3f6fcc222b649019513b383d02
+=======
+
+        /**
+         * Contains the tool subtype mappings for crafing (ie. mess kit is a hotplate etc.).
+         * This is should be obsoleted when @ref requirement_data allows AND/OR nesting.
+         */
+        std::map<itype_id, std::set<itype_id>> tool_subtypes;
+};
+>>>>>>> Move tool subtype handling to load time
 
         /**
          * Contains the tool subtype mappings for crafing (ie. mess kit is a hotplate etc.).
