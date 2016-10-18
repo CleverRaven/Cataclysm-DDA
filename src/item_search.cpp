@@ -5,44 +5,50 @@
 
 std::pair<std::string, std::string> get_both( const std::string &a );
 std::function<bool( const item & )>
-item_filter_from_string( const std::string &filter )
+item_filter_from_string(  std::string filter )
 {
+    if( filter.empty() ){
+        return [](const item&i){
+            return i.active || !i.active;
+        };
+    }
     size_t colon;
     char flag = '\0';
     if( ( colon = filter.find( ":" ) ) != std::string::npos ) {
 
         if( colon >= 1 ) {
             flag = filter[colon - 1];
+            filter = filter.substr( colon + 1 );
         }
     }
     switch( flag ) {
         case 'c'://category
-            return [&]( const item & i ) {
+            return [filter]( const item & i ) {
                 return lcmatch( i.get_category().name, filter );
             };
             break;
         case 'm'://material
-            return [&]( const item & i ) {
+            return [filter]( const item & i ) {
                 return lcmatch( i.get_base_material().name(), filter );
             };
             break;
         case 'e'://either
-            return [&]( const item & i ) {
-                auto pair = get_both( filter.substr( colon + 1 ) );
+            return [filter]( const item & i ) {
+                auto pair = get_both( filter );
                 return item_filter_from_string( pair.first )( i )
                        || item_filter_from_string( pair.second )( i );
             };
             break;
         case 'b'://both
-            return [&]( const item & i ) {
-                auto pair = get_both( filter.substr( colon + 1 ) );
+            return [filter]( const item & i ) {
+                auto pair = get_both( filter );
                 return item_filter_from_string( pair.first )( i )
                        && item_filter_from_string( pair.second )( i );
             };
             break;
-        default:
-            return [&]( const item & a ) {
-                return lcmatch( a.tname(), filter.substr( colon ) );
+        default://by name
+            return [filter]( const item & a ) {
+                return lcmatch( a.tname(), filter );
             };
             break;
     }
