@@ -276,6 +276,12 @@ void Item_factory::finalize() {
             }
         }
 
+        if( obj.tool != nullptr ) {
+            if( !obj.tool->subtype.empty() && has_template( obj.tool->subtype ) ) {
+                tool_subtypes[ obj.tool->subtype ].insert( obj.id );
+            }
+        }
+
         for( auto &e : obj.use_methods ) {
             e.second.get_actor_ptr()->finalize( obj.id );
         }
@@ -835,6 +841,9 @@ void Item_factory::check_definitions() const
             }
             if( !type->tool->revert_msg.empty() && type->tool->revert_to == "null" ) {
                 msg << _( "cannot specify revert_msg without revert_to" ) << "\n";
+            }
+            if( !type->tool->subtype.empty() && !has_template( type->tool->subtype ) ) {
+                msg << _( "Invalid tool subtype" ) << type->tool->subtype << "\n";
             }
         }
         if( type->bionic ) {
@@ -2214,4 +2223,16 @@ Item_tag Item_factory::create_artifact_id() const
         i++;
     } while( has_template( id ) );
     return id;
+}
+
+std::list<itype_id> Item_factory::subtype_replacement( const itype_id &base ) const
+{
+    std::list<itype_id> ret;
+    ret.push_back( base );
+    const auto replacements = tool_subtypes.find( base );
+    if( replacements != tool_subtypes.end() ) {
+        ret.insert( ret.end(), replacements->second.begin(), replacements->second.end() );
+    }
+
+    return ret;
 }
