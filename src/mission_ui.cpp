@@ -5,6 +5,7 @@
 #include "mission.h"
 #include "weather.h"
 #include "calendar.h"
+#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 
 #include <vector>
 #include <string>
@@ -114,7 +115,7 @@ void game::list_missions()
             if( miss->has_deadline() ) {
                 calendar deadline( miss->get_deadline() );
                 std::string dl = string_format( season_name_upper( deadline.get_season() ) + ", day " +
-                                                std::to_string( deadline.days() + 1 ) + " " + deadline.print_time() );
+                                                to_string( deadline.days() + 1 ) + " " + deadline.print_time() );
                 mvwprintz( w_missions, y++, 31, c_white, _( "Deadline: %s" ), dl.c_str() );
 
                 if( tab != tab_mode::TAB_COMPLETED ) {
