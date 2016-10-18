@@ -215,7 +215,7 @@
        },
        "place_monsters": [
          { "monster": "GROUP_ZOMBIE", "x": [ 0, 19 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-         { "monster": "GROUP_PEST, "x": [ 0, 19 ], "y": [ 0, 19 ], "repeat": [ 1, 2 ], "CHANCE": 3 }
+         { "monster": "GROUP_PEST", "x": [ 0, 19 ], "y": [ 0, 19 ], "repeat": [ 1, 2 ], "CHANCE": 3 }
        ]
     }
   },
@@ -317,7 +317,7 @@
         },
         "place_monsters": [
           { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 0, 19 ], "repeat": [1, 2] },
-          { "monster": "GROUP_PEST, "x": [ 0, 19 ], "y": [ 0, 19 ], "repeat": [ 1, 2 ], "CHANCE": 3 }
+          { "monster": "GROUP_PEST", "x": [ 0, 19 ], "y": [ 0, 19 ], "repeat": [ 1, 2 ], "CHANCE": 3 }
         ]
     }
   },
@@ -352,7 +352,7 @@
         "G-w|--|-ww---ww--|--|   ",
         "ss                      ",
         "ss                      ",
-        "ss                       "
+        "ss                      "
         ],
         "terrain": {
           "E": "t_elevator",
@@ -427,7 +427,7 @@
         },
         "place_monsters": [
           { "monster": "GROUP_ZOMBIE", "x": [ 0, 19 ], "y": [ 0, 19 ], "repeat": [ 1, 2 ] },
-          { "monster": "GROUP_PEST, "x": [ 0, 19 ], "y": [ 0, 19 ], "repeat": [ 1, 2 ], "CHANCE": 3 }
+          { "monster": "GROUP_PEST", "x": [ 0, 19 ], "y": [ 0, 19 ], "repeat": [ 1, 2 ], "CHANCE": 3 }
         ]
     }
   }
