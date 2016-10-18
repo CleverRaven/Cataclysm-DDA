@@ -12,43 +12,45 @@
 
 void game::list_missions()
 {
-    WINDOW *w_missions = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                                (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
+    WINDOW *w_missions = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                 ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                                 ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
     int tab = 0;
     size_t selection = 0;
     // content ranges from y=3 to FULL_SCREEN_HEIGHT - 2
     const int entries_per_page = FULL_SCREEN_HEIGHT - 4;
-    input_context ctxt("MISSIONS");
+    input_context ctxt( "MISSIONS" );
     ctxt.register_cardinal();
-    ctxt.register_action("CONFIRM");
-    ctxt.register_action("QUIT");
-    ctxt.register_action("HELP_KEYBINDINGS");
-    while (true) {
-        werase(w_missions);
-        std::vector<mission*> umissions;
-        switch (tab) {
-        case 0:
-            umissions = u.get_active_missions();
-            break;
-        case 1:
-            umissions = u.get_completed_missions();
-            break;
-        case 2:
-            umissions = u.get_failed_missions();
-            break;
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    while( true ) {
+        werase( w_missions );
+        std::vector<mission *> umissions;
+        switch( tab ) {
+            case 0:
+                umissions = u.get_active_missions();
+                break;
+            case 1:
+                umissions = u.get_completed_missions();
+                break;
+            case 2:
+                umissions = u.get_failed_missions();
+                break;
         }
-        const int top_of_page = entries_per_page * ( selection / entries_per_page ); // entries_per_page * page number
-        const int bottom_of_page = std::min( top_of_page + entries_per_page - 1, (int)umissions.size() - 1 );
+        // entries_per_page * page number
+        const int top_of_page = entries_per_page * ( selection / entries_per_page );
+        const int bottom_of_page =
+            std::min( top_of_page + entries_per_page - 1, ( int )umissions.size() - 1 );
 
-        for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
-            mvwputch(w_missions, 2, i, BORDER_COLOR, LINE_OXOX);
-            mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
+        for( int i = 1; i < FULL_SCREEN_WIDTH - 1; i++ ) {
+            mvwputch( w_missions, 2, i, BORDER_COLOR, LINE_OXOX );
+            mvwputch( w_missions, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX );
 
-            if (i > 2 && i < FULL_SCREEN_HEIGHT - 1) {
-                mvwputch(w_missions, i, 30, BORDER_COLOR, LINE_XOXO);
-                mvwputch(w_missions, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO);
+            if( i > 2 && i < FULL_SCREEN_HEIGHT - 1 ) {
+                mvwputch( w_missions, i, 30, BORDER_COLOR, LINE_XOXO );
+                mvwputch( w_missions, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO );
             }
         }
 
@@ -56,14 +58,15 @@ void game::list_missions()
         draw_tab( w_missions, 30, _( "COMPLETED MISSIONS" ), tab == 1 );
         draw_tab( w_missions, 56, _( "FAILED MISSIONS" ), tab == 2 );
 
-        mvwputch(w_missions, 2, 0, BORDER_COLOR, LINE_OXXO); // |^
-        mvwputch(w_missions, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX); // ^|
+        mvwputch( w_missions, 2, 0, BORDER_COLOR, LINE_OXXO ); // |^
+        mvwputch( w_missions, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX ); // ^|
 
-        mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |
-        mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
+        mvwputch( w_missions, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO ); // |
+        mvwputch( w_missions, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR,
+                  LINE_XOOX ); // _|
 
-        mvwputch(w_missions, 2, 30, BORDER_COLOR, (tab == 1) ? LINE_XOXX : LINE_XXXX); // + || -|
-        mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, 30, BORDER_COLOR, LINE_XXOX); // _|_
+        mvwputch( w_missions, 2, 30, BORDER_COLOR, ( tab == 1 ) ? LINE_XOXX : LINE_XXXX ); // + || -|
+        mvwputch( w_missions, FULL_SCREEN_HEIGHT - 1, 30, BORDER_COLOR, LINE_XXOX ); // _|_
 
         draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), 3, 0 );
 
@@ -74,14 +77,14 @@ void game::list_missions()
                 col = c_ltred;
             }
             const int y = i - top_of_page + 3;
-            if( (int)selection == i ) {
+            if( ( int )selection == i ) {
                 mvwprintz( w_missions, y, 1, hilite( col ), "%s", miss->name().c_str() );
             } else {
                 mvwprintz( w_missions, y, 1, col, "%s", miss->name().c_str() );
             }
         }
 
-        if (selection < umissions.size()) {
+        if( selection < umissions.size() ) {
             const auto miss = umissions[selection];
             int y = 4;
             if( !miss->get_description().empty() ) {
@@ -90,7 +93,7 @@ void game::list_missions()
             if( miss->has_deadline() ) {
                 calendar deadline( miss->get_deadline() );
                 std::string dl = string_format( season_name_upper( deadline.get_season() ) + ", day " +
-                                 std::to_string( deadline.days() + 1 ) + " " + deadline.print_time() );
+                                                std::to_string( deadline.days() + 1 ) + " " + deadline.print_time() );
                 mvwprintz( w_missions, y++, 31, c_white, _( "Deadline: %s" ), dl.c_str() );
 
                 if( tab != 1 ) {
@@ -116,42 +119,42 @@ void game::list_missions()
             mvwprintz( w_missions, 4, 31, c_ltred, "%s", nope[tab].c_str() );
         }
 
-        wrefresh(w_missions);
+        wrefresh( w_missions );
         const std::string action = ctxt.handle_input();
-        if (action == "RIGHT") {
+        if( action == "RIGHT" ) {
             tab++;
-            if (tab == 3) {
+            if( tab == 3 ) {
                 tab = 0;
             }
             selection = 0;
-        } else if (action == "LEFT") {
+        } else if( action == "LEFT" ) {
             tab--;
-            if (tab < 0) {
+            if( tab < 0 ) {
                 tab = 2;
             }
             selection = 0;
-        } else if (action == "DOWN") {
+        } else if( action == "DOWN" ) {
             selection++;
-            if (selection >= umissions.size()) {
+            if( selection >= umissions.size() ) {
                 selection = 0;
             }
-        } else if (action == "UP") {
-            if (selection == 0) {
+        } else if( action == "UP" ) {
+            if( selection == 0 ) {
                 selection = umissions.empty() ? 0 : umissions.size() - 1;
             } else {
                 selection--;
             }
-        } else if (action == "CONFIRM") {
+        } else if( action == "CONFIRM" ) {
             if( tab == 0 && selection < umissions.size() ) {
                 u.set_active_mission( *umissions[selection] );
             }
             break;
-        } else if (action == "QUIT") {
+        } else if( action == "QUIT" ) {
             break;
         }
     }
 
-    werase(w_missions);
-    delwin(w_missions);
+    werase( w_missions );
+    delwin( w_missions );
     refresh_all();
 }
