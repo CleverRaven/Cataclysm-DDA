@@ -115,7 +115,6 @@
     "id": "pipe_combination_gun",
     "type": "GUN",
     "name": "pipe combination gun",
-    "//": "Attached mod will now have weight.",
     "description": "A home-made quad-barreled firearm; two over-under barrels chambered in .30-06 and another two for shotgun shells.  It is carbine length, which allows it to be maneuvered easier at the cost of ballistic performance.",
     "weight": 2267,
     "volume": 8,
