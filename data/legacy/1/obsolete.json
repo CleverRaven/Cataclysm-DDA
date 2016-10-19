@@ -1,5 +1,29 @@
 [
   {
+    "id": "combination_gun_shotgun_pipe",
+    "type": "GUNMOD",
+    "name": "pipe combination gun shotgun",
+    "description": "The integrated underbarrel shotgun of a pipe combination gun which holds a single shot.  It's irremovable.",
+    "weight": 1134,
+    "volume": 4,
+    "price": 10000,
+    "to_hit": -1,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_targets": [ "rifle" ],
+    "gun_data": {
+        "ammo": "shot",
+        "skill": "shotgun",
+        "ranged_damage": 2,
+        "dispersion": 555,
+        "durability": 6,
+        "clip_size": 1
+    },
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+  },
+  {
     "id" : "reloaded_22_cb",
     "type" : "AMMO",
     "price" : 1800,
