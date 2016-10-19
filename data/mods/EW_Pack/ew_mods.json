@@ -22,7 +22,7 @@
     {
         "type" : "GUNMOD",
         "id" : "imp_autofire_654",
-        "name" : "handmade rifle auto-fire mechanism",
+        "name" : "handmade auto-fire mechanism",
         "location": "mechanism",
         "weight" : 250,
         "color" : "red",
