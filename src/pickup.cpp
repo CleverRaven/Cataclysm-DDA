@@ -737,28 +737,6 @@ void Pickup::pick_up( const tripoint &pos, int min )
             const std::string pickup_chars =
                 ctxt.get_available_single_char_hotkeys( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;" );
             int idx = -1;
-            if( filter_changed ) {
-                matches.clear();
-                while( matches.empty() ) {
-                    auto filter_func = item_filter_from_string( filter );
-                    for( size_t index = 0; index < stacked_here.size(); index++ ) {
-                        if( filter_func( stacked_here[index].begin()->_item ) ) {
-                            matches.push_back( index );
-                        }
-                    }
-                    if( matches.empty() ) {
-                        popup( _( "Your filter returned no results" ) );
-                        // The filter must have results, or simply be emptied,
-                        // as this screen can't be reached without there being
-                        // items available
-                        filter = string_input_popup( "Set filter", 30, filter,
-                                                     "",
-                                                     _( "set filter" ) );
-                    }
-                }
-                filter_changed = false;
-                update = true;
-            }
             for( int i = 1; i < pickupH; i++ ) {
                 mvwprintw( w_pickup, i, 0,
                            "                                                " );
@@ -894,7 +872,27 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
                 update = true;
             }
-
+            if( filter_changed ) {
+                matches.clear();
+                while( matches.empty() ) {
+                    auto filter_func = item_filter_from_string( filter );
+                    for( size_t index = 0; index < stacked_here.size(); index++ ) {
+                        if( filter_func( stacked_here[index].begin()->_item ) ) {
+                            matches.push_back( index );
+                        }
+                    }
+                    if( matches.empty() ) {
+                        popup( _( "Your filter returned no results" ) );
+                        // The filter must have results, or simply be emptied,
+                        // as this screen can't be reached without there being
+                        // items available
+                        filter = string_input_popup( "Set filter", 30, filter,
+                                                     "",
+                                                     _( "set filter" ) );
+                    }
+                }
+                filter_changed = false;
+            }
             for( cur_it = start; cur_it < start + maxitems; cur_it++ ) {
                 mvwprintw( w_pickup, 1 + ( cur_it % maxitems ), 0,
                            "                                        " );
