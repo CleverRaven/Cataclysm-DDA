@@ -816,28 +816,29 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 iScrollPos = 0;
             }
 
-            if( idx >= 0 && idx < ( int )stacked_here.size() ) {
-                if( itemcount != 0 || getitem[idx].count == 0 ) {
-                    item &temp = stacked_here[idx].begin()->_item;
-                    int amount_available = temp.count_by_charges() ? temp.charges : stacked_here[idx].size();
+            if( idx >= 0 && idx < ( int )matches.size() ) {
+                size_t true_idx = matches[idx];
+                if( itemcount != 0 || getitem[true_idx].count == 0 ) {
+                    item &temp = stacked_here[true_idx].begin()->_item;
+                    int amount_available = temp.count_by_charges() ? temp.charges : stacked_here[true_idx].size();
                     if( itemcount >= amount_available ) {
                         itemcount = 0;
                     }
-                    getitem[idx].count = itemcount;
+                    getitem[true_idx].count = itemcount;
                     itemcount = 0;
                 }
 
                 // Note: this might not change the value of getitem[idx] at all!
-                getitem[idx].pick = ( action == "RIGHT" ? true :
-                                      ( action == "LEFT" ? false :
-                                        !getitem[idx].pick ) );
+                getitem[true_idx].pick = ( action == "RIGHT" ? true :
+                                           ( action == "LEFT" ? false :
+                                             !getitem[true_idx].pick ) );
                 if( action != "RIGHT" && action != "LEFT" ) {
                     selected = idx;
                     start = ( int )( idx / maxitems ) * maxitems;
                 }
 
-                if( !getitem[idx].pick ) {
-                    getitem[idx].count = 0;
+                if( !getitem[true_idx].pick ) {
+                    getitem[true_idx].count = 0;
                 }
                 update = true;
             }
@@ -897,7 +898,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 mvwprintw( w_pickup, 1 + ( cur_it % maxitems ), 0,
                            "                                        " );
                 if( cur_it < ( int )matches.size() ) {
-                    size_t true_it = matches[cur_it];
+                    int true_it = matches[cur_it];
                     item &this_item = stacked_here[ true_it ].begin()->_item;
                     nc_color icolor = this_item.color_in_inventory();
                     if( cur_it == selected ) {
@@ -905,8 +906,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     }
 
                     if( cur_it < ( int )pickup_chars.size() ) {
-                        mvwputch( w_pickup, 1 + ( true_it % maxitems ), 0, icolor,
-                                  char( pickup_chars[true_it] ) );
+                        mvwputch( w_pickup, 1 + ( cur_it % maxitems ), 0, icolor,
+                                  char( pickup_chars[cur_it] ) );
                     } else if( cur_it < ( int )pickup_chars.size() + ( int )pickup_chars.size() *
                                ( int )pickup_chars.size() ) {
                         int p = cur_it - pickup_chars.size();
