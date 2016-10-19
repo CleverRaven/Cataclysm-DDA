@@ -56,13 +56,6 @@ item_filter_from_string(  std::string filter )
                 return lcmatch( i.get_base_material().name(), filter );
             };
             break;
-        case 'e'://either
-            return [filter]( const item & i ) {
-                auto pair = get_both( filter );
-                return item_filter_from_string( pair.first )( i )
-                       || item_filter_from_string( pair.second )( i );
-            };
-            break;
         case 'b'://both
             return [filter]( const item & i ) {
                 auto pair = get_both( filter );
