@@ -4,7 +4,7 @@
     "ident": "ew_pack",
     "name": "Icecoon's Arsenal",
     "description": "For those gun nuts.  Don't have enough near-future firearms in your life?  Add this mod today!",
-    "author": "Icecoon and community",
+    "authors": [ "Icecoon", "community" ],
     "category": "items",
     "path": ""
 }
