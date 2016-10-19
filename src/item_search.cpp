@@ -8,8 +8,9 @@ std::function<bool( const item & )>
 item_filter_from_string(  std::string filter )
 {
     if( filter.empty() ){
-        return [](const item&i){
-            return i.active || !i.active;
+        // Variable without name prevents unused parameter warning
+        return [](const item&){
+            return true;
         };
     }
     size_t colon;
