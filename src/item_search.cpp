@@ -2,6 +2,7 @@
 #include "material.h"
 #include "item_search.h"
 #include "cata_utility.h"
+#include "output.h"
 
 #include <algorithm>
 
@@ -25,7 +26,7 @@ item_filter_from_string(  std::string filter )
             }
             auto current_func = item_filter_from_string( current_filter );
             functions.push_back( current_func );
-            filter = filter.substr( comma + 1 );
+            filter = trim( filter.substr( comma + 1 ) );
         }
         if( !filter.empty() ){
             functions.push_back( item_filter_from_string( filter ) );
@@ -44,6 +45,12 @@ item_filter_from_string(  std::string filter )
             flag = filter[colon - 1];
             filter = filter.substr( colon + 1 );
         }
+    }
+    bool exclude = filter[0] == '-';
+    if( exclude ) {
+        return [filter](const item& i){
+            return !item_filter_from_string( filter.substr( 1 ) )( i );
+        };
     }
     switch( flag ) {
         case 'c'://category
