@@ -698,7 +698,7 @@
     ],
     [
       [ "gunpowder", 60 ],
-      [ "chem_black_powder", 120 ]
+      [ "chem_black_powder", 60 ]
     ]
   ]
 },{
@@ -800,7 +800,7 @@
     ],
     [
       [ "gunpowder", 20 ],
-      [ "chem_black_powder", 40 ]
+      [ "chem_black_powder", 20 ]
     ]
   ]
 },{
@@ -948,7 +948,7 @@
       [ "smpistol_primer", 50 ]
     ],
     [
-      [ "gunpowder", 250 ]
+      [ "gunpowder", 250 ], [ "chem_black_powder", 250 ]
     ],
     [
       [ "lead", 250 ],
@@ -2200,7 +2200,7 @@
   "components": [
     [
       [ "gunpowder", 16 ],
-      [ "chem_black_powder", 32 ]
+      [ "chem_black_powder", 16 ]
     ],
     [
       [ "scrap", 1 ],
@@ -2237,7 +2237,7 @@
   ],"components": [
     [
       [ "gunpowder", 16 ],
-      [ "chem_black_powder", 32 ]
+      [ "chem_black_powder", 16 ]
     ],
     [
       [ "rebar", 1 ],
@@ -2270,7 +2270,7 @@
   ], "components":  [
     [
       [ "gunpowder", 16 ],
-      [ "chem_black_powder", 32 ]
+      [ "chem_black_powder", 16 ]
     ],
     [
       [ "glass_shard", 1],
@@ -2611,7 +2611,7 @@
         [ "smpistol_primer", 50 ]
       ],
       [
-        [ "gunpowder", 250 ]
+        [ "gunpowder", 250 ], [ "chem_black_powder", 250 ]
       ],
       [
         [ "lead", 200 ],
@@ -2847,7 +2847,7 @@
     "components": [
       [
         [ "gunpowder", 300 ],
-        [ "chem_black_powder", 600 ]
+        [ "chem_black_powder", 300 ]
       ],
       [
         [ "lead", 300 ],
@@ -2875,7 +2875,7 @@
     "components": [
       [
         [ "gunpowder", 300 ],
-        [ "chem_black_powder", 600 ]
+        [ "chem_black_powder", 300 ]
       ],
       [
         [ "lead", 300 ],
@@ -2919,7 +2919,7 @@
         [ "lgrifle_primer", 20 ]
       ],
       [
-        [ "gunpowder", 160 ]
+        [ "gunpowder", 160 ], [ "chem_black_powder", 160 ]
       ],
       [
         [ "lead", 60 ],
@@ -3154,7 +3154,7 @@
       [ "22_casing_new", 100 ]
     ],
     [
-      [ "gunpowder", 200 ]
+      [ "gunpowder", 200 ], [ "chem_black_powder", 200 ]
     ],
     [
       [ "lead", 200 ],
@@ -3190,7 +3190,7 @@
       [ "22_casing_new", 100 ]
     ],
     [
-      [ "gunpowder", 200 ]
+      [ "gunpowder", 200 ], [ "chem_black_powder", 200 ]
     ],
     [
       [ "lead", 200 ],
