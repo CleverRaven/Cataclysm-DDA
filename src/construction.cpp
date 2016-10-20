@@ -339,13 +339,13 @@ void construction_menu()
                        ctxt.get_desc("RIGHT").c_str() );
             mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white,
                        _( "Press %s to search." ), ctxt.get_desc( "FILTER" ).c_str() );
-            // Print instructions for toggling recipe hiding.
             mvwprintz( w_con, w_height - 3, ( w_list_width + w_list_x0 + 2 ), c_white,
                        _( "Press %s to toggle unavailable constructions." ),
                        ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() );
             mvwprintz( w_con, w_height - 2, ( w_list_width + w_list_x0 + 2 ), c_white,
                        _( "Press %s to view and edit key-bindings." ),
                        ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
+
             if( !constructs.empty() ) {
                 if( select >= (int) constructs.size() ){
                     select = 0;
