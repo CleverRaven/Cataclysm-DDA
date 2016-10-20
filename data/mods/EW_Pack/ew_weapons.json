@@ -107,26 +107,23 @@
   },
   {
     "id": "cw-24hack",
+    "copy-from": "cw-24",
     "type": "GUN",
-    "symbol": "(",
-    "color": "dark_gray",
-    "name": "Modified CW-24",
-    "name_plural": "Modified CW-24",
+    "name": "modified CW-24",
+    "name_plural": "modified CW-24",
     "description": "Civilian version of the SVS-24.  It has a modified receiver and a new crudely crafted full-auto bolt carrier.  Don't expect the original reliability.",
-    "price": 420000,
-    "material": ["steel", "plastic"],
-    "skill": "rifle",
-    "ammo": "654",
-    "weight": 3900,
-    "volume": 10,
-    "bashing": 12,
-    "to_hit": -1,
-    "dispersion": 175,
     "durability": 6,
     "burst": 8,
-    "clip_size": 30,
-    "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "grip", 1],[ "mechanism", 2 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "magazines": [
+        [ "654", [ "svsmag", "svsbigmag" ] ],
+        [ "545", [ "cw24mag", "cw24bigmag", "ak74mag", "rpk74mag" ] ],
+        [ "762", [ "akmmag", "akmbigmag" ] ]
+    ],
+    "relative": {
+        "price": 210000,
+        "dispersion": 75
+    }
   },
   {
     "id": "cw-24m_hack",
