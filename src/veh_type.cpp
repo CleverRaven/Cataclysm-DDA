@@ -75,63 +75,31 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "VISION", VPFLAG_EXTENDS_VISION }
 };
 
-std::map<vpart_str_id, vpart_info> vehicle_part_types;
-// Contains pointer into the vehicle_part_types map. It is an implicit mapping of int ids
-// to the matching vpart_info object. To store the object only once, it is in the map and only
-// linked to. Pointers here are always valid.
-std::vector<const vpart_info*> vehicle_part_int_types;
+static std::map<vpart_id, vpart_info> vpart_info_all;
 
-static std::map<vpart_str_id, vpart_info> abstract_parts;
+static std::map<vpart_id, vpart_info> abstract_parts;
 
 static DynamicDataLoader::deferred_json deferred;
 
 template<>
-const vpart_str_id string_id<vpart_info>::NULL_ID( "null" );
+const vpart_id string_id<vpart_info>::NULL_ID( "null" );
 
 template<>
-const vpart_info &int_id<vpart_info>::obj() const
+bool string_id<vpart_info>::is_valid() const
 {
-    if( static_cast<size_t>( _id ) >= vehicle_part_int_types.size() ) {
-        debugmsg( "invalid vehicle part id %d", _id );
-        static const vpart_info dummy{};
-        return dummy;
-    }
-    return *vehicle_part_int_types[_id];
-}
-
-template<>
-const string_id<vpart_info> &int_id<vpart_info>::id() const
-{
-    return obj().id;
-}
-
-template<>
-int_id<vpart_info> string_id<vpart_info>::id() const
-{
-    const auto iter = vehicle_part_types.find( *this );
-    if( iter == vehicle_part_types.end() ) {
-        debugmsg( "invalid vehicle part id %s", c_str() );
-        return vpart_id();
-    }
-    return iter->second.loadid;
+    return vpart_info_all.count( *this );
 }
 
 template<>
 const vpart_info &string_id<vpart_info>::obj() const
 {
-    return id().obj();
-}
-
-template<>
-bool string_id<vpart_info>::is_valid() const
-{
-    return vehicle_part_types.count( *this ) > 0;
-}
-
-template<>
-int_id<vpart_info>::int_id( const string_id<vpart_info> &id )
-: _id( id.id() )
-{
+    const auto found = vpart_info_all.find( *this );
+    if( found == vpart_info_all.end() ) {
+        debugmsg( "Tried to get invalid vehicle part: %s", c_str() );
+        static const vpart_info null_part{};
+        return null_part;
+    }
+    return found->second;
 }
 
 static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::string &key,
@@ -179,21 +147,22 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     vpart_info def;
 
     if( jo.has_string( "copy-from" ) ) {
-        auto const base = vehicle_part_types.find( vpart_str_id( jo.get_string( "copy-from" ) ) );
-        auto const ab = abstract_parts.find( vpart_str_id( jo.get_string( "copy-from" ) ) );
-        if( base != vehicle_part_types.end() ) {
+        auto const base = vpart_info_all.find( vpart_id( jo.get_string( "copy-from" ) ) );
+        auto const ab = abstract_parts.find( vpart_id( jo.get_string( "copy-from" ) ) );
+        if( base != vpart_info_all.end() ) {
             def = base->second;
         } else if( ab != abstract_parts.end() ) {
             def = ab->second;
         } else {
             deferred.emplace_back( jo.str(), src );
+            return;
         }
     }
 
     if( jo.has_string( "abstract" ) ) {
-        def.id = vpart_str_id( jo.get_string( "abstract" ) );
+        def.id = vpart_id( jo.get_string( "abstract" ) );
     } else {
-        def.id = vpart_str_id( jo.get_string( "id" ) );
+        def.id = vpart_id( jo.get_string( "id" ) );
     }
 
     assign( jo, "name", def.name_ );
@@ -257,23 +226,10 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_string( "abstract" ) ) {
-        abstract_parts[ def.id ] = def;
-        return;
-    }
-
-    auto const iter = vehicle_part_types.find( def.id );
-    if( iter != vehicle_part_types.end() ) {
-        // Entry in the map already exists, so the pointer in the vector is already correct
-        // and does not need to be changed, only the int-id needs to be taken from the old entry.
-        def.loadid = iter->second.loadid;
-        iter->second = def;
+        abstract_parts[def.id] = def;
     } else {
-        // The entry is new, "generate" a new int-id and link the new entry from the vector.
-        def.loadid = vpart_id( vehicle_part_int_types.size() );
-        vpart_info &new_entry = vehicle_part_types[ def.id ];
-        new_entry = def;
-        vehicle_part_int_types.push_back( &new_entry );
-    }    
+        vpart_info_all[def.id] = def;
+    }
 }
 
 void vpart_info::set_flag( const std::string &flag )
@@ -291,7 +247,7 @@ void vpart_info::finalize()
         debugmsg( "JSON contains circular dependency: discarded %i vehicle parts", deferred.size() );
     }
 
-    for( auto& e : vehicle_part_types ) {
+    for( auto& e : vpart_info_all ) {
         // if part name specified ensure it is translated
         // otherwise the name of the base item will be used
         if( !e.second.name_.empty() ) {
@@ -357,7 +313,7 @@ void vpart_info::finalize()
 
 void vpart_info::check()
 {
-    for( auto &vp : vehicle_part_types ) {
+    for( auto &vp : vpart_info_all ) {
         auto &part = vp.second;
 
         // handle legacy parts without requirement data
@@ -505,14 +461,13 @@ void vpart_info::check()
 
 void vpart_info::reset()
 {
-    vehicle_part_types.clear();
-    vehicle_part_int_types.clear();
+    vpart_info_all.clear();
     abstract_parts.clear();
 }
 
-const std::vector<const vpart_info*> &vpart_info::get_all()
+const std::map<vpart_id, vpart_info> &vpart_info::all()
 {
-    return vehicle_part_int_types;
+    return vpart_info_all;
 }
 
 std::string vpart_info::name() const
@@ -620,7 +575,7 @@ void vehicle_prototype::load(JsonObject &jo)
 
         part_def pt;
         pt.pos = point( part.get_int( "x" ), part.get_int( "y" ) );
-        pt.part = vpart_str_id( part.get_string( "part" ) );
+        pt.part = vpart_id( part.get_string( "part" ) );
 
         assign( part, "ammo", pt.with_ammo, true, 0, 100 );
         assign( part, "ammo_types", pt.ammo_types, true );
