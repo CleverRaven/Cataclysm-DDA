@@ -1245,15 +1245,20 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 4,
-  "time": 18000,
+  "skills_required": [ "gun", 5 ],
+  "difficulty": 5,
+  "time": 800000,
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
+    { "id": "GLARE", "level": 2 },
+    { "id": "HAMMER", "leve;": 3 },
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
+  ],
+  "tools": [ [ [ "oxy_torch", 8 ], [ "welder", 40 ], [ "welder_crude", 60 ], [ "toolset", 60 ], [ "small_repairkit", 200 ], [ "large_repairkit", 40 ] ] 
+  ],
+  "components": [
     [
       [ "pipe", 2 ]
     ],
@@ -1267,7 +1272,7 @@
       [ "scrap", 3 ]
     ],
     [
-      [ "2x4", 1 ]
+      [ "shotgun_d", 1 ]
     ]
   ]
 },{
