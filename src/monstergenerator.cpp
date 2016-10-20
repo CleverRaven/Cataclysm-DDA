@@ -113,7 +113,7 @@ void MonsterGenerator::finalize_mtypes()
     }
 
     for( const auto &mon : mon_templates->get_all() ) {
-        if( !mon.has_flag( MF_NO_HALLU ) ) {
+        if( !mon.has_flag( MF_NOT_HALLU ) ) {
             hallucination_monsters.push_back( mon.id );
         }
     }
@@ -413,7 +413,7 @@ void MonsterGenerator::init_flags()
     flag_map["PATH_AVOID_DANGER_1"] = MF_AVOID_DANGER_1;
     flag_map["PATH_AVOID_DANGER_2"] = MF_AVOID_DANGER_2;
     flag_map["PRIORITIZE_TARGETS"] = MF_PRIORITIZE_TARGETS;
-    flag_map["NOT_HALLUCINATION"] = MF_NO_HALLU;
+    flag_map["NOT_HALLUCINATION"] = MF_NOT_HALLU;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
