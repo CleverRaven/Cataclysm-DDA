@@ -1142,6 +1142,11 @@ void options_manager::init()
         0, 100, 10
         );
 
+    add("FORCE_REDRAW", "graphics", _("Force redraw"),
+        _("If true, forces the game to redraw at least once per turn."),
+        true
+        );
+
     mOptionsSort["graphics"]++;
 
     add("TERMINAL_X", "graphics", _("Terminal width"),
