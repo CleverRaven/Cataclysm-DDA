@@ -155,6 +155,7 @@
     "//": "Less common rifles including those only used by police/paramilitary forces.",
     "items": [
       [ "acr", 25 ],
+      [ "combination_gun", 10 ],
       [ "fn_fal", 40 ],
       [ "hk_g3", 40 ],
       [ "hk_g36", 30 ],
@@ -220,6 +221,7 @@
     "id": "guns_rifle_improvised",
     "//": "Makeshift or otherwise poor quality rifles.",
     "items": [
+      [ "pipe_combination_gun", 10 ],
       [ "rifle_22", 60 ],
       [ "rifle_3006", 30 ],
       [ "rifle_9mm", 60 ],
