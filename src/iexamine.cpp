@@ -2269,30 +2269,24 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 void pick_plant(player &p, const tripoint &examp,
                 std::string itemType, ter_id new_ter, bool seeds)
 {
-    if (!query_yn(_("Harvest the %s?"), g->m.tername(examp).c_str())) {
+    if( p.is_player() && !query_yn( _( "Harvest the %s?" ), g->m.tername( examp ).c_str() ) ) {
         iexamine::none( p, examp );
         return;
     }
 
     const SkillLevel &survival = p.get_skill_level( skill_survival );
-    if (survival < 1) {
-        p.practice( skill_survival, rng(5, 12) );
-    } else if (survival < 6) {
-        p.practice( skill_survival, rng(1, 12 / survival) );
-    }
+    p.practice( skill_survival, 6 );
 
     int plantBase = rng(2, 5);
     ///\EFFECT_SURVIVAL increases number of plants harvested
     int plantCount = rng(plantBase, plantBase + survival / 2);
-    if (plantCount > 12) {
-        plantCount = 12;
-    }
+    plantCount = std::min( plantCount, 12 );
 
     g->m.spawn_item( p.pos(), itemType, plantCount, 0, calendar::turn);
 
     if (seeds) {
         g->m.spawn_item( p.pos(), "seed_" + itemType, 1,
-                      rng(plantCount / 4, plantCount / 2), calendar::turn);
+                         rng( plantCount / 4, plantCount / 2 ) );
     }
 
     g->m.ter_set(examp, new_ter);
@@ -2304,19 +2298,19 @@ void iexamine::harvest_tree_shrub(player &p, const tripoint &examp)
          ((p.get_hunger()) > 0) && (!(p.wearing_something_on(bp_mouth))) &&
          (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == SPRING) ) {
         p.moves -= 100; // Need to find a blossom (assume there's one somewhere)
-        add_msg(_("You find a flower and drink some nectar."));
+        p.add_msg_if_player(_("You find a flower and drink some nectar."));
         p.mod_hunger(-15);
     }
     //if the fruit is not ripe yet
     if (calendar::turn.get_season() != g->m.get_ter_harvest_season(examp)) {
         std::string fruit = item::nname(g->m.get_ter_harvestable(examp), 10);
         fruit[0] = toupper(fruit[0]);
-        add_msg(m_info, _("%1$s ripen in %2$s."), fruit.c_str(), season_name(g->m.get_ter_harvest_season(examp)).c_str());
+        p.add_msg_if_player(m_info, _("%1$s ripen in %2$s."), fruit.c_str(), season_name(g->m.get_ter_harvest_season(examp)).c_str());
         return;
     }
     //if the fruit has been recently harvested
     if (g->m.has_flag(TFLAG_HARVESTED, examp)){
-        add_msg(m_info, _("This %s has already been harvested. Harvest it again next year."), g->m.tername(examp).c_str());
+        p.add_msg_if_player(m_info, _("This %s has already been harvested. Harvest it again next year."), g->m.tername(examp).c_str());
         return;
     }
 
@@ -2329,7 +2323,7 @@ void iexamine::harvest_tree_shrub(player &p, const tripoint &examp)
 
 void iexamine::tree_pine(player &p, const tripoint &examp)
 {
-    if( !query_yn( _("Pick %s?"), g->m.tername( examp ).c_str() ) ) {
+    if( p.is_player() && !query_yn( _("Pick %s?"), g->m.tername( examp ).c_str() ) ) {
         none( p, examp );
         return;
     }
@@ -2342,23 +2336,19 @@ void iexamine::tree_pine(player &p, const tripoint &examp)
 void iexamine::tree_hickory(player &p, const tripoint &examp)
 {
     harvest_tree_shrub( p, examp );
-    ///\EFFECT_SURVIVAL >0 allows digging up hickory root
-    if( !( p.get_skill_level( skill_survival ) > 0 ) ) {
-        return;
-    }
     if( !p.has_quality( quality_id( "DIG" ) ) ) {
-        add_msg(m_info, _("You have no tool to dig with..."));
+        p.add_msg_if_player(m_info, _("You have no tool to dig with..."));
         return;
     }
-    if(!query_yn(_("Dig up %s? This kills the tree!"), g->m.tername(examp).c_str())) {
+    if( p.is_player () && !query_yn( _( "Dig up %s? This kills the tree!" ), g->m.tername( examp ).c_str() ) ) {
         return;
     }
-    g->m.spawn_item(p.pos(), "hickory_root", rng(1,4) );
+
+    ///\EFFECT_SURVIVAL increases hickory root number per tree
+    g->m.spawn_item(p.pos(), "hickory_root", rng( 1, 3 + p.get_skill_level( skill_survival ) ) );
     g->m.ter_set(examp, t_tree_hickory_dead);
     ///\EFFECT_SURVIVAL speeds up hickory root digging
     p.moves -= 2000 / ( p.get_skill_level( skill_survival ) + 1 ) + 100;
-    return;
-    none( p, examp );
 }
 
 item_location maple_tree_sap_container() {

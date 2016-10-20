@@ -1677,6 +1677,34 @@ int map::get_ter_harvest_season( const tripoint &p ) const {
     return ter( p ).obj().harvest_season;
 }
 
+/**
+ * Examines the tile pos, with character as the "examinator"
+ * Casts Character to player because player/npc split isn't done yet
+ */
+void map::examine_ter( Character &p, const tripoint &pos )
+{
+    ter( pos ).obj().examine( dynamic_cast<player &>( p ), pos );
+}
+
+bool map::is_harvestable( const tripoint &pos ) const
+{
+    const auto ter_here = ter( pos );
+    if( ter_here->harvestable.empty() || ter_here->has_flag( TFLAG_HARVESTED ) ) {
+        return false;
+    }
+
+    // Warning: ugly special casing
+    const auto examine_fun = ter_here->examine;
+    if( examine_fun == iexamine::harvest_tree_shrub ||
+        examine_fun == iexamine::tree_hickory ) {
+        return ter_here->harvest_season == calendar::turn.get_season();
+    }
+
+    return true;
+}
+
+
+
 /*
  * set terrain via string; this works for -any- terrain id
  */

@@ -589,6 +589,16 @@ public:
      */
     bool has_items( const tripoint &p ) const;
 
+    /**
+     * Calls the examine function of terrain at given tile, for given character.
+     */
+    void examine_ter( Character &p, const tripoint &pos );
+
+    /**
+     * Returns true if point at pos is harvestable right now, with no extra tools.
+     */
+    bool is_harvestable( const tripoint &pos ) const;
+
 // Flags: 2D overloads
     std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
     bool has_flag(const std::string & flag, const int x, const int y) const;  // checks terrain, furniture and vehicles

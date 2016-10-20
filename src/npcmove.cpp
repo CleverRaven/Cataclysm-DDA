@@ -1742,6 +1742,10 @@ void npc::find_item()
 
     const bool whitelisting = has_item_whitelist();
 
+    if( volume_allowed <= 0 || weight_allowed <= 0 ) {
+        return;
+    }
+
     const auto consider_item =
         [&wanted, &best_value, whitelisting, volume_allowed, weight_allowed, this]
         ( const item &it, const tripoint &p ) {
@@ -1763,23 +1767,51 @@ void npc::find_item()
             wanted_item_pos = p;
             wanted = &( it );
             best_value = itval;
-            fetching_item = true;
         }
     };
 
-    for( const tripoint &p : g->m.points_in_radius( pos(), range ) ) {
+    // Fake item we'll be using to say "I want to pick this apple"
+    // @todo "Those apples"
+    std::unique_ptr<item> fruit;
+    const auto consider_terrain =
+        [ this, whitelisting, &fruit, &wanted ]( const tripoint &p ) {
+        // We only want to pick plants when there are no items to pick
+        if( !whitelisting || wanted != nullptr ) {
+            return;
+        }
+
+        if( !g->m.is_harvestable( p ) ) {
+            return;
+        }
+
+        // This part is moderately expensive, but fortunately harvestable tiles are rare
+        std::unique_ptr<item> temp_fruit( new item( g->m.get_ter_harvestable( p ) ) );
+        if( item_whitelisted( *temp_fruit ) ) {
+            fruit = std::move( temp_fruit );
+            wanted = fruit.get();
+            wanted_item_pos = p;
+        }
+    };
+
+    for( const tripoint &p : closest_tripoints_first( range, pos() ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
-        if( g->m.sees_some_items( p, *this ) && sees( p ) &&
-            ( !is_following() || !g->check_zone( no_pickup, p ) ) ) {
+        if( is_following() && g->check_zone( no_pickup, p ) ) {
+            continue;
+        }
+
+        if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
             for( const item &it : g->m.i_at( p ) ) {
                 consider_item( it, p );
             }
         }
 
+        // Allow terrain check without sight, because it would cost more CPU than it is worth
+        consider_terrain( p );
+
         int veh_part = -1;
         const vehicle *veh = g->m.veh_at( p, veh_part );
-        if( veh == nullptr || veh->velocity != 0 ) {
+        if( veh == nullptr || veh->velocity != 0 || !sees( p ) ) {
             continue;
         }
 
@@ -1794,9 +1826,11 @@ void npc::find_item()
         }
     }
 
-    if( !fetching_item ) {
+    if( wanted == nullptr ) {
         return;
     }
+
+    fetching_item = true;
 
     // TODO: Move that check above, make it multi-target pathing and use it
     // to limit tiles available for choice of items
@@ -1836,7 +1870,8 @@ void npc::pick_up_item()
                            veh_part >= 0 &&
                            !veh->part_flag( veh_part, "LOCKED" );
 
-    if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo && sees( wanted_item_pos ) ) ||
+    if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
+          !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
         ( is_following() && g->check_zone( "NO_NPC_PICKUP", wanted_item_pos ) ) ) {
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
@@ -1864,6 +1899,17 @@ void npc::pick_up_item()
     auto picked_up = pick_up_item_map( wanted_item_pos );
     if( picked_up.empty() && has_cargo ) {
         picked_up = pick_up_item_vehicle( *veh, veh_part );
+    }
+
+    if( picked_up.empty() ) {
+        // Last chance: plant harvest
+        if( g->m.is_harvestable( wanted_item_pos ) ) {
+            g->m.examine_ter( *this, wanted_item_pos );
+            // Note: we didn't actually pick up anything, just spawned items
+            // but we want the item picker to find new items
+            fetching_item = false;
+            return;
+        }
     }
     // Describe the pickup to the player
     bool u_see = g->u.sees( *this ) || g->u.sees( wanted_item_pos );
