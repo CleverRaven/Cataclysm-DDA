@@ -1,25 +1,35 @@
 [
     {
         "type" : "AMMO",
-        "id" : "reloaded_654",
-        "price" : 3400,
-        "name" : "reloaded 6.54x42mm 9N8",
-        "name_plural" : "reloaded 6.54x42mm 9N8",
+        "id" : "handloaded_654",
+        "copy-from": "654",
+        "name" : "wildcat 6.54x42mm",
+        "name_plural" : "wildcat 6.54x42mm",
         "symbol" : "=",
         "color" : "dark_gray",
-        "description" : "Inspired by the improved .270, Alexander Sarafanov himself developed the 6.54x42mm rifle cartridge for his new SVS-24 Assault Rifle.  This one has been hand-reloaded.",
-        "material" : "steel",
-        "volume" : 1,
-        "weight" : 6,
-        "bashing" : 1,
-        "ammo_type" : "654",
-        "casing" : "654_casing",
-        "damage" : 38,
-        "pierce" : 7,
-        "range" : 38,
-        "dispersion" : 90,
-        "recoil" : 1500,
-        "count" : 30,
+        "//": "+2 softpoint bonus to damage.",
+        "description" : "Inspired by the improved .270, Alexander Sarafanov himself developed the 6.54x42mm rifle cartridge for his new SVS-24 Assault Rifle.  This one has been handloaded with a jacketed soft point bullet.",
+        "proportional": {
+            "weight": 1.2,
+            "damage": 1.1,
+            "pierce": 0.5,
+            "dispersion": 4.5
+        },
         "effects" : ["COOKOFF"]
+    },
+    {
+        "id": "reloaded_654",
+        "copy-from": "654",
+        "type": "AMMO",
+        "name": "reloaded 6.54x42mm",
+        "name_plural": "reloaded 6.54x42mm",
+        "description": "Inspired by the improved .270, Alexander Sarafanov himself developed the 6.54x42mm rifle cartridge for his new SVS-24 Assault Rifle.  This one has been handloaded.",
+        "proportional": {
+            "price": 0.7,
+            "damage": 0.9,
+            "dispersion": 1.1
+        },
+        "extend": { "effects": [ "RECYCLED" ] },
+        "delete": { "effects": [ "NEVER_MISFIRES" ] }
     }
 ]
