@@ -1068,7 +1068,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             []( const std::pair<std::string, gun_mode>& e ) {
                 return e.second.qty > 1 && !e.second.melee();
         } ) ) {
-            info.emplace_back( "GUN", _( "Reccomended strength (burst): "), "",
+            info.emplace_back( "GUN", _( "Recommended strength (burst): "), "",
                                ceil( mod->type->weight / 333.0 ), true, "", true, true );
         }
 
@@ -5056,7 +5056,7 @@ const item_category &item::get_category() const
     }
 
     static item_category null_category;
-    return type ? *type->category : null_category;
+    return type->category ? *type->category : null_category;
 }
 
 bool item_matches_locator(const item &it, const itype_id &id, int)

@@ -909,7 +909,7 @@ private:
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
         void disp_NPCs();           // Currently UNUSED.  Lists global NPCs.
-        void list_missions();       // Listed current, completed and failed missions.
+        void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
         void debug();           // All-encompassing debug screen.  TODO: This.

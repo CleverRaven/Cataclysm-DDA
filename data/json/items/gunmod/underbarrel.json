@@ -87,7 +87,6 @@
       "ranged_damage": 2,
       "dispersion": 555,
       "durability": 6,
-      "loudness": 175,
       "clip_size": 1,
       "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
     },
@@ -127,7 +126,6 @@
       "ranged_damage": 3,
       "dispersion": 45,
       "durability": 10,
-      "loudness": 200,
       "clip_size": 7,
       "reload": 120
     },
