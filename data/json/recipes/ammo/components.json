@@ -22,7 +22,7 @@
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": [ "pistol", 3 ],
     "time": 22500,
     "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
     "charges": 100,
@@ -41,7 +41,7 @@
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": [ "pistol", 3 ],
     "time": 22500,
     "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
     "charges": 100,
@@ -49,7 +49,7 @@
     "tools": [
       [ [ "swage", -1 ] ],
       [ [ "press", -1 ] ],
-      [ [ "matches", 20 ] ]
+      [ [ "matches", 25 ] ]
     ],
     "components": [ [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "scrap", 4 ] ] ]
   },
@@ -60,7 +60,7 @@
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": [ "rifle", 3 ],
     "time": 22500,
     "book_learn": [ [ "mag_rifle", 3 ], [ "recipe_bullets", 2 ] ],
     "charges": 100,
@@ -68,7 +68,7 @@
     "tools": [
       [ [ "swage", -1 ] ],
       [ [ "press", -1 ] ],
-      [ [ "matches", 20 ] ]
+      [ [ "matches", 25 ] ]
     ],
     "components": [ [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "scrap", 4 ] ] ]
   },
@@ -79,7 +79,7 @@
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": [ "rifle", 3 ],
     "time": 22500,
     "book_learn": [ [ "mag_rifle", 3 ], [ "recipe_bullets", 2 ] ],
     "charges": 100,
@@ -87,7 +87,7 @@
     "tools": [
       [ [ "swage", -1 ] ],
       [ [ "press", -1 ] ],
-      [ [ "matches", 20 ] ]
+      [ [ "matches", 30 ] ]
     ],
     "components": [ [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "scrap", 4 ] ] ]
   },
@@ -98,7 +98,7 @@
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": [ "shotgun", 3 ],
     "time": 22500,
     "book_learn": [ [ "manual_shotgun", 3 ], [ "recipe_bullets", 2 ] ],
     "charges": 100,
@@ -106,7 +106,7 @@
     "tools": [
       [ [ "press", -1 ] ],
       [ [ "swage", -1 ] ],
-      [ [ "matches", 20 ] ]
+      [ [ "matches", 30 ] ]
     ],
     "components": [ [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "scrap", 4 ] ] ]
   }
