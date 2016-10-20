@@ -331,23 +331,26 @@ void construction_menu()
             int available_buffer_height = w_height - 7 - 3;
             int available_window_width = w_width - ( w_list_width + w_list_x0 + 2 ) - 1;
             nc_color color_stage = c_white;
+            // print the hotkeys regardless of if there are constructions
+            trim_and_print( w_con, w_height - 5, ( w_list_width + w_list_x0 + 2 ),
+                       available_window_width, c_white,
+                       _("Press %s or %s to tab."), 
+                       ctxt.get_desc("LEFT").c_str(),
+                       ctxt.get_desc("RIGHT").c_str() );
+            mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white,
+                       _( "Press %s to search." ), ctxt.get_desc( "FILTER" ).c_str() );
+            mvwprintz( w_con, w_height - 3, ( w_list_width + w_list_x0 + 2 ), c_white,
+                       _( "Press %s to toggle unavailable constructions." ),
+                       ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() );
+            mvwprintz( w_con, w_height - 2, ( w_list_width + w_list_x0 + 2 ), c_white,
+                       _( "Press %s to view and edit key-bindings." ),
+                       ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
 
             if( !constructs.empty() ) {
+                if( select >= (int) constructs.size() ){
+                    select = 0;
+                }
                 std::string current_desc = constructs[select];
-                trim_and_print( w_con, w_height - 5, ( w_list_width + w_list_x0 + 2 ),
-                           available_window_width, c_white,
-                           _("Press %s or %s to tab."), 
-                           ctxt.get_desc("LEFT").c_str(),
-                           ctxt.get_desc("RIGHT").c_str() );
-                mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white,
-                           _( "Press %s to search." ), ctxt.get_desc( "FILTER" ).c_str() );
-                // Print instructions for toggling recipe hiding.
-                mvwprintz( w_con, w_height - 3, ( w_list_width + w_list_x0 + 2 ), c_white,
-                           _( "Press %s to toggle unavailable constructions." ),
-                           ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() );
-                mvwprintz( w_con, w_height - 2, ( w_list_width + w_list_x0 + 2 ), c_white,
-                           _( "Press %s to view and edit key-bindings." ),
-                           ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
                 // Print construction name
                 mvwprintz( w_con, 1, ( w_list_width + w_list_x0 + 2 ), c_white, "%s", current_desc.c_str() );
 
@@ -567,6 +570,9 @@ void construction_menu()
             offset = 0;
             load_available_constructions( available, cat_available, hide_unconstructable );
         } else if( action == "CONFIRM" ) {
+            if( constructions.empty() || select <= (int) constructions.size() ){
+                continue;// Nothing to be done here
+            }
             if( player_can_build( g->u, total_inv, constructs[select] ) ) {
                 place_construction( constructs[select] );
                 uistate.last_construction = constructs[select];
