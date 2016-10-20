@@ -570,7 +570,7 @@ void construction_menu()
             offset = 0;
             load_available_constructions( available, cat_available, hide_unconstructable );
         } else if( action == "CONFIRM" ) {
-            if( constructions.empty() || select <= (int) constructions.size() ){
+            if( constructs.empty() || select >= (int) constructs.size() ){
                 continue;// Nothing to be done here
             }
             if( player_can_build( g->u, total_inv, constructs[select] ) ) {
