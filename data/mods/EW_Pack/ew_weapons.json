@@ -85,25 +85,22 @@
   },
   {
     "id": "cw-24k",
+    "copy-from": "cw-24",
     "type": "GUN",
-    "symbol": "(",
     "color": "light_gray",
     "name": "CW-24K",
     "name_plural": "CW-24K",
-    "description": "Civilian version of the SVS-24.  This one fires the cheaper, but still powerful, 7.62x39mm cartridge.",
-    "price": 160000,
-    "material": ["steel", "plastic"],
-    "skill": "rifle",
+    "description": "Inexpensive version of the CW-24.  This one fires the cheaper, but still powerful, 7.62x39mm cartridge.",
     "ammo": "762",
-    "weight": 3900,
-    "volume": 10,
-    "bashing": 12,
-    "to_hit": -1,
-    "dispersion": 100,
-    "durability": 9,
-    "clip_size": 30,
-    "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines": [
+        [ "762", [ "akmmag", "akmbigmag" ] ],
+        [ "545", [ "cw24mag", "cw24bigmag", "ak74mag", "rpk74mag" ] ],
+        [ "654", [ "svsmag", "svsbigmag" ] ]
+    ],
+    "relative": {
+        "price": -50000,
+        "handling": -2
+    }
   },
   {
     "id": "cw-24hack",
