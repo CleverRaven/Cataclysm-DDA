@@ -1473,6 +1473,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL"],
+        "examine_action": "locked_object",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
             "sound": "smash!",
@@ -1494,6 +1495,7 @@
         "flags": [
             "FLAMMABLE_ASH", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", "CONNECT_TO_WALL"
         ],
+        "examine_action": "locked_object",
         "open": "t_door_o",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
@@ -1539,6 +1541,7 @@
         "move_cost": 0,
         "flags": [
             "FLAMMABLE_ASH", "ALARMED", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL"],
+        "examine_action": "locked_object",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
             "sound": "smash!",
@@ -2064,6 +2067,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": ["NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL"],
+        "examine_action": "locked_object",
         "open": "t_door_metal_o",
         "bash": {
             "str_min": 80, "str_max": 250,
@@ -2287,6 +2291,7 @@
             "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE",
             "BARRICADABLE_WINDOW_CURTAINS", "REDUCE_SCENT", "CONNECT_TO_WALL"
         ],
+        "examine_action": "locked_object",
         "close": "t_curtains",
         "open": "t_window_open",
         "deconstruct": {
@@ -2324,6 +2329,7 @@
             "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE",
             "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL"
         ],
+        "examine_action": "locked_object",
         "open": "t_window_no_curtains_open",
         "deconstruct": {
             "ter_set": "t_window_empty",

@@ -1100,6 +1100,27 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
     }
 }
 
+void iexamine::locked_object( player &p, const tripoint &examp) {
+    // Print ordinary examine message if inside (where you can open doors/windows anyway)
+    if (!g->m.is_outside(p.pos())) {
+        none(p, examp);
+        return;
+    }
+    
+    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 ); 
+    if ( !has_prying_tool ) {
+        add_msg(m_info, _("If only you had a crowbar..."));
+        return;
+    }
+
+    // See crate prying for why a dummy item is used
+    item fakecrow( "crowbar", 0 );
+
+    iuse dummy;
+    dummy.crowbar( &p, &fakecrow, false, examp );
+}
+
+
 void iexamine::bulletin_board(player &, const tripoint &examp)
 {
     basecamp *camp = g->m.camp_at( examp );
@@ -1187,7 +1208,13 @@ large semi-spherical indentation at the top."));
 
 void iexamine::door_peephole(player &p, const tripoint &examp) {
     if (g->m.is_outside(p.pos())) {
-        p.add_msg_if_player( _("You cannot look through the peephole from the outside."));
+        // if door is a locked type attempt to open
+        if (g->m.has_flag("OPENCLOSE_INSIDE", examp)) {
+            locked_object(p, examp);
+        } else {
+            p.add_msg_if_player( _("You cannot look through the peephole from the outside."));
+        }
+
         return;
     }
 
@@ -2805,7 +2832,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
 void iexamine::curtains(player &p, const tripoint &examp)
 {
     if (g->m.is_outside(p.pos())) {
-        p.add_msg_if_player( _("You cannot get to the curtains from the outside."));
+        locked_object(p, examp);
         return;
     }
 
@@ -3571,6 +3598,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("gunsafe_el" == function_name) {
         return &iexamine::gunsafe_el;
+    }
+    if ("locked_object" == function_name) {
+        return &iexamine::locked_object;
     }
     if ("kiln_empty" == function_name) {
         return &iexamine::kiln_empty;
