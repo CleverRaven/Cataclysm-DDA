@@ -689,9 +689,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                             ( double )price_postapoc / 100, false, "$", true, true ) );
         }
 
-        const std::string unit = string_format( "<num> %s", _( "ml" ) );
-        info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), unit, to_milliliter( volume() ),
-                                   true, "", false, true ) );
+        int converted_volume_scale = 0;
+        const double converted_volume = round_up( convert_volume( volume().value(), 
+                                                                  &converted_volume_scale ), 2 );
+        info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ),
+                                  string_format( "<num> %s", volume_units_abbr() ),
+                                  converted_volume, converted_volume_scale == 0, 
+                                  "", false, true ) );
 
         info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
                                   string_format( "<num> %s", weight_units() ),
@@ -1276,8 +1280,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       get_encumber(), true, "", false, true ) );
         }
 
-        const std::string unit = string_format( "<num> %s", _( "ml" ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ), unit, to_milliliter( get_storage() ) ) );
+        int converted_storage_scale = 0;
+        const double converted_storage = round_up( convert_volume( get_storage().value(), 
+                                                                   &converted_storage_scale ), 2 );
+        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ),
+                                  string_format( "<num> %s", volume_units_abbr() ),
+                                  converted_storage, converted_storage_scale == 0 ) );
 
         info.push_back( iteminfo( "ARMOR", _( "Protection: Bash: " ), "", bash_resist(), true, "",
                                   false ) );
@@ -1391,7 +1399,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             temp1 << _( "<good>preserves spoiling</good>, " );
         }
 
-        temp1 << string_format( _( "can store <info>%.2f liters</info>." ), c.contains / 1000.0_ml );
+        temp1 << string_format( _( "can store <info>%s %s</info>." ),
+                                format_volume( c.contains ).c_str(),
+                                volume_units_long() );
 
         info.push_back( iteminfo( "CONTAINER", temp1.str() ) );
     }

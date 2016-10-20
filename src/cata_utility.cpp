@@ -245,6 +245,30 @@ const char *weight_units()
     return get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ? _( "lbs" ) : _( "kg" );
 }
 
+const char *volume_units_abbr()
+{
+    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
+    if( vol_units == "c" ) {
+        return _( "c" );
+    } else if( vol_units == "l" ) {
+        return _( "L" );
+    } else {
+        return _( "qt" );
+    }
+}
+
+const char *volume_units_long()
+{
+    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
+    if( vol_units == "c" ) {
+        return _( "cup" );
+    } else if( vol_units == "l" ) {
+        return _( "liter" );
+    } else {
+        return _( "quart" );
+    }
+}
+
 /**
 * Convert internal velocity units to units defined by user
 */
@@ -283,9 +307,81 @@ double convert_weight( int weight )
     return ret;
 }
 
+/**
+* Convert volume from ml to units defined by user.
+*/
+double convert_volume( int volume )
+{
+    return convert_volume( volume, NULL );
+}
+
+/**
+* Convert volume from ml to units defined by user,
+* optionally returning the units preferred scale.
+*/
+double convert_volume( int volume, int *out_scale )
+{
+    double ret = volume;
+    int scale = 0;
+    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
+    if( vol_units == "c" ) {
+        ret *= 0.004;
+        scale = 1;
+    } else if( vol_units == "l" ) {
+        ret *= 0.001;
+        scale = 2;
+    } else {
+        ret *= 0.00105669;
+        scale = 2;
+    }
+    if( out_scale != NULL ) {
+        *out_scale = scale;
+    }
+    return ret;
+}
+
 double temp_to_celsius( double fahrenheit )
 {
     return ( ( fahrenheit - 32.0 ) * 5.0 / 9.0 );
+}
+
+double clamp_to_width( double value, int width, int &scale )
+{
+    return clamp_to_width( value, width, scale, NULL );
+}
+
+/**
+* Clamp (number and space wise) value to with,
+* taking into account the specified preferred scale,
+* returning the adjusted (shortened) scale that best fit the width,
+* optionally returning a flag that indicate if the value was truncated to fit the width
+*/
+double clamp_to_width( double value, int width, int &scale, bool *out_truncated )
+{
+    if( out_truncated != NULL ) {
+        *out_truncated = false;
+    }
+    if( value >= std::pow( 10.0, width ) ) {
+        // above the maximum number we can fit in the width without decimal
+        // show the bigest number we can without decimal
+        // flag as truncated
+        value = std::pow( 10.0, width ) - 1.0;
+        scale = 0;
+        if( out_truncated != NULL ) {
+            *out_truncated = true;
+        }
+    } else if( scale > 0 ) {
+        for( int s = 1; s <= scale; s++ ) {
+            int scale_width = 1 + s; // 1 decimal separator + "s"
+            if( width > scale_width && value >= std::pow( 10.0, width - scale_width ) ) {
+                // above the maximum number we can fit in the width with "s" decimals
+                // show this number with one less decimal than "s"
+                scale = s - 1;
+                break;
+            }
+        }
+    }
+    return value;
 }
 
 float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )

@@ -6,6 +6,7 @@
 #include "item.h"
 #include "translations.h"
 #include "npc.h"
+#include "cata_utility.h"
 
 #include <vector>
 #include <string>
@@ -70,8 +71,8 @@ std::vector<std::string> clothing_properties( item const &worn_item, int const w
                                      string_format( "%3d", worn_item.get_encumber() ), width ) );
     props.push_back( name_and_value( space + _( "Warmth:" ),
                                      string_format( "%3d", worn_item.get_warmth() ), width ) );
-    props.push_back( name_and_value( space + _( "Storage (L):" ),
-                                     string_format( "%.1f", to_milliliter( worn_item.get_storage() ) / 1000.0 ), width ) );
+    props.push_back( name_and_value( space + string_format( _( "Storage (%s):" ), volume_units_abbr() ),
+                                     format_volume( worn_item.get_storage() ), width ) );
     props.push_back( string_format( "[%s]", _( "Protection" ) ) );
     props.push_back( name_and_value( space + _( "Bash:" ),
                                      string_format( "%3d", int( worn_item.bash_resist() ) ), width ) );
@@ -304,7 +305,7 @@ void player::sort_armor()
 
         // Left header
         mvwprintz( w_sort_left, 0, 0, c_ltgray, _( "(Innermost)" ) );
-        right_print( w_sort_left, 0, 0, c_ltgray, _( "Storage (L)" ) );
+        right_print( w_sort_left, 0, 0, c_ltgray, _( "Storage (%s)" ), volume_units_abbr() );
         // Left list
         for( int drawindex = 0; drawindex < leftListSize; drawindex++ ) {
             int itemindex = leftListOffset + drawindex;
@@ -317,8 +318,8 @@ void player::sort_armor()
             trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
                             tmp_worn[itemindex]->damage_color(),
                             tmp_worn[itemindex]->type_name( 1 ).c_str() );
-            right_print( w_sort_left, drawindex + 1, 0, c_ltgray, "%.1f",
-                         to_milliliter( tmp_worn[itemindex]->get_storage() ) / 1000.0 );
+            right_print( w_sort_left, drawindex + 1, 0, c_ltgray, "%s",
+                         format_volume( tmp_worn[itemindex]->get_storage() ).c_str() );
         }
 
         // Left footer

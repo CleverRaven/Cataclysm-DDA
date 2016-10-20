@@ -30,6 +30,7 @@
 #include "weather.h"
 #include "map_iterator.h"
 #include "vehicle_selector.h"
+#include "cata_utility.h"
 
 #include <sstream>
 #include <stdlib.h>
@@ -2577,7 +2578,10 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
 
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
-            partname += string_format(_(" (vol: %d/%d)"), stored_volume( pl[i] ) / units::legacy_volume_factor, max_volume( pl[i] ) / units::legacy_volume_factor );
+            partname += string_format( _(" (vol: %s/%s %s)"),
+                                       format_volume( stored_volume( pl[i] ) ).c_str(), 
+                                       format_volume( max_volume( pl[i] ) ).c_str(),
+                                       volume_units_abbr() );
         }
 
         bool armor = part_flag(pl[i], "ARMOR");

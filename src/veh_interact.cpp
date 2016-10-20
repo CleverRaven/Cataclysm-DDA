@@ -1756,8 +1756,10 @@ void veh_interact::display_stats()
                     _( "Mass: <color_ltblue>%5.0f</color> %s" ),
                     convert_weight( veh->total_mass() * 1000.0f ), weight_units() );
     fold_and_print( w_stats, y[3], x[3], w[3], c_ltgray,
-                    _( "Cargo Volume: <color_ltgray>%d/%d</color>" ),
-                    ( total_cargo - free_cargo ) / units::legacy_volume_factor, total_cargo / units::legacy_volume_factor);
+                    _( "Cargo Volume: <color_ltgray>%s/%s</color> %s" ),
+                    format_volume( total_cargo - free_cargo ).c_str(),
+                    format_volume( total_cargo ).c_str(),
+                    volume_units_abbr() );
     // Write the overall damage
     mvwprintz(w_stats, y[4], x[4], c_ltgray, _("Status:"));
     x[4] += utf8_width(_("Status:")) + 1;
@@ -1961,9 +1963,10 @@ void veh_interact::display_details( const vpart_info *part )
                    weight_units());
     if ( part->folded_volume != 0 ) {
         fold_and_print(w_details, line+2, col_2, column_width, c_white,
-                       "%s: <color_ltgray>%d ml</color>",
+                       "%s: <color_ltgray>%s %s</color>",
                        small_mode ? _("FoldVol") : _("Folded Volume"),
-                       units::to_milliliter( part->folded_volume ) );
+                       format_volume( part->folded_volume ).c_str(),
+                       volume_units_abbr() );
     }
 
     // line 3: (column 1) size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)

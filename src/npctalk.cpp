@@ -3980,8 +3980,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             volume_left = temp.volume_capacity() - temp.volume_carried();
             weight_left = temp.weight_capacity() - temp.weight_carried();
             mvwprintz( w_head, 3, 2, (volume_left < 0 || weight_left < 0) ? c_red : c_green,
-                       _("Volume: %.2f liters, Weight: %.1f %s"), to_milliliter( volume_left ) / 1000.0,
-                                      convert_weight( weight_left ), weight_units() );
+                       _("Volume: %s %s, Weight: %.1f %s"),
+                       format_volume( volume_left ).c_str(), volume_units_abbr(),
+                       convert_weight( weight_left ), weight_units() );
 
             std::string cost_string = ex ? _("Exchange") : ( cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f") );
             mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_string.length() ) / 2,
@@ -4677,8 +4678,8 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
             reason << string_format( _("I have no space to store it.") );
             reason << std::endl;
             if( free_space > 0 ) {
-                reason << string_format( _("I can only store %.2f liters more."),
-                    to_milliliter( free_space ) / 1000.0 );
+                reason << string_format( _("I can only store %s %s more."),
+                    format_volume( free_space ).c_str(), volume_units_long() );
             } else {
                 reason << string_format( _("...or to store anything else for that matter.") );
             }
