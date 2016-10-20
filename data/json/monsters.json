@@ -25,7 +25,7 @@
     "vision_day": 1,
     "vision_night": 1,
     "death_function": [ "MELT" ],
-    "flags": [ "REGENERATES_50", "IMMOBILE" ]
+    "flags": [ "REGENERATES_50", "IMMOBILE", "NOT_HALLUCINATION" ]
   },
   {
     "id": "mon_EMP_hack",
