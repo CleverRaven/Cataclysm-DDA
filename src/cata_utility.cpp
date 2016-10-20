@@ -11,6 +11,7 @@
 #include "output.h"
 #include "json.h"
 #include "filesystem.h"
+#include "item_search.h"
 
 #include <algorithm>
 #include <cmath>
@@ -100,12 +101,22 @@ std::vector<map_item_stack> filter_item_stacks( std::vector<map_item_stack> stac
     std::vector<map_item_stack> ret;
 
     std::string sFilterTemp = filter;
-
-    for( auto &elem : stack ) {
-        if( sFilterTemp == "" || list_items_match( elem.example, sFilterTemp ) ) {
-            ret.push_back( elem );
+    auto z = item_filter_from_string( filter );
+    std::copy_if( stack.begin(),
+                  stack.end(),
+                  std::back_inserter( ret ),
+    [z]( const map_item_stack & a ) {
+        if( a.example != nullptr ) {
+            return z( *a.example );
         }
+        return false;
     }
+                );
+    // for( auto &elem : stack ) {
+    //     if( sFilterTemp == "" || list_items_match( elem.example, sFilterTemp ) ) {
+    //         ret.push_back( elem );
+    //     }
+    // }
     return ret;
 }
 
