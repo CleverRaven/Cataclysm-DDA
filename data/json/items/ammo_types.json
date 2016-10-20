@@ -273,7 +273,7 @@
         "type" : "ammunition_type",
         "id" : "flammable",
         "name" : "flammable liquid",
-        "default" : "gasoline"
+        "default" : "napalm"
     },
     {
        "type" : "ammunition_type",
