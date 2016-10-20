@@ -73,25 +73,15 @@
   },
   {
     "id": "cw-24m",
+    "copy-from": "cw-24",
     "type": "GUN",
-    "symbol": "(",
-    "color": "light_gray",
     "name": "CW-24M",
     "name_plural": "CW-24M",
-    "description": "Civilian version of the SVS-24.  This one fires the cheaper, but still powerful, 5.45x39mm cartridge.",
-    "price": 200000,
-    "material": ["steel", "plastic"],
-    "skill": "rifle",
-    "ammo": "545x39",
-    "weight": 3900,
-    "volume": 10,
-    "bashing": 12,
-    "to_hit": -1,
-    "dispersion": 100,
-    "durability": 9,
-    "clip_size": 30,
-    "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "description": "Civilian version of the SVS-24.  It has the handling characteristics of the SVS-24, minus the forward grip.  This one fires the cheaper, but still powerful, 5.45x39mm cartridge.",
+    "relative": {
+        "price": -10000,
+        "handling": 2
+    }
   },
   {
     "id": "cw-24k",
