@@ -48,25 +48,28 @@
   },
   {
     "id": "cw-24",
+    "copy-from": "rifle_semi",
     "type": "GUN",
-    "symbol": "(",
     "color": "dark_gray",
     "name": "CW-24",
     "name_plural": "CW-24",
     "description": "Civilian version of the SVS-24.  It was made by Clearwater Arms, Georgia, for the US market.  It's pure semi-automatic, and fires the weaker 5.45x39mm cartridge.",
     "price": 210000, "//" : "Civvie version is cheaper.",
     "material": ["steel", "plastic"],
-    "skill": "rifle",
     "ammo": "545x39",
     "weight": 3900,
-    "volume": 10,
+    "volume": 8,
     "bashing": 12,
     "to_hit": -1,
     "dispersion": 100,
+    "handling": 15,
     "durability": 9,
-    "clip_size": 30,
-    "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "built_in_mods": [ "adjustable_stock" ],
+    "magazines": [
+        [ "545", [ "cw24mag", "cw24bigmag", "ak74mag", "rpk74mag" ] ],
+        [ "654", [ "svsmag", "svsbigmag" ] ],
+        [ "762", [ "akmmag", "akmbigmag" ] ]
+    ]
   },
   {
     "id": "cw-24m",
