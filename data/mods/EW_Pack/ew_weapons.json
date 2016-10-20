@@ -163,15 +163,14 @@
   },
   {
     "id": "cwd-63",
+    "copy-from": "rifle_semi",
     "type": "GUN",
-    "symbol": "(",
     "color": "brown",
     "name": "CWD-63",
     "name_plural": "CWD-63",
     "description": "The Clearwater Arms version of the famous SVD-63 Dragunov.  This one was rechambered for the .308 round.",
     "price": 170000,
     "material": ["steel", "wood"],
-    "skill": "rifle",
     "ammo": "308",
     "weight": 4300,
     "volume": 12,
@@ -179,9 +178,10 @@
     "to_hit": -1,
     "dispersion": 100,
     "durability": 9,
-    "clip_size": 10,
-    "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines": [
+        [ "308", [ "cwd-63mag" ] ],
+        [ "223", [ "stanag10", "stanag30" ] ]
+    ]
   },
   {
     "id": "wrist_dread",
