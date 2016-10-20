@@ -1,696 +1,609 @@
 [
   {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "stash_water",
-        "entries":
-        [
-            { "item": "water_clean", "charges-min": 7, "charges-max": 15, "container-item": "jug_plastic" },
-            { "item": "water_clean", "container-item": "bottle_plastic"},
-            { "item": "funnel"},
-            { "item": "water_clean", "charges-min": 150, "charges-max": 350, "container-item": "30gal_drum"}
+    "type" : "item_group",
+    "subtype": "collection",
+    "id": "stash_water",
+    "entries": [
+      { "item": "funnel"},
+      { "item": "water_clean", "container-item": "bottle_plastic"},
+      { "item": "water_clean", "charges-min": 7, "charges-max": 15, "container-item": "jug_plastic" },
+      { "item": "water_clean", "charges-min": 150, "charges-max": 350, "container-item": "30gal_drum"}
+    ]
+  },
+  {
+    "type" : "item_group",
+    "subtype": "collection",
+    "id": "cabin_suicide",
+    "entries": [
+      { "item": "usp_45", "charges": 11, "ammo-item": "45_acp"},
+      { "item": "45_casing", "charges-min": 1, "charges-max": 1},
+      { "item": "corpse"},
+      { "group": "underwear"},
+      { "group": "cabin_suicide_over"},
+      { "group": "cabin_suicide_shirt"},
+      { "group": "cabin_suicide_legs"},
+      { "group": "cabin_suicide_shoes"},
+      { "group": "cabin_suicide_extras", "count-min": 3, "count-max": 6}
+    ]
+  },
+  {
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id": "cabin_suicide_shirt",
+    "items": [
+      [ "hoodie", 30 ],
+      [ "kevlar", 10 ],
+      [ "longshirt", 40 ],
+      [ "undershirt", 20 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id": "cabin_suicide_over",
+    "items": [
+      [ "chestrig", 20 ],
+      [ "jacket_light", 30 ],
+      [ "jacket_leather", 30 ],
+      [ "jacket_evac", 30 ],
+      [ "jacket_army", 30 ],
+      [ "jacket_flannel", 30 ],
+      [ "vest", 10 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id": "cabin_suicide_legs",
+    "items": [
+      [ "jeans", 35 ],
+      [ "pants", 40 ],
+      [ "pants_cargo", 20 ],
+      [ "pants_survivor", 5 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id": "cabin_suicide_shoes",
+    "items": [
+      [ "boots", 35 ],
+      [ "boots_combat", 6 ],
+      [ "boots_hiking", 15 ],
+      [ "boots_survivor", 5 ],
+      [ "sneakers", 40 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id": "cabin_suicide_extras",
+    "items": [
+      { "item": "water_clean", "charges-min": 1, "charges-max": 5, "container-item": "canteen", "prob": 10 },
+      [ "3006", 25 ],
+      [ "45_acp", 25 ],
+      [ "bandages", 15 ],
+      [ "bandana", 10 ],
+      [ "cig", 5 ],
+      [ "cell_phone", 15 ],
+      [ "gloves_fingerless", 5 ],
+      [ "holster", 5 ],
+      [ "hatchet", 5 ],
+      [ "hat_ball", 5 ],
+      [ "knife_combat", 5 ],
+      [ "locket", 5 ],
+      [ "mask_gas", 10 ],
+      [ "molotov", 5 ],
+      [ "matches", 25 ],
+      [ "mbag", 10 ],
+      [ "machete", 2 ],
+      [ "photo_album", 5 ],
+      [ "pipe", 5 ],
+      [ "poncho", 5 ],
+      [ "sheath", 5 ],
+      [ "scarf", 10 ],
+      [ "survivormap", 2 ],
+      [ "wristwatch", 15 ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "dirtroad1_aban1" ],
+    "method": "json",
+    "weight": 333,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "..^.                ....",
+        "..^. ^         ^   ..T.T",
+        "TT..      ..    . ..s.ss",
+        "..ss s   . .  .   . s. T",
+        ".T..     .         ..T..",
+        ".ss. ...          ^ ..^.",
+        "...T.  .             ss.",
+        ".ss.T^ .            ^s.T",
+        "..TT   .   .. .     ....",
+        ".ss.T  .   ^.    .  .s..",
+        "....  .       .   . ..T.",
+        ". ..    .     .  .  s..s",
+        "..T... . .          ..z.",
+        "TT...   ..    ^   ^T..^.",
+        "..^.    ^ .        ...T.",
+        "..^..              .....",
+        ".T... .   ^    ^    .T.^",
+        "..T.....           .sz..",
+        "....         .     .....",
+        ".T....s        .  ...^..",
+        "..^.   .   .   . s .. T.",
+        "..^.   ^ .s.    T. . ...",
+        ".^..  ^  ..       ^..^..",
+        "...T       s   ^  ^ ..T."
+        ],
+        "terrain": {
+          ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
+          " ": "t_dirt",
+          "w": "t_water_sh",
+          "W": "t_water_dp",
+          "s": "t_underbrush",
+          "z": "t_shrub_strawberry",
+          "^": "t_tree_young",
+          "T": "t_tree"
+        },
+        "set": [
+          { "point": "terrain", "id": "t_dirt", "x": [ 0, 23], "y": [ 0, 23 ], "repeat": [ 15, 30 ] }
+        ],
+        "place_items": [
+          { "item": "forest", "repeat": [ 0, 5 ], "chance": 80, "x": [ 2, 21 ], "y": [ 5, 19 ] }
         ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "cabin_suicide",
-        "entries":
-        [
-            { "item": "usp_45", "charges": 11, "ammo-item": "45_acp"},
-            { "item": "45_casing", "charges-min": 1, "charges-max": 1},
-            { "group": "underwear"},
-            { "group": "cabin_suicide_over"},
-            { "group": "cabin_suicide_shirt"},
-            { "group": "cabin_suicide_legs"},
-            { "group": "cabin_suicide_shoes"},
-            { "group": "cabin_suicide_extras", "count-min": 3, "count-max": 6},
-            { "item": "corpse"}
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "distribution",
-        "id": "cabin_suicide_shirt",
-        "items":
-        [
-            ["hoodie", 30],
-            ["longshirt", 40],
-            ["undershirt", 20],
-            ["kevlar", 10]
-       ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "distribution",
-        "id": "cabin_suicide_over",
-        "items":
-        [
-            ["jacket_light", 30],
-            ["jacket_leather", 30],
-            ["jacket_evac", 30],
-            ["jacket_army", 30],
-            ["jacket_flannel", 30],
-            ["chestrig", 20],
-            ["vest", 10]
-       ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "distribution",
-        "id": "cabin_suicide_legs",
-        "items":
-        [
-            ["pants", 40],
-            ["pants_survivor", 5],
-            ["jeans", 35],
-            ["pants_cargo", 20]
-      ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "distribution",
-        "id": "cabin_suicide_shoes",
-        "items":
-        [
-            ["sneakers", 40],
-            ["boots_survivor", 5],
-            ["boots", 35],
-            ["boots_hiking", 15],
-            ["boots_combat", 6]
-       ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "distribution",
-        "id": "cabin_suicide_extras",
-        "items":
-        [
-            ["mask_gas", 10],
-            ["scarf", 10],
-            ["bandana", 10],
-            ["photo_album", 5],
-            ["poncho", 5],
-            ["survivormap", 2],
-            ["machete", 2],
-            ["cell_phone", 15],
-            ["hatchet", 5],
-            ["wristwatch", 15],
-            ["sheath", 5],
-            ["knife_combat", 5],
-            ["molotov", 5],
-            ["hat_ball", 5],
-            ["matches", 25],
-            ["3006", 25],
-            ["45_acp", 25],
-            ["mbag", 10],
-            { "item": "water_clean", "charges-min": 1, "charges-max": 5, "container-item": "canteen", "prob": 10},
-            ["bandages", 15],
-            ["gloves_fingerless", 5],
-            ["pipe", 5],
-            ["locket", 5],
-            ["holster", 5],
-            ["cig", 5]
-       ]
-    },
-    {
-        "type": "mapgen",
-        "om_terrain": [
-            "dirtroad1_aban1"
-        ],
-        "method": "json",
-        "weight": 333,
-        "object": {
-            "rows": [
-                "..^.                ....",
-                "..^. ^         ^   ..T.T",
-                "TT..      ..    . ..s.ss",
-                "..ss s   . .  .   . s. T",
-                ".T..     .         ..T..",
-                ".ss. ...          ^ ..^.",
-                "...T.  .             ss.",
-                ".ss.T^ .            ^s.T",
-                "..TT   .   .. .     ....",
-                ".ss.T  .   ^.    .  .s..",
-                "....  .       .   . ..T.",
-                ". ..    .     .  .  s..s",
-                "..T... . .          ..z.",
-                "TT...   ..    ^   ^T..^.",
-                "..^.    ^ .        ...T.",
-                "..^..              .....",
-                ".T... .   ^    ^    .T.^",
-                "..T.....           .sz..",
-                "....         .     .....",
-                ".T....s        .  ...^..",
-                "..^.   .   .   . s .. T.",
-                "..^.   ^ .s.    T. . ...",
-                ".^..  ^  ..       ^..^..",
-                "...T       s   ^  ^ ..T."
-            ],
-            "terrain": {
-                ".": "t_grass",
-                " ": "t_dirt",
-                "w": "t_water_sh",
-                "W": "t_water_dp",
-                "s": "t_underbrush",
-                "z": "t_shrub_strawberry",
-                "^": "t_tree_young",
-                "T": "t_tree"
-            },
-            "set": [
-                { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 21,23 ], "repeat": [ 5, 8 ] },
-                { "point": "terrain", "id": "t_grass", "x": [ 0, 14 ], "y": [ 0,3 ], "repeat": [ 10, 30 ] }
-                    ],
-            "place_items": [
-                { "item": "forest", "repeat": [ 0, 5 ], "chance": 100, "x": [ 2, 21], "y": [ 5, 19] }
-            ]
-        }
-    },
-    {
-        "type": "mapgen",
-        "om_terrain": [
-            "dirtroad2_aban1"
-        ],
-        "method": "json",
-        "weight": 333,
-        "object": {
-            "rows": [
-                "..^.                ....",
-                "..^.               ..T.T",
-                ".ss.T  .            ^s.T",
-                "..ss     . .  .   . s. T",
-                ".T..     .         ..T..",
-                "TT...   ..        ^T..^.",
-                "...T.  .             ss.",
-                ".ss.^^ .            ^s.T",
-                "..TT   .   .  ..    ....",
-                ".ss.^  .       . .  .s..",
-                "....  .       .   . ..T.",
-                ". ..    .     .s . Ts..s",
-                "..T... . .        T ..z.",
-                "TT...   ..        ss..^.",
-                "..^.      .        ...T.",
-                "..^..              .....",
-                ".T... .             .T.^",
-                "..T.....           .sz..",
-                "....       . .     s..s.",
-                "..T... . .          ..z.",
-                "..^.   .   .   .   .sTT.",
-                "..^.     . .     . . ...",
-                ".^..   ^ ..        ..^..",
-                "...T                ..T."
-            ],
-            "terrain": {
-                ".": "t_grass",
-                " ": "t_dirt",
-                "w": "t_water_sh",
-                "W": "t_water_dp",
-                "s": "t_underbrush",
-                "z": "t_shrub_strawberry",
-                "^": "t_tree_young",
-                "T": "t_tree"
-            },
-            "set": [
-                { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 21,23 ], "repeat": [ 5, 8 ] },
-                { "point": "terrain", "id": "t_grass", "x": [ 0, 14 ], "y": [ 0,3 ], "repeat": [ 10, 30 ] },
-                { "point": "terrain", "id": "t_underbrush", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 10, 30 ] },
-                { "point": "terrain", "id": "t_tree_young", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 10, 30 ] }
-                    ],
-            "place_items": [
-                { "item": "forest", "repeat": [ 0, 5 ],  "chance": 100, "x": [ 2, 21], "y": [ 5, 19] }
-            ]
-        }
-    },
-    {
-        "type": "mapgen",
-        "om_terrain": [
-            "forest_aban1"
-        ],
-        "method": "json",
-        "weight": 333,
-        "object": {
-            "rows": [
-                "..^.                ....",
-                "..^.               ..T.T",
-                ".ss.T  .            ^s.T",
-                "..ss     . .  .   . s. T",
-                ".T..     .         ..T..",
-                "TT...   ..        ^T..^.",
-                "...T.  .             ss.",
-                ".ss.^^ .            ^s.T",
-                "..TT   .   .  ..    ....",
-                ".ss.^  .       . .  .s..",
-                "....  .       .   . ..T.",
-                ". ..    .     .s . Ts..s",
-                "..T... . .        T ..z.",
-                "TT...   ..        ss..^.",
-                "..^.      .        ...T.",
-                "..^..              .....",
-                ".T... .             .T.^",
-                "..T.....           .sz..",
-                "....       . .     s..s.",
-                "..T... . .          ..z.",
-                "..^.   .   .   .   .sTT.",
-                "..^.     . .     . . ...",
-                ".^..   ^ ..        ..^..",
-                "...T                ..T."
-            ],
-            "terrain": {
-                ".": "t_grass",
-                " ": "t_grass",
-                "w": "t_water_sh",
-                "W": "t_water_dp",
-                "s": "t_underbrush",
-                "z": "t_shrub_strawberry",
-                "^": "t_tree_young",
-                "T": "t_tree"
-            },
-            "set": [
-                { "point": "terrain", "id": "t_dirt", "x": [ 0, 23], "y": [ 0, 23 ], "repeat": [ 15, 30 ] },
-                { "point": "terrain", "id": "t_underbrush", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 20, 30 ] },
-                { "point": "terrain", "id": "t_tree_young", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 20, 30 ] },
-                { "point": "terrain", "id": "t_tree", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 20, 30 ] }
-                    ],
-            "place_items": [
-                { "item": "forest", "repeat": [ 0, 5 ], "chance": 100, "x": [ 2, 21], "y": [ 5, 19] }
-            ]
-        }
-    },
-    {
-        "type": "mapgen",
-        "om_terrain": [
-            "cabin_aban1"
-        ],
-        "method": "json",
-        "weight": 333,
-        "object": {
-            "rows": [
-                ".[^...........T.z.......",
-                "..^...z....^.........z..",
-                "..z...zz....z..^.T.....^",
-                ".[..^......^.......z.^..",
-                ".#...~~~~# .z #~~~~~~~#.",
-                "^..z..     ...        [.",
-                ".....H6     .         [.",
-                ".##0###2###3+###2###2##.",
-                ".#       #    3  66  >#.",
-                ".#   .   +   7#  66  .z.",
-                ".#  ...  #   7#      ..^",
-                ".#########   7#       #.",
-                ".#___ 6   .. 7#####+###S",
-                ".2_=_     ..... #9   9#.",
-                ".2___   ...ww^. #9   9#^",
-                ".# H     ..wWw  #9   9#.",
-                "^#####+#..S ... ###+###.",
-                ".3..     ..#   z  +  ;#.",
-                ".#.^..   ..#@@    #A   z",
-                ".#   ...   #@@   :# 88#.",
-                "...0##.^.#####22#.#####~",
-                ".zw.......zz...z....^...",
-                ".S.ww^...T......Tz.z.S..",
-                "..^...T......z.^..^.z.^."
-            ],
-            "terrain": {
-                ".": "t_grass",
-                "#": "t_wall_log",
-                "2": "t_window_domestic",
-                "0": "t_window_empty",
-                "3": "t_door_b",
-                "w": "t_water_sh",
-                "W": "t_water_dp",
-                " ": "t_floor",
-                "6": "t_floor",
-                "7": "t_floor",
-                "8": "t_floor",
-                "9": "t_floor",
-                ":": "t_floor",
-                ";": "t_floor",
-                "+": "t_door_c",
-                "=": "t_rock_floor",
-                ">": "t_floor",
-                "?": "t_floor",
-                "@": "t_floor",
-                "A": "t_floor",
-                "B": "t_floor",
-                "C": "t_floor",
-                "D": "t_floor",
-                "E": "t_floor",
-                "F": "t_floor",
-                "G": "t_floor",
-                "H": "t_floor",
-                "z": "t_underbrush",
-                "S": "t_shrub_strawberry",
-                "^": "t_tree_young",
-                "T": "t_tree",
-                "{": "t_door_glass_c",
-                "[": "t_fence_v",
-                "_": "t_rock_floor",
-                "~": "t_fence_h"
-            },
-            "furniture": {
-                "6": "f_table",
-                "7": "f_bookcase",
-                "8": "f_bathtub",
-                "9": "f_rack",
-                ":": "f_dresser",
-                "=": "f_woodstove",
-                ">": "f_counter",
-                "?": "f_sofa",
-                "@": "f_bed",
-                "A": "f_sink",
-                "B": "f_chair",
-                "C": "f_desk",
-                "D": "f_trashcan",
-                "E": "f_cupboard",
-                "F": "f_fridge",
-                "H": "f_armchair",
-                "G": "f_oven"
-            },
-            "toilets": {
-                ";": { }
-            },
-            "set": [
-                { "point": "bash", "x": 7, "y":  7},
-                { "point": "bash", "x": 3, "y":  20},
-                { "point": "bash", "x": [ 14, 22], "y":  4, "repeat": [ 3, 5]},
-                { "point": "bash", "x": [ 14, 22], "y":  7, "repeat": [ 3, 5]},
-                { "point": "bash", "x": [ 11, 12], "y":  7, "repeat": [ 0, 2]},
-                { "point": "bash", "x": [ 1, 9], "y":  11, "repeat": [ 0, 8]},
-                { "point": "bash", "x": [ 13, 15], "y":  20, "repeat": [ 0, 4]},
-                { "point": "bash", "x": [ 17, 21], "y":  [ 13, 15], "repeat": [ 4, 10]},
-                { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 21,23 ], "repeat": [ 5, 8 ] },
-                { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": [ 0,3 ], "repeat": [ 8, 10 ] }
-                    ],
-            "place_items": [
-                { "item": "trash_forest", "repeat": [ 0, 20 ], "chance": 100, "x": [ 2, 21], "y": [ 5, 19] }
-            ]
-        }
-    },
-    {
-        "type": "mapgen",
-        "om_terrain": [
-            "car_corner_aban1"
-        ],
-        "method": "json",
-        "weight": 333,
-        "object": {
-            "rows": [
-                "..^################++##.",
-                "..^...z....^....z....z[.",
-                "..z...zz......R..T....[^",
-                "....^......^.......z.^..",
-                "......^.....z.^.......[.",
-                "^..................z..[.",
-                "............z.....z...[.",
-                "............T........z[.",
-                ".................^....[.",
-                "................z...^...",
-                "......z.........z.^.zz.^",
-                "............T...........",
-                ".......^.z.....z......[S",
-                ".T..^......^z..z...z..[.",
-                "..z.......z.....T...^zz^",
-                ".......z......z.......[.",
-                ".z..^..z.^..^...z..T....",
-                "...T...........z.z..z...",
-                ".z.....z..T........z..[z",
-                "...^......z....z......[.",
-                "~~~~~~~~~~~~~.zz~..~~~[.",
-                ".zw.......zz...z....^...",
-                ".S.ww^...T......Tz.z.S..",
-                "..^...T......z.^..^.z.^."
-            ],
-            "terrain": {
-                ".": "t_grass",
-                "#": "t_wall_wood",
-                "R": "t_dirtmound",
-                "2": "t_window_domestic",
-                "0": "t_window_empty",
-                "3": "t_door_b",
-                "w": "t_water_sh",
-                "W": "t_water_dp",
-                " ": "t_floor",
-                "6": "t_floor",
-                "7": "t_floor",
-                "8": "t_floor",
-                "9": "t_floor",
-                ":": "t_floor",
-                ";": "t_floor",
-                "+": "t_door_c",
-                "=": "t_rock_floor",
-                ">": "t_floor",
-                "?": "t_floor",
-                "@": "t_floor",
-                "A": "t_floor",
-                "B": "t_floor",
-                "C": "t_floor",
-                "D": "t_floor",
-                "E": "t_floor",
-                "F": "t_floor",
-                "G": "t_floor",
-                "H": "t_floor",
-                "z": "t_underbrush",
-                "S": "t_shrub_strawberry",
-                "^": "t_tree_young",
-                "T": "t_tree",
-                "{": "t_door_glass_c",
-                "[": "t_fence_v",
-                "_": "t_rock_floor",
-                "~": "t_fence_h"
-            },
-            "furniture": {
-                "6": "f_table",
-                "7": "f_bookcase",
-                "8": "f_bathtub",
-                "9": "f_rack",
-                ":": "f_dresser",
-                "=": "f_woodstove",
-                ">": "f_counter",
-                "?": "f_sofa",
-                "@": "f_bed",
-                "A": "f_sink",
-                "B": "f_chair",
-                "C": "f_desk",
-                "D": "f_trashcan",
-                "E": "f_cupboard",
-                "F": "f_fridge",
-                "H": "f_armchair",
-                "G": "f_oven"
-            },
-            "add": [
-                { "item": "teddy", "x": 14, "y": 2},
-                { "item": "locket", "x": 14, "y": 2}
-            ],
-            "set": [
-                { "point": "bash", "x": [ 1, 20], "y":  20, "repeat": [ 4, 10]},
-                { "point": "bash", "x": 22, "y":  [ 1, 19], "repeat": [ 3, 5]},
-                { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 1, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": [ 1, 23 ], "y": [ 21,23 ], "repeat": [ 5, 8 ] },
-                { "point": "terrain", "id": "t_dirt", "x": [ 1, 14 ], "y": [ 1,3 ], "repeat": [ 8, 10 ] },
-                { "point": "terrain", "id": "t_dirtmound", "x": [ 14, 14 ], "y": [ 2,2 ] }
-                    ],
-            "place_vehicles": [
-                { "vehicle": "car", "x": 5, "y": 7, "rotation": 0, "fuel": 0, "status": 1, "chance": 100  }
-            ],
-            "place_items": [
-                { "item": "trash_forest", "repeat": [ 0, 2 ], "chance": 100, "x": [ 2, 21], "y": [ 5, 19] }
-            ]
-        }
-    },
-    {
-        "type": "mapgen",
-        "om_terrain": [
-            "dirtplaza_aban1"
-        ],
-        "method": "json",
-        "weight": 333,
-        "object": {
-            "rows": [
-                ".[~~~~  T           ~~~~",
-                ".[^. ^^  ^     ^   ..T..",
-                ".[s.TT .       s s  ....",
-                ". .s s   . .  . ^ .  . .",
-                ".^..     .  ^   s  .....",
-                "T ...   ..          ..^.",
-                ". .T.  .             ...",
-                ".[s.   .            .s. ",
-                " [     .   .. ..    ....",
-                ".[s.T T.    .s . .  .s..",
-                "....  .    ^  .   . ....",
-                ".[.. ss .     .s .  s..s",
-                ".[T...   .          ..z.",
-                "  ...   .         ss..^.",
-                ". ^.      .        .....",
-                ".[^.. z      z  s  .....",
-                ".[... .        T    .  ^",
-                ".[T.....           .sz..",
-                ".[..       . .     s....",
-                ".[T... . .          .. .",
-                ". ^.   .   .   . s .s   ",
-                ". ^.     .s        . ...",
-                ". ..     ..       ^..^..",
-                ".[.               ^ ..T."
-            ],
-            "terrain": {
-                ".": "t_dirt",
-                " ": "t_dirt",
-                "w": "t_water_sh",
-                "W": "t_water_dp",
-                "s": "t_underbrush",
-                "z": "t_shrub_strawberry",
-                "^": "t_dirt",
-                "[": "t_fence_v",
-                "~": "t_fence_h",
-                "T": "t_dirt"
-            },
-            "set": [
-                { "point": "bash", "x": 1, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 21,23 ], "repeat": [ 5, 8 ] },
-                { "point": "terrain", "id": "t_grass", "x": [ 0, 14 ], "y": [ 0,3 ], "repeat": [ 10, 30 ] },
-                { "point": "terrain", "id": "t_underbrush", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 10, 30 ] },
-                { "point": "terrain", "id": "t_tree_young", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 10, 30 ] }
-                    ],
-            "place_items": [
-                { "item": "forest", "repeat": [ 0, 20 ], "chance": 100, "x": [ 2, 21], "y": [ 5, 19] }
-            ]
-        }
-    },
-    {
-        "type": "mapgen",
-        "om_terrain": [
-            "barn_aban1"
-        ],
-        "method": "json",
-        "weight": 333,
-        "object": {
-            "rows": [
-                "~~~~~~..~~.z~~~~.T.~~~~.",
-                "..^...z....^....z....z[.",
-                "..z...zz.........T....[^",
-                "....^......^.......z.^..",
-                "......^.....z.^.......[.",
-                "^.....^............z..[.",
-                "...z........z.....z...[.",
-                ".....z......T........z[.",
-                "..^.....T........^....[.",
-                "................z...^...",
-                "......z.........z.^.zz.^",
-                "............T...........",
-                ".......^.z.....z......[S",
-                ".T..^......^z..z...z..[.",
-                "..z####################^",
-                "...#  @ @@#CC #AA>#   #.",
-                ".z.#  @   #C B#   #   #.",
-                "...#E     #~~ #   #   #.",
-                ".z.#FG                #z",
-                "...+F:                #.",
-                "...+A:C               #.",
-                ".zw#AE   A#~~ #~~ #   #.",
-                ".S.#HH   A#9 9#   #   #.",
-                "..^#HHH  A#9 9#   #   #."
-            ],
-            "terrain": {
-                ".": "t_grass",
-                "#": "t_wall_wood",
-                "2": "t_window_domestic",
-                "0": "t_window_empty",
-                "3": "t_door_b",
-                "w": "t_water_sh",
-                "W": "t_water_dp",
-                " ": "t_dirtfloor",
-                "6": "t_dirtfloor",
-                "7": "t_dirtfloor",
-                "8": "t_dirtfloor",
-                "9": "t_dirtfloor",
-                ":": "t_dirtfloor",
-                "+": "t_door_c",
-                "=": "t_rock_floor",
-                ">": "t_dirtfloor",
-                "?": "t_dirtfloor",
-                "@": "t_dirtfloor",
-                "A": "t_dirtfloor",
-                "B": "t_dirtfloor",
-                "C": "t_dirtfloor",
-                "D": "t_dirtfloor",
-                "E": "t_dirtfloor",
-                "F": "t_dirtfloor",
-                "G": "t_dirtfloor",
-                "H": "t_dirtfloor",
-                "z": "t_underbrush",
-                "S": "t_shrub_strawberry",
-                "^": "t_tree_young",
-                "T": "t_tree",
-                "{": "t_door_glass_c",
-                "[": "t_fence_v",
-                "_": "t_rock_floor",
-                "~": "t_fence_h"
-            },
-            "furniture": {
-                "6": "f_table",
-                "7": "f_bookcase",
-                "8": "f_bathtub",
-                "9": "f_rack",
-                ":": "f_dresser",
-                "=": "f_woodstove",
-                ">": "f_counter",
-                "?": "f_sofa",
-                "@": "f_makeshift_bed",
-                "A": "f_locker",
-                "B": "f_chair",
-                "C": "f_desk",
-                "D": "f_trashcan",
-                "E": "f_cupboard",
-                "F": "f_fridge",
-                "H": "f_hay",
-                "G": "f_oven"
-            },
-            "add": [
-                { "item": "oil_lamp", "x": 7, "y": 15},
-                { "item": "45_acp", "x": 12, "y": 15},
-                { "item": "3006", "x": 12, "y": 15},
-                { "item": "3006", "x": 12, "y": 15,  "chance": 2},
-                { "item": "3006", "x": 12, "y": 15, "chance": 3},
-                { "item": "pillow", "x": 6, "y": 15 },
-                { "item": "sheet", "x": 6, "y": 16 },
-                { "item": "sheet", "x": 9, "y": 15},
-                { "item": "mess_kit", "x": 17, "y": 15},
-                { "item": "nail", "x": 15, "y": 15},
-                { "item": "ax", "x": 15, "y": 15},
-                { "item": "compositebow", "x": 16, "y": 15},
-                { "item": "quiver", "x": 16, "y": 15},
-                { "item": "arrow_wood_heavy", "x": 16, "y": 15},
-                { "item": "knife_hunting", "x": 16, "y": 15},
-                { "item": "flashlight", "x": 11, "y": 16},
-                { "item": "child_book", "x": 11, "y": 16},
-                { "item": "child_book", "x": 11, "y": 15},
-                { "item": "pot", "x": 11, "y": 23},
-                { "item": "battery", "x": 11, "y": 16, "chance": 3}
-            ],
-            "set": [
-                { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": [ 0,3 ], "repeat": [ 8, 10 ] }
-                    ],
-            "place_loot": [
-                { "group": "cabin_suicide", "chance": 100, "x": [ 4, 4], "y": [ 15, 15] },
-                { "group": "cannedfood", "chance": 90, "x": [ 11, 11], "y": [ 22, 23] },
-                { "group": "cannedfood", "chance": 90, "x": [ 13, 13], "y": [ 22, 23] },
-                { "group": "cannedfood", "chance": 90, "x": [ 11, 11], "y": [ 22, 23] },
-                { "group": "cannedfood", "chance": 90, "x": [ 13, 13], "y": [ 22, 23] },
-                { "group": "stash_water", "chance": 100, "x": [ 20, 20], "y": [ 15, 15] },
-                { "group": "stash_water", "chance": 100, "x": [ 19, 19], "y": [ 15, 15] },
-                { "item": "survivor_special_700", "chance": 100, "x": 13, "y": 15, "ammo": 100 }
-            ]
-        }
     }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "dirtroad2_aban1" ],
+    "method": "json",
+    "weight": 333,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "..^.                ....",
+        "..^.               ..T.T",
+        ".ss.T  .            ^s.T",
+        "..ss     . .  .   . s. T",
+        ".T..     .         ..T..",
+        "TT...   ..        ^T..^.",
+        "...T.  .             ss.",
+        ".ss.^^ .            ^s.T",
+        "..TT   .   .  ..    ....",
+        ".ss.^  .       . .  .s..",
+        "....  .       .   . ..T.",
+        ". ..    .     .s . Ts..s",
+        "..T... . .        T ..z.",
+        "TT...   ..        ss..^.",
+        "..^.      .        ...T.",
+        "..^..              .....",
+        ".T... .             .T.^",
+        "..T.....           .sz..",
+        "....       . .     s..s.",
+        "..T... . .          ..z.",
+        "..^.   .   .   .   .sTT.",
+        "..^.     . .     . . ...",
+        ".^..   ^ ..        ..^..",
+        "...T                ..T."
+        ],
+        "terrain": {
+          ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
+          " ": "t_dirt",
+          "w": "t_water_sh",
+          "W": "t_water_dp",
+          "s": "t_underbrush",
+          "z": "t_shrub_strawberry",
+          "^": "t_tree_young",
+          "T": "t_tree"
+        },
+        "set": [
+          { "point": "terrain", "id": "t_dirt", "x": [ 0, 23], "y": [ 0, 23 ], "repeat": [ 15, 30 ] },
+          { "point": "terrain", "id": "t_underbrush", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 10, 30 ] },
+          { "point": "terrain", "id": "t_tree_young", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 10, 30 ] }
+        ],
+        "place_items": [
+          { "item": "forest", "repeat": [ 0, 5 ],  "chance": 80, "x": [ 2, 21 ], "y": [ 5, 19 ] }
+        ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "forest_aban1" ],
+    "method": "json",
+    "weight": 333,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "..^.                ....",
+        "..^.               ..T.T",
+        ".ss.T  .            ^s.T",
+        "..ss     . .  .   . s. T",
+        ".T..     .         ..T..",
+        "TT...   ..        ^T..^.",
+        "...T.  .             ss.",
+        ".ss.^^ .            ^s.T",
+        "..TT   .   .  ..    ....",
+        ".ss.^  .       . .  .s..",
+        "....  .       .   . ..T.",
+        ". ..    .     .s . Ts..s",
+        "..T... . .        T ..z.",
+        "TT...   ..        ss..^.",
+        "..^.      .        ...T.",
+        "..^..              .....",
+        ".T... .             .T.^",
+        "..T.....           .sz..",
+        "....       . .     s..s.",
+        "..T... . .          ..z.",
+        "..^.   .   .   .   .sTT.",
+        "..^.     . .     . . ...",
+        ".^..   ^ ..        ..^..",
+        "...T                ..T."
+        ],
+        "terrain": {
+          ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
+          " ": "t_grass",
+          "w": "t_water_sh",
+          "W": "t_water_dp",
+          "s": "t_underbrush",
+          "z": "t_shrub_strawberry",
+          "^": "t_tree_young",
+          "T": "t_tree"
+        },
+        "set": [
+          { "point": "terrain", "id": "t_dirt", "x": [ 0, 23], "y": [ 0, 23 ], "repeat": [ 15, 30 ] },
+          { "point": "terrain", "id": "t_underbrush", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 20, 30 ] },
+          { "point": "terrain", "id": "t_tree_young", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 20, 30 ] },
+          { "point": "terrain", "id": "t_tree", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 20, 30 ] }
+        ],
+        "place_items": [
+          { "item": "forest", "repeat": [ 0, 5 ], "chance": 80, "x": [ 2, 21], "y": [ 5, 19] }
+        ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "cabin_aban1" ],
+    "method": "json",
+    "weight": 333,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".[^...........T.z.......",
+        "..^...z....^.........z..",
+        "..z...zz....z..^.T.....^",
+        ".[..^......^.......z.^..",
+        ".#...~~~~# .z #~~~~~~~#.",
+        "^..z..     ...        [.",
+        ".....H6     .         [.",
+        ".##0###2###3+###2###2##.",
+        ".#       #    3  66  >#.",
+        ".#   .   +   7#  66  .z.",
+        ".#  ...  #   7#      ..^",
+        ".#########   7#       #.",
+        ".#___ 6   .. 7#####+###S",
+        ".2_=_     ..... #9   9#.",
+        ".2___   ...ww^. #9   9#^",
+        ".# H     ..wWw  #9   9#.",
+        "^#####+#..S ... ###+###.",
+        ".3..     ..#   z  +  ;#.",
+        ".#.^..   ..#@@    #A   z",
+        ".#   ...   #@@   :# 88#.",
+        "...0##.^.#####22#.#####~",
+        ".zw.......zz...z....^...",
+        ".S.ww^...T......Tz.z.S..",
+        "..^...T......z.^..^.z.^."
+        ],
+        "terrain": {
+          ".": [ "t_grass", "t_grass","t_grass", "t_dirt", "t_dirt" ],
+          "#": "t_wall_log",
+          "2": "t_window_domestic",
+          "0": "t_window_empty",
+          "3": "t_door_b",
+          "w": "t_water_sh",
+          "W": "t_water_dp",
+          " ": "t_floor",
+          "+": "t_door_c",
+          "=": "t_rock_floor",
+          "z": "t_underbrush",
+          "S": "t_shrub_strawberry",
+          "^": "t_tree_young",
+          "T": "t_tree",
+          "{": "t_door_glass_c",
+          "[": "t_fence_v",
+          "_": "t_rock_floor",
+          "~": "t_fence_h"
+        },
+        "furniture": {
+          "6": "f_table",
+          "7": "f_bookcase",
+          "8": "f_bathtub",
+          "9": "f_rack",
+          ":": "f_dresser",
+          "=": "f_woodstove",
+          ">": "f_counter",
+          "?": "f_sofa",
+          "@": "f_bed",
+          "A": "f_sink",
+          "B": "f_chair",
+          "C": "f_desk",
+          "D": "f_trashcan",
+          "E": "f_cupboard",
+          "F": "f_fridge",
+          "H": "f_armchair",
+          "G": "f_oven"
+        },
+        "toilets": {
+          ";": { }
+        },
+        "set": [
+          { "point": "bash", "x": 7, "y":  7},
+          { "point": "bash", "x": 3, "y":  20},
+          { "point": "bash", "x": [ 14, 22], "y":  4, "repeat": [ 3, 5] },
+          { "point": "bash", "x": [ 14, 22], "y":  7, "repeat": [ 3, 5] },
+          { "point": "bash", "x": [ 11, 12], "y":  7, "repeat": [ 0, 2] },
+          { "point": "bash", "x": [ 1, 9], "y":  11, "repeat": [ 0, 8] },
+          { "point": "bash", "x": [ 13, 15], "y":  20, "repeat": [ 0, 4] },
+          { "point": "bash", "x": [ 17, 21], "y":  [ 13, 15], "repeat": [ 4, 10] }
+        ],
+        "place_items": [
+          { "item": "trash_forest", "repeat": [ 0, 20 ], "chance": 80, "x": [ 2, 21], "y": [ 5, 19] }
+        ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "car_corner_aban1" ],
+    "method": "json",
+    "weight": 333,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "..^################++##.",
+        "..^...z....^....z....z[.",
+        "..z...zz......R..T....[^",
+        "....^......^.......z.^..",
+        "......^.....z.^.......[.",
+        "^..................z..[.",
+        "............z.....z...[.",
+        "............T........z[.",
+        ".................^....[.",
+        "................z...^...",
+        "......z.........z.^.zz.^",
+        "............T...........",
+        ".......^.z.....z......[S",
+        ".T..^......^z..z...z..[.",
+        "..z.......z.....T...^zz^",
+        ".......z......z.......[.",
+        ".z..^..z.^..^...z..T....",
+        "...T...........z.z..z...",
+        ".z.....z..T........z..[z",
+        "...^......z....z......[.",
+        "~~~~~~~~~~~~~.zz~..~~~[.",
+        ".zw.......zz...z....^...",
+        ".S.ww^...T......Tz.z.S..",
+        "..^...T......z.^..^.z.^."
+        ],
+        "terrain": {
+          ".": [ "t_grass", "t_grass","t_grass", "t_dirt", "t_dirt" ],
+          "#": "t_wall_wood",
+          "R": "t_dirtmound",
+          "2": "t_window_domestic",
+          "0": "t_window_empty",
+          "3": "t_door_b",
+          "w": "t_water_sh",
+          "W": "t_water_dp",
+          " ": "t_floor",
+          "+": "t_door_c",
+          "=": "t_rock_floor",
+          "z": "t_underbrush",
+          "S": [ "t_shrub_strawberry",  "t_underbrush" ],
+          "^": "t_tree_young",
+          "T": "t_tree",
+          "{": "t_door_glass_c",
+          "[": "t_fence_v",
+          "_": "t_rock_floor",
+          "~": "t_fence_h"
+        },
+        "furniture": {
+        "6": "f_table",
+        "7": "f_bookcase",
+        "8": "f_bathtub",
+        "9": "f_rack",
+        ":": "f_dresser",
+        "=": "f_woodstove",
+        ">": "f_counter",
+        "?": "f_sofa",
+        "@": "f_bed",
+        "A": "f_sink",
+        "B": "f_chair",
+        "C": "f_desk",
+        "D": "f_trashcan",
+        "E": "f_cupboard",
+        "F": "f_fridge",
+        "H": "f_armchair",
+        "G": "f_oven"
+        },
+        "add": [
+          { "item": "teddy", "x": 14, "y": 2 },
+          { "item": "locket", "x": 14, "y": 2 }
+        ],
+        "set": [
+          { "point": "bash", "x": [ 1, 20], "y":  20, "repeat": [ 4, 10 ] },
+          { "point": "bash", "x": 22, "y":  [ 1, 19], "repeat": [ 3, 5 ] },
+          { "point": "terrain", "id": "t_dirtmound", "x": [ 14, 14 ], "y": [ 2,2 ] }
+        ],
+        "place_vehicles": [
+          { "vehicle": "car", "x": 5, "y": 7, "rotation": 0, "fuel": 0, "status": 1, "chance": 80  }
+        ],
+        "place_items": [
+          { "item": "trash_forest", "repeat": [ 0, 2 ], "chance": 80, "x": [ 2, 21 ], "y": [ 5, 19 ] }
+        ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "dirtplaza_aban1" ],
+    "method": "json",
+    "weight": 333,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        " [~~~~  T           ~~~~",
+        " [^  ^^  ^     ^     T  ",
+        " [s TT         s s      ",
+        "   s s          ^       ",
+        " ^          ^   s       ",
+        "T                     ^ ",
+        "   T                    ",
+        " [s                  s  ",
+        " [                      ",
+        " [s T T      s       s  ",
+        "           ^            ",
+        " [   ss        s    s  s",
+        " [T                   z ",
+        "                  ss  ^ ",
+        "  ^                     ",
+        " [^   z      z  s       ",
+        " [             T       ^",
+        " [T                 sz  ",
+        " [                 s    ",
+        " [T                     ",
+        "  ^              s  s   ",
+        "  ^       s             ",
+        "                  ^  ^  ",
+        " [                ^   T "
+        ],
+        "terrain": {
+          " ": "t_dirt",
+          "w": "t_water_sh",
+          "W": "t_water_dp",
+          "s": "t_underbrush",
+          "z": "t_shrub_strawberry",
+          "[": "t_fence_v",
+          "~": "t_fence_h"
+        },
+        "set": [
+          { "point": "bash", "x": 1, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
+          { "point": "terrain", "id": "t_grass", "x": [ 0, 14 ], "y": [ 0,3 ], "repeat": [ 10, 30 ] },
+          { "point": "terrain", "id": "t_underbrush", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 10, 30 ] },
+          { "point": "terrain", "id": "t_tree_young", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 10, 30 ] }
+        ],
+        "place_items": [
+          { "item": "forest", "repeat": [ 0, 20 ], "chance": 80, "x": [ 2, 21 ], "y": [ 5, 19 ] }
+        ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "barn_aban1" ],
+    "method": "json",
+    "weight": 333,
+    "object": {
+      "fill_ter": "t_dirtfloor",
+      "rows": [
+        "~~~~~~..~~.z~~~~.T.~~~~.",
+        "..^...z....^....z....z[.",
+        "..z...zz.........T....[^",
+        "....^......^.......z.^..",
+        "......^.....z.^.......[.",
+        "^.....^............z..[.",
+        "...z........z.....z...[.",
+        ".....z......T........z[.",
+        "..^.....T........^....[.",
+        "................z...^...",
+        "......z.........z.^.zz.^",
+        "............T...........",
+        ".......^.z.....z......[S",
+        ".T..^......^z..z...z..[.",
+        "..z####################^",
+        "...#  @ @@#CC #AA>#   #.",
+        ".z.#  @   #C B#   #   #.",
+        "...#E     #~~ #   #   #.",
+        ".z.#FG                #z",
+        "...+F:                #.",
+        "...+A:C               #.",
+        ".zw#AE   A#~~ #~~ #   #.",
+        ".S.#HH   A#9 9#   #   #.",
+        "..^#HHH  A#9 9#   #   #."
+        ],
+        "terrain": {
+          ".": "t_grass",
+          "#": "t_wall_wood",
+          "2": "t_window_domestic",
+          "0": "t_window_empty",
+          "3": "t_door_b",
+          "w": "t_water_sh",
+          "W": "t_water_dp",
+          " ": "t_dirtfloor",
+          "+": "t_door_c",
+          "=": "t_rock_floor",
+          "z": "t_underbrush",
+          "S": "t_shrub_strawberry",
+          "^": "t_tree_young",
+          "T": "t_tree",
+          "{": "t_door_glass_c",
+          "[": "t_fence_v",
+          "_": "t_rock_floor",
+          "~": "t_fence_h"
+        },
+        "furniture": {
+          "6": "f_table",
+          "7": "f_bookcase",
+          "8": "f_bathtub",
+          "9": "f_rack",
+          ":": "f_dresser",
+          "=": "f_woodstove",
+          ">": "f_counter",
+          "?": "f_sofa",
+          "@": "f_makeshift_bed",
+          "A": "f_locker",
+          "B": "f_chair",
+          "C": "f_desk",
+          "D": "f_trashcan",
+          "E": "f_cupboard",
+          "F": "f_fridge",
+          "H": "f_hay",
+          "G": "f_oven"
+        },
+        "add": [
+          { "item": "oil_lamp", "x": 7, "y": 15 },
+          { "item": "45_acp", "x": 12, "y": 15 },
+          { "item": "3006", "x": 12, "y": 15 },
+          { "item": "3006", "x": 12, "y": 15,  "chance": 2 },
+          { "item": "3006", "x": 12, "y": 15, "chance": 3 },
+          { "item": "pillow", "x": 6, "y": 15 },
+          { "item": "sheet", "x": 6, "y": 16 },
+          { "item": "sheet", "x": 9, "y": 15 },
+          { "item": "mess_kit", "x": 17, "y": 15 },
+          { "item": "nail", "x": 15, "y": 15 },
+          { "item": "ax", "x": 15, "y": 15 },
+          { "item": "compositebow", "x": 16, "y": 15 },
+          { "item": "quiver", "x": 16, "y": 15 },
+          { "item": "arrow_wood_heavy", "x": 16, "y": 15 },
+          { "item": "knife_hunting", "x": 16, "y": 15 },
+          { "item": "flashlight", "x": 11, "y": 16 },
+          { "item": "child_book", "x": 11, "y": 16 },
+          { "item": "child_book", "x": 11, "y": 15 },
+          { "item": "pot", "x": 11, "y": 23 },
+          { "item": "battery", "x": 11, "y": 16, "chance": 3 }
+        ],
+        "set": [
+          { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": [ 0,3 ], "repeat": [ 8, 10 ] }
+        ],
+        "place_loot": [
+          { "group": "cabin_suicide", "chance": 80, "x": [ 4, 4], "y": [ 15, 15] },
+          { "group": "cannedfood", "chance": 90, "x": [ 11, 11], "y": [ 22, 23] },
+          { "group": "cannedfood", "chance": 90, "x": [ 13, 13], "y": [ 22, 23] },
+          { "group": "cannedfood", "chance": 90, "x": [ 11, 11], "y": [ 22, 23] },
+          { "group": "cannedfood", "chance": 90, "x": [ 13, 13], "y": [ 22, 23] },
+          { "group": "stash_water", "chance": 80, "x": [ 20, 20], "y": [ 15, 15] },
+          { "group": "stash_water", "chance": 80, "x": [ 19, 19], "y": [ 15, 15] },
+          { "item": "survivor_special_700", "chance": 80, "x": 13, "y": 15, "ammo": 100 }
+        ]
+    }
+  }
 ]
