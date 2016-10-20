@@ -124,7 +124,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         double dy = target_arg.y - source.y;
         double rad = atan2( dy, dx );
         // Cap spread at 30 degrees or it gets wild quickly
-        double spread = std::min( dispersion / ARCMIN( 1 ), DEGREES( 30 ) );
+        double spread = std::min( ARCMIN( dispersion ), DEGREES( 30 ) );
         rad += rng_float( -spread, spread );
 
         // @todo This should also represent the miss on z axis
