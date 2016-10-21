@@ -22,7 +22,6 @@
     "durability": 9,
     "clip_size": 6,
     "reload": 80,
-    "loudness" : 160,
     "built_in_mods": ["m203"],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
@@ -50,7 +49,6 @@
     "durability": 10,
     "clip_size": 2,
     "reload": 80,
-    "loudness" : 160,
     "valid_mod_locations": [[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 2 ],[ "muzzle", 1 ]],
     "techniques": ["WBLOCK_2"]
   },
@@ -78,7 +76,7 @@
     "durability": 10,
     "clip_size": 2,
     "reload": 80,
-    "loudness" : 160,
+    "loudness" : 50,
     "valid_mod_locations": [[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 2 ],[ "muzzle", 1 ]],
     "techniques": ["WBLOCK_2"],
     "qualities": [["CUT", 1], ["BUTCHER", 14]]
@@ -107,7 +105,7 @@
     "durability": 4,
     "clip_size": 1,
     "reload": 520,
-    "loudness" : 250,
+    "loudness" : 200,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -135,7 +133,6 @@
       [ "BURST", "3 rd.", 3 ],
       [ "AUTO", "auto", 8 ]
     ],
-    "loudness" : 150,
     "built_in_mods": ["m203"],
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]],
     "magazines" : [
@@ -171,7 +168,7 @@
     "durability": 6,
     "clip_size": 0,
     "reload": 0,
-    "loudness" : 25,
+    "loudness" : 75,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -198,7 +195,7 @@
     "durability": 7,
     "clip_size": 0,
     "reload": 0,
-    "loudness" : 45,
+    "loudness" : 100,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
