@@ -1255,8 +1255,6 @@ classes = {
             { name = "get_field_strength", rval = "int", args = { "tripoint", "field_id" } },
             { name = "get_radiation", rval = "int", args = { "tripoint" } },
             { name = "get_signage", rval = "string", args = { "tripoint" } },
-            { name = "get_ter_harvest_season", rval = "int", args = { "tripoint" } },
-            { name = "get_ter_harvestable", rval = "string", args = { "tripoint" } },
             { name = "get_ter_transforms_into", rval = "ter_id", args = { "tripoint" } },
             { name = "getabs", rval = "tripoint", args = { "tripoint" } },
             { name = "getlocal", rval = "tripoint", args = { "tripoint" } },
@@ -1373,8 +1371,6 @@ classes = {
 
         attributes = {
             close = { type = "ter_str_id", writable = true },
-            harvest_season = { type = "season_type", writable = true },
-            harvestable = { type = "string", writable = true },
             name = { type = "string",  writable = false },
             open = { type = "ter_str_id", writable = true },
             roof = { type = "ter_str_id", writable = true },

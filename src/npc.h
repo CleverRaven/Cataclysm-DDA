@@ -757,6 +757,7 @@ public:
     std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
 
     bool has_item_whitelist() const;
+    bool item_name_whitelisted( const std::string &name );
     bool item_whitelisted( const item &it );
 
     /** Returns true if it finds one. */

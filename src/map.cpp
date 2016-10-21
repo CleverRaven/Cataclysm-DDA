@@ -1613,18 +1613,6 @@ ter_id map::ter(const int x, const int y) const
     return current_submap->get_ter( lx, ly );
 }
 
-std::string map::get_ter_harvestable(const int x, const int y) const {
-    return get_ter_harvestable( tripoint( x, y, abs_sub.z ) );
-}
-
-ter_id map::get_ter_transforms_into(const int x, const int y) const {
-    return get_ter_transforms_into( tripoint( x, y, abs_sub.z ) );
-}
-
-int map::get_ter_harvest_season(const int x, const int y) const {
-    return get_ter_harvest_season( tripoint( x, y, abs_sub.z ) );
-}
-
 void map::ter_set(const int x, const int y, const ter_id new_terrain) {
     ter_set( tripoint( x, y, abs_sub.z ), new_terrain );
 }
@@ -1657,10 +1645,47 @@ ter_id map::ter( const tripoint &p ) const
 }
 
 /*
- * Get the terrain harvestable string (what will get harvested from the terrain)
+ * Get the results of harvesting this tile's furniture or terrain
  */
-std::string map::get_ter_harvestable( const tripoint &p ) const {
-    return ter( p ).obj().harvestable;
+const std::list<harvest_entry> &map::get_harvest( const tripoint &pos ) const
+{
+    static const std::list<harvest_entry> &null_harvest;
+    const auto furn_here = furn( pos );
+    if( furn_here.examine != iexamine::none ) {
+        // Note: if furniture can be examined, the terrain can NOT (until furniture is removed)
+        if( furn_here->has_flag( TFLAG_HARVESTED ) ) {
+            return null_harvest;
+        }
+
+        return furn_here->get_harvest();
+    }
+
+    const auto ter_here = ter( pos );
+    if( ter_here->has_flag( TFLAG_HARVESTED ) ) {
+        return null_harvest;
+    }
+
+    return ter_here->get_harvest();
+}
+
+const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
+{
+    static const std::set<std::string> &null_harvest;
+    const auto furn_here = furn( pos );
+    if( furn_here.examine != iexamine::none ) {
+        if( furn_here->has_flag( TFLAG_HARVESTED ) ) {
+            return null_harvest;
+        }
+
+        return furn_here->get_harvest_names();
+    }
+
+    const auto ter_here = ter( pos );
+    if( ter_here->has_flag( TFLAG_HARVESTED ) ) {
+        return null_harvest;
+    }
+
+    return ter_here->get_harvest_names();
 }
 
 /*
@@ -1670,37 +1695,23 @@ ter_id map::get_ter_transforms_into( const tripoint &p ) const {
     return ter( p ).obj().transforms_into.id();
 }
 
-/*
- * Get the harvest season from the terrain
- */
-int map::get_ter_harvest_season( const tripoint &p ) const {
-    return ter( p ).obj().harvest_season;
-}
-
 /**
  * Examines the tile pos, with character as the "examinator"
  * Casts Character to player because player/npc split isn't done yet
  */
-void map::examine_ter( Character &p, const tripoint &pos )
+void map::examine( Character &p, const tripoint &pos )
 {
-    ter( pos ).obj().examine( dynamic_cast<player &>( p ), pos );
+    const auto furn_here = furn( pos ).obj();
+    if( furn_here.examine != iexamine::none ) {
+        furn_here.examine( dynamic_cast<player &>( p ), pos );
+    } else {
+        ter( pos ).obj().examine( dynamic_cast<player &>( p ), pos );
+    }
 }
 
 bool map::is_harvestable( const tripoint &pos ) const
 {
-    const auto ter_here = ter( pos );
-    if( ter_here->harvestable.empty() || ter_here->has_flag( TFLAG_HARVESTED ) ) {
-        return false;
-    }
-
-    // Warning: ugly special casing
-    const auto examine_fun = ter_here->examine;
-    if( examine_fun == iexamine::harvest_tree_shrub ||
-        examine_fun == iexamine::tree_hickory ) {
-        return ter_here->harvest_season == calendar::turn.get_season();
-    }
-
-    return true;
+    return !get_harvest( pos ).empty();
 }
 
 
@@ -6806,7 +6817,7 @@ void map::restock_fruits( const tripoint &p, int time_since_last_actualize )
     if( !ter.has_flag( TFLAG_HARVESTED ) ) {
         return;
     }
-    if( ter.harvest_season != calendar::turn.get_season() ||
+    if( ter.get_harvest().empty() ||
         time_since_last_actualize >= DAYS( calendar::season_length() ) ) {
         ter_set( p, ter.transforms_into );
     }

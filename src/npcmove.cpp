@@ -20,6 +20,9 @@
 
 #include <algorithm>
 
+// @todo Get rid of this include
+#include "mapdata.h"
+
 #define NPC_DANGER_VERY_LOW 5
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
@@ -1770,26 +1773,21 @@ void npc::find_item()
         }
     };
 
-    // Fake item we'll be using to say "I want to pick this apple"
-    // @todo "Those apples"
-    std::unique_ptr<item> fruit;
+    // Harvest item doesn't exist, so we'll be checking by its name
+    std::string wanted_name;
     const auto consider_terrain =
-        [ this, whitelisting, &fruit, &wanted ]( const tripoint &p ) {
+        [ this, whitelisting, &wanted, &wanted_name ]( const tripoint &p ) {
         // We only want to pick plants when there are no items to pick
-        if( !whitelisting || wanted != nullptr ) {
+        if( !whitelisting || wanted != nullptr || !wanted_name.empty() ) {
             return;
         }
 
-        if( !g->m.is_harvestable( p ) ) {
-            return;
-        }
-
-        // This part is moderately expensive, but fortunately harvestable tiles are rare
-        std::unique_ptr<item> temp_fruit( new item( g->m.get_ter_harvestable( p ) ) );
-        if( item_whitelisted( *temp_fruit ) ) {
-            fruit = std::move( temp_fruit );
-            wanted = fruit.get();
-            wanted_item_pos = p;
+        const auto harvest = g->m.get_harvest_names( p );
+        for( const auto &entry : harvest ) {
+            if( item_name_whitelisted( entry ) ) {
+                wanted_name = entry;
+                break;
+            }
         }
     };
 
@@ -1826,7 +1824,11 @@ void npc::find_item()
         }
     }
 
-    if( wanted == nullptr ) {
+    if( wanted != nullptr ) {
+        wanted_name = wanted->tname();
+    }
+
+    if( wanted_name.empty() ) {
         return;
     }
 
@@ -1842,8 +1844,7 @@ void npc::find_item()
     }
 
     if( fetching_item && rl_dist( wanted_item_pos, pos() ) > 1 && is_following() ) {
-        say( _("Hold on, I want to pick up that %s."),
-             wanted->tname().c_str() );
+        say( _("Hold on, I want to pick up that %s."), wanted_name.c_str() );
     }
 }
 
@@ -1904,7 +1905,7 @@ void npc::pick_up_item()
     if( picked_up.empty() ) {
         // Last chance: plant harvest
         if( g->m.is_harvestable( wanted_item_pos ) ) {
-            g->m.examine_ter( *this, wanted_item_pos );
+            g->m.examine( *this, wanted_item_pos );
             // Note: we didn't actually pick up anything, just spawned items
             // but we want the item picker to find new items
             fetching_item = false;

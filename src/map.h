@@ -58,6 +58,7 @@ using mtype_id = string_id<mtype>;
 struct projectile;
 struct veh_collision;
 class tileray;
+class harvest_entry;
 
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
@@ -548,18 +549,22 @@ public:
     bool can_move_furniture( const tripoint &pos, player * p = nullptr );
 // Terrain: 2D overloads
     ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
-    std::string get_ter_harvestable(const int x, const int y) const; // harvestable of the terrain
-    ter_id get_ter_transforms_into(const int x, const int y) const; // get the terrain id to transform to
-    int get_ter_harvest_season(const int x, const int y) const; // get season to harvest the terrain
 
     void ter_set(const int x, const int y, const ter_id new_terrain);
 
     std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
 // Terrain: 3D
     ter_id ter( const tripoint &p ) const;
-    std::string get_ter_harvestable( const tripoint &p ) const;
+    /**
+     * Returns the full harvest list, for spawning.
+     * @todo Find it a better home that it can share with butchery drops.
+     */
+    const std::list<harvest_entry> &get_harvest( const tripoint &p ) const;
+    /**
+     * Returns names of the items that would be dropped.
+     */
+    const std::set<std::string> &get_harvest_names( const tripoint &p ) const;
     ter_id get_ter_transforms_into( const tripoint &p ) const;
-    int get_ter_harvest_season( const tripoint &p ) const;
 
     void ter_set( const tripoint &p, const ter_id new_terrain);
 
@@ -590,9 +595,10 @@ public:
     bool has_items( const tripoint &p ) const;
 
     /**
-     * Calls the examine function of terrain at given tile, for given character.
+     * Calls the examine function of furniture or terrain at given tile, for given character.
+     * Will only examine terrain if furniture had @ref iexamine::none as the examine function.
      */
-    void examine_ter( Character &p, const tripoint &pos );
+    void examine( Character &p, const tripoint &pos );
 
     /**
      * Returns true if point at pos is harvestable right now, with no extra tools.

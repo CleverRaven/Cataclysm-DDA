@@ -3188,9 +3188,11 @@
         "color": [ "ltgreen", "ltgreen", "ltgreen", "brown" ], "//": "barren in winter, harvestable all year round",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_bark",
-        "harvestable": "birchbark",
+        "examine_action": "harvest_ter",
         "transforms_into": "t_tree_birch_harvested",
+        "harvest_by_season" : [
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "harvest": { "drop": "birchbark", "base_num": [ 1, 2 ] } }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -3227,9 +3229,11 @@
         "color": [ "ltgreen", "ltgreen", "ltgreen", "brown" ], "//": "barren in winter, harvestable all year round",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_bark",
-        "harvestable": "willowbark",
-        "transforms_into": "t_tree_willow_harvested",
+        "examine_action": "harvest_ter",
+        "transforms_into": "t_tree_birch_harvested",
+        "harvest_by_season" : [
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "harvest": { "drop": "willowbark", "base_num": [ 1, 2 ] } }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -3487,6 +3491,10 @@
         "harvestable": "blueberries",
         "transforms_into": "t_shrub_blueberry",
         "examine_action": "harvest_tree_shrub",
+        "harvest_by_season" : [
+            { "seasons": [ "summer" ], "harvest": { "drop": "blueberries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } },
+            { "seasons": [ "summer" ], "harvest": { "drop": "seed_blueberries", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] } }
+        ],
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
@@ -6045,9 +6053,11 @@
         "color": "brown",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_bark",
-        "harvestable": "tanbark",
+        "examine_action": "harvest_no_transform",
         "transforms_into": "t_tree",
+        "harvest_by_season" : [
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "harvest": { "drop": "tanbark", "base_num": [ 1, 2 ] } }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
