@@ -6,6 +6,7 @@
 #include "game.h"
 
 #include <cassert>
+#include <cmath>
 
 static constexpr int SCENT_RADIUS = 40;
 
@@ -91,7 +92,7 @@ void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
 int scent_map::get( const tripoint &p ) const
 {
     if( inbounds( p ) && grscent[p.x][p.y] > 0 ) {
-        return grscent[p.x][p.y] - abs( gm.get_levz() - p.z );
+        return grscent[p.x][p.y] - std::abs( gm.get_levz() - p.z );
     }
     return 0;
 }
@@ -109,7 +110,7 @@ bool scent_map::inbounds( const tripoint &p ) const
     // A z-level can access scentmap if it is within 1 flying z-level move from player's z-level
     // That is, if a flying critter could move directly up or down (or stand still) and be on same z-level as player
     return p.x >= 0 && p.x < SEEX * MAPSIZE && p.y >= 0 && p.y < SEEY * MAPSIZE &&
-           ( p.z == gm.get_levz() || ( abs( p.z - gm.get_levz() ) == 1 &&
+           ( p.z == gm.get_levz() || ( std::abs( p.z - gm.get_levz() ) == 1 &&
                                        gm.m.valid_move( p, tripoint( p.x, p.y, gm.get_levz() ), false, true ) ) );
 }
 
