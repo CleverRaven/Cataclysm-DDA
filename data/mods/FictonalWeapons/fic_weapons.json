@@ -96,11 +96,10 @@
     "bashing": 11,
     "to_hit": -4,
     "ranged_damage": -4,
-    "range": -70,
-    "dispersion": 200,
+    "dispersion": 700,
     "durability": 4,
     "clip_size": 1,
-    "reload": 520,
+    "reload": 200,
     "loudness" : 200,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
