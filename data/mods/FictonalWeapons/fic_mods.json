@@ -20,6 +20,30 @@
         "acceptable_ammo": ["signal_flare"]
     },
     {
+        "id": "boom_flamer",
+        "type": "GUNMOD",
+        "name": "integral flamethrower",
+        "description": "This genuine Herostratus flamethrower is ideal for light brush clearing and self-defense.",
+        "weight": 1500,
+        "volume": 3,
+        "price": 100000,
+        "material": [ "steel", "ceramic" ],
+        "symbol": ":",
+        "color": "light_gray",
+        "location": "underbarrel",
+        "mod_targets": [ "pistol", "smg" ],
+        "gun_data": {
+            "ammo": "flammable",
+            "skill": "launcher",
+            "dispersion": "320,
+            "durability": 10,
+            "clip_size": 300,
+            "flags": [ "FIRE_50" ]
+        }
+        "dispersion_modifier": 25,
+        "min_skills": [ [ "weapon", 2 ], [ "launcher", 2 ] ]
+    },
+    {
         "type" : "GUNMOD",
         "id" : "emas",
         "name" : "E.M.A.S.",
