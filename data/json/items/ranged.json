@@ -15,10 +15,11 @@
     "volume": 6,
     "bashing": 9,
     "to_hit": -1,
+    "ranged_damage": 2
     "dispersion": 150,
     "durability": 7,
-    "clip_size": 20,
-    "reload": 500,
+    "clip_size": 150,
+    "reload": 50,
     "valid_mod_locations": [[ "accessories", 4 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
