@@ -7300,7 +7300,7 @@
     "material_thickness": 11,
     "environmental_protection": 10,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF","THERMOMETER" ]
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER" ]
   },
   {
     "id": "power_armor_helmet_heavy",
