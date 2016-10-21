@@ -215,7 +215,7 @@ game::game() :
     u_ptr( new player() ),
     liveview_ptr( new live_view() ),
     liveview( *liveview_ptr ),
-    scent_ptr( new scent_map() ),
+    scent_ptr( new scent_map( *this ) ),
     new_game(false),
     uquit(QUIT_NO),
     m( *map_ptr ),
@@ -8866,6 +8866,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
         ctxt.register_action("LIST_ITEMS");
         ctxt.register_action("MOUSE_MOVE");
     }
+
+    ctxt.register_action("debug_scent");
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
@@ -9015,6 +9017,10 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                 continue;
             }
             return { INT_MIN, INT_MIN, INT_MIN };
+        } else if( action == "debug_scent" ){
+            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
+                display_scent();
+            }
         } else if (!ctxt.get_coordinates(w_terrain, lx, ly) && action != "MOUSE_MOVE") {
             int dx, dy;
             ctxt.get_direction(dx, dy, action);
@@ -13124,7 +13130,8 @@ void game::vertical_move(int movez, bool force)
         shift_monsters( 0, 0, movez );
     }
 
-    std::vector<npc*> npcs_to_bring;
+    std::vector<npc *> npcs_to_bring;
+    std::vector<monster *> monsters_following;
     if( !m.has_zlevels() && abs( movez ) == 1 ) {
         std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
                       [this]( npc *np ) {
@@ -13132,8 +13139,18 @@ void game::vertical_move(int movez, bool force)
         } );
     }
 
+    if( m.has_zlevels() && abs( movez ) == 1 ) {
+        for( size_t i = 0; i < num_zombies(); i++ ) {
+            monster &critter = zombie( i );
+            if( critter.attack_target() == &g->u ) {
+                monsters_following.push_back( &critter );
+            }
+        }
+    }
+
     u.moves -= move_cost;
 
+    const tripoint old_pos = g->u.pos();
     vertical_shift( z_after );
     if( !force ) {
         update_map( stairs.x, stairs.y );
@@ -13166,6 +13183,14 @@ void game::vertical_move(int movez, bool force)
         }
 
         reload_npcs();
+    }
+
+    // This ugly check is here because of stair teleport bullshit
+    // @todo Remove stair teleport bullshit
+    if( rl_dist( g->u.pos(), old_pos ) <= 1 ) {
+        for( monster *m : monsters_following ) {
+            m->set_dest( g->u.pos() );
+        }
     }
 
     if( rope_ladder ) {
@@ -14157,7 +14182,7 @@ void game::display_scent()
         return;
     };
     draw_ter();
-    scent.draw( w_terrain, div * 2, u.pos() );
+    scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
     wrefresh(w_terrain);
     getch();
 }
