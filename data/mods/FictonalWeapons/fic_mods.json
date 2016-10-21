@@ -35,11 +35,11 @@
         "gun_data": {
             "ammo": "flammable",
             "skill": "launcher",
-            "dispersion": "320,
+            "dispersion": 320,
             "durability": 10,
             "clip_size": 300,
             "flags": [ "FIRE_50" ]
-        }
+        },
         "dispersion_modifier": 25,
         "min_skills": [ [ "weapon", 2 ], [ "launcher", 2 ] ]
     },

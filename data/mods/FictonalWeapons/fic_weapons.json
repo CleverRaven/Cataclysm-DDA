@@ -132,7 +132,7 @@
     "magazine_well": 1,
     "magazines" : [
       [ "44", [ "e1776mag", "deaglemag" ] ],
-      [ "22", [ "mp5mag", "mp5bigmag" ] ],
+      [ "9mm", [ "mp5mag", "mp5bigmag" ] ],
       [ "45", [ "ump45mag" ] ]
     ]
   },
