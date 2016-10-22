@@ -616,20 +616,20 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
     float bash_dam = 0.0f;
 
     const bool unarmed = weap.has_flag("UNARMED_WEAPON");
-    int bashing_skill = get_skill_level( skill_bashing );
-    int unarmed_skill = get_skill_level( skill_unarmed );
-
+    int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
     if( has_active_bionic("bio_cqb") ) {
-        bashing_skill = BIO_CQB_LEVEL;
-        unarmed_skill = BIO_CQB_LEVEL;
+        skill = BIO_CQB_LEVEL;
+    }
+
+    if( unarmed && !is_armed() ) {
+        // Pure unarmed doubles the bonuses from unarmed skill
+        skill *= 2;
     }
 
     const int stat = get_str();
     ///\EFFECT_STR increases bashing damage
     float stat_bonus = bonus_damage( !average );
     stat_bonus += mabuff_damage_bonus( DT_BASH );
-
-    const int skill = unarmed ? unarmed_skill : bashing_skill;
 
     // Drunken Master damage bonuses
     if( has_trait("DRUNKEN") && has_effect( effect_drunk) ) {
@@ -658,8 +658,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
 
     if( unarmed ) {
         ///\EFFECT_UNARMED increases bashing damage with unarmed weapons
-        ///\EFFECT_UNARMED increases bashing damage with pure unarmed (nothing equipped)
-        weap_dam += unarmed_skill * !is_armed() ? 2 : 1;
+        weap_dam += skill;
     }
 
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
@@ -669,7 +668,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
         bash_mul = 0.96 + 0.04 * skill;
     }
 
-    if( bash_cap < weap_dam ) {
+    if( bash_cap < weap_dam && is_armed() ) {
         // If damage goes over cap due to low stats/skills,
         // scale the post-armor damage down halfway between damage and cap
         bash_mul *= (1.0f + (bash_cap / weap_dam)) / 2.0f;
