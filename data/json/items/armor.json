@@ -5138,7 +5138,7 @@
     "id": "football_jersey",
     "type": "ARMOR",
     "name": "football jersey",
-    "description": "A shirt made of thick material imprinted with the name and logo of a sports team.",
+    "description": "A shirt made of thick material imprinted with the name and logo of a football team.",
     "weight": 480,
     "volume": 9,
     "price": 8900,
@@ -5158,6 +5158,34 @@
       {
         "id": "endsville",
         "text": "A football jersey made of thick material imprinted with the logo of the Endsville Fluffycats."
+      }
+    ],
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "soccer_jersey",
+    "type": "ARMOR",
+    "name": "soccer jersey",
+    "description": "A shirt made of thick material imprinted with the name and logo of a soccer team.",
+    "weight": 480,
+    "volume": 9,
+    "price": 8900,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "TORSO", "ARMS" ],
+    "coverage": 90,
+    "encumbrance": 7,
+    "warmth": 25,
+    "material_thickness": 3,
+    "snippet_category": [
+      {
+        "id": "manchesthair",
+        "text": "A soccer jersey made of thick material imprinted with the logo of the Man Chest Hair United."
+      },
+      {
+        "id": "arseelona",
+        "text": "A soccer jersey made of thick material imprinted with the logo of the Arse-elona."
       }
     ],
     "flags": [ "VARSIZE" ]
