@@ -2693,6 +2693,24 @@
     "flags": [ "SKINTIGHT" ]
   },
   {
+    "id": "soccer_socks",
+    "type": "ARMOR",
+    "name": "pair of soccer socks",
+    "name_plural": "pairs of soccer socks",
+    "description": "A pair of soccer socks covers up to knee.  Holds up the shin guards, absorbs sweat and makes you stay comfortable in the match.  Oops, there will never be a soccer match anymore, unlesss you want to play with zeds?",
+    "weight": 50,
+    "volume": 1,
+    "price": 800,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "white",
+    "covers": [ "FEET", "LEGS" ],
+    "coverage": 80,
+    "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
     "id": "fsurvivor_suit",
     "type": "ARMOR",
     "category": "armor",
