@@ -74,12 +74,29 @@ size_t blood_trail_len( int damage )
 dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg, const tripoint &source,
                                                      const tripoint &target_arg, double dispersion )
 {
+    // these parameters balance the hit/miss chance:
+    const double dispersion_sigmas = 2.4;      // how many standard deviations does "dispersion" represent?
+    const double occupied_tile_fraction = 0.5; // how much of the target tile is occupied by the target?
+
     const bool do_animation = get_option<bool>( "ANIMATIONS" );
 
     double range = rl_dist( source, target_arg );
 
-    // an isosceles triangle is formed by the intended and actual targets
-    double missed_by = iso_tangent( range, dispersion );
+    // dispersion is a measure of the dispersion of shots due to the gun + shooter characteristics
+    // i.e. it is independent of any particular shot
+
+    // shot_dispersion is the actual dispersion for this particular shot, i.e.
+    // the error angle between where the shot was aimed and where this one actually went
+    // NB: some cases pass dispersion == 0 for a "never misses" shot e.g. bio_magnet,
+    double shot_dispersion = ( dispersion > 0 ? normal_roll( 0.0, dispersion / dispersion_sigmas ) : 0 );
+
+    // number of tiles we missed by
+    // an isosceles triangle is formed by the intended and actual target tiles
+    double missed_by_tiles = iso_tangent( range, shot_dispersion );
+
+    // fraction we missed a monster target by (0.0 = perfect hit, 1.0 = miss)
+    // @todo maybe use monster size?
+    double missed_by = std::min( 1.0, missed_by_tiles / occupied_tile_fraction );
 
     // TODO: move to-hit roll back in here
 
@@ -118,17 +135,17 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
 
     tripoint target = target_arg;
     std::vector<tripoint> trajectory;
-    if( missed_by >= 1.0 ) {
+    if( missed_by_tiles >= 1.0 ) {
         // We missed enough to target a different tile
         double dx = target_arg.x - source.x;
         double dy = target_arg.y - source.y;
         double rad = atan2( dy, dx );
-        // Cap spread at 30 degrees or it gets wild quickly
-        double spread = std::min( ARCMIN( dispersion ), DEGREES( 30 ) );
-        rad += rng_float( -spread, spread );
+
+        // cap wild misses at +/- 30 degrees
+        rad += std::max( std::min( ARCMIN( shot_dispersion ), DEGREES( 30 ) ), DEGREES( -30 ) );
 
         // @todo This should also represent the miss on z axis
-        const int offset = std::min<int>( range, sqrtf( missed_by ) );
+        const int offset = std::min<int>( range, sqrtf( missed_by_tiles ) );
         int new_range = no_overshoot ?
                             range + rng( -offset, offset ) :
                             rng( range - offset, proj_arg.range );
@@ -146,8 +163,6 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         range = rl_dist( source, target );
         extend_to_range = range;
 
-        // Cap missed_by at 1.0
-        missed_by = 1.0;
         sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ), sfx::get_heard_angle( target ));
         // TODO: Z dispersion
         // If we missed, just draw a straight line.
@@ -157,9 +172,9 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         trajectory = g->m.find_clear_path( source, target );
     }
 
-    add_msg( m_debug, "%s proj_atk: shot_dispersion: %.2f", disp_name().c_str(), dispersion );
+    add_msg( m_debug, "%s proj_atk: dispersion: %.2f; shot_dispersion: %.2f", disp_name().c_str(), dispersion, shot_dispersion );
 
-    add_msg( m_debug, "missed_by: %.2f target (orig/hit): %d,%d,%d/%d,%d,%d", missed_by,
+    add_msg( m_debug, "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d", missed_by_tiles, missed_by,
              target_arg.x, target_arg.y, target_arg.z,
              target.x, target.y, target.z );
 
@@ -254,9 +269,11 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         // If there's a monster in the path of our bullet, and either our aim was true,
         //  OR it's not the monster we were aiming at and we were lucky enough to hit it
         double cur_missed_by = missed_by;
-        // If missed_by is 1.0, the end of the trajectory may not be the original target
-        // We missed it too much for the original target to matter, just reroll as unintended
-        if( missed_by >= 1.0 || tp != target_arg ) {
+
+        // unintentional hit on something other than our actual target
+        // don't re-roll for the actual target, we already decided on a missed_by value for that
+        // at the start, misses should stay as misses
+        if( critter != nullptr && tp != target_arg ) {
             // Unintentional hit
             cur_missed_by = std::max( rng_float( 0.2, 3.0 - missed_by ), 0.4 );
         }
@@ -512,7 +529,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             break;
         }
 
-        double dispersion = rng_normal( get_weapon_dispersion( gun ) ) + rng_normal( recoil_total() );
+        double dispersion = get_weapon_dispersion( gun ) + recoil_total();
         int range = rl_dist( pos(), aim );
 
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
