@@ -58,7 +58,7 @@ using mtype_id = string_id<mtype>;
 struct projectile;
 struct veh_collision;
 class tileray;
-class harvest_entry;
+struct harvest_entry;
 
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
