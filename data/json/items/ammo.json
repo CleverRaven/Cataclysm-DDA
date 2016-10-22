@@ -94,6 +94,7 @@
         "category" : "spare_parts",
         "price" : 0,
         "name" : "yarn",
+        "name_plural": "yarn",
         "symbol" : "=",
         "color" : "white",
         "description" : "Wool yarn, could be used to knit wool clothing.",
