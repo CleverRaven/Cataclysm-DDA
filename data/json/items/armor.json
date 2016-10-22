@@ -5112,14 +5112,6 @@
         "text": "A 43-man squamish jersey made of thick material imprinted with the logo of the Gainesville Veeblefetzers."
       },
       {
-        "id": "london",
-        "text": "A zero-G football jersey made of thick material imprinted with the logo of the London Jets."
-      },
-      {
-        "id": "endsville",
-        "text": "A football jersey made of thick material imprinted with the logo of the Endsville Fluffycats."
-      },
-      {
         "id": "tokyo",
         "text": "A baseball jersey made of thick material imprinted with the logo of the Tokyo Samurai."
       },
@@ -5138,6 +5130,34 @@
       {
         "id": "monroeville",
         "text": "A hockey jersey made of thick material imprinted with the logo of the Monroeville Zombies."
+      }
+    ],
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "football_jersey",
+    "type": "ARMOR",
+    "name": "football jersey",
+    "description": "A shirt made of thick material imprinted with the name and logo of a sports team.",
+    "weight": 480,
+    "volume": 9,
+    "price": 8900,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "TORSO", "ARMS" ],
+    "coverage": 90,
+    "encumbrance": 7,
+    "warmth": 25,
+    "material_thickness": 3,
+    "snippet_category": [
+      {
+        "id": "london",
+        "text": "A zero-G football jersey made of thick material imprinted with the logo of the London Jets."
+      },
+      {
+        "id": "endsville",
+        "text": "A football jersey made of thick material imprinted with the logo of the Endsville Fluffycats."
       }
     ],
     "flags": [ "VARSIZE" ]
