@@ -15,7 +15,7 @@
       { "item": "pipe", "count": [ 8, 32 ] },
       { "item": "scrap", "count": [ 8, 24 ] }
     ],
-    "qualities": [ [ "LIFT", 4 ], [ "JACK", 12 ] ],
+    "qualities": [ [ "LIFT", 4 ], [ "JACK", 14 ] ],
     "flags": [ "TOOL_WRENCH", "PROTRUSION", "OBSTACLE", "UNMOUNT_ON_DAMAGE" ]
   },
   {
@@ -35,7 +35,7 @@
       { "item": "pipe", "count": [ 2, 8 ] },
       { "item": "scrap", "count": [ 2, 6 ] }
     ],
-    "qualities": [ [ "LIFT", 1 ], [ "JACK", 3 ] ],
+    "qualities": [ [ "LIFT", 1 ], [ "JACK", 5 ] ],
     "flags": [ "TOOL_WRENCH", "PROTRUSION", "OBSTACLE", "FOLDABLE" ]
   }
 ]
