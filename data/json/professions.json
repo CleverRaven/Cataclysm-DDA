@@ -2833,6 +2833,36 @@
     },
     {
         "type": "profession",
+        "ident": "soccerplayer",
+        "name": "Soccer Player",
+        "description": "You were an outstanding striker in your soccer team.  However, in the zombie apocalypse, your soccer skill seems useless...  But really?",
+        "points": 0,
+        "skills": [
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "soccer",
+                "soccer_jersey",
+                "soccer_shorts",
+                "shinguards",
+                "soccer_socks",
+                "cleats"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "golfer",
         "name": "Golfer",
         "description": "A birdie is one under par, but how much is a zombie?  Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
