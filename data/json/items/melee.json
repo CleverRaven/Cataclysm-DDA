@@ -259,6 +259,20 @@
     },
     {
         "type":"GENERIC",
+        "id": "soccer",
+        "symbol": "*",
+        "color": "brown",
+        "name": "soccer",
+        "description": "A white size 5 soccer.  You could indistinctly see a printed logo of a league or liga or something whatever, but now they all become history.",
+        "price": 1500,
+        "material": "leather",
+        "weight": 420,
+        "volume": 5,
+        "bashing": 5,
+        "to_hit": -1
+    },
+    {
+        "type":"GENERIC",
         "id": "basketball",
         "symbol": "*",
         "color": "brown",
