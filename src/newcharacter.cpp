@@ -883,7 +883,7 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
             if (u->dex_max >= HIGH_STAT) {
                 mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Dex further costs 2 points."));
             }
-            mvwprintz(w_description, 0, 0, COL_STAT_BONUS, _("Melee to-hit bonus: +%f"),
+            mvwprintz(w_description, 0, 0, COL_STAT_BONUS, _("Melee to-hit bonus: +%.2f"),
                       u->get_hit_base());
             if (u->throw_dex_mod(false) <= 0) {
                 mvwprintz(w_description, 1, 0, COL_STAT_BONUS, _("Throwing bonus: +%d"),
