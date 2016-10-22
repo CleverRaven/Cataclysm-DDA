@@ -246,7 +246,7 @@ static void melee_train( player &p, int lo, int hi ) {
     // Pure unarmed needs a special case because it has 0 weapon damage
     int cut  = p.weapon.damage_melee( DT_CUT );
     int stab = p.weapon.damage_melee( DT_STAB );
-    int bash = p.weapon.damage_melee( DT_BASH ) + !p.is_armed() ? 1 : 0;
+    int bash = p.weapon.damage_melee( DT_BASH ) + ( !p.is_armed() ? 1 : 0 );
 
     float total = std::max( cut + stab + bash, 1 );
     p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ), hi );
