@@ -39,7 +39,7 @@
     "use_action": {
         "type": "bandolier",
         "capacity": 16,
-        "ammo": [ "22", "223", "3006", "308", "762", "762R", "8x40mm"  ]
+        "ammo": [ "22", "223", "5x50", "545x39", "3006", "308", "300", "762", "762R", "8x40mm"  ]
     },
     "flags": [ "WATER_FRIENDLY", "VARSIZE", "WAIST", "OVERSIZE" ]
   },
@@ -105,7 +105,7 @@
     "use_action": {
         "type": "bandolier",
         "capacity": 4,
-        "ammo": [ "22", "223", "3006", "308", "762", "762R", "8x40mm" ]
+        "ammo": [ "22", "223", "5x50", "545x39", "3006", "308", "300", "762", "762R", "8x40mm" ]
     },
     "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
   },
