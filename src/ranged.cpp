@@ -71,13 +71,13 @@ size_t blood_trail_len( int damage )
     return 0;
 }
 
+// these parameters balance the hit/miss chance:
+const double dispersion_sigmas = 2.4;      // how many standard deviations does "dispersion" represent?
+const double occupied_tile_fraction = 0.5; // how much of the target tile is occupied by the target?
+
 dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg, const tripoint &source,
                                                      const tripoint &target_arg, double dispersion )
 {
-    // these parameters balance the hit/miss chance:
-    const double dispersion_sigmas = 2.4;      // how many standard deviations does "dispersion" represent?
-    const double occupied_tile_fraction = 0.5; // how much of the target tile is occupied by the target?
-
     const bool do_animation = get_option<bool>( "ANIMATIONS" );
 
     double range = rl_dist( source, target_arg );
@@ -946,6 +946,24 @@ static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
     return cur_target;
 }
 
+static double approx_hit_chance( double dispersion, double range, double missed_by ) {
+    // This is essentially the inverse of what Creature::deal_projectile_attack() does.
+
+    double missed_by_tiles = missed_by * occupied_tile_fraction;
+
+    //          T = (D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
+    //      cos V = 1 - T**2 / (2*D**2)
+    // 1 - V**2/2 = 1 - T**2 / (2*D**2)           (small angle approximation)
+    //          V = T / D
+    double shot_dispersion = ( range < 0.1 ? M_PI : missed_by_tiles / range ) * 180 * 60 / M_PI;
+    double sigma = dispersion / dispersion_sigmas;
+
+    // erf(x / (sigma * sqrt(2))) is the probability that a measurement
+    // of a normally distributed variable with standard deviation sigma
+    // lies in the range [-x..x]
+    return std::erf( shot_dispersion / ( sigma * 1.4142 ) );
+}
+
 static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *weapon,
                            Creature *target, double predicted_recoil ) {
     // This is absolute accuracy for the player.
@@ -953,13 +971,13 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
     // Creature::projectile_attack() into shared methods.
     // Dodge is intentionally not accounted for.
 
-    // Confidence is chance of the actual shot being under the target threshold,
-    // This simplifies the calculation greatly, that's intentional.
-    const double aim_level = p.get_weapon_dispersion( *weapon ) + predicted_recoil + p.recoil_vehicle();
+    const double dispersion = p.get_weapon_dispersion( *weapon ) + predicted_recoil + p.recoil_vehicle();
     const double range = rl_dist( p.pos(), target->pos() );
-    const double missed_by = aim_level * 0.00021666666666666666 * range;
-    const double hit_rating = missed_by;
-    const double confidence = 1 / hit_rating;
+
+    const double p_headshot = approx_hit_chance( dispersion, range, accuracy_headshot );
+    const double p_goodhit = approx_hit_chance( dispersion, range, accuracy_goodhit );
+    const double p_grazing = approx_hit_chance( dispersion, range, accuracy_grazing );
+
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
     const double steady_score = predicted_recoil - p.effective_dispersion( p.weapon.sight_dispersion() );
@@ -967,12 +985,12 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
     const double steadiness = 1.0 - steady_score / MIN_RECOIL;
 
     const std::array<std::pair<double, char>, 3> confidence_ratings = {{
-        std::make_pair( accuracy_headshot, '*' ),
-        std::make_pair( accuracy_goodhit, '+' ),
-        std::make_pair( accuracy_grazing, '|' ) }};
+        std::make_pair( p_headshot, '*' ),
+        std::make_pair( p_goodhit, '+' ),
+        std::make_pair( p_grazing, '|' ) }};
 
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
-    const std::string &confidence_bar = get_labeled_bar( confidence, window_width, _( "Confidence" ),
+    const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, _( "Confidence" ),
                                                          confidence_ratings.begin(),
                                                          confidence_ratings.end() );
     const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
