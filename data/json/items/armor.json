@@ -2673,6 +2673,26 @@
     "flags": [ "BELTED" ]
   },
   {
+    "id": "shinguards",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "pair of soccer shin guards",
+    "name_plural": "pairs of soccer shin guards",
+    "description": "A pair of shin guards protecting soccer players from injury during a match in the past.  Modern technology and design makes it seem as if you're not even wearing shin guards, and fit a variety of leg shapes as well.",
+    "weight": 40,
+    "volume": 4,
+    "price": 2200,
+    "material": [ "plastic", "neoprene", "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "LEGS" ],
+    "coverage": 45,
+    "encumbrance": 1,
+    "warmth": 10,
+    "material_thickness": 5,
+    "flags": [ "SKINTIGHT" ]
+  },
+  {
     "id": "fsurvivor_suit",
     "type": "ARMOR",
     "category": "armor",
