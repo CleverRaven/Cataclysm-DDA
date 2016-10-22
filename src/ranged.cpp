@@ -44,6 +44,7 @@ static void cycle_action( item& weap, const tripoint &pos );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
+static double approx_hit_chance( double dispersion, double range, double missed_by );
 
 struct aim_type {
     std::string name;
@@ -364,23 +365,32 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
         return 0;
     }
 
+    int max_range = gun.gun_range( this );
+
     if( chance == 0 ) {
-        return gun.gun_range( this );
+        return max_range;
     }
 
-    // calculate maximum potential dispersion
+    // calculate base dispersion
     double dispersion = get_weapon_dispersion( gun ) + ( penalty < 0 ? recoil_total() : penalty );
 
-    // dispersion is uniformly distributed at random so scale linearly with chance
-    dispersion *= chance / 100.0;
+    // no standard inverse erf function, so we just iterate
+    int range = 0;
+    while ( range < max_range && approx_hit_chance( dispersion, range + 1, accuracy ) > chance / 100.0 ) {
+        ++range;
+    }
 
-    // cap at min 1MOA as at zero dispersion would result in an infinite effective range
-    dispersion = std::max( dispersion, 1.0 );
+    if( range < max_range ) {
+        // interpolate
+        double p0 = approx_hit_chance( dispersion, range, accuracy );
+        if( p0 > chance / 100.0 ) {
+            double p1 = approx_hit_chance( dispersion, range + 1, accuracy );
+            double fraction = ( p0 - chance / 100.0 ) / ( p0 - p1 );
+            return range + fraction;
+        }
+    }
 
-    double res = accuracy / sin( ARCMIN( dispersion / 2 ) ) / 2;
-
-    // effective range could be limited by othe factors (eg. STR_DRAW etc)
-    return std::min( res, double( gun.gun_range( this ) ) );
+    return range;
 }
 
 double player::gun_engagement_range( const item &gun, engagement opt ) const
