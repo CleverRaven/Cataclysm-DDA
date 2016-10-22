@@ -5181,11 +5181,41 @@
     "snippet_category": [
       {
         "id": "manchesthair",
-        "text": "A soccer jersey made of thick material imprinted with the logo of the Man Chest Hair United."
+        "text": "A soccer jersey made of thick material imprinted with the logo of the Man Chest Hair United, and number No.7."
       },
       {
         "id": "arseelona",
-        "text": "A soccer jersey made of thick material imprinted with the logo of the Arse-elona."
+        "text": "A soccer jersey made of thick material imprinted with the logo of the Arse-elona, and number No.33."
+      }
+    ],
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "soccer_shorts",
+    "type": "ARMOR",
+    "name": "soccer shorts",
+    "name_plural": "soccer shorts",
+    "description": "A pair of loose-fitting soccer shorts, with a logo of a soccer team and a nubmer.",
+    "weight": 200,
+    "volume": 4,
+    "price": 1500,
+    "to_hit": 1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "cyan",
+    "covers": [ "LEGS" ],
+    "coverage": 45,
+    "storage": 4,
+    "warmth": 5,
+    "material_thickness": 1,
+    "snippet_category": [
+      {
+        "id": "manchesthair",
+        "text": "A loose-fitting soccer shorts imprinted with the logo of the Man Chest Hair United and number No.7 on each side."
+      },
+      {
+        "id": "arseelona",
+        "text": "A soccer jersey made of thick material imprinted with the logo of the Arse-elona and number No.33 on each side."
       }
     ],
     "flags": [ "VARSIZE" ]
