@@ -240,20 +240,21 @@ void player::roll_all_damage( bool crit, damage_instance &di, bool average, cons
 }
 
 static void melee_train( player &p, int lo, int hi ) {
-    p.practice( skill_melee, ceil( rng( lo, hi ) / 2.0 ) );
+    p.practice( skill_melee, ceil( rng( lo, hi ) / 2.0 ), hi );
 
     // allocate XP proportional to damage stats
     int cut  = p.weapon.damage_melee( DT_CUT );
     int stab = p.weapon.damage_melee( DT_STAB );
     int bash = p.weapon.damage_melee( DT_BASH );
 
-    double total = std::max( cut + stab + bash, 1 );
-    p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ) );
-    p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ) );
+    float total = std::max( cut + stab + bash, 1 );
+    p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ), hi );
+    p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
 
-    // unarmed weapons deal bashing damage but train unarmed skill
+    // Unarmed skill scaled bashing damage and so scales with bashing damage
+    // We need that +epsilon, because pure unarmed has 0 total weapon damage
     p.practice( p.unarmed_attack() ? skill_unarmed : skill_bashing,
-                ceil( bash / total * rng( lo, hi ) ) );
+                ceil( 0.001f + bash / total * rng( lo, hi ) ), hi );
 }
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
