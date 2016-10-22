@@ -2863,6 +2863,37 @@
     },
     {
         "type": "profession",
+        "ident": "soccergk",
+        "name": "Soccer Goalkeeper",
+        "description": "You were famed in local area for a number of amazing free kick saves.  Sadly, nobody will ever attempt to shoot your goal anymore.",
+        "points": 0,
+        "skills": [
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "soccer",
+                "soccer_jersey",
+                "soccer_shorts",
+                "shinguards",
+                "soccer_socks",
+                "cleats",
+                "goalkeeper_gloves"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "golfer",
         "name": "Golfer",
         "description": "A birdie is one under par, but how much is a zombie?  Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
