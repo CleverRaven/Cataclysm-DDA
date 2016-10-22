@@ -1227,6 +1227,27 @@
     "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ]
   },
   {
+    "id": "goalkeeper_gloves",
+    "type": "ARMOR",
+    "name": "pair of goalkeeper gloves",
+    "name_plural": "pairs of goalkeeper gloves",
+    "description": "A pair of professional green goalkeeper gloves.  Helped the user hit a ball flying directly at a hundred mile per hour without injury before.  Needless to say how much protection it offers.",
+    "weight": 150,
+    "volume": 4,
+    "price": 4900,
+    "to_hit": 1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "green",
+    "covers": [ "HANDS" ],
+    "coverage": 100,
+    "encumbrance": 25,
+    "warmth": 20,
+    "material_thickness": 4,
+    "environmental_protection": 6,
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ]
+  },
+  {
     "id": "boy_shorts",
     "type": "ARMOR",
     "name": "boy shorts",
@@ -3141,7 +3162,7 @@
     "coverage": 100,
     "encumbrance": 30,
     "warmth": 15,
-    "material_thickness": 4,
+    "material_thickness": 5,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
