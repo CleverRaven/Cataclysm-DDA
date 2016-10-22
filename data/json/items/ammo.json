@@ -288,6 +288,7 @@
         "dispersion" : 15,
         "count" : 500,
         "stack_size": 250,
+        "loudness": 10,
         "effects" : ["NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
