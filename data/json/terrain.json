@@ -2887,10 +2887,11 @@
         "color": [ "light_green", "light_green", "red_green", "brown" ], "//": "barren in winter, fruits in autum",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "harvest_season": "AUTUMN",
-        "harvestable": "apple",
-        "examine_action": "harvest_tree_shrub",
         "transforms_into": "t_tree_apple_harvested",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "autumn" ], "harvest": { "drop": "apple", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -2909,9 +2910,7 @@
         "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
-        "harvest_season": "AUTUMN",
-        "harvestable": "apple",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "transforms_into": "t_tree_apple",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -2931,10 +2930,11 @@
         "color": [ "light_green", "light_green", "ltgreen_green", "brown" ], "//": "barren in winter, fruits in autum",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "harvest_season": "AUTUMN",
-        "harvestable": "pear",
-        "examine_action": "harvest_tree_shrub",
         "transforms_into": "t_tree_pear_harvested",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "autumn" ], "harvest": { "drop": "pear", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -2953,9 +2953,7 @@
         "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
-        "harvest_season": "AUTUMN",
-        "harvestable": "pear",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "transforms_into": "t_tree_pear",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -2975,10 +2973,11 @@
         "color": [ "light_green", "red_green", "light_green", "brown" ], "//": "barren in winter, fruits in summer",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "harvest_season": "SUMMER",
-        "harvestable": "cherries",
-        "examine_action": "harvest_tree_shrub",
         "transforms_into": "t_tree_cherry_harvested",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "summer" ], "harvest": { "drop": "cherries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -2997,9 +2996,7 @@
         "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
-        "harvest_season": "SUMMER",
-        "harvestable": "cherries",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "transforms_into": "t_tree_cherry",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3019,10 +3016,11 @@
         "color": [ "light_green", "ltred_green", "light_green", "brown" ], "//": "barren in winter, fruits in summer",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "harvest_season": "SUMMER",
-        "harvestable": "peach",
-        "examine_action": "harvest_tree_shrub",
         "transforms_into": "t_tree_peach_harvested",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "summer" ], "harvest": { "drop": "peach", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -3041,9 +3039,7 @@
         "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
-        "harvest_season": "SUMMER",
-        "harvestable": "peach",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "transforms_into": "t_tree_peach",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3063,10 +3059,11 @@
         "color": [ "light_green", "ltred_green", "light_green", "brown" ], "//": "barren in winter, fruits in summer",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "harvest_season": "SUMMER",
-        "harvestable": "apricot",
         "transforms_into": "t_tree_apricot_harvested",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "autumn" ], "harvest": { "drop": "apricot", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -3085,9 +3082,7 @@
         "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
-        "harvest_season": "SUMMER",
-        "harvestable": "apricot",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "transforms_into": "t_tree_apricot",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3107,10 +3102,11 @@
         "color": [ "light_green", "magenta_green", "light_green", "brown" ], "//": "barren in winter, fruits in summer",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "harvest_season": "SUMMER",
-        "harvestable": "plums",
-        "examine_action": "harvest_tree_shrub",
         "transforms_into": "t_tree_plum_harvested",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "autumn" ], "harvest": { "drop": "plums", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -3129,9 +3125,7 @@
         "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
-        "harvest_season": "SUMMER",
-        "harvestable": "plums",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "transforms_into": "t_tree_plum",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3151,7 +3145,12 @@
         "color": "green",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_pine",
+        "transforms_into": "t_tree_deadpine",
+        "examine_action": "harvest_ter",
+        "harvest_by_season" : [
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "harvest": { "drop": "pine_bough", "base_num": [ 2, 8 ] } },
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "harvest": { "drop": "pinecone", "base_num": [ 1, 4 ] } }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -3469,10 +3468,12 @@
         "color": "ltblue_green",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT"],
-        "harvest_season": "SUMMER",
-        "harvestable": "blueberries",
-        "transforms_into": "t_shrub_blueberry_harvested",
-        "examine_action": "harvest_tree_shrub",
+        "transforms_into": "t_shrub_blueberry",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "summer" ], "harvest": { "drop": "blueberries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } },
+            { "seasons": [ "summer" ], "harvest": { "drop": "seed_blueberries", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] } }
+        ],
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
@@ -3487,14 +3488,8 @@
         "color": "blue_green",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED"],
-        "harvest_season": "SUMMER",
-        "harvestable": "blueberries",
         "transforms_into": "t_shrub_blueberry",
-        "examine_action": "harvest_tree_shrub",
-        "harvest_by_season" : [
-            { "seasons": [ "summer" ], "harvest": { "drop": "blueberries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } },
-            { "seasons": [ "summer" ], "harvest": { "drop": "seed_blueberries", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] } }
-        ],
+        "examine_action": "harvested_plant",
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
@@ -3509,10 +3504,12 @@
         "color": "ltred_green",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT"],
-        "harvest_season": "SUMMER",
-        "harvestable": "strawberries",
         "transforms_into": "t_shrub_strawberry_harvested",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "summer" ], "harvest": { "drop": "strawberries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } },
+            { "seasons": [ "summer" ], "harvest": { "drop": "seed_strawberries", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] } }
+        ],
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
@@ -3527,10 +3524,8 @@
         "color": "red_green",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED"],
-        "harvest_season": "SUMMER",
-        "harvestable": "strawberries",
         "transforms_into": "t_shrub_strawberry",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
@@ -6053,7 +6048,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "harvest_no_transform",
+        "examine_action": "harvest_ter",
         "transforms_into": "t_tree",
         "harvest_by_season" : [
             { "seasons": [ "spring", "summer", "autumn", "winter" ], "harvest": { "drop": "tanbark", "base_num": [ 1, 2 ] } }

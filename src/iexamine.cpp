@@ -51,23 +51,6 @@ const efftype_id effect_teleglow( "teleglow" );
 static void pick_plant( player &p, const tripoint &examp, std::string itemType, ter_id new_ter,
                         bool seeds = false );
 
-/**
- * Spawns all the harvestable items under player's feet.
- */
-static void spawn_harvest( const player &p, const tripoint &examp )
-{
-    int lev = p.get_skill_level( skill_survival );
-    for( const auto &entry : g->m.get_harvest( examp ) ) {
-        float min_num = entry.base_number_min + lev * entry.scale_number_min;
-        float max_num = entry.base_number_max + lev * entry.scale_number_max;
-        int roll = (int)rng_float( min_num, max_num );
-        for( int i = 0; i < roll; i++ ) {
-            const item &it = g->m.add_item( p.pos(), item( entry.drop ) );
-            p.add_msg_if_player( _( "You harvest: %s" ), it.tname().c_str() );
-        }
-    }
-}
-
 void iexamine::none(player &p, const tripoint &examp)
 {
     (void)p; //unused
@@ -1438,51 +1421,78 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
     // But those were useless, don't re-add until they get useful
 }
 
-static void harvest_common( player &p, const tripoint &examp, bool nectar )
+static bool harvest_common( player &p, const tripoint &examp, bool furn, bool nectar )
 {
     const auto harvest = g->m.get_harvest( examp );
     if( harvest.empty() ) {
         p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
         iexamine::none( p, examp );
-        return;
+        return false;
     }
 
     // If nothing can be harvested, neither can nectar
     // Incredibly low priority @todo Allow separating nectar seasons
     if( nectar && drink_nectar( p ) ) {
-        return;
+        return false;
     }
 
-    if( p.is_player() && !query_yn(_("Pick %s?"), g->m.furnname( examp ).c_str() ) ) {
+    if( p.is_player() && !query_yn(_("Pick %s?"), furn ? g->m.furnname( examp ).c_str() : g->m.tername( examp ).c_str() ) ) {
         iexamine::none( p, examp );
-        return;
+        return false;
     }
 
-    spawn_harvest( p, examp );
+    int lev = p.get_skill_level( skill_survival );
+    bool got_anything = false;
+    for( const auto &entry : harvest ) {
+        float min_num = entry.base_number_min + lev * entry.scale_number_min;
+        float max_num = entry.base_number_max + lev * entry.scale_number_max;
+        int roll = round( rng_float( min_num, max_num ) );
+        for( int i = 0; i < roll; i++ ) {
+            const item &it = g->m.add_item( p.pos(), item( entry.drop ) );
+            p.add_msg_if_player( _( "You harvest: %s" ), it.tname().c_str() );
+            got_anything = true;
+        }
+    }
+
+    if( !got_anything ) {
+        p.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
+    }
+
+    return true;
 }
 
 void iexamine::harvest_furn_nectar( player &p, const tripoint &examp )
 {
-    harvest_common( p, examp, true );
-    g->m.furn_set( examp, f_null );
+    if( harvest_common( p, examp, true, true ) ) {
+        g->m.furn_set( examp, f_null );
+    }
 }
 
-void iexamine::harvest_furn(player &p, const tripoint &examp)
+void iexamine::harvest_furn( player &p, const tripoint &examp )
 {
-    harvest_common( p, examp, false );
-    g->m.furn_set( examp, f_null );
+    if( harvest_common( p, examp, true, false ) ) {
+        g->m.furn_set( examp, f_null );
+    }
 }
 
 void iexamine::harvest_ter_nectar( player &p, const tripoint &examp )
 {
-    harvest_common( p, examp, true );
-    g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
+    if( harvest_common( p, examp, false, true ) ) {
+        g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
+    }
 }
 
 void iexamine::harvest_ter( player &p, const tripoint &examp )
 {
-    harvest_common( p, examp, false );
-    g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
+    if( harvest_common( p, examp, false, false ) ) {
+        g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
+    }
+}
+
+void iexamine::harvested_plant( player &p, const tripoint &examp )
+{
+    p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
+    iexamine::none( p, examp );
 }
 
 void iexamine::flower_marloss(player &p, const tripoint &examp)
@@ -2306,43 +2316,9 @@ void pick_plant(player &p, const tripoint &examp,
     g->m.ter_set(examp, new_ter);
 }
 
-void iexamine::harvest_tree_shrub(player &p, const tripoint &examp)
-{
-    const auto &cur_harvest = g->m.get_harvest( examp );
-    if( cur_harvest.empty() ) {
-        // @todo Inform when and what will be produced
-        p.add_msg_if_player( m_info, _("Nothing to be harvested from this %s. Try again later."), g->m.tername( examp ).c_str() );
-        return;
-    }
-
-    if( drink_nectar( player p ) ) {
-        return;
-    }
-
-    if( p.is_player() && !query_yn( _( "Harvest the %s?" ), g->m.tername( examp ).c_str() ) ) {
-        iexamine::none( p, examp );
-        return;
-    }
-
-    spawn_harvest( p, examp );
-    g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
-}
-
-void iexamine::tree_pine(player &p, const tripoint &examp)
-{
-    if( p.is_player() && !query_yn( _("Pick %s?"), g->m.tername( examp ).c_str() ) ) {
-        none( p, examp );
-        return;
-    }
-
-    g->m.spawn_item( p.pos(), "pine_bough", rng( 2, 8 ) );
-    g->m.spawn_item( p.pos(), "pinecone", rng( 1, 4 ) );
-    g->m.ter_set( examp, t_tree_deadpine );
-}
-
 void iexamine::tree_hickory(player &p, const tripoint &examp)
 {
-    harvest_tree_shrub( p, examp );
+    harvest_common( p, examp, false, false );
     if( !p.has_quality( quality_id( "DIG" ) ) ) {
         p.add_msg_if_player(m_info, _("You have no tool to dig with..."));
         return;
@@ -3445,7 +3421,7 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "harvest_furn", &iexamine::harvest_furn },
         { "harvest_ter_nectar", &iexamine::harvest_ter_nectar },
         { "harvest_ter", &iexamine::harvest_ter },
-        { "tree_pine", &iexamine::tree_pine },
+        { "harvested_plant", &iexamine::harvested_plant },
         { "shrub_marloss", &iexamine::shrub_marloss },
         { "tree_marloss", &iexamine::tree_marloss },
         { "tree_hickory", &iexamine::tree_hickory },

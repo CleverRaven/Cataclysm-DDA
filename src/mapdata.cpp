@@ -330,6 +330,11 @@ const std::list<harvest_entry> &map_data_common_t::get_harvest() const
     return harvest_by_season[calendar::turn.get_season()];
 }
 
+const std::set<std::string> &map_data_common_t::get_harvest_names() const
+{
+    return harvest_names_by_season[calendar::turn.get_season()];
+}
+
 void load_furniture(JsonObject &jsobj)
 {
     if( furniture_data.empty() ) {
@@ -887,6 +892,7 @@ size_t ter_t::count()
 
 void harvest_entry::load( JsonObject &jo )
 {
+    // @todo Clean this up, more "modern" assignment
     drop = jo.get_string( "drop" );
     if( jo.has_array( "base_num" ) ) {
         JsonArray base = jo.get_array( "base_num" );
@@ -901,6 +907,9 @@ void harvest_entry::load( JsonObject &jo )
         JsonArray scaled = jo.get_array( "base_num" );
         scale_number_min = scaled.get_float( 0 );
         scale_number_max = scaled.get_float( 1 );
+    } else {
+        scale_number_min = 0;
+        scale_number_max = 0;
     }
 }
 
@@ -1077,7 +1086,7 @@ void map_data_common_t::check() const
             entry.check( name );
         }
 
-        if( harvest.empty() && examine == iexamine::none ) {
+        if( !harvest.empty() && examine == iexamine::none ) {
             debugmsg( "Harvest data defined without examine function for %s", name.c_str() );
         }
     }
