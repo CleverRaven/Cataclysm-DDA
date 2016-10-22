@@ -1384,6 +1384,11 @@ void npc::aim()
 
 bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 {
+    if( p == tripoint_min ) {
+        add_msg( m_debug, "Pathing to tripoint_min" );
+        return false;
+    }
+
     if( p == pos() ) {
         path.clear();
         return true;
@@ -1722,6 +1727,28 @@ void npc::move_pause()
     }
 }
 
+static tripoint nearest_passable( const tripoint &p, const tripoint &closest_to )
+{
+    if( g->m.passable( p ) ) {
+        return p;
+    }
+
+    // We need to path to adjacent tile, not the exact one
+    // Let's pick the closest one to us that is passable
+    auto candidates = closest_tripoints_first( 1, p );
+    std::sort( candidates.begin(), candidates.end(), [ closest_to ]( const tripoint &l, const tripoint &r ) {
+        return rl_dist( closest_to, l ) < rl_dist( closest_to, r );
+    } );
+    auto iter = std::find_if( candidates.begin(), candidates.end(), []( const tripoint &pt ) {
+        return g->m.passable( pt );
+    } );
+    if( iter != candidates.end() ) {
+        return *iter;
+    }
+
+    return tripoint_min;
+}
+
 void npc::find_item()
 {
     if( is_following() && !rules.allow_pick_up ) {
@@ -1786,6 +1813,7 @@ void npc::find_item()
         for( const auto &entry : harvest ) {
             if( item_name_whitelisted( entry ) ) {
                 wanted_name = entry;
+                wanted_item_pos = p;
                 break;
             }
         }
@@ -1837,7 +1865,9 @@ void npc::find_item()
     // TODO: Move that check above, make it multi-target pathing and use it
     // to limit tiles available for choice of items
     const int dist_to_item = rl_dist( wanted_item_pos, pos() );
-    update_path( wanted_item_pos );
+    const tripoint dest = nearest_passable( wanted_item_pos, pos() );
+    update_path( dest );
+
     if( path.empty() && dist_to_item > 1 ) {
         // Item not reachable, let's just totally give up for now
         fetching_item = false;
@@ -1857,10 +1887,6 @@ void npc::pick_up_item()
         return;
     }
 
-    add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name.c_str(),
-             posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
-    update_path( wanted_item_pos );
-
     int veh_part = -1;
     vehicle *veh = g->m.veh_at( wanted_item_pos, veh_part );
     if( veh != nullptr ) {
@@ -1877,18 +1903,26 @@ void npc::pick_up_item()
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;
-        // Just to prevent debugmsgs
-        moves -= 1;
+        move_pause();
+        add_msg( m_debug, "Canceling pickup - no items or new zone" );
         return;
     }
 
-    if( path.size() > 1 ) {
+
+    add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name.c_str(),
+             posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
+    const tripoint dest = nearest_passable( wanted_item_pos, pos() );
+    update_path( dest );
+
+    const int dist_to_pickup = rl_dist( pos(), wanted_item_pos );
+    if( dist_to_pickup > 1 && !path.empty() ) {
         add_msg( m_debug, "Moving; [%d, %d, %d] => [%d, %d, %d]",
                  posx(), posy(), posz(), path[0].x, path[0].y, path[0].z );
 
         move_to_next();
         return;
-    } else if( path.empty() && pos() != wanted_item_pos ) {
+    } else if( dist_to_pickup > 1 && path.empty() ) {
+        add_msg( m_debug, "Can't find path" );
         // This can happen, always do something
         fetching_item = false;
         move_pause();
