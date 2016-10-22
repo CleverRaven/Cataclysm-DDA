@@ -246,7 +246,7 @@ static void melee_train( player &p, int lo, int hi ) {
     // Pure unarmed needs a special case because it has 0 weapon damage
     int cut  = p.weapon.damage_melee( DT_CUT );
     int stab = p.weapon.damage_melee( DT_STAB );
-    int bash = p.weapon.damage_melee( DT_BASH ) + !is_armed() ? 1 : 0;
+    int bash = p.weapon.damage_melee( DT_BASH ) + !p.is_armed() ? 1 : 0;
 
     float total = std::max( cut + stab + bash, 1 );
     p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ), hi );
@@ -658,7 +658,8 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
 
     if( unarmed ) {
         ///\EFFECT_UNARMED increases bashing damage with unarmed weapons
-        weap_dam += unarmed_skill;
+        ///\EFFECT_UNARMED increases bashing damage with pure unarmed (nothing equipped)
+        weap_dam += unarmed_skill * !is_armed() ? 2 : 1;
     }
 
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
@@ -709,7 +710,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
         // TODO: 1-handed weapons that aren't unarmed attacks
         const bool left_empty = !natural_attack_restricted_on(bp_hand_l);
         const bool right_empty = !natural_attack_restricted_on(bp_hand_r) &&
-            weap.is_null();
+            !is_armed();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
@@ -781,7 +782,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
     if( weap.has_flag("UNARMED_WEAPON") ) {
         const bool left_empty = !natural_attack_restricted_on(bp_hand_l);
         const bool right_empty = !natural_attack_restricted_on(bp_hand_r) &&
-            weap.is_null();
+            !is_armed();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             if( has_trait("CLAWS") || has_active_mutation("CLAWS_RETRACT") ) {
