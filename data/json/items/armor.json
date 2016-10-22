@@ -5166,7 +5166,7 @@
     "id": "soccer_jersey",
     "type": "ARMOR",
     "name": "soccer jersey",
-    "description": "A shirt made of thick material imprinted with the name and logo of a soccer team.",
+    "description": "A shirt made of thick material imprinted with the name and logo of a soccer team, as well as a huge number on the back.",
     "weight": 480,
     "volume": 9,
     "price": 8900,
@@ -5181,11 +5181,11 @@
     "snippet_category": [
       {
         "id": "manchesthair",
-        "text": "A soccer jersey made of thick material imprinted with the logo of the Man Chest Hair United, and number No.7."
+        "text": "A soccer jersey made of thick material imprinted with the logo of the Man Chest Hair United, and number No.7 on the back."
       },
       {
         "id": "arseelona",
-        "text": "A soccer jersey made of thick material imprinted with the logo of the Arse-elona, and number No.33."
+        "text": "A soccer jersey made of thick material imprinted with the logo of the Arse-elona, and number No.33 on the back."
       }
     ],
     "flags": [ "VARSIZE" ]
