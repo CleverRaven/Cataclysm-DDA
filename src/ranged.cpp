@@ -957,7 +957,7 @@ static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
 }
 
 static double approx_hit_chance( double dispersion, double range, double missed_by ) {
-    // This is essentially the inverse of what Creature::deal_projectile_attack() does.
+    // This is essentially the inverse of what Creature::projectile_attack() does.
 
     double missed_by_tiles = missed_by * occupied_tile_fraction;
 
