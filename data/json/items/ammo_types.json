@@ -442,5 +442,11 @@
         "id" : "chemical_spray",
         "name" : "sprayable chemical",
         "default" : "gas_fungicidal"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "death_bolt",
+        "name" : "death bolt",
+        "default" : "death_bolt"
     }
 ]
