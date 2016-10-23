@@ -10470,7 +10470,7 @@ void game::plthrow(int pos)
         return;
     }
 
-    if (u.has_effect( effect_relax_gas)) {
+    if ( u.has_effect( effect_relax_gas ) ) {
         if (one_in(5)) {
             add_msg(m_good, _("You concentrate mightily, and your body obeys!"));
         }
