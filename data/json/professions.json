@@ -2853,7 +2853,8 @@
                 "soccer_shorts",
                 "shinguards",
                 "soccer_socks",
-                "cleats"
+                "cleats",
+                "runner_bag"
             ],
             "male": [
                 "briefs"
@@ -2887,7 +2888,8 @@
                 "shinguards",
                 "soccer_socks",
                 "cleats",
-                "goalkeeper_gloves"
+                "goalkeeper_gloves",
+                "runnber_bag"
             ],
             "male": [
                 "briefs"
