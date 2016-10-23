@@ -4909,11 +4909,7 @@
         "description" : "You were an outstanding soccer player in the past, but no soccer match seems will be held anymore in this apocalypse.",
         "valid": false,
         "purifiable": false,
-        "profession": true,
-        "passive_mods" : {
-            "str_mod" : 2,
-            "dex_mod" : 1
-        }
+        "profession": true
     },{
         "type" : "mutation",
         "id" : "PROF_SOCCERGK",
@@ -4922,12 +4918,7 @@
         "description" : "You can almost catch a flying ball towards you from any direction, or at least direct them away if they're too fast.",
         "valid": false,
         "purifiable": false,
-        "profession": true,
-        "passive_mods" : {
-            "str_mod" : 2,
-            "dex_mod" : 1,
-            "per_mod" : 1
-        }
+        "profession": true
     },{
         "type" : "mutation",
         "id" : "PROF_SWAT",
