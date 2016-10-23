@@ -4903,6 +4903,18 @@
         "profession": true
     },{
         "type" : "mutation",
+        "id" : "PROF_SOCCER",
+        "name" : "Soccer Player",
+        "points" : 0,
+        "description" : "You were an outstanding soccer player in the past, but no soccer match seems will be held anymore in this apocalypse.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true,
+        "passive_mods" : {
+            "dex_mod" : 1
+        }
+    },{
+        "type" : "mutation",
         "id" : "PROF_SWAT",
         "name" : "SWAT Officer",
         "points" : 0,

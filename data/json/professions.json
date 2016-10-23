@@ -2843,6 +2843,9 @@
                 "name": "dodge"
             }
         ],
+        "traits": [
+            "PROF_SOCCER"
+        ],
         "items": {
             "both": [
                 "soccer",
