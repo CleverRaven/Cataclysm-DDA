@@ -2467,8 +2467,8 @@ std::pair<float, float> repair_item_actor::repair_chance(
     // Duster |    2   |   5   |  5  |   10%   |   0%
     // Duster |    2   |   2   |  10 |   4%    |   1%
     // Duster | Refit  |   2   |  10 |   0%    |   N/A
-    float success_chance = (10 + 2 * skill - 2 * difficulty) / 100.0f;
-    ///\EFFECT_DEX randomly reduces the chances of damaging an item when repairing
+    float success_chance = (10 + 2 * skill - 2 * difficulty + tool_quality / 5.0f) / 100.0f;
+    ///\EFFECT_DEX reduces the chances of damaging an item when repairing
     float damage_chance = (difficulty - skill - (tool_quality + pl.dex_cur) / 5.0f) / 100.0f;
 
     damage_chance = std::max( 0.0f, std::min( 1.0f, damage_chance ) );
