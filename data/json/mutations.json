@@ -4915,6 +4915,19 @@
         }
     },{
         "type" : "mutation",
+        "id" : "PROF_SOCCERGK",
+        "name" : "Soccer Goalkeeper",
+        "points" : 0,
+        "description" : "You can almost catch a flying ball towards you from any direction, or at least direct them away if they're too fast.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true,
+        "passive_mods" : {
+            "dex_mod" : 1,
+            "per_mod" : 1
+        }
+    },{
+        "type" : "mutation",
         "id" : "PROF_SWAT",
         "name" : "SWAT Officer",
         "points" : 0,

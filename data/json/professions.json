@@ -2868,13 +2868,16 @@
         "type": "profession",
         "ident": "soccergk",
         "name": "Soccer Goalkeeper",
-        "description": "You were famed in local area for a number of amazing free kick saves.  Sadly, nobody will ever attempt to shoot your goal anymore.",
+        "description": "You're proud of saving that penalty kick when the score was 1-1 at nearly the end of the match last night.  Sadly, facing those... disgusting human?  Nobody will ever attempt to shoot your goal anymore.",
         "points": 0,
         "skills": [
             {
-                "level": 2,
+                "level": 1,
                 "name": "dodge"
             }
+        ],
+        "traits": [
+            "PROF_SOCCERGK"
         ],
         "items": {
             "both": [
