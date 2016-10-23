@@ -73,8 +73,8 @@
     "durability": 8,
     "clip_size": 10,
     "barrel_length": 2,
+    "built_in_mods": [ "sks_bayonet" ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "built_in_mods":[ [ "sks_bayonet" ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   }
 ]
