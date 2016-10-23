@@ -176,8 +176,8 @@ class inventory : public visitable<inventory>
         std::set<char> allocated_invlets() const;
 
         /**
-         * Returns items binned by their itype.
-         * NOTE: Assumes items will be used for crafting and may skip those which can't be!
+         * Returns visitable items binned by their itype.
+         * May not contain items that wouldn't be visited by @ref visitable methods.
          */
         const itype_bin &get_binned_items() const;
 
