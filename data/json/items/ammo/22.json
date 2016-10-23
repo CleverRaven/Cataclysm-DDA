@@ -57,7 +57,7 @@
     "type": "AMMO",
     "name": ".22 rat-shot",
     "name_plural": ".22 rat-shot",
-    "description": "Rat-shot is an extremely weak .22 shotgun cartridge, designed for killing rats, snakes, or other small vermin while being unable to damage walls.  It has an extremely short range and is unable to injure all but the smallest creatures.",
+    "description": "A .22 caliber cartridge loaded with very small pieces of shot contained within a fragmenting plastic capsule.  It has an extremely short range and penetration ability, but it can hit targets with greater ease.",
     "range": 3,
     "proportional": { "recoil": 0.5 },
     "extend": { "effects": [ "SHOT", "NOGIB" ] }
