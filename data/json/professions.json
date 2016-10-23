@@ -2836,7 +2836,7 @@
         "ident": "soccerplayer",
         "name": "Soccer Player",
         "description": "You were an outstanding striker in your soccer team.  However, in the zombie apocalypse, your soccer skill seems useless...  But really?",
-        "points": 0,
+        "points": 1,
         "skills": [
             {
                 "level": 2,
@@ -2869,7 +2869,7 @@
         "ident": "soccergk",
         "name": "Soccer Goalkeeper",
         "description": "You're proud of saving that penalty kick when the score was 1-1 at nearly the end of the match last night.  Sadly, facing those... disgusting human?  Nobody will ever attempt to shoot your goal anymore.",
-        "points": 0,
+        "points": 2,
         "skills": [
             {
                 "level": 1,
