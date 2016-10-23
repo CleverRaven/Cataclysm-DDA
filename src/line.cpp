@@ -493,7 +493,7 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
         if( dx != 0 ) {
             adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
         }
-    } else {
+    } else if( dx != 0 ) {
         // Pure diagonal.
         adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + SGN(dy), from.z } );
         adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
