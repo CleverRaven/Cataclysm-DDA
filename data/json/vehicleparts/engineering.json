@@ -35,7 +35,7 @@
       { "item": "pipe", "count": [ 2, 8 ] },
       { "item": "scrap", "count": [ 2, 6 ] }
     ],
-    "qualities": [ [ "LIFT", 1 ], [ "JACK", 7 ] ],
+    "qualities": [ [ "LIFT", 1 ], [ "JACK", 8 ] ],
     "flags": [ "TOOL_WRENCH", "PROTRUSION", "OBSTACLE", "FOLDABLE" ]
   }
 ]
