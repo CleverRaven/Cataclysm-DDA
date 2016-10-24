@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "category": "veh_parts",
     "name": "steel boom",
-    "description": "A large rigid steel boom.  If attached to a frame it could be used to lift up to 10 metric tonnes.",
+    "description": "A large rigid steel boom.  If attached to a frame it could be used to lift up to 20 metric tonnes.",
     "price": 23400,
     "weight": 31600,
     "volume": 50,
