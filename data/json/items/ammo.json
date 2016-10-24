@@ -275,7 +275,7 @@
     },
     {   "type" : "AMMO",
         "id" : "bb",
-        "price" : 5000,
+        "price" : 500,
         "name" : "BB",
         "symbol" : "=",
         "color" : "light_gray",
@@ -286,9 +286,11 @@
         "ammo_type" : "BB",
         "damage" : 2,
         "range" : 12,
-        "dispersion" : 11,
-        "count" : 200,
-        "effects" : ["NEVER_MISFIRES"]
+        "dispersion" : 100,
+        "count" : 500,
+        "stack_size": 250,
+        "loudness": 10,
+        "effects" : ["NOGIB","NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
         "id" : "feather",
