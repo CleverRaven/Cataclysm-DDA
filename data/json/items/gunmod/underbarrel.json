@@ -237,11 +237,11 @@
     }
   },
   {
-    "id": "sks_bayonet",
+    "id": "inter_bayonet",
     "copy-from": "spike",
     "type": "GENERIC",
-    "name": "sks bayonet",
-    "description": "A spike shaped bayonet attached to the bottom of the sks rifle.",
+    "name": "intergrated bayonet",
+    "description": "This is the bayonet intergrated in the firearm.",
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle" ],
