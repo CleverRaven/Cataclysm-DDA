@@ -506,19 +506,19 @@ void mdeath::explode(monster *z)
     int size = 0;
     switch (z->type->size) {
     case MS_TINY:
-        size = 4;
+        size = 1;
         break;
     case MS_SMALL:
-        size = 8;
+        size = 2;
         break;
     case MS_MEDIUM:
-        size = 14;
+        size = 4;
         break;
     case MS_LARGE:
-        size = 20;
+        size = 8;
         break;
     case MS_HUGE:
-        size = 26;
+        size = 12;
         break;
     }
     g->explosion( z->pos(), size );
