@@ -242,7 +242,6 @@
     "type": "GENERIC",
     "name": "sks bayonet",
     "description": "A spike shaped bayonet attached to the bottom of the sks rifle.",
-    "proportional": { "cutting": 1.50 },
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle" ],
