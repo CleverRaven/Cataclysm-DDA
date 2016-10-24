@@ -6185,12 +6185,12 @@
       [ "carrot", 12 ],
       [ "irradiated_carrot", 12 ],
       [ "veggy", 2 ],
-      [ "dry_veggy", 2 ],
       [ "rehydrated_veggy", 2 ],
       [ "veggy_wild", 2 ],
       [ "plant_sac", 6 ],
       [ "dandelion_cooked", 2 ],
-      [ "wild_herbs", 40 ]
+      [ "wild_herbs", 40 ],
+      [ "dry_veggy", 2 ]
     ],
     [
       [ "water", 1 ],
