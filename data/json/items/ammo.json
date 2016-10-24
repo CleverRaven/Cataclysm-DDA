@@ -285,7 +285,7 @@
         "ammo_type" : "BB",
         "damage" : 2,
         "range" : 12,
-        "dispersion" : 15,
+        "dispersion" : 100,
         "count" : 500,
         "stack_size": 250,
         "loudness": 10,
