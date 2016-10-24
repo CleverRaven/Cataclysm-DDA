@@ -62,7 +62,7 @@
       "count": 0.20,
       "range": 0.6,
       "damage": 0.5,
-      "dispersion": 1.3,
+      "dispersion": 0.2,
       "recoil": 0.5
     },
     "extend": { "effects": [ "SHOT", "NOGIB" ] }
