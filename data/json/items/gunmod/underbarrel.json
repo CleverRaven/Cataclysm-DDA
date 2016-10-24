@@ -238,17 +238,25 @@
   },
   {
     "id": "inter_bayonet",
-    "copy-from": "spike",
-    "type": "GENERIC",
-    "name": "intergrated bayonet",
-    "description": "This is the bayonet intergrated in the firearm.",
+    "type": "GUNMOD",
+    "name": "integrated bayonet",
+    "description": "This is the bayonet integrated in the firearm.",
+    "weight": 1,
+    "volume": 0,
+    "price": 4000,
+    "to_hit": -1,
+    "cutting": 10,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "flags": [ "STAB" ],
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle" ],
       "dispersion_modifier": 10,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-      "flags": [ "SLOW_WIELD" ]
+      "flags": [ "SLOW_WIELD", "IRREMOVABLE" ]
     }
   },
   {
