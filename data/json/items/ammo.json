@@ -289,7 +289,7 @@
         "dispersion" : 100,
         "count" : 500,
         "stack_size": 250,
-        "loudness": 10,
+        "loudness": 9,
         "effects" : ["NOGIB","NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
