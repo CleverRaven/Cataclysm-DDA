@@ -431,6 +431,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         float mabuff_damage_mult( damage_type type ) const;
         /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
         int mabuff_damage_bonus( damage_type type ) const;
+        /** Returns the flat penalty to move cost of attacks. If negative, that's a bonus. Applied after multiplier. */
+        int mabuff_attack_cost_penalty() const;
+        /** Returns the multiplier on move cost of attacks. */
+        float mabuff_attack_cost_mult() const;
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
         /** Returns value of player's stable footing */
@@ -567,7 +571,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player scores a critical hit */
         bool scored_crit( float target_dodge = 0.0f ) const;
         /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
-        int attack_speed( const item &weap, bool average = false ) const;
+        int attack_speed( const item &weap ) const;
         /** Gets melee accuracy component from weapon+skills */
         float get_hit_weapon( const item &weap ) const;
         /** NPC-related item rating functions */
