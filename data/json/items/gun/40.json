@@ -94,7 +94,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "40",
+    "ammo": "10mm_auto",
     "ranged_damage": 1,
     "dispersion": 320,
     "durability": 8,
