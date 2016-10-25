@@ -1,18 +1,26 @@
 [
   {
     "id": "10mm",
-    "copy-from": "40sw",
     "type": "AMMO",
     "name": "10mm Auto",
     "name_plural": "10mm Auto",
-    "description": "10mm Auto ammunition with 180gr FMJ bullets.  The 10mm Auto round is one of the most powerful pistol cartridges available, although its usefulness is limited by high recoil.",
+    "//": "+2 bonus to damage",
+    "description": "10mm Auto ammunition with 155gr JHP bullets.  The 10mm Auto round is one of the most powerful pistol cartridges available, although its usefulness is limited by high recoil.",
+    "weight": 10,
+    "volume": 1,
     "price": 2900,
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "10mm_auto",
+    "casing": "40_casing",
     "count": 20,
-    "relative": {
-      "damage": 4,
-      "pierce": 4,
-      "dispersion": -10,
-      "recoil": 20
+    "stack_size": 35,
+    "damage": 32,
+    "pierce": 5,
+    "dispersion": 40,
+    "recoil": 920,
+    "effects": [ "COOKOFF" ]
     }
   },
   {
@@ -41,7 +49,7 @@
     "color": "yellow",
     "count": 40,
     "stack_size": 40,
-    "ammo_type": "40",
+    "ammo_type": [ "40", "10mm_auto" ],
     "casing": "40_casing",
     "range": 14,
     "damage": 26,
