@@ -4,7 +4,7 @@
     "type": "AMMO",
     "name": "10mm Auto",
     "name_plural": "10mm Auto",
-    "//": "+2 bonus to damage."
+    "//": "+2 bonus to damage.",
     "description": "10mm Auto ammunition with 155gr JHP bullets.  The 10mm Auto round is one of the most powerful pistol cartridges available, although its usefulness is limited by high recoil.",
     "weight": 11,
     "volume": 1,
@@ -12,10 +12,11 @@
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "10mm_auto",
-    "casing": "40_casing",
     "count": 20,
     "stack_size": 35,
+    "ammo_type": "10mm_auto",
+    "casing": "40_casing",
+    "range": 16,
     "damage": 32,
     "pierce": 5,
     "dispersion": 40,
@@ -37,4 +38,3 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }
 ]
-
