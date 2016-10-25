@@ -533,7 +533,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
             const size_t max_denial_width = std::max( int( get_width() - min_cell_gap - get_entry_cell_width( entry, 0 ) ), 0 );
             const size_t denial_width = std::min( max_denial_width, size_t( utf8_width( denial, true ) ) );
 
-            trim_and_print( win, yy, x + get_width() - denial_width, denial_width, c_dkgray, "%s", denial.c_str() );
+            trim_and_print( win, yy, x + get_width() - denial_width, denial_width, c_red, "%s", denial.c_str() );
         }
 
         const size_t count = denial.empty() ? cell_widths.size() : 1;
