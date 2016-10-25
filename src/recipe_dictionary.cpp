@@ -41,6 +41,17 @@ bool search_reqs( group gp, const std::string &txt )
         } );
     } );
 }
+// template specialization to make component searches easier
+template<>
+bool search_reqs( std::vector<std::vector<item_comp> >  gp,
+                  const std::string &txt )
+{
+    return std::any_of( gp.begin(), gp.end(), [&]( const std::vector<item_comp> &opts ) {
+        return std::any_of( opts.begin(), opts.end(), [&]( const item_comp & ic ) {
+            return lcmatch( item::nname( ic.type ), txt );
+        } );
+    } );
+}
 
 std::vector<const recipe *> recipe_subset::search( const std::string &txt,
         const search_type key ) const
