@@ -14,9 +14,12 @@
 #include "mutation.h"
 #include "options.h"
 #include "translations.h"
+#include "units.h"
 
 #include <string>
 #include <algorithm>
+
+using namespace units::literals;
 
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_poison( "poison" );
@@ -855,4 +858,160 @@ hint_rating player::rate_action_eat( const item &it ) const
     }
 
     return HINT_IFFY;
+}
+
+bool player::can_feed_battery_with( const item &it ) const
+{
+    if( !has_active_bionic( "bio_batteries" ) ) {
+        return false;
+    }
+    return it.is_ammo() && it.ammo_type() == ammotype( "battery" );
+}
+
+bool player::feed_battery_with( item &it )
+{
+    if( !can_feed_battery_with( it ) ) {
+        return false;
+    }
+
+    const long amount = std::min( long( max_power_level - power_level ), it.charges );
+
+    if( amount <= 0 ) {
+        add_msg_player_or_npc( m_info, _( "Your internal power storage is fully powered." ),
+                               _( "<npcname>'s internal power storage is fully powered." ) );
+        return false;
+    }
+
+    charge_power( it.charges );
+    it.charges -= amount;
+
+    add_msg_player_or_npc( m_info, _( "You recharge your battery system with the %s." ),
+                           _( "<npcname> recharges their battery system with the %s." ),
+                           it.tname().c_str() );
+    mod_moves( -250 );
+    return true;
+}
+
+bool player::can_feed_reactor_with( const item &it ) const
+{
+    const std::set<ammotype> acceptable = {{
+            ammotype( "reactor_slurry" ),
+            ammotype( "plutonium" )
+        }
+    };
+
+    if( !has_active_bionic( "bio_reactor" ) && !has_active_bionic( "bio_advreactor" ) ) {
+        return false;
+    }
+    return it.is_ammo() && acceptable.count( it.ammo_type() );
+}
+
+bool player::feed_reactor_with( item &it )
+{
+    if( !can_feed_reactor_with( it ) ) {
+        return false;
+    }
+
+    static const std::map<itype_id, int> contained_charges = {
+        { "plut_cell",         PLUTONIUM_CHARGES * 10 },
+        { "plut_slurry_dense", PLUTONIUM_CHARGES },
+        { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
+    };
+
+    const auto iter = contained_charges.find( it.typeId() );
+
+    if( iter == contained_charges.end() ) {
+        return false;
+    }
+
+    const int amount = iter->second;
+    if( amount >= PLUTONIUM_CHARGES * 10 &&
+        !query_yn( _( "Thats a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
+        return false;
+    }
+
+    add_msg_player_or_npc( _( "You add your %s to your reactor's tank." ),
+                           _( "<npcname> pours %s into their reactor's tank." ),
+                           it.tname().c_str() );
+
+    tank_plut += amount; // @todo Encapsulate
+    it.charges -= 1;
+    mod_moves( -250 );
+    return true;
+}
+
+bool player::can_feed_furnace_with( const item &it ) const
+{
+    if( !has_active_bionic( "bio_furnace" ) ) {
+        return false;
+    }
+    return it.flammable() && !it.has_flag( "RADIOACTIVE" ) && it.typeId() != "corpse";
+}
+
+bool player::feed_furnace_with( item &it )
+{
+    if( !can_feed_furnace_with( it ) ) {
+        return false;
+    }
+
+    int amount = ( it.volume() / 250_ml + it.weight() ) / 9;
+    if( it.made_of( material_id( "leather" ) ) ) {
+        amount /= 4;
+    }
+    if( it.made_of( material_id( "wood" ) ) ) {
+        amount /= 2;
+    }
+
+    amount = std::min( max_power_level - power_level, amount );
+
+    if( is_player() ) {
+        if( amount <= 0 ) {
+            if( !query_yn(
+                    _( "Burning this %s in your internal furnace won't give you more energy.  Do it anyway?" ),
+                    it.tname().c_str() ) ) {
+                return false;
+            }
+        } else {
+            if( !query_yn( _( "Burn this %s in your internal furnace (provides %d points of energy)?" ),
+                           it.tname().c_str(), amount ) ) {
+                return false;
+            }
+        }
+    }
+
+    add_msg_player_or_npc( _( "You digest your %s for energy." ),
+                           _( "<npcname> digests a %s. for energy." ), it.tname().c_str() );
+
+    charge_power( amount );
+    it.charges = 0;
+
+    mod_moves( -250 );
+    return true;
+}
+
+bool player::can_consume_as_is( const item &it ) const
+{
+    return it.is_food() || can_feed_battery_with( it )
+           || can_feed_reactor_with( it )
+           || can_feed_furnace_with( it );
+}
+
+bool player::can_consume( const item &it ) const
+{
+    if( can_consume_as_is( it ) ) {
+        return true;
+    }
+    return !it.is_container_empty() && can_consume_as_is( it.contents.front() );
+}
+
+item &player::as_comestible( item &it ) const
+{
+    if( can_consume_as_is( it ) ) {
+        return it;
+    }
+    if( !it.is_container_empty() && can_consume_as_is( it.contents.front() ) ) {
+        return it.contents.front();
+    }
+    static item null_comestible;
+    return null_comestible;
 }
