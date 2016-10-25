@@ -90,6 +90,12 @@
         "default" : "40sw"
     },
     {
+        "type": "ammunition_type",
+        "id": "10mm_auto",
+        "name": "10mm Auto",
+        "default": "10mm"
+    },
+    {
         "type" : "ammunition_type",
         "id" : "44",
         "name" : ".44",
