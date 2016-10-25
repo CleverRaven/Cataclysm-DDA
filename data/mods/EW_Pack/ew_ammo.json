@@ -77,7 +77,7 @@
         "volume" : 1,
         "weight" : 4,
         "bashing" : 1,
-        "ammo_type" : "wr_dread",
+        "ammo_type" : [ "wr_dread", "pebble" ],
         "damage" : 6,
         "pierce" : 2,
         "range" : 8,
