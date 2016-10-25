@@ -1535,8 +1535,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         item &as_comestible( item &it ) const;
         /**
          * Consumes an item as medication.
-         * Can be used to heal others (using `pos` argument), if med type handles that.
-         * Will complain if the item isn't actually a med type.
          * @param target Item consumed. Must be a medication or a container of medication.
          * @return Whether the target was fully consumed.
          */
