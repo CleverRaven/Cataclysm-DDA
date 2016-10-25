@@ -1,0 +1,26 @@
+[
+  {
+    "id": "mon_blob_large",
+    "type": "MONSTER",
+    "edit-mode": "modify",
+    "special_attacks": [ [ "FORMBLOB", 60 ] ]
+  },
+  {
+    "id": "mon_blob",
+    "type": "MONSTER",
+    "edit-mode": "modify",
+    "special_attacks": [ [ "FORMBLOB", 120 ] ]
+  },
+  {
+    "id": "mon_blob_small",
+    "type": "MONSTER",
+    "edit-mode": "modify",
+    "death_function": [ "MELT" ]
+  },
+  {
+    "id": "mon_gelatin",
+    "type": "MONSTER",
+    "edit-mode": "modify",
+    "flags": [ "SMELLS", "HEARS", "PLASTIC", "NO_BREATHE", "NOHEAD", "NOGIB", "ABSORBS" ]
+  }
+]

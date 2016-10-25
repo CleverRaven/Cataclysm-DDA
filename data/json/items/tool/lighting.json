@@ -33,7 +33,6 @@
     "name": "electric lantern (on)",
     "name_plural": "electric lanterns (on)",
     "turns_per_charge": 45,
-    "ammo": "battery",
     "revert_to": "electric_lantern",
     "use_action": {
         "type": "transform",

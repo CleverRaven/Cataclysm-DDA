@@ -3,8 +3,10 @@
 #include "color.h"
 #include "map.h"
 #include "output.h"
+#include "game.h"
 
 #include <cassert>
+#include <cmath>
 
 static constexpr int SCENT_RADIUS = 40;
 
@@ -38,8 +40,6 @@ nc_color sev( const size_t level )
     return level < colors.size() ? colors[level] : c_dkgray;
 }
 
-scent_map::scent_map() = default;
-
 void scent_map::reset()
 {
     for( auto &elem : grscent ) {
@@ -65,10 +65,15 @@ void scent_map::draw( WINDOW *const win, const int div, const tripoint &center )
     const int maxy = getmaxy( win );
     for( int x = 0; x < maxx; ++x ) {
         for( int y = 0; y < maxy; ++y ) {
-            const int sn = get( x + center.x - maxx / 2, y + center.y - maxy / 2 ) / div;
+            const int sn = get( { x + center.x - maxx / 2, y + center.y - maxy / 2, center.z } ) / div;
             mvwprintz( win, y, x, sev( sn / 10 ), "%d", sn % 10 );
         }
     }
+}
+
+static bool in_bounds( int x, int y )
+{
+    return x >= 0 && x < SEEX * MAPSIZE && y >= 0 && y < SEEY * MAPSIZE;
 }
 
 void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
@@ -76,26 +81,37 @@ void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
     scent_array<int> new_scent;
     for( size_t x = 0; x < SEEX * MAPSIZE; ++x ) {
         for( size_t y = 0; y < SEEY * MAPSIZE; ++y ) {
-            // get does bound checking and returns 0 upon invalid coordinates
-            new_scent[x][y] = get( x + sm_shift_x, y + sm_shift_y );
+            new_scent[x][y] = in_bounds( x + sm_shift_x, y + sm_shift_y ) ?
+                              grscent[ x + sm_shift_x ][ y + sm_shift_y ] :
+                              0;
         }
     }
     grscent = new_scent;
 }
 
-int scent_map::get( const size_t x, const size_t y ) const
+int scent_map::get( const tripoint &p ) const
 {
-    if( inbounds( x, y ) ) {
-        return grscent[x][y];
+    if( inbounds( p ) && grscent[p.x][p.y] > 0 ) {
+        return grscent[p.x][p.y] - std::abs( gm.get_levz() - p.z );
     }
     return 0;
 }
 
-void scent_map::set( const size_t x, const size_t y, int value )
+void scent_map::set( const tripoint &p, int value )
 {
-    if( inbounds( x, y ) ) {
-        grscent[x][y] = value;
+    if( inbounds( p ) ) {
+        grscent[p.x][p.y] = value;
     }
+}
+
+bool scent_map::inbounds( const tripoint &p ) const
+{
+    // This weird long check here is a hack around the fact that scentmap is 2D
+    // A z-level can access scentmap if it is within 1 flying z-level move from player's z-level
+    // That is, if a flying critter could move directly up or down (or stand still) and be on same z-level as player
+    return p.x >= 0 && p.x < SEEX * MAPSIZE && p.y >= 0 && p.y < SEEY * MAPSIZE &&
+           ( p.z == gm.get_levz() || ( std::abs( p.z - gm.get_levz() ) == 1 &&
+                                       gm.m.valid_move( p, tripoint( p.x, p.y, gm.get_levz() ), false, true ) ) );
 }
 
 void scent_map::update( const tripoint &center, map &m )

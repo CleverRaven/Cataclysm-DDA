@@ -1341,15 +1341,24 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
     return 0;
 }
 
-int monster::hit_roll() const {
-    //Unstable ground chance of failure
-    if (has_effect( effect_bouldering)) {
-        if(one_in(type->melee_skill)) {
-            return 0;
-        }
+float monster::get_hit_base() const
+{
+    return type->melee_skill;
+}
+
+float monster::get_dodge_base() const
+{
+    return type->sk_dodge;
+}
+
+
+float monster::hit_roll() const {
+    float hit = get_hit();
+    if( has_effect( effect_bouldering ) ) {
+        hit /= 4;
     }
 
-    return dice(type->melee_skill, 10);
+    return normal_roll( hit * 5, 25.0f );
 }
 
 bool monster::has_grab_break_tec() const
@@ -1357,7 +1366,7 @@ bool monster::has_grab_break_tec() const
     return false;
 }
 
-int monster::stability_roll() const
+float monster::stability_roll() const
 {
     int size_bonus = 0;
     switch (type->size) {
@@ -1384,55 +1393,51 @@ int monster::stability_roll() const
     return stability;
 }
 
-int monster::get_dodge() const
+float monster::get_dodge() const
 {
-    if (has_effect( effect_downed)) {
-        return 0;
-    }
-    int ret = type->sk_dodge;
-    if( has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) || has_effect( effect_beartrap ) || has_effect( effect_tied ) ) {
-        ret /= 2;
-    }
-    if (moves <= 0 - 100 - get_speed()) {
-        ret = rng(0, ret);
-    }
-    return ret + get_dodge_bonus();
-}
-
-int monster::get_melee() const
-{
-    return type->melee_skill;
-}
-
-int monster::dodge_roll()
-{
-    if (has_effect( effect_bouldering)) {
-        if(one_in(type->sk_dodge)) {
-            return 0;
-        }
-    }
-
-    int numdice = get_dodge();
-
-    switch (type->size) {
+    float ret = 0.0f;
+    switch( type->size ) {
         case MS_TINY:
-            numdice += 6;
+            ret += 6;
             break;
         case MS_SMALL:
-            numdice += 3;
+            ret += 3;
             break;
         case MS_LARGE:
-            numdice -= 2;
+            ret -= 2;
             break;
         case MS_HUGE:
-            numdice -= 4;
+            ret -= 4;
             break;
         case MS_MEDIUM:
             break; // keep default
     }
 
-    numdice += get_speed() / 80;
-    return dice(numdice, 10);
+    if( has_effect( effect_downed ) ) {
+        // Just the size mod
+        return ret;
+    }
+
+    ret += Creature::get_dodge();
+    if( has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) || has_effect( effect_beartrap ) || has_effect( effect_tied ) ) {
+        ret /= 2;
+    }
+
+    if( has_effect( effect_bouldering ) ) {
+        ret /= 4;
+    }
+
+    return ret;
+}
+
+float monster::get_melee() const
+{
+    return type->melee_skill;
+}
+
+float monster::dodge_roll()
+{
+    return get_dodge() * 5;
 }
 
 float monster::fall_damage_mod() const
@@ -1970,13 +1975,13 @@ float monster::speed_rating() const
     return ret;
 }
 
-void monster::on_dodge( Creature*, int )
+void monster::on_dodge( Creature*, float )
 {
     // Currently does nothing, later should handle faction relations
 }
 
 void monster::on_hit( Creature *source, body_part,
-                      int, dealt_projectile_attack const* const proj )
+                      float, dealt_projectile_attack const* const proj )
 {
     if( is_hallucination() ) {
         return;
@@ -2110,4 +2115,14 @@ void monster::on_load()
 
     add_msg( m_debug, "on_load() by %s, %d turns, healed %d hp, %d speed",
              name().c_str(), dt, healed, healed_speed );
+}
+
+const pathfinding_settings &monster::get_pathfinding_settings() const
+{
+    return type->path_settings;
+}
+
+std::set<tripoint> monster::get_path_avoid() const
+{
+    return std::set<tripoint>();
 }

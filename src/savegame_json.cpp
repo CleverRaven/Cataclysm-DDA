@@ -33,6 +33,7 @@
 #include "io.h"
 #include "mtype.h"
 #include "item_factory.h"
+#include "recipe_dictionary.h"
 
 #include "tile_id_data.h" // for monster::json_save
 #include <ctime>
@@ -619,8 +620,8 @@ void player::serialize(JsonOut &json) const
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes" );
     json.start_array();
-    for( auto iter = learned_recipes.cbegin(); iter != learned_recipes.cend(); ++iter ) {
-        json.write( iter->first );
+    for( const auto &entry : get_learned_recipes() ) {
+        json.write( entry->ident() );
     }
     json.end_array();
 
@@ -745,11 +746,13 @@ void player::deserialize(JsonIn &jsin)
 
     parray = data.get_array("learned_recipes");
     if ( !parray.empty() ) {
-        std::string pstr = "";
         learned_recipes.clear();
+        valid_autolearn_skills.clear(); // Invalidates the cache
+
+        std::string pstr;
         while ( parray.has_more() ) {
             if ( parray.read_next(pstr) ) {
-                learned_recipes[ pstr ] = (recipe *)recipe_by_name( pstr );
+                learned_recipes.include( &recipe_dict[ pstr ] );
             }
         }
     }
@@ -1347,6 +1350,8 @@ void monster::load(JsonObject &data)
 
     faction = mfaction_str_id( data.get_string( "faction", "" ) );
     last_updated = data.get_int( "last_updated", calendar::turn );
+
+    data.read( "path", path );
 }
 
 /*
@@ -1393,6 +1398,8 @@ void monster::store(JsonOut &json) const
     json.member("last_updated", last_updated);
 
     json.member( "inv", inv );
+
+    json.member( "path", path );
 }
 
 void mon_special_attack::serialize(JsonOut &json) const
@@ -1405,6 +1412,8 @@ void mon_special_attack::serialize(JsonOut &json) const
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h
+
+static void migrate_toolmod( item &it );
 
 template<typename Archive>
 void item::io( Archive& archive )
@@ -1519,6 +1528,75 @@ void item::io( Archive& archive )
     if( contents.empty() && is_non_resealable_container() ) {
         convert( type->container->unseals_into );
     }
+
+    // Migrate legacy toolmod flags
+    if( is_tool() || is_toolmod() ) {
+        migrate_toolmod( *this );
+    }
+}
+
+static void migrate_toolmod( item &it )
+{
+    // Convert legacy flags on tools to contained toolmods
+    if( it.is_tool() ) {
+        if( it.item_tags.count( "ATOMIC_AMMO" ) ) {
+            it.item_tags.erase( "ATOMIC_AMMO" );
+            it.item_tags.erase( "NO_UNLOAD" );
+            it.item_tags.erase( "RADIOACTIVE" );
+            it.item_tags.erase( "LEAK_DAM" );
+            it.emplace_back( "battery_atomic" );
+
+        } else if( it.item_tags.count( "DOUBLE_REACTOR" ) ) {
+            it.item_tags.erase( "DOUBLE_REACTOR" );
+            it.item_tags.erase( "DOUBLE_AMMO" );
+            it.emplace_back( "double_plutonium_core" );
+
+        } else if( it.item_tags.count( "DOUBLE_AMMO" ) ) {
+            it.item_tags.erase( "DOUBLE_AMMO" );
+            it.emplace_back( "battery_compartment" );
+
+        } else if( it.item_tags.count( "USE_UPS" ) ) {
+            it.item_tags.erase( "USE_UPS" );
+            it.item_tags.erase( "NO_RELOAD" );
+            it.item_tags.erase( "NO_UNLOAD" );
+            it.emplace_back( "battery_ups" );
+
+        }
+    }
+
+    // Fix fallout from #18797, which exponentially duplicates migrated toolmods
+    if( it.is_toolmod() ) {
+        // duplication would add an extra toolmod inside each toolmod on load;
+        // delete the nested copies
+        if( it.typeId() == "battery_atomic" || it.typeId() == "battery_compartment" ||
+            it.typeId() == "battery_ups" || it.typeId() == "double_plutonium_core" ) {
+            // Be conservative and only delete nested mods of the same type
+            it.contents.remove_if( [&]( const item &cont ) {
+                    return cont.typeId() == it.typeId();
+                        } );
+        }
+    }
+
+    if( it.is_tool() ) {
+        // duplication would add an extra toolmod inside each tool on load;
+        // delete the duplicates so there is only one copy of each toolmod
+        int n_atomic = 0,
+            n_compartment = 0,
+            n_ups = 0,
+            n_plutonium = 0;
+
+        // not safe to use remove_if with a stateful predicate
+        for( auto i = it.contents.begin(); i != it.contents.end(); ) {
+            if( ( i->typeId() == "battery_atomic" && ++n_atomic > 1 ) ||
+                ( i->typeId() == "battery_compartment" && ++n_compartment > 1 ) ||
+                ( i->typeId() == "battery_ups" && ++n_ups > 1 ) ||
+                ( i->typeId() == "double_plutonium_core" && ++n_plutonium > 1 ) ) {
+                i = it.contents.erase( i );
+            } else {
+                ++i;
+            }
+        }
+    }
 }
 
 void item::deserialize(JsonObject &data)
@@ -1543,22 +1621,59 @@ void item::serialize(JsonOut &json, bool save_contents) const
 void vehicle_part::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    vpart_str_id pid;
+    vpart_id pid;
     data.read("id", pid);
 
-    // swap deprecated charger gun for laser rifle
-    if( pid.str() == "laser_gun" ) {
-        pid = vpart_str_id( "laser_rifle" );
-    }
+    std::map<std::string, std::pair<std::string,itype_id>> deprecated = {
+        { "laser_gun", { "laser_rifle", "none" } },
+        { "battery_truck", { "battery_car", "battery" } },
 
-    if( pid.str() == "battery_truck" ) {
-        pid = vpart_str_id( "battery_car" );
+        { "diesel_tank_little", { "tank_little", "diesel" } },
+        { "diesel_tank_small", { "tank_small", "diesel" } },
+        { "diesel_tank_medium", { "tank_medium", "diesel" } },
+        { "diesel_tank", { "tank", "diesel" } },
+        { "external_diesel_tank_small", { "external_tank_small", "diesel" } },
+        { "external_diesel_tank", { "external_tank", "diesel" } },
+
+        { "gas_tank_little", { "tank_little", "gasoline" } },
+        { "gas_tank_small", { "tank_small", "gasoline" } },
+        { "gas_tank_medium", { "tank_medium", "gasoline" } },
+        { "gas_tank", { "tank", "gasoline" } },
+        { "external_gas_tank_small", { "external_tank_small", "gasoline" } },
+        { "external_gas_tank", { "external_tank", "gasoline" } },
+
+        { "water_dirty_tank_little", { "tank_little", "water" } },
+        { "water_dirty_tank_small", { "tank_small", "water" } },
+        { "water_dirty_tank_medium", { "tank_medium", "water" } },
+        { "water_dirty_tank", { "tank", "water" } },
+        { "external_water_dirty_tank_small", { "external_tank_small", "water" } },
+        { "external_water_dirty_tank", { "external_tank", "water" } },
+        { "dirty_water_tank_barrel", { "tank_barrel", "water" } },
+
+        { "water_tank_little", { "tank_little", "water_clean" } },
+        { "water_tank_small", { "tank_small", "water_clean" } },
+        { "water_tank_medium", { "tank_medium", "water_clean" } },
+        { "water_tank", { "tank", "water_clean" } },
+        { "external_water_tank_small", { "external_tank_small", "water_clean" } },
+        { "external_water_tank", { "external_tank", "water_clean" } },
+        { "water_tank_barrel", { "tank_barrel", "water_clean" } },
+
+        { "napalm_tank", { "tank", "napalm" } }
+    };
+
+    // required for compatibility with 0.C saves
+    itype_id legacy_fuel;
+
+    auto dep = deprecated.find( pid.str() );
+    if( dep != deprecated.end() ) {
+        pid = vpart_id( dep->second.first );
+        legacy_fuel = dep->second.second;
     }
 
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
         if( pid.str() == "wheel_underbody" ) {
-            pid = vpart_str_id( "wheel_wide" );
+            pid = vpart_id( "wheel_wide" );
         } else {
             data.throw_error( "bad vehicle part", "id" );
         }
@@ -1587,17 +1702,22 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("target_second_x", target.second.x);
     data.read("target_second_y", target.second.y);
     data.read("target_second_z", target.second.z);
+    data.read("ammo_pref", ammo_pref);
+
+    if( legacy_fuel.empty() ) {
+        legacy_fuel = id.obj().fuel_type;
+    }
 
     // with VEHICLE tag migrate fuel tanks only if amount field exists
     if( base.has_flag( "VEHICLE") ) {
-        if( data.has_int( "amount" ) && ammo_capacity() > 0 && id.obj().fuel_type != "battery" ) {
-            ammo_set( id.obj().fuel_type, data.get_int( "amount" ) );
+        if( data.has_int( "amount" ) && ammo_capacity() > 0 && legacy_fuel != "battery" ) {
+            ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
 
     // without VEHICLE flag always migrate both batteries and fuel tanks
     } else {
         if( ammo_capacity() > 0 ) {
-            ammo_set( id.obj().fuel_type, data.get_int( "amount" ) );
+            ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
         base.item_tags.insert( "VEHICLE" );
     }
@@ -1620,8 +1740,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
 void vehicle_part::serialize(JsonOut &json) const
 {
     json.start_object();
-    // TODO: the json classes should automatically convert the int-id to the string-id and the inverse
-    json.member("id", id.id().str());
+    json.member("id", id.str());
     json.member("base", base);
     json.member("mount_dx", mount.x);
     json.member("mount_dy", mount.y);
@@ -1638,6 +1757,7 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("target_second_x", target.second.x);
     json.member("target_second_y", target.second.y);
     json.member("target_second_z", target.second.z);
+    json.member("ammo_pref", ammo_pref);
     json.end_object();
 }
 
@@ -1816,7 +1936,22 @@ void mission::deserialize(JsonIn &jsin)
     }
 
     jo.read("description", description);
-    jo.read("failed", failed);
+
+    bool failed;
+    bool was_started;
+    std::string status_string;
+    if( jo.read( "status", status_string ) ) {
+        status = status_from_string( status_string );
+    } else if( jo.read( "failed", failed ) && failed ) {
+        status = mission_status::failure;
+    } else if( jo.read("was_started", was_started ) && !was_started ) {
+        status = mission_status::yet_to_start;
+    } else {
+        // Note: old code had no idea of successful missions!
+        // We can't check properly here, since most of the game isn't loaded
+        status = mission_status::in_progress;
+    }
+
     jo.read("value", value);
     jo.read("reward", reward);
     jo.read("uid", uid );
@@ -1859,7 +1994,6 @@ void mission::deserialize(JsonIn &jsin)
     jo.read("good_fac_id", good_fac_id );
     jo.read("bad_fac_id", bad_fac_id );
     jo.read("player_id", player_id );
-    jo.read("was_started", was_started );
 }
 
 void mission::serialize(JsonOut &json) const
@@ -1868,7 +2002,7 @@ void mission::serialize(JsonOut &json) const
 
     json.member("type_id", type->id);
     json.member("description", description);
-    json.member("failed", failed);
+    json.member( "status", status_to_string( status ) );
     json.member("value", value);
     json.member("reward", reward);
     json.member("uid", uid);
@@ -1894,7 +2028,6 @@ void mission::serialize(JsonOut &json) const
     json.member("step", step);
     json.member("follow_up", follow_up);
     json.member("player_id", player_id);
-    json.member("was_started", was_started);
 
     json.end_object();
 }

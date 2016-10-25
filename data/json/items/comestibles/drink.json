@@ -11,7 +11,7 @@
     "volume": 1,
     "price": 50,
     "symbol": "~",
-    "color": "light_cyan",
+    "color": "light_blue",
     "phase": "liquid",
     "container": "bottle_plastic",
     "quench": 50,
@@ -24,7 +24,8 @@
     "type": "COMESTIBLE",
     "name": "clean water",
     "name_plural": "clean water",
-    "description": "Fresh, clean water.  Truly the best thing to quench your thirst."
+    "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
+    "color": "light_cyan"
   },
   {
     "id": "water_mineral",

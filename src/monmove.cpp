@@ -146,6 +146,7 @@ void monster::set_dest( const tripoint &p )
 void monster::unset_dest()
 {
     goal = pos();
+    path.clear();
 }
 
 // Move towards p for f more turns--generally if we hear a sound there
@@ -530,19 +531,17 @@ void monster::move()
 
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
-    if( !is_hallucination() && has_flag( MF_ABSORBS ) && !g->m.has_flag( TFLAG_SEALED, pos() ) ) {
-        if( !g->m.i_at( pos() ).empty() ) {
-            if( g->u.sees( *this ) ) {
-                add_msg(
-                    _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                    name().c_str() );
-            }
-            static const auto volume_per_hp = units::from_milliliter( 250 );
-            for( auto &elem : g->m.i_at( pos() ) ) {
-                hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            }
-            g->m.i_clear( pos() );
+    if( !is_hallucination() && has_flag( MF_ABSORBS ) && !g->m.has_flag( TFLAG_SEALED, pos() ) &&
+        !g->m.has_items( pos() ) ) {
+        if( g->u.sees( *this ) ) {
+            add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
+                     name().c_str() );
         }
+        static const auto volume_per_hp = units::from_milliliter( 250 );
+        for( auto &elem : g->m.i_at( pos() ) ) {
+            hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
+        }
+        g->m.i_clear( pos() );
     }
 
     const bool pacified = has_effect( effect_pacified );
@@ -633,10 +632,30 @@ void monster::move()
     bool moved = false;
     tripoint destination;
 
-    // CONCRETE PLANS - Most likely based on sight
+    // If true, don't try to greedily avoid locally bad paths
+    bool pathed = false;
     if( !wander() ) {
-        destination = goal;
-        moved = true;
+        while( !path.empty() && path.front() == pos() ) {
+            path.erase( path.begin() );
+        }
+
+        const auto &pf_settings = get_pathfinding_settings();
+        if( pf_settings.max_dist >= rl_dist( pos(), goal ) &&
+            ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
+            // We need a new path
+            path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
+        }
+
+        // Try to respect old paths, even if we can't pathfind at the moment
+        if( !path.empty() && path.back() == goal ) {
+            destination = path.front();
+            moved = true;
+            pathed = true;
+        } else {
+            // Straight line forward, probably because we can't pathfind (well enough)
+            destination = goal;
+            moved = true;
+        }
     }
     if( !moved && has_flag( MF_SMELLS ) ) {
         // No sight... or our plans are invalid (e.g. moving through a transparent, but
@@ -667,19 +686,36 @@ void monster::move()
         // Implement both avoiding obstacles and staggering.
         moved = false;
         float switch_chance = 0.0;
-        const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
+        const bool can_bash = bash_skill() > 0;
         // This is a float and using trig_dist() because that Does the Right Thing(tm)
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos(), destination );
         for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
             if( candidate.z != posz() ) {
+                bool can_z_move = true;
                 if( !g->m.valid_move( pos(), candidate, false, true ) ) {
                     // Can't phase through floor
-                    continue;
+                    can_z_move = false;
                 }
 
-                if( !can_fly && candidate.z > posz() && !g->m.has_floor_or_support( candidate ) ) {
+                if( can_z_move && !can_fly && candidate.z > posz() && !g->m.has_floor_or_support( candidate ) ) {
                     // Can't "jump" up a whole z-level
+                    can_z_move = false;
+                }
+
+                // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
+                // @todo Remove z-level stair bullshit teleport after aligning all stairs
+                if( !can_z_move &&
+                    posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
+                    posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
+                    const tripoint &upper = candidate.z > posz() ? candidate : pos();
+                    const tripoint &lower = candidate.z > posz() ? pos() : candidate;
+                    if( g->m.has_flag( TFLAG_GOES_DOWN, upper ) && g->m.has_flag( TFLAG_GOES_UP, lower ) ) {
+                        can_z_move = true;
+                    }
+                }
+
+                if( !can_z_move ) {
                     continue;
                 }
             }
@@ -695,7 +731,7 @@ void monster::move()
             // Allow non-stumbling critters to stumble when most direct choice is bad
             bool bad_choice = false;
             // Bail out if we can't move there and we can't bash.
-            if( !can_move_to( candidate ) ) {
+            if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash ) {
                     continue;
                 }
@@ -729,7 +765,8 @@ void monster::move()
                 // If we stumble, pick a random square, otherwise take the first one,
                 // which is the most direct path.
                 // Except if the direct path is bad, then check others
-                if( !staggers && !bad_choice ) {
+                // Or if the path is given by pathfinder
+                if( !staggers && ( !bad_choice || pathed ) ) {
                     break;
                 }
             }
@@ -750,6 +787,7 @@ void monster::move()
     } else {
         moves -= 100;
         stumble();
+        path.clear();
     }
 }
 
@@ -792,6 +830,11 @@ void monster::footsteps( const tripoint &p )
 
 tripoint monster::scent_move()
 {
+    // @todo Remove when scentmap is 3D
+    if( abs( posz() - g->get_levz() ) > 1 ) {
+        return { -1, -1, INT_MIN };
+    }
+
     std::vector<tripoint> smoves;
 
     int bestsmell = 10; // Squares with smell 0 are not eligible targets.
@@ -811,10 +854,11 @@ tripoint monster::scent_move()
         ( fleeing && bestsmell == 0 ) ) {
         return next;
     }
-    const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
-    for( const auto &dest : g->m.points_in_radius( pos(), 1 ) ) {
+    const bool can_bash = bash_skill() > 0;
+    for( const auto &dest : g->m.points_in_radius( pos(), 1, 1 ) ) {
         int smell = g->scent.get( dest );
-        if( ( can_move_to( dest ) || ( dest == g->u.pos() ) ||
+        if( g->m.valid_move( pos(), dest, can_bash, true ) &&
+            ( can_move_to( dest ) || ( dest == g->u.pos() ) ||
               ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
                 smoves.clear();
@@ -940,7 +984,7 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
     bool try_bash = !can_move_to( p ) || one_in( 3 );
-    bool can_bash = g->m.is_bashable( p ) && ( has_flag( MF_BASHES ) || has_flag( MF_BORES ) );
+    bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
 
     if( try_bash && can_bash ) {
         int bashskill = group_bash_skill( p );
@@ -957,20 +1001,14 @@ int monster::bash_estimate()
     if( has_flag( MF_GROUP_BASH ) ) {
         // Right now just give them a boost so they try to bash a lot of stuff.
         // TODO: base it on number of nearby friendlies.
-        estimate += 20;
+        estimate *= 2;
     }
     return estimate;
 }
 
 int monster::bash_skill()
 {
-    int ret = type->melee_dice * type->melee_sides; // IOW, the critter's max bashing damage
-    if( has_flag( MF_BORES ) ) {
-        ret *= 15; // This is for stuff that goes through solid rock: minerbots, dark wyrms, etc
-    } else if( has_flag( MF_DESTROYS ) ) {
-        ret *= 2.5;
-    }
-    return ret;
+    return type->bash_skill;
 }
 
 int monster::group_bash_skill( const tripoint &target )
@@ -1512,7 +1550,7 @@ bool monster::will_reach( int x, int y )
         return false;
     }
 
-    std::vector<tripoint> path = g->m.route( pos(), tripoint( x, y, posz() ), 0, 100 );
+    auto path = g->m.route( pos(), tripoint( x, y, posz() ), get_pathfinding_settings() );
     if( path.empty() ) {
         return false;
     }
@@ -1537,7 +1575,7 @@ bool monster::will_reach( int x, int y )
 int monster::turns_to_reach( int x, int y )
 {
     // This function is a(n old) temporary hack that should soon be removed
-    std::vector<tripoint> path = g->m.route( pos(), tripoint( x, y, posz() ), 0, 100 );
+    auto path = g->m.route( pos(), tripoint( x, y, posz() ), get_pathfinding_settings() );
     if( path.empty() ) {
         return 999;
     }

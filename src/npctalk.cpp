@@ -612,8 +612,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         mission *miss = p->chatbin.mission_selected;
         const auto &type = miss->get_type();
         // TODO: make it a member of the mission class, maybe at mission instance specific data
-        std::string ret = mission_dialogue( type.id, topic);
-        if (ret.empty()) {
+        const std::string &ret = miss->dialogue_for_topic( topic );
+        if( ret.empty() ) {
             debugmsg("Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%d) or topic(%s)",
                      type.id.c_str(), topic.c_str());
             return "";
@@ -3050,10 +3050,8 @@ void talk_function::clear_mission( npc &p )
         return;
     }
     const auto it = std::find( p.chatbin.missions_assigned.begin(), p.chatbin.missions_assigned.end(), miss );
-    // This function might get called twice or more if the player chooses the talk responses
-    // "train skill" -> "Never mind" -> "train skill", each "train skill" response calls this function,
-    // it also called when the dialogue is left through the other reward options.
     if( it == p.chatbin.missions_assigned.end() ) {
+        debugmsg( "clear_mission: mission_selected not in assigned" );
         return;
     }
     p.chatbin.missions_assigned.erase( it );
@@ -3982,8 +3980,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             volume_left = temp.volume_capacity() - temp.volume_carried();
             weight_left = temp.weight_capacity() - temp.weight_carried();
             mvwprintz( w_head, 3, 2, (volume_left < 0 || weight_left < 0) ? c_red : c_green,
-                       _("Volume: %.2f liters, Weight: %.1f %s"), to_milliliter( volume_left ) / 1000.0,
-                                      convert_weight( weight_left ), weight_units() );
+                       _("Volume: %s %s, Weight: %.1f %s"),
+                       format_volume( volume_left ).c_str(), volume_units_abbr(),
+                       convert_weight( weight_left ), weight_units() );
 
             std::string cost_string = ex ? _("Exchange") : ( cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f") );
             mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_string.length() ) / 2,
@@ -4679,8 +4678,8 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
             reason << string_format( _("I have no space to store it.") );
             reason << std::endl;
             if( free_space > 0 ) {
-                reason << string_format( _("I can only store %.2f liters more."),
-                    to_milliliter( free_space ) / 1000.0 );
+                reason << string_format( _("I can only store %s %s more."),
+                    format_volume( free_space ).c_str(), volume_units_long() );
             } else {
                 reason << string_format( _("...or to store anything else for that matter.") );
             }

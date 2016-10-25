@@ -2,6 +2,7 @@
   {
     "id": "heroin",
     "type": "COMESTIBLE",
+    "comestible_type": "MED",
     "name": "heroin",
     "description": "An extremely strong opioid narcotic derived from morphine.  Incredibly addictive, the risk of overdose is extreme, and the drug is contraindicated for nearly all medical purposes.",
     "weight": 1,
@@ -11,7 +12,6 @@
     "material": "powder",
     "symbol": "!",
     "color": "light_gray",
-    "comestible_type": "MED",
     "charges": 4,
     "stack_size": 100,
     "healthy": -5,
@@ -31,6 +31,7 @@
   {
     "id": "vitamins",
     "type": "COMESTIBLE",
+    "comestible_type": "MED",
     "name": "multivitamin",
     "description": "Essential dietary nutrients conveniently packaged in pill form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
     "weight": 1,
@@ -39,7 +40,6 @@
     "price_postapoc": 5000,
     "symbol": "!",
     "color": "magenta",
-    "comestible_type": "MED",
     "charges": 20,
     "stack_size": 20,
     "use_action": {
@@ -57,6 +57,7 @@
   {
     "id": "water",
     "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
     "category": "food",
     "name": "water",
     "name_plural": "water",
@@ -68,7 +69,6 @@
     "container": "bottle_plastic",
     "symbol": "~",
     "color": "light_cyan",
-    "comestible_type": "DRINK",
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD" ]

@@ -6,22 +6,35 @@
 # authors are both working on a file. If unspecified the default is unsorted.
 
 # Core
+data/json/bionics.json id
+data/json/item_category.json sort_rank
 data/json/items/ammo/*
+data/json/items/armor.json id
 data/json/items/armor/boots.json id
 data/json/items/book/* id
 data/json/items/bionics.json id
+data/json/items/containers.json id
+data/json/items/comestibles/spice.json id
+data/json/items/generic/string.json
 data/json/items/gun/* id
 data/json/items/gunmod/* id
 data/json/items/magazine/* id
+data/json/items/toolmod.json id
+data/json/items/tools.json id
 data/json/monsters.json id
 data/json/monsters/* id
 data/json/npcs/missiondef.json id
+data/json/recipes/armor/*.json result
+data/json/recipes/electronics/*.json result
 data/json/recipes/other/materials.json
 data/json/recipes/other/other.json
+data/json/recipes/other/parts.json
 data/json/vehicleparts/*
+data/json/npcs/missiondef.json id
 
 # Mods
 data/mods/blazemod/*.json
 data/mods/Generic_Guns/*.json
 data/mods/makeshift/*.json
 data/mods/PKs_Rebalance/items/*.json
+data/mods/PKs_Rebalance/monsters/*.json

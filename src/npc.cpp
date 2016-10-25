@@ -94,13 +94,11 @@ npc::npc()
     restock = -1;
     companion_mission = "";
     companion_mission_time = 0;
-    for( auto &skill : Skill::skills ) {
-        set_skill_level( skill.ident(), 0 );
-    }
-
     // ret_null is a bit more than just a regular "null", it is the "fist" for unarmed attacks
     ret_null = item( "null", 0 );
     last_updated = calendar::turn;
+
+    path_settings = pathfinding_settings( 0, 1000, 1000, true, false, true );
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
@@ -118,8 +116,8 @@ standard_npc::standard_npc( const std::string &name, const std::vector<itype_id>
     int_cur = std::max( s_int, 0 );
     int_max = std::max( s_int, 0 );
 
-    for( auto &e: _skills ) {
-        e.second = std::min( std::max( sk_lvl, 0 ), MAX_SKILL );
+    for( auto &e: Skill::skills ) {
+        set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
 
     for( const auto &e : clothing ) {
@@ -737,7 +735,7 @@ void npc::spawn_at(int x, int y, int z)
     position.z = z;
     const point pos_om = sm_to_om_copy( mapx, mapy );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
-    om.npcs.push_back(this);
+    om.add_npc( *this );
 }
 
 void npc::spawn_at_random_city(overmap *o)
@@ -1433,14 +1431,13 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_ammo() ) {
-        // TODO: Magazines! Don't count ammo as usable if the weapon isn't.
-        if( weapon.is_gun() && it.ammo_type() == weapon.ammo_type() ) {
-            ret += 14;
+        if( weapon.is_gun() && it.type->ammo->type.count( weapon.ammo_type() ) ) {
+            ret += 14; // @todo magazines - don't count ammo as usable if the weapon isn't.
         }
 
-        if( has_gun_for_ammo( it.ammo_type() ) ) {
-            // TODO consider making this cumulative (once was)
-            ret += 14;
+        if( std::any_of( it.type->ammo->type.begin(), it.type->ammo->type.end(),
+                         [&]( const ammotype &e ) { return has_gun_for_ammo( e ); } ) ) {
+            ret += 14; // @todo consider making this cumulative (once was)
         }
     }
 
@@ -1590,7 +1587,7 @@ int npc::smash_ability() const
 {
     if( !is_following() || rules.allow_bash ) {
         ///\EFFECT_STR_NPC increases smash ability
-        return str_cur + weapon.type->melee_dam;
+        return str_cur + weapon.damage_melee( DT_BASH );
     }
 
     // Not allowed to bash
@@ -2268,5 +2265,35 @@ bool npc::will_accept_from_player( const item &it ) const
     }
 
     return true;
+}
+
+const pathfinding_settings &npc::get_pathfinding_settings() const
+{
+    path_settings.bash_strength = smash_ability();
+
+    return path_settings;
+}
+
+const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
+{
+    path_settings.bash_strength = no_bashing ? 0 : smash_ability();
+
+    return path_settings;
+}
+
+std::set<tripoint> npc::get_path_avoid() const
+{
+    std::set<tripoint> ret;
+    ret.insert( g->u.pos() );
+    for( size_t i = 0; i < g->num_zombies(); i++ ) {
+        // @todo Cache this somewhere
+        ret.insert( g->zombie( i ).pos() );
+    }
+
+    for( const npc *np : g->active_npc ) {
+        ret.insert( np->pos() );
+    }
+
+    return ret;
 }
 

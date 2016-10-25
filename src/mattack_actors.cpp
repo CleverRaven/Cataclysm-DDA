@@ -28,10 +28,10 @@ bool is_adjacent( const monster &z, const Creature &target )
 }
 
 // Modified version of the function on monattack.cpp
-bool dodge_check( int max_accuracy, Creature &target )
+bool dodge_check( float max_accuracy, Creature &target )
 {
     ///\EFFECT_DODGE increases chance of dodging special attacks of monsters
-    int dodge = std::max( target.get_dodge() - rng( 0, max_accuracy ), 0L );
+    float dodge = std::max( target.get_dodge() - rng( 0, max_accuracy ), 0.0f );
     if( rng( 0, 10000 ) < 10000 / ( 1 + ( 99 * exp( -0.6f * dodge ) ) ) ) {
         return true;
     }

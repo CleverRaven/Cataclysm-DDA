@@ -57,6 +57,40 @@ void iexamine::none(player &p, const tripoint &examp)
     add_msg(_("That is a %s."), g->m.name(examp).c_str());
 }
 
+void iexamine::cvdmachine( player &p, const tripoint & ) {
+    // Select an item to which it is possible to apply a diamond coating
+    auto loc = g->inv_map_splice( []( const item &e ) {
+        return e.is_melee( DT_CUT ) && e.made_of( material_id( "steel" ) ) &&
+               !e.has_flag( "DIAMOND" ) && !e.has_flag( "NO_CVD" );
+    }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
+
+    if( !loc ) {
+        return;
+    }
+
+    // Require materials proportional to selected item volume
+    auto qty = loc->volume() / units::legacy_volume_factor;
+    auto reqs = *requirement_id( "cvd_diamond" ) * qty;
+    if( !reqs.can_make_with_inventory( p.crafting_inventory() ) ) {
+        popup( "%s", reqs.list_missing().c_str() );
+        return;
+    }
+
+    // Consume materials
+    for( const auto& e : reqs.get_components() ) {
+        p.consume_items( e );
+    }
+    for( const auto& e : reqs.get_tools() ) {
+        p.consume_tools( e );
+    }
+    p.invalidate_crafting_inventory();
+
+    // Apply flag to item
+    loc->item_tags.insert( "DIAMOND" );
+    add_msg( m_good, "You apply a diamond coating to your %s", loc->type_name().c_str() );
+    p.mod_moves( -1000 );
+}
+
 void iexamine::gaspump(player &p, const tripoint &examp)
 {
     if (!query_yn(_("Use the %s?"), g->m.tername(examp).c_str())) {
@@ -1066,6 +1100,27 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
     }
 }
 
+void iexamine::locked_object( player &p, const tripoint &examp) {
+    // Print ordinary examine message if inside (where you can open doors/windows anyway)
+    if (!g->m.is_outside(p.pos())) {
+        none(p, examp);
+        return;
+    }
+    
+    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 ); 
+    if ( !has_prying_tool ) {
+        add_msg(m_info, _("If only you had a crowbar..."));
+        return;
+    }
+
+    // See crate prying for why a dummy item is used
+    item fakecrow( "crowbar", 0 );
+
+    iuse dummy;
+    dummy.crowbar( &p, &fakecrow, false, examp );
+}
+
+
 void iexamine::bulletin_board(player &, const tripoint &examp)
 {
     basecamp *camp = g->m.camp_at( examp );
@@ -1153,7 +1208,13 @@ large semi-spherical indentation at the top."));
 
 void iexamine::door_peephole(player &p, const tripoint &examp) {
     if (g->m.is_outside(p.pos())) {
-        p.add_msg_if_player( _("You cannot look through the peephole from the outside."));
+        // if door is a locked type attempt to open
+        if (g->m.has_flag("OPENCLOSE_INSIDE", examp)) {
+            locked_object(p, examp);
+        } else {
+            p.add_msg_if_player( _("You cannot look through the peephole from the outside."));
+        }
+
         return;
     }
 
@@ -2771,7 +2832,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
 void iexamine::curtains(player &p, const tripoint &examp)
 {
     if (g->m.is_outside(p.pos())) {
-        p.add_msg_if_player( _("You cannot get to the curtains from the outside."));
+        locked_object(p, examp);
         return;
     }
 
@@ -3354,6 +3415,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     if ("none" == function_name) {
         return &iexamine::none;
     }
+    if ("cvdmachine" == function_name) {
+        return &iexamine::cvdmachine;
+    }
     if ("gaspump" == function_name) {
         return &iexamine::gaspump;
     }
@@ -3534,6 +3598,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("gunsafe_el" == function_name) {
         return &iexamine::gunsafe_el;
+    }
+    if ("locked_object" == function_name) {
+        return &iexamine::locked_object;
     }
     if ("kiln_empty" == function_name) {
         return &iexamine::kiln_empty;

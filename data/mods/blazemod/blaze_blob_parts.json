@@ -269,7 +269,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gloople_diesel_tank_u",
@@ -288,7 +288,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gloople_feed_tank",
@@ -307,7 +307,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gloople_feed_tank_u",
@@ -326,7 +326,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gloople_gas_tank",
@@ -345,7 +345,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gloople_gas_tank_u",
@@ -364,7 +364,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gloople_horizontal",
@@ -606,7 +606,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gloople_water_dirty_tank_u",
@@ -625,7 +625,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gloople_water_tank",
@@ -644,7 +644,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gloople_water_tank_u",
@@ -663,7 +663,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gloople_wheel",
@@ -871,7 +871,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glowiegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "glowie_battery_u",
@@ -889,7 +889,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glowiegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "glowie_power",
@@ -984,7 +984,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gray_diesel_tank_u",
@@ -1003,7 +1003,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gray_feed_tank",
@@ -1022,7 +1022,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gray_feed_tank_u",
@@ -1041,7 +1041,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gray_gas_tank",
@@ -1060,7 +1060,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gray_gas_tank_u",
@@ -1079,7 +1079,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gray_horizontal",
@@ -1321,7 +1321,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gray_water_dirty_tank_u",
@@ -1340,7 +1340,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gray_water_tank",
@@ -1359,7 +1359,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gray_water_tank_u",
@@ -1378,7 +1378,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "gray_wheel",
@@ -2120,7 +2120,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "oozle_diesel_tank_u",
@@ -2139,7 +2139,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "oozle_feed_tank",
@@ -2158,7 +2158,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "oozle_feed_tank_u",
@@ -2177,7 +2177,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "oozle_gas_tank",
@@ -2196,7 +2196,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "oozle_gas_tank_u",
@@ -2215,7 +2215,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "oozle_horizontal",
@@ -2457,7 +2457,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "oozle_water_dirty_tank_u",
@@ -2476,7 +2476,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "oozle_water_tank",
@@ -2495,7 +2495,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "oozle_water_tank_u",
@@ -2514,7 +2514,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TOOL_NONE", "FOLDABLE" ]
   },
   {
     "id": "oozle_wheel",
@@ -2723,7 +2723,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "queengrow" } ],
-    "flags": [ "FUEL_TANK", "TURRET", "MANUAL", "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "SEAT", "BED" ]
+    "flags": [ "TURRET", "MANUAL", "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "SEAT", "BED" ]
   },
   {
     "id": "razorqueen",

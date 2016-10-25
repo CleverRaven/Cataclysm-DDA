@@ -144,6 +144,7 @@ class Item_factory
         void load_gun( JsonObject &jo, const std::string &src );
         void load_armor( JsonObject &jo, const std::string &src );
         void load_tool( JsonObject &jo, const std::string &src );
+        void load_toolmod( JsonObject &jo, const std::string &src );
         void load_tool_armor( JsonObject &jo, const std::string &src );
         void load_book( JsonObject &jo, const std::string &src );
         void load_comestible( JsonObject &jo, const std::string &src );
@@ -160,30 +161,11 @@ class Item_factory
         void finalize();
 
         /**
-         * @name Item categories
-         */
-        /*@{*/
-        /**
-         * Load item category definition from json. The loaded category is stored
-         * and can be accessed through @ref get_category.
+         * Load item category definition from json
          * @param jo The json object to load data from.
          * @throw std::string if the json object contains invalid data.
          */
         void load_item_category( JsonObject &jo );
-        /**
-         * Determine and return the category id of the given type based on the type of item.
-         * E.g. if the item type is food, it returns the id of the food category.
-         * This should only be used as fallback for item types that have no explicit category
-         * setting in the json data.
-         */
-        const std::string &calc_category( const itype *ity );
-        /**
-         * Get the category from the category id.
-         * This will never return null, a new category is created if the category does not exist.
-         * The returned value stays valid as long as this object is not reset nor deleted.
-         */
-        const item_category *get_category( const std::string &id );
-        /*@}*/
 
         /** Migrations transform items loaded from legacy saves */
         void load_migration( JsonObject &jo );
@@ -222,7 +204,6 @@ class Item_factory
         void add_item_type( itype *new_type );
 
         void load_item_blacklist( JsonObject &jo );
-        void load_item_whitelist( JsonObject &jo );
 
         /**
          * A list of *all* known item type ids. Each is suitable as input to
@@ -259,16 +240,11 @@ class Item_factory
          */
         bool check_ammo_type( std::ostream &msg, const ammotype &ammo ) const;
 
-        typedef std::map<std::string, item_category> CategoryMap;
         // Map with all the defined item categories,
-        // get_category returns a value from this map. This map
-        // should only grow, categories should never be removed from
-        // it as itype::category contains a pointer to the values
-        // of this map (which has been returned by get_category).
+        // This map should only grow, categories should never be removed from
+        // it as itype::category contains a pointer to the values of this map
         // The key is the id of the item_category.
-        CategoryMap m_categories;
-
-        void create_inital_categories();
+        std::map<std::string, item_category> categories;
 
         /**
          * Called before creating a new template and handles inheritance via copy-from
@@ -297,6 +273,7 @@ class Item_factory
         void load( islot_brewable &slot, JsonObject &jo, const std::string &src );
         void load( islot_armor &slot, JsonObject &jo, const std::string &src );
         void load( islot_book &slot, JsonObject &jo, const std::string &src );
+        void load( islot_mod &slot, JsonObject &jo, const std::string &src );
         void load( islot_engine &slot, JsonObject &jo, const std::string &src );
         void load( islot_wheel &slot, JsonObject &jo, const std::string &src );
         void load( islot_gun &slot, JsonObject &jo, const std::string &src );
@@ -307,9 +284,6 @@ class Item_factory
         void load( islot_ammo &slot, JsonObject &jo, const std::string &src );
         void load( islot_seed &slot, JsonObject &jo, const std::string &src );
         void load( islot_artifact &slot, JsonObject &jo, const std::string &src );
-
-        // used to add the default categories
-        void add_category( const std::string &id, int sort_rank, const std::string &name );
 
         //json data handlers
         void set_use_methods_from_json( JsonObject &jo, std::string member,
@@ -337,12 +311,6 @@ class Item_factory
 
         void add_iuse( const std::string &type, const use_function_pointer f );
         void add_actor( iuse_actor *ptr );
-
-        /**
-         * JSON data dependent upon as-yet unparsed definitions
-         * first: JSON data, second: source identifier
-         */
-        std::list<std::pair<std::string, std::string>> deferred;
 
         std::map<itype_id, migration> migrations;
 };

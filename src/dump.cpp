@@ -49,18 +49,21 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             "Range", "Dispersion", "Recoil", "Damage", "Pierce"
         };
         auto dump = [&rows]( const item& obj ) {
-            std::vector<std::string> r;
-            r.push_back( obj.tname( 1, false ) );
-            r.push_back( obj.type->ammo->type.str() );
-            r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
-            r.push_back( to_string( obj.weight() ) );
-            r.push_back( to_string( obj.type->stack_size ) );
-            r.push_back( to_string( obj.type->ammo->range ) );
-            r.push_back( to_string( obj.type->ammo->dispersion ) );
-            r.push_back( to_string( obj.type->ammo->recoil ) );
-            r.push_back( to_string( obj.type->ammo->damage ) );
-            r.push_back( to_string( obj.type->ammo->pierce ) );
-            rows.push_back( r );
+            // a common task is comparing ammo by type so ammo has multiple repeat the entry
+            for( const auto &e : obj.type->ammo->type ) {
+                std::vector<std::string> r;
+                r.push_back( obj.tname( 1, false ) );
+                r.push_back( e.str() );
+                r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
+                r.push_back( to_string( obj.weight() ) );
+                r.push_back( to_string( obj.type->stack_size ) );
+                r.push_back( to_string( obj.type->ammo->range ) );
+                r.push_back( to_string( obj.type->ammo->dispersion ) );
+                r.push_back( to_string( obj.type->ammo->recoil ) );
+                r.push_back( to_string( obj.type->ammo->damage ) );
+                r.push_back( to_string( obj.type->ammo->pierce ) );
+                rows.push_back( r );
+            }
         };
         for( auto& e : item_controller->get_all_itypes() ) {
             if( e.second->ammo ) {
@@ -228,16 +231,16 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         header = {
             "Name", "Location", "Weight", "Size"
         };
-        auto dump = [&rows]( const vpart_info *obj ) {
+        auto dump = [&rows]( const vpart_info &obj ) {
             std::vector<std::string> r;
-            r.push_back( obj->name() );
-            r.push_back( obj->location );
-            r.push_back( to_string( int( ceil( item( obj->item ).weight() / 1000.0 ) ) ) );
-            r.push_back( to_string( obj->size / units::legacy_volume_factor ) );
+            r.push_back( obj.name() );
+            r.push_back( obj.location );
+            r.push_back( to_string( int( ceil( item( obj.item ).weight() / 1000.0 ) ) ) );
+            r.push_back( to_string( obj.size / units::legacy_volume_factor ) );
             rows.push_back( r );
         };
-        for( const auto e : vpart_info::get_all() ) {
-            dump( e );
+        for( const auto &e : vpart_info::all() ) {
+            dump( e.second );
         }
 
     } else if( what == "AIMING" ) {

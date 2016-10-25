@@ -2,9 +2,9 @@
     "type": "MOD_INFO",
     "mod_type": "SUPPLEMENTAL",
     "ident": "ew_pack",
-    "name": "Icecoon's Weapons Pack",
-    "description": "For those gun nuts.",
-    "author": "Icecoon",
+    "name": "Icecoon's Arsenal",
+    "description": "For those gun nuts.  Don't have enough near-future firearms in your life?  Add this mod today!",
+    "authors": [ "Icecoon", "community" ],
     "category": "items",
     "path": ""
 }

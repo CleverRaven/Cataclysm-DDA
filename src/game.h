@@ -85,6 +85,7 @@ enum weather_type : int;
 enum action_id : int;
 
 struct special_game;
+struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
 using itype_id = std::string;
@@ -271,10 +272,6 @@ class game
         void vertical_notes( int z_before, int z_after );
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
         void use_computer( const tripoint &p );
-        /** Attempts to refill the give vehicle's part with the player's current weapon. Returns true if successful. */
-        bool refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test = false);
-        /** Identical to refill_vehicle_part(veh, &veh.parts[part], test). */
-        bool pl_refill_vehicle (vehicle &veh, int part, bool test = false);
         /** Triggers a resonance cascade at p. */
         void resonance_cascade( const tripoint &p );
         /** Triggers a scrambler blast at p. */
@@ -345,8 +342,23 @@ class game
                                       std::vector<Creature *> t, int target,
                                       item *relevant, target_mode mode );
 
-        /** Prompts for target and returns trajectory to it */
-        std::vector<tripoint> pl_target_ui( target_mode mode, item *relevant, int range );
+        /**
+         * Targetting UI callback is passed the item being targeted (if any)
+         * and should return pointer to effective ammo data (if any)
+         */
+        using target_callback = std::function<const itype *(item *obj)>;
+
+        /**
+         *  Prompts for target and returns trajectory to it
+         *  @param relevant active item (if any)
+         *  @param ammo effective ammo data (derived from @param relevant if unspecified)
+         *  @param on_mode_change callback when user attempts changing firing mode
+         *  @param on_ammo_change callback when user attempts changing ammo
+         */
+        std::vector<tripoint> pl_target_ui( target_mode mode, item *relevant, int range,
+                                            const itype *ammo = nullptr,
+                                            const target_callback &on_mode_change = target_callback(),
+                                            const target_callback &on_ammo_change = target_callback() );
 
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
@@ -797,6 +809,9 @@ public:
         void unload(int pos = INT_MIN);
 
         unsigned int get_seed() const;
+
+        /** If invoked, NPCs will be reloaded before next turn. */
+        void set_npcs_dirty();
 private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
         void read(); // Read a book  'R' (or 'a')
@@ -894,7 +909,7 @@ private:
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
         void disp_NPCs();           // Currently UNUSED.  Lists global NPCs.
-        void list_missions();       // Listed current, completed and failed missions.
+        void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
         void debug();           // All-encompassing debug screen.  TODO: This.
@@ -925,6 +940,8 @@ private:
         // remoteveh() cache
         int remoteveh_cache_turn;
         vehicle *remoteveh_cache;
+        /** Has a NPC been spawned since last load? */
+        bool npcs_dirty;
 
         std::unique_ptr<special_game> gamemode;
 

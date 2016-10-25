@@ -187,6 +187,7 @@ struct artifact_weapon_datum {
     int weight; // Only applicable if this is an *extra* weapon
     int bash_min, bash_max;
     int cut_min, cut_max;
+    int stab_min, stab_max;
     int to_hit_min, to_hit_max;
     std::string tag;
 };
@@ -482,13 +483,13 @@ void init_artifacts()
     }
 
     artifact_weapon_datum tmp_artifact_weapon_data[NUM_ARTWEAPS] = {
-        {"", 0_ml, 0, 0, 0, 0, 0, 0, 0, ""},
-        // Adjective     Vol,wgt   Bash       Cut     To-Hit   tags
-        {_("Heavy"),     0_ml, 1400,  10, 20,    0,  0,   -2,  0,  ""},
-        {_("Knobbed"),   250_ml, 250,   14, 30,    0,  0,   -1,  1,  ""},
-        {_("Spiked"),    250_ml, 100,    0,  0,   20, 40,   -1,  1,  "SPEAR"},
-        {_("Edged"),     500_ml, 450,    0,  0,   20, 50,   -1,  2,  "CHOP"},
-        {_("Bladed"),    250_ml, 2250,   0,  0,   12, 30,   -1,  1,  "STAB"}
+        { "", 0_ml, 0, 0, 0, 0, 0, 0, 0, 0, 0, ""},
+        // Adjective      Vol   Weight Bashing Cutting Stabbing To-hit Flag
+        { _( "Heavy" ),   0_ml,   1400, 10, 20,  0,  0,  0,  0, -2, 0, "" },
+        { _( "Knobbed" ), 250_ml,  250, 14, 30,  0,  0,  0,  0, -1, 1, "" },
+        { _( "Spiked" ),  250_ml,  100,  0,  0,  0,  0, 20, 40, -1, 1, "" },
+        { _( "Edged" ),   500_ml,  450,  0,  0, 20, 50,  0,  0, -1, 2, "SHEATH_SWORD" },
+        { _( "Bladed" ),  250_ml, 2250,  0,  0,  0,  0, 12, 30, -1, 1, "SHEATH_KNIFE" }
     };
     for(int i = 0; i < NUM_ARTWEAPS; i++) {
         artifact_weapon_data[i] = tmp_artifact_weapon_data[i];
@@ -675,8 +676,9 @@ std::string new_artifact()
         art->weight = rng(info->weight_min, info->weight_max);
         // Set up the basic weapon type
         artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
-        art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
-        art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
+        art->melee[DT_BASH] = rng(weapon->bash_min, weapon->bash_max);
+        art->melee[DT_CUT] = rng(weapon->cut_min, weapon->cut_max);
+        art->melee[DT_STAB] = rng(weapon->stab_min, weapon->stab_max);
         art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
         if( weapon->tag != "" ) {
             art->item_tags.insert(weapon->tag);
@@ -688,8 +690,9 @@ std::string new_artifact()
                 weapon = &(artifact_weapon_data[ info->extra_weapons[select] ]);
                 art->volume += weapon->volume;
                 art->weight += weapon->weight;
-                art->melee_dam += rng(weapon->bash_min, weapon->bash_max);
-                art->melee_cut += rng(weapon->cut_min, weapon->cut_max);
+                art->melee[DT_BASH] += rng(weapon->bash_min, weapon->bash_max);
+                art->melee[DT_CUT] += rng(weapon->cut_min, weapon->cut_max);
+                art->melee[DT_STAB] += rng(weapon->stab_min, weapon->stab_max);
                 art->m_to_hit += rng(weapon->to_hit_min, weapon->to_hit_max);
                 if( weapon->tag != "" ) {
                     art->item_tags.insert(weapon->tag);
@@ -698,13 +701,6 @@ std::string new_artifact()
                 newname << weapon->adjective << " " << info->name;
                 art->create_name(newname.str());
             }
-        }
-        // CHOP is a sword, STAB is a dagger
-        if( art->item_tags.count( "CHOP" ) > 0 ) {
-            art->item_tags.insert( "SHEATH_SWORD" );
-        }
-        if( art->item_tags.count( "STAB" ) > 0 ) {
-            art->item_tags.insert( "SHEATH_KNIFE" );
         }
         art->description = string_format(
                                _("This is the %s.\nIt is the only one of its kind.\nIt may have unknown powers; try activating them."),
@@ -796,8 +792,8 @@ std::string new_artifact()
         art->materials.push_back(info->material);
         art->volume = info->volume;
         art->weight = info->weight;
-        art->melee_dam = info->melee_bash;
-        art->melee_cut = info->melee_cut;
+        art->melee[DT_BASH] = info->melee_bash;
+        art->melee[DT_CUT] = info->melee_cut;
         art->m_to_hit = info->melee_hit;
         art->armor->covers = info->covers;
         art->armor->encumber = info->encumb;
@@ -910,8 +906,8 @@ std::string new_natural_artifact(artifact_natural_property prop)
     art->materials.push_back( material_id( "stone" ) );
     art->volume = rng(shape_data->volume_min, shape_data->volume_max);
     art->weight = rng(shape_data->weight_min, shape_data->weight_max);
-    art->melee_dam = 0;
-    art->melee_cut = 0;
+    art->melee[DT_BASH] = 0;
+    art->melee[DT_CUT] = 0;
     art->m_to_hit = 0;
 
     art->create_name(property_data->name, shape_data->name);
@@ -1011,8 +1007,8 @@ std::string architects_cube()
     art->weight = rng(info->weight_min, info->weight_max);
     // Set up the basic weapon type
     artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
-    art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
-    art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
+    art->melee[DT_BASH] = rng(weapon->bash_min, weapon->bash_max);
+    art->melee[DT_CUT] = rng(weapon->cut_min, weapon->cut_max);
     art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
     if( weapon->tag != "" ) {
         art->item_tags.insert(weapon->tag);
@@ -1125,8 +1121,8 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     }
     volume = jo.get_int("volume") * units::legacy_volume_factor;
     weight = jo.get_int("weight");
-    melee_dam = jo.get_int("melee_dam");
-    melee_cut = jo.get_int("melee_cut");
+    melee[DT_BASH] = jo.get_int("melee_dam");
+    melee[DT_CUT] = jo.get_int("melee_cut");
     m_to_hit = jo.get_int("m_to_hit");
     item_tags = jo.get_tags("item_flags");
 
@@ -1153,13 +1149,6 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     ja = jo.get_array("effects_carried");
     while (ja.has_more()) {
         artifact->effects_carried.push_back((art_effect_passive)ja.next_int());
-    }
-
-    if( item_tags.count( "CHOP" ) > 0 ) {
-        item_tags.insert( "SHEATH_SWORD" );
-    }
-    if( item_tags.count( "STAB" ) > 0 ) {
-        item_tags.insert( "SHEATH_KNIFE" );
     }
 }
 
@@ -1195,8 +1184,8 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     }
     volume = jo.get_int("volume") * units::legacy_volume_factor;
     weight = jo.get_int("weight");
-    melee_dam = jo.get_int("melee_dam");
-    melee_cut = jo.get_int("melee_cut");
+    melee[DT_BASH] = jo.get_int("melee_dam");
+    melee[DT_CUT] = jo.get_int("melee_cut");
     m_to_hit = jo.get_int("m_to_hit");
     item_tags = jo.get_tags("item_flags");
 
@@ -1265,8 +1254,10 @@ void it_artifact_tool::serialize(JsonOut &json) const
     json.end_array();
     json.member("volume", volume / units::legacy_volume_factor);
     json.member("weight", weight);
-    json.member("melee_dam", melee_dam);
-    json.member("melee_cut", melee_cut);
+
+    json.member( "melee_dam", melee[DT_BASH] );
+    json.member( "melee_cut", melee[DT_CUT] );
+
     json.member("m_to_hit", m_to_hit);
 
     json.member("item_flags", item_tags);
@@ -1310,8 +1301,10 @@ void it_artifact_armor::serialize(JsonOut &json) const
     json.end_array();
     json.member("volume", volume / units::legacy_volume_factor);
     json.member("weight", weight);
-    json.member("melee_dam", melee_dam);
-    json.member("melee_cut", melee_cut);
+
+    json.member( "melee_dam", melee[DT_BASH] );
+    json.member( "melee_cut", melee[DT_CUT] );
+
     json.member("m_to_hit", m_to_hit);
 
     json.member("item_flags", item_tags);

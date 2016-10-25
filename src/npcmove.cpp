@@ -1383,8 +1383,7 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
         }
     }
 
-    const int bash_power = no_bashing ? 0 : smash_ability();
-    auto new_path = g->m.route( pos(), p, bash_power, 1000 );
+    auto new_path = g->m.route( pos(), p, get_pathfinding_settings( no_bashing ), get_path_avoid() );
     if( new_path.empty() ) {
         add_msg( m_debug, "Failed to path %d,%d,%d->%d,%d,%d",
                  posx(), posy(), posz(), p.x, p.y, p.z );
@@ -2180,7 +2179,7 @@ bool npc::wield_better_weapon()
 
     visit_items( [this, &compare_weapon]( item *node ) {
         // Skip some bad items
-        if( !node->is_gun() && node->type->melee_dam + node->type->melee_cut < 5 ) {
+        if( !node->is_melee() ) {
             return VisitResponse::SKIP;
         }
 
@@ -3078,17 +3077,25 @@ bool npc::complain()
 
 void npc::do_reload( item &it )
 {
-    auto usable_ammo = find_usable_ammo( it );
+    auto reload_opt = select_ammo( it );
 
-    if( !usable_ammo ) {
-        debugmsg( "do_reload failed: no usable ammo" );
+    if( !reload_opt ) {
+        debugmsg( "do_reload failed: no usable ammo for %s", it.tname().c_str() );
         return;
     }
 
+    // Note: we may be reloading the magazine inside, not the gun itself
+    // Maybe @todo: allow reload functions to understand such reloads instead of const casts
+    auto &target = const_cast<item &>( *reload_opt.target );
+    auto &usable_ammo = reload_opt.ammo;
+
     long qty = std::max( 1l, std::min( usable_ammo->charges, it.ammo_capacity() - it.ammo_remaining() ) );
     int reload_time = item_reload_cost( it, *usable_ammo, qty );
-    if( !it.reload( *this, std::move( usable_ammo ), qty ) ) {
-        debugmsg( "do_reload failed: item could not be reloaded" );
+    // @todo Consider printing this info to player too
+    const std::string ammo_name = usable_ammo->tname();
+    if( !target.reload( *this, std::move( usable_ammo ), qty ) ) {
+        debugmsg( "do_reload failed: item %s could not be reloaded with %ld charge(s) of %s",
+                  it.tname().c_str(), qty, ammo_name.c_str() );
         return;
     }
 

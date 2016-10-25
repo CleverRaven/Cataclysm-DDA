@@ -13,6 +13,7 @@
 #include <cassert>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 
 #include "debug.h"
 #include "json.h"
@@ -865,15 +866,20 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
     T out;
     double scalar;
 
+    // Object via which to report errors which differs for proportional/relative values
+    JsonObject err = jo;
+
     // dont require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
     if( jo.get_object( "relative" ).read( name, out ) ) {
+        err = jo.get_object( "relative" );
         strict = false;
         out += val;
 
     } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
+        err = jo.get_object( "proportional" );
         if( scalar <= 0 || scalar == 1 ) {
-            jo.throw_error( "invalid proportional scalar", name );
+            err.throw_error( "invalid proportional scalar", name );
         }
         strict = false;
         out = val * scalar;
@@ -884,11 +890,11 @@ typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
     }
 
     if( out < lo || out > hi ) {
-        jo.throw_error( "value outside supported range", name );
+        err.throw_error( "value outside supported range", name );
     }
 
     if( strict && out == val ) {
-        report_strict_violation( jo, "assignment does not update value", name );
+        report_strict_violation( err, "assignment does not update value", name );
     }
 
     val = out;
@@ -988,43 +994,71 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
 
 inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
                     bool strict = false,
-                    const units::volume lo = units::volume( std::numeric_limits<units::volume::value_type>::min(),
-                            units::volume::unit_type{} ),
-                    const units::volume hi = units::volume( std::numeric_limits<units::volume::value_type>::max(),
-                            units::volume::unit_type{} ) )
+                    const units::volume lo = units::volume_min,
+                    const units::volume hi = units::volume_max )
 {
-    // Currently JSON data contains volume in 250ml units.
-    // TODO: change JSON to contain milliliter values.
-    units::volume::value_type tmp;
+    auto parse = [&name]( JsonObject & obj, units::volume & out ) {
+        if( obj.has_int( name ) ) {
+            out = obj.get_int( name ) * units::legacy_volume_factor;
+            return true;
+        }
+
+        if( obj.has_string( name ) ) {
+            units::volume::value_type tmp;
+            std::string suffix;
+            std::istringstream str( obj.get_string( name ) );
+            str >> tmp >> suffix;
+            if( str.peek() != std::istringstream::traits_type::eof() ) {
+                obj.throw_error( "syntax error when specifying volume", name );
+            }
+            if( suffix == "ml" ) {
+                out = units::from_milliliter( tmp );
+            } else if( suffix == "L" ) {
+                out = units::from_milliliter( tmp * 1000 );
+            } else {
+                obj.throw_error( "unrecognised volumetric unit", name );
+            }
+            return true;
+        }
+
+        return false;
+    };
+
     units::volume out;
-    double scalar;
+
+    // Object via which to report errors which differs for proportional/relative values
+    JsonObject err = jo;
 
     // dont require strict parsing for relative and proportional values as rules
     // such as +10% are well-formed independent of whether they affect base value
-    if( jo.get_object( "relative" ).read( name, tmp ) ) {
+    if( jo.get_object( "relative" ).has_member( name ) ) {
+        units::volume tmp;
+        err = jo.get_object( "relative" );
+        if( !parse( err, tmp ) ) {
+            err.throw_error( "invalid relative value specified", name );
+        }
         strict = false;
-        out = val + tmp * units::legacy_volume_factor;
+        out = val + tmp;
 
-    } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
-        if( scalar <= 0 || scalar == 1 ) {
-            jo.throw_error( "invalid proportional scalar", name );
+    } else if( jo.get_object( "proportional" ).has_member( name ) ) {
+        double scalar;
+        err = jo.get_object( "proportional" );
+        if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err.throw_error( "invalid proportional scalar", name );
         }
         strict = false;
         out = val * scalar;
 
-    } else if( jo.read( name, tmp ) ) {
-        out = tmp * units::legacy_volume_factor;
-
-    } else {
+    } else if( !parse( jo, out ) ) {
         return false;
     }
 
     if( out < lo || out > hi ) {
-        jo.throw_error( "value outside supported range", name );
+        err.throw_error( "value outside supported range", name );
     }
 
     if( strict && out == val ) {
-        report_strict_violation( jo, "assignment does not update value", name );
+        report_strict_violation( err, "assignment does not update value", name );
     }
 
     val = out;

@@ -1137,7 +1137,7 @@ bool salvage_actor::try_to_cut_up( player *p, item *it ) const
     // There must be some historical significance to these items.
     if( !it->is_salvageable() ) {
         add_msg(m_info, _("Can't salvage anything from %s."), it->tname().c_str());
-        if (it->is_disassemblable()) {
+        if( p->rate_action_disassemble( *it ) != HINT_CANT ) {
             add_msg(m_info, _("Try disassembling the %s instead."), it->tname().c_str());
         }
         return false;
@@ -2042,7 +2042,9 @@ bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
                                          bandolier.contents.front().charges >= capacity ) ) {
         return false;
     }
-    return std::count( ammo.begin(), ammo.end(), obj.type->ammo->type );
+
+    return std::any_of( obj.type->ammo->type.begin(), obj.type->ammo->type.end(),
+                        [&]( const ammotype &e ) { return ammo.count( e ); } );
 }
 
 bool bandolier_actor::reload( player &p, item &obj ) const
@@ -2342,17 +2344,18 @@ int repair_item_actor::repair_recipe_difficulty( const player &pl,
 {
     const auto &type = fix.typeId();
     int min = 5;
-    for( const auto *cur_recipe : recipe_dict ) {
-        if( type != cur_recipe->result ) {
+    for( const auto &e : recipe_dict ) {
+        const auto r = e.second;
+        if( type != r.result ) {
             continue;
         }
 
-        int cur_difficulty = cur_recipe->difficulty;
-        if( !training && !pl.knows_recipe( cur_recipe ) ) {
+        int cur_difficulty = r.difficulty;
+        if( !training && !pl.knows_recipe( &r ) ) {
             cur_difficulty++;
         }
 
-        if( !training && !pl.has_recipe_requirements( *cur_recipe ) ) {
+        if( !training && !pl.has_recipe_requirements( r ) ) {
             cur_difficulty++;
         }
 

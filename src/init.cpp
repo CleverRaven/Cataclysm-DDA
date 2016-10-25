@@ -56,6 +56,7 @@
 #include "worldfactory.h"
 #include "weather_gen.h"
 #include "npc_class.h"
+#include "recipe_dictionary.h"
 
 #include <string>
 #include <vector>
@@ -84,6 +85,30 @@ void DynamicDataLoader::load_object( JsonObject &jo, const std::string &src )
         jo.throw_error( "unrecognized JSON object", "type" );
     }
     it->second( jo, src );
+}
+
+bool DynamicDataLoader::load_deferred( deferred_json& data )
+{
+    while( !data.empty() ) {
+        size_t n = static_cast<size_t>( data.size() );
+        auto it = data.begin();
+        for( size_t idx = 0; idx != n; ++idx ) {
+            try {
+                std::istringstream str( it->first );
+                JsonIn jsin( str );
+                JsonObject jo = jsin.get_object();
+                load_object( jo, it->second );
+            } catch( const std::exception &err ) {
+                debugmsg( "Error loading data from json: %s", err.what() );
+            }
+            ++it;
+        }
+        data.erase( data.begin(), it );
+        if( data.size() == n ) {
+            return false; // made no progress on this cycle so abort
+        }
+    }
+    return true;
 }
 
 void load_ingored_type(JsonObject &jo)
@@ -155,6 +180,7 @@ void DynamicDataLoader::initialize()
     add( "GUN", []( JsonObject &jo, const std::string &src ) { item_controller->load_gun( jo, src ); } );
     add( "ARMOR", []( JsonObject &jo, const std::string &src ) { item_controller->load_armor( jo, src ); } );
     add( "TOOL", []( JsonObject &jo, const std::string &src ) { item_controller->load_tool( jo, src ); } );
+    add( "TOOLMOD", []( JsonObject &jo, const std::string &src ) { item_controller->load_toolmod( jo, src ); } );
     add( "TOOL_ARMOR", []( JsonObject &jo, const std::string &src ) { item_controller->load_tool_armor( jo, src ); } );
     add( "BOOK", []( JsonObject &jo, const std::string &src ) { item_controller->load_book( jo, src ); } );
     add( "COMESTIBLE", []( JsonObject &jo, const std::string &src ) { item_controller->load_comestible( jo, src ); } );
@@ -173,8 +199,8 @@ void DynamicDataLoader::initialize()
     add( "SPECIES", []( JsonObject &jo ) { MonsterGenerator::generator().load_species( jo ); } );
 
     add( "recipe_category", &load_recipe_category );
-    add( "recipe",  []( JsonObject &jo, const std::string &src ) { load_recipe( jo, src, false ); } );
-    add( "uncraft", []( JsonObject &jo, const std::string &src ) { load_recipe( jo, src, true  ); } );
+    add( "recipe",  []( JsonObject &jo, const std::string &src ) { recipe_dictionary::load( jo, src, false ); } );
+    add( "uncraft", []( JsonObject &jo, const std::string &src ) { recipe_dictionary::load( jo, src, true  ); } );
 
     add( "tool_quality", &quality::load_static );
     add( "technique", &load_technique );
@@ -189,7 +215,6 @@ void DynamicDataLoader::initialize()
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
     add( "ITEM_BLACKLIST", []( JsonObject &jo ) { item_controller->load_item_blacklist( jo ); } );
-    add( "ITEM_WHITELIST", []( JsonObject &jo ) { item_controller->load_item_whitelist( jo ); } );
     add( "WORLD_OPTION", &load_world_option );
 
     // loaded earlier.
@@ -315,7 +340,7 @@ void DynamicDataLoader::unload_data()
     vpart_info::reset();
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
-    reset_recipes();
+    recipe_dictionary::reset();
     quality::reset();
     trap::reset();
     reset_constructions();
@@ -352,7 +377,7 @@ void DynamicDataLoader::finalize_loaded_data()
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
-    finalize_recipes();
+    recipe_dictionary::finalize();
     finialize_martial_arts();
     finalize_constructions();
     npc_class::finalize_all();
@@ -371,7 +396,6 @@ void DynamicDataLoader::check_consistency()
     vpart_info::check();
     MonsterGenerator::generator().check_monster_definitions();
     MonsterGroupManager::check_group_definitions();
-    check_recipe_definitions();
     check_furniture_and_terrain();
     check_constructions();
     profession::check_definitions();
@@ -382,4 +406,5 @@ void DynamicDataLoader::check_consistency()
     trap::check_consistency();
     check_bionics();
     npc_class::check_consistency();
+    mission_type::check_consistency();
 }

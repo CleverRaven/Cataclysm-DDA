@@ -438,18 +438,16 @@ public:
  std::vector<tripoint> get_dir_circle( const tripoint &f, const tripoint &t ) const;
 
     /**
-     * Calculate a best path using A*
+     * Calculate the best path using A*
      *
      * @param f The source location from which to path.
      * @param t The destination to which to path.
-     * @param bash Bashing strength of pathing creature (0 means no bashing through terrain).
-     * @param maxdist Consider only paths up to this length (move cost multiplies "length" of a tile).
+     * @param settings Structure describing pathfinding parameters.
+     * @param pre_closed Never path through those points. They can still be the source or the destination.
      */
     std::vector<tripoint> route( const tripoint &f, const tripoint &t,
-                                 const int bash, const int maxdist,
-                                 const std::set<tripoint> &pre_closed ) const;
-    std::vector<tripoint> route( const tripoint &f, const tripoint &t,
-                                 const int bash, const int maxdist ) const;
+                                 const pathfinding_settings &settings,
+                                 const std::set<tripoint> &pre_closed = {{ }} ) const;
 
  int coord_to_angle(const int x, const int y, const int tgtx, const int tgty) const;
 // Vehicles: Common to 2D and 3D

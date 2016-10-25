@@ -162,7 +162,7 @@
     "description": "A uniquely designed pistol caliber carbine with an integral folding stock and that makes use of 9mm Glock magazines.",
     "weight": 1985,
     "volume": 7,
-    "price": 5900,
+    "price": 75000,
     "to_hit": -1,
     "bashing": 8,
     "material": [ "steel", "plastic" ],

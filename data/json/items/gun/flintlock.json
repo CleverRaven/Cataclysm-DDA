@@ -19,6 +19,17 @@
     }
   },
   {
+    "id": "carbine_flintlock_double",
+    "copy-from": "carbine_flintlock",
+    "type": "GUN",
+    "name": "double-barrel flintlock carbine",
+    "description": "This is a compact muzzle-loading rifle combining a pair of rudimentary flintlock actions and two barrels.  Whereas an antique multiple-barrel flintlock is an intricate work of gunsmithing, this weapon is simpler yet still serviceable.",
+    "clip_size": 2,
+    "relative": { "weight": 400 },
+    "proportional": { "dispersion": 1.2 },
+    "extend": { "flags": [ "RELOAD_ONE" ] }
+  },
+  {
     "id": "pistol_flintlock",
     "type": "GUN",
     "name": "flintlock pistol",
@@ -43,28 +54,6 @@
     "flags": [ "NEVER_JAMS" ]
   },
   {
-    "id": "pistol_pepperbox",
-    "type": "GUN",
-    "name": "pepperbox pistol",
-    "description": "An elegantly crafted, ornate pepperbox.  This primitive revolver has six barrels, making it unwieldy to shoot.",
-    "weight": 876,
-    "volume": 3,
-    "price": 45000,
-    "to_hit": -4,
-    "bashing": 5,
-    "material": [ "iron", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": "flintlock",
-    "skill": "pistol",
-    "dispersion": 540,
-    "durability": 6,
-    "clip_size": 6,
-    "reload": 1200,
-    "valid_mod_locations": [ [ "accessories", 1 ] ],
-    "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
-  },
-  {
     "id": "rifle_flintlock",
     "type": "GUN",
     "name": "flintlock rifle",
@@ -85,19 +74,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 1200,
-    "built_in_mods": [ "bayonet" ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
-  },
-  {
-    "id": "carbine_flintlock_double",
-    "copy-from": "carbine_flintlock",
-    "type": "GUN",
-    "name": "double-barrel flintlock carbine",
-    "description": "This is a compact muzzle-loading rifle combining a pair of rudimentary flintlock actions and two barrels.  Whereas an antique multiple-barrel flintlock is an intricate work of gunsmithing, this weapon is simpler yet still servicable.",
-    "clip_size": 2,
-    "relative": { "weight": 400 },
-    "proportional": { "dispersion": 1.2 },
-    "extend": { "flags": [ "RELOAD_ONE" ] }
   }
 ]

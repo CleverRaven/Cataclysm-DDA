@@ -44,6 +44,7 @@ mtype::mtype()
     dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
     luminance = 0;
+    bash_skill = 0;
     flags.insert( MF_HUMAN );
     flags.insert( MF_BONES );
     flags.insert( MF_LEATHER );

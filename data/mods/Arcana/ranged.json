@@ -97,7 +97,7 @@
     "skill": "magic",
     "ammo": "essence_blood_type",
     "techniques" : ["WBLOCK_1"],
-    "flags" : ["UNARMED_WEAPON", "NEVER_JAMS", "UNBREAKABLE_MELEE", "FIRE", "SLICE", "LIGHT_240", "FLAMING", "PRIMITIVE_RANGED_WEAPON"],
+    "flags" : ["UNARMED_WEAPON", "NEVER_JAMS", "UNBREAKABLE_MELEE", "FIRE", "LIGHT_240", "FLAMING", "PRIMITIVE_RANGED_WEAPON"],
     "weight": 92,
     "volume": 0,
     "bashing": 8,

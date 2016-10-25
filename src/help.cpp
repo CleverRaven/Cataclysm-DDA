@@ -1,11 +1,8 @@
 #include "help.h"
 
 #include "action.h"
-#include "auto_pickup.h"
-#include "safemode_ui.h"
 #include "catacharset.h"
 #include "input.h"
-#include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
@@ -74,15 +71,10 @@ Press q or ESC to return to the game." ) ) + 1;
     }
 
     headers.clear();
-    headers.push_back( _( "1: List of all commands (you can change key commands here)" ) );
-    headers.push_back( _( "2: List of all options  (you can change options here)" ) );
-    headers.push_back( _( "3: Auto pickup manager  (you can change pickup rules here)" ) );
-    headers.push_back( _( "4: Safemode manager     (you can change safemode rules here)" ) );
-    headers.push_back( _( "5: Color manager        (you can change all colors here)" ) );
-    headers.push_back( _( "6: List of item types and data" ) );
-    headers.push_back( _( "7: Description of map symbols" ) );
-    headers.push_back( _( "8: Description of gun types" ) );
-    headers.push_back( _( "9: Frequently Asked Questions (Some spoilers!)" ) );
+    headers.push_back( _( "1: List of item types and data" ) );
+    headers.push_back( _( "2: Description of map symbols" ) );
+    headers.push_back( _( "3: Description of gun types" ) );
+    headers.push_back( _( "4: Frequently Asked Questions (Some spoilers!)" ) );
     headers.push_back( _( " " ) );
     headers.push_back( _( "q: Return to game" ) );
 
@@ -1094,47 +1086,19 @@ void display_help()
                 help_driving( w_help );
                 break;
 
-            // Keybindings
-            case '1': {
-                input_context ctxt = get_default_mode_input_context();
-                ctxt.display_help();
-                werase( w_help );
-            }
-            break;
-
-            case '2':
-                get_options().show( true );
-                werase( w_help );
-                break;
-
-            case '3':
-                get_auto_pickup().show();
-                werase( w_help );
-                break;
-
-            case '4':
-                get_safemode().show();
-                werase( w_help );
-                break;
-
-            case '5':
-                all_colors.show_gui();
-                werase( w_help );
-                break;
-
-            case '6':
+            case '1':
                 multipage( w_help, text_types(), _( "Item types:" ) );
                 break;
 
-            case '7':
+            case '2':
                 help_map( w_help );
                 break;
 
-            case '8':
+            case '3':
                 multipage( w_help, text_guns(), _( "Gun types:" ) );
                 break;
 
-            case '9':
+            case '4':
                 multipage( w_help, text_faq() );
                 break;
 

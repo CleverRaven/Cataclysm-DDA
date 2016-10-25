@@ -1,0 +1,1375 @@
+[
+  {
+    "result": "balclava",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": 5000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 3 ] ] ],
+    "components": [ [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "bandana",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "time": 5000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 2 ] ] ],
+    "components": [ [ [ "rag", 2 ] ] ]
+  },
+  {
+    "result": "beret_wool",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": 60000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "components": [ [ [ "felt_patch", 4 ] ] ]
+  },
+  {
+    "result": "blindfold",
+    "type": "recipe",
+    "id_suffix": "from_tape",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 3000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "duct_tape", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "blindfold",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "time": 3000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "bandana", 1 ], [ "scarf", 1 ], [ "scarf_long", 1 ], [ "patchwork_scarf", 1 ], [ "long_patchwork_scarf", 1 ], [ "scarf_fur", 1 ], [ "scarf_fur_long", 1 ], [ "knit_scarf", 1 ], [ "long_knit_scarf", 1 ], [ "scarf_loose", 1 ], [ "scarf_long_loose", 1 ], [ "patchwork_scarf_loose", 1 ], [ "long_patchwork_scarf_loose", 1 ], [ "scarf_fur_loose", 1 ], [ "scarf_fur_long_loose", 1 ], [ "knit_scarf_loose", 1 ], [ "long_knit_scarf_loose", 1 ], [ "bandages", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "cowboy_hat",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 50000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 16 ] ] ],
+    "components": [ [ [ "leather", 8 ], [ "tanned_hide", 1 ] ] ]
+  },
+  {
+    "result": "cowl_wool",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": 120000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 80 ] ] ],
+    "components": [ [ [ "felt_patch", 8 ] ] ]
+  },
+  {
+    "result": "fur_cat_ears",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 20000,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "tools": [
+      [ [ "sewing_kit", 10 ] ],
+      [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
+    ],
+    "components": [
+      [ [ "fur", 2 ] ],
+      [ [ "plastic_chunk", 3 ] ]
+    ]
+  },
+  {
+    "result": "glasses_safety",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 8000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "components": [
+      [ [ "string_36", 1 ], [ "string_6", 2 ] ],
+      [ [ "bottle_plastic", 1 ], [ "bottle_plastic_small", 2 ] ]
+    ]
+  },
+  {
+    "result": "goggles_ir",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "skills_required": [ "tailor", 1 ],
+    "time": 40000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "textbook_fireman", 6 ], [ "advanced_electronics", 5 ], [ "textbook_electronics", 6 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "components": [
+      [ [ "goggles_ski", 1 ], [ "goggles_welding", 1 ], [ "mask_gas", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "amplifier", 4 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "scrap", 2 ] ]
+    ]
+  },
+  {
+    "result": "goggles_nv",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "skills_required": [ "tailor", 1 ],
+    "time": 40000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "textbook_fireman", 7 ], [ "advanced_electronics", 4 ], [ "textbook_electronics", 4 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "components": [
+      [ [ "goggles_ski", 1 ], [ "goggles_welding", 1 ], [ "mask_gas", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "amplifier", 3 ] ],
+      [ [ "scrap", 5 ] ]
+    ]
+  },
+  {
+    "result": "goggles_swim",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 30000,
+    "autolearn": true,
+    "components": [
+      [ [ "goggles_ski", 1 ], [ "goggles_welding", 1 ], [ "glasses_safety", 1 ] ],
+      [ [ "duct_tape", 120 ], [ "medical_tape", 120 ] ],
+      [ [ "superglue", 1 ] ]
+    ]
+  },
+  {
+    "result": "goggles_welding",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "mechanics",
+    "difficulty": 2,
+    "skills_required": [ "fabrication", 1 ],
+    "time": 30000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ] ],
+    "tools": [ [ [ "spray_can", 1 ] ] ],
+    "components": [
+      [ [ "goggles_ski", 1 ], [ "goggles_swim", 1 ], [ "glasses_safety", 1 ], [ "sunglasses", 1 ] ],
+      [ [ "duct_tape", 20 ], [ "medical_tape", 20 ] ]
+    ]
+  },
+  {
+    "result": "hat_boonie",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 25000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 10 ] ] ],
+    "components": [ [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "hat_cotton",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": 40000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 8 ] ] ],
+    "components": [ [ [ "rag", 3 ] ] ]
+  },
+  {
+    "result": "hat_fur",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": 40000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 8 ] ] ],
+    "components": [ [ [ "fur", 3 ] ] ]
+  },
+  {
+    "result": "hat_hard",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 35000,
+    "autolearn": true,
+    "tools": [
+      [ [ "mold_plastic", -1 ] ],
+      [ [ "hotplate", 15 ], [ "toolset", 15 ], [ "fire", -1 ] ]
+    ],
+    "components": [ [ [ "plastic_chunk", 10 ] ] ]
+  },
+  {
+    "result": "hat_hard_hooded",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "time": 45000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "rag", 1 ], [ "bandana", 1 ] ],
+      [ [ "hat_hard", 1 ] ]
+    ]
+  },
+  {
+    "result": "hat_hunting",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": 90000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 50 ] ] ],
+    "components": [ [ [ "felt_patch", 10 ] ] ]
+  },
+  {
+    "result": "hat_knit",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 40000,
+    "autolearn": true,
+    "tools": [ [ [ "knitting_needles", -1 ], [ "tailors_kit", -1 ] ] ],
+    "components": [ [ [ "yarn", 75 ] ] ]
+  },
+  {
+    "result": "hat_noise_cancelling",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 10000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 8 ] ] ],
+    "components": [
+      [ [ "rag", 4 ] ],
+      [ [ "string_36", 2 ] ]
+    ]
+  },
+  {
+    "result": "helmet_barbute",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": 540000,
+    "book_learn": [ [ "textbook_armwest", 5 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3, "amount": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 300 ], [ "oxy_torch", 60 ] ]
+    ],
+    "components": [
+      [ [ "steel_lump", 10 ], [ "steel_chunk", 40 ] ],
+      [ [ "fur", 4 ], [ "leather", 4 ] ]
+    ]
+  },
+  {
+    "result": "helmet_bone",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": 60000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "components": [ [ [ "bone", 24 ], [ "bone_human", 24 ], [ "bone_tainted", 48 ] ] ]
+  },
+  {
+    "result": "helmet_chitin",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": 60000,
+    "autolearn": true,
+    "components": [
+      [ [ "string_36", 1 ], [ "string_6", 5 ] ],
+      [ [ "chitin_piece", 5 ] ]
+    ]
+  },
+  {
+    "result": "helmet_hsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ "fabrication", 5 ],
+    "time": 45000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ],
+      [ [ "sewing_kit", 10 ] ]
+    ],
+    "components": [
+      [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 3 ] ],
+      [ [ "tac_helmet", 1 ], [ "tac_fullhelmet", 1 ], [ "helmet_army", 1 ], [ "kevlar_plate", 6 ] ],
+      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
+      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
+      [ [ "duct_tape", 75 ] ],
+      [ [ "helmet_riot", 1 ], [ "helmet_motor", 1 ], [ "helmet_football", 1 ], [ "helmet_ball", 1 ], [ "helmet_skid", 1 ], [ "helmet_bike", 1 ], [ "hat_hard", 1 ], [ "firehelmet", 1 ], [ "pickelhaube", 1 ], [ "plastic_chunk", 8 ] ]
+    ]
+  },
+  {
+    "result": "helmet_kabuto",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "time": 600000,
+    "book_learn": [ [ "textbook_armeast", 8 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3, "amount": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 450 ], [ "oxy_torch", 90 ] ]
+    ],
+    "components": [
+      [ [ "steel_lump", 12 ] ],
+      [ [ "fur", 14 ], [ "tanned_pelt", 2 ], [ "leather", 14 ], [ "tanned_hide", 2 ] ],
+      [ [ "rag", 4 ] ]
+    ]
+  },
+  {
+    "result": "helmet_larmor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": 30000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "sewing_kit", 18 ] ] ],
+    "components": [ [ [ "leather", 16 ], [ "tanned_hide", 3 ], [ "fur", 16 ], [ "tanned_pelt", 3 ] ] ]
+  },
+  {
+    "result": "helmet_nomad",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": 40000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "sewing_kit", 65 ] ] ],
+    "components": [
+      [ [ "hat_ball", 1 ], [ "hat_hunting", 1 ] ],
+      [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
+      [ [ "leather", 8 ], [ "tanned_hide", 2 ] ]
+    ]
+  },
+  {
+    "result": "helmet_plate",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": 540000,
+    "book_learn": [ [ "textbook_armwest", 6 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3, "amount": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 350 ], [ "oxy_torch", 70 ] ]
+    ],
+    "components": [
+      [ [ "steel_lump", 14 ], [ "steel_chunk", 56 ] ],
+      [ [ "fur", 4 ], [ "leather", 4 ] ]
+    ]
+  },
+  {
+    "result": "helmet_scavenger",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 8,
+    "skills_required": [ "fabrication", 3 ],
+    "time": 40000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "soldering_iron", 8 ], [ "toolset", 8 ] ],
+      [ [ "sewing_kit", 65 ] ]
+    ],
+    "components": [
+      [ [ "hat_ball", 1 ], [ "hat_hunting", 1 ] ],
+      [ [ "mask_dust", 2 ] ],
+      [ [ "glasses_bal", 1 ], [ "goggles_ski", 1 ] ],
+      [ [ "kevlar_plate", 8 ] ]
+    ]
+  },
+  {
+    "result": "helmet_survivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 4 ],
+    "time": 45000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ],
+      [ [ "sewing_kit", 10 ] ]
+    ],
+    "components": [
+      [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 3 ] ],
+      [ [ "tac_helmet", 1 ], [ "tac_fullhelmet", 1 ], [ "helmet_army", 1 ], [ "kevlar_plate", 6 ] ],
+      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
+      [ [ "leather", 8 ], [ "tanned_hide", 2 ] ],
+      [ [ "duct_tape", 150 ] ],
+      [ [ "helmet_riot", 1 ], [ "helmet_motor", 1 ], [ "helmet_football", 1 ], [ "helmet_ball", 1 ], [ "helmet_skid", 1 ], [ "helmet_bike", 1 ], [ "hat_hard", 1 ], [ "firehelmet", 1 ], [ "pickelhaube", 1 ], [ "plastic_chunk", 8 ] ]
+    ]
+  },
+  {
+    "result": "helmet_xlsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 4 ],
+    "time": 60000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 84 ], [ "welder_crude", 126 ], [ "soldering_iron", 126 ], [ "toolset", 126 ] ],
+      [ [ "sewing_kit", 20 ] ]
+    ],
+    "components": [
+      [ [ "scrap", 4 ] ],
+      [ [ "rag", 6 ] ],
+      [ [ "leather", 16 ], [ "tanned_hide", 3 ] ],
+      [ [ "plastic_chunk", 20 ] ],
+      [ [ "kevlar_plate", 14 ] ],
+      [ [ "hood_rain", 2 ], [ "bag_plastic", 4 ] ],
+      [ [ "duct_tape", 300 ] ]
+    ]
+  },
+  {
+    "result": "hood_fsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 8,
+    "skills_required": [ "fabrication", 6 ],
+    "time": 45000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fireman", 7 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
+      [ [ "sewing_kit", 40 ] ]
+    ],
+    "components": [
+      [ [ "nomex", 8 ] ],
+      [ [ "kevlar_plate", 4 ] ],
+      [ [ "nomex_hood", 1 ] ],
+      [ [ "duct_tape", 100 ] ]
+    ]
+  },
+  {
+    "result": "hood_h20survivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ "fabrication", 6 ],
+    "time": 45000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
+      [ [ "sewing_kit", 40 ] ]
+    ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "kevlar_plate", 4 ] ],
+      [ [ "wetsuit_hood", 1 ] ],
+      [ [ "duct_tape", 100 ] ]
+    ]
+  },
+  {
+    "result": "hood_lsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ "fabrication", 4 ],
+    "time": 45000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
+      [ [ "sewing_kit", 40 ] ]
+    ],
+    "components": [
+      [ [ "rag", 8 ] ],
+      [ [ "kevlar_plate", 4 ] ],
+      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
+      [ [ "duct_tape", 100 ] ]
+    ]
+  },
+  {
+    "result": "hood_rain",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 12000,
+    "autolearn": true,
+    "tools": [],
+    "components": [
+      [ [ "duct_tape", 20 ] ],
+      [ [ "bag_plastic", 2 ] ],
+      [ [ "rag", 2 ] ]
+    ]
+  },
+  {
+    "result": "hood_survivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 4 ],
+    "time": 45000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
+      [ [ "sewing_kit", 40 ] ]
+    ],
+    "components": [
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
+      [ [ "rag", 2 ] ],
+      [ [ "kevlar_plate", 4 ] ],
+      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
+      [ [ "duct_tape", 100 ] ]
+    ]
+  },
+  {
+    "result": "hood_wsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 7,
+    "skills_required": [ "fabrication", 5 ],
+    "time": 45000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
+      [ [ "sewing_kit", 40 ] ]
+    ],
+    "components": [
+      [ [ "fur", 8 ], [ "tanned_pelt", 1 ] ],
+      [ [ "rag", 2 ] ],
+      [ [ "kevlar_plate", 4 ] ],
+      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
+      [ [ "duct_tape", 100 ] ]
+    ]
+  },
+  {
+    "result": "hood_xlsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 4 ],
+    "time": 60000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ],
+      [ [ "sewing_kit", 80 ] ]
+    ],
+    "components": [
+      [ [ "leather", 14 ], [ "tanned_hide", 3 ] ],
+      [ [ "rag", 4 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "kevlar_plate", 6 ] ],
+      [ [ "hood_rain", 2 ], [ "bag_plastic", 4 ] ],
+      [ [ "duct_tape", 200 ] ]
+    ]
+  },
+  {
+    "result": "keffiyeh",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "time": 5000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "sheet", 1 ] ],
+      [ [ "string_36", 1 ] ]
+    ]
+  },
+  {
+    "result": "knit_scarf",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 40000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "knitting_needles", -1 ], [ "tailors_kit", -1 ] ] ],
+    "components": [ [ [ "thread", 600 ], [ "sinew", 600 ], [ "plant_fibre", 600 ] ] ]
+  },
+  {
+    "result": "leather_cat_ears",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 20000,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "tools": [
+      [ [ "sewing_kit", 10 ] ],
+      [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
+    ],
+    "components": [
+      [ [ "leather", 2 ] ],
+      [ [ "plastic_chunk", 3 ] ]
+    ]
+  },
+  {
+    "result": "long_knit_scarf",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 60000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "knitting_needles", -1 ], [ "tailors_kit", -1 ] ] ],
+    "components": [ [ [ "thread", 900 ], [ "sinew", 900 ], [ "plant_fibre", 900 ] ] ]
+  },
+  {
+    "result": "long_patchwork_scarf",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "time": 15000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 9 ] ] ],
+    "components": [ [ [ "rag", 12 ] ] ]
+  },
+  {
+    "result": "mask_filter",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "//": "Airtight takes some skills.",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "fabrication", 1 ],
+    "time": 5000,
+    "reversible": true,
+    "decomp_learn": 3,
+    "book_learn": [ [ "textbook_fireman", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "emergency_book", 3 ], [ "textbook_gaswarfare", 3 ] ],
+    "components": [
+      [ [ "bag_plastic", 2 ], [ "bottle_plastic", 1 ], [ "bottle_plastic_small", 2 ] ],
+      [ [ "rag", 2 ], [ "bandana", 2 ], [ "paper", 10 ] ],
+      [ [ "charcoal", 10 ] ]
+    ]
+  },
+  {
+    "result": "mask_fsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "tailor", 8 ],
+    "time": 20000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "sewing_kit", 20 ] ],
+      [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
+    ],
+    "components": [
+      [ [ "mask_bunker", 1 ] ],
+      [ [ "nomex", 4 ] ],
+      [ [ "duct_tape", 200 ], [ "superglue", 2 ] ],
+      [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
+    ]
+  },
+  {
+    "result": "mask_fsurvivorxl",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "tailor", 8 ],
+    "time": 20000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "sewing_kit", 20 ] ],
+      [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
+    ],
+    "components": [
+      [ [ "mask_bunker", 1 ] ],
+      [ [ "nomex", 8 ] ],
+      [ [ "duct_tape", 200 ], [ "superglue", 2 ] ],
+      [ [ "mask_bal", 1 ], [ "kevlar_plate", 6 ] ]
+    ]
+  },
+  {
+    "result": "mask_gas",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "fabrication", 1 ],
+    "time": 20000,
+    "decomp_learn": 3,
+    "book_learn": [ [ "textbook_fireman", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "emergency_book", 3 ], [ "textbook_gaswarfare", 3 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1, "amount": 1 } ],
+    "components": [
+      [ [ "goggles_ski", 1 ], [ "goggles_swim", 2 ] ],
+      [ [ "mask_filter", 3 ], [ "muffler", 1 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "charcoal", 20 ] ]
+    ]
+  },
+  {
+    "result": "mask_gas_xl",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "skills_required": [ "fabrication", 1 ],
+    "time": 20000,
+    "book_learn": [ [ "textbook_fireman", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "emergency_book", 3 ], [ "textbook_gaswarfare", 3 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "goggles_ski", 1 ], [ "goggles_swim", 2 ] ],
+      [ [ "mask_filter", 3 ], [ "muffler", 1 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "charcoal", 20 ] ]
+    ]
+  },
+  {
+    "result": "mask_gas_xl",
+    "type": "recipe",
+    "id_suffix": "expand-existing",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "skills_required": [ "fabrication", 1 ],
+    "time": 20000,
+    "book_learn": [ [ "textbook_fireman", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "emergency_book", 3 ], [ "textbook_gaswarfare", 3 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "mask_gas", 1 ] ],
+      [ [ "mask_filter", 1 ] ],
+      [ [ "plastic_chunk", 3 ] ]
+    ]
+  },
+  {
+    "result": "mask_h20survivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "tailor", 7 ],
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "sewing_kit", 20 ] ],
+      [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
+    ],
+    "components": [
+      [ [ "rebreather", 1 ] ],
+      [ [ "goggles_swim", 1 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "duct_tape", 200 ], [ "superglue", 2 ] ],
+      [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
+    ]
+  },
+  {
+    "result": "mask_h20survivorxl",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "tailor", 7 ],
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "sewing_kit", 20 ] ],
+      [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
+    ],
+    "components": [
+      [ [ "rebreather", 1 ] ],
+      [ [ "goggles_swim", 1 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "duct_tape", 200 ], [ "superglue", 2 ] ],
+      [ [ "mask_bal", 1 ], [ "kevlar_plate", 6 ] ]
+    ]
+  },
+  {
+    "result": "mask_hsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "tailor", 7 ],
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
+      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
+    ]
+  },
+  {
+    "result": "mask_lsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "tailor", 5 ],
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
+      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "rag", 3 ] ],
+      [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
+    ]
+  },
+  {
+    "result": "mask_rioter",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "time": 1500,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "tshirt", 1 ], [ "flag_shirt", 1 ], [ "linuxtshirt", 1 ], [ "tshirt_text", 1 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "mask_ski",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": 150000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 80 ] ] ],
+    "components": [ [ [ "felt_patch", 8 ] ] ]
+  },
+  {
+    "result": "mask_survivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "tailor", 6 ],
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
+      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "leather", 3 ] ],
+      [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
+    ]
+  },
+  {
+    "result": "mask_survivorxl",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "tailor", 5 ],
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
+      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "duct_tape", 150 ], [ "superglue", 2 ] ],
+      [ [ "mask_bal", 1 ], [ "kevlar_plate", 6 ] ]
+    ]
+  },
+  {
+    "result": "mask_wsurvivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "tailor", 7 ],
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "sewing_kit", 10 ] ],
+      [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
+    ],
+    "components": [
+      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
+      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ]
+    ]
+  },
+  {
+    "result": "mask_wsurvivorxl",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "tailor", 7 ],
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "sewing_kit", 10 ] ],
+      [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
+    ],
+    "components": [
+      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
+      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ],
+      [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ]
+    ]
+  },
+  {
+    "result": "miner_hat",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "time": 6000,
+    "autolearn": true,
+    "components": [
+      [ [ "hat_hard", 1 ], [ "helmet_bike", 1 ] ],
+      [ [ "flashlight", 1 ] ],
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+    ]
+  },
+  {
+    "result": "nomex_hood",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": 24000,
+    "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "tools": [ [ [ "sewing_kit", 8 ] ] ],
+    "components": [ [ [ "nomex", 6 ] ] ]
+  },
+  {
+    "result": "patchwork_scarf",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "time": 10000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 3 ] ] ],
+    "components": [ [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "pot_helmet",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "time": 2000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "rag", 4 ] ],
+      [ [ "pot", 1 ] ]
+    ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "rebreather",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "electronics",
+    "difficulty": 9,
+    "skills_required": [ "tailor", 1 ],
+    "time": 80000,
+    "book_learn": [ [ "manual_swimming", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "mask_filter", 1 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "e_scrap", 8 ] ],
+      [ [ "cable", 2 ] ]
+    ]
+  },
+  {
+    "result": "rebreather_xl",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "electronics",
+    "difficulty": 9,
+    "skills_required": [ "tailor", 3 ],
+    "time": 85000,
+    "book_learn": [ [ "manual_swimming", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "mask_filter", 2 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "e_scrap", 8 ] ],
+      [ [ "cable", 2 ] ]
+    ]
+  },
+  {
+    "result": "rebreather_xl",
+    "type": "recipe",
+    "id_suffix": "mod_existing",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "electronics", 4 ],
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "rebreather", 1 ] ],
+      [ [ "mask_filter", 1 ], [ "mask_gas", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "e_scrap", 4 ] ],
+      [ [ "plastic_chunk", 6 ] ]
+    ]
+  },
+  {
+    "result": "scarf",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 60000,
+    "autolearn": true,
+    "tools": [ [ [ "knitting_needles", -1 ], [ "tailors_kit", -1 ] ] ],
+    "components": [ [ [ "yarn", 150 ] ] ]
+  },
+  {
+    "result": "scarf_fur",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
+    "time": 5000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 3 ] ] ],
+    "components": [ [ [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
+  },
+  {
+    "result": "scarf_fur_long",
+    "type": "recipe",
+    "id_suffix": "merge_scarves",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": 5000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 3 ] ] ],
+    "components": [ [ [ "scarf_fur", 3 ] ] ]
+  },
+  {
+    "result": "scarf_fur_long",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "//": "You try keeping 12 feet of fur sorted out!",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": 9000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 9 ] ] ],
+    "components": [ [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ] ]
+  },
+  {
+    "result": "scarf_long",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 80000,
+    "autolearn": true,
+    "tools": [ [ [ "knitting_needles", -1 ], [ "tailors_kit", -1 ] ] ],
+    "components": [ [ [ "yarn", 300 ] ] ]
+  },
+  {
+    "result": "straw_fedora",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 45000,
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ], [ "textbook_tailor", 0 ] ],
+    "components": [ [ [ "straw_pile", 7 ], [ "birchbark", 10 ] ] ]
+  },
+  {
+    "result": "straw_hat",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 20000,
+    "autolearn": true,
+    "components": [ [ [ "straw_pile", 3 ], [ "birchbark", 5 ] ] ]
+  },
+  {
+    "result": "survivor_goggles",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "tailor", 4 ],
+    "time": 20000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "sewing_kit", 10 ] ],
+      [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ]
+    ],
+    "components": [
+      [ [ "goggles_ski", 1 ], [ "goggles_welding", 1 ], [ "sunglasses", 1 ], [ "fancy_sunglasses", 1 ], [ "fitover_sunglasses", 1 ] ],
+      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ],
+      [ [ "leather", 3 ] ],
+      [ [ "kevlar_plate", 2 ] ]
+    ]
+  },
+  {
+    "result": "thermal_mask",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "skills_required": [ "tailor", 2 ],
+    "time": 80000,
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "sewing_kit", 8 ] ],
+      [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ]
+    ],
+    "components": [
+      [ [ "rag", 4 ], [ "scarf", 2 ], [ "scarf_long", 1 ], [ "balclava", 1 ] ],
+      [ [ "element", 2 ] ],
+      [ [ "cable", 6 ] ]
+    ]
+  },
+  {
+    "result": "tinfoil_hat",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "time": 500,
+    "autolearn": true,
+    "tools": [],
+    "components": [ [ [ "aluminum_foil", 4 ] ] ]
+  },
+  {
+    "result": "tricorne",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": 65000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "components": [
+      [ [ "leather", 8 ], [ "tanned_hide", 1 ] ],
+      [ [ "tallow", 1 ], [ "tallow_tainted", 1 ], [ "cooking_oil", 1 ], [ "lamp_oil", 200 ] ]
+    ]
+  },
+  {
+    "result": "turban",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "time": 1000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "rag", 8 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "wetsuit_hood",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": 120000,
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
+    "tools": [
+      [ [ "sewing_kit", 10 ] ],
+      [ [ "soldering_iron", 5 ], [ "welder", 5 ], [ "hotplate", 5 ], [ "toolset", 5 ] ]
+    ],
+    "components": [
+      [ [ "neoprene", 2 ] ],
+      [ [ "rag", 2 ] ]
+    ]
+  }
+]
