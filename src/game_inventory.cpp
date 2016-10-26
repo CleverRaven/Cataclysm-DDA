@@ -108,6 +108,61 @@ int game::inv_for_unequipped( const std::string &title )
     }, _( "You don't have any items to wear." ) );
 }
 
+item_location game::inv_for_eat( const std::string & )
+{
+    auto filter = []( const item &it ) {
+        if( !it.made_of( SOLID ) || ( !it.is_food( &g->u ) && !it.is_food_container( &g->u ) ) ) {
+            return false;
+        }
+
+        return true;
+        /*
+        // Long heals need this hack because they can't consume items from the ground
+        const auto heal_actor = dynamic_cast<const heal_actor *>( it.get_use( "heal" ) );
+        return heal_actor == nullptr || !heal_actor->long_action;
+        */
+    };
+
+    // @todo This is ugly copy+paste from below, hence CR
+    u.inv.restack( &u );
+    u.inv.sort();
+
+    inventory_filter_preset preset( convert_filter( filter ) );
+    inventory_pick_selector inv_s( u, preset );
+
+    inv_s.add_character_items( u );
+    inv_s.add_nearby_items( 1 );
+    inv_s.set_title( _( "Consume item:" ) );
+
+    if( inv_s.empty() ) {
+        popup( std::string( _( "You have nothing to consume." ) ), PF_GET_KEY );
+        return item_location();
+    }
+
+    static item_location last_loc;
+    static itype_id last_id;
+    // First pass: mark only the perfect match
+    bool marked = inv_s.select( []( const item_location &loc ) {
+        return loc == last_loc && ( !loc || loc->typeId() == last_id );
+    } ) > 0;
+    // Second pass: mark the matching id
+    if( !marked ) {
+        inv_s.select( []( const item_location &loc ) {
+            return loc && loc->typeId() == last_id;
+        } );
+    }
+
+    auto ret = inv_s.execute();
+    last_loc = std::move( ret.clone() );
+    if( last_loc ) {
+        last_id = last_loc->typeId();
+    } else {
+        last_id = "null";
+    }
+
+    return ret;
+}
+
 item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius,
                                     const std::string &none_message )
 {

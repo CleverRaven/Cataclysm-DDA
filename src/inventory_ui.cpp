@@ -1015,6 +1015,24 @@ item_location inventory_pick_selector::execute()
     }
 }
 
+int inventory_pick_selector::select( const item_location_filter &filter )
+{
+    const size_t total_col_num = get_all_columns().size();
+    for( size_t cur_col_num = 0; cur_col_num < total_col_num; cur_col_num++ ) {
+        const auto &col = get_column( cur_col_num );
+        const auto &column_entries = col.get_entries();
+        for( size_t cur_entry_num = 0; cur_entry_num < column_entries.size(); cur_entry_num++ ) {
+            if( filter( column_entries[ cur_entry_num ].location ) ) {
+                col.set_selected( column_entries[ cur_entry_num ] );
+                set_active_column( cur_col_num ); 
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+
 void inventory_pick_selector::draw( WINDOW *w ) const
 {
     inventory_selector::draw( w );
