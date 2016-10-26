@@ -4151,42 +4151,40 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
     for( const auto& connection : connections ) {
 
         if(connection.first == "road") {
-            city closest;
-            int distance = 999;
-            for( const city& c : cities ) {
+            const auto can_build_road = [ this ]( const tripoint &p ) {
+                return road_allowed( ter( p.x, p.y, p.z ) );
+            };
 
-                int dist = rl_dist(connection.second.x, connection.second.y, c.x, c.y);
-                if (dist < distance) {
-                    closest = c;
-                    distance = dist;
+            tripoint road_pos = invalid_tripoint;
+            tripoint road_ext;
+
+            if( can_build_road( connection.second ) ) {
+                road_pos = connection.second; // We can build the road right here. Let's do it!
+            } else if( p != connection.second && can_build_road( road_ext = move_along_line( connection.second, line_to( p, connection.second ), 1 ) ) ) {
+                road_pos = road_ext; // We can build it on an adjacent tile along the correct side. The most common case.
+            } else {
+                // No luck. Try to build it anywhere nearby (and as close as possible).
+                // Supposed to be a rare case.
+                for( const auto &cp : closest_tripoints_first( 3, connection.second ) ) {
+                    if( can_build_road( cp ) ) {
+                        road_pos = cp;
+                        break;
+                    }
                 }
             }
-            // generally entrances come out of the top,
-            // so we want to rotate the road connection with the point.
-            tripoint conn = connection.second;
 
-            switch(rotation)
-            {
-            case 0:
-                conn.y = conn.y - 1;
-                break;
-            case 1:
-                conn.x = conn.x + 1;
-                break;
-            case 2:
-                conn.y = conn.y + 1;
-                break;
-            case 3:
-                conn.x = conn.x - 1;
-                break;
-            default:
-                break;
-            }
-            if(ter(conn.x, conn.y, p.z)->has_flag(allow_road)) {
-                make_hiway(conn.x, conn.y, closest.x, closest.y, p.z, "road");
-            } else { // in case the entrance does not come out the top, try wherever possible...
-                conn = connection.second;
-                make_hiway(conn.x, conn.y, closest.x, closest.y, p.z, "road");
+            if( road_pos != invalid_tripoint ) {
+                city closest;
+                int distance = 999;
+                for( const city& c : cities ) {
+                    int dist = rl_dist( road_pos.x, road_pos.y, c.x, c.y );
+                    if( dist < distance ) {
+                        closest = c;
+                        distance = dist;
+                    }
+                }
+
+                make_hiway( road_pos.x, road_pos.y, closest.x, closest.y, road_pos.z, connection.first );
             }
         }
     }
