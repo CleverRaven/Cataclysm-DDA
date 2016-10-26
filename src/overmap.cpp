@@ -4184,7 +4184,9 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
                     }
                 }
 
-                make_hiway( road_pos.x, road_pos.y, closest.x, closest.y, road_pos.z, connection.first );
+                if( closest ) {
+                    make_hiway( road_pos.x, road_pos.y, closest.x, closest.y, road_pos.z, connection.first );
+                }
             }
         }
     }

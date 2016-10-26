@@ -138,12 +138,16 @@ struct regional_settings {
 
 
 struct city {
- // in overmap terrain coordinates
- int x;
- int y;
- int s;
- std::string name;
- city(int X = -1, int Y = -1, int S = -1);
+    // in overmap terrain coordinates
+    int x;
+    int y;
+    int s;
+    std::string name;
+    city(int X = -1, int Y = -1, int S = -1);
+
+    operator bool() const {
+        return x >= 0 && y >= 0 && s >= 0;
+    }
 };
 
 struct om_note {
