@@ -891,8 +891,9 @@ void inventory_selector::draw_header( WINDOW *w ) const
 
     static const int stats_count = 2;
     static const int cells_count = 4;
-
+    // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
     using stat = std::array<std::string, cells_count>;
+    // Constructs an array of cells to align them later. 'disp_func' is used to represent numeric values.
     const auto disp = []( const std::string &caption, int cur_value, int max_value,
                           const std::function<std::string( int )> disp_func ) -> stat {
         const std::string color = string_from_color( cur_value > max_value ? c_red : c_ltgray );
