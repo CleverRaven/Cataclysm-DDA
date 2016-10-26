@@ -26,6 +26,11 @@ enum class navigation_mode : int {
     CATEGORY
 };
 
+enum class scroll_direction : int {
+    FORWARD = 1,
+    BACKWARD = -1
+};
+
 struct navigation_mode_data;
 
 class inventory_entry
@@ -267,19 +272,17 @@ class inventory_column
         /**
          * Change the selection.
          * @param new_index Index of the entry to select.
-         * @param step If the entry is not selectable, move in the specified direction
-         *     step < 0 - move up
-         *     step > 0 - move down.
+         * @param dir If the entry is not selectable, move in the specified direction
          */
-        void select( size_t new_index, int step = 0 );
+        void select( size_t new_index, scroll_direction dir );
         /**
          * Move the selection.
          * @param step Same as one in @ref select().
          */
-        void move_selection( int step );
-        void move_selection_page( int step );
+        void move_selection( scroll_direction dir );
+        void move_selection_page( scroll_direction dir );
 
-        size_t next_selectable_index( size_t index, int step ) const;
+        size_t next_selectable_index( size_t index, scroll_direction dir ) const;
 
         size_t page_of( size_t index ) const;
         size_t page_of( const inventory_entry &entry ) const;
@@ -438,13 +441,13 @@ class inventory_selector
 
         /**
          * Activates either previous or next column.
-         * @param direction Positive number or zero - next column, negative - previous.
+         * @param dir Forward - next column, backward - previous.
          */
-        void toggle_active_column( int direction = 0 );
+        void toggle_active_column( scroll_direction dir );
 
         void refresh_active_column() {
             if( !get_active_column().activatable() ) {
-                toggle_active_column();
+                toggle_active_column( scroll_direction::FORWARD );
             }
         }
         void toggle_navigation_mode();

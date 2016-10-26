@@ -188,11 +188,11 @@ void inventory_selector_preset::append_cell( const std::function<std::string( co
     cells.emplace_back( title, func );
 }
 
-void inventory_column::select( size_t new_index, int step )
+void inventory_column::select( size_t new_index, scroll_direction dir )
 {
     if( new_index < entries.size() ) {
         if( !entries[new_index].is_selectable() ) {
-            new_index = next_selectable_index( new_index, step );
+            new_index = next_selectable_index( new_index, dir );
         }
 
         selected_index = new_index;
@@ -200,42 +200,45 @@ void inventory_column::select( size_t new_index, int step )
     }
 }
 
-size_t inventory_column::next_selectable_index( size_t index, int step ) const
+size_t inventory_column::next_selectable_index( size_t index, scroll_direction dir ) const
 {
-    if( step != 0 ) {
-        // Returns 'index' incremented by 'step' using division remainder (number of entries) to loop over the entries.
+    if( entries.empty() ) {
+        return index;
+    }
+
+    size_t new_index = index;
+    do {
+        // 'new_index' incremented by 'dir' using division remainder (number of entries) to loop over the entries.
         // Negative step '-k' (backwards) is equivalent to '-k + N' (forward), where:
         //     N = entries.size()  - number of elements,
         //     k = |step|          - absolute step (k <= N).
-        step = step > 0 ? 1 : -1;
-        do {
-            index = ( index + step + entries.size() ) % entries.size();
-        } while( index != selected_index && ( !entries[index].is_selectable() || is_selected_by_category( entries[index] ) ) );
-    }
-    return index;
+        new_index = ( new_index + int( dir ) + entries.size() ) % entries.size();
+    } while( new_index != index && ( !entries[new_index].is_selectable() || is_selected_by_category( entries[new_index] ) ) );
+
+    return new_index;
 }
 
-void inventory_column::move_selection( int step )
+void inventory_column::move_selection( scroll_direction dir )
 {
-    select( next_selectable_index( selected_index, step ) );
+    select( next_selectable_index( selected_index, dir ), dir );
 }
 
-void inventory_column::move_selection_page( int step )
+void inventory_column::move_selection_page( scroll_direction dir )
 {
     size_t index = selected_index;
 
     do {
-        const size_t next_index = next_selectable_index( index, step );
-        const bool flipped = next_index == selected_index || ( next_index > selected_index ) != ( step > 0 );
+        const size_t next_index = next_selectable_index( index, dir );
+        const bool flipped = next_index == selected_index || ( next_index > selected_index ) != ( int( dir ) > 0 );
 
         if( flipped && page_of( next_index ) == page_index() ) {
             break; // If flipped and still on the same page - no need to flip
         }
 
         index = next_index;
-    } while( page_of( next_selectable_index( index, step ) ) == page_index() );
+    } while( page_of( next_selectable_index( index, dir ) ) == page_index() );
 
-    select( index );
+    select( index, dir );
 }
 
 size_t inventory_column::get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const
@@ -373,17 +376,17 @@ void inventory_column::on_action( const std::string &action )
     }
 
     if( action == "DOWN" ) {
-        move_selection( 1 );
+        move_selection( scroll_direction::FORWARD );
     } else if( action == "UP" ) {
-        move_selection( -1 );
+        move_selection( scroll_direction::BACKWARD );
     } else if( action == "NEXT_TAB" ) {
-        move_selection_page( 1 );
+        move_selection_page( scroll_direction::FORWARD );
     } else if( action == "PREV_TAB" ) {
-        move_selection_page( -1 );
+        move_selection_page( scroll_direction::BACKWARD );
     } else if( action == "HOME" ) {
-        select( 0, 1 );
+        select( 0, scroll_direction::FORWARD );
     } else if( action == "END" ) {
-        select( entries.size() - 1, -1 );
+        select( entries.size() - 1, scroll_direction::BACKWARD );
     }
 }
 
@@ -458,7 +461,7 @@ void inventory_column::prepare_paging()
 
     paging_is_valid = true;
     // Select the uppermost possible entry
-    select( 0, 1 );
+    select( 0, scroll_direction::FORWARD );
 }
 
 void inventory_column::remove_entry( const inventory_entry &entry )
@@ -650,9 +653,9 @@ void selection_column::on_change( const inventory_entry &entry )
     // Now let's update selection
     const auto select_iter = std::find( entries.begin(), entries.end(), my_entry );
     if( select_iter != entries.end() ) {
-        select( std::distance( entries.begin(), select_iter ), 1 );
+        select( std::distance( entries.begin(), select_iter ), scroll_direction::FORWARD );
     } else {
-        select( entries.empty() ? 0 : entries.size() - 1, -1 ); // Just select the last one
+        select( entries.empty() ? 0 : entries.size() - 1, scroll_direction::BACKWARD ); // Just select the last one
     }
 }
 
@@ -1058,9 +1061,9 @@ void inventory_selector::on_action( const std::string &action )
     if( action == "CATEGORY_SELECTION" ) {
         toggle_navigation_mode();
     } else if( action == "LEFT" ) {
-        toggle_active_column( -1 );
+        toggle_active_column( scroll_direction::BACKWARD );
     } else if( action == "RIGHT" ) {
-        toggle_active_column( 1 );
+        toggle_active_column( scroll_direction::FORWARD );
     } else {
         for( auto &elem : columns ) {
             elem->on_action( action );
@@ -1131,7 +1134,7 @@ bool inventory_selector::is_overflown() const {
     return get_columns_occupancy_ratio() > 1.0;
 }
 
-void inventory_selector::toggle_active_column( int direction )
+void inventory_selector::toggle_active_column( scroll_direction dir )
 {
     if( columns.empty() ) {
         return;
@@ -1140,10 +1143,13 @@ void inventory_selector::toggle_active_column( int direction )
     size_t index = active_column_index;
 
     do {
-        if( direction >= 0 ) {
-            index = index + 1 < columns.size() ? index + 1 : 0;
-        } else {
-            index = index > 0 ? index - 1 : columns.size() - 1;
+        switch( dir ) {
+            case scroll_direction::FORWARD:
+                index = index + 1 < columns.size() ? index + 1 : 0;
+                break;
+            case scroll_direction::BACKWARD:
+                index = index > 0 ? index - 1 : columns.size() - 1;
+                break;
         }
     } while( index != active_column_index && !get_column( index ).activatable() );
 
