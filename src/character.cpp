@@ -17,6 +17,7 @@
 #include "mutation.h"
 #include "vehicle.h"
 #include "veh_interact.h"
+#include "cata_utility.h"
 
 #include <algorithm>
 
@@ -43,8 +44,6 @@ const skill_id skill_throw( "throw" );
 
 const std::string debug_nodmg( "DEBUG_NODMG" );
 
-const item Character::null_context;
-
 Character::Character() : Creature(), visitable<Character>()
 {
     str_max = 0;
@@ -68,6 +67,8 @@ Character::Character() : Creature(), visitable<Character>()
     stomach_water = 0;
 
     name = "";
+
+    path_settings = pathfinding_settings{ 0, 1000, 1000, true, false, true };
 }
 
 field_id Character::bloodType() const
@@ -760,7 +761,7 @@ void Character::remove_mission_items( int mission_id )
 std::vector<const item *> Character::get_ammo( const ammotype &at ) const
 {
     return items_with( [at]( const item & it ) {
-        return it.is_ammo() && it.ammo_type() == at;
+        return it.is_ammo() && it.type->ammo->type.count( at );
     } );
 }
 
@@ -780,12 +781,12 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
                 return VisitResponse::SKIP;
             }
             if( node->is_ammo_container() && !node->contents.front().made_of( SOLID ) ) {
-                if( node->contents.front().ammo_type() == ammo ) {
+                if( node->contents.front().type->ammo->type.count( ammo ) ) {
                     out = item_location( src, node );
                 }
                 return VisitResponse::SKIP;
             }
-            if( node->is_ammo() && node->ammo_type() == ammo ) {
+            if( node->is_ammo() && node->type->ammo->type.count( ammo ) ) {
                 out = item_location( src, node );
             }
             return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
@@ -922,10 +923,12 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
 }
 
 bool Character::can_use( const item& it, const item& context ) const {
-    if( !meets_requirements( it, context ) ) {
-        const std::string unmet( enumerate_unmet_requirements( it, context ) );
+    const auto &ctx = !context.is_null() ? context : it;
 
-        if( context.is_null() ) {
+    if( !meets_requirements( it, ctx ) ) {
+        const std::string unmet( enumerate_unmet_requirements( it, ctx ) );
+
+        if( &it == &ctx ) {
             //~ %1$s - list of unmet requirements, %2$s - item name.
             add_msg_player_or_npc( m_bad, _( "You need at least %1$s to use this %2$s." ),
                                           _( "<npcname> needs at least %1$s to use this %2$s." ),
@@ -934,7 +937,7 @@ bool Character::can_use( const item& it, const item& context ) const {
             //~ %1$s - list of unmet requirements, %2$s - item name, %3$s - indirect item name.
             add_msg_player_or_npc( m_bad, _( "You need at least %1$s to use this %2$s with your %3$s." ),
                                           _( "<npcname> needs at least %1$s to use this %2$s with their %3$s." ),
-                                          unmet.c_str(), it.tname().c_str(), context.tname().c_str() );
+                                          unmet.c_str(), it.tname().c_str(), ctx.tname().c_str() );
         }
 
         return false;
@@ -1102,7 +1105,8 @@ bool Character::meets_stat_requirements( const item &it ) const
 
 bool Character::meets_requirements( const item &it, const item &context ) const
 {
-    return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, context );
+    const auto &ctx = !context.is_null() ? context : it;
+    return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
 void Character::normalize()
@@ -2074,13 +2078,26 @@ bool Character::pour_into( item &container, item &liquid )
 
 bool Character::pour_into( vehicle &veh, item &liquid )
 {
-    auto tank = veh_interact::select_tank( veh, liquid );
+    auto sel = [&]( const vehicle_part &pt ) {
+        return pt.is_tank() && pt.can_reload( liquid.typeId() );
+    };
+
+    auto stack = units::legacy_volume_factor / liquid.type->stack_size;
+    auto title = string_format( _( "Select target tank for <color_%s>%.1fL %s</color>" ),
+                                get_all_colors().get_name( liquid.color() ).c_str(),
+                                round_up( to_liter( liquid.charges * stack ), 1 ),
+                                liquid.tname().c_str() );
+
+    auto &tank = veh_interact::select_part( veh, sel, title );
     if( !tank ) {
         return false;
     }
 
-    tank->fill_with( liquid );
-    add_msg_if_player( _( "You refill the %1$s with %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
+    tank.fill_with( liquid );
+
+    //~ $1 - vehicle name, $2 - part name, $3 - liquid type
+    add_msg_if_player( _( "You refill the %1$s's %2$s with %3$s." ),
+                       veh.name.c_str(), tank.name().c_str(), liquid.type_name().c_str() );
 
     if( liquid.charges > 0 ) {
         add_msg_if_player( _( "There's some left over!" ) );

@@ -16,8 +16,7 @@
 #include <sstream>
 
 class vpart_info;
-using vpart_id = int_id<vpart_info>;
-using vpart_str_id = string_id<vpart_info>;
+using vpart_id = string_id<vpart_info>;
 
 /** Represents possible return values from the cant_do function. */
 enum task_reason {
@@ -36,11 +35,14 @@ struct vehicle_part;
 
 class veh_interact
 {
+        using part_selector = std::function<bool( const vehicle_part &pt )>;
+
     public:
         static player_activity run( vehicle &veh, int x, int y );
 
-        /** Prompt for a suitable tank that can be used to contain @param liquid */
-        static item_location select_tank( const vehicle &veh, const item &liquid );
+        /** Prompt for a part matching the selector function */
+        static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
+                                          const std::string &title = std::string() );
 
         static void complete_vehicle();
 

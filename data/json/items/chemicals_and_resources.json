@@ -1,11 +1,5 @@
 [
 {
-    "type" : "ITEM_CATEGORY",
-    "id" : "chems",
-    "name" : "CHEMICAL STUFF",
-    "sort_rank" : 5
-},
-{
     "type" : "AMMO",
     "id" : "chem_sulphur",
     "category" : "spare_parts",

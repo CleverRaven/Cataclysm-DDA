@@ -1350,6 +1350,8 @@ void monster::load(JsonObject &data)
 
     faction = mfaction_str_id( data.get_string( "faction", "" ) );
     last_updated = data.get_int( "last_updated", calendar::turn );
+
+    data.read( "path", path );
 }
 
 /*
@@ -1396,6 +1398,8 @@ void monster::store(JsonOut &json) const
     json.member("last_updated", last_updated);
 
     json.member( "inv", inv );
+
+    json.member( "path", path );
 }
 
 void mon_special_attack::serialize(JsonOut &json) const
@@ -1408,6 +1412,8 @@ void mon_special_attack::serialize(JsonOut &json) const
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h
+
+static void migrate_toolmod( item &it );
 
 template<typename Archive>
 void item::io( Archive& archive )
@@ -1522,6 +1528,75 @@ void item::io( Archive& archive )
     if( contents.empty() && is_non_resealable_container() ) {
         convert( type->container->unseals_into );
     }
+
+    // Migrate legacy toolmod flags
+    if( is_tool() || is_toolmod() ) {
+        migrate_toolmod( *this );
+    }
+}
+
+static void migrate_toolmod( item &it )
+{
+    // Convert legacy flags on tools to contained toolmods
+    if( it.is_tool() ) {
+        if( it.item_tags.count( "ATOMIC_AMMO" ) ) {
+            it.item_tags.erase( "ATOMIC_AMMO" );
+            it.item_tags.erase( "NO_UNLOAD" );
+            it.item_tags.erase( "RADIOACTIVE" );
+            it.item_tags.erase( "LEAK_DAM" );
+            it.emplace_back( "battery_atomic" );
+
+        } else if( it.item_tags.count( "DOUBLE_REACTOR" ) ) {
+            it.item_tags.erase( "DOUBLE_REACTOR" );
+            it.item_tags.erase( "DOUBLE_AMMO" );
+            it.emplace_back( "double_plutonium_core" );
+
+        } else if( it.item_tags.count( "DOUBLE_AMMO" ) ) {
+            it.item_tags.erase( "DOUBLE_AMMO" );
+            it.emplace_back( "battery_compartment" );
+
+        } else if( it.item_tags.count( "USE_UPS" ) ) {
+            it.item_tags.erase( "USE_UPS" );
+            it.item_tags.erase( "NO_RELOAD" );
+            it.item_tags.erase( "NO_UNLOAD" );
+            it.emplace_back( "battery_ups" );
+
+        }
+    }
+
+    // Fix fallout from #18797, which exponentially duplicates migrated toolmods
+    if( it.is_toolmod() ) {
+        // duplication would add an extra toolmod inside each toolmod on load;
+        // delete the nested copies
+        if( it.typeId() == "battery_atomic" || it.typeId() == "battery_compartment" ||
+            it.typeId() == "battery_ups" || it.typeId() == "double_plutonium_core" ) {
+            // Be conservative and only delete nested mods of the same type
+            it.contents.remove_if( [&]( const item &cont ) {
+                    return cont.typeId() == it.typeId();
+                        } );
+        }
+    }
+
+    if( it.is_tool() ) {
+        // duplication would add an extra toolmod inside each tool on load;
+        // delete the duplicates so there is only one copy of each toolmod
+        int n_atomic = 0,
+            n_compartment = 0,
+            n_ups = 0,
+            n_plutonium = 0;
+
+        // not safe to use remove_if with a stateful predicate
+        for( auto i = it.contents.begin(); i != it.contents.end(); ) {
+            if( ( i->typeId() == "battery_atomic" && ++n_atomic > 1 ) ||
+                ( i->typeId() == "battery_compartment" && ++n_compartment > 1 ) ||
+                ( i->typeId() == "battery_ups" && ++n_ups > 1 ) ||
+                ( i->typeId() == "double_plutonium_core" && ++n_plutonium > 1 ) ) {
+                i = it.contents.erase( i );
+            } else {
+                ++i;
+            }
+        }
+    }
 }
 
 void item::deserialize(JsonObject &data)
@@ -1546,7 +1621,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
 void vehicle_part::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    vpart_str_id pid;
+    vpart_id pid;
     data.read("id", pid);
 
     std::map<std::string, std::pair<std::string,itype_id>> deprecated = {
@@ -1591,14 +1666,14 @@ void vehicle_part::deserialize(JsonIn &jsin)
 
     auto dep = deprecated.find( pid.str() );
     if( dep != deprecated.end() ) {
-        pid = vpart_str_id( dep->second.first );
+        pid = vpart_id( dep->second.first );
         legacy_fuel = dep->second.second;
     }
 
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
         if( pid.str() == "wheel_underbody" ) {
-            pid = vpart_str_id( "wheel_wide" );
+            pid = vpart_id( "wheel_wide" );
         } else {
             data.throw_error( "bad vehicle part", "id" );
         }
@@ -1627,6 +1702,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("target_second_x", target.second.x);
     data.read("target_second_y", target.second.y);
     data.read("target_second_z", target.second.z);
+    data.read("ammo_pref", ammo_pref);
 
     if( legacy_fuel.empty() ) {
         legacy_fuel = id.obj().fuel_type;
@@ -1664,8 +1740,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
 void vehicle_part::serialize(JsonOut &json) const
 {
     json.start_object();
-    // TODO: the json classes should automatically convert the int-id to the string-id and the inverse
-    json.member("id", id.id().str());
+    json.member("id", id.str());
     json.member("base", base);
     json.member("mount_dx", mount.x);
     json.member("mount_dy", mount.y);
@@ -1682,6 +1757,7 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("target_second_x", target.second.x);
     json.member("target_second_y", target.second.y);
     json.member("target_second_z", target.second.z);
+    json.member("ammo_pref", ammo_pref);
     json.end_object();
 }
 

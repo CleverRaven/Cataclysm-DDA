@@ -136,73 +136,6 @@ const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 
-void remove_double_ammo_mod( item &it, player &p )
-{
-    if( !it.item_tags.count( "DOUBLE_AMMO" ) || it.item_tags.count( "DOUBLE_REACTOR" )) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the double battery capacity mod of your %s!" ),
-                         it.tname().c_str() );
-    item mod( "battery_compartment" );
-    p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "DOUBLE_AMMO" );
-    // Easier to remove all batteries than to check for the actual real maximum
-    if( it.ammo_remaining() > 0 ) {
-        item batteries( "battery", calendar::turn, it.ammo_remaining() );
-        p.i_add_or_drop( batteries, 1 );
-        it.ammo_unset();
-    }
-}
-
-void remove_double_plut_mod( item &it, player &p )
-{
-    if( !it.item_tags.count( "DOUBLE_AMMO" ) && !it.item_tags.count( "DOUBLE_REACTOR" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the double plutonium capacity mod of your %s!" ),
-                         it.tname().c_str() );
-    item mod( "double_plutonium_core" );
-    p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "DOUBLE_AMMO" );
-    it.item_tags.erase( "DOUBLE_REACTOR" );
-    // Easier to remove all cells than to check for the actual real maximum
-    if( it.ammo_remaining() >= 500 ) {
-        item batteries( "plut_cell", calendar::turn, it.ammo_remaining() / 500 );
-        p.i_add_or_drop( batteries, 1 );
-        it.ammo_unset();
-    }
-}
-
-void remove_atomic_mod( item &it, player &p )
-{
-    if( !it.item_tags.count( "ATOMIC_AMMO" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the plutonium cells from your %s!" ), it.tname().c_str() );
-    item mod( "battery_atomic" );
-    mod.charges = it.charges;
-    it.ammo_unset();
-    p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "ATOMIC_AMMO" );
-    it.item_tags.erase( "NO_UNLOAD" );
-    it.item_tags.erase( "RADIOACTIVE" );
-    it.item_tags.erase( "LEAK_DAM" );
-}
-
-void remove_ups_mod( item &it, player &p )
-{
-    if( !it.has_flag( "USE_UPS" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the UPS Conversion Pack from your %s!" ), it.tname().c_str() );
-    item mod( "battery_ups" );
-    p.i_add_or_drop( mod, 1 );
-    it.ammo_unset();
-    it.item_tags.erase( "USE_UPS" );
-    it.item_tags.erase( "NO_UNLOAD" );
-    it.item_tags.erase( "NO_RELOAD" );
-}
-
 void remove_radio_mod( item &it, player &p )
 {
     if( !it.has_flag( "RADIO_MOD" ) ) {
@@ -2179,109 +2112,6 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     return thread_needed / 2;
 }
 
-void remove_battery_mods( item &modded, player &p )
-{
-    remove_atomic_mod( modded, p );
-    remove_ups_mod( modded, p );
-    remove_double_ammo_mod( modded, p );
-    remove_double_plut_mod( modded, p );
-}
-
-int iuse::extra_battery(player *p, item *, bool, const tripoint& )
-{
-    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
-    item &modded = p->i_at( inventory_index );
-
-    if( modded.is_null() ) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-
-    if (modded.has_flag("DOUBLE_AMMO")) {
-        p->add_msg_if_player(m_info, _("That item has already had its battery capacity doubled."));
-        return 0;
-    }
-
-    remove_battery_mods( modded, *p );
-
-    p->add_msg_if_player( _( "You double the battery capacity of your %s!" ), modded.tname().c_str() );
-    modded.item_tags.insert("DOUBLE_AMMO");
-    return 1;
-}
-
-int iuse::double_reactor(player *p, item *, bool, const tripoint& )
-{
-    int inventory_index = g->inv_for_tools_powered_by( ammotype( "plutonium" ), _( "Modify what?" ) );
-    item &modded = p->i_at( inventory_index );
-
-    if( modded.is_null() ) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-
-    p->add_msg_if_player( _( "You double the plutonium capacity of your %s!" ), modded.tname().c_str() );
-    modded.item_tags.insert("DOUBLE_AMMO");
-    modded.item_tags.insert("DOUBLE_REACTOR");   //This flag lets the remove_ functions know that this is a plutonium tool without taking extra steps.
-    return 1;
-}
-
-int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
-{
-    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
-    item &modded = p->i_at( inventory_index );
-
-    if( modded.is_null() ) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-    if (modded.has_flag("ATOMIC_AMMO")) {
-        p->add_msg_if_player(m_info,
-                             _("That item has already had its battery modified to accept plutonium cells."));
-        return 0;
-    }
-
-    remove_battery_mods( modded, *p );
-    remove_ammo( &modded, *p ); // remove batteries, item::charges is now plutonium
-
-    p->add_msg_if_player( _( "You modify your %s to run off plutonium cells!" ), modded.tname().c_str() );
-    modded.item_tags.insert("ATOMIC_AMMO");
-    modded.item_tags.insert("RADIOACTIVE");
-    modded.item_tags.insert("LEAK_DAM");
-    modded.item_tags.insert("NO_UNLOAD");
-    modded.charges = it->charges;
-    return 1;
-}
-int iuse::ups_battery(player *p, item *, bool, const tripoint& )
-{
-    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
-    item &modded = p->i_at( inventory_index );
-
-    if( modded.is_null() ) {
-        p->add_msg_if_player(_("You do not have that item!"));
-        return 0;
-    }
-    if (modded.has_flag("USE_UPS")) {
-        p->add_msg_if_player(_("That item has already had its battery modified to use a UPS!"));
-        return 0;
-    }
-    if( modded.typeId() == "UPS_off" || modded.typeId() == "adv_UPS_off" ) {
-        p->add_msg_if_player( _( "You want to power a UPS with another UPS?  Very clever." ) );
-        return 0;
-    }
-
-    remove_battery_mods( modded, *p );
-    remove_ammo( &modded, *p );
-
-    p->add_msg_if_player( _( "You modify your %s to run off a UPS!" ), modded.tname().c_str() );
-    modded.item_tags.insert("USE_UPS");
-    modded.item_tags.insert("NO_UNLOAD");
-    modded.item_tags.insert("NO_RELOAD");
-    //Perhaps keep the modded charges at 1 or 0?
-    modded.ammo_unset();
-    return 1;
-}
-
-
 int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 {
     if( p->is_npc() ) {
@@ -2339,21 +2169,28 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 
 int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
 {
-    static const std::vector<std::string> removable_mods = {{
-        "DOUBLE_AMMO", "USE_UPS", "ATOMIC_AMMO"
-    }};
-
-    int inventory_index = g->inv_for_filter( _( "Detach power mods from what?" ), []( const item & itm ) {
-        return itm.is_tool() && itm.has_any_flag( removable_mods );
-    } );
-    item &modded = p->i_at( inventory_index );
-    if( modded.is_null() ) {
-        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+    if( !p ) {
         return 0;
     }
 
-    remove_battery_mods( modded, *p );
-    remove_radio_mod( modded, *p );
+    auto loc = g->inv_map_splice( []( const item &e ) { return !e.toolmods().empty(); },
+                                  _( "Remove mods from tool?" ), 1,
+                                  _( "You don't have any modified tools." ) );
+
+    if( !loc ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return 0;
+    }
+
+    if( !loc->ammo_remaining() || g->unload( *loc ) ) {
+        auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), [&loc]( const item& e ) {
+            return e.is_toolmod();
+        } );
+        p->i_add_or_drop( *mod );
+        loc->contents.erase( mod );
+
+        remove_radio_mod( *loc, *p );
+    }
     return 0;
 }
 
@@ -3006,14 +2843,15 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
     if (dice(4, difficulty) < dice(2, p->get_skill_level( skill_mechanics )) + dice(2, p->str_cur)) {
         p->practice( skill_mechanics, 1);
         p->add_msg_if_player(m_good, succ_action);
+
         if (g->m.furn(dirx, diry) == f_crate_c) {
             g->m.furn_set(dirx, diry, f_crate_o);
-        }
-        if (g->m.furn(dirx, diry) == f_coffin_c) {
+        } else if (g->m.furn(dirx, diry) == f_coffin_c) {
             g->m.furn_set(dirx, diry, f_coffin_o);
         } else {
             g->m.ter_set(dirx, diry, new_type);
         }
+
         if (noisy) {
             sounds::sound(dirp, 12, _("crunch!"));
         }
@@ -3273,11 +3111,6 @@ int iuse::circsaw_on(player *p, item *it, bool t, const tripoint& )
 
 int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
 {
-    bool normal_language = it->typeId() != "jacqueshammer";
-    // Jacqueshammers function the same as ordinary
-    // jackhammers, except they print messages in French for
-    // comic effect.
-
     // use has_enough_charges to check for UPS availability
     // p is assumed to exist for iuse cases
     if( !p->has_enough_charges( *it, false ) ) {
@@ -3285,19 +3118,11 @@ int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
     }
 
     if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, normal_language
-          ? _("You can't do that while underwater.")
-          //~ (jacqueshammer) "You can't do that while underwater."
-          : _("Vous ne pouvez pas faire que sous l'eau."));
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
     tripoint dirp = pos;
-    if (!choose_adjacent(
-          normal_language
-            ? _("Drill where?")
-            //~ (jacqueshammer) "Drill where?"
-            : _("Percer dans quelle direction?"),
-          dirp)) {
+    if (!choose_adjacent( _( "Drill where?" ), dirp ) ) {
         return 0;
     }
 
@@ -3305,14 +3130,10 @@ int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
     int &diry = dirp.y;
 
     if (dirx == p->posx() && diry == p->posy()) {
-        p->add_msg_if_player(normal_language
-          ? _("My god! Let's talk it over OK?")
-          //~ (jacqueshammer) "My god! Let's talk it over OK?"
-          : _("Mon dieu!  Nous allons en parler OK?"));
-        p->add_msg_if_player(normal_language
-          ? _("Don't do anything rash.")
-          //~ (jacqueshammer) "Don't do anything rash."
-          : _("Ne pas faire eruption rien."));
+        p->add_msg_if_player( _( "My god! Let's talk it over OK?" ) );
+
+        p->add_msg_if_player( _( "Don't do anything rash." ) );
+
         return 0;
     }
 
@@ -3323,16 +3144,9 @@ int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
                 g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass)) {
         g->m.destroy( dirp, true );
         p->moves -= 500;
-        sounds::sound(dirp, 45, normal_language
-          //~ the sound of a jackhammer
-          ? _("TATATATATATATAT!")
-          //~ the sound of a "jacqueshammer"
-          : _("OHOHOHOHOHOHOHOHO!"));
+        sounds::sound( dirp, 45, _( "TATATATATATATAT!" ) );
     } else {
-        p->add_msg_if_player(m_info, normal_language
-          ? _("You can't drill there.")
-          //~ (jacqueshammer) "You can't drill there."
-          : _("Vous ne pouvez pas percer la-bas."));
+        p->add_msg_if_player( m_info, _( "You can't drill there." ) );
         return 0;
     }
     return it->type->charges_to_use();
@@ -5677,6 +5491,46 @@ int iuse::gunmod_attach( player *p, item *it, bool, const tripoint& ) {
     return 0;
 }
 
+int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
+    if( !it || !it->is_toolmod() ) {
+        debugmsg( "tried to attach non-toolmod" );
+        return 0;
+    }
+
+    if( !p ) {
+        return 0;
+    }
+
+    auto filter = [&it]( const item &e ) {
+        // don't allow ups battery mods on a UPS
+        if( it->has_flag( "USE_UPS" ) && ( e.typeId() == "UPS_off" || e.typeId() == "adv_UPS_off" ) ) {
+            return false;
+        }
+
+        // can only attach to unmodified tools that use compatible ammo
+        return e.is_tool() && e.toolmods().empty() && !e.magazine_current() &&
+               it->type->mod->acceptable_ammo.count( e.ammo_type( false ) );
+    };
+
+    auto loc = g->inv_map_splice( filter, _( "Select tool to modify:" ), 1,
+                                  _( "You don't have compatible tools." ) );
+
+    if( !loc ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return 0;
+    }
+
+    if( !loc->ammo_remaining() || g->unload( *loc ) ) {
+        //~ $1 - toolmod, $2 - base item
+        p->add_msg_if_player( m_good, _( "You attach the %1$s to the %2$s" ),
+                              it->tname().c_str(), loc->tname().c_str() );
+
+        loc->contents.push_back( p->i_rem( it ) );
+    }
+
+    return 0;
+}
+
 int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
 {
     if( !it->ammo_sufficient() ) {
@@ -7651,7 +7505,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
 
             // TODO: make sure there is always a matching vpart id here. Maybe transform this into
             // a iuse_actor class, or add a check in item_factory.
-            const vpart_str_id vpid( it->typeId() );
+            const vpart_id vpid( it->typeId() );
 
             point vcoords = g->m.veh_part_coordinates( source_local );
             vehicle_part source_part( vpid, vcoords.x, vcoords.y, item( *it ) );

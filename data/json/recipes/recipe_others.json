@@ -7049,8 +7049,7 @@
       [ "rag", 1 ]
     ],
     [
-      [ "razor_blade", 1 ],
-      [ "sharp_rock", 1 ]
+      [ "razor_blade", 1 ]
     ],
     [
       [ "mirror", 1 ]
@@ -7243,7 +7242,6 @@
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 5000,
-  "reversible": true,
   "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 3 ]],
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1}

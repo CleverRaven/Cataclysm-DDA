@@ -219,6 +219,12 @@
             "tec_krav_maga_precise",
             "tec_krav_maga_disarm",
             "tec_krav_maga_grab"
+        ],
+        "weapons" : [
+            "tonfa",
+            "tonfa_wood",
+            "shocktonfa_off",
+            "shocktonfa_on"
         ]
     },{
         "type" : "martial_art",

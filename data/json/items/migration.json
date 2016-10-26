@@ -134,6 +134,11 @@
     "charges": 1930
   },
   {
+    "id": "jacqueshammer",
+    "type": "MIGRATION",
+    "replace": "jackhammer"
+  },
+  {
     "id": "jar_V8",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",

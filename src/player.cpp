@@ -9537,9 +9537,15 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
     std::vector<std::string> names;
     std::transform( opts.begin(), opts.end(), std::back_inserter( names ), []( const reload_option& e ) {
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
-            //~ magazine with ammo (count)
-            return string_format( _( "%s with %s (%d)" ), e.ammo->type_name().c_str(),
-                                  e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ).c_str(), e.ammo->ammo_remaining() );
+            if( e.ammo->ammo_current() == "battery" ) {
+                // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
+                //~ magazine with ammo count
+                return string_format( _( "%s (%d)" ), e.ammo->type_name().c_str(), e.ammo->ammo_remaining() );
+            } else {
+                //~ magazine with ammo (count)
+                return string_format( _( "%s with %s (%d)" ), e.ammo->type_name().c_str(),
+                                      e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ).c_str(), e.ammo->ammo_remaining() );
+            }
 
         } else if( e.ammo->is_ammo_container() && g->u.is_worn( *e.ammo ) ) {
             // worn ammo containers should be named by their contents with their location also updated below
@@ -10278,8 +10284,9 @@ void player::mend_item( item_location&& obj, bool interactive )
                 if ( !hasSkill && f.second ) {
                     f.second = false;
                 }
-                descr << string_format( "> <color_%1$s>%2$s %3$i</color>\n", hasSkill ? "c_green" : "c_red",
-                                        _( e.first.obj().name().c_str() ), e.second );
+                //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
+                descr << string_format( _( "> <color_%1$s>%2$s %3$i</color>\n" ), hasSkill ? "c_green" : "c_red",
+                                        e.first.obj().name().c_str(), e.second );
             }
 
             std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
@@ -10884,7 +10891,7 @@ void player::use(int inventory_position)
         read(inventory_position);
         return;
 
-    } else if (used->is_gun()) {
+    } else if( used->is_gun() && !used->is_gunmod() ) {
         auto mods = used->gunmods();
 
         if( mods.empty() ) {
@@ -13980,5 +13987,24 @@ bool player::query_yn( const char *mes, ... ) const
     va_start( ap, mes );
     bool ret = internal_query_yn( mes, ap );
     va_end( ap );
+    return ret;
+}
+
+const pathfinding_settings &player::get_pathfinding_settings() const
+{
+    return path_settings;
+}
+
+std::set<tripoint> player::get_path_avoid() const
+{
+    std::set<tripoint> ret;
+    for( const npc *np : g->active_npc ) {
+        if( sees( *np ) ) {
+            ret.insert( np->pos() );
+        }
+    }
+
+    // @todo Add known traps in a way that doesn't destroy performance
+
     return ret;
 }

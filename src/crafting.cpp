@@ -1132,8 +1132,10 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
     }
 
     // last chance to back out
-    if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) &&
-        !query_yn( _( "Really disassemble the %s?" ), obj.tname().c_str() ) ) {
+    if( interactive &&
+        get_option<bool>( "QUERY_DISASSEMBLE" ) &&
+        !query_yn( _( "Disassembling the %s will take about %s. Continue?" ),
+                   obj.tname().c_str(), calendar::print_duration( r.time / 100 ).c_str() ) ) {
         return false;
     }
 
@@ -1271,7 +1273,6 @@ void player::complete_disassemble()
 }
 
 // TODO: Make them accessible in a less ugly way
-void remove_battery_mods( item &, player & );
 void remove_radio_mod( item &, player & );
 
 void player::complete_disassemble( int item_pos, const tripoint &loc,
@@ -1306,7 +1307,6 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     add_msg( _( "You disassemble the %s into its components." ), dis_item.tname().c_str() );
     // Remove any batteries, ammo and mods first
     remove_ammo( &dis_item, *this );
-    remove_battery_mods( dis_item, *this );
     remove_radio_mod( dis_item, *this );
 
     if( dis_item.count_by_charges() ) {

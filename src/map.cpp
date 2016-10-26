@@ -1976,7 +1976,8 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
 bool map::valid_move( const tripoint &from, const tripoint &to,
                       const bool bash, const bool flying ) const
 {
-    if( rl_dist( from, to ) != 1 || !inbounds( from ) || !inbounds( to ) ) {
+    if( abs( from.x - to.x ) > 1 || abs( from.y - to.y ) > 1 || abs( from.z - to.z ) > 1 ||
+        !inbounds( from ) || !inbounds( to ) ) {
         return false;
     }
 

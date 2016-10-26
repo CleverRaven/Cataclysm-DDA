@@ -6,6 +6,7 @@
 #include "init.h"
 #include "cata_utility.h"
 #include "crafting.h"
+#include "skill.h"
 
 #include <algorithm>
 #include <numeric>
@@ -29,13 +30,50 @@ const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
     return iter != recipe_dict.uncraft.end() ? iter->second : null_recipe;
 }
 
-std::vector<const recipe *> recipe_subset::search( const std::string &txt ) const
+// searches for left-anchored partial match in the relevant recipe requirements set
+template <class group>
+bool search_reqs( group gp, const std::string &txt )
+{
+    return std::any_of( gp.begin(), gp.end(), [&]( const typename group::value_type & opts ) {
+        return std::any_of( opts.begin(),
+        opts.end(), [&]( const typename group::value_type::value_type & e ) {
+            return lcmatch( e.to_string(), txt );
+        } );
+    } );
+}
+
+std::vector<const recipe *> recipe_subset::search( const std::string &txt,
+        const search_type key ) const
 {
     std::vector<const recipe *> res;
 
-    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ),
-    [ &txt ]( const recipe * r ) {
-        return lcmatch( item::nname( r->result ), txt );
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        switch( key ) {
+            case search_type::name:
+                return lcmatch( item::nname( r->result ), txt );
+
+            case search_type::skill:
+                return lcmatch( r->required_skills_string(), txt ) || lcmatch( r->skill_used->name(), txt );
+
+            case search_type::component:
+                return search_reqs( r->requirements().get_components(), txt );
+
+            case search_type::tool:
+                return search_reqs( r->requirements().get_tools(), txt );
+
+            case search_type::quality:
+                return search_reqs( r->requirements().get_qualities(), txt );
+
+            case search_type::quality_result: {
+                const auto &quals = item::find_type( r->result )->qualities;
+                return std::any_of( quals.begin(), quals.end(), [&]( const std::pair<quality_id, int> &e ) {
+                    return lcmatch( e.first->name, txt );
+                } );
+            }
+
+            default:
+                return false;
+        }
     } );
 
     return res;

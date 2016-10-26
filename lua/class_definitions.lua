@@ -740,7 +740,6 @@ classes = {
             { name = "remove_mutation", rval = nil, args = { "string" } },
             { name = "remove_random_bionic", rval = "bool", args = { } },
             { name = "reset_stats", rval = nil, args = { } },
-            { name = "roll_stuck_penalty", rval = "int", args = { "bool", "ma_technique" } },
             { name = "rooted", rval = nil, args = { } },
             { name = "rooted_message", rval = nil, args = { } },
             { name = "run_cost", rval = "int", args = { "int" } },

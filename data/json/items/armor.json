@@ -1663,7 +1663,7 @@
     "warmth": 60,
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER" ]
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "cloak_leather",
@@ -1683,7 +1683,7 @@
     "warmth": 40,
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER" ]
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "cloak_wool",
@@ -4916,7 +4916,7 @@
     "coverage": 90,
     "encumbrance": 8,
     "storage": 4,
-    "warmth": 25,
+    "warmth": 15,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ]
   },
@@ -4933,9 +4933,9 @@
     "color": "cyan",
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 90,
-    "encumbrance": 20,
-    "storage": 2,
-    "warmth": 10,
+    "encumbrance": 12,
+    "storage": 5,
+    "warmth": 25,
     "material_thickness": 1,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
@@ -7300,7 +7300,7 @@
     "material_thickness": 11,
     "environmental_protection": 10,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER" ]
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER" ]
   },
   {
     "id": "power_armor_helmet_heavy",
@@ -7324,7 +7324,7 @@
     "material_thickness": 12,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER" ]
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER" ]
   },
   {
     "id": "power_armor_helmet_light",
@@ -7348,7 +7348,7 @@
     "material_thickness": 9,
     "environmental_protection": 8,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER" ]
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER" ]
   },
   {
     "id": "power_armor_light",

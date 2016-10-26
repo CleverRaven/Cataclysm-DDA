@@ -393,7 +393,7 @@ bool game::opening_screen()
             }
             // also check special keys
             if( action == "QUIT" ) {
-                if( query_yn( "Really quit?" ) ) {
+                if( query_yn( _( "Really quit?" ) ) ) {
                     sel1 = 8;
                     action = "CONFIRM";
                 }

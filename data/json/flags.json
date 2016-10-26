@@ -55,7 +55,7 @@
     "id": "DIAMOND",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "This item has a <good>diamond coating</good> improving it's cutting damage</info>.",
+    "info": "This item has a <good>diamond coating</good> improving it's <info>cutting damage</info>.",
     "inherit": false
   },
   {
@@ -76,7 +76,7 @@
     "id": "FLOTATION",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This clothing <neutral>prevents going underwater</info> including both <good>drowning</good> and <bad>diving</bad>."
+    "info": "This clothing <info>prevents going underwater</info> including both <good>drowning</good> and <bad>diving</bad>."
   },
   {
     "id": "FRAGILE",

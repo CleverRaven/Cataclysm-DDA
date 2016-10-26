@@ -208,7 +208,35 @@ const recipe *select_crafting_recipe( int &batch_size )
                 if( filterstring.empty() ) {
                     current = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
                 } else {
-                    current = available_recipes.search( filterstring );
+                    auto qry = trim( filterstring );
+                    if( qry.size() > 2 && qry[1] == ':' ) {
+                        switch( qry[0] ) {
+                            case 't':
+                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::tool );
+                                break;
+
+                            case 'c':
+                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::component );
+                                break;
+
+                            case 's':
+                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::skill );
+                                break;
+
+                            case 'q':
+                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality );
+                                break;
+
+                            case 'Q':
+                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality_result );
+                                break;
+
+                            default:
+                                current.clear();
+                        }
+                    } else {
+                        current = available_recipes.search( qry );
+                    }
                 }
                 available.reserve( current.size() );
                 // cache recipe availability on first display
@@ -230,6 +258,13 @@ const recipe *select_crafting_recipe( int &batch_size )
                 std::back_inserter( available ), [&]( const recipe * e ) {
                     return availability_cache[e];
                 } );
+            }
+
+            // current/available have been rebuilt, make sure our cursor is still in range
+            if( current.empty() ) {
+                line = 0;
+            } else {
+                line = std::min( line, ( int )current.size() - 1 );
             }
         }
 
@@ -505,7 +540,6 @@ const recipe *select_crafting_recipe( int &batch_size )
                                                   "  [c] search components\n"
                                                   "  [q] search qualities\n"
                                                   "  [s] search skills\n"
-                                                  "  [S] search skill used only\n"
                                                   "Special prefixes for results:\n"
                                                   "  [Q] search qualities\n"
                                                   "Examples:\n"

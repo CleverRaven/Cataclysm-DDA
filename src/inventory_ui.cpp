@@ -737,17 +737,25 @@ void inventory_selector::prepare_layout()
 void inventory_selector::draw_inv_weight_vol( WINDOW *w, int weight_carried, units::volume vol_carried,
         units::volume vol_capacity) const
 {
+    const std::string weight_label = string_format( _( "Weight (%s): " ), weight_units() );
+    const std::string volume_label = string_format( _( "Volume (%s): " ), volume_units_abbr() );
+    // here 1 is for spacing, 13 is for 000.00/000.00
+    const int volume_col = TERMX - 1 - 13 - utf8_width( volume_label );
+    const int weight_col = volume_col - 1 - 13 - utf8_width( weight_label );
+
     int weight_capacity = u.weight_capacity();
 
-    mvwprintw( w, 0, 32, _( "Weight (%s): " ), weight_units() );
+    mvwprintw( w, 0, weight_col, "%s", weight_label.c_str() );
     nc_color weight_color = weight_carried > weight_capacity ? c_red : c_ltgray;
     wprintz( w, weight_color, "%6.1f", round_up( convert_weight( weight_carried  ), 1 ) );
     wprintz( w, c_ltgray,   "/%-6.1f", round_up( convert_weight( weight_capacity ), 1 ) );
 
     nc_color vol_color = vol_carried > vol_capacity ? c_red : c_ltgray;
-    mvwprintw( w, 0, 61, _( "Volume (L): ") );
-    wprintz( w, vol_color,  "%6.1f", round_up( to_liter( vol_carried  ), 1 ) );
-    wprintz( w, c_ltgray, "/%-6.1f", round_up( to_liter( vol_capacity ), 1 ) );
+    mvwprintw( w, 0, volume_col, "%s", volume_label.c_str() );
+    std::string fmted_vol_carried = format_volume( vol_carried, 6, NULL, NULL );
+    wprintz( w, vol_color, "%s", fmted_vol_carried.c_str() );
+    std::string fmted_vol_capacity = format_volume( vol_capacity, -6, NULL, NULL );
+    wprintz( w, c_ltgray, "/%s", fmted_vol_capacity.c_str() );
 }
 
 void inventory_selector::draw_inv_weight_vol( WINDOW *w ) const
@@ -869,7 +877,9 @@ void inventory_selector::on_action( const std::string &action )
     if( action == "CATEGORY_SELECTION" ) {
         toggle_navigation_mode();
     } else if( action == "LEFT" ) {
-        toggle_active_column();
+        toggle_active_column( -1 );
+    } else if( action == "RIGHT" ) {
+        toggle_active_column( 1 );
     } else {
         for( auto &elem : columns ) {
             elem->on_action( action );
@@ -940,12 +950,20 @@ bool inventory_selector::is_overflown() const {
     return get_columns_occupancy_ratio() > 1.0;
 }
 
-void inventory_selector::toggle_active_column()
+void inventory_selector::toggle_active_column( int direction )
 {
+    if( columns.empty() ) {
+        return;
+    }
+
     size_t index = active_column_index;
 
     do {
-        index = ( index + 1 < columns.size() ) ? index + 1 : 0;
+        if( direction >= 0 ) {
+            index = index + 1 < columns.size() ? index + 1 : 0;
+        } else {
+            index = index > 0 ? index - 1 : columns.size() - 1;
+        }
     } while( index != active_column_index && !get_column( index ).activatable() );
 
     set_active_column( index );
@@ -989,7 +1007,7 @@ item_location inventory_pick_selector::execute()
             return entry->location.clone();
         } else if( action == "QUIT" ) {
             return item_location();
-        } else if( action == "RIGHT" || action == "CONFIRM" ) {
+        } else if( action == "CONFIRM" ) {
             return get_active_column().get_selected().location.clone();
         } else {
             on_action( action );

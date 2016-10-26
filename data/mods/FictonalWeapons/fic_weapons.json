@@ -36,7 +36,7 @@
     "description": "A long sharp blade, with two powerful .500 S&W Magnum chambers in the hilt.  While chambering big rounds, the barrels are so short it slightly reduces outgoing damage.",
     "price": 150000,
     "material": ["steel", "plastic"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT","SHEATH_SWORD","CHOP","DURABLE_MELEE"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT","SHEATH_SWORD","DURABLE_MELEE"],
     "skill": "pistol",
     "ammo": "500",
     "weight": 1800,

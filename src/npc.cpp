@@ -97,6 +97,8 @@ npc::npc()
     // ret_null is a bit more than just a regular "null", it is the "fist" for unarmed attacks
     ret_null = item( "null", 0 );
     last_updated = calendar::turn;
+
+    path_settings = pathfinding_settings( 0, 1000, 1000, true, false, true );
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
@@ -1429,14 +1431,13 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_ammo() ) {
-        // TODO: Magazines! Don't count ammo as usable if the weapon isn't.
-        if( weapon.is_gun() && it.ammo_type() == weapon.ammo_type() ) {
-            ret += 14;
+        if( weapon.is_gun() && it.type->ammo->type.count( weapon.ammo_type() ) ) {
+            ret += 14; // @todo magazines - don't count ammo as usable if the weapon isn't.
         }
 
-        if( has_gun_for_ammo( it.ammo_type() ) ) {
-            // TODO consider making this cumulative (once was)
-            ret += 14;
+        if( std::any_of( it.type->ammo->type.begin(), it.type->ammo->type.end(),
+                         [&]( const ammotype &e ) { return has_gun_for_ammo( e ); } ) ) {
+            ret += 14; // @todo consider making this cumulative (once was)
         }
     }
 
@@ -2264,5 +2265,35 @@ bool npc::will_accept_from_player( const item &it ) const
     }
 
     return true;
+}
+
+const pathfinding_settings &npc::get_pathfinding_settings() const
+{
+    path_settings.bash_strength = smash_ability();
+
+    return path_settings;
+}
+
+const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
+{
+    path_settings.bash_strength = no_bashing ? 0 : smash_ability();
+
+    return path_settings;
+}
+
+std::set<tripoint> npc::get_path_avoid() const
+{
+    std::set<tripoint> ret;
+    ret.insert( g->u.pos() );
+    for( size_t i = 0; i < g->num_zombies(); i++ ) {
+        // @todo Cache this somewhere
+        ret.insert( g->zombie( i ).pos() );
+    }
+
+    for( const npc *np : g->active_npc ) {
+        ret.insert( np->pos() );
+    }
+
+    return ret;
 }
 

@@ -350,7 +350,12 @@ class inventory_selector
 
         void append_column( inventory_column &column );
 
-        void toggle_active_column();
+        /**
+         * Activates either previous or next column.
+         * @param direction Positive number or zero - next column, negative - previous.
+         */
+        void toggle_active_column( int direction = 0 );
+
         void refresh_active_column() {
             if( !get_active_column().activatable() ) {
                 toggle_active_column();

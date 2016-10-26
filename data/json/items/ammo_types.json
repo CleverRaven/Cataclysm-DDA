@@ -270,6 +270,12 @@
         "default" : "water"
     },
     {
+        "type" : "ammunition_type",
+        "id" : "flammable",
+        "name" : "flammable liquid",
+        "default" : "napalm"
+    },
+    {
        "type" : "ammunition_type",
         "id" : "weldgas",
         "name" : "welding gas",

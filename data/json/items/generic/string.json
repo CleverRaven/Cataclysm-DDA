@@ -1,0 +1,68 @@
+[
+  {
+    "id": "string_6",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "small string",
+    "description": "A 6-inch long piece of cotton string.",
+    "weight": 6,
+    "volume": "10ml",
+    "price": 10,
+    "material": "cotton",
+    "symbol": ",",
+    "color": "light_gray",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "string_36",
+    "copy-from": "string_6",
+    "type": "GENERIC",
+    "name": "long string",
+    "description": "A 3-foot long piece of cotton string.  Disassemble it to cut it into smaller pieces.",
+    "proportional": {
+      "weight": 6,
+      "volume": 6,
+      "price": 6
+    }
+  },
+  {
+    "id": "rope_6",
+    "copy-from": "string_36",
+    "type": "GENERIC",
+    "name": "short rope",
+    "description": "A six-foot long piece of rope.  Too small to be of much use.",
+    "proportional": {
+      "weight": 6,
+      "volume": 6,
+      "price": 6
+    }
+  },
+  {
+    "id": "rope_30",
+    "copy-from": "rope_6",
+    "type": "GENERIC",
+    "name": "long rope",
+    "description": "A 30-foot long rope.  Useful for keeping yourself safe from falls.",
+    "armor_data": {
+      "covers": [ "TORSO" ],
+      "coverage": 10,
+      "encumbrance": 12,
+      "material_thickness": 6
+    },
+    "proportional": {
+      "weight": 5,
+      "volume": 5,
+      "price": 5
+    },
+    "extend": { "flags": [ "BELTED" ] }
+  },
+  {
+    "id": "vine_30",
+    "copy-from": "rope_30",
+    "type": "GENERIC",
+    "name": "vine",
+    "description": "A sturdy 30-foot long vine.  Could easily be used as a rope, but can't be disassembled.",
+    "material": "veggy",
+    "color": "light_green"
+  }
+]

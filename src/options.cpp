@@ -969,6 +969,14 @@ void options_manager::init()
         "lbs,kg", "lbs"
         );
 
+    optionNames["c"] = _("Cup");
+    optionNames["l"] = _("Liter");
+    optionNames["qt"] = _("Quart");
+    add("VOLUME_UNITS", "interface", _("Volume units"),
+        _("Switch between the Cup (c), Liter (L) or Quart (qt)."),
+        "c,l,qt", "l"
+        );
+
     //~ 12h time, e.g. 11:59pm
     optionNames["12h"] = _("12h");
     //~ Military time, e.g. 2359
@@ -1132,6 +1140,11 @@ void options_manager::init()
     add("ANIMATION_DELAY", "graphics", _("Animation delay"),
         _("The amount of time to pause between animation frames in ms."),
         0, 100, 10
+        );
+
+    add("FORCE_REDRAW", "graphics", _("Force redraw"),
+        _("If true, forces the game to redraw at least once per turn."),
+        true
         );
 
     mOptionsSort["graphics"]++;

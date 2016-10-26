@@ -1,0 +1,68 @@
+[
+  {
+    "abstract": "mod_battery",
+    "type": "TOOLMOD",
+    "name": "base toolmod",
+    "weight": 142,
+    "volume": 1,
+    "material": [ "plastic", "ceramic" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "acceptable_ammo": [ "battery" ]
+  },
+  {
+    "id": "battery_atomic",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": "atomic battery mod",
+    "description": "This plutonium cell has been adapted to fit conventional battery connections.  You can attach it to any battery-operated equipment, converting it to use power off the plutonium cell instead.",
+    "ammo_modifier": "plutonium",
+    "capacity_multiplier": 100,
+    "flags": [ "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "id": "battery_compartment",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": "extra battery mod",
+    "description": "This is a homemade battery compartment made with spare electronics.  With enough electronics skill, you could attach this to any electronic tool to double the amount of batteries it can hold.",
+    "capacity_multiplier": 2
+  },
+  {
+    "id": "battery_ups",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": "UPS conversion mod",
+    "description": "This device replaces conventional battery connections with a rechargeable power cell that runs off of a Unified Power System.  Having the UPS on or placing a tool in a special recharging station will slowly charge it.",
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "double_plutonium_core",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": "reactor core expansion device",
+    "description": "This is an expansion device for use on plutonium-powered equipment.  With enough electronics skill, you could attach this to an atomic tool to double the amount of plutonium it can hold.  Note that this device is incompatible with the atomic battery mod.",
+    "weight": 694,
+    "volume": 3,
+    "price": 10000,
+    "material": [ "superalloy", "plastic" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "acceptable_ammo": [ "plutonium" ],
+    "capacity_multiplier": 2
+  },
+  {
+    "id": "magazine_battery_mod",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": "battery compartment mod",
+    "description": "A battery compartment mod that allows using high-density, rechargeable vehicle batteries in regular tools.",
+    "color": "light_green",
+    "acceptable_ammo": [ "battery" ],
+    "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "medium_storage_battery", "battery_motorbike", "battery_car" ] ] ]
+  }
+]

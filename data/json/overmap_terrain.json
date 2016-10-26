@@ -701,7 +701,7 @@
         "name" : "bookstore",
         "rotate" : true,
         "sym" : [94, 62, 118, 60],
-        "color" : "ltgray_yellow",
+        "color" : "black_yellow",
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,

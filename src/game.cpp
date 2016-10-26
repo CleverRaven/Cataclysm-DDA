@@ -118,7 +118,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const int core_version = 3;
+const int core_version = 4;
 
 /** Will be set to true when running unit tests */
 bool test_mode = false;
@@ -215,7 +215,7 @@ game::game() :
     u_ptr( new player() ),
     liveview_ptr( new live_view() ),
     liveview( *liveview_ptr ),
-    scent_ptr( new scent_map() ),
+    scent_ptr( new scent_map( *this ) ),
     new_game(false),
     uquit(QUIT_NO),
     m( *map_ptr ),
@@ -1543,7 +1543,7 @@ bool game::do_turn()
     monmove();
     update_stair_monsters();
     u.process_turn();
-    if (u.moves < 0) {
+    if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
         draw();
     }
     u.process_active_items();
@@ -2939,8 +2939,32 @@ bool game::handle_action()
                             break;
 
                         case turret_data::status::ready: {
-                            tripoint pos = u.pos();
-                            auto trajectory = pl_target_ui( TARGET_MODE_TURRET_MANUAL, &*turret.base(), turret.range() );
+                            // if more than one firing mode provide callback to cyle through them
+                            target_callback switch_mode;
+                            if( turret.base()->gun_all_modes().size() > 1 ) {
+                                switch_mode = [&turret]( item *obj ) {
+                                    obj->gun_cycle_mode();
+                                    // currently gun modes dont change ammo but they may in the future
+                                    return turret.ammo_current() == "null" ? nullptr :
+                                           item::find_type( turret.ammo_current() );
+                                };
+                            }
+
+                            // if multiple ammo types available provide callback to cycle alternatives
+                            target_callback switch_ammo;
+                            if( turret.ammo_options().size() > 1 ) {
+                                switch_ammo = [&turret]( item * ) {
+                                    const auto opts = turret.ammo_options();
+                                    auto iter = opts.find( turret.ammo_current() );
+                                    turret.ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
+                                    return item::find_type( turret.ammo_current() );
+                                };
+                            }
+
+                            auto trajectory = pl_target_ui( TARGET_MODE_TURRET_MANUAL, &*turret.base(),
+                                                            turret.range(), turret.ammo_data(),
+                                                            switch_mode, switch_ammo );
+
                             if( !trajectory.empty() ) {
                                 turret.fire( u, trajectory.back() );
                             }
@@ -3439,7 +3463,7 @@ bool game::try_get_left_click_action( action_id &act, const tripoint &mouse_targ
     }
 
     if (new_destination) {
-        destination_preview = m.route( u.pos(), mouse_target, 0, 1000 );
+        destination_preview = m.route( u.pos(), mouse_target, u.get_pathfinding_settings(), u.get_path_avoid() );
         return false;
     }
 
@@ -4641,7 +4665,7 @@ void game::debug()
                 break;
             }
 
-            auto rt = m.route( u.pos(), dest, 0, 1000 );
+            auto rt = m.route( u.pos(), dest, u.get_pathfinding_settings(), u.get_path_avoid() );
             u.set_destination( rt );
             if( !u.has_destination() ) {
                 popup( "Couldn't find path" );
@@ -5052,139 +5076,6 @@ faction *game::list_factions(std::string title)
     delwin(w_info);
     refresh_all();
     return cur_frac;
-}
-
-void game::list_missions()
-{
-    WINDOW *w_missions = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                                (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-
-    int tab = 0;
-    size_t selection = 0;
-    input_context ctxt("MISSIONS");
-    ctxt.register_cardinal();
-    ctxt.register_action("CONFIRM");
-    ctxt.register_action("QUIT");
-    ctxt.register_action("HELP_KEYBINDINGS");
-    while (true) {
-        werase(w_missions);
-        std::vector<mission*> umissions;
-        switch (tab) {
-        case 0:
-            umissions = u.get_active_missions();
-            break;
-        case 1:
-            umissions = u.get_completed_missions();
-            break;
-        case 2:
-            umissions = u.get_failed_missions();
-            break;
-        }
-
-        for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
-            mvwputch(w_missions, 2, i, BORDER_COLOR, LINE_OXOX);
-            mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
-
-            if (i > 2 && i < FULL_SCREEN_HEIGHT - 1) {
-                mvwputch(w_missions, i, 0, BORDER_COLOR, LINE_XOXO);
-                mvwputch(w_missions, i, 30, BORDER_COLOR, LINE_XOXO);
-                mvwputch(w_missions, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO);
-            }
-        }
-
-        draw_tab( w_missions, 7, _( "ACTIVE MISSIONS" ), tab == 0 );
-        draw_tab( w_missions, 30, _( "COMPLETED MISSIONS" ), tab == 1 );
-        draw_tab( w_missions, 56, _( "FAILED MISSIONS" ), tab == 2 );
-
-        mvwputch(w_missions, 2, 0, BORDER_COLOR, LINE_OXXO); // |^
-        mvwputch(w_missions, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX); // ^|
-
-        mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |
-        mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
-
-        mvwputch(w_missions, 2, 30, BORDER_COLOR, (tab == 1) ? LINE_XOXX : LINE_XXXX); // + || -|
-        mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, 30, BORDER_COLOR, LINE_XXOX); // _|_
-
-        for (size_t i = 0; i < umissions.size(); i++) {
-            const auto miss = umissions[i];
-            nc_color col = c_white;
-            if( u.get_active_mission() == miss ) {
-                col = c_ltred;
-            }
-            if (selection == i) {
-                mvwprintz(w_missions, 3 + i, 1, hilite(col), "%s", miss->name().c_str());
-            } else {
-                mvwprintz(w_missions, 3 + i, 1, col, "%s", miss->name().c_str());
-            }
-        }
-
-        if (selection < umissions.size()) {
-            const auto miss = umissions[selection];
-            mvwprintz(w_missions, 4, 31, c_white, "%s", miss->get_description().c_str());
-            if( miss->has_deadline() ) {
-                // TODO: proper formatting of turns, see calendar class, it has some nice functions
-                mvwprintz(w_missions, 5, 31, c_white, _("Deadline: %d (%d)"),
-                          int(miss->get_deadline()), int(calendar::turn));
-            }
-            if( miss->has_target() ) {
-                const tripoint pos = u.global_omt_location();
-                // TODO: target does not contain a z-component, targets are assumed to be on z=0
-                mvwprintz(w_missions, 6, 31, c_white, _("Target: (%d, %d)   You: (%d, %d)"),
-                          miss->get_target().x, miss->get_target().y, pos.x, pos.y);
-            }
-        } else {
-            std::string nope;
-            switch (tab) {
-            case 0:
-                nope = _("You have no active missions!");
-                break;
-            case 1:
-                nope = _("You haven't completed any missions!");
-                break;
-            case 2:
-                nope = _("You haven't failed any missions!");
-                break;
-            }
-            mvwprintz(w_missions, 4, 31, c_ltred, "%s", nope.c_str());
-        }
-
-        wrefresh(w_missions);
-        const std::string action = ctxt.handle_input();
-        if (action == "RIGHT") {
-            tab++;
-            if (tab == 3) {
-                tab = 0;
-            }
-        } else if (action == "LEFT") {
-            tab--;
-            if (tab < 0) {
-                tab = 2;
-            }
-        } else if (action == "DOWN") {
-            selection++;
-            if (selection >= umissions.size()) {
-                selection = 0;
-            }
-        } else if (action == "UP") {
-            if (selection == 0) {
-                selection = umissions.size() - 1;
-            } else {
-                selection--;
-            }
-        } else if (action == "CONFIRM") {
-            if( tab == 0 && selection < umissions.size() ) {
-                u.set_active_mission( *umissions[selection] );
-            }
-            break;
-        } else if (action == "QUIT") {
-            break;
-        }
-    }
-
-    werase(w_missions);
-    delwin(w_missions);
-    refresh_all();
 }
 
 // A little helper to draw footstep glyphs.
@@ -8975,6 +8866,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
         ctxt.register_action("LIST_ITEMS");
         ctxt.register_action("MOUSE_MOVE");
     }
+
+    ctxt.register_action("debug_scent");
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
@@ -9114,7 +9007,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                 add_msg(_("You can't see that destination."));
                 continue;
             }
-            auto route = m.route( u.pos(), lp, 0, 1000 );
+
+            auto route = m.route( u.pos(), lp, u.get_pathfinding_settings(), u.get_path_avoid() );
             if( route.size() > 1 ) {
                 route.pop_back();
                 u.set_destination( route );
@@ -9123,6 +9017,10 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                 continue;
             }
             return { INT_MIN, INT_MIN, INT_MIN };
+        } else if( action == "debug_scent" ){
+            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
+                display_scent();
+            }
         } else if (!ctxt.get_coordinates(w_terrain, lx, ly) && action != "MOUSE_MOVE") {
             int dx, dy;
             ctxt.get_direction(dx, dy, action);
@@ -9683,7 +9581,7 @@ int game::list_items(const int iLastState)
                 if( !u.sees( u.pos() + active_pos ) ) {
                     add_msg(_("You can't see that destination."));
                 }
-                auto route = m.route( u.pos(), u.pos() + active_pos, 0, 1000 );
+                auto route = m.route( u.pos(), u.pos() + active_pos, u.get_pathfinding_settings(), u.get_path_avoid() );
                 if( route.size() > 1 ) {
                     route.pop_back();
                     u.set_destination( route );
@@ -13232,7 +13130,8 @@ void game::vertical_move(int movez, bool force)
         shift_monsters( 0, 0, movez );
     }
 
-    std::vector<npc*> npcs_to_bring;
+    std::vector<npc *> npcs_to_bring;
+    std::vector<monster *> monsters_following;
     if( !m.has_zlevels() && abs( movez ) == 1 ) {
         std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
                       [this]( npc *np ) {
@@ -13240,8 +13139,18 @@ void game::vertical_move(int movez, bool force)
         } );
     }
 
+    if( m.has_zlevels() && abs( movez ) == 1 ) {
+        for( size_t i = 0; i < num_zombies(); i++ ) {
+            monster &critter = zombie( i );
+            if( critter.attack_target() == &g->u ) {
+                monsters_following.push_back( &critter );
+            }
+        }
+    }
+
     u.moves -= move_cost;
 
+    const tripoint old_pos = g->u.pos();
     vertical_shift( z_after );
     if( !force ) {
         update_map( stairs.x, stairs.y );
@@ -13274,6 +13183,14 @@ void game::vertical_move(int movez, bool force)
         }
 
         reload_npcs();
+    }
+
+    // This ugly check is here because of stair teleport bullshit
+    // @todo Remove stair teleport bullshit
+    if( rl_dist( g->u.pos(), old_pos ) <= 1 ) {
+        for( monster *m : monsters_following ) {
+            m->set_dest( g->u.pos() );
+        }
     }
 
     if( rope_ladder ) {
@@ -14265,7 +14182,7 @@ void game::display_scent()
         return;
     };
     draw_ter();
-    scent.draw( w_terrain, div * 2, u.pos() );
+    scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
     wrefresh(w_terrain);
     getch();
 }

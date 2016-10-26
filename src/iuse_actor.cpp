@@ -2042,7 +2042,9 @@ bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
                                          bandolier.contents.front().charges >= capacity ) ) {
         return false;
     }
-    return std::count( ammo.begin(), ammo.end(), obj.type->ammo->type );
+
+    return std::any_of( obj.type->ammo->type.begin(), obj.type->ammo->type.end(),
+                        [&]( const ammotype &e ) { return ammo.count( e ); } );
 }
 
 bool bandolier_actor::reload( player &p, item &obj ) const

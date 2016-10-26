@@ -780,19 +780,15 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ### Flags
 
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
-- ```CHOP``` Does cutting damage, with a high chance of getting stuck.
-- ```DIAMOND``` Diamond coating adds 30% bonus to cutting damage
-- ```MESSY``` Resistant to getting stuck in a monster. Potentially cause more gore in the future?
-- ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
+- ```DIAMOND``` Diamond coating adds 30% bonus to cutting and piercing damage
+- ```MESSY``` Creates more mess when pulping
 - ```NO_CVD``` Item can never be used with a CVD machine
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```NO_UNWIELD``` Cannot unwield this item.
 - ```REACH_ATTACK``` Allows to perform reach attack.
-- ```SLICE``` Deals cutting damage, with a low chance of getting stuck.
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
-- ```SPEAR``` Deals stabbing damage, with a moderate chance of getting stuck. The `SPEAR` flag is synonymous with the `STAB` flag.
-- ```STAB``` Deals stabbing damage, with a moderate chance of getting stuck. The `STAB` flag is synonymous with the `SPEAR` flag.
+- ```SPEAR``` When making reach attacks intervening THIN_OBSTACLE terrain is not an obstacle
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```WHIP``` Has a chance of disarming the opponent.
 
@@ -867,9 +863,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 ### Flags that apply to items, not to item types.
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
 
-- ```ATOMIC_AMMO``` The tool has the atomic mod and runs on plutonium instead of normal batteries.
 - ```COLD``` Item is cold (see EATEN_COLD).
-- ```DOUBLE_AMMO``` The tool has the double battery mod and has its max_charges doubled.
 - ```FIT``` Reduces encumbrance by one.
 - ```HOT``` Item is hot (see EATEN_HOT).
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).

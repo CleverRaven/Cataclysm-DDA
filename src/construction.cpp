@@ -24,6 +24,8 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "item_group.h"
+#include "cata_utility.h"
+#include "uistate.h"
 
 #include <algorithm>
 #include <map>
@@ -194,18 +196,19 @@ void construction_menu()
     draw_grid( w_con, w_list_width + w_list_x0 );
 
     //tabcount needs to be increased to add more categories
-    int tabcount = 9;
+    int tabcount = 10;
     std::string construct_cat[] = {_( "All" ), _( "Constructions" ), _( "Furniture" ),
                                    _( "Digging and Mining" ), _( "Repairing" ),
                                    _( "Reinforcing" ), _( "Decorative" ),
-                                   _( "Farming and Woodcutting" ), _( "Others" )
+                                   _( "Farming and Woodcutting" ), _( "Others" ),
+                                   _( "Filter" )
                                   };
 
     bool update_info = true;
     bool update_cat = true;
+    bool isnew = true;
     int tabindex = 0;
     int select = 0;
-    int chosen = 0;
     int offset = 0;
     bool exit = false;
     std::string category_name = "";
@@ -230,16 +233,14 @@ void construction_menu()
     ctxt.register_action( "LEFT", _( "Move tab left" ) );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
-    ctxt.register_action( "SCROLL_STAGE_UP" );
-    ctxt.register_action( "SCROLL_STAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-
-    std::string hotkeys = ctxt.get_available_single_char_hotkeys();
-
+    ctxt.register_action( "FILTER" );
+    
+    std::string filter;
+    int previous_index = 0;
     do {
         if( update_cat ) {
             update_cat = false;
@@ -271,12 +272,33 @@ void construction_menu()
                 case 8:
                     category_name = "OTHER";
                     break;
+                case 9:
+                    category_name = "FILTER";
+                    break;
             }
-
+            
             if( category_name == "ALL" ) {
                 constructs = available;
+                previous_index = tabindex;
+            } else if( category_name == "FILTER" ) {
+                constructs.clear();
+                std::copy_if( available.begin(), available.end(),
+                    std::back_inserter( constructs ),
+                    [&](const std::string &a){
+                        return lcmatch(a, filter);
+                    } );
             } else {
                 constructs = cat_available[category_name];
+                previous_index = tabindex;
+            }
+            if( isnew ){
+                if( !uistate.last_construction.empty() ){
+                    select = std::distance(constructs.begin(),
+                                            std::find( constructs.begin(),
+                                                        constructs.end(),
+                                                        uistate.last_construction ));
+                }
+                filter = uistate.construction_filter;
             }
         }
         // Erase existing tab selection & list of constructions
@@ -293,8 +315,7 @@ void construction_menu()
             bool highlight = ( current == select );
 
             trim_and_print( w_list, i, 0, w_list_width,
-                            construction_color( con_name, highlight ), "%c %s",
-                            ( current < ( int )hotkeys.size() ) ? hotkeys[current] : ' ',
+                            construction_color( con_name, highlight ), "%s",
                             con_name.c_str() );
         }
 
@@ -307,20 +328,29 @@ void construction_menu()
             }
 
             //leave room for top and bottom UI text
-            int available_buffer_height = w_height - 5 - 3;
+            int available_buffer_height = w_height - 7 - 3;
             int available_window_width = w_width - ( w_list_width + w_list_x0 + 2 ) - 1;
             nc_color color_stage = c_white;
+            // print the hotkeys regardless of if there are constructions
+            trim_and_print( w_con, w_height - 5, ( w_list_width + w_list_x0 + 2 ),
+                       available_window_width, c_white,
+                       _("Press %s or %s to tab."), 
+                       ctxt.get_desc("LEFT").c_str(),
+                       ctxt.get_desc("RIGHT").c_str() );
+            mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white,
+                       _( "Press %s to search." ), ctxt.get_desc( "FILTER" ).c_str() );
+            mvwprintz( w_con, w_height - 3, ( w_list_width + w_list_x0 + 2 ), c_white,
+                       _( "Press %s to toggle unavailable constructions." ),
+                       ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() );
+            mvwprintz( w_con, w_height - 2, ( w_list_width + w_list_x0 + 2 ), c_white,
+                       _( "Press %s to view and edit key-bindings." ),
+                       ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
 
             if( !constructs.empty() ) {
+                if( select >= (int) constructs.size() ){
+                    select = 0;
+                }
                 std::string current_desc = constructs[select];
-                // Print instructions for toggling recipe hiding.
-                mvwprintz( w_con, w_height - 3, ( w_list_width + w_list_x0 + 2 ), c_white,
-                           _( "Press %s to toggle unavailable constructions." ),
-                           ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() );
-                mvwprintz( w_con, w_height - 2, ( w_list_width + w_list_x0 + 2 ), c_white,
-                           _( "Press %s to view and edit key-bindings." ),
-                           ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
-
                 // Print construction name
                 mvwprintz( w_con, 1, ( w_list_width + w_list_x0 + 2 ), c_white, "%s", current_desc.c_str() );
 
@@ -450,7 +480,7 @@ void construction_menu()
                 if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                          available_buffer_height ) < full_construct_buffer.size() ) {
                     // Print next stage indicator if more breakpoints are remaining after screen height
-                    mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white, _( "v [N]ext stage(s)" ) );
+                    mvwprintz( w_con, w_height - 6, ( w_list_width + w_list_x0 + 2 ), c_white, _( "v [N]ext stage(s)" ) );
                 }
                 // Leave room for above/below indicators
                 int ypos = 3;
@@ -471,9 +501,21 @@ void construction_menu()
         wrefresh( w_list );
 
         const std::string action = ctxt.handle_input();
-        const long raw_input_char = ctxt.get_raw_input().get_first_input();
-
-        if( action == "DOWN" ) {
+        if( action == "FILTER" ){
+            filter = string_input_popup( _( "Search" ), 50, filter, "", _( "Filter" ), 100, false );
+            if( !filter.empty() ){
+                update_info = true;
+                update_cat = true;
+                tabindex = 9;
+                select = 0;
+            }else if( previous_index !=9 ){
+                tabindex = previous_index;
+                update_info = true;
+                update_cat = true;
+                select = 0;
+            }
+            uistate.construction_filter = filter;
+        } else if( action == "DOWN" ) {
             update_info = true;
             if( select < ( int )constructs.size() - 1 ) {
                 select++;
@@ -500,19 +542,7 @@ void construction_menu()
             update_cat = true;
             select = 0;
             tabindex = ( tabindex + 1 ) % tabcount;
-        } else if( action == "PAGE_DOWN" ) {
-            update_info = true;
-            select += 15;
-            if( select > ( int )constructs.size() - 1 ) {
-                select = constructs.size() - 1;
-            }
         } else if( action == "PAGE_UP" ) {
-            update_info = true;
-            select -= 15;
-            if( select < 0 ) {
-                select = 0;
-            }
-        } else if( action == "SCROLL_STAGE_UP" ) {
             update_info = true;
             if( current_construct_breakpoint > 0 ) {
                 current_construct_breakpoint--;
@@ -520,7 +550,7 @@ void construction_menu()
             if( current_construct_breakpoint < 0 ) {
                 current_construct_breakpoint = 0;
             }
-        } else if( action == "SCROLL_STAGE_DOWN" ) {
+        } else if( action == "PAGE_DOWN" ) {
             update_info = true;
             if( current_construct_breakpoint < total_project_breakpoints - 1 ) {
                 current_construct_breakpoint++;
@@ -531,7 +561,6 @@ void construction_menu()
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
-            hotkeys = ctxt.get_available_single_char_hotkeys();
             draw_grid( w_con, w_list_width + w_list_x0 );
         } else if( action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) {
             update_info = true;
@@ -540,26 +569,18 @@ void construction_menu()
             select = 0;
             offset = 0;
             load_available_constructions( available, cat_available, hide_unconstructable );
-        } else if( action == "ANY_INPUT" || action == "CONFIRM" ) {
-            if( action == "CONFIRM" ) {
-                chosen = select;
-            } else {
-                // Get the index corresponding to the key pressed.
-                chosen = hotkeys.find_first_of( static_cast<char>( raw_input_char ) );
-                if( chosen == ( int )std::string::npos ) {
-                    continue;
-                }
+        } else if( action == "CONFIRM" ) {
+            if( constructs.empty() || select >= (int) constructs.size() ){
+                continue;// Nothing to be done here
             }
-            if( chosen < ( int )constructs.size() ) {
-                if( player_can_build( g->u, total_inv, constructs[chosen] ) ) {
-                    place_construction( constructs[chosen] );
-                    exit = true;
-                } else {
-                    popup( _( "You can't build that!" ) );
-                    select = chosen;
-                    draw_grid( w_con, w_list_width + w_list_x0 );
-                    update_info = true;
-                }
+            if( player_can_build( g->u, total_inv, constructs[select] ) ) {
+                place_construction( constructs[select] );
+                uistate.last_construction = constructs[select];
+                exit = true;
+            } else {
+                popup( _( "You can't build that!" ) );
+                draw_grid( w_con, w_list_width + w_list_x0 );
+                update_info = true;
             }
         }
     } while( !exit );
@@ -812,23 +833,25 @@ void construct::done_trunk_plank( const tripoint &p )
     }
 }
 
-const vpart_str_id &vpart_from_item( const std::string &item_id )
+const vpart_id &vpart_from_item( const std::string &item_id )
 {
-    for( auto vp : vpart_info::get_all() ) {
-        if( vp->item == item_id && vp->has_flag( "INITIAL_PART" ) ) {
-            return vp->id;
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( vp.item == item_id && vp.has_flag( "INITIAL_PART" ) ) {
+            return vp.id;
         }
     }
     // The INITIAL_PART flag is optional, if no part (based on the given item) has it, just use the
     // first part that is based in the given item (this is fine for example if there is only one
     // such type anyway).
-    for( auto vp : vpart_info::get_all() ) {
-        if( vp->item == item_id ) {
-            return vp->id;
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( vp.item == item_id ) {
+            return vp.id;
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
-    static const vpart_str_id frame_id( "frame_vertical_2" );
+    static const vpart_id frame_id( "frame_vertical_2" );
     return frame_id;
 }
 
@@ -1220,11 +1243,12 @@ std::vector<std::string> construction::get_folded_time_string( int width ) const
 void finalize_constructions()
 {
     std::vector<item_comp> frame_items;
-    for( auto &vp : vpart_info::get_all() ) {
-        if( !vp->has_flag( "INITIAL_PART" ) ) {
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( !vp.has_flag( "INITIAL_PART" ) ) {
             continue;
         }
-        frame_items.push_back( item_comp( vp->item, 1 ) );
+        frame_items.push_back( item_comp( vp.item, 1 ) );
     }
 
     if( frame_items.empty() ) {

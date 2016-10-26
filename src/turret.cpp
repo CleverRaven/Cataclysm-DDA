@@ -102,7 +102,7 @@ long turret_data::ammo_capacity() const
 const itype *turret_data::ammo_data() const
 {
     if( !veh || !part ) {
-        return 0;
+        return nullptr;
     }
     if( part->info().has_flag( "USE_TANKS" ) ) {
         return ammo_current() != "null" ? item::find_type( ammo_current() ) : nullptr;
@@ -113,20 +113,54 @@ const itype *turret_data::ammo_data() const
 
 itype_id turret_data::ammo_current() const
 {
+    auto opts = ammo_options();
+    if( opts.count( part->ammo_pref ) ) {
+        return part->ammo_pref;
+    }
+    if( opts.count( part->info().default_ammo ) ) {
+        return part->info().default_ammo;
+    }
+    if( opts.count( part->base.ammo_default() ) ) {
+        return part->base.ammo_default();
+    }
+    return opts.empty() ? "null" : *opts.begin();
+}
+
+std::set<itype_id> turret_data::ammo_options() const
+{
+    std::set<itype_id> opts;
+
     if( !veh || !part ) {
-        return "null";
+        return opts;
     }
+
     if( !part->info().has_flag( "USE_TANKS" ) ) {
-        return part->base.ammo_current();
-    }
-    for( const auto &e : veh->fuels_left() ) {
-        const itype *fuel = item::find_type( e.first );
-        if( fuel->ammo && fuel->ammo->type == part->base.ammo_type() &&
-            e.second > part->base.ammo_required() ) {
-            return fuel->get_id();
+        if( part->base.ammo_current() != "null" ) {
+            opts.insert( part->base.ammo_current() );
+        }
+
+    } else {
+        for( const auto &e : veh->fuels_left() ) {
+            const itype *fuel = item::find_type( e.first );
+            if( fuel->ammo && fuel->ammo->type.count( part->base.ammo_type() ) &&
+                e.second > part->base.ammo_required() ) {
+
+                opts.insert( fuel->get_id() );
+            }
         }
     }
-    return "null";
+
+    return opts;
+}
+
+bool turret_data::ammo_select( const itype_id &ammo )
+{
+    if( !ammo_options().count( ammo ) ) {
+        return false;
+    }
+
+    part->ammo_pref = ammo;
+    return true;
 }
 
 std::set<std::string> turret_data::ammo_effects() const

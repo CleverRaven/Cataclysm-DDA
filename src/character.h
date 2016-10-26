@@ -7,6 +7,7 @@
 #include "bionics.h"
 #include "skill.h"
 #include "map_selector.h"
+#include "pathfinding.h"
 
 #include <map>
 
@@ -253,9 +254,6 @@ class Character : public Creature, public visitable<Character>
         bool made_of( const material_id &m ) const override;
 
  private:
-        /** Null item to provide context for skills */
-        static const item null_context;
-
         /** Retrieves a stat mod of a mutation. */
         int get_mod(std::string mut, std::string arg) const;
  protected:
@@ -419,8 +417,9 @@ class Character : public Creature, public visitable<Character>
         /**
          * Checks if character stats and skills meet minimum requirements for the item.
          * Prints an appropriate message if requirements not met.
+         * @param context optionally override effective item when checking contextual skills
          */
-        bool can_use( const item& it, const item &context = null_context ) const;
+        bool can_use( const item& it, const item &context = item() ) const;
 
         void drop_inventory_overflow();
 
@@ -438,7 +437,7 @@ class Character : public Creature, public visitable<Character>
         SkillLevel &get_skill_level( const skill_id &ident );
 
         /** for serialization */
-        SkillLevel const& get_skill_level(const skill_id &ident, const item &context = null_context ) const;
+        SkillLevel const& get_skill_level(const skill_id &ident, const item &context = item() ) const;
         void set_skill_level( const skill_id &ident, int level );
         void boost_skill_level( const skill_id &ident, int delta );
 
@@ -448,16 +447,16 @@ class Character : public Creature, public visitable<Character>
          * @return Difference in skills. Positive numbers - exceeds; negative - lacks; empty map - no difference.
          */
         std::map<skill_id, int> compare_skill_requirements( const std::map<skill_id, int> &req,
-                                                            const item &context = null_context ) const;
+                                                            const item &context = item() ) const;
         /** Checks whether the character's skills meet the required */
         bool meets_skill_requirements( const std::map<skill_id, int> &req,
-                                       const item &context = null_context ) const;
+                                       const item &context = item() ) const;
         /** Checks whether the character's stats meets the stats required by the item */
         bool meets_stat_requirements( const item &it ) const;
         /** Checks whether the character meets overall requirements to be able to use the item */
-        bool meets_requirements( const item &it, const item &context = null_context ) const;
+        bool meets_requirements( const item &it, const item &context = item() ) const;
         /** Returns a string of missed requirements (both stats and skills) */
-        std::string enumerate_unmet_requirements( const item &it, const item &context = null_context ) const;
+        std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
 
         // --------------- Other Stuff ---------------
 
@@ -596,6 +595,12 @@ class Character : public Creature, public visitable<Character>
 
         // turn the character expired, if -1 it has not been set yet.
         int turn_died = -1;
+
+        /**
+         * Cache for pathfinding settings.
+         * Most of it isn't changed too often, hence mutable.
+         */
+        mutable pathfinding_settings path_settings;
 
     private:
         /** Needs (hunger, thirst, fatigue, etc.) */

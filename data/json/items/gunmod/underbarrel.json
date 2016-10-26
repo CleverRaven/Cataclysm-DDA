@@ -27,7 +27,7 @@
     "id": "bipod",
     "type": "GUNMOD",
     "name": "bipod",
-    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil they are useable only on certain surfaces and are slow to equip.",
+    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil they are usable only on certain surfaces and are slow to equip.",
     "weight": 400,
     "volume": 2,
     "price": 68000,
@@ -87,7 +87,6 @@
       "ranged_damage": 2,
       "dispersion": 555,
       "durability": 6,
-      "loudness": 175,
       "clip_size": 1,
       "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
     },
@@ -127,7 +126,6 @@
       "ranged_damage": 3,
       "dispersion": 45,
       "durability": 10,
-      "loudness": 200,
       "clip_size": 7,
       "reload": 120
     },
@@ -346,8 +344,7 @@
     "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 20,
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
-    "flags": [ "NON_STUCK", "CHOP" ]
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ]
   },
   {
     "id": "u_shotgun",

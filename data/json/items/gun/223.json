@@ -359,7 +359,7 @@
     "type": "GUN",
     "name": "Steyr AUG",
     "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy.",
-    "weight": 3240,
+    "weight": 3184,
     "volume": 6,
     "price": 490000,
     "to_hit": -1,
@@ -371,6 +371,7 @@
     "dispersion": 140,
     "durability": 8,
     "burst": 6,
+    "built_in_mods": [ "grip" ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
