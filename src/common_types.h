@@ -16,6 +16,9 @@ struct numeric_interval : public JsonDeserializer {
 
     numeric_interval() = default;
     numeric_interval( T min, T max ) : min( min ), max( max ) { }
+    numeric_interval( T middle, T lower_margin, T upper_margin ) :
+        min( middle - lower_margin ), max( middle + upper_margin ) {
+    }
 
     bool operator==( const numeric_interval<T> &rhs ) const {
         return min == rhs.min && max == rhs.max;

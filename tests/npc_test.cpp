@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 
+#include "common_types.h"
 #include "player.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -7,22 +8,7 @@
 #include "map.h"
 #include "text_snippets.h"
 
-#include <limits.h>
 #include <string>
-
-template<typename Val>
-struct range
-{
-    range() :
-        min( std::numeric_limits<Val>::min() ),
-        max( std::numeric_limits<Val>::max() ) {}
-    range( Val value, Val margin ) :
-        min( value - margin ),
-        max( value + margin ) {}
-
-    Val min;
-    Val max;
-};
 
 void on_load_test( npc &who, calendar from, calendar to )
 {
@@ -32,7 +18,9 @@ void on_load_test( npc &who, calendar from, calendar to )
     who.on_load();
 }
 
-void test_needs( const npc &who, const range<int> &hunger, const range<int> &thirst, const range<int> &fatigue )
+void test_needs( const npc &who, const numeric_interval<int> &hunger,
+                                 const numeric_interval<int> &thirst,
+                                 const numeric_interval<int> &fatigue )
 {
     CHECK( who.get_hunger() <= hunger.max );
     CHECK( who.get_hunger() >= hunger.min );
@@ -68,9 +56,9 @@ TEST_CASE("on_load-sane-values")
         on_load_test( test_npc, 0, MINUTES(5 * five_min_ticks) );
         const int margin = 1;
 
-        const range<int> hunger( five_min_ticks / 4, margin );
-        const range<int> thirst( five_min_ticks / 4, margin );
-        const range<int> fatigue( five_min_ticks, margin );
+        const numeric_interval<int> hunger( five_min_ticks / 4, margin, margin );
+        const numeric_interval<int> thirst( five_min_ticks / 4, margin, margin );
+        const numeric_interval<int> fatigue( five_min_ticks, margin, margin );
 
         test_needs( test_npc, hunger, thirst, fatigue );
     }
@@ -81,9 +69,9 @@ TEST_CASE("on_load-sane-values")
         on_load_test( test_npc, 0, MINUTES(5 * five_min_ticks) );
 
         const int margin = 20;
-        const range<int> hunger( five_min_ticks / 4, margin );
-        const range<int> thirst( five_min_ticks / 4, margin );
-        const range<int> fatigue( five_min_ticks, margin );
+        const numeric_interval<int> hunger( five_min_ticks / 4, margin, margin );
+        const numeric_interval<int> thirst( five_min_ticks / 4, margin, margin );
+        const numeric_interval<int> fatigue( five_min_ticks, margin, margin );
 
         test_needs( test_npc, hunger, thirst, fatigue );
     }
@@ -102,9 +90,9 @@ TEST_CASE("on_load-sane-values")
         on_load_test( test_npc, 0, MINUTES(5 * five_min_ticks) );
 
         const int margin = 10;
-        const range<int> hunger( five_min_ticks / 8, margin );
-        const range<int> thirst( five_min_ticks / 8, margin );
-        const range<int> fatigue;
+        const numeric_interval<int> hunger( five_min_ticks / 8, margin, margin );
+        const numeric_interval<int> thirst( five_min_ticks / 8, margin, margin );
+        const numeric_interval<int> fatigue( test_npc.get_fatigue(), 0, 0 );
 
         test_needs( test_npc, hunger, thirst, fatigue );
     }
@@ -124,9 +112,9 @@ TEST_CASE("on_load-similar-to-per-turn")
         }
 
         const int margin = 1;
-        const range<int> hunger( iterated_npc.get_hunger(), margin );
-        const range<int> thirst( iterated_npc.get_thirst(), margin );
-        const range<int> fatigue( iterated_npc.get_fatigue(), margin );
+        const numeric_interval<int> hunger( iterated_npc.get_hunger(), margin, margin );
+        const numeric_interval<int> thirst( iterated_npc.get_thirst(), margin, margin );
+        const numeric_interval<int> fatigue( iterated_npc.get_fatigue(), margin, margin );
 
         test_needs( on_load_npc, hunger, thirst, fatigue );
     }
@@ -141,9 +129,9 @@ TEST_CASE("on_load-similar-to-per-turn")
         }
 
         const int margin = 10;
-        const range<int> hunger( iterated_npc.get_hunger(), margin );
-        const range<int> thirst( iterated_npc.get_thirst(), margin );
-        const range<int> fatigue( iterated_npc.get_fatigue(), margin );
+        const numeric_interval<int> hunger( iterated_npc.get_hunger(), margin, margin );
+        const numeric_interval<int> thirst( iterated_npc.get_thirst(), margin, margin );
+        const numeric_interval<int> fatigue( iterated_npc.get_fatigue(), margin, margin );
 
         test_needs( on_load_npc, hunger, thirst, fatigue );
     }
