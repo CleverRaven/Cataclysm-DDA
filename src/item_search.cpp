@@ -18,15 +18,19 @@ item_filter_from_string( std::string filter )
     }
     
     // remove curly braces (they only get in the way)
-    filter.erase( std::remove( filter.begin(), filter.end(), '{') );
-    filter.erase( std::remove( filter.begin(), filter.end(), '}') );
+    if( filter.find( '{' ) != std::string::npos ){
+        filter.erase( std::remove( filter.begin(), filter.end(), '{') );
+    }
+    if( filter.find( '}' ) != std::string::npos ){
+        filter.erase( std::remove( filter.begin(), filter.end(), '}') );
+    }
     if( filter.find( "," ) != std::string::npos ) {
         // functions which only one of which must return true
         std::vector<std::function<bool( const item & )> > functions;
         // Functions that must all return true
         std::vector<std::function<bool( const item & )> > inv_functions;
-        size_t comma;
-        while( ( comma = filter.find( "," ) ) != std::string::npos ) {
+        size_t comma = filter.find( "," );
+        while( !filter.empty() ) {
             const auto &current_filter = trim( filter.substr( 0, comma ) );
             if( !current_filter.empty() ) {
                 auto current_func = item_filter_from_string( current_filter );
@@ -36,27 +40,24 @@ item_filter_from_string( std::string filter )
                     functions.push_back( current_func );
                 }
             }
-            filter = trim( filter.substr( comma + 1 ) );
-        }
-        if( !filter.empty() ) {
-            std::cout << filter << " " << std::endl;
-            if( filter[0] != '-' ) {
-                functions.push_back( item_filter_from_string( filter ) );
+            if( comma != std::string::npos ){
+                filter = trim( filter.substr( comma + 1 ) );
+                comma = filter.find( "," );
             }else {
-                inv_functions.push_back( item_filter_from_string( filter) );
+                break;
             }
         }
-        return [functions, inv_functions]( const item & i ) {
+        
+        return [functions, inv_functions]( const item & it ) {
+            auto apply = [&]( const std::function<bool(const item&)>& func ){
+                return func( it );
+            };
             bool p_result = std::any_of( functions.begin(), functions.end(),
-            [i]( std::function<bool( const item & )> f ) {
-                return f( i );
-            } );
+            apply);
             bool n_result = std::all_of(
                                 inv_functions.begin(),
                                 inv_functions.end(),
-            [i]( std::function<bool( const item & )> f ) {
-                return f( i );
-            } );
+            apply );
             if( !functions.empty() && inv_functions.empty() ){
                 return p_result;
             }
@@ -66,6 +67,12 @@ item_filter_from_string( std::string filter )
             return p_result && n_result;
         };
     }
+    bool exclude = filter[0] == '-';
+    if( exclude ) {
+        return [filter]( const item &i ) {
+            return !item_filter_from_string( filter.substr( 1 ) )( i );
+        };
+    }
     size_t colon;
     char flag = '\0';
     if( ( colon = filter.find( ":" ) ) != std::string::npos ) {
@@ -73,12 +80,6 @@ item_filter_from_string( std::string filter )
             flag = filter[colon - 1];
             filter = filter.substr( colon + 1 );
         }
-    }
-    bool exclude = filter.find( '-' ) != std::string::npos;
-    if( exclude ) {
-        return [filter]( const item & i ) {
-            return !item_filter_from_string( filter.substr( 1 ) )( i );
-        };
     }
     switch( flag ) {
         case 'c'://category
