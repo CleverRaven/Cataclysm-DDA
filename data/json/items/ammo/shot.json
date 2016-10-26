@@ -60,7 +60,7 @@
     "type": "AMMO",
     "name": "00 shot",
     "name_plural": "00 shot",
-    "description": "A shell filled with lead pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
+    "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
     "weight": 32,
     "volume": 1,
     "price": 3500,
