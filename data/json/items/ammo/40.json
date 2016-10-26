@@ -16,7 +16,7 @@
     "type": "AMMO",
     "name": ".40 S&W",
     "name_plural": ".40 S&W JHP",
-    "description": ".40 S&W ammunition with 135gr JHP bullets.  The .40 S&W round is a descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.",
+    "description": ".40 S&W ammunition with 135gr JHP bullets.  The .40 S&W round is descended from the 10mm Auto light loading and maintains most of its predecessor's strengths while reducing recoil.",
     "weight": 9,
     "volume": 1,
     "price": 2800,
