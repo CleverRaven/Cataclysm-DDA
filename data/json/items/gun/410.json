@@ -43,7 +43,7 @@
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
-    "id": "pipe_shotgun",
+    "id": "410_pipe_shotgun",
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": ".410 pipe shotgun",

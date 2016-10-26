@@ -39,8 +39,8 @@
     "dispersion": 90,
     "durability": 7,
     "clip_size": 10,
-    "reload_noise_volume": 10,
     "reload_noise": "chuk chuk.",
+    "reload_noise_volume": 10,
     "flags": [ "RELOAD_ONE" ]
   }
 ]

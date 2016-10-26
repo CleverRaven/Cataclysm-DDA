@@ -46,7 +46,7 @@
     "type": "AMMO",
     "name": ".410 shot",
     "name_plural": ".410 shot",
-    "description": "A .410 bore shotshell, filled with a few 00-size pellets, giving it a modest spread that makes makes targets easier to hit.  As revolvers and derringers can be made to chamber both .410 and .45 cartridges, this load sees some use as a personal defense cartridge.",
+    "description": "A .410 bore shotshell, filled with a few 00-size pellets, giving it a modest spread that makes targets easier to hit.  As revolvers and derringers can be made to chamber both .410 and .45 cartridges, this load sees some use as a personal defense cartridge.",
     "weight": 18,
     "volume": 1,
     "price": 3000,

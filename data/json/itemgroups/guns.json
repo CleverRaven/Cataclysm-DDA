@@ -279,6 +279,7 @@
       [ "bigun", 10 ],
       [ "pipe_double_shotgun", 70 ],
       [ "pipe_shotgun", 100 ],
+      [ "410_pipe_shotgun", 70 ],
       [ "revolver_shotgun", 30 ],
       [ "surv_levershotgun", 40 ]
     ]
@@ -417,7 +418,7 @@
     "items": [
       { "group": "guns_improvised", "prob": 200 },
       [ "ar15", 5 ],
-      [ "sks", 10 ]
+      [ "mossberg_500", 5 ],
       [ "m6_asw", 5 ],
       [ "remington_870", 5 ],
       [ "ruger_1022", 15 ],
