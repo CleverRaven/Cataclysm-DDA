@@ -4093,25 +4093,14 @@ void overmap::place_specials()
                     must_place.emplace_back( place );
                 }
             }
-            if( must_place.empty() ) {
-                const auto &place = random_entry( valid_specials );
-                const overmap_special * const special = place.first;
-                if( num_placed[special] == -1 ) {
-                    //if you build one, never build another.  For [x:100] spawn % chance
-                    num_placed[special] = 999;
-                }
-                num_placed[special]++;
-                place_special( *special, p, place.second );
-            } else {
-                const auto &place = random_entry( must_place );
-                const overmap_special * const special = place.first;
-                if( num_placed[special] == -1 ) {
-                    //if you build one, never build another.  For [x:100] spawn % chance
-                    num_placed[special] = 999;
-                }
-                num_placed[special]++;
-                place_special( *special, p, place.second );
-            }
+
+            const auto &place = must_place.empty() ? random_entry( valid_specials ) : random_entry( must_place );
+            int &num = num_placed[place.first];
+
+            //if you build one, never build another.  For [x:100] spawn % chance
+            num = num == -1 ? 1000 : num + 1;
+
+            place_special( *place.first, p, place.second );
         }
     }
 }
