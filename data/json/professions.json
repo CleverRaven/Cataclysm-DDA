@@ -881,33 +881,40 @@
             "ident": "bio_sur",
             "name": "Bionic Survivalist",
             "description": "Mainly from paranoia, you augmented yourself, got some training and basic gear to go inawoods incase anything went down, well it did.  Seems your paranoia paid off.",
-            "points": 8,
+            "points": 6,
             "skills": [
             {
-                "level": 1,
+                "level": 4,
                 "name": "survival"
             },
             {
-                "level": 1,
+                "level": 2,
+                "name": "traps"
+            },
+            {
+                "level": 2,
                 "name": "fabrication"
             },
             {
-                "level": 1,
+                "level": 2,
                 "name": "cooking"
             },
             {
-                "level": 1,
+                "level": 2,
                 "name": "firstaid"
+            },
+            {
+                "level": 2,
+                "name": "swimming"
             }
         ],
         "CBMs":[
             "bio_power_storage_mkII",
-            "bio_sunglasses",
             "bio_torsionratchet",
             "bio_lighter",
             "bio_evap",
             "bio_flashlight",
-            "bio_tools"
+            "bio_climate"
         ],
         "items": {
             "both": [
@@ -918,10 +925,11 @@
                 "tshirt",
                 "socks",
                 "backpack",
-                "knife_hunting",
+                "knife_rambo",
                 "rope_30",
+                "whistle",
                 "canteen",
-                "sheath"
+                "scabbard"
             ],
             "male": [
                 "boxer_shorts"
