@@ -101,9 +101,9 @@ size_t blood_trail_len( int damage )
 // Both dispersion and shot_dispersion are measured in
 // arcminutes (1/60th of a degree).
 //
-// Increasing dispersion_sigmas will make shots
-// "tighter" around the actual target and increase
-// the overall chance to hit.
+// Increasing dispersion_sigmas will decrease the standard
+// deviation, shots will be "tighter" around the actual
+// target, the overall chance to hit increases.
 //
 // Allowing a hit on the target just because you
 // hit the right tile doesn't work balance-wise as
@@ -114,6 +114,12 @@ size_t blood_trail_len( int damage )
 // close with your shot, in tiles (missed_by_tiles)
 // to have a chance to hit. Increasing
 // occupied_tile_fraction increases the chance to hit.
+//
+// You should not set occupied_tile_fraction > 1.0 as
+// that would mean that hitting an adjacent tile is enough
+// to hit the critter, and the code that follows the shot
+// trajectory looking for hits is not capable of handling
+// that.
 //
 // Once you are close enough with the shot for a hit,
 // exactly how close influences the quality of the hit.
