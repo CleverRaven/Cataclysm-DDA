@@ -1,7 +1,6 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
-#include <climits>
 #include <memory>
 
 #include "color.h"
@@ -278,6 +277,9 @@ class inventory_column
          * @param step Same as one in @ref select().
          */
         void move_selection( int step );
+        void move_selection_page( int step );
+
+        size_t next_selectable_index( size_t index, int step ) const;
 
         size_t page_of( size_t index ) const;
         size_t page_of( const inventory_entry &entry ) const;

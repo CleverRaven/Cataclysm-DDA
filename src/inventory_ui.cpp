@@ -191,34 +191,49 @@ void inventory_selector_preset::append_cell( const std::function<std::string( co
 void inventory_column::select( size_t new_index, int step )
 {
     if( new_index < entries.size() ) {
+        if( !entries[new_index].is_selectable() ) {
+            new_index = next_selectable_index( new_index, step );
+        }
+
         selected_index = new_index;
         page_offset = selected_index - selected_index % entries_per_page;
-
-        if( !entries[selected_index].is_selectable() ) {
-            move_selection( step );
-        }
     }
+}
+
+size_t inventory_column::next_selectable_index( size_t index, int step ) const
+{
+    if( step != 0 ) {
+        // Returns 'index' incremented by 'step' using division remainder (number of entries) to loop over the entries.
+        // Negative step '-k' (backwards) is equivalent to '-k + N' (forward), where:
+        //     N = entries.size()  - number of elements,
+        //     k = |step|          - absolute step (k <= N).
+        step = step > 0 ? 1 : -1;
+        do {
+            index = ( index + step + entries.size() ) % entries.size();
+        } while( index != selected_index && ( !entries[index].is_selectable() || is_selected_by_category( entries[index] ) ) );
+    }
+    return index;
 }
 
 void inventory_column::move_selection( int step )
 {
-    if( step == 0 ) {
-        return; // Nothing to do
-    }
-    // The lambda returns 'index' incremented by 'step' using division remainder (number of entries) to loop over the entries.
-    // Negative step '-k' (backwards) is equivalent to '-k + N' (forward), where:
-    //     N = entries.size()  - number of elements,
-    //     k = |step|          - absolute step (k <= N).
-    const auto get_incremented = [ this ]( size_t index, int step ) -> size_t {
-        return ( index + step + entries.size() ) % entries.size();
-    };
-    // Make the requested step
-    size_t index = get_incremented( selected_index, step );
-    // If the new selection does not meet the requirements, proceed with small steps (either +1 or -1) until we find one that does.
-    // Stop when full turn is made - further looping is pointless.
-    while( index != selected_index && ( !entries[index].is_selectable() || is_selected_by_category( entries[index] ) ) ) {
-        index = get_incremented( index, ( step > 0 ? 1 : -1 ) );
-    }
+    select( next_selectable_index( selected_index, step ) );
+}
+
+void inventory_column::move_selection_page( int step )
+{
+    size_t index = selected_index;
+
+    do {
+        const size_t next_index = next_selectable_index( index, step );
+        const bool flipped = next_index == selected_index || ( next_index > selected_index ) != ( step > 0 );
+
+        if( flipped && page_of( next_index ) == page_index() ) {
+            break; // If flipped and still on the same page - no need to flip
+        }
+
+        index = next_index;
+    } while( page_of( next_selectable_index( index, step ) ) == page_index() );
 
     select( index );
 }
@@ -362,9 +377,9 @@ void inventory_column::on_action( const std::string &action )
     } else if( action == "UP" ) {
         move_selection( -1 );
     } else if( action == "NEXT_TAB" ) {
-        move_selection( std::max( std::min<int>( entries_per_page, entries.size() - selected_index - 1 ), 1 ) );
+        move_selection_page( 1 );
     } else if( action == "PREV_TAB" ) {
-        move_selection( std::min( std::max<int>( UINT32_MAX - entries_per_page + 1, (UINT32_MAX - selected_index + 1) + 1 ), -1 ) );
+        move_selection_page( -1 );
     } else if( action == "HOME" ) {
         select( 0, 1 );
     } else if( action == "END" ) {
