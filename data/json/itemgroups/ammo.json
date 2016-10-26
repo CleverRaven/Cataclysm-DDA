@@ -23,6 +23,7 @@
        [ "44fmj", 15 ],
        [ "44magnum", 35 ],
        [ "45_acp", 50 ],
+       [ "45_long_colt", 30 ],
        [ "45_super", 30 ],
        [ "57mm", 50 ],
        [ "9mmfmj", 70 ],
@@ -72,6 +73,7 @@
        [ "reloaded_44fmj", 30 ],
        [ "reloaded_45_acp", 80 ],
        [ "reloaded_45_jhp", 100 ],
+       [ "reloaded_45_long_colt", 40 ],
        [ "reloaded_45_super", 40 ],
        [ "reloaded_46mm", 20 ],
        [ "reloaded_454_Casull", 5 ],
@@ -212,6 +214,7 @@
     "id": "ammo_shotgun_common",
     "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
     "items": [
+      [ "410_birdshot", 60 ],
       [ "shot_00", 100 ],
       [ "shot_bird", 70 ]
     ]
@@ -225,6 +228,8 @@
       [ "20x66_flare", 10 ],
       [ "20x66_shot", 40 ],
       [ "20x66_slug", 20 ],
+      [ "410_shot", 40 ],
+      [ "410_slug", 20 ],
       [ "shot_slug", 100 ],
       [ "shot_beanbag", 20 ]
     ]
@@ -253,6 +258,9 @@
     "id": "ammo_shotgun_reloaded",
     "//": "Reloaded shotgun ammo balanced according to rarity.",
     "items": [
+      [ "reloaded_410_birdshot", 100 ],
+      [ "reloaded_410_shot", 15 ],
+      [ "reloaded_410_slug", 15 ],
       [ "reloaded_shot_00", 200 ],
       [ "reloaded_shot_bird", 30 ],
       [ "reloaded_shot_flechette", 5 ],

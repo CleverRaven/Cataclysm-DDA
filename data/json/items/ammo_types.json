@@ -103,6 +103,18 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "45lc",
+        "name" : ".45 Long Colt",
+        "default" : "45_Long_Colt"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "410",
+        "name" : ".410 bore",
+        "default" : "410_birdshot"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "454",
         "name" : ".454",
         "default" : "454_Casull"

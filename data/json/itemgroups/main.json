@@ -138,7 +138,8 @@
       ["lemat_revolver", 30],
       ["rifle_flintlock", 75],
       ["colt_army", 30],
-      ["colt_navy", 30]
+      ["colt_navy", 30],
+      ["colt_ssa", 30]
     ]
   },{
     "type" : "item_group",
@@ -151,7 +152,8 @@
       ["lemat_revolver", 30],
       ["rifle_flintlock", 75],
       ["colt_army", 30],
-      ["colt_navy", 30]
+      ["colt_navy", 30],
+      ["colt_ssa", 30]
     ]
   },{
     "type" : "item_group",
@@ -160,7 +162,8 @@
       ["flintlock_ammo", 60],
       ["flintlock_shot", 40],
       ["36navy", 50],
-      ["44army", 50]
+      ["44army", 50],
+      ["45_long_colt", 60]
     ]
   },{
     "type" : "item_group",
@@ -170,12 +173,14 @@
       ["22_casing", 0],
       ["22_casing_new", 100],
       ["shot_hull", 100],
+      ["410_hull", 75],
       ["9mm_casing", 100],
       ["9x18mm_casing", 30],
       ["38_casing", 40],
       ["40_casing", 50],
       ["44_casing", 50],
       ["45_casing", 60],
+      ["45lc_casing", 40],
       ["454_casing", 30],
       ["500_casing", 30],
       ["57mm_casing", 50],
