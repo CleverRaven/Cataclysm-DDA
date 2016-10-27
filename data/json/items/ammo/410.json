@@ -87,10 +87,10 @@
     "price": 4200,
     "relative": {
       "range": 6,
-      "pierce": 4
+      "pierce": 3
     },
     "proportional": {
-      "dispersion": 1.3,
+      "dispersion": 2,
       "recoil": 1.4
     },
     "delete": { "effects": [ "SHOT" ] }
