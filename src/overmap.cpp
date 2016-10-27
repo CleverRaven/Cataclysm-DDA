@@ -3891,6 +3891,25 @@ inline tripoint rotate_tripoint(tripoint p, int rotations)
     return p;
 }
 
+tripoint overmap::find_place_for_road( const tripoint &center, const tripoint &connection ) const
+{
+    const auto can_build_road = [ this ]( const tripoint &p ) {
+        return road_allowed( get_ter( p.x, p.y, p.z ) );
+    };
+
+    if( can_build_road( connection ) ) {
+        return connection;
+    } else if( center != connection ) {
+        const tripoint ext = move_along_line( connection, line_to( center, connection ), 1 );
+
+        if( can_build_road( ext ) ) {
+            return ext;
+        }
+    }
+
+    return invalid_tripoint;
+}
+
 // checks around the selected point to see if the special can be placed there
 bool overmap::allow_special(const overmap_special& special, const tripoint& p, int &rotate)
 {
@@ -3925,39 +3944,17 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
     // do bounds & connection checking
     std::list<tripoint> rotated_points;
     for( const auto& t : special.terrains ) {
-
         const tripoint rotated_point = rotate_tripoint(t.p, rotate);
-        rotated_points.push_back(rotated_point);
 
         tripoint testpoint = tripoint(rotated_point.x + p.x, rotated_point.y + p.y, p.z);
-        if((testpoint.x >= OMAPX - 1) ||
-           (testpoint.x < 0) || (testpoint.y < 0) ||
-           (testpoint.y >= OMAPY - 1)) {
+
+        if( !inbounds( testpoint ) ) {
+            return false;
+        } else if( t.connect == "road" && find_place_for_road( p, testpoint ) == invalid_tripoint ) {
             return false;
         }
-        if(t.connect == "road")
-        {
-            switch(rotate){
-            case 0:
-                testpoint = tripoint(testpoint.x, testpoint.y - 1, testpoint.z);
-                break;
-            case 1:
-                testpoint = tripoint(testpoint.x + 1, testpoint.y, testpoint.z);
-                break;
-            case 2:
-                testpoint = tripoint(testpoint.x, testpoint.y + 1, testpoint.z);
-                break;
-            case 3:
-                testpoint = tripoint(testpoint.x - 1, testpoint.y, testpoint.z);
-                break;
-            default:
-                break;
-            }
-            if(!road_allowed(get_ter(testpoint.x, testpoint.y, testpoint.z)))
-            {
-                return false;
-            }
-        }
+
+        rotated_points.push_back( rotated_point );
     }
 
     // then do city range checking
@@ -4136,27 +4133,7 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
     for( const auto& connection : connections ) {
 
         if(connection.first == "road") {
-            const auto can_build_road = [ this ]( const tripoint &p ) {
-                return road_allowed( ter( p.x, p.y, p.z ) );
-            };
-
-            tripoint road_pos = invalid_tripoint;
-            tripoint road_ext;
-
-            if( can_build_road( connection.second ) ) {
-                road_pos = connection.second; // We can build the road right here. Let's do it!
-            } else if( p != connection.second && can_build_road( road_ext = move_along_line( connection.second, line_to( p, connection.second ), 1 ) ) ) {
-                road_pos = road_ext; // We can build it on an adjacent tile along the correct side. The most common case.
-            } else {
-                // No luck. Try to build it anywhere nearby (and as close as possible).
-                // Supposed to be a rare case.
-                for( const auto &cp : closest_tripoints_first( 3, connection.second ) ) {
-                    if( can_build_road( cp ) ) {
-                        road_pos = cp;
-                        break;
-                    }
-                }
-            }
+            tripoint road_pos = find_place_for_road( p, connection.second );
 
             if( road_pos != invalid_tripoint ) {
                 city closest;

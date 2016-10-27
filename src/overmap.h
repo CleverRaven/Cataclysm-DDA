@@ -453,6 +453,8 @@ public:
   void place_radios();
 
     void add_mon_group(const mongroup &group);
+
+    tripoint find_place_for_road( const tripoint &center, const tripoint &connection ) const;
 };
 
 // TODO: readd the stream operators
