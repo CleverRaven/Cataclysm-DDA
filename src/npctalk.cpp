@@ -573,7 +573,7 @@ void npc::talk_to_u()
     delwin(d.win);
     g->refresh_all();
     // Don't query if we're training the player
-    if( g->u.activity.type != ACT_TRAIN || g->u.activity.index != getID() ) {
+    if( g->u.activity.id() != activity_id( "ACT_TRAIN" ) || g->u.activity.index != getID() ) {
         g->cancel_activity_query( _("%s talked to you."), name.c_str() );
     }
 }
@@ -1230,7 +1230,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     }
     if( topic == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
+        if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
             return _("Shall we resume?");
         }
         std::vector<skill_id> trainable = p->skills_offered_to(g->u);
@@ -2347,7 +2347,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response_done( _("Okay, fine, bye.") );
 
     } else if( topic == "TALK_TRAIN" ) {
-            if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
+            if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
                 player_activity &backlog = g->u.backlog.front();
                 std::stringstream resume;
                 resume << _("Yes, let's resume training ");
@@ -3209,7 +3209,7 @@ void talk_function::give_aid( npc &p )
             g->u.remove_effect( effect_infected, bp_healed );
         }
     }
-    g->u.assign_activity(ACT_WAIT_NPC, 10000);
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 10000 );
     g->u.activity.str_values.push_back(p.name);
 }
 
@@ -3242,7 +3242,7 @@ void talk_function::construction_tips( npc &p )
 {
     g->u.cash -= 2000;
     g->u.practice( skill_id( "carpentry" ), 30 );
-    g->u.assign_activity(ACT_WAIT_NPC, 600);
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 600 );
     g->u.activity.str_values.push_back(p.name);
     p.add_effect( effect_currently_busy, 600);
 }
@@ -3251,7 +3251,7 @@ void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale(MORALE_HAIRCUT, 5, 5, 7200, 30);
     g->u.cash -= 1000;
-    g->u.assign_activity(ACT_WAIT_NPC, 300);
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300);
     g->u.activity.str_values.push_back(p.name);
     add_msg(m_good, _("%s gives you a decent haircut..."), p.name.c_str());
 }
@@ -3260,7 +3260,7 @@ void talk_function::buy_shave( npc &p )
 {
     g->u.add_morale(MORALE_SHAVE, 10, 10, 3600, 30);
     g->u.cash -= 500;
-    g->u.assign_activity(ACT_WAIT_NPC, 100);
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
     g->u.activity.str_values.push_back(p.name);
     add_msg(m_good, _("%s gives you a decent shave..."), p.name.c_str());
 }
@@ -3458,7 +3458,7 @@ void talk_function::start_training( npc &p )
     } else if( !pay_npc( p, cost ) ) {
         return;
     }
-    g->u.assign_activity( ACT_TRAIN, time * 100, p.getID(), 0, name );
+    g->u.assign_activity( activity_id( "ACT_TRAIN" ), time * 100, p.getID(), 0, name );
     p.add_effect( effect_asked_to_train, 3600 );
 }
 

@@ -1185,7 +1185,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
         // restore the pane to its former glory
         panes[src] = shadow;
         // make it auto loop back, if not already doing so
-        if(!done && g->u.has_activity(ACT_NULL)) {
+        if( !done && !g->u.activity ) {
             do_return_entry();
         }
         return true;
@@ -1266,13 +1266,13 @@ bool advanced_inventory::move_all_items(bool nested_call)
         g->u.drop( dropped, g->u.pos() + darea.off );
     } else {
         if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
-            g->u.assign_activity( ACT_PICKUP, 0 );
+            g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
             g->u.activity.values.push_back( spane.in_vehicle() );
             if( dpane.get_area() == AIM_WORN ) {
                 g->u.activity.str_values.push_back( "equip" );
             }
         } else { // Vehicle and map destinations are handled the same.
-            g->u.assign_activity( ACT_MOVE_ITEMS, 0 );
+            g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
             // store whether the source is from a vehicle (first entry)
             g->u.activity.values.push_back(spane.in_vehicle());
             // store whether the destination is a vehicle
@@ -1660,10 +1660,10 @@ void advanced_inventory::display()
                 // If examining the item did not create a new activity, we have to remove
                 // "return to AIM".
                 do_return_entry();
-                assert( g->u.has_activity( ACT_ADV_INVENTORY ) );
+                assert( g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) );
                 ret = g->inventory_item_menu( idx, info_startx, info_width,
                                               src == left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
-                if( !g->u.has_activity( ACT_ADV_INVENTORY ) ) {
+                if( !g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) ) {
                     exit = true;
                 } else {
                     g->u.cancel_activity();
@@ -2461,7 +2461,7 @@ void advanced_inventory::do_return_entry()
 {
     // only save pane settings
     save_settings( true );
-    g->u.assign_activity( ACT_ADV_INVENTORY, -1 );
+    g->u.assign_activity( activity_id( "ACT_ADV_INVENTORY" ) );
     g->u.activity.auto_resume = true;
     uistate.adv_inv_exit_code = exit_re_entry;
 }

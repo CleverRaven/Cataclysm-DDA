@@ -79,7 +79,6 @@ enum target_mode {
     TARGET_MODE_REACH
 };
 
-enum activity_type : int;
 enum body_part : int;
 enum weather_type : int;
 enum action_id : int;

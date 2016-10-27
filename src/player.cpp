@@ -670,11 +670,11 @@ void player::update_mental_focus()
     }
 
     // Moved from calc_focus_equilibrium, because it is now const
-    if( activity.type == ACT_READ ) {
+    if( activity.id() == activity_id( "ACT_READ" ) ) {
         const item *book = activity.targets[0].get_item();
         if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
             add_msg_if_player( m_bad, _( "You lost your book! You stop reading." ) );
-            activity.type = ACT_NULL;
+            activity.set_to_null();
         }
     }
 }
@@ -685,7 +685,7 @@ int player::calc_focus_equilibrium() const
 {
     int focus_gain_rate = 100;
 
-    if( activity.type == ACT_READ ) {
+    if( activity.id() == activity_id( "ACT_READ" ) ) {
         const item &book = *activity.targets[0].get_item();
         if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
             auto &bt = *book.type->book;
@@ -5687,7 +5687,7 @@ void player::update_needs( int rate_multiplier )
         }
     }
     if( is_player() && wasnt_fatigued && get_fatigue() > DEAD_TIRED && !lying ) {
-        if (activity.type == ACT_NULL) {
+        if( !activity ) {
             add_msg_if_player(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
                 press_x(ACTION_SLEEP).c_str());
         } else {
@@ -6490,7 +6490,7 @@ void player::hardcoded_effects(effect &it)
         // Presuming that during the first-aid process you're putting pressure
         // on the wound or otherwise suppressing the flow. (Kits contain either
         // quikclot or bandages per the recipe.)
-        if ( one_in(6 / intense) && activity.type != ACT_FIRSTAID ) {
+        if ( one_in(6 / intense) && activity.id() != activity_id( "ACT_FIRSTAID" ) ) {
             add_msg_player_or_npc(m_bad, _("You lose some blood."),
                                            _("<npcname> loses some blood.") );
             // Prolonged haemorrhage is a significant risk for developing anaemia
@@ -10313,7 +10313,7 @@ void player::mend_item( item_location&& obj, bool interactive )
             return;
         }
 
-        assign_activity( ACT_MEND_ITEM, faults[ sel ].first->time() );
+        assign_activity( activity_id( "ACT_MEND_ITEM" ), faults[ sel ].first->time() );
         activity.name = faults[ sel ].first->id().str();
         activity.targets.push_back( std::move( obj ) );
     }
@@ -10652,7 +10652,7 @@ void player::drop( int pos, const tripoint &where )
 
 void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash )
 {
-    const activity_type type = stash ? ACT_STASH : ACT_DROP;
+    const activity_id type( stash ? "ACT_STASH" : "ACT_DROP" );
 
     if( what.empty() ) {
         return;
@@ -10665,7 +10665,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
         return;
     }
 
-    assign_activity( type, calendar::INDEFINITELY_LONG );
+    assign_activity( type );
     activity.placement = target - pos();
 
     for( auto item_pair : what ) {
@@ -11163,7 +11163,7 @@ void player::gunmod_add( item &gun, item &mod )
 
     int turns = !has_trait( "DEBUG_HS" ) ? mod.type->gunmod->install_time : 0;
 
-    assign_activity( ACT_GUNMOD_ADD, turns, -1, get_item_position( &gun ), tool );
+    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), turns, -1, get_item_position( &gun ), tool );
     activity.values.push_back( get_item_position( &mod ) );
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
@@ -11337,7 +11337,7 @@ bool player::read( int inventory_position, const bool continuous )
     const int time_taken = time_to_read( it, *reader );
 
     add_msg( m_debug, "player::read: time_taken = %d", time_taken );
-    player_activity act( ACT_READ, time_taken, continuous ? activity.index : 0, reader->getID() );
+    player_activity act( activity_id( "ACT_READ" ), time_taken, continuous ? activity.index : 0, reader->getID() );
     act.targets.push_back( item_location( *this, &it ) );
 
     // If the player hasn't read this book before, skim it to get an idea of what's in it.
@@ -11477,7 +11477,6 @@ bool player::read( int inventory_position, const bool continuous )
         }
         add_msg( m_info, _( "Now reading %s, %s to stop early." ),
                  it.type_name().c_str(), press_x( ACTION_PAUSE ).c_str() );
-        rooted_message();
     }
 
     // Print some informational messages, but only the first time or if the information changes
@@ -11570,7 +11569,7 @@ void player::do_read( item *book )
 {
     auto reading = book->type->book.get();
     if( reading == nullptr ) {
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
     const skill_id &skill = reading->skill;
@@ -11615,7 +11614,7 @@ void player::do_read( item *book )
         if( recipe_list.size() != reading->recipes.size() ) {
             add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
         }
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
 
@@ -11764,9 +11763,9 @@ void player::do_read( item *book )
     }
 
     if( continuous ) {
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         read( get_item_position( book ), true );
-        if( activity.type != ACT_NULL ) {
+        if( activity ) {
             return;
         }
     }
@@ -11777,7 +11776,7 @@ void player::do_read( item *book )
         m->second.call( this, book, false, pos() );
     }
 
-    activity.type = ACT_NULL;
+    activity.set_to_null();
 }
 
 bool player::has_identified( std::string item_id ) const
@@ -12877,7 +12876,7 @@ void player::learn_recipe( const recipe * const rec )
     learned_recipes.include( rec );
 }
 
-void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
+void player::assign_activity( activity_id type, int moves, int index, int pos, std::string name )
 {
     assign_activity( player_activity( type, moves, index, pos, name ) );
 }
@@ -12889,29 +12888,23 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
         activity = backlog.front();
         backlog.pop_front();
     } else {
-        if( activity.type != ACT_NULL ) {
+        if( activity ) {
             backlog.push_front( activity );
         }
 
         activity = act;
     }
-    if( this->moves <= activity.moves_left ) {
-        activity.moves_left -= this->moves;
-        this->moves = 0;
-    } else {
-        this->moves -= activity.moves_left;
-        activity.moves_left = 0;
-    }
+
     activity.warned_of_proximity = false;
+
+    if( activity.rooted() ) {
+        rooted_message();
+    }
 }
 
-bool player::has_activity(const activity_type type) const
+bool player::has_activity(const activity_id type) const
 {
-    if (activity.type == type) {
-        return true;
-    }
-
-    return false;
+    return activity.id() == type;
 }
 
 void player::cancel_activity()
@@ -12924,7 +12917,7 @@ void player::cancel_activity()
             backlog_item = backlog.erase( backlog_item );
         }
     }
-    if( activity.is_suspendable() ) {
+    if( activity && activity.is_suspendable() ) {
         backlog.push_front( activity );
     }
     activity = player_activity();

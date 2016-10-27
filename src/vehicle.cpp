@@ -804,7 +804,7 @@ bool vehicle::interact_vehicle_locked()
                 int mechanics_skill = g->u.get_skill_level( skill_mechanics );
                 int hotwire_time = 6000 / ((mechanics_skill > 0)? mechanics_skill : 1);
                 //assign long activity
-                g->u.assign_activity(ACT_HOTWIRE_CAR, hotwire_time, -1, INT_MIN, _("Hotwire"));
+                g->u.assign_activity( activity_id( "ACT_HOTWIRE_CAR" ), hotwire_time, -1, INT_MIN, _( "Hotwire" ) );
                 // use part 0 as the reference point
                 point q = coord_translate(parts[0].mount);
                 g->u.activity.values.push_back(global_x() + q.x);//[0]
@@ -1276,7 +1276,7 @@ void vehicle::start_engines( const bool take_control )
         add_msg( _("You take control of the %s."), name.c_str() );
     }
 
-    g->u.assign_activity( ACT_START_ENGINES, start_time );
+    g->u.assign_activity( activity_id( "ACT_START_ENGINES" ), start_time );
     g->u.activity.placement = global_pos3() - g->u.pos();
     g->u.activity.values.push_back( take_control );
 }
@@ -1967,7 +1967,7 @@ bool vehicle::remove_part (int p)
 
     // If the player is currently working on the removed part, stop them as it's futile now.
     const player_activity &act = g->u.activity;
-    if( act.type == ACT_VEHICLE && act.moves_left > 0 && act.values.size() > 6 ) {
+    if( act.id() == activity_id( "ACT_VEHICLE" ) && act.moves_left > 0 && act.values.size() > 6 ) {
         if( g->m.veh_at( tripoint( act.values[0], act.values[1], g->u.posz() ) ) == this ) {
             if( act.values[6] >= p ) {
                 g->u.cancel_activity();

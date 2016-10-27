@@ -1,4 +1,5 @@
 src/action.cpp
+src/activity_handlers.h
 src/active_item_cache.cpp
 src/activity_item_handling.cpp
 src/addiction.cpp

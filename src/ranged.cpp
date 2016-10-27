@@ -1385,7 +1385,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         refresh();
 
         std::string action;
-        if( u.activity.type == ACT_AIM && u.activity.str_values[0] != "AIM" ) {
+        if( u.activity.id() == activity_id( "ACT_AIM" ) && u.activity.str_values[0] != "AIM" ) {
             // If we're in 'aim and shoot' mode,
             // skip retrieving input and go straight to the action.
             action = u.activity.str_values[0];
@@ -1460,7 +1460,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             }
             if( u.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
-                u.assign_activity( ACT_AIM, 0, 0 );
+                u.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
                 u.activity.str_values.push_back( "AIM" );
                 u.view_offset = old_offset;
                 set_last_target( dst );
@@ -1521,7 +1521,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 // Set the string value of the aim action to the right thing
                 // so we re-enter this loop.
                 // Also clear target vector, but leave target selected.
-                u.assign_activity( ACT_AIM, 0, 0 );
+                u.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
                 u.activity.str_values.push_back( action );
                 u.view_offset = old_offset;
                 set_last_target( dst );
