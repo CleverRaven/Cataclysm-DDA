@@ -11054,9 +11054,42 @@ bool player::gunmod_remove( item &gun, item& mod )
     return true;
 }
 
+std::pair<int, int> player::gunmod_installation_odds( const item& gun, const item& mod ) const
+{
+    // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
+    if( !mod.has_flag( "INSTALL_DIFFICULT" ) || has_trait( "DEBUG_HS" ) ) {
+        return std::make_pair( 100, 0 );
+    }
+
+    int roll = 100; // chance of success (%)
+    int risk = 0;   // chance of failure (%)
+    int chances = 1; // start with 1 in 6 (~17% chance)
+
+    for( const auto &e : mod.type->min_skills ) {
+        // gain an additional chance for every level above the minimum requirement
+        skill_id sk = e.first == "weapon" ? gun.gun_skill() : skill_id( e.first );
+        chances += std::max( get_skill_level( sk ) - e.second, 0 );
+    }
+    // cap success from skill alone to 1 in 5 (~83% chance)
+    roll = std::min( double( chances ), 5.0 ) / 6.0 * 100;
+    // focus is either a penalty or bonus of at most +/-10%
+    roll += ( std::min( std::max( focus_pool, 140 ), 60 ) - 100 ) / 4;
+    // dexterity and intelligence give +/-2% for each point above or below 12
+    roll += ( get_dex() - 12 ) * 2;
+    roll += ( get_int() - 12 ) * 2;
+    // each point of damage to the base gun reduces success by 10%
+    roll -= std::min( gun.damage(), 0 ) * 10;
+    roll = std::min( std::max( roll, 0 ), 100 );
+
+    // risk of causing damage on failure increases with less durable guns
+    risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun.type->gun->durability, 9 ) ) / 10.0 );
+
+    return std::make_pair( roll, risk );
+}
+
 void player::gunmod_add( item &gun, item &mod )
 {
-    if( !gun.gunmod_compatible( mod, false ) ) {
+    if( !gun.gunmod_compatible( mod ) ) {
         debugmsg( "Tried to add incompatible gunmod" );
         return;
     }
@@ -11071,40 +11104,13 @@ void player::gunmod_add( item &gun, item &mod )
         return;
     }
 
-    int roll = 100; // chance of success (%)
-    int risk = 0;   // chance of failure (%)
-
     // any (optional) tool charges that are used during installation
+    auto odds = gunmod_installation_odds( gun, mod );
+    int roll = odds.first;
+    int risk = odds.second;
+
     std::string tool;
     int qty = 0;
-
-    // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
-    if( mod.has_flag( "INSTALL_DIFFICULT" ) && !has_trait( "DEBUG_HS" ) ) {
-        int chances = 1; // start with 1 in 6 (~17% chance)
-
-        for( const auto &elem : compare_skill_requirements( mod.type->min_skills, gun ) ) {
-            // gain an additional chance for every level above the minimum requirement
-            chances += std::max( elem.second, 0 );
-        }
-
-        // cap success from skill alone to 1 in 5 (~83% chance)
-        roll = std::min( double( chances ), 5.0 ) / 6.0 * 100;
-
-        // focus is either a penalty or bonus of at most +/-10%
-        roll += ( std::min( std::max( focus_pool, 140 ), 60 ) - 100 ) / 4;
-
-        // dexterity and intelligence give +/-2% for each point above or below 12
-        roll += ( get_dex() - 12 ) * 2;
-        roll += ( get_int() - 12 ) * 2;
-
-        // each point of damage to the base gun reduces success by 10%
-        roll -= std::min( gun.damage(), 0 ) * 10;
-
-        roll = std::min( roll, 100 );
-
-        // risk of causing damage on failure increases with less durable guns
-        risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun.type->gun->durability, 9 ) ) / 10.0 );
-    }
 
     if( mod.has_flag( "IRREMOVABLE" ) ) {
         if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod.tname().c_str(),

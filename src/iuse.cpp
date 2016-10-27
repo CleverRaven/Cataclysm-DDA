@@ -5474,19 +5474,14 @@ int iuse::gunmod_attach( player *p, item *it, bool, const tripoint& ) {
         return 0;
     }
 
-    int gunpos = g->inv_for_filter( _( "Select gun to modify:" ), [&it]( const item &e ) {
-        return e.gunmod_compatible( *it, false, false );
-    }, _( "You don't have compatible guns." ) );
+    auto loc = g->inv_for_gunmod( *it, _( "Select gun to modify:" ) );
 
-    if( gunpos == INT_MIN ) {
+    if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
         return 0;
     }
 
-    item& gun = p->i_at( gunpos );
-    if( gun.gunmod_compatible( *it ) ) {
-        p->gunmod_add( gun, *it );
-    }
+    p->gunmod_add( *loc, *it );
 
     return 0;
 }

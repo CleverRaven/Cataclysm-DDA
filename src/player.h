@@ -954,6 +954,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
         void gunmod_add( item& gun, item& mod );
 
+        /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
+        std::pair<int, int> gunmod_installation_odds( const item& gun, const item& mod ) const;
+
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics(const itype &type, int skill_level = -1);
         /**
