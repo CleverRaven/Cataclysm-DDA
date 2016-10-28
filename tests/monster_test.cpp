@@ -15,11 +15,6 @@
 #include <string>
 #include <vector>
 
-std::ostream& operator << ( std::ostream& os, tripoint const& value ) {
-    os << "(" << value.x << "," << value.y << "," << value.z << ")";
-    return os;
-}
-
 static void wipe_map_terrain()
 {
     // Remove all the obstacles.
