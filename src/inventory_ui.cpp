@@ -43,6 +43,13 @@ struct navigation_mode_data {
     nc_color color;
 };
 
+struct inventory_input
+{
+    std::string action;
+    long ch;
+    inventory_entry *entry;
+};
+
 bool inventory_entry::operator==( const inventory_entry &other ) const {
     return get_category_ptr() == other.get_category_ptr() && location == other.location;
 }
@@ -90,6 +97,17 @@ long inventory_entry::get_invlet() const {
         return custom_invlet;
     }
     return location ? location->invlet : '\0';
+}
+
+nc_color inventory_entry::get_invlet_color() const
+{
+    if( !is_selectable() ) {
+        return c_dkgray;
+    } else if( g->u.assigned_invlet.count( get_invlet() ) ) {
+        return c_yellow;
+    } else {
+        return c_white;
+    }
 }
 
 const item_category *inventory_entry::get_category_ptr() const {
@@ -405,23 +423,23 @@ std::vector<inventory_entry *> inventory_column::get_all_selected() const
     return res;
 }
 
-void inventory_column::on_action( const std::string &action )
+void inventory_column::on_input( const inventory_input &input )
 {
     if( empty() || !active ) {
         return; // ignore
     }
 
-    if( action == "DOWN" ) {
+    if( input.action == "DOWN" ) {
         move_selection( scroll_direction::FORWARD );
-    } else if( action == "UP" ) {
+    } else if( input.action == "UP" ) {
         move_selection( scroll_direction::BACKWARD );
-    } else if( action == "NEXT_TAB" ) {
+    } else if( input.action == "NEXT_TAB" ) {
         move_selection_page( scroll_direction::FORWARD );
-    } else if( action == "PREV_TAB" ) {
+    } else if( input.action == "PREV_TAB" ) {
         move_selection_page( scroll_direction::BACKWARD );
-    } else if( action == "HOME" ) {
+    } else if( input.action == "HOME" ) {
         select( 0, scroll_direction::FORWARD );
-    } else if( action == "END" ) {
+    } else if( input.action == "END" ) {
         select( entries.size() - 1, scroll_direction::BACKWARD );
     }
 }
@@ -630,9 +648,8 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
 
         if( entry.is_item() ) {
             int xx = x;
-            if( entry.is_selectable() && entry.get_invlet() != '\0' ) {
-                const nc_color invlet_color = g->u.assigned_invlet.count( entry.get_invlet() ) ? c_yellow : c_white;
-                mvwputch( win, yy, x, invlet_color, entry.get_invlet() );
+            if( entry.get_invlet() != '\0' ) {
+                mvwputch( win, yy, x, entry.get_invlet_color(), entry.get_invlet() );
             }
             xx += 2;
             if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
@@ -1060,19 +1077,19 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     , own_gear_column( preset )
     , map_column( preset )
 {
-    ctxt.register_action("DOWN", _("Next item"));
-    ctxt.register_action("UP", _("Previous item"));
-    ctxt.register_action("RIGHT", _("Confirm"));
-    ctxt.register_action("LEFT", _("Switch inventory/worn"));
-    ctxt.register_action("CONFIRM", _("Mark selected item"));
-    ctxt.register_action("QUIT", _("Cancel"));
-    ctxt.register_action("CATEGORY_SELECTION");
-    ctxt.register_action("NEXT_TAB", _("Page down"));
-    ctxt.register_action("PREV_TAB", _("Page up"));
-    ctxt.register_action("HOME", _("Home"));
-    ctxt.register_action("END", _("End"));
-    ctxt.register_action("HELP_KEYBINDINGS");
-    ctxt.register_action("ANY_INPUT"); // For invlets
+    ctxt.register_action( "DOWN", _( "Next item" ) );
+    ctxt.register_action( "UP", _( "Previous item" ) );
+    ctxt.register_action( "RIGHT", _( "Next column" ) );
+    ctxt.register_action( "LEFT", _( "Previous column" ) );
+    ctxt.register_action( "CONFIRM", _( "Confirm your selection" ) );
+    ctxt.register_action( "QUIT", _( "Cancel" ) );
+    ctxt.register_action( "CATEGORY_SELECTION", _( "Switch selection mode" ) );
+    ctxt.register_action( "NEXT_TAB", _( "Page down") );
+    ctxt.register_action( "PREV_TAB", _( "Page up" ) );
+    ctxt.register_action( "HOME", _( "Home" ) );
+    ctxt.register_action( "END", _( "End" ) );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "ANY_INPUT" ); // For invlets
 
     append_column( own_inv_column );
     append_column( map_column );
@@ -1098,17 +1115,32 @@ bool inventory_selector::has_available_choices() const
     } );
 }
 
-void inventory_selector::on_action( const std::string &action )
+inventory_input inventory_selector::get_input()
 {
-    if( action == "CATEGORY_SELECTION" ) {
+    inventory_input res;
+
+    res.action = ctxt.handle_input();
+    res.ch = ctxt.get_raw_input().get_first_input();
+    res.entry = find_entry_by_invlet( res.ch );
+
+    if( res.entry != nullptr && !res.entry->is_selectable() ) {
+        res.entry = nullptr;
+    }
+
+    return res;
+}
+
+void inventory_selector::on_input( const inventory_input &input )
+{
+    if( input.action == "CATEGORY_SELECTION" ) {
         toggle_navigation_mode();
-    } else if( action == "LEFT" ) {
+    } else if( input.action == "LEFT" ) {
         toggle_active_column( scroll_direction::BACKWARD );
-    } else if( action == "RIGHT" ) {
+    } else if( input.action == "RIGHT" ) {
         toggle_active_column( scroll_direction::FORWARD );
     } else {
         for( auto &elem : columns ) {
-            elem->on_action( action );
+            elem->on_input( input );
         }
         refresh_active_column(); // Columns can react to actions by losing their activation capacity
     }
@@ -1232,18 +1264,16 @@ item_location inventory_pick_selector::execute()
     while( true ) {
         update();
 
-        const std::string action = ctxt.handle_input();
-        const long ch = ctxt.get_raw_input().get_first_input();
-        const auto entry = find_entry_by_invlet( ch );
+        const inventory_input input = get_input();
 
-        if( entry != nullptr ) {
-            return entry->location.clone();
-        } else if( action == "QUIT" ) {
+        if( input.entry != nullptr ) {
+            return input.entry->location.clone();
+        } else if( input.action == "QUIT" ) {
             return item_location();
-        } else if( action == "CONFIRM" ) {
+        } else if( input.action == "CONFIRM" ) {
             return get_active_column().get_selected().location.clone();
         } else {
-            on_action( action );
+            on_input( input );
         }
     }
 }
@@ -1254,6 +1284,8 @@ inventory_multiselector::inventory_multiselector( const player &p,
     inventory_selector( p, preset ),
     selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) )
 {
+    ctxt.register_action( "RIGHT", _( "Mark/unmark selected item" ) );
+
     for( auto &elem : get_all_columns() ) {
         elem->set_multiselect( true );
     }
@@ -1281,13 +1313,11 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
     while( true ) {
         update();
 
-        const std::string action = ctxt.handle_input();
-        const long ch = ctxt.get_raw_input().get_first_input();
-        const auto entry = find_entry_by_invlet( ch );
+        const inventory_input input = get_input();
 
-        if( entry != nullptr ) {
-            toggle_entry( entry );
-        } else if(action == "RIGHT") {
+        if( input.entry != nullptr ) {
+            toggle_entry( input.entry );
+        } else if( input.action == "RIGHT" ) {
             const auto selection( get_active_column().get_all_selected() );
 
             for( auto &elem : selection ) {
@@ -1298,13 +1328,13 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
                     }
                 }
             }
-        } else if( action == "CONFIRM" ) {
+        } else if( input.action == "CONFIRM" ) {
             popup_getkey( _( "You need two items for comparison.  Use %s to select them." ),
                           ctxt.get_desc( "RIGHT" ).c_str() );
-        } else if( action == "QUIT" ) {
+        } else if( input.action == "QUIT" ) {
             return std::make_pair( nullptr, nullptr );
         } else {
-            on_action( action );
+            on_input( input );
         }
 
         if( compared.size() == 2 ) {
@@ -1340,33 +1370,31 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
     while( true ) {
         update();
 
-        const std::string action = ctxt.handle_input();
-        const long ch = ctxt.get_raw_input().get_first_input();
-        auto entry = find_entry_by_invlet( ch );
+        const inventory_input input = get_input();
 
-        if( ch >= '0' && ch <= '9' ) {
+        if( input.ch >= '0' && input.ch <= '9' ) {
             count = std::min( count, INT_MAX / 10 - 10 );
             count *= 10;
-            count += ch - '0';
-        } else if( entry != nullptr ) {
-            set_drop_count( *entry, count );
+            count += input.ch - '0';
+        } else if( input.entry != nullptr ) {
+            set_drop_count( *input.entry, count );
             count = 0;
-        } else if( action == "RIGHT" ) {
+        } else if( input.action == "RIGHT" ) {
             for( const auto &elem : get_active_column().get_all_selected() ) {
                 set_drop_count( *elem, count );
             }
             count = 0;
-        } else if( action == "CONFIRM" ) {
+        } else if( input.action == "CONFIRM" ) {
             if( dropping.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
                               ctxt.get_desc( "RIGHT" ).c_str() );
                 continue;
             }
             break;
-        } else if( action == "QUIT" ) {
+        } else if( input.action == "QUIT" ) {
             return std::list<std::pair<int, int> >();
         } else {
-            on_action( action );
+            on_input( input );
             count = 0;
         }
     }

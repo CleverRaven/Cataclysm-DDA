@@ -32,6 +32,7 @@ enum class scroll_direction : int {
 };
 
 struct navigation_mode_data;
+struct inventory_input;
 
 class inventory_entry
 {
@@ -113,6 +114,7 @@ class inventory_entry
         size_t get_available_count() const;
         const item_category *get_category_ptr() const;
         long get_invlet() const;
+        nc_color get_invlet_color() const;
 
     private:
         size_t stack_size;
@@ -274,7 +276,7 @@ class inventory_column
         /**
          * Event handlers
          */
-        virtual void on_action( const std::string &action );
+        virtual void on_input( const inventory_input &input );
         /** The entry has been changed. */
         virtual void on_change( const inventory_entry & ) {}
         /** The column has been activated. */
@@ -422,8 +424,10 @@ class inventory_selector
                         const std::vector<std::list<item *>> &stacks,
                         const item_category *custom_category = nullptr );
 
+        inventory_input get_input();
+
         /** Given an action from the input_context, try to act according to it. */
-        void on_action( const std::string &action );
+        void on_input( const inventory_input &input );
         /** Entry has been changed */
         void on_change( const inventory_entry &entry );
 
