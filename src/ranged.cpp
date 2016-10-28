@@ -44,7 +44,6 @@ static void cycle_action( item& weap, const tripoint &pos );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
-static double approx_hit_chance( double dispersion, double range, double missed_by );
 
 struct aim_type {
     std::string name;
@@ -72,76 +71,6 @@ size_t blood_trail_len( int damage )
     return 0;
 }
 
-// projectile_attack handles a single shot aimed at
-// target_arg. It handles all the
-// randomization of where the shot goes versus
-// where it was aimed.  The dispersion angle passed to
-// projectile_attack represents the possible error
-// due to imperfections in the weapon and the
-// steadiness of the shooter's aim; for the same
-// weapon / shooter / recoil you'll have the same
-// dispersion.
-//
-// The path each shot takes has some random error.
-// This is modelled as a normal distribution
-// centered around the aiming point, or - equivalently -
-// as an error angle (shot_dispersion) that is centered
-// around zero. A shot_dispersion of zero is a
-// perfectly-on-target shot. shot_dispersion, unlike
-// dispersion, is a signed value, the error might be
-// to the left (negative) or right (positive).
-//
-// The standard deviation of the normal distribution
-// is (dispersion / dispersion_sigmas). With the current
-// value of dispersion_sigmas (2.4) this means that
-// the dispersion value is 2.4 standard deviations
-// and 98% of all shots will lie within the
-// dispersion angle.
-//
-// Both dispersion and shot_dispersion are measured in
-// arcminutes (1/60th of a degree).
-//
-// Increasing dispersion_sigmas will decrease the standard
-// deviation, shots will be "tighter" around the actual
-// target, the overall chance to hit increases.
-//
-// Allowing a hit on the target just because you
-// hit the right tile doesn't work balance-wise as
-// it's too big of a target if you also want to keep
-// miss angles within a reasonable range. So there is
-// a second parameter, occupied_tile_fraction, which says
-// "how wide" the target is. You have to get at least this
-// close with your shot, in tiles (missed_by_tiles)
-// to have a chance to hit. Increasing
-// occupied_tile_fraction increases the chance to hit.
-//
-// You should not set occupied_tile_fraction > 1.0 as
-// that would mean that hitting an adjacent tile is enough
-// to hit the critter, and the code that follows the shot
-// trajectory looking for hits is not capable of handling
-// that.
-//
-// Once you are close enough with the shot for a hit,
-// exactly how close influences the quality of the hit.
-// missed_by represents how good the hit is on a scale
-// of 0 to 1; 0.0 is a perfect hit; 0.99999.. is the
-// worst possible shot that still connects (where you
-// got just barely within occupied_tile_fraction tiles
-// of where you aimed and just clipped the edge of your
-// target)
-//
-// dispersion_sigmas and occupied_tile_fraction can be
-// tuned together to affect the spread of misses without
-// affecting hit or hit quality chances, e.g. if you
-// increase dispersion_sigmas by 10% and also decrease
-// occupied_tile_fraction by 10%, then the cone of misses
-// will get 10% tighter but the overall hit and hit
-// quality chances are unchanged.
-
-// these parameters balance the hit/miss chance:
-const double dispersion_sigmas = 2.4;      // how many standard deviations does "dispersion" represent?
-const double occupied_tile_fraction = 0.5; // how much of the target tile is occupied by the target?
-
 dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg, const tripoint &source,
                                                      const tripoint &target_arg, double dispersion )
 {
@@ -149,21 +78,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
 
     double range = rl_dist( source, target_arg );
 
-    // dispersion is a measure of the dispersion of shots due to the gun + shooter characteristics
-    // i.e. it is independent of any particular shot
-
-    // shot_dispersion is the actual dispersion for this particular shot, i.e.
-    // the error angle between where the shot was aimed and where this one actually went
-    // NB: some cases pass dispersion == 0 for a "never misses" shot e.g. bio_magnet,
-    double shot_dispersion = ( dispersion > 0 ? normal_roll( 0.0, dispersion / dispersion_sigmas ) : 0 );
-
-    // number of tiles we missed by
-    // an isosceles triangle is formed by the intended and actual target tiles
-    double missed_by_tiles = iso_tangent( range, shot_dispersion );
-
-    // fraction we missed a monster target by (0.0 = perfect hit, 1.0 = miss)
-    // @todo maybe use monster size?
-    double missed_by = std::min( 1.0, missed_by_tiles / occupied_tile_fraction );
+    // an isosceles triangle is formed by the intended and actual targets
+    double missed_by = iso_tangent( range, dispersion );
 
     // TODO: move to-hit roll back in here
 
@@ -202,17 +118,17 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
 
     tripoint target = target_arg;
     std::vector<tripoint> trajectory;
-    if( missed_by_tiles >= 1.0 ) {
+    if( missed_by >= 1.0 ) {
         // We missed enough to target a different tile
         double dx = target_arg.x - source.x;
         double dy = target_arg.y - source.y;
         double rad = atan2( dy, dx );
-
-        // cap wild misses at +/- 30 degrees
-        rad += std::max( std::min( ARCMIN( shot_dispersion ), DEGREES( 30 ) ), DEGREES( -30 ) );
+        // Cap spread at 30 degrees or it gets wild quickly
+        double spread = std::min( ARCMIN( dispersion ), DEGREES( 30 ) );
+        rad += rng_float( -spread, spread );
 
         // @todo This should also represent the miss on z axis
-        const int offset = std::min<int>( range, sqrtf( missed_by_tiles ) );
+        const int offset = std::min<int>( range, sqrtf( missed_by ) );
         int new_range = no_overshoot ?
                             range + rng( -offset, offset ) :
                             rng( range - offset, proj_arg.range );
@@ -230,6 +146,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         range = rl_dist( source, target );
         extend_to_range = range;
 
+        // Cap missed_by at 1.0
+        missed_by = 1.0;
         sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ), sfx::get_heard_angle( target ));
         // TODO: Z dispersion
         // If we missed, just draw a straight line.
@@ -239,9 +157,9 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         trajectory = g->m.find_clear_path( source, target );
     }
 
-    add_msg( m_debug, "%s proj_atk: dispersion: %.2f; shot_dispersion: %.2f", disp_name().c_str(), dispersion, shot_dispersion );
+    add_msg( m_debug, "%s proj_atk: shot_dispersion: %.2f", disp_name().c_str(), dispersion );
 
-    add_msg( m_debug, "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d", missed_by_tiles, missed_by,
+    add_msg( m_debug, "missed_by: %.2f target (orig/hit): %d,%d,%d/%d,%d,%d", missed_by,
              target_arg.x, target_arg.y, target_arg.z,
              target.x, target.y, target.z );
 
@@ -336,11 +254,9 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         // If there's a monster in the path of our bullet, and either our aim was true,
         //  OR it's not the monster we were aiming at and we were lucky enough to hit it
         double cur_missed_by = missed_by;
-
-        // unintentional hit on something other than our actual target
-        // don't re-roll for the actual target, we already decided on a missed_by value for that
-        // at the start, misses should stay as misses
-        if( critter != nullptr && tp != target_arg ) {
+        // If missed_by is 1.0, the end of the trajectory may not be the original target
+        // We missed it too much for the original target to matter, just reroll as unintended
+        if( missed_by >= 1.0 || tp != target_arg ) {
             // Unintentional hit
             cur_missed_by = std::max( rng_float( 0.2, 3.0 - missed_by ), 0.4 );
         }
@@ -431,32 +347,23 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
         return 0;
     }
 
-    int max_range = gun.gun_range( this );
-
     if( chance == 0 ) {
-        return max_range;
+        return gun.gun_range( this );
     }
 
-    // calculate base dispersion
+    // calculate maximum potential dispersion
     double dispersion = get_weapon_dispersion( gun ) + ( penalty < 0 ? recoil_total() : penalty );
 
-    // no standard inverse erf function, so we just iterate
-    int range = 0;
-    while ( range < max_range && approx_hit_chance( dispersion, range + 1, accuracy ) > chance / 100.0 ) {
-        ++range;
-    }
+    // dispersion is uniformly distributed at random so scale linearly with chance
+    dispersion *= chance / 100.0;
 
-    if( range < max_range ) {
-        // interpolate
-        double p0 = approx_hit_chance( dispersion, range, accuracy );
-        if( p0 > chance / 100.0 ) {
-            double p1 = approx_hit_chance( dispersion, range + 1, accuracy );
-            double fraction = ( p0 - chance / 100.0 ) / ( p0 - p1 );
-            return range + fraction;
-        }
-    }
+    // cap at min 1MOA as at zero dispersion would result in an infinite effective range
+    dispersion = std::max( dispersion, 1.0 );
 
-    return range;
+    double res = accuracy / sin( ARCMIN( dispersion / 2 ) ) / 2;
+
+    // effective range could be limited by othe factors (eg. STR_DRAW etc)
+    return std::min( res, double( gun.gun_range( this ) ) );
 }
 
 double player::gun_engagement_range( const item &gun, engagement opt ) const
@@ -605,7 +512,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             break;
         }
 
-        double dispersion = get_weapon_dispersion( gun ) + recoil_total();
+        double dispersion = rng_normal( get_weapon_dispersion( gun ) ) + rng_normal( recoil_total() );
         int range = rl_dist( pos(), aim );
 
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
@@ -1022,24 +929,6 @@ static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
     return cur_target;
 }
 
-static double approx_hit_chance( double dispersion, double range, double missed_by ) {
-    // This is essentially the inverse of what Creature::projectile_attack() does.
-
-    double missed_by_tiles = missed_by * occupied_tile_fraction;
-
-    //          T = (D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
-    //      cos V = 1 - T**2 / (2*D**2)
-    // 1 - V**2/2 = 1 - T**2 / (2*D**2)           (small angle approximation)
-    //          V = T / D
-    double shot_dispersion = ( range < 0.1 ? M_PI : missed_by_tiles / range ) * 180 * 60 / M_PI;
-    double sigma = dispersion / dispersion_sigmas;
-
-    // erf(x / (sigma * sqrt(2))) is the probability that a measurement
-    // of a normally distributed variable with standard deviation sigma
-    // lies in the range [-x..x]
-    return std::erf( shot_dispersion / ( sigma * 1.4142 ) );
-}
-
 static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *weapon,
                            Creature *target, double predicted_recoil ) {
     // This is absolute accuracy for the player.
@@ -1047,13 +936,13 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
     // Creature::projectile_attack() into shared methods.
     // Dodge is intentionally not accounted for.
 
-    const double dispersion = p.get_weapon_dispersion( *weapon ) + predicted_recoil + p.recoil_vehicle();
+    // Confidence is chance of the actual shot being under the target threshold,
+    // This simplifies the calculation greatly, that's intentional.
+    const double aim_level = p.get_weapon_dispersion( *weapon ) + predicted_recoil + p.recoil_vehicle();
     const double range = rl_dist( p.pos(), target->pos() );
-
-    const double p_headshot = approx_hit_chance( dispersion, range, accuracy_headshot );
-    const double p_goodhit = approx_hit_chance( dispersion, range, accuracy_goodhit );
-    const double p_grazing = approx_hit_chance( dispersion, range, accuracy_grazing );
-
+    const double missed_by = aim_level * 0.00021666666666666666 * range;
+    const double hit_rating = missed_by;
+    const double confidence = 1 / hit_rating;
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
     const double steady_score = predicted_recoil - p.effective_dispersion( p.weapon.sight_dispersion() );
@@ -1061,12 +950,12 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
     const double steadiness = 1.0 - steady_score / MIN_RECOIL;
 
     const std::array<std::pair<double, char>, 3> confidence_ratings = {{
-        std::make_pair( p_headshot, '*' ),
-        std::make_pair( p_goodhit, '+' ),
-        std::make_pair( p_grazing, '|' ) }};
+        std::make_pair( accuracy_headshot, '*' ),
+        std::make_pair( accuracy_goodhit, '+' ),
+        std::make_pair( accuracy_grazing, '|' ) }};
 
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
-    const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, _( "Confidence" ),
+    const std::string &confidence_bar = get_labeled_bar( confidence, window_width, _( "Confidence" ),
                                                          confidence_ratings.begin(),
                                                          confidence_ratings.end() );
     const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
