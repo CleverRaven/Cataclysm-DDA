@@ -56,6 +56,8 @@
     "//": "Imported or otherwise very obscure pistols.",
     "items": [
       [ "cop_38", 100 ],
+      [ "colt_saa", 150 ],
+      [ "bond_410", 100 ],
       [ "lemat_revolver", 150 ],
       [ "makarov", 100 ],
       [ "moss_brownie", 100 ],
@@ -155,6 +157,7 @@
     "//": "Less common rifles including those only used by police/paramilitary forces.",
     "items": [
       [ "acr", 25 ],
+      [ "colt_lightning", 15 ],
       [ "fn_fal", 40 ],
       [ "hk_g3", 40 ],
       [ "hk_g36", 30 ],
@@ -167,6 +170,7 @@
       [ "m4a1", 45 ],
       [ "m1903", 15 ],
       [ "m1918", 30 ],
+      [ "m6_asw", 15 ],
       [ "mosin44_ebr", 10 ],
       [ "mosin91_30_ebr", 20 ],
       [ "remington_700", 20 ],
@@ -234,7 +238,8 @@
       [ "mossberg_500", 50 ],
       [ "remington_870", 100 ],
       [ "shotgun_d", 30 ],
-      [ "shotgun_s", 30 ]
+      [ "shotgun_s", 30 ],
+      [ "shotgun_410", 30 ]
     ]
   },
   {
@@ -274,6 +279,7 @@
       [ "bigun", 10 ],
       [ "pipe_double_shotgun", 70 ],
       [ "pipe_shotgun", 100 ],
+      [ "410_pipe_shotgun", 70 ],
       [ "revolver_shotgun", 30 ],
       [ "surv_levershotgun", 40 ]
     ]
@@ -413,8 +419,10 @@
       { "group": "guns_improvised", "prob": 200 },
       [ "ar15", 5 ],
       [ "mossberg_500", 5 ],
+      [ "m6_asw", 5 ],
       [ "remington_870", 5 ],
       [ "ruger_1022", 15 ],
+      [ "shotgun_410", 10 ],
       [ "shotgun_s", 10 ],
       [ "shotgun_d", 10 ],
       [ "sten", 20 ],

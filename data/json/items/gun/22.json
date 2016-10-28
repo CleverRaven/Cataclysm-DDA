@@ -203,5 +203,32 @@
     "durability": 7,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [ [ "22", [ "sw22mag" ] ] ]
+  },
+  {
+    "id": "m6_asw",
+    "type": "GUN",
+    "name": "M6 Aircrew Survival Weapon",
+    "name_plural": "M6 Aircrew Survival Weapons",
+    "description": "A lightweight combination rifle, combining a .22 rimfire barrel with .410 shotgun barrel, and designed to fold for compact storage.  Produced for military aircraft pilots who might be stranded after a crash, later produced commercially by various companies.",
+    "weight": 2140,
+    "volume": 7,
+    "price": 59500,
+    "to_hit": -1,
+    "bashing": 6,
+    "material": "steel",
+    "symbol": "(",
+    "color": "brown",
+    "ammo": "22",
+    "skill": "rifle",
+    "ranged_damage": 1,
+    "dispersion": 160,
+    "durability": 7,
+    "loudness": 25,
+    "clip_size": 1,
+    "reload": 100,
+    "barrel_length": 2,
+    "built_in_mods": [ "M6_shotgun" ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "underbarrel", 1 ] ],
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "SLOW_WIELD", "COLLAPSIBLE_STOCK" ]
   }
 ]
