@@ -10,27 +10,29 @@
 static std::vector<const vpart_info *> turret_types() {
     std::vector<const vpart_info *> res;
     
-    auto parts = vpart_info::get_all();
-    std::copy_if( parts.begin(), parts.end(), std::back_inserter( res ), []( const vpart_info *e ) {
-        return e->has_flag( "TURRET" );
-    } );
+    for( const auto &e : vpart_info::all() ) {
+        if( e.second.has_flag( "TURRET" ) ) {
+            res.push_back( &e.second );
+        }
+    }
 
     return res;
 }
 
 const vpart_info *biggest_tank( const ammotype ammo ) {
     std::vector<const vpart_info *> res;
-    
-    auto parts = vpart_info::get_all();
-    std::copy_if( parts.begin(), parts.end(), std::back_inserter( res ), [&ammo]( const vpart_info *e ) {
 
-        if( !item( e->item ).is_watertight_container() ) {
-            return false;
+    for( const auto &e : vpart_info::all() ) {
+        const auto &vp = e.second;
+        if( !item( vp.item ).is_watertight_container() ) {
+            continue;
         }
 
-        const itype *fuel = item::find_type( e->fuel_type );
-        return fuel->ammo && fuel->ammo->type.count( ammo );
-    } );
+        const itype *fuel = item::find_type( vp.fuel_type );
+        if( fuel->ammo && fuel->ammo->type.count( ammo ) ) {
+            res.push_back( &vp );
+        }
+    }
 
     if( res.empty() ) { 
         return nullptr;
@@ -50,7 +52,7 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine]" ) {
             const int idx = veh->install_part( 0, 0, e->id, true );
             REQUIRE( idx >= 0 );
 
-            REQUIRE( veh->install_part( 0,  0, vpart_str_id( "storage_battery" ), true ) >= 0 );
+            REQUIRE( veh->install_part( 0,  0, vpart_id( "storage_battery" ), true ) >= 0 );
             veh->charge_battery( 10000 );
 
             auto ammo = veh->turret_query( veh->parts[idx] ).base()->ammo_type();

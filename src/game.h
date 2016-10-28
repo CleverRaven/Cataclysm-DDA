@@ -79,7 +79,6 @@ enum target_mode {
     TARGET_MODE_REACH
 };
 
-enum activity_type : int;
 enum body_part : int;
 enum weather_type : int;
 enum action_id : int;
@@ -464,7 +463,6 @@ class game
         void interactive_inv();
 
         int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
-        int inv_for_filter( const std::string &title, item_location_filter filter, const std::string &none_message = "" );
 
         int inv_for_all( const std::string &title, const std::string &none_message = "" );
         int inv_for_activatables( const player &p, const std::string &title );
@@ -482,10 +480,22 @@ class game
         };
         int inventory_item_menu(int pos, int startx = 0, int width = 50, inventory_item_menu_positon position = RIGHT_OF_INFO);
 
+        /**
+         * @name Customized inventory menus
+         *
+         * The functions here execute customized inventory menus for specific game situations.
+         * Each menu displays only related inventory (or nearby) items along with context dependent information.
+         * More functions will follow. @todo update all 'inv_for...()' functions to return @ref item_location instead of @ref int and move them here.
+         * @param title Title of the menu
+         * @return Either location of the selected item or null location if none was selected.
+         */
+        /*@{*/
+        /** Custom-filtered menu for inventory items and those that are nearby (within @ref radius). */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
-        item_location inv_map_splice( item_location_filter filter, const std::string &title, int radius = 0,
-                                      const std::string &none_message = "" );
+        /** Gunmod installation menu. */
+        item_location inv_for_gunmod( const item &gunmod, const std::string &title );
+        /*@}*/
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
@@ -909,7 +919,7 @@ private:
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
         void disp_NPCs();           // Currently UNUSED.  Lists global NPCs.
-        void list_missions();       // Listed current, completed and failed missions.
+        void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
         void debug();           // All-encompassing debug screen.  TODO: This.

@@ -5598,7 +5598,7 @@
     "material": [ "fur" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "LEGS" ],
+    "covers": [ "FEET" ],
     "coverage": 60,
     "encumbrance": 7,
     "warmth": 40,
@@ -7300,7 +7300,7 @@
     "material_thickness": 11,
     "environmental_protection": 10,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER" ]
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER" ]
   },
   {
     "id": "power_armor_helmet_heavy",
@@ -7324,7 +7324,7 @@
     "material_thickness": 12,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER" ]
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER" ]
   },
   {
     "id": "power_armor_helmet_light",
@@ -7348,7 +7348,7 @@
     "material_thickness": 9,
     "environmental_protection": 8,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER" ]
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER" ]
   },
   {
     "id": "power_armor_light",

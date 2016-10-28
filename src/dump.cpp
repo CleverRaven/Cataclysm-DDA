@@ -231,16 +231,16 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         header = {
             "Name", "Location", "Weight", "Size"
         };
-        auto dump = [&rows]( const vpart_info *obj ) {
+        auto dump = [&rows]( const vpart_info &obj ) {
             std::vector<std::string> r;
-            r.push_back( obj->name() );
-            r.push_back( obj->location );
-            r.push_back( to_string( int( ceil( item( obj->item ).weight() / 1000.0 ) ) ) );
-            r.push_back( to_string( obj->size / units::legacy_volume_factor ) );
+            r.push_back( obj.name() );
+            r.push_back( obj.location );
+            r.push_back( to_string( int( ceil( item( obj.item ).weight() / 1000.0 ) ) ) );
+            r.push_back( to_string( obj.size / units::legacy_volume_factor ) );
             rows.push_back( r );
         };
-        for( const auto e : vpart_info::get_all() ) {
-            dump( e );
+        for( const auto &e : vpart_info::all() ) {
+            dump( e.second );
         }
 
     } else if( what == "AIMING" ) {

@@ -65,6 +65,7 @@ void slot_machine( player &p, const tripoint &examp );
 void safe( player &p, const tripoint &examp );
 void gunsafe_ml( player &p, const tripoint &examp );
 void gunsafe_el( player &p, const tripoint &examp );
+void locked_object( player &p, const tripoint &examp );
 void bulletin_board( player &p, const tripoint &examp );
 void fault( player &p, const tripoint &examp );
 void pedestal_wyrm( player &p, const tripoint &examp );

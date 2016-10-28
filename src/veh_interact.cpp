@@ -83,7 +83,7 @@ player_activity veh_interact::serialize_activity()
             time = vp->removal_time( g->u ) + vp->install_time( g->u );
             break;
     }
-    player_activity res( ACT_VEHICLE, time, (int) sel_cmd );
+    player_activity res( activity_id( "ACT_VEHICLE" ), time, (int) sel_cmd );
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
@@ -140,10 +140,11 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     : ddx( x ), ddy( y ), veh( &veh ), main_context( "VEH_INTERACT" )
 {
     // Only build the shapes map and the wheel list once
-    for( auto vp : vpart_info::get_all() ) {
-        vpart_shapes[ vp->name() + vp->item ].push_back( vp );
-        if( vp->has_flag( "WHEEL" ) ) {
-            wheel_types.push_back( vp );
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        vpart_shapes[ vp.name() + vp.item ].push_back( &vp );
+        if( vp.has_flag( "WHEEL" ) ) {
+            wheel_types.push_back( &vp );
         }
     }
 
@@ -295,7 +296,7 @@ void veh_interact::do_main_loop()
             do_siphon();
             // Siphoning may have started a player activity. If so, we should close the
             // vehicle dialog and continue with the activity.
-            finish = g->u.activity.type != ACT_NULL;
+            finish = !g->u.activity.is_null();
         } else if (action == "TIRE_CHANGE") {
             do_tirechange();
         } else if (action == "RELABEL") {
@@ -1519,15 +1520,15 @@ void veh_interact::move_cursor (int dx, int dy)
     can_mount.clear();
     if (!obstruct) {
         int divider_index = 0;
-        for( auto vp : vpart_info::get_all() ) {
-            if( veh->can_mount( vdx, vdy, vp->id ) ) {
-                const vpart_info &vpi = *vp;
-                if ( vpi.id != vpart_shapes[ vpi.name()+ vpi.item][0]->id )
+        for( const auto &e : vpart_info::all() ) {
+            const vpart_info &vp = e.second;
+            if( veh->can_mount( vdx, vdy, vp.id ) ) {
+                if ( vp.id != vpart_shapes[ vp.name()+ vp.item][0]->id )
                     continue; // only add first shape to install list
-                if (can_potentially_install(vpi)) {
-                    can_mount.insert( can_mount.begin() + divider_index++, &vpi );
+                if (can_potentially_install(vp)) {
+                    can_mount.insert( can_mount.begin() + divider_index++, &vp );
                 } else {
-                    can_mount.push_back( &vpi );
+                    can_mount.push_back( &vp );
                 }
             }
         }
@@ -1755,8 +1756,10 @@ void veh_interact::display_stats()
                     _( "Mass: <color_ltblue>%5.0f</color> %s" ),
                     convert_weight( veh->total_mass() * 1000.0f ), weight_units() );
     fold_and_print( w_stats, y[3], x[3], w[3], c_ltgray,
-                    _( "Cargo Volume: <color_ltgray>%d/%d</color>" ),
-                    ( total_cargo - free_cargo ) / units::legacy_volume_factor, total_cargo / units::legacy_volume_factor);
+                    _( "Cargo Volume: <color_ltgray>%s/%s</color> %s" ),
+                    format_volume( total_cargo - free_cargo ).c_str(),
+                    format_volume( total_cargo ).c_str(),
+                    volume_units_abbr() );
     // Write the overall damage
     mvwprintz(w_stats, y[4], x[4], c_ltgray, _("Status:"));
     x[4] += utf8_width(_("Status:")) + 1;
@@ -1960,9 +1963,10 @@ void veh_interact::display_details( const vpart_info *part )
                    weight_units());
     if ( part->folded_volume != 0 ) {
         fold_and_print(w_details, line+2, col_2, column_width, c_white,
-                       "%s: <color_ltgray>%d ml</color>",
+                       "%s: <color_ltgray>%s %s</color>",
                        small_mode ? _("FoldVol") : _("Folded Volume"),
-                       units::to_milliliter( part->folded_volume ) );
+                       format_volume( part->folded_volume ).c_str(),
+                       volume_units_abbr() );
     }
 
     // line 3: (column 1) size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)
@@ -2082,7 +2086,7 @@ void veh_interact::countDurability()
  * @param vpid The id of the vpart type to look for.
  * @return The item that was consumed.
  */
-item consume_vpart_item( const vpart_str_id &vpid )
+item consume_vpart_item( const vpart_id &vpid )
 {
     std::vector<bool> candidates;
     const itype_id itid = vpid.obj().item;
@@ -2214,7 +2218,7 @@ void veh_interact::complete_vehicle()
     int dx = g->u.activity.values[4];
     int dy = g->u.activity.values[5];
     int vehicle_part = g->u.activity.values[6];
-    const vpart_str_id part_id( g->u.activity.str_values[0] );
+    const vpart_id part_id( g->u.activity.str_values[0] );
 
     const vpart_info &vpinfo = part_id.obj();
 
@@ -2333,10 +2337,11 @@ void veh_interact::complete_vehicle()
         }
 
         if( pt.is_broken() ) {
+            const int dir = pt.direction;
             veh->break_part_into_pieces( vehicle_part, g->u.posx(), g->u.posy() );
             veh->remove_part( vehicle_part );
-            veh->install_part( dx, dy, part_id, std::move( base ) );
-
+            const int partnum = veh->install_part( dx, dy, part_id, std::move( base ) );
+            veh->parts[partnum].direction = dir;
         } else {
             veh->set_hp( pt, pt.info().durability );
         }
@@ -2434,7 +2439,7 @@ void veh_interact::complete_vehicle()
         }
         if (veh->parts.size() < 2) {
             add_msg (_("You completely dismantle the %s."), veh->name.c_str());
-            g->u.activity.type = ACT_NULL;
+            g->u.activity.set_to_null();
             g->m.destroy_vehicle (veh);
         } else {
             if (broken) {

@@ -57,7 +57,7 @@
     "id": "sks",
     "type": "GUN",
     "name": "SKS",
-    "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK47.  However, due to its superb accuracy and low recoil, this gun maintains immense popularity.",
+    "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK47.  However, due to its superb accuracy, low recoil and deployable intergrated bayonet, this gun maintains immense popularity.",
     "weight": 3850,
     "volume": 10,
     "price": 38000,
@@ -73,6 +73,7 @@
     "durability": 8,
     "clip_size": 10,
     "barrel_length": 2,
+    "built_in_mods": [ "inter_bayonet" ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   }

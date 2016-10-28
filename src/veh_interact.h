@@ -16,8 +16,7 @@
 #include <sstream>
 
 class vpart_info;
-using vpart_id = int_id<vpart_info>;
-using vpart_str_id = string_id<vpart_info>;
+using vpart_id = string_id<vpart_info>;
 
 /** Represents possible return values from the cant_do function. */
 enum task_reason {

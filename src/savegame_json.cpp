@@ -34,6 +34,7 @@
 #include "mtype.h"
 #include "item_factory.h"
 #include "recipe_dictionary.h"
+#include "player_activity.h"
 
 #include "tile_id_data.h" // for monster::json_save
 #include <ctime>
@@ -141,12 +142,12 @@ void game::init_savedata_translation_tables() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-///// player.h
+///// player_activity.h
 
 void player_activity::serialize(JsonOut &json) const
 {
     json.start_object();
-    json.member( "type", int(type) );
+    json.member( "type", type );
     json.member( "moves_left", moves_left );
     json.member( "index", index );
     json.member( "position", position );
@@ -163,15 +164,21 @@ void player_activity::serialize(JsonOut &json) const
 void player_activity::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    int tmptype;
+    std::string tmptype;
     int tmppos;
-    if ( !data.read( "type", tmptype ) || type >= NUM_ACTIVITIES ) {
-        debugmsg( "Bad activity data:\n%s", data.str().c_str() );
+    if ( !data.read( "type", tmptype ) ) {
+        // Then it's a legacy save.
+        int tmp_type_legacy;
+        data.read( "type", tmp_type_legacy );
+        deserialize_legacy_type( tmp_type_legacy, type );
+    } else {
+        type = activity_id( tmptype );
     }
+    
     if ( !data.read( "position", tmppos)) {
         tmppos = INT_MIN;  // If loading a save before position existed, hope.
     }
-    type = activity_type(tmptype);
+    
     data.read( "moves_left", moves_left );
     data.read( "index", index );
     position = tmppos;
@@ -1621,7 +1628,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
 void vehicle_part::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    vpart_str_id pid;
+    vpart_id pid;
     data.read("id", pid);
 
     std::map<std::string, std::pair<std::string,itype_id>> deprecated = {
@@ -1666,14 +1673,14 @@ void vehicle_part::deserialize(JsonIn &jsin)
 
     auto dep = deprecated.find( pid.str() );
     if( dep != deprecated.end() ) {
-        pid = vpart_str_id( dep->second.first );
+        pid = vpart_id( dep->second.first );
         legacy_fuel = dep->second.second;
     }
 
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
         if( pid.str() == "wheel_underbody" ) {
-            pid = vpart_str_id( "wheel_wide" );
+            pid = vpart_id( "wheel_wide" );
         } else {
             data.throw_error( "bad vehicle part", "id" );
         }
@@ -1740,8 +1747,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
 void vehicle_part::serialize(JsonOut &json) const
 {
     json.start_object();
-    // TODO: the json classes should automatically convert the int-id to the string-id and the inverse
-    json.member("id", id.id().str());
+    json.member("id", id.str());
     json.member("base", base);
     json.member("mount_dx", mount.x);
     json.member("mount_dy", mount.y);

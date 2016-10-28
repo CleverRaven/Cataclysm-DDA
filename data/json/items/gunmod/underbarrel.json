@@ -87,7 +87,6 @@
       "ranged_damage": 2,
       "dispersion": 555,
       "durability": 6,
-      "loudness": 175,
       "clip_size": 1,
       "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
     },
@@ -127,7 +126,6 @@
       "ranged_damage": 3,
       "dispersion": 45,
       "durability": 10,
-      "loudness": 200,
       "clip_size": 7,
       "reload": 120
     },
@@ -237,6 +235,25 @@
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
     }
+  },
+  {
+    "id": "inter_bayonet",
+    "type": "GUNMOD",
+    "name": "integrated bayonet",
+    "description": "This is the bayonet integrated in the firearm.",
+    "weight": 1,
+    "volume": 1,
+    "price": 4000,
+    "to_hit": -1,
+    "cutting": 10,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "underbarrel",
+    "mod_targets": [ "shotgun", "rifle" ],
+    "dispersion_modifier": 10,
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB" ]
   },
   {
     "id": "masterkey",

@@ -2,7 +2,6 @@
 #define VEH_TYPE_H
 
 #include "string_id.h"
-#include "int_id.h"
 #include "enums.h"
 #include "color.h"
 #include "damage.h"
@@ -17,8 +16,7 @@
 using itype_id = std::string;
 
 class vpart_info;
-using vpart_str_id = string_id<vpart_info>;
-using vpart_id = int_id<vpart_info>;
+using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 class vehicle;
@@ -81,10 +79,7 @@ class vpart_info
 {
     public:
         /** Unique identifier for this part */
-        vpart_str_id id;
-
-        /** integer identifier derived from load order (non-saved runtime optimization) */
-        vpart_id loadid;
+        vpart_id id;
 
         /** Translated name of a part */
         std::string name() const;
@@ -219,7 +214,7 @@ class vpart_info
         static void check();
         static void reset();
 
-        static const std::vector<const vpart_info *> &get_all();
+        static const std::map<vpart_id, vpart_info> &all();
 };
 
 struct vehicle_item_spawn {
@@ -240,7 +235,7 @@ struct vehicle_item_spawn {
 struct vehicle_prototype {
     struct part_def {
         point pos;
-        vpart_str_id part;
+        vpart_id part;
         int with_ammo = 0;
         std::set<itype_id> ammo_types;
         std::pair<int, int> ammo_qty = { -1, -1 };
@@ -259,7 +254,5 @@ struct vehicle_prototype {
 
     static std::vector<vproto_id> get_all();
 };
-
-extern const vpart_str_id legacy_vpart_id[74];
 
 #endif

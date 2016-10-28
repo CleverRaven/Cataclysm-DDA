@@ -240,20 +240,21 @@ void player::roll_all_damage( bool crit, damage_instance &di, bool average, cons
 }
 
 static void melee_train( player &p, int lo, int hi ) {
-    p.practice( skill_melee, ceil( rng( lo, hi ) / 2.0 ) );
+    p.practice( skill_melee, ceil( rng( lo, hi ) / 2.0 ), hi );
 
     // allocate XP proportional to damage stats
+    // Pure unarmed needs a special case because it has 0 weapon damage
     int cut  = p.weapon.damage_melee( DT_CUT );
     int stab = p.weapon.damage_melee( DT_STAB );
-    int bash = p.weapon.damage_melee( DT_BASH );
+    int bash = p.weapon.damage_melee( DT_BASH ) + ( !p.is_armed() ? 1 : 0 );
 
-    double total = std::max( cut + stab + bash, 1 );
-    p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ) );
-    p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ) );
+    float total = std::max( cut + stab + bash, 1 );
+    p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ), hi );
+    p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
 
-    // unarmed weapons deal bashing damage but train unarmed skill
+    // Unarmed skill scaled bashing damage and so scales with bashing damage
     p.practice( p.unarmed_attack() ? skill_unarmed : skill_bashing,
-                ceil( bash / total * rng( lo, hi ) ) );
+                ceil( bash / total * rng( lo, hi ) ), hi );
 }
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
@@ -615,20 +616,20 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
     float bash_dam = 0.0f;
 
     const bool unarmed = weap.has_flag("UNARMED_WEAPON");
-    int bashing_skill = get_skill_level( skill_bashing );
-    int unarmed_skill = get_skill_level( skill_unarmed );
-
+    int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
     if( has_active_bionic("bio_cqb") ) {
-        bashing_skill = BIO_CQB_LEVEL;
-        unarmed_skill = BIO_CQB_LEVEL;
+        skill = BIO_CQB_LEVEL;
+    }
+
+    if( unarmed && !is_armed() ) {
+        // Pure unarmed doubles the bonuses from unarmed skill
+        skill *= 2;
     }
 
     const int stat = get_str();
     ///\EFFECT_STR increases bashing damage
     float stat_bonus = bonus_damage( !average );
     stat_bonus += mabuff_damage_bonus( DT_BASH );
-
-    const int skill = unarmed ? unarmed_skill : bashing_skill;
 
     // Drunken Master damage bonuses
     if( has_trait("DRUNKEN") && has_effect( effect_drunk) ) {
@@ -657,7 +658,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
 
     if( unarmed ) {
         ///\EFFECT_UNARMED increases bashing damage with unarmed weapons
-        weap_dam += unarmed_skill;
+        weap_dam += skill;
     }
 
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
@@ -667,7 +668,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
         bash_mul = 0.96 + 0.04 * skill;
     }
 
-    if( bash_cap < weap_dam ) {
+    if( bash_cap < weap_dam && is_armed() ) {
         // If damage goes over cap due to low stats/skills,
         // scale the post-armor damage down halfway between damage and cap
         bash_mul *= (1.0f + (bash_cap / weap_dam)) / 2.0f;
@@ -708,7 +709,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
         // TODO: 1-handed weapons that aren't unarmed attacks
         const bool left_empty = !natural_attack_restricted_on(bp_hand_l);
         const bool right_empty = !natural_attack_restricted_on(bp_hand_r) &&
-            weap.is_null();
+            !is_armed();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
@@ -780,7 +781,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
     if( weap.has_flag("UNARMED_WEAPON") ) {
         const bool left_empty = !natural_attack_restricted_on(bp_hand_l);
         const bool right_empty = !natural_attack_restricted_on(bp_hand_r) &&
-            weap.is_null();
+            !is_armed();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             if( has_trait("CLAWS") || has_active_mutation("CLAWS_RETRACT") ) {

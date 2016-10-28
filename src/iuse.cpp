@@ -792,7 +792,7 @@ int iuse::meditate(player *p, item *it, bool t, const tripoint& )
     }
 
     if( p->has_trait( "SPIRITUAL" ) ) {
-        p->assign_activity( ACT_MEDITATE, 2000 );
+        p->assign_activity( activity_id( "ACT_MEDITATE" ), 2000 );
     } else {
         p->add_msg_if_player(_( "This %s probably meant a lot to someone at one time." ), it->tname().c_str() );
     }
@@ -2221,11 +2221,10 @@ int iuse::fishing_rod(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("There are no fish around.  Try another spot.")); // maybe let the player find that out by himself?
         return 0;
     }
-    p->rooted_message();
 
     p->add_msg_if_player(_("You cast your line and wait to hook something..."));
 
-    p->assign_activity(ACT_FISH, 30000, 0, p->get_item_position(it), it->tname());
+    p->assign_activity( activity_id( "ACT_FISH" ), 30000, 0, p->get_item_position( it ), it->tname() );
 
     return 0;
 }
@@ -2843,14 +2842,15 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
     if (dice(4, difficulty) < dice(2, p->get_skill_level( skill_mechanics )) + dice(2, p->str_cur)) {
         p->practice( skill_mechanics, 1);
         p->add_msg_if_player(m_good, succ_action);
+
         if (g->m.furn(dirx, diry) == f_crate_c) {
             g->m.furn_set(dirx, diry, f_crate_o);
-        }
-        if (g->m.furn(dirx, diry) == f_coffin_c) {
+        } else if (g->m.furn(dirx, diry) == f_coffin_c) {
             g->m.furn_set(dirx, diry, f_coffin_o);
         } else {
             g->m.ter_set(dirx, diry, new_type);
         }
+
         if (noisy) {
             sounds::sound(dirp, 12, _("crunch!"));
         }
@@ -2917,7 +2917,7 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
             // DIG 5 =  18 seconds,  0 hunger and thirst
             int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
             bonus *= bonus;
-            player_activity act( ACT_CLEAR_RUBBLE, 5000 / ( bonus * bonus ), bonus );
+            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 5000 / ( bonus * bonus ), bonus );
             act.coords.push_back( pt );
             p->assign_activity( act );
 
@@ -3193,8 +3193,7 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can't mine there."));
         return 0;
     }
-
-    p->assign_activity(ACT_PICKAXE, turns, -1, p->get_item_position(it));
+    p->assign_activity( activity_id( "ACT_PICKAXE" ), turns, -1, p->get_item_position( it ) );
     p->activity.placement = tripoint(dirx, diry, p->posz()); // TODO: Z
     p->add_msg_if_player(_("You attack the %1$s with your %2$s."),
                          g->m.tername(dirx, diry).c_str(), it->tname().c_str());
@@ -4121,19 +4120,15 @@ int iuse::portable_game(player *p, item *it, bool, const tripoint& )
         switch (as_m.ret) {
             case 1:
                 loaded_software = "robot_finds_kitten";
-                p->rooted_message();
                 break;
             case 2:
                 loaded_software = "snake_game";
-                p->rooted_message();
                 break;
             case 3:
                 loaded_software = "sokoban_game";
-                p->rooted_message();
                 break;
             case 4:
                 loaded_software = "minesweeper_game";
-                p->rooted_message();
                 break;
             case 5: //Cancel
                 return 0;
@@ -4143,7 +4138,7 @@ int iuse::portable_game(player *p, item *it, bool, const tripoint& )
         int time = 15000;
 
         p->add_msg_if_player(_("You play on your %s for a while."), it->tname().c_str());
-        p->assign_activity(ACT_GAME, time, -1, p->get_item_position(it), "gaming");
+        p->assign_activity( activity_id( "ACT_GAME" ), time, -1, p->get_item_position( it ), "gaming" );
 
         std::map<std::string, std::string> game_data;
         game_data.clear();
@@ -4194,7 +4189,7 @@ int iuse::vibe(player *p, item *it, bool, const tripoint& )
         int time = 20000; // 20 minutes per
         p->add_msg_if_player(_("You fire up your %s and start getting the tension out."),
                              it->tname().c_str());
-        p->assign_activity(ACT_VIBE, time, -1, p->get_item_position(it), "de-stressing");
+        p->assign_activity( activity_id( "ACT_VIBE" ), time, -1, p->get_item_position( it ), "de-stressing" );
     }
     return it->type->charges_to_use();
 }
@@ -4402,7 +4397,7 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
     }
 
     // placing ter here makes resuming tasks work better
-    p->assign_activity( ACT_OXYTORCH, moves, (int)ter, p->get_item_position( it ) );
+    p->assign_activity( activity_id( "ACT_OXYTORCH" ), moves, (int)ter, p->get_item_position( it ) );
     p->activity.placement = dirp;
     p->activity.values.push_back( charges );
 
@@ -5473,19 +5468,14 @@ int iuse::gunmod_attach( player *p, item *it, bool, const tripoint& ) {
         return 0;
     }
 
-    int gunpos = g->inv_for_filter( _( "Select gun to modify:" ), [&it]( const item &e ) {
-        return e.gunmod_compatible( *it, false, false );
-    }, _( "You don't have compatible guns." ) );
+    auto loc = g->inv_for_gunmod( *it, _( "Select gun to modify:" ) );
 
-    if( gunpos == INT_MIN ) {
+    if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
         return 0;
     }
 
-    item& gun = p->i_at( gunpos );
-    if( gun.gunmod_compatible( *it ) ) {
-        p->gunmod_add( gun, *it );
-    }
+    p->gunmod_add( *loc, *it );
 
     return 0;
 }
@@ -7504,7 +7494,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
 
             // TODO: make sure there is always a matching vpart id here. Maybe transform this into
             // a iuse_actor class, or add a check in item_factory.
-            const vpart_str_id vpid( it->typeId() );
+            const vpart_id vpid( it->typeId() );
 
             point vcoords = g->m.veh_part_coordinates( source_local );
             vehicle_part source_part( vpid, vcoords.x, vcoords.y, item( *it ) );

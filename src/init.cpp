@@ -143,6 +143,7 @@ void DynamicDataLoader::initialize()
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
     add( "emit", &emit::load_emit );
+    add( "activity_type", &activity_type::load );
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &materials::load );
     add( "bionic", &load_bionic );
@@ -317,6 +318,7 @@ void DynamicDataLoader::unload_data()
     requirement_data::reset();
     vitamin::reset();
     emit::reset();
+    activity_type::reset();
     fault::reset();
     materials::reset();
     profession::reset();
@@ -390,6 +392,7 @@ void DynamicDataLoader::check_consistency()
     requirement_data::check_consistency();
     vitamin::check_consistency();
     emit::check_consistency();
+    activity_type::check_consistency();
     item_controller->check_definitions();
     materials::check();
     fault::check_consistency();

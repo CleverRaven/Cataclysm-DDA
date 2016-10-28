@@ -124,7 +124,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         double dy = target_arg.y - source.y;
         double rad = atan2( dy, dx );
         // Cap spread at 30 degrees or it gets wild quickly
-        double spread = std::min( dispersion / ARCMIN( 1 ), DEGREES( 30 ) );
+        double spread = std::min( ARCMIN( dispersion ), DEGREES( 30 ) );
         rad += rng_float( -spread, spread );
 
         // @todo This should also represent the miss on z axis
@@ -1274,7 +1274,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         refresh();
 
         std::string action;
-        if( u.activity.type == ACT_AIM && u.activity.str_values[0] != "AIM" ) {
+        if( u.activity.id() == activity_id( "ACT_AIM" ) && u.activity.str_values[0] != "AIM" ) {
             // If we're in 'aim and shoot' mode,
             // skip retrieving input and go straight to the action.
             action = u.activity.str_values[0];
@@ -1349,7 +1349,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             }
             if( u.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
-                u.assign_activity( ACT_AIM, 0, 0 );
+                u.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
                 u.activity.str_values.push_back( "AIM" );
                 u.view_offset = old_offset;
                 set_last_target( dst );
@@ -1410,7 +1410,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 // Set the string value of the aim action to the right thing
                 // so we re-enter this loop.
                 // Also clear target vector, but leave target selected.
-                u.assign_activity( ACT_AIM, 0, 0 );
+                u.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
                 u.activity.str_values.push_back( action );
                 u.view_offset = old_offset;
                 set_last_target( dst );

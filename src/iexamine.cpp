@@ -158,7 +158,7 @@ public:
             default:
                 return;
             }
-            if( u.activity.type != ACT_NULL ) {
+            if( !u.activity.is_null() ) {
                 break;
             }
         }
@@ -169,7 +169,7 @@ private:
 
     options choose_option()
     {
-        if( u.activity.type == ACT_ATM ) {
+        if( u.activity.id() == activity_id( "ACT_ATM" ) ) {
             return static_cast<options>( u.activity.index );
         }
         amenu.query();
@@ -359,8 +359,8 @@ private:
 
     bool do_transfer_all_money() {
         item *dst;
-        if( u.activity.type == ACT_ATM ) {
-            u.activity.type = ACT_NULL; // stop for now, if required, it will be created again.
+        if( u.activity.id() == activity_id( "ACT_ATM" ) ) {
+            u.activity.set_to_null(); // stop for now, if required, it will be created again.
             dst = &u.i_at( u.activity.position );
             if( dst->is_null() || dst->typeId() != "cash_card" ) {
                 return false;
@@ -380,7 +380,7 @@ private:
                 // Money from `*i` could be transferred, but we're out of moves, schedule it for
                 // the next turn. Putting this here makes sure there will be something to be
                 // done next turn.
-                u.assign_activity( ACT_ATM, 0, transfer_all_money, u.get_item_position( dst ) );
+                u.assign_activity( activity_id( "ACT_ATM" ), 0, transfer_all_money, u.get_item_position( dst ) );
                 break;
             }
 
@@ -1023,7 +1023,7 @@ void iexamine::safe(player &p, const tripoint &examp)
         int moves = std::max(MINUTES(150) + (p.get_skill_level( skill_mechanics ) - 3) * MINUTES(-20) +
                              (p.get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
 
-         p.assign_activity( ACT_CRACKING, moves );
+         p.assign_activity( activity_id( "ACT_CRACKING" ), moves );
          p.activity.placement = examp;
     }
 }
@@ -1099,6 +1099,27 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
             break;
     }
 }
+
+void iexamine::locked_object( player &p, const tripoint &examp) {
+    // Print ordinary examine message if inside (where you can open doors/windows anyway)
+    if (!g->m.is_outside(p.pos())) {
+        none(p, examp);
+        return;
+    }
+    
+    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 ); 
+    if ( !has_prying_tool ) {
+        add_msg(m_info, _("If only you had a crowbar..."));
+        return;
+    }
+
+    // See crate prying for why a dummy item is used
+    item fakecrow( "crowbar", 0 );
+
+    iuse dummy;
+    dummy.crowbar( &p, &fakecrow, false, examp );
+}
+
 
 void iexamine::bulletin_board(player &, const tripoint &examp)
 {
@@ -1187,7 +1208,13 @@ large semi-spherical indentation at the top."));
 
 void iexamine::door_peephole(player &p, const tripoint &examp) {
     if (g->m.is_outside(p.pos())) {
-        p.add_msg_if_player( _("You cannot look through the peephole from the outside."));
+        // if door is a locked type attempt to open
+        if (g->m.has_flag("OPENCLOSE_INSIDE", examp)) {
+            locked_object(p, examp);
+        } else {
+            p.add_msg_if_player( _("You cannot look through the peephole from the outside."));
+        }
+
         return;
     }
 
@@ -2468,7 +2495,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
             return;
 
         case REMOVE_CONTAINER: {
-            g->u.assign_activity( ACT_PICKUP, 0 );
+            g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
             g->u.activity.placement = examp - p.pos();
             g->u.activity.values.push_back( false );
             g->u.activity.values.push_back( 0 );
@@ -2540,7 +2567,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     int move_cost = 100000 / ( 2 * p.get_skill_level( skill_survival ) + 5 );
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, p.per_cur ), 4 + p.per_cur * 2 );
-    p.assign_activity( ACT_FORAGE, move_cost, 0 );
+    p.assign_activity( activity_id( "ACT_FORAGE" ), move_cost, 0 );
     p.activity.placement = examp;
     return;
 }
@@ -2805,7 +2832,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
 void iexamine::curtains(player &p, const tripoint &examp)
 {
     if (g->m.is_outside(p.pos())) {
-        p.add_msg_if_player( _("You cannot get to the curtains from the outside."));
+        locked_object(p, examp);
         return;
     }
 
@@ -3571,6 +3598,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("gunsafe_el" == function_name) {
         return &iexamine::gunsafe_el;
+    }
+    if ("locked_object" == function_name) {
+        return &iexamine::locked_object;
     }
     if ("kiln_empty" == function_name) {
         return &iexamine::kiln_empty;
