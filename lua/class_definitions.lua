@@ -1171,7 +1171,7 @@ classes = {
             { name = "add_field", rval = "bool", args = { "tripoint", "field_id", "int", "int" } },
             { name = "add_item", rval = "item&", args = { "tripoint", "item" } },
             { name = "add_item_or_charges", rval = "item&", args = { "tripoint", "item" } },
-            { name = "add_item_or_charges", rval = "item&", args = { "tripoint", "item", "int" } },
+            { name = "add_item_or_charges", rval = "item&", args = { "tripoint", "item", "bool" } },
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int" } },
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int", "bool" } },
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int", "bool", "int" } },

@@ -4292,9 +4292,9 @@ units::volume map::free_volume(const int x, const int y)
     return free_volume( tripoint( x, y, abs_sub.z ) );
 }
 
-bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius)
+item &map::add_item_or_charges(const int x, const int y, const item &obj, bool overflow )
 {
-    return !add_item_or_charges( tripoint( x, y, abs_sub.z ), new_item, overflow_radius ).is_null();
+    return add_item_or_charges( tripoint( x, y, abs_sub.z ), obj, overflow );
 }
 
 void map::add_item(const int x, const int y, item new_item)
@@ -4476,50 +4476,73 @@ units::volume map::free_volume(const tripoint &p) {
     return max_volume( p ) - stored_volume( p );
 }
 
-// adds an item to map point, or stacks charges.
-// returns false if item exceeds tile's weight limits or item count. This function is expensive, and meant for
-// user initiated actions, not mapgen!
-// overflow_radius > 0: if x,y is full, attempt to drop item up to overflow_radius squares away, if x,y is full
-item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_radius) {
-
-    if(!inbounds(p) ) {
-        // Complain about things that should never happen.
-        dbg(D_INFO) << p.x << "," << p.y << "," << p.z << ", liquid "
-                    <<(new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) <<
-                    ", destroy_item "<<has_flag("DESTROY_ITEM", p);
-
-        return nulitem;
-    }
-    if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) ||
-        has_flag("DESTROY_ITEM", p) || new_item.has_flag("NO_DROP") ||
-        (new_item.is_gunmod() && new_item.has_flag("IRREMOVABLE") ) ) {
-        // Silently fail on mundane things that prevent item spawn.
-        return nulitem;
-    }
-
-
-    const bool tryaddcharges = new_item.charges != -1 && new_item.count_by_charges();
-    std::vector<tripoint> ps = closest_tripoints_first(overflow_radius, p);
-    for( const auto &p_it : ps ) {
-        if( !inbounds(p_it) || new_item.volume() > free_volume(p_it) ||
-            has_flag("DESTROY_ITEM", p_it) || has_flag("NOITEM", p_it) ) {
-            continue;
+item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overflow )
+{
+    // Checks if item would not be destroyed if added to this tile
+    auto valid_tile = [&]( const tripoint &e ) {
+        if( !inbounds( e ) ) {
+            dbg( D_INFO ) << e; // should never happen
+            return false;
         }
 
-        if( tryaddcharges ) {
-            for( auto &i : i_at( p_it ) ) {
-                if( i.merge_charges( new_item ) ) {
-                    return i;
+        // Some tiles destroy items (eg. lava)
+        if( has_flag( "DESTROY_ITEM", e ) ) {
+            return false;
+        }
+
+        // Cannot drop liquids into tiles that are comprised of liquid
+        if( obj.made_of( LIQUID ) && has_flag( "SWIMMABLE", e ) ) {
+            return false;
+        }
+
+        return true;
+    };
+
+    // Checks if sufficient space at tile to add item
+    auto valid_limits = [&]( const tripoint &e ) {
+        return obj.volume() <= free_volume( e ) && i_at( e ).size() < MAX_ITEM_IN_SQUARE;
+    };
+
+    // Performs the actual insertion of the object onto the map
+    auto place_item = [&]( const tripoint &tile ) -> item& {
+        if( obj.count_by_charges() ) {
+            for( auto &e : i_at( tile ) ) {
+                if( e.merge_charges( obj ) ) {
+                    return e;
                 }
             }
         }
 
-        if( i_at( p_it ).size() < MAX_ITEM_IN_SQUARE ) {
-            support_dirty( p_it );
-            return add_item( p_it, new_item );
+        support_dirty( tile );
+        return add_item( tile, obj );
+    };
+
+    // Some items never exist on map as a discrete item (must be contained by another item)
+    if( obj.has_flag( "NO_DROP" ) || obj.has_flag( "IRREMOVABLE" ) ) {
+        return nulitem;
+    }
+
+    // If intended drop tile destroys the item then we don't attempt to overflow
+    if( !valid_tile( pos ) ) {
+        return nulitem;
+    }
+
+    // If tile can contain items place here...
+    if( !has_flag( "NOITEM", pos ) && valid_limits( pos ) ) {
+        return place_item( pos );
+
+    // ...otherwise try to overflow to adjacent tiles (if permitted)
+    } else if( overflow ) {
+        auto tiles = closest_tripoints_first( 1, pos );
+        tiles.erase( tiles.begin() ); // we already tried this position
+        for( const auto &e : tiles ) {
+            if( valid_tile( e ) && !has_flag( "NOITEM", pos ) && valid_limits( e ) ) {
+                return place_item( e );
+            }
         }
     }
 
+    // failed due to lack of space at target tile (+/- overflow tiles)
     return nulitem;
 }
 

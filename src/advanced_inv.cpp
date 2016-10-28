@@ -1936,7 +1936,7 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
             if( panes[dest].in_vehicle() ) {
                 rc &= p.veh->add_item( p.vstor, new_item );
             } else {
-                rc &= !g->m.add_item_or_charges( p.pos, new_item, 0 ).is_null();
+                rc &= !g->m.add_item_or_charges( p.pos, new_item, false ).is_null();
             }
         }
         // show a message to why we can't add the item

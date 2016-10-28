@@ -62,11 +62,11 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
                 it.display_name().c_str(), ter_name.c_str() );
-            g->m.add_item_or_charges( where, it, 2 );
+            g->m.add_item_or_charges( where, it );
             continue;
         }
         if( !veh.add_item( part, it ) ) {
-            g->m.add_item_or_charges( where, it, 1 );
+            g->m.add_item_or_charges( where, it );
             ++fallen_count;
         }
     }
@@ -104,11 +104,11 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
         if( it.volume() > remaining_volume ) {
             add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ),
                      it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
-            g->m.add_item_or_charges( pet.pos(), it, 1 );
+            g->m.add_item_or_charges( pet.pos(), it );
         } else if( it.weight() > remaining_weight ) {
             add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ),
                      it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
-            g->m.add_item_or_charges( pet.pos(), it, 1 );
+            g->m.add_item_or_charges( pet.pos(), it );
         } else {
             pet.add_item( it );
             remaining_volume -= it.volume();
@@ -145,7 +145,7 @@ void drop_on_map( const std::list<item> &items, const tripoint &where )
         }
     }
     for( const auto &it : items ) {
-        g->m.add_item_or_charges( where, it, 2 );
+        g->m.add_item_or_charges( where, it );
     }
 }
 

@@ -786,7 +786,9 @@ void add_corpse( const tripoint &p );
     units::volume max_volume(const int x, const int y);
     units::volume free_volume(const int x, const int y);
     units::volume stored_volume(const int x, const int y);
-    bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
+
+    item &add_item_or_charges( const int x, const int y, const item &obj, bool overflow = true );
+
     void add_item(const int x, const int y, item new_item);
     void spawn_an_item( const int x, const int y, item new_item,
                         const long charges, const int damlevel );
@@ -813,7 +815,15 @@ void add_corpse( const tripoint &p );
     units::volume max_volume( const tripoint &p );
     units::volume free_volume( const tripoint &p );
     units::volume stored_volume( const tripoint &p );
-    item &add_item_or_charges( const tripoint &p, item new_item, int overflow_radius = 2 );
+
+    /**
+     *  Adds an item to map tile or stacks charges
+     *  @param overflow if destination is full attempt to drop on adjacent tiles
+     *  @return reference to dropped (and possibly stacked) item or null item on failure
+     *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
+     */
+    item &add_item_or_charges( const tripoint &pos, const item &obj, bool overflow = true );
+
     item &add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
     item &add_item( const tripoint &p, item new_item );
     item &spawn_an_item( const tripoint &p, item new_item,

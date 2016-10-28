@@ -1918,7 +1918,7 @@ bool vehicle::remove_part (int p)
         int curtain = part_with_feature(p, "CURTAIN", false);
         if (curtain >= 0) {
             item it = parts[curtain].properties_to_item();
-            g->m.add_item_or_charges( part_loc, it, 2 );
+            g->m.add_item_or_charges( part_loc, it );
             remove_part(curtain);
         }
     }
@@ -1928,7 +1928,7 @@ bool vehicle::remove_part (int p)
         int seatbelt = part_with_feature(p, "SEATBELT", false);
         if (seatbelt >= 0) {
             item it = parts[seatbelt].properties_to_item();
-            g->m.add_item_or_charges( part_loc, it, 2 );
+            g->m.add_item_or_charges( part_loc, it );
             remove_part(seatbelt);
         }
     }
@@ -5482,7 +5482,7 @@ int vehicle::break_off( int p, int dmg )
                             parts[ parts_in_square[ index ] ].name().c_str() );
                 }
                 item part_as_item = parts[parts_in_square[index]].properties_to_item();
-                g->m.add_item_or_charges( pos, part_as_item, true );
+                g->m.add_item_or_charges( pos, part_as_item );
             }
             remove_part( parts_in_square[index] );
         }
