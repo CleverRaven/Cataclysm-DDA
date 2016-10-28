@@ -443,8 +443,9 @@ public:
   void chip_rock(int x, int y, int z);
   void good_road(const std::string &base, int x, int y, int z);
   void good_river(int x, int y, int z);
-  bool allowed_terrain( const tripoint& p, const std::list<tripoint>& rotated_points,
-                        const std::list<std::string>& allowed, const std::list<std::string>& disallowed );
+  bool allowed_terrain( const std::vector<tripoint> &points,
+                        const std::vector<std::string> &allowed,
+                        const std::vector<std::string> &disallowed );
   bool allow_special(const overmap_special& special, const tripoint& p, int &rotate);
   // Monsters, radios, etc.
   void place_specials();
@@ -453,8 +454,6 @@ public:
   void place_radios();
 
     void add_mon_group(const mongroup &group);
-
-    tripoint find_place_for_road( const tripoint &center, const tripoint &connection ) const;
 };
 
 // TODO: readd the stream operators

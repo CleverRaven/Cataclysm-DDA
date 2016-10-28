@@ -127,12 +127,29 @@ struct overmap_special_terrain {
     std::set<std::string> flags;
 };
 
+struct overmap_special_connection {
+    std::string terrain;
+    tripoint p;
+
+    bool operator==( const overmap_special_connection &rhs ) const {
+        return p == rhs.p && terrain == rhs.terrain;
+    }
+};
+
 class overmap_special
 {
     public:
         bool operator<( const overmap_special &right ) const {
             return ( this->id.compare( right.id ) < 0 );
         }
+
+        /** Returns terrain at the given point */
+        const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
+        /** Returns all connections of the special */
+        const std::vector<overmap_special_connection> &get_connections() const;
+        /** Returns true when the special relays on existing roads and does not create roads of its own. */
+        bool requires_existing_road() const;
+
         std::string id;
         std::list<overmap_special_terrain> terrains;
         int min_city_size, max_city_size;
@@ -143,6 +160,10 @@ class overmap_special
         overmap_special_spawns spawns;
         std::list<std::string> locations;
         std::set<std::string> flags;
+
+    private:
+        mutable std::vector<overmap_special_connection> connections;
+        mutable bool valid_connections = false;
 };
 
 void load_overmap_specials( JsonObject &jo );
