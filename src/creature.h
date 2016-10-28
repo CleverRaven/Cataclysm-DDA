@@ -185,6 +185,11 @@ class Creature
         dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &target,
                                                    double total_dispersion );
 
+        /**
+         * Return the chance that a projectile attack will hit with at least the given accuracy
+         */
+        double projectile_attack_chance( double total_dispersion, double range, double accuracy ) const;
+
         // handles blocking of damage instance. mutates &dam
         virtual bool block_hit(Creature *source, body_part &bp_hit,
                                damage_instance &dam) = 0;

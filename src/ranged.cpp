@@ -44,7 +44,6 @@ static void cycle_action( item& weap, const tripoint &pos );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
-static double approx_hit_chance( double dispersion, double range, double missed_by );
 
 struct aim_type {
     std::string name;
@@ -442,15 +441,15 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
 
     // no standard inverse erf function, so we just iterate
     int range = 0;
-    while ( range < max_range && approx_hit_chance( dispersion, range + 1, accuracy ) > chance / 100.0 ) {
+    while ( range < max_range && projectile_attack_chance( dispersion, range + 1, accuracy ) > chance / 100.0 ) {
         ++range;
     }
 
     if( range < max_range ) {
         // interpolate
-        double p0 = approx_hit_chance( dispersion, range, accuracy );
+        double p0 = projectile_attack_chance( dispersion, range, accuracy );
         if( p0 > chance / 100.0 ) {
-            double p1 = approx_hit_chance( dispersion, range + 1, accuracy );
+            double p1 = projectile_attack_chance( dispersion, range + 1, accuracy );
             double fraction = ( p0 - chance / 100.0 ) / ( p0 - p1 );
             return range + fraction;
         }
@@ -1022,10 +1021,10 @@ static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
     return cur_target;
 }
 
-static double approx_hit_chance( double dispersion, double range, double missed_by ) {
+double Creature::projectile_attack_chance( double dispersion, double range, double accuracy ) const {
     // This is essentially the inverse of what Creature::projectile_attack() does.
 
-    double missed_by_tiles = missed_by * occupied_tile_fraction;
+    double missed_by_tiles = accuracy * occupied_tile_fraction;
 
     //          T = (D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
     //      cos V = 1 - T**2 / (2*D**2)
@@ -1050,9 +1049,9 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
     const double dispersion = p.get_weapon_dispersion( *weapon ) + predicted_recoil + p.recoil_vehicle();
     const double range = rl_dist( p.pos(), target->pos() );
 
-    const double p_headshot = approx_hit_chance( dispersion, range, accuracy_headshot );
-    const double p_goodhit = approx_hit_chance( dispersion, range, accuracy_goodhit );
-    const double p_grazing = approx_hit_chance( dispersion, range, accuracy_grazing );
+    const double p_headshot = p.projectile_attack_chance( dispersion, range, accuracy_headshot );
+    const double p_goodhit = p.projectile_attack_chance( dispersion, range, accuracy_goodhit );
+    const double p_grazing = p.projectile_attack_chance( dispersion, range, accuracy_grazing );
 
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
