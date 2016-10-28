@@ -650,6 +650,9 @@ public:
 
     phase_id phase      = SOLID; // e.g. solid, liquid, gas
 
+    /** Can item be combined with other identical items? */
+    bool stackable = false;
+
     /** After loading from JSON these properties guaranteed to be zero or positive */
     /*@{*/
     int weight          =  0; // Weight in grams for item (or each stack member)
@@ -717,15 +720,7 @@ public:
         return id;
     }
 
-    bool count_by_charges() const
-    {
-        if( ammo ) {
-            return true;
-        } else if( comestible ) {
-            return phase == LIQUID || comestible->def_charges > 1 || stack_size > 1;
-        }
-        return false;
-    }
+    bool count_by_charges() const { return stackable; }
 
     int charges_default() const {
         if( tool ) {
@@ -735,7 +730,7 @@ public:
         } else if( ammo ) {
             return ammo->def_charges;
         }
-        return 0;
+        return stackable ? 1 : 0;
     }
 
     int charges_to_use() const

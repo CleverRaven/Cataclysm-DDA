@@ -141,7 +141,7 @@ void Item_factory::finalize() {
             obj.integral_volume = obj.volume;
         }
         // for ammo and comestibles stack size defaults to count of initial charges
-        if( obj.stack_size == 0 && ( obj.ammo || obj.comestible ) ) {
+        if( obj.stackable && obj.stack_size == 0 ) {
             obj.stack_size = obj.charges_default();
         }
         // JSON contains volume per complete stack, convert it to volume per single item
@@ -981,6 +981,7 @@ void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
 {
     auto def = load_definition( jo, src );
     if( def) {
+        def->stackable = true;
         assign( jo, "stack_size", def->stack_size, src == "core", 1 );
         load_slot( def->ammo, jo, src );
         load_basic_info( jo, def, src );
@@ -1299,6 +1300,7 @@ void Item_factory::load_comestible( JsonObject &jo, const std::string &src )
 {
     auto def = load_definition( jo, src );
     if( def ) {
+        def->stackable = true;
         assign( jo, "stack_size", def->stack_size, src == "core", 1 );
         load_slot( def->comestible, jo, src );
         load_basic_info( jo, def, src );
@@ -1524,6 +1526,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     assign( jo, "volume", new_item_template->volume );
     assign( jo, "price", new_item_template->price );
     assign( jo, "price_postapoc", new_item_template->price_post );
+    assign( jo, "stackable", new_item_template->stackable, strict );
     assign( jo, "integral_volume", new_item_template->integral_volume );
     assign( jo, "bashing", new_item_template->melee[DT_BASH], strict, 0 );
     assign( jo, "cutting", new_item_template->melee[DT_CUT], strict, 0 );
