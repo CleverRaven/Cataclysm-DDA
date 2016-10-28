@@ -8,19 +8,31 @@ static void test_internal( const npc& who, const item &gun )
 {
     THEN( "the effective range is correctly calcuated" ) {
         // calculate range for 50% chance of critical hit at arbitrary recoil
-        double recoil = rng_float( 0, 1000 );
-        double range = who.gun_current_range( gun, recoil, 50, accuracy_critical );
+        for ( double recoil = 0; recoil < 1000; recoil += 100 ) {
+            double range = who.gun_current_range( gun, recoil, 50, accuracy_critical );
+            double max_range = who.gun_current_range( gun, 0, 0, 0 );
+            double dispersion = who.get_weapon_dispersion( gun ) + recoil;
 
-        // calculate actual accuracy at the given range
-        double dispersion = ( who.get_weapon_dispersion( gun ) + recoil ) / 2;
-        double missed_by = iso_tangent( range, dispersion );
+            // approx_hit_chance uses an linear interpolation which is not particularly accurate
+            // at sub-tile resolution, so just check that the bracketing integer ranges are OK
+            double chance0 = who.projectile_attack_chance( dispersion, ( int )range, accuracy_critical );
+            double chance1 = who.projectile_attack_chance( dispersion, ( int )( range + 1 ), accuracy_critical );
 
-        INFO( "Recoil: " << recoil );
-        INFO( "Range: " << range );
-        INFO( "Dispersion: " << dispersion );
+            INFO( "Recoil: " << recoil );
+            INFO( "Range: " << range );
+            INFO( "Dispersion: " << dispersion );
+            INFO( "Chance (left): " << chance0 );
+            INFO( "Chance (right): " << chance1 );
 
-        // require inverse calculation to agree with tolerance of 0.1%
-        REQUIRE( std::abs( missed_by - accuracy_critical ) < accuracy_critical / 1000 );
+            if ( range == 0 ) {
+                REQUIRE( chance1 >= 0.5 );
+            } else if ( range == max_range ) {
+                REQUIRE( chance0 <= 0.5 );
+            } else {
+                REQUIRE( chance0 >= 0.5 );
+                REQUIRE( chance1 <= 0.5 );
+            }
+        }
     }
 
     THEN( "the snapshot range is less than the effective range" ) {
