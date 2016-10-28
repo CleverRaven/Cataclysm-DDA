@@ -5598,7 +5598,7 @@
     "material": [ "fur" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "LEGS" ],
+    "covers": [ "FEET" ],
     "coverage": 60,
     "encumbrance": 7,
     "warmth": 40,
