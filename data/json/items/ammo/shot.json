@@ -163,7 +163,6 @@
       "pierce": 6
     },
     "proportional": {
-      "dispersion": 2,
       "recoil": 1.4
     },
     "delete": { "effects": [ "SHOT" ] }
