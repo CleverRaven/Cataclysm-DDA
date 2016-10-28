@@ -1247,8 +1247,7 @@
   "skill_used": "mechanics",
   "skills_required": [ "gun", 5 ],
   "difficulty": 7,
-  "time": 80000,
-  "reversible": true,
+  "time": 270000,
   "autolearn": true,
   "qualities":[
     {"id":"SAW_M_FINE","level":1},
