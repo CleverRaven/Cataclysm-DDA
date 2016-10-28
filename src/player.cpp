@@ -10856,7 +10856,7 @@ bool player::consume_charges( item& used, long qty )
                 tmp -= used.charges;
                 used.ammo_consume( used.charges, pos() );
             }
-            use_charges( "UPS", tmp );
+            return !use_charges( "UPS", tmp ).empty();
         }
     } else {
         used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );

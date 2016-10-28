@@ -1504,7 +1504,9 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // TODO: Allow setting this in the actor
     // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
-    if( !used_tool->ammo_sufficient() ) {
+    if( !used_tool->ammo_sufficient() 
+        && !( used_tool->has_flag( "USE_UPS" ) 
+            && p->has_charges( "UPS", used_tool->ammo_required() ) ) ) {
         p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname().c_str() );
         act->type = ACT_NULL;
         return;
