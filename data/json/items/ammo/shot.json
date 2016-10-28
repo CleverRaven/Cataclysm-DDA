@@ -157,6 +157,7 @@
     "name": "shotgun slug",
     "description": "A heavy metal slug used with shotguns to give them the range capabilities of a rifle.  Extremely damaging but rather inaccurate.",
     "price": 4500,
+    "dispersion": 100,
     "relative": {
       "range": 6,
       "pierce": 6
