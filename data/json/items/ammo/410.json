@@ -90,9 +90,7 @@
       "range": 6,
       "pierce": 3
     },
-    "proportional": {
-      "recoil": 1.4
-    },
+    "proportional": { "recoil": 1.4 },
     "delete": { "effects": [ "SHOT" ] }
   }
 ]
