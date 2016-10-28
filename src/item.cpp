@@ -4320,10 +4320,6 @@ bool item::gunmod_compatible( const item& mod, std::string *msg ) const
         return error( string_format( _( "doesn't have enough room for another %s mod" ),
                                      _( mod.type->gunmod->location.c_str() ) ) );
 
-    } else if( ( mod.type->mod->ammo_modifier || !mod.type->mod->magazine_adaptor.empty() )
-               && ( ammo_remaining() > 0 || magazine_current() ) ) {
-        return error( string_format( _( "must be unloaded before installing this mod" ) ) );
-
     } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
         return error( string_format( _( "cannot have a %s" ), mod.tname().c_str() ) );
 
@@ -4332,7 +4328,7 @@ bool item::gunmod_compatible( const item& mod, std::string *msg ) const
 
     } else if ( !mod.type->mod->acceptable_ammo.empty() && !mod.type->mod->acceptable_ammo.count( ammo_type( false ) ) ) {
         //~ %1$s - name of the gunmod, %2$s - name of the ammo
-        return error( string_format( _( "with %1$s cannot be used on a %2$s" ), mod.tname( 1 ).c_str(),
+        return error( string_format( _( "%1$s cannot be used on %2$s" ), mod.tname( 1 ).c_str(),
                                      ammo_name( ammo_type( false ) ).c_str() ) );
 
     } else if( mod.typeId() == "waterproof_gunmod" && has_flag( "WATERPROOF_GUN" ) ) {
@@ -4343,6 +4339,10 @@ bool item::gunmod_compatible( const item& mod, std::string *msg ) const
 
     } else if( mod.typeId() == "brass_catcher" && has_flag( "RELOAD_EJECT" ) ) {
         return error( string_format( _( "cannot have a brass catcher" ) ) );
+
+    } else if( ( mod.type->mod->ammo_modifier || !mod.type->mod->magazine_adaptor.empty() )
+               && ( ammo_remaining() > 0 || magazine_current() ) ) {
+        return error( string_format( _( "must be unloaded before installing this mod" ) ) );
     }
 
     return true;
