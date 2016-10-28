@@ -208,5 +208,7 @@ TEST_CASE( "available_recipes" ) {
                 }
             }
         }
+
+        g->unload_npcs();
     }
 }
