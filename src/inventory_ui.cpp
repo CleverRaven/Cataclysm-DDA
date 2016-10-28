@@ -127,7 +127,7 @@ inventory_selector_preset::inventory_selector_preset()
 
 bool inventory_selector_preset::sort_compare( const item_location &lhs, const item_location &rhs ) const
 {
-    return lhs->tname( 1 ).compare( rhs->tname( 1 ) ) <= 0; // Simple alphabetic order
+    return lhs->tname( 1 ).compare( rhs->tname( 1 ) ) < 0; // Simple alphabetic order
 }
 
 nc_color inventory_selector_preset::get_color( const inventory_entry &entry ) const
