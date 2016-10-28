@@ -25,9 +25,9 @@ static void test_internal( const npc& who, const item &gun )
             INFO( "Chance (right): " << chance1 );
 
             if ( range == 0 ) {
-                REQUIRE( chance1 >= 0.5 );
+                REQUIRE( chance1 <= 0.5 );
             } else if ( range == max_range ) {
-                REQUIRE( chance0 <= 0.5 );
+                REQUIRE( chance0 >= 0.5 );
             } else {
                 REQUIRE( chance0 >= 0.5 );
                 REQUIRE( chance1 <= 0.5 );
