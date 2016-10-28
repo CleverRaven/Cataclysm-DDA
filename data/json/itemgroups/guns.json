@@ -56,7 +56,7 @@
     "//": "Imported or otherwise very obscure pistols.",
     "items": [
       [ "cop_38", 100 ],
-      [ "colt_ssa", 150 ],
+      [ "colt_saa", 150 ],
       [ "bond_410", 100 ],
       [ "lemat_revolver", 150 ],
       [ "makarov", 100 ],

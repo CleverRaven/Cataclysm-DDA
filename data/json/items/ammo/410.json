@@ -85,12 +85,12 @@
     "name": ".410 slug",
     "description": "A .410 bore shotshell loaded with a metal slug.  Quite damaging but rather inaccurate.",
     "price": 4200,
+    "dispersion": 100,
     "relative": {
       "range": 6,
       "pierce": 3
     },
     "proportional": {
-      "dispersion": 2,
       "recoil": 1.4
     },
     "delete": { "effects": [ "SHOT" ] }
