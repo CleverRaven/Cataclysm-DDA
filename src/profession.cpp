@@ -90,7 +90,8 @@ class item_reader : public generic_typed_reader<item_reader>
             }
             JsonArray jarr = jin.get_array();
             const auto id = jarr.get_string( 0 );
-            const auto snippet = _( jarr.get_string( 1 ).c_str() );
+            const auto s = jarr.get_string( 1 );
+            const auto snippet = _( s.c_str() );
             return profession::itypedec( id, snippet );
         }
         template<typename C>
