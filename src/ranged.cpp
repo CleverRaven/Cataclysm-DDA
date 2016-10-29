@@ -448,10 +448,8 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
         return 0;
     }
 
-    double max_range = gun.gun_range( this );
-
     if( chance == 0 ) {
-        return max_range;
+        return gun.gun_range( this );
     }
 
     // calculate base dispersion
@@ -469,7 +467,7 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
     //   D = (0.5*T**2 / (1 - cos V)) ** 0.5
     double range = sqrt( 0.5 * missed_by_tiles * missed_by_tiles / ( 1 - cos( ARCMIN( max_dispersion ) ) ) );
 
-    return std::min( range, max_range );
+    return std::min( range, ( double )gun.gun_range( this ) );
 }
 
 double player::gun_engagement_range( const item &gun, engagement opt ) const
