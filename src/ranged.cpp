@@ -448,7 +448,7 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
         return 0;
     }
 
-    int max_range = gun.gun_range( this );
+    double max_range = gun.gun_range( this );
 
     if( chance == 0 ) {
         return max_range;
@@ -456,24 +456,20 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
 
     // calculate base dispersion
     double dispersion = get_weapon_dispersion( gun ) + ( penalty < 0 ? recoil_total() : penalty );
+    double sigma = dispersion / dispersion_sigmas;
 
-    // no standard inverse erf function, so we just iterate
-    int range = 0;
-    while ( range < max_range && projectile_attack_chance( dispersion, range + 1, accuracy ) > chance / 100.0 ) {
-        ++range;
-    }
+    // angle such that chance% of dispersion rolls are <= that angle
+    double max_dispersion = erfinv( chance / 100.0 ) * M_SQRT2 * sigma;
 
-    if( range < max_range ) {
-        // interpolate
-        double p0 = projectile_attack_chance( dispersion, range, accuracy );
-        if( p0 > chance / 100.0 ) {
-            double p1 = projectile_attack_chance( dispersion, range + 1, accuracy );
-            double fraction = ( p0 - chance / 100.0 ) / ( p0 - p1 );
-            return range + fraction;
-        }
-    }
+    // required iso_tangent value
+    double missed_by_tiles = accuracy * occupied_tile_fraction;
 
-    return range;
+    // work backwards to range
+    //   T = (2*D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
+    //   D = (0.5*T**2 / (1 - cos V)) ** 0.5
+    double range = sqrt( 0.5 * missed_by_tiles * missed_by_tiles / ( 1 - cos( ARCMIN( max_dispersion ) ) ) );
+
+    return std::min( range, max_range );
 }
 
 double player::gun_engagement_range( const item &gun, engagement opt ) const
