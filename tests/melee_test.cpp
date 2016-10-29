@@ -65,7 +65,7 @@ void check_near( float prob, float expected, float tolerance )
 
 const int num_iters = 10000;
 
-TEST_CASE("Character attacking a zombie", "[melee]") {
+TEST_CASE("Character attacking a zombie", "[melee] [!mayfail]") {
     monster zed( mtype_id( "mon_zombie" ) );
     INFO( "Zombie has get_dodge() == " + std::to_string( zed.get_dodge() ) );
 
@@ -93,7 +93,7 @@ TEST_CASE("Character attacking a zombie", "[melee]") {
     }
 }
 
-TEST_CASE("Character attacking a manhack", "[melee]") {
+TEST_CASE("Character attacking a manhack", "[melee] [!mayfail]") {
     monster manhack( mtype_id( "mon_manhack" ) );
     INFO( "Manhack has get_dodge() == " + std::to_string( manhack.get_dodge() ) );
 
