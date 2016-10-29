@@ -13,11 +13,11 @@ static void test_internal( const npc& who, const item &gun )
             double max_range = who.gun_current_range( gun, 0, 0, 0 );
             double dispersion = who.get_weapon_dispersion( gun ) + recoil;
 
-            INFO( "Recoil: " << recoil );
-            INFO( "Range: " << range );
-            INFO( "Dispersion: " << dispersion );
+            CAPTURE( recoil );
+            CAPTURE( range );
+            CAPTURE( dispersion );
 
-            REQUIRE( std::abs( who.projectile_attack_chance( dispersion, range, accuracy_critical ) - 0.5 ) < 0.0005 );
+            REQUIRE( who.projectile_attack_chance( dispersion, range, accuracy_critical ) == Approx( 0.5 ).epsilon( 0.0005 ) );
         }
     }
 
