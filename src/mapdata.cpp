@@ -1034,6 +1034,12 @@ void furn_t::check() const
     }
 }
 
+void finalize_furniture_and_terrain()
+{
+    terrain_data.finalize();
+    furniture_data.finalize();
+}
+
 void check_furniture_and_terrain()
 {
     terrain_data.check();
