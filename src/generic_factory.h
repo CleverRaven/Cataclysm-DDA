@@ -632,13 +632,13 @@ struct handler<std::vector<T>> {
  *   and assigned, overriding any existing content of it.
  * - If the object is not new and the member exists, it is read and assigned as well.
  * - If the object is not new and the member does not exists, two further members are examined:
- *   entries from `"add:" + member_name` are added to the set and entries from `"remove:" + member_name`
+ *   entries from `"extend"` are added to the set and entries from `"delete"`
  *   are removed. This only works if the member is actually a container, not just a single value.
  *
  * Example:
  * The JSON `{ "f": ["a","b","c"] }` would be loaded as the set `{"a","b","c"}`.
- * Loading the set again from the JSON `{ "remove:f": ["c","x"], "add:f": ["h"] }` would add the
- * "h" flag and removes the "c" and the "x" flag, resulting in `{"a","b","h"}`.
+ * Loading the set again from the JSON `{ "delete": { "f": ["c","x"] }, "extend": { "f": ["h"] } }`
+ * would add the "h" flag and removes the "c" and the "x" flag, resulting in `{"a","b","h"}`.
  *
  * @tparam Derived The class that inherits from this. It must implement the following:
  *   - `Foo get_next( JsonIn & ) const`: reads the next value from JSON, converts it into some
@@ -723,8 +723,14 @@ class generic_typed_reader
             } else if( !was_loaded ) {
                 return false;
             } else {
-                derived.erase_values_from( jo, "remove:" + member_name, container );
-                derived.insert_values_from( jo, "add:" + member_name, container );
+                if( jo.has_object( "extend" ) ) {
+                    auto tmp = jo.get_object( "extend" );
+                    derived.insert_values_from( tmp, member_name, container );
+                }
+                if( jo.has_object( "delete" ) ) {
+                    auto tmp = jo.get_object( "delete" );
+                    derived.erase_values_from( tmp, member_name, container );
+                }
                 return true;
             }
         }

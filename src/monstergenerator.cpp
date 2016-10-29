@@ -542,8 +542,14 @@ void mtype::load( JsonObject &jo )
     } else {
         // Note: special_attacks left as is, new attacks are added to it!
         // Note: member name prefixes are compatible with those used by generic_typed_reader
-        remove_special_attacks( jo, "remove:special_attacks" );
-        add_special_attacks( jo, "add:special_attacks" );
+        if( jo.has_object( "extend" ) ) {
+            auto tmp = jo.get_object( "extend" );
+            add_special_attacks( tmp, "special_attacks" );
+        }
+        if( jo.has_object( "delete" ) ) {
+            auto tmp = jo.get_object( "delete" );
+            remove_special_attacks( tmp, "special_attacks" );
+        }
     }
 
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
