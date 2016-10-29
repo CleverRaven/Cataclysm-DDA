@@ -12,6 +12,7 @@
 #include "mtype.h"
 #include "weather.h"
 #include "shadowcasting.h"
+#include "messages.h"
 
 #include <cmath>
 #include <cstring>
@@ -142,7 +143,7 @@ void map::apply_character_light( player &p )
         apply_light_source( p.pos(), held_luminance );
     }
 
-    if( held_luminance >= 4 && held_luminance > ambient_light_at( p.pos() ) ) {
+    if( held_luminance >= 4 && held_luminance > ambient_light_at( p.pos() ) - 0.5f ) {
         p.add_effect( effect_haslight, 1 );
     }
 }
@@ -471,8 +472,6 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
     // Any epsilon > 0 is fine - it means lightmap processing visited the point
     return map_cache.seen_cache[t.x][t.y] > 0.0f;
 }
-
-#include "messages.h"
 
 template<int xx, int xy, int xz, int yx, int yy, int yz, int zz,
          float(*calc)(const float &, const float &, const int &),
