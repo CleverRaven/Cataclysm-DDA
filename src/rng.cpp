@@ -103,7 +103,7 @@ double erfinv( double x )
     double z = 0.0;
 
     // Shortcut the most common case
-    if ( x == 0.5 ) {
+    if( x == 0.5 ) {
         return 0.47693627620446982;
     }
 
