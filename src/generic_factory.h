@@ -129,33 +129,6 @@ class generic_factory
         std::string id_member_name;
         std::string alias_member_name;
 
-        T &load_override( const string_id<T> &id, JsonObject &jo ) {
-            T obj;
-
-            obj.id = id;
-            obj.load( jo );
-            obj.was_loaded = true;
-
-            T &inserted_obj = insert( obj );
-
-            if( !alias_member_name.empty() && jo.has_member( alias_member_name ) ) {
-                const int_id<T> i_id = map[id];
-                std::vector<string_id<T>> aliases;
-
-                mandatory( jo, obj.was_loaded, alias_member_name, aliases, string_id_reader<T> {} );
-
-                for( const auto &alias : aliases ) {
-                    if( map.count( alias ) > 0 ) {
-                        jo.throw_error( "duplicate " + type_name + " alias \"" + alias.str() + "\" in \"" + id.str() +
-                                        "\"" );
-                    }
-                    map[alias] = i_id;
-                }
-            }
-
-            return inserted_obj;
-        }
-
         bool find_id( const string_id<T> &id, int_id<T> &result ) const {
             result = id.get_cid();
             if( is_valid( result ) && list[result].id == id ) {
@@ -212,6 +185,8 @@ class generic_factory
          * @throws JsonError If loading fails for any reason (thrown by `T::load`).
          */
         void load( JsonObject &jo, const std::string &src ) {
+            bool strict = src == "core";
+
             T def;
 
             if( jo.has_string( "copy-from" ) ) {
@@ -240,6 +215,16 @@ class generic_factory
                 def.id = string_id<T>( jo.get_string( id_member_name ) );
                 def.load( jo );
                 insert( def );
+
+                if( !alias_member_name.empty() && jo.has_member( alias_member_name ) ) {
+                    std::set<string_id<T>> aliases;
+                    assign( jo, "aliases", aliases, strict );
+
+                    const int_id<T> ref = map[def.id];
+                    for( const auto &e : aliases ) {
+                        map[e] = ref;
+                    }
+                }
 
             } else if( jo.has_string( "abstract" ) ) {
                 def.load( jo );
