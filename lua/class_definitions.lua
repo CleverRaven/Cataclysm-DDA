@@ -464,7 +464,6 @@ classes = {
             { name = "apply_damage", rval = nil, args = { "Creature", "body_part", "int" } },
             { name = "apply_persistent_morale", rval = nil, args = { } },
             { name = "attack_speed", rval = "int", args = { "item" } },
-            { name = "attack_speed", rval = "int", args = { "item", "bool" } },
             { name = "avoid_trap", rval = "bool", args = { "tripoint", "trap" } },
             { name = "best_shield", rval = "item&", args = { } },
             { name = "bonus_damage", rval = "float", args = { "bool" } },

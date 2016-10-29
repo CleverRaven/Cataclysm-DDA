@@ -137,10 +137,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
         g->m.add_item_or_charges( pos(), elem );
     }
 
-    if( &shield == &weapon ) {
-        // TODO: Make this work with non-wielded items
-        remove_weapon();
-    }
+    remove_item( shield );
 
     return true;
 }
@@ -311,7 +308,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         // Cap stumble penalty, heavy weapons are quite weak already
         move_cost += std::min( 60, stumble_pen );
         if( has_miss_recovery_tec() ) {
-            move_cost = rng(move_cost / 3, move_cost);
+            move_cost /= 2;
         }
     } else {
         // Remember if we see the monster at start - it may change
@@ -393,11 +390,11 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     const int melee = get_skill_level( skill_melee );
     ///\EFFECT_STR reduces stamina cost for melee attack with heavier weapons
     const int weight_cost = weapon.weight() / ( 20 * std::max( 1, str_cur ) );
-    const int encumbrance_cost =
-        divide_roll_remainder( encumb( bp_arm_l ) + encumb( bp_arm_r ), 5.0f );
+    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5.0f );
+    const int deft_bonus = hit_spread < 0 && has_trait( "DEFT" ) ? 5 : 0;
     ///\EFFECT_MELEE reduces stamina cost of melee attacks
-    const int mod_sta = ( weight_cost + encumbrance_cost - melee + 20 ) * -1;
-    mod_stat("stamina", mod_sta);
+    const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 10 ) * -1;
+    mod_stat( "stamina", std::min( -5, mod_sta ) );
 
     mod_moves(-move_cost);
 
@@ -1837,31 +1834,36 @@ void player_hit_message(player* attacker, std::string message,
                                     t.disp_name().c_str());
 }
 
-int player::attack_speed( const item &weap, const bool average ) const
+int player::attack_speed( const item &weap ) const
 {
     const int base_move_cost = weap.attack_time() / 2;
     const int melee_skill = has_active_bionic("bio_cqb") ? BIO_CQB_LEVEL : (int)get_skill_level( skill_melee );
     ///\EFFECT_MELEE increases melee attack speed
-    const int skill_cost = (int)( base_move_cost / (std::pow(melee_skill, 3.0f)/400.0 + 1.0));
+    const int skill_cost = (int)( base_move_cost * ( 15 - melee_skill ) / 15 );
     ///\EFFECT_DEX increases attack speed
-    const int dexbonus = average ? dex_cur / 2 : rng( 0, dex_cur );
+    const int dexbonus = dex_cur / 2;
     const int encumbrance_penalty = encumb( bp_torso ) +
                                     ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
+    const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = (float)stamina / (float)get_stamina_max();
     // Increase cost multiplier linearly from 1.0 to 2.0 as stamina goes from 25% to 0%.
-    const float stamina_penalty = 1.0 + ( (stamina_ratio < 0.25) ?
-                                          ((0.25 - stamina_ratio) * 4.0) : 0.0 );
+    const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
+    const float ma_mult = mabuff_attack_cost_mult();
 
     int move_cost = base_move_cost;
-    move_cost += skill_cost;
+    // Stamina penalty only affects base/2 and encumbrance parts of the cost
     move_cost += encumbrance_penalty;
-    move_cost -= dexbonus;
     move_cost *= stamina_penalty;
+    move_cost += skill_cost;
+    move_cost -= dexbonus;
+    // Martial arts last. Flat has to be after mult, because comments say so.
+    move_cost *= ma_mult;
+    move_cost += ma_move_cost;
 
-    if( has_trait("HOLLOW_BONES") ) {
-        move_cost *= .8;
-    } else if( has_trait("LIGHT_BONES") ) {
-        move_cost *= .9;
+    if( has_trait( "HOLLOW_BONES" ) ) {
+        move_cost *= 0.8f;
+    } else if( has_trait( "LIGHT_BONES" ) ) {
+        move_cost *= 0.9f;
     }
 
     if( move_cost < 25 ) {
@@ -1904,7 +1906,7 @@ double player::melee_value( const item &weap ) const
         my_value += 15 + (accuracy - 5);
     }
 
-    int move_cost = attack_speed( weap, true );
+    int move_cost = attack_speed( weap );
     static const matec_id rapid_strike( "RAPID" );
     if( weap.has_technique( rapid_strike ) ) {
         move_cost /= 2;

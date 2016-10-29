@@ -264,13 +264,13 @@ public:
         // add_effect add the duration to an existing effect, but it must never be
         // above buff_duration, this keeps the old ma_buff behavior
         max_duration = buff.buff_duration;
-        dur_add_perc = 1;
+        dur_add_perc = 100;
         // each add_effect call increases the intensity by 1
         int_add_val = 1;
         // effect intensity increases by -1 each turn.
         int_decay_step = -1;
         int_decay_tick = 1;
-//        int int_dur_factor;
+        int_dur_factor = 0;
 //        bool main_parts_only;
 //        std::string resist_trait;
 //        std::string resist_effect;
@@ -755,6 +755,24 @@ int player::mabuff_damage_bonus( damage_type type ) const
     int ret = 0;
     accumulate_ma_buff_effects( effects, [&ret, type, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.damage_bonus( *this, type );
+    } );
+    return ret;
+}
+int player::mabuff_attack_cost_penalty() const
+{
+    int ret = 0;
+    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+        ret += d.get_intensity() * b.bonuses.get_flat( *this, AFFECTED_MOVE_COST );
+    } );
+    return ret;
+}
+float player::mabuff_attack_cost_mult() const
+{
+    float ret = 1.0f;
+    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+        // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
+        // becomes 1.4 instead of 2.4 (which would be a 240% buff)
+        ret *= d.get_intensity() * ( b.bonuses.get_mult( *this, AFFECTED_MOVE_COST ) - 1 ) + 1;
     } );
     return ret;
 }
