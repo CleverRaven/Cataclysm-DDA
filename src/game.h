@@ -137,6 +137,7 @@ class game
 {
         friend class editmap;
         friend class advanced_inventory;
+        friend class main_menu;
     public:
         game();
         ~game();
@@ -683,11 +684,6 @@ class game
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
 
-        bool opening_screen();// Warn about screen size, then present the main menu
-        void mmenu_refresh_title();
-        void mmenu_refresh_motd();
-        void mmenu_refresh_credits();
-
         /**
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.
@@ -728,8 +724,6 @@ class game
         int pixel_minimap_option;
     private:
         // Game-start procedures
-        void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
-                        bool bShowDDA = true);
         bool load_master(std::string worldname); // Load the master data file, with factions &c
         void load_weather(std::istream &fin);
         void load(std::string worldname, std::string name); // Load a player-specific save file

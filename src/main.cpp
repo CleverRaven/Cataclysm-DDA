@@ -14,6 +14,7 @@
 #include "path_info.h"
 #include "mapsharing.h"
 #include "output.h"
+#include "main_menu.h"
 
 #include <cstring>
 #include <ctime>
@@ -462,12 +463,12 @@ int main(int argc, char *argv[])
 
     bool quit_game = false;
     do {
-        if(!g->opening_screen()) {
+        main_menu menu;
+        if( !menu.opening_screen() ) {
             quit_game = true;
-        }
-        while (!quit_game && !g->do_turn()) ;
-        if (g->game_quit() || g->game_error()) {
-            quit_game = true;
+        } else {
+            while( !quit_game && !g->do_turn() ) { }
+            quit_game = g->game_quit() || g->game_error();
         }
     } while (!quit_game);
 
