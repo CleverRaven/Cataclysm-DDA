@@ -13,25 +13,11 @@ static void test_internal( const npc& who, const item &gun )
             double max_range = who.gun_current_range( gun, 0, 0, 0 );
             double dispersion = who.get_weapon_dispersion( gun ) + recoil;
 
-            // approx_hit_chance uses an linear interpolation which is not particularly accurate
-            // at sub-tile resolution, so just check that the bracketing integer ranges are OK
-            double chance0 = who.projectile_attack_chance( dispersion, ( int )range, accuracy_critical );
-            double chance1 = who.projectile_attack_chance( dispersion, ( int )( range + 1 ), accuracy_critical );
-
             INFO( "Recoil: " << recoil );
             INFO( "Range: " << range );
             INFO( "Dispersion: " << dispersion );
-            INFO( "Chance (left): " << chance0 );
-            INFO( "Chance (right): " << chance1 );
 
-            if ( range == 0 ) {
-                REQUIRE( chance1 <= 0.5 );
-            } else if ( range == max_range ) {
-                REQUIRE( chance0 >= 0.5 );
-            } else {
-                REQUIRE( chance0 >= 0.5 );
-                REQUIRE( chance1 <= 0.5 );
-            }
+            REQUIRE( std::abs( who.projectile_attack_chance( dispersion, range, accuracy_critical ) - 0.5 ) < 0.0005 );
         }
     }
 
