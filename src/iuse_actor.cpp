@@ -2220,7 +2220,7 @@ bool could_repair( const player &p, const item &it, bool print_msg )
         }
         return false;
     }
-    if( !it.ammo_sufficient() ) {
+    if( !it.units_sufficient( p ) ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _("Your tool does not have enough charges to do that.") );
         }

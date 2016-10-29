@@ -10799,7 +10799,7 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
                     it.tname().c_str(), it.ammo_required() );
         }
         return false;
-    } else if( !it.ammo_sufficient() ) {
+    } else if( !it.units_sufficient( *this ) ) {
         if( show_msg ) {
             add_msg_if_player( m_info,
                     ngettext( "Your %s has %d charge but needs %d.",
