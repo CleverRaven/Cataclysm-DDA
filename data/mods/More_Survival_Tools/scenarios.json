@@ -2,7 +2,7 @@
     {
     "type": "scenario",
     "ident": "wilderness",
-    "edit-mode": "modify",
+    "copy-from": "wilderness",
     "add:professions" : ["wanderer", "caveman"],
     "add:allowed_locs" : ["swamp"]
     }

@@ -2,7 +2,6 @@
   {
     "id": "mon_gracke",
     "type": "MONSTER",
-    "edit-mode": "override",
     "name": "gracken",
     "description": "A bizarre humanoid creature with a calculating stare.  Its twitching hands move so fast they appear to be nothing but blurs.",
     "default_faction": "nether",
