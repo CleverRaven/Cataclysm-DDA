@@ -77,9 +77,9 @@ bool gate_data::is_suitable_wall( const tripoint &pos ) const
     return iter != walls.end();
 }
 
-void gates::load_gates( JsonObject &jo )
+void gates::load_gates( JsonObject &jo, const std::string &src )
 {
-    gates_data.load( jo );
+    gates_data.load( jo, src );
 }
 
 void gates::reset()

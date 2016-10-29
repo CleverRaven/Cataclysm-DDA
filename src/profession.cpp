@@ -42,9 +42,9 @@ profession::profession()
 {
 }
 
-void profession::load_profession( JsonObject &jsobj )
+void profession::load_profession( JsonObject &jo, const std::string &src )
 {
-    all_profs.load( jsobj );
+    all_profs.load( jo, src );
 }
 
 class skilllevel_reader : public generic_typed_reader<skilllevel_reader>

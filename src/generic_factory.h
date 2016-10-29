@@ -3,6 +3,7 @@
 
 #include "string_id.h"
 #include "int_id.h"
+#include "init.h"
 
 #include <string>
 #include <unordered_map>
@@ -116,6 +117,9 @@ class string_id_reader;
 template<typename T>
 class generic_factory
 {
+    private:
+        DynamicDataLoader::deferred_json deferred;
+
     protected:
         std::vector<T> list;
         std::unordered_map<string_id<T>, int_id<T>> map;
@@ -204,11 +208,31 @@ class generic_factory
          * calling `T::load(jo)` (either on a new object or on an existing object).
          * See class documentation for intended behavior of that function.
          *
-         * @return A reference to the loaded/modified object.
          * @throws JsonError If loading fails for any reason (thrown by `T::load`).
          */
-        T &load( JsonObject &jo ) {
+        void load( JsonObject &jo, const std::string &src ) {
             const string_id<T> id( jo.get_string( id_member_name ) );
+
+            if( jo.has_string( "copy-from" ) ) {
+                if( jo.has_string( "edit-mode" ) ) {
+                    jo.throw_error( "cannot specify both copy-from and edit-mode" );
+                }
+
+                auto base = map.find( string_id<T>( jo.get_string( "copy-from" ) ) );
+                if( base == map.end() ) {
+                    deferred.emplace_back( jo.str(), src );
+
+                } else {
+                    T def = obj( base->second );
+                    def.id = id;
+                    def.was_loaded = true;
+                    def.load( jo );
+                    insert( def );
+                }
+
+                return;
+            }
+
             const auto iter = map.find( id );
             const bool exists = iter != map.end();
 
@@ -217,7 +241,7 @@ class generic_factory
             const std::string mode = jo.get_string( "edit-mode", "create" );
             if( mode == "override" ) {
                 remove_aliases( id );
-                return load_override( id, jo );
+                load_override( id, jo );
 
             } else if( mode == "modify" ) {
                 if( !exists ) {
@@ -226,12 +250,12 @@ class generic_factory
                 }
                 T &obj = list[iter->second];
                 obj.load( jo );
-                return obj;
+
             } else if( mode == "create" ) {
                 if( exists ) {
                     jo.throw_error( "duplicated definition of " + type_name + " \"" + id.str() + "\"", id_member_name );
                 }
-                return load_override( id, jo );
+                load_override( id, jo );
 
             } else {
                 jo.throw_error( "invalid edit mode, must be \"create\", \"modify\" or \"override\"", "edit-mode" );
@@ -260,6 +284,14 @@ class generic_factory
             map[result.id] = cid;
             return result;
         }
+
+        /** Finalize all entries (derived classes should chain to this method) */
+        virtual void finalize() {
+            if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
+                debugmsg( "JSON contains circular dependency: discarded %i entries", deferred.size() );
+            }
+        }
+
         /**
          * Checks loaded/inserted objects for consistency
          */

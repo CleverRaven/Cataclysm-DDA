@@ -44,9 +44,9 @@ scenario::scenario()
 {
 }
 
-void scenario::load_scenario( JsonObject &jsobj )
+void scenario::load_scenario( JsonObject &jo, const std::string &src )
 {
-    all_scenarios.load( jsobj );
+    all_scenarios.load( jo, src );
 }
 
 void scenario::load( JsonObject &jo )

@@ -97,6 +97,7 @@ static int calc_bash_skill( const mtype &t )
 
 void MonsterGenerator::finalize_mtypes()
 {
+    mon_templates->finalize();
     for( const auto &elem : mon_templates->get_all() ) {
         mtype &mon = const_cast<mtype&>( elem );
         apply_species_attributes( mon );
@@ -418,9 +419,9 @@ void MonsterGenerator::set_species_ids( mtype &mon )
     }
 }
 
-void MonsterGenerator::load_monster(JsonObject &jo)
+void MonsterGenerator::load_monster( JsonObject &jo, const std::string &src )
 {
-    mon_templates->load( jo );
+    mon_templates->load( jo, src );
 }
 
 class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_reader> {
@@ -583,9 +584,9 @@ void mtype::load( JsonObject &jo )
     }
 }
 
-void MonsterGenerator::load_species(JsonObject &jo)
+void MonsterGenerator::load_species( JsonObject &jo, const std::string &src )
 {
-    mon_species->load( jo );
+    mon_species->load( jo, src );
 }
 
 void species_type::load( JsonObject &jo )

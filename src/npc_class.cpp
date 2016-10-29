@@ -67,9 +67,9 @@ npc_class::npc_class() : id( NC_NONE )
 {
 }
 
-void npc_class::load_npc_class( JsonObject &jo )
+void npc_class::load_npc_class( JsonObject &jo, const std::string &src )
 {
-    npc_class_factory.load( jo );
+    npc_class_factory.load( jo, src );
 }
 
 void npc_class::reset_npc_classes()

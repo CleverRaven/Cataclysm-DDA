@@ -228,8 +228,8 @@ class martialart
         std::vector<mabuff_id> ongethit_buffs;
 };
 
-void load_technique( JsonObject &jo );
-void load_martial_art( JsonObject &jo );
+void load_technique( JsonObject &jo, const std::string &src );
+void load_martial_art( JsonObject &jo, const std::string &src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finialize_martial_arts();

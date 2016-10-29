@@ -23,9 +23,9 @@ generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
 }
 
-void load_technique(JsonObject &jo)
+void load_technique( JsonObject &jo, const std::string &src )
 {
-    ma_techniques.load( jo );
+    ma_techniques.load( jo, src );
 }
 
 // To avoid adding empty entries
@@ -146,9 +146,9 @@ bool string_id<ma_buff>::is_valid() const
     return ma_buffs.is_valid( *this );
 }
 
-void load_martial_art(JsonObject &jo)
+void load_martial_art( JsonObject &jo, const std::string &src )
 {
-    martialarts.load( jo );
+    martialarts.load( jo, src );
 }
 
 class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
@@ -159,7 +159,8 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
                 return mabuff_id( jin.get_string() );
             }
             JsonObject jsobj = jin.get_object();
-            return ma_buffs.load( jsobj ).id;
+            ma_buffs.load( jsobj, "" );
+            return mabuff_id( jsobj.get_string( "id" ) );
     }
 };
 

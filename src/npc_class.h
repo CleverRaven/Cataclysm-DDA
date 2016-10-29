@@ -84,7 +84,7 @@ class npc_class
 
         static const npc_class_id &random_common();
 
-        static void load_npc_class( JsonObject &jo );
+        static void load_npc_class( JsonObject &jo, const std::string &src );
 
         static const std::vector<npc_class> &get_all();
 

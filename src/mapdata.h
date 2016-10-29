@@ -327,8 +327,8 @@ struct map_extras {
 
 };
 
-void load_furniture(JsonObject &jsobj);
-void load_terrain(JsonObject &jsobj);
+void load_furniture( JsonObject &jo, const std::string &src );
+void load_terrain( JsonObject &jo, const std::string &src );
 
 void verify_furniture();
 void verify_terrain();

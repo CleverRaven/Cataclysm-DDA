@@ -47,10 +47,6 @@
  */
 class DynamicDataLoader
 {
-        friend class Item_factory;
-        friend class vpart_info;
-        friend class recipe_dictionary;
-
     public:
         typedef std::string type_string;
         typedef std::map<type_string, std::function<void( JsonObject &, const std::string & )>>
@@ -85,12 +81,6 @@ class DynamicDataLoader
          * @throws std::exception on all kind of errors.
          */
         void load_object( JsonObject &jo, const std::string &src );
-
-        /**
-         * Loads and then removes entries from @param data
-         * @return whether all entries were sucessfully loaded
-         */
-        bool load_deferred( deferred_json &data );
 
         DynamicDataLoader();
         ~DynamicDataLoader();
@@ -131,6 +121,12 @@ class DynamicDataLoader
          * @ref check_consistency
          */
         void finalize_loaded_data();
+
+        /**
+         * Loads and then removes entries from @param data
+         * @return whether all entries were sucessfully loaded
+         */
+        bool load_deferred( deferred_json &data );
 };
 
 void init_names();

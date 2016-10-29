@@ -202,7 +202,7 @@ struct mission_type {
     static const std::vector<mission_type> &get_all();
 
     static void reset();
-    static void load_mission_type( JsonObject & );    
+    static void load_mission_type( JsonObject &jo, const std::string &src );
 
     static void check_consistency();
 
