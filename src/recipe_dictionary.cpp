@@ -204,7 +204,7 @@ void recipe_dictionary::load( JsonObject &jo, const std::string &src, bool uncra
         assign( jo, "autolearn", r.autolearn );
 
     } else if( jo.has_array( "autolearn" ) ) {
-        r.autolearn = false;
+        r.autolearn = true;
         auto sk = jo.get_array( "autolearn" );
         while( sk.has_more() ) {
             auto arr = sk.next_array();
@@ -396,7 +396,7 @@ void recipe_dictionary::finalize()
             r.container = item::find_type( r.result )->default_container;
         }
 
-        if( r.autolearn ) {
+        if( r.autolearn && r.autolearn_requirements.empty() ) {
             r.autolearn_requirements = r.required_skills;
             if( r.skill_used ) {
                 r.autolearn_requirements[ r.skill_used ] = r.difficulty;
