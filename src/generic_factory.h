@@ -123,6 +123,7 @@ class generic_factory
     protected:
         std::vector<T> list;
         std::unordered_map<string_id<T>, int_id<T>> map;
+        std::unordered_map<std::string, T> abstracts;
 
         std::string type_name;
         std::string id_member_name;
@@ -211,7 +212,7 @@ class generic_factory
          * @throws JsonError If loading fails for any reason (thrown by `T::load`).
          */
         void load( JsonObject &jo, const std::string &src ) {
-            const string_id<T> id( jo.get_string( id_member_name ) );
+            T def;
 
             if( jo.has_string( "copy-from" ) ) {
                 if( jo.has_string( "edit-mode" ) ) {
@@ -219,47 +220,33 @@ class generic_factory
                 }
 
                 auto base = map.find( string_id<T>( jo.get_string( "copy-from" ) ) );
-                if( base == map.end() ) {
-                    deferred.emplace_back( jo.str(), src );
+                auto ab = abstracts.find( jo.get_string( "copy-from" ) );
+
+                if( base != map.end() ) {
+                    def = obj( base->second );
+
+                } else if( ab != abstracts.end() ) {
+                    def = ab->second;
 
                 } else {
-                    T def = obj( base->second );
-                    def.id = id;
-                    def.was_loaded = true;
-                    def.load( jo );
-                    insert( def );
+                    deferred.emplace_back( jo.str(), src );
+                    return;
                 }
 
-                return;
+                def.was_loaded = true;
             }
 
-            const auto iter = map.find( id );
-            const bool exists = iter != map.end();
+            if( jo.has_string( id_member_name ) ) {
+                def.id = string_id<T>( jo.get_string( id_member_name ) );
+                def.load( jo );
+                insert( def );
 
-            // "create" is the default, so the game catches accidental re-definitions of
-            // existing objects.
-            const std::string mode = jo.get_string( "edit-mode", "create" );
-            if( mode == "override" ) {
-                remove_aliases( id );
-                load_override( id, jo );
-
-            } else if( mode == "modify" ) {
-                if( !exists ) {
-                    jo.throw_error( "missing definition of " + type_name + " \"" + id.str() + "\" to be modified",
-                                    id_member_name );
-                }
-                T &obj = list[iter->second];
-                obj.load( jo );
-
-            } else if( mode == "create" ) {
-                if( exists ) {
-                    jo.throw_error( "duplicated definition of " + type_name + " \"" + id.str() + "\"", id_member_name );
-                }
-                load_override( id, jo );
+            } else if( jo.has_string( "abstract" ) ) {
+                def.load( jo );
+                abstracts[jo.get_string( "abstract" )] = def;
 
             } else {
-                jo.throw_error( "invalid edit mode, must be \"create\", \"modify\" or \"override\"", "edit-mode" );
-                throw; // dummy, throw_error always throws
+                jo.throw_error( "must specify either id or abstract" );
             }
         }
         /**
@@ -290,6 +277,7 @@ class generic_factory
             if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
                 debugmsg( "JSON contains circular dependency: discarded %i entries", deferred.size() );
             }
+            abstracts.clear();
         }
 
         /**
