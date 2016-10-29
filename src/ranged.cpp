@@ -424,24 +424,6 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     return attack;
 }
 
-static double erfinv( double x )
-{
-    const double epsilon = 1e-6;
-    double z = 0.0;
-
-    // find erf(z) - x = 0
-    // d/dz ( erf(z) - x ) = 2/sqrt(pi) . e^(-z^2)
-
-    for( int n = 0; n < 10; ++n ) {
-        double step = ( std::erf( z ) - x ) / ( M_2_SQRTPI * exp( -z * z ) );
-        z -= step;
-        if( std::abs( step ) < epsilon )
-            break;
-    }
-
-    return z;
-}
-
 double player::gun_current_range( const item& gun, double penalty, unsigned chance, double accuracy ) const
 {
     if( !gun.is_gun() || !gun.ammo_sufficient() ) {

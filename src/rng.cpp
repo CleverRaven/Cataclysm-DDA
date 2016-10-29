@@ -96,3 +96,26 @@ double normal_roll( double mean, double stddev )
         std::chrono::system_clock::now().time_since_epoch().count() );
     return std::normal_distribution<double>( mean, stddev )( eng );
 }
+
+double erfinv( double x )
+{
+    const double epsilon = 1e-6;
+    double z = 0.0;
+
+    // Shortcut the most common case
+    if ( x == 0.5 ) {
+        return 0.47693627620446982;
+    }
+
+    // find erf(z) - x = 0 using Newton=Raphson
+    // d/dz ( erf(z) - x ) = 2/sqrt(pi) . e^(-z^2)
+
+    for( int n = 0; n < 50; ++n ) {
+        double step = ( std::erf( z ) - x ) / ( M_2_SQRTPI * exp( -z * z ) );
+        z -= step;
+        if( std::abs( step ) < epsilon )
+            break;
+    }
+
+    return z;
+}
