@@ -253,7 +253,7 @@ struct mtype {
         mfaction_id default_faction;
         /** UTF-8 encoded symbol, should be exactyle one cell wide. */
         std::string sym;
-        nc_color color;
+        nc_color color = c_white;
         m_size size;
         std::vector<material_id> mat;
         phase_id phase;
