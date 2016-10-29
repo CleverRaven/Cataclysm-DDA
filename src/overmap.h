@@ -145,10 +145,6 @@ struct city {
     std::string name;
     city(int X = -1, int Y = -1, int S = -1);
 
-    operator bool() const {
-        return x >= 0 && y >= 0 && s >= 0;
-    }
-
     int get_distance_from( const tripoint &p ) const;
 };
 

@@ -147,8 +147,6 @@ class overmap_special
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
         /** Returns all connections of the special */
         const std::vector<overmap_special_connection> &get_connections() const;
-        /** Returns true when the special relays on existing roads and does not create roads of its own. */
-        bool requires_existing_road() const;
 
         std::string id;
         std::list<overmap_special_terrain> terrains;
@@ -158,7 +156,7 @@ class overmap_special
         int height, width;
         bool rotatable;
         overmap_special_spawns spawns;
-        std::list<std::string> locations;
+        std::set<std::string> locations;
         std::set<std::string> flags;
 
     private:

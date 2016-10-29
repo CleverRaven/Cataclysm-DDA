@@ -228,7 +228,7 @@ void load_overmap_specials(JsonObject &jo)
     }
     JsonArray location_array = jo.get_array("locations");
     while(location_array.has_more()) {
-        spec.locations.push_back(location_array.next_string());
+        spec.locations.insert( location_array.next_string() );
     }
     JsonArray city_size_array = jo.get_array("city_sizes");
     if(city_size_array.has_more()) {
@@ -963,13 +963,11 @@ const std::vector<overmap_special_connection> &overmap_special::get_connections(
     connections.clear();
 
     for( const auto &ter : terrains ) {
-        static const direction neighbours[4] = { NORTH, SOUTH, EAST, WEST };
-
         if( ter.connect.empty() ) {
             continue;
         }
 
-        for( const auto &n : neighbours ) {
+        for( const auto &n : { NORTH, SOUTH, EAST, WEST } ) {
             const tripoint p = ter.p + direction_XY( n );
             // Only those that don't overlap existing terrains.
             if( get_terrain_at( p ).terrain.empty() ) {
@@ -986,11 +984,6 @@ const std::vector<overmap_special_connection> &overmap_special::get_connections(
 
     valid_connections = true;
     return connections;
-}
-
-bool overmap_special::requires_existing_road() const
-{
-    return std::find( locations.begin(), locations.end(), "by_hiway" ) != locations.end();
 }
 
 // *** BEGIN overmap FUNCTIONS ***
@@ -4003,7 +3996,7 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
     }
 
     // If we found no road nearby, but the special requires it, fail the check.
-    if( top_score == 0 && special.requires_existing_road() ) {
+    if( top_score == 0 && special.locations.count( "by_hiway" ) > 0 ) {
         return false;
     }
 
@@ -4015,8 +4008,8 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
     rotated_points.reserve( special.terrains.size() );
     for( const auto& t : special.terrains ) {
         const tripoint rp = p + rotate_tripoint( t.p, rotate );
-        // Never build on the edges, never overwrite existing roads.
-        if( !inbounds( rp, 1 ) || is_road( rp.x, rp.y, rp.z ) ) {
+        // Never build on the edges.
+        if( !inbounds( rp, 1 ) ) {
             return false;
         }
 
@@ -4035,7 +4028,7 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
             return true;
         } else if(location == "water") {
             passed = allowed_terrain( rotated_points, { "river" }, {} );
-        } else if(location == "land") {
+        } else if(location == "land" || location == "by_hiway") {
             passed = allowed_terrain( rotated_points, {}, { "river", "road" } );
         } else if(location == "forest") {
             passed = allowed_terrain( rotated_points, { "forest" }, {} );
@@ -4043,8 +4036,6 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
             passed = allowed_terrain( rotated_points, { "field" }, {} );
         } else if(location == "wilderness") {
             passed = allowed_terrain( rotated_points, { "forest", "field" }, {} );
-        } else if(location == "by_hiway") {
-            passed = allowed_terrain( rotated_points, {}, { "road" } );
         }
 
         if(passed) {
@@ -4154,8 +4145,6 @@ void overmap::place_specials()
 */
 void overmap::place_special(const overmap_special& special, const tripoint& p, int rotation)
 {
-    std::vector<std::pair<std::string, tripoint> > connections;
-
     for( const overmap_special_terrain& terrain : special.terrains ) {
         const oter_id id( terrain.terrain );
         const oter_t &t = id.obj();
@@ -4163,10 +4152,6 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
         const tripoint location = p + rotate_tripoint( terrain.p, rotation );
 
         ter( location.x, location.y, location.z ) = t.has_flag( rotates ) ? rotate( id, rotation ) : id;
-
-        if( !terrain.connect.empty() ) {
-            connections.emplace_back( terrain.connect, location );
-        }
 
         if(special.flags.count("BLOB") > 0) {
             for (int x = -2; x <= 2; x++) {
