@@ -4,6 +4,7 @@
 #include "rng.h"
 #include "generic_factory.h"
 #include "item_group.h"
+#include "mutation.h"
 
 #include <list>
 
@@ -127,9 +128,27 @@ void npc_class::check_consistency()
             debugmsg( "Missing shopkeeper item group %s", cl.shopkeeper_item_group.c_str() );
         }
 
+        if( !cl.worn_override.empty() && !item_group::group_is_defined( cl.worn_override ) ) {
+            debugmsg( "Missing worn override item group %s", cl.worn_override.c_str() );
+        }
+
+        if( !cl.carry_override.empty() && !item_group::group_is_defined( cl.carry_override ) ) {
+            debugmsg( "Missing carry override item group %s", cl.carry_override.c_str() );
+        }
+
+        if( !cl.weapon_override.empty() && !item_group::group_is_defined( cl.weapon_override ) ) {
+            debugmsg( "Missing weapon override item group %s", cl.weapon_override.c_str() );
+        }
+
         for( const auto &pr : cl.skills ) {
             if( !pr.first.is_valid() ) {
                 debugmsg( "Invalid skill %s", pr.first.c_str() );
+            }
+        }
+
+        for( const auto &pr : cl.traits ) {
+            if( !mutation_branch::has( pr.first ) ) {
+                debugmsg( "Invalid trait %s", pr.first.c_str() );
             }
         }
     }
@@ -214,6 +233,17 @@ void npc_class::load( JsonObject &jo )
     bonus_per = load_distribution( jo, "bonus_per" );
 
     optional( jo, was_loaded, "shopkeeper_item_group", shopkeeper_item_group, "EMPTY_GROUP" );
+    optional( jo, was_loaded, "worn_override", worn_override );
+    optional( jo, was_loaded, "carry_override", carry_override );
+    optional( jo, was_loaded, "weapon_override", weapon_override );
+
+    if( jo.has_array( "traits" ) ) {
+        JsonArray jarr = jo.get_array( "traits" );
+        while( jarr.has_more() ) {
+            JsonArray jarr_in = jarr.next_array();
+            traits[ jarr_in.get_string( 0 ) ] = jarr_in.get_int( 1 );
+        }
+    }
 
     if( jo.has_array( "skills" ) ) {
         JsonArray jarr = jo.get_array( "skills" );
