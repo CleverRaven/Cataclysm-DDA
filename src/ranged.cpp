@@ -1040,17 +1040,16 @@ double Creature::projectile_attack_chance( double dispersion, double range, doub
 
     double missed_by_tiles = accuracy * occupied_tile_fraction;
 
-    //          T = (D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
+    //          T = (2*D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
     //      cos V = 1 - T**2 / (2*D**2)
-    // 1 - V**2/2 = 1 - T**2 / (2*D**2)           (small angle approximation)
-    //          V = T / D
-    double shot_dispersion = ( range < 0.1 ? M_PI : missed_by_tiles / range ) * 180 * 60 / M_PI;
+    double cosV = 1 - missed_by_tiles * missed_by_tiles / (2 * range * range);
+    double shot_dispersion = ( cosV > 1.0 ? M_PI : acos( cosV ) ) * 180 * 60 / M_PI;
     double sigma = dispersion / dispersion_sigmas;
 
     // erf(x / (sigma * sqrt(2))) is the probability that a measurement
     // of a normally distributed variable with standard deviation sigma
     // lies in the range [-x..x]
-    return std::erf( shot_dispersion / ( sigma * 1.4142 ) );
+    return std::erf( shot_dispersion / ( sigma * M_SQRT2 ) );
 }
 
 static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *weapon,
