@@ -10,7 +10,6 @@ static void test_internal( const npc& who, const item &gun )
         // calculate range for 50% chance of critical hit at arbitrary recoil
         for ( double recoil = 0; recoil < 1000; recoil += 100 ) {
             double range = who.gun_current_range( gun, recoil, 50, accuracy_critical );
-            double max_range = who.gun_current_range( gun, 0, 0, 0 );
             double dispersion = who.get_weapon_dispersion( gun ) + recoil;
 
             CAPTURE( recoil );
