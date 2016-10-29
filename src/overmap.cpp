@@ -121,6 +121,11 @@ city::city( int const X, int const Y, int const S)
 {
 }
 
+int city::get_distance_from( const tripoint &p ) const
+{
+    return std::max( int( trig_dist( p, { x, y, 0 } ) ) - s, 0 );
+}
+
 std::map<enum radio_type, std::string> radio_type_names =
 {{ {MESSAGE_BROADCAST, "broadcast"}, {WEATHER_RADIO, "weather"} }};
 
@@ -1687,17 +1692,18 @@ std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
     return found;
 }
 
-int overmap::dist_from_city( const tripoint &p )
+const city *overmap::get_nearest_city( const tripoint &p ) const
 {
     int distance = 999;
-    for (auto &i : cities) {
-        int dist = rl_dist( p, { i.x, i.y, 0 } );
-        dist -= i.s;
+    const city *res = nullptr;
+    for( const auto &elem : cities ) {
+        const int dist = elem.get_distance_from( p );
         if (dist < distance) {
             distance = dist;
+            res = &elem;
         }
     }
-    return distance;
+    return res;
 }
 
 // {note symbol, note color, offset to text}
@@ -3945,10 +3951,13 @@ inline tripoint rotate_tripoint(tripoint p, int rotations)
 bool overmap::allow_special(const overmap_special& special, const tripoint& p, int &rotate)
 {
     if( special.min_city_distance > 0 || special.max_city_distance >= 0 ) {
-        const int to_city = dist_from_city( p );
-
+        const city *nearest = get_nearest_city( p );
+        if( nearest == nullptr ) {
+            return false;
+        }
+        const int to_city = nearest->get_distance_from( p );
         if( to_city < special.min_city_distance || to_city > std::max( special.max_city_distance, INT_MAX ) ) {
-            return false; // Too far away from a city
+            return false;
         }
     }
 
@@ -4173,22 +4182,11 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
     for( const auto &con : special.get_connections() ) {
         const tripoint rp = p + rotate_tripoint( con.p, rotation );
         // See if there's a road already.
-        if( check_ot_type( con.terrain, rp.x, rp.y, rp.z ) ) {
-            continue;
-        }
-
-        city closest;
-        int distance = 999;
-        for( const city& c : cities ) {
-            int dist = rl_dist( rp.x, rp.y, c.x, c.y );
-            if( dist < distance ) {
-                closest = c;
-                distance = dist;
+        if( !check_ot_type( con.terrain, rp.x, rp.y, rp.z ) ) {
+            const city *nearest_city = get_nearest_city( rp );
+            if( nearest_city != nullptr ) {
+                make_hiway( rp.x, rp.y, nearest_city->x, nearest_city->y, rp.z, con.terrain );
             }
-        }
-
-        if( closest ) {
-            make_hiway( rp.x, rp.y, closest.x, closest.y, rp.z, con.terrain );
         }
     }
 

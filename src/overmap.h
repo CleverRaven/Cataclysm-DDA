@@ -148,6 +148,8 @@ struct city {
     operator bool() const {
         return x >= 0 && y >= 0 && s >= 0;
     }
+
+    int get_distance_from( const tripoint &p ) const;
 };
 
 struct om_note {
@@ -381,7 +383,8 @@ public:
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
 
-    int dist_from_city( const tripoint &p );
+    const city *get_nearest_city( const tripoint &p ) const;
+
     void signal_hordes( const tripoint &p, int sig_power );
     void process_mongroups();
     void move_hordes();
