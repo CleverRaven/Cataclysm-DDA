@@ -582,6 +582,11 @@ void finalize_overmap_terrain( )
     for( auto &elem : region_settings_map ) {
         elem.second.setup();
     }
+
+    for( auto &elem : overmap_specials ) {
+        // This cast is safe as long as we don't modify id of the special.
+        const_cast<overmap_special &>( elem ).finalize();
+    }
 }
 
 void load_region_settings( JsonObject &jo )
@@ -954,36 +959,37 @@ const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &
     return null_terrain;
 }
 
-const std::vector<overmap_special_connection> &overmap_special::get_connections() const
+void overmap_special::finalize()
 {
-    if( valid_connections ) {
-        return connections;
-    }
-
     connections.clear();
 
-    for( const auto &ter : terrains ) {
-        if( ter.connect.empty() ) {
+    for( const auto &elem : terrains ) {
+        if( elem.connect.empty() ) {
             continue;
         }
 
+        bool found = false;
+
         for( const auto &n : { NORTH, SOUTH, EAST, WEST } ) {
-            const tripoint p = ter.p + direction_XY( n );
-            // Only those that don't overlap existing terrains.
-            if( get_terrain_at( p ).terrain.empty() ) {
-                const overmap_special_connection con{ ter.connect, p };
+            const tripoint p = elem.p + direction_XY( n );
+            const auto &neighbor = get_terrain_at( p );
+            // Only those that don't conflict with neighbors.
+            if( neighbor.terrain.empty() || road_allowed( oter_id( neighbor.terrain ) ) ) {
+                const overmap_special_connection con{ elem.connect, p };
                 // Don't add duplicates
                 if( std::find( connections.begin(), connections.end(), con ) == connections.end() ) {
                     connections.push_back( con );
                 }
-
+                found = true;
                 break;
             }
         }
-    }
 
-    valid_connections = true;
-    return connections;
+        if( !found ) {
+            debugmsg( "In overmap special \"%s\", point [%d,%d,%d] is blocked - can't connect %s to it.",
+                      id.c_str(), elem.p.x, elem.p.y, elem.p.z, elem.connect.c_str() );
+        }
+    }
 }
 
 // *** BEGIN overmap FUNCTIONS ***
@@ -3971,7 +3977,7 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
         int score = 0;
         bool valid_rotation = true;
 
-        for( const auto &con : special.get_connections() ) {
+        for( const auto &con : special.connections ) {
             const tripoint rp = p + rotate_tripoint( con.p, r );
 
             if( check_ot_type( con.terrain, rp.x, rp.y, rp.z ) ) {
@@ -4147,11 +4153,10 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
 {
     for( const overmap_special_terrain& terrain : special.terrains ) {
         const oter_id id( terrain.terrain );
-        const oter_t &t = id.obj();
 
         const tripoint location = p + rotate_tripoint( terrain.p, rotation );
 
-        ter( location.x, location.y, location.z ) = t.has_flag( rotates ) ? rotate( id, rotation ) : id;
+        ter( location.x, location.y, location.z ) = id->has_flag( rotates ) ? rotate( id, rotation ) : id;
 
         if(special.flags.count("BLOB") > 0) {
             for (int x = -2; x <= 2; x++) {
@@ -4164,7 +4169,7 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
         }
     }
 
-    for( const auto &con : special.get_connections() ) {
+    for( const auto &con : special.connections ) {
         const tripoint rp = p + rotate_tripoint( con.p, rotation );
         // See if there's a road already.
         if( !check_ot_type( con.terrain, rp.x, rp.y, rp.z ) ) {

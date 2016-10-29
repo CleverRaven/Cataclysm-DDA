@@ -145,11 +145,12 @@ class overmap_special
 
         /** Returns terrain at the given point */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
-        /** Returns all connections of the special */
-        const std::vector<overmap_special_connection> &get_connections() const;
+        /** Checks the object and builds @ref connections vector. */
+        void finalize();
 
         std::string id;
         std::list<overmap_special_terrain> terrains;
+        std::vector<overmap_special_connection> connections;
         int min_city_size, max_city_size;
         int min_city_distance, max_city_distance;
         int min_occurrences, max_occurrences;
@@ -158,10 +159,6 @@ class overmap_special
         overmap_special_spawns spawns;
         std::set<std::string> locations;
         std::set<std::string> flags;
-
-    private:
-        mutable std::vector<overmap_special_connection> connections;
-        mutable bool valid_connections = false;
 };
 
 void load_overmap_specials( JsonObject &jo );
