@@ -186,7 +186,12 @@ class Creature
                                                    double total_dispersion );
 
         /**
-         * Return the chance that a projectile attack will hit with at least the given accuracy
+         * Probability that a projectile attack will hit with at least the given accuracy.
+         *
+         * @param total_dispersion nominal shot dispersion of gun + shooter
+         * @param range range of the attack
+         * @param accuracy the required accuracy, in the range [0..1]
+         * @return the probability, in the range (0..1]
          */
         double projectile_attack_chance( double total_dispersion, double range, double accuracy ) const;
 
