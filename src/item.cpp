@@ -1687,12 +1687,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } );
 
         if( !holsters.empty() ) {
-            std::vector<std::string> opts;
-            std::transform( holsters.begin(), holsters.end(), std::back_inserter( opts ), []( const itype *e ) {
-                return e->nname( 1 );
-            } );
             insert_separation_line();
-            info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in:</bold> " ) + enumerate_as_string( opts ) );
+            info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in:</bold> " ) +
+                               enumerate_as_string( holsters.begin(), holsters.end(),
+                                                    []( const itype *e ) { return e->nname( 1 ); } ) );
         }
 
         ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
