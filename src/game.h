@@ -137,7 +137,7 @@ class game
 {
         friend class editmap;
         friend class advanced_inventory;
-        friend class main_menu;
+        friend class main_menu; // TODO: Deal with this before finishing the PR
     public:
         game();
         ~game();

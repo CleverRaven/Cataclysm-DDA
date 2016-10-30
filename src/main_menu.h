@@ -15,12 +15,26 @@ class main_menu
         bool opening_screen();
 
     private:
+        // Remnants of @opening_screen that I'll get rid of as I continue the refactoring process:
+        WINDOW *w_open;
+        WINDOW *w_background;
+        int extra_w, iMenuOffsetX, iMenuOffsetY;
+        int sel1, sel2, sel3, layer;
+        std::vector<std::string> savegames, templates;
+        std::vector<std::string> vMenuItems;
+        std::vector< std::vector<std::string> > vMenuHotkeys;
+
+        // functions for handling some of the tabs. Returns whether a game was started or not.
+        bool new_character_tab();
+        bool load_character_tab();
+        bool world_tab();
+        bool special_tab();
+        bool settings_tab();
+
         // ASCII art that says "Cataclysm Dark Days Ahead"
         std::vector<std::string> mmenu_title;
         std::vector<std::string> mmenu_motd;
         std::vector<std::string> mmenu_credits;
-        std::vector<std::string> vMenuItems; // MOTD, New Game, Load Game, etc.
-        std::vector< std::vector<std::string> > vMenuHotkeys; // hotkeys for the vMenuItems
 
         /**
          * Prints a horizontal list of options
