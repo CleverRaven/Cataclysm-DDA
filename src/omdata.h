@@ -122,13 +122,13 @@ struct overmap_special_spawns {
 struct overmap_special_terrain {
     overmap_special_terrain() : p( 0, 0, 0 ) { };
     tripoint p;
-    std::string connect;
-    std::string terrain;
+    oter_str_id connect;
+    oter_str_id terrain;
     std::set<std::string> flags;
 };
 
 struct overmap_special_connection {
-    std::string terrain;
+    oter_str_id terrain;
     tripoint p;
 
     bool operator==( const overmap_special_connection &rhs ) const {

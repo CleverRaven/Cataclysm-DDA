@@ -233,8 +233,8 @@ void load_overmap_specials(JsonObject &jo)
         overmap_special_terrain terrain;
         JsonArray point = om.get_array("point");
         terrain.p = tripoint(point.get_int(0), point.get_int(1), point.get_int(2));
-        terrain.terrain = om.get_string("overmap");
-        terrain.connect = om.get_string("connect", "");
+        terrain.terrain = oter_str_id( om.get_string( "overmap" ) );
+        terrain.connect = oter_str_id( om.get_string( "connect", "" ) );
         JsonArray flagarray = om.get_array("flags");
         while(flagarray.has_more()) {
             terrain.flags.insert(flagarray.next_string());
@@ -993,11 +993,9 @@ void overmap_special::finalize()
     std::set<tripoint> points;
 
     for( const auto &elem : terrains ) {
-        const oter_id tid( elem.terrain );
-
-        if( !tid.is_valid() ) {
+        if( !elem.terrain.is_valid() ) {
             debugmsg( "Invalid terrain \"%s\" in overmap special \"%s\".",
-                      tid.id().c_str(), id.c_str() );
+                      elem.terrain.c_str(), id.c_str() );
             continue;
         }
 
@@ -1008,7 +1006,7 @@ void overmap_special::finalize()
             points.insert( elem.p );
         }
 
-        if( elem.connect.empty() ) {
+        if( !elem.connect ) {
             continue;
         }
 
@@ -1016,9 +1014,8 @@ void overmap_special::finalize()
 
         for( const auto &n : { NORTH, SOUTH, EAST, WEST } ) {
             const tripoint p = elem.p + direction_XY( n );
-            const auto &neighbor = get_terrain_at( p );
             // Only those that don't conflict with neighbors.
-            if( neighbor.terrain.empty() || road_allowed( oter_id( neighbor.terrain ) ) ) {
+            if( !get_terrain_at( p ).terrain ) {
                 const overmap_special_connection con{ elem.connect, p };
                 // Don't add duplicates
                 if( std::find( connections.begin(), connections.end(), con ) == connections.end() ) {
@@ -4028,7 +4025,7 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
         for( const auto &con : special.connections ) {
             const tripoint rp = p + rotate_tripoint( con.p, r );
 
-            if( check_ot_type( con.terrain, rp.x, rp.y, rp.z ) ) {
+            if( check_ot_type( con.terrain.str(), rp.x, rp.y, rp.z ) ) {
                 ++score; // Found one.
             } else if( !road_allowed( get_ter( rp.x, rp.y, rp.z ) ) ) {
                 valid_rotation = false;
@@ -4181,17 +4178,16 @@ void overmap::place_specials()
 void overmap::place_special(const overmap_special& special, const tripoint& p, int rotation)
 {
     for( const overmap_special_terrain& terrain : special.terrains ) {
-        const oter_id id( terrain.terrain );
-
+        const oter_id tid = terrain.terrain.id();
         const tripoint location = p + rotate_tripoint( terrain.p, rotation );
 
-        ter( location.x, location.y, location.z ) = id->has_flag( rotates ) ? rotate( id, rotation ) : id;
+        ter( location.x, location.y, location.z ) = tid->has_flag( rotates ) ? rotate( tid, rotation ) : tid;
 
         if(special.flags.count("BLOB") > 0) {
             for (int x = -2; x <= 2; x++) {
                 for (int y = -2; y <= 2; y++) {
                     if (one_in(1 + abs(x) + abs(y))) {
-                        ter( location.x + x, location.y + y, location.z ) = id;
+                        ter( location.x + x, location.y + y, location.z ) = tid;
                     }
                 }
             }
@@ -4201,10 +4197,10 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
     for( const auto &con : special.connections ) {
         const tripoint rp = p + rotate_tripoint( con.p, rotation );
         // See if there's a road already.
-        if( !check_ot_type( con.terrain, rp.x, rp.y, rp.z ) ) {
+        if( !check_ot_type( con.terrain.str(), rp.x, rp.y, rp.z ) ) {
             const city *nearest_city = get_nearest_city( rp );
             if( nearest_city != nullptr ) {
-                make_hiway( rp.x, rp.y, nearest_city->x, nearest_city->y, rp.z, con.terrain );
+                make_hiway( rp.x, rp.y, nearest_city->x, nearest_city->y, rp.z, con.terrain.str() );
             }
         }
     }
