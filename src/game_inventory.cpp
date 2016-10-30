@@ -284,14 +284,17 @@ class read_inventory_preset: public inventory_selector_preset
                 if( reader == nullptr ) {
                     return std::string();  // Just to make sure
                 }
+                // Actual reading time (in turns). Can be penalized.
+                const int actual_turns = p.time_to_read( *loc, *reader ) / MOVES( 1 );
+                // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
+                const int normal_turns = get_book( loc ).time * reader->read_speed() / MOVES( 1 );
+                const std::string duration = calendar( actual_turns ).textify_period();
 
-                const int actual_time = p.time_to_read( *loc, *reader ) / MOVES( 1 );
-                const int normal_time = get_book( loc ).time * reader->read_speed() / MOVES( 1 );
-                const bool complicated_stuff = actual_time > normal_time;
+                if( actual_turns > normal_turns ) { // Longer - complicated stuff.
+                    return string_format( "<color_ltred>%s</color>", duration.c_str() );
+                }
 
-                const std::string duration = calendar( actual_time ).textify_period();
-
-                return complicated_stuff ? string_format( "<color_ltred>%s</color>", duration.c_str() ) : duration;
+                return duration; // Normal speed.
             }, _( "CHAPTER IN" ), unknown );
         }
 
