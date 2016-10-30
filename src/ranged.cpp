@@ -71,71 +71,45 @@ size_t blood_trail_len( int damage )
     return 0;
 }
 
-// projectile_attack handles a single shot aimed at
-// target_arg. It handles all the
-// randomization of where the shot goes versus
-// where it was aimed.  The dispersion angle passed to
-// projectile_attack represents the possible error
-// due to imperfections in the weapon and the
-// steadiness of the shooter's aim; for the same
-// weapon / shooter / recoil you'll have the same
-// dispersion.
-//
-// The path each shot takes has some random error.
-// This is modelled as a normal distribution
-// centered around the aiming point, or - equivalently -
-// as an error angle (shot_dispersion) that is centered
-// around zero. A shot_dispersion of zero is a
-// perfectly-on-target shot. shot_dispersion, unlike
-// dispersion, is a signed value, the error might be
-// to the left (negative) or right (positive).
-//
-// The standard deviation of the normal distribution
-// is (dispersion / dispersion_sigmas). With the current
-// value of dispersion_sigmas (2.4) this means that
-// the dispersion value is 2.4 standard deviations
-// and 98% of all shots will lie within the
-// dispersion angle.
-//
-// Both dispersion and shot_dispersion are measured in
-// arcminutes (1/60th of a degree).
-//
-// Increasing dispersion_sigmas will decrease the standard
-// deviation, shots will be "tighter" around the actual
-// target, the overall chance to hit increases.
-//
-// Allowing a hit on the target just because you
-// hit the right tile doesn't work balance-wise as
-// it's too big of a target if you also want to keep
-// miss angles within a reasonable range. So there is
-// a second parameter, occupied_tile_fraction, which says
-// "how wide" the target is. You have to get at least this
-// close with your shot, in tiles (missed_by_tiles)
-// to have a chance to hit. Increasing
-// occupied_tile_fraction increases the chance to hit.
-//
-// You should not set occupied_tile_fraction > 1.0 as
-// that would mean that hitting an adjacent tile is enough
-// to hit the critter, and the code that follows the shot
-// trajectory looking for hits is not capable of handling
-// that.
-//
-// Once you are close enough with the shot for a hit,
-// exactly how close influences the quality of the hit.
-// missed_by represents how good the hit is on a scale
-// of 0 to 1; 0.0 is a perfect hit; 0.99999.. is the
-// worst possible shot that still connects (where you
-// got just barely within occupied_tile_fraction tiles
-// of where you aimed and just clipped the edge of your
-// target)
-//
-// dispersion_sigmas and occupied_tile_fraction can be
-// tuned together to affect the spread of misses without
-// affecting hit or hit quality chances, e.g. if you
-// increase dispersion_sigmas by 10% and also decrease
-// occupied_tile_fraction by 10%, then the cone of misses
-// will get 10% tighter but the overall hit and hit
-// quality chances are unchanged.
+// projectile_attack handles a single shot aimed at target_arg. It handles all the randomization of
+// where the shot goes versus where it was aimed.  The dispersion angle passed to projectile_attack
+// represents the possible error due to imperfections in the weapon and the steadiness of the
+// shooter's aim; for the same weapon / shooter / recoil you'll have the same dispersion.
+
+// The path each shot takes has some random error.  This is modelled as a normal distribution
+// centered around the aiming point, or - equivalently - as an error angle (shot_dispersion) that is
+// centered around zero. A shot_dispersion of zero is a perfectly-on-target shot. shot_dispersion,
+// unlike dispersion, is a signed value, the error might be to the left (negative) or right
+// (positive).
+
+// The standard deviation of the normal distribution is (dispersion / dispersion_sigmas). With the
+// current value of dispersion_sigmas (2.4) this means that the dispersion value is 2.4 standard
+// deviations and 98% of all shots will lie within the dispersion angle.
+
+// Both dispersion and shot_dispersion are measured in arcminutes (1/60th of a degree).
+
+// Increasing dispersion_sigmas will decrease the standard deviation, shots will be "tighter" around
+// the actual target, the overall chance to hit increases.
+
+// Allowing a hit on the target just because you hit the right tile doesn't work balance-wise as
+// it's too big of a target if you also want to keep miss angles within a reasonable range. So there
+// is a second parameter, occupied_tile_fraction, which says "how wide" the target is. You have to
+// get at least this close with your shot, in tiles (missed_by_tiles) to have a chance to
+// hit. Increasing occupied_tile_fraction increases the chance to hit.
+
+// You should not set occupied_tile_fraction > 1.0 as that would mean that hitting an adjacent tile
+// is enough to hit the critter, and the code that follows the shot trajectory looking for hits is
+// not capable of handling that.
+
+// Once you are close enough with the shot for a hit, exactly how close influences the quality of
+// the hit.  missed_by represents how good the hit is on a scale of 0 to 1; 0.0 is a perfect hit;
+// 0.99999.. is the worst possible shot that still connects (where you got just barely within
+// occupied_tile_fraction tiles of where you aimed and just clipped the edge of your target)
+
+// dispersion_sigmas and occupied_tile_fraction can be tuned together to affect the spread of misses
+// without affecting hit or hit quality chances, e.g. if you increase dispersion_sigmas by 10% and
+// also decrease occupied_tile_fraction by 10%, then the cone of misses will get 10% tighter but the
+// overall hit and hit quality chances are unchanged.
 
 // these parameters balance the hit/miss chance:
 
@@ -157,9 +131,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     // shot_dispersion is the actual dispersion for this particular shot, i.e.
     // the error angle between where the shot was aimed and where this one actually went
     // NB: some cases pass dispersion == 0 for a "never misses" shot e.g. bio_magnet,
-    double shot_dispersion = ( dispersion > 0 ? normal_roll( 0.0, dispersion / dispersion_sigmas ) : 0 );
+    double shot_dispersion = dispersion > 0 ? normal_roll( 0.0, dispersion / dispersion_sigmas ) : 0;
 
-    // number of tiles we missed by
     // an isosceles triangle is formed by the intended and actual target tiles
     double missed_by_tiles = iso_tangent( range, shot_dispersion );
 
@@ -1045,10 +1018,6 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
     const double dispersion = p.get_weapon_dispersion( *weapon ) + predicted_recoil + p.recoil_vehicle();
     const double range = rl_dist( p.pos(), target->pos() );
 
-    const double p_headshot = p.projectile_attack_chance( dispersion, range, accuracy_headshot );
-    const double p_goodhit = p.projectile_attack_chance( dispersion, range, accuracy_goodhit );
-    const double p_grazing = p.projectile_attack_chance( dispersion, range, accuracy_grazing );
-
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
     const double steady_score = predicted_recoil - p.effective_dispersion( p.weapon.sight_dispersion() );
@@ -1056,9 +1025,9 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
     const double steadiness = 1.0 - steady_score / MIN_RECOIL;
 
     const std::array<std::pair<double, char>, 3> confidence_ratings = {{
-        std::make_pair( p_headshot, '*' ),
-        std::make_pair( p_goodhit, '+' ),
-        std::make_pair( p_grazing, '|' ) }};
+        std::make_pair( p.projectile_attack_chance( dispersion, range, accuracy_headshot ), '*' ),
+        std::make_pair( p.projectile_attack_chance( dispersion, range, accuracy_goodhit ), '+' ),
+        std::make_pair( p.projectile_attack_chance( dispersion, range, accuracy_grazing ), '|' ) }};
 
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, _( "Confidence" ),
