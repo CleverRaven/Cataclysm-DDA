@@ -139,6 +139,10 @@ size_t inventory_column::get_width() const
     return std::max( get_cells_width(), reserved_width );
 }
 
+size_t inventory_column::get_height() const {
+    return std::min( entries.size(), entries_per_page );
+}
+
 inventory_selector_preset::inventory_selector_preset()
 {
     append_cell(
@@ -889,34 +893,31 @@ inventory_entry *inventory_selector::find_entry_by_invlet( long invlet ) const
     return nullptr;
 }
 
-void inventory_selector::rearrange_columns()
+void inventory_selector::rearrange_columns( size_t client_width )
 {
-    if( !own_gear_column.empty() && is_overflown() ) {
+    if( !own_gear_column.empty() && is_overflown( client_width ) ) {
         own_gear_column.move_entries_to( own_inv_column );
     }
 
-    if( !map_column.empty() && is_overflown() ) {
+    if( !map_column.empty() && is_overflown( client_width ) ) {
         map_column.move_entries_to( own_inv_column );
     }
 }
 
-void inventory_selector::prepare_layout()
+void inventory_selector::prepare_layout( size_t client_width, size_t client_height )
 {
-    if( layout_is_valid ) {
-        return;
-    }
     // This block adds categories and should go before any width evaluations
     for( auto &elem : columns ) {
-        elem->set_height( get_column_height() );
+        elem->set_height( client_height );
         elem->prepare_paging();
     }
     // Handle screen overflow
-    rearrange_columns();
+    rearrange_columns( client_width );
     // If we have a single column and it occupies more than a half of
     // the available with -> expand it
     auto visible_columns = get_visible_columns();
-    if( visible_columns.size() == 1 && are_columns_centered() ) {
-        visible_columns.front()->set_width( getmaxx( w_inv ) - 2 * screen_border_gap );
+    if( visible_columns.size() == 1 && are_columns_centered( client_width ) ) {
+        visible_columns.front()->set_width( client_width );
     }
 
     long custom_invlet = '0';
@@ -926,18 +927,11 @@ void inventory_selector::prepare_layout()
     }
 
     refresh_active_column();
-
-    layout_is_valid = true;
 }
 
-int inventory_selector::get_header_height() const
+size_t inventory_selector::get_header_height() const
 {
     return display_stats || !hint.empty() ? 2 : 1;
-}
-
-int inventory_selector::get_column_height() const
-{
-    return getmaxy( w_inv ) - get_header_height() - 3;
 }
 
 void inventory_selector::draw_header( WINDOW *w ) const
@@ -1009,17 +1003,25 @@ void inventory_selector::refresh_window() const
 
 void inventory_selector::update()
 {
-    prepare_layout();
+    if( !layout_is_valid ) {
+        prepare_layout( getmaxx( w_inv ) - 2 * screen_border_gap,
+                        getmaxy( w_inv ) - get_header_height() - 3 );
+        layout_is_valid = true;
+    }
     refresh_window();
 }
 
 void inventory_selector::draw_columns( WINDOW *w ) const
 {
     const auto columns = get_visible_columns();
-    const int free_space = getmaxx( w ) - get_columns_width( columns ) - 2 * screen_border_gap;
+
+    const int screen_width = getmaxx( w ) - 2 * screen_border_gap;
+    const bool centered = are_columns_centered( screen_width );
+
+    const int free_space = screen_width - get_columns_width( columns );
     const int max_gap = ( columns.size() > 1 ) ? free_space / ( int( columns.size() ) - 1 ) : free_space;
-    const int gap = are_columns_centered() ? max_gap : std::min<int>( max_gap, normal_column_gap );
-    const int gap_rounding_error = ( are_columns_centered() && columns.size() > 1 )
+    const int gap = centered ? max_gap : std::min<int>( max_gap, normal_column_gap );
+    const int gap_rounding_error = centered && columns.size() > 1
                                        ? free_space % ( columns.size() - 1 ) : 0;
 
     size_t x = screen_border_gap;
@@ -1197,21 +1199,20 @@ size_t inventory_selector::get_columns_width( const std::vector<inventory_column
     } );
 }
 
-double inventory_selector::get_columns_occupancy_ratio() const
+double inventory_selector::get_columns_occupancy_ratio( size_t client_width ) const
 {
-    const int available_width = getmaxx( w_inv ) - 2 * screen_border_gap;
     const auto visible_columns = get_visible_columns();
-    const int free_width = available_width - get_columns_width( visible_columns )
+    const int free_width = client_width - get_columns_width( visible_columns )
         - min_column_gap * std::max( int( visible_columns.size() ) - 1, 0 );
-    return 1.0 - double( free_width ) / available_width;
+    return 1.0 - double( free_width ) / client_width;
 }
 
-bool inventory_selector::are_columns_centered() const {
-    return get_columns_occupancy_ratio() >= min_ratio_to_center;
+bool inventory_selector::are_columns_centered( size_t client_width ) const {
+    return get_columns_occupancy_ratio( client_width ) >= min_ratio_to_center;
 }
 
-bool inventory_selector::is_overflown() const {
-    return get_columns_occupancy_ratio() > 1.0;
+bool inventory_selector::is_overflown( size_t client_width ) const {
+    return get_columns_occupancy_ratio( client_width ) > 1.0;
 }
 
 void inventory_selector::toggle_active_column( scroll_direction dir )
@@ -1298,10 +1299,10 @@ inventory_multiselector::inventory_multiselector( const player &p,
     append_column( *selection_col );
 }
 
-void inventory_multiselector::rearrange_columns()
+void inventory_multiselector::rearrange_columns( size_t client_width )
 {
-    selection_col->set_visibility( !is_overflown() );
-    inventory_selector::rearrange_columns();
+    selection_col->set_visibility( !is_overflown( client_width ) );
+    inventory_selector::rearrange_columns( client_width );
 }
 
 void inventory_multiselector::on_entry_add( const inventory_entry &entry )
