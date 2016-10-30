@@ -1,0 +1,27 @@
+[
+  {
+    "id": "death_ray",
+    "type": "GUN",
+    "name": "death ray",
+    "description": "This alien weapon is made of strange lightweight material that doesn't transmit heat.  You managed to locate the trigger, but the device looks totally featureless apart from that.",
+    "weight": 100,
+    "volume": 5,
+    "price": 100000,
+    "to_hit": -1,
+    "bashing": 5,
+    "material": [ "superalloy", "diamond" ],
+    "symbol": "(",
+    "color": "cyan",
+    "ammo": "death_bolt",
+    "skill": "rifle",
+    "range": 30,
+    "ranged_damage": 50,
+    "pierce": 1000,
+    "durability": 10,
+    "loudness": 100,
+    "clip_size": 10,
+    "reload": 0,
+    "ammo_effects": [ "NO_DAMAGE_SCALING", "NO_ITEM_DAMAGE", "LASER", "NOGIB" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NO_RELOAD", "UNBREAKABLE_MELEE" ]
+  }
+]

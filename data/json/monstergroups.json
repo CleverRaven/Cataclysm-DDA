@@ -834,7 +834,9 @@
       { "monster" : "mon_skitterbot", "freq" : 1, "cost_multiplier" : 0, "pack_size" : [8,12] },
       { "monster" : "mon_zombie_hazmat", "freq" : 100, "cost_multiplier" : 0},
       { "monster" : "mon_zombie_bio_op", "freq" : 50, "cost_multiplier" : 5},
-      { "monster" : "mon_zombie_armored", "freq" : 5, "cost_multiplier" : 5}
+      { "monster" : "mon_zombie_armored", "freq" : 5, "cost_multiplier" : 5},
+      { "monster" : "mon_mi_go", "freq" : 3, "cost_multiplier" : 3 },
+      { "monster" : "mon_mi_go_gunner", "freq" : 1, "cost_multiplier" : 10 }
     ]
   },{
     "type":"monstergroup",
@@ -848,7 +850,9 @@
       { "monster" : "mon_skitterbot", "freq" : 145, "cost_multiplier" : 0, "pack_size" : [2,3] },
       { "monster" : "mon_zombie_hazmat", "freq" : 100, "cost_multiplier" : 0},
       { "monster" : "mon_zombie_bio_op", "freq" : 50, "cost_multiplier" : 5},
-      { "monster" : "mon_zombie_armored", "freq" : 5, "cost_multiplier" : 5}
+      { "monster" : "mon_zombie_armored", "freq" : 5, "cost_multiplier" : 5},
+      { "monster" : "mon_mi_go", "freq" : 3, "cost_multiplier" : 3 },
+      { "monster" : "mon_mi_go_gunner", "freq" : 1, "cost_multiplier" : 10 }
     ]
   },{
     "type":"monstergroup",
@@ -858,6 +862,7 @@
       { "monster" : "mon_flying_polyp", "freq" : 25, "cost_multiplier" : 0 },
       { "monster" : "mon_hunting_horror", "freq" : 240, "cost_multiplier" : 0 },
       { "monster" : "mon_mi_go", "freq" : 120, "cost_multiplier" : 0 },
+      { "monster" : "mon_mi_go_gunner", "freq" : 40, "cost_multiplier" : 0 },
       { "monster" : "mon_yugg", "freq" : 70, "cost_multiplier" : 0 },
       { "monster" : "mon_gelatin", "freq" : 120, "cost_multiplier" : 0 },
       { "monster" : "mon_flaming_eye", "freq" : 120, "cost_multiplier" : 0 },

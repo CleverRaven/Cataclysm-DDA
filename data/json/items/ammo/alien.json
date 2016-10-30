@@ -1,0 +1,15 @@
+[
+  {
+    "id": "death_bolt",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "death bolt",
+    "description": "SEEING THIS IS A BUG.",
+    "volume": 0,
+    "symbol": "=",
+    "color": "cyan",
+    "count": 100,
+    "stack_size": 100,
+    "ammo_type": "death_bolt"
+  }
+]
