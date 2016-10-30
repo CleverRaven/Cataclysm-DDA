@@ -441,6 +441,9 @@ task_reason veh_interact::cant_do (char mode)
         break;
 
     case 'w': // assign crew
+        if( g->allies().empty() ) {
+            return INVALID_TARGET;
+        }
         return std::any_of( veh->parts.begin(), veh->parts.end(), []( const vehicle_part &e ) {
             return e.is_seat();
         } ) ? CAN_DO : INVALID_TARGET;
@@ -1141,9 +1144,9 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
     for( auto &pt : veh->parts ) {
         auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
-            if( pt.crew > 0 ) {
-                const npc *who = g->active_npc[g->npc_by_id( pt.crew )];
-                right_print( w, y, 1, pt.passenger_id == pt.crew ? c_green : c_ltgray, "%s", who->name.c_str() );
+            const npc *who = pt.crew();
+            if( who ) {
+                right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_ltgray, "%s", who->name.c_str() );
             }
         };
         if( pt.is_seat() && !pt.is_broken() ) {
@@ -1455,7 +1458,8 @@ void veh_interact::do_assign_crew()
     werase( w_msg );
 
     if( cant_do( 'w' ) != CAN_DO ) {
-        mvwprintz( w_msg, 0, 1, c_ltred, _( "Need at least one seat to assign crew members." ) );
+        fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 1, c_ltred,
+                        _( "Need at least one seat and an ally to assign crew members." ) );
         wrefresh( w_msg );
         return;
     }
@@ -1471,22 +1475,20 @@ void veh_interact::do_assign_crew()
         menu.text = _( "Select crew member" );
         menu.return_invalid = true;
 
-        for( const auto e : g->active_npc ) {
-            if( e->is_friend() ) {
-                menu.addentry( e->getID(), true, -1, e->name );
-            }
+        if( pt.crew() ) {
+            menu.addentry( 0, true, 'c', "Clear assignment" );
+        }
+
+        for( const npc *e : g->allies() ) {
+            menu.addentry( e->getID(), true, -1, e->name );
         }
 
         menu.query();
-        if( menu.ret <= 0 ) {
-            pt.crew = 0;
-        } else {
-            for( auto &e : veh->parts ) {
-                if( sel( e ) && e.crew == menu.ret ) {
-                    e.crew = 0;
-                }
-            }
-            pt.crew = menu.ret;
+        if( menu.ret == 0 ) {
+            pt.unset_crew();
+        } else if( menu > 0 ) {
+            const auto &who = *g->active_npc[g->npc_by_id( menu.ret )];
+            veh->assign_seat( pt, who );
         }
     };
 

@@ -5627,6 +5627,29 @@ std::map<itype_id, long> vehicle::fuels_left() const
     return result;
 }
 
+bool vehicle::assign_seat( vehicle_part &pt, const npc& who )
+{
+    if( !pt.is_seat() || !pt.set_crew( who ) ) {
+        return false;
+    }
+
+    // NPC's can only be assigned to one seat in the vehicle
+    for( auto &e : parts ) {
+        if( &e == &pt ) {
+            continue; // skip this part
+        }
+
+        if( e.is_seat() ) {
+            const npc *n = e.crew();
+            if( n && n->getID() == who.getID() ) {
+                e.unset_crew();
+            }
+        }
+    }
+
+    return true;
+}
+
 /**
  * Opens an openable part at the specified index. If it's a multipart, opens
  * all attached parts as well.
@@ -6195,6 +6218,42 @@ int vehicle_part::wheel_diameter() const
 int vehicle_part::wheel_width() const
 {
     return base.is_wheel() ? base.type->wheel->width : 0;
+}
+
+npc * vehicle_part::crew()
+{
+    if( is_broken() ) {
+        return nullptr;
+    }
+
+    int idx = g->npc_by_id( crew_id );
+    if( idx < 0 ) {
+        return nullptr;
+    }
+    npc *res = g->active_npc[idx];
+    return !res->is_dead_state() && res->is_friend() ? res : nullptr;
+}
+
+const npc * vehicle_part::crew() const
+{
+    return const_cast<vehicle_part *>( this )->crew();
+}
+
+bool vehicle_part::set_crew( const npc &who )
+{
+    if( who.is_dead_state() || !who.is_friend() ) {
+        return false;
+    }
+    if( is_broken() || ( !is_seat() && !is_turret() ) ) {
+        return false;
+    }
+    crew_id = who.getID();
+    return true;
+}
+
+void vehicle_part::unset_crew()
+{
+    crew_id = 0;
 }
 
 bool vehicle_part::is_engine() const

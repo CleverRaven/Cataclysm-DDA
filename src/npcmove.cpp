@@ -570,7 +570,11 @@ void npc::execute_action( npc_action action )
         }
 
         auto seat = std::find_if( veh->parts.begin(), veh->parts.end(), [&]( const vehicle_part &e ) {
-            return e.is_seat() && !e.is_broken() && e.crew == getID();
+            if( !e.is_seat() ) {
+                return false;
+            }
+            const npc *who = e.crew();
+            return who && who->getID() == getID();
         } );
 
         if( seat == veh->parts.end() ) {
