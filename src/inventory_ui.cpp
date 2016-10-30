@@ -244,14 +244,20 @@ size_t inventory_column::next_selectable_index( size_t index, scroll_direction d
         //     N = entries.size()  - number of elements,
         //     k = |step|          - absolute step (k <= N).
         new_index = ( new_index + int( dir ) + entries.size() ) % entries.size();
-    } while( new_index != index && ( !entries[new_index].is_selectable() || is_selected_by_category( entries[new_index] ) ) );
+    } while( new_index != index && !entries[new_index].is_selectable() );
 
     return new_index;
 }
 
 void inventory_column::move_selection( scroll_direction dir )
 {
-    select( next_selectable_index( selected_index, dir ), dir );
+    size_t index = selected_index;
+
+    do {
+        index = next_selectable_index( index, dir );
+    } while( index != selected_index && is_selected_by_category( entries[index] ) );
+
+    select( index, dir );
 }
 
 void inventory_column::move_selection_page( scroll_direction dir )
