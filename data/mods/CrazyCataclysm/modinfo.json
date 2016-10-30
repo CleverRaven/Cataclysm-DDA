@@ -9,12 +9,6 @@
     "category": "misc_additions",
     "path": ""
   },{
-    "type" : "ITEM_WHITELIST",
-    "items" : [
-      "granade",
-      "jacqueshammer"
-    ]
-  },{
     "type" : "MONSTER_WHITELIST",
     "monsters" : [
       "mon_zombie_dancer",

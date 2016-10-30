@@ -19,7 +19,7 @@
     "damage": 48,
     "pierce": 8,
     "dispersion": 30,
-    "recoil": 600,
+    "recoil": 3000,
     "effects": [ "COOKOFF" ]
   },
   {

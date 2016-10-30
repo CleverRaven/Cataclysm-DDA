@@ -134,6 +134,8 @@ class computer
 
         void remove_option( computer_action action );
 
+        void mark_refugee_center();
+
         // OUTPUT/INPUT:
 
         // Reset to a blank terminal (e.g. at start of usage loop)

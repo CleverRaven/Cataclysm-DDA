@@ -11,7 +11,6 @@
 #include "item_stack.h"
 #include "active_item_cache.h"
 #include "string_id.h"
-#include "int_id.h"
 #include "units.h"
 
 #include <vector>
@@ -26,8 +25,7 @@ class player;
 class vehicle;
 class vpart_info;
 enum vpart_bitflags : int;
-using vpart_id = int_id<vpart_info>;
-using vpart_str_id = string_id<vpart_info>;
+using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 
@@ -42,16 +40,11 @@ struct fuel_type {
     /** Id of the item type that represents the fuel. It may not be valid for certain pseudo
      * fuel types like muscle. */
     itype_id id;
-    /** Color when displaying information about. */
-    nc_color color;
     /** See @ref vehicle::consume_fuel */
     int coeff;
-    /** Factor is used when transforming from item charges to fuel amount. */
-    int charges_to_amount_factor;
 };
 
 const std::array<fuel_type, 7> &get_fuel_types();
-int fuel_charges_to_amount_factor( const itype_id &ftype );
 
 enum veh_coll_type : int {
     veh_coll_nothing,  // 0 - nothing,
@@ -106,6 +99,7 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     friend vehicle;
+    friend class veh_interact;
     friend visitable<vehicle_cursor>;
     friend item_location;
     friend class turret_data;
@@ -114,7 +108,10 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     vehicle_part(); /** DefaultConstructible */
 
-    vehicle_part( const vpart_str_id& vp, int dx, int dy, item&& it );
+    vehicle_part( const vpart_id& vp, int dx, int dy, item&& it );
+
+    /** Check this instance is non-null (not default constructed) */
+    explicit operator bool() const;
 
     bool has_flag(int const flag) const noexcept { return flag & flags; }
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
@@ -122,9 +119,6 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /** Translated name of a part inclusive of any current status effects */
     std::string name() const;
-
-    /** Ammo type (@ref ammunition_type) that can be contained by a part */
-    ammotype ammo_type() const;
 
     /** Specific type of fuel, charges or ammunition currently contained by a part */
     itype_id ammo_current() const;
@@ -156,6 +150,12 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /* Can part in current state be reloaded optionally with specific @ref obj */
     bool can_reload( const itype_id &obj = "" ) const;
+
+    /**
+     *  Try adding @param liquid to tank optionally limited by @param qty
+     *  @return whether any of the liquid was consumed (which may be less than qty)
+     */
+    bool fill_with( item &liquid, long qty = LONG_MAX );
 
     /** Current faults affecting this part (if any) */
     const std::set<fault_id>& faults() const;
@@ -195,6 +195,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Can this part store electrical charge? */
     bool is_battery() const;
 
+    /** Is this part a reactor? */
+    bool is_reactor() const;
+
     /** Can this part function as a turret? */
     bool is_turret() const;
 
@@ -230,12 +233,20 @@ public:
     std::pair<tripoint, tripoint> target;
 
 private:
-    vpart_id id;         // id in map of parts (vehicle_part_types key)
+    /** What type of part is this? */
+    vpart_id id;
+
+    /** As a performance optimisation we cache the part information here on first lookup */
+    mutable const vpart_info *info_cache = nullptr;
+
     item base;
     std::list<item> items; // inventory
 
+    /** Preferred ammo type when multiple are available */
+    itype_id ammo_pref = "null";
+
 public:
-    const vpart_str_id &get_id() const;
+    /** Get part definition common to all parts of this type */
     const vpart_info &info() const;
 
     // json saving/loading
@@ -283,6 +294,12 @@ class turret_data {
 
         /** Specific ammo type or returns "null" if no ammo available */
         itype_id ammo_current() const;
+
+        /** What ammo is available for this turret (may be multiple if uses tanks) */
+        std::set<itype_id> ammo_options() const;
+
+        /** Attempts selecting ammo type and returns true if selection was valid */
+        bool ammo_select( const itype_id &ammo );
 
         /** Effects inclusive of any from ammo loaded from tanks */
         std::set<std::string> ammo_effects() const;
@@ -449,12 +466,6 @@ private:
 
     units::volume total_folded_volume() const;
 
-    // Gets the fuel color for a given fuel
-    nc_color get_fuel_color ( const itype_id &fuel_type ) const;
-
-    // Whether a fuel indicator should be printed
-    bool should_print_fuel_indicator (itype_id fuelType, bool fullsize) const;
-
     // Vehical fuel indicator (by fuel)
     void print_fuel_indicator (void *w, int y, int x, itype_id fuelType,
                                bool verbose = false, bool desc = false) const;
@@ -556,19 +567,19 @@ public:
     const vpart_info& part_info (int index, bool include_removed = false) const;
 
     // check if certain part can be mounted at certain position (not accounting frame direction)
-    bool can_mount (int dx, int dy, const vpart_str_id &id) const;
+    bool can_mount (int dx, int dy, const vpart_id &id) const;
 
     // check if certain part can be unmounted
     bool can_unmount (int p) const;
 
     // install a new part to vehicle
-    int install_part (int dx, int dy, const vpart_str_id &id, bool force = false );
+    int install_part (int dx, int dy, const vpart_id &id, bool force = false );
 
     // Install a copy of the given part, skips possibility check
     int install_part (int dx, int dy, const vehicle_part &part);
 
     /** install item @ref obj to vehicle as a vehicle part */
-    int install_part( int dx, int dy, const vpart_str_id& id, item&& obj, bool force = false );
+    int install_part( int dx, int dy, const vpart_id& id, item&& obj, bool force = false );
 
     bool remove_part (int p);
     void part_removal_cleanup ();
@@ -603,6 +614,13 @@ public:
      *  @param enabled if set part must also be enabled to be considered
      */
     bool has_part( const std::string &flag, bool enabled = false ) const;
+
+    /**
+     *  Check if vehicle has at least one unbroken part with @ref flag
+     *  @param pos limit check for parts to this global position
+     *  @param enabled if set part must also be enabled to be considered
+     */
+    bool has_part( const tripoint &pos, const std::string &flag, bool enabled = false ) const;
 
     /**
      *  Get all unbroken vehicle parts with @ref flag
@@ -678,7 +696,7 @@ public:
 
     // get symbol for map
     char part_sym( int p, bool exact = false ) const;
-    const vpart_str_id &part_id_string(int p, char &part_mod) const;
+    const vpart_id &part_id_string(int p, char &part_mod) const;
 
     // get color for map
     nc_color part_color( int p, bool exact = false ) const;
@@ -687,11 +705,11 @@ public:
     int print_part_desc (WINDOW *win, int y1, int max_y, int width, int p, int hl = -1) const;
 
     // Get all printable fuel types
-    std::vector< itype_id > get_printable_fuel_types (bool fullsize) const;
+    std::vector<itype_id> get_printable_fuel_types() const;
 
     // Vehicle fuel indicators (all of them)
-    void print_fuel_indicators (void *w, int y, int x, int startIndex = 0, bool fullsize = false,
-                               bool verbose = false, bool desc = false, bool isHorizontal = false) const;
+    void print_fuel_indicators( WINDOW *win, int y, int x, int startIndex = 0, bool fullsize = false,
+                                bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
 
     // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts (int idir, int dir, const point &pivot);
@@ -734,10 +752,6 @@ public:
     // Checks how much certain fuel left in tanks.
     int fuel_left (const itype_id &ftype, bool recurse = false) const;
     int fuel_capacity (const itype_id &ftype) const;
-
-    // refill fuel tank(s) with given type of fuel
-    // returns amount of leftover fuel
-    int refill (const itype_id &ftype, int amount);
 
     // drains a fuel type (e.g. for the kitchen unit)
     // returns amount actually drained, does not engage reactor
@@ -1092,7 +1106,6 @@ public:
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
     std::set<label> labels;            // stores labels
     std::vector<int> alternators;      // List of alternator indices
-    std::vector<int> fuel;             // List of fuel tank indices
     std::vector<int> engines;          // List of engine indices
     std::vector<int> reactors;         // List of reactor indices
     std::vector<int> solar_panels;     // List of solar panel indices
@@ -1121,7 +1134,6 @@ public:
     int smx, smy, smz;
 
     float alternator_load;
-    calendar last_repair_turn = -1; // Turn it was last repaired, used to make consecutive repairs faster.
 
     // Points occupied by the vehicle
     std::set<tripoint> occupied_points;

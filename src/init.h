@@ -5,11 +5,9 @@
 
 #include <string>
 #include <vector>
+#include <list>
 #include <memory>
 #include <functional>
-
-class Item_factory;
-class vpart_info;
 
 /**
  * This class is used to load (and unload) the dynamic
@@ -49,14 +47,21 @@ class vpart_info;
  */
 class DynamicDataLoader
 {
-        friend Item_factory;
-        friend vpart_info;
+        friend class Item_factory;
+        friend class vpart_info;
+        friend class recipe_dictionary;
 
     public:
         typedef std::string type_string;
         typedef std::map<type_string, std::function<void( JsonObject &, const std::string & )>>
                 t_type_function_map;
         typedef std::vector<std::string> str_vec;
+
+        /**
+         * JSON data dependent upon as-yet unparsed definitions
+         * first: JSON data, second: source identifier
+         */
+        typedef std::list<std::pair<std::string, std::string>> deferred_json;
 
     protected:
         /**
@@ -80,6 +85,12 @@ class DynamicDataLoader
          * @throws std::exception on all kind of errors.
          */
         void load_object( JsonObject &jo, const std::string &src );
+
+        /**
+         * Loads and then removes entries from @param data
+         * @return whether all entries were sucessfully loaded
+         */
+        bool load_deferred( deferred_json &data );
 
         DynamicDataLoader();
         ~DynamicDataLoader();

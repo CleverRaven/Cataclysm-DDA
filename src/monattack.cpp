@@ -1364,8 +1364,10 @@ bool mattack::triffid_heartbeat(monster *z)
         // Maybe remove this and allow spawning monsters above?
         return true;
     }
+
+    static pathfinding_settings root_pathfind( 10, 20, 50, false, false, false );
     if (rl_dist( z->pos(), g->u.pos() ) > 5 &&
-        !g->m.route( g->u.pos(), z->pos(), 10, 20 ).empty()) {
+        !g->m.route( g->u.pos(), z->pos(), root_pathfind ).empty()) {
         add_msg(m_warning, _("The root walls creak around you."));
         for( const tripoint &dest : g->m.points_in_radius( z->pos(), 3 ) ) {
             if (g->is_empty(dest) && one_in(4)) {
@@ -1376,7 +1378,7 @@ bool mattack::triffid_heartbeat(monster *z)
         }
         // Open blank tiles as long as there's no possible route
         int tries = 0;
-        while (g->m.route( g->u.pos(), z->pos(), 10, 20 ).empty() &&
+        while (g->m.route( g->u.pos(), z->pos(), root_pathfind ).empty() &&
                tries < 20) {
             int x = rng(g->u.posx(), z->posx() - 3), y = rng(g->u.posy(), z->posy() - 3);
             tripoint dest( x, y, z->posz() );
@@ -4623,9 +4625,9 @@ bool mattack::stretch_attack(monster *z)
     return true;
 }
 
-bool mattack::dodge_check(monster *z, Creature *target){
+bool mattack::dodge_check( monster *z, Creature *target ) {
     ///\EFFECT_DODGE increases chance of dodging, vs their melee skill
-    int dodge = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L );
+    float dodge = std::max( target->get_dodge() - rng( 0, z->get_hit() ), 0.0f );
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge)))) {
         return true;
     }

@@ -172,7 +172,6 @@
     "damage" : 0,
     "range" : 0,
     "dispersion" : 0,
-    "recoil" : 0,
     "flags" : ["NOGIB"],
     "count" : 4,
     "effects" : ["BEANBAG"]
@@ -191,8 +190,7 @@
     "bashing": 5,
     "cutting": 3,
     "to_hit": -1,
-    "qualities": [["CUT", 1], ["BUTCHER", 6], ["SAW_W", 1], ["AXE", 1], ["HAMMER", 1]],
-    "flags": ["CHOP"]
+    "qualities": [["CUT", 1], ["BUTCHER", 6], ["SAW_W", 1], ["AXE", 1], ["HAMMER", 1]]
   },{
     "id": "atlatl",
     "type": "GUN",
@@ -213,7 +211,6 @@
     "range" : 15,
     "dispersion": 120,
     "sight_dispersion": 140,
-    "recoil": 0,
     "durability": 6,
     "clip_size": 1,
     "reload": 100
@@ -238,7 +235,6 @@
     "damage" : 6,
     "range" : 15,
     "dispersion" : 135,
-    "recoil" : 0,
     "count" : 1,
     "loudness" : 0,
     "stack_size" : 4,
@@ -265,7 +261,6 @@
     "pierce" : 1,
     "range" : 13,
     "dispersion" : 135,
-    "recoil" : 0,
     "count" : 1,
     "loudness" : 0,
     "stack_size" : 4,
@@ -292,7 +287,6 @@
     "pierce" : 2,
     "range" : 10,
     "dispersion" : 135,
-    "recoil" : 0,
     "count" : 1,
     "loudness" : 0,
     "stack_size" : 4,
@@ -319,7 +313,6 @@
     "pierce" : 3,
     "range" : 10,
     "dispersion" : 135,
-    "recoil" : 0,
     "count" : 1,
     "loudness" : 0,
     "stack_size" : 4,
@@ -550,7 +543,6 @@
     "volume": 14,
     "bashing": 11,
     "cutting": 8,
-    "flags" : ["CHOP"],
     "qualities": [["AXE", 2]]
   },{
     "id": "makeshift_shovel",

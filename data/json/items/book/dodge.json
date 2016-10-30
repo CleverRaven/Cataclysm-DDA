@@ -1,0 +1,37 @@
+[
+  {
+    "id": "mag_dodge",
+    "type": "BOOK",
+    "name": "Dance Dance Dance!",
+    "name_plural": "Dance Dance Dance!",
+    "description": "Learn the moves of the trendiest dances right now.",
+    "weight": 60,
+    "volume": 1,
+    "price": 490,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "pink",
+    "skill": "dodge",
+    "max_level": 1,
+    "intelligence": 2,
+    "time": 8,
+    "fun": 1
+  },
+  {
+    "id": "manual_dodge",
+    "type": "BOOK",
+    "name": "The Book of Dances",
+    "name_plural": "Books of Dances",
+    "description": "This massive antique book documents dances from all around the world in great detail.  A perceptive reader could learn a lot about defensive footwork from some of the war dances.",
+    "weight": 2330,
+    "volume": 5,
+    "price": 7200,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "dodge",
+    "max_level": 3,
+    "intelligence": 7,
+    "time": 20
+  }
+]

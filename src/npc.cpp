@@ -59,8 +59,8 @@ const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 
-std::list<item> starting_clothes( const npc_class_id &type, bool male );
-std::list<item> starting_inv( npc *me, const npc_class_id &type );
+void starting_clothes( npc &who, const npc_class_id &type, bool male );
+void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
 {
@@ -94,13 +94,11 @@ npc::npc()
     restock = -1;
     companion_mission = "";
     companion_mission_time = 0;
-    for( auto &skill : Skill::skills ) {
-        set_skill_level( skill.ident(), 0 );
-    }
-
     // ret_null is a bit more than just a regular "null", it is the "fist" for unarmed attacks
     ret_null = item( "null", 0 );
     last_updated = calendar::turn;
+
+    path_settings = pathfinding_settings( 0, 1000, 1000, true, false, true );
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
@@ -118,8 +116,8 @@ standard_npc::standard_npc( const std::string &name, const std::vector<itype_id>
     int_cur = std::max( s_int, 0 );
     int_max = std::max( s_int, 0 );
 
-    for( auto &e: _skills ) {
-        e.second = std::min( std::max( sk_lvl, 0 ), MAX_SKILL );
+    for( auto &e: Skill::skills ) {
+        set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
 
     for( const auto &e : clothing ) {
@@ -189,33 +187,32 @@ npc* npc::find_npc(std::string ident)
     }
 }
 
-void npc::load_npc_template(std::string ident)
+void npc::load_npc_template( const std::string &ident )
 {
-    npc_map::iterator found = _all_npc.find(ident);
-    if (found != _all_npc.end()){
-        idz = found->second.idz;
-        myclass = npc_class_id( found->second.myclass );
-        randomize(myclass);
-        std::string tmpname = found->second.name.c_str();
-        if (tmpname[0] == ','){
-            name = name + found->second.name;
-        } else {
-            name = found->second.name;
-            //Assume if the name is unique, the gender might also be.
-            male = found->second.male;
-        }
-        fac_id = found->second.fac_id;
-        set_fac(fac_id);
-        attitude = found->second.attitude;
-        mission = found->second.mission;
-        chatbin.first_topic = found->second.chatbin.first_topic;
-        if( !found->second.miss_id.is_null() ){
-            add_new_mission( mission::reserve_new( found->second.miss_id, getID() ) );
-        }
-        return;
-    } else {
+    auto found = _all_npc.find( ident );
+    if( found == _all_npc.end() ){
         debugmsg("Tried to get invalid npc: %s", ident.c_str());
         return;
+    }
+
+    idz = found->second.idz;
+    myclass = npc_class_id( found->second.myclass );
+    randomize( myclass );
+    std::string tmpname = found->second.name.c_str();
+    if( tmpname[0] == ',' ){
+        name = name + found->second.name;
+    } else {
+        name = found->second.name;
+        //Assume if the name is unique, the gender might also be.
+        male = found->second.male;
+    }
+    fac_id = found->second.fac_id;
+    set_fac( fac_id );
+    attitude = found->second.attitude;
+    mission = found->second.mission;
+    chatbin.first_topic = found->second.chatbin.first_topic;
+    if( !found->second.miss_id.is_null() ){
+        add_new_mission( mission::reserve_new( found->second.miss_id, getID() ) );
     }
 }
 
@@ -355,11 +352,16 @@ void npc::randomize( const npc_class_id &type )
         hp_cur[i] = hp_max[i];
     }
 
-    starting_weapon(type);
-    worn = starting_clothes(type, male);
-    inv.clear();
-    inv.add_stack(starting_inv(this, type));
+    starting_weapon( type );
+    starting_clothes( *this, type, male );
+    starting_inv( *this, type );
     has_new_items = true;
+
+    for( const auto &pr : type->traits ) {
+        if( rng( 1, 100 ) <= pr.second ) {
+            set_mutation( pr.first );
+        }
+    }
 }
 
 void npc::randomize_from_faction(faction *fac)
@@ -628,60 +630,50 @@ item get_clothing_item( const npc_class_id &type, const std::string &what, bool 
     }
 }
 
-std::list<item> starting_clothes( const npc_class_id &type, bool male )
+void starting_clothes( npc &who, const npc_class_id &type, bool male )
 {
-    std::list<item> ret;
+    std::vector<item> ret;
 
-    item pants = get_clothing_item( type, "pants", male);
-    item shirt = get_clothing_item( type, "shirt", male );
-    item gloves = random_item_from( type, "gloves" );
-    item coat = random_item_from( type, "coat" );
-    item shoes = random_item_from( type, "shoes" );
-    item mask = random_item_from( type, "masks" );
-    // Why is the alternative group not named "npc_glasses" but "npc_eyes"?
-    item glasses = random_item_from( type, "glasses", "npc_eyes" );
-    item hat = random_item_from( type, "hat" );
-    item extras = random_item_from( type, "extra" );
-
-    // Fill in the standard things we wear
-    ret.push_back( shoes );
-    ret.push_back( pants );
-    ret.push_back( shirt );
-    ret.push_back( coat );
-    ret.push_back( gloves );
-    // Bad to wear a mask under a motorcycle helmet
-    if( hat.typeId() != "helmet_motor" ) {
-        ret.push_back( mask );
+    if( item_group::group_is_defined( type->worn_override ) ) {
+        ret = item_group::items_from( type->worn_override );
+    } else {
+        ret.push_back( get_clothing_item( type, "pants", male) );
+        ret.push_back( get_clothing_item( type, "shirt", male ) );
+        ret.push_back( random_item_from( type, "gloves" ) );
+        ret.push_back( random_item_from( type, "coat" ) );
+        ret.push_back( random_item_from( type, "shoes" ) );
+        ret.push_back( random_item_from( type, "masks" ) );
+        // Why is the alternative group not named "npc_glasses" but "npc_eyes"?
+        ret.push_back( random_item_from( type, "glasses", "npc_eyes" ) );
+        ret.push_back( random_item_from( type, "hat" ) );
+        ret.push_back( random_item_from( type, "extra" ) );
     }
-    ret.push_back( glasses );
-    ret.push_back( hat );
-    ret.push_back( extras );
 
-    // the player class and other code all over the place assume that the
-    // worn vector contains *only* armor items. It will *crash* when there
-    // is a non-armor item!
-    // Also: the above might have added null-items that must be filtered out.
-    for( auto it = ret.begin(); it != ret.end(); ) {
-        if( !it->is_null() && it->is_armor() ) {
-            if( !one_in( 3 ) && it->has_flag( "VARSIZE" ) ) {
-                it->item_tags.insert( "FIT" );
-            }
-            ++it;
-        } else {
-            it = ret.erase( it );
+    who.worn.clear();
+    for( item &it : ret ) {
+        if( it.has_flag( "VARSIZE" ) ) {
+            it.item_tags.insert( "FIT" );
+        }
+
+        if( who.can_wear( it ) ) {
+            who.worn.push_back( it );
         }
     }
- return ret;
 }
 
-std::list<item> starting_inv( npc *me, const npc_class_id &type )
+void starting_inv( npc &me, const npc_class_id &type )
 {
     std::list<item> res;
-    res.emplace_back( "lighter" );
+    me.inv.clear();
+    if( item_group::group_is_defined( type->carry_override ) ) {
+        me.inv += item_group::items_from( type->carry_override );
+        return;
+    }
 
+    res.emplace_back( "lighter" );
     // If wielding a gun, get some additional ammo for it
-    if( me->weapon.is_gun() ) {
-        item ammo( default_ammo( me->weapon.ammo_type() ) );
+    if( me.weapon.is_gun() ) {
+        item ammo( default_ammo( me.weapon.ammo_type() ) );
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
@@ -690,11 +682,12 @@ std::list<item> starting_inv( npc *me, const npc_class_id &type )
         }
 
         // @todo Move to npc_class
+        // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
         int qty = 1 + ( type == NC_COWBOY ||
                         type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
-        while ( qty-- != 0 && me->can_pickVolume( ammo ) ) {
+        while ( qty-- != 0 && me.can_pickVolume( ammo ) ) {
             // @todo give NPC a default magazine instead
             res.push_back( ammo );
         }
@@ -704,7 +697,6 @@ std::list<item> starting_inv( npc *me, const npc_class_id &type )
         res.emplace_back( "molotov" );
     }
 
-    // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
     int qty = ( type == NC_EVAC_SHOPKEEP ||
                 type == NC_TRADER ) ? 5 : 2;
     qty = rng( qty, qty * 3 );
@@ -715,7 +707,7 @@ std::list<item> starting_inv( npc *me, const npc_class_id &type )
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
                 tmp.item_tags.insert( "FIT" );
             }
-            if( me->can_pickVolume( tmp ) ) {
+            if( me.can_pickVolume( tmp ) ) {
                 res.push_back( tmp );
             }
         }
@@ -725,7 +717,7 @@ std::list<item> starting_inv( npc *me, const npc_class_id &type )
         return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
 
-    return res;
+    me.inv += res;
 }
 
 void npc::spawn_at(int x, int y, int z)
@@ -737,7 +729,7 @@ void npc::spawn_at(int x, int y, int z)
     position.z = z;
     const point pos_om = sm_to_om_copy( mapx, mapy );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
-    om.npcs.push_back(this);
+    om.add_npc( *this );
 }
 
 void npc::spawn_at_random_city(overmap *o)
@@ -816,6 +808,11 @@ skill_id npc::best_skill() const
 
 void npc::starting_weapon( const npc_class_id &type )
 {
+    if( item_group::group_is_defined( type->weapon_override ) ) {
+        weapon = item_group::item_from( type->weapon_override );
+        return;
+    }
+
     const skill_id best = best_skill();
 
     // if NPC has no suitable skills default to stabbing weapon
@@ -1433,14 +1430,13 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_ammo() ) {
-        // TODO: Magazines! Don't count ammo as usable if the weapon isn't.
-        if( weapon.is_gun() && it.ammo_type() == weapon.ammo_type() ) {
-            ret += 14;
+        if( weapon.is_gun() && it.type->ammo->type.count( weapon.ammo_type() ) ) {
+            ret += 14; // @todo magazines - don't count ammo as usable if the weapon isn't.
         }
 
-        if( has_gun_for_ammo( it.ammo_type() ) ) {
-            // TODO consider making this cumulative (once was)
-            ret += 14;
+        if( std::any_of( it.type->ammo->type.begin(), it.type->ammo->type.end(),
+                         [&]( const ammotype &e ) { return has_gun_for_ammo( e ); } ) ) {
+            ret += 14; // @todo consider making this cumulative (once was)
         }
     }
 
@@ -1590,7 +1586,7 @@ int npc::smash_ability() const
 {
     if( !is_following() || rules.allow_bash ) {
         ///\EFFECT_STR_NPC increases smash ability
-        return str_cur + weapon.type->melee_dam;
+        return str_cur + weapon.damage_melee( DT_BASH );
     }
 
     // Not allowed to bash
@@ -2268,5 +2264,35 @@ bool npc::will_accept_from_player( const item &it ) const
     }
 
     return true;
+}
+
+const pathfinding_settings &npc::get_pathfinding_settings() const
+{
+    path_settings.bash_strength = smash_ability();
+
+    return path_settings;
+}
+
+const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
+{
+    path_settings.bash_strength = no_bashing ? 0 : smash_ability();
+
+    return path_settings;
+}
+
+std::set<tripoint> npc::get_path_avoid() const
+{
+    std::set<tripoint> ret;
+    ret.insert( g->u.pos() );
+    for( size_t i = 0; i < g->num_zombies(); i++ ) {
+        // @todo Cache this somewhere
+        ret.insert( g->zombie( i ).pos() );
+    }
+
+    for( const npc *np : g->active_npc ) {
+        ret.insert( np->pos() );
+    }
+
+    return ret;
 }
 

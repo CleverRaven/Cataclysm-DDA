@@ -1,0 +1,35 @@
+[
+  {
+    "id": "mag_stabbing",
+    "type": "BOOK",
+    "name": "Duelist's Annual",
+    "description": "An annual publication about fencing and dueling.  There are many good illustrations which describe proper technique and form.",
+    "weight": 80,
+    "volume": 1,
+    "price": 450,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "pink",
+    "skill": "stabbing",
+    "max_level": 1,
+    "intelligence": 5,
+    "time": 8,
+    "fun": 1
+  },
+  {
+    "id": "manual_stabbing",
+    "type": "BOOK",
+    "name": "FM 23-25 Army bayonet manual",
+    "description": "A hefty military field manual about bayonet usage and combat theory.",
+    "weight": 454,
+    "volume": 1,
+    "price": 2000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "stabbing",
+    "max_level": 3,
+    "intelligence": 4,
+    "time": 18
+  }
+]

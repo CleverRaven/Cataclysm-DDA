@@ -79,6 +79,22 @@ void MonsterGenerator::reset()
 
     mon_species->reset();
     mon_species->insert( species_type() );
+
+    hallucination_monsters.clear();
+}
+
+static int calc_bash_skill( const mtype &t )
+{
+    int ret = t.melee_dice * t.melee_sides; // IOW, the critter's max bashing damage
+    if( t.has_flag( MF_BORES ) ) {
+        ret *= 15; // This is for stuff that goes through solid rock: minerbots, dark wyrms, etc
+    } else if( t.has_flag( MF_DESTROYS ) ) {
+        ret *= 2.5;
+    } else if( !t.has_flag( MF_BASHES ) ) {
+        ret = 0;
+    }
+
+    return ret;
 }
 
 void MonsterGenerator::finalize_mtypes()
@@ -88,6 +104,18 @@ void MonsterGenerator::finalize_mtypes()
         apply_species_attributes( mon );
         set_mtype_flags( mon );
         set_species_ids( mon );
+
+        if( mon.bash_skill < 0 ) {
+            mon.bash_skill = calc_bash_skill( mon );
+        }
+
+        finalize_pathfinding_settings( mon );
+    }
+
+    for( const auto &mon : mon_templates->get_all() ) {
+        if( !mon.has_flag( MF_NOT_HALLU ) ) {
+            hallucination_monsters.push_back( mon.id );
+        }
     }
 }
 
@@ -130,6 +158,17 @@ void MonsterGenerator::set_mtype_flags( mtype &mon )
          ++trig) {
         ntrig = monster_trigger(*trig);
         mon.bitplacate[ntrig] = true;
+    }
+}
+
+void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
+{
+    if( mon.path_settings.max_length < 0 ) {
+        mon.path_settings.max_length = mon.path_settings.max_dist * 5;
+    }
+
+    if( mon.path_settings.bash_strength < 0 ) {
+        mon.path_settings.bash_strength = mon.bash_skill;
     }
 }
 
@@ -374,6 +413,7 @@ void MonsterGenerator::init_flags()
     flag_map["PATH_AVOID_DANGER_1"] = MF_AVOID_DANGER_1;
     flag_map["PATH_AVOID_DANGER_2"] = MF_AVOID_DANGER_2;
     flag_map["PRIORITIZE_TARGETS"] = MF_PRIORITIZE_TARGETS;
+    flag_map["NOT_HALLUCINATION"] = MF_NOT_HALLU;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
@@ -532,11 +572,24 @@ void mtype::load( JsonObject &jo )
 
     const typed_flag_reader<decltype( gen.flag_map )> flag_reader{ gen.flag_map, "invalid monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
+    // Can't calculate yet - we want all flags first
+    optional( jo, was_loaded, "bash_skill", bash_skill, -1 );
 
     const typed_flag_reader<decltype( gen.trigger_map )> trigger_reader{ gen.trigger_map, "invalid monster trigger" };
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
     optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
+
+    if( jo.has_member( "path_settings" ) ) {
+        auto jop = jo.get_object( "path_settings" );
+        // Here rather than in pathfinding.cpp because we want monster-specific defaults and was_loaded
+        optional( jop, was_loaded, "max_dist", path_settings.max_dist, 0 );
+        optional( jop, was_loaded, "max_length", path_settings.max_length, -1 );
+        optional( jop, was_loaded, "bash_strength", path_settings.bash_strength, -1 );
+        optional( jop, was_loaded, "allow_open_doors", path_settings.allow_open_doors, false );
+        optional( jop, was_loaded, "avoid_traps", path_settings.avoid_traps, false );
+        optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
+    }
 }
 
 void MonsterGenerator::load_species(JsonObject &jo)
@@ -564,14 +617,7 @@ const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
 
 mtype_id MonsterGenerator::get_valid_hallucination() const
 {
-    std::vector<mtype_id> potentials;
-    for( const auto &mon : mon_templates->get_all() ) {
-        if( mon.id != NULL_ID && mon.id != mon_generator ) {
-            potentials.push_back( mon.id );
-        }
-    }
-
-    return random_entry( potentials );
+    return random_entry( hallucination_monsters );
 }
 
 m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const

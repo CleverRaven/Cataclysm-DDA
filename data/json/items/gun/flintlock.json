@@ -9,13 +9,25 @@
     "relative": {
       "weight": -500,
       "volume": -4,
-      "bashing": -5,
       "range": -2,
-      "ranged_damage": -4,
-      "dispersion": 60,
-      "recoil": 15
+      "ranged_damage": -4
     },
-    "proportional": { "reload": 0.5 }
+    "proportional": {
+      "bashing": 0.6,
+      "dispersion": 1.35,
+      "reload": 0.6
+    }
+  },
+  {
+    "id": "carbine_flintlock_double",
+    "copy-from": "carbine_flintlock",
+    "type": "GUN",
+    "name": "double-barrel flintlock carbine",
+    "description": "This is a compact muzzle-loading rifle combining a pair of rudimentary flintlock actions and two barrels.  Whereas an antique multiple-barrel flintlock is an intricate work of gunsmithing, this weapon is simpler yet still serviceable.",
+    "clip_size": 2,
+    "relative": { "weight": 400 },
+    "proportional": { "dispersion": 1.2 },
+    "extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {
     "id": "pistol_flintlock",
@@ -35,35 +47,11 @@
     "range": 2,
     "ranged_damage": 2,
     "dispersion": 520,
-    "recoil": 120,
     "durability": 6,
     "clip_size": 1,
-    "reload": 800,
+    "reload": 600,
     "valid_mod_locations": [ [ "accessories", 1 ] ],
     "flags": [ "NEVER_JAMS" ]
-  },
-  {
-    "id": "pistol_pepperbox",
-    "type": "GUN",
-    "name": "pepperbox pistol",
-    "description": "An elegantly crafted, ornate pepperbox.  This primitive revolver has six barrels, making it unwieldy to shoot.",
-    "weight": 876,
-    "volume": 3,
-    "price": 45000,
-    "to_hit": -4,
-    "bashing": 5,
-    "material": [ "iron", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": "flintlock",
-    "skill": "pistol",
-    "dispersion": 540,
-    "recoil": 120,
-    "durability": 6,
-    "clip_size": 6,
-    "reload": 1200,
-    "valid_mod_locations": [ [ "accessories", 1 ] ],
-    "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
   },
   {
     "id": "rifle_flintlock",
@@ -83,11 +71,9 @@
     "range": 6,
     "ranged_damage": 10,
     "dispersion": 180,
-    "recoil": 30,
     "durability": 6,
     "clip_size": 1,
     "reload": 1200,
-    "built_in_mods": [ "bayonet" ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
   }

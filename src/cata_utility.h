@@ -25,6 +25,9 @@ double round_up( double val, unsigned int dp );
 
 bool isBetween( int test, int down, int up );
 
+/** Does str contain qry via case-insensitive comparison? */
+bool lcmatch( const std::string &str, const std::string &qry );
+
 bool list_items_match( const item *item, std::string sPattern );
 
 std::vector<map_item_stack> filter_item_stacks( std::vector<map_item_stack> stack,
@@ -39,9 +42,16 @@ double logarithmic_range( int min, int max, int pos );
 int bound_mod_to_vals( int val, int mod, int max, int min );
 const char *velocity_units( const units_type vel_units );
 const char *weight_units();
+const char *volume_units_abbr();
+const char *volume_units_long();
 double convert_velocity( int velocity, const units_type vel_units );
 double convert_weight( int weight );
+double convert_volume( int volume );
+double convert_volume( int volume, int *out_scale );
 double temp_to_celsius( double fahrenheit );
+
+double clamp_to_width( double value, int width, int &scale );
+double clamp_to_width( double value, int width, int &scale, bool *out_truncated );
 
 /**
  * From `points`, finds p1 and p2 such that p1.first < x < p2.first

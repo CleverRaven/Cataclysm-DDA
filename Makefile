@@ -95,6 +95,9 @@ endif
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
+# Explicitly let 'char' to be 'signed char' to fix #18776
+OTHERS += -fsigned-char
+
 VERSION = 0.C
 
 TARGET_NAME = cataclysm
@@ -868,9 +871,8 @@ lint-check: json_whitelist $(ODIR)/lint.cache
 $(ODIR)/lint.cache: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
 ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
 	@for file in $?; do \
-	    echo -n "Linting $$file: "; \
-	    perl tools/format/format.pl -cq $$file || exit 65; \
-	    echo OK; \
+	    echo "Linting $$file"; \
+	    perl tools/format/format.pl -cqv $$file || exit 65; \
 	done;
 	@touch $@
 else

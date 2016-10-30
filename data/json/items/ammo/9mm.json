@@ -18,7 +18,7 @@
     "range": 14,
     "damage": 26,
     "dispersion": 60,
-    "recoil": 195,
+    "recoil": 500,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -45,9 +45,9 @@
     "relative": {
       "damage": 2,
       "pierce": 2,
-      "dispersion": -15,
-      "recoil": 30
-    }
+      "dispersion": -15
+    },
+    "proportional": { "recoil": 1.1 }
   },
   {
     "id": "9mmP2",
@@ -61,9 +61,9 @@
     "relative": {
       "damage": 4,
       "pierce": 4,
-      "dispersion": -30,
-      "recoil": 60
-    }
+      "dispersion": -30
+    },
+    "proportional": { "recoil": 1.2 }
   },
   {
     "id": "reloaded_9mm",

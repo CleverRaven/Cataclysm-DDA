@@ -58,6 +58,13 @@
     "conflicts": [ "PARTIAL_DEAF" ]
   },
   {
+    "id": "DIAMOND",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "This item has a <good>diamond coating</good> improving it's <info>cutting damage</info>.",
+    "inherit": false
+  },
+  {
     "id": "ELECTRIC_IMMUNE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -75,7 +82,7 @@
     "id": "FLOTATION",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This clothing <neutral>prevents going underwater</info> including both <good>drowning</good> and <bad>diving</bad>."
+    "info": "This clothing <info>prevents going underwater</info> including both <good>drowning</good> and <bad>diving</bad>."
   },
   {
     "id": "FRAGILE",
@@ -95,6 +102,12 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
+  },
+  {
+    "id": "NO_CVD",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "Item can never be used with a CVD machine."
   },
   {
     "id": "NO_QUICKDRAW",
@@ -275,5 +288,12 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": " This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>.",
     "pseudo": true
+  },
+  {
+    "id": "UNARMED_WEAPON",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
+    "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>." 
   }
 ]

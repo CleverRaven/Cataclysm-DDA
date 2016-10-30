@@ -86,6 +86,7 @@ class MonsterGenerator
         void apply_species_attributes( mtype &mon );
         void set_mtype_flags( mtype &mon );
         void set_species_ids( mtype &mon );
+        void finalize_pathfinding_settings( mtype &mon );
 
         template <typename T> void apply_set_to_set( std::set<T> from, std::set<T> &to );
 
@@ -95,6 +96,7 @@ class MonsterGenerator
         // Using unique_ptr here to avoid including generic_factory.h in this header.
         std::unique_ptr<generic_factory<mtype>> mon_templates;
         std::unique_ptr<generic_factory<species_type>> mon_species;
+        std::vector<mtype_id> hallucination_monsters;
 
         std::map<std::string, phase_id> phase_map;
         std::map<std::string, mon_action_death> death_map;

@@ -45,7 +45,6 @@
     "ammo": "762R",
     "range": 3,
     "dispersion": 90,
-    "recoil": 75,
     "durability": 10,
     "clip_size": 5,
     "barrel_length": 4,

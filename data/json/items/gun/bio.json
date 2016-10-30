@@ -16,11 +16,7 @@
     "dispersion": 30,
     "durability": 10,
     "reload": 500,
-    "ammo_effects": [
-      "PLASMA",
-      "EXPLOSIVE",
-      "FLAME"
-    ],
+    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
     "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   },
   {
@@ -40,10 +36,7 @@
     "dispersion": 10,
     "durability": 10,
     "reload": 500,
-    "ammo_effects": [
-      "LASER",
-      "INCENDIARY"
-    ],
+    "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   },
   {
@@ -62,10 +55,7 @@
     "dispersion": 10,
     "durability": 10,
     "reload": 500,
-    "ammo_effects": [
-      "LIGHTNING",
-      "BOUNCE"
-    ],
+    "ammo_effects": [ "LIGHTNING", "BOUNCE" ],
     "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   }
 ]

@@ -41,7 +41,6 @@ const efftype_id effect_hit_by_player( "hit_by_player" );
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
 static void cycle_action( item& weap, const tripoint &pos );
-double recoil_add( player& p, const item& gun, int shot );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
@@ -125,7 +124,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         double dy = target_arg.y - source.y;
         double rad = atan2( dy, dx );
         // Cap spread at 30 degrees or it gets wild quickly
-        double spread = std::min( dispersion / ARCMIN( 1 ), DEGREES( 30 ) );
+        double spread = std::min( ARCMIN( dispersion ), DEGREES( 30 ) );
         rad += rng_float( -spread, spread );
 
         // @todo This should also represent the miss on z axis
@@ -489,11 +488,25 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname().c_str() );
     }
 
+    // usage of any attached bipod is dependent upon terrain
+    bool bipod = g->m.has_flag_ter_or_furn( "MOUNTABLE", pos() );
+    if( !bipod ) {
+        auto veh = g->m.veh_at( pos() );
+        bipod = veh && veh->has_part( pos(), "MOUNTABLE" );
+    }
+
+    // Up to 50% of recoil can be delayed until end of burst dependent upon relevant skill
+    ///\EFFECT_PISTOL delays effects of recoil during autoamtic fire
+    ///\EFFECT_SMG delays effects of recoil during automatic fire
+    ///\EFFECT_RIFLE delays effects of recoil during automatic fire
+    ///\EFFECT_SHOTGUN delays effects of recoil during automatic fire
+    double absorb = std::min( int( get_skill_level( gun.gun_skill() ) ), MAX_SKILL ) / double( MAX_SKILL * 2 );
+
     tripoint aim = target;
     int curshot = 0;
-    int burst = 0; // count of shots against current target
     int xp = 0; // experience gain for marksmanship skill
     int hits = 0; // total shots on target
+    int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
         if( !handle_gun_damage( gun ) ) {
             break;
@@ -505,7 +518,9 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
         curshot++;
 
-        recoil_add( *this, gun, ++burst );
+        int qty = gun.gun_recoil( *this, bipod );
+        delay  += qty * absorb;
+        recoil += qty * ( 1.0 - absorb );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
@@ -566,9 +581,11 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
                 break; ///\EFFECT_GUN increases chance of firing multiple times in a burst
             }
             aim = random_entry( hostiles )->pos();
-            burst = 0;
         }
     }
+
+    // apply delayed recoil
+    recoil += delay;
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
@@ -670,7 +687,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // The damage dealt due to item's weight and player's strength
     ///\EFFECT_STR increases throwing damage
     int real_dam = ( (thrown.weight() / 452)
-                     + (thrown.type->melee_dam / 2)
+                     + (thrown.damage_melee(DT_BASH) / 2)
                      + (str_cur / 2) )
                    / (2.0 + (vol / 4.0));
     if( real_dam > thrown.weight() / 40 ) {
@@ -728,11 +745,12 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "SHATTER_SELF" );
     }
 
-    if( rng(0, 100) < 20 + skill_level * 12 && thrown.type->melee_cut > 0 ) {
-        const auto type =
-            ( thrown.has_flag("SPEAR") || thrown.has_flag("STAB") ) ?
-            DT_STAB : DT_CUT;
-        proj.impact.add_damage( type, thrown.type->melee_cut );
+    if( rng(0, 100) < 20 + skill_level * 12 ) {
+        int cut = thrown.damage_melee( DT_CUT );
+        int stab = thrown.damage_melee( DT_STAB );
+        if( cut > 0 || stab > 0 ) {
+            proj.impact.add_damage( cut > stab ? DT_CUT : DT_STAB, std::max( cut, stab ) );
+        }
     }
 
     // Put the item into the projectile
@@ -794,7 +812,8 @@ static std::string print_recoil( const player &p)
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
 static int draw_targeting_window( WINDOW *w_target, const std::string &name, player &p, target_mode mode,
-                                  input_context &ctxt, const std::vector<aim_type> &aim_types )
+                                  input_context &ctxt, const std::vector<aim_type> &aim_types,
+                                  bool switch_mode, bool switch_ammo )
 {
     draw_border(w_target);
     // Draw the "title" of the window.
@@ -826,12 +845,16 @@ static int draw_targeting_window( WINDOW *w_target, const std::string &name, pla
         // Reserve a line for mouse instructions.
         --text_y;
     }
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
-        // Reserve lines for aiming and firing instructions.
+
+    // Reserve lines for aiming and firing instructions.
+    if( mode == TARGET_MODE_FIRE ) {
         text_y -= ( 3 + aim_types.size() );
     } else {
         text_y -= 2;
     }
+
+    text_y -= switch_mode ? 1 : 0;
+    text_y -= switch_ammo ? 1 : 0;
 
     // The -1 is the -2 from above, but adjusted since this is a total, not an index.
     int lines_used = getmaxy(w_target) - 1 - text_y;
@@ -859,8 +882,11 @@ static int draw_targeting_window( WINDOW *w_target, const std::string &name, pla
         mvwprintz( w_target, text_y++, 1, c_white, _( "%c to switch aiming modes." ), front_or( "SWITCH_AIM", ' ' ) );
     }
 
-    if( mode == TARGET_MODE_TURRET_MANUAL ) {
+    if( switch_mode ) {
         mvwprintz( w_target, text_y++, 1, c_white, _( "%c to switch firing modes." ), front_or( "SWITCH_MODE", ' ' ) );
+    }
+    if( switch_ammo) {
+        mvwprintz( w_target, text_y++, 1, c_white, _( "%c to switch ammo." ), front_or( "SWITCH_AMMO", ' ' ) );
     }
 
     if( is_mouse_enabled() ) {
@@ -962,7 +988,9 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
 }
 
 // TODO: Shunt redundant drawing code elsewhere
-std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int range )
+std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int range, const itype *ammo,
+                                          const target_callback &on_mode_change,
+                                          const target_callback &on_ammo_change )
 {
     static const std::vector<tripoint> empty_result{};
     std::vector<tripoint> ret;
@@ -1029,13 +1057,12 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
     ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "SWITCH_MODE" );
+    ctxt.register_action( "SWITCH_AMMO" );
 
     if( mode == TARGET_MODE_FIRE ) {
         ctxt.register_action( "AIM" );
         ctxt.register_action( "SWITCH_AIM" );
-    }
-    if( mode == TARGET_MODE_TURRET_MANUAL ) {
-        ctxt.register_action( "SWITCH_MODE" );
     }
 
     std::vector<aim_type> aim_types;
@@ -1089,7 +1116,10 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         aim_mode = aim_types.begin();
     }
 
-    int num_instruction_lines = draw_targeting_window( w_target, relevant ? relevant->tname() : "", u, mode, ctxt, aim_types );
+    int num_instruction_lines = draw_targeting_window( w_target, relevant ? relevant->tname() : "", u,
+                                                       mode, ctxt, aim_types,
+                                                       bool( on_mode_change ), bool( on_ammo_change ) );
+
     bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
     std::string enemiesmsg;
@@ -1191,11 +1221,17 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                            m.mode.c_str(), m.qty );
             }
 
-            if( m->ammo_data() ) {
-                mvwprintw( w_target, line_number++, 1,
-                           m->ammo_capacity() > 1 ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
-                           item::nname( m->ammo_current(), m->ammo_remaining() ).c_str(),
-                           m->ammo_remaining(), m->ammo_capacity() );
+            const itype *cur = ammo ? ammo : m->ammo_data();
+            if( cur ) {
+                auto str = string_format( m->ammo_remaining() ?
+                                          _( "Ammo: <color_%s>%s</color> (%d/%d)" ) :
+                                          _( "Ammo: <color_%s>%s</color>" ),
+                                          get_all_colors().get_name( cur->color ).c_str(),
+                                          cur->nname( std::max( m->ammo_remaining(), 1L ) ).c_str(),
+                                          m->ammo_remaining(), m->ammo_capacity() );
+
+                nc_color col = c_ltgray;
+                print_colored_text( w_target, line_number++, 1, col, col, str );
             }
             line_number++;
         }
@@ -1238,7 +1274,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         refresh();
 
         std::string action;
-        if( u.activity.type == ACT_AIM && u.activity.str_values[0] != "AIM" ) {
+        if( u.activity.id() == activity_id( "ACT_AIM" ) && u.activity.str_values[0] != "AIM" ) {
             // If we're in 'aim and shoot' mode,
             // skip retrieving input and go straight to the action.
             action = u.activity.str_values[0];
@@ -1313,14 +1349,20 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             }
             if( u.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
-                u.assign_activity( ACT_AIM, 0, 0 );
+                u.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
                 u.activity.str_values.push_back( "AIM" );
                 u.view_offset = old_offset;
                 set_last_target( dst );
                 return empty_result;
             }
         } else if( action == "SWITCH_MODE" ) {
-            relevant->gun_cycle_mode();
+            if( on_mode_change ) {
+                ammo = on_mode_change( relevant );
+            }
+        } else if( action == "SWITCH_AMMO" ) {
+            if( on_ammo_change ) {
+                ammo = on_ammo_change( relevant );
+            }
         } else if( action == "SWITCH_AIM" ) {
             aim_mode++;
             if( aim_mode == aim_types.end() ) {
@@ -1368,7 +1410,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 // Set the string value of the aim action to the right thing
                 // so we re-enter this loop.
                 // Also clear target vector, but leave target selected.
-                u.assign_activity( ACT_AIM, 0, 0 );
+                u.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
                 u.activity.str_values.push_back( action );
                 u.view_offset = old_offset;
                 set_last_target( dst );
@@ -1652,26 +1694,6 @@ double player::get_weapon_dispersion( const item &obj ) const
     return std::max( dispersion, 0.0 );
 }
 
-double recoil_add( player& p, const item &gun, int shot )
-{
-    double qty = gun.gun_recoil();
-
-    ///\EFFECT_STR reduces recoil when using guns and tools
-    qty -= rng( 7, 15 ) * p.get_str();
-
-    ///\EFFECT_PISTOL randomly decreases recoil with appropriate guns
-    ///\EFFECT_RIFLE randomly decreases recoil with appropriate guns
-    ///\EFFECT_SHOTGUN randomly decreases recoil with appropriate guns
-    ///\EFFECT_SMG randomly decreases recoil with appropriate guns
-    qty -= rng( 0, p.get_skill_level( gun.gun_skill() ) * 7 );
-
-    // when firing in bursts reduce the penalty from each sucessive shot
-    double k = 1.6; // 5 round burst is equivalent to ~2 individually aimed shots
-    qty *= pow( 1.0 / sqrt( shot ), k );
-
-    return p.recoil += std::max( qty, 0.0 );
-}
-
 void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
     const auto &proj = attack.proj;
@@ -1783,14 +1805,11 @@ double player::gun_value( const item &weap, long ammo ) const
     tmp.ammo_set( weap.ammo_default() );
     int total_dispersion = get_weapon_dispersion( tmp ) + effective_dispersion( tmp.sight_dispersion() );
 
-    int total_recoil = weap.gun_recoil( false );
-
     if( def_ammo_i != nullptr && def_ammo_i->ammo != nullptr ) {
         const islot_ammo &def_ammo = *def_ammo_i->ammo;
         damage_factor += def_ammo.damage;
         damage_factor += def_ammo.pierce / 2;
         total_dispersion += def_ammo.dispersion;
-        total_recoil += def_ammo.recoil;
     }
 
     int move_cost = time_to_fire( *this, *weap.type );
@@ -1836,9 +1855,7 @@ double player::gun_value( const item &weap, long ammo ) const
     int melee_penalty = weapon.volume() / 250_ml - get_skill_level( skill_dodge );
     if( melee_penalty <= 0 ) {
         // Dispersion matters less if you can just use the gun in melee
-        total_dispersion = std::min<int>(
-            ( total_dispersion + total_recoil ) / move_cost_factor,
-            total_dispersion );
+        total_dispersion = std::min<int>( total_dispersion / move_cost_factor, total_dispersion );
     }
 
     float dispersion_factor = multi_lerp( dispersion_thresholds, total_dispersion );

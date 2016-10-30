@@ -12,6 +12,9 @@
 #include "debug.h"
 #include "mod_manager.h"
 
+#include <algorithm>
+#include <cstring>
+
 std::vector<std::string> extract_mod_selection( std::vector<const char *> &arg_vec )
 {
     std::vector<std::string> ret;
@@ -45,7 +48,7 @@ std::vector<std::string> extract_mod_selection( std::vector<const char *> &arg_v
     return ret;
 }
 
-void init_global_game_state( std::vector<const char *> &arg_vec )
+void init_global_game_state( const std::vector<std::string> &mods )
 {
     PATH_INFO::init_base_path("");
     PATH_INFO::init_user_dir("./");
@@ -67,8 +70,6 @@ void init_global_game_state( std::vector<const char *> &arg_vec )
     get_options().load();
     init_colors();
 
-    const std::vector<std::string> mods = extract_mod_selection( arg_vec );
-
     g = new game;
 
     g->load_static_data();
@@ -80,13 +81,8 @@ void init_global_game_state( std::vector<const char *> &arg_vec )
     world_generator->set_active_world(test_world);
     assert( world_generator->active_world != NULL );
 
-    try {
-        g->load_world_modfiles( world_generator->active_world );
-    } catch( const std::exception &err ) {
-        fprintf( stderr, "Error loading data from json: %s", err.what() );
-        assert( !"Loading from JSON failed. Run `./cataclysm --check-mods`" );
-    }
-
+    g->load_core_data();
+    g->load_world_modfiles( world_generator->active_world );
 
     g->u = player();
     g->u.create(PLTYPE_NOW);
@@ -96,18 +92,60 @@ void init_global_game_state( std::vector<const char *> &arg_vec )
     g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
 }
 
+// Checks if any of the flags are in container, removes them all
+bool check_remove_flags( std::vector<const char *> &cont, const std::vector<const char *> &flags )
+{
+    bool has_any = false;
+    auto iter = flags.begin();
+    while( iter != flags.end() ) {
+        auto found = std::find_if( cont.begin(), cont.end(),
+        [iter]( const char *c ) {
+            return strcmp( c, *iter ) == 0;
+        } );
+        if( found == cont.end() ) {
+            iter++;
+        } else {
+            cont.erase( found );
+            has_any = true;
+        }
+    }
+
+    return has_any;
+}
+
 int main( int argc, const char *argv[] )
 {
+    Catch::Session session;
+
     std::vector<const char *> arg_vec( argv, argv + argc );
+
+    const std::vector<std::string> mods = extract_mod_selection( arg_vec );
+    bool dont_save = check_remove_flags( arg_vec, { "-D", "--drop-world" } );
+
+    // Note: this must not be invoked before all DDA-specific flags are stripped from arg_vec!
+    int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
+    if( result != 0 || session.configData().showHelp ) {
+        printf( "CataclysmDDA specific options:\n" );
+        printf( "  --mods=<mod1,mod2,...>       Loads the list of mods before executing tests.\n" );
+        printf( "  -D, --drop-world             Don't save the world on test failure.\n" );
+        return result;
+    }
+
     test_mode = true;
 
-    // TODO: Only init game if we're running tests that need it.
-    init_global_game_state( arg_vec );
+    try {
+        // TODO: Only init game if we're running tests that need it.
+        init_global_game_state( mods );
+    } catch( const std::exception &err ) {
+        fprintf( stderr, "Terminated: %s\n", err.what() );
+        fprintf( stderr, "Make sure that you're in the correct working directory and your data isn't corrupted.\n" );
+        return EXIT_FAILURE;
+    }
 
-    int result = Catch::Session().run( arg_vec.size(), &arg_vec[0] );
+    result = session.run();
 
     auto world_name = world_generator->active_world->world_name;
-    if( result == 0 ) {
+    if( result == 0 || dont_save ) {
         g->delete_world(world_name, true);
     } else {
         printf("Test world \"%s\" left for inspection.\n", world_name.c_str());

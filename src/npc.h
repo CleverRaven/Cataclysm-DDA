@@ -548,7 +548,7 @@ public:
 
  static void load_npc(JsonObject &jsobj);
  npc* find_npc(std::string ident);
- void load_npc_template(std::string ident);
+ void load_npc_template( const std::string &ident );
 
     // Generating our stats, etc.
     void randomize( const npc_class_id &type = NULL_ID );
@@ -742,6 +742,10 @@ public:
  void avoid_friendly_fire(); // Maneuver so we won't shoot u
  void move_away_from( const tripoint &p, bool no_bashing = false );
  void move_pause(); // Same as if the player pressed '.'
+
+    const pathfinding_settings &get_pathfinding_settings() const override;
+    const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
+    std::set<tripoint> get_path_avoid() const override;
 
 // Item discovery and fetching
  void find_item  (); // Look around and pick an item

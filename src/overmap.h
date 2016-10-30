@@ -110,7 +110,7 @@ struct sid_or_sid;
  */
 struct regional_settings {
     std::string id;           //
-    std::string default_oter; // 'field'
+    oter_str_id default_oter; // 'field'
 
     id_or_id<ter_t> default_groundcover; // ie, 'grass_or_dirt'
     std::shared_ptr<sid_or_sid> default_groundcover_str;
@@ -222,7 +222,6 @@ class overmap
     const oter_id get_ter(const int x, const int y, const int z) const;
     bool&   seen(int x, int y, int z);
     bool&   explored(int x, int y, int z);
-    bool is_road_or_highway(int x, int y, int z);
     bool is_explored(int const x, int const y, int const z) const;
 
     bool has_note(int x, int y, int z) const;
@@ -240,6 +239,12 @@ class overmap
      */
     void set_scent( const tripoint &loc, scent_trace &new_scent );
 
+    /**
+     * @returns Whether @param loc is within desired bounds of the overmap
+     * @param clearance Minimal distance from the edges of the overmap
+     */
+    static bool inbounds( const tripoint &loc, int clearance = 0 );
+    static bool inbounds( int x, int y, int z, int clearance = 0 ); /// @todo This one should be obsoleted
     /**
      * Display a list of all notes on this z-level. Let the user choose
      * one or none of them.
@@ -323,6 +328,8 @@ public:
     int num_mongroups() const;
     bool monster_check(const std::pair<tripoint, monster> &candidate) const;
     int num_monsters() const;
+
+    void add_npc( npc &who );
     // TODO: make private
   std::vector<radio_tower> radios;
   std::vector<npc *> npcs;
@@ -450,8 +457,6 @@ public:
 //std::ostream & operator<<(std::ostream &, const overmap &);
 //std::ostream & operator<<(std::ostream &, const city &);
 
-extern std::unordered_map<std::string,oter_t> otermap;
-extern std::vector<oter_t> oterlist;
 //extern const regional_settings default_region_settings;
 typedef std::unordered_map<std::string, regional_settings> t_regional_settings_map;
 typedef t_regional_settings_map::const_iterator t_regional_settings_map_citr;

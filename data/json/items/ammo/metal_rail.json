@@ -19,7 +19,6 @@
     "damage": 70,
     "pierce": 25,
     "dispersion": 150,
-    "recoil": 300,
     "effects": [ "RECYCLED" ]
   },
   {
@@ -35,7 +34,6 @@
     "material": [ "steel" ],
     "color": "light_gray",
     "dispersion": 0,
-    "recoil": 0,
     "effects": [ "NEVER_MISFIRES" ],
     "relative": {
       "range": 10,

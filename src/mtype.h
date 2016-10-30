@@ -8,6 +8,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "damage.h"
+#include "pathfinding.h"
 
 #include <bitset>
 #include <string>
@@ -148,6 +149,7 @@ enum m_flag : int {
     MF_AVOID_DANGER_1,      // This monster will path around some dangers instead of through them.
     MF_AVOID_DANGER_2,      // This monster will path around most dangers instead of through them.
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
+    MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -309,6 +311,10 @@ struct mtype {
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
         mtype_id burn_into;
+
+        // Monster's ability to destroy terrain and vehicles
+        int bash_skill;
+
         // Default constructor
         mtype ();
         /**
@@ -325,6 +331,8 @@ struct mtype {
 
         /** Emission sources that cycle each turn the monster remains alive */
         std::set<emit_id> emit_fields;
+
+        pathfinding_settings path_settings;
 
         // Used to fetch the properly pluralized monster type name
         std::string nname(unsigned int quantity = 1) const;

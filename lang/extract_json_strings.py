@@ -67,6 +67,7 @@ ignorable = {
 #   "sound" member
 #   "messages" member containing an array of translatable strings
 automatically_convertible = {
+    "activity_type",
     "AMMO",
     "ammunition_type",
     "ARMOR",
@@ -86,6 +87,7 @@ automatically_convertible = {
     "GUNMOD",
     "item_action",
     "ITEM_CATEGORY",
+    "json_flag",
     "keybinding",
     "MAGAZINE",
     "mission_definition",
@@ -101,6 +103,7 @@ automatically_convertible = {
     "STATIONARY_ITEM",
     "terrain",
     "TOOL",
+    "TOOLMOD",
     "TOOL_ARMOR",
     "tool_quality",
     "trap",
@@ -126,6 +129,7 @@ needs_plural = {
     "MONSTER"
     "STATIONARY_ITEM",
     "TOOL",
+    "TOOLMOD",
     "TOOL_ARMOR",
     "VAR_VEH_PART",
 }
@@ -643,6 +647,13 @@ def extract(item, infilename):
         for mod_loc in item["valid_mod_locations"]:
             writestr(outfile, mod_loc[0], **kwargs)
             wrote = True
+    if "info" in item:
+       c = "Please leave anything in <angle brackets> unchanged."
+       writestr(outfile, item["info"], comment=c, **kwargs)
+       wrote = True
+    if "stop_phrase" in item:
+       writestr(outfile, item["stop_phrase"], **kwargs)
+       wrote = True
     if not wrote:
         print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))
 

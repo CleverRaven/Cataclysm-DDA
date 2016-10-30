@@ -226,26 +226,29 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
     if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN ) {
         const double weight_carried = convert_weight( g->u.weight_carried() );
         const double weight_capacity = convert_weight( g->u.weight_capacity() );
-        const double volume_carried = round_up( units::to_liter( g->u.volume_carried() ), 1 );
-        const double volume_capacity = round_up( units::to_liter( g->u.volume_capacity() ), 1 );
+        std::string volume_carried = format_volume( g->u.volume_carried() );
+        std::string volume_capacity = format_volume( g->u.volume_capacity() );
         // align right, so calculate formated head length 
-        const std::string head = string_format( "%.1f/%.1f %s  %.1f/%.1f L",
+        const std::string head = string_format( "%.1f/%.1f %s  %s/%s %s",
                                                 weight_carried, weight_capacity, weight_units(),
-                                                volume_carried, volume_capacity );
+                                                volume_carried.c_str(),
+                                                volume_capacity.c_str(),
+                                                volume_units_abbr() );
         const int hrightcol = columns - 1 - head.length();
         nc_color color = weight_carried > weight_capacity ? c_red : c_ltgreen;
         mvwprintz( window, 4, hrightcol, color, "%.1f", weight_carried );
         wprintz( window, c_ltgray, "/%.1f %s  ", weight_capacity, weight_units() );
-        color = volume_carried > volume_capacity ? c_red : c_ltgreen;
-        wprintz( window, color, "%.1f", volume_carried );
-        wprintz( window, c_ltgray, "/%-.1f L", volume_capacity );
+        color = g->u.volume_carried().value() > g->u.volume_capacity().value() ? c_red : c_ltgreen;
+        wprintz( window, color, volume_carried.c_str() );
+        wprintz( window, c_ltgray, "/%s %s", volume_capacity.c_str(), volume_units_abbr() );
     } else { //print square's current and total weight + volume
         std::string head;
         if( pane.get_area() == AIM_ALL ) {
-            head = string_format( "%3.1f %s  %.1f L",
+            head = string_format( "%3.1f %s  %s %s",
                                   convert_weight( squares[pane.get_area()].weight ),
                                   weight_units(),
-                                  round_up( units::to_liter( squares[pane.get_area()].volume ), 1 ) );
+                                  format_volume( squares[pane.get_area()].volume ).c_str(),
+                                  volume_units_abbr() );
         } else {
             units::volume maxvolume = 0;
             auto &s = squares[pane.get_area()];
@@ -256,11 +259,12 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             } else {
                 maxvolume = g->m.max_volume( s.pos );
             }
-            head = string_format( "%3.1f %s  %.1f/%-.1f L",
+            head = string_format( "%3.1f %s  %s/%s %s",
                                   convert_weight( s.weight ),
                                   weight_units(),
-                                  round_up( units::to_liter( s.volume ), 1 ),
-                                  round_up( units::to_liter( maxvolume ), 1 ) );
+                                  format_volume( s.volume ).c_str(),
+                                  format_volume( maxvolume ).c_str(),
+                                  volume_units_abbr() );
         }
         mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str() );
     }
@@ -268,10 +272,10 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
     //print header row and determine max item name length
     const int lastcol = columns - 2; // Last printable column
     const size_t name_startpos = ( compact ? 1 : 4 );
-    const size_t src_startpos = lastcol - 17;
-    const size_t amt_startpos = lastcol - 14;
-    const size_t weight_startpos = lastcol - 9;
-    const size_t vol_startpos = lastcol - 3;
+    const size_t src_startpos = lastcol - 18;
+    const size_t amt_startpos = lastcol - 15;
+    const size_t weight_startpos = lastcol - 10;
+    const size_t vol_startpos = lastcol - 4;
     int max_name_length = amt_startpos - name_startpos - 1; // Default name length
 
     //~ Items list header. Table fields length without spaces: amt - 4, weight - 5, vol - 4.
@@ -362,22 +366,15 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         mvwprintz( window, 6 + x, weight_startpos, print_color, "%5.*f", w_precision, it_weight );
 
         //print volume column
-        double it_vol = units::to_liter( sitem.volume );
-        size_t v_precision;
-        print_color = ( it_vol > 0 ) ? thiscolor : thiscolordark;
-        if( it_vol >= 100 ) {
-            if( it_vol >= 10000 ) {
-                it_vol = 9999;
-                print_color = selected ? hilite( c_red ) : c_red;
-            }
-            v_precision = 0;
-        } else if( it_vol >= 10 ) {
-            v_precision = 1;
+        bool it_vol_truncated = false;
+        double it_vol_value = 0.0;
+        std::string it_vol = format_volume( sitem.volume, 5, &it_vol_truncated, &it_vol_value );
+        if( it_vol_truncated && it_vol_value > 0.0 ) {
+            print_color = selected ? hilite( c_red ) : c_red;
         } else {
-            v_precision = 2;
+            print_color = ( sitem.volume.value() > 0 ) ? thiscolor : thiscolordark;
         }
-        mvwprintz( window, 6 + x, vol_startpos, print_color, "%4.*f",
-                   v_precision, round_up( it_vol, v_precision ) );
+        mvwprintz( window, 6 + x, vol_startpos, print_color, "%s", it_vol.c_str() );
 
         if( active && sitem.autopickup ) {
             mvwprintz( window, 6 + x, 1, magenta_background( it.color_in_inventory() ), "%s",
@@ -1188,7 +1185,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
         // restore the pane to its former glory
         panes[src] = shadow;
         // make it auto loop back, if not already doing so
-        if(!done && g->u.has_activity(ACT_NULL)) {
+        if( !done && !g->u.activity ) {
             do_return_entry();
         }
         return true;
@@ -1269,13 +1266,13 @@ bool advanced_inventory::move_all_items(bool nested_call)
         g->u.drop( dropped, g->u.pos() + darea.off );
     } else {
         if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
-            g->u.assign_activity( ACT_PICKUP, 0 );
+            g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
             g->u.activity.values.push_back( spane.in_vehicle() );
             if( dpane.get_area() == AIM_WORN ) {
                 g->u.activity.str_values.push_back( "equip" );
             }
         } else { // Vehicle and map destinations are handled the same.
-            g->u.assign_activity( ACT_MOVE_ITEMS, 0 );
+            g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
             // store whether the source is from a vehicle (first entry)
             g->u.activity.values.push_back(spane.in_vehicle());
             // store whether the destination is a vehicle
@@ -1663,10 +1660,10 @@ void advanced_inventory::display()
                 // If examining the item did not create a new activity, we have to remove
                 // "return to AIM".
                 do_return_entry();
-                assert( g->u.has_activity( ACT_ADV_INVENTORY ) );
+                assert( g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) );
                 ret = g->inventory_item_menu( idx, info_startx, info_width,
                                               src == left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
-                if( !g->u.has_activity( ACT_ADV_INVENTORY ) ) {
+                if( !g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) ) {
                     exit = true;
                 } else {
                     g->u.cancel_activity();
@@ -1989,6 +1986,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
             popup( _( "You can't partially unload liquids from unsealable container." ) );
             return false;
         }
+        src_container.on_contents_changed();
     }
 
     std::string err;
@@ -2463,7 +2461,7 @@ void advanced_inventory::do_return_entry()
 {
     // only save pane settings
     save_settings( true );
-    g->u.assign_activity( ACT_ADV_INVENTORY, -1 );
+    g->u.assign_activity( activity_id( "ACT_ADV_INVENTORY" ) );
     g->u.activity.auto_resume = true;
     uistate.adv_inv_exit_code = exit_re_entry;
 }

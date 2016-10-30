@@ -16,7 +16,6 @@
     "ammo": "223",
     "ranged_damage": -1,
     "dispersion": 150,
-    "recoil": -15,
     "durability": 8,
     "burst": 3,
     "barrel_length": 1,
@@ -68,7 +67,6 @@
     "ammo": "223",
     "ranged_damage": -2,
     "dispersion": 180,
-    "recoil": 30,
     "durability": 8,
     "burst": 6,
     "magazines": [
@@ -93,7 +91,6 @@
     "color": "dark_gray",
     "ammo": "223",
     "dispersion": 150,
-    "recoil": 75,
     "durability": 8,
     "burst": 15,
     "magazines": [
@@ -122,7 +119,6 @@
     "range": -8,
     "ranged_damage": -4,
     "dispersion": 380,
-    "recoil": 120,
     "durability": 8,
     "clip_size": 5,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
@@ -143,7 +139,6 @@
     "ammo": "223",
     "ranged_damage": "-1",
     "dispersion": 90,
-    "recoil": -150,
     "durability": 3,
     "burst": 3,
     "valid_mod_locations": [ [ "accessories", 2 ] ],
@@ -195,8 +190,7 @@
       "weight": 2000,
       "volume": 7,
       "ranged_damage": 2,
-      "dispersion": 60,
-      "recoil": -150
+      "dispersion": 60
     }
   },
   {
@@ -209,8 +203,7 @@
     "durability": 9,
     "relative": {
       "weight": 1200,
-      "volume": 2,
-      "recoil": -50
+      "volume": 2
     }
   },
   {
@@ -219,7 +212,7 @@
     "type": "GUN",
     "name": "M249",
     "description": "The M249 is a mountable machine gun used by the US military and SWAT teams.  Quite inaccurate and difficult to control, the M249 is designed to fire many rounds very quickly.",
-    "weight": 6800,
+    "weight": 6400,
     "volume": 12,
     "price": 750000,
     "to_hit": -1,
@@ -229,10 +222,10 @@
     "color": "dark_gray",
     "ammo": "223",
     "dispersion": 200,
-    "recoil": 90,
     "durability": 7,
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 25 ] ],
+    "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [
       [ "223", [ "stanag50", "stanag30", "belt223" ] ],
@@ -274,7 +267,6 @@
     "ammo": "223",
     "ranged_damage": -2,
     "dispersion": 180,
-    "recoil": 30,
     "durability": 6,
     "burst": 10,
     "magazines": [
@@ -288,7 +280,7 @@
     "copy-from": "rifle_semi",
     "type": "GUN",
     "name": "Ruger Mini-14",
-    "description": "A small, lightweight semi-auto carbine designed for military use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations.",
+    "description": "A small, lightweight semi-auto carbine designed for civilian and police use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations.",
     "weight": 2800,
     "volume": 8,
     "price": 92100,
@@ -300,7 +292,6 @@
     "ammo": "223",
     "ranged_damage": 1,
     "dispersion": 100,
-    "recoil": -60,
     "durability": 8,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
@@ -327,7 +318,6 @@
     "ammo": "223",
     "ranged_damage": -2,
     "dispersion": 150,
-    "recoil": -60,
     "durability": 8,
     "burst": 10,
     "magazines": [
@@ -341,7 +331,7 @@
     "copy-from": "rifle_auto",
     "type": "GUN",
     "name": "SIG 552",
-    "description": "A compact selective fire automatic rifle featuring an integrated folding stock.",
+    "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.",
     "weight": 3200,
     "volume": 7,
     "price": 320000,
@@ -350,7 +340,6 @@
     "material": [ "steel", "plastic" ],
     "ammo": "223",
     "dispersion": 180,
-    "recoil": 30,
     "durability": 9,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
@@ -370,7 +359,7 @@
     "type": "GUN",
     "name": "Steyr AUG",
     "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy.",
-    "weight": 3240,
+    "weight": 3184,
     "volume": 6,
     "price": 490000,
     "to_hit": -1,
@@ -380,9 +369,9 @@
     "color": "light_gray",
     "ammo": "223",
     "dispersion": 140,
-    "recoil": -120,
     "durability": 8,
     "burst": 6,
+    "built_in_mods": [ "grip" ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
@@ -408,7 +397,6 @@
     "ammo": "223",
     "ranged_damage": -4,
     "dispersion": 180,
-    "recoil": 30,
     "durability": 6,
     "loudness": 25,
     "reload": 200,

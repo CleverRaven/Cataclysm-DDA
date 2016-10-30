@@ -36,6 +36,8 @@
 #define SEEX 12
 #define SEEY SEEX
 
+#define MAX_VIEW_DISTANCE ( SEEX * int( MAPSIZE / 2 ) )
+
 // Size of the overmap. This is the number of overmap terrain tiles per dimension in one overmap,
 // it's just like SEEX/SEEY for submaps.
 #define OMAPX 180
@@ -84,6 +86,9 @@
 /** Maximum (effective) level for a skill */
 #define MAX_SKILL 10
 
+/** Maximum (effective) level for a stat */
+#define MAX_STAT 20
+
 /** Maximum range for aimed weapons */
 #define MAX_RANGE 30
 
@@ -93,5 +98,11 @@ constexpr double accuracy_critical = 0.2;
 constexpr double accuracy_goodhit  = 0.5;
 constexpr double accuracy_standard = 0.8;
 constexpr double accuracy_grazing  = 1.0;
+
+/** Minimum item damage output of relevant type to allow using with relevant weapon skill */
+#define MELEE_STAT 5
+
+/** Effective lower bound to combat skill levels when CQB bionic is active */
+#define BIO_CQB_LEVEL 5
 
 #endif

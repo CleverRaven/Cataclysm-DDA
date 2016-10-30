@@ -16,6 +16,8 @@
 #include "player.h"
 #include "mutation.h"
 #include "vehicle.h"
+#include "veh_interact.h"
+#include "cata_utility.h"
 
 #include <algorithm>
 
@@ -37,6 +39,7 @@ const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_webbed( "webbed" );
 
+const skill_id skill_dodge( "dodge" );
 const skill_id skill_throw( "throw" );
 
 const std::string debug_nodmg( "DEBUG_NODMG" );
@@ -64,6 +67,8 @@ Character::Character() : Creature(), visitable<Character>()
     stomach_water = 0;
 
     name = "";
+
+    path_settings = pathfinding_settings{ 0, 1000, 1000, true, false, true };
 }
 
 field_id Character::bloodType() const
@@ -94,7 +99,7 @@ const std::string &Character::symbol() const
     return character_symbol;
 }
 
-void Character::mod_stat( const std::string &stat, int modifier )
+void Character::mod_stat( const std::string &stat, float modifier )
 {
     if( stat == "str" ) {
         mod_str_bonus( modifier );
@@ -589,7 +594,7 @@ item& Character::i_add(item it)
     last_item = item_type_id;
 
     if( it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
-        it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container() ) {
+        it.is_book() || it.is_tool() || it.is_melee() || it.is_food_container() ) {
         inv.unsort();
     }
 
@@ -756,7 +761,7 @@ void Character::remove_mission_items( int mission_id )
 std::vector<const item *> Character::get_ammo( const ammotype &at ) const
 {
     return items_with( [at]( const item & it ) {
-        return it.is_ammo() && it.ammo_type() == at;
+        return it.is_ammo() && it.type->ammo->type.count( at );
     } );
 }
 
@@ -776,12 +781,12 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
                 return VisitResponse::SKIP;
             }
             if( node->is_ammo_container() && !node->contents.front().made_of( SOLID ) ) {
-                if( node->contents.front().ammo_type() == ammo ) {
+                if( node->contents.front().type->ammo->type.count( ammo ) ) {
                     out = item_location( src, node );
                 }
                 return VisitResponse::SKIP;
             }
-            if( node->is_ammo() && node->ammo_type() == ammo ) {
+            if( node->is_ammo() && node->type->ammo->type.count( ammo ) ) {
                 out = item_location( src, node );
             }
             return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
@@ -917,6 +922,30 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
     }
 }
 
+bool Character::can_use( const item& it, const item& context ) const {
+    const auto &ctx = !context.is_null() ? context : it;
+
+    if( !meets_requirements( it, ctx ) ) {
+        const std::string unmet( enumerate_unmet_requirements( it, ctx ) );
+
+        if( &it == &ctx ) {
+            //~ %1$s - list of unmet requirements, %2$s - item name.
+            add_msg_player_or_npc( m_bad, _( "You need at least %1$s to use this %2$s." ),
+                                          _( "<npcname> needs at least %1$s to use this %2$s." ),
+                                          unmet.c_str(), it.tname().c_str() );
+        } else {
+            //~ %1$s - list of unmet requirements, %2$s - item name, %3$s - indirect item name.
+            add_msg_player_or_npc( m_bad, _( "You need at least %1$s to use this %2$s with your %3$s." ),
+                                          _( "<npcname> needs at least %1$s to use this %2$s with their %3$s." ),
+                                          unmet.c_str(), it.tname().c_str(), ctx.tname().c_str() );
+        }
+
+        return false;
+    }
+
+    return true;
+}
+
 void Character::drop_inventory_overflow() {
     if( volume_carried() > volume_capacity() ) {
         for( auto &item_to_drop :
@@ -969,30 +998,46 @@ bool Character::worn_with_flag( const std::string &flag ) const
     } );
 }
 
-SkillLevel& Character::get_skill_level(const skill_id &ident)
+SkillLevel& Character::get_skill_level( const skill_id &ident )
 {
-    if( !ident ) {
-        static SkillLevel none;
-        none.level( 0 );
-        return none;
+    static SkillLevel null_skill;
+
+    if( ident && ident->is_contextual_skill() ) {
+        debugmsg( "Skill \"%s\" is context-dependent. It cannot be assigned.", ident->name().c_str(),
+                  get_name().c_str() );
+    } else {
+        return _skills[ident];
     }
-    return _skills[ident];
+
+    null_skill.level( 0 );
+    return null_skill;
 }
 
-SkillLevel const& Character::get_skill_level(const skill_id &ident) const
+SkillLevel const& Character::get_skill_level( const skill_id &ident, const item &context ) const
 {
+    static const SkillLevel null_skill;
+
     if( !ident ) {
-        static const SkillLevel none{};
-        return none;
+        return null_skill;
     }
 
-    const auto iter = _skills.find( ident );
+    const auto iter = _skills.find( context.is_null() ? ident : context.contextualize_skill( ident ) );
+
     if( iter != _skills.end() ) {
         return iter->second;
     }
 
-    static SkillLevel const dummy_result;
-    return dummy_result;
+    if( ident->is_contextual_skill() ) {
+        if( context.is_null() ) {
+            debugmsg( "Skill \"%s\" possessed by %s requires a non-empty context.", ident->name().c_str(),
+                      get_name().c_str() );
+        } else {
+            debugmsg( "Item \"%s\" hasn't provided a suitable context for skill \"%s\" possessed by %s.",
+                      context.tname().c_str(), ident->name().c_str(), get_name().c_str() );
+        }
+    }
+
+    return null_skill;
 }
 
 void Character::set_skill_level( const skill_id &ident, const int level )
@@ -1005,11 +1050,63 @@ void Character::boost_skill_level( const skill_id &ident, const int delta )
     set_skill_level( ident, delta + get_skill_level( ident ) );
 }
 
-bool Character::meets_skill_requirements( const std::map<skill_id, int> &req ) const
+std::map<skill_id, int> Character::compare_skill_requirements( const std::map<skill_id, int> &req, const item &context ) const
 {
-    return std::all_of( req.begin(), req.end(), [this]( const std::pair<skill_id, int> &pr ) {
-        return get_skill_level( pr.first ) >= pr.second;
+    std::map<skill_id, int> res;
+
+    for( const auto &elem : req ) {
+        const int diff = get_skill_level( elem.first, context ) - elem.second;
+        if( diff != 0 ) {
+            res[elem.first] = diff;
+        }
+    }
+
+    return res;
+}
+
+std::string Character::enumerate_unmet_requirements( const item &it, const item &context ) const
+{
+    std::vector<std::string> unmet_reqs;
+
+    const auto check_req = [ &unmet_reqs ]( const std::string &name, int cur, int req ) {
+        if( cur < req ) {
+            unmet_reqs.push_back( string_format( "%s %d", name.c_str(), req ) );
+        }
+    };
+
+    check_req( _( "strength" ),     get_str(), it.type->min_str );
+    check_req( _( "dexterity" ),    get_dex(), it.type->min_dex );
+    check_req( _( "intelligence" ), get_int(), it.type->min_int );
+    check_req( _( "perception" ),   get_per(), it.type->min_per );
+
+    for( const auto &elem : it.type->min_skills ) {
+        check_req( context.contextualize_skill( elem.first )->name().c_str(),
+                   get_skill_level( elem.first, context ),
+                   elem.second );
+    }
+
+    return enumerate_as_string( unmet_reqs );
+}
+
+bool Character::meets_skill_requirements( const std::map<skill_id, int> &req, const item &context ) const
+{
+    return std::all_of( req.begin(), req.end(), [this, &context]( const std::pair<skill_id, int> &pr ) {
+        return get_skill_level( pr.first, context ) >= pr.second;
     });
+}
+
+bool Character::meets_stat_requirements( const item &it ) const
+{
+    return get_str() >= it.type->min_str &&
+           get_dex() >= it.type->min_dex &&
+           get_int() >= it.type->min_int &&
+           get_per() >= it.type->min_per;
+}
+
+bool Character::meets_requirements( const item &it, const item &context ) const
+{
+    const auto &ctx = !context.is_null() ? context : it;
+    return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
 void Character::normalize()
@@ -1622,15 +1719,16 @@ void Character::update_health(int external_modifiers)
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
 
-int Character::get_dodge_base() const
+float Character::get_dodge_base() const
 {
     ///\EFFECT_DEX increases dodge base
-    return Creature::get_dodge_base() + (get_dex() / 2);
+    ///\EFFECT_DODGE increases dodge_base
+    return get_dex() / 2.0f + get_skill_level( skill_dodge );
 }
-int Character::get_hit_base() const
+float Character::get_hit_base() const
 {
     ///\EFFECT_DEX increases hit base, slightly
-    return Creature::get_hit_base() + (get_dex() / 4) + 3;
+    return get_dex() / 4.0f;
 }
 
 hp_part Character::body_window( bool precise ) const
@@ -1980,25 +2078,29 @@ bool Character::pour_into( item &container, item &liquid )
 
 bool Character::pour_into( vehicle &veh, item &liquid )
 {
-    const itype_id &ftype = liquid.typeId();
-    const int fuel_per_charge = fuel_charges_to_amount_factor( ftype );
-    const int fuel_cap = veh.fuel_capacity( ftype );
-    const int fuel_amnt = veh.fuel_left( ftype );
-    if( fuel_cap <= 0 ) {
-        //~ %1$s - transport name, %2$s liquid fuel name
-        add_msg_if_player( m_info, _( "The %1$s doesn't use %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
-        return false;
-    } else if( fuel_amnt >= fuel_cap ) {
-        add_msg_if_player( m_info, _( "The %s is already full." ), veh.name.c_str() );
+    auto sel = [&]( const vehicle_part &pt ) {
+        return pt.is_tank() && pt.can_reload( liquid.typeId() );
+    };
+
+    auto stack = units::legacy_volume_factor / liquid.type->stack_size;
+    auto title = string_format( _( "Select target tank for <color_%s>%.1fL %s</color>" ),
+                                get_all_colors().get_name( liquid.color() ).c_str(),
+                                round_up( to_liter( liquid.charges * stack ), 1 ),
+                                liquid.tname().c_str() );
+
+    auto &tank = veh_interact::select_part( veh, sel, title );
+    if( !tank ) {
         return false;
     }
-    const int charges_to_move = std::min<int>( liquid.charges, ( fuel_cap - fuel_amnt ) / fuel_per_charge );
-    liquid.charges -= charges_to_move + (veh.refill( ftype, charges_to_move * fuel_per_charge ) / fuel_per_charge);
-    if( veh.fuel_left( ftype ) < fuel_cap ) {
-        add_msg_if_player( _( "You refill the %1$s with %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
-    } else {
-        add_msg_if_player( _( "You refill the %1$s with %2$s to its maximum." ), veh.name.c_str(),
-                 liquid.type_name().c_str() );
+
+    tank.fill_with( liquid );
+
+    //~ $1 - vehicle name, $2 - part name, $3 - liquid type
+    add_msg_if_player( _( "You refill the %1$s's %2$s with %3$s." ),
+                       veh.name.c_str(), tank.name().c_str(), liquid.type_name().c_str() );
+
+    if( liquid.charges > 0 ) {
+        add_msg_if_player( _( "There's some left over!" ) );
     }
     return true;
 }

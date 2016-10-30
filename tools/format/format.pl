@@ -11,8 +11,9 @@ use Getopt::Std;
 
 # -c check input is in canonical format
 # -q quiet with no output to stdout
+# -v verbose error messages (includes hints at canonical format)
 my %opts;
-getopts('cq', \%opts);
+getopts('cqv', \%opts);
 
 my @config;
 for( open my $fh, '<', catfile(dirname(__FILE__), 'format.conf'); <$fh>; ) {
@@ -24,6 +25,7 @@ for( open my $fh, '<', catfile(dirname(__FILE__), 'format.conf'); <$fh>; ) {
 }
 
 my $json = JSON->new->allow_nonref;
+my $fail = sub { die "ERROR: $_[0]\n"; };
 
 sub match($$) {
     my ($context, $query) = @_;
@@ -70,7 +72,7 @@ sub encode(@); # Recursive function needs forward definition
 sub encode(@) {
     my ($data, $context) = @_;
 
-    die "ERROR: Unmatched context '$context'\n" if ref($data) and find_rule($context) < 0;
+    $fail->("Unmatched context '$context'") if ref($data) and find_rule($context) < 0;
 
     if (ref($data) eq 'ARRAY') {
         my @elems = map { encode($_, "$context:@") } @{$data};
@@ -85,7 +87,7 @@ sub encode(@) {
         my %fields = map {
             my $rule = "$context:$_";
             my $rank = find_rule($rule);
-            die "ERROR: Unmatched contex '$rule'\n" if $rank < 0;
+            $fail->("Unmatched contex '$rule'") if $rank < 0;
             $_ => [ $rule, $rank ];
         } keys %{$data};
 
@@ -99,39 +101,86 @@ sub encode(@) {
     return $json->encode($data);
 }
 
-my ($original, $result, $dirty);
+my ($original, $dirty);
+my @parsed;
 
-for( my $obj; <>; ) {
-    # Loop continuously until read valid JSON fragment or EOF
-    $original .= $_;
-    eval { $obj = $json->incr_parse($_) };
-    die "ERROR: Syntax error on line $.\n" if $@;
+my $src;
+if (exists $ENV{'GATEWAY_INTERFACE'}) {
+    require CGI;
+    CGI->import(':cgi');
+    open($src, '<', \(param('data') // ''));
 
-    if (defined($obj)) {
-        # Unparseable non-whitespace is later caught as syntax error
-        $dirty = length($json->incr_text =~ s/\s+$//r);
+    $fail = sub {
+        print header('text/plain', '400 Bad request');
+        print "$_[0]\n";
+        exit 0;
+    };
 
-        # Process each object with the type field providing root context
-        $obj = [ $obj ] unless (ref($obj) eq 'ARRAY');
-        my @output = map { encode($_, $_->{'type'} // '' ) } @{$obj};
+} elsif (scalar @ARGV) {
+    open($src, '<', $ARGV[0]);
 
-        # Indent everything formatted output wrap in an array
-        $result .= "[\n" . join( ",\n", @output ) =~ s/^/  /mgr . "\n]\n";
-    }
+} else {
+    $src = \*STDIN;
 }
-if ($dirty) {
-    die "ERROR: Syntax error at EOF\n";
+
+while(<$src>) {
+    $original .= $_;
+    $dirty .= $_;
+    eval {
+        $json->incr_parse($_);
+        for (my $obj; $obj = $json->incr_parse;) {
+            $dirty = $json->incr_text;
+
+            # Also supports single objects as users may paste them in to the web linter
+            push @parsed, ref($obj) eq 'ARRAY' ? @{$obj} : $obj;
+        }
+    };
+    $fail->("Syntax error on line $.") if $@;
+}
+
+# If we have unparsed content fail unless is insignificant whitespace
+$fail->("Syntax error at EOF") if $dirty =~ /[^\s]/;
+
+my @output;
+foreach (@parsed) {
+    # Process each object with the type field providing root context
+    $fail->("Invalid JSON structure") unless ref($_) eq 'HASH' and exists $_->{type};
+    push @output, encode($_, $_->{'type'} // '' );
+}
+
+# Indent each entry and output wrapped as a JSON array
+my $result = scalar @output ? "[\n" . join( ",\n", @output ) =~ s/^/  /mgr . "\n]\n" : '';
+
+if (exists $ENV{'GATEWAY_INTERFACE'}) {
+    if (($original // '') eq $result) {
+        print header('application/json', '304 Not Modified');
+    } else {
+        print header('application/json', '200 OK');
+        print $result;
+    }
+    exit 0;
 }
 
 print $result unless $opts{'q'};
 exit 0 unless $opts{'c'};
 
 # If checking for canonical formatting get offset of first mismatch (if any)
-exit 0 if ($original // '') eq ($result // '');
+exit 0 if ($original // '') eq $result;
 
 ($original ^ $result) =~ /^\0*/;
 my $line = scalar split '\n', substr($result,0,$+[0]);
 print STDERR "ERROR: Format error at line $line\n";
-print STDERR "< " . (split '\n', $result  )[$line-1] . "'\n";
-print STDERR "> " . (split '\n', $original)[$line-1] . "'\n";
+print STDERR "< " . (split '\n', $original)[$line-1] . "\n";
+print STDERR "> " . (split '\n', $result  )[$line-1] . "\n";
+
+if ($opts{'v'}) {
+    print STDERR "\nHINT: Canonical output for this block was:\n";
+    my @diff = split '\n', $result;
+    while ($line-- > 0 and $diff[$line] ne '  {') {}
+
+    for (my $i = $line + 1; $i < @diff; $i++) {
+        last if $diff[$i] =~ /^  },?$/;
+        print STDERR $diff[$i] . "\n";
+    }
+}
 exit 1;

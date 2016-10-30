@@ -398,7 +398,7 @@ void activity_on_turn_pickup()
 
     // If there are items left, we ran out of moves, so make a new activity with the remainder.
     if( !indices.empty() ) {
-        g->u.assign_activity( ACT_PICKUP, 0 );
+        g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
         g->u.activity.placement = pickup_target;
         g->u.activity.auto_resume = autopickup;
         g->u.activity.values.push_back( from_vehicle );
@@ -546,7 +546,7 @@ void activity_on_turn_move_items()
     move_items( source, from_vehicle, destination, to_vehicle, indices, quantities );
 
     if( !indices.empty() ) {
-        g->u.assign_activity( ACT_MOVE_ITEMS, 0 );
+        g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
         g->u.activity.placement = source;
         g->u.activity.coords.push_back( destination );
         g->u.activity.values.push_back( from_vehicle );

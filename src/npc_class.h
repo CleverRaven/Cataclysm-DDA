@@ -64,6 +64,12 @@ class npc_class
         npc_class_id id;
         bool was_loaded = false;
 
+        Group_tag worn_override;
+        Group_tag carry_override;
+        Group_tag weapon_override;
+
+        std::map<std::string, int> traits;
+
         npc_class();
 
         const std::string &get_name() const;

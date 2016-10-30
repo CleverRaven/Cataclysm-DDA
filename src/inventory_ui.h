@@ -1,7 +1,6 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
-#include <climits>
 #include <memory>
 
 #include "color.h"
@@ -27,30 +26,35 @@ enum class navigation_mode : int {
     CATEGORY
 };
 
-const item_location_filter allow_all_items = []( const item_location & )
-{
-    return true;
+enum class scroll_direction : int {
+    FORWARD = 1,
+    BACKWARD = -1
 };
+
+struct navigation_mode_data;
 
 class inventory_entry
 {
     public:
         item_location location;
+
         size_t chosen_count = 0;
         long custom_invlet = LONG_MIN;
 
         inventory_entry( const item_location &location, size_t stack_size,
-                         const item_category *custom_category = nullptr ) :
+                         const item_category *custom_category = nullptr, bool enabled = true ) :
             location( location.clone() ),
             stack_size( stack_size ),
-            custom_category( custom_category ) {}
+            custom_category( custom_category ),
+            enabled( enabled ) {}
 
         inventory_entry( const inventory_entry &entry ) :
             location( entry.location.clone() ),
             chosen_count( entry.chosen_count ),
             custom_invlet( entry.custom_invlet ),
             stack_size( entry.stack_size ),
-            custom_category( entry.custom_category ) {}
+            custom_category( entry.custom_category ),
+            enabled( entry.enabled ) {}
 
         inventory_entry operator=( const inventory_entry &rhs ) {
             location = rhs.location.clone();
@@ -58,11 +62,13 @@ class inventory_entry
             custom_invlet = rhs.custom_invlet;
             stack_size = rhs.stack_size;
             custom_category = rhs.custom_category;
+            enabled = rhs.enabled;
             return *this;
         }
 
-        inventory_entry( const item_location &location, const item_category *custom_category = nullptr ) :
-            inventory_entry( location, location ? 1 : 0, custom_category ) {}
+        inventory_entry( const item_location &location, const item_category *custom_category = nullptr,
+                         bool enabled = true ) :
+            inventory_entry( location, location ? 1 : 0, custom_category, enabled ) {}
 
         inventory_entry( const item_category *custom_category = nullptr ) :
             inventory_entry( item_location(), custom_category ) {}
@@ -72,14 +78,32 @@ class inventory_entry
             this->custom_category = custom_category;
         }
 
-        // used for searching the category header, only the item pointer and the category are important there
         bool operator==( const inventory_entry &other ) const;
         bool operator!=( const inventory_entry &other ) const {
             return !( *this == other );
         }
 
         operator bool() const {
-            return get_category_ptr() != nullptr;
+            return !is_null();
+        }
+        /** Whether the entry is null (dummy) */
+        bool is_null() const {
+            return get_category_ptr() == nullptr;
+        }
+        /**
+         * Whether the entry is an item.
+         * item_location::valid() is way too expensive for mundane routines.
+         */
+        bool is_item() const {
+            return location != item_location::nowhere;
+        }
+        /** Whether the entry is a category */
+        bool is_category() const {
+            return !is_null() && !is_item();
+        }
+        /** Whether the entry can be selected */
+        bool is_selectable() const {
+            return is_item() && enabled;
         }
 
         size_t get_stack_size() const {
@@ -93,6 +117,8 @@ class inventory_entry
     private:
         size_t stack_size;
         const item_category *custom_category;
+        bool enabled = true;
+
 };
 
 class inventory_selector_preset
@@ -100,27 +126,44 @@ class inventory_selector_preset
     public:
         inventory_selector_preset();
 
+        /** Does this entry satisfy the basic preset conditions? */
         virtual bool is_shown( const item_location & ) const {
             return true;
         }
 
+        /**
+         * The reason why this entry cannot be selected.
+         * @return Either the reason of denial or empty string if it's accepted.
+         */
+        virtual std::string get_denial( const item_location & ) const {
+            return std::string();
+        }
+        /** Whether the first item is considered to go before the second. */
+        virtual bool sort_compare( const item_location &lhs, const item_location &rhs ) const;
+        /** Color that will be used to display the entry string. */
         virtual nc_color get_color( const inventory_entry &entry ) const;
-
         std::string get_cell_text( const inventory_entry &entry, size_t cell_index ) const;
         size_t get_cell_width( const inventory_entry &entry, size_t cell_index ) const;
-
+        /** Number of cells in the preset. */
         size_t get_cells_count() const {
             return cells.size();
         }
 
     protected:
-        using cell_pair = std::pair<std::string, std::function<std::string( const inventory_entry & )>>;
-
+        /** Text of the first column (default: item name) */
         virtual std::string get_caption( const inventory_entry &entry ) const;
+        /**
+         * Append a new cell to the preset.
+         * @param func The function that returns text for the cell
+         * @param title Title of the cell.
+         */
+        void append_cell( const std::function<std::string( const item_location & )> &func,
+                          const std::string &title = "" );
         void append_cell( const std::function<std::string( const inventory_entry & )> &func,
                           const std::string &title = "" );
 
     private:
+        using cell_pair = std::pair<std::string, std::function<std::string( const inventory_entry & )>>;
         std::vector<cell_pair> cells;
 };
 
@@ -129,19 +172,9 @@ const inventory_selector_preset default_preset;
 class inventory_column
 {
     public:
-        inventory_column( const inventory_selector_preset &preset = default_preset ) :
-            preset( preset ),
-            entries(),
-            mode( navigation_mode::ITEM ),
-            active( false ),
-            multiselect( false ),
-            paging_is_valid( false ),
-            visibility( true ),
-            selected_index( 1 ),
-            page_offset( 0 ),
-            entries_per_page( 1 ) {
-
+        inventory_column( const inventory_selector_preset &preset = default_preset ) : preset( preset ) {
             cell_widths.resize( preset.get_cells_count(), 0 );
+            min_cell_widths.resize( preset.get_cells_count(), 0 );
         }
 
         virtual ~inventory_column() {}
@@ -149,16 +182,19 @@ class inventory_column
         bool empty() const {
             return entries.empty();
         }
-        // true if can be activated
-        virtual bool activatable() const {
-            return !empty();
-        }
-        // true if displayed
+        /**
+         * Can this column be activated?
+         * @return Whether the column contains selectable entries.
+         */
+        virtual bool activatable() const;
+        /** Is this column visible? */
         bool visible() const {
             return !empty() && visibility && preset.get_cells_count() > 0;
         }
-
-        // true if allows selecting entries
+        /**
+         * Does this column allow selecting?
+         * "Cosmetic" columns (list of selected items) can explicitly prohibit selecting.
+         */
         virtual bool allows_selecting() const {
             return activatable();
         }
@@ -172,6 +208,11 @@ class inventory_column
         }
 
         bool is_selected( const inventory_entry &entry ) const;
+
+        /**
+         * Does this entry belong to the selected category?
+         * When @ref navigation_mode::ITEM is used it's equivalent to @ref is_selected().
+         */
         bool is_selected_by_category( const inventory_entry &entry ) const;
 
         const inventory_entry &get_selected() const;
@@ -204,47 +245,77 @@ class inventory_column
         size_t get_height() const {
             return entries_per_page;
         }
-        /** Expands the column to fit the new entry */
+        /** Expands the column to fit the new entry. */
         void expand_to_fit( const inventory_entry &entry );
-        /** Resets width to original (unchanged) */
+        /** Resets width to original (unchanged). */
         void reset_width();
-        /** Returns next custom inventory letter */
+        /** Returns next custom inventory letter. */
         long reassign_custom_invlets( const player &p, long min_invlet, long max_invlet );
-
+        /** Reorder entries, repopulate titles, adjust to the new height. */
         virtual void prepare_paging();
-
+        /**
+         * Event handlers
+         */
         virtual void on_action( const std::string &action );
+        /** The entry has been changed. */
         virtual void on_change( const inventory_entry & ) {}
-
+        /** The column has been activated. */
         virtual void on_activate() {
             active = true;
         }
+        /** The column has been deactivated. */
         virtual void on_deactivate() {
             active = false;
         }
 
     protected:
-        void select( size_t new_index );
+        /**
+         * Change the selection.
+         * @param new_index Index of the entry to select.
+         * @param dir If the entry is not selectable, move in the specified direction
+         */
+        void select( size_t new_index, scroll_direction dir );
+        /**
+         * Move the selection.
+         * @param step Same as one in @ref select().
+         */
+        void move_selection( scroll_direction dir );
+        void move_selection_page( scroll_direction dir );
+
+        size_t next_selectable_index( size_t index, scroll_direction dir ) const;
+
         size_t page_of( size_t index ) const;
         size_t page_of( const inventory_entry &entry ) const;
-
-        size_t get_entry_indent( const inventory_entry &entry ) const;
+        /**
+         * Indentation of the entry.
+         * @param cell_index Either left indent when it's zero, or a gap between cells.
+         */
+        size_t get_entry_indent( const inventory_entry &entry, size_t cell_index = 0 ) const;
+        /** Overall cell width. If corresponding cell is not empty (its width is greater than zero),
+         *  then a value returned by @ref get_entry_indent() is added to the result.
+         */
         size_t get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const;
+        /** Sum of the cell widths */
+        size_t get_cells_width() const;
 
-        std::vector<size_t> cell_widths;
+        std::string get_entry_denial( const inventory_entry &entry ) const;
+
+        std::vector<size_t> cell_widths;        /// Current cell widths (can be affected by set_width())
+        std::vector<size_t> min_cell_widths;    /// Minimal cell widths (to embrace all the entries nicely)
 
         const inventory_selector_preset &preset;
 
         std::vector<inventory_entry> entries;
-        navigation_mode mode;
-        bool active;
-        bool multiselect;
-        bool paging_is_valid;
-        bool visibility;
+        navigation_mode mode = navigation_mode::ITEM;
+        bool active = false;
+        bool multiselect = false;
+        bool paging_is_valid = false;
+        bool visibility = true;
 
-        size_t selected_index;
-        size_t page_offset;
-        size_t entries_per_page;
+        size_t selected_index = 0;
+        size_t page_offset = 0;
+        size_t entries_per_page = 1;
+        size_t reserved_width = 0;
 };
 
 class selection_column : public inventory_column
@@ -272,24 +343,36 @@ class inventory_selector
     public:
         inventory_selector( const player &u, const inventory_selector_preset &preset = default_preset );
         ~inventory_selector();
-        /** These functions add items from map / vehicles */
+        /** These functions add items from map / vehicles. */
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
-        /** Assigns a title that will be shown on top of the menu */
+        /** Assigns a title that will be shown on top of the menu. */
         void set_title( const std::string &title ) {
             this->title = title;
         }
-        /** @return Is the selector empty */
+        /** Assigns a hint. */
+        void set_hint( const std::string &hint ) {
+            this->hint = hint;
+        }
+        /** Specify whether the header should show stats (weight and volume). */
+        void set_display_stats( bool display_stats ) {
+            this->display_stats = display_stats;
+        }
+        /** @return true when the selector is empty. */
         bool empty() const;
+        /** @return true when there are enabled entries to select. */
+        bool has_available_choices() const;
 
     protected:
         const player &u;
         const inventory_selector_preset &preset;
 
-        /** The input context for navigation, already contains some actions for movement.
-         * See @ref on_action */
+        /**
+         * The input context for navigation, already contains some actions for movement.
+         * See @ref on_action.
+         */
         input_context ctxt;
 
         const item_category *naturalize_category( const item_category &category,
@@ -314,15 +397,21 @@ class inventory_selector
         void refresh_window() const;
         void update();
 
-        virtual void draw( WINDOW *w ) const;
         /** Tackles screen overflow */
         virtual void rearrange_columns();
+        /** Returns player for volume/weight numbers */
+        virtual const player &get_player_for_stats() const {
+            return u;
+        }
 
-        void draw_inv_weight_vol( WINDOW *w, int weight_carried, units::volume vol_carried,
-                                  units::volume vol_capacity ) const;
-        void draw_inv_weight_vol( WINDOW *w ) const;
+        int get_header_height() const;
+        int get_column_height() const;
 
-        /** Returns an entry from @ref entries by its invlet */
+        void draw_header( WINDOW *w ) const;
+        void draw_footer( WINDOW *w ) const;
+        void draw_columns( WINDOW *w ) const;
+
+        /** @return an entry from @ref entries by its invlet */
         inventory_entry *find_entry_by_invlet( long invlet ) const;
 
         const std::vector<inventory_column *> &get_all_columns() const {
@@ -350,10 +439,15 @@ class inventory_selector
 
         void append_column( inventory_column &column );
 
-        void toggle_active_column();
+        /**
+         * Activates either previous or next column.
+         * @param dir Forward - next column, backward - previous.
+         */
+        void toggle_active_column( scroll_direction dir );
+
         void refresh_active_column() {
             if( !get_active_column().activatable() ) {
-                toggle_active_column();
+                toggle_active_column( scroll_direction::FORWARD );
             }
         }
         void toggle_navigation_mode();
@@ -362,6 +456,8 @@ class inventory_selector
         /** Entry has been added */
         virtual void on_entry_add( const inventory_entry & ) {}
 
+        const navigation_mode_data &get_navigation_data() const;
+
     private:
         WINDOW *w_inv;
 
@@ -369,6 +465,7 @@ class inventory_selector
         std::vector<inventory_column *> columns;
 
         std::string title;
+        std::string hint;
         size_t active_column_index;
         std::list<item_category> categories;
         navigation_mode navigation;
@@ -389,9 +486,6 @@ class inventory_pick_selector : public inventory_selector
             inventory_selector( p, preset ) {}
 
         item_location execute();
-
-    protected:
-        virtual void draw( WINDOW *w ) const override;
 };
 
 class inventory_multiselector : public inventory_selector
@@ -416,7 +510,6 @@ class inventory_compare_selector : public inventory_multiselector
     protected:
         std::vector<inventory_entry *> compared;
 
-        virtual void draw( WINDOW *w ) const override;
         void toggle_entry( inventory_entry *entry );
 };
 
@@ -429,11 +522,11 @@ class inventory_drop_selector : public inventory_multiselector
 
     protected:
         std::map<const item *, int> dropping;
+        mutable std::unique_ptr<player> dummy;
 
-        virtual void draw( WINDOW *w ) const override;
+        const player &get_player_for_stats() const;
         /** Toggle item dropping */
         void set_drop_count( inventory_entry &entry, size_t count );
-        void remove_dropping_items( player &u ) const;
 };
 
 #endif

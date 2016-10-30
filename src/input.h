@@ -360,7 +360,7 @@ class input_context
          *                  0 indicates no limit.
          */
         const std::string get_desc( const std::string &action_descriptor,
-                                    const unsigned int max_limit = 0 );
+                                    const unsigned int max_limit = 0 ) const;
 
         /**
          * Handles input and returns the next action in the queue.
@@ -491,7 +491,7 @@ class input_context
          * @return A vector of the filtered strings
          */
         std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
-                std::string phrase ) const;
+                const std::string &phrase ) const;
 };
 
 /**

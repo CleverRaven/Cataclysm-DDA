@@ -12,7 +12,7 @@
     "type": "GUN",
     "name": "base flamethrower",
     "skill": "launcher",
-    "ammo": "gasoline",
+    "ammo": "flammable",
     "ammo_effects": [ "NO_BOOM", "FLARE" ],
     "reload": 4,
     "flags": [ "FIRE_100", "NEVER_JAMS" ]

@@ -54,5 +54,23 @@
     "sight_dispersion": 360,
     "aim_cost": 2,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
+  },
+  {
+    "id": "stabilizer",
+    "type": "GUNMOD",
+    "name": "gyroscopic stabilizer",
+    "description": "An advanced unit that straps onto the side of your firearm and reduces vibration, greatly reducing recoil and increasing accuracy.",
+    "weight": 286,
+    "volume": 3,
+    "integral_volume": 2,
+    "price": 68000,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ":",
+    "color": "blue",
+    "location": "rail",
+    "mod_targets": [ "smg", "rifle", "crossbow" ],
+    "dispersion_modifier": -30,
+    "handling_modifier": 6,
+    "min_skills": [ [ "weapon", 6 ] ]
   }
 ]

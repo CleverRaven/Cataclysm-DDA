@@ -40,6 +40,7 @@ bool tutorial_game::init()
         g->u.hp_cur[i] = g->u.hp_max[i];
     }
 
+    const oter_id rock( "rock" );
     //~ default name for the tutorial
     g->u.name = _( "John Smith" );
     g->u.prof = profession::generic();
@@ -47,13 +48,13 @@ bool tutorial_game::init()
     auto &starting_om = overmap_buffer.get( 0, 0 );
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
-            starting_om.ter( i, j, -1 ) = "rock";
+            starting_om.ter( i, j, -1 ) = rock;
             // Start with the overmap revealed
             starting_om.seen( i, j, 0 ) = true;
         }
     }
-    starting_om.ter( lx, ly, 0 ) = "tutorial";
-    starting_om.ter( lx, ly, -1 ) = "tutorial";
+    starting_om.ter( lx, ly, 0 ) = oter_id( "tutorial" );
+    starting_om.ter( lx, ly, -1 ) = oter_id( "tutorial" );
     starting_om.clear_mon_groups();
 
     g->u.toggle_trait( "QUICK" );
@@ -228,7 +229,7 @@ void tutorial_game::post_action( action_id act )
                 add_message( LESSON_GOT_TOOL );
             } else if( it.is_food() ) {
                 add_message( LESSON_GOT_FOOD );
-            } else if( it.is_weap() ) {
+            } else if( it.is_melee() ) {
                 add_message( LESSON_GOT_WEAPON );
             }
 
