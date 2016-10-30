@@ -80,7 +80,9 @@ struct overmap_location_restictions {
     std::vector<std::string> disallowed;
 };
 
-//@todo Jsonize this map.
+// Map of allowed and disallowed terrain for locations of overmap specials.
+// Format: { location, { { list of allowed terrains }, { list of disallowed terrains } }
+// @todo Jsonize this map.
 static const std::map<std::string, overmap_location_restictions> overmap_locations = {
     { "by_road",    { {},                   { "river", "road" } } },
     { "field",      { { "field" },          {}                  } },
@@ -965,13 +967,14 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
 
 const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &p ) const
 {
-    for( const auto &elem : terrains ) {
-        if( elem.p == p ) {
-            return elem;
-        }
+    const auto iter = std::find_if( terrains.begin(), terrains.end(), [ &p ]( const overmap_special_terrain &elem ) {
+         return elem.p == p;
+    } );
+    if( iter == terrains.end() ) {
+        static const overmap_special_terrain null_terrain;
+        return null_terrain;
     }
-    static const overmap_special_terrain null_terrain;
-    return null_terrain;
+    return *iter;
 }
 
 bool overmap_special::requires_existing_road() const
@@ -1011,9 +1014,10 @@ void overmap_special::finalize()
         }
 
         bool found = false;
+        static const direction neighbours[4] = { NORTH, SOUTH, EAST, WEST };
 
-        for( const auto &n : { NORTH, SOUTH, EAST, WEST } ) {
-            const tripoint p = elem.p + direction_XY( n );
+        for( const auto dir : neighbours ) { // Directions are unsigned numbers.
+            const tripoint p = elem.p + direction_XY( dir );
             // Only those that don't conflict with neighbors.
             if( !get_terrain_at( p ).terrain ) {
                 const overmap_special_connection con{ elem.connect, p };
@@ -3996,9 +4000,11 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
 {
     if( special.min_city_distance > 0 || special.max_city_distance >= 0 ) {
         const city *nearest = get_nearest_city( p );
-        if( nearest == nullptr ) {
+
+        if( nearest == nullptr && special.max_city_distance >= 0 ) {
             return false;
         }
+
         const int to_city = nearest->get_distance_from( p );
         if( to_city < special.min_city_distance || to_city > std::max( special.max_city_distance, INT_MAX ) ) {
             return false;
@@ -4013,20 +4019,20 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
 
     const size_t num_rotations = special.rotatable ? 4 : 1;
 
-    int top_score = 0;
+    int top_score = 0; // Maximal number of existing connections (roads).
     std::vector<int> rotations;
 
     rotations.reserve( num_rotations );
-    // Try to find the best rotation
+    // Try to find the most suitable rotation: satisfy as many connections as possible with the existing terrain.
     for( size_t r = 0; r < num_rotations; ++r ) {
-        int score = 0;
+        int score = 0; // Number of existing connections when rotated by 'r'.
         bool valid_rotation = true;
 
         for( const auto &con : special.connections ) {
             const tripoint rp = p + rotate_tripoint( con.p, r );
 
             if( check_ot_type( con.terrain.str(), rp.x, rp.y, rp.z ) ) {
-                ++score; // Found one.
+                ++score; // Found another one satisfied connection.
             } else if( !road_allowed( get_ter( rp.x, rp.y, rp.z ) ) ) {
                 valid_rotation = false;
                 break;
