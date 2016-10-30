@@ -82,7 +82,7 @@ struct overmap_location_restictions {
 
 //@todo Jsonize this map.
 static const std::map<std::string, overmap_location_restictions> overmap_locations = {
-    { "by_hiway",   { {},                   { "river", "road" } } },
+    { "by_road",    { {},                   { "river", "road" } } },
     { "field",      { { "field" },          {}                  } },
     { "forest",     { { "forest" },         {}                  } },
     { "land",       { {},                   { "river", "road" } } },
@@ -976,7 +976,7 @@ const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &
 
 bool overmap_special::requires_existing_road() const
 {
-    return locations.count( "by_hiway" ) > 0;
+    return locations.count( "by_road" ) > 0;
 }
 
 void overmap_special::finalize()
