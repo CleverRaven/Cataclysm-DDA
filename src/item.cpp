@@ -4948,7 +4948,10 @@ bool item::allow_crafting_component() const
         return true;
     }
 
-    return contents.empty();
+    // fixes #18886 - turret installation may require items with irremovable mods
+    return std::all_of( contents.begin(), contents.end(), []( const item &e ) {
+        return e.is_gunmod() && e.has_flag( "IRREMOVABLE" );
+    } );
 }
 
 void item::fill_with( item &liquid, long amount )
