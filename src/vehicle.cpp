@@ -3955,11 +3955,9 @@ void vehicle::thrust( int thd ) {
         return;
     }
 
-    bool pl_ctrl = player_in_control( g->u );
-
     // No need to change velocity if there are no wheels
     if( !valid_wheel_config( !floating.empty() ) && velocity == 0 ) {
-        if( pl_ctrl ) {
+        if( player_in_control( g->u ) ) {
             if( floating.empty() ) {
                 add_msg(_("The %s doesn't have enough wheels to move!"), name.c_str());
             } else {
@@ -3980,7 +3978,7 @@ void vehicle::thrust( int thd ) {
     float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     int accel = acceleration() * traction;
     if( thrusting && accel == 0 ) {
-        if( pl_ctrl ) {
+        if( player_in_control( g->u ) ) {
             add_msg( _("The %s is too heavy for its engine(s)!"), name.c_str() );
         }
 
@@ -4019,7 +4017,7 @@ void vehicle::thrust( int thd ) {
     if (load >= 0.01 && thrusting) {
         //abort if engines not operational
         if( total_power () <= 0 || !engine_on || accel == 0 ) {
-            if (pl_ctrl) {
+            if( player_in_control( g->u ) ) {
                 if( total_power( false ) <= 0 ) {
                     add_msg( m_info, _("The %s doesn't have an engine!"), name.c_str() );
                 } else if( has_engine_type( fuel_type_muscle, true ) ) {
