@@ -201,6 +201,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Can this part function as a turret? */
     bool is_turret() const;
 
+    /** Can a player or NPC use this part as a seat? */
+    bool is_seat() const;
+
     /*@}*/
 
 public:
@@ -223,6 +226,7 @@ public:
     bool enabled     = true;      //
     int flags        = 0;         //
     int passenger_id = 0;         // carrying passenger
+    int crew         = 0;         // what crew member (if any) is assigned to this part (seat, turret etc)?
 
     bool open = false;            // door is open
     int direction = 0;            // direction the part is facing

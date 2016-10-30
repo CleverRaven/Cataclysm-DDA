@@ -561,101 +561,33 @@ void npc::execute_action( npc_action action )
         complain();
         break;
 
-    case npc_follow_embarked:
-    {
-        int p1;
-        vehicle *veh = g->m.veh_at( g->u.pos(), p1 );
-
-        if( veh == nullptr ) {
+    case npc_follow_embarked: {
+        const auto veh = g->m.veh_at( g->u.pos() );
+        if( !veh ) {
             debugmsg("Following an embarked player with no vehicle at their location?");
-            // TODO: change to wait? - for now pause
-            move_pause();
+            move_pause(); // @todo change to wait? - for now pause
             break;
         }
 
-        // Try to find the last destination
-        // This is mount point, not actual position
-        point last_dest( INT_MIN, INT_MIN );
-        if( !path.empty() && g->m.veh_at( path[path.size() - 1], p1 ) == veh && p1 >= 0 ) {
-            last_dest = veh->parts[p1].mount;
-        }
+        auto seat = std::find_if( veh->parts.begin(), veh->parts.end(), [&]( const vehicle_part &e ) {
+            return e.is_seat() && !e.is_broken() && e.crew == getID();
+        } );
 
-        // Prioritize last found path, then seats
-        // Don't change spots if ours is nice
-        int my_spot = -1;
-        std::vector<std::pair<int, int> > seats;
-        for( size_t p2 = 0; p2 < veh->parts.size(); p2++ ) {
-            if( !veh->part_flag( p2, VPFLAG_BOARDABLE ) ) {
-                continue;
-            }
-
-            const player *passenger = veh->get_passenger( p2 );
-            if( passenger != this && passenger != nullptr ) {
-                continue;
-            }
-
-            int priority = 0;
-            if( veh->parts[p2].mount == last_dest ) {
-                // Shares mount point with last known path
-                // We probably wanted to go there in the last turn
-                priority = 4;
-            } else if( veh->part_flag( p2, "SEAT" ) ) {
-                // Assuming the player "owns" a sensible vehicle,
-                //  seats should be in good spots to occupy
-                priority = veh->part_with_feature( p2, "SEATBELT" ) >= 0 ? 3 : 2;
-            } else if( veh->is_inside( p2 ) ) {
-                priority = 1;
-            }
-
-            if( passenger == this ) {
-                my_spot = priority;
-            }
-
-            seats.push_back( std::make_pair( priority, p2 ) );
-        }
-
-        if( my_spot >= 3 ) {
-            // We won't get any better, so don't try
-            move_pause();
+        if( seat == veh->parts.end() ) {
+            move_pause(); // @todo be angry at player, switch to wait or leave - for now pause
             break;
         }
 
-        std::sort( seats.begin(), seats.end(),
-            []( const std::pair<int, int> &l, const std::pair<int, int> &r ) {
-                return l.first > r.first;
-            } );
-
-        if( seats.empty() ) {
-            // TODO: be angry at player, switch to wait or leave - for now pause
+        update_path( veh->global_part_pos3( *seat ), true );
+        if( !path.empty() ) {
+            move_to_next();
+        } else {
             move_pause();
-            break;
         }
-
-        // Only check few best seats - pathfinding can get expensive
-        const size_t try_max = std::min<size_t>( 4, seats.size() );
-        for( size_t i = 0; i < try_max; i++ ) {
-            if( seats[i].first <= my_spot ) {
-                // We have a nicer spot than this
-                // Note: this will make NPCs steal player's seat...
-                break;
-            }
-
-            const int cur_part = seats[i].second;
-
-            tripoint pp = veh->global_pos3() + veh->parts[cur_part].precalc[0];
-            update_path( pp, true );
-            if( !path.empty() ) {
-                // All is fine
-                move_to_next();
-                break;
-            }
-        }
-
-        // TODO: Check the rest
-        move_pause();
-    }
 
         break;
+    }
+
     case npc_talk_to_player:
         talk_to_u();
         moves = 0;

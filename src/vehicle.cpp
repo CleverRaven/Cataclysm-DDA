@@ -6232,6 +6232,11 @@ bool vehicle_part::is_turret() const
     return base.is_gun();
 }
 
+bool vehicle_part::is_seat() const
+{
+    return info().has_flag( "SEAT" );
+}
+
 const vpart_info &vehicle_part::info() const
 {
     if( !info_cache ) {
