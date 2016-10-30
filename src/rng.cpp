@@ -113,8 +113,9 @@ double erfinv( double x )
     for( int n = 0; n < 50; ++n ) {
         double step = ( std::erf( z ) - x ) / ( M_2_SQRTPI * exp( -z * z ) );
         z -= step;
-        if( std::abs( step ) < epsilon )
+        if( std::abs( step ) < epsilon ) {
             break;
+        }
     }
 
     return z;
