@@ -57,7 +57,6 @@ enum input_ret {
 
 enum quit_status {
     QUIT_NO = 0,    // Still playing
-    QUIT_MENU,      // Quit at the menu
     QUIT_SUICIDE,   // Quit with 'Q'
     QUIT_SAVED,     // Saved and quit
     QUIT_DIED,      // Actual death
@@ -173,8 +172,6 @@ class game
         /** Initializes the UI. */
         void init_ui();
         void setup();
-        /** Returns true if we actually quit the game. Used in main.cpp. */
-        bool game_quit();
         /** Returns true if the game quits through some error. */
         bool game_error();
         /** True if the game has just started or loaded, else false. */

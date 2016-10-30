@@ -468,7 +468,7 @@ int main(int argc, char *argv[])
             quit_game = true;
         } else {
             while( !quit_game && !g->do_turn() ) { }
-            quit_game = g->game_quit() || g->game_error();
+            quit_game = g->game_error();
         }
     } while (!quit_game);
 
