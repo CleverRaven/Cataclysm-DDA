@@ -1876,7 +1876,8 @@ void options_manager::serialize(JsonOut &json) const
 
     for( size_t j = 0; j < vPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
-            // Skip blanks (#18870)
+            // Skip blanks between option groups (#18870)
+            // to avoid empty json entries being stored
             if( elem == "" ) {
                 continue;
             }
