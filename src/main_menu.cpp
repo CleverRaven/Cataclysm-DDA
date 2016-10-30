@@ -122,7 +122,8 @@ void main_menu::print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, in
     refresh();
 }
 
-std::vector<std::string> main_menu::load_file( const std::string &path, const std::string &alternative_text ) const
+std::vector<std::string> main_menu::load_file( const std::string &path,
+        const std::string &alt_text ) const
 {
     std::vector<std::string> result;
     read_from_file_optional( path, [&result]( std::istream & fin ) {
@@ -135,7 +136,7 @@ std::vector<std::string> main_menu::load_file( const std::string &path, const st
         }
     } );
     if( result.empty() ) {
-        result.push_back( alternative_text );
+        result.push_back( alt_text );
     }
     return result;
 }

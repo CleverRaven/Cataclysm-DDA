@@ -40,7 +40,8 @@ class main_menu
         void print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                          bool bShowDDA = true );
 
-        std::vector<std::string> load_file( const std::string &path, const std::string &alternative_text ) const;
+        std::vector<std::string> load_file( const std::string &path,
+                                            const std::string &alt_text ) const;
         void mmenu_refresh_title();
         void mmenu_refresh_credits();
         void mmenu_refresh_motd();
