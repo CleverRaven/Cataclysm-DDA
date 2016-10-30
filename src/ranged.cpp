@@ -138,8 +138,11 @@ size_t blood_trail_len( int damage )
 // quality chances are unchanged.
 
 // these parameters balance the hit/miss chance:
-const double dispersion_sigmas = 2.4;      // how many standard deviations does "dispersion" represent?
-const double occupied_tile_fraction = 0.5; // how much of the target tile is occupied by the target?
+
+/** How many standard deviations does the dispersion passed to Creature::projectile_attack represent? */
+const double dispersion_sigmas = 2.4;
+/** How much of the target tile is occupied by the target of a projectile attack for hit purposes? */
+const double occupied_tile_fraction = 0.5;
 
 dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg, const tripoint &source,
                                                      const tripoint &target_arg, double dispersion )
