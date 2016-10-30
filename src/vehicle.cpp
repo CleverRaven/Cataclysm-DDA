@@ -6222,7 +6222,7 @@ int vehicle_part::wheel_width() const
 
 npc * vehicle_part::crew()
 {
-    if( is_broken() ) {
+    if( is_broken() || crew_id < 0 ) {
         return nullptr;
     }
 
@@ -6253,7 +6253,7 @@ bool vehicle_part::set_crew( const npc &who )
 
 void vehicle_part::unset_crew()
 {
-    crew_id = 0;
+    crew_id = -1;
 }
 
 bool vehicle_part::is_engine() const

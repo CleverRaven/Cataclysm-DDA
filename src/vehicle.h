@@ -268,7 +268,7 @@ private:
      *  What NPC (if any) is assigned to this part (seat, turret etc)?
      *  @see vehicle_part::crew() accessor which excludes dead and non-allied NPC's
      */
-    int crew_id = 0;
+    int crew_id = -1;
 
 public:
     /** Get part definition common to all parts of this type */
