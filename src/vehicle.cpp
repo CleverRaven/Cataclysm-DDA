@@ -6220,7 +6220,7 @@ int vehicle_part::wheel_width() const
     return base.is_wheel() ? base.type->wheel->width : 0;
 }
 
-npc * vehicle_part::crew()
+npc * vehicle_part::crew() const
 {
     if( is_broken() || crew_id < 0 ) {
         return nullptr;
@@ -6232,11 +6232,6 @@ npc * vehicle_part::crew()
     }
     npc *res = g->active_npc[idx];
     return !res->is_dead_state() && res->is_friend() ? res : nullptr;
-}
-
-const npc * vehicle_part::crew() const
-{
-    return const_cast<vehicle_part *>( this )->crew();
 }
 
 bool vehicle_part::set_crew( const npc &who )

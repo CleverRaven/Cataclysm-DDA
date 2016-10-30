@@ -180,8 +180,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
      *  @note checks crew member is alive and currently allied to the player
      *  @return nullptr if no valid crew member is currently assigned
      */
-    npc *crew();
-    const npc *crew() const;
+    npc *crew() const;
 
     /** Set crew member for this part (seat, truret etc) who must be a player ally)
      *  @return true if part can have crew members and passed npc was suitable
