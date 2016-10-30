@@ -20,9 +20,11 @@
 
 class input_context;
 class JsonObject;
-struct mongroup;
 class npc;
 class overmapbuffer;
+
+struct mongroup;
+struct overmap_location_restictions;
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
 extern std::unordered_map<std::string, oter_t> obasetermap;
@@ -443,8 +445,7 @@ public:
   void good_road(const std::string &base, int x, int y, int z);
   void good_river(int x, int y, int z);
   bool allowed_terrain( const std::vector<tripoint> &points,
-                        const std::vector<std::string> &allowed,
-                        const std::vector<std::string> &disallowed );
+                        const overmap_location_restictions &restrictions ) const;
   bool allow_special(const overmap_special& special, const tripoint& p, int &rotate);
   // Monsters, radios, etc.
   void place_specials();

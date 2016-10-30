@@ -75,6 +75,21 @@ oter_iid ot_null,
 std::unordered_map<string_id<oter_t>, oter_t> otermap;
 std::vector<oter_t> oterlist;
 
+struct overmap_location_restictions {
+    std::vector<std::string> allowed;
+    std::vector<std::string> disallowed;
+};
+
+//@todo Jsonize this map.
+static const std::map<std::string, overmap_location_restictions> overmap_locations = {
+    { "by_hiway",   { {},                   { "river", "road" } } },
+    { "field",      { { "field" },          {}                  } },
+    { "forest",     { { "forest" },         {}                  } },
+    { "land",       { {},                   { "river", "road" } } },
+    { "water",      { { "river" },          {}                  } },
+    { "wilderness", { { "forest", "field" },{}                  } }
+};
+
 oter_iid oterfind(const std::string &id)
 {
     const auto iter = otermap.find( oter_str_id( id ) );
@@ -959,11 +974,40 @@ const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &
     return null_terrain;
 }
 
+bool overmap_special::requires_existing_road() const
+{
+    return locations.count( "by_hiway" ) > 0;
+}
+
 void overmap_special::finalize()
 {
+    // Check locations for validity.
+    for( const auto &elem : locations ) {
+        if( overmap_locations.count( elem ) == 0 ) {
+            debugmsg( "Overmap special \"%s\" has invalid location \"%s\".",
+                      id.c_str(), elem.c_str() );
+        }
+    }
+    // Update and check terrains and connections.
     connections.clear();
+    std::set<tripoint> points;
 
     for( const auto &elem : terrains ) {
+        const oter_id tid( elem.terrain );
+
+        if( !tid.is_valid() ) {
+            debugmsg( "Invalid terrain \"%s\" in overmap special \"%s\".",
+                      tid.id().c_str(), id.c_str() );
+            continue;
+        }
+
+        if( points.count( elem.p ) > 0 ) {
+            debugmsg( "In overmap special \"%s\", point [%d,%d,%d] is duplicated.",
+                      id.c_str(), elem.p.x, elem.p.y, elem.p.z );
+        } else {
+            points.insert( elem.p );
+        }
+
         if( elem.connect.empty() ) {
             continue;
         }
@@ -989,6 +1033,11 @@ void overmap_special::finalize()
             debugmsg( "In overmap special \"%s\", point [%d,%d,%d] is blocked - can't connect %s to it.",
                       id.c_str(), elem.p.x, elem.p.y, elem.p.z, elem.connect.c_str() );
         }
+    }
+    // Check mandatory connections.
+    if( connections.empty() && requires_existing_road() ) {
+        debugmsg( "Overmap special \"%s\" spawns only near roads, but doesn't specify any valid connections (can't be spawned).",
+                  id.c_str() );
     }
 }
 
@@ -3895,24 +3944,23 @@ void overmap::good_river(int x, int y, int z)
 
 // checks the area around the selected point to ensure terrain is valid for special
 bool overmap::allowed_terrain( const std::vector<tripoint> &points,
-                               const std::vector<std::string> &allowed,
-                               const std::vector<std::string> &disallowed )
+                               const overmap_location_restictions &restrictions ) const
 {
     for( const tripoint &t : points ) {
         const oter_id &oter = get_ter( t.x, t.y, t.z );
 
         bool passed = false;
-        for( auto &elem : allowed ) {
+        for( auto &elem : restrictions.allowed ) {
             if( is_ot_type( elem, oter ) ) {
                 passed = true;
             }
         }
         // if we are only checking against disallowed types, we don't want this to fail us
-        if( !passed && !allowed.empty() ) {
+        if( !passed && !restrictions.allowed.empty() ) {
             return false;
         }
 
-        for( auto &elem : disallowed ) {
+        for( auto &elem : restrictions.disallowed ) {
             if( is_ot_type( elem, oter ) ) {
                 return false;
             }
@@ -4002,7 +4050,7 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
     }
 
     // If we found no road nearby, but the special requires it, fail the check.
-    if( top_score == 0 && special.locations.count( "by_hiway" ) > 0 ) {
+    if( top_score == 0 && special.requires_existing_road() ) {
         return false;
     }
 
@@ -4022,29 +4070,10 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
         rotated_points.push_back( rp );
     }
 
-    for( const auto& location : special.locations ) {
-        // check each location, if one returns true, then return true, else return false
-        // never, always, water, land, forest, field, wilderness, by_hiway
-        // false, true,   river, !river, forest, forest/field, special
-        bool passed = false;
-
-        if(location == "never") {
-            return false;
-        } else if(location == "always") {
-            return true;
-        } else if(location == "water") {
-            passed = allowed_terrain( rotated_points, { "river" }, {} );
-        } else if(location == "land" || location == "by_hiway") {
-            passed = allowed_terrain( rotated_points, {}, { "river", "road" } );
-        } else if(location == "forest") {
-            passed = allowed_terrain( rotated_points, { "forest" }, {} );
-        } else if(location == "field") {
-            passed = allowed_terrain( rotated_points, { "field" }, {} );
-        } else if(location == "wilderness") {
-            passed = allowed_terrain( rotated_points, { "forest", "field" }, {} );
-        }
-
-        if(passed) {
+    for( const auto &elem : special.locations ) {
+        const auto iter = overmap_locations.find( elem );
+        // check each location, any will do.
+        if( iter != overmap_locations.end() && allowed_terrain( rotated_points, iter->second ) ) {
             return true;
         }
     }

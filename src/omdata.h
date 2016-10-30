@@ -145,6 +145,8 @@ class overmap_special
 
         /** Returns terrain at the given point */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
+        /** Returns whether the special depends on existing roads. */
+        bool requires_existing_road() const;
         /** Checks the object and builds @ref connections vector. */
         void finalize();
 
