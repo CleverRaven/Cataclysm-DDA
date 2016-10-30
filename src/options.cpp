@@ -1876,6 +1876,7 @@ void options_manager::serialize(JsonOut &json) const
 
     for( size_t j = 0; j < vPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
+            // Skip blanks (#18870)
             if( elem == "" ) {
                 continue;
             }
