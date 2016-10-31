@@ -1803,9 +1803,10 @@ void npc::find_item()
     // Harvest item doesn't exist, so we'll be checking by its name
     std::string wanted_name;
     const auto consider_terrain =
-        [ this, whitelisting, &wanted, &wanted_name ]( const tripoint &p ) {
+        [ this, whitelisting, volume_allowed, &wanted, &wanted_name ]( const tripoint &p ) {
         // We only want to pick plants when there are no items to pick
-        if( !whitelisting || wanted != nullptr || !wanted_name.empty() ) {
+        if( !whitelisting || wanted != nullptr || !wanted_name.empty() ||
+            volume_allowed < units::from_milliliter( 250 ) ) {
             return;
         }
 
