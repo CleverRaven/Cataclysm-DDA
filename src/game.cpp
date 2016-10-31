@@ -13874,11 +13874,6 @@ void game::wait()
     u.assign_activity( new_act, false );
 }
 
-bool game::game_quit()
-{
-    return (uquit == QUIT_MENU);
-}
-
 bool game::game_error()
 {
     return (uquit == QUIT_ERROR);

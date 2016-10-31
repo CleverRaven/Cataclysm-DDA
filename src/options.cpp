@@ -1857,9 +1857,6 @@ void options_manager::show(bool ingame)
     }
     if( lang_changed ) {
         set_language(false);
-        g->mmenu_refresh_title();
-        g->mmenu_refresh_motd();
-        g->mmenu_refresh_credits();
     }
 
     refresh_tiles( used_tiles_changed, pixel_minimap_height_changed, ingame );
