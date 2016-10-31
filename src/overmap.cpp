@@ -236,13 +236,15 @@ void load_overmap_specials(JsonObject &jo)
         JsonArray point = om.get_array("point");
         terrain.p = tripoint(point.get_int(0), point.get_int(1), point.get_int(2));
         terrain.terrain = oter_str_id( om.get_string( "overmap" ) );
-        terrain.connect = oter_str_id( om.get_string( "connect", "" ) );
         JsonArray flagarray = om.get_array("flags");
         while(flagarray.has_more()) {
             terrain.flags.insert(flagarray.next_string());
         }
         spec.terrains.push_back(terrain);
     }
+
+    jo.read( "connections", spec.connections );
+
     JsonArray location_array = jo.get_array("locations");
     while(location_array.has_more()) {
         spec.locations.insert( location_array.next_string() );
@@ -602,7 +604,7 @@ void finalize_overmap_terrain( )
 
     for( auto &elem : overmap_specials ) {
         // This cast is safe as long as we don't modify id of the special.
-        const_cast<overmap_special &>( elem ).finalize();
+        const_cast<overmap_special &>( elem ).check();
     }
 }
 
@@ -982,7 +984,7 @@ bool overmap_special::requires_existing_road() const
     return locations.count( "by_road" ) > 0;
 }
 
-void overmap_special::finalize()
+void overmap_special::check()
 {
     // Check locations for validity.
     for( const auto &elem : locations ) {
@@ -992,7 +994,6 @@ void overmap_special::finalize()
         }
     }
     // Update and check terrains and connections.
-    connections.clear();
     std::set<tripoint> points;
 
     for( const auto &elem : terrains ) {
@@ -1008,33 +1009,16 @@ void overmap_special::finalize()
         } else {
             points.insert( elem.p );
         }
+    }
 
-        if( !elem.connect ) {
-            continue;
-        }
-
-        bool found = false;
-        static const direction neighbours[4] = { NORTH, SOUTH, EAST, WEST };
-
-        for( const auto dir : neighbours ) { // Directions are unsigned numbers.
-            const tripoint p = elem.p + direction_XY( dir );
-            // Only those that don't conflict with neighbors.
-            if( !get_terrain_at( p ).terrain ) {
-                const overmap_special_connection con{ elem.connect, p };
-                // Don't add duplicates
-                if( std::find( connections.begin(), connections.end(), con ) == connections.end() ) {
-                    connections.push_back( con );
-                }
-                found = true;
-                break;
-            }
-        }
-
-        if( !found ) {
-            debugmsg( "In overmap special \"%s\", point [%d,%d,%d] is blocked - can't connect %s to it.",
-                      id.c_str(), elem.p.x, elem.p.y, elem.p.z, elem.connect.c_str() );
+    for( const auto &elem : connections ) {
+        const auto &oter = get_terrain_at( elem.p );
+        if( oter.terrain ) {
+            debugmsg( "In overmap special \"%s\", point [%d,%d,%d] overwrites \"%s\".",
+                      id.c_str(), elem.p.x, elem.p.y, elem.p.z, oter.terrain.c_str() );
         }
     }
+
     // Check mandatory connections.
     if( connections.empty() && requires_existing_road() ) {
         debugmsg( "Overmap special \"%s\" spawns only near roads, but doesn't specify any valid connections (can't be spawned).",

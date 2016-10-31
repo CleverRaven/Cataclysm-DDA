@@ -122,17 +122,21 @@ struct overmap_special_spawns {
 struct overmap_special_terrain {
     overmap_special_terrain() : p( 0, 0, 0 ) { };
     tripoint p;
-    oter_str_id connect;
     oter_str_id terrain;
     std::set<std::string> flags;
 };
 
-struct overmap_special_connection {
-    oter_str_id terrain;
+struct overmap_special_connection : public JsonDeserializer {
     tripoint p;
+    oter_str_id terrain;
 
-    bool operator==( const overmap_special_connection &rhs ) const {
-        return p == rhs.p && terrain == rhs.terrain;
+    overmap_special_connection() : p( 0, 0, 0 ) { };
+
+    using JsonDeserializer::deserialize;
+    void deserialize( JsonIn &jsin ) override {
+        JsonObject jo = jsin.get_object();
+        jo.read( "point", p );
+        jo.read( "terrain", terrain );
     }
 };
 
@@ -147,8 +151,8 @@ class overmap_special
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
         /** Returns whether the special depends on existing roads. */
         bool requires_existing_road() const;
-        /** Checks the object and builds @ref connections vector. */
-        void finalize();
+        /** Checks the object. */
+        void check();
 
         std::string id;
         std::list<overmap_special_terrain> terrains;
