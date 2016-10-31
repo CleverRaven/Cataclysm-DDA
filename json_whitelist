@@ -15,6 +15,8 @@ data/json/items/book/* id
 data/json/items/bionics.json id
 data/json/items/containers.json id
 data/json/items/comestibles/spice.json id
+data/json/items/generic/ammolink.json id
+data/json/items/generic/casing.json id
 data/json/items/generic/string.json
 data/json/items/gun/* id
 data/json/items/gunmod/* id

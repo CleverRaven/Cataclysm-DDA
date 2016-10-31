@@ -372,5 +372,31 @@
       [ "556", 10 ],
       [ "shot_slug", 20 ]
     ]
+  },
+  {
+    "id": "ammo_casings",
+    "type": "item_group",
+    "items": [
+      { "item": "223_casing", "prob": 100, "count": 20 },
+      { "item": "300_casing", "prob": 80, "count": 20 },
+      { "item": "3006_casing", "prob": 80, "count": 20 },
+      { "item": "308_casing", "prob": 80, "count": 20 },
+      { "item": "32_casing", "prob": 80, "count": 20 },
+      { "item": "38_casing", "prob": 80, "count": 20 },
+      { "item": "40_casing", "prob": 80, "count": 20 },
+      { "item": "44_casing", "prob": 80, "count": 20 },
+      { "item": "45_casing", "prob": 80, "count": 20 },
+      { "item": "454_casing", "prob": 60, "count": 5 },
+      { "item": "46mm_casing", "prob": 60, "count": 20 },
+      { "item": "50_casing", "prob": 60, "count": 5 },
+      { "item": "500_casing", "prob": 60, "count": 20 },
+      { "item": "57mm_casing", "prob": 60, "count": 5 },
+      { "item": "5x50_hull", "prob": 60, "count": 20 },
+      { "item": "700nx_casing", "prob": 40, "count": 5 },
+      { "item": "762_casing", "prob": 80, "count": 20 },
+      { "item": "9mm_casing", "prob": 100, "count": 20 },
+      { "item": "9x18mm_casing", "prob": 80, "count": 20 },
+      { "item": "shot_hull", "prob": 100, "count": 20 }
+    ]
   }
 ]

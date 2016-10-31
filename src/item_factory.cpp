@@ -141,7 +141,7 @@ void Item_factory::finalize() {
             obj.integral_volume = obj.volume;
         }
         // for ammo and comestibles stack size defaults to count of initial charges
-        if( obj.stack_size == 0 && ( obj.ammo || obj.comestible ) ) {
+        if( obj.stackable && obj.stack_size == 0 ) {
             obj.stack_size = obj.charges_default();
         }
         // JSON contains volume per complete stack, convert it to volume per single item
@@ -593,6 +593,9 @@ void Item_factory::check_definitions() const
         if( type->price < 0 ) {
             msg << "negative price" << "\n";
         }
+        if( type->damage_min > 0 || type->damage_max < 0 || type->damage_min > type->damage_max ) {
+            msg << "invalid damage range" << "\n";
+        }
         if( type->description.empty() ) {
             msg << "empty description" << "\n";
         }
@@ -919,7 +922,17 @@ void load_optional_enum_array( std::vector<E> &vec, JsonObject &jo, const std::s
 
 itype * Item_factory::load_definition( JsonObject& jo, const std::string &src ) {
     if( !jo.has_string( "copy-from" ) ) {
-        return new itype();
+        itype *res = new itype();
+
+        // adjust type specific defaults
+        auto opt = jo.get_string( "type" );
+
+        // ammo and comestibles by default do not have differing damage levels
+        if( opt == "AMMO" || opt == "COMESTIBLE" ) {
+            res->damage_min = 0;
+            res->damage_max = 0;
+        }
+        return res;
     }
 
     auto base = m_templates.find( jo.get_string( "copy-from" ) );
@@ -968,6 +981,7 @@ void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
 {
     auto def = load_definition( jo, src );
     if( def) {
+        def->stackable = true;
         assign( jo, "stack_size", def->stack_size, src == "core", 1 );
         load_slot( def->ammo, jo, src );
         load_basic_info( jo, def, src );
@@ -1286,6 +1300,7 @@ void Item_factory::load_comestible( JsonObject &jo, const std::string &src )
 {
     auto def = load_definition( jo, src );
     if( def ) {
+        def->stackable = true;
         assign( jo, "stack_size", def->stack_size, src == "core", 1 );
         load_slot( def->comestible, jo, src );
         load_basic_info( jo, def, src );
@@ -1511,6 +1526,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     assign( jo, "volume", new_item_template->volume );
     assign( jo, "price", new_item_template->price );
     assign( jo, "price_postapoc", new_item_template->price_post );
+    assign( jo, "stackable", new_item_template->stackable, strict );
     assign( jo, "integral_volume", new_item_template->integral_volume );
     assign( jo, "bashing", new_item_template->melee[DT_BASH], strict, 0 );
     assign( jo, "cutting", new_item_template->melee[DT_CUT], strict, 0 );
@@ -1524,6 +1540,12 @@ void Item_factory::load_basic_info( JsonObject &jo, itype *new_item_template, co
     assign( jo, "emits", new_item_template->emits );
     assign( jo, "magazine_well", new_item_template->magazine_well );
     assign( jo, "explode_in_fire", new_item_template->explode_in_fire );
+
+    if( jo.has_member( "damage_states" ) ) {
+        auto arr = jo.get_array( "damage_states" );
+        new_item_template->damage_min = arr.get_int( 0 );
+        new_item_template->damage_max = arr.get_int( 1 );
+    }
 
     new_item_template->name = jo.get_string( "name" );
     if( jo.has_member( "name_plural" ) ) {

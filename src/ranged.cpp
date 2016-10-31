@@ -1552,14 +1552,13 @@ static void cycle_action( item& weap, const tripoint &pos ) {
 
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing != "null" ) {
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
-            weap.emplace_back( weap.ammo_data()->ammo->casing, calendar::turn, 1 );
+            weap.emplace_back( weap.ammo_data()->ammo->casing );
 
         } else {
-            item casing( weap.ammo_data()->ammo->casing, calendar::turn, 1 );
             if( cargo.empty() ) {
-                g->m.add_item_or_charges( eject, casing );
+                g->m.add_item_or_charges( eject, item( weap.ammo_data()->ammo->casing ) );
             } else {
-                veh->add_item( *cargo.front(), casing );
+                veh->add_item( *cargo.front(), item( weap.ammo_data()->ammo->casing ) );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
