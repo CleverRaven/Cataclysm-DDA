@@ -76,7 +76,7 @@ TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
         who.set_skill_level( skill_id( "gun" ), gun_skill );
 
         for( const auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->gun ) {
+            if( e.second.gun ) {
                 item gun( e.first );
                 if( !gun.magazine_integral() ) {
                     gun.emplace_back( gun.magazine_default() );
