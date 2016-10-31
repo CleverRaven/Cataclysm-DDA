@@ -4,7 +4,7 @@
     "mod-type": "SUPPLEMENTAL",
     "ident": "no_olg_guns",
     "name": "No Antique Firearms",
-    "author": "Rivet-the-Zombie",
+    "authors": [ "Rivet-the-Zombie" ],
     "description": "Removes all black powder and pre-Cold War firearms.",
     "category": "item_exclude",
     "path": "modinfo.json"

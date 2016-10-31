@@ -5,6 +5,6 @@
     "name": "Animatronic Monsters",
     "description": "Adds a chain of bankrupt pizzerias, with still functioning animatronics inside.",
     "category": "buildings",
-    "author": "Lanceo90",
+    "authors": [ "Lanceo90" ],
     "path": ""
 }

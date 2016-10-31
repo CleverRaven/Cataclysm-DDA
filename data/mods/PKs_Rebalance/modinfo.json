@@ -6,7 +6,7 @@
     "name": "PKs Reimagining",
     "description": "Adds many new creatures and rebalances existing spawns to make the game more challenging.",
     "category": "creatures",
-    "author": "pisskop",
+    "authors": [ "pisskop" ],
     "path": "",
     "dependencies": [ "crazy_cataclysm" ]
     },{

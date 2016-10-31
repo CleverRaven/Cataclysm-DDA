@@ -78,7 +78,7 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
         note = newnote.str();
     }
     std::vector<std::string> dependencies = mod->dependencies;
-    std::vector<std::string> authors = mod->authors;
+
     std::string description = mod->description;
     std::string dependency_string = "";
     if( !dependencies.empty() ) {
@@ -97,19 +97,10 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
         }
         DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "\n";
     }
-    std::string author_string = "";
-    if( !authors.empty() ) {
-        for( size_t i = 0; i < authors.size(); ++i ) {
-            if( i > 0 ) {
-                //~ delimiter for mod author enumeration
-                author_string += pgettext( "mod manager", ", " );
-            }
-            author_string += authors[i];
-        }
-        info << string_format( ngettext( "Author: %s\n", "Authors: %s\n", authors.size() ),
-                               author_string.c_str() );
-    } else {
-        info << _( "Authors: [UNKNOWN]\n" );
+
+    if( !mod->authors.empty() ) {
+        info << ngettext( "Author", "Authors", mod->authors.size() ) << ": "
+             << enumerate_as_string( mod->authors ) << "\n";
     }
 
     if( !dependencies.empty() ) {

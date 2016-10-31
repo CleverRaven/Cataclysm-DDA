@@ -4,7 +4,7 @@
     "mod-type": "SUPPLEMENTAL",
     "ident": "No_Triffids",
     "name": "No Triffids",
-    "author": "Williham Totland",
+    "authors": [ "Williham Totland" ],
     "description": "Removes triffids from the game.",
     "category": "monster_exclude",
     "path": ""

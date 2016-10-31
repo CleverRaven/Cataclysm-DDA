@@ -5,6 +5,6 @@
     "name": "DeadLeaves' Fictional Guns",
     "description": "Adds a bunch of rare weapons loosely based fiction. ",
     "category": "items",
-    "author": "DeadLeaves",
+    "authors": [ "DeadLeaves" ],
     "path": ""
 }

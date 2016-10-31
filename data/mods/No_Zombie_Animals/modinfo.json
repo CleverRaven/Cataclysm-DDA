@@ -4,7 +4,6 @@
     "mod-type": "SUPPLEMENTAL",
     "ident": "No_Zombie_Animals",
     "name": "No Zombie Animals",
-    "author": "Anonymous",
     "description": "Removes zombie animals from the game.",
     "category": "item_exclude",
     "path": "modinfo.json"

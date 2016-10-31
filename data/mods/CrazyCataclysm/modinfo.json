@@ -5,7 +5,7 @@
     "ident": "crazy_cataclysm",
     "name": "Crazy Cataclysm",
     "description": "Want a little crazy in your Cataclysm?  Try this one.",
-    "author": "Kevin",
+    "authors": [ "Kevin" ],
     "category": "misc_additions",
     "path": ""
   },{

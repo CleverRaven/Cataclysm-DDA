@@ -3,7 +3,7 @@
     "mod-type": "SUPPLEMENTAL",
     "ident": "More_Survival_Tools",
     "name": "More Survival Tools",
-    "author": "Chaosvolt",
+    "authors": [ "Chaosvolt" ],
     "description": "For those who prefer being innawoods.  Adds several tools, various recipes additions/tweaks, plus two new classes.",
     "category": "items",
     "path": ""

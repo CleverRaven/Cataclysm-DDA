@@ -32,7 +32,10 @@ struct MOD_INFORMATION {
     std::string path;
     std::string name;
     std::string ident;
-    std::vector<std::string> authors;
+
+    /** All authors who have added content to the mod (excluding maintenance changes) */
+    std::set<std::string> authors;
+
     std::string description;
     mod_type _type = MT_SUPPLEMENTAL;
     std::vector<std::string> dependencies;

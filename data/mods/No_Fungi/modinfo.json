@@ -4,7 +4,7 @@
     "mod-type": "SUPPLEMENTAL",
     "ident": "No_Fungi",
     "name": "No Fungal Monsters",
-    "author": "Chaosvolt",
+    "authors": [ "Chaosvolt" ],
     "description": "Removes fungal monsters and regions from the game.",
     "category": "monster_exclude",
     "path": ""

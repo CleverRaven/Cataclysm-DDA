@@ -4,7 +4,7 @@
     "mod-type": "SUPPLEMENTAL",
     "ident": "no_rivtech_guns",
     "name": "No Fictional Guns",
-    "author": "tungtn/community",
+    "authors": [ "tungtn/community" ],
     "description": "Removes fictional conventional firearms and ammunition.",
     "category": "item_exclude",
     "path": "modinfo.json"

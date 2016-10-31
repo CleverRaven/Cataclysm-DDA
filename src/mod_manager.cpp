@@ -170,14 +170,6 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     }
 
     std::string t_type = jo.get_string("mod-type", "SUPPLEMENTAL");
-    std::vector<std::string> m_authors;
-    if (jo.has_array("authors")) {
-        m_authors = jo.get_string_array("authors");
-    } else {
-        if(jo.has_string("author")) {
-            m_authors.push_back(jo.get_string("author"));
-        }
-    }
 
     std::string m_name = jo.get_string("name", "");
     if (m_name.empty()) {
@@ -267,7 +259,6 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     std::unique_ptr<MOD_INFORMATION> modfile( new MOD_INFORMATION );
     modfile->ident = m_ident;
     modfile->_type = m_type;
-    modfile->authors = m_authors;
     modfile->name = m_name;
     modfile->description = m_desc;
     modfile->dependencies = m_dependencies;
@@ -275,6 +266,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     modfile->path = m_path;
     modfile->need_lua = m_need_lua;
 
+    assign( jo, "authors", modfile->authors );
     assign( jo, "obsolete", modfile->obsolete );
 
     mod_map[modfile->ident] = std::move( modfile );

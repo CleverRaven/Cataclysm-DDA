@@ -4,7 +4,7 @@
     "mod-type": "SUPPLEMENTAL",
     "ident": "generic_guns",
     "name": "Generic Guns",
-    "author": "nikheizen",
+    "authors": [ "nikheizen" ],
     "description": "Replaces guns and ammo with generic types.",
     "category": "items",
     "path": ""
