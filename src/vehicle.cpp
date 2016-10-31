@@ -1474,6 +1474,21 @@ bool vehicle::has_structural_part(int const dx, int const dy) const
 }
 
 /**
+ * Returns whether or not the vehicle has a structural part queued for removal,
+ * @return true if a structural is queue for removal, false if not.
+ * */
+bool vehicle::is_structural_part_removed() const
+{
+    for( size_t i = 0; i < parts.size(); ++i ) {
+        if (parts[i].removed &&
+                part_info( i, true ).location == part_location_structure) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * Returns whether or not the vehicle part with the given id can be mounted in
  * the specified square.
  * @param dx The local x-coordinate to mount in.
@@ -1523,9 +1538,11 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
 
     }
 
-    //All parts after the first must be installed on or next to an existing part
+    // All parts after the first must be installed on or next to an existing part
+    // the exception is when a single tile only structural object is being repaired
     if(!parts.empty()) {
-        if(!has_structural_part(dx, dy) &&
+        if(!is_structural_part_removed() &&
+                !has_structural_part(dx, dy) &&
                 !has_structural_part(dx+1, dy) &&
                 !has_structural_part(dx, dy+1) &&
                 !has_structural_part(dx-1, dy) &&
