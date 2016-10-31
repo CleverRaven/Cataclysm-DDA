@@ -4,6 +4,31 @@
 #include "npc.h"
 #include "item_factory.h"
 
+static void test_distribution( const npc &who, int dispersion, int range )
+{
+    const int N = 50000;
+    std::array< std::pair<double, int>, 20 > bins;
+
+    for( int i = 0; i < bins.size(); ++i ) {
+        bins[i].first = ( double )( bins.size() - i ) / bins.size();
+        bins[i].second = 0;
+    }
+
+    for( int i = 0; i < N; ++i ) {
+        projectile_attack_aim aim = who.projectile_attack_roll( dispersion, range );
+        for( int j = 0; j < bins.size() && aim.missed_by < bins[j].first; ++j ) {
+            ++bins[j].second;
+        }
+    }
+
+    for( int i = 0; i < bins.size(); ++i ) {
+        CAPTURE( range );
+        CAPTURE( dispersion );
+        CAPTURE( bins[i].first );
+        REQUIRE( who.projectile_attack_chance( dispersion, range, bins[i].first ) == Approx( ( double )bins[i].second / N ).epsilon( 0.01 ) );
+    }
+}
+
 static void test_internal( const npc& who, const item &gun )
 {
     THEN( "the computed range from accuracy, recoil, and chance is correctly calculated" ) {
@@ -81,26 +106,39 @@ TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
         who.wear_item( item( "mask_lsurvivor" ) );
         who.set_skill_level( skill_id( "gun" ), gun_skill );
 
-        for( const auto& e : item_controller->get_all_itypes() ) {
-            if( e.second.gun ) {
-                item gun( e.first );
-                if( !gun.magazine_integral() ) {
-                    gun.emplace_back( gun.magazine_default() );
+        WHEN( "many shots are fired" ) {
+            THEN( "the distribution of accuracies is as expected" ) {
+                for( int range = 1; range <= MAX_RANGE; ++range ) {
+                    for( int dispersion = 0; dispersion < 1200; dispersion += 50 ) {
+                        test_distribution( who, dispersion, range );
+                    }
                 }
-                gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
-
-                who.set_skill_level( gun.gun_skill(), weapon_skill );
-
-                INFO( "GUN: " << gun.tname() );
-                INFO( "AMMO " << gun.ammo_current() );
-
-                REQUIRE( gun.is_gun() );
-                REQUIRE( gun.ammo_sufficient() );
-
-                test_internal( who, gun );
-
-                // @todo acceptance tests here
             }
         }
+
+        WHEN( "the gun ranges are examined" ) {
+            for( const auto& e : item_controller->get_all_itypes() ) {
+                if( e.second.gun ) {
+                    item gun( e.first );
+                    if( !gun.magazine_integral() ) {
+                        gun.emplace_back( gun.magazine_default() );
+                    }
+                    gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
+
+                    who.set_skill_level( gun.gun_skill(), weapon_skill );
+
+                    INFO( "GUN: " << gun.tname() );
+                    INFO( "AMMO " << gun.ammo_current() );
+
+                    REQUIRE( gun.is_gun() );
+                    REQUIRE( gun.ammo_sufficient() );
+
+                    test_internal( who, gun );
+
+                    // @todo acceptance tests here
+                }
+            }
+        }
+
     }
 }
