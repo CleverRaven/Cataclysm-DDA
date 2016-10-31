@@ -66,8 +66,13 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
     std::ostringstream info;
 
     if( !mod->authors.empty() ) {
-        info << ngettext( "Author", "Authors", mod->authors.size() ) << ": "
-             << enumerate_as_string( mod->authors ) << "\n";
+        info << "<color_ltblue>" << ngettext( "Author", "Authors", mod->authors.size() )
+             << "</color>: " << enumerate_as_string( mod->authors ) << "\n";
+    }
+
+    if( !mod->maintainers.empty() ) {
+        info << "<color_ltblue>" << ngettext( "Maintainer", "Maintainers", mod->maintainers.size() )
+             << "</color>: " << enumerate_as_string( mod->maintainers ) << "\n";
     }
 
     if( !mod->dependencies.empty() ) {
@@ -79,11 +84,12 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
                 return string_format( "[<color_red>%s</color>]", e.c_str() );
             }
         } );
-        info << ngettext( "Dependency", "Dependencies", deps.size() ) << ": " << str << "\n";
+        info << "<color_ltblue>" << ngettext( "Dependency", "Dependencies", deps.size() )
+             << "</color>: " << str << "\n";
     }
 
     if( !mod->description.empty() ) {
-        info << _( "Description" ) << ": " << _( mod->description.c_str() ) << "\n";
+        info << mod->description << "\n";
     }
 
     std::string note = !mm_tree->is_available( mod->ident ) ? mm_tree->get_node( mod->ident )->s_errors() : "";
