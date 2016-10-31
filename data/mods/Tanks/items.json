@@ -13,7 +13,7 @@
   },{
     "id": "ammolink30mm",
     "copy-from": "ammolink",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": "30mm autocannon belt linkage",
     "weight": 6,
     "volume": "10ml",
