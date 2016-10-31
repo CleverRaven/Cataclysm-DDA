@@ -83,17 +83,7 @@ const std::array<fuel_type, 7> &get_fuel_types()
     return fuel_types;
 }
 
-// Map stack methods.
-size_t vehicle_stack::size() const
-{
-    return mystack->size();
-}
-
-bool vehicle_stack::empty() const
-{
-    return mystack->empty();
-}
-
+// Vehicle stack methods.
 std::list<item>::iterator vehicle_stack::erase( std::list<item>::iterator it )
 {
     return myorigin->remove_item(part_num, it);
@@ -110,55 +100,15 @@ void vehicle_stack::insert_at( std::list<item>::iterator index,
     myorigin->add_item_at(part_num, index, newitem);
 }
 
-std::list<item>::iterator vehicle_stack::begin()
+units::volume vehicle_stack::max_volume() const
 {
-    return mystack->begin();
+    if( myorigin->part_flag( part_num, "CARGO" ) && !myorigin->parts[part_num].is_broken() ) {
+        return myorigin->parts[part_num].info().size;
+    }
+    return 0;
 }
 
-std::list<item>::iterator vehicle_stack::end()
-{
-    return mystack->end();
-}
-
-std::list<item>::const_iterator vehicle_stack::begin() const
-{
-    return mystack->cbegin();
-}
-
-std::list<item>::const_iterator vehicle_stack::end() const
-{
-    return mystack->cend();
-}
-
-std::list<item>::reverse_iterator vehicle_stack::rbegin()
-{
-    return mystack->rbegin();
-}
-
-std::list<item>::reverse_iterator vehicle_stack::rend()
-{
-    return mystack->rend();
-}
-
-std::list<item>::const_reverse_iterator vehicle_stack::rbegin() const
-{
-    return mystack->crbegin();
-}
-
-std::list<item>::const_reverse_iterator vehicle_stack::rend() const
-{
-    return mystack->crend();
-}
-
-item &vehicle_stack::front()
-{
-    return mystack->front();
-}
-
-item &vehicle_stack::operator[]( size_t index )
-{
-    return *(std::next(mystack->begin(), index));
-}
+// Vehicle class methods.
 
 vehicle::vehicle(const vproto_id &type_id, int init_veh_fuel, int init_veh_status): type(type_id)
 {
@@ -4755,65 +4705,58 @@ void vehicle::handle_trap( const tripoint &p, int part )
 // total volume of all the things
 units::volume vehicle::stored_volume(int const part) const
 {
-    if (!part_flag(part, "CARGO")) {
-        return 0;
-    }
-    units::volume cur_volume = 0;
-    for( auto &i : get_items(part) ) {
-       cur_volume += i.volume();
-    }
-    return cur_volume;
+    return get_items( part ).stored_volume();
 }
 
 units::volume vehicle::max_volume(int const part) const
 {
-    if (part_flag(part, "CARGO")) {
-        return parts[part].info().size;
-    }
-    return 0;
+    return get_items( part ).max_volume();
 }
 
 units::volume vehicle::free_volume(int const part) const
 {
-    return max_volume( part ) - stored_volume( part );
+    return get_items( part ).free_volume();
+}
+
+long vehicle::add_charges( int part, const item &itm )
+{
+    if( !itm.count_by_charges() ) {
+        debugmsg( "Add charges was called for an item not counted by charges!" );
+        return 0;
+    }
+    const long ret = get_items( part ).amount_can_fit( itm );
+    if( ret == 0 ) {
+        return 0;
+    }
+
+    item itm_copy = itm;
+    itm_copy.charges = ret;
+    return add_item( part, itm_copy ) ? ret : 0;
 }
 
 bool vehicle::add_item( int part, const item &itm )
 {
-    const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE;
-    const units::volume maxvolume = max_volume( part );
-
     // const int max_weight = ?! // TODO: weight limit, calc per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certian point, or when hitting bumps etc
-
-    if( !part_flag( part, "CARGO" ) || parts[ part ].is_broken() ) {
-        return false;
-    }
-
-    if( (int)parts[part].items.size() >= max_storage ) {
-        return false;
-    }
 
     if( parts[ part ].base.is_gun() ) {
         if( !itm.is_ammo() || itm.ammo_type() != parts[ part ].base.ammo_type() ) {
             return false;
         }
     }
-    units::volume cur_volume = 0;
-    bool tryaddcharges=(itm.charges  != -1 && itm.count_by_charges());
-    // iterate anyway since we need a volume total
-    for (auto &i : parts[part].items) {
-        cur_volume += i.volume();
-        if( tryaddcharges && i.merge_charges( itm ) ) {
+    bool charge = itm.count_by_charges();
+    vehicle_stack istack = get_items( part );
+    const long to_move = istack.amount_can_fit( itm );    
+    if( to_move == 0 || ( charge && to_move < itm.charges ) ) {
+        return false; // @add_charges should be used in the latter case
+    }
+    if( charge ) {
+        item *here = istack.stacks_with( itm );
+        if( here ) {
             invalidate_mass();
-            return true;
+            return here->merge_charges( itm );
         }
     }
-
-    if( cur_volume + itm.volume() > maxvolume ) {
-        return false;
-    }
-
     return add_item_at( part, parts[part].items.end(), itm );
 }
 

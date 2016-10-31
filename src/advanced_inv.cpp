@@ -2048,23 +2048,29 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         redraw = true;
         return false;
     }
+    
     // Check volume, this should work the same for inventory, map and vehicles, but not for worn
     if( unitvolume > 0 && ( unitvolume * amount ) > free_volume && squares[destarea].id != AIM_WORN ) {
-        const long volmax = free_volume / unitvolume;
-        if( volmax <= 0 ) {
+        const long room_for = it.charges_per_volume( free_volume );
+        
+        if( room_for <= 0 ) {
             popup( _( "Destination area is full.  Remove some items first." ) );
             redraw = true;
             return false;
         }
-        amount = std::min( volmax, amount );
+        amount = std::min( room_for, amount );
     }
     // Map and vehicles have a maximal item count, check that. Inventory does not have this.
     if( destarea != AIM_INVENTORY &&
             destarea != AIM_WORN &&
             destarea != AIM_CONTAINER ) {
         const long cntmax = p.max_size - p.get_item_count();
-        if( cntmax <= 0 ) {
-            // TODO: items by charges might still be able to be add to an existing stack!
+        // For items counted by charges, adding it adds 0 items if something there stacks with it.
+        const bool adds0 = by_charges && std::any_of( panes[dest].items.begin(), panes[dest].items.end(),
+            [&it]( const advanced_inv_listitem &li ) {
+            return li.is_item_entry() && li.items.front()->stacks_with( it );
+        } );
+        if( cntmax <= 0 && !adds0 ) {
             popup( _( "Destination area has too many items.  Remove some first." ) );
             redraw = true;
             return false;

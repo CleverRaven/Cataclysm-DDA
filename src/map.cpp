@@ -73,16 +73,6 @@ static item             nulitem;           // Returned when item adding function
 static std::string null_ter_t = "t_null";
 
 // Map stack methods.
-size_t map_stack::size() const
-{
-    return mystack->size();
-}
-
-bool map_stack::empty() const
-{
-    return mystack->empty();
-}
-
 std::list<item>::iterator map_stack::erase( std::list<item>::iterator it )
 {
     return myorigin->i_rem(location, it);
@@ -99,54 +89,14 @@ void map_stack::insert_at( std::list<item>::iterator index,
     myorigin->add_item_at( location, index, newitem );
 }
 
-std::list<item>::iterator map_stack::begin()
+units::volume map_stack::max_volume() const
 {
-    return mystack->begin();
-}
-
-std::list<item>::iterator map_stack::end()
-{
-    return mystack->end();
-}
-
-std::list<item>::const_iterator map_stack::begin() const
-{
-    return mystack->cbegin();
-}
-
-std::list<item>::const_iterator map_stack::end() const
-{
-    return mystack->cend();
-}
-
-std::list<item>::reverse_iterator map_stack::rbegin()
-{
-    return mystack->rbegin();
-}
-
-std::list<item>::reverse_iterator map_stack::rend()
-{
-    return mystack->rend();
-}
-
-std::list<item>::const_reverse_iterator map_stack::rbegin() const
-{
-    return mystack->crbegin();
-}
-
-std::list<item>::const_reverse_iterator map_stack::rend() const
-{
-    return mystack->crend();
-}
-
-item &map_stack::front()
-{
-    return mystack->front();
-}
-
-item &map_stack::operator[]( size_t index )
-{
-    return *(std::next(mystack->begin(), index));
+    if( !myorigin->inbounds( location ) ) {
+        return 0;
+    } else if( myorigin->has_furn( location ) ) {
+        return myorigin->furn( location ).obj().max_volume;
+    }
+    return myorigin->ter( location ).obj().max_volume;
 }
 
 // Map class methods.
@@ -4277,21 +4227,6 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
                 quantity, charges, birthday, damlevel );
 }
 
-units::volume map::max_volume(const int x, const int y)
-{
-    return max_volume( tripoint( x, y, abs_sub.z ) );
-}
-
-units::volume map::stored_volume(const int x, const int y)
-{
-    return stored_volume( tripoint( x, y, abs_sub.z ) );
-}
-
-units::volume map::free_volume(const int x, const int y)
-{
-    return free_volume( tripoint( x, y, abs_sub.z ) );
-}
-
 bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius)
 {
     return !add_item_or_charges( tripoint( x, y, abs_sub.z ), new_item, overflow_radius ).is_null();
@@ -4451,35 +4386,23 @@ void map::spawn_item(const tripoint &p, const std::string &type_id,
     spawn_an_item(p, new_item, charges, damlevel);
 }
 
-units::volume map::max_volume(const tripoint &p)
+units::volume map::max_volume( const tripoint &p )
 {
-    if (has_furn(p)) {
-        return furn( p ).obj().max_volume;
-    }
-    return ter(p).obj().max_volume;
+    return i_at( p ).max_volume();
 }
 
 // total volume of all the things
-units::volume map::stored_volume(const tripoint &p) {
-    if(!inbounds(p)) {
-        return 0;
-    }
-    units::volume cur_volume = 0;
-    for( auto &n : i_at(p) ) {
-        cur_volume += n.volume();
-    }
-    return cur_volume;
+units::volume map::stored_volume( const tripoint &p )
+{
+    return i_at( p ).stored_volume();
 }
 
 // free space
-units::volume map::free_volume(const tripoint &p) {
-    return max_volume( p ) - stored_volume( p );
+units::volume map::free_volume( const tripoint &p )
+{
+    return i_at( p ).free_volume();
 }
 
-// adds an item to map point, or stacks charges.
-// returns false if item exceeds tile's weight limits or item count. This function is expensive, and meant for
-// user initiated actions, not mapgen!
-// overflow_radius > 0: if x,y is full, attempt to drop item up to overflow_radius squares away, if x,y is full
 item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_radius) {
 
     if(!inbounds(p) ) {
@@ -4497,35 +4420,44 @@ item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_ra
         return nulitem;
     }
 
-
-    const bool tryaddcharges = new_item.charges != -1 && new_item.count_by_charges();
-    std::vector<tripoint> ps = closest_tripoints_first(overflow_radius, p);
-    for( const auto &p_it : ps ) {
-        if( !inbounds(p_it) || new_item.volume() > free_volume(p_it) ||
-            has_flag("DESTROY_ITEM", p_it) || has_flag("NOITEM", p_it) ) {
+    const bool charge = new_item.count_by_charges();
+    item *ret = nullptr;
+    
+    for( const auto &p_it : closest_tripoints_first(overflow_radius, p) ) {
+        if( !inbounds( p_it ) || has_flag( "DESTROY_ITEM", p_it ) || has_flag( "NOITEM", p_it ) ) {
             continue;
         }
-
-        if( tryaddcharges ) {
-            for( auto &i : i_at( p_it ) ) {
-                if( i.merge_charges( new_item ) ) {
-                    return i;
-                }
-            }
+        map_stack istack = i_at( p_it );
+        const long can_fit = istack.amount_can_fit( new_item );
+        if( can_fit < 1 ) {
+            continue;
         }
-
-        if( i_at( p_it ).size() < MAX_ITEM_IN_SQUARE ) {
+        
+        item *here = charge ? istack.stacks_with( new_item ) : nullptr;
+        const long old_charges = new_item.charges;
+        if( here ) {
+            // Then we want to merge charges
+            new_item.charges = can_fit;
+            here->merge_charges( new_item );
+            new_item.charges = old_charges - can_fit;
+            ret = here;
+        } else {
+            // Then we want to call @add_item
+            new_item.charges = charge ? can_fit : new_item.charges;
+            ret = &add_item( p_it, new_item );
+            new_item.charges = charge ? old_charges - can_fit : new_item.charges;
             support_dirty( p_it );
-            return add_item( p_it, new_item );
         }
-    }
+        
+        if( !charge || new_item.charges == 0 ) {
+            return ret ? *ret : nulitem;
+        }
+    } //end for every point in overflow radius
 
-    return nulitem;
+    // Adding only some of the charges is good enough to return success, I guess.
+    return ret ? *ret : nulitem;
 }
 
-// Place an item on the map, despite the parameter name, this is not necessaraly a new item.
-// WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
-// map::add_item_or_charges
 item &map::add_item(const tripoint &p, item new_item)
 {
     if( !inbounds( p ) ) {
