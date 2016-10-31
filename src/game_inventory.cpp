@@ -259,7 +259,7 @@ class read_inventory_preset: public inventory_selector_preset
                 const auto &book = get_book( loc );
                 const int unlearned = book.recipes.size() - get_known_recipes( book );
 
-                return unlearned > 0 ? std::to_string( unlearned ) : std::string();
+                return unlearned > 0 ? to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
 
             append_cell( [ this ]( const item_location & loc ) -> std::string {
