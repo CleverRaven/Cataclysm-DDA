@@ -11,9 +11,9 @@
             { "point":[0,0,-1], "overmap": "3storyA_basement_north" }
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" }
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
@@ -31,9 +31,9 @@
             { "point":[0,0,-1], "overmap": "3storyB_basement_north" }
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" }
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
@@ -51,9 +51,9 @@
             { "point":[0,0,-1], "overmap": "3storyC_basement_north" }
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" }
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
@@ -71,9 +71,9 @@
             { "point":[0,0,-1], "overmap": "3storyD_basement_north" }
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" }
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
@@ -91,9 +91,9 @@
             { "point":[0,0,-1], "overmap": "3storyE_basement_north" }
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" }
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
@@ -111,9 +111,9 @@
             { "point":[0,0,-1], "overmap": "3storyF_basement_north" }
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" }
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
@@ -130,9 +130,9 @@
             { "point":[0,0,-1], "overmap": "2storyA_basement_north" }
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" }
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
@@ -149,9 +149,9 @@
             { "point":[0,0,-1], "overmap": "2storyB_basement_north" }
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" }
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
@@ -168,9 +168,9 @@
             { "point":[0,0,-1], "overmap": "2storyC_basement_north" }
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" }
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
@@ -187,9 +187,9 @@
             { "point":[0,0,-1], "overmap": "2storyD_basement_north" }
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" }
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
@@ -206,9 +206,9 @@
             { "point":[0,0,-1], "overmap": "2storyE_basement_north" }
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" }
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
@@ -225,9 +225,9 @@
             { "point":[0,0,-1], "overmap": "2storyF_basement_north" }
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" }
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
@@ -247,9 +247,9 @@
             { "point":[0,0,-1], "overmap": "combohouseA_basement_north" }
         ],
         "connections" : [
-            { "point" : [2,0,0], "terrain" : "road" }
+            { "point" : [2,0,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
@@ -269,9 +269,9 @@
             { "point":[0,0,-1], "overmap": "combohouseB_basement_north" }
         ],
         "connections" : [
-            { "point" : [2,0,0], "terrain" : "road" }
+            { "point" : [2,0,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 1],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
@@ -291,9 +291,9 @@
             { "point":[0,0,-1], "overmap": "combohouseC_basement_north" }
         ],
         "connections" : [
-            { "point" : [2,0,0], "terrain" : "road" }
+            { "point" : [2,0,0], "terrain" : "road", "existing" : true }
         ],
-        "locations" : [ "by_road" ],
+        "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],

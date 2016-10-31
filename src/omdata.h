@@ -127,16 +127,18 @@ struct overmap_special_terrain {
 };
 
 struct overmap_special_connection : public JsonDeserializer {
-    tripoint p;
+    tripoint p = tripoint( 0, 0, 0 );
     oter_str_id terrain;
+    bool existing = false;
 
-    overmap_special_connection() : p( 0, 0, 0 ) { };
+    overmap_special_connection() = default;
 
     using JsonDeserializer::deserialize;
     void deserialize( JsonIn &jsin ) override {
         JsonObject jo = jsin.get_object();
         jo.read( "point", p );
         jo.read( "terrain", terrain );
+        jo.read( "existing", existing );
     }
 };
 
@@ -149,8 +151,6 @@ class overmap_special
 
         /** Returns terrain at the given point */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
-        /** Returns whether the special depends on existing roads. */
-        bool requires_existing_road() const;
         /** Checks the object. */
         void check();
 

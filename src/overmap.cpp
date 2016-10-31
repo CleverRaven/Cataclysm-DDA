@@ -81,10 +81,9 @@ struct overmap_location_restictions {
 };
 
 // Map of allowed and disallowed terrain for locations of overmap specials.
-// Format: { location, { { list of allowed terrains }, { list of disallowed terrains } }
+// Format: { location, { { list of allowed terrains }, { list of disallowed terrains } } }
 // @todo Jsonize this map.
 static const std::map<std::string, overmap_location_restictions> overmap_locations = {
-    { "by_road",    { {},                   { "river", "road" } } },
     { "field",      { { "field" },          {}                  } },
     { "forest",     { { "forest" },         {}                  } },
     { "land",       { {},                   { "river", "road" } } },
@@ -979,11 +978,6 @@ const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &
     return *iter;
 }
 
-bool overmap_special::requires_existing_road() const
-{
-    return locations.count( "by_road" ) > 0;
-}
-
 void overmap_special::check()
 {
     // Check locations for validity.
@@ -1017,12 +1011,6 @@ void overmap_special::check()
             debugmsg( "In overmap special \"%s\", point [%d,%d,%d] overwrites \"%s\".",
                       id.c_str(), elem.p.x, elem.p.y, elem.p.z, oter.terrain.c_str() );
         }
-    }
-
-    // Check mandatory connections.
-    if( connections.empty() && requires_existing_road() ) {
-        debugmsg( "Overmap special \"%s\" spawns only near roads, but doesn't specify any valid connections (can't be spawned).",
-                  id.c_str() );
     }
 }
 
@@ -3995,12 +3983,6 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
         }
     }
 
-    // check if rotation is allowed, and if necessary
-    rotate = 0;
-    // check to see if road is nearby, if so, rotate to face road
-    // if no road && special requires road, return false
-    // if no road && special does not require it, pick a random rotation
-
     const size_t num_rotations = special.rotatable ? 4 : 1;
 
     int top_score = 0; // Maximal number of existing connections (roads).
@@ -4014,10 +3996,11 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
 
         for( const auto &con : special.connections ) {
             const tripoint rp = p + rotate_tripoint( con.p, r );
+            const oter_id &oter = get_ter( rp.x, rp.y, rp.z );
 
-            if( check_ot_type( con.terrain.str(), rp.x, rp.y, rp.z ) ) {
+            if( is_ot_type( con.terrain.str(), oter ) ) {
                 ++score; // Found another one satisfied connection.
-            } else if( !road_allowed( get_ter( rp.x, rp.y, rp.z ) ) ) {
+            } else if( !oter || con.existing || !road_allowed( oter ) ) {
                 valid_rotation = false;
                 break;
             }
@@ -4034,11 +4017,6 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
 
     if( rotations.empty() ) {
         return false; // No valid rotations
-    }
-
-    // If we found no road nearby, but the special requires it, fail the check.
-    if( top_score == 0 && special.requires_existing_road() ) {
-        return false;
     }
 
     rotate = random_entry( rotations );

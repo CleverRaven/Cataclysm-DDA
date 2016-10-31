@@ -49,9 +49,9 @@
       { "point":[0,1,2], "overmap": "2fmotel_3_r_north"}
     ],
     "connections" : [
-        { "point" : [0,-1,0], "terrain" : "road" }
+        { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
     ],
-    "locations" : [ "by_road" ], "//":"what special locations does it spawn",
+    "locations" : [ "land" ], "//":"what special locations does it spawn",
     "city_distance" : [10, 120], "//":"how far from a city it should be",
     "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
     "occurrences" : [2, 5], "//":"how many per overmap",
