@@ -118,12 +118,9 @@ const double dispersion_sigmas = 2.4;
 /** How much of the target tile is occupied by the target of a projectile attack for hit purposes? */
 const double occupied_tile_fraction = 0.5;
 
-dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg, const tripoint &source,
-                                                     const tripoint &target_arg, double dispersion )
+projectile_attack_aim Creature::projectile_attack_roll( double dispersion, double range ) const
 {
-    const bool do_animation = get_option<bool>( "ANIMATIONS" );
-
-    double range = rl_dist( source, target_arg );
+    projectile_attack_aim aim;
 
     // dispersion is a measure of the dispersion of shots due to the gun + shooter characteristics
     // i.e. it is independent of any particular shot
@@ -131,19 +128,31 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     // shot_dispersion is the actual dispersion for this particular shot, i.e.
     // the error angle between where the shot was aimed and where this one actually went
     // NB: some cases pass dispersion == 0 for a "never misses" shot e.g. bio_magnet,
-    double shot_dispersion = dispersion > 0 ? normal_roll( 0.0, dispersion / dispersion_sigmas ) : 0;
+    aim.dispersion = dispersion > 0 ? normal_roll( 0.0, dispersion / dispersion_sigmas ) : 0;
 
     // an isosceles triangle is formed by the intended and actual target tiles
-    double missed_by_tiles = iso_tangent( range, shot_dispersion );
+    aim.missed_by_tiles = iso_tangent( range, aim.dispersion );
 
     // fraction we missed a monster target by (0.0 = perfect hit, 1.0 = miss)
     // @todo maybe use monster size?
-    double missed_by = std::min( 1.0, missed_by_tiles / occupied_tile_fraction );
+    aim.missed_by = std::min( 1.0, aim.missed_by_tiles / occupied_tile_fraction );
+
+    return aim;
+}
+
+dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg, const tripoint &source,
+                                                     const tripoint &target_arg, double dispersion )
+{
+    const bool do_animation = get_option<bool>( "ANIMATIONS" );
+
+    double range = rl_dist( source, target_arg );
+
+    projectile_attack_aim aim = projectile_attack_roll( dispersion, range );
 
     // TODO: move to-hit roll back in here
 
     dealt_projectile_attack attack {
-        proj_arg, nullptr, dealt_damage_instance(), source, missed_by
+        proj_arg, nullptr, dealt_damage_instance(), source, aim.missed_by
     };
 
     if( source == target_arg ) { // No suicidal shots
@@ -177,17 +186,17 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
 
     tripoint target = target_arg;
     std::vector<tripoint> trajectory;
-    if( missed_by_tiles >= 1.0 ) {
+    if( aim.missed_by_tiles >= 1.0 ) {
         // We missed enough to target a different tile
         double dx = target_arg.x - source.x;
         double dy = target_arg.y - source.y;
         double rad = atan2( dy, dx );
 
         // cap wild misses at +/- 30 degrees
-        rad += std::max( std::min( ARCMIN( shot_dispersion ), DEGREES( 30 ) ), DEGREES( -30 ) );
+        rad += std::max( std::min( ARCMIN( aim.dispersion ), DEGREES( 30 ) ), DEGREES( -30 ) );
 
         // @todo This should also represent the miss on z axis
-        const int offset = std::min<int>( range, sqrtf( missed_by_tiles ) );
+        const int offset = std::min<int>( range, sqrtf( aim.missed_by_tiles ) );
         int new_range = no_overshoot ?
                             range + rng( -offset, offset ) :
                             rng( range - offset, proj_arg.range );
@@ -214,9 +223,9 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         trajectory = g->m.find_clear_path( source, target );
     }
 
-    add_msg( m_debug, "%s proj_atk: dispersion: %.2f; shot_dispersion: %.2f", disp_name().c_str(), dispersion, shot_dispersion );
+    add_msg( m_debug, "%s proj_atk: dispersion: %.2f; aim.dispersion: %.2f", disp_name().c_str(), dispersion, aim.dispersion );
 
-    add_msg( m_debug, "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d", missed_by_tiles, missed_by,
+    add_msg( m_debug, "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d", aim.missed_by_tiles, aim.missed_by,
              target_arg.x, target_arg.y, target_arg.z,
              target.x, target.y, target.z );
 
@@ -310,14 +319,14 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         // TODO: add size effects to accuracy
         // If there's a monster in the path of our bullet, and either our aim was true,
         //  OR it's not the monster we were aiming at and we were lucky enough to hit it
-        double cur_missed_by = missed_by;
+        double cur_missed_by = aim.missed_by;
 
         // unintentional hit on something other than our actual target
         // don't re-roll for the actual target, we already decided on a missed_by value for that
         // at the start, misses should stay as misses
         if( critter != nullptr && tp != target_arg ) {
             // Unintentional hit
-            cur_missed_by = std::max( rng_float( 0.2, 3.0 - missed_by ), 0.4 );
+            cur_missed_by = std::max( rng_float( 0.2, 3.0 - aim.missed_by ), 0.4 );
         }
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
@@ -339,7 +348,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
             } else {
-                attack.missed_by = missed_by;
+                attack.missed_by = aim.missed_by;
             }
         } else if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
