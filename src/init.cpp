@@ -369,6 +369,8 @@ void DynamicDataLoader::finalize_loaded_data()
 {
     item_controller->finalize();
     vpart_info::finalize();
+    ter_t::finalize_all();
+    furn_t::finalize_all();
     set_ter_ids();
     set_furn_ids();
     set_oter_ids();

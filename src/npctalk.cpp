@@ -4698,14 +4698,13 @@ bool npc::has_item_whitelist() const
     return is_following() && !rules.pickup_whitelist->empty();
 }
 
-bool npc::item_whitelisted( const item &it )
+bool npc::item_name_whitelisted( const std::string &to_match )
 {
     if( !has_item_whitelist() ) {
         return true;
     }
 
     auto &wlist = *rules.pickup_whitelist;
-    const auto to_match = it.tname( 1, false );
     const auto rule = wlist.check_item( to_match );
     if( rule == RULE_WHITELISTED ) {
         return true;
@@ -4717,6 +4716,16 @@ bool npc::item_whitelisted( const item &it )
 
     wlist.create_rule( to_match );
     return wlist.check_item( to_match ) == RULE_WHITELISTED;
+}
+
+bool npc::item_whitelisted( const item &it )
+{
+    if( !has_item_whitelist() ) {
+        return true;
+    }
+
+    const auto to_match = it.tname( 1, false );
+    return item_name_whitelisted( to_match );
 }
 
 npc_follower_rules::npc_follower_rules()

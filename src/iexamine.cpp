@@ -1421,54 +1421,78 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
     // But those were useless, don't re-add until they get useful
 }
 
-void iexamine::flower_datura(player &p, const tripoint &examp)
+static bool harvest_common( player &p, const tripoint &examp, bool furn, bool nectar )
 {
-    if( dead_plant( false, p, examp ) ) {
-        return;
+    const auto harvest = g->m.get_harvest( examp );
+    if( harvest.empty() ) {
+        p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
+        iexamine::none( p, examp );
+        return false;
     }
 
-    if( drink_nectar( p ) ) {
-        return;
+    // If nothing can be harvested, neither can nectar
+    // Incredibly low priority @todo Allow separating nectar seasons
+    if( nectar && drink_nectar( p ) ) {
+        return false;
     }
 
-    if(!query_yn(_("Pick %s?"), g->m.furnname(examp).c_str())) {
-        none( p, examp );
-        return;
+    if( p.is_player() && !query_yn(_("Pick %s?"), furn ? g->m.furnname( examp ).c_str() : g->m.tername( examp ).c_str() ) ) {
+        iexamine::none( p, examp );
+        return false;
     }
-    g->m.furn_set(examp, f_null);
-    g->m.spawn_item(examp, "datura_seed", 2, 6 );
+
+    int lev = p.get_skill_level( skill_survival );
+    bool got_anything = false;
+    for( const auto &entry : harvest ) {
+        float min_num = entry.base_number_min + lev * entry.scale_number_min;
+        float max_num = entry.base_number_max + lev * entry.scale_number_max;
+        int roll = round( rng_float( min_num, max_num ) );
+        for( int i = 0; i < roll; i++ ) {
+            const item &it = g->m.add_item( p.pos(), item( entry.drop ) );
+            p.add_msg_if_player( _( "You harvest: %s" ), it.tname().c_str() );
+            got_anything = true;
+        }
+    }
+
+    if( !got_anything ) {
+        p.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
+    }
+
+    return true;
 }
 
-void iexamine::flower_dandelion(player &p, const tripoint &examp)
+void iexamine::harvest_furn_nectar( player &p, const tripoint &examp )
 {
-    if( dead_plant( false, p, examp ) ) {
-        return;
+    if( harvest_common( p, examp, true, true ) ) {
+        g->m.furn_set( examp, f_null );
     }
-
-    if( drink_nectar( p ) ) {
-        return;
-    }
-
-    if(!query_yn(_("Pick %s?"), g->m.furnname(examp).c_str())) {
-        none( p, examp );
-        return;
-    }
-
-    g->m.furn_set(examp, f_null);
-    g->m.spawn_item(examp, "raw_dandelion", rng( 1, 4 ) );
 }
 
-void iexamine::examine_cattails(player &p, const tripoint &examp)
+void iexamine::harvest_furn( player &p, const tripoint &examp )
 {
-    if(!query_yn(_("Pick %s?"), g->m.furnname(examp).c_str())) {
-        none( p, examp );
-        return;
+    if( harvest_common( p, examp, true, false ) ) {
+        g->m.furn_set( examp, f_null );
     }
-    if (calendar::turn.get_season() != WINTER) {
-        g->m.spawn_item( p.pos(), "cattail_stalk", rng( 1, 4 ), 0, calendar::turn );
+}
+
+void iexamine::harvest_ter_nectar( player &p, const tripoint &examp )
+{
+    if( harvest_common( p, examp, false, true ) ) {
+        g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
     }
-    g->m.furn_set(examp, f_null);
-    g->m.spawn_item( p.pos(), "cattail_rhizome", 1, 0, calendar::turn );
+}
+
+void iexamine::harvest_ter( player &p, const tripoint &examp )
+{
+    if( harvest_common( p, examp, false, false ) ) {
+        g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
+    }
+}
+
+void iexamine::harvested_plant( player &p, const tripoint &examp )
+{
+    p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
+    iexamine::none( p, examp );
 }
 
 void iexamine::flower_marloss(player &p, const tripoint &examp)
@@ -2269,96 +2293,45 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 void pick_plant(player &p, const tripoint &examp,
                 std::string itemType, ter_id new_ter, bool seeds)
 {
-    if (!query_yn(_("Harvest the %s?"), g->m.tername(examp).c_str())) {
+    if( p.is_player() && !query_yn( _( "Harvest the %s?" ), g->m.tername( examp ).c_str() ) ) {
         iexamine::none( p, examp );
         return;
     }
 
     const SkillLevel &survival = p.get_skill_level( skill_survival );
-    if (survival < 1) {
-        p.practice( skill_survival, rng(5, 12) );
-    } else if (survival < 6) {
-        p.practice( skill_survival, rng(1, 12 / survival) );
-    }
+    p.practice( skill_survival, 6 );
 
     int plantBase = rng(2, 5);
     ///\EFFECT_SURVIVAL increases number of plants harvested
     int plantCount = rng(plantBase, plantBase + survival / 2);
-    if (plantCount > 12) {
-        plantCount = 12;
-    }
+    plantCount = std::min( plantCount, 12 );
 
     g->m.spawn_item( p.pos(), itemType, plantCount, 0, calendar::turn);
 
     if (seeds) {
         g->m.spawn_item( p.pos(), "seed_" + itemType, 1,
-                      rng(plantCount / 4, plantCount / 2), calendar::turn);
+                         rng( plantCount / 4, plantCount / 2 ) );
     }
 
     g->m.ter_set(examp, new_ter);
 }
 
-void iexamine::harvest_tree_shrub(player &p, const tripoint &examp)
-{
-    if ( ((p.has_trait("PROBOSCIS")) || (p.has_trait("BEAK_HUM"))) &&
-         ((p.get_hunger()) > 0) && (!(p.wearing_something_on(bp_mouth))) &&
-         (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == SPRING) ) {
-        p.moves -= 100; // Need to find a blossom (assume there's one somewhere)
-        add_msg(_("You find a flower and drink some nectar."));
-        p.mod_hunger(-15);
-    }
-    //if the fruit is not ripe yet
-    if (calendar::turn.get_season() != g->m.get_ter_harvest_season(examp)) {
-        std::string fruit = item::nname(g->m.get_ter_harvestable(examp), 10);
-        fruit[0] = toupper(fruit[0]);
-        add_msg(m_info, _("%1$s ripen in %2$s."), fruit.c_str(), season_name(g->m.get_ter_harvest_season(examp)).c_str());
-        return;
-    }
-    //if the fruit has been recently harvested
-    if (g->m.has_flag(TFLAG_HARVESTED, examp)){
-        add_msg(m_info, _("This %s has already been harvested. Harvest it again next year."), g->m.tername(examp).c_str());
-        return;
-    }
-
-    bool seeds = false;
-    if (g->m.has_flag("SHRUB", examp)) { // if shrub, it gives seeds. todo -> trees give seeds(?) -> trees plantable
-        seeds = true;
-    }
-    pick_plant(p, examp, g->m.get_ter_harvestable(examp), g->m.get_ter_transforms_into(examp), seeds);
-}
-
-void iexamine::tree_pine(player &p, const tripoint &examp)
-{
-    if( !query_yn( _("Pick %s?"), g->m.tername( examp ).c_str() ) ) {
-        none( p, examp );
-        return;
-    }
-
-    g->m.spawn_item( p.pos(), "pine_bough", rng( 2, 8 ) );
-    g->m.spawn_item( p.pos(), "pinecone", rng( 1, 4 ) );
-    g->m.ter_set( examp, t_tree_deadpine );
-}
-
 void iexamine::tree_hickory(player &p, const tripoint &examp)
 {
-    harvest_tree_shrub( p, examp );
-    ///\EFFECT_SURVIVAL >0 allows digging up hickory root
-    if( !( p.get_skill_level( skill_survival ) > 0 ) ) {
-        return;
-    }
+    harvest_common( p, examp, false, false );
     if( !p.has_quality( quality_id( "DIG" ) ) ) {
-        add_msg(m_info, _("You have no tool to dig with..."));
+        p.add_msg_if_player(m_info, _("You have no tool to dig with..."));
         return;
     }
-    if(!query_yn(_("Dig up %s? This kills the tree!"), g->m.tername(examp).c_str())) {
+    if( p.is_player () && !query_yn( _( "Dig up %s? This kills the tree!" ), g->m.tername( examp ).c_str() ) ) {
         return;
     }
-    g->m.spawn_item(p.pos(), "hickory_root", rng(1,4) );
+
+    ///\EFFECT_SURVIVAL increases hickory root number per tree
+    g->m.spawn_item(p.pos(), "hickory_root", rng( 1, 3 + p.get_skill_level( skill_survival ) ) );
     g->m.ter_set(examp, t_tree_hickory_dead);
     ///\EFFECT_SURVIVAL speeds up hickory root digging
     p.moves -= 2000 / ( p.get_skill_level( skill_survival ) + 1 ) + 100;
-    return;
-    none( p, examp );
 }
 
 item_location maple_tree_sap_container() {
@@ -2506,16 +2479,6 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
         case CANCEL:
             return;
     }
-}
-
-void iexamine::tree_bark(player &p, const tripoint &examp)
-{
-    if(!query_yn(_("Pick %s?"), g->m.tername(examp).c_str())) {
-        none( p, examp );
-        return;
-    }
-    g->m.spawn_item( p.pos(), g->m.get_ter_harvestable(examp), rng( 1, 2 ) );
-    g->m.ter_set(examp, g->m.get_ter_transforms_into(examp));
 }
 
 void iexamine::shrub_marloss(player &p, const tripoint &examp)
@@ -3412,205 +3375,79 @@ void iexamine::climb_down( player &p, const tripoint &examp )
 */
 iexamine_function iexamine_function_from_string(std::string const &function_name)
 {
-    if ("none" == function_name) {
-        return &iexamine::none;
-    }
-    if ("cvdmachine" == function_name) {
-        return &iexamine::cvdmachine;
-    }
-    if ("gaspump" == function_name) {
-        return &iexamine::gaspump;
-    }
-    if ("atm" == function_name) {
-        return &iexamine::atm;
-    }
-    if ("vending" == function_name) {
-        return &iexamine::vending;
-    }
-    if ("toilet" == function_name) {
-        return &iexamine::toilet;
-    }
-    if ("elevator" == function_name) {
-        return &iexamine::elevator;
-    }
-    if ("controls_gate" == function_name) {
-        return &iexamine::controls_gate;
-    }
-    if ("cardreader" == function_name) {
-        return &iexamine::cardreader;
-    }
-    if ("rubble" == function_name) {
-        return &iexamine::rubble;
-    }
-    if( "crate" == function_name ) {
-        return &iexamine::crate;
-    }
-    if ("chainfence" == function_name) {
-        return &iexamine::chainfence;
-    }
-    if ("bars" == function_name) {
-        return &iexamine::bars;
-    }
-    if ("portable_structure" == function_name) {
-        return &iexamine::portable_structure;
-    }
-    if ("pit" == function_name) {
-        return &iexamine::pit;
-    }
-    if ("pit_covered" == function_name) {
-        return &iexamine::pit_covered;
-    }
-    if ("fence_post" == function_name) {
-        return &iexamine::fence_post;
-    }
-    if ("remove_fence_rope" == function_name) {
-        return &iexamine::remove_fence_rope;
-    }
-    if ("remove_fence_wire" == function_name) {
-        return &iexamine::remove_fence_wire;
-    }
-    if ("remove_fence_barbed" == function_name) {
-        return &iexamine::remove_fence_barbed;
-    }
-    if ("slot_machine" == function_name) {
-        return &iexamine::slot_machine;
-    }
-    if ("safe" == function_name) {
-        return &iexamine::safe;
-    }
-    if ("bulletin_board" == function_name) {
-        return &iexamine::bulletin_board;
-    }
-    if ("fault" == function_name) {
-        return &iexamine::fault;
-    }
-    if ("pedestal_wyrm" == function_name) {
-        return &iexamine::pedestal_wyrm;
-    }
-    if ("pedestal_temple" == function_name) {
-        return &iexamine::pedestal_temple;
-    }
-    if ("door_peephole" == function_name) {
-        return &iexamine::door_peephole;
-    }
-    if ("fswitch" == function_name) {
-        return &iexamine::fswitch;
-    }
-    if ("flower_poppy" == function_name) {
-        return &iexamine::flower_poppy;
-    }
-    if ("fungus" == function_name) {
-        return &iexamine::fungus;
-    }
-    if ("flower_bluebell" == function_name) {
-        return &iexamine::flower_bluebell;
-    }
-    if ("flower_dahlia" == function_name) {
-        return &iexamine::flower_dahlia;
-    }
-    if ("flower_datura" == function_name) {
-        return &iexamine::flower_datura;
-    }
-    if ("flower_marloss" == function_name) {
-        return &iexamine::flower_marloss;
-    }
-    if ("flower_dandelion" == function_name) {
-        return &iexamine::flower_dandelion;
-    }
-    if ("examine_cattails" == function_name) {
-        return &iexamine::examine_cattails;
-    }
-    if ("egg_sackbw" == function_name) {
-        return &iexamine::egg_sackbw;
-    }
-    if ("egg_sackcs" == function_name) {
-        return &iexamine::egg_sackcs;
-    }
-    if ("egg_sackws" == function_name) {
-        return &iexamine::egg_sackws;
-    }
-    if ("dirtmound" == function_name) {
-        return &iexamine::dirtmound;
-    }
-    if ("aggie_plant" == function_name) {
-        return &iexamine::aggie_plant;
-    }
-    if ("fvat_empty" == function_name) {
-        return &iexamine::fvat_empty;
-    }
-    if ("fvat_full" == function_name) {
-        return &iexamine::fvat_full;
-    }
-    if ("keg" == function_name) {
-        return &iexamine::keg;
-    }
-    //pick_plant deliberately missing due to different function signature
-    if ("harvest_tree_shrub" == function_name) {
-        return &iexamine::harvest_tree_shrub;
-    }
-    if ("tree_pine" == function_name) {
-        return &iexamine::tree_pine;
-    }
-    if ("tree_bark" == function_name) {
-        return &iexamine::tree_bark;
-    }
-    if ("shrub_marloss" == function_name) {
-        return &iexamine::shrub_marloss;
-    }
-    if ("tree_marloss" == function_name) {
-        return &iexamine::tree_marloss;
-    }
-    if ("tree_hickory" == function_name) {
-        return &iexamine::tree_hickory;
-    }
-    if ( "tree_maple" == function_name ) {
-        return &iexamine::tree_maple;
-    }
-    if ( "tree_maple_tapped" == function_name ) {
-        return &iexamine::tree_maple_tapped;
-    }
-    if ("shrub_wildveggies" == function_name) {
-        return &iexamine::shrub_wildveggies;
-    }
-    if ("recycler" == function_name) {
-        return &iexamine::recycler;
-    }
-    if ("trap" == function_name) {
-        return &iexamine::trap;
-    }
-    if ("water_source" == function_name) {
-        return &iexamine::water_source;
-    }
-    if ("reload_furniture" == function_name) {
-        return &iexamine::reload_furniture;
-    }
-    if ("curtains" == function_name) {
-        return &iexamine::curtains;
-    }
-    if ("sign" == function_name) {
-        return &iexamine::sign;
-    }
-    if ("pay_gas" == function_name) {
-        return &iexamine::pay_gas;
-    }
-    if ("gunsafe_ml" == function_name) {
-        return &iexamine::gunsafe_ml;
-    }
-    if ("gunsafe_el" == function_name) {
-        return &iexamine::gunsafe_el;
-    }
-    if ("locked_object" == function_name) {
-        return &iexamine::locked_object;
-    }
-    if ("kiln_empty" == function_name) {
-        return &iexamine::kiln_empty;
-    }
-    if ("kiln_full" == function_name) {
-        return &iexamine::kiln_full;
-    }
-    if( "climb_down" == function_name ) {
-        return &iexamine::climb_down;
-    }
+    static const std::map<std::string, iexamine_function> function_map = {{
+        { "none", &iexamine::none },
+        { "cvdmachine", &iexamine::cvdmachine },
+        { "gaspump", &iexamine::gaspump },
+        { "atm", &iexamine::atm },
+        { "vending", &iexamine::vending },
+        { "toilet", &iexamine::toilet },
+        { "elevator", &iexamine::elevator },
+        { "controls_gate", &iexamine::controls_gate },
+        { "cardreader", &iexamine::cardreader },
+        { "rubble", &iexamine::rubble },
+        { "crate", &iexamine::crate },
+        { "chainfence", &iexamine::chainfence },
+        { "bars", &iexamine::bars },
+        { "portable_structure", &iexamine::portable_structure },
+        { "pit", &iexamine::pit },
+        { "pit_covered", &iexamine::pit_covered },
+        { "fence_post", &iexamine::fence_post },
+        { "remove_fence_rope", &iexamine::remove_fence_rope },
+        { "remove_fence_wire", &iexamine::remove_fence_wire },
+        { "remove_fence_barbed", &iexamine::remove_fence_barbed },
+        { "slot_machine", &iexamine::slot_machine },
+        { "safe", &iexamine::safe },
+        { "bulletin_board", &iexamine::bulletin_board },
+        { "fault", &iexamine::fault },
+        { "pedestal_wyrm", &iexamine::pedestal_wyrm },
+        { "pedestal_temple", &iexamine::pedestal_temple },
+        { "door_peephole", &iexamine::door_peephole },
+        { "fswitch", &iexamine::fswitch },
+        { "flower_poppy", &iexamine::flower_poppy },
+        { "fungus", &iexamine::fungus },
+        { "flower_bluebell", &iexamine::flower_bluebell },
+        { "flower_dahlia", &iexamine::flower_dahlia },
+        { "flower_marloss", &iexamine::flower_marloss },
+        { "egg_sackbw", &iexamine::egg_sackbw },
+        { "egg_sackcs", &iexamine::egg_sackcs },
+        { "egg_sackws", &iexamine::egg_sackws },
+        { "dirtmound", &iexamine::dirtmound },
+        { "aggie_plant", &iexamine::aggie_plant },
+        { "fvat_empty", &iexamine::fvat_empty },
+        { "fvat_full", &iexamine::fvat_full },
+        { "keg", &iexamine::keg },
+        { "harvest_furn_nectar", &iexamine::harvest_furn_nectar },
+        { "harvest_furn", &iexamine::harvest_furn },
+        { "harvest_ter_nectar", &iexamine::harvest_ter_nectar },
+        { "harvest_ter", &iexamine::harvest_ter },
+        { "harvested_plant", &iexamine::harvested_plant },
+        { "shrub_marloss", &iexamine::shrub_marloss },
+        { "tree_marloss", &iexamine::tree_marloss },
+        { "tree_hickory", &iexamine::tree_hickory },
+        { "tree_maple", &iexamine::tree_maple },
+        { "tree_maple_tapped", &iexamine::tree_maple_tapped },
+        { "shrub_wildveggies", &iexamine::shrub_wildveggies },
+        { "recycler", &iexamine::recycler },
+        { "trap", &iexamine::trap },
+        { "water_source", &iexamine::water_source },
+        { "reload_furniture", &iexamine::reload_furniture },
+        { "curtains", &iexamine::curtains },
+        { "sign", &iexamine::sign },
+        { "pay_gas", &iexamine::pay_gas },
+        { "gunsafe_ml", &iexamine::gunsafe_ml },
+        { "gunsafe_el", &iexamine::gunsafe_el },
+        { "locked_object", &iexamine::locked_object },
+        { "kiln_empty", &iexamine::kiln_empty },
+        { "kiln_full", &iexamine::kiln_full },
+        { "climb_down", &iexamine::climb_down }
+    }};
+
+    auto iter = function_map.find( function_name );
+    if( iter != function_map.end() ) {
+        return iter->second;
+    }
+
     //No match found
     debugmsg("Could not find an iexamine function matching '%s'!", function_name.c_str());
     return &iexamine::none;
