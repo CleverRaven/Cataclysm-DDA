@@ -6,17 +6,26 @@
 
 static void test_internal( const npc& who, const item &gun )
 {
-    THEN( "the effective range is correctly calcuated" ) {
-        // calculate range for 50% chance of critical hit at arbitrary recoil
-        for ( double recoil = 0; recoil < 1000; recoil += 100 ) {
-            double range = who.gun_current_range( gun, recoil, 50, accuracy_critical );
-            double dispersion = who.get_weapon_dispersion( gun ) + recoil;
+    THEN( "the computed range from accuracy, recoil, and chance is correctly calculated" ) {
+        for ( double accuracy = 0.1; accuracy <= 1.0; accuracy += 0.1 ) {
+            for ( int chance = 1; chance < 100; ++chance ) {
+                for ( double recoil = 0; recoil < 1000; ++recoil ) {
+                    double range = who.gun_current_range( gun, recoil, chance, accuracy );
+                    double dispersion = who.get_weapon_dispersion( gun ) + recoil;
 
-            CAPTURE( recoil );
-            CAPTURE( range );
-            CAPTURE( dispersion );
+                    CAPTURE( accuracy );
+                    CAPTURE( chance );
+                    CAPTURE( recoil );
+                    CAPTURE( range );
+                    CAPTURE( dispersion );
 
-            REQUIRE( who.projectile_attack_chance( dispersion, range, accuracy_critical ) == Approx( 0.5 ).epsilon( 0.0005 ) );
+                    if ( range == gun.gun_range( &who ) ) {
+                        REQUIRE( who.projectile_attack_chance( dispersion, range, accuracy ) >= chance / 100.0 );
+                    } else {
+                        REQUIRE( who.projectile_attack_chance( dispersion, range, accuracy ) == Approx( chance / 100.0 ).epsilon( 0.0005 ) );
+                    }
+                }
+            }
         }
     }
 
