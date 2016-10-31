@@ -324,7 +324,6 @@ nc_color map_data_common_t::color() const
     return color_[calendar::turn.get_season()];
 }
 
-void load_furniture( JsonObject &jo, const std::string &src )
 const std::list<harvest_entry> &map_data_common_t::get_harvest() const
 {
     return harvest_by_season[calendar::turn.get_season()];
@@ -335,7 +334,7 @@ const std::set<std::string> &map_data_common_t::get_harvest_names() const
     return harvest_names_by_season[calendar::turn.get_season()];
 }
 
-void load_furniture(JsonObject &jsobj)
+void load_furniture( JsonObject &jo, const std::string &src )
 {
     if( furniture_data.empty() ) {
         furniture_data.insert( null_furniture_t() );
@@ -1048,6 +1047,9 @@ void ter_t::check() const
     }
     if( !close.is_valid() ) {
         debugmsg( "invalid terrain %s for closing %s", close.c_str(), id.c_str() );
+    }
+    if( transforms_into && transforms_into == id ) {
+        debugmsg( "%s transforms_into itself", name.c_str() );
     }
 }
 
