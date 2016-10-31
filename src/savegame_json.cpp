@@ -1633,6 +1633,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
 
     std::map<std::string, std::pair<std::string,itype_id>> deprecated = {
         { "laser_gun", { "laser_rifle", "none" } },
+        { "engine_plasma", { "minireactor", "none" } },
         { "battery_truck", { "battery_car", "battery" } },
 
         { "diesel_tank_little", { "tank_little", "diesel" } },
@@ -1665,7 +1666,9 @@ void vehicle_part::deserialize(JsonIn &jsin)
         { "external_water_tank", { "external_tank", "water_clean" } },
         { "water_tank_barrel", { "tank_barrel", "water_clean" } },
 
-        { "napalm_tank", { "tank", "napalm" } }
+        { "napalm_tank", { "tank", "napalm" } },
+
+        { "hydrogen_tank", { "tank", "plasma" } }
     };
 
     // required for compatibility with 0.C saves

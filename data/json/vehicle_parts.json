@@ -601,28 +601,6 @@
         "breaks_into" : []
     },{
         "type" : "vehicle_part",
-        "id" : "engine_plasma",
-        "name" : "plasma engine",
-        "symbol" : "*",
-        "color" : "light_blue",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 250,
-        "power" : 400,
-        "epower" : 2238,
-        "fuel_type" : "plasma",
-        "item" : "plasma_engine",
-        "difficulty" : 8,
-        "location" : "engine_block",
-        "flags" : ["ENGINE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [10, 15]},
-            {"item": "steel_chunk", "count": [10, 15]},
-            {"item": "scrap", "count": [10, 15]}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "storage_battery_mount",
         "name" : "swappable storage battery case",
         "symbol" : "O",
