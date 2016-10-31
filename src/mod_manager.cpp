@@ -180,13 +180,6 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         m_name = _(m_name.c_str());
     }
 
-    std::string m_desc = jo.get_string("description", "");
-    if (m_desc.empty()) {
-        m_desc = _("No description");
-    } else {
-        m_desc = _(m_desc.c_str());
-    }
-
     std::string m_cat = jo.get_string("category", "");
     std::pair<int, std::string> p_cat = {-1, ""};
     bool bCatFound = false;
@@ -232,13 +225,13 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     std::unique_ptr<MOD_INFORMATION> modfile( new MOD_INFORMATION );
     modfile->ident = m_ident;
     modfile->name = m_name;
-    modfile->description = m_desc;
     modfile->category = p_cat;
     modfile->path = m_path;
     modfile->need_lua = m_need_lua;
 
     assign( jo, "authors", modfile->authors );
     assign( jo, "maintainers", modfile->maintainers );
+    assign( jo, "description", modfile->description );
     assign( jo, "dependencies", modfile->dependencies );
     assign( jo, "core", modfile->core );
     assign( jo, "obsolete", modfile->obsolete );

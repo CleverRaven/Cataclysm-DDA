@@ -62,20 +62,8 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
     if( mod == NULL ) {
         return "";
     }
-    std::string modident = mod->ident;
-    std::string note = ( !mm_tree->is_available( modident ) ) ? mm_tree->get_node(
-                           modident )->s_errors() : "";
 
     std::ostringstream info;
-
-    // color the note red!
-    if( !note.empty() ) {
-        std::stringstream newnote;
-        newnote << "<color_red>" << note << "</color>";
-        note = newnote.str();
-    }
-
-    std::string description = mod->description;
 
     if( !mod->authors.empty() ) {
         info << ngettext( "Author", "Authors", mod->authors.size() ) << ": "
@@ -94,14 +82,13 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
         info << ngettext( "Dependency", "Dependencies", deps.size() ) << ": " << str << "\n";
     }
 
-    if( !description.empty() ) {
-        info << string_format( _( "Description: %s\n" ), description.c_str() );
-    } else {
-        info << _( "Description: [NONE]\n" );
+    if( !mod->description.empty() ) {
+        info << _( "Description" ) << ": " << _( mod->description.c_str() ) << "\n";
     }
 
-    if( !mod->core && !note.empty() ) {
-        info << note;
+    std::string note = !mm_tree->is_available( mod->ident ) ? mm_tree->get_node( mod->ident )->s_errors() : "";
+    if( !note.empty() ) {
+        info << "<color_red>" << note << "</color>";
     }
 
 #ifndef LUA
