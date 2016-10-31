@@ -36,6 +36,12 @@ struct MOD_INFORMATION {
     /** All authors who have added content to the mod (excluding maintenance changes) */
     std::set<std::string> authors;
 
+    /**
+     *  Assigned maintainers responsible for maintaining compatibility with core
+     *  @note these should be verbatim GH account names
+     */
+    std::set<std::string> maintainers;
+
     std::string description;
     mod_type _type = MT_SUPPLEMENTAL;
     std::vector<std::string> dependencies;

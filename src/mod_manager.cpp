@@ -267,6 +267,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     modfile->need_lua = m_need_lua;
 
     assign( jo, "authors", modfile->authors );
+    assign( jo, "maintainers", modfile->maintainers );
     assign( jo, "obsolete", modfile->obsolete );
 
     mod_map[modfile->ident] = std::move( modfile );
