@@ -2003,11 +2003,12 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
 
 void holster_actor::info( const item&, std::vector<iteminfo>& dump ) const
 {
-    dump.emplace_back( "TOOL", _( "Can contain items up to " ), "<num> L",
-                       round_up( units::to_liter( max_volume ), 1 ), false, "", max_weight <= 0 );
+    int scale = 0;
+    dump.emplace_back( "TOOL", _( "Can contain items up to " ), string_format( "<num> %s", volume_units_abbr() ),
+                       round_up( convert_volume( max_volume.value(), &scale ), 1 ), scale == 0, "", max_weight <= 0 );
 
     if( max_weight > 0 ) {
-        dump.emplace_back( "TOOL", "holster_kg", " or <num> kg",
+        dump.emplace_back( "TOOL", "holster_kg", string_format( _( " or <num> %s" ), weight_units() ),
                            convert_weight( max_weight ), false, "", true, false, false );
     }
 }
