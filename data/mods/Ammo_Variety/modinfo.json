@@ -1,0 +1,10 @@
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "Ammo_Variety",
+    "name": "Expanded Ammunition Variety",
+    "description": "Adds more overlapping ammo types and more firearms.",
+    "category": "items",
+    "authors": [ "BorkBorkGoesTheCode", "DangerNoodle" ],
+    "path": ""
+}

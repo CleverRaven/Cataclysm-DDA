@@ -1,0 +1,123 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "spider",
+    "items":[
+      ["410_shot", 6],
+      ["m6_asw", 1]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "helicopter",
+    "items":[
+      ["m6_asw", 1]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "ammo_pistol_common",
+    "items":[
+      ["45_long_colt", 30]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "ammo_pistol_reloaded",
+    "items":[
+      [ "reloaded_45_long_colt", 40 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "ammo_shotgun_common",
+    "items":[
+      [ "410_birdshot", 60 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "ammo_shotgun_rare",
+    "items":[
+      [ "410_shot", 40 ],
+      [ "410_slug", 20 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "ammo_shotgun_reloaded",
+    "items":[
+      [ "reloaded_410_birdshot", 100 ],
+      [ "reloaded_410_shot", 15 ],
+      [ "reloaded_410_slug", 15 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_pistol_rare",
+    "items":[
+      [ "colt_saa", 30 ],
+      [ "bond_410", 20 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_rifle_rare",
+    "items":[
+      [ "colt_lightning", 15 ],
+      [ "m6_asw", 15 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_shotgun_common",
+    "items":[
+      [ "shotgun_410", 30 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_shotgun_improvised",
+    "items":[
+      [ "410_pipe_shotgun", 70 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_survival",
+    "items":[
+      [ "m6_asw", 5 ],
+      [ "shotgun_410", 10 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "antique_guns",
+    "//": "Colt Lightning not added, as .45 version only existed as replicas",
+    "items":[
+      ["colt_saa", 30]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "antique_guns_with_ammo",
+    "items":[
+      ["colt_saa", 30]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "antique_ammo",
+    "items":[
+      ["45_long_colt", 60]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "ammo_casings",
+    "items":[
+      ["410_hull", 75],
+      ["45lc_casing", 40]
+    ]
+  }
+]
