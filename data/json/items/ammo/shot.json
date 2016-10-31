@@ -60,7 +60,7 @@
     "type": "AMMO",
     "name": "00 shot",
     "name_plural": "00 shot",
-    "description": "A shell filled with iron pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
+    "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
     "weight": 32,
     "volume": 1,
     "price": 3500,
@@ -157,14 +157,12 @@
     "name": "shotgun slug",
     "description": "A heavy metal slug used with shotguns to give them the range capabilities of a rifle.  Extremely damaging but rather inaccurate.",
     "price": 4500,
+    "dispersion": 100,
     "relative": {
       "range": 6,
-      "pierce": 8
+      "pierce": 6
     },
-    "proportional": {
-      "damage": 0.65,
-      "dispersion": 1.3
-    },
+    "proportional": { "recoil": 1.4 },
     "delete": { "effects": [ "SHOT" ] }
   }
 ]
