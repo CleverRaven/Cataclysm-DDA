@@ -19,7 +19,7 @@
 #define MOD_SEARCH_FILE "modinfo.json"
 
 /** Second field is optional replacement mod */
-static std::map<std::string, std::string> obsolete_mod_list;
+static std::map<std::string, std::string> mod_replacements;
 
 // These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories() {
@@ -59,22 +59,22 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab() {
     return mod_list_cat_tab;
 }
 
-static void load_obsolete_mods( const std::string path )
+static void load_replacement_mods( const std::string path )
 {
     read_from_file_optional( path, [&]( JsonIn &jsin ) {
         jsin.start_array();
         while (!jsin.end_array()) {
             auto arr = jsin.get_array();
-            obsolete_mod_list.emplace( arr.get_string( 0 ), arr.size() > 1 ? arr.get_string( 1 ) : "" );
+            mod_replacements.emplace( arr.get_string( 0 ), arr.size() > 1 ? arr.get_string( 1 ) : "" );
         }
     } );
 }
 
 mod_manager::mod_manager()
 {
-    // Insure obsolete_mod_list is initialized.
-    if( obsolete_mod_list.empty() && file_exist(FILENAMES["obsolete-mods"]) ) {
-        load_obsolete_mods(FILENAMES["obsolete-mods"]);
+    // Insure mod_replacements is initialized.
+    if( mod_replacements.empty() && file_exist(FILENAMES["mods-replacements"]) ) {
+        load_replacement_mods(FILENAMES["mods-replacements"]);
     }
 }
 
@@ -443,8 +443,8 @@ void mod_manager::load_mods_list(WORLDPTR world) const
             if( mod.empty() || std::find(amo.begin(), amo.end(), mod) != amo.end() ) {
                 continue;
             }
-            if( obsolete_mod_list.count( mod ) ) {
-                amo.push_back( obsolete_mod_list[ mod ] );
+            if( mod_replacements.count( mod ) ) {
+                amo.push_back( mod_replacements[ mod ] );
                 obsolete_mod_found = true;
             } else {
                 amo.push_back(mod);
