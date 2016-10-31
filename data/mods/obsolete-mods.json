@@ -1,11 +1,11 @@
 [
-  "ags",
-  "Medieval_pack",
-  "No_Diamond_Weapons",
-  "No_Joke_Monsters",
-  "no_magazines",
-  "old_guns",
-  "RemoteVehicles",
-  "RemoteControls_pack",
-  "survivorweaps"
+  [ "ags" ],
+  [ "Medieval_pack" ],
+  [ "No_Diamond_Weapons" ],
+  [ "No_Joke_Monsters" ],
+  [ "no_magazines" ],
+  [ "old_guns" ],
+  [ "RemoteVehicles" ],
+  [ "RemoteControls_pack" ],
+  [ "survivorweaps" ]
 ]

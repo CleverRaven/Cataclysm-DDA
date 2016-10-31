@@ -17,7 +17,9 @@
 
 #define MOD_SEARCH_FILE "modinfo.json"
 
-static std::unordered_set<std::string> obsolete_mod_list;
+/** Second field is optional replacement mod */
+static std::map<std::string, std::string> obsolete_mod_list;
+
 // These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories() {
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
@@ -60,9 +62,9 @@ static void load_obsolete_mods( const std::string path )
 {
     read_from_file_optional( path, [&]( JsonIn &jsin ) {
         jsin.start_array();
-        // find type and dispatch each object until array close
         while (!jsin.end_array()) {
-            obsolete_mod_list.insert( jsin.get_string() );
+            auto arr = jsin.get_array();
+            obsolete_mod_list.emplace( arr.get_string( 0 ), arr.size() > 1 ? arr.get_string( 1 ) : "" );
         }
     } );
 }
@@ -439,11 +441,11 @@ void mod_manager::load_mods_list(WORLDPTR world) const
                 continue;
             }
             if( obsolete_mod_list.count( mod ) ) {
+                amo.push_back( obsolete_mod_list[ mod ] );
                 obsolete_mod_found = true;
-                continue;
+            } else {
+                amo.push_back(mod);
             }
-
-            amo.push_back(mod);
         }
     } );
     if( obsolete_mod_found ) {
