@@ -441,6 +441,8 @@ class inventory_selector
             return u;
         }
 
+        std::vector<std::string> get_stats() const;
+
         size_t get_header_height() const;
 
         void draw_header( WINDOW *w ) const;

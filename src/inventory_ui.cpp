@@ -941,16 +941,18 @@ void inventory_selector::draw_header( WINDOW *w ) const
 
     mvwhline( w, get_header_height(), 0, LINE_OXOX, getmaxx( w ) );
 
-    if( !display_stats ) {
-        return;
+    if( display_stats ) {
+        size_t y = 0;
+        for( const std::string &elem : get_stats() ) {
+            right_print( w, y++, screen_border_gap, c_dkgray, elem.c_str() );
+        }
     }
+}
 
-    const player &dummy = get_player_for_stats();
-
-    static const int stats_count = 2;
-    static const int cells_count = 4;
+std::vector<std::string> inventory_selector::get_stats() const
+{
     // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
-    using stat = std::array<std::string, cells_count>;
+    using stat = std::array<std::string, 4>;
     // Constructs an array of cells to align them later. 'disp_func' is used to represent numeric values.
     const auto disp = []( const std::string &caption, int cur_value, int max_value,
                           const std::function<std::string( int )> disp_func ) -> stat {
@@ -961,7 +963,9 @@ void inventory_selector::draw_header( WINDOW *w ) const
         }};
     };
 
-    const std::array<stat, stats_count> stats = {{
+    const player &dummy = get_player_for_stats();
+    // Stats consist of arrays of cells.
+    const std::array<stat, 2> stats = {{
         disp( string_format( _( "Weight (%s):" ), weight_units() ),
               dummy.weight_carried(),
               dummy.weight_capacity(), []( int w ) {
@@ -973,23 +977,38 @@ void inventory_selector::draw_header( WINDOW *w ) const
             return format_volume( units::from_milliliter( v ) );
         } )
     }};
-
-    std::array<int, cells_count> widths;
-    for( int i = 0; i < cells_count; ++i ) {
-        widths[i] = std::max( utf8_width( stats[0][i], true ), utf8_width( stats[1][i], true ) );
+    // Strams for every stat.
+    std::array<std::ostringstream, stats.size()> lines;
+    std::array<size_t, stats.size()> widths;
+    // Add first cells and spaces after them.
+    for( size_t i = 0; i < stats.size(); ++i ) {
+        lines[i] << stats[i][0] << ' ';
     }
-    widths[1] += 1;
-
-    int x = std::accumulate( widths.begin(), widths.end(), screen_border_gap );
-    nc_color base_color = c_dkgray;
-
-    for( int i = 0; i < cells_count - 1; ++i ) {
-        x -= widths[i];
-        right_print( w, 0, x, c_dkgray, stats[0][i].c_str() );
-        right_print( w, 1, x, c_dkgray, stats[1][i].c_str() );
+    // Now add the rest of the cells and allign them to the right.
+    for( size_t j = 1; j < stats.front().size(); ++j ) {
+        // Calculate actual cell width for each stat.
+        std::transform( stats.begin(), stats.end(), widths.begin(),
+        [j]( const stat &elem ) {
+            return utf8_width( elem[j], true );
+        } );
+        // Determine the max width.
+        const size_t max_w = *std::max_element( widths.begin(), widths.end() );
+        // Align all stats in this cell with spaces.
+        for( size_t i = 0; i < stats.size(); ++i ) {
+            if( max_w > widths[i] ) {
+                lines[i] << std::string( max_w - widths[i], ' ' );
+            }
+            lines[i] << stats[i][j];
+        }
     }
-    print_colored_text( w, 0, getmaxx( w ) - x, base_color, base_color, stats[0][cells_count - 1] );
-    print_colored_text( w, 1, getmaxx( w ) - x, base_color, base_color, stats[1][cells_count - 1] );
+    // Construct the final result.
+    std::vector<std::string> result;
+    std::transform( lines.begin(), lines.end(), std::back_inserter( result ),
+    []( const std::ostringstream &elem ) {
+        return elem.str();
+    } );
+
+    return result;
 }
 
 void inventory_selector::refresh_window() const
