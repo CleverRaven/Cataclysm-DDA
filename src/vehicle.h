@@ -167,6 +167,31 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     int wheel_width() const;
 
     /**
+     * @name Engine stats
+     *
+     * Engines with gears have variable rpm dependent upon vehicle speed
+     * These values are define in the JSON definitions of the parts base item
+     */
+    /*@{*/
+
+    /** Efficiency (0.0,1.0] at which engine converts fuel energy to output power at @ref rpm */
+    float efficiency( int rpm ) const;
+
+    /** Get discrete engine gears (if any) in ascending order */
+    const std::vector<float>& gears() const;
+
+    /** Minimum idle rpm before stalling? */
+    int rpm_idle() const;
+
+    /** Maximum safe rpm before engine damage occurs? */
+    int rpm_redline() const;
+
+    /** Optimal rpm giving the best performance and fuel efficiency? */
+    int rpm_optimum() const;
+
+    /*@}*/
+
+    /**
      *  Get NPC currently assigned to this part (seat, turret etc)?
      *  @note checks crew member is alive and currently allied to the player
      *  @return nullptr if no valid crew member is currently assigned
@@ -191,6 +216,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /** Can this part provide power or propulsion? */
     bool is_engine() const;
+
+    /** Can this part generate electrical power when attached to a running engine? */
+    bool is_alternator() const;
 
     /** Is this any type of vehicle light? */
     bool is_light() const;
@@ -482,10 +510,6 @@ private:
 
     units::volume total_folded_volume() const;
 
-    // Vehical fuel indicator (by fuel)
-    void print_fuel_indicator (void *w, int y, int x, itype_id fuelType,
-                               bool verbose = false, bool desc = false) const;
-
     // Calculate how long it takes to attempt to start an engine
     int engine_start_time( const int e ) const;
 
@@ -727,6 +751,10 @@ public:
     void print_fuel_indicators( WINDOW *win, int y, int x, int startIndex = 0, bool fullsize = false,
                                 bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
 
+    // Vehicle fuel indicator (by fuel)
+    void print_fuel_indicator( void *w, int y, int x, itype_id fuelType,
+                               bool verbose = false, bool desc = false ) const;
+
     // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts (int idir, int dir, const point &pivot);
 
@@ -773,8 +801,6 @@ public:
     // returns amount actually drained, does not engage reactor
     int drain (const itype_id &ftype, int amount);
 
-    void consume_fuel( double load );
-
     /**
      * Get all vehicle lights (excluding any that are destroyed)
      * @param active if true return only lights which are enabled
@@ -817,27 +843,36 @@ public:
     // vehicle motion after precalc[1] is prepared.
     point pivot_displacement() const;
 
-    // Get combined power of all engines. If fueled == true, then only engines which
-    // vehicle have fuel for are accounted
-    int total_power (bool fueled = true) const;
+    /** Get currently selected engine (if any) or a null part if none are selected */
+    vehicle_part &current_engine();
+    const vehicle_part &current_engine() const;
 
-    // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
-    // vehicle have fuel for are accounted
-    int acceleration (bool fueled = true) const;
+    /** Get maximum velocity (m/s) when using a specific engine */
+    double max_velocity( const vehicle_part &pt ) const;
 
-    // Get maximum velocity gained by combined power of all engines. If fueled == true, then only engines which
-    // vehicle have fuel for are accounted
-    int max_velocity (bool fueled = true) const;
+    /** Highest velocity avoiding engine damage (m/s) when using a specific engine */
+    double safe_velocity( const vehicle_part &pt ) const;
 
-    // Get safe velocity gained by combined power of all engines. If fueled == true, then only engines which
-    // vehicle have fuel for are accounted
-    int safe_velocity (bool fueled = true) const;
+    /** Get current engine gear (or zero for engines without discrete gears) */
+    int gear() const;
+
+    /** Get current engine rpm (or zero if engine is not running) */
+    int rpm() const;
+
+    /** Get current engine load (in watts) from both propulsion and alternators */
+    int load() const;
+
+    /** Get max acceleration (m/s²) dependent upon current @ref velocity and engine @ref load() */
+    double acceleration() const;
 
     // Generate smoke from a part, either at front or back of vehicle depending on velocity.
     void spew_smoke( double joules, int part, int density = 1 );
 
-    // Loop through engines and generate noise and smoke for each one
-    void noise_and_smoke( double load, double time = 6.0 );
+    /**
+     * Generate noise or smoke from a vehicle with a running engine
+     * @param load current engine load as proportion of maximum output [0.0-1.0]
+     */
+    void noise_and_smoke( double load );
 
     /**
      * Calculates the sum of the area under the wheels of the vehicle.
@@ -896,9 +931,6 @@ public:
 
     // Extra drag on the vehicle from components other than wheels.
     float drag() const;
-
-    // strain of engine(s) if it works higher that safe speed (0-1.0)
-    float strain () const;
 
     // Calculate if it can move using its wheels or boat parts configuration
     bool sufficient_wheel_config( bool floating ) const;
@@ -1097,8 +1129,6 @@ public:
     bool has_engine_type_not(const itype_id &ft, bool enabled) const;
     //prints message relating to vehicle start failure
     void msg_start_engine_fail();
-    //if necessary, damage this engine
-    void do_engine_damage(size_t p, int strain);
     //remotely open/close doors
     void control_doors();
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
@@ -1221,6 +1251,10 @@ private:
 
     // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
     int basic_consumption (const itype_id &ftype) const;
+
+    // Get combined power of all engines. If fueled == true, then only engines which
+    // vehicle have fuel for are accounted
+    int total_power (bool fueled = true) const;
 
     void refresh_mass() const;
     void calc_mass_center( bool precalc ) const;
