@@ -27,7 +27,7 @@ static const int min_cell_gap = 2;
 /** The gap between two cells when screen space is limited*/
 static const int normal_cell_gap = 4;
 /** The minimal gap between the first cell and denial */
-static const int min_denial_gap = 1;
+static const int min_denial_gap = 2;
 /** The minimal gap between two columns */
 static const int min_column_gap = 2;
 /** The gap between two columns when there's enough space, but they are not centered */
