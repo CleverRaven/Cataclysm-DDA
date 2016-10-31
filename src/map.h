@@ -1247,7 +1247,7 @@ public:
 protected:
  void generate_lightmap( int zlev );
  void build_seen_cache( const tripoint &origin, int target_z );
- void apply_character_light( const player &p );
+ void apply_character_light( player &p );
 
  int my_MAPSIZE;
  bool zlevels;
