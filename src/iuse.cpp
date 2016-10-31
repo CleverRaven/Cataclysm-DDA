@@ -5854,7 +5854,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         std::vector<const recipe *> candidates;
 
         for( const auto &e : recipe_dict ) {
-            const auto r = e.second;
+            const auto &r = e.second;
 
             if (science) {
                 if (r.difficulty >= 3 && one_in(r.difficulty + 1)) {
