@@ -1,9 +1,9 @@
 {
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
-    "ident": "Ammo_Variety",
-    "name": "Expanded Ammunition Variety",
-    "description": "Adds more overlapping ammo types and more firearms.",
+    "ident": "realguns",
+    "name": "Extended Realistic Guns",
+    "description": "Adds more overlapping ammo types and more real-world firearms.",
     "category": "items",
     "authors": [ "BorkBorkGoesTheCode", "DangerNoodle" ],
     "path": ""
