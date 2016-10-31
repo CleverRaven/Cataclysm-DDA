@@ -1668,7 +1668,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
 
         { "napalm_tank", { "tank", "napalm" } },
 
-        { "hydrogen_tank", { "tank", "plasma" } }
+        { "hydrogen_tank", { "tank", "none" } }
     };
 
     // required for compatibility with 0.C saves
