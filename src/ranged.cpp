@@ -54,9 +54,9 @@ struct aim_type {
 };
 
 dealt_projectile_attack Creature::projectile_attack( const projectile &proj, const tripoint &target,
-                                                     double shot_dispersion )
+                                                     double dispersion )
 {
-    return projectile_attack( proj, pos(), target, shot_dispersion );
+    return projectile_attack( proj, pos(), target, dispersion );
 }
 
 size_t blood_trail_len( int damage )
