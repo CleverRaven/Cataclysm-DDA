@@ -74,37 +74,24 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
         newnote << "<color_red>" << note << "</color>";
         note = newnote.str();
     }
-    std::vector<std::string> dependencies = mod->dependencies;
 
     std::string description = mod->description;
-    std::string dependency_string = "";
-    if( !dependencies.empty() ) {
-        DebugLog( D_PEDANTIC_INFO, DC_ALL ) << mod->name << " Dependencies --";
-        for( size_t i = 0; i < dependencies.size(); ++i ) {
-            if( i > 0 ) {
-                //~ delimiter for mod dependency enumeration
-                dependency_string += pgettext( "mod manager", ", " );
-            }
-            DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "\t" << dependencies[i];
-            if( active_manager->mod_map.find( dependencies[i] ) != active_manager->mod_map.end() ) {
-                dependency_string += "[" + active_manager->mod_map[dependencies[i]]->name + "]";
-            } else {
-                dependency_string += "[<color_red>" + dependencies[i] + "</color>]";
-            }
-        }
-        DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "\n";
-    }
 
     if( !mod->authors.empty() ) {
         info << ngettext( "Author", "Authors", mod->authors.size() ) << ": "
              << enumerate_as_string( mod->authors ) << "\n";
     }
 
-    if( !dependencies.empty() ) {
-        info << string_format( ngettext( "Dependency: %s\n", "Dependencies: %s\n", dependencies.size() ),
-                               dependency_string.c_str() );
-    } else {
-        info << _( "Dependencies: [NONE]\n" );
+    if( !mod->dependencies.empty() ) {
+        const auto &deps = mod->dependencies;
+        auto str = enumerate_as_string( deps.begin(), deps.end(), [&]( const std::string &e ) {
+            if( active_manager->mod_map.find( e ) != active_manager->mod_map.end() ) {
+                return string_format( "[%s]", active_manager->mod_map[e]->name.c_str() );
+            } else {
+                return string_format( "[<color_red>%s</color>]", e.c_str() );
+            }
+        } );
+        info << ngettext( "Dependency", "Dependencies", deps.size() ) << ": " << str << "\n";
     }
 
     if( !description.empty() ) {

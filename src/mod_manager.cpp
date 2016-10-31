@@ -105,7 +105,8 @@ void mod_manager::refresh_mod_list()
     remove_mod("user:default");
     remove_mod("dev:default");
     for( auto &elem : mod_map ) {
-        mod_dependency_map[elem.second->ident] = elem.second->dependencies;
+        const auto &deps = elem.second->dependencies;
+        mod_dependency_map[elem.second->ident] = std::vector<std::string>( deps.begin(), deps.end() );
     }
     tree.init(mod_dependency_map);
 }
@@ -131,8 +132,9 @@ bool mod_manager::set_default_mods(const std::string &ident)
         return false;
     }
     MOD_INFORMATION &mod = *mod_map[ident];
-    remove_invalid_mods( mod.dependencies );
-    default_mods = mod.dependencies;
+    auto deps = std::vector<std::string>( mod.dependencies.begin(), mod.dependencies.end() );
+    remove_invalid_mods( deps );
+    default_mods = deps;
     return true;
 }
 
@@ -227,37 +229,23 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         m_need_lua = true;
     }
 
-    std::vector<std::string> m_dependencies;
-
-    if (jo.has_member("dependencies") && jo.has_array("dependencies")) {
-        JsonArray jarr = jo.get_array("dependencies");
-        while(jarr.has_more()) {
-            const std::string dep = jarr.next_string();
-            if (dep == m_ident) {
-                debugmsg("mod %s has itself as dependency", m_ident.c_str());
-                continue;
-            }
-            if (std::find(m_dependencies.begin(), m_dependencies.end(), dep) != m_dependencies.end()) {
-                // Some dependency listed twice, ignore it, what else can be done?
-                continue;
-            }
-            m_dependencies.push_back(dep);
-        }
-    }
-
     std::unique_ptr<MOD_INFORMATION> modfile( new MOD_INFORMATION );
     modfile->ident = m_ident;
     modfile->name = m_name;
     modfile->description = m_desc;
-    modfile->dependencies = m_dependencies;
     modfile->category = p_cat;
     modfile->path = m_path;
     modfile->need_lua = m_need_lua;
 
     assign( jo, "authors", modfile->authors );
     assign( jo, "maintainers", modfile->maintainers );
+    assign( jo, "dependencies", modfile->dependencies );
     assign( jo, "core", modfile->core );
     assign( jo, "obsolete", modfile->obsolete );
+
+    if( modfile->dependencies.count( modfile->ident ) ) {
+        jo.throw_error( "mod specifies self as a dependency", "dependencies" );
+    }
 
     mod_map[modfile->ident] = std::move( modfile );
 }

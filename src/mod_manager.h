@@ -40,7 +40,8 @@ struct MOD_INFORMATION {
 
     std::string description;
 
-    std::vector<std::string> dependencies;
+    /** What other mods must be loaded prior to this one? */
+    std::set<std::string> dependencies;
 
     /** Core mods are loaded before any other mods */
     bool core = false;
