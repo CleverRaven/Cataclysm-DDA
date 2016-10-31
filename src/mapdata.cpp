@@ -324,20 +324,20 @@ nc_color map_data_common_t::color() const
     return color_[calendar::turn.get_season()];
 }
 
-void load_furniture(JsonObject &jsobj)
+void load_furniture( JsonObject &jo, const std::string &src )
 {
     if( furniture_data.empty() ) {
         furniture_data.insert( null_furniture_t() );
     }
-    furniture_data.load( jsobj );
+    furniture_data.load( jo, src );
 }
 
-void load_terrain(JsonObject &jsobj)
+void load_terrain( JsonObject &jo, const std::string &src )
 {
     if( terrain_data.empty() ) { // todo@ This shouldn't live here
         terrain_data.insert( null_terrain_t() );
     }
-    terrain_data.load( jsobj );
+    terrain_data.load( jo, src );
 }
 
 void map_data_common_t::set_flag( const std::string &flag )
@@ -1032,6 +1032,12 @@ void furn_t::check() const
     if( !close.is_valid() ) {
         debugmsg( "invalid furniture %s for closing %s", close.c_str(), id.c_str() );
     }
+}
+
+void finalize_furniture_and_terrain()
+{
+    terrain_data.finalize();
+    furniture_data.finalize();
 }
 
 void check_furniture_and_terrain()

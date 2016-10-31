@@ -2,7 +2,6 @@
     {
         "type" : "terrain",
         "id" : "t_marloss",
-        "edit-mode" : "override",
         "name": "marloss bush",
         "symbol": "#",
         "color": "dkgray",
@@ -17,7 +16,6 @@
     },{
         "type" : "terrain",
         "id" : "t_marloss_tree",
-        "edit-mode" : "override",
         "name": "marloss tree",
         "symbol": "7",
         "color": "dkgray",

@@ -327,8 +327,8 @@ struct map_extras {
 
 };
 
-void load_furniture(JsonObject &jsobj);
-void load_terrain(JsonObject &jsobj);
+void load_furniture( JsonObject &jo, const std::string &src );
+void load_terrain( JsonObject &jo, const std::string &src );
 
 void verify_furniture();
 void verify_terrain();
@@ -496,6 +496,8 @@ extern furn_id f_null,
 
 // consistency checking of terlist & furnlist.
 void check_furniture_and_terrain();
+
+void finalize_furniture_and_terrain();
 
 // TODO: move into mapgen headers, it's not needed during normal game play.
 /*

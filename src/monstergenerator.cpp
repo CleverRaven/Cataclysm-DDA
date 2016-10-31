@@ -99,6 +99,7 @@ static int calc_bash_skill( const mtype &t )
 
 void MonsterGenerator::finalize_mtypes()
 {
+    mon_templates->finalize();
     for( const auto &elem : mon_templates->get_all() ) {
         mtype &mon = const_cast<mtype&>( elem );
         apply_species_attributes( mon );
@@ -427,9 +428,9 @@ void MonsterGenerator::set_species_ids( mtype &mon )
     }
 }
 
-void MonsterGenerator::load_monster(JsonObject &jo)
+void MonsterGenerator::load_monster( JsonObject &jo, const std::string &src )
 {
-    mon_templates->load( jo );
+    mon_templates->load( jo, src );
 }
 
 class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_reader> {
@@ -456,7 +457,7 @@ void mtype::load( JsonObject &jo )
     mandatory( jo, was_loaded, "name", name );
     // default behaviour: Assume the regular plural form (appending an “s”)
     optional( jo, was_loaded, "name_plural", name_plural, name + "s" );
-    mandatory( jo, was_loaded, "description", description, translated_string_reader );
+    optional( jo, was_loaded, "description", description, translated_string_reader );
 
     optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
     optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {} );
@@ -475,7 +476,7 @@ void mtype::load( JsonObject &jo )
         }
     }
 
-    mandatory( jo, was_loaded, "color", color, color_reader{} );
+    optional( jo, was_loaded, "color", color, color_reader{} );
     const typed_flag_reader<decltype( Creature::size_map )> size_reader{ Creature::size_map, "invalid creature size" };
     optional( jo, was_loaded, "size", size, size_reader, MS_MEDIUM );
     const typed_flag_reader<decltype( gen.phase_map )> phase_reader{ gen.phase_map, "invalid phase id" };
@@ -550,8 +551,14 @@ void mtype::load( JsonObject &jo )
     } else {
         // Note: special_attacks left as is, new attacks are added to it!
         // Note: member name prefixes are compatible with those used by generic_typed_reader
-        remove_special_attacks( jo, "remove:special_attacks" );
-        add_special_attacks( jo, "add:special_attacks" );
+        if( jo.has_object( "extend" ) ) {
+            auto tmp = jo.get_object( "extend" );
+            add_special_attacks( tmp, "special_attacks" );
+        }
+        if( jo.has_object( "delete" ) ) {
+            auto tmp = jo.get_object( "delete" );
+            remove_special_attacks( tmp, "special_attacks" );
+        }
     }
 
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
@@ -592,9 +599,9 @@ void mtype::load( JsonObject &jo )
     }
 }
 
-void MonsterGenerator::load_species(JsonObject &jo)
+void MonsterGenerator::load_species( JsonObject &jo, const std::string &src )
 {
-    mon_species->load( jo );
+    mon_species->load( jo, src );
 }
 
 void species_type::load( JsonObject &jo )
@@ -696,6 +703,10 @@ void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_na
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &mon : mon_templates->get_all() ) {
+        if( mon.description.empty() ) {
+            debugmsg( "monster %s has no description", mon.id.c_str() );
+        }
+
         for( auto &spec : mon.species ) {
             if( !spec.is_valid() ) {
                 debugmsg("monster %s has invalid species %s", mon.id.c_str(), spec.c_str());

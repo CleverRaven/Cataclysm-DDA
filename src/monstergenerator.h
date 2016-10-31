@@ -53,8 +53,8 @@ class MonsterGenerator
         void reset();
 
         // JSON loading functions
-        void load_monster( JsonObject &jo );
-        void load_species( JsonObject &jo );
+        void load_monster( JsonObject &jo, const std::string &src );
+        void load_species( JsonObject &jo, const std::string &src );
 
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();

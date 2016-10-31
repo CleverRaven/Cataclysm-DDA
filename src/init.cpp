@@ -196,8 +196,8 @@ void DynamicDataLoader::initialize()
     add( "ITEM_CATEGORY", []( JsonObject &jo ) { item_controller->load_item_category( jo ); } );
     add( "MIGRATION", []( JsonObject &jo ) { item_controller->load_migration( jo ); } );
 
-    add( "MONSTER", []( JsonObject &jo ) { MonsterGenerator::generator().load_monster( jo ); } );
-    add( "SPECIES", []( JsonObject &jo ) { MonsterGenerator::generator().load_species( jo ); } );
+    add( "MONSTER", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_monster( jo, src ); } );
+    add( "SPECIES", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_species( jo, src ); } );
 
     add( "recipe_category", &load_recipe_category );
     add( "recipe",  []( JsonObject &jo, const std::string &src ) { recipe_dictionary::load( jo, src, false ); } );
@@ -236,7 +236,7 @@ void DynamicDataLoader::initialize()
 
     add( "gate", &gates::load_gates );
     add( "overlay_order", &load_overlay_ordering );
-    add( "mission_definition", []( JsonObject &jo ) { mission_type::load_mission_type( jo ); } );
+    add( "mission_definition", []( JsonObject &jo, const std::string &src ) { mission_type::load_mission_type( jo, src ); } );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
@@ -379,6 +379,7 @@ void DynamicDataLoader::finalize_loaded_data()
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
+    finalize_furniture_and_terrain();
     recipe_dictionary::finalize();
     finialize_martial_arts();
     finalize_constructions();

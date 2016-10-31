@@ -54,7 +54,7 @@ private:
 public:
     //these three aren't meant for external use, but had to be made public regardless
     scenario();
-    static void load_scenario(JsonObject &jsobj);
+    static void load_scenario( JsonObject &jo, const std::string &src );
 
     // these should be the only ways used to get at scenario
     static const scenario* generic(); // points to the generic, default profession
