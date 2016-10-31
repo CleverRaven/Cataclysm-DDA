@@ -12,6 +12,8 @@
 #include <set>
 
 struct MonsterGroup;
+struct overmap_special_location;
+
 using mongroup_id = string_id<MonsterGroup>;
 
 class overmap;
@@ -151,6 +153,11 @@ class overmap_special
 
         /** Returns terrain at the given point */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
+        /**
+         * Returns whether the special can be placed on the specified terrain.
+         * It's true if @ref oter meets any of @ref locations.
+         */
+        bool can_be_placed_on( const oter_id &oter ) const;
         /** Checks the object. */
         void check();
 
@@ -163,7 +170,7 @@ class overmap_special
         int height, width;
         bool rotatable;
         overmap_special_spawns spawns;
-        std::set<std::string> locations;
+        std::set<const overmap_special_location *> locations;
         std::set<std::string> flags;
 };
 

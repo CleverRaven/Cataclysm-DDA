@@ -75,20 +75,34 @@ oter_iid ot_null,
 std::unordered_map<string_id<oter_t>, oter_t> otermap;
 std::vector<oter_t> oterlist;
 
-struct overmap_location_restictions {
-    std::vector<std::string> allowed;
-    std::vector<std::string> disallowed;
+struct overmap_special_location {
+    std::vector<oter_str_id> allowed;
+    std::vector<oter_str_id> disallowed;
+    // Test if oter meets the terrain restrictions.
+    bool test( const oter_id &oter ) const {
+        const auto matches = [ &oter ]( const oter_str_id &elem ) {
+            return is_ot_type( elem.str(), oter );
+        };
+
+        if( !allowed.empty() && std::none_of( allowed.begin(), allowed.end(), matches ) ) {
+            return false;
+        }
+
+        return std::none_of( disallowed.begin(), disallowed.end(), matches );
+    }
 };
 
 // Map of allowed and disallowed terrain for locations of overmap specials.
 // Format: { location, { { list of allowed terrains }, { list of disallowed terrains } } }
 // @todo Jsonize this map.
-static const std::map<std::string, overmap_location_restictions> overmap_locations = {
-    { "field",      { { "field" },          {}                  } },
-    { "forest",     { { "forest" },         {}                  } },
-    { "land",       { {},                   { "river", "road" } } },
-    { "water",      { { "river" },          {}                  } },
-    { "wilderness", { { "forest", "field" },{}                  } }
+static const std::map<std::string, overmap_special_location> special_locations = {
+    { "field",      { { oter_str_id( "field"  ) }, {}                         } },
+    { "forest",     { { oter_str_id( "forest" ) }, {}                         } },
+    { "land",       { {},                          { oter_str_id( "river" ),
+                                                     oter_str_id( "road"  ) } } },
+    { "water",      { { oter_str_id( "river" ) },  {}                         } },
+    { "wilderness", { { oter_str_id( "forest" ),
+                        oter_str_id( "field"  ) }, {}                         } }
 };
 
 oter_iid oterfind(const std::string &id)
@@ -246,8 +260,17 @@ void load_overmap_specials(JsonObject &jo)
 
     JsonArray location_array = jo.get_array("locations");
     while(location_array.has_more()) {
-        spec.locations.insert( location_array.next_string() );
+        const std::string location = location_array.next_string();
+        const auto iter = special_locations.find( location );
+
+        if( iter != special_locations.end() ) {
+            spec.locations.insert( &iter->second );
+        } else {
+            debugmsg( "Overmap special \"%s\" has invalid location \"%s\".",
+                      spec.id.c_str(), location.c_str() );
+        }
     }
+
     JsonArray city_size_array = jo.get_array("city_sizes");
     if(city_size_array.has_more()) {
         spec.min_city_size = city_size_array.get_int(0);
@@ -978,15 +1001,16 @@ const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &
     return *iter;
 }
 
+bool overmap_special::can_be_placed_on( const oter_id &oter ) const
+{
+    return locations.empty() || std::any_of( locations.begin(), locations.end(),
+    [ &oter ]( const overmap_special_location *loc ) {
+        return loc->test( oter );
+    } );
+}
+
 void overmap_special::check()
 {
-    // Check locations for validity.
-    for( const auto &elem : locations ) {
-        if( overmap_locations.count( elem ) == 0 ) {
-            debugmsg( "Overmap special \"%s\" has invalid location \"%s\".",
-                      id.c_str(), elem.c_str() );
-        }
-    }
     // Update and check terrains and connections.
     std::set<tripoint> points;
 
@@ -3915,34 +3939,6 @@ void overmap::good_river(int x, int y, int z)
 
 }
 
-// checks the area around the selected point to ensure terrain is valid for special
-bool overmap::allowed_terrain( const std::vector<tripoint> &points,
-                               const overmap_location_restictions &restrictions ) const
-{
-    for( const tripoint &t : points ) {
-        const oter_id &oter = get_ter( t.x, t.y, t.z );
-
-        bool passed = false;
-        for( auto &elem : restrictions.allowed ) {
-            if( is_ot_type( elem, oter ) ) {
-                passed = true;
-            }
-        }
-        // if we are only checking against disallowed types, we don't want this to fail us
-        if( !passed && !restrictions.allowed.empty() ) {
-            return false;
-        }
-
-        for( auto &elem : restrictions.disallowed ) {
-            if( is_ot_type( elem, oter ) ) {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
 // new x = (x-c.x)*cos() - (y-c.y)*sin() + c.x
 // new y = (x-c.x)*sin() + (y-c.y)*cos() + c.y
 // r1x = 0*x - 1*y = -1*y, r1y = 1*x + y*0 = x
@@ -4016,33 +4012,22 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
     }
 
     if( rotations.empty() ) {
-        return false; // No valid rotations
+        return false; // No valid rotations.
     }
 
     rotate = random_entry( rotations );
-
-    // do bounds & connection checking
-    std::vector<tripoint> rotated_points;
-
-    rotated_points.reserve( special.terrains.size() );
+    // Check chosen rotation more precisely.
     for( const auto& t : special.terrains ) {
         const tripoint rp = p + rotate_tripoint( t.p, rotate );
-        // Never build on the edges.
-        if( !inbounds( rp, 1 ) ) {
+        // Only ground-level terrains are checked for location restrictions.
+        if( !inbounds( rp, 1 ) || ( rp.z == 0 && !special.can_be_placed_on( get_ter( rp.x, rp.y, rp.z ) ) ) ) {
             return false;
         } else if( rp.z == 0 ) { // Only check ground level.
             rotated_points.push_back( rp );
         }
     }
 
-    for( const auto &elem : special.locations ) {
-        const auto iter = overmap_locations.find( elem );
-        // check each location, any will do.
-        if( iter != overmap_locations.end() && allowed_terrain( rotated_points, iter->second ) ) {
-            return true;
-        }
-    }
-    return false;
+    return true;
 }
 
 // should work essentially the same as previously

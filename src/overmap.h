@@ -444,8 +444,7 @@ public:
   void chip_rock(int x, int y, int z);
   void good_road(const std::string &base, int x, int y, int z);
   void good_river(int x, int y, int z);
-  bool allowed_terrain( const std::vector<tripoint> &points,
-                        const overmap_location_restictions &restrictions ) const;
+
   bool allow_special(const overmap_special& special, const tripoint& p, int &rotate);
   // Monsters, radios, etc.
   void place_specials();
