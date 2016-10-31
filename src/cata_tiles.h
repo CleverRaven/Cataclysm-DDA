@@ -36,6 +36,11 @@ struct tile_type {
     std::vector<std::string> available_subtiles;
 };
 
+struct tile_rect_info{
+    int atlas_index;
+    SDL_Rect source_rects[4];
+};
+
 struct tile {
     /** Screen coordinates as tile number */
     int sx, sy;
@@ -259,7 +264,7 @@ class cata_tiles
          * Returns the number of tiles that have been loaded from this tileset image
          * @throw std::exception If the image can not be loaded.
          */
-        int load_tileset( std::string path, int R, int G, int B, int sprite_width, int sprite_height );
+        int load_tileset( std::string path, int R, int G, int B, int sprite_width, int sprite_height, SDL_Rect* atlasinfo );
 
         /**
          * Load tileset config file (json format).
@@ -478,8 +483,9 @@ class cata_tiles
 
         /** Variables */
         SDL_Renderer *renderer;
-        std::vector<SDL_Texture_Ptr> tile_values;
         std::unordered_map<std::string, tile_type> tile_ids;
+        std::unordered_map<int, tile_rect_info> tile_rects;
+        std::vector<SDL_Texture_Ptr> textureatlas;
 
         int tile_height = 0, tile_width = 0, default_tile_width, default_tile_height;
         // The width and height of the area we can draw in,
@@ -531,9 +537,6 @@ class cata_tiles
     private:
         void create_default_item_highlight();
         int last_pos_x, last_pos_y;
-        std::vector<SDL_Texture_Ptr> shadow_tile_values;
-        std::vector<SDL_Texture_Ptr> night_tile_values;
-        std::vector<SDL_Texture_Ptr> overexposed_tile_values;
         /**
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.
