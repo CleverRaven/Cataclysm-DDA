@@ -1636,6 +1636,15 @@
     },
     {
         "type" : "keybinding",
+        "id": "ASSIGN_CREW",
+        "category": "VEH_INTERACT",
+        "name": "Assign crew",
+        "bindings":[
+            { "input_method":"keyboard", "key":"w" }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "RELABEL",
         "category": "VEH_INTERACT",
         "name": "Relabel a portion of a vehicle",

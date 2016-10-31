@@ -594,15 +594,30 @@ void npc::execute_action( npc_action action )
                 continue;
             }
 
+            // a seat is available if either unassigned or assigned to us
+            auto available_seat = [&]( const vehicle_part &pt ) {
+                if( !pt.is_seat() ) {
+                    return false;
+                }
+                const npc *who = pt.crew();
+                return !who || who->getID() == getID();
+            };
+
+            const auto &pt = veh->parts[p2];
+
             int priority = 0;
-            if( veh->parts[p2].mount == last_dest ) {
+
+            if( pt.mount == last_dest ) {
                 // Shares mount point with last known path
                 // We probably wanted to go there in the last turn
                 priority = 4;
-            } else if( veh->part_flag( p2, "SEAT" ) ) {
-                // Assuming the player "owns" a sensible vehicle,
-                //  seats should be in good spots to occupy
-                priority = veh->part_with_feature( p2, "SEATBELT" ) >= 0 ? 3 : 2;
+
+            } else if( available_seat( pt ) ) {
+                // Assuming player "owns" a sensible vehicle seats should be in good spots to occupy
+                // Prefer our assigned seat if we have one
+                const npc *who = pt.crew();
+                priority = who && who->getID() == getID() ? 3 : 2;
+
             } else if( veh->is_inside( p2 ) ) {
                 priority = 1;
             }

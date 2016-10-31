@@ -176,6 +176,21 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     int wheel_width() const;
 
     /**
+     *  Get NPC currently assigned to this part (seat, turret etc)?
+     *  @note checks crew member is alive and currently allied to the player
+     *  @return nullptr if no valid crew member is currently assigned
+     */
+    npc *crew() const;
+
+    /** Set crew member for this part (seat, truret etc) who must be a player ally)
+     *  @return true if part can have crew members and passed npc was suitable
+     */
+    bool set_crew( const npc &who );
+
+    /** Remove any currently assigned crew member for this part */
+    void unset_crew();
+
+    /**
      * @name Part capabilities
      *
      * A part can provide zero or more capabilities. Some capabilities are mutually
@@ -200,6 +215,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /** Can this part function as a turret? */
     bool is_turret() const;
+
+    /** Can a player or NPC use this part as a seat? */
+    bool is_seat() const;
 
     /*@}*/
 
@@ -244,6 +262,12 @@ private:
 
     /** Preferred ammo type when multiple are available */
     itype_id ammo_pref = "null";
+
+    /**
+     *  What NPC (if any) is assigned to this part (seat, turret etc)?
+     *  @see vehicle_part::crew() accessor which excludes dead and non-allied NPC's
+     */
+    int crew_id = -1;
 
 public:
     /** Get part definition common to all parts of this type */
@@ -1017,6 +1041,12 @@ public:
     bool turrets_aim();
 
     /*@}*/
+
+    /**
+     *  Try to assign a crew member (who must be a player ally) to a specific seat
+     *  @note enforces NPC's being assigned to only one seat (per-vehicle) at once
+     */
+    bool assign_seat( vehicle_part &pt, const npc& who );
 
     // Update the set of occupied points and return a reference to it
     std::set<tripoint> &get_points( bool force_refresh = false );
