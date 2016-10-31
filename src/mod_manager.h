@@ -34,17 +34,13 @@ struct MOD_INFORMATION {
     std::string ident;
     std::vector<std::string> authors;
     std::string description;
-    mod_type _type;
+    mod_type _type = MT_SUPPLEMENTAL;
     std::vector<std::string> dependencies;
-    bool obsolete;
+    bool obsolete = false;
     /** Mod require Lua support **/
     bool need_lua;
 
-    std::pair<int, std::string> category;
-
-    MOD_INFORMATION() : _type( MT_SUPPLEMENTAL ), obsolete( false ), category( {
-        -1, ""
-    } ) {};
+    std::pair<int, std::string> category = { -1, "" };
 
     std::string type() {
         switch( _type ) {

@@ -14,6 +14,7 @@
 #include <unordered_set>
 
 #include "json.h"
+#include "generic_factory.h"
 
 #define MOD_SEARCH_FILE "modinfo.json"
 
@@ -273,6 +274,8 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     modfile->category = p_cat;
     modfile->path = m_path;
     modfile->need_lua = m_need_lua;
+
+    assign( jo, "obsolete", modfile->obsolete );
 
     mod_map[modfile->ident] = std::move( modfile );
 }
