@@ -27,7 +27,7 @@
     "ammo_type": "50",
     "casing": "50_casing",
     "range": 40,
-    "damage": 102,
+    "damage": 130,
     "pierce": 28,
     "dispersion": 30,
     "recoil": 17000,
