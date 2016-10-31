@@ -1,7 +1,6 @@
 [
   {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "Only_Wildlife",
     "name": "No Monsters",
     "authors": [ "Kodi Arfer" ],

@@ -1,7 +1,6 @@
 [
   {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "StatsThroughSkills",
     "name": "StatsThroughSkills",
     "authors": [ "Ryan \"DeNarr\" Saige" ],

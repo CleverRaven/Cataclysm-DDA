@@ -169,8 +169,6 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         return;
     }
 
-    std::string t_type = jo.get_string("mod-type", "SUPPLEMENTAL");
-
     std::string m_name = jo.get_string("name", "");
     if (m_name.empty()) {
         // "No name" gets confusing if many mods have no name
@@ -247,18 +245,8 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         }
     }
 
-    mod_type m_type = MT_CORE;
-    if (t_type == "CORE") {
-        m_type = MT_CORE;
-    } else if (t_type == "SUPPLEMENTAL") {
-        m_type = MT_SUPPLEMENTAL;
-    } else {
-        jo.throw_error( std::string("Invalid mod type: ") + t_type + " for mod " + m_ident );
-    }
-
     std::unique_ptr<MOD_INFORMATION> modfile( new MOD_INFORMATION );
     modfile->ident = m_ident;
-    modfile->_type = m_type;
     modfile->name = m_name;
     modfile->description = m_desc;
     modfile->dependencies = m_dependencies;
@@ -268,6 +256,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 
     assign( jo, "authors", modfile->authors );
     assign( jo, "maintainers", modfile->maintainers );
+    assign( jo, "core", modfile->core );
     assign( jo, "obsolete", modfile->obsolete );
 
     mod_map[modfile->ident] = std::move( modfile );

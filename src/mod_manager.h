@@ -24,10 +24,6 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
 const std::map<std::string, std::string> &get_mod_list_cat_tab();
 
-enum mod_type {
-    MT_CORE,
-    MT_SUPPLEMENTAL
-};
 struct MOD_INFORMATION {
     std::string path;
     std::string name;
@@ -43,24 +39,19 @@ struct MOD_INFORMATION {
     std::set<std::string> maintainers;
 
     std::string description;
-    mod_type _type = MT_SUPPLEMENTAL;
+
     std::vector<std::string> dependencies;
+
+    /** Core mods are loaded before any other mods */
+    bool core = false;
+
+    /** Obsolete mods are loaded for legacy saves but cannot be used when starting new worlds */
     bool obsolete = false;
+
     /** Mod require Lua support **/
     bool need_lua;
 
     std::pair<int, std::string> category = { -1, "" };
-
-    std::string type() {
-        switch( _type ) {
-            case MT_CORE:
-                return "CORE";
-                break;
-            case MT_SUPPLEMENTAL:
-                return "SUPPLEMENTAL";
-                break;
-        }
-    };
 };
 
 class mod_manager

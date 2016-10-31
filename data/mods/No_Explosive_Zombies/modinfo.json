@@ -1,7 +1,6 @@
 [
   {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "No_Explosive_Zombies",
     "name": "No Explosive Zombies",
     "description": "Removes all explosion-based zombies from the game.",

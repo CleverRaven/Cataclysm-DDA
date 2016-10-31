@@ -1,7 +1,6 @@
 [
   {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "novitamins",
     "name": "Simplified Nutrition",
     "authors": [ "mugling" ],

@@ -1,7 +1,6 @@
 [
   {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "more_locations",
     "name": "More Locations",
     "authors": [ "Sunshine" ],

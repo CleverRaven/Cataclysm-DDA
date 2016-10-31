@@ -1,7 +1,6 @@
 [
   {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "boats",
     "name": "Boats",
     "authors": [ "HuXTUS" ],

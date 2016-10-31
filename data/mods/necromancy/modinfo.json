@@ -1,7 +1,6 @@
 [
   {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "necromancy",
     "name": "Necromancy",
     "authors": [ "dambuk1" ],

@@ -1,7 +1,6 @@
 [
   {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "No_Zombie_Animals",
     "name": "No Zombie Animals",
     "description": "Removes zombie animals from the game.",

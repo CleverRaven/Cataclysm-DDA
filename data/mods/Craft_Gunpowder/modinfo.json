@@ -1,7 +1,6 @@
 [
   {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "craftgp",
     "name": "Craftable Gun Pack",
     "authors": [ "Zaweri" ],

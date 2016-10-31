@@ -1,7 +1,6 @@
 [
   {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "RL_Classes",
     "name": "Classic Roguelike Classes",
     "authors": [ "Rivet-the-Zombie" ],
