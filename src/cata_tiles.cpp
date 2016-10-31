@@ -437,8 +437,7 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
 
-    // track atlas loading info and size the source rectangle lookup map afterwards
-    std::vector<int> all_tilecounts;
+    // track tileset atlas loading info and size the source rectangle lookup map afterwards
     std::vector<SDL_Rect> all_tileatlasrects;
 
     // temporary variable for holding the atlas image info
@@ -490,7 +489,6 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
             const int newsize = load_tileset(tileset_image_path, R, G, B, sprite_width, sprite_height, &atlas_sizing);
 
             //save the tile info for creating the source rectangles later
-            all_tilecounts.push_back(newsize);
             all_tileatlasrects.push_back(atlas_sizing);
 
             // Now load the tile definitions for the loaded tileset image.
@@ -511,7 +509,6 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
         const int newsize = load_tileset(image_path, -1, -1, -1, tile_width, tile_height, &atlas_sizing);
 
         //save the tile info for creating the source rectangles later
-        all_tilecounts.push_back(newsize);
         all_tileatlasrects.push_back(atlas_sizing);
 
         load_tilejson_from_file(config, 0, newsize);
@@ -524,12 +521,6 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
 
     tile_rects.clear();
     tile_rects.reserve(offset); // includes extra count of generated item highlight tile
-
-//    // determine tile count to
-//    int tile_total = 0;
-//    for(unsigned int i = 0; i < all_tilecounts.size();i++){
-//        tile_total += all_tilecounts[i];
-//    }
 
     // set up all texture source rectangles
     int tilecounter = 0;
@@ -908,34 +899,6 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderFillRect(renderer, &clipRect);
     }
-    static unsigned long last_tick = 0;
-    static int counter = 0;
-    static unsigned long drawtime=0;
-    std::chrono::steady_clock::time_point dt = std::chrono::steady_clock::now();
-    unsigned long current_tick = SDL_GetTicks();
-
-    if(current_tick-last_tick>=5000){
-        if(counter==0)counter=1;
-        if(last_tick !=0){
-            add_msg("%d draws in %d ticks %f avg", counter, (int)(current_tick-last_tick),1000.0*counter/(double)(current_tick-last_tick));
-            add_msg("%d drawtime %f avg", (int)(drawtime),drawtime/(double)(counter));
-        }else{
-            //print render information
-            int test1 = SDL_GetNumRenderDrivers();
-            SDL_RendererInfo ri;
-            for(int i=0;i<test1;i++){
-                SDL_GetRenderDriverInfo(i,&ri);
-                add_msg("n:%s flg:%d nfmt:%d w:%d h:%d",ri.name,ri.flags,ri.num_texture_formats,ri.max_texture_width,ri.max_texture_height);
-            }
-//            SDL_GetRendererInfo(renderer, &ri);
-//                add_msg("n:%s flg:%d nfmt:%d w:%d h:%d",ri.name,ri.flags,ri.num_texture_formats,ri.max_texture_width,ri.max_texture_height);
-        }
-        last_tick = current_tick;
-        counter = 0;
-        drawtime=0;
-    }
-    counter++;
-
 
     int posx = center.x;
     int posy = center.y;
@@ -1100,9 +1063,6 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     }
 
     SDL_RenderSetClipRect(renderer, NULL);
-
-std::chrono::steady_clock::time_point dt2 = std::chrono::steady_clock::now();
-drawtime += std::chrono::duration_cast<std::chrono::microseconds>(dt2-dt).count();
 }
 
 void cata_tiles::draw_rhombus(int destx, int desty, int size, SDL_Color color, int widthLimit, int heightLimit) {
