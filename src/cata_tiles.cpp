@@ -511,12 +511,17 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
         offset = newsize;
     }
 
-    // add highlight square to list of ids, it is generated in an extra row of each loaded tileset
-    tile_ids[ITEM_HIGHLIGHT].fg.add(std::vector<int>({offset}),1);
-    offset++;
+    // add highlight square to list of ids, a spare highlight tile is generated in an extra row of each loaded tileset
+    auto it = tile_ids.find( ITEM_HIGHLIGHT );
+    bool has_item_highlight = true;
+    if( it == tile_ids.end() ){
+        has_item_highlight = false;
+        tile_ids[ITEM_HIGHLIGHT].fg.add( std::vector<int>( {offset} ), 1 );
+        offset++;
+    }
 
     tile_rects.clear();
-    tile_rects.reserve(offset); // includes extra count of generated item highlight tile
+    tile_rects.reserve( offset ); // could include extra count of generated item highlight tile
 
     // set up all texture source rectangles
     int tilecounter = 0;
@@ -540,14 +545,15 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
         }
     }
 
-    // add the source rectangle for the item highlight
-    tile_rect_info hilite_info;
-    hilite_info.atlas_index = 0;
-    for( int k = 0; k < 4; k++ ){
-        hilite_info.source_rects[k] = { 0, all_tileatlasrects[0].h, all_tileatlasrects[0].x, all_tileatlasrects[0].y };
+    // add the source rectangle for the item highlight if necessary
+    if( !has_item_highlight ){
+        tile_rect_info hilite_info;
+        hilite_info.atlas_index = 0;
+        for( int k = 0; k < 4; k++ ){
+            hilite_info.source_rects[k] = { 0, all_tileatlasrects[0].h, all_tileatlasrects[0].x, all_tileatlasrects[0].y };
+        }
+        tile_rects.insert( std::pair<int, tile_rect_info>( offset-1, hilite_info ) );
     }
-    tile_rects.insert( std::pair<int, tile_rect_info>( offset-1, hilite_info ) );
-
 
 
     // allows a tileset to override the order of mutation images being applied to a character
