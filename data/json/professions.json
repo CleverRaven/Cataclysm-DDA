@@ -2841,6 +2841,75 @@
     },
     {
         "type": "profession",
+        "ident": "soccerplayer",
+        "name": "Soccer Player",
+        "description": "You were an outstanding striker in your soccer team.  However, in the zombie apocalypse, your soccer skill seems useless...  But really?",
+        "points": 1,
+        "skills": [
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "traits": [
+            "PROF_SOCCER"
+        ],
+        "items": {
+            "both": [
+                "soccer",
+                "soccer_jersey",
+                "soccer_shorts",
+                "shinguards",
+                "soccer_socks",
+                "cleats",
+                "runner_bag"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "soccergk",
+        "name": "Soccer Goalkeeper",
+        "description": "You're proud of saving that penalty kick when the score was 1-1 at nearly the end of the match last night.  Sadly, facing those... disgusting human?  Nobody will ever attempt to shoot your goal anymore.",
+        "points": 2,
+        "skills": [
+            {
+                "level": 1,
+                "name": "dodge"
+            }
+        ],
+        "traits": [
+            "PROF_SOCCERGK"
+        ],
+        "items": {
+            "both": [
+                "soccer",
+                "soccer_jersey",
+                "soccer_shorts",
+                "shinguards",
+                "soccer_socks",
+                "cleats",
+                "goalkeeper_gloves",
+                "runner_bag"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "golfer",
         "name": "Golfer",
         "description": "A birdie is one under par, but how much is a zombie?  Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",

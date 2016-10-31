@@ -1227,6 +1227,27 @@
     "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ]
   },
   {
+    "id": "goalkeeper_gloves",
+    "type": "ARMOR",
+    "name": "pair of goalkeeper gloves",
+    "name_plural": "pairs of goalkeeper gloves",
+    "description": "A pair of professional green goalkeeper gloves.  Helped the user hit a ball flying directly at a hundred miles per hour without injury before.  Needless to say how much protection it offers.",
+    "weight": 150,
+    "volume": 4,
+    "price": 4900,
+    "to_hit": 1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "green",
+    "covers": [ "HANDS" ],
+    "coverage": 100,
+    "encumbrance": 25,
+    "warmth": 20,
+    "material_thickness": 4,
+    "environmental_protection": 6,
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ]
+  },
+  {
     "id": "boy_shorts",
     "type": "ARMOR",
     "name": "boy shorts",
@@ -2652,6 +2673,44 @@
     "flags": [ "BELTED" ]
   },
   {
+    "id": "shinguards",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "pair of soccer shin guards",
+    "name_plural": "pairs of soccer shin guards",
+    "description": "A pair of shin guards protecting soccer players from injury during a match in the past.  Modern technology and design makes it seem as if you're not even wearing shin guards, and fit a variety of leg shapes as well.",
+    "weight": 40,
+    "volume": 4,
+    "price": 2200,
+    "material": [ "plastic", "neoprene", "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "LEGS" ],
+    "coverage": 45,
+    "encumbrance": 1,
+    "warmth": 10,
+    "material_thickness": 5,
+    "flags": [ "SKINTIGHT" ]
+  },
+  {
+    "id": "soccer_socks",
+    "type": "ARMOR",
+    "name": "pair of soccer socks",
+    "name_plural": "pairs of soccer socks",
+    "description": "A pair of soccer socks covers up to knee.  Holds up the shin guards, absorbs sweat and makes you stay comfortable in the match.  Oops, there will never be a soccer match anymore, unless you want to play with zeds?",
+    "weight": 50,
+    "volume": 1,
+    "price": 800,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "white",
+    "covers": [ "FEET", "LEGS" ],
+    "coverage": 80,
+    "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
     "id": "fsurvivor_suit",
     "type": "ARMOR",
     "category": "armor",
@@ -3141,7 +3200,7 @@
     "coverage": 100,
     "encumbrance": 30,
     "warmth": 15,
-    "material_thickness": 4,
+    "material_thickness": 5,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
@@ -5053,14 +5112,6 @@
         "text": "A 43-man squamish jersey made of thick material imprinted with the logo of the Gainesville Veeblefetzers."
       },
       {
-        "id": "london",
-        "text": "A zero-G football jersey made of thick material imprinted with the logo of the London Jets."
-      },
-      {
-        "id": "endsville",
-        "text": "A football jersey made of thick material imprinted with the logo of the Endsville Fluffycats."
-      },
-      {
         "id": "tokyo",
         "text": "A baseball jersey made of thick material imprinted with the logo of the Tokyo Samurai."
       },
@@ -5079,6 +5130,92 @@
       {
         "id": "monroeville",
         "text": "A hockey jersey made of thick material imprinted with the logo of the Monroeville Zombies."
+      }
+    ],
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "football_jersey",
+    "type": "ARMOR",
+    "name": "football jersey",
+    "description": "A shirt made of thick material imprinted with the name and logo of a football team.",
+    "weight": 480,
+    "volume": 9,
+    "price": 8900,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "TORSO", "ARMS" ],
+    "coverage": 90,
+    "encumbrance": 7,
+    "warmth": 25,
+    "material_thickness": 3,
+    "snippet_category": [
+      {
+        "id": "london",
+        "text": "A zero-G football jersey made of thick material imprinted with the logo of the London Jets."
+      },
+      {
+        "id": "endsville",
+        "text": "A football jersey made of thick material imprinted with the logo of the Endsville Fluffycats."
+      }
+    ],
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "soccer_jersey",
+    "type": "ARMOR",
+    "name": "soccer jersey",
+    "description": "A shirt made of thick material imprinted with the name and logo of a soccer team, as well as a huge number on the back.",
+    "weight": 480,
+    "volume": 9,
+    "price": 8900,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "TORSO", "ARMS" ],
+    "coverage": 90,
+    "encumbrance": 7,
+    "warmth": 25,
+    "material_thickness": 3,
+    "snippet_category": [
+      {
+        "id": "manchesthair",
+        "text": "A soccer jersey made of thick material imprinted with the logo of the Man Chest Hair United, and number No.7 on the back."
+      },
+      {
+        "id": "arseelona",
+        "text": "A soccer jersey made of thick material imprinted with the logo of the Arse-elona, and number No.33 on the back."
+      }
+    ],
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "soccer_shorts",
+    "type": "ARMOR",
+    "name": "soccer shorts",
+    "name_plural": "soccer shorts",
+    "description": "A pair of loose-fitting soccer shorts, with a logo of a soccer team and a number.",
+    "weight": 200,
+    "volume": 4,
+    "price": 5500,
+    "to_hit": 1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "cyan",
+    "covers": [ "LEGS" ],
+    "coverage": 45,
+    "storage": 4,
+    "warmth": 5,
+    "material_thickness": 1,
+    "snippet_category": [
+      {
+        "id": "manchesthair",
+        "text": "A loose-fitting soccer shorts imprinted with the logo of the Man Chest Hair United and number No.7 on each side."
+      },
+      {
+        "id": "arseelona",
+        "text": "A soccer jersey made of thick material imprinted with the logo of the Arse-elona and number No.33 on each side."
       }
     ],
     "flags": [ "VARSIZE" ]
