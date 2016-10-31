@@ -26,6 +26,7 @@
 #include "player.h"
 #include "generic_factory.h"
 #include "map_iterator.h"
+#include "cata_utility.h"
 
 #include <sstream>
 #include <algorithm>
@@ -1998,6 +1999,18 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     }
 
     return 0;
+}
+
+void holster_actor::info( const item&, std::vector<iteminfo>& dump ) const
+{
+    int scale = 0;
+    dump.emplace_back( "TOOL", _( "Can contain items up to " ), string_format( "<num> %s", volume_units_abbr() ),
+                       round_up( convert_volume( max_volume.value(), &scale ), 1 ), scale == 0, "", max_weight <= 0 );
+
+    if( max_weight > 0 ) {
+        dump.emplace_back( "TOOL", "holster_kg", string_format( _( " or <num> %s" ), weight_units() ),
+                           convert_weight( max_weight ), false, "", true, false, false );
+    }
 }
 
 iuse_actor *bandolier_actor::clone() const

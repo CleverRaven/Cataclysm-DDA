@@ -22,6 +22,10 @@ class Item_spawn_data;
 class Item_group;
 class item;
 class item_category;
+class Item_factory;
+
+extern std::unique_ptr<Item_factory> item_controller;
+
 
 class migration
 {
@@ -219,6 +223,20 @@ class Item_factory
         const std::map<const itype_id, std::unique_ptr<itype>> &get_all_itypes() const {
             return m_templates;
         }
+
+        /** Find all templates matching the UnaryPredicate function */
+        static std::vector<const itype *> find( const std::function<bool( const itype & )> &func ) {
+            std::vector<const itype *> res;
+            if( item_controller ) {
+                for( const auto &e : item_controller->get_all_itypes() ) {
+                    if( func( *e.second ) ) {
+                        res.push_back( e.second.get() );
+                    }
+                }
+            }
+            return res;
+        }
+
         /**
          * Create a new (and currently unused) item type id.
          */
@@ -314,7 +332,5 @@ class Item_factory
 
         std::map<itype_id, migration> migrations;
 };
-
-extern std::unique_ptr<Item_factory> item_controller;
 
 #endif

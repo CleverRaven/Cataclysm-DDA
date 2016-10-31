@@ -648,6 +648,7 @@ class holster_actor : public iuse_actor
         void load( JsonObject &jo ) override;
         long use( player *, item *, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
