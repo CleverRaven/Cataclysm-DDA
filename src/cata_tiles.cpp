@@ -30,14 +30,10 @@
 #include "overlay_ordering.h"
 #include "cata_utility.h"
 
-#include "messages.h"
-
 #include <algorithm>
 #include <fstream>
 #include <stdlib.h>     /* srand, rand */
 #include <sstream>
-
-#include <chrono>
 
 #include <SDL_image.h>
 
