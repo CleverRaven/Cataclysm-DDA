@@ -1,4 +1,5 @@
-{
+[
+  {
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "no_survivor_armor",
@@ -7,4 +8,5 @@
     "description": "Removes survivor armor.",
     "category": "item_exclude",
     "path": ""
-}
+  }
+]

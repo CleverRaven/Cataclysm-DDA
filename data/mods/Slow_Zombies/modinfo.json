@@ -1,4 +1,5 @@
-{
+[
+  {
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "Slow_Zombies",
@@ -6,4 +7,5 @@
     "description": "Halves zombie speed.",
     "category": "rebalance",
     "path": ""
-}
+  }
+]

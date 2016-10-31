@@ -1,4 +1,5 @@
-{
+[
+  {
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "StatsThroughSkills",
@@ -7,4 +8,5 @@
     "description": "Allows stats to raise naturally via skill progression.",
     "category": "rebalance",
     "path": ""
-}
+  }
+]

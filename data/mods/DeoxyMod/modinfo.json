@@ -1,10 +1,12 @@
-{
+[
+  {
     "type": "MOD_INFO",
-    "mod_type": "SUPPLEMENTAL",
+    "mod-type": "SUPPLEMENTAL",
     "ident": "deoxymod",
     "name": "Folding Parts pack",
+    "authors": [ "Deoxy" ],
     "description": "Makes solar panels and several other parts foldable.",
     "category": "vehicles",
-    "authors": [ "Deoxy" ],
     "path": ""
-}
+  }
+]

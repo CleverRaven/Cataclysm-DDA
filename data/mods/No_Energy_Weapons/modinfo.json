@@ -1,30 +1,32 @@
 [
-{
+  {
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "no_energy_weapons",
     "name": "No Energy Weapons",
     "authors": [ "Rivet-the-Zombie" ],
+    "maintainers": [ "Rivet-the-Zombie" ],
     "description": "Removes energy weapons, coilguns, and specific ammunition.",
     "category": "item_exclude",
     "path": "modinfo.json"
-},{
+  },
+  {
     "type": "ITEM_BLACKLIST",
     "items": [
-        "v29",
-        "cerberus_laser",
-        "ftk93",
-        "coilgun",
-        "hk_g80",
-        "plasma_rifle",
-        "v29_cheap",
-        "laser_rifle",
-        "unbio_blaster_gun",
-        "rebar_rifle",
-        "laser_pack",
-        "12mm",
-        "rebar_rail",
-        "steel_rail"
+      "v29",
+      "cerberus_laser",
+      "ftk93",
+      "coilgun",
+      "hk_g80",
+      "plasma_rifle",
+      "v29_cheap",
+      "laser_rifle",
+      "unbio_blaster_gun",
+      "rebar_rifle",
+      "laser_pack",
+      "12mm",
+      "rebar_rail",
+      "steel_rail"
     ]
-}
+  }
 ]

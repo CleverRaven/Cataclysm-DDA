@@ -1,4 +1,5 @@
-{
+[
+  {
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "craftgp",
@@ -7,4 +8,5 @@
     "description": "Adds more craftable firearms, and gunpowder.  WARNING: Breaks intended balance.",
     "category": "items",
     "path": ""
-}
+  }
+]

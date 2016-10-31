@@ -1,4 +1,5 @@
-{
+[
+  {
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "DinoMod",
@@ -6,4 +7,5 @@
     "description": "Adds dinosaurs.",
     "category": "creatures",
     "path": ""
-}
+  }
+]

@@ -1,4 +1,5 @@
-{
+[
+  {
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "Medieval_Stuff",
@@ -7,4 +8,5 @@
     "description": "Assorted fun things for the wannabe knight, legionary, and more.",
     "category": "items",
     "path": ""
-}
+  }
+]

@@ -1,4 +1,5 @@
-{
+[
+  {
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "boats",
@@ -7,4 +8,5 @@
     "description": "Adds boats.",
     "category": "vehicles",
     "path": ""
-}
+  }
+]

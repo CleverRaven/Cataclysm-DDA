@@ -1,5 +1,5 @@
 [
-{
+  {
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "Only_Wildlife",
@@ -8,9 +8,10 @@
     "description": "Removes all monsters from the game, save for those in the WILDLIFE category.",
     "category": "monster_exclude",
     "path": "modinfo.json"
-},{
+  },
+  {
     "type": "MONSTER_WHITELIST",
-    "mode" : "EXCLUSIVE",
-    "categories": ["WILDLIFE"]
-}
+    "mode": "EXCLUSIVE",
+    "categories": [ "WILDLIFE" ]
+  }
 ]

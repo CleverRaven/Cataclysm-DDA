@@ -1,5 +1,5 @@
 [
-{
+  {
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "No_Triffids",
@@ -8,20 +8,20 @@
     "description": "Removes triffids from the game.",
     "category": "monster_exclude",
     "path": ""
-},{
+  },
+  {
     "type": "MONSTER_BLACKLIST",
-    "categories": [
-        "GROUP_TRIFFID"
-   ]
-},{
+    "categories": [ "GROUP_TRIFFID" ]
+  },
+  {
     "type": "MONSTER_BLACKLIST",
     "monsters": [
-        "mon_triffid",
-        "mon_triffid_young",
-        "mon_fungal_fighter",
-        "mon_vinebeast",
-        "mon_triffid_queen",
-        "mon_triffid_heart"
+      "mon_triffid",
+      "mon_triffid_young",
+      "mon_fungal_fighter",
+      "mon_vinebeast",
+      "mon_triffid_queen",
+      "mon_triffid_heart"
     ]
-}
+  }
 ]

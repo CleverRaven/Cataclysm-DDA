@@ -1,4 +1,5 @@
-{
+[
+  {
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "Tough_Zombies",
@@ -6,4 +7,5 @@
     "description": "Doubles zombie health.",
     "category": "rebalance",
     "path": ""
-}
+  }
+]
