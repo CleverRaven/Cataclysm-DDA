@@ -1,10 +1,12 @@
-{
+[
+  {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "realguns",
     "name": "Extended Realistic Guns",
+    "authors": [ "BorkBorkGoesTheCode", "DangerNoodle" ],
+    "maintainers": [ "BorkBorkGoesTheCode", "DangerNoodle" ],
     "description": "Adds more overlapping ammo types and more real-world firearms.",
     "category": "items",
-    "authors": [ "BorkBorkGoesTheCode", "DangerNoodle" ],
     "path": ""
-}
+  }
+]

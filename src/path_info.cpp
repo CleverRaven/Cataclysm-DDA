@@ -95,7 +95,7 @@ void PATH_INFO::update_datadir()
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
     update_pathname("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json");
     update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
-    update_pathname("obsolete-mods", FILENAMES["moddir"] + "obsolete-mods.json");
+    update_pathname("mods-replacements", FILENAMES["moddir"] + "replacements.json");
     update_pathname("defaultsounddir", FILENAMES["datadir"] + "sound");
 }
 
@@ -159,7 +159,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
     update_pathname("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json");
     update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
-    update_pathname("obsolete-mods", FILENAMES["moddir"] + "obsolete-mods.json");
+    update_pathname("mods-replacements", FILENAMES["moddir"] + "replacements.json");
     update_pathname("defaultsounddir", FILENAMES["datadir"] + "sound");
 
     update_pathname("savedir", FILENAMES["user_dir"] + "save/");
