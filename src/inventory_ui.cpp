@@ -4,7 +4,6 @@
 #include "player.h"
 #include "action.h"
 #include "map.h"
-#include "output.h"
 #include "translations.h"
 #include "options.h"
 #include "messages.h"
@@ -22,6 +21,8 @@
 #include <sstream>
 #include <algorithm>
 
+/** The maximum distance from the screen edge, to snap a window to it */
+static const size_t max_win_snap_distance = 4;
 /** The minimal gap between two cells */
 static const int min_cell_gap = 2;
 /** The gap between two cells when screen space is limited*/
@@ -929,6 +930,27 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
     refresh_active_column();
 }
 
+size_t inventory_selector::get_layout_width() const
+{
+    const size_t min_hud_width = std::max( get_header_min_width(), get_footer_min_width() );
+    const auto visible_columns = get_visible_columns();
+    const size_t gaps = visible_columns.size() > 1 ? min_column_gap * ( visible_columns.size() - 1 ) : 0;
+
+    return std::max( get_columns_width( visible_columns ) + gaps, min_hud_width );
+}
+
+size_t inventory_selector::get_layout_height() const
+{
+    const auto visible_columns = get_visible_columns();
+    // Find and return the highest column's height.
+    const auto iter = std::max_element( visible_columns.begin(), visible_columns.end(),
+    []( const inventory_column *lhs, const inventory_column *rhs ) {
+        return lhs->get_height() < rhs->get_height();
+    } );
+
+    return iter != visible_columns.end() ? ( *iter )->get_height() : 1;
+}
+
 size_t inventory_selector::get_header_height() const
 {
     return display_stats || !hint.empty() ? 2 : 1;
@@ -1035,23 +1057,67 @@ std::vector<std::string> inventory_selector::get_stats() const
     return result;
 }
 
+void inventory_selector::resize_window( int width, int height )
+{
+    if( width < TERMX || height < TERMY ) {
+        // Windowed mode.
+        const int w = width + ( width + 2 <= TERMX ? 2 : 0 );
+        const int h = height + ( height + 2 <= TERMY ? 2 : 0 );
+        const int x = VIEW_OFFSET_X + ( TERMX - w ) / 2;
+        const int y = VIEW_OFFSET_Y + ( TERMY - h ) / 2;
+
+        w_inv.reset( newwin( h - 2, w - 2, y + 1, x + 1 ) );
+        w_border.reset( newwin( h, w, y, x ) );
+    } else {
+        // Fullscreen mode.
+        w_inv.reset( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) );
+        w_border.reset();
+    }
+}
+
 void inventory_selector::refresh_window() const
 {
-    werase( w_inv );
-    draw_header( w_inv );
-    draw_columns( w_inv );
-    draw_footer( w_inv );
-    wrefresh( w_inv );
+    assert( w_inv );
+
+    werase( w_inv.get() );
+
+    draw_header( w_inv.get() );
+    draw_columns( w_inv.get() );
+    draw_footer( w_inv.get() );
+
+    if( w_border ) {
+        draw_frame( w_border.get() );
+        wrefresh( w_border.get() );
+    }
+
+    wrefresh( w_inv.get() );
 }
 
 void inventory_selector::update()
 {
-    if( !layout_is_valid ) {
-        prepare_layout( getmaxx( w_inv ) - 2 * screen_border_gap,
-                        getmaxy( w_inv ) - get_header_height() - 3 );
-        layout_is_valid = true;
+    if( layout_is_valid ) {
+        refresh_window();
+        return;
     }
+
+    const auto snap = []( size_t cur_dim, size_t max_dim ) {
+        return cur_dim + 2 * max_win_snap_distance >= max_dim ? max_dim : cur_dim;
+    };
+
+    const size_t nc_width = 2 * screen_border_gap;
+    const size_t nc_height = get_header_height() + 3;
+    // Prepare an initial layout.
+    prepare_layout( TERMX, TERMY );
+    // Resize the window (possibly snapping to the screen edges).
+    resize_window( snap( get_layout_width() + nc_width, TERMX ),
+                   snap( get_layout_height() + nc_height, TERMY ) );
+    // Adjust to the new size.
+    prepare_layout( getmaxx( w_inv.get() ) - nc_width,
+                    getmaxy( w_inv.get() ) - nc_height );
+
     refresh_window();
+
+    layout_is_valid = true;
 }
 
 void inventory_selector::draw_columns( WINDOW *w ) const
@@ -1096,6 +1162,16 @@ void inventory_selector::draw_columns( WINDOW *w ) const
     }
 }
 
+void inventory_selector::draw_frame( WINDOW *w ) const
+{
+    const int y = 1 + get_header_height();
+
+    draw_border( w );
+
+    mvwhline( w, y, 0, LINE_XXXO, 1 );
+    mvwhline( w, y, getmaxx( w ) - 1, LINE_XOXX, 1 );
+}
+
 std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode m ) const
 {
     if( has_available_choices() ) {
@@ -1119,7 +1195,6 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     : u(u)
     , preset( preset )
     , ctxt( "INVENTORY" )
-    , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
     , columns()
     , active_column_index( 0 )
     , mode( navigation_mode::ITEM )
@@ -1144,13 +1219,6 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     append_column( own_inv_column );
     append_column( map_column );
     append_column( own_gear_column );
-}
-
-inventory_selector::~inventory_selector()
-{
-    if( w_inv != nullptr ) {
-        delwin( w_inv );
-    }
 }
 
 bool inventory_selector::empty() const

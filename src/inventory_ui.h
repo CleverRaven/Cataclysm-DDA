@@ -8,6 +8,7 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "input.h"
+#include "output.h"
 #include "units.h"
 #include "item_location.h"
 
@@ -377,7 +378,7 @@ class inventory_selector
 {
     public:
         inventory_selector( const player &u, const inventory_selector_preset &preset = default_preset );
-        ~inventory_selector();
+        ~inventory_selector() {}
         /** These functions add items from map / vehicles. */
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
@@ -431,6 +432,10 @@ class inventory_selector
         void on_change( const inventory_entry &entry );
 
         void prepare_layout( size_t client_width, size_t client_height );
+        size_t get_layout_width() const;
+        size_t get_layout_height() const;
+
+        void resize_window( int width, int height );
         void refresh_window() const;
         void update();
 
@@ -451,6 +456,7 @@ class inventory_selector
         void draw_header( WINDOW *w ) const;
         void draw_footer( WINDOW *w ) const;
         void draw_columns( WINDOW *w ) const;
+        void draw_frame( WINDOW *w ) const;
 
         /** @return an entry from @ref entries by its invlet */
         inventory_entry *find_entry_by_invlet( long invlet ) const;
@@ -500,7 +506,8 @@ class inventory_selector
         const navigation_mode_data &get_navigation_data( navigation_mode m ) const;
 
     private:
-        WINDOW *w_inv;
+        WINDOW_PTR w_inv;
+        WINDOW_PTR w_border;
 
         std::list<item_location> items;
         std::vector<inventory_column *> columns;
