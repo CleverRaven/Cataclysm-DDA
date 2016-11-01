@@ -33,6 +33,8 @@ using ter_str_id = string_id<ter_t>;
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
 
+using itype_id = std::string;
+
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
 #define mfb(n) static_cast <unsigned long> (1 << (n))
@@ -191,6 +193,19 @@ enum ter_connects : int {
     TERCONN_WATER,
 };
 
+// Could be reused for butchery
+struct harvest_entry {
+    itype_id drop;
+    float base_number_min;
+    float base_number_max;
+    // This is multiplied by survival and added to the above
+    float scale_number_min;
+    float scale_number_max;
+
+    void load( JsonObject &jo );
+    void check( const std::string &parent_id ) const;
+};
+
 struct map_data_common_t {
     std::string name;  // The plaintext name of the terrain type the user would see (i.e. dirt)
 
@@ -217,7 +232,19 @@ public:
     std::array<nc_color, SEASONS_PER_YEAR> color_; //The color the sym will draw in on the GUI.
     void load_symbol( JsonObject &jo );
 
-    iexamine_function examine; //What happens when the terrain is examined
+    iexamine_function examine; //What happens when the terrain/furniture is examined
+
+    /**
+     * When will this terrain/furniture get harvested and what will drop?
+     * Note: This excludes items that take extra tools to harvest.
+     */
+    std::array<std::list<harvest_entry>, SEASONS_PER_YEAR> harvest_by_season = {{
+        {}, {}, {}, {}
+    }};
+
+    std::array<std::set<std::string>, SEASONS_PER_YEAR> harvest_names_by_season = {{
+        {}, {}, {}, {}
+    }};
 
     bool transparent;
 
@@ -243,6 +270,17 @@ public:
 
     long symbol() const;
     nc_color color() const;
+
+    const std::list<harvest_entry> &get_harvest() const;
+    /**
+     * Returns a set of names of the items that would be dropped.
+     * Used for NPC whitelist checking.
+     */
+    const std::set<std::string> &get_harvest_names() const;
+
+    virtual void load( JsonObject &jo, const std::string &src );
+    virtual void finalize();
+    virtual void check() const;
 };
 
 /*
@@ -255,28 +293,25 @@ struct ter_t : map_data_common_t {
     ter_str_id close; // Close action: transform into terrain with matching id
 
     std::string trap_id_str;     // String storing the id string of the trap.
-    std::string harvestable;     // What will be harvested from this terrain?
     ter_str_id transforms_into; // Transform into what terrain?
     ter_str_id roof;            // What will be the floor above this terrain
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
-
-    season_type harvest_season; // When will this terrain get harvested?
 
     ter_t() :
         open( NULL_ID ),
         close( NULL_ID ),
         transforms_into( NULL_ID ),
         roof( NULL_ID ),
-        trap( tr_null ),
-        harvest_season( season_type::AUTUMN ) {};
+        trap( tr_null ) {};
 
     static size_t count();
 
     bool was_loaded = false;
 
-    void load( JsonObject &jo );
-    void check() const;
+    void load( JsonObject &jo, const std::string &src ) override;
+    void check() const override;
+    static void finalize_all();
 };
 
 void set_ter_ids();
@@ -308,8 +343,9 @@ struct furn_t : map_data_common_t {
 
     bool was_loaded = false;
 
-    void load( JsonObject &jo );
-    void check() const;
+    void load( JsonObject &jo, const std::string &src ) override;
+    void check() const override;
+    static void finalize_all();
 };
 
 /*

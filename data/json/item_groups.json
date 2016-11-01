@@ -4120,7 +4120,6 @@
       ["adv_UPS_off", 3],
       ["gold_small", 10],
       ["silver_small", 30],
-      ["plasma_engine", 1],
       ["bio_time_freeze", 10],
       ["bio_teleport", 10],
       ["bio_probability_travel", 10],

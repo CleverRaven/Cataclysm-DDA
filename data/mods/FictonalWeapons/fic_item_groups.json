@@ -11,9 +11,17 @@
         ]
     },
     {
+        "type": "item_group",
+        "id": "mags_smg_rare",
+        "items": [
+            [ "e1776mag", 10 ]
+        ]
+    },
+    {
       "type" : "item_group",
       "id" : "guns_pistol_rare",
       "items":[
+        [ "boomlighter", 2 ],
         ["ficrico", 2],
         ["gunsword", 2],
         ["gunknife", 2],
@@ -32,6 +40,7 @@
       "type" : "item_group",
       "id" : "guns_smg_rare",
       "items":[
+        [ "e1776", 2 ],
         ["hk_mp5eod", 2],
         ["ltcarb", 4]
       ]

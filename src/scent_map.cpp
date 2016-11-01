@@ -118,11 +118,12 @@ void scent_map::update( const tripoint &center, map &m )
 {
     // Stop updating scent after X turns of the player not moving.
     // Once wind is added, need to reset this on wind shifts as well.
-    if( center == player_last_position && player_last_moved + 1000 < calendar::turn ) {
+    if( center != player_last_position ) {
+        player_last_position = center;
+        player_last_moved = calendar::turn;
+    } else if( player_last_moved + 1000 < calendar::turn ) {
         return;
     }
-    player_last_position = center;
-    player_last_moved = calendar::turn;
 
     // note: the next four intermediate matrices need to be at least
     // [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data

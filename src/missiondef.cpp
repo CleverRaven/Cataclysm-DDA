@@ -243,7 +243,7 @@ void assign_function( JsonObject &jo, const std::string &id, Fun &target, const 
     }
 }
 
-void mission_type::load( JsonObject &jo )
+void mission_type::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
 

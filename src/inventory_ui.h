@@ -32,6 +32,7 @@ enum class scroll_direction : int {
 };
 
 struct navigation_mode_data;
+struct inventory_input;
 
 class inventory_entry
 {
@@ -113,6 +114,7 @@ class inventory_entry
         size_t get_available_count() const;
         const item_category *get_category_ptr() const;
         long get_invlet() const;
+        nc_color get_invlet_color() const;
 
     private:
         size_t stack_size;
@@ -142,8 +144,13 @@ class inventory_selector_preset
         virtual bool sort_compare( const item_location &lhs, const item_location &rhs ) const;
         /** Color that will be used to display the entry string. */
         virtual nc_color get_color( const inventory_entry &entry ) const;
+
+        /** Text in the cell */
         std::string get_cell_text( const inventory_entry &entry, size_t cell_index ) const;
+        /** Width of the cell */
         size_t get_cell_width( const inventory_entry &entry, size_t cell_index ) const;
+        /** @return Whether the cell is a stub */
+        bool is_stub_cell( const inventory_entry &entry, size_t cell_index ) const;
         /** Number of cells in the preset. */
         size_t get_cells_count() const {
             return cells.size();
@@ -154,17 +161,31 @@ class inventory_selector_preset
         virtual std::string get_caption( const inventory_entry &entry ) const;
         /**
          * Append a new cell to the preset.
-         * @param func The function that returns text for the cell
+         * @param func The function that returns text for the cell.
          * @param title Title of the cell.
+         * @param stub The cell won't be "revealed" if it contains only this value
          */
         void append_cell( const std::function<std::string( const item_location & )> &func,
-                          const std::string &title = "" );
+                          const std::string &title = std::string(),
+                          const std::string &stub = std::string() );
         void append_cell( const std::function<std::string( const inventory_entry & )> &func,
-                          const std::string &title = "" );
+                          const std::string &title = std::string(),
+                          const std::string &stub = std::string() );
 
     private:
-        using cell_pair = std::pair<std::string, std::function<std::string( const inventory_entry & )>>;
-        std::vector<cell_pair> cells;
+        struct cell_t {
+            std::function<std::string( const inventory_entry & )> func;
+            std::string title;
+            std::string stub;
+
+            cell_t( const std::function<std::string( const inventory_entry & )> &func,
+                    const std::string &title, const std::string &stub ) :
+                func( func ),
+                title( title ),
+                stub( stub ) {}
+        };
+
+        std::vector<cell_t> cells;
 };
 
 const inventory_selector_preset default_preset;
@@ -173,8 +194,7 @@ class inventory_column
 {
     public:
         inventory_column( const inventory_selector_preset &preset = default_preset ) : preset( preset ) {
-            cell_widths.resize( preset.get_cells_count(), 0 );
-            min_cell_widths.resize( preset.get_cells_count(), 0 );
+            cells.resize( preset.get_cells_count() );
         }
 
         virtual ~inventory_column() {}
@@ -256,7 +276,7 @@ class inventory_column
         /**
          * Event handlers
          */
-        virtual void on_action( const std::string &action );
+        virtual void on_input( const inventory_input &input );
         /** The entry has been changed. */
         virtual void on_change( const inventory_entry & ) {}
         /** The column has been activated. */
@@ -290,7 +310,7 @@ class inventory_column
          * Indentation of the entry.
          * @param cell_index Either left indent when it's zero, or a gap between cells.
          */
-        size_t get_entry_indent( const inventory_entry &entry, size_t cell_index = 0 ) const;
+        size_t get_entry_indent( const inventory_entry &entry ) const;
         /** Overall cell width. If corresponding cell is not empty (its width is greater than zero),
          *  then a value returned by @ref get_entry_indent() is added to the result.
          */
@@ -299,9 +319,6 @@ class inventory_column
         size_t get_cells_width() const;
 
         std::string get_entry_denial( const inventory_entry &entry ) const;
-
-        std::vector<size_t> cell_widths;        /// Current cell widths (can be affected by set_width())
-        std::vector<size_t> min_cell_widths;    /// Minimal cell widths (to embrace all the entries nicely)
 
         const inventory_selector_preset &preset;
 
@@ -316,6 +333,25 @@ class inventory_column
         size_t page_offset = 0;
         size_t entries_per_page = 1;
         size_t reserved_width = 0;
+
+    private:
+        struct cell_t {
+            size_t current_width = 0;   /// Current cell widths (can be affected by set_width())
+            size_t real_width = 0;      /// Minimal cell widths (to embrace all the entries nicely)
+
+            bool visible() const {
+                return current_width > 0;
+            }
+            /** @return Gap before the cell. Negative value means the cell is shrinked */
+            int gap() const {
+                return current_width - real_width;
+            }
+        };
+
+        std::vector<cell_t> cells;
+
+        /** @return Number of visible cells */
+        size_t visible_cells() const;
 };
 
 class selection_column : public inventory_column
@@ -388,8 +424,10 @@ class inventory_selector
                         const std::vector<std::list<item *>> &stacks,
                         const item_category *custom_category = nullptr );
 
+        inventory_input get_input();
+
         /** Given an action from the input_context, try to act according to it. */
-        void on_action( const std::string &action );
+        void on_input( const inventory_input &input );
         /** Entry has been changed */
         void on_change( const inventory_entry &entry );
 

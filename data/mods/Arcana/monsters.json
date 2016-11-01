@@ -642,7 +642,7 @@
     "death_function":"MELT",
     "special_attacks":[["FLAMETHROWER", 10]],
     "description":"A massive animated conflagration, crackling like burning logs as it moves.",
-    "flags":["NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "FIREY", "WARM", "FIREPROOF", "SEES"]
+    "flags":["NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "FIREY", "WARM", "FIREPROOF", "SEES", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_moruboru",
@@ -677,13 +677,13 @@
         ["TENTACLE", 5]
     ],
     "description":"A large plantlike creature with a gaping, toothy maw and numerous vines.  A hideous smell permeates the air around it.",
-    "flags":["HEARS", "SMELLS", "BASHES", "NOHEAD", "POISON", "NO_BREATHE", "PARALYZEVENOM"]
+    "flags":["HEARS", "SMELLS", "BASHES", "NOHEAD", "POISON", "NO_BREATHE", "PARALYZEVENOM", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_archon",
     "name": "archon",
     "species":"MUTANT",
-    "default_faction":"cult",
+    "default_faction":"archon",
     "symbol":"H",
     "color":"yellow",
     "size":"LARGE",
@@ -704,7 +704,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["FEAR_PARALYZE", 40], ["SHOCKSTORM", 15], ["PARROT", 25]],
     "description":"A tall, robed figure twisted into a mockery of the human form, brandishing a strange golden talisman.  You feel an otherworldly presence about it.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "HUMAN", "BONES", "FLIES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "HUMAN", "BONES", "FLIES", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dracolich",
@@ -746,6 +746,6 @@
         ["FLAMETHROWER", 10]
     ],
     "description":"A massive, reptilian creature with batlike wings.  Its body is withered and rotten, large chunks of flesh stripped to the bone, and the membranes of its wings are in tatters.  You wonder how such a large beast could fly in the first place, let alone in that condition.",
-    "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "WARM", "FIREPROOF", "FLIES", "BASHES", "POISON", "BONES", "BLEED", "REVIVES", "NO_BREATHE"]
+    "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "WARM", "FIREPROOF", "FLIES", "POISON", "BONES", "BLEED", "REVIVES", "NO_BREATHE", "PRIORITIZE_TARGETS"]
     }
 ]

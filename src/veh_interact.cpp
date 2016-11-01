@@ -362,8 +362,8 @@ void veh_interact::cache_tool_availability()
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
                            vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( JACK ) } );
 
-    // cap JACK requirements at 6000kg to support arbritrarily large vehicles
-    double qual = ceil( double( std::min( veh->total_mass(), 6000 ) * 1000 ) / TOOL_LIFT_FACTOR );
+    // cap JACK requirements at 8000kg to support arbritrarily large vehicles
+    double qual = ceil( double( std::min( veh->total_mass(), 8000 ) * 1000 ) / TOOL_LIFT_FACTOR );
 
     has_jack = g->u.has_quality( JACK, qual ) ||
                map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
@@ -2413,6 +2413,7 @@ void veh_interact::complete_vehicle()
             const int dir = pt.direction;
             veh->break_part_into_pieces( vehicle_part, g->u.posx(), g->u.posy() );
             veh->remove_part( vehicle_part );
+            veh->part_removal_cleanup();
             const int partnum = veh->install_part( dx, dy, part_id, std::move( base ) );
             veh->parts[partnum].direction = dir;
         } else {

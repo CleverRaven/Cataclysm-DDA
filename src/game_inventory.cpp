@@ -231,6 +231,113 @@ item_location game::inv_for_gunmod( const item &gunmod, const std::string &title
                          title, -1, _( "You don't have any guns to modify." ) );
 }
 
+class read_inventory_preset: public inventory_selector_preset
+{
+    public:
+        read_inventory_preset( const player &p ) : p( p ) {
+            static const std::string unknown( _( "<color_dkgray>?</color>" ) );
+            static const std::string martial_arts( _( "martial arts" ) );
+
+            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
+                if( loc->type->can_use( "MA_MANUAL" ) ) {
+                    return martial_arts;
+                }
+                if( !is_known( loc ) ) {
+                    return unknown;
+                }
+                const auto &book = get_book( loc );
+                if( book.skill && p.get_skill_level( book.skill ).can_train() ) {
+                    return string_format( _( "%s to %d" ), book.skill->name().c_str(), book.level );
+                }
+                return std::string();
+            }, _( "TRAINS" ), unknown );
+
+            append_cell( [ this ]( const item_location & loc ) -> std::string {
+                if( !is_known( loc ) ) {
+                    return unknown;
+                }
+                const auto &book = get_book( loc );
+                const int unlearned = book.recipes.size() - get_known_recipes( book );
+
+                return unlearned > 0 ? to_string( unlearned ) : std::string();
+            }, _( "RECIPES" ), unknown );
+
+            append_cell( [ this ]( const item_location & loc ) -> std::string {
+                if( !is_known( loc ) ) {
+                    return unknown;
+                }
+                const int fun = get_book( loc ).fun;
+                if( fun > 0 ) {
+                    return string_format( "<good>+%d</good>", fun );
+                } else if( fun < 0 ) {
+                    return string_format( "<bad>%d</bad>", fun );
+                }
+                return std::string();
+            }, _( "FUN" ), unknown );
+
+            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
+                if( !is_known( loc ) ) {
+                    return unknown;
+                }
+                std::vector<std::string> dummy;
+                const player *reader = p.get_book_reader( *loc, dummy );
+                if( reader == nullptr ) {
+                    return std::string();  // Just to make sure
+                }
+                // Actual reading time (in turns). Can be penalized.
+                const int actual_turns = p.time_to_read( *loc, *reader ) / MOVES( 1 );
+                // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
+                const int normal_turns = get_book( loc ).time * reader->read_speed() / MOVES( 1 );
+                const std::string duration = calendar( actual_turns ).textify_period();
+
+                if( actual_turns > normal_turns ) { // Longer - complicated stuff.
+                    return string_format( "<color_ltred>%s</color>", duration.c_str() );
+                }
+
+                return duration; // Normal speed.
+            }, _( "CHAPTER IN" ), unknown );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_book();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            std::vector<std::string> denials;
+            if( p.get_book_reader( *loc, denials ) == nullptr && !denials.empty() ) {
+                return denials.front();
+            }
+            return std::string();
+        }
+
+    private:
+        const islot_book &get_book( const item_location &loc ) const {
+            return *loc->type->book.get();
+        }
+
+        bool is_known( const item_location &loc ) const {
+            return p.has_identified( loc->typeId() );
+        }
+
+        int get_known_recipes( const islot_book &book ) const {
+            int res = 0;
+            for( auto const &elem : book.recipes ) {
+                if( p.knows_recipe( elem.recipe ) ) {
+                    ++res; // If the player knows it, they recognize it even if it's not clearly stated.
+                }
+            }
+            return res;
+        }
+
+        const player &p;
+};
+
+item_location game::inv_for_books( const std::string &title )
+{
+    return inv_internal( u, read_inventory_preset( u ),
+                         title, 1, _( "You have nothing to read." ) );
+}
+
 std::list<std::pair<int, int>> game::multidrop()
 {
     u.inv.restack( &u );

@@ -213,7 +213,7 @@ class generic_factory
 
             if( jo.has_string( id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( id_member_name ) );
-                def.load( jo );
+                def.load( jo, src );
                 insert( def );
 
                 if( !alias_member_name.empty() && jo.has_member( alias_member_name ) ) {
@@ -227,7 +227,7 @@ class generic_factory
                 }
 
             } else if( jo.has_string( "abstract" ) ) {
-                def.load( jo );
+                def.load( jo, src );
                 abstracts[jo.get_string( "abstract" )] = def;
 
             } else {

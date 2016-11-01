@@ -84,7 +84,7 @@ class npc_class
 
         const Group_tag &get_shopkeeper_items() const;
 
-        void load( JsonObject &jo );
+        void load( JsonObject &jo, const std::string &src );
 
         static const npc_class_id &from_legacy_int( int i );
 

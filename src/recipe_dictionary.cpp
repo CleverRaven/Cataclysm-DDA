@@ -413,8 +413,8 @@ void recipe_dictionary::finalize()
     for( const auto &e : item_controller->get_all_itypes() ) {
 
         // books that don't alreay have an uncrafting recipe
-        if( e.second->book && !recipe_dict.uncraft.count( e.first ) && e.second->volume > 0 ) {
-            int pages = e.second->volume / units::from_milliliter( 12.5 );
+        if( e.second.book && !recipe_dict.uncraft.count( e.first ) && e.second.volume > 0 ) {
+            int pages = e.second.volume / units::from_milliliter( 12.5 );
             auto &bk = recipe_dict.uncraft[ e.first ];
             bk.ident_ = e.first;
             bk.result = e.first;
