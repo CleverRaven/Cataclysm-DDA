@@ -150,14 +150,14 @@ class overmap_special
         bool operator<( const overmap_special &right ) const {
             return ( this->id.compare( right.id ) < 0 );
         }
-
-        /** Returns terrain at the given point */
+        /** Returns terrain at the given point. */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
         /**
          * Returns whether the special can be placed on the specified terrain.
          * It's true if @ref oter meets any of @ref locations.
          */
         bool can_be_placed_on( const oter_id &oter ) const;
+
         /** Checks the object. */
         void check();
 
@@ -167,7 +167,6 @@ class overmap_special
         int min_city_size, max_city_size;
         int min_city_distance, max_city_distance;
         int min_occurrences, max_occurrences;
-        int height, width;
         bool rotatable;
         overmap_special_spawns spawns;
         std::set<const overmap_special_location *> locations;

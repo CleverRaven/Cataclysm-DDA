@@ -444,11 +444,13 @@ public:
   void chip_rock(int x, int y, int z);
   void good_road(const std::string &base, int x, int y, int z);
   void good_river(int x, int y, int z);
+  // Returns a vector of enabled overmap specials.
+  std::vector<const overmap_special *> get_enabled_specials() const;
+  std::vector<point> get_sectors() const;
 
-  bool allow_special(const overmap_special& special, const tripoint& p, int &rotate);
+  bool try_place_special( const overmap_special &special, const tripoint &p, const city *related_city = nullptr );
   // Monsters, radios, etc.
   void place_specials();
-  void place_special(const overmap_special& special, const tripoint& p, int rotation);
   void place_mongroups();
   void place_radios();
 
