@@ -28,5 +28,9 @@ TEST_CASE("string_format") {
     std::string expected = "I'll give you 42 cookies.";
     REQUIRE( formatted.size() == expected.size() );
     REQUIRE( formatted == expected );
+
+    REQUIRE( string_format( "Sort'em: %2$d %1$s %3$d", "2", 1, 3 ) == "Sort'em: 1 2 3" );
+    REQUIRE( string_format( "Price: $%.2lf/L", 1.999 ) == "Price: $2.00/L" );
+    REQUIRE( string_format( "%d%% of those %s have been eaten by %s", 75, "zombie corpses", "a NPC") == "75% of those zombie corpses have been eaten by a NPC" );
 }
 
