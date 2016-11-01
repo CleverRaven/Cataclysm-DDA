@@ -207,7 +207,7 @@ void Item_factory::finalize() {
 
             if( obj.gun->burst > 1 ) {
                 // handle legacy JSON format
-                obj.gun->modes.emplace( "AUTO", std::tuple<std::string, int, std::set<std::string>>( "auto", obj.gun->burst,
+                obj.gun->modes.emplace( "AUTO", std::tuple<std::string, int, std::set<std::string>>( _( "auto" ), obj.gun->burst,
                                         std::set<std::string>() ) );
             }
 
