@@ -4068,9 +4068,9 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
         // Never build on the edges.
         if( !inbounds( rp, 1 ) ) {
             return false;
+        } else if( rp.z == 0 ) { // Only check ground level.
+            rotated_points.push_back( rp );
         }
-
-        rotated_points.push_back( rp );
     }
 
     for( const auto &elem : special.locations ) {
