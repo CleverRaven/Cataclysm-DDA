@@ -36,7 +36,7 @@ struct tile_type {
     std::vector<std::string> available_subtiles;
 };
 
-struct tile_rect_info{
+struct tile_rect_info {
     int atlas_index;
     SDL_Rect source_rects[4];
 };
@@ -264,7 +264,8 @@ class cata_tiles
          * Returns the number of tiles that have been loaded from this tileset image
          * @throw std::exception If the image can not be loaded.
          */
-        int load_tileset( std::string path, int R, int G, int B, int sprite_width, int sprite_height, SDL_Rect* atlasinfo );
+        int load_tileset( std::string path, int R, int G, int B, int sprite_width, int sprite_height,
+                          SDL_Rect *atlasinfo );
 
         /**
          * Load tileset config file (json format).

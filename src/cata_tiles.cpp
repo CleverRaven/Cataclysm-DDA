@@ -301,14 +301,15 @@ static void apply_color_filter(SDL_Surface_Ptr &surf, void (&pixel_converter)(pi
     }
 }
 
-int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int sprite_width, int sprite_height, SDL_Rect* atlasinfo)
+int cata_tiles::load_tileset( std::string img_path, int R, int G, int B, int sprite_width,
+                              int sprite_height, SDL_Rect *atlasinfo )
 {
     /** reinit tile_atlas */
     SDL_Surface_Ptr tile_atlas( IMG_Load( img_path.c_str() ) );
 
-    if(!tile_atlas) {
-        throw std::runtime_error( std::string("Could not load tileset image at ") + img_path + ", error: " +
-                                  IMG_GetError() );
+    if( !tile_atlas ) {
+        throw std::runtime_error( std::string( "Could not load tileset image at " ) + img_path + ", error: "
+                                  + IMG_GetError() );
     }
 
     int w = tile_atlas->w;
@@ -318,9 +319,9 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int spri
     atlasinfo->w = w;
     atlasinfo->h = h;
 
-    SDL_Surface_Ptr combined_atlas = create_tile_surface(w * 4, h + sprite_height);
-    if(!combined_atlas) {
-        throw std::runtime_error( std::string("Could not create main atlas texture: ") + SDL_GetError() );
+    SDL_Surface_Ptr combined_atlas = create_tile_surface( w * 4, h + sprite_height );
+    if( !combined_atlas ) {
+        throw std::runtime_error( std::string( "Could not create main atlas texture: " ) + SDL_GetError() );
     }
 
 
@@ -330,9 +331,10 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int spri
     destrect.w = w;
     destrect.h = h;
 
-    SDL_Surface_Ptr temp_atlas = create_tile_surface(w, h);
-    if(!temp_atlas){
-        throw std::runtime_error( std::string("Unable to create temporary surface for tileset processing.") );
+    SDL_Surface_Ptr temp_atlas = create_tile_surface( w, h );
+    if( !temp_atlas ) {
+        throw std::runtime_error(
+            std::string( "Unable to create temporary surface for tileset processing." ) );
     }
 
     // copy main image to combined atlas
@@ -345,7 +347,7 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int spri
     if( SDL_BlitSurface( tile_atlas.get(), NULL, temp_atlas.get(), NULL ) != 0 ) {
         dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
     }
-    apply_color_filter(temp_atlas, color_pixel_grayscale);
+    apply_color_filter( temp_atlas, color_pixel_grayscale );
     if( SDL_BlitSurface( temp_atlas.get(), NULL, combined_atlas.get(), &destrect ) != 0 ) {
         dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
     }
@@ -355,7 +357,7 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int spri
     if( SDL_BlitSurface( tile_atlas.get(), NULL, temp_atlas.get(), NULL ) != 0 ) {
         dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
     }
-    apply_color_filter(temp_atlas, color_pixel_nightvision);
+    apply_color_filter( temp_atlas, color_pixel_nightvision );
     if( SDL_BlitSurface( temp_atlas.get(), NULL, combined_atlas.get(), &destrect ) != 0 ) {
         dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
     }
@@ -365,28 +367,29 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int spri
     if( SDL_BlitSurface( tile_atlas.get(), NULL, temp_atlas.get(), NULL ) != 0 ) {
         dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
     }
-    apply_color_filter(temp_atlas, color_pixel_overexposed);
+    apply_color_filter( temp_atlas, color_pixel_overexposed );
     if( SDL_BlitSurface( temp_atlas.get(), NULL, combined_atlas.get(), &destrect ) != 0 ) {
         dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
     }
 
     // add highlighted item square
-    SDL_Rect hilite_rect = {0,h,sprite_width,sprite_height};
-    if (SDL_FillRect(combined_atlas.get(), &hilite_rect, SDL_MapRGBA(combined_atlas.get()->format, 0, 0, 127, 127))){
+    SDL_Rect hilite_rect = {0, h, sprite_width, sprite_height};
+    if( SDL_FillRect( combined_atlas.get(), &hilite_rect, SDL_MapRGBA( combined_atlas.get()->format, 0,
+                      0, 127, 127 ) ) ) {
         dbg( D_ERROR ) << "cata_tiles::load_tileset::SDL_FillRect failed: " << SDL_GetError();
     }
 
     // set color key if applicable
     if( R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255 ) {
-        Uint32 key = SDL_MapRGB(combined_atlas->format, R, G, B);
-        SDL_SetColorKey(combined_atlas.get(), SDL_TRUE, key);
-        SDL_SetSurfaceRLE(combined_atlas.get(), true);
+        Uint32 key = SDL_MapRGB( combined_atlas->format, R, G, B );
+        SDL_SetColorKey( combined_atlas.get(), SDL_TRUE, key );
+        SDL_SetSurfaceRLE( combined_atlas.get(), true );
     }
 
     SDL_Texture_Ptr tile_tex( SDL_CreateTextureFromSurface( renderer, combined_atlas.get() ) );
 
     if( !tile_tex ) {
-        dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
+        dbg( D_ERROR ) << "failed to create texture: " << SDL_GetError();
     }
 
     if( tile_tex ) {
@@ -525,15 +528,15 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
 
     // set up all texture source rectangles
     int tilecounter = 0;
-    for(unsigned int i = 0; i < all_tileatlasrects.size();i++){
+    for( unsigned int i = 0; i < all_tileatlasrects.size(); i++ ) {
         SDL_Rect &current_atlas = all_tileatlasrects[i];
 
-        for( int y = 0; y < current_atlas.h; y += current_atlas.y ){
-            for( int x = 0; x < current_atlas.w; x += current_atlas.x ){
+        for( int y = 0; y < current_atlas.h; y += current_atlas.y ) {
+            for( int x = 0; x < current_atlas.w; x += current_atlas.x ) {
                 SDL_Rect r = { x, y, current_atlas.x, current_atlas.y };
                 tile_rect_info tri;
 
-                for( int j = 0; j < 4; j++ ){
+                for( int j = 0; j < 4; j++ ) {
                     tri.source_rects[j] = r;
                     r.x += current_atlas.w;
                 }
@@ -546,14 +549,15 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
     }
 
     // add the source rectangle for the item highlight if necessary
-    if( !has_item_highlight ){
+    if( !has_item_highlight ) {
         tile_rect_info hilite_info;
         hilite_info.atlas_index = 0;
-        for( int k = 0; k < 4; k++ ){
+        for( int k = 0; k < 4; k++ ) {
             hilite_info.source_rects[k] = { 0, all_tileatlasrects[0].h, all_tileatlasrects[0].x, all_tileatlasrects[0].y };
         }
-        tile_rects.insert( std::pair<int, tile_rect_info>( offset-1, hilite_info ) );
+        tile_rects.insert( std::pair<int, tile_rect_info>( offset - 1, hilite_info ) );
     }
+
 
 
     // allows a tileset to override the order of mutation images being applied to a character
