@@ -3988,7 +3988,7 @@ void game::debug()
                        _( "Set automove route" ),     // 28
                        _( "Show mutation category levels" ), // 29
                        _( "Overmap editor" ),         // 30
-                       _( "SDL draw benchmark (5 seconds)" ),      // 31
+                       _( "Draw benchmark (5 seconds)" ),      // 31
                        _( "Cancel" ),
                        NULL );
     int veh_num;
@@ -4684,24 +4684,22 @@ void game::debug()
         }
         break;
         case 31: {
-#ifdef TILES
             // call the draw procedure as many times as possible in 5 seconds
-            unsigned long start_tick = SDL_GetTicks();
-            unsigned long end_tick = start_tick;
+            auto start_tick = std::chrono::steady_clock::now();
+            auto end_tick = std::chrono::steady_clock::now();
+            long difference = 0;
             int draw_counter = 0;
             while( true ) {
-                end_tick = SDL_GetTicks();
-                if( end_tick - start_tick >= 5000 ) {
+                end_tick = std::chrono::steady_clock::now();
+                difference = std::chrono::duration_cast<std::chrono::milliseconds>(end_tick - start_tick).count();
+                if( difference >= 5000 ) {
                     break;
                 }
                 draw();
                 draw_counter++;
             }
             add_msg( m_info, _( "Drew %d times in %.3f seconds. (%.3f fps average)" ), draw_counter,
-                     ( end_tick - start_tick ) / 1000.0, 1000.0 * draw_counter / ( double )( end_tick - start_tick ) );
-#else
-            add_msg( m_info, _( "Game build does not contain SDL." ) );
-#endif // TILES
+                     difference / 1000.0, 1000.0 * draw_counter / ( double )difference );
         }
         break;
     }
