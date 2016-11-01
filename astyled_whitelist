@@ -94,6 +94,7 @@ src/advanced_inv.h
 src/ammo.h
 src/animation.h
 src/artifact.h
+src/assign.h
 src/auto_pickup.h
 src/basecamp.h
 src/bionics.h
