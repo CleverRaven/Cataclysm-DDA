@@ -137,6 +137,10 @@
         "name" : "Turn off"
     },{
         "type" : "item_action",
+        "id" : "ELEC_CHAINSAW_ON",
+        "name" : "Turn off"
+    },{
+        "type" : "item_action",
         "id" : "transform",
         "name" : "Turn on"
     },{
