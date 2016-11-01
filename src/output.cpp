@@ -1828,8 +1828,10 @@ std::string vstring_format( char const *format, va_list args )
     int count = vsnprintf( NULL, 0, format, args_copy );
     if( count >= 0 ) {
         std::string result( count+1, '\0' );
+        // vsnprintf stores a trailing '\0' in the given buffer
         if ( vsnprintf( &result[0], count+1, format, args ) == count ) {
             if( result.size() > 0 ) {
+                // Remove the trailing '\0'
                 result.pop_back();
             }
             return result;
