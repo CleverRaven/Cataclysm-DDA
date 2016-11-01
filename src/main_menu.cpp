@@ -419,76 +419,6 @@ bool main_menu::opening_screen()
             }
         } else if( layer == 2 ) {
             if( sel1 == 1 ) { // New Character
-                if( MAP_SHARING::isSharing() &&
-                    world_generator->all_worlds.empty() ) { //don't show anything when there are no worlds (will not work if there are special maps)
-                    layer = 1;
-                    sel1 = 1;
-                    continue;
-                }
-
-                print_menu_items( w_open, vSubItems, sel2, iMenuOffsetY - 2, iMenuOffsetX );
-                wrefresh( w_open );
-                refresh();
-
-                std::string action = ctxt.handle_input();
-                std::string sInput = ctxt.get_raw_input().text;
-                for( size_t i = 0; i < vNewGameHotkeys.size(); ++i ) {
-                    for( auto hotkey : vNewGameHotkeys[i] ) {
-                        if( sInput == hotkey ) {
-                            sel2 = i;
-                            action = "CONFIRM";
-                        }
-                    }
-                }
-                if( action == "LEFT" ) {
-                    sel2--;
-                    if( sel2 < 0 ) {
-                        sel2 = vSubItems.size() - 1;
-                    }
-                } else if( action == "RIGHT" ) {
-                    sel2++;
-                    if( sel2 >= ( int )vSubItems.size() ) {
-                        sel2 = 0;
-                    }
-                } else if( action == "DOWN" || action == "QUIT" ) {
-                    layer = 1;
-                    sel1 = 1;
-                }
-                if( action == "UP" || action == "CONFIRM" ) {
-                    if( sel2 == 0 || sel2 == 2 || sel2 == 3 ) {
-                        // First load the mods, this is done by
-                        // loading the world.
-                        // Pick a world, suppressing prompts if it's "play now" mode.
-                        WORLDPTR world = world_generator->pick_world( sel2 != 3 );
-                        if( world == NULL ) {
-                            continue;
-                        }
-                        world_generator->set_active_world( world );
-                        try {
-                            g->setup();
-                        } catch( const std::exception &err ) {
-                            debugmsg( "Error: %s", err.what() );
-                            g->u = player();
-                            continue;
-                        }
-                        if( !g->u.create( sel2 == 0 ? PLTYPE_CUSTOM : ( sel2 == 2 ? PLTYPE_RANDOM : PLTYPE_NOW ) ) ) {
-                            g->u = player();
-                            continue;
-                        }
-
-                        werase( w_background );
-                        wrefresh( w_background );
-
-                        if( !g->start_game( world->world_name ) ) {
-                            g->u = player();
-                            continue;
-                        }
-                        start = true;
-                    } else if( sel2 == 1 ) {
-                        layer = 3;
-                        sel3 = 0;
-                    }
-                }
             } else if( sel1 == 2 ) { // Load Character
                 if( world_generator->all_worldnames.empty() ) {
                     mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
@@ -981,3 +911,74 @@ bool main_menu::opening_screen()
     }
     return start;
 }
+
+            if( MAP_SHARING::isSharing() &&
+                world_generator->all_worlds.empty() ) { //don't show anything when there are no worlds (will not work if there are special maps)
+                layer = 1;
+                sel1 = 1;
+                continue;
+            }
+
+            print_menu_items( w_open, vSubItems, sel2, iMenuOffsetY - 2, iMenuOffsetX );
+            wrefresh( w_open );
+            refresh();
+
+            std::string action = ctxt.handle_input();
+            std::string sInput = ctxt.get_raw_input().text;
+            for( size_t i = 0; i < vNewGameHotkeys.size(); ++i ) {
+                for( auto hotkey : vNewGameHotkeys[i] ) {
+                    if( sInput == hotkey ) {
+                        sel2 = i;
+                        action = "CONFIRM";
+                    }
+                }
+            }
+            if( action == "LEFT" ) {
+                sel2--;
+                if( sel2 < 0 ) {
+                    sel2 = vSubItems.size() - 1;
+                }
+            } else if( action == "RIGHT" ) {
+                sel2++;
+                if( sel2 >= ( int )vSubItems.size() ) {
+                    sel2 = 0;
+                }
+            } else if( action == "DOWN" || action == "QUIT" ) {
+                layer = 1;
+                sel1 = 1;
+            }
+            if( action == "UP" || action == "CONFIRM" ) {
+                if( sel2 == 0 || sel2 == 2 || sel2 == 3 ) {
+                    // First load the mods, this is done by
+                    // loading the world.
+                    // Pick a world, suppressing prompts if it's "play now" mode.
+                    WORLDPTR world = world_generator->pick_world( sel2 != 3 );
+                    if( world == NULL ) {
+                        continue;
+                    }
+                    world_generator->set_active_world( world );
+                    try {
+                        g->setup();
+                    } catch( const std::exception &err ) {
+                        debugmsg( "Error: %s", err.what() );
+                        g->u = player();
+                        continue;
+                    }
+                    if( !g->u.create( sel2 == 0 ? PLTYPE_CUSTOM : ( sel2 == 2 ? PLTYPE_RANDOM : PLTYPE_NOW ) ) ) {
+                        g->u = player();
+                        continue;
+                    }
+
+                    werase( w_background );
+                    wrefresh( w_background );
+
+                    if( !g->start_game( world->world_name ) ) {
+                        g->u = player();
+                        continue;
+                    }
+                    start = true;
+                } else if( sel2 == 1 ) {
+                    layer = 3;
+                    sel3 = 0;
+                }
+            }
