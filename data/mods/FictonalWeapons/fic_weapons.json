@@ -27,7 +27,7 @@
     "color": "dark_gray",
     "name": "Boomlighter 454",
     "name_plural": "Boomlighter 454s",
-    "description": "Handmade by a master gunsmith, this deadly accurate and powerful pistol packs a punch with precision, power and flair.  Comes with a one of a kind integrated flamethrower. WARNING! DO NOT EAT!",
+    "description": "Handmade by a master gunsmith, this deadly accurate and powerful pistol packs a punch with precision, power and flair.  Comes with a one of a kind integrated flamethrower.",
     "price": 250000,
     "material": ["steel", "plastic"],
     "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
