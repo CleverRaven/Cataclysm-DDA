@@ -1821,48 +1821,23 @@ std::string vstring_format( char const *format, va_list args )
     std::string rewritten_format = rewrite_vsnprintf( format );
     format = rewritten_format.c_str();
 #endif
-
-    // vasprintf isn't available on Windows
-#if (defined _WIN32 || defined __WIN32__)
-    errno = 0; // Clear errno before trying
-    std::vector<char> buffer( 1024, '\0' );
-    for( ;; ) {
-        size_t const buffer_size = buffer.size();
-
-        va_list args_copy;
-        va_copy( args_copy, args );
-        int const result = vsnprintf( &buffer[0], buffer_size, format, args_copy );
-        va_end( args_copy );
-
-        // No error, and the buffer is big enough; we're done.
-        if( result >= 0 && static_cast<size_t>( result ) < buffer_size ) {
-            break;
-        }
-
-        // Standards conformant versions return -1 on error only.
-        // Some non-standard versions return -1 to indicate a bigger buffer is needed.
-        // Some of the latter set errno to ERANGE at the same time.
-        if( result < 0 && errno && errno != ERANGE ) {
-            return std::string( "Bad format string for printf." );
-        }
-
-        // Looks like we need to grow... bigger, definitely bigger.
-        buffer.resize( buffer_size * 2 );
-    }
-
-    return std::string( &buffer[0] );
-#else
-    char *p = nullptr;
     va_list args_copy;
     va_copy( args_copy, args );
-    if( vasprintf( &p, format, args_copy ) < 0 ) {
-        return std::string( "Bad format string to printf." );
-    }
     va_end( args_copy );
-    std::string buffer( p );
-    free( p );
-    return buffer;
-#endif // (defined _WIN32 || defined __WIN32__)
+    std::string result;
+    int count = vsnprintf( NULL, 0, format, args_copy );
+    if( count >= 0 ) {
+        std::string result( count+1, '\0' );
+        if ( vsnprintf( &result[0], count+1, format, args ) == count ) {
+            if( result.size() > 0 ) {
+                result.pop_back();
+            }
+            return result;
+        } else {
+            return std::string( "Bad format string to printf." );
+        }
+    }
+    return std::string( "Bad format string to printf." );
 }
 #endif // (defiend _MSC_VER)
 
