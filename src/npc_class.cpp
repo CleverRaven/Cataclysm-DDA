@@ -221,7 +221,7 @@ distribution load_distribution( JsonObject &jo, const std::string &name )
     return distribution();
 }
 
-void npc_class::load( JsonObject &jo )
+void npc_class::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "job_description", job_description, translated_string_reader );

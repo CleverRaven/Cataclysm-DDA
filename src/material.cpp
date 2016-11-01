@@ -51,7 +51,7 @@ mat_burn_data load_mat_burn_data( JsonObject &jsobj )
     return bd;
 }
 
-void material_type::load( JsonObject &jsobj )
+void material_type::load( JsonObject &jsobj, const std::string & )
 {
     mandatory( jsobj, was_loaded, "name", _name, translated_string_reader );
 

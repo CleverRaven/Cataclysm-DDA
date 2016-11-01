@@ -933,7 +933,7 @@ season_type string_to_enum<season_type>( const std::string &data )
 }
 }
 
-void map_data_common_t::load( JsonObject &jo )
+void map_data_common_t::load( JsonObject &jo, const std::string & )
 {
     if( jo.has_member( "examine_action" ) ) {
         examine = iexamine_function_from_string( jo.get_string( "examine_action" ) );
@@ -963,9 +963,9 @@ void map_data_common_t::load( JsonObject &jo )
     }
 }
 
-void ter_t::load( JsonObject &jo )
+void ter_t::load( JsonObject &jo, const std::string &src )
 {
-    map_data_common_t::load( jo );
+    map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "move_cost", movecost );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader, DEFAULT_MAX_VOLUME_IN_SQUARE );
@@ -1058,9 +1058,9 @@ size_t furn_t::count()
     return furniture_data.size();
 }
 
-void furn_t::load( JsonObject &jo )
+void furn_t::load( JsonObject &jo, const std::string &src )
 {
-    map_data_common_t::load( jo );
+    map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
     mandatory( jo, was_loaded, "required_str", move_str_req );

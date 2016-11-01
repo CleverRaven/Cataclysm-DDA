@@ -448,7 +448,7 @@ class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_r
         }
 };
 
-void mtype::load( JsonObject &jo )
+void mtype::load( JsonObject &jo, const std::string & )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
 
@@ -604,7 +604,7 @@ void MonsterGenerator::load_species( JsonObject &jo, const std::string &src )
     mon_species->load( jo, src );
 }
 
-void species_type::load( JsonObject &jo )
+void species_type::load( JsonObject &jo, const std::string & )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
 

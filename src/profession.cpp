@@ -103,7 +103,7 @@ class item_reader : public generic_typed_reader<item_reader>
         }
 };
 
-void profession::load( JsonObject &jo )
+void profession::load( JsonObject &jo, const std::string & )
 {
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jo.has_object( "name" ) ) {

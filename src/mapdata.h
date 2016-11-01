@@ -278,7 +278,7 @@ public:
      */
     const std::set<std::string> &get_harvest_names() const;
 
-    virtual void load( JsonObject &jo );
+    virtual void load( JsonObject &jo, const std::string &src );
     virtual void finalize();
     virtual void check() const;
 };
@@ -309,7 +309,7 @@ struct ter_t : map_data_common_t {
 
     bool was_loaded = false;
 
-    void load( JsonObject &jo ) override;
+    void load( JsonObject &jo, const std::string &src ) override;
     void check() const override;
     static void finalize_all();
 };
@@ -343,7 +343,7 @@ struct furn_t : map_data_common_t {
 
     bool was_loaded = false;
 
-    void load( JsonObject &jo ) override;
+    void load( JsonObject &jo, const std::string &src ) override;
     void check() const override;
     static void finalize_all();
 };

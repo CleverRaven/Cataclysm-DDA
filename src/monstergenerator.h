@@ -36,7 +36,7 @@ struct species_type {
 
     }
 
-    void load( JsonObject &jo );
+    void load( JsonObject &jo, const std::string &src );
 };
 
 class MonsterGenerator

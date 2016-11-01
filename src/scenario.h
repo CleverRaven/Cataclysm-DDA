@@ -49,7 +49,7 @@ private:
     std::set<std::string> flags; // flags for some special properties of the scenario
     std::string _map_special;
 
-    void load( JsonObject &jo );
+    void load( JsonObject &jo, const std::string &src );
 
 public:
     //these three aren't meant for external use, but had to be made public regardless
