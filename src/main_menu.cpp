@@ -4,7 +4,6 @@
 #include "player.h"
 #include "gamemode.h"
 #include "debug.h"
-#include "input.h"
 #include "mapbuffer.h"
 #include "overmapbuffer.h"
 #include "translations.h"
@@ -234,14 +233,14 @@ bool main_menu::opening_screen()
     // This actually _loads_ what worlds exist.
     world_generator->get_all_worlds();
 
-    WINDOW *w_background = newwin( TERMY, TERMX, 0, 0 );
+    w_background = newwin( TERMY, TERMX, 0, 0 );
     WINDOW_PTR w_backgroundptr( w_background );
     werase( w_background );
     wrefresh( w_background );
 
     // main window should also expand to use available display space.
     // expanding to evenly use up half of extra space, for now.
-    int extra_w = ( ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) - 1;
+    extra_w = ( ( TERMX - FULL_SCREEN_WIDTH ) / 2 ) - 1;
     int extra_h = ( ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) - 1;
     extra_w = ( extra_w > 0 ? extra_w : 0 );
     extra_h = ( extra_h > 0 ? extra_h : 0 );
@@ -252,11 +251,10 @@ bool main_menu::opening_screen()
     const int x0 = ( TERMX - total_w ) / 2;
     const int y0 = ( TERMY - total_h ) / 2;
 
-    WINDOW *w_open = newwin( total_h, total_w, y0, x0 );
+    w_open = newwin( total_h, total_w, y0, x0 );
     WINDOW_PTR w_openptr( w_open );
 
-    const int iMenuOffsetX = 0;
-    int iMenuOffsetY = total_h - 3;
+    iMenuOffsetY = total_h - 3;
     // note: if iMenuOffset is changed,
     // please update MOTD and credits to indicate how long they can be.
 
@@ -276,18 +274,6 @@ bool main_menu::opening_screen()
     vMenuHotkeys.clear();
     for( auto item : vMenuItems ) {
         vMenuHotkeys.push_back( get_hotkeys( item ) );
-    }
-
-    std::vector<std::string> vSubItems;
-    vSubItems.push_back( pgettext( "Main Menu|New Game", "<C|c>ustom Character" ) );
-    vSubItems.push_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
-    vSubItems.push_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
-    if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
-        vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
-    }
-    std::vector<std::vector<std::string>> vNewGameHotkeys;
-    for( auto item : vSubItems ) {
-        vNewGameHotkeys.push_back( get_hotkeys( item ) );
     }
 
     std::vector<std::string> vWorldSubItems;
@@ -314,7 +300,7 @@ bool main_menu::opening_screen()
     mmenu_refresh_title();
     print_menu( w_open, 0, iMenuOffsetX, iMenuOffsetY );
 
-    std::vector<std::string> savegames, templates;
+    std::vector<std::string> savegames;
     dirent *dp;
     DIR *dir;
 
@@ -341,8 +327,6 @@ bool main_menu::opening_screen()
     }
     closedir( dir );
 
-    int sel1 = 1, sel2 = 1, sel3 = 1, layer = 1;
-    input_context ctxt( "MAIN_MENU" );
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
@@ -415,11 +399,18 @@ bool main_menu::opening_screen()
                     sel2 = 0;
                     layer = 2;
                     print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
+
+                    switch( sel1 ) {
+                        case 1:
+                            start = new_character_tab();
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         } else if( layer == 2 ) {
-            if( sel1 == 1 ) { // New Character
-            } else if( sel1 == 2 ) { // Load Character
+            if( sel1 == 2 ) { // Load Character
                 if( world_generator->all_worldnames.empty() ) {
                     mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
                                c_red, _( "No Worlds found!" ) );
@@ -534,6 +525,8 @@ bool main_menu::opening_screen()
                     if( sel2 == 0 ) { // Create world
                         // Open up world creation screen!
                         if( world_generator->make_new_world() ) {
+                            // TODO: This is extremely hacky
+                            *this = main_menu();
                             return opening_screen();
                         } else {
                             layer = 1;
@@ -820,12 +813,13 @@ bool main_menu::opening_screen()
                             }
                         } else {
                             // hacky resolution to the issue of persisting world names on the screen
+                            // TODO: Use a non-hacky resolution
+                            *this = main_menu();
                             return opening_screen();
                         }
                     }
                     print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
                 }
-            } else { // Character Templates
             }
         }
     }
@@ -838,6 +832,25 @@ bool main_menu::opening_screen()
     return start;
 }
 
+bool main_menu::new_character_tab()
+{
+    std::vector<std::string> vSubItems;
+    vSubItems.push_back( pgettext( "Main Menu|New Game", "<C|c>ustom Character" ) );
+    vSubItems.push_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
+    vSubItems.push_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
+    if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
+        vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
+    }
+    std::vector<std::vector<std::string>> vNewGameHotkeys;
+    for( auto item : vSubItems ) {
+        vNewGameHotkeys.push_back( get_hotkeys( item ) );
+    }
+
+    bool start = false;
+    while( !start && sel1 == 1 && ( layer == 2 || layer == 3 ) ) {
+        print_menu( w_open, 1, iMenuOffsetX, iMenuOffsetY, true );
+        if( layer == 2 && sel1 == 1 ) {
+            // Then choose custom character, random character, preset, etc
             if( MAP_SHARING::isSharing() &&
                 world_generator->all_worlds.empty() ) { //don't show anything when there are no worlds (will not work if there are special maps)
                 layer = 1;
@@ -908,9 +921,8 @@ bool main_menu::opening_screen()
                     sel3 = 0;
                 }
             }
-
-
-
+        } else if( layer == 3 && sel1 == 1 ) {
+            // Then view presets
             if( templates.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
                            c_red, _( "No templates found!" ) );
@@ -985,3 +997,7 @@ bool main_menu::opening_screen()
                 }
                 start = true;
             }
+        }
+    } // end while
+    return start;
+}

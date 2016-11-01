@@ -7,10 +7,12 @@ class player;
 #include <vector>
 
 #include "cursesdef.h"
+#include "input.h"
 
 class main_menu
 {
     public:
+        main_menu() : ctxt( "MAIN_MENU" ) { }
         // Shows the main menu and returns whether a game was started or not
         bool opening_screen();
 
@@ -21,6 +23,20 @@ class main_menu
         std::vector<std::string> mmenu_credits;
         std::vector<std::string> vMenuItems; // MOTD, New Game, Load Game, etc.
         std::vector< std::vector<std::string> > vMenuHotkeys; // hotkeys for the vMenuItems
+
+        // Tab functions. They return whether a game was started or not.
+        bool new_character_tab();
+
+        // These variables are shared between @opening_screen and the tab functions.
+        // TODO: But this is an ugly short-term solution.
+        input_context ctxt;
+        int sel1 = 1, sel2 = 1, sel3 = 1, layer = 1;
+        WINDOW *w_open;
+        WINDOW *w_background;
+        int iMenuOffsetX = 0;
+        int iMenuOffsetY;
+        std::vector<std::string> templates;
+        int extra_w;
 
         /**
          * Prints a horizontal list of options
