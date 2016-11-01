@@ -294,21 +294,6 @@
     },
     {
         "type":"GENERIC",
-        "id" : "plasma_engine",
-        "name" : "plasma engine",
-        "description" : "High technology plasma engine, working on pressurized hydrogen fuel canisters.",
-        "weight" : 39689,
-        "to_hit" : -2,
-        "color" : "light_cyan",
-        "symbol" : ":",
-        "material" : ["superalloy", "steel"],
-        "volume" : 12,
-        "bashing" : 7,
-        "category" : "veh_parts",
-        "price" : 90000
-    },
-    {
-        "type":"GENERIC",
         "id" : "foot_crank",
         "name" : "foot crank",
         "description" : "The pedal and gear assembly from a bicycle.",
