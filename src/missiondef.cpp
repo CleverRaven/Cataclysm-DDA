@@ -220,9 +220,9 @@ bool string_id<mission_type>::is_valid() const
     return mission_type_factory.is_valid( *this );
 }
 
-void mission_type::load_mission_type( JsonObject &jo )
+void mission_type::load_mission_type( JsonObject &jo, const std::string &src )
 {
-    mission_type_factory.load( jo );
+    mission_type_factory.load( jo, src );
 }
 
 void mission_type::reset()

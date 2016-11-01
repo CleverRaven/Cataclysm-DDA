@@ -15,6 +15,8 @@ data/json/items/book/* id
 data/json/items/bionics.json id
 data/json/items/containers.json id
 data/json/items/comestibles/spice.json id
+data/json/items/generic/ammolink.json id
+data/json/items/generic/casing.json id
 data/json/items/generic/string.json
 data/json/items/gun/* id
 data/json/items/gunmod/* id
@@ -24,6 +26,7 @@ data/json/items/tools.json id
 data/json/monsters.json id
 data/json/monsters/* id
 data/json/npcs/missiondef.json id
+data/json/player_activities.json
 data/json/recipes/armor/*.json result
 data/json/recipes/electronics/*.json result
 data/json/recipes/other/materials.json

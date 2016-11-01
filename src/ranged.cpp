@@ -1274,7 +1274,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         refresh();
 
         std::string action;
-        if( u.activity.type == ACT_AIM && u.activity.str_values[0] != "AIM" ) {
+        if( u.activity.id() == activity_id( "ACT_AIM" ) && u.activity.str_values[0] != "AIM" ) {
             // If we're in 'aim and shoot' mode,
             // skip retrieving input and go straight to the action.
             action = u.activity.str_values[0];
@@ -1349,7 +1349,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             }
             if( u.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
-                u.assign_activity( ACT_AIM, 0, 0 );
+                u.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
                 u.activity.str_values.push_back( "AIM" );
                 u.view_offset = old_offset;
                 set_last_target( dst );
@@ -1410,7 +1410,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 // Set the string value of the aim action to the right thing
                 // so we re-enter this loop.
                 // Also clear target vector, but leave target selected.
-                u.assign_activity( ACT_AIM, 0, 0 );
+                u.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
                 u.activity.str_values.push_back( action );
                 u.view_offset = old_offset;
                 set_last_target( dst );
@@ -1552,14 +1552,13 @@ static void cycle_action( item& weap, const tripoint &pos ) {
 
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing != "null" ) {
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
-            weap.emplace_back( weap.ammo_data()->ammo->casing, calendar::turn, 1 );
+            weap.emplace_back( weap.ammo_data()->ammo->casing );
 
         } else {
-            item casing( weap.ammo_data()->ammo->casing, calendar::turn, 1 );
             if( cargo.empty() ) {
-                g->m.add_item_or_charges( eject, casing );
+                g->m.add_item_or_charges( eject, item( weap.ammo_data()->ammo->casing ) );
             } else {
-                veh->add_item( *cargo.front(), casing );
+                veh->add_item( *cargo.front(), item( weap.ammo_data()->ammo->casing ) );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),

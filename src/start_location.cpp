@@ -66,9 +66,9 @@ const std::set<std::string> &start_location::flags() const
     return _flags;
 }
 
-void start_location::load_location( JsonObject &jsonobj )
+void start_location::load_location( JsonObject &jo, const std::string &src )
 {
-    all_starting_locations.load( jsonobj );
+    all_starting_locations.load( jo, src );
 }
 
 void start_location::load( JsonObject &jo )

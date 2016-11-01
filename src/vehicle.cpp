@@ -83,17 +83,7 @@ const std::array<fuel_type, 7> &get_fuel_types()
     return fuel_types;
 }
 
-// Map stack methods.
-size_t vehicle_stack::size() const
-{
-    return mystack->size();
-}
-
-bool vehicle_stack::empty() const
-{
-    return mystack->empty();
-}
-
+// Vehicle stack methods.
 std::list<item>::iterator vehicle_stack::erase( std::list<item>::iterator it )
 {
     return myorigin->remove_item(part_num, it);
@@ -110,55 +100,15 @@ void vehicle_stack::insert_at( std::list<item>::iterator index,
     myorigin->add_item_at(part_num, index, newitem);
 }
 
-std::list<item>::iterator vehicle_stack::begin()
+units::volume vehicle_stack::max_volume() const
 {
-    return mystack->begin();
+    if( myorigin->part_flag( part_num, "CARGO" ) && !myorigin->parts[part_num].is_broken() ) {
+        return myorigin->parts[part_num].info().size;
+    }
+    return 0;
 }
 
-std::list<item>::iterator vehicle_stack::end()
-{
-    return mystack->end();
-}
-
-std::list<item>::const_iterator vehicle_stack::begin() const
-{
-    return mystack->cbegin();
-}
-
-std::list<item>::const_iterator vehicle_stack::end() const
-{
-    return mystack->cend();
-}
-
-std::list<item>::reverse_iterator vehicle_stack::rbegin()
-{
-    return mystack->rbegin();
-}
-
-std::list<item>::reverse_iterator vehicle_stack::rend()
-{
-    return mystack->rend();
-}
-
-std::list<item>::const_reverse_iterator vehicle_stack::rbegin() const
-{
-    return mystack->crbegin();
-}
-
-std::list<item>::const_reverse_iterator vehicle_stack::rend() const
-{
-    return mystack->crend();
-}
-
-item &vehicle_stack::front()
-{
-    return mystack->front();
-}
-
-item &vehicle_stack::operator[]( size_t index )
-{
-    return *(std::next(mystack->begin(), index));
-}
+// Vehicle class methods.
 
 vehicle::vehicle(const vproto_id &type_id, int init_veh_fuel, int init_veh_status): type(type_id)
 {
@@ -804,7 +754,7 @@ bool vehicle::interact_vehicle_locked()
                 int mechanics_skill = g->u.get_skill_level( skill_mechanics );
                 int hotwire_time = 6000 / ((mechanics_skill > 0)? mechanics_skill : 1);
                 //assign long activity
-                g->u.assign_activity(ACT_HOTWIRE_CAR, hotwire_time, -1, INT_MIN, _("Hotwire"));
+                g->u.assign_activity( activity_id( "ACT_HOTWIRE_CAR" ), hotwire_time, -1, INT_MIN, _( "Hotwire" ) );
                 // use part 0 as the reference point
                 point q = coord_translate(parts[0].mount);
                 g->u.activity.values.push_back(global_x() + q.x);//[0]
@@ -1276,7 +1226,7 @@ void vehicle::start_engines( const bool take_control )
         add_msg( _("You take control of the %s."), name.c_str() );
     }
 
-    g->u.assign_activity( ACT_START_ENGINES, start_time );
+    g->u.assign_activity( activity_id( "ACT_START_ENGINES" ), start_time );
     g->u.activity.placement = global_pos3() - g->u.pos();
     g->u.activity.values.push_back( take_control );
 }
@@ -1474,6 +1424,21 @@ bool vehicle::has_structural_part(int const dx, int const dy) const
 }
 
 /**
+ * Returns whether or not the vehicle has a structural part queued for removal,
+ * @return true if a structural is queue for removal, false if not.
+ * */
+bool vehicle::is_structural_part_removed() const
+{
+    for( size_t i = 0; i < parts.size(); ++i ) {
+        if (parts[i].removed &&
+                part_info( i, true ).location == part_location_structure) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * Returns whether or not the vehicle part with the given id can be mounted in
  * the specified square.
  * @param dx The local x-coordinate to mount in.
@@ -1523,9 +1488,11 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
 
     }
 
-    //All parts after the first must be installed on or next to an existing part
+    // All parts after the first must be installed on or next to an existing part
+    // the exception is when a single tile only structural object is being repaired
     if(!parts.empty()) {
-        if(!has_structural_part(dx, dy) &&
+        if(!is_structural_part_removed() &&
+                !has_structural_part(dx, dy) &&
                 !has_structural_part(dx+1, dy) &&
                 !has_structural_part(dx, dy+1) &&
                 !has_structural_part(dx-1, dy) &&
@@ -1967,7 +1934,7 @@ bool vehicle::remove_part (int p)
 
     // If the player is currently working on the removed part, stop them as it's futile now.
     const player_activity &act = g->u.activity;
-    if( act.type == ACT_VEHICLE && act.moves_left > 0 && act.values.size() > 6 ) {
+    if( act.id() == activity_id( "ACT_VEHICLE" ) && act.moves_left > 0 && act.values.size() > 6 ) {
         if( g->m.veh_at( tripoint( act.values[0], act.values[1], g->u.posz() ) ) == this ) {
             if( act.values[6] >= p ) {
                 g->u.cancel_activity();
@@ -4738,65 +4705,58 @@ void vehicle::handle_trap( const tripoint &p, int part )
 // total volume of all the things
 units::volume vehicle::stored_volume(int const part) const
 {
-    if (!part_flag(part, "CARGO")) {
-        return 0;
-    }
-    units::volume cur_volume = 0;
-    for( auto &i : get_items(part) ) {
-       cur_volume += i.volume();
-    }
-    return cur_volume;
+    return get_items( part ).stored_volume();
 }
 
 units::volume vehicle::max_volume(int const part) const
 {
-    if (part_flag(part, "CARGO")) {
-        return parts[part].info().size;
-    }
-    return 0;
+    return get_items( part ).max_volume();
 }
 
 units::volume vehicle::free_volume(int const part) const
 {
-    return max_volume( part ) - stored_volume( part );
+    return get_items( part ).free_volume();
+}
+
+long vehicle::add_charges( int part, const item &itm )
+{
+    if( !itm.count_by_charges() ) {
+        debugmsg( "Add charges was called for an item not counted by charges!" );
+        return 0;
+    }
+    const long ret = get_items( part ).amount_can_fit( itm );
+    if( ret == 0 ) {
+        return 0;
+    }
+
+    item itm_copy = itm;
+    itm_copy.charges = ret;
+    return add_item( part, itm_copy ) ? ret : 0;
 }
 
 bool vehicle::add_item( int part, const item &itm )
 {
-    const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE;
-    const units::volume maxvolume = max_volume( part );
-
     // const int max_weight = ?! // TODO: weight limit, calc per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certian point, or when hitting bumps etc
-
-    if( !part_flag( part, "CARGO" ) || parts[ part ].is_broken() ) {
-        return false;
-    }
-
-    if( (int)parts[part].items.size() >= max_storage ) {
-        return false;
-    }
 
     if( parts[ part ].base.is_gun() ) {
         if( !itm.is_ammo() || itm.ammo_type() != parts[ part ].base.ammo_type() ) {
             return false;
         }
     }
-    units::volume cur_volume = 0;
-    bool tryaddcharges=(itm.charges  != -1 && itm.count_by_charges());
-    // iterate anyway since we need a volume total
-    for (auto &i : parts[part].items) {
-        cur_volume += i.volume();
-        if( tryaddcharges && i.merge_charges( itm ) ) {
+    bool charge = itm.count_by_charges();
+    vehicle_stack istack = get_items( part );
+    const long to_move = istack.amount_can_fit( itm );    
+    if( to_move == 0 || ( charge && to_move < itm.charges ) ) {
+        return false; // @add_charges should be used in the latter case
+    }
+    if( charge ) {
+        item *here = istack.stacks_with( itm );
+        if( here ) {
             invalidate_mass();
-            return true;
+            return here->merge_charges( itm );
         }
     }
-
-    if( cur_volume + itm.volume() > maxvolume ) {
-        return false;
-    }
-
     return add_item_at( part, parts[part].items.end(), itm );
 }
 
@@ -5627,6 +5587,29 @@ std::map<itype_id, long> vehicle::fuels_left() const
     return result;
 }
 
+bool vehicle::assign_seat( vehicle_part &pt, const npc& who )
+{
+    if( !pt.is_seat() || !pt.set_crew( who ) ) {
+        return false;
+    }
+
+    // NPC's can only be assigned to one seat in the vehicle
+    for( auto &e : parts ) {
+        if( &e == &pt ) {
+            continue; // skip this part
+        }
+
+        if( e.is_seat() ) {
+            const npc *n = e.crew();
+            if( n && n->getID() == who.getID() ) {
+                e.unset_crew();
+            }
+        }
+    }
+
+    return true;
+}
+
 /**
  * Opens an openable part at the specified index. If it's a multipart, opens
  * all attached parts as well.
@@ -6197,6 +6180,37 @@ int vehicle_part::wheel_width() const
     return base.is_wheel() ? base.type->wheel->width : 0;
 }
 
+npc * vehicle_part::crew() const
+{
+    if( is_broken() || crew_id < 0 ) {
+        return nullptr;
+    }
+
+    int idx = g->npc_by_id( crew_id );
+    if( idx < 0 ) {
+        return nullptr;
+    }
+    npc *res = g->active_npc[idx];
+    return !res->is_dead_state() && res->is_friend() ? res : nullptr;
+}
+
+bool vehicle_part::set_crew( const npc &who )
+{
+    if( who.is_dead_state() || !who.is_friend() ) {
+        return false;
+    }
+    if( is_broken() || ( !is_seat() && !is_turret() ) ) {
+        return false;
+    }
+    crew_id = who.getID();
+    return true;
+}
+
+void vehicle_part::unset_crew()
+{
+    crew_id = -1;
+}
+
 bool vehicle_part::is_engine() const
 {
     return info().has_flag( VPFLAG_ENGINE );
@@ -6230,6 +6244,11 @@ bool vehicle_part::is_reactor() const
 bool vehicle_part::is_turret() const
 {
     return base.is_gun();
+}
+
+bool vehicle_part::is_seat() const
+{
+    return info().has_flag( "SEAT" );
 }
 
 const vpart_info &vehicle_part::info() const

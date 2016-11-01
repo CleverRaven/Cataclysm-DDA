@@ -650,6 +650,9 @@ public:
 
     phase_id phase      = SOLID; // e.g. solid, liquid, gas
 
+    /** Can item be combined with other identical items? */
+    bool stackable = false;
+
     /** After loading from JSON these properties guaranteed to be zero or positive */
     /*@{*/
     int weight          =  0; // Weight in grams for item (or each stack member)
@@ -673,6 +676,9 @@ public:
 
     nc_color color = c_white; // Color on the map (color.h)
     std::string sym;
+
+    int damage_min = -1; /** Minimum amount of damage to an item (state of maximum repair) */
+    int damage_max =  4; /** Maximum amount of damage to an item (state before destroyed) */
 
     /** Magazine types (if any) for each ammo type that can be used to reload this item */
     std::map< ammotype, std::set<itype_id> > magazines;
@@ -714,15 +720,7 @@ public:
         return id;
     }
 
-    bool count_by_charges() const
-    {
-        if( ammo ) {
-            return true;
-        } else if( comestible ) {
-            return phase == LIQUID || comestible->def_charges > 1 || stack_size > 1;
-        }
-        return false;
-    }
+    bool count_by_charges() const { return stackable; }
 
     int charges_default() const {
         if( tool ) {
@@ -732,7 +730,7 @@ public:
         } else if( ammo ) {
             return ammo->def_charges;
         }
-        return 0;
+        return stackable ? 1 : 0;
     }
 
     int charges_to_use() const

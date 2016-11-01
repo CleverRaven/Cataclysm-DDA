@@ -27,7 +27,7 @@ class start_location
         std::string target() const;
         const std::set<std::string> &flags() const;
 
-        static void load_location( JsonObject &jsonobj );
+        static void load_location( JsonObject &jo, const std::string &src );
         static void reset();
 
         static const std::vector<start_location> &get_all();

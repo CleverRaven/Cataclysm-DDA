@@ -149,6 +149,7 @@ enum m_flag : int {
     MF_AVOID_DANGER_1,      // This monster will path around some dangers instead of through them.
     MF_AVOID_DANGER_2,      // This monster will path around most dangers instead of through them.
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
+    MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -253,7 +254,7 @@ struct mtype {
         mfaction_id default_faction;
         /** UTF-8 encoded symbol, should be exactyle one cell wide. */
         std::string sym;
-        nc_color color;
+        nc_color color = c_white;
         m_size size;
         std::vector<material_id> mat;
         phase_id phase;

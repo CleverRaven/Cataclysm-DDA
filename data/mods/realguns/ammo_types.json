@@ -1,0 +1,20 @@
+[
+  {
+    "id": "10mm_auto",
+    "name": "10mm Auto",
+    "default": "10mm",
+    "type": "ammunition_type"
+  },
+  {
+    "id": "45lc",
+    "name": ".45 Long Colt",
+    "default": "45_long_colt",
+    "type": "ammunition_type"
+  },
+  {
+    "id": "410",
+    "name": ".410 bore",
+    "default": "410_birdshot",
+    "type": "ammunition_type"
+  }
+]

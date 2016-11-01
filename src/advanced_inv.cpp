@@ -1185,7 +1185,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
         // restore the pane to its former glory
         panes[src] = shadow;
         // make it auto loop back, if not already doing so
-        if(!done && g->u.has_activity(ACT_NULL)) {
+        if( !done && !g->u.activity ) {
             do_return_entry();
         }
         return true;
@@ -1266,13 +1266,13 @@ bool advanced_inventory::move_all_items(bool nested_call)
         g->u.drop( dropped, g->u.pos() + darea.off );
     } else {
         if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
-            g->u.assign_activity( ACT_PICKUP, 0 );
+            g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
             g->u.activity.values.push_back( spane.in_vehicle() );
             if( dpane.get_area() == AIM_WORN ) {
                 g->u.activity.str_values.push_back( "equip" );
             }
         } else { // Vehicle and map destinations are handled the same.
-            g->u.assign_activity( ACT_MOVE_ITEMS, 0 );
+            g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
             // store whether the source is from a vehicle (first entry)
             g->u.activity.values.push_back(spane.in_vehicle());
             // store whether the destination is a vehicle
@@ -1660,10 +1660,10 @@ void advanced_inventory::display()
                 // If examining the item did not create a new activity, we have to remove
                 // "return to AIM".
                 do_return_entry();
-                assert( g->u.has_activity( ACT_ADV_INVENTORY ) );
+                assert( g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) );
                 ret = g->inventory_item_menu( idx, info_startx, info_width,
                                               src == left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
-                if( !g->u.has_activity( ACT_ADV_INVENTORY ) ) {
+                if( !g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) ) {
                     exit = true;
                 } else {
                     g->u.cancel_activity();
@@ -2048,23 +2048,29 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         redraw = true;
         return false;
     }
+    
     // Check volume, this should work the same for inventory, map and vehicles, but not for worn
     if( unitvolume > 0 && ( unitvolume * amount ) > free_volume && squares[destarea].id != AIM_WORN ) {
-        const long volmax = free_volume / unitvolume;
-        if( volmax <= 0 ) {
+        const long room_for = it.charges_per_volume( free_volume );
+        
+        if( room_for <= 0 ) {
             popup( _( "Destination area is full.  Remove some items first." ) );
             redraw = true;
             return false;
         }
-        amount = std::min( volmax, amount );
+        amount = std::min( room_for, amount );
     }
     // Map and vehicles have a maximal item count, check that. Inventory does not have this.
     if( destarea != AIM_INVENTORY &&
             destarea != AIM_WORN &&
             destarea != AIM_CONTAINER ) {
         const long cntmax = p.max_size - p.get_item_count();
-        if( cntmax <= 0 ) {
-            // TODO: items by charges might still be able to be add to an existing stack!
+        // For items counted by charges, adding it adds 0 items if something there stacks with it.
+        const bool adds0 = by_charges && std::any_of( panes[dest].items.begin(), panes[dest].items.end(),
+            [&it]( const advanced_inv_listitem &li ) {
+            return li.is_item_entry() && li.items.front()->stacks_with( it );
+        } );
+        if( cntmax <= 0 && !adds0 ) {
             popup( _( "Destination area has too many items.  Remove some first." ) );
             redraw = true;
             return false;
@@ -2461,7 +2467,7 @@ void advanced_inventory::do_return_entry()
 {
     // only save pane settings
     save_settings( true );
-    g->u.assign_activity( ACT_ADV_INVENTORY, -1 );
+    g->u.assign_activity( activity_id( "ACT_ADV_INVENTORY" ) );
     g->u.activity.auto_resume = true;
     uistate.adv_inv_exit_code = exit_re_entry;
 }

@@ -67,6 +67,7 @@ ignorable = {
 #   "sound" member
 #   "messages" member containing an array of translatable strings
 automatically_convertible = {
+    "activity_type",
     "AMMO",
     "ammunition_type",
     "ARMOR",
@@ -649,6 +650,9 @@ def extract(item, infilename):
     if "info" in item:
        c = "Please leave anything in <angle brackets> unchanged."
        writestr(outfile, item["info"], comment=c, **kwargs)
+       wrote = True
+    if "stop_phrase" in item:
+       writestr(outfile, item["stop_phrase"], **kwargs)
        wrote = True
     if not wrote:
         print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))

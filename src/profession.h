@@ -64,7 +64,7 @@ enum add_type : int;
         //these three aren't meant for external use, but had to be made public regardless
         profession();
 
-        static void load_profession( JsonObject &jsobj );
+        static void load_profession( JsonObject &obj, const std::string &src );
 
         // these should be the only ways used to get at professions
         static const profession *generic(); // points to the generic, default profession

@@ -548,7 +548,7 @@ public:
 
  static void load_npc(JsonObject &jsobj);
  npc* find_npc(std::string ident);
- void load_npc_template(std::string ident);
+ void load_npc_template( const std::string &ident );
 
     // Generating our stats, etc.
     void randomize( const npc_class_id &type = NULL_ID );
@@ -757,6 +757,7 @@ public:
     std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
 
     bool has_item_whitelist() const;
+    bool item_name_whitelisted( const std::string &name );
     bool item_whitelisted( const item &it );
 
     /** Returns true if it finds one. */

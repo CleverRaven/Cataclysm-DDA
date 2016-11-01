@@ -8119,7 +8119,7 @@
     "color": "red",
     "ammo": "battery",
     "max_charges": 500,
-    "charges_per_use": 50,
+    "charges_per_use": 5,
     "qualities": [ [ "WELD", 2 ] ],
     "use_action": [
       {
@@ -8127,7 +8127,7 @@
         "item_action_type": "repair_metal",
         "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper" ],
         "skill": "mechanics",
-        "tool_quality": 3,
+        "tool_quality": 10,
         "cost_scaling": 0.1,
         "move_cost": 500
       },
@@ -8152,7 +8152,7 @@
     "color": "light_red",
     "ammo": "battery",
     "max_charges": 450,
-    "charges_per_use": 75,
+    "charges_per_use": 5,
     "qualities": [ [ "WELD", 1 ] ],
     "use_action": [
       {
@@ -8160,7 +8160,7 @@
         "item_action_type": "repair_metal",
         "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper" ],
         "skill": "mechanics",
-        "tool_quality": 3,
+        "tool_quality": 5,
         "cost_scaling": 0.1,
         "move_cost": 1000
       },

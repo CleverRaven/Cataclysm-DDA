@@ -464,8 +464,10 @@ item item::in_container( const itype_id &cont ) const
 
 long item::charges_per_volume( const units::volume &vol ) const
 {
-    // TODO: items should not have 0 volume at all!
-    return type->volume != 0 ? vol / type->volume : INFINITE_CHARGES;
+    if( type->volume == 0 ) {
+        return INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
+    }
+    return count_by_charges() ? vol / type->volume : vol / volume();
 }
 
 bool item::stacks_with( const item &rhs ) const
@@ -690,11 +692,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         int converted_volume_scale = 0;
-        const double converted_volume = round_up( convert_volume( volume().value(), 
+        const double converted_volume = round_up( convert_volume( volume().value(),
                                                                   &converted_volume_scale ), 2 );
         info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ),
                                   string_format( "<num> %s", volume_units_abbr() ),
-                                  converted_volume, converted_volume_scale == 0, 
+                                  converted_volume, converted_volume_scale == 0,
                                   "", false, true ) );
 
         info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
@@ -1281,7 +1283,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         int converted_storage_scale = 0;
-        const double converted_storage = round_up( convert_volume( get_storage().value(), 
+        const double converted_storage = round_up( convert_volume( get_storage().value(),
                                                                    &converted_storage_scale ), 2 );
         info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ),
                                   string_format( "<num> %s", volume_units_abbr() ),
@@ -1632,11 +1634,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       _( "* This mod <bad>obscures sights</bad> of the base weapon." ) ) );
         }
 
-        if( has_flag( "BELT_CLIP" ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This item can be <neutral>clipped or hooked</neutral> on to a <info>belt loop</info> of the appropriate size." ) ) );
-        }
-
         if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* The casing of this item has <neutral>cracked</neutral>, revealing an <info>ominous green glow</info>." ) ) );
@@ -1682,6 +1679,22 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                e.obj().name().c_str(), e.obj().description().c_str() ) );
         }
 
+        // does the item fit in any holsters?
+        auto holsters = Item_factory::find( [this]( const itype &e ) {
+            if( !e.can_use( "holster" ) ) {
+                return false;
+            }
+            auto ptr = dynamic_cast<const holster_actor *>( e.get_use( "holster" )->get_actor_ptr() );
+            return ptr->can_holster( *this );
+        } );
+
+        if( !holsters.empty() ) {
+            insert_separation_line();
+            info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in:</bold> " ) +
+                               enumerate_as_string( holsters.begin(), holsters.end(),
+                                                    []( const itype *e ) { return e->nname( 1 ); } ) );
+        }
+
         ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
         if( debug_mode || ( g->u.get_skill_level( skill_melee ) > 2 && ( damage_melee( DT_BASH ) > 0 ||
                             damage_melee( DT_CUT ) > 0 || damage_melee( DT_STAB ) > 0 || type->m_to_hit > 0 ) ) ) {
@@ -1689,7 +1702,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             g->u.roll_all_damage( false, non_crit, true, *this );
             damage_instance crit;
             g->u.roll_all_damage( true, crit, true, *this );
-            int attack_cost = g->u.attack_speed( *this, true );
+            int attack_cost = g->u.attack_speed( *this );
             insert_separation_line();
             info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Average melee damage:" ) ) ) );
             info.push_back( iteminfo( "DESCRIPTION",
@@ -3152,12 +3165,12 @@ int item::damage() const {
 
 int item::min_damage() const
 {
-    return count_by_charges() ? 0 : -1;
+    return type ? type->damage_min : 0;
 }
 
 int item::max_damage() const
 {
-    return count_by_charges() ? 0 : 4;
+    return type ? type->damage_max : 0;
 }
 
 bool item::mod_damage( double qty, damage_type dt )
@@ -4290,60 +4303,62 @@ const item * item::gunmod_find( const itype_id& mod ) const
     return const_cast<item *>( this )->gunmod_find( mod );
 }
 
-bool item::gunmod_compatible( const item& mod, bool alert, bool effects ) const
+bool item::gunmod_compatible( const item& mod, std::string *msg ) const
 {
     if( !mod.is_gunmod() ) {
         debugmsg( "Tried checking compatibility of non-gunmod" );
         return false;
     }
 
-    std::string msg;
+    const auto error = [ msg ]( const std::string &error_msg ) {
+        if( msg != nullptr ) {
+            *msg = error_msg;
+        }
+        return false;
+    };
 
     if( !is_gun() ) {
-        msg = string_format( _( "That %s is not a weapon." ), tname().c_str() );
+        return error( string_format( _( "isn't a weapon" ) ) );
 
     } else if( is_gunmod() ) {
-        msg = string_format( _( "That %s is a gunmod, it can not be modded." ), tname().c_str() );
+        return error( string_format( _( "is a gunmod and cannot be modded" ) ) );
 
     } else if( gunmod_find( mod.typeId() ) ) {
-        msg = string_format( _( "Your %1$s already has a %2$s." ), tname().c_str(), mod.tname( 1 ).c_str() );
+        return error( string_format( _( "already has a %s" ), mod.tname( 1 ).c_str() ) );
 
     } else if( !type->gun->valid_mod_locations.count( mod.type->gunmod->location ) ) {
-        msg = string_format( _( "Your %s doesn't have a slot for this mod." ), tname().c_str() );
+        return error( string_format( _( "doesn't have a slot for this mod" ) ) );
 
     } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
-        msg = string_format( _( "Your %1$s doesn't have enough room for another %2$s mod." ), tname().c_str(), _( mod.type->gunmod->location.c_str() ) );
-
-    } else if( effects && ( mod.type->mod->ammo_modifier || !mod.type->mod->magazine_adaptor.empty() )
-                       && ( ammo_remaining() > 0 || magazine_current() ) ) {
-        msg = string_format( _( "You must unload your %s before installing this mod." ), tname().c_str() );
+        return error( string_format( _( "doesn't have enough room for another %s mod" ),
+                                     _( mod.type->gunmod->location.c_str() ) ) );
 
     } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
-        msg = string_format( _( "That %s cannot be attached to a %s" ), mod.tname().c_str(), _( gun_type().c_str() ) );
+        return error( string_format( _( "cannot have a %s" ), mod.tname().c_str() ) );
 
     } else if( typeId() == "hand_crossbow" && !!mod.type->gunmod->usable.count( "pistol" ) ) {
-        msg = string_format( _("Your %s isn't big enough to use that mod.'"), tname().c_str() );
+        return error( string_format( _("isn't big enough to use that mod") ) );
 
     } else if ( !mod.type->mod->acceptable_ammo.empty() && !mod.type->mod->acceptable_ammo.count( ammo_type( false ) ) ) {
-        msg = string_format( _( "That %1$s cannot be used on a %2$s." ), mod.tname( 1 ).c_str(), ammo_name( ammo_type( false ) ).c_str() );
+        //~ %1$s - name of the gunmod, %2$s - name of the ammo
+        return error( string_format( _( "%1$s cannot be used on %2$s" ), mod.tname( 1 ).c_str(),
+                                     ammo_name( ammo_type( false ) ).c_str() ) );
 
     } else if( mod.typeId() == "waterproof_gunmod" && has_flag( "WATERPROOF_GUN" ) ) {
-        msg = string_format( _( "Your %s is already waterproof." ), tname().c_str() );
+        return error( string_format( _( "is already waterproof" ), tname().c_str() ) );
 
     } else if( mod.typeId() == "tuned_mechanism" && has_flag( "NEVER_JAMS" ) ) {
-        msg = string_format( _( "This %s is eminently reliable. You can't improve upon it this way." ), tname().c_str() );
+        return error( string_format( _( "is already eminently reliable" ) ) );
 
     } else if( mod.typeId() == "brass_catcher" && has_flag( "RELOAD_EJECT" ) ) {
-        msg = string_format( _( "You cannot attach a brass catcher to your %s." ), tname().c_str() );
+        return error( string_format( _( "cannot have a brass catcher" ) ) );
 
-    } else {
-        return true;
+    } else if( ( mod.type->mod->ammo_modifier || !mod.type->mod->magazine_adaptor.empty() )
+               && ( ammo_remaining() > 0 || magazine_current() ) ) {
+        return error( string_format( _( "must be unloaded before installing this mod" ) ) );
     }
 
-    if( alert ) {
-        add_msg( m_info, msg.c_str() );
-    }
-    return false;
+    return true;
 }
 
 std::map<std::string, const item::gun_mode> item::gun_all_modes() const
@@ -4946,7 +4961,10 @@ bool item::allow_crafting_component() const
         return true;
     }
 
-    return contents.empty();
+    // fixes #18886 - turret installation may require items with irremovable mods
+    return std::all_of( contents.begin(), contents.end(), []( const item &e ) {
+        return e.is_gunmod() && e.has_flag( "IRREMOVABLE" );
+    } );
 }
 
 void item::fill_with( item &liquid, long amount )

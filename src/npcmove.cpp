@@ -20,6 +20,9 @@
 
 #include <algorithm>
 
+// @todo Get rid of this include
+#include "mapdata.h"
+
 #define NPC_DANGER_VERY_LOW 5
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
@@ -594,15 +597,30 @@ void npc::execute_action( npc_action action )
                 continue;
             }
 
+            // a seat is available if either unassigned or assigned to us
+            auto available_seat = [&]( const vehicle_part &pt ) {
+                if( !pt.is_seat() ) {
+                    return false;
+                }
+                const npc *who = pt.crew();
+                return !who || who->getID() == getID();
+            };
+
+            const auto &pt = veh->parts[p2];
+
             int priority = 0;
-            if( veh->parts[p2].mount == last_dest ) {
+
+            if( pt.mount == last_dest ) {
                 // Shares mount point with last known path
                 // We probably wanted to go there in the last turn
                 priority = 4;
-            } else if( veh->part_flag( p2, "SEAT" ) ) {
-                // Assuming the player "owns" a sensible vehicle,
-                //  seats should be in good spots to occupy
-                priority = veh->part_with_feature( p2, "SEATBELT" ) >= 0 ? 3 : 2;
+
+            } else if( available_seat( pt ) ) {
+                // Assuming player "owns" a sensible vehicle seats should be in good spots to occupy
+                // Prefer our assigned seat if we have one
+                const npc *who = pt.crew();
+                priority = who && who->getID() == getID() ? 3 : 2;
+
             } else if( veh->is_inside( p2 ) ) {
                 priority = 1;
             }
@@ -1366,6 +1384,11 @@ void npc::aim()
 
 bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 {
+    if( p == tripoint_min ) {
+        add_msg( m_debug, "Pathing to tripoint_min" );
+        return false;
+    }
+
     if( p == pos() ) {
         path.clear();
         return true;
@@ -1704,6 +1727,28 @@ void npc::move_pause()
     }
 }
 
+static tripoint nearest_passable( const tripoint &p, const tripoint &closest_to )
+{
+    if( g->m.passable( p ) ) {
+        return p;
+    }
+
+    // We need to path to adjacent tile, not the exact one
+    // Let's pick the closest one to us that is passable
+    auto candidates = closest_tripoints_first( 1, p );
+    std::sort( candidates.begin(), candidates.end(), [ closest_to ]( const tripoint &l, const tripoint &r ) {
+        return rl_dist( closest_to, l ) < rl_dist( closest_to, r );
+    } );
+    auto iter = std::find_if( candidates.begin(), candidates.end(), []( const tripoint &pt ) {
+        return g->m.passable( pt );
+    } );
+    if( iter != candidates.end() ) {
+        return *iter;
+    }
+
+    return tripoint_min;
+}
+
 void npc::find_item()
 {
     if( is_following() && !rules.allow_pick_up ) {
@@ -1727,6 +1772,10 @@ void npc::find_item()
 
     const bool whitelisting = has_item_whitelist();
 
+    if( volume_allowed <= 0 || weight_allowed <= 0 ) {
+        return;
+    }
+
     const auto consider_item =
         [&wanted, &best_value, whitelisting, volume_allowed, weight_allowed, this]
         ( const item &it, const tripoint &p ) {
@@ -1748,23 +1797,48 @@ void npc::find_item()
             wanted_item_pos = p;
             wanted = &( it );
             best_value = itval;
-            fetching_item = true;
         }
     };
 
-    for( const tripoint &p : g->m.points_in_radius( pos(), range ) ) {
+    // Harvest item doesn't exist, so we'll be checking by its name
+    std::string wanted_name;
+    const auto consider_terrain =
+        [ this, whitelisting, volume_allowed, &wanted, &wanted_name ]( const tripoint &p ) {
+        // We only want to pick plants when there are no items to pick
+        if( !whitelisting || wanted != nullptr || !wanted_name.empty() ||
+            volume_allowed < units::from_milliliter( 250 ) ) {
+            return;
+        }
+
+        const auto harvest = g->m.get_harvest_names( p );
+        for( const auto &entry : harvest ) {
+            if( item_name_whitelisted( entry ) ) {
+                wanted_name = entry;
+                wanted_item_pos = p;
+                break;
+            }
+        }
+    };
+
+    for( const tripoint &p : closest_tripoints_first( range, pos() ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
-        if( g->m.sees_some_items( p, *this ) && sees( p ) &&
-            ( !is_following() || !g->check_zone( no_pickup, p ) ) ) {
+        if( is_following() && g->check_zone( no_pickup, p ) ) {
+            continue;
+        }
+
+        if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
             for( const item &it : g->m.i_at( p ) ) {
                 consider_item( it, p );
             }
         }
 
+        // Allow terrain check without sight, because it would cost more CPU than it is worth
+        consider_terrain( p );
+
         int veh_part = -1;
         const vehicle *veh = g->m.veh_at( p, veh_part );
-        if( veh == nullptr || veh->velocity != 0 ) {
+        if( veh == nullptr || veh->velocity != 0 || !sees( p ) ) {
             continue;
         }
 
@@ -1779,22 +1853,29 @@ void npc::find_item()
         }
     }
 
-    if( !fetching_item ) {
+    if( wanted != nullptr ) {
+        wanted_name = wanted->tname();
+    }
+
+    if( wanted_name.empty() ) {
         return;
     }
+
+    fetching_item = true;
 
     // TODO: Move that check above, make it multi-target pathing and use it
     // to limit tiles available for choice of items
     const int dist_to_item = rl_dist( wanted_item_pos, pos() );
-    update_path( wanted_item_pos );
+    const tripoint dest = nearest_passable( wanted_item_pos, pos() );
+    update_path( dest );
+
     if( path.empty() && dist_to_item > 1 ) {
         // Item not reachable, let's just totally give up for now
         fetching_item = false;
     }
 
     if( fetching_item && rl_dist( wanted_item_pos, pos() ) > 1 && is_following() ) {
-        say( _("Hold on, I want to pick up that %s."),
-             wanted->tname().c_str() );
+        say( _("Hold on, I want to pick up that %s."), wanted_name.c_str() );
     }
 }
 
@@ -1807,10 +1888,6 @@ void npc::pick_up_item()
         return;
     }
 
-    add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name.c_str(),
-             posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
-    update_path( wanted_item_pos );
-
     int veh_part = -1;
     vehicle *veh = g->m.veh_at( wanted_item_pos, veh_part );
     if( veh != nullptr ) {
@@ -1821,23 +1898,32 @@ void npc::pick_up_item()
                            veh_part >= 0 &&
                            !veh->part_flag( veh_part, "LOCKED" );
 
-    if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo && sees( wanted_item_pos ) ) ||
+    if( ( !g->m.has_items( wanted_item_pos ) && !has_cargo &&
+          !g->m.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
         ( is_following() && g->check_zone( "NO_NPC_PICKUP", wanted_item_pos ) ) ) {
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;
-        // Just to prevent debugmsgs
-        moves -= 1;
+        move_pause();
+        add_msg( m_debug, "Canceling pickup - no items or new zone" );
         return;
     }
 
-    if( path.size() > 1 ) {
+
+    add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name.c_str(),
+             posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
+    const tripoint dest = nearest_passable( wanted_item_pos, pos() );
+    update_path( dest );
+
+    const int dist_to_pickup = rl_dist( pos(), wanted_item_pos );
+    if( dist_to_pickup > 1 && !path.empty() ) {
         add_msg( m_debug, "Moving; [%d, %d, %d] => [%d, %d, %d]",
                  posx(), posy(), posz(), path[0].x, path[0].y, path[0].z );
 
         move_to_next();
         return;
-    } else if( path.empty() && pos() != wanted_item_pos ) {
+    } else if( dist_to_pickup > 1 && path.empty() ) {
+        add_msg( m_debug, "Can't find path" );
         // This can happen, always do something
         fetching_item = false;
         move_pause();
@@ -1849,6 +1935,17 @@ void npc::pick_up_item()
     auto picked_up = pick_up_item_map( wanted_item_pos );
     if( picked_up.empty() && has_cargo ) {
         picked_up = pick_up_item_vehicle( *veh, veh_part );
+    }
+
+    if( picked_up.empty() ) {
+        // Last chance: plant harvest
+        if( g->m.is_harvestable( wanted_item_pos ) ) {
+            g->m.examine( *this, wanted_item_pos );
+            // Note: we didn't actually pick up anything, just spawned items
+            // but we want the item picker to find new items
+            fetching_item = false;
+            return;
+        }
     }
     // Describe the pickup to the player
     bool u_see = g->u.sees( *this ) || g->u.sees( wanted_item_pos );
@@ -2129,7 +2226,7 @@ bool npc::do_pulp()
 
     // TODO: Don't recreate the activity every time
     int old_moves = moves;
-    assign_activity( ACT_PULP, INT_MAX, 0 );
+    assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
     activity.placement = pulp_location;
     activity.do_turn( this );
     return moves != old_moves;

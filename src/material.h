@@ -80,7 +80,7 @@ class material_type
 namespace materials
 {
 
-void load( JsonObject &jo );
+void load( JsonObject &jo, const std::string &src );
 void check();
 void reset();
 
