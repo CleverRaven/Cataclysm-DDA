@@ -1831,7 +1831,7 @@ std::string vstring_format( char const *format, va_list args )
         // vsnprintf stores a trailing '\0' in the given buffer
         if ( vsnprintf( &result[0], count+1, format, args ) == count ) {
             if( result.size() > 0 ) {
-                // Remove the trailing '\0'
+                // so we need to remove the trailing '\0' afterward
                 result.pop_back();
             }
             return result;
