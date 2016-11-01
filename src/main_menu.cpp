@@ -826,80 +826,6 @@ bool main_menu::opening_screen()
                     print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
                 }
             } else { // Character Templates
-                if( templates.empty() ) {
-                    mvwprintz( w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
-                               c_red, _( "No templates found!" ) );
-                } else {
-                    mvwprintz( w_open, iMenuOffsetY - 2, iMenuOffsetX + 20 + extra_w / 2,
-                               c_white, _( "Press 'd' to delete a preset." ) );
-                    for( int i = 0; i < ( int )templates.size(); i++ ) {
-                        int line = iMenuOffsetY - 4 - i;
-                        mvwprintz( w_open, line, 20 + iMenuOffsetX + extra_w / 2,
-                                   ( sel3 == i ? h_white : c_white ), templates[i].c_str() );
-                    }
-                }
-                wrefresh( w_open );
-                refresh();
-                std::string action = ctxt.handle_input();
-                if( action == "DOWN" ) {
-                    if( sel3 > 0 ) {
-                        sel3--;
-                    } else {
-                        sel3 = templates.size() - 1;
-                    }
-                } else if( templates.empty() && ( action == "UP" || action == "CONFIRM" ) ) {
-                    sel1 = 1;
-                    layer = 2;
-                    print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
-                } else if( action == "UP" ) {
-                    if( sel3 < ( int )templates.size() - 1 ) {
-                        sel3++;
-                    } else {
-                        sel3 = 0;
-                    }
-                } else if( action == "LEFT"  || action == "QUIT" || templates.empty() ) {
-                    sel1 = 1;
-                    layer = 2;
-                    print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
-                } else if( !templates.empty() && action == "DELETE_TEMPLATE" ) {
-                    if( query_yn( _( "Are you sure you want to delete %s?" ),
-                                  templates[sel3].c_str() ) ) {
-                        const auto path = FILENAMES["templatedir"] + templates[sel3] + ".template";
-                        if( std::remove( path.c_str() ) != 0 ) {
-                            popup( _( "Sorry, something went wrong." ) );
-                        } else {
-                            templates.erase( templates.begin() + sel3 );
-                            if( ( size_t )sel3 > templates.size() - 1 ) {
-                                sel3--;
-                            }
-                        }
-                    }
-                } else if( action == "RIGHT" || action == "CONFIRM" ) {
-                    WORLDPTR world = world_generator->pick_world();
-                    if( world == NULL ) {
-                        g->u = player();
-                        continue;
-                    }
-                    world_generator->set_active_world( world );
-                    try {
-                        g->setup();
-                    } catch( const std::exception &err ) {
-                        debugmsg( "Error: %s", err.what() );
-                        g->u = player();
-                        continue;
-                    }
-                    if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
-                        g->u = player();
-                        continue;
-                    }
-                    werase( w_background );
-                    wrefresh( w_background );
-                    if( !g->start_game( world_generator->active_world->world_name ) ) {
-                        g->u = player();
-                        continue;
-                    }
-                    start = true;
-                }
             }
         }
     }
@@ -981,4 +907,81 @@ bool main_menu::opening_screen()
                     layer = 3;
                     sel3 = 0;
                 }
+            }
+
+
+
+            if( templates.empty() ) {
+                mvwprintz( w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
+                           c_red, _( "No templates found!" ) );
+            } else {
+                mvwprintz( w_open, iMenuOffsetY - 2, iMenuOffsetX + 20 + extra_w / 2,
+                           c_white, _( "Press 'd' to delete a preset." ) );
+                for( int i = 0; i < ( int )templates.size(); i++ ) {
+                    int line = iMenuOffsetY - 4 - i;
+                    mvwprintz( w_open, line, 20 + iMenuOffsetX + extra_w / 2,
+                               ( sel3 == i ? h_white : c_white ), templates[i].c_str() );
+                }
+            }
+            wrefresh( w_open );
+            refresh();
+            std::string action = ctxt.handle_input();
+            if( action == "DOWN" ) {
+                if( sel3 > 0 ) {
+                    sel3--;
+                } else {
+                    sel3 = templates.size() - 1;
+                }
+            } else if( templates.empty() && ( action == "UP" || action == "CONFIRM" ) ) {
+                sel1 = 1;
+                layer = 2;
+                print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
+            } else if( action == "UP" ) {
+                if( sel3 < ( int )templates.size() - 1 ) {
+                    sel3++;
+                } else {
+                    sel3 = 0;
+                }
+            } else if( action == "LEFT"  || action == "QUIT" || templates.empty() ) {
+                sel1 = 1;
+                layer = 2;
+                print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
+            } else if( !templates.empty() && action == "DELETE_TEMPLATE" ) {
+                if( query_yn( _( "Are you sure you want to delete %s?" ),
+                              templates[sel3].c_str() ) ) {
+                    const auto path = FILENAMES["templatedir"] + templates[sel3] + ".template";
+                    if( std::remove( path.c_str() ) != 0 ) {
+                        popup( _( "Sorry, something went wrong." ) );
+                    } else {
+                        templates.erase( templates.begin() + sel3 );
+                        if( ( size_t )sel3 > templates.size() - 1 ) {
+                            sel3--;
+                        }
+                    }
+                }
+            } else if( action == "RIGHT" || action == "CONFIRM" ) {
+                WORLDPTR world = world_generator->pick_world();
+                if( world == NULL ) {
+                    g->u = player();
+                    continue;
+                }
+                world_generator->set_active_world( world );
+                try {
+                    g->setup();
+                } catch( const std::exception &err ) {
+                    debugmsg( "Error: %s", err.what() );
+                    g->u = player();
+                    continue;
+                }
+                if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
+                    g->u = player();
+                    continue;
+                }
+                werase( w_background );
+                wrefresh( w_background );
+                if( !g->start_game( world_generator->active_world->world_name ) ) {
+                    g->u = player();
+                    continue;
+                }
+                start = true;
             }
