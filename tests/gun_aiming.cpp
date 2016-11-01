@@ -108,7 +108,7 @@ TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
 
         WHEN( "many shots are fired" ) {
             THEN( "the distribution of accuracies is as expected" ) {
-                for( int range = 1; range <= MAX_RANGE; ++range ) {
+                for( int range = 0; range <= MAX_RANGE; ++range ) {
                     for( int dispersion = 0; dispersion < 1200; dispersion += 50 ) {
                         test_distribution( who, dispersion, range );
                     }
