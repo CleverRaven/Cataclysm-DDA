@@ -1003,12 +1003,21 @@ static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
 double Creature::projectile_attack_chance( double dispersion, double range, double accuracy ) const {
     // This is essentially the inverse of what Creature::projectile_attack() does.
 
+    if( dispersion <= 0 ) {
+        // Perfect accuracy, always hits
+        return 1.0;
+    }
+
+    if( range == 0 ) {
+        return 1.0;
+    }
+
     double missed_by_tiles = accuracy * occupied_tile_fraction;
 
     //          T = (2*D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
     //      cos V = 1 - T**2 / (2*D**2)
     double cosV = 1 - missed_by_tiles * missed_by_tiles / (2 * range * range);
-    double shot_dispersion = ( cosV > 1.0 ? M_PI : acos( cosV ) ) * 180 * 60 / M_PI;
+    double shot_dispersion = ( cosV < -1.0 ? M_PI : acos( cosV ) ) * 180 * 60 / M_PI;
     double sigma = dispersion / dispersion_sigmas;
 
     // erf(x / (sigma * sqrt(2))) is the probability that a measurement
