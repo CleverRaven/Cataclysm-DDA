@@ -4,7 +4,7 @@
     "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "JHEC M128",
-    "description": "The Johnson Heavy Equipment Co. M128 autorevolver; all others fail to measure up.",
+    "description": "The Johnson Heavy Equipment Co. M128 autorevolver; all others fail to measure up. Johnson Heavy Equipment Co. is a subsidiary of D&B Minneapolis.",
     "weight": 1500,
     "volume": 3,
     "price": 250000,
