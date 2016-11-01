@@ -8,10 +8,12 @@
 #include "string_id.h"
 #include <string>
 #include <vector>
+#include <limits>
 #include <list>
 #include <set>
 
 struct MonsterGroup;
+struct city;
 struct overmap_special_location;
 
 using mongroup_id = string_id<MonsterGroup>;
@@ -157,16 +159,22 @@ class overmap_special
          * It's true if @ref oter meets any of @ref locations.
          */
         bool can_be_placed_on( const oter_id &oter ) const;
-
+        /** Returns whether this special requires a city at all. */
+        bool requires_city() const;
+        /** Returns whether the special at @ref p can belong to the specified city. */
+        bool can_belong_to_city( const tripoint &p, const city &cit ) const;
         /** Checks the object. */
         void check();
 
         std::string id;
         std::list<overmap_special_terrain> terrains;
         std::vector<overmap_special_connection> connections;
-        int min_city_size, max_city_size;
-        int min_city_distance, max_city_distance;
-        int min_occurrences, max_occurrences;
+        int min_city_size = 0;
+        int max_city_size = std::numeric_limits<int>::max();
+        int min_city_distance = 0;
+        int max_city_distance = std::numeric_limits<int>::max();
+        int min_occurrences = 0;
+        int max_occurrences = 0;
         bool rotatable;
         overmap_special_spawns spawns;
         std::set<const overmap_special_location *> locations;

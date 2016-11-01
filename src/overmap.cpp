@@ -270,23 +270,31 @@ void load_overmap_specials(JsonObject &jo)
                       spec.id.c_str(), location.c_str() );
         }
     }
+    // @todo Generic serializable ranges.
+    const auto get_range_min = []( int n ){
+        return std::max( n, 0 );
+    };
+
+    const auto get_range_max = []( int n ){
+        return n >= 0 ? n : std::numeric_limits<int>::max();
+    };
 
     JsonArray city_size_array = jo.get_array("city_sizes");
     if(city_size_array.has_more()) {
-        spec.min_city_size = city_size_array.get_int(0);
-        spec.max_city_size = city_size_array.get_int(1);
+        spec.min_city_size = get_range_min( city_size_array.get_int( 0 ) );
+        spec.max_city_size = get_range_max( city_size_array.get_int( 1 ) );
     }
 
     JsonArray occurrences_array = jo.get_array("occurrences");
     if(occurrences_array.has_more()) {
-        spec.min_occurrences = occurrences_array.get_int(0);
-        spec.max_occurrences = occurrences_array.get_int(1);
+        spec.min_occurrences = get_range_min( occurrences_array.get_int( 0 ) );
+        spec.max_occurrences = get_range_max( occurrences_array.get_int( 1 ) );
     }
 
     JsonArray city_distance_array = jo.get_array("city_distance");
     if(city_distance_array.has_more()) {
-        spec.min_city_distance = city_distance_array.get_int(0);
-        spec.max_city_distance = city_distance_array.get_int(1);
+        spec.min_city_distance = get_range_min( city_distance_array.get_int( 0 ) );
+        spec.max_city_distance = get_range_max( city_distance_array.get_int( 1 ) );
     }
 
     spec.rotatable = jo.get_bool("rotate", false);
@@ -294,10 +302,10 @@ void load_overmap_specials(JsonObject &jo)
     if(jo.has_object("spawns")) {
         JsonObject spawns = jo.get_object("spawns");
         spec.spawns.group = mongroup_id( spawns.get_string("group") );
-        spec.spawns.min_population = spawns.get_array("population").get_int(0);
-        spec.spawns.max_population = spawns.get_array("population").get_int(1);
-        spec.spawns.min_radius = spawns.get_array("radius").get_int(0);
-        spec.spawns.max_radius = spawns.get_array("radius").get_int(1);
+        spec.spawns.min_population = get_range_min( spawns.get_array( "population" ).get_int( 0 ) );
+        spec.spawns.max_population = get_range_max( spawns.get_array( "population" ).get_int( 1 ) );
+        spec.spawns.min_radius = get_range_min( spawns.get_array("radius").get_int( 0 ) );
+        spec.spawns.max_radius = get_range_max( spawns.get_array("radius").get_int( 1 ) );
     }
 
     JsonArray flag_array = jo.get_array("flags");
@@ -1007,6 +1015,23 @@ bool overmap_special::can_be_placed_on( const oter_id &oter ) const
     [ &oter ]( const overmap_special_location *loc ) {
         return loc->test( oter );
     } );
+}
+
+bool overmap_special::requires_city() const
+{
+    return min_city_size > 0 || max_city_distance < std::max( OMAPX, OMAPY );
+}
+
+bool overmap_special::can_belong_to_city( const tripoint &p, const city &cit ) const
+{
+    if( !requires_city() ) {
+        return true;
+    }
+    if( !cit || cit.s < min_city_size || cit.s > max_city_size ) {
+        return false;
+    }
+    const int dist = cit.get_distance_from( p );
+    return dist >= min_city_distance && dist <= max_city_distance;
 }
 
 void overmap_special::check()
@@ -1737,7 +1762,7 @@ std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
     return found;
 }
 
-const city *overmap::get_nearest_city( const tripoint &p ) const
+const city &overmap::get_nearest_city( const tripoint &p ) const
 {
     int distance = 999;
     const city *res = nullptr;
@@ -1748,7 +1773,11 @@ const city *overmap::get_nearest_city( const tripoint &p ) const
             res = &elem;
         }
     }
-    return res;
+    if( res != nullptr ) {
+        return *res;
+    }
+    static city invalid_city;
+    return invalid_city;
 }
 
 // {note symbol, note color, offset to text}
@@ -3964,19 +3993,10 @@ inline tripoint rotate_tripoint(tripoint p, int rotations)
 }
 
 // checks around the selected point to see if the special can be placed there
-bool overmap::try_place_special( const overmap_special &special, const tripoint &p, const city *related_city )
+bool overmap::try_place_special( const overmap_special &special, const tripoint &p, const city &cit )
 {
-    if( special.min_city_distance > 0 || special.max_city_distance >= 0 ) {
-        const city *nearest = get_nearest_city( p );
-
-        if( nearest == nullptr && special.max_city_distance >= 0 ) {
-            return false;
-        }
-
-        const int to_city = nearest->get_distance_from( p );
-        if( to_city < special.min_city_distance || to_city > std::max( special.max_city_distance, INT_MAX ) ) {
-            return false;
-        }
+    if( !special.can_belong_to_city( p, cit ) ) {
+        return false;
     }
 
     const size_t num_rotations = special.rotatable ? 4 : 1;
@@ -4045,8 +4065,8 @@ bool overmap::try_place_special( const overmap_special &special, const tripoint 
     for( const auto &con : special.connections ) {
         const tripoint rp = p + rotate_tripoint( con.p, rotation );
         // See if there's a road already.
-        if( !check_ot_type( con.terrain.str(), rp.x, rp.y, rp.z ) && related_city != nullptr ) {
-            make_hiway( rp.x, rp.y, related_city->x, related_city->y, rp.z, con.terrain.str() );
+        if( cit && !check_ot_type( con.terrain.str(), rp.x, rp.y, rp.z ) ) {
+            make_hiway( rp.x, rp.y, cit.x, cit.y, rp.z, con.terrain.str() );
         }
     }
 
@@ -4128,7 +4148,7 @@ void overmap::place_specials()
             }
 
             const tripoint p( rng( x, x + OMSPEC_FREQ - 1 ), rng( y, y + OMSPEC_FREQ - 1 ), 0 );
-            const city *nearest_city = get_nearest_city( p );
+            const city &nearest_city = get_nearest_city( p );
             bool placed = false;
 
             std::random_shuffle( candidates.begin(), candidates.end() );
