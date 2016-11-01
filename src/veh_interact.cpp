@@ -2413,6 +2413,7 @@ void veh_interact::complete_vehicle()
             const int dir = pt.direction;
             veh->break_part_into_pieces( vehicle_part, g->u.posx(), g->u.posy() );
             veh->remove_part( vehicle_part );
+            veh->part_removal_cleanup();
             const int partnum = veh->install_part( dx, dy, part_id, std::move( base ) );
             veh->parts[partnum].direction = dir;
         } else {
