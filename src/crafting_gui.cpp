@@ -426,7 +426,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 mvwprintz( w_data, ypos++, 30, col, _( "Required skills: %s" ),
                            ( current[line]->required_skills_string().c_str() ) );
                 mvwprintz( w_data, ypos++, 30, col, _( "Difficulty: %d" ),
-                           available_recipes.get_custom_difficulty( current[line] ) );
+                           current[ line ]->difficulty );
                 if( !current[line]->skill_used ) {
                     mvwprintz( w_data, ypos++, 30, col, _( "Your skill level: N/A" ) );
                 } else {
