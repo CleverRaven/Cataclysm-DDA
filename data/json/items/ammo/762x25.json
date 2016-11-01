@@ -5,7 +5,7 @@
     "name": "7.62x25mm JHP",
     "name_plural": "7.62x25mm JHP",
     "description": "A commercial version of the 7.62x25mm cartridge created for the armed forces of Soviet Russia.  It was derived from the 7.63x25mm cartridge used by the C96 pistol.",
-    "weight": 9,
+    "weight": 10,
     "volume": 1,
     "price": 3000,
     "material": [ "steel", "powder" ],
@@ -18,7 +18,7 @@
     "range": 13,
     "damage": 24,
     "pierce": 2,
-    "dispersion": 120,
+    "dispersion": 40,
     "recoil": 540,
     "effects": [ "COOKOFF" ]
   },
@@ -29,13 +29,14 @@
     "name": "7.62x25mm FMJ hot load",
     "name_plural": "7.62x25mm FMJ hot load",
     "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with a 85 gr. FMJ bullet.  It is more powerful than the original.",
-    "price": 3500,
     "relative": {
+      "price": 500,
       "range": 2,
       "damage": 4,
-      "pierce": 3
+      "pierce": 3,
+      "dispersion": -10
     },
-    "proportional": { "recoil": 1.1 }
+    "proportional": { "recoil": 1.4 }
   },
   {
     "id": "762_25typeP",
@@ -46,13 +47,13 @@
     "//": "Stopgap price of $1 per.  Anti-China prejudice in the pre-Cataclysm US may have made this ammo tougher to come by.",
     "description": "A subsonic cartridge derived from the 7.62x25mm, designed for silenced firearms.  It offers good armor penetration at the cost of slightly less damage.",
     "weight": 12,
-    "price": 5000,
     "count": 50,
     "relative": {
+      "price": 2000,
       "range": -1,
       "damage": -9,
       "pierce": 2,
-      "recoil": -45
+      "recoil": -270
     }
   }
 ]

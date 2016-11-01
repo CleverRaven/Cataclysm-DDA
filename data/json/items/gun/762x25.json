@@ -16,7 +16,7 @@
     "skill": "smg",
     "range": 2,
     "ranged_damage": 2,
-    "dispersion": 120,
+    "dispersion": 200,
     "durability": 8,
     "barrel_length": 2,
     "modes": [
@@ -41,7 +41,7 @@
     "bashing": 10,
     "material": [ "steel", "plastic" ],
     "ammo": "762x25",
-    "dispersion": 225,
+    "dispersion": 305,
     "durability": 7,
     "magazine_well": 1,
     "magazines": [ [ "762x25", [ "tokarevmag" ] ] ]
