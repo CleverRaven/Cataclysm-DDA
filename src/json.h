@@ -161,15 +161,14 @@ class JsonIn
 {
     private:
         std::istream *stream;
-        bool strict; // throw errors on non-RFC-4627-compliant input
-        bool ate_separator;
+        bool ate_separator = false;
 
         void skip_separator();
         void skip_pair_separator();
         void end_value();
 
     public:
-        JsonIn(std::istream &stream, bool strict = true);
+        JsonIn( std::istream &s ) : stream( &s ) {}
 
         bool get_ate_separator()
         {
