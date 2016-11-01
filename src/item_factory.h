@@ -205,7 +205,9 @@ class Item_factory
          * If the item type overrides an existing type, the existing type is deleted first.
          * @param new_type The new item type, must not be null.
          */
-        void add_item_type( itype *new_type );
+        void add_item_type( const itype &def ) {
+            m_templates[ def.id ] = def;
+        }
 
         void load_item_blacklist( JsonObject &jo );
 
@@ -220,18 +222,16 @@ class Item_factory
          * @ref find_template).
          * Value is the itype instance (result of @ref find_template).
          */
-        const std::map<const itype_id, std::unique_ptr<itype>> &get_all_itypes() const {
+        const std::map<const itype_id, itype> &get_all_itypes() const {
             return m_templates;
         }
 
         /** Find all templates matching the UnaryPredicate function */
         static std::vector<const itype *> find( const std::function<bool( const itype & )> &func ) {
             std::vector<const itype *> res;
-            if( item_controller ) {
-                for( const auto &e : item_controller->get_all_itypes() ) {
-                    if( func( *e.second ) ) {
-                        res.push_back( e.second.get() );
-                    }
+            for( const auto &e : item_controller->get_all_itypes() ) {
+                if( func( e.second ) ) {
+                    res.push_back( &e.second );
                 }
             }
             return res;
@@ -243,9 +243,9 @@ class Item_factory
         Item_tag create_artifact_id() const;
 
     private:
-        std::map<std::string, std::unique_ptr<itype>> m_abstracts;
+        std::map<const std::string, itype> m_abstracts;
 
-        mutable std::map<const itype_id, std::unique_ptr<itype>> m_templates;
+        mutable std::map<const itype_id, itype> m_templates;
 
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
@@ -268,7 +268,7 @@ class Item_factory
          * Called before creating a new template and handles inheritance via copy-from
          * May defer instantiation of the template if depends on other objects not as-yet loaded
          */
-        itype *load_definition( JsonObject &jo, const std::string &src );
+        bool load_definition( JsonObject &jo, const std::string &src, itype &def );
 
         /**
          * Load the data of the slot struct. It creates the slot object (of type SlotType) and
@@ -276,6 +276,7 @@ class Item_factory
          */
         template<typename SlotType>
         void load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &src );
+
         /**
          * Load item the item slot if present in json.
          * Checks whether the json object has a member of the given name and if so, loads the item
@@ -314,10 +315,10 @@ class Item_factory
         void add_entry( Item_group *sg, JsonObject &obj );
         void load_item_group_entries( Item_group &ig, JsonArray &entries );
 
-        void load_basic_info( JsonObject &jo, itype *new_item, const std::string &src );
+        void load_basic_info( JsonObject &jo, itype &def, const std::string &src );
         void tags_from_json( JsonObject &jo, std::string member, std::set<std::string> &tags );
-        void set_qualities_from_json( JsonObject &jo, std::string member, itype *new_item );
-        void set_properties_from_json( JsonObject &jo, std::string member, itype *new_item );
+        void set_qualities_from_json( JsonObject &jo, const std::string &member, itype &def );
+        void set_properties_from_json( JsonObject &jo, const std::string &member, itype &def );
 
         void clear();
         void init();

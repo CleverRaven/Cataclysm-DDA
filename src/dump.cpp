@@ -66,7 +66,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             }
         };
         for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->ammo ) {
+            if( e.second.ammo ) {
                 dump( item( e.first, calendar::turn, item::solitary_tag {} ) );
             }
         }
@@ -93,7 +93,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
 
         for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->armor ) {
+            if( e.second.armor ) {
                 item obj( e.first );
                 if( bp == num_bp || obj.covers( bp ) ) {
                     if( obj.has_flag( "VARSIZE" ) ) {
@@ -127,9 +127,9 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             rows.push_back( r );
         };
         for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->comestible &&
-                ( e.second->comestible->comesttype == "FOOD" ||
-                  e.second->comestible->comesttype == "DRINK" ) ) {
+            if( e.second.comestible &&
+                ( e.second.comestible->comesttype == "FOOD" ||
+                  e.second.comestible->comesttype == "DRINK" ) ) {
 
                 item food( e.first, calendar::turn, item::solitary_tag {} );
                 if( g->u.can_eat( food, false, true ) == EDIBLE ) {
@@ -147,9 +147,9 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
 
         std::set<std::string> locations;
         for( const auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->gun ) {
-                std::transform( e.second->gun->valid_mod_locations.begin(),
-                                e.second->gun->valid_mod_locations.end(),
+            if( e.second.gun ) {
+                std::transform( e.second.gun->valid_mod_locations.begin(),
+                                e.second.gun->valid_mod_locations.end(),
                                 std::inserter( locations, locations.begin() ),
                                 []( const std::pair<std::string, int>& e ) { return e.first; } );
             }
@@ -183,7 +183,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             rows.push_back( r );
         };
         for( const auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->gun ) {
+            if( e.second.gun ) {
                 item gun( e.first );
                 if( !gun.magazine_integral() ) {
                     gun.emplace_back( gun.magazine_default() );
@@ -305,7 +305,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             rows.push_back( r );
         };
         for( const auto& e : item_controller->get_all_itypes() ) {
-            const auto &itt = *e.second;
+            const auto &itt = e.second;
             const auto use = itt.get_use( "explosion" );
             if( use != nullptr && use->get_actor_ptr() != nullptr ) {
                 const auto actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
