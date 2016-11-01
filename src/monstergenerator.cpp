@@ -110,6 +110,22 @@ void MonsterGenerator::finalize_mtypes()
             mon.bash_skill = calc_bash_skill( mon );
         }
 
+        if( mon.armor_bash < 0 ) {
+            mon.armor_bash = 0;
+        }
+        if( mon.armor_cut < 0 ) {
+            mon.armor_cut = 0;
+        }
+        if( mon.armor_stab < 0 ) {
+            mon.armor_stab = mon.armor_cut * 0.8;
+        }
+        if( mon.armor_acid < 0 ) {
+            mon.armor_acid = mon.armor_cut * 0.5;
+        }
+        if( mon.armor_fire < 0 ) {
+            mon.armor_fire = 0;
+        }
+
         finalize_pathfinding_settings( mon );
     }
 
@@ -496,18 +512,19 @@ void mtype::load( JsonObject &jo, const std::string &src )
     assign( jo, "melee_dice_sides", melee_sides, strict, 0 );
 
     assign( jo, "dodge", sk_dodge, strict, 0 );
+    assign( jo, "armor_bash", armor_bash, strict, 0 );
+    assign( jo, "armor_cut", armor_cut, strict, 0 );
+    assign( jo, "armor_stab", armor_stab, strict, 0 );
+    assign( jo, "armor_acid", armor_acid, strict, 0 );
+    assign( jo, "armor_fire", armor_fire, strict, 0 );
 
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
 
-    optional( jo, was_loaded, "armor_bash", armor_bash, 0 );
-    optional( jo, was_loaded, "armor_cut", armor_cut, 0 );
-    optional( jo, was_loaded, "armor_acid", armor_acid, armor_cut / 2 );
-    optional( jo, was_loaded, "armor_fire", armor_fire, 0 );
+
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, "" );
-    optional( jo, was_loaded, "armor_stab", armor_stab, 0.8f * armor_cut );
     optional( jo, was_loaded, "attack_effs", atk_effs, mon_attack_effect_reader{} );
 
     // TODO: make this work with `was_loaded`

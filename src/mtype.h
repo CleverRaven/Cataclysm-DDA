@@ -280,17 +280,19 @@ struct mtype {
 
         int sk_dodge = 0;       /** dodge skill */
 
+        /** If unset (-1) then values are calculated automatically from other properties */
+        int armor_bash = -1;    /** innate armor vs. bash */
+        int armor_cut  = -1;    /** innate armor vs. cut */
+        int armor_stab = -1;    /** innate armor vs. stabbing */
+        int armor_acid = -1;    /** innate armor vs. acid */
+        int armor_fire = -1;    /** innate armor vs. fire */
+
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */
         int vision_night = 1;   /** vision range in total darkness */
 
         damage_instance melee_damage; // Basic melee attack damage
 
-        unsigned char armor_bash;  // Natural armor vs. bash
-        unsigned char armor_cut;   // Natural armor vs. cut
-        unsigned char armor_stab;  // Natural armor vs. stabbing
-        unsigned char armor_acid;  // Natural armor vs. acid
-        unsigned char armor_fire;  // Natural armor vs. fire
         std::map<std::string, int> starting_ammo; // Amount of ammo the monster spawns with.
         // Name of item group that is used to create item dropped upon death, or empty.
         std::string death_drops;

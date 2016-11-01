@@ -15,8 +15,6 @@
     "color": "brown",
     "melee_cut": 0,
     "dodge": 1,
-    "armor_bash": 0,
-    "armor_cut": 0,
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "VERMIN" ]
   },
@@ -39,8 +37,6 @@
     "melee_skill": 3,
     "melee_cut": 0,
     "dodge": 2,
-    "armor_bash": 0,
-    "armor_cut": 0,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "VERMIN" ]
@@ -63,7 +59,6 @@
     "aggression": -90,
     "melee_cut": 0,
     "dodge": 6,
-    "armor_bash": 0,
     "armor_cut": 6,
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
@@ -86,8 +81,6 @@
     "color": "green",
     "melee_cut": 0,
     "dodge": 6,
-    "armor_bash": 0,
-    "armor_cut": 0,
     "special_attacks": [
       {
         "type": "leap",
@@ -115,8 +108,6 @@
     "color": "brown",
     "melee_cut": 0,
     "dodge": 6,
-    "armor_bash": 0,
-    "armor_cut": 0,
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "STUMBLES", "VERMIN", "FLIES" ]
   },
@@ -138,8 +129,6 @@
     "morale": -70,
     "melee_cut": 0,
     "dodge": 2,
-    "armor_bash": 0,
-    "armor_cut": 0,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "VERMIN" ]
@@ -160,8 +149,6 @@
     "color": "brown",
     "melee_cut": 0,
     "dodge": 6,
-    "armor_bash": 0,
-    "armor_cut": 0,
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "VERMIN", "ACIDPROOF", "ARTHROPOD_BLOOD" ]
@@ -183,8 +170,6 @@
     "aggression": -99,
     "melee_cut": 0,
     "dodge": 2,
-    "armor_bash": 0,
-    "armor_cut": 0,
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "VERMIN", "CLIMBS" ]
   },
@@ -204,8 +189,6 @@
     "color": "dkgray",
     "melee_cut": 0,
     "dodge": 2,
-    "armor_bash": 0,
-    "armor_cut": 0,
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "VERMIN", "WEBWALK", "CLIMBS" ]
   },
@@ -225,8 +208,6 @@
     "color": "dkgray",
     "melee_cut": 0,
     "dodge": 2,
-    "armor_bash": 0,
-    "armor_cut": 0,
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "VERMIN", "BADVENOM", "CLIMBS" ]
   },
@@ -246,8 +227,6 @@
     "color": "brown",
     "melee_cut": 0,
     "dodge": 2,
-    "armor_bash": 0,
-    "armor_cut": 0,
     "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "VERMIN", "CHITIN", "CLIMBS" ]
   },
@@ -267,8 +246,6 @@
     "color": "dkgray",
     "melee_cut": 0,
     "dodge": 3,
-    "armor_bash": 0,
-    "armor_cut": 0,
     "vision_day": 10,
     "vision_night": 5,
     "death_function": [ "NORMAL" ],
