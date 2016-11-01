@@ -30,7 +30,7 @@ void PATH_INFO::init_user_dir(const char *ud)
         user_dir = getenv("LOCALAPPDATA");
         // On Windows userdir without dot
         dir = std::string(user_dir) + "/cataclysm-dda/";
-#elif defined MACOSX && defined TILES
+#elif defined MACOSX
         user_dir = getenv( "HOME" );
         dir = std::string( user_dir ) + "/Library/Application Support/Cataclysm/";
 #elif (defined USE_XDG_DIR)
