@@ -609,7 +609,7 @@
             {"x": 5, "y": -3, "part": "plating_military"},
             {"x": -6, "y": -2, "part": "hdframe_vertical_2"},
             {"x": -6, "y": -2, "part": "hdhalfboard_horizontal"},
-            {"X": -6, "Y": -2, "PART": "muffler"},
+            {"x": -6, "y": -2, "part": "muffler"},
             {"x": -6, "y": -2, "part": "plating_military"},
             {"x": -5, "y": -2, "part": "hdframe_vertical_2"},
             {"x": -5, "y": -2, "part": "hdboard_horizontal"},
