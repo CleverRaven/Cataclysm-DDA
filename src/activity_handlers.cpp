@@ -1287,7 +1287,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
     // is to be examined again.
-    if( !act ) {
+    if( !*act ) {
         return;
     }
     act->set_to_null();
