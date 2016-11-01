@@ -1817,14 +1817,15 @@ std::string rewrite_vsnprintf( const char *msg )
 
 std::string vstring_format( char const *format, va_list args )
 {
-    errno = 0; // Clear errno before trying
-    std::vector<char> buffer( 1024, '\0' );
-
 #if (defined __CYGWIN__)
     std::string rewritten_format = rewrite_vsnprintf( format );
     format = rewritten_format.c_str();
 #endif
 
+    // vasprintf isn't available on Windows
+#if (defined _WIN32 || defined __WIN32__)
+    errno = 0; // Clear errno before trying
+    std::vector<char> buffer( 1024, '\0' );
     for( ;; ) {
         size_t const buffer_size = buffer.size();
 
@@ -1850,8 +1851,20 @@ std::string vstring_format( char const *format, va_list args )
     }
 
     return std::string( &buffer[0] );
+#else
+    char *p = nullptr;
+    va_list args_copy;
+    va_copy( args_copy, args );
+    if( vasprintf( &p, format, args_copy ) < 0 ) {
+        return std::string( "Bad format string to printf." );
+    }
+    va_end( args_copy );
+    std::string buffer( p );
+    free( p );
+    return buffer;
+#endif // (defined _WIN32 || defined __WIN32__)
 }
-#endif
+#endif // (defiend _MSC_VER)
 
 std::string string_format( const char *pattern, ... )
 {
