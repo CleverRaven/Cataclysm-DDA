@@ -469,14 +469,10 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": 4000,
+    "time": 86000,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
-    "components": [
-      [ [ "polo_shirt", 2 ], [ "tshirt", 3 ] ],
-      [ [ "pants", 2 ], [ "pants_cargo", 1 ] ],
-      [ [ "rag", 6 ] ]
-    ]
+    "tools": [ [ [ "sewing_kit", 40 ] ] ],
+    "components": [ [ [ "rag", 30 ] ] ]
   },
   {
     "result": "jumpsuit_xl",
@@ -486,7 +482,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": 4000,
+    "time": 38000,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "tools": [ [ [ "sewing_kit", 20 ] ] ],
     "components": [
