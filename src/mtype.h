@@ -267,22 +267,25 @@ struct mtype {
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
 
-        int difficulty; // Used all over; 30 min + (diff-3)*30 min = earliest appearance
-        int agro;       // How likely to attack; -100 to 100
-        int morale;     // Default morale level
+        int difficulty = 0;     /** many uses; 30 min + (diff-3)*30 min = earliest appearance */
+        int hp = 0;
+        int speed = 0;          /** eg. human = 100 */
+        int agro = 0;           /** chance will attack [-100,100] */
+        int morale = 0;         /** initial morale level at spawn */
+
+        int attack_cost = 100;  /** moves per regular attack */
+        int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */
+        int melee_dice = 0;     /** number of dice of bonus bashing damage on melee hit */
+        int melee_sides = 0;    /** number of sides those dice have */
+
+        int sk_dodge = 0;       /** dodge skill */
 
         // Vision range is linearly scaled depending on lighting conditions
-        int vision_day;  // Vision range in bright light
-        int vision_night; // Vision range in total darkness
+        int vision_day = 40;    /** vision range in bright light */
+        int vision_night = 1;   /** vision range in total darkness */
 
-        int  speed;       // Speed; human = 100
-        // Number of moves per regular attack.
-        int attack_cost;
         damage_instance melee_damage; // Basic melee attack damage
-        unsigned char melee_skill; // Melee hit skill, 20 is superhuman hitting abilities.
-        unsigned char melee_dice;  // Number of dice of bonus bashing damage on melee hit
-        unsigned char melee_sides; // Number of sides those dice have
-        unsigned char sk_dodge;    // Dodge skill; should be 0 to 5
+
         unsigned char armor_bash;  // Natural armor vs. bash
         unsigned char armor_cut;   // Natural armor vs. cut
         unsigned char armor_stab;  // Natural armor vs. stabbing
@@ -292,7 +295,6 @@ struct mtype {
         // Name of item group that is used to create item dropped upon death, or empty.
         std::string death_drops;
         float luminance;           // 0 is default, >0 gives luminance to lightmap
-        int hp;
         // special attack frequencies and function pointers
         std::map<std::string, mtype_special_attack> special_attacks;
         std::vector<std::string> special_attacks_names; // names of attacks, in json load order
