@@ -14,7 +14,7 @@
     "count": 40,
     "stack_size": 40,
     "ammo_type": "762x25",
-    "casing": "762_casing",
+    "casing": "762_25_casing",
     "range": 13,
     "damage": 24,
     "pierce": 2,
