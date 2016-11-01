@@ -442,8 +442,11 @@ class inventory_selector
         }
 
         std::vector<std::string> get_stats() const;
+        std::pair<std::string, nc_color> get_footer( navigation_mode m ) const;
 
         size_t get_header_height() const;
+        size_t get_header_min_width() const;
+        size_t get_footer_min_width() const;
 
         void draw_header( WINDOW *w ) const;
         void draw_footer( WINDOW *w ) const;
@@ -494,7 +497,7 @@ class inventory_selector
         /** Entry has been added */
         virtual void on_entry_add( const inventory_entry & ) {}
 
-        const navigation_mode_data &get_navigation_data() const;
+        const navigation_mode_data &get_navigation_data( navigation_mode m ) const;
 
     private:
         WINDOW *w_inv;
@@ -506,7 +509,7 @@ class inventory_selector
         std::string hint;
         size_t active_column_index;
         std::list<item_category> categories;
-        navigation_mode navigation;
+        navigation_mode mode;
 
         inventory_column own_inv_column;     // Column for own inventory items
         inventory_column own_gear_column;    // Column for own gear (weapon, armor) items

@@ -934,6 +934,30 @@ size_t inventory_selector::get_header_height() const
     return display_stats || !hint.empty() ? 2 : 1;
 }
 
+size_t inventory_selector::get_header_min_width() const
+{
+    const size_t titles_width = std::max( utf8_width( title, true ),
+                                          utf8_width( hint, true ) );
+    size_t stats_width = 0;
+    for( const std::string &elem : get_stats() ) {
+        stats_width = std::max( size_t( utf8_width( elem, true ) ), stats_width );
+    }
+    return titles_width + stats_width + ( stats_width != 0 ? 3 : 0 );
+}
+
+size_t inventory_selector::get_footer_min_width() const
+{
+    size_t result = 0;
+    navigation_mode m = mode;
+
+    do {
+        result = std::max( size_t( utf8_width( get_footer( m ).first, true ) ), result );
+        m = get_navigation_data( m ).next_mode;
+    } while( m != mode );
+
+    return result;
+}
+
 void inventory_selector::draw_header( WINDOW *w ) const
 {
     trim_and_print( w, 0, screen_border_gap, getmaxx( w ) - screen_border_gap, c_ltgray, "%s", title.c_str() );
@@ -1072,24 +1096,23 @@ void inventory_selector::draw_columns( WINDOW *w ) const
     }
 }
 
-void inventory_selector::draw_footer( WINDOW *w ) const
+std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode m ) const
 {
-    std::string msg_str;
-    nc_color msg_color = c_ltgray;
-
     if( has_available_choices() ) {
         //~ %1$s - category name, %2$s, %3$s - key names
-        msg_str = string_format( _( "%1$s; %2$s switches mode, %3$s confirms." ),
-                                 get_navigation_data().name.c_str(),
-                                 ctxt.get_desc( "CATEGORY_SELECTION" ).c_str(),
-                                 ctxt.get_desc( "CONFIRM" ).c_str() );
-        msg_color = get_navigation_data().color;
-    } else {
-        msg_str = _( "There are no available choices." );
-        msg_color = i_red;
+        return std::make_pair( string_format( _( "%1$s; %2$s switches mode, %3$s confirms." ),
+                                              get_navigation_data( m ).name.c_str(),
+                                              ctxt.get_desc( "CATEGORY_SELECTION" ).c_str(),
+                                              ctxt.get_desc( "CONFIRM" ).c_str() ),
+                               get_navigation_data( m ).color );
     }
+    return std::make_pair( _( "There are no available choices." ), i_red );
+}
 
-    center_print( w, getmaxy( w ) - 1, msg_color, "%s", msg_str.c_str() );
+void inventory_selector::draw_footer( WINDOW *w ) const
+{
+    const auto footer = get_footer( mode );
+    center_print( w, getmaxy( w ) - 1, footer.second, "%s", footer.first.c_str() );
 }
 
 inventory_selector::inventory_selector( const player &u, const inventory_selector_preset &preset )
@@ -1099,7 +1122,7 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
     , columns()
     , active_column_index( 0 )
-    , navigation( navigation_mode::ITEM )
+    , mode( navigation_mode::ITEM )
     , own_inv_column( preset )
     , own_gear_column( preset )
     , map_column( preset )
@@ -1258,15 +1281,15 @@ void inventory_selector::toggle_active_column( scroll_direction dir )
 
 void inventory_selector::toggle_navigation_mode()
 {
-    navigation = get_navigation_data().next_mode;
+    mode = get_navigation_data( mode ).next_mode;
     for( auto &elem : columns ) {
-        elem->set_mode( navigation );
+        elem->set_mode( mode );
     }
 }
 
 void inventory_selector::append_column( inventory_column &column )
 {
-    column.set_mode( navigation );
+    column.set_mode( mode );
 
     if( columns.empty() ) {
         column.on_activate();
@@ -1275,14 +1298,14 @@ void inventory_selector::append_column( inventory_column &column )
     columns.push_back( &column );
 }
 
-const navigation_mode_data &inventory_selector::get_navigation_data() const
+const navigation_mode_data &inventory_selector::get_navigation_data( navigation_mode m ) const
 {
     static const std::map<navigation_mode, navigation_mode_data> mode_data = {
         { navigation_mode::ITEM,     { navigation_mode::CATEGORY, _( "Item selection mode" ),     c_ltgray } },
         { navigation_mode::CATEGORY, { navigation_mode::ITEM,     _( "Category selection mode" ), h_white  } }
     };
 
-    return mode_data.at( navigation );
+    return mode_data.at( m );
 }
 
 item_location inventory_pick_selector::execute()
