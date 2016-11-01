@@ -334,11 +334,10 @@ void requirement_data::check_consistency()
     }
 }
 
-template<typename T>
-void requirement_data::finalize( std::vector< std::vector<T> > &vec )
+void requirement_data::finalize( alter_tool_comp_vector &vec )
 {
     for( auto &list : vec ) {
-        std::vector<T> new_list;
+        std::vector<tool_comp> new_list;
         for( auto &comp : list ) {
             const auto replacements = item_controller->subtype_replacement( comp.type );
             for( const auto &replaced_type : replacements ) {
