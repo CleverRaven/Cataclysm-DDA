@@ -36,7 +36,7 @@ struct gate_data {
     int bash_dmg;
     bool was_loaded;
 
-    void load( JsonObject &jo );
+    void load( JsonObject &jo, const std::string &src );
     bool is_suitable_wall( const tripoint &pos ) const;
 };
 
@@ -49,7 +49,7 @@ generic_factory<gate_data> gates_data( "gate type", "handle", "other_handles" );
 
 }
 
-void gate_data::load( JsonObject &jo )
+void gate_data::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "door", door );
     mandatory( jo, was_loaded, "floor", floor );

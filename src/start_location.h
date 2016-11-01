@@ -70,7 +70,7 @@ class start_location
         std::string _target;
         std::set<std::string> _flags;
 
-        void load( JsonObject &jo );
+        void load( JsonObject &jo, const std::string &src );
 
         void prepare_map( tinymap &m ) const;
 };

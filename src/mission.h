@@ -206,7 +206,7 @@ struct mission_type {
 
     static void check_consistency();
 
-    void load( JsonObject & );
+    void load( JsonObject &jo, const std::string &src );
 };
 
 class mission : public JsonSerializer, public JsonDeserializer

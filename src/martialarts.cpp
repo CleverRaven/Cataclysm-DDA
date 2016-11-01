@@ -38,7 +38,7 @@ void add_if_exists( JsonObject &jo, Container &cont, bool was_loaded,
     }
 }
 
-void ma_requirements::load( JsonObject &jo )
+void ma_requirements::load( JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
@@ -60,7 +60,7 @@ void ma_requirements::load( JsonObject &jo )
     add_if_exists( jo, min_damage, was_loaded, "min_stabbing_damage", DT_STAB );
 }
 
-void ma_technique::load( JsonObject &jo )
+void ma_technique::load( JsonObject &jo, const std::string &src )
 {
     optional( jo, was_loaded, "name", name, translated_string_reader );
 
@@ -94,7 +94,7 @@ void ma_technique::load( JsonObject &jo )
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<>{} );
 
-    reqs.load( jo );
+    reqs.load( jo, src );
     bonuses.load( jo );
 }
 
@@ -113,7 +113,7 @@ bool string_id<ma_technique>::is_valid() const
     return ma_techniques.is_valid( *this );
 }
 
-void ma_buff::load( JsonObject &jo )
+void ma_buff::load( JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "description", description, translated_string_reader );
@@ -127,7 +127,7 @@ void ma_buff::load( JsonObject &jo )
     optional( jo, was_loaded, "quiet", quiet, false );
     optional( jo, was_loaded, "throw_immune", throw_immune, false );
 
-    reqs.load( jo );
+    reqs.load( jo, src );
     bonuses.load( jo );
 }
 
@@ -164,7 +164,7 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
     }
 };
 
-void martialart::load( JsonObject &jo )
+void martialart::load( JsonObject &jo, const std::string & )
 {
     JsonArray jsarr;
 

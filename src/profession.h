@@ -58,7 +58,7 @@ enum add_type : int;
 
         void check_item_definitions( const itypedecvec &items ) const;
 
-        void load( JsonObject &jsobj );
+        void load( JsonObject &jo, const std::string &src );
 
     public:
         //these three aren't meant for external use, but had to be made public regardless
