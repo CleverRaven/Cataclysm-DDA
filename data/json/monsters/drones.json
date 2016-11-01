@@ -11,7 +11,6 @@
     "symbol": "e",
     "aggression": 100,
     "morale": 100,
-    "vision_day": 40,
     "luminance": 5,
     "death_drops": {
       "subtype": "collection",
@@ -109,7 +108,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_cut": 12,
-    "dodge": 0,
     "armor_bash": 2,
     "armor_cut": 8,
     "revert_to_itype": "bot_manhack",
