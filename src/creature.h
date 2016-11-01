@@ -39,23 +39,11 @@ enum m_size : int {
     MS_HUGE     // TAAAANK
 };
 
-/**
- * Aim result for a single projectile attack
- */
+/** Aim result for a single projectile attack */
 struct projectile_attack_aim {
-    /** Hit quality ([0.0 .. 1.0])
-     *  where 0.0 is a perfect hit and
-     *  1.0 is a miss.
-     */
-    double missed_by;
-
-    /** Number of tiles the attack missed by.
-     *  Less than 1.0 for attacks that hit.
-     */
-    double missed_by_tiles;
-
-    /** Dispersion of this particular shot (arcminutes) */
-    double dispersion;
+    double missed_by;       ///< Hit quality, where 0.0 is a perfect hit and 1.0 is a miss
+    double missed_by_tiles; ///< Number of tiles the attack missed by
+    double dispersion;      ///< Dispersion of this particular shot in arcminutes
 };
 
 class Creature
@@ -204,13 +192,7 @@ class Creature
         dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &target,
                                                    double total_dispersion );
 
-        /**
-         * Makes an aiming/attack roll for a single projectile attack shot.
-         *
-         * @param dispersion the base dispersion of the projectile attack
-         * @param range the range of the projectile attack
-         * @return the results of the aiming roll
-         */
+        /** Makes an aiming/attack roll for a single projectile attack shot */
         projectile_attack_aim projectile_attack_roll( double dispersion, double range ) const;
 
         /**
