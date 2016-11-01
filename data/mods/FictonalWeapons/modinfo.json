@@ -2,9 +2,9 @@
     "type": "MOD_INFO",
     "mod_type": "SUPPLEMENTAL",
     "ident": "FIC_Weapons",
-    "name": "DeadLeaves' Fictional Guns",
-    "description": "Adds a bunch of rare weapons loosely based fiction. ",
+    "name": "Fictional Guns Pack",
+    "description": "Adds a bunch of rare and exotic larger-than-life weapons.  Based on DeadLeaves' Fictional Guns.",
     "category": "items",
-    "author": "DeadLeaves",
+    "authors": [ "DeadLeaves", "BorkBorkGoesTheCode", "Cataclysm-DDA community" ],
     "path": ""
 }

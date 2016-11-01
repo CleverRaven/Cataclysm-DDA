@@ -8,7 +8,6 @@
     "difficulty": 5,
     "skills_required": [ "gun", 4 ],
     "time": 12000,
-    "reversible": true,
     "autolearn": true,
     "tools": [
       [ ["mold_plastic", -1] ],
