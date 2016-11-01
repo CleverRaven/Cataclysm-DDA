@@ -194,11 +194,11 @@ void Item_factory::finalize() {
         }
         if( obj.gun ) {
             // @todo add explicit action field to gun definitions
-            std::string defmode = "semi-auto";
+            std::string defmode = _( "semi-auto" );
             if( obj.gun->clip == 1 ) {
-                defmode = "manual"; // break-type actions
+                defmode = _( "manual" ); // break-type actions
             } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
-                defmode = "revolver";
+                defmode = _( "revolver" );
             }
 
             // if the gun doesn't have a DEFAULT mode then add one now
