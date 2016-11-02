@@ -3617,23 +3617,27 @@ void game::load_uistate(std::string worldname)
 
 bool game::load( const std::string &world ) {
     auto opts = world_generator->get_all_worlds();
-    if( opts.find( world ) == opts.end() ) {
+
+    // check world exists and containts at least one valid save
+    auto iter = opts.find( world );
+    if( iter == opts.end() ) {
         debugmsg( "unknown world '%s'", world.c_str() );
         return false;
     }
-    auto saves = opts[world]->world_saves;
-    if( saves.empty() ) {
+    if( iter->second->world_saves.empty() ) {
         debugmsg( "world '%s' contains no saves", world.c_str() );
+        return false;
     }
-    world_generator->set_active_world( opts[world] );
+
     try {
+        world_generator->set_active_world( iter->second );
         g->setup();
+        g->load( world, iter->second->world_saves.front() );
     } catch( const std::exception &err ) {
         debugmsg( "cannot load world '%s': %s", world.c_str(), err.what() );
         return false;
     }
 
-    g->load( world, saves.front() );
     return true;
 }
 
