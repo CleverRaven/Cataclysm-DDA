@@ -261,11 +261,12 @@ class overmap
      */
     static point display_notes(int z);
     /**
-     * Dummy value, used to indicate that a point returned by a function
+     * Dummy value, used to indicate that a point/rotation returned by a function
      * is invalid.
      */
     static const point invalid_point;
     static const tripoint invalid_tripoint;
+    static const int invalid_rotation = -1;
     /**
      * Return a vector containing the absolute coordinates of
      * every matching note on the current z level of the current overmap.
@@ -452,7 +453,8 @@ public:
   std::vector<const overmap_special *> get_enabled_specials() const;
   std::vector<point> get_sectors() const;
 
-  bool try_place_special( const overmap_special &special, const tripoint &p, const city &cit );
+  int random_special_rotation( const overmap_special &special, const tripoint &p ) const;
+  void place_special( const overmap_special &special, const tripoint &p, int rotation, const city &cit );
   // Monsters, radios, etc.
   void place_specials();
   void place_mongroups();

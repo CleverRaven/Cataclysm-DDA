@@ -31,6 +31,7 @@
 #include "mapbuffer.h"
 #include "map_iterator.h"
 
+#include <cassert>
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
@@ -3992,23 +3993,18 @@ inline tripoint rotate_tripoint(tripoint p, int rotations)
     return p;
 }
 
-// checks around the selected point to see if the special can be placed there
-bool overmap::try_place_special( const overmap_special &special, const tripoint &p, const city &cit )
+int overmap::random_special_rotation( const overmap_special &special, const tripoint &p ) const
 {
-    if( !special.can_belong_to_city( p, cit ) ) {
-        return false;
-    }
-
-    const size_t num_rotations = special.rotatable ? 4 : 1;
+    const int num_rotations = special.rotatable ? 4 : 1;
 
     int top_score = 0; // Maximal number of existing connections (roads).
     std::vector<int> rotations;
 
     rotations.reserve( num_rotations );
     // Try to find the most suitable rotation: satisfy as many connections as possible with the existing terrain.
-    for( size_t r = 0; r < num_rotations; ++r ) {
+    for( int r = 0; r < num_rotations; ++r ) {
         int score = 0; // Number of existing connections when rotated by 'r'.
-        bool valid_rotation = true;
+        bool valid = true;
 
         for( const auto &con : special.connections ) {
             const tripoint rp = p + rotate_tripoint( con.p, r );
@@ -4017,12 +4013,12 @@ bool overmap::try_place_special( const overmap_special &special, const tripoint 
             if( is_ot_type( con.terrain.str(), oter ) ) {
                 ++score; // Found another one satisfied connection.
             } else if( !oter || con.existing || !road_allowed( oter ) ) {
-                valid_rotation = false;
+                valid = false;
                 break;
             }
         }
 
-        if( valid_rotation && score >= top_score ) {
+        if( valid && score >= top_score ) {
             if( score > top_score ) {
                 top_score = score;
                 rotations.clear();  // New top score. Forget previous rotations.
@@ -4030,55 +4026,60 @@ bool overmap::try_place_special( const overmap_special &special, const tripoint 
             rotations.push_back( r );
         }
     }
-
-    if( rotations.empty() ) {
-        return false; // No valid rotations.
-    }
-
-    const int rotation = random_entry( rotations );
-    // Check chosen rotation more precisely.
-    for( const auto& t : special.terrains ) {
-        const tripoint rp = p + rotate_tripoint( t.p, rotation );
-        // Only ground-level terrains are checked for location restrictions.
-        if( !inbounds( rp, 1 ) || ( rp.z == 0 && !special.can_be_placed_on( get_ter( rp.x, rp.y, rp.z ) ) ) ) {
-            return false;
+    // Pick first valid rotation at random.
+    std::random_shuffle( rotations.begin(), rotations.end() );
+    const auto rotation = find_if( rotations.begin(), rotations.end(), [&]( int r ) {
+        for( const auto &elem : special.terrains ) {
+            const tripoint rp = p + rotate_tripoint( elem.p, r );
+            if( !inbounds( rp, 1 ) || ( rp.z == 0 && !special.can_be_placed_on( get_ter( rp.x, rp.y, rp.z ) ) ) ) {
+                return false;
+            }
         }
-    }
+        return true;
+    } );
 
-    for( const overmap_special_terrain& terrain : special.terrains ) {
-        const oter_id tid = terrain.terrain.id();
-        const tripoint location = p + rotate_tripoint( terrain.p, rotation );
+    return rotation != rotations.end() ? *rotation : invalid_rotation;
+}
 
-        ter( location.x, location.y, location.z ) = tid->has_flag( rotates ) ? rotate( tid, rotation ) : tid;
+// checks around the selected point to see if the special can be placed there
+void overmap::place_special( const overmap_special &special, const tripoint &p, int rotation, const city &cit )
+{
+    assert( p != invalid_tripoint );
+    assert( rotation != invalid_rotation );
 
-        if(special.flags.count("BLOB") > 0) {
+    const bool blob = special.flags.count( "BLOB" ) > 0;
+
+    for( const auto &elem : special.terrains ) {
+        const oter_id tid = elem.terrain.id();
+        const oter_id rotated_tid = tid->has_flag( rotates ) ? rotate( tid, rotation ) : tid;
+        const tripoint location = p + rotate_tripoint( elem.p, rotation );
+
+        ter( location.x, location.y, location.z ) = rotated_tid;
+
+        if( blob ) {
             for (int x = -2; x <= 2; x++) {
                 for (int y = -2; y <= 2; y++) {
                     if (one_in(1 + abs(x) + abs(y))) {
-                        ter( location.x + x, location.y + y, location.z ) = tid;
+                        ter( location.x + x, location.y + y, location.z ) = rotated_tid;
                     }
                 }
             }
         }
     }
-
-    for( const auto &con : special.connections ) {
-        const tripoint rp = p + rotate_tripoint( con.p, rotation );
-        // See if there's a road already.
-        if( cit && !check_ot_type( con.terrain.str(), rp.x, rp.y, rp.z ) ) {
-            make_hiway( rp.x, rp.y, cit.x, cit.y, rp.z, con.terrain.str() );
+    // Make connections.
+    if( cit ) {
+        for( const auto &elem : special.connections ) {
+            const tripoint rp = p + rotate_tripoint( elem.p, rotation );
+            make_hiway( rp.x, rp.y, cit.x, cit.y, rp.z, elem.terrain.str() );
         }
     }
-
-    // place spawns
+    // Place spawns.
     if( special.spawns.group ) {
         const overmap_special_spawns& spawns = special.spawns;
         const int pop = rng(spawns.min_population, spawns.max_population);
         const int rad = rng(spawns.min_radius, spawns.max_radius);
         add_mon_group(mongroup(spawns.group, p.x * 2, p.y * 2, p.z, rad, pop));
     }
-
-    return true;
 }
 
 std::vector<const overmap_special *> overmap::get_enabled_specials() const
@@ -4088,7 +4089,7 @@ std::vector<const overmap_special *> overmap::get_enabled_specials() const
 
     res.reserve( overmap_specials.size() );
     for( auto &elem : overmap_specials ) {
-        if( !elem.locations.empty() && elem.max_occurrences > 0 && ( !only_classic || elem.flags.count( "CLASSIC" ) > 0 ) ) {
+        if( !elem.locations.empty() && ( !only_classic || elem.flags.count( "CLASSIC" ) > 0 ) ) {
             res.push_back( &elem );
         }
     }
@@ -4123,46 +4124,78 @@ void overmap::place_specials()
     However, make sure to never copy the overmap_special object and to use the address of the copy,
     as this won't work as desired.
     */
-    std::vector<std::pair<const overmap_special *, int>> mandatory; // int is a number of specials to place.
-    std::vector<std::pair<const overmap_special *, int>> optional;  // int is a number of specials to place.
+    // Vectors of mandatory and optional specials. Int means number to place.
+    std::vector<std::pair<const overmap_special *, int>> mandatory;
+    std::vector<std::pair<const overmap_special *, int>> optional;
 
+    // Fill the vectors with valid specials.
     for( const auto &elem : get_enabled_specials() ) {
-        if( elem->max_occurrences > 0 ) {
-            if( elem->max_occurrences < 100 ) {
-                optional.emplace_back( elem, elem->max_occurrences ); // Normal circumstances.
-            } else if( rand() % 100 <= elem->min_occurrences ) {
-                mandatory.emplace_back( elem, 1 ); // Must be one.
+        const int min = elem->min_occurrences;
+        const int max = elem->max_occurrences;
+
+        if( max == 0 || min > max ) {
+            continue;
+        }
+
+        if( max == 100 ) { // @todo Get rid of the special case and separate chances from amounts.
+            if( rand() % 100 <= min ) {
+                mandatory.emplace_back( elem, 1 );
+            }
+        } else {
+            if( min > 0 ) {
+                mandatory.emplace_back( elem, min );
+            }
+            // Put the rest to optionals.
+            if( max > min ) {
+                optional.emplace_back( elem, max - min );
             }
         }
     }
-
+    // See if we mined anything.
+    if( mandatory.empty() && optional.empty() ) {
+        return; // Nothing to do.
+    }
+    // Make random permutations.
+    std::random_shuffle( mandatory.begin(), mandatory.end() );
+    std::random_shuffle( optional.begin(), optional.end() );
+    // Walk over sectors.
     for( const point &sector : get_sectors() ) {
         const int x = sector.x;
         const int y = sector.y;
+        // Try to place mandatory specials first.
+        // If no luck, continue with optionals. This gives them a chance.
+        const size_t attempts = 20;
+        const size_t attempts_mandatory = 10;
 
-        for( int i = 0; i < 20; ++i ) {
-            auto &candidates = !mandatory.empty() ? mandatory : optional;
-
-            if( candidates.empty() ) {
-                return; // Job done.
-            }
-
+        for( size_t i = 0; i < attempts; ++i ) {
             const tripoint p( rng( x, x + OMSPEC_FREQ - 1 ), rng( y, y + OMSPEC_FREQ - 1 ), 0 );
             const city &nearest_city = get_nearest_city( p );
-            bool placed = false;
 
-            std::random_shuffle( candidates.begin(), candidates.end() );
+            auto &candidates = optional.empty() || ( !mandatory.empty() && i < attempts_mandatory ) ? mandatory : optional;
+
             for( auto iter = candidates.begin(); iter != candidates.end(); ++iter ) {
-                if( try_place_special( *iter->first, p, nearest_city ) ) {
-                    if( --iter->second <= 0 ) {
-                        candidates.erase( iter );
-                    }
-                    placed = true;
-                    break;
+                const auto &special = *iter->first;
+                // City check is the fastest => it goes first.
+                if( !special.can_belong_to_city( p, nearest_city ) ) {
+                    continue;
                 }
-            }
+                // See if we can actually place the special there.
+                const int rotation = random_special_rotation( special, p );
+                if( rotation == invalid_rotation ) {
+                    continue;
+                }
 
-            if( placed ) {
+                place_special( special, p, rotation, nearest_city );
+
+                if( --iter->second == 0 ) {
+                    if( mandatory.empty() && optional.empty() ) {
+                        return; // Job done. Bail out.
+                    }
+                    iter = candidates.erase( iter );
+                }
+                // Refresh the permutation.
+                std::random_shuffle( optional.begin(), optional.end() );
+                i = attempts; // This takes us out of the outer cycle. I'm really tempted to write 'goto' here :P.
                 break;
             }
         }
