@@ -6,6 +6,12 @@
     "type": "ammunition_type"
   },
   {
+    "id": "357_mag",
+    "name": ".357 Magnum",
+    "default": "357",
+    "type": "ammunition_type"
+  },
+  {
     "id": "45lc",
     "name": ".45 Long Colt",
     "default": "45_long_colt",
