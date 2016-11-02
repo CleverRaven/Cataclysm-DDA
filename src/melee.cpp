@@ -148,15 +148,15 @@ float player::get_hit_weapon( const item &weap ) const
     ///\EFFECT_BASHING improves hit chance for bashing weapons
     ///\EFFECT_CUTTING improves hit chance for cutting weapons
     ///\EFFECT_STABBING improves hit chance for piercing weapons
-    auto bonus = get_skill_level( is_armed() ? weap.melee_skill() : skill_unarmed );
+    auto skill = get_skill_level( is_armed() ? weap.melee_skill() : skill_unarmed );
 
     // CQB bionic acts as a lower bound providing item uses a weapon skill
-    if( bonus < BIO_CQB_LEVEL && has_active_bionic( "bio_cqb" ) ) {
-        bonus = BIO_CQB_LEVEL;
+    if( skill < BIO_CQB_LEVEL && has_active_bionic( "bio_cqb" ) ) {
+        skill = BIO_CQB_LEVEL;
     }
 
     ///\EFFECT_MELEE improves hit chance for all items (including non-weapons)
-    return bonus + ( get_skill_level( skill_melee ) / 2.0f );
+    return ( skill / 3.0f ) + ( get_skill_level( skill_melee ) / 2.0f );
 }
 
 float player::get_hit_base() const
