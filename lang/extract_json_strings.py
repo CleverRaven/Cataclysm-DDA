@@ -21,6 +21,58 @@ not_json = {
     "LOADING_ORDER.md"
 }
 
+# these are official mods need to be localized
+official_mods = {
+    "Animatronics",
+    "Arcana",
+    "Boats",
+    "Craft_Gunpowder",
+    "CrazyCataclysm",
+    "DeoxyMod",
+    "DinoMod",
+    "EW_Pack",
+    "Fast_Zombies",
+    "FictonalWeapons",
+    "Filthy_Morale",
+    "Generic_Guns",
+    "Medieval_Stuff",
+    "More_Locations",
+    "More_Survival_Tools",
+    "Mundane_Zombies",
+    "NW_Pack",
+    "No_Acid_Zombies",
+    "No_Explosive_Zombies",
+    "No_Faults",
+    "No_Flaming_Weapons",
+    "No_Fungi",
+    "No_Medieval_Items",
+    "No_Mutagen",
+    "No_NPC_Food",
+    "No_Old_guns",
+    "No_Religious_Books",
+    "No_Reviving",
+    "No_Rivtech_Guns",
+    "No_Survivor_Armor",
+    "No_Triffids",
+    "No_Zombie_Animals",
+    "Only_Wildlife",
+    "PKs_Rebalance",
+    "RL_Classes",
+    "Slow_Zombies",
+    "StatsThroughSkills",
+    "Tanks",
+    "Tough_Zombies",
+    "Z-Level_Buildings",
+    "Zombie_Nightvision",
+    "blazemod",
+    "makeshift",
+    "more_classes_scenarios",
+    "necromancy",
+    "no_scifi",
+    "novitamins",
+    "realguns"
+}
+
 # don't parse this files. Full related path.
 ignore_files = {
     "data/mods/replacements.json",
@@ -657,6 +709,12 @@ def extract(item, infilename):
     if not wrote:
         print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))
 
+def is_official_mod(full_path):
+    for i in official_mods:
+        if full_path.find(i) != -1:
+            return True
+    return False
+
 def extract_all_from_dir(json_dir):
     """Extract strings from every json file in the specified directory,
     recursing into any subdirectories."""
@@ -667,7 +725,15 @@ def extract_all_from_dir(json_dir):
     for f in allfiles:
         full_name = os.path.join(json_dir, f)
         if os.path.isdir(full_name):
-            dirs.append(f)
+            if full_name.find("data/mods/") != -1:
+                if is_official_mod(full_name):
+                    print("Mod {} will be localized.".format(f))
+                    dirs.append(f)
+                else:
+                    print("Mod {} will be skipped.".format(f))
+                    continue;
+            else:
+                dirs.append(f)
         elif f in skiplist or full_name in ignore_files:
             continue
         elif f.endswith(".json"):
