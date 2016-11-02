@@ -19,6 +19,7 @@
 #include "cata_utility.h"
 #include "vehicle_selector.h"
 #include "fault.h"
+#include "npc.h"
 
 #include <cmath>
 #include <list>
@@ -158,6 +159,7 @@ veh_interact::veh_interact( vehicle &veh, int x, int y )
     main_context.register_action("RENAME");
     main_context.register_action("SIPHON");
     main_context.register_action("TIRE_CHANGE");
+    main_context.register_action("ASSIGN_CREW");
     main_context.register_action("RELABEL");
     main_context.register_action("PREV_TAB");
     main_context.register_action("NEXT_TAB");
@@ -299,6 +301,8 @@ void veh_interact::do_main_loop()
             finish = !g->u.activity.is_null();
         } else if (action == "TIRE_CHANGE") {
             do_tirechange();
+        } else if (action == "ASSIGN_CREW") {
+            do_assign_crew();
         } else if (action == "RELABEL") {
             do_relabel();
         } else if (action == "NEXT_TAB") {
@@ -358,8 +362,8 @@ void veh_interact::cache_tool_availability()
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
                            vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( JACK ) } );
 
-    // cap JACK requirements at 6000kg to support arbritrarily large vehicles
-    double qual = ceil( double( std::min( veh->total_mass(), 6000 ) * 1000 ) / TOOL_LIFT_FACTOR );
+    // cap JACK requirements at 8000kg to support arbritrarily large vehicles
+    double qual = ceil( double( std::min( veh->total_mass(), 8000 ) * 1000 ) / TOOL_LIFT_FACTOR );
 
     has_jack = g->u.has_quality( JACK, qual ) ||
                map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
@@ -435,6 +439,15 @@ task_reason veh_interact::cant_do (char mode)
         ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
         has_tools = has_wrench && has_wheel && ( g->u.can_lift( *veh ) || has_jack );
         break;
+
+    case 'w': // assign crew
+        if( g->allies().empty() ) {
+            return INVALID_TARGET;
+        }
+        return std::any_of( veh->parts.begin(), veh->parts.end(), []( const vehicle_part &e ) {
+            return e.is_seat();
+        } ) ? CAN_DO : INVALID_TARGET;
+
     case 'a': // relabel
         valid_target = cpart >= 0;
         has_tools = true;
@@ -1002,7 +1015,7 @@ void veh_interact::do_refill()
 }
 
 void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
-                             std::function<void(const vehicle_part &pt)> action )
+                             std::function<void(vehicle_part &pt)> action )
 {
     struct part_option {
         part_option( const std::string &key, vehicle_part *part, char hotkey,
@@ -1050,6 +1063,10 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
     headers["TURRET"] = []( WINDOW *w, int y ) {
         trim_and_print( w, y, 1, getmaxx( w ) - 2, c_ltgray, _( "Turrets" ) );
         right_print   ( w, y, 1, c_ltgray, _( "Ammo     Qty" ) );
+    };
+    headers["SEAT"] = []( WINDOW *w, int y ) {
+        trim_and_print( w, y, 1, getmaxx( w ) - 2, c_ltgray, _( "Seats" ) );
+        right_print   ( w, y, 1, c_ltgray, _( "Who" ) );
     };
 
     char hotkey = 'a';
@@ -1122,6 +1139,18 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
     for( auto &pt : veh->parts ) {
         if( pt.is_turret() && !pt.is_broken() ) {
             opts.emplace_back( "TURRET", &pt, enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
+        }
+    }
+
+    for( auto &pt : veh->parts ) {
+        auto details = []( const vehicle_part &pt, WINDOW *w, int y ) {
+            const npc *who = pt.crew();
+            if( who ) {
+                right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_ltgray, "%s", who->name.c_str() );
+            }
+        };
+        if( pt.is_seat() && !pt.is_broken() ) {
+            opts.emplace_back( "SEAT", &pt, enable && enable( pt ) ? hotkey++ : '\0', details );
         }
     }
 
@@ -1422,6 +1451,48 @@ void veh_interact::do_tirechange()
             move_in_list(pos, action, wheel_types.size());
         }
     }
+}
+
+void veh_interact::do_assign_crew()
+{
+    werase( w_msg );
+
+    if( cant_do( 'w' ) != CAN_DO ) {
+        fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 1, c_ltred,
+                        _( "Need at least one seat and an ally to assign crew members." ) );
+        wrefresh( w_msg );
+        return;
+    }
+
+    wrefresh( w_msg );
+
+    set_title( _( "Assign crew positions:" ) );
+
+    auto sel = []( const vehicle_part &pt ) { return pt.is_seat(); };
+
+    auto act = [&]( vehicle_part &pt ) {
+        uimenu menu;
+        menu.text = _( "Select crew member" );
+        menu.return_invalid = true;
+
+        if( pt.crew() ) {
+            menu.addentry( 0, true, 'c', "Clear assignment" );
+        }
+
+        for( const npc *e : g->allies() ) {
+            menu.addentry( e->getID(), true, -1, e->name );
+        }
+
+        menu.query();
+        if( menu.ret == 0 ) {
+            pt.unset_crew();
+        } else if( menu > 0 ) {
+            const auto &who = *g->active_npc[g->npc_by_id( menu.ret )];
+            veh->assign_seat( pt, who );
+        }
+    };
+
+    overview( sel, act );
 }
 
 /**
@@ -1826,7 +1897,7 @@ void veh_interact::display_mode()
     size_t esc_pos = display_esc(w_mode);
 
     // broken indendation preserved to avoid breaking git history for large number of lines
-        const std::array<std::string, 9> actions = { {
+        const std::array<std::string, 10> actions = { {
             { _("<i>nstall") },
             { _("<r>epair") },
             { _("<m>end" ) },
@@ -1834,6 +1905,7 @@ void veh_interact::display_mode()
             { _("rem<o>ve") },
             { _("<s>iphon") },
             { _("<c>hange tire") },
+            { _("cre<w>") },
             { _("r<e>name") },
             { _("l<a>bel") },
         } };
@@ -1846,11 +1918,12 @@ void veh_interact::display_mode()
             !cant_do('o'),
             !cant_do('s'),
             !cant_do('c'),
+            !cant_do('w'),
             true,          // 'rename' is always available
             !cant_do('a'),
         } };
 
-        int pos[10];
+        int pos[std::tuple_size<decltype(actions)>::value + 1];
         pos[0] = 1;
         for (size_t i = 0; i < actions.size(); i++) {
             pos[i + 1] = pos[i] + utf8_width(actions[i]) - 2;
@@ -2340,6 +2413,7 @@ void veh_interact::complete_vehicle()
             const int dir = pt.direction;
             veh->break_part_into_pieces( vehicle_part, g->u.posx(), g->u.posy() );
             veh->remove_part( vehicle_part );
+            veh->part_removal_cleanup();
             const int partnum = veh->install_part( dx, dy, part_id, std::move( base ) );
             veh->parts[partnum].direction = dir;
         } else {

@@ -57,7 +57,6 @@ enum input_ret {
 
 enum quit_status {
     QUIT_NO = 0,    // Still playing
-    QUIT_MENU,      // Quit at the menu
     QUIT_SUICIDE,   // Quit with 'Q'
     QUIT_SAVED,     // Saved and quit
     QUIT_DIED,      // Actual death
@@ -137,6 +136,7 @@ class game
 {
         friend class editmap;
         friend class advanced_inventory;
+        friend class main_menu;
     public:
         game();
         ~game();
@@ -172,8 +172,6 @@ class game
         /** Initializes the UI. */
         void init_ui();
         void setup();
-        /** Returns true if we actually quit the game. Used in main.cpp. */
-        bool game_quit();
         /** Returns true if the game quits through some error. */
         bool game_error();
         /** True if the game has just started or loaded, else false. */
@@ -493,6 +491,8 @@ class game
         /** Custom-filtered menu for inventory items and those that are nearby (within @ref radius). */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
+        /** Book reading menu. */
+        item_location inv_for_books( const std::string &title );
         /** Gunmod installation menu. */
         item_location inv_for_gunmod( const item &gunmod, const std::string &title );
         /*@}*/
@@ -540,6 +540,10 @@ class game
         const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
+
+        /** Get all living player allies */
+        std::vector<npc *> allies();
+
         std::vector<npc *> active_npc;
         std::vector<npc *> mission_npc;
         std::vector<faction> factions;
@@ -683,11 +687,6 @@ class game
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
 
-        bool opening_screen();// Warn about screen size, then present the main menu
-        void mmenu_refresh_title();
-        void mmenu_refresh_motd();
-        void mmenu_refresh_credits();
-
         /**
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.
@@ -728,8 +727,6 @@ class game
         int pixel_minimap_option;
     private:
         // Game-start procedures
-        void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
-                        bool bShowDDA = true);
         bool load_master(std::string worldname); // Load the master data file, with factions &c
         void load_weather(std::istream &fin);
         void load(std::string worldname, std::string name); // Load a player-specific save file

@@ -1,8 +1,8 @@
 [
   {
     "id": "mon_ant_larva",
+    "copy-from": "mon_ant_larva",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "description": "A writhing mass of yellowing flesh, this little guy expels its stomach contents if disturbed.",
     "hp": 15,
     "melee_skill": 2,
@@ -23,8 +23,8 @@
   },
   {
     "id": "mon_ant",
+    "copy-from": "mon_ant",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "melee_skill": 6,
     "melee_dice": 1,
     "melee_dice_sides": 8,
@@ -71,8 +71,8 @@
   },
   {
     "id": "mon_ant_soldier",
+    "copy-from": "mon_ant_soldier",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "speed": 105,
     "aggression": 7,
     "morale": 100,
@@ -122,8 +122,8 @@
   },
   {
     "id": "mon_ant_queen",
+    "copy-from": "mon_ant_queen",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "special_attacks": [
       [ "ANTQUEEN", 3 ],
       [ "SHRIEK_ALERT", 30 ]

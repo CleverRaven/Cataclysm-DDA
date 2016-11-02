@@ -164,34 +164,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "ammo_casings",
-    "items":[
-      ["700nx_casing", 0],
-      ["22_casing", 0],
-      ["22_casing_new", 100],
-      ["shot_hull", 100],
-      ["9mm_casing", 100],
-      ["9x18mm_casing", 30],
-      ["38_casing", 40],
-      ["40_casing", 50],
-      ["44_casing", 50],
-      ["45_casing", 60],
-      ["454_casing", 30],
-      ["500_casing", 30],
-      ["57mm_casing", 50],
-      ["46mm_casing", 50],
-      ["762_casing", 50],
-      ["223_casing", 75],
-      ["3006_casing", 40],
-      ["308_casing", 75],
-      ["32_casing", 20],
-      ["300_casing", 30],
-      ["50_casing", 40],
-      ["40mm_casing", 20],
-      ["5x50_hull", 10]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "archery",
     "items":[
       ["crossbow", 80],

@@ -69,28 +69,19 @@ struct veh_collision {
 
 class vehicle_stack : public item_stack {
 private:
-    std::list<item> *mystack;
     point location;
     vehicle *myorigin;
     int part_num;
 public:
 vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int part ) :
-    mystack(newstack), location(newloc), myorigin(neworigin), part_num(part) {};
-    size_t size() const override;
-    bool empty() const override;
+    item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {};
     std::list<item>::iterator erase( std::list<item>::iterator it ) override;
     void push_back( const item &newitem ) override;
     void insert_at( std::list<item>::iterator index, const item &newitem ) override;
-    std::list<item>::iterator begin();
-    std::list<item>::iterator end();
-    std::list<item>::const_iterator begin() const;
-    std::list<item>::const_iterator end() const;
-    std::list<item>::reverse_iterator rbegin();
-    std::list<item>::reverse_iterator rend();
-    std::list<item>::const_reverse_iterator rbegin() const;
-    std::list<item>::const_reverse_iterator rend() const;
-    item &front() override;
-    item &operator[]( size_t index ) override;
+    int count_limit() const override {
+        return MAX_ITEM_IN_VEHICLE_STORAGE;
+    }
+    units::volume max_volume() const override;
 };
 
 /**
@@ -176,6 +167,21 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     int wheel_width() const;
 
     /**
+     *  Get NPC currently assigned to this part (seat, turret etc)?
+     *  @note checks crew member is alive and currently allied to the player
+     *  @return nullptr if no valid crew member is currently assigned
+     */
+    npc *crew() const;
+
+    /** Set crew member for this part (seat, truret etc) who must be a player ally)
+     *  @return true if part can have crew members and passed npc was suitable
+     */
+    bool set_crew( const npc &who );
+
+    /** Remove any currently assigned crew member for this part */
+    void unset_crew();
+
+    /**
      * @name Part capabilities
      *
      * A part can provide zero or more capabilities. Some capabilities are mutually
@@ -200,6 +206,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /** Can this part function as a turret? */
     bool is_turret() const;
+
+    /** Can a player or NPC use this part as a seat? */
+    bool is_seat() const;
 
     /*@}*/
 
@@ -244,6 +253,12 @@ private:
 
     /** Preferred ammo type when multiple are available */
     itype_id ammo_pref = "null";
+
+    /**
+     *  What NPC (if any) is assigned to this part (seat, turret etc)?
+     *  @see vehicle_part::crew() accessor which excludes dead and non-allied NPC's
+     */
+    int crew_id = -1;
 
 public:
     /** Get part definition common to all parts of this type */
@@ -432,6 +447,7 @@ class vehicle : public JsonSerializer, public JsonDeserializer
 {
 private:
     bool has_structural_part(int dx, int dy) const;
+    bool is_structural_part_removed() const;
     void open_or_close(int part_index, bool opening);
     bool is_connected(vehicle_part const &to, vehicle_part const &from, vehicle_part const &excluded) const;
     void add_missing_frames();
@@ -937,15 +953,25 @@ public:
     units::volume max_volume(int part) const; // stub for per-vpart limit
     units::volume free_volume(int part) const;
     units::volume stored_volume(int part) const;
-
-    // add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
-    // *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
+    /**
+     * Try to add an item to part's cargo.
+     *
+     * @ret False if it can't be put here (not a cargo part, adding this would violate
+     * the volume limit or item count limit, not all charges can fit, etc.)
+     */
     bool add_item( int part, const item &obj );
-
+    /** Like the above */
     bool add_item( vehicle_part &pt, const item &obj );
-
-    // Position specific item insertion that skips a bunch of safety checks
-    // since it should only ever be used by item processing code.
+    /**
+     * Add an item counted by charges to the part's cargo.
+     *
+     * @ret The number of charges added.
+     */
+    long add_charges( int part, const item &itm );
+    /**
+     * Position specific item insertion that skips a bunch of safety checks
+     * since it should only ever be used by item processing code.
+     */
     bool add_item_at( int part, std::list<item>::iterator index, item itm );
 
     // remove item from part's cargo
@@ -1016,6 +1042,12 @@ public:
     bool turrets_aim();
 
     /*@}*/
+
+    /**
+     *  Try to assign a crew member (who must be a player ally) to a specific seat
+     *  @note enforces NPC's being assigned to only one seat (per-vehicle) at once
+     */
+    bool assign_seat( vehicle_part &pt, const npc& who );
 
     // Update the set of occupied points and return a reference to it
     std::set<tripoint> &get_points( bool force_refresh = false );

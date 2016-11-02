@@ -930,9 +930,11 @@ public:
         std::string type_name( unsigned int quantity = 1 ) const;
 
         /**
-         * Number of charges of this item type that fit into the given volume.
+         * Number of charges of this item that fit into the given volume.
          * May return 0 if not even one charge fits into the volume. Only depends on the *type*
          * of this item not on its current charge count.
+         *
+         * For items not counted by charges, this returns this->volume() / vol.
          */
         long charges_per_volume( const units::volume &vol ) const;
 

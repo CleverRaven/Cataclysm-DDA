@@ -597,10 +597,6 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
 
     if( min == -1 ) {
-        if( g->check_zone( "NO_AUTO_PICKUP", pos ) ) {
-            here.clear();
-        }
-
         // Recursively pick up adjacent items if that option is on.
         if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && g->u.pos() == pos ) {
             //Autopickup adjacent
@@ -610,14 +606,15 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 tripoint apos = tripoint( direction_XY( elem ), 0 );
                 apos += pos;
 
-                if( g->m.has_flag( "SEALED", apos ) ) {
-                    continue;
-                }
-                if( g->check_zone( "NO_AUTO_PICKUP", apos ) ) {
-                    continue;
-                }
                 pick_up( apos, min );
             }
+        }
+
+        // Bail out if this square cannot be auto-picked-up
+        if( g->check_zone( "NO_AUTO_PICKUP", pos ) ) {
+            return;
+        } else if( g->m.has_flag( "SEALED", pos ) ) {
+            return;
         }
     }
 

@@ -58,6 +58,7 @@ using mtype_id = string_id<mtype>;
 struct projectile;
 struct veh_collision;
 class tileray;
+struct harvest_entry;
 
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
@@ -86,27 +87,18 @@ struct pathfinding_cache;
 
 class map_stack : public item_stack {
 private:
-    std::list<item> *mystack;
     tripoint location;
     map *myorigin;
 public:
     map_stack( std::list<item> *newstack, tripoint newloc, map *neworigin ) :
-    mystack(newstack), location(newloc), myorigin(neworigin) {};
-    size_t size() const override;
-    bool empty() const override;
+    item_stack( newstack ), location(newloc), myorigin(neworigin) {};
     std::list<item>::iterator erase( std::list<item>::iterator it ) override;
     void push_back( const item &newitem ) override;
     void insert_at( std::list<item>::iterator index, const item &newitem ) override;
-    std::list<item>::iterator begin();
-    std::list<item>::iterator end();
-    std::list<item>::const_iterator begin() const;
-    std::list<item>::const_iterator end() const;
-    std::list<item>::reverse_iterator rbegin();
-    std::list<item>::reverse_iterator rend();
-    std::list<item>::const_reverse_iterator rbegin() const;
-    std::list<item>::const_reverse_iterator rend() const;
-    item &front() override;
-    item &operator[]( size_t index ) override;
+    int count_limit() const override {
+        return MAX_ITEM_IN_SQUARE;
+    }
+    units::volume max_volume() const override;
 };
 
 struct visibility_variables {
@@ -557,18 +549,22 @@ public:
     bool can_move_furniture( const tripoint &pos, player * p = nullptr );
 // Terrain: 2D overloads
     ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
-    std::string get_ter_harvestable(const int x, const int y) const; // harvestable of the terrain
-    ter_id get_ter_transforms_into(const int x, const int y) const; // get the terrain id to transform to
-    int get_ter_harvest_season(const int x, const int y) const; // get season to harvest the terrain
 
     void ter_set(const int x, const int y, const ter_id new_terrain);
 
     std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
 // Terrain: 3D
     ter_id ter( const tripoint &p ) const;
-    std::string get_ter_harvestable( const tripoint &p ) const;
+    /**
+     * Returns the full harvest list, for spawning.
+     * @todo Find it a better home that it can share with butchery drops.
+     */
+    const std::list<harvest_entry> &get_harvest( const tripoint &p ) const;
+    /**
+     * Returns names of the items that would be dropped.
+     */
+    const std::set<std::string> &get_harvest_names( const tripoint &p ) const;
     ter_id get_ter_transforms_into( const tripoint &p ) const;
-    int get_ter_harvest_season( const tripoint &p ) const;
 
     void ter_set( const tripoint &p, const ter_id new_terrain);
 
@@ -597,6 +593,17 @@ public:
      * Checks for existence of items. Faster than i_at(p).empty
      */
     bool has_items( const tripoint &p ) const;
+
+    /**
+     * Calls the examine function of furniture or terrain at given tile, for given character.
+     * Will only examine terrain if furniture had @ref iexamine::none as the examine function.
+     */
+    void examine( Character &p, const tripoint &pos );
+
+    /**
+     * Returns true if point at pos is harvestable right now, with no extra tools.
+     */
+    bool is_harvestable( const tripoint &pos ) const;
 
 // Flags: 2D overloads
     std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
@@ -783,9 +790,6 @@ void add_corpse( const tripoint &p );
     void spawn_item(const int x, const int y, const std::string &itype_id,
                     const unsigned quantity=1, const long charges=0,
                     const unsigned birthday=0, const int damlevel=0);
-    units::volume max_volume(const int x, const int y);
-    units::volume free_volume(const int x, const int y);
-    units::volume stored_volume(const int x, const int y);
 
     item &add_item_or_charges( const int x, const int y, const item &obj, bool overflow = true );
 
@@ -824,7 +828,15 @@ void add_corpse( const tripoint &p );
      */
     item &add_item_or_charges( const tripoint &pos, const item &obj, bool overflow = true );
 
+    /** Helper for map::add_item */
     item &add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
+    /**
+     * Place an item on the map, despite the parameter name, this is not necessaraly a new item.
+     * WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
+     * map::add_item_or_charges
+     *
+     * @ret The item that got added, or nulitem.
+     */
     item &add_item( const tripoint &p, item new_item );
     item &spawn_an_item( const tripoint &p, item new_item,
                         const long charges, const int damlevel);
@@ -1061,7 +1073,7 @@ public:
  void place_gas_pump(const int x, const int y, const int charges, std::string fuel_type);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
  void place_vending(int x, int y, std::string type);
- int place_npc(int x, int y, std::string type);
+ int place_npc( int x, int y, const std::string &type );
 
  void add_spawn(const mtype_id& type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
@@ -1254,7 +1266,7 @@ public:
 protected:
  void generate_lightmap( int zlev );
  void build_seen_cache( const tripoint &origin, int target_z );
- void apply_character_light( const player &p );
+ void apply_character_light( player &p );
 
  int my_MAPSIZE;
  bool zlevels;

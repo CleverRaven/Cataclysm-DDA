@@ -118,7 +118,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const int core_version = 4;
+const int core_version = 5;
 
 /** Will be set to true when running unit tests */
 bool test_mode = false;
@@ -11297,8 +11297,7 @@ void game::wield( int pos )
 void game::read()
 {
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = inv_map_splice( []( const item &it ) { return it.is_book(); }, _( "Read:" ), 1,
-                                _( "You have nothing to read." ) );
+    auto loc = inv_for_books( _( "Read:" ) );
 
     item *book = loc.get_item();
     if( !book ) {
@@ -13874,11 +13873,6 @@ void game::wait()
     u.assign_activity( new_act, false );
 }
 
-bool game::game_quit()
-{
-    return (uquit == QUIT_MENU);
-}
-
 bool game::game_error()
 {
     return (uquit == QUIT_ERROR);
@@ -14700,4 +14694,13 @@ overmap &game::get_cur_om() const
     const tripoint sm = m.get_abs_sub() + tripoint( MAPSIZE / 2, MAPSIZE / 2, 0 );
     const tripoint pos_om = sm_to_om_copy( sm );
     return overmap_buffer.get( pos_om.x, pos_om.y );
+}
+
+std::vector<npc *> game::allies()
+{
+    std::vector<npc *> res;
+    std::copy_if( active_npc.begin(), active_npc.end(), std::back_inserter( res ), []( const npc *e ) {
+        return !e->is_dead_state() && e->is_friend();
+    } );
+    return res;
 }

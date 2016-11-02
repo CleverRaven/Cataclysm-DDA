@@ -1865,7 +1865,10 @@
         "move_cost_mod": 1,
         "required_str": -1,
         "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
-        "examine_action": "flower_datura",
+        "examine_action": "harvest_furn_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "spring", "summer", "autumn" ], "harvest": { "drop": "datura_seed", "base_num": [ 2, 6 ] } }
+        ],
         "bash": {
             "str_min": 2, "str_max": 6,
             "sound": "crunch.",
@@ -1895,7 +1898,10 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
-        "examine_action": "flower_dandelion",
+        "examine_action": "harvest_furn_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "spring", "summer", "autumn" ], "harvest": { "drop": "raw_dandelion", "base_num": [ 1, 4 ] } }
+        ],
         "bash": {
             "str_min": 2, "str_max": 6,
             "sound": "crunch.",
@@ -1924,7 +1930,11 @@
         "move_cost_mod": 1,
         "required_str": -1,
         "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
-        "examine_action": "examine_cattails",
+        "examine_action": "harvest_furn",
+        "harvest_by_season" : [
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "harvest": { "drop": "cattail_rhizome" } },
+            { "seasons": [ "spring", "summer", "autumn" ], "harvest": { "drop": "cattail_stalk", "base_num": [ 1, 4 ] } }
+        ],
         "bash": {
             "str_min": 2, "str_max": 6,
             "sound": "crunch.",

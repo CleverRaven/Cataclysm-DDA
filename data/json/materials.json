@@ -881,6 +881,25 @@
         "density" : 59
     },{
         "type" : "material",
+        "ident" : "brass",
+        "name" : "Brass",
+        "bash_resist" : 3,
+        "cut_resist" : 4,
+        "bash_dmg_verb" : "dented",
+        "cut_dmg_verb" : "scratched",
+        "dmg_adj" : [
+            "marked",
+            "dented",
+            "smashed",
+            "shattered"
+        ],
+        "acid_resist" : 16,
+        "elec_resist" : 0,
+        "fire_resist" : 2,
+        "chip_resist" : 15,
+        "density" : 30
+    },{
+        "type" : "material",
         "ident" : "egg",
         "name" : "Egg",
         "bash_resist" : 0,

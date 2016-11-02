@@ -5,8 +5,18 @@
         "friendly" : ["nether", "triffid"]
     },{
         "type" : "MONSTER_FACTION",
+        "name" : "archon",
+        "friendly" : ["nether", "cult"]
+    },{
+        "type" : "MONSTER_FACTION",
         "name" : "nether",
-        "friendly" : ["blob", "cult", "moruboru"]
+        "friendly" : ["blob", "cult", "moruboru", "archon"]
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "cult",
+        "base_faction" : "zombie",
+        "neutral" : ["nether"],
+        "friendly" : ["archon"]
     },{
         "type" : "MONSTER_FACTION",
         "name" : "triffid",

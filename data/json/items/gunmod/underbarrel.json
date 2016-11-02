@@ -46,7 +46,7 @@
     "id": "combination_gun_shotgun",
     "type": "GUNMOD",
     "name": "combination gun shotgun",
-    "description": "The integrated underbarrel shotgun of a combination gun which holds a single shot.  It's irremovable.",
+    "description": "The integrated underbarrel shotgun of a combination gun which holds two shots.  It's irremovable.",
     "weight": 2600,
     "volume": 0,
     "price": 95000,
@@ -60,18 +60,19 @@
       "ammo": "shot",
       "skill": "shotgun",
       "range": 2,
-      "dispersion": 20,
+      "dispersion": 45,
       "durability": 10,
-      "clip_size": 1
+      "clip_size": 2,
+      "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
     },
     "dispersion_modifier": 15,
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE", "TRADER_AVOID" ]
+    "flags": [ "IRREMOVABLE" ]
   },
   {
     "id": "combination_gun_shotgun_pipe",
     "type": "GUNMOD",
     "name": "pipe combination gun shotgun",
-    "description": "The integrated underbarrel shotgun of a pipe combination gun which holds a single shot.  It's irremovable.",
+    "description": "The integrated underbarrel shotgun of a pipe combination gun which holds two shots.  It's irremovable.",
     "weight": 1134,
     "volume": 4,
     "price": 10000,
@@ -87,10 +88,10 @@
       "ranged_damage": 2,
       "dispersion": 555,
       "durability": 6,
-      "clip_size": 1,
+      "clip_size": 2,
       "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "IRREMOVABLE" ]
   },
   {
     "id": "grip",
@@ -107,6 +108,25 @@
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "handling_modifier": 6,
     "min_skills": [ [ "weapon", 2 ] ]
+  },
+  {
+    "id": "inter_bayonet",
+    "type": "GUNMOD",
+    "name": "integrated bayonet",
+    "description": "This is the bayonet integrated in the firearm.",
+    "weight": 1,
+    "volume": 1,
+    "price": 4000,
+    "to_hit": -1,
+    "cutting": 10,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "underbarrel",
+    "mod_targets": [ "shotgun", "rifle" ],
+    "dispersion_modifier": 10,
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB" ]
   },
   {
     "id": "ksg_aux_shotgun",
@@ -235,25 +255,6 @@
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
     }
-  },
-  {
-    "id": "inter_bayonet",
-    "type": "GUNMOD",
-    "name": "integrated bayonet",
-    "description": "This is the bayonet integrated in the firearm.",
-    "weight": 1,
-    "volume": 1,
-    "price": 4000,
-    "to_hit": -1,
-    "cutting": 10,
-    "material": [ "steel" ],
-    "symbol": ":",
-    "color": "light_gray",
-    "location": "underbarrel",
-    "mod_targets": [ "shotgun", "rifle" ],
-    "dispersion_modifier": 10,
-    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
-    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB" ]
   },
   {
     "id": "masterkey",

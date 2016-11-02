@@ -37,7 +37,7 @@
     "use_action": {
         "type": "transform",
         "target": "electric_lantern",
-        "msg": "The lantern is extinguished."
+        "msg": "You turn the lamp off."
     },
     "flags": [ "LIGHT_15", "TRADER_AVOID" ]
   },

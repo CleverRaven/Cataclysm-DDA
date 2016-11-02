@@ -1633,6 +1633,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
 
     std::map<std::string, std::pair<std::string,itype_id>> deprecated = {
         { "laser_gun", { "laser_rifle", "none" } },
+        { "engine_plasma", { "minireactor", "none" } },
         { "battery_truck", { "battery_car", "battery" } },
 
         { "diesel_tank_little", { "tank_little", "diesel" } },
@@ -1665,7 +1666,9 @@ void vehicle_part::deserialize(JsonIn &jsin)
         { "external_water_tank", { "external_tank", "water_clean" } },
         { "water_tank_barrel", { "tank_barrel", "water_clean" } },
 
-        { "napalm_tank", { "tank", "napalm" } }
+        { "napalm_tank", { "tank", "napalm" } },
+
+        { "hydrogen_tank", { "tank", "none" } }
     };
 
     // required for compatibility with 0.C saves
@@ -1702,6 +1705,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("enabled", enabled );
     data.read("flags", flags );
     data.read("passenger_id", passenger_id );
+    data.read("crew_id", crew_id );
     data.read("items", items);
     data.read("target_first_x", target.first.x);
     data.read("target_first_y", target.first.y);
@@ -1757,6 +1761,7 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("enabled", enabled);
     json.member("flags", flags);
     json.member("passenger_id", passenger_id);
+    json.member("crew_id", crew_id);
     json.member("items", items);
     json.member("target_first_x", target.first.x);
     json.member("target_first_y", target.first.y);
