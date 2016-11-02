@@ -3615,6 +3615,28 @@ void game::load_uistate(std::string worldname)
     read_from_file_optional( savefile, uistate );
 }
 
+bool game::load( const std::string &world ) {
+    auto opts = world_generator->get_all_worlds();
+    if( opts.find( world ) == opts.end() ) {
+        debugmsg( "unknown world '%s'", world.c_str() );
+        return false;
+    }
+    auto saves = opts[world]->world_saves;
+    if( saves.empty() ) {
+        debugmsg( "world '%s' contains no saves", world.c_str() );
+    }
+    world_generator->set_active_world( opts[world] );
+    try {
+        g->setup();
+    } catch( const std::exception &err ) {
+        debugmsg( "cannot load world '%s': %s", world.c_str(), err.what() );
+        return false;
+    }
+
+    g->load( world, saves.front() );
+    return true;
+}
+
 void game::load(std::string worldname, std::string name)
 {
     using namespace std::placeholders;

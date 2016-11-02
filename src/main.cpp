@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
     std::string dump;
     dump_mode dmode = dump_mode::TSV;
     std::vector<std::string> opts;
+    std::string world; /** if set try to load first save in this world on startup */
 
     // Set default file paths
 #ifdef PREFIX
@@ -145,6 +146,18 @@ int main(int argc, char *argv[])
                         }
                     }
                     return 0;
+                }
+            },
+            {
+                "--world", "<name>",
+                "Load world",
+                section_default,
+                [&world](int n, const char *params[]) -> int {
+                    if( n < 1 ) {
+                        return -1;
+                    }
+                    world = params[0];
+                    return 1;
                 }
             },
             {
@@ -462,9 +475,17 @@ int main(int argc, char *argv[])
 #endif
 
     while( true ) {
-        main_menu menu;
-        if( !menu.opening_screen() ) {
-            break;
+        if( !world.empty() ) {
+            if( !g->load( world ) ) {
+                break;
+            }
+            world.clear(); // ensure quit returns to opening screen
+
+        } else {
+            main_menu menu;
+            if( !menu.opening_screen() ) {
+                break;
+            }
         }
 
         while( !g->do_turn() );

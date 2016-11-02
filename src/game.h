@@ -725,11 +725,15 @@ class game
 
         //pixel minimap management
         int pixel_minimap_option;
+
+        /** Attempt to load first valid save (if any) in world */
+        bool load( const std::string &world );
+
     private:
         // Game-start procedures
+        void load( std::string worldname, std::string name ); // Load a player-specific save file
         bool load_master(std::string worldname); // Load the master data file, with factions &c
         void load_weather(std::istream &fin);
-        void load(std::string worldname, std::string name); // Load a player-specific save file
         bool start_game(std::string worldname); // Starts a new game in a world
         void start_special_game(special_game_id gametype); // See gamemode.cpp
 
