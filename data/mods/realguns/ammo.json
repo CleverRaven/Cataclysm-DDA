@@ -1,5 +1,120 @@
 [
   {
+    "id": "357",
+    "type": "AMMO",
+    "name": ".357 Magnum",
+    "name_plural": ".357 Magnum",
+    "//": "+2 hollowpoint bonus to damage.",
+    "description": "A .357 Magnum cartridge loaded with 125gr JHP bullets.  It is a common, versatile and inexpensive rimmed magnum cartridge, most often used in revolvers.",
+    "weight": 14,
+    "volume": 1,
+    "price": 2500,
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 50,
+    "stack_size": 35,
+    "ammo_type": "357_mag",
+    "casing": "357_mag_casing",
+    "range": 16,
+    "damage": 30,
+    "pierce": 4,
+    "dispersion": 30,
+    "recoil": 795,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "357_P",
+    "copy_from": "357",
+    "type": "AMMO",
+    "name": ".357 Magnum +P",
+    "name_plural": ".357 Magnum +P",
+    "//": "+2 hollowpoint bonus to damage.",
+    "description": "A .357 Magnum +P cartridge loaded with 125gr JHP bullets.  A high-power version of the already-powerful .357 Magnum.",
+    "count": 35,
+    "relative": {
+      "price": 300,
+      "range": 1,
+      "damage": 4,
+      "dispersion": -10,
+      "recoil": 285
+    }
+  },
+  {
+    "id": "reloaded_357",
+    "copy-from": "357",
+    "type": "AMMO",
+    "name": "reloaded .357 Magnum",
+    "name_plural": "reloaded .357 Magnum",
+    "proportional": {
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1,
+      "recoil": 0.9
+    }
+  },
+  {
+    "id": "reloaded_357_P",
+    "copy-from": "357_P",
+    "type": "AMMO",
+    "name": "reloaded .357 Magnum P",
+    "name_plural": "reloaded .357 Magnum P",
+    "proportional": {
+      "price": 0.7,
+      "damage": 0.9,
+      "dispersion": 1.1,
+      "recoil": 0.9
+    }
+  },
+  {
+    "id": "38_fmj",
+    "copy-from": "38_fmj",
+    "type": "AMMO",
+    "name": ".38 Special FMJ",
+    "name_plural": ".38 Special FMJ",
+    "extend": { "ammo_type": [ "357_mag" ] }
+  },
+  {
+    "id": "38_special",
+    "copy-from": "38_special",
+    "type": "AMMO",
+    "name": ".38 Special",
+    "name_plural": ".38 Special",
+    "extend": { "ammo_type": [ "357_mag" ] }
+  },
+  {
+    "id": "38_super",
+    "copy-from": "38_super",
+    "type": "AMMO",
+    "name": ".38 Super",
+    "name_plural": ".38 Super",
+    "extend": { "ammo_type": [ "357_mag", "38_super" ] }
+  },
+  {
+    "id": "reloaded_38_fmj",
+    "copy-from": "reloaded_38_fmj",
+    "type": "AMMO",
+    "name": "reloaded .38 Special FMJ",
+    "name_plural": "reloaded .38 Special FMJ",
+    "extend": { "ammo_type": [ "357_mag" ] }
+  },
+  {
+    "id": "reloaded_38_special",
+    "copy-from": "reloaded_38_special",
+    "type": "AMMO",
+    "name": "reloaded .38 Special",
+    "name_plural": "reloaded .38 Special",
+    "extend": { "ammo_type": [ "357_mag" ] }
+  },
+  {
+    "id": "reloaded_38_super",
+    "copy-from": "reloaded_38_super",
+    "type": "AMMO",
+    "name": "reloaded .38 Super",
+    "name_plural": "reloaded .38 Super",
+    "extend": { "ammo_type": [ "357_mag" ] }
+  },
+  {
     "id": "40sw",
     "copy-from": "40sw",
     "type": "AMMO",
@@ -58,6 +173,15 @@
       "ammo_type": [ "40" ],
       "effects": [ "NEVER_MISFIRES" ]
     }
+  },
+  {
+    "id": "357_mag_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".357 Magnum casing",
+    "description": "An empty casing from a .357 Magnum round.",
+    "weight": 3,
+    "volume": "4ml"
   },
   {
     "id": "45lc_casing",
