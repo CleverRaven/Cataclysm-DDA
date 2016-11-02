@@ -125,7 +125,7 @@ class generic_factory
 
         std::map<std::string, std::set<std::string>> aliases;
 
-        std::unordered_map<int_id<T>, T*> map;
+        std::unordered_map<int_id<T>, T *> map;
 
         std::string type_name;
         std::string id_member_name;
@@ -216,7 +216,7 @@ class generic_factory
          *  Legacy function for inserting an object directly in to map
          *  @warning do not use in new code or at all after @ref finalize()
          */
-        void insert( const T& def ) {
+        void insert( const T &def ) {
             objects[ def.id.str() ] = def;
         }
 
