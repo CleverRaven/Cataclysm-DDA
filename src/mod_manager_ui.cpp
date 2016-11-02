@@ -77,7 +77,7 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
 
     if( !mod->dependencies.empty() ) {
         const auto &deps = mod->dependencies;
-        auto str = enumerate_as_string( deps.begin(), deps.end(), [&]( const std::string &e ) {
+        auto str = enumerate_as_string( deps.begin(), deps.end(), [&]( const std::string & e ) {
             if( active_manager->mod_map.find( e ) != active_manager->mod_map.end() ) {
                 return string_format( "[%s]", active_manager->mod_map[e]->name.c_str() );
             } else {
@@ -92,7 +92,8 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
         info << mod->description << "\n";
     }
 
-    std::string note = !mm_tree->is_available( mod->ident ) ? mm_tree->get_node( mod->ident )->s_errors() : "";
+    std::string note = !mm_tree->is_available( mod->ident ) ? mm_tree->get_node(
+                           mod->ident )->s_errors() : "";
     if( !note.empty() ) {
         info << "<color_red>" << note << "</color>";
     }

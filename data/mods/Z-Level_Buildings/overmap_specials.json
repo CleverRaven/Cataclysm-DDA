@@ -44,7 +44,7 @@
       { "point":[-1,1,2], "overmap": "2fmotel_2_r_north"},
       { "point":[0,1,2], "overmap": "2fmotel_3_r_north"}
     ],
-    "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
+    "locations" : [ "by_road" ], "//":"what special locations does it spawn",
     "city_distance" : [10, 120], "//":"how far from a city it should be",
     "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
     "occurrences" : [2, 5], "//":"how many per overmap",
