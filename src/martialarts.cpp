@@ -300,6 +300,10 @@ public:
 
 void finialize_martial_arts()
 {
+    martialarts.finalize();
+    ma_buffs.finalize();
+    ma_techniques.finalize();
+
     // This adds an effect type for each ma_buff, so we can later refer to it and don't need a
     // redundant definition of those effects in json.
     for( const auto &buff : ma_buffs.get_all() ) {

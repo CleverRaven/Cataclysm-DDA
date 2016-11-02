@@ -75,6 +75,9 @@ enum add_type : int;
         static bool has_initialized();
         // clear profession map, every profession pointer becames invalid!
         static void reset();
+
+        static void finalize();
+
         /** calls @ref check_definition for each profession */
         static void check_definitions();
         /** Check that item/CBM/addiction/skill definitions are valid. */

@@ -181,6 +181,11 @@ void profession::reset()
     all_profs.reset();
 }
 
+void profession::finalize()
+{
+    all_profs.finalize();
+}
+
 void profession::check_definitions()
 {
     for( const auto &prof : all_profs.get_all() ) {

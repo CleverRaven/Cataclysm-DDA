@@ -230,6 +230,11 @@ void mission_type::reset()
     mission_type_factory.reset();
 }
 
+void mission_type::finalize()
+{
+    mission_type_factory.finalize();
+}
+
 template <typename Fun>
 void assign_function( JsonObject &jo, const std::string &id, Fun &target, const std::map<std::string, Fun> &cont )
 {

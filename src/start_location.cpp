@@ -83,6 +83,11 @@ void start_location::reset()
     all_starting_locations.reset();
 }
 
+void start_location::finalize()
+{
+    all_starting_locations.finalize();
+}
+
 // check if tile at p should be boarded with some kind of furniture.
 void add_boardable( map &m, const tripoint &p, std::vector<tripoint> &vec )
 {

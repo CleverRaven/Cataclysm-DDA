@@ -202,6 +202,9 @@ struct mission_type {
     static const std::map<std::string, mission_type> &get_all();
 
     static void reset();
+
+    static void finalize();
+
     static void load_mission_type( JsonObject &jo, const std::string &src );
 
     static void check_consistency();

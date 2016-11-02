@@ -64,6 +64,9 @@ public:
 
     // clear scenario map, every scenario pointer becames invalid!
     static void reset();
+
+    static void finalize();
+
     /** calls @ref check_definition for each scenario */
     static void check_definitions();
     /** Check that item definitions are valid */

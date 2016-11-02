@@ -100,6 +100,8 @@ void apply_all_to_unassigned( T &skills )
 
 void npc_class::finalize_all()
 {
+    npc_class_factory.finalize();
+
     for( auto &cl_const : npc_class_factory.get_all() ) {
         auto &cl = const_cast<npc_class &>( cl_const.second );
         apply_all_to_unassigned( cl.skills );
