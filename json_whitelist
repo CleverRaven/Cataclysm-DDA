@@ -23,6 +23,7 @@ data/json/items/gunmod/* id
 data/json/items/magazine/* id
 data/json/items/toolmod.json id
 data/json/items/tools.json id
+data/json/materials.json ident
 data/json/monsters.json id
 data/json/monsters/* id
 data/json/npcs/missiondef.json id
