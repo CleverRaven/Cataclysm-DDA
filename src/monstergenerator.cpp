@@ -703,10 +703,6 @@ void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_na
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &mon : mon_templates->get_all() ) {
-        if( mon.description.empty() ) {
-            debugmsg( "monster %s has no description", mon.id.c_str() );
-        }
-
         for( auto &spec : mon.species ) {
             if( !spec.is_valid() ) {
                 debugmsg("monster %s has invalid species %s", mon.id.c_str(), spec.c_str());
