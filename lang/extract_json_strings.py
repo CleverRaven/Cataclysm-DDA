@@ -23,7 +23,7 @@ not_json = {
 
 # don't parse this files. Full related path.
 ignore_files = {
-    "data/mods/obsolete-mods.json",
+    "data/mods/replacements.json",
     "data/raw/color_templates/no_bright_background.json"
 }
 
