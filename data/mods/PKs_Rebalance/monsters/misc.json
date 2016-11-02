@@ -30,8 +30,8 @@
   },
   {
     "id": "mon_sewer_rat",
+    "copy-from": "mon_sewer_rat",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "melee_skill": 5,
     "melee_dice": 1,
     "melee_dice_sides": 2,
@@ -53,8 +53,8 @@
   },
   {
     "id": "mon_black_rat",
+    "copy-from": "mon_black_rat",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "categories": [ "WILDLIFE" ],
     "diff": 3,
     "hp": 8,
@@ -85,8 +85,8 @@
   },
   {
     "id": "mon_rat_king",
+    "copy-from": "mon_rat_king",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "diff": 18,
     "hp": 250,
     "speed": 40,
@@ -118,8 +118,8 @@
   },
   {
     "id": "mon_horse",
+    "copy-from": "mon_horse",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "categories": [ "WILDLIFE" ],
     "hp": 110,
     "speed": 210,
@@ -144,8 +144,8 @@
   },
   {
     "id": "mon_bear",
+    "copy-from": "mon_bear",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "diff": 18,
     "hp": 140,
     "speed": 170,
@@ -259,8 +259,8 @@
   },
   {
     "id": "mon_cougar",
+    "copy-from": "mon_cougar",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "diff": 15,
     "hp": 80,
     "speed": 190,
@@ -363,8 +363,8 @@
   },
   {
     "id": "mon_dog",
+    "copy-from": "mon_dog",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "hp": 35,
     "speed": 170,
     "aggression": 2,
@@ -423,8 +423,8 @@
   },
   {
     "id": "mon_moose",
+    "copy-from": "mon_moose",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "diff": 15,
     "hp": 170,
     "speed": 200,
@@ -513,8 +513,8 @@
   },
   {
     "id": "mon_wolf",
+    "copy-from": "mon_wolf",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "diff": 12,
     "hp": 55,
     "speed": 165,
@@ -548,8 +548,8 @@
   },
   {
     "id": "mon_coyote",
+    "copy-from": "mon_coyote",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "hp": 28,
     "upgrades": {
       "half_life": 17,

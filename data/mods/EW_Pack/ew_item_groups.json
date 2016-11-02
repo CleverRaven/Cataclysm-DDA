@@ -10,7 +10,7 @@
         "type": "item_group",
         "id" : "ammo_rifle_reloaded",
         "items" :[
-          ["handloaded_654", 10]
+          ["reloaded_654", 10]
         ]
     },
     {
@@ -26,7 +26,7 @@
         "id": "rare",
         "items": [
           ["svs-24c", 3],
-          ["handloaded_654", 40],
+          ["reloaded_654", 40],
           ["20_dread", 50],
           ["wrist_dread", 30]
         ]

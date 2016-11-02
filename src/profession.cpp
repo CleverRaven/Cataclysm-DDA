@@ -42,9 +42,9 @@ profession::profession()
 {
 }
 
-void profession::load_profession( JsonObject &jsobj )
+void profession::load_profession( JsonObject &jo, const std::string &src )
 {
-    all_profs.load( jsobj );
+    all_profs.load( jo, src );
 }
 
 class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
@@ -90,7 +90,8 @@ class item_reader : public generic_typed_reader<item_reader>
             }
             JsonArray jarr = jin.get_array();
             const auto id = jarr.get_string( 0 );
-            const auto snippet = _( jarr.get_string( 1 ).c_str() );
+            const auto s = jarr.get_string( 1 );
+            const auto snippet = _( s.c_str() );
             return profession::itypedec( id, snippet );
         }
         template<typename C>
@@ -102,7 +103,7 @@ class item_reader : public generic_typed_reader<item_reader>
         }
 };
 
-void profession::load( JsonObject &jo )
+void profession::load( JsonObject &jo, const std::string & )
 {
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jo.has_object( "name" ) ) {

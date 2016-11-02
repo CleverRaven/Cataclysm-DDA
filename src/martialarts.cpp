@@ -23,9 +23,9 @@ generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
 }
 
-void load_technique(JsonObject &jo)
+void load_technique( JsonObject &jo, const std::string &src )
 {
-    ma_techniques.load( jo );
+    ma_techniques.load( jo, src );
 }
 
 // To avoid adding empty entries
@@ -38,7 +38,7 @@ void add_if_exists( JsonObject &jo, Container &cont, bool was_loaded,
     }
 }
 
-void ma_requirements::load( JsonObject &jo )
+void ma_requirements::load( JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
@@ -60,7 +60,7 @@ void ma_requirements::load( JsonObject &jo )
     add_if_exists( jo, min_damage, was_loaded, "min_stabbing_damage", DT_STAB );
 }
 
-void ma_technique::load( JsonObject &jo )
+void ma_technique::load( JsonObject &jo, const std::string &src )
 {
     optional( jo, was_loaded, "name", name, translated_string_reader );
 
@@ -94,7 +94,7 @@ void ma_technique::load( JsonObject &jo )
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<>{} );
 
-    reqs.load( jo );
+    reqs.load( jo, src );
     bonuses.load( jo );
 }
 
@@ -113,7 +113,7 @@ bool string_id<ma_technique>::is_valid() const
     return ma_techniques.is_valid( *this );
 }
 
-void ma_buff::load( JsonObject &jo )
+void ma_buff::load( JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "description", description, translated_string_reader );
@@ -127,7 +127,7 @@ void ma_buff::load( JsonObject &jo )
     optional( jo, was_loaded, "quiet", quiet, false );
     optional( jo, was_loaded, "throw_immune", throw_immune, false );
 
-    reqs.load( jo );
+    reqs.load( jo, src );
     bonuses.load( jo );
 }
 
@@ -146,9 +146,9 @@ bool string_id<ma_buff>::is_valid() const
     return ma_buffs.is_valid( *this );
 }
 
-void load_martial_art(JsonObject &jo)
+void load_martial_art( JsonObject &jo, const std::string &src )
 {
-    martialarts.load( jo );
+    martialarts.load( jo, src );
 }
 
 class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
@@ -159,11 +159,12 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
                 return mabuff_id( jin.get_string() );
             }
             JsonObject jsobj = jin.get_object();
-            return ma_buffs.load( jsobj ).id;
+            ma_buffs.load( jsobj, "" );
+            return mabuff_id( jsobj.get_string( "id" ) );
     }
 };
 
-void martialart::load( JsonObject &jo )
+void martialart::load( JsonObject &jo, const std::string & )
 {
     JsonArray jsarr;
 
@@ -264,13 +265,13 @@ public:
         // add_effect add the duration to an existing effect, but it must never be
         // above buff_duration, this keeps the old ma_buff behavior
         max_duration = buff.buff_duration;
-        dur_add_perc = 1;
+        dur_add_perc = 100;
         // each add_effect call increases the intensity by 1
         int_add_val = 1;
         // effect intensity increases by -1 each turn.
         int_decay_step = -1;
         int_decay_tick = 1;
-//        int int_dur_factor;
+        int_dur_factor = 0;
 //        bool main_parts_only;
 //        std::string resist_trait;
 //        std::string resist_effect;
@@ -755,6 +756,24 @@ int player::mabuff_damage_bonus( damage_type type ) const
     int ret = 0;
     accumulate_ma_buff_effects( effects, [&ret, type, this]( const ma_buff &b, const effect &d ) {
         ret += d.get_intensity() * b.damage_bonus( *this, type );
+    } );
+    return ret;
+}
+int player::mabuff_attack_cost_penalty() const
+{
+    int ret = 0;
+    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+        ret += d.get_intensity() * b.bonuses.get_flat( *this, AFFECTED_MOVE_COST );
+    } );
+    return ret;
+}
+float player::mabuff_attack_cost_mult() const
+{
+    float ret = 1.0f;
+    accumulate_ma_buff_effects( effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+        // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
+        // becomes 1.4 instead of 2.4 (which would be a 240% buff)
+        ret *= d.get_intensity() * ( b.bonuses.get_mult( *this, AFFECTED_MOVE_COST ) - 1 ) + 1;
     } );
     return ret;
 }

@@ -14,7 +14,7 @@
     "using": [ [ "ammo_bullet", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "chem_black_powder", 8 ], [ "gunpowder", 4 ] ],
+      [ [ "chem_black_powder", 4 ], [ "gunpowder", 4 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]
@@ -34,7 +34,7 @@
     "using": [ [ "ammo_bullet", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "chem_black_powder", 8 ], [ "gunpowder", 4 ] ],
+      [ [ "chem_black_powder", 4 ], [ "gunpowder", 4 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
     ]

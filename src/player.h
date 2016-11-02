@@ -8,6 +8,7 @@
 #include "recipe_dictionary.h"
 #include "weighted_list.h"
 #include "game_constants.h"
+#include "craft_command.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -33,7 +34,6 @@ struct component;
 struct item_comp;
 struct tool_comp;
 template<typename CompType> struct comp_selection;
-class craft_command;
 class vehicle;
 class vitamin;
 using vitamin_id = string_id<vitamin>;
@@ -431,6 +431,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         float mabuff_damage_mult( damage_type type ) const;
         /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
         int mabuff_damage_bonus( damage_type type ) const;
+        /** Returns the flat penalty to move cost of attacks. If negative, that's a bonus. Applied after multiplier. */
+        int mabuff_attack_cost_penalty() const;
+        /** Returns the multiplier on move cost of attacks. */
+        float mabuff_attack_cost_mult() const;
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
         /** Returns value of player's stable footing */
@@ -567,7 +571,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player scores a critical hit */
         bool scored_crit( float target_dodge = 0.0f ) const;
         /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
-        int attack_speed( const item &weap, bool average = false ) const;
+        int attack_speed( const item &weap ) const;
         /** Gets melee accuracy component from weapon+skills */
         float get_hit_weapon( const item &weap ) const;
         /** NPC-related item rating functions */
@@ -954,6 +958,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
         void gunmod_add( item& gun, item& mod );
 
+        /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
+        std::pair<int, int> gunmod_installation_odds( const item& gun, const item& mod ) const;
+
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics(const itype &type, int skill_level = -1);
         /**
@@ -1048,11 +1055,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void practice( const skill_id &s, int amount, int cap = 99 );
 
         /** Legacy activity assignment, should not be used where resuming is important. */
-        void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN,
-                             std::string name = "");
+        void assign_activity( activity_id type, int moves = calendar::INDEFINITELY_LONG, int index = -1, int pos = INT_MIN,
+                             std::string name = "" );
         /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
         void assign_activity( const player_activity &act, bool allow_resume = true );
-        bool has_activity(const activity_type type) const;
+        bool has_activity( const activity_id type) const;
         void cancel_activity();
 
         int get_morale_level() const; // Modified by traits, &c

@@ -20,9 +20,11 @@
 
 class input_context;
 class JsonObject;
-struct mongroup;
 class npc;
 class overmapbuffer;
+
+struct mongroup;
+struct overmap_location_restictions;
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
 extern std::unordered_map<std::string, oter_t> obasetermap;
@@ -138,12 +140,14 @@ struct regional_settings {
 
 
 struct city {
- // in overmap terrain coordinates
- int x;
- int y;
- int s;
- std::string name;
- city(int X = -1, int Y = -1, int S = -1);
+    // in overmap terrain coordinates
+    int x;
+    int y;
+    int s;
+    std::string name;
+    city(int X = -1, int Y = -1, int S = -1);
+
+    int get_distance_from( const tripoint &p ) const;
 };
 
 struct om_note {
@@ -377,7 +381,8 @@ public:
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
 
-    int dist_from_city( const tripoint &p );
+    const city *get_nearest_city( const tripoint &p ) const;
+
     void signal_hordes( const tripoint &p, int sig_power );
     void process_mongroups();
     void move_hordes();
@@ -439,9 +444,8 @@ public:
   void chip_rock(int x, int y, int z);
   void good_road(const std::string &base, int x, int y, int z);
   void good_river(int x, int y, int z);
-  bool allowed_terrain( const tripoint& p, int width, int height, const std::list<std::string>& allowed );
-  bool allowed_terrain( const tripoint& p, const std::list<tripoint>& rotated_points,
-                        const std::list<std::string>& allowed, const std::list<std::string>& disallowed );
+  bool allowed_terrain( const std::vector<tripoint> &points,
+                        const overmap_location_restictions &restrictions ) const;
   bool allow_special(const overmap_special& special, const tripoint& p, int &rotate);
   // Monsters, radios, etc.
   void place_specials();

@@ -24,38 +24,35 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
 const std::map<std::string, std::string> &get_mod_list_cat_tab();
 
-enum mod_type {
-    MT_CORE,
-    MT_SUPPLEMENTAL
-};
 struct MOD_INFORMATION {
     std::string path;
     std::string name;
     std::string ident;
-    std::vector<std::string> authors;
+
+    /** All authors who have added content to the mod (excluding maintenance changes) */
+    std::set<std::string> authors;
+
+    /**
+     *  Assigned maintainers responsible for maintaining compatibility with core
+     *  @note these should be verbatim GH account names
+     */
+    std::set<std::string> maintainers;
+
     std::string description;
-    mod_type _type;
-    std::vector<std::string> dependencies;
-    bool obsolete;
+
+    /** What other mods must be loaded prior to this one? */
+    std::set<std::string> dependencies;
+
+    /** Core mods are loaded before any other mods */
+    bool core = false;
+
+    /** Obsolete mods are loaded for legacy saves but cannot be used when starting new worlds */
+    bool obsolete = false;
+
     /** Mod require Lua support **/
     bool need_lua;
 
-    std::pair<int, std::string> category;
-
-    MOD_INFORMATION() : _type( MT_SUPPLEMENTAL ), obsolete( false ), category( {
-        -1, ""
-    } ) {};
-
-    std::string type() {
-        switch( _type ) {
-            case MT_CORE:
-                return "CORE";
-                break;
-            case MT_SUPPLEMENTAL:
-                return "SUPPLEMENTAL";
-                break;
-        }
-    };
+    std::pair<int, std::string> category = { -1, "" };
 };
 
 class mod_manager

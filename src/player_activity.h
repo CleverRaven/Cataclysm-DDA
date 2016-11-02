@@ -4,68 +4,78 @@
 #include "enums.h"
 #include "json.h"
 #include "item_location.h"
+#include "string_id.h"
 
 #include <climits>
 #include <vector>
 
-enum activity_type : int {    // expanded this enum for readability
-    ACT_NULL = 0,
-    ACT_RELOAD,
-    ACT_READ,
-    ACT_GAME,
-    ACT_WAIT,
-    ACT_CRAFT,
-    ACT_LONGCRAFT,
-    ACT_DISASSEMBLE,
-    ACT_BUTCHER,
-    ACT_LONGSALVAGE,
-    ACT_FORAGE,
-    ACT_BUILD,
-    ACT_VEHICLE,
-    ACT_REFILL_VEHICLE, // not used anymore.
-    ACT_TRAIN,
-    ACT_WAIT_WEATHER,
-    ACT_FIRSTAID,
-    ACT_FISH,
-    ACT_PICKAXE,
-    ACT_BURROW,
-    ACT_PULP,
-    ACT_VIBE,
-    ACT_MAKE_ZLAVE,
-    ACT_DROP,
-    ACT_STASH,
-    ACT_PICKUP,
-    ACT_MOVE_ITEMS,
-    ACT_ADV_INVENTORY,
-    ACT_ARMOR_LAYERS,
-    ACT_START_FIRE,
-    ACT_OPEN_GATE,
-    ACT_FILL_LIQUID,
-    ACT_HOTWIRE_CAR,
-    ACT_AIM,
-    ACT_ATM,
-    ACT_START_ENGINES,
-    ACT_OXYTORCH,
-    ACT_CRACKING,
-    ACT_REPAIR_ITEM,
-    ACT_MEND_ITEM,
-    ACT_GUNMOD_ADD,
-    ACT_WAIT_NPC,
-    ACT_CLEAR_RUBBLE,
-    ACT_MEDITATE,
-    NUM_ACTIVITIES
-};
-
 class player;
 class Character;
+class player_activity;
+class activity_type;
+
+using activity_id = string_id<activity_type>;
+
+template<>
+const activity_type &string_id<activity_type>::obj() const;
+
+enum class based_on_type : int {
+    TIME = 0,
+    SPEED,
+    NEITHER
+};
+
+/** A class that stores constant information that doesn't differ between activities of the same type */
+class activity_type
+{
+    private:
+        activity_id id_;
+        bool rooted_ = false;
+        std::string stop_phrase_ = "THIS IS A BUG";
+        bool abortable_ = true;
+        bool suspendable_ = true;
+        based_on_type based_on_ = based_on_type::SPEED;
+        bool no_resume_ = false;
+
+    public:
+        const activity_id &id() const {
+            return id_;
+        }
+        bool rooted() const {
+            return rooted_;
+        }
+        bool abortable() const {
+            return abortable_;
+        }
+        bool suspendable() const {
+            return suspendable_;
+        }
+        std::string stop_phrase() const {
+            return stop_phrase_;
+        }
+        based_on_type based_on() const {
+            return based_on_;
+        }
+        bool no_resume() const {
+            return no_resume_;
+        }
+
+        void call_do_turn( player_activity *, player * ) const;
+        /** Returns whether it had a finish function or not */
+        bool call_finish( player_activity *, player * ) const;
+
+        /** JSON stuff */
+        static void load( JsonObject &jo );
+        static void check_consistency();
+        static void reset();
+};
 
 class player_activity : public JsonSerializer, public JsonDeserializer
 {
     private:
         void finish( player *p );
+        activity_id type;
     public:
-        /** The type of this activity. */
-        activity_type type;
         /** Total number of moves required to complete the activity */
         int moves_total;
         /** The number of moves remaining in this activity before it is complete. */
@@ -91,7 +101,8 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          */
         bool auto_resume;
 
-        player_activity( activity_type t = ACT_NULL, int turns = 0, int Index = -1, int pos = INT_MIN,
+        player_activity() : type( activity_id( NULL_ID ) ) { }
+        player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
                          std::string name_in = "" );
         player_activity( player_activity && ) = default;
         player_activity( const player_activity & );
@@ -99,23 +110,34 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         player_activity &operator=( const player_activity & );
 
         explicit operator bool() const {
-            return type != ACT_NULL;
+            return !type.is_null();
+        }
+        bool is_null() const {
+            return type.is_null();
+        }
+        /** This replaces the former usage `act.type = ACT_NULL` */
+        void set_to_null() {
+            type = activity_id( NULL_ID );
+        }
+        const activity_id &id() const {
+            return type;
+        }
+        bool rooted() const {
+            return type->rooted();
         }
 
         // Question to ask when the activity is to be stoped,
         // e.g. "Stop doing something?", already translated.
-        const std::string &get_stop_phrase() const;
+        std::string get_stop_phrase() const {
+            return type->stop_phrase();
+        }
         /**
          * If this returns true, the activity can be aborted with
          * the ACTION_PAUSE key (see game::handle_key_blocking_activity)
          */
-        bool is_abortable() const;
-        /**
-         * If this returns true, the activity does not finish. This is
-         * the type of activities that use UI trickery, but must be cancelled
-         * manually!
-         */
-        bool never_completes() const;
+        bool is_abortable() const {
+            return type->abortable();
+        }
         int get_value( size_t index, int def = 0 ) const;
         std::string get_str_value( size_t index, const std::string def = "" ) const;
         /**
@@ -124,12 +146,16 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          * possible if the player start the very same activity (with the same
          * parameters) again.
          */
-        bool is_suspendable() const;
+        bool is_suspendable() const {
+            return type->suspendable();
+        }
 
         using JsonSerializer::serialize;
         void serialize( JsonOut &jsout ) const override;
         using JsonDeserializer::deserialize;
         void deserialize( JsonIn &jsin ) override;
+        /** Convert from the old enumeration to the new string_id */
+        void deserialize_legacy_type( int legacy_type, activity_id &dest );
 
         /**
          * Performs the activity for a single turn. If the activity is complete
@@ -137,11 +163,6 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          * any, are needed to conclude the activity.
          */
         void do_turn( player *p );
-
-        /**
-         * Returns true if the activity is complete.
-         */
-        bool is_complete() const;
 
         /**
          * Returns true if activities are similar enough that this activity

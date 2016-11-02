@@ -36,7 +36,7 @@ struct gate_data {
     int bash_dmg;
     bool was_loaded;
 
-    void load( JsonObject &jo );
+    void load( JsonObject &jo, const std::string &src );
     bool is_suitable_wall( const tripoint &pos ) const;
 };
 
@@ -49,7 +49,7 @@ generic_factory<gate_data> gates_data( "gate type", "handle", "other_handles" );
 
 }
 
-void gate_data::load( JsonObject &jo )
+void gate_data::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "door", door );
     mandatory( jo, was_loaded, "floor", floor );
@@ -77,9 +77,9 @@ bool gate_data::is_suitable_wall( const tripoint &pos ) const
     return iter != walls.end();
 }
 
-void gates::load_gates( JsonObject &jo )
+void gates::load_gates( JsonObject &jo, const std::string &src )
 {
-    gates_data.load( jo );
+    gates_data.load( jo, src );
 }
 
 void gates::reset()
@@ -179,6 +179,6 @@ void gates::open_gate( const tripoint &pos, player &p )
     const gate_data &gate = gates_data.obj( gid );
 
     p.add_msg_if_player( gate.pull_message.c_str() );
-    p.assign_activity( ACT_OPEN_GATE, gate.moves );
+    p.assign_activity( activity_id( "ACT_OPEN_GATE" ), gate.moves );
     p.activity.placement = pos;
 }

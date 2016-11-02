@@ -3,7 +3,7 @@
     "id": "bandolier_pistol",
     "type": "ARMOR",
     "name": "pistol bandolier",
-    "description" : "An embroidered leather bandolier for keeping revolver cartridges close to hand.  If this doesn't make you feel like a cowboy nothing will.",
+    "description" : "An embroidered leather bandolier for keeping pistol cartridges close to hand.  If this doesn't make you feel like a cowboy nothing will.",
     "weight": 140,
     "volume": 1,
     "price": 1900,
@@ -17,7 +17,7 @@
     "use_action": {
         "type": "bandolier",
         "capacity": 18,
-        "ammo": [ "32", "38", "40" ,"44", "45", "9mm" ]
+        "ammo": [ "32", "762x25", "38", "40", "44", "45", "9x18", "9mm", "454", "500" ]
     },
     "flags": [ "WATER_FRIENDLY", "VARSIZE", "WAIST", "OVERSIZE", "FANCY" ]
   },
@@ -39,7 +39,7 @@
     "use_action": {
         "type": "bandolier",
         "capacity": 16,
-        "ammo": [ "22", "223", "3006", "308", "762", "762R", "8x40mm"  ]
+        "ammo": [ "22", "223", "5x50", "545x39", "3006", "308", "300", "762", "762R", "8x40mm"  ]
     },
     "flags": [ "WATER_FRIENDLY", "VARSIZE", "WAIST", "OVERSIZE" ]
   },
@@ -105,7 +105,7 @@
     "use_action": {
         "type": "bandolier",
         "capacity": 4,
-        "ammo": [ "22", "223", "3006", "308", "762", "762R", "8x40mm" ]
+        "ammo": [ "22", "223", "5x50", "545x39", "3006", "308", "300", "762", "762R", "8x40mm" ]
     },
     "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
   },

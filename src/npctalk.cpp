@@ -573,7 +573,7 @@ void npc::talk_to_u()
     delwin(d.win);
     g->refresh_all();
     // Don't query if we're training the player
-    if( g->u.activity.type != ACT_TRAIN || g->u.activity.index != getID() ) {
+    if( g->u.activity.id() != activity_id( "ACT_TRAIN" ) || g->u.activity.index != getID() ) {
         g->cancel_activity_query( _("%s talked to you."), name.c_str() );
     }
 }
@@ -1230,7 +1230,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     }
     if( topic == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
+        if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
             return _("Shall we resume?");
         }
         std::vector<skill_id> trainable = p->skills_offered_to(g->u);
@@ -2347,7 +2347,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response_done( _("Okay, fine, bye.") );
 
     } else if( topic == "TALK_TRAIN" ) {
-            if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
+            if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
                 player_activity &backlog = g->u.backlog.front();
                 std::stringstream resume;
                 resume << _("Yes, let's resume training ");
@@ -3209,7 +3209,7 @@ void talk_function::give_aid( npc &p )
             g->u.remove_effect( effect_infected, bp_healed );
         }
     }
-    g->u.assign_activity(ACT_WAIT_NPC, 10000);
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 10000 );
     g->u.activity.str_values.push_back(p.name);
 }
 
@@ -3242,7 +3242,7 @@ void talk_function::construction_tips( npc &p )
 {
     g->u.cash -= 2000;
     g->u.practice( skill_id( "carpentry" ), 30 );
-    g->u.assign_activity(ACT_WAIT_NPC, 600);
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 600 );
     g->u.activity.str_values.push_back(p.name);
     p.add_effect( effect_currently_busy, 600);
 }
@@ -3251,7 +3251,7 @@ void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale(MORALE_HAIRCUT, 5, 5, 7200, 30);
     g->u.cash -= 1000;
-    g->u.assign_activity(ACT_WAIT_NPC, 300);
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300);
     g->u.activity.str_values.push_back(p.name);
     add_msg(m_good, _("%s gives you a decent haircut..."), p.name.c_str());
 }
@@ -3260,7 +3260,7 @@ void talk_function::buy_shave( npc &p )
 {
     g->u.add_morale(MORALE_SHAVE, 10, 10, 3600, 30);
     g->u.cash -= 500;
-    g->u.assign_activity(ACT_WAIT_NPC, 100);
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
     g->u.activity.str_values.push_back(p.name);
     add_msg(m_good, _("%s gives you a decent shave..."), p.name.c_str());
 }
@@ -3458,7 +3458,7 @@ void talk_function::start_training( npc &p )
     } else if( !pay_npc( p, cost ) ) {
         return;
     }
-    g->u.assign_activity( ACT_TRAIN, time * 100, p.getID(), 0, name );
+    g->u.assign_activity( activity_id( "ACT_TRAIN" ), time * 100, p.getID(), 0, name );
     p.add_effect( effect_asked_to_train, 3600 );
 }
 
@@ -3980,8 +3980,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             volume_left = temp.volume_capacity() - temp.volume_carried();
             weight_left = temp.weight_capacity() - temp.weight_carried();
             mvwprintz( w_head, 3, 2, (volume_left < 0 || weight_left < 0) ? c_red : c_green,
-                       _("Volume: %.2f liters, Weight: %.1f %s"), to_milliliter( volume_left ) / 1000.0,
-                                      convert_weight( weight_left ), weight_units() );
+                       _("Volume: %s %s, Weight: %.1f %s"),
+                       format_volume( volume_left ).c_str(), volume_units_abbr(),
+                       convert_weight( weight_left ), weight_units() );
 
             std::string cost_string = ex ? _("Exchange") : ( cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f") );
             mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_string.length() ) / 2,
@@ -4677,8 +4678,8 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
             reason << string_format( _("I have no space to store it.") );
             reason << std::endl;
             if( free_space > 0 ) {
-                reason << string_format( _("I can only store %.2f liters more."),
-                    to_milliliter( free_space ) / 1000.0 );
+                reason << string_format( _("I can only store %s %s more."),
+                    format_volume( free_space ).c_str(), volume_units_long() );
             } else {
                 reason << string_format( _("...or to store anything else for that matter.") );
             }
@@ -4697,14 +4698,13 @@ bool npc::has_item_whitelist() const
     return is_following() && !rules.pickup_whitelist->empty();
 }
 
-bool npc::item_whitelisted( const item &it )
+bool npc::item_name_whitelisted( const std::string &to_match )
 {
     if( !has_item_whitelist() ) {
         return true;
     }
 
     auto &wlist = *rules.pickup_whitelist;
-    const auto to_match = it.tname( 1, false );
     const auto rule = wlist.check_item( to_match );
     if( rule == RULE_WHITELISTED ) {
         return true;
@@ -4716,6 +4716,16 @@ bool npc::item_whitelisted( const item &it )
 
     wlist.create_rule( to_match );
     return wlist.check_item( to_match ) == RULE_WHITELISTED;
+}
+
+bool npc::item_whitelisted( const item &it )
+{
+    if( !has_item_whitelist() ) {
+        return true;
+    }
+
+    const auto to_match = it.tname( 1, false );
+    return item_name_whitelisted( to_match );
 }
 
 npc_follower_rules::npc_follower_rules()

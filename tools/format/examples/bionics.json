@@ -1,0 +1,23 @@
+[
+  {
+    "id": "bio_blade",
+    "type": "bionic",
+    "name": "Monomolecular Blade",
+    "description": "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended.",
+    "occupied_bodyparts": [
+      [ "ARM_R", 5 ],
+      [ "HAND_R", 2 ]
+    ],
+    "toggled": true,
+    "act_cost": 200,
+    "fake_item": "bio_blade_weapon",
+    "weapon_bionic": true
+  },
+  {
+    "id": "bio_power_storage",
+    "type": "bionic",
+    "name": "Power Storage",
+    "capacity": 100,
+    "description": "Compact Bionics Module that upgrades your power capacity by 100 units.  Having at least one of these is a prerequisite to using powered bionics.  You will also need a power supply, found in another CBM."
+  }
+]

@@ -66,6 +66,10 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
             continue;
         }
         if( !veh.add_item( part, it ) ) {
+            if( it.count_by_charges() ) {
+                // Maybe we can add a few charges in the trunk and the rest on the ground.
+                it.mod_charges( -veh.add_charges( part, it ) );
+            }
             g->m.add_item_or_charges( where, it, 1 );
             ++fallen_count;
         }
@@ -398,7 +402,7 @@ void activity_on_turn_pickup()
 
     // If there are items left, we ran out of moves, so make a new activity with the remainder.
     if( !indices.empty() ) {
-        g->u.assign_activity( ACT_PICKUP, 0 );
+        g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
         g->u.activity.placement = pickup_target;
         g->u.activity.auto_resume = autopickup;
         g->u.activity.values.push_back( from_vehicle );
@@ -546,7 +550,7 @@ void activity_on_turn_move_items()
     move_items( source, from_vehicle, destination, to_vehicle, indices, quantities );
 
     if( !indices.empty() ) {
-        g->u.assign_activity( ACT_MOVE_ITEMS, 0 );
+        g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
         g->u.activity.placement = source;
         g->u.activity.coords.push_back( destination );
         g->u.activity.values.push_back( from_vehicle );

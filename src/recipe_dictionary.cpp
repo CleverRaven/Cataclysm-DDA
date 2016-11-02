@@ -41,6 +41,17 @@ bool search_reqs( group gp, const std::string &txt )
         } );
     } );
 }
+// template specialization to make component searches easier
+template<>
+bool search_reqs( std::vector<std::vector<item_comp> >  gp,
+                  const std::string &txt )
+{
+    return std::any_of( gp.begin(), gp.end(), [&]( const std::vector<item_comp> &opts ) {
+        return std::any_of( opts.begin(), opts.end(), [&]( const item_comp & ic ) {
+            return lcmatch( item::nname( ic.type ), txt );
+        } );
+    } );
+}
 
 std::vector<const recipe *> recipe_subset::search( const std::string &txt,
         const search_type key ) const
@@ -193,7 +204,7 @@ void recipe_dictionary::load( JsonObject &jo, const std::string &src, bool uncra
         assign( jo, "autolearn", r.autolearn );
 
     } else if( jo.has_array( "autolearn" ) ) {
-        r.autolearn = false;
+        r.autolearn = true;
         auto sk = jo.get_array( "autolearn" );
         while( sk.has_more() ) {
             auto arr = sk.next_array();
@@ -385,7 +396,7 @@ void recipe_dictionary::finalize()
             r.container = item::find_type( r.result )->default_container;
         }
 
-        if( r.autolearn ) {
+        if( r.autolearn && r.autolearn_requirements.empty() ) {
             r.autolearn_requirements = r.required_skills;
             if( r.skill_used ) {
                 r.autolearn_requirements[ r.skill_used ] = r.difficulty;
@@ -402,8 +413,8 @@ void recipe_dictionary::finalize()
     for( const auto &e : item_controller->get_all_itypes() ) {
 
         // books that don't alreay have an uncrafting recipe
-        if( e.second->book && !recipe_dict.uncraft.count( e.first ) && e.second->volume > 0 ) {
-            int pages = e.second->volume / units::from_milliliter( 12.5 );
+        if( e.second.book && !recipe_dict.uncraft.count( e.first ) && e.second.volume > 0 ) {
+            int pages = e.second.volume / units::from_milliliter( 12.5 );
             auto &bk = recipe_dict.uncraft[ e.first ];
             bk.ident_ = e.first;
             bk.result = e.first;

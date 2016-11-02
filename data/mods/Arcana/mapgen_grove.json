@@ -120,8 +120,8 @@
                 "#W WW     R ~RR ~R~R~RR#",
                 "########################"
             ],
-            "place_items": [
-                { "item": "summoner_casualties", "chance": 100, "x": [ 1,22 ], "y": [ 1,22 ], "repeat": [ 2,6 ] }
+            "place_loot": [
+                { "group": "summoner_casualties", "chance": 100, "x": [ 1,22 ], "y": [ 1,22 ], "repeat": [ 2,6 ] }
             ],
             "terrain": {
                 "#": "t_rock",

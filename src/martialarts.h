@@ -51,7 +51,7 @@ struct ma_requirements {
     bool is_valid_player( const player &u ) const;
     bool is_valid_weapon( const item &i ) const;
 
-    void load( JsonObject &jo );
+    void load( JsonObject &jo, const std::string &src );
 };
 
 class ma_technique
@@ -59,7 +59,7 @@ class ma_technique
     public:
         ma_technique();
 
-        void load( JsonObject &jo );
+        void load( JsonObject &jo, const std::string &src );
 
         matec_id id;
         bool was_loaded = false;
@@ -176,7 +176,7 @@ class ma_buff
         bool throw_immune; // are we immune to throws/grabs?
         bool strictly_unarmed; // can we use unarmed weapons?
 
-        void load( JsonObject &jo );
+        void load( JsonObject &jo, const std::string &src );
 };
 
 class martialart
@@ -184,7 +184,7 @@ class martialart
     public:
         martialart();
 
-        void load( JsonObject &jo );
+        void load( JsonObject &jo, const std::string &src );
 
         // modifies a player's "current" stats with various types of bonuses
         void apply_static_buffs( player &u ) const;
@@ -228,8 +228,8 @@ class martialart
         std::vector<mabuff_id> ongethit_buffs;
 };
 
-void load_technique( JsonObject &jo );
-void load_martial_art( JsonObject &jo );
+void load_technique( JsonObject &jo, const std::string &src );
+void load_martial_art( JsonObject &jo, const std::string &src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finialize_martial_arts();

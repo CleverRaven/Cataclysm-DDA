@@ -275,6 +275,11 @@
     "replace": "jerrycan"
   },
   {
+    "id": "plasma_engine",
+    "type": "MIGRATION",
+    "replace": "minireactor"
+  },
+  {
     "id": "reloaded_40mm_fletchette",
     "type": "MIGRATION",
     "replace": "40mm_flechette"

@@ -10515,7 +10515,7 @@ void map::place_vending(int x, int y, std::string type)
     place_items( type, broken ? 40 : 99, x, y, x, y, false, 0 );
 }
 
-int map::place_npc(int x, int y, std::string type)
+int map::place_npc( int x, int y, const std::string &type )
 {
     if(!get_world_option<bool>( "STATIC_NPC" ) ) {
         return -1; //Do not generate an npc.

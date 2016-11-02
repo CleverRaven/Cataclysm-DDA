@@ -38,7 +38,7 @@ npc create_model()
     return model_npc;
 }
 
-TEST_CASE("on_load-sane-values")
+TEST_CASE("on_load-sane-values", "[!mayfail]")
 {
 
     npc model_npc = create_model();

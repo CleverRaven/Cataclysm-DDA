@@ -10,11 +10,13 @@
     "extras" : "build",
     "mondensity" : 2,
     "sidewalk" : true,
-    "mapgen": [ {
-    "method": "json",
-            "weight": 500,
-            "object": {
-            "rows": [
+    "mapgen": [
+      {
+        "method": "json",
+        "weight": 500,
+        "object": {
+          "fill_ter": "t_floor",
+          "rows": [
             "____,____,____,____,____",
             "____,____,____,____,____",
             "____,____,____,____,____",
@@ -41,79 +43,51 @@
             "........................"
             ],
             "terrain": {
-            ".": "t_grass",
-            "_": "t_pavement",
-            ",": "t_pavement_y",
-            " ": "t_floor",
-            "-": "t_wall",
-            "|": "t_wall",
-            "O": "t_window",
-            "L": "t_door_locked_alarm",
-            "+": "t_door_glass_c",
-            "h": "t_wall_glass",
-            "x": "t_console_broken",
-            "c": "t_floor",
-            "#": "t_floor",
-            "r": "t_floor",
-            "^": "t_chaingate_l",
-            "t": "t_floor",
-            "F": "t_sidewalk",
-            "@": "t_floor",
-            ":": "t_floor",
-            "T": "t_floor",
-            "l": "t_floor",
-            "=": "t_floor",
-            "G": "t_floor",
-            "&": "t_door_locked",
-            "B": "t_palisade",
-            "*": "t_door_locked",
-            "5": "t_chainfence_h",
-            "8": "t_chainfence_v",
-            "f": "t_pavement",
-            "v": "t_wall_glass",
-            "M": "t_floor"
+              ".": "t_grass",
+              "_": "t_pavement",
+              ",": "t_pavement_y",
+              " ": "t_floor",
+              "-": "t_wall",
+              "|": "t_wall",
+              "O": "t_window",
+              "L": "t_door_locked_alarm",
+              "+": "t_door_glass_c",
+              "h": "t_wall_glass",
+              "x": "t_console_broken",
+              "^": "t_chaingate_l",
+              "F": "t_sidewalk",
+              "&": "t_door_locked",
+              "B": "t_palisade",
+              "*": "t_door_locked",
+              "5": "t_chainfence_h",
+              "8": "t_chainfence_v",
+              "f": "t_pavement",
+              "v": "t_wall_glass"
             },
             "furniture": {
-            ".": "f_null",
-            "_": "f_null",
-            ",": "f_null",
-            " ": "f_null",
-            "-": "f_null",
-            "|": "f_null",
-            "O": "f_null",
-            "L": "f_null",
-            "+": "f_null",
-            "M": "f_anvil",
-            "w": "f_null",
-            "x": "f_null",
-            "c": "f_chair",
-            "#": "f_counter",
-            "&": "f_null",
-            "r": "f_rack",
-            "^": "f_null",
-            "t": "f_table",
-            "F": "f_null",
-            "@": "f_null",
-            ":": "f_dresser",
-            "l": "f_bookcase",
-            "S": "f_null",
-            "G": "f_desk",
-            "f": "f_trashcan",
-            "T": "f_displaycase",
-            "h": "f_null",
-            "v": "f_null"
+              "M": "f_anvil",
+              "c": "f_chair",
+              "#": "f_counter",
+              "r": "f_rack",
+              "t": "f_table",
+              ":": "f_dresser",
+              "l": "f_bookcase",
+              "G": "f_desk",
+              "f": "f_trashcan",
+              "T": "f_displaycase",
+              "h": "f_null"
             },
             "place_items": [
-                { "item": "antique", "chance": 70, "x": [ 4,9 ], "y": [ 10,10 ] },
-                { "item": "antique", "chance": 70, "x": [ 14,19 ], "y": [ 10,10 ] },
-                { "item": "antique", "chance": 70, "x": [ 4,9 ], "y": [ 13,13] },
-                { "item": "antique", "chance": 70, "x": [ 14,19 ], "y": [ 13,13 ] },
-                { "item": "antique", "chance": 70, "x": [ 1,1 ], "y": [ 8,15 ] },
-                { "item": "antique", "chance": 70, "x": [ 22,22 ], "y": [ 8,15 ] },
-                { "item": "antique_rare", "chance": 65, "x": [ 9,14 ], "y": [ 16,16 ]}
-                ]
-}
-}
-]
-}
+              { "item": "antique", "chance": 70, "x": [ 4,9 ], "y": [ 10,10 ] },
+              { "item": "antique", "chance": 70, "x": [ 14,19 ], "y": [ 10,10 ] },
+              { "item": "antique", "chance": 70, "x": [ 4,9 ], "y": [ 13,13] },
+              { "item": "antique", "chance": 70, "x": [ 14,19 ], "y": [ 13,13 ] },
+              { "item": "antique", "chance": 70, "x": [ 1,1 ], "y": [ 8,15 ] },
+              { "item": "antique", "chance": 70, "x": [ 22,22 ], "y": [ 8,15 ] },
+              { "item": "antique_rare", "chance": 65, "x": [ 9,14 ], "y": [ 16,16 ]}
+            ]
+        }
+      }
+    ]
+  }
 ]

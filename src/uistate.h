@@ -70,6 +70,9 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         bool list_item_downvote_active = false;
         bool list_item_priority_active = false;
         bool list_item_init = false;
+        // construction menu selections
+        std::string construction_filter;
+        std::string last_construction;
 
         // overmap editor selections
         const oter_t *place_terrain = nullptr;

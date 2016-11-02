@@ -20,7 +20,7 @@
                 "  |..........|---+---|  ",
                 "  |..........|]......|  ",
                 "  |###s##|-+-|].....#|  ",
-                "  |______|...+....h.#|  ",
+                "  |------|...+....h.#|  ",
                 "         |<..|...####|  ",
                 "         -------------  ",
                 "                        ",
@@ -86,6 +86,7 @@
                 { "group": "book_gunref",           "chance":  60, "x": 14, "y": [10,11] },
                 { "group": "gunmod_common",         "chance": 100, "x":  4, "y": 11 },
                 { "group": "guns_obscure",          "chance": 100, "x":  6, "y": 11, "magazine": 100, "ammo": 100 },
+                { "group": "museum_guns",           "chance":  70, "x":  6, "y": 11, "magazine": 90, "ammo": 70 },
                 { "group": "tools_common",          "chance": 100, "x": 20, "y": 12 },
                 { "group": "gunmod_rare",           "chance":  30, "x": 18, "y": 13 },
                 { "group": "gunmod_rare",           "chance": 100, "x": 19, "y": 13 }

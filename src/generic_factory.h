@@ -3,6 +3,7 @@
 
 #include "string_id.h"
 #include "int_id.h"
+#include "init.h"
 
 #include <string>
 #include <unordered_map>
@@ -116,40 +117,17 @@ class string_id_reader;
 template<typename T>
 class generic_factory
 {
+    private:
+        DynamicDataLoader::deferred_json deferred;
+
     protected:
         std::vector<T> list;
         std::unordered_map<string_id<T>, int_id<T>> map;
+        std::unordered_map<std::string, T> abstracts;
 
         std::string type_name;
         std::string id_member_name;
         std::string alias_member_name;
-
-        T &load_override( const string_id<T> &id, JsonObject &jo ) {
-            T obj;
-
-            obj.id = id;
-            obj.load( jo );
-            obj.was_loaded = true;
-
-            T &inserted_obj = insert( obj );
-
-            if( !alias_member_name.empty() && jo.has_member( alias_member_name ) ) {
-                const int_id<T> i_id = map[id];
-                std::vector<string_id<T>> aliases;
-
-                mandatory( jo, obj.was_loaded, alias_member_name, aliases, string_id_reader<T> {} );
-
-                for( const auto &alias : aliases ) {
-                    if( map.count( alias ) > 0 ) {
-                        jo.throw_error( "duplicate " + type_name + " alias \"" + alias.str() + "\" in \"" + id.str() +
-                                        "\"" );
-                    }
-                    map[alias] = i_id;
-                }
-            }
-
-            return inserted_obj;
-        }
 
         bool find_id( const string_id<T> &id, int_id<T> &result ) const {
             result = id.get_cid();
@@ -204,38 +182,56 @@ class generic_factory
          * calling `T::load(jo)` (either on a new object or on an existing object).
          * See class documentation for intended behavior of that function.
          *
-         * @return A reference to the loaded/modified object.
          * @throws JsonError If loading fails for any reason (thrown by `T::load`).
          */
-        T &load( JsonObject &jo ) {
-            const string_id<T> id( jo.get_string( id_member_name ) );
-            const auto iter = map.find( id );
-            const bool exists = iter != map.end();
+        void load( JsonObject &jo, const std::string &src ) {
+            bool strict = src == "core";
 
-            // "create" is the default, so the game catches accidental re-definitions of
-            // existing objects.
-            const std::string mode = jo.get_string( "edit-mode", "create" );
-            if( mode == "override" ) {
-                remove_aliases( id );
-                return load_override( id, jo );
+            T def;
 
-            } else if( mode == "modify" ) {
-                if( !exists ) {
-                    jo.throw_error( "missing definition of " + type_name + " \"" + id.str() + "\" to be modified",
-                                    id_member_name );
+            if( jo.has_string( "copy-from" ) ) {
+                if( jo.has_string( "edit-mode" ) ) {
+                    jo.throw_error( "cannot specify both copy-from and edit-mode" );
                 }
-                T &obj = list[iter->second];
-                obj.load( jo );
-                return obj;
-            } else if( mode == "create" ) {
-                if( exists ) {
-                    jo.throw_error( "duplicated definition of " + type_name + " \"" + id.str() + "\"", id_member_name );
+
+                auto base = map.find( string_id<T>( jo.get_string( "copy-from" ) ) );
+                auto ab = abstracts.find( jo.get_string( "copy-from" ) );
+
+                if( base != map.end() ) {
+                    def = obj( base->second );
+
+                } else if( ab != abstracts.end() ) {
+                    def = ab->second;
+
+                } else {
+                    deferred.emplace_back( jo.str(), src );
+                    return;
                 }
-                return load_override( id, jo );
+
+                def.was_loaded = true;
+            }
+
+            if( jo.has_string( id_member_name ) ) {
+                def.id = string_id<T>( jo.get_string( id_member_name ) );
+                def.load( jo, src );
+                insert( def );
+
+                if( !alias_member_name.empty() && jo.has_member( alias_member_name ) ) {
+                    std::set<string_id<T>> aliases;
+                    assign( jo, "aliases", aliases, strict );
+
+                    const int_id<T> ref = map[def.id];
+                    for( const auto &e : aliases ) {
+                        map[e] = ref;
+                    }
+                }
+
+            } else if( jo.has_string( "abstract" ) ) {
+                def.load( jo, src );
+                abstracts[jo.get_string( "abstract" )] = def;
 
             } else {
-                jo.throw_error( "invalid edit mode, must be \"create\", \"modify\" or \"override\"", "edit-mode" );
-                throw; // dummy, throw_error always throws
+                jo.throw_error( "must specify either id or abstract" );
             }
         }
         /**
@@ -260,6 +256,15 @@ class generic_factory
             map[result.id] = cid;
             return result;
         }
+
+        /** Finalize all entries (derived classes should chain to this method) */
+        virtual void finalize() {
+            if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
+                debugmsg( "JSON contains circular dependency: discarded %i entries", deferred.size() );
+            }
+            abstracts.clear();
+        }
+
         /**
          * Checks loaded/inserted objects for consistency
          */
@@ -627,13 +632,13 @@ struct handler<std::vector<T>> {
  *   and assigned, overriding any existing content of it.
  * - If the object is not new and the member exists, it is read and assigned as well.
  * - If the object is not new and the member does not exists, two further members are examined:
- *   entries from `"add:" + member_name` are added to the set and entries from `"remove:" + member_name`
+ *   entries from `"extend"` are added to the set and entries from `"delete"`
  *   are removed. This only works if the member is actually a container, not just a single value.
  *
  * Example:
  * The JSON `{ "f": ["a","b","c"] }` would be loaded as the set `{"a","b","c"}`.
- * Loading the set again from the JSON `{ "remove:f": ["c","x"], "add:f": ["h"] }` would add the
- * "h" flag and removes the "c" and the "x" flag, resulting in `{"a","b","h"}`.
+ * Loading the set again from the JSON `{ "delete": { "f": ["c","x"] }, "extend": { "f": ["h"] } }`
+ * would add the "h" flag and removes the "c" and the "x" flag, resulting in `{"a","b","h"}`.
  *
  * @tparam Derived The class that inherits from this. It must implement the following:
  *   - `Foo get_next( JsonIn & ) const`: reads the next value from JSON, converts it into some
@@ -718,8 +723,14 @@ class generic_typed_reader
             } else if( !was_loaded ) {
                 return false;
             } else {
-                derived.erase_values_from( jo, "remove:" + member_name, container );
-                derived.insert_values_from( jo, "add:" + member_name, container );
+                if( jo.has_object( "extend" ) ) {
+                    auto tmp = jo.get_object( "extend" );
+                    derived.insert_values_from( tmp, member_name, container );
+                }
+                if( jo.has_object( "delete" ) ) {
+                    auto tmp = jo.get_object( "delete" );
+                    derived.erase_values_from( tmp, member_name, container );
+                }
                 return true;
             }
         }

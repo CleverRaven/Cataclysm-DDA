@@ -143,6 +143,7 @@ void DynamicDataLoader::initialize()
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
     add( "emit", &emit::load_emit );
+    add( "activity_type", &activity_type::load );
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &materials::load );
     add( "bionic", &load_bionic );
@@ -195,8 +196,8 @@ void DynamicDataLoader::initialize()
     add( "ITEM_CATEGORY", []( JsonObject &jo ) { item_controller->load_item_category( jo ); } );
     add( "MIGRATION", []( JsonObject &jo ) { item_controller->load_migration( jo ); } );
 
-    add( "MONSTER", []( JsonObject &jo ) { MonsterGenerator::generator().load_monster( jo ); } );
-    add( "SPECIES", []( JsonObject &jo ) { MonsterGenerator::generator().load_species( jo ); } );
+    add( "MONSTER", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_monster( jo, src ); } );
+    add( "SPECIES", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_species( jo, src ); } );
 
     add( "recipe_category", &load_recipe_category );
     add( "recipe",  []( JsonObject &jo, const std::string &src ) { recipe_dictionary::load( jo, src, false ); } );
@@ -236,7 +237,7 @@ void DynamicDataLoader::initialize()
 
     add( "gate", &gates::load_gates );
     add( "overlay_order", &load_overlay_ordering );
-    add( "mission_definition", []( JsonObject &jo ) { mission_type::load_mission_type( jo ); } );
+    add( "mission_definition", []( JsonObject &jo, const std::string &src ) { mission_type::load_mission_type( jo, src ); } );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
@@ -318,6 +319,7 @@ void DynamicDataLoader::unload_data()
     requirement_data::reset();
     vitamin::reset();
     emit::reset();
+    activity_type::reset();
     fault::reset();
     materials::reset();
     profession::reset();
@@ -368,6 +370,8 @@ void DynamicDataLoader::finalize_loaded_data()
 {
     item_controller->finalize();
     vpart_info::finalize();
+    ter_t::finalize_all();
+    furn_t::finalize_all();
     set_ter_ids();
     set_furn_ids();
     set_oter_ids();
@@ -378,6 +382,7 @@ void DynamicDataLoader::finalize_loaded_data()
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
+    finalize_furniture_and_terrain();
     recipe_dictionary::finalize();
     finialize_martial_arts();
     finalize_constructions();
@@ -391,6 +396,7 @@ void DynamicDataLoader::check_consistency()
     requirement_data::check_consistency();
     vitamin::check_consistency();
     emit::check_consistency();
+    activity_type::check_consistency();
     item_controller->check_definitions();
     materials::check();
     fault::check_consistency();

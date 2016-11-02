@@ -930,9 +930,11 @@ public:
         std::string type_name( unsigned int quantity = 1 ) const;
 
         /**
-         * Number of charges of this item type that fit into the given volume.
+         * Number of charges of this item that fit into the given volume.
          * May return 0 if not even one charge fits into the volume. Only depends on the *type*
          * of this item not on its current charge count.
+         *
+         * For items not counted by charges, this returns this->volume() / vol.
          */
         long charges_per_volume( const units::volume &vol ) const;
 
@@ -1292,10 +1294,9 @@ public:
 
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
-         * @param alert whether to display message describing reason for any incompatibility
-         * @param effects whether temporary efects (jammed, loaded etc) are considered when checking
+         * @param msg message describing reason for any incompatibility
          */
-        bool gunmod_compatible( const item& mod, bool alert = true, bool effects = true ) const;
+        bool gunmod_compatible( const item& mod, std::string *msg = nullptr ) const;
 
         struct gun_mode {
             std::string mode;           /** name of this mode */

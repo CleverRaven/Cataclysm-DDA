@@ -324,20 +324,30 @@ nc_color map_data_common_t::color() const
     return color_[calendar::turn.get_season()];
 }
 
-void load_furniture(JsonObject &jsobj)
+const std::list<harvest_entry> &map_data_common_t::get_harvest() const
+{
+    return harvest_by_season[calendar::turn.get_season()];
+}
+
+const std::set<std::string> &map_data_common_t::get_harvest_names() const
+{
+    return harvest_names_by_season[calendar::turn.get_season()];
+}
+
+void load_furniture( JsonObject &jo, const std::string &src )
 {
     if( furniture_data.empty() ) {
         furniture_data.insert( null_furniture_t() );
     }
-    furniture_data.load( jsobj );
+    furniture_data.load( jo, src );
 }
 
-void load_terrain(JsonObject &jsobj)
+void load_terrain( JsonObject &jo, const std::string &src )
 {
     if( terrain_data.empty() ) { // todo@ This shouldn't live here
         terrain_data.insert( null_terrain_t() );
     }
-    terrain_data.load( jsobj );
+    terrain_data.load( jo, src );
 }
 
 void map_data_common_t::set_flag( const std::string &flag )
@@ -879,8 +889,83 @@ size_t ter_t::count()
     return terrain_data.size();
 }
 
-void ter_t::load( JsonObject &jo )
+void harvest_entry::load( JsonObject &jo )
 {
+    // @todo Clean this up, more "modern" assignment
+    drop = jo.get_string( "drop" );
+    if( jo.has_array( "base_num" ) ) {
+        JsonArray base = jo.get_array( "base_num" );
+        base_number_min = base.get_float( 0 );
+        base_number_max = base.get_float( 1 );
+    } else {
+        base_number_min = 1;
+        base_number_max = 1;
+    }
+
+    if( jo.has_array( "scaled_num" ) ) {
+        JsonArray scaled = jo.get_array( "base_num" );
+        scale_number_min = scaled.get_float( 0 );
+        scale_number_max = scaled.get_float( 1 );
+    } else {
+        scale_number_min = 0;
+        scale_number_max = 0;
+    }
+}
+
+void harvest_entry::check( const std::string &parent_name ) const
+{
+    if( !item::type_is_defined( drop ) ) {
+        debugmsg( "Invalid harvest result %s for %s", drop.c_str(), parent_name.c_str() );
+    }
+}
+
+namespace io {
+static const std::map<std::string, season_type> season_map = {{
+    { "spring", season_type::SPRING },
+    { "summer", season_type::SUMMER },
+    { "autumn", season_type::AUTUMN },
+    { "winter", season_type::WINTER }
+}};
+template<>
+season_type string_to_enum<season_type>( const std::string &data )
+{
+    return string_to_enum_look_up( season_map, data );
+}
+}
+
+void map_data_common_t::load( JsonObject &jo, const std::string & )
+{
+    if( jo.has_member( "examine_action" ) ) {
+        examine = iexamine_function_from_string( jo.get_string( "examine_action" ) );
+    } else {
+        examine = iexamine_function_from_string( "none" );
+    }
+
+    if( jo.has_array( "harvest_by_season" ) ) {
+        JsonArray jsarr = jo.get_array( "harvest_by_season" );
+        while( jsarr.has_more() ) {
+            JsonObject harvest_jo = jsarr.next_object();
+            auto season_strings = harvest_jo.get_tags( "seasons" );
+            std::set<season_type> seasons;
+            std::transform( season_strings.begin(), season_strings.end(), std::inserter( seasons, seasons.begin() ),
+            []( const std::string &data ) {
+                return io::string_to_enum<season_type>( data );
+            } );
+
+            auto cur_harvest = harvest_jo.get_object( "harvest" );
+            harvest_entry new_entry;
+            new_entry.load( cur_harvest );
+
+            for( season_type s : seasons ) {
+                harvest_by_season[ s ].push_back( new_entry );
+            }
+        }
+    }
+}
+
+void ter_t::load( JsonObject &jo, const std::string &src )
+{
+    map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "move_cost", movecost );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader, DEFAULT_MAX_VOLUME_IN_SQUARE );
@@ -902,34 +987,10 @@ void ter_t::load( JsonObject &jo )
         set_connects( jo.get_string( "connects_to" ) );
     }
 
-    if( jo.has_member( "examine_action" ) ) {
-        examine = iexamine_function_from_string( jo.get_string( "examine_action" ) );
-    } else {
-        examine = iexamine_function_from_string( "none" );
-    }
-
-    optional( jo, was_loaded, "harvestable", harvestable );
     optional( jo, was_loaded, "open", open, NULL_ID );
     optional( jo, was_loaded, "close", close, NULL_ID );
     optional( jo, was_loaded, "transforms_into", transforms_into, NULL_ID );
     optional( jo, was_loaded, "roof", roof, NULL_ID );
-
-    if( jo.has_member("harvest_season") ) {
-        const std::string season = jo.get_string( "harvest_season" );
-
-        if( season == "SPRING" ) {
-            harvest_season = season_type::SPRING;
-        } else if( season == "SUMMER" ) {
-            harvest_season = season_type::SUMMER;
-        } else if( season == "AUTUMN" ) {
-            harvest_season = season_type::AUTUMN;
-        } else if( season == "WINTER" ) {
-            harvest_season = season_type::WINTER;
-        } else {
-            harvest_season = season_type::AUTUMN;
-            debugmsg( "Invalid harvest season \"%s\" in \"%s\".", season.c_str(), id.c_str() );
-        }
-    }
 
     bash.load( jo, "bash", false );
     deconstruct.load( jo, "deconstruct", false );
@@ -974,6 +1035,7 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
 
 void ter_t::check() const
 {
+    map_data_common_t::check();
     check_bash_items( bash, id.str(), true );
     check_decon_items( deconstruct, id.str(), true );
 
@@ -986,6 +1048,9 @@ void ter_t::check() const
     if( !close.is_valid() ) {
         debugmsg( "invalid terrain %s for closing %s", close.c_str(), id.c_str() );
     }
+    if( transforms_into && transforms_into == id ) {
+        debugmsg( "%s transforms_into itself", name.c_str() );
+    }
 }
 
 size_t furn_t::count()
@@ -993,8 +1058,9 @@ size_t furn_t::count()
     return furniture_data.size();
 }
 
-void furn_t::load( JsonObject &jo )
+void furn_t::load( JsonObject &jo, const std::string &src )
 {
+    map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
     mandatory( jo, was_loaded, "required_str", move_str_req );
@@ -1008,12 +1074,6 @@ void furn_t::load( JsonObject &jo )
         set_flag( flag );
     }
 
-    if( jo.has_member( "examine_action" ) ) {
-        examine = iexamine_function_from_string( jo.get_string( "examine_action" ) );
-    } else {
-        examine = iexamine_function_from_string( "none" );
-    }
-
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, NULL_ID );
     optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, NULL_ID );
 
@@ -1021,8 +1081,48 @@ void furn_t::load( JsonObject &jo )
     deconstruct.load( jo, "deconstruct", true );
 }
 
+void map_data_common_t::check() const
+{
+    for( auto &harvest : harvest_by_season ) {
+        for( auto &entry : harvest ) {
+            entry.check( name );
+        }
+
+        if( !harvest.empty() && examine == iexamine::none ) {
+            debugmsg( "Harvest data defined without examine function for %s", name.c_str() );
+        }
+    }
+}
+
+void ter_t::finalize_all()
+{
+    for( auto &obj : const_cast<std::vector<ter_t> &>( terrain_data.get_all() ) ) {
+        obj.finalize();
+    }
+}
+
+void furn_t::finalize_all()
+{
+    for( auto &obj : const_cast<std::vector<furn_t> &>( furniture_data.get_all() ) ) {
+        obj.finalize();
+    }
+}
+
+void map_data_common_t::finalize()
+{
+    for( int i = 0; i < SEASONS_PER_YEAR; i++ ) {
+        std::set<std::string> names;
+        std::transform( harvest_by_season[ i ].begin(), harvest_by_season[ i ].end(), std::inserter( names, names.begin() ),
+            []( const harvest_entry &entry ) {
+                return item::nname( entry.drop );
+            } );
+        harvest_names_by_season[ i ] = names;
+    }
+}
+
 void furn_t::check() const
 {
+    map_data_common_t::check();
     check_bash_items( bash, id.str(), false );
     check_decon_items( deconstruct, id.str(), false );
 
@@ -1032,6 +1132,12 @@ void furn_t::check() const
     if( !close.is_valid() ) {
         debugmsg( "invalid furniture %s for closing %s", close.c_str(), id.c_str() );
     }
+}
+
+void finalize_furniture_and_terrain()
+{
+    terrain_data.finalize();
+    furniture_data.finalize();
 }
 
 void check_furniture_and_terrain()

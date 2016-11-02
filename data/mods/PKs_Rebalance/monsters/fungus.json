@@ -1,8 +1,8 @@
 [
   {
     "id": "mon_fungal_hedgerow",
+    "copy-from": "mon_fungal_hedgerow",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "hp": 50,
     "armor_bash": 8,
     "armor_cut": 8,
@@ -22,8 +22,8 @@
   },
   {
     "id": "mon_fungal_wall",
+    "copy-from": "mon_fungal_wall",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "hp": 30,
     "armor_bash": 12,
     "armor_cut": 12,
@@ -42,8 +42,8 @@
   },
   {
     "id": "mon_fungaloid_young",
+    "copy-from": "mon_fungaloid_young",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "aggression": -25,
     "special_attacks": [ [ "FUNGUS_GROWTH", 300 ] ],
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
@@ -51,8 +51,8 @@
   },
   {
     "id": "mon_fungaloid",
+    "copy-from": "mon_fungaloid",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "aggression": -10,
     "special_attacks": [ [ "FUNGUS", 40 ] ],
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
@@ -60,8 +60,8 @@
   },
   {
     "id": "mon_ant_fungus",
+    "copy-from": "mon_ant_fungus",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "species": [ "INSECT", "FUNGUS" ],
     "hp": 50,
     "speed": 90,
@@ -97,8 +97,8 @@
   },
   {
     "id": "mon_zombie_fungus",
+    "copy-from": "mon_zombie_fungus",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "species": [ "ZOMBIE", "FUNGUS" ],
     "vision_day": 7,
     "vision_night": 7,
@@ -106,8 +106,8 @@
   },
   {
     "id": "mon_boomer_fungus",
+    "copy-from": "mon_boomer_fungus",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "species": [ "ZOMBIE", "FUNGUS" ],
     "vision_day": 25,
     "vision_night": 3,

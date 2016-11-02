@@ -27,7 +27,7 @@ class start_location
         std::string target() const;
         const std::set<std::string> &flags() const;
 
-        static void load_location( JsonObject &jsonobj );
+        static void load_location( JsonObject &jo, const std::string &src );
         static void reset();
 
         static const std::vector<start_location> &get_all();
@@ -70,7 +70,7 @@ class start_location
         std::string _target;
         std::set<std::string> _flags;
 
-        void load( JsonObject &jo );
+        void load( JsonObject &jo, const std::string &src );
 
         void prepare_map( tinymap &m ) const;
 };

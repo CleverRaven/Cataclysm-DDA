@@ -1,10 +1,10 @@
 [
   {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "makeshift",
     "name": "More Craftables",
-    "author": "Various",
+    "authors": [ "Noctifer-de-Mortem" ],
+    "maintainers": [ "Noctifer-de-Mortem" ],
     "description": "Allows crafting of more improvised item variants",
     "category": "items",
     "path": ""

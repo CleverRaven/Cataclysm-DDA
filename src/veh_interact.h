@@ -114,6 +114,7 @@ class veh_interact
         void do_rename();
         void do_siphon();
         void do_tirechange();
+        void do_assign_crew();
         void do_relabel();
 
         void display_grid();
@@ -131,7 +132,7 @@ class veh_interact
           * @param action callback run when a part is selected
           */
         void overview( std::function<bool( const vehicle_part &pt )> enable = {},
-                       std::function<void( const vehicle_part &pt )> action = {} );
+                       std::function<void( vehicle_part &pt )> action = {} );
 
         void countDurability();
 

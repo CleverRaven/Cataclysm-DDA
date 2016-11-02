@@ -7,6 +7,7 @@
         "method": "json",
         "weight": 100, "comment": "<--- very low weight due to the awesomness within",
         "object": {
+            "fill_ter": "t_floor",
             "rows":[
                 "........................",
                 ".---22-----33----------.",
@@ -34,31 +35,13 @@
                 "........................"
             ],
             "terrain": {
-                ".": "t_grass",
+                ".": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
                 "-": "t_wall",
                 "2": "t_window_boarded",
                 "3": "t_door_locked",
                 "|": "t_wall",
                 " ": "t_floor",
-                "6": "t_floor",
-                "7": "t_floor",
-                "8": "t_floor",
-                "9": "t_floor",
-                ":": "t_floor",
-                ";": "t_floor",
                 "+": "t_door_c",
-                "=": "t_floor",
-                ">": "t_floor",
-                "?": "t_floor",
-                "@": "t_floor",
-                "A": "t_floor",
-                "B": "t_floor",
-                "C": "t_floor",
-                "D": "t_floor",
-                "E": "t_floor",
-                "F": "t_floor",
-                "G": "t_floor",
-                "H": "t_floor",
                 "z": "t_shrub",
                 "M": "t_door_metal_c",
                 "^": "t_tree",
@@ -88,24 +71,16 @@
             "toilets": {
                 ";": { }
             },
-            "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
-            "set": [
-                { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] },
-                { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": 0, "repeat": [ 5, 8 ] }
-            ],
-            "comment": "randomly picked from a group ---v",
             "place_items": [
-                { "item": "bed", "chance": 80,  "x": [6,6 ], "y": [13,13 ] },
-                { "item": "bed", "chance": 80,  "x": [9,9 ], "y": [13,13 ] },
-                { "item": "bed", "chance": 80,  "x": [6,6 ], "y": [15,15 ] },
-                { "item": "bed", "chance": 80,  "x": [9,9 ], "y": [15,15 ] },
-                { "item": "bed", "chance": 80,  "x": [6,6 ], "y": [17,17 ] },
-                { "item": "bed", "chance": 80,  "x": [9,9 ], "y": [17,17 ] },
-                { "item": "bed", "chance": 80,  "x": [6,6 ], "y": [19,19 ] },
-                { "item": "bed", "chance": 80,  "x": [9,9 ], "y": [19,19 ] },
-                { "item": "bed", "chance": 80,  "x": [2,3 ], "y": [6,7 ] },
+                { "item": "bed", "chance": 60,  "x": [6,6 ], "y": [13,13 ] },
+                { "item": "bed", "chance": 60,  "x": [9,9 ], "y": [13,13 ] },
+                { "item": "bed", "chance": 60,  "x": [6,6 ], "y": [15,15 ] },
+                { "item": "bed", "chance": 60,  "x": [9,9 ], "y": [15,15 ] },
+                { "item": "bed", "chance": 60,  "x": [6,6 ], "y": [17,17 ] },
+                { "item": "bed", "chance": 60,  "x": [9,9 ], "y": [17,17 ] },
+                { "item": "bed", "chance": 60,  "x": [6,6 ], "y": [19,19 ] },
+                { "item": "bed", "chance": 60,  "x": [9,9 ], "y": [19,19 ] },
+                { "item": "bed", "chance": 60,  "x": [2,3 ], "y": [6,7 ] },
                 { "item": "bedroom", "chance": 60,  "x": [ 2,8 ], "y": [ 2,10 ] },
                 { "item": "dresser", "chance": 50,  "x": [ 2,2 ], "y": [ 8,8 ] },
                 { "item": "bedroom", "chance": 60,  "x": [ 2,2 ], "y": [ 8,8 ] },
@@ -127,10 +102,9 @@
             ],
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [2,3] },
-                { "monster": "GROUP_PREPPER_HOUSE", "x": [ 2, 21 ], "y": [ 13, 21 ] }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+                { "monster": "GROUP_PREPPER_HOUSE", "x": [ 2, 21 ], "y": [ 13, 21 ] },
+                { "monster": "GROUP_PEST", "x": [ 2, 21 ], "y": [ 13, 21 ], "chance": 3 }
+            ]
+        }
     }
 ]

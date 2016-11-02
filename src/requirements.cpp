@@ -46,12 +46,12 @@ void quality::reset()
     quality_factory.reset();
 }
 
-void quality::load_static( JsonObject &jo )
+void quality::load_static( JsonObject &jo, const std::string &src )
 {
-    quality_factory.load( jo );
+    quality_factory.load( jo, src );
 }
 
-void quality::load( JsonObject &jo )
+void quality::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
 

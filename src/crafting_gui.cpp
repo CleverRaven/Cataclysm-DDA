@@ -259,6 +259,13 @@ const recipe *select_crafting_recipe( int &batch_size )
                     return availability_cache[e];
                 } );
             }
+
+            // current/available have been rebuilt, make sure our cursor is still in range
+            if( current.empty() ) {
+                line = 0;
+            } else {
+                line = std::min( line, ( int )current.size() - 1 );
+            }
         }
 
         // Clear the screen of recipe data, and draw it anew
