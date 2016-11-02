@@ -40,6 +40,21 @@
     ]
   },
   {
+    "result": "reloaded_762_25",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 4 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 3 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet_762x25", 1 ], [ "ammo_762_25", 1 ] ],
+    "components": [ [ [ "gunpowder", 4 ] ] ]
+  },
+  {
     "result": "reloaded_9mm",
     "type": "recipe",
     "category": "CC_AMMO",
