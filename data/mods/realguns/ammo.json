@@ -155,6 +155,12 @@
     "type": "AMMO",
     "name": "10mm Auto",
     "name_plural": "10mm Auto",
+    "relative": {
+        "range": 2,
+        "damage": 2,
+        "pierce": -4,
+        "recoil": 335
+    },
     "delete": { "ammo_type": [ "40" ] }
   },
   {
