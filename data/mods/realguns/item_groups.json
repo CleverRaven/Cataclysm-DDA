@@ -15,12 +15,24 @@
   {
     "id": "ammo_pistol_common",
     "type": "item_group",
-    "items": [ [ "45_long_colt", 30 ] ]
+    "items": [
+        [ "357", 30 ],
+        [ "45_long_colt", 30 ]
+    ]
   },
+  {
+    "id": "ammo_pistol_rare",
+    "type": "item_group",
+    "items": [ [ "357_P", 50 ] ]
+  }
   {
     "id": "ammo_pistol_reloaded",
     "type": "item_group",
-    "items": [ [ "reloaded_45_long_colt", 40 ] ]
+    "items": [
+        [ "reloaded_357", 50 ],
+        [ "reloaded_357_P", 20 ],
+        [ "reloaded_45_long_colt", 40 ]
+    ]
   },
   {
     "id": "ammo_shotgun_common",
