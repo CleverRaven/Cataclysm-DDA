@@ -299,7 +299,8 @@ void mission_type::load( JsonObject &jo, const std::string & )
 
 void mission_type::check_consistency()
 {
-    for( const auto &m : get_all() ) {
+    for( const auto &e : get_all() ) {
+        const auto &m = e.second;
         if( !m.item_id.empty() && !item::type_is_defined( m.item_id ) ) {
             debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
         }
@@ -408,7 +409,7 @@ const mission_type *mission_type::get( const mission_type_id id )
     return &id.obj();
 }
 
-const std::vector<mission_type> &mission_type::get_all()
+const std::map<std::string, mission_type> &mission_type::get_all()
 {
     return mission_type_factory.get_all();
 }
@@ -416,7 +417,9 @@ const std::vector<mission_type> &mission_type::get_all()
 mission_type_id mission_type::get_random_id( const mission_origin origin, const tripoint &p )
 {
     std::vector<mission_type_id> valid;
-    for( auto & t : get_all() ) {
+    for( auto &e : get_all() ) {
+        auto &t = e.second;
+
         if( std::find( t.origins.begin(), t.origins.end(), origin ) == t.origins.end() ) {
             continue;
         }

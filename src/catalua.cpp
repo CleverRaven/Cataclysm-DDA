@@ -984,6 +984,7 @@ static int game_get_monster_types(lua_State *L)
     lua_createtable(L, mtypes.size(), 0); // Preallocate enough space for all our monster types.
 
     // Iterate over the monster list and insert each monster into our returned table.
+    auto iter = mtypes.begin();
     for( size_t i = 0; i < mtypes.size(); ++i ) {
         // The stack will look like this:
         // 1 - t, table containing id
@@ -993,8 +994,10 @@ static int game_get_monster_types(lua_State *L)
         // lua_rawset then does t[k] = v and pops v and k from the stack
 
         lua_pushnumber(L, i + 1);
-        LuaValue<mtype_id>::push( L, mtypes[i].id );
+        LuaValue<mtype_id>::push( L, iter->second.id );
         lua_rawset(L, -3);
+
+        iter++;
     }
 
     return 1; // 1 return values

@@ -368,7 +368,7 @@ const mission_type &mission::get_type() const
 {
     if( type == nullptr ) {
         debugmsg( "Null mission type" );
-        return mission_type::get_all().front();
+        return mission_type::get_all().begin()->second;
     }
 
     return *type;

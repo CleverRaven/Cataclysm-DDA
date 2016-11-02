@@ -363,7 +363,8 @@ void game::wishmonster( const tripoint &p )
     wmenu.callback = &cb;
 
     int i = 0;
-    for( const auto &montype : MonsterGenerator::generator().get_all_mtypes() ) {
+    for( const auto &e : MonsterGenerator::generator().get_all_mtypes() ) {
+        const auto &montype = e.second;
         wmenu.addentry( i, true, 0, "%s", montype.nname().c_str() );
         wmenu.entries[i].extratxt.txt = montype.sym;
         wmenu.entries[i].extratxt.color = montype.color;

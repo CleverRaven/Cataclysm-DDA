@@ -199,7 +199,7 @@ struct mission_type {
     /**
      * Get all mission types at once.
      */
-    static const std::vector<mission_type> &get_all();
+    static const std::map<std::string, mission_type> &get_all();
 
     static void reset();
     static void load_mission_type( JsonObject &jo, const std::string &src );

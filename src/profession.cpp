@@ -162,7 +162,7 @@ const profession *profession::weighted_random()
     while( true ) {
         auto iter = list.begin();
         std::advance( iter, rng( 0, list.size() - 1 ) );
-        const profession &prof = *iter;
+        const profession &prof = iter->second;
 
         if( x_in_y( 2, abs( prof.point_cost() ) + 2 ) && !prof.has_flag( "SCEN_ONLY" ) ) {
             return &prof;
@@ -171,7 +171,7 @@ const profession *profession::weighted_random()
     }
 }
 
-const std::vector<profession> &profession::get_all()
+const std::map<std::string, profession> &profession::get_all()
 {
     return all_profs.get_all();
 }
@@ -184,7 +184,7 @@ void profession::reset()
 void profession::check_definitions()
 {
     for( const auto &prof : all_profs.get_all() ) {
-        prof.check_definition();
+        prof.second.check_definition();
     }
 }
 

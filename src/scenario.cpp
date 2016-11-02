@@ -119,7 +119,7 @@ const scenario *scenario::weighted_random()
     while( true ) {
         auto iter = list.begin();
         std::advance( iter, rng( 0, list.size() - 1 ) );
-        const scenario &scen = *iter;
+        const scenario &scen = iter->second;
 
         if( x_in_y( 2, abs( scen.point_cost() ) + 2 ) ) {
             return &scen;
@@ -128,7 +128,7 @@ const scenario *scenario::weighted_random()
     }
 }
 
-const std::vector<scenario> &scenario::get_all()
+const std::map<std::string, scenario> &scenario::get_all()
 {
     return all_scenarios.get_all();
 }
@@ -141,7 +141,7 @@ void scenario::reset()
 void scenario::check_definitions()
 {
     for( const auto &scen : all_scenarios.get_all() ) {
-        scen.check_definition();
+        scen.second.check_definition();
     }
 }
 

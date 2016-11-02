@@ -2104,7 +2104,8 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     std::map<std::tuple<std::string, std::string>, int> kill_counts;
 
     // map <name, sym> to kill count
-    for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
+    for( const auto &e : MonsterGenerator::generator().get_all_mtypes() ) {
+        const auto &type = e.second;
         if( g->kill_count( type.id ) > 0 ) {
             kill_counts[std::tuple<std::string, std::string>(
                             type.nname(),

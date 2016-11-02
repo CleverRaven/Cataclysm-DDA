@@ -336,17 +336,12 @@ const std::set<std::string> &map_data_common_t::get_harvest_names() const
 
 void load_furniture( JsonObject &jo, const std::string &src )
 {
-    if( furniture_data.empty() ) {
-        furniture_data.insert( null_furniture_t() );
-    }
+
     furniture_data.load( jo, src );
 }
 
 void load_terrain( JsonObject &jo, const std::string &src )
 {
-    if( terrain_data.empty() ) { // todo@ This shouldn't live here
-        terrain_data.insert( null_terrain_t() );
-    }
     terrain_data.load( jo, src );
 }
 
@@ -739,7 +734,7 @@ void set_ter_ids() {
     t_improvised_shelter = ter_id( "t_improvised_shelter" );
 
     for( auto &elem : terrain_data.get_all() ) {
-        ter_t &ter = const_cast<ter_t&>( elem );
+        ter_t &ter = const_cast<ter_t&>( elem.second );
         if( ter.trap_id_str.empty() ) {
             ter.trap = tr_null;
         } else {
@@ -1096,15 +1091,21 @@ void map_data_common_t::check() const
 
 void ter_t::finalize_all()
 {
-    for( auto &obj : const_cast<std::vector<ter_t> &>( terrain_data.get_all() ) ) {
-        obj.finalize();
+    terrain_data.insert( null_terrain_t() );
+
+    terrain_data.finalize();
+    for( auto &e : terrain_data.get_all() ) {
+        const_cast<ter_t &>( e.second ).finalize();
     }
 }
 
 void furn_t::finalize_all()
 {
-    for( auto &obj : const_cast<std::vector<furn_t> &>( furniture_data.get_all() ) ) {
-        obj.finalize();
+    furniture_data.insert( null_furniture_t() );
+
+    furniture_data.finalize();
+    for( auto &e : furniture_data.get_all() ) {
+        const_cast<furn_t &>( e.second ).finalize();
     }
 }
 
