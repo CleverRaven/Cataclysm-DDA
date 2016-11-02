@@ -227,5 +227,65 @@
     },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "50_incendiary",
+    "copy-from": "50_incendiary",
+    "type": "AMMO",
+    "name": ".50 BMG Tracer",
+    "name_plural": ".50 BMG Tracer",
+    "decription": "A tracer variant of the powerful .50 BMG sniper round.  Tracer rounds to help keep the weapon they are fired from on target at the risk of igniting flammable substances.",
+    "damage": 130,
+    "recoil": 17000
+  },
+  {
+    "id": "50bmg",
+    "copy-from": "50bmg",
+    "type": "AMMO",
+    "name": ".50 BMG Ball",
+    "name_plural": ".50 BMG Ball",
+    "description": "A .50 caliber heavy cartridge, loaded with a 750gr bullet.  The .50 BMG is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
+    "damage": 130,
+    "recoil": 17000
+  },
+  {
+    "id": "50ss",
+    "copy-from": "50ss",
+    "type": "AMMO",
+    "name": ".50 BMG AP",
+    "name_plural": ".50 BMG AP",
+    "description": "A variant of the .50 BMG round that uses a core of very dense, hardened tungsten steel.  Penetration is increased, but damage is reduced.",
+    "damage": 120,
+    "recoil": 17000
+  },
+  {
+    "id": "reloaded_50_incendiary",
+    "copy-from": "reloaded_50_incendiary",
+    "type": "AMMO",
+    "name": "reloaded .50 BMG API",
+    "name_plural": "reloaded .50 BMG API",
+    "description": "An armor-piercing incendiary variant of the powerful .50 BMG sniper round, loaded with a 750 gr. incendiary bullet.  Incendiary rounds are designed to burn hotly upon impact, piercing armor and igniting flammable substances.  This one has been hand-reloaded.",
+    "damage": 117,
+    "recoil": 17000
+  },
+  {
+    "id": "reloaded_50bmg",
+    "copy-from": "reloaded_50bmg",
+    "type": "AMMO",
+    "name": "reloaded .50 BMG",
+    "name_plural": "reloaded .50 BMG",
+    "description": "A .50 caliber heavy cartridge, loaded with a 750gr bullet.  The .50 BMG is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.  This one has been hand-reloaded.",
+    "damage": 117,
+    "recoil": 17000
+  },
+  {
+    "id": "reloaded_50ss",
+    "copy-from": "reloaded_50ss",
+    "type": "AMMO",
+    "name": "reloaded .50 BMG AP",
+    "name_plural": "reloaded .50 BMG AP",
+    "description": "Variant of the .50 BMG round that uses a core of very dense, hardened tungsten steel.  Penetration is increased, but damage is reduced.  This one has been hand-reloaded.",
+    "damage": 108,
+    "recoil": 17000
   }
 ]
