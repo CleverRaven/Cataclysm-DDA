@@ -4506,10 +4506,6 @@ item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overf
                 return place_item( e );
             }
         }
-        
-        if( !charge || new_item.charges == 0 ) {
-            return ret ? *ret : nulitem;
-        }
     }
 
     // failed due to lack of space at target tile (+/- overflow tiles)
