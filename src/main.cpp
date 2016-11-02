@@ -461,20 +461,20 @@ int main(int argc, char *argv[])
     sigaction(SIGINT, &sigIntHandler, NULL);
 #endif
 
-    bool quit_game = false;
-    do {
+    while( true ) {
         main_menu menu;
         if( !menu.opening_screen() ) {
-            quit_game = true;
-        } else {
-            while( !quit_game && !g->do_turn() ) { }
-            quit_game = g->game_error();
+            break;
         }
-    } while (!quit_game);
+
+        while( !g->do_turn() );
+        if( g->game_error() ) {
+            break;
+        }
+    };
 
 
     exit_handler(-999);
-
     return 0;
 }
 
