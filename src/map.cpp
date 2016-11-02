@@ -4493,12 +4493,12 @@ item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overf
         return nulitem;
     }
 
-    // If tile can contain items place here...
     if( !has_flag( "NOITEM", pos ) && valid_limits( pos ) ) {
+        // If tile can contain items place here...
         return place_item( pos );
 
-    // ...otherwise try to overflow to adjacent tiles (if permitted)
     } else if( overflow ) {
+        // ...otherwise try to overflow to adjacent tiles (if permitted)
         auto tiles = closest_tripoints_first( 2, pos );
         tiles.erase( tiles.begin() ); // we already tried this position
         for( const auto &e : tiles ) {
@@ -4510,7 +4510,7 @@ item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overf
         if( !charge || new_item.charges == 0 ) {
             return ret ? *ret : nulitem;
         }
-    } //end for every point in overflow radius
+    }
 
     // failed due to lack of space at target tile (+/- overflow tiles)
     return nulitem;
