@@ -1649,7 +1649,7 @@ ter_id map::ter( const tripoint &p ) const
  */
 const std::list<harvest_entry> &map::get_harvest( const tripoint &pos ) const
 {
-    static const std::list<harvest_entry> null_harvest;
+    static const std::list<harvest_entry> null_harvest = {};
     const auto furn_here = furn( pos );
     if( furn_here->examine != iexamine::none ) {
         // Note: if furniture can be examined, the terrain can NOT (until furniture is removed)
@@ -1670,7 +1670,7 @@ const std::list<harvest_entry> &map::get_harvest( const tripoint &pos ) const
 
 const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 {
-    static const std::set<std::string> null_harvest;
+    static const std::set<std::string> null_harvest = {};
     const auto furn_here = furn( pos );
     if( furn_here->examine != iexamine::none ) {
         if( furn_here->has_flag( TFLAG_HARVESTED ) ) {
@@ -4461,7 +4461,7 @@ item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_ra
 
     const bool charge = new_item.count_by_charges();
     item *ret = nullptr;
-    
+
     for( const auto &p_it : closest_tripoints_first(overflow_radius, p) ) {
         if( !inbounds( p_it ) || has_flag( "DESTROY_ITEM", p_it ) || has_flag( "NOITEM", p_it ) ) {
             continue;
@@ -4471,7 +4471,7 @@ item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_ra
         if( can_fit < 1 ) {
             continue;
         }
-        
+
         item *here = charge ? istack.stacks_with( new_item ) : nullptr;
         const long old_charges = new_item.charges;
         if( here ) {
@@ -4487,7 +4487,7 @@ item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_ra
             new_item.charges = charge ? old_charges - can_fit : new_item.charges;
             support_dirty( p_it );
         }
-        
+
         if( !charge || new_item.charges == 0 ) {
             return ret ? *ret : nulitem;
         }
