@@ -168,6 +168,8 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
             return _( "category" );
         case SORTBY_DAMAGE:
             return _( "damage" );
+        case SORTBY_STALENESS:
+            return _( "staleness" );
     }
     return "!BUG!";
 }
@@ -228,7 +230,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         const double weight_capacity = convert_weight( g->u.weight_capacity() );
         std::string volume_carried = format_volume( g->u.volume_carried() );
         std::string volume_capacity = format_volume( g->u.volume_capacity() );
-        // align right, so calculate formated head length 
+        // align right, so calculate formated head length
         const std::string head = string_format( "%.1f/%.1f %s  %s/%s %s",
                                                 weight_carried, weight_capacity, weight_units(),
                                                 volume_carried.c_str(),
@@ -430,6 +432,11 @@ struct advanced_inv_sorter {
             case SORTBY_DAMAGE:
                 if( d1.items.front()->damage() != d2.items.front()->damage() ) {
                     return d1.items.front()->damage() < d2.items.front()->damage();
+                }
+                break;
+            case SORTBY_STALENESS:
+                if( d1.items.front()->get_time_until_rotten() != d2.items.front()->get_time_until_rotten() ) {
+                    return d1.items.front()->get_time_until_rotten() < d2.items.front()->get_time_until_rotten();
                 }
                 break;
         }
@@ -1320,6 +1327,7 @@ bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
     sm.addentry( SORTBY_CHARGES,  true, 'x', get_sortname( SORTBY_CHARGES ) );
     sm.addentry( SORTBY_CATEGORY, true, 'c', get_sortname( SORTBY_CATEGORY ) );
     sm.addentry( SORTBY_DAMAGE,   true, 'd', get_sortname( SORTBY_DAMAGE ) );
+    sm.addentry( SORTBY_STALENESS,   true, 's', get_sortname( SORTBY_STALENESS ) );
     // Pre-select current sort.
     sm.selected = pane.sortby - SORTBY_NONE;
     // Calculate key and window variables, generate window,
@@ -2048,11 +2056,11 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         redraw = true;
         return false;
     }
-    
+
     // Check volume, this should work the same for inventory, map and vehicles, but not for worn
     if( unitvolume > 0 && ( unitvolume * amount ) > free_volume && squares[destarea].id != AIM_WORN ) {
         const long room_for = it.charges_per_volume( free_volume );
-        
+
         if( room_for <= 0 ) {
             popup( _( "Destination area is full.  Remove some items first." ) );
             redraw = true;
