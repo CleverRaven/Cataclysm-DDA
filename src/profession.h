@@ -70,11 +70,14 @@ enum add_type : int;
         static const profession *generic(); // points to the generic, default profession
         // return a random profession, weighted for use w/ random character creation or npcs
         static const profession *weighted_random();
-        static const std::vector<profession> &get_all();
+        static const std::map<std::string, profession> &get_all();
 
         static bool has_initialized();
         // clear profession map, every profession pointer becames invalid!
         static void reset();
+
+        static void finalize();
+
         /** calls @ref check_definition for each profession */
         static void check_definitions();
         /** Check that item/CBM/addiction/skill definitions are valid. */

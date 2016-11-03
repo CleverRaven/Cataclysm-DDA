@@ -101,7 +101,7 @@ void MonsterGenerator::finalize_mtypes()
 {
     mon_templates->finalize();
     for( const auto &elem : mon_templates->get_all() ) {
-        mtype &mon = const_cast<mtype&>( elem );
+        mtype &mon = const_cast<mtype&>( elem.second );
         apply_species_attributes( mon );
         set_mtype_flags( mon );
         set_species_ids( mon );
@@ -130,8 +130,8 @@ void MonsterGenerator::finalize_mtypes()
     }
 
     for( const auto &mon : mon_templates->get_all() ) {
-        if( !mon.has_flag( MF_NOT_HALLU ) ) {
-            hallucination_monsters.push_back( mon.id );
+        if( !mon.second.has_flag( MF_NOT_HALLU ) ) {
+            hallucination_monsters.push_back( mon.second.id );
         }
     }
 }
@@ -640,7 +640,7 @@ void species_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "fear_triggers", fear_trig, trigger_reader );
 }
 
-const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
+const std::map<std::string, mtype> &MonsterGenerator::get_all_mtypes() const
 {
     return mon_templates->get_all();
 }
@@ -725,7 +725,8 @@ void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_na
 
 void MonsterGenerator::check_monster_definitions() const
 {
-    for( const auto &mon : mon_templates->get_all() ) {
+    for( const auto &e : mon_templates->get_all() ) {
+        const auto &mon = e.second;
         for( auto &spec : mon.species ) {
             if( !spec.is_valid() ) {
                 debugmsg("monster %s has invalid species %s", mon.id.c_str(), spec.c_str());

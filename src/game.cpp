@@ -1185,9 +1185,9 @@ bool game::cleanup_at_end()
 
         int iTotalKills = 0;
 
-        for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
-            if( kill_count( type.id ) > 0 ) {
-                iTotalKills += kill_count( type.id );
+        for( const auto &e : MonsterGenerator::generator().get_all_mtypes() ) {
+            if( kill_count( e.second.id ) > 0 ) {
+                iTotalKills += kill_count( e.second.id );
             }
         }
 
@@ -4480,11 +4480,10 @@ void game::debug()
                         uimenu types;
                         types.return_invalid = true;
                         types.text = _( "Choose mission type" );
-                        const auto all_missions = mission_type::get_all();
                         std::vector<const mission_type *> mts;
-                        for( size_t i = 0; i < all_missions.size(); i++ ) {
-                            types.addentry( i, true, -1, all_missions[ i ].name );
-                            mts.push_back( &all_missions[ i ] );
+                        for( const auto &e : mission_type::get_all() ) {
+                            types.addentry( -1, true, -1, e.second.name );
+                            mts.push_back( &e.second );
                         }
 
                         types.addentry( INT_MAX, true, -1, _( "Cancel" ) );
@@ -4510,9 +4509,9 @@ void game::debug()
                         classes.text = _( "Choose new class" );
                         std::vector<npc_class_id> ids;
                         size_t i = 0;
-                        for( auto &cl : npc_class::get_all() ) {
-                            ids.push_back( cl.id );
-                            classes.addentry( i, true, -1, cl.get_name() );
+                        for( const auto &cl : npc_class::get_all() ) {
+                            ids.push_back( cl.second.id );
+                            classes.addentry( i, true, -1, cl.second.get_name() );
                             i++;
                         }
 

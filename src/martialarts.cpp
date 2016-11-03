@@ -210,7 +210,7 @@ std::vector<matype_id> all_martialart_types()
 {
     std::vector<matype_id> result;
     for( const auto &ma : martialarts.get_all() ) {
-        result.push_back( ma.id );
+        result.push_back( ma.second.id );
     }
     return result;
 }
@@ -226,7 +226,8 @@ void check( const ma_requirements & req, const std::string &display_text )
 
 void check_martialarts()
 {
-    for( const auto &ma : martialarts.get_all() ) {
+    for( const auto &e : martialarts.get_all() ) {
+        const auto &ma = e.second;
         for( auto technique = ma.techniques.cbegin();
              technique != ma.techniques.cend(); ++technique ) {
             if( !technique->is_valid() ) {
@@ -243,10 +244,10 @@ void check_martialarts()
         }
     }
     for( const auto &t : ma_techniques.get_all() ) {
-        ::check( t.reqs, string_format( "technique %s", t.id.c_str() ) );
+        ::check( t.second.reqs, string_format( "technique %s", t.second.id.c_str() ) );
     }
     for( const auto &b : ma_buffs.get_all() ) {
-        ::check( b.reqs, string_format( "buff %s", b.id.c_str() ) );
+        ::check( b.second.reqs, string_format( "buff %s", b.second.id.c_str() ) );
     }
 }
 
@@ -299,10 +300,14 @@ public:
 
 void finialize_martial_arts()
 {
+    martialarts.finalize();
+    ma_buffs.finalize();
+    ma_techniques.finalize();
+
     // This adds an effect type for each ma_buff, so we can later refer to it and don't need a
     // redundant definition of those effects in json.
     for( const auto &buff : ma_buffs.get_all() ) {
-        const ma_buff_effect_type new_eff( buff );
+        const ma_buff_effect_type new_eff( buff.second );
         // Note the slicing here: new_eff is converted to a plain effect_type, but this doesn't
         // bother us because ma_buff_effect_type does not have any members that can be sliced.
         effect_type::register_ma_buff_effect( new_eff );

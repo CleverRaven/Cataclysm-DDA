@@ -100,8 +100,10 @@ void apply_all_to_unassigned( T &skills )
 
 void npc_class::finalize_all()
 {
+    npc_class_factory.finalize();
+
     for( auto &cl_const : npc_class_factory.get_all() ) {
-        auto &cl = const_cast<npc_class &>( cl_const );
+        auto &cl = const_cast<npc_class &>( cl_const.second );
         apply_all_to_unassigned( cl.skills );
         apply_all_to_unassigned( cl.bonus_skills );
 
@@ -123,7 +125,8 @@ void npc_class::check_consistency()
         }
     }
 
-    for( auto &cl : npc_class_factory.get_all() ) {
+    for( const auto &e : npc_class_factory.get_all() ) {
+        const auto &cl = e.second;
         if( !item_group::group_is_defined( cl.shopkeeper_item_group ) ) {
             debugmsg( "Missing shopkeeper item group %s", cl.shopkeeper_item_group.c_str() );
         }
@@ -275,7 +278,7 @@ const npc_class_id &npc_class::from_legacy_int( int i )
     return legacy_ids[ i ];
 }
 
-const std::vector<npc_class> &npc_class::get_all()
+const std::map<std::string, npc_class> &npc_class::get_all()
 {
     return npc_class_factory.get_all();
 }
@@ -284,8 +287,8 @@ const npc_class_id &npc_class::random_common()
 {
     std::list<const npc_class_id *> common_classes;
     for( const auto &pr : npc_class_factory.get_all() ) {
-        if( pr.common ) {
-            common_classes.push_back( &pr.id );
+        if( pr.second.common ) {
+            common_classes.push_back( &pr.second.id );
         }
     }
 

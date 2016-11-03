@@ -87,6 +87,11 @@ void gates::reset()
     gates_data.reset();
 }
 
+void gates::finalize()
+{
+    gates_data.finalize();
+}
+
 // A gate handle is adjacent to a wall section, and next to that wall section on one side or
 // another is the gate.  There may be a handle on the other side, but this is optional.
 // The gate continues until it reaches a non-floor tile, so they can be arbitrary length.

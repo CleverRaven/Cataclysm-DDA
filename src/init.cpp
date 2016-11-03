@@ -367,6 +367,7 @@ void DynamicDataLoader::unload_data()
 extern void calculate_mapgen_weights();
 void DynamicDataLoader::finalize_loaded_data()
 {
+    materials::finalize();
     item_controller->finalize();
     vpart_info::finalize();
     ter_t::finalize_all();
@@ -382,10 +383,15 @@ void DynamicDataLoader::finalize_loaded_data()
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
     finalize_furniture_and_terrain();
+    gates::finalize();
     recipe_dictionary::finalize();
+    profession::finalize();
+    scenario::finalize();
+    start_location::finalize();
     finialize_martial_arts();
     finalize_constructions();
     npc_class::finalize_all();
+    mission_type::finalize();
     check_consistency();
 }
 

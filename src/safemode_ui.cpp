@@ -416,8 +416,8 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     }
 
     //Loop through all monster mtypes
-    for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
-        creature_name = mtype.nname();
+    for( const auto &e : MonsterGenerator::generator().get_all_mtypes() ) {
+        creature_name = e.second.nname();
         if( wildcard_match( creature_name, temp_rules[row_in].rule ) ) {
             creature_list.push_back( creature_name );
         }
@@ -564,8 +564,8 @@ void safemode::add_rules( std::vector<rules_class> &rules_in )
     for( auto &rule : rules_in ) {
         if( !rule.whitelist ) {
             //Check include patterns against all monster mtypes
-            for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
-                set_rule( rule, mtype.nname(), RULE_BLACKLISTED );
+            for( const auto &e : MonsterGenerator::generator().get_all_mtypes() ) {
+                set_rule( rule, e.second.nname(), RULE_BLACKLISTED );
             }
         } else {
             //exclude monsters from the existing mapping

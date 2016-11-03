@@ -1944,7 +1944,7 @@ void mission::deserialize(JsonIn &jsin)
         type = &mission_type_id( jo.get_string( "type_id" ) ).obj();
     } else {
         debugmsg( "Saved mission has no type" );
-        type = &mission_type::get_all().front();
+        type = &mission_type::get_all().begin()->second;
     }
 
     jo.read("description", description);

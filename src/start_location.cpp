@@ -56,7 +56,7 @@ std::string start_location::target() const
     return _target;
 }
 
-const std::vector<start_location> &start_location::get_all()
+const std::map<std::string, start_location> &start_location::get_all()
 {
     return all_starting_locations.get_all();
 }
@@ -81,6 +81,11 @@ void start_location::load( JsonObject &jo, const std::string & )
 void start_location::reset()
 {
     all_starting_locations.reset();
+}
+
+void start_location::finalize()
+{
+    all_starting_locations.finalize();
 }
 
 // check if tile at p should be boarded with some kind of furniture.

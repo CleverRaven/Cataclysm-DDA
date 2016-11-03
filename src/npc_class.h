@@ -92,7 +92,7 @@ class npc_class
 
         static void load_npc_class( JsonObject &jo, const std::string &src );
 
-        static const std::vector<npc_class> &get_all();
+        static const std::map<std::string, npc_class> &get_all();
 
         static void reset_npc_classes();
 

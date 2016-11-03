@@ -240,9 +240,9 @@ void player::randomize( const bool random_scenario, points_left &points )
     }
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
-        for( const auto &scen : scenario::get_all() ) {
-            if (!scen.has_flag("CHALLENGE")) {
-                scenarios.emplace_back( &scen );
+        for( const auto &e : scenario::get_all() ) {
+            if( e.second.has_flag( "CHALLENGE" ) ) {
+                scenarios.push_back( &e.second );
             }
         }
         g->scen = random_entry( scenarios );
@@ -1301,7 +1301,8 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
     do {
         if (recalc_profs) {
             sorted_profs.clear();
-            for( const auto &prof : profession::get_all() ) {
+            for( const auto &e : profession::get_all() ) {
+                const auto &prof = e.second;
                 if ((g->scen->profsize() == 0 && prof.has_flag("SCEN_ONLY") == false) ||
                     g->scen->profquery( prof.ident() ) ) {
                     if (!lcmatch(prof.gender_appropriate_name(u->male), filterstring)) {
@@ -1843,7 +1844,8 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
     do {
         if (recalc_scens) {
             sorted_scens.clear();
-            for( const auto &scen : scenario::get_all() ) {
+            for( const auto &e : scenario::get_all() ) {
+                const auto &scen = e.second;
                 if (!lcmatch(scen.gender_appropriate_name(u->male), filterstring)) {
                     continue;
                 }
@@ -2124,7 +2126,8 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
     uimenu select_location;
     select_location.text = _("Select a starting location.");
     int offset = 0;
-    for( const auto &loc : start_location::get_all() ) {
+    for( const auto &e : start_location::get_all() ) {
+        const auto &loc = e.second;
         if (g->scen->allowed_start(loc.ident()) || g->scen->has_flag("ALL_STARTS")) {
             select_location.entries.push_back( uimenu_entry( loc.name() ) );
             if( loc.ident() == u->start_location ) {
@@ -2357,7 +2360,8 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
         } else if ( action == "CHOOSE_LOCATION" ) {
             select_location.redraw();
             select_location.query();
-            for( const auto &loc : start_location::get_all() ) {
+            for( const auto &e : start_location::get_all() ) {
+                const auto &loc = e.second;
                 if( loc.name() == select_location.entries[ select_location.selected ].txt ) {
                     u->start_location = loc.ident();
                 }
