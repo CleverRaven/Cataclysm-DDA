@@ -4,6 +4,9 @@
 #include <random>
 #include <chrono>
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 long rng( long val1, long val2 )
 {
     long minVal = ( val1 < val2 ) ? val1 : val2;
