@@ -1,11 +1,9 @@
 #include "output.h"
 #include "rng.h"
+#include "game_constants.h"
 #include <stdlib.h>
 #include <random>
 #include <chrono>
-
-#define _USE_MATH_DEFINES
-#include <cmath>
 
 long rng( long val1, long val2 )
 {
