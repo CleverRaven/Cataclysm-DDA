@@ -1,5 +1,6 @@
 #include "output.h"
 #include "rng.h"
+#include "game_constants.h"
 #include <stdlib.h>
 #include <random>
 #include <chrono>
