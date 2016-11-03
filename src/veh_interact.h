@@ -106,16 +106,16 @@ class veh_interact
                            const int header = 0 ) const;
         void move_fuel_cursor( int delta );
 
-        void do_install();
-        void do_repair();
-        void do_mend();
-        void do_refill();
-        void do_remove();
-        void do_rename();
-        void do_siphon();
-        void do_tirechange();
-        void do_assign_crew();
-        void do_relabel();
+        void do_install( std::string &msg );
+        void do_repair(  std::string &msg );
+        void do_mend( std::string &msg );
+        void do_refill( std::string &msg) ;
+        void do_remove( std::string &msg );
+        void do_rename( std::string &msg );
+        void do_siphon( std::string &msg );
+        void do_tirechange( std::string &msg );
+        void do_assign_crew( std::string &msg );
+        void do_relabel( std::string &msg );
 
         void display_grid();
         void display_veh();
