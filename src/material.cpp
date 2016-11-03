@@ -245,8 +245,3 @@ void materials::reset()
 {
     material_data.reset();
 }
-
-void materials::finalize()
-{
-    material_data.finalize();
-}

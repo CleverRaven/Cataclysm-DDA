@@ -83,7 +83,6 @@ namespace materials
 void load( JsonObject &jo, const std::string &src );
 void check();
 void reset();
-void finalize();
 
 }
 
