@@ -28,6 +28,8 @@
 
 using namespace units::literals;
 
+constexpr float sqrt2 = std::sqrt( 2.0f );
+
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_driving( "driving" );
@@ -424,7 +426,7 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
     double sigma = dispersion / dispersion_sigmas;
 
     // angle such that chance% of dispersion rolls are <= that angle
-    double max_dispersion = erfinv( chance / 100.0 ) * M_SQRT2 * sigma;
+    double max_dispersion = erfinv( chance / 100.0 ) * sqrt2 * sigma;
 
     // required iso_tangent value
     double missed_by_tiles = accuracy * occupied_tile_fraction;
@@ -1023,7 +1025,7 @@ double Creature::projectile_attack_chance( double dispersion, double range, doub
     // erf(x / (sigma * sqrt(2))) is the probability that a measurement
     // of a normally distributed variable with standard deviation sigma
     // lies in the range [-x..x]
-    return std::erf( shot_dispersion / ( sigma * M_SQRT2 ) );
+    return std::erf( shot_dispersion / ( sigma * sqrt2 ) );
 }
 
 static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *weapon,
