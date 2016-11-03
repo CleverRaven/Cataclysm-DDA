@@ -6,6 +6,7 @@
 #include "init.h"
 
 #include <string>
+#include <unordered_map>
 #include <bitset>
 #include <map>
 #include <set>
@@ -120,16 +121,45 @@ class generic_factory
         DynamicDataLoader::deferred_json deferred;
 
     protected:
-        std::map<std::string, T> objects;
-        std::map<std::string, T> abstracts;
-
-        std::map<std::string, std::set<std::string>> aliases;
-
-        std::vector<T *> cache;
+        std::vector<T> list;
+        std::unordered_map<string_id<T>, int_id<T>> map;
+        std::unordered_map<std::string, T> abstracts;
 
         std::string type_name;
         std::string id_member_name;
         std::string alias_member_name;
+
+        bool find_id( const string_id<T> &id, int_id<T> &result ) const {
+            result = id.get_cid();
+            if( is_valid( result ) && list[result].id == id ) {
+                return true;
+            }
+            const auto iter = map.find( id );
+            if( iter == map.end() ) {
+                return false;
+            }
+            result = iter->second;
+            id.set_cid( result );
+            return true;
+        }
+
+        void remove_aliases( const string_id<T> &id ) {
+            int_id<T> i_id;
+            if( !find_id( id, i_id ) ) {
+                return;
+            }
+            auto iter = map.begin();
+            const auto end = map.end();
+            for( ; iter != end; ) {
+                if( iter->second == i_id && iter->first != id ) {
+                    map.erase( iter++ );
+                } else {
+                    ++iter;
+                }
+            }
+        }
+
+        const T dummy_obj;
 
     public:
         /**
@@ -142,7 +172,9 @@ class generic_factory
                          const std::string &alias_member_name = "" )
             : type_name( type_name ),
               id_member_name( id_member_name ),
-              alias_member_name( alias_member_name ) {}
+              alias_member_name( alias_member_name ),
+              dummy_obj() {
+        }
         /**
          * Load an object of type T with the data from the given JSON object.
          *
@@ -153,6 +185,8 @@ class generic_factory
          * @throws JsonError If loading fails for any reason (thrown by `T::load`).
          */
         void load( JsonObject &jo, const std::string &src ) {
+            bool strict = src == "core";
+
             T def;
 
             if( jo.has_string( "copy-from" ) ) {
@@ -160,11 +194,11 @@ class generic_factory
                     jo.throw_error( "cannot specify both copy-from and edit-mode" );
                 }
 
-                auto base = objects.find( jo.get_string( "copy-from" ) );
+                auto base = map.find( string_id<T>( jo.get_string( "copy-from" ) ) );
                 auto ab = abstracts.find( jo.get_string( "copy-from" ) );
 
-                if( base != objects.end() ) {
-                    def = base->second;
+                if( base != map.end() ) {
+                    def = obj( base->second );
 
                 } else if( ab != abstracts.end() ) {
                     def = ab->second;
@@ -180,11 +214,16 @@ class generic_factory
             if( jo.has_string( id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( id_member_name ) );
                 def.load( jo, src );
-
-                objects[ def.id.str() ] = def;
+                insert( def );
 
                 if( !alias_member_name.empty() && jo.has_member( alias_member_name ) ) {
-                    assign( jo, "aliases", aliases[def.id.str()] );
+                    std::set<string_id<T>> aliases;
+                    assign( jo, "aliases", aliases, strict );
+
+                    const int_id<T> ref = map[def.id];
+                    for( const auto &e : aliases ) {
+                        map[e] = ref;
+                    }
                 }
 
             } else if( jo.has_string( "abstract" ) ) {
@@ -195,63 +234,71 @@ class generic_factory
                 jo.throw_error( "must specify either id or abstract" );
             }
         }
-
         /**
-         *  Legacy function for inserting an object directly
-         *  @warning do not use in new code or at all after @ref finalize()
+         * Add an object to the factory, without loading from JSON.
+         * The new object replaces any existing object of the same id.
+         * The function returns the actual object reference.
          */
-        void insert( const T &def ) {
-            objects[ def.id.str() ] = def;
+        T &insert( const T &obj ) {
+            const auto iter = map.find( obj.id );
+            if( iter != map.end() ) {
+                T &result = list[iter->second];
+                result = obj;
+                result.id.set_cid( iter->second );
+                return result;
+            }
+
+            const int_id<T> cid( list.size() );
+            list.push_back( obj );
+
+            T &result = list.back();
+            result.id.set_cid( cid );
+            map[result.id] = cid;
+            return result;
         }
 
-        /** Finish loading any deferred inherited objects, apply aliases and attach integer id's */
-        void finalize() {
+        /** Finalize all entries (derived classes should chain to this method) */
+        virtual void finalize() {
             if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
                 debugmsg( "JSON contains circular dependency: discarded %i entries", deferred.size() );
             }
             abstracts.clear();
-
-            for( const auto &e : aliases ) {
-                const auto &base = objects[e.first];
-                for( const auto &dup : e.second ) {
-                    objects[dup] = base;
-                }
-            }
-            aliases.clear();
-
-            int idx = 0;
-            for( auto &e : objects ) {
-                e.second.id.set_cid( int_id<T>( idx++ ) );
-                cache.push_back( &e.second );
-            }
         }
 
-        /** Checks all loaded objects for consistency */
+        /**
+         * Checks loaded/inserted objects for consistency
+         */
         void check() const {
-            for( const auto &e : objects ) {
-                e.second.check();
+            for( const T &obj : list ) {
+                obj.check();
             }
         }
-        /** How many objects are loaded (if any) */
+        /**
+         * Returns the number of loaded objects.
+         */
         size_t size() const {
-            return objects.size();
+            return list.size();
         }
-
-        /** Is factory is empty? */
+        /**
+         * Returns whether factory is empty.
+         */
         bool empty() const {
-            return objects.empty();
+            return list.empty();
         }
-
-        /** Removes all loaded objects */
+        /**
+         * Removes all loaded objects.
+         * Postcondition: `size() == 0`
+         */
         void reset() {
-            objects.clear();
-            cache.clear();
+            list.clear();
+            map.clear();
         }
-        /** Returns all the loaded objects */
-        const std::map<std::string, T> &get_all() const {
-            return objects;
+        /**
+         * Returns all the loaded objects. It can be used to iterate over them.
+         */
+        const std::vector<T> &get_all() const {
+            return list;
         }
-
         /**
          * @name `string_id/int_id` interface functions
          *
@@ -268,12 +315,11 @@ class generic_factory
          * casting the const away).
          */
         const T &obj( const int_id<T> &id ) const {
-            static T null_obj;
             if( !is_valid( id ) ) {
                 debugmsg( "invalid %s id \"%d\"", type_name.c_str(), id );
-                return null_obj;
+                return dummy_obj;
             }
-            return *cache[static_cast<int>( id )];
+            return list[id];
         }
         /**
          * Returns the object with the given id.
@@ -283,39 +329,38 @@ class generic_factory
          * casting the const away).
          */
         const T &obj( const string_id<T> &id ) const {
-            static T null_obj;
-            auto iter = objects.find( id.str() );
-            if( iter == objects.end() ) {
-                debugmsg( "invalid %s id \"%d\"", type_name.c_str(), id.c_str() );
-                return null_obj;
+            int_id<T> i_id;
+            if( !find_id( id, i_id ) ) {
+                debugmsg( "invalid %s id \"%s\"", type_name.c_str(), id.c_str() );
+                return dummy_obj;
             }
-            return iter->second;
+            return list[i_id];
         }
         /**
          * Checks whether the factory contains an object with the given id.
          * This function can be used to implement @ref int_id::is_valid().
          */
         bool is_valid( const int_id<T> &id ) const {
-            size_t idx = static_cast<int>( id );
-            return idx >= 0 && idx < cache.size();
+            return static_cast<size_t>( id ) < list.size();
         }
         /**
          * Checks whether the factory contains an object with the given id.
          * This function can be used to implement @ref string_id::is_valid().
          */
         bool is_valid( const string_id<T> &id ) const {
-            return objects.find( id.str() ) != objects.end();
+            int_id<T> dummy;
+            return find_id( id, dummy );
         }
         /**
          * Converts string_id<T> to int_id<T>. Returns null_id on failure.
          */
         int_id<T> convert( const string_id<T> &id, const int_id<T> &null_id ) const {
-            auto iter = objects.find( id.str() );
-            if( iter == objects.end() ) {
-                debugmsg( "invalid %s id \"%d\"", type_name.c_str(), id.c_str() );
-                return null_id;
+            int_id<T> result;
+            if( find_id( id, result ) ) {
+                return result;
             }
-            return iter->second.id.get_cid();
+            debugmsg( "invalid %s id \"%s\"", type_name.c_str(), id.c_str() );
+            return null_id;
         }
         /**
          * Converts int_id<T> to string_id<T>. Returns null_id on failure.
