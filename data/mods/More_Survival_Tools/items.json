@@ -491,6 +491,10 @@
     "bashing": 10,
     "category" : "tools",
     "to_hit": 1,
+    "container_data": {
+      "contains": 4,
+      "watertight": true
+    },
     "qualities": [["COOK", 2], ["BOIL", 1], ["CONTAIN", 1]]
   },{
     "type":"GENERIC",
@@ -505,6 +509,10 @@
     "volume": 4,
     "bashing": 10,
     "category" : "tools",
+    "container_data": {
+      "contains": 4,
+      "watertight": true
+    },
     "to_hit": 1,
     "qualities": [["COOK", 2], ["BOIL", 1], ["CONTAIN", 1]]
   },{
