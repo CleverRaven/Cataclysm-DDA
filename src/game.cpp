@@ -293,10 +293,12 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
     // deduplicated list of mods to check
     std::set<std::string> check( opts.begin(), opts.end() );
 
-    // if no specific mods specified check everything
+    // if no specific mods specified check all non-obsolete mods
     if( check.empty() ) {
         for( const auto &e : mods ) {
-            check.emplace( e.first );
+            if( !e.second->obsolete ) {
+                check.emplace( e.first );
+            }
         }
     }
 
