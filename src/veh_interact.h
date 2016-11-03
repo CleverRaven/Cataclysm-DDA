@@ -118,7 +118,7 @@ class veh_interact
         bool do_install( std::string &msg );
         bool do_repair( std::string &msg );
         bool do_mend( std::string &msg );
-        bool do_refill( std::string &msg) ;
+        bool do_refill( std::string &msg );
         bool do_remove( std::string &msg );
         bool do_rename( std::string &msg );
         bool do_siphon( std::string &msg );
