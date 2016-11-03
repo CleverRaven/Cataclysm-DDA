@@ -2756,6 +2756,11 @@ void item::set_relative_rot( double val )
     }
 }
 
+int item::get_time_until_rotten()
+{
+    return goes_bad() ? type->comestible->spoils - rot : std::numeric_limits<int>::max();
+}
+
 void item::calc_rot(const tripoint &location)
 {
     const int now = calendar::turn;

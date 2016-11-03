@@ -528,6 +528,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /** Set current item @ref rot relative to shelf life (no-op if item does not spoil) */
     void set_relative_rot( double val );
 
+    /** Get time left to rot, ignoring fridge (max int if item does not spoil) */
+    int get_time_until_rotten();
+
     /** an item is fresh if it is capable of rotting but still has a long shelf life remaining */
     bool is_fresh() const { return goes_bad() && get_relative_rot() < 0.1; }
 
