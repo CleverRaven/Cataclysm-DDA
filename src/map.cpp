@@ -1649,7 +1649,7 @@ ter_id map::ter( const tripoint &p ) const
  */
 const std::list<harvest_entry> &map::get_harvest( const tripoint &pos ) const
 {
-    static const std::list<harvest_entry> null_harvest;
+    static const std::list<harvest_entry> null_harvest = {};
     const auto furn_here = furn( pos );
     if( furn_here->examine != iexamine::none ) {
         // Note: if furniture can be examined, the terrain can NOT (until furniture is removed)
@@ -1670,7 +1670,7 @@ const std::list<harvest_entry> &map::get_harvest( const tripoint &pos ) const
 
 const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 {
-    static const std::set<std::string> null_harvest;
+    static const std::set<std::string> null_harvest = {};
     const auto furn_here = furn( pos );
     if( furn_here->examine != iexamine::none ) {
         if( furn_here->has_flag( TFLAG_HARVESTED ) ) {

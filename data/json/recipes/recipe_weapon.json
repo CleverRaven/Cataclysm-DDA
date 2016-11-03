@@ -50,7 +50,7 @@
   "decomp_learn": 1,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "duct_tape", 50 ]
@@ -70,7 +70,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ],
   "tools": [
     [
@@ -105,7 +105,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "rag", 1 ],
@@ -128,7 +128,7 @@
   "time": 800,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -147,7 +147,7 @@
   "time": 1000,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -166,7 +166,7 @@
   "time": 100000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "rebar", 1 ]
@@ -182,7 +182,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -221,7 +221,7 @@
   "time": 3000,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -243,7 +243,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -264,7 +264,7 @@
   "time": 2000,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -302,8 +302,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "tools": [
     [
@@ -350,7 +350,7 @@
   "autolearn": true,
   "//" : "Hammer to kinda shape the spikes for stable attachment--no forge used",
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ],
   "//" : "Extra duct tape/string needed to attach the spikes; rag/leather for grip.",
   "components": [
@@ -386,7 +386,7 @@
   "time": 5000,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -421,7 +421,7 @@
   "time": 60000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
@@ -484,8 +484,8 @@
   "time": 60000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":3},
+    {"id":"SAW_M","level":1},
     { "id" : "GLARE", "level" : 2 }
   ], "tools": [
       [
@@ -519,7 +519,7 @@
   "autolearn": true,
   "book_learn": [[ "manual_archery", 2 ] , [ "recipe_bows", 1 ] , [ "book_archery", 3]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -544,7 +544,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -572,7 +572,7 @@
   "autolearn": true,
   "book_learn": [[ "recipe_bows", 1 ] , [ "manual_archery", 2 ] , [ "book_archery", 2 ]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -597,7 +597,7 @@
   "time": 25000,
   "book_learn" : [[ "recipe_bows", 6 ] , [ "manual_archery", 7]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -624,7 +624,7 @@
   "time": 1000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "2x4", 1 ],
@@ -665,7 +665,7 @@
   "time": 1000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "bat", 1 ]
@@ -723,7 +723,7 @@
   "autolearn": true,
   "book_learn": [[ "manual_shotgun", 2 ] , [ "manual_pistol", 2 ]],
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ], "tools": [
     [
@@ -760,7 +760,7 @@
   "autolearn": true,
   "book_learn": [ [ "manual_pistol", 3 ]],
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ], "tools": [
     [
@@ -795,7 +795,7 @@
   "autolearn": true,
   "book_learn": [ [ "manual_pistol", 5 ]],
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ], "tools": [
     [
@@ -1040,10 +1040,10 @@
   "decomp_learn": 3,
   "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 5] , [ "book_archery", 4]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":2},
+    {"id":"SCREW","level":1},
+    {"id":"WRENCH","level":1}
   ], "components": [
     [
       [ "2x4", 2 ],
@@ -1075,8 +1075,8 @@
   "decomp_learn": 2,
   "book_learn" : [[ "recipe_bows", 2 ] , [ "manual_archery", 4] , [ "book_archery", 3], [ "scots_cookbook", 6 ], [ "textbook_armschina", 5 ]],
   "qualities" : [
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
+    {"id":"SCREW","level":1},
+    {"id":"WRENCH","level":1}
   ], "components": [
     [
       [ "2x4", 2 ],
@@ -1102,8 +1102,8 @@
   "decomp_learn": 2,
   "book_learn" : [[ "recipe_bows", 1 ] , [ "manual_archery", 3] , [ "book_archery", 2]],
   "qualities" : [
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
+    {"id":"SCREW","level":1},
+    {"id":"WRENCH","level":1}
   ], "components": [
     [
       [ "2x4", 2 ],
@@ -1130,8 +1130,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -1155,8 +1155,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -1176,8 +1176,8 @@
   "time": 12000,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -1201,8 +1201,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -1226,8 +1226,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ], "components": [
     [
       [ "pipe", 2 ]
@@ -1292,8 +1292,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -1317,8 +1317,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -1341,9 +1341,9 @@
   "time": 14000,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
+    {"id":"WRENCH_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ], "tools": [
     [
@@ -1400,9 +1400,9 @@
   "time": 240000,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
+    {"id":"WRENCH_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ], "tools": [
     [
@@ -1431,8 +1431,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ], "components": [
     [
       [ "pilot_light", 2 ]
@@ -1462,7 +1462,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -1487,7 +1487,7 @@
   "time": 8000,
   "book_learn": [[ "manual_launcher", 3 ] , [ "mag_launcher", 4 ]],
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -1528,7 +1528,7 @@
   "time": 8000,
   "book_learn": [[ "manual_shotgun", 4 ] , [ "mag_shotgun", 5 ]],
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1}
   ], "components": [
     [
       [ "pipe", 2 ]
@@ -1554,8 +1554,8 @@
   "autolearn": true,
   "book_learn": [["book_icef", 4]],
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"SCREW","level":1}
   ], "components": [
     [
       [ "duct_tape", 50 ]
@@ -1585,10 +1585,10 @@
   "autolearn": true,
   "book_learn": [[ "textbook_mechanics", 4 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1},
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1},
+    {"id":"SCREW","level":1},
+    {"id":"WRENCH","level":1},
     { "id" : "GLARE", "level" : 2 }
   ], "tools": [
     [
@@ -1622,7 +1622,7 @@
   "reversible": true,
   "book_learn": [[ "advanced_electronics", 3 ] , [ "textbook_electronics", 3 ] , [ "textbook_anarch", 4 ]],
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1}
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
@@ -1657,7 +1657,7 @@
   "time": 1000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -1673,7 +1673,7 @@
   "time": 1000,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -1747,7 +1747,7 @@
   "time": 650,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1}
   ], "components": [
     [
       [ "muffler", 1 ],
@@ -1834,9 +1834,9 @@
   "autolearn": true,
   "book_learn": [[ "manual_fabrication", 3 ] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4] , [ "manual_launcher", 4]],
   "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"HAMMER_FINE","level":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
@@ -1871,9 +1871,9 @@
   "autolearn": true,
   "book_learn": [[ "manual_fabrication", 3 ] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4]],
   "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"HAMMER_FINE","level":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
@@ -1934,9 +1934,9 @@
   "autolearn": true,
   "book_learn": [[ "manual_fabrication", 2 ] , [ "manual_rifle", 3] , [ "manual_launcher", 3]],
   "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"HAMMER_FINE","level":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
@@ -1992,9 +1992,9 @@
   "autolearn": true,
   "book_learn": [[ "manual_fabrication", 3 ] , [ "manual_pistol", 3] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4] , [ "manual_launcher", 4]],
   "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"HAMMER_FINE","level":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "tools": [
     [
@@ -2023,7 +2023,7 @@
   "time": 15000,
   "book_learn": [[ "manual_electronics", 2 ] , [ "textbook_electronics", 2 ]],
   "qualities" : [
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SCREW_FINE","level":1}
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
@@ -2090,8 +2090,8 @@
   "autolearn": true,
   "book_learn": [[ "textbook_mechanics", 3 ] , [ "manual_pistol", 4] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4]],
   "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"HAMMER_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "tools": [
     [
@@ -2118,9 +2118,9 @@
   "autolearn": true,
   "book_learn": [[ "manual_fabrication", 3 ] , [ "manual_pistol", 4]],
   "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"HAMMER_FINE","level":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
@@ -2153,7 +2153,7 @@
   "time": 15000,
   "book_learn": [[ "manual_electronics", 2 ] , [ "textbook_electronics", 2 ]],
   "qualities" : [
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SCREW_FINE","level":1}
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
@@ -2197,9 +2197,9 @@
   "autolearn": true,
   "book_learn": [[ "manual_fabrication", 3 ] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4] , [ "manual_launcher", 4]],
   "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"HAMMER_FINE","level":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
@@ -2237,7 +2237,7 @@
   "autolearn": true,
   "book_learn": [[ "textbook_mechanics", 3 ] , [ "manual_pistol", 4] , [ "manual_shotgun", 4] , [ "manual_smg", 4] , [ "manual_rifle", 4]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -2262,8 +2262,8 @@
   "autolearn": true,
   "book_learn": [[ "manual_gun", 3 ] , [ "mag_archery", 2] , [ "manual_archery", 1]],
   "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SAW_M_FINE","level":1,"amount":1}
+    {"id":"HAMMER_FINE","level":1},
+    {"id":"SAW_M_FINE","level":1}
   ],
   "tools": [
     [
@@ -2291,7 +2291,7 @@
   "autolearn": true,
   "book_learn": [[ "mag_archery", 3] , [ "manual_archery", 2]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -2316,7 +2316,7 @@
   "autolearn": true,
   "book_learn": [[ "mag_archery", 2] , [ "manual_archery", 1]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -2340,10 +2340,10 @@
   "time": 35000,
   "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 5] , [ "book_archery", 4]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":2},
+    {"id":"SCREW","level":1},
+    {"id":"WRENCH","level":1}
   ], "components": [
     [
       [ "2x4", 1 ],
@@ -2374,7 +2374,7 @@
    "time": 25000,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
+     {"id":"CUT","level":1}
    ],
    "components": [
      [
@@ -2392,7 +2392,7 @@
   "time": 5000,
   "autolearn": true,
   "qualities" : [
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ], "components": [
     [
       ["sword_wood", 1]
@@ -2573,9 +2573,9 @@
   "time": 160000,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
+    {"id":"WRENCH_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ], "tools": [
     [
@@ -2613,10 +2613,10 @@
   "time": 17000,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1},
+    {"id":"SAW_M","level":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
+    {"id":"WRENCH_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ], "tools": [
     [
@@ -2654,9 +2654,9 @@
   "time": 180000,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
+    {"id":"WRENCH_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ], "tools": [
     [
@@ -2694,9 +2694,9 @@
   "time": 240000,
   "book_learn": [["recipe_mininuke_launch", 5]],
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
+    {"id":"WRENCH_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ], "tools": [
     [
@@ -2735,9 +2735,9 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 2]],
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
+    {"id":"WRENCH_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ], "tools": [
     [
@@ -2767,9 +2767,9 @@
   "time": 360000,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
+    {"id":"WRENCH_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ], "tools": [
     [
@@ -2809,7 +2809,7 @@
   "time": 5000,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [ [ ["spray_can", 1] ],
     [ ["duct_tape", 25] ],
@@ -2825,8 +2825,8 @@
   "time": 20000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
   ], "components":
     [
     [ ["rag", 4] ],
@@ -2843,8 +2843,8 @@
   "time": 30000,
   "book_learn": [[ "recipe_melee", 3 ] , ["textbook_weapeast", 8]],
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"SCREW","level":1}
   ], "components": [ [ ["2x4", 4], [ "stick", 8 ] ],
     [ ["rebar", 5] ] ]
 },{
@@ -2857,7 +2857,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "string_36", 4 ]
@@ -2881,8 +2881,8 @@
   "time": 20000,
   "book_learn": [[ "recipe_melee", 1 ] , ["textbook_weapeast", 7]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
   ], "components": [ [ ["leather", 4] ],
     [ ["scrap", 8] ] ]
 },{
@@ -2895,7 +2895,7 @@
   "time": 300000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
@@ -2934,7 +2934,7 @@
   "time": 360000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
@@ -2976,7 +2976,7 @@
   "time": 240000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
@@ -3014,7 +3014,7 @@
   "time": 360000,
   "book_learn": [[ "manual_knives", 4 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
@@ -3052,7 +3052,7 @@
   "time": 390000,
   "book_learn": [[ "manual_knives", 4 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
@@ -3090,7 +3090,7 @@
   "time": 390000,
   "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 4 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
@@ -3128,7 +3128,7 @@
   "time": 360000,
   "book_learn": [[ "manual_knives", 9 ] , [ "textbook_weapeast", 8 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
@@ -3165,7 +3165,7 @@
   "time": 240000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
@@ -3198,8 +3198,8 @@
   "time": 180000,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -3235,7 +3235,7 @@
   "time" : 30000,
   "autolearn" : true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ], "tools" : [
     [
       ["mold_plastic", -1] ],
@@ -3264,7 +3264,7 @@
   "autolearn": true,
   "book_learn": [[ "manual_knives", 5 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
@@ -3301,7 +3301,7 @@
   "autolearn": true,
   "book_learn": [[ "manual_knives", 5 ] , [ "recipe_melee", 6 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
@@ -3338,7 +3338,7 @@
   "autolearn": true,
   "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 2 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
@@ -3392,7 +3392,7 @@
   "time": 300000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
@@ -3427,7 +3427,7 @@
   "time": 420000,
   "book_learn": [[ "textbook_fireman", 8 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
@@ -3462,7 +3462,7 @@
   "time": 420000,
   "book_learn": [[ "textbook_fireman", 8 ] , ["textbook_fabrication", 9]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
@@ -3501,7 +3501,7 @@
   "time": 460000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
@@ -3538,7 +3538,7 @@
   "time": 260000,
   "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
@@ -3594,7 +3594,7 @@
   "time": 30000,
   "book_learn": [[ "recipe_lab_elec", 5]],
   "qualities":[
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SCREW_FINE","level":1}
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
@@ -3650,7 +3650,7 @@
   "time": 30000,
   "book_learn": [[ "recipe_melee", 3 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -3669,7 +3669,7 @@
   "time" : 45000,
   "book_learn": [[ "recipe_melee", 5 ]],
   "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SCREW","level":1}
   ], "tools" : [
      [ ["mold_plastic", -1] ],
      [
@@ -3709,8 +3709,8 @@
   "time": 60000,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"SCREW","level":1}
   ], "components": [
     [
       [ "2x4", 2 ],
@@ -3733,8 +3733,8 @@
   "time": 90000,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"SCREW","level":1}
   ], "components": [
     [
       [ "2x4", 3 ],
@@ -3757,8 +3757,8 @@
   "time": 45000,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"SCREW","level":1}
   ], "components": [
     [
       [ "2x4", 1 ],
@@ -3801,7 +3801,7 @@
   "time": 20000,
   "autolearn": true,
   "qualities": [
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -3821,7 +3821,7 @@
   "time": 400000,
   "book_learn": [[ "textbook_weapwest", 6 ], [ "scots_cookbook", 8 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -3865,7 +3865,7 @@
   "time": 480000,
   "book_learn": [[ "textbook_weapwest", 7 ], [ "scots_cookbook", 9 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -3902,7 +3902,7 @@
   "time": 420000,
   "book_learn": [[ "textbook_weapwest", 7 ], [ "scots_cookbook", 9 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -3946,7 +3946,7 @@
   "time": 480000,
   "book_learn": [[ "textbook_weapwest", 8 ] , ["recipe_melee", 7 ], [ "scots_cookbook", 9 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -3990,7 +3990,7 @@
   "time": 480000,
   "book_learn": [[ "textbook_weapwest", 8 ] , [ "recipe_melee", 6 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4030,7 +4030,7 @@
   "time": 420000,
   "book_learn": [[ "textbook_weapwest", 8 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4074,7 +4074,7 @@
   "time": 480000,
   "book_learn": [[ "textbook_armschina", 7 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4117,7 +4117,7 @@
   "time": 420000,
   "book_learn": [[ "textbook_armschina", 7 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4154,7 +4154,7 @@
   "time": 490000,
   "book_learn": [[ "textbook_weapwest", 7 ], [ "scots_cookbook", 9 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4191,7 +4191,7 @@
   "time": 420000,
   "book_learn": [[ "textbook_weapwest", 7 ], [ "scots_cookbook", 9 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4228,7 +4228,7 @@
   "time": 480000,
   "book_learn": [[ "textbook_weapwest", 8 ], [ "scots_cookbook", 10 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4273,8 +4273,8 @@
   "time": 340000,
   "book_learn": [[ "textbook_weapeast", 6 ]],
   "qualities": [
-    {"id":"SAW_W","level":1,"amount":1},
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"SAW_W","level":1},
+    {"id":"CUT","level":1}
   ],
   "//" : "Bokken is a single piece of wood, and the heavy stick just isn't large enough.",
   "components":
@@ -4309,7 +4309,7 @@
   "time": 380000,
   "book_learn": [[ "textbook_weapeast", 6 ], [ "manual_knives", 7 ] , [ "recipe_melee", 8 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4353,7 +4353,7 @@
   "time": 420000,
   "book_learn": [[ "textbook_weapeast", 7 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4397,7 +4397,7 @@
   "time": 480000,
   "book_learn": [[ "textbook_weapeast", 8 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4441,7 +4441,7 @@
   "time": 580000,
   "book_learn": [[ "textbook_weapeast", 8 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4484,7 +4484,7 @@
   "time": 180000,
   "book_learn": [[ "textbook_weapwest", 3 ] , [ "recipe_melee", 4 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4524,7 +4524,7 @@
   "time": 240000,
   "book_learn": [[ "textbook_weapwest", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4567,7 +4567,7 @@
   "time": 360000,
   "book_learn": [[ "textbook_weapwest", 6 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4612,7 +4612,7 @@
   "time": 18000,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -4634,7 +4634,7 @@
   "autolearn": true,
   "book_learn": [[ "textbook_weapwest", 2 ] , [ "recipe_melee", 3 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
   ],
   "tools": [
     [
@@ -4665,7 +4665,7 @@
   "time": 480000,
   "book_learn": [[ "textbook_weapeast", 9 ] , [ "recipe_melee", 4 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4701,7 +4701,7 @@
   "reversible": true,
   "book_learn": [[ "textbook_electronics", 3 ] , ["advanced_electronics", 3] , [ "recipe_melee", 4 ]],
   "qualities": [
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SCREW","level":1}
   ],
   "tools": [
     [
@@ -4753,12 +4753,12 @@
   "decomp_learn": 5,
   "book_learn" : [[ "recipe_bows", 6 ] , [ "textbook_weapwest", 6]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SAW_W","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW","level":1},
+    {"id":"WRENCH","level":1},
+    {"id":"SAW_M","level":1},
+    {"id":"SAW_W","level":1}
   ],
   "components": [
     [
@@ -4795,9 +4795,9 @@
   "decomp_learn": 4,
   "book_learn" : [[ "recipe_bows", 4 ] , [ "textbook_weapeast", 6]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"SCREW","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -4824,8 +4824,8 @@
   "time": 10000,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_W","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SAW_W","level":1},
+    {"id":"SCREW","level":1}
   ], "components": [
     [
       [ "2x4", 2 ],
@@ -4864,8 +4864,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [ [ "cerberus_laser", 1 ] ],
@@ -4882,7 +4882,7 @@
   "time": 60000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
@@ -4915,7 +4915,7 @@
   "time": 180000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
@@ -4949,7 +4949,7 @@
   "time": 460000,
   "book_learn": [[ "textbook_armschina", 6 ]],
   "qualities" : [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -4992,7 +4992,7 @@
   "time": 360000,
   "book_learn": [[ "textbook_weapwest", 6 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -5029,7 +5029,7 @@
   "time": 460000,
   "book_learn": [[ "textbook_weapwest", 6 ]],
   "qualities" : [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -5066,7 +5066,7 @@
   "time": 460000,
   "book_learn": [[ "textbook_weapeast", 6 ]],
   "qualities" : [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -5104,7 +5104,7 @@
   "time": 46000,
   "book_learn": [[ "textbook_weapeast", 6 ]],
   "qualities" : [
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
@@ -5134,8 +5134,8 @@
   "time": 5000,
   "autolearn": true,
   "qualities" : [
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
@@ -5176,8 +5176,8 @@
   "time": 5000,
   "autolearn": true,
   "qualities" : [
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
@@ -5205,8 +5205,8 @@
   "time": 180000,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
     { "id" : "GLARE", "level" : 2 }
   ], "tools": [
     [
@@ -5239,8 +5239,8 @@
 "time": 210000,
 "book_learn": [[ "manual_launcher", 7 ]],
 "qualities":[
-{"id":"HAMMER","level":3,"amount":1},
-{"id":"SAW_M","level":1,"amount":1},
+{"id":"HAMMER","level":3},
+{"id":"SAW_M","level":1},
 { "id" : "GLARE", "level" : 2 }
 ], "tools": [
 [
@@ -5278,11 +5278,11 @@
   "autolearn": true,
   "qualities":
     [
-      {"id":"SAW_M","level":1,"amount":1},
-      {"id":"SAW_M_FINE","level":1,"amount":1},
-      {"id":"SCREW_FINE","level":1,"amount":1},
-      {"id":"WRENCH_FINE","level":1,"amount":1},
-      {"id":"HAMMER","level":3,"amount":1},
+      {"id":"SAW_M","level":1},
+      {"id":"SAW_M_FINE","level":1},
+      {"id":"SCREW_FINE","level":1},
+      {"id":"WRENCH_FINE","level":1},
+      {"id":"HAMMER","level":3},
       { "id" : "GLARE", "level" : 2 },
       { "id": "CHISEL", "level": 3 }
     ],
@@ -5379,11 +5379,11 @@
   "autolearn": true,
   "qualities":
   [
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1},
-    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
+    {"id":"WRENCH_FINE","level":1},
+    {"id":"HAMMER","level":2},
     { "id" : "GLARE", "level" : 2 }
   ],
   "tools":
@@ -5420,9 +5420,9 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1},
+    {"id":"HAMMER","level":2},
     { "id" : "GLARE", "level" : 2 }
   ],
   "tools":

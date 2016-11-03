@@ -338,5 +338,16 @@
     "mission" : 7,
     "chat" : "TALK_DONE",
     "faction" : "hells_raiders"
+  },{
+    "type" : "npc",
+    "id" : "apis",
+    "comment" : "Bee mutant or mutant bee (supposed to be ambiguous). Should be 'it', but we'll go with 'she' because it's a bee.",
+    "name+" : "Apis",
+    "class" : "NC_APIS",
+    "gender" : "female",
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_DONE",
+    "faction" : "hells_raiders"
   }
 ]
