@@ -106,16 +106,26 @@ class veh_interact
                            const int header = 0 ) const;
         void move_fuel_cursor( int delta );
 
-        void do_install( std::string &msg );
-        void do_repair(  std::string &msg );
-        void do_mend( std::string &msg );
-        void do_refill( std::string &msg) ;
-        void do_remove( std::string &msg );
-        void do_rename( std::string &msg );
-        void do_siphon( std::string &msg );
-        void do_tirechange( std::string &msg );
-        void do_assign_crew( std::string &msg );
-        void do_relabel( std::string &msg );
+        /**
+         * @name Task handlers
+         *
+         * One function for each specific task
+         * @warning presently functions may mutate local state
+         * @param msg failure message to display (if any)
+         * @return whether a redraw is required (typically necessary if task opened subwindows)
+         */
+        /*@{*/
+        bool do_install( std::string &msg );
+        bool do_repair( std::string &msg );
+        bool do_mend( std::string &msg );
+        bool do_refill( std::string &msg) ;
+        bool do_remove( std::string &msg );
+        bool do_rename( std::string &msg );
+        bool do_siphon( std::string &msg );
+        bool do_tirechange( std::string &msg );
+        bool do_assign_crew( std::string &msg );
+        bool do_relabel( std::string &msg );
+        /*@}*/
 
         void display_grid();
         void display_veh();
@@ -127,12 +137,13 @@ class veh_interact
         size_t display_esc( WINDOW *w );
 
         /**
-          * Display overview of parts
-          * @param enable used to determine if a part can be selected
-          * @param action callback run when a part is selected
-          */
-        void overview( std::function<bool( const vehicle_part &pt )> enable = {},
-                       std::function<void( vehicle_part &pt )> action = {} );
+         * Display overview of parts
+         * @param enable used to determine if a part can be selected
+         * @param action callback when part is selected, should return true if redraw required
+         * @return whether redraw is required (always false if no action was run)
+         */
+        bool overview( std::function<bool( const vehicle_part &pt )> enable = {},
+                       std::function<bool( vehicle_part &pt )> action = {} );
 
         void countDurability();
 
