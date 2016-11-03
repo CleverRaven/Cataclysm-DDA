@@ -1397,6 +1397,8 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             } else if( veh_part != -1 && veh->add_item( veh_part, act_item ) ) {
                 // add_item did put the items in the vehicle, nothing further to be done
             } else {
+                // TODO: For items counted by charges, add as much as we can to the vehicle, and
+                // the rest on the ground (see dropping code and @vehicle::add_charges)
                 g->m.add_item_or_charges( pos(), act_item );
             }
         }
