@@ -28,7 +28,7 @@
 
 using namespace units::literals;
 
-constexpr float sqrt2 = std::sqrt( 2.0f );
+const float sqrt2 = std::sqrt( 2.0f );
 
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
