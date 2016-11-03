@@ -1,0 +1,343 @@
+[
+    {
+    "type" : "item_group",
+    "id" : "reading_lights",
+    "items":[
+      ["candle", 20],
+      ["oil_lamp", 20],
+      ["flashlight", 15],
+      ["wearable_light", 15],
+      ["electric_lantern", 10],
+      ["gasoline_lantern", 10],
+      ["survivor_light", 5],
+      ["atomic_lamp", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "magic_crafting",
+    "items":[
+      ["gold_small", 1],
+      ["gold_small", 10],
+      ["silver_small", 2],
+      ["silver_small", 20],
+      ["scrap", 15],
+      ["feather", 5],
+      ["copper", 15],
+      ["diamond", 1],
+      {"item": "essence", "prob": 25, "charges-min": 1, "charges-max": 3 },
+      {"item": "essence_blood", "prob": 25, "charges-min": 2, "charges-max": 6 },
+      {"item": "essence_dull", "prob": 25, "charges-min": 4, "charges-max": 8 }
+    ]
+  },{
+        "type": "mapgen",
+        "om_terrain": [
+            "basement"
+        ],
+        "method": "json",
+        "weight": 75,
+        "object": {
+            "rows": [
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "  --------------------  ",
+                "  |].................|  ",
+                "  |].................|  ",
+                "  |].................|  ",
+                "  |].........|---+---|  ",
+                "  |].........|{......|  ",
+                "  |--++--|-+-|{.....#|  ",
+                "  |......|...|{....h#|  ",
+                "  |.b..b.|.<.|{...###|  ",
+                "  |......|------------  ",
+                "  |..##..|              ",
+                "  |......|              ",
+                "  --------              ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "fill_ter": "t_rock",
+            "terrain": {
+                "|": "t_wall",
+                "-": "t_wall",
+                "<": "t_stairs_up",
+                "+": "t_door_c",
+                ".": "t_rock_floor",
+                "#": "t_rock_floor",
+                "{": "t_rock_floor",
+                "h": "t_rock_floor",
+                "]": "t_rock_floor",
+                "b": "t_rock_floor"
+            },
+            "furniture": {
+                "#": "f_counter",
+                "{": "f_rack",
+                "h": "f_chair",
+                "]": "f_bookcase"
+            },
+            "set": [
+                { "point": "trap", "id": "tr_brazier", "x": 4, "y": 13},
+                { "point": "trap", "id": "tr_brazier", "x": 7, "y": 13}
+            ],
+            "place_monster": [
+                { "x": 9, "y": 7, "monster": "mon_dementia", "repeat": [1, 4] },
+                { "x": 17, "y": 11, "monster": "mon_dementia", "repeat": [1, 2] },
+                { "x": 5, "y": 16, "monster": "mon_homunculus", "repeat": 1 }
+            ],
+            "place_loot": [
+                { "group": "cult_sacrifice", "chance": 100, "x": 4, "y": 13 },
+                { "group": "cult_sacrifice", "chance": 100, "x": 7, "y": 13 },
+                { "group": "sanguine_cult_casualties", "chance": 75, "x": 19, "y": 12 },
+                { "group": "sanguine_cult_books", "chance": 30, "x": 3, "y": [6, 10], "repeat": [2, 5] },
+                { "item": "human_flesh", "chance": 50, "x": 20, "y": [11, 13], "repeat": [1, 5] },
+                { "item": "blood_athame", "chance": 75, "x": [18 , 19], "y": 13, "repeat": 1 },
+                { "group": "sanguine_cult_gear", "chance": 30, "x": 14, "y": 10, "repeat": [2, 5] },
+                { "item": "essence_blood", "chance": 50, "x": [5, 6], "y": 15, "repeat": [5, 10] }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "basement"
+        ],
+        "method": "json",
+        "weight": 100,
+        "object": {
+            "rows": [
+                " ---------------------  ",
+                " |]......rrrrr......]|  ",
+                " |]....b.rr#rr.b....]|  ",
+                " |]......rrrrr......]|  ",
+                " |].......rrr.......]|  ",
+                " |].ppppp.rrr.ppppp.]|  ",
+                " |........rrr........|  ",
+                " |..ppppp.rrr.ppppp..|  ",
+                " |........rrr........|  ",
+                " |..ppppp.rrr.ppppp..|  ",
+                " |...................|  ",
+                " |{{{{{..|-+-|..{{{{{|  ",
+                " --------|...|--------  ",
+                "         |.<.|          ",
+                "         -----          ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "fill_ter": "t_rock",
+            "terrain": {
+                "|": "t_wall",
+                "-": "t_wall",
+                "<": "t_stairs_up",
+                "+": "t_door_c",
+                ".": "t_rock_floor",
+                "#": "t_rock_floor",
+                "{": "t_rock_floor",
+                "h": "t_rock_floor",
+                "]": "t_rock_floor",
+                "r": "t_carpet_red",
+                "p": "t_rock_floor",
+                "b": "t_rock_floor"
+            },
+            "furniture": {
+                "#": "f_counter",
+                "{": "f_rack",
+                "p": "f_bench",
+                "D": "f_dresser",
+                "B": "f_bed",
+                "]": "f_bookcase"
+            },
+            "set": [
+                { "point": "trap", "id": "tr_brazier", "x": 7, "y": 2},
+                { "point": "trap", "id": "tr_brazier", "x": 15, "y": 2}
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_PREPPER_HOUSE", "x": [ 2, 20 ], "y": [ 1, 10 ] }
+            ],
+            "place_loot": [
+                { "item": "holy_symbol", "chance": 90, "x": 11, "y": 2 },
+                { "group": "cleansing_flame_casualties", "chance": 75, "x": [2, 20], "y": [1, 10], "repeat": [2, 4] },
+                { "group": "cleansing_flame_books", "chance": 40, "x": 2, "y": [1, 5], "repeat": [2, 5] },
+                { "group": "cleansing_flame_books", "chance": 40, "x": 20, "y": [1, 5], "repeat": [2, 5] },
+                { "group": "cleansing_flame_gear", "chance": 30, "x": [2, 6], "y": 11, "repeat": [2, 5] },
+                { "group": "cleansing_flame_gear_magic", "chance": 25, "x": [2, 6], "y": 11, "repeat": [2, 5] },
+                { "group": "cleansing_flame_crafting", "chance": 40, "x": [16, 20], "y": 11, "repeat": [2, 5] }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "basement"
+        ],
+        "method": "json",
+        "weight": 50,
+        "object": {
+            "rows": [
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "      -----------       ",
+                "      |.........|       ",
+                "      |.........|       ",
+                "      |+-|-+-|-+|       ",
+                "      |rr|...|rr|       ",
+                "      |rr|.<.|rr|       ",
+                "      |rr|...|rr|       ",
+                "     -|rr|-+-|rr|-      ",
+                "     |rr--...--rr|      ",
+                "     |rr-]...]-rr|      ",
+                "     |rr--]{]--rr|      ",
+                "     -|rr-----rr|-      ",
+                "    |---+-]]]-+---|     ",
+                "    |.............|     ",
+                "    |.p.p..b..p.p.|     ",
+                "    |.p.p.....p.p.|     ",
+                "    |......P......|     ",
+                "    ---------------     ",
+                "                        ",
+                "                        "
+            ],
+            "fill_ter": "t_rock",
+            "terrain": {
+                "|": "t_wall",
+                "-": "t_wall",
+                "<": "t_stairs_up",
+                "+": "t_door_c",
+                ".": "t_rock_floor",
+                "#": "t_rock_floor",
+                "{": "t_rock_floor",
+                "h": "t_rock_floor",
+                "]": "t_rock_floor",
+                "r": "t_carpet_red",
+                "p": "t_rock_floor",
+                "P": "t_rock_floor",
+                "b": "t_rock_floor"
+            },
+            "furniture": {
+                "#": "f_counter",
+                "{": "f_rack",
+                "p": "f_bench",
+                "]": "f_bookcase"
+            },
+            "set": [
+                { "point": "trap", "id": "tr_brazier", "x": 11, "y": 18},
+                { "point": "trap", "id": "tr_portal", "x": 11, "y": 20}
+            ],
+            "place_monster": [
+                { "x": 11, "y": 13, "monster": "mon_dementia", "repeat": [1, 2] },
+                { "x": 11, "y": 19, "monster": "mon_flesh_angel" }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_NETHER", "x": [ 5, 17 ], "y": [ 17, 20 ] },
+                { "monster": "GROUP_NETHER", "x": [ 7, 15 ], "y": [ 5, 6 ], "chance": 2 }
+            ],
+            "place_loot": [
+                { "item": "offering_chalice_used", "chance": 100, "x": 11, "y": 19 },
+                { "group": "chalice_cult_casualties", "chance": 100, "x": 11, "y": 13 },
+                { "group": "chalice_cult_casualties", "chance": 75, "x": [2, 20], "y": [1, 10], "repeat": [1, 3] },
+                { "group": "chalice_cult_books", "chance": 40, "x": [10 , 12], "y": 16, "repeat": [2, 5] },
+                { "group": "chalice_cult_books", "chance": 25, "x": 9, "y": 13, "repeat": [1, 3] },
+                { "group": "chalice_cult_books", "chance": 25, "x": 13, "y": 13, "repeat": [1, 3] },
+                { "group": "chalice_cult_books", "chance": 25, "x": 10, "y": 14, "repeat": [1, 3] },
+                { "group": "chalice_cult_books", "chance": 25, "x": 12, "y": 14, "repeat": [1, 3] },
+                { "group": "chalice_cult_gear", "chance": 30, "x": 11, "y": 14, "repeat": [1, 4] },
+                { "group": "cult_sacrifice", "chance": 100, "x": 11, "y": 18 }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "basement"
+        ],
+        "method": "json",
+        "weight": 125,
+        "object": {
+            "rows": [
+                "  --------------------  ",
+                "  |B.........#####..]|  ",
+                "  |D................]|  ",
+                "  |.................]|  ",
+                "  |.................]|  ",
+                "  |.................]|  ",
+                "  |{.................|  ",
+                "  |{................#|  ",
+                "  |{...............hd|  ",
+                "  |{.................|  ",
+                "  |{................s|  ",
+                "  |------|-+-|-------|  ",
+                "         |...|          ",
+                "         |.<.|          ",
+                "         -----          ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "fill_ter": "t_rock",
+            "terrain": {
+                "|": "t_wall",
+                "-": "t_wall",
+                "<": "t_stairs_up",
+                "+": "t_door_c",
+                ".": "t_rock_floor",
+                "#": "t_rock_floor",
+                "{": "t_rock_floor",
+                "h": "t_rock_floor",
+                "d": "t_rock_floor",
+                "]": "t_rock_floor",
+                "B": "t_rock_floor",
+                "D": "t_rock_floor",
+                "s": "t_rock_floor"
+            },
+            "furniture": {
+                "#": "f_counter",
+                "{": "f_rack",
+                "p": "f_bench",
+                "]": "f_bookcase",
+                "h" : "f_chair",
+                "d" : "f_desk",
+                "B" : "f_bed",
+                "D" : "f_dresser",
+                "s": "f_safe_l"
+            },
+            "place_monsters": [
+                { "monster": "GROUP_NETHER", "x": [ 3, 20 ], "y": [ 1, 10 ], "chance": 25 },
+                { "monster": "GROUP_IMPACT", "x": [ 3, 20 ], "y": [ 1, 10 ], "chance": 25 },
+                { "monster": "GROUP_PREPPER_HOUSE", "x": [ 3, 20 ], "y": [ 1, 10 ] }
+            ],
+            "place_loot": [
+                { "group": "bed", "chance": 90, "x": 3, "y": 1, "repeat" : [1, 2] },
+                { "group": "dresser", "chance" : 85, "x": 3, "y": 2, "repeat" : [1, 4] },
+                { "item": "matches", "chance": 50, "x": 20, "y": 7 },
+                { "group": "reading_lights", "chance": 90, "x": 20, "y": 7 },
+                { "group": "cannedfood", "chance": 75, "x": [13, 17], "y": 1, "repeat": [2, 5] },
+                { "group": "homebooks", "chance": 75, "x": 20, "y": [1, 5], "repeat": [3, 6] },
+                { "group": "magic_books", "chance": 50, "x": 20, "y": [1, 5], "repeat": [2, 4] },
+                { "group": "magic_crafting", "chance": 35, "x": 3, "y": [6, 10], "repeat": [5, 8] },
+                { "group": "magic_consumables", "chance": 50, "x": 20, "y": 10, "repeat": [1, 3] },
+                { "group": "magic_items", "chance": 50, "x": 20, "y": 10, "repeat": [1, 2] },
+                { "group": "magic_tools", "chance": 50, "x": 20, "y": 10 }
+            ]
+        }
+    }
+]
