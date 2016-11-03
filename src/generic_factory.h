@@ -297,7 +297,7 @@ class generic_factory
          */
         bool is_valid( const int_id<T> &id ) const {
             size_t idx = static_cast<int>( id );
-            return idx > 0 && idx < cache.size();
+            return idx >= 0 && idx < cache.size();
         }
         /**
          * Checks whether the factory contains an object with the given id.
