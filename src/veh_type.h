@@ -166,10 +166,10 @@ class vpart_info
         /** Required skills to repair this component */
         std::map<skill_id, int> repair_skills;
 
-        /** Repair time (in moves) for component per level of damage (@see repair_time) */
+        /** Repair time (in moves) to fully repair a component (@see repair_time) */
         int repair_moves = MOVES( HOURS( 1 ) );
 
-        /** Repair time (in moves) for this component (per level of damage) accounting for player skills */
+        /** Repair time (in moves) to fully repair this component, accounting for player skills */
         int repair_time( const Character &ch ) const;
 
         /** @ref item_group this part breaks into when destroyed */
