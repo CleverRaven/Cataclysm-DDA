@@ -125,27 +125,11 @@ class generic_factory
 
         std::map<std::string, std::set<std::string>> aliases;
 
-        std::unordered_map<int_id<T>, T *> map;
+        std::vector<T *> cache;
 
         std::string type_name;
         std::string id_member_name;
         std::string alias_member_name;
-
-        void remove_aliases( const string_id<T> &id ) {
-            int_id<T> i_id;
-            if( !find_id( id, i_id ) ) {
-                return;
-            }
-            auto iter = map.begin();
-            const auto end = map.end();
-            for( ; iter != end; ) {
-                if( iter->second == i_id && iter->first != id ) {
-                    map.erase( iter++ );
-                } else {
-                    ++iter;
-                }
-            }
-        }
 
     public:
         /**
@@ -213,7 +197,7 @@ class generic_factory
         }
 
         /**
-         *  Legacy function for inserting an object directly in to map
+         *  Legacy function for inserting an object directly
          *  @warning do not use in new code or at all after @ref finalize()
          */
         void insert( const T &def ) {
@@ -238,7 +222,7 @@ class generic_factory
             int idx = 0;
             for( auto &e : objects ) {
                 e.second.id.set_cid( int_id<T>( idx++ ) );
-                map[e.second.id.get_cid()] = &e.second;
+                cache.push_back( &e.second );
             }
         }
 
@@ -261,7 +245,7 @@ class generic_factory
         /** Removes all loaded objects */
         void reset() {
             objects.clear();
-            map.clear();
+            cache.clear();
         }
         /** Returns all the loaded objects */
         const std::map<std::string, T> &get_all() const {
@@ -285,12 +269,11 @@ class generic_factory
          */
         const T &obj( const int_id<T> &id ) const {
             static T null_obj;
-            auto iter = map.find( id );
-            if( iter == map.end() ) {
+            if( !is_valid( id ) ) {
                 debugmsg( "invalid %s id \"%d\"", type_name.c_str(), id );
                 return null_obj;
             }
-            return *iter->second;
+            return *cache[static_cast<int>( id )];
         }
         /**
          * Returns the object with the given id.
@@ -313,7 +296,8 @@ class generic_factory
          * This function can be used to implement @ref int_id::is_valid().
          */
         bool is_valid( const int_id<T> &id ) const {
-            return map.find( id ) != map.end();
+            size_t idx = static_cast<int>( id );
+            return idx > 0 && idx < cache.size();
         }
         /**
          * Checks whether the factory contains an object with the given id.
