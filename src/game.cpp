@@ -10372,7 +10372,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         if( create_activity() ) {
             serialize_liquid_target( u.activity, target_pos );
         } else {
-            m.add_item_or_charges( target_pos, liquid, 1 );
+            m.add_item_or_charges( target_pos, liquid );
             liquid.charges = 0;
             u.mod_moves( -100 );
         }

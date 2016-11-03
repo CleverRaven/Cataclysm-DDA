@@ -790,7 +790,9 @@ void add_corpse( const tripoint &p );
     void spawn_item(const int x, const int y, const std::string &itype_id,
                     const unsigned quantity=1, const long charges=0,
                     const unsigned birthday=0, const int damlevel=0);
-    bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
+
+    item &add_item_or_charges( const int x, const int y, const item &obj, bool overflow = true );
+
     void add_item(const int x, const int y, item new_item);
     void spawn_an_item( const int x, const int y, item new_item,
                         const long charges, const int damlevel );
@@ -817,14 +819,15 @@ void add_corpse( const tripoint &p );
     units::volume max_volume( const tripoint &p );
     units::volume free_volume( const tripoint &p );
     units::volume stored_volume( const tripoint &p );
-    /** Adds an item to map point, or stacks charges.
-     * @warning: This function is expensive, and meant for user initiated actions, not mapgen!
-     *
-     * @param overflow_radius: if p is full, attempt to drop item up to overflow_radius squares away
-     * @ret The item that was added, or nulitem. Items counted by charges might be dropped on different
-     * squares due to the volume limit; in that case the most recently added/merged item is returned.
+
+    /**
+     *  Adds an item to map tile or stacks charges
+     *  @param overflow if destination is full attempt to drop on adjacent tiles
+     *  @return reference to dropped (and possibly stacked) item or null item on failure
+     *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
      */
-    item &add_item_or_charges( const tripoint &p, item new_item, int overflow_radius = 2 );
+    item &add_item_or_charges( const tripoint &pos, const item &obj, bool overflow = true );
+
     /** Helper for map::add_item */
     item &add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
     /**

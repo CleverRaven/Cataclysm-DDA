@@ -111,10 +111,10 @@ void iexamine::gaspump(player &p, const tripoint &examp)
 
                 item spill = item_it->split( qty );
                 if( spill.is_null() ) {
-                    g->m.add_item_or_charges( p.pos(), *item_it, 1 );
+                    g->m.add_item_or_charges( p.pos(), *item_it );
                     items.erase( item_it );
                 } else {
-                    g->m.add_item_or_charges( p.pos(), spill, 1 );
+                    g->m.add_item_or_charges( p.pos(), spill );
                 }
 
             } else {
@@ -2371,7 +2371,7 @@ void iexamine::tree_maple(player &p, const tripoint &examp)
 
     item *container = cont_loc.get_item();
     if( container ) {
-        g->m.add_item_or_charges( examp, *container, 0 );
+        g->m.add_item_or_charges( examp, *container, false );
 
         cont_loc.remove_item();
     } else {
@@ -2445,7 +2445,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
 
             item *container = cont_loc.get_item();
             if( container ) {
-                g->m.add_item_or_charges( examp, *container, 0 );
+                g->m.add_item_or_charges( examp, *container, false );
 
                 cont_loc.remove_item();
             } else {

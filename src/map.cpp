@@ -4266,9 +4266,9 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
                 quantity, charges, birthday, damlevel );
 }
 
-bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius)
+item &map::add_item_or_charges(const int x, const int y, const item &obj, bool overflow )
 {
-    return !add_item_or_charges( tripoint( x, y, abs_sub.z ), new_item, overflow_radius ).is_null();
+    return add_item_or_charges( tripoint( x, y, abs_sub.z ), obj, overflow );
 }
 
 void map::add_item(const int x, const int y, item new_item)
@@ -4442,59 +4442,74 @@ units::volume map::free_volume( const tripoint &p )
     return i_at( p ).free_volume();
 }
 
-item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_radius) {
+item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overflow )
+{
+    // Checks if item would not be destroyed if added to this tile
+    auto valid_tile = [&]( const tripoint &e ) {
+        if( !inbounds( e ) ) {
+            dbg( D_INFO ) << e; // should never happen
+            return false;
+        }
 
-    if(!inbounds(p) ) {
-        // Complain about things that should never happen.
-        dbg(D_INFO) << p.x << "," << p.y << "," << p.z << ", liquid "
-                    <<(new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) <<
-                    ", destroy_item "<<has_flag("DESTROY_ITEM", p);
+        // Some tiles destroy items (eg. lava)
+        if( has_flag( "DESTROY_ITEM", e ) ) {
+            return false;
+        }
 
+        // Cannot drop liquids into tiles that are comprised of liquid
+        if( obj.made_of( LIQUID ) && has_flag( "SWIMMABLE", e ) ) {
+            return false;
+        }
+
+        return true;
+    };
+
+    // Checks if sufficient space at tile to add item
+    auto valid_limits = [&]( const tripoint &e ) {
+        return obj.volume() <= free_volume( e ) && i_at( e ).size() < MAX_ITEM_IN_SQUARE;
+    };
+
+    // Performs the actual insertion of the object onto the map
+    auto place_item = [&]( const tripoint &tile ) -> item& {
+        if( obj.count_by_charges() ) {
+            for( auto &e : i_at( tile ) ) {
+                if( e.merge_charges( obj ) ) {
+                    return e;
+                }
+            }
+        }
+
+        support_dirty( tile );
+        return add_item( tile, obj );
+    };
+
+    // Some items never exist on map as a discrete item (must be contained by another item)
+    if( obj.has_flag( "NO_DROP" ) || obj.has_flag( "IRREMOVABLE" ) ) {
         return nulitem;
     }
-    if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) ||
-        has_flag("DESTROY_ITEM", p) || new_item.has_flag("NO_DROP") ||
-        (new_item.is_gunmod() && new_item.has_flag("IRREMOVABLE") ) ) {
-        // Silently fail on mundane things that prevent item spawn.
+
+    // If intended drop tile destroys the item then we don't attempt to overflow
+    if( !valid_tile( pos ) ) {
         return nulitem;
     }
 
-    const bool charge = new_item.count_by_charges();
-    item *ret = nullptr;
+    if( !has_flag( "NOITEM", pos ) && valid_limits( pos ) ) {
+        // If tile can contain items place here...
+        return place_item( pos );
 
-    for( const auto &p_it : closest_tripoints_first(overflow_radius, p) ) {
-        if( !inbounds( p_it ) || has_flag( "DESTROY_ITEM", p_it ) || has_flag( "NOITEM", p_it ) ) {
-            continue;
+    } else if( overflow ) {
+        // ...otherwise try to overflow to adjacent tiles (if permitted)
+        auto tiles = closest_tripoints_first( 2, pos );
+        tiles.erase( tiles.begin() ); // we already tried this position
+        for( const auto &e : tiles ) {
+            if( valid_tile( e ) && !has_flag( "NOITEM", pos ) && valid_limits( e ) ) {
+                return place_item( e );
+            }
         }
-        map_stack istack = i_at( p_it );
-        const long can_fit = istack.amount_can_fit( new_item );
-        if( can_fit < 1 ) {
-            continue;
-        }
+    }
 
-        item *here = charge ? istack.stacks_with( new_item ) : nullptr;
-        const long old_charges = new_item.charges;
-        if( here ) {
-            // Then we want to merge charges
-            new_item.charges = can_fit;
-            here->merge_charges( new_item );
-            new_item.charges = old_charges - can_fit;
-            ret = here;
-        } else {
-            // Then we want to call @add_item
-            new_item.charges = charge ? can_fit : new_item.charges;
-            ret = &add_item( p_it, new_item );
-            new_item.charges = charge ? old_charges - can_fit : new_item.charges;
-            support_dirty( p_it );
-        }
-
-        if( !charge || new_item.charges == 0 ) {
-            return ret ? *ret : nulitem;
-        }
-    } //end for every point in overflow radius
-
-    // Adding only some of the charges is good enough to return success, I guess.
-    return ret ? *ret : nulitem;
+    // failed due to lack of space at target tile (+/- overflow tiles)
+    return nulitem;
 }
 
 item &map::add_item(const tripoint &p, item new_item)
