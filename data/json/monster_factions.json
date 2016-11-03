@@ -6,12 +6,17 @@
         "by_mood" : [""]
     },{
         "type" : "MONSTER_FACTION",
-        "name" : "player"
+        "name" : "human"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "player",
+        "base_faction" : "human"
     },{
         "type" : "MONSTER_FACTION",
         "name" : "zombie",
         "friendly" : ["blob", "cult"],
-        "neutral" : ["small_animal", "insect"]
+        "neutral" : ["small_animal", "insect"],
+        "by_mood": "bee"
     },{
         "type" : "MONSTER_FACTION",
         "name" : "blob",
@@ -71,6 +76,13 @@
         "by_mood" : "insect"
     },{
         "type" : "MONSTER_FACTION",
+        "name" : "bee",
+        "base_faction" : "insect",
+        "friendly" : "plant",
+        "neutral" : "bot",
+        "by_mood" : ["insect", "zombie"]
+    },{
+        "type" : "MONSTER_FACTION",
         "name" : "roach",
         "base_faction" : "insect"
     },{
@@ -118,5 +130,14 @@
         "type" : "MONSTER_FACTION",
         "name" : "spider_cellar",
         "base_faction" : "spider"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "plant",
+        "neutral" : "bot",
+        "friendly" : "bee"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "triffid",
+        "base_faction" : "plant"
     }
 ]

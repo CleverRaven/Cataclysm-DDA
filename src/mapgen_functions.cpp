@@ -759,6 +759,8 @@ void mapgen_hive(map *m, oter_id, mapgendata dat, int turn, float)
     }
 
     // j and i loop through appropriate hive-cell center squares
+    const bool is_center = dat.t_nesw[0] == "hive" && dat.t_nesw[1] == "hive" &&
+                           dat.t_nesw[2] == "hive" && dat.t_nesw[3] == "hive";
     for (int j = 5; j < SEEY * 2 - 5; j += 6) {
         for (int i = (j == 5 || j == 17 ? 3 : 6); i < SEEX * 2 - 5; i += 6) {
             if (!one_in(8)) {
@@ -859,14 +861,17 @@ void mapgen_hive(map *m, oter_id, mapgendata dat, int turn, float)
                 if (skip1 == 23 || skip2 == 23)
                     m->ter_set(i + 1, j + 4, t_floor_wax);
 
-                if (dat.t_nesw[0] == "hive" && dat.t_nesw[1] == "hive" &&
-                      dat.t_nesw[2] == "hive" && dat.t_nesw[3] == "hive") {
+                if( is_center ) {
                     m->place_items("hive_center", 90, i - 2, j - 2, i + 2, j + 2, false, turn);
                 } else {
                     m->place_items("hive", 80, i - 2, j - 2, i + 2, j + 2, false, turn);
                 }
             }
         }
+    }
+
+    if( is_center ) {
+        m->place_npc( SEEX, SEEY, "apis" );
     }
 }
 

@@ -11,6 +11,7 @@ class game;
 class item;
 class monfaction;
 class player;
+class Character;
 struct mtype;
 enum monster_trigger : int;
 enum field_id : int;
@@ -223,7 +224,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         // Combat
         bool is_fleeing( player &u ) const; // True if we're fleeing
-        monster_attitude attitude( player *u = NULL ) const; // See the enum above
+        monster_attitude attitude( const Character *u = nullptr ) const; // See the enum above
         Attitude attitude_to( const Creature &other ) const override;
         void process_triggers(); // Process things that anger/scare us
         void process_trigger( monster_trigger trig, int amount ); // Single trigger
