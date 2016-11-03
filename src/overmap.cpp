@@ -87,6 +87,7 @@ static const std::map<std::string, overmap_location_restictions> overmap_locatio
     { "by_road",    { {},                   { "river", "road" } } },
     { "field",      { { "field" },          {}                  } },
     { "forest",     { { "forest" },         {}                  } },
+    { "swamp",      { { "forest_water" },   {}                  } },
     { "land",       { {},                   { "river", "road" } } },
     { "water",      { { "river" },          {}                  } },
     { "wilderness", { { "forest", "field" },{}                  } }
