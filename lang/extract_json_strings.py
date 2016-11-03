@@ -731,14 +731,12 @@ def prepare_git_file_list():
     for f in output:
         if len(f) > 0:
             git_files_list.add(f[:-1].decode('utf8'))
-    print(git_files_list)
 
 ##
 ##  EXTRACTION
 ##
 
 prepare_git_file_list()
-#exit(1)
 extract_all_from_dir(json_dir)
 extract_all_from_dir(raw_dir)
 extract_all_from_dir(mods_dir)
