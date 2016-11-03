@@ -4736,6 +4736,10 @@ long vehicle::add_charges( int part, const item &itm )
 
 bool vehicle::add_item( int part, const item &itm )
 {
+    if( part < 0 || part >= ( int )parts.size() ) {
+        debugmsg( "int part (%d) is out of range", part );
+        return false;
+    }
     // const int max_weight = ?! // TODO: weight limit, calc per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certian point, or when hitting bumps etc
 

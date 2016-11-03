@@ -1298,12 +1298,6 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 
     float component_success_chance = std::min( std::pow( 0.8, dis_item.damage() ), 1.0 );
 
-    int veh_part = -1;
-    vehicle *veh = g->m.veh_at( pos(), veh_part );
-    if( veh != nullptr ) {
-        veh_part = veh->part_with_feature( veh_part, "CARGO" );
-    }
-
     add_msg( _( "You disassemble the %s into its components." ), dis_item.tname().c_str() );
     // Remove any batteries, ammo and mods first
     remove_ammo( &dis_item, *this );
@@ -1391,9 +1385,16 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
                     break;
                 }
             }
+
+            int veh_part = -1;
+            vehicle *veh = g->m.veh_at( pos(), veh_part );
+            if( veh != nullptr ) {
+                veh_part = veh->part_with_feature( veh_part, "CARGO" );
+            }
+
             if( act_item.made_of( LIQUID ) ) {
                 g->handle_all_liquid( act_item, PICKUP_RANGE );
-            } else if( veh != NULL && veh->add_item( veh_part, act_item ) ) {
+            } else if( veh_part != -1 && veh->add_item( veh_part, act_item ) ) {
                 // add_item did put the items in the vehicle, nothing further to be done
             } else {
                 g->m.add_item_or_charges( pos(), act_item );
