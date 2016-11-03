@@ -8,7 +8,7 @@
 #include "crafting.h"
 #include "debug.h"
 #include "enums.h"
-#include "generic_factory.h"
+#include "assign.h"
 #include "init.h"
 #include "item.h"
 #include "item_group.h"
