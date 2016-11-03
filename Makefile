@@ -564,6 +564,11 @@ endif
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
   BINDIST_EXTRAS += cataclysm-launcher
+  DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
+endif
+
+ifdef MSYS2
+  DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
 endif
 
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
