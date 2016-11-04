@@ -8325,16 +8325,16 @@ void player::suffer()
     if (has_bionic("bio_drain") && power_level > 24 && one_in(600)) {
         add_msg_if_player(m_bad, _("Your batteries discharge slightly."));
         charge_power(-25);
-        sfx::play_variant_sound("bionics", "elec_crackle_low", 100 );
+        sfx::play_variant_sound( "bionics", "elec_crackle_low", 100 );
     }
     if (has_bionic("bio_noise") && one_in(500)) {
         // TODO: NPCs with said bionic
         if(!is_deaf()) {
             add_msg(m_bad, _("A bionic emits a crackle of noise!"));
-            sfx::play_variant_sound("bionics", "elec_blast", 100 );
+            sfx::play_variant_sound( "bionics", "elec_blast", 100 );
         } else {
             add_msg(m_bad, _("You feel your faulty bionic shudderring."));
-            sfx::play_variant_sound("bionics", "elec_blast_muffled", 100 );
+            sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
         }
         sounds::sound( pos(), 60, "");
     }
@@ -8345,7 +8345,7 @@ void player::suffer()
     if (has_bionic("bio_trip") && one_in(500) && !has_effect( effect_visuals )) {
         add_msg_if_player(m_bad, _("Your vision pixelates!"));
         add_effect( effect_visuals, 100 );
-        sfx::play_variant_sound("bionics", "pixelated", 100 );
+        sfx::play_variant_sound( "bionics", "pixelated", 100 );
     }
     if (has_bionic("bio_spasm") && one_in(3000) && !has_effect( effect_downed )) {
         add_msg_if_player(m_bad, _("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
