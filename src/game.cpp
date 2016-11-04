@@ -14,6 +14,7 @@
 #include "gamemode.h"
 #include "mapbuffer.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "editmap.h"
 #include "bodypart.h"
 #include "map.h"
@@ -3987,8 +3988,8 @@ void game::debug()
     int action = menu( true, // cancelable
                        _( "Debug Functions - Using these is CHEATING!" ),
                        _( "Wish for an item" ),       // 1
-                       _( "Teleport - Short Range" ), // 2
-                       _( "Teleport - Long Range" ),  // 3
+                       _( "Teleport yourself..." ),   // 2
+                       _( "Overmap editor" ),         // 3
                        _( "Reveal map" ),             // 4
                        _( "Spawn NPC" ),              // 5
                        _( "Spawn Monster" ),          // 6
@@ -4015,8 +4016,7 @@ void game::debug()
                        _( "Change time" ),            // 27
                        _( "Set automove route" ),     // 28
                        _( "Show mutation category levels" ), // 29
-                       _( "Overmap editor" ),         // 30
-                       _( "Draw benchmark (5 seconds)" ),      // 31
+                       _( "Draw benchmark (5 seconds)" ),    // 30
                        _( "Cancel" ),
                        NULL );
     int veh_num;
@@ -4027,28 +4027,14 @@ void game::debug()
             wishitem( &u );
             break;
 
-        case 2: {
-            if( u.in_vehicle ) {
-                m.unboard_vehicle( u.pos() );
-            }
+        case 2:
+            debug_menu::execute_teleport();
+            break;
 
-            auto pt = look_around();
-            if( pt == tripoint_min ) {
-                break;
-            }
+        case 3:
+            overmap::draw_editor();
+            break;
 
-            place_player( pt );
-            add_msg( _( "You've teleported to point (%d,%d,%d)." ), u.pos().x, u.pos().y, u.pos().z );
-        }
-        break;
-
-        case 3: {
-            tripoint tmp = overmap::draw_overmap();
-            if( tmp != overmap::invalid_tripoint ) {
-                place_player_overmap( tmp );
-            }
-        }
-        break;
         case 4: {
             auto &cur_om = get_cur_om();
             for( int i = 0; i < OMAPX; i++ ) {
@@ -4673,10 +4659,6 @@ void game::debug()
         }
         break;
         case 30: {
-            overmap::draw_editor();
-        }
-        break;
-        case 31: {
             // call the draw procedure as many times as possible in 5 seconds
             auto start_tick = std::chrono::steady_clock::now();
             auto end_tick = std::chrono::steady_clock::now();
