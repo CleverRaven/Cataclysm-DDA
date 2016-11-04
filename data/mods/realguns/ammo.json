@@ -112,7 +112,7 @@
     "type": "AMMO",
     "name": "reloaded .38 Super",
     "name_plural": "reloaded .38 Super",
-    "extend": { "ammo_type": [ "357_mag" ] }
+    "extend": { "ammo_type": [ "357_mag", "38_super" ] }
   },
   {
     "id": "40sw",
