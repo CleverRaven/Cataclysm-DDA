@@ -7282,6 +7282,8 @@
   },{
     "type" : "item_group",
     "id" : "drugdealer",
+    "magazine": 100,
+    "ammo": 50,
     "items":[
       ["energy_drink", 55],
       ["energy_drink_atomic", 8],
