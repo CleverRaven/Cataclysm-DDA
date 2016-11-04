@@ -530,7 +530,12 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
     /**
      * Get time left to rot, ignoring fridge.
-     * Returns max int - 1 if item is comestible and max int otherwise.
+     * Returns time to rot if item is able to, max int - N otherwise,
+     * where N is
+     * 3 for food,
+     * 2 for medication,
+     * 1 for other comestibles,
+     * 0 otherwise.
      */
     int get_time_until_rotten();
 

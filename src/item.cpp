@@ -2759,10 +2759,11 @@ void item::set_relative_rot( double val )
 int item::get_time_until_rotten()
 {
     item *subject;
+    int bottom = std::numeric_limits<int>::max();
 
     if ( type->container && contents.size() >= 1 ) {
         if ( type->container->preserves ) {
-            return std::numeric_limits<int>::max() - 1;
+            return bottom - 3;
         }
         subject = &contents.front();
     } else {
@@ -2773,9 +2774,16 @@ int item::get_time_until_rotten()
         return subject->type->comestible->spoils - subject->rot;
     }
     if ( subject->type->comestible ) {
-        return std::numeric_limits<int>::max() - 1;
+        switch ( subject->type->category->id ) {
+            case "food":
+                return bottom - 3;
+            case "drugs":
+                return bottom - 2;
+            default:
+                return bottom - 1;
+        }
     }
-    return std::numeric_limits<int>::max();
+    return bottom;
 }
 
 void item::calc_rot(const tripoint &location)
