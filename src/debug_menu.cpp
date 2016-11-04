@@ -34,6 +34,23 @@ void teleport_long()
     add_msg( _( "You teleport to submap (%d,%d,%d)." ), where.x, where.y, where.z );
 }
 
+void teleport_overmap()
+{
+    tripoint dir;
+
+    if( !choose_direction( _( "Where is the desired overmap?" ), dir ) ) {
+        return;
+    }
+
+    const tripoint offset( OMAPX * dir.x, OMAPY * dir.y, dir.z );
+    const tripoint where( g->u.global_omt_location() + offset );
+
+    g->place_player_overmap( where );
+
+    const tripoint new_pos( omt_to_om_copy( g->u.global_omt_location() ) );
+    add_msg( _( "You teleport to overmap (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
+}
+
 } // Anonymous namespace
 
 void debug_menu::execute_teleport()
@@ -50,6 +67,9 @@ void debug_menu::execute_teleport()
 
     menu.addentry( _( "Some place on the overmap" ) );
     actions.emplace_back( teleport_long );
+
+    menu.addentry( _( "Adjacent overmap" ) );
+    actions.emplace_back( teleport_overmap );
 
     menu.query();
     g->refresh_all();
