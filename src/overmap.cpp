@@ -4137,8 +4137,8 @@ void overmap::place_specials()
             continue;
         }
 
-        if( max == 100 ) { // @todo Get rid of the special case and separate chances from amounts.
-            if( rand() % 100 <= min ) {
+        if( elem->flags.count( "UNIQUE" ) > 0 ) {
+            if( rand() % max <= min ) {
                 mandatory.emplace_back( elem, 1 );
             }
         } else {
