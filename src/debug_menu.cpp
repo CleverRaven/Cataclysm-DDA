@@ -11,7 +11,8 @@
 #include <functional>
 #include <vector>
 
-namespace {
+namespace
+{
 
 void teleport_short()
 {
