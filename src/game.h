@@ -786,6 +786,7 @@ class game
         bool walk_move( const tripoint &dest );
         // Places the player at the specified point; hurts feet, lists items etc.
         void place_player( const tripoint &dest );
+        void place_player_overmap( const tripoint &om_dest );
         void on_move_effects();
         void wait(); // Long wait (player action)  '^'
         void open(); // Open a door  'o'
