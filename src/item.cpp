@@ -2773,14 +2773,14 @@ int item::get_time_until_rotten()
     if ( subject->goes_bad() ) {
         return subject->type->comestible->spoils - subject->rot;
     }
+
     if ( subject->type->comestible ) {
-        switch ( subject->type->category->id ) {
-            case "food":
-                return bottom - 3;
-            case "drugs":
-                return bottom - 2;
-            default:
-                return bottom - 1;
+        if ( subject->type->category->id == "food" ) {
+            return bottom - 3;
+        } else if ( subject->type->category->id == "drugs" ) {
+            return bottom - 2;
+        } else {
+            return bottom - 1;
         }
     }
     return bottom;
