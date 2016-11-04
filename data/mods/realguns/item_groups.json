@@ -24,7 +24,7 @@
     "id": "ammo_pistol_rare",
     "type": "item_group",
     "items": [ [ "357_P", 50 ] ]
-  }
+  },
   {
     "id": "ammo_pistol_reloaded",
     "type": "item_group",

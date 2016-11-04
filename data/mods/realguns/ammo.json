@@ -25,7 +25,7 @@
   },
   {
     "id": "357_P",
-    "copy_from": "357",
+    "copy-from": "357",
     "type": "AMMO",
     "name": ".357 Magnum +P",
     "name_plural": ".357 Magnum +P",
