@@ -8333,7 +8333,7 @@ void player::suffer()
             add_msg(m_bad, _("A bionic emits a crackle of noise!"));
             sfx::play_variant_sound("bionics", "elec_blast", 100 );
         } else {
-            add_msg(m_bad, _("A bionic shudders, but you hear nothing."));
+            add_msg(m_bad, _("You feel your faulty bionic shudderring."));
             sfx::play_variant_sound("bionics", "elec_blast_muffled", 100 );
         }
         sounds::sound( pos(), 60, "");
