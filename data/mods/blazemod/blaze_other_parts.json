@@ -794,7 +794,7 @@
   {
     "id": "xfloodlight",
     "type": "vehicle_part",
-    "name": "Floodlight",
+    "name": "solar floodlight",
     "item": "floodlight",
     "location": "on_battery_mount",
     "symbol": "*",
