@@ -2123,7 +2123,7 @@
     "type": "ARMOR",
     "name": "dress",
     "name_plural": "dresses",
-    "description": "A long cotton dress.  Though comfortable to wear, it lacks any storage space.",
+    "description": "A long cotton dress.  Though comfortable to wear, its storage capacity is minimal.",
     "weight": 680,
     "volume": 14,
     "price": 18000,
@@ -2134,6 +2134,7 @@
     "covers": [ "LEGS", "TORSO" ],
     "coverage": 85,
     "encumbrance": 7,
+    "storage": 2,
     "warmth": 15,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "FANCY" ]
