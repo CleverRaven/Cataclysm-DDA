@@ -4541,11 +4541,11 @@ void player::on_dodge( Creature *source, float difficulty )
 void player::on_hit( Creature *source, body_part bp_hit,
                      float /*difficulty*/ , dealt_projectile_attack const* const proj ) {
     check_dead_state();
-    bool u_see = g->u.sees( *this );
     if( source == nullptr || proj != nullptr ) {
         return;
     }
 
+    bool u_see = g->u.sees( *this );
     if (has_active_bionic("bio_ods")) {
         if (is_player()) {
             add_msg(m_good, _("Your offensive defense system shocks %s in mid-attack!"),
@@ -4750,47 +4750,48 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
     }
 
-    switch (bp) {
-    case bp_eyes:
-        if (dam > 5 || cut_dam > 0) {
-            int minblind = (dam + cut_dam) / 10;
-            if (minblind < 1) {
-                minblind = 1;
+    int recoil_mul = 100;
+    switch( bp ) {
+        case bp_eyes:
+            if (dam > 5 || cut_dam > 0) {
+                int minblind = (dam + cut_dam) / 10;
+                if (minblind < 1) {
+                    minblind = 1;
+                }
+                int maxblind = (dam + cut_dam) /  4;
+                if (maxblind > 5) {
+                    maxblind = 5;
+                }
+                add_effect( effect_blind, rng( minblind, maxblind ) );
             }
-            int maxblind = (dam + cut_dam) /  4;
-            if (maxblind > 5) {
-                maxblind = 5;
-            }
-            add_effect( effect_blind, rng( minblind, maxblind ) );
-        }
-        break;
-    case bp_torso:
-        // getting hit throws off our shooting
-        recoil += dam * 3;
-        break;
-    case bp_hand_l: // Fall through to arms
-    case bp_arm_l:
-        if( weapon.is_two_handed( *this ) ) {
-            recoil += dam * 5;
-        }
-        break;
-    case bp_hand_r: // Fall through to arms
-    case bp_arm_r:
-        // getting hit in the arms throws off our shooting
-        recoil += dam * 5;
-        break;
-    case bp_foot_l: // Fall through to legs
-    case bp_leg_l:
-        break;
-    case bp_foot_r: // Fall through to legs
-    case bp_leg_r:
-        break;
-    case bp_mouth: // Fall through to head damage
-    case bp_head:
-        break;
-    default:
-        debugmsg("Wacky body part hit!");
+            break;
+        case bp_torso:
+            break;
+        case bp_hand_l: // Fall through to arms
+        case bp_arm_l:
+            // Hit to arms/hands are really bad to our aim
+            recoil_mul = 200;
+            break;
+        case bp_hand_r: // Fall through to arms
+        case bp_arm_r:
+            recoil_mul = 200;
+            break;
+        case bp_foot_l: // Fall through to legs
+        case bp_leg_l:
+            break;
+        case bp_foot_r: // Fall through to legs
+        case bp_leg_r:
+            break;
+        case bp_mouth: // Fall through to head damage
+        case bp_head:
+            // @todo Some daze maybe? Move drain?
+            break;
+        default:
+            debugmsg("Wacky body part hit!");
     }
+
+    // @todo Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
+    recoil += recoil_mul * weapon.volume() / 250_ml;
     //looks like this should be based off of dealtdams, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != nullptr ) {
