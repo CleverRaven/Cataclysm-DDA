@@ -1,5 +1,16 @@
 [
   {
+    "abstract": "artillery_casing",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "A large artillery casing.",
+    "stackable": true,
+    "material": "steel",
+    "symbol": "=",
+    "color": "green",
+    "damage_states": [ 0, 0 ]
+  },
+  {
     "id": "belt30mm",
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
@@ -257,7 +268,7 @@
 },{
   "type" : "GENERIC",
   "id" : "30mm_casing",
-  "copy-from": "casing",
+  "copy-from": "artillery_casing",
   "name" : "30mm canister",
   "description" : "A canister from a spent 30mm shell.",
   "volume" : 5,
@@ -265,7 +276,7 @@
 },{
   "type" : "GENERIC",
   "id" : "120mm_casing",
-  "copy-from": "casing",
+  "copy-from": "artillery_casing",
   "name" : "120mm canister",
   "color" : "dark_gray",
   "description" : "A large canister from a spent 120mm shell, now an expensive paperweight.",
@@ -275,21 +286,11 @@
 },{
   "type" : "AMMO",
   "id" : "155mm_casing",
-  "category" : "spare_parts",
-  "price" : 5000,
+  "copy-from" : "artillery_casing",
   "name" : "155mm canister",
-  "symbol" : "=",
-  "color" : "dark_gray",
   "description" : "A large canister from a spent 155mm shell, now an expensive paperweight.",
-  "material" : "steel",
   "volume" : 15,
-  "weight" : 400,
-  "bashing" : 1,
-  "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
-  "count" : 5
+  "weight" : 400
 },{
   "type" : "AMMO",
   "id" : "electric_primer",
