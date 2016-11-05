@@ -369,6 +369,7 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
     return static_cast<pickup_answer>( choice );
 }
 
+// Returns false if pickup caused a prompt and the player selected to cancel pickup
 bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
                   int cargo_part, int index, int quantity, bool &got_water,
                   bool &offered_swap, PickupMap &mapPickup, bool autopickup )
@@ -524,8 +525,8 @@ bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
             continue; // No such item.
         }
 
-        problem = pick_one_up( pickup_target, *target, veh, cargo_part, index, quantity,
-                               got_water, offered_swap, mapPickup, autopickup );
+        problem = !pick_one_up( pickup_target, *target, veh, cargo_part, index, quantity,
+                                got_water, offered_swap, mapPickup, autopickup );
     }
 
     if( !mapPickup.empty() ) {

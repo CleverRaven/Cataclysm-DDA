@@ -21,6 +21,8 @@
 #include <cassert>
 #include <algorithm>
 
+void cancel_aim_processing();
+
 const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_pet( "pet" );
 
@@ -412,6 +414,11 @@ void activity_on_turn_pickup()
             g->u.activity.values.push_back( quantities.front() );
             quantities.pop_front();
         }
+    }
+
+    // @todo Move this to advanced inventory instead of hacking it in here
+    if( !keep_going ) {
+        cancel_aim_processing();
     }
 }
 

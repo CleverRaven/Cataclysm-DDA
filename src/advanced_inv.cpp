@@ -2531,3 +2531,8 @@ aim_location advanced_inventory::screen_relative_location( aim_location area )
             return area;
     }
 }
+
+void cancel_aim_processing()
+{
+    uistate.adv_inv_re_enter_move_all = ENTRY_START;
+}
