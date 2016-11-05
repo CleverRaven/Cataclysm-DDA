@@ -255,41 +255,23 @@
   "count" : 1,
   "effects" : ["COOKOFF", "EXPLOSIVE", "NEVER_MISFIRES"]
 },{
-  "type" : "AMMO",
+  "type" : "GENERIC",
   "id" : "30mm_casing",
-  "category" : "spare_parts",
-  "price" : 4000,
+  "copy-from": "casing",
   "name" : "30mm canister",
-  "symbol" : "=",
-  "color" : "dark_gray",
   "description" : "A canister from a spent 30mm shell.",
-  "material" : "steel",
   "volume" : 5,
-  "weight" : 20,
-  "bashing" : 1,
-  "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
-  "count" : 50
+  "weight" : 20
 },{
-  "type" : "AMMO",
+  "type" : "GENERIC",
   "id" : "120mm_casing",
-  "category" : "spare_parts",
-  "price" : 4000,
+  "copy-from": "casing",
   "name" : "120mm canister",
-  "symbol" : "=",
   "color" : "dark_gray",
   "description" : "A large canister from a spent 120mm shell, now an expensive paperweight.",
   "material" : "steel",
   "volume" : 10,
-  "weight" : 300,
-  "bashing" : 1,
-  "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
-  "count" : 5
+  "weight" : 300
 },{
   "type" : "AMMO",
   "id" : "155mm_casing",
@@ -320,11 +302,7 @@
   "material" : ["steel", "powder"],
   "volume" : 1,
   "weight" : 5,
-  "bashing" : 1,
   "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
   "count" : 10,
   "effects" : ["COOKOFF"]
 },{
@@ -339,11 +317,7 @@
   "material" : ["steel", "powder"],
   "volume" : 1,
   "weight" : 5,
-  "bashing" : 1,
   "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
   "count" : 5,
   "effects" : ["COOKOFF"]
 },{
@@ -362,7 +336,6 @@
   "volume": 30,
   "bashing": 12,
   "to_hit": -1,
-  "ranged_damage": 0,
   "dispersion": 0,
   "sight_dispersion": 75,
   "durability": 8,
