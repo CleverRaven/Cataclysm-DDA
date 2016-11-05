@@ -67,6 +67,7 @@ void game::interactive_inv()
         }
         refresh_all();
         res = inventory_item_menu( u.get_item_position( location.get_item() ) );
+        refresh_all();
     } while( allowed_selections.count( res ) != 0 );
 }
 
@@ -418,6 +419,8 @@ void game::compare( const tripoint &offset )
                 iScrollPos++;
                 iScrollPosLast++;
             }
+
+            refresh_all();
         } while( ch == KEY_PPAGE || ch == KEY_NPAGE );
     } while( true );
 }
