@@ -4502,7 +4502,7 @@ item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overf
         auto tiles = closest_tripoints_first( 2, pos );
         tiles.erase( tiles.begin() ); // we already tried this position
         for( const auto &e : tiles ) {
-            if( valid_tile( e ) && !has_flag( "NOITEM", pos ) && valid_limits( e ) ) {
+            if( valid_tile( e ) && !has_flag( "NOITEM", e ) && valid_limits( e ) ) {
                 return place_item( e );
             }
         }
