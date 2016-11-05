@@ -21,7 +21,7 @@ class JsonObject;
 struct visibility_variables;
 
 extern void set_displaybuffer_rendertarget();
-extern SDL_Texture* alternate_rect_tex;
+extern SDL_Texture *alternate_rect_tex;
 extern bool alternate_rect_tex_enabled;
 extern void draw_alt_rect( SDL_Rect &rect, int r, int g, int b );
 
