@@ -28,7 +28,7 @@ typedef std::pair<item, int> ItemCount;
 typedef std::map<std::string, ItemCount> PickupMap;
 
 // Pickup helper functions
-static void pick_one_up( const tripoint &pickup_target, item &newit,
+static bool pick_one_up( const tripoint &pickup_target, item &newit,
                          vehicle *veh, int cargo_part, int index, int quantity,
                          bool &got_water, bool &offered_swap,
                          PickupMap &mapPickup, bool autopickup );
@@ -369,7 +369,7 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
     return static_cast<pickup_answer>( choice );
 }
 
-void pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
+bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
                   int cargo_part, int index, int quantity, bool &got_water,
                   bool &offered_swap, PickupMap &mapPickup, bool autopickup )
 {
@@ -396,6 +396,7 @@ void pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
         leftovers.charges = 0;
     }
 
+    bool did_prompt = false;
     if( newit.made_of( LIQUID ) ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
@@ -405,6 +406,7 @@ void pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
                                          newit.display_name().c_str() );
             option = handle_problematic_pickup( newit, offered_swap, explain );
+            did_prompt = true;
         } else {
             option = CANCEL;
         }
@@ -413,6 +415,7 @@ void pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             const std::string &explain = string_format( _( "Not enough capacity to stash %s" ),
                                          newit.display_name().c_str() );
             option = handle_problematic_pickup( newit, offered_swap, explain );
+            did_prompt = true;
         } else {
             option = CANCEL;
         }
@@ -474,9 +477,11 @@ void pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             g->m.add_item_or_charges( pickup_target, leftovers );
         }
     }
+
+    return picked_up || !did_prompt;
 }
 
-void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
+bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
                         std::list<int> &indices, std::list<int> &quantities, bool autopickup )
 {
     bool got_water = false;
@@ -497,7 +502,8 @@ void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
         cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     }
 
-    while( g->u.moves >= 0 && !indices.empty() ) {
+    bool problem = false;
+    while( !problem && g->u.moves >= 0 && !indices.empty() ) {
         // Pulling from the back of the (in-order) list of indices insures
         // that we pull from the end of the vector.
         int index = indices.back();
@@ -518,8 +524,8 @@ void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
             continue; // No such item.
         }
 
-        pick_one_up( pickup_target, *target, veh, cargo_part, index, quantity,
-                     got_water, offered_swap, mapPickup, autopickup );
+        problem = pick_one_up( pickup_target, *target, veh, cargo_part, index, quantity,
+                               got_water, offered_swap, mapPickup, autopickup );
     }
 
     if( !mapPickup.empty() ) {
@@ -535,6 +541,8 @@ void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     if( volume_is_okay && g->u.volume_carried() > g->u.volume_capacity() ) {
         add_msg( m_bad, _( "You struggle to carry such a large volume!" ) );
     }
+
+    return !problem;
 }
 
 // Pick up items at (pos).

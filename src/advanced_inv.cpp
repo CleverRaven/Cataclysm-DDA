@@ -1297,15 +1297,30 @@ bool advanced_inventory::move_all_items(bool nested_call)
             begin = g->m.i_at( sarea.pos ).begin();
             end = g->m.i_at( sarea.pos ).end();
         }
+
+        // If moving to inventory, worn, or vehicle, silently filter buckets
+        // Moving them would cause tons of annoying prompts or spills
+        bool filter_buckets = dpane.get_area() == AIM_INVENTORY ||
+                              dpane.get_area() == AIM_WORN ||
+                              dpane.in_vehicle();
+        bool filtered_any_bucket = false;
         // push back indices and item count[s] for [begin => end)
         int index = 0;
         for(auto item_it = begin; item_it != end; ++item_it, ++index) {
-            if(spane.is_filtered(&(*item_it))) {
+            if( spane.is_filtered( &( *item_it ) ) ) {
+                continue;
+            }
+            if( filter_buckets && item_it->is_bucket_nonempty() ) {
+                filtered_any_bucket = true;
                 continue;
             }
             int amount = (item_it->count_by_charges() == true) ? item_it->charges : 1;
             g->u.activity.values.push_back(index);
             g->u.activity.values.push_back(amount);
+        }
+
+        if( filtered_any_bucket ) {
+            add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
         }
     }
     // if dest was AIM_ALL then we used query_destination and should undo that
@@ -1931,37 +1946,39 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
     }
 
     assert( destarea != AIM_ALL ); // should be a specific location instead
-    bool rc = true;
+    const char *msg = nullptr;
 
     while(count > 0) {
-        if( destarea == AIM_INVENTORY ) {
-            g->u.i_add( new_item );
+        // @todo Make it use same exact methods as regular pickup
+        if( ( destarea == AIM_INVENTORY || destarea == AIM_WORN || panes[dest].in_vehicle() ) &&
+            new_item.is_bucket_nonempty() &&
+            !query_yn( _( "Spill contents of %s?" ), new_item.tname().c_str() ) ) {
+            break;
+        } else if( destarea == AIM_INVENTORY ) {
+            const item &added = g->u.i_add( new_item );
             g->u.moves -= 100;
+            if( added.is_null() ) {
+                msg = _("You don't have enough room for that!");
+            }
         } else if( destarea == AIM_WORN ) {
-            rc = g->u.wear_item(new_item);
+            if( !g->u.wear_item( new_item ) ) {
+                msg = _("You can't wear any more of that!");
+            }
         } else {
             advanced_inv_area &p = squares[destarea];
+            bool added = true;
             if( panes[dest].in_vehicle() ) {
-                rc &= p.veh->add_item( p.vstor, new_item );
+                added = p.veh->add_item( p.vstor, new_item );
             } else {
-                rc &= !g->m.add_item_or_charges( p.pos, new_item, false ).is_null();
+                added = !g->m.add_item_or_charges( p.pos, new_item, false ).is_null();
+            }
+            
+            if( !added ) {
+                msg = _("Destination area is full.  Remove some items first");
             }
         }
         // show a message to why we can't add the item
-        if(rc == false) {
-            const char *msg = nullptr;
-            switch(destarea) {
-                case AIM_WORN:
-                    msg = _("You can't wear any more of that!");
-                    break;
-                case AIM_INVENTORY:
-                    msg = _("You don't have enough room for that!");
-                    break;
-                default:
-                    msg = _("Destination area is full.  Remove some items first");
-                    break;
-            }
-            assert(msg != nullptr);
+        if( msg != nullptr ) {
             popup(msg);
             break;
         }
