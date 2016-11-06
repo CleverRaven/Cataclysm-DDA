@@ -46,23 +46,14 @@
         "effects" : ["COOKOFF"]
     },
     {
-        "type" : "AMMO",
+        "type" : "GENERIC",
         "id" : "654_casing",
-        "category" : "spare_parts",
-        "price" : 10000,
+        "copy-from": "casing",
         "name" : "6.54x42mm casing",
-        "symbol" : "=",
-        "color" : "dark_gray",
         "description" : "An empty casing from a 6.54x42 round.",
         "material" : "steel",
-        "volume" : 1,
-        "weight" : 5,
-        "bashing" : 1,
-        "ammo_type" : "components",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "count" : 200
+        "volume" : "10ml",
+        "weight" : 5
     },
     {
         "type" : "AMMO",
