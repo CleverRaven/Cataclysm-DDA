@@ -218,7 +218,7 @@ class generic_factory
 
                 if( !alias_member_name.empty() && jo.has_member( alias_member_name ) ) {
                     std::set<string_id<T>> aliases;
-                    assign( jo, "aliases", aliases, strict );
+                    assign( jo, alias_member_name, aliases, strict );
 
                     const int_id<T> ref = map[def.id];
                     for( const auto &e : aliases ) {
