@@ -3988,8 +3988,8 @@ void game::debug()
     int action = menu( true, // cancelable
                        _( "Debug Functions - Using these is CHEATING!" ),
                        _( "Wish for an item" ),       // 1
-                       _( "Teleport yourself..." ),   // 2
-                       _( "Overmap editor" ),         // 3
+                       _( "Teleport - Short Range" ), // 2
+                       _( "Teleport - Long Range" ),  // 3
                        _( "Reveal map" ),             // 4
                        _( "Spawn NPC" ),              // 5
                        _( "Spawn Monster" ),          // 6
@@ -4016,7 +4016,9 @@ void game::debug()
                        _( "Change time" ),            // 27
                        _( "Set automove route" ),     // 28
                        _( "Show mutation category levels" ), // 29
-                       _( "Draw benchmark (5 seconds)" ),    // 30
+                       _( "Overmap editor" ),         // 30
+                       _( "Draw benchmark (5 seconds)" ),    // 31
+                       _( "Teleport - Adjacent overmap" ),   // 32
                        _( "Cancel" ),
                        NULL );
     int veh_num;
@@ -4028,11 +4030,11 @@ void game::debug()
             break;
 
         case 2:
-            debug_menu::execute_teleport();
+            debug_menu::teleport_short();
             break;
 
         case 3:
-            overmap::draw_editor();
+            debug_menu::teleport_long();
             break;
 
         case 4: {
@@ -4652,13 +4654,17 @@ void game::debug()
             }
         }
         break;
-        case 29: {
+        case 29:
             for( const auto & elem : u.mutation_category_level ) {
                 add_msg( "%s: %d", elem.first.c_str(), elem.second );
             }
-        }
-        break;
-        case 30: {
+            break;
+
+        case 30:
+            overmap::draw_editor();
+            break;
+
+        case 31: {
             // call the draw procedure as many times as possible in 5 seconds
             auto start_tick = std::chrono::steady_clock::now();
             auto end_tick = std::chrono::steady_clock::now();
@@ -4677,6 +4683,10 @@ void game::debug()
                      difference / 1000.0, 1000.0 * draw_counter / ( double )difference );
         }
         break;
+
+        case 32:
+            debug_menu::teleport_overmap();
+            break;
     }
     erase();
     refresh_all();

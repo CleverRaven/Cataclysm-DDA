@@ -6,15 +6,8 @@
 #include "messages.h"
 #include "overmap.h"
 #include "player.h"
-#include "ui.h"
 
-#include <functional>
-#include <vector>
-
-namespace
-{
-
-void teleport_short()
+void debug_menu::teleport_short()
 {
     const tripoint where( g->look_around() );
     if( where == tripoint_min || where == g->u.pos() ) {
@@ -25,7 +18,7 @@ void teleport_short()
     add_msg( _( "You teleport to point (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
 
-void teleport_long()
+void debug_menu::teleport_long()
 {
     const tripoint where( overmap::draw_overmap() );
     if( where == overmap::invalid_tripoint ) {
@@ -35,7 +28,7 @@ void teleport_long()
     add_msg( _( "You teleport to submap (%d,%d,%d)." ), where.x, where.y, where.z );
 }
 
-void teleport_overmap()
+void debug_menu::teleport_overmap()
 {
     tripoint dir;
 
@@ -50,33 +43,4 @@ void teleport_overmap()
 
     const tripoint new_pos( omt_to_om_copy( g->u.global_omt_location() ) );
     add_msg( _( "You teleport to overmap (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
-}
-
-} // Anonymous namespace
-
-void debug_menu::execute_teleport()
-{
-    std::vector<std::function<void()>> actions;
-    uimenu menu;
-
-    menu.text = _( "Teleport where?" );
-    menu.selected = 0;
-    menu.return_invalid = true;
-
-    menu.addentry( _( "Few tiles away" ) );
-    actions.emplace_back( teleport_short );
-
-    menu.addentry( _( "Some place on the overmap" ) );
-    actions.emplace_back( teleport_long );
-
-    menu.addentry( _( "Adjacent overmap" ) );
-    actions.emplace_back( teleport_overmap );
-
-    menu.query();
-    g->refresh_all();
-
-    const size_t chosen = static_cast<size_t>( menu.ret );
-    if( chosen < actions.size() ) {
-        actions[chosen]();
-    }
 }
