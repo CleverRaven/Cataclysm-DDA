@@ -148,7 +148,7 @@ struct city {
     city(int X = -1, int Y = -1, int S = -1);
 
     operator bool() const {
-        return x >= 0 && y >= 0 && s >= 0;
+        return s >= 0;
     }
 
     int get_distance_from( const tripoint &p ) const;
@@ -451,6 +451,9 @@ public:
   void good_river(int x, int y, int z);
   // Returns a vector of enabled overmap specials.
   std::vector<const overmap_special *> get_enabled_specials() const;
+  // Returns a vector of permuted coordinates of overmap sectors.
+  // Each sector consists of 12x12 small maps. Coordinates of the sectors are in range [0, 15], [0, 15].
+  // Check OMAPX, OMAPY, and OMSPEC_FREQ to learn actual values.
   std::vector<point> get_sectors() const;
 
   int random_special_rotation( const overmap_special &special, const tripoint &p ) const;
