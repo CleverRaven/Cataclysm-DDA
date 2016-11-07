@@ -147,6 +147,10 @@ struct city {
     std::string name;
     city(int X = -1, int Y = -1, int S = -1);
 
+    operator bool() const {
+        return s >= 0;
+    }
+
     int get_distance_from( const tripoint &p ) const;
 };
 
@@ -257,11 +261,12 @@ class overmap
      */
     static point display_notes(int z);
     /**
-     * Dummy value, used to indicate that a point returned by a function
+     * Dummy value, used to indicate that a point/rotation returned by a function
      * is invalid.
      */
     static const point invalid_point;
     static const tripoint invalid_tripoint;
+    static const int invalid_rotation = -1;
     /**
      * Return a vector containing the absolute coordinates of
      * every matching note on the current z level of the current overmap.
@@ -381,7 +386,7 @@ public:
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
 
-    const city *get_nearest_city( const tripoint &p ) const;
+    const city &get_nearest_city( const tripoint &p ) const;
 
     void signal_hordes( const tripoint &p, int sig_power );
     void process_mongroups();
@@ -444,12 +449,17 @@ public:
   void chip_rock(int x, int y, int z);
   void good_road(const std::string &base, int x, int y, int z);
   void good_river(int x, int y, int z);
-  bool allowed_terrain( const std::vector<tripoint> &points,
-                        const overmap_location_restictions &restrictions ) const;
-  bool allow_special(const overmap_special& special, const tripoint& p, int &rotate);
+  // Returns a vector of enabled overmap specials.
+  std::vector<const overmap_special *> get_enabled_specials() const;
+  // Returns a vector of permuted coordinates of overmap sectors.
+  // Each sector consists of 12x12 small maps. Coordinates of the sectors are in range [0, 15], [0, 15].
+  // Check OMAPX, OMAPY, and OMSPEC_FREQ to learn actual values.
+  std::vector<point> get_sectors() const;
+
+  int random_special_rotation( const overmap_special &special, const tripoint &p ) const;
+  void place_special( const overmap_special &special, const tripoint &p, int rotation, const city &cit );
   // Monsters, radios, etc.
   void place_specials();
-  void place_special(const overmap_special& special, const tripoint& p, int rotation);
   void place_mongroups();
   void place_radios();
 

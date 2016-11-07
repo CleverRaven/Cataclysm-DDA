@@ -26,7 +26,7 @@
         "id" : "Hotel",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "hotel_tower_1_3_north"},
-            { "point":[1,0,0], "overmap": "hotel_tower_1_2_north", "connect":"road"},
+            { "point":[1,0,0], "overmap": "hotel_tower_1_2_north"},
             { "point":[2,0,0], "overmap": "hotel_tower_1_1_north"},
             { "point":[0,1,0], "overmap": "hotel_tower_1_6_north"},
             { "point":[1,1,0], "overmap": "hotel_tower_1_5_north"},
@@ -38,6 +38,9 @@
             { "point":[1,2,-1], "overmap": "hotel_tower_b_2_north"},
             { "point":[2,2,-1], "overmap": "hotel_tower_b_1_north"}
         ],
+        "connections" : [
+            { "point" : [1,-1,0], "terrain" : "road" }
+        ],
         "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
         "city_distance" : [-1, 4], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
@@ -48,12 +51,15 @@
         "type" : "overmap_special",
         "id" : "Motel",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "motel_entrance_north", "connect":"road"},
+            { "point":[0,0,0], "overmap": "motel_entrance_north"},
             { "point":[-1,0,0], "overmap": "motel_1_north"},
             { "point":[-1,1,0], "overmap": "motel_2_north"},
             { "point":[0,1,0], "overmap": "motel_3_north"}
         ],
-        "locations" : [ "by_road" ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
+        ],
+        "locations" : [ "land" ],
         "city_distance" : [10, 120],
         "city_sizes" : [1, 12],
         "occurrences" : [2, 5],
@@ -69,8 +75,8 @@
             { "point":[0,-1,0], "overmap": "dirtplaza_aban1_north"},
             { "point":[0,-2,0], "overmap": "dirtroad2_aban1_north"},
             { "point":[0,-3,0], "overmap": "dirtroad2_aban1_north"},
-            { "point":[-1,-5,0], "overmap": "radio_tower", "connect": "road"},
-            { "point":[0,-4,0], "overmap": "dirtroad1_aban1_north", "connect":"road"},
+            { "point":[-1,-5,0], "overmap": "radio_tower"},
+            { "point":[0,-4,0], "overmap": "dirtroad1_aban1_north"},
             { "point":[2,0,0], "overmap": "forest_aban1_north"},
             { "point":[1,1,0], "overmap": "forest_aban1_north"},
             { "point":[0,1,0], "overmap": "forest_aban1_north"},
@@ -82,6 +88,10 @@
             { "point":[1,-2,0], "overmap": "forest_aban1_north"},
             { "point":[1,-3,0], "overmap": "forest_aban1_north"},
             { "point":[1,-4,0], "overmap": "forest_aban1_north"}
+        ],
+        "connections" : [
+            { "point" : [-1,-6,0], "terrain" : "road" },
+            { "point" : [0,-5,0], "terrain" : "road" }
         ],
         "locations" : [ "forest" ],
         "city_distance" : [0, -1],
@@ -120,7 +130,7 @@
         "type" : "overmap_special",
         "id" : "Sewage Treatment Plant",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "s_lot", "connect":"road"},
+            { "point":[0,0,0], "overmap": "s_lot"},
             { "point":[0,1,0], "overmap": "sewage_treatment"},
             { "point":[0,1,-1], "overmap": "sewage_treatment_hub"},
             { "point":[0,0,-1], "overmap": "sewage_treatment_under"},
@@ -131,6 +141,9 @@
             { "point":[-1,2,-1], "overmap": "sewage_treatment_under"},
             { "point":[0,2,-1], "overmap": "sewage_treatment_under"},
             { "point":[1,2,-1], "overmap": "sewage_treatment_under"}
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [10, 20],
@@ -162,9 +175,12 @@
         "type" : "overmap_special",
         "id" : "Rural Gas Station",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "s_gas_rural_north", "connect":"road"}
+            { "point":[0,0,0], "overmap": "s_gas_rural_north" }
         ],
-        "locations" : [ "by_road" ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
+        ],
+        "locations" : [ "land" ],
         "city_distance" : [10, 200],
         "city_sizes" : [1, 3],
         "occurrences" : [ 0,2 ],
@@ -174,9 +190,12 @@
         "type" : "overmap_special",
         "id" : "Gas Station",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "s_gas_north", "connect":"road"}
+            { "point":[0,0,0], "overmap": "s_gas_north" }
         ],
-        "locations" : [ "by_road" ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
+        ],
+        "locations" : [ "land" ],
         "city_distance" : [10, 200],
         "city_sizes" : [4, 12],
         "occurrences" : [2, 4],
@@ -212,7 +231,7 @@
         "id" : "Farm",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "farm_field"},
-            { "point":[1,0,0], "overmap": "farm", "connect": "road"},
+            { "point":[1,0,0], "overmap": "farm"},
             { "point":[2,0,0], "overmap": "farm_field"},
             { "point":[0,1,0], "overmap": "farm_field"},
             { "point":[1,1,0], "overmap": "farm_field"},
@@ -220,6 +239,9 @@
             { "point":[0,2,0], "overmap": "farm_field"},
             { "point":[1,2,0], "overmap": "farm_field"},
             { "point":[2,2,0], "overmap": "farm_field"}
+        ],
+        "connections" : [
+            { "point" : [1,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [20, -1],
@@ -247,7 +269,10 @@
         "type" : "overmap_special",
         "id" : "Lab",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "lab_stairs", "connect":"road"}
+            { "point":[0,0,0], "overmap": "lab_stairs" }
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [8, -1],
@@ -258,7 +283,10 @@
         "type" : "overmap_special",
         "id" : "Ice Lab",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "ice_lab_stairs", "connect":"road"}
+            { "point":[0,0,0], "overmap": "ice_lab_stairs" }
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [8, -1],
@@ -270,7 +298,7 @@
         "id" : "FEMA Camp",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "fema"},
-            { "point":[1,0,0], "overmap": "fema_entrance", "connect": "road"},
+            { "point":[1,0,0], "overmap": "fema_entrance"},
             { "point":[2,0,0], "overmap": "fema"},
             { "point":[0,1,0], "overmap": "fema"},
             { "point":[1,1,0], "overmap": "fema"},
@@ -278,6 +306,9 @@
             { "point":[0,2,0], "overmap": "fema"},
             { "point":[1,2,0], "overmap": "fema"},
             { "point":[2,2,0], "overmap": "fema"}
+        ],
+        "connections" : [
+            { "point" : [1,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [8, -1],
@@ -289,8 +320,11 @@
         "type" : "overmap_special",
         "id" : "Military Bunker",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "bunker", "connect": "road"},
-            { "point":[0,0,-1], "overmap": "bunker"}
+            { "point":[0,0,0], "overmap": "bunker" },
+            { "point":[0,0,-1], "overmap": "bunker" }
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [4, -1],
@@ -312,7 +346,10 @@
         "type" : "overmap_special",
         "id" : "Missile Silo",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "silo", "connect": "road"}
+            { "point":[0,0,0], "overmap": "silo"}
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [30, -1],
@@ -323,7 +360,10 @@
         "type" : "overmap_special",
         "id" : "Radio Tower",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "radio_tower", "connect": "road"}
+            { "point":[0,0,0], "overmap": "radio_tower" }
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [0, 20],
@@ -336,7 +376,7 @@
         "id" : "Mansion_Road",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "mansion"},
-            { "point":[1,0,0], "overmap": "mansion_entrance", "connect": "road"},
+            { "point":[1,0,0], "overmap": "mansion_entrance"},
             { "point":[2,0,0], "overmap": "mansion"},
             { "point":[0,1,0], "overmap": "mansion"},
             { "point":[1,1,0], "overmap": "mansion"},
@@ -344,6 +384,9 @@
             { "point":[0,2,0], "overmap": "mansion"},
             { "point":[1,2,0], "overmap": "mansion"},
             { "point":[2,2,0], "overmap": "mansion"}
+        ],
+        "connections" : [
+            { "point" : [1,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [0, -1],
@@ -376,7 +419,7 @@
         "id" : "Megastore",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "megastore"},
-            { "point":[1,0,0], "overmap": "megastore_entrance", "connect": "road"},
+            { "point":[1,0,0], "overmap": "megastore_entrance"},
             { "point":[2,0,0], "overmap": "megastore"},
             { "point":[0,1,0], "overmap": "megastore"},
             { "point":[1,1,0], "overmap": "megastore"},
@@ -384,6 +427,9 @@
             { "point":[0,2,0], "overmap": "megastore"},
             { "point":[1,2,0], "overmap": "megastore"},
             { "point":[2,2,0], "overmap": "megastore"}
+        ],
+        "connections" : [
+            { "point" : [1,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [0, 10],
@@ -396,7 +442,7 @@
         "id" : "Hospital",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "hospital"},
-            { "point":[1,0,0], "overmap": "hospital_entrance", "connect": "road"},
+            { "point":[1,0,0], "overmap": "hospital_entrance"},
             { "point":[2,0,0], "overmap": "hospital"},
             { "point":[0,1,0], "overmap": "hospital"},
             { "point":[1,1,0], "overmap": "hospital"},
@@ -404,6 +450,9 @@
             { "point":[0,2,0], "overmap": "hospital"},
             { "point":[1,2,0], "overmap": "hospital"},
             { "point":[2,2,0], "overmap": "hospital"}
+        ],
+        "connections" : [
+            { "point" : [1,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [3, 10],
@@ -416,9 +465,12 @@
         "id" : "Public Works",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "public_works"},
-            { "point":[1,0,0], "overmap": "public_works_entrance", "connect": "road"},
+            { "point":[1,0,0], "overmap": "public_works_entrance"},
             { "point":[0,1,0], "overmap": "public_works"},
             { "point":[1,1,0], "overmap": "public_works"}
+        ],
+        "connections" : [
+            { "point" : [1,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [2, 10],
@@ -432,8 +484,12 @@
         "overmaps" : [
             { "point":[0,0,0], "overmap": "apartments_con_tower_NW_north"},
             { "point":[1,0,0], "overmap": "apartments_con_tower_NE_north"},
-            { "point":[0,1,0], "overmap": "apartments_con_tower_SW_north", "connect": "road"},
+            { "point":[0,1,0], "overmap": "apartments_con_tower_SW_north"},
             { "point":[1,1,0], "overmap": "apartments_con_tower_SE_north"}
+        ],
+        "connections" : [
+            { "point" : [0,2,0], "terrain" : "road" },
+            { "point" : [1,2,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [-1, 2],
@@ -446,9 +502,13 @@
         "id" : "Apartments_Mod",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "apartments_mod_tower_1"},
-            { "point":[1,0,0], "overmap": "apartments_mod_tower_1_entrance", "connect": "road"},
+            { "point":[1,0,0], "overmap": "apartments_mod_tower_1_entrance"},
             { "point":[0,1,0], "overmap": "apartments_mod_tower_1"},
             { "point":[1,1,0], "overmap": "apartments_mod_tower_1"}
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" },
+            { "point" : [1,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [-1, 2],
@@ -460,14 +520,18 @@
         "type" : "overmap_special",
         "id" : "Office Tower",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "office_tower_1", "connect": "road"},
-            { "point":[1,0,0], "overmap": "office_tower_1_entrance", "connect": "road"},
+            { "point":[0,0,0], "overmap": "office_tower_1"},
+            { "point":[1,0,0], "overmap": "office_tower_1_entrance"},
             { "point":[0,1,0], "overmap": "office_tower_1"},
             { "point":[1,1,0], "overmap": "office_tower_1"},
             { "point":[0,0,-1], "overmap": "office_tower_b"},
             { "point":[1,0,-1], "overmap": "office_tower_b_entrance"},
             { "point":[0,1,-1], "overmap": "office_tower_b"},
             { "point":[1,1,-1], "overmap": "office_tower_b"}
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" },
+            { "point" : [1,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [-1, 4],
@@ -481,10 +545,13 @@
         "overmaps" : [
             { "point":[-2,0,0], "overmap": "office_tower_2_a1_north"},
             { "point":[-1,0,0], "overmap": "office_tower_2_a2_north"},
-            { "point":[0,0,0], "overmap": "office_tower_2_a3_north", "connect": "road"},
+            { "point":[0,0,0], "overmap": "office_tower_2_a3_north"},
             { "point":[-2,1,0], "overmap": "office_tower_2_b1_north"},
             { "point":[-1,1,0], "overmap": "office_tower_2_b2_north"},
             { "point":[0,1,0], "overmap": "office_tower_2_b3_north"}
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [-1, 4],
@@ -496,14 +563,18 @@
         "type" : "overmap_special",
         "id" : "Cathedral",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "cathedral_1", "connect": "road"},
-            { "point":[1,0,0], "overmap": "cathedral_1_entrance", "connect": "road"},
+            { "point":[0,0,0], "overmap": "cathedral_1"},
+            { "point":[1,0,0], "overmap": "cathedral_1_entrance"},
             { "point":[0,1,0], "overmap": "cathedral_1"},
             { "point":[1,1,0], "overmap": "cathedral_1"},
             { "point":[0,0,-1], "overmap": "cathedral_b"},
             { "point":[1,0,-1], "overmap": "cathedral_b_entrance"},
             { "point":[0,1,-1], "overmap": "cathedral_b"},
             { "point":[1,1,-1], "overmap": "cathedral_b"}
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" },
+            { "point" : [1,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [-1, 2],
@@ -515,8 +586,8 @@
         "type" : "overmap_special",
         "id" : "School",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "school_3", "connect": "road"},
-            { "point":[1,0,0], "overmap": "school_2", "connect":"road"},
+            { "point":[0,0,0], "overmap": "school_3"},
+            { "point":[1,0,0], "overmap": "school_2"},
             { "point":[2,0,0], "overmap": "school_1"},
             { "point":[0,1,0], "overmap": "school_6"},
             { "point":[1,1,0], "overmap": "school_5"},
@@ -524,6 +595,10 @@
             { "point":[0,2,0], "overmap": "school_9"},
             { "point":[1,2,0], "overmap": "school_8"},
             { "point":[2,2,0], "overmap": "school_7"}
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" },
+            { "point" : [1,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [1, 5],
@@ -536,7 +611,7 @@
         "id" : "Prison",
         "overmaps" : [
             { "point":[-1,0,0], "overmap": "prison_3"},
-            { "point":[0,0,0], "overmap": "prison_2", "connect":"road"},
+            { "point":[0,0,0], "overmap": "prison_2"},
             { "point":[1,0,0], "overmap": "prison_1"},
             { "point":[-1,1,0], "overmap": "prison_6"},
             { "point":[0,1,0], "overmap": "prison_5"},
@@ -554,6 +629,9 @@
             { "point":[0,2,-1], "overmap": "prison_b"},
             { "point":[1,2,-1], "overmap": "prison_b"}
         ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
+        ],
         "locations" : [ "land" ],
         "city_distance" : [3, -1],
         "city_sizes" : [4, 12],
@@ -564,8 +642,11 @@
         "type" : "overmap_special",
         "id" : "Mine Entrace",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "s_lot", "connect":"road"},
+            { "point":[0,0,0], "overmap": "s_lot"},
             { "point":[0,1,0], "overmap": "mine_entrance"}
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [15, -1],
@@ -662,8 +743,11 @@
         "type" : "overmap_special",
         "id" : "Evac Shelter",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "shelter", "connect":"road"},
+            { "point":[0,0,0], "overmap": "shelter"},
             { "point":[0,0,-1], "overmap": "shelter_under"}
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [5, 10],
@@ -699,13 +783,17 @@
         "id" : "Hazardous Waste Sarcophagus",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "haz_sar"},
-            { "point":[1,0,0], "overmap": "haz_sar_entrance", "connect": "road"},
+            { "point":[1,0,0], "overmap": "haz_sar_entrance"},
             { "point":[0,1,0], "overmap": "haz_sar"},
             { "point":[1,1,0], "overmap": "haz_sar"},
             { "point":[0,0,-2], "overmap": "haz_sar_b1"},
             { "point":[1,0,-2], "overmap": "haz_sar_entrance_b1"},
             { "point":[0,1,-2], "overmap": "haz_sar_b1"},
             { "point":[1,1,-2], "overmap": "haz_sar_b1"}
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" },
+            { "point" : [1,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [15, -1],
@@ -792,11 +880,14 @@
             { "point":[1,8,0], "overmap": "mall_a_74_north"},
             { "point":[2,8,0], "overmap": "mall_a_75_north"},
             { "point":[3,8,0], "overmap": "mall_a_76_north"},
-            { "point":[4,8,0], "overmap": "mall_a_77_north", "connect":"road"},
+            { "point":[4,8,0], "overmap": "mall_a_77_north"},
             { "point":[5,8,0], "overmap": "mall_a_78_north"},
             { "point":[6,8,0], "overmap": "mall_a_79_north"},
             { "point":[7,8,0], "overmap": "mall_a_80_north"},
             { "point":[8,8,0], "overmap": "mall_a_81_north"}
+        ],
+        "connections" : [
+            { "point" : [4,9,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [1, 5],
@@ -813,7 +904,7 @@
             { "point":[2,0,0], "overmap": "necropolis_a_3_north"},
             { "point":[3,0,0], "overmap": "necropolis_a_4_north"},
             { "point":[4,0,0], "overmap": "necropolis_a_5_north"},
-            { "point":[5,0,0], "overmap": "necropolis_a_6_north", "connect":"road"},
+            { "point":[5,0,0], "overmap": "necropolis_a_6_north"},
             { "point":[6,0,0], "overmap": "necropolis_a_7_north"},
             { "point":[7,0,0], "overmap": "necropolis_a_8_north"},
             { "point":[8,0,0], "overmap": "necropolis_a_9_north"},
@@ -871,7 +962,7 @@
             { "point":[6,6,0], "overmap": "necropolis_a_61_north"},
             { "point":[7,6,0], "overmap": "necropolis_a_62_north"},
             { "point":[8,6,0], "overmap": "necropolis_a_63_north"},
-            { "point":[0,7,0], "overmap": "necropolis_a_64_north", "connect":"road"},
+            { "point":[0,7,0], "overmap": "necropolis_a_64_north"},
             { "point":[1,7,0], "overmap": "necropolis_a_65_north"},
             { "point":[2,7,0], "overmap": "necropolis_a_66_north"},
             { "point":[3,7,0], "overmap": "necropolis_a_67_north"},
@@ -884,7 +975,7 @@
             { "point":[1,8,0], "overmap": "necropolis_a_74_north"},
             { "point":[2,8,0], "overmap": "necropolis_a_75_north"},
             { "point":[3,8,0], "overmap": "necropolis_a_76_north"},
-            { "point":[4,8,0], "overmap": "necropolis_a_77_north", "connect":"road"},
+            { "point":[4,8,0], "overmap": "necropolis_a_77_north"},
             { "point":[5,8,0], "overmap": "necropolis_a_78_north"},
             { "point":[6,8,0], "overmap": "necropolis_a_79_north"},
             { "point":[7,8,0], "overmap": "necropolis_a_80_north"},
@@ -1133,6 +1224,11 @@
             { "point":[7,8,-3], "overmap": "necropolis_d_80_north"},
             { "point":[8,8,-3], "overmap": "necropolis_d_81_north"}
         ],
+        "connections" : [
+            { "point" : [5,-1,0], "terrain" : "road" },
+            { "point" : [-1,7,0], "terrain" : "road" },
+            { "point" : [4,9,0], "terrain" : "road" }
+        ],
         "locations" : [ "wilderness" ],
         "city_distance" : [1, 5],
         "city_sizes" : [1, 12],
@@ -1164,15 +1260,19 @@
             { "point":[4,3,0], "overmap": "evac_center_20_north"},
             { "point":[0,4,0], "overmap": "evac_center_21_north"},
             { "point":[1,4,0], "overmap": "evac_center_22_north"},
-            { "point":[2,4,0], "overmap": "evac_center_23_north", "connect":"road"},
+            { "point":[2,4,0], "overmap": "evac_center_23_north"},
             { "point":[3,4,0], "overmap": "evac_center_24_north"},
             { "point":[4,4,0], "overmap": "evac_center_25_north"}
+        ],
+        "connections" : [
+            { "point" : [2,5,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [3, 5],
         "city_sizes" : [1, 12],
         "occurrences" : [75, 100],
-        "rotate" : true
+        "rotate" : true,
+        "flags" : [ "UNIQUE" ]
     },{
         "type" : "overmap_special",
         "id" : "bandit_cabin",
@@ -1204,7 +1304,10 @@
         "type" : "overmap_special",
         "id" : "sai",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "sai", "connect":"road"}
+            { "point":[0,0,0], "overmap": "sai" }
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [-1, 2],
@@ -1215,7 +1318,10 @@
         "type" : "overmap_special",
         "id" : "power_station_small",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "pwr_sub_s", "connect":"road"}
+            { "point":[0,0,0], "overmap": "pwr_sub_s" }
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [-1, 6],
@@ -1227,10 +1333,13 @@
         "type" : "overmap_special",
         "id" : "power_station_large",
         "overmaps" : [
-            { "point":[0,1,0], "overmap": "pwr_large_entrance", "connect":"road"},
+            { "point":[0,1,0], "overmap": "pwr_large_entrance"},
             { "point":[-1,1,0], "overmap": "pwr_large_2"},
             { "point":[-1,0,0], "overmap": "pwr_large_3"},
             { "point":[0,0,0], "overmap": "pwr_large_4"}
+        ],
+        "connections" : [
+            { "point" : [0,2,0], "terrain" : "road" }
         ],
        "locations" : [ "wilderness" ],
         "city_distance" : [5, 16],
@@ -1241,8 +1350,11 @@
     },{
         "type" : "overmap_special",
         "id" : "warehouse",
-        "overmaps" : [ { "point":[0,0,0], "overmap": "warehouse_north", "connect":"road"} ],
-        "locations" : [ "by_road" ],
+        "overmaps" : [ { "point":[0,0,0], "overmap": "warehouse_north" } ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
+        ],
+        "locations" : [ "land" ],
         "city_distance" : [6, 20],
         "city_sizes" : [5, 12],
         "occurrences" : [0, 2],
@@ -1253,12 +1365,16 @@
         "type" : "overmap_special",
         "id" : "Home Improvement Superstore",
         "overmaps" : [
-            { "point":[0,1,0], "overmap": "hdwr_large_entrance", "connect":"road"},
-            { "point":[-1,1,0], "overmap": "hdwr_large_SW", "connect":"road"},
+            { "point":[0,1,0], "overmap": "hdwr_large_entrance"},
+            { "point":[-1,1,0], "overmap": "hdwr_large_SW"},
             { "point":[-1,0,0], "overmap": "hdwr_large_NW"},
             { "point":[0,0,0], "overmap": "hdwr_large_NE"},
             { "point":[-1,-1,0], "overmap": "hdwr_large_backroom"},
             { "point":[0,-1,0], "overmap": "hdwr_large_loadingbay"}
+        ],
+        "connections" : [
+            { "point" : [0,2,0], "terrain" : "road" },
+            { "point" : [-1,2,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [1, 10],
@@ -1346,11 +1462,14 @@
             { "point":[1,8,0], "overmap": "ranch_camp_74"},
             { "point":[2,8,0], "overmap": "ranch_camp_75"},
             { "point":[3,8,0], "overmap": "ranch_camp_76"},
-            { "point":[4,8,0], "overmap": "ranch_camp_77", "connect":"road"},
+            { "point":[4,8,0], "overmap": "ranch_camp_77"},
             { "point":[5,8,0], "overmap": "ranch_camp_78"},
             { "point":[6,8,0], "overmap": "ranch_camp_79"},
             { "point":[7,8,0], "overmap": "ranch_camp_80"},
             { "point":[8,8,0], "overmap": "ranch_camp_81"}
+        ],
+        "connections" : [
+            { "point" : [4,9,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [3, 10],
@@ -1365,7 +1484,7 @@
             { "point":[-3,2,0], "overmap": "football_field_c2_north"},
             { "point":[-2,2,0], "overmap": "football_field_c3_north"},
             { "point":[-1,2,0], "overmap": "football_field_c4_north"},
-            { "point":[0,2,0], "overmap": "football_field_c5_north", "connect": "road"},
+            { "point":[0,2,0], "overmap": "football_field_c5_north"},
             { "point":[-4,1,0], "overmap": "football_field_b1_north"},
             { "point":[-3,1,0], "overmap": "football_field_b2_north"},
             { "point":[-2,1,0], "overmap": "football_field_b3_north"},
@@ -1376,6 +1495,9 @@
             { "point":[-2,0,0], "overmap": "football_field_a3_north"},
             { "point":[-1,0,0], "overmap": "football_field_a4_north"},
             { "point":[0,0,0], "overmap": "football_field_a5_north"}
+        ],
+        "connections" : [
+            { "point" : [0,3,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [-1, 4],
@@ -1447,9 +1569,12 @@
         "type" : "overmap_special",
         "id" : "rest_stop",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "roadstop_north", "connect":"road"}
+            { "point":[0,0,0], "overmap": "roadstop_north"}
         ],
-        "locations" : [ "by_road" ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
+        ],
+        "locations" : [ "land" ],
         "city_distance" : [10, 200],
         "city_sizes" : [1, 12],
         "occurrences" : [ 1,2 ],
@@ -1460,9 +1585,12 @@
         "type" : "overmap_special",
         "id" : "roadstop_a",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "roadstop_a_north", "connect":"road"}
+            { "point":[0,0,0], "overmap": "roadstop_a_north"}
         ],
-        "locations" : [ "by_road" ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
+        ],
+        "locations" : [ "land" ],
         "city_distance" : [10, 200],
         "city_sizes" : [1, 12],
         "occurrences" : [ 1,2 ],
@@ -1473,9 +1601,12 @@
         "type" : "overmap_special",
         "id" : "roadstop_b",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "roadstop_b_north", "connect":"road"}
+            { "point":[0,0,0], "overmap": "roadstop_b_north" }
         ],
-        "locations" : [ "by_road" ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
+        ],
+        "locations" : [ "land" ],
         "city_distance" : [10, 200],
         "city_sizes" : [1, 12],
         "occurrences" : [ 1,2 ],
@@ -1486,11 +1617,14 @@
         "type" : "overmap_special",
         "id" : "pump_station",
         "overmaps" : [
-            { "point" : [0,0,0],   "overmap" : "pump_station_1_north", "connect" : "road" },
+            { "point" : [0,0,0],   "overmap" : "pump_station_1_north" },
             { "point" : [0,1,0],   "overmap" : "pump_station_2_north" },
             { "point" : [0,-1,-1], "overmap" : "pump_station_3_north" },
             { "point" : [0,0,-1],  "overmap" : "pump_station_4_north" },
             { "point" : [0,1,-1],  "overmap" : "pump_station_5_north" }
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : ["wilderness"],
         "city_distance" : [1,4],
@@ -1502,9 +1636,14 @@
         "type" : "overmap_special",
         "id" : "garage_gas",
         "overmaps" : [
-            { "point" : [0,0,0], "overmap" : "garage_gas_1_north", "connect" : "road" },
-            { "point" : [1,0,0], "overmap" : "garage_gas_2_north", "connect" : "road" },
-            { "point" : [2,0,0], "overmap" : "garage_gas_3_north", "connect" : "road" }
+            { "point" : [0,0,0], "overmap" : "garage_gas_1_north" },
+            { "point" : [1,0,0], "overmap" : "garage_gas_2_north" },
+            { "point" : [2,0,0], "overmap" : "garage_gas_3_north" }
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" },
+            { "point" : [1,-1,0], "terrain" : "road" },
+            { "point" : [2,-1,0], "terrain" : "road" }
         ],
         "locations" : ["wilderness"],
         "city_distance" : [-1,3],
@@ -1520,8 +1659,10 @@
             { "point":[0,0,0], "overmap": "cemetery_4square_00"},
             { "point":[1,0,0], "overmap": "cemetery_4square_10"},
             { "point":[0,1,0], "overmap": "cemetery_4square_01"},
-            { "point":[1,1,0], "overmap": "cemetery_4square_11"},
-            { "point":[0,2,0], "overmap": "4way_road", "connect":"road"}
+            { "point":[1,1,0], "overmap": "cemetery_4square_11"}
+        ],
+        "connections" : [
+            { "point" : [0,2,0], "terrain" : "road" }
         ],
         "locations" : [ "forest" ],
         "city_distance" : [2, 10],
@@ -1557,7 +1698,7 @@
             { "point":[1,0,0], "overmap": "orchard_tree_apple"},
             { "point":[2,0,0], "overmap": "orchard_tree_apple"},
             { "point":[3,0,0], "overmap": "orchard_tree_apple"},
-            { "point":[0,1,0], "overmap": "orchard_stall", "connect": "road"},
+            { "point":[0,1,0], "overmap": "orchard_stall"},
             { "point":[1,1,0], "overmap": "orchard_tree_apple"},
             { "point":[2,1,0], "overmap": "orchard_tree_apple"},
             { "point":[3,1,0], "overmap": "orchard_tree_apple"},
@@ -1569,6 +1710,9 @@
             { "point":[1,3,0], "overmap": "orchard_tree_apple"},
             { "point":[2,3,0], "overmap": "orchard_tree_apple"},
             { "point":[3,3,0], "overmap": "orchard_tree_apple"}
+        ],
+        "connections" : [
+            { "point" : [-1,1,0], "terrain" : "road" }
         ],
         "locations" : [ "land" ],
         "city_distance" : [20, -1],
