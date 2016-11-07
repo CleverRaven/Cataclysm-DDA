@@ -34,6 +34,7 @@
 #include "item_group.h"
 #include "pathfinding.h"
 #include "scent_map.h"
+#include "harvest.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -1647,9 +1648,9 @@ ter_id map::ter( const tripoint &p ) const
 /*
  * Get the results of harvesting this tile's furniture or terrain
  */
-const std::list<harvest_entry> &map::get_harvest( const tripoint &pos ) const
+const harvest_id &map::get_harvest( const tripoint &pos ) const
 {
-    static const std::list<harvest_entry> null_harvest = {};
+    static const harvest_id null_harvest( NULL_ID );
     const auto furn_here = furn( pos );
     if( furn_here->examine != iexamine::none ) {
         // Note: if furniture can be examined, the terrain can NOT (until furniture is removed)
@@ -1670,11 +1671,11 @@ const std::list<harvest_entry> &map::get_harvest( const tripoint &pos ) const
 
 const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 {
-    static const std::set<std::string> null_harvest = {};
+    static const std::set<std::string> null_harvest_names = {};
     const auto furn_here = furn( pos );
     if( furn_here->examine != iexamine::none ) {
         if( furn_here->has_flag( TFLAG_HARVESTED ) ) {
-            return null_harvest;
+            return null_harvest_names;
         }
 
         return furn_here->get_harvest_names();
@@ -1682,7 +1683,7 @@ const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 
     const auto ter_here = ter( pos );
     if( ter_here->has_flag( TFLAG_HARVESTED ) ) {
-        return null_harvest;
+        return null_harvest_names;
     }
 
     return ter_here->get_harvest_names();
@@ -1711,7 +1712,8 @@ void map::examine( Character &p, const tripoint &pos )
 
 bool map::is_harvestable( const tripoint &pos ) const
 {
-    return !get_harvest( pos ).empty();
+    const auto &harvest_here = get_harvest( pos );
+    return !harvest_here.is_null() && !harvest_here->empty();
 }
 
 

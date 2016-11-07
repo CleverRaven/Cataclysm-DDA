@@ -57,6 +57,7 @@
 #include "weather_gen.h"
 #include "npc_class.h"
 #include "recipe_dictionary.h"
+#include "harvest.h"
 
 #include <string>
 #include <vector>
@@ -369,8 +370,6 @@ void DynamicDataLoader::finalize_loaded_data()
 {
     item_controller->finalize();
     vpart_info::finalize();
-    ter_t::finalize_all();
-    furn_t::finalize_all();
     set_ter_ids();
     set_furn_ids();
     set_oter_ids();
@@ -381,11 +380,11 @@ void DynamicDataLoader::finalize_loaded_data()
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
-    finalize_furniture_and_terrain();
     recipe_dictionary::finalize();
     finialize_martial_arts();
     finalize_constructions();
     npc_class::finalize_all();
+    harvest_list::finalize_all();
     check_consistency();
 }
 
@@ -414,4 +413,5 @@ void DynamicDataLoader::check_consistency()
     gates::check();
     npc_class::check_consistency();
     mission_type::check_consistency();
+    harvest_list::check_consistency();
 }
