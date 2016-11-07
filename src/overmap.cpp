@@ -4151,6 +4151,7 @@ void overmap::place_specials()
             }
         }
     }
+
     // See if we mined anything.
     if( mandatory.empty() && optional.empty() ) {
         return; // Nothing to do.
@@ -4199,6 +4200,14 @@ void overmap::place_specials()
                 break;
             }
         }
+    }
+
+    if( !mandatory.empty() ) {
+        const std::string unplaced = enumerate_as_string( mandatory.begin(), mandatory.end(),
+        []( const std::pair<const overmap_special *, int> &elem ) {
+            return string_format( "%s (%d)", elem.first->id.c_str(), elem.second );
+        } );
+        DebugLog( D_WARNING, D_MAP_GEN ) << string_format( "Couldn't place mandatory overmap specials: %s.", unplaced.c_str() );
     }
 }
 
