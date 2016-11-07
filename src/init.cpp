@@ -234,7 +234,7 @@ void DynamicDataLoader::initialize()
     add( "sound_effect", &sfx::load_sound_effects );
     add( "playlist", &sfx::load_playlist );
 
-    add( "gate", &gates::load_gates );
+    add( "gate", &gates::load );
     add( "overlay_order", &load_overlay_ordering );
     add( "mission_definition", []( JsonObject &jo, const std::string &src ) { mission_type::load_mission_type( jo, src ); } );
 }
@@ -411,6 +411,7 @@ void DynamicDataLoader::check_consistency()
     ammunition_type::check_consistency();
     trap::check_consistency();
     check_bionics();
+    gates::check();
     npc_class::check_consistency();
     mission_type::check_consistency();
 }
