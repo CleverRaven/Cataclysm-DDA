@@ -1,7 +1,7 @@
 [
   {
-    "type": "harvest_list",
     "id": "fish_small",
+    "type": "harvest_list",
     "entries": [
       { "drop": "fish", "scale_num": [ 0.2, 0.4 ], "cap": 2 },
       { "drop": "offal", "base_num": [ 0, 1 ], "scale_num": [ 0.2, 0.4 ], "cap": 1 },
