@@ -435,8 +435,8 @@ struct advanced_inv_sorter {
                 }
                 break;
             case SORTBY_SPOILAGE:
-                if( d1.items.front()->get_time_until_rotten() != d2.items.front()->get_time_until_rotten() ) {
-                    return d1.items.front()->get_time_until_rotten() < d2.items.front()->get_time_until_rotten();
+                if( d1.items.front()->spoilage_sort_order() != d2.items.front()->spoilage_sort_order() ) {
+                    return d1.items.front()->spoilage_sort_order() < d2.items.front()->spoilage_sort_order();
                 }
                 break;
         }
