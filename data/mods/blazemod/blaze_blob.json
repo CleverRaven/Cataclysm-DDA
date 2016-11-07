@@ -306,11 +306,11 @@
     "color": "light_red",
     "count": 250,
     "stack_size": 250,
-    "ammo_type": "gasoline",
+    "ammo_type": [ "gasoline", "flammable" ],
     "range": 4,
     "damage": 5,
     "pierce": 5,
-    "effects": [ "FLAME", "INCENDIARY", "NEVER_MISFIRES" ],
+    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "explosion": {
       "power": 10,
       "distance_factor": 0.01,
