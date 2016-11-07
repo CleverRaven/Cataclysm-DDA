@@ -1066,7 +1066,7 @@ void overmap_special::check()
 
 // *** BEGIN overmap FUNCTIONS ***
 
-overmap::overmap(int const x, int const y): loc(x, y), nullret(""), nullbool(false)
+overmap::overmap( int const x, int const y ) : loc( x, y )
 {
     const std::string rsettings_id = get_world_option<std::string>( "DEFAULT_REGION" );
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
@@ -1084,7 +1084,7 @@ overmap::overmap(int const x, int const y): loc(x, y), nullret(""), nullbool(fal
     }
 }
 
-overmap::overmap(): loc(0, 0), nullret(""), nullbool(false)
+overmap::overmap()
 {
     t_regional_settings_map_citr rsit = region_settings_map.find( "default" );
 
@@ -1175,11 +1175,6 @@ bool overmap::mongroup_check(const mongroup &candidate) const
         } ) != matching_range.second;
 }
 
-int overmap::num_mongroups() const
-{
-    return zg.size();
-}
-
 bool overmap::monster_check(const std::pair<tripoint, monster> &candidate) const
 {
     const auto matching_range = monster_map.equal_range(candidate.first);
@@ -1188,11 +1183,6 @@ bool overmap::monster_check(const std::pair<tripoint, monster> &candidate) const
             return candidate.second.pos() == match.second.pos() &&
                 candidate.second.type == match.second.type;
         } ) != matching_range.second;
-}
-
-int overmap::num_monsters() const
-{
-    return monster_map.size();
 }
 
 void overmap::add_npc( npc &who )
@@ -1263,7 +1253,7 @@ std::vector<point> overmap::find_notes(int const z, std::string const &text)
     map_layer &this_layer = layer[z + OVERMAP_DEPTH];
     for( auto note : this_layer.notes ) {
         if( lcmatch( note.text, text ) ) {
-            note_locations.push_back( point( get_left_border() + note.x, get_top_border() + note.y ) );
+            note_locations.push_back( global_base_point() + point( note.x, note.y ) );
         }
     }
     return note_locations;
@@ -1756,7 +1746,7 @@ std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
         for (int y = 0; y < OMAPY; y++) {
             if (seen(x, y, zlevel) &&
                 lcmatch( ter(x, y, zlevel)->name, term ) ) {
-                found.push_back( point( get_left_border() + x, get_top_border() + y) );
+                found.push_back( global_base_point() + point( x, y ) );
             }
         }
     }
@@ -3595,45 +3585,6 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
     }
 }
 
-void overmap::building_on_hiway(int x, int y, int dir)
-{
-    int xdif = dir * (1 - 2 * rng(0, 1));
-    int ydif = (1 - dir) * (1 - 2 * rng(0, 1));
-    int rot = 0;
-    if (ydif ==  1) {
-        rot = 0;
-    } else if (xdif == -1) {
-        rot = 1;
-    } else if (ydif == -1) {
-        rot = 2;
-    } else if (xdif ==  1) {
-        rot = 3;
-    }
-
-    switch (rng(1, 4)) {
-    case 1:
-        if (!is_river(ter(x + xdif, y + ydif, 0))) {
-            ter(x + xdif, y + ydif, 0) = oter_id( "lab_stairs" );
-        }
-        break;
-    case 2:
-        if (!is_river(ter(x + xdif, y + ydif, 0))) {
-            ter(x + xdif, y + ydif, 0) = oter_id( "ice_lab_stairs" );
-        }
-        break;
-    case 3:
-        if (!is_river(ter(x + xdif, y + ydif, 0))) {
-            ter(x + xdif, y + ydif, 0) = house(rot, settings.house_basement_chance);
-        }
-        break;
-    case 4:
-        if (!is_river(ter(x + xdif, y + ydif, 0))) {
-            ter(x + xdif, y + ydif, 0) = oter_id( "radio_tower" );
-        }
-        break;
-    }
-}
-
 void overmap::place_hiways(std::vector<city> cities, int z, const std::string &base)
 {
     if (cities.size() == 1) {
@@ -4305,24 +4256,9 @@ void overmap::place_mongroups()
     }
 }
 
-int overmap::get_top_border()
+point overmap::global_base_point() const
 {
-    return loc.y * OMAPY;
-}
-
-int overmap::get_left_border()
-{
-    return loc.x * OMAPX;
-}
-
-int overmap::get_bottom_border()
-{
-    return get_top_border() + OMAPY;
-}
-
-int overmap::get_right_border()
-{
-    return get_left_border() + OMAPX;
+    return point( loc.x * OMAPX, loc.y * OMAPY );
 }
 
 void overmap::place_radios()
@@ -4574,6 +4510,4 @@ void overmap::add_mon_group(const mongroup &group)
     DebugLog( D_ERROR, D_GAME ) << group.type.str() << ": " << group.population << " => " << xpop;
 }
 
-const point overmap::invalid_point = point(INT_MIN, INT_MIN);
 const tripoint overmap::invalid_tripoint = tripoint(INT_MIN, INT_MIN, INT_MIN);
-//oter_id overmap::nulloter = "";

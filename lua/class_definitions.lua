@@ -1868,15 +1868,9 @@ classes = {
             { name = "clear_mon_groups", rval = nil, args = { } },
             { name = "delete_note", rval = nil, args = { "int", "int", "int" } },
             { name = "find_random_omt", rval = "tripoint", args = { "string" } },
-            { name = "get_bottom_border", rval = "int", args = { } },
-            { name = "get_top_border", rval = "int", args = { } },
-            { name = "get_left_border", rval = "int", args = { } },
-            { name = "get_right_border", rval = "int", args = { } },
             { name = "has_note", rval = "bool", args = { "int", "int", "int" } },
             { name = "is_explored", rval = "bool", args = { "int", "int", "int" } },
             { name = "note", rval = "string", args = { "int", "int", "int" } },
-            { name = "num_mongroups", rval = "int", args = { } },
-            { name = "num_monsters", rval = "int", args = { } },
         }
     },
     volume = {

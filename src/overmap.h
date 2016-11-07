@@ -264,7 +264,6 @@ class overmap
      * Dummy value, used to indicate that a point/rotation returned by a function
      * is invalid.
      */
-    static const point invalid_point;
     static const tripoint invalid_tripoint;
     static const int invalid_rotation = -1;
     /**
@@ -311,17 +310,8 @@ class overmap
 
     static oter_id rotate(const oter_id &oter, int dir);
 
-  /** Get the x coordinate of the left border of this overmap. */
-  int get_left_border();
-
-  /** Get the x coordinate of the right border of this overmap. */
-  int get_right_border();
-
-  /** Get the y coordinate of the top border of this overmap. */
-  int get_top_border();
-
-  /** Get the y coordinate of the bottom border of this overmap. */
-  int get_bottom_border();
+    /** Returns the (0, 0) corner of the overmap in the global coordinates. */
+    point global_base_point() const;
 
   // @todo Should depend on coords
   const regional_settings& get_settings() const
@@ -334,9 +324,7 @@ private:
 public:
     /** Unit test enablers to check if a given mongroup is present. */
     bool mongroup_check(const mongroup &candidate) const;
-    int num_mongroups() const;
     bool monster_check(const std::pair<tripoint, monster> &candidate) const;
-    int num_monsters() const;
 
     void add_npc( npc &who );
     // TODO: make private
@@ -347,15 +335,13 @@ public:
   std::vector<city> roads_out;
 
  private:
-  friend class overmapbuffer;
-  point loc;
+    friend class overmapbuffer;
+
+    bool nullbool = false;
+    point loc{ 0, 0 };
 
     std::array<map_layer, OVERMAP_LAYERS> layer;
-
-  oter_id nullret;
-  bool nullbool;
-
-        std::unordered_map<tripoint, scent_trace> scents;
+    std::unordered_map<tripoint, scent_trace> scents;
 
     /**
      * When monsters despawn during map-shifting they will be added here.
@@ -438,9 +424,7 @@ public:
   void place_rifts(int const z);
   // Connection highways
   void place_hiways(std::vector<city> cities, int z, const std::string &base);
-  void place_subways(std::vector<point> stations);
   void make_hiway(int x1, int y1, int x2, int y2, int z, const std::string &base);
-  void building_on_hiway(int x, int y, int dir);
   // Polishing
   bool check_ot_type(const std::string &otype, int x, int y, int z) const;
   bool check_ot_type_road(const std::string &otype, int x, int y, int z);
