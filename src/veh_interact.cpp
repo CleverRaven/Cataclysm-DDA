@@ -981,7 +981,7 @@ bool veh_interact::do_refill( std::string &msg )
         };
 
         target = g->inv_map_splice( validate, string_format( _( "Refill %s" ), pt.name().c_str() ), 1 );
-        if( !target ) {
+        if( target ) {
             sel_vehicle_part = &pt;
             sel_vpart_info = &pt.info();
             sel_cmd = 'f';
