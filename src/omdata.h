@@ -8,10 +8,14 @@
 #include "string_id.h"
 #include <string>
 #include <vector>
+#include <limits>
 #include <list>
 #include <set>
 
 struct MonsterGroup;
+struct city;
+struct overmap_special_location;
+
 using mongroup_id = string_id<MonsterGroup>;
 
 class overmap;
@@ -122,17 +126,23 @@ struct overmap_special_spawns {
 struct overmap_special_terrain {
     overmap_special_terrain() : p( 0, 0, 0 ) { };
     tripoint p;
-    oter_str_id connect;
     oter_str_id terrain;
     std::set<std::string> flags;
 };
 
-struct overmap_special_connection {
+struct overmap_special_connection : public JsonDeserializer {
+    tripoint p = tripoint( 0, 0, 0 );
     oter_str_id terrain;
-    tripoint p;
+    bool existing = false;
 
-    bool operator==( const overmap_special_connection &rhs ) const {
-        return p == rhs.p && terrain == rhs.terrain;
+    overmap_special_connection() = default;
+
+    using JsonDeserializer::deserialize;
+    void deserialize( JsonIn &jsin ) override {
+        JsonObject jo = jsin.get_object();
+        jo.read( "point", p );
+        jo.read( "terrain", terrain );
+        jo.read( "existing", existing );
     }
 };
 
@@ -142,24 +152,32 @@ class overmap_special
         bool operator<( const overmap_special &right ) const {
             return ( this->id.compare( right.id ) < 0 );
         }
-
-        /** Returns terrain at the given point */
+        /** Returns terrain at the given point. */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
-        /** Returns whether the special depends on existing roads. */
-        bool requires_existing_road() const;
-        /** Checks the object and builds @ref connections vector. */
-        void finalize();
+        /**
+         * Returns whether the special can be placed on the specified terrain.
+         * It's true if @ref oter meets any of @ref locations.
+         */
+        bool can_be_placed_on( const oter_id &oter ) const;
+        /** Returns whether this special requires a city at all. */
+        bool requires_city() const;
+        /** Returns whether the special at @ref p can belong to the specified city. */
+        bool can_belong_to_city( const tripoint &p, const city &cit ) const;
+        /** Checks the object. */
+        void check();
 
         std::string id;
         std::list<overmap_special_terrain> terrains;
         std::vector<overmap_special_connection> connections;
-        int min_city_size, max_city_size;
-        int min_city_distance, max_city_distance;
-        int min_occurrences, max_occurrences;
-        int height, width;
+        int min_city_size = 0;
+        int max_city_size = std::numeric_limits<int>::max();
+        int min_city_distance = 0;
+        int max_city_distance = std::numeric_limits<int>::max();
+        int min_occurrences = 0;
+        int max_occurrences = 0;
         bool rotatable;
         overmap_special_spawns spawns;
-        std::set<std::string> locations;
+        std::set<const overmap_special_location *> locations;
         std::set<std::string> flags;
 };
 

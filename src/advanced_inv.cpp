@@ -168,8 +168,8 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
             return _( "category" );
         case SORTBY_DAMAGE:
             return _( "damage" );
-        case SORTBY_STALENESS:
-            return _( "staleness" );
+        case SORTBY_SPOILAGE:
+            return _( "spoilage" );
     }
     return "!BUG!";
 }
@@ -434,7 +434,7 @@ struct advanced_inv_sorter {
                     return d1.items.front()->damage() < d2.items.front()->damage();
                 }
                 break;
-            case SORTBY_STALENESS:
+            case SORTBY_SPOILAGE:
                 if( d1.items.front()->get_time_until_rotten() != d2.items.front()->get_time_until_rotten() ) {
                     return d1.items.front()->get_time_until_rotten() < d2.items.front()->get_time_until_rotten();
                 }
@@ -1327,7 +1327,7 @@ bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
     sm.addentry( SORTBY_CHARGES,  true, 'x', get_sortname( SORTBY_CHARGES ) );
     sm.addentry( SORTBY_CATEGORY, true, 'c', get_sortname( SORTBY_CATEGORY ) );
     sm.addentry( SORTBY_DAMAGE,   true, 'd', get_sortname( SORTBY_DAMAGE ) );
-    sm.addentry( SORTBY_STALENESS,   true, 's', get_sortname( SORTBY_STALENESS ) );
+    sm.addentry( SORTBY_SPOILAGE,   true, 's', get_sortname( SORTBY_SPOILAGE ) );
     // Pre-select current sort.
     sm.selected = pane.sortby - SORTBY_NONE;
     // Calculate key and window variables, generate window,

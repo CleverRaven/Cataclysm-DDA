@@ -104,6 +104,13 @@
     "description": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
   },
   {
+    "id": "IRREMOVABLE",
+    "type": "json_flag",
+    "context": [ "GUNMOD" ],
+    "description": "This item is a component of the gun it is attached to.  It can't be removed without destroying it.",
+    "inherit": false
+  },
+  {
     "id": "NO_CVD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],

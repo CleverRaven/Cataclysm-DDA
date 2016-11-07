@@ -41,7 +41,7 @@ enum advanced_inv_sortby {
     SORTBY_CHARGES,
     SORTBY_CATEGORY,
     SORTBY_DAMAGE,
-    SORTBY_STALENESS
+    SORTBY_SPOILAGE
 };
 
 struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {

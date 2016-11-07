@@ -117,6 +117,7 @@ vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector
 
     auto act = [&]( const vehicle_part &pt ) {
         res = const_cast<vehicle_part *>( &pt );
+        return false; // avoid redraw
     };
 
     int opts = std::count_if( veh.parts.cbegin(), veh.parts.cend(), sel );
@@ -275,42 +276,42 @@ void veh_interact::do_main_loop()
         overview();
         display_mode();
         const std::string action = main_context.handle_input();
-        bool redraw = true;
+        werase( w_msg );
+        wrefresh( w_msg );
+        std::string msg;
+        bool redraw = false;
         int dx, dy;
         if (main_context.get_direction(dx, dy, action)) {
             move_cursor(dx, dy);
-            redraw = false;
         } else if (action == "QUIT") {
             finish = true;
         } else if (action == "INSTALL") {
-            do_install();
+            redraw = do_install( msg );
         } else if (action == "REPAIR") {
-            do_repair();
+            redraw = do_repair( msg );
         } else if (action == "MEND") {
-            do_mend();
+            redraw = do_mend( msg );
         } else if (action == "REFILL") {
-            do_refill();
+            redraw = do_refill( msg );
         } else if (action == "REMOVE") {
-            do_remove();
+            redraw = do_remove( msg );
         } else if (action == "RENAME") {
-            do_rename();
+            redraw = do_rename( msg );
         } else if (action == "SIPHON") {
-            do_siphon();
+            redraw = do_siphon( msg );
             // Siphoning may have started a player activity. If so, we should close the
             // vehicle dialog and continue with the activity.
             finish = !g->u.activity.is_null();
         } else if (action == "TIRE_CHANGE") {
-            do_tirechange();
+            redraw = do_tirechange( msg );
         } else if (action == "ASSIGN_CREW") {
-            do_assign_crew();
+            redraw = do_assign_crew( msg );
         } else if (action == "RELABEL") {
-            do_relabel();
+            redraw = do_relabel( msg );
         } else if (action == "NEXT_TAB") {
             move_fuel_cursor(1);
-            redraw = false;
         } else if (action == "PREV_TAB") {
             move_fuel_cursor(-1);
-            redraw = false;
         }
         if (sel_cmd != ' ') {
             finish = true;
@@ -326,6 +327,13 @@ void veh_interact::do_main_loop()
             // Siphon menu obscures it, so it has to be redrawn
             move_cursor( 0, 0 );
         }
+
+        if( !msg.empty() ) {
+            werase( w_msg );
+            fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_ltred, msg );
+            wrefresh( w_msg );
+        }
+
     }
 }
 
@@ -623,33 +631,22 @@ void veh_interact::move_fuel_cursor(int delta)
     display_stats();
 }
 
-/**
- * Handles installing a new part.
- * @param reason INVALID_TARGET if the square can't have anything installed,
- *               LACK_TOOLS if the player is lacking tools,
- *               LOW_MORALE if the player's morale is too low.
- */
-void veh_interact::do_install()
+bool veh_interact::do_install( std::string &msg )
 {
-    const task_reason reason = cant_do('i');
-    werase (w_msg);
-    int msg_width = getmaxx(w_msg);
-    switch (reason) {
-    case LOW_MORALE:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
-        wrefresh (w_msg);
-        return;
-    case INVALID_TARGET:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("Cannot install any part here."));
-        wrefresh (w_msg);
-        return;
-    case MOVING_VEHICLE:
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _( "You can't install parts while driving." ) );
-        wrefresh (w_msg);
-        return;
-    default:
-        break; // no reason, all is well
+    switch( cant_do( 'i' ) ) {
+        case LOW_MORALE:
+            msg = _( "Your morale is too low to construct..." );
+            return false;
+
+        case INVALID_TARGET:
+            msg = _( "Cannot install any part here." );
+            return false;
+
+        case MOVING_VEHICLE:
+            msg = _( "You can't install parts while driving." );
+            return false;
+
+        default: break;
     }
 
     set_title( _( "Choose new part to install here:" ) );
@@ -793,7 +790,7 @@ void veh_interact::do_install()
                  if( 0 <= selected_shape && (size_t) selected_shape < shapes.size() ) {
                     sel_vpart_info = shapes[selected_shape];
                     sel_cmd = 'i';
-                    return;
+                    return true; // force redraw
                 }
             }
         } else if (action == "QUIT") {
@@ -828,6 +825,8 @@ void veh_interact::do_install()
     //restore windows that had been covered by w_details
     display_stats();
     display_name();
+
+    return false;
 }
 
 bool veh_interact::move_in_list(int &pos, const std::string &action, const int size, const int header) const
@@ -853,39 +852,26 @@ bool veh_interact::move_in_list(int &pos, const std::string &action, const int s
     return true;
 }
 
-/**
- * Handles repairing a vehicle part.
- * @param reason INVALID_TARGET if there's no damaged parts in the selected square,
- *               LACK_TOOLS if the player is lacking tools,
- *               LOW_MORALE if the player's morale is too low.
- */
-void veh_interact::do_repair()
+bool veh_interact::do_repair( std::string &msg )
 {
-    const task_reason reason = cant_do('r');
-    werase (w_msg);
-    int msg_width = getmaxx(w_msg);
-    switch (reason) {
-    case LOW_MORALE:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to repair..."));
-        wrefresh (w_msg);
-        return;
-    case INVALID_TARGET:
-        if(mostDamagedPart != -1) {
-            int p = mostDamagedPart; // for convenience
-            move_cursor( veh->parts[p].mount.y + ddy, -( veh->parts[p].mount.x + ddx ) );
+    switch( cant_do( 'r' ) ) {
+        case LOW_MORALE:
+            msg = _( "Your morale is too low to repair..." );
+            return false;
 
-        } else {
-            mvwprintz(w_msg, 0, 1, c_ltred, _("There are no damaged parts on this vehicle."));
-            wrefresh (w_msg);
-        }
-        return;
-    case MOVING_VEHICLE:
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _( "You can't repair stuff while driving." ) );
-        wrefresh (w_msg);
-        return;
-    default:
-        break; // no reason, all is well
+        case INVALID_TARGET:
+            if( mostDamagedPart != -1 ) {
+                move_cursor( veh->parts[mostDamagedPart].mount.y + ddy, -( veh->parts[mostDamagedPart].mount.x + ddx ) );
+            } else {
+                msg = _( "There are no damaged parts on this vehicle." );
+                return false;
+            }
+
+        case MOVING_VEHICLE:
+            msg = _( "You can't repair stuff while driving." );
+            return false;
+
+        default: break;
     }
 
     set_title( _( "Choose a part here to repair:" ) );
@@ -923,7 +909,7 @@ void veh_interact::do_repair()
             sel_vehicle_part = &pt;
             sel_vpart_info = &vp;
             sel_cmd = 'r';
-            return;
+            break;
 
         } else if (action == "QUIT") {
             werase (w_parts);
@@ -937,31 +923,26 @@ void veh_interact::do_repair()
             move_in_list(pos, action, need_repair.size());
         }
     }
+
+    return false;
 }
 
-void veh_interact::do_mend()
+bool veh_interact::do_mend( std::string &msg )
 {
-    werase( w_msg );
-
     switch( cant_do( 'm' ) ) {
         case LOW_MORALE:
-            mvwprintz( w_msg, 0, 1, c_ltred, _( "Your morale is too low to mend..." ) );
-            wrefresh( w_msg );
-            return;
+            msg = _( "Your morale is too low to mend..." );
+            return false;
 
         case INVALID_TARGET:
-            mvwprintz( w_msg, 0, 1, c_ltred, _( "No faulty parts require mending." ) );
-            wrefresh( w_msg );
-            return;
+            msg = _( "No faulty parts require mending." );
+            return false;
 
         case MOVING_VEHICLE:
-            mvwprintz( w_msg, 0, 1, c_ltgray, _( "You can't mend stuff while driving." ) );
-            wrefresh( w_msg );
-            return;
+            msg = _( "You can't mend stuff while driving." );
+            return false;
 
-        default:
-            wrefresh( w_msg );
-            break;
+        default: break;
     }
 
     set_title( _( "Choose a part here to mend:" ) );
@@ -971,19 +952,18 @@ void veh_interact::do_mend()
     auto act = [&]( const vehicle_part &pt ) {
         g->u.mend_item( veh->part_base( veh->index_of_part( &pt ) ) );
         sel_cmd = 'q';
-        return;
+        return true; // force redraw
     };
 
-    overview( sel, act );
+    return overview( sel, act );
 }
 
-void veh_interact::do_refill()
+bool veh_interact::do_refill( std::string &msg )
 {
-    werase( w_msg );
     if( cant_do( 'f' ) ) {
-        mvwprintz( w_msg, 0, 1, c_ltred, _( "No parts can currently be refilled" ) );
+        msg = _( "No parts can currently be refilled" );
+        return false;
     }
-    wrefresh( w_msg );
 
     set_title( _( "Select part to refill:" ) );
 
@@ -1002,20 +982,19 @@ void veh_interact::do_refill()
 
         target = g->inv_map_splice( validate, string_format( _( "Refill %s" ), pt.name().c_str() ), 1 );
         if( !target ) {
-            return;
+            sel_vehicle_part = &pt;
+            sel_vpart_info = &pt.info();
+            sel_cmd = 'f';
         }
 
-        sel_vehicle_part = &pt;
-        sel_vpart_info = &pt.info();
-        sel_cmd = 'f';
-        return;
+        return true; // force redraw
     };
 
-    overview( can_refill, act );
+    return overview( can_refill, act );
 }
 
-void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
-                             std::function<void(vehicle_part &pt)> action )
+bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
+                             std::function<bool(vehicle_part &pt)> action )
 {
     struct part_option {
         part_option( const std::string &key, vehicle_part *part, char hotkey,
@@ -1164,6 +1143,7 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
         } while( !opts[pos].hotkey );
     }
 
+    bool redraw = false;
     while( true ) {
         werase( w_list );
         std::string last;
@@ -1193,7 +1173,7 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
         wrefresh( w_list );
 
         if( !std::any_of( opts.begin(), opts.end(), []( const part_option &e ) { return e.hotkey; } ) ) {
-            return; // nothing is selectable
+            return false; // nothing is selectable
         }
 
         move_cursor( opts[pos].part->mount.y + ddy, -( opts[pos].part->mount.x + ddx ) );
@@ -1204,7 +1184,7 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
         const std::string input = main_context.handle_input();
         if( input == "CONFIRM" && opts[pos].hotkey ) {
-            action( *opts[pos].part );
+            redraw = action( *opts[pos].part );
             break;
 
         } else if( input == "QUIT" ) {
@@ -1241,6 +1221,7 @@ void veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
     werase( w_list );
     wrefresh( w_list );
+    return redraw;
 }
 
 bool veh_interact::can_remove_part( int idx ) {
@@ -1290,41 +1271,26 @@ bool veh_interact::can_remove_part( int idx ) {
     return ok || g->u.has_trait( "DEBUG_HS" );
 }
 
-/**
- * Handles removing a part from the vehicle.
- * @param reason INVALID_TARGET if there are no parts to remove,
- *               LACK_TOOLS if the player is lacking tools,
- *               NOT_FREE if there's something attached that needs to be removed first,
- *               LACK_SKILL if the player's mechanics skill isn't high enough,
- *               LOW_MORALE if the player's morale is too low.
- */
-void veh_interact::do_remove()
+bool veh_interact::do_remove( std::string &msg )
 {
-    const task_reason reason = cant_do('o');
+    switch( cant_do( 'o' ) ) {
+        case LOW_MORALE:
+            msg = _( "Your morale is too low to construct..." );
+            return false;
 
-    werase (w_msg);
-    int msg_width = getmaxx(w_msg);
-    switch (reason) {
-    case LOW_MORALE:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
-        wrefresh (w_msg);
-        return;
-    case INVALID_TARGET:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("No parts here."));
-        wrefresh (w_msg);
-        return;
-    case NOT_FREE:
-        mvwprintz(w_msg, 0, 1, c_ltred,
-                  _("You cannot remove that part while something is attached to it."));
-        wrefresh (w_msg);
-        return;
-    case MOVING_VEHICLE:
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _( "Better not remove something while driving." ) );
-        wrefresh (w_msg);
-        return;
-    default:
-        break; // no reason, all is well
+        case INVALID_TARGET:
+            msg = _( "No parts here." );
+            return false;
+
+        case NOT_FREE:
+            msg = _( "You cannot remove that part while something is attached to it." );
+            return false;
+
+        case MOVING_VEHICLE:
+            msg = _( "Better not remove something while driving." );
+            return false;
+
+        default: break;
     }
 
     set_title( _( "Choose a part here to remove:" ) );
@@ -1358,70 +1324,51 @@ void veh_interact::do_remove()
             move_in_list(pos, action, parts_here.size());
         }
     }
+
+    return false;
 }
 
-/**
- * Handles siphoning gas.
- * @param reason INVALID_TARGET if the vehicle has no gas,
- *               NO_TOOLS if the player has no hose.
- */
-void veh_interact::do_siphon()
+bool veh_interact::do_siphon( std::string &msg )
 {
-    const task_reason reason = cant_do('s');
-    werase (w_msg);
-    int msg_width = getmaxx(w_msg);
-    switch (reason) {
-    case INVALID_TARGET:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("The vehicle has no liquid fuel left to siphon."));
-        wrefresh (w_msg);
-        return;
-    case LACK_TOOLS:
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need a <color_red>hose</color> to siphon liquid fuel."));
-        wrefresh (w_msg);
-        return;
-    case MOVING_VEHICLE:
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _( "You can't siphon from a moving vehicle." ) );
-        wrefresh (w_msg);
-        return;
-    default:
-        break; // no reason, all is well
+    switch( cant_do( 's' ) ) {
+        case INVALID_TARGET:
+            msg = _( "The vehicle has no liquid fuel left to siphon." );
+            return false;
+
+        case LACK_TOOLS:
+            msg = _( "You need a <color_red>hose</color> to siphon liquid fuel." );
+            return false;
+
+        case MOVING_VEHICLE:
+            msg = _( "You can't siphon from a moving vehicle." );
+            return false;
+
+        default: break;
     }
+
     act_vehicle_siphon( veh );
+    return true; // force redraw
 }
 
-/**
- * Handles changing a tire.
- * @param reason INVALID_TARGET if there's no wheel in the selected square,
- *               LACK_TOOLS if the player is missing a tool.
- */
-void veh_interact::do_tirechange()
+bool veh_interact::do_tirechange( std::string &msg )
 {
-    const task_reason reason = cant_do('c');
-    werase( w_msg );
-    int msg_width = getmaxx(w_msg);
+    switch( cant_do( 'c' ) ) {
+        case INVALID_TARGET:
+            msg = _( "There is no wheel to change here." );
+            return false;
 
-    switch( reason ) {
-    case INVALID_TARGET:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("There is no wheel to change here."));
-        wrefresh (w_msg);
-        return;
+        case LACK_TOOLS:
+            msg = string_format( _( "To change a wheel you need a <color_%1$s>wrench</color> and either "
+                                    "<color_%2$s>lifting equipment</color> or <color_%3$s>%4$d</color> strength." ),
+                                 status_color( has_wrench ), status_color( has_jack ),
+                                 status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
+            return false;
 
-    case LACK_TOOLS:
-        ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _( "To change a wheel you need a <color_%1$s>wrench</color> and either <color_%2$s>lifting equipment</color> or <color_%3$s>%4$d</color> strength." ),
-                        status_color( has_wrench ), status_color( has_jack ), status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
-        wrefresh (w_msg);
-        return;
+        case MOVING_VEHICLE:
+            msg = _( "Who is driving while you work?" );
+            return false;
 
-    case MOVING_VEHICLE:
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "Who is driving while you work?" ) );
-        wrefresh (w_msg);
-        return;
-    default:
-        break; // no reason, all is well
+        default: break;
     }
 
     set_title( _( "Choose wheel to use as replacement:" ) );
@@ -1439,7 +1386,7 @@ void veh_interact::do_tirechange()
         if( ( action == "TIRE_CHANGE" || action == "CONFIRM" ) &&
             is_wheel && has_comps && has_wrench && ( g->u.can_lift( *veh ) || has_jack ) ) {
             sel_cmd = 'c';
-            return;
+            break;
 
         } else if (action == "QUIT") {
             werase (w_list);
@@ -1451,20 +1398,16 @@ void veh_interact::do_tirechange()
             move_in_list(pos, action, wheel_types.size());
         }
     }
+
+    return false;
 }
 
-void veh_interact::do_assign_crew()
+bool veh_interact::do_assign_crew( std::string &msg )
 {
-    werase( w_msg );
-
     if( cant_do( 'w' ) != CAN_DO ) {
-        fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 1, c_ltred,
-                        _( "Need at least one seat and an ally to assign crew members." ) );
-        wrefresh( w_msg );
-        return;
+        msg = _( "Need at least one seat and an ally to assign crew members." );
+        return false;
     }
-
-    wrefresh( w_msg );
 
     set_title( _( "Assign crew positions:" ) );
 
@@ -1490,16 +1433,14 @@ void veh_interact::do_assign_crew()
             const auto &who = *g->active_npc[g->npc_by_id( menu.ret )];
             veh->assign_seat( pt, who );
         }
+
+        return true; // force redraw
     };
 
-    overview( sel, act );
+    return overview( sel, act );
 }
 
-/**
- * Handles renaming a vehicle.
- * @param reason Unused.
- */
-void veh_interact::do_rename()
+bool veh_interact::do_rename( std::string & )
 {
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
     if(name.length() > 0) {
@@ -1512,23 +1453,23 @@ void veh_interact::do_rename()
     }
     // refresh w_disp & w_part windows:
     move_cursor(0, 0);
+
+    return false;
 }
 
-/**
- * Relabels the currently selected square.
- */
-void veh_interact::do_relabel()
+bool veh_interact::do_relabel( std::string &msg )
 {
-    const task_reason reason = cant_do('a');
-    if (reason == INVALID_TARGET) {
-        mvwprintz(w_msg, 0, 1, c_ltred, _("There are no parts here to label."));
-        wrefresh (w_msg);
-        return;
+    if( cant_do( 'a' ) == INVALID_TARGET ) {
+        msg = _( "There are no parts here to label." );
+        return false;
     }
+
     std::string text = string_input_popup(_("New label:"), 20, veh->get_label(-ddx, -ddy));
     veh->set_label(-ddx, -ddy, text); // empty input removes the label
     // refresh w_disp & w_part windows:
     move_cursor(0, 0);
+
+    return false;
 }
 
 /**

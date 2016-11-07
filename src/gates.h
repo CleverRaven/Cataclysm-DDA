@@ -8,10 +8,9 @@
 namespace gates
 {
 
-void load_gates( JsonObject &jo, const std::string &src );
+void load( JsonObject &jo, const std::string &src );
+void check();
 void reset();
-
-void finalize();
 
 /** opens the gate via player's activity */
 void open_gate( const tripoint &pos, player &p );

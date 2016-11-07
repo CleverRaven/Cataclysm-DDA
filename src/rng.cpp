@@ -1,8 +1,12 @@
 #include "output.h"
 #include "rng.h"
+#include "game_constants.h"
 #include <stdlib.h>
 #include <random>
 #include <chrono>
+
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 long rng( long val1, long val2 )
 {
@@ -100,6 +104,7 @@ double normal_roll( double mean, double stddev )
 double erfinv( double x )
 {
     const double epsilon = 1e-6;
+    const double m_2_sqrtpi = 2 / sqrt( M_PI );
     double z = 0.0;
 
     // Shortcut the most common case
@@ -111,7 +116,7 @@ double erfinv( double x )
     // d/dz ( erf(z) - x ) = 2/sqrt(pi) . e^(-z^2)
 
     for( int n = 0; n < 50; ++n ) {
-        double step = ( std::erf( z ) - x ) / ( M_2_SQRTPI * exp( -z * z ) );
+        double step = ( std::erf( z ) - x ) / ( m_2_sqrtpi * exp( -z * z ) );
         z -= step;
         if( std::abs( step ) < epsilon ) {
             break;

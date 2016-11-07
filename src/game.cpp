@@ -293,10 +293,12 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
     // deduplicated list of mods to check
     std::set<std::string> check( opts.begin(), opts.end() );
 
-    // if no specific mods specified check everything
+    // if no specific mods specified check all non-obsolete mods
     if( check.empty() ) {
         for( const auto &e : mods ) {
-            check.emplace( e.first );
+            if( !e.second->obsolete ) {
+                check.emplace( e.first );
+            }
         }
     }
 
@@ -1185,9 +1187,9 @@ bool game::cleanup_at_end()
 
         int iTotalKills = 0;
 
-        for( const auto &e : MonsterGenerator::generator().get_all_mtypes() ) {
-            if( kill_count( e.second.id ) > 0 ) {
-                iTotalKills += kill_count( e.second.id );
+        for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
+            if( kill_count( type.id ) > 0 ) {
+                iTotalKills += kill_count( type.id );
             }
         }
 
@@ -4014,6 +4016,7 @@ void game::debug()
                        _( "Set automove route" ),     // 28
                        _( "Show mutation category levels" ), // 29
                        _( "Overmap editor" ),         // 30
+                       _( "Draw benchmark (5 seconds)" ),      // 31
                        _( "Cancel" ),
                        NULL );
     int veh_num;
@@ -4480,10 +4483,11 @@ void game::debug()
                         uimenu types;
                         types.return_invalid = true;
                         types.text = _( "Choose mission type" );
+                        const auto all_missions = mission_type::get_all();
                         std::vector<const mission_type *> mts;
-                        for( const auto &e : mission_type::get_all() ) {
-                            types.addentry( -1, true, -1, e.second.name );
-                            mts.push_back( &e.second );
+                        for( size_t i = 0; i < all_missions.size(); i++ ) {
+                            types.addentry( i, true, -1, all_missions[ i ].name );
+                            mts.push_back( &all_missions[ i ] );
                         }
 
                         types.addentry( INT_MAX, true, -1, _( "Cancel" ) );
@@ -4509,9 +4513,9 @@ void game::debug()
                         classes.text = _( "Choose new class" );
                         std::vector<npc_class_id> ids;
                         size_t i = 0;
-                        for( const auto &cl : npc_class::get_all() ) {
-                            ids.push_back( cl.second.id );
-                            classes.addentry( i, true, -1, cl.second.get_name() );
+                        for( auto &cl : npc_class::get_all() ) {
+                            ids.push_back( cl.id );
+                            classes.addentry( i, true, -1, cl.get_name() );
                             i++;
                         }
 
@@ -4705,6 +4709,25 @@ void game::debug()
         break;
         case 30: {
             overmap::draw_editor();
+        }
+        break;
+        case 31: {
+            // call the draw procedure as many times as possible in 5 seconds
+            auto start_tick = std::chrono::steady_clock::now();
+            auto end_tick = std::chrono::steady_clock::now();
+            long difference = 0;
+            int draw_counter = 0;
+            while( true ) {
+                end_tick = std::chrono::steady_clock::now();
+                difference = std::chrono::duration_cast<std::chrono::milliseconds>(end_tick - start_tick).count();
+                if( difference >= 5000 ) {
+                    break;
+                }
+                draw();
+                draw_counter++;
+            }
+            add_msg( m_info, _( "Drew %d times in %.3f seconds. (%.3f fps average)" ), draw_counter,
+                     difference / 1000.0, 1000.0 * draw_counter / ( double )difference );
         }
         break;
     }

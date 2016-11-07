@@ -3,7 +3,7 @@
         "type": "item_group",
         "id": "ammo_casings",
         "items": [
-            ["654_casing", 50]
+            { "item": "654_casing", "prob": 50, "count": 20 }
         ]
     },
     {
