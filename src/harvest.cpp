@@ -29,8 +29,9 @@ harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
 
     harvest_entry ret;
     assign( jo, "drop", ret.drop, strict );
-    assign( jo, "base_num", ret.base_num, strict );
-    assign( jo, "scale_num", ret.scale_num, strict );
+    assign( jo, "base_num", ret.base_num, strict, -1000.0f );
+    assign( jo, "scale_num", ret.scale_num, strict, -1000.0f );
+    assign( jo, "cap", ret.cap, strict, 1 );
 
     return ret;
 }

@@ -238,6 +238,7 @@ void DynamicDataLoader::initialize()
     add( "gate", &gates::load );
     add( "overlay_order", &load_overlay_ordering );
     add( "mission_definition", []( JsonObject &jo, const std::string &src ) { mission_type::load_mission_type( jo, src ); } );
+    add( "harvest_list", []( JsonObject &jo, const std::string &src ) { harvest_list::load( jo, src ); } );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
