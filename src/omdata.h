@@ -2,10 +2,12 @@
 #define OMDATA_H
 
 #include "color.h"
+#include "common_types.h"
 #include "json.h"
 #include "enums.h"
 #include "int_id.h"
 #include "string_id.h"
+
 #include <string>
 #include <vector>
 #include <limits>
@@ -21,12 +23,9 @@ using mongroup_id = string_id<MonsterGroup>;
 class overmap;
 
 struct overmap_spawns {
-    overmap_spawns(): group( NULL_ID ), min_population( 0 ), max_population( 0 ),
-        chance( 0 ) {};
     mongroup_id group;
-    int min_population;
-    int max_population;
-    int chance;
+    numeric_interval<int> population;
+    int chance = 0;
 };
 //terrain flags enum! this is for tracking the indices of each flag.
 //is_asphalt, is_building, is_subway, is_sewer, is_ants,
@@ -113,31 +112,38 @@ typedef oter_id oter_iid;
 // into 900 squares; lots of space for interesting stuff!
 #define OMSPEC_FREQ 15
 
-struct overmap_special_spawns {
-    overmap_special_spawns(): group( NULL_ID ), min_population( 0 ), max_population( 0 ),
-        min_radius( 0 ), max_radius( 0 ) {};
+struct overmap_special_spawns : public JsonDeserializer {
     mongroup_id group;
-    int min_population;
-    int max_population;
-    int min_radius;
-    int max_radius;
+    numeric_interval<int> population;
+    numeric_interval<int> radius;
+
+    void deserialize( JsonIn &jsin ) override {
+        JsonObject jo = jsin.get_object();
+        jo.read( "group", group );
+        jo.read( "population", population );
+        jo.read( "radius", radius );
+    }
 };
 
-struct overmap_special_terrain {
-    overmap_special_terrain() : p( 0, 0, 0 ) { };
+struct overmap_special_terrain : public JsonDeserializer {
+    overmap_special_terrain() { };
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;
+
+    void deserialize( JsonIn &jsin ) override {
+        JsonObject om = jsin.get_object();
+        om.read( "point", p );
+        om.read( "overmap", terrain );
+        om.read( "flags", flags );
+    }
 };
 
 struct overmap_special_connection : public JsonDeserializer {
-    tripoint p = tripoint( 0, 0, 0 );
+    tripoint p;
     oter_str_id terrain;
     bool existing = false;
 
-    overmap_special_connection() = default;
-
-    using JsonDeserializer::deserialize;
     void deserialize( JsonIn &jsin ) override {
         JsonObject jo = jsin.get_object();
         jo.read( "point", p );
@@ -163,19 +169,20 @@ class overmap_special
         bool requires_city() const;
         /** Returns whether the special at @ref p can belong to the specified city. */
         bool can_belong_to_city( const tripoint &p, const city &cit ) const;
+        /** Loads the object. */
+        void load( JsonObject &jo, const std::string &src );
         /** Checks the object. */
         void check();
 
         std::string id;
         std::list<overmap_special_terrain> terrains;
         std::vector<overmap_special_connection> connections;
-        int min_city_size = 0;
-        int max_city_size = std::numeric_limits<int>::max();
-        int min_city_distance = 0;
-        int max_city_distance = std::numeric_limits<int>::max();
-        int min_occurrences = 0;
-        int max_occurrences = 0;
-        bool rotatable;
+
+        numeric_interval<int> city_size{ 0, INT_MAX };
+        numeric_interval<int> city_distance{ 0, INT_MAX };
+        numeric_interval<int> occurrences;
+
+        bool rotatable = false;
         overmap_special_spawns spawns;
         std::set<const overmap_special_location *> locations;
         std::set<std::string> flags;

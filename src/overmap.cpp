@@ -243,77 +243,7 @@ void load_overmap_specials(JsonObject &jo)
     overmap_special spec;
 
     spec.id = jo.get_string("id");
-    JsonArray om_array = jo.get_array("overmaps");
-    while(om_array.has_more()) {
-        JsonObject om = om_array.next_object();
-        overmap_special_terrain terrain;
-        JsonArray point = om.get_array("point");
-        terrain.p = tripoint(point.get_int(0), point.get_int(1), point.get_int(2));
-        terrain.terrain = oter_str_id( om.get_string( "overmap" ) );
-        JsonArray flagarray = om.get_array("flags");
-        while(flagarray.has_more()) {
-            terrain.flags.insert(flagarray.next_string());
-        }
-        spec.terrains.push_back(terrain);
-    }
-
-    jo.read( "connections", spec.connections );
-
-    JsonArray location_array = jo.get_array("locations");
-    while(location_array.has_more()) {
-        const std::string location = location_array.next_string();
-        const auto iter = special_locations.find( location );
-
-        if( iter != special_locations.end() ) {
-            spec.locations.insert( &iter->second );
-        } else {
-            debugmsg( "Overmap special \"%s\" has invalid location \"%s\".",
-                      spec.id.c_str(), location.c_str() );
-        }
-    }
-    // @todo Generic serializable ranges.
-    const auto get_range_min = []( int n ){
-        return std::max( n, 0 );
-    };
-
-    const auto get_range_max = []( int n ){
-        return n >= 0 ? n : std::numeric_limits<int>::max();
-    };
-
-    JsonArray city_size_array = jo.get_array("city_sizes");
-    if(city_size_array.has_more()) {
-        spec.min_city_size = get_range_min( city_size_array.get_int( 0 ) );
-        spec.max_city_size = get_range_max( city_size_array.get_int( 1 ) );
-    }
-
-    JsonArray occurrences_array = jo.get_array("occurrences");
-    if(occurrences_array.has_more()) {
-        spec.min_occurrences = get_range_min( occurrences_array.get_int( 0 ) );
-        spec.max_occurrences = get_range_max( occurrences_array.get_int( 1 ) );
-    }
-
-    JsonArray city_distance_array = jo.get_array("city_distance");
-    if(city_distance_array.has_more()) {
-        spec.min_city_distance = get_range_min( city_distance_array.get_int( 0 ) );
-        spec.max_city_distance = get_range_max( city_distance_array.get_int( 1 ) );
-    }
-
-    spec.rotatable = jo.get_bool("rotate", false);
-
-    if(jo.has_object("spawns")) {
-        JsonObject spawns = jo.get_object("spawns");
-        spec.spawns.group = mongroup_id( spawns.get_string("group") );
-        spec.spawns.min_population = get_range_min( spawns.get_array( "population" ).get_int( 0 ) );
-        spec.spawns.max_population = get_range_max( spawns.get_array( "population" ).get_int( 1 ) );
-        spec.spawns.min_radius = get_range_min( spawns.get_array("radius").get_int( 0 ) );
-        spec.spawns.max_radius = get_range_max( spawns.get_array("radius").get_int( 1 ) );
-    }
-
-    JsonArray flag_array = jo.get_array("flags");
-    while(flag_array.has_more()) {
-        spec.flags.insert(flag_array.next_string());
-    }
-
+    spec.load( jo, "core" );
     // Remove any existing definition, so mods can override them.
     const auto iter = overmap_specials.find( spec );
     if( iter != overmap_specials.end() ) {
@@ -502,8 +432,7 @@ void load_overmap_terrain(JsonObject &jo)
     if( jo.has_object( "spawns" ) ) {
         JsonObject spawns = jo.get_object( "spawns" );
         oter.static_spawns.group = mongroup_id( spawns.get_string( "group" ) );
-        oter.static_spawns.min_population = spawns.get_array( "population" ).get_int( 0 );
-        oter.static_spawns.max_population = spawns.get_array( "population" ).get_int( 1 );
+        spawns.read( "population", oter.static_spawns.population );
         oter.static_spawns.chance = spawns.get_int( "chance" );
     }
 
@@ -1020,7 +949,7 @@ bool overmap_special::can_be_placed_on( const oter_id &oter ) const
 
 bool overmap_special::requires_city() const
 {
-    return min_city_size > 0 || max_city_distance < std::max( OMAPX, OMAPY );
+    return city_size.min > 0 || city_distance.max < std::max( OMAPX, OMAPY );
 }
 
 bool overmap_special::can_belong_to_city( const tripoint &p, const city &cit ) const
@@ -1028,11 +957,36 @@ bool overmap_special::can_belong_to_city( const tripoint &p, const city &cit ) c
     if( !requires_city() ) {
         return true;
     }
-    if( !cit || cit.s < min_city_size || cit.s > max_city_size ) {
+    if( !cit || !city_size.contains( cit.s ) ) {
         return false;
     }
-    const int dist = cit.get_distance_from( p );
-    return dist >= min_city_distance && dist <= max_city_distance;
+    return city_distance.contains( cit.get_distance_from( p ) );
+}
+
+void overmap_special::load( JsonObject &jo, const std::string & )
+{
+    jo.read( "overmaps", terrains );
+    jo.read( "connections", connections );
+
+    std::vector<std::string> tmp_locations;
+    jo.read( "locations", tmp_locations );
+    for( const std::string &elem : tmp_locations ) {
+        const auto iter = special_locations.find( elem );
+
+        if( iter != special_locations.end() ) {
+            locations.insert( &iter->second );
+        } else {
+            debugmsg( "Overmap special \"%s\" has invalid location \"%s\".",
+                      id.c_str(), elem.c_str() );
+        }
+    }
+
+    jo.read( "city_sizes", city_size );
+    jo.read( "occurrences", occurrences );
+    jo.read( "city_distance", city_distance );
+    jo.read( "rotate", rotatable );
+    jo.read( "spawns", spawns );
+    jo.read( "flags", flags );
 }
 
 void overmap_special::check()
@@ -4027,8 +3981,8 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
     // Place spawns.
     if( special.spawns.group ) {
         const overmap_special_spawns& spawns = special.spawns;
-        const int pop = rng(spawns.min_population, spawns.max_population);
-        const int rad = rng(spawns.min_radius, spawns.max_radius);
+        const int pop = rng( spawns.population.min, spawns.population.max );
+        const int rad = rng( spawns.radius.min, spawns.radius.max );
         add_mon_group(mongroup(spawns.group, p.x * 2, p.y * 2, p.z, rad, pop));
     }
 }
@@ -4081,8 +4035,8 @@ void overmap::place_specials()
 
     // Fill the vectors with valid specials.
     for( const auto &elem : get_enabled_specials() ) {
-        const int min = elem->min_occurrences;
-        const int max = elem->max_occurrences;
+        const int min = elem->occurrences.min;
+        const int max = elem->occurrences.max;
 
         if( max == 0 || min > max ) {
             continue;
