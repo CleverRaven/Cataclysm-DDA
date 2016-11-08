@@ -58,7 +58,7 @@ using mtype_id = string_id<mtype>;
 struct projectile;
 struct veh_collision;
 class tileray;
-struct harvest_list;
+class harvest_list;
 using harvest_id = string_id<harvest_list>;
 
 // TODO: This should be const& but almost no functions are const
