@@ -1,6 +1,7 @@
 #include "overmap.h"
 
 #include "coordinate_conversions.h"
+#include "generic_factory.h"
 #include "overmap_types.h"
 #include "rng.h"
 #include "line.h"
@@ -60,6 +61,9 @@
 enum oter_dir {
     oter_dir_north, oter_dir_east, oter_dir_west, oter_dir_south
 };
+
+template<>
+const string_id<overmap_special> string_id<overmap_special>::NULL_ID( "", 0 );
 
 #include "omdata.h"
 ////////////////
@@ -132,7 +136,12 @@ std::unordered_map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
 t_regional_settings_map region_settings_map;
 
-std::set<overmap_special> overmap_specials;
+namespace
+{
+
+generic_factory<overmap_special> specials( "overmap special" );
+
+}
 
 /*
  * Temporary container id_or_id. Stores str for delayed lookup and conversion.
@@ -238,23 +247,19 @@ bool operator>=( const int_id<oter_t> &lhs, const char *rhs )
     return it != otermap.end() && it->second.loadid >= lhs;
 }
 
-void load_overmap_specials(JsonObject &jo)
+void overmap_specials::load( JsonObject &jo, const std::string &src )
 {
-    overmap_special spec;
-
-    spec.id = jo.get_string("id");
-    spec.load( jo, "core" );
-    // Remove any existing definition, so mods can override them.
-    const auto iter = overmap_specials.find( spec );
-    if( iter != overmap_specials.end() ) {
-        overmap_specials.erase( iter );
-    }
-    overmap_specials.insert(spec);
+    specials.load( jo, src );
 }
 
-void clear_overmap_specials()
+void overmap_specials::check_consistency()
 {
-    overmap_specials.clear();
+    specials.check();
+}
+
+void overmap_specials::reset()
+{
+    specials.reset();
 }
 
 bool is_river(const oter_id &ter)
@@ -560,11 +565,6 @@ void finalize_overmap_terrain( )
 
     for( auto &elem : region_settings_map ) {
         elem.second.setup();
-    }
-
-    for( auto &elem : overmap_specials ) {
-        // This cast is safe as long as we don't modify id of the special.
-        const_cast<overmap_special &>( elem ).check();
     }
 }
 
@@ -965,11 +965,10 @@ bool overmap_special::can_belong_to_city( const tripoint &p, const city &cit ) c
 
 void overmap_special::load( JsonObject &jo, const std::string & )
 {
-    jo.read( "overmaps", terrains );
-    jo.read( "connections", connections );
+    mandatory( jo, was_loaded, "overmaps", terrains );
 
     std::vector<std::string> tmp_locations;
-    jo.read( "locations", tmp_locations );
+    mandatory( jo, was_loaded, "locations", tmp_locations );
     for( const std::string &elem : tmp_locations ) {
         const auto iter = special_locations.find( elem );
 
@@ -981,15 +980,17 @@ void overmap_special::load( JsonObject &jo, const std::string & )
         }
     }
 
-    jo.read( "city_sizes", city_size );
-    jo.read( "occurrences", occurrences );
-    jo.read( "city_distance", city_distance );
-    jo.read( "rotate", rotatable );
-    jo.read( "spawns", spawns );
-    jo.read( "flags", flags );
+    mandatory( jo, was_loaded, "occurrences", occurrences );
+
+    optional( jo, was_loaded, "connections", connections );
+    optional( jo, was_loaded, "city_sizes", city_size );
+    optional( jo, was_loaded, "city_distance", city_distance );
+    optional( jo, was_loaded, "rotate", rotatable, false );
+    optional( jo, was_loaded, "spawns", spawns );
+    optional( jo, was_loaded, "flags", flags );
 }
 
-void overmap_special::check()
+void overmap_special::check() const
 {
     // Update and check terrains and connections.
     std::set<tripoint> points;
@@ -2532,9 +2533,9 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 }
             } else {
                 pmenu.title = "Select special to place:";
-                for( const overmap_special &special : overmap_specials ) {
-                    oslist.push_back( &special );
-                    pmenu.addentry( oslist.size()-1, true, 0, special.id );
+                for( const auto &elem : specials.get_all() ) {
+                    oslist.push_back( &elem );
+                    pmenu.addentry( oslist.size()-1, true, 0, elem.id.str() );
                 }
             }
             pmenu.return_invalid = true;
@@ -3992,8 +3993,8 @@ std::vector<const overmap_special *> overmap::get_enabled_specials() const
     const bool only_classic = get_world_option<bool>( "CLASSIC_ZOMBIES" );
     std::vector<const overmap_special *> res;
 
-    res.reserve( overmap_specials.size() );
-    for( auto &elem : overmap_specials ) {
+    res.reserve( specials.size() );
+    for( const auto &elem : specials.get_all() ) {
         if( !elem.locations.empty() && ( !only_classic || elem.flags.count( "CLASSIC" ) > 0 ) ) {
             res.push_back( &elem );
         }

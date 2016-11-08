@@ -155,9 +155,6 @@ struct overmap_special_connection : public JsonDeserializer {
 class overmap_special
 {
     public:
-        bool operator<( const overmap_special &right ) const {
-            return ( this->id.compare( right.id ) < 0 );
-        }
         /** Returns terrain at the given point. */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
         /**
@@ -169,12 +166,8 @@ class overmap_special
         bool requires_city() const;
         /** Returns whether the special at @ref p can belong to the specified city. */
         bool can_belong_to_city( const tripoint &p, const city &cit ) const;
-        /** Loads the object. */
-        void load( JsonObject &jo, const std::string &src );
-        /** Checks the object. */
-        void check();
 
-        std::string id;
+        string_id<overmap_special> id;
         std::list<overmap_special_terrain> terrains;
         std::vector<overmap_special_connection> connections;
 
@@ -186,11 +179,21 @@ class overmap_special
         overmap_special_spawns spawns;
         std::set<const overmap_special_location *> locations;
         std::set<std::string> flags;
+
+        // Used by generic_factory
+        bool was_loaded = false;
+        void load( JsonObject &jo, const std::string &src );
+        void check() const;
 };
 
-void load_overmap_specials( JsonObject &jo );
+namespace overmap_specials
+{
 
-void clear_overmap_specials();
+void load( JsonObject &jo, const std::string &src );
+void check_consistency();
+void reset();
+
+}
 
 // Overmap "Zones"
 // Areas which have special post-generation processing attached to them
