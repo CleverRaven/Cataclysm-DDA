@@ -5192,6 +5192,48 @@
     "flags": [ "LIGHT_10", "TRADER_AVOID" ]
   },
   {
+    "id": "cell_phone",
+    "type": "TOOL",
+    "name": "cell phone",
+    "name_plural": "cell phones (off)",
+    "description": "This is a typical cell phone but features an LED for use as a flash.  Using this cellphone will turn it on and provide light, assuming it is charged with batteries.",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "weight": 226,
+    "volume": 1,
+    "price": 10000,
+    "price_postapoc": 2000,
+    "max_charges": 100,
+    "initial_charges": 100,
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "use_action": {
+        "type": "transform",
+        "msg": "You activate the flashlight app.",
+        "target": "cell_phone_flashlight",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The cellphones's batteries are dead."
+    },
+    "flags" : ["WATCH", "ALARMCLOCK"]
+  },
+  {
+    "id": "cell_phone_flashlight",
+    "copy-from": "cell_phone",
+    "type": "TOOL",
+    "name": "cell phone - Flashlight",
+    "name_plural": "cell phones - Flashlight",
+    "turns_per_charge": 30,
+    "revert_to": "cell_phone",
+    "use_action": {
+        "type": "transform",
+        "msg": "You deactivate the flashlight app.",
+        "target": "cell_phone"
+    },
+    "flags": [ "LIGHT_30", "CHARGEDIM", "TRADER_AVOID" ]
+  },
+  {
     "id": "permanent_marker",
     "type": "TOOL",
     "name": "permanent marker",
