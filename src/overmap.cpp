@@ -2345,12 +2345,17 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     mvwprintz(wbar, getmaxy(wbar) - 1, 1, c_red,
               _("LEVEL %i, %d'%d, %d'%d"), z, om.x, omt.x, om.y, omt.y);
 
-    // draw nice crosshair around the cursor
-    if( blink && !uistate.place_terrain && !uistate.place_special ) {
-        mvwputch(w, om_half_height-1, om_half_width-1, c_ltgray, LINE_OXXO);
-        mvwputch(w, om_half_height-1, om_half_width+1, c_ltgray, LINE_OOXX);
-        mvwputch(w, om_half_height+1, om_half_width-1, c_ltgray, LINE_XXOO);
-        mvwputch(w, om_half_height+1, om_half_width+1, c_ltgray, LINE_XOOX);
+    // This small chunk of code checks for menu option to toggle a large overmap cursor
+    bool overmap_large_cursor = get_option<bool>( "OVERMAP_LARGE_CURSOR" );
+    if (overmap_large_cursor) {
+
+        // draw nice crosshair around the cursor
+        if( blink && !uistate.place_terrain && !uistate.place_special ) {
+            mvwputch(w, om_half_height-1, om_half_width-1, c_ltgray, LINE_OXXO);
+            mvwputch(w, om_half_height-1, om_half_width+1, c_ltgray, LINE_OOXX);
+            mvwputch(w, om_half_height+1, om_half_width-1, c_ltgray, LINE_XXOO);
+            mvwputch(w, om_half_height+1, om_half_width+1, c_ltgray, LINE_XOOX);
+        }
     }
     // Done with all drawing!
     wrefresh(wbar);
