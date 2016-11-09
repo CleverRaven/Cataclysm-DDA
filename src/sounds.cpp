@@ -22,6 +22,7 @@
 #include "itype.h"
 #include <chrono>
 #include <algorithm>
+#include <cmath>
 
 #ifdef SDL_SOUND
 #   include <SDL_mixer.h>
@@ -32,6 +33,13 @@
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+
+#define MIN_VOL_FOR_HORDES_CAP 20
+#define PER_LEVEL_DOWN_VOL_REDUCE_COEF_FOR_HORDES 2
+#define MIN_VOL_FOR_HORDES 0
+#define MAX_VOL_FOR_HORDES 180
+#define MIN_SIG_POWER_FOR_HORDES 0
+#define MAX_SIG_POWER_FOR_HORDES 8
 
 weather_type previous_weather;
 int prev_hostiles = 0;
@@ -162,7 +170,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
 
 void sounds::process_sounds()
 {
-    std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
+	std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
     const int weather_vol = weather_data( g->weather ).sound_attn;
     for( const auto &this_centroid : sound_clusters ) {
         // Since monsters don't go deaf ATM we can just use the weather modified volume
@@ -172,10 +180,14 @@ void sounds::process_sounds()
         const tripoint source = tripoint( this_centroid.x, this_centroid.y, this_centroid.z );
         // --- Monster sound handling here ---
         // Alert all hordes
-        if( vol > 20 && g->get_levz() == 0 ) {
-            int sig_power = ( ( vol > 140 ) ? 140 : vol );
-            // With this, volume 100 reaches 20 overmap tiles away.
-            sig_power /= 5;
+		int vol_hordes=( (g->get_levz() < 0 ) ? vol/(PER_LEVEL_DOWN_VOL_REDUCE_COEF_FOR_HORDES*std::abs(g->get_levz())) : vol);//Lower the level- lower the sound
+		//debugmsg( "vol_hordes %d  g->get_levz() %d ",vol_hordes, g->get_levz());
+        if( vol_hordes > MIN_VOL_FOR_HORDES_CAP /*&& g->get_levz() == 0*/ ) {
+            vol_hordes = ( (vol_hordes > MAX_VOL_FOR_HORDES ) ? MAX_VOL_FOR_HORDES : vol_hordes);
+            // Formula for hordes hearing. Normalazing [MIN_VOL_FOR_HORDES,MAX_VOL_FOR_HORDES] ==> [MIN_SIG_POWER_FOR_HORDES-MAX_SIG_POWER_FOR_HORDES]
+            int sig_power = (vol_hordes-MIN_VOL_FOR_HORDES)*(MAX_SIG_POWER_FOR_HORDES-MIN_SIG_POWER_FOR_HORDES)/(MAX_VOL_FOR_HORDES-MIN_VOL_FOR_HORDES)+MIN_SIG_POWER_FOR_HORDES;
+			sig_power=( (sig_power <0 ) ? 0: sig_power);// Signal to hordes can't be lower than zero			
+			//debugmsg( "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power);
             const point abs_ms = g->m.getabs( source.x, source.y );
             const point abs_sm = ms_to_sm_copy( abs_ms );
             const tripoint target( abs_sm.x, abs_sm.y, source.z );
