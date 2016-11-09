@@ -1070,20 +1070,6 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     }
 }
 
-void Item_factory::load( islot_spawn &slot, JsonObject &jo, const std::string & )
-{
-    if( jo.has_array( "rand_charges" ) ) {
-        JsonArray jarr = jo.get_array( "rand_charges" );
-        while( jarr.has_more() ) {
-            slot.rand_charges.push_back( jarr.next_long() );
-        }
-        if( slot.rand_charges.size() == 1 ) {
-            // see item::item(...) for the use of this array
-            jarr.throw_error( "a rand_charges array with only one entry will be ignored, it needs at least 2 entries!" );
-        }
-    }
-}
-
 void Item_factory::load_gun( JsonObject &jo, const std::string &src )
 {
     itype def;
@@ -1130,6 +1116,20 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
     assign( jo, "revert_to", slot.revert_to, strict );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
+
+    if( jo.has_array( "rand_charges" ) ) {
+        JsonArray jarr = jo.get_array( "rand_charges" );
+        if( jo.has_member( "initial_charges" ) ) {
+            jarr.throw_error( "You can have a fixed initial amount of charges, or randomized. Not both." );
+        }
+        while( jarr.has_more() ) {
+            slot.rand_charges.push_back( jarr.next_long() );
+        }
+        if( slot.rand_charges.size() == 1 ) {
+            // see item::item(...) for the use of this array
+            jarr.throw_error( "a rand_charges array with only one entry will be ignored, it needs at least 2 entries!" );
+        }
+    }
 }
 
 void Item_factory::load_tool( JsonObject &jo, const std::string &src )
@@ -1138,7 +1138,6 @@ void Item_factory::load_tool( JsonObject &jo, const std::string &src )
     if( load_definition( jo, src, def ) ) {
         load_slot( def.tool, jo, src );
         load_basic_info( jo, def, src );
-        load_slot( def.spawn, jo, src ); // @todo deprecate
     }
 }
 
@@ -1188,7 +1187,6 @@ void Item_factory::load_tool_armor( JsonObject &jo, const std::string &src )
         load_slot( def.tool, jo, src );
         load_slot( def.armor, jo, src );
         load_basic_info( jo, def, src );
-        load_slot( def.spawn, jo, src ); // @todo deprecate
     }
 }
 
@@ -1644,7 +1642,6 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     load_slot_optional( def.book, jo, "book_data", src );
     load_slot_optional( def.gun, jo, "gun_data", src );
     load_slot_optional( def.bionic, jo, "bionic_data", src );
-    load_slot_optional( def.spawn, jo, "spawn_data", src );
     load_slot_optional( def.ammo, jo, "ammo_data", src );
     load_slot_optional( def.seed, jo, "seed_data", src );
     load_slot_optional( def.artifact, jo, "artifact_data", src );

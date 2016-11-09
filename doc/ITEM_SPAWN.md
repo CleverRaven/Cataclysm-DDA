@@ -157,10 +157,10 @@ Instead of a full JSON object, one can also write a JSON array. The default subt
 ----
 
 You can test your item groups in the game:
-- enable the debug menu (use '?' -> '1' to go to the keybindings and bind a key to "Debug menu"),
-- load a game and call the debug menu,
-- choose "item spawn debug".
+- load a game and call the debug menu, (If a key isn't bound to the debug menu or you forgot it, use <ESC> -> '1')
+- choose "Test Item Group".
 - select the item group you want to debug. It will spawn items based on that 100 times and count the spawned items. They are displayed, sorted by their frequency.
+- You can filter anything in the debug menu using '/'
 
 ----
 
