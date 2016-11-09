@@ -254,6 +254,16 @@ void overmap_specials::load( JsonObject &jo, const std::string &src )
 
 void overmap_specials::check_consistency()
 {
+    const size_t max_count = ( OMAPX / OMSPEC_FREQ ) * ( OMAPY / OMSPEC_FREQ ) / 2;
+    const size_t actual_count = std::accumulate(  specials.get_all().begin(), specials.get_all().end(), 0,
+    []( size_t sum, const overmap_special &elem ) {
+        return sum + ( elem.flags.count( "UNIQUE" ) == 0 ? std::max( elem.occurrences.min, 0 ) : 1 );
+    } );
+
+    if( actual_count > max_count ) {
+        debugmsg( "There are too many mandatory overmap specials (%d > %d). Some of them may not be placed.", actual_count, max_count );
+    }
+
     specials.check();
 }
 
@@ -4129,7 +4139,7 @@ void overmap::place_specials()
         []( const std::pair<const overmap_special *, int> &elem ) {
             return string_format( "%s (%d)", elem.first->id.c_str(), elem.second );
         } );
-        DebugLog( D_WARNING, D_MAP_GEN ) << string_format( "Couldn't place mandatory overmap specials: %s.", unplaced.c_str() );
+        dbg( D_WARNING ) << string_format( "couldn't place mandatory overmap specials: %s.", unplaced.c_str() );
     }
 }
 
