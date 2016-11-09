@@ -1,5 +1,13 @@
 [
   {
+    "id": "ammo_357",
+    "type": "requirement",
+    "components": [
+      [ [ "357_mag_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ]
+    ]
+  },
+  {
     "id": "ammo_410",
     "type": "requirement",
     "//": "Components required for .410 bore shotshell",
