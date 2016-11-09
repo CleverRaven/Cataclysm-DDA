@@ -1297,15 +1297,30 @@ bool advanced_inventory::move_all_items(bool nested_call)
             begin = g->m.i_at( sarea.pos ).begin();
             end = g->m.i_at( sarea.pos ).end();
         }
+
+        // If moving to inventory, worn, or vehicle, silently filter buckets
+        // Moving them would cause tons of annoying prompts or spills
+        bool filter_buckets = dpane.get_area() == AIM_INVENTORY ||
+                              dpane.get_area() == AIM_WORN ||
+                              dpane.in_vehicle();
+        bool filtered_any_bucket = false;
         // push back indices and item count[s] for [begin => end)
         int index = 0;
         for(auto item_it = begin; item_it != end; ++item_it, ++index) {
-            if(spane.is_filtered(&(*item_it))) {
+            if( spane.is_filtered( &( *item_it ) ) ) {
+                continue;
+            }
+            if( filter_buckets && item_it->is_bucket_nonempty() ) {
+                filtered_any_bucket = true;
                 continue;
             }
             int amount = (item_it->count_by_charges() == true) ? item_it->charges : 1;
             g->u.activity.values.push_back(index);
             g->u.activity.values.push_back(amount);
+        }
+
+        if( filtered_any_bucket ) {
+            add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
         }
     }
     // if dest was AIM_ALL then we used query_destination and should undo that
@@ -1931,37 +1946,39 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
     }
 
     assert( destarea != AIM_ALL ); // should be a specific location instead
-    bool rc = true;
+    const char *msg = nullptr;
 
     while(count > 0) {
-        if( destarea == AIM_INVENTORY ) {
-            g->u.i_add( new_item );
+        // @todo Make it use same exact methods as regular pickup
+        if( ( destarea == AIM_INVENTORY || destarea == AIM_WORN || panes[dest].in_vehicle() ) &&
+            new_item.is_bucket_nonempty() &&
+            !query_yn( _( "Spill contents of %s?" ), new_item.tname().c_str() ) ) {
+            break;
+        } else if( destarea == AIM_INVENTORY ) {
+            const item &added = g->u.i_add( new_item );
             g->u.moves -= 100;
+            if( added.is_null() ) {
+                msg = _("You don't have enough room for that!");
+            }
         } else if( destarea == AIM_WORN ) {
-            rc = g->u.wear_item(new_item);
+            if( !g->u.wear_item( new_item ) ) {
+                msg = _("You can't wear any more of that!");
+            }
         } else {
             advanced_inv_area &p = squares[destarea];
+            bool added = true;
             if( panes[dest].in_vehicle() ) {
-                rc &= p.veh->add_item( p.vstor, new_item );
+                added = p.veh->add_item( p.vstor, new_item );
             } else {
-                rc &= !g->m.add_item_or_charges( p.pos, new_item, false ).is_null();
+                added = !g->m.add_item_or_charges( p.pos, new_item, false ).is_null();
+            }
+            
+            if( !added ) {
+                msg = _("Destination area is full.  Remove some items first");
             }
         }
         // show a message to why we can't add the item
-        if(rc == false) {
-            const char *msg = nullptr;
-            switch(destarea) {
-                case AIM_WORN:
-                    msg = _("You can't wear any more of that!");
-                    break;
-                case AIM_INVENTORY:
-                    msg = _("You don't have enough room for that!");
-                    break;
-                default:
-                    msg = _("Destination area is full.  Remove some items first");
-                    break;
-            }
-            assert(msg != nullptr);
+        if( msg != nullptr ) {
             popup(msg);
             break;
         }
@@ -2386,7 +2403,7 @@ void advanced_inventory::refresh_minimap()
 void advanced_inventory::draw_minimap()
 {
     // if player is in one of the below, invert the player cell
-    static const std::array<aim_location, 3> great_music = {
+    static const std::array<aim_location, 3> player_locations = {
         {AIM_CENTER, AIM_INVENTORY, AIM_WORN}
     };
     static const std::array<side, NUM_PANES> sides = {{left, right}};
@@ -2404,27 +2421,20 @@ void advanced_inventory::draw_minimap()
             invert_color(c_ltcyan) : c_ltcyan | A_BLINK;
         mvwputch(minimap, pt.y, pt.x, static_cast<nc_color>(cl), sym);
     }
-    // the below "routine," if you will, determines whether to invert the
-    // player's cell if it is in one of the tiles in `great_music' above.
 
-    /* I now present to you, a story of killer moves and even chiller grooves */
-    bool is_funky, supah_funky, da_funkiest; // it must be talkin' about this fly guy
-    da_funkiest = supah_funky = is_funky = false; // time to krunk the funky dunk!
-    auto play_a_tune_that = [this, &is_funky] // there we go, now _that's_ funky!
-        (const aim_location &groovy) { // as groovy as this tye-dye?
-            // for maximum groovage, and radical coolage!
-            return groovy == this->panes[(is_funky = !is_funky)].get_area();
-        };
-    for(auto /* jefferson */ &airplane : great_music) {
-        supah_funky = play_a_tune_that(/* on that */ airplane);
-        // listen to the funk in the krunkosphere...
-        da_funkiest = play_a_tune_that(/* under that */ airplane);
-        // ... and groove to those tunes on the krunkwalk!
+    // Invert player's tile color if exactly one pane points to player's tile
+    bool invert_left = false;
+    bool invert_right = false;
+    const auto is_selected = [ this ]( const aim_location &where, size_t side ) {
+        return where == this->panes[ side ].get_area();
+    };
+    for( auto &loc : player_locations ) {
+        invert_left |= is_selected( loc, 0 );
+        invert_right |= is_selected( loc, 1 );
     }
-    if(!(supah_funky && da_funkiest)) { // and remember the funkiest of them all!
-        bool player_is_funky = supah_funky || da_funkiest; // thanks to all the players (and bug-hunters)!
-        g->u.draw(minimap, g->u.pos(), player_is_funky); // and thanks for reading fellow coder! :-)
-        // hope you enjoyed the far out experience, man!    -davek
+
+    if( !invert_left || !invert_right ) {
+        g->u.draw( minimap, g->u.pos(), invert_left || invert_right );
     }
 }
 
@@ -2520,4 +2530,9 @@ aim_location advanced_inventory::screen_relative_location( aim_location area )
         default :
             return area;
     }
+}
+
+void cancel_aim_processing()
+{
+    uistate.adv_inv_re_enter_move_all = ENTRY_START;
 }
