@@ -99,6 +99,47 @@ bool operator<=( const oter_id &lhs, const char *rhs );
 
 typedef oter_id oter_iid;
 
+/** Direction on the overmap. */
+namespace om_direction
+{
+/** Basic enum for directions. */
+enum class type : int {
+    invalid = -1,
+    none,
+    north = none,
+    east,
+    south,
+    west,
+};
+
+/** For the purposes of iteration. */
+const std::array<type, 4> all = {{ type::north, type::east, type::south, type::west }};
+const size_t size = all.size();
+
+/** Human readable name of @param dir. */
+const std::string &name( type dir );
+
+/** Various rotations. */
+point rotate( const point &p, type dir );
+tripoint rotate( const tripoint &p, type dir );
+oter_id rotate( const oter_id &oter, type dir );
+
+/** Returns point(0, 0) displaced in direction @param dir by the @param dist. */
+point displace( type dir, int dist = 1 );
+
+/** Turn by 90 degrees to the left, to the right, or randomly (either left or right). */
+type turn_left( type dir );
+type turn_right( type dir );
+type turn_random( type dir );
+
+/** Returns an opposite direction. */
+type opposite( type dir );
+
+/** Returns a random direction. */
+type random();
+
+};
+
 // LINE_**** corresponds to the ACS_**** macros in ncurses, and are patterned
 // the same way; LINE_NESW, where X indicates a line and O indicates no line
 // (thus, LINE_OXXX looks like 'T'). LINE_ is defined in output.h.  The ACS_

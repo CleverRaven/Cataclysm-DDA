@@ -261,11 +261,9 @@ class overmap
      */
     static point display_notes(int z);
     /**
-     * Dummy value, used to indicate that a point/rotation returned by a function
-     * is invalid.
+     * Dummy value, used to indicate that a point returned by a function is invalid.
      */
     static const tripoint invalid_tripoint;
-    static const int invalid_rotation = -1;
     /**
      * Return a vector containing the absolute coordinates of
      * every matching note on the current z level of the current overmap.
@@ -307,8 +305,6 @@ class overmap
     static tripoint draw_overmap(int z);
 
     static tripoint draw_editor();
-
-    static oter_id rotate(const oter_id &oter, int dir);
 
     /** Returns the (0, 0) corner of the overmap in the global coordinates. */
     point global_base_point() const;
@@ -409,21 +405,26 @@ public:
             const tripoint &orig, bool blink, bool showExplored,
             input_context* inp_ctxt, const draw_data_t &data);
 
+    oter_id random_shop() const;
+    oter_id random_park() const;
+    oter_id random_house() const;
+
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();
   // City Building
   void place_cities();
-  void put_buildings(int x, int y, int dir, city town);
-  void make_road(int cx, int cy, int cs, int dir, city town);
+  void put_building( int x, int y, om_direction::type dir, const city &town );
+
+  void build_city_street( int cx, int cy, int cs, om_direction::type dir, const city &town );
   bool build_lab(int x, int y, int z, int s, bool ice = false);
   void build_anthill(int x, int y, int z, int s);
-  void build_tunnel(int x, int y, int z, int s, int dir);
+  void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
   bool build_slimepit(int x, int y, int z, int s);
   void build_mine(int x, int y, int z, int s);
   void place_rifts(int const z);
   // Connection highways
-  void place_hiways(std::vector<city> cities, int z, const std::string &base);
+  void place_hiways( const std::vector<city> &cities, int z, const std::string &base );
   void make_hiway(int x1, int y1, int x2, int y2, int z, const std::string &base);
   // Polishing
   bool check_ot_type(const std::string &otype, int x, int y, int z) const;
@@ -440,8 +441,8 @@ public:
   // Check OMAPX, OMAPY, and OMSPEC_FREQ to learn actual values.
   std::vector<point> get_sectors() const;
 
-  int random_special_rotation( const overmap_special &special, const tripoint &p ) const;
-  void place_special( const overmap_special &special, const tripoint &p, int rotation, const city &cit );
+  om_direction::type random_special_rotation( const overmap_special &special, const tripoint &p ) const;
+  void place_special( const overmap_special &special, const tripoint &p, om_direction::type dir, const city &cit );
   // Monsters, radios, etc.
   void place_specials();
   void place_mongroups();
@@ -471,7 +472,5 @@ void finalize_overmap_terrain();
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);
-
-inline tripoint rotate_tripoint( tripoint p, int rotations );
 
 #endif
