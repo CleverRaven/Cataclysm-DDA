@@ -982,7 +982,7 @@ size_t inventory_selector::get_footer_min_width() const
 
 void inventory_selector::draw_header( WINDOW *w ) const
 {
-    trim_and_print( w, 0, screen_border_gap, getmaxx( w ) - screen_border_gap, c_ltgray, "%s", title.c_str() );
+    trim_and_print( w, 0, screen_border_gap, getmaxx( w ) - screen_border_gap, c_white, "%s", title.c_str() );
     trim_and_print( w, 1, screen_border_gap, getmaxx( w ) - screen_border_gap, c_dkgray, "%s", hint.c_str() );
 
     mvwhline( w, get_header_height(), 0, LINE_OXOX, getmaxx( w ) );

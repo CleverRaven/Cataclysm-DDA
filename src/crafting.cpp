@@ -1092,7 +1092,7 @@ bool player::can_disassemble( const item &obj, const inventory &inv, bool alert 
 bool player::disassemble( int dis_pos )
 {
     if( dis_pos == INT_MAX ) {
-        dis_pos = g->inv_for_all( _( "Disassemble item:" ),
+        dis_pos = g->inv_for_all( _( "Disassemble item" ),
                                   _( "You don't have any items to disassemble." ) );
     }
     if( dis_pos == INT_MIN ) {
