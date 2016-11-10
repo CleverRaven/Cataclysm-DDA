@@ -34,12 +34,12 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
-#define MIN_VOL_FOR_HORDES_CAP 20
+#define MIN_VOL_FOR_HORDES_CAP 61
 #define PER_LEVEL_DOWN_VOL_REDUCE_COEF_FOR_HORDES 2
-#define MIN_VOL_FOR_HORDES 0
-#define MAX_VOL_FOR_HORDES 180
-#define MIN_SIG_POWER_FOR_HORDES 0
-#define MAX_SIG_POWER_FOR_HORDES 8
+#define MIN_VOL_FOR_HORDES 61
+#define MAX_VOL_FOR_HORDES 200
+#define MIN_SIG_POWER_FOR_HORDES 4
+#define MAX_SIG_POWER_FOR_HORDES 9
 
 weather_type previous_weather;
 int prev_hostiles = 0;
@@ -187,7 +187,7 @@ void sounds::process_sounds()
             // Formula for hordes hearing. Normalazing [MIN_VOL_FOR_HORDES,MAX_VOL_FOR_HORDES] ==> [MIN_SIG_POWER_FOR_HORDES-MAX_SIG_POWER_FOR_HORDES]
             int sig_power = (vol_hordes-MIN_VOL_FOR_HORDES)*(MAX_SIG_POWER_FOR_HORDES-MIN_SIG_POWER_FOR_HORDES)/(MAX_VOL_FOR_HORDES-MIN_VOL_FOR_HORDES)+MIN_SIG_POWER_FOR_HORDES;
 			sig_power=( (sig_power <0 ) ? 0: sig_power);// Signal to hordes can't be lower than zero			
-			//debugmsg( "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power);
+			debugmsg( "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power);
             const point abs_ms = g->m.getabs( source.x, source.y );
             const point abs_sm = ms_to_sm_copy( abs_ms );
             const tripoint target( abs_sm.x, abs_sm.y, source.z );
