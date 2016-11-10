@@ -1163,8 +1163,7 @@
     "components": [
       [ [ "scrap", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "battery", 100 ] ]
+      [ [ "processor", 1 ] ]
     ]
   },
   {
