@@ -11843,7 +11843,7 @@
   "flags": ["BLIND_HARD"],
   "components": [
     [
-      [ "bum_wine", 6 ],
+      [ "bum_wine", 2 ],
       [ "wine_cabernet", 2 ],
       [ "wine_noir", 2 ]
     ],
