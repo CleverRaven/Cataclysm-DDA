@@ -39,7 +39,7 @@
 #define MIN_VOL_FOR_HORDES 61
 #define MAX_VOL_FOR_HORDES 200
 #define MIN_SIG_POWER_FOR_HORDES 4
-#define MAX_SIG_POWER_FOR_HORDES 9
+#define MAX_SIG_POWER_FOR_HORDES 8
 
 weather_type previous_weather;
 int prev_hostiles = 0;
