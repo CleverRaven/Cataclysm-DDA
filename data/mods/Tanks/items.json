@@ -28,6 +28,7 @@
     "name": "30mm autocannon belt linkage",
     "weight": 6,
     "volume": "10ml",
+    "stackable": true,
     "use_action": {
       "type": "ammobelt",
       "belt": "belt30mm"
