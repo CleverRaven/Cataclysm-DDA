@@ -2069,11 +2069,11 @@
         "symbol": "{",
         "color": "light_red",
         "move_cost_mod": -1,
-        "required_str": 30,
+        "required_str": 90,
         "flags": ["SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD"],
         "examine_action": "vending",
         "bash": {
-            "str_min": 40, "str_max": 200,
+            "str_min": 150, "str_max": 520,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "furn_set": "f_vending_o",
