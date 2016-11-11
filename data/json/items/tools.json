@@ -6954,7 +6954,7 @@
       "mod_targets": [ "shotgun", "rifle" ],
       "dispersion": 20,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
-      "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
+      "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ]
     },
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
