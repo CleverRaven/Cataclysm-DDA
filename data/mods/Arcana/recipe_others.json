@@ -513,12 +513,14 @@
     ],
     [ [ "feather", -1 ] ]
   ],
+  "//": "Dull essence is permitted at slightly reduced efficency, since curious structures have this on their book list.",
   "components": [
     [ [ "scroll_blank", 1 ] ],
     [ [ "copper", 8 ] ],
     [
       [ "essence", 1 ],
-      [ "essence_blood", 3 ]
+      [ "essence_blood", 3 ],
+      [ "essence_dull", 16 ]
     ]
   ]
 },{
@@ -545,7 +547,8 @@
     [ [ "tin", 8 ] ],
     [
       [ "essence", 1 ],
-      [ "essence_blood", 3 ]
+      [ "essence_blood", 3 ],
+      [ "essence_dull", 16 ]
     ]
   ]
 },{
@@ -572,7 +575,8 @@
     [ [ "material_limestone", 12 ] ],
     [
       [ "essence", 2 ],
-      [ "essence_blood", 6 ]
+      [ "essence_blood", 6 ],
+      [ "essence_dull", 32 ]
     ]
   ]
 },{
@@ -599,7 +603,8 @@
     [ [ "plant_fibre", 12 ] ],
     [
       [ "essence", 2 ],
-      [ "essence_blood", 6 ]
+      [ "essence_blood", 6 ],
+      [ "essence_dull", 32 ]
     ]
   ]
 },{
@@ -626,7 +631,8 @@
     [ [ "chem_black_powder", 16 ] ],
     [
       [ "essence", 3 ],
-      [ "essence_blood", 9 ]
+      [ "essence_blood", 9 ],
+      [ "essence_dull", 47 ]
     ]
   ]
 },{
@@ -653,7 +659,8 @@
     [ [ "meal_bone_tainted", 16 ] ],
     [
       [ "essence", 3 ],
-      [ "essence_blood", 9 ]
+      [ "essence_blood", 9 ],
+      [ "essence_dull", 47 ]
     ]
   ]
 }
