@@ -21,7 +21,8 @@
     "capacity": 150,
     "count": 50,
     "linkage": "ammolink30mm"
-  },{
+  },
+  {
     "id": "ammolink30mm",
     "copy-from": "ammolink",
     "type": "GENERIC",
@@ -33,7 +34,8 @@
       "type": "ammobelt",
       "belt": "belt30mm"
     }
-  },{
+  },
+  {
   "type" : "AMMO",
   "id" : "30mm_hedp",
   "price" : 15500,
@@ -55,7 +57,8 @@
   "recoil" : 8000,
   "count" : 15,
   "effects" : ["COOKOFF", "FRAG"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "30mm_hei",
   "price" : 15500,
@@ -77,7 +80,8 @@
   "recoil" : 8000,
   "count" : 15,
   "effects" : ["COOKOFF", "NAPALM", "EXPLOSIVE_SMALL"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "30mm_slug",
   "price" : 1550,
@@ -99,7 +103,8 @@
   "recoil" : 8000,
   "count" : 10,
   "effects" : ["COOKOFF", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "120mm_usable_heat",
   "price" : 100000,
@@ -120,7 +125,8 @@
   "recoil" : 6000,
   "count" : 1,
   "effects" : ["COOKOFF", "EXPLOSIVE", "TRAIL"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "120mm_usable_ap",
   "price" : 120000,
@@ -141,7 +147,8 @@
   "recoil" : 5000,
   "count" : 1,
   "effects" : ["COOKOFF", "INCENDIARY", "TRAIL"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "120mm_usable_shot",
   "price" : 10000,
@@ -162,7 +169,8 @@
   "recoil" : 7500,
   "count" : 1,
   "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "120mm_usable_slug",
   "price" : 10000,
@@ -183,7 +191,8 @@
   "recoil" : 7500,
   "count" : 1,
   "effects" : ["COOKOFF", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "155mm_heat",
   "price" : 120000,
@@ -204,7 +213,8 @@
   "recoil" : 6000,
   "count" : 1,
   "effects" : ["COOKOFF", "EXPLOSIVE_BIG", "TRAIL"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "155mm_shot",
   "price" : 12000,
@@ -225,7 +235,8 @@
   "recoil" : 6800,
   "count" : 1,
   "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "155mm_slug",
   "price" : 12000,
@@ -246,7 +257,8 @@
   "recoil" : 8000,
   "count" : 1,
   "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "atgm_heat",
   "price" : 70000,
@@ -266,7 +278,8 @@
   "recoil" : 6000,
   "count" : 1,
   "effects" : ["COOKOFF", "EXPLOSIVE", "NEVER_MISFIRES"]
-},{
+  },
+  {
   "type" : "GENERIC",
   "id" : "30mm_casing",
   "copy-from": "artillery_casing",
@@ -274,7 +287,8 @@
   "description" : "A canister from a spent 30mm shell.",
   "volume" : 5,
   "weight" : 20
-},{
+  },
+  {
   "type" : "GENERIC",
   "id" : "120mm_casing",
   "copy-from": "artillery_casing",
@@ -284,7 +298,8 @@
   "material" : "steel",
   "volume" : 10,
   "weight" : 300
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "155mm_casing",
   "copy-from" : "artillery_casing",
@@ -292,7 +307,8 @@
   "description" : "A large canister from a spent 155mm shell, now an expensive paperweight.",
   "volume" : 15,
   "weight" : 400
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "electric_primer",
   "category" : "spare_parts",
@@ -307,7 +323,8 @@
   "ammo_type" : "components",
   "count" : 10,
   "effects" : ["COOKOFF"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "electric_primer_large",
   "category" : "spare_parts",
@@ -322,7 +339,8 @@
   "ammo_type" : "components",
   "count" : 5,
   "effects" : ["COOKOFF"]
-},{
+  },
+  {
   "id": "30mm_autocannon",
   "type": "GUN",
   "symbol": "(",
@@ -347,7 +365,8 @@
   "magazines": [
       [ "30mm", [ "belt30mm" ] ]
   ]
-},{
+  },
+  {
   "id": "tank_gun_manual",
   "type": "GUN",
   "symbol": "(",
@@ -370,7 +389,8 @@
   "clip_size": 1,
   "reload": 100,
   "loudness" : 300
-},{
+  },
+  {
   "id": "tank_gun_auto",
   "type": "GUN",
   "symbol": "(",
@@ -393,7 +413,8 @@
   "reload": 100,
   "loudness" : 300,
   "flags" : [ "NO_RELOAD" ]
-},{
+  },
+  {
   "id": "tank_gun_rws",
   "type": "GUN",
   "symbol": "(",
@@ -416,7 +437,8 @@
   "reload": 100,
   "loudness" : 300,
   "flags": [ "NO_RELOAD" ]
-},{
+  },
+  {
   "id": "howitzer_gun",
   "type": "GUN",
   "symbol": "(",
@@ -439,7 +461,8 @@
   "clip_size": 1,
   "reload": 100,
   "loudness" : 400
-},{
+  },
+  {
   "id": "atgm_launcher",
   "type": "GUN",
   "symbol": "(",
@@ -462,7 +485,8 @@
   "clip_size": 1,
   "reload": 100,
   "loudness" : 200
-},{
+  },
+  {
   "id": "atgm_turret",
   "type": "GUN",
   "symbol": "(",
@@ -484,7 +508,8 @@
   "reload": 100,
   "loudness" : 200,
   "flags": [ "NO_RELOAD" ]
-},{
+  },
+  {
   "type" : "BOOK",
   "id" : "textbook_launcher",
   "name" : "Artillery and Field Gunnery",
