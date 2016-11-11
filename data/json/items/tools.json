@@ -6939,7 +6939,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "sword bayonet",
-    "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a shotgun or rifle, converting it into a pike.",
+    "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a firearm or crossbow converting it into a pike.",
     "weight": 923,
     "volume": 7,
     "price": 25000,
@@ -6951,7 +6951,7 @@
     "color": "light_gray",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle" ],
+      "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
       "dispersion_modifier": 20,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ]
