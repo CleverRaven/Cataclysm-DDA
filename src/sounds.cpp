@@ -163,21 +163,21 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
 
 int get_signal_for_hordes(int vol)
 {
-    int min_vol_for_hordes_cap = 61;
-    int per_level_down_vol_reduce_coef_for_hordes = 2;
-    int min_vol_for_hordes = 61;
-    int max_vol_for_hordes = 200;
-    int min_sig_power_for_hordes = 4;
-    int max_sig_power_for_hordes = 8;
+    int min_vol_cap = 67; //Hordes can't hear volume lower than this
+    int per_level_down_coef= 2; //Coeffficient for volume reduction undeground
+    int min_vol = 67;//Min volume for normalization
+    int max_vol = 200;//Max volume for normalization
+    int min_sig_power = 4;//Min signal for normalization
+    int max_sig_power = 8;//Max signal for normalization
     //Lower the level- lower the sound
-    int vol_hordes=( (g->get_levz() < 0 ) ? vol/(per_level_down_vol_reduce_coef_for_hordes*std::abs(g->get_levz())) : vol);
-    //debugmsg( "vol_hordes %d  g->get_levz() %d ",vol_hordes, g->get_levz());
-    if( vol_hordes > min_vol_for_hordes_cap) {
-        vol_hordes = ( (vol_hordes > max_vol_for_hordes ) ? max_vol_for_hordes : vol_hordes);
-        // Formula for hordes hearing. Normalazing [min_vol_for_hordes,max_vol_for_hordes] ==> [min_sig_power_for_hordes,max_sig_power_for_hordes]
-        int sig_power = (vol_hordes-min_vol_for_hordes)*(max_sig_power_for_hordes-min_sig_power_for_hordes)/(max_vol_for_hordes-min_vol_for_hordes)+min_sig_power_for_hordes;
-        sig_power=( (sig_power <min_sig_power_for_hordes ) ? 0: min_sig_power_for_hordes);
-        //debugmsg( "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power);
+    int vol_hordes=( (g->get_levz() < 0 ) ? vol/(per_level_down_coef*std::abs(g->get_levz())) : vol);
+    add_msg( m_debug, "vol_hordes %d  g->get_levz() %d ",vol_hordes, g->get_levz());
+    if( vol_hordes > min_vol_cap) {
+        vol_hordes = ( (vol_hordes > max_vol ) ? max_vol : vol_hordes);
+        // Formula for hordes hearing. Normalazing [min_vol,max_vol] ==> [min_sig_power,max_sig_power]
+        int sig_power = (vol_hordes-min_vol)*(max_sig_power-min_sig_power)/(max_vol-min_vol)+min_sig_power;
+        sig_power=( (sig_power <min_sig_power ) ? 0: min_sig_power);
+        add_msg(m_debug, "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power);
         return sig_power;
     }
     return 0;
@@ -185,16 +185,16 @@ int get_signal_for_hordes(int vol)
 
 int get_signal_for_hordes_simple(int vol)
 {
-    int min_vol_for_hordes_cap = 61;
-    int per_level_down_vol_reduce_coef_for_hordes = 2;
-    int coef_for_hordes = 30;//= 1 overmap tile
+    int min_vol_cap = 67;//Hordes can't hear volume lower than this
+    int per_level_down_coef= 2;//Coeffficient for volume reduction undeground
+    int coef_for_hordes = 22;//Divider coefficent for hordes
     //Lower the level- lower the sound
-    int vol_hordes=( (g->get_levz() < 0 ) ? vol/(per_level_down_vol_reduce_coef_for_hordes*std::abs(g->get_levz())) : vol);
-    //debugmsg( "vol_hordes %d  g->get_levz() %d ",vol_hordes, g->get_levz());
-    if( vol_hordes > min_vol_for_hordes_cap) {
+    int vol_hordes=( (g->get_levz() < 0 ) ? vol/(per_level_down_coef*std::abs(g->get_levz())) : vol);
+    add_msg( m_debug, "vol_hordes %d  g->get_levz() %d ",vol_hordes, g->get_levz());
+    if( vol_hordes > min_vol_cap) {
         //using simple formula
-        int sig_power =vol_hordes/coef_for_hordes +1;
-        //debugmsg( "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power);
+        int sig_power =vol_hordes/coef_for_hordes;
+        add_msg(m_debug, "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power);
         return sig_power;
     }
     return 0;
@@ -202,7 +202,7 @@ int get_signal_for_hordes_simple(int vol)
 
 void sounds::process_sounds()
 {
-	std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
+    std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
     const int weather_vol = weather_data( g->weather ).sound_attn;
     for( const auto &this_centroid : sound_clusters ) {
         // Since monsters don't go deaf ATM we can just use the weather modified volume
