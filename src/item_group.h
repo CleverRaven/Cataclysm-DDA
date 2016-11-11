@@ -172,6 +172,13 @@ class Item_modifier
         void modify(item &it) const;
         void check_consistency() const;
         bool remove_item(const Item_tag &itemid);
+
+        // Currently these always have the same chance as the item group it's part of, but
+        // theoretically it could be defined per-item / per-group.
+        /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
+        int with_ammo;
+        /** Chance [0-100%] for items to spawn with their default magazine (if any) */
+        int with_magazine;
 };
 /**
  * Basic item creator. It contains either the item id directly,
@@ -226,7 +233,7 @@ class Item_group : public Item_spawn_data
             G_DISTRIBUTION
         } Type;
 
-        Item_group(Type type, int probability);
+        Item_group( Type type, int probability, int ammo_chance, int magazine_chance );
         ~Item_group() override;
 
         const Type type;
@@ -250,10 +257,10 @@ class Item_group : public Item_spawn_data
         bool remove_item(const Item_tag &itemid) override;
         bool has_item(const Item_tag &itemid) const override;
 
-        /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
-        int with_ammo = 0;
-        /** Chance [0-100%] for items to spawn with their default magazine (if any) */
-        int with_magazine = 0;
+        /** Every item in this group has this chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
+        const int with_ammo;
+        /** Every item in this group has this chance [0-100%] for items to spawn with their default magazine (if any) */
+        const int with_magazine;
 
     protected:
         /**

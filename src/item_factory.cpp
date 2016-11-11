@@ -551,7 +551,7 @@ void Item_factory::init()
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
-    m_template_groups["EMPTY_GROUP"] = new Item_group( Item_group::G_COLLECTION, 100 );
+    m_template_groups["EMPTY_GROUP"] = new Item_group( Item_group::G_COLLECTION, 100, 0, 0 );
 }
 
 bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype& ammo ) const
@@ -1773,12 +1773,12 @@ void Item_factory::clear()
     item_blacklist.clear();
 }
 
-Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)
+Item_group *make_group_or_throw( Item_spawn_data *&isd, Item_group::Type t, int ammo_chance, int magazine_chance )
 {
 
     Item_group *ig = dynamic_cast<Item_group *>(isd);
     if (ig == NULL) {
-        isd = ig = new Item_group(t, 100);
+        isd = ig = new Item_group( t, 100, ammo_chance, magazine_chance );
     } else if (ig->type != t) {
         throw std::runtime_error("item group already defined with different type");
     }
@@ -1826,10 +1826,10 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     int probability = obj.get_int("prob", 100);
     JsonArray jarr;
     if (obj.has_member("collection")) {
-        ptr.reset(new Item_group(Item_group::G_COLLECTION, probability));
+        ptr.reset( new Item_group( Item_group::G_COLLECTION, probability, ig->with_ammo, ig->with_magazine ) );
         jarr = obj.get_array("collection");
     } else if (obj.has_member("distribution")) {
-        ptr.reset(new Item_group(Item_group::G_DISTRIBUTION, probability));
+        ptr.reset( new Item_group( Item_group::G_DISTRIBUTION, probability, ig->with_ammo, ig->with_magazine ) );
         jarr = obj.get_array("distribution");
     }
     if (ptr.get() != NULL) {
@@ -1852,6 +1852,7 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     if (ptr.get() == NULL) {
         return;
     }
+
     std::unique_ptr<Item_modifier> modifier(new Item_modifier());
     bool use_modifier = false;
     use_modifier |= load_min_max(modifier->damage, obj, "damage");
@@ -1860,6 +1861,8 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     use_modifier |= load_sub_ref(modifier->ammo, obj, "ammo");
     use_modifier |= load_sub_ref(modifier->container, obj, "container");
     use_modifier |= load_sub_ref(modifier->contents, obj, "contents");
+    use_modifier |= ( modifier->with_ammo = ig->with_ammo ) != 0;
+    use_modifier |= ( modifier->with_magazine = ig->with_magazine ) != 0;
     if (use_modifier) {
         dynamic_cast<Single_item_creator *>(ptr.get())->modifier = std::move(modifier);
     }
@@ -1883,11 +1886,12 @@ void Item_factory::load_item_group_entries( Item_group& ig, JsonArray& entries )
 }
 
 void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_id,
-                                    const bool is_collection )
+                                    const bool is_collection, int ammo_chance,
+                                    int magazine_chance )
 {
     const auto type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
     Item_spawn_data *&isd = m_template_groups[group_id];
-    Item_group* const ig = make_group_or_throw( isd, type );
+    Item_group* const ig = make_group_or_throw( isd, type, ammo_chance, magazine_chance );
 
     load_item_group_entries( *ig, entries );
 }
@@ -1897,18 +1901,15 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
 {
     Item_spawn_data *&isd = m_template_groups[group_id];
     Item_group *ig = dynamic_cast<Item_group *>(isd);
-    if (subtype == "old") {
-        ig = make_group_or_throw(isd, Item_group::G_DISTRIBUTION);
+    Item_group::Type type;
+    if( subtype == "old" || subtype == "distribution" ) {
+        type = Item_group::G_DISTRIBUTION;
     } else if (subtype == "collection") {
-        ig = make_group_or_throw(isd, Item_group::G_COLLECTION);
-    } else if (subtype == "distribution") {
-        ig = make_group_or_throw(isd, Item_group::G_DISTRIBUTION);
+        type = Item_group::G_COLLECTION;
     } else {
         jsobj.throw_error("unknown item group type", "subtype");
     }
-
-    assign( jsobj, "ammo", ig->with_ammo );
-    assign( jsobj, "magazine", ig->with_magazine );
+    ig = make_group_or_throw( isd, type, jsobj.get_int( "ammo", 0 ), jsobj.get_int( "magazine", 0 ) );
 
     if (subtype == "old") {
         JsonArray items = jsobj.get_array("items");
