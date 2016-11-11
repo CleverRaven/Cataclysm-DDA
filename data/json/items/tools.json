@@ -6935,6 +6935,32 @@
     "flags": [ "STAB" ]
   },
   {
+    "id": "sword_bayonet",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "sword bayonet",
+    "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a shotgun or rifle, converting it into a pike.",
+    "weight": 923,
+    "volume": 7,
+    "price": 25000,
+    "to_hit": 1,
+    "bashing": 8,
+    "cutting": 25,
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "gunmod_data": {
+      "location": "underbarrel",
+      "mod_targets": [ "shotgun", "rifle" ],
+      "dispersion": 20,
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+      "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
+    },
+    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+  },
+  {
     "id": "syringe",
     "type": "TOOL",
     "name": "syringe",
