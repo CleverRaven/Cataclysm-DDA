@@ -6952,7 +6952,7 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle" ],
-      "dispersion": 20,
+      "dispersion_modifier": 20,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ]
     },
