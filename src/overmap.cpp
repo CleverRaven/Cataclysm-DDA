@@ -45,22 +45,12 @@
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define STREETCHANCE 2
-#define NUM_FOREST 250
-#define TOP_HIWAY_DIST 999
 #define MIN_ANT_SIZE 8
 #define MAX_ANT_SIZE 20
 #define MIN_GOO_SIZE 1
 #define MAX_GOO_SIZE 2
 #define MIN_RIFT_SIZE 6
 #define MAX_RIFT_SIZE 16
-#define SETTLE_DICE 2
-#define SETTLE_SIDES 2
-#define HIVECHANCE 180 //Chance that any given forest will be a hive
-#define SWAMPINESS 4 //Affects the size of a swamp
-#define SWAMPCHANCE 8500 // Chance that a swamp will spawn instead of forest
-enum oter_dir {
-    oter_dir_north, oter_dir_east, oter_dir_west, oter_dir_south
-};
 
 template<>
 const string_id<overmap_special> string_id<overmap_special>::NULL_ID( "", 0 );
@@ -74,7 +64,6 @@ oter_iid ot_null,
          ot_forest_thick,
          ot_forest_water,
          ot_river_center;
-
 
 //@todo Get rid of these and use 'generic_factory' class
 std::unordered_map<string_id<oter_t>, oter_t> otermap;

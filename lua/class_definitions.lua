@@ -1319,7 +1319,6 @@ classes = {
             { name = "place_toilet", rval = nil, args = { "int", "int" } },
             { name = "place_toilet", rval = nil, args = { "int", "int", "int" } },
             { name = "place_vending", rval = nil, args = { "int", "int", "string" } },
-            { name = "post_process", rval = nil, args = { "int" } },
             { name = "put_items_from_loc", rval = nil, args = { "string", "tripoint" } },
             { name = "put_items_from_loc", rval = nil, args = { "string", "tripoint", "int" } },
             { name = "random_outdoor_tile", rval = "point", args = { } },

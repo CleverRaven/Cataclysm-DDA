@@ -27,24 +27,16 @@ struct overmap_spawns {
     numeric_interval<int> population;
     int chance = 0;
 };
+
 //terrain flags enum! this is for tracking the indices of each flag.
-//is_asphalt, is_building, is_subway, is_sewer, is_ants,
-//is_base_terrain, known_down, known_up, is_river,
-//is_road, has_sidewalk, allow_road, rotates, line_drawing
 enum oter_flags {
-    is_asphalt = 0,
-    is_building,
-    is_subway,
-    is_sewer,
-    is_ants,
-    is_base_terrain,
-    known_down,
+    known_down = 0,
     known_up,
     river_tile,
     road_tile,
     has_sidewalk,
     allow_road,
-    rotates, // does this tile have four versions, one for each direction?
+    rotates,      // does this tile have four versions, one for each direction?
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     num_oter_flags
 };
@@ -235,26 +227,6 @@ void check_consistency();
 void reset();
 
 }
-
-// Overmap "Zones"
-// Areas which have special post-generation processing attached to them
-
-enum overmap_zone {
-    OMZONE_NULL = 0,
-    OMZONE_CITY,        // Basic city; place corpses
-    OMZONE_BOMBED,      // Terrain is heavily destroyed
-    OMZONE_IRRADIATED,  // Lots of radioactivity TODO
-    OMZONE_CORRUPTED,   // Fabric of space is weak TODO
-    OMZONE_OVERGROWN,   // Lots of plants, etc. TODO
-    OMZONE_FUNGAL,      // Overgrown with fungus TODO
-    OMZONE_MILITARIZED, // _Was_ occupied by the military TODO
-    OMZONE_FLOODED,     // Flooded out TODO
-    OMZONE_TRAPPED,     // Heavily booby-trapped TODO
-    OMZONE_MUTATED,     // Home of mutation experiments - mutagen & monsters TODO
-    OMZONE_FORTIFIED,   // Boarded up windows &c TODO
-    OMZONE_BOTS,        // Home of the bots TODO
-    OMZONE_MAX
-};
 
 //////////////////////////////////
 ///// convenience definitions for hard-coded functions.

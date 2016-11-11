@@ -24,10 +24,6 @@ class npc;
 class overmapbuffer;
 
 struct mongroup;
-struct overmap_location_restictions;
-
-// base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
-extern std::unordered_map<std::string, oter_t> obasetermap;
 
 struct oter_weight {
     inline bool operator ==(const oter_weight &other) const {
@@ -38,49 +34,12 @@ struct oter_weight {
     int ot_iid;
 };
 
-enum city_gen_type {
-   CITY_GEN_RADIAL, // default/small/oldschol; shops constitute core, then parks, then residential
-   CITY_GEN_INVALID, // reserved; big multi-overmap cities will have a more complex zoning pattern
-};
-
 struct city_settings {
-   city_gen_type zoning_type;
-   int shop_radius; // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
-   int park_radius; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
+   int shop_radius = 80;  // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
+   int park_radius = 130; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
    weighted_int_list<oter_weight> shops;
    weighted_int_list<oter_weight> parks;
-   city_settings() : zoning_type(CITY_GEN_RADIAL), shop_radius(80), park_radius(130) { }
 };
-/*
-todo: add relevent vars to regional_settings struct
-#define STREETCHANCE 2
-#define NUM_FOREST 250
-#define TOP_HIWAY_DIST 999
-#define MIN_ANT_SIZE 8
-#define MAX_ANT_SIZE 20
-#define MIN_GOO_SIZE 1
-#define MAX_GOO_SIZE 2
-#define MIN_RIFT_SIZE 6
-#define MAX_RIFT_SIZE 16
-#define SETTLE_DICE 2
-#define SETTLE_SIDES 2
-#define HIVECHANCE 180 //Chance that any given forest will be a hive
-*/
-/*
-      "plant_coverage": {                   "//": "biome settings for builtin field mapgen",
-          "percent_coverage": 0.833,        "//": "% of tiles that have a plant: one_in(120)",
-          "default": "t_shrub",             "//": "default plant",
-          "other": {
-              "t_shrub_blueberry": 0.25,
-              "t_shrub_strawberry": 0.25,
-              "f_mutpoppy": 0.1
-          },                                "//": "% of plants that aren't default",
-          "boost_chance": 0.833,            "//": "% of fields with a boosted chance for plants",
-          "boosted_percent_coverage": 2.5,  "//": "for the above: % of tiles that have a plant",
-          "boosted_other_multiplier": 100,  "//": "for the above: multiplier for 'other' percentages"
-      },
-
-*/
 
 /*
  * template for random bushes and such.
