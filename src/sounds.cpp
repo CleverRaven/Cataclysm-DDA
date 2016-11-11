@@ -34,13 +34,6 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
-#define MIN_VOL_FOR_HORDES_CAP 61
-#define PER_LEVEL_DOWN_VOL_REDUCE_COEF_FOR_HORDES 2
-#define MIN_VOL_FOR_HORDES 61
-#define MAX_VOL_FOR_HORDES 200
-#define MIN_SIG_POWER_FOR_HORDES 4
-#define MAX_SIG_POWER_FOR_HORDES 8
-
 weather_type previous_weather;
 int prev_hostiles = 0;
 int deafness_turns = 0;
@@ -168,6 +161,45 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     return sound_clusters;
 }
 
+int get_signal_for_hordes(int vol)
+{
+    int min_vol_for_hordes_cap = 61;
+    int per_level_down_vol_reduce_coef_for_hordes = 2;
+    int min_vol_for_hordes = 61;
+    int max_vol_for_hordes = 200;
+    int min_sig_power_for_hordes = 4;
+    int max_sig_power_for_hordes = 8;
+    //Lower the level- lower the sound
+    int vol_hordes=( (g->get_levz() < 0 ) ? vol/(per_level_down_vol_reduce_coef_for_hordes*std::abs(g->get_levz())) : vol);
+    //debugmsg( "vol_hordes %d  g->get_levz() %d ",vol_hordes, g->get_levz());
+    if( vol_hordes > min_vol_for_hordes_cap) {
+        vol_hordes = ( (vol_hordes > max_vol_for_hordes ) ? max_vol_for_hordes : vol_hordes);
+        // Formula for hordes hearing. Normalazing [min_vol_for_hordes,max_vol_for_hordes] ==> [min_sig_power_for_hordes,max_sig_power_for_hordes]
+        int sig_power = (vol_hordes-min_vol_for_hordes)*(max_sig_power_for_hordes-min_sig_power_for_hordes)/(max_vol_for_hordes-min_vol_for_hordes)+min_sig_power_for_hordes;
+        sig_power=( (sig_power <min_sig_power_for_hordes ) ? 0: min_sig_power_for_hordes);
+        //debugmsg( "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power);
+        return sig_power;
+    }
+    return 0;
+}
+
+int get_signal_for_hordes_simple(int vol)
+{
+    int min_vol_for_hordes_cap = 61;
+    int per_level_down_vol_reduce_coef_for_hordes = 2;
+    int coef_for_hordes = 30;//= 1 overmap tile
+    //Lower the level- lower the sound
+    int vol_hordes=( (g->get_levz() < 0 ) ? vol/(per_level_down_vol_reduce_coef_for_hordes*std::abs(g->get_levz())) : vol);
+    //debugmsg( "vol_hordes %d  g->get_levz() %d ",vol_hordes, g->get_levz());
+    if( vol_hordes > min_vol_for_hordes_cap) {
+        //using simple formula
+        int sig_power =vol_hordes/coef_for_hordes +1;
+        //debugmsg( "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power);
+        return sig_power;
+    }
+    return 0;
+}
+
 void sounds::process_sounds()
 {
 	std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
@@ -180,14 +212,8 @@ void sounds::process_sounds()
         const tripoint source = tripoint( this_centroid.x, this_centroid.y, this_centroid.z );
         // --- Monster sound handling here ---
         // Alert all hordes
-		int vol_hordes=( (g->get_levz() < 0 ) ? vol/(PER_LEVEL_DOWN_VOL_REDUCE_COEF_FOR_HORDES*std::abs(g->get_levz())) : vol);//Lower the level- lower the sound
-		//debugmsg( "vol_hordes %d  g->get_levz() %d ",vol_hordes, g->get_levz());
-        if( vol_hordes > MIN_VOL_FOR_HORDES_CAP /*&& g->get_levz() == 0*/ ) {
-            vol_hordes = ( (vol_hordes > MAX_VOL_FOR_HORDES ) ? MAX_VOL_FOR_HORDES : vol_hordes);
-            // Formula for hordes hearing. Normalazing [MIN_VOL_FOR_HORDES,MAX_VOL_FOR_HORDES] ==> [MIN_SIG_POWER_FOR_HORDES-MAX_SIG_POWER_FOR_HORDES]
-            int sig_power = (vol_hordes-MIN_VOL_FOR_HORDES)*(MAX_SIG_POWER_FOR_HORDES-MIN_SIG_POWER_FOR_HORDES)/(MAX_VOL_FOR_HORDES-MIN_VOL_FOR_HORDES)+MIN_SIG_POWER_FOR_HORDES;
-			sig_power=( (sig_power <0 ) ? 0: sig_power);// Signal to hordes can't be lower than zero			
-			debugmsg( "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power);
+		int sig_power=get_signal_for_hordes_simple(vol);
+        if( sig_power>0) {
             const point abs_ms = g->m.getabs( source.x, source.y );
             const point abs_sm = ms_to_sm_copy( abs_ms );
             const tripoint target( abs_sm.x, abs_sm.y, source.z );
