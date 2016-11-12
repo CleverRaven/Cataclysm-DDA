@@ -31,6 +31,9 @@ struct MOD_INFORMATION {
     /** Directory to load JSON and Lua from relative to directory containing modinfo.json */
     std::string path;
 
+    /** If set load legacy migrations from this location dependent upon save version */
+    std::string legacy;
+
     /** All authors who have added content to the mod (excluding maintenance changes) */
     std::set<std::string> authors;
 

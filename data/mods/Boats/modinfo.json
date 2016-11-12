@@ -5,6 +5,7 @@
     "name": "Boats",
     "authors": [ "HuXTUS" ],
     "description": "Adds boats.",
-    "category": "vehicles"
+    "category": "vehicles",
+    "dependencies": [ "dda" ]
   }
 ]

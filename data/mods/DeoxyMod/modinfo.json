@@ -5,6 +5,7 @@
     "name": "Folding Parts pack",
     "authors": [ "Deoxy" ],
     "description": "Makes solar panels and several other parts foldable.",
-    "category": "vehicles"
+    "category": "vehicles",
+    "dependencies": [ "dda" ]
   }
 ]

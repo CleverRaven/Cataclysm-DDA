@@ -5,7 +5,8 @@
     "name": "Crazy Cataclysm",
     "authors": [ "Kevin" ],
     "description": "Want a little crazy in your Cataclysm?  Try this one.",
-    "category": "misc_additions"
+    "category": "misc_additions",
+    "dependencies": [ "dda" ]
   },
   {
     "type": "MONSTER_WHITELIST",

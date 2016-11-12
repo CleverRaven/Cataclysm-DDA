@@ -5,6 +5,7 @@
     "name": "No Survivor Armor",
     "authors": [ "tungtn" ],
     "description": "Removes survivor armor.",
-    "category": "item_exclude"
+    "category": "item_exclude",
+    "dependencies": [ "dda" ]
   }
 ]

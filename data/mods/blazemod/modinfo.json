@@ -6,6 +6,7 @@
     "authors": [ "Blaze-whatdoyoumeanitsalreadytaken" ],
     "maintainers": [ "Blaze-whatdoyoumeanitsalreadytaken" ],
     "description": "Please see the included PAQ.txt in the mod folder if you encounter any issues.",
-    "category": "vehicles"
+    "category": "vehicles",
+    "dependencies": [ "dda" ]
   }
 ]

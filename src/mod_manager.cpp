@@ -24,6 +24,7 @@ static std::map<std::string, std::string> mod_replacements;
 // These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories() {
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
+        {"content", _("CORE CONTENT PACKS")},
         {"items", _("ITEM ADDITION MODS")},
         {"creatures", _("CREATURE MODS")},
         {"misc_additions", _("MISC ADDITIONS")},
@@ -216,6 +217,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
         modfile->path = path;
     }
 
+    assign( jo, "legacy", modfile->legacy );
     assign( jo, "authors", modfile->authors );
     assign( jo, "maintainers", modfile->maintainers );
     assign( jo, "description", modfile->description );

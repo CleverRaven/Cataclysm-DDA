@@ -71,9 +71,8 @@ void PATH_INFO::update_datadir()
     update_pathname("class_defslua", FILENAMES["luadir"] + "class_definitions.lua");
     update_pathname("fontdir", FILENAMES["datadir"] + "font/");
     update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
-    update_pathname("jsondir", FILENAMES["datadir"] + "json/");
+    update_pathname("jsondir", FILENAMES["datadir"] + "core/");
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
-    update_pathname("legacydir", FILENAMES["datadir"] + "legacy/");
     update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
     update_pathname("titledir", FILENAMES["datadir"] + "title/");
@@ -135,9 +134,8 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("class_defslua", FILENAMES["luadir"] + "class_definitions.lua");
     update_pathname("fontdir", FILENAMES["datadir"] + "font/");
     update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
-    update_pathname("jsondir", FILENAMES["datadir"] + "json/");
+    update_pathname("jsondir", FILENAMES["datadir"] + "core/");
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
-    update_pathname("legacydir", FILENAMES["datadir"] + "legacy/");
     update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
     update_pathname("titledir", FILENAMES["datadir"] + "title/");

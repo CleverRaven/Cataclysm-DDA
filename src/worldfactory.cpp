@@ -70,7 +70,7 @@ worldfactory::worldfactory()
     tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_options, this, _1, _2));
     tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_confirm, this, _1, _2));
 
-    tab_strings.push_back(_("Mods to use"));
+    tab_strings.push_back(_("Content"));
     tab_strings.push_back(_("World Gen Options"));
     tab_strings.push_back(_("CONFIRMATION"));
 }

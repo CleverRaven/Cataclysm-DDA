@@ -5,6 +5,7 @@
     "name": "No Zombie Animals",
     "description": "Removes zombie animals from the game.",
     "category": "item_exclude",
+    "dependencies": [ "dda" ],
     "obsolete": true
   },
   {

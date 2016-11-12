@@ -5,6 +5,7 @@
     "name": "Arcana and Magic Items",
     "authors": [ "Chaosvolt" ],
     "description": "Adds a new skill for creating and using magical items, and alters many anomalous monsters.",
-    "category": "magical"
+    "category": "magical",
+    "dependencies": [ "dda" ]
   }
 ]
