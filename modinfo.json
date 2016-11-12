@@ -5,7 +5,6 @@
     "name": "DinoMod",
     "description": "Adds dinosaurs.",
     "category": "creatures",
-    "obsolete": true,
-    "path": ""
+    "obsolete": true
   }
 ]
