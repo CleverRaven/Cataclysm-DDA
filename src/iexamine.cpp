@@ -2985,16 +2985,14 @@ static std::string getGasDiscountName(int discount)
     }
 }
 
-static int getPricePerGasUnit(int discount)
+static long getGasPricePerLiter(int discount)
 {
-    if (discount == 3) {
-        return 250;
-    } else if (discount == 2) {
-        return 300;
-    } else if (discount == 1) {
-        return 330;
+    // Those prices are in cents
+    static const long prices[4] = { 1400, 1320, 1200, 1000 };
+    if( discount < 0 || discount > 3 ) {
+        return prices[0];
     } else {
-        return 350;
+        return prices[discount];
     }
 }
 
