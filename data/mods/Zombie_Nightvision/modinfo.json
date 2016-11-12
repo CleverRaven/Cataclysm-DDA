@@ -4,7 +4,6 @@
     "ident": "Zombie_Nightvision",
     "name": "Zombie Nightvision",
     "description": "Gives all zombies perfect nightvision.",
-    "category": "rebalance",
-    "path": ""
+    "category": "rebalance"
   }
 ]

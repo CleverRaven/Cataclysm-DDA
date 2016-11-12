@@ -5,8 +5,7 @@
     "name": "No Flaming Weapons",
     "authors": [ "tungtn" ],
     "description": "Removes flaming melee weapons.",
-    "category": "item_exclude",
-    "path": "modinfo.json"
+    "category": "item_exclude"
   },
   {
     "type": "ITEM_BLACKLIST",

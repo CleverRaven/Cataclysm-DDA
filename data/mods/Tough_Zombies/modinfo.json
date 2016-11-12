@@ -4,7 +4,6 @@
     "ident": "Tough_Zombies",
     "name": "Tough Zombies",
     "description": "Doubles zombie health.",
-    "category": "rebalance",
-    "path": ""
+    "category": "rebalance"
   }
 ]

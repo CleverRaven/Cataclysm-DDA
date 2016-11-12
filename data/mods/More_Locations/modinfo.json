@@ -5,7 +5,6 @@
     "name": "More Locations",
     "authors": [ "Sunshine" ],
     "description": "Adds new Z-level buildings and dungeons.  Still unpolished.  Before generating a world, you can remove subfolders to nix unwanted locations.",
-    "category": "buildings",
-    "path": ""
+    "category": "buildings"
   }
 ]

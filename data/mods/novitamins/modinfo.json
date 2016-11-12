@@ -5,8 +5,7 @@
     "name": "Simplified Nutrition",
     "authors": [ "mugling" ],
     "description": "Disables vitamin requirements.",
-    "category": "rebalance",
-    "path": "modinfo.json"
+    "category": "rebalance"
   },
   {
     "type": "WORLD_OPTION",

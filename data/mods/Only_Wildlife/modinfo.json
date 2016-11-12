@@ -5,8 +5,7 @@
     "name": "No Monsters",
     "authors": [ "Kodi Arfer" ],
     "description": "Removes all monsters from the game, save for those in the WILDLIFE category.",
-    "category": "monster_exclude",
-    "path": "modinfo.json"
+    "category": "monster_exclude"
   },
   {
     "type": "MONSTER_WHITELIST",

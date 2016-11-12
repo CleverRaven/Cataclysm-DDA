@@ -6,8 +6,7 @@
     "authors": [ "Rivet-the-Zombie" ],
     "maintainers": [ "Rivet-the-Zombie" ],
     "description": "Removes medieval weapons, armors, and specific books.",
-    "category": "item_exclude",
-    "path": "modinfo.json"
+    "category": "item_exclude"
   },
   {
     "type": "ITEM_BLACKLIST",

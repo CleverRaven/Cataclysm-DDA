@@ -161,7 +161,7 @@ void mod_manager::load_mods_from(std::string path)
     }
 }
 
-void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
+void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
 {
     if (!jo.has_string("type") || jo.get_string("type") != "MOD_INFO") {
         // Ignore anything that is not a mod-info
@@ -205,29 +205,16 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         }
     } while( !bCatFound );
 
-    std::string m_path;
-    if (jo.has_string("path")) {
-        m_path = jo.get_string("path");
-        if (m_path.empty()) {
-            // If an empty path is given, use only the
-            // folder of the modinfo.json
-            m_path = main_path;
-        } else {
-            // prefix the folder of modinfo.json
-            m_path = main_path + "/" + m_path;
-        }
-    } else {
-        // Default if no path is given:
-        // "<folder-of-modinfo.json>/data"
-        m_path = main_path + "/data";
-    }
-
-
     std::unique_ptr<MOD_INFORMATION> modfile( new MOD_INFORMATION );
     modfile->ident = m_ident;
     modfile->name = m_name;
     modfile->category = p_cat;
-    modfile->path = m_path;
+
+    if( assign( jo, "path", modfile->path ) ) {
+        modfile->path = path + "/" + modfile->path;
+    } else {
+        modfile->path = path;
+    }
 
     assign( jo, "authors", modfile->authors );
     assign( jo, "maintainers", modfile->maintainers );

@@ -6,7 +6,6 @@
     "authors": [ "Chaosvolt" ],
     "description": "Adds a few armored fighting vehicles and other such things, requires Vehicle Additions Pack.",
     "category": "vehicles",
-    "dependencies": [ "blazemod" ],
-    "path": ""
+    "dependencies": [ "blazemod" ]
   }
 ]

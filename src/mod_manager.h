@@ -25,9 +25,11 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
 const std::map<std::string, std::string> &get_mod_list_cat_tab();
 
 struct MOD_INFORMATION {
-    std::string path;
     std::string name;
     std::string ident;
+
+    /** Directory to load JSON and Lua from relative to directory containing modinfo.json */
+    std::string path;
 
     /** All authors who have added content to the mod (excluding maintenance changes) */
     std::set<std::string> authors;
@@ -134,7 +136,7 @@ class mod_manager
          * @throws std::string on all kind of errors. The string
          * contains the error message.
          */
-        void load_modfile( JsonObject &jo, const std::string &main_path );
+        void load_modfile( JsonObject &jo, const std::string &path );
 
         bool set_default_mods( const std::string &ident );
         void remove_mod( const std::string &ident );

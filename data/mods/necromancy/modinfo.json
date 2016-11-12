@@ -5,7 +5,6 @@
     "name": "Necromancy",
     "authors": [ "dambuk1" ],
     "description": "Adds the ability to revive creatures as minions.",
-    "category": "magical",
-    "path": ""
+    "category": "magical"
   }
 ]

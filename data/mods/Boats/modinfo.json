@@ -5,7 +5,6 @@
     "name": "Boats",
     "authors": [ "HuXTUS" ],
     "description": "Adds boats.",
-    "category": "vehicles",
-    "path": ""
+    "category": "vehicles"
   }
 ]

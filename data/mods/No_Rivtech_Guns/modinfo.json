@@ -5,8 +5,7 @@
     "name": "No Fictional Guns",
     "authors": [ "tungtn/community" ],
     "description": "Removes fictional conventional firearms and ammunition.",
-    "category": "item_exclude",
-    "path": "modinfo.json"
+    "category": "item_exclude"
   },
   {
     "type": "ITEM_BLACKLIST",

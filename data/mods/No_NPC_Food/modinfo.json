@@ -6,8 +6,7 @@
     "authors": [ "Coolthulhu" ],
     "maintainers": [ "Coolthulhu" ],
     "description": "Makes NPCs not require food, water or rest.",
-    "category": "rebalance",
-    "path": "modinfo.json"
+    "category": "rebalance"
   },
   {
     "type": "WORLD_OPTION",

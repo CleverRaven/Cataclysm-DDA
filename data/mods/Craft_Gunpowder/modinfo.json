@@ -5,7 +5,6 @@
     "name": "Craftable Gun Pack",
     "authors": [ "Zaweri" ],
     "description": "Adds more craftable firearms, and gunpowder.  WARNING: Breaks intended balance.",
-    "category": "items",
-    "path": ""
+    "category": "items"
   }
 ]

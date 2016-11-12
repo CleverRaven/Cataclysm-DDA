@@ -6,7 +6,6 @@
     "authors": [ "DeadLeaves", "BorkBorkGoesTheCode" ],
     "maintainers": [ "BorkBorkGoesTheCode" ],
     "description": "Adds a bunch of rare weapons loosely based fiction.",
-    "category": "items",
-    "path": ""
+    "category": "items"
   }
 ]
