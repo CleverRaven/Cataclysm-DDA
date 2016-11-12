@@ -161,21 +161,21 @@
       { "x": 5, "y": 2, "part": "plating_military" }
     ],
     "items": [
-      { "x":  3, "y": -1, "chance":  2, "items": [ "id_military" ] },
-      { "x":  3, "y": -1, "chance": 20, "item_groups": [ "tools_survival" ] },
-      { "x":  3, "y":  1, "chance": 50, "items": [ "ear_plugs" ] },
+      { "x": 3, "y": -1, "chance": 2, "items": [ "id_military" ] },
+      { "x": 3, "y": -1, "chance": 20, "item_groups": [ "tools_survival" ] },
+      { "x": 3, "y": 1, "chance": 50, "items": [ "ear_plugs" ] },
       { "x": -1, "y": -1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
-      { "x": -1, "y":  1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
-      { "x":  1, "y": -1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
-      { "x":  1, "y":  1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
+      { "x": -1, "y": 1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
+      { "x": 1, "y": -1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
+      { "x": 1, "y": 1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
       { "x": -1, "y": -1, "chance": 10, "item_groups": [ "mags_milspec" ] },
-      { "x": -1, "y":  1, "chance": 10, "item_groups": [ "mags_milspec" ] },
-      { "x":  1, "y": -1, "chance": 10, "item_groups": [ "mags_milspec" ] },
-      { "x":  1, "y":  1, "chance": 10, "item_groups": [ "mags_milspec" ] },
-      { "x": -1, "y": -1, "chance":  5, "item_groups": [ "guns_milspec" ] },
-      { "x": -1, "y":  1, "chance":  5, "item_groups": [ "guns_milspec" ] },
-      { "x":  1, "y": -1, "chance":  5, "item_groups": [ "guns_milspec" ] },
-      { "x":  1, "y":  1, "chance":  5, "item_groups": [ "guns_milspec" ] }
+      { "x": -1, "y": 1, "chance": 10, "item_groups": [ "mags_milspec" ] },
+      { "x": 1, "y": -1, "chance": 10, "item_groups": [ "mags_milspec" ] },
+      { "x": 1, "y": 1, "chance": 10, "item_groups": [ "mags_milspec" ] },
+      { "x": -1, "y": -1, "chance": 5, "item_groups": [ "guns_milspec" ] },
+      { "x": -1, "y": 1, "chance": 5, "item_groups": [ "guns_milspec" ] },
+      { "x": 1, "y": -1, "chance": 5, "item_groups": [ "guns_milspec" ] },
+      { "x": 1, "y": 1, "chance": 5, "item_groups": [ "guns_milspec" ] }
     ]
   },
   {
@@ -339,21 +339,21 @@
       { "x": 5, "y": 2, "part": "plating_military" }
     ],
     "items": [
-      { "x":  3, "y": -1, "chance":  2, "items": [ "id_military" ] },
-      { "x":  3, "y": -1, "chance": 20, "item_groups": [ "tools_survival" ] },
-      { "x":  3, "y":  1, "chance": 50, "items": [ "ear_plugs" ] },
+      { "x": 3, "y": -1, "chance": 2, "items": [ "id_military" ] },
+      { "x": 3, "y": -1, "chance": 20, "item_groups": [ "tools_survival" ] },
+      { "x": 3, "y": 1, "chance": 50, "items": [ "ear_plugs" ] },
       { "x": -1, "y": -1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
-      { "x": -1, "y":  1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
-      { "x":  1, "y": -1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
-      { "x":  1, "y":  1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
+      { "x": -1, "y": 1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
+      { "x": 1, "y": -1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
+      { "x": 1, "y": 1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
       { "x": -1, "y": -1, "chance": 10, "item_groups": [ "mags_milspec" ] },
-      { "x": -1, "y":  1, "chance": 10, "item_groups": [ "mags_milspec" ] },
-      { "x":  1, "y": -1, "chance": 10, "item_groups": [ "mags_milspec" ] },
-      { "x":  1, "y":  1, "chance": 10, "item_groups": [ "mags_milspec" ] },
-      { "x": -1, "y": -1, "chance":  5, "item_groups": [ "guns_milspec" ] },
-      { "x": -1, "y":  1, "chance":  5, "item_groups": [ "guns_milspec" ] },
-      { "x":  1, "y": -1, "chance":  5, "item_groups": [ "guns_milspec" ] },
-      { "x":  1, "y":  1, "chance":  5, "item_groups": [ "guns_milspec" ] }
+      { "x": -1, "y": 1, "chance": 10, "item_groups": [ "mags_milspec" ] },
+      { "x": 1, "y": -1, "chance": 10, "item_groups": [ "mags_milspec" ] },
+      { "x": 1, "y": 1, "chance": 10, "item_groups": [ "mags_milspec" ] },
+      { "x": -1, "y": -1, "chance": 5, "item_groups": [ "guns_milspec" ] },
+      { "x": -1, "y": 1, "chance": 5, "item_groups": [ "guns_milspec" ] },
+      { "x": 1, "y": -1, "chance": 5, "item_groups": [ "guns_milspec" ] },
+      { "x": 1, "y": 1, "chance": 5, "item_groups": [ "guns_milspec" ] }
     ]
   },
   {
