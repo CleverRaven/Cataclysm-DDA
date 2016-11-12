@@ -161,40 +161,52 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     return sound_clusters;
 }
 
-int get_signal_for_hordes(int vol)
+int get_signal_for_hordes( const centroid &centr)
 {
-    int min_vol_cap = 67; //Hordes can't hear volume lower than this
-    int per_level_down_coef= 2; //Coeffficient for volume reduction undeground
-    int min_vol = 67;//Min volume for normalization
-    int max_vol = 200;//Max volume for normalization
-    int min_sig_power = 4;//Min signal for normalization
-    int max_sig_power = 8;//Max signal for normalization
+    //Volume in  tiles. Signal fo hordes in overmap tiles
+    const int vol = centr.volume-weather_data( g->weather ).sound_attn;
+    const int min_vol_cap = 73; //Hordes can't hear volume lower than this
+    const int undeground_div  = 2; //Coeffficient for volume reduction undeground
+    const int min_vol = 73;//Min volume for normalization
+    const int max_vol = 450;//Max volume for normalization
+    const int min_sig_power = 4;//Min signal for normalization
+    const int max_sig_power = 12;//Max signal for normalization
+
     //Lower the level- lower the sound
-    int vol_hordes=( (g->get_levz() < 0 ) ? vol/(per_level_down_coef*std::abs(g->get_levz())) : vol);
-    add_msg( m_debug, "vol_hordes %d  g->get_levz() %d ",vol_hordes, g->get_levz());
-    if( vol_hordes > min_vol_cap) {
+    int vol_hordes=( ( centr.z < 0 ) ? vol / ( undeground_div * std::abs( centr.z ) ) : vol );
+    if( vol_hordes > min_vol_cap ) {
         vol_hordes = ( (vol_hordes > max_vol ) ? max_vol : vol_hordes);
         // Formula for hordes hearing. Normalazing [min_vol,max_vol] ==> [min_sig_power,max_sig_power]
-        int sig_power = (vol_hordes-min_vol)*(max_sig_power-min_sig_power)/(max_vol-min_vol)+min_sig_power;
-        sig_power=( (sig_power <min_sig_power ) ? 0: min_sig_power);
-        add_msg(m_debug, "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power);
+        int sig_power = ( vol_hordes-min_vol ) * ( max_sig_power-min_sig_power ) / ( max_vol-min_vol ) + min_sig_power;
+        sig_power =( ( sig_power < min_sig_power ) ? min_sig_power : sig_power );
+        add_msg( m_debug, "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power );
         return sig_power;
     }
     return 0;
 }
 
-int get_signal_for_hordes_simple(int vol)
+int get_signal_for_hordes_simple( const centroid &centr )
 {
-    int min_vol_cap = 67;//Hordes can't hear volume lower than this
-    int per_level_down_coef= 2;//Coeffficient for volume reduction undeground
-    int coef_for_hordes = 22;//Divider coefficent for hordes
+    //Volume in  tiles. Signal fo hordes in overmap tiles
+    const int vol = centr.volume - weather_data( g->weather ).sound_attn; //modify vol using weather vol.Weather can reduce monster hearing
+    const int min_vol_cap = 73;//Hordes can't hear volume lower than this
+    const int undeground_div = 2;//Coeffficient for volume reduction undeground
+    const int coef_for_hordes = 2 * SEEX;//Divider coefficent for hordes
+    const int min_sig_cap = 4; //Signal for hordes can't be lower that this if it pass min_vol_cap
+    const int max_sig_soft_cap = 8;//Signal for hordes beyond this cap will be reduced heavily
+    const int sig_modifier = -2;// To make player life easier - make it less than zero. To make harder - more than zero
+
     //Lower the level- lower the sound
-    int vol_hordes=( (g->get_levz() < 0 ) ? vol/(per_level_down_coef*std::abs(g->get_levz())) : vol);
-    add_msg( m_debug, "vol_hordes %d  g->get_levz() %d ",vol_hordes, g->get_levz());
-    if( vol_hordes > min_vol_cap) {
-        //using simple formula
-        int sig_power =vol_hordes/coef_for_hordes;
-        add_msg(m_debug, "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power);
+    int vol_hordes = ( ( centr.z < 0 ) ? vol / ( undeground_div * std::abs( centr.z ) ) : vol );
+    if( vol_hordes > min_vol_cap ) {
+        int sig_power = std::ceil( ( float ) vol_hordes / coef_for_hordes );
+        //Reducing extremely high signal to hordes
+        sig_power = ( ( sig_power > max_sig_soft_cap ) ? max_sig_soft_cap + std::log( sig_power - max_sig_soft_cap ) : sig_power );
+        //modifying signal to correct difficulty
+        sig_power += sig_modifier;
+        //Capping minimum horde hearing signal
+        sig_power = ( ( sig_power < min_sig_cap ) ? min_sig_cap : sig_power );
+        add_msg( m_debug, "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power );
         return sig_power;
     }
     return 0;
@@ -212,7 +224,7 @@ void sounds::process_sounds()
         const tripoint source = tripoint( this_centroid.x, this_centroid.y, this_centroid.z );
         // --- Monster sound handling here ---
         // Alert all hordes
-		int sig_power=get_signal_for_hordes_simple(vol);
+		int sig_power = get_signal_for_hordes_simple(this_centroid);
         if( sig_power>0) {
             const point abs_ms = g->m.getabs( source.x, source.y );
             const point abs_sm = ms_to_sm_copy( abs_ms );
