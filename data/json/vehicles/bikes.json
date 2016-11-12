@@ -58,6 +58,7 @@
       { "x": 2, "y": 0, "part": "wheel_motorbike_steerable" },
       { "x": -1, "y": 0, "part": "frame_vertical" },
       { "x": -1, "y": 0, "part": "wheel_motorbike" },
+      { "x": -1, "y": 0, "part": "muffler" },
       { "x": -1, "y": 0, "part": "box" }
     ]
   },
@@ -99,6 +100,7 @@
       { "x": 2, "y": 0, "part": "wheel_motorbike_steerable" },
       { "x": -1, "y": 0, "part": "frame_vertical" },
       { "x": -1, "y": 0, "part": "wheel_motorbike" },
+      { "x": -1, "y": 0, "part": "muffler" },
       { "x": -1, "y": 0, "part": "box" },
       { "x": 0, "y": 1, "part": "frame_cross" },
       { "x": 0, "y": 1, "part": "wheel_motorbike" },
@@ -134,6 +136,7 @@
       { "x": 1, "y": 0, "part": "tank_small", "fuel": "gasoline" },
       { "x": 1, "y": 0, "part": "plating_steel" },
       { "x": -1, "y": 0, "part": "frame_horizontal" },
+      { "x": -1, "y": 0, "part": "muffler" },
       { "x": -1, "y": 0, "part": "trunk" },
       { "x": 1, "y": -1, "part": "frame_horizontal" },
       { "x": 1, "y": -1, "part": "wheel_motorbike_steerable" },
@@ -186,6 +189,7 @@
       { "x": 1, "y": 0, "part": "xlframe_vertical" },
       { "x": 1, "y": 0, "part": "wheel_small_steerable" },
       { "x": -1, "y": 0, "part": "xlframe_vertical" },
+      { "x": -1, "y": 0, "part": "muffler" },
       { "x": -1, "y": 0, "part": "wheel_small" }
     ]
   },
@@ -227,6 +231,7 @@
       { "x": 2, "y": 0, "part": "frame_vertical" },
       { "x": 2, "y": 0, "part": "wheel_motorbike_steerable" },
       { "x": -1, "y": 0, "part": "frame_vertical" },
+      { "x": -1, "y": 0, "part": "muffler" },
       { "x": -1, "y": 0, "part": "wheel_motorbike" }
     ]
   },
