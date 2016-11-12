@@ -3724,12 +3724,9 @@ void game::load_world_modfiles(WORLDPTR world)
         for( const auto &mod_ident : world->active_mod_order ) {
             if (mm->has_mod(mod_ident)) {
                 MOD_INFORMATION &mod = *mm->mod_map[mod_ident];
-                if( !mod.obsolete ) {
-                    // Silently ignore mods marked as obsolete.
-                    popup_status( _( "Please wait while the world data loads..." ),
-                                  _( "Loading mods (%s)" ), mod.ident.c_str() );
-                    load_data_from_dir( mod.path, mod.ident );
-                }
+                popup_status( _( "Please wait while the world data loads..." ),
+                              _( "Loading mods (%s)" ), mod.ident.c_str() );
+                load_data_from_dir( mod.path, mod.ident );
             } else {
                 debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
             }
