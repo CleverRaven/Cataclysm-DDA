@@ -499,7 +499,7 @@
     "description": "An improvised, direct ignition launcher for home-made rockets.  Essentially, a thick-walled steel pipe, equipped with a pilot light, several batteries and a simple circuit board.  Effective only at medium range, barely.",
     "price": 5000,
     "material": "steel",
-    "flags": ["MODE_BURST"],
+    "flags": ["BACKBLAST"],
     "skill": "launcher",
     "ammo": "homebrew_rocket",
     "weight": 7430,
@@ -508,7 +508,6 @@
     "to_hit": -3,
     "dispersion": 300,
     "durability": 5,
-    "burst": 1,
     "clip_size": 1,
     "reload": 800,
     "loudness" : 200
