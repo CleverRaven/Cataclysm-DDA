@@ -1858,7 +1858,8 @@
       [ "string_6", 6 ],
       [ "thread", 300 ],
       [ "sinew", 300 ],
-      [ "plant_fibre", 300 ]
+      [ "plant_fibre", 300 ],
+      [ "yarn", 150 ]
     ]
   ]
 },{
