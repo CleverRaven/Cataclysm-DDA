@@ -168,9 +168,9 @@ int get_signal_for_hordes( const centroid &centr)
     const int min_vol_cap = 73; //Hordes can't hear volume lower than this
     const int undeground_div  = 2; //Coeffficient for volume reduction undeground
     const int min_vol = 73;//Min volume for normalization
-    const int max_vol = 450;//Max volume for normalization
+    const int max_vol = 300;//Max volume for normalization
     const int min_sig_power = 4;//Min signal for normalization
-    const int max_sig_power = 12;//Max signal for normalization
+    const int max_sig_power = 13;//Max signal for normalization
 
     //Lower the level- lower the sound
     int vol_hordes=( ( centr.z < 0 ) ? vol / ( undeground_div * std::abs( centr.z ) ) : vol );
