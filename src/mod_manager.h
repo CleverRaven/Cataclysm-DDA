@@ -49,8 +49,8 @@ struct MOD_INFORMATION {
     /** Obsolete mods are loaded for legacy saves but cannot be used when starting new worlds */
     bool obsolete = false;
 
-    /** Mod require Lua support **/
-    bool need_lua;
+    /** Does this mod require Lua support? **/
+    bool need_lua() const;
 
     std::pair<int, std::string> category = { -1, "" };
 };

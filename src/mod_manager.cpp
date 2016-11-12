@@ -70,6 +70,11 @@ static void load_replacement_mods( const std::string path )
     } );
 }
 
+bool MOD_INFORMATION::need_lua() const
+{
+    return file_exist( path + "/main.lua" ) || file_exist( path + "/preload.lua" );
+}
+
 mod_manager::mod_manager()
 {
     // Insure mod_replacements is initialized.
@@ -217,17 +222,12 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         m_path = main_path + "/data";
     }
 
-    bool m_need_lua = jo.get_bool("with-lua", false);
-    if ( file_exist(m_path + "/main.lua") || file_exist(m_path + "/preload.lua") ) {
-        m_need_lua = true;
-    }
 
     std::unique_ptr<MOD_INFORMATION> modfile( new MOD_INFORMATION );
     modfile->ident = m_ident;
     modfile->name = m_name;
     modfile->category = p_cat;
     modfile->path = m_path;
-    modfile->need_lua = m_need_lua;
 
     assign( jo, "authors", modfile->authors );
     assign( jo, "maintainers", modfile->maintainers );
