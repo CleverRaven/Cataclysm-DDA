@@ -344,7 +344,7 @@
     "durability": 7,
     "modes": [
       [ "DEFAULT", "single", 1, "NPC_AVOID" ],
-      [ "MULTI", "multi", 4, [ "NPC_AVOID", "SIMULTANEOUS" ] ],
+      [ "MULTI", "multi", 4, [ "NPC_AVOID", "SIMULTANEOUS" ] ]
     ],
     "clip_size": 4,
     "reload": 600,
