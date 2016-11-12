@@ -122,7 +122,7 @@
     {
         "type"  : "item_group",
         "id"    : "pizza_trash",
-        "guns_with_ammo": true,
+        "ammo": 100,
         "items" : [
             ["cup_plastic",  40],
             ["wrapper",      34],

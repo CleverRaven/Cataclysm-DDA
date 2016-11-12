@@ -1901,11 +1901,12 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
 {
     Item_spawn_data *&isd = m_template_groups[group_id];
     Item_group *ig = dynamic_cast<Item_group *>(isd);
-    Item_group::Type type;
+
+    Item_group::Type type = Item_group::G_COLLECTION;
     if( subtype == "old" || subtype == "distribution" ) {
         type = Item_group::G_DISTRIBUTION;
     } else if (subtype == "collection") {
-        type = Item_group::G_COLLECTION;
+        ;
     } else {
         jsobj.throw_error("unknown item group type", "subtype");
     }
