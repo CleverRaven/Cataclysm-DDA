@@ -5670,17 +5670,17 @@
     "id" : "grenades",
     "comment" : "Super-high numbers here are to make the granade joke item rare enough.",
     "items":[
-      ["grenade", 300],
-      ["grenade_inc", 300],
-      ["flashbang", 300],
-      ["EMPbomb", 200],
-      ["gasbomb", 150],
-      ["gasbomb_makeshift", 150],
-      ["smokebomb", 500],
-      ["dynamite", 500],
-      ["mininuke", 50],
-      ["c4", 500],
-      ["tool_black_powder_bomb", 100]
+      ["grenade", 30],
+      ["grenade_inc", 30],
+      ["flashbang", 30],
+      ["EMPbomb", 20],
+      ["gasbomb", 15],
+      ["gasbomb_makeshift", 15],
+      ["smokebomb", 50],
+      ["dynamite", 50],
+      ["mininuke", 5],
+      ["c4", 50],
+      ["tool_black_powder_bomb", 10]
     ]
   },{
     "type" : "item_group",
