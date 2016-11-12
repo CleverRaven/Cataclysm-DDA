@@ -156,6 +156,15 @@ class game
 
         /** Loads core data and mods from the given world. May throw. */
         void load_world_modfiles(WORLDPTR world);
+
+        /**
+         *  Load content packs
+         *  @param msg string to display whilst loading prompt
+         *  @param packs content packs to load in correct dependent order
+         *  @return true if all packs were found, false if any were missing
+         */
+        bool load_packs( const std::string &msg, const std::vector<std::string>& packs );
+
     protected:
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src );
