@@ -667,7 +667,7 @@
         "range" : 140,
         "dispersion" : 30,
         "recoil" : 45,
-        "drop": "smkebomb_act",
+        "drop": "smokebomb_act",
         "effects" : ["COOKOFF", "SMOKE_BIG", "NO_EMBED", "NEVER_MISFIRES"]
     },
     {
