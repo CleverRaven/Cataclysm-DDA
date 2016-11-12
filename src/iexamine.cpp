@@ -3019,10 +3019,6 @@ static tripoint getGasPumpByNumber(const tripoint &p, int number)
 
 static bool toPumpFuel(const tripoint &src, const tripoint &dst, long units)
 {
-    // Multiplies units by 250
-    // the new unit is 1mL while the old unit is 250mL
-    units *= 250;
-
     if (src == tripoint_min) {
         return false;
     }
