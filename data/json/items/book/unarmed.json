@@ -1,0 +1,37 @@
+[
+  {
+    "id": "mag_unarmed",
+    "type": "BOOK",
+    "name": "Boxing Monthly",
+    "name_plural": "Boxing Monthlies",
+    "description": "An exciting monthly magazine about boxing.  There are lots of large, colorful photos of pugilistic exploits.",
+    "weight": 90,
+    "volume": 1,
+    "price": 450,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "pink",
+    "skill": "unarmed",
+    "max_level": 1,
+    "intelligence": 5,
+    "time": 8,
+    "fun": 1
+  },
+  {
+    "id": "manual_brawl",
+    "type": "BOOK",
+    "name": "101 Wrestling Moves",
+    "name_plural": "101 Wrestling Moves",
+    "description": "It seems to be a wrestling manual, poorly photocopied and released on spiral- bound paper.  Still, there are lots of useful tips for unarmed combat.",
+    "weight": 227,
+    "volume": 2,
+    "price": 3800,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "unarmed",
+    "max_level": 3,
+    "intelligence": 3,
+    "time": 15
+  }
+]

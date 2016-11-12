@@ -1,0 +1,220 @@
+[
+  {
+    "id": "guns_pistol_common",
+    "type": "item_group",
+    "items": [
+      [ "glock_19", 75 ],
+      [ "m9", 20 ],
+      [ "ruger_redhawk", 5 ]
+    ]
+  },
+  {
+    "id": "guns_pistol_rare",
+    "type": "item_group",
+    "items": [
+      [ "deagle_44", 35 ],
+      [ "ruger_redhawk", 65 ]
+    ]
+  },
+  {
+    "id": "guns_pistol_milspec",
+    "type": "item_group",
+    "items": []
+  },
+  {
+    "id": "guns_pistol_obscure",
+    "type": "item_group",
+    "items": [ [ "pistol_flintlock", 50 ] ]
+  },
+  {
+    "id": "guns_pistol_improvised",
+    "type": "item_group",
+    "items": [ [ "surv_six_shooter", 100 ] ]
+  },
+  {
+    "id": "guns_smg_common",
+    "type": "item_group",
+    "items": [ [ "hk_mp5", 100 ] ]
+  },
+  {
+    "id": "guns_smg_rare",
+    "type": "item_group",
+    "items": [ [ "calico", 100 ] ]
+  },
+  {
+    "id": "guns_smg_milspec",
+    "type": "item_group",
+    "items": []
+  },
+  {
+    "id": "guns_smg_obscure",
+    "type": "item_group",
+    "items": []
+  },
+  {
+    "id": "guns_smg_improvised",
+    "type": "item_group",
+    "items": []
+  },
+  {
+    "id": "guns_rifle_common",
+    "type": "item_group",
+    "items": [
+      [ "savage_111f", 10 ],
+      [ "cx4", 15 ],
+      [ "m1a", 15 ],
+      [ "ruger_mini", 60 ]
+    ]
+  },
+  {
+    "id": "guns_rifle_rare",
+    "type": "item_group",
+    "items": [
+      [ "m4a1", 75 ],
+      [ "savage_111f", 25 ]
+    ]
+  },
+  {
+    "id": "guns_rifle_milspec",
+    "type": "item_group",
+    "items": [
+      [ "m107a1", 10 ],
+      [ "m249", 35 ],
+      [ "m60", 15 ],
+      [ "m134", 5 ],
+      [ "scar_h", 35 ]
+    ]
+  },
+  {
+    "id": "guns_rifle_obscure",
+    "type": "item_group",
+    "items": [
+      [ "ak47", 45 ],
+      [ "carbine_flintlock", 20 ],
+      [ "rifle_flintlock", 35 ]
+    ]
+  },
+  {
+    "id": "guns_rifle_improvised",
+    "type": "item_group",
+    "items": [
+      [ "rifle_3006", 15 ],
+      [ "rifle_9mm", 30 ],
+      [ "surv_carbine_223", 55 ]
+    ]
+  },
+  {
+    "id": "guns_shotgun_common",
+    "type": "item_group",
+    "items": [ [ "mossberg_500", 100 ] ]
+  },
+  {
+    "id": "guns_shotgun_rare",
+    "type": "item_group",
+    "items": [ [ "m1014", 100 ] ]
+  },
+  {
+    "id": "guns_shotgun_milspec",
+    "type": "item_group",
+    "items": []
+  },
+  {
+    "id": "guns_shotgun_obscure",
+    "type": "item_group",
+    "items": []
+  },
+  {
+    "id": "guns_shotgun_improvised",
+    "type": "item_group",
+    "items": [ [ "pipe_shotgun", 100 ] ]
+  },
+  {
+    "id": "guns_launcher_grenade",
+    "type": "item_group",
+    "items": []
+  },
+  {
+    "id": "guns_launcher_rocket",
+    "type": "item_group",
+    "items": []
+  },
+  {
+    "id": "guns_launcher_milspec",
+    "type": "item_group",
+    "items": []
+  },
+  {
+    "id": "guns_launcher_improvised",
+    "type": "item_group",
+    "items": []
+  },
+  {
+    "id": "guns_common",
+    "type": "item_group",
+    "items": [
+      { "group": "guns_pistol_common", "prob": 60 },
+      { "group": "guns_rifle_common", "prob": 20 },
+      { "group": "guns_smg_common", "prob": 5 },
+      { "group": "guns_shotgun_common", "prob": 15 }
+    ]
+  },
+  {
+    "id": "guns_rare",
+    "type": "item_group",
+    "items": [
+      { "group": "guns_pistol_rare", "prob": 50 },
+      { "group": "guns_smg_rare", "prob": 15 },
+      { "group": "guns_rifle_rare", "prob": 20 },
+      { "group": "guns_shotgun_rare", "prob": 15 }
+    ]
+  },
+  {
+    "id": "guns_milspec",
+    "type": "item_group",
+    "items": [
+      { "group": "guns_pistol_rare", "prob": 20 },
+      { "group": "guns_smg_rare", "prob": 10 },
+      { "group": "guns_rifle_milspec", "prob": 60 },
+      { "group": "guns_shotgun_rare", "prob": 10 }
+    ]
+  },
+  {
+    "id": "guns_improvised",
+    "type": "item_group",
+    "items": [
+      { "group": "guns_pistol_improvised", "prob": 30 },
+      { "group": "guns_rifle_improvised", "prob": 50 },
+      { "group": "guns_shotgun_improvised", "prob": 20 }
+    ]
+  },
+  {
+    "id": "guns_cop",
+    "type": "item_group",
+    "items": [
+      [ "cx4", 20 ],
+      [ "glock_19", 40 ],
+      [ "hk_mp5", 10 ],
+      [ "m9", 17 ],
+      [ "mossberg_500", 13 ]
+    ]
+  },
+  {
+    "id": "guns_swat",
+    "type": "item_group",
+    "items": [
+      { "group": "guns_cop", "prob": 70 },
+      [ "hk_ump45", 10 ],
+      [ "m1014", 5 ],
+      [ "m4a1", 15 ]
+    ]
+  },
+  {
+    "id": "guns_survival",
+    "type": "item_group",
+    "items": [
+      { "group": "guns_improvised", "prob": 70 },
+      [ "mossberg_500", 10 ],
+      [ "ruger_redhawk", 20 ]
+    ]
+  }
+]

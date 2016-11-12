@@ -1,54 +1,53 @@
 [
     {
-            "type":"monstergroup",
-            "name" : "GROUP_NECROPOLIS_SEWERS",
-            "default" : "mon_irradiated_wanderer_1",
-            "monsters" : [
-                    { "monster" : "mon_irradiated_wanderer_1", "freq" : 90, "cost_multiplier" : 1 },
-                    { "monster" : "mon_irradiated_wanderer_2", "freq" : 40, "cost_multiplier" : 1 },
-                    { "monster" : "mon_irradiated_wanderer_3", "freq" : 10, "cost_multiplier" : 1 },
-                    { "monster" : "mon_irradiated_wanderer_4", "freq" : 1, "cost_multiplier" : 1 },
-                    { "monster" : "mon_charred_nightmare", "freq" : 1, "cost_multiplier" : 1 },
-                    { "monster" : "mon_centipede_giant", "freq" : 100, "cost_multiplier" : 1 }
-            ]
+        "type" : "monstergroup",
+        "name" : "GROUP_NECROPOLIS_SEWERS",
+        "default" : "mon_irradiated_wanderer_1",
+        "monsters" : [
+            { "monster" : "mon_irradiated_wanderer_1", "freq" : 90,  "cost_multiplier" : 1 },
+            { "monster" : "mon_irradiated_wanderer_2", "freq" : 40,  "cost_multiplier" : 1 },
+            { "monster" : "mon_irradiated_wanderer_3", "freq" : 10,  "cost_multiplier" : 1 },
+            { "monster" : "mon_irradiated_wanderer_4", "freq" : 1,   "cost_multiplier" : 1 },
+            { "monster" : "mon_charred_nightmare",     "freq" : 1,   "cost_multiplier" : 1 },
+            { "monster" : "mon_centipede_giant",       "freq" : 100, "cost_multiplier" : 1 }
+        ]
     },{
-            "type":"monstergroup",
-            "name" : "GROUP_NECROPOLIS_VAULT",
-            "default" : "mon_irradiated_wanderer_2",
-            "monsters" : [
-                    { "monster" : "mon_irradiated_wanderer_1", "freq" : 40, "cost_multiplier" : 1 },
-                    { "monster" : "mon_irradiated_wanderer_2", "freq" : 50, "cost_multiplier" : 1 },
-                    { "monster" : "mon_irradiated_wanderer_3", "freq" : 40, "cost_multiplier" : 1 },
-                    { "monster" : "mon_irradiated_wanderer_4", "freq" : 5, "cost_multiplier" : 1 },
-                    { "monster" : "mon_charred_nightmare", "freq" : 5, "cost_multiplier" : 1 }
-            ]
+        "type" : "monstergroup",
+        "name" : "GROUP_NECROPOLIS_VAULT",
+        "default" : "mon_irradiated_wanderer_2",
+        "monsters" : [
+            { "monster" : "mon_irradiated_wanderer_1", "freq" : 40, "cost_multiplier" : 1 },
+            { "monster" : "mon_irradiated_wanderer_2", "freq" : 50, "cost_multiplier" : 1 },
+            { "monster" : "mon_irradiated_wanderer_3", "freq" : 40, "cost_multiplier" : 1 },
+            { "monster" : "mon_irradiated_wanderer_4", "freq" : 5,  "cost_multiplier" : 1 },
+            { "monster" : "mon_charred_nightmare",     "freq" : 5,  "cost_multiplier" : 1 }
+        ]
     },{
-            "type":"monstergroup",
-            "name" : "GROUP_NECROPOLIS_SWIMMING",
-            "default" : "mon_sewer_fish",
-            "monsters" : [
-                    { "monster" : "mon_irradiated_wanderer_2", "freq" : 5, "cost_multiplier" : 1 }
-            ]
+        "type" : "monstergroup",
+        "name" : "GROUP_NECROPOLIS_SWIMMING",
+        "default" : "mon_sewer_fish",
+        "monsters" : [
+            { "monster" : "mon_irradiated_wanderer_2", "freq" : 5, "cost_multiplier" : 1 }
+        ]
     },{
-            "type" : "item_group",
-            "id" : "vault_survival",
-            "items" : [
-                ["mask_filter", 20],
-                ["battery", 15],
-                ["radio", 10],
-                ["bandages", 10],
-                ["knife_combat", 20],
-                ["vest", 15],
-                ["9mm", 100],
-                ["cleansuit", 20],
-                ["rad_monitor", 10],
-                ["geiger_off", 10],
-                ["tool_belt", 15],
-                ["m4a1", 45],
-                ["m9", 45],
-                ["556", 100]
-            ]
-       },{
+        "type" : "item_group",
+        "id" : "vault_survival",
+        "ammo" : 90,
+        "magazine" : 100,
+        "items" : [
+            { "group" : "guns_rare",    "prob" : 35 },
+            { "item" :  "mask_filter",  "prob" : 20 },
+            { "item" :  "battery",      "prob" : 15 },
+            { "item" :  "radio",        "prob" : 10 },
+            { "item" :  "bandages",     "prob" : 10 },
+            { "item" :  "knife_combat", "prob" : 20 },
+            { "item" :  "vest",         "prob" : 15 },
+            { "item" :  "cleansuit",    "prob" : 20 },
+            { "item" :  "rad_monitor",  "prob" : 10 },
+            { "item" :  "geiger_off",   "prob" : 10 },
+            { "item" :  "tool_belt",    "prob" : 15 }
+        ]
+    },{
         "type" : "mapgen",
         "om_terrain" : ["necropolis_b_1"],
         "method": "json",
@@ -2259,9 +2258,9 @@
             "place_vehicles": [
                 { "vehicle": "humvee", "x": 18, "y": 22, "rotation": 270, "chance": 100}
             ],
-            "place_items": [
-                { "item": "survivorweapons", "chance": 30, "x": [ 18,20], "y": [ 20,23 ]},
-                { "item": "survivorweapons", "chance": 50, "x": [ 5,6], "y": [ 22,23 ]}
+            "place_loot": [
+                { "group": "survivor_weapons", "chance": 30, "x": [ 18,20], "y": [ 20,23 ], "magazine": 100, "ammo": 100 },
+                { "group": "survivor_weapons", "chance": 50, "x": [ 5,6], "y": [ 22,23 ], "magazine": 100, "ammo": 100 }
             ],
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }

@@ -1,0 +1,36 @@
+[
+  {
+    "id": "misc_smoking",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Smokable item and something to light it with",
+    "items": [
+      { "distribution": [
+        { "item": "cig", "prob": 70, "charges": [1, 10] },
+        { "collection": [
+            { "item": "tobacco" },
+            { "distribution": [
+              { "item": "rolling_paper", "prob": 70 },
+              { "item": "pipe_tobacco", "prob": 30 }
+            ] }
+        ], "prob": 20 },
+        { "item": "cigar", "prob": 5, "charges": [1, 1] },
+        { "item": "joint", "prob": 5 }
+      ] },
+      { "distribution": [
+        { "item": "lighter" },
+        { "item": "matches" }
+      ] }
+    ]
+  },
+  {
+    "id": "stoner",
+    "type": "item_group",
+    "//" : "Processed weed and weed accessories",
+    "items": [
+      [ "joint", 100 ],
+      [ "joint_roach", 20 ],
+      [ "pipe_glass", 10 ]
+    ]
+  }
+]

@@ -6,12 +6,23 @@
 #include "rng.h"
 #include "options.h"
 #include "translations.h"
-#include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "sounds.h"
-#include "morale.h"
+#include "morale_types.h"
+#include "mapdata.h"
+
 #include <climits>
+
+const mtype_id mon_amigara_horror( "mon_amigara_horror" );
+const mtype_id mon_copbot( "mon_copbot" );
+const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
+const mtype_id mon_dermatik( "mon_dermatik" );
+const mtype_id mon_eyebot( "mon_eyebot" );
+const mtype_id mon_riotbot( "mon_riotbot" );
+const mtype_id mon_sewer_snake( "mon_sewer_snake" );
+const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
+const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 
 event::event( event_type e_t, int t, int f_id, tripoint p )
 : type( e_t )
@@ -69,12 +80,7 @@ void event::actualize()
     case EVENT_ROBOT_ATTACK: {
         const auto u_pos = g->u.global_sm_location();
         if (rl_dist(u_pos, map_point) <= 4) {
-            std::string robot_type;
-            if (one_in(2)) {
-                robot_type = "mon_copbot";
-            } else {
-                robot_type = "mon_riotbot";
-            }
+            const mtype_id& robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
             g->u.add_memorial_log( pgettext("memorial_male", "Became wanted by the police!"),
                                     pgettext("memorial_female", "Became wanted by the police!"));
@@ -102,14 +108,16 @@ void event::actualize()
                     rl_dist(g->u.pos(), monp) <= 2);
             if (tries < 10) {
                 g->m.ter_set(monp, t_rock_floor);
-                g->summon_mon("mon_dark_wyrm", monp);
+                g->summon_mon(mon_dark_wyrm, monp);
             }
         }
         // You could drop the flag, you know.
         if (g->u.has_amount("petrified_eye", 1)) {
-            add_msg(_("The eye you're carrying lets out a tortured scream!"));
             sounds::sound(g->u.pos(), 60, "");
-            g->u.add_morale(MORALE_SCREAM, -15, 0, 300, 5);
+            if (!g->u.is_deaf()) {
+                add_msg(_("The eye you're carrying lets out a tortured scream!"));
+                g->u.add_morale(MORALE_SCREAM, -15, 0, 300, 5);
+            }
         }
         if (!one_in(25)) { // They just keep coming!
             g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(15, 25));
@@ -118,7 +126,7 @@ void event::actualize()
 
     case EVENT_AMIGARA: {
         g->u.add_memorial_log(pgettext("memorial_male", "Angered a group of amigara horrors!"),
-                                pgettext("memorial_female", "Angered a group of amigara horrors!"));
+                              pgettext("memorial_female", "Angered a group of amigara horrors!"));
         int num_horrors = rng(3, 5);
         int faultx = -1, faulty = -1;
         bool horizontal = false;
@@ -127,11 +135,7 @@ void event::actualize()
                 if (g->m.ter(x, y) == t_fault) {
                     faultx = x;
                     faulty = y;
-                    if (g->m.ter(x - 1, y) == t_fault || g->m.ter(x + 1, y) == t_fault) {
-                        horizontal = true;
-                    } else {
-                        horizontal = false;
-                    }
+                    horizontal = (g->m.ter(x - 1, y) == t_fault || g->m.ter(x + 1, y) == t_fault);
                 }
             }
         }
@@ -158,7 +162,7 @@ void event::actualize()
             } while ((monx == -1 || mony == -1 || !g->is_empty({monx, mony, g->u.posz()})) &&
                         tries < 10);
             if (tries < 10) {
-                g->summon_mon("mon_amigara_horror", tripoint(monx, mony, g->u.posz()));
+                g->summon_mon(mon_amigara_horror, tripoint(monx, mony, g->u.posz()));
             }
         }
     } break;
@@ -240,7 +244,7 @@ void event::actualize()
      add_msg(m_warning, _("Water fills nearly to the ceiling!"));
      g->u.add_memorial_log(pgettext("memorial_male", "Water level reached the ceiling."),
                            pgettext("memorial_female", "Water level reached the ceiling."));
-     g->plswim(g->u.posx(), g->u.posy());
+     g->plswim(g->u.pos());
     }
    }
 // flood_buf is filled with correct tiles; now copy them back to g->m
@@ -252,13 +256,10 @@ void event::actualize()
   } break;
 
     case EVENT_TEMPLE_SPAWN: {
-        std::string montype = "mon_null";
-        switch (rng(1, 4)) {
-        case 1: montype = "mon_sewer_snake";  break;
-        case 2: montype = "mon_centipede";    break;
-        case 3: montype = "mon_dermatik";     break;
-        case 4: montype = "mon_spider_widow_giant"; break;
-        }
+        static const std::array<mtype_id, 4> temple_monsters = { {
+            mon_sewer_snake, mon_dermatik, mon_spider_widow_giant, mon_spider_cellar_giant
+        } };
+        const mtype_id &montype = random_entry( temple_monsters );
         int tries = 0, x, y;
         do {
             x = rng(g->u.posx() - 5, g->u.posx() + 5);
@@ -281,12 +282,12 @@ void event::per_turn()
     switch (type) {
     case EVENT_WANTED: {
         // About once every 5 minutes. Suppress in classic zombie mode.
-        if (g->get_levz() >= 0 && one_in(50) && !ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
+        if (g->get_levz() >= 0 && one_in(50) && !get_world_option<bool>( "CLASSIC_ZOMBIES" )) {
             point place = g->m.random_outdoor_tile();
             if (place.x == -1 && place.y == -1) {
                 return; // We're safely indoors!
             }
-            g->summon_mon("mon_eyebot", tripoint(place.x, place.y, g->u.posz()));
+            g->summon_mon(mon_eyebot, tripoint(place.x, place.y, g->u.posz()));
             if (g->u.sees( place )) {
                 add_msg(m_warning, _("An eyebot swoops down nearby!"));
             }
@@ -296,24 +297,24 @@ void event::per_turn()
     } break;
 
   case EVENT_SPAWN_WYRMS:
-   if (g->get_levz() >= 0) {
-    turn--;
-    return;
-   }
-   if (int(calendar::turn) % 3 == 0)
-    add_msg(m_warning, _("You hear screeches from the rock above and around you!"));
-   break;
+     if (g->get_levz() >= 0) {
+         turn--;
+         return;
+     }
+     if( calendar::once_every(3) ) {
+         add_msg(m_warning, _("You hear screeches from the rock above and around you!"));
+     }
+     break;
 
   case EVENT_AMIGARA:
-   add_msg(m_warning, _("The entire cavern shakes!"));
-   break;
+     add_msg(m_warning, _("The entire cavern shakes!"));
+     break;
 
   case EVENT_TEMPLE_OPEN:
-   add_msg(m_warning, _("The earth rumbles."));
-   break;
-
+     add_msg(m_warning, _("The earth rumbles."));
+     break;
 
   default:
-   break; // Nothing happens for other events
+     break; // Nothing happens for other events
  }
 }

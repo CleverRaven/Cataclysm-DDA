@@ -1,0 +1,76 @@
+[
+  {
+    "id": "heroin",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "heroin",
+    "description": "An extremely strong opioid narcotic derived from morphine.  Incredibly addictive, the risk of overdose is extreme, and the drug is contraindicated for nearly all medical purposes.",
+    "weight": 1,
+    "volume": 1,
+    "price": 14000,
+    "container": "bag_plastic",
+    "material": "powder",
+    "symbol": "!",
+    "color": "light_gray",
+    "charges": 4,
+    "stack_size": 100,
+    "healthy": -5,
+    "stim": -10,
+    "fun": 50,
+    "addiction_type": "opiate",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You shoot up.",
+      "tools_needed": { "syringe": 1 },
+      "effects": [
+        { "id": "pkill3", "duration": 80 },
+        { "id": "pkill2", "duration": 200 }
+      ]
+    }
+  },
+  {
+    "id": "vitamins",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "multivitamin",
+    "description": "Essential dietary nutrients conveniently packaged in pill form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
+    "weight": 1,
+    "volume": 1,
+    "price": 500,
+    "price_postapoc": 5000,
+    "symbol": "!",
+    "color": "magenta",
+    "charges": 20,
+    "stack_size": 20,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take the %s.",
+      "vitamins": [
+        [ "calcium", 24, 48 ],
+        [ "iron", 24, 48 ],
+        [ "vitA", 24, 48 ],
+        [ "vitB", 24, 48 ],
+        [ "vitC", 24, 48 ]
+      ]
+    }
+  },
+  {
+    "id": "water",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "category": "food",
+    "name": "water",
+    "name_plural": "water",
+    "description": "Water, the stuff of life, the best thirst-quencher available..",
+    "weight": 250,
+    "volume": 1,
+    "price": 50,
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "symbol": "~",
+    "color": "light_cyan",
+    "quench": 50,
+    "ammo_data": { "ammo_type": "water" },
+    "flags": [ "EATEN_COLD" ]
+  }
+]

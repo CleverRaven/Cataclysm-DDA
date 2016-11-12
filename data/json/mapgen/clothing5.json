@@ -118,10 +118,10 @@
                 { "item": "dress_shoes", "chance": 50, "x": [14,20],   "y": 14, "repeat": [2,5] },
                 { "item": "wedding_suits", "chance": 35, "x": [19,21],   "y": 6 },
                 { "item": "wedding_dresses", "chance": 35, "x": [19,21],   "y": 6 },
-                { "item": "tailor", "chance": 80, "x": [19,21],   "y": 6 },
+                { "item": "tools_tailor", "chance": 80, "x": [19,21],   "y": 6 },
                 { "item": "wedding_suits", "chance": 25, "x": 19,   "y": [9,10] },
                 { "item": "wedding_dresses", "chance": 25, "x": 19,   "y": [9,10] },
-                { "item": "tailor", "chance": 80, "x": 19,   "y": [9,10] },
+                { "item": "tools_tailor", "chance": 80, "x": 19,   "y": [9,10] },
                 { "item": "tailorbooks", "chance": 30, "x": 19,   "y": [11,12], "repeat": [2,3] }
             ],
             "comment": "end of mapgen json definition ---v"
@@ -129,4 +129,3 @@
         "comment": "end of mapgen entry ---v"
     }
 ]
-

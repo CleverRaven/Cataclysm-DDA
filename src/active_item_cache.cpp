@@ -1,9 +1,24 @@
 #include "active_item_cache.h"
 
+#include <algorithm>
+
 void active_item_cache::remove( std::list<item>::iterator it, point location )
 {
-    active_items[it->processing_speed()].remove_if( [&] (const item_reference &active_item) {
-            return location == active_item.location && active_item.item_iterator == it; } );
+    const auto predicate = [&]( const item_reference & active_item ) {
+        return location == active_item.location && active_item.item_iterator == it;
+    };
+    // The iterator is expected to be in this list, as it was added that way in `add`.
+    // But the processing_speed may have changed, so if it's not in the expected container,
+    // remove it from all containers to ensure no stale iterator remains.
+    auto &expected = active_items[it->processing_speed()];
+    const auto iter = std::find_if( expected.begin(), expected.end(), predicate );
+    if( iter != expected.end() ) {
+        expected.erase( iter );
+    } else {
+        for( auto &e : active_items ) {
+            e.second.remove_if( predicate );
+        }
+    }
     active_item_set.erase( &*it );
 }
 

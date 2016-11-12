@@ -37,7 +37,6 @@
             "id":"line_trail",
             "bg":12
         },
-
         {
             "id":"animation_line",
             "bg":49
@@ -3548,7 +3547,6 @@
             "rotates":false,
             "multitile":false
         },
-
        {
             "id":"vp_plating_steel",
             "fg":144,
@@ -9482,13 +9480,6 @@
          "multitile" : false
       },
       {
-         "id" : "saiga_sawn",
-         "fg" : 1404,
-         "bg" : 193,
-         "rotates" : false,
-         "multitile" : false
-      },
-      {
          "id" : "shotgun_s",
          "fg" : 1405,
          "bg" : 193,
@@ -9643,7 +9634,7 @@
          "multitile" : false
       },
       {
-         "id" : "m14a",
+         "id" : "m1a",
          "fg" : 1427,
          "bg" : 193,
          "rotates" : false,

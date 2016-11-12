@@ -1,0 +1,94 @@
+[
+  {
+    "result": "1st_aid",
+    "type" : "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "difficulty": 3,
+    "time": 20000,
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "components": [
+      [ [ "medical_tape", 20 ], ["duct_tape", 40] ],
+      [ [ "aspirin", 10 ], [ "codeine", 2 ] ],
+      [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "disinfectant", 1 ], [ "thyme_oil", 1 ], [ "bfipowder", 1 ] ],
+      [ [ "saline", 10 ], [ "eyedrops", 20 ] ],
+      [ [ "bandages", 3 ], [ "quikclot", 1 ] ]
+    ]
+  },
+  {
+    "result": "1st_aid_survivor",
+    "type" : "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "time": 50000,
+    "autolearn": true,
+    "qualities": [
+      { "id":"CUT","level":1 },
+      { "id":"BOIL","level":1 }
+    ],
+    "tools" : [ [ [ "hotplate", 20 ], [ "toolset", 20 ], [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "rag", 3 ] ],
+      [
+        [ "thread", 300 ],
+        [ "sinew", 300 ],
+        [ "plant_fibre", 300 ],
+        [ "string_36", 1 ],
+        [ "string_6", 6 ],
+        [ "superglue", 1 ]
+      ],
+      [
+        [ "moonshine", 14 ],
+        [ "vodka", 14 ],
+        [ "whiskey", 14 ],
+        [ "single_malt_whiskey", 14 ],
+        [ "brandy", 14 ],
+        [ "rum", 14 ],
+        [ "gin", 14 ],
+        [ "tequila", 14 ],
+        [ "mixed_alcohol_strong", 14 ]
+      ]
+    ]
+  },
+  {
+    "result": "bandages",
+    "type" : "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "difficulty": 1,
+    "time": 500,
+    "autolearn": true,
+    "components": [
+      [ [ "rag", 3 ], [ "medical_gauze", 1 ] ],
+      [ [ "duct_tape", 20 ], [ "medical_tape", 5 ] ],
+      [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "disinfectant", 1 ], [ "thyme_oil", 1 ] ]
+    ]
+  },
+  {
+    "result": "disinfectant",
+    "type" : "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "cooking",
+    "skills_required": [ "firstaid", 2 ],
+    "difficulty": 4,
+    "time": 24000,
+    "book_learn": [ [ "textbook_firstaid", 2 ] , [ "manual_first_aid", 2 ] , [ "emergency_book", 2 ] , [ "pocket_firstaid", 2 ] ],
+    "qualities":[
+      { "id": "CHEM", "level": 2 }
+    ],
+    "tools": [
+      [ [ "fire", -1 ], [ "hotplate", 20 ], [ "toolset", 20 ] ]
+    ],
+    "components": [
+      [ [ "water_clean", 1 ] ],
+      [ [ "oxy_powder", 10 ] ],
+      [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ]
+    ]
+  }
+]

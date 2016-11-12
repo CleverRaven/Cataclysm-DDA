@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 oldpwd=`pwd`
 
@@ -15,7 +15,7 @@ fi
 
 # try to extract translatable strings from .json files
 echo "Extracting strings from json..."
-if ! python lang/extract_json_strings.py
+if ! lang/extract_json_strings.py
 then
     echo "Error in extract_json_strings.py. Aborting"
     cd $oldpwd
@@ -29,6 +29,7 @@ xgettext --default-domain="cataclysm-dda" \
          --add-comments="~" \
          --output="lang/po/cataclysm-dda.pot" \
          --keyword="_" \
+         --keyword="gettext_noop" \
          --keyword="pgettext:1c,2" \
          --keyword="ngettext:1,2" \
          --from-code="UTF-8" \
@@ -40,7 +41,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Fix msgfmt errors
-if [ "`head -n1 lang/po/cataclysm-dda.pot`" == "# SOME DESCRIPTIVE TITLE." ]
+if [ "`head -n1 lang/po/cataclysm-dda.pot`" = "# SOME DESCRIPTIVE TITLE." ]
 then
     echo "Fixing .pot file headers..."
     package="cataclysm-dda"

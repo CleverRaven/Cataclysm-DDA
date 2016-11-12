@@ -17,7 +17,10 @@
     "id" : "CC_AMMO",
     "recipe_subcategories" : [
       "CSC_ALL",
-      "CSC_AMMO_BULLETS",
+      "CSC_AMMO_PISTOL",
+      "CSC_AMMO_RIFLE",
+      "CSC_AMMO_SHOT",
+      "CSC_AMMO_GRENADES",
       "CSC_AMMO_ARROWS",
       "CSC_AMMO_COMPONENTS",
       "CSC_AMMO_OTHER"
@@ -28,11 +31,13 @@
     "recipe_subcategories" : [
       "CSC_ALL",
       "CSC_FOOD_DRINKS",
+      "CSC_FOOD_DRY",
       "CSC_FOOD_MEAT",
       "CSC_FOOD_VEGGI",
       "CSC_FOOD_SNACK",
       "CSC_FOOD_BREAD",
       "CSC_FOOD_PASTA",
+      "CSC_FOOD_BREW",
       "CSC_FOOD_OTHER"
     ]
   },{
@@ -41,6 +46,7 @@
     "recipe_subcategories" : [
       "CSC_ALL",
       "CSC_CHEM_DRUGS",
+      "CSC_CHEM_FUEL",
       "CSC_CHEM_MUTAGEN",
       "CSC_CHEM_CHEMICALS",
       "CSC_CHEM_OTHER"
@@ -83,13 +89,8 @@
       "CSC_OTHER_MATERIALS",
       "CSC_OTHER_PARTS",
       "CSC_OTHER_TRAPS",
+      "CSC_OTHER_VEHICLE",
       "CSC_OTHER_OTHER"
-    ]
-  },{
-    "type" : "recipe_category",
-    "id" : "CC_NONCRAFT",
-    "recipe_subcategories" : [
-      "CSC_NONCRAFT"
     ]
   }
 ]

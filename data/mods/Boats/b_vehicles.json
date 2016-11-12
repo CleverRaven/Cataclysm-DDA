@@ -12,7 +12,6 @@
       {"x": 0, "y": 0, "part": "folding_seat"},
       {"x": 0, "y": 0, "part": "inflatable_airbag"},
       {"x": 0, "y": 0, "part": "hand_paddles"},
-      {"x": 0, "y": 0, "part": "controls"},
       {"x": 1, "y": 0, "part": "inflatable_section"},
       {"x": 1, "y": 0, "part": "inflatable_airbag"},
       {"x": 1, "y": 1, "part": "inflatable_section"},

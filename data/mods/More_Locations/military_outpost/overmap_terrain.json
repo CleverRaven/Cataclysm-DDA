@@ -1,0 +1,373 @@
+[
+   {
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_ytlc",
+        "name" : "mine field",
+        "sym" : 46,
+        "color" : "red",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_yte",
+        "name" : "mine field",
+        "sym" : 46,
+        "color" : "red",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_ytrc",
+        "name" : "mine field",
+        "sym" : 46,
+        "color" : "red",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_yle",
+        "name" : "mine field",
+        "sym" : 46,
+        "color" : "red",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_yre",
+        "name" : "mine field",
+        "sym" : 46,
+        "color" : "red",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_yblc",
+        "name" : "mine field",
+        "sym" : 46,
+        "color" : "red",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_ybe",
+        "name" : "mine field",
+        "sym" : 46,
+        "color" : "red",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_ybe_gate",
+        "name" : "gate",
+        "sym" : 46,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_ybrc",
+        "name" : "mine field",
+        "sym" : 46,
+        "color" : "red",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_1tlc",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_1te",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_1trc",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_1le",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_1mid",
+        "name" : "military outpost",
+        "sym" : 46,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_1re",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_1blc",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_1be",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_1brc",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_2tlc",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_2te",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_2trc",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_2le",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_2re",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_2blc",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_2be",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_2brc",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_3c",
+        "name" : "military outpost",
+        "sym" : 77,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_utlc",
+        "name" : "military outpost",
+        "sym" : 79,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 99,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_ute",
+        "name" : "military outpost",
+        "sym" : 79,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 99,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_utrc",
+        "name" : "military outpost",
+        "sym" : 79,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 99,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_ule",
+        "name" : "military outpost",
+        "sym" : 79,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 99,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_umid",
+        "name" : "military outpost",
+        "sym" : 79,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 99,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_umid_finale",
+        "name" : "military outpost",
+        "sym" : 79,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 99,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_ure",
+        "name" : "military outpost",
+        "sym" : 79,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 99,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_ublc",
+        "name" : "military outpost",
+        "sym" : 79,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 99,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_ube",
+        "name" : "military outpost",
+        "sym" : 79,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 99,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mil_outpost_ubrc",
+        "name" : "military outpost",
+        "sym" : 79,
+        "color" : "light_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 99,
+        "mondensity" : 1
+    }
+]

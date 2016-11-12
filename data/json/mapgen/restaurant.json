@@ -3,26 +3,27 @@
         "type"  : "item_group",
         "id"    : "restaur_table",
         "items" : [
-            ["candlestick",   50],
-            ["ceramic_plate", 70],
-            ["ceramic_bowl",  50],
-            ["glass",         70],
-            ["spoon",         50],
-            ["fork",          50],
-            ["knife_butter",  40],
-            ["knife_steak",   35],
-            ["spork",          10],
-            ["foon",          10],
-            ["bottle_glass",  15],
-            ["fruit_wine",    10],
-            ["wine_riesling",  7],
-            ["wine_chardonnay",8],
-            ["wine_cabernet",  8],
-            ["wine_noir",      6],
-            ["currywurst",     5],
-            ["macaroni_cooked",5],
-            ["lasagne",        5],
-            ["spaghetti_pesto",5]
+            ["candlestick",     50],
+            ["ceramic_plate",   70],
+            ["ceramic_bowl",    50],
+            ["glass",           70],
+            ["spoon",           50],
+            ["fork",            50],
+            ["knife_butter",    40],
+            ["knife_steak",     35],
+            ["spork",           10],
+            ["foon",            10],
+            ["bottle_glass",    15],
+            ["fruit_wine",      10],
+            ["wine_riesling",    7],
+            ["wine_chardonnay",  8],
+            ["wine_cabernet",    8],
+            ["wine_noir",        6],
+            ["currywurst",       5],
+            ["macaroni_cooked",  5],
+            ["lasagne",          5],
+            ["spaghetti_pesto",  5],
+            ["glazed_tenderloin",5]
         ]
     },
     {
@@ -65,6 +66,8 @@
             ["royal_beef",     1],
             ["sauce_red",      8],
             ["sausage",       10],
+            ["syrup",         10],
+            ["sweet_sausage",  2],
             ["soup_meat",     10]
         ]
     },
@@ -77,15 +80,19 @@
             ["jam_strawberries", 5],
             ["jam_blueberries",  5],
             ["bread",           17],
+            ["meat",            20],
             ["cornbread",        7],
             ["biscuit",          8],
             ["seasoning_salt",  15],
             ["seasoning_italian",15],
+            ["garlic",          10],
+            ["thyme",           10],
             ["can_chicken",     10],
             ["pepper",          15],
             ["salt",            20],
             ["sugar",            5],
             ["flour",           17],
+            ["cooking_oil",     20],
             ["cookbook",         8],
             ["cookbook_italian", 9],
             ["cornmeal",         3],
@@ -96,7 +103,6 @@
             ["lasagne_raw",     20],
             ["macaroni_raw",    20],
             ["knife_butcher",   10]
-            
         ]
     },
     {
@@ -241,15 +247,12 @@
                 {"item": "restaur_table",  "chance": 25, "x": [8,9],   "y": [7,8], "repeat": [1,2]},
                 {"item": "restaur_table",  "chance": 25, "x": [14,15], "y": [7,8], "repeat": [1,2]},
                 {"item": "restaur_table",  "chance": 25, "x": [19,20], "y": [7,8], "repeat": [1,2]},
-                
                 {"item": "restaur_table",  "chance": 25, "x": [3,4],   "y": [12,13], "repeat": [1,2]},
                 {"item": "restaur_table",  "chance": 25, "x": [8,9],   "y": [12,13], "repeat": [1,2]},
                 {"item": "restaur_table",  "chance": 25, "x": [14,15], "y": [12,13], "repeat": [1,2]},
                 {"item": "restaur_table",  "chance": 25, "x": [19,20], "y": [12,13], "repeat": [1,2]},
-                
                 {"item": "restaur_bath",  "chance": 25, "x": 2, "y": [17,18] },
                 {"item": "restaur_bath",  "chance": 25, "x": 2, "y": [20,21] },
-                
                 {"item": "restaur_fridge", "chance": 70, "x": [7,8],   "y": 18, "repeat": [2,3]},
                 {"item": "restaur_sink",   "chance": 75, "x": [10,11], "y": 18, "repeat": [2,3]},
                 {"item": "restaur_kitchen","chance": 25, "x": 9,       "y": 18, "repeat": [1,2]},
@@ -259,14 +262,14 @@
                 {"item": "restaur_trash",  "chance": 75, "x": [7,8],   "y": 20, "repeat": [1,3]},
                 {"item": "restaur_kitchen","chance": 25, "x": [9,11],  "y": 20, "repeat": [1,2]},
                 {"item": "restaur_kitchen","chance": 25, "x": [14,16], "y": 20, "repeat": [1,2]},
-                
                 {"item": "restaur_trash",  "chance": 50, "x": [7,8],   "y": 22, "repeat": [1,2]},
                 {"item": "trash",          "chance": 50, "x": [7,8],   "y": 22, "repeat": [1,2]},
                 {"item": "trash",          "chance": 20, "x": [0,17],  "y": [22,23], "repeat": [1,2]}
             ],
             "place_monsters": [
-                {"monster": "GROUP_GROCERY","chance": 5, "x": [7,19],  "y": 19}
-            ] 
+                {"monster": "GROUP_GROCERY","chance": 5, "x": [7,19],  "y": 19},
+                {"monster": "GROUP_ROACH","chance": 20, "x": [7,19],  "y": 19}
+            ]
         }
     }
 ]

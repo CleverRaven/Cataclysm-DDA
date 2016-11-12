@@ -1,8 +1,12 @@
 [
     {
         "type" : "item_action",
-        "id" : "SEW",
-        "name" : "Sew"
+        "id" : "repair_fabric",
+        "name" : "Repair cotton/leather/wool/Nomex/fur"
+    },{
+        "type" : "item_action",
+        "id" : "repair_metal",
+        "name" : "Repair metal/plastic/kevlar"
     },{
         "type" : "item_action",
         "id" : "SEW_ADVANCED",
@@ -15,10 +19,6 @@
         "type" : "item_action",
         "id" : "HAMMER",
         "name" : "Pull out nails"
-    },{
-        "type" : "item_action",
-        "id" : "SOLDER_WELD",
-        "name" : "Repair metal/plastic/kevlar"
     },{
         "type" : "item_action",
         "id" : "picklock",
@@ -54,7 +54,15 @@
     },{
         "type" : "item_action",
         "id" : "MISC_REPAIR",
-        "name" : "Repair wood/bone/chitin"
+        "name" : "Repair wood/paper/bone/chitin"
+    },{
+        "type" : "item_action",
+        "id" : "TOOLMOD_ATTACH",
+        "name" : "Attach as toolmod"
+    },{
+        "type" : "item_action",
+        "id" : "GUNMOD_ATTACH",
+        "name" : "Attach as gunmod"
     },{
         "type" : "item_action",
         "id" : "GUN_REPAIR",
@@ -81,6 +89,18 @@
         "name" : "Take anticonvulsant"
     },{
         "type" : "item_action",
+        "id" : "SHEATH_KNIFE",
+        "name" : "Sheathe/draw a knife"
+    },{
+        "type" : "item_action",
+        "id" : "LUMBER",
+        "name" : "Cut a log into planks"
+    },{
+        "type" : "item_action",
+        "id" : "REMOVE_ALL_MODS",
+        "name" : "Remove tool mods"
+    },{
+        "type" : "item_action",
         "id" : "salvage",
         "name" : "Cut up an item"
     },{
@@ -103,14 +123,45 @@
         "type" : "item_action",
         "id" : "fireweapon_on",
         "name" : "Turn off"
+    },    {
+        "type" : "item_action",
+        "id" : "CARVER_ON",
+        "name" : "Turn off"
+    },    {
+        "type" : "item_action",
+        "id" : "TRIMMER_ON",
+        "name" : "Turn off"
+    },{
+        "type" : "item_action",
+        "id" : "CIRCSAW_ON",
+        "name" : "Turn off"
+    },{
+        "type" : "item_action",
+        "id" : "CHAINSAW_ON",
+        "name" : "Turn off"
+    },{
+        "type" : "item_action",
+        "id" : "ELEC_CHAINSAW_ON",
+        "name" : "Turn off"
     },{
         "type" : "item_action",
         "id" : "transform",
         "name" : "Turn on"
     },{
         "type" : "item_action",
-        "id" : "auto_transform",
-        "name" : "Turn off"
+        "id" : "countdown",
+        "name" : "Start countdown"
+    },{
+        "type" : "item_action",
+        "id" : "holster",
+        "name" : "Use holster"
+    },{
+        "type" : "item_action",
+        "id" : "SAW_BARREL",
+        "name" : "Saw down barrel"
+    },{
+        "type" : "item_action",
+        "id" : "DIG",
+        "name" : "Clear rubble"
     }
-
 ]

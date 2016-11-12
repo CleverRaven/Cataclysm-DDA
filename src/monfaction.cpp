@@ -54,7 +54,7 @@ bool string_id<monfaction>::is_valid() const
 
 template<>
 int_id<monfaction>::int_id( const string_id<monfaction> &id )
-: _id( id.id() )
+    : _id( id.id() )
 {
 }
 
@@ -190,7 +190,7 @@ void monfactions::finalize()
 }
 
 // Non-const monfaction reference
-monfaction &get_faction( const mfaction_str_id &id ) 
+monfaction &get_faction( const mfaction_str_id &id )
 {
     return faction_list[id.id()];
 }
@@ -205,7 +205,7 @@ void prealloc( const std::set< std::string > &facs )
 
 // Get pointers to factions from 'keys' and add them to 'map' with value == 'value'
 void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map &map,
-                                            mf_attitude value )
+                          mf_attitude value )
 {
     for( const auto &k : keys ) {
         const auto &faction = mfaction_str_id( k ).id();
@@ -213,7 +213,7 @@ void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map 
     }
 }
 
-void monfactions::load_monster_faction(JsonObject &jo)
+void monfactions::load_monster_faction( JsonObject &jo )
 {
     // Factions inherit values from their parent factions - this is set during finalization
     std::set< std::string > by_mood, neutral, friendly;

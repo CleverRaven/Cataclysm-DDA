@@ -13,8 +13,9 @@
 #include <stdarg.h>
 
 struct real_coords;
+enum field_id : int;
 
-enum shapetype {
+    enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
 };
 
@@ -25,8 +26,7 @@ struct editmap_hilight {
     nc_color color;
     std::map<tripoint, char> points;
     nc_color( *getbg )( nc_color );
-    void setup()
-    {
+    void setup() {
         getbg = ( color == c_red ? &red_background :
                   ( color == c_magenta ? &magenta_background :
                     ( color == c_cyan ? &cyan_background :
@@ -62,13 +62,14 @@ class editmap
         int mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 
-        void update_fmenu_entry( uimenu *fmenu, field *field, int idx );
+        void update_fmenu_entry( uimenu *fmenu, field *field, field_id idx );
         void setup_fmenu( uimenu *fmenu );
         bool change_fld( std::vector<tripoint> coords, field_id fid, int density );
         WINDOW *w_info;
         WINDOW *w_help;
         int width;
         int height;
+        int offsetX;
         int infoHeight;
 
         int ter_frn_mode;
@@ -102,7 +103,7 @@ class editmap
 
         std::string padding;
 
-        std::string fids[num_fields];
+        std::map<field_id, std::string> fids;
 
         std::vector<tripoint> target_list;
         std::map<std::string, editmap_hilight> hilights;
@@ -111,7 +112,6 @@ class editmap
         int tmaxx;
         int tmaxy;
         bool uberdraw;
-        std::map<oter_id, int> oter_special;
 
         editmap();
         ~editmap();

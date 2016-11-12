@@ -1,116 +1,100 @@
 [
     {
         "type": "item_group",
-        "id" : "rifles",
-        "items" :[
-          ["cw-24", 4],
-          ["cwd-63", 5]
-        ]
-    },
-    {
-        "type": "item_group",
-        "id" : "assault",
-        "items" :[
-          ["svs-24", 3],
-          ["svs-24c", 2]
-        ]
-    },
-    {
-        "type": "item_group",
-        "id": "allguns",
+        "id": "ammo_casings",
         "items": [
-          ["svs-24", 3],
-          ["svs-24c", 2],
-          ["cw-24", 4],
-          ["cwd-63", 5]
+            { "item": "654_casing", "prob": 50, "count": 20 }
         ]
     },
     {
         "type": "item_group",
-        "id": "mansion_guns",
+        "id" : "ammo_rifle_reloaded",
+        "items" :[
+          ["reloaded_654", 10]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "guns_rifle_obscure",
         "items": [
-          ["cw-24", 6],
-          ["svs-24", 4],
-          ["svs-24c", 4]
+          ["svs-24", 40],
+          ["svs-24c", 40]
         ]
     },
     {
         "type": "item_group",
         "id": "rare",
         "items": [
-          ["svs-24", 3],
           ["svs-24c", 3],
-          ["654t", 4],
-          ["20_dread", 2],
-          ["wrist_dread", 3]
+          ["reloaded_654", 40],
+          ["20_dread", 50],
+          ["wrist_dread", 30]
         ]
     },
     {
         "type": "item_group",
-        "id" : "homeguns",
+        "id" : "guns_rifle_common",
         "items": [
-          ["cw-24", 3],
-          ["545", 5],
-          ["654", 3],
-          ["654t", 1],
-          ["545_ap", 3],
-          ["545_casing", 5],
-          ["654_casing", 5]
+          ["cw-24", 20],
+          ["cw-24k", 40],
+          ["cw-24m", 10],
+          ["cwd-63", 30]
        ]
     },
     {
         "type": "item_group",
-        "id": "lmoe_guns",
+        "id": "guns_smg_rare",
         "items": [
-          ["cw-24", 6],
-          ["cwd-63", 5]
+            [ "wrist_dread", 30 ]
         ]
     },
     {
         "type": "item_group",
-        "id": "ammo",
+        "id": "ammo_rifle_obscure",
         "items": [
-          ["654", 4],
-          ["654t", 3],
-          ["545", 4],
-          ["545_ap", 3]
+          ["654t", 100 ]
         ]
     },
     {
         "type": "item_group",
-        "id": "gunxtras",
+        "id": "gunmod_rare",
         "items": [
-          ["654_casing", 10],
-          ["545_casing", 10],
-          ["retool_654", 1],
-          ["retool_545", 1],
-          ["retool_762", 1]
+          ["retool_654", 5],
+          ["retool_545", 10],
+          ["retool_762", 10]
         ]
     },
     {
         "type": "item_group",
-        "id": "stash_ammo",
+        "id": "ammo_rifle_common",
         "items": [
-          ["654", 5],
-          ["654t", 2],
-          ["545", 5],
-          ["545_ap", 3],
-          ["20_dread", 2]
+          ["545", 50],
+          ["654", 30]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "ammo_smg_rare",
+        "items": [
+          ["20_dread", 20]
         ]
     },
     {
         "type": "item_group",
         "id": "cop_evidence",
         "items": [
-          ["recipe_igm", 5]
+          [ "654", 10 ],
+          [ "autofire", 10 ],
+          [ "cw-24hack", 5 ],
+          [ "cw-24m_hack", 10 ],
+          ["recipe_igm", 10]
         ]
     },
     {
         "type": "item_group",
         "id": "cop_gear",
         "items": [
-          ["recipe_igm", 4]
+          ["recipe_igm", 10]
         ]
     }
-
 ]

@@ -1,0 +1,15 @@
+[
+    {
+        "type" : "overmap_special",
+        "id" : "Fungal Bloom",
+        "locations" : []
+    },{
+        "type" : "overmap_special",
+        "id" : "Fungal Tower",
+        "locations" : []
+    },{
+        "type" : "overmap_special",
+        "id" : "Fungal Flowers",
+        "locations" : []
+    }
+]

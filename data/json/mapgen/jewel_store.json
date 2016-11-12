@@ -115,7 +115,7 @@
                 { "item": "jewelry_back", "chance": 80, "x": [ 9,14 ], "y": [ 20,20 ], "repeat": [1,2] },
                 { "item": "jewelry_safe", "chance": 95, "x": [ 18,18 ], "y": [ 20,21 ]},
                 { "item": "trash", "chance": 50, "x": [ 3,3 ], "y": [ 17,18 ]}
-                           ] 
+                           ]
 }
 }
 ]

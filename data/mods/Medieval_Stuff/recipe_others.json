@@ -1,0 +1,28 @@
+[
+{
+  "type" : "recipe",
+  "result": "scrap_bronze",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 10000,
+  "batch_time_factors": [ 90, 4 ],
+  "autolearn": true,
+  "tools": [
+    [ [ "tongs", -1 ] ],
+    [ [ "crucible", -1 ] ],
+    [
+      [ "forge", 50 ],
+      [ "oxy_torch", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "tin", 10 ],
+      [ "solder_wire", 10 ]
+    ],
+    [ [ "copper", 50 ] ]
+  ]
+}
+]

@@ -46,7 +46,7 @@
         ["fan", 5],
         ["fan", 5],
         ["cola", 10],
-        ["can_drink", 5],
+        ["can_drink_unsealed", 5],
         ["cig", 5],
         ["purse", 2],
         ["pipe_tobacco", 1],
@@ -515,7 +515,7 @@
                 "   |  |   B B B B 4|    ",
                 "   |  w  666666666 |    ",
                 "   |  w  666666666 |?rHr",
-                "  4|  |   B B B B 4|?rrr", 
+                "  4|  |   B B B B 4|?rrr",
                 "---|  |------------|>??r",
                 "B  |  |   C|4 |C B |----",
                 "CC |  |  BC|  |C   |eee3",
@@ -617,7 +617,6 @@
         "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "rows": [
-
                 "                      1s",
                 "   zzz   >????>   zzz 1s",
                 "   zTz   rrrrrr   zTz 1s",
@@ -626,7 +625,7 @@
                 "                      1s",
                 "         666666       1s",
                 "        66B  B66      1s",
-                "        ##    ##      1s", 
+                "        ##    ##      1s",
                 "        ###ww###      1s",
                 "----  -----  ---------|s",
                 "      3eee|  |      4 1s",

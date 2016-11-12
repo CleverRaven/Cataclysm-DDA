@@ -1,0 +1,24 @@
+[
+    {
+        "type" : "AMMO",
+        "id" : "scrap_bronze",
+        "category" : "spare_parts",
+        "price" : 1200,
+        "name" : "bronze",
+        "name_plural" : "bronze",
+        "symbol" : ",",
+        "color" : "yellow",
+        "description" : "Decent-sized chunks of bronze, for fashioning some old-school items.",
+        "material" : "bronze",
+        "volume" : 1,
+        "weight" : 218,
+        "bashing" : 1,
+        "to_hit" : -2,
+        "ammo_type" : "components",
+        "damage" : 0,
+        "pierce" : 0,
+        "range" : 0,
+        "dispersion" : 0,
+        "count" : 1
+    }
+]

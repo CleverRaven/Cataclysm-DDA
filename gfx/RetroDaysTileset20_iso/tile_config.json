@@ -8,7 +8,7 @@
   ],
   "tiles-new": [
     {
-      "file": "gfx/RetroDaysTileset20_iso/retrodaystiles20.png",
+      "file": "retrodaystiles20.png",
       "tiles": [
         {
           "fg": [
@@ -12693,22 +12693,6 @@
             }
           ],
           "fg": [
-            437
-          ],
-          "id": "vp_battery_truck",
-          "multitile": true,
-          "rotates": true
-        },
-        {
-          "additional_tiles": [
-            {
-              "fg": [
-                431
-              ],
-              "id": "broken"
-            }
-          ],
-          "fg": [
             438,
             3382,
             3383,
@@ -14300,13 +14284,6 @@
             369
           ],
           "id": "battery_car",
-          "rotates": false
-        },
-        {
-          "fg": [
-            369
-          ],
-          "id": "battery_truck",
           "rotates": false
         },
         {
@@ -32010,14 +31987,6 @@
         },
         {
           "fg": [
-            1404
-          ],
-          "id": "saiga_sawn",
-          "multitile": false,
-          "rotates": false
-        },
-        {
-          "fg": [
             1405
           ],
           "id": "shotgun_s",
@@ -32348,7 +32317,7 @@
           "fg": [
             1378
           ],
-          "id": "m14a",
+          "id": "m1a",
           "multitile": false,
           "rotates": false
         },

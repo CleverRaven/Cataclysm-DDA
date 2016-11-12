@@ -19,24 +19,23 @@ typedef enum {
 
 class NameGenerator;
 class JsonObject;
+class JsonIn;
 
 class Name
 {
     public:
         Name();
-        Name(std::string name, uint32_t type);
+        Name( std::string name, uint32_t type );
 
         static NameGenerator &generator();
-        static std::string generate(bool male);
+        static std::string generate( bool male );
 
-        static std::string get(uint32_t searchFlags);
+        static std::string get( uint32_t searchFlags );
 
-        std::string value() const
-        {
+        std::string value() const {
             return _value;
         }
-        uint32_t type() const
-        {
+        uint32_t type() const {
             return _type;
         }
 
@@ -48,29 +47,29 @@ class Name
 class NameGenerator
 {
     public:
-        static NameGenerator &generator()
-        {
+        static NameGenerator &generator() {
             static NameGenerator generator;
 
             return generator;
         }
 
-        void load_name(JsonObject &jo);
+        void load_name( JsonObject &jo );
+        void load( JsonIn &jsin );
 
-        std::string generateName(bool male);
+        std::string generateName( bool male );
 
-        std::string getName(uint32_t searchFlags);
+        std::string getName( uint32_t searchFlags );
         void clear_names();
     private:
         NameGenerator();
 
-        NameGenerator(NameGenerator const &);
-        void operator=(NameGenerator const &);
-        std::vector<uint32_t> uint32_tsFromFlags(uint32_t searchFlags) const;
+        NameGenerator( NameGenerator const & );
+        void operator=( NameGenerator const & );
+        std::vector<uint32_t> uint32_tsFromFlags( uint32_t searchFlags ) const;
 
         std::map< uint32_t, std::vector<Name> > names;
 };
 
-void load_names_from_file(const std::string &filename);
+void load_names_from_file( const std::string &filename );
 
 #endif

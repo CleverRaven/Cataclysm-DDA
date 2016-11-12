@@ -1,0 +1,232 @@
+[
+    {
+        "type" : "recipe",
+        "result": "brew_milk_curdled",
+        "result_mult" : 18,
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_BREW",
+        "skill_used": "cooking",
+        "difficulty": 5,
+        "skills_required": [ "survival", 4 ],
+        "time": 30000,
+        "batch_time_factors": [50, 4],
+        "autolearn": true,
+        "book_learn": [ ["survival_book", 3] , ["textbook_survival", 3], ["manual_survival", 3] ],
+        "components": [
+            [ [ "milk", 15 ] ],
+            [ [ "vinegar", 3 ] ],
+            [
+                [ "wild_herbs", 40 ],
+                [ "stomach_large", 1 ],
+                [ "hstomach_large", 1 ],
+                [ "stomach", 2 ],
+                [ "hstomach", 2 ]
+            ]
+        ]
+    },{
+        "type" : "recipe",
+        "result": "brew_whiskey",
+        "result_mult" : 3,
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_BREW",
+        "skill_used": "cooking",
+        "difficulty": 5,
+        "time": 25000,
+        "batch_time_factors": [50, 4],
+        "book_learn": [ ["brewing_cookbook", 5], [ "scots_cookbook", 5 ] ],
+        "qualities":[ { "id": "COOK", "level": 2 } ],
+        "tools": [ [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ] ],
+        "components": [
+            [ [ "water", 3 ], [ "water_clean", 3 ] ],
+            [ [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ], [ "barley", 1 ], [ "buckwheat", 1 ] ],
+            [ [ "sugar", 50 ] ],
+            [ [ "yeast", 1 ] ]
+        ]
+    },{
+        "type" : "recipe",
+        "result": "brew_vodka",
+        "result_mult" : 3,
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_BREW",
+        "skill_used": "cooking",
+        "difficulty": 5,
+        "time": 50000,
+        "batch_time_factors": [50, 4],
+        "autolearn": [ [ "cooking", 6 ] ],
+        "book_learn": [ ["brewing_cookbook", 6] ],
+        "qualities":[ { "id": "COOK", "level": 2 } ],
+        "tools": [ [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ] ],
+        "components": [
+            [ [ "water", 3 ], [ "water_clean", 3 ] ],
+            [
+                [ "molasses", 2 ], [ "corn", 2 ], [ "cornmeal", 6 ],
+                [ "wheat", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ],
+                [ "sugar", 50 ], [ "sweet_water", 4 ], [ "sugar_beet", 1 ]
+            ],
+            [ [ "yeast", 1 ] ]
+        ]
+    },{
+        "type" : "recipe",
+        "result": "brew_rum",
+        "result_mult" : 3,
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_BREW",
+        "skill_used": "cooking",
+        "difficulty": 5,
+        "time": 15000,
+        "batch_time_factors": [50, 4],
+        "book_learn": [ ["brewing_cookbook", 4] ],
+        "qualities":[ { "id": "COOK", "level": 2 } ],
+        "tools": [ [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ] ],
+        "components": [
+            [ [ "water", 3 ], [ "water_clean", 3 ] ],
+            [ [ "molasses", 2 ], [ "sugar_beet", 1 ] ],
+            [ [ "yeast", 1 ] ]
+        ]
+    },{
+        "type" : "recipe",
+        "result": "brew_moonshine",
+        "result_mult" : 15,
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_BREW",
+        "skill_used": "cooking",
+        "difficulty": 2,
+        "time": 40000,
+        "batch_time_factors": [50, 4],
+        "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 1] ],
+        "qualities":[ { "id": "COOK", "level": 2 } ],
+        "tools": [ [ [ "hotplate", 30 ], [ "char_smoker", 30 ], [ "toolset", 30 ], [ "fire", -1 ] ] ],
+        "components": [
+            [ [ "water", 15 ], [ "water_clean", 15 ] ],
+            [ [ "cornmeal", 12 ], [ "buckwheat", 2 ] ],
+            [ [ "sugar", 100 ] ],
+            [ [ "yeast", 2 ] ]
+        ]
+    },{
+        "type" : "recipe",
+        "result": "brew_fruit_wine",
+        "result_mult" : 3,
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_BREW",
+        "skill_used": "cooking",
+        "difficulty": 3,
+        "time": 40000,
+        "batch_time_factors": [50, 4],
+        "autolearn": true,
+        "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 2] ],
+        "qualities":[ { "id": "COOK", "level": 2 } ],
+        "tools": [ [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ] ],
+        "components": [
+            [ [ "water", 3 ], [ "water_clean", 3 ] ],
+            [
+                [ "pear", 2 ], [ "irradiated_pear", 2 ],
+                [ "apple", 2 ], [ "irradiated_apple", 2 ],
+                [ "peach", 2 ], [ "irradiated_peach", 2 ],
+                [ "plums", 2 ], [ "irradiated_plums", 2 ],
+                [ "apricot", 2 ], [ "irradiated_apricot", 2 ],
+                [ "juice", 1 ],
+                [ "blackberries", 2 ], [ "irradiated_blackberries", 2 ],
+                [ "blueberries", 2 ], [ "irradiated_blueberries", 2 ],
+                [ "cranberries", 6 ], [ "irradiated_cranberries", 6 ],
+                [ "raspberries", 2 ], [ "irradiated_raspberries", 2 ],
+                [ "strawberries", 2 ], [ "irradiated_strawberries", 2 ]
+            ]
+        ]
+    },{
+        "type" : "recipe",
+        "result": "brew_hb_beer",
+        "result_mult" : 15,
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_BREW",
+        "skill_used": "cooking",
+        "difficulty": 4,
+        "time": 80000,
+        "batch_time_factors": [50, 4],
+        "book_learn": [ ["brewing_cookbook", 4] ],
+        "qualities":[ { "id": "COOK", "level": 2 } ],
+        "tools": [ [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ] ],
+        "components": [
+            [ [ "water", 15 ], [ "water_clean", 15 ] ],
+            [ [ "barley", 3 ], [ "buckwheat", 3 ], [ "oats", 3 ] ],
+            [ [ "hops", 1 ] ],
+            [ [ "yeast", 1 ] ]
+        ]
+    },{
+        "type" : "recipe",
+        "result": "brew_mead",
+        "result_mult" : 3,
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_BREW",
+        "skill_used": "cooking",
+        "difficulty": 3,
+        "time": 80000,
+        "batch_time_factors": [50, 4],
+        "autolearn": true,
+        "book_learn": [ ["brewing_cookbook", 2] ],
+        "components": [
+            [ [ "water", 3 ], [ "water_clean", 3 ] ],
+            [ [ "honey_bottled", 10 ], [ "honeycomb", 2 ], [ "honey_glassed", 10 ] ],
+            [ [ "yeast", 1 ] ]
+        ]
+    },{
+        "type" : "recipe",
+        "result": "brew_dandelion_wine",
+        "result_mult" : 3,
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_BREW",
+        "skill_used": "cooking",
+        "difficulty": 3,
+        "time": 80000,
+        "batch_time_factors": [50, 4],
+        "book_learn": [
+            ["brewing_cookbook", 3], ["family_cookbook", 2], ["survival_book", 3],
+            ["textbook_survival", 3], ["manual_survival", 3]
+        ],
+        "qualities":[
+            { "id": "CUT", "level" : 1 },
+            { "id": "COOK", "level": 2 }
+        ],
+        "components": [
+            [ [ "water", 3 ], [ "water_clean", 3 ] ],
+            [ [ "raw_dandelion", 10 ] ],
+            [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ], [ "syrup", 2 ] ],
+            [ [ "yeast", 1 ] ]
+        ]
+    },{
+        "type" : "recipe",
+        "result": "brew_pine_wine",
+        "result_mult" : 3,
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_BREW",
+        "skill_used": "cooking",
+        "difficulty": 3,
+        "time": 80000,
+        "batch_time_factors": [50, 4],
+        "book_learn": [ ["survival_book", 3] , ["textbook_survival", 3] , ["manual_survival", 3] ],
+        "qualities":[
+            { "id": "CUT", "level" : 1 },
+            { "id": "COOK", "level": 2 }
+        ],
+        "components": [
+            [ [ "water", 3 ], [ "water_clean", 3 ] ],
+            [ [ "pine_bough", 5 ] ],
+            [ [ "sugar", 10 ], [ "honeycomb", 1], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ], [ "syrup", 2 ] ],
+            [ [ "yeast", 1 ] ]
+        ]
+    },{
+        "type" : "recipe",
+        "result": "brew_vinegar",
+        "result_mult" : 7,
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_BREW",
+        "skill_used": "cooking",
+        "difficulty": 3,
+        "time": 8000,
+        "batch_time_factors": [50, 4],
+        "autolearn": true,
+        "components": [
+            [ [ "water", 7 ], [ "water_clean", 7 ] ],
+            [ [ "juice", 14 ], [ "apple_cider", 7 ], [ "fruit_wine", 21 ] ]
+        ]
+    }
+]

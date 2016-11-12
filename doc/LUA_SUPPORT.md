@@ -60,7 +60,7 @@ static const struct luaL_Reg global_funcs [] = {
 Defining a global function in catalua.cpp and registering it in lua/class_definitions.lua
 ---------------------------------------------------------------------------------------------
 
-This method involves a bit more buerocracy, but is much easier to pull off and less prone to errors. Unless you wish to do something that the binding generator can't handle, this method is recommended for functions.
+This method involves a bit more bureaucracy, but is much easier to pull off and less prone to errors. Unless you wish to do something that the binding generator can't handle, this method is recommended for functions.
 
 First, define your function however you like in catalua.cpp
 

@@ -1,112 +1,86 @@
 #ifndef MAPGENFORMAT_H
 #define MAPGENFORMAT_H
 
+#include "int_id.h"
+
 #include <vector>
-#include <memory>
+#include <string>
 
-#include "map.h"
-/////
+struct ter_t;
+using ter_id = int_id<ter_t>;
+struct furn_t;
+using furn_id = int_id<furn_t>;
+class map;
 
-void formatted_set_incredibly_simple(
-  map * m, const ter_furn_id data[], int width, int height, int startx, int starty, ter_id defter = t_null
-);
-
-/////
 namespace mapf
 {
- namespace internal
- {
-  class format_effect;
- }
-/** The return statement for this method is not finalized.
- * The following things will be acces from this return statements.
- * - the region of points set by given character
- * - the region of points set to a given terrian id
- * - possibly some other stuff
- * You will have specify the values you want to track with a parameter.
+template<typename ID>
+class format_effect;
+
+/**
+ * Set terrain and furniture on the supplied map.
+ * @param ter_b,furn_b The lookup table for placing terrain / furniture
+ *   (result of @ref ter_bind / @ref furn_bind).
+ * @param cstr Contains the ASCII representation of the map. Each character in it represents
+ *   one tile on the map. It will be looked up in \p ter_b and \p furn_b to get the terrain/
+ *   furniture to place there (if that lookup returns a null id, nothing is set on the map).
+ *   A newline character continues on the next line (resets `x` to \p startx and increments `y`).
+ * @param startx,starty Coordinates in the map where to start drawing \p cstr.
  */
-void formatted_set_simple(map* m, const int startx, const int starty, const char* cstr,
-                       std::shared_ptr<internal::format_effect> ter_b, std::shared_ptr<internal::format_effect> furn_b,
-                       const bool empty_toilets = false);
+void formatted_set_simple( map *m, const int startx, const int starty, const char *cstr,
+                           format_effect<ter_id> ter_b, format_effect<furn_id> furn_b );
 
-std::shared_ptr<internal::format_effect> basic_bind(std::string characters, ...);
-std::shared_ptr<internal::format_effect> ter_str_bind(std::string characters, ...);
-std::shared_ptr<internal::format_effect> furn_str_bind(std::string characters, ...);
-std::shared_ptr<internal::format_effect> simple_method_bind(std::string characters, ...);
-
-// Anything specified in here isn't finalized
-namespace internal
+template<typename ID>
+class format_effect
 {
- class determine_terrain;
- struct format_data
- {
-  std::map<char, std::shared_ptr<determine_terrain> > bindings;
-  bool fix_bindings(const char c);
- };
-
- // This class will become an interface in the future.
- class format_effect
- {
-  private:
-  std::string characters;
-  std::vector< std::shared_ptr<determine_terrain> > determiners;
-
-  public:
-   format_effect(std::string characters, std::vector<std::shared_ptr<determine_terrain> > &determiners);
-   virtual ~format_effect();
-
-   void execute(format_data& data);
- };
-
- class determine_terrain
- {
-  public:
-   virtual ~determine_terrain() {}
-   virtual int operator ()(map* m, const int x, const int y) = 0;
- };
-
-    class statically_determine_terrain : public determine_terrain
-    {
     private:
-        int id;
+        std::string characters;
+        std::vector<ID> determiners;
+
     public:
-        statically_determine_terrain() : id(0) {}
-        statically_determine_terrain(int pid) : id(pid) {}
-        virtual ~statically_determine_terrain() {}
-        virtual int operator ()(map *, const int /*x*/, const int /*y*/) override {
-            return id;
-        }
-    };
+        format_effect( std::string characters,
+                       std::vector<ID> determiners );
 
-    class determine_terrain_with_simple_method : public determine_terrain
-    {
-    public:
-        typedef ter_id (*ter_id_func)();
-    private:
-        ter_id_func f;
-    public:
-        determine_terrain_with_simple_method() : f(NULL) {}
-        determine_terrain_with_simple_method(ter_id_func pf) : f(pf) {}
-        virtual ~determine_terrain_with_simple_method() {}
-        virtual int operator ()(map *, const int /*x*/, const int /*y*/) override {
-            return f();
-        }
-    };
+        ID translate( char c ) const;
+};
 
- //TODO: make use of this
- class determine_terrain_with_complex_method : public determine_terrain
- {
-  private:
-   ter_id (*f)(map*, const int, const int);
-  public:
-   determine_terrain_with_complex_method():f(NULL) {}
-   determine_terrain_with_complex_method(ter_id (*pf)(map*, const int, const int)):f(pf) {}
-   virtual ~determine_terrain_with_complex_method() {}
-   virtual int operator ()(map* m, const int x, const int y) override{return f(m,x,y);}
- };
+/**
+ * The functions create a mapping of characters to ids, usable with @ref formatted_set_simple.
+ * The first parameter must a string literal, containing the mapped characters.
+ * Only every second character of it is mapped:
+ * `"a b c"` maps `a` to the first id, `b` to the second and `c` to the third id.
+ * The further parameters form an array of suitable size with ids to map to.
+ *
+ * \code
+ * ter_bind( "a", t_dirt );
+ * ter_bind( "a b", t_dirt, t_wall );
+ * // This does not work (t_wall is not mapped to any character):
+ * ter_bind( "a", t_dirt, t_wall );
+ * // This does not work (character b is not mapped to any id):
+ * ter_bind( "a b", t_dirt );
+ * \endcode
+ */
+/**@{*/
+template<size_t N, typename ...Args>
+inline format_effect<ter_id> ter_bind( const char ( &characters )[N], Args... ids )
+{
+    // Note to self: N contains the 0-char at the end of a string literal!
+    static_assert( N % 2 == 0, "list of characters to bind to must be odd, e.g. \"a b c\"" );
+    static_assert( N / 2 == sizeof...( Args ),
+                   "list of characters to bind to must match the size of the remaining arguments" );
+    return format_effect<ter_id>( characters, { std::forward<Args>( ids )... } );
+}
 
-
-} //END NAMESPACE mapf::internal
+template<size_t N, typename ...Args>
+inline format_effect<furn_id> furn_bind( const char ( &characters )[N], Args... ids )
+{
+    // Note to self: N contains the 0-char at the end of a string literal!
+    static_assert( N % 2 == 0, "list of characters to bind to must be odd, e.g. \"a b c\"" );
+    static_assert( N / 2 == sizeof...( Args ),
+                   "list of characters to bind to must match the size of the remaining arguments" );
+    return format_effect<furn_id>( characters, { std::forward<Args>( ids )... } );
+}
+/**@}*/
 
 } //END NAMESPACE mapf
 

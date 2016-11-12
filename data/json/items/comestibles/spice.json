@@ -1,0 +1,65 @@
+[
+  {
+    "id": "chilly-p",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": "chili powder",
+    "name_plural": "chili powder",
+    "description": "Chilly P, Yo!  Not very good on its own, but it might help if you use it properly, or in meth.",
+    "color": "red"
+  },
+  {
+    "id": "cinnamon",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": "cinnamon",
+    "name_plural": "cinnamon",
+    "description": "Ground cinnamon bark with a sweet but slightly spicy aroma.",
+    "color": "brown"
+  },
+  {
+    "id": "curry_powder",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": "curry powder",
+    "name_plural": "curry powder",
+    "description": "A blend of spices meant to be used in some South Asian dishes.  Could be eaten raw, but why would you do that?",
+    "color": "red"
+  },
+  {
+    "id": "pepper",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": "black pepper",
+    "name_plural": "black pepper",
+    "description": "Ground black spice berries with a pungent aroma.",
+    "color": "dark_gray"
+  },
+  {
+    "id": "salt",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": "salt",
+    "name_plural": "salt",
+    "description": "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
+    "color": "white"
+  },
+  {
+    "id": "seasoning_italian",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": "Italian seasoning",
+    "name_plural": "Italian seasoning",
+    "description": "A fragrant mix of dried oregano, basil, thyme and other spices.",
+    "color": "green"
+  },
+  {
+    "id": "seasoning_salt",
+    "copy-from": "salt",
+    "type": "COMESTIBLE",
+    "name": "seasoned salt",
+    "name_plural": "seasoned salt",
+    "description": "Salt mixed with a fragrant blend of secret herbs and spices.",
+    "color": "brown"
+  }
+]

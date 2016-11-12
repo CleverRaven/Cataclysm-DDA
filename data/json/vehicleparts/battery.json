@@ -1,0 +1,96 @@
+[
+  {
+    "id": "battery_car",
+    "type": "vehicle_part",
+    "name": "car battery",
+    "item": "battery_car",
+    "fuel_type": "battery",
+    "symbol": "o",
+    "color": "yellow",
+    "broken_color": "red",
+    "durability": 120,
+    "folded_volume": 25,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 9 ] },
+      { "item": "steel_chunk", "count": [ 6, 9 ] },
+      { "item": "scrap", "count": [ 6, 9 ] }
+    ],
+    "requirements": {
+      "install": {
+        "time": 5000,
+        "qualities": [ { "id": "WRENCH", "level": 1 } ]
+      }
+    },
+    "flags": [ "FOLDABLE", "REVERSIBLE" ]
+  },
+  {
+    "id": "battery_motorbike",
+    "copy-from": "battery_car",
+    "type": "vehicle_part",
+    "name": "motorbike battery",
+    "item": "battery_motorbike",
+    "durability": 100,
+    "folded_volume": 5,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 7 ] },
+      { "item": "steel_chunk", "count": [ 4, 7 ] },
+      { "item": "scrap", "count": [ 4, 7 ] }
+    ]
+  },
+  {
+    "id": "medium_storage_battery",
+    "copy-from": "storage_battery",
+    "type": "vehicle_part",
+    "name": "medium storage battery",
+    "item": "medium_storage_battery",
+    "difficulty": 1,
+    "durability": 250,
+    "folded_volume": 10,
+    "breaks_into": [
+      { "item": "scrap", "count": [ 1, 4 ] },
+      { "item": "small_storage_battery", "count": [ 0, 4 ] }
+    ],
+    "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] }
+  },
+  {
+    "id": "small_storage_battery",
+    "copy-from": "storage_battery",
+    "type": "vehicle_part",
+    "name": "small storage battery",
+    "item": "small_storage_battery",
+    "difficulty": 1,
+    "durability": 100,
+    "folded_volume": 2,
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
+    "extend": { "flags": [ "TOOL_NONE", "FOLDABLE" ] }
+  },
+  {
+    "id": "storage_battery",
+    "type": "vehicle_part",
+    "name": "storage battery",
+    "item": "storage_battery",
+    "location": "fuel_source",
+    "fuel_type": "battery",
+    "symbol": "O",
+    "color": "yellow",
+    "broken_color": "red",
+    "difficulty": 2,
+    "durability": 300,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 5, 10 ] },
+      { "item": "steel_chunk", "count": [ 5, 10 ] },
+      { "item": "scrap", "count": [ 5, 10 ] },
+      { "item": "medium_storage_battery", "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "storage_battery_removable",
+    "copy-from": "storage_battery",
+    "type": "vehicle_part",
+    "name": "swappable storage battery",
+    "item": "storage_battery",
+    "location": "on_battery_mount",
+    "extend": { "flags": [ "TOOL_NONE", "NEEDS_BATTERY_MOUNT" ] }
+  }
+]

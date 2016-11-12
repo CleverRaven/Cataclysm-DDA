@@ -2,7 +2,8 @@
     {
         "type" : "tool_quality",
         "id" : "CUT",
-        "name" : "cutting"
+        "name" : "cutting",
+        "usages": [ [ 1, [ "salvage", "inscribe", "cauterize", "enzlave" ] ] ]
     },{
         "type" : "tool_quality",
         "id" : "GLARE",
@@ -26,11 +27,13 @@
     },{
         "type" : "tool_quality",
         "id" : "SAW_W",
-        "name" : "wood sawing"
+        "name" : "wood sawing",
+        "usages": [ [ 2, [ "LUMBER" ] ] ]
     },{
         "type" : "tool_quality",
         "id" : "SAW_M",
-        "name" : "metal sawing"
+        "name" : "metal sawing",
+        "usages": [ [ 2, [ "HACKSAW", "SAW_BARREL" ] ] ]
     },{
         "type" : "tool_quality",
         "id" : "SAW_M_FINE",
@@ -53,16 +56,22 @@
         "name" : "chemical making"
     },{
         "type" : "tool_quality",
-        "id" : "BREW",
-        "name" : "brewing"
+        "id" : "SMOKE_PIPE",
+        "name" : "smoking"
+    },{
+        "type" : "tool_quality",
+        "id" : "DISTILL",
+        "name" : "distilling"
     },{
         "type" : "tool_quality",
         "id" : "AXE",
-        "name" : "tree cutting"
+        "name" : "tree cutting",
+        "usages": [ [ 2, [ "LUMBER" ] ] ]
     },{
         "type" : "tool_quality",
         "id" : "DIG",
-        "name" : "digging"
+        "name" : "digging",
+        "usages": [ [ 2, [ "DIG" ] ] ]
     },{
         "type" : "tool_quality",
         "id" : "WRENCH",
@@ -74,7 +83,8 @@
     },{
         "type" : "tool_quality",
         "id" : "SCREW",
-        "name" : "screw driving"
+        "name" : "screw driving",
+        "usages": [ [ 1, [ "REMOVE_ALL_MODS" ] ] ]
     },{
         "type" : "tool_quality",
         "id" : "SCREW_FINE",
@@ -87,5 +97,21 @@
         "type" : "tool_quality",
         "id" : "DRILL",
         "name" : "drilling"
+    },{
+        "type" : "tool_quality",
+        "id" : "PRY",
+        "name" : "prying"
+    },{
+        "type" : "tool_quality",
+        "id" : "LIFT",
+        "name" : "lifting"
+    },{
+        "type" : "tool_quality",
+        "id" : "JACK",
+        "name" : "jacking"
+    },{
+        "type" : "tool_quality",
+        "id" : "CHISEL",
+        "name" : "chiseling"
     }
 ]

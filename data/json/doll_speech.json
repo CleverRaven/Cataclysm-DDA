@@ -1,77 +1,77 @@
 [
     {
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "Wanna play with me?",
         "volume" : 10
     },{
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "Sing with me!",
         "volume" : 10
     },{
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "I love you!",
         "volume" : 10
     },{
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "Please take me with you!",
         "volume" : 10
     },{
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "May I have a cookie?",
         "volume" : 10
     },{
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "Let's play together!",
         "volume" : 10
     },{
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "Time to play!",
         "volume" : 10
     },{
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "Om nom nom!  Delicious!",
         "volume" : 10
     },{
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "Are you my mommy?",
         "volume" : 10
     },{
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "Oh, how fun!",
         "volume" : 10
     },{
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "You're my best friend!",
         "volume" : 10
     },{
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "Heehee!",
         "volume" : 10
     },{
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "Let's have fun!",
         "volume" : 10
     },{
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "Let's have a tea party!",
         "volume" : 10
     },{
         "type" : "speech",
-        "speaker" : "doll",
+        "speaker" : "talking_doll",
         "sound" : "You're the best!",
         "volume" : 10
     },{

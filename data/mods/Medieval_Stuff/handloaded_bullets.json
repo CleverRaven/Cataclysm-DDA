@@ -1,0 +1,43 @@
+[
+    {
+        "type" : "AMMO",
+        "id" : "lance_charge",
+        "price" : 4500,
+        "name" : "fire lance charge",
+        "symbol" : "=",
+        "color" : "red",
+        "description" : "Little more than a charge of gunpowder for a basic firearm.  Despite the minimal range, it packs a punch.",
+        "material" : ["paper", "powder"],
+        "volume" : 1,
+        "weight" : 4,
+        "bashing" : 1,
+        "ammo_type" : "fire_lance",
+        "damage" : 50,
+        "pierce" : 0,
+        "range" : 3,
+        "dispersion" : 0,
+        "recoil" : 3000,
+        "count" : 1,
+        "effects" : ["COOKOFF", "RECYCLED"]
+    },{
+        "type" : "AMMO",
+        "id" : "lance_charge_shot",
+        "price" : 4500,
+        "name" : "fire lance shot",
+        "symbol" : "=",
+        "color" : "red",
+        "description" : "Little more than a charge of gunpowder for a basic firearm, with small pellets as shot.  Despite the minimal range, it packs a punch.",
+        "material" : ["paper", "powder"],
+        "volume" : 1,
+        "weight" : 5,
+        "bashing" : 1,
+        "ammo_type" : "fire_lance",
+        "damage" : 75,
+        "pierce" : 1,
+        "range" : 4,
+        "dispersion" : 0,
+        "recoil" : 3000,
+        "count" : 1,
+        "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
+    }
+]

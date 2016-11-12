@@ -17,69 +17,6 @@
   },
   {
     "type"  : "item_group",
-    "id"    : "coffee_display",
-    "items" : [
-      ["sandwich_t",  22],
-      ["jerky",       17],
-      ["porkstick",   18],
-      ["tea_raw",     50],
-      ["chips",       28],
-      ["chips2",      27],
-      ["chips3",      26],
-      ["cookies",     25],
-      ["coffee_raw",  90],
-      ["ceramic_cup", 10],
-      ["ceramic_plate",10],
-      ["choco_coffee_beans", 60],
-      ["coffee_syrup",25],
-      ["coffee_raw",  25]
-    ]
-  },
-  {
-    "type"  : "item_group",
-    "id"    : "coffee_fridge",
-    "items" : [
-      ["water_clean", 30],
-      ["water_mineral", 15],
-      ["cola",        30],
-      ["choc_drink",  30],
-      ["rootbeer",    33],
-      ["creamsoda",   28],
-      ["juice",       31],
-      ["pie",         40],
-      ["pie_meat",    28],
-      ["yoghurt",     30]
-    ]
-  },
-  {
-    "type"  : "item_group",
-    "id"    : "coffee_table",
-    "items" : [
-      ["pretzels",           40],
-      ["chocpretzels",       45],
-      ["candy",              30],
-      ["chips",              30],
-      ["cookies",            45],
-      ["restaurantmap",       5],
-      ["touristmap",          5],
-      ["seasoning_salt",     20],
-      ["pepper",             20],
-      ["cup_plastic",        10],
-      ["ceramic_cup",        80],
-      ["ceramic_plate",      60],
-      ["choco_coffee_beans", 40],
-      ["cig",                39],
-      ["rolling_paper",      15],
-      ["wrapper",            25],
-      ["mag_news",           40],
-      ["news_regional",      35],
-      ["coffee",             55],
-      ["atomic_coffee",      10],
-      ["tea",                35]
-    ]
-  },
-  {
-    "type"  : "item_group",
     "id"    : "coffee_dishes",
     "items" : [
       ["ceramic_cup",   70],
@@ -94,7 +31,7 @@
       ["wrapper",      17],
       ["bag_plastic",  15],
       ["bottle_glass", 10],
-      ["can_drink",    10],
+      ["can_drink_unsealed",    10],
       ["rag",          10],
       ["news_regional",20],
       ["mag_news",     20],
@@ -150,7 +87,7 @@
       "terrain": {
         "5": "t_wall_glass",
         "%": "t_wall_glass",
-        ",": "t_pavement_y",        
+        ",": "t_pavement_y",
         "_": "t_pavement",
         "x": "t_console_broken",
         ".": "t_floor",
@@ -200,7 +137,6 @@
         {"item": "coffee_display", "chance": 40, "x": [19, 15],  "y": 22, "repeat": [1,2]},
         {"item": "coffee_dishes",  "chance": 85, "x": 20,       "y": 22, "repeat": [1,2]},
         {"item": "coffee_fridge",  "chance": 75, "x": 22,       "y": 22, "repeat": [1,2]},
-        
         {"item": "coffee_table", "chance": 20, "x": [22,21], "y": [17,16], "repeat": [1,2]},
         {"item": "coffee_table", "chance": 20, "x": 12,    "y": 17,     "repeat": [1,2]},
         {"item": "coffee_table", "chance": 20, "x": 8,    "y": 17,     "repeat": [1,2]},
@@ -210,7 +146,6 @@
         {"item": "coffee_table", "chance": 20, "x": 21,     "y": 5,    "repeat": [1,2]},
         {"item": "coffee_table", "chance": 20, "x": 18,     "y": 5,    "repeat": [1,2]},
         {"item": "coffee_table", "chance": 20, "x": [20,19], "y": 2,    "repeat": [1,2]},
-        
         {"item": "coffee_trash", "chance": 75, "x": 22,      "y": 13,   "repeat": [2,4]},
         {"item": "coffee_bathroom","chance": 20,"x":[6,5],"y":[22,21], "repeat": [1,2]},
         {"item": "coffee_bathroom","chance": 20,"x":[3,2],"y":[22,21], "repeat": [1,2]}

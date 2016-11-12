@@ -4,7 +4,7 @@ Certain features of the game can be modified without rebuilding the game from
 source code; you should be able to just modify the pertinent files and run the
 game to see your changes.  This attempts to document these features.
 
-An in-depth review of all json files and their appropriate fields is avaliable in
+An in-depth review of all json files and their appropriate fields is available in
 JSON_INFO.txt.
 
 1) Adding a profession.
@@ -17,8 +17,8 @@ following entries:
    {
       "ident" : "survivalist"
       "name": "Wilderness Survivalist",
-      "description": "You live off the wild and wander the world; you've never
-                      had\na place to live or items other than what you can
+      "description": "You live off the wild and wander the world; you've never 
+                      had a place to live or items other than what you can
                       scavenge off the land.  People called you crazy; now,
                       after the disaster, you're the sane one."
 
@@ -45,9 +45,9 @@ After adding this to the professions.json file, we should see the new profession
 show up in the character creation screen.
 
 2) Adding an item
- 1)  Open the appropriate json in data/raw/items and add your item near similar types.
+ 1)  Open the appropriate json in data/json/items and add your item near similar types.
  1b) See JSON_INFO for a more in-depth review of each individual item .json file/flags
- 2)  Add the item to item_groups.json to have it spawn in in-game locations
+ 2)  Add the item to data/json/itemgroups to have it spawn in in-game locations
 
 3) IMPORTANT NOTE on JSON FILES:
 The following characters: [ { , } ] : "

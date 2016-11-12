@@ -10,17 +10,7 @@
     "material": ["aluminum", "plastic"],
     "weight": 100,
     "volume": 0,
-    "bashing": 0,
-    "cutting": 0,
-    "to_hit": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "max_charges": 0,
-    "revert_to": "null",
-    "ammo": "NULL",
-    "category" : "spare_parts",
-    "use_action": "NONE"
+    "category" : "spare_parts"
   },{
     "id" : "blob_dormant",
     "type": "TOOL",
@@ -32,15 +22,6 @@
     "material": "flesh",
     "weight": 1000,
     "volume": 1,
-    "bashing": 0,
-    "cutting": 0,
-    "to_hit": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "max_charges": 0,
-    "revert_to": "null",
-    "ammo": "NULL",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_blob",
@@ -63,15 +44,6 @@
     "material": "flesh",
     "weight": 10000,
     "volume": 15,
-    "bashing": 0,
-    "cutting": 0,
-    "to_hit": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "max_charges": 0,
-    "revert_to": "null",
-    "ammo": "NULL",
     "category": "tools",
     "use_action": {
         "type": "place_monster",
@@ -103,12 +75,8 @@
     "color": "green",
     "description": "A potent drug, necessary when performing a revival operation on larger animals (including humans).  It induces a violent allergic reactions in living organisms, so using it on yourself is a REALLY bad idea.",
     "price": 100000,
-    "material": "null",
     "weight": 1,
     "volume": 1,
-    "bashing": 0,
-    "cutting": 0,
-    "to_hit": 0,
     "tool" : "syringe",
     "category": "drugs"
   },{
@@ -118,14 +86,11 @@
     "max_level" : 5,
     "description" : "A thick book containing research notes of a mad scientist.  It describes various methods of reanimating and controlling the dead.  There's a lot of gory details and technical language mixed in, so it's not easy to read.",
     "weight" : 2330,
-    "to_hit" : 0,
     "color" : "dark_gray",
     "intelligence" : 14,
     "symbol" : "?",
-    "material" : ["paper", "null"],
+    "material" : ["paper"],
     "volume" : 5,
-    "bashing" : -2,
-    "cutting" : 0,
     "time" : 120,
     "fun" : -3,
     "skill" : "firstaid",
@@ -142,10 +107,9 @@
     "time": 30000,
     "reversible": true,
     "decomp_learn": 7,
-    "autolearn": false,
     "book_learn": [[ "abdul_necro", 5 ]],
     "qualities":[
-      {"id":"SCREW","level":1,"amount":1} ],
+      {"id":"SCREW","level":1} ],
     "tools": [
       [ [ "soldering_iron", 10], [ "toolset", 10] ]
     ],
@@ -165,11 +129,9 @@
     "skills_required": [[ "electronics", 2]],
     "difficulty": 5,
     "time": 15000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [[ "abdul_necro", 4 ]],
     "tools":[
-      [ [ "needle_bone", 30 ], [ "needle_wood", 30], [ "sewing_kit", 30], [ "tailors_kit", 30 ] ],
+      [ [ "sewing_kit", 30] ],
       [ ["UPS_off", 1], ["adv_UPS_off", 1] ]
     ],
     "components": [
@@ -185,11 +147,9 @@
     "skills_required": [ "firstaid", 3],
     "difficulty": 4,
     "time": 10000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [[ "abdul_necro", 3 ] ],
     "qualities":[
-      {"id":"CHEM","level":2,"amount":1} ],
+      {"id":"CHEM","level":2} ],
     "tools": [
       [ [ "char_smoker", 3], [ "hotplate", 25], [ "toolset", 25], [ "fire", -1] ],
       [ [ "vacutainer", -1] ]
@@ -207,11 +167,9 @@
     "skills_required": [[ "tailor", 6], [ "electronics", 6]],
     "difficulty": 7,
     "time": 120000,
-    "reversible": false,
-    "autolearn": false,
     "book_learn": [["abdul_necro", 6]],
     "tools": [
-      [ ["needle_bone", 30], ["needle_wood", 30], ["sewing_kit", 30], ["tailors_kit", 30] ],
+      [ ["sewing_kit", 30] ],
       [ ["syringe", -1] ],
       [ ["vacutainer", -1] ]
     ],

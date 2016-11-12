@@ -9,7 +9,6 @@
         ["mop", 20],
         ["shovel", 40],
         ["hammer_sledge", 5],
-        ["metal_tank_small", 25],
         ["metal_tank_little", 50],
         ["jerrycan", 10]
       ]
@@ -93,4 +92,3 @@
         "comment": "end of mapgen entry ---v"
     }
 ]
-

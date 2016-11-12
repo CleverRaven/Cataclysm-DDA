@@ -115,7 +115,7 @@
                 { "item": "dress_shop", "chance": 40, "x": [6,13],   "y": 13,      "repeat": [3,8] },
                 { "item": "dress_shoes", "chance": 40, "x": 21,   "y": [8,13],      "repeat": [2,5] },
                 { "item": "tailorbooks", "chance": 50, "x": 18,   "y": [15,17], "repeat": 2 },
-                { "item": "tailor", "chance": 50, "x": [12,15],   "y": 15, "repeat": [2,3] },
+                { "item": "tools_tailor", "chance": 50, "x": [12,15],   "y": 15, "repeat": [2,3] },
                 { "item": "cleaning", "chance": 50, "x": 21,   "y": 18, "repeat": 2 },
                 { "item": "trash", "chance": 50, "x": 4,   "y": 9 },
                 { "item": "trash", "chance": 50, "x": 4,   "y": 11 }
@@ -125,4 +125,3 @@
         "comment": "end of mapgen entry ---v"
     }
 ]
-

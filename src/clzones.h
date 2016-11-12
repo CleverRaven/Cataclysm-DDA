@@ -3,6 +3,7 @@
 
 #include "json.h"
 #include "enums.h"
+#include "translations.h"
 #include <vector>
 #include <string>
 #include <unordered_map>
@@ -13,126 +14,118 @@
  * These are zones the player can designate.
  *
  * They currently don't serve much use, other than to designate
- * where to auto-pickup and where not to.
+ * where to auto-pickup and where not to and restricting friendly npc pickup.
  */
-class clZones : public JsonSerializer, public JsonDeserializer
+class zone_manager : public JsonSerializer, public JsonDeserializer
 {
+private:
+    std::map<std::string, std::string> types;
+    std::unordered_map<std::string, std::unordered_set<tripoint> > area_cache;
+
+public:
+    zone_manager();
+    ~zone_manager() override {};
+    zone_manager( zone_manager && ) = default;
+    zone_manager( const zone_manager & ) = default;
+    zone_manager &operator=( zone_manager && ) = default;
+    zone_manager &operator=( const zone_manager & ) = default;
+
+    static zone_manager &get_manager()
+    {
+        static zone_manager manager;
+        return manager;
+    }
+
+    class zone_data
+    {
     private:
-        std::unordered_map<std::string, std::unordered_set<int> > mZones;
-        std::vector<std::pair<std::string, std::string> > vZoneTypes;
+        std::string name;
+        std::string type;
+        bool invert;
+        bool enabled;
+        tripoint start;
+        tripoint end;
 
     public:
-        clZones();
-        ~clZones() {};
-        clZones(clZones &&) = default;
-        clZones(const clZones &) = default;
-        clZones &operator=(clZones &&) = default;
-        clZones &operator=(const clZones &) = default;
-
-        class clZoneData
+        zone_data( const std::string &_name, const std::string &_type,
+                   const bool _invert, const bool _enabled,
+                   const tripoint &_start, const tripoint &_end )
         {
-            private:
-                std::string sName;
-                std::string sZoneType;
-                bool bInvert;
-                bool bEnabled;
-                point pointStartXY;
-                point pointEndXY;
-
-            public:
-                clZoneData()
-                {
-                    this->sName = "";
-                    this->sZoneType = "";
-                    this->bInvert = false;
-                    this->bEnabled = false;
-                    this->pointStartXY = point(-1, -1);
-                    this->pointEndXY = point(-1, -1);
-                }
-
-                clZoneData(const std::string p_sName, const std::string p_sZoneType,
-                           const bool p_bInvert, const bool p_bEnabled,
-                           const point &p_pointStartXY, const point &p_pointEndXY)
-                {
-                    this->sName = p_sName;
-                    this->sZoneType = p_sZoneType;
-                    this->bInvert = p_bInvert;
-                    this->bEnabled = p_bEnabled;
-                    this->pointStartXY = p_pointStartXY;
-                    this->pointEndXY = p_pointEndXY;
-                }
-
-                ~clZoneData() {};
-
-                void setName();
-                void setZoneType(std::vector<std::pair<std::string, std::string> > vZoneTypes);
-                void setEnabled(const bool p_bEnabled);
-
-                std::string getName() const
-                {
-                    return sName;
-                }
-                std::string getZoneType() const
-                {
-                    return sZoneType;
-                }
-                bool getInvert() const
-                {
-                    return bInvert;
-                }
-                bool getEnabled() const
-                {
-                    return bEnabled;
-                }
-                point getStartPoint() const
-                {
-                    return pointStartXY;
-                }
-                point getEndPoint() const
-                {
-                    return pointEndXY;
-                }
-                point getCenterPoint();
-        };
-
-        std::vector<clZoneData> vZones;
-
-        void add(const std::string p_sName, const std::string p_sZoneType,
-                 const bool p_bInvert, const bool p_bEnabled,
-                 const point &p_pointStartXY, const point &p_pointEndXY)
-        {
-            vZones.push_back(clZoneData(p_sName, p_sZoneType,
-                                        p_bInvert, p_bEnabled,
-                                        p_pointStartXY, p_pointEndXY
-                                       )
-                            );
+            name = _name;
+            type = _type;
+            invert = _invert;
+            enabled = _enabled;
+            start = _start;
+            end = _end;
         }
 
-        bool remove(const size_t iIndex)
-        {
-            if (iIndex < vZones.size()) {
-                vZones.erase(vZones.begin() + iIndex);
-                return true;
-            }
+        ~zone_data() {};
 
-            return false;
+        void set_name();
+        void set_type();
+        void set_enabled( const bool enabled );
+
+        std::string get_name() const
+        {
+            return name;
+        }
+        std::string get_type() const
+        {
+            return type;
+        }
+        bool get_invert() const
+        {
+            return invert;
+        }
+        bool get_enabled() const
+        {
+            return enabled;
+        }
+        tripoint get_start_point() const
+        {
+            return start;
+        }
+        tripoint get_end_point() const
+        {
+            return end;
+        }
+        tripoint get_center_point() const;
+    };
+
+    std::vector<zone_data> zones;
+
+    void add( const std::string &name, const std::string &type,
+              const bool invert, const bool enabled,
+              const tripoint &start, const tripoint &end );
+
+    bool remove( const size_t index )
+    {
+        if( index < zones.size() ) {
+            zones.erase( zones.begin() + index );
+            return true;
         }
 
-        unsigned int size()
-        {
-            return vZones.size();
-        }
-        std::vector<std::pair<std::string, std::string> > getZoneTypes()
-        {
-            return vZoneTypes;
-        }
-        std::string getNameFromType(const std::string p_sType);
-        bool hasType(const std::string p_sType);
-        void cacheZoneData();
-        bool hasZone(const std::string p_sType, const point p_pointInput);
-        using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const override;
-        void deserialize(JsonIn &jsin) override;
+        return false;
+    }
+
+    unsigned int size() const
+    {
+        return zones.size();
+    }
+    std::map<std::string, std::string> get_types() const
+    {
+        return types;
+    }
+    std::string get_name_from_type( const std::string &type ) const;
+    bool has_type( const std::string &type ) const;
+    void cache_data();
+    bool has( const std::string &type, const tripoint &where ) const;
+
+    bool save_zones();
+    void load_zones();
+    using JsonSerializer::serialize;
+    void serialize( JsonOut &json ) const override;
+    void deserialize( JsonIn &jsin ) override;
 };
 
 #endif

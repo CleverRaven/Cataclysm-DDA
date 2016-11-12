@@ -1,0 +1,115 @@
+[
+    {
+    "type": "mapgen",
+        "om_terrain": [
+            "triffid_grove"
+        ],
+        "method": "json",
+        "weight": 400,
+        "object": {
+            "fill_ter": "t_dirt",
+            "rows": [
+                "                        ",
+                "  44  4  66  66  4  44  ",
+                "  44  4  66  66  4  44  ",
+                "  44  4  66  66  4  44  ",
+                "  44  4  66 H66  4  44  ",
+                "  44  4          4  44  ",
+                "  44  4  766667  4  44  ",
+                "         777777   s     ",
+                "  55    77766777    55  ",
+                "  55  T77  SH  77S  55  ",
+                "  66 777  B  B  777 66  ",
+                " 1         >>         1 ",
+                " 1         >>         1 ",
+                "  66 777  B  B  777 66  ",
+                "  55  S77  HS  77T  55  ",
+                "  55    77766777    55  ",
+                "         777777         ",
+                "  44s 4  766667  4  44  ",
+                "  44  4          4  44  ",
+                "  44  4  66 S66  4  44  ",
+                "  44  4  66  66  4  44  ",
+                "  44  4  66  66  4  44  ",
+                "  44  4  66  66  4  44  ",
+                "                        "
+            ],
+            "terrain": {
+                " ": ["t_dirt", "t_dirt", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"],
+                "7": "t_tree",
+                "1": ["t_tree_young", "t_tree_young", "t_tree_young", "t_tree"],
+                "6": ["t_tree", "t_tree", "t_tree", "t_tree_apple", "t_tree_apple", "t_tree_pear", "t_tree_pear",
+                      "t_tree_cherry", "t_tree_peach", "t_tree_apricot", "t_tree_plum"],
+                "5": ["t_tree", "t_tree", "t_tree", "t_tree_pine", "t_tree_pine", "t_tree_birch", "t_tree_birch", "t_tree_maple"],
+                "4": [ "t_tree_young", "t_tree_young", "t_tree_willow", "t_tree_hickory", "t_underbrush", "t_shrub", "t_grass"],
+                ">": "t_slope_down"
+            },
+            "furniture": {
+                "^": "f_rubble_rock"
+            },
+            "monster": {
+                "B": { "monster": "mon_biollante" },
+                "T": { "monster": "mon_treent" },
+                "H": { "monster": "mon_minecraft" },
+                "S": { "monster": "mon_creeper_root" },
+                "s": { "monster": "mon_spider_wolf_giant"}
+            }
+        }
+    },{
+    "type": "mapgen",
+        "om_terrain": [
+            "triffid_grove"
+        ],
+        "method": "json",
+        "weight": 400,
+        "object": {
+            "fill_ter": "t_dirt",
+            "rows": [
+                "  4444 4444  4444 4444  ",
+                "  4444 4444  4444 4444  ",
+                "  4444 4444  4444H4444  ",
+                "                        ",
+                "                        ",
+                "     56544577544565     ",
+                "   S16   777777   61S   ",
+                "   116  77777777  611   ",
+                "  5665 77 7 T7 77 5665  ",
+                "  6    7        7    6  ",
+                "  5  77   B  B   77  5  ",
+                "  4 77s    >>    H77 4  ",
+                "  4 77H    >>    s77 4  ",
+                "  5  77   B  B   77  5  ",
+                "  6    7        7    6  ",
+                "  5665 77 7T 7 77 5665  ",
+                "   116  77777777  611   ",
+                "   S16   777777   61S   ",
+                "     56544577544565     ",
+                "                        ",
+                "                        ",
+                "  4444H4444  4444 4444  ",
+                "  4444 4444  4444 4444  ",
+                "  4444 4444  4444 4444  "
+            ],
+            "terrain": {
+                " ": ["t_dirt", "t_dirt", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"],
+                "7": "t_tree",
+                "1": ["t_tree_young", "t_tree_young", "t_tree_young", "t_tree"],
+                "6": ["t_tree", "t_tree", "t_tree", "t_tree_apple", "t_tree_apple", "t_tree_pear", "t_tree_pear",
+                      "t_tree_cherry", "t_tree_peach", "t_tree_apricot", "t_tree_plum"],
+                "5": ["t_tree", "t_tree", "t_tree", "t_tree_pine", "t_tree_pine", "t_tree_birch", "t_tree_birch", "t_tree_maple"],
+                "4": [ "t_tree_young", "t_tree_young", "t_tree_willow", "t_tree_hickory", "t_underbrush", "t_shrub", "t_grass"],
+                ">": "t_slope_down"
+            },
+            "furniture": {
+                "^": "f_rubble_rock"
+            },
+            "monster": {
+                "B": { "monster": "mon_biollante" },
+                "T": { "monster": "mon_treent" },
+                "H": { "monster": "mon_minecraft" },
+                "S": { "monster": "mon_creeper_root" },
+                "s": { "monster": "mon_spider_wolf_giant"}
+            }
+        }
+    }
+]

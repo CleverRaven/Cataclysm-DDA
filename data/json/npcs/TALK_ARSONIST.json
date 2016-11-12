@@ -100,7 +100,11 @@
     {
         "type": "talk_topic",
         "id": "TALK_ARSONIST_MUTATION",
-        "dynamic_line": "Ssh. Some people in here hate... mutations. This was an accident.",
+        "dynamic_line": {
+            "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ],
+            "yes": "Same way you got yours, I bet.  Keep quiet about it, some people here look down on people like us.",
+            "no": "Ssh.  Some people in here hate... mutations.  This was an accident."
+        },
         "responses": [
             {
                 "text": "Sorry to ask",
@@ -131,7 +135,11 @@
     {
         "type": "talk_topic",
         "id": "TALK_ARSONIST_MUTATION_INSULT",
-        "dynamic_line": "Screw You!",
+        "dynamic_line": {
+            "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ],
+            "yes": "As if you're one to talk.  Screw You.",
+            "no": "Screw You!"
+        },
         "responses": [
             {
                 "text": "...",

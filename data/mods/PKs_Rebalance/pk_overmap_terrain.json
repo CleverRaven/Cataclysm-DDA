@@ -1,0 +1,390 @@
+[
+    {
+        "type": "overmap_terrain",
+        "id": "hell_city_entranceNW",
+        "name": "hell spire citadel",
+        "sym": 73,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_entranceSW",
+        "name": "hell spire citadel",
+        "sym": 73,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_entranceNE",
+        "name": "hell spire citadel",
+        "sym": 73,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_entranceSE",
+        "name": "hell spire citadel",
+        "sym": 73,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_tunnel_B1W",
+        "name": "hell spire",
+        "sym": 73,
+        "color": "red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_tunnel_B1E",
+        "name": "hell spire",
+        "sym": 73,
+        "color": "red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_tunnel_prison_N",
+        "name": "hell spire holding cells",
+        "sym": 73,
+        "color": "i_magenta",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_tunnel_prison_S",
+        "name": "hell spire holding cells",
+        "sym": 73,
+        "color": "i_magenta",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_tunnel_B2E",
+        "name": "hell spire",
+        "sym": 73,
+        "color": "red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_B3N",
+        "name": "hell spire arena",
+        "sym": 73,
+        "color": "red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_city_B3S",
+        "name": "hell spire arena",
+        "sym": 73,
+        "color": "red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_NW",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_N",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_NE",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_CW",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_C",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_CE",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_SW",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_S",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_SE",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_B1_NW",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_B1_N",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_B1_NE",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_B1_CW",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_B1_C",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_B1_CE",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_B1_SW",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_B1_S",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "hell_castle_B1_SE",
+        "name": "hell castle",
+        "sym": 79,
+        "color": "i_red",
+        "see_cost": 5,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "trapdoor_pit",
+        "name": "field",
+        "sym": 46,
+        "color": "brown",
+        "see_cost": 2,
+        "extras": "field",
+        "mondensity": 5
+    },{
+        "type": "overmap_terrain",
+        "id": "trapdoor_pit_loner",
+        "name": "field",
+        "sym": 46,
+        "color": "brown",
+        "see_cost": 2,
+        "extras": "field",
+        "mondensity": 3
+    },{
+        "type": "overmap_terrain",
+        "id": "trapdoor_pit_b1",
+        "name": "spider lairs",
+        "sym": 79,
+        "color": "ltgrey",
+        "see_cost": 2,
+        "extras": "field",
+        "mondensity": 3
+    },{
+        "type" : "overmap_terrain",
+        "id" : "beehive_center",
+        "name" : "bee hive",
+        "sym" : 56,
+        "color" : "yellow",
+        "see_cost" : 5,
+        "extras" : "none",
+        "mondensity" : 4
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_barn",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_barn_f2",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_house",
+        "name" : "farm",
+        "sym" : 94,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_topright",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_centerleft",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_centercenter",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_centerright",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_bottomleft",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_bottomcenter",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_unsettled_bottomright",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    }
+]

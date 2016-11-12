@@ -1,0 +1,103 @@
+[
+   {
+        "type" : "overmap_terrain",
+        "id" : "factory_tlc",
+        "name" : "factory",
+        "sym" : 70,
+        "color" : "i_white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "factory_te",
+        "name" : "factory",
+        "sym" : 70,
+        "color" : "i_white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "factory_trc",
+        "name" : "factory",
+        "sym" : 70,
+        "color" : "i_white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "factory_le",
+        "name" : "factory",
+        "sym" : 70,
+        "color" : "i_white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "factory_mid",
+        "name" : "factory",
+        "sym" : 70,
+        "color" : "i_white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "factory_re",
+        "name" : "factory",
+        "sym" : 70,
+        "color" : "i_white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "factory_blc",
+        "name" : "factory",
+        "sym" : 70,
+        "color" : "i_white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "factory_be",
+        "name" : "factory",
+        "sym" : 70,
+        "color" : "i_white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+       "type" : "overmap_terrain",
+        "id" : "factory_be_gate",
+        "name" : "factory",
+        "sym" : 70,
+        "color" : "i_white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    },{
+        "type" : "overmap_terrain",
+        "id" : "factory_brc",
+        "name" : "factory",
+        "sym" : 70,
+        "color" : "i_white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 1
+    }
+]

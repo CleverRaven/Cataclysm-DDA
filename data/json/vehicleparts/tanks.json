@@ -1,0 +1,107 @@
+[
+  {
+    "id": "tank_little",
+    "type": "vehicle_part",
+    "name": "vehicle tank (2L)",
+    "item": "metal_tank_little",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color": "red",
+    "difficulty": 1,
+    "durability": 75,
+    "size": 2000,
+    "damage_modifier": 80,
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ]
+  },
+  {
+    "id": "tank_small",
+    "type": "vehicle_part",
+    "name": "vehicle tank (10L)",
+    "item": "jerrycan",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color": "red",
+    "difficulty": 1,
+    "durability": 100,
+    "size": 10000,
+    "damage_modifier": 80,
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 40 ] } ]
+  },
+  {
+    "id": "tank_medium",
+    "type": "vehicle_part",
+    "name": "vehicle tank (20L)",
+    "item": "jerrycan_big",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color": "red",
+    "difficulty": 1,
+    "durability": 120,
+    "size": 20000,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 1, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "tank",
+    "type": "vehicle_part",
+    "name": "vehicle tank (60L)",
+    "item": "metal_tank",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color": "red",
+    "difficulty": 1,
+    "durability": 150,
+    "size": 60000,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 5 ] }
+    ]
+  },
+  {
+    "id": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external tank (100L)",
+    "item": "30gal_drum",
+    "location": "structure",
+    "symbol": "O",
+    "broken_color": "red",
+    "difficulty": 1,
+    "durability": 160,
+    "size": 100000,
+    "damage_modifier": 80,
+    "flags": [ "PROTRUSION", "UNMOUNT_ON_DAMAGE" ]
+  },
+  {
+    "id": "external_tank",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external tank (200L)",
+    "item": "55gal_drum",
+    "size": 200000
+  },
+  {
+    "id": "tank_barrel",
+    "type": "vehicle_part",
+    "name": "barrel (100L)",
+    "item": "wooden_barrel",
+    "location": "fuel_source",
+    "symbol": "O",
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 120,
+    "size": 400,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "splinter", "count": [ 3, 8 ] },
+      { "item": "2x4", "count": [ 2, 8 ] },
+      { "item": "scrap", "count": [ 1, 3 ] }
+    ],
+    "flags": [ "NAILABLE" ]
+  }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "type" : "item_action",
+        "id" : "manualnoise",
+        "name" : "Make some noise"
+    },{
+        "type" : "item_action",
+        "id" : "WEATHER_TOOL",
+        "name" : "Check weather information"
+    }
+]

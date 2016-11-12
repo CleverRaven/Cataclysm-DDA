@@ -1,0 +1,41 @@
+[
+  {
+    "id": "water",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "category": "food",
+    "name": "water",
+    "name_plural": "water",
+    "description": "Water, the stuff of life, the best thirst-quencher available..",
+    "weight": 250,
+    "volume": 1,
+    "price": 50,
+    "symbol": "~",
+    "color": "light_blue",
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "quench": 50,
+    "ammo_data": { "ammo_type": "water" },
+    "flags": [ "EATEN_COLD" ]
+  },
+  {
+    "id": "water_clean",
+    "copy-from": "water",
+    "type": "COMESTIBLE",
+    "name": "clean water",
+    "name_plural": "clean water",
+    "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
+    "color": "light_cyan"
+  },
+  {
+    "id": "water_mineral",
+    "copy-from": "water",
+    "type": "COMESTIBLE",
+    "name": "mineral water",
+    "name_plural": "mineral water",
+    "description": "Fancy mineral water, so fancy it makes you feel fancy just holding it.",
+    "container": "bottle_glass",
+    "proportional": { "quench": 1.2 },
+    "relative": { "fun": 1 }
+  }
+]

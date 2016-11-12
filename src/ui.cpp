@@ -11,6 +11,8 @@
 #include "uistate.h"
 #include "options.h"
 #include "game.h"
+#include "player.h"
+#include "cata_utility.h"
 
 #ifdef debuguimenu
 #define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)
@@ -25,7 +27,7 @@ int getfoldedwidth (std::vector<std::string> foldedstring)
 {
     int ret = 0;
     for (auto &i : foldedstring) {
-        int width = utf8_width(i.c_str());
+        int width = utf8_width(i);
         if ( width > ret ) {
             ret = width;
         }
@@ -34,9 +36,12 @@ int getfoldedwidth (std::vector<std::string> foldedstring)
 }
 
 ////////////////////////////////////
-uimenu::uimenu()
+uimenu::uimenu( const std::string &hotkeys_override )
 {
     init();
+    if( !hotkeys_override.empty() ) {
+        hotkeys = hotkeys_override;
+    }
 }
 
 // here we emulate the old int ret=menu(bool, "header", "option1", "option2", ...);
@@ -194,17 +199,6 @@ void uimenu::init()
 }
 
 /*
- * case insensitive string::find( string::findstr ). findstr must be lowercased
- */
-bool lcmatch(const std::string &str, const std::string &findstr)
-{
-    std::string ret = "";
-    ret.reserve( str.size() );
-    transform( str.begin(), str.end(), std::back_inserter(ret), tolower );
-    return ( (int)ret.find( findstr ) != -1 );
-}
-
-/*
  * repopulate filtered entries list (fentries) and set fselected accordingly
  */
 void uimenu::filterlist()
@@ -313,6 +307,8 @@ void uimenu::setup()
     bool w_auto = (w_width == -1 || w_width == -2 );
     bool w_autofold = ( w_width == -2);
 
+    // Space for a line between text and entries. Only needed if there is actually text.
+    const int text_separator_line = text.empty() ? 0 : 1;
     if ( w_auto ) {
         w_width = 4;
         if ( !title.empty() ) {
@@ -336,7 +332,7 @@ void uimenu::setup()
     int pad = pad_left + pad_right + 2;
     int descwidth_final = 0; // for description width guard
     for ( size_t i = 0; i < entries.size(); i++ ) {
-        int txtwidth = utf8_width(remove_color_tags( entries[ i ].txt ).c_str());
+        int txtwidth = utf8_width( remove_color_tags(entries[i].txt) );
         if ( txtwidth > max_entry_len ) {
             max_entry_len = txtwidth;
         }
@@ -359,7 +355,7 @@ void uimenu::setup()
         }
         if ( desc_enabled ) {
             // subtract one from desc_lines for the reminder of the text
-            int descwidth = utf8_width(entries[i].desc.c_str()) / (desc_lines - 1);
+            int descwidth = utf8_width(entries[i].desc) / (desc_lines - 1);
             descwidth += 4; // 2x border + 2x ' ' pad
             if ( descwidth_final < descwidth ) {
                 descwidth_final = descwidth;
@@ -398,7 +394,7 @@ void uimenu::setup()
     }
 
     if(!text.empty() ) {
-        int twidth = utf8_width(remove_color_tags( text ).c_str());
+        int twidth = utf8_width( remove_color_tags(text) );
         bool formattxt = true;
         int realtextwidth = 0;
         if ( textwidth == -1 ) {
@@ -414,8 +410,9 @@ void uimenu::setup()
                     formattxt = false;
                     realtextwidth = 10;
                     for (auto &l : textformatted) {
-                        if ( utf8_width(l.c_str()) > realtextwidth ) {
-                            realtextwidth = utf8_width(l.c_str());
+                        const int w = utf8_width( remove_color_tags( l ) );
+                        if ( w > realtextwidth ) {
+                            realtextwidth = w;
                         }
                     }
                     if ( realtextwidth + 4 > w_width ) {
@@ -432,7 +429,7 @@ void uimenu::setup()
     }
 
     if (h_auto) {
-        w_height = 3 + textformatted.size() + entries.size();
+        w_height = 2 + text_separator_line + textformatted.size() + entries.size();
         if (desc_enabled) {
             int w_height_final = w_height + desc_lines + 1; // add one for border
             if (w_height_final > TERMY) {
@@ -450,8 +447,8 @@ void uimenu::setup()
     }
 
     vmax = entries.size();
-    if ( vmax + 3 + (int)textformatted.size() > w_height ) {
-        vmax = w_height - 3 - textformatted.size();
+    if ( vmax + 2 + text_separator_line + (int)textformatted.size() > w_height ) {
+        vmax = w_height - (2 + text_separator_line) - textformatted.size();
         if ( vmax < 1 ) {
             if (textformatted.empty()) {
                 popup("Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
@@ -504,6 +501,7 @@ void uimenu::setup()
     started = true;
 }
 
+// @todo replace content of this function by draw_scrollbar() from output.(h|cpp)
 void uimenu::apply_scrollbar()
 {
     if ( ! scrollbar_auto ) {
@@ -514,7 +512,7 @@ void uimenu::apply_scrollbar()
         last_fsize = fentries.size();
 
         int sbside = ( scrollbar_side == 0 ? 0 : w_width );
-        int estart = textformatted.size() + 1;
+        int estart = textformatted.size() + 2;
 
         if ( !fentries.empty() && vmax < (int)fentries.size() ) {
             wattron(window, border_color);
@@ -567,17 +565,20 @@ void uimenu::show()
     }
     std::string padspaces = std::string(w_width - 2 - pad_left - pad_right, ' ');
     const int text_lines = textformatted.size();
-    for ( int i = 0; i < text_lines; i++ ) {
-        trim_and_print(window, 1 + i, 2, getmaxx(window) - 4, text_color, "%s", textformatted[i].c_str());
+    int estart = 1;
+    if( !textformatted.empty() ) {
+        for ( int i = 0; i < text_lines; i++ ) {
+            trim_and_print(window, 1 + i, 2, getmaxx(window) - 4, text_color, "%s", textformatted[i].c_str());
+        }
+
+        mvwputch(window, text_lines + 1, 0, border_color, LINE_XXXO);
+        for ( int i = 1; i < w_width - 1; ++i) {
+            mvwputch(window, text_lines + 1, i, border_color, LINE_OXOX);
+        }
+        mvwputch(window, text_lines + 1, w_width - 1, border_color, LINE_XOXX);
+        estart += text_lines + 1; // +1 for the horizontal line.
     }
 
-    mvwputch(window, text_lines + 1, 0, border_color, LINE_XXXO);
-    for ( int i = 1; i < w_width - 1; ++i) {
-        mvwputch(window, text_lines + 1, i, border_color, LINE_OXOX);
-    }
-    mvwputch(window, text_lines + 1, w_width - 1, border_color, LINE_XOXX);
-
-    int estart = text_lines + 2;
 
     calcStartPos( vshift, fselected, vmax, fentries.size() );
 
@@ -586,7 +587,7 @@ void uimenu::show()
             int ei = fentries [ fei ];
             nc_color co = ( ei == selected ?
                             hilight_color :
-                            ( entries[ ei ].enabled ?
+                            ( entries[ ei ].enabled || entries[ei].force_color ?
                               entries[ ei ].text_color :
                               disabled_color )
                           );
@@ -604,7 +605,8 @@ void uimenu::show()
                 // cases printeing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
                 // to be used.
                 const auto entry = utf8_wrapper( entries[ ei ].txt );
-                trim_and_print( window, estart + si, pad_left + 4, w_width - 2 - pad_left - pad_right, co, "%s", entry.c_str() );
+                trim_and_print( window, estart + si, pad_left + 4,
+                                w_width - 5 - pad_left - pad_right, co, "%s", entry.c_str() );
             }
             if ( !entries[ei].extratxt.txt.empty() ) {
                 mvwprintz( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
@@ -637,8 +639,10 @@ void uimenu::show()
             }
         }
 
-        // draw description
-        fold_and_print(window, w_height - desc_lines - 1, 2, w_width - 4, text_color, entries[selected].desc.c_str());
+        if( static_cast<size_t>( selected ) < entries.size() ){
+            fold_and_print( window, w_height - desc_lines - 1, 2, w_width - 4, text_color,
+                            entries[selected].desc );
+        }
     }
 
     if ( !filter.empty() ) {

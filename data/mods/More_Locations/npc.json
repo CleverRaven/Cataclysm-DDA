@@ -1,0 +1,23 @@
+[
+  {
+    "type" : "npc",
+    "id" : "raider",
+    "comment" : "Better equipped soldier/raider.",
+    "name+" : ", Raider",
+    "class" : 14,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_DONE",
+    "faction" : "hells_raiders"
+  },{
+    "type" : "npc",
+    "id" : "captive",
+    "comment" : "No missions. Set to follow the PC automatically.",
+    "name+" : ", Captive",
+    "class" : 10,
+    "attitude" : 3,
+    "mission" : 7,
+    "chat" : "TALK_DONE",
+    "faction" : "captives"
+  }
+]

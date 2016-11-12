@@ -68,7 +68,7 @@
         "type" : "skill",
         "ident" : "traps",
         "name" : "trapping",
-        "description" : "Your skill in setting and disarming traps safely and effectively.  This skill does not affect the detection of hidden traps, or the evasion of traps that are triggered."
+        "description" : "Your skill in creating, setting, finding and disarming traps safely and effectively.  This skill does not affect the evasion of traps that are triggered."
     },{
         "type" : "skill",
         "ident" : "archery",
@@ -133,24 +133,31 @@
         "ident" : "pistol",
         "name" : "handguns",
         "description" : "Handguns have poor accuracy compared to rifles, but are usually quick to fire and reload faster than other guns.  They are very effective at close quarters, though unsuited for long range engagement.",
-        "tags" : ["gun_type", "combat_skill"]
+        "tags" : ["combat_skill"]
     },{
         "type" : "skill",
         "ident" : "rifle",
         "name" : "rifles",
         "description" : "Rifles have terrific range and accuracy compared to other firearms, but may be slow to fire and reload, and can prove difficult to use in close quarters.  Fully automatic rifles can fire rapidly, but are harder to handle properly.",
-        "tags" : ["gun_type", "combat_skill"]
+        "tags" : ["combat_skill"]
     },{
         "type" : "skill",
         "ident" : "shotgun",
         "name" : "shotguns",
         "description" : "Shotguns are easy to shoot and can inflict massive damage, but their effectiveness and accuracy decline rapidly with range.  Slugs can be loaded into shotguns to provide greater range, though they are somewhat inaccurate.",
-        "tags" : ["gun_type", "combat_skill"]
+        "tags" : ["combat_skill"]
     },{
         "type" : "skill",
         "ident" : "smg",
         "name" : "submachine guns",
         "description" : "Comprised of an automatic rifle carbine designed to fire a pistol cartridge, submachine guns can reload and fire quickly, sometimes in bursts, but they are relatively inaccurate and may be prone to mechanical failures.",
-        "tags" : ["gun_type", "combat_skill"]
+        "tags" : ["combat_skill"]
+    },
+    {
+        "type" : "skill",
+        "ident" : "weapon",
+        "name" : "weapon",
+        "description" : "seeing this is a bug",
+        "tags" : ["contextual_skill"]
     }
 ]

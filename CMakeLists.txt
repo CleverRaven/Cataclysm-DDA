@@ -18,8 +18,12 @@ option(USE_HOME_DIR "Use user's home directory for save files."					"ON" )
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."		"ON" )
 option(LANGUAGES    "Compile localization files for specified languages."			""   )
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."	"ON")
-option(LUA_BINARY   "Lua binary name or path. You can try use luajit for extra speed"		"")
+option(LUA_BINARY   "Lua binary name or path. You can try to use luajit for extra speed."	"")
 option(GIT_BINARY   "Git binary name or path."							"")
+OPTION(PREFIX       "Location of Data,GFX, & Lua directories"                                   "")
+
+include(GetGitRevisionDescription)
+git_describe(GIT_VERSION)
 
 IF (RELEASE)
 MESSAGE("\n * Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.")
@@ -29,13 +33,22 @@ MESSAGE("   /    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | / 
 MESSAGE("   \\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\    ")
 MESSAGE("    \\______  /\(____  / |__|  \(____  / \\___  >|____/ / ____|/____  >|__|_|  /    ")
 MESSAGE("           \\/      \\/             \\/      \\/        \\/          \\/       \\/     ")
-MESSAGE("                               --= Dark Days Ahead =--") 
+MESSAGE("                               --= Dark Days Ahead =--")
 MESSAGE("\n * http://en.cataclysmdda.com/\n")
 ENDIF (RELEASE)
 
 MESSAGE(STATUS "${PROJECT} build environment -- \n")
 
-MESSAGE(STATUS "Build realm is   : ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}\n")
+MESSAGE(STATUS "Build realm is                : ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+
+if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
+    string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
+    FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h "\#define VERSION \"${GIT_VERSION}\"\n")
+    MESSAGE(STATUS "${PROJECT_NAME} build version is : ${GIT_VERSION}\n")
+    ADD_DEFINITIONS(-DGIT_VERSION=${GIT_VERSION})
+ELSE (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
+    MESSAGE("")
+ENDIF(NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
 
 #OS Check Placeholders. Will be used for BINDIST
 IF (${CMAKE_SYSTEM_NAME} MATCHES Linux)
@@ -78,14 +91,7 @@ IF (NOT DYNAMIC_LINKING)
 ELSE (NOT DYNAMIC_LINKING)
 	IF(MINGW)
 		# Avoid depending on MinGW runtime DLLs
-		check_cxx_compiler_flag (-static-libgcc HAVE_STATIC_LIBGCC_FLAG)
-		IF(HAVE_STATIC_LIBGCC_FLAG)
-			SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc")
-		ENDIF(HAVE_STATIC_LIBGCC_FLAG)
-		check_cxx_compiler_flag (-static-libstdc++ HAVE_STATIC_LIBSTDCXX_FLAG)
-		IF(HAVE_STATIC_LIBSTDCXX_FLAG)
-			SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++")
-		ENDIF(HAVE_STATIC_LIBSTDCXX_FLAG)
+		SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
 	ENDIF(MINGW)
 ENDIF (NOT DYNAMIC_LINKING)
 
@@ -137,7 +143,7 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES Windows)
 ENDIF (${CMAKE_SYSTEM_NAME} MATCHES Windows)
 
 
-MESSAGE(STATUS "${PROJECT} build options --\n")
+MESSAGE(STATUS "${PROJECT_NAME} build options --\n")
 
 # Preset variables
 IF (NOT LUA_BINARY)
@@ -145,7 +151,7 @@ IF (NOT LUA_BINARY)
 ENDIF (NOT LUA_BINARY)
 
 IF(NOT LANGUAGES)
-	SET (LANGUAGES cs de el es_AR es_ES fi fr it_IT ja ko pl pt_BR pt pt_PT ru sr vi zh_CN zh_TW)
+	SET (LANGUAGES de es_AR es_ES fr it_IT ja ko pt_BR pt_PT ru zh_CN zh_TW)
 ENDIF(NOT LANGUAGES)
 
 IF (GIT_BINARY)
@@ -157,38 +163,66 @@ ELSE (GIT_BINARY)
 	ENDIF (NOT GIT_FOUND)
 ENDIF (GIT_BINARY)
 
+IF (PREFIX)
+	ADD_DEFINITIONS(-DPREFIX=${PREFIX})
+ENDIF (PREFIX)
+
+# Can't compile curses and tiles build's at same time
+IF(TILES)
+    SET(CURSES OFF)
+ENDIF(TILES)
+
 # Set build types and display info
-	MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}\n")
 IF(RELEASE)
 	MESSAGE(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
 	MESSAGE(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
 	MESSAGE(STATUS "DATA_PREFIX                   : ${DATA_PREFIX}")
+    IF(LOCALIZE)
+        MESSAGE(STATUS "LOCALE_PATH                   : ${LOCALE_DIR}")
+    ENDIF(LOCALIZE)
 	MESSAGE(STATUS "DESKTOP_ENTRY_PATH            : ${DESKTOP_ENTRY_PATH}")
 	MESSAGE(STATUS "PIXMAPS_ENTRY_PATH            : ${PIXMAPS_ENTRY_PATH}")
 	MESSAGE(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
 	MESSAGE(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
 	SET(CMAKE_BUILD_TYPE RELEASE)
+	ADD_DEFINITIONS(-DRELEASE)
 	# FIXME: Removed -Werror for a while. Currently it is broken in upstream.
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os -std=c++11 -MMD -Wall -Wextra")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os")
+	IF(NOT MSVC)
+		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall -std=c++11 -MMD")
+	ELSE()
+		if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+			add_definitions(-D_AMD64_)
+		else()
+			add_definitions(-D_X86_)
+		endif()
+	ENDIF()
 	IF(MINGW)
 		# Workaround for: http://ehc.ac/p/mingw/bugs/2250/
 		ADD_DEFINITIONS(-D__NO_INLINE__)
 	ENDIF(MINGW)
-	IF(NOT WIN32)
-		# PREFIX has no sence in case of win32
-		ADD_DEFINITIONS(-DPREFIX=${CMAKE_INSTALL_PREFIX})
-	ENDIF(NOT WIN32)
-	ADD_DEFINITIONS(-DRELEASE)
+    # Use PREFIX as storage of data,gfx,lua etc.. Usefull only on *nix OS.
+    IF (PREFIX AND NOT WIN32)
+	    ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
+    ENDIF (PREFIX AND NOT WIN32)
 ELSE (RELEASE)
 	MESSAGE("\n")
 	MESSAGE(STATUS "Build ${PROJECT} in development mode (RELEASE=OFF) --\n")
 	MESSAGE(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -MMD -Wall -Wextra")
 	SET(CMAKE_BUILD_TYPE DEBUG)
 	IF(NOT WIN32)
 		# Reduce objects and binary size to avoid 'file too big' error
 		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_DEBUG")
 	ENDIF(NOT WIN32)
+	IF(NOT MSVC)
+		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall -std=c++11 -MMD")
+	ELSE()
+		if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+			add_definitions(-D_AMD64_)
+		else()
+			add_definitions(-D_X86_)
+		endif()
+	ENDIF()
 	SET(CMAKE_VERBOSE_MAKEFILE ON)
 	# Since CataclusmDDA does not respect PREFIX for development builds
 	# and has funny path handlers, we should create resulting Binaries
@@ -205,6 +239,7 @@ IF (LUA)
 	MESSAGE(STATUS "LUA_BINARY                    : ${LUA_BINARY}")
 ENDIF (LUA)
 	MESSAGE(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
+	MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
 	MESSAGE(STATUS "TILES                         : ${TILES}")
 	MESSAGE(STATUS "CURSES                        : ${CURSES}")
 	MESSAGE(STATUS "SOUND                         : ${SOUND}")
@@ -231,7 +266,7 @@ FIND_PACKAGE(Threads REQUIRED)
 # Check for build types and libraries
 IF(TILES)
 	# Find SDL, SDL_ttf & SDL_image for graphical install
-	MESSAGE(STATUS "Searching for SDL2 library --\n")
+	MESSAGE(STATUS "Searching for SDL2 library --")
 	FIND_PACKAGE(SDL2)
 	IF(NOT SDL2_FOUND)
         	MESSAGE(FATAL_ERROR
@@ -241,7 +276,7 @@ IF(TILES)
 
 	IF (NOT DYNAMIC_LINKING)
 		# SDL, SDL_Image, SDL_ttf deps are required for static build
-		MESSAGE(STATUS "Searching for SDL deps libraries --\n")
+		MESSAGE(STATUS "Searching for SDL deps libraries --")
 		FIND_PACKAGE(Freetype REQUIRED)
 		FIND_PACKAGE(PNG REQUIRED)
 		FIND_PACKAGE(JPEG REQUIRED)
@@ -249,9 +284,9 @@ IF(TILES)
 		FIND_PACKAGE(BZip2 REQUIRED)
 	ENDIF (NOT DYNAMIC_LINKING)
 
-	MESSAGE(STATUS "Searching for SDL2_image library --\n")
+	MESSAGE(STATUS "Searching for SDL2_image library --")
 
-	MESSAGE(STATUS "Searching for SDL2_TTF library --\n")
+	MESSAGE(STATUS "Searching for SDL2_TTF library --")
 	FIND_PACKAGE(SDL2_ttf)
 		IF(NOT SDL2_TTF_FOUND)
 		MESSAGE(FATAL_ERROR
@@ -266,6 +301,7 @@ IF(TILES)
 			"This project requires SDL2_image to be installed to be compiled in graphical mode. Please install the SDL2_image development libraries, or try compiling without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
 		)
 	ENDIF(NOT SDL2_IMAGE_FOUND)
+	ADD_DEFINITIONS(-DTILES)
 ENDIF(TILES)
 
 IF(CURSES)
@@ -340,7 +376,9 @@ ENDIF(LUA)
 
 add_subdirectory(src)
 add_subdirectory(data)
-add_subdirectory(src/chkjson)
+if (NOT MSVC)
+	add_subdirectory(src/chkjson)
+endif()
 
 CONFIGURE_FILE(
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
@@ -353,3 +391,8 @@ ADD_CUSTOM_TARGET(uninstall
 	-P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
 )
 
+find_program(CCACHE_FOUND ccache)
+if(CCACHE_FOUND)
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
+endif(CCACHE_FOUND)

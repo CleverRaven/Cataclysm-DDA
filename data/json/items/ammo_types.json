@@ -3,19 +3,7 @@
         "type" : "ammunition_type",
         "id" : "NULL",
         "name" : "none",
-        "default" : ""
-    },
-    {
-        "type" : "ammunition_type",
-        "id" : "generic_no_ammo",
-        "name" : "none",
-        "default" : ""
-    },
-    {
-        "type" : "ammunition_type",
-        "id" : "pointer_fake_ammo",
-        "name" : "none", 
-        "default" : "pointer_fake_ammo"
+        "default" : "null"
     },
     {
         "type" : "ammunition_type",
@@ -85,6 +73,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "9x18",
+        "name" : "9x18mm",
+        "default" : "9x18mm"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "38",
         "name" : ".38",
         "default" : "38_special"
@@ -93,7 +87,7 @@
         "type" : "ammunition_type",
         "id" : "40",
         "name" : ".40",
-        "default" : "10mm"
+        "default" : "40sw"
     },
     {
         "type" : "ammunition_type",
@@ -139,6 +133,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "545x39",
+        "name" : "5.45x39mm",
+        "default" : "545"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "223",
         "name" : ".223",
         "default" : "223"
@@ -159,7 +159,7 @@
         "type" : "ammunition_type",
         "id" : "40mm",
         "name" : "40mm grenade",
-        "default" : "40mm_concussive"
+        "default" : "40mm_frag"
     },
     {
         "type" : "ammunition_type",
@@ -211,6 +211,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "soap",
+        "name" : "soap",
+        "default" : "soap"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "tape",
         "name" : "duct tape",
         "default" : "duct_tape"
@@ -226,12 +232,6 @@
         "id" : "money",
         "name" : "cents",
         "default" : "money"
-    },
-    {
-        "type" : "ammunition_type",
-        "id" : "laser_capacitor",
-        "name" : "charge",
-        "default" : "laser_pack"
     },
     {
         "type" : "ammunition_type",
@@ -260,14 +260,32 @@
     {
         "type" : "ammunition_type",
         "id" : "plasma",
-        "name" : "hydrogen",
+        "name" : "solid hydrogen",
         "default" : "plasma"
     },
     {
         "type" : "ammunition_type",
         "id" : "water",
-        "name" : "clean water",
-        "default" : "water_clean"
+        "name" : "water",
+        "default" : "water"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "flammable",
+        "name" : "flammable liquid",
+        "default" : "napalm"
+    },
+    {
+       "type" : "ammunition_type",
+        "id" : "weldgas",
+        "name" : "welding gas",
+        "default" : "oxyacetylene"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "conc_alcohol",
+        "name" : "concentrated alcohol",
+        "default" : "denat_alcohol"
     },
     {
         "type" : "ammunition_type",
@@ -349,12 +367,6 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "dart",
-        "name" : "dart",
-        "default" : "dart"
-    },
-    {
-        "type" : "ammunition_type",
         "id" : "rebreather_filter",
         "name" : "rebreather filter",
         "default" : "rebreather_filter"
@@ -379,7 +391,7 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "ammo_flintlock",
+        "id" : "flintlock",
         "name" : "paper cartridge",
         "default" : "flintlock_ammo"
     },
@@ -411,7 +423,7 @@
         "type" : "ammunition_type",
         "id" : "fish_bait",
         "name" : "fish bait",
-        "default" : "fish_bait_meat"
+        "default" : "fish_bait"
     },
     {
         "type" : "ammunition_type",
@@ -424,6 +436,11 @@
         "id" : "unfinished_char",
         "name" : "semi-charred fuel",
         "default" : "unfinished_charcoal"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "chemical_spray",
+        "name" : "sprayable chemical",
+        "default" : "gas_fungicidal"
     }
-
 ]

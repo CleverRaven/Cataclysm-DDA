@@ -7,6 +7,7 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
+#include <memory>
 
 enum NODE_ERROR_TYPE {
     DEPENDENCY,
@@ -27,11 +28,11 @@ class dependency_node
         bool on_stack;
 
         dependency_node();
-        dependency_node(std::string _key);
+        dependency_node( std::string _key );
         ~dependency_node();
 
-        void add_parent(dependency_node *parent);
-        void add_child (dependency_node *child);
+        void add_parent( dependency_node *parent );
+        void add_child( dependency_node *child );
         bool is_available();
         bool has_errors();
         std::map<NODE_ERROR_TYPE, std::vector<std::string > > errors();
@@ -57,27 +58,27 @@ class dependency_tree
         /** Default destructor */
         virtual ~dependency_tree();
 
-        void init(std::map<std::string, std::vector<std::string> > key_dependency_map);
+        void init( std::map<std::string, std::vector<std::string> > key_dependency_map );
 
         void clear();
 
         // tree traversal
         // Upward by key
-        std::vector<std::string > get_dependencies_of_X_as_strings(std::string key);
-        std::vector<dependency_node * > get_dependencies_of_X_as_nodes(std::string key);
+        std::vector<std::string > get_dependencies_of_X_as_strings( std::string key );
+        std::vector<dependency_node * > get_dependencies_of_X_as_nodes( std::string key );
         // Downward by key
-        std::vector< std::string > get_dependents_of_X_as_strings(std::string key);
-        std::vector< dependency_node * > get_dependents_of_X_as_nodes(std::string key);
+        std::vector< std::string > get_dependents_of_X_as_strings( std::string key );
+        std::vector< dependency_node * > get_dependents_of_X_as_nodes( std::string key );
 
-        bool is_available(std::string key);
-        dependency_node *get_node(std::string key);
+        bool is_available( std::string key );
+        dependency_node *get_node( std::string key );
 
-        std::map<std::string, dependency_node *> master_node_map;
+        std::map<std::string, std::unique_ptr<dependency_node>> master_node_map;
     protected:
     private:
         // Don't need to be called directly. Only reason to call these are during initialization phase.
-        void build_node_map(std::map<std::string, std::vector<std::string > > key_dependency_map);
-        void build_connections(std::map<std::string, std::vector<std::string > > key_dependency_map);
+        void build_node_map( std::map<std::string, std::vector<std::string > > key_dependency_map );
+        void build_connections( std::map<std::string, std::vector<std::string > > key_dependency_map );
 
         /*
         Cyclic Dependency checks using Tarjan's Strongly Connected Components algorithm
@@ -87,7 +88,7 @@ class dependency_tree
             http://www.cosc.canterbury.ac.nz/tad.takaoka/alg/graphalg/sc.txt
         */
         void check_for_strongly_connected_components();
-        void strong_connect(dependency_node *dnode);
+        void strong_connect( dependency_node *dnode );
 
         std::vector<std::vector<dependency_node * > > strongly_connected_components;
         std::stack<dependency_node *> connection_stack;

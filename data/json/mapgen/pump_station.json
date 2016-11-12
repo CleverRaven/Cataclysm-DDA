@@ -1,0 +1,328 @@
+[
+    {
+        "type" : "vehicle_group",
+        "id" : "pump_station_vehicles",
+        "vehicles" : [
+            ["car",            2000],
+            ["electric_car",    500],
+            ["car_mini",        500],
+            ["suv",             800],
+            ["suv_electric",    200],
+            ["flatbed_truck",  1500],
+            ["cube_van_cheap", 1500],
+            ["cube_van",       1200],
+            ["pickup",         1000],
+            ["policecar",       400],
+            ["ambulance",       300],
+            ["fire_truck",      150]
+        ]
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["pump_station_1"],
+        "method" : "json",
+        "weight" : 250,
+        "object" : {
+            "fill_ter" : "t_floor",
+            "rows" : [
+                "sss___________sss.......",
+                ".ss___________ss|-w-w-|.",
+                ".ss___________ss|rrr L|.",
+                ".ss___________ss;    Lw.",
+                ".ss___________ss|    c|.",
+                ".ss_____}_____ss|    c|.",
+                ".ss___________ssw    cw.",
+                ".ss___________ss|    c|.",
+                ".ss___________ss|    c|.",
+                ".ss___________sswr   Lw.",
+                ".ss___________ss|r   L|.",
+                ".sss_________sss|| |--|.",
+                ".ssssssssssssssss| |rr|.",
+                "..sssssssssssssss| |  w.",
+                "...|-w-w-|s|-w-|s| |  |.",
+                "...| k6  |s|hhh|s| | 3|.",
+                "...| hk h|s+   |s|   3w.",
+                "...|o k  |s|   |s| | 3|.",
+                "...|o    |s|6c |s| |  |.",
+                "...|---+-|s|ch |s| |  w.",
+                "...|rr|  |s|c  |s| |rr|.",
+                "...|  *  |s|  P|s| |--|.",
+                "...|rr|  |s|---|s|    |.",
+                "...|--|  |ssssssz|    w."
+            ],
+            "terrain" : {
+                "|" : "t_wall",
+                "-" : "t_wall",
+                "." : "t_grass",
+                "3" : "t_recycler",
+                "6" : "t_console_broken",
+                "_" : "t_pavement",
+                "+" : "t_door_c",
+                ";" : "t_door_locked",
+                "*" : "t_door_bar_locked",
+                "}" : "t_manhole_cover",
+                "c" : "t_floor",
+                "h" : "t_floor",
+                "k" : "t_floor",
+                "L" : "t_floor",
+                "o" : "t_floor",
+                "P" : "t_floor",
+                "r" : "t_floor",
+                "s" : "t_sidewalk",
+                "w" : "t_window",
+                "z" : "t_sidewalk"
+            },
+            "furniture" : {
+                "c" : "f_counter",
+                "h" : "f_chair",
+                "k" : "f_desk",
+                "L" : "f_locker",
+                "o" : "f_bookcase",
+                "P" : "f_indoor_plant",
+                "r" : "f_rack",
+                "z" : "f_crate_c"
+            },
+            "set" : [
+                { "point" : "terrain", "id" : "t_dirt", "x" : [23,23], "y" : [ 0,23], "repeat" : [6,10] },
+                { "point" : "terrain", "id" : "t_dirt", "x" : [ 0, 2], "y" : [14,23], "repeat" : [8,15] }
+            ],
+            "place_loot" : [
+                { "group" : "office",       "chance" : 85, "x" : [12,13], "y" : [18,20], "repeat" : [1,3] },
+                { "group" : "office",       "chance" : 90, "x" : [ 5, 6], "y" : [15,17], "repeat" : [1,3] },
+                { "group" : "manuals",      "chance" : 75, "x" : [ 4, 4], "y" : [17,18], "repeat" : [1,2] },
+                { "group" : "sewage_plant", "chance" : 70, "x" : [ 4, 5], "y" : [20,22], "repeat" : [1,3] },
+                { "group" : "home_hw",      "chance" : 75, "x" : [20,21], "y" : [12,13], "repeat" : [1,2] },
+                { "group" : "home_hw",      "chance" : 75, "x" : [20,21], "y" : [19,20], "repeat" : [1,2] },
+                { "group" : "home_hw",      "chance" : 85, "x" : [21,21], "y" : [ 2,10], "repeat" : [1,3] },
+                { "group" : "home_hw",      "chance" : 55, "x" : [17,20], "y" : [ 2,10], "repeat" : [1,2] }
+            ],
+            "place_monsters" : [
+                { "monster" : "GROUP_ZOMBIE", "chance" : 3, "x" : [5,21], "y" : [8,23] }
+            ],
+            "place_vehicles" : [
+                { "vehicle" : "pump_station_vehicles", "x" : [7,9], "y" : [4,6], "rotation" : 90, "chance" : 20  }
+            ]
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["pump_station_2"],
+        "method" : "json",
+        "weight" : 250,
+        "object" : {
+            "fill_ter" : "t_floor",
+            "rows" : [
+                "...|rr|  |ssssszz|  11|.",
+                "...|  *  |sszzssz|  11|.",
+                "...|rr|  |sszzsss|   2w.",
+                "...|--|  |-------|  11|.",
+                "...|rr|   rrrr      11|.",
+                "...|  *              2w.",
+                "...|rr|              2|.",
+                "...|--|              2|.",
+                "...|rr7              2w.",
+                "...|  9  44 44 44 44 2|.",
+                "...w  7  4424424424422|.",
+                "...| }7              rw.",
+                "...|  7              r|.",
+                "...|rr7r  LL        rr|.",
+                "...|----w----w--w--w--|.",
+                "........................",
+                "........................",
+                "........................",
+                "........................",
+                "........................",
+                "........................",
+                "........................",
+                "........................",
+                "........................"
+            ],
+            "terrain" : {
+                "|" : "t_wall",
+                "-" : "t_wall",
+                "." : "t_grass",
+                "1" : "t_generator_broken",
+                "2" : "t_sewage_pipe",
+                "4" : "t_water_pump",
+                "7" : "t_chainfence_h",
+                "9" : "t_chaingate_l",
+                "*" : "t_door_bar_locked",
+                "}" : "t_manhole_cover",
+                "L" : "t_floor",
+                "r" : "t_floor",
+                "s" : "t_sidewalk",
+                "w" : "t_window",
+                "z" : "t_sidewalk"
+            },
+            "furniture": {
+                "L" : "f_locker",
+                "r" : "f_rack",
+                "z" : "f_crate_c"
+            },
+            "set" : [
+                { "point" : "terrain", "id" : "t_dirt", "x" : [23,23], "y" : [ 0,23], "repeat" : [ 6,10] },
+                { "point" : "terrain", "id" : "t_dirt", "x" : [ 3,22], "y" : [15,23], "repeat" : [40,90] },
+                { "point" : "terrain", "id" : "t_dirt", "x" : [ 0, 2], "y" : [ 0,23], "repeat" : [15,30] }
+            ],
+            "place_loot" : [
+                { "group" : "home_hw",      "chance" : 75, "x" : [10,11], "y" : [13,13], "repeat" : [1,3] },
+                { "group" : "sewage_plant", "chance" : 70, "x" : [ 4, 5], "y" : [ 0, 2], "repeat" : [1,3] },
+                { "group" : "sewage_plant", "chance" : 70, "x" : [ 4, 5], "y" : [ 4, 6], "repeat" : [1,3] },
+                { "group" : "sewage_plant", "chance" : 60, "x" : [ 4, 5], "y" : [ 8,13], "repeat" : [1,2] },
+                { "item" :  "55gal_drum",   "chance" : 50, "x" : [21,21], "y" : [11,13], "repeat" : [1,2] },
+                { "item" :  "55gal_drum",   "chance" : 30, "x" : [10,13], "y" : [ 4, 4], "repeat" : [1,2] },
+                { "item" :  "pipe",         "chance" : 60, "x" : [16,16], "y" : [ 0, 1], "repeat" : [1,3] },
+                { "item" :  "pipe",         "chance" : 75, "x" : [12,13], "y" : [ 1, 2], "repeat" : [1,5] },
+                { "item" :  "steel_plate",  "chance" : 40, "x" : [12,13], "y" : [ 1, 2], "repeat" : [1,3] }
+            ],
+            "place_monsters" : [
+                { "monster" : "GROUP_ZOMBIE", "chance" : 3, "x" : [4,21], "y" : [0,13] }
+            ]
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["pump_station_3"],
+        "method" : "json",
+        "weight" : 250,
+        "object" : {
+            "fill_ter" : "t_rock_floor",
+            "rows" : [
+                "RRRRRRRRRRRRRRRRRRRRRRRR",
+                "RRRRRRRRRRRRRRRRRRRRRRRR",
+                "RRRRRRRRRRRRRRRRRRRRRRRR",
+                "RRRRRRRRRRRRRRRRRRRRRRRR",
+                "RRRRRRRRRRRRRRRRRRRRRRRR",
+                "RRRRRRRRRRRRRRRRRRRRRRRR",
+                "RRRRRRRRRRRRRRRRRRRRRRRR",
+                "RRRRRRRRRRRRRRRRRRRRRRRR",
+                "RRRRRRRRRRRRRRRRRRRRRRRR",
+                "R222222RRRRRRRRRRRRRRRRR",
+                "!xa~~x2~~~~~~x!~~~~~~~~~",
+                "!xa~~x2~~~~~~x!~~~~~~~~~",
+                "!xaA~x2~~~~~~x!~~~~~~~~~",
+                "!xxxxxxxxxxxxx!~~~~~~~~~",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR"
+            ],
+            "terrain" : {
+                "2" : "t_sewage_pipe",
+                "~" : "t_sewage",
+                "!" : "t_bars",
+                "A" : "t_railing_h",
+                "a" : "t_railing_v",
+                "R" : "t_rock",
+                "x" : "t_bridge"
+            },
+            "place_monsters" : [
+                { "monster" : "GROUP_SEWER", "x" : [1,22], "y" : [1,22], "density" : 0.10 }
+            ]
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["pump_station_4"],
+        "method" : "json",
+        "weight" : 250,
+        "object" : {
+            "fill_ter" : "t_rock_floor",
+            "rows" : [
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2   RRRRRRRRRRRRRR",
+                "RRRR~xxx^ RRRRRRRRRRRRRR",
+                "RRRR~x2   RRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR"
+            ],
+            "terrain" : {
+                "2" : "t_sewage_pipe",
+                "~" : "t_sewage",
+                "^" : "t_ladder_up",
+                "x" : "t_bridge",
+                "R" : "t_rock"
+            },
+            "place_monsters" : [
+                { "monster" : "GROUP_SEWER", "x" : [1,22], "y" : [1,22], "density" : 0.10 }
+            ]
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["pump_station_5"],
+        "method" : "json",
+        "weight" : 250,
+        "object" : {
+            "fill_ter" : "t_rock_floor",
+            "rows" : [
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR!*2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RRRR~x2RRRRRRRRRRRRRRRRR",
+                "RR~~~x2RRRRRRRRRRRRRRRRR",
+                "R~~~~x22222222222 RRRRRR",
+                "!~~~axx   2  2  2 RRRRRR",
+                "!~~~a^x           RRRRRR",
+                "!~~~axx           RRRRRR",
+                "!~~~aAAR   RRRRRRRRRRRRR",
+                "R~~~~~~Rc LRRRRRRRRRRRRR",
+                "RRRRRRRRc LRRRRRRRRRRRRR",
+                "RRRRRRRRR RRRRRRRRRRRRRR",
+                "RRRRRRRRRRRRRRRRRRRRRRRR",
+                "RRRRRRRRRRRRRRRRRRRRRRRR",
+                "RRRRRRRRRRRRRRRRRRRRRRRR",
+                "RRRRRRRRRRRRRRRRRRRRRRRR",
+                "RRRRRRRRRRRRRRRRRRRRRRRR",
+                "RRRRRRRRRRRRRRRRRRRRRRRR"
+            ],
+            "terrain" : {
+                "2" : "t_sewage_pipe",
+                "~" : "t_sewage",
+                "^" : "t_ladder_up",
+                "!" : "t_bars",
+                "*" : "t_door_bar_locked",
+                "A" : "t_railing_h",
+                "a" : "t_railing_v",
+                "c" : "t_rock_floor",
+                "L" : "t_rock_floor",
+                "R" : "t_rock",
+                "x" : "t_bridge"
+            },
+            "furniture" : {
+                "c" : "f_counter",
+                "L" : "f_locker"
+            },
+            "place_loot" : [
+                { "group" : "sewage_plant", "chance" : 85, "x" : [10,10], "y" : [15,16], "repeat" : [1,3] }
+            ],
+            "place_monsters" : [
+                { "monster" : "GROUP_SEWER", "x" : [1,22], "y" : [1,22], "density" : 0.10 }
+            ]
+        }
+    }
+]

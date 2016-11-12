@@ -322,8 +322,6 @@
                 "W": "t_water_dp",
                 "~": "t_fence_h",
                 "x": "t_fencegate_c"
-
-
             },
             "furniture": {
                 "6": "f_table",

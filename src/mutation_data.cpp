@@ -74,6 +74,54 @@ void load_mutation_category(JsonObject &jsobj)
     mutation_category_traits[id] = new_category;
 }
 
+static mut_attack load_mutation_attack( JsonObject &jo )
+{
+    mut_attack ret;
+    jo.read( "attack_text_u", ret.attack_text_u );
+    jo.read( "attack_text_npc", ret.attack_text_npc );
+    jo.read( "required_mutations", ret.required_mutations );
+    jo.read( "blocker_mutations", ret.blocker_mutations );
+    jo.read( "hardcoded_effect", ret.hardcoded_effect );
+
+    if( jo.has_string( "body_part" ) ) {
+        ret.bp = get_body_part_token( jo.get_string( "body_part" ) );
+    }
+
+    jo.read( "chance", ret.chance );
+
+    if( jo.has_array( "base_damage" ) ) {
+        JsonArray jo_dam = jo.get_array( "base_damage" );
+        ret.base_damage = load_damage_instance( jo_dam );
+    } else if( jo.has_object( "base_damage" ) ) {
+        JsonObject jo_dam = jo.get_object( "base_damage" );
+        ret.base_damage = load_damage_instance( jo_dam );
+    }
+
+    if( jo.has_array( "strength_damage" ) ) {
+        JsonArray jo_dam = jo.get_array( "strength_damage" );
+        ret.strength_damage = load_damage_instance( jo_dam );
+    } else if( jo.has_object( "strength_damage" ) ) {
+        JsonObject jo_dam = jo.get_object( "strength_damage" );
+        ret.strength_damage = load_damage_instance( jo_dam );
+    }
+
+    if( ret.attack_text_u.empty() || ret.attack_text_npc.empty() ) {
+        jo.throw_error( "Attack message unset" );
+    }
+
+    if( !ret.hardcoded_effect && ret.base_damage.empty() && ret.strength_damage.empty() ) {
+        jo.throw_error( "Damage unset" );
+    } else if( ret.hardcoded_effect && ( !ret.base_damage.empty() || !ret.strength_damage.empty() ) ) {
+        jo.throw_error( "Damage and hardcoded effect are both set (must be one, not both)" );
+    }
+
+    if( ret.chance <= 0 ) {
+        jo.throw_error( "Chance of procing must be set and positive" );
+    }
+
+    return ret;
+}
+
 void mutation_branch::load( JsonObject &jsobj )
 {
     const std::string id = jsobj.get_string( "id" );
@@ -88,6 +136,9 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.startingtrait = jsobj.get_bool("starting_trait", false);
     new_mut.mixed_effect = jsobj.get_bool("mixed_effect", false);
     new_mut.activated = jsobj.get_bool("active", false);
+    new_mut.starts_active = jsobj.get_bool("starts_active", false);
+    new_mut.destroys_gear = jsobj.get_bool("destroys_gear", false);
+    new_mut.allow_soft_gear = jsobj.get_bool("allow_soft_gear", false);
     new_mut.cost = jsobj.get_int("cost", 0);
     new_mut.cooldown = jsobj.get_int("time",0);
     new_mut.hunger = jsobj.get_bool("hunger",false);
@@ -98,8 +149,21 @@ void mutation_branch::load( JsonObject &jsobj )
     for( auto & s : jsobj.get_string_array( "initial_ma_styles" ) ) {
         new_mut.initial_ma_styles.push_back( matype_id( s ) );
     }
+
+    JsonArray bodytemp_array = jsobj.get_array( "bodytemp_modifiers" );
+    if( bodytemp_array.has_more() ) {
+        new_mut.bodytemp_min = bodytemp_array.get_int( 0 );
+        new_mut.bodytemp_max = bodytemp_array.get_int( 1 );
+    }
+    new_mut.bodytemp_sleep = jsobj.get_int( "bodytemp_sleep", 0 );
     new_mut.threshold = jsobj.get_bool("threshold", false);
     new_mut.profession = jsobj.get_bool("profession", false);
+
+    auto vr = jsobj.get_array( "vitamin_rates" );
+    while( vr.has_more() ) {
+        auto pair = vr.next_array();
+        new_mut.vitamin_rates[ vitamin_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
+    }
 
     load_mutation_mods(jsobj, "passive_mods", new_mut.mods);
     /* Not currently supported due to inability to save active mutation state
@@ -118,6 +182,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.cancels = jsobj.get_string_array( "cancels" );
     new_mut.replacements = jsobj.get_string_array( "changes_to" );
     new_mut.additions = jsobj.get_string_array( "leads_to" );
+    new_mut.flags = jsobj.get_tags( "flags" );
     jsarr = jsobj.get_array("category");
     while (jsarr.has_more()) {
         std::string s = jsarr.next_string();
@@ -133,6 +198,61 @@ void mutation_branch::load( JsonObject &jsobj )
         int good = jo.get_int("good", 0);
         tripoint protect = tripoint(ignored, neutral, good);
         new_mut.protection[get_body_part_token( part_id )] = protect;
+    }
+
+    jsarr = jsobj.get_array("encumbrance_always");
+    while (jsarr.has_more()) {
+        JsonArray jo = jsarr.next_array();
+        std::string part_id = jo.next_string();
+        int enc = jo.next_int();
+        new_mut.encumbrance_always[get_body_part_token( part_id )] = enc;
+    }
+
+    jsarr = jsobj.get_array("encumbrance_covered");
+    while (jsarr.has_more()) {
+        JsonArray jo = jsarr.next_array();
+        std::string part_id = jo.next_string();
+        int enc = jo.next_int();
+        new_mut.encumbrance_covered[get_body_part_token( part_id )] = enc;
+    }
+
+    jsarr = jsobj.get_array("restricts_gear");
+    while( jsarr.has_more() ) {
+        new_mut.restricts_gear.insert( get_body_part_token( jsarr.next_string() ) );
+    }
+
+    jsarr = jsobj.get_array( "armor" );
+    while( jsarr.has_more() ) {
+        JsonObject jo = jsarr.next_object();
+        auto parts = jo.get_tags( "parts" );
+        std::set<body_part> bps;
+        for( const std::string &part_string : parts ) {
+            if( part_string == "ALL" ) {
+                // Shorthand, since many muts protect whole body
+                for( size_t i = 0; i < num_bp; i++ ) {
+                    bps.insert( static_cast<body_part>( i ) );
+                }
+            } else {
+                bps.insert( get_body_part_token( part_string ) );
+            }
+        }
+
+        resistances res = load_resistances_instance( jo );
+
+        for( body_part bp : bps ) {
+            new_mut.armor[ bp ] = res;
+        }
+    }
+
+    if( jsobj.has_array( "attacks" ) ) {
+        jsarr = jsobj.get_array( "attacks" );
+        while( jsarr.has_more() ) {
+            JsonObject jo = jsarr.next_object();
+            new_mut.attacks_granted.emplace_back( load_mutation_attack( jo ) );
+        }
+    } else if( jsobj.has_object( "attacks" ) ) {
+        JsonObject jo = jsobj.get_object( "attacks" );
+        new_mut.attacks_granted.emplace_back( load_mutation_attack( jo ) );
     }
 }
 

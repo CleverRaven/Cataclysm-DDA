@@ -1,0 +1,114 @@
+[
+  {
+    "result": "chem_ethanol",
+    "type" : "recipe",
+    "byproducts": [ [ "water_clean" ] ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_FUEL",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": 30000,
+    "book_learn": [ [ "textbook_chemistry", 5 ], [ "brewing_cookbook", 4 ] ],
+    "qualities": [
+        { "id": "BOIL", "level": 2 },
+        { "id": "DISTILL", "level": 2 }
+     ],
+     "tools": [
+       [ [ "fire", -1 ], [ "hotplate", 30 ], [ "toolset", 30 ] ],
+       [ [ "thermometer", -1 ] ]
+     ],
+     "components": [ [
+        [ "moonshine", 14 ],
+        [ "vodka", 14 ],
+        [ "whiskey", 14 ],
+        [ "single_malt_whiskey", 14 ],
+        [ "brandy", 14 ],
+        [ "rum", 14 ],
+        [ "gin", 14 ],
+        [ "tequila", 14 ],
+        [ "mixed_alcohol_strong", 14 ],
+        [ "bum_wine", 56 ],
+        [ "fruit_wine", 56 ],
+        [ "wash_moonshine", 42 ],
+        [ "wash_vodka", 42 ],
+        [ "wash_whiskey", 42 ],
+        [ "wash_rum", 42 ]
+    ] ]
+  },
+  {
+    "result": "denat_alcohol",
+    "type" : "recipe",
+    "byproducts": [ [ "water_clean" ] ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_FUEL",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": 30000,
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],
+    "qualities": [
+        { "id": "BOIL", "level": 2 },
+        { "id": "DISTILL", "level": 1 }
+     ],
+     "tools": [
+       [ [ "fire", -1 ], [ "hotplate", 60 ], [ "toolset", 60 ] ]
+     ],
+     "components": [ [
+       [ "vodka", 14 ],
+       [ "whiskey", 14 ],
+       [ "single_malt_whiskey", 14 ],
+       [ "brandy", 14 ],
+       [ "rum", 14 ],
+       [ "gin", 14 ],
+       [ "tequila", 14 ],
+       [ "bum_wine", 56 ],
+       [ "fruit_wine", 56 ],
+       [ "moonshine", 14 ],
+       [ "mixed_alcohol_strong", 14 ]
+    ] ]
+  },
+  {
+    "result": "diesel",
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_FUEL",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "result_mult": 4,
+    "time": 420000,
+    "book_learn": [ [ "textbook_biodiesel", 5 ] ],
+    "batch_time_factors":[99, 1],
+    "qualities":[ { "id": "CHEM", "level": 2 } ],
+    "//": "this recipe could be done using fire, but at the moment fire requirement doesn't work properly for long time crafting",
+    "tools": [ [
+      [ "hotplate", 100 ],
+      [ "toolset", 100 ]
+    ] ],
+    "components": [
+        [ [ "water_clean", 4 ], [ "water", 4 ] ],
+        [ [ "chem_ethanol", 100 ], [ "denat_alcohol", 100 ] ],
+        [ [ "lye_powder", 8 ] ],
+        [ [ "cooking_oil", 8 ], [ "lard", 8 ], [ "tallow", 8 ], [ "tallow_tainted", 8 ], [ "fat", 16 ], [ "fat_tainted", 16 ], [ "lamp_oil", 1000 ] ]
+    ]
+  },
+  {
+    "result": "lamp_oil",
+    "type" : "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_FUEL",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 30000,
+    "autolearn": true,
+    "qualities" : [
+      { "id": "CUT", "level": 1 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [
+      [ [ "fire", -1 ], [ "hotplate", 10 ], [ "toolset", 10 ] ]
+    ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "lard", 2 ], [ "cooking_oil", 2 ] ]
+    ]
+  }
+]

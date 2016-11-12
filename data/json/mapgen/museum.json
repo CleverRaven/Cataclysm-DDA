@@ -128,7 +128,7 @@
                 { "item": "museum_misc", "chance": 50, "x": [ 4,7 ], "y": [ 19,20 ] },
                 { "item": "museum_security", "chance": 60, "x": [ 2,6 ], "y": [ 13,13 ] },
                 { "item": "museum_security", "chance": 60, "x": [ 2,2 ], "y": [ 14,16 ] }
-                            ] 
+                            ]
 }
 }
 ]

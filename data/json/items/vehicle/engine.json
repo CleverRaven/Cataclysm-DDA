@@ -1,0 +1,137 @@
+[
+  {
+    "abstract": "engine_combustion",
+    "type": "ENGINE",
+    "category": "veh_parts",
+    "name": "internal combustion engine",
+    "material": "iron",
+    "symbol": ":",
+    "color": "light_cyan"
+  },
+  {
+    "abstract": "engine_diesel",
+    "copy-from": "engine_combustion",
+    "type": "ENGINE",
+    "name": "base diesel engine",
+    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_filter_fuel", "fault_engine_glow_plug", "fault_engine_immobiliser", "fault_engine_pump_diesel", "fault_engine_pump_water", "fault_engine_starter" ]
+  },
+  {
+    "abstract": "engine_gasoline",
+    "copy-from": "engine_combustion",
+    "type": "ENGINE",
+    "name": "base gasoline engine",
+    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_filter_fuel", "fault_engine_immobiliser", "fault_engine_pump_fuel", "fault_engine_pump_water", "fault_engine_starter" ]
+  },
+  {
+    "id": "1cyl_combustion",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "1-cylinder engine",
+    "description": "A single-cylinder 4-stroke combustion engine.",
+    "weight": 20000,
+    "volume": 6,
+    "price": 10000,
+    "displacement": 60,
+    "faults": [ "fault_engine_starter" ]
+  },
+  {
+    "id": "1cyl_combustion_small",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "small 1-cylinder engine",
+    "description": "A small single-cylinder 2-stroke combustion engine.",
+    "weight": 10000,
+    "volume": 3,
+    "price": 6000,
+    "displacement": 30,
+    "faults": []
+  },
+  {
+    "id": "i4_combustion",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "Inline-4 engine",
+    "description": "A small, yet powerful 4-cylinder combustion engine.",
+    "weight": 70000,
+    "volume": 6,
+    "price": 15000,
+    "displacement": 250
+  },
+  {
+    "id": "i6_diesel",
+    "copy-from": "engine_diesel",
+    "type": "ENGINE",
+    "name": "I6 diesel engine",
+    "description": "A powerful straight-6 diesel engine.",
+    "weight": 105000,
+    "volume": 15,
+    "price": 27000,
+    "displacement": 600
+  },
+  {
+    "id": "v2_combustion",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "V-twin engine",
+    "description": "A 2-cylinder 4-stroke combustion engine.",
+    "weight": 45000,
+    "volume": 6,
+    "price": 10000,
+    "displacement": 100
+  },
+  {
+    "id": "v6_combustion",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "V6 engine",
+    "description": "A powerful 6-cylinder combustion engine.",
+    "weight": 100000,
+    "volume": 14,
+    "price": 18000,
+    "displacement": 400
+  },
+  {
+    "id": "v6_diesel",
+    "copy-from": "engine_diesel",
+    "type": "ENGINE",
+    "name": "V6 diesel engine",
+    "description": "A powerful 6-cylinder diesel engine.",
+    "weight": 110000,
+    "volume": 15,
+    "price": 20000,
+    "displacement": 400
+  },
+  {
+    "id": "v8_combustion",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "V8 engine",
+    "description": "A large and very powerful 8-cylinder combustion engine.",
+    "weight": 200000,
+    "volume": 25,
+    "price": 25000,
+    "displacement": 650
+  },
+  {
+    "id": "v8_diesel",
+    "copy-from": "engine_diesel",
+    "type": "ENGINE",
+    "name": "V8 diesel engine",
+    "description": "A powerful 8-cylinder diesel engine.",
+    "weight": 220000,
+    "volume": 26,
+    "price": 26500,
+    "displacement": 650
+  },
+  {
+    "id": "v12_combustion",
+    "copy-from": "engine_gasoline",
+    "type":"ENGINE",
+    "name": "V12 engine",
+    "description": "A massive and extremely powerful V12 engine, usually built into high end sports cars.",
+    "weight": 300000,
+    "volume": 32,
+    "price": 36000,
+    "displacement": 1200
+  }
+]

@@ -5,7 +5,7 @@
 
 // MingW flips out if you don't define this before you try to statically link libintl.
 // This should prevent 'undefined reference to `_imp__libintl_gettext`' errors.
-#if defined _WIN32 || defined __CYGWIN__
+#if (defined _WIN32 || defined __CYGWIN__) && !defined _MSC_VER
 #ifndef LIBINTL_STATIC
 #define LIBINTL_STATIC
 #endif
@@ -16,8 +16,16 @@
 #include <libintl.h>
 #include <clocale>
 
-#define _(STRING) gettext(STRING)
-const char *pgettext(const char *context, const char *msgid);
+inline const char *_( const char *msg )
+{
+    return ( msg[0] == '\0' ) ? msg : gettext( msg );
+}
+
+const char *pgettext( const char *context, const char *msgid );
+
+// same as pgettext, but supports plural forms like ngettext
+const char *npgettext( const char *context, const char *msgid, const char *msgid_plural,
+                       unsigned long int n );
 
 #else // !LOCALIZE
 
@@ -25,13 +33,14 @@ const char *pgettext(const char *context, const char *msgid);
 // so preemptively include it before the gettext overrides.
 #include <locale>
 
-const char *strip_positional_formatting(const char *msgid);
+const char *strip_positional_formatting( const char *msgid );
 
 #define _(STRING) strip_positional_formatting(STRING)
 #define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)
+#define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
 
 #endif // LOCALIZE
-void set_language(bool reload_options);
+void set_language( bool reload_options );
 
 #endif // _TRANSLATIONS_H_

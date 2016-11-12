@@ -199,6 +199,79 @@ TAB_SIZE               = 4
 
 ALIASES                =
 
+ALIASES += "EFFECT_STR=\xrefitem Effects_Stat_Strength \"\" \"\" Strength" 
+ALIASES += "EFFECT_DEX=\xrefitem Effects_Stat_Dexterity \"\" \"\" Dexterity" 
+ALIASES += "EFFECT_INT=\xrefitem Effects_Stat_Intelligence \"\" \"\" Intelligence" 
+ALIASES += "EFFECT_PER=\xrefitem Effects_Stat_Perception \"\" \"\" Perception"
+
+ALIASES += "EFFECT_STR_MAX=\xrefitem Effects_Stat_Strength \"\" \"\" Maximum Strength" 
+ALIASES += "EFFECT_DEX_MAX=\xrefitem Effects_Stat_Dexterity \"\" \"\" Maximum Dexterity" 
+ALIASES += "EFFECT_INT_MAX=\xrefitem Effects_Stat_Intelligence \"\" \"\" Maximum Intelligence" 
+ALIASES += "EFFECT_PER_MAX=\xrefitem Effects_Stat_Perception \"\" \"\" Maximum Perception"
+
+ALIASES += "EFFECT_STR_NPC=\xrefitem Effects_Stat_Strength \"\" \"\" NPC Strength" 
+ALIASES += "EFFECT_DEX_NPC=\xrefitem Effects_Stat_Dexterity \"\" \"\" NPC Dexterity" 
+ALIASES += "EFFECT_INT_NPC=\xrefitem Effects_Stat_Intelligence \"\" \"\" NPC Intelligence" 
+ALIASES += "EFFECT_PER_NPC=\xrefitem Effects_Stat_Perception \"\" \"\" NPC Perception"
+
+ALIASES += "EFFECT_BARTER=\xrefitem Effects_Skill_Barter \"\" \"\" Barter"
+ALIASES += "EFFECT_COMPUTER=\xrefitem Effects_Skill_Computer \"\" \"\" Computer"
+ALIASES += "EFFECT_CARPENTRY=\xrefitem Effects_Skill_Carpentry \"\" \"\" Carpentry"
+ALIASES += "EFFECT_COOKING=\xrefitem Effects_Skill_Cooking \"\" \"\" Cooking"
+ALIASES += "EFFECT_DRIVING=\xrefitem Effects_Skill_Driving \"\" \"\" Driving"
+ALIASES += "EFFECT_ELECTRONICS=\xrefitem Effects_Skill_Electronics \"\" \"\" Electronics"
+ALIASES += "EFFECT_FABRICATION=\xrefitem Effects_Skill_Fabrication \"\" \"\" Fabrication"
+ALIASES += "EFFECT_FIRSTAID=\xrefitem Effects_Skill_Firstaid \"\" \"\" Firstaid"
+ALIASES += "EFFECT_MECHANICS=\xrefitem Effects_Skill_Mechanics \"\" \"\" Mechanics"
+ALIASES += "EFFECT_SPEECH=\xrefitem Effects_Skill_Speech \"\" \"\" Speech"
+ALIASES += "EFFECT_SURVIVAL=\xrefitem Effects_Skill_Survival \"\" \"\" Survival"
+ALIASES += "EFFECT_SWIMMING=\xrefitem Effects_Skill_Swimming \"\" \"\" Swimming"
+ALIASES += "EFFECT_TAILOR=\xrefitem Effects_Skill_Tailor \"\" \"\" Tailor"
+ALIASES += "EFFECT_TRAPS=\xrefitem Effects_Skill_Traps \"\" \"\" Traps"
+ALIASES += "EFFECT_ARCHERY=\xrefitem Effects_Skill_Archery \"\" \"\" Archery"
+ALIASES += "EFFECT_BASHING=\xrefitem Effects_Skill_Bashing \"\" \"\" Bashing"
+ALIASES += "EFFECT_CUTTING=\xrefitem Effects_Skill_Cutting \"\" \"\" Cutting"
+ALIASES += "EFFECT_DODGE=\xrefitem Effects_Skill_Dodge \"\" \"\" Dodge"
+ALIASES += "EFFECT_GUN=\xrefitem Effects_Skill_Gun \"\" \"\" Gun"
+ALIASES += "EFFECT_LAUNCHER=\xrefitem Effects_Skill_Launcher \"\" \"\" Launcher"
+ALIASES += "EFFECT_MELEE=\xrefitem Effects_Skill_Melee \"\" \"\" Melee"
+ALIASES += "EFFECT_STABBING=\xrefitem Effects_Skill_Stabbing \"\" \"\" Stabbing"
+ALIASES += "EFFECT_THROW=\xrefitem Effects_Skill_Throw \"\" \"\" Throw"
+ALIASES += "EFFECT_UNARMED=\xrefitem Effects_Skill_Unarmed \"\" \"\" Unarmed"
+ALIASES += "EFFECT_PISTOL=\xrefitem Effects_Skill_Pistol \"\" \"\" Pistol"
+ALIASES += "EFFECT_RIFLE=\xrefitem Effects_Skill_Rifle \"\" \"\" Rifle"
+ALIASES += "EFFECT_SHOTGUN=\xrefitem Effects_Skill_Shotgun \"\" \"\" Shotgun"
+ALIASES += "EFFECT_SMG=\xrefitem Effects_Skill_Smg \"\" \"\" Smg"
+
+ALIASES += "EFFECT_BARTER_NPC=\xrefitem Effects_Skill_Barter \"\" \"\" NPC Barter"
+ALIASES += "EFFECT_COMPUTER_NPC=\xrefitem Effects_Skill_Computer \"\" \"\" NPC Computer"
+ALIASES += "EFFECT_CARPENTRY_NPC=\xrefitem Effects_Skill_Carpentry \"\" \"\" NPC Carpentry"
+ALIASES += "EFFECT_COOKING_NPC=\xrefitem Effects_Skill_Cooking \"\" \"\" NPC Cooking"
+ALIASES += "EFFECT_DRIVING_NPC=\xrefitem Effects_Skill_Driving \"\" \"\" NPC Driving"
+ALIASES += "EFFECT_ELECTRONICS_NPC=\xrefitem Effects_Skill_Electronics \"\" \"\" NPC Electronics"
+ALIASES += "EFFECT_FABRICATION_NPC=\xrefitem Effects_Skill_Fabrication \"\" \"\" NPC Fabrication"
+ALIASES += "EFFECT_FIRSTAID_NPC=\xrefitem Effects_Skill_Firstaid \"\" \"\" NPC Firstaid"
+ALIASES += "EFFECT_MECHANICS_NPC=\xrefitem Effects_Skill_Mechanics \"\" \"\" NPC Mechanics"
+ALIASES += "EFFECT_SPEECH_NPC=\xrefitem Effects_Skill_Speech \"\" \"\" NPC Speech"
+ALIASES += "EFFECT_SURVIVAL_NPC=\xrefitem Effects_Skill_Survival \"\" \"\" NPC Survival"
+ALIASES += "EFFECT_SWIMMING_NPC=\xrefitem Effects_Skill_Swimming \"\" \"\" NPC Swimming"
+ALIASES += "EFFECT_TAILOR_NPC=\xrefitem Effects_Skill_Tailor \"\" \"\" NPC Tailor"
+ALIASES += "EFFECT_TRAPS_NPC=\xrefitem Effects_Skill_Traps \"\" \"\" NPC Traps"
+ALIASES += "EFFECT_ARCHERY_NPC=\xrefitem Effects_Skill_Archery \"\" \"\" NPC Archery"
+ALIASES += "EFFECT_BASHING_NPC=\xrefitem Effects_Skill_Bashing \"\" \"\" NPC Bashing"
+ALIASES += "EFFECT_CUTTING_NPC=\xrefitem Effects_Skill_Cutting \"\" \"\" NPC Cutting"
+ALIASES += "EFFECT_DODGE_NPC=\xrefitem Effects_Skill_Dodge \"\" \"\" NPC Dodge"
+ALIASES += "EFFECT_GUN_NPC=\xrefitem Effects_Skill_Gun \"\" \"\" NPC Gun"
+ALIASES += "EFFECT_LAUNCHER_NPC=\xrefitem Effects_Skill_Launcher \"\" \"\" NPC Launcher"
+ALIASES += "EFFECT_MELEE_NPC=\xrefitem Effects_Skill_Melee \"\" \"\" NPC Melee"
+ALIASES += "EFFECT_STABBING_NPC=\xrefitem Effects_Skill_Stabbing \"\" \"\" NPC Stabbing"
+ALIASES += "EFFECT_THROW_NPC=\xrefitem Effects_Skill_Throw \"\" \"\" NPC Throw"
+ALIASES += "EFFECT_UNARMED_NPC=\xrefitem Effects_Skill_Unarmed \"\" \"\" NPC Unarmed"
+ALIASES += "EFFECT_PISTOL_NPC=\xrefitem Effects_Skill_Pistol \"\" \"\" NPC Pistol"
+ALIASES += "EFFECT_RIFLE_NPC=\xrefitem Effects_Skill_Rifle \"\" \"\" NPC Rifle"
+ALIASES += "EFFECT_SHOTGUN_NPC=\xrefitem Effects_Skill_Shotgun \"\" \"\" NPC Shotgun"
+ALIASES += "EFFECT_SMG_NPC=\xrefitem Effects_Skill_Smg \"\" \"\" NPC Smg"
+
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding
 # "class=itcl::class" will allow you to use the command class in the
@@ -268,7 +341,7 @@ AUTOLINK_SUPPORT       = YES
 # func(std::string) {}). This also makes the inheritance and collaboration
 # diagrams that involve STL classes more complete and accurate.
 
-BUILTIN_STL_SUPPORT    = NO
+BUILTIN_STL_SUPPORT    = YES
 
 # If you use Microsoft's C++/CLI language, you should set this option to YES to
 # enable parsing support.
@@ -790,30 +863,30 @@ USE_MDFILE_AS_MAINPAGE =
 # Note: To get rid of all source code in the generated output, make sure also
 # VERBATIM_HEADERS is set to NO.
 
-SOURCE_BROWSER         = NO
+SOURCE_BROWSER         = YES
 
 # Setting the INLINE_SOURCES tag to YES will include the body
 # of functions and classes directly in the documentation.
 
-INLINE_SOURCES         = NO
+INLINE_SOURCES         = YES
 
 # Setting the STRIP_CODE_COMMENTS tag to YES (the default) will instruct
 # doxygen to hide any special comment blocks from generated source code
 # fragments. Normal C, C++ and Fortran comments will always remain visible.
 
-STRIP_CODE_COMMENTS    = YES
+STRIP_CODE_COMMENTS    = NO
 
 # If the REFERENCED_BY_RELATION tag is set to YES
 # then for each documented function all documented
 # functions referencing it will be listed.
 
-REFERENCED_BY_RELATION = NO
+REFERENCED_BY_RELATION = YES
 
 # If the REFERENCES_RELATION tag is set to YES
 # then for each documented function all documented entities
 # called/used by that function will be listed.
 
-REFERENCES_RELATION    = NO
+REFERENCES_RELATION    = YES
 
 # If the REFERENCES_LINK_SOURCE tag is set to YES (the default)
 # and SOURCE_BROWSER tag is set to YES, then the hyperlinks from
@@ -1286,7 +1359,7 @@ EXTRA_SEARCH_MAPPINGS  =
 # If the GENERATE_LATEX tag is set to YES (the default) Doxygen will
 # generate Latex output.
 
-GENERATE_LATEX         = YES
+GENERATE_LATEX         = NO
 
 # The LATEX_OUTPUT tag is used to specify where the LaTeX docs will be put.
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be

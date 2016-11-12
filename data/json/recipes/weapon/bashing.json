@@ -1,0 +1,33 @@
+[
+  {
+    "result": "torch",
+    "type" : "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": 2000,
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [
+      [ [ "rag", 1 ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ],
+      [ [ "lamp_oil", 50 ], [ "chem_ethanol", 100 ], [ "denat_alcohol", 100 ], [ "gasoline", 250 ], [ "diesel", 250 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "battletorch",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": 2000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "rag", 1 ] ],
+      [ [ "bat", 1 ] ],
+      [ [ "nomex", 5 ] ],
+      [ [ "lamp_oil", 50 ], [ "chem_ethanol", 100 ], [ "denat_alcohol", 100 ], [ "gasoline", 250 ], [ "diesel", 250 ] ]
+    ]
+  }
+]

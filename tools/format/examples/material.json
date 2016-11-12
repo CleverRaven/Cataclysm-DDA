@@ -1,0 +1,66 @@
+[
+  {
+    "type": "material",
+    "ident": "plastic",
+    "name": "Plastic",
+    "density": 8,
+    "bash_resist": 2,
+    "cut_resist": 2,
+    "acid_resist": 9,
+    "fire_resist": 1,
+    "elec_resist": 2,
+    "chip_resist": 6,
+    "repaired_with": "plastic_chunk",
+    "salvaged_into": "plastic_chunk",
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "gouged",
+    "burn_data": [
+      { "fuel": 1, "smoke": 2, "burn": 1, "chance": 3 },
+      { "fuel": 1, "smoke": 3, "burn": 2 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
+  },
+  {
+    "type": "material",
+    "ident": "glass",
+    "name": "Glass",
+    "density": 14,
+    "bash_resist": 3,
+    "cut_resist": 4,
+    "acid_resist": 10,
+    "fire_resist": 3,
+    "elec_resist": 2,
+    "chip_resist": 0,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "scratched",
+    "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 0, "burn": 1000, "chance": 20, "//": "More like shattering than melting" }
+    ]
+  },
+  {
+    "type": "material",
+    "ident": "veggy",
+    "name": "Vegetable Matter",
+    "density": 4,
+    "edible": true,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "acid_resist": 2,
+    "fire_resist": 1,
+    "elec_resist": 1,
+    "chip_resist": 2,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "squished",
+    "cut_dmg_verb": "cut",
+    "vitamins": [ [ "calcium", 0.1 ], [ "vitA", 1 ], [ "vitC", 0.5 ] ],
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
+      { "fuel": 2, "smoke": 1, "burn": 2, "chance": 10 },
+      { "fuel": 2, "smoke": 1, "burn": 3 }
+    ]
+  }
+]

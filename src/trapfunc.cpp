@@ -1,29 +1,47 @@
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "debug.h"
 #include "trap.h"
 #include "rng.h"
-#include "monstergenerator.h"
 #include "messages.h"
 #include "sounds.h"
 #include "translations.h"
 #include "event.h"
 #include "npc.h"
 #include "monster.h"
+#include "mapdata.h"
+#include "mtype.h"
+
+const mtype_id mon_blob( "mon_blob" );
+const mtype_id mon_shadow( "mon_shadow" );
+const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+
+const species_id ROBOT( "ROBOT" );
+
+const skill_id skill_throw( "throw" );
+
+const efftype_id effect_beartrap( "beartrap" );
+const efftype_id effect_heavysnare( "heavysnare" );
+const efftype_id effect_in_pit( "in_pit" );
+const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_slimed( "slimed" );
+const efftype_id effect_tetanus( "tetanus" );
 
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness( const tripoint &p )
 {
-    int corpse_volume = 0;
+    units::volume corpse_volume = 0;
     for( auto &pit_content : g->m.i_at( p ) ) {
         if( pit_content.is_corpse() ) {
             corpse_volume += pit_content.volume();
         }
     }
 
-    int filled_volume = 75 * 10; // 10 zombies; see item::volume
+    // 10 zombies; see item::volume
+    const units::volume filled_volume = 10 * units::from_milliliter<float>( 62500 );
 
-    return std::max( 0.0f, 1.0f - float( corpse_volume ) / filled_volume );
+    return std::max( 0.0f, 1.0f - corpse_volume / filled_volume );
 }
 
 void trapfunc::bubble( Creature *c, const tripoint &p )
@@ -42,7 +60,7 @@ void trapfunc::bubble( Creature *c, const tripoint &p )
     g->m.remove_trap( p );
 }
 
-void trapfunc::cot( Creature *c, const tripoint& )
+void trapfunc::cot( Creature *c, const tripoint & )
 {
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
@@ -76,7 +94,7 @@ void trapfunc::beartrap( Creature *c, const tripoint &p )
                                   _( "A bear trap closes on <npcname>'s foot!" ) );
 
         // Actual effects
-        c->add_effect( "beartrap", 1, hit, true );
+        c->add_effect( effect_beartrap, 1, hit, true );
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( z != nullptr ) {
@@ -88,9 +106,9 @@ void trapfunc::beartrap( Creature *c, const tripoint &p )
             n->deal_damage( nullptr, hit, d );
 
             if( ( n->has_trait( "INFRESIST" ) ) && ( one_in( 512 ) ) ) {
-                n->add_effect( "tetanus", 1, num_bp, true );
+                n->add_effect( effect_tetanus, 1, num_bp, true );
             } else if( ( !n->has_trait( "INFIMMUNE" ) || !n->has_trait( "INFRESIST" ) ) && ( one_in( 128 ) ) ) {
-                n->add_effect( "tetanus", 1, num_bp, true );
+                n->add_effect( effect_tetanus, 1, num_bp, true );
             }
         }
         c->check_dead_state();
@@ -99,7 +117,7 @@ void trapfunc::beartrap( Creature *c, const tripoint &p )
     }
 }
 
-void trapfunc::board( Creature *c, const tripoint& )
+void trapfunc::board( Creature *c, const tripoint & )
 {
     // tiny animals don't trigger spiked boards, they can squeeze between the nails
     if( c != nullptr && c->get_size() == MS_TINY ) {
@@ -120,16 +138,16 @@ void trapfunc::board( Creature *c, const tripoint& )
             c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 6, 10 ) ) );
             c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 6, 10 ) ) );
             if( ( n->has_trait( "INFRESIST" ) ) && ( one_in( 256 ) ) ) {
-                n->add_effect( "tetanus", 1, num_bp, true );
+                n->add_effect( effect_tetanus, 1, num_bp, true );
             } else if( ( !n->has_trait( "INFIMMUNE" ) || !n->has_trait( "INFRESIST" ) ) && ( one_in( 35 ) ) ) {
-                n->add_effect( "tetanus", 1, num_bp, true );
+                n->add_effect( effect_tetanus, 1, num_bp, true );
             }
         }
         c->check_dead_state();
     }
 }
 
-void trapfunc::caltrops( Creature *c, const tripoint& )
+void trapfunc::caltrops( Creature *c, const tripoint & )
 {
     // tiny animals don't trigger caltrops, they can squeeze between them
     if( c != nullptr && c->get_size() == MS_TINY ) {
@@ -167,7 +185,7 @@ void trapfunc::tripwire( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( z != nullptr ) {
-            z->stumble( false );
+            z->stumble();
             if( rng( 0, 10 ) > z->get_dodge() ) {
                 z->apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
             }
@@ -183,15 +201,15 @@ void trapfunc::tripwire( Creature *c, const tripoint &p )
                 }
             }
             if( !valid.empty() ) {
-                jk = valid[rng( 0, valid.size() - 1 )];
-                n->setpos( jk );
+                n->setpos( random_entry( valid ) );
             }
             n->moves -= 150;
+            ///\EFFECT_DEX decreases chance of taking damage from a tripwire trap
             if( rng( 5, 20 ) > n->dex_cur ) {
                 n->hurtall( rng( 1, 4 ), nullptr );
             }
             if( c == &g->u ) {
-                g->update_map( &g->u );
+                g->update_map( g->u );
             }
         }
         c->check_dead_state();
@@ -209,6 +227,7 @@ void trapfunc::crossbow( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
+            ///\EFFECT_DODGE reducts chance of being hit by crossbow trap
             if( !one_in( 4 ) && rng( 8, 20 ) > n->get_dodge() ) {
                 body_part hit = num_bp;
                 switch( rng( 1, 10 ) ) {
@@ -300,10 +319,12 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
+            ///\EFFECT_STR_MAX increases chance of two shots from shotgun trap
             shots = ( one_in( 8 ) || one_in( 20 - n->str_max ) ? 2 : 1 );
             if( g->m.tr_at( p ).loadid == tr_shotgun_1 ) {
                 shots = 1;
             }
+            ///\EFFECT_DODGE reduces chance of being hit by shotgun trap
             if( rng( 5, 50 ) > n->get_dodge() ) {
                 body_part hit = num_bp;
                 switch( rng( 1, 10 ) ) {
@@ -374,7 +395,7 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
     }
     if( shots == 2 || g->m.tr_at( p ).loadid == tr_shotgun_1 ) {
         g->m.remove_trap( p );
-        g->m.spawn_item( p, "shotgun_sawn" );
+        g->m.spawn_item( p, "shotgun_s" );
         g->m.spawn_item( p, "string_6" );
     } else {
         g->m.add_trap( p, tr_shotgun_1 );
@@ -382,7 +403,7 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
 }
 
 
-void trapfunc::blade( Creature *c, const tripoint& )
+void trapfunc::blade( Creature *c, const tripoint & )
 {
     if( c != nullptr ) {
         c->add_msg_player_or_npc( m_bad, _( "A blade swings out and hacks your torso!" ),
@@ -426,7 +447,7 @@ void trapfunc::snare_light( Creature *c, const tripoint &p )
                              pgettext( "memorial_female", "Triggered a light snare." ) );
 
         // Actual effects
-        c->add_effect( "lightsnare", 1, hit, true );
+        c->add_effect( effect_lightsnare, 1, hit, true );
         monster *z = dynamic_cast<monster *>( c );
         if( z != nullptr && z->type->size == MS_TINY ) {
             z->apply_damage( nullptr, one_in( 2 ) ? bp_leg_l : bp_leg_r, 10 );
@@ -454,7 +475,7 @@ void trapfunc::snare_heavy( Creature *c, const tripoint &p )
                              pgettext( "memorial_female", "Triggered a heavy snare." ) );
 
         // Actual effects
-        c->add_effect( "heavysnare", 1, hit, true );
+        c->add_effect( effect_heavysnare, 1, hit, true );
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
@@ -494,7 +515,7 @@ void trapfunc::landmine( Creature *c, const tripoint &p )
         c->add_memorial_log( pgettext( "memorial_male", "Stepped on a land mine." ),
                              pgettext( "memorial_female", "Stepped on a land mine." ) );
     }
-    g->explosion( p, 10, 8, false );
+    g->explosion( p, 18, 0.5, false, 8 );
     g->m.remove_trap( p );
 }
 
@@ -506,7 +527,7 @@ void trapfunc::boobytrap( Creature *c, const tripoint &p )
         c->add_memorial_log( pgettext( "memorial_male", "Triggered a booby trap." ),
                              pgettext( "memorial_female", "Triggered a booby trap." ) );
     }
-    g->explosion( p, 18, 12, false );
+    g->explosion( p, 18, 0.6, false, 12 );
     g->m.remove_trap( p );
 }
 
@@ -533,7 +554,7 @@ void trapfunc::telepad( Creature *c, const tripoint &p )
                 newposx = rng( z->posx() - SEEX, z->posx() + SEEX );
                 newposy = rng( z->posy() - SEEY, z->posy() + SEEY );
                 tries++;
-            } while( g->m.move_cost( newposx, newposy ) == 0 && tries != 10 );
+            } while( g->m.impassable( newposx, newposy ) && tries != 10 );
 
             if( tries == 10 ) {
                 z->die_in_explosion( nullptr );
@@ -541,7 +562,7 @@ void trapfunc::telepad( Creature *c, const tripoint &p )
                 int mon_hit = g->mon_at( {newposx, newposy, z->posz()} );
                 if( mon_hit != -1 ) {
                     if( g->u.sees( *z ) ) {
-                        add_msg( m_good, _( "The %s teleports into a %s, killing them both!" ),
+                        add_msg( m_good, _( "The %1$s teleports into a %2$s, killing them both!" ),
                                  z->name().c_str(), g->zombie( mon_hit ).name().c_str() );
                     }
                     g->zombie( mon_hit ).die_in_explosion( z );
@@ -563,8 +584,8 @@ void trapfunc::goo( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
-            n->add_env_effect( "slimed", bp_foot_l, 6, 20 );
-            n->add_env_effect( "slimed", bp_foot_r, 6, 20 );
+            n->add_env_effect( effect_slimed, bp_foot_l, 6, 20 );
+            n->add_env_effect( effect_slimed, bp_foot_r, 6, 20 );
             if( one_in( 3 ) ) {
                 n->add_msg_if_player( m_bad, _( "The acidic goo eats away at your feet." ) );
                 n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 5 ) );
@@ -572,11 +593,11 @@ void trapfunc::goo( Creature *c, const tripoint &p )
                 n->check_dead_state();
             }
         } else if( z != nullptr ) {
-            if( z->type->id == "mon_blob" ) {
+            if( z->type->id == mon_blob ) {
                 z->set_speed_base( z->get_speed_base() + 15 );
                 z->set_hp( z->get_speed() );
             } else {
-                z->poly( GetMType( "mon_blob" ) );
+                z->poly( mon_blob );
                 z->set_speed_base( z->get_speed_base() - 15 );
                 z->set_hp( z->get_speed() );
             }
@@ -587,34 +608,41 @@ void trapfunc::goo( Creature *c, const tripoint &p )
 
 void trapfunc::dissector( Creature *c, const tripoint &p )
 {
+    if( c == nullptr ) {
+        return;
+    }
+
+    monster *z = dynamic_cast<monster *>( c );
+    if( z != nullptr && z->type->in_species( ROBOT ) ) {
+        //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
+        sounds::sound( p, 4, _( "BEEPBOOP! Please remove non-organic object." ) ); //Dissector error sound.
+        c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
+                                  _( "The dissector lights up, and shuts down." ) );
+        return;
+    }
+
     //~ the sound of a dissector dissecting
     sounds::sound( p, 10, _( "BRZZZAP!" ) );
-    if( c != nullptr ) {
-        c->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
-                                  _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
-        c->add_memorial_log( pgettext( "memorial_male", "Stepped into a dissector." ),
-                             pgettext( "memorial_female", "Stepped into a dissector." ) );
-        monster *z = dynamic_cast<monster *>( c );
-        player *n = dynamic_cast<player *>( c );
-        if( n != nullptr ) {
-            n->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
-            n->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
-            n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
-            n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
-            n->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
-            n->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
-            n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-            n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-            n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
-            n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
-        } else if( z != nullptr ) {
-            z->apply_damage( nullptr, bp_torso, 60 );
-            if( z->is_dead() ) {
-                z->explode();
-            }
-        }
-        c->check_dead_state();
+    c->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
+                              _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
+    c->add_memorial_log( pgettext( "memorial_male", "Stepped into a dissector." ),
+                         pgettext( "memorial_female", "Stepped into a dissector." ) );
+    player *n = dynamic_cast<player *>( c );
+    if( n != nullptr ) {
+        n->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
+        n->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
+        n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
+        n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
+        n->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
+        n->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
+        n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+        n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+        n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
+        n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
+    } else if( z != nullptr ) {
+        z->apply_damage( nullptr, bp_torso, 60 );
     }
+    c->check_dead_state();
 }
 
 void trapfunc::pit( Creature *c, const tripoint &p )
@@ -628,7 +656,7 @@ void trapfunc::pit( Creature *c, const tripoint &p )
         c->add_msg_player_or_npc( m_bad, _( "You fall in a pit!" ), _( "<npcname> falls in a pit!" ) );
         c->add_memorial_log( pgettext( "memorial_male", "Fell in a pit." ),
                              pgettext( "memorial_female", "Fell in a pit." ) );
-        c->add_effect( "in_pit", 1, num_bp, true );
+        c->add_effect( effect_in_pit, 1, num_bp, true );
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
@@ -637,6 +665,7 @@ void trapfunc::pit( Creature *c, const tripoint &p )
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
             } else {
                 int dodge = n->get_dodge();
+                ///\EFFECT_DODGE reduces damage taken falling into a pit
                 int damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
                 if( damage > 0 ) {
                     n->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
@@ -665,7 +694,7 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
                                   _( "<npcname> falls in a spiked pit!" ) );
         c->add_memorial_log( pgettext( "memorial_male", "Fell into a spiked pit." ),
                              pgettext( "memorial_female", "Fell into a spiked pit." ) );
-        c->add_effect( "in_pit", 1, num_bp, true );
+        c->add_effect( effect_in_pit, 1, num_bp, true );
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
@@ -674,6 +703,7 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
             if( ( n->has_trait( "WINGS_BIRD" ) ) || ( ( one_in( 2 ) ) &&
                     ( n->has_trait( "WINGS_BUTTERFLY" ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
+                ///\EFFECT_DODGE reduces chance of landing on spikes in spiked pit
             } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
                 n->add_msg_if_player( _( "You avoid the spikes within." ) );
             } else {
@@ -704,9 +734,9 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
                                       body_part_name_accusative( hit ).c_str() );
                 n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
                 if( ( n->has_trait( "INFRESIST" ) ) && ( one_in( 256 ) ) ) {
-                    n->add_effect( "tetanus", 1, num_bp, true );
+                    n->add_effect( effect_tetanus, 1, num_bp, true );
                 } else if( ( !n->has_trait( "INFIMMUNE" ) || !n->has_trait( "INFRESIST" ) ) && ( one_in( 35 ) ) ) {
-                    n->add_effect( "tetanus", 1, num_bp, true );
+                    n->add_effect( effect_tetanus, 1, num_bp, true );
                 }
             }
         } else if( z != nullptr ) {
@@ -738,7 +768,7 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
                                   _( "<npcname> falls in pit filled with glass shards!" ) );
         c->add_memorial_log( pgettext( "memorial_male", "Fell into a pit filled with glass shards." ),
                              pgettext( "memorial_female", "Fell into a pit filled with glass shards." ) );
-        c->add_effect( "in_pit", 1, num_bp, true );
+        c->add_effect( effect_in_pit, 1, num_bp, true );
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
@@ -747,6 +777,7 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
             if( ( n->has_trait( "WINGS_BIRD" ) ) || ( ( one_in( 2 ) ) &&
                     ( n->has_trait( "WINGS_BUTTERFLY" ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
+                ///\EFFECT_DODGE reduces chance of landing on glass in glass pit
             } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
                 n->add_msg_if_player( _( "You avoid the glass shards within." ) );
             } else {
@@ -781,9 +812,9 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
                                       body_part_name_accusative( hit ).c_str() );
                 n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
                 if( ( n->has_trait( "INFRESIST" ) ) && ( one_in( 256 ) ) ) {
-                    n->add_effect( "tetanus", 1, num_bp, true );
+                    n->add_effect( effect_tetanus, 1, num_bp, true );
                 } else if( ( !n->has_trait( "INFIMMUNE" ) || !n->has_trait( "INFRESIST" ) ) && ( one_in( 35 ) ) ) {
-                    n->add_effect( "tetanus", 1, num_bp, true );
+                    n->add_effect( effect_tetanus, 1, num_bp, true );
                 }
             }
         } else if( z != nullptr ) {
@@ -821,20 +852,22 @@ void trapfunc::lava( Creature *c, const tripoint &p )
         } else if( z != nullptr ) {
             // MATERIALS-TODO: use fire resistance
             int dam = 30;
-            if( z->made_of( "flesh" ) || z->made_of( "iflesh" ) ) {
+            if( z->made_of( material_id( "flesh" ) ) || z->made_of( material_id( "iflesh" ) ) ) {
                 dam = 50;
             }
-            if( z->made_of( "veggy" ) ) {
+            if( z->made_of( material_id( "veggy" ) ) ) {
                 dam = 80;
             }
-            if( z->made_of( "paper" ) || z->made_of( LIQUID ) || z->made_of( "powder" ) ||
-                z->made_of( "wood" )  || z->made_of( "cotton" ) || z->made_of( "wool" ) ) {
+            if( z->made_of( material_id( "paper" ) ) || z->made_of( LIQUID ) ||
+                z->made_of( material_id( "powder" ) ) ||
+                z->made_of( material_id( "wood" ) )  || z->made_of( material_id( "cotton" ) ) ||
+                z->made_of( material_id( "wool" ) ) ) {
                 dam = 200;
             }
-            if( z->made_of( "stone" ) ) {
+            if( z->made_of( material_id( "stone" ) ) ) {
                 dam = 15;
             }
-            if( z->made_of( "kevlar" ) || z->made_of( "steel" ) ) {
+            if( z->made_of( material_id( "kevlar" ) ) || z->made_of( material_id( "steel" ) ) ) {
                 dam = 5;
             }
             z->apply_damage( nullptr, bp_torso, dam );
@@ -844,83 +877,92 @@ void trapfunc::lava( Creature *c, const tripoint &p )
 }
 
 // STUB
-void trapfunc::portal( Creature * /*c*/, const tripoint& )
+void trapfunc::portal( Creature * /*c*/, const tripoint & )
 {
     // TODO: make this do something?
 }
 
 // Don't ask NPCs - they always want to do the first thing that comes to their minds
-bool query_for_item( const player *pl, const std::string &itemname, const char *que ) {
+bool query_for_item( const player *pl, const std::string &itemname, const char *que )
+{
     return pl->has_amount( itemname, 1 ) && ( !pl->is_player() || query_yn( que ) );
-};
+}
+
+static tripoint random_neighbor( tripoint center )
+{
+    center.x += rng( -1, 1 );
+    center.y += rng( -1, 1 );
+    return center;
+}
+
+static bool sinkhole_safety_roll( player *p, const std::string &itemname, const int diff )
+{
+    ///\EFFECT_STR increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
+
+    ///\EFFECT_DEX increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
+
+    ///\EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
+    const int roll = rng( p->get_skill_level( skill_throw ),
+                          p->get_skill_level( skill_throw ) + p->str_cur + p->dex_cur );
+    if( roll < diff ) {
+        p->add_msg_if_player( m_bad, _( "You fail to attach it..." ) );
+        p->use_amount( itemname, 1 );
+        g->m.spawn_item( random_neighbor( p->pos() ), itemname );
+        return false;
+    }
+
+    std::vector<tripoint> safe;
+    tripoint tmp = p->pos();
+    int &i = tmp.x;
+    int &j = tmp.y;
+    for( i = p->posx() - 1; i <= p->posx() + 1; i++ ) {
+        for( j = p->posy() - 1; j <= p->posy() + 1; j++ ) {
+            if( g->m.passable( tmp ) && g->m.tr_at( tmp ).loadid != tr_pit ) {
+                safe.push_back( tmp );
+            }
+        }
+    }
+    if( safe.empty() ) {
+        p->add_msg_if_player( m_bad, _( "There's nowhere to pull yourself to, and you sink!" ) );
+        p->use_amount( itemname, 1 );
+        g->m.spawn_item( random_neighbor( p->pos() ), itemname );
+        return false;
+    } else {
+        p->add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
+                                  _( "<npcname> steps on a sinkhole, but manages to pull themselves to safety." ) );
+        p->setpos( random_entry( safe ) );
+        if( p == &g->u ) {
+            g->update_map( *p );
+        }
+
+        return true;
+    }
+}
 
 void trapfunc::sinkhole( Creature *c, const tripoint &p )
 {
-    player *pl = dynamic_cast<player*>( c );
+    player *pl = dynamic_cast<player *>( c );
     if( pl == nullptr ) {
         // TODO: Handle monsters
         return;
     }
 
-    const auto random_neighbor = []( tripoint center ) {
-        center.x += rng( -1, 1 );
-        center.y += rng( -1, 1 );
-        return center;
-    };
-
-    const auto safety_roll = [&]( const std::string &itemname,
-                                  const int diff ) {
-        const int roll = rng( pl->skillLevel( "throw" ),
-                              pl->skillLevel( "throw" ) + pl->str_cur + pl->dex_cur );
-        if( roll < diff ) {
-            pl->add_msg_if_player( m_bad, _( "You fail to attach it..." ) );
-            pl->use_amount( itemname, 1 );
-            g->m.spawn_item( random_neighbor( pl->pos() ), itemname );
-            return false;
-        }
-
-        std::vector<tripoint> safe;
-        tripoint tmp = pl->pos();
-        int &i = tmp.x;
-        int &j = tmp.y;
-        for( i = pl->posx() - 1; i <= pl->posx() + 1; i++ ) {
-            for( j = pl->posy() - 1; j <= pl->posy() + 1; j++ ) {
-                if( g->m.move_cost( tmp ) > 0 && g->m.tr_at( tmp ).loadid != tr_pit ) {
-                    safe.push_back( tmp );
-                }
-            }
-        }
-        if( safe.empty() ) {
-            pl->add_msg_if_player( m_bad, _( "There's nowhere to pull yourself to, and you sink!" ) );
-            pl->use_amount( itemname, 1 );
-            g->m.spawn_item( random_neighbor( pl->pos() ), itemname );
-            return false;
-        } else {
-            pl->add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
-                                               _( "<npcname> steps on a sinkhole, but manages to pull themselves to safety." ) );
-            int index = rng( 0, safe.size() - 1 );
-            pl->setpos( safe[index] );
-            if( pl == &g->u ) {
-                g->update_map( &g->u );
-            }
-
-            return true;
-        }
-    };
-
     pl->add_memorial_log( pgettext( "memorial_male", "Stepped into a sinkhole." ),
-                           pgettext( "memorial_female", "Stepped into a sinkhole." ) );
+                          pgettext( "memorial_female", "Stepped into a sinkhole." ) );
     bool success = false;
-    if( query_for_item( pl, "grapnel", _( "You step into a sinkhole!  Throw your grappling hook out to try to catch something?" ) ) ) {
-        success = safety_roll( "grapnel", 6 );
-    } else if( query_for_item( pl, "bullwhip", _( "You step into a sinkhole!  Throw your whip out to try and snag something?" ) ) ) {
-        success = safety_roll( "bullwhip", 8 );
-    } else if( query_for_item( pl, "rope_30", _( "You step into a sinkhole!  Throw your rope out to try to catch something?" ) ) ) {
-        success = safety_roll( "rope_30", 12 );
+    if( query_for_item( pl, "grapnel",
+                        _( "You step into a sinkhole!  Throw your grappling hook out to try to catch something?" ) ) ) {
+        success = sinkhole_safety_roll( pl, "grapnel", 6 );
+    } else if( query_for_item( pl, "bullwhip",
+                               _( "You step into a sinkhole!  Throw your whip out to try and snag something?" ) ) ) {
+        success = sinkhole_safety_roll( pl, "bullwhip", 8 );
+    } else if( query_for_item( pl, "rope_30",
+                               _( "You step into a sinkhole!  Throw your rope out to try to catch something?" ) ) ) {
+        success = sinkhole_safety_roll( pl, "rope_30", 12 );
     }
 
     pl->add_msg_player_or_npc( m_warning, _( "The sinkhole collapses!" ),
-                                          _( "A sinkhole under <npcname> collapses!" ) );
+                               _( "A sinkhole under <npcname> collapses!" ) );
     g->m.remove_trap( p );
     g->m.ter_set( p, t_pit );
     if( success ) {
@@ -929,23 +971,103 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
 
     pl->moves -= 100;
     pl->add_msg_player_or_npc( m_bad, _( "You fall into the sinkhole!" ),
-                                      _( "<npcname> falls into a sinkhole!" ) );
+                               _( "<npcname> falls into a sinkhole!" ) );
     pit( c, p );
 }
 
-void trapfunc::ledge( Creature *c, const tripoint& )
+void trapfunc::ledge( Creature *c, const tripoint &p )
 {
-    if( c == &g->u ) {
+    if( c == nullptr ) {
+        return;
+    }
+
+    monster *m = dynamic_cast<monster *>( c );
+    if( m != nullptr && m->has_flag( MF_FLIES ) ) {
+        return;
+    }
+
+    if( !g->m.has_zlevels() ) {
+        if( c == &g->u ) {
+            add_msg( m_warning, _( "You fall down a level!" ) );
+            g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
+                                   pgettext( "memorial_female", "Fell down a ledge." ) );
+            g->vertical_move( -1, true );
+            if( g->u.has_trait( "WINGS_BIRD" ) || ( one_in( 2 ) && g->u.has_trait( "WINGS_BUTTERFLY" ) ) ) {
+                add_msg( _( "You flap your wings and flutter down gracefully." ) );
+            } else {
+                g->u.impact( 20, p );
+            }
+        } else {
+            c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
+            c->die( nullptr );
+        }
+
+        return;
+    }
+
+    int height = 0;
+    tripoint where = p;
+    tripoint below = where;
+    below.z--;
+    while( g->m.valid_move( where, below, false, true ) ) {
+        where.z--;
+        if( g->critter_at( where ) != nullptr ) {
+            where.z++;
+            break;
+        }
+
+        below.z--;
+        height++;
+    }
+
+    if( height == 0 && c->is_player() ) {
+        // For now just special case player, NPCs don't "zedwalk"
+        Creature *critter = g->critter_at( below, true );
+        if( critter == nullptr || !critter->is_monster() ) {
+            return;
+        }
+
+        std::vector<tripoint> valid;
+        for( const tripoint &pt : g->m.points_in_radius( below, 1 ) ) {
+            if( g->is_empty( pt ) ) {
+                valid.push_back( pt );
+            }
+        }
+
+        if( valid.empty() ) {
+            critter->setpos( c->pos() );
+            add_msg( m_bad, _( "You fall down under %s!" ), critter->disp_name().c_str() );
+        } else {
+            critter->setpos( random_entry( valid ) );
+        }
+
+        height++;
+        where.z--;
+    } else if( height == 0 ) {
+        return;
+    }
+
+    c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
+    player *pl = dynamic_cast<player *>( c );
+    if( pl == nullptr ) {
+        c->setpos( where );
+        c->impact( height * 10, where );
+        return;
+    }
+
+    if( pl->is_player() ) {
         add_msg( m_warning, _( "You fall down a level!" ) );
         g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
                                pgettext( "memorial_female", "Fell down a ledge." ) );
-        g->vertical_move( -1, true );
-        return;
+        g->vertical_move( -height, true );
+    } else {
+        pl->setpos( where );
     }
-    // TODO; port to Z-levels
-    if( c != nullptr ) {
-        c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
-        c->die( nullptr );
+    if( pl->has_trait( "WINGS_BIRD" ) || ( one_in( 2 ) && pl->has_trait( "WINGS_BUTTERFLY" ) ) ) {
+        pl->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
+                                   _( "<npcname> flaps their wings and flutters down gracefully." ) );
+    } else {
+        pl->impact( height * 10, where );
     }
 }
 
@@ -1070,16 +1192,16 @@ void trapfunc::shadow( Creature *c, const tripoint &p )
              !g->m.sees( monp, g->u.pos(), 10 ) );
 
     if( tries < 5 ) {
-        if( g->summon_mon( "mon_shadow", monp ) ) {
+        if( g->summon_mon( mon_shadow, monp ) ) {
             add_msg( m_warning, _( "A shadow forms nearby." ) );
             monster *spawned = g->monster_at( monp );
-            spawned->reset_special_rng( 0 );
+            spawned->reset_special_rng( "DISAPPEAR" );
         }
         g->m.remove_trap( p );
     }
 }
 
-void trapfunc::drain( Creature *c, const tripoint& )
+void trapfunc::drain( Creature *c, const tripoint & )
 {
     if( c != nullptr ) {
         c->add_msg_if_player( m_bad, _( "You feel your life force sapping away." ) );
@@ -1124,7 +1246,7 @@ void trapfunc::snake( Creature *c, const tripoint &p )
 
         if( tries < 5 ) {
             add_msg( m_warning, _( "A shadowy snake forms nearby." ) );
-            g->summon_mon( "mon_shadow_snake", p );
+            g->summon_mon( mon_shadow_snake, p );
             g->m.remove_trap( p );
         }
     }

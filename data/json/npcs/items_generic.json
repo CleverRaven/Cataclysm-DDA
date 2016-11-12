@@ -48,7 +48,9 @@
       ["null", 60],
       ["gloves_leather", 20],
       ["gloves_fingerless", 20],
-      ["fire_gauntlets", 20]
+      ["fire_gauntlets", 20],
+      ["gloves_work", 10],
+      ["gloves_fingerless_mod", 5]
     ]
   },{
     "type" : "item_group",
@@ -60,7 +62,9 @@
       ["jacket_leather", 20],
       ["trenchcoat", 20],
       ["jacket_jean", 20],
+      ["jacket_windbreaker", 10],
       ["poncho", 10],
+      ["jacket_leather_mod", 5],
       ["kevlar", 5]
     ]
   },{
@@ -98,7 +102,8 @@
       ["helmet_riot", 10],
       ["helmet_motor", 10],
       ["cowboy_hat", 10],
-      ["hat_hunting", 10]
+      ["hat_hunting", 10],
+      ["hat_hard_hooded", 5]
     ]
   },{
     "type" : "item_group",
@@ -111,35 +116,10 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "npc_bashing",
-    "items":[
-      ["hammer", 20],
-      ["wrench", 20],
-      ["hammer_sledge", 20],
-      ["pipe", 20],
-      ["bat", 20],
-      ["crowbar", 20],
-      ["spear_rebar",20],
-      ["q_staff",20],
-      ["hatchet", 20],
-      ["bat_metal",20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "npc_cutting",
-    "items":[
-      ["knife_butcher", 20],
-      ["hatchet", 20],
-      ["ax", 20],
-      ["machete", 20],
-      ["knife_combat", 20],
-      ["katana", 20]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "npc_stabbing",
     "items":[
-      ["spear_knife", 50]
+      { "group": "survivor_knife", "prob": 20 },
+      { "group": "survivor_stabbing", "prob": 80 }
     ]
   },{
     "type" : "item_group",
@@ -153,53 +133,6 @@
     "id" : "npc_archery",
     "items":[
       ["crossbow", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "npc_launcher",
-    "items":[
-      ["flamethrower_simple",50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "npc_weapon_random",
-    "items":[
-      ["hatchet", 10],
-      ["nailbat", 10],
-      ["bwirebat",10],
-      ["nailboard", 25],
-      ["makeshift_crowbar", 15],
-      ["crowbar", 7],
-      ["machete", 7],
-      ["ax", 5],
-      ["halligan", 3],
-      ["fire_ax", 5],
-      ["bullwhip", 2],
-      ["spear_knife", 15],
-      ["rifle_9mm", 20],
-      ["rifle_22", 20],
-      ["uzi", 10],
-      ["mac_10", 10],
-      ["crossbow", 5],
-      ["sig_mosquito", 5],
-      ["sw_22", 5],
-      ["glock_19", 7],
-      ["usp_9mm", 10],
-      ["cx4", 1],
-      ["usp_45", 10],
-      ["m1911", 5],
-      ["ar15", 1],
-      ["savage_111f", 2],
-      ["remington_700", 2],
-      ["ruger_1022", 10],
-      ["marlin_9a", 10],
-      ["remington_870", 8],
-      ["mossberg_500", 2],
-      ["shotgun_sawn", 4],
-      ["shotgun_d", 4],
-      ["longbow", 5],
-      ["compositebow", 3],
-      ["shortbow", 5]
     ]
   },{
     "type" : "item_group",
@@ -257,7 +190,6 @@
       ["bat", 5],
       ["battery", 25],
       ["battery_compartment", 5],
-      ["bayonet", 1],
       ["beartrap", 10],
       ["beer", 15],
       ["belgian_ale", 3],
@@ -283,6 +215,7 @@
       ["briefcase", 2],
       ["broccoli", 1],
       ["broth", 5],
+      ["bucket", 2],
       ["bum_wine", 5],
       ["c_fishspear", 1],
       ["c4", 1],
@@ -340,8 +273,6 @@
       ["circsaw_blade", 3],
       ["circsaw_off", 3],
       ["cleansuit", 5],
-      ["clip", 1],
-      ["clip2", 1],
       ["clock", 5],
       ["coconut", 1],
       ["codeine", 3],
@@ -353,8 +284,6 @@
       ["computer_science", 1],
       ["con_milk", 2],
       ["contacts", 5],
-      ["conversion_battle", 1],
-      ["conversion_sniper", 1],
       ["corn", 3],
       ["cornbread", 1],
       ["corndogs_frozen", 2],
@@ -478,6 +407,7 @@
       ["hamburger", 1],
       ["hammer", 7],
       ["hammer_sledge", 3],
+      ["hand_drill", 2],
       ["handflare", 3],
       ["hardtack", 2],
       ["hatchet", 5],
@@ -552,10 +482,10 @@
       ["jam_fruit", 4],
       ["jam_strawberries", 4],
       ["jar_3l_glass", 2],
-      ["jar_fish_pickled", 2],
+      {"item": "fish_pickled", "prob":  2, "charges": 2, "container-item": "jar_glass_sealed"},
       ["jar_glass", 2],
-      ["jar_meat_pickled", 2],
-      ["jar_veggy_pickled", 4],
+      {"item": "meat_pickled", "prob":  2, "charges": 2, "container-item": "jar_glass_sealed"},
+      {"item": "veggy_pickled", "prob":  4, "charges": 2, "container-item": "jar_glass_sealed"},
       ["jerrycan", 3],
       ["jerrycan_big", 2],
       ["joint", 10],
@@ -655,11 +585,13 @@
       ["manual_swimming", 1],
       ["manual_throw", 1],
       ["manual_traps", 2],
+      ["maple_sap", 1],
       ["mask_bal", 1],
       ["mask_dust", 4],
       ["mask_filter", 1],
       ["matchbomb", 2],
       ["maltballs", 1],
+      ["maple_candy", 2],
       ["marshmallow", 2],
       ["mask_hockey", 1],
       ["masterkey", 1],
@@ -667,6 +599,7 @@
       ["matches", 10],
       ["mayonnaise", 2],
       ["mbag", 5],
+      ["slingpack", 5],
       ["meat", 10],
       ["meat_smoked", 2],
       ["medical_gauze", 3],
@@ -690,7 +623,6 @@
       ["mushroom", 5],
       ["mushroom_magic", 3],
       ["mushroom_poison", 3],
-      ["music_cd", 3],
       ["mustard", 3],
       ["muzzle_brake", 1],
       ["nachos", 1],
@@ -813,7 +745,7 @@
       ["recipe_bows", 3],
       ["recipe_bullets", 3],
       ["recipe_elfa", 1],
-      ["rechargeable_battery", 5],
+      ["battery_ups", 5],
       ["recoil_stock", 1],
       ["red_dot_sight", 1],
       ["ref_lighter", 6],
@@ -846,6 +778,7 @@
       ["sandwich_pb", 3],
       ["sandwich_pbj", 3],
       ["sandwich_pbh", 3],
+      ["sandwich_pbm", 3],
       ["sauce_pesto", 2],
       ["sauce_red", 2],
       ["saw", 5],
@@ -890,7 +823,6 @@
       ["soup_tomato", 2],
       ["soup_veggy", 2],
       ["spaghetti_raw", 4],
-      ["spare_mag", 1],
       ["speargun", 1],
       ["spoon", 5],
       ["spork", 3],
@@ -914,6 +846,10 @@
       ["switchblade", 5],
       ["sword_bayonet", 1],
       ["syringe", 3],
+      ["shavingkit", 3],
+      ["survivor_shavingkit", 5],
+      ["elec_hairtrimmer", 2],
+      ["survivor_hairtrimmer", 3],
       ["syrup", 4],
       ["tailor_portfolio", 1],
       ["talking_doll", 3],

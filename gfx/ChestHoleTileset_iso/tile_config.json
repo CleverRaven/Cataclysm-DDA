@@ -8,7 +8,7 @@
   ],
   "tiles-new": [
     {
-      "file": "gfx/ChestHoleTileset_iso/tiles.png",
+      "file": "tiles.png",
       "tiles": [
         {
           "bg": [
@@ -16457,16 +16457,6 @@
             632
           ],
           "fg": [
-            1556
-          ],
-          "id": "saiga_sawn",
-          "rotates": false
-        },
-        {
-          "bg": [
-            632
-          ],
-          "fg": [
             808
           ],
           "id": "saline",
@@ -31040,6 +31030,7 @@
             3718,
             3719
           ],
+          "height_3d": 8,
           "id": "f_bench",
           "rotates": true
         },
@@ -32748,13 +32739,6 @@
         },
         {
           "fg": [
-            1377
-          ],
-          "id": "battery_truck",
-          "rotates": false
-        },
-        {
-          "fg": [
             1377,
             3813,
             3814,
@@ -32768,13 +32752,6 @@
             1377
           ],
           "id": "vp_battery_motorbike",
-          "rotates": false
-        },
-        {
-          "fg": [
-            1377
-          ],
-          "id": "vp_battery_truck",
           "rotates": false
         },
         {
@@ -33046,7 +33023,7 @@
           "fg": [
             1478
           ],
-          "id": "m14a",
+          "id": "m1a",
           "rotates": false
         },
         {
@@ -33165,7 +33142,7 @@
           "fg": [
             1501
           ],
-          "id": "overlay_wielded_m14a",
+          "id": "overlay_wielded_m1a",
           "rotates": false
         },
         {
@@ -34376,13 +34353,6 @@
             1524
           ],
           "id": "overlay_wielded_rm228",
-          "rotates": false
-        },
-        {
-          "fg": [
-            1524
-          ],
-          "id": "overlay_wielded_saiga_sawn",
           "rotates": false
         },
         {

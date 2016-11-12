@@ -1,44 +1,48 @@
 # Make any tests, and possibly run them.
-# A selection of variables are exported from the master Makefile
-# libtap.so and tap.h must be in the local directory or on the system path.
+# A selection of variables are exported from the master Makefile.
 
-# ODIR is realative, so we can use the one from the main Makefile
+# As each test will have a main function we need to handle this file by file.
+# We're using the fairly typical convention that any file ending in _test.cpp
+# is a test executable.
+SOURCES = $(wildcard *.cpp)
+OBJS = $(SOURCES:%.cpp=$(ODIR)/%.o)
 
-# As each test will have a main function we need to handle this file by file
-TEST_SOURCES = $(wildcard *_test.cpp)
-TEST_OBJS = $(TEST_SOURCES:%.cpp=$(ODIR)/%.o)
-TESTS = $(TEST_SOURCES:.cpp=)
+CATA_LIB=../$(BUILD_PREFIX)cataclysm.a
 
-# Brute force solution, relative paths to EVERY .o file
-SOURCE_OBJS = $(patsubst %,../$(ODIR)/%,$(filter-out main.o,$(_OBJS)))
+# If you invoke this makefile directly and the parent directory was
+# built with BUILD_PREFIX set, you must set it for this invocation as well.
+ODIR ?= obj
 
-ODIR := obj
+LDFLAGS += -L.
 
-LDFLAGS += -L. -lrt
+# Allow use of any header files from cataclysm.
+# Catch sections throw unused variable warnings.
+# Add no-sign-compare to fix MXE issue when compiling
+# Catch also uses "#pragma gcc diagnostic", which is not recognized on some supported compilers.
+# Clang and mingw are warning about Catch macros around perfectly normal boolean operations.
+CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses
 
-# Catch sections throw unused variable warnings
-CXXFLAGS += -I../src -Wno-unused-variable
+TEST_TARGET = $(BUILD_PREFIX)cata_test
 
-LD := $(CROSS)g++
+tests: $(TEST_TARGET)
 
-tests: $(TESTS)
+$(BUILD_PREFIX)cata_test: $(ODIR) $(OBJS) $(CATA_LIB)
+	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
-%_test: $(ODIR) $(DDIR) $(SOURCE_OBJS) $(TEST_OBJS)
-	$(LD) $(W32FLAGS) -o $@ $(DEFINES) $(ODIR)/$@.o $(SOURCE_OBJS) $(CXXFLAGS) $(LDFLAGS)
-
-check: $(TESTS)
-	LD_LIBRARY_PATH=/usr/local/lib ./$?
+# Iterate over all the individual tests.
+check: $(TEST_TARGET)
+	cd .. && tests/$(TEST_TARGET) -d yes
 
 clean:
-	rm -f $(TESTS) *.d $(ODIR)/*.o $(ODIR)/*.d
+	rm -rf *obj
+	rm -f *cata_test
 
 $(ODIR):
-	mkdir $(ODIR)
-
-$(DDIR):
-	@mkdir $(DDIR)
+	mkdir -p $(ODIR)
 
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: clean
+.PHONY: clean check tests
+
+.SECONDARY: $(OBJS)

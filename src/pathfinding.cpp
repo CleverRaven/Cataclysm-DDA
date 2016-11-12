@@ -2,42 +2,42 @@
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
+#include "player.h"
 #include "map.h"
+#include "trap.h"
 #include "map_iterator.h"
 #include "vehicle.h"
+#include "veh_type.h"
+#include "submap.h"
+#include "mapdata.h"
+#include "cata_utility.h"
+#include "pathfinding.h"
 
 #include <algorithm>
 #include <queue>
+#include <set>
 
 #include "messages.h"
 
 enum astar_state {
- ASL_NONE,
- ASL_OPEN,
- ASL_CLOSED
+    ASL_NONE,
+    ASL_OPEN,
+    ASL_CLOSED
 };
 
 // Turns two indexed to a 2D array into an index to equivalent 1D array
-constexpr int flat_index( const int x, const int y ) {
-    return (x * MAPSIZE * SEEY) + y;
-};
-
-struct pair_greater_cmp
+constexpr int flat_index( const int x, const int y )
 {
-    bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b)
-    {
-        return a.first > b.first;
-    }
+    return ( x * MAPSIZE * SEEY ) + y;
 };
 
 // Flattened 2D array representing a single z-level worth of pathfinding data
-struct path_data_layer
-{
+struct path_data_layer {
     // State is accessed way more often than all other values here
-    std::array< astar_state, SEEX * MAPSIZE * SEEY * MAPSIZE > state;
-    std::array< int, SEEX * MAPSIZE * SEEY * MAPSIZE > score;
-    std::array< int, SEEX * MAPSIZE * SEEY * MAPSIZE > gscore;
-    std::array< tripoint, SEEX * MAPSIZE * SEEY * MAPSIZE > parent;
+    std::array< astar_state, SEEX *MAPSIZE *SEEY *MAPSIZE > state;
+    std::array< int, SEEX *MAPSIZE *SEEY *MAPSIZE > score;
+    std::array< int, SEEX *MAPSIZE *SEEY *MAPSIZE > gscore;
+    std::array< tripoint, SEEX *MAPSIZE *SEEY *MAPSIZE > parent;
 
     void init( const int minx, const int miny, const int maxx, const int maxy ) {
         for( int x = minx; x <= maxx; x++ ) {
@@ -49,17 +49,17 @@ struct path_data_layer
     };
 };
 
-struct pathfinder
-{
+struct pathfinder {
     int minx;
     int miny;
     int maxx;
     int maxy;
     pathfinder( int _minx, int _miny, int _maxx, int _maxy ) :
-        minx( _minx ), miny( _miny ), maxx( _maxx ), maxy( _maxy )
-    {}
+        minx( _minx ), miny( _miny ), maxx( _maxx ), maxy( _maxy ) {
+    }
 
-    std::priority_queue< std::pair<int, tripoint>, std::vector< std::pair<int, tripoint> >, pair_greater_cmp > open;
+    std::priority_queue< std::pair<int, tripoint>, std::vector< std::pair<int, tripoint> >, pair_greater_cmp >
+    open;
     std::array< std::unique_ptr< path_data_layer >, OVERMAP_LAYERS > path_data;
 
     path_data_layer &get_layer( const int z ) {
@@ -103,6 +103,12 @@ struct pathfinder
         const int index = flat_index( p.x, p.y );
         layer.state[index] = ASL_CLOSED;
     }
+
+    void unclose_point( const tripoint &p ) {
+        auto &layer = get_layer( p.z );
+        const int index = flat_index( p.x, p.y );
+        layer.state[index] = ASL_NONE;
+    }
 };
 
 // Returns a tile with `flag` in the overmap tile that `t` is on
@@ -120,53 +126,92 @@ tripoint vertical_move_destination( const map &m, const tripoint &t )
         m.getlocal( rc.begin_om_pos() )
     );
 
-    tripoint from( omtile_align_start.x, omtile_align_start.y, t.z );
-    tripoint to( omtile_align_start.x + omtileszx, omtile_align_start.y + omtileszy, t.z );
-
-    // TODO: Avoid up to 576 bounds checks by using methods that don't check bounds
-    for( const tripoint &p : m.points_in_rectangle( from, to ) ) {
-        if( m.has_flag( flag, p ) ) {
-            return p;
+    const auto &pf_cache = m.get_pathfinding_cache_ref( t.z );
+    for( int x = omtile_align_start.x; x < omtile_align_start.x + omtileszx; x++ ) {
+        for( int y = omtile_align_start.y; y < omtile_align_start.y + omtileszy; y++ ) {
+            if( pf_cache.special[x][y] & PF_UPDOWN ) {
+                const tripoint p( x, y, t.z );
+                if( m.has_flag( flag, p ) ) {
+                    return p;
+                }
+            }
         }
     }
 
     return tripoint_min;
 }
 
+template<class Set1, class Set2>
+bool is_disjoint( const Set1 &set1, const Set2 &set2 )
+{
+    if( set1.empty() || set2.empty() ) {
+        return true;
+    }
+
+    typename Set1::const_iterator it1 = set1.begin();
+    typename Set1::const_iterator it1_end = set1.end();
+
+    typename Set2::const_iterator it2 = set2.begin();
+    typename Set2::const_iterator it2_end = set2.end();
+
+    if( *set2.rbegin() < *it1 || *set1.rbegin() < *it2 ) {
+        return true;
+    }
+
+    while( it1 != it1_end && it2 != it2_end ) {
+        if( *it1 == *it2 ) {
+            return false;
+        }
+        if( *it1 < *it2 ) {
+            it1++;
+        } else {
+            it2++;
+        }
+    }
+
+    return true;
+}
+
 std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
-                                  const int bash, const int maxdist ) const
+                                  const pathfinding_settings &settings,
+                                  const std::set<tripoint> &pre_closed ) const
 {
     /* TODO: If the origin or destination is out of bound, figure out the closest
      * in-bounds point and go to that, then to the real origin/destination.
      */
+    std::vector<tripoint> ret;
 
-    int linet1 = 0, linet2 = 0;
-    if( !inbounds( f ) || !inbounds( t ) ) {
-        // Note: The creature needs to understand not-moving upwards
-        // or else the plans can cause it to do so.
-        if( sees( f, t, -1, linet1, linet2 ) ) {
-            return line_to( f, t, linet1, linet2 );
-        } else {
-            std::vector<tripoint> empty;
-            return empty;
-        }
+    if( f == t || !inbounds( f ) ) {
+        return ret;
+    }
+
+    if( !inbounds( t ) ) {
+        tripoint clipped = t;
+        clip_to_bounds( clipped );
+        return route( f, clipped, settings, pre_closed );
     }
     // First, check for a simple straight line on flat ground
-    // Except when the player is on the line - we need to do regular pathing then
-    const tripoint &pl_pos = g->u.pos();
-    if( f.z == t.z && clear_path( f, t, -1, 2, 2, linet1, linet2 ) ) {
-        const auto line_path = line_to( f, t, linet1, linet2 );
-        if( pl_pos.z != f.z ) {
-            // Player on different z-level, certainly not on the line
-            return line_path;
-        }
+    // Except when the line contains a pre-closed tile - we need to do regular pathing then
+    if( f.z == t.z && clear_path( f, t, -1, 2, 2 ) ) {
+        const auto line_path = line_to( f, t );
+        const std::set<tripoint> sorted_line( line_path.begin(), line_path.end() );
 
-        if( std::find( line_path.begin(), line_path.end(), pl_pos ) == line_path.end() ) {
+        if( is_disjoint( sorted_line, pre_closed ) ) {
             return line_path;
         }
     }
 
-    const int pad = 8;  // Should be much bigger - low value makes pathfinders dumb!
+    // If expected path length is greater than max distance, allow only line path, like above
+    if( rl_dist( f, t ) > settings.max_dist ) {
+        return ret;
+    }
+
+    int max_length = settings.max_length;
+    int bash = settings.bash_strength;
+    bool doors = settings.allow_open_doors;
+    bool trapavoid = settings.avoid_traps;
+
+    const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     int minx = std::min( f.x, t.x ) - pad;
     int miny = std::min( f.y, t.y ) - pad;
     int minz = std::min( f.z, t.z ); // TODO: Make this way bigger
@@ -177,12 +222,18 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     clip_to_bounds( maxx, maxy, maxz );
 
     pathfinder pf( minx, miny, maxx, maxy );
-    pf.add_point( 0, 0, f, f );
     // Make NPCs not want to path through player
     // But don't make player pathing stop working
-    if( f != pl_pos && t != pl_pos ) {
-        pf.close_point( pl_pos );
+    for( const auto &p : pre_closed ) {
+        if( p.x >= minx && p.x < maxx && p.y >= miny && p.y < maxy ) {
+            pf.close_point( p );
+        }
     }
+
+    // Start and end must not be closed
+    pf.unclose_point( f );
+    pf.unclose_point( t );
+    pf.add_point( 0, 0, f, f );
 
     bool done = false;
 
@@ -196,7 +247,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             continue;
         }
 
-        if( layer.gscore[parent_index] > maxdist ) {
+        if( layer.gscore[parent_index] > max_length ) {
             // Shortest path would be too long, return empty vector
             return std::vector<tripoint>();
         }
@@ -207,12 +258,20 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
 
         cur_state = ASL_CLOSED;
-        std::vector<tripoint> neighbors = closest_tripoints_first( 1, cur );
 
-        for( const auto &p : neighbors ) {
+        const auto &pf_cache = get_pathfinding_cache_ref( cur.z );
+        const auto cur_special = pf_cache.special[cur.x][cur.y];
+
+        // 7 3 5
+        // 1 . 2
+        // 6 4 8
+        constexpr std::array<int, 8> x_offset{{ -1,  1,  0,  0,  1, -1, -1, 1 }};
+        constexpr std::array<int, 8> y_offset{{  0,  0, -1,  1, -1,  1, -1, 1 }};
+        for( size_t i = 0; i < 8; i++ ) {
+            const tripoint p( cur.x + x_offset[i], cur.y + y_offset[i], cur.z );
             const int index = flat_index( p.x, p.y );
 
-            // TODO: Remove this and instead have sentinels at the edges
+            // @todo Remove this and instead have sentinels at the edges
             if( p.x < minx || p.x >= maxx || p.y < miny || p.y >= maxy ) {
                 continue;
             }
@@ -221,49 +280,117 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 continue;
             }
 
-            int part = -1;
-            const maptile &tile = maptile_at_internal( p );
-            const auto &terrain = tile.get_ter_t();
-            const auto &furniture = tile.get_furn_t();
-            const vehicle *veh = veh_at_internal( p, part );
+            // Penalize for diagonals or the path will look "unnatural"
+            int newg = layer.gscore[parent_index] + ( ( cur.x != p.x && cur.y != p.y ) ? 1 : 0 );
 
-            const int cost = move_cost_internal( furniture, terrain, veh, part );
-            // Don't calculate bash rating unless we intend to actually use it
-            const int rating = ( bash == 0 || cost != 0 ) ? -1 :
-                                 bash_rating_internal( bash, furniture, terrain, false, veh, part );
+            const auto p_special = pf_cache.special[p.x][p.y];
 
-            if( cost == 0 && rating <= 0 && terrain.open.empty() ) {
-                layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calc costs
-                continue;
-            }
+            constexpr auto non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP;
+            // @todo De-uglify, de-huge-n
+            if( !( p_special & non_normal ) ) {
+                // Boring flat dirt - the most common case above the ground
+                newg += 2;
+            } else {
+                int part = -1;
+                const maptile &tile = maptile_at_internal( p );
+                const auto &terrain = tile.get_ter_t();
+                const auto &furniture = tile.get_furn_t();
+                const vehicle *veh = veh_at_internal( p, part );
 
-            int newg = layer.gscore[parent_index] + cost + ( (cur.x != p.x && cur.y != p.y ) ? 1 : 0);
-            if( cost == 0 ) {
-                // Handle all kinds of doors
-                // Only try to open INSIDE doors from the inside
+                const int cost = move_cost_internal( furniture, terrain, veh, part );
+                // Don't calculate bash rating unless we intend to actually use it
+                const int rating = ( bash == 0 || cost != 0 ) ? -1 :
+                                   bash_rating_internal( bash, furniture, terrain, false, veh, part );
 
-                if( !terrain.open.empty() &&
-                    ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !is_outside( cur ) ) ) {
-                    newg += 4; // To open and then move onto the tile
-                } else if( veh != nullptr ) {
-                    part = veh->obstacle_at_part( part );
-                    int dummy = -1;
-                    if( !veh->part_flag( part, "OPENCLOSE_INSIDE" ) || veh_at_internal( cur, dummy ) == veh ) {
-                        // Handle car doors, but don't try to path through curtains
-                        newg += 10; // One turn to open, 4 to move there
+                if( cost == 0 && rating <= 0 && ( !doors || !terrain.open ) && veh == nullptr ) {
+                    layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calc costs
+                    continue;
+                }
+
+                newg += cost;
+                if( cost == 0 ) {
+                    // Handle all kinds of doors
+                    // Only try to open INSIDE doors from the inside
+                    if( doors && terrain.open &&
+                        ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !is_outside( cur ) ) ) {
+                        // To open and then move onto the tile
+                        newg += 4;
+                    } else if( veh != nullptr ) {
+                        part = veh->obstacle_at_part( part );
+                        int dummy = -1;
+                        if( doors && veh->part_flag( part, VPFLAG_OPENABLE ) &&
+                            ( !veh->part_flag( part, "OPENCLOSE_INSIDE" ) ||
+                              veh_at_internal( cur, dummy ) == veh ) ) {
+                            // Handle car doors, but don't try to path through curtains
+                            newg += 10; // One turn to open, 4 to move there
+                        } else if( part >= 0 && bash > 0 ) {
+                            // Car obstacle that isn't a door
+                            // @todo Account for armor
+                            int hp = veh->parts[part].hp();
+                            if( hp / 20 > bash ) {
+                                // Threshold damage thing means we just can't bash this down
+                                layer.state[index] = ASL_CLOSED;
+                                continue;
+                            } else if( hp / 10 > bash ) {
+                                // Threshold damage thing means we will fail to deal damage pretty often
+                                hp *= 2;
+                            }
+
+                            newg += 2 * hp / bash + 8 + 4;
+                        } else if( part >= 0 ) {
+                            if( !doors || !veh->part_flag( part, VPFLAG_OPENABLE ) ) {
+                                // Won't be openable, don't try from other sides
+                                layer.state[index] = ASL_CLOSED;
+                            }
+
+                            continue;
+                        }
+                    } else if( rating > 1 ) {
+                        // Expected number of turns to bash it down, 1 turn to move there
+                        // and 5 turns of penalty not to trash everything just because we can
+                        newg += ( 20 / rating ) + 2 + 10;
+                    } else if( rating == 1 ) {
+                        // Desperate measures, avoid whenever possible
+                        newg += 500;
                     } else {
-                        // Car obstacle that isn't a door
-                        newg += veh->parts[part].hp / bash + 8 + 4;
+                        // Unbashable and unopenable from here
+                        if( !doors || !terrain.open ) {
+                            // Or anywhere else for that matter
+                            layer.state[index] = ASL_CLOSED;
+                        }
+
+                        continue;
                     }
-                } else if( rating > 1 ) {
-                    // Expected number of turns to bash it down, 1 turn to move there
-                    // and 2 turns of penalty not to trash everything just because we can
-                    newg += ( 20 / rating ) + 2 + 4;
-                } else if( rating == 1 ) {
-                    // Desperate measures, avoid whenever possible
-                    newg += 500;
-                } else {
-                    continue; // Unbashable and unopenable from here
+                }
+
+                if( trapavoid && p_special & PF_TRAP ) {
+                    const auto &ter_trp = terrain.trap.obj();
+                    const auto &trp = ter_trp.is_benign() ? tile.get_trap_t() : ter_trp;
+                    if( !trp.is_benign() ) {
+                        // For now make them detect all traps
+                        if( has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR ) ) {
+                            // Special case - ledge in z-levels
+                            // Warning: really expensive, needs a cache
+                            if( valid_move( p, tripoint( p.x, p.y, p.z - 1 ), false, true ) ) {
+                                tripoint below( p.x, p.y, p.z - 1 );
+                                if( !has_flag( TFLAG_NO_FLOOR, below ) ) {
+                                    // Otherwise this would have been a huge fall
+                                    auto &layer = pf.get_layer( p.z - 1 );
+                                    // From cur, not p, because we won't be walking on air
+                                    pf.add_point( layer.gscore[parent_index] + 10,
+                                                  layer.score[parent_index] + 10 + 2 * rl_dist( below, t ),
+                                                  cur, below );
+                                }
+
+                                // Close p, because we won't be walking on it
+                                layer.state[index] = ASL_CLOSED;
+                                continue;
+                            }
+                        } else if( trapavoid ) {
+                            // Otherwise it's walkable
+                            newg += 500;
+                        }
+                    }
                 }
             }
 
@@ -274,14 +401,14 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             }
         }
 
-        if( !has_zlevels() ) {
+        if( !has_zlevels() || !( cur_special & PF_UPDOWN ) || !settings.allow_climb_stairs ) {
             // The part below is only for z-level pathing
             continue;
         }
 
         const maptile &parent_tile = maptile_at_internal( cur );
         const auto &parent_terrain = parent_tile.get_ter_t();
-        if( cur.z > minz && parent_terrain.has_flag( TFLAG_GOES_DOWN ) ) {
+        if( settings.allow_climb_stairs && cur.z > minz && parent_terrain.has_flag( TFLAG_GOES_DOWN ) ) {
             tripoint dest( cur.x, cur.y, cur.z - 1 );
             dest = vertical_move_destination<TFLAG_GOES_UP>( *this, dest );
             if( inbounds( dest ) ) {
@@ -291,7 +418,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                               cur, dest );
             }
         }
-        if( cur.z < maxz && parent_terrain.has_flag( TFLAG_GOES_UP ) ) {
+        if( settings.allow_climb_stairs && cur.z < maxz && parent_terrain.has_flag( TFLAG_GOES_UP ) ) {
             tripoint dest( cur.x, cur.y, cur.z + 1 );
             dest = vertical_move_destination<TFLAG_GOES_DOWN>( *this, dest );
             if( inbounds( dest ) ) {
@@ -301,14 +428,23 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                               cur, dest );
             }
         }
+        if( cur.z < maxz && parent_terrain.has_flag( TFLAG_RAMP ) &&
+            valid_move( cur, tripoint( cur.x, cur.y, cur.z + 1 ), false, true ) ) {
+            auto &layer = pf.get_layer( cur.z + 1 );
+            for( size_t it = 0; it < 8; it++ ) {
+                const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
+                pf.add_point( layer.gscore[parent_index] + 4,
+                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
+                              cur, above );
+            }
+        }
     } while( !done && !pf.empty() );
 
-    std::vector<tripoint> ret;
-    ret.reserve( rl_dist( f, t ) * 2 );
     if( done ) {
+        ret.reserve( rl_dist( f, t ) * 2 );
         tripoint cur = t;
         // Just to limit max distance, in case something weird happens
-        for( int fdist = maxdist; fdist != 0; fdist-- ) {
+        for( int fdist = max_length; fdist != 0; fdist-- ) {
             const int cur_index = flat_index( cur.x, cur.y );
             const auto &layer = pf.get_layer( cur.z );
             const tripoint &par = layer.parent[cur_index];

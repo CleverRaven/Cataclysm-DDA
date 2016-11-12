@@ -1,8 +1,8 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include "cursesdef.h"
 #include "json.h"
+#include <array>
 #include <string>
 #include <list>
 #include <unordered_map>
@@ -327,9 +327,9 @@ class JsonObject;
 void init_colors();
 
 enum col_attribute {
-WA_NULL = 0,
-HI = 1,
-INV = 2
+    WA_NULL = 0,
+    HI = 1,
+    INV = 2
 };
 
 // Index for highlight cache
@@ -346,7 +346,8 @@ enum hl_enum {
 
 typedef int nc_color;
 
-class color_manager : public JsonSerializer, public JsonDeserializer {
+class color_manager : public JsonSerializer, public JsonDeserializer
+{
     private:
         void add_color( const color_id col, const std::string &name,
                         const nc_color color_pair, const color_id inv_enum );
@@ -398,8 +399,8 @@ class color_manager : public JsonSerializer, public JsonDeserializer {
         void show_gui();
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const override;
-        void deserialize(JsonIn &jsin) override;
+        void serialize( JsonOut &json ) const override;
+        void deserialize( JsonIn &jsin ) override;
 };
 
 color_manager &get_all_colors();
@@ -412,24 +413,24 @@ struct note_color {
 extern std::unordered_map<std::string, note_color> color_by_string_map;
 extern std::unordered_map<std::string, note_color> color_shortcuts;
 
-nc_color hilite(nc_color c);
-nc_color invert_color(nc_color c);
-nc_color red_background(nc_color c);
-nc_color white_background(nc_color c);
-nc_color green_background(nc_color c);
-nc_color yellow_background(nc_color c);
-nc_color magenta_background(nc_color c);
-nc_color cyan_background(nc_color c);
+nc_color hilite( nc_color c );
+nc_color invert_color( nc_color c );
+nc_color red_background( nc_color c );
+nc_color white_background( nc_color c );
+nc_color green_background( nc_color c );
+nc_color yellow_background( nc_color c );
+nc_color magenta_background( nc_color c );
+nc_color cyan_background( nc_color c );
 
-nc_color color_from_string(const std::string &color);
-std::string string_from_color(const nc_color color);
-nc_color bgcolor_from_string(std::string color);
-nc_color get_color_from_tag(const std::string &s, const nc_color base_color);
+nc_color color_from_string( const std::string &color );
+std::string string_from_color( const nc_color color );
+nc_color bgcolor_from_string( std::string color );
+nc_color get_color_from_tag( const std::string &s, const nc_color base_color );
 
-void setattr(nc_color &col, col_attribute attr);
-void load_colors(JsonObject &jo);
+void setattr( nc_color &col, col_attribute attr );
+void load_colors( JsonObject &jo );
 
-nc_color get_note_color(std::string const &note_id);
+nc_color get_note_color( std::string const &note_id );
 std::list<std::pair<std::string, std::string>> get_note_color_names();
 
 #endif

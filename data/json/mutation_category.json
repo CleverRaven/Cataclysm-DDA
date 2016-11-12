@@ -58,13 +58,13 @@
         "category" : "BEAST",
         "mutagen_message" : "Your heart races and you see blood for a moment.",
         "iv_message" : "Your heart races wildly as the injection takes hold.",
-        "memorial_message" : "Embraced his bestial nature."    
+        "memorial_message" : "Embraced his bestial nature."
     },{
         "type" : "mutation_category",
         "id" : "mutation_bear",
         "name" : "Bear",
         "category" : "URSINE",
-        "mutagen_message" : "You feel an urge to...patrol? the forests?",
+        "mutagen_message" : "You feel an urge to...patrol?  the forests?",
         "iv_message" : "You feel yourself quite equipped for wilderness survival.",
         "memorial_message" : "Became one with the bears."
     },{
@@ -113,7 +113,7 @@
         "name" : "Lizard",
         "category" : "LIZARD",
         "mutagen_message" : "For a heartbeat, your blood cools down.",
-        "iv_message" : "Your blood cools down. The feeling is..different.",
+        "iv_message" : "Your blood cools down.  The feeling is... different.",
         "memorial_message" : "Shed the ugly human skin."
     },{
         "type" : "mutation_category",
@@ -128,7 +128,7 @@
         "id" : "mutation_alpha",
         "name" : "Alpha","//" : "5-15 pain, 66% for each of the follow-ups, so slightly better odds (designed for injection).",
         "category" : "ALPHA",
-        "mutagen_message" : "You feel...better. Somehow.",
+        "mutagen_message" : "You feel... better.  Somehow.",
         "iv_message" : "You took that shot like a champ!",
         "iv_min_mutations" : 1,
         "iv_additional_mutations" : 2,
@@ -144,7 +144,7 @@
         "name" : "Medical","//" : "2-6 pain, same as Alpha--since specifically intended for medical applications.",
         "category" : "MEDICAL",
         "mutagen_message" : "You can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses.",
-        "iv_message" : "You can feel the blood in your medication stream. It's a strange feeling.",
+        "iv_message" : "You can feel the blood in your medication stream.  It's a strange feeling.",
         "iv_min_mutations" : 1,
         "iv_additional_mutations" : 2,
         "iv_additional_mutations_chance" : 3,
@@ -168,7 +168,7 @@
         "iv_hunger" : 20, "//" : "Chimera's all about the massive morphological changes Done Quick, so lotsa nutrition needed",
         "iv_thirst" : 20,
         "iv_pain" : 4,
-        "iv_fatigue" : 20, 
+        "iv_fatigue" : 20,
         "iv_morale" : -40,
         "iv_morale_max" : -200,
         "iv_sound" : true,

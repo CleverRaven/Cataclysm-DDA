@@ -1,0 +1,77 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "book_gunmags",
+    "//" : "Magazines about guns",
+    "items": [
+      [ "mag_guns", 100 ],
+      [ "mag_launcher", 5 ],
+      [ "mag_pistol", 50 ],
+      [ "mag_rifle", 50 ],
+      [ "mag_shotgun", 30 ],
+      [ "mag_smg", 10 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "book_gunref",
+    "//" : "Reference books about guns",
+    "items": [
+      [ "manual_launcher", 5 ],
+      [ "manual_pistol", 50 ],
+      [ "manual_rifle", 50 ],
+      [ "manual_shotgun", 30 ],
+      [ "manual_smg", 10 ],
+      [ "pocket_firearms", 100 ],
+      [ "recipe_bullets", 80 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "book_martial",
+    "//" : "Books about martial arts",
+    "items": [
+      [ "manual_eskrima", 100 ],
+      [ "manual_krav_maga", 100 ],
+      [ "manual_ninjutsu", 100 ],
+      [ "manual_silat", 100 ],
+      [ "manual_taekwondo", 100 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "book_military",
+    "//" : "Military combat manuals and related books",
+    "items":[
+      { "group": "book_gunmags", "prob": 100 },
+      { "group": "book_martial", "prob": 100 },
+      [ "manual_bashing", 40 ],
+      [ "manual_knives", 40 ],
+      [ "manual_launcher", 20 ],
+      [ "manual_melee", 70 ],
+      [ "manual_pistol", 30 ],
+      [ "manual_rifle", 50 ],
+      [ "manual_shotgun", 10 ],
+      [ "manual_smg", 20 ],
+      [ "manual_stabbing", 40 ],
+      [ "manual_swimming", 30 ],
+      [ "pocket_firearms", 10 ],
+      [ "textbook_firstaid", 30 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "book_survival",
+    "//" : "Survival skill books weighted according to level",
+    "items": [
+      [ "atomic_survival", 12 ],
+      [ "fun_survival", 33 ],
+      [ "mag_dude", 100 ],
+      [ "mag_survival", 100 ],
+      [ "manual_survival", 33 ],
+      [ "pocket_survival", 50 ],
+      [ "survival_book", 12 ],
+      [ "textbook_survival", 17 ]
+    ]
+  }
+]

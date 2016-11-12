@@ -6,3 +6,4 @@ In-game text conventions:
 3. trait, martial art, and CBM names are capitalized
 4. items and entities with proper noun names are capitalized
 5. all other items and entities are not capitalized
+6. use the serial comma (Oxford comma)

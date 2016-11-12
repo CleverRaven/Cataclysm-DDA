@@ -5,7 +5,13 @@
 #include <string>
 #include <memory>
 #include "mapgenformat.h"
-#include "mapgen_functions.h"
+#include "mapdata.h"
+
+struct oter_t;
+using oter_id = int_id<oter_t>;
+
+struct mapgendata;
+typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
 
 //////////////////////////////////////////////////////////////////////////
 ///// function pointer class; provides absract referencing of
@@ -19,7 +25,7 @@ class mapgen_function {
     public:
     virtual ~mapgen_function() { }
     virtual bool setup() { return true; }
-    virtual void generate(map*, oter_id, mapgendata, int, float) = 0;
+    virtual void generate(map*, const oter_id &, const mapgendata &, int, float) = 0;
 };
 
 
@@ -30,9 +36,7 @@ class mapgen_function_builtin : public virtual mapgen_function {
     building_gen_pointer fptr;
     mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : mapgen_function( w ), fptr(ptr) {
     };
-    virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) override {
-        (*fptr)(m, o, mgd, i, d);
-    }
+    void generate(map*m, const oter_id &o, const mapgendata &mgd, int i, float d) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -56,9 +60,7 @@ struct jmapgen_int {
      */
     jmapgen_int( JsonObject &jso, const std::string &key, short def_val, short def_valmax );
 
-  int get() const {
-      return ( val == valmax ? val : rng(val, valmax) );
-  }
+    int get() const;
 };
 
 enum jmapgen_setmap_op {
@@ -131,7 +133,7 @@ protected:
     jmapgen_piece() { }
 public:
     /** Place something on the map m at (x,y). mon_density */
-    virtual void apply( map &m, size_t x, size_t y, float mon_density ) const = 0;
+    virtual void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, float mon_density ) const = 0;
     virtual ~jmapgen_piece() { }
 };
 
@@ -179,19 +181,13 @@ private:
 
 class mapgen_function_json : public virtual mapgen_function {
     public:
-    bool check_inbounds( const jmapgen_int & var ) const;
-    void setup_setmap(JsonArray &parray);
-    virtual bool setup() override;
-    virtual void generate(map*, oter_id, mapgendata, int, float) override;
+    bool check_inbounds( const jmapgen_int &var ) const;
+    void setup_setmap( JsonArray &parray );
+    bool setup() override;
+    void generate(map *, const oter_id &, const mapgendata &, int, float) override;
 
-    mapgen_function_json(std::string s, int w = 1000) : mapgen_function( w ) {
-        jdata = s;
-        mapgensize = 24;
-        fill_ter = t_null;
-        is_ready = false;
-        do_format = false;
-    }
-    ~mapgen_function_json() {
+    mapgen_function_json( std::string s, int w = 1000 );
+    ~mapgen_function_json() override {
     }
 
     size_t calc_index( size_t x, size_t y ) const;
@@ -199,7 +195,7 @@ class mapgen_function_json : public virtual mapgen_function {
     std::string jdata;
     size_t mapgensize;
     ter_id fill_ter;
-    std::unique_ptr<ter_furn_id[]> format;
+    std::vector<ter_furn_id> format;
     std::vector<jmapgen_setmap> setmap_points;
 
     /**
@@ -221,6 +217,9 @@ class mapgen_function_json : public virtual mapgen_function {
 
 private:
     jmapgen_objects objects;
+    jmapgen_int rotation;
+
+    void formatted_set_incredibly_simple( map *m ) const;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -231,10 +230,7 @@ class mapgen_function_lua : public virtual mapgen_function {
     mapgen_function_lua(std::string s, int w = 1000) : mapgen_function( w ), scr(s) {
         // scr = s; // todo; if ( luaL_loadstring(L, scr.c_str() ) ) { error }
     }
-#if defined(LUA)
-    // Prevents instantiating this class in non-lua builds
-    virtual void generate(map*, oter_id, mapgendata, int, float) override;
-#endif
+    void generate(map*, const oter_id &, const mapgendata &, int, float) override;
 };
 /////////////////////////////////////////////////////////
 ///// global per-terrain mapgen function lists
@@ -317,6 +313,15 @@ void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2);
 void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
 void rough_circle(map *m, ter_id type, int x, int y, int rad);
 void rough_circle_furn(map *m, furn_id type, int x, int y, int rad);
+void circle(map *m, ter_id type, double x, double y, double rad);
+void circle(map *m, ter_id type, int x, int y, int rad);
+void circle_furn(map *m, furn_id type, int x, int y, int rad);
 void add_corpse(map *m, int x, int y);
+
+typedef void (*map_special_pointer)(map &m, const tripoint &abs_sub);
+
+namespace MapExtras {
+    map_special_pointer get_function(const std::string &name);
+};
 
 #endif

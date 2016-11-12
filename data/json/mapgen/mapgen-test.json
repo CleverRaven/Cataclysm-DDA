@@ -1,5 +1,17 @@
 [
     {
+        "type" : "snippet",
+        "category" : "mapgen_test",
+        "text": "This is a test of the sign snippet system"
+    },{
+        "type" : "snippet",
+        "category" : "mapgen_test",
+        "text": "Snippets should also support tags like <full_name>, <given_name>, <family_name>, and <city>"
+    },{
+        "type" : "snippet",
+        "category" : "mapgen_test",
+        "text": "This should repeat the same city several times: <city>, <city>, <city>"
+    },{
         "//": "This is a test mapgen definition.",
         "//": "Its contents make no sense, it is supposed to use all the available mapgen possibilities.",
         "type" : "overmap_terrain",
@@ -91,7 +103,7 @@
             "//": "a stash and another (different) stash with different chance",
             "items": {
                 "s": { "item": "bionics_tech", "chance": 70 },
-                "o": { "item": "technician_pants", "chance": 20 }
+                "o": { "item": "clothing_work_set", "chance": 20 }
             },
             "//": "single-tile vehicles to avoid conflicts with outer parts of the map, chance=100 to spawn always",
             "vehicles": {
@@ -118,7 +130,6 @@
             "monster": {
                 "Y": { "monster": "mon_deer", "friendly": true, "name": "THE DEER" }
             },
-
             "//": [ "And now an all-purpose mapping" ],
             "mapping": {
                 "X": {
@@ -129,7 +140,6 @@
                     "terrain": "t_dirt"
                 }
             },
-
             "//": [ "And now the same (nearly) but with explicit coordinates.",
                     "These spawn in the northern part of the map and they have slightly",
                     "different values so they are be distinguished." ],
@@ -143,7 +153,10 @@
                 { "x": 5, "y": 1, "field": "fd_bile", "age": 20, "density": 2 }
             ],
             "place_signs": [
-                { "x": 7, "y": 1, "signage": "it works again." }
+                { "x": 7, "y": 1, "signage": "it works again." },
+                { "x": 7, "y": 2, "signage": "<given_name> <family_name> owned <full_name> at <city>" },
+                { "x": 8, "y": 2, "snippet": "mapgen_test" },
+                { "x": 8, "y": 1, "signage": "<given_name>, <given_name>, and <given_name> were here!" }
             ],
             "place_monsters": [
                 { "x": 5, "y": 1, "monster": "GROUP_BEE", "density": 1, "chance": 4 },
@@ -157,7 +170,7 @@
             ],
             "place_items": [
                 { "x": 1, "y": 3, "item": "bionics_tech", "chance": 70 },
-                { "x": 2, "y": 3, "item": "technician_pants", "chance": 20 }
+                { "x": 2, "y": 3, "item": "clothing_work_set", "chance": 20 }
             ],
             "place_vehicles": [
                 { "x": 5, "y": 3, "vehicle": "unicycle", "chance": 100, "status": 1 }

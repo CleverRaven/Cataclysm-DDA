@@ -46,8 +46,6 @@ namespace item_group {
     ItemList items_from( const Group_tag &group_id );
     /**
      * Check whether a specific item group contains a specific item type.
-     * This is used for the "trader_avoid" item group to specify what items npc should not spawn
-     * with.
      */
     bool group_contains_item( const Group_tag &group_id, const Item_tag &type_id );
     /**
@@ -64,6 +62,25 @@ namespace item_group {
      * See @ref Item_factory::load_item_group
      */
     void load_item_group( JsonObject &jsobj, const Group_tag &group_id, const std::string &subtype );
+    /**
+     * Get an item group id and (optionally) load an inlined item group.
+     *
+     * If the next value in the JSON stream is string, it's assumed to be an item group id and it's
+     * returned directly.
+     *
+     * If the next value is a JSON object, it is loaded as item group. The group will be given a
+     * unique id (if the JSON object contains an id, it is ignored) and that id will be returned.
+     * If the JSON object does not contain a subtype, the given default is used.
+     *
+     * If the next value is a JSON array, it is loaded as item group: the default_subtype will be
+     * used as subtype of the new item group and the array is loaded like the "entries" array of
+     * a item group definition (see format of item groups).
+     *
+     * @param default_subtype If an inlined item group is loaded this is used as the default
+     * subtype. It must be either "distribution" or "collection". See @ref Item_group.
+     * @throw std::string as usual for JSON errors, including invalid input values.
+     */
+    Group_tag load_item_group( JsonIn& stream, const std::string& default_subtype );
 }
 
 /**
@@ -102,11 +119,7 @@ class Item_spawn_data
          */
         virtual bool remove_item(const Item_tag &itemid) = 0;
         virtual bool has_item(const Item_tag &itemid) const = 0;
-        // TODO: remove this legacy function
-        virtual bool guns_have_ammo() const
-        {
-            return false;
-        }
+
         /** probability, used by the parent object. */
         int probability;
     private:
@@ -184,7 +197,7 @@ class Single_item_creator : public Item_spawn_data
         } Type;
 
         Single_item_creator(const std::string &id, Type type, int probability);
-        virtual ~Single_item_creator();
+        ~Single_item_creator() override;
 
         /**
          * Id of the item group or id of the item.
@@ -194,10 +207,10 @@ class Single_item_creator : public Item_spawn_data
         std::unique_ptr<Item_modifier> modifier;
 
         virtual ItemList create(int birthday, RecursionList &rec) const override;
-        virtual item create_single(int birthday, RecursionList &rec) const override;
-        virtual void check_consistency() const override;
-        virtual bool remove_item(const Item_tag &itemid) override;
-        virtual bool has_item(const Item_tag &itemid) const override;
+        item create_single(int birthday, RecursionList &rec) const override;
+        void check_consistency() const override;
+        bool remove_item(const Item_tag &itemid) override;
+        bool has_item(const Item_tag &itemid) const override;
 };
 
 /**
@@ -214,7 +227,7 @@ class Item_group : public Item_spawn_data
         } Type;
 
         Item_group(Type type, int probability);
-        virtual ~Item_group();
+        ~Item_group() override;
 
         const Type type;
         /**
@@ -232,10 +245,15 @@ class Item_group : public Item_spawn_data
         void add_entry(std::unique_ptr<Item_spawn_data> &ptr);
 
         virtual ItemList create(int birthday, RecursionList &rec) const override;
-        virtual item create_single(int birthday, RecursionList &rec) const override;
-        virtual void check_consistency() const override;
-        virtual bool remove_item(const Item_tag &itemid) override;
-        virtual bool has_item(const Item_tag &itemid) const override;
+        item create_single(int birthday, RecursionList &rec) const override;
+        void check_consistency() const override;
+        bool remove_item(const Item_tag &itemid) override;
+        bool has_item(const Item_tag &itemid) const override;
+
+        /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
+        int with_ammo = 0;
+        /** Chance [0-100%] for items to spawn with their default magazine (if any) */
+        int with_magazine = 0;
 
     protected:
         /**
@@ -247,15 +265,6 @@ class Item_group : public Item_spawn_data
          * Links to the entries in this group.
          */
         prop_list items;
-
-    public:
-        // TODO: remove this legacy function
-        virtual bool guns_have_ammo() const override
-        {
-            return with_ammo;
-        }
-        // TODO: remove this legacy member
-        bool with_ammo;
 };
 
 #endif

@@ -64,14 +64,14 @@
 #include <stdint.h>
 
 struct interval {
-  int first;
-  int last;
+  uint32_t first;
+  uint32_t last;
 };
 
 /* auxiliary function for binary search in interval table */
-static int bisearch(wchar_t ucs, const struct interval *table, int max) {
-  int min = 0;
-  int mid;
+static uint32_t bisearch(uint32_t ucs, const struct interval *table, uint32_t max) {
+  uint32_t min = 0;
+  uint32_t mid;
 
   if (ucs < table[0].first || ucs > table[max].last)
     return 0;
@@ -117,7 +117,7 @@ static int bisearch(wchar_t ucs, const struct interval *table, int max) {
  *      ISO 8859-1 and WGL4 characters, Unicode control characters,
  *      etc.) have a column width of 1.
  *
- * This implementation assumes that wchar_t characters are encoded
+ * This implementation assumes that uint32_t characters are encoded
  * in ISO 10646.
  */
 
@@ -179,7 +179,7 @@ int mk_wcwidth(uint32_t ucs)
   /* test for 8-bit control characters */
   if (ucs == 0)
     return 0;
-  if (ucs < 32 || (ucs >= 0x7f && ucs < 0xa0))
+  if ((ucs > 0 && ucs < 32) || (ucs >= 0x7f && ucs < 0xa0))
     return -1;
 
   /* binary search in table of non-spacing characters */
@@ -189,7 +189,7 @@ int mk_wcwidth(uint32_t ucs)
 
   /* if we arrive here, ucs is not a combining or C0/C1 control character */
 
-  return 1 + 
+  return 1 +
     (ucs >= 0x1100 &&
      (ucs <= 0x115f ||                    /* Hangul Jamo init. consonants */
       ucs == 0x2329 || ucs == 0x232a ||

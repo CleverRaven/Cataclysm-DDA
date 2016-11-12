@@ -1,19 +1,17 @@
 # Compilers Supported
 
 We are compiling with -std=c++11 as you can see from the Makefile.
-This regretably restricts which compilers will compile the project, while at the same time allowing the use of a plethora of features introduced by c++11.
+This regretably restricts which compilers will compile the project, while at the same time allowing the use of a plethora of features introduced by C++11.
 
 ## GCC
 
 GCC is the preferred compiler for building on Linux.
-Technically GCC doesn't "fully" support c++11 until version 4.8.1, but we aren't currently using any language features past 4.6 or so.  That is liable to change in the future.
-There was one use of constructor delegation in the code which I've replaced with an init method.
-At some point we are going to want to switch that back once enough people are using gcc 4.7, or some other killer feature comes along that makes us declare a hard dependency on 4.7+.
+In order to fully support the C++11 standard, we are using GCC version 4.8.2.
 
 ## Clang
 
-We use Clang for our experimental and release builds.
-Clang similarly fully supports c++11 as of version 3.1, but you may be able to get by with an earlier version.
+We use Clang 3.5.2 for our experimental and release builds.
+Clang similarly fully supports C++11 as of version 3.1, but you may be able to get by with an earlier version.
 
 ## MinGW
 
@@ -22,7 +20,11 @@ MinGW version 4.9.0 is currently building the project, but has a few rough edges
 ## MinGW-w64
 
 This is the preferred compiler for building on Windows, and is the compiler we use to cross-compile for Windows experimental and release builds.
-MinGW-w64 is currently building the project.  Input on the earliest version that will successfully compile the project is welcome.
+MinGW-w64 4.8.2 is currently building the project.  Input on the earliest version that will successfully compile the project is welcome.
+
+## MSYS2
+
+MSYS2 is an alternate way to build the project on Windows. It has a great package manager called Pacman which was ported from Arch Linux. It's as close to a Linux system as a (native) Windows can get (Arch in particular) and allows for simple updating of all the installed packages. You need the latest version of some packages in order for the provided instructions to work properly. To be specific, you will need mingw-w64-x86_64-SDL2_mixer >= 2.0.0-6 if you want sound support.
 
 ## Visual Studio
 

@@ -77,6 +77,7 @@
             [ "sandwich_pb", 35 ],
             [ "sandwich_pbh", 35 ],
             [ "sandwich_pbj", 40 ],
+            [ "sandwich_pbm", 10 ],
             [ "sandwich_t", 45 ],
             [ "yoghurt", 40 ]
         ]
@@ -182,9 +183,11 @@
                 "L": "f_locker"
             },
             "monsters": {
-                "!": { "monster": "GROUP_COFFEE_SHOP_SPITTER", "chance": 1 },
-                " ": { "monster": "GROUP_ZOMBIE", "chance": 100 }
+                "!": { "monster": "GROUP_COFFEE_SHOP_SPITTER", "chance": 1 }
             },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 18 ], "chance": 1}
+            ],
             "toilets": {
                 ";": { }
             },

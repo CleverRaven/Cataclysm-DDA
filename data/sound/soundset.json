@@ -1,9 +1,0 @@
-{
-    "sound_effects" : [
-        {
-            "id" : "menu_move",
-            "volume" : 100,
-            "file" : "nenadsimic_menu_selection_click.wav"
-        }
-    ]
-}

@@ -1,32 +1,24 @@
 #ifndef LIVE_VIEW_H
 #define LIVE_VIEW_H
 
-#include "output.h" //WINDOW_PTR
+#include "cursesdef.h" // WINDOW
+#include "enums.h"     // tripoint
 
 class live_view
 {
-public:
-    live_view() = default;
+    public:
+        live_view() = default;
 
-    void init(int start_x, int start_y, int width, int height);
-    void show(int x, int y);
-    bool hide(bool refresh = true, bool force = false);
-    bool is_compact() const;
-    void set_compact(bool value);
-private:
-    WINDOW_PTR w_live_view;
+        void init();
+        int draw( WINDOW *win, int max_height );
+        void refresh();
+        void show( const tripoint &mouse_position );
+        void hide();
 
-    int width       = 0;
-    int height      = 0;
-    int last_height = -1;
+    private:
+        tripoint mouse_position;
 
-    bool inuse        = false;
-    bool enabled      = false;
-    bool compact_view = false;
-
-    operator WINDOW*() const {
-        return w_live_view.get();
-    }
+        bool enabled = false;
 };
 
 #endif

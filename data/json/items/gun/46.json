@@ -1,0 +1,52 @@
+[
+  {
+    "id": "hk_mp7",
+    "type": "GUN",
+    "name": "H&K MP7",
+    "description": "Designed as a personal defense weapon, the MP7 fires the high powered 4.6x30mm round while being lightweight, compact in size, and practically recoil free.",
+    "weight": 1780,
+    "volume": 7,
+    "price": 340000,
+    "to_hit": -2,
+    "bashing": 7,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "46",
+    "skill": "smg",
+    "dispersion": 260,
+    "durability": 8,
+    "burst": 20,
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazine_well": 1,
+    "magazines": [
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ]
+    ]
+  },
+  {
+    "id": "hk_ucp",
+    "type": "GUN",
+    "name": "H&K UCP",
+    "description": "Designed to work with H&K's proprietary 4.6x30mm round, the UCP is a small pistol with a very high capacity, best used against armored opponents.",
+    "weight": 730,
+    "volume": 2,
+    "price": 125000,
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": "46",
+    "skill": "pistol",
+    "ranged_damage": -1,
+    "dispersion": 440,
+    "durability": 8,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazine_well": 1,
+    "magazines": [
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ]
+    ]
+  }
+]

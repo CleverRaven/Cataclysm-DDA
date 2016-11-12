@@ -1,0 +1,100 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "s_bookstore"
+        ],
+        "method": "json",
+        "weight": 500,
+        "object": {
+            "rows": [
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "**|========::-OO--OO-|**",
+                    "**|hTh.hTh...#.......|**",
+                    "**|.h...h....#%##%##.|**",
+                    "*qO..................Oq*",
+                    "**|###%#.h...........|**",
+                    "**|e...#.T...[[[[[..]|**",
+                    "**|s..c#....>|-|....]|**",
+                    "**|c..c#....||s|....]|**",
+                    "**|....#.h..|t.|TT..]|**",
+                    "**|.##%#.T..|-+|TT..]|**",
+                    "*qO.................]|**",
+                    "**|hTh.hTh..........]|**",
+                    "*qO.................]|**",
+                    "**|[[[[[[[..[[[[[[..]|**",
+                    "**|[[[[[[[..[[[[[[..]|**",
+                    "**|..................|**",
+                    "*qO..................Oq*",
+                    "**|]]]]]]]]]]]]]]]]]]|**",
+                    "**|------------------|**",
+                    "************************",
+                    "************************"
+            ],
+            "terrain": {
+                ".": "t_floor",
+                "*": "t_grass",
+                "~": "t_sidewalk",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                ":": "t_door_glass_c",
+                "O": "t_window",
+                "=": "t_wall_glass",
+                ">": "t_stairs_up",
+                "#": "t_floor",
+                "h": "t_floor",
+                "T": "t_floor",
+                "s": "t_floor",
+                "e": "t_floor",
+                "c": "t_floor",
+                "]": "t_floor",
+                "[": "t_floor",
+                "q": "t_grass",
+                "t": "t_floor",
+                "%": "t_console_broken"
+            },
+            "furniture": {
+                ">": "f_rubble",
+                "#": "f_counter",
+                "h": "f_chair",
+                "T": "f_table",
+                "s": "f_sink",
+                "e": "f_fridge",
+                "c": "f_cupboard",
+                "]": "f_bookcase",
+                "[": "f_rack",
+                "q": "f_bluebell"
+            },
+            "toilets": {
+                "t": { }
+            },
+            "place_items": [
+                { "item": "magazines", "chance": 40, "x": [3,20],   "y": 20, "repeat": [5,10] },
+                { "item": "novels", "chance": 50, "x": [3,9],   "y": [16,17], "repeat": [4,8] },
+                { "item": "novels", "chance": 50, "x": [12,17],   "y": [16,17], "repeat": [4,7] },
+                { "item": "bookstore_misc", "chance": 50, "x": [13,17],   "y": 8, "repeat": [3,5] },
+                { "item": "homebooks", "chance": 40, "x": [16,17],   "y": [11,12], "repeat": [2,4] },
+                { "item": "manuals", "chance": 40, "x": 20,   "y": [8,17], "repeat": [2,5] },
+                { "item": "textbooks", "chance": 40, "x": 20,   "y": [8,17], "repeat": [2,5] },
+                { "item": "coffee_display", "chance": 50, "x": 7,   "y": [7,12], "repeat": [3,4] },
+                { "item": "coffee_fridge", "chance": 50, "x": 3,   "y": 8, "repeat": 2 },
+                { "item": "coffee_display", "chance": 50, "x": 6,   "y": [9,10], "repeat": [2,3] },
+                { "item": "coffee_table", "chance": 20, "x": 4,   "y": 4  },
+                { "item": "coffee_table", "chance": 20, "x": 8,   "y": 4  },
+                { "item": "coffee_table", "chance": 20, "x": 9,   "y": 8 },
+                { "item": "coffee_table", "chance": 20, "x": 9,   "y": 12 },
+                { "item": "coffee_table", "chance": 20, "x": 4,   "y": 13  },
+                { "item": "coffee_table", "chance": 20, "x": 8,   "y": 13  }
+            ],
+            "add": [
+                { "item": "coffeemaker", "x": 4, "y": 7, "amount": 1, "repeat": 1, "chance": 1 },
+                { "item": "coffeemaker", "x": 4, "y": 12, "amount": 1, "repeat": 1, "chance": 1 }
+            ],
+            "comment": "end of mapgen json definition ---v"
+        },
+        "comment": "end of mapgen entry ---v"
+    }
+]

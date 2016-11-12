@@ -1,0 +1,132 @@
+[
+    {
+        "type" : "furniture",
+        "id" : "f_file_cabinet",
+        "name": "filing cabinet",
+        "symbol": "}",
+        "color": "dkgray",
+        "move_cost_mod": 2,
+        "required_str": 8,
+        "flags": ["PLACE_ITEM", "TRANSPARENT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE"],
+        "deconstruct": {
+            "items": [
+                { "item": "sheet_metal", "count": [2, 6] },
+                { "item": "scrap", "count": [2, 6] },
+                { "item": "steel_chunk", "count": [2, 3] }
+            ]
+        },
+        "max_volume": 4000,
+        "bash": {
+            "str_min": 8, "str_max": 30,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "count": [0, 6] },
+                { "item": "steel_chunk", "count": [0, 3] },
+                { "item": "sheet_metal", "count": [2, 6] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_home_furnace",
+        "name": "furnace",
+        "symbol": "0",
+        "bgcolor": "white",
+        "move_cost_mod": -1,
+        "required_str": 16,
+        "max_volume": 4000,
+        "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
+        "deconstruct": {
+            "items": [
+                { "item": "pipe", "count": 1 },
+                { "item": "scrap", "count": [2, 6] },
+                { "item": "steel_chunk", "count": [1, 3] },
+                { "item": "sheet_metal", "count": [2, 6] },
+                { "item": "cable", "charges": [1, 15] },
+                { "item": "cu_pipe", "count": [2, 5] }
+            ]
+        },
+        "bash": {
+            "str_min": 18, "str_max": 50,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "count": [2, 7] },
+                { "item": "steel_chunk", "count": [0, 3] },
+                { "item": "sheet_metal", "count": [2, 6] },
+                { "item": "cable", "charges": [1, 15] },
+                { "item": "hose", "count": [0, 2] },
+                { "item": "cu_pipe", "count": [1, 4] },
+                { "item": "scrap_copper", "count": [0, 2] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_air_conditioner",
+        "name": "air conditioning unit",
+        "symbol": "{",
+        "bgcolor": "white",
+        "move_cost_mod": -1,
+        "required_str": 16,
+        "max_volume": 4000,
+        "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
+        "deconstruct": {
+            "items": [
+                { "item": "pipe", "count": 1 },
+                { "item": "scrap", "count": [2, 6] },
+                { "item": "steel_chunk", "count": [1, 3] },
+                { "item": "sheet_metal", "count": [2, 6] },
+                { "item": "cable", "charges": [1, 15] },
+                { "item": "cu_pipe", "count": [2, 5] }
+            ]
+        },
+        "bash": {
+            "str_min": 18, "str_max": 50,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "count": [2, 7] },
+                { "item": "steel_chunk", "count": [0, 3] },
+                { "item": "sheet_metal", "count": [2, 6] },
+                { "item": "cable", "charges": [1, 15] },
+                { "item": "hose", "count": [0, 2] },
+                { "item": "cu_pipe", "count": [1, 4] },
+                { "item": "scrap_copper", "count": [0, 2] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_water_heater",
+        "name": "water heater",
+        "symbol": "0",
+        "bgcolor": "white",
+        "move_cost_mod": -1,
+        "required_str": 16,
+        "max_volume": 4000,
+        "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
+        "deconstruct": {
+            "items": [
+                { "item": "pipe", "count": 1 },
+                { "item": "scrap", "count": [2, 6] },
+                { "item": "steel_chunk", "count": [1, 3] },
+                { "item": "sheet_metal", "count": [2, 6] },
+                { "item": "cable", "charges": [1, 15] },
+                { "item": "cu_pipe", "count": [2, 5] }
+            ]
+        },
+        "bash": {
+            "str_min": 18, "str_max": 50,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "count": [2, 7] },
+                { "item": "steel_chunk", "count": [0, 3] },
+                { "item": "sheet_metal", "count": [2, 6] },
+                { "item": "cable", "charges": [1, 15] },
+                { "item": "hose", "count": [0, 2] },
+                { "item": "cu_pipe", "count": [1, 4] },
+                { "item": "scrap_copper", "count": [0, 2] }
+            ]
+        }
+    }
+]

@@ -1,45 +1,45 @@
 [
     {
-            "type":"monstergroup",
-            "name" : "GROUP_NECROPOLIS",
-            "default" : "mon_zombie",
-            "monsters" : [
-                    { "monster" : "mon_zombie", "freq" : 10, "cost_multiplier" : 1 },
-                    { "monster" : "mon_irradiated_wanderer_1", "freq" : 90, "cost_multiplier" : 1 },
-                    { "monster" : "mon_irradiated_wanderer_2", "freq" : 10, "cost_multiplier" : 1 },
-                    { "monster" : "mon_irradiated_wanderer_3", "freq" : 1, "cost_multiplier" : 1 }
-            ]
+        "type" : "monstergroup",
+        "name" : "GROUP_NECROPOLIS",
+        "default" : "mon_zombie",
+        "monsters" : [
+            { "monster" : "mon_zombie",                "freq" : 10, "cost_multiplier" : 1 },
+            { "monster" : "mon_irradiated_wanderer_1", "freq" : 90, "cost_multiplier" : 1 },
+            { "monster" : "mon_irradiated_wanderer_2", "freq" : 10, "cost_multiplier" : 1 },
+            { "monster" : "mon_irradiated_wanderer_3", "freq" : 1,  "cost_multiplier" : 1 }
+        ]
     },{
-            "type" : "item_group",
-            "id" : "building_rubble",
-            "items" : [
-                ["rock", 25],
-                ["scrap", 10],
-                ["splinter", 10],
-                ["rebar", 25],
-                ["nail", 5],
-                ["glass_shard", 15],
-                ["wire", 5],
-                ["splinter", 20]
-            ]
-       },{
-            "type" : "item_group",
-            "id" : "vehicle_scrapped",
-            "items" : [
-                ["chain", 10],
-                ["steel_chunk", 30],
-                ["spring", 5],
-                ["steel_lump", 30],
-                ["steel_plate", 30],
-                ["hard_plate", 30],
-                ["frame", 20],
-                ["bearing", 5],
-                ["cu_pipe", 5],
-                ["scrap", 20],
-                ["glass_shard", 10],
-                ["wire",  5]
-            ]
-       },{
+        "type" : "item_group",
+        "id" : "building_rubble",
+        "items" : [
+            ["rock", 25],
+            ["scrap", 10],
+            ["splinter", 10],
+            ["rebar", 25],
+            ["nail", 5],
+            ["glass_shard", 15],
+            ["wire", 5],
+            ["splinter", 20]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "vehicle_scrapped",
+        "items" : [
+            ["chain", 10],
+            ["steel_chunk", 30],
+            ["spring", 5],
+            ["steel_lump", 30],
+            ["steel_plate", 30],
+            ["hard_plate", 30],
+            ["frame", 20],
+            ["bearing", 5],
+            ["cu_pipe", 5],
+            ["scrap", 20],
+            ["glass_shard", 10],
+            ["wire",  5]
+        ]
+    },{
         "type" : "mapgen",
         "om_terrain" : ["necropolis_a_1"],
         "method": "json",
@@ -72,8 +72,8 @@
                 "........................",
                 "...............X........"
             ],
-            "place_items": [
-                { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
+            "place_loot": [
+                { "group": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
@@ -237,19 +237,19 @@
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
-            "place_items": [
-                { "item": "allclothes", "chance": 75, "x": [ 20,20 ], "y": [ 3,3 ] },
-                { "item": "allclothes", "chance": 75, "x": [ 22,22 ], "y": [ 15,15 ] },
-                { "item": "allclothes", "chance": 75, "x": [ 18,18 ], "y": [ 8,8 ] },
-                { "item": "allclothes", "chance": 75, "x": [ 18,18 ], "y": [ 10,10 ] },
-                { "item": "dining", "chance": 60, "x": [ 8,9 ], "y": [ 16,18 ]},
-                { "item": "jackets", "chance": 70, "x": [ 5,5 ], "y": [ 10,10 ]},
-                { "item": "novels", "chance": 70, "x": [ 8,8 ], "y": [ 9,9 ]},
-                { "item": "kitchen", "chance": 60, "x": [ 8,14 ], "y": [ 5,7 ]},
-                { "item": "fridge", "chance": 70, "x": [ 8,14 ], "y": [ 5,7 ]},
-                { "item": "softdrugs", "chance": 70, "x": [ 18,22 ], "y": [ 8,10 ]},
-                { "item": "bed", "chance": 80,  "x": [ 18,19 ], "y": [ 3,4 ] },
-                { "item": "bed", "chance": 80,  "x": [ 21,22 ], "y": [ 13,14 ] }
+            "place_loot": [
+                { "group": "allclothes", "chance": 75, "x": [ 20,20 ], "y": [ 3,3 ] },
+                { "group": "allclothes", "chance": 75, "x": [ 22,22 ], "y": [ 15,15 ] },
+                { "group": "allclothes", "chance": 75, "x": [ 18,18 ], "y": [ 8,8 ] },
+                { "group": "allclothes", "chance": 75, "x": [ 18,18 ], "y": [ 10,10 ] },
+                { "group": "dining", "chance": 60, "x": [ 8,9 ], "y": [ 16,18 ]},
+                { "group": "jackets", "chance": 70, "x": [ 5,5 ], "y": [ 10,10 ]},
+                { "group": "novels", "chance": 70, "x": [ 8,8 ], "y": [ 9,9 ]},
+                { "group": "kitchen", "chance": 60, "x": [ 8,14 ], "y": [ 5,7 ]},
+                { "group": "fridge", "chance": 70, "x": [ 8,14 ], "y": [ 5,7 ]},
+                { "group": "softdrugs", "chance": 70, "x": [ 18,22 ], "y": [ 8,10 ]},
+                { "group": "bed", "chance": 80,  "x": [ 18,19 ], "y": [ 3,4 ] },
+                { "group": "bed", "chance": 80,  "x": [ 21,22 ], "y": [ 13,14 ] }
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -408,8 +408,8 @@
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
-            "place_items": [
-                { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
+            "place_loot": [
+                { "group": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -568,8 +568,8 @@
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
-            "place_items": [
-                { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
+            "place_loot": [
+                { "group": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -728,13 +728,13 @@
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
-            "place_items": [
-                { "item": "building_rubble", "chance": 90, "x": [ 21,23 ], "y": [ 17,20 ]},
-                { "item": "building_rubble", "chance": 90, "x": [ 11,20 ], "y": [ 19,21 ]},
-                { "item": "building_rubble", "chance": 90, "x": [ 16,17 ], "y": [ 17,18 ]},
-                { "item": "building_rubble", "chance": 90, "x": [ 5,10 ], "y": [ 17,18 ]},
-                { "item": "home_hw", "chance": 40, "x": [ 12,22 ], "y": [ 8,8 ]},
-                { "item": "softdrugs", "chance": 50, "x": [ 10,10 ], "y": [ 13,15 ]}
+            "place_loot": [
+                { "group": "building_rubble", "chance": 90, "x": [ 21,23 ], "y": [ 17,20 ]},
+                { "group": "building_rubble", "chance": 90, "x": [ 11,20 ], "y": [ 19,21 ]},
+                { "group": "building_rubble", "chance": 90, "x": [ 16,17 ], "y": [ 17,18 ]},
+                { "group": "building_rubble", "chance": 90, "x": [ 5,10 ], "y": [ 17,18 ]},
+                { "group": "home_hw", "chance": 40, "x": [ 12,22 ], "y": [ 8,8 ]},
+                { "group": "softdrugs", "chance": 50, "x": [ 10,10 ], "y": [ 13,15 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -872,7 +872,7 @@
                 "..ss_______,,_______ss.|",
                 "..ss_______,,_______ss.w",
                 "..ss______uuu_______ss.|",
-                "..ss_uuu___,,__uuu__ss |",
+                "..ss_uuu___,,__uuu__ss.|",
                 "..ss_______,,_______ssss",
                 "..ss_______,,________sss",
                 "..ss____________________",
@@ -1058,13 +1058,13 @@
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
-            "place_items": [
-                { "item": "office", "chance": 90, "x": [ 16,18 ], "y": [ 10,11 ]},
-                { "item": "office", "chance": 90, "x": [ 13,15 ], "y": [ 17,18 ]},
-                { "item": "home_hw", "chance": 90, "x": [ 0,18 ], "y": [ 2,6 ]},
-                { "item": "sewage_plant", "chance": 40, "x": [ 18,22 ], "y": [ 17,20 ]},
-                { "item": "manuals", "chance": 50, "x": [ 15,16 ], "y": [ 19,19 ]},
-                { "item": "cop_evidence", "chance": 50, "x": [ 13,20 ], "y": [ 23,23 ]}
+            "place_loot": [
+                { "group": "office", "chance": 90, "x": [ 16,18 ], "y": [ 10,11 ]},
+                { "group": "office", "chance": 90, "x": [ 13,15 ], "y": [ 17,18 ]},
+                { "group": "home_hw", "chance": 90, "x": [ 0,18 ], "y": [ 2,6 ]},
+                { "group": "sewage_plant", "chance": 40, "x": [ 18,22 ], "y": [ 17,20 ]},
+                { "group": "manuals", "chance": 50, "x": [ 15,16 ], "y": [ 19,19 ]},
+                { "group": "cop_evidence", "chance": 50, "x": [ 13,20 ], "y": [ 23,23 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -1147,7 +1147,7 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor",
+                "z": "t_sidewalk",
                 "]": "t_dirt"
             },
             "furniture": {
@@ -1231,9 +1231,9 @@
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
-            "place_items": [
-                { "item": "home_hw", "chance": 90, "x": [ 11,11 ], "y": [ 12,13 ]},
-                { "item": "sewage_plant", "chance": 40, "x": [ 0,11 ], "y": [ 18,19 ]}
+            "place_loot": [
+                { "group": "home_hw", "chance": 90, "x": [ 11,11 ], "y": [ 12,13 ]},
+                { "group": "sewage_plant", "chance": 40, "x": [ 0,11 ], "y": [ 18,19 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -1316,7 +1316,7 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor",
+                "z": "t_sidewalk",
                 "]": "t_dirt"
             },
             "furniture": {
@@ -1394,8 +1394,8 @@
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
-            "place_items": [
-                { "item": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
+            "place_loot": [
+                { "group": "field", "chance": 70, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -1538,8 +1538,8 @@
                 ".q....V hnnh    |.......",
                 ".q....V hnnh    ;sssssss",
                 ".q....V         ;sssssss",
-                ".q....|      ooP|...s...",
-                ".q....|;|--+----|--|s...",
+                ".q....|      ooP|....s..",
+                ".q....|;|--+----|--|es..",
                 ".q..ssss|r         =____",
                 ".q..shss|r         =____",
                 ".q..snss|r         =____",
@@ -1559,16 +1559,16 @@
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
-            "place_items": [
-                { "item": "novels", "chance": 70, "x": [ 13,14], "y": [ 13,13 ]},
-                { "item": "home_hw", "chance": 40, "x": [ 9,9], "y": [ 15,19 ]},
-                { "item": "dining", "chance": 40, "x": [ 9,10 ], "y": [ 10,11 ]},
-                { "item": "allclothes", "chance": 90, "x": [ 18,20 ], "y": [ 7,7 ]},
-                { "item": "allclothes", "chance": 90, "x": [ 15,17 ], "y": [ 3,3 ]},
-                { "item": "softdrugs", "chance": 90, "x": [ 10,13 ], "y": [ 3,4 ]},
-                { "item": "fridge", "chance": 90, "x": [ 5,5 ], "y": [ 7,7 ]},
-                { "item": "kitchen", "chance": 60, "x": [ 5,8 ], "y": [ 3,6 ]},
-                { "item": "bed", "chance": 80,  "x": [ 19,20 ], "y": [ 3,4 ]}
+            "place_loot": [
+                { "group": "novels", "chance": 70, "x": [ 13,14], "y": [ 13,13 ]},
+                { "group": "home_hw", "chance": 40, "x": [ 9,9], "y": [ 15,19 ]},
+                { "group": "dining", "chance": 40, "x": [ 9,10 ], "y": [ 10,11 ]},
+                { "group": "allclothes", "chance": 90, "x": [ 18,20 ], "y": [ 7,7 ]},
+                { "group": "allclothes", "chance": 90, "x": [ 15,17 ], "y": [ 3,3 ]},
+                { "group": "softdrugs", "chance": 90, "x": [ 10,13 ], "y": [ 3,4 ]},
+                { "group": "fridge", "chance": 90, "x": [ 5,5 ], "y": [ 7,7 ]},
+                { "group": "kitchen", "chance": 60, "x": [ 5,8 ], "y": [ 3,6 ]},
+                { "group": "bed", "chance": 80,  "x": [ 19,20 ], "y": [ 3,4 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -1887,16 +1887,16 @@
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
-            "place_items": [
-                { "item": "farming_tools", "chance": 40, "x": [ 14,14 ], "y": [ 13,17 ]},
-                { "item": "farming_tools", "chance": 40, "x": [ 14,14 ], "y": [ 20,22 ]},
-                { "item": "farming_seeds", "chance": 60, "x": [ 4,5 ], "y": [ 19,20 ]},
-                { "item": "farming_seeds", "chance": 60, "x": [ 4,5 ], "y": [ 16,17 ]},
-                { "item": "farming_seeds", "chance": 60, "x": [ 1,1 ], "y": [ 15,21 ]},
-                { "item": "farming_seeds", "chance": 60, "x": [ 1,5 ], "y": [ 22,22 ]},
-                { "item": "farming_tools", "chance": 40, "x": [ 21,21 ], "y": [ 1,22 ]},
-                { "item": "farming_seeds", "chance": 60, "x": [ 1,12], "y": [ 14,14 ]},
-                { "item": "farming_tools", "chance": 40, "x": [ 4,13 ], "y": [ 1,1 ]}
+            "place_loot": [
+                { "group": "farming_tools", "chance": 40, "x": [ 14,14 ], "y": [ 13,17 ]},
+                { "group": "farming_tools", "chance": 40, "x": [ 14,14 ], "y": [ 20,22 ]},
+                { "group": "farming_seeds", "chance": 60, "x": [ 4,5 ], "y": [ 19,20 ]},
+                { "group": "farming_seeds", "chance": 60, "x": [ 4,5 ], "y": [ 16,17 ]},
+                { "group": "farming_seeds", "chance": 60, "x": [ 1,1 ], "y": [ 15,21 ]},
+                { "group": "farming_seeds", "chance": 60, "x": [ 1,5 ], "y": [ 22,22 ]},
+                { "group": "farming_tools", "chance": 40, "x": [ 21,21 ], "y": [ 1,22 ]},
+                { "group": "farming_seeds", "chance": 60, "x": [ 1,12], "y": [ 14,14 ]},
+                { "group": "farming_tools", "chance": 40, "x": [ 4,13 ], "y": [ 1,1 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -2057,11 +2057,11 @@
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
-            "place_items": [
-                { "item": "building_rubble", "chance": 95, "x": [ 7,20 ], "y": [ 4,10 ]},
-                { "item": "building_rubble", "chance": 95, "x": [ 5,10 ], "y": [ 11,23 ]},
-                { "item": "beauty", "chance": 60, "x": [ 2,10 ], "y": [ 4,4 ]},
-                { "item": "beauty", "chance": 40, "x": [ 2,2 ], "y": [ 7,22 ]}
+            "place_loot": [
+                { "group": "building_rubble", "chance": 95, "x": [ 7,20 ], "y": [ 4,10 ]},
+                { "group": "building_rubble", "chance": 95, "x": [ 5,10 ], "y": [ 11,23 ]},
+                { "group": "beauty", "chance": 60, "x": [ 2,10 ], "y": [ 4,4 ]},
+                { "group": "beauty", "chance": 40, "x": [ 2,2 ], "y": [ 7,22 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -2222,8 +2222,8 @@
             ],
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
-            ], "place_items": [
-                { "item": "building_rubble", "chance": 95, "x": [ 0,22 ], "y": [ 7,23 ]}
+            ], "place_loot": [
+                { "group": "building_rubble", "chance": 95, "x": [ 0,22 ], "y": [ 7,23 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -2545,13 +2545,13 @@
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
-            "place_items": [
-                { "item": "cop_gear", "chance": 70, "x": [ 13,18 ], "y": [ 9,9 ]},
-                { "item": "cop_gear", "chance": 70, "x": [ 13,20 ], "y": [ 12,12 ]},
-                { "item": "cop_evidence", "chance": 70, "x": [ 13,20 ], "y": [ 1,1 ]},
-                { "item": "cleaning", "chance": 70, "x": [ 10,10 ], "y": [ 12,12 ]},
-                { "item": "office", "chance": 70, "x": [ 3,5 ], "y": [ 21,21 ]},
-                { "item": "office", "chance": 70, "x": [ 5,9 ], "y": [ 1,2 ]}
+            "place_loot": [
+                { "group": "cop_gear", "chance": 70, "x": [ 13,18 ], "y": [ 9,9 ]},
+                { "group": "cop_gear", "chance": 70, "x": [ 13,20 ], "y": [ 12,12 ]},
+                { "group": "cop_evidence", "chance": 70, "x": [ 13,20 ], "y": [ 1,1 ]},
+                { "group": "cleaning", "chance": 70, "x": [ 10,10 ], "y": [ 12,12 ]},
+                { "group": "office", "chance": 70, "x": [ 3,5 ], "y": [ 21,21 ]},
+                { "group": "office", "chance": 70, "x": [ 5,9 ], "y": [ 1,2 ]}
             ],
             "terrain": {
                 "&": "t_gas_pump",
@@ -4477,7 +4477,7 @@
             "fill_ter": "t_floor",
             "rows": [
                 ".....|-=====-|--|---HHH-",
-                ".....|      e| r[   cccc",
+                ".....|e      | r[   cccc",
                 "..#..| EEEEE | r[       ",
                 ".....| EEEEE | r[       ",
                 ".....|zzEEEE | r[  rrrrr",
@@ -4923,6 +4923,7 @@
                 "s": "t_sidewalk",
                 "T": "t_tree",
                 "t": "t_floor",
+                "U": "t_sidewalk",
                 "u": "t_floor",
                 "V": "t_wall_glass",
                 "v": "t_window_domestic",
@@ -5080,6 +5081,7 @@
                 "s": "t_sidewalk",
                 "T": "t_tree",
                 "t": "t_floor",
+                "U": "t_sidewalk",
                 "u": "t_floor",
                 "V": "t_wall_glass",
                 "v": "t_window_domestic",
@@ -12727,7 +12729,7 @@
                 { "item": "snacks", "chance": 70, "x": [ 19,22 ], "y": [ 7,7 ]}
             ],
             "terrain": {
-                "&": "t_gas_pump",
+                "&": "t_sidewalk",
                 ">": "t_stairs_down",
                 "<": "t_stairs_down",
                 "|": "t_wall",
@@ -12763,7 +12765,7 @@
                 "b": "t_dirt",
                 "C": "t_grass",
                 "c": "t_floor",
-                "D": "t_floor",
+                "D": "t_sidewalk",
                 "d": "t_floor",
                 "E": "t_elevator",
                 "e": "t_gates_mech_control",
@@ -12845,6 +12847,9 @@
                 "Y": "f_dryer",
                 "Z": "f_crate_o",
                 "z": "f_crate_c"
+            },
+            "gaspumps": {
+                "&": { }
             }
         }
     },{
@@ -12955,7 +12960,7 @@
                 "K": "t_floor",
                 "k": "t_floor",
                 "L": "t_floor",
-                "l": "t_floor",
+                "l": "t_sidewalk",
                 "M": "t_dirt",
                 "m": "t_dirtmound",
                 "N": "t_sandbox",

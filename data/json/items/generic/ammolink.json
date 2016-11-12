@@ -1,0 +1,58 @@
+[
+  {
+    "abstract": "ammolink",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "ammo belt linkage",
+    "description": "A small metal linkage from a disintegrating ammo belt.",
+    "weight": 2,
+    "volume": "2ml",
+    "stackable": true,
+    "material": "steel",
+    "symbol": "=",
+    "color": "yellow",
+    "damage_states": [ 0, 0 ]
+  },
+  {
+    "id": "ammolink223",
+    "copy-from": "ammolink",
+    "type": "GENERIC",
+    "name": ".223 ammo belt linkage",
+    "use_action": {
+      "type": "ammobelt",
+      "belt": "belt223"
+    }
+  },
+  {
+    "id": "ammolink308",
+    "copy-from": "ammolink",
+    "type": "GENERIC",
+    "name": ".308 ammo belt linkage",
+    "use_action": {
+      "type": "ammobelt",
+      "belt": "belt308"
+    }
+  },
+  {
+    "id": "ammolink40mm",
+    "copy-from": "ammolink",
+    "type": "GENERIC",
+    "name": "40mm grenade belt linkage",
+    "weight": 10,
+    "volume": "10ml",
+    "use_action": {
+      "type": "ammobelt",
+      "belt": "belt40mm"
+    }
+  },
+  {
+    "id": "ammolink50",
+    "copy-from": "ammolink",
+    "type": "GENERIC",
+    "name": ".50 ammo belt linkage",
+    "use_action": {
+      "type": "ammobelt",
+      "belt": "belt50"
+    }
+  }
+]

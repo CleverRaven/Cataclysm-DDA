@@ -68,7 +68,7 @@
                 { "item": "hardware_bulk", "chance": 35, "x": [4,11],   "y": 4, "repeat": [1,6] },
                 { "item": "cleaning", "chance": 40, "x": [5,7],   "y": 7,      "repeat": [1,2] },
                 { "item": "cleaning", "chance": 40, "x": [5,7],   "y": 10,      "repeat": [1,2] },
-                { "item": "bigtools", "chance": 40, "x": [5,7],   "y": 13,      "repeat": [1,2] },
+                { "item": "tools_construction", "chance": 40, "x": [5,7],   "y": 13,      "repeat": [1,2] },
                 { "item": "mischw", "chance": 40, "x": [5,9],   "y": 16,      "repeat": [1,3] },
                 { "item": "paint", "chance": 50, "x": [10,11],   "y": 7,      "repeat": [1,2] },
                 { "item": "paint", "chance": 50, "x": [15,16],   "y": 7,      "repeat": [1,2] },
@@ -77,11 +77,10 @@
                 { "item": "snacks", "chance": 60, "x": [15,16],   "y": 13,      "repeat": [1,2] },
                 { "item": "hardware", "chance": 40, "x": 13,   "y": [16,17],      "repeat": [1,2] },
                 { "item": "hardware", "chance": 40, "x": 16,   "y": [16,17],      "repeat": [1,2] },
-                { "item": "tools", "chance": 50, "x": 19,   "y": [6,17],      "repeat": [1,9] }
+                { "item": "tools_carpentry", "chance": 50, "x": 19,   "y": [6,17],      "repeat": [1,9] }
             ],
             "comment": "end of mapgen json definition ---v"
         },
         "comment": "end of mapgen entry ---v"
     }
 ]
-

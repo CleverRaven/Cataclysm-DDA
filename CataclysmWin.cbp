@@ -12,165 +12,315 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os" />
-					<Add option="-O2" />
+					<Add option="-Os -O2" />
 					<Add option="-DRELEASE=1" />
 				</Compiler>
 			</Target>
-			<Target title="Release - Localized">
-				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+			<Target title="Release (Localized)">
+				<Option output="CataclysmWin" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/ReleaseLocalized/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os" />
-					<Add option="-O2" />
+					<Add option="-Os -O2" />
 					<Add option="-DLOCALIZE" />
 					<Add option="-DRELEASE=1" />
+					<Add directory="WinDepend/include" />
 				</Compiler>
 				<Linker>
-					<Add library="intl" />
-					<Add library="iconv" />
+					<Add library="libintl.dll.a" />
+					<Add library="libiconv.dll.a" />
+					<Add directory="WinDepend/lib" />
 				</Linker>
 			</Target>
-			<Target title="Release -SDL">
-				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+			<Target title="Release (SDL)">
+				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/ReleaseSDL/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os" />
-					<Add option="-O2" />
+					<Add option="-Os -O2" />
 					<Add option="-DTILES" />
+					<Add option="-DSDLTILES" />
 					<Add option="-DRELEASE=1" />
-					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/include" />
-					<Add directory="WinDepend/SDL-1.2.15/include/SDL" />
-					<Add directory="WinDepend/SDLImg_binVC/SDL_image-1.2.12/include" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
-					<Add library="libSDL.dll" />
-					<Add library="SDL_ttf" />
-					<Add library="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86\SDL_ttf.lib" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
-					<Add library="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86\SDL_image.lib" />
-					<Add directory="WinDepend/SDL-1.2.15/lib" />
-					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/lib/x86" />
-					<Add directory="WinDepend/libiconv/lib" />
-					<Add directory="WinDepend/SDLImg_binVC/SDL_image-1.2.12/lib/x86" />
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add directory="WinDepend/lib" />
 				</Linker>
 			</Target>
-			<Target title="Release -SDL -Localized">
-				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+			<Target title="Release (Lua)">
+				<Option output="CataclysmWin" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/ReleaseLua/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os" />
-					<Add option="-O2" />
+					<Add option="-Os -O2" />
+					<Add option="-DLUA" />
+					<Add option="-DRELEASE=1" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/lua5.1" />
+				</Compiler>
+				<Linker>
+					<Add library="liblua5.1.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 -v || echo &apos;lua5.1&apos; command not found!" />
+					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 generate_bindings.lua catabindings.cpp" />
+					<Mode after="always" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release (SDL, Sound)">
+				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/ReleaseSoundSDL/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os -O2" />
+					<Add option="-DTILES" />
+					<Add option="-DSDLTILES" />
+					<Add option="-DSDL_SOUND" />
+					<Add option="-DRELEASE=1" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
+				</Compiler>
+				<Linker>
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add library="libSDL2_mixer.dll.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release (SDL, Localized)">
+				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/ReleaseLocalizedSDL/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os -O2" />
 					<Add option="-DLOCALIZE" />
 					<Add option="-DTILES" />
 					<Add option="-DSDLTILES" />
 					<Add option="-DRELEASE=1" />
-					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/include" />
-					<Add directory="WinDepend/SDL-1.2.15/include/SDL" />
-					<Add directory="WinDepend/SDLImg_binVC/SDL_image-1.2.12/include" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
-					<Add library="intl" />
-					<Add library="iconv" />
-					<Add library="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86\SDL_ttf.lib" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
-					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
-					<Add library="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86\SDL_image.lib" />
-					<Add directory="WinDepend/SDL-1.2.15/lib" />
-					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/lib/x86" />
-					<Add directory="WinDepend/libiconv/lib" />
-					<Add directory="WinDepend/SDLImg_binVC/SDL_image-1.2.12/lib/x86" />
+					<Add library="libintl.dll.a" />
+					<Add library="libiconv.dll.a" />
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add directory="WinDepend/lib" />
 				</Linker>
+			</Target>
+			<Target title="Release (SDL, Loc, Lua, Sound)">
+				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/ReleaseLocalizedLuaSoundSDL/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os -O2" />
+					<Add option="-DLOCALIZE" />
+					<Add option="-DTILES" />
+					<Add option="-DSDLTILES" />
+					<Add option="-DSDL_SOUND" />
+					<Add option="-DLUA" />
+					<Add option="-DRELEASE=1" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/lua5.1" />
+					<Add directory="WinDepend/include/SDL2" />
+				</Compiler>
+				<Linker>
+					<Add library="libintl.dll.a" />
+					<Add library="libiconv.dll.a" />
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add library="libSDL2_mixer.dll.a" />
+					<Add library="liblua5.1.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 -v || echo &apos;lua5.1&apos; command not found!" />
+					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 generate_bindings.lua catabindings.cpp" />
+					<Mode after="always" />
+				</ExtraCommands>
 			</Target>
 			<Target title="Debug">
-				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option output="CataclysmWin" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-pg" />
-					<Add option="-g" />
+					<Add option="-pg -g" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
 				</Linker>
 			</Target>
-			<Target title="Debug - Localized">
-				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
+			<Target title="Debug (Localized)">
+				<Option output="CataclysmWin" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/DebugLocalized/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-pg" />
-					<Add option="-g" />
+					<Add option="-pg -g" />
 					<Add option="-DLOCALIZE" />
+					<Add directory="WinDepend/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add library="intl" />
-					<Add library="iconv" />
+					<Add library="libintl.dll.a" />
+					<Add library="libiconv.dll.a" />
+					<Add directory="WinDepend/lib" />
 				</Linker>
 			</Target>
-			<Target title="Release - Tile Support">
-				<Option output="Cataclysm-Tiles" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/TilesRelease/" />
+			<Target title="Debug (SDL)">
+				<Option output="CataclysmWin-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/DebugSDL/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os" />
-					<Add option="-O2" />
 					<Add option="-pg" />
-					<Add option="-DSDLTILES" />
+					<Add option="-pg -g" />
 					<Add option="-DTILES" />
-					<Add directory="3rdparty/include/SDL" />
+					<Add option="-DSDLTILES" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add library="3rdparty\lib\libSDL.dll.a" />
-					<Add library="3rdparty\lib\libSDLmain.a" />
-					<Add library="3rdparty\lib\x86\SDL_image.lib" />
-					<Add library="3rdparty\lib\x86\SDL_ttf.lib" />
-					<Add directory="3rdparty/lib" />
-					<Add directory="3rdparty/lib/x86" />
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add directory="WinDepend/lib" />
 				</Linker>
 			</Target>
-			<Target title="Debug - Tile Support">
-				<Option output="Cataclysm-Tiles" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/TilesRelease/" />
+			<Target title="Debug (Lua)">
+				<Option output="CataclysmWin" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/DebugLua/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os" />
-					<Add option="-O2" />
-					<Add option="-pg" />
-					<Add option="-g" />
-					<Add option="-DSDLTILES" />
-					<Add option="-DTILES" />
-					<Add directory="3rdparty/include/SDL" />
+					<Add option="-pg -g" />
+					<Add option="-DLUA" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/lua5.1" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add library="3rdparty\lib\libSDL.dll.a" />
-					<Add library="3rdparty\lib\libSDLmain.a" />
-					<Add library="3rdparty\lib\x86\SDL_image.lib" />
-					<Add library="3rdparty\lib\x86\SDL_ttf.lib" />
-					<Add directory="3rdparty/lib" />
-					<Add directory="3rdparty/lib/x86" />
+					<Add library="liblua5.1.a" />
+					<Add directory="WinDepend/lib" />
 				</Linker>
+				<ExtraCommands>
+					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 -v || echo &apos;lua5.1&apos; command not found!" />
+					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 generate_bindings.lua catabindings.cpp" />
+					<Mode after="always" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Debug (SDL, Sound)">
+				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/DebugSoundSDL/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-pg" />
+					<Add option="-pg -g" />
+					<Add option="-DTILES" />
+					<Add option="-DSDLTILES" />
+					<Add option="-DSDL_SOUND" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add library="libSDL2_mixer.dll.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+			</Target>
+			<Target title="Debug (SDL, Localized)">
+				<Option output="CataclysmWin-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/DebugLocalizedSDL/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-pg" />
+					<Add option="-pg -g" />
+					<Add option="-DLOCALIZE" />
+					<Add option="-DSDLTILES" />
+					<Add option="-DTILES" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="libintl.dll.a" />
+					<Add library="libiconv.dll.a" />
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+			</Target>
+			<Target title="Debug (SDL, Loc, Lua, Sound)">
+				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/DebugLocalizedLuaSoundSDL/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-pg" />
+					<Add option="-pg -g" />
+					<Add option="-DLOCALIZE" />
+					<Add option="-DTILES" />
+					<Add option="-DSDLTILES" />
+					<Add option="-DSDL_SOUND" />
+					<Add option="-DLUA" />
+					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/lua5.1" />
+					<Add directory="WinDepend/include/SDL2" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add library="libintl.dll.a" />
+					<Add library="libiconv.dll.a" />
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add library="libSDL2_mixer.dll.a" />
+					<Add library="liblua5.1.a" />
+					<Add directory="WinDepend/lib" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 -v || echo &apos;lua5.1&apos; command not found!" />
+					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 generate_bindings.lua catabindings.cpp" />
+					<Mode after="always" />
+				</ExtraCommands>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
-			<Add option="-Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter" />
 			<Add option="-std=c++11" />
+			<Add option="-DCB_BUILD" />
+			<Add option="-D_WINDOWS -D_MINGW -D_WIN32 -DWIN32 -D__MINGW__" />
 		</Compiler>
 		<Linker>
 			<Add option="-Wl,-stack,12000000,-subsystem,windows" />
@@ -178,281 +328,17 @@
 			<Add library="gdi32" />
 			<Add library="winmm" />
 		</Linker>
-		<Unit filename="src/action.cpp" />
-		<Unit filename="src/action.h" />
-		<Unit filename="src/active_item_cache.cpp" />
-		<Unit filename="src/active_item_cache.h" />
-		<Unit filename="src/activity_handlers.cpp" />
-		<Unit filename="src/activity_handlers.h" />
-		<Unit filename="src/activity_item_handling.cpp" />
-		<Unit filename="src/addiction.cpp" />
-		<Unit filename="src/addiction.h" />
-		<Unit filename="src/advanced_inv.cpp" />
-		<Unit filename="src/advanced_inv.h" />
-		<Unit filename="src/ammo.cpp" />
-		<Unit filename="src/ammo.h" />
-		<Unit filename="src/animation.cpp" />
-		<Unit filename="src/armor_layers.cpp" />
-		<Unit filename="src/artifact.cpp" />
-		<Unit filename="src/artifact.h" />
-		<Unit filename="src/auto_pickup.cpp" />
-		<Unit filename="src/auto_pickup.h" />
-		<Unit filename="src/basecamp.cpp" />
-		<Unit filename="src/basecamp.h" />
-		<Unit filename="src/bionics.cpp" />
-		<Unit filename="src/bionics.h" />
-		<Unit filename="src/bodypart.cpp" />
-		<Unit filename="src/bodypart.h" />
-		<Unit filename="src/calendar.cpp" />
-		<Unit filename="src/calendar.h" />
-		<Unit filename="src/cata_tiles.cpp" />
-		<Unit filename="src/cata_tiles.h" />
-		<Unit filename="src/catacharset.cpp" />
-		<Unit filename="src/catacharset.h" />
-		<Unit filename="src/catacurse.h" />
-		<Unit filename="src/catalua.cpp" />
-		<Unit filename="src/catalua.h" />
-		<Unit filename="src/char_validity_check.cpp" />
-		<Unit filename="src/char_validity_check.h" />
-		<Unit filename="src/character.cpp" />
-		<Unit filename="src/character.h" />
-		<Unit filename="src/clzones.cpp" />
-		<Unit filename="src/clzones.h" />
-		<Unit filename="src/color.cpp" />
-		<Unit filename="src/color.h" />
-		<Unit filename="src/compatibility.h" />
-		<Unit filename="src/computer.cpp" />
-		<Unit filename="src/computer.h" />
-		<Unit filename="src/construction.cpp" />
-		<Unit filename="src/construction.h" />
-		<Unit filename="src/coordinates.h" />
-		<Unit filename="src/crafting.cpp" />
-		<Unit filename="src/crafting.h" />
-		<Unit filename="src/creature.cpp" />
-		<Unit filename="src/creature.h" />
-		<Unit filename="src/creature_tracker.cpp" />
-		<Unit filename="src/creature_tracker.h" />
-		<Unit filename="src/cursesdef.h" />
-		<Unit filename="src/cursesport.cpp" />
-		<Unit filename="src/damage.cpp" />
-		<Unit filename="src/damage.h" />
-		<Unit filename="src/debug.cpp" />
-		<Unit filename="src/debug.h" />
-		<Unit filename="src/defense.cpp" />
-		<Unit filename="src/dependency_tree.cpp" />
-		<Unit filename="src/dependency_tree.h" />
-		<Unit filename="src/dialogue.h" />
-		<Unit filename="src/editmap.cpp" />
-		<Unit filename="src/editmap.h" />
-		<Unit filename="src/effect.cpp" />
-		<Unit filename="src/effect.h" />
-		<Unit filename="src/enums.h" />
-		<Unit filename="src/event.cpp" />
-		<Unit filename="src/event.h" />
-		<Unit filename="src/faction.cpp" />
-		<Unit filename="src/faction.h" />
-		<Unit filename="src/field.cpp" />
-		<Unit filename="src/field.h" />
-		<Unit filename="src/filesystem.cpp" />
-		<Unit filename="src/filesystem.h" />
-		<Unit filename="src/game.cpp" />
-		<Unit filename="src/game.h" />
-		<Unit filename="src/game_constants.h" />
-		<Unit filename="src/gamemode.cpp" />
-		<Unit filename="src/gamemode.h" />
-		<Unit filename="src/get_version.h" />
-		<Unit filename="src/help.cpp" />
-		<Unit filename="src/help.h" />
-		<Unit filename="src/iexamine.cpp" />
-		<Unit filename="src/iexamine.h" />
-		<Unit filename="src/init.cpp" />
-		<Unit filename="src/init.h" />
-		<Unit filename="src/input.cpp" />
-		<Unit filename="src/input.h" />
-		<Unit filename="src/inventory.cpp" />
-		<Unit filename="src/inventory.h" />
-		<Unit filename="src/inventory_ui.cpp" />
-		<Unit filename="src/item.cpp" />
-		<Unit filename="src/item.h" />
-		<Unit filename="src/item_action.cpp" />
-		<Unit filename="src/item_action.h" />
-		<Unit filename="src/item_factory.cpp" />
-		<Unit filename="src/item_factory.h" />
-		<Unit filename="src/item_group.cpp" />
-		<Unit filename="src/item_group.h" />
-		<Unit filename="src/item_stack.h" />
-		<Unit filename="src/itype.h" />
-		<Unit filename="src/itype.cpp" />
-		<Unit filename="src/iuse.cpp" />
-		<Unit filename="src/iuse.h" />
-		<Unit filename="src/iuse_actor.cpp" />
-		<Unit filename="src/iuse_actor.h" />
-		<Unit filename="src/iuse_software.cpp" />
-		<Unit filename="src/iuse_software.h" />
-		<Unit filename="src/iuse_software_kitten.cpp" />
-		<Unit filename="src/iuse_software_kitten.h" />
-		<Unit filename="src/iuse_software_snake.cpp" />
-		<Unit filename="src/iuse_software_snake.h" />
-		<Unit filename="src/iuse_software_sokoban.cpp" />
-		<Unit filename="src/iuse_software_sokoban.h" />
-		<Unit filename="src/json.cpp" />
-		<Unit filename="src/json.h" />
-		<Unit filename="src/lightmap.cpp" />
-		<Unit filename="src/lightmap.h" />
-		<Unit filename="src/line.cpp" />
-		<Unit filename="src/line.h" />
-		<Unit filename="src/live_view.cpp" />
-		<Unit filename="src/live_view.h" />
-		<Unit filename="src/main.cpp" />
-		<Unit filename="src/main_menu.cpp" />
-		<Unit filename="src/map.cpp" />
-		<Unit filename="src/map.h" />
-		<Unit filename="src/mapbuffer.cpp" />
-		<Unit filename="src/mapbuffer.h" />
-		<Unit filename="src/mapdata.cpp" />
-		<Unit filename="src/mapdata.h" />
-		<Unit filename="src/mapgen.cpp" />
-		<Unit filename="src/mapgen.h" />
-		<Unit filename="src/mapgen_functions.cpp" />
-		<Unit filename="src/mapgen_functions.h" />
-		<Unit filename="src/mapgenformat.cpp" />
-		<Unit filename="src/mapgenformat.h" />
-		<Unit filename="src/mapsharing.cpp" />
-		<Unit filename="src/mapsharing.h" />
-		<Unit filename="src/martialarts.cpp" />
-		<Unit filename="src/martialarts.h" />
-		<Unit filename="src/material.cpp" />
-		<Unit filename="src/material.h" />
-		<Unit filename="src/melee.cpp" />
-		<Unit filename="src/messages.cpp" />
-		<Unit filename="src/messages.h" />
-		<Unit filename="src/mission.cpp" />
-		<Unit filename="src/mission.h" />
-		<Unit filename="src/mission_companion.cpp" />
-		<Unit filename="src/mission_end.cpp" />
-		<Unit filename="src/mission_fail.cpp" />
-		<Unit filename="src/mission_place.cpp" />
-		<Unit filename="src/mission_start.cpp" />
-		<Unit filename="src/missiondef.cpp" />
-		<Unit filename="src/mod_manager.cpp" />
-		<Unit filename="src/mod_manager.h" />
-		<Unit filename="src/mod_manager_ui.cpp" />
-		<Unit filename="src/monattack.cpp" />
-		<Unit filename="src/monattack.h" />
-		<Unit filename="src/mondeath.cpp" />
-		<Unit filename="src/mondeath.h" />
-		<Unit filename="src/mondefense.cpp" />
-		<Unit filename="src/mondefense.h" />
-		<Unit filename="src/mongroup.h" />
-		<Unit filename="src/mongroupdef.cpp" />
-		<Unit filename="src/monmove.cpp" />
-		<Unit filename="src/monster.cpp" />
-		<Unit filename="src/monster.h" />
-		<Unit filename="src/monstergenerator.cpp" />
-		<Unit filename="src/monstergenerator.h" />
-		<Unit filename="src/monfaction.cpp" />
-		<Unit filename="src/monfaction.h" />
-		<Unit filename="src/morale.h" />
-		<Unit filename="src/moraledata.h" />
-		<Unit filename="src/mtype.h" />
-		<Unit filename="src/mtype.cpp" />
-		<Unit filename="src/mutation.cpp" />
-		<Unit filename="src/mutation.h" />
-		<Unit filename="src/mutation_data.cpp" />
-		<Unit filename="src/name.cpp" />
-		<Unit filename="src/name.h" />
-		<Unit filename="src/newcharacter.cpp" />
-		<Unit filename="src/nonplayer.cpp" />
-		<Unit filename="src/nonplayer.h" />
-		<Unit filename="src/npc.cpp" />
-		<Unit filename="src/npc.h" />
-		<Unit filename="src/npcmove.cpp" />
-		<Unit filename="src/npctalk.cpp" />
-		<Unit filename="src/omdata.h" />
-		<Unit filename="src/options.cpp" />
-		<Unit filename="src/options.h" />
-		<Unit filename="src/output.cpp" />
-		<Unit filename="src/output.h" />
-		<Unit filename="src/overmap.cpp" />
-		<Unit filename="src/overmap.h" />
-		<Unit filename="src/overmapbuffer.cpp" />
-		<Unit filename="src/overmapbuffer.h" />
-		<Unit filename="src/path_info.cpp" />
-		<Unit filename="src/path_info.h" />
-        <Unit filename="src/pathfinding.cpp" />
-		<Unit filename="src/pickup.cpp" />
-		<Unit filename="src/pickup.h" />
-		<Unit filename="src/platform_win.h" />
-		<Unit filename="src/player.cpp" />
-		<Unit filename="src/player.h" />
-		<Unit filename="src/player_activity.cpp" />
-		<Unit filename="src/player_activity.h" />
-		<Unit filename="src/pldata.h" />
-		<Unit filename="src/posix_time.cpp" />
-		<Unit filename="src/posix_time.h" />
-		<Unit filename="src/profession.cpp" />
-		<Unit filename="src/profession.h" />
-		<Unit filename="src/ranged.cpp" />
-		<Unit filename="src/requirements.cpp" />
-		<Unit filename="src/requirements.h" />
+		<ExtraCommands>
+			<Add before="cmd /c git --version || echo &apos;git&apos; command not found!" />
+			<Add before="cmd /c git describe --tags --always --dirty &gt; version.tmp || echo no-git&gt; version.tmp" />
+			<Add before='cmd /c for /F &quot;tokens=*&quot; %%i in (version.tmp) do echo #define VERSION &quot;%%i&quot; &gt; src/version.h' />
+			<Add before="cmd /c del version.tmp" />
+			<Mode after="always" />
+		</ExtraCommands>
+		<UnitsGlob directory="src" recursive="0" />
 		<Unit filename="src/resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
-		<Unit filename="src/rng.cpp" />
-		<Unit filename="src/rng.h" />
-		<Unit filename="src/savegame.cpp" />
-		<Unit filename="src/savegame.h" />
-		<Unit filename="src/savegame_json.cpp" />
-		<Unit filename="src/savegame_legacy.cpp" />
-		<Unit filename="src/scenario.cpp" />
-		<Unit filename="src/scenario.h" />
-		<Unit filename="src/sdltiles.cpp" />
-		<Unit filename="src/simplexnoise.cpp" />
-		<Unit filename="src/simplexnoise.h" />
-		<Unit filename="src/skill.cpp" />
-		<Unit filename="src/skill.h" />
-		<Unit filename="src/sounds.cpp" />
-		<Unit filename="src/sounds.h" />
-		<Unit filename="src/speech.cpp" />
-		<Unit filename="src/speech.h" />
-		<Unit filename="src/start_location.cpp" />
-		<Unit filename="src/start_location.h" />
-		<Unit filename="src/text_snippets.cpp" />
-		<Unit filename="src/text_snippets.h" />
-		<Unit filename="src/tile_id_data.h" />
-		<Unit filename="src/tileray.cpp" />
-		<Unit filename="src/tileray.h" />
-		<Unit filename="src/translations.cpp" />
-		<Unit filename="src/translations.h" />
-		<Unit filename="src/trap.h" />
-		<Unit filename="src/trapdef.cpp" />
-		<Unit filename="src/trapfunc.cpp" />
-		<Unit filename="src/tutorial.cpp" />
-		<Unit filename="src/tutorial.h" />
-		<Unit filename="src/ui.cpp" />
-		<Unit filename="src/ui.h" />
-		<Unit filename="src/uistate.h" />
-		<Unit filename="src/veh_interact.cpp" />
-		<Unit filename="src/veh_interact.h" />
-		<Unit filename="src/veh_type.h" />
-		<Unit filename="src/veh_typedef.cpp" />
-		<Unit filename="src/vehicle.cpp" />
-		<Unit filename="src/vehicle.h" />
-		<Unit filename="src/vehicle_factory.cpp" />
-		<Unit filename="src/vehicle_factory.h" />
-		<Unit filename="src/version.cpp" />
-		<Unit filename="src/wcwidth.h" />
-		<Unit filename="src/wdirent.h" />
-		<Unit filename="src/weather.cpp" />
-		<Unit filename="src/weather.h" />
-		<Unit filename="src/weather_data.cpp" />
-		<Unit filename="src/weather_gen.cpp" />
-		<Unit filename="src/weather_gen.h" />
-		<Unit filename="src/weighted_list.h" />
-		<Unit filename="src/wincurse.cpp" />
-		<Unit filename="src/wish.cpp" />
-		<Unit filename="src/worldfactory.cpp" />
-		<Unit filename="src/worldfactory.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

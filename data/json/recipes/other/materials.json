@@ -1,0 +1,36 @@
+[
+  {
+    "result": "steel_chunk",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 15000,
+    "batch_time_factors": [ 90, 4 ],
+    "reversible": true,
+    "autolearn": true,
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 20 ], [ "char_forge", 20 ] ]
+    ],
+    "components": [ [ [ "scrap", 5 ] ] ]
+  },
+  {
+    "result": "steel_lump",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 60000,
+    "batch_time_factors": [ 90, 4 ],
+    "reversible": true,
+    "autolearn": true,
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 80 ], [ "char_forge", 80 ] ]
+    ],
+    "components": [ [ [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
+  }
+]

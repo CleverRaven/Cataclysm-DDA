@@ -1,9 +1,11 @@
-{
+[
+  {
     "type": "MOD_INFO",
-    "mod_type": "SUPPLEMENTAL",
     "ident": "nw_pack",
     "name": "Mythological Replicas",
+    "authors": [ "Zaweri" ],
     "description": "Adds recipes for replicas of mythological weapons.",
-    "author": "Zaweri",
+    "category": "items",
     "path": ""
-}
+  }
+]

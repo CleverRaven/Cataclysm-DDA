@@ -59,7 +59,7 @@
         ]
     },
     {
-        "type"  : "item_group", 
+        "type"  : "item_group",
         "id"    : "pizza_soda",
         "items" : [
             ["purple_drink",   3],
@@ -129,7 +129,7 @@
             ["wrapper",      34],
             ["bag_plastic",  20],
             ["bottle_glass", 30],
-            ["can_drink",    30],
+            ["can_drink_unsealed",    30],
             ["rag",          10],
             ["news_regional", 7],
             ["mag_news",      7],
@@ -260,7 +260,6 @@
                 "comment": "randomly picked from a group ---v",
                 "place_items": [
 { "item": "pizza_display", "x": 11,      "y": 5,  "chance": 60 }
-
 ,
                 { "item": "pizza_kitchen", "x": 17, "y": 16,    "chance": 60  }
 ,
@@ -271,7 +270,6 @@
                 { "item": "pizza_kitchen", "x": 18, "y": 18,    "chance": 60  }
 ,
                 { "item": "pizza_display", "x": 19, "y": 18,    "chance": 60  }
-
 ,               { "item": "pizza_fridge",  "x": 19, "y": 16,    "chance": 60  }
 ,
                 { "item": "pizza_fridge",  "x": 19, "y": 16,    "chance": 60  }

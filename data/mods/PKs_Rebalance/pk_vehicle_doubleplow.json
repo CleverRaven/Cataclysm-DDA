@@ -1,0 +1,60 @@
+[
+    {
+        "type" : "vehicle",
+        "id" : "heavy_plow_tractor",
+        "//": "Created and donated by Kedryn on the C:DDA Forums.",
+        "name" : "Double Row Plow",
+        "blueprint" : [
+            ["&    "],
+            ["+O  O"],
+            ["&=#=="],
+            ["&===="],
+            ["+O  O"],
+            ["&    "]
+            ],
+        "parts":[
+            {"x":2,"y":0,   "part":"frame_horizontal"},      
+            {"x":2,"y":-1,  "part":"frame_horizontal"},     
+            {"x":2,"y":1,   "part":"frame_horizontal"},      
+            {"x":1,"y":0,   "part":"frame_horizontal"},      
+            {"x":1,"y":0,   "part":"battery_car"},        
+            {"x":1,"y":0,   "part":"diesel_engine_v6"},      
+            {"x":1,"y":0,   "part":"alternator_truck"},      
+            {"x":0,"y":0,   "part":"frame_vertical"},       
+            {"x":-1,"y":0,  "part":"frame_cross"},          
+            {"x":-1,"y":0,  "part":"tank", "fuel": "diesel"},          
+            {"x":-1,"y":-1, "part":"frame_horizontal"},     
+            {"x":-2,"y":0,  "part":"frame_cross"},           
+            {"x":-2,"y":1,  "part":"frame_cross"},           
+            {"x":-2,"y":-1, "part":"frame_cross"},          
+            {"x":-2,"y":2,  "part":"frame_cross"},           
+            {"x":-2,"y":-2, "part":"frame_cross"},          
+            {"x":-1,"y":1,  "part":"frame_cross"},          
+            {"x":0,"y":1,   "part":"frame_vertical"},        
+            {"x":1,"y":1,   "part":"frame_horizontal"},     
+            {"x":2,"y":2,   "part":"frame_horizontal"},      
+            {"x":-2,"y":3,  "part":"frame_cross"},          
+            {"x":-1,"y":2,  "part":"frame_horizontal"},     
+            {"x":0,"y":0,   "part":"controls"},              
+            {"x":0,"y":0,   "part":"seat"},                  
+            {"x":2,"y":0,   "part":"halfboard_nw"},    
+            {"x":2,"y":-1,  "part":"wheel_wide_steerable"}, 
+            {"x":2,"y":2,   "part":"wheel_wide_steerable"},  
+            {"x":1,"y":0,   "part":"halfboard_vertical"},    
+            {"x":2,"y":1,   "part":"halfboard_ne"},    
+            {"x":1,"y":1,   "part":"halfboard_vertical"},    
+            {"x":-1,"y":0,  "part":"halfboard_vertical"},   
+            {"x":-1,"y":1,  "part":"halfboard_vertical"},   
+            {"x":0,"y":1,   "part":"box"},                  
+            {"x":-1,"y":-1, "part":"wheel_wide"},           
+            {"x":-1,"y":2,  "part":"wheel_wide"},           
+            {"x":-2,"y":0,  "part":"plow"},                 
+            {"x":-2,"y":1,  "part":"plow"},                 
+            {"x":-2,"y":3,  "part":"plow"},                 
+            {"x":-2,"y":-2, "part":"plow"}
+        ],
+        "items" : [
+            {"x": 0, "y": 1, "chance": 20, "item_groups": "farming_tools"}
+        ]
+    }   
+]

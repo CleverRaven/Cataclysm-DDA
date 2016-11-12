@@ -5707,8 +5707,8 @@
                 "..................|  |--"
             ],
             "items": {
-                "c": { "item": "tools", "chance": 30 },
-                "/": { "item": "bigtools", "chance": 3 },
+                "c": { "item": "tools_common", "chance": 10 },
+                "/": { "item": "tools_mechanic", "chance": 1 },
                 "r": { "item": "mechanics", "chance": 65 }
             },
             "place_monsters": [
@@ -5859,9 +5859,9 @@
                 "-uuuu---|///////////////"
             ],
             "items": {
-                "c": { "item": "tools", "chance": 30 },
-                "/": { "item": "bigtools", "chance": 3 },
-                "r": { "item": "mechanics", "chance": 65 }
+                "c": { "item": "tools_common", "chance": 20 },
+                "/": { "item": "supplies_electronics", "chance": 2 },
+                "r": { "item": "tools_electronics", "chance": 20 }
             },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_ROBOT", "x": [ 1, 22 ], "y": [ 12, 22 ], "density": 0.07},
@@ -6011,9 +6011,9 @@
                 "////|---uuuu---|  |....."
             ],
             "items": {
-                "c": { "item": "tools", "chance": 30 },
-                "/": { "item": "bigtools", "chance": 3 },
-                "r": { "item": "mechanics", "chance": 65 }
+                "c": { "item": "tools_common", "chance": 20 },
+                "/": { "item": "supplies_electronics", "chance": 2 },
+                "r": { "item": "tools_electronics", "chance": 20 }
             },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_ROBOT", "x": [ 1, 12], "y": [ 12, 22 ], "density": 0.07},
@@ -7239,7 +7239,7 @@
                 "  |.|-------------------"
             ],
             "items": {
-                "c": { "item": "tailor", "chance": 50 }
+                "c": { "item": "tools_tailor", "chance": 50 }
             },
             "item": {
             "r": [
@@ -7401,7 +7401,7 @@
             "items": {
                 "@": { "item": "bed", "chance": 60 },
                 "c": { "item": "bedroom", "chance": 15 },
-                "r": { "item": "tailor", "chance": 60 },
+                "r": { "item": "tools_tailor", "chance": 60 },
                 "b": { "item": "magazines", "chance": 30 },
                 "L": { "item": "traveler", "chance": 60 }
             },
@@ -11543,14 +11543,12 @@
                 { "item": "magazines", "chance": 75, "x": [ 5,5 ], "y": [ 11,13 ] },
                 { "item": "magazines", "chance": 75, "x": [ 6,8 ], "y": [ 12,12 ] },
                 { "item": "magazines", "chance": 75, "x": [ 9,9 ], "y": [ 11,13 ] },
-
                 { "item": "homebooks", "chance": 75, "x": [ 17,17 ], "y": [ 11,13 ] },
                 { "item": "homebooks", "chance": 75, "x": [ 18,20 ], "y": [ 12,12 ] },
                 { "item": "homebooks", "chance": 75, "x": [ 21,21 ], "y": [ 11,13 ] },
                 { "item": "homebooks", "chance": 75, "x": [ 5,5 ], "y": [ 11,13 ] },
                 { "item": "homebooks", "chance": 75, "x": [ 6,8 ], "y": [ 12,12 ] },
                 { "item": "homebooks", "chance": 75, "x": [ 9,9 ], "y": [ 11,13 ] },
-
                 { "item": "textbooks", "chance": 75, "x": [ 22,23 ], "y": [ 16,16 ] },
                 { "item": "textbooks", "chance": 75, "x": [ 23,23 ], "y": [ 17,18 ] },
                 { "item": "textbooks", "chance": 75, "x": [ 22,23 ], "y": [ 19,19 ] },
@@ -11867,7 +11865,7 @@
             ],
             "items": {
                 "r": { "item": "mechanics", "chance": 60 },
-                "/": { "item": "tools", "chance": 5 }
+                "/": { "item": "tools_mechanic", "chance": 1 }
             },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.3 },
@@ -12017,7 +12015,7 @@
                 "........................"
             ],
             "items": {
-                "/": { "item": "tools", "chance": 5 }
+                "/": { "item": "tools_common", "chance": 2 }
             },
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.3 },
@@ -12168,7 +12166,7 @@
             ],
             "items": {
                 "r": { "item": "mechanics", "chance": 60 },
-                "/": { "item": "tools", "chance": 5 },
+                "/": { "item": "tools_mechanic", "chance": 1 },
                 "b": { "item": "sports", "chance": 10 }
             },
             "place_monsters": [

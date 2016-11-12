@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "FIC_Weapons",
+    "name": "DeadLeaves' Fictional Guns",
+    "authors": [ "DeadLeaves", "BorkBorkGoesTheCode" ],
+    "maintainers": [ "BorkBorkGoesTheCode" ],
+    "description": "Adds a bunch of rare weapons loosely based fiction.",
+    "category": "items",
+    "path": ""
+  }
+]

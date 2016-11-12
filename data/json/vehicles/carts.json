@@ -1,0 +1,242 @@
+[
+  {
+    "id": "engine_crane",
+    "type": "vehicle",
+    "name": "engine crane",
+    "blueprint": [ "#" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "folding_frame" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "crane_small" }
+    ]
+  },
+  {
+    "id": "food_cart",
+    "type": "vehicle",
+    "name": "Food Vendor Cart",
+    "blueprint": [
+      [ "&" ],
+      [ "H" ]
+    ],
+    "parts": [
+      { "x": -1, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": -1, "y": 0, "part": "wheel_caster" },
+      { "x": -1, "y": 0, "part": "small_storage_battery" },
+      { "x": -1, "y": 0, "part": "kitchen_unit" },
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "minifridge" },
+      { "x": 0, "y": 0, "part": "controls_electronic" }
+    ],
+    "items": [
+      { "x": -1, "y": 0, "chance": 30, "items": [ "cheeseburger" ] },
+      { "x": -1, "y": 0, "chance": 30, "items": [ "cheeseburger" ] },
+      { "x": -1, "y": 0, "chance": 30, "items": [ "hamburger" ] },
+      { "x": -1, "y": 0, "chance": 30, "items": [ "hamburger" ] },
+      { "x": -1, "y": 0, "chance": 30, "items": [ "sloppyjoe" ] },
+      { "x": -1, "y": 0, "chance": 1, "items": [ "cheeseburgerhuman", "bobburger", "manwich" ] },
+      { "x": -1, "y": 0, "chance": 30, "items": [ "fries" ] },
+      { "x": -1, "y": 0, "chance": 30, "items": [ "fries" ] },
+      { "x": -1, "y": 0, "chance": 30, "items": [ "hotdogs_cooked" ] },
+      { "x": -1, "y": 0, "chance": 30, "items": [ "hotdogs_cooked" ] },
+      { "x": -1, "y": 0, "chance": 30, "items": [ "corndogs_cooked" ] },
+      { "x": -1, "y": 0, "chance": 30, "items": [ "corndogs_cooked" ] },
+      { "x": -1, "y": 0, "chance": 15, "items": [ "bacon" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "lemonade" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "lemonade" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "lemonade" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "cola" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "cola" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "cola" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "sports_drink" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "sports_drink" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "sports_drink" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "rootbeer" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "rootbeer" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "rootbeer" ] },
+      { "x": 0, "y": 0, "chance": 20, "items": [ "pickle" ] },
+      { "x": 0, "y": 0, "chance": 20, "items": [ "ketchup" ] },
+      { "x": 0, "y": 0, "chance": 20, "items": [ "mustard" ] },
+      { "x": 0, "y": 0, "chance": 20, "items": [ "mayonnaise" ] },
+      { "x": 0, "y": 0, "chance": 20, "items": [ "onion" ] },
+      { "x": 0, "y": 0, "chance": 20, "items": [ "lettuce" ] },
+      { "x": 0, "y": 0, "chance": 20, "items": [ "tomato" ] },
+      { "x": 0, "y": 0, "chance": 20, "items": [ "cheese" ] }
+    ]
+  },
+  {
+    "id": "golf_cart",
+    "type": "vehicle",
+    "name": "Golf Cart",
+    "blueprint": [
+      [ "o|o" ],
+      [ "o|o" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "frame_horizontal" },
+      { "x": 0, "y": 0, "part": "seat" },
+      { "x": 0, "y": 0, "part": "roof" },
+      { "x": 0, "y": 0, "part": "engine_electric" },
+      { "x": 0, "y": 0, "part": "controls" },
+      { "x": 0, "y": 1, "part": "frame_horizontal" },
+      { "x": 0, "y": 1, "part": "seat" },
+      { "x": 0, "y": 1, "part": "roof" },
+      { "x": 0, "y": 1, "part": "storage_battery" },
+      { "x": 1, "y": 0, "part": "frame_nw" },
+      { "x": 1, "y": 0, "part": "halfboard_nw" },
+      { "x": 1, "y": 0, "part": "wheel_small_steerable" },
+      { "x": 1, "y": 1, "part": "frame_ne" },
+      { "x": 1, "y": 1, "part": "halfboard_ne" },
+      { "x": 1, "y": 1, "part": "wheel_small_steerable" },
+      { "x": -1, "y": 0, "part": "frame_sw" },
+      { "x": -1, "y": 0, "part": "box" },
+      { "x": -1, "y": 0, "part": "wheel_small" },
+      { "x": -1, "y": 1, "part": "frame_se" },
+      { "x": -1, "y": 1, "part": "box" },
+      { "x": -1, "y": 1, "part": "wheel_small" }
+    ],
+    "items": [
+      { "x": -1, "y": 0, "chance": 5, "items": [ "towel" ] },
+      { "x": -1, "y": 0, "chance": 10, "items": [ "golf_club" ] },
+      { "x": -1, "y": 1, "chance": 8, "items": [ "golf_club" ] }
+    ]
+  },
+  {
+    "id": "handjack",
+    "type": "vehicle",
+    "name": "Handjack",
+    "blueprint": [ "=" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "frame_handle" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "cargo_space" }
+    ]
+  },
+  {
+    "id": "ice_cream_cart",
+    "type": "vehicle",
+    "name": "Ice Cream Cart",
+    "blueprint": [ "#" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "small_storage_battery" },
+      { "x": 0, "y": 0, "part": "minifridge" },
+      { "x": 0, "y": 0, "part": "controls_electronic" }
+    ]
+  },
+  {
+    "id": "luggage_cart",
+    "type": "vehicle",
+    "name": "Luggage Cart",
+    "blueprint": [ "H" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "trunk" }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 6, "item_groups": [ "bags_trip", "jackets", "shirts", "male_underwear_bottom", "male_underwear", "male_underwear", "male_underwear" ] },
+      { "x": 0, "y": 0, "chance": 6, "item_groups": [ "bags_trip", "beauty", "dresses", "dresses", "female_underwear_bottom", "female_underwear_top", "female_underwear", "female_underwear" ] },
+      { "x": 0, "y": 0, "chance": 3, "item_groups": [ "bags_trip", "jackets", "shirts", "child_items", "underwear" ] },
+      { "x": 0, "y": 0, "chance": 2, "item_groups": [ "bags_trip", "traveler", "dresser", "glasses", "shoes", "underwear", "underwear" ] }
+    ]
+  },
+  {
+    "id": "shopping_cart",
+    "type": "vehicle",
+    "name": "Shopping Cart",
+    "blueprint": [ "o" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "basketlg" }
+    ],
+    "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]
+  },
+  {
+    "id": "swivel_chair",
+    "type": "vehicle",
+    "name": "Swivel Chair",
+    "blueprint": [ "#" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "seat" }
+    ]
+  },
+  {
+    "id": "water_cart",
+    "type": "vehicle",
+    "name": "Water Cart",
+    "blueprint": [ "o" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "tank_small", "fuel": "water_clean" },
+      { "x": 0, "y": 0, "part": "water_faucet" },
+      { "x": 0, "y": 0, "part": "basketsm" }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 15, "items": [ "whistle" ] },
+      { "x": 0, "y": 0, "chance": 25, "items": [ "sports_drink" ] },
+      { "x": 0, "y": 0, "chance": 25, "items": [ "sports_drink" ] },
+      { "x": 0, "y": 0, "chance": 25, "items": [ "sports_drink" ] },
+      { "x": 0, "y": 0, "chance": 25, "items": [ "towel" ] },
+      { "x": 0, "y": 0, "chance": 25, "items": [ "towel" ] },
+      { "x": 0, "y": 0, "chance": 25, "items": [ "towel" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "heatpack" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "heatpack" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "bandages" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "bandages" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "1st_aid" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "1st_aid" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "mouthpiece" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "mouthpiece" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "arm_splint" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "leg_splint" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "football" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "football" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "football" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "football_armor" ] },
+      { "x": 0, "y": 0, "chance": 15, "items": [ "helmet_football" ] }
+    ]
+  },
+  {
+    "id": "welding_cart",
+    "type": "vehicle",
+    "name": "Welding Cart",
+    "blueprint": [ "&" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "small_storage_battery" },
+      { "x": 0, "y": 0, "part": "welding_rig" }
+    ],
+    "items": [ { "x": 0, "y": 0, "chance": 30, "items": [ "goggles_welding" ] } ]
+  },
+  {
+    "id": "wheelbarrow",
+    "type": "vehicle",
+    "name": "Wheelbarrow",
+    "blueprint": [ "o" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "frame_handle" },
+      { "x": 0, "y": 0, "part": "wheel_barrow" },
+      { "x": 0, "y": 0, "part": "box" }
+    ]
+  },
+  {
+    "id": "wheelchair",
+    "type": "vehicle",
+    "name": "Foldable wheelchair",
+    "blueprint": [ "#" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "folding_frame" },
+      { "x": 0, "y": 0, "part": "folding_seat" },
+      { "x": 0, "y": 0, "part": "wheel_wheelchair" },
+      { "x": 0, "y": 0, "part": "hand_rims" },
+      { "x": 0, "y": 0, "part": "basketsm" }
+    ]
+  }
+]

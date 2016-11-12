@@ -1,8 +1,12 @@
 #ifndef BUILDING_GENERATION_H
 #define BUILDING_GENERATION_H
 
-#include "overmap.h"
+#include "omdata.h"
+#include "mapdata.h"
 #include "map.h"
+
+#include <string>
+#include <map>
 
 struct mapgendata
 {
@@ -14,15 +18,16 @@ public:
   int w_fac; // dir == 3
   int ne_fac; // dir == 4
   int se_fac; // dir == 5
-  int nw_fac; // dir == 6
-  int sw_fac; // dir == 7
+  int sw_fac; // dir == 6
+  int nw_fac; // dir == 7
   oter_id t_above;
   int zlevel;
   const regional_settings * region;
   map * m;
-  id_or_id default_groundcover;
-  mapgendata(oter_id t_north, oter_id t_east, oter_id t_south, oter_id t_west, oter_id t_neast,
-              oter_id t_seast, oter_id t_nwest, oter_id t_swest, oter_id up, int z, const regional_settings * rsettings, map * mp );
+  id_or_id<ter_t> default_groundcover;
+  mapgendata(oter_id t_north, oter_id t_east, oter_id t_south, oter_id t_west,
+             oter_id t_neast, oter_id t_seast, oter_id t_swest, oter_id t_nwest,
+             oter_id up, int z, const regional_settings * rsettings, map * mp );
   void set_dir(int dir_in, int val);
   void fill(int val);
   int& dir(int dir_in);
@@ -32,14 +37,20 @@ public:
   oter_id  west()  const { return t_nesw[3]; }
   oter_id  neast() const { return t_nesw[4]; }
   oter_id  seast() const { return t_nesw[5]; }
-  oter_id  nwest() const { return t_nesw[6]; }
-  oter_id  swest() const { return t_nesw[7]; }
+  oter_id  swest() const { return t_nesw[6]; }
+  oter_id  nwest() const { return t_nesw[7]; }
   oter_id  above() const { return t_above; }
   void fill_groundcover();
   void square_groundcover(const int x1, const int y1, const int x2, const int y2);
   ter_id groundcover();
-  bool is_groundcover(const int iid ) const;
+  bool is_groundcover(const ter_id iid ) const;
 };
+
+/**
+ * Calculates the coordinates of a rotated point.
+ * Should match the `mapgen_*` rotation.
+ */
+tripoint rotate_point( const tripoint &p, int turn );
 
 typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
 extern std::map<std::string, building_gen_pointer> mapgen_cfunction_map;
@@ -58,11 +69,7 @@ void mapgen_fungal_bloom(map *m, oter_id terrain_type, mapgendata dat, int turn,
 void mapgen_fungal_tower(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_fungal_flowers(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_river_center(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -70,8 +77,6 @@ void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int t
 void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_park_playground(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_park_basketball(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn, float density, int variant); // not mapped
@@ -84,7 +89,6 @@ void mapgen_church_gothic(map *m, oter_id terrain_type, mapgendata dat, int turn
 
 void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
-void mapgen_s_hardware(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void mapgen_shelter(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -93,16 +97,12 @@ void mapgen_lmoe(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
 
 void mapgen_basement_generic_layout(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_basement_guns(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_game(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 // autogen.sh
 void mapgen_office_doctor(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_apartments_con_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_apartments_con_tower_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_apartments_mod_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_apartments_mod_tower_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_office_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -115,7 +115,6 @@ void mapgen_cathedral_b_entrance(map *m, oter_id terrain_type, mapgendata dat, i
 void mapgen_cathedral_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_cabin(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_farm(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_farm_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

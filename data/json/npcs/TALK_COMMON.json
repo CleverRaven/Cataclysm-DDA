@@ -4,7 +4,6 @@
         "responses for the topics here have been moved to json.",
         "Some of the topics here can be moved to NPC type specific files later."
 ],
-
         "type": "talk_topic",
         "//": "Generic responses for NPCs that can have missions",
         "id": [ "TALK_SHELTER", "TALK_EVAC_MERCHANT", "TALK_ARSONIST", "TALK_OLD_GUARD_REP", "TALK_EVAC_GUARD2" ],

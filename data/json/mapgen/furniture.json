@@ -59,10 +59,10 @@
                 "E": "f_bookcase"
             },
             "place_items": [
-                { "x": 21, "y": [5,8], "item": "tools", "chance": 50, "repeat": 2 },
+                { "x": 21, "y": [5,8], "item": "tools_carpentry", "chance": 50, "repeat": 2 },
                 { "x": 21, "y": [10,13], "item": "hardware", "chance": 50, "repeat": 2 },
                 { "x": [8,21], "y": 15, "item": "hardware", "chance": 75, "repeat": 4 },
-                { "x": [2,5], "y": 18, "item": "tools", "chance": 75, "repeat": 2 },
+                { "x": [2,5], "y": 18, "item": "tools_carpentry", "chance": 75, "repeat": 2 },
                 { "x": 2, "y": [3,4], "item": "magazines", "chance": 75, "repeat": 1 }
             ]
         }

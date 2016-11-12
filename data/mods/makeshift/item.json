@@ -1,0 +1,33 @@
+[
+  {
+    "id": "makeshift_kevlar",
+    "copy-from": "kevlar",
+    "type": "ARMOR",
+    "name": "makeshift kevlar vest",
+    "description": "A vest sewn together from Kevlar plates, less durable and protective than a proper Kevlar vest.  Suitable for wearing under clothing.",
+    "relative": { "material_thickness": -1 },
+    "delete": { "flags": [ "STURDY" ] }
+  },
+  {
+    "id": "makeshift_pistol_bayonet",
+    "copy-from": "pistol_bayonet",
+    "type": "GUNMOD",
+    "name": "makeshift pistol bayonet",
+    "description": "A makeshift version of a bayonet meant for a pistol that consists of a mere spike with some string.  It still makes a decent melee weapon in a pinch when attached to a pistol.",
+    "proportional": {
+      "price": 0.5,
+      "cutting": 0.75
+    }
+  },
+  {
+    "id": "makeshift_sword_bayonet",
+    "copy-from": "sword_bayonet",
+    "type": "GUNMOD",
+    "name": "makeshift sword bayonet",
+    "description": "A makeshift version of a sword bayonet that consists of a salvaged blade with some string.  It still makes a good melee weapon providing reach attacks when attached to long arm or crossbow.",
+    "proportional": {
+      "price": 0.5,
+      "cutting": 0.75
+    }
+  }
+]

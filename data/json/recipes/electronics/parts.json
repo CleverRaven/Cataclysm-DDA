@@ -1,0 +1,52 @@
+[
+  {
+    "result": "battery_car",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "skills_required": [ "fabrication", 1 ],
+    "time": 30000,
+    "reversible": true,
+    "decomp_learn": 2,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [
+      [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
+      [ [ "mold_plastic", -1 ] ],
+      [ [ "hotplate", 50 ], [ "toolset", 50 ], [ "fire", -1 ] ]
+    ],
+    "components": [
+      [ [ "plastic_chunk", 20 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "lead", 5000 ] ],
+      [ [ "acid", 4 ] ]
+    ]
+  },
+  {
+    "result": "battery_motorbike",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "skills_required": [ "fabrication", 1 ],
+    "time": 30000,
+    "reversible": true,
+    "decomp_learn": 2,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [
+      [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
+      [ [ "mold_plastic", -1 ] ],
+      [ [ "hotplate", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ]
+    ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "lead", 1000 ] ],
+      [ [ "acid", 2 ] ]
+    ]
+  }
+]

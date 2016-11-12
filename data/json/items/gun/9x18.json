@@ -1,0 +1,33 @@
+[
+  {
+    "id": "makarov",
+    "type": "GUN",
+    "name": "Makarov PM",
+    "//": "10 and 12-round magazines exist, but were made for the newer PMM, might not be compatible with the old PM.",
+    "description": "The Pistolet Makarova was developed by the Soviet Union to replace the WWII-era TT-33 pistol.  Uses the 9x18mm cartridge, which remains in use among various former Soviet countries.",
+    "weight": 570,
+    "volume": 1,
+    "price": 25000,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "9x18",
+    "skill": "pistol",
+    "dispersion": 480,
+    "durability": 6,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazine_well": 1,
+    "magazines": [ [ "9x18", [ "makarovmag" ] ] ]
+  },
+  {
+    "id": "skorpion_82",
+    "copy-from": "skorpion_61",
+    "type": "GUN",
+    "name": "Skorpion Vz. 82",
+    "description": "A version of the Skorpion submachine gun chambered in 9x18mm Makarov, with a slightly longer barrel than the original design.",
+    "ammo": "9x18",
+    "magazines": [ [ "9x18", [ "skorpion82mag" ] ] ]
+  }
+]

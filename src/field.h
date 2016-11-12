@@ -1,12 +1,15 @@
 #ifndef FIELD_H
 #define FIELD_H
 
+#include "game_constants.h"
 #include "color.h"
 
 #include <vector>
 #include <string>
 #include <map>
 #include <iosfwd>
+
+enum phase_id : int;
 
 /*
 struct field_t
@@ -17,30 +20,41 @@ struct field_t {
     // internal ident, used for tileset and for serializing,
     // should be the same as the entry in field_id below (e.g. "fd_fire").
     std::string id;
- std::string name[3]; //The display name of the given density (ie: light smoke, smoke, heavy smoke)
+
+     /** Display name for field at given density (eg. light smoke, smoke, heavy smoke) */
+     std::string name[ MAX_FIELD_DENSITY ];
+
  char sym; //The symbol to draw for this field. Note that some are reserved like * and %. You will have to check the draw function for specifics.
  int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground", 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
- nc_color color[3]; //The color the field will be drawn as on the screen, by density.
 
- /*
- If true, does not invoke a check to block line of sight. If false, may block line of sight.
- Note that this does nothing by itself. You must go to the code block in lightmap.cpp and modify
- transparancy code there with a case statement as well!
- */
- bool transparent[3];
+     /** Color the field will be drawn as on the screen at a given density */
+     nc_color color[ MAX_FIELD_DENSITY ];
 
- //Dangerous tiles ask you before you step in them.
- bool dangerous[3];
+     /**
+      * If false this field may block line of sight.
+      * @warning this does nothing by itself. You must go to the code block in lightmap.cpp and modify
+      * transparancy code there with a case statement as well!
+     **/
+     bool transparent[ MAX_FIELD_DENSITY ];
+
+     /** Where tile is dangerous (prompt before moving into) at given density */
+     bool dangerous[ MAX_FIELD_DENSITY ];
 
  //Controls, albeit randomly, how long a field of a given type will last before going down in density.
  int halflife; // In turns
 
- //cost of moving into and out of this field
- int move_cost[3];
+     /** cost of moving into and out of this field at given density */
+    int move_cost[ MAX_FIELD_DENSITY ];
+
+    /** Does it penetrate obstacles like gas, spread like liquid or just lie there like solid? */
+    phase_id phase;
+
+    /** Should it decay with out-of-bubble time too? */
+    bool accelerated_decay;
 };
 
 //The master list of id's for a field, corresponding to the fieldlist array.
-enum field_id {
+enum field_id : int {
  fd_null = 0,
  fd_blood,
  fd_bile,
@@ -86,6 +100,7 @@ enum field_id {
  fd_hot_air2,
  fd_hot_air3,
  fd_hot_air4,
+ fd_fungicidal_gas,
  num_fields
 };
 
@@ -99,6 +114,11 @@ extern field_t fieldlist[num_fields];
  * Never returns num_fields.
  */
 extern field_id field_from_ident(const std::string &field_ident);
+
+/**
+ * Returns if the field has at least one intensity for which dangerous[intensity] is true.
+ */
+bool field_type_dangerous( field_id id );
 
 /**
  * An active or passive effect existing on a tile.
@@ -143,6 +163,11 @@ public:
     //Allows you to modify the age of the current field entry.
     int setFieldAge(const int new_age);
 
+    /** Adds a number to current age. */
+    int mod_age( int mod ) {
+        return setFieldAge( getFieldAge() + mod );
+    }
+
     //Returns if the current field is dangerous or not.
     bool is_dangerous() const
     {
@@ -159,6 +184,11 @@ public:
     //Returns true if this is an active field, false if it should be removed.
     bool isAlive(){
         return is_alive;
+    }
+
+    bool decays_on_actualize() const
+    {
+        return fieldlist[type].accelerated_decay;
     }
 
 private:

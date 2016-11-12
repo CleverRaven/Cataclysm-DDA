@@ -1,0 +1,35 @@
+[
+  {
+    "id": "saiga10mag",
+    "type": "MAGAZINE",
+    "name": "Saiga-12 box magazine",
+    "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 10 rounds.",
+    "weight": 210,
+    "volume": 2,
+    "price": 4500,
+    "material": "plastic",
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": "shot",
+    "capacity": 10,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "saiga30mag",
+    "type": "MAGAZINE",
+    "name": "Saiga-12 drum magazine",
+    "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 30 rounds.",
+    "weight": 460,
+    "volume": 4,
+    "price": 11000,
+    "material": "plastic",
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": "shot",
+    "capacity": 30,
+    "reliability": 8,
+    "reload_time": 130,
+    "flags": [ "MAG_BULKY" ]
+  }
+]

@@ -68,7 +68,7 @@
                 "H": "f_rack"
             },
             "items": {
-                "D": [ 
+                "D": [
                     { "item": "trash", "chance": 50 },
                     { "item": "trash", "chance": 50 },
                     { "item": "trash", "chance": 50 },
@@ -77,7 +77,7 @@
                     { "item": "trash", "chance": 50 },
                     { "item": "trash", "chance": 50 }
                 ],
-                "b": { "item": "bigtools", "chance": 15 },
+                "b": { "item": "tools_construction", "chance": 15 },
                 "o": { "item": "home_hw", "chance": 15 },
                 "P": { "item": "paint", "chance": 35 },
                 "l": { "item": "cleaning", "chance": 35 },
@@ -95,4 +95,3 @@
         }
     }
 ]
-

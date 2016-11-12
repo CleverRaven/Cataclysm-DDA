@@ -1,0 +1,80 @@
+[
+    {
+        "type": "MONSTER_FACTION",
+        "name": "fungus",
+        "neutral": ["finfected", "small_animal", "utility_bot"]
+    },{
+        "type": "MONSTER_FACTION",
+        "name": "finfected",
+        "base_faction": "fungus",
+        "by_mood": ["small_animal", "utility_bot"]
+    },{
+        "type": "MONSTER_FACTION",
+        "name": "ant",
+        "base_faction": "insect",
+        "neutral": ["small_animal"],
+        "by_mood": ["insect", "zombie", "triffid"]
+    },{
+        "type": "MONSTER_FACTION",
+        "name": "ant_male",
+        "base_faction": "ant",
+        "by_mood": ["ant_male"]
+    },{
+        "type": "MONSTER_FACTION",
+        "name": "triffid",
+        "friendly": ["spider"],
+        "neutral": ["small_animal"],
+        "by_mood": ["bot", "insect", "mutant_small"]
+    },{
+        "type": "MONSTER_FACTION",
+        "name": "spider",
+        "base_faction": "insect",
+        "friendly": ["triffid"],
+        "neutral": ["small_animal"],
+        "by_mood": ["insect", "spider"]
+    },{
+        "type": "MONSTER_FACTION",
+        "name": "zombie",
+        "friendly": ["blob", "cult"],
+        "neutral": ["small_animal", "insect", "rat", "mutant_small"],
+        "by_mood": ["ant"]
+    },{
+        "type": "MONSTER_FACTION",
+        "name": "doom",
+        "by_mood": ["small_animal"]
+    },{
+        "type": "MONSTER_FACTION",
+        "base_faction": "doom",
+        "name": "upper_doom",
+        "neutral": ["small_animal", "utility_bot"]
+    },{
+        "type": "MONSTER_FACTION",
+        "name": "mutant",
+        "by_mood": ["small_animal", "utility_bot", "mutant_omnivore"]
+    },{
+        "type": "MONSTER_FACTION",
+        "name": "mutant_omnivore",
+        "neutral": ["utility_bot", "small_animal"],
+        "by_mood": ["mutant_predator", "mutant"]
+    },{
+        "type": "MONSTER_FACTION",
+        "name": "mutant_predator",
+        "neutral": ["vermin"],
+        "by_mood": ["mutant_omnivore"]
+    },{
+        "type": "MONSTER_FACTION",
+        "name": "mutant_small",
+        "base_faction": "mutant",
+        "neutral": ["zombie", "blob", "defense_bot", "utility_bot", "mutant"]
+    },{
+        "type": "MONSTER_FACTION",
+        "name": "bear",
+        "base_faction": "mutant",
+        "by_mood": ["bear_mating"]
+    },{
+        "type": "MONSTER_FACTION",
+        "name": "bear_mating",
+        "base_faction": "mutant",
+        "by_mood": ["bear"]
+    }
+]

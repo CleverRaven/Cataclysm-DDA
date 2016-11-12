@@ -7,11 +7,11 @@ std::string MAP_SHARING::username;
 std::set<std::string> MAP_SHARING::admins;
 std::set<std::string> MAP_SHARING::debuggers;
 
-void MAP_SHARING::setSharing(bool mode)
+void MAP_SHARING::setSharing( bool mode )
 {
     MAP_SHARING::sharing = mode;
 }
-void MAP_SHARING::setUsername(std::string name)
+void MAP_SHARING::setUsername( std::string name )
 {
     MAP_SHARING::username = name;
 }
@@ -25,7 +25,7 @@ std::string MAP_SHARING::getUsername()
     return MAP_SHARING::username;
 }
 
-void MAP_SHARING::setCompetitive(bool mode)
+void MAP_SHARING::setCompetitive( bool mode )
 {
     MAP_SHARING::competitive = mode;
 }
@@ -34,7 +34,7 @@ bool MAP_SHARING::isCompetitive()
     return MAP_SHARING::competitive;
 }
 
-void MAP_SHARING::setWorldmenu(bool mode)
+void MAP_SHARING::setWorldmenu( bool mode )
 {
     MAP_SHARING::worldmenu = mode;
 }
@@ -45,61 +45,61 @@ bool MAP_SHARING::isWorldmenu()
 
 bool MAP_SHARING::isAdmin()
 {
-    if(admins.find( getUsername() ) != admins.end()) {
+    if( admins.find( getUsername() ) != admins.end() ) {
         return true;
     }
     return false;
 }
 
-void MAP_SHARING::setAdmins(std::set<std::string> names)
+void MAP_SHARING::setAdmins( std::set<std::string> names )
 {
     MAP_SHARING::admins = names;
 }
 
-void MAP_SHARING::addAdmin(std::string name)
+void MAP_SHARING::addAdmin( std::string name )
 {
-    MAP_SHARING::admins.insert(name);
-    MAP_SHARING::debuggers.insert(name);
+    MAP_SHARING::admins.insert( name );
+    MAP_SHARING::debuggers.insert( name );
 }
 
 bool MAP_SHARING::isDebugger()
 {
-    if(debuggers.find( getUsername() ) != debuggers.end()) {
+    if( debuggers.find( getUsername() ) != debuggers.end() ) {
         return true;
     }
     return false;
 }
 
-void MAP_SHARING::setDebuggers(std::set<std::string> names)
+void MAP_SHARING::setDebuggers( std::set<std::string> names )
 {
     MAP_SHARING::debuggers = names;
 }
 
-void MAP_SHARING::addDebugger(std::string name)
+void MAP_SHARING::addDebugger( std::string name )
 {
-    MAP_SHARING::debuggers.insert(name);
+    MAP_SHARING::debuggers.insert( name );
 }
 
 void MAP_SHARING::setDefaults()
 {
-    MAP_SHARING::setSharing(false);
-    MAP_SHARING::setCompetitive(false);
-    MAP_SHARING::setWorldmenu(true);
-    MAP_SHARING::setUsername("");
-    if(MAP_SHARING::getUsername().empty() && getenv("USER")) {
-        MAP_SHARING::setUsername(getenv("USER"));
+    MAP_SHARING::setSharing( false );
+    MAP_SHARING::setCompetitive( false );
+    MAP_SHARING::setWorldmenu( true );
+    MAP_SHARING::setUsername( "" );
+    if( MAP_SHARING::getUsername().empty() && getenv( "USER" ) ) {
+        MAP_SHARING::setUsername( getenv( "USER" ) );
     }
-    MAP_SHARING::addAdmin("admin");
+    MAP_SHARING::addAdmin( "admin" );
 }
 
 #ifndef __linux__ // make non-linux operating systems happy
 
-int getLock( char const *)
+int getLock( char const * )
 {
     return 0;
 }
 
-void releaseLock( int, char const *)
+void releaseLock( int, char const * )
 {
     // Nothing to do.
 }
@@ -131,13 +131,13 @@ void releaseLock( int fd, char const *lockName )
 
 std::map<std::string, int> lockFiles;
 
-void fopen_exclusive(std::ofstream &fout, const char *filename,
-                     std::ios_base::openmode mode)   //TODO: put this in an ofstream_exclusive class?
+void fopen_exclusive( std::ofstream &fout, const char *filename,
+                      std::ios_base::openmode mode )  //TODO: put this in an ofstream_exclusive class?
 {
-    std::string lockfile = std::string(filename) + ".lock";
-    lockFiles[lockfile] = getLock(lockfile.c_str());
-    if(lockFiles[lockfile] != -1) {
-        fout.open(filename, mode);
+    std::string lockfile = std::string( filename ) + ".lock";
+    lockFiles[lockfile] = getLock( lockfile.c_str() );
+    if( lockFiles[lockfile] != -1 ) {
+        fout.open( filename, mode );
     }
 }
 /*
@@ -151,10 +151,10 @@ std::ofstream fopen_exclusive(const char* filename) {
     return fout;
 } */
 
-void fclose_exclusive(std::ofstream &fout, const char *filename)
+void fclose_exclusive( std::ofstream &fout, const char *filename )
 {
-    std::string lockFile = std::string(filename) + ".lock";
+    std::string lockFile = std::string( filename ) + ".lock";
     fout.close();
-    releaseLock(lockFiles[lockFile], lockFile.c_str());
+    releaseLock( lockFiles[lockFile], lockFile.c_str() );
     lockFiles[lockFile] = -1;
 }

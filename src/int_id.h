@@ -15,7 +15,8 @@ class string_id;
  *
  */
 template<typename T>
-class int_id {
+class int_id
+{
     public:
         typedef int_id<T> This;
 
@@ -24,22 +25,29 @@ class int_id {
          * places that use it.
          */
         explicit int_id( int const id )
-        : _id( id )
-        {
+            : _id( id ) {
         }
         /**
          * Default constructor constructs a 0-id. No id value is special to this class, 0 as id
          * is just as normal as any other integer value.
          */
         int_id()
-        : _id( 0 )
-        {
+            : _id( 0 ) {
         }
         /**
          * Construct an id from the matching string based id. This may show a debug message if the
          * string id is invalid.
          */
         int_id( const string_id<T> &id );
+
+        /**
+         * Forwarding constructor, forwards any parameter to the string_id
+         * constructor to create the int id. This allows plain C-strings,
+         * and std::strings to be used.
+         */
+        template<typename S, class =
+                 typename std::enable_if< std::is_convertible<S, std::string >::value>::type >
+        explicit int_id( S && id ) : int_id( string_id<T>( std::forward<S>( id ) ) ) {}
 
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key.
@@ -79,20 +87,29 @@ class int_id {
         // If you don't implement them, but use them, you'll get a linker error.
         const string_id<T> &id() const;
         const T &obj() const;
+
+        const T *operator->() const {
+            return &obj();
+        }
+
+        /**
+         * Returns whether this id is valid, that means whether it refers to an existing object.
+         */
+        bool is_valid() const;
+
     private:
         int _id;
 };
 
 // Support hashing of int based ids by forwarding the hash of the int.
-namespace std {
-    template<typename T>
-    struct hash< int_id<T> >
-    {
-        std::size_t operator()( const int_id<T> &v) const
-        {
-            return hash<int>()( v.to_i() );
-        }
-    };
+namespace std
+{
+template<typename T>
+struct hash< int_id<T> > {
+    std::size_t operator()( const int_id<T> &v ) const {
+        return hash<int>()( v.to_i() );
+    }
+};
 }
 
 #endif

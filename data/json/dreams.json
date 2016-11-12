@@ -162,7 +162,7 @@
     },{
         "type" : "dream",
         "messages" : [
-            "You dream of a strange quest for a bush that grows grey apples.",
+            "You dream of a strange quest for a bush that grows gray apples.",
             "You feel like you're cracking a combination lock.",
             "Red, blue, and yellow cancel each other out, don't they?",
             "Red, blue, and yellow add together, don't they?"
@@ -468,7 +468,7 @@
     },{
         "type" : "dream",
         "messages" : [
-            "NO! You will not allow this corruption to prevail!",
+            "NO!  You will not allow this corruption to prevail!",
             "You see yourself reflected in the beauty of the forest."
             ],
         "category" : "MUTCAT_ELFA",
@@ -477,7 +477,7 @@
         "type" : "dream",
         "messages" : [
             "You are many animals, and yet one.",
-            "Hoof.  Talon. Tooth.  Fight.  Feed.  Forward."
+            "Hoof.  Talon.  Tooth.  Fight.  Feed.  Forward."
             ],
         "category" : "MUTCAT_CHIMERA",
         "strength" : 3
@@ -540,7 +540,7 @@
     },{
         "type" : "dream",
         "messages" : [
-            "Boing! and you've pounced another yummy critter.",
+            "Boing!  and you've pounced another yummy critter.",
             "Your nightmare of sentient rats turns successful, as you grab their King and shake it apart!"
             ],
         "category" : "MUTCAT_FELINE",
@@ -612,7 +612,7 @@
     },{
         "type" : "dream",
         "messages" : [
-            "The Fury is so big! it's GONNA GET YOAAAAAH! *pant* only a dream.",
+            "The Fury is so big!  It's GONNA GET YOAAAAAH! *pant* only a dream.",
             "You find your paws twitching.  There's a cave.  You should go."
             ],
         "category" : "MUTCAT_RAT",

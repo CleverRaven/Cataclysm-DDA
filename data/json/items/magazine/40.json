@@ -1,0 +1,51 @@
+[
+  {
+    "id": "glock40bigmag",
+    "type": "MAGAZINE",
+    "name": "Glock .40S&W extended magazine",
+    "description": "An extended 22-round magazine for use with the Glock 22 .40S&W pistol.",
+    "weight": 200,
+    "volume": 2,
+    "price": 5900,
+    "material": "plastic",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "40",
+    "capacity": 22,
+    "reliability": 7,
+    "reload_time": 140,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "glock40mag",
+    "type": "MAGAZINE",
+    "name": "Glock .40S&W magazine",
+    "description": "A compact light-weight polymer magazine for use with the Glock 22 .40S&W pistol.",
+    "weight": 125,
+    "volume": 1,
+    "price": 3200,
+    "material": "plastic",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "40",
+    "capacity": 15,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "sig40mag",
+    "type": "MAGAZINE",
+    "name": "SIG Pro .40 magazine",
+    "description": "A compact and reliable magazine for use with the SIG Pro .40 pistol.",
+    "weight": 90,
+    "volume": 1,
+    "price": 3900,
+    "material": "plastic",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "40",
+    "capacity": 12,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  }
+]

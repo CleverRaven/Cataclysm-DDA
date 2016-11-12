@@ -1,0 +1,246 @@
+[
+    {
+        "type" : "overmap_special",
+        "id" : "Prison",
+        "overmaps" : [
+            { "point":[-1,0,0], "overmap": "prison_3"},
+            { "point":[0,0,0], "overmap": "prison_2"},
+            { "point":[1,0,0], "overmap": "prison_1"},
+            { "point":[-1,1,0], "overmap": "prison_6"},
+            { "point":[0,1,0], "overmap": "prison_5"},
+            { "point":[1,1,0], "overmap": "prison_4"},
+            { "point":[-1,2,0], "overmap": "prison_9"},
+            { "point":[0,2,0], "overmap": "prison_8"},
+            { "point":[1,2,0], "overmap": "prison_7"},
+            { "point":[-1,0,-1], "overmap": "prison_b"},
+            { "point":[0,0,-1], "overmap": "prison_b_entrance"},
+            { "point":[1,0,-1], "overmap": "prison_b"},
+            { "point":[-1,1,-1], "overmap": "prison_b"},
+            { "point":[0,1,-1], "overmap": "prison_b"},
+            { "point":[1,1,-1], "overmap": "prison_b"},
+            { "point":[-1,2,-1], "overmap": "prison_b"},
+            { "point":[0,2,-1], "overmap": "prison_b"},
+            { "point":[1,2,-1], "overmap": "prison_b"}
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
+        ],
+        "locations" : [ "land" ],
+        "city_distance" : [3, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 1],
+        "rotate" : false,
+        "flags" : [ "CLASSIC" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Bee Hive",
+        "overmaps" : [
+            { "point":[0,0,0], "overmap": "hive"},
+            { "point":[0,1,0], "overmap": "hive"},
+            { "point":[0,2,0], "overmap": "hive"},
+            { "point":[1,0,0], "overmap": "hive"},
+            { "point":[1,1,0], "overmap": "beehive_center"},
+            { "point":[1,2,0], "overmap": "hive"},
+            { "point":[2,0,0], "overmap": "hive"},
+            { "point":[2,1,0], "overmap": "hive"},
+            { "point":[2,2,0], "overmap": "hive"}
+        ],
+        "locations" : [ "forest" ],
+        "city_distance" : [12, -1],
+        "city_sizes" : [1, 16],
+        "occurrences" : [0, 8],
+        "rotate" : true,
+        "spawns" : { "group" : "GROUP_BEE", "population":[1200,3600], "radius":[50,100] }
+    },{
+        "type" : "overmap_special",
+        "id" : "Farm",
+        "overmaps" : [
+            { "point":[0,0,0], "overmap": "farm_field"},
+            { "point":[1,0,0], "overmap": "farm"},
+            { "point":[2,0,0], "overmap": "farm_field"},
+            { "point":[0,1,0], "overmap": "farm_field"},
+            { "point":[1,1,0], "overmap": "farm_field"},
+            { "point":[2,1,0], "overmap": "farm_field"},
+            { "point":[0,2,0], "overmap": "farm_field"},
+            { "point":[1,2,0], "overmap": "farm_field"},
+            { "point":[2,2,0], "overmap": "farm_field"}
+        ],
+        "locations" : [ "wilderness" ],
+        "city_distance" : [15, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 3],
+        "rotate" : false,
+        "flags" : [ "CLASSIC" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Farm_unsettled",
+        "overmaps" : [
+            { "point":[0,0,0], "overmap": "farm_unsettled_barn"},
+            { "point":[0,0,1], "overmap": "farm_unsettled_barn_f2"},
+            { "point":[1,0,0], "overmap": "farm_unsettled_house"},
+            { "point":[2,0,0], "overmap": "farm_unsettled_topright"},
+            { "point":[0,1,0], "overmap": "farm_unsettled_centerleft"},
+            { "point":[1,1,0], "overmap": "farm_unsettled_centercenter"},
+            { "point":[2,1,0], "overmap": "farm_unsettled_centerright"},
+            { "point":[0,2,0], "overmap": "farm_unsettled_bottomleft"},
+            { "point":[1,2,0], "overmap": "farm_unsettled_bottomcenter"},
+            { "point":[2,2,0], "overmap": "farm_unsettled_bottomright"}
+        ],
+        "connections" : [
+            { "point" : [1,-1,0], "terrain" : "road" }
+        ],
+        "locations" : [ "wilderness" ],
+        "city_distance" : [20, -1],
+        "city_sizes" : [1, 12],
+        "occurrences" : [0, 4],
+        "rotate" : false,
+        "flags" : [ "CLASSIC" ]
+    },{
+        "type": "overmap_special",
+        "id": "Triffid Grove",
+        "overmaps":
+        [
+            { "point":[0,0,0], "overmap": "triffid_grove"},
+            { "point":[0,0,-1], "overmap": "triffid_roots"},
+            { "point":[0,0,-2], "overmap": "triffid_roots"},
+            { "point":[0,0,-3], "overmap": "triffid_finale"}
+        ],
+        "locations": [ "forest" ],
+        "city_distance": [1, -1],
+        "city_sizes": [1, 12],
+        "occurrences": [1, 6],
+        "rotate": true,
+        "spawns": { "group": "GROUP_TRIFFID", "population":[650,1400], "radius":[25,50] }
+    },{
+        "type": "overmap_special",
+        "id": "Fungal Bloom",
+        "overmaps":
+        [
+            { "point":[0,0,0], "overmap": "fungal_bloom"}
+        ],
+        "locations": [ "land" ],
+        "city_distance": [-1, -1],
+        "city_sizes": [1, 12],
+        "occurrences": [0, 2],
+        "rotate": false,
+        "spawns": { "group": "GROUP_FUNGI", "population":[500,1000], "radius":[30,60] }
+    },{
+        "type": "overmap_special",
+        "id": "Fungal Tower",
+        "overmaps":
+        [
+            { "point":[0,0,0], "overmap": "fungal_tower"}
+        ],
+        "locations": [ "wilderness" ],
+        "city_distance": [5, -1],
+        "city_sizes": [1, 12],
+        "occurrences": [0, 2],
+        "rotate": false,
+        "spawns": { "group": "GROUP_FUNGI_TOWER", "population":[200,450], "radius":[10,20] }
+    },{
+        "type": "overmap_special",
+        "id": "Fungal Flowers",
+        "overmaps":
+        [
+            { "point":[0,0,0], "overmap": "fungal_flowers"}
+        ],
+        "locations": [ "land" ],
+        "city_distance": [5, -1],
+        "city_sizes": [1, 12],
+        "occurrences": [0, 2],
+        "rotate": false,
+        "spawns": { "group": "GROUP_FUNGI_FLOWERS", "population":[50,150], "radius":[5,10] }
+    },{
+        "type": "overmap_special",
+        "id": "Anthill",
+        "overmaps":
+        [
+            { "point":[0,0,0], "overmap": "anthill"}
+        ],
+        "locations": [ "land" ],
+        "city_distance": [5, -1],
+        "city_sizes": [1, 16],
+        "occurrences": [2, 20],
+        "rotate": false,
+        "spawns": { "group": "GROUP_ANT", "population":[1000,2500], "radius":[20,50] }
+    },{
+        "type": "overmap_special",
+        "id": "Spider Pit",
+        "overmaps": [
+            { "point":[0,0,0], "overmap": "spider_pit"},
+            { "point":[0,0,-1], "overmap": "spider_pit_under"}
+        ],
+        "locations": [ "forest" ],
+        "city_distance": [0, -1],
+        "city_sizes": [4, 12],
+        "occurrences": [10, 60],
+        "rotate": true,
+        "spawns": { "group":  "GROUP_SPIDER", "population":[20,60], "radius":[3,7] }
+    },{
+        "type": "overmap_special",
+        "id": "trapdoor_spider_pit",
+        "overmaps": [
+            { "point":[0,0,0], "overmap": "trapdoor_pit"},
+            { "point":[0,0,-1], "overmap": "trapdoor_pit_b1"}
+        ],
+        "locations": [ "field" ],
+        "city_distance": [2, -1],
+        "city_sizes": [1, 16],
+        "occurrences": [20, 100],
+        "rotate": true,
+        "spawns": { "group":  "GROUP_SPIDER_TRAP", "population":[15,40], "radius":[3,7] }
+    },{
+        "type": "overmap_special",
+        "id": "hell_spire",
+        "overmaps":
+        [
+            { "point":[0,0,0], "overmap": "hell_city_entranceNW"},
+            { "point":[1,0,0], "overmap": "hell_city_entranceNE"},
+            { "point":[0,1,0], "overmap": "hell_city_entranceSW"},
+            { "point":[1,1,0], "overmap": "hell_city_entranceSE"},
+            { "point":[0,0,-1], "overmap": "hell_city_tunnel_B1W"},
+            { "point":[1,0,-1], "overmap": "hell_city_tunnel_B1E"},
+            { "point":[0,0,-2], "overmap": "hell_city_tunnel_prison_N"},
+            { "point":[0,1,-2], "overmap": "hell_city_tunnel_prison_S"},
+            { "point":[1,0,-2], "overmap": "hell_city_tunnel_B2E"},
+            { "point":[1,0,-3], "overmap": "hell_city_B3N"},
+            { "point":[1,1,-3], "overmap": "hell_city_B3S"}
+        ],
+        "locations": [ "land" ],
+        "city_distance": [-1, 3],
+        "city_sizes": [4, 16],
+        "occurrences": [0, 1],
+        "rotate": false,
+        "spawns": { "group":  "GROUP_DOOM", "population":[200, 400], "radius":[9,25] }
+    },{
+        "type": "overmap_special",
+        "id": "hell_castle",
+        "overmaps":
+        [
+            { "point":[0,0,0], "overmap": "hell_castle_NW"},
+            { "point":[1,0,0], "overmap": "hell_castle_N"},
+            { "point":[2,0,0], "overmap": "hell_castle_NE"},
+            { "point":[0,1,0], "overmap": "hell_castle_CW"},
+            { "point":[1,1,0], "overmap": "hell_castle_C"},
+            { "point":[2,1,0], "overmap": "hell_castle_CE"},
+            { "point":[0,2,0], "overmap": "hell_castle_SW"},
+            { "point":[1,2,0], "overmap": "hell_castle_S"},
+            { "point":[2,2,0], "overmap": "hell_castle_SE"},
+            { "point":[0,0,-1], "overmap": "hell_castle_B1_NW"},
+            { "point":[1,0,-1], "overmap": "hell_castle_B1_N"},
+            { "point":[2,0,-1], "overmap": "hell_castle_B1_NE"},
+            { "point":[0,1,-1], "overmap": "hell_castle_B1_CW"},
+            { "point":[1,1,-1], "overmap": "hell_castle_B1_C"},
+            { "point":[2,1,-1], "overmap": "hell_castle_B1_CE"},
+            { "point":[0,2,-1], "overmap": "hell_castle_B1_SW"},
+            { "point":[1,2,-1], "overmap": "hell_castle_B1_S"},
+            { "point":[2,2,-1], "overmap": "hell_castle_B1_SE"}
+        ],
+        "locations": [ "land" ],
+        "city_distance": [2, 25],
+        "city_sizes": [4, 16],
+        "occurrences": [0, 1],
+        "rotate": false,
+        "spawns": { "group":  "GROUP_DOOM", "population":[650, 1000], "radius":[25,50] }
+    }
+]

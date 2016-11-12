@@ -1,6 +1,6 @@
 [
   {
-    "type":"VAR_VEH_PART",
+    "type":"WHEEL",
     "id": "inflatable_section",
     "symbol": "o",
     "color": "green",
@@ -8,16 +8,14 @@
     "name_plural": "inflatable section",
     "description": "An inflatable boat section.",
     "price": 8000,
-    "material": ["plastic", "null"],
+    "material": ["plastic"],
     "weight": 3000,
     "volume": 50,
     "bashing": 8,
-    "cutting": 0,
     "to_hit": -1,
-    "min-bigness": 30,
-    "max-bigness": 30,
-    "category": "veh_parts",
-    "bigness-aspect": "WHEEL_DIAMETER"
+    "diameter": 30,
+    "width": 4,
+    "category": "veh_parts"
 },{
     "type":"GENERIC",
     "id" : "hand_paddles",
@@ -28,14 +26,13 @@
     "to_hit" : -1,
     "color" : "light_gray",
     "symbol" : ":",
-    "material" : ["wood", "null"],
+    "material" : ["wood"],
     "volume" : 2,
     "bashing" : 10,
-    "cutting" : 0,
     "category" : "veh_parts",
     "price" : 9000
 },{
-    "type":"VAR_VEH_PART",
+    "type":"WHEEL",
     "id": "inflatable_airbag",
     "symbol": "o",
     "color": "dark_gray",
@@ -43,15 +40,13 @@
     "name_plural": "inflatable airbag",
     "description": "An inflatable airbag.",
     "price": 8000,
-    "material": ["plastic", "null"],
+    "material": ["plastic"],
     "weight": 3000,
     "volume": 50,
     "bashing": 8,
-    "cutting": 0,
     "to_hit": -1,
-    "min-bigness": 30,
-    "max-bigness": 30,
-    "category": "veh_parts",
-    "bigness-aspect": "WHEEL_DIAMETER"
+    "diameter": 30,
+    "width": 4,
+    "category": "veh_parts"
   }
 ]

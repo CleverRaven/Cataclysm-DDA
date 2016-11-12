@@ -1,0 +1,553 @@
+[
+  {
+    "id": "mon_ant_larva",
+    "copy-from": "mon_ant_larva",
+    "type": "MONSTER",
+    "description": "A writhing mass of yellowing flesh, this little guy expels its stomach contents if disturbed.",
+    "hp": 15,
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 2,
+    "armor_bash": 4,
+    "armor_cut": 4,
+    "armor_acid": 5,
+    "special_attacks": [ [ "ACID_BARF", 15 ] ],
+    "anger_triggers": [ "HURT", "PLAYER_WEAK" ],
+    "placate_triggers": [ "MEAT" ],
+    "death_function": [ "NORMAL" ],
+    "upgrades": {
+      "half_life": 14,
+      "into_group": "GROUP_ANT"
+    },
+    "flags": [ "HEARS", "SMELLS", "KEENNOSE", "LARVA", "CHITIN" ]
+  },
+  {
+    "id": "mon_ant",
+    "copy-from": "mon_ant",
+    "type": "MONSTER",
+    "melee_skill": 6,
+    "melee_dice": 1,
+    "melee_dice_sides": 8,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 2
+      }
+    ],
+    "melee_cut": 5,
+    "dodge": 1,
+    "armor_bash": 6,
+    "armor_cut": 10,
+    "armor_fire": 2,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 20,
+        "accuracy": 5,
+        "no_infection_chance": 9,
+        "damage_max_instance": [
+          {
+            "damage_type": "stab",
+            "amount": 7,
+            "armor_multiplier": 0.8
+          },
+          {
+            "damage_type": "bash",
+            "amount": 10,
+            "armor_multiplier": 0.8
+          }
+        ]
+      },
+      [ "GRAB", 30 ]
+    ],
+    "anger_triggers": [ "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
+    "upgrades": {
+      "half_life": 10,
+      "into_group": "GROUP_DRONE"
+    },
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "CHITIN", "CLIMBS" ]
+  },
+  {
+    "id": "mon_ant_soldier",
+    "copy-from": "mon_ant_soldier",
+    "type": "MONSTER",
+    "speed": 105,
+    "aggression": 7,
+    "morale": 100,
+    "melee_skill": 7,
+    "melee_dice": 1,
+    "melee_dice_sides": 10,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 4
+      }
+    ],
+    "melee_cut": 6,
+    "dodge": 2,
+    "armor_bash": 8,
+    "armor_cut": 14,
+    "armor_fire": 3,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 15,
+        "accuracy": 8,
+        "no_infection_chance": 9,
+        "damage_max_instance": [
+          {
+            "damage_type": "stab",
+            "amount": 12,
+            "armor_multiplier": 0.5
+          },
+          {
+            "damage_type": "bash",
+            "amount": 10,
+            "armor_multiplier": 0.5
+          }
+        ]
+      },
+      [ "GRAB", 60 ]
+    ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "FIRE" ],
+    "upgrades": {
+      "half_life": 21,
+      "into_group": "GROUP_SOLDIER"
+    },
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "CHITIN", "CLIMBS", "VENOM" ]
+  },
+  {
+    "id": "mon_ant_queen",
+    "copy-from": "mon_ant_queen",
+    "type": "MONSTER",
+    "special_attacks": [
+      [ "ANTQUEEN", 3 ],
+      [ "SHRIEK_ALERT", 30 ]
+    ],
+    "anger_triggers": [ "FRIEND_DIED", "HURT", "FIRE" ],
+    "upgrades": {
+      "half_life": 14,
+      "into": "mon_ant_queen_firebug"
+    },
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "QUEEN", "CHITIN", "FAT", "CLIMBS", "BASHES" ]
+  },
+  {
+    "id": "mon_ant_scrib",
+    "type": "MONSTER",
+    "name": "forager ant",
+    "description": "A small giant ant with a carapace shell.  Is capable of a surprising range of vocal expression for a bug, including ear-splitting wails.",
+    "default_faction": "ant",
+    "species": [ "INSECT" ],
+    "diff": 7,
+    "size": "SMALL",
+    "hp": 40,
+    "speed": 90,
+    "material": [ "iflesh" ],
+    "symbol": "s",
+    "color": "ltgray",
+    "aggression": -1,
+    "morale": 60,
+    "melee_skill": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 4
+      }
+    ],
+    "melee_cut": 2,
+    "dodge": 1,
+    "armor_bash": 5,
+    "armor_cut": 10,
+    "armor_fire": 5,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [
+      [ "SHRIEK_ALERT", 50 ],
+      [ "SHRIEK_STUN", 1 ]
+    ],
+    "anger_triggers": [ "FRIEND_DIED", "HURT" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "CHITIN", "CLIMBS" ]
+  },
+  {
+    "id": "mon_ant_terminal",
+    "type": "MONSTER",
+    "name": "giant ant",
+    "description": "An enormous red ant covered in chitinous plates.  It possesses a pair of wriggling antennae and vicious-looking mandibles.  This Earth native is comfortably adapted to its new size.",
+    "default_faction": "ant",
+    "species": [ "INSECT" ],
+    "diff": 10,
+    "size": "MEDIUM",
+    "hp": 65,
+    "speed": 105,
+    "material": [ "iflesh" ],
+    "symbol": "a",
+    "color": "brown",
+    "aggression": 0,
+    "morale": 60,
+    "melee_skill": 6,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 10
+      }
+    ],
+    "melee_cut": 6,
+    "dodge": 2,
+    "armor_bash": 8,
+    "armor_cut": 14,
+    "armor_fire": 5,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 12,
+        "accuracy": 15,
+        "no_infection_chance": 9,
+        "damage_max_instance": [
+          {
+            "damage_type": "stab",
+            "amount": 10,
+            "armor_multiplier": 0.5
+          },
+          {
+            "damage_type": "bash",
+            "amount": 15,
+            "armor_multiplier": 0.5
+          }
+        ]
+      },
+      [ "GRAB", 20 ]
+    ],
+    "anger_triggers": [ "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "CHITIN", "CLIMBS" ]
+  },
+  {
+    "id": "mon_ant_soldier_terminal",
+    "type": "MONSTER",
+    "name": "soldier ant",
+    "description": "A huge and hairy red ant almost twice the size of other giant ants.  Bulging pincers extend from its jaws.  This Earth native is comfortably adapted to its new size.",
+    "default_faction": "ant",
+    "species": [ "INSECT" ],
+    "diff": 20,
+    "size": "MEDIUM",
+    "hp": 90,
+    "speed": 110,
+    "material": [ "iflesh" ],
+    "symbol": "a",
+    "color": "red",
+    "aggression": 7,
+    "morale": 100,
+    "melee_skill": 8,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 10
+      }
+    ],
+    "melee_cut": 6,
+    "dodge": 3,
+    "armor_bash": 10,
+    "armor_cut": 18,
+    "armor_acid": 3,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 15,
+        "accuracy": 10,
+        "no_infection_chance": 9,
+        "damage_max_instance": [
+          {
+            "damage_type": "stab",
+            "amount": 15,
+            "armor_multiplier": 0.3
+          },
+          {
+            "damage_type": "bash",
+            "amount": 12,
+            "armor_multiplier": 0.3
+          }
+        ]
+      },
+      [ "GRAB", 60 ]
+    ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "FIRE" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "CHITIN", "CLIMBS", "VENOM" ]
+  },
+  {
+    "id": "mon_ant_soldier_pk_weak",
+    "type": "MONSTER",
+    "name": "jack ant",
+    "description": "Somewhat smaller than other soldiers, this nimble ant jumps after prey and drags them back to the hive for processing.  Its mandibles are the size of its thorax, and secrete poison.",
+    "default_faction": "ant",
+    "species": [ "INSECT" ],
+    "diff": 16,
+    "size": "MEDIUM",
+    "hp": 60,
+    "speed": 125,
+    "material": [ "iflesh" ],
+    "symbol": "a",
+    "color": "magenta",
+    "aggression": 8,
+    "morale": 80,
+    "melee_skill": 6,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 5
+      },
+      {
+        "damage_type": "acid",
+        "amount": 1
+      }
+    ],
+    "melee_cut": 6,
+    "dodge": 2,
+    "armor_bash": 8,
+    "armor_cut": 12,
+    "armor_acid": 2,
+    "armor_fire": 2,
+    "vision_day": 30,
+    "vision_night": 5,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 25,
+        "accuracy": 10,
+        "no_infection_chance": 9,
+        "damage_max_instance": [
+          {
+            "damage_type": "stab",
+            "amount": 8,
+            "armor_multiplier": 0.3
+          },
+          {
+            "damage_type": "bash",
+            "amount": 16,
+            "armor_multiplier": 0.3
+          }
+        ]
+      },
+      [ "GRAB", 30 ],
+      [ "GRAB_DRAG", 15 ],
+      {
+        "type": "leap",
+        "cooldown": 15,
+        "max_range": 2
+      }
+    ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "FIRE" ],
+    "death_function": [ "NORMAL" ],
+    "upgrades": {
+      "half_life": 28,
+      "into": "mon_ant_soldier_pk"
+    },
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "CHITIN", "CLIMBS", "VENOM", "BASHES" ]
+  },
+  {
+    "id": "mon_ant_soldier_pk",
+    "type": "MONSTER",
+    "name": "jack ant",
+    "description": "Somewhat smaller than other soldiers, this nimble ant jumps after prey and drags them back to the hive for processing.  Its mandibles are the size of its thorax, and secrete a slick-looking poison.",
+    "default_faction": "ant",
+    "species": [ "INSECT" ],
+    "diff": 20,
+    "size": "MEDIUM",
+    "hp": 75,
+    "speed": 125,
+    "material": [ "iflesh" ],
+    "symbol": "a",
+    "color": "magenta",
+    "aggression": 8,
+    "morale": 80,
+    "melee_skill": 8,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 8
+      },
+      {
+        "damage_type": "acid",
+        "amount": 1
+      }
+    ],
+    "melee_cut": 6,
+    "dodge": 3,
+    "armor_bash": 12,
+    "armor_cut": 16,
+    "armor_acid": 3,
+    "armor_fire": 2,
+    "vision_day": 30,
+    "vision_night": 5,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 25,
+        "accuracy": 10,
+        "no_infection_chance": 9,
+        "damage_max_instance": [
+          {
+            "damage_type": "stab",
+            "amount": 15,
+            "armor_multiplier": 0.2
+          },
+          {
+            "damage_type": "bash",
+            "amount": 20,
+            "armor_multiplier": 0.2
+          }
+        ]
+      },
+      [ "GRAB", 30 ],
+      [ "GRAB_DRAG", 15 ],
+      {
+        "type": "leap",
+        "cooldown": 15,
+        "max_range": 3
+      }
+    ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "FIRE" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "CHITIN", "CLIMBS", "VENOM", "BASHES" ]
+  },
+  {
+    "id": "mon_ant_queen_firebug",
+    "type": "MONSTER",
+    "name": "queen ant",
+    "description": "A colossal red ant with a bulging, bloated thorax.  It moves slowly and deliberately, tending to nearby eggs and continually laying more.  Its antennae seem almost aesthetic, or at the least not used for sensing . . .",
+    "default_faction": "ant",
+    "species": [ "INSECT" ],
+    "diff": 18,
+    "size": "LARGE",
+    "hp": 140,
+    "speed": 40,
+    "material": [ "iflesh" ],
+    "symbol": "a",
+    "color": "ltred",
+    "aggression": 0,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 5
+      }
+    ],
+    "melee_cut": 3,
+    "dodge": 1,
+    "armor_bash": 16,
+    "armor_cut": 25,
+    "armor_acid": 5,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [
+      [ "ANTQUEEN", 3 ],
+      [ "FLAMETHROWER", 10 ],
+      [ "SHRIEK_ALERT", 15 ]
+    ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "FIRE" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "QUEEN", "CHITIN", "FAT", "CLIMBS", "FIREPROOF", "BASHES" ]
+  },
+  {
+    "id": "mon_ant_queen_young",
+    "type": "MONSTER",
+    "name": "young queen ant",
+    "description": "A fecund female ant.  It still bears its wings, and likely either s preparing for or just completed its nuptial flight.  Its body is well-laden with stores of nutrients for its future young.",
+    "default_faction": "ant",
+    "species": [ "INSECT" ],
+    "diff": 25,
+    "size": "LARGE",
+    "hp": 90,
+    "speed": 90,
+    "material": [ "iflesh" ],
+    "symbol": "a",
+    "color": "i_ltred",
+    "aggression": 0,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 6
+      }
+    ],
+    "melee_cut": 4,
+    "dodge": 1,
+    "armor_bash": 10,
+    "armor_cut": 14,
+    "armor_acid": 4,
+    "vision_day": 20,
+    "vision_night": 5,
+    "special_attacks": [
+      [ "ANTQUEEN", 21 ],
+      [ "FLAMETHROWER", 30 ],
+      [ "SHRIEK_ALERT", 30 ],
+      [ "SHRIEK_STUN", 1 ]
+    ],
+    "anger_triggers": [ "FRIEND_DIED", "HURT", "FIRE" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "CHITIN", "FAT", "CLIMBS", "FIREPROOF", "FLIES", "BASHES" ]
+  },
+  {
+    "id": "mon_ant_male",
+    "type": "MONSTER",
+    "name": "male ant",
+    "description": "The male giant ant, seen often during the spring and rarely anytime else.  Spends its short life jockeying with other male ants for mating rights, only actually mating once before death.",
+    "default_faction": "ant_male",
+    "species": [ "INSECT" ],
+    "diff": 16,
+    "size": "MEDIUM",
+    "hp": 80,
+    "speed": 105,
+    "material": [ "iflesh" ],
+    "symbol": "a",
+    "color": "dkgray",
+    "aggression": 30,
+    "morale": 70,
+    "melee_skill": 6,
+    "melee_dice": 1,
+    "melee_dice_sides": 12,
+    "melee_damage": [
+      {
+        "damage_type": "stab",
+        "amount": 6
+      }
+    ],
+    "dodge": 5,
+    "armor_bash": 5,
+    "armor_cut": 8,
+    "armor_acid": 3,
+    "armor_fire": 12,
+    "vision_day": 25,
+    "vision_night": 7,
+    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "FIRE" ],
+    "fear_triggers": [ "FRIEND_DIED", "HURT" ],
+    "placate_triggers": [ "FRIEND_ATTACKED" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "CHITIN", "FAT", "CLIMBS", "FLIES", "BASHES" ]
+  }
+]

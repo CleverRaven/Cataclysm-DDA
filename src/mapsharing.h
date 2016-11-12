@@ -24,28 +24,28 @@ extern std::string username;
 extern bool competitive;
 extern bool worldmenu;
 
-void setSharing(bool mode);
-void setUsername(std::string name);
+void setSharing( bool mode );
+void setUsername( std::string name );
 bool isSharing();
 std::string getUsername();
 
-void setCompetitive(bool mode);
+void setCompetitive( bool mode );
 bool isCompetitive();
 
-void setWorldmenu(bool mode);
+void setWorldmenu( bool mode );
 bool isWorldmenu();
 
 extern std::set<std::string> admins;
 bool isAdmin();
 
-void setAdmins(std::set<std::string> names);
-void addAdmin(std::string name);
+void setAdmins( std::set<std::string> names );
+void addAdmin( std::string name );
 
 extern std::set<std::string> debuggers;
 bool isDebugger();
 
-void setDebuggers(std::set<std::string> names);
-void addDebugger(std::string name);
+void setDebuggers( std::set<std::string> names );
+void addDebugger( std::string name );
 
 void setDefaults();
 }
@@ -53,9 +53,9 @@ void setDefaults();
 int getLock( char const *lockName );
 void releaseLock( int fd, char const *lockName );
 extern std::map<std::string, int> lockFiles;
-void fopen_exclusive(std::ofstream &fout, const char *filename,
-                     std::ios_base::openmode mode = std::ios_base::out);
+void fopen_exclusive( std::ofstream &fout, const char *filename,
+                      std::ios_base::openmode mode = std::ios_base::out );
 //std::ofstream fopen_exclusive(const char* filename);
-void fclose_exclusive(std::ofstream &fout, const char *filename);
+void fclose_exclusive( std::ofstream &fout, const char *filename );
 
 #endif

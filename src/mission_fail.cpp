@@ -1,8 +1,9 @@
 #include "mission.h"
 #include "game.h"
 #include "overmapbuffer.h"
+#include "npc.h"
 
-void mission_fail::kill_npc(mission *miss)
+void mission_fail::kill_npc( mission *miss )
 {
     for( auto &elem : g->active_npc ) {
         if( elem->getID() == miss->get_npc_id() ) {

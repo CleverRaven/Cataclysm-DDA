@@ -1,19 +1,16 @@
-#include <string>
-#include <iostream>
-#include <iterator>
-#include <sstream>
-#include <fstream>
-#include <map>
-#include <vector>
+#include "iuse_software_sokoban.h"
 
 #include "output.h"
 #include "input.h"
 #include "catacharset.h"
-#include "options.h"
 #include "debug.h"
-#include "iuse_software_sokoban.h"
 #include "path_info.h"
 #include "translations.h"
+#include "cata_utility.h"
+
+#include <iostream>
+#include <iterator>
+#include <sstream>
 
 sokoban_game::sokoban_game()
 {
@@ -39,7 +36,7 @@ void sokoban_game::print_score(WINDOW *w_sokoban, int iScore, int iMoves)
 
 }
 
-bool sokoban_game::parse_level()
+void sokoban_game::parse_level( std::istream &fin )
 {
     /*
     # Wall
@@ -57,14 +54,6 @@ bool sokoban_game::parse_level()
     vLevel.clear();
     vUndo.clear();
     vLevelDone.clear();
-
-    std::ifstream fin;
-    fin.open(std::string(FILENAMES["sokoban"]).c_str());
-    if(!fin.is_open()) {
-        fin.close();
-        debugmsg("Could not read \"%s\".", FILENAMES["sokoban"].c_str());
-        return false;
-    }
 
     std::string sLine;
     while(!fin.eof()) {
@@ -98,9 +87,8 @@ bool sokoban_game::parse_level()
                     mLevelInfo[iNumLevel]["PlayerY"] = mLevelInfo[iNumLevel]["MaxLevelY"];
                     mLevelInfo[iNumLevel]["PlayerX"] = i;
                 } else {
-                    //2 @ found error!
-                    fin.close();
-                    return false;
+                    // TODO: describe why it's invalid
+                    throw std::runtime_error( "invalid content of sokoban file" );
                 }
             }
 
@@ -113,10 +101,6 @@ bool sokoban_game::parse_level()
 
         mLevelInfo[iNumLevel]["MaxLevelY"]++;
     }
-
-    fin.close();
-
-    return true;
 }
 
 int sokoban_game::get_wall_connection(const int iY, const int iX)
@@ -252,13 +236,12 @@ int sokoban_game::start_game()
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
-    parse_level();
+    using namespace std::placeholders;
+    read_from_file( FILENAMES["sokoban"], std::bind( &sokoban_game::parse_level, this, _1 ) );
 
     WINDOW *w_sokoban = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
     WINDOW_PTR w_sokobanptr( w_sokoban );
-    draw_border(w_sokoban);
-    center_print(w_sokoban, 0, hilite(c_white), _("Sokoban"));
-
+    draw_border( w_sokoban, BORDER_COLOR, _( "Sokoban" ), hilite( c_white ) );
     input_context ctxt("SOKOBAN");
     ctxt.register_cardinal();
     ctxt.register_action("NEXT");
@@ -277,7 +260,7 @@ int sokoban_game::start_game()
 
     int indent = 10;
     for( auto &shortcut : shortcuts ) {
-        indent = std::max( indent, utf8_width( shortcut.c_str() ) + 1 );
+        indent = std::max( indent, utf8_width(shortcut) + 1 );
     }
     indent = std::min(indent, 30);
 

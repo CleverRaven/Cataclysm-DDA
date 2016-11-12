@@ -16,17 +16,13 @@ using mabuff_id = string_id<ma_buff>;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
 
-typedef std::string efftype_id;
-
 typedef std::string dis_type;
 
 enum character_type : int {
     PLTYPE_CUSTOM,
     PLTYPE_RANDOM,
-    PLTYPE_RANDOM_WITH_SCENARIO,
     PLTYPE_TEMPLATE,
     PLTYPE_NOW,
-    PLTYPE_MAX
 };
 
 enum add_type : int {
@@ -46,35 +42,31 @@ enum hp_part : int {
     num_hp_parts
 };
 
-void realDebugmsg(const char *name, const char *line, const char *mes, ...);
-
 class addiction : public JsonSerializer, public JsonDeserializer
 {
-public:
-    add_type type      = ADD_NULL;
-    int      intensity = 0;
-    int      sated     = 600;
+    public:
+        add_type type      = ADD_NULL;
+        int      intensity = 0;
+        int      sated     = 600;
 
-    addiction() = default;
-    addiction(add_type const t, int const i = 1) : type {t}, intensity {i} { }
+        addiction() = default;
+        addiction( add_type const t, int const i = 1 ) : type {t}, intensity {i} { }
 
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &json) const override
-    {
-        json.start_object();
-        json.member("type_enum", type);
-        json.member("intensity", intensity);
-        json.member("sated", sated);
-        json.end_object();
-    }
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override
-    {
-        JsonObject jo = jsin.get_object();
-        type = (add_type)jo.get_int("type_enum");
-        intensity = jo.get_int("intensity");
-        sated = jo.get_int("sated");
-    }
+        using JsonSerializer::serialize;
+        void serialize( JsonOut &json ) const override {
+            json.start_object();
+            json.member( "type_enum", type );
+            json.member( "intensity", intensity );
+            json.member( "sated", sated );
+            json.end_object();
+        }
+        using JsonDeserializer::deserialize;
+        void deserialize( JsonIn &jsin ) override {
+            JsonObject jo = jsin.get_object();
+            type = ( add_type )jo.get_int( "type_enum" );
+            intensity = jo.get_int( "intensity" );
+            sated = jo.get_int( "sated" );
+        }
 };
 
 struct mutation_category_trait {
@@ -106,11 +98,11 @@ struct mutation_category_trait {
     std::string junkie_message;
     std::string memorial_message; //memorial message when you cross a threshold
 
-    mutation_category_trait(std::string pid = "NULL_TRAIT") : name(pid), id(std::move(pid)) {}
+    mutation_category_trait( std::string pid = "NULL_TRAIT" ) : name( pid ), id( std::move( pid ) ) {}
 };
 
 extern std::map<std::string, mutation_category_trait> mutation_category_traits;
 
-bool trait_display_sort(const std::string &a, const std::string &b) noexcept;
+bool trait_display_sort( const std::string &a, const std::string &b ) noexcept;
 
 #endif

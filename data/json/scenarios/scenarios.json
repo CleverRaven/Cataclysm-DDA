@@ -13,7 +13,7 @@
     "name": "Missed",
     "points" : 0,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a city full of the risen dead.",
-    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","boarded_house"],
+    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","s_bookstore","boarded_house"],
     "start_name": "In Town"
   },{
     "type": "scenario",
@@ -22,8 +22,8 @@
     "points" : -4,
     "description": "In the chaos and panic of evacuation, you got bitten by something!  You didn't get proper medical care, and now the wound has started turning green.",
     "start_name": "Anywhere",
-    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library"],
-    "professions" : ["unemployed", "bionic_prepper", "tailor", "chef", "labtech", "mechanic", "scoundrel", "beekeeper", "cyclist", "soldier", "specops", "maid", "gangster", "security", "survivalist", "smoker", "crackhead", "homeless", "tweaker", "cop", "salesman", "bow_hunter", "construction_worker", "lumberjack", "backpacker", "fastfoodcook", "electrician", "hacker", "student", "svictim", "biker", "dancer", "bionic_thief", "bionic_patient", "bionic_worker", "bionic_athlete", "bionic_cop", "bionic_firefighter", "bionic_mentat", "bio_soldier", "bionic_spy", "bionic_hitman", "faulty_bionic", "bionic_customer", "hitchhiker", "trapper", "blacksmith", "clown", "lost_sub", "senior", "cosplay", "goalie", "batter", "linebacker", "golfer", "spouse", "punkrockgirl", "firefighter", "skaboy", "postman", "convict", "razorgirl", "cyberjunkie", "cykotic", "lawyer", "blackbelt_novice", "blackbelt_intermediate", "blackbelt", "pizzaboy", "archaeologist", "rollerderby", "farmer", "elementary_student", "skaterkid", "jdelinquent", "prep_student", "bionic_student", "dodgeball_player", "science_club_mem", "av_club_mem", "janitor", "teacher", "gym_teacher", "poor_student", "priest", "imam", "guru", "rabbi", "shinto_priest"],
+    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","s_bookstore"],
+    "professions" : ["unemployed", "bionic_prepper", "tailor", "chef", "labtech", "mechanic", "scoundrel", "beekeeper", "cyclist", "soldier", "specops", "maid", "gangster", "security", "survivalist", "smoker", "crackhead", "homeless", "tweaker", "cop", "salesman", "bow_hunter", "crossbow_hunter", "shotgun_hunter", "rifle_hunter", "construction_worker", "lumberjack", "backpacker", "fastfoodcook", "electrician", "hacker", "student", "svictim", "biker", "dancer", "bionic_thief", "bionic_patient", "bionic_worker", "bionic_athlete", "bionic_cop", "bionic_firefighter", "bionic_mentat", "bio_soldier", "bionic_spy", "bionic_hitman", "faulty_bionic", "bionic_customer", "hitchhiker", "trapper", "blacksmith", "clown", "lost_sub", "senior", "cosplay", "goalie", "batter", "linebacker", "golfer", "spouse", "punkrockgirl", "firefighter", "skaboy", "postman", "convict", "burglar", "razorgirl", "cyberjunkie", "cykotic", "lawyer", "blackbelt_novice", "blackbelt_intermediate", "blackbelt", "boxer", "pizzaboy", "archaeologist", "rollerderby", "farmer", "elementary_student", "skaterkid", "jdelinquent", "prep_student", "bionic_student", "dodgeball_player", "science_club_mem", "av_club_mem", "janitor", "teacher", "gym_teacher", "poor_student", "priest", "imam", "guru", "rabbi", "shinto_priest"],
     "flags" : ["INFECTED"]
   },{
     "type": "scenario",
@@ -32,8 +32,8 @@
     "points" : -2,
     "description": "The building you had chosen to reside in has suddenly caught fire!  You might want to leave.",
     "start_name": "Anywhere",
-    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library"],
-    "professions" : ["unemployed", "bionic_prepper", "tailor", "chef", "labtech", "mechanic", "scoundrel", "beekeeper", "cyclist", "soldier", "specops", "maid", "gangster", "security", "survivalist", "smoker", "crackhead", "homeless", "tweaker", "cop", "salesman", "bow_hunter", "construction_worker", "lumberjack", "backpacker", "fastfoodcook", "electrician", "hacker", "student", "svictim", "biker", "dancer", "bionic_thief", "bionic_patient", "bionic_worker", "bionic_athlete", "bionic_cop", "bionic_firefighter", "bionic_mentat", "bio_soldier", "bionic_spy", "bionic_hitman", "faulty_bionic", "bionic_customer", "hitchhiker", "trapper", "blacksmith", "clown", "lost_sub", "senior", "cosplay", "goalie", "batter", "linebacker", "golfer", "spouse", "punkrockgirl", "firefighter", "skaboy", "postman", "convict", "razorgirl", "cyberjunkie", "cykotic", "lawyer", "blackbelt_novice", "blackbelt_intermediate", "blackbelt", "pizzaboy", "archaeologist", "rollerderby", "farmer", "elementary_student", "skaterkid", "jdelinquent", "prep_student", "jr_survivalist", "bionic_student", "dodgeball_player", "science_club_mem", "av_club_mem", "janitor", "teacher", "gym_teacher", "poor_student", "priest", "imam", "guru", "rabbi", "shinto_priest"],
+    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","s_bookstore"],
+    "professions" : ["unemployed", "bionic_prepper", "tailor", "chef", "labtech", "mechanic", "scoundrel", "beekeeper", "cyclist", "soldier", "specops", "maid", "gangster", "security", "survivalist", "smoker", "crackhead", "homeless", "tweaker", "cop", "salesman", "bow_hunter", "crossbow_hunter", "shotgun_hunter", "rifle_hunter", "construction_worker", "lumberjack", "backpacker", "fastfoodcook", "electrician", "hacker", "student", "svictim", "biker", "dancer", "bionic_thief", "bionic_patient", "bionic_worker", "bionic_athlete", "bionic_cop", "bionic_firefighter", "bionic_mentat", "bio_soldier", "bionic_spy", "bionic_hitman", "faulty_bionic", "bionic_customer", "hitchhiker", "trapper", "blacksmith", "clown", "lost_sub", "senior", "cosplay", "goalie", "batter", "linebacker", "golfer", "spouse", "punkrockgirl", "firefighter", "skaboy", "postman", "convict", "burglar", "razorgirl", "cyberjunkie", "cykotic", "lawyer", "blackbelt_novice", "blackbelt_intermediate", "blackbelt", "boxer", "pizzaboy", "archaeologist", "rollerderby", "farmer", "elementary_student", "skaterkid", "jdelinquent", "prep_student", "jr_survivalist", "bionic_student", "dodgeball_player", "science_club_mem", "av_club_mem", "janitor", "teacher", "gym_teacher", "poor_student", "priest", "imam", "guru", "rabbi", "shinto_priest"],
     "flags" : ["FIRE_START"]
   },{
     "type": "scenario",
@@ -42,9 +42,21 @@
     "points" : -10,
     "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, naked, and sick with the flu.  This day went downhill really fast.",
     "start_name": "Anywhere",
-    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library"],
+    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","s_bookstore"],
     "professions" : ["svictim","tweaker"],
     "flags" : ["FIRE_START","INFECTED","BAD_DAY","CHALLENGE"]
+  },{
+    "type": "scenario",
+    "ident": "medieval",
+    "name": "Challenge-Medieval Peasant",
+    "points" : -5,
+    "description": "Som nigromancie hath brought yow hidder!  Ye have only the hoose on youre legges and the knyf at youre syde and youre prayeres to Marie moder of God.",
+    "start_name": "Forest",
+    "allowed_locs" : ["forest"],
+    "professions" : ["churl"],
+    "forced_traits" : ["ILLITERATE", "ANTIJUNK", "STRONGSTOMACH"],
+    "forbidden_traits" : ["FASTREADER", "SLOWREADER"],
+    "flags" : ["CHALLENGE"]
   },{
     "type": "scenario",
     "ident": "lab_chal",
@@ -52,9 +64,9 @@
     "points" : -8,
     "description": "You've been locked in a lab with no (obvious) way out!  Find a way to escape or starve to death.",
     "start_name": "Locked Lab",
-    "professions" : ["unemployed","mutant_patient","mutant_volunteer"],
+    "professions" : ["unemployed","mutant_patient","mutant_volunteer","labtech","broken_cyborg"],
     "allowed_locs" : ["lab_stairs","lab_finale","ice_lab_stairs","ice_lab_finale"],
-    "traits" : ["ELFAEYES","URSINE_EYE","FANGS","GILLS","SPINES","PLANTSKIN","NAILS","RADIOGENIC","PADDED_FEET","RAP_TALONS","HOOVES","CANINE_EARS","WEB_WALKER","WHISKERS","SLIT_NOSTRILS","TROGLO","WEBBED","BEAK","UNSTABLE","RADIOACTIVE1","SLIMY","HERBIVORE","CARNIVORE","PONDEROUS1","SUNLIGHT_DEPENDENT","COLDBLOOD","GROWL","ARM_FEATHERS","ARM_TENTACLES","LEG_TENTACLES"],
+    "traits" : ["ELFAEYES","URSINE_EYE","FANGS","GILLS","SPINES","PLANTSKIN","NAILS","RADIOGENIC","PADDED_FEET","RAP_TALONS","HOOVES","CANINE_EARS","FELINE_EARS","TAIL_FLUFFY","TAIL_LONG","WEB_WALKER","WHISKERS","SLIT_NOSTRILS","TROGLO","WEBBED","BEAK","UNSTABLE","RADIOACTIVE1","SLIMY","HERBIVORE","CARNIVORE","PONDEROUS1","SUNLIGHT_DEPENDENT","COLDBLOOD","GROWL","ARM_FEATHERS","ARM_TENTACLES","LEG_TENTACLES","CHAOTIC","ALCMET","LIGHT_BONES","CHITIN"],
     "flags" : ["CHALLENGE"]
   },{
     "type": "scenario",
@@ -65,7 +77,17 @@
     "allowed_locs": ["cabin"],
     "start_name": "Abandoned Cabin",
     "flags" : ["SUR_START","WIN_START"],
-    "professions" : ["winter_survivor","winter_scavenger","unemployed"]
+    "professions" : ["winter_survivor","winter_scavenger","winter_army","unemployed"]
+  },{
+    "type": "scenario",
+    "ident": "summer_advanced_start",
+    "name": "The Next Summer",
+    "points" : 0,
+    "description": "A little over a year has passed since the apocalypse started, and you're about to face your second summer in Hell.",
+    "allowed_locs" : ["forest","field","cabin"],
+    "start_name": "Outside Town",
+    "flags" : ["SUM_ADV_START"],
+    "professions" : ["naturalist","road_warrior","player_bandit","winter_scavenger","winter_army","waste_ranger","unemployed"]
   },{
     "type": "scenario",
     "ident": "alone",
@@ -75,7 +97,7 @@
     "allowed_locs": ["lmoe","shelter"],
     "start_name": "Enclosed Shelter",
     "flags" : ["WIN_START"],
-    "professions" : ["sheltered_survivor","unemployed"]
+    "professions" : ["sheltered_militia","sheltered_survivor","unemployed"]
   },{
     "type": "scenario",
     "ident": "patient",
@@ -86,8 +108,18 @@
     "start_name": "Hospital",
     "forced_traits" : ["FLIMSY2"],
     "forbidden_traits" : ["TOUGH","DISRESISTANT"],
-    "professions" : ["unemployed","bionic_patient","patient"],
+    "professions" : ["unemployed","bionic_patient","patient","broken_cyborg"],
     "flags" : ["CHALLENGE"]
+  },{
+    "type" : "scenario",
+    "ident" : "prisonbreak",
+    "name" : "Prison Break",
+    "points" : -4,
+    "description" : "You were a convicted felon planning your escape before the event.  Now the prisoners have turned into mindless horrors and the security bots are shooting on sight... you might need to expedite your escape plans.",
+    "allowed_locs" : [ "prison" ],
+    "start_name" : "Prison",
+    "professions" : ["convict"],
+    "forced_traits": [ "PSYCHOPATH" ]
   },{
     "type": "scenario",
     "ident" : "mutant",
@@ -96,8 +128,8 @@
     "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not.  Once the cataclysm struck, you left the lab, and wandered aimlessly, ending up in a forest.",
     "start_name" : "Forest",
     "allowed_locs" : ["forest"],
-    "professions" : ["unemployed","mutant_patient","mutant_volunteer"],
-    "traits" : ["ELFAEYES","URSINE_EYE","FANGS","GILLS","SPINES","PLANTSKIN","NAILS","RADIOGENIC","PADDED_FEET","RAP_TALONS","HOOVES","CANINE_EARS","WEB_WALKER","WHISKERS","SLIT_NOSTRILS","TROGLO","WEBBED","BEAK","UNSTABLE","RADIOACTIVE1","SLIMY","HERBIVORE","CARNIVORE","PONDEROUS1","SUNLIGHT_DEPENDENT","COLDBLOOD","GROWL","ARM_FEATHERS","ARM_TENTACLES","LEG_TENTACLES"]
+    "professions" : ["unemployed","mutant_patient","mutant_volunteer","broken_cyborg"],
+    "traits" : ["ELFAEYES","URSINE_EYE","FANGS","GILLS","SPINES","PLANTSKIN","NAILS","RADIOGENIC","PADDED_FEET","RAP_TALONS","HOOVES","CANINE_EARS","FELINE_EARS","TAIL_FLUFFY","TAIL_LONG","WEB_WALKER","WHISKERS","SLIT_NOSTRILS","TROGLO","WEBBED","BEAK","UNSTABLE","RADIOACTIVE1","SLIMY","HERBIVORE","CARNIVORE","PONDEROUS1","SUNLIGHT_DEPENDENT","COLDBLOOD","GROWL","ARM_FEATHERS","ARM_TENTACLES","LEG_TENTACLES","CHAOTIC","ALCMET","LIGHT_BONES","CHITIN"]
   },{
     "type": "scenario",
     "ident": "mall_cop",
@@ -124,9 +156,18 @@
     "points" : 0,
     "description": "You knew the day was going to be bad when it started with your partner getting eaten by a perp before you even had coffee.  The scene back at the station house looks bad, real bad.  This is going to be an all-nighter.",
     "allowed_locs" : ["police"],
-    "professions" : ["cop","bionic_cop","detective","swat"],
+    "professions" : ["cop","sniper_police","riot_police","bionic_cop","detective","swat","swat_heavy"],
     "start_name": "Police Station",
     "flags" : ["SUR_START"]
+  },{
+    "type": "scenario",
+    "ident": "schools_out",
+    "name": "School",
+    "points" : -1,
+    "description": "You were at school when the principal shambled in and ate one of the students, and before you knew it the entire campus was overrun by monsters.  Guess school's out forever.",
+    "allowed_locs" : ["school"],
+    "professions" : ["student", "elementary_student", "skaterkid", "jdelinquent", "prep_student", "jr_survivalist", "bionic_student", "poor_student", "dodgeball_player", "science_club_mem", "av_club_mem", "janitor", "teacher", "gym_teacher"],
+    "start_name": "School"
   },{
     "type": "scenario",
     "ident": "wilderness",
@@ -134,7 +175,27 @@
     "points" : 0,
     "description": "You find yourself amongst trees.  The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
     "start_name": "Forest",
-    "professions" : ["unemployed", "survivalist", "naturalist", "bow_hunter", "lumberjack", "jr_survivalist", "fisher"],
+    "professions" : ["unemployed", "survivalist", "trapper", "bionic_prepper", "guru", "backpacker", "naturalist", "camper", "bow_hunter", "crossbow_hunter", "shotgun_hunter", "rifle_hunter", "lumberjack", "jr_survivalist", "fisher", "bio_sur", "bio_sniper"],
     "allowed_locs" : ["forest"]
-    }
+  },{
+    "type": "scenario",
+    "ident": "heli_crash",
+    "name": "Helicopter Crash",
+    "points" : -2,
+    "description": "You've crashed your precious helicopter, it'll never fly again.  Monsters don't bother you, life without your Loach is worthless anyway.",
+    "start_name": "Crash site",
+    "professions" : ["soldier", "national_guard", "specops", "bio_soldier", "bio_sniper"],
+    "allowed_locs" : ["field"],
+    "map_special": "mx_helicopter",
+    "flags": ["HELI_CRASH"]
+  },{
+    "type": "scenario",
+    "ident": "Mine_bottom",
+    "name": "Bottom of a Mine",
+    "points" : 1,
+    "description": "You were mining along when you found...something.  You're not sure what, but it sure is dark down here.",
+    "start_name": "Bottom of a mine",
+    "professions" : ["miner"],
+    "allowed_locs" : ["mine_finale"]
+  }
 ]

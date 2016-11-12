@@ -1,0 +1,866 @@
+[
+    {
+        "type" : "mapgen",
+        "comment": "cabin with bandits; adds in shackles.",
+        "om_terrain" : ["bandit_cabin"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "....................^...",
+                "..z......z....#####.....",
+                "..........#####;_8#####.",
+                "..z.......#__:#A_8#_@@#.",
+                ".....,,,,,#___##+##_@@#.",
+                "....,,,,,,#@@_#___#___#.",
+                "....,,,,,,#@@_+___+___#.",
+                "z...,,,,S,#___#___#_:_#.",
+                ".###0###3######___#####.",
+                ".#cccF#___77#____BBB__#.",
+                ".#=___#_____#___B666B_#.",
+                ".0A_____________B666B_#.",
+                ".#c_________#____BBB__#.",
+                ".#E__D#_____#99_______#.",
+                ".##cc##_H___######3####.",
+                ".#C__________H#SSSSSSSS.",
+                ".#C_?__66_____#SSSSSSSS.",
+                ".#__?__66_____3SSSSSSSS.",
+                ".#____________#SSSSSSSS.",
+                ".#___9????9___#.........",
+                ".##0########0##.........",
+                "......................z.",
+                ".^....z.................",
+                ".............z........^."
+            ],
+            "place_items": [
+                { "item": "bed", "chance": 80,  "x": [11,12 ], "y": [5,6 ] },
+                { "item": "bed", "chance": 80,  "x": [20,21 ], "y": [3,4 ] },
+                { "item": "stash_wood", "chance": 70,  "x": [ 9,9 ], "y": [ 2,4 ] },
+                { "item": "dresser", "chance": 70,  "x": [ 13,13 ], "y": [ 3,3 ] },
+                { "item": "dresser", "chance": 70,  "x": [ 20,20 ], "y": [ 7,7 ] },
+                { "item": "home_hw", "chance": 60,  "x": [ 2,2 ], "y": [ 13,13 ] },
+                { "item": "cannedfood", "chance": 60,  "x": [ 2,2 ], "y": [ 13,13 ] },
+                { "item": "pasta", "chance": 50,  "x": [ 2,2 ], "y": [ 13,13 ] },
+                { "item": "camping", "chance": 70,  "x": [ 13,14 ], "y": [ 13,13 ] },
+                { "item": "homebooks", "chance": 70, "x": [ 10,11 ], "y": [ 9,9 ] },
+                { "item": "kitchen", "chance": 70, "x": [ 2,2 ], "y": [ 9,12 ] },
+                { "item": "fridge", "chance": 70, "x": [ 5,5 ], "y": [ 9,9 ] },
+                { "item": "dining", "chance": 70, "x": [ 17,19 ], "y": [ 10,11 ] },
+                { "item": "magazines", "chance": 50, "x": [ 7,8 ], "y": [ 16,17 ] }
+            ],
+            "terrain": {
+                ".": "t_grass",
+                ",": "t_dirt",
+                "#": "t_wall_log",
+                "2": "t_window_domestic",
+                "0": "t_curtains",
+                "3": "t_door_locked",
+                " ": "t_floor",
+                "+": "t_door_c",
+                "=": "t_rock_floor",
+                "z": "t_shrub",
+                "S": "t_sidewalk",
+                "^": "t_tree",
+                "{": "t_door_glass_c",
+                "[": "t_fence_v",
+                "_": "t_rock_floor",
+                "~": "t_fence_h"
+            },
+            "furniture": {
+                "6": "f_table",
+                "7": "f_bookcase",
+                "8": "f_bathtub",
+                "9": "f_rack",
+                ":": "f_dresser",
+                "=": "f_woodstove",
+                "c": "f_counter",
+                "?": "f_sofa",
+                "@": "f_bed",
+                "A": "f_sink",
+                "B": "f_chair",
+                "C": "f_desk",
+                "D": "f_trashcan",
+                "E": "f_cupboard",
+                "F": "f_fridge",
+                "H": "f_armchair",
+                "G": "f_oven"
+            },
+            "place_npcs": [
+                { "class": "bandit", "x": 5, "y": 16 },
+                { "class": "bandit", "x": 8, "y": 18 }
+            ],
+            "toilets": {
+                ";": { }
+            },
+            "set": [
+                { "point": "furniture", "id": "f_shackle", "x": 4, "y": 4, "chance": 2 }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [ "basement" ],
+        "method": "json",
+        "comment": "survivor basement with sandbags; adds in shackles.",
+        "weight": 750,
+        "object": {
+            "fill_ter": "t_rock_floor",
+            "rows": [
+                " --------------------   ",
+                " |######....ccgf...{|   ",
+                " |#................{|   ",
+                " |#................{|   ",
+                " |..y......h.h|--+----| ",
+                " |.........###|]....##| ",
+                " |.........h.h|]....h#| ",
+                " |............|.......| ",
+                " |sssss.s|{..{|dbb.bbd| ",
+                " |.......|{..{|-------| ",
+                " |X...xXX|{..{|...|     ",
+                " |Xx....X|{...+..t|     ",
+                " |XX..xXX|{..{|k..|     ",
+                " |XXx..X.|{..{|------   ",
+                " |X......|----|....<|   ",
+                " |-|...............<|   ",
+                "   |---..........|--|   ",
+                "      |----------|      ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "terrain": {
+                " ": "t_rock",
+                "|": "t_wall",
+                "-": "t_wall",
+                "<": "t_stairs_up",
+                "+": "t_door_c"
+            },
+            "furniture": {
+                "#": "f_counter",
+                "{": "f_rack",
+                "h": "f_chair",
+                "b": "f_bed",
+                "d": "f_dresser",
+                "]": "f_bookcase",
+                "s": "f_sandbag_half",
+                "x": "f_crate_c",
+                "X": "f_crate_o",
+                "g": "f_oven",
+                "k": "f_sink",
+                "f": "f_fridge",
+                "c": "f_cupboard",
+                "y": "f_woodstove"
+            },
+            "toilets": {
+                "t": { }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_PREPPER_HOUSE", "x": [2, 10], "y": [4, 7], "chance": 2 }
+            ],
+            "place_loot": [
+                { "item": "water", "chance": 100, "x": [ 4,15 ], "y": [14,15], "repeat": 3 },
+                { "group": "basement_survival_last_stand_casing", "chance": 20, "x": 2, "y": 6, "repeat": [1, 10] },
+                { "group": "basement_survival_last_stand_casing", "chance": 20, "x": 3, "y": 6, "repeat": [1, 10] },
+                { "group": "basement_survival_last_stand_casing", "chance": 20, "x": 4, "y": 6, "repeat": [1, 10] },
+                { "group": "basement_survival_last_stand_casing", "chance": 20, "x": 5, "y": 7, "repeat": [1, 10] },
+                { "group": "basement_survival_last_stand_casing", "chance": 20, "x": 2, "y": 7, "repeat": [1, 10] },
+                { "group": "basement_survival_last_stand_casing", "chance": 20, "x": 3, "y": 7, "repeat": [1, 10] },
+                { "group": "basement_survival_last_stand_casing", "chance": 20, "x": 4, "y": 7, "repeat": [1, 10] },
+                { "group": "basement_survival_last_stand_casing", "chance": 20, "x": 5, "y": 7, "repeat": [1, 10] },
+                { "group": "basement_survival_last_stand", "chance": 100, "x": [3, 4], "y": 7 },
+                { "group": "tools_common", "chance": 100, "x": [3, 7], "y": 1 },
+                { "group": "tools_entry", "chance":  50, "x": [3, 7], "y": 1 },
+                { "item": "fire_ax", "chance":  25, "x": 2, "y": 2 },
+                { "item": "2x4", "chance":  100, "x": [4, 7], "y": [3, 4], "repeat": [2, 4] },
+                { "item": "log", "chance":  100, "x": [4, 7], "y": [3, 4], "repeat": [1, 2] },
+                { "group": "misc_smoking", "chance":  75, "x": 21, "y": 6 },
+                { "group": "kitchen", "chance": 100, "x": [11, 13], "y": 5 },
+                { "group": "cannedfood", "chance": 75, "x": 10, "y": 8 },
+                { "group": "cannedfood", "chance": 75, "x": 10, "y": 9 },
+                { "group": "cannedfood", "chance": 75, "x": 10, "y": 10 },
+                { "group": "cannedfood", "chance": 75, "x": 10, "y": 11 },
+                { "group": "cannedfood", "chance": 75, "x": 10, "y": 12 },
+                { "group": "cannedfood", "chance": 75, "x": 10, "y": 13 },
+                { "group": "fridge", "chance": 80, "x": 15, "y": 1, "repeat": [1, 3] },
+                { "group": "book_survival", "chance": 90, "x": 15, "y": 5 },
+                { "group": "book_survival", "chance": 30, "x": 15, "y": 6 },
+                { "group": "gear_survival", "chance": 75, "x": 13, "y": 8 },
+                { "group": "gear_survival", "chance": 75, "x": 13, "y": 9 },
+                { "group": "gear_survival", "chance": 75, "x": 13, "y": 10 },
+                { "group": "gear_survival", "chance": 75, "x": 13, "y": 12 },
+                { "group": "gear_survival", "chance": 75, "x": 13, "y": 13 },
+                { "group": "guns_survival", "chance": 100, "x": 19, "y": [1, 2], "magazine": 100, "ammo": 75, "repeat": [1, 2] },
+                { "group": "ammo_reloaded", "chance": 100, "x": 19, "y": 3, "magazine": 100, "repeat": [1, 3] },
+                { "group": "guns_pistol_common", "chance": 30, "x": 15, "y": 8, "magazine": 100, "ammo": 75 },
+                { "group": "guns_pistol_common", "chance": 30, "x": 21, "y": 8, "magazine": 100, "ammo": 75 },
+                { "group": "clothing_outdoor_set", "chance": 30, "x": 15, "y": 8 },
+                { "group": "clothing_outdoor_set", "chance": 30, "x": 21, "y": 8 },
+                { "item": "blanket", "chance": 30, "x": 16, "y": 8 },
+                { "item": "blanket", "chance": 30, "x": 20, "y": 8 },
+                { "item": "pillow", "chance": 30, "x": 16, "y": 8 },
+                { "item": "pillow", "chance": 30, "x": 20, "y": 8 }
+            ],
+            "set": [
+                { "point": "furniture", "id": "f_shackle", "x": 10, "y": 1, "chance": 5 }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "comment": "cabin; adds in shackles.",
+        "om_terrain": [
+            "cabin"
+        ],
+        "method": "json",
+        "weight": 500,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "|----------------------|",
+                "|......................|",
+                "|...#######............|",
+                "|...#LCCCL#............|",
+                "|...W     W............|",
+                "|...#     #............|",
+                "|...###+###............|",
+                "|......................|",
+                "|......................|",
+                "|..######+###ww######..|",
+                "|..# RRR        DBBD#..|",
+                "|..# RSR         BB #..|",
+                "|..# rrr            #..|",
+                "|..#                #..|",
+                "|..w      cttc      w..|",
+                "|..w      cttc      w..|",
+                "|..# OOO            #..|",
+                "|..#                #..|",
+                "|..#                #..|",
+                "|..#                #..|",
+                "|..####ww###+###ww###..|",
+                "|......................|",
+                "|......................|",
+                "-----------GG-----------"
+            ],
+            "terrain": {
+                ".": "t_grass",
+                "#": "t_wall_log",
+                "-": "t_fence_h",
+                "|": "t_fence_v",
+                "G": "t_fencegate_c",
+                "W": "t_window_boarded",
+                "w": "t_window_domestic",
+                "+": "t_door_c",
+                "R": "t_rock",
+                "r": "t_rock_floor"
+            },
+            "furniture": {
+                "L": "f_locker",
+                "C": "f_counter",
+                "D": "f_dresser",
+                "B": "f_bed",
+                "O": "f_sofa",
+                "c": "f_chair",
+                "t": "f_table"
+            },
+            "mapping": {
+                "S": {
+                    "terrain": "t_rock_floor",
+                    "furniture": "f_woodstove"
+                }
+            },
+            "place_items": [
+                { "item": "livingroom", "chance": 60, "x": [4,8], "y": [13,18] },
+                { "item": "dining", "chance": 60, "x": [11,12], "y": [14,15] },
+                { "item": "camping", "chance": 70, "x": 19, "y": [16,19] },
+                { "item": "dresser", "chance": 70, "x": 16, "y": 10 },
+                { "item": "dresser", "chance": 70, "x": 19, "y": 10 },
+                { "item": "tools_earthworking", "chance": 70, "x": [5,9], "y": 3 },
+                { "item": "bed", "chance": 60, "x": [17,18], "y": [10,11] }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": 7, "y": 4 }
+            ],
+            "set": [
+                { "point": "furniture", "id": "f_shackle", "x": [14,20], "y": [3,6], "chance": 4 }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "comment": "cabin basement with cult; adds in shackles.",
+        "om_terrain": [
+            "cabin_strange_b"
+        ],
+        "method": "json",
+        "weight": 300,
+        "object": {
+            "fill_ter": "t_dirtfloor",
+            "rows": [
+                "########################",
+                "################...h...#",
+                "########c.cc####.httth.#",
+                "###T..##c....+...ht.th.#",
+                "###...G....c####.......#",
+                "###BB.##....############",
+                "##########D###|---|---|#",
+                "##########.###|cdc|<..|#",
+                "##.hhh.##...##|.h.|-D-|#",
+                "#.......#.C.##|-+-|..h##",
+                "#.hh.hh.D...##c......c##",
+                "#.......#.C.##ccC..Ccc##",
+                "#.hh.hh.#...##cc.....r##",
+                "#.......#.C.##ccC..C.r##",
+                "#.hh.hh.#...##tt..ch.r##",
+                "#.......#.C.##ttCccC..##",
+                "#.......#............A##",
+                "#.b.S.b.#.C..C.cC..C..##",
+                "##.....##..h..ccccBBo.##",
+                "###+#+##################",
+                "##.....#################",
+                "##.....#################",
+                "##..8..#################",
+                "########################"
+            ],
+            "terrain": {
+                "#": "t_rock",
+                "G": "t_door_bar_locked",
+                "C": "t_column",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                "=": "t_door_boarded",
+                "D": "t_door_locked_interior",
+                "<": "t_stairs_up"
+            },
+            "furniture": {
+                "A": "f_armchair",
+                "t": "f_table",
+                "B": "f_bed",
+                "h": "f_chair",
+                "d": "f_desk",
+                "8": "f_shackle"
+            },
+            "toilets": {
+                "T": { }
+            },
+            "mapping": {
+                "b": {
+                    "item": { "item": "brazier" }
+                },
+                ".": {
+                    "items": { "item": "subway", "chance": 10 }
+                },
+                "S": {
+                    "item": { "item": "etched_skull" },
+                    "furniture": "f_slab"
+                },
+                "o": {
+                    "items": { "item": "novels", "chance": 40 },
+                    "furniture": "f_bookcase"
+                },
+                "c": {
+                    "items": { "item": "dresser", "chance": 20 },
+                    "furniture": "f_crate_o"
+                },
+                "r": {
+                    "items": { "item": "cannedfood", "chance": 30 },
+                    "furniture": "f_rack"
+                }
+            },
+            "place_monster": [
+                { "x": 4, "y": 12, "monster": "mon_dementia", "repeat": [3, 6] },
+                { "x": 19, "y": 2, "monster": "mon_dementia", "repeat": [1, 4] },
+                { "x": 4, "y": 21, "monster": "mon_blood_sacrifice", "repeat": 1 }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "s_library"
+        ],
+        "method": "json",
+        "comment": "library needs stone walls.",
+        "weight": 500,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "**qq~~~~qq|-O-|||||O|||*",
+                    "**qq~~~~qq|%dy-TTT-.dd|*",
+                    "**qq~~~~qq|dh.-..T-.h%|*",
+                    "*|===::===|--+-+---+--|*",
+                    "*|Th......%...........|*",
+                    "*|Th......###%###%###.|*",
+                    "*|Th..................|*",
+                    "*|------..............|*",
+                    "*O.hhh.+..h%T%h.h%T%h.|*",
+                    "*|.TTT.-..............O*",
+                    "*|------..h%T%h.h%T%h.|*",
+                    "*|.hhh.+..............|*",
+                    "*O.TTT.-..]..]]..]]..]|*",
+                    "*|.hhh.-..]..]]..]]..]|*",
+                    "*O------..]..]]..]]..]|*",
+                    "*|#s#s#-..]..]]..]]..]|*",
+                    "*|.....+..]..]]..]]..]|*",
+                    "*|+-+-+-..]..]]..]]..]|*",
+                    "*|.-.-.-..]..]]..]]..]|*",
+                    "*|t-t-t-.............T|*",
+                    "*||||||||O||O|||O|||O||*",
+                    "************************",
+                    "************************"
+            ],
+            "terrain": {
+                ".": "t_floor",
+                "*": "t_grass",
+                "~": "t_sidewalk",
+                "|": "t_rock_smooth",
+                "-": "t_wall",
+                "+": "t_door_c",
+                ":": "t_door_glass_c",
+                "O": "t_window",
+                "=": "t_wall_glass",
+                "q": "t_grass",
+                "%": "t_console_broken"
+            },
+            "furniture": {
+                "#": "f_counter",
+                "h": "f_chair",
+                "T": "f_table",
+                "d": "f_desk",
+                "y": "f_indoor_plant_y",
+                "s": "f_sink",
+                "]": "f_bookcase",
+                "q": "f_bluebell"
+            },
+            "toilets": {
+                "t": { }
+            },
+            "place_items": [
+                { "item": "magazines", "chance": 50, "x": 10,   "y": [13,19], "repeat": [3,6] },
+                { "item": "novels", "chance": 60, "x": 13,   "y": [13,19], "repeat": [4,8] },
+                { "item": "homebooks", "chance": 60, "x": 14,   "y": [13,19], "repeat": [3,6] },
+                { "item": "manuals", "chance": 50, "x": 17,   "y": [13,19], "repeat": [3,6] },
+                { "item": "textbooks", "chance": 50, "x": 18,   "y": [13,19], "repeat": [3,6] },
+                { "item": "novels", "chance": 50, "x": 21,   "y": [13,15], "repeat": [2,4] },
+                { "item": "mansion_books", "chance": 50, "x": 21,   "y": [16,19], "repeat": [2,5] },
+                { "item": "library_elec", "chance": 50, "x": [15,17],   "y": 2, "repeat": [2,3] },
+                { "item": "office", "chance": 30, "x": 11,   "y": 3  },
+                { "item": "office", "chance": 30, "x": 12,   "y": 2 },
+                { "item": "office", "chance": 80, "x": [20,21],   "y": 2 }
+            ]
+        }
+    },
+    {
+    "type" : "overmap_terrain",
+    "id" : "museum",
+    "name" : "museum",
+    "rotate" : true,
+    "sym" : 77,
+    "color" : "white",
+    "see_cost" : 5,
+    "extras" : "build",
+    "mondensity" : 2,
+    "sidewalk" : true,
+    "mapgen": [ {
+            "method": "json",
+            "comment": "stone wall varient",
+            "weight": 500,
+            "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+            ".||||||||||LL||||||||||.",
+            ".|#5                  |.",
+            ".|-5            888   |.",
+            ".|#5  DD   DD   5#5   |.",
+            ".|-5  DD   DD   5#5   |.",
+            ".|#5            888  D|.",
+            ".|-5                 D|.",
+            ".|#5            888  D|.",
+            ".|-5  DD   DD   5#5   |.",
+            ".|#5  DD   DD   5#5   |.",
+            ".|-5            888  D|.",
+            ".|#5                 D|.",
+            ".|------        888  D|.",
+            ".|GGGGG-        5#5   |.",
+            ".|Gc   -        5#5   |.",
+            ".|G    L        888   |.",
+            ".|G    - DDD          |.",
+            ".|-----------L--------|.",
+            ".|        -           |.",
+            ".|  ####  -           |.",
+            ".|  ####  +   ccccc   |.",
+            ".|        -   ttttt   |.",
+            ".||||||||||||||||||||||.",
+            "........................"
+            ],
+            "terrain": {
+            ".": "t_grass",
+            "_": "t_pavement",
+            ",": "t_pavement_y",
+            " ": "t_floor",
+            "|": "t_rock_smooth",
+            "O": "t_window",
+            "L": "t_door_locked_alarm",
+            "+": "t_door_c",
+            "M": "t_door_metal_locked",
+            "w": "t_gates_mech_control",
+            "x": "t_console_broken",
+            "&": "t_door_metal_locked",
+            "B": "t_palisade",
+            "*": "t_door_locked",
+            "5": "t_wall_glass",
+            "8": "t_wall_glass"
+            },
+            "furniture": {
+            "c": "f_chair",
+            "#": "f_counter",
+            "&": "f_counter",
+            "r": "f_rack",
+            "^": "f_indoor_plant",
+            "t": "f_table",
+            "F": "f_fridge",
+            "@": "f_bed",
+            ":": "f_dresser",
+            "T": "f_toilet",
+            "l": "f_vending_c",
+            "G": "f_desk",
+            "f": "f_glass_fridge",
+            "D": "f_displaycase"
+            },
+            "place_items": [
+                { "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 1,1 ] },
+                { "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 3,3 ] },
+                { "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 5,5 ] },
+                { "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 7,7 ] },
+                { "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 9,9 ] },
+                { "item": "museum_primitive", "chance": 65, "x": [ 6,7 ], "y": [ 3,4 ] },
+                { "item": "museum_primitive", "chance": 65, "x": [ 6,7 ], "y": [ 8,9 ] },
+                { "item": "museum_melee", "chance": 50, "x": [ 11,12 ], "y": [ 3,4 ] },
+                { "item": "museum_melee", "chance": 50, "x": [11,12 ], "y": [ 8,9 ] },
+                { "item": "museum_guns", "chance": 45, "x": [ 16,16 ], "y": [ 3,4 ] },
+                { "item": "museum_guns", "chance": 45, "x": [ 16,16 ], "y": [ 8,9 ] },
+                { "item": "museum_misc", "chance": 85, "x": [ 16,16 ], "y": [ 13,14 ] },
+                { "item": "museum_misc", "chance": 85, "x": [11,12 ], "y": [ 8,9 ] },
+                { "item": "museum_primitive", "chance": 65, "x": [ 21,21 ], "y": [ 5,7 ] },
+                { "item": "museum_melee", "chance": 50, "x": [ 21,21 ], "y": [ 10,12 ] },
+                { "item": "museum_guns", "chance": 45, "x": [ 9,11 ], "y": [ 16,16 ] },
+                { "item": "museum_armor", "chance": 40, "x": [ 4,7 ], "y": [ 19,20 ] },
+                { "item": "museum_melee", "chance": 40, "x": [ 4,7 ], "y": [ 19,20 ] },
+                { "item": "museum_guns", "chance": 40, "x": [ 4,7 ], "y": [ 19,20 ] },
+                { "item": "museum_misc", "chance": 50, "x": [ 4,7 ], "y": [ 19,20 ] },
+                { "item": "museum_security", "chance": 60, "x": [ 2,6 ], "y": [ 13,13 ] },
+                { "item": "museum_security", "chance": 60, "x": [ 2,2 ], "y": [ 14,16 ] }
+                ]
+            }
+        }
+    ]
+    },
+    {
+        "type" : "mapgen",
+        "om_terrain" : ["s_pizza_parlor"],
+        "method": "json",
+        "comment": "Stone walls; should probs also make a brick one too.",
+        "weight": 1000,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "||||||||||||||||        ",
+                "|FwlwL|P#######|        ",
+                "|Flwlw#..U.U.U.g        ",
+                "|#wlwl@........g        ",
+                "|#lwlw#........g        ",
+                "|#wlwl{........g        ",
+                "|Olwlw{........g        ",
+                "|Owlwl{........|        ",
+                "|#lwlw{........G        ",
+                "|#wlwl#........|        ",
+                "|wlwlw#....BB..g        ",
+                "|lwlwl#....TT..g        ",
+                "|##f###....BB..g        ",
+                "|.............P|rfrrrrrR",
+                "|..............gcccccccR",
+                "|C.....BB..BB..gccccBccR",
+                "|C.....TT..TT..gcccBTBcR",
+                "|......BB..BB..gccccBccR",
+                "|..............|cccccccR",
+                "|--+-..........GccccBccR",
+                "|sll-..BB..BB..|cccBTBcR",
+                "|lll-..TT..TT..gccccBccR",
+                "|tll-..BB..BB.PgcccccccR",
+                "||||||||||||||||rfrrrrrR"
+            ],
+            "terrain": {
+                "|": "t_rock_smooth",
+                "g": "t_wall_glass",
+                "G": "t_door_glass_c",
+                "r": "t_railing_h",
+                "R": "t_railing_v",
+                ".": "t_floor",
+                "c": "t_concrete",
+                "f": "t_fencegate_c",
+                "+": "t_door_c",
+                " ": "t_sidewalk",
+                "@": "t_console_broken",
+                "w": "t_linoleum_white",
+                "l": "t_linoleum_gray",
+                "t": "t_linoleum_gray",
+                "s": "t_linoleum_gray",
+                "F": "t_linoleum_white",
+                "#": "t_linoleum_white",
+                "O": "t_linoleum_white",
+                "{": "t_linoleum_white",
+                "L": "t_linoleum_white"
+            },
+            "furniture": {
+                "s": "f_sink",
+                "B": "f_bench",
+                "T": "f_table",
+                "P": "f_indoor_plant",
+                "C": "f_trashcan",
+                "#": "f_counter",
+                "O": "f_woodstove",
+                "{": "f_rack",
+                "F": "f_fridge",
+                "H": "f_chair",
+                "L": "f_locker",
+                "U": "f_chair"
+            },
+            "toilets": {
+                "t": { }
+            },
+            "//": "Default terrain is floor but some things are outside (tables)",
+            "set": [
+                { "line": "terrain", "x": 20, "y": 15, "x2": 20, "y2": 17, "id": "t_concrete" },
+                { "point": "terrain", "id": "t_concrete", "x": 21, "y": 16},
+                { "point": "terrain", "id": "t_concrete", "x": 19, "y": 16},
+                { "line": "terrain", "x": 20, "y": 19, "x2": 20, "y2": 21, "id": "t_concrete" },
+                { "point": "terrain", "id": "t_concrete", "x": 21, "y": 20},
+                { "point": "terrain", "id": "t_concrete", "x": 19, "y": 20}
+            ],
+            "place_items": [
+                { "item": "pizza_display", "x": 6,      "y":[5,8],  "chance": 45, "repeat": [3,4] },
+                { "item": "pizza_kitchen", "x": 1,      "y":[3,5],  "chance": 40, "repeat": [7,10]},
+                { "item": "pizza_kitchen", "x": 1,      "y":[8,9],  "chance": 42, "repeat": [7,9] },
+                { "item": "pizza_fridge",  "x": 1,      "y":[1,2],  "chance": 40, "repeat": [9,10]},
+                { "item": "pizza_beer",    "x":[9,13],  "y": 1,     "chance": 30, "repeat": [2,3] },
+                { "item": "pizza_soda",    "x": 6,      "y":[9,12], "chance": 30, "repeat": [2,5] },
+                { "item": "pizza_table",   "x":[11,12], "y": 11,    "chance": 25  },
+                { "item": "pizza_beer",    "x":[11,12], "y": 11,    "chance": 15, "repeat": [1,2] },
+                { "item": "pizza_table",   "x":[7,8],   "y": 16,    "chance": 25  },
+                { "item": "pizza_table",   "x":[11,12], "y": 16,    "chance": 23, "repeat": [1,2] },
+                { "item": "pizza_soda",    "x":[11,12], "y": 16,    "chance": 15, "repeat": [1,2] },
+                { "item": "pizza_table",   "x": 20,     "y": 16,    "chance": 25  },
+                { "item": "pizza_table",   "x":[7,8],   "y": 21,    "chance": 23, "repeat": [1,2] },
+                { "item": "pizza_beer",    "x":[7,8],   "y": 21,    "chance": 15, "repeat": [1,2] },
+                { "item": "pizza_table",   "x":[11,12], "y": 21,    "chance": 25  },
+                { "item": "pizza_table",   "x": 20,     "y": 20,    "chance": 23, "repeat": [1,2] },
+                { "item": "pizza_soda",    "x": 20,     "y": 20,    "chance": 15, "repeat": [1,2] },
+                { "item": "pizza_locker",  "x": 5 ,     "y":  1,    "chance": 55, "repeat": [5,6] },
+                { "item": "pizza_bathroom","x": [2,3],  "y":[20,22],"chance": 37, "repeat": [1,3] },
+                { "item": "pizza_trash",   "x": 1,      "y":[15,16],"chance": 50, "repeat": [7,9] }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "s_bookstore"
+        ],
+        "method": "json",
+        "comment": "Stone walls, a brick one also wouldn't hurt immersion any.",
+        "weight": 500,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "*|||||OOO|::||OO||OO|||*",
+                    "*|s..#.Thf..#ccccccccc|*",
+                    "*|e..%................|*",
+                    "*|#..#.hT...##%#%#%#|O|*",
+                    "*|...%..............:.:*",
+                    "*|.###.Th...........:.:*",
+                    "*|..................|||*",
+                    "*|.h..h...TT.TT..]]..]|*",
+                    "*|.T..T..........]]..]|*",
+                    "*|.h..h...TT.TT..]]..]|*",
+                    "*|f..............]]..]|*",
+                    "*|...............]]..]|*",
+                    "*|]..]]..]]..]]].....]|*",
+                    "*|]..]]..]]........---|*",
+                    "*|]..]]..]]........+..|*",
+                    "*|]..........]]]]]]-st|*",
+                    "*||||||||||||||||||||||*",
+                    "************************",
+                    "************************",
+                    "************************",
+                    "***************^********",
+                    "************************"
+            ],
+            "terrain": {
+                ".": "t_floor",
+                "*": "t_grass",
+                "~": "t_sidewalk",
+                "-": "t_wall",
+                "|": "t_brick_wall",
+                "+": "t_door_c",
+                ":": "t_door_glass_c",
+                "O": "t_window",
+                "^": "t_tree",
+                "%": "t_console_broken"
+            },
+            "furniture": {
+                "#": "f_counter",
+                "h": "f_chair",
+                "T": "f_table",
+                "c": "f_cupboard",
+                "f": "f_indoor_plant",
+                "s": "f_sink",
+                "e": "f_fridge",
+                "]": "f_rack"
+            },
+            "toilets": {
+                "t": { }
+            },
+            "place_items": [
+                { "item": "magazines", "chance": 40, "x": 21,   "y": [9,14], "repeat": [4,8] },
+                { "item": "bookstore_misc", "chance": 40, "x": [17,18],   "y": [9,13], "repeat": [5,10] },
+                { "item": "novels", "chance": 50, "x": [10,11],   "y": 9, "repeat": [2,3] },
+                { "item": "novels", "chance": 50, "x": [13,14],   "y": 9, "repeat": [4,3] },
+                { "item": "novels", "chance": 50, "x": [10,11],   "y": 11, "repeat": [2,3] },
+                { "item": "novels", "chance": 50, "x": [13,14],   "y": 11, "repeat": [2,3] },
+                { "item": "manuals", "chance": 50, "x": 2,   "y": [14,17], "repeat": 2 },
+                { "item": "textbooks", "chance": 50, "x": 2,   "y": [14,17], "repeat": 2 },
+                { "item": "homebooks", "chance": 50, "x": [5,6],   "y": [14,16], "repeat": [3,4] },
+                { "item": "homebooks", "chance": 50, "x": [9,10],   "y": [14,16], "repeat": [3,4] },
+                { "item": "novels", "chance": 40, "x": [13,15],   "y": 14, "repeat": [2,3] },
+                { "item": "novels", "chance": 50, "x": [13,18],   "y": 17, "repeat": [4,5] },
+                { "item": "coffee_display", "chance": 50, "x": 2,   "y": 5, "repeat": [2,3] },
+                { "item": "coffee_fridge", "chance": 50, "x": 2,   "y": 4, "repeat": [2,3] },
+                { "item": "bookstore_misc", "chance": 50, "x": [13,21],   "y": 3, "repeat": [3,6] }
+            ],
+            "add": [
+                { "item": "coffeemaker", "x": 4, "y": 7, "amount": 1, "repeat": 1, "chance": 1 }
+            ]
+        }
+    },
+    {
+        "type"       : "overmap_terrain",
+        "id"         : "bowling_alley",
+        "name"       : "bowling alley",
+        "rotate"     : true,
+        "sym"        : 66,
+        "color"      : "red",
+        "see_cost"   : 5,
+        "extras"     : "build",
+        "mondensity" : 2,
+        "sidewalk"   : true,
+        "mapgen":
+        [
+            {
+                "method": "json",
+                "comment": "Ive seen so few wooden bowling alleys Im tempted to completely replace the old one.",
+                "weight": 7500000,
+                "object": {
+                    "fill_ter": "t_floor",
+                    "rows": [
+                        ",,,,,__________________,",
+                        ",,,,,_y____y____y____y_,",
+                        ",,,,,_y____y____y____y_,",
+                        ",,,,,_y____y____y____y_,",
+                        ",,,,,_y____y____y____y_,",
+                        ",,,,,_y____y____y____y_,",
+                        ",,,,,_y____y____y____y_,",
+                        "--+------OOOO----OOOO---",
+                        "-            lll&   # r-",
+                        "-ctc   ctc          # r-",
+                        "-ctc   ctc             -",
+                        "-ctc   ctc     c    c  -",
+                        "-             ctc  ctc -",
+                        "-          r           -",
+                        "- ####     r    =  =   -",
+                        "-r   #c   &- GSSGSSGSSG-",
+                        "-r   #     - GSSGSSGSSG-",
+                        "-r   #c    - GSSGSSGSSG-",
+                        "--+---     - GSSGSSGSSG-",
+                        "-F  r-     - GSSGSSGSSG-",
+                        "-F  r-+--+-- GSSGSSGSSG-",
+                        "-F  r-LU-LU- GSSGSSGSSG-",
+                        "-F  r-T%-T%- GSSGSSGSSG-",
+                        "------------------------"
+                    ],
+                    "terrain": {
+                        ".": "t_grass",
+                        "_": "t_pavement",
+                        ",": "t_sidewalk",
+                        "y": "t_pavement_y",
+                        " ": "t_floor",
+                        "-": "t_wall",
+                        "O": "t_window",
+                        "+": "t_door_c",
+                        "M": "t_door_metal_locked",
+                        "w": "t_gates_mech_control",
+                        "x": "t_console_broken",
+                        "T": "t_linoleum_white",
+                        "S": "t_floor_waxed",
+                        "L": "t_linoleum_white",
+                        "U": "t_linoleum_white",
+                        "%": "t_linoleum_white"
+                    },
+                    "furniture": {
+                        "c": "f_chair",
+                        "#": "f_counter",
+                        "r": "f_rack",
+                        "^": "f_indoor_plant",
+                        "t": "f_table",
+                        "F": "f_fridge",
+                        "@": "f_bed",
+                        ":": "f_dresser",
+                        "l": "f_vending_c",
+                        "S": "f_null",
+                        "=": "f_ball_mach",
+                        "G": "f_lane",
+                        "U": "f_sink",
+                        "&": "f_trashcan",
+                        "%": "f_trashcan"
+                    },
+                    "set": [
+                    ],
+                    "place_monsters": [
+                        { "monster": "GROUP_PLAIN",      "chance": 1,     "x": [2,21],  "y": [7,22]  }
+                    ],
+                    "place_items": [
+                        { "item":    "bowling_item",     "chance": 70,    "x": [22,22],   "y": [8,9] },
+                        { "item":    "bowling_item",     "chance": 70,    "x": [4,4],   "y": [19,22] },
+                        { "item":    "bowling_balls",    "chance": 80,    "x": [11,11], "y": [13,14] },
+                        { "item":    "bowling_balls",    "chance": 80,    "x": [16,16], "y": [15,15] },
+                        { "item":    "bowling_balls",    "chance": 80,    "x": [19,19], "y": [14,14] },
+                        { "item":    "vending_food",     "chance": 90,    "x": [12,14],   "y": [7,7] },
+                        { "item":    "bowling_item",     "chance": 70,    "x": [12,22], "y": [15,22] },
+                        { "item":    "bowling_trash",    "chance": 55,    "x": [16,16], "y":[8,8]      },
+                        { "item":    "bowling_trash",    "chance": 55,    "x": [10,10],"y":[15, 15]  },
+                        { "item":    "bowling_alcohol",  "chance": 50,    "x": [1,1],"y":[17, 17]    },
+                        { "item":    "bowling_alcohol",  "chance": 50,    "x": [1,1],"y":[22, 22]    },
+                        { "item":    "bowling_bathroom", "chance": 35,    "x": [6,7],  "y":[21,22],  "repeat": [1,2]   },
+                        { "item":    "bowling_bathroom", "chance": 35,    "x": [9,10],  "y":[21,22], "repeat": [1,2]   },
+                        { "item":    "bowling_table",    "chance": 40,    "x": [2,2],  "y":[9,11],   "repeat": [1,2]   },
+                        { "item":    "bowling_table",    "chance": 40,    "x": [8,8],  "y":[9,11],   "repeat": [1,2]   },
+                        { "item":    "bowling_table",    "chance": 40,    "x": [5,5],  "y":[14,17],  "repeat": [1,2]   },
+                        { "item":    "bowling_table",    "chance": 40,    "x": [15,15], "y":[12,12]  },
+                        { "item":    "bowling_table",    "chance": 40,    "x": [20,20], "y":[12,12]  },
+                        { "item":    "bowling_food",     "chance": 60,    "x": [1,1], "y":[15,16]    },
+                        { "item":    "bowling_fridge",   "chance": 70,    "x": [1,1], "y":[19,21]    }
+                    ],
+                    "toilets": {
+                        "T": { }
+                    }
+                }
+            }
+        ]
+    }
+]

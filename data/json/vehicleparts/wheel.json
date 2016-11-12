@@ -1,0 +1,310 @@
+[
+  {
+    "id": "metal_wheel",
+    "type": "vehicle_part",
+    "name": "metal wheel",
+    "item": "wheel_metal",
+    "location": "under",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "difficulty": 2,
+    "durability": 180,
+    "damage_modifier": 70,
+    "breaks_into": [
+      { "item": "scrap", "count": [ 4, 6 ] },
+      { "item": "steel_chunk", "count": [ 2, 3 ] }
+    ],
+    "flags": [ "WHEEL" ]
+  },
+  {
+    "id": "roller_drum",
+    "type": "vehicle_part",
+    "name": "roller drum",
+    "item": "hd_steel_drum",
+    "location": "center",
+    "symbol": "B",
+    "broken_symbol": "E",
+    "color": "light_red",
+    "difficulty": 5,
+    "durability": 7500,
+    "damage_modifier": 500,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 25, 75 ] },
+      { "item": "steel_chunk", "count": [ 30, 90 ] },
+      { "item": "scrap", "count": [ 50, 150 ] }
+    ],
+    "flags": [ "OBSTACLE", "WHEEL", "STEERABLE" ]
+  },
+  {
+    "id": "wheel",
+    "type": "vehicle_part",
+    "name": "wheel",
+    "item": "wheel",
+    "location": "under",
+    "symbol": "0",
+    "broken_symbol": "x",
+    "color": "dark_gray",
+    "difficulty": 3,
+    "durability": 200,
+    "damage_modifier": 50,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 1, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "WHEEL" ]
+  },
+  {
+    "id": "wheel_steerable",
+    "copy-from": "wheel",
+    "type": "vehicle_part",
+    "name": "wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "wheel_armor",
+    "type": "vehicle_part",
+    "name": "armored wheel",
+    "item": "wheel_armor",
+    "location": "under",
+    "symbol": "0",
+    "broken_symbol": "x",
+    "color": "green",
+    "difficulty": 4,
+    "durability": 800,
+    "damage_modifier": 50,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 3 ] },
+      { "item": "steel_chunk", "count": [ 2, 3 ] },
+      { "item": "scrap", "count": [ 2, 3 ] }
+    ],
+    "flags": [ "WHEEL" ]
+  },
+  {
+    "id": "wheel_armor_steerable",
+    "copy-from": "wheel_armor",
+    "type": "vehicle_part",
+    "name": "armored wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "wheel_barrow",
+    "type": "vehicle_part",
+    "name": "wheelbarrow wheel",
+    "item": "wheel_barrow",
+    "location": "under",
+    "symbol": "o",
+    "broken_symbol": "x",
+    "color": "dark_gray",
+    "difficulty": 2,
+    "durability": 70,
+    "damage_modifier": 50,
+    "breaks_into": [
+      { "item": "steel_lump" },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] }
+    ],
+    "flags": [ "WHEEL", "STABLE", "TOOL_WRENCH", "STEERABLE" ]
+  },
+  {
+    "id": "wheel_bicycle",
+    "type": "vehicle_part",
+    "name": "bicycle wheel",
+    "item": "wheel_bicycle",
+    "location": "under",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "color": "dark_gray",
+    "difficulty": 1,
+    "durability": 40,
+    "damage_modifier": 50,
+    "folded_volume": 14,
+    "breaks_into": [
+      { "item": "steel_lump", "prob": 50 },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "WHEEL", "FOLDABLE", "TOOL_WRENCH" ]
+  },
+  {
+    "id": "wheel_bicycle_steerable",
+    "copy-from": "wheel_bicycle",
+    "type": "vehicle_part",
+    "name": "bicycle wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "wheel_caster",
+    "type": "vehicle_part",
+    "name": "casters",
+    "item": "wheel_caster",
+    "location": "under",
+    "symbol": "o",
+    "broken_symbol": "x",
+    "color": "dark_gray",
+    "difficulty": 1,
+    "durability": 70,
+    "damage_modifier": 50,
+    "folded_volume": 5,
+    "breaks_into": [
+      { "item": "steel_lump", "prob": 50 },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "WHEEL", "STABLE", "FOLDABLE", "TOOL_WRENCH", "STEERABLE" ]
+  },
+  {
+    "id": "wheel_motorbike",
+    "type": "vehicle_part",
+    "name": "motorbike wheel",
+    "item": "wheel_motorbike",
+    "location": "under",
+    "symbol": "o",
+    "broken_symbol": "x",
+    "color": "dark_gray",
+    "difficulty": 2,
+    "durability": 90,
+    "damage_modifier": 50,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 1, 3 ] },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] }
+    ],
+    "flags": [ "WHEEL" ]
+  },
+  {
+    "id": "wheel_motorbike_steerable",
+    "copy-from": "wheel_motorbike",
+    "type": "vehicle_part",
+    "name": "motorbike wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "wheel_small",
+    "type": "vehicle_part",
+    "name": "small wheel",
+    "item": "wheel_small",
+    "location": "under",
+    "symbol": "o",
+    "broken_symbol": "x",
+    "color": "dark_gray",
+    "difficulty": 2,
+    "durability": 70,
+    "damage_modifier": 50,
+    "breaks_into": [
+      { "item": "steel_lump" },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] }
+    ],
+    "flags": [ "WHEEL", "NO_JACK" ]
+  },
+  {
+    "id": "wheel_small_steerable",
+    "copy-from": "wheel_small",
+    "type": "vehicle_part",
+    "name": "small wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "wheel_unicycle",
+    "type": "vehicle_part",
+    "name": "unicycle wheel",
+    "item": "wheel_bicycle",
+    "location": "under",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "color": "dark_gray",
+    "difficulty": 2,
+    "durability": 40,
+    "damage_modifier": 50,
+    "folded_volume": 14,
+    "breaks_into": [
+      { "item": "steel_lump", "prob": 50 },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "WHEEL", "STABLE", "FOLDABLE", "TOOL_WRENCH", "STEERABLE" ]
+  },
+  {
+    "id": "wheel_wheelchair",
+    "type": "vehicle_part",
+    "name": "wheelchair wheel",
+    "item": "wheel_wheelchair",
+    "location": "under",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "color": "dark_gray",
+    "difficulty": 2,
+    "durability": 40,
+    "damage_modifier": 50,
+    "folded_volume": 25,
+    "breaks_into": [
+      { "item": "steel_lump", "prob": 50 },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "WHEEL", "STABLE", "FOLDABLE", "TOOL_WRENCH", "STEERABLE" ]
+  },
+  {
+    "id": "wheel_wide",
+    "type": "vehicle_part",
+    "name": "wide wheel",
+    "item": "wheel_wide",
+    "location": "under",
+    "symbol": "O",
+    "broken_symbol": "x",
+    "color": "dark_gray",
+    "difficulty": 4,
+    "durability": 400,
+    "damage_modifier": 50,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 3 ] },
+      { "item": "steel_chunk", "count": [ 2, 3 ] },
+      { "item": "scrap", "count": [ 2, 3 ] }
+    ],
+    "flags": [ "WHEEL" ]
+  },
+  {
+    "id": "wheel_wide_steerable",
+    "copy-from": "wheel_wide",
+    "type": "vehicle_part",
+    "name": "wide wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "wheel_wood",
+    "type": "vehicle_part",
+    "name": "wooden cart wheel",
+    "item": "wheel_wood",
+    "location": "under",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "color": "brown",
+    "broken_color": "brown",
+    "difficulty": 2,
+    "durability": 30,
+    "damage_modifier": 50,
+    "breaks_into": [
+      { "item": "2x4", "count": [ 0, 4 ] },
+      { "item": "nail", "charges": [ 5, 15 ] }
+    ],
+    "flags": [ "WHEEL", "TOOL_WRENCH", "NAILABLE" ]
+  },
+  {
+    "id": "wheel_wood_b",
+    "copy-from": "wheel_wood",
+    "type": "vehicle_part",
+    "name": "banded wooden cart wheel",
+    "item": "wheel_wood_b",
+    "location": "under",
+    "breaks_into": [
+      { "item": "2x4", "count": [ 0, 4 ] },
+      { "item": "nail", "charges": [ 5, 15 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "proportional": {
+      "durability": 2,
+      "damage_modifier": 2
+    }
+  }
+]

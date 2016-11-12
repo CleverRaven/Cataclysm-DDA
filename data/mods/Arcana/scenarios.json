@@ -1,0 +1,12 @@
+[
+  {
+    "type": "scenario",
+    "ident": "arcane_seeker",
+    "name": "Seeker of the Arcane",
+    "points" : 2,
+    "description": "You were drawn to this place in search of answers, in search of power.  Whoever or whatever once lived here, they've suffered the same fate as those in the cities.  But some remnant of their mysterious work may remain.",
+    "start_name": "Arcanist Enclave",
+    "allowed_locs" : ["curious_structure", "impact_site", "island_temple", "strange_grove"],
+    "professions" : ["arcanist_apprentice", "arcanist_alchemist", "arcanist_scribe", "arcanist_bloodmage", "arcanist_magehunter", "arcanist_oathkeeper", "arcanist_summoner"]
+  }
+]

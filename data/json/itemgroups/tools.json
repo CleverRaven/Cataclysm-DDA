@@ -1,0 +1,204 @@
+[
+  {
+    "id" : "tools_blacksmith",
+    "type" : "item_group",
+    "//" : "Tools commonly used by blacksmiths",
+    "items": [
+      [ "anvil", 30 ],
+      [ "chisel", 90 ],
+      [ "crucible", 30 ],
+      [ "swage", 60 ],
+      [ "tongs", 90 ]
+    ]
+  },
+  {
+    "id": "tools_carpentry",
+    "type": "item_group",
+    "//": "Portable tools used for carpentry",
+    "items": [
+      { "group": "tools_common", "prob": 100 },
+      [ "circsaw_off", 100 ],
+      [ "cordless_drill", 100 ],
+      [ "hand_drill", 20 ],
+      [ "nailgun", 100 ]
+    ]
+  },
+  {
+    "id": "tools_construction",
+    "type": "item_group",
+    "//": "Industrial machinery used for construction",
+    "items": [
+      [ "brick_kiln", 80 ],
+      [ "con_mix", 120 ],
+      [ "elec_jackhammer", 40 ],
+      [ "jackhammer", 40 ]
+    ]
+  },
+  {
+    "id" : "tools_common",
+    "type" : "item_group",
+    "//" : "Common household tools",
+    "items": [
+      [ "hacksaw", 50 ],
+      [ "hammer", 80 ],
+      [ "misc_repairkit", 25 ],
+      [ "pliers", 60 ],
+      [ "saw", 60 ],
+      [ "screwdriver", 100 ],
+      [ "screwdriver_set", 50 ],
+      [ "wrench", 40 ],
+      [ "xacto", 40 ]
+    ]
+  },
+  {
+    "id": "tools_earthworking",
+    "type": "item_group",
+    "//": "Portable tools for earthworking or farming",
+    "items": [
+      [ "ax", 80 ],
+      [ "bucket", 40 ],
+      [ "chainsaw_off", 30 ],
+      [ "elec_chainsaw_off", 30 ],
+      [ "g_shovel", 40 ],
+      [ "hand_drill", 20 ],
+      [ "hoe", 60 ],
+      [ "pickaxe", 80 ],
+      [ "pitchfork", 60 ],
+      [ "trimmer_off", 20 ],
+      [ "scythe", 40 ],
+      [ "shovel", 120 ],
+      [ "sickle", 40 ]
+    ]
+  },
+  {
+    "id": "tools_electronics",
+    "type": "item_group",
+    "//": "Portable tools used by electricians and for electronics repair",
+    "items": [
+      { "group": "tools_common", "prob": 100 },
+      [ "soldering_iron", 100 ],
+      [ "magnifying_glass", 100 ]
+    ]
+  },
+  {
+    "id": "tools_entry",
+    "type": "item_group",
+    "//": "Tools used for forcing entry into a building",
+    "items": [
+      [ "boltcutters", 30 ],
+      [ "crowbar", 50 ],
+      [ "hammer_sledge", 20 ],
+      [ "halligan", 10 ]
+    ]
+  },
+  {
+    "id": "tools_home",
+    "type": "item_group",
+    "//": "Tools commonly found in the home or other domestic settings",
+    "items": [
+      { "group": "tools_common", "prob": 100 },
+      { "group": "tools_lighting", "prob": 50 },
+      { "group": "tools_tailor", "prob": 50 },
+      [ "toolbox", 5 ]
+    ]
+  },
+  {
+    "id": "tools_mechanic",
+    "type": "item_group",
+    "//": "Equipment of any size commonly used by engineers and mechanics",
+    "ammo": 100,
+    "items": [
+      [ "forge", 100 ],
+      [ "jack", 100 ],
+      [ "jack_small", 100 ],
+      [ "oxy_torch", 100 ],
+      [ "polisher", 100 ],
+      [ "welder", 100 ]
+    ]
+  },
+  {
+    "id": "tools_medical",
+    "type": "item_group",
+    "comment": "Portable medical equipment for doctors and paramedics (excludes consumables)",
+    "items": [
+      [ "scalpel", 50 ],
+      [ "scissors", 100 ],
+      [ "stethoscope", 50 ],
+      [ "syringe", 50 ],
+      [ "thermometer", 50 ],
+      [ "vacutainer", 50 ]
+    ]
+  },
+  {
+    "id": "tools_gunsmith",
+    "type": "item_group",
+    "//": "Tools used for working with guns and ammo",
+    "items": [
+      { "group": "tools_common", "prob": 50 },
+      { "group": "tools_blacksmith", "prob": 50 },
+      [ "puller", 100 ],
+      [ "press", 100 ]
+    ]
+  },
+  {
+    "id" : "tools_lighting",
+    "type" : "item_group",
+    "//": "Light sources balanced according to rarity",
+    "items" : [
+      [ "candle", 70 ],
+      [ "electric_lantern", 20 ],
+      [ "handflare", 50 ],
+      [ "flashlight", 100 ],
+      [ "gasoline_lantern", 10 ],
+      [ "glowstick", 60 ],
+      [ "heavy_flashlight", 30 ],
+      [ "oil_lamp", 10 ],
+      [ "wearable_light", 15 ]
+    ]
+  },
+  {
+    "id" : "tools_lighting_industrial",
+    "type" : "item_group",
+    "//": "Light sources used as industrial working equipment.",
+    "items" : [
+      [ "flashlight", 100 ],
+      [ "heavy_flashlight", 40 ],
+      [ "wearable_light", 60 ]
+    ]
+  },
+  {
+    "id" : "tools_survival",
+    "type" : "item_group",
+    "//": "Practical, small and light-weight tools for survival excluding camping gear.",
+    "items" : [
+      [ "binoculars", 30 ],
+      [ "canteen", 15 ],
+      [ "e_tool", 10 ],
+      [ "flaregun", 20 ],
+      [ "handflare", 20 ],
+      [ "hatchet", 10 ],
+      [ "knife_hunting", 10 ],
+      [ "knife_rambo", 10 ],
+      [ "knife_swissarmy", 5],
+      [ "knife_trench", 10 ],
+      [ "mess_kit", 20 ],
+      [ "multitool", 5 ],
+      [ "pockknife", 50 ],
+      [ "pur_tablets", 10 ],
+      [ "ref_lighter", 20 ],
+      [ "signal_flare", 20 ],
+      [ "sm_extinguisher", 20 ],
+      [ "whistle", 20 ]
+    ]
+  },
+  {
+    "id" : "tools_tailor",
+    "type" : "item_group",
+    "items" : [
+      [ "needle_curved", 30 ],
+      [ "scissors", 1000 ],
+      [ "sewing_kit", 100 ],
+      [ "tailors_kit", 30 ]
+    ]
+  }
+]

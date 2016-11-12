@@ -12,7 +12,7 @@
             ],
             "replace_monster_group" : true,
             "new_monster_group_id" : "GROUP_ZOMBIE_MID",
-            "replacement_time" : 14    
+            "replacement_time" : 14
     },{
             "type" : "item_group",
             "id" : "floor_trash",
@@ -22,8 +22,8 @@
                 ["bottle_plastic", 10],
                 ["cup_plastic", 10],
                 ["bottle_glass", 10],
-                ["can_drink", 10],
-                ["can_food", 10],
+                ["can_drink_unsealed", 10],
+                ["can_food_unsealed", 10],
                 ["box_small", 10],
                 ["jug_plastic", 10],
                 ["jar_glass", 5],
@@ -48,6 +48,7 @@
                 ["candy", 60],
                 ["candy2", 60],
                 ["candy3", 60],
+                ["maple_candy", 25],
                 ["powder_candy", 40],
                 ["neccowafers", 60],
                 ["candycigarette", 45],
@@ -76,12 +77,7 @@
             "items" : [
                 ["trimmer_off", 30],
                 ["fertilizer_liquid", 50],
-                ["poppy_flower", 25],
-                ["poppy_bud", 10],
-                ["dahlia_flower", 75],
-                ["dahlia_bud", 40],
-                ["bluebell_flower", 75],
-                ["bluebell_bud", 45],
+                ["dahlia_root", 30],
                 ["fertilizer_commercial", 25]
             ]
     },{
@@ -90,8 +86,7 @@
             "items" : [
                 ["battery", 30],
                 ["radio", 30],
-                ["mp3", 30],
-                ["music_cd", 20]
+                ["mp3", 30]
             ]
     },{
             "type" : "item_group",
@@ -519,12 +514,12 @@
             "place_vehicles": [
                 { "vehicle": "truck_trailer", "x": 0, "y": 15, "rotation": 180, "chance": 100 }
             ],
-            "place_items": [
-                { "item": "mechanics", "chance": 60, "x": [ 13,16 ], "y": [ 13,13 ]},
-                { "item": "tools", "chance": 60, "x": [ 22,23 ], "y": [ 13,13 ]},
-                { "item": "shirts", "chance": 80, "x": [ 8,9 ], "y": [ 14,15 ], "repeat": [ 1, 2 ]  },
-                { "item": "shirts", "chance": 80, "x": [ 8,9 ], "y": [ 17,18 ], "repeat": [ 1, 2 ]  },
-                { "item": "vending_food", "chance": 80, "x": [ 12,13 ], "y": [ 15,16 ], "repeat": [ 1, 3 ]  }
+            "place_loot": [
+                { "group": "mechanics", "chance": 90, "x": [ 13,16 ], "y": [ 13,13 ], "repeat": [1,3] },
+                { "group": "tools_mechanic", "chance": 90, "x": [ 22,23 ], "y": [ 13,13 ] },
+                { "group": "shirts", "chance": 80, "x": [ 8,9 ], "y": [ 14,15 ], "repeat": [ 1, 3 ] },
+                { "group": "shirts", "chance": 80, "x": [ 8,9 ], "y": [ 17,18 ], "repeat": [ 1, 3 ] },
+                { "group": "vending_food", "chance": 80, "x": [ 12,13 ], "y": [ 15,16 ], "repeat": [ 2, 5 ]  }
             ],
             "place_monsters": [
                 { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 10 ], "density": 0.2 },
@@ -644,11 +639,11 @@
                 "         |S    |   -----"
             ],
             "place_items": [
-                { "item": "tools", "chance": 60, "x": [ 0,1 ], "y": [ 13,13 ] },
+                { "item": "tools_common", "chance": 60, "x": [ 0,1 ], "y": [ 13,13 ] },
                 { "item": "pants", "chance": 80, "x": [ 6,7 ], "y": [ 15,16 ]},
                 { "item": "winter", "chance": 80, "x": [ 20,21 ], "y": [ 14,15 ]},
                 { "item": "home_hw", "chance": 60, "x": [ 19,23 ], "y": [ 22,22 ]},
-                { "item": "tools", "chance": 60, "x": [ 10,10 ], "y": [ 22,22 ]}
+                { "item": "tools_common", "chance": 60, "x": [ 10,10 ], "y": [ 22,22 ]}
             ],
             "place_monsters": [
                 { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 10 ], "density": 0.2 },
@@ -3798,9 +3793,9 @@
             "place_items": [
                 { "item": "ammo", "chance": 60, "x": [ 15,15 ], "y": [ 18,19 ]},
                 { "item": "ammo", "chance": 60, "x": [ 19,19 ], "y": [ 18,19 ]},
-                { "item": "rifles", "chance": 60, "x": [ 15,15 ], "y": [ 21,21 ]},
-                { "item": "shotguns", "chance": 60, "x": [ 15,15 ], "y": [ 22,23 ]},
-                { "item": "pistols", "chance": 60, "x": [ 19,19 ], "y": [ 21,23 ]},
+                { "item": "guns_rifle_common", "chance": 60, "x": [ 15,15 ], "y": [ 21,21 ]},
+                { "item": "guns_shotgun_common", "chance": 60, "x": [ 15,15 ], "y": [ 22,23 ]},
+                { "item": "guns_pistol_common", "chance": 60, "x": [ 19,19 ], "y": [ 21,23 ]},
                 { "item": "snacks", "chance": 60, "x": [ 21,21 ], "y": [ 8,8 ]},
                 { "item": "snacks", "chance": 60, "x": [ 21,21 ], "y": [ 14,14 ]},
                 { "item": "snacks", "chance": 60, "x": [ 18,18 ], "y": [ 14,14 ]},
@@ -4983,10 +4978,10 @@
                 { "item": "victoria_shop", "chance": 60, "x": [ 16,16 ], "y": [ 15,17 ]},
                 { "item": "victoria_shop", "chance": 60, "x": [ 18,19 ], "y": [ 14,15 ]},
                 { "item": "mil_surplus", "chance": 60, "x": [ 23,23 ], "y": [ 3,4 ]},
-                { "item": "survival_tools", "chance": 60, "x": [ 18,23 ], "y": [ 11,11 ]},
-                { "item": "tools", "chance": 60, "x": [ 19,19 ], "y": [ 0,2 ]},
+                { "item": "gear_survival", "chance": 60, "x": [ 18,23 ], "y": [ 11,11 ]},
+                { "item": "tools_lighting", "chance": 60, "x": [ 19,19 ], "y": [ 0,2 ]},
                 { "item": "mechanics", "chance": 60, "x": [ 15,15 ], "y": [ 7,11 ]},
-                { "item": "pistols", "chance": 60, "x": [ 19,19 ], "y": [ 0,2 ]},
+                { "item": "guns_pistol_common", "chance": 60, "x": [ 19,19 ], "y": [ 0,2 ]},
                 { "item": "knife_shop", "chance": 60, "x": [ 17,19 ], "y": [ 3,3 ]},
                 { "item": "allclothes", "chance": 60, "x": [ 10,10 ], "y": [ 16,18 ]},
                 { "item": "allclothes", "chance": 60, "x": [ 10,10 ], "y": [ 3,5 ]},
@@ -5120,8 +5115,8 @@
                 { "item": "victoria_shop", "chance": 60, "x": [ 0,1 ], "y": [ 14,15 ]},
                 { "item": "victoria_shop", "chance": 60, "x": [ 1,2 ], "y": [ 17,18 ]},
                 { "item": "victoria_shop", "chance": 60, "x": [ 6,6 ], "y": [ 16,18 ]},
-                { "item": "survival_tools", "chance": 60, "x": [ 0,2 ], "y": [ 11,11 ]},
-                { "item": "survival_tools", "chance": 60, "x": [ 3,4 ], "y": [ 7,11 ]},
+                { "item": "gear_survival", "chance": 60, "x": [ 0,2 ], "y": [ 11,11 ]},
+                { "item": "gear_survival", "chance": 60, "x": [ 3,4 ], "y": [ 7,11 ]},
                 { "item": "mil_surplus", "chance": 60, "x": [ 0,0 ], "y": [ 3,4 ]},
                 { "item": "mil_surplus", "chance": 60, "x": [ 3,4 ], "y": [ 2,4 ]},
                 { "item": "camping", "chance": 60, "x": [ 0,10 ], "y": [ 0,0 ]},

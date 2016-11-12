@@ -7,16 +7,51 @@
 #include <algorithm>
 #include <iterator>
 
+// TODO: a map, for Barry's sake make this a map.
 std::vector<Skill> Skill::skills;
+std::map<skill_id, Skill> Skill::contextual_skills;
+
+template<>
+const skill_id string_id<Skill>::NULL_ID( "none" );
+
+static const Skill invalid_skill;
+
+const Skill &Skill::get( const skill_id &id )
+{
+    for( const Skill &skill : Skill::skills ) {
+        if( skill.ident() == id ) {
+            return skill;
+        }
+    }
+
+    const auto iter = contextual_skills.find( id );
+    if( iter != contextual_skills.end() ) {
+        return iter->second;
+    }
+
+    return invalid_skill;
+}
+
+template<>
+const Skill &string_id<Skill>::obj() const
+{
+    return Skill::get( *this );
+}
+
+template<>
+bool string_id<Skill>::is_valid() const
+{
+    return Skill::get( *this ) != invalid_skill;
+}
 
 Skill::Skill()
-  : Skill(0, "null", "nothing", "The zen-most skill there is.", std::set<std::string> {})
+  : Skill(NULL_ID, "nothing", "The zen-most skill there is.", std::set<std::string> {})
 {
 }
 
-Skill::Skill(size_t id, std::string ident, std::string name, std::string description,
+Skill::Skill(skill_id ident, std::string name, std::string description,
              std::set<std::string> tags)
-  : _id(std::move(id)), _ident(std::move(ident)), _name(std::move(name)),
+  : _ident(std::move(ident)), _name(std::move(name)),
     _description(std::move(description)), _tags(std::move(tags))
 {
 }
@@ -41,55 +76,49 @@ std::vector<Skill const*> Skill::get_skills_sorted_by(
 void Skill::reset()
 {
     skills.clear();
+    contextual_skills.clear();
 }
 
 void Skill::load_skill(JsonObject &jsobj)
 {
-    std::string ident = jsobj.get_string("ident");
+    skill_id ident = skill_id( jsobj.get_string("ident") );
     skills.erase(std::remove_if(begin(skills), end(skills), [&](Skill const &s) {
         return s._ident == ident; }), end(skills));
 
-    std::string name           = _(jsobj.get_string("name").c_str());
-    std::string description    = _(jsobj.get_string("description").c_str());
-    std::set<std::string> tags = jsobj.get_tags("tags");
+    const Skill sk( ident, _( jsobj.get_string( "name").c_str() ),
+                           _( jsobj.get_string( "description" ).c_str() ),
+                           jsobj.get_tags( "tags" ) );
 
-    DebugLog( D_INFO, DC_ALL ) << "Loaded skill: " << name;
+    DebugLog( D_INFO, DC_ALL ) << "Loaded skill: " << sk.name();
 
-    skills.emplace_back(skills.size(), std::move(ident), std::move(name), std::move(description),
-                        std::move(tags));
+    if( sk.is_contextual_skill() ) {
+        contextual_skills[sk.ident()] = sk;
+    } else {
+        skills.push_back( sk );
+    }
 }
 
-const Skill* Skill::skill(const std::string& ident)
+skill_id Skill::from_legacy_int( const int legacy_id )
 {
-    for( auto &skill : Skill::skills ) {
-        if( skill._ident == ident ) {
-            return &skill;
-        }
+    static const std::array<skill_id, 28> legacy_skills = { {
+        skill_id::NULL_ID, skill_id("dodge"), skill_id("melee"), skill_id("unarmed"),
+        skill_id("bashing"), skill_id("cutting"), skill_id("stabbing"), skill_id("throw"),
+        skill_id("gun"), skill_id("pistol"), skill_id("shotgun"), skill_id("smg"),
+        skill_id("rifle"), skill_id("archery"), skill_id("launcher"), skill_id("mechanics"),
+        skill_id("electronics"), skill_id("cooking"), skill_id("tailor"), skill_id("carpentry"),
+        skill_id("firstaid"), skill_id("speech"), skill_id("barter"), skill_id("computer"),
+        skill_id("survival"), skill_id("traps"), skill_id("swimming"), skill_id("driving"),
+    } };
+    if( static_cast<size_t>( legacy_id ) < legacy_skills.size() ) {
+        return legacy_skills[legacy_id];
     }
-    if(ident != "none") {
-        debugmsg("unknown skill %s", ident.c_str());
-    }
-    return nullptr;
+    debugmsg( "legacy skill id %d is invalid", legacy_id );
+    return skills.front().ident(); // return a non-null id because callers might not expect a null-id
 }
 
-const Skill* Skill::skill(size_t id)
+skill_id Skill::random_skill()
 {
-    return &Skill::skills[id];
-}
-
-const Skill* Skill::random_skill_with_tag(const std::string& tag)
-{
-    std::vector<Skill const*> valid;
-    for (auto const &s : skills) {
-        if (s._tags.count(tag)) {
-            valid.push_back(&s);
-        }
-    }
-    if( valid.empty() ) {
-        debugmsg( "could not find a skill with the %s tag", tag.c_str() );
-        return &skills.front();
-    }
-    return valid[rng( 0, valid.size() - 1 )];
+    return skills[rng( 0, skills.size() - 1 )].ident();
 }
 
 size_t Skill::skill_count()
@@ -100,14 +129,19 @@ size_t Skill::skill_count()
 // used for the pacifist trait
 bool Skill::is_combat_skill() const
 {
-    return !!_tags.count("combat_skill");
+    return _tags.count( "combat_skill" ) > 0;
+}
+
+bool Skill::is_contextual_skill() const
+{
+    return _tags.count( "contextual_skill" ) > 0;
 }
 
 SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPracticed)
   : _level(level), _exercise(exercise), _lastPracticed(lastPracticed), _isTraining(isTraining)
 {
     if (lastPracticed <= 0) {
-        _lastPracticed = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
+        _lastPracticed = HOURS(get_world_option<int>( "INITIAL_TIME" ) );
     }
 }
 
@@ -118,11 +152,18 @@ SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExerc
 {
 }
 
-void SkillLevel::train(int amount)
+void SkillLevel::train(int amount, bool skip_scaling)
 {
-    _exercise += amount;
+    if( skip_scaling ) {
+        _exercise += amount;
+    } else {
+        const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
+        if( scaling > 0.0 ) {
+            _exercise += divide_roll_remainder( amount * scaling, 1.0 );
+        }
+    }
 
-    if (_exercise >= 100 * (_level + 1) * (_level + 1)) {
+    if( _exercise >= 100 * (_level + 1) * (_level + 1) ) {
         _exercise = 0;
         ++_level;
     }
@@ -144,7 +185,7 @@ int rustRate(int level)
 
 bool SkillLevel::isRusting() const
 {
-    return OPTIONS["SKILL_RUST"] != "off" && (_level > 0) &&
+    return get_option<std::string>( "SKILL_RUST" ) != "off" && (_level > 0) &&
            (calendar::turn - _lastPracticed) > rustRate(_level);
 }
 
@@ -160,7 +201,7 @@ bool SkillLevel::rust( bool charged_bio_mem )
     }
 
     _exercise -= _level;
-    auto const &rust_type = OPTIONS["SKILL_RUST"];
+    auto const &rust_type = get_option<std::string>( "SKILL_RUST" );
     if (_exercise < 0) {
         if (rust_type == "vanilla" || rust_type == "int") {
             _exercise = (100 * _level * _level) - 1;
@@ -185,6 +226,11 @@ void SkillLevel::readBook(int minimumGain, int maximumGain, int maximumLevel)
     }
 
     practice();
+}
+
+bool SkillLevel::can_train() const
+{
+    return get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0;
 }
 
 //Actually take the difference in barter skill between the two parties involved

@@ -2,22 +2,29 @@
 #define OVERMAP_H
 
 #include "omdata.h"
+#include "overmap_types.h"
 #include "mapdata.h"
 #include "weighted_list.h"
 #include "game_constants.h"
 #include "monster.h"
-#include <vector>
-#include <iosfwd>
-#include <string>
-#include <array>
-#include <map>
-#include <unordered_map>
+#include "weather_gen.h"
 
-class overmapbuffer;
-class npc;
-struct mongroup;
-class JsonObject;
+#include <array>
+#include <iosfwd>
+#include <list>
+#include <map>
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <memory>
+
 class input_context;
+class JsonObject;
+class npc;
+class overmapbuffer;
+
+struct mongroup;
+struct overmap_location_restictions;
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
 extern std::unordered_map<std::string, oter_t> obasetermap;
@@ -98,16 +105,17 @@ struct groundcover_extra {
     groundcover_extra() = default;
 };
 
+struct sid_or_sid;
 /*
  * Spationally relevent overmap and mapgen variables grouped into a set of suggested defaults;
  * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
  */
 struct regional_settings {
     std::string id;           //
-    std::string default_oter; // 'field'
+    oter_str_id default_oter; // 'field'
 
-    id_or_id    default_groundcover; // ie, 'grass_or_dirt'
-    sid_or_sid *default_groundcover_str = nullptr;
+    id_or_id<ter_t> default_groundcover; // ie, 'grass_or_dirt'
+    std::shared_ptr<sid_or_sid> default_groundcover_str;
 
     int num_forests           = 250;  // amount of forest groupings per overmap
     int forest_size_min       = 15;   // size range of a forest group
@@ -121,19 +129,29 @@ struct regional_settings {
     groundcover_extra field_coverage;
     groundcover_extra forest_coverage;
 
-    regional_settings() : id("null"), default_oter("field"), default_groundcover(0, 0, 0) { }
+    weather_generator weather;
+
+    std::unordered_map<std::string, map_extras> region_extras;
+
+    regional_settings() : id("null"), default_oter("field"), default_groundcover(t_null, 0, t_null) { }
     void setup();
     static void setup_oter(oter_weight &oter);
 };
 
 
 struct city {
- // in overmap terrain coordinates
- int x;
- int y;
- int s;
- std::string name;
- city(int X = -1, int Y = -1, int S = -1);
+    // in overmap terrain coordinates
+    int x;
+    int y;
+    int s;
+    std::string name;
+    city(int X = -1, int Y = -1, int S = -1);
+
+    operator bool() const {
+        return s >= 0;
+    }
+
+    int get_distance_from( const tripoint &p ) const;
 };
 
 struct om_note {
@@ -152,6 +170,8 @@ enum radio_type {
     MESSAGE_BROADCAST,
     WEATHER_RADIO
 };
+
+extern std::map<enum radio_type, std::string> radio_type_names;
 
 #define RADIO_MIN_STRENGTH 80
 #define RADIO_MAX_STRENGTH 200
@@ -176,23 +196,14 @@ struct map_layer {
     std::vector<om_note> notes;
 };
 
-struct node
-{
- int x;
- int y;
- int d;
- int p;
-
- node(int xp, int yp, int dir, int pri) {x = xp; y = yp; d = dir; p = pri;}
- bool operator< (const node &n) const { return this->p > n.p; }
-};
-
 class overmap
 {
  public:
     overmap(const overmap&) = default;
     overmap(overmap &&) = default;
     overmap(int x, int y);
+    // Argument-less constructor bypasses trying to load matching file, only used for unit testing.
+    overmap();
     ~overmap();
 
     overmap& operator=(overmap const&) = default;
@@ -219,7 +230,6 @@ class overmap
     const oter_id get_ter(const int x, const int y, const int z) const;
     bool&   seen(int x, int y, int z);
     bool&   explored(int x, int y, int z);
-    bool is_road_or_highway(int x, int y, int z);
     bool is_explored(int const x, int const y, int const z) const;
 
     bool has_note(int x, int y, int z) const;
@@ -228,6 +238,22 @@ class overmap
     void delete_note(int x, int y, int z);
 
     /**
+     * Getter for overmap scents.
+     * @returns a reference to a scent_trace from the requested location.
+     */
+    const scent_trace &scent_at( const tripoint &loc ) const;
+    /**
+     * Setter for overmap scents, stores the provided scent at the provided location.
+     */
+    void set_scent( const tripoint &loc, scent_trace &new_scent );
+
+    /**
+     * @returns Whether @param loc is within desired bounds of the overmap
+     * @param clearance Minimal distance from the edges of the overmap
+     */
+    static bool inbounds( const tripoint &loc, int clearance = 0 );
+    static bool inbounds( int x, int y, int z, int clearance = 0 ); /// @todo This one should be obsoleted
+    /**
      * Display a list of all notes on this z-level. Let the user choose
      * one or none of them.
      * @returns The location of the chosen note (absolute overmap terrain
@@ -235,11 +261,12 @@ class overmap
      */
     static point display_notes(int z);
     /**
-     * Dummy value, used to indicate that a point returned by a function
+     * Dummy value, used to indicate that a point/rotation returned by a function
      * is invalid.
      */
     static const point invalid_point;
     static const tripoint invalid_tripoint;
+    static const int invalid_rotation = -1;
     /**
      * Return a vector containing the absolute coordinates of
      * every matching note on the current z level of the current overmap.
@@ -263,6 +290,10 @@ class overmap
      */
     static tripoint draw_weather();
     /**
+     * Draw overmap like with @ref draw_overmap() and display scent traces.
+     */
+    static tripoint draw_scents();
+    /**
      * Draw overmap like with @ref draw_overmap() and display the given zone.
      */
     static tripoint draw_zones( tripoint const &center, tripoint const &select, int const iZoneIndex );
@@ -276,6 +307,10 @@ class overmap
      */
     static tripoint draw_overmap(int z);
 
+    static tripoint draw_editor();
+
+    static oter_id rotate(const oter_id &oter, int dir);
+
   /** Get the x coordinate of the left border of this overmap. */
   int get_left_border();
 
@@ -288,18 +323,23 @@ class overmap
   /** Get the y coordinate of the bottom border of this overmap. */
   int get_bottom_border();
 
-  const regional_settings& get_settings(const int x, const int y, const int z) {
-     (void)x;
-     (void)y;
-     (void)z; // todo
-
+  // @todo Should depend on coords
+  const regional_settings& get_settings() const
+  {
      return settings;
   }
     void clear_mon_groups();
 private:
     std::multimap<tripoint, mongroup> zg;
 public:
-  // TODO: make private
+    /** Unit test enablers to check if a given mongroup is present. */
+    bool mongroup_check(const mongroup &candidate) const;
+    int num_mongroups() const;
+    bool monster_check(const std::pair<tripoint, monster> &candidate) const;
+    int num_monsters() const;
+
+    void add_npc( npc &who );
+    // TODO: make private
   std::vector<radio_tower> radios;
   std::vector<npc *> npcs;
   std::map<int, om_vehicle> vehicles;
@@ -315,6 +355,8 @@ public:
   oter_id nullret;
   bool nullbool;
 
+        std::unordered_map<tripoint, scent_trace> scents;
+
     /**
      * When monsters despawn during map-shifting they will be added here.
      * map::spawn_monsters will load them and place them into the reality bubble
@@ -328,26 +370,42 @@ public:
   void init_layers();
   // open existing overmap, or generate a new one
   void open();
+ public:
   // parse data in an opened overmap file
-  void unserialize(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
+  void unserialize(std::istream &fin);
+  // Parse per-player overmap view data.
+  void unserialize_view(std::istream &fin);
+  // Save data in an opened overmap file
+  void serialize(std::ostream &fin) const;
+  // Save per-player overmap view data.
+  void serialize_view(std::ostream &fin) const;
   // parse data in an old overmap file
-  bool unserialize_legacy(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
-
+  void unserialize_legacy(std::istream &fin);
+  void unserialize_view_legacy(std::istream &fin);
+ private:
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
 
-    int dist_from_city( const tripoint &p );
+    const city &get_nearest_city( const tripoint &p ) const;
+
     void signal_hordes( const tripoint &p, int sig_power );
     void process_mongroups();
     void move_hordes();
 
-    // drawing relevant data, e.g. what to draw
+    static bool obsolete_terrain( const std::string &ter );
+    void convert_terrain( const std::unordered_map<tripoint, std::string> &needs_conversion );
+
+    // drawing relevant data, e.g. what to draw.
     struct draw_data_t {
-        // draw monster groups on the overmap
+        // draw monster groups on the overmap.
         bool debug_mongroup = false;
         // draw weather, e.g. clouds etc.
         bool debug_weather = false;
-        // draw zone location
+        // draw editor.
+        bool debug_editor = false;
+        // draw scent traces.
+        bool debug_scent = false;
+        // draw zone location.
         tripoint select = tripoint(-1, -1, -1);
         int iZoneIndex = -1;
     };
@@ -372,8 +430,7 @@ public:
   void place_cities();
   void put_buildings(int x, int y, int dir, city town);
   void make_road(int cx, int cy, int cs, int dir, city town);
-  bool build_lab(int x, int y, int z, int s);
-  bool build_ice_lab(int x, int y, int z, int s);
+  bool build_lab(int x, int y, int z, int s, bool ice = false);
   void build_anthill(int x, int y, int z, int s);
   void build_tunnel(int x, int y, int z, int s, int dir);
   bool build_slimepit(int x, int y, int z, int s);
@@ -392,19 +449,21 @@ public:
   void chip_rock(int x, int y, int z);
   void good_road(const std::string &base, int x, int y, int z);
   void good_river(int x, int y, int z);
-  oter_id rotate(const oter_id &oter, int dir);
-  bool allowed_terrain(tripoint p, int width, int height, std::list<std::string> allowed);
-  bool allowed_terrain(tripoint p, std::list<tripoint>, std::list<std::string> allowed, std::list<std::string> disallowed);
-  bool allow_special(tripoint p, overmap_special special, int &rotate);
+  // Returns a vector of enabled overmap specials.
+  std::vector<const overmap_special *> get_enabled_specials() const;
+  // Returns a vector of permuted coordinates of overmap sectors.
+  // Each sector consists of 12x12 small maps. Coordinates of the sectors are in range [0, 15], [0, 15].
+  // Check OMAPX, OMAPY, and OMSPEC_FREQ to learn actual values.
+  std::vector<point> get_sectors() const;
+
+  int random_special_rotation( const overmap_special &special, const tripoint &p ) const;
+  void place_special( const overmap_special &special, const tripoint &p, int rotation, const city &cit );
   // Monsters, radios, etc.
   void place_specials();
-  void place_special(overmap_special special, tripoint p, int rotation);
   void place_mongroups();
   void place_radios();
 
     void add_mon_group(const mongroup &group);
-    // not available because *every* overmap needs location, so use the other constructor.
-    overmap() = delete;
 };
 
 // TODO: readd the stream operators
@@ -412,8 +471,6 @@ public:
 //std::ostream & operator<<(std::ostream &, const overmap &);
 //std::ostream & operator<<(std::ostream &, const city &);
 
-extern std::unordered_map<std::string,oter_t> otermap;
-extern std::vector<oter_t> oterlist;
 //extern const regional_settings default_region_settings;
 typedef std::unordered_map<std::string, regional_settings> t_regional_settings_map;
 typedef t_regional_settings_map::const_iterator t_regional_settings_map_citr;
@@ -430,6 +487,7 @@ void finalize_overmap_terrain();
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);
-map_extras& get_extras(const std::string &name);
+
+inline tripoint rotate_tripoint( tripoint p, int rotations );
 
 #endif

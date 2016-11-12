@@ -1,0 +1,619 @@
+[
+    {
+    "type" : "item_group",
+    "id" : "sanguine_cult_books",
+    "items":[
+      ["plays_book", 4],
+      ["poetry_book", 4],
+      ["philosophy_book", 2],
+      ["novel_drama", 1],
+      ["essay_book", 2],
+      ["cookbook_human", 1],
+      ["textbook_speech", 1],
+      ["book_bloodmagic", 6],
+      ["book_summoning", 1],
+      ["book_potioncraft", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sanguine_cult_gear",
+    "items":[
+      ["essence_blood", 3],
+      ["blood_athame", 4],
+      ["book_bloodmagic", 1],
+      ["bloodaxe", 2],
+      ["bloodscourge", 1],
+      ["armor_wyrm", 2],
+      ["revenant_crown", 1]
+    ]
+  },{
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "sanguine_cult_casualties",
+        "entries":
+        [
+            { "group": "underwear", "damage": [1, 4]},
+            { "group": "shirts", "damage": [1, 4]},
+            { "group": "pants", "damage": [1, 4]},
+            { "group": "shoes", "damage": [1, 4]},
+            { "group": "sanguine_cult_gear", "prob": 25},
+            { "item": "corpse"}
+        ]
+  },{
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "sanguine_ritual",
+        "entries":
+        [
+            { "item": "silver_glyph"},
+            { "item": "essence_blood"},
+            { "item": "cleric_ring"}
+        ]
+  },{
+        "type" : "mapgen",
+        "om_terrain" : ["island_temple_1"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_dirt",
+            "rows": [
+                ",,,,,,,,,,,,,,,,,,,````,",
+                ",,,````````````````````=",
+                ",,``````````````````~~~=",
+                ",`````~~~~~~~~~~~~~~~~~=",
+                ",````~~~~~~~~~~~~~~~~~~=",
+                ",```~~~~~~~~~~~~~~~~~~~=",
+                ",``~~~~~~~~~~~~~~~~~~~~=",
+                ",``~~~~~~~~~~~~~~~~~~~~=",
+                ",``~~~~~~~~~~~~~~~~~~~~=",
+                ",``~~~~~~~~~~~~~~~~~~~~=",
+                ",``~~~~~~~~~~~~~~~~~~~~=",
+                ",``~~~~~~~~~~~~~~~~~~~~=",
+                ",``~~~~~~~~~~~~~~~~````=",
+                ",``~~~~~~~~~~~~~~~~````,",
+                ",``~~~~~~~~~~~~~~~```,,,",
+                ",``~~~~~~~~~~~~~~~```,##",
+                ",``~~~~~~~~~~~~~````,,+.",
+                ",``~~~~~~~~~~~~~````,##.",
+                ",``~~~~~~~~~~~````,,,#d.",
+                ",``~~~~~~~~~``````,###c.",
+                "```~~~~~~~~~````,,,#....",
+                "``~~~~~~~~~~``,,,###.##+",
+                "``~~~~~~~~~~``,#+#dc.#..",
+                ",============,,#.....+.>"
+            ],
+            "terrain": {
+                ".": "t_floor",
+                ",": "t_dirt",
+                "`": "t_water_sh",
+                "~": "t_water_dp",
+                "#": "t_wall",
+                "+": "t_door_c",
+                "=": "t_bridge",
+                ">": "t_stairs_down",
+                "b": "t_floor",
+                "c": "t_floor"
+            },
+            "furniture": {
+                "c": "f_chair",
+                "d": "f_desk"
+            },
+            "place_items": [
+                { "item": "sanguine_cult_casualties", "chance": 30, "x": 22, "y": 2 },
+                { "item": "sanguine_cult_casualties", "chance": 30, "x": 19, "y": 22 }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_IMPACT", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 }
+            ]
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["island_temple_2"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_dirt",
+            "rows": [
+                ",````,,,,,,,,,,,,,,,,,,,",
+                "=````````````````````,,,",
+                "=~~~``````````````````,,",
+                "=~~~~~~~~~~~~~~~~~`````,",
+                "=~~~~~~~~~~~~~~~~~~````,",
+                "=~~~~~~~~~~~~~~~~~~~```,",
+                "=~~~~~~~~~~~~~~~~~~~~``,",
+                "=~~~~~~~~~~~~~~~~~~~~``,",
+                "=~~~~~~~~~~~~~~~~~~~~``,",
+                "=~~~~~~~~~~~~~~~~~~~~``,",
+                "=~~~~~~~~~~~~~~~~~~~~``,",
+                "=~~~~~~~~~~~~~~~~~~~~``,",
+                "=````~~~~~~~~~~~~~~~~``,",
+                ",````~~~~~~~~~~~~~~~~``,",
+                ",,,```~~~~~~~~~~~~~~~``,",
+                "##,```~~~~~~~~~~~~~~~``,",
+                ".+,,````~~~~~~~~~~~~~``,",
+                ".##,````~~~~~~~~~~~~~``,",
+                ".d#,,,````~~~~~~~~~~~``,",
+                ".c###,``````~~~~~~~~~``,",
+                "....#,,,````~~~~~~~~~```",
+                "+##.###,,,``~~~~~~~~~~``",
+                "..#.cd#+#,``~~~~~~~~~~``",
+                ">.+.....#,,============,"
+            ],
+            "terrain": {
+                ".": "t_floor",
+                ",": "t_dirt",
+                "`": "t_water_sh",
+                "~": "t_water_dp",
+                "#": "t_wall",
+                "+": "t_door_c",
+                "=": "t_bridge",
+                ">": "t_stairs_down",
+                "b": "t_floor",
+                "c": "t_floor"
+            },
+            "furniture": {
+                "c": "f_chair",
+                "d": "f_desk"
+            },
+            "place_items": [
+                { "item": "sanguine_cult_casualties", "chance": 30, "x": 1, "y": 19 },
+                { "item": "sanguine_cult_casualties", "chance": 30, "x": 4, "y": 22 }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_IMPACT", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 }
+            ]
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["island_temple_3"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_dirt",
+            "rows": [
+                ",============,,#.....+.>",
+                "``~~~~~~~~~~``,#+#dc.#..",
+                "``~~~~~~~~~~``,,,###.##+",
+                "``~~~~~~~~~~````,,,#....",
+                "```~~~~~~~~~``````,###c.",
+                ",``~~~~~~~~~~~````,,,#d.",
+                ",``~~~~~~~~~~~~~````,##.",
+                ",``~~~~~~~~~~~~~````,,+.",
+                ",``~~~~~~~~~~~~~~~```,##",
+                ",``~~~~~~~~~~~~~~~```,,,",
+                ",``~~~~~~~~~~~~~~~~````,",
+                ",``~~~~~~~~~~~~~~~~````=",
+                ",``~~~~~~~~~~~~~~~~~~~~=",
+                ",``~~~~~~~~~~~~~~~~~~~~=",
+                ",``~~~~~~~~~~~~~~~~~~~~=",
+                ",``~~~~~~~~~~~~~~~~~~~~=",
+                ",``~~~~~~~~~~~~~~~~~~~~=",
+                ",``~~~~~~~~~~~~~~~~~~~~=",
+                ",```~~~~~~~~~~~~~~~~~~~=",
+                ",````~~~~~~~~~~~~~~~~~~=",
+                ",`````~~~~~~~~~~~~~~~~~=",
+                ",,``````````````````~~~=",
+                ",,,````````````````````=",
+                ",,,,,,,,,,,,,,,,,,,````,"
+            ],
+            "terrain": {
+                ".": "t_floor",
+                ",": "t_dirt",
+                "`": "t_water_sh",
+                "~": "t_water_dp",
+                "#": "t_wall",
+                "+": "t_door_c",
+                "=": "t_bridge",
+                ">": "t_stairs_down",
+                "b": "t_floor",
+                "c": "t_floor"
+            },
+            "furniture": {
+                "c": "f_chair",
+                "d": "f_desk"
+            },
+            "place_items": [
+                { "item": "sanguine_cult_casualties", "chance": 30, "x": 19, "y": 1 },
+                { "item": "sanguine_cult_casualties", "chance": 30, "x": 4, "y": 22 }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_IMPACT", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 }
+            ]
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["island_temple_4"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_dirt",
+            "rows": [
+                ">.+.....#,,============,",
+                "..#.cd#+#,``~~~~~~~~~~``",
+                "+##.###,,,``~~~~~~~~~~``",
+                "....#,,,````~~~~~~~~~~``",
+                ".c###,``````~~~~~~~~~```",
+                ".d#,,,````~~~~~~~~~~~``,",
+                ".##,````~~~~~~~~~~~~~``,",
+                ".+,,````~~~~~~~~~~~~~``,",
+                "##,```~~~~~~~~~~~~~~~``,",
+                ",,,```~~~~~~~~~~~~~~~``,",
+                ",````~~~~~~~~~~~~~~~~``,",
+                "=````~~~~~~~~~~~~~~~~``,",
+                "=~~~~~~~~~~~~~~~~~~~~``,",
+                "=~~~~~~~~~~~~~~~~~~~~``,",
+                "=~~~~~~~~~~~~~~~~~~~~``,",
+                "=~~~~~~~~~~~~~~~~~~~~``,",
+                "=~~~~~~~~~~~~~~~~~~~~``,",
+                "=~~~~~~~~~~~~~~~~~~~~``,",
+                "=~~~~~~~~~~~~~~~~~~~```,",
+                "=~~~~~~~~~~~~~~~~~~````,",
+                "=~~~~~~~~~~~~~~~~~`````,",
+                "=~~~```````````````````,",
+                "=`````````````````````,,",
+                ",````,,,,,,,,,,,,,,,,,,,"
+            ],
+            "terrain": {
+                ".": "t_floor",
+                ",": "t_dirt",
+                "`": "t_water_sh",
+                "~": "t_water_dp",
+                "#": "t_wall",
+                "+": "t_door_c",
+                "=": "t_bridge",
+                ">": "t_stairs_down",
+                "b": "t_floor",
+                "c": "t_floor"
+            },
+            "furniture": {
+                "c": "f_chair",
+                "d": "f_desk"
+            },
+            "place_items": [
+                { "item": "sanguine_cult_casualties", "chance": 30, "x": 4, "y": 1 },
+                { "item": "sanguine_cult_casualties", "chance": 30, "x": 1, "y": 4 }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_IMPACT", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 }
+            ]
+        }
+  },{
+        "type" : "mapgen",
+        "om_terrain" : ["island_temple_b_1"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_rock",
+            "rows": [
+                "                    ####",
+                "                   ##...",
+                "                   #b.rr",
+                "        #####      ##.r.",
+                "      ###BdB###    ##.r.",
+                "      #Bd...dB#    #b.rr",
+                "    ###.......###  ##...",
+                "    #B..Dc.CC..B#   ###M",
+                "   ##d..Dc.CC..d##    #.",
+                "   #B...Dc.CC...B#    #.",
+                "   #d...Dc.CC...d######X",
+                "   #B...Dc.CC...B#......",
+                "   ##d..Dc.CC...##.````=",
+                "    #B..Dc.CC...+..````=",
+                "    ###.......###.```...",
+                "      #Bd.....#...```.##",
+                "      ###BdB#+#.````..+.",
+                "        #####...````.##.",
+                "          #...````...#b.",
+                "          #.``````.###..",
+                "          #.````...#....",
+                "          #.``...###.##+",
+                "          #.``.#+#b..#..",
+                "          #.==.#.....+.<"
+            ],
+            "terrain": {
+                ".": "t_rock_floor",
+                "r": "t_carpet_red",
+                "`": "t_water_sh",
+                "#": "t_rock",
+                "+": "t_door_c",
+                "X": "t_door_locked_interior",
+                "=": "t_bridge",
+                "<": "t_stairs_up",
+                "b": "t_rock_floor",
+                "B": "t_rock_floor",
+                "c": "t_rock_floor",
+                "C": "t_rock_floor",
+                "d": "t_rock_floor",
+                "D": "t_rock_floor",
+                "M": "t_rdoor_boarded"
+            },
+            "furniture": {
+                "c": "f_chair",
+                "D": "f_desk",
+                "C": "f_bookcase",
+                "B": "f_bed",
+                "d": "f_dresser"
+            },
+            "place_loot": [
+                { "item": "note_sanguine",  "chance": 100, "x": [22, 23], "y": [22, 23] },
+                { "group": "cult_sacrifice", "chance": 100, "x": 22, "y": 18 },
+                { "group": "cult_sacrifice", "chance": 100, "x": 18, "y": 22 },
+                { "group": "cult_sacrifice", "chance": 100, "x": 20, "y": 2 },
+                { "group": "cult_sacrifice", "chance": 100, "x": 20, "y": 5 },
+                { "group": "sanguine_ritual", "chance": 100, "x": 23, "y": 3 }
+            ],
+            "mapping": {
+                "C": {
+                    "items": { "item": "sanguine_cult_books", "chance": 60 },
+                    "furniture": "f_bookcase"
+                },
+                "d": {
+                    "items": { "item": "dresser", "chance": 40 },
+                    "furniture": "f_dresser"
+                },
+                "B": {
+                    "items": [
+                        { "item": "bed", "chance": 60 }
+                    ],
+                    "furniture": "f_bed"
+                }
+            },
+            "set": [
+                { "point": "trap", "id": "tr_brazier", "x": 22, "y": 18},
+                { "point": "trap", "id": "tr_brazier", "x": 18, "y": 22},
+                { "point": "trap", "id": "tr_brazier", "x": 20, "y": 2},
+                { "point": "trap", "id": "tr_brazier", "x": 20, "y": 5}
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_IMPACT", "x": [ 11, 23 ], "y": [ 11, 23 ], "density": 0.15 }
+            ],
+            "place_monster": [
+                { "x": 23, "y": 4, "monster": "mon_dracolich" }
+            ]
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["island_temple_b_2"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_dirt",
+            "rows": [
+                "####                    ",
+                "...##                   ",
+                "rr.b#                   ",
+                ".r.##      #####        ",
+                ".r.##    ###.b.###      ",
+                "rr.b#    #t.....t#      ",
+                "...##  ###.......###    ",
+                "M###   #t.........t#    ",
+                ".#    ##...P===P...##   ",
+                ".#    #....=```=....#   ",
+                "X######b...=`~`=...b#   ",
+                "......#....=```=....#   ",
+                "=````.##...P===P...##   ",
+                "=````..+..........t#    ",
+                "...```.###.......###    ",
+                "##.```...#......t#      ",
+                ".+..````.#+#.b.###      ",
+                ".##.````...#####        ",
+                ".b#...````...#          ",
+                "..###.``````.#          ",
+                "....#...````.#          ",
+                "+##.###...``.#          ",
+                "..#..b#+#.``.#          ",
+                "<.+.....#.==.#          "
+            ],
+            "terrain": {
+                ".": "t_rock_floor",
+                "r": "t_carpet_red",
+                "`": "t_water_sh",
+                "~": "t_water_dp",
+                "#": "t_rock",
+                "+": "t_door_c",
+                "X": "t_door_locked_interior",
+                "=": "t_bridge",
+                "P": "t_column",
+                "<": "t_stairs_up",
+                "b": "t_rock_floor",
+                "t": "t_rock_floor",
+                "M": "t_rdoor_boarded"
+            },
+            "furniture": {
+                "t": "f_table"
+            },
+            "place_items": [
+                { "item": "cult_sacrifice", "chance": 25, "x": 13, "y": 4 },
+                { "item": "cult_sacrifice", "chance": 25, "x": 7, "y": 10 },
+                { "item": "cult_sacrifice", "chance": 25, "x": 19, "y": 10 },
+                { "item": "cult_sacrifice", "chance": 25, "x": 13, "y": 16 },
+                { "item": "cult_sacrifice", "chance": 25, "x": 1, "y": 18 },
+                { "item": "cult_sacrifice", "chance": 25, "x": 5, "y": 22 },
+                { "item": "cult_sacrifice", "chance": 100, "x": 3, "y": 2 },
+                { "item": "cult_sacrifice", "chance": 100, "x": 3, "y": 5 }
+            ],
+            "mapping": {
+                "t": {
+                    "items": [
+                        { "item": "sanguine_cult_gear", "chance": 50 }
+                    ],
+                    "furniture": "f_table"
+                }
+            },
+            "set": [
+                { "point": "trap", "id": "tr_portal", "x": 0, "y": 3},
+                { "point": "trap", "id": "tr_brazier", "x": 13, "y": 4},
+                { "point": "trap", "id": "tr_brazier", "x": 7, "y": 10},
+                { "point": "trap", "id": "tr_brazier", "x": 19, "y": 10},
+                { "point": "trap", "id": "tr_brazier", "x": 13, "y": 16},
+                { "point": "trap", "id": "tr_brazier", "x": 1, "y": 18},
+                { "point": "trap", "id": "tr_brazier", "x": 5, "y": 22},
+                { "point": "trap", "id": "tr_brazier", "x": 3, "y": 2},
+                { "point": "trap", "id": "tr_brazier", "x": 3, "y": 5}
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_IMPACT", "x": [ 0, 12 ], "y": [ 11, 23 ], "density": 0.15 }
+            ]
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["island_temple_b_3"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_rock",
+            "rows": [
+                "          #.==.#.....+.<",
+                "          #.``.#+#b..#..",
+                "          #.``...###.##+",
+                "          #.````...#....",
+                "          #.``````.###..",
+                "          #...````...#b.",
+                "        #####...````.##.",
+                "      ###.b.#+#.````..+.",
+                "      #t......#...```.##",
+                "    ###.......###.```...",
+                "    #t..........+..````=",
+                "   ##...P===P...##.````=",
+                "   #....=```=....#......",
+                "   #b...=`~`=...b#######",
+                "   #....=```=....#      ",
+                "   ##...P===P...##      ",
+                "    #t.........t#       ",
+                "    ###.......###       ",
+                "      #t.....t#         ",
+                "      ###.b.###         ",
+                "        #####           ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "terrain": {
+                ".": "t_rock_floor",
+                "`": "t_water_sh",
+                "~": "t_water_dp",
+                "#": "t_rock",
+                "+": "t_door_c",
+                "X": "t_door_locked",
+                "=": "t_bridge",
+                "P": "t_column",
+                "<": "t_stairs_up",
+                "b": "t_rock_floor",
+                "t": "t_rock_floor"
+            },
+            "furniture": {
+                "t": "f_table"
+            },
+            "place_items": [
+                { "item": "cult_sacrifice", "chance": 25, "x": 10, "y": 7 },
+                { "item": "cult_sacrifice", "chance": 25, "x": 4, "y": 13 },
+                { "item": "cult_sacrifice", "chance": 25, "x": 16, "y": 13 },
+                { "item": "cult_sacrifice", "chance": 25, "x": 10, "y": 19 },
+                { "item": "cult_sacrifice", "chance": 25, "x": 18, "y": 1 },
+                { "item": "cult_sacrifice", "chance": 25, "x": 22, "y": 5 }
+            ],
+            "mapping": {
+                "t": {
+                    "items": [
+                        { "item": "sanguine_cult_gear", "chance": 50 }
+                    ],
+                    "furniture": "f_table"
+                }
+            },
+            "set": [
+                { "point": "trap", "id": "tr_brazier", "x": 10, "y": 7},
+                { "point": "trap", "id": "tr_brazier", "x": 4, "y": 13},
+                { "point": "trap", "id": "tr_brazier", "x": 16, "y": 13},
+                { "point": "trap", "id": "tr_brazier", "x": 10, "y": 19},
+                { "point": "trap", "id": "tr_brazier", "x": 18, "y": 1},
+                { "point": "trap", "id": "tr_brazier", "x": 22, "y": 5}
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_IMPACT", "x": [ 11, 23 ], "y": [ 0, 12 ], "density": 0.15 }
+            ]
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["island_temple_b_4"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_rock",
+            "rows": [
+                "<.+.....#.==.#          ",
+                "..#..b#+#.``.#          ",
+                "+##.###...``.#          ",
+                "....#...````.#          ",
+                "..###.``````.#          ",
+                ".b#...````...#          ",
+                ".##.````...#####        ",
+                ".+..````.#+#BdB###      ",
+                "##.```...#.....dB#      ",
+                "...```.###.......###    ",
+                "=````..+...CC.cD..B#    ",
+                "=````.##...CC.cD..d##   ",
+                "......#B...CC.cD...B#   ",
+                "#######d...CC.cD...d#   ",
+                "      #B...CC.cD...B#   ",
+                "      ##d..CC.cD..d##   ",
+                "       #B..CC.cD..B#    ",
+                "       ###.......###    ",
+                "         #Bd...dB#      ",
+                "         ###BdB###      ",
+                "           #####        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "terrain": {
+                ".": "t_rock_floor",
+                "`": "t_water_sh",
+                "#": "t_rock",
+                "+": "t_door_c",
+                "X": "t_door_locked",
+                "=": "t_bridge",
+                "<": "t_stairs_up",
+                "b": "t_rock_floor",
+                "B": "t_rock_floor",
+                "c": "t_rock_floor",
+                "C": "t_rock_floor",
+                "d": "t_rock_floor",
+                "D": "t_rock_floor"
+            },
+            "furniture": {
+                "c": "f_chair",
+                "D": "f_desk",
+                "C": "f_bookcase",
+                "B": "f_bed",
+                "d": "f_dresser"
+            },
+            "place_items": [
+                { "item": "cult_sacrifice", "chance": 25, "x": 5, "y": 1 },
+                { "item": "cult_sacrifice", "chance": 25, "x": 1, "y": 5 }
+            ],
+            "mapping": {
+                "C": {
+                    "items": { "item": "sanguine_cult_books", "chance": 60 },
+                    "furniture": "f_bookcase"
+                },
+                "d": {
+                    "items": { "item": "dresser", "chance": 40 },
+                    "furniture": "f_dresser"
+                },
+                "B": {
+                    "items": [
+                        { "item": "bed", "chance": 60 }
+                    ],
+                    "furniture": "f_bed"
+                }
+            },
+            "set": [
+                { "point": "trap", "id": "tr_brazier", "x": 5, "y": 1},
+                { "point": "trap", "id": "tr_brazier", "x": 1, "y": 5}
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_IMPACT", "x": [ 0, 12 ], "y": [ 0, 12 ], "density": 0.15 }
+            ]
+        }
+    }
+]

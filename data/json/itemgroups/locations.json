@@ -1,0 +1,88 @@
+[
+  {
+    "id" : "cop_armory",
+    "type" : "item_group",
+    "magazine": 100,
+    "items":[
+      { "group": "ammo_cop",  "prob":  80 },
+      { "group": "guns_cop",  "prob": 100 },
+      { "group": "mags_cop",  "prob":  40 },
+      { "group": "ammo_swat", "prob":  20 },
+      { "group": "guns_swat", "prob":  20 },
+      { "group": "mags_swat", "prob":  20 },
+      [ "l_car_223_kit", 5 ],
+      [ "l_dsr_223_kit", 5 ],
+      [ "l_lmg_223_kit", 5 ],
+      [ "l_mbr_223_kit", 5 ],
+      [ "survnote", 1 ]
+    ]
+  },
+  {
+    "type":"item_group",
+    "id":"homeguns",
+    "ammo": 70,
+    "magazine": 100,
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "guns_common", "prob": 100 },
+      { "group": "ammo_common", "prob": 50 }
+    ]
+  },{
+    "type":"item_group",
+    "id":"mags_pawnshop",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "mags_obscure", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mansion_guns",
+    "magazine": 100,
+    "ammo": 100,
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "guns_pistol_common", "prob": 20 },
+      { "group": "guns_rifle_common", "prob": 20 },
+      { "group": "guns_shotgun_common", "prob": 20 },
+      { "group": "guns_pistol_obscure", "prob": 60 },
+      { "group": "guns_rifle_obscure", "prob": 60 },
+      { "group": "guns_shotgun_obscure", "prob": 60 },
+      { "group": "guns_survival", "prob": 30 },
+      { "group": "ammo_obscure", "prob": 90 },
+      { "group": "ammo_reloaded", "prob": 30 },
+      { "group": "mags_obscure", "prob": 30 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "lmoe_guns",
+    "magazine": 100,
+    "ammo": 100,
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "guns_pistol_common", "prob": 50 },
+      { "group": "guns_rifle_common", "prob": 50 },
+      { "group": "guns_shotgun_common", "prob": 50 },
+      { "group": "guns_survival", "prob": 100 },
+      { "item": "flaregun", "prob": 25 },
+      { "item": "l_HFPack", "prob": 50 },
+      { "item": "large_repairkit", "prob": 5 },
+      { "item": "signal_flare", "prob": 20 },
+      { "item": "small_repairkit", "prob": 5 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hospital_samples",
+    "items":[
+      ["blood", 20],
+      ["vacutainer", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cave_minerals",
+    "items":[
+      ["material_niter", 20],
+      ["material_limestone", 5]
+    ]
+  }
+]
+ 

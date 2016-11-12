@@ -45,7 +45,11 @@ namespace {
 bool do_mkdir(std::string const& path, int const mode)
 {
     (void)mode; //not used on windows
+#ifdef _MSC_VER
+    return _mkdir(path.c_str()) == 0;
+#else
     return mkdir(path.c_str()) == 0;
+#endif
 }
 #else
 bool do_mkdir(std::string const& path, int const mode)
@@ -58,8 +62,12 @@ bool do_mkdir(std::string const& path, int const mode)
 
 bool assure_dir_exist(std::string const &path)
 {
-    std::unique_ptr<DIR, decltype(&closedir)> dir {opendir(path.c_str()), closedir};
-    return dir || do_mkdir(path, 0777);
+    DIR *dir = opendir(path.c_str());
+    if(dir != nullptr) {
+        closedir(dir);
+        return true;
+    }
+    return do_mkdir(path, 0777);
 }
 
 bool file_exist(const std::string &path)
@@ -114,22 +122,23 @@ inline size_t sizeof_array(T const (&)[N]) noexcept {
 template <typename Function>
 void for_each_dir_entry(std::string const &path, Function function)
 {
-    using dir_ptr = std::unique_ptr<DIR, decltype(&closedir)>;
+    using dir_ptr = DIR*;
 
     if (path.empty()) {
         return;
     }
 
-    dir_ptr root {opendir(path.c_str()), closedir};
+    dir_ptr root = opendir(path.c_str());
     if (!root) {
         auto const e_str = strerror(errno);
         DebugLog(D_WARNING, D_MAIN) << "opendir [" << path << "] failed with \"" << e_str << "\".";
         return;
     }
 
-    while (auto const entry = readdir(root.get())) {
+    while (auto const entry = readdir(root) ) {
         function(*entry);
     }
+    closedir(root);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -218,7 +227,7 @@ std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool con
 
         auto const n_dirs    = static_cast<std::ptrdiff_t>(directories.size());
         auto const n_results = static_cast<std::ptrdiff_t>(results.size());
-        
+
         for_each_dir_entry(path, [&](dirent const &entry) {
             // exclude special directories.
             if (is_special_dir(entry)) {
@@ -226,7 +235,7 @@ std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool con
             }
 
             auto const full_path = path + "/" + entry.d_name;
-            
+
             // don't add files ending in '~'.
             if (full_path.back() == '~') {
                 return;
@@ -264,6 +273,33 @@ std::vector<std::string> get_files_from_path(std::string const &pattern,
     return find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool) {
         return name_contains(entry, pattern, match_extension);
     });
+}
+
+/** Find directories which containing pattern.
+  * @param pattern Search pattern.
+  * @param root_path Search root.
+  * @param recurse Be recurse or not.
+  * @return vector or directories without pattern filename at end.
+  */
+std::vector<std::string> get_directories_with(std::string const &pattern,
+    std::string const &root_path, bool const recurse)
+{
+    if (pattern.empty()) {
+        return std::vector<std::string>();
+    }
+
+    auto files = find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool) {
+        return name_contains(entry, pattern, true);
+    });
+
+    // Chop off the file names. Dir path MUST be splitted by '/'
+    for (auto &file : files) {
+        file.erase(file.rfind('/'), std::string::npos);
+    }
+
+    files.erase(std::unique(std::begin(files), std::end(files)), std::end(files));
+
+    return files;
 }
 
 //--------------------------------------------------------------------------------------------------

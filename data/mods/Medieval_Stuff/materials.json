@@ -1,0 +1,23 @@
+[
+    {
+        "type" : "material",
+        "ident" : "bronze",
+        "name" : "Bronze",
+        "salvaged_into" : "scrap_bronze",
+        "bash_resist" : 4,
+        "cut_resist" : 5,
+        "bash_dmg_verb" : "dented",
+        "cut_dmg_verb" : "scratched",
+        "dmg_adj" : [
+            "marked",
+            "dented",
+            "smashed",
+            "shattered"
+        ],
+        "acid_resist" : 1,
+        "elec_resist" : 0,
+        "fire_resist" : 2,
+        "chip_resist" : 15,
+        "density" : 58
+    }
+]

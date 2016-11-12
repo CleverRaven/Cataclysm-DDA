@@ -1,0 +1,324 @@
+[
+  {
+    "abstract": "flesh",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": "meat/fish",
+    "material": "flesh",
+    "symbol": "%",
+    "color": "red",
+    "parasites": 32,
+    "vitamins": [
+      [ "calcium", 1 ],
+      [ "iron", 20 ],
+      [ "vitB", 10 ]
+    ]
+  },
+  {
+    "id": "fish",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": "fillet of fish",
+    "name_plural": "fillets of fish",
+    "description": "Freshly caught fish.  Makes a passable meal raw.",
+    "weight": 200,
+    "volume": 1,
+    "price": 500,
+    "spoils_in": 12,
+    "calories": 200
+  },
+  {
+    "id": "fish_cooked",
+    "copy-from": "fish",
+    "type": "COMESTIBLE",
+    "name": "cooked fish",
+    "name_plural": "cooked fish",
+    "description": "Freshly cooked fish.  Very nutritious.",
+    "proportional": { "price": 1.5 },
+    "spoils_in": 24,
+    "parasites": 0,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "hstomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": "human stomach",
+    "description": "The stomach of a human.  It is surprisingly durable.",
+    "material": "hflesh"
+  },
+  {
+    "id": "hstomach_large",
+    "copy-from": "hstomach",
+    "type": "COMESTIBLE",
+    "name": "large human stomach",
+    "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
+    "proportional": {
+      "weight": 2.0,
+      "volume": 2.0,
+      "price": 1.5,
+      "calories": 2.0
+    }
+  },
+  {
+    "id": "human_flesh",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": "human flesh",
+    "name_plural": "human fleshes",
+    "description": "Freshly butchered from a human body.",
+    "material": "hflesh"
+  },
+  {
+    "id": "human_cooked",
+    "copy-from": "human_flesh",
+    "type": "COMESTIBLE",
+    "name": "cooked creep",
+    "description": "A freshly cooked slice of some unpleasant person.  Tastes great.",
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
+    "healthy": 0,
+    "fun": 0,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "meat",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": "chunk of meat",
+    "name_plural": "chunks of meat",
+    "description": "Freshly butchered meat.  You could eat it raw, but cooking it is better.",
+    "weight": 200,
+    "volume": 1,
+    "price": 500,
+    "spoils_in": 24,
+    "calories": 250,
+    "healthy": -1,
+    "fun": -10
+  },
+  {
+    "id": "meat_cooked",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": "cooked meat",
+    "description": "Freshly cooked meat.  Very nutritious.",
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
+    "healthy": 0,
+    "fun": 0,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "offal",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": "raw offal",
+    "description": "Uncooked internal organs and entrails.  Unappealing to eat but filled with essential vitamins.",
+    "proportional": {
+        "calories": 0.5,
+        "parasites": 2.0
+    },
+    "relative": {
+        "vitamins": [ [ "vitA", 5 ] ],
+        "fun": -5
+    }
+  },
+  {
+    "id": "offal_cooked",
+    "copy-from": "offal",
+    "type": "COMESTIBLE",
+    "name": "cooked offal",
+    "name_plural": "cooked offal",
+    "description": "Freshly cooked entrails.  Unappetizing, but filled with essential vitamins.",
+    "parasites": 0,
+    "fun": -5,
+    "proportional": { "calories": 2 },
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "offal_pickled",
+    "copy-from": "offal",
+    "type": "COMESTIBLE",
+    "name": "pickled offal",
+    "name_plural": "pickled offal",
+    "description": "Cooked entrails, preserved in brine.  Packed with essential vitamins, tastes better than it smells.",
+    "volume": 2,
+    "stack_size": 2,
+    "parasites": 0,
+    "container" : "jar_glass",
+    "spoils_in": 36,
+    "quench" : -1,
+    "fun": -1,
+    "proportional": { "calories": 0.5 }
+  },
+  {
+    "id": "offal_canned",
+    "copy-from": "offal",
+    "type": "COMESTIBLE",
+    "name": "canned offal",
+    "name_plural": "canned offal",
+    "description": "Freshly cooked entrails, preserved by canning.  Unappetizing, but filled with essential vitamins.",
+    "volume": 2,
+    "stack_size": 2,
+    "parasites": 0,
+    "container" : "can_food",
+    "fun": -2,
+    "proportional": { "calories": 0.5 }
+  },
+  {
+    "id": "stomach",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": "stomach",
+    "description": "The stomach of a woodland creature.  It is surprisingly durable.",
+    "weight": 72,
+    "volume": 1,
+    "price": 200,
+    "spoils_in": 8,
+    "calories": 40,
+    "quench": 1,
+    "healthy": -1,
+    "fun": -15
+  },
+  {
+    "id": "stomach_large",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": "large stomach",
+    "description": "The stomach of a large woodland creature.  It is surprisingly durable.",
+    "proportional": {
+      "weight": 2.0,
+      "volume": 2.0,
+      "price": 1.5,
+      "calories": 2.0
+    }
+  },
+  {
+    "id": "jerky",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": "meat jerky",
+    "name_plural": "meat jerky",
+    "description": "Salty dried meat that never goes bad, but will make you thirsty.",
+    "weight": 40,
+    "container": "bag_plastic",
+    "color": "brown",
+    "charges": 3,
+    "stack_size": 3,
+    "parasites": 0,
+    "healthy": 0,
+    "spoils_in": 0,
+    "quench": -5,
+    "fun": 4,
+    "proportional": {
+      "price": 0.64,
+      "calories": 0.34
+    }
+  },
+  {
+    "id": "salted_fish",
+    "copy-from": "fish",
+    "type": "COMESTIBLE",
+    "name": "salted fish",
+    "name_plural": "salted fish",
+    "//": "Two fillets of fish needed here.",
+    "description": "Salty dried fish that never goes bad, but will make you thirsty.",
+    "weight": 44,
+    "container": "bag_plastic",
+    "color": "light_gray",
+    "charges": 4,
+    "stack_size": 4,
+    "parasites": 0,
+    "spoils_in": 0,
+    "quench": -5,
+    "fun": 4,
+    "proportional": {
+      "price": 2,
+      "calories": 0.45
+    }
+  },
+  {
+    "id": "jerky_human",
+    "copy-from": "human_flesh",
+    "type": "COMESTIBLE",
+    "name": "jerk jerky",
+    "name_plural": "jerk jerky",
+    "description": "Salty dried human flesh that never goes bad, but will make you thirsty.",
+    "weight": 56,
+    "color": "brown",
+    "charges": 3,
+    "stack_size": 3,
+    "parasites": 0,
+    "spoils_in": 0,
+    "quench": -5,
+    "fun": 4,
+    "proportional": {
+      "price": 0.44,
+      "calories": 0.34
+    }
+  },
+  {
+    "id": "meat_smoked",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": "smoked meat",
+    "//": "3 chunks of meat.",
+    "description": "Tasty meat that has been heavily smoked for long term preservation.",
+    "weight": 162,
+    "volume": 3,
+    "color": "brown",
+    "charges": 3,
+    "parasites": 0,
+    "spoils_in": 0,
+    "healthy": 0,
+    "quench": -1,
+    "fun": 5,
+    "proportional": {
+      "price": 6,
+      "calories": 0.95
+    },
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "fish_smoked",
+    "copy-from": "fish",
+    "type": "COMESTIBLE",
+    "name": "smoked fish",
+    "name_plural": "smoked fish",
+    "//": "Condenses 6 fillets.",
+    "description": "Tasty fish that has been heavily smoked for long term preservation.",
+    "weight": 84,
+    "color": "brown",
+    "charges": 6,
+    "stack_size": 6,
+    "parasites": 0,
+    "spoils_in": 0,
+    "healthy": 1,
+    "fun": 6,
+    "proportional": {
+      "price": 2,
+      "calories": 0.95
+    },
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "human_smoked",
+    "copy-from": "human_flesh",
+    "type": "COMESTIBLE",
+    "name": "smoked sucker",
+    "description": "A heavily smoked portion of human flesh.  Lasts for a very long time and tastes pretty good, if you like that sort of thing.",
+    "weight": 162,
+    "color": "brown",
+    "charges": 3,
+    "stack_size": 1,
+    "parasites": 0,
+    "spoils_in": 0,
+    "quench": -1,
+    "fun": 5,
+    "proportional": {
+      "price": 20,
+      "calories": 0.95
+    },
+    "flags": [ "EATEN_HOT" ]
+  }
+]

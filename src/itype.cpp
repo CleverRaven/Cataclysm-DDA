@@ -2,11 +2,11 @@
 #include "itype.h"
 #include "ammo.h"
 #include "game.h"
-#include "monstergenerator.h"
 #include "item_factory.h"
 #include "translations.h"
-#include <fstream>
+
 #include <stdexcept>
+#include <algorithm>
 
 std::string itype::nname( unsigned int const quantity ) const
 {
@@ -26,26 +26,8 @@ bool itype::can_use( const std::string &iuse_name ) const
 
 const use_function *itype::get_use( const std::string &iuse_name ) const
 {
-    if( !has_use() ) {
-        return nullptr;
-    }
-
-    const use_function *func = item_controller->get_iuse( iuse_name );
-    if( func != nullptr ) {
-        if( std::find( use_methods.cbegin(), use_methods.cend(),
-                         *func ) != use_methods.cend() ) {
-            return func;
-        }
-    }
-
-    for( const auto &method : use_methods ) {
-        const auto ptr = method.get_actor_ptr();
-        if( ptr != nullptr && ptr->type == iuse_name ) {
-            return &method;
-        }
-    }
-
-    return nullptr;
+    auto iter = use_methods.find( iuse_name );
+    return iter != use_methods.end() ? &iter->second : nullptr;
 }
 
 long itype::tick( player *p, item *it, const tripoint &pos ) const
@@ -54,7 +36,7 @@ long itype::tick( player *p, item *it, const tripoint &pos ) const
     // Maybe should move charge decrementing here?
     int charges_to_use = 0;
     for( auto &method : use_methods ) {
-        int val = method.call( p, it, true, pos );
+        int val = method.second.call( p, it, true, pos );
         if( charges_to_use < 0 || val < 0 ) {
             charges_to_use = -1;
         } else {
@@ -71,7 +53,7 @@ long itype::invoke( player *p, item *it, const tripoint &pos ) const
         return 0;
     }
 
-    return use_methods.front().call( p, it, false, pos );
+    return use_methods.begin()->second.call( p, it, false, pos );
 }
 
 long itype::invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const
@@ -79,19 +61,19 @@ long itype::invoke( player *p, item *it, const tripoint &pos, const std::string 
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
         debugmsg( "Tried to invoke %s on a %s, which doesn't have this use_function",
-                  iuse_name.c_str(), nname(1).c_str() );
+                  iuse_name.c_str(), nname( 1 ).c_str() );
         return 0;
     }
 
     return use->call( p, it, false, pos );
 }
 
-std::string const& ammo_name(std::string const &t)
+std::string ammo_name( const ammotype &t )
 {
-    return ammunition_type::find_ammunition_type(t).name();
+    return t.obj().name();
 }
 
-itype_id const& default_ammo(std::string const &t)
+const itype_id &default_ammo( const ammotype &t )
 {
-    return ammunition_type::find_ammunition_type(t).default_ammotype();
+    return t.obj().default_ammotype();
 }

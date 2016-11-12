@@ -1,0 +1,69 @@
+[
+  {
+    "id": "supplies_electronics",
+    "type": "item_group",
+    "//": "Parts for electronics crafting or repair",
+    "items": [
+      [ "amplifier", 40 ],
+      [ "antenna", 40 ],
+      [ "battery", 100 ],
+      [ "cable", 60 ],
+      [ "power_supply", 20 ],
+      [ "processor", 20 ],
+      [ "solar_cell", 10 ],
+      [ "solder_wire", 60 ],
+      [ "RAM", 20 ],
+      [ "radiocontrol", 10 ],
+      [ "receiver", 30 ],
+      [ "transponder", 30 ],
+      [ "light_bulb", 60 ],
+      [ "lightstrip_dead", 60 ]
+    ]
+  },
+  {
+    "id": "supplies_farming",
+    "type": "item_group",
+    "//": "Consumable supplies excluding seeds used for farming or other agriculture",
+    "items": [
+      [ "fertilizer_commercial", 100 ],
+      [ "fertilizer_liquid", 60 ],
+      [ "material_quicklime", 80 ]
+    ]
+  },
+  {
+    "id": "supplies_fuel",
+    "type": "item_group",
+    "//": "Combustible fuels within their default containers",
+    "items": [
+      [ "chem_ethanol", 10 ],
+      [ "denat_alcohol", 20 ],
+      [ "diesel", 20 ],
+      [ "gasoline", 50 ],
+      [ "lamp_oil", 100 ]
+    ]
+  },
+  {
+    "id": "supplies_metal_precious",
+    "type": "item_group",
+    "//": "Metals of significant economic value before the cataclysm",
+    "items": [
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ]
+    ]
+  },
+  {
+    "id": "supplies_spares_vehicle",
+    "type": "item_group",
+    "//": "Spare parts for crafting or mending vehicle parts",
+    "items": [
+      [ "bb", 40 ],
+      [ "drivebelt", 200 ],
+      [ "filter_air", 60 ],
+      [ "filter_liquid", 60 ],
+      [ "glowplug", 10 ],
+      [ "motor_small", 20 ],
+      [ "pump_complex", 10 ],
+      [ "well_pump", 50 ]
+    ]
+  }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "result": "cantilever_medium",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "skills_required": [ "fabrication", 3 ],
+    "time": 360000,
+    "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "GLARE", "level": 2 }
+    ],
+    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ] ] ],
+    "components": [
+      [ [ "pipe", 32 ] ],
+      [ [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
+      [ [ "chain", 1 ] ]
+    ]
+  },
+  {
+    "result": "honey_bottled",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 10000,
+    "reversible": false,
+    "autolearn": true,
+    "byproducts": [ [ "wax", 4 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "rag", -1 ] ] ],
+    "components": [ [ [ "honeycomb", 2 ] ] ]
+  },
+  {
+    "result": "m2browning_sawn",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "difficulty": 6,
+    "skills_required": [ "gun", 4 ],
+    "time": 180000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1, "amount": 1 },
+      { "id": "SCREW_FINE", "level": 1, "amount": 1 },
+      { "id": "GLARE", "level": 2 }
+    ],
+    "tools": [
+      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "welder_crude", 45 ], [ "toolset", 45 ] ],
+      [ [ "small_repairkit", 150 ], [ "large_repairkit", 30 ] ]
+    ],
+    "components": [
+      [ [ "m2browning", 1 ] ],
+      [ [ "2x4", 1 ] ]
+    ]
+  }
+]
