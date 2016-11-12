@@ -3139,8 +3139,8 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
     int discount = findBestGasDiscount(p);
     std::string discountName = getGasDiscountName(discount);
 
-    int pricePerUnit = getPricePerGasUnit(discount);
-    std::string unitPriceStr = string_format(_("$%0.2f"), pricePerUnit / 100.0);
+    long pricePerUnit = getGasPricePerLiter( discount );
+    std::string unitPriceStr = string_format(_("$%0.2f"), pricePerUnit / 100.0f);
 
     bool can_hack = (!p.has_trait("ILLITERATE") && ((p.has_charges("electrohack", 25)) ||
                      (p.has_bionic("bio_fingerhack") && p.power_level > 24)));
@@ -3209,37 +3209,34 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
 
         cashcard = &(p.i_at(pos));
 
-        if (cashcard->charges < pricePerUnit) {
+        if( cashcard->charges < pricePerUnit ) {
             popup(str_to_illiterate_str(
                       _("Not enough money, please refill your cash card.")).c_str()); //or ride on a solar car, ha ha ha
             return;
         }
 
-        long c_max = cashcard->charges / pricePerUnit;
-        long max = (c_max < tankGasUnits) ? c_max : tankGasUnits;
+        long maximum_liters = std::min( cashcard->charges / pricePerUnit, tankGasUnits / 1000 );
 
         std::string popupmsg = string_format(
-                                   ngettext("How many gas units to buy? Max:%d unit. (0 to cancel) ",
-                                            "How many gas units to buy? Max:%d units. (0 to cancel) ",
-                                            max), max);
-        long amount = std::atoi(string_input_popup(popupmsg, 20,
-                                     to_string(max), "", "", -1, true).c_str()
+                                   _( "How many liters of gasoline to buy? Max: %d L. (0 to cancel) " ), maximum_liters );
+        long liters = std::atoi(string_input_popup(popupmsg, 20,
+                                     to_string(maximum_liters), "", "", -1, true).c_str()
                                     );
-        if (amount <= 0) {
+        if (liters <= 0) {
             return;
         }
-        if (amount > max) {
-            amount = max;
+        if (liters > maximum_liters) {
+            liters = maximum_liters;
         }
 
         tripoint pGasPump = getGasPumpByNumber( examp,  uistate.ags_pay_gas_selected_pump );
-        if( !toPumpFuel( pTank, pGasPump, amount ) ) {
+        if( !toPumpFuel( pTank, pGasPump, liters * 1000 ) ) {
             return;
         }
 
         sounds::sound(p.pos(), 6, _("Glug Glug Glug"));
 
-        cashcard->charges -= amount * pricePerUnit;
+        cashcard->charges -= liters * pricePerUnit;
 
         add_msg(m_info, ngettext("Your cash card now holds %d cent.",
                                  "Your cash card now holds %d cents.",
@@ -3291,7 +3288,7 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
         long amount = fromPumpFuel( pTank, pGasPump );
         if (amount >= 0) {
             sounds::sound(p.pos(), 6, _("Glug Glug Glug"));
-            cashcard->charges += amount * pricePerUnit;
+            cashcard->charges += amount * pricePerUnit / 1000.0f;
             add_msg(m_info, ngettext("Your cash card now holds %d cent.",
                                      "Your cash card now holds %d cents.",
                                      cashcard->charges), cashcard->charges);
