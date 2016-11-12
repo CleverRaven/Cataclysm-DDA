@@ -1106,8 +1106,8 @@ void iexamine::locked_object( player &p, const tripoint &examp) {
         none(p, examp);
         return;
     }
-    
-    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 ); 
+
+    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
     if ( !has_prying_tool ) {
         add_msg(m_info, _("If only you had a crowbar..."));
         return;
@@ -2338,7 +2338,7 @@ item_location maple_tree_sap_container() {
     const item maple_sap = item( "maple_sap", 0 );
     return g->inv_map_splice( [&]( const item &it ) {
         return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
-    }, _( "Which container:" ), PICKUP_RANGE );
+    }, _( "Which container?" ), PICKUP_RANGE );
 }
 
 void iexamine::tree_maple(player &p, const tripoint &examp)

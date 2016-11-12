@@ -484,7 +484,7 @@ void player::sort_armor()
             // filter inventory for all items that are armor/clothing
             // NOTE: This is from player's inventory, even for NPCs!
             // @todo Allow making NPCs equip their own stuff
-            int pos = g->inv_for_unequipped( _( "Put on:" ) );
+            int pos = g->inv_for_unequipped( _( "Put on" ) );
             // only equip if something valid selected!
             if( pos != INT_MIN ) {
                 // wear the item

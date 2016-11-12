@@ -4,7 +4,6 @@
 #include "player.h"
 #include "action.h"
 #include "map.h"
-#include "output.h"
 #include "translations.h"
 #include "options.h"
 #include "messages.h"
@@ -22,6 +21,8 @@
 #include <sstream>
 #include <algorithm>
 
+/** The maximum distance from the screen edge, to snap a window to it */
+static const size_t max_win_snap_distance = 4;
 /** The minimal gap between two cells */
 static const int min_cell_gap = 2;
 /** The gap between two cells when screen space is limited*/
@@ -139,6 +140,10 @@ size_t inventory_column::get_width() const
     return std::max( get_cells_width(), reserved_width );
 }
 
+size_t inventory_column::get_height() const {
+    return std::min( entries.size(), entries_per_page );
+}
+
 inventory_selector_preset::inventory_selector_preset()
 {
     append_cell(
@@ -244,14 +249,20 @@ size_t inventory_column::next_selectable_index( size_t index, scroll_direction d
         //     N = entries.size()  - number of elements,
         //     k = |step|          - absolute step (k <= N).
         new_index = ( new_index + int( dir ) + entries.size() ) % entries.size();
-    } while( new_index != index && ( !entries[new_index].is_selectable() || is_selected_by_category( entries[new_index] ) ) );
+    } while( new_index != index && !entries[new_index].is_selectable() );
 
     return new_index;
 }
 
 void inventory_column::move_selection( scroll_direction dir )
 {
-    select( next_selectable_index( selected_index, dir ), dir );
+    size_t index = selected_index;
+
+    do {
+        index = next_selectable_index( index, dir );
+    } while( index != selected_index && is_selected_by_category( entries[index] ) );
+
+    select( index, dir );
 }
 
 void inventory_column::move_selection_page( scroll_direction dir )
@@ -883,34 +894,31 @@ inventory_entry *inventory_selector::find_entry_by_invlet( long invlet ) const
     return nullptr;
 }
 
-void inventory_selector::rearrange_columns()
+void inventory_selector::rearrange_columns( size_t client_width )
 {
-    if( !own_gear_column.empty() && is_overflown() ) {
+    if( !own_gear_column.empty() && is_overflown( client_width ) ) {
         own_gear_column.move_entries_to( own_inv_column );
     }
 
-    if( !map_column.empty() && is_overflown() ) {
+    if( !map_column.empty() && is_overflown( client_width ) ) {
         map_column.move_entries_to( own_inv_column );
     }
 }
 
-void inventory_selector::prepare_layout()
+void inventory_selector::prepare_layout( size_t client_width, size_t client_height )
 {
-    if( layout_is_valid ) {
-        return;
-    }
     // This block adds categories and should go before any width evaluations
     for( auto &elem : columns ) {
-        elem->set_height( get_column_height() );
+        elem->set_height( client_height );
         elem->prepare_paging();
     }
     // Handle screen overflow
-    rearrange_columns();
+    rearrange_columns( client_width );
     // If we have a single column and it occupies more than a half of
     // the available with -> expand it
     auto visible_columns = get_visible_columns();
-    if( visible_columns.size() == 1 && are_columns_centered() ) {
-        visible_columns.front()->set_width( getmaxx( w_inv ) - 2 * screen_border_gap );
+    if( visible_columns.size() == 1 && are_columns_centered( client_width ) ) {
+        visible_columns.front()->set_width( client_width );
     }
 
     long custom_invlet = '0';
@@ -920,37 +928,77 @@ void inventory_selector::prepare_layout()
     }
 
     refresh_active_column();
-
-    layout_is_valid = true;
 }
 
-int inventory_selector::get_header_height() const
+size_t inventory_selector::get_layout_width() const
+{
+    const size_t min_hud_width = std::max( get_header_min_width(), get_footer_min_width() );
+    const auto visible_columns = get_visible_columns();
+    const size_t gaps = visible_columns.size() > 1 ? min_column_gap * ( visible_columns.size() - 1 ) : 0;
+
+    return std::max( get_columns_width( visible_columns ) + gaps, min_hud_width );
+}
+
+size_t inventory_selector::get_layout_height() const
+{
+    const auto visible_columns = get_visible_columns();
+    // Find and return the highest column's height.
+    const auto iter = std::max_element( visible_columns.begin(), visible_columns.end(),
+    []( const inventory_column *lhs, const inventory_column *rhs ) {
+        return lhs->get_height() < rhs->get_height();
+    } );
+
+    return iter != visible_columns.end() ? ( *iter )->get_height() : 1;
+}
+
+size_t inventory_selector::get_header_height() const
 {
     return display_stats || !hint.empty() ? 2 : 1;
 }
 
-int inventory_selector::get_column_height() const
+size_t inventory_selector::get_header_min_width() const
 {
-    return getmaxy( w_inv ) - get_header_height() - 3;
+    const size_t titles_width = std::max( utf8_width( title, true ),
+                                          utf8_width( hint, true ) );
+    size_t stats_width = 0;
+    for( const std::string &elem : get_stats() ) {
+        stats_width = std::max( size_t( utf8_width( elem, true ) ), stats_width );
+    }
+    return titles_width + stats_width + ( stats_width != 0 ? 3 : 0 );
+}
+
+size_t inventory_selector::get_footer_min_width() const
+{
+    size_t result = 0;
+    navigation_mode m = mode;
+
+    do {
+        result = std::max( size_t( utf8_width( get_footer( m ).first, true ) ), result );
+        m = get_navigation_data( m ).next_mode;
+    } while( m != mode );
+
+    return result;
 }
 
 void inventory_selector::draw_header( WINDOW *w ) const
 {
-    trim_and_print( w, 0, screen_border_gap, getmaxx( w ) - screen_border_gap, c_ltgray, "%s", title.c_str() );
+    trim_and_print( w, 0, screen_border_gap, getmaxx( w ) - screen_border_gap, c_white, "%s", title.c_str() );
     trim_and_print( w, 1, screen_border_gap, getmaxx( w ) - screen_border_gap, c_dkgray, "%s", hint.c_str() );
 
     mvwhline( w, get_header_height(), 0, LINE_OXOX, getmaxx( w ) );
 
-    if( !display_stats ) {
-        return;
+    if( display_stats ) {
+        size_t y = 0;
+        for( const std::string &elem : get_stats() ) {
+            right_print( w, y++, screen_border_gap, c_dkgray, elem.c_str() );
+        }
     }
+}
 
-    const player &dummy = get_player_for_stats();
-
-    static const int stats_count = 2;
-    static const int cells_count = 4;
+std::vector<std::string> inventory_selector::get_stats() const
+{
     // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
-    using stat = std::array<std::string, cells_count>;
+    using stat = std::array<std::string, 4>;
     // Constructs an array of cells to align them later. 'disp_func' is used to represent numeric values.
     const auto disp = []( const std::string &caption, int cur_value, int max_value,
                           const std::function<std::string( int )> disp_func ) -> stat {
@@ -961,7 +1009,9 @@ void inventory_selector::draw_header( WINDOW *w ) const
         }};
     };
 
-    const std::array<stat, stats_count> stats = {{
+    const player &dummy = get_player_for_stats();
+    // Stats consist of arrays of cells.
+    const std::array<stat, 2> stats = {{
         disp( string_format( _( "Weight (%s):" ), weight_units() ),
               dummy.weight_carried(),
               dummy.weight_capacity(), []( int w ) {
@@ -973,47 +1023,114 @@ void inventory_selector::draw_header( WINDOW *w ) const
             return format_volume( units::from_milliliter( v ) );
         } )
     }};
-
-    std::array<int, cells_count> widths;
-    for( int i = 0; i < cells_count; ++i ) {
-        widths[i] = std::max( utf8_width( stats[0][i], true ), utf8_width( stats[1][i], true ) );
+    // Strams for every stat.
+    std::array<std::ostringstream, stats.size()> lines;
+    std::array<size_t, stats.size()> widths;
+    // Add first cells and spaces after them.
+    for( size_t i = 0; i < stats.size(); ++i ) {
+        lines[i] << stats[i][0] << ' ';
     }
-    widths[1] += 1;
-
-    int x = std::accumulate( widths.begin(), widths.end(), screen_border_gap );
-    nc_color base_color = c_dkgray;
-
-    for( int i = 0; i < cells_count - 1; ++i ) {
-        x -= widths[i];
-        right_print( w, 0, x, c_dkgray, stats[0][i].c_str() );
-        right_print( w, 1, x, c_dkgray, stats[1][i].c_str() );
+    // Now add the rest of the cells and allign them to the right.
+    for( size_t j = 1; j < stats.front().size(); ++j ) {
+        // Calculate actual cell width for each stat.
+        std::transform( stats.begin(), stats.end(), widths.begin(),
+        [j]( const stat &elem ) {
+            return utf8_width( elem[j], true );
+        } );
+        // Determine the max width.
+        const size_t max_w = *std::max_element( widths.begin(), widths.end() );
+        // Align all stats in this cell with spaces.
+        for( size_t i = 0; i < stats.size(); ++i ) {
+            if( max_w > widths[i] ) {
+                lines[i] << std::string( max_w - widths[i], ' ' );
+            }
+            lines[i] << stats[i][j];
+        }
     }
-    print_colored_text( w, 0, getmaxx( w ) - x, base_color, base_color, stats[0][cells_count - 1] );
-    print_colored_text( w, 1, getmaxx( w ) - x, base_color, base_color, stats[1][cells_count - 1] );
+    // Construct the final result.
+    std::vector<std::string> result;
+    std::transform( lines.begin(), lines.end(), std::back_inserter( result ),
+    []( const std::ostringstream &elem ) {
+        return elem.str();
+    } );
+
+    return result;
+}
+
+void inventory_selector::resize_window( int width, int height )
+{
+    if( width < TERMX || height < TERMY ) {
+        // Windowed mode.
+        const int w = width + ( width + 2 <= TERMX ? 2 : 0 );
+        const int h = height + ( height + 2 <= TERMY ? 2 : 0 );
+        const int x = VIEW_OFFSET_X + ( TERMX - w ) / 2;
+        const int y = VIEW_OFFSET_Y + ( TERMY - h ) / 2;
+
+        w_inv.reset( newwin( h - 2, w - 2, y + 1, x + 1 ) );
+        w_border.reset( newwin( h, w, y, x ) );
+    } else {
+        // Fullscreen mode.
+        w_inv.reset( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) );
+        w_border.reset();
+    }
 }
 
 void inventory_selector::refresh_window() const
 {
-    werase( w_inv );
-    draw_header( w_inv );
-    draw_columns( w_inv );
-    draw_footer( w_inv );
-    wrefresh( w_inv );
+    assert( w_inv );
+
+    werase( w_inv.get() );
+
+    draw_header( w_inv.get() );
+    draw_columns( w_inv.get() );
+    draw_footer( w_inv.get() );
+
+    if( w_border ) {
+        draw_frame( w_border.get() );
+        wrefresh( w_border.get() );
+    }
+
+    wrefresh( w_inv.get() );
 }
 
 void inventory_selector::update()
 {
-    prepare_layout();
+    if( layout_is_valid ) {
+        refresh_window();
+        return;
+    }
+
+    const auto snap = []( size_t cur_dim, size_t max_dim ) {
+        return cur_dim + 2 * max_win_snap_distance >= max_dim ? max_dim : cur_dim;
+    };
+
+    const size_t nc_width = 2 * screen_border_gap;
+    const size_t nc_height = get_header_height() + 3;
+    // Prepare an initial layout.
+    prepare_layout( TERMX, TERMY );
+    // Resize the window (possibly snapping to the screen edges).
+    resize_window( snap( get_layout_width() + nc_width, TERMX ),
+                   snap( get_layout_height() + nc_height, TERMY ) );
+    // Adjust to the new size.
+    prepare_layout( getmaxx( w_inv.get() ) - nc_width,
+                    getmaxy( w_inv.get() ) - nc_height );
+
     refresh_window();
+
+    layout_is_valid = true;
 }
 
 void inventory_selector::draw_columns( WINDOW *w ) const
 {
     const auto columns = get_visible_columns();
-    const int free_space = getmaxx( w ) - get_columns_width( columns ) - 2 * screen_border_gap;
+
+    const int screen_width = getmaxx( w ) - 2 * screen_border_gap;
+    const bool centered = are_columns_centered( screen_width );
+
+    const int free_space = screen_width - get_columns_width( columns );
     const int max_gap = ( columns.size() > 1 ) ? free_space / ( int( columns.size() ) - 1 ) : free_space;
-    const int gap = are_columns_centered() ? max_gap : std::min<int>( max_gap, normal_column_gap );
-    const int gap_rounding_error = ( are_columns_centered() && columns.size() > 1 )
+    const int gap = centered ? max_gap : std::min<int>( max_gap, normal_column_gap );
+    const int gap_rounding_error = centered && columns.size() > 1
                                        ? free_space % ( columns.size() - 1 ) : 0;
 
     size_t x = screen_border_gap;
@@ -1045,34 +1162,42 @@ void inventory_selector::draw_columns( WINDOW *w ) const
     }
 }
 
-void inventory_selector::draw_footer( WINDOW *w ) const
+void inventory_selector::draw_frame( WINDOW *w ) const
 {
-    std::string msg_str;
-    nc_color msg_color = c_ltgray;
+    const int y = 1 + get_header_height();
 
+    draw_border( w );
+
+    mvwhline( w, y, 0, LINE_XXXO, 1 );
+    mvwhline( w, y, getmaxx( w ) - 1, LINE_XOXX, 1 );
+}
+
+std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode m ) const
+{
     if( has_available_choices() ) {
         //~ %1$s - category name, %2$s, %3$s - key names
-        msg_str = string_format( _( "%1$s; %2$s switches mode, %3$s confirms." ),
-                                 get_navigation_data().name.c_str(),
-                                 ctxt.get_desc( "CATEGORY_SELECTION" ).c_str(),
-                                 ctxt.get_desc( "CONFIRM" ).c_str() );
-        msg_color = get_navigation_data().color;
-    } else {
-        msg_str = _( "There are no available choices." );
-        msg_color = i_red;
+        return std::make_pair( string_format( _( "%1$s; %2$s switches mode, %3$s confirms." ),
+                                              get_navigation_data( m ).name.c_str(),
+                                              ctxt.get_desc( "CATEGORY_SELECTION" ).c_str(),
+                                              ctxt.get_desc( "CONFIRM" ).c_str() ),
+                               get_navigation_data( m ).color );
     }
+    return std::make_pair( _( "There are no available choices." ), i_red );
+}
 
-    center_print( w, getmaxy( w ) - 1, msg_color, "%s", msg_str.c_str() );
+void inventory_selector::draw_footer( WINDOW *w ) const
+{
+    const auto footer = get_footer( mode );
+    center_print( w, getmaxy( w ) - 1, footer.second, "%s", footer.first.c_str() );
 }
 
 inventory_selector::inventory_selector( const player &u, const inventory_selector_preset &preset )
     : u(u)
     , preset( preset )
     , ctxt( "INVENTORY" )
-    , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
     , columns()
     , active_column_index( 0 )
-    , navigation( navigation_mode::ITEM )
+    , mode( navigation_mode::ITEM )
     , own_inv_column( preset )
     , own_gear_column( preset )
     , map_column( preset )
@@ -1094,13 +1219,6 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     append_column( own_inv_column );
     append_column( map_column );
     append_column( own_gear_column );
-}
-
-inventory_selector::~inventory_selector()
-{
-    if( w_inv != nullptr ) {
-        delwin( w_inv );
-    }
 }
 
 bool inventory_selector::empty() const
@@ -1191,21 +1309,20 @@ size_t inventory_selector::get_columns_width( const std::vector<inventory_column
     } );
 }
 
-double inventory_selector::get_columns_occupancy_ratio() const
+double inventory_selector::get_columns_occupancy_ratio( size_t client_width ) const
 {
-    const int available_width = getmaxx( w_inv ) - 2 * screen_border_gap;
     const auto visible_columns = get_visible_columns();
-    const int free_width = available_width - get_columns_width( visible_columns )
+    const int free_width = client_width - get_columns_width( visible_columns )
         - min_column_gap * std::max( int( visible_columns.size() ) - 1, 0 );
-    return 1.0 - double( free_width ) / available_width;
+    return 1.0 - double( free_width ) / client_width;
 }
 
-bool inventory_selector::are_columns_centered() const {
-    return get_columns_occupancy_ratio() >= min_ratio_to_center;
+bool inventory_selector::are_columns_centered( size_t client_width ) const {
+    return get_columns_occupancy_ratio( client_width ) >= min_ratio_to_center;
 }
 
-bool inventory_selector::is_overflown() const {
-    return get_columns_occupancy_ratio() > 1.0;
+bool inventory_selector::is_overflown( size_t client_width ) const {
+    return get_columns_occupancy_ratio( client_width ) > 1.0;
 }
 
 void inventory_selector::toggle_active_column( scroll_direction dir )
@@ -1232,15 +1349,15 @@ void inventory_selector::toggle_active_column( scroll_direction dir )
 
 void inventory_selector::toggle_navigation_mode()
 {
-    navigation = get_navigation_data().next_mode;
+    mode = get_navigation_data( mode ).next_mode;
     for( auto &elem : columns ) {
-        elem->set_mode( navigation );
+        elem->set_mode( mode );
     }
 }
 
 void inventory_selector::append_column( inventory_column &column )
 {
-    column.set_mode( navigation );
+    column.set_mode( mode );
 
     if( columns.empty() ) {
         column.on_activate();
@@ -1249,14 +1366,14 @@ void inventory_selector::append_column( inventory_column &column )
     columns.push_back( &column );
 }
 
-const navigation_mode_data &inventory_selector::get_navigation_data() const
+const navigation_mode_data &inventory_selector::get_navigation_data( navigation_mode m ) const
 {
     static const std::map<navigation_mode, navigation_mode_data> mode_data = {
         { navigation_mode::ITEM,     { navigation_mode::CATEGORY, _( "Item selection mode" ),     c_ltgray } },
         { navigation_mode::CATEGORY, { navigation_mode::ITEM,     _( "Category selection mode" ), h_white  } }
     };
 
-    return mode_data.at( navigation );
+    return mode_data.at( m );
 }
 
 item_location inventory_pick_selector::execute()
@@ -1292,10 +1409,10 @@ inventory_multiselector::inventory_multiselector( const player &p,
     append_column( *selection_col );
 }
 
-void inventory_multiselector::rearrange_columns()
+void inventory_multiselector::rearrange_columns( size_t client_width )
 {
-    selection_col->set_visibility( !is_overflown() );
-    inventory_selector::rearrange_columns();
+    selection_col->set_visibility( !is_overflown( client_width ) );
+    inventory_selector::rearrange_columns( client_width );
 }
 
 void inventory_multiselector::on_entry_add( const inventory_entry &entry )
