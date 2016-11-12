@@ -1633,6 +1633,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
 
     std::map<std::string, std::pair<std::string,itype_id>> deprecated = {
         { "laser_gun", { "laser_rifle", "none" } },
+        { "seat_nocargo", { "seat", "none" } },
         { "engine_plasma", { "minireactor", "none" } },
         { "battery_truck", { "battery_car", "battery" } },
 
