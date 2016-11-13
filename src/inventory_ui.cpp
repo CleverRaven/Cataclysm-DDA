@@ -1011,7 +1011,8 @@ std::vector<std::string> inventory_selector::get_stats() const
 
     const player &dummy = get_player_for_stats();
     // Stats consist of arrays of cells.
-    const std::array<stat, 2> stats = {{
+    const size_t num_stats = 2;
+    const std::array<stat, num_stats> stats = {{
         disp( string_format( _( "Weight (%s):" ), weight_units() ),
               dummy.weight_carried(),
               dummy.weight_capacity(), []( int w ) {
@@ -1024,8 +1025,8 @@ std::vector<std::string> inventory_selector::get_stats() const
         } )
     }};
     // Strams for every stat.
-    std::array<std::ostringstream, stats.size()> lines;
-    std::array<size_t, stats.size()> widths;
+    std::array<std::ostringstream, num_stats> lines;
+    std::array<size_t, num_stats> widths;
     // Add first cells and spaces after them.
     for( size_t i = 0; i < stats.size(); ++i ) {
         lines[i] << stats[i][0] << ' ';
