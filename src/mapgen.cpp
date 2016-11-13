@@ -130,8 +130,6 @@ void map::generate(const int x, const int y, const int z, const int turn)
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
-
-    unsigned zones = 0;
     // x, and y are submap coordinates, convert to overmap terrain coordinates
     int overx = x;
     int overy = y;
@@ -177,7 +175,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
 
     const overmap_spawns &spawns = terrain_type->static_spawns;
     if( spawns.group && x_in_y( spawns.chance, 100 ) ) {
-        int pop = rng( spawns.min_population, spawns.max_population );
+        int pop = rng( spawns.population.min, spawns.population.max );
         // place_spawns currently depends on the STATIC_SPAWN world option, this
         // must bypass it.
         for( ; pop > 0; pop-- ) {
@@ -198,8 +196,6 @@ void map::generate(const int x, const int y, const int z, const int turn)
             }
         }
     }
-
-    post_process(zones);
 
     // Okay, we know who are neighbors are.  Let's draw!
     // And finally save used submaps and delete the rest.
@@ -10387,43 +10383,6 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             }
         }
     }
-}
-
-void map::post_process(unsigned zones)
-{
-    if (zones & mfb(OMZONE_CITY)) {
-        if (!one_in(10)) { // 90% chance of smashing stuff up
-            for (int x = 0; x < 24; x++) {
-                for (int y = 0; y < 24; y++) {
-                    bash( tripoint( x, y, abs_sub.z ), 20, true);
-                }
-            }
-        }
-        if (one_in(10)) { // 10% chance of corpses
-            int num_corpses = rng(1, 8);
-            for (int i = 0; i < num_corpses; i++) {
-                int x = rng(0, 23), y = rng(0, 23);
-                if (passable(x, y)) {
-                    add_corpse( tripoint( x, y, abs_sub.z ) );
-                }
-            }
-        }
-    } // OMZONE_CITY
-
-    if (zones & mfb(OMZONE_BOMBED)) {
-        while (one_in(4)) {
-            point center( rng(4, 19), rng(4, 19) );
-            int radius = rng(1, 4);
-            for (int x = center.x - radius; x <= center.x + radius; x++) {
-                for (int y = center.y - radius; y <= center.y + radius; y++) {
-                    if (rl_dist(x, y, center.x, center.y) <= rng(1, radius)) {
-                        destroy( tripoint( x, y, abs_sub.z ), true);
-                    }
-                }
-            }
-        }
-    }
-
 }
 
 void map::place_spawns(const mongroup_id& group, const int chance,

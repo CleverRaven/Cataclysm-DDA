@@ -53,7 +53,6 @@
     "city_distance" : [10, 120], "//":"how far from a city it should be",
     "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
     "occurrences" : [2, 5], "//":"how many per overmap",
-    "rotate" : true, "//":"allow rotation",
     "flags" : [ "CLASSIC" ]
   }
 ]

@@ -102,7 +102,7 @@ bool assign( JsonObject &jo, const std::string &name, std::pair<T, T> &val,
     return true;
 }
 
-template <typename T, typename std::enable_if<std::is_constructible<T, std::string>::value, int>::type = 0>
+template <typename T, typename std::enable_if<std::is_class<T>::value, int>::type = 0>
 bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = false )
 {
     T out;

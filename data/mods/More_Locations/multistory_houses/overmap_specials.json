@@ -16,8 +16,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -36,8 +35,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -56,8 +54,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -76,8 +73,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -96,8 +92,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -116,8 +111,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -135,8 +129,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -154,8 +147,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -173,8 +165,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -192,8 +183,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -211,8 +201,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -230,8 +219,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -252,8 +240,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -274,8 +261,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 1],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -296,8 +282,7 @@
         "locations" : [ "land" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
-        "occurrences" : [20, 50],
-        "rotate" : true,
+        "occurrences" : [1, 50],
         "flags" : [ "CLASSIC" ]
     }
 ]

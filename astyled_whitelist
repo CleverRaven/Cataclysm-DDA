@@ -108,6 +108,7 @@ src/catacurse.h
 src/catalua.h
 src/char_validity_check.h
 src/color.h
+src/common_types.h 
 src/compatibility.h
 src/computer.h
 src/construction.h
