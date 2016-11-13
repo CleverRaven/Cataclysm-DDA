@@ -5668,7 +5668,6 @@
   },{
     "type" : "item_group",
     "id" : "grenades",
-    "comment" : "Super-high numbers here are to make the granade joke item rare enough.",
     "items":[
       ["grenade", 30],
       ["grenade_inc", 30],
