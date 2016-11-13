@@ -165,10 +165,10 @@ int get_signal_for_hordes( const centroid &centr)
 {
     //Volume in  tiles. Signal fo hordes in overmap tiles
     const int vol = centr.volume-weather_data( g->weather ).sound_attn;
-    const int min_vol_cap = 73; //Hordes can't hear volume lower than this
+    const int min_vol_cap = 60; //Hordes can't hear volume lower than this
     const int undeground_div  = 2; //Coeffficient for volume reduction undeground
     const int min_vol = 73;//Min volume for normalization
-    const int max_vol = 300;//Max volume for normalization
+    const int max_vol = 310;//Max volume for normalization
     const int min_sig_power = 4;//Min signal for normalization
     const int max_sig_power = 13;//Max signal for normalization
 
@@ -189,7 +189,7 @@ int get_signal_for_hordes_simple( const centroid &centr )
 {
     //Volume in  tiles. Signal fo hordes in overmap tiles
     const int vol = centr.volume - weather_data( g->weather ).sound_attn; //modify vol using weather vol.Weather can reduce monster hearing
-    const int min_vol_cap = 73;//Hordes can't hear volume lower than this
+    const int min_vol_cap = 60;//Hordes can't hear volume lower than this
     const int undeground_div = 2;//Coeffficient for volume reduction undeground
     const int coef_for_hordes = 2 * SEEX;//Divider coefficent for hordes
     const int min_sig_cap = 4; //Signal for hordes can't be lower that this if it pass min_vol_cap
@@ -224,7 +224,7 @@ void sounds::process_sounds()
         const tripoint source = tripoint( this_centroid.x, this_centroid.y, this_centroid.z );
         // --- Monster sound handling here ---
         // Alert all hordes
-		int sig_power = get_signal_for_hordes_simple(this_centroid);
+		int sig_power = get_signal_for_hordes_simple( this_centroid );
         if( sig_power>0) {
             const point abs_ms = g->m.getabs( source.x, source.y );
             const point abs_sm = ms_to_sm_copy( abs_ms );
