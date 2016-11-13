@@ -451,7 +451,8 @@ class inscribe_actor : public iuse_actor
             material_id( "chitin" ),
             material_id( "iron" ),
             material_id( "steel" ),
-            material_id( "silver" )
+            material_id( "silver" ),
+            material_id( "bone" )
         };
 
         // How will the inscription be described

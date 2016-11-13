@@ -3,6 +3,7 @@
 
 import json
 import os
+import subprocess 
 
 # Exceptions
 class WrongJSONItem(Exception):
@@ -21,7 +22,12 @@ not_json = {
     "LOADING_ORDER.md"
 }
 
-# don't parse this files. Full related path.
+git_files_list = {
+    ".",
+}
+
+
+# these files will not be parsed. Full related path.
 ignore_files = {
     "data/mods/replacements.json",
     "data/raw/color_templates/no_bright_background.json"
@@ -657,6 +663,12 @@ def extract(item, infilename):
     if not wrote:
         print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))
 
+def is_official_mod(full_path):
+    for i in official_mods:
+        if full_path.find(i) != -1:
+            return True
+    return False
+
 def extract_all_from_dir(json_dir):
     """Extract strings from every json file in the specified directory,
     recursing into any subdirectories."""
@@ -671,7 +683,10 @@ def extract_all_from_dir(json_dir):
         elif f in skiplist or full_name in ignore_files:
             continue
         elif f.endswith(".json"):
-            extract_all_from_file(full_name)
+            if full_name in git_files_list:
+                extract_all_from_file(full_name)
+            else:
+                print("Skipping untracked file: '{}'".format(full_name))
         elif f not in not_json:
             print("Skipping file: '{}'".format(f))
     for d in dirs:
@@ -705,11 +720,23 @@ def add_fake_types():
     # fake monster types
     writestr(outfile, "human", "humans")
 
+def prepare_git_file_list():
+    command_str = "git ls-files"
+    res = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True) 
+    output = res.stdout.readlines() 
+    res.communicate()
+    if res.returncode != 0:
+        print("'git ls-files' command exited with non-zero exit code: {}".format(res.returncode))
+        exit(1)
+    for f in output:
+        if len(f) > 0:
+            git_files_list.add(f[:-1].decode('utf8'))
 
 ##
 ##  EXTRACTION
 ##
 
+prepare_git_file_list()
 extract_all_from_dir(json_dir)
 extract_all_from_dir(raw_dir)
 extract_all_from_dir(mods_dir)

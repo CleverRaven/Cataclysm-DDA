@@ -720,19 +720,15 @@
         "ammo_type" : "NULL",
         "flags" : ["UNRECOVERABLE"]
     },
-    {   "type" : "AMMO",
+    {   "type" : "GENERIC",
         "id" : "5x50_hull",
-        "category" : "spare_parts",
-        "price" : 80000, "//" : "Should be $4 per.",
+        "copy-from" : "casing",
         "name" : "5x50mm hull",
-        "symbol" : "=",
         "color" : "light_green",
         "description" : "An empty plastic hull from a 5x50mm flechette round.",
         "material" : "plastic",
-        "volume" : 1,
-        "weight" : 1,
-        "ammo_type" : "components",
-        "count" : 200
+        "volume" : "9ml",
+        "weight" : 1
     },
     {
         "type" : "AMMO",

@@ -211,7 +211,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_terrain", &load_overmap_terrain );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
-    add( "overmap_special", &load_overmap_specials );
+    add( "overmap_special", &overmap_specials::load );
 
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
@@ -351,7 +351,7 @@ void DynamicDataLoader::unload_data()
     reset_mapgens();
     reset_effect_types();
     reset_speech();
-    clear_overmap_specials();
+    overmap_specials::reset();
     ammunition_type::reset();
     unload_talk_topics();
     start_location::reset();
@@ -408,6 +408,7 @@ void DynamicDataLoader::check_consistency()
     scenario::check_definitions();
     check_martialarts();
     mutation_branch::check_consistency();
+    overmap_specials::check_consistency();
     ammunition_type::check_consistency();
     trap::check_consistency();
     check_bionics();

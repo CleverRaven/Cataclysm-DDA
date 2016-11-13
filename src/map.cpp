@@ -6828,11 +6828,12 @@ void map::grow_plant( const tripoint &p )
 void map::restock_fruits( const tripoint &p, int time_since_last_actualize )
 {
     const auto &ter = this->ter( p ).obj();
-    //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
     if( !ter.has_flag( TFLAG_HARVESTED ) ) {
-        return;
+        return; // Already harvestable. Do nothing.
     }
-    if( ter.get_harvest().empty() ||
+    // Make it harvestable again if the last actualization was during a different season or year.
+    const calendar last_touched = calendar::turn - time_since_last_actualize;
+    if( calendar::turn.get_season() != last_touched.get_season() ||
         time_since_last_actualize >= DAYS( calendar::season_length() ) ) {
         ter_set( p, ter.transforms_into );
     }

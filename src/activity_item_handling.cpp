@@ -21,6 +21,8 @@
 #include <cassert>
 #include <algorithm>
 
+void cancel_aim_processing();
+
 const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_pet( "pet" );
 
@@ -398,10 +400,10 @@ void activity_on_turn_pickup()
     }
     g->u.cancel_activity();
 
-    Pickup::do_pickup( pickup_target, from_vehicle, indices, quantities, autopickup );
+    bool keep_going = Pickup::do_pickup( pickup_target, from_vehicle, indices, quantities, autopickup );
 
     // If there are items left, we ran out of moves, so make a new activity with the remainder.
-    if( !indices.empty() ) {
+    if( keep_going && !indices.empty() ) {
         g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
         g->u.activity.placement = pickup_target;
         g->u.activity.auto_resume = autopickup;
@@ -412,6 +414,11 @@ void activity_on_turn_pickup()
             g->u.activity.values.push_back( quantities.front() );
             quantities.pop_front();
         }
+    }
+
+    // @todo Move this to advanced inventory instead of hacking it in here
+    if( !keep_going ) {
+        cancel_aim_processing();
     }
 }
 

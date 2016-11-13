@@ -994,7 +994,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         int aim_mv = g->u.gun_engagement_moves( *mod );
         if( aim_mv > 0 ) {
-            info.emplace_back( "GUN", _( "Maximum aiming time: " ), "<num> seconds", int( aim_mv / 16.67 ), true, "", true, true );
+            info.emplace_back( "GUN", _( "Maximum aiming time: " ), _( "<num> seconds" ), int( aim_mv / 16.67 ), true, "", true, true );
         }
 
         info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), true, "", false, false ) );
@@ -2756,7 +2756,7 @@ void item::set_relative_rot( double val )
     }
 }
 
-int item::get_time_until_rotten()
+int item::spoilage_sort_order()
 {
     item *subject;
     int bottom = std::numeric_limits<int>::max();

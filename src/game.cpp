@@ -14,6 +14,7 @@
 #include "gamemode.h"
 #include "mapbuffer.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "editmap.h"
 #include "bodypart.h"
 #include "map.h"
@@ -4016,7 +4017,8 @@ void game::debug()
                        _( "Set automove route" ),     // 28
                        _( "Show mutation category levels" ), // 29
                        _( "Overmap editor" ),         // 30
-                       _( "Draw benchmark (5 seconds)" ),      // 31
+                       _( "Draw benchmark (5 seconds)" ),    // 31
+                       _( "Teleport - Adjacent overmap" ),   // 32
                        _( "Cancel" ),
                        NULL );
     int veh_num;
@@ -4027,63 +4029,14 @@ void game::debug()
             wishitem( &u );
             break;
 
-        case 2: {
-            if( u.in_vehicle ) {
-                m.unboard_vehicle( u.pos() );
-            }
+        case 2:
+            debug_menu::teleport_short();
+            break;
 
-            auto pt = look_around();
-            if( pt == tripoint_min ) {
-                break;
-            }
+        case 3:
+            debug_menu::teleport_long();
+            break;
 
-            if( m.has_zlevels() && pt.z != get_levz() ) {
-                vertical_shift( pt.z );
-            }
-
-            u.setpos( pt );
-            update_map( u );
-            pt = u.pos();
-            add_msg( _( "You teleport to point (%d,%d,%d)" ), pt.x, pt.y, pt.z );
-
-            if( m.veh_at( u.pos() ) != nullptr ) {
-                m.board_vehicle( u.pos(), &u );
-            }
-        }
-        break;
-
-        case 3: {
-            tripoint tmp = overmap::draw_overmap();
-            if( tmp != overmap::invalid_tripoint ) {
-                //First offload the active npcs.
-                unload_npcs();
-                while( num_zombies() > 0 ) {
-                    despawn_monster( 0 );
-                }
-                if( u.in_vehicle ) {
-                    m.unboard_vehicle( u.pos() );
-                }
-                const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
-                const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
-                for( int z = minz; z <= maxz; z++ ) {
-                    m.clear_vehicle_cache( z );
-                    m.clear_vehicle_list( z );
-                }
-                // offset because load_map expects the coordinates of the top left corner, but the
-                // player will be centered in the middle of the map.
-                const int nlevx = tmp.x * 2 - int( MAPSIZE / 2 );
-                const int nlevy = tmp.y * 2 - int( MAPSIZE / 2 );
-                u.setz( tmp.z );
-                load_map( tripoint( nlevx, nlevy, tmp.z ) );
-                load_npcs();
-                m.spawn_monsters( true ); // Static monsters
-                update_overmap_seen();
-                // update weather now as it could be different on the new location
-                nextweather = calendar::turn;
-                draw_minimap();
-            }
-        }
-        break;
         case 4: {
             auto &cur_om = get_cur_om();
             for( int i = 0; i < OMAPX; i++ ) {
@@ -4336,7 +4289,7 @@ void game::debug()
                         p.weapon = p.ret_null;
                         break;
                     case D_ITEM_WORN: {
-                        int item_pos = inv_for_filter( "Make target equip:", []( const item &it ) {
+                        int item_pos = inv_for_filter( "Make target equip", []( const item &it ) {
                             return it.is_armor();
                         } );
                         item &to_wear = u.i_at( item_pos );
@@ -4701,16 +4654,16 @@ void game::debug()
             }
         }
         break;
-        case 29: {
+        case 29:
             for( const auto & elem : u.mutation_category_level ) {
                 add_msg( "%s: %d", elem.first.c_str(), elem.second );
             }
-        }
-        break;
-        case 30: {
+            break;
+
+        case 30:
             overmap::draw_editor();
-        }
-        break;
+            break;
+
         case 31: {
             // call the draw procedure as many times as possible in 5 seconds
             auto start_tick = std::chrono::steady_clock::now();
@@ -4730,6 +4683,10 @@ void game::debug()
                      difference / 1000.0, 1000.0 * draw_counter / ( double )difference );
         }
         break;
+
+        case 32:
+            debug_menu::teleport_overmap();
+            break;
     }
     erase();
     refresh_all();
@@ -5154,9 +5111,6 @@ void game::draw()
     if( !is_draw_tiles_mode() ) {
         wrefresh(w_terrain);
     }
-#ifdef TILES
-    try_sdl_update();
-#endif // TILES
 }
 
 void game::draw_pixel_minimap()
@@ -7437,7 +7391,7 @@ void game::smash()
 void game::use_item(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_activatables( u, _( "Use item:" ) );
+        pos = inv_for_activatables( u, _( "Use item" ) );
     }
 
     if (pos == INT_MIN) {
@@ -7806,7 +7760,7 @@ bool pet_menu(monster *z)
     }
 
     if (attach_bag == choice) {
-        int pos = g->inv_for_filter( _("Bag item:"), []( const item &it ) {
+        int pos = g->inv_for_filter( _("Bag item"), []( const item &it ) {
             return it.is_armor() && it.get_storage() > 0;
         } );
 
@@ -7999,7 +7953,7 @@ bool game::npc_menu( npc &who )
                    actor->head_power >= 0 &&
                    actor->torso_power >= 0;
         };
-        const int pos = inv_for_filter( _("Use which item:"), will_accept );
+        const int pos = inv_for_filter( _( "Use which item?" ), will_accept );
 
         if( pos == INT_MIN ) {
             add_msg( _("Never mind") );
@@ -10443,7 +10397,7 @@ void game::drop_in_direction()
 void game::reassign_item( int pos )
 {
     if( pos == INT_MIN ) {
-        pos = inv_for_all( _( "Reassign item:" ) );
+        pos = inv_for_all( _( "Reassign item" ) );
     }
     if( pos == INT_MIN ) {
         add_msg( _( "Never mind." ) );
@@ -10498,7 +10452,7 @@ void game::plthrow(int pos)
     }
 
     if (pos == INT_MIN) {
-        pos = inv_for_all( _( "Throw item:" ), _( "You don't have any items to throw." ) );
+        pos = inv_for_all( _( "Throw item" ), _( "You don't have any items to throw." ) );
         refresh_all();
     }
 
@@ -10966,7 +10920,7 @@ void game::eat(int pos)
             return false; // temporary fix for #12991
         }
         return it.made_of( SOLID ) && (it.is_food( &u ) || it.is_food_container( &u ) );
-    }, _( "Consume item:" ), 1, _( "You have nothing to consume." ) );
+    }, _( "Consume item" ), 1, _( "You have nothing to consume." ) );
 
     item *it = item_loc.get_item();
     if( !it ) {
@@ -10991,7 +10945,7 @@ void game::eat(int pos)
 void game::wear(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_unequipped( _( "Wear item:" ) );
+        pos = inv_for_unequipped( _( "Wear item" ) );
     }
 
     u.wear(pos);
@@ -11000,7 +10954,7 @@ void game::wear(int pos)
 void game::takeoff(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_equipped( _( "Take off item:" ) );
+        pos = inv_for_equipped( _( "Take off item" ) );
     }
     if (pos == INT_MIN) {
         add_msg(_("Never mind."));
@@ -11012,7 +10966,7 @@ void game::takeoff(int pos)
 void game::change_side(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_filter( _( "Change side for item:" ), [&]( const item &it ) {
+        pos = inv_for_filter( _( "Change side for item" ), [&]( const item &it ) {
             return u.is_worn(it) && it.is_sided();
         }, _( "You don't have sided items worn." ) );
     }
@@ -11111,7 +11065,7 @@ void game::unload(int pos)
     if( pos == INT_MIN ) {
         it = inv_map_splice( [&]( const item &it ) {
             return u.rate_action_unload( it ) == HINT_GOOD;
-        }, _( "Unload item:" ), 1, _( "You have nothing to unload." ) ).get_item();
+        }, _( "Unload item" ), 1, _( "You have nothing to unload." ) ).get_item();
 
         if( it == nullptr ) {
             add_msg( _("Never mind.") );
@@ -11322,7 +11276,7 @@ void game::wield( int pos )
         return;
     }
     if( pos == INT_MIN ) {
-        pos = inv_for_all( _( "Wield item:" ), _( "You have nothing to wield." ) );
+        pos = inv_for_all( _( "Wield item" ), _( "You have nothing to wield." ) );
     }
 
     if( pos == INT_MIN ) {
@@ -11345,7 +11299,7 @@ void game::wield( int pos )
 void game::read()
 {
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = inv_for_books( _( "Read:" ) );
+    auto loc = inv_for_books( _( "Read" ) );
 
     item *book = loc.get_item();
     if( !book ) {
@@ -12081,8 +12035,50 @@ bool game::walk_move( const tripoint &dest_loc )
         sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume(u.pos()) );
     }
 
+    if( u.has_trait( "LEG_TENT_BRACE" ) && ( !u.footwear_factor() ||
+                                             ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
+        // DX and IN are long suits for Cephalopods,
+        // so this shouldn't cause too much hardship
+        // Presumed that if it's swimmable, they're
+        // swimming and won't stick
+        ///\EFFECT_DEX decreases chance of tentacles getting stuck to the ground
+
+        ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
+        if( ( !m.has_flag( "SWIMMABLE", dest_loc ) && one_in( 80 + u.dex_cur + u.int_cur ) ) ) {
+            add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
+            u.mod_fatigue( 1 );
+        }
+    }
+
+    if( !u.has_artifact_with( AEP_STEALTH ) && !u.has_trait( "DEBUG_SILENT" ) ) {
+        if( !u.has_trait( "LEG_TENTACLES" ) ) {
+            if( u.has_trait("LIGHTSTEP") || u.is_wearing( "rm13_armor_on" ) ) {
+                sounds::sound( dest_loc, 2, "", true, "none", "none" );    // Sound of footsteps may awaken nearby monsters
+                sfx::do_footstep();
+            } else if( u.has_trait( "CLUMSY" ) ) {
+                sounds::sound( dest_loc, 10, "", true, "none", "none" );
+                sfx::do_footstep();
+            } else if( u.has_bionic( "bio_ankles" ) ) {
+                sounds::sound( dest_loc, 12, "", true, "none", "none" );
+                sfx::do_footstep();
+            } else {
+                sounds::sound( dest_loc, 6, "", true, "none" );
+                sfx::do_footstep();
+            }
+        }
+
+        if( one_in( 20 ) && u.has_artifact_with( AEP_MOVEMENT_NOISE ) ) {
+            sounds::sound( u.pos(), 40, _( "You emit a rattling sound." ) );
+        }
+    }
+
+    if( dest_loc != u.pos() ) {
+        u.lifetime_stats()->squares_walked++;
+    }
+
     place_player( dest_loc );
     on_move_effects();
+
     return true;
 }
 
@@ -12139,39 +12135,7 @@ void game::place_player( const tripoint &dest_loc )
     } else if (u.has_effect( effect_bouldering)) {
         u.remove_effect( effect_bouldering);
     }
-    if (u.has_trait("LEG_TENT_BRACE") && (!u.footwear_factor() ||
-                                             (u.footwear_factor() == .5 && one_in(2)))) {
-        // DX and IN are long suits for Cephalopods,
-        // so this shouldn't cause too much hardship
-        // Presumed that if it's swimmable, they're
-        // swimming and won't stick
-        ///\EFFECT_DEX decreases chance of tentacles getting stuck to the ground
 
-        ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
-        if ((!(m.has_flag("SWIMMABLE", dest_loc)) && (one_in(80 + u.dex_cur + u.int_cur)))) {
-            add_msg(_("Your tentacles stick to the ground, but you pull them free."));
-            u.mod_fatigue(1);
-        }
-    }
-    if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES") &&
-        !u.has_trait("DEBUG_SILENT")) {
-        if (u.has_trait("LIGHTSTEP") || u.is_wearing("rm13_armor_on")) {
-            sounds::sound(dest_loc, 2, "", true, "none", "none");    // Sound of footsteps may awaken nearby monsters
-            sfx::do_footstep();
-        } else if (u.has_trait("CLUMSY")) {
-            sounds::sound(dest_loc, 10, "", true, "none", "none");
-            sfx::do_footstep();
-        } else if (u.has_bionic("bio_ankles")) {
-            sounds::sound(dest_loc, 12, "", true, "none", "none");
-            sfx::do_footstep();
-        } else {
-            sounds::sound(dest_loc, 6, "", true, "none");
-            sfx::do_footstep();
-        }
-    }
-    if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE)) {
-        sounds::sound(u.pos(), 40, _("You emit a rattling sound."));
-    }
     // If we moved out of the nonant, we need update our map data
     if (m.has_flag("SWIMMABLE", dest_loc) && u.has_effect( effect_onfire)) {
         add_msg(_("The water puts out the flames!"));
@@ -12191,11 +12155,6 @@ void game::place_player( const tripoint &dest_loc )
     if( u.in_vehicle ) {
         m.unboard_vehicle( u.pos() );
     }
-
-    if( dest_loc != u.pos() ) {
-        u.lifetime_stats()->squares_walked++;
-    }
-
     // Move the player
     // Start with z-level, to make make it less likely that old functions (2D ones) freak out
     if( m.has_zlevels() && dest_loc.z != get_levz() ) {
@@ -12222,10 +12181,6 @@ void game::place_player( const tripoint &dest_loc )
     // Try to detect.
     u.search_surroundings();
     m.creature_on_trap( u );
-
-    // apply martial art move bonuses
-    u.ma_onmove_effects();
-
     // Drench the player if swimmable
     if( m.has_flag( "SWIMMABLE", u.pos() ) ) {
         u.drench( 40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r), false );
@@ -12313,6 +12268,36 @@ void game::place_player( const tripoint &dest_loc )
         add_msg(m_info, _("%s to drive."),
                 press_x(ACTION_CONTROL_VEHICLE).c_str());
     }
+}
+
+void game::place_player_overmap( const tripoint &om_dest )
+{
+    //First offload the active npcs.
+    unload_npcs();
+    while( num_zombies() > 0 ) {
+        despawn_monster( 0 );
+    }
+    if( u.in_vehicle ) {
+        m.unboard_vehicle( u.pos() );
+    }
+    const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
+    const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
+    for( int z = minz; z <= maxz; z++ ) {
+        m.clear_vehicle_cache( z );
+        m.clear_vehicle_list( z );
+    }
+    // offset because load_map expects the coordinates of the top left corner, but the
+    // player will be centered in the middle of the map.
+    const int nlevx = om_dest.x * 2 - int( MAPSIZE / 2 );
+    const int nlevy = om_dest.y * 2 - int( MAPSIZE / 2 );
+
+    load_map( tripoint( nlevx, nlevy, om_dest.z ) );
+    load_npcs();
+    m.spawn_monsters( true ); // Static monsters
+    update_overmap_seen();
+    // update weather now as it could be different on the new location
+    nextweather = calendar::turn;
+    place_player( u.pos() );
 }
 
 bool game::phasing_move( const tripoint &dest_loc )
@@ -12720,6 +12705,9 @@ void game::on_move_effects()
             u.add_effect( effect_winded, 3);
         }
     }
+
+    // apply martial art move bonuses
+    u.ma_onmove_effects();
 
     sfx::do_ambient();
 }
