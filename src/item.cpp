@@ -2756,7 +2756,7 @@ void item::set_relative_rot( double val )
     }
 }
 
-int item::get_time_until_rotten()
+int item::spoilage_sort_order()
 {
     item *subject;
     int bottom = std::numeric_limits<int>::max();
