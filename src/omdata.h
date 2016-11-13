@@ -150,6 +150,12 @@ struct overmap_special_spawns : public JsonDeserializer {
     numeric_interval<int> population;
     numeric_interval<int> radius;
 
+    bool operator==( const overmap_special_spawns &rhs ) const {
+        return group == rhs.group &&
+               population == rhs.population &&
+               radius == rhs.radius;
+    }
+
     void deserialize( JsonIn &jsin ) override {
         JsonObject jo = jsin.get_object();
         jo.read( "group", group );

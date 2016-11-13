@@ -942,8 +942,10 @@ bool overmap_special::can_belong_to_city( const tripoint &p, const city &cit ) c
     return city_distance.contains( cit.get_distance_from( p ) );
 }
 
-void overmap_special::load( JsonObject &jo, const std::string & )
+void overmap_special::load( JsonObject &jo, const std::string &src )
 {
+    const bool strict = src == "core";
+
     mandatory( jo, was_loaded, "overmaps", terrains );
 
     std::vector<std::string> tmp_locations;
@@ -962,11 +964,12 @@ void overmap_special::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "occurrences", occurrences );
 
     optional( jo, was_loaded, "connections", connections );
-    optional( jo, was_loaded, "city_sizes", city_size );
-    optional( jo, was_loaded, "city_distance", city_distance );
-    optional( jo, was_loaded, "rotate", rotatable, false );
-    optional( jo, was_loaded, "spawns", spawns );
-    optional( jo, was_loaded, "flags", flags );
+    assign( jo, "spawns", spawns, strict );
+
+    assign( jo, "city_sizes", city_size, strict );
+    assign( jo, "city_distance", city_distance, strict );
+    assign( jo, "rotate", rotatable, strict );
+    assign( jo, "flags", flags, strict );
 }
 
 void overmap_special::check() const
