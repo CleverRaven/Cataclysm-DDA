@@ -8,9 +8,9 @@
       ["plays_book", 3],
       ["philosophy_book", 2],
       ["novel_experimental", 1],
-      ["book_sacrifice", 6],
-      ["book_summoning", 1],
-      ["book_scrollcraft", 1]
+      ["book_sacrifice", 7],
+      ["book_summoning", 2],
+      ["book_scrollcraft", 2]
     ]
   },{
     "type" : "item_group",
@@ -157,7 +157,7 @@
             "/": "t_open_air",
             ">": "t_stairs_down"
             },
-            "add": [
+            "place_loot": [
                 { "item": "note_chalice",  "x": [8, 15], "y": [8, 15], "amount":1 }
             ],
             "set": [
