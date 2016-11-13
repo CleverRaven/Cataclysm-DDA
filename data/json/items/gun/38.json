@@ -35,7 +35,7 @@
     "volume": 2,
     "price": 120000,
     "to_hit": -1,
-    "bashing": 8,
+    "bashing": 5,
     "material": [ "steel", "wood" ],
     "ammo": "38",
     "range": 3,
