@@ -155,7 +155,7 @@
     "burst": 5,
     "built_in_mods": [ "laser_sight", "stabiliser" ],
     "relative": {
-      "weight": 400,
+      "weight": -6,
       "volume": -3,
       "dispersion": 30
     }
@@ -174,7 +174,7 @@
     "built_in_mods": [ "grip", "stabiliser" ],
     "relative": {
       "//": "Volume, range, and bullpup all point to a very large barrel on this one.",
-      "weight": 1200,
+      "weight": 801,
       "volume": 1,
       "range": 3,
       "ranged_damage": 3
@@ -190,11 +190,9 @@
     "durability": 10,
     "modes": [ [ "DEFAULT", "auto", 14 ] ],
     "built_in_mods": [ "grip", "stabilizer" ],
-    "magazines": [
-      [ "223", [ "lw223mag", "lw223bigmag", "belt223" ] ]
-    ],
+    "magazines": [ [ "223", [ "lw223mag", "lw223bigmag", "belt223" ] ] ],
     "relative": {
-      "weight": 2000,
+      "weight": 1601,
       "volume": 4,
       "ranged_damage": 2,
       "dispersion": 60
@@ -210,7 +208,7 @@
     "durability": 9,
     "built_in_mods": [ "red_dot_sight", "stabiliser" ],
     "relative": {
-      "weight": 1200,
+      "weight": 615,
       "volume": 2
     }
   },
