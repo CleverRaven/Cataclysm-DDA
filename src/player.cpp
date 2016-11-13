@@ -12113,7 +12113,7 @@ std::string player::is_snuggling() const
     }
 
     for( auto candidate = begin; candidate != end; ++candidate ) {
-        if( !candidate->is_armor() ) {
+        if( !candidate->is_armor() || candidate->is_gun() ) {
             continue;
         } else if( candidate->volume() > 250_ml &&
                    ( candidate->covers( bp_torso ) || candidate->covers( bp_leg_l ) ||
