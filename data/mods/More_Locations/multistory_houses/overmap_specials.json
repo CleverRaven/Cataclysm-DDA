@@ -17,7 +17,6 @@
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -37,7 +36,6 @@
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -57,7 +55,6 @@
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -77,7 +74,6 @@
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -97,7 +93,6 @@
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -117,7 +112,6 @@
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -136,7 +130,6 @@
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -155,7 +148,6 @@
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -174,7 +166,6 @@
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -193,7 +184,6 @@
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -212,7 +202,6 @@
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -231,7 +220,6 @@
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -253,7 +241,6 @@
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -275,7 +262,6 @@
         "city_distance" : [-1, 1],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -297,7 +283,6 @@
         "city_distance" : [-1, 2],
         "city_sizes" : [1, 12],
         "occurrences" : [20, 50],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     }
 ]

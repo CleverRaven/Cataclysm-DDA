@@ -214,7 +214,7 @@ class overmap_special
         numeric_interval<int> city_distance{ 0, INT_MAX };
         numeric_interval<int> occurrences;
 
-        bool rotatable = false;
+        bool rotatable = true;
         overmap_special_spawns spawns;
         std::set<const overmap_special_location *> locations;
         std::set<std::string> flags;
