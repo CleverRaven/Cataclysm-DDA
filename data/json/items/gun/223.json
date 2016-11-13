@@ -153,6 +153,7 @@
     "price": 520000,
     "durability": 9,
     "burst": 5,
+    "built_in_mods": [ "laser_sight", "stabiliser" ],
     "relative": {
       "weight": 400,
       "range": -6
@@ -169,6 +170,7 @@
     "durability": 9,
     "barrel_length": 3,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "built_in_mods": [ "grip", "stabiliser" ],
     "relative": {
       "//": "Volume, range, and bullpup all point to a very large barrel on this one.",
       "weight": 1200,
@@ -182,10 +184,14 @@
     "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-LMG",
-    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates a heavy-duty barrel & foregrip as well as the Leadworks gyro system.  Unfortunately this rules out third-party magazines, as well as more usual modifications.",
+    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates a heavy-duty barrel & foregrip as well as the Leadworks gyro system.  Unlike the other configurations, the LW523-LMG can accept standard .223 ammo belts.",
     "price": 620000,
-    "durability": 9,
+    "durability": 10,
     "modes": [ [ "DEFAULT", "auto", 14 ] ],
+    "built_in_mods": [ "grip", "stabilizer" ],
+    "magazines": [
+      [ "223", [ "lw223mag", "lw223bigmag", "belt223" ] ]
+    ],
     "relative": {
       "weight": 2000,
       "volume": 7,
