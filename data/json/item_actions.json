@@ -73,10 +73,6 @@
         "name" : "Hack a robot"
     },{
         "type" : "item_action",
-        "id" : "VITAMINS",
-        "name" : "Take vitamins"
-    },{
-        "type" : "item_action",
         "id" : "METH",
         "name" : "Smoke/snort meth"
     },{
@@ -87,10 +83,6 @@
         "type" : "item_action",
         "id" : "ANTICONVULSANT",
         "name" : "Take anticonvulsant"
-    },{
-        "type" : "item_action",
-        "id" : "SHEATH_KNIFE",
-        "name" : "Sheathe/draw a knife"
     },{
         "type" : "item_action",
         "id" : "LUMBER",

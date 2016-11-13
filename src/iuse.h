@@ -188,7 +188,6 @@ public:
     int washclothes         ( player*, item*, bool, const tripoint& );
 
 // MACGUFFINS
-    int mcg_note            ( player*, item*, bool, const tripoint& );
 
     int radiocar( player*, item*, bool, const tripoint& );
     int radiocaron( player*, item*, bool, const tripoint& );

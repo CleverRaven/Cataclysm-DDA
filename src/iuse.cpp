@@ -4681,14 +4681,6 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-/* MACGUFFIN FUNCTIONS
- * These functions should refer to it->associated_mission for the particulars
- */
-int iuse::mcg_note(player *, item *, bool, const tripoint& )
-{
-    return 0;
-}
-
 int iuse::artifact(player *p, item *it, bool, const tripoint& )
 {
     if( p->is_npc() ) {
@@ -6725,6 +6717,10 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
 
     return it->type->charges_to_use();
 }
+
+/* MACGUFFIN FUNCTIONS
+ * These functions should refer to it->associated_mission for the particulars
+ */
 
 int iuse::radiocar(player *p, item *it, bool, const tripoint& )
 {
