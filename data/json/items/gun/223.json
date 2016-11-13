@@ -138,7 +138,7 @@
     "color": "dark_gray",
     "ammo": "223",
     "ranged_damage": "-1",
-    "dispersion": 90,
+    "dispersion": 120,
     "durability": 3,
     "burst": 3,
     "valid_mod_locations": [ [ "accessories", 2 ] ],
@@ -153,9 +153,11 @@
     "price": 520000,
     "durability": 9,
     "burst": 5,
+    "built_in_mods": [ "laser_sight", "stabiliser" ],
     "relative": {
-      "weight": 400,
-      "range": -6
+      "weight": -6,
+      "volume": -3,
+      "dispersion": 30
     }
   },
   {
@@ -169,10 +171,11 @@
     "durability": 9,
     "barrel_length": 3,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "built_in_mods": [ "grip", "stabiliser" ],
     "relative": {
       "//": "Volume, range, and bullpup all point to a very large barrel on this one.",
-      "weight": 1200,
-      "volume": 4,
+      "weight": 801,
+      "volume": 1,
       "range": 3,
       "ranged_damage": 3
     }
@@ -182,13 +185,15 @@
     "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-LMG",
-    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates a heavy-duty barrel & foregrip as well as the Leadworks gyro system.  Unfortunately this rules out third-party magazines, as well as more usual modifications.",
+    "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates a heavy-duty barrel & foregrip as well as the Leadworks gyro system.  Unlike the other configurations, the LW523-LMG can accept standard .223 ammo belts.",
     "price": 620000,
-    "durability": 9,
+    "durability": 10,
     "modes": [ [ "DEFAULT", "auto", 14 ] ],
+    "built_in_mods": [ "grip", "stabilizer" ],
+    "magazines": [ [ "223", [ "lw223mag", "lw223bigmag", "belt223" ] ] ],
     "relative": {
-      "weight": 2000,
-      "volume": 7,
+      "weight": 1601,
+      "volume": 4,
       "ranged_damage": 2,
       "dispersion": 60
     }
@@ -201,8 +206,9 @@
     "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The battle rifle's (proprietary) combination optic & red-dot sights provide quick and accurate targeting, with a foregrip available for greater control.  Like the rest of the family, though, it doesn't accept third-party modifications.",
     "price": 520000,
     "durability": 9,
+    "built_in_mods": [ "red_dot_sight", "stabiliser" ],
     "relative": {
-      "weight": 1200,
+      "weight": 615,
       "volume": 2
     }
   },
