@@ -288,6 +288,102 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             }
         }
 
+    } else if( what == "GUN_DAMAGE" ) {
+        scol = -1; // unsorted output so graph columns have predictable ordering
+
+        header = { "Name" };
+        for( int range = 1; range <= MAX_RANGE; ++range ) {
+            header.push_back( to_string( range ) );
+        }
+
+        auto dump = [&rows]( const standard_npc & who, const item & gun, int aim_moves ) {
+            double recoil = MIN_RECOIL;
+            for( int i = 0; i < aim_moves; ++i ) {
+                double adj = who.aim_per_move( gun, recoil );
+                if( adj <= 0 ) {
+                    aim_moves = i;
+                    break;
+                }
+                recoil -= adj;
+            }
+
+            double dispersion = who.get_weapon_dispersion( gun ) + recoil;
+
+            std::vector<std::string> r;
+            r.push_back( string_format( "%s %s (%dmv aiming)", who.get_name().c_str(), gun.tname().c_str(), aim_moves ) );
+
+            for( int range = 1; range <= MAX_RANGE; ++range ) {
+                if( range > gun.gun_range( &who ) ) {
+                    r.push_back( "0" );
+                    continue;
+                }
+
+                double p_headshot = who.projectile_attack_chance( dispersion, range, accuracy_headshot );
+                double p_critical = who.projectile_attack_chance( dispersion, range, accuracy_critical ) - p_headshot;
+                double p_goodhit = who.projectile_attack_chance( dispersion, range, accuracy_goodhit ) - p_critical;
+                double p_standard = who.projectile_attack_chance( dispersion, range, accuracy_standard ) - p_goodhit;
+                double p_grazing = who.projectile_attack_chance( dispersion, range, accuracy_grazing ) - p_standard;
+                // double p_miss = 1.0 - p_grazing;
+
+                // f(x) is the probabilty density function for the damage multiplier x
+                // f(x) = { p_grazing / 0.25     if 0.00 < x <= 0.25
+                //        { p_standard / 0.50    if 0.50 < x <= 1.00
+                //        { p_goodhit / 0.50     if 1.00 < x <= 1.50
+                //        { p_critical / 0.55    if 1.75 < x <= 2.30
+                //        { p_headshot / 0.90    if 2.45 < x <= 3.35
+                //        { p_miss . δ(x)      if x == 0
+                //        { 0                  otherwise
+                //
+                // (the scaling factors ensure that e.g. ∫(0.5,1.0) f(x) dx == p_standard)
+
+                // μ = E[X] = ∫x.f(x) dx
+                // compute it piece-wise
+                auto xfx_integral = []( double fx, double x1, double x2 ) -> double {
+                    // assumes constant f(x) within [x1,x2]
+                    return fx * ( x2 * x2 - x1 * x1 ) / 2;
+                };
+                double mu = xfx_integral( p_grazing / 0.25, 0, 0.25 ) +
+                            xfx_integral( p_standard / 0.50, 0.50, 1.00 ) +
+                            xfx_integral( p_goodhit / 0.50, 1.00, 1.50 ) +
+                            xfx_integral( p_critical / 0.55, 1.75, 2.30 ) +
+                            xfx_integral( p_headshot / 0.90, 2.45, 3.35 );
+
+                r.push_back( string_format( "%.2f", mu * gun.gun_damage() ) );
+            }
+
+            rows.push_back( r );
+        };
+
+        if( opts.empty() ) {
+            dump( test_npcs[ "S1" ], test_items[ "G1" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G1" ], 1000 );
+            dump( test_npcs[ "S1" ], test_items[ "G2" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G2" ], 1000 );
+            dump( test_npcs[ "S1" ], test_items[ "G3" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G3" ], 1000 );
+            dump( test_npcs[ "S1" ], test_items[ "G4" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G4" ], 1000 );
+
+        } else {
+            for( const auto &str : opts ) {
+                auto idx = str.find( ':' );
+                if( idx == std::string::npos ) {
+                    std::cerr << "cannot parse test case: " << str << std::endl;
+                    return false;
+                }
+                auto test = std::make_pair( test_npcs.find( str.substr( 0, idx ) ),
+                                            test_items.find( str.substr( idx + 1 ) ) );
+
+                if( test.first == test_npcs.end() || test.second == test_items.end() ) {
+                    std::cerr << "invalid test case: " << str << std::endl;
+                    return false;
+                }
+
+                dump( test.first->second, test.second->second, 100 );
+                dump( test.first->second, test.second->second, 1000 );
+            }
+        }
+
     } else if( what == "EXPLOSIVE" ) {
         header = {
             // @todo Should display more useful data: shrapnel damage, safe range
