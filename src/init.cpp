@@ -415,4 +415,5 @@ void DynamicDataLoader::check_consistency()
     gates::check();
     npc_class::check_consistency();
     mission_type::check_consistency();
+    item_action_generator::generator().check_consistency();
 }

@@ -210,6 +210,14 @@ class Item_factory
             m_templates[ def.id ] = def;
         }
 
+        /**
+         * Check if an iuse is known to the Item_factory.
+         * @param type Iuse type id.
+         */
+        bool has_iuse( const std::string &type ) const {
+            return iuse_function_list.find( type ) != iuse_function_list.end();
+        }
+
         void load_item_blacklist( JsonObject &jo );
 
         /**

@@ -28,6 +28,7 @@
 #include "field.h"
 
 #include <algorithm>
+#include <assert.h>
 #include <sstream>
 
 typedef std::set<std::string> t_string_set;
@@ -858,6 +859,16 @@ void Item_factory::check_definitions() const
                 msg << string_format("unseals_into invalid id %s", type->container->unseals_into.c_str() ) << "\n";
             }
         }
+
+        for( const auto &elem : type->use_methods ) {
+            const iuse_actor *actor = elem.second.get_actor_ptr();
+
+            assert( actor );
+            if( !actor->is_valid() ) {
+                msg << string_format( "item action \"%s\" was not described.", actor->type.c_str() ) << "\n";
+            }
+        }
+
         if (msg.str().empty()) {
             continue;
         }

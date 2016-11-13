@@ -248,10 +248,13 @@ public:
      */
     virtual iuse_actor *clone() const = 0;
     /**
+     * Returns whether the actor is valid (exists in the generator).
+     */
+    virtual bool is_valid() const;
+    /**
      * Returns the translated name of the action. It is used for the item action menu.
      */
     virtual std::string get_name() const;
-
     /**
      * Finalizes the actor. Must be called after all items are loaded.
      */

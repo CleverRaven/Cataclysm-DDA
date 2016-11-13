@@ -167,6 +167,11 @@ std::string item_action_generator::get_action_name( const item_action_id &id ) c
     return id;
 }
 
+bool item_action_generator::action_exists( const item_action_id &id ) const
+{
+    return item_actions.find( id ) != item_actions.end();
+}
+
 const item_action &item_action_generator::get_action( const item_action_id &id ) const
 {
     const auto &iter = item_actions.find( id );
@@ -191,6 +196,17 @@ void item_action_generator::load_item_action( JsonObject &jo )
     }
 
     item_actions[ia.id] = ia;
+}
+
+void item_action_generator::check_consistency() const
+{
+    for( const auto &elem : item_actions ) {
+        const auto &action = elem.second;
+        if( !item_controller->has_iuse( action.id ) ) {
+            debugmsg( "Item action \"%s\" isn't known to the game. Check item action definitions in JSON.",
+                      action.id.c_str() );
+        }
+    }
 }
 
 void game::item_action_menu()
@@ -266,6 +282,11 @@ std::string use_function::get_type() const
     } else {
         return errstring;
     }
+}
+
+bool iuse_actor::is_valid() const
+{
+    return item_action_generator::generator().action_exists( type );
 }
 
 std::string iuse_actor::get_name() const
