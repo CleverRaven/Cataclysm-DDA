@@ -657,12 +657,9 @@
         "overmaps" : [
             { "point":[0,0,0], "overmap": "slimepit_down"}
         ],
-<<<<<<< HEAD
         "locations" : [ "land", "swamp" ],
         "city_distance" : [0, -1],
-=======
         "locations" : [ "land" ],
->>>>>>> 3c7d0943fef5dc8308ad7360e3fb13a89e96e21e
         "city_sizes" : [4, 12],
         "occurrences" : [0, 5],
         "rotate" : false,
@@ -738,12 +735,9 @@
         "overmaps" : [
             { "point":[0,0,0], "overmap": "cave"}
         ],
-<<<<<<< HEAD
         "locations" : [ "wilderness", "swamp" ],
         "city_distance" : [0, -1],
-=======
         "locations" : [ "wilderness" ],
->>>>>>> 3c7d0943fef5dc8308ad7360e3fb13a89e96e21e
         "city_sizes" : [4, 12],
         "occurrences" : [0, 30],
         "rotate" : false
