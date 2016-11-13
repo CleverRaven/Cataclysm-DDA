@@ -3840,7 +3840,7 @@ point om_direction::rotate( const point &p, type dir )
             debugmsg( "Invalid overmap rotation (%d).", dir );
             // Intentional fallthrough.
         case type::north:
-            return p;
+            break;  // No need to do anything.
         case type::east:
             return point( -p.y, p.x );
         case type::south:
@@ -3848,6 +3848,7 @@ point om_direction::rotate( const point &p, type dir )
         case type::west:
             return point( p.y, -p.x );
     }
+    return p;
 }
 
 tripoint om_direction::rotate( const tripoint &p, type dir )
@@ -3941,7 +3942,8 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
                 top_score = score;
                 last = first; // New top score. Forget previous rotations.
             }
-            *last++ = r;
+            *last = r;
+            ++last;
         }
 
         if( !special.rotatable ) {
