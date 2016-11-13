@@ -1878,7 +1878,7 @@ void options_manager::serialize(JsonOut &json) const
         for( auto &elem : mPageItems[j] ) {
             // Skip blanks between option groups
             // to avoid empty json entries being stored
-            if( elem == "" ) {
+            if( elem.empty() ) {
                 continue;
             }
             const auto iter = global_options.find( elem );
