@@ -300,7 +300,7 @@
   "weight" : 300
   },
   {
-  "type" : "AMMO",
+  "type" : "GENERIC",
   "id" : "155mm_casing",
   "copy-from" : "artillery_casing",
   "name" : "155mm canister",
