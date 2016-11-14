@@ -68,7 +68,7 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
         } else {
             parts.set( get_body_part_token( val ) );
         }
-        sided += ( val == "ARM_EITHER" || val == "HAND_EITHER" ||
+        sided |= ( val == "ARM_EITHER" || val == "HAND_EITHER" ||
                    val == "LEG_EITHER" || val == "FOOT_EITHER" );
     };
 
@@ -459,7 +459,6 @@ void Item_factory::init()
     add_iuse( "MP3_ON", &iuse::mp3_on );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
     add_iuse( "MUTAGEN", &iuse::mutagen );
-    add_iuse( "MUT_IV", &iuse::mut_iv );
     add_iuse( "MUT_IV", &iuse::mut_iv );
     add_iuse( "MYCUS", &iuse::mycus );
     add_iuse( "NOISE_EMITTER_OFF", &iuse::noise_emitter_off );
