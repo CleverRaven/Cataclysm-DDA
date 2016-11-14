@@ -1648,7 +1648,16 @@
         "city_distance" : [-1, -1],
         "occurrences" : [0, 30],
         "flags" : [ "CLASSIC" ]
-    },{
+  },{
+    "type" : "overmap_terrain",
+    "id" : "pond_swamp",
+    "name" : "bog",
+    "sym" : 70,
+    "color" : "blue",
+    "see_cost" : 5,
+    "extras" : "none",
+    "mondensity" : 2
+  },{
         "type" : "overmap_special",
         "id" : "apple_orchard",
         "overmaps" : [
