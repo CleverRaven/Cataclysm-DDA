@@ -102,6 +102,41 @@ static const std::map<std::string, overmap_special_location> special_locations =
                         oter_str_id( "field"  ) },          {}                         } }
 };
 
+namespace om_lines
+{
+
+struct type {
+    wchar_t sym;
+    size_t mapgen;
+    std::string suffix;
+};
+
+const std::array<std::string, 5> mapgen_suffixes = {{
+    "_straight", "_curved", "_end", "_tee", "_four_way"
+}};
+
+const std::array<type, om_direction::size * om_direction::size - 1> all = {{
+    { LINE_XOXO, 2, "_end_south" },   // 1  ---n
+    { LINE_OXOX, 2, "_end_west"  },   // 2  --e-
+    { LINE_XXOO, 1, "_ne"        },   // 3  --en
+    { LINE_XOXO, 2, "_end_north" },   // 4  -s--
+    { LINE_XOXO, 0, "_ns"        },   // 5  -s-n
+    { LINE_OXXO, 1, "_es"        },   // 6  -se-
+    { LINE_XXXO, 3, "_nes"       },   // 7  -sen
+    { LINE_OXOX, 2, "_end_east"  },   // 8  w---
+    { LINE_XOOX, 1, "_wn"        },   // 9  w--n
+    { LINE_OXOX, 0, "_ew"        },   // 10 w-e-
+    { LINE_XXOX, 3, "_new"       },   // 11 w-en
+    { LINE_OOXX, 1, "_sw"        },   // 12 ws--
+    { LINE_XOXX, 3, "_nsw"       },   // 13 ws-n
+    { LINE_OXXX, 3, "_esw"       },   // 14 wse-
+    { LINE_XXXX, 4, "_nesw"      }    // 15 wsen
+}};
+
+const size_t size = all.size();
+
+}
+
 oter_iid oterfind(const std::string &id)
 {
     const auto iter = otermap.find( oter_str_id( id ) );
@@ -416,7 +451,6 @@ void overmap_terrain::load( JsonObject &jo )
     int start_iid = oterlist.size();
     oter.id_base = id_base;
     oter.loadid_base = start_iid;
-    oter.directional_peers.clear();
 
     if( jo.has_object( "spawns" ) ) {
         JsonObject spawns = jo.get_object( "spawns" );
@@ -429,95 +463,40 @@ void overmap_terrain::load( JsonObject &jo )
     oter.set_flag(river_tile, id_base.compare(0, 5, "river", 5) == 0 ||
                      id_base.compare(0, 6, "bridge", 6) == 0);
 
-    oter.id_mapgen = id_base; // What, another identifier? Whyyy...
-    if ( ! oter.has_flag(line_drawing) ) { // ...oh
-        load_overmap_terrain_mapgens(jo, id_base);
-    }
-
-    if (oter.has_flag(line_drawing)) {
-        // add variants for line drawing
-        for( int i = start_iid; i < start_iid + 12; i++ ) {
-            oter.directional_peers.push_back( oter_id( i ) );
-        }
-        oter.id_mapgen = id_base + "_straight";
-        load_overmap_terrain_mapgens(jo, id_base, "_straight");
-        oter.id = oter_str_id( id_base + "_ns" );
-        oter.sym = LINE_XOXO;
-        load_oter(oter);
-
-        oter.id = oter_str_id( id_base + "_ew" );
-        oter.sym = LINE_OXOX;
-        load_oter(oter);
-
-        oter.id_mapgen = id_base + "_curved";
-        load_overmap_terrain_mapgens(jo, id_base, "_curved");
-        oter.id = oter_str_id( id_base + "_ne" );
-        oter.sym = LINE_XXOO;
-        load_oter(oter);
-
-        oter.id = oter_str_id( id_base + "_es" );
-        oter.sym = LINE_OXXO;
-        load_oter(oter);
-
-        oter.id = oter_str_id( id_base + "_sw" );
-        oter.sym = LINE_OOXX;
-        load_oter(oter);
-
-        oter.id = oter_str_id( id_base + "_wn" );
-        oter.sym = LINE_XOOX;
-        load_oter(oter);
-
-        oter.id_mapgen = id_base + "_tee";
-        load_overmap_terrain_mapgens(jo, id_base, "_tee");
-        oter.id = oter_str_id( id_base + "_nes" );
-        oter.sym = LINE_XXXO;
-        load_oter(oter);
-
-        oter.id = oter_str_id( id_base + "_new" );
-        oter.sym = LINE_XXOX;
-        load_oter(oter);
-
-        oter.id = oter_str_id( id_base + "_nsw" );
-        oter.sym = LINE_XOXX;
-        load_oter(oter);
-
-        oter.id = oter_str_id( id_base + "_esw" );
-        oter.sym = LINE_OXXX;
-        load_oter(oter);
-
-
-        oter.id_mapgen = id_base + "_four_way";
-        load_overmap_terrain_mapgens(jo, id_base, "_four_way");
-        oter.id = oter_str_id( id_base + "_nesw" );
-        oter.sym = LINE_XXXX;
-        load_oter(oter);
-
-    } else if (oter.has_flag(rotates)) {
-        // add north/east/south/west variants
-
-        for( int i = start_iid; i < start_iid + 5; i++ ) {
-            oter.directional_peers.push_back( oter_id( i ) );
+    if( oter.has_flag( line_drawing ) ) {
+        oter.directional_peers.reserve( om_lines::size );
+        for( size_t i = 0; i < om_lines::size; ++i ) {
+            oter.directional_peers.push_back( oter_id( start_iid + i ) );
         }
 
-        oter.id = oter_str_id( id_base + "_north" );
-        oter.sym = syms[0];
-        load_oter(oter);
+        for( const auto &elem : om_lines::mapgen_suffixes ) {
+            load_overmap_terrain_mapgens( jo, id_base, elem );
+        }
 
-        oter.id = oter_str_id( id_base + "_east" );
-        oter.sym = syms[1];
-        load_oter(oter);
-
-        oter.id = oter_str_id( id_base + "_south" );
-        oter.sym = syms[2];
-        load_oter(oter);
-
-        oter.id = oter_str_id( id_base + "_west" );
-        oter.sym = syms[3];
-        load_oter(oter);
-
+        for( const auto &elem : om_lines::all ) {
+            oter.id = oter_str_id( id_base + elem.suffix );
+            oter.id_mapgen = id_base + om_lines::mapgen_suffixes[elem.mapgen];
+            oter.sym = elem.sym;
+            load_oter( oter );
+        }
     } else {
-        oter.directional_peers.push_back( oter_id( start_iid ) );
-        load_oter(oter);
+        oter.id_mapgen = id_base;
+        load_overmap_terrain_mapgens( jo, id_base );
+
+        if( oter.has_flag( rotates ) ) {
+            // add north/east/south/west variants
+            oter.directional_peers.reserve( om_direction::size );
+            for( size_t i = 0; i < om_direction::size; ++i ) {
+                oter.directional_peers.push_back( oter_id( start_iid + i ) );
+            }
+            for( size_t i = 0; i < om_direction::size; ++i ) {
+                oter.id = oter_str_id( id_base + "_" + om_direction::id( static_cast<om_direction::type>( i ) ) );
+                oter.sym = syms[i];
+                load_oter( oter );
+            }
+        } else {
+            load_oter( oter );
+        }
     }
 }
 
@@ -3928,6 +3907,17 @@ void overmap::good_river(int x, int y, int z)
 
 }
 
+const std::string &om_direction::id( type dir )
+{
+    static const std::array<std::string, size + 1> ids = {{
+       "", "north", "east", "south", "west"
+    }};
+    if( dir == type::invalid ) {
+        debugmsg( "Invalid direction cannot have an id." );
+    }
+    return ids[static_cast<size_t>( dir ) + 1];
+}
+
 const std::string &om_direction::name( type dir )
 {
     static const std::array<std::string, size + 1> names = {{
@@ -3981,6 +3971,7 @@ oter_id om_direction::rotate( const oter_id &oter, om_direction::type dir )
     } else if( dir == type::none || !otert.has_flag( rotates ) ) {
         return oter;
     }
+    assert( otert.directional_peers.size() == om_direction::size );
     return otert.directional_peers[static_cast<size_t>( dir )];
 }
 

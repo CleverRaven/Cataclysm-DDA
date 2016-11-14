@@ -108,6 +108,9 @@ enum class type : int {
 const std::array<type, 4> all = {{ type::north, type::east, type::south, type::west }};
 const size_t size = all.size();
 
+/** Identifier for serialization purposes. */
+const std::string &id( type dir );
+
 /** Human readable name of @param dir. */
 const std::string &name( type dir );
 
