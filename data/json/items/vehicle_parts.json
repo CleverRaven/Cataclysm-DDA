@@ -293,7 +293,7 @@
         "price" : 2000
     },
     {
-        "type":"GENERIC",
+        "type": "ENGINE",
         "id" : "foot_crank",
         "name" : "foot crank",
         "description" : "The pedal and gear assembly from a bicycle.",
@@ -306,10 +306,12 @@
         "bashing" : 8,
         "cutting" : 2,
         "category" : "veh_parts",
-        "price" : 9000
+        "price" : 9000,
+        "power": 250,
+        "flags": [ "MANUAL_ENGINE" ]
     },
     {
-        "type":"GENERIC",
+        "type": "ENGINE",
         "id" : "hand_rims",
         "name" : "set of hand rims",
         "name_plural" : "sets of hand rims",
@@ -322,7 +324,9 @@
         "volume" : 2,
         "bashing" : 10,
         "category" : "veh_parts",
-        "price" : 9000
+        "price" : 9000,
+        "power": 150,
+        "flags": [ "MANUAL_ENGINE" ]
     },
     {
         "type":"GENERIC",

@@ -119,8 +119,6 @@ void Item_factory::finalize() {
         }
 
         if( obj.engine ) {
-            obj.engine->power = hp_to_watt( obj.engine->power );
-
             if( get_world_option<bool>( "NO_FAULTS" ) ) {
                 obj.engine->faults.clear();
             }
