@@ -41,13 +41,6 @@
 #include <numeric>
 #include <algorithm>
 
-/**
- *  Constant use to convert between wheel and engine rpm
- *  1:3.7 is a fairly typical differential gearing
- *  0.15 is a magic constant based upon ~15" tyres
- */
-static constexpr float wheel_diff = 3.7 * 0.15;
-
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
@@ -2954,7 +2947,7 @@ double vehicle::safe_velocity( const vehicle_part &pt ) const
     }
 
     // get velocity at redline rpm in highest available gear
-    double v = pt.rpm_redline() / pt.gears().back() / wheel_diff;
+    double v = pt.rpm_redline() / pt.gears().back();
 
     // @todo remove conversion once velocity is exclusively in m/s
     return std::min( max_velocity( pt ), v / 100 * 0.447 );
@@ -2973,7 +2966,7 @@ int vehicle::gear() const {
 
     for( size_t idx = 0; idx != gears.size(); ++idx ) {
         // calculate engine RPM using this gear
-        int eng_rpm = std::abs( velocity ) * wheel_diff * gears[idx];
+        int eng_rpm = std::abs( velocity ) * gears[idx];
 
         // dont allow selection of any gear that would result in a stall
         if( eng_rpm < eng.rpm_idle() ) {
@@ -3005,7 +2998,7 @@ int vehicle::rpm() const
         return 0;
     }
 
-    int res = std::abs( velocity ) * wheel_diff * eng.gears()[g];
+    int res = std::abs( velocity ) * eng.gears()[g];
     return std::max( res, eng.rpm_idle() );
 }
 
