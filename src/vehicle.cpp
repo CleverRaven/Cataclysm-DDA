@@ -1102,7 +1102,7 @@ bool vehicle::start_engine( const int e )
         return false;
     }
 
-    auto mv = parts[engines[e]].starting_time();
+    auto mv = eng.base.engine_start_time( g->temperature );
     if( mv > 0 ) {
         const tripoint pos = global_part_pos3( engines[e] );
         sounds::ambient_sound( pos, mv / 10, "" );
@@ -1151,7 +1151,7 @@ void vehicle::start_engines( const bool take_control )
     int start_time = 0;
     for( size_t e = 0; e < engines.size(); ++e ) {
         has_engine = has_engine || is_engine_on( e );
-        start_time = std::max( start_time, parts[engines[e]].starting_time() );
+        start_time = std::max( start_time, parts[engines[e]].base.engine_start_time( g->temperature ) );
     }
 
     if( !has_engine ) {
@@ -5896,7 +5896,7 @@ itype_id vehicle_part::ammo_current() const
     }
 
     if( is_engine() ) {
-        return base.is_engine() ? default_ammo( base.type->engine->fuel ) : "null";
+        return default_ammo( base.type->engine->fuel );
     }
 
     return "null";
@@ -6119,16 +6119,6 @@ int vehicle_part::rpm_redline() const
 int vehicle_part::rpm_optimum() const
 {
     return base.is_engine() ? base.type->engine->optimum : 0;
-}
-
-double vehicle_part::starting_difficulty() const
-{
-    return base.engine_start_difficulty( g->temperature );
-}
-
-int vehicle_part::starting_time() const
-{
-    return base.engine_start_time( g->temperature );
 }
 
 bool vehicle_part::is_engine() const
