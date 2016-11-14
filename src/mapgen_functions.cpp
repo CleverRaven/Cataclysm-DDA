@@ -175,16 +175,19 @@ void init_mapgen_builtin_functions() {
 
     mapgen_cfunction_map["subway_straight"]    = &mapgen_subway_straight;
     mapgen_cfunction_map["subway_curved"]      = &mapgen_subway_curved;
+    mapgen_cfunction_map["subway_end"]         = &mapgen_subway_straight;   // @todo Implement
     mapgen_cfunction_map["subway_tee"]         = &mapgen_subway_tee;
     mapgen_cfunction_map["subway_four_way"]    = &mapgen_subway_four_way;
 
     mapgen_cfunction_map["sewer_straight"]    = &mapgen_sewer_straight;
     mapgen_cfunction_map["sewer_curved"]      = &mapgen_sewer_curved;
+    mapgen_cfunction_map["sewer_end"]         = &mapgen_sewer_straight;     // @todo Implement
     mapgen_cfunction_map["sewer_tee"]         = &mapgen_sewer_tee;
     mapgen_cfunction_map["sewer_four_way"]    = &mapgen_sewer_four_way;
 
     mapgen_cfunction_map["ants_straight"]    = &mapgen_ants_straight;
     mapgen_cfunction_map["ants_curved"]      = &mapgen_ants_curved;
+    mapgen_cfunction_map["ants_end"]         = &mapgen_ants_straight;       // @todo Implement
     mapgen_cfunction_map["ants_tee"]         = &mapgen_ants_tee;
     mapgen_cfunction_map["ants_four_way"]    = &mapgen_ants_four_way;
     mapgen_cfunction_map["ants_food"] = &mapgen_ants_food;
