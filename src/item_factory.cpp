@@ -1027,6 +1027,7 @@ void Item_factory::load( islot_engine &slot, JsonObject &jo, const std::string &
     assign( jo, "redline", slot.redline, strict, 0 );
     assign( jo, "faults", slot.faults, strict );
     assign( jo, "start_time", slot.start_time, strict, 0 );
+    assign( jo, "start_energy", slot.start_energy, strict, 0 );
 
     if( jo.has_array( "gears" ) ) {
         slot.gears.clear();
