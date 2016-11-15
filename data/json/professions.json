@@ -5187,5 +5187,58 @@
                 "boy_shorts"
             ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "tourist",
+        "name": "Tourist",
+        "description": "You came here to see beautiful New England; now you hope New England won't see you!",
+        "points": 4,
+        "skills": [
+            {
+                "level": 2,
+                "name": "speech",
+            },
+            {
+                "level": 4,
+                "name": "barter",
+            },
+            {
+                "level": 1,
+                "name": "cooking",
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+        "items": {
+            "both": [
+                "tricorne",
+                "knit_scarf",
+                "undershirt",
+                "undershirt",
+                "dress_shirt",
+                "jacket_light",
+                "gloves_light",
+                "pants",
+                "socks",
+                "sneakers",
+                "roadmap",
+                "touristmap",
+                "shavingkit",
+                "cell_phone",
+                "can_chowder",
+                "camera",
+                "suitcase_m"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     }
 ]
