@@ -163,14 +163,14 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
 
 int get_signal_for_hordes( const centroid &centr)
 {
-    //Volume in  tiles. Signal fo hordes in overmap tiles
+    //Volume in  tiles. Signal fo hordes in submaps
     const int vol = centr.volume-weather_data( g->weather ).sound_attn;
     const int min_vol_cap = 60; //Hordes can't hear volume lower than this
     const int undeground_div  = 2; //Coeffficient for volume reduction undeground
     const int min_vol = 73;//Min volume for normalization
     const int max_vol = 310;//Max volume for normalization
-    const int min_sig_power = 4;//Min signal for normalization
-    const int max_sig_power = 13;//Max signal for normalization
+    const int min_sig_power = 8;//Min signal for normalization
+    const int max_sig_power = 26;//Max signal for normalization
 
     //Lower the level- lower the sound
     int vol_hordes=( ( centr.z < 0 ) ? vol / ( undeground_div * std::abs( centr.z ) ) : vol );
@@ -187,13 +187,13 @@ int get_signal_for_hordes( const centroid &centr)
 
 int get_signal_for_hordes_simple( const centroid &centr )
 {
-    //Volume in  tiles. Signal fo hordes in overmap tiles
+    //Volume in  tiles. Signal fo hordes in submaps
     const int vol = centr.volume - weather_data( g->weather ).sound_attn; //modify vol using weather vol.Weather can reduce monster hearing
     const int min_vol_cap = 60;//Hordes can't hear volume lower than this
     const int undeground_div = 2;//Coeffficient for volume reduction undeground
-    const int hordes_sig_div = 2 * SEEX;//Divider coefficent for hordes
-    const int min_sig_cap = 4; //Signal for hordes can't be lower that this if it pass min_vol_cap
-    const int max_sig_cap = 13;//Signal for hordes beyond this cap will be reduced heavily
+    const int hordes_sig_div =  SEEX;//Divider coefficent for hordes
+    const int min_sig_cap = 8; //Signal for hordes can't be lower that this if it pass min_vol_cap
+    const int max_sig_cap = 26;//Signal for hordes beyond this cap will be reduced heavily
     const int sig_coef = 1;// To make player life easier - make it less than one. To make harder - more than  one
     const int sig_modifier = 0;// To make player life easier - make it less than zero. To make harder - more than zero
 
