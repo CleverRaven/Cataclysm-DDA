@@ -1627,3 +1627,92 @@ void mission_start::ranch_bartender_4(mission *miss)
 void mission_start::place_book( mission *)
 {
 }
+
+const tripoint reveal_destination ( const std::string& type, bool random )
+{
+    const tripoint your_pos = g->u.global_omt_location();
+    const tripoint center_pos = random ?
+    overmap_buffer.find_random( your_pos, type, rng( 40, 80 ), false ) :
+    overmap_buffer.find_closest( your_pos, type, rng ( 40, 80 ), false );
+
+    if( center_pos != overmap::invalid_tripoint ) {
+        overmap_buffer.reveal( center_pos, 2 );
+        return center_pos;
+    }
+
+    return overmap::invalid_tripoint;
+}
+
+void reveal_route( mission *miss, const tripoint destination )
+{
+    const tripoint source = g->u.global_omt_location();
+
+    const tripoint source_road = overmap_buffer.find_closest( source, "road", 3, false );
+    const tripoint dest_road = overmap_buffer.find_closest( destination, "road", 3, false );
+
+    if( overmap_buffer.reveal_route( source_road, dest_road ) )
+        add_msg( _( "%s marks as well the road that leads to it..." ), g->find_npc( miss->get_npc_id() )->name.c_str() );
+}
+
+void mission_start::reveal_weather_station( mission *miss )
+{
+    npc *p = g->find_npc( miss->get_npc_id() );
+
+    const tripoint destination = reveal_destination( "station_radio", true );
+    if( destination != overmap::invalid_tripoint )
+    {
+        add_msg( _( "%s have marked the only broadcasting station known to them on your map" ), p->name.c_str() );
+        miss->set_target( destination );
+    if ( one_in( 3 ) )
+        reveal_route( miss, destination );
+    } else {
+        add_msg( _( "You can't even guess where this weather broadcasting radio station could be..." ) );
+    }
+}
+
+void mission_start::reveal_office_tower( mission *miss )
+{
+    npc *p = g->find_npc( miss->get_npc_id() );
+
+    const tripoint destination = reveal_destination( "office_tower_1", true );
+    if( destination != overmap::invalid_tripoint )
+    {
+        add_msg( _( "%s have marked the only office tower known to them on your map" ), p->name.c_str() );
+        miss->set_target( destination );
+    if ( one_in( 3 ) )
+        reveal_route( miss, destination );
+    } else {
+        add_msg( _( "You can't even guess where this office tower could be..." ) );
+    }
+}
+
+void mission_start::reveal_doctors_office( mission *miss )
+{
+    npc *p = g->find_npc( miss->get_npc_id() );
+
+    const tripoint destination = reveal_destination( "office_doctor", true );
+    if( destination != overmap::invalid_tripoint )
+    {
+        add_msg( _( "%s have marked the only doctor's office known to them on your map" ), p->name.c_str() );
+        miss->set_target( destination );
+    if ( one_in( 3 ) )
+        reveal_route( miss, destination );
+    } else {
+        add_msg( _( "You can't even guess where this doctor's office could be..." ) );
+    }
+}
+
+void mission_start::reveal_cathedral( mission *miss )
+{
+    npc *p = g->find_npc( miss->get_npc_id() );
+
+    const tripoint destination = reveal_destination( "cathedral_b", true );
+    if( destination != overmap::invalid_tripoint )
+    {
+        add_msg( _( "%s have marked the only religious building known to them on your map" ), p->name.c_str() );
+    if ( one_in( 3 ) )
+        reveal_route( miss, destination );
+    } else {
+        add_msg( _( "You can't even guess where this religious building could be..." ) );
+    }
+}
