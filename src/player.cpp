@@ -5732,9 +5732,7 @@ void player::regen( int rate_multiplier )
     const bool asleep = has_effect( effect_sleep );
     float heal_rate = 0.0f;
     if( asleep ) {
-        if( has_trait( "REGEN" ) ) {
-            heal_rate += 1.0f;
-        } else if( has_trait( "FASTHEALER2" ) ) {
+        if( has_trait( "REGEN" ) || has_trait( "FASTHEALER2" ) ) {
             heal_rate += 1.0f;
         } else if( has_trait( "FASTHEALER" ) || has_trait( "MET_RAT" ) ) {
             heal_rate += 0.5f;
@@ -5754,7 +5752,7 @@ void player::regen( int rate_multiplier )
     } else if( has_trait( "REGEN" ) ) {
         heal_rate += 1.0f;
     } else if( has_trait( "FASTHEALER2" ) ) {
-        heal_rate += 0.5f;
+        heal_rate += 0.33f;
     } else if( has_trait( "FASTHEALER" ) || has_trait( "MET_RAT" ) ) {
         heal_rate += 0.1f;
     }
