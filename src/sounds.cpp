@@ -202,10 +202,10 @@ int get_signal_for_hordes_simple( const centroid &centr )
     if( vol_hordes > min_vol_cap ) {
         //Calculating horde hearing signal
         int sig_power = std::ceil( ( float ) vol_hordes / hordes_sig_div );
-        //Capping minimum horde hearing signal
-        sig_power = ( ( sig_power < min_sig_cap ) ? min_sig_cap : sig_power );
         //modifying signal to correct difficulty
         sig_power = sig_power * sig_coef + sig_modifier;
+        //Capping minimum horde hearing signal
+        sig_power = ( ( sig_power < min_sig_cap ) ? min_sig_cap : sig_power );
         //Capping extremely high signal to hordes
         sig_power = ( ( sig_power > max_sig_cap ) ? max_sig_cap : sig_power );
         add_msg( m_debug, "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power );
@@ -228,6 +228,7 @@ void sounds::process_sounds()
         // Alert all hordes
 		int sig_power = get_signal_for_hordes_simple( this_centroid );
         if( sig_power>0) {
+
             const point abs_ms = g->m.getabs( source.x, source.y );
             const point abs_sm = ms_to_sm_copy( abs_ms );
             const tripoint target( abs_sm.x, abs_sm.y, source.z );
