@@ -6,7 +6,8 @@
     "name": "COP .357",
     "name_plural": "COP .357",
     "description": "The COP 357 is a small, chubby derringer pistol that bears a slight resemblance to the Mossberg Brownie.  It fires the .357 round.",
-    "ammo": "357_mag"
+    "ammo": "357_mag",
+    "range": 0
   },
   {
     "id": "sw_619",
