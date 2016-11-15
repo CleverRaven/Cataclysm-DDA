@@ -166,7 +166,7 @@
     "ident" : "cabin_woods",
     "name" : "cabin in the woods",
     "target" : "cabin"
-  },,
+  },
   {
     "type" : "start_location",
     "ident" : "religous_church",
