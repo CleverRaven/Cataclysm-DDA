@@ -191,21 +191,23 @@ int get_signal_for_hordes_simple( const centroid &centr )
     const int vol = centr.volume - weather_data( g->weather ).sound_attn; //modify vol using weather vol.Weather can reduce monster hearing
     const int min_vol_cap = 60;//Hordes can't hear volume lower than this
     const int undeground_div = 2;//Coeffficient for volume reduction undeground
-    const int coef_for_hordes = 2 * SEEX;//Divider coefficent for hordes
+    const int hordes_sig_div = 2 * SEEX;//Divider coefficent for hordes
     const int min_sig_cap = 4; //Signal for hordes can't be lower that this if it pass min_vol_cap
-    const int max_sig_soft_cap = 8;//Signal for hordes beyond this cap will be reduced heavily
+    const int max_sig_cap = 13;//Signal for hordes beyond this cap will be reduced heavily
+    const int sig_coef = 1;// To make player life easier - make it less than one. To make harder - more than  one
     const int sig_modifier = 0;// To make player life easier - make it less than zero. To make harder - more than zero
 
     //Lower the level- lower the sound
     int vol_hordes = ( ( centr.z < 0 ) ? vol / ( undeground_div * std::abs( centr.z ) ) : vol );
     if( vol_hordes > min_vol_cap ) {
-        int sig_power = std::ceil( ( float ) vol_hordes / coef_for_hordes );
-        //Reducing extremely high signal to hordes
-        sig_power = ( ( sig_power > max_sig_soft_cap ) ? max_sig_soft_cap + std::log( sig_power - max_sig_soft_cap ) : sig_power );
-        //modifying signal to correct difficulty
-        sig_power += sig_modifier;
+        //Calculating horde hearing signal
+        int sig_power = std::ceil( ( float ) vol_hordes / hordes_sig_div );
         //Capping minimum horde hearing signal
         sig_power = ( ( sig_power < min_sig_cap ) ? min_sig_cap : sig_power );
+        //modifying signal to correct difficulty
+        sig_power = sig_power * sig_coef + sig_modifier;
+        //Capping extremely high signal to hordes
+        sig_power = ( ( sig_power > max_sig_cap ) ? max_sig_cap : sig_power );
         add_msg( m_debug, "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power );
         return sig_power;
     }
