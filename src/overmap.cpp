@@ -3626,16 +3626,19 @@ void overmap::polish(const int z, const std::string &terrain_type)
                     // So, fix it by making that square normal road;
                     // also taking other road pieces that may be next
                     // to it into account. A bit of a kludge but it works.
-                } else if (ter(x, y, z) == "bridge_ns" &&
-                           (!is_river(ter(x - 1, y, z)) ||
-                            !is_river(ter(x + 1, y, z)))) {
-                    good_road("road", x, y, z);
-                } else if (ter(x, y, z) == "bridge_ew" &&
-                           (!is_river(ter(x, y - 1, z)) ||
-                            !is_river(ter(x, y + 1, z)))) {
-                    good_road("road", x, y, z);
-                } else if (check_ot_type("road", x, y, z)) {
-                    good_road("road", x, y, z);
+                } else if( check_ot_type( "road", x, y, z ) ||
+                           ( ter( x, y, z ) == "bridge_ns" &&
+                             ( !is_river( ter( x - 1, y, z ) ) ||
+                               !is_river( ter( x + 1, y, z ) ) ) ) ||
+                           ( ter( x, y, z ) == "bridge_ew" &&
+                             ( !is_river( ter( x, y - 1, z ) ) ||
+                               !is_river( ter( x, y + 1, z ) ) ) ) ) {
+
+                    good_road( "road", x, y, z );
+
+                    if( one_in( 4 ) && ter( x, y, z ) == "road_nesw" ) {
+                        ter( x, y, z ) = oter_id( "road_nesw_manhole" );
+                    }
                 }
             }
         }
@@ -3731,88 +3734,20 @@ bool overmap::is_road(int x, int y, int z)
 
 void overmap::good_road(const std::string &base, int x, int y, int z)
 {
-    if (check_ot_type_road(base, x, y - 1, z)) {
-        if (check_ot_type_road(base, x + 1, y, z)) {
-            if (check_ot_type_road(base, x, y + 1, z)) {
-                if (check_ot_type_road(base, x - 1, y, z)) {
-                    ter(x, y, z) = oter_id( base + "_nesw" );
-                } else {
-                    ter(x, y, z) = oter_id( base + "_nes" );
-                }
-            } else {
-                if (check_ot_type_road(base, x - 1, y, z)) {
-                    ter(x, y, z) = oter_id( base + "_new" );
-                } else {
-                    ter(x, y, z) = oter_id( base + "_ne" );
-                }
-            }
-        } else {
-            if (check_ot_type_road(base, x, y + 1, z)) {
-                if (check_ot_type(base, x - 1, y, z)) {
-                    ter(x, y, z) = oter_id( base + "_nsw" );
-                } else {
-                    ter(x, y, z) = oter_id( base + "_ns" );
-                }
-            } else {
-                if (check_ot_type_road(base, x - 1, y, z)) {
-                    ter(x, y, z) = oter_id( base + "_wn" );
-                } else {
-                    if(base == "road" && (y != OMAPY - 1)) {
-                        ter(x, y, z) = oter_id( base + "_end_south" );
-                    } else {
-                        ter(x, y, z) = oter_id( base + "_ns" );
-                    }
-                }
-            }
-        }
-    } else {
-        if (check_ot_type_road(base, x + 1, y, z)) {
-            if (check_ot_type_road(base, x, y + 1, z)) {
-                if (check_ot_type_road(base, x - 1, y, z)) {
-                    ter(x, y, z) = oter_id( base + "_esw" );
-                } else {
-                    ter(x, y, z) = oter_id( base + "_es" );
-                }
-            } else {
-                if( check_ot_type_road(base, x - 1, y, z)) {
-                    ter(x, y, z) = oter_id( base + "_ew" );
-                } else {
-                    if(base == "road" && (x != 0)) {
-                        ter(x, y, z) = oter_id( base + "_end_west" );
-                    } else {
-                        ter(x, y, z) = oter_id( base + "_ew" );
-                    }
-                }
-            }
-        } else {
-            if (check_ot_type_road(base, x, y + 1, z)) {
-                if (check_ot_type_road(base, x - 1, y, z)) {
-                    ter(x, y, z) = oter_id( base + "_sw" );
-                } else {
-                    if(base == "road" && (y != 0)) {
-                        ter(x, y, z) = oter_id( base + "_end_north" );
-                    } else {
-                        ter(x, y, z) = oter_id( base + "_ns" );
-                    }
-                }
-            } else {
-                if (check_ot_type_road(base, x - 1, y, z)) {
-                    if(base == "road" && (x != OMAPX-1)) {
-                        ter(x, y, z) = oter_id( base + "_end_east" );
-                    } else {
-                        ter(x, y, z) = oter_id( base + "_ew" );
-                    }
-                } else {
-                    // No adjoining roads/etc.
-                    // Happens occasionally, esp. with sewers.
-                    ter(x, y, z) = oter_id( base + "_nesw" );
-                }
-            }
+    std::bitset<om_direction::size> compass;
+
+    for( auto dir : om_direction::all ) {
+        const point p( om_direction::displace( dir ) );
+        if( check_ot_type_road( base, x + p.x, y + p.y, z ) ) {
+            compass.set( static_cast<int>( dir ) );
         }
     }
-    if (ter(x, y, z) == "road_nesw" && one_in(4)) {
-        ter(x, y, z) = oter_id( "road_nesw_manhole" );
+
+    if( compass.none() ) {
+        compass.set(); // No adjoining roads/etc. Happens occasionally, esp. with sewers.
     }
+
+    ter( x, y, z ) = oter_id( base + om_lines::all[compass.to_ulong() - 1].suffix );
 }
 
 void overmap::good_river(int x, int y, int z)
