@@ -142,6 +142,21 @@ void mission_start::infect_npc( mission *miss )
     p->guard_current_pos();
 }
 
+void mission_start::asthmatic_npc( mission *miss )
+{
+    npc *p = g->find_npc( miss->npc_id );
+    if( p == NULL ) {
+        debugmsg( "mission_start::asthmatic_npc() couldn't find an NPC!" );
+        return;
+    }
+    // make sure they don't have any inhaler 
+    p->remove_items_with( []( const item & it ) {
+        return it.typeId() == "inhaler";
+    } );
+    // Make sure they stay here
+    p->guard_current_pos();
+}
+
 void mission_start::place_dog( mission *miss )
 {
     const tripoint house = random_house_in_closest_city();

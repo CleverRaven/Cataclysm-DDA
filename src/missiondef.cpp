@@ -94,6 +94,7 @@ static const std::map<std::string, std::function<void(mission *)>> mission_funct
     { "standard", { } },
     { "join", mission_start::join },
     { "infect_npc", mission_start::infect_npc },
+    { "asthmatic_npc", mission_start::asthmatic_npc },
     { "place_dog", mission_start::place_dog },
     { "place_zombie_mom", mission_start::place_zombie_mom },
     { "place_zombie_bay", mission_start::place_zombie_bay },
@@ -156,6 +157,7 @@ static const std::map<std::string, std::function<void(mission *)>> mission_funct
     { "thankful", mission_end::thankful },
     { "deposit_box", mission_end::deposit_box },
     { "heal_infection", mission_end::heal_infection },
+    { "heal_asthmatic", mission_end::heal_asthmatic },
     // Failures
     { "kill_npc", mission_fail::kill_npc },
 }};
@@ -311,6 +313,7 @@ mission_type_id mission_type::from_legacy( int old_id )
     static const std::vector<mission_type_id> old_id_vec = {{
         mission_type_id( "MISSION_NULL" ),
         mission_type_id( "MISSION_GET_ANTIBIOTICS" ),
+        mission_type_id( "MISSION_GET_INHALER" ),
         mission_type_id( "MISSION_GET_SOFTWARE" ),
         mission_type_id( "MISSION_GET_ZOMBIE_BLOOD_ANAL" ),
         mission_type_id( "MISSION_RESCUE_DOG" ),

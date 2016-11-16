@@ -72,6 +72,7 @@ struct mission_start {
     static void standard           ( mission *); // Standard for its goal type
     static void join               ( mission *); // NPC giving mission joins your party
     static void infect_npc         ( mission *); // "infection", remove antibiotics
+    static void asthmatic_npc         ( mission *); // "asthmatic", remove inhaler 
     static void place_dog          ( mission *); // Put a dog in a house!
     static void place_zombie_mom   ( mission *); // Put a zombie mom in a house!
     static void place_zombie_bay   ( mission *); // Put a boss zombie in the refugee/evac center back bay
@@ -137,6 +138,7 @@ struct mission_end { // These functions are run when a mission ends
     static void thankful       ( mission *); // NPC defaults to being a friendly stranger
     static void deposit_box    ( mission *); // random valuable reward
     static void heal_infection ( mission *);
+    static void heal_asthmatic( mission *);
 };
 
 struct mission_fail {

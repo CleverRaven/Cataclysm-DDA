@@ -132,6 +132,33 @@
     }
   },
   {
+    "id": "MISSION_GET_INHALER",
+    "type": "mission_definition",
+    "name": "Find Inhaler",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 150000,
+    "urgent": true,
+    "item": "inhaler",
+    "start": "asthmatic_npc",
+    "end": "heal_asthmatic",
+    "fail": "kill_npc",
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "deadline_low": 30,
+    "deadline_high": 48,
+    "dialogue": {
+      "describe": "He's an asthmatic and he need an inhaler",
+      "offer": "I'm asthmatic. I need you to get an inhaler for me...",
+      "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry...",
+      "rejected": "What?!  Please, <ill_die> without your help!",
+      "advice": "There's a town nearby.  Check pharmacies; it'll be behind the counter.",
+      "inquire": "Find any inhaler yet?",
+      "success": "Oh thank god!  I'll be right as rain in no time.",
+      "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
+      "failure": "How am I not dead already?!"
+    }
+  },
+  {
     "id": "MISSION_GET_ANTIBIOTICS",
     "type": "mission_definition",
     "name": "Find Antibiotics",
