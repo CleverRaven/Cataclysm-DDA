@@ -694,7 +694,7 @@
         "locations" : [ "swamp" ],
         "city_distance" : [5, -1],
         "city_sizes" : [4, 12],
-        "occurrences" : [0, 2],
+        "occurrences" : [1, 2],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_FUNGI_FLOWERS", "population":[50,100], "radius":[2,4] }
     },{
