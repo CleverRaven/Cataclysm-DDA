@@ -4,6 +4,7 @@
     "ident": "Fast_Zombies",
     "name": "Fast Zombies",
     "description": "Doubles zombie speed.",
-    "category": "rebalance"
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
   }
 ]

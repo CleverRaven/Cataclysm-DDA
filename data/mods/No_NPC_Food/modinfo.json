@@ -6,7 +6,8 @@
     "authors": [ "Coolthulhu" ],
     "maintainers": [ "Coolthulhu" ],
     "description": "Makes NPCs not require food, water or rest.",
-    "category": "rebalance"
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
   },
   {
     "type": "WORLD_OPTION",
