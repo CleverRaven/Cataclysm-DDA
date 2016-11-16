@@ -472,7 +472,6 @@ class game
         int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
 
         int inv_for_all( const std::string &title, const std::string &none_message = "" );
-        int inv_for_activatables( const player &p, const std::string &title );
         int inv_for_flag( const std::string &flag, const std::string &title );
         int inv_for_id( const itype_id &id, const std::string &title );
         int inv_for_tools_powered_by( const ammotype &battery_id, const std::string &title );
@@ -500,6 +499,8 @@ class game
         /** Custom-filtered menu for inventory items and those that are nearby (within @ref radius). */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
+        /** Item activation menu. */
+        item_location inv_for_activatables( const std::string &title );
         /** Book reading menu. */
         item_location inv_for_books( const std::string &title );
         /** Gunmod installation menu. */

@@ -91,13 +91,6 @@ int game::inv_for_all( const std::string &title, const std::string &none_message
                                 title, -1, none_message ).get_item() );
 }
 
-int game::inv_for_activatables( const player &p, const std::string &title )
-{
-    return inv_for_filter( title, [ &p ]( const item & it ) {
-        return p.rate_action_use( it ) != HINT_CANT;
-    }, _( "You don't have any items you can use." ) );
-}
-
 int game::inv_for_flag( const std::string &flag, const std::string &title )
 {
     return inv_for_filter( title, [ &flag ]( const item & it ) {
@@ -159,6 +152,81 @@ item *game::inv_map_for_liquid( const item &liquid, const std::string &title, in
     return inv_internal( u, inventory_filter_preset( filter ), title, radius,
                          string_format( _( "You don't have a suitable container for carrying %s." ),
                                         liquid.tname().c_str() ) ).get_item();
+}
+
+class activatable_inventory_preset : public inventory_selector_preset
+{
+    public:
+        activatable_inventory_preset( const player &p ) : p( p ) {
+            append_cell( [ this ]( const item_location & loc ) {
+                return string_format( "<color_ltgreen>%s</color>", get_action_name( loc ).c_str() );
+            }, _( "ACTION" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return p.rate_action_use( *loc ) != HINT_CANT && !get_action_name( loc ).empty();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            if( !p.has_enough_charges( *loc, false ) ) {
+                return string_format(
+                           ngettext( _( "Needs at least %d charge" ),
+                                     _( "Needs at least %d charges" ), loc->ammo_required() ),
+                           loc->ammo_required() );
+            }
+
+            if( !p.has_item( *loc ) ) {
+                if( loc->made_of( LIQUID ) ) {
+                    return _( "Can't pick up liquids" );
+                } else if( !p.can_pickVolume( *loc ) ) {
+                    return _( "Too big to pick up" );
+                } else if( !p.can_pickWeight( *loc ) ) {
+                    return _( "Too heavy to pick up" );
+                }
+            }
+
+            return std::string();
+        }
+
+        bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
+            const int cmp = get_action_name( lhs ).compare( get_action_name( rhs ) );
+
+            if( cmp == 0 ) {
+                return inventory_selector_preset::sort_compare( lhs, rhs );
+            }
+
+            return cmp < 0;
+        }
+
+    protected:
+        std::string get_action_name( const item_location &loc ) const {
+            const auto &uses = loc->type->use_methods;
+
+            if( uses.empty() ) {
+                if( loc->is_food() || loc->is_food_container() ) {
+                    return _( "Consume" );
+                } else if( loc->is_book() ) {
+                    return _( "Read" );
+                } else if( loc->is_bionic() ) {
+                    return _( "Install bionic" );
+                }
+            } else if( uses.size() == 1 ) {
+                return uses.begin()->second.get_name();
+            } else {
+                return _( "..." );
+            }
+
+            return std::string();
+        }
+
+    private:
+        const player &p;
+};
+
+item_location game::inv_for_activatables( const std::string &title )
+{
+    return inv_internal( u, activatable_inventory_preset( u ), title, 1,
+                         _( "You don't have any items you can use." ) );
 }
 
 class gunmod_inventory_preset : public inventory_selector_preset

@@ -7406,13 +7406,25 @@ void game::smash()
 void game::use_item(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_activatables( u, _( "Use item" ) );
+        auto loc = inv_for_activatables( _( "Use item" ) );
+
+        if( !loc ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+
+        if( !u.has_item( *loc ) ) {
+            if( u.volume_carried() + loc->volume() > u.volume_capacity() ) {
+                add_msg( _( "No space in inventory for %s." ), loc->tname().c_str() );
+                return;
+            }
+            pos = u.get_item_position( &u.i_add( *loc ) );
+            loc.remove_item();
+        } else {
+            pos = u.get_item_position( &*loc );
+        }
     }
 
-    if (pos == INT_MIN) {
-        add_msg(_("Never mind."));
-        return;
-    }
     refresh_all();
     u.use(pos);
     u.invalidate_crafting_inventory();
