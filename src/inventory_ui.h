@@ -507,7 +507,6 @@ class inventory_selector
 
     private:
         WINDOW_PTR w_inv;
-        WINDOW_PTR w_border;
 
         std::list<item_location> items;
         std::vector<inventory_column *> columns;
@@ -521,6 +520,8 @@ class inventory_selector
         inventory_column own_inv_column;     // Column for own inventory items
         inventory_column own_gear_column;    // Column for own gear (weapon, armor) items
         inventory_column map_column;         // Column for map and vehicle items
+
+        int border = 0;                      // Width of the window border
 
         bool display_stats = true;
         bool layout_is_valid = false;
