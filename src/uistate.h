@@ -56,6 +56,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
 
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.
+        bool overmap_cursor = true;             // toggles overmap cursor
         bool overmap_show_overlays = false;     // whether overlays are shown or not.
         bool debug_ranged;
         tripoint adv_inv_last_coords = {-999, -999, -999};
