@@ -313,7 +313,6 @@ mission_type_id mission_type::from_legacy( int old_id )
     static const std::vector<mission_type_id> old_id_vec = {{
         mission_type_id( "MISSION_NULL" ),
         mission_type_id( "MISSION_GET_ANTIBIOTICS" ),
-        mission_type_id( "MISSION_GET_INHALER" ),
         mission_type_id( "MISSION_GET_SOFTWARE" ),
         mission_type_id( "MISSION_GET_ZOMBIE_BLOOD_ANAL" ),
         mission_type_id( "MISSION_RESCUE_DOG" ),
