@@ -201,9 +201,7 @@ int get_signal_for_hordes_simple( const centroid &centr )
     int vol_hordes = ( ( centr.z < 0 ) ? vol / ( undeground_div * std::abs( centr.z ) ) : vol );
     if( vol_hordes > min_vol_cap ) {
         //Calculating horde hearing signal
-        int sig_power = std::ceil( ( float ) vol_hordes / hordes_sig_div );
-        //modifying signal to correct difficulty
-        sig_power = sig_power * sig_coef + sig_modifier;
+        int sig_power = std::ceil( ( float ) vol_hordes / hordes_sig_div * sig_coef + sig_modifier );
         //Capping minimum horde hearing signal
         sig_power = ( ( sig_power < min_sig_cap ) ? min_sig_cap : sig_power );
         //Capping extremely high signal to hordes
