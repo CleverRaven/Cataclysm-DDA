@@ -1075,11 +1075,6 @@ void options_manager::init()
         1, 50, 1
         );
 
-    add("OVERMAP_LARGE_CURSOR", "interface", _("Large overmap cursor"),
-        _("If true, the cursor in overmap will be surrounded with a large square block which overlays surrounding tiles."),
-        true
-        );
-
     add("MENU_SCROLL", "interface", _("Centered menu scrolling"),
         _("If true, menus will start scrolling in the center of the list, and keep the list centered."),
         true
