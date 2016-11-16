@@ -161,7 +161,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     return sound_clusters;
 }
 
-int get_signal_for_hordes( const centroid &centr)
+int get_signal_for_hordes_using_normalization( const centroid &centr)
 {
     //Volume in  tiles. Signal fo hordes in submaps
     const int vol = centr.volume-weather_data( g->weather ).sound_attn;
@@ -185,7 +185,7 @@ int get_signal_for_hordes( const centroid &centr)
     return 0;
 }
 
-int get_signal_for_hordes_simple( const centroid &centr )
+int get_signal_for_hordes( const centroid &centr )
 {
     //Volume in  tiles. Signal fo hordes in submaps
     const int vol = centr.volume - weather_data( g->weather ).sound_attn; //modify vol using weather vol.Weather can reduce monster hearing
@@ -194,8 +194,9 @@ int get_signal_for_hordes_simple( const centroid &centr )
     const int hordes_sig_div =  SEEX;//Divider coefficent for hordes
     const int min_sig_cap = 8; //Signal for hordes can't be lower that this if it pass min_vol_cap
     const int max_sig_cap = 26;//Signal for hordes beyond this cap will be reduced heavily
-    const int sig_coef = 1;// To make player life easier - make it less than one. To make harder - more than  one
-    const int sig_modifier = 0;// To make player life easier - make it less than zero. To make harder - more than zero
+    //Balancing coefs:
+    const float sig_coef = 1;// To make player life easier - make it less than one. To make harder - more than  one
+    const float sig_modifier = 0;// To make player life easier - make it less than zero. To make harder - more than zero
 
     //Lower the level- lower the sound
     int vol_hordes = ( ( centr.z < 0 ) ? vol / ( undeground_div * std::abs( centr.z ) ) : vol );
@@ -224,7 +225,7 @@ void sounds::process_sounds()
         const tripoint source = tripoint( this_centroid.x, this_centroid.y, this_centroid.z );
         // --- Monster sound handling here ---
         // Alert all hordes
-		int sig_power = get_signal_for_hordes_simple( this_centroid );
+		int sig_power = get_signal_for_hordes( this_centroid );
         if( sig_power>0) {
 
             const point abs_ms = g->m.getabs( source.x, source.y );
