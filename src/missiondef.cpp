@@ -157,7 +157,6 @@ static const std::map<std::string, std::function<void(mission *)>> mission_funct
     { "thankful", mission_end::thankful },
     { "deposit_box", mission_end::deposit_box },
     { "heal_infection", mission_end::heal_infection },
-    { "heal_asthmatic", mission_end::heal_asthmatic },
     // Failures
     { "kill_npc", mission_fail::kill_npc },
 }};

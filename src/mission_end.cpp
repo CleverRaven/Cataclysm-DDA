@@ -19,15 +19,6 @@ void mission_end::heal_infection( mission *miss )
     p->remove_effect( effect_infection );
 }
 
-void mission_end::heal_asthmatic( mission *miss )
-{
-    npc *p = g->find_npc( miss->get_npc_id() );
-    if( p == NULL ) {
-        debugmsg( "could not find mission NPC %d", miss->get_npc_id() );
-        return;
-    }
-}
-
 void mission_end::leave( mission *miss )
 {
     npc *p = g->find_npc( miss->get_npc_id() );

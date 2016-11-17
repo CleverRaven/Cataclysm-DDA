@@ -141,7 +141,7 @@
     "urgent": true,
     "item": "inhaler",
     "start": "asthmatic_npc",
-    "end": "heal_asthmatic",
+    "end": "thankful",
     "fail": "kill_npc",
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "deadline_low": 30,
@@ -158,6 +158,7 @@
       "failure": "How am I not dead already?!"
     }
   },
+
   {
     "id": "MISSION_GET_ANTIBIOTICS",
     "type": "mission_definition",
