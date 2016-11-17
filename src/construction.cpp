@@ -322,7 +322,8 @@ void construction_menu()
         if( update_info ) {
             update_info = false;
             // Clear out lines for tools & materials
-            const int pos_x = ( w_list_width + w_list_x0 + 2 );
+            const int pos_x = w_list_width + w_list_x0 + 2;
+            const int available_window_width = w_width - pos_x - 1;
             for( int i = 1; i < w_height - 1; i++ ) {
                 mvwhline( w_con, i, pos_x, ' ', w_width - pos_x - 1 );
             }
@@ -339,14 +340,12 @@ void construction_menu()
                             ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() ) );
 
             //leave room for top and bottom UI text
-            int available_buffer_height = w_height - 3 - 3 - (int)notes.size();
-            int available_window_width = w_width - ( w_list_width + w_list_x0 + 2 ) - 1;
+            const int available_buffer_height = w_height - 3 - 3 - (int)notes.size();
 
             // print the hotkeys regardless of if there are constructions
             for( size_t i = 0; i < notes.size(); ++i ) {
-                trim_and_print( w_con, w_height - 1 - (int)notes.size() + (int)i,
-                                w_list_width + w_list_x0 + 2, available_window_width,
-                                c_white, "%s", notes[i].c_str() );
+                trim_and_print( w_con, w_height - 1 - (int)notes.size() + (int)i, pos_x,
+                                available_window_width, c_white, "%s", notes[i].c_str() );
             }
 
             if( !constructs.empty() ) {
@@ -355,7 +354,8 @@ void construction_menu()
                 }
                 std::string current_desc = constructs[select];
                 // Print construction name
-                mvwprintz( w_con, 1, ( w_list_width + w_list_x0 + 2 ), c_white, "%s", current_desc.c_str() );
+                trim_and_print( w_con, 1, pos_x, available_window_width, c_white,
+                                "%s", current_desc.c_str() );
 
                 //only reconstruct the project list when moving away from the current item, or when changing the display mode
                 if( previous_select != select || previous_tabindex != tabindex ||
