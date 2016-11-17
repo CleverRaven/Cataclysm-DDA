@@ -331,20 +331,22 @@ void construction_menu()
             int available_buffer_height = w_height - 7 - 3;
             int available_window_width = w_width - ( w_list_width + w_list_x0 + 2 ) - 1;
             nc_color color_stage = c_white;
+            std::vector<std::string> notes;
+            notes.push_back( string_format( _( "Press %s or %s to tab." ),
+                             ctxt.get_desc( "LEFT" ).c_str(), ctxt.get_desc( "RIGHT" ).c_str() ) );
+            notes.push_back( string_format( _( "Press %s to search." ),
+                             ctxt.get_desc( "FILTER" ).c_str() ) );
+            notes.push_back( string_format( _( "Press %s to toggle unavailable constructions." ),
+                            ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() ) );
+            notes.push_back( string_format( _( "Press %s to view and edit key-bindings." ),
+                            ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() ) );
+
             // print the hotkeys regardless of if there are constructions
-            trim_and_print( w_con, w_height - 5, ( w_list_width + w_list_x0 + 2 ),
-                       available_window_width, c_white,
-                       _("Press %s or %s to tab."), 
-                       ctxt.get_desc("LEFT").c_str(),
-                       ctxt.get_desc("RIGHT").c_str() );
-            mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white,
-                       _( "Press %s to search." ), ctxt.get_desc( "FILTER" ).c_str() );
-            mvwprintz( w_con, w_height - 3, ( w_list_width + w_list_x0 + 2 ), c_white,
-                       _( "Press %s to toggle unavailable constructions." ),
-                       ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() );
-            mvwprintz( w_con, w_height - 2, ( w_list_width + w_list_x0 + 2 ), c_white,
-                       _( "Press %s to view and edit key-bindings." ),
-                       ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
+            for( size_t i = 0; i < notes.size(); ++i ) {
+                trim_and_print( w_con, w_height - 1 - (int)notes.size() + (int)i,
+                                w_list_width + w_list_x0 + 2, available_window_width,
+                                c_white, "%s", notes[i].c_str() );
+            }
 
             if( !constructs.empty() ) {
                 if( select >= (int) constructs.size() ){
