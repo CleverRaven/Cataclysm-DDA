@@ -161,30 +161,6 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     return sound_clusters;
 }
 
-int get_signal_for_hordes_using_normalization( const centroid &centr)
-{
-    //Volume in  tiles. Signal fo hordes in submaps
-    const int vol = centr.volume-weather_data( g->weather ).sound_attn;
-    const int min_vol_cap = 60; //Hordes can't hear volume lower than this
-    const int undeground_div  = 2; //Coeffficient for volume reduction undeground
-    const int min_vol = 73;//Min volume for normalization
-    const int max_vol = 310;//Max volume for normalization
-    const int min_sig_power = 8;//Min signal for normalization
-    const int max_sig_power = 26;//Max signal for normalization
-
-    //Lower the level- lower the sound
-    int vol_hordes=( ( centr.z < 0 ) ? vol / ( undeground_div * std::abs( centr.z ) ) : vol );
-    if( vol_hordes > min_vol_cap ) {
-        vol_hordes = ( (vol_hordes > max_vol ) ? max_vol : vol_hordes);
-        // Formula for hordes hearing. Normalazing [min_vol,max_vol] ==> [min_sig_power,max_sig_power]
-        int sig_power = ( vol_hordes-min_vol ) * ( max_sig_power-min_sig_power ) / ( max_vol-min_vol ) + min_sig_power;
-        sig_power =( ( sig_power < min_sig_power ) ? min_sig_power : sig_power );
-        add_msg( m_debug, "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power );
-        return sig_power;
-    }
-    return 0;
-}
-
 int get_signal_for_hordes( const centroid &centr )
 {
     //Volume in  tiles. Signal fo hordes in submaps
