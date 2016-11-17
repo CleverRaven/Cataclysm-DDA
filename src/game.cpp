@@ -7993,7 +7993,6 @@ bool game::npc_menu( npc &who )
         const bool wielded = ( it == &who.weapon );
 
         double empty_hands_bonus = u.weapon.is_null() ? 40 : 0;
-        add_msg( _( "Your weapon: %s" ), u.weapon.tname().c_str() );
         double temp = ( u.temp_conv[ bp_hand_l ] + u.temp_conv[ bp_hand_r ] ) / 2.;
         temp = ( temp / 100.0 ) * 2 - 100;
         double str_bonus = 5 * ( u.get_str() - 6 );
@@ -8002,7 +8001,7 @@ bool game::npc_menu( npc &who )
         double total_bonus = 0.;
         double cap = 0.;
         if( worn || wielded ) {
-            total_bonus = std::max( 0, 3. * str_bonus + 0.5 * dex_bonus + empty_hands_bonus );
+            total_bonus = std::max( 0., 3. * str_bonus + 0.5 * dex_bonus + empty_hands_bonus );
             cap = 250.; // 18 str, 18 dex, empty hands
 
             if ( x_in_y( total_bonus, cap ) ) {
@@ -8021,6 +8020,11 @@ bool game::npc_menu( npc &who )
                 u.mod_moves( -100 );
             }
             talk_function::hostile( who );
+            return true;
+        }
+
+        if( who.attitude == NPCATT_KILL ) {
+            add_msg( _( "%s is hostile!" ), who.name.c_str() );
             return true;
         }
 
