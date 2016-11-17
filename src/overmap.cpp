@@ -2930,7 +2930,7 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
                 // TODO: Z coord for mongroup targets
                 const int targ_dist = rl_dist( p, mg.target );
                 // TODO: Base this on targ_dist:dist ratio.
-                if (targ_dist < 5) {
+                if ( targ_dist < 10 ) {
                     mg.set_target( (mg.target.x + p.x) / 2, (mg.target.y + p.y) / 2 );
                     mg.inc_interest( d_inter );
                     add_msg( m_debug, "horde inc interest %d", d_inter);
