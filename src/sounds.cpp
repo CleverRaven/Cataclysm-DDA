@@ -197,7 +197,7 @@ void sounds::process_sounds()
         const tripoint source = tripoint( this_centroid.x, this_centroid.y, this_centroid.z );
         // --- Monster sound handling here ---
         // Alert all hordes
-		int sig_power = get_signal_for_hordes( this_centroid );
+        int sig_power = get_signal_for_hordes( this_centroid );
         if( sig_power>0) {
 
             const point abs_ms = g->m.getabs( source.x, source.y );
