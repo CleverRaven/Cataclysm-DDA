@@ -549,10 +549,9 @@ you make." ) );
 To attack a monster with a melee weapon, simply move into them. The time it takes to attack \
 depends on the size and weight of your weapon. Small, light weapons are the fastest; unarmed \
 attacks increase in speed with your Unarmed Combat skill, and will eventually be VERY fast. \
-A successful hit with a bashing weapon may stun the monster temporarily, while cutting weapons \
-may get stuck, possibly pulling the weapon from your hands-- but a monster with a weapon stuck \
-in it will move much more slowly. A miss may make you stumble and lose movement points. If a \
-monster hits you, your clothing may absorb some damage, but you will absorb the excess." ) );
+A successful hit with a bashing weapon may stun the monster temporarily. A miss may make you \
+stumble and lose movement points. If a monster hits you, your clothing may absorb some damage, \
+but you will absorb the excess." ) );
 
     text.push_back( string_format( _( "\
 Swarms of monsters may call for firearms. If you find one, wield it first, then reload by \
