@@ -238,7 +238,7 @@ void construction_menu()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
-    
+
     std::string filter;
     int previous_index = 0;
     do {
@@ -276,7 +276,7 @@ void construction_menu()
                     category_name = "FILTER";
                     break;
             }
-            
+
             if( category_name == "ALL" ) {
                 constructs = available;
                 previous_index = tabindex;
@@ -327,9 +327,6 @@ void construction_menu()
                 mvwhline( w_con, i, pos_x, ' ', w_width - pos_x - 1 );
             }
 
-            //leave room for top and bottom UI text
-            int available_buffer_height = w_height - 7 - 3;
-            int available_window_width = w_width - ( w_list_width + w_list_x0 + 2 ) - 1;
             nc_color color_stage = c_white;
             std::vector<std::string> notes;
             notes.push_back( string_format( _( "Press %s or %s to tab." ),
@@ -340,6 +337,10 @@ void construction_menu()
                             ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() ) );
             notes.push_back( string_format( _( "Press %s to view and edit key-bindings." ),
                             ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() ) );
+
+            //leave room for top and bottom UI text
+            int available_buffer_height = w_height - 3 - 3 - (int)notes.size();
+            int available_window_width = w_width - ( w_list_width + w_list_x0 + 2 ) - 1;
 
             // print the hotkeys regardless of if there are constructions
             for( size_t i = 0; i < notes.size(); ++i ) {
