@@ -2924,9 +2924,8 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
                 continue;
             }
             // TODO: base this in monster attributes, foremost GOODHEARING.
-            const int d_inter = (sig_power + 1 - dist) * SEEX;
+            const int d_inter = ( sig_power + 1 - dist ) * SEEX;
             const int roll = rng( 0, mg.interest );
-            add_msg( m_debug, "horde roll % d_inter %d dist %d", roll, d_inter, dist);
             if( roll < d_inter ) {
                 // TODO: Z coord for mongroup targets
                 const int targ_dist = rl_dist( p, mg.target );

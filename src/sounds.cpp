@@ -169,20 +169,16 @@ int get_signal_for_hordes( const centroid &centr )
     const int undeground_div = 2;//Coeffficient for volume reduction undeground
     const int hordes_sig_div =  SEEX;//Divider coefficent for hordes
     const int min_sig_cap = 8; //Signal for hordes can't be lower that this if it pass min_vol_cap
-    const int max_sig_cap = 26;//Signal for hordes beyond this cap will be reduced heavily
-    //Balancing coefs:
-    const float sig_coef = 1;// To make player life easier - make it less than one. To make harder - more than  one
-    const float sig_modifier = 0;// To make player life easier - make it less than zero. To make harder - more than zero
-
-    //Lower the level- lower the sound
+    const int max_sig_cap = 26;//Signal for hordes can't be higher that this
+    //Lower the level - lower the sound
     int vol_hordes = ( ( centr.z < 0 ) ? vol / ( undeground_div * std::abs( centr.z ) ) : vol );
     if( vol_hordes > min_vol_cap ) {
         //Calculating horde hearing signal
-        int sig_power = std::ceil( ( float ) vol_hordes / hordes_sig_div * sig_coef + sig_modifier );
+        int sig_power = std::ceil( ( float ) vol_hordes / hordes_sig_div );
         //Capping minimum horde hearing signal
-        sig_power = ( ( sig_power < min_sig_cap ) ? min_sig_cap : sig_power );
+        sig_power = std::max( sig_power, min_sig_cap );
         //Capping extremely high signal to hordes
-        sig_power = ( ( sig_power > max_sig_cap ) ? max_sig_cap : sig_power );
+        sig_power = std::min( sig_power, max_sig_cap );
         add_msg( m_debug, "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power );
         return sig_power;
     }
