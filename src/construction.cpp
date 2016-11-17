@@ -325,7 +325,7 @@ void construction_menu()
             const int pos_x = w_list_width + w_list_x0 + 2;
             const int available_window_width = w_width - pos_x - 1;
             for( int i = 1; i < w_height - 1; i++ ) {
-                mvwhline( w_con, i, pos_x, ' ', w_width - pos_x - 1 );
+                mvwhline( w_con, i, pos_x, ' ', available_window_width );
             }
 
             nc_color color_stage = c_white;
@@ -478,12 +478,16 @@ void construction_menu()
                 }
                 if( current_construct_breakpoint > 0 ) {
                     // Print previous stage indicator if breakpoint is past the beginning
-                    mvwprintz( w_con, 2, ( w_list_width + w_list_x0 + 2 ), c_white, _( "^ [P]revious stage(s)" ) );
+                    trim_and_print( w_con, 2, pos_x, available_window_width, c_white,
+                                    _( "Press %s to show previous stage(s)." ),
+                                    ctxt.get_desc( "PAGE_UP" ).c_str() );
                 }
                 if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                          available_buffer_height ) < full_construct_buffer.size() ) {
                     // Print next stage indicator if more breakpoints are remaining after screen height
-                    mvwprintz( w_con, w_height - 6, ( w_list_width + w_list_x0 + 2 ), c_white, _( "v [N]ext stage(s)" ) );
+                    trim_and_print( w_con, w_height - 2 - (int)notes.size(), pos_x, available_window_width,
+                                    c_white, _( "Press %s to show next stage(s)." ),
+                                    ctxt.get_desc( "PAGE_DOWN" ).c_str() );
                 }
                 // Leave room for above/below indicators
                 int ypos = 3;
