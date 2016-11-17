@@ -1905,7 +1905,7 @@ classes = {
             weight = { type = "int", writable = true },
         },
         functions = {
-            { name = "can_use", rval = "bool", args = { "string" } },
+            { name = "can_use", args = { "string" } },
             { name = "charges_default", rval = "int", args = { } },
             { name = "charges_to_use", rval = "int", args = { } },
             { name = "count_by_charges", rval = "bool", args = { } },
