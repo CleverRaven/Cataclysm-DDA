@@ -89,6 +89,7 @@
 #include "scent_map.h"
 #include "safemode_ui.h"
 #include "game_constants.h"
+#include "dialogue.h"
 
 #include <map>
 #include <set>
@@ -7888,7 +7889,8 @@ bool game::npc_menu( npc &who )
         examine_wounds,
         use_item,
         sort_armor,
-        attack
+        attack,
+        steal
     };
 
     uimenu amenu;
@@ -7905,6 +7907,7 @@ bool game::npc_menu( npc &who )
     amenu.addentry( use_item, true, 'i', _("Use item on") );
     amenu.addentry( sort_armor, true, 'r', _("Sort armor") );
     amenu.addentry( attack, true, 'a', _("Attack") );
+    amenu.addentry( steal, true, 's', _("Steal") );
 
     amenu.query();
 
@@ -7978,6 +7981,69 @@ bool game::npc_menu( npc &who )
             u.melee_attack( who, true );
             who.make_angry();
         }
+    } else if( choice == steal ) {
+        item_location loc = get_item_from_inventory( who, _("Steal item") );
+        item *it = loc.get_item();
+        if( !it ) {
+            debugmsg( "Steal item: invalid item or item not found" );
+            return true;
+        }
+
+        const bool worn = who.is_worn( *it );
+        const bool wielded = ( it == &who.weapon );
+
+        double empty_hands_bonus = u.weapon.is_null() ? 40 : 0;
+        add_msg( _( "Your weapon: %s" ), u.weapon.tname().c_str() );
+        double temp = ( u.temp_conv[ bp_hand_l ] + u.temp_conv[ bp_hand_r ] ) / 2.;
+        temp = ( temp / 100.0 ) * 2 - 100;
+        double str_bonus = 5 * ( u.get_str() - 6 );
+        double dex_bonus = 5 * ( u.get_dex() - 6 );
+
+        double total_bonus = 0.;
+        double cap = 0.;
+        if( worn || wielded ) {
+            total_bonus = std::max( 0, 3. * str_bonus + 0.5 * dex_bonus + empty_hands_bonus );
+            cap = 250.; // 18 str, 18 dex, empty hands
+
+            if ( x_in_y( total_bonus, cap ) ) {
+                add_msg( _( "You grab at %s and pull with all your force!" ), it->tname().c_str() );
+                add_msg( _( "You forcefully take %s from %s!" ), it->tname().c_str(), who.name.c_str() );
+                loc.obtain( u, -1 );
+            } else if ( x_in_y( total_bonus, cap / 2. ) ) {
+                add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ), it->tname().c_str() );
+                tripoint pos = u.pos();
+                pos.x += rng( -1, 1 );
+                pos.y += rng( -1, 1 );
+                g->m.add_item_or_charges( pos, who.i_rem(it) );
+                u.mod_moves( -100 );
+            } else {
+                add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it->tname().c_str() );
+                u.mod_moves( -100 );
+            }
+            talk_function::hostile( who );
+            return true;
+        }
+
+        double cold_hands_malus = std::abs( 20 - temp ) - 10;
+        double hand_enc_malus = ( u.encumb( bp_hand_l ) + u.encumb( bp_hand_r ) ) / 2. - 5.;
+        double feet_enc_malus = ( u.encumb( bp_foot_l ) + u.encumb( bp_foot_r ) ) / 2. - 5.;
+        double per_bonus = 5 * ( u.get_per() - 6 );
+
+        total_bonus = std::max( 0., 3. * dex_bonus + 0.5 * per_bonus + 1.5 * empty_hands_bonus -
+                                hand_enc_malus - feet_enc_malus - cold_hands_malus );
+        cap = 290.; // 18 str, 18 dex, empty hands, 0 encumbrance, 20 deg C hand warmth
+
+        if ( x_in_y( total_bonus, cap ) ) {
+            add_msg( _( "You sneakely steal %s from %s!" ), it->tname().c_str(), who.name.c_str() );
+            loc.obtain( u, -1 );
+        } else if ( x_in_y( total_bonus, cap / 2. ) ) {
+            add_msg( _( "You failed to steal %s from %s, but did not attract attention." ), it->tname().c_str(), who.name.c_str() );
+        } else  {
+            add_msg( _( "You failed to steal %s from %s" ), it->tname().c_str(), who.name.c_str() );
+            talk_function::hostile( who );
+        }
+
+        u.mod_moves( -100 );
     }
 
     return true;

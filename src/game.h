@@ -458,6 +458,7 @@ class game
 
         item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
 
+        item_location get_item_from_inventory( player &p, const std::string &title );
         void interactive_inv();
 
         int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );

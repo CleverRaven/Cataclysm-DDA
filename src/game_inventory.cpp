@@ -44,6 +44,13 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     return inv_s.execute();
 }
 
+item_location game::get_item_from_inventory( player &p, const std::string &title )
+{
+    const std::string msg = &p == &u ? _( "Your inventory is empty." ) :
+                            string_format( _( "%s's inventory is empty." ), p.name.c_str() );
+    return inv_internal( p, inventory_selector_preset(), title, -1, msg );
+}
+
 void game::interactive_inv()
 {
     static const std::set<int> allowed_selections = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };

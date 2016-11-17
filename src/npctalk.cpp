@@ -3270,6 +3270,9 @@ void talk_function::deny_personal_info( npc &p )
 
 void talk_function::hostile( npc &p )
 {
+ if ( p.attitude == NPCATT_KILL )
+  return;
+ 
  add_msg(_("%s turns hostile!"), p.name.c_str());
     g->u.add_memorial_log(pgettext("memorial_male","%s became hostile."),
         pgettext("memorial_female", "%s became hostile."),
