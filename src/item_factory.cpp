@@ -1905,9 +1905,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
     Item_group::Type type = Item_group::G_COLLECTION;
     if( subtype == "old" || subtype == "distribution" ) {
         type = Item_group::G_DISTRIBUTION;
-    } else if (subtype == "collection") {
-        ;
-    } else {
+    } else if( subtype != "collection" ) {
         jsobj.throw_error("unknown item group type", "subtype");
     }
     ig = make_group_or_throw( isd, type, jsobj.get_int( "ammo", 0 ), jsobj.get_int( "magazine", 0 ) );
