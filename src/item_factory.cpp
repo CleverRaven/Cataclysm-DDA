@@ -618,7 +618,7 @@ void Item_factory::check_definitions() const
         }
         if( !type->snippet_category.empty() ) {
             if( !SNIPPET.has_category( type->snippet_category ) ) {
-                msg << string_format("snippet category %s without any snippets", type->id.c_str(), type->snippet_category.c_str()) << "\n";
+                msg << string_format("item %s: snippet category %s without any snippets", type->id.c_str(), type->snippet_category.c_str()) << "\n";
             }
         }
         for( auto &q : type->qualities ) {
@@ -818,10 +818,10 @@ void Item_factory::check_definitions() const
                 msg << string_format("Resealable container unseals_into %s", type->container->unseals_into.c_str() ) << "\n";
             }
             if( type->container->contains <= 0 ) {
-                msg << string_format("\"contains\" (%d) must be >0", type->container->contains ) << "\n";
+                msg << string_format("\"contains\" (%d) must be >0", type->container->contains.value() ) << "\n";
             }
             if( !has_template( type->container->unseals_into ) ) {
-                msg << string_format("unseals_into invalid id", type->container->unseals_into.c_str() ) << "\n";
+                msg << string_format("unseals_into invalid id %s", type->container->unseals_into.c_str() ) << "\n";
             }
         }
         if (msg.str().empty()) {

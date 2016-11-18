@@ -2973,7 +2973,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_stats, 3, 1, h_ltgray, _( "Dexterity:" ) );
 
                     mvwprintz( w_stats, 6, 1, c_magenta, _( "Melee to-hit bonus:" ) );
-                    mvwprintz( w_stats, 6, 22, c_magenta, "%+3d", get_hit_base() );
+                    mvwprintz( w_stats, 6, 22, c_magenta, "%+.2lf", get_hit_base() );
                     if( throw_dex_mod( false ) <= 0 ) {
                         mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing bonus:" ) );
                     } else {
@@ -3554,7 +3554,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     int x = 32;
     int y = sideStyle ?  0 :  1;
     if( is_deaf() ) {
-        mvwprintz( sideStyle ? w2 : w, y, x, c_red, _( "Deaf!" ), volume );
+        mvwprintz( sideStyle ? w2 : w, y, x, c_red, _( "Deaf!" ) );
     } else {
         mvwprintz( sideStyle ? w2 : w, y, x, c_yellow, _( "Sound %d" ), volume );
     }

@@ -4375,7 +4375,7 @@ bool item::gunmod_compatible( const item& mod, std::string *msg ) const
                                      ammo_name( ammo_type( false ) ).c_str() ) );
 
     } else if( mod.typeId() == "waterproof_gunmod" && has_flag( "WATERPROOF_GUN" ) ) {
-        return error( string_format( _( "is already waterproof" ), tname().c_str() ) );
+        return error( string_format( _( "is already waterproof" ) ) );
 
     } else if( mod.typeId() == "tuned_mechanism" && has_flag( "NEVER_JAMS" ) ) {
         return error( string_format( _( "is already eminently reliable" ) ) );
