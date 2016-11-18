@@ -149,9 +149,9 @@ void mission_start::asthmatic_npc( mission *miss )
         debugmsg( "mission_start::asthmatic_npc() couldn't find an NPC!" );
         return;
     }
-    // make sure they don't have any inhaler 
-    p->remove_items_with( []( const item & it ) {
-        return it.typeId() == "inhaler";
+    // make sure they don't have any item goal
+    p->remove_items_with( [&]( const item & it ) {
+        return it.typeId() == miss->item_id;
     } );
     // Make sure they stay here
     p->guard_current_pos();
