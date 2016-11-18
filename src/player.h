@@ -483,6 +483,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param force_technique special technique to use in attack.
          */
         void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) override;
+        /**
+         * Sets up a melee attack and handles melee attack function calls
+         * @param t
+         * @param allow_special whether non-forced martial art technique or mutation attack should be
+         *   possible with this attack.
+         * @param force_technique special technique to use in attack.
+         */
+        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique, int hitspread ) override;
 
         /** Returns a weapon's modified dispersion value */
         double get_weapon_dispersion( const item &obj ) const;

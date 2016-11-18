@@ -1172,7 +1172,7 @@ void npc::make_angry()
         return; // We're already angry!
     }
 
-    add_msg( m_debug, "%s gets angry", name.c_str() );
+    add_msg( "%s gets angry", name.c_str() );
     // Make associated faction, if any, angry at the player too.
     if( my_fac != nullptr ) {
         my_fac->likes_u = std::max( -50, my_fac->likes_u - 50 );

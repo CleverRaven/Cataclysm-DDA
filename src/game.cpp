@@ -7988,37 +7988,67 @@ bool game::npc_menu( npc &who )
             return true;
         }
 
+        static const skill_id skill_unarmed( "unarmed" );
+        static const skill_id skill_melee( "melee" );
+
         const bool worn = who.is_worn( *it );
         const bool wielded = ( it == &who.weapon );
 
-        double empty_hands_bonus = u.weapon.is_null() ? 40 : 0;
-        double temp = ( u.temp_conv[ bp_hand_l ] + u.temp_conv[ bp_hand_r ] ) / 2.;
-        temp = ( temp / 100.0 ) * 2 - 100;
-        double str_bonus = 5 * ( u.get_str() - 6 );
-        double dex_bonus = 5 * ( u.get_dex() - 6 );
+        bool empty_hands = u.weapon.is_null();
+        int my_roll = dice( 3, 2 * u.get_str() + u.get_dex() );
+        my_roll += dice( 3, u.get_skill_level( skill_melee ) );
 
-        double total_bonus = 0.;
-        double cap = 0.;
-        if( worn || wielded ) {
-            total_bonus = std::max( 0., 3. * str_bonus + 0.5 * dex_bonus + empty_hands_bonus );
-            cap = 250.; // 18 str, 18 dex, empty hands
+        int their_roll = dice( 3, 2 * u.get_str() + u.get_dex() );
+        their_roll += dice( 3, u.get_per() );
+        their_roll += dice( 3, who.get_skill_level( skill_melee ));
+        if( who.has_trait( "TOUGH" ) ) {
+            their_roll += dice( 2, 6 );
+        }
 
-            if ( x_in_y( total_bonus, cap ) ) {
-                add_msg( _( "You grab at %s and pull with all your force!" ), it->tname().c_str() );
-                add_msg( _( "You forcefully take %s from %s!" ), it->tname().c_str(), who.name.c_str() );
-                loc.obtain( u, -1 );
-            } else if ( x_in_y( total_bonus, cap / 2. ) ) {
-                add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ), it->tname().c_str() );
-                tripoint pos = u.pos();
-                pos.x += rng( -1, 1 );
-                pos.y += rng( -1, 1 );
-                g->m.add_item_or_charges( pos, who.i_rem(it) );
-                u.mod_moves( -100 );
+        if( wielded ) {
+            // roll your melee and target's dodge skills to check if grab/smash attack succeeds
+            static const matec_id no_technique_id( "" );
+            int hitspread = who.deal_melee_attack(&u, u.hit_roll());
+            if( hitspread < 0 ) {
+                // trigger all miss effects
+                u.melee_attack( who, false, no_technique_id, hitspread );
             } else {
-                add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it->tname().c_str() );
-                u.mod_moves( -100 );
+                if( empty_hands ) {
+                    my_roll += dice( 3, u.get_skill_level( skill_unarmed ));
+
+                    if ( my_roll >= their_roll ) {
+                        add_msg( _( "You grab at %s and pull with all your force!" ), it->tname().c_str() );
+                        add_msg( _( "You forcefully take %s from %s!" ), it->tname().c_str(), who.name.c_str() );
+                        // obtain will deduce our moves, consider to deduce more/less to balance
+                        loc.obtain( u, -1 );
+                    } else if ( my_roll >= their_roll / 2 ) {
+                        add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ), it->tname().c_str() );
+                        tripoint pos = u.pos();
+                        pos.x += rng( -1, 1 );
+                        pos.y += rng( -1, 1 );
+                        g->m.add_item_or_charges( pos, who.i_rem(it) );
+                        u.mod_moves( -100 );
+                    } else {
+                        add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it->tname().c_str() );
+                        u.mod_moves( -100 );
+                    }
+                } else {
+                    // deal damage, and make weapon fall on floor of rolled enough.
+                    u.melee_attack( who, false, no_technique_id, hitspread );
+                    if( my_roll >= their_roll )
+                    {
+                        add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ), who.name.c_str(), it->tname().c_str() );
+                        tripoint pos = who.pos();
+                        pos.x += rng( -1, 1 );
+                        pos.y += rng( -1, 1 );
+                        g->m.add_item_or_charges( pos, who.i_rem(it) );
+                    } else {
+                        add_msg( _( "You smash %s with all your might but %s remains in their hands!" ), who.name.c_str(), it->tname().c_str() );
+                    }
+                }
             }
-            talk_function::hostile( who );
+
+            who.make_angry();
             return true;
         }
 
@@ -8027,23 +8057,35 @@ bool game::npc_menu( npc &who )
             return true;
         }
 
-        double cold_hands_malus = std::abs( 20 - temp ) - 10;
-        double hand_enc_malus = ( u.encumb( bp_hand_l ) + u.encumb( bp_hand_r ) ) / 2. - 5.;
-        double feet_enc_malus = ( u.encumb( bp_foot_l ) + u.encumb( bp_foot_r ) ) / 2. - 5.;
-        double per_bonus = 5 * ( u.get_per() - 6 );
+        if( worn ) {
+            add_msg( _( "You would never steal %s from %s unnoticed! You reconsider your attempt." ), it->tname().c_str(), who.name.c_str() );
+            return true;
+        }
 
-        total_bonus = std::max( 0., 3. * dex_bonus + 0.5 * per_bonus + 1.5 * empty_hands_bonus -
-                                hand_enc_malus - feet_enc_malus - cold_hands_malus );
-        cap = 290.; // 18 str, 18 dex, empty hands, 0 encumbrance, 20 deg C hand warmth
+        my_roll = dice( 3, u.get_dex() );
+        if ( empty_hands ) {
+            my_roll += dice( 3, u.get_skill_level( skill_unarmed ) * 1.5 );
+        }
+        if( u.has_trait( "LIGHTSTEP" ) ) {
+            my_roll += dice( 2, 6 );
+        }
+        if( u.has_trait( "CLUMSY" ) ) {
+            my_roll -= dice( 4, 6 );
+        }
+        if( u.has_trait( "QUICK" ) ) {
+            my_roll += dice( 1, 6 );
+        }
 
-        if ( x_in_y( total_bonus, cap ) ) {
+        their_roll = dice( 7, who.get_per() );
+
+        if ( my_roll >= their_roll ) {
             add_msg( _( "You sneakely steal %s from %s!" ), it->tname().c_str(), who.name.c_str() );
             loc.obtain( u, -1 );
-        } else if ( x_in_y( total_bonus, cap / 2. ) ) {
+        } else if ( my_roll >= their_roll / 2 ) {
             add_msg( _( "You failed to steal %s from %s, but did not attract attention." ), it->tname().c_str(), who.name.c_str() );
         } else  {
             add_msg( _( "You failed to steal %s from %s" ), it->tname().c_str(), who.name.c_str() );
-            talk_function::hostile( who );
+            who.make_angry();
         }
 
         u.mod_moves( -100 );

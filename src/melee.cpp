@@ -254,9 +254,15 @@ static void melee_train( player &p, int lo, int hi ) {
                 ceil( bash / total * rng( lo, hi ) ), hi );
 }
 
+void player::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique )
+{
+    int hitspread = t.deal_melee_attack( this, hit_roll() );
+    melee_attack( t, allow_special, force_technique, hitspread );
+}
+
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique)
+void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique, int hit_spread)
 {
     if( !t.is_player() ) {
         // @todo Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
@@ -267,7 +273,6 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
     int move_cost = attack_speed( weapon );
 
-    const float hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( hit_spread < 0 ) {
         int stumble_pen = stumble(*this);
         sfx::generate_melee_sound( pos(), t.pos(), 0, 0);
