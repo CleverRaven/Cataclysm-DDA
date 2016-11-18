@@ -34,7 +34,7 @@ static const int min_column_gap = 2;
 /** The gap between two columns when there's enough space, but they are not centered */
 static const int normal_column_gap = 8;
 /** The minimal occupancy ratio (see @refer get_columns_occupancy_ratio()) to align columns to the center */
-static const double min_ratio_to_center = 0.65;
+static const double min_ratio_to_center = 0.85;
 
 struct navigation_mode_data {
     navigation_mode next_mode;
@@ -932,7 +932,7 @@ size_t inventory_selector::get_layout_width() const
 {
     const size_t min_hud_width = std::max( get_header_min_width(), get_footer_min_width() );
     const auto visible_columns = get_visible_columns();
-    const size_t gaps = visible_columns.size() > 1 ? min_column_gap * ( visible_columns.size() - 1 ) : 0;
+    const size_t gaps = visible_columns.size() > 1 ? normal_column_gap * ( visible_columns.size() - 1 ) : 0;
 
     return std::max( get_columns_width( visible_columns ) + gaps, min_hud_width );
 }
@@ -1141,7 +1141,7 @@ void inventory_selector::draw_columns( WINDOW *w ) const
         }
 
         if( elem->pages_count() > 1 ) {
-            mvwprintw( w, getmaxy( w ) - ( border + 1 ), x, _( "Page %d/%d" ),
+            mvwprintw( w, getmaxy( w ) - ( border + 1 ) - 1, x, _( "Page %d/%d" ),
                        elem->page_index() + 1, elem->pages_count() );
         }
 
