@@ -142,11 +142,11 @@ void mission_start::infect_npc( mission *miss )
     p->guard_current_pos();
 }
 
-void mission_start::asthmatic_npc( mission *miss )
+void mission_start::need_drugs_npc( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
     if( p == NULL ) {
-        debugmsg( "mission_start::asthmatic_npc() couldn't find an NPC!" );
+        debugmsg( "mission_start::need_drugs_npc() couldn't find an NPC!" );
         return;
     }
     // make sure they don't have any item goal

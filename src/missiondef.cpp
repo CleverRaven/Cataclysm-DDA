@@ -94,7 +94,7 @@ static const std::map<std::string, std::function<void(mission *)>> mission_funct
     { "standard", { } },
     { "join", mission_start::join },
     { "infect_npc", mission_start::infect_npc },
-    { "asthmatic_npc", mission_start::asthmatic_npc },
+    { "need_drugs_npc", mission_start::need_drugs_npc },
     { "place_dog", mission_start::place_dog },
     { "place_zombie_mom", mission_start::place_zombie_mom },
     { "place_zombie_bay", mission_start::place_zombie_bay },
