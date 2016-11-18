@@ -7985,7 +7985,6 @@ bool game::npc_menu( npc &who )
         item_location loc = get_item_from_inventory( who, _("Steal item") );
         item *it = loc.get_item();
         if( !it ) {
-            debugmsg( "Steal item: invalid item or item not found" );
             return true;
         }
 
