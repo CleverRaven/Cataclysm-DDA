@@ -416,57 +416,6 @@ bool main_menu::opening_screen()
             }
         } else if( layer == 2 ) {
             if( sel1 == 2 ) { // Load Character
-                if( world_generator->all_worldnames.empty() ) {
-                    mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
-                               c_red, _( "No Worlds found!" ) );
-                } else {
-                    for( int i = 0; i < ( int )world_generator->all_worldnames.size(); ++i ) {
-                        int line = iMenuOffsetY - 2 - i;
-                        std::string world_name = world_generator->all_worldnames[i];
-                        int savegames_count = world_generator->all_worlds[world_name]->world_saves.size();
-                        nc_color color1, color2;
-                        if( world_name == "TUTORIAL" || world_name == "DEFENSE" ) {
-                            color1 = c_ltcyan;
-                            color2 = h_ltcyan;
-                        } else {
-                            if( world_generator->world_need_lua_build( world_name ) ) {
-                                color1 = c_dkgray;
-                                color2 = h_dkgray;
-                            } else {
-                                color1 = c_white;
-                                color2 = h_white;
-                            }
-                        }
-                        mvwprintz( w_open, line, 15 + iMenuOffsetX + extra_w / 2,
-                                   ( sel2 == i ? color2 : color1 ), "%s (%d)",
-                                   world_name.c_str(), savegames_count );
-                    }
-                }
-                wrefresh( w_open );
-                refresh();
-                const std::string action = ctxt.handle_input();
-                if( world_generator->all_worldnames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
-                    layer = 1;
-                } else if( action == "DOWN" ) {
-                    if( sel2 > 0 ) {
-                        sel2--;
-                    } else {
-                        sel2 = world_generator->all_worldnames.size() - 1;
-                    }
-                } else if( action == "UP" ) {
-                    if( sel2 < ( int )world_generator->all_worldnames.size() - 1 ) {
-                        sel2++;
-                    } else {
-                        sel2 = 0;
-                    }
-                } else if( action == "LEFT" || action == "QUIT" ) {
-                    layer = 1;
-                } else if( action == "RIGHT" || action == "CONFIRM" ) {
-                    if( sel2 >= 0 && sel2 < ( int )world_generator->all_worldnames.size() ) {
-                        layer = 3;
-                        sel3 = 0;
-                    }
-                }
             } else if( sel1 == 3 ) { // World Menu
                 // Show options for Create, Destroy, Reset worlds.
                 // Create world goes directly to Make World screen.
@@ -669,79 +618,6 @@ bool main_menu::opening_screen()
             bool available = false;
 
             if( sel1 == 2 ) { // Load Game
-                savegames = world_generator->all_worlds[world_generator->all_worldnames[sel2]]->world_saves;
-                std::string wn = world_generator->all_worldnames[sel2];
-
-                //hide savegames if lua is not available for a lua-built world
-                if( ( wn != "TUTORIAL" && wn != "DEFENSE" ) && world_generator->world_need_lua_build( wn ) ) {
-                    savegames.clear();
-                    mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
-                               c_red, _( "This world requires the game to be compiled with Lua." ) );
-                } else if( savegames.empty() ) {
-                    mvwprintz( w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
-                               c_red, _( "No save games found!" ) );
-                } else {
-                    for( std::vector<std::string>::iterator it = savegames.begin();
-                         it != savegames.end(); ) {
-                        std::string savename = base64_decode( *it );
-                        if( MAP_SHARING::isSharing() && savename != MAP_SHARING::getUsername() ) {
-                            it = savegames.erase( it );
-                        } else {
-                            // calculates the index from distance between it and savegames.begin()
-                            int i = it - savegames.begin();
-                            available = true;
-                            int line = iMenuOffsetY - 2 - i;
-                            mvwprintz( w_open, line, 19 + 19 + iMenuOffsetX + extra_w / 2,
-                                       ( sel3 == i ? h_white : c_white ),
-                                       base64_decode( *it ).c_str() );
-                            ++it;
-                        }
-                    }
-                    if( !available ) {
-                        mvwprintz( w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
-                                   c_red, _( "No save games found!" ) );
-                    }
-                }
-                wrefresh( w_open );
-                refresh();
-                std::string action = ctxt.handle_input();
-                if( savegames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
-                    layer = 2;
-                } else if( action == "DOWN" ) {
-                    if( sel3 > 0 ) {
-                        sel3--;
-                    } else {
-                        sel3 = savegames.size() - 1;
-                    }
-                } else if( action == "UP" ) {
-                    if( sel3 < ( int )savegames.size() - 1 ) {
-                        sel3++;
-                    } else {
-                        sel3 = 0;
-                    }
-                } else if( action == "LEFT" || action == "QUIT" ) {
-                    layer = 2;
-                    sel3 = 0;
-                    print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
-                }
-                if( action == "RIGHT" || action == "CONFIRM" ) {
-                    if( sel3 >= 0 && sel3 < ( int )savegames.size() ) {
-                        werase( w_background );
-                        wrefresh( w_background );
-                        WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
-                        world_generator->set_active_world( world );
-                        try {
-                            g->setup();
-                        } catch( const std::exception &err ) {
-                            debugmsg( "Error: %s", err.what() );
-                            g->u = player();
-                            continue;
-                        }
-
-                        g->load( world->world_name, savegames[sel3] );
-                        start = true;
-                    }
-                }
             } else if( sel1 == 3 ) { // Show world names
                 int i = 0;
                 for( std::vector<std::string>::iterator it = world_generator->all_worldnames.begin();
@@ -1006,3 +882,131 @@ bool main_menu::new_character_tab()
     } // end while
     return start;
 }
+
+            if( world_generator->all_worldnames.empty() ) {
+                mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
+                           c_red, _( "No Worlds found!" ) );
+            } else {
+                for( int i = 0; i < ( int )world_generator->all_worldnames.size(); ++i ) {
+                    int line = iMenuOffsetY - 2 - i;
+                    std::string world_name = world_generator->all_worldnames[i];
+                    int savegames_count = world_generator->all_worlds[world_name]->world_saves.size();
+                    nc_color color1, color2;
+                    if( world_name == "TUTORIAL" || world_name == "DEFENSE" ) {
+                        color1 = c_ltcyan;
+                        color2 = h_ltcyan;
+                    } else {
+                        if( world_generator->world_need_lua_build( world_name ) ) {
+                            color1 = c_dkgray;
+                            color2 = h_dkgray;
+                        } else {
+                            color1 = c_white;
+                            color2 = h_white;
+                        }
+                    }
+                    mvwprintz( w_open, line, 15 + iMenuOffsetX + extra_w / 2,
+                               ( sel2 == i ? color2 : color1 ), "%s (%d)",
+                               world_name.c_str(), savegames_count );
+                }
+            }
+            wrefresh( w_open );
+            refresh();
+            const std::string action = ctxt.handle_input();
+            if( world_generator->all_worldnames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
+                layer = 1;
+            } else if( action == "DOWN" ) {
+                if( sel2 > 0 ) {
+                    sel2--;
+                } else {
+                    sel2 = world_generator->all_worldnames.size() - 1;
+                }
+            } else if( action == "UP" ) {
+                if( sel2 < ( int )world_generator->all_worldnames.size() - 1 ) {
+                    sel2++;
+                } else {
+                    sel2 = 0;
+                }
+            } else if( action == "LEFT" || action == "QUIT" ) {
+                layer = 1;
+            } else if( action == "RIGHT" || action == "CONFIRM" ) {
+                if( sel2 >= 0 && sel2 < ( int )world_generator->all_worldnames.size() ) {
+                    layer = 3;
+                    sel3 = 0;
+                }
+            }
+
+
+
+            savegames = world_generator->all_worlds[world_generator->all_worldnames[sel2]]->world_saves;
+            std::string wn = world_generator->all_worldnames[sel2];
+
+            //hide savegames if lua is not available for a lua-built world
+            if( ( wn != "TUTORIAL" && wn != "DEFENSE" ) && world_generator->world_need_lua_build( wn ) ) {
+                savegames.clear();
+                mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
+                           c_red, _( "This world requires the game to be compiled with Lua." ) );
+            } else if( savegames.empty() ) {
+                mvwprintz( w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
+                           c_red, _( "No save games found!" ) );
+            } else {
+                for( std::vector<std::string>::iterator it = savegames.begin();
+                     it != savegames.end(); ) {
+                    std::string savename = base64_decode( *it );
+                    if( MAP_SHARING::isSharing() && savename != MAP_SHARING::getUsername() ) {
+                        it = savegames.erase( it );
+                    } else {
+                        // calculates the index from distance between it and savegames.begin()
+                        int i = it - savegames.begin();
+                        available = true;
+                        int line = iMenuOffsetY - 2 - i;
+                        mvwprintz( w_open, line, 19 + 19 + iMenuOffsetX + extra_w / 2,
+                                   ( sel3 == i ? h_white : c_white ),
+                                   base64_decode( *it ).c_str() );
+                        ++it;
+                    }
+                }
+                if( !available ) {
+                    mvwprintz( w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
+                               c_red, _( "No save games found!" ) );
+                }
+            }
+            wrefresh( w_open );
+            refresh();
+            std::string action = ctxt.handle_input();
+            if( savegames.empty() && ( action == "DOWN" || action == "CONFIRM" ) ) {
+                layer = 2;
+            } else if( action == "DOWN" ) {
+                if( sel3 > 0 ) {
+                    sel3--;
+                } else {
+                    sel3 = savegames.size() - 1;
+                }
+            } else if( action == "UP" ) {
+                if( sel3 < ( int )savegames.size() - 1 ) {
+                    sel3++;
+                } else {
+                    sel3 = 0;
+                }
+            } else if( action == "LEFT" || action == "QUIT" ) {
+                layer = 2;
+                sel3 = 0;
+                print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
+            }
+            if( action == "RIGHT" || action == "CONFIRM" ) {
+                if( sel3 >= 0 && sel3 < ( int )savegames.size() ) {
+                    werase( w_background );
+                    wrefresh( w_background );
+                    WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
+                    world_generator->set_active_world( world );
+                    try {
+                        g->setup();
+                    } catch( const std::exception &err ) {
+                        debugmsg( "Error: %s", err.what() );
+                        g->u = player();
+                        continue;
+                    }
+
+                    g->load( world->world_name, savegames[sel3] );
+                    start = true;
+                }
+            }
