@@ -26,6 +26,7 @@ class main_menu
 
         // Tab functions. They return whether a game was started or not.
         bool new_character_tab();
+        bool load_character_tab();
 
         // These variables are shared between @opening_screen and the tab functions.
         // TODO: But this is an ugly short-term solution.
@@ -37,6 +38,7 @@ class main_menu
         int iMenuOffsetY;
         std::vector<std::string> templates;
         int extra_w;
+        std::vector<std::string> savegames;
 
         /**
          * Prints a horizontal list of options

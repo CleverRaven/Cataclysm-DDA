@@ -300,7 +300,6 @@ bool main_menu::opening_screen()
     mmenu_refresh_title();
     print_menu( w_open, 0, iMenuOffsetX, iMenuOffsetY );
 
-    std::vector<std::string> savegames;
     dirent *dp;
     DIR *dir;
 
@@ -409,14 +408,16 @@ bool main_menu::opening_screen()
                         case 1:
                             start = new_character_tab();
                             break;
+                        case 2:
+                            start = load_character_tab();
+                            break;
                         default:
                             break;
                     }
                 }
             }
         } else if( layer == 2 ) {
-            if( sel1 == 2 ) { // Load Character
-            } else if( sel1 == 3 ) { // World Menu
+            if( sel1 == 3 ) { // World Menu
                 // Show options for Create, Destroy, Reset worlds.
                 // Create world goes directly to Make World screen.
                 // Reset and Destroy ask for world to modify.
@@ -615,10 +616,7 @@ bool main_menu::opening_screen()
                 }
             }
         } else if( layer == 3 ) {
-            bool available = false;
-
-            if( sel1 == 2 ) { // Load Game
-            } else if( sel1 == 3 ) { // Show world names
+            if( sel1 == 3 ) { // Show world names
                 int i = 0;
                 for( std::vector<std::string>::iterator it = world_generator->all_worldnames.begin();
                      it != world_generator->all_worldnames.end(); ++it ) {
@@ -883,6 +881,12 @@ bool main_menu::new_character_tab()
     return start;
 }
 
+bool main_menu::load_character_tab()
+{
+    bool start = false;
+    while( !start && sel1 == 2 && ( layer == 2 || layer == 3 ) ) {
+        print_menu( w_open, 2, iMenuOffsetX, iMenuOffsetY, true );
+        if( layer == 2 && sel1 == 2 ) {
             if( world_generator->all_worldnames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
                            c_red, _( "No Worlds found!" ) );
@@ -934,8 +938,8 @@ bool main_menu::new_character_tab()
                     sel3 = 0;
                 }
             }
-
-
+        } else if( layer == 3 && sel1 == 2 ) {
+            bool available = false;
 
             savegames = world_generator->all_worlds[world_generator->all_worldnames[sel2]]->world_saves;
             std::string wn = world_generator->all_worldnames[sel2];
@@ -1010,3 +1014,7 @@ bool main_menu::new_character_tab()
                     start = true;
                 }
             }
+        }
+    } // end while
+    return start;
+}
