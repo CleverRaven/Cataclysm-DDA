@@ -140,7 +140,7 @@
     "value": 150000,
     "urgent": true,
     "item": "inhaler",
-    "start": "asthmatic_npc",
+    "start": "need_drugs_npc",
     "end": "thankful",
     "fail": "kill_npc",
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
