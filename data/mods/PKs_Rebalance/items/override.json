@@ -10,17 +10,17 @@
     "charges_per_use": 4
   },
   {
-    "id" : "pipe_launcher40mm",
-    "type" : "GUNMOD",
+    "id": "pipe_launcher40mm",
     "copy-from": "pipe_launcher40mm",
-    "name" : "40mm pipe launcher",
+    "type": "GUNMOD",
+    "name": "40mm pipe launcher",
     "mod_targets": [ "rifle", "crossbow", "shotgun" ]
   },
   {
-    "id" : "fireman_belt",
-    "type" : "ARMOR",
+    "id": "fireman_belt",
     "copy-from": "fireman_belt",
-    "name" : "firefighter belt",
+    "type": "ARMOR",
+    "name": "firefighter belt",
     "coverage": 6,
     "encumbrance": 2,
     "warmth": 2,
@@ -37,9 +37,9 @@
     "flags": [ "FANCY", "WAIST", "NO_QUICKDRAW", "VARSIZE", "STURDY" ]
   },
   {
-    "id" : "leather_cat_ears",
-    "type" : "ARMOR",
+    "id": "leather_cat_ears",
     "copy-from": "leather_cat_ears",
+    "type": "ARMOR",
     "name": "pair of leather cat ears",
     "name_plural": "pairs of leather cat ears",
     "covers": [ "HEAD" ],
@@ -47,9 +47,9 @@
     "material_thickness": 1
   },
   {
-    "id" : "fur_cat_ears",
-    "type" : "ARMOR",
+    "id": "fur_cat_ears",
     "copy-from": "fur_cat_ears",
+    "type": "ARMOR",
     "name": "pair of fuzzy cat ears",
     "name_plural": "pairs of fuzzy cat ears",
     "covers": [ "HEAD" ],
@@ -57,9 +57,9 @@
     "material_thickness": 1
   },
   {
-    "id" : "leather_cat_tail",
-    "type" : "ARMOR",
+    "id": "leather_cat_tail",
     "copy-from": "leather_cat_tail",
+    "type": "ARMOR",
     "name": "leather cat tail",
     "covers": [ "LEGS" ],
     "coverage": 2,
@@ -67,9 +67,9 @@
     "flags": [ "FANCY", "FRAGILE" ]
   },
   {
-    "id" : "fur_cat_tail",
-    "type" : "ARMOR",
+    "id": "fur_cat_tail",
     "copy-from": "fur_cat_tail",
+    "type": "ARMOR",
     "name": "fuzzy cat tail",
     "covers": [ "LEGS" ],
     "coverage": 2,
@@ -77,27 +77,27 @@
     "flags": [ "FANCY", "FRAGILE" ]
   },
   {
-    "id" : "gold_dental_grill",
-    "type" : "ARMOR",
+    "id": "gold_dental_grill",
     "copy-from": "gold_dental_grill",
+    "type": "ARMOR",
     "name": "gold dental grill",
     "coverage": 1,
     "material_thickness": 1,
     "flags": [ "FANCY", "SKINTIGHT", "OVERSIZE" ]
   },
   {
-    "id" : "diamond_dental_grill",
-    "type" : "ARMOR",
+    "id": "diamond_dental_grill",
     "copy-from": "diamond_dental_grill",
+    "type": "ARMOR",
     "name": "diamond dental grill",
     "coverage": 1,
     "material_thickness": 1,
     "flags": [ "SUPER_FANCY", "SKINTIGHT", "OVERSIZE" ]
   },
   {
-    "id" : "wearable_rx12",
-    "type" : "TOOL_ARMOR",
+    "id": "wearable_rx12",
     "copy-from": "wearable_rx12",
+    "type": "TOOL_ARMOR",
     "name": "wearable RX12 jet injector",
     "covers": [ "ARM_EITHER" ],
     "coverage": 1,
@@ -105,9 +105,9 @@
     "flags": [ "OVERSIZE", "SKINTIGHT" ]
   },
   {
-    "id" : "rx11_stimpack",
-    "type" : "TOOL_ARMOR",
+    "id": "rx11_stimpack",
     "copy-from": "rx11_stimpack",
+    "type": "TOOL_ARMOR",
     "name": "RX11 stimulant delivery system",
     "name_plural": "RX11 stimulant delivery system",
     "covers": [ "ARM_EITHER" ],
@@ -115,9 +115,9 @@
     "flags": [ "OVERSIZE", "SKINTIGHT" ]
   },
   {
-    "id" : "rad_monitor",
-    "type" : "TOOL_ARMOR",
+    "id": "rad_monitor",
     "copy-from": "rad_monitor",
+    "type": "TOOL_ARMOR",
     "name": "radiation biomonitor",
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
@@ -125,45 +125,45 @@
     "flags": [ "BULKY" ]
   },
   {
-    "id" : "harmonica_holder",
-    "type" : "TOOL_ARMOR",
+    "id": "harmonica_holder",
     "copy-from": "harmonica_holder",
+    "type": "TOOL_ARMOR",
     "name": "harmonica with a holder",
     "name_plural": "harmonicas with holders",
     "coverage": 4,
     "encumbrance": 2
   },
   {
-    "id" : "wristwatch",
-    "type" : "ARMOR",
+    "id": "wristwatch",
     "copy-from": "wristwatch",
+    "type": "ARMOR",
     "name": "wrist watch",
     "name_plural": "wrist watches",
     "coverage": 1,
     "material_thickness": 1
   },
   {
-    "id" : "diving_watch",
-    "type" : "ARMOR",
+    "id": "diving_watch",
     "copy-from": "diving_watch",
+    "type": "ARMOR",
     "name": "diver's watch",
     "name_plural": "diver's watches",
     "coverage": 1,
     "material_thickness": 1
   },
   {
-    "id" : "gold_watch",
-    "type" : "ARMOR",
+    "id": "gold_watch",
     "copy-from": "gold_watch",
+    "type": "ARMOR",
     "name": "gold watch",
     "name_plural": "gold watches",
     "coverage": 1,
     "material_thickness": 1
   },
   {
-    "id" : "sf_watch",
-    "type" : "ARMOR",
+    "id": "sf_watch",
     "copy-from": "sf_watch",
+    "type": "ARMOR",
     "name": "fancy watch",
     "name_plural": "fancy watches",
     "coverage": 1,
