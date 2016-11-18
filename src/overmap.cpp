@@ -550,6 +550,7 @@ void overmap_terrain::check_consistency()
         "lab_core",
         "lab_stairs",
         "lab_finale",
+        "looted_building",  // pseudo-terrain
         "mansion",
         "mansion_entrance",
         "megastore",
@@ -603,7 +604,6 @@ void overmap_terrain::check_consistency()
         "temple_stairs",
         "toxic_dump",
         "triffid_finale",
-        "triffid_grove",
         "triffid_roots",
     };
 
@@ -3241,7 +3241,6 @@ void overmap::build_city_street( int x, int y, int cs, om_direction::type dir, c
 {
     const oter_id road_ns( "road_ns" );
     const oter_id road_ew( "road_ew" );
-    const oter_id road_null( "road_null" );
 
     int c = cs;
     int croad = cs;
@@ -3282,9 +3281,8 @@ void overmap::build_city_street( int x, int y, int cs, om_direction::type dir, c
             ter( x + bias.y, y + bias.x, 0 ) == crossroad ||
             ter( x - bias.y, y - bias.x, 0 ) == road ||
             ter( x - bias.y, y - bias.x, 0 ) == crossroad ) {
-            ter(x, y, 0) = road_null;
-            c = -1;
 
+            c = -1;
         }
 
         if( !one_in( STREETCHANCE ) ) {

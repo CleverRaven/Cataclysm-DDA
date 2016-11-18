@@ -253,7 +253,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["ice_lab_stairs"] = &mapgen_ice_lab_stairs;
     mapgen_cfunction_map["ice_lab_core"] = &mapgen_ice_lab_core;
     mapgen_cfunction_map["ice_lab_finale"] = &mapgen_ice_lab_finale;
-    mapgen_cfunction_map["nuke_plant_entrance"] = &mapgen_nuke_plant_entrance;
     mapgen_cfunction_map["nuke_plant"] = &mapgen_nuke_plant;
     mapgen_cfunction_map["bunker"] = &mapgen_bunker;
     mapgen_cfunction_map["outpost"] = &mapgen_outpost;
@@ -261,7 +260,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["silo_finale"] = &mapgen_silo_finale;
     mapgen_cfunction_map["temple"] = &mapgen_temple;
     mapgen_cfunction_map["temple_stairs"] = &mapgen_temple_stairs;
-    mapgen_cfunction_map["temple_core"] = &mapgen_temple_core;
     mapgen_cfunction_map["temple_finale"] = &mapgen_temple_finale;
     mapgen_cfunction_map["sewage_treatment"] = &mapgen_sewage_treatment;
     mapgen_cfunction_map["sewage_treatment_hub"] = &mapgen_sewage_treatment_hub;
@@ -284,7 +282,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["anthill"] = &mapgen_anthill;
     mapgen_cfunction_map["slimepit"] = &mapgen_slimepit;
     mapgen_cfunction_map["slimepit_down"] = &mapgen_slimepit_down;
-    mapgen_cfunction_map["triffid_grove"] = &mapgen_triffid_grove;
     mapgen_cfunction_map["triffid_roots"] = &mapgen_triffid_roots;
     mapgen_cfunction_map["triffid_finale"] = &mapgen_triffid_finale;
 

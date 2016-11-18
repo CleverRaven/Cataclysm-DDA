@@ -110,14 +110,6 @@
         ]
     },{
         "type" : "overmap_terrain",
-        "id" : "road_null",
-        "name" : "bug-ridden road",
-        "sym" : 37,
-        "color" : "magenta",
-        "see_cost" : 0,
-        "allow_road" : true
-    },{
-        "type" : "overmap_terrain",
         "id" : "road",
         "name" : "road",
         "line_drawing" : true,
@@ -1547,20 +1539,6 @@
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
-        "id" : "nuke_plant_entrance",
-        "name" : "nuclear plant",
-        "sym" : 80,
-        "color" : "light_green",
-        "see_cost" : 5
-    },{
-        "type" : "overmap_terrain",
-        "id" : "nuke_plant",
-        "name" : "nuclear plant",
-        "sym" : 80,
-        "color" : "light_green",
-        "see_cost" : 5
-    },{
-        "type" : "overmap_terrain",
         "id" : "bunker",
         "name" : "military bunker",
         "sym" : 66,
@@ -1606,13 +1584,6 @@
         "color" : "pink",
         "see_cost" : 5,
         "known_down" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "temple_core",
-        "name" : "strange temple",
-        "sym" : 84,
-        "color" : "pink",
-        "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "temple_finale",
