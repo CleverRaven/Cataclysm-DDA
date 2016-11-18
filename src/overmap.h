@@ -420,14 +420,19 @@ typedef std::unordered_map<std::string, regional_settings> t_regional_settings_m
 typedef t_regional_settings_map::const_iterator t_regional_settings_map_citr;
 extern t_regional_settings_map region_settings_map;
 
-void load_overmap_terrain(JsonObject &jo);
-void reset_overmap_terrain();
 void load_region_settings(JsonObject &jo);
 void reset_region_settings();
 void load_region_overlay(JsonObject &jo);
 void apply_region_overlay(JsonObject &jo, regional_settings &region);
 
-void finalize_overmap_terrain();
+namespace overmap_terrain
+{
+
+void load( JsonObject &jo );
+void reset();
+void finalize();
+
+}
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);

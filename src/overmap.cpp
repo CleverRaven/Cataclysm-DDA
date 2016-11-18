@@ -337,7 +337,7 @@ void load_oter(oter_t &oter)
     oterlist.push_back(oter);
 }
 
-void reset_overmap_terrain()
+void overmap_terrain::reset()
 {
     otermap.clear();
     oterlist.clear();
@@ -374,7 +374,7 @@ void load_overmap_terrain_mapgens(JsonObject &jo, const std::string id_base,
     }
 }
 
-void load_overmap_terrain(JsonObject &jo)
+void overmap_terrain::load( JsonObject &jo )
 {
     oter_t oter;
     long syms[4];
@@ -519,12 +519,11 @@ void load_overmap_terrain(JsonObject &jo)
     }
 }
 
-
 /*
  * Assemble a map of overmap_terrain base ids pointing to first members of oter groups
  * We'll do this after json loading so references can be used
  */
-void finalize_overmap_terrain( )
+void overmap_terrain::finalize()
 {
     int c = 0;
     for( std::vector<oter_t>::const_iterator it = oterlist.begin(); it != oterlist.end(); ++it ) {
