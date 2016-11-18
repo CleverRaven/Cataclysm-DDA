@@ -429,6 +429,7 @@ namespace overmap_terrain
 {
 
 void load( JsonObject &jo );
+void check_consistency();
 void reset();
 void finalize();
 

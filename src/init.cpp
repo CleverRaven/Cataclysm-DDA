@@ -408,6 +408,7 @@ void DynamicDataLoader::check_consistency()
     scenario::check_definitions();
     check_martialarts();
     mutation_branch::check_consistency();
+    overmap_terrain::check_consistency();
     overmap_specials::check_consistency();
     ammunition_type::check_consistency();
     trap::check_consistency();

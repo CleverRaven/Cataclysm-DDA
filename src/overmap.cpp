@@ -145,6 +145,8 @@ struct sid_or_sid {
    sid_or_sid(const std::string & s1, const int i, const::std::string s2) : primary_str(s1), secondary_str(s2), chance(i) { }
 };
 
+overmap_spawns::overmap_spawns() : group( NULL_ID ) {}
+
 city::city( int const X, int const Y, int const S)
 : x (X)
 , y (Y)
@@ -516,6 +518,114 @@ void overmap_terrain::load( JsonObject &jo )
     } else {
         oter.directional_peers.push_back( oter_id( start_iid ) );
         load_oter(oter);
+    }
+}
+
+void overmap_terrain::check_consistency()
+{
+    // @todo This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
+    static const std::set<std::string> hardcoded_mapgen = {
+        "anthill",
+        "apartments_mod_tower_1",
+        "bunker",
+        "cathedral_1",
+        "cathedral_1_entrance",
+        "cathedral_b",
+        "cathedral_b_entrance",
+        "farm",
+        "farm_field",
+        "fema",
+        "fema_entrance",
+        "haz_sar",
+        "haz_sar_b1",
+        "haz_sar_entrance",
+        "haz_sar_entrance_b1",
+        "hospital",
+        "hospital_entrance",
+        "ice_lab",
+        "ice_lab_stairs",
+        "ice_lab_core",
+        "ice_lab_finale",
+        "lab",
+        "lab_core",
+        "lab_stairs",
+        "lab_finale",
+        "mansion",
+        "mansion_entrance",
+        "megastore",
+        "megastore_entrance",
+        "mine",
+        "mine_down",
+        "mine_entrance",
+        "mine_finale",
+        "mine_shaft",
+        "office_tower_1",
+        "office_tower_1_entrance",
+        "office_tower_b",
+        "office_tower_b_entrance",
+        "outpost",
+        "prison_1",
+        "prison_2",
+        "prison_3",
+        "prison_4",
+        "prison_5",
+        "prison_6",
+        "prison_7",
+        "prison_8",
+        "prison_9",
+        "prison_b",
+        "prison_b_entrance",
+        "public_works",
+        "public_works_entrance",
+        "radio_tower",
+        "school_1",
+        "school_2",
+        "school_3",
+        "school_4",
+        "school_5",
+        "school_6",
+        "school_7",
+        "school_8",
+        "school_9",
+        "sewage_treatment",
+        "sewage_treatment_hub",
+        "sewage_treatment_under",
+        "silo",
+        "silo_finale",
+        "slimepit",
+        "slimepit_down",
+        "spider_pit_under",
+        "spiral",
+        "spiral_hub",
+        "station_radio",
+        "temple",
+        "temple_finale",
+        "temple_stairs",
+        "toxic_dump",
+        "triffid_finale",
+        "triffid_grove",
+        "triffid_roots",
+    };
+
+    for( const auto &elem : oterlist ) {
+        if( elem.id.is_null() ) {
+            continue;
+        }
+
+        const bool exists_hardcoded = hardcoded_mapgen.find( elem.id_mapgen ) != hardcoded_mapgen.end();
+        const bool exists_loaded = oter_mapgen.find( elem.id_mapgen ) != oter_mapgen.end();
+
+        if( exists_loaded ) {
+            if( exists_hardcoded ) {
+                debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function. Consider removing the latter.", elem.id_mapgen.c_str() );
+            }
+        } else if( !exists_hardcoded ) {
+            debugmsg( "No mapgen terrain exists for \"%s\".", elem.id_mapgen.c_str() );
+        }
+
+        if( elem.static_spawns.group && !elem.static_spawns.group.is_valid() ) {
+            debugmsg( "Invalid monster group \"%s\" in spawns of \"%s\".", elem.static_spawns.group.c_str(), elem.id.c_str() );
+        }
     }
 }
 
