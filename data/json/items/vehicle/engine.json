@@ -18,7 +18,7 @@
     "efficiency": 30,
     "idle": 800,
     "optimum": 1800,
-    "redline": 3000,
+    "redline": 3200,
     "gears": [ 3.891, 2.74, 1.652, 1.134, 0.912 ],
     "start_time": 60,
     "extend": { "faults": [ "fault_engine_pump_diesel", "fault_engine_glow_plug" ] },
@@ -33,7 +33,7 @@
     "efficiency": 20,
     "idle": 800,
     "optimum": 2000,
-    "redline": 3200,
+    "redline": 4000,
     "gears": [ 3.166, 1.882, 1.296, 0.972, 0.738 ],
     "start_time": 30,
     "extend": { "faults": [ "fault_engine_pump_fuel" ] }
@@ -46,9 +46,9 @@
     "description": "A compact single-cylinder 2-stroke combustion engine.  The simple design with no external components makes it exceptionally reliable but relatively inefficient.  Intended for lightweight vehicles its fixed gearing severely limits maximum speed.",
     "weight": 4000,
     "volume": 8,
-    "power": 3000,
+    "power": 6000,
     "redline": 5000,
-    "gears": [ 3.166 ],
+    "gears": [ 3.891 ],
     "faults": [],
     "proportional": {
       "efficiency": 0.5,
@@ -115,7 +115,6 @@
     "description": "A rare design of gasoline engine utilising a single triangular rotor.  Although exceptionally durable and capable of running at very high speeds they were unpopular before the cataclysm due to environmental concerns about their inefficiency.",
     "proportional": {
       "weight": 0.8,
-      "power": 0.6,
       "efficiency": 0.8,
       "idle": 2,
       "optimum": 2,
