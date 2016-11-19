@@ -167,7 +167,6 @@
     "type": "AMMO",
     "category": "weapons",
     "name": "throwing stick",
-    "name_plural": "throwing sticks",
     "description": "A stick carved into a shape suitable for throwing at a target.  Not a boomerang, so don't expect it to return to your hand.",
     "weight": 574,
     "volume": 2,
@@ -332,7 +331,6 @@
     "category": "food",
     "name": "small batch of curdling milk",
     "name_plural": "small batches of curdling milk",
-    "//": "price of container",
     "description": "A sealed small waterskin filled with milk that is undergoing the process to become a crude form of cheese, having had vinegar and natural rennet added.",
     "weight": 1870,
     "volume": 7,
@@ -350,8 +348,7 @@
       "moves": 150,
       "type": "delayed_transform",
       "transform_age": 28800,
-      "not_ready_msg": "The milk is still curdling.",
-      "//": "2 days"
+      "not_ready_msg": "The milk is still curdling."
     }
   },
   {
@@ -360,7 +357,6 @@
     "category": "food",
     "name": "batch of curdling milk",
     "name_plural": "batches of curdling milk",
-    "//": "price of container",
     "description": "A sealed waterskin filled with milk that is undergoing the process to become a crude form of cheese, having had vinegar and natural rennet added.",
     "weight": 3617,
     "volume": 14,
@@ -378,8 +374,7 @@
       "moves": 150,
       "type": "delayed_transform",
       "transform_age": 36000,
-      "not_ready_msg": "The milk is still curdling.",
-      "//": "2 and a half days"
+      "not_ready_msg": "The milk is still curdling."
     }
   },
   {
@@ -388,7 +383,6 @@
     "category": "food",
     "name": "large batch of curdling milk",
     "name_plural": "large batches of curdling milk",
-    "//": "price of container",
     "description": "A sealed large waterskin filled with milk that is undergoing the process to become a crude form of cheese, having had vinegar and natural rennet added.",
     "weight": 5241,
     "volume": 21,
@@ -406,8 +400,7 @@
       "moves": 150,
       "type": "delayed_transform",
       "transform_age": 43200,
-      "not_ready_msg": "The milk is still curdling.",
-      "//": "3 days"
+      "not_ready_msg": "The milk is still curdling."
     }
   },
   {
