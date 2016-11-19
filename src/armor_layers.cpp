@@ -20,17 +20,17 @@ std::vector<std::string> clothing_flags_description( item const &worn_item );
 
 void draw_mid_pane( WINDOW *w_sort_middle, item const &worn_item )
 {
-    int middle_w = getmaxx( w_sort_middle );
+    const int win_width = getmaxx( w_sort_middle );
     const size_t win_height = ( size_t )getmaxy( w_sort_middle );
-    size_t i = fold_and_print( w_sort_middle, 0, 1, middle_w - 1, c_white,
+    size_t i = fold_and_print( w_sort_middle, 0, 1, win_width - 1, c_white,
                                worn_item.type_name( 1 ) ) - 1;
-    std::vector<std::string> props = clothing_properties( worn_item, middle_w - 3 );
+    std::vector<std::string> props = clothing_properties( worn_item, win_width - 3 );
     nc_color color = c_ltgray;
     for( auto &iter : props ) {
         print_colored_text( w_sort_middle, ++i, 2, color, c_ltgray, iter.c_str() );
     }
 
-    std::vector<std::string> prot = clothing_protection( worn_item, middle_w - 3 );
+    std::vector<std::string> prot = clothing_protection( worn_item, win_width - 3 );
     if( i + prot.size() < win_height ) {
         for( auto &iter : prot ) {
             print_colored_text( w_sort_middle, ++i, 2, color, c_ltgray, iter.c_str() );
@@ -40,7 +40,7 @@ void draw_mid_pane( WINDOW *w_sort_middle, item const &worn_item )
     }
 
     i++;
-    std::vector<std::string> layer_desc = foldstring( clothing_layer( worn_item ), middle_w );
+    std::vector<std::string> layer_desc = foldstring( clothing_layer( worn_item ), win_width );
     if( i + layer_desc.size() < win_height && !clothing_layer( worn_item ).empty() ) {
         for( auto &iter : layer_desc ) {
             mvwprintz( w_sort_middle, ++i, 0, c_ltblue, iter.c_str() );
@@ -51,7 +51,7 @@ void draw_mid_pane( WINDOW *w_sort_middle, item const &worn_item )
     std::vector<std::string> desc = clothing_flags_description( worn_item );
     if( !desc.empty() ) {
         for( size_t j = 0; j < desc.size() && i + j < win_height; ++j ) {
-            i += -1 + fold_and_print( w_sort_middle, i + j, 0, middle_w, c_ltblue, desc[j] );
+            i += -1 + fold_and_print( w_sort_middle, i + j, 0, win_width, c_ltblue, desc[j] );
         }
     }
 }
