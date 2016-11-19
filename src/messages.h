@@ -35,7 +35,7 @@ class Messages
         std::unique_ptr<impl_t> impl_;
 };
 
-void add_msg( const char *msg, ... );
-void add_msg( game_message_type type, const char *msg, ... );
+void add_msg( const char *msg, ... ) PRINTF_LIKE( 1, 2 );
+void add_msg( game_message_type type, const char *msg, ... ) PRINTF_LIKE( 2, 3 );
 
 #endif
