@@ -91,13 +91,14 @@ struct overmap_special_location {
 // Format: { location, { { list of allowed terrains }, { list of disallowed terrains } } }
 // @todo Jsonize this map.
 static const std::map<std::string, overmap_special_location> special_locations = {
-    { "field",      { { oter_str_id( "field"  ) }, {}                         } },
-    { "forest",     { { oter_str_id( "forest" ) }, {}                         } },
-    { "land",       { {},                          { oter_str_id( "river" ),
-                                                     oter_str_id( "road"  ) } } },
-    { "water",      { { oter_str_id( "river" ) },  {}                         } },
+    { "field",      { { oter_str_id( "field"  ) },          {}                         } },
+    { "forest",     { { oter_str_id( "forest" ) },          {}                         } },
+    { "swamp",      { { oter_str_id("forest_water" ) },     {}                         } },
+    { "land",       { {},                                   { oter_str_id( "river" ),
+                                                              oter_str_id( "road"  ) } } },
+    { "water",      { { oter_str_id( "river" ) },           {}                         } },
     { "wilderness", { { oter_str_id( "forest" ),
-                        oter_str_id( "field"  ) }, {}                         } }
+                        oter_str_id( "field"  ) },          {}                         } }
 };
 
 oter_iid oterfind(const std::string &id)
