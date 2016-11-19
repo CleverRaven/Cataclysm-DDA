@@ -260,7 +260,7 @@ class generic_factory
         /** Finalize all entries (derived classes should chain to this method) */
         virtual void finalize() {
             if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
-                debugmsg( "JSON contains circular dependency: discarded %i entries", deferred.size() );
+                debugmsg( "JSON contains circular dependency: discarded %zu entries", deferred.size() );
             }
             abstracts.clear();
         }

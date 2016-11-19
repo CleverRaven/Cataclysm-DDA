@@ -935,7 +935,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     }
                     std::string item_name = this_item.display_name( stacked_here[true_it].size() );
                     if( stacked_here[true_it].size() > 1 ) {
-                        item_name = string_format( "%d %s", stacked_here[true_it].size(), item_name.c_str() );
+                        item_name = string_format( "%zu %s", stacked_here[true_it].size(), item_name.c_str() );
                     }
                     if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
                         item_name = string_format( "%s %s", this_item.symbol().c_str(),
