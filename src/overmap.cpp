@@ -31,6 +31,7 @@
 #include "ui.h"
 #include "mapbuffer.h"
 #include "map_iterator.h"
+#include "messages.h"
 
 #include <cassert>
 #include <stdlib.h>
@@ -2833,22 +2834,24 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
             continue;
         }
             const int dist = rl_dist( p, mg.pos );
-            if( sig_power <= dist ) {
+            if( sig_power < dist ) {
                 continue;
             }
             // TODO: base this in monster attributes, foremost GOODHEARING.
-            const int d_inter = (sig_power - dist) * 5;
+            const int d_inter = ( sig_power + 1 - dist ) * SEEX;
             const int roll = rng( 0, mg.interest );
             if( roll < d_inter ) {
                 // TODO: Z coord for mongroup targets
                 const int targ_dist = rl_dist( p, mg.target );
                 // TODO: Base this on targ_dist:dist ratio.
-                if (targ_dist < 5) {
+                if ( targ_dist < 5 ) {
                     mg.set_target( (mg.target.x + p.x) / 2, (mg.target.y + p.y) / 2 );
                     mg.inc_interest( d_inter );
+                    add_msg( m_debug, "horde inc interest %d", d_inter);
                 } else {
                     mg.set_target( p.x, p.y );
                     mg.set_interest( d_inter );
+                    add_msg( m_debug, "horde set interest %d", d_inter);
                 }
             }
     }
