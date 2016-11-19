@@ -5202,14 +5202,6 @@
             {
                 "level": 1,
                 "name": "barter"
-            },
-            {
-                "level": 1,
-                "name": "cooking"
-            },
-            {
-                "level": 1,
-                "name": "firstaid"
             }
         ],
         "items": {
@@ -5217,8 +5209,7 @@
                 "tricorne",
                 "knit_scarf",
                 "undershirt",
-                "undershirt",
-                "dress_shirt",
+                "tshirt",
                 "jacket_light",
                 "gloves_light",
                 "pants",
