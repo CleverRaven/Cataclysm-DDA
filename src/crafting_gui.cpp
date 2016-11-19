@@ -419,12 +419,13 @@ const recipe *select_crafting_recipe( int &batch_size )
             previous_item_line = line;
 
             if( display_mode == 0 ) {
+                const int xpos = 30;
+                const int width = getmaxx( w_data ) - xpos - 1;
                 mvwprintz( w_data, ypos++, 30, col, _( "Skills used: %s" ),
                            ( !current[line]->skill_used ? _( "N/A" ) :
                              current[line]->skill_used.obj().name().c_str() ) );
-
-                mvwprintz( w_data, ypos++, 30, col, _( "Required skills: %s" ),
-                           ( current[line]->required_skills_string().c_str() ) );
+                ypos += fold_and_print( w_data, ypos, xpos, width, col, _( "Required skills: %s" ),
+                                        current[line]->required_skills_string().c_str() );
                 mvwprintz( w_data, ypos++, 30, col, _( "Difficulty: %d" ),
                            current[ line ]->difficulty );
                 if( !current[line]->skill_used ) {
