@@ -5,6 +5,6 @@
     "name": "Tough Zombies",
     "description": "Doubles zombie health.",
     "category": "rebalance",
-    "path": ""
+    "dependencies": [ "dda" ]
   }
 ]

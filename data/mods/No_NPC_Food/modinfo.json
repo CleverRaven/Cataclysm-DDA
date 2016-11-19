@@ -7,7 +7,7 @@
     "maintainers": [ "Coolthulhu" ],
     "description": "Makes NPCs not require food, water or rest.",
     "category": "rebalance",
-    "path": "modinfo.json"
+    "dependencies": [ "dda" ]
   },
   {
     "type": "WORLD_OPTION",

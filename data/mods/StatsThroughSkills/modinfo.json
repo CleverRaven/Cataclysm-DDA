@@ -6,6 +6,6 @@
     "authors": [ "Ryan \"DeNarr\" Saige" ],
     "description": "Allows stats to raise naturally via skill progression.",
     "category": "rebalance",
-    "path": ""
+    "dependencies": [ "dda" ]
   }
 ]
