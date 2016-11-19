@@ -1194,6 +1194,38 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "GUNMOD", temp2.str() ) );
 
     }
+
+    if( is_engine() ) {
+        insert_separation_line();
+
+        if( !type->engine->fuel.is_null() ) {
+            auto col = string_from_color( item::find_type( default_ammo( type->engine->fuel ) )->color );
+            info.emplace_back( "ENGINE", _( "Fuel: " ),
+                               string_format( "<color_%s>%s</color>", col.c_str(), type->engine->fuel.c_str() ) );
+        }
+        if( type->engine->power > 0 && !has_flag( "MANUAL_ENGINE" ) ) {
+            info.emplace_back( "ENGINE", _( "Power: " ), "<num> hp", watt_to_hp( type->engine->power ), true );
+        }
+
+        info.emplace_back( "ENGINE", _( "Efficiency: " ), "<num>%", type->engine->efficiency, true );
+
+        if( !type->engine->gears.empty() ) {
+            info.emplace_back( "ENGINE", _( "Gears: " ), "", type->engine->gears.size(), true );
+        }
+        if( type->engine->redline > 0 ) {
+            info.emplace_back( "ENGINE", _( "Redline: " ), "<num> rpm", type->engine->redline, true );
+        }
+
+        if( engine_start_time( 20 ) > 0 ) {
+            info.emplace_back( "ENGINE", _( "Starting time (20°C): " ), _( "<num> seconds" ),
+                               int( engine_start_time( 20 ) / 16.67 ), true, "", true, true );
+        }
+        if( engine_start_time( 0 ) > 0 ) {
+            info.emplace_back( "ENGINE", _( "Starting time (0°C): " ), _( "<num> seconds" ),
+                               int( engine_start_time( 0 ) / 16.67 ), true, "", true, true );
+        }
+    }
+
     if( is_armor() ) {
         temp1.str( "" );
         temp1 << _( "Covers: " );
@@ -1549,6 +1581,18 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
+        if( is_engine() ) {
+            if( type->engine->start_time == 0 ) {
+                info.emplace_back( "ENGINE", _( "* This engine can be started <good>instantaneously</good>." ) );
+            }
+            if( type->engine->start_energy == 0 ) {
+                info.emplace_back( "ENGINE", _( "* This engine can be started <good>without a battery</good>." ) );
+            }
+            if( type->engine->gears.empty() ) {
+                info.emplace_back( "ENGINE", _( "* This engines efficiency is <good>independent of speed</good>." ) );
+            }
+        }
+
         if( is_armor() ) {
             if( has_flag( "FIT" ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -1870,11 +1914,6 @@ int item::get_free_mod_locations( const std::string &location ) const
     return result;
 }
 
-int item::engine_displacement() const
-{
-    return type->engine ? type->engine->displacement : 0;
-}
-
 const std::string &item::symbol() const
 {
     return type->sym;
@@ -2139,10 +2178,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     std::string vehtext = "";
-    if( is_engine() && engine_displacement() > 0 ) {
-        vehtext = string_format( pgettext( "vehicle adjective", "%2.1fL " ), engine_displacement() / 100.0f );
-
-    } else if( is_wheel() && type->wheel->diameter > 0 ) {
+    if( is_wheel() && type->wheel->diameter > 0 ) {
         vehtext = string_format( pgettext( "vehicle adjective", "%d\" " ), type->wheel->diameter );
     }
 
@@ -3641,6 +3677,37 @@ std::set<fault_id> item::faults_potential() const
 int item::wheel_area() const
 {
     return is_wheel() ? type->wheel->diameter * type->wheel->width : 0;
+}
+
+double item::engine_start_difficulty( int temperature ) const
+{
+    double res = 0.0;
+
+    // engine wear gradually increases penalty with a maximum of 0.3
+    if( max_damage() > 0 ) {
+        res += std::min( damage_ / double( max_damage() ), 0.3 );
+    }
+
+    // diesel engines with working glow plugs have maximum penalty of 0.6
+    if( has_flag( "COLD_START" ) ) {
+        static const fault_id fault_glowplug( "fault_engine_glow_plug" );
+        if( !faults.count( fault_glowplug ) ) {
+            temperature = std::max( temperature, 12 );
+        }
+        res += 1.0 - ( std::max( 0, std::min( 30, temperature ) ) / 30.0 );
+    }
+
+    return std::min( res, 1.0 );
+}
+
+int item::engine_start_time( int temp ) const
+{
+    return is_engine() ? type->engine->start_time * pow( 1.0 + engine_start_difficulty( temp ), 3 ) : 0;
+}
+
+int item::engine_start_energy( int temp ) const
+{
+    return is_engine() ? type->engine->start_energy * pow( 1.0 + engine_start_difficulty( temp ), 3 ) : 0;
 }
 
 bool item::is_container_empty() const
