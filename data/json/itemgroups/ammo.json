@@ -312,10 +312,10 @@
     "id": "ammo_obscure",
     "//": "Imported or otherwise very obscure ammo.",
     "items": [
-      { "group": "ammo_pistol_milspec", "prob": 100 },
-      { "group": "ammo_smg_milspec", "prob": 100 },
-      { "group": "ammo_rifle_milspec", "prob": 100 },
-      { "group": "ammo_shotgun_milspec", "prob": 100 }
+      { "group": "ammo_pistol_obscure", "prob": 100 },
+      { "group": "ammo_smg_obscure", "prob": 100 },
+      { "group": "ammo_rifle_obscure", "prob": 100 },
+      { "group": "ammo_shotgun_obscure", "prob": 100 }
     ]
   },
   {
