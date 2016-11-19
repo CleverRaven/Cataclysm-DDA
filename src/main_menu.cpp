@@ -14,7 +14,6 @@
 #include "filesystem.h"
 #include "path_info.h"
 #include "mapsharing.h"
-#include "sounds.h"
 #include "cata_utility.h"
 #include "auto_pickup.h"
 #include "safemode_ui.h"
@@ -383,14 +382,14 @@ bool main_menu::opening_screen()
                 } else {
                     sel1 = 8;
                 }
-                sfx::play_variant_sound( "menu_move", "default", 100 );
+                on_move();
             } else if( action == "RIGHT" ) {
                 if( sel1 < 8 ) {
                     sel1++;
                 } else {
                     sel1 = 0;
                 }
-                sfx::play_variant_sound( "menu_move", "default", 100 );
+                on_move();
             }
             if( ( action == "UP" || action == "CONFIRM" ) && sel1 > 0 ) {
                 if( sel1 == 6 ) {
@@ -466,12 +465,14 @@ bool main_menu::opening_screen()
                     } else {
                         sel2 = world_subs_to_display - 1;
                     }
+                    on_move();
                 } else if( action == "RIGHT" ) {
                     if( sel2 < world_subs_to_display - 1 ) {
                         ++sel2;
                     } else {
                         sel2 = 0;
                     }
+                    on_move();
                 } else if( action == "DOWN" || action == "QUIT" ) {
                     layer = 1;
                 }
@@ -519,12 +520,14 @@ bool main_menu::opening_screen()
                     } else {
                         sel2 = NUM_SPECIAL_GAMES - 2;
                     }
+                    on_move();
                 } else if( action == "RIGHT" ) {
                     if( sel2 < NUM_SPECIAL_GAMES - 2 ) {
                         sel2++;
                     } else {
                         sel2 = 0;
                     }
+                    on_move();
                 } else if( action == "DOWN" || action == "QUIT" ) {
                     layer = 1;
                 }
@@ -587,12 +590,14 @@ bool main_menu::opening_screen()
                     } else {
                         sel2 = settings_subs_to_display - 1;
                     }
+                    on_move();
                 } else if( action == "RIGHT" ) {
                     if( sel2 < settings_subs_to_display - 1 ) {
                         ++sel2;
                     } else {
                         sel2 = 0;
                     }
+                    on_move();
                 } else if( action == "DOWN" || action == "QUIT" ) {
                     layer = 1;
                 }
@@ -756,11 +761,13 @@ bool main_menu::new_character_tab()
                 if( sel2 < 0 ) {
                     sel2 = vSubItems.size() - 1;
                 }
+                on_move();
             } else if( action == "RIGHT" ) {
                 sel2++;
                 if( sel2 >= ( int )vSubItems.size() ) {
                     sel2 = 0;
                 }
+                on_move();
             } else if( action == "DOWN" || action == "QUIT" ) {
                 layer = 1;
                 sel1 = 1;
