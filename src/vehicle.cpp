@@ -2927,7 +2927,7 @@ int vehicle::rpm( const vehicle_part &pt ) const
 
 bool vehicle::overspeed( const vehicle_part &pt ) const
 {
-    return pt.is_engine() ? rpm( pt ) <= pt.base.type->engine->redline : false;
+    return pt.is_engine() ? rpm( pt ) > pt.base.type->engine->redline : false;
 }
 
 int vehicle::load( const vehicle_part &pt ) const
