@@ -420,7 +420,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             const int xpos = 30;
 
             if( display_mode == 0 ) {
-                const int width = getmaxx( w_data ) - xpos - 1;
+                const int width = getmaxx( w_data ) - xpos - item_info_x;
                 mvwprintz( w_data, ypos++, xpos, col, _( "Skills used: %s" ),
                            ( !current[line]->skill_used ? _( "N/A" ) :
                              current[line]->skill_used.obj().name().c_str() ) );
