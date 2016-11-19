@@ -946,12 +946,16 @@ bool main_menu::load_character_tab()
                 }
             }
         } else if( layer == 3 && sel1 == 2 ) {
-            bool available = false;
-
             savegames = world_generator->all_worlds[world_generator->all_worldnames[sel2]]->world_saves;
-            std::string wn = world_generator->all_worldnames[sel2];
+            const std::string &wn = world_generator->all_worldnames[sel2];
 
-            //hide savegames if lua is not available for a lua-built world
+            if( MAP_SHARING::isSharing() ) {
+                auto new_end = std::remove_if( savegames.begin(), savegames.end(),
+                                               []( const std::string &str ) {
+                    return base64_decode( str ) != MAP_SHARING::getUsername();
+                } );
+                savegames.erase( new_end, savegames.end() );
+            }
             if( ( wn != "TUTORIAL" && wn != "DEFENSE" ) && world_generator->world_need_lua_build( wn ) ) {
                 savegames.clear();
                 mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
@@ -960,25 +964,11 @@ bool main_menu::load_character_tab()
                 mvwprintz( w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
                            c_red, _( "No save games found!" ) );
             } else {
-                for( std::vector<std::string>::iterator it = savegames.begin();
-                     it != savegames.end(); ) {
-                    std::string savename = base64_decode( *it );
-                    if( MAP_SHARING::isSharing() && savename != MAP_SHARING::getUsername() ) {
-                        it = savegames.erase( it );
-                    } else {
-                        // calculates the index from distance between it and savegames.begin()
-                        int i = it - savegames.begin();
-                        available = true;
-                        int line = iMenuOffsetY - 2 - i;
-                        mvwprintz( w_open, line, 19 + 19 + iMenuOffsetX + extra_w / 2,
-                                   ( sel3 == i ? h_white : c_white ),
-                                   base64_decode( *it ).c_str() );
-                        ++it;
-                    }
-                }
-                if( !available ) {
-                    mvwprintz( w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
-                               c_red, _( "No save games found!" ) );
+                int line = iMenuOffsetY - 2;
+                for( const std::string &savename : savegames ) {
+                    const bool selected = sel3 + line == iMenuOffsetY - 2;
+                    mvwprintz( w_open, line--, 19 + 19 + iMenuOffsetX + extra_w / 2,
+                               selected ? h_white : c_white, base64_decode( savename ).c_str() );
                 }
             }
             wrefresh( w_open );
