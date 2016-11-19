@@ -50,7 +50,7 @@
     "damage": 5,
     "range": 4,
     "pierce": 5,
-    "energy": 38,
+    "energy": 75,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
@@ -75,7 +75,7 @@
     "damage": 5,
     "range": 4,
     "pierce": 5,
-    "energy": 33,
+    "energy": 50,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
