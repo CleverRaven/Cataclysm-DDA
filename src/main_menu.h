@@ -8,7 +8,6 @@ class player;
 
 #include "cursesdef.h"
 #include "input.h"
-#include "sounds.h"
 
 class main_menu
 {
@@ -26,9 +25,7 @@ class main_menu
         std::vector< std::vector<std::string> > vMenuHotkeys; // hotkeys for the vMenuItems
 
         // Play a sound whenver the user moves left or right in the main menu or its tabs
-        void on_move() const {
-            sfx::play_variant_sound( "menu_move", "default", 100 );
-        }
+        void on_move() const;
 
         // Tab functions. They return whether a game was started or not.
         bool new_character_tab();

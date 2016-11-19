@@ -14,6 +14,7 @@
 #include "filesystem.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "sounds.h"
 #include "cata_utility.h"
 #include "auto_pickup.h"
 #include "safemode_ui.h"
@@ -29,6 +30,10 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+void main_menu::on_move() const
+{
+    sfx::play_variant_sound( "menu_move", "default", 100 );
+}
 
 void main_menu::print_menu_items( WINDOW *w_in, std::vector<std::string> vItems, size_t iSel,
                                   int iOffsetY, int iOffsetX, int spacing )
