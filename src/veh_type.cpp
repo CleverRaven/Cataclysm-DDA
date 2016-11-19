@@ -12,6 +12,7 @@
 #include "init.h"
 #include "generic_factory.h"
 #include "character.h"
+#include "cata_utility.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -62,7 +63,6 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
     { "ATOMIC_LIGHT", VPFLAG_ATOMIC_LIGHT },
     { "ALTERNATOR", VPFLAG_ALTERNATOR },
-    { "ENGINE", VPFLAG_ENGINE },
     { "FRIDGE", VPFLAG_FRIDGE },
     { "LIGHT", VPFLAG_LIGHT },
     { "WINDOW", VPFLAG_WINDOW },
@@ -264,6 +264,8 @@ void vpart_info::finalize()
                 e.second.bitflags.set( b->second );
             }            
         }
+
+        e.second.power = hp_to_watt( e.second.power );
 
         // Calculate and cache z-ordering based off of location
         // list_order is used when inspecting the vehicle

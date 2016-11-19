@@ -34,6 +34,7 @@
 #include "item_group.h"
 #include "pathfinding.h"
 #include "scent_map.h"
+#include "cata_utility.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -409,16 +410,25 @@ bool map::vehact( vehicle &veh )
         veh.falling = false;
     }
 
-    // Mph lost per tile when coasting
-    int base_slowdown = veh.skidding ? 200 : 20;
+    double slowdown = 0.0;
     if( should_fall ) {
-        // Just air resistance
-        base_slowdown = 2;
+        // air resistance
+        slowdown = 2.0;
+
+    } else if( !veh.engine_on ) {
+        // if we don't have an active engine providing thrust then reduce velocity from friction
+        double k = 0.5 * veh.total_mass() * pow( veh.current_velocity(), 2 );
+        k -= k * friction_loss / veh.k_dynamics();
+        slowdown = veh.current_velocity() - sqrt( ( 2 * k ) / veh.total_mass() );
+
+        // always slow down by at least 1mph
+        slowdown = std::max( ms_to_mph( slowdown ) * 100, 100.0 );
+
+        if( veh.skidding ) {
+            slowdown = std::max( slowdown, veh.velocity / 3.0 );
+        }
     }
 
-    // k slowdown second.
-    const float k_slowdown = (0.1 + veh.k_dynamics()) / ((0.1) + veh.k_mass());
-    const int slowdown = veh.drag() + (int)ceil( k_slowdown * base_slowdown );
     if( slowdown > abs( veh.velocity ) ) {
         veh.stop();
     } else if( veh.velocity < 0 ) {
