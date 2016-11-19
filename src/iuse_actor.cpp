@@ -2630,6 +2630,15 @@ const std::string &repair_item_actor::action_description( repair_item_actor::rep
     return arr[rt];
 }
 
+std::string repair_item_actor::get_name() const
+{
+    const std::string mats = enumerate_as_string( materials.begin(), materials.end(),
+    []( const material_id &mid ) {
+        return mid->name();
+    } );
+    return string_format( _( "Repair %s" ), mats.c_str() );
+}
+
 void heal_actor::load( JsonObject &obj )
 {
     // Mandatory

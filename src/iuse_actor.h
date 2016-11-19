@@ -763,6 +763,8 @@ class repair_item_actor : public iuse_actor
         void load( JsonObject &jo ) override;
         long use( player *, item *, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
+
+        std::string get_name() const override;
 };
 
 class heal_actor : public iuse_actor
