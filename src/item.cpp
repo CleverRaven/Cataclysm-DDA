@@ -123,9 +123,9 @@ item::item( const itype *type, int turn, long qty ) : type( type )
     if( qty >= 0 ) {
         charges = qty;
     } else {
-        if( type->spawn && type->spawn->rand_charges.size() > 1 ) {
-            const auto charge_roll = rng( 1, type->spawn->rand_charges.size() - 1 );
-            charges = rng( type->spawn->rand_charges[charge_roll - 1], type->spawn->rand_charges[charge_roll] );
+        if( type->tool && type->tool->rand_charges.size() > 1 ) {
+            const auto charge_roll = rng( 1, type->tool->rand_charges.size() - 1 );
+            charges = rng( type->tool->rand_charges[charge_roll - 1], type->tool->rand_charges[charge_roll] );
         } else {
             charges = type->charges_default();
         }
