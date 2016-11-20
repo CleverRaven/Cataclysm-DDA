@@ -6445,6 +6445,7 @@
   },{
     "type" : "item_group",
     "id" : "spider",
+    "magazine": 100,
     "items":[
       { "group": "mags_obscure", "prob": 40 },
       ["corpse", 10],
@@ -6785,6 +6786,7 @@
   },{
     "type" : "item_group",
     "id" : "helicopter",
+    "magazine": 100,
     "items":[
       ["chain", 20],
       ["power_supply", 16],
