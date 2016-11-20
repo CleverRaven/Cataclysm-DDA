@@ -454,7 +454,7 @@ void uimenu::setup()
                 popup("Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
                       TERMY);
             } else {
-                popup("Can't display menu options, %zu %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
+                popup("Can't display menu options, %d %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
                       textformatted.size(), TERMY, textformatted[0].c_str(),
                       textformatted[ textformatted.size() - 1 ].c_str()
                      );

@@ -2227,7 +2227,7 @@ static int calc_xp_gain( const vpart_info &vp, const skill_id &sk ) {
 void veh_interact::complete_vehicle()
 {
     if (g->u.activity.values.size() < 7) {
-        debugmsg ("Invalid activity ACT_VEHICLE values:%zu", g->u.activity.values.size());
+        debugmsg ("Invalid activity ACT_VEHICLE values:%d", g->u.activity.values.size());
         return;
     }
     vehicle *veh = g->m.veh_at( tripoint( g->u.activity.values[0], g->u.activity.values[1], g->u.posz() ) );

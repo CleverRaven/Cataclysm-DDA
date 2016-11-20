@@ -537,7 +537,7 @@ tripoint offset_by_index( const size_t index, const tripoint &base )
     case 7:
         return tripoint( base.x - 1, base.y + 1, base.z );
     default:
-        debugmsg( "offset_by_index got invalid index: %zu", index );
+        debugmsg( "offset_by_index got invalid index: %d", index );
         return tripoint_min;
     }
 }
