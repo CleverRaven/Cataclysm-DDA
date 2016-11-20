@@ -946,6 +946,7 @@
         "category" : "chems",
         "price" : 3500,
         "name" : "sprayable fungicide",
+        "name_plural" : "sprayable fungicide",
         "symbol" : "=",
         "color" : "yellow",
         "description" : "Fungicide enhanced with sulfur to create sprayable anti-fungal ammo for the chemical thrower.  Best be used with some kind of mask or mouth protection.",
