@@ -5956,6 +5956,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "light survivor cargo pants",
+    "name_plural": "light survivor cargo pants",
     "description": "Lightweight, kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof.",
     "weight": 2100,
     "volume": 14,
