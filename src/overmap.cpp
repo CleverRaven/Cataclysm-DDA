@@ -257,23 +257,12 @@ const string_id<oter_t> &int_id<oter_t>::id() const
 
 bool operator==( const int_id<oter_t> &lhs, const char *rhs )
 {
-    return oterlist[lhs].id.str().compare( rhs ) == 0;
+    return lhs.id().str().compare( rhs ) == 0;
 }
 
 bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
 {
     return !( lhs == rhs );
-}
-
-bool operator<=( const int_id<oter_t> &lhs, const char *rhs )
-{
-    const auto it = otermap.find( oter_str_id( rhs ) );
-    return it == otermap.end() || it->second.loadid <= lhs;
-}
-bool operator>=( const int_id<oter_t> &lhs, const char *rhs )
-{
-    const auto it = otermap.find( oter_str_id( rhs ) );
-    return it != otermap.end() && it->second.loadid >= lhs;
 }
 
 void overmap_specials::load( JsonObject &jo, const std::string &src )

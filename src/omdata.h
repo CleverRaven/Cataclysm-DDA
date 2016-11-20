@@ -86,8 +86,6 @@ struct oter_t {
 // @todo: Deprecate these operators
 bool operator==( const oter_id &lhs, const char *rhs );
 bool operator!=( const oter_id &lhs, const char *rhs );
-bool operator>=( const oter_id &lhs, const char *rhs );
-bool operator<=( const oter_id &lhs, const char *rhs );
 
 typedef oter_id oter_iid;
 

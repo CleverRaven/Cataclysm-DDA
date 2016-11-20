@@ -1446,7 +1446,7 @@ void mapgen_subway_curved(map *m, oter_id terrain_type, mapgendata dat, int, flo
                 }
             }
         }
-        if (dat.t_above >= "sub_station_north" && dat.t_above <= "sub_station_west") {
+        if( is_ot_type( "sub_station", dat.t_above ) ) {
             m->ter_set(SEEX * 2 - 5, rng(SEEY - 5, SEEY + 4), t_stairs_up);
         }
         m->place_items("subway", 30, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
@@ -1475,7 +1475,7 @@ void mapgen_subway_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
                 }
             }
         }
-        if (dat.t_above >= "sub_station_north" && dat.t_above <= "sub_station_west") {
+        if( is_ot_type( "sub_station", dat.t_above ) ) {
             m->ter_set(4, rng(SEEY - 5, SEEY + 4), t_stairs_up);
         }
         m->place_items("subway", 35, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);

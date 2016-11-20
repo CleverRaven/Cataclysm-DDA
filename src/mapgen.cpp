@@ -3280,6 +3280,16 @@ C..C..C...|hhh|#########\n\
                 rotate(3);
             }
         } else if (tw != 0 || rw != 0 || lw != 0 || bw != 0) { // Sewers!
+
+            const auto is_lab = []( const oter_id &id ) {
+                return is_ot_type( "lab", id ) ||
+                       is_ot_type( "lab_stairs", id ) ||
+                       is_ot_type( "lab_core", id ) ||
+                       is_ot_type( "ice_lab", id ) ||
+                       is_ot_type( "ice_lab_stairs", id ) ||
+                       is_ot_type( "ice_lab_core", id );
+            };
+
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     ter_set(i, j, t_rock_floor);
@@ -3287,9 +3297,7 @@ C..C..C...|hhh|#########\n\
                         ((j < tw || j > SEEY * 2 - 1 - bw) && i > SEEX - 3 && i < SEEX + 2)) {
                         ter_set(i, j, t_sewage);
                     }
-                    if ((i == 0 && t_east >= "lab" && t_east <= "lab_core") ||
-                        (i == 0 && t_east >= "ice_lab" && t_east <= "ice_lab_core") ||
-                        i == SEEX * 2 - 1) {
+                    if( ( i == 0 && is_lab( t_east ) ) || i == SEEX * 2 - 1 ) {
                         if (ter(i, j) == t_sewage) {
                             ter_set(i, j, t_bars);
                         } else if (j == SEEY - 1 || j == SEEY) {
@@ -3297,9 +3305,7 @@ C..C..C...|hhh|#########\n\
                         } else {
                             ter_set(i, j, t_concrete_wall);
                         }
-                    } else if ((j == 0 && t_north >= "lab" && t_north <= "lab_core") ||
-                               (j == 0 && t_north >= "ice_lab" && t_north <= "ice_lab_core") ||
-                               j == SEEY * 2 - 1) {
+                    } else if( ( j == 0 && is_lab( t_north ) ) || j == SEEY * 2 - 1 ) {
                         if (ter(i, j) == t_sewage) {
                             ter_set(i, j, t_bars);
                         } else if (i == SEEX - 1 || i == SEEX) {
