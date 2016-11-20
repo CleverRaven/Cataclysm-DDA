@@ -1074,7 +1074,7 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
     // fetch and display list of turrets that are ready to fire at the target
     auto turrets = veh->turrets( targ );
 
-    mvwprintw( w, line_number++, 1, _("Turrets in range: %d"), turrets.size() );
+    mvwprintw( w, line_number++, 1, _("Turrets in range: %zu"), turrets.size() );
     for( const auto e : turrets ) {
         mvwprintw( w, line_number++, 1, "*  %s", e->name().c_str() );
     }
@@ -1221,7 +1221,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
     if( t.empty() ) {
         enemiesmsg = _("No targets in range.");
     } else {
-        enemiesmsg = string_format(ngettext("%d target in range.", "%d targets in range.",
+        enemiesmsg = string_format(ngettext("%zu target in range.", "%zu targets in range.",
                                             t.size()), t.size());
     }
 

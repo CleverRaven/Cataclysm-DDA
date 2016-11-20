@@ -113,7 +113,7 @@ color_id color_manager::color_to_id( const nc_color color ) const
 nc_color color_manager::get( const color_id col ) const
 {
     if( col >= num_colors ) {
-        debugmsg( "Invalid color index: %d. Color array size: %d", col, color_array.size() );
+        debugmsg( "Invalid color index: %d. Color array size: %zu", col, color_array.size() );
         return 0;
     }
 
