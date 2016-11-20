@@ -4,12 +4,12 @@
         "type": "item_group",
         "subtype": "collection",
         "items": [
-            { "group": "clothing_outdoor_set", "chance": 100, "damage": [1, 4] },
+            { "group": "clothing_outdoor_set", "prob": 100, "damage": [1, 4] },
             { "distribution": [
                 { "item": "m240", "damage": [2, 4] },
                 { "item": "m60", "damage": [2, 4] }
             ] },
-            { "item": "corpse", "chance": 50, "damage": 4 }
+            { "item": "corpse", "prob": 50, "damage": 4 }
         ]
     },
     {
