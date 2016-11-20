@@ -489,9 +489,9 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             }
 
             if (world_need_lua_build(world_name)) {
-                wprintz(w_worlds, c_dkgray, "%s (%zu)", world_name.c_str(), saves_num);
+                wprintz(w_worlds, c_dkgray, "%s (%i)", world_name.c_str(), saves_num);
             } else {
-                wprintz(w_worlds, c_white, "%s (%zu)", world_name.c_str(), saves_num);
+                wprintz(w_worlds, c_white, "%s (%i)", world_name.c_str(), saves_num);
             }
         }
 
@@ -502,7 +502,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             nc_color tabcolor = (selpage == i) ? hilite(c_white) : c_white;
             if (!world_pages[i].empty()) { //skip empty pages
                 wprintz(w_worlds_header, c_white, "[");
-                wprintz(w_worlds_header, tabcolor, _("Page %zu"), i + 1);
+                wprintz(w_worlds_header, tabcolor, _("Page %d"), i + 1);
                 wprintz(w_worlds_header, c_white, "]");
                 wputch(w_worlds_header, BORDER_COLOR, LINE_OXOX);
             }

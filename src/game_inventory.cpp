@@ -59,7 +59,7 @@ void game::interactive_inv()
     int res;
     do {
         inv_s.set_hint( string_format(
-                            _( "Item hotkeys assigned: <color_ltgray>%zu</color>/<color_ltgray>%zu</color>" ),
+                            _( "Item hotkeys assigned: <color_ltgray>%d</color>/<color_ltgray>%d</color>" ),
                             u.allocated_invlets().size(), inv_chars.size() - u.allocated_invlets().size() ) );
         const item_location &location = inv_s.execute();
         if( location == item_location::nowhere ) {

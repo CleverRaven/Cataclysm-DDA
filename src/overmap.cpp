@@ -205,7 +205,7 @@ template <>
 const oter_t &int_id<oter_t>::obj() const
 {
     if( !is_valid() ) {
-        debugmsg( "Invalid overmap terrain id: %d (there are only %zu ids).", *this, oterlist.size() );
+        debugmsg( "Invalid overmap terrain id: %d (there are only %d ids).", *this, oterlist.size() );
         static oter_t null_oter;
         return null_oter;
     }
@@ -253,7 +253,7 @@ void overmap_specials::check_consistency()
     } );
 
     if( actual_count > max_count ) {
-        debugmsg( "There are too many mandatory overmap specials (%zu > %zu). Some of them may not be placed.", actual_count, max_count );
+        debugmsg( "There are too many mandatory overmap specials (%d > %d). Some of them may not be placed.", actual_count, max_count );
     }
 
     specials.check();
@@ -2208,7 +2208,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 mvwprintz(wbar, line_number++, 3,
                           c_blue, "  Species: %s", mgroup->type.c_str());
                 mvwprintz(wbar, line_number++, 3,
-                          c_blue, "# monsters: %zu", mgroup->population + mgroup->monsters.size());
+                          c_blue, "# monsters: %d", mgroup->population + mgroup->monsters.size());
                 if( !mgroup->horde ) {
                     continue;
                 }

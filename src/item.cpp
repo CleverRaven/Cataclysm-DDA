@@ -1398,8 +1398,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
             if( !recipe_list.empty() ) {
                 std::string recipe_line = string_format(
-                                              ngettext( "This book contains %1$zu crafting recipe: %2$s",
-                                                        "This book contains %1$zu crafting recipes: %2$s", recipe_list.size() ),
+                                              ngettext( "This book contains %1$d crafting recipe: %2$s",
+                                                        "This book contains %1$d crafting recipes: %2$s", recipe_list.size() ),
                                               recipe_list.size(), enumerate_as_string( recipe_list ).c_str() );
 
                 insert_separation_line();

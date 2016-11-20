@@ -118,8 +118,8 @@ void draw_bionics_tabs( WINDOW *win, const size_t active_num, const size_t passi
     const int width = getmaxx( win );
     mvwhline( win, 2, 0, LINE_OXOX, width );
 
-    const std::string active_tab_name = string_format( _( "ACTIVE (%zu)" ), active_num );
-    const std::string passive_tab_name = string_format( _( "PASSIVE (%zu)" ), passive_num );
+    const std::string active_tab_name = string_format( _( "ACTIVE (%i)" ), active_num );
+    const std::string passive_tab_name = string_format( _( "PASSIVE (%i)" ), passive_num );
     const int tab_step = 3;
     int tab_x = 1;
     draw_tab( win, tab_x, active_tab_name, current_mode == TAB_ACTIVE );
