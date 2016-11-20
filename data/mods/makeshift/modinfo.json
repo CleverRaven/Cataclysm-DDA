@@ -7,6 +7,6 @@
     "maintainers": [ "Noctifer-de-Mortem" ],
     "description": "Allows crafting of more improvised item variants",
     "category": "items",
-    "path": ""
+    "dependencies": [ "dda" ]
   }
 ]

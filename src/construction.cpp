@@ -238,7 +238,7 @@ void construction_menu()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
-    
+
     std::string filter;
     int previous_index = 0;
     do {
@@ -276,7 +276,7 @@ void construction_menu()
                     category_name = "FILTER";
                     break;
             }
-            
+
             if( category_name == "ALL" ) {
                 constructs = available;
                 previous_index = tabindex;
@@ -322,29 +322,31 @@ void construction_menu()
         if( update_info ) {
             update_info = false;
             // Clear out lines for tools & materials
-            const int pos_x = ( w_list_width + w_list_x0 + 2 );
+            const int pos_x = w_list_width + w_list_x0 + 2;
+            const int available_window_width = w_width - pos_x - 1;
             for( int i = 1; i < w_height - 1; i++ ) {
-                mvwhline( w_con, i, pos_x, ' ', w_width - pos_x - 1 );
+                mvwhline( w_con, i, pos_x, ' ', available_window_width );
             }
 
-            //leave room for top and bottom UI text
-            int available_buffer_height = w_height - 7 - 3;
-            int available_window_width = w_width - ( w_list_width + w_list_x0 + 2 ) - 1;
             nc_color color_stage = c_white;
+            std::vector<std::string> notes;
+            notes.push_back( string_format( _( "Press %s or %s to tab." ),
+                             ctxt.get_desc( "LEFT" ).c_str(), ctxt.get_desc( "RIGHT" ).c_str() ) );
+            notes.push_back( string_format( _( "Press %s to search." ),
+                             ctxt.get_desc( "FILTER" ).c_str() ) );
+            notes.push_back( string_format( _( "Press %s to toggle unavailable constructions." ),
+                            ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() ) );
+            notes.push_back( string_format( _( "Press %s to view and edit key-bindings." ),
+                            ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() ) );
+
+            //leave room for top and bottom UI text
+            const int available_buffer_height = w_height - 3 - 3 - (int)notes.size();
+
             // print the hotkeys regardless of if there are constructions
-            trim_and_print( w_con, w_height - 5, ( w_list_width + w_list_x0 + 2 ),
-                       available_window_width, c_white,
-                       _("Press %s or %s to tab."), 
-                       ctxt.get_desc("LEFT").c_str(),
-                       ctxt.get_desc("RIGHT").c_str() );
-            mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white,
-                       _( "Press %s to search." ), ctxt.get_desc( "FILTER" ).c_str() );
-            mvwprintz( w_con, w_height - 3, ( w_list_width + w_list_x0 + 2 ), c_white,
-                       _( "Press %s to toggle unavailable constructions." ),
-                       ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() );
-            mvwprintz( w_con, w_height - 2, ( w_list_width + w_list_x0 + 2 ), c_white,
-                       _( "Press %s to view and edit key-bindings." ),
-                       ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
+            for( size_t i = 0; i < notes.size(); ++i ) {
+                trim_and_print( w_con, w_height - 1 - (int)notes.size() + (int)i, pos_x,
+                                available_window_width, c_white, "%s", notes[i].c_str() );
+            }
 
             if( !constructs.empty() ) {
                 if( select >= (int) constructs.size() ){
@@ -352,7 +354,8 @@ void construction_menu()
                 }
                 std::string current_desc = constructs[select];
                 // Print construction name
-                mvwprintz( w_con, 1, ( w_list_width + w_list_x0 + 2 ), c_white, "%s", current_desc.c_str() );
+                trim_and_print( w_con, 1, pos_x, available_window_width, c_white,
+                                "%s", current_desc.c_str() );
 
                 //only reconstruct the project list when moving away from the current item, or when changing the display mode
                 if( previous_select != select || previous_tabindex != tabindex ||
@@ -475,12 +478,16 @@ void construction_menu()
                 }
                 if( current_construct_breakpoint > 0 ) {
                     // Print previous stage indicator if breakpoint is past the beginning
-                    mvwprintz( w_con, 2, ( w_list_width + w_list_x0 + 2 ), c_white, _( "^ [P]revious stage(s)" ) );
+                    trim_and_print( w_con, 2, pos_x, available_window_width, c_white,
+                                    _( "Press %s to show previous stage(s)." ),
+                                    ctxt.get_desc( "PAGE_UP" ).c_str() );
                 }
                 if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                          available_buffer_height ) < full_construct_buffer.size() ) {
                     // Print next stage indicator if more breakpoints are remaining after screen height
-                    mvwprintz( w_con, w_height - 6, ( w_list_width + w_list_x0 + 2 ), c_white, _( "v [N]ext stage(s)" ) );
+                    trim_and_print( w_con, w_height - 2 - (int)notes.size(), pos_x, available_window_width,
+                                    c_white, _( "Press %s to show next stage(s)." ),
+                                    ctxt.get_desc( "PAGE_DOWN" ).c_str() );
                 }
                 // Leave room for above/below indicators
                 int ypos = 3;

@@ -69,6 +69,7 @@ struct islot_tool {
 
     long max_charges = 0;
     long def_charges = 0;
+    std::vector<long> rand_charges;
     unsigned char charges_per_use = 0;
     unsigned char turns_per_charge = 0;
 };
@@ -593,12 +594,6 @@ struct islot_seed {
     islot_seed() { }
 };
 
-// Data used when spawning items, should be obsoleted by the spawn system, but
-// is still used at several places and makes it easier when it applies to all new items of a type.
-struct islot_spawn {
-    std::vector<long> rand_charges;
-};
-
 struct islot_artifact {
     art_charge charge_type;
     std::vector<art_effect_passive> effects_wielded;
@@ -628,7 +623,6 @@ struct itype {
     copyable_unique_ptr<islot_gunmod> gunmod;
     copyable_unique_ptr<islot_magazine> magazine;
     copyable_unique_ptr<islot_bionic> bionic;
-    copyable_unique_ptr<islot_spawn> spawn;
     copyable_unique_ptr<islot_ammo> ammo;
     copyable_unique_ptr<islot_seed> seed;
     copyable_unique_ptr<islot_artifact> artifact;

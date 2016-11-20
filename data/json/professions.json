@@ -397,19 +397,23 @@
             }
         ],
         "items": {
-            "both": [
-                "tank_top",
-                "hoodie",
-                "pants_cargo",
-                "socks",
-                "sneakers",
-                "weed",
-                "tobacco",
-                "lighter",
-                "rolling_paper",
-                "switchblade",
-                "picklocks"
-            ],
+            "both": {
+                "items": [
+                    "tank_top",
+                    "hoodie",
+                    "pants_cargo",
+                    "socks",
+                    "sneakers",
+                    "weed",
+                    "tobacco",
+                    "rolling_paper",
+                    "switchblade",
+                    "picklocks"
+                ],
+                "entries": [
+                    { "item": "lighter", "charges": 100 }
+                ]
+            },
             "male": [
                 "boxer_briefs"
             ],
@@ -762,22 +766,26 @@
             }
         ],
         "items": {
-            "both": [
-                "suit",
-                "bowhat",
-                "glock_19",
-                "glockmag",
-                "9mm",
-                "socks",
-                "dress_shoes",
-                "knit_scarf",
-                "cig",
-                "switchblade",
-                "lighter",
-                "mag_porn",
-                "sunglasses",
-                "sholster"
-            ],
+            "both": {
+                "items": [
+                    "suit",
+                    "bowhat",
+                    "glock_19",
+                    "glockmag",
+                    "9mm",
+                    "socks",
+                    "dress_shoes",
+                    "knit_scarf",
+                    "cig",
+                    "switchblade",
+                    "mag_porn",
+                    "sunglasses",
+                    "sholster"
+                ],
+                "entries": [
+                    { "item": "lighter", "charges": 100 }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -851,22 +859,26 @@
             }
         ],
         "items": {
-            "both": [
-                "flashlight",
-                "shorts_cargo",
-                "boots",
-                "hat_boonie",
-                "blazer",
-                "tshirt",
-                "socks",
-                "backpack",
-                "knife_rambo",
-                "lighter",
-                "rope_30",
-                "whistle",
-                "canteen",
-                "scabbard"
-            ],
+            "both": {
+                "items": [
+                    "flashlight",
+                    "shorts_cargo",
+                    "boots",
+                    "hat_boonie",
+                    "blazer",
+                    "tshirt",
+                    "socks",
+                    "backpack",
+                    "knife_rambo",
+                    "rope_30",
+                    "whistle",
+                    "canteen",
+                    "scabbard"
+                ],
+                "entries": [
+                    { "item": "lighter", "charges": 100 }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -947,15 +959,19 @@
         "description": "Everyone at work knew you as the person who always had a cigarette or two in hand.  Now, you're down to a single pack, and you hope you find more soon.  You start out with a strong nicotine addiction.",
         "points": -1,
         "items": {
-            "both": [
-                "pants",
-                "dress_shirt",
-                "socks",
-                "dress_shoes",
-                "knit_scarf",
-                "cig",
-                "lighter"
-            ],
+            "both": {
+                "items": [
+                    "pants",
+                    "dress_shirt",
+                    "socks",
+                    "dress_shoes",
+                    "knit_scarf",
+                    "cig"
+                ],
+                "entries": [
+                    { "item": "lighter", "charges": 100 }
+                ]
+            },
             "male": [
                 "briefs"
             ],
@@ -2720,6 +2736,7 @@
                 "panties",
                 "bra",
                 "dress",
+                "fanny",
                 "gold_watch"
             ]
         }
@@ -4411,22 +4428,26 @@
             }
         ],
         "items": {
-            "both": [
-                "jeans",
-                "tank_top",
-                "socks",
-                "fishing_waders",
-                "knife_hunting",
-                "knit_scarf",
-                "lighter",
-                "fishing_rod_professional",
-                "fish_bait",
-                "fish_trap",
-                "vest",
-                "hat_boonie",
-                "jacket_flannel",
-                "sheath"
-            ],
+            "both": {
+                "items": [
+                    "jeans",
+                    "tank_top",
+                    "socks",
+                    "fishing_waders",
+                    "knife_hunting",
+                    "knit_scarf",
+                    "fishing_rod_professional",
+                    "fish_bait",
+                    "fish_trap",
+                    "vest",
+                    "hat_boonie",
+                    "jacket_flannel",
+                    "sheath"
+                ],
+                "entries": [
+                    { "item": "lighter", "charges": 100 }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
