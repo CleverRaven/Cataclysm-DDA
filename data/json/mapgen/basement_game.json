@@ -41,8 +41,10 @@
                 "<": "t_stairs_up",
                 "+": "t_door_c",
                 ".": "t_rock_floor",
+                "&": "t_rock_floor",
                 "s": "t_rock_floor",
                 "c": "t_rock_floor",
+                "i": "t_rock_floor",
                 "t": "t_rock_floor",
                 "f": "t_rock_floor",
                 "r": "t_rock_floor",
@@ -62,16 +64,19 @@
                 "&": "f_toilet",
                 "b": "f_bookcase"
             },
+            "toilets": {
+                "&": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 5, 19 ], "chance": 2 }
             ],
             "place_loot": [
                 { "group": "alcohol",               "chance":  96, "x": [ 16, 20 ], "y":  5         },
-                { "group": "fridgesnacks",          "chance":  80, "x": [ 13, 20 ], "y":  5         },
+                { "group": "fridgesnacks",          "chance":  80, "x": [ 13, 15 ], "y":  5         },
                 { "group": "pool_table",            "chance":  90, "x": [ 17, 18 ], "y": [ 10, 12 ] },
                 { "group": "homebooks",             "chance":  70, "x": [ 1,  9  ], "y": 18         },
                 { "group": "homebooks",             "chance":  70, "x": 1,          "y": [ 15, 18 ] },
-                { "group": "magazines",             "chance":  30, "x": [ 6,  7 ],  "y": 15         }
+                { "group": "magazines",             "chance":  30, "x": [ 5,  6 ],  "y": 12         }
             ]
         }
     },
@@ -117,9 +122,11 @@
                 "<": "t_stairs_up",
                 "+": "t_door_c",
                 ".": "t_rock_floor",
+                "&": "t_rock_floor",
                 "s": "t_rock_floor",
                 "c": "t_rock_floor",
                 "d": "t_rock_floor",
+                "i": "t_rock_floor",
                 "t": "t_rock_floor",
                 "f": "t_rock_floor",
                 "r": "t_rock_floor",
@@ -142,16 +149,19 @@
                 "w": "f_washer",
                 "d": "f_dryer"
             },
+            "toilets": {
+                "&": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 5, 19 ], "chance": 2 }
             ],
             "place_loot": [
                 { "group": "alcohol",               "chance":  96, "x": [ 16, 20 ], "y":  5         },
-                { "group": "fridgesnacks",          "chance":  80, "x": [ 13, 20 ], "y":  5         },
+                { "group": "fridgesnacks",          "chance":  80, "x": [ 13, 15 ], "y":  5         },
                 { "group": "pool_table",            "chance":  90, "x": [ 17, 18 ], "y": [ 10, 12 ] },
                 { "group": "homebooks",             "chance":  70, "x": [ 1,  9  ], "y": 18         },
                 { "group": "homebooks",             "chance":  70, "x": 1,          "y": [ 15, 18 ] },
-                { "group": "magazines",             "chance":  30, "x": [ 6,  7 ],  "y": 15         },
+                { "group": "magazines",             "chance":  30, "x": [ 5,  6 ],  "y": 12         },
                 { "group": "dresser",               "chance":  80, "x": 18,         "y": 18         },
                 { "group": "dresser",               "chance":  80, "x": 22,         "y": 18         },
                 { "group": "cleaning",              "chance":  80, "x": [ 14, 18 ], "y": 18         }
@@ -200,8 +210,10 @@
                 "<": "t_stairs_up",
                 "+": "t_door_c",
                 ".": "t_rock_floor",
+                "&": "t_rock_floor",
                 "s": "t_rock_floor",
                 "c": "t_rock_floor",
+                "i": "t_rock_floor",
                 "t": "t_rock_floor",
                 "f": "t_rock_floor",
                 "r": "t_rock_floor",
@@ -219,12 +231,15 @@
                 "i": "f_sink",
                 "&": "f_toilet"
             },
+            "toilets": {
+                "&": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 5, 19 ], "chance": 2 }
             ],
             "place_loot": [
                 { "group": "alcohol",               "chance":  96, "x": [ 16, 20 ], "y":  5 },
-                { "group": "fridgesnacks",          "chance":  80, "x": [ 13, 20 ], "y":  5 },
+                { "group": "fridgesnacks",          "chance":  80, "x": [ 13, 15 ], "y":  5 },
                 { "group": "pool_table",            "chance":  90, "x": [ 17, 18 ], "y": [ 10, 12 ] },
                 { "group": "livingroom",            "chance":  60, "x": [ 9,  23 ], "y": [ 5,  15 ] }
             ]
@@ -272,9 +287,11 @@
                 "<": "t_stairs_up",
                 "+": "t_door_c",
                 ".": "t_rock_floor",
+                "&": "t_rock_floor",
                 "s": "t_rock_floor",
                 "c": "t_rock_floor",
                 "d": "t_rock_floor",
+                "i": "t_rock_floor",
                 "t": "t_rock_floor",
                 "f": "t_rock_floor",
                 "r": "t_rock_floor",
@@ -295,12 +312,15 @@
                 "w": "f_washer",
                 "d": "f_dryer"
             },
+            "toilets": {
+                "&": { }
+            },
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 5, 19 ], "chance": 2 }
             ],
             "place_loot": [
                 { "group": "alcohol",               "chance":  96, "x": [ 16, 20 ], "y":  5 },
-                { "group": "fridgesnacks",          "chance":  80, "x": [ 13, 20 ], "y":  5 },
+                { "group": "fridgesnacks",          "chance":  80, "x": [ 13, 15 ], "y":  5 },
                 { "group": "pool_table",            "chance":  90, "x": [ 17, 18 ], "y": [ 10, 12 ] },
                 { "group": "livingroom",            "chance":  60, "x": [ 9,  23 ], "y": [ 5,  15 ] },
                 { "group": "dresser",               "chance":  80, "x": 18,         "y": 18         },
