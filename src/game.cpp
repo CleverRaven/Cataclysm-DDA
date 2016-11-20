@@ -7890,6 +7890,7 @@ bool game::npc_menu( npc &who )
         use_item,
         sort_armor,
         attack,
+        disarm,
         steal
     };
 
@@ -7901,13 +7902,15 @@ bool game::npc_menu( npc &who )
     amenu.addentry( cancel, true, 'q', _("Cancel") );
 
     const bool obeys = debug_mode || (who.is_friend() && !who.in_sleep_state());
+    const bool armed = who.is_armed();
     amenu.addentry( swap_pos, obeys, 's', _("Swap positions") );
     amenu.addentry( push, obeys, 'p', _("Push away") );
     amenu.addentry( examine_wounds, true, 'w', _("Examine wounds") );
     amenu.addentry( use_item, true, 'i', _("Use item on") );
     amenu.addentry( sort_armor, true, 'r', _("Sort armor") );
     amenu.addentry( attack, true, 'a', _("Attack") );
-    amenu.addentry( steal, true, 's', _("Steal") );
+    amenu.addentry( disarm, armed, 'd', _("Disarm") );
+    amenu.addentry( steal, true, 'S', _("Steal") );
 
     amenu.query();
 
@@ -7981,114 +7984,15 @@ bool game::npc_menu( npc &who )
             u.melee_attack( who, true );
             who.make_angry();
         }
-    } else if( choice == steal ) {
-        item_location loc = get_item_from_inventory( who, _("Steal item") );
-        item *it = loc.get_item();
-        if( !it ) {
-            return true;
-        }
-
-        static const skill_id skill_unarmed( "unarmed" );
-        static const skill_id skill_melee( "melee" );
-
-        const bool worn = who.is_worn( *it );
-        const bool wielded = ( it == &who.weapon );
-
-        bool empty_hands = u.weapon.is_null();
-        int my_roll = dice( 3, 2 * u.get_str() + u.get_dex() );
-        my_roll += dice( 3, u.get_skill_level( skill_melee ) );
-
-        int their_roll = dice( 3, 2 * u.get_str() + u.get_dex() );
-        their_roll += dice( 3, u.get_per() );
-        their_roll += dice( 3, who.get_skill_level( skill_melee ));
-        if( who.has_trait( "TOUGH" ) ) {
-            their_roll += dice( 2, 6 );
-        }
-
-        if( wielded ) {
-            // roll your melee and target's dodge skills to check if grab/smash attack succeeds
-            static const matec_id no_technique_id( "" );
-            int hitspread = who.deal_melee_attack(&u, u.hit_roll());
-            if( hitspread < 0 ) {
-                // trigger all miss effects
-                u.melee_attack( who, false, no_technique_id, hitspread );
-            } else {
-                if( empty_hands ) {
-                    my_roll += dice( 3, u.get_skill_level( skill_unarmed ));
-
-                    if ( my_roll >= their_roll ) {
-                        add_msg( _( "You grab at %s and pull with all your force!" ), it->tname().c_str() );
-                        add_msg( _( "You forcefully take %s from %s!" ), it->tname().c_str(), who.name.c_str() );
-                        // obtain will deduce our moves, consider to deduce more/less to balance
-                        loc.obtain( u, -1 );
-                    } else if ( my_roll >= their_roll / 2 ) {
-                        add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ), it->tname().c_str() );
-                        tripoint pos = u.pos();
-                        pos.x += rng( -1, 1 );
-                        pos.y += rng( -1, 1 );
-                        g->m.add_item_or_charges( pos, who.i_rem(it) );
-                        u.mod_moves( -100 );
-                    } else {
-                        add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it->tname().c_str() );
-                        u.mod_moves( -100 );
-                    }
-                } else {
-                    // deal damage, and make weapon fall on floor of rolled enough.
-                    u.melee_attack( who, false, no_technique_id, hitspread );
-                    if( my_roll >= their_roll )
-                    {
-                        add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ), who.name.c_str(), it->tname().c_str() );
-                        tripoint pos = who.pos();
-                        pos.x += rng( -1, 1 );
-                        pos.y += rng( -1, 1 );
-                        g->m.add_item_or_charges( pos, who.i_rem(it) );
-                    } else {
-                        add_msg( _( "You smash %s with all your might but %s remains in their hands!" ), who.name.c_str(), it->tname().c_str() );
-                    }
-                }
+    } else if( choice == disarm ) {
+        if( !who.is_enemy()) {
+            if( !query_yn( _("You may be attacked! Proceed?") ) ) {
+                return true;
             }
-
-            who.make_angry();
-            return true;
         }
-
-        if( who.attitude == NPCATT_KILL ) {
-            add_msg( _( "%s is hostile!" ), who.name.c_str() );
-            return true;
-        }
-
-        if( worn ) {
-            add_msg( _( "You would never steal %s from %s unnoticed! You reconsider your attempt." ), it->tname().c_str(), who.name.c_str() );
-            return true;
-        }
-
-        my_roll = dice( 3, u.get_dex() );
-        if ( empty_hands ) {
-            my_roll += dice( 3, u.get_skill_level( skill_unarmed ) * 1.5 );
-        }
-        if( u.has_trait( "LIGHTSTEP" ) ) {
-            my_roll += dice( 2, 6 );
-        }
-        if( u.has_trait( "CLUMSY" ) ) {
-            my_roll -= dice( 4, 6 );
-        }
-        if( u.has_trait( "QUICK" ) ) {
-            my_roll += dice( 1, 6 );
-        }
-
-        their_roll = dice( 7, who.get_per() );
-
-        if ( my_roll >= their_roll ) {
-            add_msg( _( "You sneakely steal %s from %s!" ), it->tname().c_str(), who.name.c_str() );
-            loc.obtain( u, -1 );
-        } else if ( my_roll >= their_roll / 2 ) {
-            add_msg( _( "You failed to steal %s from %s, but did not attract attention." ), it->tname().c_str(), who.name.c_str() );
-        } else  {
-            add_msg( _( "You failed to steal %s from %s" ), it->tname().c_str(), who.name.c_str() );
-            who.make_angry();
-        }
-
-        u.mod_moves( -100 );
+        u.disarm( who );
+    } else if( choice == steal ) {
+        u.steal( who );
     }
 
     return true;

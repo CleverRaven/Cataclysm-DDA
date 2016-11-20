@@ -18,6 +18,13 @@ class inventory_filter_preset : public inventory_selector_preset
         item_location_filter filter;
 };
 
+item_location_filter convert_filter( const item_filter &filter )
+{
+    return [ &filter ]( const item_location & loc ) {
+        return filter( *loc );
+    };
+}
+
 static item_location inv_internal( player &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
                                    const std::string &none_message )
@@ -48,7 +55,11 @@ item_location game::get_item_from_inventory( player &p, const std::string &title
 {
     const std::string msg = &p == &u ? _( "Your inventory is empty." ) :
                             string_format( _( "%s's inventory is empty." ), p.name.c_str() );
-    return inv_internal( p, inventory_selector_preset(), title, -1, msg );
+
+    return inv_internal( p,
+        inventory_filter_preset( convert_filter( [ &p ]( const item & it ) {
+            return !p.is_worn(it) && !(&p.weapon == &it);
+    } ) ), title, -1, msg );
 }
 
 void game::interactive_inv()
@@ -76,13 +87,6 @@ void game::interactive_inv()
         res = inventory_item_menu( u.get_item_position( location.get_item() ) );
         refresh_all();
     } while( allowed_selections.count( res ) != 0 );
-}
-
-item_location_filter convert_filter( const item_filter &filter )
-{
-    return [ &filter ]( const item_location & loc ) {
-        return filter( *loc );
-    };
 }
 
 int game::inv_for_filter( const std::string &title, item_filter filter,

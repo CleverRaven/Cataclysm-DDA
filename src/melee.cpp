@@ -1945,3 +1945,128 @@ double player::unarmed_value() const
     // TODO: Martial arts
     return melee_value( ret_null );
 }
+
+void player::disarm( npc &target )
+{
+    if( !target.is_armed() ) {
+        return;
+    }
+
+    item &it = target.weapon;
+
+    const char *target_name = target.name.c_str();
+    const char *item_name = it.tname().c_str();
+
+    static const matec_id no_technique_id( "" );
+
+    ///\EFFECT_STR increases chance to disarm, primary stat
+    ///\EFFECT_DEX increases chance to disarm, secondary stat
+    int my_roll = dice( 3, 2 * get_str() + get_dex() );
+
+    ///\EFFECT_MELEE increases chance to disarm
+    my_roll += dice( 3, get_skill_level( skill_melee ) );
+
+    int their_roll = dice( 3, 2 * target.get_str() + target.get_dex() );
+    their_roll += dice( 3, target.get_per() );
+    their_roll += dice( 3, target.get_skill_level( skill_melee ) );
+
+    // make the target angry as they confess our unfriendly move
+    target.make_angry();
+
+    // roll your melee and target's dodge skills to check if grab/smash attack succeeds
+    int hitspread = target.deal_melee_attack( this, hit_roll() );
+    if( hitspread < 0 ) {
+        // this will not do damage, but trigger all miss effects and on_dodge on target
+        melee_attack( target, false, no_technique_id, hitspread );
+        return;
+    }
+
+    // hitspread >= 0, which means we are going to disarm by grabbing target by their weapon
+    if( !is_armed() ) {
+        ///\EFFECT_UNARMED increases chance to disarm, bonus when nothing wielded
+        my_roll += dice( 3, get_skill_level( skill_unarmed ) );
+
+        if( my_roll >= their_roll ) {
+            add_msg( _( "You grab at %s and pull with all your force!" ), item_name );
+            add_msg( _( "You forcefully take %s from %s!" ), item_name, target_name );
+            // wield() will deduce our moves, consider to deduce more/less moves for balance
+            item rem_it = target.i_rem( &it );
+            wield( rem_it );
+        } else if( my_roll >= their_roll / 2 ) {
+            add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ), item_name );
+            tripoint tp = pos();
+            tp.x += rng( -1, 1 );
+            tp.y += rng( -1, 1 );
+            item rem_it = target.i_rem( &it );
+            g->m.add_item_or_charges( tp, rem_it );
+            mod_moves( -100 );
+        } else {
+            add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), item_name );
+            mod_moves( -100 );
+        }
+
+        return;
+    }
+
+    // deal damage with weapon wielded, and make their weapon fall on floor if we've rolled enough.
+    melee_attack( target, false, no_technique_id, hitspread );
+    if( my_roll >= their_roll ) {
+        add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ), target_name,
+                 item_name );
+        tripoint tp = target.pos();
+        tp.x += rng( -1, 1 );
+        tp.y += rng( -1, 1 );
+        item rem_it = target.i_rem( &it );
+        g->m.add_item_or_charges( tp, rem_it );
+    } else {
+        add_msg( _( "You smash %s with all your might but %s remains in their hands!" ), target_name,
+                 item_name );
+    }
+}
+
+void player::steal( npc &target )
+{
+    const char *target_name = target.name.c_str();
+    if( target.is_enemy() ) {
+        add_msg( _( "%s is hostile!" ), target_name );
+        return;
+    }
+
+    item_location loc = g->get_item_from_inventory( target, _( "Steal item" ) );
+    const item *it = loc.get_item();
+    if( !it ) {
+        return;
+    }
+    const char *item_name = it->tname().c_str();
+
+    ///\EFFECT_DEX defines the chance to steal
+    int my_roll = dice( 3, get_dex() );
+
+    ///\EFFECT_UNARMED adds bonus to stealing when wielding nothing
+    if( !is_armed() ) {
+        my_roll += dice( 4, 3 );
+    }
+    if( has_trait( "DEFT" ) ) {
+        my_roll += dice( 2, 6 );
+    }
+    if( has_trait( "CLUMSY" ) ) {
+        my_roll -= dice( 4, 6 );
+    }
+
+    int their_roll = dice( 5, target.get_per() );
+
+    if( my_roll >= their_roll ) {
+        add_msg( _( "You sneakely steal %s from %s!" ), item_name, target_name );
+        item rem_it = target.i_rem( it );
+        wield( rem_it );
+    } else if( my_roll >= their_roll / 2 ) {
+        add_msg( _( "You failed to steal %s from %s, but did not attract attention." ), item_name,
+                 target_name );
+    } else  {
+        add_msg( _( "You failed to steal %s from %s" ), item_name, target_name );
+        target.make_angry();
+    }
+
+    // consider to deduce less/more moves for balance
+    mod_moves( -200 );
+}
