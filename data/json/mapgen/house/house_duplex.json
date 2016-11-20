@@ -1,6 +1,6 @@
 [
     {
-        "comment" : "dual tenant dwelling. assumed single people or couples dwelled here.",
+        "//" : "dual tenant dwelling. assumed single people or couples dwelled here.",
         "type" : "mapgen",
         "om_terrain" : ["house"],
         "method" : "json",

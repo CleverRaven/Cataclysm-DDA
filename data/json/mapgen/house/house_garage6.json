@@ -1,6 +1,6 @@
 [
     {
-        "comment" : "two bedroom one bath single garage home.",
+        "//" : "two bedroom one bath single garage home.",
         "type" : "mapgen",
         "om_terrain" : ["house"],
         "method" : "json",

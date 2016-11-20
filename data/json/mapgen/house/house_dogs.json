@@ -1,7 +1,7 @@
 [
     {
         "type" : "monstergroup",
-        "name" : "GROUP_DOGS", "_comment" : "D'ya like dags?",
+        "name" : "GROUP_DOGS",
         "default" : "mon_null",
         "monsters" : [
             { "monster" : "mon_zombie_dog",     "freq" : 100, "cost_multiplier" : 0, "pack_size" : [5,8] },
