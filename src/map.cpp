@@ -425,8 +425,12 @@ bool map::vehact( vehicle &veh )
         slowdown = std::max( ms_to_mph( slowdown ) * 100, 100.0 );
     }
 
-    // if for any reason we are above max velocity apply decay
-    slowdown += ( veh.max_velocity( veh.current_engine() ) - veh.current_velocity() ) / 2;
+    const float wheel_traction_area = vehicle_wheel_traction( veh );
+    const float traction = veh.k_traction( wheel_traction_area );
+
+    // apply crude decay when moving from high traction (road) to low traction (off-road)
+    // @todo replace with more correct acceleration model
+    slowdown += std::abs( veh.current_velocity() * ( 1.0 - traction ) );
 
     if( veh.skidding ) {
         slowdown = std::max( slowdown, veh.velocity / 3.0 );
@@ -450,8 +454,6 @@ bool map::vehact( vehicle &veh )
         return true;
     }
 
-    const float wheel_traction_area = vehicle_wheel_traction( veh );
-    const float traction = veh.k_traction( wheel_traction_area );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( wheel_traction_area < 0 ) {
         add_msg(m_bad, _("Your %s sank."), veh.name.c_str());
