@@ -70,7 +70,7 @@
     "id": "dojo",
     "type": "overmap_terrain",
     "name": "dojo",
-    "sym": [ 94, 62, 118, 60 ],
+    "sym": 94,
     "color": "i_ltcyan",
     "rotate": true,
     "see_cost": 5,

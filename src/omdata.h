@@ -49,7 +49,7 @@ struct oter_t {
         oter_str_id id;      /// definitive identifier
         oter_id loadid;      /// position in 'terlist'
         std::string name;
-        long sym; // This is a long, so we can support curses linedrawing
+        long sym = '%'; // This is a long, so we can support curses linedrawing
         nc_color color;
         unsigned char see_cost; // Affects how far the player can see in the overmap
         std::string extras;
@@ -118,6 +118,7 @@ const std::string &name( type dir );
 point rotate( const point &p, type dir );
 tripoint rotate( const tripoint &p, type dir );
 oter_id rotate( const oter_id &oter, type dir );
+long rotate_symbol( long sym, type dir );
 
 /** Returns point(0, 0) displaced in direction @param dir by the @param dist. */
 point displace( type dir, int dist = 1 );

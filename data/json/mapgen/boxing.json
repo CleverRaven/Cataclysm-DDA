@@ -56,7 +56,7 @@
     "id": "gym",
     "type": "overmap_terrain",
     "name": "boxing gym",
-    "sym": [ 94, 62, 118, 60 ],
+    "sym": 94,
     "color": "yellow_cyan",
     "rotate": true,
     "see_cost": 5,

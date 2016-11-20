@@ -414,29 +414,13 @@ void load_overmap_terrain_mapgens(JsonObject &jo, const std::string id_base,
 void overmap_terrain::load( JsonObject &jo )
 {
     oter_t oter;
-    long syms[4];
 
     oter.id = oter_str_id( jo.get_string("id") );
     oter.name = _(jo.get_string("name").c_str());
     oter.set_flag(rotates, jo.get_bool("rotate", false));
     oter.set_flag(line_drawing, jo.get_bool("line_drawing", false));
-    if (oter.has_flag(line_drawing)) {
-        oter.sym = jo.get_int("sym", (int)'%');
-    } else if (jo.has_array("sym")) {
-        JsonArray ja = jo.get_array("sym");
-        for( auto &sym : syms ) {
-            sym = ja.next_int();
-        }
-        oter.sym = syms[0];
-    } else if (oter.has_flag(rotates)) {
-        oter.sym = jo.get_int("sym");
-        for( auto &sym : syms ) {
-            sym = oter.sym;
-        }
-    } else {
-        oter.sym = jo.get_int("sym");
-    }
 
+    oter.sym = jo.get_int( "sym", oter.sym );
     oter.color = color_from_string(jo.get_string("color"));
     oter.see_cost = jo.get_int("see_cost");
 
@@ -462,6 +446,8 @@ void overmap_terrain::load( JsonObject &jo )
     oter.set_flag(road_tile, isroad(id_base));
     oter.set_flag(river_tile, id_base.compare(0, 5, "river", 5) == 0 ||
                      id_base.compare(0, 6, "bridge", 6) == 0);
+
+    long sym_base = oter.sym;
 
     if( oter.has_flag( line_drawing ) ) {
         oter.directional_peers.reserve( om_lines::size );
@@ -489,9 +475,9 @@ void overmap_terrain::load( JsonObject &jo )
             for( size_t i = 0; i < om_direction::size; ++i ) {
                 oter.directional_peers.push_back( oter_id( start_iid + i ) );
             }
-            for( size_t i = 0; i < om_direction::size; ++i ) {
-                oter.id = oter_str_id( id_base + "_" + om_direction::id( static_cast<om_direction::type>( i ) ) );
-                oter.sym = syms[i];
+            for( auto r : om_direction::all ) {
+                oter.id = oter_str_id( id_base + "_" + om_direction::id( r ) );
+                oter.sym = om_direction::rotate_symbol( sym_base, r );
                 load_oter( oter );
             }
         } else {
@@ -3908,6 +3894,34 @@ oter_id om_direction::rotate( const oter_id &oter, om_direction::type dir )
     }
     assert( otert.directional_peers.size() == om_direction::size );
     return otert.directional_peers[static_cast<size_t>( dir )];
+}
+
+long om_direction::rotate_symbol( long sym, type dir )
+{
+    static const std::map<long, std::array<long, size>> rotated_syms = {{
+        { 60,  { 60, 94, 62, 118 } },
+        { 62,  { 62, 118, 60, 94 } },
+        { 94,  { 94, 62, 118, 60 } },
+        { 118, { 118, 60, 94, 62 } },
+
+        { 4194410, { 4194410, 4194413, 4194412, 4194411 } },
+        { 4194411, { 4194411, 4194410, 4194413, 4194412 } },
+        { 4194412, { 4194412, 4194411, 4194410, 4194413 } },
+        { 4194413, { 4194413, 4194412, 4194411, 4194410 } },
+        { 4194417, { 4194417, 4194424, 4194417, 4194424 } },
+        { 4194421, { 4194421, 4194422, 4194420, 4194423 } },
+        { 4194422, { 4194422, 4194420, 4194423, 4194421 } },
+        { 4194423, { 4194423, 4194421, 4194422, 4194420 } },
+        { 4194424, { 4194424, 4194417, 4194424, 4194417 } }
+    }};
+
+    if( dir == type::invalid ) {
+        debugmsg( "Invalid overmap rotation (%d).", dir );
+        return sym;
+    }
+
+    const auto iter = rotated_syms.find( sym );
+    return iter != rotated_syms.end() ? iter->second[static_cast<size_t>( dir )] : sym;
 }
 
 point om_direction::displace( type dir, int dist )

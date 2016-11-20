@@ -27,7 +27,7 @@
     "id": "home_improvement",
     "type": "overmap_terrain",
     "name": "home improvement store",
-    "sym": [ 94, 62, 118, 60 ],
+    "sym": 94,
     "color": "c_yellow_green",
     "rotate": true,
     "see_cost": 5,
