@@ -25,6 +25,7 @@ data/json/items/toolmod.json id
 data/json/items/tools.json id
 data/json/mapgen/basement/*
 data/json/mapgen/house/*
+data/json/mapgen/necropolis/*
 data/json/materials.json ident
 data/json/monsters.json id
 data/json/monsters/* id
