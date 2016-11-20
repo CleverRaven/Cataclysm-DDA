@@ -168,7 +168,7 @@ struct mission_type {
     int target_npc_id = -1;
     std::string monster_type = "mon_null";
     int monster_kill_goal = -1;
-    oter_id target_id;
+    string_id<oter_t> target_id;
     mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
 
     std::function<bool(const tripoint &)> place = mission_place::always;

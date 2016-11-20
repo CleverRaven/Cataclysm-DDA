@@ -1939,12 +1939,10 @@ int editmap::edit_mapgen()
     gmenu.w_x = offsetX;
     gmenu.return_invalid = true;
 
-    for( size_t i = 0; i < oter_t::count(); i++ ) {
-        oter_id id = oter_id( i );
-        if( id.id().is_empty() ) {
-            continue;
-        }
-        gmenu.addentry( -1, true, 0, "[%3d] %s", ( int )id, id.id().c_str() );
+    for( size_t i = 0; i < overmap_terrains::count(); i++ ) {
+        const oter_id id( i );
+
+        gmenu.addentry( -1, !id.id().is_null(), 0, "[%3d] %s", ( int )id, id.id().c_str() );
         gmenu.entries[i].extratxt.left = 1;
         gmenu.entries[i].extratxt.color = id->color;
         gmenu.entries[i].extratxt.txt = string_format( "%c", id->sym );

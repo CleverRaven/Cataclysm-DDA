@@ -402,17 +402,8 @@ ter_id mapgendata::groundcover() {
 }
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
-    if ( north_is_down ) {
-        int iid_diff = (int)terrain_type - terrain_type->loadid_base + 2;
-        if ( iid_diff != 4 ) {
-            m->rotate(iid_diff);
-        }
-    } else {
-        int iid_diff = (int)terrain_type - terrain_type->loadid_base;
-        if ( iid_diff > 0 ) {
-            m->rotate(iid_diff);
-        }
-    }
+    const auto dir = north_is_down ? om_direction::opposite( terrain_type->dir ) : terrain_type->dir;
+    m->rotate( static_cast<int>( dir ) );
 }
 
 #define autorotate(x) mapgen_rotate(m, terrain_type, x)
@@ -2602,7 +2593,6 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
     }
 
     // For rotation
-    const int iid_diff = (int)terrain_type - terrain_type->loadid_base;
     const bool has_basement = terrain_type->id_base == "house_base";
     if( has_basement ) {
         const bool force = get_world_option<bool>( "ALIGN_STAIRS" );
@@ -2622,7 +2612,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         bool placed_any = false;
         for( const tripoint &p : upstairs ) {
             static const tripoint up = tripoint( 0, 0, 1 );
-            const tripoint here = rotate_point( p + up, iid_diff );
+            const tripoint here = om_direction::rotate( p + up, terrain_type->dir );
             // @todo Less ugly check
             // If aligning isn't forced, allow only floors. Otherwise allow all non-walls
             const ter_t &ter_here = m->ter( here ).obj();
@@ -2736,9 +2726,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
     }
 
-    if ( iid_diff > 0 ) {
-        m->rotate(iid_diff);
-    }
+    m->rotate( static_cast<int>( terrain_type->dir ) );
 }
 
 /////////////////////////////

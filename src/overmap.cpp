@@ -55,21 +55,20 @@
 #define MAX_RIFT_SIZE 16
 
 template<>
+const string_id<oter_t> string_id<oter_t>::NULL_ID( "", 0 );
+
+template<>
 const string_id<overmap_special> string_id<overmap_special>::NULL_ID( "", 0 );
 
 #include "omdata.h"
 ////////////////
-oter_iid ot_null,
+oter_id  ot_null,
          ot_crater,
          ot_field,
          ot_forest,
          ot_forest_thick,
          ot_forest_water,
          ot_river_center;
-
-//@todo Get rid of these and use 'generic_factory' class
-std::unordered_map<string_id<oter_t>, oter_t> otermap;
-std::vector<oter_t> oterlist;
 
 struct overmap_special_location {
     std::vector<oter_str_id> allowed;
@@ -137,34 +136,14 @@ const size_t size = all.size();
 
 }
 
-oter_iid oterfind(const std::string &id)
-{
-    const auto iter = otermap.find( oter_str_id( id ) );
-    if( iter == otermap.end() ) {
-        debugmsg("Can't find %s", id.c_str());
-        return oter_iid( 0 );
-    }
-    return oter_iid( iter->second.loadid );
-}
-
-void set_oter_ids()   // fixme constify
-{
-    ot_null = oterfind("");
-    // NOT required.
-    ot_crater = oterfind("crater");
-    ot_field = oterfind("field");
-    ot_forest = oterfind("forest");
-    ot_forest_thick = oterfind("forest_thick");
-    ot_forest_water = oterfind("forest_water");
-    ot_river_center = oterfind("river_center");
-}
-
-std::unordered_map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
 t_regional_settings_map region_settings_map;
 
 namespace
 {
+
+generic_factory<oter_t> base_terrains( "base overmap terrain" );
+generic_factory<oter_t> terrains( "overmap terrain" );
 
 generic_factory<overmap_special> specials( "overmap special" );
 
@@ -179,8 +158,6 @@ struct sid_or_sid {
    int chance;                // 68
    sid_or_sid(const std::string & s1, const int i, const::std::string s2) : primary_str(s1), secondary_str(s2), chance(i) { }
 };
-
-overmap_spawns::overmap_spawns() : group( NULL_ID ) {}
 
 city::city( int const X, int const Y, int const S)
 : x (X)
@@ -198,61 +175,43 @@ int city::get_distance_from( const tripoint &p ) const
 std::map<enum radio_type, std::string> radio_type_names =
 {{ {MESSAGE_BROADCAST, "broadcast"}, {WEATHER_RADIO, "weather"} }};
 
-size_t oter_t::count()
-{
-    return oterlist.size();
-}
-
-template<>
-const string_id<oter_t> string_id<oter_t>::NULL_ID( "", 0 );
-
 template<>
 bool string_id<oter_t>::is_valid() const
 {
-    return otermap.count( *this ) > 0;
+    return terrains.is_valid( *this );
 }
 
 template<>
 const oter_t &string_id<oter_t>::obj() const
 {
-    if( !is_valid() ) {
-        debugmsg( "Invalid overmap terrain id: %s.", c_str() );
-        static oter_t null_oter;
-        return null_oter;
-    }
-    return otermap[*this];
+    return terrains.obj( *this );
 }
 
 template<>
 int_id<oter_t> string_id<oter_t>::id() const
 {
-    return obj().loadid;
+    return terrains.convert( *this, ot_null );
 }
 
 template<>
-int_id<oter_t>::int_id( const string_id<oter_t> &id ) : _id( oterfind( id.str() ) ) {}
+int_id<oter_t>::int_id( const string_id<oter_t> &id ) : _id( id.id() ) {}
 
 template<>
-bool int_id<oter_t>::is_valid() const
+inline bool int_id<oter_t>::is_valid() const
 {
-    return size_t( *this ) <= oterlist.size();
+    return terrains.is_valid( *this );
 }
 
-template <>
+template<>
 const oter_t &int_id<oter_t>::obj() const
 {
-    if( !is_valid() ) {
-        debugmsg( "Invalid overmap terrain id: %d (there are only %d ids).", *this, oterlist.size() );
-        static oter_t null_oter;
-        return null_oter;
-    }
-    return oterlist[*this];
+    return terrains.obj( *this );
 }
 
 template<>
 const string_id<oter_t> &int_id<oter_t>::id() const
 {
-    return obj().id;
+    return terrains.convert( *this );
 }
 
 bool operator==( const int_id<oter_t> &lhs, const char *rhs )
@@ -263,6 +222,18 @@ bool operator==( const int_id<oter_t> &lhs, const char *rhs )
 bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
 {
     return !( lhs == rhs );
+}
+
+void set_oter_ids()   // fixme constify
+{
+    ot_null         = oter_id( NULL_ID );
+    // NOT required.
+    ot_crater       = oter_id( "crater" );
+    ot_field        = oter_id( "field" );
+    ot_forest       = oter_id( "forest" );
+    ot_forest_thick = oter_id( "forest_thick" );
+    ot_forest_water = oter_id( "forest_water" );
+    ot_river_center = oter_id( "river_center" );
 }
 
 void overmap_specials::load( JsonObject &jo, const std::string &src )
@@ -356,17 +327,10 @@ bool isroad(std::string bstr)
     return false;
 }
 
-void load_oter(oter_t &oter)
+void overmap_terrains::reset()
 {
-    oter.loadid = oter_id( oterlist.size() );
-    otermap[oter.id] = oter;
-    oterlist.push_back(oter);
-}
-
-void overmap_terrain::reset()
-{
-    otermap.clear();
-    oterlist.clear();
+    base_terrains.reset();
+    terrains.reset();
 }
 
 /*
@@ -400,82 +364,50 @@ void load_overmap_terrain_mapgens(JsonObject &jo, const std::string id_base,
     }
 }
 
-void overmap_terrain::load( JsonObject &jo )
+void oter_t::load( JsonObject &jo, const std::string &src )
 {
-    oter_t oter;
+    const bool strict = src == "dda";
 
-    oter.id = oter_str_id( jo.get_string("id") );
-    oter.name = _(jo.get_string("name").c_str());
-    oter.set_flag(rotates, jo.get_bool("rotate", false));
-    oter.set_flag(line_drawing, jo.get_bool("line_drawing", false));
+    assign( jo, "sym", sym, strict );
+    assign( jo, "name", name, strict );
+    assign( jo, "see_cost", see_cost, strict );
+    assign( jo, "extras", extras, strict );
+    assign( jo, "mondensity", mondensity, strict );
+    assign( jo, "spawns", static_spawns, strict );
 
-    oter.sym = jo.get_int( "sym", oter.sym );
-    oter.color = color_from_string(jo.get_string("color"));
-    oter.see_cost = jo.get_int("see_cost");
+    optional( jo, was_loaded, "color", color, color_reader{} );
 
-    oter.extras = jo.get_string("extras", "none");
-    oter.set_flag(known_down, jo.get_bool("known_down", false));
-    oter.set_flag(known_up, jo.get_bool("known_up", false));
-    oter.mondensity = jo.get_int("mondensity", 0);
-    oter.set_flag(has_sidewalk, jo.get_bool("sidewalk", false));
-    oter.set_flag(allow_road, jo.get_bool("allow_road", false));
+    set_flag( rotates, jo.get_bool( "rotate", false ) );
+    set_flag( line_drawing, jo.get_bool( "line_drawing", false ) );
+    set_flag( known_down, jo.get_bool( "known_down", false ) );
+    set_flag( known_up, jo.get_bool( "known_up", false ) );
+    set_flag( has_sidewalk, jo.get_bool( "sidewalk", false ) );
+    set_flag( allow_road, jo.get_bool( "allow_road", false ) );
+    set_flag( road_tile, isroad( id.str() ) );
+    set_flag( river_tile, id.str().compare( 0, 5, "river", 5 ) == 0 ||
+                          id.str().compare( 0, 6, "bridge", 6 ) == 0 );
 
-    const std::string id_base = oter.id.str(); // Don't put reference here
-    int start_iid = oterlist.size();
-    oter.id_base = id_base;
-    oter.loadid_base = start_iid;
-
-    if( jo.has_object( "spawns" ) ) {
-        JsonObject spawns = jo.get_object( "spawns" );
-        oter.static_spawns.group = mongroup_id( spawns.get_string( "group" ) );
-        spawns.read( "population", oter.static_spawns.population );
-        oter.static_spawns.chance = spawns.get_int( "chance" );
+    if( has_flag( rotates ) && has_flag( line_drawing ) ) {
+        jo.throw_error( "Can't have \"rotate\" and \"line_drawing\" at the same time." );
     }
 
-    oter.set_flag(road_tile, isroad(id_base));
-    oter.set_flag(river_tile, id_base.compare(0, 5, "river", 5) == 0 ||
-                     id_base.compare(0, 6, "bridge", 6) == 0);
-
-    long sym_base = oter.sym;
-
-    if( oter.has_flag( line_drawing ) ) {
-        oter.directional_peers.reserve( om_lines::size );
-        for( size_t i = 0; i < om_lines::size; ++i ) {
-            oter.directional_peers.push_back( oter_id( start_iid + i ) );
-        }
-
+    if( has_flag( line_drawing ) ) {
         for( const auto &elem : om_lines::mapgen_suffixes ) {
-            load_overmap_terrain_mapgens( jo, id_base, elem );
-        }
-
-        for( const auto &elem : om_lines::all ) {
-            oter.id = oter_str_id( id_base + elem.suffix );
-            oter.id_mapgen = id_base + om_lines::mapgen_suffixes[elem.mapgen];
-            oter.sym = elem.sym;
-            load_oter( oter );
+            load_overmap_terrain_mapgens( jo, id.str(), elem );
         }
     } else {
-        oter.id_mapgen = id_base;
-        load_overmap_terrain_mapgens( jo, id_base );
-
-        if( oter.has_flag( rotates ) ) {
-            // add north/east/south/west variants
-            oter.directional_peers.reserve( om_direction::size );
-            for( size_t i = 0; i < om_direction::size; ++i ) {
-                oter.directional_peers.push_back( oter_id( start_iid + i ) );
-            }
-            for( auto r : om_direction::all ) {
-                oter.id = oter_str_id( id_base + "_" + om_direction::id( r ) );
-                oter.sym = om_direction::rotate_symbol( sym_base, r );
-                load_oter( oter );
-            }
-        } else {
-            load_oter( oter );
-        }
+        load_overmap_terrain_mapgens( jo, id.str() );
     }
+
+    id_base = id.str(); // @todo Get rid of id_base.
 }
 
-void overmap_terrain::check_consistency()
+void overmap_terrains::load( JsonObject &jo, const std::string &src )
+{
+    base_terrains.load( jo, src );
+}
+
+void overmap_terrains::check_consistency()
 {
     // @todo This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
     static const std::set<std::string> hardcoded_mapgen = {
@@ -561,7 +493,7 @@ void overmap_terrain::check_consistency()
         "triffid_roots",
     };
 
-    for( const auto &elem : oterlist ) {
+    for( const auto &elem : terrains.get_all() ) {
         if( elem.id.is_null() ) {
             continue;
         }
@@ -587,21 +519,49 @@ void overmap_terrain::check_consistency()
  * Assemble a map of overmap_terrain base ids pointing to first members of oter groups
  * We'll do this after json loading so references can be used
  */
-void overmap_terrain::finalize()
+void overmap_terrains::finalize()
 {
-    int c = 0;
-    for( std::vector<oter_t>::const_iterator it = oterlist.begin(); it != oterlist.end(); ++it ) {
-        if ( (*it).loadid == (*it).loadid_base ) {
-            if ( (*it).loadid != c ) { // might as well sanity check while we're here da? da.
-                debugmsg("ERROR: oterlist[%d]: mismatch with loadid (%d). (id = %s, id_base = %s)",
-                         c, (*it).loadid, (*it).id.c_str(), (*it).id_base.c_str()
-                        );
-                // aaaaaaaand continue to inevitable crash
-            }
-            obasetermap.insert( std::pair<std::string, oter_t>( (*it).id_base, oterlist[c] ) );;
+    // @todo Get rid of it.
+    const auto reserve_peers = []( oter_t &elem, size_t count ) {
+        elem.directional_peers.reserve( count );
+        for( size_t i = 0; i < count; ++i ) {
+            elem.directional_peers.push_back( oter_id( terrains.size() + i ) );
         }
-        c++;
+    };
+
+    for( const auto &elem : base_terrains.get_all() ) {
+        if( elem.has_flag( rotates ) ) {
+            // add north/east/south/west variants
+            reserve_peers( const_cast<oter_t &>( elem ), om_direction::size );
+
+            auto insertion( elem );
+
+            insertion.id_mapgen = elem.id.str();
+
+            for( auto dir : om_direction::all ) {
+                insertion.id = oter_str_id( elem.id.str() + "_" + om_direction::id( dir ) );
+                insertion.sym = om_direction::rotate_symbol( elem.sym, dir );
+                insertion.dir = dir;
+
+                terrains.insert( insertion );
+            }
+        } else if( elem.has_flag( line_drawing ) ) {
+            reserve_peers( const_cast<oter_t &>( elem ), om_lines::size );
+
+            auto insertion( elem );
+
+            for( const auto &line : om_lines::all ) {
+                insertion.id_mapgen = elem.id.str() + om_lines::mapgen_suffixes[line.mapgen];
+                insertion.id = oter_str_id( elem.id.str() + line.suffix );
+                insertion.sym = line.sym;
+
+                terrains.insert( insertion );
+            }
+        } else {
+            terrains.insert( elem ).id_mapgen = elem.id.str();
+        }
     }
+
     // here's another sanity check, yay.
     if ( region_settings_map.find("default") == region_settings_map.end() ) {
         debugmsg("ERROR: can't find default overmap settings (region_map_settings 'default'),"
@@ -611,6 +571,13 @@ void overmap_terrain::finalize()
     for( auto &elem : region_settings_map ) {
         elem.second.setup();
     }
+
+    set_oter_ids();
+}
+
+size_t overmap_terrains::count()
+{
+    return terrains.size();
 }
 
 void load_region_settings( JsonObject &jo )
@@ -2071,17 +2038,9 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 }
                 // Nope, look in the hash map next
                 if (!info) {
-                    auto const it = otermap.find( cur_ter.id() );
-                    if( it == otermap.end() ) {
-                        debugmsg( "Bad ter %s (%d, %d)", cur_ter.id().c_str(), omx, omy );
-                        ter_color = c_red;
-                        ter_sym   = '?';
-                    } else {
-                        // cache the new value
-                        info = &it->second;
-                        cache[cache_next] = std::make_pair( cur_ter, info );
-                        cache_next = ( cache_next + 1 ) % cache_size;
-                    }
+                    info = &cur_ter.obj();
+                    cache[cache_next] = std::make_pair( cur_ter, info );
+                    cache_next = ( cache_next + 1 ) % cache_size;
                 }
                 // Ok, we found something
                 if (info) {
@@ -2572,8 +2531,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
 
             if( terrain ) {
                 pmenu.title = "Select terrain to place:";
-                for( const auto &oter : oterlist ) {
-                    pmenu.addentry( oter.loadid, true, 0, oter.id.str() );
+                for( const auto &oter : terrains.get_all() ) {
+                    pmenu.addentry( oter.id.id(), true, 0, oter.id.str() );
                 }
             } else {
                 pmenu.title = "Select special to place:";
@@ -2595,7 +2554,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 ctxt.register_action( "ANY_INPUT" );
 
                 if( terrain ) {
-                    uistate.place_terrain = &oterlist[pmenu.ret];
+                    uistate.place_terrain = &oter_id( pmenu.ret ).obj();
                 } else {
                     uistate.place_special = oslist[pmenu.ret];
                 }
@@ -2606,7 +2565,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 // If user chose an already rotated submap, figure out its direction
                 if( terrain && can_rotate ) {
                     for( auto r : om_direction::all ) {
-                        if( uistate.place_terrain->loadid == om_direction::rotate( uistate.place_terrain->loadid, r ) ) {
+                        if( uistate.place_terrain->id.id() == om_direction::rotate( uistate.place_terrain->id.id(), r ) ) {
                             uistate.omedit_rotation = r;
                             break;
                         }
@@ -3871,7 +3830,7 @@ tripoint om_direction::rotate( const tripoint &p, type dir )
     return tripoint( rotate( { p.x, p.y }, dir ), p.z );
 }
 
-oter_id om_direction::rotate( const oter_id &oter, om_direction::type dir )
+int_id<oter_t> om_direction::rotate( const int_id<oter_t> &oter, om_direction::type dir )
 {
     const oter_t &otert = oter.obj();
 
@@ -4422,12 +4381,20 @@ void regional_settings::setup()
 
 void regional_settings::setup_oter(oter_weight &oter) {
     if ( oter.ot_iid == -1 ) {
-        std::unordered_map<std::string, oter_t>::const_iterator it = obasetermap.find(oter.ot_sid);
-        if ( it == obasetermap.end() ) {
-            debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", oter.ot_sid.c_str() );
+        const oter_str_id base( oter.ot_sid );
+
+        if( !base_terrains.is_valid( base ) ) {
+            debugmsg( "Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", base.c_str() );
             oter.ot_iid = 0;
+            return;
+        }
+
+        const auto &obj = base_terrains.obj( base );
+
+        if( obj.has_flag( rotates ) || obj.has_flag( line_drawing ) ) {
+            oter.ot_iid = obj.directional_peers.back()->id.id();
         } else {
-            oter.ot_iid = it->second.loadid;
+            oter.ot_iid = obj.id.id();
         }
     }
 }

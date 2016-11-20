@@ -16,78 +16,8 @@
 
 struct MonsterGroup;
 struct city;
-struct overmap_special_location;
-
-class overmap;
-
-struct overmap_spawns {
-    overmap_spawns();
-
-    string_id<MonsterGroup> group;
-    numeric_interval<int> population;
-    int chance = 0;
-};
-
-//terrain flags enum! this is for tracking the indices of each flag.
-enum oter_flags {
-    known_down = 0,
-    known_up,
-    river_tile,
-    road_tile,
-    has_sidewalk,
-    allow_road,
-    rotates,      // does this tile have four versions, one for each direction?
-    line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
-    num_oter_flags
-};
-
 struct oter_t;
-using oter_id = int_id<oter_t>;
-using oter_str_id = string_id<oter_t>;
-
-struct oter_t {
-        oter_str_id id;      /// definitive identifier
-        oter_id loadid;      /// position in 'terlist'
-        std::string name;
-        long sym = '%'; // This is a long, so we can support curses linedrawing
-        nc_color color;
-        unsigned char see_cost; // Affects how far the player can see in the overmap
-        std::string extras;
-        int mondensity;
-        /**
-         * base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
-         */
-        std::string id_base;
-        int loadid_base;                        /// self || directional_peers[0]? or seperate base_oter_map ?
-        std::vector<oter_id> directional_peers; /// fast reliable method of determining whatever_west, etc.
-        std::string
-        id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.
-
-        // Spawns are added to the submaps *once* upon mapgen of the submaps
-        overmap_spawns static_spawns;
-        //this bitset contains boolean values for:
-        //is_asphalt, is_building, is_subway, is_sewer, is_ants,
-        //is_base_terrain, known_down, known_up, is_river,
-        //is_road, has_sidewalk, allow_road, rotates, line_drawing
-    private:
-        std::bitset<num_oter_flags> flags; //contains a bitset for all the bools this terrain might have.
-    public:
-        static size_t count();  /// Overall number of loaded objects
-
-        bool has_flag( oter_flags flag ) const {
-            return flags[flag];
-        }
-
-        void set_flag( oter_flags flag, bool value = true ) {
-            flags[flag] = value;
-        }
-};
-
-// @todo: Deprecate these operators
-bool operator==( const oter_id &lhs, const char *rhs );
-bool operator!=( const oter_id &lhs, const char *rhs );
-
-typedef oter_id oter_iid;
+struct overmap_special_location;
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -115,7 +45,7 @@ const std::string &name( type dir );
 /** Various rotations. */
 point rotate( const point &p, type dir );
 tripoint rotate( const tripoint &p, type dir );
-oter_id rotate( const oter_id &oter, type dir );
+int_id<oter_t> rotate( const int_id<oter_t> &oter, type dir );
 long rotate_symbol( long sym, type dir );
 
 /** Returns point(0, 0) displaced in direction @param dir by the @param dist. */
@@ -134,6 +64,87 @@ type random();
 
 };
 
+struct overmap_spawns : public JsonDeserializer {
+    overmap_spawns() : group( "GROUP_NULL" ) {} // @fixme Replace with NULL_ID
+
+    string_id<MonsterGroup> group;
+    numeric_interval<int> population;
+    int chance = 0;
+
+    bool operator==( const overmap_spawns &rhs ) const {
+        return group == rhs.group &&
+               population == rhs.population &&
+               chance == rhs.chance;
+    }
+
+    void deserialize( JsonIn &jsin ) override {
+        JsonObject jo = jsin.get_object();
+        jo.read( "group", group );
+        jo.read( "population", population );
+        jo.read( "chance", chance );
+    }
+};
+
+//terrain flags enum! this is for tracking the indices of each flag.
+enum oter_flags {
+    known_down = 0,
+    known_up,
+    river_tile,
+    road_tile,
+    has_sidewalk,
+    allow_road,
+    rotates,      // does this tile have four versions, one for each direction?
+    line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
+    num_oter_flags
+};
+
+using oter_id = int_id<oter_t>;
+using oter_str_id = string_id<oter_t>;
+
+struct oter_t {
+    public:
+        oter_str_id id;                 /// definitive identifier
+        std::string name;
+        long sym = '\0';                // This is a long, so we can support curses linedrawing
+        nc_color color = c_black;
+        unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
+        std::string extras = "none";
+        int mondensity = 0;
+        /**
+         * base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
+         */
+        std::string id_base;
+        om_direction::type dir = om_direction::type::none;
+        std::vector<oter_id> directional_peers; /// fast reliable method of determining whatever_west, etc.
+        std::string
+        id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.
+
+        // Spawns are added to the submaps *once* upon mapgen of the submaps
+        overmap_spawns static_spawns;
+        //this bitset contains boolean values for:
+        //is_asphalt, is_building, is_subway, is_sewer, is_ants,
+        //is_base_terrain, known_down, known_up, is_river,
+        //is_road, has_sidewalk, allow_road, rotates, line_drawing
+    private:
+        std::bitset<num_oter_flags> flags; //contains a bitset for all the bools this terrain might have.
+    public:
+        bool was_loaded = false;
+        void load( JsonObject &jo, const std::string &src );
+        void check() const;
+
+        bool has_flag( oter_flags flag ) const {
+            return flags[flag];
+        }
+
+        void set_flag( oter_flags flag, bool value = true ) {
+            flags[flag] = value;
+        }
+};
+
+// @todo: Deprecate these operators
+bool operator==( const oter_id &lhs, const char *rhs );
+bool operator!=( const oter_id &lhs, const char *rhs );
+
 // LINE_**** corresponds to the ACS_**** macros in ncurses, and are patterned
 // the same way; LINE_NESW, where X indicates a line and O indicates no line
 // (thus, LINE_OXXX looks like 'T'). LINE_ is defined in output.h.  The ACS_
@@ -148,6 +159,8 @@ type random();
 #define OMSPEC_FREQ 15
 
 struct overmap_special_spawns : public JsonDeserializer {
+    overmap_special_spawns() : group( "GROUP_NULL" ) {} // @fixme Replace with NULL_ID
+
     string_id<MonsterGroup> group;
     numeric_interval<int> population;
     numeric_interval<int> radius;
@@ -235,17 +248,5 @@ void check_consistency();
 void reset();
 
 }
-
-//////////////////////////////////
-///// convenience definitions for hard-coded functions.
-extern oter_iid ot_null,
-       ot_crater,
-       ot_field,
-       ot_forest,
-       ot_forest_thick,
-       ot_forest_water,
-       ot_river_center;
-
-void set_oter_ids();
 
 #endif

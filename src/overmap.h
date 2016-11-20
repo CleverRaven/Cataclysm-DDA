@@ -425,13 +425,15 @@ void reset_region_settings();
 void load_region_overlay(JsonObject &jo);
 void apply_region_overlay(JsonObject &jo, regional_settings &region);
 
-namespace overmap_terrain
+namespace overmap_terrains
 {
 
-void load( JsonObject &jo );
+void load( JsonObject &jo, const std::string &src );
 void check_consistency();
-void reset();
 void finalize();
+void reset();
+
+size_t count();
 
 }
 
