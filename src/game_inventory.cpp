@@ -1,6 +1,7 @@
 #include "game.h"
 
 #include "inventory_ui.h"
+#include "options.h"
 #include "player.h"
 #include "item.h"
 #include "itype.h"
@@ -158,9 +159,11 @@ class activatable_inventory_preset : public inventory_selector_preset
 {
     public:
         activatable_inventory_preset( const player &p ) : p( p ) {
-            append_cell( [ this ]( const item_location & loc ) {
-                return string_format( "<color_ltgreen>%s</color>", get_action_name( loc ).c_str() );
-            }, _( "ACTION" ) );
+            if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
+                append_cell( [ this ]( const item_location & loc ) {
+                    return string_format( "<color_ltgreen>%s</color>", get_action_name( loc ).c_str() );
+                }, _( "ACTION" ) );
+            }
         }
 
         bool is_shown( const item_location &loc ) const override {
