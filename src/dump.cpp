@@ -352,11 +352,11 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                 // but we want the probability of hits within each category separately, so subtract the
                 // probabilities at each edge.
                 double p_headshot = who.projectile_attack_chance( dispersion, range, accuracy_headshot );
-                double p_critical = who.projectile_attack_chance( dispersion, range, accuracy_critical ) - p_headshot;
-                double p_goodhit = who.projectile_attack_chance( dispersion, range, accuracy_goodhit ) - p_critical;
-                double p_standard = who.projectile_attack_chance( dispersion, range, accuracy_standard ) - p_goodhit;
-                double p_grazing = who.projectile_attack_chance( dispersion, range, accuracy_grazing ) - p_standard;
-                // double p_miss = 1.0 - p_grazing;     not actually used below
+                double p_critical = who.projectile_attack_chance( dispersion, range, accuracy_critical ) - who.projectile_attack_chance( dispersion, range, accuracy_headshot );
+                double p_goodhit  = who.projectile_attack_chance( dispersion, range, accuracy_goodhit )  - who.projectile_attack_chance( dispersion, range, accuracy_critical );
+                double p_standard = who.projectile_attack_chance( dispersion, range, accuracy_standard ) - who.projectile_attack_chance( dispersion, range, accuracy_goodhit );
+                double p_grazing  = who.projectile_attack_chance( dispersion, range, accuracy_grazing )  - who.projectile_attack_chance( dispersion, range, accuracy_standard );
+                // double p_miss = 1.0 - who.projectile_attack_chance( dispersion, range, accuracy_grazing );     not actually used below
 
                 // f(x) is the probabilty density function for the damage multiplier x
                 // f(x) = { p_grazing / 0.25     if 0.00 < x <= 0.25
