@@ -57,8 +57,8 @@ item_location game::get_item_from_inventory( player &p, const std::string &title
                             string_format( _( "%s's inventory is empty." ), p.name.c_str() );
 
     return inv_internal( p,
-        inventory_filter_preset( convert_filter( [ &p ]( const item & it ) {
-            return !p.is_worn(it) && !(&p.weapon == &it);
+    inventory_filter_preset( convert_filter( [ &p ]( const item & it ) {
+        return !p.is_worn( it ) && !( &p.weapon == &it );
     } ) ), title, -1, msg );
 }
 
