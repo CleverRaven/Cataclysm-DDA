@@ -6718,10 +6718,6 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-/* MACGUFFIN FUNCTIONS
- * These functions should refer to it->associated_mission for the particulars
- */
-
 int iuse::radiocar(player *p, item *it, bool, const tripoint& )
 {
     int choice = -1;
