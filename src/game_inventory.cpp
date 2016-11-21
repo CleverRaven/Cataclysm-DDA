@@ -191,16 +191,6 @@ class activatable_inventory_preset : public inventory_selector_preset
             return std::string();
         }
 
-        bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
-            const int cmp = get_action_name( lhs ).compare( get_action_name( rhs ) );
-
-            if( cmp == 0 ) {
-                return inventory_selector_preset::sort_compare( lhs, rhs );
-            }
-
-            return cmp < 0;
-        }
-
     protected:
         std::string get_action_name( const item_location &loc ) const {
             const auto &uses = loc->type->use_methods;
