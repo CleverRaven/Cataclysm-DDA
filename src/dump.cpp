@@ -297,6 +297,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         }
 
         auto dump = [&rows]( const standard_npc & who, const item & gun, int aim_moves ) {
+            // aim for up to aim_moves, or until there's no improvement
             double recoil = MIN_RECOIL;
             for( int i = 0; i < aim_moves; ++i ) {
                 double adj = who.aim_per_move( gun, recoil );
@@ -318,12 +319,44 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                     continue;
                 }
 
+                // We want to find the long-run average damage per shot for this dispersion.
+
+                // The base damage is the same for every shot. The damage multiplier varies depending
+                // on the quality of hit (headshot, grazing, etc). Within each category of hit,
+                // there is a uniform random distribution of multipliers.
+
+                // To find the long-run average, first construct the probability density function
+                // for the damage multiplier that is, roughly speaking, f(x) = probability that a
+                // shot will end up with a damage multiplier of x. This function looks something like
+                // this, where the heights of the steps vary depending on the hit probabilities.
+                // The area under each step is the probability of getting that quality of hit.
+                // The total area is 1.0.
+                //
+                // f(x) = probability density
+                // ^
+                // |  miss
+                // |     ^
+                // |     |           -------
+                // |     |           |     |         ------
+                // |     |------     |     |-----    |    |   --------
+                // |     |graze|     | std  good|    |crit|   |h.shot|
+                // +-----|-----|-----|----------|----|----|---|------|-----> x = damage multiplier
+                //       0    0.25  0.5   1.0  1.5  1.75 2.3 2.45   3.35
+
+                // The long-run average (expected value) can be calculated directly from this PDF:
+                //    ∫(-∞,∞) x.f(x) dx
+                // See https://en.wikipedia.org/wiki/Expected_value#Univariate_continuous_random_variable
+
+                // Find the probability of each type of hit
+                // nb: projectile_attack_chance returns the probabilty of a given accuracy _or better_
+                // but we want the probability of hits within each category separately, so subtract the
+                // probabilities at each edge.
                 double p_headshot = who.projectile_attack_chance( dispersion, range, accuracy_headshot );
                 double p_critical = who.projectile_attack_chance( dispersion, range, accuracy_critical ) - p_headshot;
                 double p_goodhit = who.projectile_attack_chance( dispersion, range, accuracy_goodhit ) - p_critical;
                 double p_standard = who.projectile_attack_chance( dispersion, range, accuracy_standard ) - p_goodhit;
                 double p_grazing = who.projectile_attack_chance( dispersion, range, accuracy_grazing ) - p_standard;
-                // double p_miss = 1.0 - p_grazing;
+                // double p_miss = 1.0 - p_grazing;     not actually used below
 
                 // f(x) is the probabilty density function for the damage multiplier x
                 // f(x) = { p_grazing / 0.25     if 0.00 < x <= 0.25
@@ -331,15 +364,22 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                 //        { p_goodhit / 0.50     if 1.00 < x <= 1.50
                 //        { p_critical / 0.55    if 1.75 < x <= 2.30
                 //        { p_headshot / 0.90    if 2.45 < x <= 3.35
-                //        { p_miss . δ(x)      if x == 0
-                //        { 0                  otherwise
+                //        { p_miss . δ(x)        if x == 0
+                //        { 0                    otherwise
                 //
                 // (the scaling factors ensure that e.g. ∫(0.5,1.0) f(x) dx == p_standard)
 
-                // μ = E[X] = ∫x.f(x) dx
-                // compute it piece-wise
+                // δ is the Dirac delta function, used here to glue in a discrete value (the
+                // probability of a miss, i.e. a multiplier of exactly 0) into an otherwise
+                // continuous distribution. It is there for completeness so the total area
+                // of the PDF totals 1.0, but it doesn't actually affect the integral.
+                // See https://en.wikipedia.org/wiki/Dirac_delta_function#Probability_theory
+
+                // long-run average  μ = E[X] = ∫x.f(x) dx
+                // we compute the integral piece-wise over each part of the function defined above
+
                 auto xfx_integral = []( double fx, double x1, double x2 ) -> double {
-                    // assumes constant f(x) within [x1,x2]
+                    // integrate x.f(x) within [x1,x2] assuming f(x) stays constant in that interval
                     return fx * ( x2 * x2 - x1 * x1 ) / 2;
                 };
                 double mu = xfx_integral( p_grazing / 0.25, 0, 0.25 ) +
