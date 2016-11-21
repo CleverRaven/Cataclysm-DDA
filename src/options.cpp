@@ -194,7 +194,7 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
 void options_manager::add(const std::string sNameIn, const std::string sPageIn,
                             const std::string sMenuTextIn, const std::string sTooltipIn,
                             const int iMinIn, int iMaxIn, int iDefaultIn,
-                            copt_hide_t opt_hide)
+                            copt_hide_t opt_hide, const std::string &format )
 {
     cOpt thisOpt;
 
@@ -203,6 +203,8 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
     thisOpt.sMenuText = sMenuTextIn;
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = "int";
+
+    thisOpt.format = format;
 
     thisOpt.hide = opt_hide;
 
@@ -265,7 +267,7 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
 void options_manager::add(const std::string sNameIn, const std::string sPageIn,
                             const std::string sMenuTextIn, const std::string sTooltipIn,
                             const float fMinIn, float fMaxIn, float fDefaultIn,
-                            float fStepIn, copt_hide_t opt_hide)
+                            float fStepIn, copt_hide_t opt_hide, const std::string &format )
 {
     cOpt thisOpt;
 
@@ -274,6 +276,8 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
     thisOpt.sMenuText = sMenuTextIn;
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = "float";
+
+    thisOpt.format = format;
 
     thisOpt.hide = opt_hide;
 
@@ -410,17 +414,10 @@ std::string options_manager::cOpt::getValue() const
         return (bSet) ? "true" : "false";
 
     } else if (sType == "int" || sType == "int_map") {
-        std::stringstream ssTemp;
-        ssTemp << iSet;
-        return ssTemp.str();
+        return string_format( format, iSet );
 
     } else if (sType == "float") {
-        std::stringstream ssTemp;
-        ssTemp.imbue(std::locale::classic());
-        const int precision = (fStep >= 0.09) ? 1 : (fStep >= 0.009) ? 2 : (fStep >= 0.0009) ? 3 : 4;
-        ssTemp.precision(precision);
-        ssTemp << std::fixed << fSet;
-        return ssTemp.str();
+        return string_format( format, fSet );
     }
 
     return "";
@@ -1330,12 +1327,12 @@ void options_manager::init()
 
     add("MONSTER_SPEED", "world_default", _("Monster default speed"),
         _("A scaling factor that determines the movement rate of monsters. A higher value increases monster speed and a lower reduces it."),
-        1, 1000, 100
+        1, 1000, 100, COPT_NO_HIDE, "%i%%"
         );
 
     add("MONSTER_RESILIENCE", "world_default", _("Monster resilience scaling factor"),
         _("A scaling factor that determines how much damage monsters can take. A higher value makes monsters more resilient and a lower makes them more flimsy."),
-        1, 1000, 100
+        1, 1000, 100, COPT_NO_HIDE, "%i%%"
         );
 
     mOptionsSort["world_default"]++;
