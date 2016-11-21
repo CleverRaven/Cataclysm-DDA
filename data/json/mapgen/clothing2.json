@@ -102,9 +102,7 @@
                 { "item": "office", "chance": 60, "x": 6,   "y": [18,19], "repeat": [1,2] },
                 { "item": "jewelry_furshop", "chance": 50, "x": 8,   "y": [7,11], "repeat": [1,4] },
                 { "item": "trash", "chance": 75, "x": 14,   "y": 17 }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]

@@ -123,9 +123,7 @@
                 { "item": "wedding_dresses", "chance": 25, "x": 19,   "y": [9,10] },
                 { "item": "tools_tailor", "chance": 80, "x": 19,   "y": [9,10] },
                 { "item": "tailorbooks", "chance": 30, "x": 19,   "y": [11,12], "repeat": [2,3] }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]

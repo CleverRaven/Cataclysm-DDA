@@ -78,9 +78,7 @@
                 { "item": "hardware", "chance": 40, "x": 13,   "y": [16,17],      "repeat": [1,2] },
                 { "item": "hardware", "chance": 40, "x": 16,   "y": [16,17],      "repeat": [1,2] },
                 { "item": "tools_carpentry", "chance": 50, "x": 19,   "y": [6,17],      "repeat": [1,9] }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]

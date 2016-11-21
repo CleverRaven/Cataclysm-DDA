@@ -101,9 +101,7 @@
                 { "item": "bookstore_misc", "chance": 25, "x": [11,12],   "y": 15, "repeat": [2,3] },
                 { "item": "bookstore_misc", "chance": 25, "x": [15,16],   "y": 15, "repeat": [2,3] },
                 { "item": "bookstore_misc", "chance": 25, "x": 17,   "y": [12,13], "repeat": [2,3] }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]

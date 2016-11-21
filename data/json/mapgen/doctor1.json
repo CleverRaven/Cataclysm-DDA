@@ -112,9 +112,7 @@
                 { "group": "gear_medical", "chance": 60, "x": [4,5], "y": 10, "repeat": [2,5] },
                 { "group": "drugs_analgesic", "chance": 75, "x": [4,5], "y": 12 },
                 { "group": "drugs_rare", "chance": 75, "x": [4,5], "y": 14 }
-           ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+           ]
+        }
     }
 ]

@@ -90,14 +90,12 @@
                 "F": "f_fridge",
                 "G": "f_oven"
             },
-            "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] },
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": 0, "repeat": [ 5, 8 ] }
             ],
-                        "comment": "randomly picked from a group ---v",
             "place_items": [
                 { "item": "trash", "chance": 90,  "x": [ 2,21 ], "y": [ 2,21 ], "repeat": [ 2,3 ] },
                 { "item": "methchef", "chance": 90, "x": [ 10,10 ], "y": [ 8,8 ] },
@@ -109,9 +107,7 @@
             ],
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 2,3 ]  }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]

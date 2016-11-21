@@ -91,9 +91,7 @@
                 { "item": "farming_seeds", "chance": 50, "x": 5, "y": [11,14], "repeat": [1,2] },
                 { "item": "supplies_farming", "chance": 35, "x": 5,   "y": [16,20],       "repeat": [1,4] },
                 { "item": "trash", "chance": 75, "x": 10,   "y": 20 }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]

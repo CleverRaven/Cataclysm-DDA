@@ -48,7 +48,7 @@
             "football_field_a1"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [
@@ -106,7 +106,7 @@
             "football_field_a2"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [
@@ -158,7 +158,7 @@
             "football_field_a3"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [
@@ -216,7 +216,7 @@
             "football_field_a4"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [
@@ -268,7 +268,7 @@
             "football_field_a5"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [
@@ -326,7 +326,7 @@
             "football_field_b1"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [
@@ -376,7 +376,7 @@
             "football_field_b2"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [
@@ -415,7 +415,7 @@
             "football_field_b3"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [
@@ -460,7 +460,7 @@
             "football_field_b4"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [
@@ -499,7 +499,7 @@
             "football_field_b5"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [
@@ -549,7 +549,7 @@
             "football_field_c1"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [
@@ -607,7 +607,7 @@
             "football_field_c2"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [
@@ -659,7 +659,7 @@
             "football_field_c3"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [
@@ -717,7 +717,7 @@
             "football_field_c4"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [
@@ -769,7 +769,7 @@
             "football_field_c5"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "fill_ter": "t_grass",
             "rows": [

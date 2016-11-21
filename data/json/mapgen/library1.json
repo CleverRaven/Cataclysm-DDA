@@ -100,9 +100,7 @@
                 { "item": "office", "chance": 30, "x": 11,   "y": 3  },
                 { "item": "office", "chance": 30, "x": 12,   "y": 2 },
                 { "item": "office", "chance": 80, "x": [20,21],   "y": 2 }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]

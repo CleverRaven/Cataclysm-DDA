@@ -47,9 +47,7 @@
                 { "monster": "debug_mon", "x": 1, "y": 1 },
                 { "monster": "debug_mon", "x": 3, "y": 1 },
                 { "monster": "debug_mon", "x": 5, "y": 1 }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]

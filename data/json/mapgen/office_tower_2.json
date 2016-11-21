@@ -58,7 +58,7 @@
             "office_tower_2_a1"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "rows": [
                 "....ssssssssssssssssssss",
@@ -177,7 +177,7 @@
             "office_tower_2_a2"
             ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "rows": [
                 "ssssssssssssssssssssssss",
@@ -287,7 +287,7 @@
             "office_tower_2_a3"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "rows": [
                 "ssssssssssssssssssssssss",
@@ -394,7 +394,7 @@
             "office_tower_2_b1"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "rows": [
                 "....s..z|#######|   B B ",
@@ -504,7 +504,7 @@
             "office_tower_2_b2"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "rows": [
                 "   |  |l ll ll ll l|    ",
@@ -614,7 +614,7 @@
             "office_tower_2_b3"
         ],
         "method": "json",
-        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight": 300, "//": "low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "rows": [
                 "                      1s",

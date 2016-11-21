@@ -107,9 +107,7 @@
                 { "item": "tools_tailor", "chance": 40, "x": [4,6],   "y": [6,19], "repeat": [1,6] },
                 { "item": "trash", "chance": 75, "x": 14,   "y": 18 },
                 { "item": "trash", "chance": 75, "x": 20,   "y": 16 }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]

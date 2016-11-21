@@ -6,8 +6,6 @@
         ],
         "method": "json",
         "weight": 100,
-        "comment": "<--- these fields ignored --->", "author": "sparr",
-        "comment": "actual mapgen json definition begins below ---v",
         "object": {
             "rows": [
                 "########################",
@@ -75,7 +73,6 @@
             "toilets": {
                 "t": { }
             },
-            "comment": "randomly picked items from a group ---v",
             "place_items": [
                 { "item": "lmoe_guns", "chance": 80, "x": [2,6], "y": [12,12] },
                 { "item": "ammo", "chance": 80, "x": [2,6], "y": [12,12] },
@@ -96,9 +93,7 @@
                 { "item": "stash_wood", "chance": 60, "x": [21,21], "y": [18,18] },
                 { "item": "novels", "chance": 70, "x": [17,17], "y": [18,19] },
                 { "item": "bed", "chance": 70, "x": [19,20], "y": [18,19] }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]

@@ -87,9 +87,7 @@
                 { "item": "dresser", "chance": 60, "x": [8,10],   "y": 15, "repeat": [1,3] },
                 { "item": "office_breakroom", "chance": 40, "x": [4,11],   "y": [17,19], "repeat": [3,6] },
                 { "item": "trash", "chance": 75, "x": 20,   "y": 17 }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]

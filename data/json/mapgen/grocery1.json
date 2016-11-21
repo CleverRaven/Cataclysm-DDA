@@ -86,7 +86,7 @@
         ]
     },
     {
-        "type"  : "item_group", "comment": "might split this into two categories; condiments and seasonings, and preserves",
+        "type"  : "item_group", "//": "might split this into two categories; condiments and seasonings, and preserves",
         "id"    : "groce_condiment",
         "items" : [
             ["mayonnaise", 40],
@@ -265,9 +265,7 @@
                 { "item": "groce_frozen",     "chance": 60, "x": [8,12],  "y": 21,      "repeat": [1,2] },
                 { "item": "groce_meat",       "chance": 60, "x": [13,17], "y": 21,      "repeat": [1,2] },
                 { "item": "groce_dairyegg",   "chance": 60, "x": [18,21], "y": 21,      "repeat": [1,2] }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]

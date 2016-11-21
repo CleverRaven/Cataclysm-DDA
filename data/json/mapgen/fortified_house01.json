@@ -5,7 +5,7 @@
             "house"
         ],
         "method": "json",
-        "weight": 50, "comment": "<--- fortified houses shouldnt be common",
+        "weight": 50, "//": "fortified houses shouldnt be common",
         "object": {
             "rows":
                   [
@@ -89,7 +89,6 @@
             "toilets": {
                 ";": { }
             },
-            "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },

@@ -119,9 +119,7 @@
                 { "item": "cleaning", "chance": 50, "x": 21,   "y": 18, "repeat": 2 },
                 { "item": "trash", "chance": 50, "x": 4,   "y": 9 },
                 { "item": "trash", "chance": 50, "x": 4,   "y": 11 }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]

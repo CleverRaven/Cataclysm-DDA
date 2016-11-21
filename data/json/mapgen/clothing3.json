@@ -93,9 +93,7 @@
                 { "item": "office", "chance": 50, "x": [4,5], "y": 15 },
                 { "item": "cleaning", "chance": 50, "x": 18, "y": 15 },
                 { "item": "trash", "chance": 75, "x": 16,   "y": 17 }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]

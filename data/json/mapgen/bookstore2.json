@@ -92,9 +92,7 @@
             "add": [
                 { "item": "coffeemaker", "x": 4, "y": 7, "amount": 1, "repeat": 1, "chance": 1 },
                 { "item": "coffeemaker", "x": 4, "y": 12, "amount": 1, "repeat": 1, "chance": 1 }
-            ],
-            "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v"
+            ]
+        }
     }
 ]
