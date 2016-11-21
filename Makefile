@@ -864,19 +864,24 @@ endif  # ifdef FRAMEWORK
 
 endif  # ifdef TILES
 
-appdistclean:
-	rm -f cataclysmdda*.tar.gz
-	rm -rf lang/mo
-
-appdist: appdistclean $(L10N) app
-	tar -czf cataclysmdda-$(VERSION).tar.gz $(APPTARGETDIR)
-
 dmgdistclean:
+	rm -rf Cataclysm
 	rm -f Cataclysm.dmg
 	rm -rf lang/mo
 
 dmgdist: dmgdistclean $(L10N) app
+ifdef OSXCROSS
+	mkdir Cataclysm
+	cp -a $(APPTARGETDIR) Cataclysm/$(APPTARGETDIR)
+	cp data/osx/DS_Store Cataclysm/.DS_Store
+	cp data/osx/dmgback.png Cataclysm/.background.png
+	ln -s /Applications Cataclysm/Applications
+	genisoimage -D -V "Cataclysm DDA" -no-pad -r -apple -o Cataclysm-uncompressed.dmg Cataclysm/
+	dmg dmg Cataclysm-uncompressed.dmg Cataclysm.dmg
+	rm Cataclysm-uncompressed.dmg
+else
 	dmgbuild -s data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
+endif
 
 endif  # ifeq ($(NATIVE), osx)
 
