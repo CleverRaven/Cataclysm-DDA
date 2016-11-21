@@ -31,9 +31,6 @@
         ".^....z........SSSSSSSS.",
         ".............z........^."
       ],
-      "place_vehicles": [
-        { "vehicle": "bandit_vehicles", "x": 19, "y": 19, "rotation": 90, "chance": 40 }
-      ],
       "terrain": {
         " ": "t_floor",
         "#": "t_wall_log",
@@ -110,6 +107,9 @@
       "place_npcs": [
         { "class": "bandit", "x": 5, "y": 16 },
         { "class": "bandit", "x": 8, "y": 18 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "bandit_vehicles", "x": 19, "y": 19, "chance": 40, "rotation": 90 }
       ]
     }
   }
