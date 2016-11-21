@@ -53,12 +53,13 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
 
 item_location game::get_item_from_inventory( player &p, const std::string &title )
 {
-    const std::string msg = &p == &u ? _( "Your inventory is empty." ) :
-                            string_format( _( "%s's inventory is empty." ), p.name.c_str() );
+    const std::string msg = p.is_npc() ? string_format( _( "%s's inventory is empty." ),
+                            p.name.c_str() ) :
+                            std::string( _( "Your inventory is empty." ) );
 
     return inv_internal( p,
     inventory_filter_preset( convert_filter( [ &p ]( const item & it ) {
-        return !p.is_worn( it ) && !( &p.weapon == &it );
+        return !p.is_worn( it ) && &p.weapon != &it;
     } ) ), title, -1, msg );
 }
 

@@ -1952,8 +1952,6 @@ void player::disarm( npc &target )
         return;
     }
 
-    item &it = target.weapon;
-
     static const matec_id no_technique_id( "" );
 
     ///\EFFECT_STR increases chance to disarm, primary stat
@@ -1978,6 +1976,7 @@ void player::disarm( npc &target )
         return;
     }
 
+    item &it = target.weapon;
     // hitspread >= 0, which means we are going to disarm by grabbing target by their weapon
     if( !is_armed() ) {
         ///\EFFECT_UNARMED increases chance to disarm, bonus when nothing wielded
@@ -1991,11 +1990,8 @@ void player::disarm( npc &target )
             wield( rem_it );
         } else if( my_roll >= their_roll / 2 ) {
             add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ), it.tname().c_str() );
-            tripoint tp = pos();
-            tp.x += rng( -1, 1 );
-            tp.y += rng( -1, 1 );
-            item rem_it = target.i_rem( &it );
-            g->m.add_item_or_charges( tp, rem_it );
+            const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+            g->m.add_item_or_charges( tp, target.i_rem( &it ) );
             mod_moves( -100 );
         } else {
             add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it.tname().c_str() );
@@ -2011,11 +2007,8 @@ void player::disarm( npc &target )
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ), target.name.c_str(),
                  it.tname().c_str() );
-        tripoint tp = target.pos();
-        tp.x += rng( -1, 1 );
-        tp.y += rng( -1, 1 );
-        item rem_it = target.i_rem( &it );
-        g->m.add_item_or_charges( tp, rem_it );
+        const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+        g->m.add_item_or_charges( tp, target.i_rem( &it ) );
     } else {
         add_msg( _( "You smash %s with all your might but %s remains in their hands!" ), target.name.c_str(),
                  it.tname().c_str() );
@@ -2030,8 +2023,7 @@ void player::steal( npc &target )
     }
 
     item_location loc = g->get_item_from_inventory( target, _( "Steal item" ) );
-    const item *it = loc.get_item();
-    if( !it ) {
+    if( !loc ) {
         return;
     }
 
@@ -2051,10 +2043,10 @@ void player::steal( npc &target )
 
     int their_roll = dice( 5, target.get_per() );
 
+    const item *it = loc.get_item();
     if( my_roll >= their_roll ) {
         add_msg( _( "You sneakely steal %s from %s!" ), it->tname().c_str(), target.name.c_str() );
-        item rem_it = target.i_rem( it );
-        i_add( rem_it );
+        i_add( target.i_rem( it ) );
     } else if( my_roll >= their_roll / 2 ) {
         add_msg( _( "You failed to steal %s from %s, but did not attract attention." ), it->tname().c_str(),
                  target.name.c_str() );

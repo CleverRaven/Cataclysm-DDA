@@ -7908,8 +7908,7 @@ bool game::npc_menu( npc &who )
     amenu.addentry( sort_armor, true, 'r', _("Sort armor") );
     amenu.addentry( attack, true, 'a', _("Attack") );
     if( !who.is_friend() ) {
-        const bool armed = who.is_armed();
-        amenu.addentry( disarm, armed, 'd', _("Disarm") );
+        amenu.addentry( disarm, who.is_armed(), 'd', _("Disarm") );
         amenu.addentry( steal, true, 'S', _("Steal") );
     }
 
@@ -7986,12 +7985,10 @@ bool game::npc_menu( npc &who )
             who.make_angry();
         }
     } else if( choice == disarm ) {
-        if( !who.is_enemy()) {
-            if( !query_yn( _("You may be attacked! Proceed?") ) ) {
-                return true;
-            }
+        if( !who.is_enemy() && query_yn( _( "You may be attacked! Proceed?" ) ) )
+        {
+            u.disarm( who );
         }
-        u.disarm( who );
     } else if( choice == steal ) {
         u.steal( who );
     }
