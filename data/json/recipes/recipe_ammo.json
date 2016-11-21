@@ -1621,6 +1621,26 @@
   ]
 },{
   "type" : "recipe",
+  "result": "scarhmag",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 5 ],
+  "difficulty": 4,
+  "time": 20000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"HAMMER_FINE","level":1},
+    {"id":"DRILL","level":3}
+  ],
+  "components": [
+    [
+      [ "falmag", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "reloaded_223",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_RIFLE",
