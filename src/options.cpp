@@ -1328,6 +1328,11 @@ void options_manager::init()
         0.0, 100, 4.0, 0.01
         );
 
+    add("MONSTER_SPEED", "world_default", _("Monster default speed"),
+        _("A scaling factor that determines the movement rate of monsters. A higher value increases monster speed and a lower reduces it."),
+        1, 1000, 100
+        );
+
     mOptionsSort["world_default"]++;
 
     std::string region_ids("default");

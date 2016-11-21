@@ -17,6 +17,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "material.h"
+#include "options.h"
 
 #include <algorithm>
 
@@ -125,6 +126,9 @@ void MonsterGenerator::finalize_mtypes()
         if( mon.armor_fire < 0 ) {
             mon.armor_fire = 0;
         }
+
+        // adjust for monster speed scaling as set on world creation
+        mon.speed *= get_world_option<int>( "MONSTER_SPEED" ) / 100.0;
 
         finalize_pathfinding_settings( mon );
     }
