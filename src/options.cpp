@@ -1333,6 +1333,11 @@ void options_manager::init()
         1, 1000, 100
         );
 
+    add("MONSTER_RESILIENCE", "world_default", _("Monster resilience scaling factor"),
+        _("A scaling factor that determines how much damage monsters can take. A higher value makes monsters more resilient and a lower makes them more flimsy."),
+        1, 1000, 100
+        );
+
     mOptionsSort["world_default"]++;
 
     std::string region_ids("default");

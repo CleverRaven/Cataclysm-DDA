@@ -127,8 +127,9 @@ void MonsterGenerator::finalize_mtypes()
             mon.armor_fire = 0;
         }
 
-        // adjust for monster speed scaling as set on world creation
-        mon.speed *= get_world_option<int>( "MONSTER_SPEED" ) / 100.0;
+        // adjust for worldgen difficulty parameters
+        mon.speed *= get_world_option<int>( "MONSTER_SPEED" )      / 100.0;
+        mon.hp    *= get_world_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
 
         finalize_pathfinding_settings( mon );
     }
