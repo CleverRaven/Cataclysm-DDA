@@ -89,7 +89,6 @@
 #include "scent_map.h"
 #include "safemode_ui.h"
 #include "game_constants.h"
-#include "dialogue.h"
 
 #include <map>
 #include <set>
@@ -7902,15 +7901,17 @@ bool game::npc_menu( npc &who )
     amenu.addentry( cancel, true, 'q', _("Cancel") );
 
     const bool obeys = debug_mode || (who.is_friend() && !who.in_sleep_state());
-    const bool armed = who.is_armed();
     amenu.addentry( swap_pos, obeys, 's', _("Swap positions") );
     amenu.addentry( push, obeys, 'p', _("Push away") );
     amenu.addentry( examine_wounds, true, 'w', _("Examine wounds") );
     amenu.addentry( use_item, true, 'i', _("Use item on") );
     amenu.addentry( sort_armor, true, 'r', _("Sort armor") );
     amenu.addentry( attack, true, 'a', _("Attack") );
-    amenu.addentry( disarm, armed, 'd', _("Disarm") );
-    amenu.addentry( steal, true, 'S', _("Steal") );
+    if( !who.is_friend() ) {
+        const bool armed = who.is_armed();
+        amenu.addentry( disarm, armed, 'd', _("Disarm") );
+        amenu.addentry( steal, true, 'S', _("Steal") );
+    }
 
     amenu.query();
 

@@ -2010,6 +2010,7 @@ void player::disarm( npc &target )
 
     // deal damage with weapon wielded, and make their weapon fall on floor if we've rolled enough.
     melee_attack( target, false, no_technique_id, hitspread );
+    mod_moves( -100 );
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ), target_name,
                  item_name );
