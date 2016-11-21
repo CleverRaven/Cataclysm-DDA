@@ -1954,9 +1954,6 @@ void player::disarm( npc &target )
 
     item &it = target.weapon;
 
-    const char *target_name = target.name.c_str();
-    const char *item_name = it.tname().c_str();
-
     static const matec_id no_technique_id( "" );
 
     ///\EFFECT_STR increases chance to disarm, primary stat
@@ -1987,13 +1984,13 @@ void player::disarm( npc &target )
         my_roll += dice( 3, get_skill_level( skill_unarmed ) );
 
         if( my_roll >= their_roll ) {
-            add_msg( _( "You grab at %s and pull with all your force!" ), item_name );
-            add_msg( _( "You forcefully take %s from %s!" ), item_name, target_name );
+            add_msg( _( "You grab at %s and pull with all your force!" ), it.tname().c_str() );
+            add_msg( _( "You forcefully take %s from %s!" ), it.tname().c_str(), target.name.c_str() );
             // wield() will deduce our moves, consider to deduce more/less moves for balance
             item rem_it = target.i_rem( &it );
             wield( rem_it );
         } else if( my_roll >= their_roll / 2 ) {
-            add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ), item_name );
+            add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ), it.tname().c_str() );
             tripoint tp = pos();
             tp.x += rng( -1, 1 );
             tp.y += rng( -1, 1 );
@@ -2001,7 +1998,7 @@ void player::disarm( npc &target )
             g->m.add_item_or_charges( tp, rem_it );
             mod_moves( -100 );
         } else {
-            add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), item_name );
+            add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it.tname().c_str() );
             mod_moves( -100 );
         }
 
@@ -2012,24 +2009,23 @@ void player::disarm( npc &target )
     melee_attack( target, false, no_technique_id, hitspread );
     mod_moves( -100 );
     if( my_roll >= their_roll ) {
-        add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ), target_name,
-                 item_name );
+        add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ), target.name.c_str(),
+                 it.tname().c_str() );
         tripoint tp = target.pos();
         tp.x += rng( -1, 1 );
         tp.y += rng( -1, 1 );
         item rem_it = target.i_rem( &it );
         g->m.add_item_or_charges( tp, rem_it );
     } else {
-        add_msg( _( "You smash %s with all your might but %s remains in their hands!" ), target_name,
-                 item_name );
+        add_msg( _( "You smash %s with all your might but %s remains in their hands!" ), target.name.c_str(),
+                 it.tname().c_str() );
     }
 }
 
 void player::steal( npc &target )
 {
-    const char *target_name = target.name.c_str();
     if( target.is_enemy() ) {
-        add_msg( _( "%s is hostile!" ), target_name );
+        add_msg( _( "%s is hostile!" ), target.name.c_str() );
         return;
     }
 
@@ -2038,7 +2034,6 @@ void player::steal( npc &target )
     if( !it ) {
         return;
     }
-    const char *item_name = it->tname().c_str();
 
     ///\EFFECT_DEX defines the chance to steal
     int my_roll = dice( 3, get_dex() );
@@ -2057,14 +2052,14 @@ void player::steal( npc &target )
     int their_roll = dice( 5, target.get_per() );
 
     if( my_roll >= their_roll ) {
-        add_msg( _( "You sneakely steal %s from %s!" ), item_name, target_name );
+        add_msg( _( "You sneakely steal %s from %s!" ), it->tname().c_str(), target.name.c_str() );
         item rem_it = target.i_rem( it );
         wield( rem_it );
     } else if( my_roll >= their_roll / 2 ) {
-        add_msg( _( "You failed to steal %s from %s, but did not attract attention." ), item_name,
-                 target_name );
+        add_msg( _( "You failed to steal %s from %s, but did not attract attention." ), it->tname().c_str(),
+                 target.name.c_str() );
     } else  {
-        add_msg( _( "You failed to steal %s from %s" ), item_name, target_name );
+        add_msg( _( "You failed to steal %s from %s" ), it->tname().c_str(), target.name.c_str() );
         target.make_angry();
     }
 
