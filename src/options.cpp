@@ -1325,13 +1325,15 @@ void options_manager::init()
         0.0, 100, 4.0, 0.01
         );
 
-    add("MONSTER_SPEED", "world_default", _("Monster default speed"),
-        _("A scaling factor that determines the movement rate of monsters. A higher value increases monster speed and a lower reduces it."),
+    mOptionsSort["world_default"]++;
+
+    add("MONSTER_SPEED", "world_default", _("Monster speed"),
+        _("Determines the movement rate of monsters. A higher value increases monster speed and a lower reduces it."),
         1, 1000, 100, COPT_NO_HIDE, "%i%%"
         );
 
-    add("MONSTER_RESILIENCE", "world_default", _("Monster resilience scaling factor"),
-        _("A scaling factor that determines how much damage monsters can take. A higher value makes monsters more resilient and a lower makes them more flimsy."),
+    add("MONSTER_RESILIENCE", "world_default", _("Monster resilience"),
+        _("Determines how much damage monsters can take. A higher value makes monsters more resilient and a lower makes them more flimsy."),
         1, 1000, 100, COPT_NO_HIDE, "%i%%"
         );
 
