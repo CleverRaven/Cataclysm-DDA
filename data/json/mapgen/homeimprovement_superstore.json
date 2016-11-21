@@ -445,6 +445,9 @@
         "|$...........C.....&---|",
         "|CTC...................|"
       ],
+      "place_vehicles": [
+        { "vehicle": "warehouse_vehicles", "x": 5, "y": 17, "chance": 40  }
+      ],
       "terrain": {
         "$": "t_floor",
         "&": "t_floor",
