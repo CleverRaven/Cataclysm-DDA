@@ -155,10 +155,33 @@ item *game::inv_map_for_liquid( const item &liquid, const std::string &title, in
                                         liquid.tname().c_str() ) ).get_item();
 }
 
-class activatable_inventory_preset : public inventory_selector_preset
+class pickup_inventory_preset : public inventory_selector_preset
 {
     public:
-        activatable_inventory_preset( const player &p ) : p( p ) {
+        pickup_inventory_preset( const player &p ) : p( p ) {}
+
+        std::string get_denial( const item_location &loc ) const override {
+            if( !p.has_item( *loc ) ) {
+                if( loc->made_of( LIQUID ) ) {
+                    return _( "Can't pick up liquids" );
+                } else if( !p.can_pickVolume( *loc ) ) {
+                    return _( "Too big to pick up" );
+                } else if( !p.can_pickWeight( *loc ) ) {
+                    return _( "Too heavy to pick up" );
+                }
+            }
+
+            return std::string();
+        }
+
+    private:
+        const player &p;
+};
+
+class activatable_inventory_preset : public pickup_inventory_preset
+{
+    public:
+        activatable_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
             if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
                 append_cell( [ this ]( const item_location & loc ) {
                     return string_format( "<color_ltgreen>%s</color>", get_action_name( loc ).c_str() );
@@ -178,17 +201,7 @@ class activatable_inventory_preset : public inventory_selector_preset
                            loc->ammo_required() );
             }
 
-            if( !p.has_item( *loc ) ) {
-                if( loc->made_of( LIQUID ) ) {
-                    return _( "Can't pick up liquids" );
-                } else if( !p.can_pickVolume( *loc ) ) {
-                    return _( "Too big to pick up" );
-                } else if( !p.can_pickWeight( *loc ) ) {
-                    return _( "Too heavy to pick up" );
-                }
-            }
-
-            return std::string();
+            return pickup_inventory_preset::get_denial( loc );
         }
 
     protected:
@@ -293,10 +306,10 @@ item_location game::inv_for_gunmod( const item &gunmod, const std::string &title
                          title, -1, _( "You don't have any guns to modify." ) );
 }
 
-class read_inventory_preset: public inventory_selector_preset
+class read_inventory_preset: public pickup_inventory_preset
 {
     public:
-        read_inventory_preset( const player &p ) : p( p ) {
+        read_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
             static const std::string unknown( _( "<color_dkgray>?</color>" ) );
             static const std::string martial_arts( _( "martial arts" ) );
 
@@ -369,7 +382,7 @@ class read_inventory_preset: public inventory_selector_preset
             if( p.get_book_reader( *loc, denials ) == nullptr && !denials.empty() ) {
                 return denials.front();
             }
-            return std::string();
+            return pickup_inventory_preset::get_denial( loc );
         }
 
     private:
