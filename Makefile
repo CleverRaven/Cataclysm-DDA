@@ -776,7 +776,7 @@ appclean:
 data/osx/AppIcon.icns: data/osx/AppIcon.iconset
 	iconutil -c icns $<
 
-app: appclean version data/osx/AppIcon.icns $(APPTARGET)
+app: appclean version data/osx/AppIcon.icns $(L10N) $(APPTARGET)
 	mkdir -p $(APPTARGETDIR)/Contents
 	cp data/osx/Info.plist $(APPTARGETDIR)/Contents/
 	mkdir -p $(APPTARGETDIR)/Contents/MacOS
@@ -798,7 +798,7 @@ app: appclean version data/osx/AppIcon.icns $(APPTARGET)
 	# bundle libc++ to fix bad buggy version on osx 10.7
 	LIBCPP=$$(otool -L $(APPTARGET) | grep libc++ | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBCPP $(APPRESOURCESDIR)/ && cp $$(otool -L $$LIBCPP | grep libc++abi | sed -n 's/\(.*\.dylib\).*/\1/p') $(APPRESOURCESDIR)/
 ifdef LANGUAGES
-	LOCALE_DIR=$(APPRESOURCESDIR)/lang/mo lang/compile_mo.sh
+	ditto lang/mo $(APPRESOURCESDIR)/lang/mo
 endif
 ifeq ($(LOCALIZE), 1)
 	LIBINTL=$$(otool -L $(APPTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBINTL $(APPRESOURCESDIR)/
@@ -834,7 +834,7 @@ dmgdistclean:
 	rm -f Cataclysm.dmg
 	rm -rf lang/mo
 
-dmgdist: dmgdistclean $(L10N) app
+dmgdist: dmgdistclean app
 	dmgbuild -s data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 
 endif  # ifeq ($(NATIVE), osx)
