@@ -2054,7 +2054,7 @@ void player::steal( npc &target )
     if( my_roll >= their_roll ) {
         add_msg( _( "You sneakely steal %s from %s!" ), it->tname().c_str(), target.name.c_str() );
         item rem_it = target.i_rem( it );
-        wield( rem_it );
+        i_add( rem_it );
     } else if( my_roll >= their_roll / 2 ) {
         add_msg( _( "You failed to steal %s from %s, but did not attract attention." ), it->tname().c_str(),
                  target.name.c_str() );
