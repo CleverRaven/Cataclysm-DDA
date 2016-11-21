@@ -188,8 +188,12 @@ Run:
 ## Cross-compile to Mac OS X from Linux
 
 The procedure is very much similar to cross-compilation to Windows from Linux.
-It depends on [osxcross](https://github.com/tpoechtrager/osxcross)'s compiler toolchain.
 Tested on ubuntu 14.04 LTS but should work on other distros as well.
+
+### Dependencies
+OSX cross-compiling toolchain [osxcross](https://github.com/tpoechtrager/osxcross)
+`genisoimage` and [libdmg-hfsplus](https://github.com/planetbeing/libdmg-hfsplus.git) to create dmg distributions
+Make sure that all dependency tools are in search `PATH` before compiling.
 
 ### Setup
 
@@ -228,7 +232,7 @@ Frameworks were obtained from SDL official website as described in the next [sec
 
 To build full feature tiles and sound enabled version with localizations and lua enabled:
     
-    make appdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1 
+    make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1 
       RELEASE=1 LOCALIZE=1 LANGUAGES=all LUA=1 TILES=1 SOUND=1 FRAMEWORK=1 
       OSXCROSS=1 LIBS_DIR=../libs FRAMEWORKSDIR=../Frameworks
 
@@ -238,7 +242,7 @@ Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable
 
 To build full curses version with localizations and lua enabled:
 
-    make appdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1 
+    make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1 
       RELEASE=1 LOCALIZE=1 LANGUAGES=all LUA=1 OSXCROSS=1 LIBS_DIR=../libs FRAMEWORKSDIR=../Frameworks
 
 Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable.
