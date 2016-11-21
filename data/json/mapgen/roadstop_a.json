@@ -49,8 +49,8 @@
                 "S": "t_sidewalk",
                 "o": "t_dirt"
             },
-            "signage": {
-                "i": "This was once a infromation map for the <city> area, but it has long since been eroded beyond usefullness.  There are small holders for tourist maps attached."
+            "signs": {
+                "i": { "signage": "This was once a infromation map for the <city> area, but it has long since been eroded beyond usefullness.  There are small holders for tourist maps attached." }
             },
             "furniture": {
                 "6": "f_table",

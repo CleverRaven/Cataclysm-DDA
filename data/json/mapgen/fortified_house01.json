@@ -110,7 +110,7 @@
                 { "group": "cleaning", "chance": 70, "x": [ 16,20 ], "y": [ 2,6 ] },
                 { "group": "softdrugs", "chance": 50, "x": [ 16,20 ], "y": [ 2,6 ] },
                 { "group": "kitchen", "chance": 70, "x": [ 15,21 ], "y": [ 9,11 ] },
-                { "group": "fridge", "chance": 70, "x": [ 21,21 ], "y": [ 11,11 ], "reepat": [1, 2] },
+                { "group": "fridge", "chance": 70, "x": [ 21,21 ], "y": [ 11,11 ], "repeat": [1, 2] },
                 { "group": "oven", "chance": 70, "x": [ 21,21 ], "y": [ 10,10 ] },
                 { "group": "kitchen", "chance": 70, "x": [ 21,21 ], "y": [ 9,9 ] },
                 { "group": "survivor_weapons", "chance": 50, "x": [ 21,21 ], "y": [ 13,15 ], "magazine": 100, "ammo": 50 }

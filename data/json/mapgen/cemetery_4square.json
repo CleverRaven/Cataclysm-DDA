@@ -285,9 +285,9 @@
                 "P": "f_sign",
                 "p": "f_sign"
             },
-            "signage": {
-                "P": "Closed at sunset.",
-                "p": "Maintained by the the <city> church."
+            "signs": {
+                "P": { "signage": "Closed at sunset." },
+                "p": { "signage": "Maintained by the the <city> church." }
             },
         "place_items": [
                 { "item": "trash", "chance": 20, "x": [ 2, 21 ], "y": [ 7, 14 ], "repeat": [ 1, 2 ] }
