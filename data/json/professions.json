@@ -5194,7 +5194,6 @@
         "name": "Tourist",
         "description": "You came here to see beautiful New England; now you hope New England won't see you!",
         "points": 4,
-        "skills": [
         "items": {
             "both": [
                 "tricorne",
