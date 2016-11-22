@@ -5195,15 +5195,6 @@
         "description": "You came here to see beautiful New England; now you hope New England won't see you!",
         "points": 4,
         "skills": [
-            {
-                "level": 2,
-                "name": "speech"
-            },
-            {
-                "level": 1,
-                "name": "barter"
-            }
-        ],
         "items": {
             "both": [
                 "tricorne",
