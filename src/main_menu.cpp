@@ -956,7 +956,7 @@ bool main_menu::load_character_tab()
 
             if( MAP_SHARING::isSharing() ) {
                 auto new_end = std::remove_if( savegames.begin(), savegames.end(),
-                                               []( const std::string &str ) {
+                []( const std::string & str ) {
                     return base64_decode( str ) != MAP_SHARING::getUsername();
                 } );
                 savegames.erase( new_end, savegames.end() );
