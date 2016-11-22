@@ -2145,9 +2145,9 @@ input_context get_default_mode_input_context()
     ctxt.register_action("whitelist_enemy");
     ctxt.register_action("save");
     ctxt.register_action("quicksave");
-#ifndef RELEASE
-    ctxt.register_action("quickload");
-#endif
+    if( debug_mode ) {
+        ctxt.register_action("quickload");
+    }
     ctxt.register_action("quit");
     ctxt.register_action("player_data");
     ctxt.register_action("map");
@@ -2178,6 +2178,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("MOUSE_MOVE");
     ctxt.register_action("SELECT");
     ctxt.register_action("SEC_SELECT");
+    ctxt.register_custom();
     return ctxt;
 }
 
@@ -2464,6 +2465,22 @@ void game::setremoteveh(vehicle *veh)
     u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
 }
 
+bool lua_handle_action( std::string &action )
+{
+#ifndef LUA
+    (void)action;
+    return false;
+#else
+    const std::string &new_action = lua_callback_string( action.c_str() );
+    if( new_action.empty() ) {
+        return false;
+    }
+
+    action = new_action;
+    return true;
+#endif
+}
+
 bool game::handle_action()
 {
     std::string action;
@@ -2480,6 +2497,10 @@ bool game::handle_action()
     } else {
         // No auto-move, ask player for input
         ctxt = get_player_input(action);
+    }
+
+    if( lua_handle_action( action ) ) {
+        return true;
     }
 
     int veh_part;

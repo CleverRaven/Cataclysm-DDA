@@ -1,0 +1,8 @@
+    {
+        "type": "MOD_INFO",
+        "mod-type": "SUPPLEMENTAL",
+        "ident": "psiblast_lua",
+        "name": "Psiblast Lua",
+        "description": "Psiblast action implemented in lua.",
+        "path": ""
+    }

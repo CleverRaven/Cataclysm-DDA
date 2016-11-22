@@ -822,6 +822,18 @@ void lua_callback(const char *callback_name)
     call_lua(std::string("mod_callback(\"") + std::string(callback_name) + "\")");
 }
 
+std::string lua_callback_string(const char *callback_name)
+{
+    lua_State *L = lua_state;
+    const std::string tocall = std::string("mod_callback(\"") + std::string(callback_name) + "\")";
+
+    update_globals(L);
+    int err = luaL_dostring(L, tocall.c_str());
+    lua_report_error(L, err, tocall.c_str(), true);
+    const char *ret = lua_tostring( L, -1 );
+    return ret != nullptr ? std::string( ret ) : std::string();
+}
+
 //
 int lua_mapgen(map *m, const oter_id &terrain_type, const mapgendata &, int t, float, const std::string &scr)
 {

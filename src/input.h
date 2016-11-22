@@ -14,6 +14,8 @@
 
 #define KEY_ESCAPE 27
 
+class JsonObject;
+
 bool is_mouse_enabled();
 std::string get_input_string_from_file( std::string fname = "input.txt" );
 
@@ -104,8 +106,13 @@ struct input_event {
  * A set of attributes for an action
  */
 struct action_attributes {
-    action_attributes() : is_user_created( false ) {}
-    bool is_user_created;
+    action_attributes() {}
+    bool is_user_created = false;
+    /**
+     * True if @ref input_context::register_custom()
+     * should register this action for matching context.
+     */
+    bool is_custom = false;
     std::string name;
     std::vector<input_event> input_events;
 };
@@ -206,6 +213,11 @@ class input_manager
          */
         void set_timeout( int delay );
 
+        /**
+         * Loads a single keybinding from an object.
+         */
+        void load( JsonObject &action, const std::string &src, bool is_user_preferences );
+
     private:
         friend class input_context;
 
@@ -299,6 +311,11 @@ class input_context
         // outside that window can be ignored
         input_context( std::string category ) : registered_any_input( false ),
             category( category ), handling_coordinate_input( false ) {};
+
+        /**
+         * Registers all the actions for which is_custom is true.
+         */
+        void register_custom();
 
         /**
          * Register an action with this input context.

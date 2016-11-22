@@ -34,6 +34,12 @@ int lua_mapgen( map *m, const oter_id &terrain_type, const mapgendata &md, int t
 void lua_callback( const char *callback_name );
 
 /**
+ * Execute a callback and then try to get a returned string.
+ * Will silently return empty string if it fails.
+ */
+std::string lua_callback_string( const char *callback_name );
+
+/**
  * Load the main file of a lua mod.
  *
  * @param base_path The base path of the mod.
