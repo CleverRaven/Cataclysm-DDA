@@ -2241,29 +2241,30 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     if( inp_ctxt != nullptr ) {
         int y = 16;
 
-        const auto print_hint = [&]( const std::string &action, const std::string &name, nc_color color = c_magenta ) {
+        const auto print_hint = [&]( const std::string &action, nc_color color = c_magenta ) {
             y += fold_and_print( wbar, y, 1, 27, color, string_format( _( "%s - %s" ),
-                                 inp_ctxt->get_desc( action ).c_str(), name.c_str() ).c_str() );
+                                 inp_ctxt->get_desc( action ).c_str(),
+                                 inp_ctxt->get_action_name( action ).c_str() ) );
         };
 
         if( data.debug_editor ) {
-            print_hint( "PLACE_TERRAIN", _( "Place Overmap Terrain" ), c_ltblue );
-            print_hint( "PLACE_SPECIAL", _( "Place Overmap Special" ), c_ltblue );
+            print_hint( "PLACE_TERRAIN", c_ltblue );
+            print_hint( "PLACE_SPECIAL", c_ltblue );
             ++y;
         }
 
-        print_hint( "LEVEL_UP",          _( "One level up" ) );
-        print_hint( "LEVEL_DOWN",        _( "One level down" ) );
-        print_hint( "CENTER",            _( "Center map on character" ) );
-        print_hint( "SEARCH",            _( "Search" ) );
-        print_hint( "CREATE_NOTE",       _( "Add/Edit a note" ) );
-        print_hint( "DELETE_NOTE",       _( "Delete a note" ) );
-        print_hint( "LIST_NOTES",        _( "List notes" ) );
-        print_hint( "TOGGLE_BLINKING",   _( "Toggle Blinking" ) );
-        print_hint( "TOGGLE_OVERLAYS",   _( "Toggle Overlays" ) );
-        print_hint( "TOGGLE_EXPLORED",   _( "Toggle Explored" ) );
-        print_hint( "HELP_KEYBINDINGS",  _( "Change keys" ) );
-        print_hint( "QUIT",              _( "Return to game" ) );
+        print_hint( "LEVEL_UP" );
+        print_hint( "LEVEL_DOWN" );
+        print_hint( "CENTER" );
+        print_hint( "SEARCH" );
+        print_hint( "CREATE_NOTE" );
+        print_hint( "DELETE_NOTE" );
+        print_hint( "LIST_NOTES" );
+        print_hint( "TOGGLE_BLINKING" );
+        print_hint( "TOGGLE_OVERLAYS" );
+        print_hint( "TOGGLE_EXPLORED" );
+        print_hint( "HELP_KEYBINDINGS" );
+        print_hint( "QUIT" );
     }
     point omt(cursx, cursy);
     const point om = omt_to_om_remain(omt);
