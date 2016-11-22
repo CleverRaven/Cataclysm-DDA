@@ -5183,56 +5183,6 @@
     "color": "dark_gray"
   },
   {
-    "id": "pda",
-    "type": "TOOL",
-    "name": "PDA",
-    "description": "This is a small, multipurpose electronic device.  It can be loaded with a variety of apps, providing all kinds of functionality.",
-    "weight": 141,
-    "volume": 1,
-    "price": 3500,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ",",
-    "color": "blue",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "charges_per_use": 1,
-    "use_action": {
-      "target": "pda_flashlight",
-      "msg": "You activate the flashlight app.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The PDA's batteries are dead.",
-      "type": "transform"
-    },
-    "flags": [ "WATCH", "ALARMCLOCK" ]
-  },
-  {
-    "id": "pda_flashlight",
-    "type": "TOOL",
-    "name": "PDA - Flashlight",
-    "name_plural": "PDAs - Flashlight",
-    "description": "This is a small, multipurpose electronic device.  This PDA has its flashlight app on, and is providing light.",
-    "weight": 141,
-    "volume": 1,
-    "price": 3500,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ",",
-    "color": "blue",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "charges_per_use": 1,
-    "turns_per_charge": 30,
-    "revert_to": "pda",
-    "use_action": {
-      "target": "pda",
-      "msg": "The PDA screen goes blank.",
-      "type": "transform"
-    },
-    "flags": [ "LIGHT_10", "TRADER_AVOID" ]
-  },
-  {
     "id": "permanent_marker",
     "type": "TOOL",
     "name": "permanent marker",
