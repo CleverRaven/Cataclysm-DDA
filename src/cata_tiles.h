@@ -361,6 +361,14 @@ struct minimap_submap_cache {
 
 using minimap_cache_ptr = std::unique_ptr< minimap_submap_cache >;
 
+/// Set of sprites for a given tile ID
+struct tilesprite {
+    Atlas::sprite normal;
+    Atlas::sprite shadow;
+    Atlas::sprite nightvision;
+    Atlas::sprite overexposed;
+};
+
 class cata_tiles
 {
     public:
@@ -598,7 +606,8 @@ class cata_tiles
 
         /** Variables */
         GPU_Target *renderer;
-        std::vector<GPU_Image_Ptr> tile_values;
+        Atlas atlas;
+        std::vector<tilesprite> tile_sprites;
         std::unordered_map<std::string, tile_type> tile_ids;
 
         int tile_height = 0, tile_width = 0, default_tile_width, default_tile_height;
@@ -651,9 +660,6 @@ class cata_tiles
     private:
         void create_default_item_highlight();
         int last_pos_x, last_pos_y;
-        std::vector<GPU_Image_Ptr> shadow_tile_values;
-        std::vector<GPU_Image_Ptr> night_tile_values;
-        std::vector<GPU_Image_Ptr> overexposed_tile_values;
         /**
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.
