@@ -236,7 +236,6 @@
       [ "manual_electronics", 20 ],
       [ "cable", 60 ],
       [ "cell_phone", 70 ],
-      [ "pda", 50 ],
       [ "wristwatch", 60 ],
       [ "mobile_memory_card_used", 10 ]
     ]

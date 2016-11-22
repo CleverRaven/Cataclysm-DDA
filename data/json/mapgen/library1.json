@@ -14,7 +14,6 @@
       [ "screwdriver", 40 ],
       [ "battery", 50 ],
       [ "manual_electronics", 20 ],
-      [ "pda", 10 ],
       [ "mobile_memory_card", 20 ],
       [ "usb_drive", 5 ],
       [ "software_useless", 10 ],
