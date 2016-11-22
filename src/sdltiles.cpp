@@ -143,10 +143,10 @@ public:
     void load_font(std::string typeface, int fontsize);
     virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
 protected:
-    SDL_Texture *create_glyph(const std::string &ch, int color);
+    GPU_Image *create_glyph(const std::string &ch, int color);
 
     TTF_Font* font;
-    // Maps (character code, color) to SDL_Texture*
+    // Maps (character code, color) to GPU_Image*
 
     struct key_t {
         std::string   codepoints;
@@ -159,7 +159,7 @@ protected:
     };
 
     struct cached_t {
-        SDL_Texture* texture;
+        GPU_Image*   texture;
         int          width;
     };
 
@@ -181,7 +181,7 @@ public:
     void OutputChar(long t, int x, int y, unsigned char color);
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
 protected:
-    SDL_Texture *ascii[16];
+    GPU_Image *ascii[16];
     int tilewidth;
 };
 
@@ -193,9 +193,10 @@ std::array<std::string, 16> main_color_names{ { "BLACK","RED","GREEN","BROWN","B
 "CYAN","GRAY","DGRAY","LRED","LGREEN","YELLOW","LBLUE","LMAGENTA","LCYAN","WHITE" } };
 static std::array<SDL_Color, 256> windowsPalette;
 static SDL_Window *window = NULL;
-static SDL_Renderer* renderer = NULL;
+static GPU_Target* back_buffer = NULL;
+static GPU_Image* render_buffer = NULL;
+static GPU_Target* renderer = NULL;
 static SDL_PixelFormat *format;
-static SDL_Texture *display_buffer;
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 // input from various input sources. Each input source sets the type and
@@ -245,7 +246,7 @@ void init_interface()
 
 void ClearScreen()
 {
-    SDL_RenderClear(renderer);
+    GPU_Clear( renderer );
 }
 
 bool InitSDL()
@@ -284,23 +285,11 @@ bool InitSDL()
     return true;
 }
 
-bool SetupRenderTarget()
+static void report_gpu_errors( DebugLevel level = D_ERROR )
 {
-    if( SDL_SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE ) != 0 ) {
-        dbg( D_ERROR ) << "SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE) failed: " << SDL_GetError();
-        // Ignored for now, rendering could still work
+    for( GPU_ErrorObject err = GPU_PopErrorCode(); err.error != GPU_ERROR_NONE; err = GPU_PopErrorCode() ) {
+        dbg( level ) << err.function << ": " << GPU_GetErrorString(err.error) << ": " << err.details;
     }
-    display_buffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight);
-    if( display_buffer == nullptr ) {
-        dbg( D_ERROR ) << "Failed to create window buffer: " << SDL_GetError();
-        return false;
-    }
-    if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
-        dbg( D_ERROR ) << "Failed to select render target: " << SDL_GetError();
-        return false;
-    }
-
-    return true;
 }
 
 //Registers, creates, and shows the Window!!
@@ -309,7 +298,7 @@ bool WinCreate()
     std::string version = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
 
     // Common flags used for fulscreen and for windowed
-    int window_flags = 0;
+    int window_flags = SDL_WINDOW_OPENGL;
     WindowWidth = TERMINAL_WIDTH * fontwidth;
     WindowHeight = TERMINAL_HEIGHT * fontheight;
 
@@ -367,37 +356,33 @@ bool WinCreate()
         return false;
     }
 
-    bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
-    if( !software_renderer ) {
-        dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
-
-        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED |
-                                       SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE );
-        if( renderer == NULL ) {
-            dbg( D_ERROR ) << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError();
-            software_renderer = true;
-        } else if( !SetupRenderTarget() ) {
-            dbg( D_ERROR ) << "Failed to initialize display buffer under accelerated rendering, falling back to software rendering.";
-            software_renderer = true;
-            if (display_buffer != NULL) {
-                SDL_DestroyTexture(display_buffer);
-                display_buffer = NULL;
-            }
-            if( renderer != NULL ) {
-                SDL_DestroyRenderer( renderer );
-                renderer = NULL;
-            }
-        }
+    GPU_SetInitWindow( SDL_GetWindowID( window ) );
+    GPU_SetRequiredFeatures( GPU_FEATURE_RENDER_TARGETS );
+    back_buffer = GPU_Init( WindowWidth, WindowHeight, window_flags );
+    if( !back_buffer ) {
+        dbg( D_ERROR ) << "Failed to initialize renderer";
+        report_gpu_errors();
+        return false;
     }
-    if( software_renderer ) {
-        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE );
-        if( renderer == NULL ) {
-            dbg( D_ERROR ) << "Failed to initialize software renderer: " << SDL_GetError();
-            return false;
-        } else if( !SetupRenderTarget() ) {
-            dbg( D_ERROR ) << "Failed to initialize display buffer under software rendering, unable to continue.";
-            return false;
+
+    // GPU_Init tends to generate some "expected" errors,
+    // log them at a lower severity
+    report_gpu_errors( D_INFO );
+
+    GPU_SetDefaultAnchor( 0.0, 0.0 );
+
+    render_buffer = GPU_CreateImage( back_buffer->w, back_buffer->h, GPU_FORMAT_RGB );
+    renderer = GPU_LoadTarget( render_buffer );
+    if( !render_buffer || !renderer ) {
+        dbg( D_ERROR ) << "Failed to initialize render buffer";
+        report_gpu_errors();
+        if( render_buffer ) {
+            GPU_FreeImage( render_buffer );
+            render_buffer = nullptr;
         }
+        GPU_Quit();
+        back_buffer = nullptr;
+        return false;
     }
 
     ClearScreen();
@@ -473,13 +458,17 @@ void WinDestroy()
     if(format)
         SDL_FreeFormat(format);
     format = NULL;
-    if (display_buffer != NULL) {
-        SDL_DestroyTexture(display_buffer);
-        display_buffer = NULL;
-    }
     if( renderer != NULL ) {
-        SDL_DestroyRenderer( renderer );
+        GPU_FreeTarget( renderer );
         renderer = NULL;
+    }
+    if( render_buffer != NULL ) {
+        GPU_FreeImage( render_buffer );
+        render_buffer = NULL;
+    }
+    if( back_buffer != NULL ) {
+        GPU_Quit();
+        back_buffer = NULL;
     }
     if(window)
         SDL_DestroyWindow(window);
@@ -487,46 +476,25 @@ void WinDestroy()
 }
 
 inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
-    if( SDL_SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g,
-                                windowsPalette[color].b, 255 ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderDrawColor failed: " << SDL_GetError();
-    }
-    if( SDL_RenderFillRect( renderer, &rect ) != 0 ) {
-        dbg(D_ERROR) << "SDL_RenderFillRect failed: " << SDL_GetError();
-    }
+    GPU_RectangleFilled( renderer, rect.x, rect.y, rect.x + rect.w, rect.y + rect.h, windowsPalette[color] );
 }
 
 //The following 3 methods use mem functions for fast drawing
 inline void VertLineDIB(int x, int y, int y2, int thickness, unsigned char color)
 {
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = thickness;
-    rect.h = y2-y;
-    FillRectDIB(rect, color);
+    GPU_RectangleFilled( renderer, x, y, x + thickness, y2, windowsPalette[color] );
 }
 inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color)
 {
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = x2-x;
-    rect.h = thickness;
-    FillRectDIB(rect, color);
+    GPU_RectangleFilled( renderer, x, y, x2, y + thickness, windowsPalette[color] );
 }
 inline void FillRectDIB(int x, int y, int width, int height, unsigned char color)
 {
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = width;
-    rect.h = height;
-    FillRectDIB(rect, color);
+    GPU_RectangleFilled( renderer, x, y, x + width, y + height, windowsPalette[color] );
 }
 
 
-SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
+GPU_Image *CachedTTFFont::create_glyph(const std::string &ch, int color)
 {
     SDL_Surface * sglyph = (fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid)(font, ch.c_str(), windowsPalette[color]);
     if (sglyph == NULL) {
@@ -553,7 +521,7 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
                                                 rmask, gmask, bmask, amask);
     if (surface == NULL) {
         dbg( D_ERROR ) << "CreateRGBSurface failed: " << SDL_GetError();
-        SDL_Texture *glyph = SDL_CreateTextureFromSurface(renderer, sglyph);
+        GPU_Image *glyph = GPU_CopyImageFromSurface( sglyph );
         SDL_FreeSurface(sglyph);
         return glyph;
     }
@@ -582,7 +550,10 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
         sglyph = surface;
     }
 
-    SDL_Texture *glyph = SDL_CreateTextureFromSurface(renderer, sglyph);
+    GPU_Image *glyph = GPU_CopyImageFromSurface( sglyph );
+    GPU_SetBlending( glyph, GPU_TRUE );
+    GPU_SetBlendMode( glyph, GPU_BLEND_NORMAL );
+    GPU_SetImageFilter( glyph, GPU_FILTER_NEAREST );
     SDL_FreeSurface(sglyph);
     return glyph;
 }
@@ -605,10 +576,7 @@ void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigne
         // Nothing we can do here )-:
         return;
     }
-    SDL_Rect rect {x, y, value.width, fontheight};
-    if (SDL_RenderCopy( renderer, value.texture, nullptr, &rect)) {
-        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
-    }
+    GPU_Blit( value.texture, NULL, renderer, x, y );
 }
 
 void BitmapFont::OutputChar(std::string ch, int x, int y, unsigned char color)
@@ -624,16 +592,12 @@ void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
     if( t > 256 ) {
         return;
     }
-    SDL_Rect src;
+    GPU_Rect src;
     src.x = (t % tilewidth) * fontwidth;
     src.y = (t / tilewidth) * fontheight;
     src.w = fontwidth;
     src.h = fontheight;
-    SDL_Rect rect;
-    rect.x = x; rect.y = y; rect.w = fontwidth; rect.h = fontheight;
-    if( SDL_RenderCopy( renderer, ascii[color], &src, &rect ) != 0 ) {
-        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
-    }
+    GPU_Blit( ascii[color], &src, renderer, x, y );
 }
 
 void refresh_display()
@@ -641,19 +605,10 @@ void refresh_display()
     needupdate = false;
     lastupdate = SDL_GetTicks();
 
-    // Select default target (the window), copy rendered buffer
-    // there, present it, select the buffer as target again.
-    if( SDL_SetRenderTarget( renderer, NULL ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
-    }
-    SDL_RenderSetLogicalSize( renderer, WindowWidth, WindowHeight );
-    if( SDL_RenderCopy( renderer, display_buffer, NULL, NULL ) != 0 ) {
-        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
-    }
-    SDL_RenderPresent(renderer);
-    if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
-    }
+    GPU_FlushBlitBuffer();
+    GPU_Blit( render_buffer, NULL, back_buffer, 0, 0 );
+    GPU_Flip( back_buffer );
+    report_gpu_errors();
 }
 
 // only update if the set interval has elapsed
@@ -664,14 +619,6 @@ static void try_sdl_update()
         refresh_display();
     } else {
         needupdate = true;
-    }
-}
-
-//for resetting the render target after updating texture caches in cata_tiles.cpp
-void set_displaybuffer_rendertarget()
-{
-    if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
     }
 }
 
@@ -1729,7 +1676,7 @@ inline SDL_Color BGR(int b, int g, int r)
     result.b=b;    //Blue
     result.g=g;    //Green
     result.r=r;    //Red
-    //result.a=0;//The Alpha, isnt used, so just set it to 0
+    result.a=255;  //Alpha (solid)
     return result;
 }
 
@@ -1937,7 +1884,7 @@ void BitmapFont::clear()
 {
     for (size_t a = 0; a < 16; a++) {
         if (ascii[a] != NULL) {
-            SDL_DestroyTexture(ascii[a]);
+            GPU_FreeImage(ascii[a]);
             ascii[a] = NULL;
         }
     }
@@ -1983,7 +1930,7 @@ void BitmapFont::load_font(const std::string &typeface)
 
     //convert ascii_surf to SDL_Texture
     for(int a = 0; a < 16; ++a) {
-        ascii[a] = SDL_CreateTextureFromSurface(renderer,ascii_surf[a]);
+        ascii[a] = GPU_CopyImageFromSurface( ascii_surf[a] );
         SDL_FreeSurface(ascii_surf[a]);
     }
 }
@@ -2052,7 +1999,7 @@ void CachedTTFFont::clear()
     }
     for( auto &a : glyph_cache_map ) {
         if( a.second.texture ) {
-            SDL_DestroyTexture( a.second.texture );
+            GPU_FreeImage( a.second.texture );
         }
     }
     glyph_cache_map.clear();

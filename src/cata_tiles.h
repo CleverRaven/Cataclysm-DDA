@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <SDL/SDL_gpu.h>
 
 #include "animation.h"
 #include "map.h"
@@ -82,11 +83,11 @@ enum TILE_CATEGORY {
 };
 
 /** Typedefs */
-struct SDL_Texture_deleter {
+struct GPU_Image_deleter {
     // Operator overload required to leverage unique_ptr API.
-    void operator()( SDL_Texture *const ptr );
+    void operator()( GPU_Image *const ptr );
 };
-using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
+using GPU_Image_Ptr = std::unique_ptr<GPU_Image, GPU_Image_deleter>;
 
 struct SDL_Surface_deleter {
     // Operator overload required to leverage unique_ptr API.
@@ -175,7 +176,7 @@ struct pixel {
 // textures are dumped when the player moves more than one submap in one update
 //  (teleporting, z-level change) to prevent running out of the remaining pool
 struct minimap_shared_texture_pool {
-    std::vector<SDL_Texture_Ptr> texture_pool;
+    std::vector<GPU_Image_Ptr> texture_pool;
     std::set<int> active_index;
     std::vector<int> inactive_index;
     minimap_shared_texture_pool() {
@@ -191,7 +192,7 @@ struct minimap_shared_texture_pool {
     }
 
     //reserves a texture from the inactive group and returns tracking info
-    SDL_Texture_Ptr request_tex( int &i ) {
+    GPU_Image_Ptr request_tex( int &i ) {
         if( inactive_index.empty() ) {
             //shouldn't be happening, but minimap will just be default color instead of crashing
             return nullptr;
@@ -205,7 +206,7 @@ struct minimap_shared_texture_pool {
 
     //releases the provided texture back into the inactive pool to be used again
     //called automatically in the submap cache destructor
-    void release_tex( int i, SDL_Texture_Ptr ptr ) {
+    void release_tex( int i, GPU_Image_Ptr ptr ) {
         auto it = active_index.find( i );
         if( it == active_index.end() ) {
             return;
@@ -222,7 +223,7 @@ struct minimap_submap_cache {
     //checks if the submap has been looked at by the minimap routine
     bool touched;
     //the texture updates are drawn to
-    SDL_Texture_Ptr minimap_tex;
+    GPU_Image_Ptr minimap_tex;
     //the submap being handled
     int texture_index;
     //the list of updates to apply to the texture
@@ -245,7 +246,7 @@ class cata_tiles
 {
     public:
         /** Default constructor */
-        cata_tiles( SDL_Renderer *render );
+        cata_tiles( GPU_Target *render );
         /** Default destructor */
         ~cata_tiles();
     protected:
@@ -477,8 +478,8 @@ class cata_tiles
         void init_light();
 
         /** Variables */
-        SDL_Renderer *renderer;
-        std::vector<SDL_Texture_Ptr> tile_values;
+        GPU_Target *renderer;
+        std::vector<GPU_Image_Ptr> tile_values;
         std::unordered_map<std::string, tile_type> tile_ids;
 
         int tile_height = 0, tile_width = 0, default_tile_width, default_tile_height;
@@ -531,9 +532,9 @@ class cata_tiles
     private:
         void create_default_item_highlight();
         int last_pos_x, last_pos_y;
-        std::vector<SDL_Texture_Ptr> shadow_tile_values;
-        std::vector<SDL_Texture_Ptr> night_tile_values;
-        std::vector<SDL_Texture_Ptr> overexposed_tile_values;
+        std::vector<GPU_Image_Ptr> shadow_tile_values;
+        std::vector<GPU_Image_Ptr> night_tile_values;
+        std::vector<GPU_Image_Ptr> overexposed_tile_values;
         /**
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.
@@ -541,7 +542,7 @@ class cata_tiles
         bool nv_goggles_activated;
 
         //pixel minimap cache methods
-        SDL_Texture_Ptr create_minimap_cache_texture( int tile_width, int tile_height );
+        GPU_Image_Ptr create_minimap_cache_texture( int tile_width, int tile_height );
         void process_minimap_cache_updates();
         void update_minimap_cache( const tripoint &loc, pixel &pix );
         void prepare_minimap_cache_for_updates();
@@ -567,7 +568,7 @@ class cata_tiles
         bool minimap_reinit_flag; //set to true to force a reallocation of minimap details
         //place all submaps on this texture before rendering to screen
         //replaces clipping rectangle usage while SDL still has a flipped y-coordinate bug
-        SDL_Texture_Ptr main_minimap_tex;
+        GPU_Image_Ptr main_minimap_tex;
 };
 
 #endif

@@ -483,7 +483,7 @@ ifdef TILES
       CXXFLAGS += $(shell sdl2-config --cflags) \
 		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
-      LDFLAGS += -lSDL2_image
+      LDFLAGS += -lSDL2_image -lSDL2_gpu -framework OpenGL
     endif
   else # not osx
     CXXFLAGS += $(shell $(SDL2_CONFIG) --cflags)
@@ -496,7 +496,7 @@ ifdef TILES
       LDFLAGS += $(shell $(SDL2_CONFIG) --libs)
     endif
 
-    LDFLAGS += -lSDL2_ttf -lSDL2_image
+    LDFLAGS += -lSDL2_ttf -lSDL2_image -lSDL2_gpu
 
     # We don't use SDL_main -- we have proper main()/WinMain()
     CXXFLAGS := $(filter-out -Dmain=SDL_main,$(CXXFLAGS))
@@ -512,17 +512,18 @@ ifdef TILES
         # We use pkg-config to find out which libs are needed with MXE
         LDFLAGS += $(shell $(PKG_CONFIG) SDL2_image --libs)
         LDFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --libs)
+	LDFLAGS += -lopengl32
       else
         ifdef MSYS2
-          LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
+          LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid -lopengl32
         else
-          LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+          LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2 -lopengl32
         endif
       endif
     else
       # Currently none needed by the game itself (only used by SDL2 layer).
       # Placeholder for future use (savegame compression, etc).
-      LDFLAGS +=
+      LDFLAGS += -lopengl32
     endif
     TARGET = $(W32TILESTARGET)
     ODIR = $(W32ODIRTILES)
