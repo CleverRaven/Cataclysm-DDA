@@ -12295,16 +12295,16 @@ void game::place_player_overmap( const tripoint &om_dest )
     }
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
-    const int nlevx = om_dest.x * 2 - int( MAPSIZE / 2 );
-    const int nlevy = om_dest.y * 2 - int( MAPSIZE / 2 );
+    const tripoint map_om_pos( om_dest.x * 2 - MAPSIZE / 2, om_dest.y * 2 - MAPSIZE / 2, om_dest.z );
+    const tripoint player_pos( u.pos().x, u.pos().y, map_om_pos.z );
 
-    load_map( tripoint( nlevx, nlevy, om_dest.z ) );
+    load_map( map_om_pos );
     load_npcs();
     m.spawn_monsters( true ); // Static monsters
     update_overmap_seen();
     // update weather now as it could be different on the new location
     nextweather = calendar::turn;
-    place_player( u.pos() );
+    place_player( player_pos );
 }
 
 bool game::phasing_move( const tripoint &dest_loc )
