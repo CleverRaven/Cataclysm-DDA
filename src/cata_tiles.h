@@ -95,6 +95,125 @@ struct SDL_Surface_deleter {
 };
 using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;
 
+// Atlas of many tiles, placed on a single texture
+class Atlas
+{
+    public:
+        /// A single sprite within a larger atlas. Knows how to blit itself
+        /// to a GPU_Target. Owned by the allocating atlas and becomes
+        /// invalid when the owner is destroyed or cleared.
+        class sprite
+        {
+            public:
+                sprite() : bounds( {
+                    -1, 0, 0, 0
+                } ) {}
+
+                int width() const {
+                    return bounds.w;
+                }
+                int height() const {
+                    return bounds.h;
+                }
+
+                static sprite make_missing( int w = 0, int h = 0 ) {
+                    return sprite( GPU_Rect { -1, 0, ( float )w, ( float )h } );
+                }
+
+                static sprite make_transparent( int w = 0, int h = 0 ) {
+                    return sprite( GPU_Rect { -2, 0, ( float )w, ( float )h } );
+                }
+
+                /// Test if this sprite is valid (is not a missing sprite)
+                operator bool() const {
+                    return ( bounds.x != -1 );
+                }
+
+                /// Test if this sprite is entirely transparent
+                bool transparent() const {
+                    return ( bounds.x == -2 );
+                }
+
+            private:
+                sprite( const GPU_Rect &bounds_ ) : bounds( bounds_ ) {}
+                GPU_Rect bounds;
+
+                friend class Atlas;
+        };
+
+        Atlas( GPU_FormatEnum format = GPU_FORMAT_RGBA );
+        virtual ~Atlas();
+
+        /// Free resources allocated. Any added sprites become invalid.
+        void clear();
+
+        /// Copy a sprite from a SDL_Surface into the atlas
+        /// @param surface surface to copy from
+        /// @param source_rect bounds to copy from, or nullptr to copy the entire surface
+        /// @return the new sprite, or the null sprite if allocation failed; never returns nullptr
+        sprite add_sprite( SDL_Surface *surface, const SDL_Rect *source_rect = nullptr );
+
+        /// Copy this sprite to a GPU_Target.
+        /// The given position is the top-left corner of the sprite.
+        void blit( const sprite &source, GPU_Target *target, float x, float y ) {
+            if( !source ) {
+                draw_placeholder( target, x, y, source.width(), source.height() );
+                return;
+            }
+
+            if( source.transparent() ) {
+                return;
+            }
+
+            GPU_Blit( tex.get(), const_cast<GPU_Rect *>( &source.bounds ), target, x, y );
+        }
+
+        /// Copy this sprite to a GPU_Target, rotating and scaling it
+        /// Either the sprite and scaling should be square, or the rotation
+        /// should be zero.
+        /// @param x left edge of the sprite, target coordinates
+        /// @param y top edge of the sprite, target coordinates
+        /// @param rotation angle to rotate by, counterclockwise degrees
+        /// @param scale_x X axis scale factor, 1.0 = no scaling
+        /// @param scale_y Y axis scale factor, 1.0 = no scaling
+        void blitScaleRotate( const sprite &source,
+                              GPU_Target *target,
+                              float x, float y,
+                              float rotation,
+                              float scale_x, float scale_y )  const {
+            if( !source ) {
+                draw_placeholder( target, x, y, source.width() * scale_x, source.height() * scale_y );
+                return;
+            }
+
+            if( source.transparent() ) {
+                return;
+            }
+
+            GPU_BlitTransformX( tex.get(), const_cast<GPU_Rect *>( &source.bounds ),
+                                target, x + scale_x * source.width() / 2.0, y + scale_y * source.height() / 2.0,
+                                source.width() / 2.0, source.height() / 2.0,
+                                rotation,
+                                scale_x, scale_y );
+        }
+
+        void save( const char *path );
+        void print_stats();
+
+    private:
+        static void draw_placeholder( GPU_Target *target, float x, float y, float w, float h );
+
+        GPU_Image_Ptr make_texture( int w, int h );
+        bool create();
+        bool expand();
+
+        GPU_FormatEnum format;
+        GPU_Image_Ptr tex;
+        int next_x, next_y;
+        int rowheight;
+        unsigned sprite_count, sprite_pixels;
+};
+
 // Cache of a single tile, used to avoid redrawing what didn't change.
 struct tile_drawing_cache {
 

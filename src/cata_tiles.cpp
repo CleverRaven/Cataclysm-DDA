@@ -85,6 +85,316 @@ void SDL_Surface_deleter::operator()( SDL_Surface *const ptr )
     }
 }
 
+Atlas::Atlas( GPU_FormatEnum format_)
+    : format(format_)
+{
+    clear();
+}
+
+Atlas::~Atlas()
+{
+}
+
+void Atlas::clear()
+{
+    tex.reset( nullptr );
+    next_x = next_y = rowheight = 0;
+    sprite_count = sprite_pixels = 0;
+}
+
+GPU_Image_Ptr Atlas::make_texture( int w, int h )
+{
+    GPU_Image_Ptr newatlas ( GPU_CreateImage( w, h, format ) );
+    if ( !newatlas ) {
+        return nullptr;
+    }
+
+    GPU_SetBlending( newatlas.get(), GPU_TRUE );
+    GPU_SetBlendMode( newatlas.get(), GPU_BLEND_NORMAL );
+    GPU_SetImageFilter( newatlas.get(), GPU_FILTER_NEAREST );
+
+    // check we can blit to it
+    auto target = GPU_LoadTarget( newatlas.get() );
+    if ( !target ) {
+        return nullptr;
+    }
+    GPU_FreeTarget( target );
+
+    return newatlas;
+}
+
+bool Atlas::create()
+{
+    tex = make_texture( 256, 256 );
+    if ( !tex ) {
+        return false;
+    }
+
+    return true;
+}
+
+bool Atlas::expand()
+{
+    int new_w, new_h;
+    if (tex->w > tex->h) {
+        // expand down
+        new_w = tex->w;
+        new_h = tex->h * 2;
+    } else {
+        // expand right
+        new_w = tex->w * 2;
+        new_h = tex->h;
+    }
+
+    GPU_Image_Ptr newatlas = make_texture( new_w, new_h );
+    if ( newatlas ) {
+        auto target = GPU_LoadTarget( newatlas.get() );
+        if ( target ) {
+            GPU_SetBlending( tex.get(), GPU_FALSE );
+            GPU_Blit( tex.get(), NULL, target, 0, 0 );
+            GPU_FlushBlitBuffer();
+            GPU_FreeTarget( target );
+
+            tex = std::move( newatlas );
+
+            if( tex->w > tex->h ) {
+                // expanded right
+                next_x = tex->w / 2;
+                next_y = 0;
+            } else {
+                next_x = 0;
+                next_y = tex->h / 2;
+            }
+
+            rowheight = 0;
+            return true;
+        }
+    }
+
+    dbg( D_ERROR ) << "Failed to allocate atlas texture";
+    return false;
+}
+
+static bool region_is_transparent( SDL_Surface *surface, int x, int y, int w, int h )
+{
+    // clip region to surface
+    if ( x < 0 ) {
+        w += x;
+        x = 0;
+    }
+    if ( y < 0 ) {
+        h += y;
+        y = 0;
+    }
+    w = std::min( w, surface->w - x );
+    h = std::min( h, surface->h - y );
+
+    if ( w <= 0 || h <= 0 ) {
+        return true;  // entirely clipped
+    }
+
+    if ( surface->format->BytesPerPixel != 4 ) {
+        return false; // too hard
+    }
+
+    const Uint32 Amask = surface->format->Amask;
+    Uint32 ckey;
+
+    if ( SDL_GetColorKey( surface, &ckey ) < 0 ) {
+        // no color key
+        if( !Amask ) {
+            // no alpha channel either
+            return false;
+        }
+
+        // look for any pixels with non-zero alpha
+        Uint8 *row = reinterpret_cast<Uint8*>( surface->pixels ) + y * surface->pitch + x * surface->format->BytesPerPixel;
+        for ( ; h > 0; --h, row += surface->pitch ) {
+            Uint32 *col = reinterpret_cast<Uint32*>( row );
+            for( int i = 0; i < w; ++i, ++col ) {
+                if( *col & Amask ) {
+                    return false;
+                }
+            }
+        }
+    } else {
+        // has color key
+        // look for any pixels not matching the key (ignoring alpha)
+        ckey &= ~Amask;
+        Uint32 *row = ( Uint32* )surface->pixels + y * surface->pitch / 4;
+        for ( ; h > 0; --h, row += surface->pitch / 4 ) {
+            Uint32 *col = row;
+            for( int i = 0; i < w; ++i, ++col ) {
+                if( ( !Amask || ( *col & Amask ) != 0 ) && ( *col & ~Amask ) != ckey ) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+// create a SDL_Surface for just a rectangle of the given surface
+// caution! shares the pixel data with the original surface
+static SDL_Surface_Ptr alias_surface_region( SDL_Surface *src, GPU_Rect *rect )
+{
+    // clip to surface so we don't stray outside the allocated pixels
+    int x = ( int )rect->x;
+    int y = ( int )rect->y;
+    int w = ( int )rect->w;
+    int h = ( int )rect->h;
+    if( x < 0 ) {
+        w += x;
+        x = 0;
+    }
+    if( y < 0 ) {
+        h += y;
+        y = 0;
+    }
+    w = std::min( w, src->w );
+    h = std::min( h, src->h );
+
+    Uint8 *pixels = static_cast<Uint8*>( src->pixels );
+    pixels += x * src->format->BytesPerPixel;
+    pixels += y * src->pitch;
+
+    int bpp;
+    Uint32 Rmask, Gmask, Bmask, Amask;
+    SDL_PixelFormatEnumToMasks( src->format->format, &bpp, &Rmask, &Gmask, &Bmask, &Amask );
+
+    SDL_Surface_Ptr subimage( SDL_CreateRGBSurfaceFrom( pixels, w, h, bpp, src->pitch, Rmask, Gmask, Bmask, Amask ) );
+
+    // propagate color key, palette
+
+    Uint32 key;
+    if( SDL_GetColorKey( src, &key ) == 0 ) {
+        SDL_SetColorKey( subimage.get(), 1, key );
+    }
+
+    if( src->format->palette ) {
+        SDL_SetSurfacePalette( subimage.get(), src->format->palette );
+    }
+
+    return subimage;
+}
+
+Atlas::sprite Atlas::add_sprite( SDL_Surface *surface, const SDL_Rect *source_rect )
+{
+    int x = source_rect ? source_rect->x : 0;
+    int y = source_rect ? source_rect->y : 0;
+    int w = source_rect ? source_rect->w : surface->w;
+    int h = source_rect ? source_rect->h : surface->h;
+
+    if ( region_is_transparent( surface, x, y, w, h ) ) {
+        return Atlas::sprite::make_transparent( w, h );
+    }
+
+    if ( !tex && !create() ) {
+        return Atlas::sprite::make_missing( w, h );
+    }
+
+    if ( next_x + w > tex->w ) {
+        next_y += rowheight;
+        if( tex->w > tex->h ) {
+            next_x = tex->w / 2;
+        } else {
+            next_x = 0;
+        }
+        rowheight = 0;
+    }
+
+    if( next_y + h > tex->h && !expand() ) {
+        return Atlas::sprite::make_missing( w, h );
+    }
+
+    rowheight = std::max( h, rowheight );
+
+    GPU_Rect src { (float)x, (float)y, (float)w, (float)h };
+    GPU_Rect dest { (float)next_x, (float)next_y, (float)w, (float)h };
+
+    // handle source rectangles that lie outside the source surface
+    // by clipping against the source surface, but retaining the
+    // original width/height and alignment of the image
+    GPU_Rect clip_dest = dest;
+    if( src.x < 0 ) {
+        int overhang = -src.x;
+        src.x += overhang;
+        src.w -= overhang;
+        clip_dest.x += src.x;
+        clip_dest.w -= overhang;
+    }
+    if( src.x + src.w > surface->w ) {
+        int overhang = src.x + src.w - surface->w;
+        src.w -= overhang;
+        clip_dest.w -= overhang;
+    }
+    if( src.y < 0 ) {
+        int overhang = -src.y;
+        src.y += overhang;
+        src.h -= overhang;
+        clip_dest.y += overhang;
+        clip_dest.h -= overhang;
+    }
+    if( src.y + src.h > surface->h ) {
+        int overhang = src.y + src.h - surface->h;
+        src.h -= overhang;
+        clip_dest.h -= overhang;
+    }
+
+    // work around SDL_gpu issue #43 by only giving it a small surface
+    SDL_Surface_Ptr subimage = alias_surface_region( surface, &src );
+    GPU_UpdateImage( tex.get(), &clip_dest, subimage.get(), NULL);
+
+    next_x += w;
+    ++sprite_count;
+    sprite_pixels += ( unsigned )( src.w * src.h );
+    return Atlas::sprite( dest );
+}
+
+void Atlas::print_stats()
+{
+    if( !tex ) {
+        fprintf(stderr, "Atlas %p: unused\n", this);
+    } else {
+        const unsigned total = tex->w * tex->h;
+
+        unsigned allocated;
+        if (tex->w > tex->h) {
+            // rectangular case. Left half is entirely used, right half is being filled
+            allocated = tex->h * tex->w / 2 + next_y * tex->w / 2 + ( next_x - tex->w / 2 ) * rowheight;
+        } else {
+            // square case
+            allocated = next_y * tex->w + next_x * rowheight;
+        }
+
+
+        fprintf(stderr, "Atlas %p: %ux%u, %.0fMB; %u sprites; %.0f%% sprite data, %.0f%% garbage, %.0f%% free\n",
+                this, tex->w, tex->h, tex->w * tex->h * 4 / 1024.0 / 1024.0, sprite_count,
+                100.0 * sprite_pixels / total,
+                100.0 * (allocated - sprite_pixels) / total,
+                100.0 * (total - allocated) / total);
+    }
+}
+
+void Atlas::save( const char *path )
+{
+    GPU_SaveImage( tex.get(), path, GPU_FILE_PNG );
+}
+
+void Atlas::draw_placeholder( GPU_Target *target, float x, float y, float w, float h )
+{
+    float r2 = std::min( w, h ) / 2.1;
+    float r0 = r2 / 4.5;
+    float r1 = r0 * 1.5;
+
+    GPU_RectangleFilled( target, x, y, x + w, y + h, SDL_Color { 255, 200, 0, 255 } );
+    GPU_CircleFilled( target, x + w / 2, y + h / 2, r0, SDL_Color { 0, 0, 0, 255 } );
+    GPU_SectorFilled( target, x + w / 2, y + h / 2, r1, r2, 60, 120, SDL_Color { 0, 0, 0, 255 } );
+    GPU_SectorFilled( target, x + w / 2, y + h / 2, r1, r2, 180, 240, SDL_Color { 0, 0, 0, 255 } );
+    GPU_SectorFilled( target, x + w / 2, y + h / 2, r1, r2, 300, 360, SDL_Color { 0, 0, 0, 255 } );
+}
+
 cata_tiles::cata_tiles(GPU_Target *render)
 {
     //ctor
