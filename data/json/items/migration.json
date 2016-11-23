@@ -275,6 +275,21 @@
     "replace": "jerrycan"
   },
   {
+    "id": "pda",
+    "type": "MIGRATION",
+    "replace": "cell_phone"
+  },
+  {
+    "id": "pda_flashlight",
+    "type": "MIGRATION",
+    "replace": "cell_phone"
+  },
+  {
+    "id": "pistol_pepperbox",
+    "type": "MIGRATION",
+    "replace": "colt_navy"
+  },
+  {
     "id": "plasma_engine",
     "type": "MIGRATION",
     "replace": "minireactor"
@@ -320,20 +335,5 @@
     "id": "UPS_on",
     "type": "MIGRATION",
     "replace": "UPS_off"
-  },
-  {
-    "id": "pistol_pepperbox",
-    "type": "MIGRATION",
-    "replace": "colt_navy"
-  },
-  {
-    "id": "pda",
-    "type": "MIGRATION",
-    "replace": "cell_phone"
-  },
-  {
-    "id": "pda_flashlight",
-    "type": "MIGRATION",
-    "replace": "cell_phone"
   }
 ]
