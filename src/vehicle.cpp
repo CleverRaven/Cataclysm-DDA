@@ -3586,7 +3586,7 @@ void vehicle::idle(bool on_map) {
                         add_msg( m_bad, _( "The %s has run out of %s." ),
                                  name.c_str(), fuel->nname( qty ).c_str() );
                     }
-                    eng.enabled = false;
+                    engine_on = false;
                 }
             }
 
