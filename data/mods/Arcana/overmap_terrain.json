@@ -94,11 +94,8 @@
         "line_drawing" : false,
         "sym" : 46,
         "color" : "blue",
-        "see_cost" : 0,
-        "extras" : "none",
         "known_down" : false,
         "known_up" : false,
-        "mondensity" : 0,
         "sidewalk" : false,
         "allow_road" : false
     },{
@@ -109,11 +106,8 @@
         "line_drawing" : false,
         "sym" : 46,
         "color" : "blue",
-        "see_cost" : 0,
-        "extras" : "none",
         "known_down" : false,
         "known_up" : false,
-        "mondensity" : 0,
         "sidewalk" : false,
         "allow_road" : false
     },{
@@ -124,11 +118,8 @@
         "line_drawing" : false,
         "sym" : 46,
         "color" : "blue",
-        "see_cost" : 0,
-        "extras" : "none",
         "known_down" : false,
         "known_up" : false,
-        "mondensity" : 0,
         "sidewalk" : false,
         "allow_road" : false
     },{

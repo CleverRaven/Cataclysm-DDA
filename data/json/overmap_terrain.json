@@ -7,11 +7,8 @@
         "line_drawing" : false,
         "sym" : 37,
         "color" : "white",
-        "see_cost" : 0,
-        "extras" : "none",
         "known_down" : false,
         "known_up" : false,
-        "mondensity" : 0,
         "sidewalk" : false,
         "allow_road" : false
     },{
@@ -22,11 +19,8 @@
         "line_drawing" : false,
         "sym" : 46,
         "color" : "blue",
-        "see_cost" : 0,
-        "extras" : "none",
         "known_down" : false,
         "known_up" : false,
-        "mondensity" : 0,
         "sidewalk" : false,
         "allow_road" : false
     },{
@@ -357,7 +351,6 @@
         "rotate" : true,
         "sym" : 94,
         "color" : "light_blue",
-        "see_cost" : 0,
         "extras" : "build",
         "mondensity" : 2,
         "sidewalk" : true
@@ -1391,7 +1384,6 @@
         "rotate" : true,
         "sym" : 94,
         "color" : "light_blue",
-        "see_cost" : 0,
         "extras" : "build",
         "mondensity" : 2,
         "sidewalk" : true
@@ -5747,7 +5739,6 @@
         "name" : "road",
         "sym" : 4194412,
         "color" : "dark_gray",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5757,7 +5748,6 @@
         "name" : "road",
         "sym" : 4194417,
         "color" : "dark_gray",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5767,7 +5757,6 @@
         "name" : "road",
         "sym" : 4194417,
         "color" : "dark_gray",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5777,7 +5766,6 @@
         "name" : "road",
         "sym" : 4194417,
         "color" : "dark_gray",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5787,7 +5775,6 @@
         "name" : "road",
         "sym" : 4194411,
         "color" : "dark_gray",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5797,7 +5784,6 @@
         "name" : "road",
         "sym" : 4194424,
         "color" : "dark_gray",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5807,7 +5793,6 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5817,7 +5802,6 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5827,7 +5811,6 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5837,7 +5820,6 @@
         "name" : "road",
         "sym" : 4194424,
         "color" : "dark_gray",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5847,7 +5829,6 @@
         "name" : "road",
         "sym" : 4194424,
         "color" : "dark_gray",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5857,7 +5838,6 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5867,7 +5847,6 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5877,7 +5856,6 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5897,7 +5875,6 @@
         "name" : "road",
         "sym" : 4194424,
         "color" : "dark_gray",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5907,7 +5884,6 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5917,7 +5893,6 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5927,7 +5902,6 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5937,7 +5911,6 @@
         "name" : "road",
         "sym" : 4194424,
         "color" : "dark_gray",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5947,7 +5920,6 @@
         "name" : "road",
         "sym" : 4194413,
         "color" : "dark_gray",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5957,7 +5929,6 @@
         "name" : "road",
         "sym" : 4194417,
         "color" : "dark_gray",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5967,7 +5938,6 @@
         "name" : "road",
         "sym" : 4194423,
         "color" : "dark_gray",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5977,7 +5947,6 @@
         "name" : "road",
         "sym" : 4194417,
         "color" : "dark_gray",
-        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5988,7 +5957,6 @@
         "rotate" : true,
         "sym" : 4194410,
         "color" : "dark_gray",
-        "extras" : "none",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -6721,11 +6689,8 @@
         "line_drawing" : false,
         "sym" : 37,
         "color" : "white",
-        "see_cost" : 0,
-        "extras" : "none",
         "known_down" : false,
         "known_up" : false,
-        "mondensity" : 0,
         "sidewalk" : false,
         "allow_road" : false
     },{
@@ -6930,7 +6895,6 @@
         "rotate" : true,
         "sym" : 94,
         "color" : "light_blue",
-        "see_cost" : 0,
         "mondensity" : 2,
         "sidewalk" : true
     },{
@@ -6940,7 +6904,6 @@
         "rotate" : true,
         "sym" : 94,
         "color" : "light_blue",
-        "see_cost" : 0,
         "mondensity" : 2,
         "sidewalk" : true
     },{
@@ -6950,7 +6913,6 @@
         "rotate" : true,
         "sym" : 94,
         "color" : "magenta",
-        "see_cost" : 0,
         "mondensity" : 2,
         "sidewalk" : true
     },{
@@ -7083,7 +7045,6 @@
         "sym" : 46,
         "color" : "blue",
         "see_cost" : 5,
-        "extras" : "none",
         "mondensity" : 2
     },{
         "type" : "overmap_terrain",
@@ -7092,7 +7053,6 @@
         "sym" : 70,
         "color" : "blue",
         "see_cost" : 5,
-        "extras" : "none",
         "mondensity" : 2
   },{
     "type" : "overmap_terrain",
@@ -7101,7 +7061,6 @@
     "sym" : 70,
     "color" : "blue",
     "see_cost" : 5,
-    "extras" : "none",
     "mondensity" : 2
   },{
     "type" : "overmap_terrain",
