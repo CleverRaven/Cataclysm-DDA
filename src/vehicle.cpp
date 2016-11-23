@@ -6083,16 +6083,20 @@ float vehicle_part::efficiency( int rpm ) const
 
 bool vehicle_part::is_engine() const
 {
-    return base.is_engine();
+    return !removed && base.is_engine();
 }
 
 bool vehicle_part::is_alternator() const
 {
-    return info().has_flag( VPFLAG_ALTERNATOR );
+    return !removed && info().has_flag( VPFLAG_ALTERNATOR );
 }
 
 bool vehicle_part::is_light() const
 {
+    if( removed ) {
+        return false;
+    }
+
     const auto &vp = info();
     return vp.has_flag( VPFLAG_CONE_LIGHT ) ||
            vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ||
@@ -6103,27 +6107,27 @@ bool vehicle_part::is_light() const
 
 bool vehicle_part::is_tank() const
 {
-    return base.is_watertight_container();
+    return !removed && base.is_watertight_container();
 }
 
 bool vehicle_part::is_battery() const
 {
-    return base.is_magazine() && base.ammo_type() == "battery";
+    return !removed && ( base.is_magazine() && base.ammo_type() == "battery" );
 }
 
 bool vehicle_part::is_reactor() const
 {
-    return info().has_flag( "REACTOR" );
+    return !removed && info().has_flag( "REACTOR" );
 }
 
 bool vehicle_part::is_turret() const
 {
-    return base.is_gun();
+    return !removed && base.is_gun();
 }
 
 bool vehicle_part::is_seat() const
 {
-    return info().has_flag( "SEAT" );
+    return !removed && info().has_flag( "SEAT" );
 }
 
 const vpart_info &vehicle_part::info() const
