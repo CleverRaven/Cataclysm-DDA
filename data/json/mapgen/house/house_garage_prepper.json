@@ -15,10 +15,10 @@
         ".|0   nn     |r'''''''|.",
         ".|    nn     |r''''''c|.",
         ".y           |'''''''c|.",
-        ".y     h     |'nn''''c|.",
-        ".|          ?|'nn''h c|.",
+        ".y     h     |'NN''''c|.",
+        ".|          ?|'NN''H.c|.",
         ".|S         ?|'''''''c|.",
-        ".|COfC     ??|ccc cccc|.",
+        ".|COfC     ??|ccc.cccc|.",
         ".|------5--------;----|.",
         ".|B((U|    rrrr     kk|.",
         ".|B((t|              k|.",
@@ -66,8 +66,8 @@
         "r": "t_thconc_floor",
         "s": "t_sidewalk",
         "t": "t_linoleum_white",
-        "y": "t_window_boarded"
-        "|": "t_wall",
+        "y": "t_window_boarded",
+        "|": "t_wall"
       },
       "furniture": {
         "0": "f_fireplace",
