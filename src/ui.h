@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include "color.h"
 #include "cursesdef.h"
+#include "printf_check.h"
+
 ////////////////////////////////////////////////////////////////////////////////////
 /*
  * uimenu constants

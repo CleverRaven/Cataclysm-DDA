@@ -6,6 +6,7 @@
 #include "catacharset.h"
 #include "translations.h"
 #include "units.h"
+#include "printf_check.h"
 
 #include <cstdarg>
 #include <sstream>

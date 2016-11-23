@@ -2,6 +2,7 @@
 #define COMPUTER_H
 
 #include "cursesdef.h" // WINDOW
+#include "printf_check.h"
 #include <vector>
 #include <string>
 

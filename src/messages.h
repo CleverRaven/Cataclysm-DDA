@@ -2,6 +2,7 @@
 #define MESSAGES_H
 
 #include "cursesdef.h" // WINDOW
+#include "printf_check.h"
 
 #include <memory>
 #include <string>
