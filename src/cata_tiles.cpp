@@ -395,6 +395,61 @@ void Atlas::draw_placeholder( GPU_Target *target, float x, float y, float w, flo
     GPU_SectorFilled( target, x + w / 2, y + h / 2, r1, r2, 300, 360, SDL_Color { 0, 0, 0, 255 } );
 }
 
+void minimap_shared_texture_pool::reinit( int tile_width, int tile_height )
+{
+    inactive_index.clear();
+    pool.resize( ( MAPSIZE + 1 ) * ( MAPSIZE + 1 ) );
+    for( size_t i = 0; i < pool.size(); i++ ) {
+        inactive_index.push_back( i );
+    }
+
+    shared_texture.reset( GPU_CreateImage( tile_width * ( MAPSIZE + 1 ) * SEEX,
+                                           tile_height * ( MAPSIZE + 1 ) * SEEY,
+                                           GPU_FORMAT_RGB ) );
+    GPU_LoadTarget( shared_texture.get() );
+
+    for( size_t i = 0; i <= MAPSIZE; ++i ) {
+        for( size_t j = 0; j <= MAPSIZE; ++j ) {
+            auto &bounds = pool[j * ( MAPSIZE + 1 ) + i];
+            bounds.x = i * tile_width * SEEX;
+            bounds.y = j * tile_height * SEEY;
+            bounds.w = tile_width * SEEX;
+            bounds.h = tile_width * SEEY;
+        }
+    }
+}
+
+void minimap_shared_texture_pool::clear()
+{
+    shared_texture.reset();
+    active_index.clear();
+    inactive_index.clear();
+    pool.clear();
+}
+
+GPU_Rect minimap_shared_texture_pool::request_subtex( int &i )
+{
+    if( inactive_index.empty() ) {
+        //shouldn't be happening, but minimap will just be default color instead of crashing
+        return GPU_Rect { 0, 0, 0, 0 };
+    }
+    int index = inactive_index.back();
+    inactive_index.pop_back();
+    active_index.insert( index );
+    i = index;
+    return pool[index];
+}
+
+void minimap_shared_texture_pool::release_subtex( int i )
+{
+    auto it = active_index.find( i );
+    if( it == active_index.end() ) {
+        return;
+    }
+    inactive_index.push_back( i );
+    active_index.erase( i );
+}
+
 cata_tiles::cata_tiles(GPU_Target *render)
 {
     //ctor
@@ -436,12 +491,12 @@ void cata_tiles::clear()
     tile_ids.clear();
     // release minimap
     minimap_cache.clear();
-    tex_pool.texture_pool.clear();
+    tex_pool.clear();
 }
 
 void clear_texture_pool()
 {
-    tex_pool.texture_pool.clear();
+    tex_pool.clear();
 }
 
 void cata_tiles::init()
@@ -1343,22 +1398,27 @@ void cata_tiles::clear_unused_minimap_cache()
 //the render target will be set back to display_buffer after all submaps are updated
 void cata_tiles::process_minimap_cache_updates()
 {
+    GPU_Target *target = tex_pool.get_texture()->target;
     for( auto &mcp : minimap_cache ) {
         if( !mcp.second->update_list.empty() ) {
-            GPU_Target *target = mcp.second->minimap_tex.get()->target;
+            const GPU_Rect &bounds = mcp.second->minimap_subtex;
 
             //draw a default dark-colored rectangle over the texture which may have been used previously
             if( !mcp.second->ready ) {
                 mcp.second->ready = true;
-                GPU_RectangleFilled( target, 0, 0, SEEX * minimap_tile_size.x, SEEY * minimap_tile_size.y, SDL_Color { 12, 12, 12, 255 } );
+                GPU_RectangleFilled( target,
+                                     bounds.x, bounds.y,
+                                     bounds.x + SEEX * minimap_tile_size.x,
+                                     bounds.y + SEEY * minimap_tile_size.y,
+                                     SDL_Color { 12, 12, 12, 255 } );
             }
 
             for( point &p : mcp.second->update_list ) {
                 GPU_RectangleFilled( target,
-                                     p.x * minimap_tile_size.x,
-                                     p.y * minimap_tile_size.y,
-                                     ( p.x + 1 ) * minimap_tile_size.x,
-                                     ( p.y + 1 ) * minimap_tile_size.y,
+                                     bounds.x + p.x * minimap_tile_size.x,
+                                     bounds.y + p.y * minimap_tile_size.y,
+                                     bounds.x + ( p.x + 1 ) * minimap_tile_size.x,
+                                     bounds.y + ( p.y + 1 ) * minimap_tile_size.y,
                                      mcp.second->minimap_colors[ p.y * SEEX + p.x ].getSdlColor() );
             }
             mcp.second->update_list.clear();
@@ -1393,12 +1453,12 @@ minimap_submap_cache::minimap_submap_cache() : ready( false )
 {
     //set color to force updates on a new submap texture
     minimap_colors.resize( SEEY * SEEX, pixel( -1, -1, -1, -1 ) );
-    minimap_tex = tex_pool.request_tex( texture_index );
+    minimap_subtex = tex_pool.request_subtex( texture_index );
 }
 
 minimap_submap_cache::~minimap_submap_cache()
 {
-    tex_pool.release_tex( texture_index, std::move( minimap_tex ) );
+    tex_pool.release_subtex( texture_index );
 }
 
 //store the known persistent values used in drawing the minimap
@@ -1433,16 +1493,10 @@ void cata_tiles::init_minimap( int destx, int desty, int width, int height )
     minimap_clip_rect.w = width - minimap_border_width * 2;
     minimap_clip_rect.h = height - minimap_border_height * 2;
 
-    main_minimap_tex.reset();
-    main_minimap_tex = create_minimap_cache_texture( minimap_clip_rect.w, minimap_clip_rect.h);
-
     previous_submap_view = tripoint( INT_MIN, INT_MIN, INT_MIN );
 
-    //allocate the textures for the texture pool
-    for( int i = 0; i < static_cast<int>( tex_pool.texture_pool.size() ); i++ ) {
-        tex_pool.texture_pool[i] = create_minimap_cache_texture( minimap_tile_size.x * SEEX,
-                                   minimap_tile_size.y * SEEY );
-    }
+    minimap_cache.clear();
+    tex_pool.reinit( minimap_tile_size.x, minimap_tile_size.y );
 }
 
 //the main call for drawing the pixel minimap to the screen
@@ -1455,9 +1509,6 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
     //set up class variables on the first run
     if( !minimap_prep || minimap_reinit_flag ) {
         minimap_reinit_flag = false;
-        minimap_cache.clear();
-        tex_pool.texture_pool.clear();
-        tex_pool.reinit();
         init_minimap( destx, desty, width, height );
     }
 
@@ -1525,11 +1576,15 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
 
     //update minimap textures
     process_minimap_cache_updates();
-    //prepare to copy to intermediate texture
-    GPU_Target *target = main_minimap_tex.get()->target;
+
+    //prepare to copy to screen
 
     //attempt to draw the submap cache if any of its tiles are exposed in the minimap area
     //the drawn flag prevents it from being drawn more than once
+    GPU_SetClip( renderer,
+                 minimap_clip_rect.x, minimap_clip_rect.y,
+                 minimap_clip_rect.w, minimap_clip_rect.h );
+
     for( int y = 0; y < minimap_tiles_limit.y; y++ ) {
         if( start_y + y < minimap_min.y || start_y + y >= minimap_max.y ) {
             continue;
@@ -1554,13 +1609,13 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             //the position of the submap texture has to account for the actual (current) 12x12 tile size
             //the clipping rectangle handles the portions that need to hide
             tripoint drawpoint( ( p.x / SEEX ) * SEEX - start_x, ( p.y / SEEY ) * SEEY - start_y, p.z );
-            GPU_Blit( it->second->minimap_tex.get(), NULL,
-                      target, drawpoint.x * minimap_tile_size.x, drawpoint.y * minimap_tile_size.y );
+            GPU_Blit( tex_pool.get_texture(),
+                      &it->second->minimap_subtex,
+                      renderer,
+                      minimap_clip_rect.x + drawpoint.x * minimap_tile_size.x,
+                      minimap_clip_rect.y + drawpoint.y * minimap_tile_size.y );
         }
     }
-
-    //paint intermediate texture to screen
-    GPU_Blit( main_minimap_tex.get(), NULL, renderer, minimap_clip_rect.x, minimap_clip_rect.y );
 
     //unused submap caches get deleted
     clear_unused_minimap_cache();
@@ -1626,6 +1681,8 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             }
         }
     }
+
+    GPU_UnsetClip( renderer );
 }
 
 void cata_tiles::clear_buffer()

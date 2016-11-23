@@ -294,46 +294,32 @@ struct pixel {
 //  (moving from submap corner to new corner) with MAPSIZE = 11
 // textures are dumped when the player moves more than one submap in one update
 //  (teleporting, z-level change) to prevent running out of the remaining pool
-struct minimap_shared_texture_pool {
-    std::vector<GPU_Image_Ptr> texture_pool;
-    std::set<int> active_index;
-    std::vector<int> inactive_index;
-    minimap_shared_texture_pool() {
-        reinit();
-    }
+class minimap_shared_texture_pool
+{
+    private:
+        GPU_Image_Ptr shared_texture;
+        std::vector<GPU_Rect> pool;
+        std::set<int> active_index;
+        std::vector<int> inactive_index;
 
-    void reinit() {
-        inactive_index.clear();
-        texture_pool.resize( ( MAPSIZE + 1 ) * ( MAPSIZE + 1 ) );
-        for( int i = 0; i < static_cast<int>( texture_pool.size() ); i++ ) {
-            inactive_index.push_back( i );
+    public:
+        minimap_shared_texture_pool() {
+            clear();
         }
-    }
 
-    //reserves a texture from the inactive group and returns tracking info
-    GPU_Image_Ptr request_tex( int &i ) {
-        if( inactive_index.empty() ) {
-            //shouldn't be happening, but minimap will just be default color instead of crashing
-            return nullptr;
-        }
-        int index = inactive_index.back();
-        inactive_index.pop_back();
-        active_index.insert( index );
-        i = index;
-        return std::move( texture_pool[index] );
-    }
+        void reinit( int tile_width, int tile_height );
+        void clear();
 
-    //releases the provided texture back into the inactive pool to be used again
-    //called automatically in the submap cache destructor
-    void release_tex( int i, GPU_Image_Ptr ptr ) {
-        auto it = active_index.find( i );
-        if( it == active_index.end() ) {
-            return;
+        //reserves a (sub)texture from the inactive group and returns tracking info
+        GPU_Rect request_subtex( int &i );
+
+        //releases the provided (sub)texture back into the inactive pool to be used again
+        //called automatically in the submap cache destructor
+        void release_subtex( int i );
+
+        GPU_Image *get_texture() {
+            return shared_texture.get();
         }
-        inactive_index.push_back( i );
-        active_index.erase( i );
-        texture_pool[i] = std::move( ptr );
-    }
 };
 
 struct minimap_submap_cache {
@@ -341,8 +327,8 @@ struct minimap_submap_cache {
     std::vector< pixel > minimap_colors;
     //checks if the submap has been looked at by the minimap routine
     bool touched;
-    //the texture updates are drawn to
-    GPU_Image_Ptr minimap_tex;
+    //the region of the shared texture that updates are drawn to
+    GPU_Rect minimap_subtex;
     //the submap being handled
     int texture_index;
     //the list of updates to apply to the texture
