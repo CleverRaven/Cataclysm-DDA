@@ -490,15 +490,9 @@ void oter_type_t::register_rotation( om_direction::type dir )
     oter_t oter( this );
 
     oter.id = oter_str_id( id.str() + "_" + om_direction::id( dir ) );
-    oter.id_base = id.str();
     oter.id_mapgen = id.str();
     oter.sym = om_direction::rotate_symbol( sym, dir );
     oter.dir = dir;
-    oter.name = name;
-    oter.color = color;
-    oter.see_cost = see_cost;
-    oter.extras = extras;
-    oter.mondensity = mondensity;
 
     add_peer( oter, static_cast<size_t>( dir ), om_direction::size );
 }
@@ -510,14 +504,8 @@ void oter_type_t::register_line( size_t n )
     const auto &line = om_lines::all[n];
 
     oter.id = oter_str_id( id.str() + line.suffix );
-    oter.id_base = id.str();
     oter.id_mapgen = id.str() + om_lines::mapgen_suffixes[line.mapgen];
     oter.sym = line.sym;
-    oter.name = name;
-    oter.color = color;
-    oter.see_cost = see_cost;
-    oter.extras = extras;
-    oter.mondensity = mondensity;
 
     add_peer( oter, n, om_lines::size );
 }
@@ -527,14 +515,8 @@ void oter_type_t::register_single()
     oter_t oter( this );
 
     oter.id = oter_str_id( id.str() );
-    oter.id_base = id.str();
     oter.id_mapgen = id.str();
     oter.sym = sym;
-    oter.name = name;
-    oter.color = color;
-    oter.see_cost = see_cost;
-    oter.extras = extras;
-    oter.mondensity = mondensity;
 
     add_peer( oter, 0, 1 );
 }
@@ -1817,7 +1799,7 @@ std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
     for (int x = 0; x < OMAPX; x++) {
         for (int y = 0; y < OMAPY; y++) {
             if (seen(x, y, zlevel) &&
-                lcmatch( ter(x, y, zlevel)->name, term ) ) {
+                lcmatch( ter(x, y, zlevel)->get_name(), term ) ) {
                 found.push_back( global_base_point() + point( x, y ) );
             }
         }
@@ -2028,8 +2010,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 const oter_id oter = om_direction::rotate( s_ter.terrain, uistate.omedit_rotation );
 
                 special_cache.insert( std::make_pair(
-                    rp,
-                    std::make_pair( oter->sym, oter->color ) ) );
+                    rp, std::make_pair( oter->sym, oter->get_color() ) ) );
 
                 s_begin.x = std::min( s_begin.x, rp.x );
                 s_begin.y = std::min( s_begin.y, rp.y );
@@ -2148,7 +2129,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 if (info) {
                     // Map tile marked as explored
                     bool const explored = show_explored && overmap_buffer.is_explored(omx, omy, z);
-                    ter_color = explored ? c_dkgray : info->color;
+                    ter_color = explored ? c_dkgray : info->get_color();
                     ter_sym   = info->sym;
                 }
             }
@@ -2195,7 +2176,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             // Preview for place_terrain or place_special
             if( uistate.place_terrain || uistate.place_special ) {
                 if( blink && uistate.place_terrain && omx == cursx && omy == cursy ) {
-                    ter_color = uistate.place_terrain->color;
+                    ter_color = uistate.place_terrain->get_color();
                     ter_sym = uistate.place_terrain->sym;
                 } else if( blink && uistate.place_special ) {
                     if( omx - cursx >= s_begin.x && omx - cursx <= s_end.x &&
@@ -2346,10 +2327,10 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         } else {
             const auto &ter = ccur_ter.obj();
 
-            mvwputch(wbar, 1, 1, ter.color, ter.sym);
-            std::vector<std::string> name = foldstring(ter.name, 25);
+            mvwputch(wbar, 1, 1, ter.get_color(), ter.sym);
+            std::vector<std::string> name = foldstring(ter.get_name(), 25);
             for (size_t i = 0; i < name.size(); i++) {
-                mvwprintz(wbar, i + 1, 3, ter.color, "%s", name[i].c_str());
+                mvwprintz(wbar, i + 1, 3, ter.get_color(), "%s", name[i].c_str());
             }
         }
     } else {
@@ -2767,7 +2748,7 @@ tripoint overmap::find_random_omt( const std::string &omt_base_type ) const
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                if( get_ter( i, j, k )->id_base == omt_base_type ) {
+                if( get_ter( i, j, k )->get_type_id().str() == omt_base_type ) {
                     valid.push_back( tripoint( i, j, k ) );
                 }
             }

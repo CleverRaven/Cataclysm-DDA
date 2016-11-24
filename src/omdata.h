@@ -115,8 +115,6 @@ struct oter_type_t {
         std::string extras = "none";
         int mondensity = 0;
 
-        std::string id_mapgen;  // only for mapgen and almost always == id_base. Unless line_drawing / road.
-
         // Spawns are added to the submaps *once* upon mapgen of the submaps
         overmap_spawns static_spawns;
         bool was_loaded = false;
@@ -149,33 +147,53 @@ struct oter_type_t {
 };
 
 struct oter_t {
-    oter_str_id id;                 /// definitive identifier
-    std::string name;
-    long sym = '\0';                // This is a long, so we can support curses linedrawing
-    nc_color color = c_black;
-    unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
-    std::string extras = "none";
-    int mondensity = 0;
-    om_direction::type dir = om_direction::type::none;
+    public:
+        oter_str_id id;         // definitive identifier.
+        std::string id_mapgen;  // only for mapgen and almost always == id_base. Unless line_drawing / road.
+        long sym = '\0';        // This is a long, so we can support curses linedrawing.
+        om_direction::type dir = om_direction::type::none;
 
-    const oter_type_t *type;
-    static const oter_type_t null_type;
+        oter_t( const oter_type_t *type = &null_type ) : type( type ) {}
 
-    oter_t( const oter_type_t *type = &null_type ) : type( type ) {}
+        const string_id<oter_type_t> &get_type_id() const {
+            return type->id;
+        }
 
-    /**
-     * base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
-     */
-    std::string id_base;
-    std::string id_mapgen;  // only for mapgen and almost always == id_base. Unless line_drawing / road.
-    // Spawns are added to the submaps *once* upon mapgen of the submaps
-    overmap_spawns static_spawns;
+        const std::string &get_name() const {
+            return type->name;
+        }
 
-    static size_t count();  /// Overall number of loaded objects
+        nc_color get_color() const {
+            return type->color;
+        }
 
-    bool has_flag( oter_flags flag ) const {
-        return type->has_flag( flag );
-    }
+        unsigned char get_see_cost() const {
+            return type->see_cost;
+        }
+
+        const std::string &get_extras() const {
+            return type->extras;
+        }
+
+        int get_mondensity() const {
+            return type->mondensity;
+        }
+
+        const overmap_spawns &get_static_spawns() const {
+            return type->static_spawns;
+        }
+
+        static size_t count();  /// Overall number of loaded objects
+
+        bool has_flag( oter_flags flag ) const {
+            return type->has_flag( flag );
+        }
+
+        // @todo Don't reference this. Encapsulate further.
+        const oter_type_t *type;
+
+    private:
+        static const oter_type_t null_type;
 };
 
 // @todo: Deprecate these operators

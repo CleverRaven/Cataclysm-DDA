@@ -1098,7 +1098,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
     // which way should our roads curve, based on neighbor roads?
     int curvedir_nesw[4] = {};
     for( int dir = 0; dir < 4; dir++ ) { // N E S W
-        if( roads_nesw[dir] == false || dat.t_nesw[dir]->id_base != "road" ) {
+        if( roads_nesw[dir] == false || dat.t_nesw[dir]->get_type_id().str() != "road" ) {
             continue;
         }
 
@@ -2593,7 +2593,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
     }
 
     // For rotation
-    const bool has_basement = terrain_type->id_base == "house_base";
+    const bool has_basement = terrain_type->get_type_id().str() == "house_base";
     if( has_basement ) {
         const bool force = get_world_option<bool>( "ALIGN_STAIRS" );
         // Find the basement's stairs first

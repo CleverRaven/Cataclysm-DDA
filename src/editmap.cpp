@@ -1836,8 +1836,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
                 } else if( gpmenu.ret == 3 ) {
                     popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
-                           orig_oters->name.c_str(), orig_oters.id().c_str(),
-                           omt_ref->name.c_str(), omt_ref.id().c_str() );
+                           orig_oters->get_name().c_str(), orig_oters.id().c_str(),
+                           omt_ref->get_name().c_str(), omt_ref.id().c_str() );
                 }
             } else if( gpmenu.keypress == 'm' ) {
                 // todo; keep preview as is and move target
@@ -1944,7 +1944,7 @@ int editmap::edit_mapgen()
 
         gmenu.addentry( -1, !id.id().is_null(), 0, "[%3d] %s", ( int )id, id.id().c_str() );
         gmenu.entries[i].extratxt.left = 1;
-        gmenu.entries[i].extratxt.color = id->color;
+        gmenu.entries[i].extratxt.color = id->get_color();
         gmenu.entries[i].extratxt.txt = string_format( "%c", id->sym );
     }
     real_coords tc;

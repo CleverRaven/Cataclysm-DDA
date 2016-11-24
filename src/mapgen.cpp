@@ -151,7 +151,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     float density = 0.0;
     for (int i = overx - MON_RADIUS; i <= overx + MON_RADIUS; i++) {
         for (int j = overy - MON_RADIUS; j <= overy + MON_RADIUS; j++) {
-            density += overmap_buffer.ter(i, j, z)->mondensity;
+            density += overmap_buffer.ter(i, j, z)->get_mondensity();
         }
     }
     density = density / 100;
@@ -160,11 +160,11 @@ void map::generate(const int x, const int y, const int z, const int turn)
              t_above, turn, density, z, rsettings);
 
     // At some point, we should add region information so we can grab the appropriate extras
-    map_extras ex = region_settings_map["default"].region_extras[terrain_type->extras];
+    map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
     if ( ex.chance > 0 && one_in( ex.chance )) {
         std::string* extra = ex.values.pick();
         if(extra == NULL) {
-            debugmsg("failed to pick extra for type %s", terrain_type->extras.c_str());
+            debugmsg("failed to pick extra for type %s", terrain_type->get_extras().c_str());
         } else {
             auto func = MapExtras::get_function(*(ex.values.pick()));
             if(func != NULL) {
@@ -173,7 +173,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
         }
     }
 
-    const overmap_spawns &spawns = terrain_type->static_spawns;
+    const overmap_spawns &spawns = terrain_type->get_static_spawns();
     if( spawns.group && x_in_y( spawns.chance, 100 ) ) {
         int pop = rng( spawns.population.min, spawns.population.max );
         // place_spawns currently depends on the STATIC_SPAWN world option, this
@@ -10198,7 +10198,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         // not one of the hardcoded ones!
         // load from JSON???
         debugmsg("Error: tried to generate map for omtype %s, \"%s\" (id_mapgen %s)",
-                 terrain_type.id().c_str(), terrain_type->name.c_str(), function_key.c_str() );
+                 terrain_type.id().c_str(), terrain_type->get_name().c_str(), function_key.c_str() );
         fill_background(this, t_floor);
 
     }}
