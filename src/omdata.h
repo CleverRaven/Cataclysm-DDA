@@ -17,6 +17,7 @@
 struct MonsterGroup;
 struct city;
 struct oter_t;
+struct oter_type_t;
 struct overmap_special_location;
 
 /** Direction on the overmap. */
@@ -101,36 +102,25 @@ enum oter_flags {
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
 
-struct oter_t {
+struct oter_type_t {
     public:
-        oter_str_id id;                 /// definitive identifier
+        string_id<oter_type_t> id;
         std::string name;
         long sym = '\0';                // This is a long, so we can support curses linedrawing
         nc_color color = c_black;
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
         std::string extras = "none";
         int mondensity = 0;
-        /**
-         * base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
-         */
-        std::string id_base;
-        om_direction::type dir = om_direction::type::none;
-        std::vector<oter_id> directional_peers; /// fast reliable method of determining whatever_west, etc.
-        std::string
-        id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.
+
+        std::string id_mapgen;  // only for mapgen and almost always == id_base. Unless line_drawing / road.
 
         // Spawns are added to the submaps *once* upon mapgen of the submaps
         overmap_spawns static_spawns;
-        //this bitset contains boolean values for:
-        //is_asphalt, is_building, is_subway, is_sewer, is_ants,
-        //is_base_terrain, known_down, known_up, is_river,
-        //is_road, has_sidewalk, allow_road, rotates, line_drawing
-    private:
-        std::bitset<num_oter_flags> flags; //contains a bitset for all the bools this terrain might have.
-    public:
         bool was_loaded = false;
-        void load( JsonObject &jo, const std::string &src );
-        void check() const;
+
+        oter_id get_first() const;
+        oter_id get_rotated( om_direction::type dir ) const;
+        oter_id get_linear( size_t n ) const;
 
         bool has_flag( oter_flags flag ) const {
             return flags[flag];
@@ -139,6 +129,50 @@ struct oter_t {
         void set_flag( oter_flags flag, bool value = true ) {
             flags[flag] = value;
         }
+
+        void load( JsonObject &jo, const std::string &src );
+        void check() const;
+        void finalize();
+
+    private:
+        std::bitset<num_oter_flags> flags;
+        std::vector<oter_id> directional_peers;
+
+        void add_peer( const oter_t &peer, size_t n, size_t max_n );
+
+        void register_rotation( om_direction::type dir );
+        void register_line( size_t n );
+        void register_single();
+};
+
+struct oter_t {
+    oter_str_id id;                 /// definitive identifier
+    std::string name;
+    long sym = '\0';                // This is a long, so we can support curses linedrawing
+    nc_color color = c_black;
+    unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
+    std::string extras = "none";
+    int mondensity = 0;
+    om_direction::type dir = om_direction::type::none;
+
+    const oter_type_t *type;
+    static const oter_type_t null_type;
+
+    oter_t( const oter_type_t *type = &null_type ) : type( type ) {}
+
+    /**
+     * base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
+     */
+    std::string id_base;
+    std::string id_mapgen;  // only for mapgen and almost always == id_base. Unless line_drawing / road.
+    // Spawns are added to the submaps *once* upon mapgen of the submaps
+    overmap_spawns static_spawns;
+
+    static size_t count();  /// Overall number of loaded objects
+
+    bool has_flag( oter_flags flag ) const {
+        return type->has_flag( flag );
+    }
 };
 
 // @todo: Deprecate these operators

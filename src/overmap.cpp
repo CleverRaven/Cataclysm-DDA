@@ -54,6 +54,12 @@
 #define MIN_RIFT_SIZE 6
 #define MAX_RIFT_SIZE 16
 
+using oter_type_id = int_id<oter_type_t>;
+using oter_type_str_id = string_id<oter_type_t>;
+
+template<>
+const string_id<oter_type_t> string_id<oter_type_t>::NULL_ID( "", 0 );
+
 template<>
 const string_id<oter_t> string_id<oter_t>::NULL_ID( "", 0 );
 
@@ -101,6 +107,8 @@ static const std::map<std::string, overmap_special_location> special_locations =
                         oter_str_id( "field"  ) },          {}                         } }
 };
 
+const oter_type_t oter_t::null_type;
+
 namespace om_lines
 {
 
@@ -142,7 +150,7 @@ t_regional_settings_map region_settings_map;
 namespace
 {
 
-generic_factory<oter_t> base_terrains( "base overmap terrain" );
+generic_factory<oter_type_t> terrain_types( "overmap terrain type" );
 generic_factory<oter_t> terrains( "overmap terrain" );
 
 generic_factory<overmap_special> specials( "overmap special" );
@@ -174,6 +182,33 @@ int city::get_distance_from( const tripoint &p ) const
 
 std::map<enum radio_type, std::string> radio_type_names =
 {{ {MESSAGE_BROADCAST, "broadcast"}, {WEATHER_RADIO, "weather"} }};
+
+template<>
+bool string_id<oter_type_t>::is_valid() const
+{
+    return terrain_types.is_valid( *this );
+}
+
+template<>
+int_id<oter_type_t> string_id<oter_type_t>::id() const
+{
+    return terrain_types.convert( *this, int_id<oter_type_t>( 0 ) );
+}
+
+template<>
+int_id<oter_type_t>::int_id( const string_id<oter_type_t> &id ) : _id( id.id() ) {}
+
+template<>
+const oter_type_t &int_id<oter_type_t>::obj() const
+{
+    return terrain_types.obj( *this );
+}
+
+template<>
+const oter_type_t &string_id<oter_type_t>::obj() const
+{
+    return terrain_types.obj( *this );
+}
 
 template<>
 bool string_id<oter_t>::is_valid() const
@@ -327,12 +362,6 @@ bool isroad(std::string bstr)
     return false;
 }
 
-void overmap_terrains::reset()
-{
-    base_terrains.reset();
-    terrains.reset();
-}
-
 /*
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
@@ -364,7 +393,7 @@ void load_overmap_terrain_mapgens(JsonObject &jo, const std::string id_base,
     }
 }
 
-void oter_t::load( JsonObject &jo, const std::string &src )
+void oter_type_t::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
@@ -398,13 +427,121 @@ void oter_t::load( JsonObject &jo, const std::string &src )
     } else {
         load_overmap_terrain_mapgens( jo, id.str() );
     }
+}
 
-    id_base = id.str(); // @todo Get rid of id_base.
+void oter_type_t::finalize()
+{
+    directional_peers.clear();  // In case of a second finalization.
+
+    if( has_flag( rotates ) ) {
+        for( auto dir : om_direction::all ) {
+            register_rotation( dir );
+        }
+    } else if( has_flag( line_drawing ) ) {
+        for( size_t n = 0; n < om_lines::size; ++n ) {
+            register_line( n );
+        }
+    } else {
+        register_single();
+    }
+}
+
+oter_id oter_type_t::get_first() const
+{
+    assert( !directional_peers.empty() );
+    return directional_peers.front();
+}
+
+oter_id oter_type_t::get_rotated( om_direction::type dir ) const
+{
+    if( dir == om_direction::type::invalid ) {
+        debugmsg( "Invalid rotation was asked from overmap terrain \"%s\".", id.c_str() );
+        return ot_null;
+    } else if( dir == om_direction::type::none || !has_flag( rotates ) ) {
+        return directional_peers.front();
+    }
+    assert( directional_peers.size() == om_direction::size );
+    return directional_peers[static_cast<size_t>( dir )];
+}
+
+oter_id oter_type_t::get_linear( size_t n ) const
+{
+    if( !has_flag( line_drawing ) ) {
+        debugmsg( "Overmap terrain \"%s \" isn't drawn with lines.", id.c_str() );
+        return ot_null;
+    }
+    if( n >= om_lines::size ) {
+        debugmsg( "Invalid overmap line (%d) was asked from overmap terrain \"%s\".", n, id.c_str() );
+        return ot_null;
+    }
+    assert( directional_peers.size() == om_lines::size );
+    return directional_peers[n];
+}
+
+void oter_type_t::add_peer( const oter_t &peer, size_t n, size_t max_n )
+{
+    assert( n < max_n );
+    directional_peers.resize( max_n );
+    directional_peers[n] = terrains.insert( peer ).id.id();
+}
+
+void oter_type_t::register_rotation( om_direction::type dir )
+{
+    oter_t oter( this );
+
+    oter.id = oter_str_id( id.str() + "_" + om_direction::id( dir ) );
+    oter.id_base = id.str();
+    oter.id_mapgen = id.str();
+    oter.sym = om_direction::rotate_symbol( sym, dir );
+    oter.dir = dir;
+    oter.name = name;
+    oter.color = color;
+    oter.see_cost = see_cost;
+    oter.extras = extras;
+    oter.mondensity = mondensity;
+
+    add_peer( oter, static_cast<size_t>( dir ), om_direction::size );
+}
+
+void oter_type_t::register_line( size_t n )
+{
+    oter_t oter( this );
+
+    const auto &line = om_lines::all[n];
+
+    oter.id = oter_str_id( id.str() + line.suffix );
+    oter.id_base = id.str();
+    oter.id_mapgen = id.str() + om_lines::mapgen_suffixes[line.mapgen];
+    oter.sym = line.sym;
+    oter.name = name;
+    oter.color = color;
+    oter.see_cost = see_cost;
+    oter.extras = extras;
+    oter.mondensity = mondensity;
+
+    add_peer( oter, n, om_lines::size );
+}
+
+void oter_type_t::register_single()
+{
+    oter_t oter( this );
+
+    oter.id = oter_str_id( id.str() );
+    oter.id_base = id.str();
+    oter.id_mapgen = id.str();
+    oter.sym = sym;
+    oter.name = name;
+    oter.color = color;
+    oter.see_cost = see_cost;
+    oter.extras = extras;
+    oter.mondensity = mondensity;
+
+    add_peer( oter, 0, 1 );
 }
 
 void overmap_terrains::load( JsonObject &jo, const std::string &src )
 {
-    base_terrains.load( jo, src );
+    terrain_types.load( jo, src );
 }
 
 void overmap_terrains::check_consistency()
@@ -515,54 +652,13 @@ void overmap_terrains::check_consistency()
     }
 }
 
-/*
- * Assemble a map of overmap_terrain base ids pointing to first members of oter groups
- * We'll do this after json loading so references can be used
- */
 void overmap_terrains::finalize()
 {
-    // @todo Get rid of it.
-    const auto reserve_peers = []( oter_t &elem, size_t count ) {
-        elem.directional_peers.reserve( count );
-        for( size_t i = 0; i < count; ++i ) {
-            elem.directional_peers.push_back( oter_id( terrains.size() + i ) );
-        }
-    };
 
-    for( const auto &elem : base_terrains.get_all() ) {
-        if( elem.has_flag( rotates ) ) {
-            // add north/east/south/west variants
-            reserve_peers( const_cast<oter_t &>( elem ), om_direction::size );
-
-            auto insertion( elem );
-
-            insertion.id_mapgen = elem.id.str();
-
-            for( auto dir : om_direction::all ) {
-                insertion.id = oter_str_id( elem.id.str() + "_" + om_direction::id( dir ) );
-                insertion.sym = om_direction::rotate_symbol( elem.sym, dir );
-                insertion.dir = dir;
-
-                terrains.insert( insertion );
-            }
-        } else if( elem.has_flag( line_drawing ) ) {
-            reserve_peers( const_cast<oter_t &>( elem ), om_lines::size );
-
-            auto insertion( elem );
-
-            for( const auto &line : om_lines::all ) {
-                insertion.id_mapgen = elem.id.str() + om_lines::mapgen_suffixes[line.mapgen];
-                insertion.id = oter_str_id( elem.id.str() + line.suffix );
-                insertion.sym = line.sym;
-
-                terrains.insert( insertion );
-            }
-        } else {
-            terrains.insert( elem ).id_mapgen = elem.id.str();
-        }
+    for( const auto &elem : terrain_types.get_all() ) {
+        const_cast<oter_type_t &>( elem ).finalize(); // This cast is ugly, but safe.
     }
 
-    // here's another sanity check, yay.
     if ( region_settings_map.find("default") == region_settings_map.end() ) {
         debugmsg("ERROR: can't find default overmap settings (region_map_settings 'default'),"
                  " cataclysm pending. And not the fun kind.");
@@ -573,6 +669,12 @@ void overmap_terrains::finalize()
     }
 
     set_oter_ids();
+}
+
+void overmap_terrains::reset()
+{
+    terrain_types.reset();
+    terrains.reset();
 }
 
 size_t overmap_terrains::count()
@@ -3681,7 +3783,8 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
         compass.set(); // No adjoining roads/etc. Happens occasionally, esp. with sewers.
     }
 
-    ter( x, y, z ) = oter_id( base + om_lines::all[compass.to_ulong() - 1].suffix );
+    const string_id<oter_type_t> type( base );  // @todo The function should accept this instead.
+    ter( x, y, z ) = terrain_types.obj( type ).get_linear( compass.to_ulong() - 1 );
 }
 
 void overmap::good_river(int x, int y, int z)
@@ -3832,16 +3935,7 @@ tripoint om_direction::rotate( const tripoint &p, type dir )
 
 int_id<oter_t> om_direction::rotate( const int_id<oter_t> &oter, om_direction::type dir )
 {
-    const oter_t &otert = oter.obj();
-
-    if( dir == type::invalid ) {
-        debugmsg( "Invalid overmap rotation (%d).", dir );
-        return oter;
-    } else if( dir == type::none || !otert.has_flag( rotates ) ) {
-        return oter;
-    }
-    assert( otert.directional_peers.size() == om_direction::size );
-    return otert.directional_peers[static_cast<size_t>( dir )];
+    return oter->type->get_rotated( dir );
 }
 
 long om_direction::rotate_symbol( long sym, type dir )
@@ -4381,21 +4475,15 @@ void regional_settings::setup()
 
 void regional_settings::setup_oter(oter_weight &oter) {
     if ( oter.ot_iid == -1 ) {
-        const oter_str_id base( oter.ot_sid );
+        const string_id<oter_type_t> base( oter.ot_sid );
 
-        if( !base_terrains.is_valid( base ) ) {
+        if( !terrain_types.is_valid( base ) ) {
             debugmsg( "Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", base.c_str() );
             oter.ot_iid = 0;
             return;
         }
 
-        const auto &obj = base_terrains.obj( base );
-
-        if( obj.has_flag( rotates ) || obj.has_flag( line_drawing ) ) {
-            oter.ot_iid = obj.directional_peers.back()->id.id();
-        } else {
-            oter.ot_iid = obj.id.id();
-        }
+        oter.ot_iid = terrain_types.obj( base ).get_first();
     }
 }
 
