@@ -1,124 +1,122 @@
 [
-    {
-        "type" : "item_group",
-        "id" : "diner_food",
-        "items" : [
-            ["cheeseburger", 6],
-            ["hamburger", 8],
-            ["sloppyjoe", 6],
-            ["blt", 6],
-            ["fries",10],
-            ["onion_rings", 8],
-            ["fchicken", 8],
-            ["sausage", 8],
-            ["sweet_sausage", 2],
-            ["hotdogs_cooked", 8],
-            ["chilidogs", 6],
-            ["corndogs_cooked", 8],
-            ["scrambled_eggs", 8],
-            ["deluxe_eggs", 5],
-            ["pancakes" , 12],
-            ["fruit_pancakes", 6],
-            ["choc_pancakes", 6],
-            ["waffles", 10],
-            ["fruit_waffles", 6],
-            ["choc_waffles", 6],
-            ["pie", 9],
-            ["pie_meat", 8],
-            ["pan", 30]
-        ]
-    },
-    {
-        "type" : "item_group",
-        "id" : "diner_back",
-        "items" : [
-            ["pickle", 20],
-            ["bacon", 20],
-            ["fries", 20],
-            ["onion_rings", 20],
-            ["sausage", 20],
-            ["sweet_sausage", 5],
-            ["hotdogs_frozen", 20],
-            ["corndogs_frozen", 20],
-            ["pancakes" , 20],
-            ["waffles", 20],
-            ["tomato", 20],
-            ["lettuce", 20],
-            ["soup_veggy", 20],
-            ["soup_meat", 20],
-            ["soup_tomato", 20]
-        ]
-    },
-    {
-        "type": "mapgen",
-        "om_terrain": [
-            "s_restaurant"
-        ],
-        "method": "json",
-        "weight": 300,
-        "object": {
-        "fill_ter": "t_linoleum_white",
-        "rows": [
-            "____,____,____,____,____",
-            "____,____,____,____,____",
-            "____,____,____,____,____",
-            "____,____,____,____,____",
-            "____,____,____,____,____",
-            "========================",
-            "=|OOOOOOOOOOOOOOO--+--|=",
-            "=|HtHHtHHtHHtHHtHlblbl|=",
-            "=|HtHHtHHtHHtHHtHblblb|=",
-            "=|blblblblblblblblblbl|=",
-            "=|cbcbcbcbcbcbcbcbcblb|=",
-            "=|#################lbl|=",
-            "=|lblblblblblblblb#blb|=",
-            "=|blblblblblblblblblbl|=",
-            "=|lb####ffGGGG####lblb|=",
-            "=|bl-------------|--+-|=",
-            "=|lb###fffffff###|llll|=",
-            "=|blblblblblblblb|llll|=",
-            "=|lblblblblblblbl|lSTl|=",
-            "=|---------------|----|=",
-            "========================",
-            "........................",
-            "........................",
-            "........................"
-            ],
-            "terrain": {
-            ".": "t_grass",
-            "_": "t_pavement",
-            ",": "t_pavement_y",
-            "-": "t_wall",
-            "|": "t_wall",
-            "O": "t_window",
-            "+": "t_door_c",
-            "c": "t_linoleum_white",
-            "#": "t_linoleum_gray",
-            "t": "t_linoleum_gray",
-            "T": "t_linoleum_white",
-            "=": "t_sidewalk",
-            "G": "t_linoleum_gray",
-            "f": "t_linoleum_white",
-            "S": "t_linoleum_white",
-            "H": "t_linoleum_white",
-            "l": "t_linoleum_white",
-            "b": "t_linoleum_gray"
-            },
-            "furniture": {
-            "#": "f_counter",
-            "t": "f_table",
-            "S": "f_sink",
-            "G": "f_oven",
-            "f": "f_fridge",
-            "H": "f_sofa"
-            },
-        "place_items": [
-                { "item": "diner_food", "chance": 75, "x": [ 4,17 ], "y": [ 14,14 ] },
-                { "item": "diner_back", "chance": 95, "x": [ 4,16 ], "y": [ 16,16 ] }
-        ],
-        "toilets": {
-            "T": { }
-        }
-        }
+  {
+    "id": "diner_food",
+    "type": "item_group",
+    "items": [
+      [ "cheeseburger", 6 ],
+      [ "hamburger", 8 ],
+      [ "sloppyjoe", 6 ],
+      [ "blt", 6 ],
+      [ "fries", 10 ],
+      [ "onion_rings", 8 ],
+      [ "fchicken", 8 ],
+      [ "sausage", 8 ],
+      [ "sweet_sausage", 2 ],
+      [ "hotdogs_cooked", 8 ],
+      [ "chilidogs", 6 ],
+      [ "corndogs_cooked", 8 ],
+      [ "scrambled_eggs", 8 ],
+      [ "deluxe_eggs", 5 ],
+      [ "pancakes", 12 ],
+      [ "fruit_pancakes", 6 ],
+      [ "choc_pancakes", 6 ],
+      [ "waffles", 10 ],
+      [ "fruit_waffles", 6 ],
+      [ "choc_waffles", 6 ],
+      [ "pie", 9 ],
+      [ "pie_meat", 8 ],
+      [ "pan", 30 ]
+    ]
+  },
+  {
+    "id": "diner_back",
+    "type": "item_group",
+    "items": [
+      [ "pickle", 20 ],
+      [ "bacon", 20 ],
+      [ "fries", 20 ],
+      [ "onion_rings", 20 ],
+      [ "sausage", 20 ],
+      [ "sweet_sausage", 5 ],
+      [ "hotdogs_frozen", 20 ],
+      [ "corndogs_frozen", 20 ],
+      [ "pancakes", 20 ],
+      [ "waffles", 20 ],
+      [ "tomato", 20 ],
+      [ "lettuce", 20 ],
+      [ "soup_veggy", 20 ],
+      [ "soup_meat", 20 ],
+      [ "soup_tomato", 20 ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_restaurant" ],
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "========================",
+        "=|OOOOOOOOOOOOOOO--+--|=",
+        "=|HtHHtHHtHHtHHtHlblbl|=",
+        "=|HtHHtHHtHHtHHtHblblb|=",
+        "=|blblblblblblblblblbl|=",
+        "=|cbcbcbcbcbcbcbcbcblb|=",
+        "=|#################lbl|=",
+        "=|lblblblblblblblb#blb|=",
+        "=|blblblblblblblblblbl|=",
+        "=|lb####ffGGGG####lblb|=",
+        "=|bl-------------|--+-|=",
+        "=|lb###fffffff###|llll|=",
+        "=|blblblblblblblb|llll|=",
+        "=|lblblblblblblbl|lSTl|=",
+        "=|---------------|----|=",
+        "========================",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_linoleum_gray",
+        "+": "t_door_c",
+        ",": "t_pavement_y",
+        "-": "t_wall",
+        ".": "t_grass",
+        "=": "t_sidewalk",
+        "G": "t_linoleum_gray",
+        "H": "t_linoleum_white",
+        "O": "t_window",
+        "S": "t_linoleum_white",
+        "T": "t_linoleum_white",
+        "_": "t_pavement",
+        "b": "t_linoleum_gray",
+        "c": "t_linoleum_white",
+        "f": "t_linoleum_white",
+        "l": "t_linoleum_white",
+        "t": "t_linoleum_gray",
+        "|": "t_wall"
+      },
+      "furniture": {
+        "#": "f_counter",
+        "G": "f_oven",
+        "H": "f_sofa",
+        "S": "f_sink",
+        "f": "f_fridge",
+        "t": "f_table"
+      },
+      "toilets": {
+        "T": {}
+      },
+      "place_items": [
+        { "item": "diner_food", "x": [ 4, 17 ], "y": [ 14, 14 ], "chance": 75 },
+        { "item": "diner_back", "x": [ 4, 16 ], "y": [ 16, 16 ], "chance": 95 }
+      ]
     }
+  }
 ]

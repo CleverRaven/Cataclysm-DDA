@@ -417,29 +417,30 @@ const recipe *select_crafting_recipe( int &batch_size )
             previous_tab = tab.cur();
             previous_subtab = subtab.cur();
             previous_item_line = line;
+            const int xpos = 30;
 
             if( display_mode == 0 ) {
-                mvwprintz( w_data, ypos++, 30, col, _( "Skills used: %s" ),
+                const int width = getmaxx( w_data ) - xpos - item_info_x;
+                mvwprintz( w_data, ypos++, xpos, col, _( "Skills used: %s" ),
                            ( !current[line]->skill_used ? _( "N/A" ) :
                              current[line]->skill_used.obj().name().c_str() ) );
-
-                mvwprintz( w_data, ypos++, 30, col, _( "Required skills: %s" ),
-                           ( current[line]->required_skills_string().c_str() ) );
-                mvwprintz( w_data, ypos++, 30, col, _( "Difficulty: %d" ),
+                ypos += fold_and_print( w_data, ypos, xpos, width, col, _( "Required skills: %s" ),
+                                        current[line]->required_skills_string().c_str() );
+                mvwprintz( w_data, ypos++, xpos, col, _( "Difficulty: %d" ),
                            current[ line ]->difficulty );
                 if( !current[line]->skill_used ) {
-                    mvwprintz( w_data, ypos++, 30, col, _( "Your skill level: N/A" ) );
+                    mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: N/A" ) );
                 } else {
-                    mvwprintz( w_data, ypos++, 30, col, _( "Your skill level: %d" ),
+                    mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: %d" ),
                                // Macs don't seem to like passing this as a class, so force it to int
                                ( int )g->u.get_skill_level( current[line]->skill_used ) );
                 }
-                ypos += current[line]->print_time( w_data, ypos, 30, pane, col, count );
-                mvwprintz( w_data, ypos++, 30, col, _( "Dark craftable? %s" ),
+                ypos += current[line]->print_time( w_data, ypos, xpos, pane, col, count );
+                mvwprintz( w_data, ypos++, xpos, col, _( "Dark craftable? %s" ),
                            current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
                            current[line]->has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
                            _( "Impossible" ) );
-                ypos += current[line]->print_items( w_data, ypos, 30, col, ( batch ) ? line + 1 : 1 );
+                ypos += current[line]->print_items( w_data, ypos, xpos, col, batch ? line + 1 : 1 );
             }
 
             //color needs to be preserved in case part of the previous page was cut off
@@ -457,12 +458,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
 
                 components_printed++;
-                print_colored_text( w_data, ypos++, 30, stored_color, col, component_print_buffer[i] );
+                print_colored_text( w_data, ypos++, xpos, stored_color, col, component_print_buffer[i] );
             }
 
             if( ypos >= componentPrintHeight &&
                 component_print_buffer.size() > static_cast<size_t>( components_printed ) ) {
-                mvwprintz( w_data, ypos++, 30, col, _( "v (more)" ) );
+                mvwprintz( w_data, ypos++, xpos, col, _( "v (more)" ) );
                 rotated_color = stored_color;
             }
 

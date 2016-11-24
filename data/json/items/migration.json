@@ -325,5 +325,15 @@
     "id": "pistol_pepperbox",
     "type": "MIGRATION",
     "replace": "colt_navy"
+  },
+  {
+    "id": "pda",
+    "type": "MIGRATION",
+    "replace": "cell_phone"
+  },
+  {
+    "id": "pda_flashlight",
+    "type": "MIGRATION",
+    "replace": "cell_phone"
   }
 ]

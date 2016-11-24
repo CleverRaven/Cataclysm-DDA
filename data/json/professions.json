@@ -1891,7 +1891,7 @@
                 "briefcase_smg",
                 "stenmag",
                 "9mm",
-                "pda"
+                "cell_phone"
             ],
             "male": [
                 "boxer_shorts"
@@ -2276,7 +2276,7 @@
                 "gold_watch",
                 "knit_scarf",
                 "briefcase",
-                "pda",
+                "cell_phone",
                 "file",
                 "teleumbrella"
             ],
@@ -3281,7 +3281,6 @@
                 "knit_scarf",
                 "wristwatch",
                 "cell_phone",
-                "pda",
                 "briefcase",
                 "money_bundle",
                 "file"
@@ -4749,7 +4748,6 @@
                 "wristwatch",
                 "mbag",
                 "water_mineral",
-                "pda",
                 "cell_phone",
                 "money_bundle",
                 "adderall",
@@ -4834,7 +4832,6 @@
                     "wristwatch",
                     "mbag",
                     "water_mineral",
-                    "pda",
                     "cell_phone",
                     "money_bundle"
                 ],

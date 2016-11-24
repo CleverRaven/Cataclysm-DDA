@@ -479,7 +479,7 @@ bool mattack::acid_barf(monster *z)
     } else {
         target->add_msg_player_or_npc(
             _("The %1$s barfs acid on your %2$s, but it washes off the armor!"),
-            _("The %1$s bites <npcname>'s %2$s, but it washes off the armor!"),
+            _("The %1$s barfs acid on <npcname>'s %2$s, but it washes off the armor!"),
             z->name().c_str(),
             body_part_name_accusative( hit ).c_str() );
     }
