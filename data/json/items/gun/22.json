@@ -23,6 +23,7 @@
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "22", [ "a180mag" ] ],
+      [ "46", [ "hk46bigmag" ] ],
       [ "57", [ "fnp90mag" ] ]
     ]
   },
@@ -179,7 +180,11 @@
     "durability": 8,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
-    "magazines": [ [ "22", [ "mosquitomag" ] ] ]
+    "magazines": [
+      [ "22", [ "mosquitomag" ] ],
+      [ "46", [ "hk46mag" ] ],
+      [ "57", [ "fn57mag" ] ]
+    ]
   },
   {
     "id": "sw_22",
