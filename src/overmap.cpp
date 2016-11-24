@@ -3935,7 +3935,7 @@ tripoint om_direction::rotate( const tripoint &p, type dir )
 
 int_id<oter_t> om_direction::rotate( const int_id<oter_t> &oter, om_direction::type dir )
 {
-    return oter->type->get_rotated( dir );
+    return oter->type->get_rotated( add( oter->dir, dir ) );
 }
 
 long om_direction::rotate_symbol( long sym, type dir )
@@ -3985,14 +3985,19 @@ inline om_direction::type rotate_internal( om_direction::type dir, int step )
     return static_cast<type>( ( static_cast<int>( dir ) + step ) % size );
 }
 
+om_direction::type om_direction::add( type dir1, type dir2 )
+{
+    return rotate_internal( dir1, static_cast<int>( dir2 ) );
+}
+
 om_direction::type om_direction::turn_left( type dir )
 {
-    return rotate_internal( dir, -1 );
+    return rotate_internal( dir, -int( size ) / 4 );
 }
 
 om_direction::type om_direction::turn_right( type dir )
 {
-    return rotate_internal( dir, 1 );
+    return rotate_internal( dir, int( size ) / 4 );
 }
 
 om_direction::type om_direction::turn_random( type dir )
@@ -4002,7 +4007,7 @@ om_direction::type om_direction::turn_random( type dir )
 
 om_direction::type om_direction::opposite( type dir )
 {
-    return rotate_internal( dir, size / 2 );
+    return rotate_internal( dir, int( size ) / 2 );
 }
 
 om_direction::type om_direction::random()

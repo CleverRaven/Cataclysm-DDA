@@ -52,6 +52,9 @@ long rotate_symbol( long sym, type dir );
 /** Returns point(0, 0) displaced in direction @param dir by the @param dist. */
 point displace( type dir, int dist = 1 );
 
+/** Returns a sum of @param dir1 and @param dir2. */
+type add( type dir1, type dir2 );
+
 /** Turn by 90 degrees to the left, to the right, or randomly (either left or right). */
 type turn_left( type dir );
 type turn_right( type dir );
