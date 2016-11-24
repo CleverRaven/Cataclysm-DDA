@@ -78,6 +78,11 @@
     "items": [ [ "shotgun_410", 30 ] ]
   },
   {
+    "id": "guns_shotgun_rare",
+    "type": "item_group",
+    "items": [ [ "saiga_410", 30 ] ]
+  },
+  {
     "id": "guns_shotgun_improvised",
     "type": "item_group",
     "items": [ [ "410_pipe_shotgun", 70 ] ]
@@ -112,6 +117,22 @@
     "items": [
       { "item": "410_hull", "prob": 75, "count": 20 },
       { "item": "45lc_casing", "prob": 40, "count": 20 }
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_shotgun_rare",
+    "//" : "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
+    "items": [
+      [ "saiga10mag_410", 50 ],
+      [ "saiga30mag_410", 10 ]
+    ]
+  },
+  {
+    "id": "gunmod_rare",
+    "type": "item_group",
+    "items": [
+      [ "retool_410", 20 ]
     ]
   }
 ]
