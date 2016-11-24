@@ -85,7 +85,6 @@ void PATH_INFO::update_datadir()
     update_pathname("motd", FILENAMES["motddir"] + "en.motd");
     update_pathname("credits", FILENAMES["creditsdir"] + "en.credits");
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
-    update_pathname("worldnames", FILENAMES["namesdir"] + "worlds.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
     update_pathname("keybindings_vehicle", FILENAMES["rawdir"] + "keybindings/vehicle.json");
@@ -150,7 +149,6 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("motd", FILENAMES["motddir"] + "en.motd");
     update_pathname("credits", FILENAMES["creditsdir"] + "en.credits");
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
-    update_pathname("worldnames", FILENAMES["namesdir"] + "worlds.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
     update_pathname("keybindings_vehicle", FILENAMES["rawdir"] + "keybindings/vehicle.json");

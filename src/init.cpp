@@ -307,11 +307,9 @@ void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src
 
 void init_names()
 {
-    const std::string translated_names = 
-        PATH_INFO::find_translated_file( "namesdir",
+    const std::string filename = PATH_INFO::find_translated_file( "namesdir",
                                  ".json", "names" );
-    load_names_from_file( translated_names );
-    load_names_from_file( FILENAMES["worldnames"] );
+    load_names_from_file(filename);
 }
 
 void DynamicDataLoader::unload_data()
