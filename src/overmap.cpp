@@ -77,34 +77,45 @@ oter_id  ot_null,
          ot_river_center;
 
 struct overmap_special_location {
-    std::vector<oter_str_id> allowed;
-    std::vector<oter_str_id> disallowed;
-    // Test if oter meets the terrain restrictions.
-    bool test( const oter_id &oter ) const {
-        const auto matches = [ &oter ]( const oter_str_id &elem ) {
-            return is_ot_type( elem.str(), oter );
-        };
+    public:
+        overmap_special_location( const std::vector<std::string> &allowed,
+                                  const std::vector<std::string> &disallowed ) {
+            const auto convert = []( const std::string &str ) {
+                return string_id<oter_type_t>( str );
+            };
 
-        if( !allowed.empty() && std::none_of( allowed.begin(), allowed.end(), matches ) ) {
-            return false;
+            std::transform( allowed.begin(), allowed.end(), std::back_inserter( this->allowed ), convert );
+            std::transform( disallowed.begin(), disallowed.end(), std::back_inserter( this->disallowed ), convert );
         }
 
-        return std::none_of( disallowed.begin(), disallowed.end(), matches );
-    }
+        // Test if oter meets the terrain restrictions.
+        bool test( const oter_id &oter ) const {
+            const auto matches = [ &oter ]( const string_id<oter_type_t> &type ) {
+                return oter->type_is( *type );
+            };
+
+            if( !allowed.empty() && std::none_of( allowed.begin(), allowed.end(), matches ) ) {
+                return false;
+            }
+
+            return std::none_of( disallowed.begin(), disallowed.end(), matches );
+        }
+
+    private:
+        std::vector<string_id<oter_type_t>> allowed;
+        std::vector<string_id<oter_type_t>> disallowed;
 };
 
 // Map of allowed and disallowed terrain for locations of overmap specials.
 // Format: { location, { { list of allowed terrains }, { list of disallowed terrains } } }
 // @todo Jsonize this map.
 static const std::map<std::string, overmap_special_location> special_locations = {
-    { "field",      { { oter_str_id( "field"  ) },          {}                         } },
-    { "forest",     { { oter_str_id( "forest" ) },          {}                         } },
-    { "swamp",      { { oter_str_id("forest_water" ) },     {}                         } },
-    { "land",       { {},                                   { oter_str_id( "river" ),
-                                                              oter_str_id( "road"  ) } } },
-    { "water",      { { oter_str_id( "river" ) },           {}                         } },
-    { "wilderness", { { oter_str_id( "forest" ),
-                        oter_str_id( "field"  ) },          {}                         } }
+    { "field",      { { "field"            }, {                  } } },
+    { "forest",     { { "forest"           }, {                  } } },
+    { "swamp",      { { "forest_water"     }, {                  } } },
+    { "land",       { {                    }, { "river" , "road" } } },
+    { "water",      { { "river"            }, {                  } } },
+    { "wilderness", { { "forest" , "field" }, {                  } } }
 };
 
 const oter_type_t oter_t::null_type;
@@ -506,6 +517,16 @@ oter_t::oter_t( const oter_type_t &type, size_t line ) :
     id_mapgen( type.id.str() + om_lines::mapgen_suffixes[om_lines::all[line].mapgen] ),
     sym( om_lines::all[line].sym ) {}
 
+inline bool oter_t::type_is( int_id<oter_type_t> type_id ) const
+{
+    return type->id.id() == type_id;
+}
+
+inline bool oter_t::type_is( const oter_type_t &type ) const
+{
+    return this->type == &type;
+}
+
 void overmap_terrains::load( JsonObject &jo, const std::string &src )
 {
     terrain_types.load( jo, src );
@@ -597,8 +618,14 @@ void overmap_terrains::check_consistency()
         "triffid_roots",
     };
 
+    for( const auto &elem : terrain_types.get_all() ) {
+        if( elem.static_spawns.group && !elem.static_spawns.group.is_valid() ) {
+            debugmsg( "Invalid monster group \"%s\" in spawns of \"%s\".", elem.static_spawns.group.c_str(), elem.id.c_str() );
+        }
+    }
+
     for( const auto &elem : terrains.get_all() ) {
-        if( elem.id.is_null() ) {
+        if( elem.id_mapgen.empty() ) {
             continue;
         }
 
@@ -611,10 +638,6 @@ void overmap_terrains::check_consistency()
             }
         } else if( !exists_hardcoded ) {
             debugmsg( "No mapgen terrain exists for \"%s\".", elem.id_mapgen.c_str() );
-        }
-
-        if( elem.static_spawns.group && !elem.static_spawns.group.is_valid() ) {
-            debugmsg( "Invalid monster group \"%s\" in spawns of \"%s\".", elem.static_spawns.group.c_str(), elem.id.c_str() );
         }
     }
 }

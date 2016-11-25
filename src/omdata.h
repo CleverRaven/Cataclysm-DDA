@@ -184,6 +184,9 @@ struct oter_t {
             return type->static_spawns;
         }
 
+        inline bool type_is( int_id<oter_type_t> type_id ) const;
+        inline bool type_is( const oter_type_t &type ) const;
+
         static size_t count();  /// Overall number of loaded objects
 
         bool has_flag( oter_flags flag ) const {
