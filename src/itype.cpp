@@ -7,6 +7,7 @@
 
 #include <stdexcept>
 #include <algorithm>
+#include <cmath>
 
 double friction_loss = 0.05;
 

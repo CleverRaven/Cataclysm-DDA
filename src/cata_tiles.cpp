@@ -1379,8 +1379,8 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                             }
                         }
                         draw_rhombus(
-                            destx + minimap_border_width + x * minimap_tile_size.x,
-                            desty + minimap_border_height + y * minimap_tile_size.y,
+                            destx + minimap_border_width + x * minimap_tile_size.x + minimap_tile_size.x / 2,
+                            desty + minimap_border_height + y * minimap_tile_size.y + minimap_tile_size.y / 2,
                             minimap_tile_size.x,
                             c,
                             width,

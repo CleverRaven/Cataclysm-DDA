@@ -370,7 +370,7 @@
     "type": "AMMO",
     "name": "metal fragment",
     "description": "Small slivers of metal.  Can't see much use for them.",
-    "weight": 250,
+    "weight": 1,
     "volume": 1,
     "price": 0,
     "bashing": 1,

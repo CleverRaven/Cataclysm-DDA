@@ -143,6 +143,12 @@ ifneq ($(findstring BSD,$(OS)),)
   BSD = 1
 endif
 
+# Compiler version & target machine - used later for MXE ICE workaround
+ifdef CROSS
+  CXXVERSION := $(shell $(CROSS)$(CXX) --version | grep -i gcc | sed 's/^.* //g')
+  CXXMACHINE := $(shell $(CROSS)$(CXX) -dumpmachine)
+endif
+
 # Expand at reference time to avoid recursive reference
 OS_COMPILER := $(CXX)
 # Appears that the default value of $LD is unsuitable on most systems
@@ -158,11 +164,6 @@ STRIP = $(CROSS)strip
 RC  = $(CROSS)windres
 AR  = $(CROSS)ar
 
-# Capture CXXVERSION if using MXE - used later for ICE workaround
-ifdef CROSS
-  CXXVERSION := $(shell ${OS_COMPILER} --version | grep -i gcc | sed 's/^.* //g')
-endif
-
 # We don't need scientific precision for our math functions, this lets them run much faster.
 CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
@@ -177,7 +178,8 @@ ifdef RELEASE
     endif
   else
     # MXE ICE Workaround
-    ifeq (${CXXVERSION}, 4.9.3)
+    # known bad on 4.9.3 and 4.9.4, if it gets fixed this could include a version test too
+    ifeq ($(CXXMACHINE), x86_64-w64-mingw32.static)
       OPTLEVEL = -O3
     else
       OPTLEVEL = -Os
