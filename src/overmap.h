@@ -27,11 +27,10 @@ struct mongroup;
 
 struct oter_weight {
     inline bool operator ==(const oter_weight &other) const {
-        return ot_sid == other.ot_sid;
+        return id == other.id;
     }
 
-    std::string ot_sid;
-    int ot_iid;
+    string_id<oter_type_t> id;
 };
 
 struct city_settings {
@@ -39,6 +38,14 @@ struct city_settings {
    int park_radius = 130; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
    weighted_int_list<oter_weight> shops;
    weighted_int_list<oter_weight> parks;
+
+    oter_id pick_shop() const {
+        return shops.pick()->id->get_first();
+    }
+
+    oter_id pick_park() const {
+        return parks.pick()->id->get_first();
+    }
 };
 
 /*
@@ -94,7 +101,6 @@ struct regional_settings {
 
     regional_settings() : id("null"), default_oter("field"), default_groundcover(t_null, 0, t_null) { }
     void setup();
-    static void setup_oter(oter_weight &oter);
 };
 
 

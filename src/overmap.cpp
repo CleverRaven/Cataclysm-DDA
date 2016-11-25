@@ -333,12 +333,12 @@ bool road_allowed(const oter_id &ter)
 
 oter_id overmap::random_shop() const
 {
-    return oter_id( settings.city_spec.shops.pick()->ot_iid );
+    return settings.city_spec.pick_shop();
 }
 
 oter_id overmap::random_park() const
 {
-    return oter_id( settings.city_spec.parks.pick()->ot_iid );
+    return settings.city_spec.pick_park();
 }
 
 oter_id overmap::random_house() const
@@ -809,7 +809,7 @@ void load_region_settings( JsonObject &jo )
             for( const auto &key : keys ) {
                 if( key != "//" ) {
                     if( wjo.has_int( key ) ) {
-                        new_region.city_spec.shops.add({key, -1}, wjo.get_int( key ) );
+                        new_region.city_spec.shops.add( { oter_type_str_id( key ) }, wjo.get_int( key ) );
                     }
                 }
             }
@@ -824,7 +824,7 @@ void load_region_settings( JsonObject &jo )
             for( const auto &key : keys ) {
                 if( key != "//" ) {
                     if( wjo.has_int( key ) ) {
-                        new_region.city_spec.parks.add({key, -1}, wjo.get_int( key ) );
+                        new_region.city_spec.parks.add( { oter_type_str_id( key ) }, wjo.get_int( key ) );
                     }
                 }
             }
@@ -991,7 +991,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
     for( const auto &key : shopkeys ) {
         if( key != "//" ) {
             if( shopsjo.has_int( key ) ) {
-                region.city_spec.shops.add_or_replace({key, -1}, shopsjo.get_int(key));
+                region.city_spec.shops.add_or_replace( { oter_type_str_id( key ) }, shopsjo.get_int( key ) );
             }
         }
     }
@@ -1001,7 +1001,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
     for( const auto &key : parkkeys ) {
         if( key != "//" ) {
             if( parksjo.has_int( key ) ) {
-                region.city_spec.parks.add_or_replace({key, -1}, parksjo.get_int(key));
+                region.city_spec.parks.add_or_replace( { oter_type_str_id( key ) }, parksjo.get_int( key ) );
             }
         }
     }
@@ -4437,24 +4437,8 @@ void regional_settings::setup()
         default_groundcover.primary = primary.id();
         default_groundcover.secondary = secondary.id();
         field_coverage.setup();
-        city_spec.shops.apply(&setup_oter);
-        city_spec.parks.apply(&setup_oter);
         default_groundcover_str.reset();
         get_options().add_value("DEFAULT_REGION", id );
-    }
-}
-
-void regional_settings::setup_oter(oter_weight &oter) {
-    if ( oter.ot_iid == -1 ) {
-        const string_id<oter_type_t> base( oter.ot_sid );
-
-        if( !terrain_types.is_valid( base ) ) {
-            debugmsg( "Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", base.c_str() );
-            oter.ot_iid = 0;
-            return;
-        }
-
-        oter.ot_iid = terrain_types.obj( base ).get_first();
     }
 }
 
