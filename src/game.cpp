@@ -1541,6 +1541,9 @@ bool game::do_turn()
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
         draw();
+#ifdef TILES
+        try_sdl_update();
+#endif
     }
     u.process_active_items();
 
@@ -1551,6 +1554,9 @@ bool game::do_turn()
     if( u.has_effect( effect_sleep) && calendar::once_every(MINUTES(30)) ) {
         draw();
         refresh();
+#ifdef TILES
+        try_sdl_update();
+#endif
     }
 
     u.update_bodytemp();
