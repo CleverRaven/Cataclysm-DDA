@@ -520,22 +520,30 @@ void butchery_drops_harvest( const mtype &mt, player &p, int age, const std::fun
         float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         float max_num = entry.base_num.second + butchery * entry.scale_num.second;
         int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
-        item will_drop( entry.drop, age );
-        will_drop.set_mtype( &mt );
-        for( int i = 0; i < roll; i++ ) {
-            const item &it = g->m.add_item_or_charges( p.pos(), will_drop );
-            if( !it.is_null() ) {
-                p.add_msg_if_player( m_good, _( "You harvest: %s" ), it.tname().c_str() );
-                practice++;
-            } else {
-                // Can happen due to weird terrain, don't print "you harvest none"
-                p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), will_drop.tname().c_str() );
+
+        const itype *drop = item::find_type( entry.drop );
+
+        if( roll <= 0 ) {
+            p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ).c_str() );
+            continue;
+        }
+
+        if( drop->phase == LIQUID ) {
+            g->handle_all_liquid( item( drop, age, roll ), 1 );
+
+        } else if( drop->stackable ) {
+            g->m.add_item_or_charges( p.pos(), item( drop, age, roll ) );
+
+        } else {
+            item obj( drop, age );
+            obj.set_mtype( &mt );
+            for( int i = 0; i != roll; ++i ) {
+                g->m.add_item_or_charges( p.pos(), obj );
             }
         }
 
-        if( roll <= 0 ) {
-            p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), will_drop.tname().c_str() );
-        }
+        p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ).c_str() );
+        practice++;
     }
 
     p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
