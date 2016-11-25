@@ -299,7 +299,7 @@ struct mtype {
         std::map<std::string, int> starting_ammo; // Amount of ammo the monster spawns with.
         // Name of item group that is used to create item dropped upon death, or empty.
         std::string death_drops;
-        harvest_id butchery_harvest;
+        harvest_id harvest;
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         // special attack frequencies and function pointers
         std::map<std::string, mtype_special_attack> special_attacks;

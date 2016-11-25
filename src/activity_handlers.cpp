@@ -514,13 +514,12 @@ void butchery_drops_hardcoded( const mtype *corpse, player *p, int age, const st
 
 void butchery_drops_harvest( const mtype &mt, player &p, int age, const std::function<int(void)> &roll_butchery )
 {
-    const auto &drops = mt.butchery_harvest.obj();
     int practice = 4 + roll_butchery();
-    for( const auto &entry : drops ) {
+    for( const auto &entry : *mt.harvest ) {
         int butchery = roll_butchery();
         float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         float max_num = entry.base_num.second + butchery * entry.scale_num.second;
-        int roll = std::min<int>( entry.cap, round( rng_float( min_num, max_num ) ) );
+        int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
         item will_drop( entry.drop, age );
         will_drop.set_mtype( &mt );
         for( int i = 0; i < roll; i++ ) {
@@ -580,7 +579,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return static_cast<int>( round( skill_shift ) );
     };
 
-    if( corpse->butchery_harvest->is_null() ) {
+    if( corpse->harvest->is_null() ) {
         butchery_drops_hardcoded( corpse, p, age, roll_butchery );
     } else {
         butchery_drops_harvest( *corpse, *p, age, roll_butchery );

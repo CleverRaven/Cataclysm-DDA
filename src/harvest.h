@@ -19,7 +19,7 @@ struct harvest_entry {
     // @todo Make it a map: skill->scaling
     std::pair<float, float> scale_num = { 0.0f, 0.0f };
 
-    int cap = 1000;
+    int max = 1000;
 
     static harvest_entry load( JsonObject &jo, const std::string &src );
 };

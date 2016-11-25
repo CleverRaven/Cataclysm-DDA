@@ -546,7 +546,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
         death_drops = item_group::load_item_group( stream, "distribution" );
     }
 
-    assign( jo, "butchery_harvest", butchery_harvest, strict );
+    assign( jo, "harvest", harvest, strict );
 
     const typed_flag_reader<decltype( gen.death_map )> death_reader{ gen.death_map, "invalid monster death function" };
     optional( jo, was_loaded, "death_function", dies, death_reader );

@@ -23,7 +23,7 @@
     "luminance": 5,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "butchery_harvest": "fish_small",
+    "harvest": "fish_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
   },
   {
@@ -49,7 +49,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "butchery_harvest": "fish_small",
+    "harvest": "fish_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
   },
   {
@@ -75,7 +75,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "butchery_harvest": "fish_small",
+    "harvest": "fish_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
   },
   {
@@ -101,7 +101,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "butchery_harvest": "fish_small",
+    "harvest": "fish_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
   },
   {
@@ -152,7 +152,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "butchery_harvest": "fish_small",
+    "harvest": "fish_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
   },
   {
@@ -203,7 +203,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "butchery_harvest": "fish_small",
+    "harvest": "fish_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
   },
   {
@@ -230,7 +230,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "butchery_harvest": "fish_small",
+    "harvest": "fish_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
   },
   {
@@ -257,7 +257,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "butchery_harvest": "fish_small",
+    "harvest": "fish_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
   },
   {
@@ -284,7 +284,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "butchery_harvest": "fish_small",
+    "harvest": "fish_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
   },
   {
@@ -362,7 +362,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "butchery_harvest": "fish_small",
+    "harvest": "fish_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
   },
   {
@@ -389,7 +389,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "butchery_harvest": "fish_small",
+    "harvest": "fish_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
   },
   {
@@ -416,7 +416,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
-    "butchery_harvest": "fish_small",
+    "harvest": "fish_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "BONES" ]
   },
   {
