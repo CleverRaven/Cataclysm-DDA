@@ -88,6 +88,10 @@ class int_id
         const string_id<T> &id() const;
         const T &obj() const;
 
+        const T &operator*() const {
+            return obj();
+        }
+
         const T *operator->() const {
             return &obj();
         }
