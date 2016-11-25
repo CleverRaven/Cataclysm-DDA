@@ -1,0 +1,9 @@
+[
+  {
+    "id": "PSIBLAST",
+    "type": "keybinding",
+    "category": "DEFAULTMODE",
+    "name": "Psiblast",
+    "bindings":[ { "input_method": "keyboard", "key": " " } ]
+  }
+]

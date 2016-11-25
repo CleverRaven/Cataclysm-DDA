@@ -57,6 +57,7 @@
 #include "weather_gen.h"
 #include "npc_class.h"
 #include "recipe_dictionary.h"
+#include "input.h"
 
 #include <string>
 #include <vector>
@@ -237,6 +238,7 @@ void DynamicDataLoader::initialize()
     add( "gate", &gates::load );
     add( "overlay_order", &load_overlay_ordering );
     add( "mission_definition", []( JsonObject &jo, const std::string &src ) { mission_type::load_mission_type( jo, src ); } );
+    add( "keybinding", []( JsonObject &jo, const std::string &src ) { inp_mngr.load( jo, src, false ); } );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
