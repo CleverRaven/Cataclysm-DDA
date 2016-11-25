@@ -435,15 +435,22 @@ void oter_type_t::finalize()
 
     if( has_flag( rotates ) ) {
         for( auto dir : om_direction::all ) {
-            register_rotation( dir );
+            register_terrain( oter_t( *this, dir ), static_cast<size_t>( dir ), om_direction::size );
         }
     } else if( has_flag( line_drawing ) ) {
-        for( size_t n = 0; n < om_lines::size; ++n ) {
-            register_line( n );
+        for( size_t i = 0; i < om_lines::size; ++i ) {
+            register_terrain( oter_t( *this, i ), i, om_lines::size );
         }
     } else {
-        register_single();
+        register_terrain( oter_t( *this ), 0, 1 );
     }
+}
+
+void oter_type_t::register_terrain( const oter_t &peer, size_t n, size_t max_n )
+{
+    assert( n < max_n );
+    directional_peers.resize( max_n );
+    directional_peers[n] = terrains.insert( peer ).id.id();
 }
 
 oter_id oter_type_t::get_first() const
@@ -478,48 +485,26 @@ oter_id oter_type_t::get_linear( size_t n ) const
     return directional_peers[n];
 }
 
-void oter_type_t::add_peer( const oter_t &peer, size_t n, size_t max_n )
-{
-    assert( n < max_n );
-    directional_peers.resize( max_n );
-    directional_peers[n] = terrains.insert( peer ).id.id();
-}
+oter_t::oter_t() : oter_t( null_type ) {}
 
-void oter_type_t::register_rotation( om_direction::type dir )
-{
-    oter_t oter( this );
+oter_t::oter_t( const oter_type_t &type ) :
+    type( &type ),
+    id( type.id.str() ),
+    id_mapgen( type.id.str() ),
+    sym( type.sym ) {}
 
-    oter.id = oter_str_id( id.str() + "_" + om_direction::id( dir ) );
-    oter.id_mapgen = id.str();
-    oter.sym = om_direction::rotate_symbol( sym, dir );
-    oter.dir = dir;
+oter_t::oter_t( const oter_type_t &type, om_direction::type dir ) :
+    type( &type ),
+    id( type.id.str() + "_" + om_direction::id( dir ) ),
+    id_mapgen( type.id.str() ),
+    sym( om_direction::rotate_symbol( type.sym, dir ) ),
+    dir( dir ) {}
 
-    add_peer( oter, static_cast<size_t>( dir ), om_direction::size );
-}
-
-void oter_type_t::register_line( size_t n )
-{
-    oter_t oter( this );
-
-    const auto &line = om_lines::all[n];
-
-    oter.id = oter_str_id( id.str() + line.suffix );
-    oter.id_mapgen = id.str() + om_lines::mapgen_suffixes[line.mapgen];
-    oter.sym = line.sym;
-
-    add_peer( oter, n, om_lines::size );
-}
-
-void oter_type_t::register_single()
-{
-    oter_t oter( this );
-
-    oter.id = oter_str_id( id.str() );
-    oter.id_mapgen = id.str();
-    oter.sym = sym;
-
-    add_peer( oter, 0, 1 );
-}
+oter_t::oter_t( const oter_type_t &type, size_t line ) :
+    type( &type ),
+    id( type.id.str() + om_lines::all[line].suffix ),
+    id_mapgen( type.id.str() + om_lines::mapgen_suffixes[om_lines::all[line].mapgen] ),
+    sym( om_lines::all[line].sym ) {}
 
 void overmap_terrains::load( JsonObject &jo, const std::string &src )
 {

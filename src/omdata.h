@@ -139,21 +139,22 @@ struct oter_type_t {
         std::bitset<num_oter_flags> flags;
         std::vector<oter_id> directional_peers;
 
-        void add_peer( const oter_t &peer, size_t n, size_t max_n );
-
-        void register_rotation( om_direction::type dir );
-        void register_line( size_t n );
-        void register_single();
+        void register_terrain( const oter_t &peer, size_t n, size_t max_n );
 };
 
 struct oter_t {
     public:
+        const oter_type_t *type; // @todo Don't reference this. Encapsulate further.
+
         oter_str_id id;         // definitive identifier.
         std::string id_mapgen;  // only for mapgen and almost always == id_base. Unless line_drawing / road.
         long sym = '\0';        // This is a long, so we can support curses linedrawing.
         om_direction::type dir = om_direction::type::none;
 
-        oter_t( const oter_type_t *type = &null_type ) : type( type ) {}
+        oter_t();
+        oter_t( const oter_type_t &type );
+        oter_t( const oter_type_t &type, om_direction::type dir );
+        oter_t( const oter_type_t &type, size_t line );
 
         const string_id<oter_type_t> &get_type_id() const {
             return type->id;
@@ -188,9 +189,6 @@ struct oter_t {
         bool has_flag( oter_flags flag ) const {
             return type->has_flag( flag );
         }
-
-        // @todo Don't reference this. Encapsulate further.
-        const oter_type_t *type;
 
     private:
         static const oter_type_t null_type;
