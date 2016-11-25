@@ -1,0 +1,40 @@
+[
+  {
+    "result": "flintlock_ammo",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 700,
+    "batch_time_factors": [ 50, 10 ],
+    "autolearn": true,
+    "charges": 1,
+    "using": [ [ "ammo_bullet", 10 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "chem_black_powder", 10 ], [ "gunpowder", 5 ] ],
+      [ [ "paper", 1 ] ]
+    ]
+  },
+  {
+    "result": "flintlock_shot",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 700,
+    "batch_time_factors": [ 50, 10 ],
+    "autolearn": true,
+    "charges": 1,
+    "using": [ [ "ammo_bullet", 10 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "chem_black_powder", 10 ], [ "gunpowder", 5 ] ],
+      [ [ "paper", 1 ] ]
+    ]
+  }
+]
