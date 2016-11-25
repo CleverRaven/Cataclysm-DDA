@@ -47,10 +47,6 @@ class input_context;
 // a consistent border colour
 #define BORDER_COLOR c_ltgray
 
-#ifdef TILES
-extern void try_sdl_update();
-#endif // TILES
-
 // Display data
 extern int TERMX; // width available for display
 extern int TERMY; // height available for display
@@ -656,5 +652,14 @@ int get_terminal_height();
 bool is_draw_tiles_mode();
 
 void play_music( std::string playlist );
+
+/**
+ * Make changes made to the display visible to the user immediately.
+ *
+ * In curses mode, this is a no-op. In SDL mode, this refreshes
+ * the real display from the backing buffer immediately, rather than
+ * delaying the update until the next time we are waiting for user input.
+ */
+void refresh_display();
 
 #endif
