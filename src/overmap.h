@@ -397,7 +397,7 @@ public:
   bool is_road(int x, int y, int z);
   void polish(const int z, const std::string &terrain_type="all");
   void chip_rock(int x, int y, int z);
-  void good_road(const std::string &base, int x, int y, int z);
+  oter_id good_road( const oter_type_t &type, int x, int y, int z );
   void good_river(int x, int y, int z);
   // Returns a vector of enabled overmap specials.
   std::vector<const overmap_special *> get_enabled_specials() const;

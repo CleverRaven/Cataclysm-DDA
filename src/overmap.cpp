@@ -3623,50 +3623,61 @@ void overmap::place_hiways( const std::vector<city> &cities, int z, const std::s
 void overmap::polish(const int z, const std::string &terrain_type)
 {
     const bool check_all = (terrain_type == "all");
+
+    const oter_type_t &target_type( *oter_type_id( check_all ? std::string() : terrain_type ) );
+    const oter_type_t &road_type( *oter_type_id( "road" ) );
+
+    const oter_type_t &bridge_ns_type( *oter_type_id( "bridge_ns" ) );
+    const oter_type_t &bridge_ew_type( *oter_type_id( "bridge_ew" ) );
+
     const oter_id road_nesw( "road_nesw" );
+    const oter_id road_mahole( "road_nesw_manhole" );
+
+    // @todo Get rid of the special case.
+    const auto is_bridge = [&]( const oter_t &ter ) {
+        return ter.type_is( bridge_ns_type ) || ter.type_is( bridge_ew_type );
+    };
 
     // Main loop--checks roads and rivers that aren't on the borders of the map
     for (int x = 0; x < OMAPX; x++) {
         for (int y = 0; y < OMAPY; y++) {
-            if (check_all || check_ot_type(terrain_type, x, y, z)) {
-                if (check_ot_type("bridge", x, y, z) &&
-                    check_ot_type("bridge", x - 1, y, z) &&
-                    check_ot_type("bridge", x + 1, y, z) &&
-                    check_ot_type("bridge", x, y - 1, z) &&
-                    check_ot_type("bridge", x, y + 1, z)) {
-                    ter(x, y, z) = road_nesw;
-                } else if (check_ot_type("subway", x, y, z)) {
-                    good_road("subway", x, y, z);
-                } else if (check_ot_type("sewer", x, y, z)) {
-                    good_road("sewer", x, y, z);
-                } else if (check_ot_type("ants", x, y, z)
-                           && !check_ot_type("ants_queen", x, y, z)
-                           && !check_ot_type("ants_larvae", x, y, z)
-                           && !check_ot_type("ants_food", x, y, z)) {
-                    good_road("ants", x, y, z);
-                } else if (check_ot_type("river", x, y, z)) {
-                    good_river(x, y, z);
-                    // Sometimes a bridge will start at the edge of a river,
-                    // and this looks ugly.
-                    // So, fix it by making that square normal road;
-                    // also taking other road pieces that may be next
-                    // to it into account. A bit of a kludge but it works.
-                } else if( check_ot_type( "road", x, y, z ) ||
-                           ( ter( x, y, z ) == "bridge_ns" &&
-                             ( !is_river( ter( x - 1, y, z ) ) ||
-                               !is_river( ter( x + 1, y, z ) ) ) ) ||
-                           ( ter( x, y, z ) == "bridge_ew" &&
-                             ( !is_river( ter( x, y - 1, z ) ) ||
-                               !is_river( ter( x, y + 1, z ) ) ) ) ) {
+            auto &oter = ter( x, y, z );
+            auto &oter_obj = *oter;
 
-                    good_road( "road", x, y, z );
+            if( check_all || oter_obj.type_is( target_type ) ) {
+                if( oter_obj.has_flag( line_drawing ) ) {
+                    oter = good_road( *oter_obj.type, x, y, z );
 
-                    if( one_in( 4 ) && ter( x, y, z ) == "road_nesw" ) {
-                        ter( x, y, z ) = oter_id( "road_nesw_manhole" );
+                    if( one_in( 4 ) && oter == road_nesw ) {
+                        oter = road_mahole;
                     }
+                } else if( is_bridge( oter_obj ) ) {
+                    if( is_bridge( *ter( x - 1, y, z ) ) &&
+                        is_bridge( *ter( x + 1, y, z ) ) &&
+                        is_bridge( *ter( x, y - 1, z ) ) &&
+                        is_bridge( *ter( x, y + 1, z ) ) ) {
+
+                        oter = road_nesw;
+                    } else if( ( oter_obj.type_is( bridge_ns_type ) && ( !is_river( ter( x - 1, y, z ) ) ||
+                                                                         !is_river( ter( x + 1, y, z ) ) ) ) ||
+                               ( oter_obj.type_is( bridge_ew_type ) && ( !is_river( ter( x, y - 1, z ) ) ||
+                                                                         !is_river( ter( x, y + 1, z ) ) ) ) ) {
+                        // Sometimes a bridge will start at the edge of a river,
+                        // and this looks ugly.
+                        // So, fix it by making that square normal road;
+                        // also taking other road pieces that may be next
+                        // to it into account. A bit of a kludge but it works.
+                        oter = good_road( road_type, x, y, z );
+                    }
+                } else if( is_ot_type( "river", oter ) ) {
+                    good_river(x, y, z);
                 }
             }
         }
+    }
+
+    if( !check_all && target_type.id != road_type.id ) {
+        return; // Nothing to do here anymore.
     }
 
     // Fixes stretches of parallel roads--turns them into two-lane highways
@@ -3677,20 +3688,23 @@ void overmap::polish(const int z, const std::string &terrain_type)
     // TODO: fix this?  courtyards etc?
     for (int y = 0; y < OMAPY - 1; y++) {
         for (int x = 0; x < OMAPX - 1; x++) {
-            if (check_ot_type(terrain_type, x, y, z)) {
-                if (ter(x, y, z) == "road_nes"
+            auto &oter = ter( x, y, z );
+            auto &oter_obj = *oter;
+
+            if( check_all || oter_obj.type_is( target_type ) ) {
+                if ( oter == "road_nes"
                     && ter(x + 1, y, z) == "road_nsw"
                     && ter(x, y + 1, z) == "road_nes"
                     && ter(x + 1, y + 1, z) == "road_nsw") {
-                    ter(x, y, z) = oter_id( "hiway_ns" );
+                    oter = oter_id( "hiway_ns" );
                     ter(x + 1, y, z) = oter_id( "hiway_ns" );
                     ter(x, y + 1, z) = oter_id( "hiway_ns" );
                     ter(x + 1, y + 1, z) = oter_id( "hiway_ns" );
-                } else if (ter(x, y, z) == "road_esw"
+                } else if ( oter == "road_esw"
                            && ter(x + 1, y, z) == "road_esw"
                            && ter(x, y + 1, z) == "road_new"
                            && ter(x + 1, y + 1, z) == "road_new" ) {
-                    ter(x, y, z) = oter_id( "hiway_ew" );
+                    oter = oter_id( "hiway_ew" );
                     ter(x + 1, y, z) = oter_id( "hiway_ew" );
                     ter(x, y + 1, z) = oter_id( "hiway_ew" );
                     ter(x + 1, y + 1, z) = oter_id( "hiway_ew" );
@@ -3757,13 +3771,13 @@ bool overmap::is_road(int x, int y, int z)
     //oter_t(ter(x, y, z)).is_road;
 }
 
-void overmap::good_road(const std::string &base, int x, int y, int z)
+oter_id overmap::good_road( const oter_type_t &type, int x, int y, int z )
 {
     std::bitset<om_direction::size> compass;
 
     for( auto dir : om_direction::all ) {
         const point p( om_direction::displace( dir ) );
-        if( check_ot_type_road( base, x + p.x, y + p.y, z ) ) {
+        if( check_ot_type_road( type.id.str(), x + p.x, y + p.y, z ) ) {
             compass.set( static_cast<int>( dir ) );
         }
     }
@@ -3772,8 +3786,7 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
         compass.set(); // No adjoining roads/etc. Happens occasionally, esp. with sewers.
     }
 
-    const string_id<oter_type_t> type( base );  // @todo The function should accept this instead.
-    ter( x, y, z ) = terrain_types.obj( type ).get_linear( compass.to_ulong() - 1 );
+    return type.get_linear( compass.to_ulong() - 1 );
 }
 
 void overmap::good_river(int x, int y, int z)
