@@ -1,5 +1,6 @@
 #include "iexamine.h"
 #include "game.h"
+#include "harvest.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "debug.h"
@@ -1423,12 +1424,14 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
 
 static bool harvest_common( player &p, const tripoint &examp, bool furn, bool nectar )
 {
-    const auto harvest = g->m.get_harvest( examp );
-    if( harvest.empty() ) {
+    const auto hid = g->m.get_harvest( examp );
+    if( hid.is_null() || hid->empty() ) {
         p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
         iexamine::none( p, examp );
         return false;
     }
+
+    const auto &harvest = hid.obj();
 
     // If nothing can be harvested, neither can nectar
     // Incredibly low priority @todo Allow separating nectar seasons
@@ -1444,9 +1447,9 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     int lev = p.get_skill_level( skill_survival );
     bool got_anything = false;
     for( const auto &entry : harvest ) {
-        float min_num = entry.base_number_min + lev * entry.scale_number_min;
-        float max_num = entry.base_number_max + lev * entry.scale_number_max;
-        int roll = round( rng_float( min_num, max_num ) );
+        float min_num = entry.base_num.first + lev * entry.scale_num.first;
+        float max_num = entry.base_num.second + lev * entry.scale_num.second;
+        int roll = std::min<int>( entry.cap, round( rng_float( min_num, max_num ) ) );
         for( int i = 0; i < roll; i++ ) {
             const item &it = g->m.add_item( p.pos(), item( entry.drop ) );
             p.add_msg_if_player( _( "You harvest: %s" ), it.tname().c_str() );

@@ -39,6 +39,7 @@ data/json/recipes/other/parts.json
 data/json/vehicles/* id
 data/json/vehicleparts/*
 data/json/npcs/missiondef.json id
+data/json/butchery_harvest.json id
 
 # Mods
 data/mods/*/modinfo.json
