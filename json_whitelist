@@ -47,5 +47,13 @@ data/mods/blazemod/*.json
 data/mods/Boats/*.json
 data/mods/Generic_Guns/*.json
 data/mods/makeshift/*.json
+data/mods/More_Survival_Tools/ammo.json
+data/mods/More_Survival_Tools/ammo_types.json
+data/mods/More_Survival_Tools/armor.json
+data/mods/More_Survival_Tools/furniture.json
+data/mods/More_Survival_Tools/items.json
+data/mods/More_Survival_Tools/item_groups.json
+data/mods/More_Survival_Tools/snippets.json
+data/mods/More_Survival_Tools/terrain.json
 data/mods/PKs_Rebalance/items/*.json
 data/mods/PKs_Rebalance/monsters/*.json
