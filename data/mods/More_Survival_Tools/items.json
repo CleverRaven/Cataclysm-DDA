@@ -45,7 +45,7 @@
         "target": "hobo_stove",
         "msg": "The ember is extinguished.",
         "active": false,
-        "menu_option_text": "Extinguish",
+        "menu_text": "Extinguish",
         "type": "transform"
       }
     ],
@@ -121,7 +121,7 @@
         "target": "tinderbox",
         "msg": "The ember is extinguished.",
         "active": false,
-        "menu_option_text": "Extinguish",
+        "menu_text": "Extinguish",
         "type": "transform"
       }
     ]

@@ -5759,7 +5759,7 @@
         "active": true,
         "need_charges": 1,
         "need_charges_msg": "Nothing happens.",
-        "menu_option_text": "Light up",
+        "menu_text": "Light up",
         "type": "transform"
       },
       {
@@ -5796,7 +5796,7 @@
         "target": "ref_lighter",
         "msg": "You extinguish the lighter.",
         "active": false,
-        "menu_option_text": "Extinguish",
+        "menu_text": "Extinguish",
         "type": "transform"
       }
     ],
