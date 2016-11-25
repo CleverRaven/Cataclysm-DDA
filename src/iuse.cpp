@@ -5468,7 +5468,7 @@ int iuse::gunmod_attach( player *p, item *it, bool, const tripoint& ) {
         return 0;
     }
 
-    auto loc = g->inv_for_gunmod( *it, _( "Select gun to modify:" ) );
+    auto loc = g->inv_for_gunmod( *it, _( "Select gun to modify" ) );
 
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -5501,7 +5501,7 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
                it->type->mod->acceptable_ammo.count( e.ammo_type( false ) );
     };
 
-    auto loc = g->inv_map_splice( filter, _( "Select tool to modify:" ), 1,
+    auto loc = g->inv_map_splice( filter, _( "Select tool to modify" ), 1,
                                   _( "You don't have compatible tools." ) );
 
     if( !loc ) {
@@ -5538,7 +5538,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You need a fabrication skill of 1 to use this repair kit."));
         return 0;
     }
-    int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
+    int inventory_index = g->inv_for_filter( _("Select the item to repair"), []( const item & itm ) {
         return ( !itm.is_firearm() ) && (itm.made_of( material_id( "wood" ) ) || itm.made_of( material_id( "paper" ) ) ||
                                  itm.made_of( material_id( "bone" ) ) || itm.made_of( material_id( "chitin" ) ) ) &&
                !itm.count_by_charges();

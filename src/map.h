@@ -1066,7 +1066,6 @@ public:
 
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
- void post_process(unsigned zones);
  void place_spawns(const mongroup_id& group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);

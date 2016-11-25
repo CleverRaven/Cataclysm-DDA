@@ -5,6 +5,6 @@
     "name": "Slow Zombies",
     "description": "Halves zombie speed.",
     "category": "rebalance",
-    "path": ""
+    "dependencies": [ "dda" ]
   }
 ]

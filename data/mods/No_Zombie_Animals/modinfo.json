@@ -5,8 +5,8 @@
     "name": "No Zombie Animals",
     "description": "Removes zombie animals from the game.",
     "category": "item_exclude",
-    "obsolete": true,
-    "path": "modinfo.json"
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "MONSTER_BLACKLIST",

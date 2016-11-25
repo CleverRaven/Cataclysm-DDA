@@ -1323,6 +1323,48 @@
     "use_action": "CATFOOD"
   },
   {
+    "id": "cell_phone",
+    "type": "TOOL",
+    "name": "cell phone",
+    "name_plural": "cell phones",
+    "description": "This is a typical smartphone that features an LED for use as a flash.  Using this cellphone will turn it on and provide light, assuming it is charged with batteries.",
+    "weight": 226,
+    "volume": 1,
+    "price": 10000,
+    "price_postapoc": 2000,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": "battery",
+    "initial_charges": 100,
+    "max_charges": 100,
+    "charges_per_use": 1,
+    "use_action": {
+      "target": "cell_phone_flashlight",
+      "msg": "You activate the flashlight app.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The cellphones's batteries are dead.",
+      "type": "transform"
+    },
+    "flags": [ "WATCH", "ALARMCLOCK" ]
+  },
+  {
+    "id": "cell_phone_flashlight",
+    "copy-from": "cell_phone",
+    "type": "TOOL",
+    "name": "cell phone - Flashlight",
+    "name_plural": "cell phones - Flashlight",
+    "turns_per_charge": 30,
+    "revert_to": "cell_phone",
+    "use_action": {
+      "target": "cell_phone",
+      "msg": "You deactivate the flashlight app.",
+      "type": "transform"
+    },
+    "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ]
+  },
+  {
     "id": "chainsaw_off",
     "type": "TOOL",
     "name": "chainsaw (off)",
@@ -4225,7 +4267,6 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "blue",
-    "initial_charges": 100,
     "rand_charges": [ 1, 10, 12, 15, 16, 22, 44, 50, 67, 75, 82, 100 ],
     "max_charges": 100,
     "charges_per_use": 1,
@@ -5140,56 +5181,6 @@
     "material": "iron",
     "symbol": ")",
     "color": "dark_gray"
-  },
-  {
-    "id": "pda",
-    "type": "TOOL",
-    "name": "PDA",
-    "description": "This is a small, multipurpose electronic device.  It can be loaded with a variety of apps, providing all kinds of functionality.",
-    "weight": 141,
-    "volume": 1,
-    "price": 3500,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ",",
-    "color": "blue",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "charges_per_use": 1,
-    "use_action": {
-      "target": "pda_flashlight",
-      "msg": "You activate the flashlight app.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The PDA's batteries are dead.",
-      "type": "transform"
-    },
-    "flags": [ "WATCH", "ALARMCLOCK" ]
-  },
-  {
-    "id": "pda_flashlight",
-    "type": "TOOL",
-    "name": "PDA - Flashlight",
-    "name_plural": "PDAs - Flashlight",
-    "description": "This is a small, multipurpose electronic device.  This PDA has its flashlight app on, and is providing light.",
-    "weight": 141,
-    "volume": 1,
-    "price": 3500,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ",",
-    "color": "blue",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "charges_per_use": 1,
-    "turns_per_charge": 30,
-    "revert_to": "pda",
-    "use_action": {
-      "target": "pda",
-      "msg": "The PDA screen goes blank.",
-      "type": "transform"
-    },
-    "flags": [ "LIGHT_10", "TRADER_AVOID" ]
   },
   {
     "id": "permanent_marker",

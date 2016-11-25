@@ -7,7 +7,7 @@
     "maintainers": [ "mugling" ],
     "description": "Removes far-future Sci-Fi items such as powered armor and energy weapons.",
     "category": "item_exclude",
-    "path": "modinfo.json"
+    "dependencies": [ "dda" ]
   },
   {
     "type": "ITEM_BLACKLIST",

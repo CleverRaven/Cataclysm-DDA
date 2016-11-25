@@ -3,8 +3,10 @@
 #include <algorithm>
 #include <iostream>
 #include <iterator>
+#include <numeric>
 
 #include "compatibility.h"
+#include "cata_utility.h"
 #include "init.h"
 #include "item_factory.h"
 #include "iuse_actor.h"
@@ -12,11 +14,13 @@
 #include "vehicle.h"
 #include "veh_type.h"
 #include "npc.h"
+#include "ammo.h"
 
 bool game::dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts )
 {
     try {
         load_core_data();
+        load_packs( _( "Loading content packs" ), { "dda" } );
     } catch( const std::exception &err ) {
         std::cerr << "Error loading data from json: " << err.what() << std::endl;
         return false;
@@ -202,7 +206,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
     } else if( what == "VEHICLE" ) {
         header = {
             "Name", "Weight (empty)", "Weight (fueled)",
-            "Max velocity (mph)", "Safe velocity (mph)", "Acceleration (mph/turn)",
+            "Max velocity (t/t)", "Safe velocity (t/t)", "Optimal velocity (t/t)",
             "Mass coeff %", "Aerodynamics coeff %", "Friction coeff %",
             "Traction coeff % (grass)"
         };
@@ -210,13 +214,42 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             auto veh_empty = vehicle( obj, 0, 0 );
             auto veh_fueled = vehicle( obj, 100, 0 );
 
+            std::vector<item_location> engines;
+            for( const auto &e : veh_fueled.parts ) {
+                if( e.is_engine() ) {
+                    engines.push_back( veh_fueled.part_base( veh_fueled.index_of_part( &e ) ) );
+                }
+            }
+
+            // weight of player is significant for lightweight vehicles with low power engines
+            int mass = veh_fueled.total_mass() + ( player().get_weight() / 1000.0 );
+            double kf = veh_fueled.k_friction();
+
+            double max_vel = std::accumulate(
+                engines.begin(), engines.end(), 0.0f,
+                [&mass,kf]( const double lhs, const item_location &rhs ) {
+                    return std::max( lhs, rhs->type->engine->velocity_max( mass, kf ) );
+            } );
+
+            double safe_vel = std::accumulate(
+                engines.begin(), engines.end(), 0.0f,
+                [&mass,kf]( const double lhs, const item_location &rhs ) {
+                    return std::max( lhs, rhs->type->engine->velocity_safe( mass, kf ) );
+            } );
+
+            double optimal_vel = std::accumulate(
+                engines.begin(), engines.end(), 0.0f,
+                [&mass,kf]( const double lhs, const item_location &rhs ) {
+                    return std::max( lhs, rhs->type->engine->velocity_optimal( mass, kf ) );
+            } );
+
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
             r.push_back( to_string( veh_empty.total_mass() ) );
             r.push_back( to_string( veh_fueled.total_mass() ) );
-            r.push_back( to_string( veh_fueled.max_velocity() / 100 ) );
-            r.push_back( to_string( veh_fueled.safe_velocity() / 100 ) );
-            r.push_back( to_string( veh_fueled.acceleration() / 100 ) );
+            r.push_back( string_format( "%.1f", ms_to_tt( max_vel ) ) );
+            r.push_back( string_format( "%.1f", ms_to_tt( safe_vel ) ) );
+            r.push_back( string_format( "%.1f", ms_to_tt( optimal_vel ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_mass() ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_aerodynamics() ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_friction() ) ) );
@@ -226,6 +259,57 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         for( auto& e : vehicle_prototype::get_all() ) {
             dump( e );
         }
+
+    } else if( what == "ENGINE" ) {
+        header = {
+            "Name", "Weight (kg)", "Volume (L)", "Fuel", "Power (hp)", "Efficiency (%)", "Durability",
+            "Optimum (rpm)", "Redline (rpm)", "Optimal (t/t)", "Safe (t/t)"
+        };
+        for( auto &e : vpart_info::all() ) {
+            const item obj( e.second.item );
+            if( !obj.is_engine() ) {
+                continue;
+            }
+            std::vector<std::string> r;
+            r.push_back( e.second.name() );
+            r.push_back( string_format( "%.0f", obj.weight() / 1000.0 ) );
+            r.push_back( string_format( "%.1f", obj.volume() / 1000.0 ) );
+            r.push_back( obj.type->engine->fuel->name() );
+            r.push_back( string_format( "%.0f", watt_to_hp( obj.type->engine->power ) ) );
+            r.push_back( to_string( obj.type->engine->efficiency ) );
+            r.push_back( to_string( e.second.durability ) );
+            if( obj.type->engine->gears.empty() ) {
+                r.insert( r.end(), { "", "", "", "" } );
+            } else {
+                r.push_back( to_string( obj.type->engine->optimum ) );
+                r.push_back( to_string( obj.type->engine->redline ) );
+                r.push_back( string_format( "%.1f", ms_to_tt( obj.type->engine->velocity_optimal( 1 ) ) ) );
+                r.push_back( string_format( "%.1f", ms_to_tt(obj.type->engine->velocity_safe( 1 ) ) ) );
+            }
+            rows.push_back( r );
+        }
+
+    } else if( what == "TRACTION" ) {
+        const int limit = 20000;
+
+        header = { "Name" };
+        for( int i = 1; i != limit; ++i ) {
+            header.push_back( to_string( i ) );
+        }
+
+        auto dump = [&rows]( const itype_id &obj ) {
+            const item eng( obj );
+            std::vector<std::string> r( 1, eng.tname() );
+            for( int i = 1; i != limit; ++i ) {
+                r.push_back( to_string( ms_to_tt( eng.type->engine->velocity_safe( i, 0.8 ) ) ) );
+            }
+            rows.push_back( r );
+        };
+
+        dump( "1cyl_combustion_small" );
+        dump( "i4_combustion" );
+        dump( "v8_combustion" );
+        dump( "v8_diesel" );
 
     } else if( what == "VPART" ) {
         header = {

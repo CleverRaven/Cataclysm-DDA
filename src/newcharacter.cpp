@@ -535,46 +535,41 @@ bool player::create(character_type type, std::string tempname)
         }
     }
 
-    item tmp; //gets used several times
-    item tmp2;
+    std::vector<item> prof_items = g->u.prof->items( g->u.male );
 
-    auto prof_items = g->u.prof->items( g->u.male );
+    // Those with certain special traits are guaranteed to start with certain items
+    if( has_trait( "HYPEROPIC" ) && has_trait( "MYOPIC" ) ) {
+        prof_items.push_back( item( "glasses_bifocal" ) );
+    }
+    else if( has_trait( "MYOPIC" ) ) {
+        prof_items.push_back( item( "glasses_eye" ) );
+    }
+    else if( has_trait( "HYPEROPIC" ) ) {
+        prof_items.push_back( item( "glasses_reading" ) );
+    }
 
-    // Those who are both near-sighted and far-sighted start with bifocal glasses.
-    if (has_trait("HYPEROPIC") && has_trait("MYOPIC")) {
-        prof_items.push_back("glasses_bifocal");
+    if( has_trait( "ASTHMA" ) ) {
+        prof_items.push_back( item( "inhaler", 0, item::default_charges_tag{} ) );
     }
-    // The near-sighted start with eyeglasses.
-    else if (has_trait("MYOPIC")) {
-        prof_items.push_back("glasses_eye");
+    if (has_trait("CANNIBAL")) {
+        prof_items.push_back( item( "cookbook_human", 0 ) );
     }
-    // The far-sighted start with reading glasses.
-    else if (has_trait("HYPEROPIC")) {
-        prof_items.push_back("glasses_reading");
+    if( has_trait( "ALBINO" ) ) {
+        prof_items.push_back( item( "teleumbrella", 0 ) );
     }
-    for( auto &itd : prof_items ) {
-        tmp = item( itd.type_id, 0, item::default_charges_tag{} );
-        if( !itd.snippet_id.empty() ) {
-            tmp.set_snippet( itd.snippet_id );
-        }
-        tmp = tmp.in_its_container();
-        if(tmp.is_armor()) {
-            if(tmp.has_flag("VARSIZE")) {
-                tmp.item_tags.insert("FIT");
-            }
-            // If wearing an item fails we fail silently.
-            wear_item(tmp, false);
 
-            // if something is wet, start it as active with some time to dry off
-        } else if(tmp.has_flag("WET")) {
-            tmp.active = true;
-            tmp.item_counter = 450;
-            inv.push_back(tmp);
+    for( item &it : prof_items ) {
+        if( it.is_armor() ) {
+            wear_item( it, false ); // If wearing fails, we fail silently
+        } else if( it.has_flag( "WET" ) ) {
+            it.active = true;
+            it.item_counter = 450; // Give it some time to dry off
+            inv.push_back( it );
         } else {
-            inv.push_back(tmp);
+            inv.push_back( it );
         }
-        if( tmp.is_book() ) {
-            items_identified.insert( tmp.typeId() );
+        if( it.is_book() ) {
+            items_identified.insert( it.typeId() );
         }
     }
 
@@ -613,26 +608,6 @@ bool player::create(character_type type, std::string tempname)
         if( branch.starts_active ) {
             my_mutations[mut].powered = true;
         }
-    }
-
-    // Likewise, the asthmatic start with their medication.
-    if (has_trait("ASTHMA")) {
-        tmp = item( "inhaler", 0, item::default_charges_tag{} );
-        inv.push_back(tmp);
-    }
-
-    // And cannibals start with a special cookbook.
-    if (has_trait("CANNIBAL")) {
-        tmp = item("cookbook_human", 0);
-        inv.push_back(tmp);
-    }
-
-    // Albinoes have their umbrella handy.
-    // Since they have to wield it, I don't think it breaks things
-    // too badly to issue one.
-    if (has_trait("ALBINO")) {
-        tmp = item("teleumbrella", 0);
-        inv.push_back(tmp);
     }
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
@@ -1446,7 +1421,9 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
         } else {
             buffer << "<color_ltblue>" << _( "Profession items:" ) << "</color>\n";
             for( const auto &i : prof_items ) {
-                buffer << item::nname( i.type_id ) << "\n";
+                // TODO: If the item group is randomized *at all*, these'll be different each time
+                // and it won't match what you actually start with
+                buffer << i.display_name() << "\n";
             }
         }
 

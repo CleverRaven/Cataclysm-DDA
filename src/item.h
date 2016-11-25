@@ -537,7 +537,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * 1 for other comestibles,
      * 0 otherwise.
      */
-    int get_time_until_rotten();
+    int spoilage_sort_order();
 
     /** an item is fresh if it is capable of rotting but still has a long shelf life remaining */
     bool is_fresh() const { return goes_bad() && get_relative_rot() < 0.1; }
@@ -817,6 +817,18 @@ public:
 
     /** Returns the total area of this wheel or 0 if it isn't one. */
     int wheel_area() const;
+
+    /**
+     *  How difficult is it to start the engine at specified temperature (celcius)
+     *  @return scalar factor [0.0 - 1.0] where a higher value represents increasing difficulty
+     */
+    double engine_start_difficulty( int temperature ) const;
+
+    /** Moves required to start engine at specified temperature (celcius) */
+    int engine_start_time( int temperature ) const;
+
+    /** battery charges (kJ) required to start at specified temperature (celcius) */
+    int engine_start_energy( int temperature ) const;
 
     /**
      * Can this item have given item/itype as content?
@@ -1425,15 +1437,6 @@ public:
          * Does it require gunsmithing tools to repair.
          */
         bool is_firearm() const;
-        /*@}*/
-
-        /**
-         * @name Vehicle parts
-         *
-         *@{*/
-
-        /** for combustion engines the displacement (cc) */
-        int engine_displacement() const;
         /*@}*/
 
         /**

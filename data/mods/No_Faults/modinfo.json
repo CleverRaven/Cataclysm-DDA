@@ -7,8 +7,8 @@
     "maintainers": [ "mugling" ],
     "description": "Vehicle parts are perfectly reliable and never spawn with faults or develop them during use",
     "category": "rebalance",
-    "obsolete": true,
-    "path": "modinfo.json"
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "WORLD_OPTION",

@@ -34,6 +34,7 @@
 #include "item_group.h"
 #include "pathfinding.h"
 #include "scent_map.h"
+#include "cata_utility.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -409,16 +410,34 @@ bool map::vehact( vehicle &veh )
         veh.falling = false;
     }
 
-    // Mph lost per tile when coasting
-    int base_slowdown = veh.skidding ? 200 : 20;
+    double slowdown = 0.0;
     if( should_fall ) {
-        // Just air resistance
-        base_slowdown = 2;
+        // air resistance
+        slowdown = 2.0;
+
+    } else if( !veh.engine_on || veh.skidding ) {
+        double loss = friction_loss;
+
+        if( veh.engine_on && veh.skidding ) {
+            loss /= 3.0;
+        }
+
+        // if we don't have an active engine providing thrust then reduce velocity from friction
+        double k = 0.5 * veh.total_mass() * pow( veh.current_velocity(), 2 );
+        k -= k * friction_loss / veh.k_dynamics();
+        slowdown = veh.current_velocity() - sqrt( ( 2 * k ) / veh.total_mass() );
+
+        // always slow down by at least 1mph
+        slowdown = std::max( ms_to_mph( slowdown ) * 100, 100.0 );
     }
 
-    // k slowdown second.
-    const float k_slowdown = (0.1 + veh.k_dynamics()) / ((0.1) + veh.k_mass());
-    const int slowdown = veh.drag() + (int)ceil( k_slowdown * base_slowdown );
+    const float wheel_traction_area = vehicle_wheel_traction( veh );
+    const float traction = veh.k_traction( wheel_traction_area );
+
+    // apply crude decay when moving from high traction (road) to low traction (off-road)
+    // @todo replace with more correct acceleration model
+    slowdown += std::abs( veh.current_velocity() * ( 1.0 - traction ) );
+
     if( slowdown > abs( veh.velocity ) ) {
         veh.stop();
     } else if( veh.velocity < 0 ) {
@@ -437,8 +456,6 @@ bool map::vehact( vehicle &veh )
         return true;
     }
 
-    const float wheel_traction_area = vehicle_wheel_traction( veh );
-    const float traction = veh.k_traction( wheel_traction_area );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( wheel_traction_area < 0 ) {
         add_msg(m_bad, _("Your %s sank."), veh.name.c_str());

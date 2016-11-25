@@ -75,12 +75,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "book_military",
-    "items": [
-      [ "textbook_launcher", 1 ]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "mil_surplus",
     "items":[
       ["textbook_launcher", 1]

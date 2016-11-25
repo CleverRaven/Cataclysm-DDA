@@ -1,62 +1,63 @@
 [
   {
-    "type"  : "item_group",
-    "id"    : "coffee_locker",
-    "items" : [
-      ["apron_leather",   25],
-      ["sm_extinguisher", 10],
-      ["hat_ball",        25],
-      ["towel",           10],
-      ["soap",             8],
-      ["rag",             15],
-      ["broom",            8],
-      ["bleach",           8],
-      ["hotplate",         1],
-      ["vinegar",          3]
+    "id": "coffee_locker",
+    "type": "item_group",
+    "items": [
+      [ "apron_leather", 25 ],
+      [ "sm_extinguisher", 10 ],
+      [ "hat_ball", 25 ],
+      [ "towel", 10 ],
+      [ "soap", 8 ],
+      [ "rag", 15 ],
+      [ "broom", 8 ],
+      [ "bleach", 8 ],
+      [ "hotplate", 1 ],
+      [ "vinegar", 3 ]
     ]
   },
   {
-    "type"  : "item_group",
-    "id"    : "coffee_dishes",
-    "items" : [
-      ["ceramic_cup",   70],
-      ["ceramic_plate", 50],
-      ["cup_plastic",   20]
+    "id": "coffee_dishes",
+    "type": "item_group",
+    "items": [
+      [ "ceramic_cup", 70 ],
+      [ "ceramic_plate", 50 ],
+      [ "cup_plastic", 20 ]
     ]
   },
   {
-    "type"  : "item_group",
-    "id"    : "coffee_trash",
-    "items" : [
-      ["wrapper",      17],
-      ["bag_plastic",  15],
-      ["bottle_glass", 10],
-      ["can_drink_unsealed",    10],
-      ["rag",          10],
-      ["news_regional",20],
-      ["mag_news",     20],
-      ["hairpin",      10],
-      ["flyer",         7]
+    "id": "coffee_trash",
+    "type": "item_group",
+    "items": [
+      [ "wrapper", 17 ],
+      [ "bag_plastic", 15 ],
+      [ "bottle_glass", 10 ],
+      [ "can_drink_unsealed", 10 ],
+      [ "rag", 10 ],
+      [ "news_regional", 20 ],
+      [ "mag_news", 20 ],
+      [ "hairpin", 10 ],
+      [ "flyer", 7 ]
     ]
   },
   {
-    "type"  : "item_group",
-    "id"    : "coffee_bathroom",
-    "items" : [
-      ["weed",     10],
-      ["coke",     10],
-      ["aspirin",  45],
-      ["mag_news", 30],
-      ["purse",    10],
-      ["hairpin",  25]
+    "id": "coffee_bathroom",
+    "type": "item_group",
+    "items": [
+      [ "weed", 10 ],
+      [ "coke", 10 ],
+      [ "aspirin", 45 ],
+      [ "mag_news", 30 ],
+      [ "purse", 10 ],
+      [ "hairpin", 25 ]
     ]
   },
   {
-    "type" : "mapgen",
-    "om_terrain" : ["s_restaurant_coffee"],
+    "type": "mapgen",
     "method": "json",
+    "om_terrain": [ "s_restaurant_coffee" ],
     "weight": 250,
     "object": {
+      "//": "Default fill is floor but some tables are outside",
       "fill_ter": "t_floor",
       "rows": [
         "_______,,,,,,,ss########",
@@ -84,76 +85,75 @@
         "|P==|==P|llSO==rrrrrSTe|",
         "|-------------L--------|"
       ],
+      "set": [
+        { "line": "terrain", "id": "t_concrete", "x": 21, "x2": 18, "y": 2, "y2": 2 },
+        { "line": "terrain", "id": "t_concrete", "x": 21, "x2": 18, "y": 8, "y2": 8 },
+        { "line": "terrain", "id": "t_concrete", "x": 21, "x2": 21, "y": 6, "y2": 4 },
+        { "line": "terrain", "id": "t_concrete", "x": 18, "x2": 18, "y": 6, "y2": 4 }
+      ],
       "terrain": {
-        "5": "t_wall_glass",
-        "%": "t_wall_glass",
-        ",": "t_pavement_y",
-        "_": "t_pavement",
-        "x": "t_console_broken",
-        ".": "t_floor",
-        "-": "t_wall",
-        "|": "t_wall",
         "#": "t_shrub",
+        "%": "t_wall_glass",
         "+": "t_door_glass_c",
-        "s": "t_sidewalk",
+        ",": "t_pavement_y",
+        "-": "t_wall",
+        ".": "t_floor",
+        "5": "t_wall_glass",
+        "=": "t_linoleum_white",
         "D": "t_door_c",
         "L": "t_door_locked",
-        "p": "t_concrete",
-        "W": "t_fencegate_c",
-        "=": "t_linoleum_white",
-        "e": "t_linoleum_white",
-        "T": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "c": "t_linoleum_white",
         "O": "t_linoleum_white",
         "P": "t_linoleum_white",
+        "S": "t_linoleum_white",
+        "T": "t_linoleum_white",
+        "W": "t_fencegate_c",
+        "_": "t_pavement",
+        "c": "t_linoleum_white",
+        "e": "t_linoleum_white",
         "l": "t_linoleum_white",
-        "r": "t_linoleum_white"
+        "p": "t_concrete",
+        "r": "t_linoleum_white",
+        "s": "t_sidewalk",
+        "x": "t_console_broken",
+        "|": "t_wall"
       },
       "furniture": {
-        "r": "f_rack",
-        "l": "f_locker",
-        "T": "f_table",
-        "S": "f_sink",
-        "e": "f_fridge",
-        "O": "f_oven",
+        "&": "f_trashcan",
         "H": "f_chair",
+        "O": "f_oven",
+        "S": "f_sink",
+        "T": "f_table",
         "c": "f_counter",
-        "&": "f_trashcan"
+        "e": "f_fridge",
+        "l": "f_locker",
+        "r": "f_rack"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
-      "//": "Default fill is floor but some tables are outside",
-      "set": [
-        { "line": "terrain", "x": 21, "y": 2, "x2": 18, "y2": 2, "id": "t_concrete" },
-        { "line": "terrain", "x": 21, "y": 8, "x2": 18, "y2": 8, "id": "t_concrete" },
-        { "line": "terrain", "x": 21, "y": 6, "x2": 21, "y2": 4, "id": "t_concrete" },
-        { "line": "terrain", "x": 18, "y": 6, "x2": 18, "y2": 4, "id": "t_concrete" }
-      ],
       "place_items": [
-        {"item": "coffee_locker",  "chance": 75, "x": [10,9], "y": 22, "repeat": [1,3]},
-        {"item": "coffee_display", "chance": 80, "x": [19, 15],  "y": 22, "repeat": [1,2]},
-        {"item": "coffee_display", "chance": 40, "x": [19, 15],  "y": 22, "repeat": [1,2]},
-        {"item": "coffee_dishes",  "chance": 85, "x": 20,       "y": 22, "repeat": [1,2]},
-        {"item": "coffee_fridge",  "chance": 75, "x": 22,       "y": 22, "repeat": [1,2]},
-        {"item": "coffee_table", "chance": 20, "x": [22,21], "y": [17,16], "repeat": [1,2]},
-        {"item": "coffee_table", "chance": 20, "x": 12,    "y": 17,     "repeat": [1,2]},
-        {"item": "coffee_table", "chance": 20, "x": 8,    "y": 17,     "repeat": [1,2]},
-        {"item": "coffee_table", "chance": 20, "x": 4,    "y": 17,     "repeat": [1,2]},
-        {"item": "coffee_table", "chance": 20, "x": [20,19], "y": 11,    "repeat": [1,2]},
-        {"item": "coffee_table", "chance": 20, "x": [20,19], "y": 8,    "repeat": [1,2]},
-        {"item": "coffee_table", "chance": 20, "x": 21,     "y": 5,    "repeat": [1,2]},
-        {"item": "coffee_table", "chance": 20, "x": 18,     "y": 5,    "repeat": [1,2]},
-        {"item": "coffee_table", "chance": 20, "x": [20,19], "y": 2,    "repeat": [1,2]},
-        {"item": "coffee_trash", "chance": 75, "x": 22,      "y": 13,   "repeat": [2,4]},
-        {"item": "coffee_bathroom","chance": 20,"x":[6,5],"y":[22,21], "repeat": [1,2]},
-        {"item": "coffee_bathroom","chance": 20,"x":[3,2],"y":[22,21], "repeat": [1,2]}
+        { "item": "coffee_locker", "x": [ 10, 9 ], "y": 22, "chance": 75, "repeat": [ 1, 3 ] },
+        { "item": "coffee_display", "x": [ 19, 15 ], "y": 22, "chance": 80, "repeat": [ 1, 2 ] },
+        { "item": "coffee_display", "x": [ 19, 15 ], "y": 22, "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "coffee_dishes", "x": 20, "y": 22, "chance": 85, "repeat": [ 1, 2 ] },
+        { "item": "coffee_fridge", "x": 22, "y": 22, "chance": 75, "repeat": [ 1, 2 ] },
+        { "item": "coffee_table", "x": [ 22, 21 ], "y": [ 17, 16 ], "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "coffee_table", "x": 12, "y": 17, "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "coffee_table", "x": 8, "y": 17, "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "coffee_table", "x": 4, "y": 17, "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "coffee_table", "x": [ 20, 19 ], "y": 11, "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "coffee_table", "x": [ 20, 19 ], "y": 8, "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "coffee_table", "x": 21, "y": 5, "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "coffee_table", "x": 18, "y": 5, "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "coffee_table", "x": [ 20, 19 ], "y": 2, "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "coffee_trash", "x": 22, "y": 13, "chance": 75, "repeat": [ 2, 4 ] },
+        { "item": "coffee_bathroom", "x": [ 6, 5 ], "y": [ 22, 21 ], "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "coffee_bathroom", "x": [ 3, 2 ], "y": [ 22, 21 ], "chance": 20, "repeat": [ 1, 2 ] }
       ],
       "add": [
-        { "item": "coffeemaker", "x": 21, "y": 22, "amount": 1, "repeat": 1, "chance": 1 },
-        { "item": "atomic_coffeepot", "x": 21, "y": 22, "amount": 1, "repeat": 1, "chance": 5 }
+        { "item": "coffeemaker", "x": 21, "y": 22, "chance": 1, "repeat": 1, "amount": 1 },
+        { "item": "atomic_coffeepot", "x": 21, "y": 22, "chance": 5, "repeat": 1, "amount": 1 }
       ]
     }
-    }
+  }
 ]

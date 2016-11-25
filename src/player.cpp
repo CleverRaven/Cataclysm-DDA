@@ -2973,7 +2973,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_stats, 3, 1, h_ltgray, _( "Dexterity:" ) );
 
                     mvwprintz( w_stats, 6, 1, c_magenta, _( "Melee to-hit bonus:" ) );
-                    mvwprintz( w_stats, 6, 22, c_magenta, "%+3d", get_hit_base() );
+                    mvwprintz( w_stats, 6, 22, c_magenta, "%+.2lf", get_hit_base() );
                     if( throw_dex_mod( false ) <= 0 ) {
                         mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing bonus:" ) );
                     } else {
@@ -3554,7 +3554,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     int x = 32;
     int y = sideStyle ?  0 :  1;
     if( is_deaf() ) {
-        mvwprintz( sideStyle ? w2 : w, y, x, c_red, _( "Deaf!" ), volume );
+        mvwprintz( sideStyle ? w2 : w, y, x, c_red, _( "Deaf!" ) );
     } else {
         mvwprintz( sideStyle ? w2 : w, y, x, c_yellow, _( "Sound %d" ), volume );
     }
@@ -3638,13 +3638,8 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         veh = g->m.veh_at( pos() );
     }
     if( veh ) {
-        veh->print_fuel_indicators( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
-        nc_color col_indf1 = c_ltgray;
-
-        float strain = veh->strain();
-        nc_color col_vel = strain <= 0 ? c_ltblue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_ltred : c_red ) );
+        const auto &eng =veh->current_engine();
+        veh->print_fuel_indicator( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 6 : 49, eng.ammo_current() );
 
         //
         // Draw the speedometer.
@@ -3659,22 +3654,19 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         int cruisex = metric ? 9 : 8; // strlen(units) + 6
 
         if( !sideStyle ) {
-            if( !veh->cruise_on ) {
-                speedox += 2;
-            }
             if( !metric ) {
                 speedox++;
             }
         }
 
-        const char *speedo = veh->cruise_on ? "%s....>...." : "%s....";
-        mvwprintz( w, speedoy, speedox,        col_indf1, speedo, velocity_units( VU_VEHICLE ) );
-        mvwprintz( w, speedoy, speedox + velx, col_vel,   "%4d",
-                   int( convert_velocity( veh->velocity, VU_VEHICLE ) ) );
-        if( veh->cruise_on ) {
-            mvwprintz( w, speedoy, speedox + cruisex, c_ltgreen, "%4d",
-                       int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) ) );
-        }
+        const char *speedo = "%s....>....";
+        mvwprintz( w, speedoy, speedox, c_white, speedo, velocity_units( VU_VEHICLE ) );
+        mvwprintz( w, speedoy, speedox + velx, c_ltblue, "%4d",
+                   int( convert_velocity( ms_to_display( veh->current_velocity() ), VU_VEHICLE ) ) );
+
+        mvwprintz( w, speedoy, speedox + cruisex, c_ltgreen, "%4d",
+                   int( convert_velocity( veh->cruise_velocity * 2, VU_VEHICLE ) ) );
+
         if( veh->velocity != 0 ) {
             const int offset_from_screen_edge = sideStyle ? 13 : 8;
             nc_color col_indc = veh->skidding ? c_red : c_green;
@@ -3687,13 +3679,21 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             } else {
                 wprintz( w, col_indc, ">" );
             }
+            int gear = veh->gear( eng );
+            if( gear >= 0 ) {
+                right_print( w, sideStyle ? 4 : 3, 1, c_white, "%s <color_ltblue>%3s</color>",
+                             _( "gear" ), ordinal( gear + 1 ).c_str() );
+            }
         }
 
         if( sideStyle ) {
-            // Make sure this is left-aligned.
-            mvwprintz( w, speedoy, getmaxx( w ) - 9, c_white, "%s", _( "Stm " ) );
-            print_stamina_bar( w );
+            int rpm = veh->rpm( eng );
+            if( rpm > 0 ) {
+                right_print( w, speedoy, 1, c_white, "%s <color_%s>%4d</color>", _( "rpm" ),
+                             veh->overspeed( eng ) ? "red" : "ltblue", rpm );
+           }            
         }
+
     } else {  // Not in vehicle
         nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
                  col_per = c_white, col_spd = c_white, col_time = c_white;
@@ -3905,12 +3905,8 @@ bool player::in_climate_control()
         int vpart = -1;
         vehicle *veh = g->m.veh_at( pos(), vpart );
         if( veh ) {
-            regulated_area = (
-                                 veh->is_inside( vpart ) &&  // Already checks for opened doors
-                                 veh->total_power( true ) > 0 // Out of gas? No AC for you!
-                             );  // TODO: (?) Force player to scrounge together an AC unit
+            regulated_area = veh->is_inside( vpart );
         }
-        // TODO: AC check for when building power is implemented
         last_climate_control_ret = regulated_area;
         if( !regulated_area ) {
             // Takes longer to cool down / warm up with AC, than it does to step outside and feel cruddy.
@@ -12115,7 +12111,7 @@ std::string player::is_snuggling() const
     for( auto candidate = begin; candidate != end; ++candidate ) {
         if( !candidate->is_armor() ) {
             continue;
-        } else if( candidate->volume() > 250_ml &&
+        } else if( candidate->volume() > 250_ml && candidate->get_warmth() > 0 &&
                    ( candidate->covers( bp_torso ) || candidate->covers( bp_leg_l ) ||
                      candidate->covers( bp_leg_r ) ) ) {
             floor_armor = &*candidate;
@@ -13681,7 +13677,13 @@ std::vector<std::string> player::get_overlay_ids() const
     std::vector<std::string> rval;
     std::multimap<int, std::string> mutation_sorting;
 
-    // first get mutations
+
+    // first get effects
+    for( const auto &eff_pr : effects ) {
+        rval.push_back( "effect_" + eff_pr.first.str() );
+    }
+
+    // then get mutations
     for( auto &mutation : get_mutations() ) {
         auto it = base_mutation_overlay_ordering.find( mutation );
         auto it2 = tileset_mutation_overlay_ordering.find( mutation );

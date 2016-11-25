@@ -24,6 +24,7 @@ static std::map<std::string, std::string> mod_replacements;
 // These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories() {
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
+        {"content", _("CORE CONTENT PACKS")},
         {"items", _("ITEM ADDITION MODS")},
         {"creatures", _("CREATURE MODS")},
         {"misc_additions", _("MISC ADDITIONS")},
@@ -68,6 +69,11 @@ static void load_replacement_mods( const std::string path )
             mod_replacements.emplace( arr.get_string( 0 ), arr.size() > 1 ? arr.get_string( 1 ) : "" );
         }
     } );
+}
+
+bool MOD_INFORMATION::need_lua() const
+{
+    return file_exist( path + "/main.lua" ) || file_exist( path + "/preload.lua" );
 }
 
 mod_manager::mod_manager()
@@ -156,7 +162,7 @@ void mod_manager::load_mods_from(std::string path)
     }
 }
 
-void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
+void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
 {
     if (!jo.has_string("type") || jo.get_string("type") != "MOD_INFO") {
         // Ignore anything that is not a mod-info
@@ -200,35 +206,18 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         }
     } while( !bCatFound );
 
-    std::string m_path;
-    if (jo.has_string("path")) {
-        m_path = jo.get_string("path");
-        if (m_path.empty()) {
-            // If an empty path is given, use only the
-            // folder of the modinfo.json
-            m_path = main_path;
-        } else {
-            // prefix the folder of modinfo.json
-            m_path = main_path + "/" + m_path;
-        }
-    } else {
-        // Default if no path is given:
-        // "<folder-of-modinfo.json>/data"
-        m_path = main_path + "/data";
-    }
-
-    bool m_need_lua = jo.get_bool("with-lua", false);
-    if ( file_exist(m_path + "/main.lua") || file_exist(m_path + "/preload.lua") ) {
-        m_need_lua = true;
-    }
-
     std::unique_ptr<MOD_INFORMATION> modfile( new MOD_INFORMATION );
     modfile->ident = m_ident;
     modfile->name = m_name;
     modfile->category = p_cat;
-    modfile->path = m_path;
-    modfile->need_lua = m_need_lua;
 
+    if( assign( jo, "path", modfile->path ) ) {
+        modfile->path = path + "/" + modfile->path;
+    } else {
+        modfile->path = path;
+    }
+
+    assign( jo, "legacy", modfile->legacy );
     assign( jo, "authors", modfile->authors );
     assign( jo, "maintainers", modfile->maintainers );
     assign( jo, "description", modfile->description );

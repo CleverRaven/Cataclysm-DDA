@@ -1,15 +1,15 @@
 [
   {
-    "type" : "overmap_terrain",
-    "id" : "s_antique",
-    "name" : "antique store",
-    "rotate" : true,
-    "sym" : 65,
-    "color" : "brown",
-    "see_cost" : 5,
-    "extras" : "build",
-    "mondensity" : 2,
-    "sidewalk" : true,
+    "id": "s_antique",
+    "type": "overmap_terrain",
+    "name": "antique store",
+    "sym": 65,
+    "color": "brown",
+    "rotate": true,
+    "see_cost": 5,
+    "mondensity": 2,
+    "sidewalk": true,
+    "extras": "build",
     "mapgen": [
       {
         "method": "json",
@@ -41,51 +41,51 @@
             "........................",
             "........................",
             "........................"
-            ],
-            "terrain": {
-              ".": "t_grass",
-              "_": "t_pavement",
-              ",": "t_pavement_y",
-              " ": "t_floor",
-              "-": "t_wall",
-              "|": "t_wall",
-              "O": "t_window",
-              "L": "t_door_locked_alarm",
-              "+": "t_door_glass_c",
-              "h": "t_wall_glass",
-              "x": "t_console_broken",
-              "^": "t_chaingate_l",
-              "F": "t_sidewalk",
-              "&": "t_door_locked",
-              "B": "t_palisade",
-              "*": "t_door_locked",
-              "5": "t_chainfence_h",
-              "8": "t_chainfence_v",
-              "f": "t_pavement",
-              "v": "t_wall_glass"
-            },
-            "furniture": {
-              "M": "f_anvil",
-              "c": "f_chair",
-              "#": "f_counter",
-              "r": "f_rack",
-              "t": "f_table",
-              ":": "f_dresser",
-              "l": "f_bookcase",
-              "G": "f_desk",
-              "f": "f_trashcan",
-              "T": "f_displaycase",
-              "h": "f_null"
-            },
-            "place_items": [
-              { "item": "antique", "chance": 70, "x": [ 4,9 ], "y": [ 10,10 ] },
-              { "item": "antique", "chance": 70, "x": [ 14,19 ], "y": [ 10,10 ] },
-              { "item": "antique", "chance": 70, "x": [ 4,9 ], "y": [ 13,13] },
-              { "item": "antique", "chance": 70, "x": [ 14,19 ], "y": [ 13,13 ] },
-              { "item": "antique", "chance": 70, "x": [ 1,1 ], "y": [ 8,15 ] },
-              { "item": "antique", "chance": 70, "x": [ 22,22 ], "y": [ 8,15 ] },
-              { "item": "antique_rare", "chance": 65, "x": [ 9,14 ], "y": [ 16,16 ]}
-            ]
+          ],
+          "terrain": {
+            " ": "t_floor",
+            "&": "t_door_locked",
+            "*": "t_door_locked",
+            "+": "t_door_glass_c",
+            ",": "t_pavement_y",
+            "-": "t_wall",
+            ".": "t_grass",
+            "5": "t_chainfence_h",
+            "8": "t_chainfence_v",
+            "B": "t_palisade",
+            "F": "t_sidewalk",
+            "L": "t_door_locked_alarm",
+            "O": "t_window",
+            "^": "t_chaingate_l",
+            "_": "t_pavement",
+            "f": "t_pavement",
+            "h": "t_wall_glass",
+            "v": "t_wall_glass",
+            "x": "t_console_broken",
+            "|": "t_wall"
+          },
+          "furniture": {
+            "#": "f_counter",
+            ":": "f_dresser",
+            "G": "f_desk",
+            "M": "f_anvil",
+            "T": "f_displaycase",
+            "c": "f_chair",
+            "f": "f_trashcan",
+            "h": "f_null",
+            "l": "f_bookcase",
+            "r": "f_rack",
+            "t": "f_table"
+          },
+          "place_items": [
+            { "item": "antique", "x": [ 4, 9 ], "y": [ 10, 10 ], "chance": 70 },
+            { "item": "antique", "x": [ 14, 19 ], "y": [ 10, 10 ], "chance": 70 },
+            { "item": "antique", "x": [ 4, 9 ], "y": [ 13, 13 ], "chance": 70 },
+            { "item": "antique", "x": [ 14, 19 ], "y": [ 13, 13 ], "chance": 70 },
+            { "item": "antique", "x": [ 1, 1 ], "y": [ 8, 15 ], "chance": 70 },
+            { "item": "antique", "x": [ 22, 22 ], "y": [ 8, 15 ], "chance": 70 },
+            { "item": "antique_rare", "x": [ 9, 14 ], "y": [ 16, 16 ], "chance": 65 }
+          ]
         }
       }
     ]

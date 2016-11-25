@@ -171,7 +171,7 @@
     "components": [
       [ [ "duster", 1 ] ],
       [ [ "vest", 1 ], [ "chestrig", 1 ] ],
-      [ [ "ragpouch", 1 ], [ "leather_pouch", 1 ], [ "dump_pouch", 1 ], [ "legrig", 1 ] ],
+      [ [ "ragpouch", 1 ], [ "leather_pouch", 1 ], [ "dump_pouch", 1 ], [ "fanny", 1 ] ],
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
       [ [ "pants_cargo", 1 ], [ "pants_army", 1 ] ],
       [ [ "leather", 24 ], [ "tanned_hide", 4 ] ]
@@ -260,8 +260,8 @@
     ],
     "components": [
       [ [ "jacket_army", 1 ] ],
-      [ [ "vest", 1 ], [ "mbag", 1 ], [ "runner_bag", 1 ] ],
-      [ [ "fanny", 2 ], [ "dump_pouch", 1 ], [ "fireman_belt", 1 ] ],
+      [ [ "vest", 1 ], [ "chestrig", 1 ], [ "mbag", 1 ], [ "runner_bag", 1 ] ],
+      [ [ "fanny", 2 ], [ "dump_pouch", 1 ] ],
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
       [ [ "pants_army", 1 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]

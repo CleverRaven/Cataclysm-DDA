@@ -24,10 +24,6 @@ class npc;
 class overmapbuffer;
 
 struct mongroup;
-struct overmap_location_restictions;
-
-// base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
-extern std::unordered_map<std::string, oter_t> obasetermap;
 
 struct oter_weight {
     inline bool operator ==(const oter_weight &other) const {
@@ -38,49 +34,12 @@ struct oter_weight {
     int ot_iid;
 };
 
-enum city_gen_type {
-   CITY_GEN_RADIAL, // default/small/oldschol; shops constitute core, then parks, then residential
-   CITY_GEN_INVALID, // reserved; big multi-overmap cities will have a more complex zoning pattern
-};
-
 struct city_settings {
-   city_gen_type zoning_type;
-   int shop_radius; // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
-   int park_radius; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
+   int shop_radius = 80;  // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
+   int park_radius = 130; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
    weighted_int_list<oter_weight> shops;
    weighted_int_list<oter_weight> parks;
-   city_settings() : zoning_type(CITY_GEN_RADIAL), shop_radius(80), park_radius(130) { }
 };
-/*
-todo: add relevent vars to regional_settings struct
-#define STREETCHANCE 2
-#define NUM_FOREST 250
-#define TOP_HIWAY_DIST 999
-#define MIN_ANT_SIZE 8
-#define MAX_ANT_SIZE 20
-#define MIN_GOO_SIZE 1
-#define MAX_GOO_SIZE 2
-#define MIN_RIFT_SIZE 6
-#define MAX_RIFT_SIZE 16
-#define SETTLE_DICE 2
-#define SETTLE_SIDES 2
-#define HIVECHANCE 180 //Chance that any given forest will be a hive
-*/
-/*
-      "plant_coverage": {                   "//": "biome settings for builtin field mapgen",
-          "percent_coverage": 0.833,        "//": "% of tiles that have a plant: one_in(120)",
-          "default": "t_shrub",             "//": "default plant",
-          "other": {
-              "t_shrub_blueberry": 0.25,
-              "t_shrub_strawberry": 0.25,
-              "f_mutpoppy": 0.1
-          },                                "//": "% of plants that aren't default",
-          "boost_chance": 0.833,            "//": "% of fields with a boosted chance for plants",
-          "boosted_percent_coverage": 2.5,  "//": "for the above: % of tiles that have a plant",
-          "boosted_other_multiplier": 100,  "//": "for the above: multiplier for 'other' percentages"
-      },
-
-*/
 
 /*
  * template for random bushes and such.
@@ -261,12 +220,9 @@ class overmap
      */
     static point display_notes(int z);
     /**
-     * Dummy value, used to indicate that a point/rotation returned by a function
-     * is invalid.
+     * Dummy value, used to indicate that a point returned by a function is invalid.
      */
-    static const point invalid_point;
     static const tripoint invalid_tripoint;
-    static const int invalid_rotation = -1;
     /**
      * Return a vector containing the absolute coordinates of
      * every matching note on the current z level of the current overmap.
@@ -309,19 +265,8 @@ class overmap
 
     static tripoint draw_editor();
 
-    static oter_id rotate(const oter_id &oter, int dir);
-
-  /** Get the x coordinate of the left border of this overmap. */
-  int get_left_border();
-
-  /** Get the x coordinate of the right border of this overmap. */
-  int get_right_border();
-
-  /** Get the y coordinate of the top border of this overmap. */
-  int get_top_border();
-
-  /** Get the y coordinate of the bottom border of this overmap. */
-  int get_bottom_border();
+    /** Returns the (0, 0) corner of the overmap in the global coordinates. */
+    point global_base_point() const;
 
   // @todo Should depend on coords
   const regional_settings& get_settings() const
@@ -334,9 +279,7 @@ private:
 public:
     /** Unit test enablers to check if a given mongroup is present. */
     bool mongroup_check(const mongroup &candidate) const;
-    int num_mongroups() const;
     bool monster_check(const std::pair<tripoint, monster> &candidate) const;
-    int num_monsters() const;
 
     void add_npc( npc &who );
     // TODO: make private
@@ -347,15 +290,13 @@ public:
   std::vector<city> roads_out;
 
  private:
-  friend class overmapbuffer;
-  point loc;
+    friend class overmapbuffer;
+
+    bool nullbool = false;
+    point loc{ 0, 0 };
 
     std::array<map_layer, OVERMAP_LAYERS> layer;
-
-  oter_id nullret;
-  bool nullbool;
-
-        std::unordered_map<tripoint, scent_trace> scents;
+    std::unordered_map<tripoint, scent_trace> scents;
 
     /**
      * When monsters despawn during map-shifting they will be added here.
@@ -423,24 +364,27 @@ public:
             const tripoint &orig, bool blink, bool showExplored,
             input_context* inp_ctxt, const draw_data_t &data);
 
+    oter_id random_shop() const;
+    oter_id random_park() const;
+    oter_id random_house() const;
+
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();
   // City Building
   void place_cities();
-  void put_buildings(int x, int y, int dir, city town);
-  void make_road(int cx, int cy, int cs, int dir, city town);
+  void put_building( int x, int y, om_direction::type dir, const city &town );
+
+  void build_city_street( int cx, int cy, int cs, om_direction::type dir, const city &town );
   bool build_lab(int x, int y, int z, int s, bool ice = false);
   void build_anthill(int x, int y, int z, int s);
-  void build_tunnel(int x, int y, int z, int s, int dir);
+  void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
   bool build_slimepit(int x, int y, int z, int s);
   void build_mine(int x, int y, int z, int s);
   void place_rifts(int const z);
   // Connection highways
-  void place_hiways(std::vector<city> cities, int z, const std::string &base);
-  void place_subways(std::vector<point> stations);
+  void place_hiways( const std::vector<city> &cities, int z, const std::string &base );
   void make_hiway(int x1, int y1, int x2, int y2, int z, const std::string &base);
-  void building_on_hiway(int x, int y, int dir);
   // Polishing
   bool check_ot_type(const std::string &otype, int x, int y, int z) const;
   bool check_ot_type_road(const std::string &otype, int x, int y, int z);
@@ -456,8 +400,8 @@ public:
   // Check OMAPX, OMAPY, and OMSPEC_FREQ to learn actual values.
   std::vector<point> get_sectors() const;
 
-  int random_special_rotation( const overmap_special &special, const tripoint &p ) const;
-  void place_special( const overmap_special &special, const tripoint &p, int rotation, const city &cit );
+  om_direction::type random_special_rotation( const overmap_special &special, const tripoint &p ) const;
+  void place_special( const overmap_special &special, const tripoint &p, om_direction::type dir, const city &cit );
   // Monsters, radios, etc.
   void place_specials();
   void place_mongroups();
@@ -487,7 +431,5 @@ void finalize_overmap_terrain();
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);
-
-inline tripoint rotate_tripoint( tripoint p, int rotations );
 
 #endif

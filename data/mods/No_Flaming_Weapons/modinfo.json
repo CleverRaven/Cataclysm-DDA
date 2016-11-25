@@ -6,7 +6,7 @@
     "authors": [ "tungtn" ],
     "description": "Removes flaming melee weapons.",
     "category": "item_exclude",
-    "path": "modinfo.json"
+    "dependencies": [ "dda" ]
   },
   {
     "type": "ITEM_BLACKLIST",

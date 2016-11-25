@@ -1,0 +1,20 @@
+[
+  {
+    "id": "pump_station_vehicles",
+    "type": "vehicle_group",
+    "vehicles": [
+      [ "car", 2000 ],
+      [ "electric_car", 500 ],
+      [ "car_mini", 500 ],
+      [ "suv", 800 ],
+      [ "suv_electric", 200 ],
+      [ "flatbed_truck", 1500 ],
+      [ "cube_van_cheap", 1500 ],
+      [ "cube_van", 1200 ],
+      [ "pickup", 1000 ],
+      [ "policecar", 400 ],
+      [ "ambulance", 300 ],
+      [ "fire_truck", 150 ]
+    ]
+  }
+]

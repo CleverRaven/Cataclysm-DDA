@@ -110,8 +110,8 @@
     "id": "ammo_casings",
     "type": "item_group",
     "items": [
-      [ "410_hull", 75 ],
-      [ "45lc_casing", 40 ]
+      { "item": "410_hull", "prob": 75, "count": 20 },
+      { "item": "45lc_casing", "prob": 40, "count": 20 }
     ]
   }
 ]
