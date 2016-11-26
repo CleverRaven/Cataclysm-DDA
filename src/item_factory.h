@@ -210,6 +210,14 @@ class Item_factory
             m_templates[ def.id ] = def;
         }
 
+        /**
+         * Check if an iuse is known to the Item_factory.
+         * @param type Iuse type id.
+         */
+        bool has_iuse( const std::string &type ) const {
+            return iuse_function_list.find( type ) != iuse_function_list.end();
+        }
+
         void load_item_blacklist( JsonObject &jo );
 
         /**
@@ -312,7 +320,7 @@ class Item_factory
 
         use_function usage_from_string( const std::string &type ) const;
 
-        std::pair<std::string, use_function> usage_from_object( JsonObject &obj ) const;
+        std::pair<std::string, use_function> usage_from_object( JsonObject &obj );
 
         void add_entry( Item_group *sg, JsonObject &obj );
         void load_item_group_entries( Item_group &ig, JsonArray &entries );

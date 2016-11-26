@@ -28,6 +28,7 @@
 #include "field.h"
 
 #include <algorithm>
+#include <assert.h>
 #include <sstream>
 
 typedef std::set<std::string> t_string_set;
@@ -115,6 +116,9 @@ void Item_factory::finalize() {
 
         if( obj.mod ) {
             std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
+            obj.use_methods.emplace( func, usage_from_string( func ) );
+        } else if( obj.gun ) {
+            const std::string func = "GUN_DETACH_GUNMODS";
             obj.use_methods.emplace( func, usage_from_string( func ) );
         }
 
@@ -447,6 +451,7 @@ void Item_factory::init()
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
+    add_iuse( "GUN_DETACH_GUNMODS", &iuse::gun_detach_gunmods );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
     add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
     add_iuse( "TOOLMOD_ATTACH", &iuse::toolmod_attach );
@@ -467,7 +472,6 @@ void Item_factory::init()
     add_iuse( "MARLOSS_GEL", &iuse::marloss_gel );
     add_iuse( "MARLOSS_SEED", &iuse::marloss_seed );
     add_iuse( "MA_MANUAL", &iuse::ma_manual );
-    add_iuse( "MCG_NOTE", &iuse::mcg_note );
     add_iuse( "MEDITATE", &iuse::meditate );
     add_iuse( "METH", &iuse::meth );
     add_iuse( "MININUKE", &iuse::mininuke );
@@ -478,7 +482,6 @@ void Item_factory::init()
     add_iuse( "MP3_ON", &iuse::mp3_on );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
     add_iuse( "MUTAGEN", &iuse::mutagen );
-    add_iuse( "MUT_IV", &iuse::mut_iv );
     add_iuse( "MUT_IV", &iuse::mut_iv );
     add_iuse( "MYCUS", &iuse::mycus );
     add_iuse( "NOISE_EMITTER_OFF", &iuse::noise_emitter_off );
@@ -863,6 +866,16 @@ void Item_factory::check_definitions() const
                 msg << string_format("unseals_into invalid id %s", type->container->unseals_into.c_str() ) << "\n";
             }
         }
+
+        for( const auto &elem : type->use_methods ) {
+            const iuse_actor *actor = elem.second.get_actor_ptr();
+
+            assert( actor );
+            if( !actor->is_valid() ) {
+                msg << string_format( "item action \"%s\" was not described.", actor->type.c_str() ) << "\n";
+            }
+        }
+
         if (msg.str().empty()) {
             continue;
         }
@@ -2051,17 +2064,18 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
     }
 }
 
-std::pair<std::string, use_function> Item_factory::usage_from_object( JsonObject &obj ) const
+std::pair<std::string, use_function> Item_factory::usage_from_object( JsonObject &obj )
 {
     auto type = obj.get_string( "type" );
 
-    use_function method;
     if( type == "repair_item" ) {
         type = obj.get_string( "item_action_type" );
-        method = use_function( new repair_item_actor( type ) );
-    } else {
-        method = usage_from_string( type );
+        if( !has_iuse( type ) ) {
+            add_actor( new repair_item_actor( type ) );
+        }
     }
+
+    use_function method = usage_from_string( type );
 
     if( !method.get_actor_ptr() ) {
         obj.throw_error( "unknown use_action", "type" );
