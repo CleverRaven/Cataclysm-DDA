@@ -34,6 +34,8 @@
 #include "item_group.h"
 #include "pathfinding.h"
 #include "scent_map.h"
+#include "cata_utility.h"
+#include "harvest.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -409,16 +411,34 @@ bool map::vehact( vehicle &veh )
         veh.falling = false;
     }
 
-    // Mph lost per tile when coasting
-    int base_slowdown = veh.skidding ? 200 : 20;
+    double slowdown = 0.0;
     if( should_fall ) {
-        // Just air resistance
-        base_slowdown = 2;
+        // air resistance
+        slowdown = 2.0;
+
+    } else if( !veh.engine_on || veh.skidding ) {
+        double loss = friction_loss;
+
+        if( veh.engine_on && veh.skidding ) {
+            loss /= 3.0;
+        }
+
+        // if we don't have an active engine providing thrust then reduce velocity from friction
+        double k = 0.5 * veh.total_mass() * pow( veh.current_velocity(), 2 );
+        k -= k * friction_loss / veh.k_dynamics();
+        slowdown = veh.current_velocity() - sqrt( ( 2 * k ) / veh.total_mass() );
+
+        // always slow down by at least 1mph
+        slowdown = std::max( ms_to_mph( slowdown ) * 100, 100.0 );
     }
 
-    // k slowdown second.
-    const float k_slowdown = (0.1 + veh.k_dynamics()) / ((0.1) + veh.k_mass());
-    const int slowdown = veh.drag() + (int)ceil( k_slowdown * base_slowdown );
+    const float wheel_traction_area = vehicle_wheel_traction( veh );
+    const float traction = veh.k_traction( wheel_traction_area );
+
+    // apply crude decay when moving from high traction (road) to low traction (off-road)
+    // @todo replace with more correct acceleration model
+    slowdown += std::abs( veh.current_velocity() * ( 1.0 - traction ) );
+
     if( slowdown > abs( veh.velocity ) ) {
         veh.stop();
     } else if( veh.velocity < 0 ) {
@@ -437,8 +457,6 @@ bool map::vehact( vehicle &veh )
         return true;
     }
 
-    const float wheel_traction_area = vehicle_wheel_traction( veh );
-    const float traction = veh.k_traction( wheel_traction_area );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( wheel_traction_area < 0 ) {
         add_msg(m_bad, _("Your %s sank."), veh.name.c_str());
@@ -1647,9 +1665,9 @@ ter_id map::ter( const tripoint &p ) const
 /*
  * Get the results of harvesting this tile's furniture or terrain
  */
-const std::list<harvest_entry> &map::get_harvest( const tripoint &pos ) const
+const harvest_id &map::get_harvest( const tripoint &pos ) const
 {
-    static const std::list<harvest_entry> null_harvest;
+    static const harvest_id null_harvest( NULL_ID );
     const auto furn_here = furn( pos );
     if( furn_here->examine != iexamine::none ) {
         // Note: if furniture can be examined, the terrain can NOT (until furniture is removed)
@@ -1670,11 +1688,11 @@ const std::list<harvest_entry> &map::get_harvest( const tripoint &pos ) const
 
 const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 {
-    static const std::set<std::string> null_harvest;
+    static const std::set<std::string> null_harvest_names = {};
     const auto furn_here = furn( pos );
     if( furn_here->examine != iexamine::none ) {
         if( furn_here->has_flag( TFLAG_HARVESTED ) ) {
-            return null_harvest;
+            return null_harvest_names;
         }
 
         return furn_here->get_harvest_names();
@@ -1682,7 +1700,7 @@ const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 
     const auto ter_here = ter( pos );
     if( ter_here->has_flag( TFLAG_HARVESTED ) ) {
-        return null_harvest;
+        return null_harvest_names;
     }
 
     return ter_here->get_harvest_names();
@@ -1711,7 +1729,8 @@ void map::examine( Character &p, const tripoint &pos )
 
 bool map::is_harvestable( const tripoint &pos ) const
 {
-    return !get_harvest( pos ).empty();
+    const auto &harvest_here = get_harvest( pos );
+    return !harvest_here.is_null() && !harvest_here->empty();
 }
 
 
@@ -4266,9 +4285,9 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
                 quantity, charges, birthday, damlevel );
 }
 
-bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius)
+item &map::add_item_or_charges(const int x, const int y, const item &obj, bool overflow )
 {
-    return !add_item_or_charges( tripoint( x, y, abs_sub.z ), new_item, overflow_radius ).is_null();
+    return add_item_or_charges( tripoint( x, y, abs_sub.z ), obj, overflow );
 }
 
 void map::add_item(const int x, const int y, item new_item)
@@ -4442,59 +4461,74 @@ units::volume map::free_volume( const tripoint &p )
     return i_at( p ).free_volume();
 }
 
-item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_radius) {
+item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overflow )
+{
+    // Checks if item would not be destroyed if added to this tile
+    auto valid_tile = [&]( const tripoint &e ) {
+        if( !inbounds( e ) ) {
+            dbg( D_INFO ) << e; // should never happen
+            return false;
+        }
 
-    if(!inbounds(p) ) {
-        // Complain about things that should never happen.
-        dbg(D_INFO) << p.x << "," << p.y << "," << p.z << ", liquid "
-                    <<(new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) <<
-                    ", destroy_item "<<has_flag("DESTROY_ITEM", p);
+        // Some tiles destroy items (eg. lava)
+        if( has_flag( "DESTROY_ITEM", e ) ) {
+            return false;
+        }
 
+        // Cannot drop liquids into tiles that are comprised of liquid
+        if( obj.made_of( LIQUID ) && has_flag( "SWIMMABLE", e ) ) {
+            return false;
+        }
+
+        return true;
+    };
+
+    // Checks if sufficient space at tile to add item
+    auto valid_limits = [&]( const tripoint &e ) {
+        return obj.volume() <= free_volume( e ) && i_at( e ).size() < MAX_ITEM_IN_SQUARE;
+    };
+
+    // Performs the actual insertion of the object onto the map
+    auto place_item = [&]( const tripoint &tile ) -> item& {
+        if( obj.count_by_charges() ) {
+            for( auto &e : i_at( tile ) ) {
+                if( e.merge_charges( obj ) ) {
+                    return e;
+                }
+            }
+        }
+
+        support_dirty( tile );
+        return add_item( tile, obj );
+    };
+
+    // Some items never exist on map as a discrete item (must be contained by another item)
+    if( obj.has_flag( "NO_DROP" ) || obj.has_flag( "IRREMOVABLE" ) ) {
         return nulitem;
     }
-    if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) ||
-        has_flag("DESTROY_ITEM", p) || new_item.has_flag("NO_DROP") ||
-        (new_item.is_gunmod() && new_item.has_flag("IRREMOVABLE") ) ) {
-        // Silently fail on mundane things that prevent item spawn.
+
+    // If intended drop tile destroys the item then we don't attempt to overflow
+    if( !valid_tile( pos ) ) {
         return nulitem;
     }
 
-    const bool charge = new_item.count_by_charges();
-    item *ret = nullptr;
-    
-    for( const auto &p_it : closest_tripoints_first(overflow_radius, p) ) {
-        if( !inbounds( p_it ) || has_flag( "DESTROY_ITEM", p_it ) || has_flag( "NOITEM", p_it ) ) {
-            continue;
-        }
-        map_stack istack = i_at( p_it );
-        const long can_fit = istack.amount_can_fit( new_item );
-        if( can_fit < 1 ) {
-            continue;
-        }
-        
-        item *here = charge ? istack.stacks_with( new_item ) : nullptr;
-        const long old_charges = new_item.charges;
-        if( here ) {
-            // Then we want to merge charges
-            new_item.charges = can_fit;
-            here->merge_charges( new_item );
-            new_item.charges = old_charges - can_fit;
-            ret = here;
-        } else {
-            // Then we want to call @add_item
-            new_item.charges = charge ? can_fit : new_item.charges;
-            ret = &add_item( p_it, new_item );
-            new_item.charges = charge ? old_charges - can_fit : new_item.charges;
-            support_dirty( p_it );
-        }
-        
-        if( !charge || new_item.charges == 0 ) {
-            return ret ? *ret : nulitem;
-        }
-    } //end for every point in overflow radius
+    if( !has_flag( "NOITEM", pos ) && valid_limits( pos ) ) {
+        // If tile can contain items place here...
+        return place_item( pos );
 
-    // Adding only some of the charges is good enough to return success, I guess.
-    return ret ? *ret : nulitem;
+    } else if( overflow ) {
+        // ...otherwise try to overflow to adjacent tiles (if permitted)
+        auto tiles = closest_tripoints_first( 2, pos );
+        tiles.erase( tiles.begin() ); // we already tried this position
+        for( const auto &e : tiles ) {
+            if( valid_tile( e ) && !has_flag( "NOITEM", e ) && valid_limits( e ) ) {
+                return place_item( e );
+            }
+        }
+    }
+
+    // failed due to lack of space at target tile (+/- overflow tiles)
+    return nulitem;
 }
 
 item &map::add_item(const tripoint &p, item new_item)
@@ -6813,11 +6847,12 @@ void map::grow_plant( const tripoint &p )
 void map::restock_fruits( const tripoint &p, int time_since_last_actualize )
 {
     const auto &ter = this->ter( p ).obj();
-    //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
     if( !ter.has_flag( TFLAG_HARVESTED ) ) {
-        return;
+        return; // Already harvestable. Do nothing.
     }
-    if( ter.get_harvest().empty() ||
+    // Make it harvestable again if the last actualization was during a different season or year.
+    const calendar last_touched = calendar::turn - time_since_last_actualize;
+    if( calendar::turn.get_season() != last_touched.get_season() ||
         time_since_last_actualize >= DAYS( calendar::season_length() ) ) {
         ter_set( p, ter.transforms_into );
     }

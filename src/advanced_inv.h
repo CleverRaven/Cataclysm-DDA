@@ -40,7 +40,8 @@ enum advanced_inv_sortby {
     SORTBY_VOLUME,
     SORTBY_CHARGES,
     SORTBY_CATEGORY,
-    SORTBY_DAMAGE
+    SORTBY_DAMAGE,
+    SORTBY_SPOILAGE
 };
 
 struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
@@ -48,6 +49,12 @@ struct sort_case_insensitive_less : public std::binary_function< char, char, boo
         return toupper( static_cast< unsigned char >( x ) ) < toupper( static_cast< unsigned char >( y ) );
     }
 };
+
+/**
+ * Cancels ongoing move all action.
+ * @todo Make this not needed.
+ */
+void cancel_aim_processing();
 
 struct advanced_inv_listitem;
 

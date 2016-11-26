@@ -1162,9 +1162,9 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "scrap", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "battery", 100 ] ]
+      [ [ "processor", 1 ] ]
     ]
   },
   {
@@ -1925,18 +1925,6 @@
       [ [ "scrap", 1 ] ],
       [ [ "plastic_chunk", 1 ] ],
       [ [ "metal_tank_little", 1 ] ]
-    ]
-  },
-  {
-    "result": "pda",
-    "type": "uncraft",
-    "time": 1200,
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "small_lcd_screen", 1 ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "RAM", 1 ] ]
     ]
   },
   {

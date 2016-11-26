@@ -690,16 +690,6 @@ bool JsonArray::has_object(int i)
     return jsin->test_object();
 }
 
-
-/* class JsonIn
- * represents an istream of JSON data,
- * allowing easy extraction into c++ datatypes.
- */
-JsonIn::JsonIn(std::istream &s, bool strict) :
-    stream(&s), strict(strict), ate_separator(false)
-{
-}
-
 int JsonIn::tell()
 {
     return stream->tellg();
@@ -756,14 +746,14 @@ void JsonIn::skip_separator()
     eat_whitespace();
     ch = peek();
     if (ch == ',') {
-        if (strict && ate_separator) {
+        if( ate_separator ) {
             error("duplicate separator");
         }
         stream->get();
         ate_separator = true;
     } else if (ch == ']' || ch == '}' || ch == ':') {
         // okay
-        if (strict && ate_separator) {
+        if( ate_separator ) {
             std::stringstream err;
             err << "separator should not be found before '" << ch << "'";
             uneat_whitespace();
@@ -772,12 +762,12 @@ void JsonIn::skip_separator()
         ate_separator = false;
     } else if (ch == EOF) {
         // that's okay too... probably
-        if (strict && ate_separator) {
+        if( ate_separator ) {
             uneat_whitespace();
             error("separator at end of file not strictly allowed");
         }
         ate_separator = false;
-    } else if (strict) {
+    } else {
         // not okay >:(
         uneat_whitespace();
         error("missing separator", 1);
@@ -793,7 +783,7 @@ void JsonIn::skip_pair_separator()
         std::stringstream err;
         err << "expected pair separator ':', not '" << ch << "'";
         error(err.str(), -1);
-    } else if (strict && ate_separator) {
+    } else if( ate_separator ) {
         error("duplicate separator not strictly allowed", -1);
     }
     ate_separator = true;
@@ -816,7 +806,7 @@ void JsonIn::skip_string()
             continue;
         } else if (ch == '"') {
             break;
-        } else if (strict && (ch == '\r' || ch == '\n')) {
+        } else if( ch == '\r' || ch == '\n' ) {
             error("string not closed before end of line", -1);
         }
     }
@@ -999,9 +989,9 @@ std::string JsonIn::get_string()
             // end of the string
             end_value();
             return s;
-        } else if (strict && (ch == '\r' || ch == '\n')) {
+        } else if( ch == '\r' || ch == '\n' ) {
             error("reached end of line without closing string", -1);
-        } else if (strict && (unsigned char)ch < 0x20) {
+        } else if( (unsigned char) ch < 0x20 ) {
             error("invalid character inside string", -1);
         } else {
             s += ch;
@@ -1051,7 +1041,7 @@ double JsonIn::get_float()
         err << "expecting number but found '" << ch << "'";
         error(err.str(), -1);
     }
-    if (strict && ch == '0') {
+    if( ch == '0' ) {
         // allow a single leading zero in front of a '.' or 'e'/'E'
         stream->get(ch);
         if (ch >= '0' && ch <= '9') {
@@ -1162,7 +1152,7 @@ bool JsonIn::end_array()
 {
     eat_whitespace();
     if (peek() == ']') {
-        if (strict && ate_separator) {
+        if( ate_separator ) {
             uneat_whitespace();
             error("separator not strictly allowed at end of array");
         }
@@ -1195,7 +1185,7 @@ bool JsonIn::end_object()
 {
     eat_whitespace();
     if (peek() == '}') {
-        if (strict && ate_separator) {
+        if( ate_separator ) {
             uneat_whitespace();
             error("separator not strictly allowed at end of object");
         }

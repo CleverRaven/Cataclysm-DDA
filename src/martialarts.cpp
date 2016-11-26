@@ -79,6 +79,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
+    optional( jo, was_loaded, "dummy", dummy, false );
     optional( jo, was_loaded, "dodge_counter", dodge_counter, false );
     optional( jo, was_loaded, "block_counter", block_counter, false );
     optional( jo, was_loaded, "miss_recovery", miss_recovery, false );

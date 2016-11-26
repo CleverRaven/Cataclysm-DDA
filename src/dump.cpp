@@ -3,8 +3,10 @@
 #include <algorithm>
 #include <iostream>
 #include <iterator>
+#include <numeric>
 
 #include "compatibility.h"
+#include "cata_utility.h"
 #include "init.h"
 #include "item_factory.h"
 #include "iuse_actor.h"
@@ -12,11 +14,13 @@
 #include "vehicle.h"
 #include "veh_type.h"
 #include "npc.h"
+#include "ammo.h"
 
 bool game::dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts )
 {
     try {
         load_core_data();
+        load_packs( _( "Loading content packs" ), { "dda" } );
     } catch( const std::exception &err ) {
         std::cerr << "Error loading data from json: " << err.what() << std::endl;
         return false;
@@ -202,7 +206,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
     } else if( what == "VEHICLE" ) {
         header = {
             "Name", "Weight (empty)", "Weight (fueled)",
-            "Max velocity (mph)", "Safe velocity (mph)", "Acceleration (mph/turn)",
+            "Max velocity (t/t)", "Safe velocity (t/t)", "Optimal velocity (t/t)",
             "Mass coeff %", "Aerodynamics coeff %", "Friction coeff %",
             "Traction coeff % (grass)"
         };
@@ -210,13 +214,42 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             auto veh_empty = vehicle( obj, 0, 0 );
             auto veh_fueled = vehicle( obj, 100, 0 );
 
+            std::vector<item_location> engines;
+            for( const auto &e : veh_fueled.parts ) {
+                if( e.is_engine() ) {
+                    engines.push_back( veh_fueled.part_base( veh_fueled.index_of_part( &e ) ) );
+                }
+            }
+
+            // weight of player is significant for lightweight vehicles with low power engines
+            int mass = veh_fueled.total_mass() + ( player().get_weight() / 1000.0 );
+            double kf = veh_fueled.k_friction();
+
+            double max_vel = std::accumulate(
+                engines.begin(), engines.end(), 0.0f,
+                [&mass,kf]( const double lhs, const item_location &rhs ) {
+                    return std::max( lhs, rhs->type->engine->velocity_max( mass, kf ) );
+            } );
+
+            double safe_vel = std::accumulate(
+                engines.begin(), engines.end(), 0.0f,
+                [&mass,kf]( const double lhs, const item_location &rhs ) {
+                    return std::max( lhs, rhs->type->engine->velocity_safe( mass, kf ) );
+            } );
+
+            double optimal_vel = std::accumulate(
+                engines.begin(), engines.end(), 0.0f,
+                [&mass,kf]( const double lhs, const item_location &rhs ) {
+                    return std::max( lhs, rhs->type->engine->velocity_optimal( mass, kf ) );
+            } );
+
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
             r.push_back( to_string( veh_empty.total_mass() ) );
             r.push_back( to_string( veh_fueled.total_mass() ) );
-            r.push_back( to_string( veh_fueled.max_velocity() / 100 ) );
-            r.push_back( to_string( veh_fueled.safe_velocity() / 100 ) );
-            r.push_back( to_string( veh_fueled.acceleration() / 100 ) );
+            r.push_back( string_format( "%.1f", ms_to_tt( max_vel ) ) );
+            r.push_back( string_format( "%.1f", ms_to_tt( safe_vel ) ) );
+            r.push_back( string_format( "%.1f", ms_to_tt( optimal_vel ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_mass() ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_aerodynamics() ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_friction() ) ) );
@@ -226,6 +259,57 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         for( auto& e : vehicle_prototype::get_all() ) {
             dump( e );
         }
+
+    } else if( what == "ENGINE" ) {
+        header = {
+            "Name", "Weight (kg)", "Volume (L)", "Fuel", "Power (hp)", "Efficiency (%)", "Durability",
+            "Optimum (rpm)", "Redline (rpm)", "Optimal (t/t)", "Safe (t/t)"
+        };
+        for( auto &e : vpart_info::all() ) {
+            const item obj( e.second.item );
+            if( !obj.is_engine() ) {
+                continue;
+            }
+            std::vector<std::string> r;
+            r.push_back( e.second.name() );
+            r.push_back( string_format( "%.0f", obj.weight() / 1000.0 ) );
+            r.push_back( string_format( "%.1f", obj.volume() / 1000.0 ) );
+            r.push_back( obj.type->engine->fuel->name() );
+            r.push_back( string_format( "%.0f", watt_to_hp( obj.type->engine->power ) ) );
+            r.push_back( to_string( obj.type->engine->efficiency ) );
+            r.push_back( to_string( e.second.durability ) );
+            if( obj.type->engine->gears.empty() ) {
+                r.insert( r.end(), { "", "", "", "" } );
+            } else {
+                r.push_back( to_string( obj.type->engine->optimum ) );
+                r.push_back( to_string( obj.type->engine->redline ) );
+                r.push_back( string_format( "%.1f", ms_to_tt( obj.type->engine->velocity_optimal( 1 ) ) ) );
+                r.push_back( string_format( "%.1f", ms_to_tt(obj.type->engine->velocity_safe( 1 ) ) ) );
+            }
+            rows.push_back( r );
+        }
+
+    } else if( what == "TRACTION" ) {
+        const int limit = 20000;
+
+        header = { "Name" };
+        for( int i = 1; i != limit; ++i ) {
+            header.push_back( to_string( i ) );
+        }
+
+        auto dump = [&rows]( const itype_id &obj ) {
+            const item eng( obj );
+            std::vector<std::string> r( 1, eng.tname() );
+            for( int i = 1; i != limit; ++i ) {
+                r.push_back( to_string( ms_to_tt( eng.type->engine->velocity_safe( i, 0.8 ) ) ) );
+            }
+            rows.push_back( r );
+        };
+
+        dump( "1cyl_combustion_small" );
+        dump( "i4_combustion" );
+        dump( "v8_combustion" );
+        dump( "v8_diesel" );
 
     } else if( what == "VPART" ) {
         header = {
@@ -285,6 +369,142 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                 }
 
                 dump( test.first->second, test.second->second );
+            }
+        }
+
+    } else if( what == "GUN_DAMAGE" ) {
+        scol = -1; // unsorted output so graph columns have predictable ordering
+
+        header = { "Name" };
+        for( int range = 1; range <= MAX_RANGE; ++range ) {
+            header.push_back( to_string( range ) );
+        }
+
+        auto dump = [&rows]( const standard_npc & who, const item & gun, int aim_moves ) {
+            // aim for up to aim_moves, or until there's no improvement
+            double recoil = MIN_RECOIL;
+            for( int i = 0; i < aim_moves; ++i ) {
+                double adj = who.aim_per_move( gun, recoil );
+                if( adj <= 0 ) {
+                    aim_moves = i;
+                    break;
+                }
+                recoil -= adj;
+            }
+
+            double dispersion = who.get_weapon_dispersion( gun ) + recoil;
+
+            std::vector<std::string> r;
+            r.push_back( string_format( "%s %s (%dmv aiming)", who.get_name().c_str(), gun.tname().c_str(), aim_moves ) );
+
+            for( int range = 1; range <= MAX_RANGE; ++range ) {
+                if( range > gun.gun_range( &who ) ) {
+                    r.push_back( "0" );
+                    continue;
+                }
+
+                // We want to find the long-run average damage per shot for this dispersion.
+
+                // The base damage is the same for every shot. The damage multiplier varies depending
+                // on the quality of hit (headshot, grazing, etc). Within each category of hit,
+                // there is a uniform random distribution of multipliers.
+
+                // To find the long-run average, first construct the probability density function
+                // for the damage multiplier that is, roughly speaking, f(x) = probability that a
+                // shot will end up with a damage multiplier of x. This function looks something like
+                // this, where the heights of the steps vary depending on the hit probabilities.
+                // The area under each step is the probability of getting that quality of hit.
+                // The total area is 1.0.
+                //
+                // f(x) = probability density
+                // ^
+                // |  miss
+                // |     ^
+                // |     |           -------
+                // |     |           |     |         ------
+                // |     |------     |     |-----    |    |   --------
+                // |     |graze|     | std  good|    |crit|   |h.shot|
+                // +-----|-----|-----|----------|----|----|---|------|-----> x = damage multiplier
+                //       0    0.25  0.5   1.0  1.5  1.75 2.3 2.45   3.35
+
+                // The long-run average (expected value) can be calculated directly from this PDF:
+                //    ∫(-∞,∞) x.f(x) dx
+                // See https://en.wikipedia.org/wiki/Expected_value#Univariate_continuous_random_variable
+
+                // Find the probability of each type of hit
+                // nb: projectile_attack_chance returns the probabilty of a given accuracy _or better_
+                // but we want the probability of hits within each category separately, so subtract the
+                // probabilities at each edge.
+                double p_headshot = who.projectile_attack_chance( dispersion, range, accuracy_headshot );
+                double p_critical = who.projectile_attack_chance( dispersion, range, accuracy_critical ) - who.projectile_attack_chance( dispersion, range, accuracy_headshot );
+                double p_goodhit  = who.projectile_attack_chance( dispersion, range, accuracy_goodhit )  - who.projectile_attack_chance( dispersion, range, accuracy_critical );
+                double p_standard = who.projectile_attack_chance( dispersion, range, accuracy_standard ) - who.projectile_attack_chance( dispersion, range, accuracy_goodhit );
+                double p_grazing  = who.projectile_attack_chance( dispersion, range, accuracy_grazing )  - who.projectile_attack_chance( dispersion, range, accuracy_standard );
+                // double p_miss = 1.0 - who.projectile_attack_chance( dispersion, range, accuracy_grazing );     not actually used below
+
+                // f(x) is the probabilty density function for the damage multiplier x
+                // f(x) = { p_grazing / 0.25     if 0.00 < x <= 0.25
+                //        { p_standard / 0.50    if 0.50 < x <= 1.00
+                //        { p_goodhit / 0.50     if 1.00 < x <= 1.50
+                //        { p_critical / 0.55    if 1.75 < x <= 2.30
+                //        { p_headshot / 0.90    if 2.45 < x <= 3.35
+                //        { p_miss . δ(x)        if x == 0
+                //        { 0                    otherwise
+                //
+                // (the scaling factors ensure that e.g. ∫(0.5,1.0) f(x) dx == p_standard)
+
+                // δ is the Dirac delta function, used here to glue in a discrete value (the
+                // probability of a miss, i.e. a multiplier of exactly 0) into an otherwise
+                // continuous distribution. It is there for completeness so the total area
+                // of the PDF totals 1.0, but it doesn't actually affect the integral.
+                // See https://en.wikipedia.org/wiki/Dirac_delta_function#Probability_theory
+
+                // long-run average  μ = E[X] = ∫x.f(x) dx
+                // we compute the integral piece-wise over each part of the function defined above
+
+                auto xfx_integral = []( double fx, double x1, double x2 ) -> double {
+                    // integrate x.f(x) within [x1,x2] assuming f(x) stays constant in that interval
+                    return fx * ( x2 * x2 - x1 * x1 ) / 2;
+                };
+                double mu = xfx_integral( p_grazing / 0.25, 0, 0.25 ) +
+                            xfx_integral( p_standard / 0.50, 0.50, 1.00 ) +
+                            xfx_integral( p_goodhit / 0.50, 1.00, 1.50 ) +
+                            xfx_integral( p_critical / 0.55, 1.75, 2.30 ) +
+                            xfx_integral( p_headshot / 0.90, 2.45, 3.35 );
+
+                r.push_back( string_format( "%.2f", mu * gun.gun_damage() ) );
+            }
+
+            rows.push_back( r );
+        };
+
+        if( opts.empty() ) {
+            dump( test_npcs[ "S1" ], test_items[ "G1" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G1" ], 1000 );
+            dump( test_npcs[ "S1" ], test_items[ "G2" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G2" ], 1000 );
+            dump( test_npcs[ "S1" ], test_items[ "G3" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G3" ], 1000 );
+            dump( test_npcs[ "S1" ], test_items[ "G4" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G4" ], 1000 );
+
+        } else {
+            for( const auto &str : opts ) {
+                auto idx = str.find( ':' );
+                if( idx == std::string::npos ) {
+                    std::cerr << "cannot parse test case: " << str << std::endl;
+                    return false;
+                }
+                auto test = std::make_pair( test_npcs.find( str.substr( 0, idx ) ),
+                                            test_items.find( str.substr( idx + 1 ) ) );
+
+                if( test.first == test_npcs.end() || test.second == test_items.end() ) {
+                    std::cerr << "invalid test case: " << str << std::endl;
+                    return false;
+                }
+
+                dump( test.first->second, test.second->second, 100 );
+                dump( test.first->second, test.second->second, 1000 );
             }
         }
 

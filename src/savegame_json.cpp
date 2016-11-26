@@ -1633,6 +1633,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
 
     std::map<std::string, std::pair<std::string,itype_id>> deprecated = {
         { "laser_gun", { "laser_rifle", "none" } },
+        { "seat_nocargo", { "seat", "none" } },
         { "engine_plasma", { "minireactor", "none" } },
         { "battery_truck", { "battery_car", "battery" } },
 
@@ -1813,7 +1814,6 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("falling", falling);
     data.read("cruise_velocity", cruise_velocity);
     data.read("vertical_velocity", vertical_velocity);
-    data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
     data.read("skidding", skidding);
@@ -1899,6 +1899,12 @@ void vehicle::deserialize(JsonIn &jsin)
     set_legacy_state( "scoop_on", "SCOOP" );
     set_legacy_state( "plow_on", "PLOW" );
     set_legacy_state( "reactor_on", "REACTOR" );
+
+    for( auto &e : parts ) {
+        if( e.is_engine() && &e != &current_engine() ) {
+            e.enabled = false;
+        }
+    }
 }
 
 void vehicle::serialize(JsonOut &json) const
@@ -1915,7 +1921,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "falling", falling );
     json.member( "cruise_velocity", cruise_velocity );
     json.member( "vertical_velocity", vertical_velocity );
-    json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
     json.member( "skidding", skidding );

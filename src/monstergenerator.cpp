@@ -17,6 +17,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "material.h"
+#include "harvest.h"
 
 #include <algorithm>
 
@@ -108,6 +109,22 @@ void MonsterGenerator::finalize_mtypes()
 
         if( mon.bash_skill < 0 ) {
             mon.bash_skill = calc_bash_skill( mon );
+        }
+
+        if( mon.armor_bash < 0 ) {
+            mon.armor_bash = 0;
+        }
+        if( mon.armor_cut < 0 ) {
+            mon.armor_cut = 0;
+        }
+        if( mon.armor_stab < 0 ) {
+            mon.armor_stab = mon.armor_cut * 0.8;
+        }
+        if( mon.armor_acid < 0 ) {
+            mon.armor_acid = mon.armor_cut * 0.5;
+        }
+        if( mon.armor_fire < 0 ) {
+            mon.armor_fire = 0;
         }
 
         finalize_pathfinding_settings( mon );
@@ -448,8 +465,10 @@ class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_r
         }
 };
 
-void mtype::load( JsonObject &jo, const std::string & )
+void mtype::load( JsonObject &jo, const std::string &src )
 {
+    bool strict = src == "core";
+
     MonsterGenerator &gen = MonsterGenerator::generator();
 
     // Name and name plural are not translated here, but when needed in
@@ -482,26 +501,31 @@ void mtype::load( JsonObject &jo, const std::string & )
     const typed_flag_reader<decltype( gen.phase_map )> phase_reader{ gen.phase_map, "invalid phase id" };
     optional( jo, was_loaded, "phase", phase, phase_reader, SOLID );
 
-    optional( jo, was_loaded, "diff", difficulty, 0 );
-    optional( jo, was_loaded, "aggression", agro, 0 );
-    optional( jo, was_loaded, "morale", morale, 0 );
-    optional( jo, was_loaded, "speed", speed, 0 );
-    optional( jo, was_loaded, "attack_cost", attack_cost, 100 );
-    optional( jo, was_loaded, "melee_skill", melee_skill, 0 );
-    optional( jo, was_loaded, "melee_dice", melee_dice, 0 );
-    optional( jo, was_loaded, "melee_dice_sides", melee_sides, 0 );
-    optional( jo, was_loaded, "dodge", sk_dodge, 0 );
-    optional( jo, was_loaded, "armor_bash", armor_bash, 0 );
-    optional( jo, was_loaded, "armor_cut", armor_cut, 0 );
-    optional( jo, was_loaded, "armor_acid", armor_acid, armor_cut / 2 );
-    optional( jo, was_loaded, "armor_fire", armor_fire, 0 );
-    optional( jo, was_loaded, "hp", hp, 0 );
+    assign( jo, "diff", difficulty, strict, 0 );
+    assign( jo, "hp", hp, strict, 0 );
+    assign( jo, "speed", speed, strict, 0 );
+    assign( jo, "aggression", agro, strict, -100, 100 );
+    assign( jo, "morale", morale, strict );
+
+    assign( jo, "attack_cost", attack_cost, strict, 0 );
+    assign( jo, "melee_skill", melee_skill, strict, 0 );
+    assign( jo, "melee_dice", melee_dice, strict, 0 );
+    assign( jo, "melee_dice_sides", melee_sides, strict, 0 );
+
+    assign( jo, "dodge", sk_dodge, strict, 0 );
+    assign( jo, "armor_bash", armor_bash, strict, 0 );
+    assign( jo, "armor_cut", armor_cut, strict, 0 );
+    assign( jo, "armor_stab", armor_stab, strict, 0 );
+    assign( jo, "armor_acid", armor_acid, strict, 0 );
+    assign( jo, "armor_fire", armor_fire, strict, 0 );
+
+    assign( jo, "vision_day", vision_day, strict, 0 );
+    assign( jo, "vision_night", vision_night, strict, 0 );
+
+
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, "" );
-    optional( jo, was_loaded, "vision_day", vision_day, 40 );
-    optional( jo, was_loaded, "vision_night", vision_night, 1 );
-    optional( jo, was_loaded, "armor_stab", armor_stab, 0.8f * armor_cut );
     optional( jo, was_loaded, "attack_effs", atk_effs, mon_attack_effect_reader{} );
 
     // TODO: make this work with `was_loaded`
@@ -521,6 +545,8 @@ void mtype::load( JsonObject &jo, const std::string & )
         JsonIn &stream = *jo.get_raw( "death_drops" );
         death_drops = item_group::load_item_group( stream, "distribution" );
     }
+
+    assign( jo, "harvest", harvest, strict );
 
     const typed_flag_reader<decltype( gen.death_map )> death_reader{ gen.death_map, "invalid monster death function" };
     optional( jo, was_loaded, "death_function", dies, death_reader );
@@ -703,10 +729,6 @@ void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_na
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &mon : mon_templates->get_all() ) {
-        if( mon.description.empty() ) {
-            debugmsg( "monster %s has no description", mon.id.c_str() );
-        }
-
         for( auto &spec : mon.species ) {
             if( !spec.is_valid() ) {
                 debugmsg("monster %s has invalid species %s", mon.id.c_str(), spec.c_str());

@@ -4315,7 +4315,7 @@
     "warmth": 35,
     "material_thickness": 3,
     "environmental_protection": 4,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES" ]
   },
   {
     "id": "helmet_plate",
@@ -5956,6 +5956,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "light survivor cargo pants",
+    "name_plural": "light survivor cargo pants",
     "description": "Lightweight, kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof.",
     "weight": 2100,
     "volume": 14,

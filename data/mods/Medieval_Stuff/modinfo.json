@@ -1,10 +1,11 @@
-{
+[
+  {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "Medieval_Stuff",
     "name": "Medieval and Historic Content",
-    "author": "Chaosvolt",
+    "authors": [ "Chaosvolt" ],
     "description": "Assorted fun things for the wannabe knight, legionary, and more.",
     "category": "items",
-    "path": ""
-}
+    "dependencies": [ "dda" ]
+  }
+]

@@ -39,6 +39,13 @@ enum m_size : int {
     MS_HUGE     // TAAAANK
 };
 
+/** Aim result for a single projectile attack */
+struct projectile_attack_aim {
+    double missed_by;       ///< Hit quality, where 0.0 is a perfect hit and 1.0 is a miss
+    double missed_by_tiles; ///< Number of tiles the attack missed by
+    double dispersion;      ///< Dispersion of this particular shot in arcminutes
+};
+
 class Creature
 {
     public:
@@ -184,6 +191,19 @@ class Creature
         /** Overloaded version that assumes the projectile comes from this Creature's postion. */
         dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &target,
                                                    double total_dispersion );
+
+        /** Makes an aiming/attack roll for a single projectile attack shot */
+        projectile_attack_aim projectile_attack_roll( double dispersion, double range ) const;
+
+        /**
+         * Probability that a projectile attack will hit with at least the given accuracy.
+         *
+         * @param total_dispersion nominal shot dispersion of gun + shooter
+         * @param range range of the attack
+         * @param accuracy the required accuracy, in the range [0..1]
+         * @return the probability, in the range (0..1]
+         */
+        double projectile_attack_chance( double total_dispersion, double range, double accuracy ) const;
 
         // handles blocking of damage instance. mutates &dam
         virtual bool block_hit(Creature *source, body_part &bp_hit,

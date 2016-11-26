@@ -22,6 +22,7 @@
 #include "itype.h"
 #include <chrono>
 #include <algorithm>
+#include <cmath>
 
 #ifdef SDL_SOUND
 #   include <SDL_mixer.h>
@@ -160,6 +161,30 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     return sound_clusters;
 }
 
+int get_signal_for_hordes( const centroid &centr )
+{
+    //Volume in  tiles. Signal fo hordes in submaps
+    const int vol = centr.volume - weather_data( g->weather ).sound_attn; //modify vol using weather vol.Weather can reduce monster hearing
+    const int min_vol_cap = 60;//Hordes can't hear volume lower than this
+    const int undeground_div = 2;//Coeffficient for volume reduction undeground
+    const int hordes_sig_div =  SEEX;//Divider coefficent for hordes
+    const int min_sig_cap = 8; //Signal for hordes can't be lower that this if it pass min_vol_cap
+    const int max_sig_cap = 26;//Signal for hordes can't be higher that this
+    //Lower the level - lower the sound
+    int vol_hordes = ( ( centr.z < 0 ) ? vol / ( undeground_div * std::abs( centr.z ) ) : vol );
+    if( vol_hordes > min_vol_cap ) {
+        //Calculating horde hearing signal
+        int sig_power = std::ceil( ( float ) vol_hordes / hordes_sig_div );
+        //Capping minimum horde hearing signal
+        sig_power = std::max( sig_power, min_sig_cap );
+        //Capping extremely high signal to hordes
+        sig_power = std::min( sig_power, max_sig_cap );
+        add_msg( m_debug, "vol %d  vol_hordes %d sig_power %d ", vol, vol_hordes, sig_power );
+        return sig_power;
+    }
+    return 0;
+}
+
 void sounds::process_sounds()
 {
     std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
@@ -172,10 +197,9 @@ void sounds::process_sounds()
         const tripoint source = tripoint( this_centroid.x, this_centroid.y, this_centroid.z );
         // --- Monster sound handling here ---
         // Alert all hordes
-        if( vol > 20 && g->get_levz() == 0 ) {
-            int sig_power = ( ( vol > 140 ) ? 140 : vol );
-            // With this, volume 100 reaches 20 overmap tiles away.
-            sig_power /= 5;
+        int sig_power = get_signal_for_hordes( this_centroid );
+        if( sig_power>0) {
+
             const point abs_ms = g->m.getabs( source.x, source.y );
             const point abs_sm = ms_to_sm_copy( abs_ms );
             const tripoint target( abs_sm.x, abs_sm.y, source.z );
@@ -287,7 +311,7 @@ void sounds::process_sound_markers( player *p )
         if( !description.empty() ) {
             // If it came from us, don't print a direction
             if( pos == p->pos() ) {
-                add_msg( "You hear %s", description.c_str() );
+                add_msg( _( "You hear %s" ), description.c_str() );
             } else {
                 // Else print a direction as well
                 std::string direction = direction_name( direction_from( p->pos(), pos ) );

@@ -45,6 +45,12 @@
     "info": "This item can be used to block attacks when worn."
   },
   {
+    "id": "COLD_START",
+    "type": "json_flag",
+    "context": [ "ENGINE" ],
+    "info": "This engine may be <bad>difficult to start</bad> in cold weather."
+  },
+  {
     "id": "COLLAR",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -102,6 +108,19 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
+  },
+  {
+    "id": "IRREMOVABLE",
+    "type": "json_flag",
+    "context": [ "GUNMOD" ],
+    "description": "This item is a component of the gun it is attached to.  It can't be removed without destroying it.",
+    "inherit": false
+  },
+  {
+    "id": "MANUAL_ENGINE",
+    "type": "json_flag",
+    "context": [ "ENGINE" ],
+    "info": "The power of this engine depends on <neutral>player strength</neutral>."
   },
   {
     "id": "NO_CVD",

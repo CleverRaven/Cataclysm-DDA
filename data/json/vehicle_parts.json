@@ -121,21 +121,6 @@
         "breaks_into": "ig_vp_seat"
     },{
         "type" : "vehicle_part",
-        "id" : "seat_nocargo",
-        "name" : "military seat",
-        "symbol" : "#",
-        "color" : "red",
-        "broken_symbol" : "*",
-        "broken_color" : "red",
-        "damage_modifier" : 60,
-        "durability" : 250,
-        "item" : "seat",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["SEAT", "BOARDABLE", "BELTABLE"],
-        "breaks_into": "ig_vp_seat"
-    },{
-        "type" : "vehicle_part",
         "id" : "tracker",
         "name": "tracking device",
         "symbol": "*",

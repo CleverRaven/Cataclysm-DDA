@@ -123,9 +123,9 @@ item::item( const itype *type, int turn, long qty ) : type( type )
     if( qty >= 0 ) {
         charges = qty;
     } else {
-        if( type->spawn && type->spawn->rand_charges.size() > 1 ) {
-            const auto charge_roll = rng( 1, type->spawn->rand_charges.size() - 1 );
-            charges = rng( type->spawn->rand_charges[charge_roll - 1], type->spawn->rand_charges[charge_roll] );
+        if( type->tool && type->tool->rand_charges.size() > 1 ) {
+            const auto charge_roll = rng( 1, type->tool->rand_charges.size() - 1 );
+            charges = rng( type->tool->rand_charges[charge_roll - 1], type->tool->rand_charges[charge_roll] );
         } else {
             charges = type->charges_default();
         }
@@ -994,7 +994,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         int aim_mv = g->u.gun_engagement_moves( *mod );
         if( aim_mv > 0 ) {
-            info.emplace_back( "GUN", _( "Maximum aiming time: " ), "<num> seconds", int( aim_mv / 16.67 ), true, "", true, true );
+            info.emplace_back( "GUN", _( "Maximum aiming time: " ), _( "<num> seconds" ), int( aim_mv / 16.67 ), true, "", true, true );
         }
 
         info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), true, "", false, false ) );
@@ -1194,6 +1194,38 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "GUNMOD", temp2.str() ) );
 
     }
+
+    if( is_engine() ) {
+        insert_separation_line();
+
+        if( !type->engine->fuel.is_null() ) {
+            auto col = string_from_color( item::find_type( default_ammo( type->engine->fuel ) )->color );
+            info.emplace_back( "ENGINE", _( "Fuel: " ),
+                               string_format( "<color_%s>%s</color>", col.c_str(), _( type->engine->fuel.c_str() ) ) );
+        }
+        if( type->engine->power > 0 && !has_flag( "MANUAL_ENGINE" ) ) {
+            info.emplace_back( "ENGINE", _( "Power: " ), _( "<num> hp" ), watt_to_hp( type->engine->power ), true );
+        }
+
+        info.emplace_back( "ENGINE", _( "Efficiency: " ), "<num>%", type->engine->efficiency, true );
+
+        if( !type->engine->gears.empty() ) {
+            info.emplace_back( "ENGINE", _( "Gears: " ), "", type->engine->gears.size(), true );
+        }
+        if( type->engine->redline > 0 ) {
+            info.emplace_back( "ENGINE", _( "Redline: " ), _( "<num> rpm" ), type->engine->redline, true );
+        }
+
+        if( engine_start_time( 20 ) > 0 ) {
+            info.emplace_back( "ENGINE", _( "Starting time (20°C): " ), _( "<num> seconds" ),
+                               int( engine_start_time( 20 ) / 16.67 ), true, "", true, true );
+        }
+        if( engine_start_time( 0 ) > 0 ) {
+            info.emplace_back( "ENGINE", _( "Starting time (0°C): " ), _( "<num> seconds" ),
+                               int( engine_start_time( 0 ) / 16.67 ), true, "", true, true );
+        }
+    }
+
     if( is_armor() ) {
         temp1.str( "" );
         temp1 << _( "Covers: " );
@@ -1429,7 +1461,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             if( ammo_type() ) {
                 //~ "%s" is ammunition type. This types can't be plural.
                 tmp = ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.", ammo_capacity() );
-                tmp = string_format( tmp, ammo_name( ammo_type() ).c_str() );
+                tmp = string_format( tmp, _( ammo_name( ammo_type() ).c_str() ) );
             } else {
                 tmp = ngettext( "Maximum <num> charge.", "Maximum <num> charges.", ammo_capacity() );
             }
@@ -1439,7 +1471,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
     if( !components.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Made from: %s" ),
-                                  components_to_string().c_str() ) ) );
+                                  _( components_to_string().c_str() ) ) ) );
     } else {
         const auto &dis = recipe_dictionary::get_uncraft( typeId() );
         const auto &req = dis.disassembly_requirements();
@@ -1545,7 +1577,19 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         for( const auto &e : flags ) {
             auto &f = json_flag::get( e );
             if( !f.info().empty() ) {
-                info.emplace_back( "DESCRIPTION", string_format( "* %s", f.info().c_str() ) );
+                info.emplace_back( "DESCRIPTION", string_format( "* %s", _( f.info().c_str() ) ) );
+            }
+        }
+
+        if( is_engine() ) {
+            if( type->engine->start_time == 0 ) {
+                info.emplace_back( "ENGINE", _( "* This engine can be started <good>instantaneously</good>." ) );
+            }
+            if( type->engine->start_energy == 0 ) {
+                info.emplace_back( "ENGINE", _( "* This engine can be started <good>without a battery</good>." ) );
+            }
+            if( type->engine->gears.empty() ) {
+                info.emplace_back( "ENGINE", _( "* This engines efficiency is <good>independent of speed</good>." ) );
             }
         }
 
@@ -1870,11 +1914,6 @@ int item::get_free_mod_locations( const std::string &location ) const
     return result;
 }
 
-int item::engine_displacement() const
-{
-    return type->engine ? type->engine->displacement : 0;
-}
-
 const std::string &item::symbol() const
 {
     return type->sym;
@@ -2139,10 +2178,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     std::string vehtext = "";
-    if( is_engine() && engine_displacement() > 0 ) {
-        vehtext = string_format( pgettext( "vehicle adjective", "%2.1fL " ), engine_displacement() / 100.0f );
-
-    } else if( is_wheel() && type->wheel->diameter > 0 ) {
+    if( is_wheel() && type->wheel->diameter > 0 ) {
         vehtext = string_format( pgettext( "vehicle adjective", "%d\" " ), type->wheel->diameter );
     }
 
@@ -2754,6 +2790,36 @@ void item::set_relative_rot( double val )
         fridge = 0;
         active = !rotten();
     }
+}
+
+int item::spoilage_sort_order()
+{
+    item *subject;
+    int bottom = std::numeric_limits<int>::max();
+
+    if ( type->container && contents.size() >= 1 ) {
+        if ( type->container->preserves ) {
+            return bottom - 3;
+        }
+        subject = &contents.front();
+    } else {
+        subject = this;
+    }
+
+    if ( subject->goes_bad() ) {
+        return subject->type->comestible->spoils - subject->rot;
+    }
+
+    if ( subject->type->comestible ) {
+        if ( subject->type->category->id == "food" ) {
+            return bottom - 3;
+        } else if ( subject->type->category->id == "drugs" ) {
+            return bottom - 2;
+        } else {
+            return bottom - 1;
+        }
+    }
+    return bottom;
 }
 
 void item::calc_rot(const tripoint &location)
@@ -3613,6 +3679,37 @@ int item::wheel_area() const
     return is_wheel() ? type->wheel->diameter * type->wheel->width : 0;
 }
 
+double item::engine_start_difficulty( int temperature ) const
+{
+    double res = 0.0;
+
+    // engine wear gradually increases penalty with a maximum of 0.3
+    if( max_damage() > 0 ) {
+        res += std::min( damage_ / double( max_damage() ), 0.3 );
+    }
+
+    // diesel engines with working glow plugs have maximum penalty of 0.6
+    if( has_flag( "COLD_START" ) ) {
+        static const fault_id fault_glowplug( "fault_engine_glow_plug" );
+        if( !faults.count( fault_glowplug ) ) {
+            temperature = std::max( temperature, 12 );
+        }
+        res += 1.0 - ( std::max( 0, std::min( 30, temperature ) ) / 30.0 );
+    }
+
+    return std::min( res, 1.0 );
+}
+
+int item::engine_start_time( int temp ) const
+{
+    return is_engine() ? type->engine->start_time * pow( 1.0 + engine_start_difficulty( temp ), 3 ) : 0;
+}
+
+int item::engine_start_energy( int temp ) const
+{
+    return is_engine() ? type->engine->start_energy * pow( 1.0 + engine_start_difficulty( temp ), 3 ) : 0;
+}
+
 bool item::is_container_empty() const
 {
     return contents.empty();
@@ -4345,7 +4442,7 @@ bool item::gunmod_compatible( const item& mod, std::string *msg ) const
                                      ammo_name( ammo_type( false ) ).c_str() ) );
 
     } else if( mod.typeId() == "waterproof_gunmod" && has_flag( "WATERPROOF_GUN" ) ) {
-        return error( string_format( _( "is already waterproof" ), tname().c_str() ) );
+        return error( string_format( _( "is already waterproof" ) ) );
 
     } else if( mod.typeId() == "tuned_mechanism" && has_flag( "NEVER_JAMS" ) ) {
         return error( string_format( _( "is already eminently reliable" ) ) );
@@ -5383,14 +5480,14 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             ( carrier->has_trait( "JITTERY" ) && one_in( 200 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
                                         tname().c_str() );
-            g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this, 2 );
+            g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this );
             return true; // removes the item that has just been added to the map
         }
 
         if( carrier->has_effect( effect_sleep ) ) {
             carrier->add_msg_if_player( m_bad, _( "You fall asleep and drop your %s." ),
                                         tname().c_str() );
-            g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this, 2 );
+            g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this );
             return true; // removes the item that has just been added to the map
         }
     } else {

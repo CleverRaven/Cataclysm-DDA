@@ -54,7 +54,7 @@ void game::interactive_inv()
     inventory_pick_selector inv_s( u );
 
     inv_s.add_character_items( u );
-    inv_s.set_title( _( "Inventory:" ) );
+    inv_s.set_title( _( "Inventory" ) );
 
     int res;
     do {
@@ -67,6 +67,7 @@ void game::interactive_inv()
         }
         refresh_all();
         res = inventory_item_menu( u.get_item_position( location.get_item() ) );
+        refresh_all();
     } while( allowed_selections.count( res ) != 0 );
 }
 
@@ -350,7 +351,7 @@ std::list<std::pair<int, int>> game::multidrop()
     inventory_drop_selector inv_s( u, preset );
 
     inv_s.add_character_items( u );
-    inv_s.set_title( _( "Multidrop:" ) );
+    inv_s.set_title( _( "Multidrop" ) );
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 
     if( inv_s.empty() ) {
@@ -368,7 +369,7 @@ void game::compare( const tripoint &offset )
     inventory_compare_selector inv_s( u );
 
     inv_s.add_character_items( u );
-    inv_s.set_title( _( "Compare:" ) );
+    inv_s.set_title( _( "Compare" ) );
     inv_s.set_hint( _( "Select two items to compare them." ) );
 
     if( offset != tripoint_min ) {
@@ -418,6 +419,8 @@ void game::compare( const tripoint &offset )
                 iScrollPos++;
                 iScrollPosLast++;
             }
+
+            refresh_all();
         } while( ch == KEY_PPAGE || ch == KEY_NPAGE );
     } while( true );
 }

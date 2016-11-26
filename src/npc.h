@@ -16,11 +16,13 @@ class player;
 class field_entry;
 class npc_class;
 class auto_pickup;
+class monfaction;
 struct mission_type;
 enum game_message_type : int;
 
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
+using mfaction_id = int_id<monfaction>;
 
 void parse_tags( std::string &phrase, const player &u, const npc &me );
 
@@ -628,6 +630,9 @@ public:
     /** Trusts you a lot. */
     bool is_minion() const;
         Attitude attitude_to( const Creature &other ) const override;
+
+        /** For mutant NPCs. Returns how monsters perceive said NPC. Doesn't imply NPC sees them the same. */
+        mfaction_id get_monster_faction() const;
 // What happens when the player makes a request
  int  follow_distance() const; // How closely do we follow the player?
 

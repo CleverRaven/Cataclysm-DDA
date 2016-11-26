@@ -1,12 +1,14 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
+#include <limits>
 #include <memory>
 
 #include "color.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "input.h"
+#include "output.h"
 #include "units.h"
 #include "item_location.h"
 
@@ -262,9 +264,7 @@ class inventory_column
         void set_width( size_t width );
         void set_height( size_t height );
         size_t get_width() const;
-        size_t get_height() const {
-            return entries_per_page;
-        }
+        size_t get_height() const;
         /** Expands the column to fit the new entry. */
         void expand_to_fit( const inventory_entry &entry );
         /** Resets width to original (unchanged). */
@@ -331,7 +331,7 @@ class inventory_column
 
         size_t selected_index = 0;
         size_t page_offset = 0;
-        size_t entries_per_page = 1;
+        size_t entries_per_page = std::numeric_limits<size_t>::max();
         size_t reserved_width = 0;
 
     private:
@@ -378,7 +378,7 @@ class inventory_selector
 {
     public:
         inventory_selector( const player &u, const inventory_selector_preset &preset = default_preset );
-        ~inventory_selector();
+        ~inventory_selector() {}
         /** These functions add items from map / vehicles. */
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
@@ -431,23 +431,32 @@ class inventory_selector
         /** Entry has been changed */
         void on_change( const inventory_entry &entry );
 
-        void prepare_layout();
+        void prepare_layout( size_t client_width, size_t client_height );
+        size_t get_layout_width() const;
+        size_t get_layout_height() const;
+
+        void resize_window( int width, int height );
         void refresh_window() const;
         void update();
 
         /** Tackles screen overflow */
-        virtual void rearrange_columns();
+        virtual void rearrange_columns( size_t client_width );
         /** Returns player for volume/weight numbers */
         virtual const player &get_player_for_stats() const {
             return u;
         }
 
-        int get_header_height() const;
-        int get_column_height() const;
+        std::vector<std::string> get_stats() const;
+        std::pair<std::string, nc_color> get_footer( navigation_mode m ) const;
+
+        size_t get_header_height() const;
+        size_t get_header_min_width() const;
+        size_t get_footer_min_width() const;
 
         void draw_header( WINDOW *w ) const;
         void draw_footer( WINDOW *w ) const;
         void draw_columns( WINDOW *w ) const;
+        void draw_frame( WINDOW *w ) const;
 
         /** @return an entry from @ref entries by its invlet */
         inventory_entry *find_entry_by_invlet( long invlet ) const;
@@ -465,11 +474,11 @@ class inventory_selector
         void set_active_column( size_t index );
         size_t get_columns_width( const std::vector<inventory_column *> &columns ) const;
         /** @return Percentage of the window occupied by columns */
-        double get_columns_occupancy_ratio() const;
+        double get_columns_occupancy_ratio( size_t client_width ) const;
         /** @return Do the visible columns need to be center-aligned */
-        bool are_columns_centered() const;
+        bool are_columns_centered( size_t client_width ) const;
         /** @return Are visible columns wider than available width */
-        bool is_overflown() const;
+        bool is_overflown( size_t client_width ) const;
 
         bool is_active_column( const inventory_column &column ) const {
             return &column == &get_active_column();
@@ -494,10 +503,10 @@ class inventory_selector
         /** Entry has been added */
         virtual void on_entry_add( const inventory_entry & ) {}
 
-        const navigation_mode_data &get_navigation_data() const;
+        const navigation_mode_data &get_navigation_data( navigation_mode m ) const;
 
     private:
-        WINDOW *w_inv;
+        WINDOW_PTR w_inv;
 
         std::list<item_location> items;
         std::vector<inventory_column *> columns;
@@ -506,11 +515,13 @@ class inventory_selector
         std::string hint;
         size_t active_column_index;
         std::list<item_category> categories;
-        navigation_mode navigation;
+        navigation_mode mode;
 
         inventory_column own_inv_column;     // Column for own inventory items
         inventory_column own_gear_column;    // Column for own gear (weapon, armor) items
         inventory_column map_column;         // Column for map and vehicle items
+
+        int border = 0;                      // Width of the window border
 
         bool display_stats = true;
         bool layout_is_valid = false;
@@ -532,7 +543,7 @@ class inventory_multiselector : public inventory_selector
         inventory_multiselector( const player &p, const inventory_selector_preset &preset = default_preset,
                                  const std::string &selection_column_title = "" );
     protected:
-        virtual void rearrange_columns() override;
+        virtual void rearrange_columns( size_t client_width ) override;
         virtual void on_entry_add( const inventory_entry &entry ) override;
 
     private:

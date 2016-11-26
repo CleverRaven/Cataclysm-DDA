@@ -166,6 +166,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Get wheel width (inches) or return 0 if part is not wheel */
     int wheel_width() const;
 
+    /** Efficiency (0.0,1.0] at which engine converts fuel energy to output power at @ref rpm */
+    float efficiency( int rpm ) const;
+
     /**
      *  Get NPC currently assigned to this part (seat, turret etc)?
      *  @note checks crew member is alive and currently allied to the player
@@ -191,6 +194,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /** Can this part provide power or propulsion? */
     bool is_engine() const;
+
+    /** Can this part generate electrical power when attached to a running engine? */
+    bool is_alternator() const;
 
     /** Is this any type of vehicle light? */
     bool is_light() const;
@@ -229,7 +235,10 @@ public:
     bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     bool removed     = false;     // true if this part is removed. The part won't disappear until the end of the turn
                                   // so our indices can remain consistent.
-    bool enabled     = true;      //
+
+    /** Is part currently active/ready for use? */
+    bool enabled = false;
+
     int flags        = 0;         //
     int passenger_id = 0;         // carrying passenger
 
@@ -464,6 +473,7 @@ private:
     void smash_security_system();
     // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
     int part_power( int index, bool at_full_hp = false ) const;
+    int part_power( const vehicle_part &part, bool at_full_hp = false ) const;
 
     // get vpart epowerinfo for part number.
     int part_epower (int index) const;
@@ -481,16 +491,6 @@ private:
     bool do_environmental_effects();
 
     units::volume total_folded_volume() const;
-
-    // Vehical fuel indicator (by fuel)
-    void print_fuel_indicator (void *w, int y, int x, itype_id fuelType,
-                               bool verbose = false, bool desc = false) const;
-
-    // Calculate how long it takes to attempt to start an engine
-    int engine_start_time( const int e ) const;
-
-    // How much does the temperature effect the engine starting (0.0 - 1.0)
-    double engine_cold_factor( const int e ) const;
 
     /**
      * Find a possibly off-map vehicle. If necessary, loads up its submap through
@@ -625,6 +625,9 @@ public:
     int part_with_feature_at_relative (const point &pt, const std::string &f, bool unbroken = true) const;
     int part_with_feature (int p, vpart_bitflags f, bool unbroken = true) const;
 
+    /** Check if vehicle has at least one unbroken part matching predicate @ref func */
+    bool has_part( const std::function<bool(const vehicle_part &)> &func ) const;
+
     /**
      *  Check if vehicle has at least one unbroken part with @ref flag
      *  @param enabled if set part must also be enabled to be considered
@@ -637,6 +640,9 @@ public:
      *  @param enabled if set part must also be enabled to be considered
      */
     bool has_part( const tripoint &pos, const std::string &flag, bool enabled = false ) const;
+
+    /** Check at least one unbroken part at global position @ref pos matching predicate @ref func */
+    bool has_part( const tripoint &pos, const std::function<bool(const vehicle_part &)> &func ) const;
 
     /**
      *  Get all unbroken vehicle parts with @ref flag
@@ -727,6 +733,10 @@ public:
     void print_fuel_indicators( WINDOW *win, int y, int x, int startIndex = 0, bool fullsize = false,
                                 bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
 
+    // Vehicle fuel indicator (by fuel)
+    void print_fuel_indicator( void *w, int y, int x, itype_id fuelType,
+                               bool verbose = false, bool desc = false ) const;
+
     // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts (int idir, int dir, const point &pivot);
 
@@ -773,11 +783,6 @@ public:
     // returns amount actually drained, does not engage reactor
     int drain (const itype_id &ftype, int amount);
 
-    // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
-    int basic_consumption (const itype_id &ftype) const;
-
-    void consume_fuel( double load );
-
     /**
      * Get all vehicle lights (excluding any that are destroyed)
      * @param active if true return only lights which are enabled
@@ -820,27 +825,45 @@ public:
     // vehicle motion after precalc[1] is prepared.
     point pivot_displacement() const;
 
-    // Get combined power of all engines. If fueled == true, then only engines which
-    // vehicle have fuel for are accounted
-    int total_power (bool fueled = true) const;
+    /** Get currently selected engine (if any) or a null part if none are selected */
+    vehicle_part &current_engine();
+    const vehicle_part &current_engine() const;
 
-    // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
-    // vehicle have fuel for are accounted
-    int acceleration (bool fueled = true) const;
+    /** Get current vehicle velocity (m/s) */
+    double current_velocity() const;
 
-    // Get maximum velocity gained by combined power of all engines. If fueled == true, then only engines which
-    // vehicle have fuel for are accounted
-    int max_velocity (bool fueled = true) const;
+    /** Get maximum velocity (m/s) when using a specific engine */
+    double max_velocity( const vehicle_part &pt ) const;
 
-    // Get safe velocity gained by combined power of all engines. If fueled == true, then only engines which
-    // vehicle have fuel for are accounted
-    int safe_velocity (bool fueled = true) const;
+    /** Highest velocity avoiding engine damage (m/s) when using a specific engine */
+    double safe_velocity( const vehicle_part &pt ) const;
+
+    /** Most fuel efficient velocity when using a specific engine */
+    double optimal_velocity( const vehicle_part &pt ) const;
+
+    /** Get current gear for specific engine (or zero for engines without discrete gears) */
+    int gear( const vehicle_part &pt ) const;
+
+    /** Get current rpm of specific engine (or zero if engine is not running) */
+    int rpm( const vehicle_part &pt ) const;
+
+    /** Check if specific engine is currently running above redline? */
+    bool overspeed( const vehicle_part &pt ) const;
+
+    /** Get load (in watts) on specific engine from both propulsion and alternators */
+    int load( const vehicle_part &pt ) const;
+
+    /** Get acceleration (m/s²) from specific engine dependent upon current @ref load() */
+    double acceleration( const vehicle_part &pt ) const;
 
     // Generate smoke from a part, either at front or back of vehicle depending on velocity.
     void spew_smoke( double joules, int part, int density = 1 );
 
-    // Loop through engines and generate noise and smoke for each one
-    void noise_and_smoke( double load, double time = 6.0 );
+    /**
+     * Generate noise or smoke from a vehicle with a running engine
+     * @param load current engine load as proportion of maximum output [0.0-1.0]
+     */
+    void noise_and_smoke( double load );
 
     /**
      * Calculates the sum of the area under the wheels of the vehicle.
@@ -899,9 +922,6 @@ public:
 
     // Extra drag on the vehicle from components other than wheels.
     float drag() const;
-
-    // strain of engine(s) if it works higher that safe speed (0-1.0)
-    float strain () const;
 
     // Calculate if it can move using its wheels or boat parts configuration
     bool sufficient_wheel_config( bool floating ) const;
@@ -1077,8 +1097,10 @@ public:
     void operate_plow();
     //main method for the control of individual engines
     void control_engines();
-    // shows ui menu to select an engine
-    int select_engine();
+
+    /** shows ui menu to select an engine and @return true if change was made */
+    bool select_engine();
+
     //returns whether the engine is enabled or not, and has fueltype
     bool is_engine_type_on(int e, const itype_id &ft) const;
     //returns whether the engine is enabled or not
@@ -1100,8 +1122,6 @@ public:
     bool has_engine_type_not(const itype_id &ft, bool enabled) const;
     //prints message relating to vehicle start failure
     void msg_start_engine_fail();
-    //if necessary, damage this engine
-    void do_engine_damage(size_t p, int strain);
     //remotely open/close doors
     void control_doors();
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
@@ -1206,7 +1226,6 @@ public:
     int camera_epower       = 0; // power consumed by camera system
     int extra_drag          = 0;
     // TODO: change these to a bitset + enum?
-    bool cruise_on                  = true;  // cruise control on/off
     bool engine_on                  = false; // at least one engine is on, of any type
     bool tracking_on                = false; // vehicle tracking on/off
     bool is_locked                  = false; // vehicle has no key
@@ -1222,6 +1241,10 @@ private:
 
     mutable bool pivot_dirty;                  // if true, pivot_cache needs to be recalculated
     mutable point pivot_cache;                 // cached pivot point
+
+    // Get combined power of all engines. If fueled == true, then only engines which
+    // vehicle have fuel for are accounted
+    int total_power (bool fueled = true) const;
 
     void refresh_mass() const;
     void calc_mass_center( bool precalc ) const;
