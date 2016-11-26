@@ -3,7 +3,7 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include <SDL/SDL_gpu.h>
+#include <SDL_gpu.h>
 
 #include "animation.h"
 #include "map.h"

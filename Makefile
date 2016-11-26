@@ -473,9 +473,12 @@ ifdef TILES
       OSX_INC = -F$(FRAMEWORKSDIR) \
 		-I$(FRAMEWORKSDIR)/SDL2.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_image.framework/Headers \
-		-I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers
+		-I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers \
+		-I$(FRAMEWORKSDIR)/SDL2_gpu.framework/Headers
       LDFLAGS += -F$(FRAMEWORKSDIR) \
-		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa
+		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa \
+		 -framework SDL2_gpu -framework OpenGL
+
       CXXFLAGS += $(OSX_INC)
     else # libsdl build
       DEFINES += -DOSX_SDL2_LIBS
@@ -486,17 +489,42 @@ ifdef TILES
       LDFLAGS += -lSDL2_image -lSDL2_gpu -framework OpenGL
     endif
   else # not osx
+    # libSDL2_gpu is probably not installed on most users' systems,
+    # force a static link rather than requiring that they install it
+    ifdef SDL2GPU_CXXFLAGS
+      $(echo Using SDL2GPU flags directly)
+      # assume the user knows what they're doing
+    else ifdef SDL2GPU_PREFIX
+      SDL2GPU_CXXFLAGS := -I$(SDL2GPU_PREFIX)/include/SDL
+      SDL2GPU_LDFLAGS := -L$(SDL2GPU_PREFIX)/lib -Wl,-Bstatic -lSDL2_gpu -Wl,-Bdynamic $(shell $(PKG_CONFIG) gl --libs)
+      SDL2GPU_STATIC_LDFLAGS := -L$(SDL2GPU_PREFIX)/lib -lSDL2_gpu
+    else ifeq ($(shell $(PKG_CONFIG) SDL2_gpu --exists && echo yes || echo no),yes)
+        SDL2GPU_CXXFLAGS := $(shell $(PKG_CONFIG) SDL2_gpu --cflags)
+        SDL2GPU_LDFLAGS_LIBS := $(shell $(PKG_CONFIG) SDL2_gpu --libs-only-l)
+        SDL2GPU_LDFLAGS_PATHS := $(shell $(PKG_CONFIG) SDL2_gpu --libs-only-L)
+        SDL2GPU_LDFLAGS_OTHER := $(shell $(PKG_CONFIG) SDL2_gpu --libs-only-other)
+        SDL2GPU_LDFLAGS = $(SDL2GPU_LDFLAGS_PATHS) -Wl,-Bstatic $(SDL2GPU_LDFLAGS_LIBS) -Wl,-Bdynamic $(SDL2GPU_LDFLAGS_OTHERS) $(shell $(PKG_CONFIG) gl --libs)
+        SDL2GPU_STATIC_LDFLAGS = $(shell $(PKG_CONFIG) SDL2_gpu --static --libs)
+    else
+      $(error SDL_gpu not found, please set SDL2GPU_PREFIX)
+    endif
+
     CXXFLAGS += $(shell $(SDL2_CONFIG) --cflags)
     CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_image --cflags)
     CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --cflags)
+    CXXFLAGS += $(SDL2GPU_CXXFLAGS)
 
     ifdef STATIC
+      LDFLAGS += $(SDL2GPU_STATIC_LDFLAGS)
       LDFLAGS += $(shell $(SDL2_CONFIG) --static-libs)
+      LDFLAGS += $(shell $(PKG_CONFIG) SDL2_image --static --libs)
+      LDFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --static --libs)
     else
+      LDFLAGS += $(SDL2GPU_LDFLAGS)
       LDFLAGS += $(shell $(SDL2_CONFIG) --libs)
+      LDFLAGS += $(shell $(PKG_CONFIG) SDL2_image --libs)
+      LDFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --libs)
     endif
-
-    LDFLAGS += -lSDL2_ttf -lSDL2_image -lSDL2_gpu
 
     # We don't use SDL_main -- we have proper main()/WinMain()
     CXXFLAGS := $(filter-out -Dmain=SDL_main,$(CXXFLAGS))
@@ -860,6 +888,7 @@ ifdef FRAMEWORK
 	cp -R $(FRAMEWORKSDIR)/SDL2.framework $(APPRESOURCESDIR)/
 	cp -R $(FRAMEWORKSDIR)/SDL2_image.framework $(APPRESOURCESDIR)/
 	cp -R $(FRAMEWORKSDIR)/SDL2_ttf.framework $(APPRESOURCESDIR)/
+	cp -R $(FRAMEWORKSDIR)/SDL2_gpu.framework $(APPRESOURCESDIR)/
 ifdef SOUND
 	cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPRESOURCESDIR)/
 	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
