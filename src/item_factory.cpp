@@ -1826,6 +1826,8 @@ void Item_factory::clear()
 
     m_templates.clear();
     item_blacklist.clear();
+
+    tool_subtypes.clear();
 }
 
 Item_group *make_group_or_throw( Item_spawn_data *&isd, Item_group::Type t, int ammo_chance, int magazine_chance )
