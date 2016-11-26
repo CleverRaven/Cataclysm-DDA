@@ -442,9 +442,6 @@ class game
         tripoint look_around( WINDOW *w_info, const tripoint &start_point,
                               bool has_first_point, bool select_zone );
 
-        void list_items_monsters();
-        int list_items(const int iLastState); //List all items around the player
-        int list_monsters(const int iLastState); //List all monsters around the player
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
                                   int last_line, bool draw_terrain_indicators,
@@ -735,6 +732,10 @@ class game
         void init_lua();          // Initializes lua interpreter.
         void create_factions(); // Creates new factions (for a new game world)
         void create_starting_npcs(); // Creates NPCs that start near you
+
+        void list_items_monsters(); // Called when you invoke the `V`-menu
+        int list_items(const int iLastState);
+        int list_monsters(const int iLastState);
 
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
