@@ -1205,10 +1205,10 @@ void vehicle::honk_horn()
         //Get global position of horn
         const auto horn_pos = global_part_pos3( p );
         //Determine sound
-        if( horn_type.bonus >= 80 ) {
+        if( horn_type.bonus >= 110 ) {
             //~ Loud horn sound
             sounds::sound( horn_pos, horn_type.bonus, _("HOOOOORNK!") );
-        } else if( horn_type.bonus >= 40 ) {
+        } else if( horn_type.bonus >= 80 ) {
             //~ Moderate horn sound
             sounds::sound( horn_pos, horn_type.bonus, _("BEEEP!") );
         } else {
