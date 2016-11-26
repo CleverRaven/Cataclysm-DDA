@@ -18,6 +18,7 @@
 #include "translations.h"
 #include "material.h"
 #include "options.h"
+#include "harvest.h"
 
 #include <algorithm>
 
@@ -551,6 +552,8 @@ void mtype::load( JsonObject &jo, const std::string &src )
         JsonIn &stream = *jo.get_raw( "death_drops" );
         death_drops = item_group::load_item_group( stream, "distribution" );
     }
+
+    assign( jo, "harvest", harvest, strict );
 
     const typed_flag_reader<decltype( gen.death_map )> death_reader{ gen.death_map, "invalid monster death function" };
     optional( jo, was_loaded, "death_function", dies, death_reader );

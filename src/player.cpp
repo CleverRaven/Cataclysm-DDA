@@ -13677,7 +13677,13 @@ std::vector<std::string> player::get_overlay_ids() const
     std::vector<std::string> rval;
     std::multimap<int, std::string> mutation_sorting;
 
-    // first get mutations
+
+    // first get effects
+    for( const auto &eff_pr : effects ) {
+        rval.push_back( "effect_" + eff_pr.first.str() );
+    }
+
+    // then get mutations
     for( auto &mutation : get_mutations() ) {
         auto it = base_mutation_overlay_ordering.find( mutation );
         auto it2 = tileset_mutation_overlay_ordering.find( mutation );
