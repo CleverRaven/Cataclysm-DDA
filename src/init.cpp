@@ -370,6 +370,7 @@ extern void calculate_mapgen_weights();
 void DynamicDataLoader::finalize_loaded_data()
 {
     item_controller->finalize();
+    requirement_data::finalize();
     vpart_info::finalize();
     set_ter_ids();
     set_furn_ids();

@@ -243,6 +243,8 @@ class Item_factory
          */
         Item_tag create_artifact_id() const;
 
+        std::list<itype_id> subtype_replacement( const itype_id & ) const;
+
     private:
         std::map<const std::string, itype> m_abstracts;
 
@@ -332,6 +334,12 @@ class Item_factory
         void add_actor( iuse_actor *ptr );
 
         std::map<itype_id, migration> migrations;
+
+        /**
+         * Contains the tool subtype mappings for crafing (ie. mess kit is a hotplate etc.).
+         * This is should be obsoleted when @ref requirement_data allows AND/OR nesting.
+         */
+        std::map<itype_id, std::set<itype_id>> tool_subtypes;
 };
 
 #endif

@@ -186,6 +186,9 @@ struct requirement_data {
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();
 
+        /** Finalizes requirements, must be called AFTER finalizing items, but before recipes! */
+        static void finalize();
+
         /** Check consistency of all loaded requirements */
         static void check_consistency();
 
