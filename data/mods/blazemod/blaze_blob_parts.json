@@ -15,7 +15,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "bitergrow" } ],
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "OBSTACLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "FOLDABLE", "OBSTACLE" ]
   },
   {
     "id": "clutter",
@@ -33,7 +46,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "cluttergrow" } ],
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "FOLDABLE" ]
   },
   {
     "id": "freezie",
@@ -51,7 +77,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "freeziegrow" } ],
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "FOLDABLE" ]
   },
   {
     "id": "frostie_ram",
@@ -68,7 +107,20 @@
     "damage_modifier": 200,
     "folded_volume": 1,
     "breaks_into": [ { "item": "frostiegrow" } ],
-    "flags": [ "OBSTACLE", "PROTRUSION", "SHARP", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "PROTRUSION", "SHARP", "FOLDABLE" ]
   },
   {
     "id": "frostie_trunk",
@@ -87,7 +139,20 @@
     "damage_modifier": 80,
     "folded_volume": 1,
     "breaks_into": [ { "item": "frostiegrow" } ],
-    "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "FOLDABLE" ]
   },
   {
     "id": "frostie_wall",
@@ -104,7 +169,20 @@
     "damage_modifier": 80,
     "folded_volume": 1,
     "breaks_into": [ { "item": "frostiegrow" } ],
-    "flags": [ "OBSTACLE", "WINDOW", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "WINDOW", "FOLDABLE" ]
   },
   {
     "id": "frostie_wheel",
@@ -122,7 +200,40 @@
     "damage_modifier": 200,
     "folded_volume": 1,
     "breaks_into": [ { "item": "frostiegrow" } ],
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED", "NO_JACK" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "WHEEL", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED", "NO_JACK" ]
+  },
+  {
+    "id": "frostie_wheel_steerable",
+    "copy-from": "frostie_wheel",
+    "type": "vehicle_part",
+    "name": "snow slider (steerable)",
+    "extend": { 	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "STEERABLE" ] }
   },
   {
     "id": "frostie_wheel_sea",
@@ -140,7 +251,40 @@
     "damage_modifier": 200,
     "folded_volume": 1,
     "breaks_into": [ { "item": "frostiegrow" } ],
-    "flags": [ "FLOATS", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED", "NO_JACK" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FLOATS", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED", "NO_JACK" ]
+  },
+  {
+    "id": "frostie_wheel_sea_steerable",
+    "copy-from": "frostie_wheel_sea",
+    "type": "vehicle_part",
+    "name": "icy sea skimmer (steerable)",
+    "extend": { 	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "STEERABLE" ] }
   },
   {
     "id": "fuzzle",
@@ -158,7 +302,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "fuzzlegrow" } ],
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "OBSTACLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "FOLDABLE", "OBSTACLE" ]
   },
   {
     "id": "gel_lamp",
@@ -177,7 +334,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glowiegrow" } ],
-    "flags": [ "CONE_LIGHT", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "CONE_LIGHT", "FOLDABLE" ]
   },
   {
     "id": "gel_lamp_d",
@@ -196,7 +366,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glowiegrow" } ],
-    "flags": [ "CONE_LIGHT", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "CONE_LIGHT", "FOLDABLE" ]
   },
   {
     "id": "gloople_amalgam",
@@ -215,7 +398,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "SCOOP", "CARGO", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "SCOOP", "CARGO", "FOLDABLE" ]
   },
   {
     "id": "gloople_belt",
@@ -233,7 +429,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "SEATBELT", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "SEATBELT", "FOLDABLE" ]
   },
   {
     "id": "gloople_cross",
@@ -250,7 +459,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gloople_diesel_tank",
@@ -269,7 +491,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gloople_diesel_tank_u",
@@ -288,7 +523,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gloople_feed_tank",
@@ -307,7 +555,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gloople_feed_tank_u",
@@ -326,7 +587,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gloople_gas_tank",
@@ -345,7 +619,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gloople_gas_tank_u",
@@ -364,7 +651,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gloople_horizontal",
@@ -381,7 +681,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gloople_horizontal_2",
@@ -398,7 +711,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gloople_ne",
@@ -415,7 +741,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gloople_nw",
@@ -432,7 +771,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gloople_plate",
@@ -449,7 +801,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "ARMOR", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "ARMOR", "FOLDABLE" ]
   },
   {
     "id": "gloople_roof",
@@ -466,7 +831,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "ROOF", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "ROOF", "FOLDABLE" ]
   },
   {
     "id": "gloople_se",
@@ -483,7 +861,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gloople_seat",
@@ -500,7 +891,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "SEAT", "BED", "BOARDABLE", "BELTABLE", "TOOL_NONE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "SEAT", "BED", "BOARDABLE", "BELTABLE" ]
   },
   {
     "id": "gloople_sw",
@@ -517,7 +921,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gloople_trunk",
@@ -535,7 +952,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "CARGO", "COVERED", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "CARGO", "COVERED", "FOLDABLE" ]
   },
   {
     "id": "gloople_trunk_u",
@@ -553,7 +983,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "CARGO", "COVERED", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "CARGO", "COVERED", "FOLDABLE" ]
   },
   {
     "id": "gloople_vertical",
@@ -570,7 +1013,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gloople_vertical_2",
@@ -587,7 +1043,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
   },
   {
     "id": "gloople_water_dirty_tank",
@@ -606,7 +1075,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gloople_water_dirty_tank_u",
@@ -625,7 +1107,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gloople_water_tank",
@@ -644,7 +1139,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gloople_water_tank_u",
@@ -663,7 +1171,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gloople_wheel",
@@ -683,7 +1204,40 @@
       { "item": "glooplegrow" },
       { "item": "water", "count": [ 50, 100 ] }
     ],
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "WHEEL", "FOLDABLE", "TRACKED", "NO_JACK" ]
+  },
+  {
+    "id": "gloople_wheel_steerable",
+    "copy-from": "gloople_wheel",
+    "type": "vehicle_part",
+    "name": "gelatinous wheel (steerable)",
+    "extend": { 	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "STEERABLE" ] }
   },
   {
     "id": "gloopleaisle_horizontal",
@@ -700,7 +1254,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "AISLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "gloopleaisle_vertical",
@@ -717,7 +1284,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "AISLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "gloopleboard_horizontal",
@@ -734,7 +1314,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "gloopleboard_ne",
@@ -751,7 +1344,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "gloopleboard_nw",
@@ -768,7 +1374,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "gloopleboard_se",
@@ -785,7 +1404,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "gloopleboard_sw",
@@ -802,7 +1434,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "gloopleboard_vertical",
@@ -819,7 +1464,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "gloopledoor",
@@ -836,7 +1494,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "FOLDABLE" ]
   },
   {
     "id": "gloopledoor_opaque",
@@ -853,7 +1524,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "glowie_battery",
@@ -871,7 +1555,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glowiegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "glowie_battery_u",
@@ -889,7 +1586,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glowiegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "glowie_power",
@@ -911,7 +1621,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glowiegrow" } ],
-    "flags": [ "REACTOR", "TOOL_NONE", "FOLDABLE", "ATOMIC_LIGHT" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "REACTOR", "FOLDABLE", "ATOMIC_LIGHT" ]
   },
   {
     "id": "gray_amalgam",
@@ -930,7 +1653,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "SCOOP", "CARGO", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "SCOOP", "CARGO", "FOLDABLE" ]
   },
   {
     "id": "gray_belt",
@@ -948,7 +1684,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "SEATBELT", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "SEATBELT", "FOLDABLE" ]
   },
   {
     "id": "gray_cross",
@@ -965,7 +1714,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gray_diesel_tank",
@@ -984,7 +1746,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gray_diesel_tank_u",
@@ -1003,7 +1778,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gray_feed_tank",
@@ -1022,7 +1810,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gray_feed_tank_u",
@@ -1041,7 +1842,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gray_gas_tank",
@@ -1060,7 +1874,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gray_gas_tank_u",
@@ -1079,7 +1906,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gray_horizontal",
@@ -1096,7 +1936,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gray_horizontal_2",
@@ -1113,7 +1966,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gray_ne",
@@ -1130,7 +1996,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gray_nw",
@@ -1147,7 +2026,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gray_plate",
@@ -1164,7 +2056,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "ARMOR", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "ARMOR", "FOLDABLE" ]
   },
   {
     "id": "gray_roof",
@@ -1181,7 +2086,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "ROOF", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "ROOF", "FOLDABLE" ]
   },
   {
     "id": "gray_se",
@@ -1198,7 +2116,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gray_seat",
@@ -1215,7 +2146,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "SEAT", "BED", "BOARDABLE", "BELTABLE", "TOOL_NONE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "SEAT", "BED", "BOARDABLE", "BELTABLE" ]
   },
   {
     "id": "gray_sw",
@@ -1232,7 +2176,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gray_trunk",
@@ -1250,7 +2207,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "CARGO", "COVERED", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "CARGO", "COVERED", "FOLDABLE" ]
   },
   {
     "id": "gray_trunk_u",
@@ -1268,7 +2238,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "CARGO", "COVERED", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "CARGO", "COVERED", "FOLDABLE" ]
   },
   {
     "id": "gray_vertical",
@@ -1285,7 +2268,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gray_vertical_2",
@@ -1302,7 +2298,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
   },
   {
     "id": "gray_water_dirty_tank",
@@ -1321,7 +2330,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gray_water_dirty_tank_u",
@@ -1340,7 +2362,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gray_water_tank",
@@ -1359,7 +2394,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gray_water_tank_u",
@@ -1378,7 +2426,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "gray_wheel",
@@ -1398,7 +2459,40 @@
       { "item": "graygrow" },
       { "item": "water", "count": [ 100, 200 ] }
     ],
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "WHEEL", "FOLDABLE", "TRACKED", "NO_JACK" ]
+  },
+  {
+    "id": "gray_wheel_steerable",
+    "copy-from": "gray_wheel",
+    "type": "vehicle_part",
+    "name": "gray wheel (steerable)",
+    "extend": { 	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "STEERABLE" ] }
   },
   {
     "id": "grayaisle_horizontal",
@@ -1415,7 +2509,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "AISLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "grayaisle_vertical",
@@ -1432,7 +2539,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "AISLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "grayboard_horizontal",
@@ -1449,7 +2569,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "grayboard_ne",
@@ -1466,7 +2599,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "grayboard_nw",
@@ -1483,7 +2629,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "grayboard_se",
@@ -1500,7 +2659,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "grayboard_sw",
@@ -1517,7 +2689,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "grayboard_vertical",
@@ -1534,7 +2719,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "graydoor",
@@ -1551,7 +2749,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "FOLDABLE" ]
   },
   {
     "id": "graydoor_opaque",
@@ -1568,7 +2779,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "grinder",
@@ -1585,7 +2809,20 @@
     "damage_modifier": 250,
     "folded_volume": 1,
     "breaks_into": [ { "item": "gray" } ],
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "PROTRUSION", "STABLE", "TRACKED", "NO_JACK" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "WHEEL", "FOLDABLE", "PROTRUSION", "STABLE", "TRACKED", "NO_JACK" ]
   },
   {
     "id": "halfgloopleboard_horizontal",
@@ -1602,7 +2839,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgloopleboard_horizontal_2",
@@ -1619,7 +2869,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgloopleboard_ne",
@@ -1636,7 +2899,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgloopleboard_nw",
@@ -1653,7 +2929,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgloopleboard_se",
@@ -1670,7 +2959,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgloopleboard_sw",
@@ -1687,7 +2989,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgloopleboard_vertical",
@@ -1704,7 +3019,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgloopleboard_vertical_2",
@@ -1721,7 +3049,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgrayboard_horizontal",
@@ -1738,7 +3079,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgrayboard_horizontal_2",
@@ -1755,7 +3109,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgrayboard_ne",
@@ -1772,7 +3139,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgrayboard_nw",
@@ -1789,7 +3169,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgrayboard_se",
@@ -1806,7 +3199,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgrayboard_sw",
@@ -1823,7 +3229,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgrayboard_vertical",
@@ -1840,7 +3259,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfgrayboard_vertical_2",
@@ -1857,7 +3289,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfoozleboard_horizontal",
@@ -1874,7 +3319,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfoozleboard_horizontal_2",
@@ -1891,7 +3349,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfoozleboard_ne",
@@ -1908,7 +3379,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfoozleboard_nw",
@@ -1925,7 +3409,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfoozleboard_se",
@@ -1942,7 +3439,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfoozleboard_sw",
@@ -1959,7 +3469,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfoozleboard_vertical",
@@ -1976,7 +3499,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "halfoozleboard_vertical_2",
@@ -1993,7 +3529,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "horror",
@@ -2011,7 +3560,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "horrorgrow" } ],
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "OBSTACLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "FOLDABLE", "OBSTACLE" ]
   },
   {
     "id": "inkie",
@@ -2029,7 +3591,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "inkiegrow" } ],
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "FOLDABLE" ]
   },
   {
     "id": "meltie",
@@ -2047,7 +3622,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "meltiegrow" } ],
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "FOLDABLE" ]
   },
   {
     "id": "oozle_amalgam",
@@ -2066,7 +3654,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "SCOOP", "CARGO", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "SCOOP", "CARGO", "FOLDABLE" ]
   },
   {
     "id": "oozle_belt",
@@ -2084,7 +3685,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "SEATBELT", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "SEATBELT", "FOLDABLE" ]
   },
   {
     "id": "oozle_cross",
@@ -2101,7 +3715,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "oozle_diesel_tank",
@@ -2120,7 +3747,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "oozle_diesel_tank_u",
@@ -2139,7 +3779,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "oozle_feed_tank",
@@ -2158,7 +3811,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "oozle_feed_tank_u",
@@ -2177,7 +3843,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "oozle_gas_tank",
@@ -2196,7 +3875,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "oozle_gas_tank_u",
@@ -2215,7 +3907,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "oozle_horizontal",
@@ -2232,7 +3937,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "oozle_horizontal_2",
@@ -2249,7 +3967,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "oozle_ne",
@@ -2266,7 +3997,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "oozle_nw",
@@ -2283,7 +4027,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "oozle_plate",
@@ -2300,7 +4057,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "ARMOR", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "ARMOR", "FOLDABLE" ]
   },
   {
     "id": "oozle_roof",
@@ -2317,7 +4087,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "ROOF", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "ROOF", "FOLDABLE" ]
   },
   {
     "id": "oozle_se",
@@ -2334,7 +4117,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "oozle_seat",
@@ -2351,7 +4147,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "SEAT", "BED", "BOARDABLE", "BELTABLE", "TOOL_NONE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "SEAT", "BED", "BOARDABLE", "BELTABLE" ]
   },
   {
     "id": "oozle_sw",
@@ -2368,7 +4177,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "oozle_trunk",
@@ -2386,7 +4208,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "CARGO", "COVERED", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "CARGO", "COVERED", "FOLDABLE" ]
   },
   {
     "id": "oozle_trunk_u",
@@ -2404,7 +4239,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "CARGO", "COVERED", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "CARGO", "COVERED", "FOLDABLE" ]
   },
   {
     "id": "oozle_vertical",
@@ -2421,7 +4269,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "oozle_vertical_2",
@@ -2438,7 +4299,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
   },
   {
     "id": "oozle_water_dirty_tank",
@@ -2457,7 +4331,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "oozle_water_dirty_tank_u",
@@ -2476,7 +4363,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "oozle_water_tank",
@@ -2495,7 +4395,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "oozle_water_tank_u",
@@ -2514,7 +4427,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "FOLDABLE" ]
   },
   {
     "id": "oozle_wheel",
@@ -2534,7 +4460,40 @@
       { "item": "oozlegrow" },
       { "item": "water", "count": [ 100, 200 ] }
     ],
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "WHEEL", "FOLDABLE", "TRACKED", "NO_JACK" ]
+  },
+  {
+    "id": "oozle_wheel_steerable",
+    "copy-from": "oozle_wheel",
+    "type": "vehicle_part",
+    "name": "oozing wheel (steerable)",
+    "extend": { 	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "STEERABLE" ] }
   },
   {
     "id": "oozleaisle_horizontal",
@@ -2551,7 +4510,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "AISLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "oozleaisle_vertical",
@@ -2568,7 +4540,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "AISLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "oozleboard_horizontal",
@@ -2585,7 +4570,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "oozleboard_ne",
@@ -2602,7 +4600,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "oozleboard_nw",
@@ -2619,7 +4630,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "oozleboard_se",
@@ -2636,7 +4660,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "oozleboard_sw",
@@ -2653,7 +4690,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "oozleboard_vertical",
@@ -2670,7 +4720,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE" ]
   },
   {
     "id": "oozledoor",
@@ -2687,7 +4750,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "FOLDABLE" ]
   },
   {
     "id": "oozledoor_opaque",
@@ -2704,7 +4780,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "queen",
@@ -2713,6 +4802,7 @@
     "item": "queen",
     "location": "center",
     "fuel_type": "water",
+    "default_ammo": "water",
     "symbol": "O",
     "broken_symbol": "#",
     "color": "red",
@@ -2723,13 +4813,27 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "queengrow" } ],
-    "flags": [ "TURRET", "MANUAL", "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "SEAT", "BED" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 3 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "MANUAL", "BOARDABLE", "BELTABLE", "FOLDABLE", "ENGINE", "CONTROLS", "SEAT", "BED", "USE_TANKS" ]
   },
   {
     "id": "razorqueen",
     "type": "vehicle_part",
     "name": "gel spiker",
     "item": "razorqueen",
+    "default_ammo": "lbfeed",
     "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
@@ -2741,13 +4845,27 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "razorqueengrow" } ],
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "sharp",
     "type": "vehicle_part",
     "name": "gel lancer",
     "item": "sharp",
+    "default_ammo": "lbfeed",
     "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
@@ -2759,13 +4877,27 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "sharpgrow" } ],
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "sickle",
     "type": "vehicle_part",
     "name": "gel razor",
     "item": "sickle",
+    "default_ammo": "lbfeed",
     "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
@@ -2777,7 +4909,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "sicklegrow" } ],
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "sparkie",
@@ -2795,13 +4940,27 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "sparkiegrow" } ],
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "stickie",
     "type": "vehicle_part",
     "name": "gel puffer",
-    "item": "stickie",
+    "item": "stickie",	
+    "default_ammo": "water",
     "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
@@ -2813,13 +4972,27 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "stickiegrow" } ],
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "torchie",
     "type": "vehicle_part",
     "name": "fire puffer",
-    "item": "torchie",
+    "item": "torchie",	
+    "default_ammo": "gasoline",
     "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
@@ -2831,7 +5004,20 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "torchiegrow" } ],
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "voideater",
@@ -2849,6 +5035,19 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "voideatergrow" } ],
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    	"requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 10000
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ]
+      },
+      "repair": {
+        "time": 5000,
+        "using": [ [ "Blob_Feeding", 5 ] ]
+      }
+    },
+	"flags": [ "TURRET", "FOLDABLE" , "USE_TANKS"]
   }
 ]

@@ -1,0 +1,8 @@
+[
+  {
+    "id": "Blob_Feeding",
+    "type": "requirement",
+    "//": "Repair of Blob Vehicular Parts",
+    "tools": [ [ ["bfeed", 25] ] ]
+  }
+]
