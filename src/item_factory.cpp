@@ -276,7 +276,7 @@ void Item_factory::finalize() {
             }
         }
 
-        if( obj.tool != nullptr ) {
+        if( obj.tool ) {
             if( !obj.tool->subtype.empty() && has_template( obj.tool->subtype ) ) {
                 tool_subtypes[ obj.tool->subtype ].insert( obj.id );
             }

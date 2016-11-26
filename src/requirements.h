@@ -239,7 +239,6 @@ struct requirement_data {
         template<typename T>
         static void check_consistency( const std::vector< std::vector<T> > &vec,
                                        const std::string &display_name );
-        static void finalize( alter_tool_comp_vector &vec );
         template<typename T>
         static std::string print_missing_objs( const std::string &header,
                                                const std::vector< std::vector<T> > &objs );

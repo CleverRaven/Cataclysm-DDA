@@ -334,25 +334,21 @@ void requirement_data::check_consistency()
     }
 }
 
-void requirement_data::finalize( alter_tool_comp_vector &vec )
-{
-    for( auto &list : vec ) {
-        std::vector<tool_comp> new_list;
-        for( auto &comp : list ) {
-            const auto replacements = item_controller->subtype_replacement( comp.type );
-            for( const auto &replaced_type : replacements ) {
-                new_list.push_back( tool_comp( replaced_type, comp.count ) );
-            }
-        }
-
-        list = std::move( new_list );
-    }
-}
-
 void requirement_data::finalize()
 {
     for( auto &r : const_cast<std::map<requirement_id, requirement_data> &>( all() ) ) {
-        finalize( r.second.tools );
+        auto &vec = r.second.tools;
+        for( auto &list : vec ) {
+            std::vector<tool_comp> new_list;
+            for( auto &comp : list ) {
+                const auto replacements = item_controller->subtype_replacement( comp.type );
+                for( const auto &replaced_type : replacements ) {
+                    new_list.emplace_back( replaced_type, comp.count );
+                }
+            }
+
+            list = new_list;
+        }
     }
 }
 
