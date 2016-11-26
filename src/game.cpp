@@ -3706,10 +3706,25 @@ void game::load_world_modfiles(WORLDPTR world)
     erase();
     refresh();
 
-    if (world != NULL) {
-        // any saves before version 6 implicitly require the DDA content pack
-        if( get_world_option<int>( "CORE_VERSION" ) < 6 ) {
-            world->active_mod_order.insert( world->active_mod_order.begin(), "dda" );
+    if( world ) {
+        auto &mods = world->active_mod_order;
+
+        // remove any duplicates whilst preserving order (fixes #19385)
+        std::set<std::string> found;
+        mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const std::string &e ) {
+            if( found.count( e ) ) {
+                return true;
+            } else {
+                found.insert( e );
+                return false;
+            }
+        } ), mods.end() );
+
+        // require at least one core mod (saves before version 6 may implicitly require dda pack)
+        if( std::none_of( mods.begin(), mods.end(), []( const std::string &e ) {
+            return world_generator->get_mod_manager()->mod_map[e]->core;
+        } ) ) {
+            mods.insert( mods.begin(), "dda" );
         }
 
         load_artifacts(world->world_path + "/artifacts.gsav");
@@ -3718,7 +3733,7 @@ void game::load_world_modfiles(WORLDPTR world)
         // are resolved during the creation of the world.
         // That means world->active_mod_order contains a list
         // of mods in the correct order.
-        load_packs( _( "Please wait while the world data loads..." ), world->active_mod_order );
+        load_packs( _( "Please wait while the world data loads..." ), mods );
 
         // Load additional mods from that world-specific folder
         load_data_from_dir( world->world_path + "/mods", "custom" );
