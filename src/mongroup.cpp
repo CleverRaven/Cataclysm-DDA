@@ -246,8 +246,12 @@ const MonsterGroup& MonsterGroupManager::GetMonsterGroup(const mongroup_id& grou
     }
 }
 
-// see item_factory.cpp
-extern void add_to_set(std::set<std::string> &s, JsonObject &json, const std::string &name);
+static void add_to_set( std::set<std::string> &out, JsonObject &jo, const std::string &name ) {
+    auto arr = jo.get_array( name );
+    while( arr.has_more() ) {
+        out.insert( arr.next_string() );
+    }
+}
 
 void MonsterGroupManager::LoadMonsterBlacklist(JsonObject &jo)
 {

@@ -215,6 +215,12 @@ class vpart_info
         static void reset();
 
         static const std::map<vpart_id, vpart_info> &all();
+
+        /**
+         * Remove all vehicle part definitions matching the predicate
+         * @warning must not be called after finalize()
+         */
+        static void delete_if( const std::function<bool( const vpart_info & )> &pred );
 };
 
 struct vehicle_item_spawn {
@@ -253,6 +259,12 @@ struct vehicle_prototype {
     static void finalize();
 
     static std::vector<vproto_id> get_all();
+
+    /**
+     * Remove all vehicle prototypes matching the predicate
+     * @warning must not be called after finalize()
+     */
+    static void delete_if( const std::function<bool( const vehicle_prototype & )> &pred );
 };
 
 #endif

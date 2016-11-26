@@ -26,12 +26,10 @@
 #include "ui.h"
 #include "veh_type.h"
 #include "field.h"
+#include "ammo.h"
 
 #include <algorithm>
 #include <sstream>
-
-typedef std::set<std::string> t_string_set;
-static t_string_set item_blacklist;
 
 static DynamicDataLoader::deferred_json deferred;
 
@@ -43,12 +41,6 @@ static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
 
 extern const double MIN_RECOIL;
-
-bool item_is_blacklisted(const std::string &id)
-{
-    return item_blacklist.count( id );
-}
-
 
 static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
                                        std::bitset<num_bp> &parts, bool &sided )
@@ -87,6 +79,20 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
     } else {
         return false;
     }
+}
+
+bool Item_factory::is_blacklisted( const itype_id &id ) const
+{
+    // never blacklist null item or any definitions dependent upon it
+    if( id == "null" ) {
+        return false;
+    }
+    // if whitelist is set only items on it are available
+    if( !whitelist.empty() && !whitelist.count( id ) ) {
+        return true;
+    }
+    // otherwise remove any specifically blacklisted items
+    return blacklist.count( id );
 }
 
 void Item_factory::finalize() {
@@ -284,53 +290,100 @@ void Item_factory::finalize() {
 
 void Item_factory::finalize_item_blacklist()
 {
-    for (t_string_set::const_iterator a = item_blacklist.begin(); a != item_blacklist.end(); ++a) {
-        if (!has_template(*a)) {
-            debugmsg("item on blacklist %s does not exist", a->c_str());
+    for( const auto &e : blacklist ) {
+        if( !has_template( e ) ) {
+            debugmsg( "item on blacklist %s does not exist", e.c_str() );
         }
-
     }
 
-    for( auto &e : m_templates ) {
-        if( !item_is_blacklisted( e.first ) ) {
+    // iterate through all vehicle prototypes
+    for( auto &veh : vehicle_prototype::get_all() ) {
+        auto &proto = const_cast<vehicle_prototype&>( veh.obj() );
+
+        // removing blacklistems from any item spawn lists
+        for( vehicle_item_spawn &sp : proto.item_spawns ) {
+            auto &opts = sp.item_ids;
+            opts.erase( std::remove_if( opts.begin(), opts.end(), [&]( const itype_id &e ) {
+                return is_blacklisted( e );
+            } ), opts.end() );
+        }
+    }
+
+    for( auto iter = m_templates.begin(); iter != m_templates.end(); ) {
+        const auto &black = iter->first;
+
+        if( !is_blacklisted( black ) ) {
+            ++iter;
             continue;
         }
         for( auto &g : m_template_groups ) {
-            g.second->remove_item( e.first );
+            g.second->remove_item( black );
+        }
+
+        // drop migrations referring to blacklisted items (to avoid spurious warnings later)
+        for( auto m = migrations.begin(); m != migrations.end(); ) {
+            if( m->second.replace == black || m->second.contents.count( black ) ) {
+                migrations.erase( m++ );
+            } else {
+                ++m;
+            }
         }
 
         // remove any blacklisted items from requirements
         for( auto &r : requirement_data::all() ) {
-            const_cast<requirement_data &>( r.second ).blacklist_item( e.first );
+            const_cast<requirement_data &>( r.second ).blacklist_item( black );
         }
 
-        // remove any recipes used to craft the blacklisted item
+        // remove any recipes used to craft the blacklisted item or that use it as a container
         recipe_dictionary::delete_if( [&]( const recipe &r ) {
-            return r.result == e.first;
+            return r.result == black || r.container == black;
         } );
-    }
 
-    for( auto &vid : vehicle_prototype::get_all() ) {
-        vehicle_prototype &prototype = const_cast<vehicle_prototype&>( vid.obj() );
-        for( vehicle_item_spawn &vis : prototype.item_spawns ) {
-            auto &vec = vis.item_ids;
-            const auto iter = std::remove_if( vec.begin(), vec.end(), item_is_blacklisted );
-            vec.erase( iter, vec.end() );
-        }
+        // remove any ammunition types which use a blacklisted item as their default
+        ammunition_type::delete_if( [&]( const ammunition_type &a ) {
+            return a.default_ammotype() == black;
+        } );
+
+        // remove any vehicle prototypes containing parts dependent upon a blacklisted base item
+        vehicle_prototype::delete_if( [&]( const vehicle_prototype &v ) {
+            return std::any_of( v.parts.begin(), v.parts.end(),
+                [&]( const vehicle_prototype::part_def &def ) {
+                    // we skip any invalid parts so vehicle prototype finalization emits warning
+                    return def.part.is_valid() && def.part->item == black;
+            } );
+        } );
+
+        // remove any vehicle parts that with blacklisted base item
+        vpart_info::delete_if( [&]( const vpart_info &v ) {
+            return v.item == black;
+        } );
+
+        iter = m_templates.erase( iter );
     }
 }
 
-void add_to_set( t_string_set &s, JsonObject &json, const std::string &name )
+void Item_factory::load_item_blacklist( JsonObject &jo, const std::string &src )
 {
-    JsonArray jarr = json.get_array( name );
-    while( jarr.has_more() ) {
-        s.insert( jarr.next_string() );
+    if( src == "core" ) {
+        jo.throw_error( "only mods can specify blacklists" );
+    }
+
+    auto arr = jo.get_array( "items" );
+    while( arr.has_more() ) {
+        blacklist.insert( arr.next_string() );
     }
 }
 
-void Item_factory::load_item_blacklist( JsonObject &json )
+void Item_factory::load_item_whitelist( JsonObject &jo, const std::string &src )
 {
-    add_to_set( item_blacklist, json, "items" );
+    if( src == "core" ) {
+        jo.throw_error( "only mods can specify whitelists" );
+    }
+
+    auto arr = jo.get_array( "items" );
+    while( arr.has_more() ) {
+        whitelist.insert( arr.next_string() );
+    }
 }
 
 Item_factory::~Item_factory()
@@ -1816,7 +1869,8 @@ void Item_factory::clear()
     iuse_function_list.clear();
 
     m_templates.clear();
-    item_blacklist.clear();
+    blacklist.clear();
+    whitelist.clear();
 }
 
 Item_group *make_group_or_throw( Item_spawn_data *&isd, Item_group::Type t, int ammo_chance, int magazine_chance )

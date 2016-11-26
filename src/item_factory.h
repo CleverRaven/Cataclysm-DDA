@@ -12,8 +12,6 @@
 #include "json.h"
 #include "itype.h"
 
-bool item_is_blacklisted( const std::string &id );
-
 typedef std::string Item_tag;
 typedef std::string Group_tag;
 typedef std::vector<item> Item_list;
@@ -201,6 +199,9 @@ class Item_factory
          */
         const itype *find_template( const itype_id &id ) const;
 
+        /** Check if item was blacklisted by a mod? */
+        bool is_blacklisted( const itype_id &id ) const;
+
         /**
          * Add a passed in itype to the collection of item types.
          * If the item type overrides an existing type, the existing type is deleted first.
@@ -210,7 +211,9 @@ class Item_factory
             m_templates[ def.id ] = def;
         }
 
-        void load_item_blacklist( JsonObject &jo );
+        void load_item_blacklist( JsonObject &jo, const std::string &src );
+
+        void load_item_whitelist( JsonObject &jo, const std::string &src );
 
         /**
          * A list of *all* known item type ids. Each is suitable as input to
@@ -250,6 +253,9 @@ class Item_factory
 
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
+
+        std::set<std::string> blacklist;
+        std::set<std::string> whitelist;
 
         /** Checks that ammo is listed in ammo_name().
          * At least one instance of this ammo type should be defined.
