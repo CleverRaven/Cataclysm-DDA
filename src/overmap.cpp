@@ -616,7 +616,7 @@ void overmap_terrain::check_consistency()
         const bool exists_loaded = oter_mapgen.find( elem.id_mapgen ) != oter_mapgen.end();
 
         if( exists_loaded ) {
-            if( exists_hardcoded ) {
+            if( test_mode && exists_hardcoded ) {
                 debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function. Consider removing the latter.", elem.id_mapgen.c_str() );
             }
         } else if( !exists_hardcoded ) {
