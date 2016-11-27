@@ -102,6 +102,9 @@ void Item_factory::finalize() {
     // tools that have at least one repair action
     std::set<itype_id> repair_tools;
 
+    // tools that can be used to repair complex firearms
+    std::set<itype_id> gun_tools;
+
     for( auto& e : m_templates ) {
         itype& obj = e.second;
 
@@ -303,11 +306,22 @@ void Item_factory::finalize() {
             if( repair_actions.count( e.first ) ) {
                 repair_tools.insert( obj.id );
             }
+
+            // can this item be used to repair complex firearms?
+            if( e.first == "GUN_REPAIR" ) {
+                gun_tools.insert( obj.id );
+            }
         }
     }
 
     for( auto &e : m_templates ) {
         itype &obj = e.second;
+
+        // handle complex firearms as a special case
+        if( obj.gun && !obj.item_tags.count( "PRIMITIVE_RANGED_WEAPON" ) ) {
+            std::copy( gun_tools.begin(), gun_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
+            continue;
+        }
 
         // for each item iterate through potential repair tools
         for( const auto &tool : repair_tools ) {
