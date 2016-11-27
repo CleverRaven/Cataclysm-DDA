@@ -118,13 +118,6 @@ int game::inv_for_id( const itype_id &id, const std::string &title )
     }, string_format( _( "You don't have a %s." ), item::nname( id ).c_str() ) );
 }
 
-int game::inv_for_tools_powered_by( const ammotype &battery_id, const std::string &title )
-{
-    return inv_for_filter( title, [ &battery_id ]( const item & it ) {
-        return it.is_tool() && it.ammo_type() == battery_id;
-    }, string_format( _( "You don't have %s-powered tools." ), ammo_name( battery_id ).c_str() ) );
-}
-
 int game::inv_for_equipped( const std::string &title )
 {
     return inv_for_filter( title, [ this ]( const item & it ) {
