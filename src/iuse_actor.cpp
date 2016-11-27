@@ -1985,8 +1985,12 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
-        p->wield_contents( it, pos, draw_cost, false );
+        // worn holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+        if( p->is_worn( *it ) ) {
+            p->wield_contents( it, pos, draw_cost, false );
+        } else {
+            p->wield_contents( it, pos );
+        }
 
     } else {
         item &obj = p->i_at( g->inv_for_filter( prompt, [&](const item& e) { return can_holster(e); } ) );
