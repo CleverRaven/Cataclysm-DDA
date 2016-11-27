@@ -69,22 +69,35 @@ type random();
 };
 
 struct overmap_spawns : public JsonDeserializer {
-    overmap_spawns() : group( "GROUP_NULL" ) {} // @fixme Replace with NULL_ID
+    overmap_spawns() : group( "GROUP_NULL" ) {} // @fixme Replace it with NULL_ID.
 
     string_id<MonsterGroup> group;
     numeric_interval<int> population;
-    int chance = 0;
 
     bool operator==( const overmap_spawns &rhs ) const {
-        return group == rhs.group &&
-               population == rhs.population &&
-               chance == rhs.chance;
+        return group == rhs.group && population == rhs.population;
+    }
+
+    virtual void load( JsonObject &jo ) {
+        jo.read( "group", group );
+        jo.read( "population", population );
     }
 
     void deserialize( JsonIn &jsin ) override {
         JsonObject jo = jsin.get_object();
-        jo.read( "group", group );
-        jo.read( "population", population );
+        load( jo );
+    }
+};
+
+struct overmap_static_spawns : public overmap_spawns {
+    int chance = 0;
+
+    bool operator==( const overmap_static_spawns &rhs ) const {
+        return overmap_spawns::operator==( rhs ) && chance == rhs.chance;
+    }
+
+    void load( JsonObject &jo ) override {
+        overmap_spawns::load( jo );
         jo.read( "chance", chance );
     }
 };
@@ -116,7 +129,7 @@ struct oter_type_t {
         int mondensity = 0;
 
         // Spawns are added to the submaps *once* upon mapgen of the submaps
-        overmap_spawns static_spawns;
+        overmap_static_spawns static_spawns;
         bool was_loaded = false;
 
         oter_id get_first() const;
@@ -180,7 +193,7 @@ struct oter_t {
             return type->mondensity;
         }
 
-        const overmap_spawns &get_static_spawns() const {
+        const overmap_static_spawns &get_static_spawns() const {
             return type->static_spawns;
         }
 
@@ -214,23 +227,15 @@ bool operator!=( const oter_id &lhs, const char *rhs );
 // into 900 squares; lots of space for interesting stuff!
 #define OMSPEC_FREQ 15
 
-struct overmap_special_spawns : public JsonDeserializer {
-    overmap_special_spawns() : group( "GROUP_NULL" ) {} // @fixme Replace with NULL_ID
-
-    string_id<MonsterGroup> group;
-    numeric_interval<int> population;
+struct overmap_special_spawns : public overmap_spawns {
     numeric_interval<int> radius;
 
     bool operator==( const overmap_special_spawns &rhs ) const {
-        return group == rhs.group &&
-               population == rhs.population &&
-               radius == rhs.radius;
+        return overmap_spawns::operator==( rhs ) && radius == rhs.radius;
     }
 
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject jo = jsin.get_object();
-        jo.read( "group", group );
-        jo.read( "population", population );
+    void load( JsonObject &jo ) override {
+        overmap_spawns::load( jo );
         jo.read( "radius", radius );
     }
 };
