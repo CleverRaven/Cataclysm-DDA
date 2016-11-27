@@ -71,10 +71,11 @@ RELEASE_FLAGS = -Werror
 WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
 #WARNINGS = -w
+DEBUGSYMS = -g
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  DEBUG = -g
+  DEBUG =
 else
-  DEBUG = -g -D_GLIBCXX_DEBUG
+  DEBUG = -D_GLIBCXX_DEBUG
 endif
 #PROFILE = -pg
 #OTHERS = -O3
@@ -207,8 +208,9 @@ ifdef RELEASE
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
+  DEBUG =
   ifndef DEBUG_SYMBOLS
-    DEBUG =
+    DEBUGSYMS =
   endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
@@ -247,7 +249,7 @@ ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
     OTHERS += -std=c++11
 endif
 
-CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
+CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD
 
 BINDIST_EXTRAS += README.md data doc
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
