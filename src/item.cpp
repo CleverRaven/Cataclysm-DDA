@@ -3502,11 +3502,14 @@ bool item::is_food(player const*u) const
         return true;
     }
 
-    if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && ammo_type() == ammotype( "battery" ) ) {
+    if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && type->ammo->type.count( ammotype( "battery" ) ) ) {
         return true;
     }
 
-    if( ( u->has_active_bionic( "bio_reactor" ) || u->has_active_bionic( "bio_advreactor" ) ) && is_ammo() && ( ammo_type() == ammotype( "reactor_slurry" ) || ammo_type() == ammotype( "plutonium" ) ) ) {
+    if( ( u->has_active_bionic( "bio_reactor" ) ||
+          u->has_active_bionic( "bio_advreactor" ) ) &&
+        is_ammo() && ( type->ammo->type.count( ammotype( "plut_slurry" ) ) ||
+                       type->ammo->type.count( ammotype( "plutonium" ) ) ) ) {
         return true;
     }
     if (u->has_active_bionic("bio_furnace") && flammable() && typeId() != "corpse")
