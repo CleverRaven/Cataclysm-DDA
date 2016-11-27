@@ -2,6 +2,7 @@
 
 #include "coordinate_conversions.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "map.h"
 #include "mapdata.h"
 #include "output.h"
@@ -5511,7 +5512,7 @@ int iuse::gunmod_attach( player *p, item *it, bool, const tripoint& ) {
         return 0;
     }
 
-    auto loc = g->inv_for_gunmod( *it, _( "Select gun to modify" ) );
+    auto loc = game_menus::inv::gun_to_modify( *p, *it );
 
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );

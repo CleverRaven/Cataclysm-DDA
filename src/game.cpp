@@ -84,6 +84,7 @@
 #include "cata_utility.h"
 #include "pathfinding.h"
 #include "projectile.h"
+#include "game_inventory.h"
 #include "gates.h"
 #include "item_factory.h"
 #include "scent_map.h"
@@ -2852,12 +2853,11 @@ bool game::handle_action()
             break;
 
         case ACTION_INVENTORY:
-            interactive_inv();
-            refresh_all();
+            game_menus::inv::common( u );
             break;
 
         case ACTION_COMPARE:
-            compare();
+            game_menus::inv::compare( u );
             break;
 
         case ACTION_ORGANIZE:
@@ -7414,7 +7414,7 @@ void game::smash()
 void game::use_item(int pos)
 {
     if (pos == INT_MIN) {
-        auto loc = inv_for_activatables( _( "Use item" ) );
+        auto loc = game_menus::inv::use( u );
 
         if( !loc ) {
             add_msg( _( "Never mind." ) );
@@ -7862,7 +7862,7 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        const auto items_to_stash = g->multidrop();
+        const auto items_to_stash = game_menus::inv::multidrop( g->u );
         if( !items_to_stash.empty() ) {
             g->u.drop( items_to_stash, z->pos(), true );
             z->add_effect( effect_controlled, 5);
@@ -9541,7 +9541,7 @@ int game::list_items(const int iLastState)
     do {
         if (!ground_items.empty() || iLastState == 1) {
             if (action == "COMPARE") {
-                compare( active_pos );
+                game_menus::inv::compare( u, active_pos );
                 reset = true;
                 refresh_all();
             } else if (action == "FILTER") {
@@ -10294,8 +10294,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
 
     menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
     actions.emplace_back( [&]() {
-        const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
-        item * const cont = inv_map_for_liquid( liquid, text, radius );
+        item * const cont = game_menus::inv::container_for( u, liquid, radius ).get_item();
 
         if( cont == nullptr || cont->is_null() ) {
             add_msg( _( "Never mind." ) );
@@ -10419,7 +10418,7 @@ void game::drop( int pos, const tripoint &where )
     if( pos != INT_MIN ) {
         u.drop( pos, where );
     } else {
-        u.drop( multidrop(), where );
+        u.drop( game_menus::inv::multidrop( u ), where );
     }
 }
 
@@ -11338,7 +11337,7 @@ void game::wield( int pos )
 void game::read()
 {
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = inv_for_books( _( "Read" ) );
+    auto loc = game_menus::inv::read( u );
 
     if( loc ) {
         u.read( loc.obtain( u ) );

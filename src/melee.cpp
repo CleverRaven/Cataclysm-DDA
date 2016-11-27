@@ -2,6 +2,7 @@
 #include "bionics.h"
 #include "debug.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "map.h"
 #include "debug.h"
 #include "rng.h"
@@ -2022,7 +2023,7 @@ void player::steal( npc &target )
         return;
     }
 
-    item_location loc = g->get_item_from_inventory( target, _( "Steal item" ) );
+    item_location loc = game_menus::inv::steal_from( target );
     if( !loc ) {
         return;
     }
