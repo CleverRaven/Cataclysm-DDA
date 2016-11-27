@@ -147,7 +147,7 @@
     "deadline_low": 30,
     "deadline_high": 48,
     "dialogue": {
-      "describe": "He's an asthmatic and he need an inhaler",
+      "describe": "I'm... short... of breath....",
       "offer": "I'm asthmatic. I need you to get an inhaler for me...",
       "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry...",
       "rejected": "What?!  Please, <ill_die> without your help!",
