@@ -6083,7 +6083,7 @@ float vehicle_part::efficiency( int rpm ) const
 
 bool vehicle_part::is_engine() const
 {
-    return base.is_engine();
+    return info().has_flag( VPFLAG_ENGINE );
 }
 
 bool vehicle_part::is_alternator() const
