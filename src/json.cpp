@@ -300,6 +300,16 @@ std::vector<int> JsonObject::get_int_array(const std::string &name)
     return ret;
 }
 
+std::vector<long> JsonObject::get_long_array(const std::string &name)
+{
+    JsonArray ja = get_array(name);
+    std::vector<long> ret;
+    while (ja.has_more()) {
+        ret.push_back(ja.next_long());
+    }
+    return ret;
+}
+
 std::vector<std::string> JsonObject::get_string_array(const std::string &name)
 {
     JsonArray ja = get_array(name);

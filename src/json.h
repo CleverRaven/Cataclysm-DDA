@@ -661,6 +661,7 @@ class JsonObject
         // get_array returns empty array if the member is not found
         JsonArray get_array(const std::string &name);
         std::vector<int> get_int_array(const std::string &name);
+        std::vector<long> get_long_array(const std::string &name);
         std::vector<std::string> get_string_array(const std::string &name);
         // get_object returns empty object if not found
         JsonObject get_object(const std::string &name);

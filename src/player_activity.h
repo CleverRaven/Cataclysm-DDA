@@ -5,6 +5,7 @@
 #include "json.h"
 #include "item_location.h"
 #include "string_id.h"
+#include "persistent_handle.h"
 
 #include <climits>
 #include <vector>
@@ -90,6 +91,7 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         bool ignore_trivial;
         std::vector<int> values;
         std::vector<std::string> str_values;
+        std::vector<long> handle_ids;
         std::vector<tripoint> coords;
         tripoint placement;
         /** If true, the player has been warned of dangerously close monsters with
@@ -140,6 +142,15 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         }
         int get_value( size_t index, int def = 0 ) const;
         std::string get_str_value( size_t index, const std::string def = "" ) const;
+
+        template <class R> void push_persistent( R *what ) {
+            handle_ids.push_back( what ? ( long )what->get_handle() : 0 );
+        }
+
+        template <class R> R *get_persistent( size_t index ) const {
+            return PersistentHandle<R>( index < handle_ids.size() ? handle_ids[index] : 0 ).get();
+        }
+
         /**
          * If this returns true, the action can be continued without
          * starting from scratch again (see player::backlog). This is only

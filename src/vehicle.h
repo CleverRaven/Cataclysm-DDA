@@ -12,6 +12,7 @@
 #include "active_item_cache.h"
 #include "string_id.h"
 #include "units.h"
+#include "persistent_handle.h"
 
 #include <vector>
 #include <array>
@@ -380,6 +381,9 @@ struct label : public JsonSerializer, public JsonDeserializer {
     void deserialize(JsonIn &jsin) override;
 };
 
+// specialization that does vehicle lookup by ID within the reality bubble
+template<> vehicle *PersistentID<vehicle>::find_by_id( PersistentID<vehicle> id );
+
 /**
  * A vehicle as a whole with all its components.
  *
@@ -452,7 +456,7 @@ struct label : public JsonSerializer, public JsonDeserializer {
  *   If you can't understand why installation fails, try to assemble your
  *   vehicle in game first.
  */
-class vehicle : public JsonSerializer, public JsonDeserializer
+class vehicle : public JsonSerializer, public JsonDeserializer, public Persistent<vehicle>
 {
 private:
     bool has_structural_part(int dx, int dy) const;

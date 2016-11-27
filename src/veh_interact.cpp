@@ -89,8 +89,8 @@ player_activity veh_interact::serialize_activity()
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
     point q = veh->coord_translate( pt ? pt->mount : veh->parts[0].mount );
-    res.values.push_back( veh->global_x() + q.x );    // values[0]
-    res.values.push_back( veh->global_y() + q.y );    // values[1]
+    res.values.push_back( 0 );    // values[0], legacy
+    res.values.push_back( 0 );    // values[1], legacy
     res.values.push_back( ddx );   // values[2]
     res.values.push_back( ddy );   // values[3]
     res.values.push_back( -ddx );   // values[4]
@@ -98,6 +98,7 @@ player_activity veh_interact::serialize_activity()
     res.values.push_back( veh->index_of_part( pt ) ); // values[6]
     res.str_values.push_back( vp->id.str() );
     res.targets.emplace_back( std::move( target ) );
+    res.push_persistent( veh );
 
     return res;
 }
@@ -2224,15 +2225,10 @@ static int calc_xp_gain( const vpart_info &vp, const skill_id &sk ) {
  * Called when the activity timer for installing parts, repairing, etc times
  * out and the action is complete.
  */
-void veh_interact::complete_vehicle()
+void veh_interact::complete_vehicle( vehicle *veh )
 {
     if (g->u.activity.values.size() < 7) {
         debugmsg ("Invalid activity ACT_VEHICLE values:%d", g->u.activity.values.size());
-        return;
-    }
-    vehicle *veh = g->m.veh_at( tripoint( g->u.activity.values[0], g->u.activity.values[1], g->u.posz() ) );
-    if (!veh) {
-        debugmsg ("Activity ACT_VEHICLE: vehicle not found");
         return;
     }
 

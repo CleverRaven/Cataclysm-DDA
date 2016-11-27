@@ -44,7 +44,7 @@ class veh_interact
         static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
                                           const std::string &title = std::string() );
 
-        static void complete_vehicle();
+        static void complete_vehicle( vehicle *veh );
 
     private:
         veh_interact( vehicle &veh, int x = 0, int y = 0 );
