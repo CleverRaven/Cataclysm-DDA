@@ -34,6 +34,8 @@
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 
+static std::set<std::string> repair_actions;
+
 static DynamicDataLoader::deferred_json deferred;
 
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
@@ -96,6 +98,9 @@ void Item_factory::finalize() {
     }
 
     finalize_item_blacklist();
+
+    // tools that have at least one repair action
+    std::set<itype_id> repair_tools;
 
     for( auto& e : m_templates ) {
         itype& obj = e.second;
@@ -288,6 +293,35 @@ void Item_factory::finalize() {
 
         for( auto &e : obj.use_methods ) {
             e.second.get_actor_ptr()->finalize( obj.id );
+
+            // can this item function as a repair tool?
+            if( repair_actions.count( e.first ) ) {
+                repair_tools.insert( obj.id );
+            }
+        }
+    }
+
+    for( auto &e : m_templates ) {
+        itype &obj = e.second;
+
+        // for each item iterate through potential repair tools
+        for( const auto &tool : repair_tools ) {
+
+            // check if item can be repaired with any of the actions?
+            for( const auto &act : repair_actions ) {
+                const use_function *func = m_templates[tool].get_use( act );
+                if( !func ) {
+                    continue;
+                }
+
+                // tool has a possible repair action, check if the materials are compatible
+                const auto &opts = dynamic_cast<const repair_item_actor *>( func->get_actor_ptr() )->materials;
+
+                if( std::any_of( obj.materials.begin(), obj.materials.end(),
+                                 [&opts]( const material_id &m ) { return opts.count( m ); } ) ) {
+                    obj.repair.insert( tool );
+                }
+            }
         }
     }
 }
@@ -2077,6 +2111,7 @@ std::pair<std::string, use_function> Item_factory::usage_from_object( JsonObject
         type = obj.get_string( "item_action_type" );
         if( !has_iuse( type ) ) {
             add_actor( new repair_item_actor( type ) );
+            repair_actions.insert( type );
         }
     }
 

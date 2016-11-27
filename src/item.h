@@ -712,6 +712,9 @@ public:
     /** Provide prefix symbol for UI display dependent upon current item damage level */
     std::string damage_symbol() const;
 
+    /** If possible to repair this item what tools could potentially be used for this purpose? */
+    const std::set<itype_id>& repaired_with() const;
+
     /**
      * Check whether the item has been marked (by calling mark_as_used_by_player)
      * as used by this specific player.
