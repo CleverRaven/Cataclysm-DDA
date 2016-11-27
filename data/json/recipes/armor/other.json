@@ -1,0 +1,229 @@
+[
+  {
+    "result": "blanket",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": 80000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "components": [ [ [ "rag", 35 ] ] ]
+  },
+  {
+    "result": "down_blanket",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 85000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "components": [
+      [ [ "rag", 35 ] ],
+      [ [ "down_feather", 160 ] ]
+    ]
+  },
+  {
+    "result": "fur_blanket",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
+    "time": 80000,
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 24 ] ] ],
+    "components": [
+      [ [ "rag", 30 ] ],
+      [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ]
+    ]
+  },
+  {
+    "result": "fur_cat_tail",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 30000,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "sewing_kit", 10 ] ],
+      [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
+    ],
+    "components": [
+      [ [ "fur", 4 ] ],
+      [ [ "string_36", 1 ] ],
+      [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
+    ]
+  },
+  {
+    "result": "fur_collar",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 20000,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "sewing_kit", 5 ] ],
+      [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ]
+    ],
+    "components": [
+      [ [ "fur", 2 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
+  },
+  {
+    "result": "leather_cat_tail",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 30000,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "sewing_kit", 10 ] ],
+      [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
+    ],
+    "components": [
+      [ [ "leather", 4 ] ],
+      [ [ "string_36", 1 ] ],
+      [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
+    ]
+  },
+  {
+    "result": "leather_collar",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 20000,
+    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [
+      [ [ "sewing_kit", 5 ] ],
+      [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ]
+    ],
+    "components": [
+      [ [ "leather", 2 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
+  },
+  {
+    "result": "rebreather_filter",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "cooking", 1 ],
+    "time": 60000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "textbook_fireman", 4 ], [ "atomic_survival", 4 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "emergency_book", 3 ], [ "textbook_gaswarfare", 4 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
+    "components": [
+      [ [ "oxy_powder", 50 ] ],
+      [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "scrap", 2 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ]
+    ]
+  },
+  {
+    "result": "sleeping_bag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "skills_required": [ "survival", 1 ],
+    "time": 75000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 30 ] ] ],
+    "components": [ [ [ "rag", 30 ] ] ]
+  },
+  {
+    "result": "sleeping_bag_fur",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ "survival", 1 ],
+    "time": 75000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ], [ "pocket_survival", 1 ] ],
+    "tools": [ [ [ "sewing_kit", 30 ] ] ],
+    "components": [
+      [ [ "rag", 10 ] ],
+      [ [ "fur", 20 ], [ "tanned_pelt", 3 ] ]
+    ]
+  },
+  {
+    "result": "survivor_belt",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "fabrication",
+    "time": 1000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "survivor_belt_notools", 1 ] ],
+      [ [ "screwdriver_set", 1 ] ],
+      [ [ "wrench", 1 ] ],
+      [ [ "saw", 1 ] ],
+      [ [ "hacksaw", 1 ] ],
+      [ [ "hammer", 1 ] ]
+    ]
+  },
+  {
+    "result": "survivor_belt_notools",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 3 ],
+    "time": 80000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "tools": [ [ [ "sewing_kit", 140 ] ] ],
+    "components": [
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ],
+      [ [ "duct_tape", 100 ] ],
+      [ [ "sheath", 1 ] ],
+      [ [ "legrig", 1 ], [ "tool_belt", 1 ], [ "dump_pouch", 1 ], [ "leather_pouch", 4 ] ]
+    ]
+  },
+  {
+    "result": "towel",
+    "type": "recipe",
+    "id_suffix": "knitting",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": 6000,
+    "autolearn": true,
+    "tools": [ [ [ "sewing_kit", 7 ] ] ],
+    "components": [ [ [ "rag", 5 ] ] ]
+  }
+]

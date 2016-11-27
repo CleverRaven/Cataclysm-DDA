@@ -51,7 +51,7 @@ mat_burn_data load_mat_burn_data( JsonObject &jsobj )
     return bd;
 }
 
-void material_type::load( JsonObject &jsobj )
+void material_type::load( JsonObject &jsobj, const std::string & )
 {
     mandatory( jsobj, was_loaded, "name", _name, translated_string_reader );
 
@@ -231,9 +231,9 @@ const mat_burn_data &material_type::burn_data( size_t intensity ) const
     return _burn_data[ std::min<size_t>( intensity, MAX_FIELD_DENSITY ) - 1 ];
 }
 
-void materials::load( JsonObject &jo )
+void materials::load( JsonObject &jo, const std::string &src )
 {
-    material_data.load( jo );
+    material_data.load( jo, src );
 }
 
 void materials::check()

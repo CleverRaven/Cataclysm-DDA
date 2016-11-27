@@ -249,31 +249,13 @@ std::vector<item> player::get_eligible_containers_for_crafting()
 
 bool player::can_make( const recipe *r, int batch_size )
 {
-    if( has_trait( "DEBUG_HS" ) ) {
-        return true;
-    }
-
     const inventory &crafting_inv = crafting_inventory();
-    return r->can_make_with_inventory( crafting_inv, batch_size );
-}
 
-bool recipe::can_make_with_inventory( const inventory &crafting_inv, int batch ) const
-{
-    return can_make_with_inventory( crafting_inv, g->u.get_crafting_helpers(), batch );
-}
-
-bool recipe::can_make_with_inventory( const inventory &crafting_inv,
-                                      const std::vector<npc *> &helpers,
-                                      int batch ) const
-{
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
-        return true;
-    }
-
-    if( !g->u.knows_recipe( this ) && -1 == g->u.has_recipe( this, crafting_inv, helpers ) ) {
+    if( has_recipe( r, crafting_inv, get_crafting_helpers() ) < 0 ) {
         return false;
     }
-    return requirements().can_make_with_inventory( crafting_inv, batch );
+
+    return r->requirements().can_make_with_inventory( crafting_inv, batch_size );
 }
 
 const inventory &player::crafting_inventory()
@@ -305,20 +287,6 @@ const inventory &player::crafting_inventory()
 void player::invalidate_crafting_inventory()
 {
     cached_turn = -1;
-}
-
-void batch_recipes( const inventory &crafting_inv,
-                    const std::vector<npc *> &helpers,
-                    std::vector<const recipe *> &current,
-                    std::vector<bool> &available, const recipe *rec )
-{
-    current.clear();
-    available.clear();
-
-    for( int i = 1; i <= 20; i++ ) {
-        current.push_back( rec );
-        available.push_back( rec->can_make_with_inventory( crafting_inv, helpers, i ) );
-    }
 }
 
 int recipe::batch_time( int batch ) const
@@ -405,18 +373,22 @@ item recipe::create_result() const
     if( charges >= 0 ) {
         newit.charges = charges;
     }
-    if( contained == true ) {
-        newit = newit.in_container( container );
-    }
-    if( result_mult != 1 ) {
-        newit.charges *= result_mult;
-    }
+
     if( !newit.craft_has_charges() ) {
         newit.charges = 0;
+    } else if( result_mult != 1 ) {
+        // @todo Make it work for charge-less items
+        newit.charges *= result_mult;
     }
+
     if( newit.has_flag( "VARSIZE" ) ) {
         newit.item_tags.insert( "FIT" );
     }
+
+    if( contained == true ) {
+        newit = newit.in_container( container );
+    }
+
     return newit;
 }
 
@@ -424,8 +396,11 @@ std::vector<item> recipe::create_results( int batch ) const
 {
     std::vector<item> items;
 
-    if( contained || !item::count_by_charges( result ) ) {
-        for( int i = 0; i < batch; i++ ) {
+    const bool by_charges = item::count_by_charges( result );
+    if( contained || !by_charges ) {
+        // by_charges items get their charges multiplied in create_result
+        const int num_results = by_charges ? batch : batch * result_mult;
+        for( int i = 0; i < num_results; i++ ) {
             item newit = create_result();
             items.push_back( newit );
         }
@@ -500,7 +475,7 @@ void player::complete_craft()
     int batch_size = activity.values.front();
     if( making == nullptr ) {
         debugmsg( "no recipe with id %s found", activity.name.c_str() );
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
 
@@ -621,7 +596,7 @@ void player::complete_craft()
                 consume_tools( it, batch_size );
             }
         }
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
         // Messed up slightly; no components wasted.
     } else if( diff_roll > skill_roll ) {
@@ -1117,7 +1092,7 @@ bool player::can_disassemble( const item &obj, const inventory &inv, bool alert 
 bool player::disassemble( int dis_pos )
 {
     if( dis_pos == INT_MAX ) {
-        dis_pos = g->inv_for_all( _( "Disassemble item:" ),
+        dis_pos = g->inv_for_all( _( "Disassemble item" ),
                                   _( "You don't have any items to disassemble." ) );
     }
     if( dis_pos == INT_MIN ) {
@@ -1157,20 +1132,22 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
     }
 
     // last chance to back out
-    if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) &&
-        !query_yn( _( "Really disassemble the %s?" ), obj.tname().c_str() ) ) {
+    if( interactive &&
+        get_option<bool>( "QUERY_DISASSEMBLE" ) &&
+        !query_yn( _( "Disassembling the %s will take about %s. Continue?" ),
+                   obj.tname().c_str(), calendar::print_duration( r.time / 100 ).c_str() ) ) {
         return false;
     }
 
-    if( activity.type != ACT_DISASSEMBLE ) {
-        assign_activity( ACT_DISASSEMBLE, r.time );
+    if( activity.id() != activity_id( "ACT_DISASSEMBLE" ) ) {
+        assign_activity( activity_id( "ACT_DISASSEMBLE" ), r.time );
     } else if( activity.moves_left <= 0 ) {
         activity.moves_left = r.time;
     }
 
     activity.values.push_back( pos );
     activity.coords.push_back( ground ? this->pos() : tripoint_min );
-    activity.str_values.push_back( r.ident() );
+    activity.str_values.push_back( r.result );
 
     return true;
 }
@@ -1178,7 +1155,7 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 void player::disassemble_all( bool one_pass )
 {
     // Reset all the activity values
-    assign_activity( ACT_DISASSEMBLE, 0 );
+    assign_activity( activity_id( "ACT_DISASSEMBLE" ), 0 );
     auto items = g->m.i_at( pos() );
     bool found_any = false;
     if( !one_pass ) {
@@ -1243,7 +1220,7 @@ void player::complete_disassemble()
         activity.values.size() != activity.str_values.size() ||
         activity.values.size() != activity.coords.size() ) {
         debugmsg( "bad disassembly activity values" );
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
 
@@ -1269,7 +1246,7 @@ void player::complete_disassemble()
 
     complete_disassemble( item_pos, loc, from_ground, recipe_dictionary::get_uncraft( recipe_name ) );
 
-    if( activity.type == ACT_NULL ) {
+    if( !activity ) {
         // Something above went wrong, don't continue
         return;
     }
@@ -1277,7 +1254,7 @@ void player::complete_disassemble()
     // Try to get another disassembly target from the activity
     if( activity.values.empty() ) {
         // No more targets
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
 
@@ -1288,7 +1265,7 @@ void player::complete_disassemble()
 
     const auto &next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
     if( !next_recipe ) {
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
 
@@ -1296,7 +1273,6 @@ void player::complete_disassemble()
 }
 
 // TODO: Make them accessible in a less ugly way
-void remove_battery_mods( item &, player & );
 void remove_radio_mod( item &, player & );
 
 void player::complete_disassemble( int item_pos, const tripoint &loc,
@@ -1307,13 +1283,13 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     item &org_item = get_item_for_uncraft( *this, item_pos, loc, from_ground );
     if( org_item.is_null() ) {
         add_msg( _( "The item has vanished." ) );
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
 
     if( org_item.typeId() != dis.result ) {
         add_msg( _( "The item might be gone, at least it is not at the expected position anymore." ) );
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
     // Make a copy to keep its data (damage/components) even after it
@@ -1322,16 +1298,9 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 
     float component_success_chance = std::min( std::pow( 0.8, dis_item.damage() ), 1.0 );
 
-    int veh_part = -1;
-    vehicle *veh = g->m.veh_at( pos(), veh_part );
-    if( veh != nullptr ) {
-        veh_part = veh->part_with_feature( veh_part, "CARGO" );
-    }
-
     add_msg( _( "You disassemble the %s into its components." ), dis_item.tname().c_str() );
     // Remove any batteries, ammo and mods first
     remove_ammo( &dis_item, *this );
-    remove_battery_mods( dis_item, *this );
     remove_radio_mod( dis_item, *this );
 
     if( dis_item.count_by_charges() ) {
@@ -1416,11 +1385,20 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
                     break;
                 }
             }
+
+            int veh_part = -1;
+            vehicle *veh = g->m.veh_at( pos(), veh_part );
+            if( veh != nullptr ) {
+                veh_part = veh->part_with_feature( veh_part, "CARGO" );
+            }
+
             if( act_item.made_of( LIQUID ) ) {
                 g->handle_all_liquid( act_item, PICKUP_RANGE );
-            } else if( veh != NULL && veh->add_item( veh_part, act_item ) ) {
+            } else if( veh_part != -1 && veh->add_item( veh_part, act_item ) ) {
                 // add_item did put the items in the vehicle, nothing further to be done
             } else {
+                // TODO: For items counted by charges, add as much as we can to the vehicle, and
+                // the rest on the ground (see dropping code and @vehicle::add_charges)
                 g->m.add_item_or_charges( pos(), act_item );
             }
         }

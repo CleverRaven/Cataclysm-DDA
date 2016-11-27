@@ -265,9 +265,9 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "water",
-        "name" : "water",
-        "default" : "water"
+        "id" : "flammable",
+        "name" : "flammable liquid",
+        "default" : "napalm"
     },
     {
        "type" : "ammunition_type",

@@ -58,7 +58,7 @@
     "id": "pistol_scope",
     "type": "GUNMOD",
     "name": "pistol scope",
-    "description": "A small scope intended for use on a handgun. Increases weight but improves accuracy greatly.",
+    "description": "A small scope intended for use on a handgun.  Increases weight but improves accuracy greatly.",
     "weight": 212,
     "volume": 1,
     "price": 54000,

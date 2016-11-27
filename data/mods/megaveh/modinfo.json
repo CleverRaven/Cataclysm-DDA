@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "megaveh",
+    "name": "Huge Vehicles",
+    "authors": [ "Aabbcc" ],
+    "description": "Alters game balance to allow easier construction and operation of huge vehicles",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]

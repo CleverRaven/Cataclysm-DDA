@@ -367,34 +367,30 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * takes. The actual time depends heavily on the attacker, see melee.cpp.
      */
     int attack_time() const;
-    /**
-     * Damage of type @ref DT_BASH that is caused by using this item as melee weapon.
-     */
-    int damage_bash() const;
-    /**
-     * Damage of type @ref DT_CUT that is caused by using this item as melee weapon.
-     */
-    int damage_cut() const;
-    /**
-     * Damage of a given type that is caused by using this item as melee weapon.
-     * NOTE: Does NOT respect the legacy "stabbing is cutting"!
-     */
-    int damage_by_type( damage_type dt ) const;
+
+    /** Damage of given type caused when this item is used as melee weapon */
+    int damage_melee( damage_type dt ) const;
+
     /**
      * Whether the character needs both hands to wield this item.
      */
     bool is_two_handed( const player &u ) const;
-    /** The weapon is considered a suitable melee weapon. */
-    bool is_weap() const;
-    /** The item is considered a bashing weapon (inflicts a considerable bash damage). */
-    bool is_bashing_weapon() const;
-    /** The item is considered a cutting weapon (inflicts a considerable cutting damage). */
-    bool is_cutting_weapon() const;
+
+    /** Is this item an effective melee weapon for the given damage type? */
+    bool is_melee( damage_type dt ) const;
+
+    /**
+     *  Is this item an effective melee weapon for any damage type?
+     *  @see item::is_gun()
+     *  @note an item can be both a gun and melee weapon concurrently
+     */
+    bool is_melee() const;
+
     /**
      * The most relevant skill used with this melee weapon. Can be "null" if this is not a weapon.
      * Note this function returns null if the item is a gun for which you can use gun_skill() instead.
      */
-    skill_id weap_skill() const;
+    skill_id melee_skill() const;
     /*@}*/
 
     /** Max range weapon usable for melee attack accounting for player/NPC abilities */
@@ -531,6 +527,17 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
     /** Set current item @ref rot relative to shelf life (no-op if item does not spoil) */
     void set_relative_rot( double val );
+
+    /**
+     * Get time left to rot, ignoring fridge.
+     * Returns time to rot if item is able to, max int - N otherwise,
+     * where N is
+     * 3 for food,
+     * 2 for medication,
+     * 1 for other comestibles,
+     * 0 otherwise.
+     */
+    int spoilage_sort_order();
 
     /** an item is fresh if it is capable of rotting but still has a long shelf life remaining */
     bool is_fresh() const { return goes_bad() && get_relative_rot() < 0.1; }
@@ -801,6 +808,7 @@ public:
     bool is_brewable() const;
     bool is_engine() const;
     bool is_wheel() const;
+    bool is_toolmod() const;
 
     bool is_faulty() const;
 
@@ -809,6 +817,18 @@ public:
 
     /** Returns the total area of this wheel or 0 if it isn't one. */
     int wheel_area() const;
+
+    /**
+     *  How difficult is it to start the engine at specified temperature (celcius)
+     *  @return scalar factor [0.0 - 1.0] where a higher value represents increasing difficulty
+     */
+    double engine_start_difficulty( int temperature ) const;
+
+    /** Moves required to start engine at specified temperature (celcius) */
+    int engine_start_time( int temperature ) const;
+
+    /** battery charges (kJ) required to start at specified temperature (celcius) */
+    int engine_start_energy( int temperature ) const;
 
     /**
      * Can this item have given item/itype as content?
@@ -933,9 +953,11 @@ public:
         std::string type_name( unsigned int quantity = 1 ) const;
 
         /**
-         * Number of charges of this item type that fit into the given volume.
+         * Number of charges of this item that fit into the given volume.
          * May return 0 if not even one charge fits into the volume. Only depends on the *type*
          * of this item not on its current charge count.
+         *
+         * For items not counted by charges, this returns this->volume() / vol.
          */
         long charges_per_volume( const units::volume &vol ) const;
 
@@ -992,6 +1014,13 @@ public:
         /*@{*/
         bool has_flag( const std::string& flag ) const;
         bool has_any_flag( const std::vector<std::string>& flags ) const;
+
+        /** Idempotent filter setting an item specific flag. */
+        item& set_flag( const std::string &flag );
+
+        /** Idempotent filter removing an item specific flag */
+        item& unset_flag( const std::string &flag );
+
         /** Removes all item specific flags. */
         void unset_flags();
         /*@}*/
@@ -1193,6 +1222,10 @@ public:
         void add_technique( const matec_id & tech );
         /*@}*/
 
+        /** Returns all toolmods currently attached to this item (always empty if item not a tool) */
+        std::vector<item *> toolmods();
+        std::vector<const item *> toolmods() const;
+
         /**
          * @name Gun and gunmod functions
          *
@@ -1202,6 +1235,12 @@ public:
          */
         /*@{*/
         bool is_gunmod() const;
+
+        /**
+         *  Can this item be used to perform a ranged attack?
+         *  @see item::is_melee()
+         *  @note an item can be both a gun and melee weapon concurrently
+         */
         bool is_gun() const;
 
         /** Quantity of ammunition currently loaded in tool, gun or axuiliary gunmod */
@@ -1285,10 +1324,9 @@ public:
 
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
-         * @param alert whether to display message describing reason for any incompatibility
-         * @param effects whether temporary efects (jammed, loaded etc) are considered when checking
+         * @param msg message describing reason for any incompatibility
          */
-        bool gunmod_compatible( const item& mod, bool alert = true, bool effects = true ) const;
+        bool gunmod_compatible( const item& mod, std::string *msg = nullptr ) const;
 
         struct gun_mode {
             std::string mode;           /** name of this mode */
@@ -1409,15 +1447,6 @@ public:
         /*@}*/
 
         /**
-         * @name Vehicle parts
-         *
-         *@{*/
-
-        /** for combustion engines the displacement (cc) */
-        int engine_displacement() const;
-        /*@}*/
-
-        /**
          * Returns the pointer to use_function with name use_name assigned to the type of
          * this item or any of its contents. Checks contents recursively.
          * Returns nullptr if not found.
@@ -1482,6 +1511,9 @@ public:
         std::string label( unsigned int quantity = 0 ) const;
 
         bool has_infinite_charges() const;
+
+        /** Puts the skill in context of the item */
+        skill_id contextualize_skill( const skill_id &id ) const;
 
     private:
         std::string name;

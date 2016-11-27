@@ -49,12 +49,12 @@ private:
     std::set<std::string> flags; // flags for some special properties of the scenario
     std::string _map_special;
 
-    void load( JsonObject &jo );
+    void load( JsonObject &jo, const std::string &src );
 
 public:
     //these three aren't meant for external use, but had to be made public regardless
     scenario();
-    static void load_scenario(JsonObject &jsobj);
+    static void load_scenario( JsonObject &jo, const std::string &src );
 
     // these should be the only ways used to get at scenario
     static const scenario* generic(); // points to the generic, default profession

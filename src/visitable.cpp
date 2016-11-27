@@ -119,6 +119,19 @@ bool visitable<T>::has_quality( const quality_id &qual, int level, int qty ) con
 }
 
 template <>
+bool visitable<inventory>::has_quality( const quality_id &qual, int level, int qty ) const
+{
+    long res = 0;
+    for( const auto &stack : static_cast<const inventory *>( this )->items ) {
+        res += stack.size() * has_quality_internal( stack.front(), qual, level, qty );
+        if( res >= qty ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+template <>
 bool visitable<vehicle_selector>::has_quality( const quality_id &qual, int level, int qty ) const
 {
     for( const auto& cursor : static_cast<const vehicle_selector &>( *this ) ) {
@@ -678,8 +691,7 @@ static long charges_of_internal( const T& self, const itype_id& id, int limit )
 
     self.visit_items( [&]( const item *e ) {
         if( e->is_tool() ) {
-            // for tools we also need to check if this item is a subtype of the required id
-            if( e->typeId() == id || ( e->is_tool() && e->type->tool->subtype == id ) ) {
+            if( e->typeId() == id ) {
                 qty += e->ammo_remaining(); // includes charges from any contained magazine
             }
             return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
@@ -703,6 +715,16 @@ template <typename T>
 long visitable<T>::charges_of( const std::string &what, int limit ) const
 {
     return charges_of_internal( *this, what, limit );
+}
+
+template <>
+long visitable<inventory>::charges_of( const std::string &what, int limit ) const
+{
+    long res = 0;
+    for( const auto &stack : static_cast<const inventory *>( this )->items ) {
+        res += stack.size() * charges_of_internal( stack.front(), what, limit );
+    }
+    return res;
 }
 
 template <>
@@ -747,6 +769,16 @@ template <typename T>
 int visitable<T>::amount_of( const std::string& what, bool pseudo, int limit ) const
 {
     return amount_of_internal( *this, what, pseudo, limit );
+}
+
+template <>
+int visitable<inventory>::amount_of( const std::string& what, bool pseudo, int limit ) const
+{
+    int res = 0;
+    for( const auto &stack : static_cast<const inventory *>( this )->items ) {
+        res += stack.size() * stack.front().amount_of( what, pseudo, limit );
+    }
+    return std::min( res, limit );
 }
 
 template <>

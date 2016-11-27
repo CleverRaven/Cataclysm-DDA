@@ -82,8 +82,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "spare_parts",
-    "use_action": "UPS_BATTERY"
+    "category" : "spare_parts"
   },
   {
     "type" : "COMESTIBLE",

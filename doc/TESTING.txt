@@ -1,6 +1,0 @@
-There's a slowly growing test suite in tests/.  To build install libtap
-from http://www.shlomifish.org/open-source/projects/libtap/ *, then build
-the "check" target.  e.g. "make check".  This builds and runs any tests.
-
-*Unpack the tarball with "gunzip tap-1.03.tar.gz && tar xf tap-1.03.tar"
-instead of the usual tar command.

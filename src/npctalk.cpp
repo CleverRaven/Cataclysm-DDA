@@ -573,7 +573,7 @@ void npc::talk_to_u()
     delwin(d.win);
     g->refresh_all();
     // Don't query if we're training the player
-    if( g->u.activity.type != ACT_TRAIN || g->u.activity.index != getID() ) {
+    if( g->u.activity.id() != activity_id( "ACT_TRAIN" ) || g->u.activity.index != getID() ) {
         g->cancel_activity_query( _("%s talked to you."), name.c_str() );
     }
 }
@@ -612,8 +612,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         mission *miss = p->chatbin.mission_selected;
         const auto &type = miss->get_type();
         // TODO: make it a member of the mission class, maybe at mission instance specific data
-        std::string ret = mission_dialogue( type.id, topic);
-        if (ret.empty()) {
+        const std::string &ret = miss->dialogue_for_topic( topic );
+        if( ret.empty() ) {
             debugmsg("Bug in npctalk.cpp:dynamic_line. Wrong mission_id(%d) or topic(%s)",
                      type.id.c_str(), topic.c_str());
             return "";
@@ -685,58 +685,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     } else if( topic == "TALK_MISSION_REWARD" ) {
         return _("Sure, here you go!");
-
-    } else if( topic == "TALK_EVAC_MERCHANT" ) {
-        if (g->u.is_wearing("badge_marshal"))
-            return _("Welcome marshal...");
-        return _("Welcome...");
-
-    } else if( topic == "TALK_EVAC_MERCHANT_NEW" ) {
-        return _("Before you say anything else, we're full.  Few days ago we had an outbreak due to lett'n in too many new refugees."
-                 "  We do desperately need supplies and are willing to trade what we can for it.  Pay top dollar for jerky if you have any.");
-
-    } else if( topic == "TALK_EVAC_MERCHANT_PLANS" ) {
-        return _("To be honest, we started out with six buses full of office workers and soccer moms... after the refugee outbreak a day or two"
-                 " ago the more courageous ones in our party ended up dead.  The only thing we want now is to run enough trade through"
-                 " here to keep us alive.  Don't care who your goods come from or how you got them, just don't bring trouble.");
-
-    } else if( topic == "TALK_EVAC_MERCHANT_PLANS2" ) {
-        return _("I'm sorry, but the only way we're going to make it is if we keep our gates buttoned fast.  The guards in the basement "
-                "have orders to shoot on sight, if you so much as peep your head in the lower levels.  I don't know what made the scavengers "
-                "out there so ruthless but some of us have had to kill our own bloody kids... don't even think about strong arming us.");
-
-    } else if( topic == "TALK_EVAC_MERCHANT_PLANS3" ) {
-        return _("Well the refugees were staying here on the first floor when one their parties tried to sneak a dying guy in through the loading bay, "
-                 "we ended up being awoken to shrieks and screams. Maybe two dozen people died that night.  The remaining refugees were banished the next "
-                 "day and went on to form a couple of scavenging bands.  I'd say we got twenty decent men or women still here but our real strength comes "
-                 "from all of our business partners that are accustomed to doing whatever is needed to survive.");
-
-    } else if( topic == "TALK_EVAC_MERCHANT_WORLD" ) {
-        return _("Can't say we've heard much.  Most these shelters seemed to have been designed to make people feel safer... not actually "
-                "aid in their survival.  Our radio equipment is utter garbage that someone convinced the government to buy, with no intention "
-                "of it ever being used.  From the passing scavengers I've heard nothing but prime loot'n spots and rumors of hordes.");
-
-    } else if( topic == "TALK_EVAC_MERCHANT_HORDES" ) {
-        return _("Had one guy pop in here a while back saying he had tried to drive into Syracuse after the outbreak.  Didn't even make it "
-                 "downtown before he ran into a wall of the living dead that could stop a tank.  He hightailed it out but claims there were "
-                 "several thousand at least.  Guess when you get a bunch of them together they end up making enough noise to attract everyone "
-                 "in the neighborhood.  Luckily we haven't had a mob like that pass by here.");
-
-    } else if( topic == "TALK_EVAC_MERCHANT_PRIME_LOOT" ) {
-        return _("Well, there is a party of about a dozen 'scavengers' that found some sort of government facility.  They bring us a literal "
-                 "truck load of jumpsuits, m4's, and canned food every week or so.  Since some of those guys got family here, we've been "
-                 "doing alright.  As to where it is, I don't have the foggiest of ideas.");
-
-    } else if( topic == "TALK_EVAC_MERCHANT_ASK_JOIN" ) {
-        return _("Sorry, last thing we need is another mouth to feed.  Most of us lack any real survival skills so keeping our group "
-                 "small enough to survive on the food random scavengers bring to trade with us is important.");
-
-    } else if( topic == "TALK_EVAC_MERCHANT_NO" ) {
-        return _("I'm sorry, not a risk we are willing to take right now.");
-
-    } else if( topic == "TALK_EVAC_MERCHANT_HELL_NO" ) {
-        return _("There isn't a chance in hell!  We had one guy come in here with bloody fur all over his body... well I guess that isn't all that "
-                 "strange but I'm pretty sure whatever toxic waste is still out there is bound to mutate more than just his hair.");
 
     } else if( topic == "TALK_EVAC_GUARD3" ) {
         return _("Keep to yourself and you won't find any problems.");
@@ -1230,7 +1178,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     }
     if( topic == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
+        if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
             return _("Shall we resume?");
         }
         std::vector<skill_id> trainable = p->skills_offered_to(g->u);
@@ -1780,39 +1728,17 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _("Thanks, bye."), "TALK_DONE", &talk_function::clear_mission );
 
     } else if( topic == "TALK_EVAC_MERCHANT" ) {
-        add_response( _("I'm actually new..."), "TALK_EVAC_MERCHANT_NEW" );
-        add_response( _("What are you doing here?"), "TALK_EVAC_MERCHANT_PLANS" );
-        add_response( _("Heard anything about the outside world?"), "TALK_EVAC_MERCHANT_WORLD" );
-        add_response( _("Is there any way I can join your group?"), "TALK_EVAC_MERCHANT_ASK_JOIN" );
-        add_response( _("Can I do anything for the center?"), "TALK_MISSION_LIST" );
-        add_response( _("Let's trade then."), "TALK_EVAC_MERCHANT", &talk_function::start_trade );
         if (p->has_trait("NPC_MISSION_LEV_1")){
             add_response( _("I figured you might be looking for some help..."), "TALK_EVAC_MERCHANT" );
                 SUCCESS_ACTION(&talk_function::companion_mission);
         }
-        add_response_done( _("Well, bye.") );
 
-    } else if( topic == "TALK_EVAC_MERCHANT_NEW" ) {
-        add_response( _("No rest for the weary..."), "TALK_EVAC_MERCHANT" );
-    } else if( topic == "TALK_EVAC_MERCHANT_PLANS" ) {
-        add_response( _("It's just as bad out here, if not worse."), "TALK_EVAC_MERCHANT_PLANS2" );
     } else if( topic == "TALK_EVAC_MERCHANT_PLANS2" ) {
         ///\EFFECT_INT >11 adds useful dialog option in TALK_EVAC_MERCHANT
         if (g->u.int_cur >= 12){
             add_response( _("[INT 12] Wait, six buses and refugees... how many people do you still have crammed in here?"),
                               "TALK_EVAC_MERCHANT_PLANS3" );
         }
-        add_response( _("Guess shit's a mess everywhere..."), "TALK_EVAC_MERCHANT" );
-    } else if( topic == "TALK_EVAC_MERCHANT_PLANS3" ) {
-        add_response( _("Guess it works for you..."), "TALK_EVAC_MERCHANT" );
-    } else if( topic == "TALK_EVAC_MERCHANT_HORDES" ) {
-        add_response( _("Thanks for the tip."), "TALK_EVAC_MERCHANT" );
-    } else if( topic == "TALK_EVAC_MERCHANT_PRIME_LOOT" ) {
-        add_response( _("Thanks, I'll keep an eye out."), "TALK_EVAC_MERCHANT" );
-    } else if( topic == "TALK_EVAC_MERCHANT_NO" ) {
-        add_response( _("Fine..."), "TALK_EVAC_MERCHANT" );
-    } else if( topic == "TALK_EVAC_MERCHANT_HELL_NO" ) {
-        add_response( _("Fine... *coughupyourscough*"), "TALK_EVAC_MERCHANT" );
 
     } else if( topic == "TALK_EVAC_MERCHANT_ASK_JOIN" ) {
             ///\EFFECT_INT >10 adds bad dialog option in TALK_EVAC_MERCHANT (NEGATIVE)
@@ -1826,14 +1752,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             if (g->u.int_cur <= 6 && g->u.str_cur > 10){
                 add_response( _("[STR 11] I punch things in face real good!"), "TALK_EVAC_MERCHANT_NO" );
             }
-            add_response( _("I'm sure I can do something to change your mind *wink*"), "TALK_EVAC_MERCHANT_HELL_NO" );
-            add_response( _("I can pull my own weight!"), "TALK_EVAC_MERCHANT_NO" );
-            add_response( _("I guess I'll look somewhere else..."), "TALK_EVAC_MERCHANT" );
-
-    } else if( topic == "TALK_EVAC_MERCHANT_WORLD" ) {
-            add_response( _("Hordes?"), "TALK_EVAC_MERCHANT_HORDES" );
-            add_response( _("Heard of anything better than the odd gun cache?"), "TALK_EVAC_MERCHANT_PRIME_LOOT" );
-            add_response( _("Was hoping for something more..."), "TALK_EVAC_MERCHANT" );
 
     } else if( topic == "TALK_EVAC_GUARD3" ) {
             add_response( _("What do you do around here?"), "TALK_EVAC_GUARD3_NEW" );
@@ -2347,7 +2265,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response_done( _("Okay, fine, bye.") );
 
     } else if( topic == "TALK_TRAIN" ) {
-            if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
+            if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
                 player_activity &backlog = g->u.backlog.front();
                 std::stringstream resume;
                 resume << _("Yes, let's resume training ");
@@ -3050,10 +2968,8 @@ void talk_function::clear_mission( npc &p )
         return;
     }
     const auto it = std::find( p.chatbin.missions_assigned.begin(), p.chatbin.missions_assigned.end(), miss );
-    // This function might get called twice or more if the player chooses the talk responses
-    // "train skill" -> "Never mind" -> "train skill", each "train skill" response calls this function,
-    // it also called when the dialogue is left through the other reward options.
     if( it == p.chatbin.missions_assigned.end() ) {
+        debugmsg( "clear_mission: mission_selected not in assigned" );
         return;
     }
     p.chatbin.missions_assigned.erase( it );
@@ -3211,7 +3127,7 @@ void talk_function::give_aid( npc &p )
             g->u.remove_effect( effect_infected, bp_healed );
         }
     }
-    g->u.assign_activity(ACT_WAIT_NPC, 10000);
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 10000 );
     g->u.activity.str_values.push_back(p.name);
 }
 
@@ -3244,7 +3160,7 @@ void talk_function::construction_tips( npc &p )
 {
     g->u.cash -= 2000;
     g->u.practice( skill_id( "carpentry" ), 30 );
-    g->u.assign_activity(ACT_WAIT_NPC, 600);
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 600 );
     g->u.activity.str_values.push_back(p.name);
     p.add_effect( effect_currently_busy, 600);
 }
@@ -3253,7 +3169,7 @@ void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale(MORALE_HAIRCUT, 5, 5, 7200, 30);
     g->u.cash -= 1000;
-    g->u.assign_activity(ACT_WAIT_NPC, 300);
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300);
     g->u.activity.str_values.push_back(p.name);
     add_msg(m_good, _("%s gives you a decent haircut..."), p.name.c_str());
 }
@@ -3262,7 +3178,7 @@ void talk_function::buy_shave( npc &p )
 {
     g->u.add_morale(MORALE_SHAVE, 10, 10, 3600, 30);
     g->u.cash -= 500;
-    g->u.assign_activity(ACT_WAIT_NPC, 100);
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 100 );
     g->u.activity.str_values.push_back(p.name);
     add_msg(m_good, _("%s gives you a decent shave..."), p.name.c_str());
 }
@@ -3460,7 +3376,7 @@ void talk_function::start_training( npc &p )
     } else if( !pay_npc( p, cost ) ) {
         return;
     }
-    g->u.assign_activity( ACT_TRAIN, time * 100, p.getID(), 0, name );
+    g->u.assign_activity( activity_id( "ACT_TRAIN" ), time * 100, p.getID(), 0, name );
     p.add_effect( effect_asked_to_train, 3600 );
 }
 
@@ -3982,8 +3898,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             volume_left = temp.volume_capacity() - temp.volume_carried();
             weight_left = temp.weight_capacity() - temp.weight_carried();
             mvwprintz( w_head, 3, 2, (volume_left < 0 || weight_left < 0) ? c_red : c_green,
-                       _("Volume: %.2f liters, Weight: %.1f %s"), to_milliliter( volume_left ) / 1000.0,
-                                      convert_weight( weight_left ), weight_units() );
+                       _("Volume: %s %s, Weight: %.1f %s"),
+                       format_volume( volume_left ).c_str(), volume_units_abbr(),
+                       convert_weight( weight_left ), weight_units() );
 
             std::string cost_string = ex ? _("Exchange") : ( cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f") );
             mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_string.length() ) / 2,
@@ -4679,8 +4596,8 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
             reason << string_format( _("I have no space to store it.") );
             reason << std::endl;
             if( free_space > 0 ) {
-                reason << string_format( _("I can only store %.2f liters more."),
-                    to_milliliter( free_space ) / 1000.0 );
+                reason << string_format( _("I can only store %s %s more."),
+                    format_volume( free_space ).c_str(), volume_units_long() );
             } else {
                 reason << string_format( _("...or to store anything else for that matter.") );
             }
@@ -4699,14 +4616,13 @@ bool npc::has_item_whitelist() const
     return is_following() && !rules.pickup_whitelist->empty();
 }
 
-bool npc::item_whitelisted( const item &it )
+bool npc::item_name_whitelisted( const std::string &to_match )
 {
     if( !has_item_whitelist() ) {
         return true;
     }
 
     auto &wlist = *rules.pickup_whitelist;
-    const auto to_match = it.tname( 1, false );
     const auto rule = wlist.check_item( to_match );
     if( rule == RULE_WHITELISTED ) {
         return true;
@@ -4718,6 +4634,16 @@ bool npc::item_whitelisted( const item &it )
 
     wlist.create_rule( to_match );
     return wlist.check_item( to_match ) == RULE_WHITELISTED;
+}
+
+bool npc::item_whitelisted( const item &it )
+{
+    if( !has_item_whitelist() ) {
+        return true;
+    }
+
+    const auto to_match = it.tname( 1, false );
+    return item_name_whitelisted( to_match );
 }
 
 npc_follower_rules::npc_follower_rules()

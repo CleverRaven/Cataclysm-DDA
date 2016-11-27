@@ -252,7 +252,7 @@
   {
     "id": "sac_purse_clean_water",
     "type": "TOOL_ARMOR",
-    "category": "comestible",
+    "category": "food",
     "name": "sealed purse of clean water",
     "description": "A sealed purse of water.  activate to consume its contents.",
     "weight": 265,

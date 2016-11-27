@@ -19,7 +19,7 @@
   "components": [
     [
       [ "gunpowder", 600 ],
-      [ "chem_black_powder", 1200 ]
+      [ "chem_black_powder", 600 ]
     ]
   ]
 },{
@@ -42,7 +42,7 @@
   "components": [
     [
       [ "gunpowder", 600 ],
-      [ "chem_black_powder", 1200 ]
+      [ "chem_black_powder", 600 ]
     ],
     [
       [ "lead", 400 ],

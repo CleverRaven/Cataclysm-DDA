@@ -54,10 +54,10 @@ Press q or ESC to return to the game." ) ) + 1;
     headers.push_back( _( "i: Bionics" ) );
     headers.push_back( _( "j: Crafting" ) );
     headers.push_back( _( "k: Traps" ) );
-    headers.push_back( _( "l: Items overview" ) );
+    headers.push_back( _( "l: Items Overview" ) );
     headers.push_back( _( "m: Combat" ) );
     headers.push_back( _( "n: Unarmed Styles" ) );
-    headers.push_back( _( "o: Survival tips" ) );
+    headers.push_back( _( "o: Survival Tips" ) );
     headers.push_back( _( "p: Driving" ) );
 
     size_t half_size = headers.size() / 2;
@@ -229,16 +229,28 @@ std::vector<std::string> text_hunger()
 {
     std::vector<std::string> text;
 
-    text.push_back( string_format( _( "\
+    text.push_back( _( "\
 As time passes, you will begin to feel hunger and thirst. When this happens, a status warning at the sidebar \
 will appear. As hunger and thirst reach critical levels, you will begin to suffer movement \
-penalties. Thirst is more dangerous than hunger. Finding food in a city is usually easy; outside \
-of a city, you may have to hunt. After killing an animal, stand over the animal's corpse and butcher it into \
-small chunks of meat by pressing %s. You might also be able to forage for edible fruit or vegetables; \
-to do it, find a promising plant and examine it. Likewise, you may have to drink water from a river or \
-another natural source. To collect it, stand in shallow water and press %s. You'll need a watertight \
-container to store it. Be forewarned that some sources of water aren't trustworthy and may produce \
-diseased water. To make sure it's healthy, purify the water by boiling it or using water purifier before drinking." ),
+penalties." ) );
+
+    text.push_back( _( "\
+Thirst is more dangerous than hunger but you can develop various vitamin deficiencies \
+if you eat poorly. These deficiencies come in stages, so for example you won't go from perfectly good \
+health into a full-blown scurvy in an instant. Any developing and on-going deficiencies will be reported \
+in the character sheet. Deficiencies will inflict various penalties, but luckily they are always \
+reversible, and multivitamin pills can help you to correct any deficiencies. You can also ingest too much \
+vitamins, and that too can create problems. Be sure to have a balanced diet, or at least not a completely \
+atrocious one. You can and should examine food items to view their nutritional facts." ) );
+
+    text.push_back( string_format( _( "\
+Finding food in a city is usually easy; outside of a city, you may have to hunt. After killing \
+an animal, stand over the animal's corpse and butcher it into small chunks of meat by pressing %s. You \
+might also be able to forage for edible fruit or vegetables; to do it, find a promising plant and \
+examine it. Likewise, you may have to drink water from a river or another natural source. To collect it, \
+stand in shallow water and press %s. You'll need a watertight container to store it. Be forewarned \
+that some sources of water aren't trustworthy and may produce diseased water. To make sure it's healthy, \
+purify the water by boiling it or using water purifier before drinking." ),
                                    press_x( ACTION_BUTCHER, "", "" ).c_str(),
                                    press_x( ACTION_PICKUP, "", "" ).c_str() ) );
 
@@ -549,10 +561,9 @@ you make." ) );
 To attack a monster with a melee weapon, simply move into them. The time it takes to attack \
 depends on the size and weight of your weapon. Small, light weapons are the fastest; unarmed \
 attacks increase in speed with your Unarmed Combat skill, and will eventually be VERY fast. \
-A successful hit with a bashing weapon may stun the monster temporarily, while cutting weapons \
-may get stuck, possibly pulling the weapon from your hands-- but a monster with a weapon stuck \
-in it will move much more slowly. A miss may make you stumble and lose movement points. If a \
-monster hits you, your clothing may absorb some damage, but you will absorb the excess." ) );
+A successful hit with a bashing weapon may stun the monster temporarily. A miss may make you \
+stumble and lose movement points. If a monster hits you, your clothing may absorb some damage, \
+but you will absorb the excess." ) );
 
     text.push_back( string_format( _( "\
 Swarms of monsters may call for firearms. If you find one, wield it first, then reload by \

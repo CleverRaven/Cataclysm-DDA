@@ -2043,7 +2043,7 @@
                        [ { "id": "PRY", "level": 2 } ]
                        ],
         "tools" : [
-            [ [ "jackhammer", 30 ], [ "jacqueshammer", 30 ], [ "elec_jackhammer", 30 ] ]
+            [ [ "jackhammer", 30 ], [ "elec_jackhammer", 30 ] ]
         ],
         "components" : [
             [ [ "2x4", 12 ] , [ "log", 12 ] ],
@@ -2064,7 +2064,7 @@
                        [ { "id": "PRY", "level": 2 } ]
                        ],
         "tools" : [
-            [ [ "jackhammer", 30 ], [ "jacqueshammer", 30 ], [ "elec_jackhammer", 30 ] ],
+            [ [ "jackhammer", 30 ], [ "elec_jackhammer", 30 ] ],
             [ "miner_hat", "hat_hard", "firehelmet", "helmet_ball",
             "helmet_army", "helmet_lobster", "helmet_riot", "tac_helmet",
             "helmet_hsurvivor", "helmet_survivor", "helmet_xlsurvivor", "miner_hat_on"]

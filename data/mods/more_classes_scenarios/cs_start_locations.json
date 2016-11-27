@@ -10,5 +10,17 @@
     "ident" : "fema_s",
     "name" : "Fema Camp",
     "target" : "fema"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_s",
+    "name" : "Mansion",
+    "target" : "mansion"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "mansion_entrance_s",
+    "name" : "Mansion Entrance",
+    "target" : "mansion_entrance"
   }
 ]

@@ -2,7 +2,7 @@
     {
     "type" : "MONSTER",
     "id" : "mon_tankbot",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_tankbot",
     "death_drops": "mon_tankbot_drops"
     }
 ]

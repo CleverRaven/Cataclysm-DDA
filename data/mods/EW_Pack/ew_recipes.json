@@ -39,7 +39,7 @@
          [ "solder_wire", 150 ]
        ],
        [
-         [ "cu_pipe", 3]
+         [ "copper", 75 ]
        ]
      ]
 },{

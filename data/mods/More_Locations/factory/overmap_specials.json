@@ -30,14 +30,16 @@
 
             { "point":[0,4,0], "overmap": "factory_blc_north"},
             { "point":[1,4,0], "overmap": "factory_be_north"},
-            { "point":[2,4,0], "overmap": "factory_be_gate_north", "connect":"road"},
+            { "point":[2,4,0], "overmap": "factory_be_gate_north"},
             { "point":[3,4,0], "overmap": "factory_be_north"},
             { "point":[4,4,0], "overmap": "factory_brc_north"}
+        ],
+        "connections" : [
+            { "point" : [2,5,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [20, -1],
         "city_sizes" : [1, 12],
-        "occurrences" : [1, 1],
-        "rotate" : true
+        "occurrences" : [1, 1]
    }
 ]

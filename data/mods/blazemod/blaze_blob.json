@@ -289,40 +289,6 @@
     }
   },
   {
-    "id": "gasoline",
-    "type": "AMMO",
-    "category": "fuel",
-    "name": "gasoline",
-    "name_plural": "gasoline",
-    "description": "Gasoline is a highly flammable liquid.  When under pressure, it has the potential for violent explosion.",
-    "weight": 1,
-    "volume": 1,
-    "price": 40,
-    "price_postapoc": 800,
-    "phase": "liquid",
-    "container": "jerrycan",
-    "material": "hydrocarbons",
-    "symbol": "=",
-    "color": "light_red",
-    "count": 250,
-    "stack_size": 250,
-    "ammo_type": "gasoline",
-    "range": 4,
-    "damage": 5,
-    "pierce": 5,
-    "effects": [ "FLAME", "INCENDIARY", "NEVER_MISFIRES" ],
-    "explosion": {
-      "power": 10,
-      "distance_factor": 0.01,
-      "shrapnel": {
-        "count": 25,
-        "mass": 1,
-        "drop": "gasoline",
-        "recovery": 100
-      }
-    }
-  },
-  {
     "id": "gloople",
     "type": "TOOL",
     "category": "tools",
@@ -670,15 +636,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "clip_size": 20,
-    "ammo_effects": [
-      "JET",
-      "BEANBAG",
-      "BLINDS_EYES",
-      "RECOVER_100",
-      "WIDE",
-      "NO_BOOM",
-      "CUSTOM_EXPLOSION"
-    ],
+    "ammo_effects": [ "JET", "BEANBAG", "BLINDS_EYES", "RECOVER_100", "WIDE", "NO_BOOM", "CUSTOM_EXPLOSION" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "FIRE_20" ]
   },
   {
@@ -723,11 +681,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "clip_size": 20,
-    "ammo_effects": [
-      "JET",
-      "ACID_BOMB",
-      "WIDE"
-    ],
+    "ammo_effects": [ "JET", "ACID_BOMB", "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "FIRE_20" ]
   },
   {
@@ -882,13 +836,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "clip_size": 100,
-    "ammo_effects": [
-      "WIDE",
-      "ACT_ON_RANGED_HIT",
-      "RECOVER_100",
-      "NO_EMBED",
-      "CUSTOM_EXPLOSION"
-    ],
+    "ammo_effects": [ "WIDE", "ACT_ON_RANGED_HIT", "RECOVER_100", "NO_EMBED", "CUSTOM_EXPLOSION" ],
     "qualities": [ [ "JACK", 12 ] ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "FIRE_100" ]
   },
@@ -935,10 +883,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "clip_size": 50,
-    "ammo_effects": [
-      "FRAG",
-      "WIDE"
-    ],
+    "ammo_effects": [ "FRAG", "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "FIRE_20" ]
   },
   {
@@ -1039,10 +984,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "clip_size": 20,
-    "ammo_effects": [
-      "BOUNCE",
-      "WIDE"
-    ],
+    "ammo_effects": [ "BOUNCE", "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM" ]
   },
   {
@@ -1085,11 +1027,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "ups_charges": 19,
-    "ammo_effects": [
-      "LIGHTNING",
-      "BEANBAG",
-      "WIDE"
-    ],
+    "ammo_effects": [ "LIGHTNING", "BEANBAG", "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM" ]
   },
   {
@@ -1134,11 +1072,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "clip_size": 20,
-    "ammo_effects": [
-      "JET",
-      "BEANBAG",
-      "WIDE"
-    ],
+    "ammo_effects": [ "JET", "BEANBAG", "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "FIRE_20" ]
   },
   {
@@ -1185,13 +1119,7 @@
     "durability": 10,
     "burst": 3,
     "clip_size": 20,
-    "ammo_effects": [
-      "INCENDIARY",
-      "FLARE",
-      "WIDE",
-      "NO_BOOM",
-      "STREAM"
-    ],
+    "ammo_effects": [ "INCENDIARY", "FLARE", "WIDE", "NO_BOOM", "STREAM" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "FIRE_20" ]
   },
   {
@@ -1234,11 +1162,7 @@
     "sight_dispersion": 150,
     "durability": 10,
     "ups_charges": 199,
-    "ammo_effects": [
-      "LIGHTNING",
-      "EXPLOSIVE",
-      "WIDE"
-    ],
+    "ammo_effects": [ "LIGHTNING", "EXPLOSIVE", "WIDE" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
@@ -1266,6 +1190,7 @@
   {
     "id": "water",
     "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
     "category": "food",
     "name": "water",
     "name_plural": "water",
@@ -1277,7 +1202,6 @@
     "container": "bottle_plastic",
     "symbol": "~",
     "color": "light_cyan",
-    "comestible_type": "DRINK",
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "explosion": {

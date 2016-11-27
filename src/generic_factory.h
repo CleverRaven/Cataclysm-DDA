@@ -3,6 +3,7 @@
 
 #include "string_id.h"
 #include "int_id.h"
+#include "init.h"
 
 #include <string>
 #include <unordered_map>
@@ -10,15 +11,16 @@
 #include <map>
 #include <set>
 #include <string>
-#include <cassert>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 
 #include "debug.h"
 #include "json.h"
 #include "color.h"
 #include "translations.h"
 #include "units.h"
+#include "assign.h"
 
 /**
 A generic class to store objects identified by a `string_id`.
@@ -115,40 +117,17 @@ class string_id_reader;
 template<typename T>
 class generic_factory
 {
+    private:
+        DynamicDataLoader::deferred_json deferred;
+
     protected:
         std::vector<T> list;
         std::unordered_map<string_id<T>, int_id<T>> map;
+        std::unordered_map<std::string, T> abstracts;
 
         std::string type_name;
         std::string id_member_name;
         std::string alias_member_name;
-
-        T &load_override( const string_id<T> &id, JsonObject &jo ) {
-            T obj;
-
-            obj.id = id;
-            obj.load( jo );
-            obj.was_loaded = true;
-
-            T &inserted_obj = insert( obj );
-
-            if( !alias_member_name.empty() && jo.has_member( alias_member_name ) ) {
-                const int_id<T> i_id = map[id];
-                std::vector<string_id<T>> aliases;
-
-                mandatory( jo, obj.was_loaded, alias_member_name, aliases, string_id_reader<T> {} );
-
-                for( const auto &alias : aliases ) {
-                    if( map.count( alias ) > 0 ) {
-                        jo.throw_error( "duplicate " + type_name + " alias \"" + alias.str() + "\" in \"" + id.str() +
-                                        "\"" );
-                    }
-                    map[alias] = i_id;
-                }
-            }
-
-            return inserted_obj;
-        }
 
         bool find_id( const string_id<T> &id, int_id<T> &result ) const {
             result = id.get_cid();
@@ -203,38 +182,56 @@ class generic_factory
          * calling `T::load(jo)` (either on a new object or on an existing object).
          * See class documentation for intended behavior of that function.
          *
-         * @return A reference to the loaded/modified object.
          * @throws JsonError If loading fails for any reason (thrown by `T::load`).
          */
-        T &load( JsonObject &jo ) {
-            const string_id<T> id( jo.get_string( id_member_name ) );
-            const auto iter = map.find( id );
-            const bool exists = iter != map.end();
+        void load( JsonObject &jo, const std::string &src ) {
+            bool strict = src == "core";
 
-            // "create" is the default, so the game catches accidental re-definitions of
-            // existing objects.
-            const std::string mode = jo.get_string( "edit-mode", "create" );
-            if( mode == "override" ) {
-                remove_aliases( id );
-                return load_override( id, jo );
+            T def;
 
-            } else if( mode == "modify" ) {
-                if( !exists ) {
-                    jo.throw_error( "missing definition of " + type_name + " \"" + id.str() + "\" to be modified",
-                                    id_member_name );
+            if( jo.has_string( "copy-from" ) ) {
+                if( jo.has_string( "edit-mode" ) ) {
+                    jo.throw_error( "cannot specify both copy-from and edit-mode" );
                 }
-                T &obj = list[iter->second];
-                obj.load( jo );
-                return obj;
-            } else if( mode == "create" ) {
-                if( exists ) {
-                    jo.throw_error( "duplicated definition of " + type_name + " \"" + id.str() + "\"", id_member_name );
+
+                auto base = map.find( string_id<T>( jo.get_string( "copy-from" ) ) );
+                auto ab = abstracts.find( jo.get_string( "copy-from" ) );
+
+                if( base != map.end() ) {
+                    def = obj( base->second );
+
+                } else if( ab != abstracts.end() ) {
+                    def = ab->second;
+
+                } else {
+                    deferred.emplace_back( jo.str(), src );
+                    return;
                 }
-                return load_override( id, jo );
+
+                def.was_loaded = true;
+            }
+
+            if( jo.has_string( id_member_name ) ) {
+                def.id = string_id<T>( jo.get_string( id_member_name ) );
+                def.load( jo, src );
+                insert( def );
+
+                if( !alias_member_name.empty() && jo.has_member( alias_member_name ) ) {
+                    std::set<string_id<T>> aliases;
+                    assign( jo, alias_member_name, aliases, strict );
+
+                    const int_id<T> ref = map[def.id];
+                    for( const auto &e : aliases ) {
+                        map[e] = ref;
+                    }
+                }
+
+            } else if( jo.has_string( "abstract" ) ) {
+                def.load( jo, src );
+                abstracts[jo.get_string( "abstract" )] = def;
 
             } else {
-                jo.throw_error( "invalid edit mode, must be \"create\", \"modify\" or \"override\"", "edit-mode" );
-                throw; // dummy, throw_error always throws
+                jo.throw_error( "must specify either id or abstract" );
             }
         }
         /**
@@ -259,6 +256,15 @@ class generic_factory
             map[result.id] = cid;
             return result;
         }
+
+        /** Finalize all entries (derived classes should chain to this method) */
+        virtual void finalize() {
+            if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
+                debugmsg( "JSON contains circular dependency: discarded %i entries", deferred.size() );
+            }
+            abstracts.clear();
+        }
+
         /**
          * Checks loaded/inserted objects for consistency
          */
@@ -626,13 +632,13 @@ struct handler<std::vector<T>> {
  *   and assigned, overriding any existing content of it.
  * - If the object is not new and the member exists, it is read and assigned as well.
  * - If the object is not new and the member does not exists, two further members are examined:
- *   entries from `"add:" + member_name` are added to the set and entries from `"remove:" + member_name`
+ *   entries from `"extend"` are added to the set and entries from `"delete"`
  *   are removed. This only works if the member is actually a container, not just a single value.
  *
  * Example:
  * The JSON `{ "f": ["a","b","c"] }` would be loaded as the set `{"a","b","c"}`.
- * Loading the set again from the JSON `{ "remove:f": ["c","x"], "add:f": ["h"] }` would add the
- * "h" flag and removes the "c" and the "x" flag, resulting in `{"a","b","h"}`.
+ * Loading the set again from the JSON `{ "delete": { "f": ["c","x"] }, "extend": { "f": ["h"] } }`
+ * would add the "h" flag and removes the "c" and the "x" flag, resulting in `{"a","b","h"}`.
  *
  * @tparam Derived The class that inherits from this. It must implement the following:
  *   - `Foo get_next( JsonIn & ) const`: reads the next value from JSON, converts it into some
@@ -717,8 +723,14 @@ class generic_typed_reader
             } else if( !was_loaded ) {
                 return false;
             } else {
-                derived.erase_values_from( jo, "remove:" + member_name, container );
-                derived.insert_values_from( jo, "add:" + member_name, container );
+                if( jo.has_object( "extend" ) ) {
+                    auto tmp = jo.get_object( "extend" );
+                    derived.insert_values_from( tmp, member_name, container );
+                }
+                if( jo.has_object( "delete" ) ) {
+                    auto tmp = jo.get_object( "delete" );
+                    derived.erase_values_from( tmp, member_name, container );
+                }
                 return true;
             }
         }
@@ -843,194 +855,6 @@ class string_id_reader : public generic_typed_reader<string_id_reader<T>>
             return string_id<T>( jin.get_string() );
         }
 };
-
-inline void report_strict_violation( JsonObject &jo, const std::string &message,
-                                     const std::string &name )
-{
-    try {
-        // Let the json class do the formatting, it includes the context of the JSON data.
-        jo.throw_error( message, name );
-    } catch( const JsonError &err ) {
-        // And catch the exception so the loading continues like normal.
-        debugmsg( "%s", err.what() );
-    }
-}
-
-template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, T &val, bool strict = false,
-    T lo = std::numeric_limits<T>::min(),
-    T hi = std::numeric_limits<T>::max() )
-{
-    T out;
-    double scalar;
-
-    // dont require strict parsing for relative and proportional values as rules
-    // such as +10% are well-formed independent of whether they affect base value
-    if( jo.get_object( "relative" ).read( name, out ) ) {
-        strict = false;
-        out += val;
-
-    } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
-        if( scalar <= 0 || scalar == 1 ) {
-            jo.throw_error( "invalid proportional scalar", name );
-        }
-        strict = false;
-        out = val * scalar;
-
-    } else if( !jo.read( name, out ) ) {
-
-        return false;
-    }
-
-    if( out < lo || out > hi ) {
-        jo.throw_error( "value outside supported range", name );
-    }
-
-    if( strict && out == val ) {
-        report_strict_violation( jo, "assignment does not update value", name );
-    }
-
-    val = out;
-
-    return true;
-}
-
-template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, std::pair<T, T> &val, bool strict = false,
-    T lo = std::numeric_limits<T>::min(),
-    T hi = std::numeric_limits<T>::max() )
-{
-    std::pair<T, T> out;
-
-    if( jo.has_array( name ) ) {
-        auto arr = jo.get_array( name );
-        arr.read( 0, out.first );
-        arr.read( 1, out.second );
-
-    } else if( jo.read( name, out.first ) ) {
-        out.second = out.first;
-
-    } else {
-        return false;
-    }
-
-    if( out.first > out.second ) {
-        std::swap( out.first, out.second );
-    }
-
-    if( out.first < lo || out.second > hi ) {
-        jo.throw_error( "value outside supported range", name );
-    }
-
-    if( strict && out == val ) {
-        report_strict_violation( jo, "assignment does not update value", name );
-    }
-
-    val = out;
-
-    return true;
-}
-
-template <typename T>
-typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, T &val, bool strict = false )
-{
-    T out;
-    if( !jo.read( name, out ) ) {
-        return false;
-    }
-
-    if( strict && out == val ) {
-        report_strict_violation( jo, "assignment does not update value", name );
-    }
-
-    val = out;
-
-    return true;
-}
-
-template <typename T>
-typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
-{
-    auto add = jo.get_object( "extend" );
-    auto del = jo.get_object( "delete" );
-
-    if( jo.has_string( name ) || jo.has_array( name ) ) {
-        val = jo.get_tags<T>( name );
-
-        if( add.has_member( name ) || del.has_member( name ) ) {
-            // ill-formed to (re)define a value and then extend/delete within same definition
-            jo.throw_error( "multiple assignment of value", name );
-        }
-        return true;
-    }
-
-    bool res = false;
-
-    if( add.has_string( name ) || add.has_array( name ) ) {
-        auto tags = add.get_tags<T>( name );
-        val.insert( tags.begin(), tags.end() );
-        res = true;
-    }
-
-    if( del.has_string( name ) || del.has_array( name ) ) {
-        for( const auto &e : del.get_tags<T>( name ) ) {
-            val.erase( e );
-        }
-        res = true;
-    }
-
-    return res;
-}
-
-inline bool assign( JsonObject &jo, const std::string &name, units::volume &val,
-                    bool strict = false,
-                    const units::volume lo = units::volume( std::numeric_limits<units::volume::value_type>::min(),
-                            units::volume::unit_type{} ),
-                    const units::volume hi = units::volume( std::numeric_limits<units::volume::value_type>::max(),
-                            units::volume::unit_type{} ) )
-{
-    // Currently JSON data contains volume in 250ml units.
-    // TODO: change JSON to contain milliliter values.
-    units::volume::value_type tmp;
-    units::volume out;
-    double scalar;
-
-    // dont require strict parsing for relative and proportional values as rules
-    // such as +10% are well-formed independent of whether they affect base value
-    if( jo.get_object( "relative" ).read( name, tmp ) ) {
-        strict = false;
-        out = val + tmp * units::legacy_volume_factor;
-
-    } else if( jo.get_object( "proportional" ).read( name, scalar ) ) {
-        if( scalar <= 0 || scalar == 1 ) {
-            jo.throw_error( "invalid proportional scalar", name );
-        }
-        strict = false;
-        out = val * scalar;
-
-    } else if( jo.read( name, tmp ) ) {
-        out = tmp * units::legacy_volume_factor;
-
-    } else {
-        return false;
-    }
-
-    if( out < lo || out > hi ) {
-        jo.throw_error( "value outside supported range", name );
-    }
-
-    if( strict && out == val ) {
-        report_strict_violation( jo, "assignment does not update value", name );
-    }
-
-    val = out;
-
-    return true;
-}
 
 /**
  * Reads a volume value from legacy format: JSON contains a integer which represents multiples

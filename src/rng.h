@@ -26,6 +26,8 @@ inline double rng_normal( double hi )
     return rng_normal( 0.0, hi );
 }
 
+double normal_roll( double mean, double stddev );
+
 /**
  * Returns a random entry in the container.
  * The container must have a `size()` function and must support iterators as usual.
@@ -90,5 +92,10 @@ inline V random_entry_removed( C &container )
     container.erase( iter );
     return result;
 }
+
+/**
+ * Returns z such that std::erf( z ) == x
+ */
+double erfinv( double x );
 
 #endif

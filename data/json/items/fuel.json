@@ -50,6 +50,7 @@
     "damage": 5,
     "range": 4,
     "pierce": 5,
+    "energy": 75,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
@@ -70,10 +71,11 @@
     "material": "hydrocarbons",
     "symbol": "=",
     "color": "light_red",
-    "ammo_type": "gasoline",
+    "ammo_type": [ "gasoline", "flammable" ],
     "damage": 5,
     "range": 4,
     "pierce": 5,
+    "energy": 50,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
@@ -117,7 +119,7 @@
     "material": "hydrocarbons",
     "symbol": "=",
     "color": "light_red",
-    "ammo_type": "gasoline",
+    "ammo_type": "flammable",
     "damage": 15,
     "range": 5,
     "pierce": 30,

@@ -56,6 +56,7 @@
     "type": "item_group",
     "//": "Spare parts for crafting or mending vehicle parts",
     "items": [
+      [ "bb", 40 ],
       [ "drivebelt", 200 ],
       [ "filter_air", 60 ],
       [ "filter_liquid", 60 ],

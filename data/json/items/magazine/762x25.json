@@ -36,8 +36,8 @@
   {
     "id": "tokarevmag",
     "type": "MAGAZINE",
-    "name": "Tokarev TT-30 magazine",
-    "description": "Standard 8-round magazine for Tokarev TT-30.",
+    "name": "Tokarev TT-33 magazine",
+    "description": "Standard 8-round magazine for Tokarev TT-33.",
     "weight": 56,
     "volume": 1,
     "price": 1300,

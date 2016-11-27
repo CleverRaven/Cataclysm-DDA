@@ -33,12 +33,11 @@
     "name": "electric lantern (on)",
     "name_plural": "electric lanterns (on)",
     "turns_per_charge": 45,
-    "ammo": "battery",
     "revert_to": "electric_lantern",
     "use_action": {
         "type": "transform",
         "target": "electric_lantern",
-        "msg": "The lantern is extinguished."
+        "msg": "You turn the lamp off."
     },
     "flags": [ "LIGHT_15", "TRADER_AVOID" ]
   },
@@ -193,7 +192,7 @@
     "revert_to": "oxylamp",
     "use_action": {
         "type": "transform",
-        "menu_option_text": "Turn off",
+        "menu_text": "Turn off",
         "msg": "The %s is extinguished",
         "target": "oxylamp"
     },

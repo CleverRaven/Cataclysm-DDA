@@ -22,10 +22,7 @@
     "ups_charges": 70,
     "reload": 0,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "ammo_effects": [
-      "DRAW_LASER_BEAM",
-      "EMP"
-    ],
+    "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
   {
@@ -49,10 +46,7 @@
     "durability": 7,
     "ups_charges": 25,
     "reload": 200,
-    "ammo_effects": [
-      "LASER",
-      "INCENDIARY"
-    ],
+    "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD" ]
   },
   {
@@ -78,10 +72,7 @@
     "ups_charges": 40,
     "reload": 0,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "ammo_effects": [
-      "LASER",
-      "INCENDIARY"
-    ],
+    "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
   {
@@ -105,12 +96,7 @@
     "ups_charges": 40,
     "reload": 600,
     "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
-    "ammo_effects": [
-      "PLASMA",
-      "EXPLOSIVE",
-      "FLAME",
-      "NEVER_JAMS"
-    ],
+    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NEVER_JAMS" ],
     "flags": [ "NO_UNLOAD" ]
   },
   {
@@ -135,10 +121,7 @@
     "ups_charges": 20,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "ammo_effects": [
-      "LASER",
-      "INCENDIARY"
-    ],
+    "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
   {
@@ -163,10 +146,7 @@
     "ups_charges": 20,
     "reload": 300,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
-    "ammo_effects": [
-      "LASER",
-      "INCENDIARY"
-    ],
+    "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD" ]
   }
 ]

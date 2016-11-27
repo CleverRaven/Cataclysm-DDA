@@ -646,7 +646,7 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
 }
 
 const std::string input_context::get_desc( const std::string &action_descriptor,
-        const unsigned int max_limit )
+        const unsigned int max_limit ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         return "(*)"; // * for wildcard

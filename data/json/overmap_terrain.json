@@ -110,14 +110,6 @@
         ]
     },{
         "type" : "overmap_terrain",
-        "id" : "road_null",
-        "name" : "bug-ridden road",
-        "sym" : 37,
-        "color" : "magenta",
-        "see_cost" : 0,
-        "allow_road" : true
-    },{
-        "type" : "overmap_terrain",
         "id" : "road",
         "name" : "road",
         "line_drawing" : true,
@@ -701,7 +693,7 @@
         "name" : "bookstore",
         "rotate" : true,
         "sym" : [94, 62, 118, 60],
-        "color" : "ltgray_yellow",
+        "color" : "black_yellow",
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
@@ -1547,20 +1539,6 @@
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
-        "id" : "nuke_plant_entrance",
-        "name" : "nuclear plant",
-        "sym" : 80,
-        "color" : "light_green",
-        "see_cost" : 5
-    },{
-        "type" : "overmap_terrain",
-        "id" : "nuke_plant",
-        "name" : "nuclear plant",
-        "sym" : 80,
-        "color" : "light_green",
-        "see_cost" : 5
-    },{
-        "type" : "overmap_terrain",
         "id" : "bunker",
         "name" : "military bunker",
         "sym" : 66,
@@ -1606,13 +1584,6 @@
         "color" : "pink",
         "see_cost" : 5,
         "known_down" : true
-    },{
-        "type" : "overmap_terrain",
-        "id" : "temple_core",
-        "name" : "strange temple",
-        "sym" : 84,
-        "color" : "pink",
-        "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "temple_finale",
@@ -1859,9 +1830,6 @@
         "mondensity" : 2,
         "mapgen": [
             { "method": "builtin", "name": "basement_junk" },
-            { "method": "builtin", "name": "basement_chemlab" },
-            { "method": "builtin", "name": "basement_game" },
-            { "method": "builtin", "name": "basement_weed" },
             { "method": "builtin", "name": "basement_spiders" }
         ]
     },{
@@ -5779,7 +5747,7 @@
         "name" : "road",
         "sym" : [4194412, 4194411, 4194410, 4194413],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5789,7 +5757,7 @@
         "name" : "road",
         "sym" : [4194417, 4194424, 4194417, 4194424],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5799,7 +5767,7 @@
         "name" : "road",
         "sym" : [4194417, 4194424, 4194417, 4194424],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5809,7 +5777,7 @@
         "name" : "road",
         "sym" : [4194417, 4194424, 4194417, 4194424],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5819,7 +5787,7 @@
         "name" : "road",
         "sym" : [ 4194411, 4194410, 4194413, 4194412],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5829,7 +5797,7 @@
         "name" : "road",
         "sym" : [4194424, 4194417, 4194424, 4194417],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5839,7 +5807,7 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5849,7 +5817,7 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5859,7 +5827,7 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5869,7 +5837,7 @@
         "name" : "road",
         "sym" : [4194424, 4194417, 4194424, 4194417],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5879,7 +5847,7 @@
         "name" : "road",
         "sym" : [4194424, 4194417, 4194424, 4194417],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5889,7 +5857,7 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5899,7 +5867,7 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5909,7 +5877,7 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5929,7 +5897,7 @@
         "name" : "road",
         "sym" : [4194424, 4194417, 4194424, 4194417],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5939,7 +5907,7 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5949,7 +5917,7 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5959,7 +5927,7 @@
         "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5969,7 +5937,7 @@
         "name" : "road",
         "sym" : [4194424, 4194417, 4194424, 4194417],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5979,7 +5947,7 @@
         "name" : "road",
         "sym" : [ 4194413, 4194412, 4194411, 4194410],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5989,7 +5957,7 @@
         "name" : "road",
         "sym" : [4194417, 4194424, 4194417, 4194424],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -5999,7 +5967,7 @@
         "name" : "road",
         "sym" : [4194423, 4194421, 4194422, 4194420],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -6009,7 +5977,7 @@
         "name" : "road",
         "sym" : [4194417, 4194424, 4194417, 4194424],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2
@@ -6020,7 +5988,7 @@
         "rotate" : true,
         "sym" : [ 4194410, 4194413, 4194412, 4194411],
         "color" : "dark_gray",
-        "extras" : "build",
+        "extras" : "none",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -7126,7 +7094,24 @@
         "see_cost" : 5,
         "extras" : "none",
         "mondensity" : 2
-    },{
+  },{
+    "type" : "overmap_terrain",
+    "id" : "pond_swamp",
+    "name" : "bog",
+    "sym" : 70,
+    "color" : "blue",
+    "see_cost" : 5,
+    "extras" : "none",
+    "mondensity" : 2
+  },{
+    "type" : "overmap_terrain",
+    "id" : "hunter_shack",
+    "name" : "swamp shack",
+    "sym" : 70,
+    "color" : "cyan",
+    "see_cost" : 5,
+    "extras" : "field"
+  },{
         "type" : "overmap_terrain",
         "id" : "orchard_tree_apple",
         "name" : "apple orchard",

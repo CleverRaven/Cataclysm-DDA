@@ -10,9 +10,9 @@
   "time": 95000,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mininuke_launch", 5]],
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"SCREW","level":1},
+    {"id":"WRENCH","level":1}
   ], "tools": [
     [
       [ "boltcutters", -1 ],
@@ -44,9 +44,9 @@
   "time": 95000,
   "book_learn": [[ "recipe_lab_elec", 10 ]],
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"SCREW","level":1},
+    {"id":"HAMMER","level":2}
   ],
   "components": [
     [
@@ -68,9 +68,9 @@
   "time": 95000,
   "book_learn": [[ "recipe_lab_elec", 10 ]],
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"SCREW","level":1},
+    {"id":"HAMMER","level":2}
   ],
   "components": [
     [
@@ -91,7 +91,7 @@
   "autolearn": true,
   "flags": ["BLIND_EASY"],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "rock", 1 ],
@@ -172,7 +172,7 @@
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ], ["textbook_survival", 1], ["survival_book", 1]],
   "qualities":[
-    {"id":"COOK","level":2,"amount":1}
+    {"id":"COOK","level":2}
   ],
   "tools" : [
     [
@@ -200,8 +200,8 @@
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ] , [ "book_archery", 3]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components" : [
     [
@@ -230,6 +230,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -250,7 +251,7 @@
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ] , [ "pocket_survival", 1], [ "book_archery", 2]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components" : [
     [
@@ -279,6 +280,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -299,7 +301,7 @@
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 2 ] , [ "book_archery", 2]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools" : [
     [
@@ -323,6 +325,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -343,7 +346,7 @@
   "reversible" : true,
   "book_learn" : [[ "recipe_arrows", 5 ]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components" : [
     [
@@ -378,8 +381,8 @@
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"CUT","level":1}
   ],
   "components" : [
     [
@@ -402,6 +405,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -422,9 +426,9 @@
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"CUT","level":1},
+    {"id":"SAW_M","level":1}
   ], "components" : [
     [
       [ "superglue", 1 ],
@@ -440,6 +444,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -459,7 +464,7 @@
   "time" : 20000,
   "autolearn" : true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ], "tools" : [
     [
       [ "fire", -1 ]
@@ -481,6 +486,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -501,8 +507,8 @@
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 2 ] , [ "pocket_survival", 2]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components" : [
     [
@@ -531,6 +537,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -551,8 +558,8 @@
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities" : [
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"CUT","level":1}
   ],
   "components" : [
     [
@@ -575,6 +582,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -595,9 +603,9 @@
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 4 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
   ], "components" : [
     [
       [ "superglue", 1 ],
@@ -613,6 +621,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -635,8 +644,8 @@
   "note": "you just take the warhead off or put it on, rather than making the warhead",
   "book_learn" : [[ "recipe_arrows", 6 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"SCREW","level":1}
   ], "components" : [
     [
       [ "exploding_arrow_warhead", 5 ]
@@ -662,8 +671,8 @@
   "time" : 5000,
   "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW","level":1}
   ], "tools" : [
     [
       [ "soldering_iron", 10 ],
@@ -689,7 +698,7 @@
     ],
     [
       [ "gunpowder", 60 ],
-      [ "chem_black_powder", 120 ]
+      [ "chem_black_powder", 60 ]
     ]
   ]
 },{
@@ -703,7 +712,7 @@
   "time": 5000,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -725,8 +734,8 @@
   "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 2 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
   ], "components": [
       [
         ["scrap", 6],
@@ -745,7 +754,7 @@
   "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 2 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ],
      "tools": [
     [
@@ -773,7 +782,7 @@
   "time": 10000,
   "book_learn" : [[ "recipe_arrows", 7 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1}
   ], "components": [
     [
         ["bolt_metal", 1],
@@ -791,7 +800,7 @@
     ],
     [
       [ "gunpowder", 20 ],
-      [ "chem_black_powder", 40 ]
+      [ "chem_black_powder", 20 ]
     ]
   ]
 },{
@@ -803,8 +812,8 @@
   "time": 5000,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "stick", 1 ],
@@ -825,8 +834,8 @@
   "time": 10000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
   ], "components": [
       [
         ["steel_chunk", 3],
@@ -939,7 +948,7 @@
       [ "smpistol_primer", 50 ]
     ],
     [
-      [ "gunpowder", 250 ]
+      [ "gunpowder", 250 ], [ "chem_black_powder", 250 ]
     ],
     [
       [ "lead", 250 ],
@@ -1223,7 +1232,7 @@
       [ "solder_wire", 400 ]
     ],
     [
-      [ "cu_pipe", 3]
+      [ "copper", 200 ]
     ]
   ]
 },{
@@ -1265,7 +1274,7 @@
       [ "solder_wire", 400 ]
     ],
     [
-      [ "cu_pipe", 2 ]
+      [ "copper", 200 ]
     ]
   ]
 },{
@@ -1307,7 +1316,7 @@
       [ "solder_wire", 675 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 340 ]
     ]
   ]
 },{
@@ -1427,7 +1436,7 @@
       [ "solder_wire", 400 ]
     ],
     [
-      [ "cu_pipe", 4 ]
+      [ "copper", 200 ]
     ]
   ]
 },{
@@ -1469,7 +1478,7 @@
       [ "solder_wire", 400 ]
     ],
     [
-      [ "cu_pipe", 4 ]
+      [ "copper", 200 ]
     ]
   ]
 },{
@@ -1512,7 +1521,7 @@
       [ "solder_wire", 60]
     ],
     [
-      [ "cu_pipe", 3]
+      [ "copper", 30 ]
     ]
   ]
 },{
@@ -1555,7 +1564,7 @@
       [ "solder_wire", 90]
     ],
     [
-      [ "cu_pipe", 3]
+      [ "copper", 45 ]
     ]
   ]
 },{
@@ -1569,9 +1578,9 @@
   "time": 20000,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [
@@ -1595,9 +1604,9 @@
   "time": 20000,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"HAMMER","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [
@@ -1641,8 +1650,8 @@
       [ "gunpowder", 120 ]
     ],
     [
-      ["22_casing", 30 ],
-      ["cu_pipe", 2]
+      [ "22_casing", 30 ],
+      [ "copper", 30 ]
     ],
     [
       [ "lead", 60 ],
@@ -1685,7 +1694,7 @@
     ],
     [
       [ "22_casing", 30 ],
-      [ "cu_pipe", 4]
+      [ "copper", 30 ]
     ],
     [
       [ "lead", 60 ],
@@ -1728,7 +1737,7 @@
     ],
     [
       [ "22_casing", 30 ],
-      [ "cu_pipe", 3]
+      [ "copper", 30 ]
     ],
     [
       [ "incendiary", 60 ]
@@ -1773,7 +1782,7 @@
       [ "solder_wire", 100 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 50 ]
     ]
   ]
 },{
@@ -1787,8 +1796,8 @@
   "time": 20000,
   "book_learn": [["recipe_bullets" , 2 ] , [ "mag_rifle", 3 ]],
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"SAW_M","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "tools": [
     [
@@ -1840,7 +1849,7 @@
       [ "solder_wire", 80 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 40 ]
     ]
   ]
 },{
@@ -1882,7 +1891,7 @@
       [ "solder_wire", 80 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 40 ]
     ]
   ]
 },{
@@ -1927,7 +1936,7 @@
       [ "solder_wire", 200 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 100 ]
     ]
   ]
  },{
@@ -1964,7 +1973,7 @@
       [ "scrap", 3 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 10 ]
     ]
 ]
   },{
@@ -2006,7 +2015,7 @@
       [ "solder_wire", 380 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 190 ]
     ]
   ]
 },{
@@ -2043,7 +2052,7 @@
       [ "incendiary", 80 ]
     ],
     [
-      [ "cu_pipe", 6 ]
+      [ "copper", 40 ]
     ]
   ]
 },{
@@ -2085,7 +2094,7 @@
       [ "solder_wire", 120 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 60 ]
     ]
   ]
 },{
@@ -2127,7 +2136,7 @@
       [ "solder_wire", 120 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "copper", 60 ]
     ]
   ]
 },{
@@ -2164,7 +2173,7 @@
       [ "incendiary", 120 ]
     ],
     [
-      [ "cu_pipe", 2 ]
+      [ "copper", 60 ]
     ]
   ]
 },{
@@ -2179,7 +2188,7 @@
   "autolearn": true,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1}
   ],
   "tools": [
     [
@@ -2191,7 +2200,7 @@
   "components": [
     [
       [ "gunpowder", 16 ],
-      [ "chem_black_powder", 32 ]
+      [ "chem_black_powder", 16 ]
     ],
     [
       [ "scrap", 1 ],
@@ -2217,7 +2226,7 @@
   "autolearn": true,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "qualities":[
-  {"id":"SAW_M","level":1,"amount":1}
+  {"id":"SAW_M","level":1}
   ],
   "tools": [
     [
@@ -2228,7 +2237,7 @@
   ],"components": [
     [
       [ "gunpowder", 16 ],
-      [ "chem_black_powder", 32 ]
+      [ "chem_black_powder", 16 ]
     ],
     [
       [ "rebar", 1 ],
@@ -2250,7 +2259,7 @@
   "autolearn": true,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "qualities":[
-  {"id":"SAW_M","level":1,"amount":1}
+  {"id":"SAW_M","level":1}
   ],
   "tools": [
     [
@@ -2261,7 +2270,7 @@
   ], "components":  [
     [
       [ "gunpowder", 16 ],
-      [ "chem_black_powder", 32 ]
+      [ "chem_black_powder", 16 ]
     ],
     [
       [ "glass_shard", 1],
@@ -2279,7 +2288,7 @@
     "time": 45000,
     "book_learn": [[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
     ], "tools": [
      [
       ["swage", -1]
@@ -2310,7 +2319,7 @@
     "time": 45000,
     "book_learn": [[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
     ], "tools": [
      [
       ["swage", -1]
@@ -2341,7 +2350,7 @@
     "time": 45000,
     "book_learn": [[ "mag_rifle", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
     ], "tools": [
      [
       ["swage", -1]
@@ -2372,7 +2381,7 @@
     "time": 45000,
     "book_learn": [[ "mag_rifle", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
     ], "tools": [
      [
       ["swage", -1]
@@ -2403,7 +2412,7 @@
     "time": 45000,
     "book_learn": [[ "manual_shotgun", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
     ], "tools": [
      [
       ["swage", -1]
@@ -2435,7 +2444,7 @@
   "decomp_learn": 4,
   "book_learn": [[ "recipe_lab_elec", 4 ]],
   "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SCREW","level":1}
   ], "components": [
     [
       [ "superglue", 1 ]
@@ -2455,7 +2464,7 @@
   "time" : 56000,
   "autolearn" : true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools" : [ [ ["mold_plastic", -1] ],
     [
@@ -2471,6 +2480,7 @@
     [
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
+      [ "paper", 40 ],
       [ "bag_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
@@ -2489,8 +2499,8 @@
   "time": 120000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"SAW_M","level":1}
   ], "components": [
     [
       ["rebar", 2]
@@ -2506,7 +2516,7 @@
   "time": 100000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
@@ -2570,7 +2580,7 @@
         [ "solder_wire", 150 ]
       ],
       [
-        [ "cu_pipe", 2 ]
+        [ "copper", 75 ]
       ]
     ]
   },{
@@ -2601,7 +2611,7 @@
         [ "smpistol_primer", 50 ]
       ],
       [
-        [ "gunpowder", 250 ]
+        [ "gunpowder", 250 ], [ "chem_black_powder", 250 ]
       ],
       [
         [ "lead", 200 ],
@@ -2612,7 +2622,7 @@
         [ "solder_wire", 200 ]
       ],
       [
-        [ "cu_pipe", 2 ]
+        [ "copper", 100 ]
       ]
     ]
    },{
@@ -2654,7 +2664,7 @@
         [ "solder_wire", 250 ]
       ],
       [
-        [ "cu_pipe", 2 ]
+        [ "copper", 175 ]
       ]
     ]
   },{
@@ -2739,7 +2749,7 @@
         [ "solder_wire", 400 ]
       ],
       [
-        [ "cu_pipe", 3 ]
+        [ "copper", 200 ]
       ]
     ]
 },{
@@ -2781,7 +2791,7 @@
         [ "solder_wire", 80 ]
       ],
       [
-        [ "cu_pipe", 3 ]
+        [ "copper", 40 ]
       ]
     ]
   },{
@@ -2825,126 +2835,6 @@
     ]
   },
   {
-    "type" : "recipe",
-    "result": "flintlock_ammo",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 3,
-    "time": 20000,
-    "autolearn": true,
-    "components": [
-      [
-        [ "gunpowder", 300 ],
-        [ "chem_black_powder", 600 ]
-      ],
-      [
-        [ "lead", 300 ],
-        [ "gold_small", 300 ],
-        [ "silver_small", 300 ],
-        [ "tin", 300 ],
-        [ "bismuth", 300 ],
-        [ "solder_wire", 300 ]
-      ],
-      [
-        [ "bag_plastic", 1 ],
-        [ "paper", 10 ]
-      ]
-    ]
-  },{
-    "type" : "recipe",
-    "result": "flintlock_shot",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_SHOT",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 3,
-    "time": 20000,
-    "autolearn": true,
-    "components": [
-      [
-        [ "gunpowder", 300 ],
-        [ "chem_black_powder", 600 ]
-      ],
-      [
-        [ "lead", 300 ],
-        [ "gold_small", 300 ],
-        [ "silver_small", 300 ],
-        [ "tin", 300 ],
-        [ "bismuth", 300 ],
-        [ "solder_wire", 300 ]
-      ],
-      [
-        [ "bag_plastic", 1 ],
-        [ "paper", 10 ]
-      ]
-    ]
-  },{
-    "type" : "recipe",
-    "result": "36navy",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_PISTOL",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 3,
-    "time": 15000,
-    "book_learn": [[ "manual_pistol", 3 ] , [ "recipe_bullets", 3 ]],
-    "qualities":[
-      {"id":"CUT","level":1,"amount":1}
-    ],
-    "components": [
-      [
-        [ "gunpowder", 100 ],
-        [ "chem_black_powder", 200 ]
-      ],
-      [
-        [ "lead", 30 ],
-        [ "gold_small", 30 ],
-        [ "silver_small", 30 ],
-        [ "tin", 30 ],
-        [ "bismuth", 30 ],
-        [ "solder_wire", 30 ]
-      ],
-      [
-        [ "bag_plastic", 1 ],
-        [ "paper", 12 ]
-      ]
-    ]
-  },
-  {
-    "type" : "recipe",
-    "result": "44army",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_PISTOL",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 3,
-    "time": 20000,
-    "book_learn": [[ "manual_pistol", 3 ] , [ "recipe_bullets", 3 ]],
-    "qualities":[
-      {"id":"CUT","level":1,"amount":1}
-    ],
-    "components": [
-      [
-        [ "gunpowder", 160 ],
-        [ "chem_black_powder", 320 ]
-      ],
-      [
-        [ "lead", 45 ],
-        [ "gold_small", 45 ],
-        [ "silver_small", 45],
-        [ "tin", 45 ],
-        [ "bismuth", 45 ],
-        [ "solder_wire", 45 ]
-      ],
-      [
-        [ "bag_plastic", 1 ],
-        [ "paper", 12 ]
-      ]
-    ]
-  },
-  {
     "type": "recipe",
     "result": "reloaded_762_54R",
     "category": "CC_AMMO",
@@ -2972,7 +2862,7 @@
         [ "lgrifle_primer", 20 ]
       ],
       [
-        [ "gunpowder", 160 ]
+        [ "gunpowder", 160 ], [ "chem_black_powder", 160 ]
       ],
       [
         [ "lead", 60 ],
@@ -2983,7 +2873,7 @@
         [ "solder_wire", 60 ]
       ],
       [
-        [ "cu_pipe", 3 ]
+        [ "copper", 30 ]
       ]
     ]
   },
@@ -3026,7 +2916,7 @@
       [ "solder_wire", 420 ]
     ],
     [
-      [ "cu_pipe", 4 ]
+      [ "copper", 210 ]
     ]
   ]
 },
@@ -3041,7 +2931,7 @@
   "time": 180000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
   ], "tools": [
     [ ["tongs", -1]  ],
@@ -3064,7 +2954,7 @@
   "difficulty": 7,
   "time": 60000,
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "book_learn": [["textbook_gaswarfare" , 8, "" ], ["textbook_anarch" , 7, "Stuff THE MAN doesn't want you to know" ], ["recipe_labchem", 6 ]],
   "tools": [ [ ["hotplate", 25], ["toolset", 25], ["fire", -1] ] ],
   "components": [
@@ -3085,8 +2975,8 @@
 "time": 8000,
 "book_learn": [[ "manual_launcher", 4 ]],
 "qualities":[
-{"id":"HAMMER","level":3,"amount":1},
-{"id":"SAW_M","level":1,"amount":1}
+{"id":"HAMMER","level":3},
+{"id":"SAW_M","level":1}
 ], "tools": [
 [
 [ "oxy_torch", 6 ],
@@ -3126,8 +3016,8 @@
 "time": 30000,
 "book_learn": [[ "manual_launcher", 5 ]],
 "qualities":[
-{"id":"HAMMER","level":3,"amount":1},
-{"id":"SAW_M","level":1,"amount":1}
+{"id":"HAMMER","level":3},
+{"id":"SAW_M","level":1}
 ], "tools": [
 [
 [ "hotplate", 50 ],
@@ -3158,8 +3048,8 @@
 "time": 20000,
 "book_learn": [[ "manual_launcher", 6 ]],
 "qualities":[
-{"id":"HAMMER","level":3,"amount":1},
-{"id":"SAW_M","level":1,"amount":1}
+{"id":"HAMMER","level":3},
+{"id":"SAW_M","level":1}
 ], "tools": [
 [
 [ "hotplate", 50 ],
@@ -3207,7 +3097,7 @@
       [ "22_casing_new", 100 ]
     ],
     [
-      [ "gunpowder", 200 ]
+      [ "gunpowder", 200 ], [ "chem_black_powder", 200 ]
     ],
     [
       [ "lead", 200 ],
@@ -3243,7 +3133,7 @@
       [ "22_casing_new", 100 ]
     ],
     [
-      [ "gunpowder", 200 ]
+      [ "gunpowder", 200 ], [ "chem_black_powder", 200 ]
     ],
     [
       [ "lead", 200 ],
@@ -3254,7 +3144,7 @@
       [ "solder_wire", 200 ]
     ],
     [
-      [ "cu_pipe", 2 ]
+      [ "copper", 100 ]
     ]
   ]
 },{
@@ -3268,7 +3158,7 @@
   "time": 8000,
   "book_learn": [[ "textbook_gaswarfare", 4 ] , ["textbook_chemistry", 4] , ["adv_chemistry", 4] , [ "recipe_labchem", 4]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":1}
+    {"id":"CHEM","level":1}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -3294,7 +3184,7 @@
   "difficulty": 3,
   "time": 8000,
   "book_learn": [[ "textbook_gaswarfare", 3 ], ["textbook_chemistry", 4], ["adv_chemistry", 3], [ "recipe_labchem", 3], [ "textbook_anarch", 3]],
-  "qualities":[ {"id":"CHEM","level":1,"amount":1} ],
+  "qualities":[ {"id":"CHEM","level":1} ],
   "tools": [
     [
       [ "fire", -1 ],

@@ -18,7 +18,6 @@
         ] },
         { "distribution": [
           { "item": "red_dot_sight", "prob": 100 },
-          { "item": "bayonet", "prob": 50 },
           { "item": "suppressor", "prob": 100 },
           { "item": "laser_sight", "prob": 50 },
           { "collection": [ { "item": "m320" }, { "group": "ammo_launcher_grenade" } ], "prob": 100 }

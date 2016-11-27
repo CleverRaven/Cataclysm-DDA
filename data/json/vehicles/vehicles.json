@@ -1,20 +1,18 @@
 [
-    {
-        "type" : "vehicle",
-        "id" : "custom",
-        "name" : "custom",
-        "blueprint" : "H",
-        "warning" : "Don't remove this vehicle definition!",
-        "parts" : [
-            {"x": 0, "y": 0, "part": "frame_vertical_2"}
-        ]
-    },{
-        "type" : "vehicle",
-        "id" : "none",
-        "name" : "custom_empty",
-        "blueprint" : "H",
-        "warning" : "Don't remove this vehicle definition!",
-        "parts" : [
-        ]
-    }
+  {
+    "id": "custom",
+    "type": "vehicle",
+    "name": "custom",
+    "//": "Don't remove this vehicle definition!",
+    "blueprint": [ "H" ],
+    "parts": [ { "x": 0, "y": 0, "part": "frame_vertical_2" } ]
+  },
+  {
+    "id": "none",
+    "type": "vehicle",
+    "name": "custom_empty",
+    "//": "Don't remove this vehicle definition!",
+    "blueprint": [ "H" ],
+    "parts": []
+  }
 ]

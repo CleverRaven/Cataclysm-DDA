@@ -5,8 +5,8 @@
     "overmaps" : [
       { "point":[0,0,0], "overmap": "loffice_tower_5"},
       { "point":[1,0,0], "overmap": "loffice_tower_6"},
-      { "point":[0,1,0], "overmap": "loffice_tower_7", "connect": "road"},
-      { "point":[1,1,0], "overmap": "loffice_tower_8", "connect": "road"},
+      { "point":[0,1,0], "overmap": "loffice_tower_7"},
+      { "point":[1,1,0], "overmap": "loffice_tower_8"},
       { "point":[0,0,-1], "overmap": "loffice_tower_1"},
       { "point":[1,0,-1], "overmap": "loffice_tower_2"},
       { "point":[0,1,-1], "overmap": "loffice_tower_3"},
@@ -20,19 +20,21 @@
       { "point":[0,1,2], "overmap": "loffice_tower_15"},
       { "point":[1,1,2], "overmap": "loffice_tower_16"}
     ],
+    "connections" : [
+        { "point" : [0,2,0], "terrain" : "road" },
+        { "point" : [1,2,0], "terrain" : "road" }
+    ],
     "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
     "city_distance" : [-1, 4], "//":"how far from a city it should be",
     "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
     "occurrences" : [2, 3], "//":"how many per overmap",
     "rotate" : false, "//":"allow rotation",
-    "unique" : false, "//":"only allow one per city",
-    "required" : false, "//":"is this special required for valid city sizes",
-    "flags" : ["CLASSIC", "ROTATE"]
+    "flags" : ["CLASSIC"]
   },{
     "type" : "overmap_special",
     "id" : "2fMotel",
     "overmaps" : [
-      { "point":[0,0,0], "overmap": "2fmotel_entrance_north", "connect":"road"},
+      { "point":[0,0,0], "overmap": "2fmotel_entrance_north"},
       { "point":[-1,0,0], "overmap": "2fmotel_1_north"},
       { "point":[-1,1,0], "overmap": "2fmotel_2_north"},
       { "point":[0,1,0], "overmap": "2fmotel_3_north"},
@@ -44,13 +46,13 @@
       { "point":[-1,1,2], "overmap": "2fmotel_2_r_north"},
       { "point":[0,1,2], "overmap": "2fmotel_3_r_north"}
     ],
-    "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
+    "connections" : [
+        { "point" : [0,-1,0], "terrain" : "road", "existing" : true }
+    ],
+    "locations" : [ "land" ], "//":"what special locations does it spawn",
     "city_distance" : [10, 120], "//":"how far from a city it should be",
     "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
     "occurrences" : [2, 5], "//":"how many per overmap",
-    "rotate" : true, "//":"allow rotation",
-    "unique" : false, "//":"only allow one per city",
-    "required" : false, "//":"is this special required for valid city sizes",
     "flags" : [ "CLASSIC" ]
   }
 ]

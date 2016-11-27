@@ -5,10 +5,12 @@
 #include "npc.h"
 #include "options.h"
 #include "overmap.h"
+#include "player_activity.h"
 
 #include <unordered_map>
 #include <string>
 #include <sstream>
+#include <vector>
 
 namespace std {
     template <>
@@ -493,4 +495,63 @@ void overmap::unserialize_view_legacy( std::istream &fin )
             }
         }
     }
+}
+
+// player_activity.h
+void player_activity::deserialize_legacy_type( int legacy_type, activity_id &dest )
+{
+    static const std::vector< activity_id > legacy_map = {
+        activity_id( NULL_ID ),
+        activity_id( "ACT_RELOAD" ),
+        activity_id( "ACT_READ" ),
+        activity_id( "ACT_GAME" ),
+        activity_id( "ACT_WAIT" ),
+        activity_id( "ACT_CRAFT" ),
+        activity_id( "ACT_LONGCRAFT" ),
+        activity_id( "ACT_DISASSEMBLE" ),
+        activity_id( "ACT_BUTCHER" ),
+        activity_id( "ACT_LONGSALVAGE" ),
+        activity_id( "ACT_FORAGE" ),
+        activity_id( "ACT_BUILD" ),
+        activity_id( "ACT_VEHICLE" ),
+        activity_id( NULL_ID ), // ACT_REFILL_VEHICLE is deprecated
+        activity_id( "ACT_TRAIN" ),
+        activity_id( "ACT_WAIT_WEATHER" ),
+        activity_id( "ACT_FIRSTAID" ),
+        activity_id( "ACT_FISH" ),
+        activity_id( "ACT_PICKAXE" ),
+        activity_id( "ACT_BURROW" ),
+        activity_id( "ACT_PULP" ),
+        activity_id( "ACT_VIBE" ),
+        activity_id( "ACT_MAKE_ZLAVE" ),
+        activity_id( "ACT_DROP" ),
+        activity_id( "ACT_STASH" ),
+        activity_id( "ACT_PICKUP" ),
+        activity_id( "ACT_MOVE_ITEMS" ),
+        activity_id( "ACT_ADV_INVENTORY" ),
+        activity_id( "ACT_ARMOR_LAYERS" ),
+        activity_id( "ACT_START_FIRE" ),
+        activity_id( "ACT_OPEN_GATE" ),
+        activity_id( "ACT_FILL_LIQUID" ),
+        activity_id( "ACT_HOTWIRE_CAR" ),
+        activity_id( "ACT_AIM" ),
+        activity_id( "ACT_ATM" ),
+        activity_id( "ACT_START_ENGINES" ),
+        activity_id( "ACT_OXYTORCH" ),
+        activity_id( "ACT_CRACKING" ),
+        activity_id( "ACT_REPAIR_ITEM" ),
+        activity_id( "ACT_MEND_ITEM" ),
+        activity_id( "ACT_GUNMOD_ADD" ),
+        activity_id( "ACT_WAIT_NPC" ),
+        activity_id( "ACT_CLEAR_RUBBLE" ),
+        activity_id( "ACT_MEDITATE" ),
+        activity_id( NULL_ID ) // NUM_ACTIVITIES
+    };
+    
+    if( legacy_type < 0 || ( size_t )legacy_type >= legacy_map.size() ) {
+        debugmsg( "Bad legacy activity data. Got %d, exected something from 0 to %d", legacy_type, legacy_map.size() );
+        dest = activity_id( NULL_ID );
+        return;
+    }
+    dest = legacy_map[ legacy_type ];
 }

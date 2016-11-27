@@ -20,3 +20,9 @@ These flags can be applied to worn items (including wearable tools)
 These flags can be applied to tools. Many are also compatible with melee weapons.
 
 @TOOL@
+
+### Engines
+
+These flags can be applied to engines:
+
+@ENGINE@

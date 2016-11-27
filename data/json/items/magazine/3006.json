@@ -19,7 +19,7 @@
     "id": "garandclip",
     "type": "MAGAZINE",
     "name": "M1 Garand Clip",
-    "description": "A light-weight en-bloc clip for use with the M1 garand that will be ejected after the last round is fired.",
+    "description": "A light-weight en-bloc clip for use with the M1 Garand that will be ejected after the last round is fired.",
     "weight": 30,
     "volume": 1,
     "price": 600,

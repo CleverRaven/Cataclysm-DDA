@@ -95,6 +95,9 @@ endif
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
+# Explicitly let 'char' to be 'signed char' to fix #18776
+OTHERS += -fsigned-char
+
 VERSION = 0.C
 
 TARGET_NAME = cataclysm
@@ -140,6 +143,12 @@ ifneq ($(findstring BSD,$(OS)),)
   BSD = 1
 endif
 
+# Compiler version & target machine - used later for MXE ICE workaround
+ifdef CROSS
+  CXXVERSION := $(shell $(CROSS)$(CXX) --version | grep -i gcc | sed 's/^.* //g')
+  CXXMACHINE := $(shell $(CROSS)$(CXX) -dumpmachine)
+endif
+
 # Expand at reference time to avoid recursive reference
 OS_COMPILER := $(CXX)
 # Appears that the default value of $LD is unsuitable on most systems
@@ -155,11 +164,6 @@ STRIP = $(CROSS)strip
 RC  = $(CROSS)windres
 AR  = $(CROSS)ar
 
-# Capture CXXVERSION if using MXE - used later for ICE workaround
-ifdef CROSS
-  CXXVERSION := $(shell ${OS_COMPILER} --version | grep -i gcc | sed 's/^.* //g')
-endif
-
 # We don't need scientific precision for our math functions, this lets them run much faster.
 CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
@@ -174,7 +178,8 @@ ifdef RELEASE
     endif
   else
     # MXE ICE Workaround
-    ifeq (${CXXVERSION}, 4.9.3)
+    # known bad on 4.9.3 and 4.9.4, if it gets fixed this could include a version test too
+    ifeq ($(CXXMACHINE), x86_64-w64-mingw32.static)
       OPTLEVEL = -O3
     else
       OPTLEVEL = -Os
@@ -202,7 +207,9 @@ ifdef RELEASE
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
-  DEBUG =
+  ifndef DEBUG_SYMBOLS
+    DEBUG =
+  endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
   CHECKS = astyle-check lint-check
@@ -561,6 +568,11 @@ endif
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
   BINDIST_EXTRAS += cataclysm-launcher
+  DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
+endif
+
+ifdef MSYS2
+  DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
 endif
 
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
@@ -615,7 +627,9 @@ all: version $(CHECKS) $(TARGET) $(L10N) tests
 $(TARGET): $(ODIR) $(OBJS)
 	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 ifdef RELEASE
+  ifndef DEBUG_SYMBOLS
 	$(STRIP) $(TARGET)
+  endif
 endif
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(ODIR) $(OBJS)
@@ -685,6 +699,7 @@ install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
 	install --mode=755 $(TARGET) $(BIN_PREFIX)
+	cp -R --no-preserve=ownership data/core $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
@@ -719,6 +734,7 @@ install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
 	install --mode=755 $(TARGET) $(BIN_PREFIX)
+	cp -R --no-preserve=ownership data/core $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
@@ -774,6 +790,7 @@ app: appclean version data/osx/AppIcon.icns $(APPTARGET)
 	cp data/osx/AppIcon.icns $(APPRESOURCESDIR)/
 	mkdir -p $(APPDATADIR)
 	cp data/fontdata.json $(APPDATADIR)
+	cp -R data/core $(APPDATADIR)
 	cp -R data/font $(APPDATADIR)
 	cp -R data/json $(APPDATADIR)
 	cp -R data/mods $(APPDATADIR)

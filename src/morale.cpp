@@ -559,6 +559,7 @@ bool player_morale::consistent_with( const player_morale &morale ) const
 void player_morale::clear()
 {
     points.clear();
+    no_body_part = body_part_data();
     for( int i = 0; i < num_bp; ++i ) {
         body_parts[i] = body_part_data();
     }
@@ -637,17 +638,28 @@ void player_morale::set_worn( const item &it, bool worn )
     const bool filthy_gear = it.has_flag( "FILTHY" );
     const int sign = ( worn ) ? 1 : -1;
 
-    for( int i = 0; i < num_bp; ++i ) {
-        if( it.covers( static_cast<body_part>( i ) ) ) {
-            if( fancy || super_fancy ) {
-                body_parts[i].fancy += sign;
-            }
-            if( filthy_gear ) {
-                body_parts[i].filthy += sign;
-            }
-            body_parts[i].covered += sign;
+    const auto update_body_part = [&]( body_part_data & bp_data ) {
+        if( fancy || super_fancy ) {
+            bp_data.fancy += sign;
         }
+        if( filthy_gear ) {
+            bp_data.filthy += sign;
+        }
+        bp_data.covered += sign;
+    };
+
+    const auto covered( it.get_covered_body_parts() );
+
+    if( covered.any() ) {
+        for( int i = 0; i < num_bp; ++i ) {
+            if( covered.test( i ) ) {
+                update_body_part( body_parts[i] );
+            }
+        }
+    } else {
+        update_body_part( no_body_part );
     }
+
     if( super_fancy ) {
         const auto id = it.typeId();
         const auto iter = super_fancy_items.find( id );
@@ -700,6 +712,7 @@ void player_morale::update_stylish_bonus()
                 body_parts[opposite_body_part( bp )].fancy > 0 ) ? bonus : 0;
         };
         bonus = std::min( int( 2 * super_fancy_items.size() ) +
+                          2 * std::min( int( no_body_part.fancy ), 3 ) +
                           bp_bonus( bp_torso,  6 ) +
                           bp_bonus( bp_head,   3 ) +
                           bp_bonus( bp_eyes,   2 ) +
@@ -792,17 +805,18 @@ void player_morale::update_squeamish_penalty()
             body_parts[bp].filthy > 0 ||
             body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
     };
-    penalty = ( bp_pen( bp_torso,  6 ) +
-                bp_pen( bp_head,   7 ) +
-                bp_pen( bp_eyes,   8 ) +
-                bp_pen( bp_mouth,  9 ) +
-                bp_pen( bp_leg_l,  5 ) +
-                bp_pen( bp_leg_r,  5 ) +
-                bp_pen( bp_arm_l,  5 ) +
-                bp_pen( bp_arm_r,  5 ) +
-                bp_pen( bp_foot_l, 3 ) +
-                bp_pen( bp_foot_r, 3 ) +
-                bp_pen( bp_hand_l, 3 ) +
-                bp_pen( bp_hand_r, 3 ) );
+    penalty = 2 * std::min( int( no_body_part.filthy ), 3 ) +
+              bp_pen( bp_torso,  6 ) +
+              bp_pen( bp_head,   7 ) +
+              bp_pen( bp_eyes,   8 ) +
+              bp_pen( bp_mouth,  9 ) +
+              bp_pen( bp_leg_l,  5 ) +
+              bp_pen( bp_leg_r,  5 ) +
+              bp_pen( bp_arm_l,  5 ) +
+              bp_pen( bp_arm_r,  5 ) +
+              bp_pen( bp_foot_l, 3 ) +
+              bp_pen( bp_foot_r, 3 ) +
+              bp_pen( bp_hand_l, 3 ) +
+              bp_pen( bp_hand_r, 3 );
     set_permanent( MORALE_PERM_FILTHY, -penalty );
 }

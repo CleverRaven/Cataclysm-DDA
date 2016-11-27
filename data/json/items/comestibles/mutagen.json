@@ -211,8 +211,6 @@
         "description" : "A super-concentrated stem cell treatment.  You need a syringe to inject it.",
         "price" : 900000, "//" : "*May* have been commercially traded, but not in this preparation.",
         "color" : "magenta",
-        "healthy" : -10,
-        "stim" : -10,
         "addiction_potential" : 8,
         "use_action" : "PURIFY_IV"
     },

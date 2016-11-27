@@ -721,32 +721,44 @@ void player::consume_effects( item &food, bool rotten )
     if( addiction_craving( comest->add ) != MORALE_NULL ) {
         rem_morale( addiction_craving( comest->add ) );
     }
+
+    // Morale is in minutes
+    int morale_time = HOURS( 2 ) / MINUTES( 1 );
     if( food.has_flag( "HOT" ) && food.has_flag( "EATEN_HOT" ) ) {
-        add_morale( MORALE_FOOD_HOT, 5, 10 );
+        morale_time = HOURS( 3 ) / MINUTES( 1 );
+        int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
+        add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
     }
+
     auto fun = comest->fun;
-    if( food.has_flag( "COLD" ) && food.has_flag( "EATEN_COLD" ) && fun > 0 ) {
+    auto fun_max = fun < 0 ? fun * 6 : fun * 3;
+    if( food.has_flag( "EATEN_COLD" ) && food.has_flag( "COLD" ) ) {
         if( fun > 0 ) {
-            add_morale( MORALE_FOOD_GOOD, fun * 3, fun * 3, 60, 30, false, food.type );
+            fun *= 3;
         } else {
             fun = 1;
+            fun_max = 5;
         }
     }
 
     const bool gourmand = has_trait( "GOURMAND" );
-    const bool hibernate = has_active_mutation( "HIBERNATE" );
     if( gourmand ) {
-        if( fun < -2 ) {
-            add_morale( MORALE_FOOD_BAD, fun * 0.5, fun, 60, 30, false, food.type );
+        if( fun < -1 ) {
+            fun_max = fun;
+            fun /= 2;
         } else if( fun > 0 ) {
-            add_morale( MORALE_FOOD_GOOD, fun * 3, fun * 6, 60, 30, false, food.type );
+            fun_max = fun_max * 3 / 2;
+            fun *= 3;
         }
-    } else if( fun < 0 ) {
-        add_morale( MORALE_FOOD_BAD, fun, fun * 6, 60, 30, false, food.type );
-    } else if( fun > 0 ) {
-        add_morale( MORALE_FOOD_GOOD, fun, fun * 4, 60, 30, false, food.type );
     }
 
+    if( fun < 0 ) {
+        add_morale( MORALE_FOOD_BAD, fun, fun_max, morale_time, morale_time / 2, false, food.type );
+    } else if( fun > 0 ) {
+        add_morale( MORALE_FOOD_GOOD, fun, fun_max, morale_time, morale_time / 2, false, food.type );
+    }
+
+    const bool hibernate = has_active_mutation( "HIBERNATE" );
     if( hibernate ) {
         if( ( nutr > 0 && get_hunger() < -60 ) || ( comest->quench > 0 && get_thirst() < -60 ) ) {
             //Tell the player what's going on

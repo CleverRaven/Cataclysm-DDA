@@ -132,7 +132,6 @@
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "cvd_machine", -1 ] ] ],
     "components": [
       [ [ "gloople", 1 ] ],
       [ [ "bfeed", 250 ] ],

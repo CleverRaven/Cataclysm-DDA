@@ -60,7 +60,6 @@
       [ "makarov", 100 ],
       [ "moss_brownie", 100 ],
       [ "pistol_flintlock", 150 ],
-      [ "pistol_pepperbox", 150 ],
       [ "raging_bull", 100 ],
       [ "rm99_pistol", 150 ],
       [ "walther_ppk", 100 ]
@@ -156,9 +155,10 @@
     "//": "Less common rifles including those only used by police/paramilitary forces.",
     "items": [
       [ "acr", 25 ],
-      [ "fn_fal", 40],
+      [ "fn_fal", 40 ],
       [ "hk_g3", 40 ],
       [ "hk_g36", 30 ],
+      [ "henry_big_boy", 10 ],
       [ "l_base_223", 40 ],
       [ "l_car_223", 10 ],
       [ "l_dsr_223", 5 ],
@@ -207,6 +207,7 @@
       [ "ak47", 100 ],
       [ "ak74", 60 ],
       [ "an94", 40 ],
+      [ "bh_m89", 20],
       [ "carbine_flintlock", 140 ],
       [ "rifle_flintlock", 180 ],
       [ "steyr_aug", 40 ],

@@ -1,8 +1,8 @@
 [
   {
     "id": "mon_zombie_dog",
+    "copy-from": "mon_zombie_dog",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "burn_into": "mon_zanimal_scorched",
     "upgrades": {
       "half_life": 11,
@@ -11,8 +11,8 @@
   },
   {
     "id": "mon_dog_zombie_cop",
+    "copy-from": "mon_dog_zombie_cop",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "burn_into": "mon_zanimal_scorched",
     "upgrades": {
       "half_life": 18,
@@ -21,8 +21,8 @@
   },
   {
     "id": "mon_dog_zombie_rot",
+    "copy-from": "mon_dog_zombie_rot",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "burn_into": "mon_zolf_scorched",
     "upgrades": {
       "half_life": 21,
@@ -31,8 +31,8 @@
   },
   {
     "id": "mon_dog_skeleton",
+    "copy-from": "mon_dog_skeleton",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "burn_into": "mon_zanimal_skeleton_dead",
     "upgrades": {
       "half_life": 35,
@@ -41,15 +41,15 @@
   },
   {
     "id": "mon_zombie_pig",
+    "copy-from": "mon_zombie_pig",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "emit_fields": [ "emit_flesh_slough" ],
     "burn_into": "mon_zanimal_scorched"
   },
   {
     "id": "mon_zoose",
+    "copy-from": "mon_zoose",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "hp": 230,
     "melee_skill": 4,
     "melee_dice": 3,
@@ -64,8 +64,8 @@
   },
   {
     "id": "mon_zolf",
+    "copy-from": "mon_zolf",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "hp": 75,
     "speed": 125,
     "melee_skill": 5,
@@ -87,8 +87,8 @@
   },
   {
     "id": "mon_zougar",
+    "copy-from": "mon_zougar",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "hp": 130,
     "melee_dice": 2,
     "melee_dice_sides": 6,
@@ -106,8 +106,8 @@
   },
   {
     "id": "mon_zombear",
+    "copy-from": "mon_zombear",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [
@@ -303,7 +303,6 @@
   {
     "id": "mon_bear_smoky",
     "type": "MONSTER",
-    "edit-mode": "override",
     "name": "Smoky bear",
     "description": "A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with malice... and hunger.",
     "default_faction": "bear",
@@ -351,7 +350,6 @@
   {
     "id": "mon_zombie_child_scorched",
     "type": "MONSTER",
-    "edit-mode": "override",
     "name": "zombie kinderling",
     "description": "A tiny, still-smoldering body, jumping and kicking and flailing around in a mockery of playground exercise.  It does not need a face for you to feel bad about killing it.",
     "default_faction": "zombie",
@@ -389,7 +387,6 @@
   {
     "id": "mon_zombie_scorched",
     "type": "MONSTER",
-    "edit-mode": "override",
     "name": "scorched zombie",
     "description": "Heavily burned zombie that still reeks of charred flesh.  Its skin has hardened and cracked in several areas.",
     "default_faction": "zombie",
@@ -425,7 +422,6 @@
   {
     "id": "mon_zombie_fiend",
     "type": "MONSTER",
-    "edit-mode": "override",
     "name": "fiend",
     "description": "Charred zombie with bony plates, spikes and protursions.  Moves stiffly about.",
     "default_faction": "zombie",
@@ -744,7 +740,6 @@
   {
     "id": "mon_zombie_child_scorched_2",
     "type": "MONSTER",
-    "edit-mode": "override",
     "name": "burned child zombie",
     "description": "A tiny, horribly charred body, jumping and kicked and flailing around in a mockery of playground exercise.  It does not need a face for you to feel bad about killing it.",
     "default_faction": "zombie",

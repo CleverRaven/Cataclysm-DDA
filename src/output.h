@@ -5,6 +5,7 @@
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "translations.h"
+#include "units.h"
 
 #include <cstdarg>
 #include <sstream>
@@ -389,6 +390,9 @@ long special_symbol( long sym );
 std::string trim( const std::string &s ); // Remove spaces from the start and the end of a string
 std::string to_upper_case( const std::string &s ); // Converts the string to upper case
 
+/** Get value in ordinal form, eg 1st, 2nd, 3rd for values [1,9] */
+std::string ordinal( int val );
+
 /**
  * @name printf-like string formatting.
  *
@@ -622,6 +626,9 @@ std::string wildcard_trim_rule( const std::string &sPatternIn );
 bool wildcard_match( const std::string &sTextIn, const std::string &sPatternIn );
 std::vector<std::string> &wildcard_split( const std::string &s, char delim, std::vector<std::string> &elems );
 int ci_find_substr( const std::string &str1, const std::string &str2, const std::locale &loc = std::locale() );
+
+std::string format_volume( const units::volume &volume );
+std::string format_volume( const units::volume &volume, int width, bool *out_truncated, double *out_value );
 
 /** Get the width in font glyphs of the drawing screen.
  *

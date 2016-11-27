@@ -1,5 +1,19 @@
 [
   {
+    "id": "material_aluminium_ingot",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "aluminum ingot",
+    "description": "A small aluminum ingot, standardized for further processing.  Light but durable, this could be cast into various shapes for construction or ground down to a powder, for more... high-profile applications.",
+    "weight": 675, "//": "Density 2.70g/cm³ = 675g/250ml",
+    "volume": 1,
+    "price": 500,
+    "price_postapoc": 125,
+    "material": [ "aluminum" ],
+    "symbol": ",",
+    "color": "light_gray"
+  },
+  {
     "id": "bismuth",
     "type": "AMMO",
     "category": "spare_parts",

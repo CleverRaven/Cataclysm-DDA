@@ -1,4 +1,5 @@
 #include "creature_tracker.h"
+#include "pathfinding.h"
 #include "monster.h"
 #include "mongroup.h"
 #include "debug.h"

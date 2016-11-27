@@ -1,8 +1,8 @@
 [
   {
     "id": "mon_dermatik_larva",
+    "copy-from": "mon_dermatik_larva",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "melee_skill": 1,
     "melee_dice": 1,
     "melee_dice_sides": 2,
@@ -20,8 +20,8 @@
   },
   {
     "id": "mon_dermatik",
+    "copy-from": "mon_dermatik",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "hp": 85,
     "speed": 125,
     "aggression": 0,
@@ -52,8 +52,8 @@
   },
   {
     "id": "mon_coyote_wolf",
+    "copy-from": "mon_coyote_wolf",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "hp": 25,
     "upgrades": {
       "half_life": 19,
@@ -62,22 +62,22 @@
   },
   {
     "id": "mon_sewer_fish",
+    "copy-from": "mon_sewer_fish",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "default_faction": "mutant_predator"
   },
   {
     "id": "mon_sludge_crawler",
+    "copy-from": "mon_sludge_crawler",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "default_faction": "mutant_omnivore",
     "emit_fields": [ "emit_sludge" ],
     "flags": [ "NOHEAD", "SEES", "POISON", "HEARS", "REGENERATES_50", "SMELLS", "SLUDGEPROOF", "SWIMS", "FLAMMABLE", "NOGIB" ]
   },
   {
     "id": "mon_chud",
+    "copy-from": "mon_chud",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "melee_skill": 6,
     "melee_dice": 1,
     "melee_dice_sides": 8,
@@ -85,8 +85,8 @@
   },
   {
     "id": "mon_one_eye",
+    "copy-from": "mon_one_eye",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "default_faction": "mutant_omnivore",
     "melee_skill": 9,
     "melee_dice": 2,
@@ -95,14 +95,14 @@
   },
   {
     "id": "mon_crawler",
+    "copy-from": "mon_crawler",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "default_faction": "mutant_predator"
   },
   {
     "id": "mon_dark_wyrm",
+    "copy-from": "mon_dark_wyrm",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "default_faction": "dark_wyrm",
     "melee_skill": 8,
     "melee_dice": 2,
@@ -123,8 +123,8 @@
   },
   {
     "id": "mon_amigara_horror",
+    "copy-from": "mon_amigara_horror",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "default_faction": "amigara",
     "hp": 200,
     "melee_skill": 15,
@@ -150,20 +150,20 @@
   },
   {
     "id": "mon_dog_thing",
+    "copy-from": "mon_dog_thing",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "default_faction": "mutant_predator"
   },
   {
     "id": "mon_thing",
+    "copy-from": "mon_thing",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "default_faction": "mutant_predator"
   },
   {
     "id": "mon_human_snail",
+    "copy-from": "mon_human_snail",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "default_faction": "mutant_omnivore",
     "hp": 80,
     "speed": 60,
@@ -194,8 +194,8 @@
   },
   {
     "id": "mon_twisted_body",
+    "copy-from": "mon_twisted_body",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "description": "A human body, but with its limbs impossibly twisted.  It clambers around swiftly, making awful rasping moans.",
     "default_faction": "twisted_body",
     "hp": 60,
@@ -216,8 +216,8 @@
   },
   {
     "id": "mon_jabberwock",
+    "copy-from": "mon_jabberwock",
     "type": "MONSTER",
-    "edit-mode": "modify",
     "upgrades": {
       "half_life": 28,
       "into": "mon_jabberwock_pk",

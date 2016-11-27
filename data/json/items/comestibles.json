@@ -9,13 +9,10 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "calories" : 1000,
         "description" : "Not very nutritious.  Warning: contains calories, unsuitable for breatharians.",
         "price" : 100,
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -35,7 +32,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
@@ -43,6 +39,7 @@
         "type" : "COMESTIBLE",
         "id" : "apple_cider",
         "name" : "apple cider",
+        "name_plural": "apple cider",
         "weight" : 263,
         "color" : "brown",
         "spoils_in" : 144,
@@ -57,7 +54,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 2
     },
@@ -79,7 +75,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
@@ -101,7 +96,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
@@ -120,7 +114,6 @@
         "price" : 55,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : -1
     },
@@ -145,7 +138,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
@@ -170,7 +162,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : -1
     },
@@ -195,7 +186,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
@@ -220,7 +210,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
@@ -242,7 +231,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
@@ -264,7 +252,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
@@ -289,7 +276,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
@@ -297,6 +283,7 @@
         "type" : "COMESTIBLE",
         "id" : "rootbeer",
         "name" : "root beer",
+        "name_plural": "root beer",
         "weight" : 260,
         "color" : "brown",
         "stim" : 1,
@@ -311,7 +298,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
@@ -335,7 +321,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 6
     },
@@ -357,7 +342,6 @@
         "material" : ["junk", "fruit"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 6
     },
@@ -379,7 +363,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
@@ -402,7 +385,6 @@
         "material" : "milk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 1
     },
@@ -424,7 +406,6 @@
         "material" : ["milk", "junk"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -445,7 +426,6 @@
         "material" : "veggy",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 1
     },
@@ -466,7 +446,6 @@
         "material" : "veggy",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -487,7 +466,6 @@
         "material" : "bone",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -508,7 +486,6 @@
         "material" : ["bone", "hflesh"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -729,7 +706,6 @@
         "material" : "veggy",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
         "fun" : 2
     },
@@ -760,6 +736,7 @@
         "type" : "COMESTIBLE",
         "id" : "wine_riesling",
         "name" : "riesling",
+        "name_plural": "riesling",
         "weight" : 50,
         "color" : "white",
         "addiction_type" : "alcohol",
@@ -784,6 +761,7 @@
         "type" : "COMESTIBLE",
         "id" : "wine_chardonnay",
         "name" : "chardonnay",
+        "name_plural": "chardonnay",
         "weight" : 50,
         "color" : "white",
         "addiction_type" : "alcohol",
@@ -808,6 +786,7 @@
         "type" : "COMESTIBLE",
         "id" : "wine_cabernet",
         "name" : "cabernet sauvignon",
+        "name_plural": "cabernet sauvignon",
         "weight" : 50,
         "color" : "red",
         "addiction_type" : "alcohol",
@@ -831,6 +810,7 @@
         "type" : "COMESTIBLE",
         "id" : "wine_noir",
         "name" : "pinot noir",
+        "name_plural": "pinot noir",
         "weight" : 50,
         "color" : "red",
         "addiction_type" : "alcohol",
@@ -906,6 +886,7 @@
         "type" : "COMESTIBLE",
         "id" : "gin",
         "name" : "gin",
+        "name_plural": "gin",
         "weight" : 33,
         "color" : "light_cyan",
         "addiction_type" : "alcohol",
@@ -931,6 +912,7 @@
         "type" : "COMESTIBLE",
         "id" : "rum",
         "name" : "rum",
+        "name_plural": "rum",
         "weight" : 33,
         "color" : "light_cyan",
         "addiction_type" : "alcohol",
@@ -956,6 +938,7 @@
         "type" : "COMESTIBLE",
         "id" : "tequila",
         "name" : "tequila",
+        "name_plural": "tequila",
         "weight" : 38,
         "color" : "yellow",
         "addiction_type" : "alcohol",
@@ -981,6 +964,7 @@
         "type" : "COMESTIBLE",
         "id" : "triple_sec",
         "name" : "triple sec",
+        "name_plural": "triple sec",
         "weight" : 33,
         "color" : "light_cyan",
         "addiction_type" : "alcohol",
@@ -1005,6 +989,7 @@
         "type" : "COMESTIBLE",
         "id" : "bum_wine",
         "name" : "cheap wine",
+        "name_plural": "cheap wine",
         "weight" : 46,
         "color" : "red",
         "addiction_type" : "alcohol",
@@ -1048,7 +1033,6 @@
         "material" : "alcohol",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "stack_size" : 7,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
@@ -1075,7 +1059,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 4
     },
@@ -1083,6 +1066,7 @@
         "type" : "COMESTIBLE",
         "id" : "fruit_wine",
         "name" : "fruit wine",
+        "name_plural": "fruit wine",
         "weight" : 46,
         "color" : "light_red",
         "addiction_type" : "alcohol",
@@ -1151,7 +1135,6 @@
         "material" : ["alcohol", "water", "milk"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 20,
         "flags": [ "EATEN_HOT" ]
     },
@@ -1159,6 +1142,7 @@
         "type" : "COMESTIBLE",
         "id" : "long_island",
         "name" : "Long Island iced tea",
+        "name_plural": "Long Island iced tea",
         "weight" : 42,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -1176,7 +1160,7 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1, "//" : "Includes cola, so presumed to be a 250mL cocktail like the others.",
+        "//" : "Includes cola, so presumed to be a 250mL cocktail like the others.",
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -1201,7 +1185,6 @@
         "material" : ["alcohol", "fruit"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -1209,6 +1192,7 @@
         "type" : "COMESTIBLE",
         "id" : "drink_wild_apple",
         "name" : "wild apple",
+        "name_plural": "wild apple",
         "weight" : 248,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -1226,7 +1210,6 @@
         "material" : ["alcohol", "fruit"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -1234,7 +1217,7 @@
         "type" : "COMESTIBLE",
         "id" : "drink_rumcola",
         "name" : "rum & cola",
-        "name_plural" : "rums & colas",
+        "name_plural": "rum & cola",
         "weight" : 250,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -1252,7 +1235,6 @@
         "material" : ["alcohol", "junk"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -1260,6 +1242,7 @@
         "type" : "COMESTIBLE",
         "id" : "beer",
         "name" : "beer",
+        "name_plural": "beer",
         "weight" : 249,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -1276,7 +1259,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 10
     },
@@ -1284,6 +1266,7 @@
         "type" : "COMESTIBLE",
         "id" : "mead",
         "name" : "spiced mead",
+        "name_plural": "spiced mead",
         "weight" : 46,
         "color" : "yellow",
         "addiction_type" : "alcohol",
@@ -1308,6 +1291,7 @@
         "type" : "COMESTIBLE",
         "id" : "dandelion_wine",
         "name" : "dandelion wine",
+        "name_plural": "dandelion wine",
         "weight" : 46,
         "color" : "yellow",
         "addiction_type" : "alcohol",
@@ -1332,6 +1316,7 @@
         "type" : "COMESTIBLE",
         "id" : "pine_wine",
         "name" : "pine wine",
+        "name_plural": "pine wine",
         "weight" : 49,
         "color" : "ltgreen",
         "addiction_type" : "alcohol",
@@ -1357,6 +1342,7 @@
         "type" : "COMESTIBLE",
         "id" : "hb_beer",
         "name" : "homebrew beer",
+        "name_plural": "homebrew beer",
         "weight" : 249,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -1373,7 +1359,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 8
     },
@@ -1381,6 +1366,7 @@
         "type" : "COMESTIBLE",
         "id" : "moonshine",
         "name" : "moonshine",
+        "name_plural": "moonshine",
         "weight" : 35,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -1406,6 +1392,7 @@
         "type" : "COMESTIBLE",
         "id" : "european_pilsner",
         "name" : "European pilsner",
+        "name_plural": "European pilsner",
         "weight" : 249,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -1423,7 +1410,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 10
     },
@@ -1431,6 +1417,7 @@
         "type" : "COMESTIBLE",
         "id" : "pale_ale",
         "name" : "American pale ale",
+        "name_plural": "American pale ale",
         "weight" : 249,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -1448,7 +1435,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 14
     },
@@ -1456,6 +1442,7 @@
         "type" : "COMESTIBLE",
         "id" : "india_pale_ale",
         "name" : "India pale ale",
+        "name_plural": "India pale ale",
         "weight" : 249,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -1473,7 +1460,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 14
     },
@@ -1481,6 +1467,7 @@
         "type" : "COMESTIBLE",
         "id" : "stout",
         "name" : "stout",
+        "name_plural": "stout",
         "weight" : 249,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -1498,7 +1485,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 14,
         "flags": [ "EATEN_COLD" ]
     },
@@ -1506,6 +1492,7 @@
         "type" : "COMESTIBLE",
         "id" : "belgian_ale",
         "name" : "Belgian ale",
+        "name_plural": "Belgian ale",
         "weight" : 249,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -1523,7 +1510,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 14
     },
@@ -1531,6 +1517,7 @@
         "type" : "COMESTIBLE",
         "id" : "imperial_stout",
         "name" : "imperial stout",
+        "name_plural": "imperial stout",
         "weight" : 249,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -1548,7 +1535,6 @@
         "material" : ["alcohol", "water"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 18,
         "flags": [ "EATEN_COLD" ]
     },
@@ -1569,7 +1555,6 @@
         "price" : 90,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
     },
@@ -1591,7 +1576,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 8
     },
@@ -1614,7 +1598,6 @@
         "price" : 100,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
     },
@@ -1639,7 +1622,6 @@
         "price" : 300,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -1660,7 +1642,6 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 7
     },
@@ -1682,7 +1663,6 @@
         "material" : "hflesh",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : -50
     },
     {
@@ -1694,15 +1674,12 @@
         "color" : "white",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 4,
         "description" : "A bone from some creature or other.  Could be eaten or used to make some stuff, like needles.",
         "price" : 0,
         "material" : "bone",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -1718,9 +1695,7 @@
         "description" : "A fluid bladder from a plant based lifeform.  Not very nutritious, but fine to eat anyway.",
         "price" : 0,
         "material" : "veggy",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -1739,7 +1714,6 @@
         "price" : 0,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 1,
         "fun" : -20
     },
@@ -1771,26 +1745,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "fish_smoked",
-        "name" : "smoked fish",
-        "name_plural" : "smoked fish",
-        "weight" : 84,
-        "color" : "brown",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : 0,
-        "healthy" : 1,
-        "nutrition" : 24,
-        "description" : "Tasty fish that has been heavily smoked for long term preservation.",
-        "price" : 1000,
-        "material" : "flesh",
-        "volume" : 2,
-        "charges" : 6, "//" : "Condenses 6 fillets.",
-        "flags" : ["EATEN_HOT"],
-        "fun" : 6
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "dry_fish",
         "name" : "dehydrated fish",
         "name_plural" : "dehydrated fish",
@@ -1804,27 +1758,7 @@
         "price" : 500,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 2,
-        "fun" : 0
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "salted_fish",
-        "name" : "salted fish",
-        "name_plural" : "salted fish",
-        "weight" : 44,
-        "color" : "light_gray",
-        "container" : "bag_plastic",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : -5,
-        "nutrition" : 18,
-        "description" : "Salty dried fish that never goes bad, but will make you thirsty.",
-        "price" : 1000,
-        "material" : "flesh",
-        "volume" : 1,
-        "charges" : 4, "//" : "Two fillets of fish needed here.",
-        "fun" : 4
+        "charges" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -1836,7 +1770,6 @@
         "spoils_in" : 24,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 16,
         "description" : "Reconstituted fish flakes, which are much more enjoyable to eat now that they have been rehydrated.",
         "price" : 500,
@@ -1876,7 +1809,6 @@
         "container" : "can_food",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 26,
         "description" : "Low-sodium preserved fish.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked fish.",
@@ -1917,7 +1849,6 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 28,
         "description" : "A delicious golden brown serving of crispy fried fish.",
         "price" : 500,
@@ -1938,7 +1869,6 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 26,
         "description" : "A delicious fish sandwich.",
         "price" : 800,
@@ -1977,7 +1907,6 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 15,
         "description" : "A handful of deep fried chicken.  So bad it's good.",
@@ -1997,15 +1926,12 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 12,
         "description" : "Delicious lunch meat.  Can be eaten cold.",
         "price" : 3, "//" : "*Looking for ~$6 per pound here.",
         "material" : "flesh",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -2017,15 +1943,13 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 8,
         "description" : "A type of lunch meat that comes pre-sliced.  Its first name isn't Oscar.  Can be eaten cold.",
         "price" : 1000,
         "material" : "flesh",
         "volume" : 4,
-        "charges" : 40, "//" : "320 nutrition, net loss from 400 as cooked meat, but lasts much longer.",
-        "fun" : 0
+        "charges" : 40, "//" : "320 nutrition, net loss from 400 as cooked meat, but lasts much longer."
     },
     {
         "type" : "COMESTIBLE",
@@ -2037,15 +1961,13 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 8,
         "description" : "A type of lunch meat made out of human flesh that comes pre-sliced.  Its first name may have been Oscar.  Can be eaten cold.",
         "price" : 2000,
         "material" : "hflesh",
         "volume" : 4,
-        "charges" : 40,
-        "fun" : 0
+        "charges" : 40
     },
     {
         "type" : "COMESTIBLE",
@@ -2056,16 +1978,13 @@
         "spoils_in" : 80,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 20,
         "description" : "A nutrient rich chunk of plant matter, could be eaten raw or cooked.",
         "price" : 600,
         "material" : "veggy",
         "flags" : "TRADER_AVOID",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -2077,14 +1996,12 @@
         "spoils_in" : 80,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 25,
         "description" : "An assortment of edible-looking wild plants.  Most are quite bitter-tasting.  Some are inedible until cooked.", "//" : "In real life many root vegetables are mildly toxic until cooked",
         "price" : 60,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -10
     },
     {
@@ -2097,13 +2014,11 @@
         "spoils_in" : 80,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 5,
         "description" : "A stiff green stalk from a cattail plant.  It is starchy and fibrous, but it would be much better if you cooked it.",
         "price" : 0,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -8
     },
     {
@@ -2116,14 +2031,12 @@
         "spoils_in" : 60,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 12,
         "description" : "A cooked stalk from a cattail plant.  Its fibrous outer leaves have been stripped away and now it is quite delicious.",
         "price" : 0,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 1
     },
     {
@@ -2136,13 +2049,11 @@
         "spoils_in" : 80,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 22,
         "description" : "A stout branching rhizome from a cattail plant.  Its crisp white flesh is very starchy and fibrous, but you really ought to cook it before you attempt to eat it.",
         "price" : 0,
         "material" : "veggy",
         "volume" : 2,
-        "charges" : 1,
         "fun" : -12
     },
     {
@@ -2155,13 +2066,11 @@
         "spoils_in" : 30,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 32,
         "description" : "Sticky, gooey carbohydrate paste extracted from plants.  Spoils rather quickly if not prepared for storage.",
         "price" : 0,
         "volume" : 1,
-        "charges" : 1,
         "fun" : -14
     },
     {
@@ -2173,7 +2082,6 @@
         "color" : "yellow",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 4,
         "description" : "A collection of freshly picked yellow dandelions.  In their current raw state they are quite bitter.",
@@ -2194,14 +2102,12 @@
         "spoils_in" : 48,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 2,
         "nutrition" : 20,
         "description" : "Cooked leaves from wild dandelions.  Tasty and nutritious.",
         "price" : 200,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 2,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
@@ -2216,7 +2122,6 @@
         "spoils_in" : 72,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 18,
         "description" : "Wild dandelion flowers that have been battered and deep fried.  Very tasty and nutritious.",
@@ -2247,7 +2152,6 @@
         "price" : 50,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -2263,14 +2167,12 @@
         "use_action" : "POISON",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 20,
         "description" : "Meat that's obviously unhealthy.  You could eat it, but it will poison you.",
         "price" : 0,
         "material" : "flesh",
         "flags" : "TRADER_AVOID",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -10
     },
     {
@@ -2283,14 +2185,12 @@
         "use_action" : "POISON",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 2,
         "description" : "A rotten and brittle bone from some unnatural creature or other.  Could be used to make some stuff, like charcoal.  You could eat it, but it will poison you.",
         "price" : 0, "//" : "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes except for charcoal.",
         "material" : "bone",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -10
     },
     {
@@ -2302,15 +2202,12 @@
         "color" : "white",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 4,
         "description" : "A bone from a human being.  Could be eaten or used to make some stuff, if you're feeling sufficiently ghoulish.",
         "price" : 0, "//" : "Not for use in normal food recipes.",
         "material" : ["bone", "hflesh"],
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -2323,14 +2220,12 @@
         "use_action" : "POISON",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -3,
         "nutrition" : 1,
         "description" : "A watery yellow glob of fat from some unnatural creature or other.  You could eat it, but it will poison you.",
         "price" : 0, "//" : "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes.",
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -10
     },
     {
@@ -2364,12 +2259,10 @@
         "use_action" : "POISON",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 20,
         "description" : "A little hunk of glop that fell off a blob monster.  It doesn't seem hostile, but it does wiggle occasionally.",
         "price" : 0,
         "volume" : 1,
-        "charges" : 1,
         "fun" : -10
     },
     {
@@ -2383,34 +2276,13 @@
         "use_action" : "POISON",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 20,
         "description" : "Vegetable that looks poisonous.  You could eat it, but it will poison you.",
         "price" : 0,
         "material" : "veggy",
         "flags": "TRADER_AVOID",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "meat_smoked",
-        "name" : "smoked meat",
-        "weight" : 162,
-        "color" : "brown",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : -1,
-        "nutrition" : 45,
-        "description" : "Tasty meat that has been heavily smoked for long term preservation.",
-        "price" : 3000,
-        "material" : "flesh",
-        "volume" : 3,
-        "charges" : 3, "//" : "3 chunks of meat.",
-        "flags" : ["EATEN_HOT"],
-        "fun" : 5
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -2421,13 +2293,11 @@
         "spoils_in" : 24,
         "comestible_type" : "FOOD",
         "symbol" : ",",
-        "quench" : 0,
         "nutrition" : 30,
         "description" : "A boiled stomach from an animal, nothing else.  It looks all but appetizing.",
         "price" : 750,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : -5
     },
@@ -2440,13 +2310,11 @@
         "spoils_in" : 24,
         "comestible_type" : "FOOD",
         "symbol" : ",",
-        "quench" : 0,
         "nutrition" : 30,
         "description" : "A boiled stomach from a large humanoid creature, nothing else.  It looks all but appetizing.",
         "price" : 750,
         "material" : "hflesh",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : -5
     },
@@ -2459,13 +2327,11 @@
         "spoils_in" : 24,
         "comestible_type" : "FOOD",
         "symbol" : ",",
-        "quench" : 0,
         "nutrition" : 15,
         "description" : "A small boiled stomach from an animal, nothing else.  It looks all but appetizing.",
         "price" : 375,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : -3
     },
@@ -2478,13 +2344,11 @@
         "spoils_in" : 24,
         "comestible_type" : "FOOD",
         "symbol" : ",",
-        "quench" : 0,
         "nutrition" : 15,
         "description" : "A small boiled stomach from a human, nothing else.  It looks all but appetizing.",
         "price" : 375,
         "material" : "hflesh",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : -3
     },
@@ -2517,7 +2381,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -2,
         "nutrition" : 4,
         "description" : "A heavily processed sausage, commonplace at baseball games before the cataclysm.  It would taste much better prepared.",
@@ -2559,7 +2422,6 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 25,
         "description" : "Surprisingly, not made from dog.  Cooked, this hot dog now tastes much better, but will spoil.",
@@ -2581,7 +2443,6 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 50,
         "description" : "A hot dog, served with chili con carne as a topping.  Yum!",
@@ -2603,7 +2464,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 50,
         "description" : "A hot dog, served with chili con cabron as a topping.  Delightful.",
@@ -2625,7 +2485,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -6,
         "nutrition" : 4,
         "description" : "A heavily processed sausage, dipped in batter and deep fried.  It would taste much better prepared.",
@@ -2646,35 +2505,14 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -2,
         "nutrition" : 20,
         "description" : "A heavily processed sausage, dipped in batter and deep fried.  Cooked, this corn dog now tastes much better, but will spoil.",
         "price" : 900,
         "material" : ["flesh", "junk"],
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 18
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "human_smoked",
-        "name" : "smoked sucker",
-        "weight" : 162,
-        "color" : "brown",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : -1,
-        "healthy" : -1,
-        "nutrition" : 42,
-        "description" : "A heavily smoked portion of human flesh.  Lasts for a very long time and tastes pretty good, if you like that sort of thing.",
-        "price" : 10000,
-        "material" : "hflesh",
-        "volume" : 1,
-        "charges" : 3,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -2784,16 +2622,13 @@
         "spoils_in" : 50,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 40,
         "description" : "A freshly cooked chunk of plant matter, tasty and nutritious.",
         "price" : 700,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT", "TRADER_AVOID"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT", "TRADER_AVOID"]
     },
     {
         "type" : "COMESTIBLE",
@@ -2805,16 +2640,13 @@
         "spoils_in" : 50,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 40,
         "description" : "Cooked wild edible plants.  An interesting mix of flavors.",
         "price" : 700,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -2832,7 +2664,6 @@
         "price" : 900,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -2844,14 +2675,12 @@
         "spoils_in" : 120,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 4,
         "nutrition" : 12,
         "description" : "A long, curved yellow fruit in a peel.  Some people like using them in desserts.  Those people are probably dead.",
         "price" : 120,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -2870,7 +2699,6 @@
         "price" : 180,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -2889,7 +2717,6 @@
         "price" : 120,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -4
     },
     {
@@ -2908,7 +2735,6 @@
         "price" : 100,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -2920,14 +2746,12 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 4,
         "nutrition" : 12,
         "description" : "An irradiated banana will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price" : 190,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -2945,7 +2769,6 @@
         "price" : 190,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -2963,7 +2786,6 @@
         "price" : 160,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -4
     },
     {
@@ -2975,7 +2797,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 18,
         "description" : "Dried strips of sugary fruit paste.",
         "price" : 160,
@@ -3013,7 +2834,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 9,
         "description" : "Some fried seeds of a sunflower, pumpkin or other plant.  Quite nutritious and tasty.",
         "price" : 80,
@@ -3147,7 +2967,6 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 2,
         "description" : "A delicious fruit-filled pastry that you can cook in your toaster.  It even comes with frosting!  Cook it to make it tasty.",
         "price" : 400,
@@ -3350,13 +3169,11 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 2,
         "description" : "Dried kernels from a particular type of corn.  Practically inedible raw, they can be cooked to make a tasty snack.",
         "price" : 100,
         "material" : "junk",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -6
     },
     {
@@ -3469,13 +3286,11 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 8,
         "description" : "Chocolate isn't very healthy, but it does make a delicious treat.",
         "price" : 130,
         "material" : "junk",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 10
     },
     {
@@ -3488,7 +3303,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 2,
         "description" : "A handful of squishy, fluffy, puffy, delicious marshmallows.",
         "price" : 250,
@@ -3508,7 +3322,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 2,
         "description" : "A pair of graham crackers with some chocolate and a marshmallow between them.",
         "price" : 400,
@@ -3525,15 +3338,13 @@
         "color" : "red",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 25, "//": "Same as the meat it's been made from.  It's additional ingredient compared to smoking, jerking, and dehydrating, so there's no incentive otherwise.",
         "description" : "A dish in which meat or fish is set into a gelatin made from a meat or vegetable stock.  This food will never spoil.",
         "price" : 2500,
         "material" : "flesh",
         "volume" : 1,
         "charges" : 2,
-        "flags" : ["EATEN_COLD"],
-        "fun" : 0
+        "flags" : ["EATEN_COLD"]
     },
     {
         "type" : "COMESTIBLE",
@@ -3543,15 +3354,13 @@
         "color" : "green",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 20,
         "description" : "A dish in which vegetables are set into a gelatin made from a plant stock.  This food will never spoil.",
         "price" : 1500,
         "material" : "veggy",
         "volume" : 2,
         "charges" : 2,
-        "flags" : ["EATEN_COLD"],
-        "fun" : 0
+        "flags" : ["EATEN_COLD"]
     },
     {
         "type" : "COMESTIBLE",
@@ -3561,34 +3370,13 @@
         "color" : "red",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 25,
         "description" : "A dish in which human meat has been set into a gelatin made from human bones.  Murderously delicious - if you're into that sort of thing.",
         "price" : 5000,
         "material" : "hflesh",
         "volume" : 2,
         "charges" : 2,
-        "flags" : ["EATEN_COLD"],
-        "fun" : 0
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "jerky",
-        "name" : "meat jerky",
-        "name_plural" : "meat jerky",
-        "weight" : 40,
-        "color" : "brown",
-        "container" : "bag_plastic",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : -5,
-        "nutrition" : 12,
-        "description" : "Salty dried meat that never goes bad, but will make you thirsty.",
-        "price" : 320,
-        "material" : "flesh",
-        "volume" : 1,
-        "charges" : 3,
-        "fun" : 4
+        "flags" : ["EATEN_COLD"]
     },
     {
         "type" : "COMESTIBLE",
@@ -3691,25 +3479,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "jerky_human",
-        "name" : "jerk jerky",
-        "name_plural" : "jerk jerky",
-        "weight" : 56,
-        "color" : "brown",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : -5,
-        "healthy" : -1,
-        "nutrition" : 12,
-        "description" : "Salty dried human flesh that never goes bad, but will make you thirsty.",
-        "price" : 220,
-        "material" : "hflesh",
-        "volume" : 1,
-        "charges" : 3,
-        "fun" : 4
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "sandwich_t",
         "name" : "meat sandwich",
         "name_plural" : "meat sandwiches",
@@ -3719,7 +3488,6 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 30,
         "description" : "Bread and meat, that's it.",
         "price" : 900,
@@ -3739,7 +3507,6 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 30,
         "description" : "Bread and human flesh, surprise!",
         "price" : 6000,
@@ -3765,7 +3532,6 @@
         "price" : 250,
         "material" : "wheat",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -3785,7 +3551,6 @@
         "price" : 175,
         "material" : ["fruit", "wheat"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 6
     },
     {
@@ -3805,7 +3570,6 @@
         "price" : 175,
         "material" : ["wheat", "honey"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 6
     },
     {
@@ -3825,7 +3589,6 @@
         "price" : 175,
         "material" : "wheat",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 6
     },
     {
@@ -3860,7 +3623,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 2,
         "description" : "A big bag of colorful chocolate filled candies.",
@@ -3881,7 +3643,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 2,
         "description" : "A big bag of colorful fruit-flavored chewy candy.",
@@ -3961,7 +3722,6 @@
         "color" : "brown",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 38,
         "description" : "A sweet and delicious sausage.",
         "price" : 2400,
@@ -3973,48 +3733,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "chilly-p",
-        "name" : "chili powder",
-        "name_plural" : "chili powder",
-        "weight" : 46,
-        "color" : "red",
-        "stim" : 2,
-        "container" : "bag_plastic",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : -25,
-        "healthy" : -1,
-        "nutrition" : 4,
-        "description" : "Chilly P, Yo!  Not very good on its own, but it might help if you use it properly, or in meth.",
-        "price" : 40,
-        "material" : "powder",
-        "volume" : 0,
-        "charges" : 1,
-        "fun" : -5
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "curry_powder",
-        "name" : "curry powder",
-        "name_plural" : "curry powder",
-        "weight" : 46,
-        "color" : "red",
-        "stim" : 2,
-        "container" : "bag_plastic",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : -25,
-        "healthy" : -1,
-        "nutrition" : 4,
-        "description" : "A blend of spices meant to be used in some South Asian dishes.  Could be eaten raw, but why would you do that?",
-        "price" : 40,
-        "material" : "powder",
-        "volume" : 0,
-        "charges" : 1,
-        "fun" : -5
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "mushroom",
         "name" : "mushroom",
         "weight" : 159,
@@ -4022,14 +3740,12 @@
         "spoils_in" : 48,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 14,
         "description" : "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
         "price" : 140,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -3
     },
     {
@@ -4042,14 +3758,12 @@
         "use_action" : "POISON",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -5,
         "nutrition" : 14,
         "description" : "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
         "price" : 140,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["HIDDEN_POISON", "TRADER_AVOID"],
         "fun" : -3
     },
@@ -4064,13 +3778,11 @@
         "stim" : -4,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 14,
         "description" : "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
         "price" : 140,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : "HIDDEN_HALLU",
         "fun" : -3
     },{
@@ -4082,14 +3794,12 @@
         "spoils_in" : 24,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 18,
         "description" : "A tasty cooked wild mushroom.",
         "price" : 150,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 1
     },
     {
@@ -4102,14 +3812,12 @@
         "use_action" : "POISON",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 12,
         "description" : "Prized by chefs and woodsmen alike, morel mushrooms are delicious but must be cooked before they are safe to eat.",
         "price" : 2000,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 1
     },
     {
@@ -4121,13 +3829,11 @@
         "spoils_in" : 24,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 18,
         "description" : "A tasty cooked morel mushroom.",
         "price" : 1500,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 4
     },
     {
@@ -4139,7 +3845,6 @@
         "spoils_in" : 36,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 16,
         "description" : "A delicious serving of fried morsels of morel mushroom.",
         "price" : 1500,
@@ -4201,7 +3906,6 @@
         "price" : 400,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -4221,7 +3925,6 @@
         "price": 410,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -4241,7 +3944,6 @@
         "price" : 400,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -4261,7 +3963,6 @@
         "price" : 410,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -4280,8 +3981,7 @@
         "price" : 50,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 2,
-        "fun" : 0
+        "charges" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -4331,16 +4031,13 @@
         "spoils_in" : 480,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 2,
         "nutrition" : 50,
         "description" : "A serving of cooked buckwheat groats.  Healthy and nutritious but bland.",
         "price" : 120,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -4377,9 +4074,7 @@
         "description": "A handful of raw hard nuts from a hickory tree, their shells have been removed.",
         "price" : 0,
         "material" : "veggy",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -4397,7 +4092,6 @@
         "price" : 90,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -4492,7 +4186,6 @@
         "stim" : 1,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 5,
         "description" : "This fleshy root is ripe and flowing with sugars; just takes some processing to extract them.",
         "price" : 50,
@@ -4537,8 +4230,7 @@
         "price" : 100,
         "material" : "veggy",
         "volume" : 3,
-        "charges" : 4,
-        "fun" : 0
+        "charges" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -4579,7 +4271,6 @@
         "price" : 100,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -2
     },
     {
@@ -4621,9 +4312,7 @@
         "description" : "Juicy red tomato.  It gained popularity in Italy after being brought back from the New World.",
         "price" : 90,
         "material" : "veggy",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -4701,16 +4390,13 @@
         "spoils_in" : 160,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 2,
         "nutrition" : 30,
         "description" : "It's a bit tough, but quite delicious.",
         "price" : 400,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -4744,16 +4430,13 @@
         "spoils_in" : 120,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 20,
         "description" : "A tasty summer squash.",
         "price" : 300,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -4787,14 +4470,12 @@
         "spoils_in" : 720,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 5,
         "description" : "An aromatic onion used in cooking.  Cutting these up can make your eyes sting!",
         "price" : 50,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -1,
         "fun_comment" : "Raw onions probably aren't all that tasty to most people."
     },
@@ -4836,7 +4517,6 @@
         "price" : 600,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -18,
         "fun_comment" : "Who in their right mind would eat an entire garlic bulb raw?"
     },
@@ -4876,7 +4556,6 @@
         "spoils_in" : 120,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 5,
         "description" : "A healthy root vegetable.  Rich in vitamin A!",
@@ -4919,16 +4598,13 @@
         "spoils_in" : 120,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 20,
         "description" : "Delicious golden kernels.",
         "price" : 170, "//" : "Thinking this is a single ear here.",
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -4968,8 +4644,7 @@
         "price" : 180,
         "material" : "veggy",
         "volume" : 3,
-        "charges" : 4,
-        "fun" : 0
+        "charges" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -4987,7 +4662,6 @@
         "price" : 180,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -2
     },
     {
@@ -5006,9 +4680,7 @@
         "description" : "An irradiated tomato will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price" : 120,
         "material" : "veggy",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -5020,16 +4692,13 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 2,
         "nutrition" : 30,
         "description" : "An irradiated cluster of broccoli will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price" : 420,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -5040,16 +4709,13 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 20,
         "description" : "An irradiated zucchini will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price" : 320,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -5060,14 +4726,12 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 5,
         "description" : "An irradiated onion will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price" : 100,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -1,
         "fun_comment" : "Raw onions probably aren't all that tasty to most people."
     },
@@ -5080,7 +4744,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 5,
         "description" : "An irradiated bundle of carrots will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
@@ -5100,16 +4763,13 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 20,
         "description" : "An irradiated ear of corn will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price" : 210,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -5128,7 +4788,6 @@
         "price" : 320,
         "material" : ["flesh", "junk"],
         "volume" : 5,
-        "charges" : 1,
         "fun" : -3
     },
     {
@@ -5168,7 +4827,6 @@
         "price" : 200,
         "material" : ["flesh", "junk", "milk"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : -3
     },
     {
@@ -5187,7 +4845,6 @@
         "price" : 90,
         "material" : ["flesh", "junk", "milk"],
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -5201,13 +4858,11 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 10,
         "description" : "It could be eaten raw if you're desperate, but is much better cooked.",
         "price" : 120,
         "material" : "wheat",
         "volume" : 3,
-        "charges" : 1,
         "fun" : -8
     },
     {
@@ -5219,13 +4874,11 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 12,
         "description" : "It could be eaten raw if you're desperate, but is much better cooked.",
         "price" : 120,
         "material" : "wheat",
         "volume" : 3,
-        "charges" : 1,
         "fun" : -8
     },
     {
@@ -5246,8 +4899,7 @@
         "material" : "wheat",
         "volume" : 6,
         "charges" : 2,
-        "flags" : ["EATEN_HOT", "TRADER_AVOID"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT", "TRADER_AVOID"]
     },
     {
         "type" : "COMESTIBLE",
@@ -5266,8 +4918,7 @@
         "material" : "wheat",
         "volume" : 8,
         "charges" : 2,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -5279,13 +4930,11 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 10,
         "description" : "It could be eaten raw if you're desperate, but is much better cooked.",
         "price" : 150,
         "material" : "wheat",
         "volume" : 3,
-        "charges" : 1,
         "fun" : -6
     },
     {
@@ -5360,15 +5009,12 @@
         "container" : "can_food",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 48,
         "description" : "Meat encased in little dough satchels.  Tastes fine raw.",
         "price" : 250,
         "material" : ["flesh", "wheat"],
         "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -5380,14 +5026,12 @@
         "container" : "cup_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 15,
         "description" : "Delicious fermented dairy.  It tastes of vanilla.",
         "price" : 190,
         "material" : "milk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 15
     },
     {
@@ -5400,14 +5044,12 @@
         "container" : "cup_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 10,
         "description" : "Sugary, fermented dairy.  A wonderful treat.",
         "price" : 210,
         "material" : ["milk", "junk"],
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 20
     },
     {
@@ -5420,7 +5062,6 @@
         "container" : "can_food",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 20,
         "description" : "Tomato sauce, yum yum.",
@@ -5428,7 +5069,6 @@
         "material" : "veggy",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -5443,7 +5083,6 @@
         "container" : "can_food",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 48,
         "description" : "A spicy stew containing chili peppers, meat, tomatoes and beans.",
@@ -5465,7 +5104,6 @@
         "container" : "can_food",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 48,
         "description" : "A spicy stew containing chili peppers, human flesh, tomatoes and beans.",
@@ -5486,7 +5124,6 @@
         "container" : "jar_glass",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 18,
         "description" : "Olive oil, basil, garlic, pine nuts.  Simple and delicious.",
@@ -5494,7 +5131,6 @@
         "material" : "veggy",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 4
     },
     {
@@ -5514,9 +5150,7 @@
         "price" : 150,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -5535,7 +5169,6 @@
         "price" : 200,
         "material" : ["flesh", "veggy"],
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -5556,9 +5189,7 @@
         "price" : 200,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -5576,7 +5207,6 @@
         "price" : 400,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : -8
     },
@@ -5597,7 +5227,6 @@
         "price" : 400,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 7
     },
     {
@@ -5617,7 +5246,6 @@
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 1
     },
     {
@@ -5636,7 +5264,6 @@
         "price" : 200,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -5651,13 +5278,11 @@
         "container" : "can_food",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 24,
         "description" : "Now with 95 percent fewer dolphins!",
         "price" : 200,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -5670,13 +5295,11 @@
         "container" : "can_food",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 44,
         "description" : "Bright pink fish-paste in a can!",
         "price" : 500,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 1
     },
     {
@@ -5689,13 +5312,11 @@
         "container" : "can_food",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 46,
         "description" : "Bright white chicken-paste.",
         "price" : 400,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 1
     },
     {
@@ -5708,13 +5329,11 @@
         "container" : "can_food", "//" : "Small cans--needs properly Jarred after the string freeze.",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 38,
         "description" : "Fish fillets pickled in some sort of tangy white sauce.",
         "price" : 310,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -5734,7 +5353,6 @@
         "price" : 500,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -5772,7 +5390,6 @@
         "price" : 3500,
         "material" : "honey",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 9
     },
     {
@@ -5790,7 +5407,6 @@
         "description" : "A large chunk of beeswax.  Not very tasty or nourishing, but okay in an emergency.",
         "price" : 1500,
         "volume" : 1,
-        "charges" : 1,
         "fun" : -5
     },
     {
@@ -5804,13 +5420,11 @@
         "use_action" : "ROYAL_JELLY",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 10,
         "nutrition" : 10,
         "description" : "A translucent hexagonal chunk of wax, filled with dense, milky jelly.  Delicious, and rich with the most beneficial substances the hive can produce, it is useful for curing all sorts of afflictions.",
         "price" : 20000, "//" : "Didn't precisely exist pre-cataclysm, so tough to price.",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 7
     },
     {
@@ -5823,14 +5437,12 @@
         "use_action" : "ROYAL_JELLY",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 10,
         "nutrition" : 80,
         "description" : "A chunk of meat with a coat of royal jelly over it.  It's a lot like a honey-baked ham.",
         "price" : 21000,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 7
     },
     {
@@ -5846,14 +5458,12 @@
         "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"],
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -12,
         "nutrition" : 18,
         "description" : "A deformed human fetus.  Eating this would be the most vile thing you can think of, and might just cause you to mutate.",
         "price" : 0,
         "material" : "hflesh",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -60
     },
     {
@@ -5868,14 +5478,12 @@
         "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"],
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -8,
         "nutrition" : 32,
         "description" : "A misshapen human arm, eating this would be incredibly disgusting and probably cause you to mutate.",
         "price" : 0,
         "material" : "hflesh",
         "volume" : 8,
-        "charges" : 1,
         "fun" : -20
     },
     {
@@ -5890,14 +5498,12 @@
         "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"],
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -8,
         "nutrition" : 46,
         "description" : "A malformed human leg, this would be gross to eat, and probably cause mutations.",
         "price" : 0,
         "material" : "hflesh",
         "volume" : 20,
-        "charges" : 1,
         "fun" : -20
     },
     {
@@ -5914,7 +5520,6 @@
         "price" : 80,
         "material" : "egg",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -10
     },
 {
@@ -5931,7 +5536,6 @@
         "price" : 80,
         "material" : "egg",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -20
     },
     {
@@ -5969,7 +5573,6 @@
         "price" : 0,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 4,
         "fun" : 30
     },
@@ -5992,7 +5595,6 @@
         "price" : 0,
         "material" : "fruit",
         "volume" : 0,
-        "charges" : 1,
         "stack_size" : 10,
         "fun" : 30,
         "seed_data": {
@@ -6020,7 +5622,6 @@
         "price" : 0,
         "material" : "fruit",
         "volume" : 0,
-        "charges" : 1,
         "stack_size" : 10,
         "fun" : 30
     },
@@ -6041,7 +5642,6 @@
         "price" : 0,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 4,
         "fun" : 30
     },
@@ -6091,7 +5691,6 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 3,
         "description" : "Dry flakes of flattened grain.  Tasty and nutritious when cooked, it also doubles as food for horses while dry.",
         "price" : 7500,
@@ -6179,7 +5778,6 @@
         "price" : 100,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -6193,7 +5791,6 @@
         "spoils_in" : 360,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 44,
         "description" : "Slow-cooked beans with meat.  Tasty and very filling.",
         "price" : 700,
@@ -6213,7 +5810,6 @@
         "spoils_in" : 360,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 39,
         "description" : "Slow-cooked beans with vegetables.  Tasty and very filling.",
@@ -6253,14 +5849,12 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 36,
         "description" : "A hearty serving of cooked long-grain white rice.",
         "price" : 100,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -6274,7 +5868,6 @@
         "spoils_in" : 360,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 41,
         "description" : "Delicious fried rice with meat.  Tasty and very filling.",
         "price" : 700,
@@ -6294,7 +5887,6 @@
         "spoils_in" : 360,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 36,
         "description" : "Delicious fried rice with vegetables.  Tasty and very filling.",
@@ -6315,7 +5907,6 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 26,
         "description" : "A serving of beans and rice that has been cooked together.  Delicious and healthy!",
@@ -6336,7 +5927,6 @@
         "spoils_in" : 360,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 36,
         "description" : "Slow-cooked beans and rice with meat and seasonings.  Tasty and very filling.",
@@ -6357,7 +5947,6 @@
         "spoils_in" : 360,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 33,
         "description" : "Slow-cooked beans and rice with vegetables and seasonings.  Tasty and very filling.",
@@ -6377,14 +5966,12 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 48,
         "description" : "A filling and nutritious New England classic that has sustained pioneers and captains of industry alike.",
         "price" : 500,
         "material" : "wheat",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -6397,7 +5984,6 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 32,
         "description" : "A filling and nutritious New England classic that has been improved with the addition of extra wholesome ingredients.",
@@ -6426,25 +6012,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "salt",
-        "name" : "salt",
-        "name_plural" : "salt",
-        "weight" : 5,
-        "color" : "white",
-        "container" : "bottle_plastic_small",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : -20,
-        "healthy" : -3,
-        "description" : "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
-        "price" : 400,
-        "material" : "powder",
-        "volume" : 1,
-        "charges" : 100,
-        "fun" : -12
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "yeast",
         "name" : "yeast",
         "weight" : 11,
@@ -6469,7 +6036,6 @@
         "color" : "white",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "description" : "This bone meal is useful for fertilizing plants.",
         "price" : 25,
         "material" : "powder",
@@ -6486,7 +6052,6 @@
         "use_action" : "POISON",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "description" : "This is a grayish bone meal made from rotten bones.",
         "price" : 0,
         "material" : "powder",
@@ -6511,24 +6076,6 @@
         "volume" : 1,
         "charges" : 4,
         "fun" : -10
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "seasoning_italian",
-        "name" : "Italian seasoning",
-        "name_plural" : "Italian seasoning",
-        "weight" : 1,
-        "color" : "green",
-        "container" : "bottle_plastic_small",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : -1,
-        "description" : "A fragrant mix of dried oregano, basil, thyme and other spices.",
-        "price" : 290,
-        "material" : "powder",
-        "volume" : 1,
-        "charges" : 100,
-        "fun" : -1
     },
     {
         "type" : "COMESTIBLE",
@@ -6569,7 +6116,6 @@
         "price" : 100,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
@@ -6588,7 +6134,6 @@
         "price" : 0,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -6619,68 +6164,11 @@
         "color" : "brown",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 42,
         "description" : "A serving of acorns that have been hulled, chopped, and boiled in water before being thoroughly toasted until dry.  Filling and nutritious.",
         "price" : 90,
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "seasoning_salt",
-        "name" : "seasoned salt",
-        "name_plural" : "seasoned salt",
-        "weight" : 1,
-        "color" : "brown",
-        "container" : "bottle_plastic_small",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : -5,
-        "description" : "Salt mixed with a fragrant blend of secret herbs and spices.",
-        "price" : 250,
-        "material" : "powder",
-        "volume" : 1,
-        "charges" : 100,
-        "fun" : -5
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "pepper",
-        "name" : "black pepper",
-        "name_plural" : "black pepper",
-        "weight" : 1,
-        "color" : "dark_gray",
-        "container" : "bottle_plastic_small",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : -5,
-        "description" : "Ground black spice berries with a pungent aroma.",
-        "price" : 250,
-        "material" : "powder",
-        "volume" : 1,
-        "charges" : 100,
-        "fun" : -5
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "cinnamon",
-        "name" : "cinnamon",
-        "name_plural" : "cinnamon",
-        "weight" : 1,
-        "color" : "brown",
-        "container" : "bottle_plastic_small",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : -5,
-        "description" : "Ground cinnamon bark with a sweet but slightly spicy aroma.",
-        "price" : 500,
-        "material" : "powder",
-        "volume" : 1,
-        "charges" : 100,
-        "fun" : -5
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -6711,7 +6199,6 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 38,
         "description" : "Fluffy and delicious scrambled eggs.",
@@ -6732,7 +6219,6 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 33,
         "description" : "Fluffy and delicious scrambled eggs made more delicious with the addition of other tasty ingredients.",
@@ -6760,7 +6246,6 @@
         "price" : 95,
         "material" : "egg",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -6794,14 +6279,12 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -2,
         "nutrition" : 8,
         "description" : "Mildly toxic and not very tasty raw.  When cooked, it is delicious.",
         "price" : 90,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -3
     },
     {
@@ -6851,14 +6334,12 @@
         "color" : "brown",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -2,
         "nutrition" : 14,
         "description" : "Raw, uncooked beans.  They are mildly toxic in this form, but you could cook them to make them tasty.  Alternatively, you could plant them.",
         "price" : 90,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -1,
         "seed_data": {
             "plant_name": "beans",
@@ -6900,14 +6381,12 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -2,
         "nutrition" : 8,
         "description" : "An irradiated potato will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price" : 100,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -3
     },
     {
@@ -6920,14 +6399,12 @@
         "spoils_in" : 48,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 20,
         "description" : "A delicious baked potato.  Got any sour cream?",
         "price" : 150,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
     },
@@ -6947,9 +6424,7 @@
         "description" : "This is a simple dish made by cooking the pumpkin pulp and then mashing.",
         "price" : 50,
         "material" : "veggy",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -6961,15 +6436,13 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 20,
         "description" : "Simple unleavened bread.",
         "price" : 140,
         "material" : "wheat",
         "volume" : 2,
         "charges" : 6,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : ["EATEN_HOT"]
     },
     {
         "type" : "COMESTIBLE",
@@ -6981,7 +6454,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 20,
         "description" : "Healthy and filling.",
@@ -7002,7 +6474,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 18,
         "description" : "Healthy and filling cornbread.",
@@ -7023,7 +6494,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 18,
         "description" : "A round, thin flatbread made from finely ground corn flour.",
@@ -7044,7 +6514,6 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 33,
         "description" : "A tortilla filled with cheese and lightly grilled.",
@@ -7064,7 +6533,6 @@
         "spoils_in" : 480,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 20,
         "description" : "A tasty and nutritious fried bread treat.",
@@ -7085,7 +6553,6 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 22,
         "description" : "Fluffy and delicious pancakes with real maple syrup.",
@@ -7106,7 +6573,6 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 25,
         "description" : "Fluffy and delicious pancakes with real maple syrup, made sweeter and healthier with the addition of wholesome fruit.",
@@ -7127,7 +6593,6 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 25,
         "description" : "Fluffy and delicious pancakes with real maple syrup, with delicious chocolate baked right in.",
         "price" : 700,
@@ -7147,7 +6612,6 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 45,
         "description" : "Slices of bread dipped in a milk and egg mixture then fried.",
@@ -7167,7 +6631,6 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 37,
         "description" : "Hey it's waffle time, it's waffle time.  Won't you have some waffles of mine?",
         "price" : 550,
@@ -7186,7 +6649,6 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 45,
         "description" : "Crunchy and delicious waffles with real maple syrup, made sweeter and healthier with the addition of wholesome fruit.",
@@ -7206,7 +6668,6 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 40,
         "description" : "Crunchy and delicious waffles with real maple syrup, with delicious chocolate baked right in.",
         "price" : 650,
@@ -7328,8 +6789,7 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 7,
-        "fun" : 0
+        "charges" : 7
     },
     {
         "type" : "COMESTIBLE",
@@ -7358,7 +6818,6 @@
         "spoils_in" : 180,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 24,
         "description" : "Delicious and filling, this home made biscuit is good, and good for you!",
@@ -7486,7 +6945,6 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 40,
         "description" : "A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its smell brings back great memories.",
         "price" : 990,
@@ -7507,7 +6965,6 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 40,
         "description" : "A delicious pizza with molten cheese on top.",
         "price" : 990,
@@ -7527,7 +6984,6 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 50,
         "description" : "A meat pizza, for all the carnivores out there.  Chock full of minced meat and heavily seasoned.",
         "price" : 1090,
@@ -7547,7 +7003,6 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 50,
         "description" : "A meat pizza, for all the cannibals out there.  Chock full of minced human flesh and heavily seasoned.",
         "price" : 2800,
@@ -7636,7 +7091,6 @@
         "spoils_in" : 80,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 40,
         "description" : "The irradiated beef main course from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
@@ -7656,7 +7110,6 @@
         "spoils_in" : 80,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 33,
         "description" : "The irradiated vegetarian main course from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
@@ -7676,7 +7129,6 @@
         "spoils_in" : 80,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 35,
         "description" : "The irradiated chicken main course from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
@@ -7696,7 +7148,6 @@
         "spoils_in" : 80,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 40,
         "description" : "Nicknamed the 'Four Fingers of Death' by troops, this is probably the most disgusting thing you've ever eaten.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
         "price" : 500,
@@ -7737,7 +7188,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 2,
         "description" : "Dried leaves of a tropical plant.  You can boil them into tea, or you can just eat them raw.  They aren't too filling though.",
         "price" : 1030,
@@ -7758,7 +7208,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "description" : "Ground coffee beans.  You can boil it into a mediocre stimulant, or swallow it raw for a lesser stimulative boost.",
         "price" : 900,
         "volume" : 1,
@@ -7817,13 +7266,11 @@
         "color" : "white",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 25,
         "description" : "Delicious sponge cake with buttercream icing, it says happy birthday on it.",
         "price" : 0,
         "material" : ["wheat", "junk"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 20
     },
     {
@@ -7835,13 +7282,11 @@
         "stim" : 4,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 25,
         "description" : "Delicious chocolate cake.  It has all the icing.  All of it.",
         "price" : 0,
         "material" : ["wheat", "junk"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 20
     },
     {
@@ -7859,7 +7304,6 @@
         "price" : 0,
         "material" : ["wheat", "junk"],
         "volume" : 3,
-        "charges" : 1,
         "fun" : 30
     },
     {
@@ -7872,7 +7316,6 @@
         "container" : "can_food",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 38,
         "description" : "Low-sodium preserved meat.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked meat.",
         "price" : 250,
@@ -7892,15 +7335,13 @@
         "container" : "can_food",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 28,
         "description" : "This mushy pile of vegetable matter was boiled and canned in an earlier life.  Better eat it before it oozes through your fingers.",
         "price" : 250,
         "material" : "veggy",
         "volume" : 1,
-        "stack_size" : 2,
-        "fun" : 0
+        "stack_size" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -7934,7 +7375,6 @@
         "container" : "can_food",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 38,
         "description" : "Low-sodium preserved human meat.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked meat.",
@@ -7999,8 +7439,7 @@
         "price" : 500,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 2,
-        "fun" : 0
+        "charges" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -8032,7 +7471,6 @@
         "spoils_in" : 48,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 25,
         "description" : "Spaghetti covered with a thick meat sauce.  Yum!",
@@ -8053,7 +7491,6 @@
         "spoils_in" : 48,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 25,
         "description" : "Spaghetti covered with a thick human flesh sauce.  Tastes great if you enjoy that kind of thing.",
         "price" : 0,
@@ -8073,7 +7510,6 @@
         "spoils_in" : 48,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 2,
         "nutrition" : 50,
         "description" : "Spaghetti, with a generous helping of pesto on top.  Yum!",
@@ -8142,7 +7578,6 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "fun" : 0,
         "seed_data": {
             "plant_name": "cannabis",
             "fruit": "cannabis",
@@ -8183,7 +7618,6 @@
         "volume": 1,
         "comestible_type": "DRINK",
         "container": "bottle_plastic",
-        "quench": 0,
         "nutrition": 3,
         "spoils_in": 600,
         "charges": 5,
@@ -8207,7 +7641,6 @@
         "quench": 10,
         "nutrition": 10,
         "charges": 5,
-        "fun": 0,
         "phase": "liquid"
     },
     {
@@ -8266,7 +7699,6 @@
         "quench": -2,
         "nutrition": 5,
         "charges": 5,
-        "fun": 0,
         "phase": "liquid",
         "flags" : ["USE_EAT_VERB"]
     },
@@ -8284,7 +7716,6 @@
         "price" : 250,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -8324,7 +7755,6 @@
         "price" : 500,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -8337,7 +7767,6 @@
         "color" : "white",
         "comestible_type" : "FOOD",
         "symbol" : "`",
-        "quench" : 0,
         "nutrition" : 1,
         "description" : "A piece of paper.  Can be used for fires.",
         "price" : 0,
@@ -8476,14 +7905,12 @@
         "container" : "jar_3l_glass",
         "comestible_type" : "DRINK",
         "symbol" : "~",
-        "quench" : 0,
         "nutrition" : 18,
         "description" : "It's like strawberry jam, only without sugar.",
         "price" : 50, "//" : "Cheap for three liters of spread!",
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 2,
         "flags" : ["USE_EAT_VERB", "EATEN_COLD"]
     },
@@ -8498,14 +7925,12 @@
         "container" : "jar_3l_glass",
         "comestible_type" : "DRINK",
         "symbol" : "~",
-        "quench" : 0,
         "nutrition" : 18,
         "description" : "It's like blueberry jam, only without sugar.",
         "price" : 50,
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 3,
         "flags" : [ "USE_EAT_VERB", "EATEN_COLD" ]
     },
@@ -8519,7 +7944,6 @@
         "container" : "jar_3l_glass",
         "comestible_type" : "DRINK",
         "symbol" : "~",
-        "quench" : 0,
         "nutrition" : 10,
         "description" : "Fresh strawberries, cooked with sugar to make them last longer.",
         "price" : 80,
@@ -8540,7 +7964,6 @@
         "container" : "jar_3l_glass",
         "comestible_type" : "DRINK",
         "symbol" : "~",
-        "quench" : 0,
         "nutrition" : 10,
         "description" : "Fresh blueberries, cooked with sugar to make them last longer.",
         "price" : 80,
@@ -8562,7 +7985,6 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 35,
         "description" : "A sandwich of minced meat and cheese with condiments.  The apex of pre-cataclysm culinary achievement.",
         "price" : 1000,
@@ -8583,7 +8005,6 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 35,
         "description" : "A sandwich of minced human flesh and cheese with condiments.  The apex of post-cataclysm cannibalistic culinary achievement.",
         "price" : 0,
@@ -8604,7 +8025,6 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 30,
         "description" : "A sandwich of minced meat with condiments.",
         "price" : 900,
@@ -8625,7 +8045,6 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 30,
         "description" : "This hamburger contains more than the FDA allowable 4% human flesh content.",
         "price" : 0,
@@ -8646,7 +8065,6 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 31,
         "description" : "A sandwich, consisting of ground beef, onions, and tomato sauce served on a hamburger bun.",
         "price" : 900,
@@ -8668,7 +8086,6 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 31,
         "description" : "A sandwich is a sandwich, but this is made with people!",
         "price" : 0,
@@ -8749,7 +8166,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 30,
         "description" : "A block of yellow processed cheese.",
         "price" : 900,
@@ -8769,7 +8185,6 @@
         "container" : "can_food",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 20,
         "description" : "Processed cheese spread.",
         "price" : 650,
@@ -8796,7 +8211,6 @@
         "material" : "milk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : -12
     },
     {
@@ -8867,7 +8281,6 @@
         "container" : "jar_glass",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 35,
         "description" : "This is a serving of crisply brined and canned vegetable matter.  Tasty and nutritious.",
@@ -8886,7 +8299,6 @@
         "container" : "jar_glass",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 45,
         "description" : "This is a serving of crisply brined and canned meat.  Tasty and nutritious.",
@@ -8905,7 +8317,6 @@
         "container" : "jar_glass",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 50,
         "description" : "This is a serving of crisply brined and canned human flesh.  Tasty and nutritious if you're into that sort of thing.",
@@ -8967,15 +8378,12 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 15,
         "description" : "So-called ramen noodles.  Can be eaten raw.",
         "price" : 200,
         "material" : "wheat",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -8993,7 +8401,6 @@
         "price" : 160,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 4
     },
     {
@@ -9012,7 +8419,6 @@
         "price" : 180,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -9031,7 +8437,6 @@
         "price": 200,
         "material": "fruit",
         "volume": 1,
-        "charges": 1,
         "fun": 2
     },
     {
@@ -9050,7 +8455,6 @@
         "price" : 200,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 4
     },{
         "type" : "COMESTIBLE",
@@ -9066,7 +8470,6 @@
         "comestible_type": "FOOD",
         "addiction_type": "caffeine",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 40,
         "weight" : 1
     },{
@@ -9083,7 +8486,6 @@
         "comestible_type": "FOOD",
         "addiction_type": "caffeine",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 40,
         "weight" : 1
     },{
@@ -9103,7 +8505,6 @@
         "price" : 110,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -9123,7 +8524,6 @@
         "price": 140,
         "material": "fruit",
         "volume": 1,
-        "charges": 1,
         "fun": 3
     },
     {
@@ -9142,7 +8542,6 @@
         "price" : 200,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -9161,7 +8560,6 @@
         "price" : 210,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -9238,7 +8636,6 @@
         "price" : 500,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "bashing" : 2,
         "fun" : 1
     },
@@ -9259,7 +8656,6 @@
         "price" : 140,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 4
     },
     {
@@ -9319,7 +8715,6 @@
         "price" : 160,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 4
     },
     {
@@ -9339,8 +8734,7 @@
         "price" : 150,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 3,
-        "fun" : 0
+        "charges" : 3
     },
     {
         "type": "COMESTIBLE",
@@ -9359,8 +8753,7 @@
         "price": 190,
         "material": "fruit",
         "volume": 1,
-        "charges": 3,
-        "fun": 0
+        "charges": 3
     },
     {
         "type" : "COMESTIBLE",
@@ -9416,7 +8809,6 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 12,
         "description" : "A box of fast-food fried potatoes with delicious cheese smothered on top.",
@@ -9437,7 +8829,6 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -1,
         "nutrition" : 8,
         "description" : "A box of fast-food fried onions.  Crunchy and delicious.",
@@ -9566,7 +8957,6 @@
         "price" : 400,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 4
     },
     {
@@ -9586,7 +8976,6 @@
         "price": 410,
         "material": "fruit",
         "volume": 1,
-        "charges": 1,
         "fun": 4
     },
     {
@@ -9626,7 +9015,6 @@
         "price" : 400,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 4
     },
     {
@@ -9646,7 +9034,6 @@
         "price": 410,
         "material": "fruit",
         "volume": 1,
-        "charges": 1,
         "fun": 4
     },
     {
@@ -9659,14 +9046,12 @@
         "container" : "jar_3l_glass",
         "comestible_type" : "DRINK",
         "symbol" : "~",
-        "quench" : 0,
         "nutrition" : 18,
         "description" : "It's like fruit jam, only without sugar.",
         "price" : 50,
         "material" : "fruit",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 2,
         "flags" : ["USE_EAT_VERB", "EATEN_COLD"]
     },
@@ -9680,7 +9065,6 @@
         "container" : "jar_3l_glass",
         "comestible_type" : "DRINK",
         "symbol" : "~",
-        "quench" : 0,
         "nutrition" : 10,
         "description" : "Fresh fruit, cooked with sugar to make them last longer.",
         "price" : 80,
@@ -9752,7 +9136,6 @@
         "price" : 180,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -9771,7 +9154,6 @@
         "price" : 190,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 7
     },
     {
@@ -9790,8 +9172,7 @@
         "price" : 410,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 4,
-        "fun" : 0
+        "charges" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -9809,7 +9190,6 @@
         "price" : 200,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -9828,7 +9208,6 @@
         "price" : 210,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 7
     },
     {
@@ -9847,8 +9226,7 @@
         "price" : 420,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 4,
-        "fun" : 0
+        "charges" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -9861,7 +9239,6 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : -2,
         "nutrition" : 1,
         "description" : "A big bag of soft chocolate-covered peppermint patties...  yum!",
@@ -9885,8 +9262,7 @@
         "price" : 900,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 2,
-        "fun" : 0
+        "charges" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -9903,8 +9279,7 @@
         "price" : 0,
         "material" : "hflesh",
         "volume" : 1,
-        "charges" : 2,
-        "fun" : 0
+        "charges" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -9915,7 +9290,6 @@
         "spoils_in" : 24,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 22,
         "description" : "Reconstituted meat flakes, which are much more enjoyable to eat now that they have been rehydrated.",
         "price" : 900,
@@ -9934,7 +9308,6 @@
         "spoils_in" : 24,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 22,
         "description" : "Reconstituted human flesh flakes, which are much more enjoyable to eat now that they have been rehydrated.",
         "price" : 0,
@@ -9958,8 +9331,7 @@
         "price" : 900,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 2,
-        "fun" : 0
+        "charges" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -9970,7 +9342,6 @@
         "spoils_in" : 24,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 22,
         "description" : "Reconstituted vegetable flakes, which are much more enjoyable to eat now that they have been rehydrated.",
@@ -10018,6 +9389,27 @@
         "volume" : 1,
         "charges" : 2,
         "fun" : 4
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "sweetbread",
+        "name" : "sweetbread",
+        "name_plural" : "sweetbreads",
+        "weight" : 150,
+        "color" : "brown",
+        "spoils_in" : 48,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 1,
+        "healthy" : 1,
+        "nutrition" : 24,
+        "description" : "Delicious and tender organ meats.  First boiled, then breaded and fried.  They have interesting flavor and unparalleled texture.",
+        "price" : 500,
+        "material" : ["wheat", "flesh"],
+        "volume" : 1,
+        "charges" : 2,
+        "flags" : ["EATEN_HOT"],
+        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -10138,7 +9530,6 @@
         "price" : 250,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -10157,7 +9548,6 @@
         "price" : 250,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -10176,7 +9566,6 @@
         "price" : 140,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -10195,7 +9584,6 @@
         "price" : 2700,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 5
     },
     {
@@ -10214,7 +9602,6 @@
         "price" : 270,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -10233,7 +9620,6 @@
         "price" : 160,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 3
     },
     {
@@ -10271,7 +9657,6 @@
         "spoils_in" : 240,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 30,
         "description" : "Filling bread buns, taste good with tea on a Sunday morning breakfast.",
@@ -10317,7 +9702,6 @@
         "price" : 250,
         "material" : "egg",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 4,
         "fun" : -8
     },{
@@ -10336,7 +9720,6 @@
         "price" : 250,
         "material" : "egg",
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 4,
         "fun" : -12
     },
@@ -10357,7 +9740,6 @@
         "price" : 350,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 1
     },{
         "type" : "COMESTIBLE",
@@ -10374,7 +9756,6 @@
         "price" : 220,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -2
     },{
         "type" : "COMESTIBLE",
@@ -10391,9 +9772,7 @@
         "description" : "Dried salad with water added, not very tasty but still a decent substitution for real salad.",
         "price" : 250,
         "material" : "veggy",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },{
         "type" : "COMESTIBLE",
         "id" : "cucumber",
@@ -10409,9 +9788,7 @@
         "description" : "Come from the gourd family, not tasty but very juicy.",
         "price" : 300,
         "material" : "veggy",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },{
         "type" : "COMESTIBLE",
         "id" : "seed_cucumber",
@@ -10449,9 +9826,7 @@
         "description" : "An irradiated cucumber will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price" : 320,
         "material" : "veggy",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },{
         "type" : "COMESTIBLE",
         "id" : "celery",
@@ -10466,9 +9841,7 @@
         "description" : "Neither tasty nor very nutritious, but it goes well with salad.",
         "price" : 200,
         "material" : "veggy",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -10501,13 +9874,11 @@
         "color" : "brown",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 10,
         "description" : "The starchy root of a dahlia flower.  When cooked, it is delicious.",
         "price" : 100,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "fun" : -4
     },
     {
@@ -10519,14 +9890,12 @@
         "spoils_in" : 48,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 2,
         "nutrition" : 28,
         "description" : "A healthy and delicious baked root bulb from a dahlia plant.",
         "price" : 110,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },{
@@ -10543,9 +9912,7 @@
         "description" : "An irradiated cluster of celery will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price" : 220,
         "material" : "veggy",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
+        "volume" : 1
     },
     {
         "id": "soysauce",
@@ -10658,7 +10025,6 @@
         "spoils_in" : 12,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 2,
         "nutrition" : 36,
         "description" : "Delicious slivers of thinly sliced raw fish wrapped in tasty sushi rice and rolled up in a healthy green vegetable.",
@@ -10678,7 +10044,6 @@
         "spoils_in" : 24,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 40,
         "description" : "Delicious slivers of raw meat wrapped in tasty sushi rice and rolled up in a healthy green vegetable.",
@@ -10698,7 +10063,6 @@
         "spoils_in" : 12,
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "healthy" : 1,
         "nutrition" : 31,
         "description" : "Delicious slivers of thinly sliced raw fish and tasty vegetables.",
@@ -10724,7 +10088,6 @@
         "price" : 95,
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -10745,7 +10108,6 @@
         "price" : 150,
         "material" : "junk",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -10785,8 +10147,7 @@
         "price" : 0,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 2,
-        "fun" : 0
+        "charges" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -10806,7 +10167,6 @@
         "material" : "flesh",
         "flags" : "TRADER_AVOID",
         "volume" : 5,
-        "charges" : 1,
         "stack_size" : 1,
         "fun" : -12
     },{
@@ -10827,7 +10187,6 @@
         "price" : 0,
         "material" : "flesh",
         "volume" : 5,
-        "charges" : 1,
         "stack_size" : 1,
         "fun" : -12
     },
@@ -10848,7 +10207,6 @@
         "price" : 50,
         "material" : "hflesh",
         "volume" : 5,
-        "charges" : 1,
         "stack_size" : 1,
         "fun" : -12
     },
@@ -10870,7 +10228,6 @@
         "material" : ["fur", "flesh"],
         "flags": ["NO_SALVAGE", "TRADER_AVOID"],
         "volume" : 5,
-        "charges" : 1,
         "stack_size" : 1,
         "fun" : -24
     },
@@ -10893,7 +10250,6 @@
         "material" : ["fur", "flesh"],
         "flags": ["NO_SALVAGE"],
         "volume" : 5,
-        "charges" : 1,
         "stack_size" : 1,
         "fun" : -24
     },{
@@ -10914,8 +10270,7 @@
         "price" : 350,
         "material" : "veggy",
         "volume" : 1,
-        "stack_size" : 2,
-        "fun" : 0
+        "stack_size" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -10963,7 +10318,6 @@
         "material" : ["alcohol", "junk"],
         "volume" : 2,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -11012,7 +10366,6 @@
         "material" : ["alcohol", "honey"],
         "volume" : 2,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -11037,7 +10390,6 @@
         "material" : "alcohol",
         "volume" : 2,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -11108,7 +10460,6 @@
         "material" : "milk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 14
     },
@@ -11127,7 +10478,6 @@
         "price" : 1250,
         "volume" : 2,
         "phase" : "liquid",
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : -5
     },
@@ -11149,7 +10499,6 @@
         "price" : 550,
         "material" : ["milk", "wheat"],
         "volume" : 1,
-        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -11231,13 +10580,11 @@
         "container" : "wrapper",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 65,
         "description" : "A simple cheese sandwich.",
         "price" : 500,
         "material" : ["milk", "wheat"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 8
     },
     {
@@ -11257,7 +10604,6 @@
         "price" : 200,
         "material" : ["fruit", "wheat"],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 15
     },
     {
@@ -11278,7 +10624,6 @@
         "price" : 500,
         "material" : [ "honey", "wheat" ],
         "volume" : 1,
-        "charges" : 1,
         "fun" : 10
     },
     {
@@ -11298,7 +10643,6 @@
         "price" : 200,
         "material" : "wheat",
         "volume" : 1,
-        "charges" : 1,
         "fun" : 2
     },
     {
@@ -11364,7 +10708,6 @@
         "price" : 1000,
         "material" : ["junk", "honey"],
         "volume" : 1,
-        "charges" : 1,
         "stack_size" : 20,
         "fun" : -1
     },
@@ -11378,7 +10721,6 @@
         "container" : "can_food",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "nutrition" : 48,
         "description" : "Delicious cooked dumplings consisting of a meat filling wrapped in thin dough.",
         "price" : 350,
@@ -11393,7 +10735,6 @@
         "name" : "thyme",
         "description" : "A stalk of thyme.  Smells delicious.",
         "comestible_type" : "FOOD",
-        "quench" : 0,
         "nutrition" : 1,
         "fun" : -4,
         "weight" : 40,
@@ -11402,7 +10743,6 @@
         "symbol" : ",",
         "material" : ["veggy"],
         "volume" : 1,
-        "charges" : 1,
         "price" : 0
     },{
         "type" : "COMESTIBLE",
@@ -11457,7 +10797,6 @@
         "use_action" : "SEED",
         "comestible_type" : "FOOD",
         "symbol" : ".",
-        "quench" : 0,
         "nutrition" : 2,
         "description" : "Some raw pumpkin seeds.  Could be fried and eaten or planted.",
         "price" : 100,
@@ -11465,7 +10804,6 @@
         "volume" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "fun" : 0,
         "seed_data": {
             "plant_name": "pumpkin",
             "fruit": "pumpkin",
@@ -11483,7 +10821,6 @@
         "use_action" : "SEED",
         "comestible_type" : "FOOD",
         "symbol" : ".",
-        "quench" : 0,
         "nutrition" : 2,
         "description" : "Some raw sunflower seeds.  Could be pressed into oil.",
         "price" : 100,
@@ -11491,7 +10828,6 @@
         "volume" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "fun" : 0,
         "seed_data": {
             "plant_name": "sunflower",
             "fruit": "seed_sunflower",
@@ -11504,7 +10840,6 @@
         "name" : "canola",
         "description" : "A pretty stalk of canola.  Its seeds can be pressed into oil.",
         "comestible_type" : "FOOD",
-        "quench" : 0,
         "nutrition" : 1,
         "fun" : -8,
         "weight" : 40,
@@ -11513,7 +10848,6 @@
         "symbol" : ",",
         "material" : ["veggy"],
         "volume" : 1,
-        "charges" : 1,
         "price" : 0
 },{
         "type": "COMESTIBLE",
@@ -11522,7 +10856,6 @@
         "description" : "A stalk of dogbane.  It has very fibrous stems and is mildly poisonous.",
         "comestible_type" : "FOOD",
         "use_action" : "BLECH",
-        "quench" : 0,
         "nutrition" : 1,
         "fun" : -15,
         "healthy" : -2,
@@ -11532,7 +10865,6 @@
         "symbol" : ",",
         "material" : ["veggy"],
         "volume" : 1,
-        "charges" : 1,
         "price" : 0
 },{
         "type" : "COMESTIBLE",
@@ -11562,7 +10894,6 @@
        "name" : "bee balm",
        "description" : "A snow-white flower also known as wild bergamot.  Smells faintly of mint.",
        "comestible_type" : "FOOD",
-       "quench" : 0,
        "nutrition" : 1,
        "fun" : -5,
        "weight" : 40,
@@ -11571,7 +10902,6 @@
        "symbol" : ",",
        "material" : ["veggy"],
        "volume" : 1,
-       "charges" : 1,
        "price" : 0
 },{
         "type" : "COMESTIBLE",
@@ -11615,7 +10945,6 @@
        "price" : 100,
        "volume" : 1,
        "phase" : "liquid",
-       "charges" : 1,
        "flags" : ["EATEN_HOT"],
        "fun" : 1
 },{
@@ -11625,7 +10954,6 @@
        "description" : "A stalk of mugwort.  Smells wonderful.",
        "comestible_type" : "FOOD",
        "spoils_in" : 240,
-       "quench" : 0,
        "nutrition" : 1,
        "fun" : -8,
        "weight" : 40,
@@ -11634,7 +10962,6 @@
        "symbol" : ",",
        "material" : ["veggy"],
        "volume" : 1,
-       "charges" : 1,
        "price" : 0
 },{
         "type" : "COMESTIBLE",
@@ -11895,5 +11222,49 @@
         "charges" : 2,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
+    },
+    {
+        "id": "hot_chocolate",
+        "type": "COMESTIBLE",
+        "category": "food",
+        "name": "hot chocolate",
+        "name_plural": "hot chocolate",
+        "description": "Also known as hot cocoa, this heated chocolate beverage is perfect for a cold winter day.",
+        "weight": 263,
+        "volume": 1,
+        "price": 285,
+        "phase": "liquid",
+        "container": "bottle_plastic",
+        "material": [ "milk", "junk" ],
+        "symbol": "~",
+        "color": "brown",
+        "comestible_type": "DRINK",
+        "nutrition": 9,
+        "quench": 35,
+        "fun": 8,
+        "spoils_in": 24,
+        "flags": [ "EATEN_HOT" ]
+    },
+    {
+        "id": "mex_chocolate",
+        "type": "COMESTIBLE",
+        "category": "food",
+        "name": "Mexican hot chocolate",
+        "name_plural": "Mexican hot chocolate",
+        "description": "This semi-bitter chocolate drink made from cocoa, cinnamon, and chilies, traces its history to the Maya and Aztecs.  Perfect for a cold winter day.",
+        "weight": 263,
+        "volume": 1,
+        "price": 335,
+        "phase": "liquid",
+        "container": "bottle_plastic",
+        "material": [ "milk", "junk" ],
+        "symbol": "~",
+        "color": "brown",
+        "comestible_type": "DRINK",
+        "nutrition": 9,
+        "quench": 35,
+        "fun": 10,
+        "spoils_in": 24,
+        "flags": [ "EATEN_HOT" ]
     }
 ]

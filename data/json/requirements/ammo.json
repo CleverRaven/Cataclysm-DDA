@@ -1,5 +1,13 @@
 [
   {
+    "id": "ammo_762_25",
+    "type": "requirement",
+    "components": [
+      [ [ "762_25_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ]
+    ]
+  },
+  {
     "id": "ammo_9mm",
     "type": "requirement",
     "//": "Components required for 9mm ammo",

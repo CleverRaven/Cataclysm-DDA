@@ -11,7 +11,6 @@
 #include "item_stack.h"
 #include "active_item_cache.h"
 #include "string_id.h"
-#include "int_id.h"
 #include "units.h"
 
 #include <vector>
@@ -26,8 +25,7 @@ class player;
 class vehicle;
 class vpart_info;
 enum vpart_bitflags : int;
-using vpart_id = int_id<vpart_info>;
-using vpart_str_id = string_id<vpart_info>;
+using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 
@@ -42,16 +40,11 @@ struct fuel_type {
     /** Id of the item type that represents the fuel. It may not be valid for certain pseudo
      * fuel types like muscle. */
     itype_id id;
-    /** Color when displaying information about. */
-    nc_color color;
     /** See @ref vehicle::consume_fuel */
     int coeff;
-    /** Factor is used when transforming from item charges to fuel amount. */
-    int charges_to_amount_factor;
 };
 
 const std::array<fuel_type, 7> &get_fuel_types();
-int fuel_charges_to_amount_factor( const itype_id &ftype );
 
 enum veh_coll_type : int {
     veh_coll_nothing,  // 0 - nothing,
@@ -76,28 +69,19 @@ struct veh_collision {
 
 class vehicle_stack : public item_stack {
 private:
-    std::list<item> *mystack;
     point location;
     vehicle *myorigin;
     int part_num;
 public:
 vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int part ) :
-    mystack(newstack), location(newloc), myorigin(neworigin), part_num(part) {};
-    size_t size() const override;
-    bool empty() const override;
+    item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {};
     std::list<item>::iterator erase( std::list<item>::iterator it ) override;
     void push_back( const item &newitem ) override;
     void insert_at( std::list<item>::iterator index, const item &newitem ) override;
-    std::list<item>::iterator begin();
-    std::list<item>::iterator end();
-    std::list<item>::const_iterator begin() const;
-    std::list<item>::const_iterator end() const;
-    std::list<item>::reverse_iterator rbegin();
-    std::list<item>::reverse_iterator rend();
-    std::list<item>::const_reverse_iterator rbegin() const;
-    std::list<item>::const_reverse_iterator rend() const;
-    item &front() override;
-    item &operator[]( size_t index ) override;
+    int count_limit() const override {
+        return MAX_ITEM_IN_VEHICLE_STORAGE;
+    }
+    units::volume max_volume() const override;
 };
 
 /**
@@ -115,7 +99,10 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     vehicle_part(); /** DefaultConstructible */
 
-    vehicle_part( const vpart_str_id& vp, int dx, int dy, item&& it );
+    vehicle_part( const vpart_id& vp, int dx, int dy, item&& it );
+
+    /** Check this instance is non-null (not default constructed) */
+    explicit operator bool() const;
 
     bool has_flag(int const flag) const noexcept { return flag & flags; }
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
@@ -123,9 +110,6 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /** Translated name of a part inclusive of any current status effects */
     std::string name() const;
-
-    /** Ammo type (@ref ammunition_type) that can be contained by a part */
-    ammotype ammo_type() const;
 
     /** Specific type of fuel, charges or ammunition currently contained by a part */
     itype_id ammo_current() const;
@@ -158,6 +142,12 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /* Can part in current state be reloaded optionally with specific @ref obj */
     bool can_reload( const itype_id &obj = "" ) const;
 
+    /**
+     *  Try adding @param liquid to tank optionally limited by @param qty
+     *  @return whether any of the liquid was consumed (which may be less than qty)
+     */
+    bool fill_with( item &liquid, long qty = LONG_MAX );
+
     /** Current faults affecting this part (if any) */
     const std::set<fault_id>& faults() const;
 
@@ -176,6 +166,24 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Get wheel width (inches) or return 0 if part is not wheel */
     int wheel_width() const;
 
+    /** Efficiency (0.0,1.0] at which engine converts fuel energy to output power at @ref rpm */
+    float efficiency( int rpm ) const;
+
+    /**
+     *  Get NPC currently assigned to this part (seat, turret etc)?
+     *  @note checks crew member is alive and currently allied to the player
+     *  @return nullptr if no valid crew member is currently assigned
+     */
+    npc *crew() const;
+
+    /** Set crew member for this part (seat, truret etc) who must be a player ally)
+     *  @return true if part can have crew members and passed npc was suitable
+     */
+    bool set_crew( const npc &who );
+
+    /** Remove any currently assigned crew member for this part */
+    void unset_crew();
+
     /**
      * @name Part capabilities
      *
@@ -187,6 +195,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Can this part provide power or propulsion? */
     bool is_engine() const;
 
+    /** Can this part generate electrical power when attached to a running engine? */
+    bool is_alternator() const;
+
     /** Is this any type of vehicle light? */
     bool is_light() const;
 
@@ -196,8 +207,14 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Can this part store electrical charge? */
     bool is_battery() const;
 
+    /** Is this part a reactor? */
+    bool is_reactor() const;
+
     /** Can this part function as a turret? */
     bool is_turret() const;
+
+    /** Can a player or NPC use this part as a seat? */
+    bool is_seat() const;
 
     /*@}*/
 
@@ -218,7 +235,10 @@ public:
     bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     bool removed     = false;     // true if this part is removed. The part won't disappear until the end of the turn
                                   // so our indices can remain consistent.
-    bool enabled     = true;      //
+
+    /** Is part currently active/ready for use? */
+    bool enabled = false;
+
     int flags        = 0;         //
     int passenger_id = 0;         // carrying passenger
 
@@ -231,12 +251,26 @@ public:
     std::pair<tripoint, tripoint> target;
 
 private:
-    vpart_id id;         // id in map of parts (vehicle_part_types key)
+    /** What type of part is this? */
+    vpart_id id;
+
+    /** As a performance optimisation we cache the part information here on first lookup */
+    mutable const vpart_info *info_cache = nullptr;
+
     item base;
     std::list<item> items; // inventory
 
+    /** Preferred ammo type when multiple are available */
+    itype_id ammo_pref = "null";
+
+    /**
+     *  What NPC (if any) is assigned to this part (seat, turret etc)?
+     *  @see vehicle_part::crew() accessor which excludes dead and non-allied NPC's
+     */
+    int crew_id = -1;
+
 public:
-    const vpart_str_id &get_id() const;
+    /** Get part definition common to all parts of this type */
     const vpart_info &info() const;
 
     // json saving/loading
@@ -284,6 +318,12 @@ class turret_data {
 
         /** Specific ammo type or returns "null" if no ammo available */
         itype_id ammo_current() const;
+
+        /** What ammo is available for this turret (may be multiple if uses tanks) */
+        std::set<itype_id> ammo_options() const;
+
+        /** Attempts selecting ammo type and returns true if selection was valid */
+        bool ammo_select( const itype_id &ammo );
 
         /** Effects inclusive of any from ammo loaded from tanks */
         std::set<std::string> ammo_effects() const;
@@ -416,6 +456,7 @@ class vehicle : public JsonSerializer, public JsonDeserializer
 {
 private:
     bool has_structural_part(int dx, int dy) const;
+    bool is_structural_part_removed() const;
     void open_or_close(int part_index, bool opening);
     bool is_connected(vehicle_part const &to, vehicle_part const &from, vehicle_part const &excluded) const;
     void add_missing_frames();
@@ -432,6 +473,7 @@ private:
     void smash_security_system();
     // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
     int part_power( int index, bool at_full_hp = false ) const;
+    int part_power( const vehicle_part &part, bool at_full_hp = false ) const;
 
     // get vpart epowerinfo for part number.
     int part_epower (int index) const;
@@ -449,22 +491,6 @@ private:
     bool do_environmental_effects();
 
     units::volume total_folded_volume() const;
-
-    // Gets the fuel color for a given fuel
-    nc_color get_fuel_color ( const itype_id &fuel_type ) const;
-
-    // Whether a fuel indicator should be printed
-    bool should_print_fuel_indicator (itype_id fuelType, bool fullsize) const;
-
-    // Vehical fuel indicator (by fuel)
-    void print_fuel_indicator (void *w, int y, int x, itype_id fuelType,
-                               bool verbose = false, bool desc = false) const;
-
-    // Calculate how long it takes to attempt to start an engine
-    int engine_start_time( const int e ) const;
-
-    // How much does the temperature effect the engine starting (0.0 - 1.0)
-    double engine_cold_factor( const int e ) const;
 
     /**
      * Find a possibly off-map vehicle. If necessary, loads up its submap through
@@ -557,19 +583,19 @@ public:
     const vpart_info& part_info (int index, bool include_removed = false) const;
 
     // check if certain part can be mounted at certain position (not accounting frame direction)
-    bool can_mount (int dx, int dy, const vpart_str_id &id) const;
+    bool can_mount (int dx, int dy, const vpart_id &id) const;
 
     // check if certain part can be unmounted
     bool can_unmount (int p) const;
 
     // install a new part to vehicle
-    int install_part (int dx, int dy, const vpart_str_id &id, bool force = false );
+    int install_part (int dx, int dy, const vpart_id &id, bool force = false );
 
     // Install a copy of the given part, skips possibility check
     int install_part (int dx, int dy, const vehicle_part &part);
 
     /** install item @ref obj to vehicle as a vehicle part */
-    int install_part( int dx, int dy, const vpart_str_id& id, item&& obj, bool force = false );
+    int install_part( int dx, int dy, const vpart_id& id, item&& obj, bool force = false );
 
     bool remove_part (int p);
     void part_removal_cleanup ();
@@ -599,6 +625,9 @@ public:
     int part_with_feature_at_relative (const point &pt, const std::string &f, bool unbroken = true) const;
     int part_with_feature (int p, vpart_bitflags f, bool unbroken = true) const;
 
+    /** Check if vehicle has at least one unbroken part matching predicate @ref func */
+    bool has_part( const std::function<bool(const vehicle_part &)> &func ) const;
+
     /**
      *  Check if vehicle has at least one unbroken part with @ref flag
      *  @param enabled if set part must also be enabled to be considered
@@ -611,6 +640,9 @@ public:
      *  @param enabled if set part must also be enabled to be considered
      */
     bool has_part( const tripoint &pos, const std::string &flag, bool enabled = false ) const;
+
+    /** Check at least one unbroken part at global position @ref pos matching predicate @ref func */
+    bool has_part( const tripoint &pos, const std::function<bool(const vehicle_part &)> &func ) const;
 
     /**
      *  Get all unbroken vehicle parts with @ref flag
@@ -686,7 +718,7 @@ public:
 
     // get symbol for map
     char part_sym( int p, bool exact = false ) const;
-    const vpart_str_id &part_id_string(int p, char &part_mod) const;
+    const vpart_id &part_id_string(int p, char &part_mod) const;
 
     // get color for map
     nc_color part_color( int p, bool exact = false ) const;
@@ -695,11 +727,15 @@ public:
     int print_part_desc (WINDOW *win, int y1, int max_y, int width, int p, int hl = -1) const;
 
     // Get all printable fuel types
-    std::vector< itype_id > get_printable_fuel_types (bool fullsize) const;
+    std::vector<itype_id> get_printable_fuel_types() const;
 
     // Vehicle fuel indicators (all of them)
-    void print_fuel_indicators (void *w, int y, int x, int startIndex = 0, bool fullsize = false,
-                               bool verbose = false, bool desc = false, bool isHorizontal = false) const;
+    void print_fuel_indicators( WINDOW *win, int y, int x, int startIndex = 0, bool fullsize = false,
+                                bool verbose = false, bool desc = false, bool isHorizontal = false ) const;
+
+    // Vehicle fuel indicator (by fuel)
+    void print_fuel_indicator( void *w, int y, int x, itype_id fuelType,
+                               bool verbose = false, bool desc = false ) const;
 
     // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts (int idir, int dir, const point &pivot);
@@ -743,18 +779,9 @@ public:
     int fuel_left (const itype_id &ftype, bool recurse = false) const;
     int fuel_capacity (const itype_id &ftype) const;
 
-    // refill fuel tank(s) with given type of fuel
-    // returns amount of leftover fuel
-    int refill (const itype_id &ftype, int amount);
-
     // drains a fuel type (e.g. for the kitchen unit)
     // returns amount actually drained, does not engage reactor
     int drain (const itype_id &ftype, int amount);
-
-    // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
-    int basic_consumption (const itype_id &ftype) const;
-
-    void consume_fuel( double load );
 
     /**
      * Get all vehicle lights (excluding any that are destroyed)
@@ -798,27 +825,45 @@ public:
     // vehicle motion after precalc[1] is prepared.
     point pivot_displacement() const;
 
-    // Get combined power of all engines. If fueled == true, then only engines which
-    // vehicle have fuel for are accounted
-    int total_power (bool fueled = true) const;
+    /** Get currently selected engine (if any) or a null part if none are selected */
+    vehicle_part &current_engine();
+    const vehicle_part &current_engine() const;
 
-    // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
-    // vehicle have fuel for are accounted
-    int acceleration (bool fueled = true) const;
+    /** Get current vehicle velocity (m/s) */
+    double current_velocity() const;
 
-    // Get maximum velocity gained by combined power of all engines. If fueled == true, then only engines which
-    // vehicle have fuel for are accounted
-    int max_velocity (bool fueled = true) const;
+    /** Get maximum velocity (m/s) when using a specific engine */
+    double max_velocity( const vehicle_part &pt ) const;
 
-    // Get safe velocity gained by combined power of all engines. If fueled == true, then only engines which
-    // vehicle have fuel for are accounted
-    int safe_velocity (bool fueled = true) const;
+    /** Highest velocity avoiding engine damage (m/s) when using a specific engine */
+    double safe_velocity( const vehicle_part &pt ) const;
+
+    /** Most fuel efficient velocity when using a specific engine */
+    double optimal_velocity( const vehicle_part &pt ) const;
+
+    /** Get current gear for specific engine (or zero for engines without discrete gears) */
+    int gear( const vehicle_part &pt ) const;
+
+    /** Get current rpm of specific engine (or zero if engine is not running) */
+    int rpm( const vehicle_part &pt ) const;
+
+    /** Check if specific engine is currently running above redline? */
+    bool overspeed( const vehicle_part &pt ) const;
+
+    /** Get load (in watts) on specific engine from both propulsion and alternators */
+    int load( const vehicle_part &pt ) const;
+
+    /** Get acceleration (m/s²) from specific engine dependent upon current @ref load() */
+    double acceleration( const vehicle_part &pt ) const;
 
     // Generate smoke from a part, either at front or back of vehicle depending on velocity.
     void spew_smoke( double joules, int part, int density = 1 );
 
-    // Loop through engines and generate noise and smoke for each one
-    void noise_and_smoke( double load, double time = 6.0 );
+    /**
+     * Generate noise or smoke from a vehicle with a running engine
+     * @param load current engine load as proportion of maximum output [0.0-1.0]
+     */
+    void noise_and_smoke( double load );
 
     /**
      * Calculates the sum of the area under the wheels of the vehicle.
@@ -878,9 +923,6 @@ public:
     // Extra drag on the vehicle from components other than wheels.
     float drag() const;
 
-    // strain of engine(s) if it works higher that safe speed (0-1.0)
-    float strain () const;
-
     // Calculate if it can move using its wheels or boat parts configuration
     bool sufficient_wheel_config( bool floating ) const;
     bool balanced_wheel_config( bool floating ) const;
@@ -931,15 +973,25 @@ public:
     units::volume max_volume(int part) const; // stub for per-vpart limit
     units::volume free_volume(int part) const;
     units::volume stored_volume(int part) const;
-
-    // add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
-    // *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
+    /**
+     * Try to add an item to part's cargo.
+     *
+     * @ret False if it can't be put here (not a cargo part, adding this would violate
+     * the volume limit or item count limit, not all charges can fit, etc.)
+     */
     bool add_item( int part, const item &obj );
-
+    /** Like the above */
     bool add_item( vehicle_part &pt, const item &obj );
-
-    // Position specific item insertion that skips a bunch of safety checks
-    // since it should only ever be used by item processing code.
+    /**
+     * Add an item counted by charges to the part's cargo.
+     *
+     * @ret The number of charges added.
+     */
+    long add_charges( int part, const item &itm );
+    /**
+     * Position specific item insertion that skips a bunch of safety checks
+     * since it should only ever be used by item processing code.
+     */
     bool add_item_at( int part, std::list<item>::iterator index, item itm );
 
     // remove item from part's cargo
@@ -1011,6 +1063,12 @@ public:
 
     /*@}*/
 
+    /**
+     *  Try to assign a crew member (who must be a player ally) to a specific seat
+     *  @note enforces NPC's being assigned to only one seat (per-vehicle) at once
+     */
+    bool assign_seat( vehicle_part &pt, const npc& who );
+
     // Update the set of occupied points and return a reference to it
     std::set<tripoint> &get_points( bool force_refresh = false );
 
@@ -1039,8 +1097,10 @@ public:
     void operate_plow();
     //main method for the control of individual engines
     void control_engines();
-    // shows ui menu to select an engine
-    int select_engine();
+
+    /** shows ui menu to select an engine and @return true if change was made */
+    bool select_engine();
+
     //returns whether the engine is enabled or not, and has fueltype
     bool is_engine_type_on(int e, const itype_id &ft) const;
     //returns whether the engine is enabled or not
@@ -1062,8 +1122,6 @@ public:
     bool has_engine_type_not(const itype_id &ft, bool enabled) const;
     //prints message relating to vehicle start failure
     void msg_start_engine_fail();
-    //if necessary, damage this engine
-    void do_engine_damage(size_t p, int strain);
     //remotely open/close doors
     void control_doors();
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
@@ -1100,7 +1158,6 @@ public:
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
     std::set<label> labels;            // stores labels
     std::vector<int> alternators;      // List of alternator indices
-    std::vector<int> fuel;             // List of fuel tank indices
     std::vector<int> engines;          // List of engine indices
     std::vector<int> reactors;         // List of reactor indices
     std::vector<int> solar_panels;     // List of solar panel indices
@@ -1169,7 +1226,6 @@ public:
     int camera_epower       = 0; // power consumed by camera system
     int extra_drag          = 0;
     // TODO: change these to a bitset + enum?
-    bool cruise_on                  = true;  // cruise control on/off
     bool engine_on                  = false; // at least one engine is on, of any type
     bool tracking_on                = false; // vehicle tracking on/off
     bool is_locked                  = false; // vehicle has no key
@@ -1185,6 +1241,10 @@ private:
 
     mutable bool pivot_dirty;                  // if true, pivot_cache needs to be recalculated
     mutable point pivot_cache;                 // cached pivot point
+
+    // Get combined power of all engines. If fueled == true, then only engines which
+    // vehicle have fuel for are accounted
+    int total_power (bool fueled = true) const;
 
     void refresh_mass() const;
     void calc_mass_center( bool precalc ) const;

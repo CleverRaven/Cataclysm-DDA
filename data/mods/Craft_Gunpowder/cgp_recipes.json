@@ -55,7 +55,7 @@
       [ "bismuth", 75 ],
       [ "solder_wire", 75 ]
     ],
-    [ [ "cu_pipe", 5] ]
+    [ [ "copper", 35 ] ]
   ]
 },{
   "type" : "recipe",

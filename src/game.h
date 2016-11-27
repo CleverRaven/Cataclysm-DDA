@@ -57,7 +57,6 @@ enum input_ret {
 
 enum quit_status {
     QUIT_NO = 0,    // Still playing
-    QUIT_MENU,      // Quit at the menu
     QUIT_SUICIDE,   // Quit with 'Q'
     QUIT_SAVED,     // Saved and quit
     QUIT_DIED,      // Actual death
@@ -79,12 +78,12 @@ enum target_mode {
     TARGET_MODE_REACH
 };
 
-enum activity_type : int;
 enum body_part : int;
 enum weather_type : int;
 enum action_id : int;
 
 struct special_game;
+struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
 using itype_id = std::string;
@@ -137,6 +136,7 @@ class game
 {
         friend class editmap;
         friend class advanced_inventory;
+        friend class main_menu;
     public:
         game();
         ~game();
@@ -156,6 +156,15 @@ class game
 
         /** Loads core data and mods from the given world. May throw. */
         void load_world_modfiles(WORLDPTR world);
+
+        /**
+         *  Load content packs
+         *  @param msg string to display whilst loading prompt
+         *  @param packs content packs to load in correct dependent order
+         *  @return true if all packs were found, false if any were missing
+         */
+        bool load_packs( const std::string &msg, const std::vector<std::string>& packs );
+
     protected:
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src );
@@ -172,8 +181,6 @@ class game
         /** Initializes the UI. */
         void init_ui();
         void setup();
-        /** Returns true if we actually quit the game. Used in main.cpp. */
-        bool game_quit();
         /** Returns true if the game quits through some error. */
         bool game_error();
         /** True if the game has just started or loaded, else false. */
@@ -271,10 +278,6 @@ class game
         void vertical_notes( int z_before, int z_after );
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
         void use_computer( const tripoint &p );
-        /** Attempts to refill the give vehicle's part with the player's current weapon. Returns true if successful. */
-        bool refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test = false);
-        /** Identical to refill_vehicle_part(veh, &veh.parts[part], test). */
-        bool pl_refill_vehicle (vehicle &veh, int part, bool test = false);
         /** Triggers a resonance cascade at p. */
         void resonance_cascade( const tripoint &p );
         /** Triggers a scrambler blast at p. */
@@ -345,8 +348,23 @@ class game
                                       std::vector<Creature *> t, int target,
                                       item *relevant, target_mode mode );
 
-        /** Prompts for target and returns trajectory to it */
-        std::vector<tripoint> pl_target_ui( target_mode mode, item *relevant, int range );
+        /**
+         * Targetting UI callback is passed the item being targeted (if any)
+         * and should return pointer to effective ammo data (if any)
+         */
+        using target_callback = std::function<const itype *(item *obj)>;
+
+        /**
+         *  Prompts for target and returns trajectory to it
+         *  @param relevant active item (if any)
+         *  @param ammo effective ammo data (derived from @param relevant if unspecified)
+         *  @param on_mode_change callback when user attempts changing firing mode
+         *  @param on_ammo_change callback when user attempts changing ammo
+         */
+        std::vector<tripoint> pl_target_ui( target_mode mode, item *relevant, int range,
+                                            const itype *ammo = nullptr,
+                                            const target_callback &on_mode_change = target_callback(),
+                                            const target_callback &on_ammo_change = target_callback() );
 
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
@@ -452,10 +470,8 @@ class game
         void interactive_inv();
 
         int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
-        int inv_for_filter( const std::string &title, item_location_filter filter, const std::string &none_message = "" );
 
         int inv_for_all( const std::string &title, const std::string &none_message = "" );
-        int inv_for_activatables( const player &p, const std::string &title );
         int inv_for_flag( const std::string &flag, const std::string &title );
         int inv_for_id( const itype_id &id, const std::string &title );
         int inv_for_tools_powered_by( const ammotype &battery_id, const std::string &title );
@@ -470,10 +486,26 @@ class game
         };
         int inventory_item_menu(int pos, int startx = 0, int width = 50, inventory_item_menu_positon position = RIGHT_OF_INFO);
 
+        /**
+         * @name Customized inventory menus
+         *
+         * The functions here execute customized inventory menus for specific game situations.
+         * Each menu displays only related inventory (or nearby) items along with context dependent information.
+         * More functions will follow. @todo update all 'inv_for...()' functions to return @ref item_location instead of @ref int and move them here.
+         * @param title Title of the menu
+         * @return Either location of the selected item or null location if none was selected.
+         */
+        /*@{*/
+        /** Custom-filtered menu for inventory items and those that are nearby (within @ref radius). */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
-        item_location inv_map_splice( item_location_filter filter, const std::string &title, int radius = 0,
-                                      const std::string &none_message = "" );
+        /** Item activation menu. */
+        item_location inv_for_activatables( const std::string &title );
+        /** Book reading menu. */
+        item_location inv_for_books( const std::string &title );
+        /** Gunmod installation menu. */
+        item_location inv_for_gunmod( const item &gunmod, const std::string &title );
+        /*@}*/
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
@@ -518,6 +550,10 @@ class game
         const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
+
+        /** Get all living player allies */
+        std::vector<npc *> allies();
+
         std::vector<npc *> active_npc;
         std::vector<npc *> mission_npc;
         std::vector<faction> factions;
@@ -661,11 +697,6 @@ class game
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
 
-        bool opening_screen();// Warn about screen size, then present the main menu
-        void mmenu_refresh_title();
-        void mmenu_refresh_motd();
-        void mmenu_refresh_credits();
-
         /**
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.
@@ -704,13 +735,15 @@ class game
 
         //pixel minimap management
         int pixel_minimap_option;
+
+        /** Attempt to load first valid save (if any) in world */
+        bool load( const std::string &world );
+
     private:
         // Game-start procedures
-        void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
-                        bool bShowDDA = true);
+        void load( std::string worldname, std::string name ); // Load a player-specific save file
         bool load_master(std::string worldname); // Load the master data file, with factions &c
         void load_weather(std::istream &fin);
-        void load(std::string worldname, std::string name); // Load a player-specific save file
         bool start_game(std::string worldname); // Starts a new game in a world
         void start_special_game(special_game_id gametype); // See gamemode.cpp
 
@@ -761,8 +794,6 @@ class game
         bool phasing_move( const tripoint &dest );
         // Regular movement. Returns false if it failed for any reason
         bool walk_move( const tripoint &dest );
-        // Places the player at the end of a move; hurts feet, lists items etc.
-        void place_player( const tripoint &dest );
         void on_move_effects();
         void wait(); // Long wait (player action)  '^'
         void open(); // Open a door  'o'
@@ -793,10 +824,17 @@ class game
         void mend( int pos = INT_MIN );
         void autoattack();
 public:
+        // Places the player at the specified point; hurts feet, lists items etc.
+        void place_player( const tripoint &dest );
+        void place_player_overmap( const tripoint &om_dest );
+
         bool unload( item &it ); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
 
         unsigned int get_seed() const;
+
+        /** If invoked, NPCs will be reloaded before next turn. */
+        void set_npcs_dirty();
 private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
         void read(); // Read a book  'R' (or 'a')
@@ -894,7 +932,7 @@ private:
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
         void disp_NPCs();           // Currently UNUSED.  Lists global NPCs.
-        void list_missions();       // Listed current, completed and failed missions.
+        void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
         void debug();           // All-encompassing debug screen.  TODO: This.
@@ -925,6 +963,8 @@ private:
         // remoteveh() cache
         int remoteveh_cache_turn;
         vehicle *remoteveh_cache;
+        /** Has a NPC been spawned since last load? */
+        bool npcs_dirty;
 
         std::unique_ptr<special_game> gamemode;
 

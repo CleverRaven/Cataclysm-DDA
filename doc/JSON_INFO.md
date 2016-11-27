@@ -804,6 +804,7 @@ Gun mods can be define like this:
 "to_hit": 3,          // To-hit bonus if using it as a melee weapon
 "max_charges": 75,    // Maximum charges tool can hold
 "initial_charges": 75, // Charges when spawned
+"rand_charges: [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
 "charges_per_use": 1, // Charges consumed per tool use
 "turns_per_charge": 20, // Charges consumed over time
 "ammo": "NULL",       // Ammo type used for reloading

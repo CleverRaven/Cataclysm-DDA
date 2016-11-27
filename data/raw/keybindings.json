@@ -459,6 +459,18 @@
     },
     {
         "type" : "keybinding",
+        "id": "ADD_DEFAULT_RULESET",
+        "category": "SAFEMODE",
+        "name": "Add default ruleset",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"~"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "ADD_RULE",
         "category": "SAFEMODE",
         "name": "Add rule",
@@ -1254,6 +1266,17 @@
     },
     {
         "type" : "keybinding",
+        "id":"SWITCH_AMMO",
+        "name":"Switch ammo",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"o"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"SWITCH_MODE",
         "name":"Switch Firing Mode",
         "bindings":[
@@ -1613,6 +1636,15 @@
     },
     {
         "type" : "keybinding",
+        "id": "ASSIGN_CREW",
+        "category": "VEH_INTERACT",
+        "name": "Assign crew",
+        "bindings":[
+            { "input_method":"keyboard", "key":"w" }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "RELABEL",
         "category": "VEH_INTERACT",
         "name": "Relabel a portion of a vehicle",
@@ -1860,7 +1892,7 @@
     { "type":"keybinding", "name": "Disassemble items", "category":"DEFAULTMODE", "id":"disassemble", "bindings":[ { "input_method":"keyboard", "key":"(" } ] },
     { "type":"keybinding", "name": "Sleep", "category":"DEFAULTMODE", "id":"sleep", "bindings":[ { "input_method":"keyboard", "key":"$" } ] },
     { "type":"keybinding", "name": "Control Vehicle", "category":"DEFAULTMODE", "id":"control_vehicle", "bindings":[ { "input_method":"keyboard", "key":"^" } ] },
-    { "type":"keybinding", "name": "Toggle Safemode", "category":"DEFAULTMODE", "id":"safemode", "bindings":[ { "input_method":"keyboard", "key":"!" } ] },
+    { "type":"keybinding", "name": "Toggle Safe Mode", "category":"DEFAULTMODE", "id":"safemode", "bindings":[ { "input_method":"keyboard", "key":"!" } ] },
     { "type":"keybinding", "name": "Ignore Nearby Enemy", "category":"DEFAULTMODE", "id":"ignore_enemy", "bindings":[ { "input_method":"keyboard", "key":"'" } ] },
     { "type":"keybinding", "name": "Whitelist enemy", "category":"DEFAULTMODE", "id":"whitelist_enemy", "bindings":[ { "input_method":"keyboard", "key":"~" } ] },
     { "type":"keybinding", "name": "Save and Quit", "category":"DEFAULTMODE", "id":"save", "bindings":[ { "input_method":"keyboard", "key":"S" } ] },
@@ -2720,18 +2752,6 @@
             {
                 "input_method":"keyboard",
                 "key":"k"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id": "VITAMINS",
-        "category": "ITEM_ACTIONS",
-        "name": "Vitamins",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"v"
             }
         ]
     },

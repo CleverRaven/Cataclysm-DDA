@@ -219,6 +219,12 @@
             "tec_krav_maga_precise",
             "tec_krav_maga_disarm",
             "tec_krav_maga_grab"
+        ],
+        "weapons" : [
+            "tonfa",
+            "tonfa_wood",
+            "shocktonfa_off",
+            "shocktonfa_on"
         ]
     },{
         "type" : "martial_art",
@@ -411,8 +417,6 @@
             "bio_blade_weapon",
             "bowling_pin",
             "cudgel",
-            "diamond_knife",
-            "diamond_machete",
             "diveknife",
             "firemachete_off",
             "firemachete_on",
@@ -453,7 +457,6 @@
             "tonfa",
             "tonfa_wood",
             "kukri",
-            "diamond_kukri",
             "knife_rambo",
             "knife_rm42",
             "switchblade",
@@ -490,11 +493,9 @@
         ],
         "weapons" : [
             "broadsword",
-            "diamond_broadsword",
             "broadfire_off",
             "broadfire_on",
             "rapier",
-            "diamond_rapier",
             "fencing_foil",
             "fencing_sabre",
             "fencing_epee",
@@ -567,14 +568,11 @@
         ],
         "weapons" : [
             "katana",
-            "diamond_katana",
             "firekatana_off",
             "firekatana_on",
             "bokken",
             "wakizashi",
-            "diamond_wakizashi",
-            "nodachi",
-            "diamond_nodachi"
+            "nodachi"
         ]
     },{
         "type" : "martial_art",
@@ -626,8 +624,6 @@
             "cane",
             "cudgel",
             "cu_pipe",
-            "diamond_knife",
-            "diamond_machete",
             "diveknife",
             "fighter_sting",
             "firemachete_off",
@@ -657,7 +653,6 @@
             "wasp_sting",
             "wrench",
             "kukri",
-            "diamond_kukri",
             "knife_rambo",
             "knife_rm42",
             "l-stick",

@@ -23,6 +23,7 @@
 #include "item.h"
 #include "line.h"
 #include "name.h"
+#include "cata_utility.h"
 
 // Display data
 int TERMX;
@@ -1183,6 +1184,12 @@ int draw_item_info( const int iLeft, const int iWidth, const int iTop, const int
 {
     WINDOW *win = newwin( iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X );
 
+#ifdef TILES
+    clear_window_area( win );
+#endif // TILES
+    wclear( win );
+    wrefresh( win );
+
     const auto result = draw_item_info( win, sItemName, sTypeName, vItemDisplay, vItemCompare,
                                         selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win );
     delwin( win );
@@ -1297,7 +1304,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                 if( vItemDisplay[i].is_int == true ) {
                     buffer << string_format( "%.0f", vItemDisplay[i].dValue );
                 } else {
-                    buffer << string_format( "%.1f", vItemDisplay[i].dValue );
+                    buffer << string_format( "%.2f", vItemDisplay[i].dValue );
                 }
                 buffer << "</color>";
             }
@@ -1455,6 +1462,23 @@ std::string to_upper_case( const std::string &s )
         return std::use_facet<std::ctype<char_t>>( std::locale() ).toupper( ch );
     } );
     return res;
+}
+
+std::string ordinal( int val ) {
+    switch( val ) {
+        case 1: return _( "1st" );
+        case 2: return _( "2nd" );
+        case 3: return _( "3rd" );
+        case 4: return _( "4th" );
+        case 5: return _( "5th" );
+        case 6: return _( "6th" );
+        case 7: return _( "7th" );
+        case 8: return _( "8th" );
+        case 9: return _( "9th" );
+
+        // fallback (not translated)
+        default: return string_format( "%ith", val );
+    };
 }
 
 // find the position of each non-printing tag in a string
@@ -2468,6 +2492,47 @@ int ci_find_substr( const std::string &str1, const std::string &str2, const std:
         return it - str1.begin();
     } else {
         return -1;    // not found
+    }
+}
+
+/**
+* Convert, round up and format a volume.
+*/
+std::string format_volume( const units::volume &volume )
+{
+    return format_volume( volume, 0, NULL, NULL );
+}
+
+/**
+* Convert, clamp, round up and format a volume,
+* taking into account the specified width (0 for inlimited space),
+* optionally returning a flag that indicate if the value was truncated to fit the width,
+* optionally returning the formated value as double.
+*/
+std::string format_volume( const units::volume &volume, int width, bool *out_truncated, double *out_value )
+{
+    // convert and get the units preferred scale
+    int scale = 0;
+    double value = convert_volume( volume.value(), &scale );
+    // clamp to the specified width
+    if( width != 0 ) {
+        value = clamp_to_width( value, std::abs( width ), scale, out_truncated );
+    }
+    // round up
+    value = round_up( value, scale );
+    if( out_value != NULL ) {
+        *out_value = value;
+    }
+    // format
+    if( width < 0 ) {
+        // left-justify the specified width
+        return string_format( "%-*.*f", std::abs( width ), scale, value );
+    } else if( width > 0 ) {
+        // right-justify the specified width
+        return string_format( "%*.*f", width, scale, value );
+    } else {
+        // no width
+        return string_format( "%.*f", scale, value );
     }
 }
 

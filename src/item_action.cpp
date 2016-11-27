@@ -15,6 +15,8 @@
 #include "itype.h"
 #include "ui.h"
 #include "player.h"
+
+#include <algorithm>
 #include <istream>
 #include <sstream>
 #include <iterator>
@@ -167,6 +169,11 @@ std::string item_action_generator::get_action_name( const item_action_id &id ) c
     return id;
 }
 
+bool item_action_generator::action_exists( const item_action_id &id ) const
+{
+    return item_actions.find( id ) != item_actions.end();
+}
+
 const item_action &item_action_generator::get_action( const item_action_id &id ) const
 {
     const auto &iter = item_actions.find( id );
@@ -193,6 +200,17 @@ void item_action_generator::load_item_action( JsonObject &jo )
     item_actions[ia.id] = ia;
 }
 
+void item_action_generator::check_consistency() const
+{
+    for( const auto &elem : item_actions ) {
+        const auto &action = elem.second;
+        if( !item_controller->has_iuse( action.id ) ) {
+            debugmsg( "Item action \"%s\" isn't known to the game. Check item action definitions in JSON.",
+                      action.id.c_str() );
+        }
+    }
+}
+
 void game::item_action_menu()
 {
     const auto &gen = item_action_generator::generator();
@@ -217,28 +235,67 @@ void game::item_action_menu()
     actmenu_cb callback( item_actions );
     kmenu.callback = &callback;
     int num = 0;
-    for( auto &p : iactions ) {
-        std::stringstream ss;
-        ss << gen.get_action_name( p.first ) << " [" << p.second->display_name();
-        if( p.second->ammo_required() ) {
-            ss << " (" << p.second->ammo_required() << '/' << p.second->ammo_remaining() << ')';
-        }
-        ss << "]";
 
-        char bind = key_bound_to( ctxt, p.first );
-        kmenu.addentry( num, true, bind, ss.str() );
+    const auto assigned_action = [&iactions]( const item_action_id & action ) {
+        return iactions.find( action ) != iactions.end();
+    };
+
+    std::vector<std::tuple<item_action_id, std::string, std::string>> menu_items;
+    // Sorts menu items by action.
+    typedef decltype( menu_items )::iterator Iter;
+    const auto sort_menu = [&menu_items]( Iter from, Iter to ) {
+        std::sort( from, to, []( const std::tuple<item_action_id, std::string, std::string> &lhs,
+        const std::tuple<item_action_id, std::string, std::string> &rhs ) {
+            return std::get<1>( lhs ).compare( std::get<1>( rhs ) ) < 0;
+        } );
+    };
+    // Add mapped actions to the menu vector.
+    std::transform( iactions.begin(), iactions.end(), std::back_inserter( menu_items ),
+    []( const std::pair<item_action_id, item *> &elem ) {
+        std::stringstream ss;
+        ss << elem.second->display_name();
+        if( elem.second->ammo_required() ) {
+            ss << " (" << elem.second->ammo_required() << '/'
+               << elem.second->ammo_remaining() << ')';
+        }
+
+        const auto method = elem.second->get_use( elem.first );
+        return std::make_tuple( method->get_type(), method->get_name(), ss.str() );
+    } );
+    // Sort mapped actions.
+    sort_menu( menu_items.begin(), menu_items.end() );
+    // Add unmapped but binded actions to the menu vector.
+    for( const auto &elem : item_actions ) {
+        if( key_bound_to( ctxt, elem.first ) != '\0' && !assigned_action( elem.first ) ) {
+            menu_items.emplace_back( elem.first, gen.get_action_name( elem.first ), "-" );
+        }
+    }
+    // Sort unmapped actions.
+    auto iter = menu_items.begin();
+    std::advance( iter, iactions.size() );
+    sort_menu( iter, menu_items.end() );
+    // Determine max lengths, to print the menu nicely.
+    std::pair<int, int> max_len;
+    for( const auto &elem : menu_items ) {
+        max_len.first = std::max( max_len.first, utf8_width( std::get<1>( elem ), true ) );
+        max_len.second = std::max( max_len.second, utf8_width( std::get<2>( elem ), true ) );
+    }
+    // Fill the menu.
+    for( const auto &elem : menu_items ) {
+        std::stringstream ss;
+        ss << std::get<1>( elem )
+           << std::string( max_len.first - utf8_width( std::get<1>( elem ), true ), ' ' )
+           << std::string( 4, ' ' );
+
+        ss << std::get<2>( elem )
+           << std::string( max_len.second - utf8_width( std::get<2>( elem ), true ), ' ' );
+
+        const char bind = key_bound_to( ctxt, std::get<0>( elem ) );
+        const bool enabled = assigned_action( std::get<0>( elem ) );
+
+        kmenu.addentry( num, enabled, bind, ss.str() );
         num++;
     }
-
-    for( auto &p : item_actions ) {
-        if( iactions.find( p.first ) == iactions.end() ) {
-            char bind = key_bound_to( ctxt, p.first );
-            kmenu.addentry( num, false, bind, gen.get_action_name( p.first ) );
-            num++;
-        }
-    }
-
-    kmenu.addentry( num, true, key_bound_to( ctxt, "QUIT" ), _( "Cancel" ) );
 
     kmenu.query();
     if( kmenu.ret < 0 || kmenu.ret >= ( int )iactions.size() ) {
@@ -247,12 +304,11 @@ void game::item_action_menu()
 
     draw_ter();
 
-    auto iter = iactions.begin();
-    std::advance( iter, kmenu.ret );
+    const item_action_id action = std::get<0>( menu_items[kmenu.ret] );
+    item *it = iactions[action];
 
-    if( u.invoke_item( iter->second, iter->first ) ) {
-        // Need to remove item
-        u.i_rem( iter->second );
+    if( u.invoke_item( it, action ) ) {
+        u.i_rem( it ); // Need to remove item
     }
 
     u.inv.restack( &u );
@@ -266,6 +322,11 @@ std::string use_function::get_type() const
     } else {
         return errstring;
     }
+}
+
+bool iuse_actor::is_valid() const
+{
+    return item_action_generator::generator().action_exists( type );
 }
 
 std::string iuse_actor::get_name() const

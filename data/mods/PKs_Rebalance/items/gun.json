@@ -48,11 +48,7 @@
     "loudness": 1,
     "clip_size": 1,
     "reload": 300,
-    "ammo_effects": [
-      "PLASMA",
-      "NEVER_MISFIRES",
-      "BLINDS_EYES"
-    ],
+    "ammo_effects": [ "PLASMA", "NEVER_MISFIRES", "BLINDS_EYES" ],
     "flags": [ "NEVER_JAMS", "NO_AMMO", "NO_UNLOAD" ]
   },
   {
@@ -101,10 +97,7 @@
     "loudness": 1,
     "clip_size": 666,
     "reload": 200,
-    "ammo_effects": [
-      "LASER",
-      "INCENDIARY"
-    ],
+    "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_AMMO", "NO_UNLOAD" ]
   },
   {
@@ -304,13 +297,7 @@
     "clip_size": 2400,
     "reload": 1,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "rail", 1 ] ],
-    "ammo_effects": [
-      "DRAW_AS_LINE",
-      "BEANBAG",
-      "WIDE",
-      "BOUNCE",
-      "LIGHTNING"
-    ],
+    "ammo_effects": [ "DRAW_AS_LINE", "BEANBAG", "WIDE", "BOUNCE", "LIGHTNING" ],
     "flags": [ "NEVER_JAMS", "FIRE_100", "NO_UNLOAD", "RECHARGE" ]
   },
   {

@@ -8,6 +8,7 @@
 #include <array>
 
 class map;
+class game;
 
 class scent_map
 {
@@ -19,8 +20,10 @@ class scent_map
         tripoint player_last_position = tripoint_min;
         int player_last_moved = -1;
 
+        const game &gm;
+
     public:
-        scent_map();
+        scent_map( const game &g ) : gm( g ) { };
 
         void deserialize( const std::string &data );
         std::string serialize() const;
@@ -38,25 +41,11 @@ class scent_map
          * The coordinate system is the same as the @ref map (`g->m`) uses.
          */
         /**@{*/
-        void set( size_t x, size_t y, int value );
-        void set( const point &p, int value ) {
-            return set( p.x, p.y, value );
-        }
-        void set( const tripoint &p, int value ) {
-            return set( p.x, p.y, value );
-        }
-        int get( size_t x, size_t y ) const;
-        int get( const point &p ) const {
-            return get( p.x, p.y );
-        }
-        int get( const tripoint &p ) const {
-            return get( p.x, p.y );
-        }
+        void set( const tripoint &p, int value );
+        int get( const tripoint &p ) const;
         /**@}*/
 
-        bool inbounds( size_t x, size_t y ) const {
-            return x < SEEX * MAPSIZE && y < SEEY * MAPSIZE;
-        }
+        bool inbounds( const tripoint &p ) const;
 };
 
 #endif

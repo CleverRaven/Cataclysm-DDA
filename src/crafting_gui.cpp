@@ -175,7 +175,9 @@ const recipe *select_crafting_recipe( int &batch_size )
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     std::string filterstring = "";
 
+    const auto &available_recipes = g->u.get_available_recipes( crafting_inv, &helpers );
     std::map<const recipe *, bool> availability_cache;
+
     do {
         if( redraw ) {
             // When we switch tabs, redraw the header
@@ -193,26 +195,54 @@ const recipe *select_crafting_recipe( int &batch_size )
             TAB_MODE m = ( batch ) ? BATCH : ( filterstring == "" ) ? NORMAL : FILTERED;
             draw_recipe_tabs( w_head, tab.cur(), m );
             draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), m );
-            current.clear();
+
             available.clear();
+
             if( batch ) {
-                batch_recipes( crafting_inv, helpers, current, available, chosen );
-            } else {
-
-                if( filterstring.empty() ) {
-                    current = recipe_dict.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
-                } else {
-                    current = recipe_dict.search( filterstring );
+                current.clear();
+                for( int i = 1; i <= 20; i++ ) {
+                    current.push_back( chosen );
+                    available.push_back( chosen->requirements().can_make_with_inventory( crafting_inv, i ) );
                 }
+            } else {
+                if( filterstring.empty() ) {
+                    current = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
+                } else {
+                    auto qry = trim( filterstring );
+                    if( qry.size() > 2 && qry[1] == ':' ) {
+                        switch( qry[0] ) {
+                            case 't':
+                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::tool );
+                                break;
 
-                current.erase( std::remove_if( current.begin(), current.end(), [&]( const recipe * e ) {
-                    return !g->u.knows_recipe( e );
-                } ), current.end() );
+                            case 'c':
+                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::component );
+                                break;
 
+                            case 's':
+                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::skill );
+                                break;
+
+                            case 'q':
+                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality );
+                                break;
+
+                            case 'Q':
+                                current = available_recipes.search( qry.substr( 2 ), recipe_subset::search_type::quality_result );
+                                break;
+
+                            default:
+                                current.clear();
+                        }
+                    } else {
+                        current = available_recipes.search( qry );
+                    }
+                }
+                available.reserve( current.size() );
                 // cache recipe availability on first display
                 for( const auto e : current ) {
                     if( !availability_cache.count( e ) ) {
-                        availability_cache.emplace( e, e->can_make_with_inventory( crafting_inv, helpers ) );
+                        availability_cache.emplace( e, e->requirements().can_make_with_inventory( crafting_inv ) );
                     }
                 }
 
@@ -228,6 +258,13 @@ const recipe *select_crafting_recipe( int &batch_size )
                 std::back_inserter( available ), [&]( const recipe * e ) {
                     return availability_cache[e];
                 } );
+            }
+
+            // current/available have been rebuilt, make sure our cursor is still in range
+            if( current.empty() ) {
+                line = 0;
+            } else {
+                line = std::min( line, ( int )current.size() - 1 );
             }
         }
 
@@ -380,28 +417,30 @@ const recipe *select_crafting_recipe( int &batch_size )
             previous_tab = tab.cur();
             previous_subtab = subtab.cur();
             previous_item_line = line;
+            const int xpos = 30;
 
             if( display_mode == 0 ) {
-                mvwprintz( w_data, ypos++, 30, col, _( "Skills used: %s" ),
+                const int width = getmaxx( w_data ) - xpos - item_info_x;
+                mvwprintz( w_data, ypos++, xpos, col, _( "Skills used: %s" ),
                            ( !current[line]->skill_used ? _( "N/A" ) :
                              current[line]->skill_used.obj().name().c_str() ) );
-
-                mvwprintz( w_data, ypos++, 30, col, _( "Required skills: %s" ),
-                           ( current[line]->required_skills_string().c_str() ) );
-                mvwprintz( w_data, ypos++, 30, col, _( "Difficulty: %d" ), current[line]->difficulty );
+                ypos += fold_and_print( w_data, ypos, xpos, width, col, _( "Required skills: %s" ),
+                                        current[line]->required_skills_string().c_str() );
+                mvwprintz( w_data, ypos++, xpos, col, _( "Difficulty: %d" ),
+                           current[ line ]->difficulty );
                 if( !current[line]->skill_used ) {
-                    mvwprintz( w_data, ypos++, 30, col, _( "Your skill level: N/A" ) );
+                    mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: N/A" ) );
                 } else {
-                    mvwprintz( w_data, ypos++, 30, col, _( "Your skill level: %d" ),
+                    mvwprintz( w_data, ypos++, xpos, col, _( "Your skill level: %d" ),
                                // Macs don't seem to like passing this as a class, so force it to int
                                ( int )g->u.get_skill_level( current[line]->skill_used ) );
                 }
-                ypos += current[line]->print_time( w_data, ypos, 30, pane, col, count );
-                mvwprintz( w_data, ypos++, 30, col, _( "Dark craftable? %s" ),
+                ypos += current[line]->print_time( w_data, ypos, xpos, pane, col, count );
+                mvwprintz( w_data, ypos++, xpos, col, _( "Dark craftable? %s" ),
                            current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
                            current[line]->has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
                            _( "Impossible" ) );
-                ypos += current[line]->print_items( w_data, ypos, 30, col, ( batch ) ? line + 1 : 1 );
+                ypos += current[line]->print_items( w_data, ypos, xpos, col, batch ? line + 1 : 1 );
             }
 
             //color needs to be preserved in case part of the previous page was cut off
@@ -419,12 +458,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
 
                 components_printed++;
-                print_colored_text( w_data, ypos++, 30, stored_color, col, component_print_buffer[i] );
+                print_colored_text( w_data, ypos++, xpos, stored_color, col, component_print_buffer[i] );
             }
 
             if( ypos >= componentPrintHeight &&
                 component_print_buffer.size() > static_cast<size_t>( components_printed ) ) {
-                mvwprintz( w_data, ypos++, 30, col, _( "v (more)" ) );
+                mvwprintz( w_data, ypos++, xpos, col, _( "v (more)" ) );
                 rotated_color = stored_color;
             }
 
@@ -502,7 +541,6 @@ const recipe *select_crafting_recipe( int &batch_size )
                                                   "  [c] search components\n"
                                                   "  [q] search qualities\n"
                                                   "  [s] search skills\n"
-                                                  "  [S] search skill used only\n"
                                                   "Special prefixes for results:\n"
                                                   "  [Q] search qualities\n"
                                                   "Examples:\n"

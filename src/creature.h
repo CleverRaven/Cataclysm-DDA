@@ -29,6 +29,7 @@ using material_id = string_id<material_type>;
 class field;
 class field_entry;
 enum field_id : int;
+struct pathfinding_settings;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
@@ -36,6 +37,13 @@ enum m_size : int {
     MS_MEDIUM,    // Human
     MS_LARGE,    // Cow
     MS_HUGE     // TAAAANK
+};
+
+/** Aim result for a single projectile attack */
+struct projectile_attack_aim {
+    double missed_by;       ///< Hit quality, where 0.0 is a perfect hit and 1.0 is a miss
+    double missed_by_tiles; ///< Number of tiles the attack missed by
+    double dispersion;      ///< Dispersion of this particular shot in arcminutes
 };
 
 class Creature
@@ -84,9 +92,9 @@ class Creature
         virtual void die(Creature *killer) = 0;
 
         /** Should always be overwritten by the appropriate player/NPC/monster version. */
-        virtual int hit_roll() const = 0;
-        virtual int dodge_roll() = 0;
-        virtual int stability_roll() const = 0;
+        virtual float hit_roll() const = 0;
+        virtual float dodge_roll() = 0;
+        virtual float stability_roll() const = 0;
 
         /**
          * Simplified attitude towards any creature:
@@ -184,6 +192,19 @@ class Creature
         dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &target,
                                                    double total_dispersion );
 
+        /** Makes an aiming/attack roll for a single projectile attack shot */
+        projectile_attack_aim projectile_attack_roll( double dispersion, double range ) const;
+
+        /**
+         * Probability that a projectile attack will hit with at least the given accuracy.
+         *
+         * @param total_dispersion nominal shot dispersion of gun + shooter
+         * @param range range of the attack
+         * @param accuracy the required accuracy, in the range [0..1]
+         * @return the probability, in the range (0..1]
+         */
+        double projectile_attack_chance( double total_dispersion, double range, double accuracy ) const;
+
         // handles blocking of damage instance. mutates &dam
         virtual bool block_hit(Creature *source, body_part &bp_hit,
                                damage_instance &dam) = 0;
@@ -231,13 +252,13 @@ class Creature
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.
          */
-        virtual void on_dodge( Creature *source, int difficulty ) = 0;
+        virtual void on_dodge( Creature *source, float difficulty ) = 0;
         /**
          * This creature just got hit by an attack - possibly special/ranged attack - from source.
          * Players should train dodge, possibly counter-attack somehow.
          */
         virtual void on_hit( Creature *source, body_part bp_hit = num_bp,
-                             int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) = 0;
+                             float difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) = 0;
 
         virtual bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         virtual bool is_on_ground() const = 0;
@@ -370,10 +391,11 @@ class Creature
 
         virtual int get_armor_type( damage_type dt, body_part bp ) const = 0;
 
+        virtual float get_dodge() const;
+        virtual float get_melee() const = 0;
+        virtual float get_hit() const;
+
         virtual int get_speed() const;
-        virtual int get_dodge() const;
-        virtual int get_melee() const;
-        virtual int get_hit() const;
         virtual m_size get_size() const = 0;
         virtual int get_hp( hp_part bp = num_hp_parts ) const = 0;
         virtual int get_hp_max( hp_part bp = num_hp_parts ) const = 0;
@@ -394,14 +416,15 @@ class Creature
         virtual body_part get_random_body_part( bool main = false ) const = 0;
 
         virtual int get_speed_base() const;
-        virtual int get_dodge_base() const;
-        virtual int get_hit_base() const;
         virtual int get_speed_bonus() const;
-        virtual int get_dodge_bonus() const;
         virtual int get_block_bonus() const;
-        virtual int get_hit_bonus() const;
         virtual int get_bash_bonus() const;
         virtual int get_cut_bonus() const;
+
+        virtual float get_dodge_base() const = 0;
+        virtual float get_hit_base() const = 0;
+        virtual float get_dodge_bonus() const;
+        virtual float get_hit_bonus() const;
 
         virtual float get_bash_mult() const;
         virtual float get_cut_mult() const;
@@ -414,7 +437,7 @@ class Creature
         /*
          * Setters for stats and bonuses
          */
-        virtual void mod_stat( const std::string &stat, int modifier );
+        virtual void mod_stat( const std::string &stat, float modifier );
 
         virtual void set_num_blocks_bonus(int nblocks);
         virtual void set_num_dodges_bonus(int ndodges);
@@ -424,17 +447,20 @@ class Creature
 
         virtual void set_speed_base(int nspeed);
         virtual void set_speed_bonus(int nspeed);
-        virtual void set_dodge_bonus(int ndodge);
         virtual void set_block_bonus(int nblock);
-        virtual void set_hit_bonus(int nhit);
         virtual void set_bash_bonus(int nbash);
         virtual void set_cut_bonus(int ncut);
+
         virtual void mod_speed_bonus(int nspeed);
-        virtual void mod_dodge_bonus(int ndodge);
         virtual void mod_block_bonus(int nblock);
-        virtual void mod_hit_bonus(int nhit);
         virtual void mod_bash_bonus(int nbash);
         virtual void mod_cut_bonus(int ncut);
+
+        virtual void set_dodge_bonus( float ndodge );
+        virtual void set_hit_bonus( float nhit );
+
+        virtual void mod_dodge_bonus( float ndodge );
+        virtual void mod_hit_bonus( float  nhit );
 
         virtual void set_bash_mult(float nbashmult);
         virtual void set_cut_mult(float ncutmult);
@@ -445,6 +471,11 @@ class Creature
 
         virtual int weight_capacity() const;
         virtual int get_weight() const;
+
+        /** Returns settings for pathfinding. */
+        virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
+        /** Returns a set of points we do not want to path through. */
+        virtual std::set<tripoint> get_path_avoid() const = 0;
 
         int moves;
         bool underwater;
@@ -504,9 +535,9 @@ class Creature
         int speed_base; // only speed needs a base, the rest are assumed at 0 and calced off skills
 
         int speed_bonus;
-        int dodge_bonus;
+        float dodge_bonus;
         int block_bonus;
-        int hit_bonus;
+        float hit_bonus;
         int bash_bonus;
         int cut_bonus;
 

@@ -3,6 +3,7 @@
 #include "rng.h"
 #include "generic_factory.h"
 #include "calendar.h"
+#include "item.h"
 
 #include <algorithm>
 
@@ -93,6 +94,7 @@ static const std::map<std::string, std::function<void(mission *)>> mission_funct
     { "standard", { } },
     { "join", mission_start::join },
     { "infect_npc", mission_start::infect_npc },
+    { "need_drugs_npc", mission_start::need_drugs_npc },
     { "place_dog", mission_start::place_dog },
     { "place_zombie_mom", mission_start::place_zombie_mom },
     { "place_zombie_bay", mission_start::place_zombie_bay },
@@ -219,9 +221,9 @@ bool string_id<mission_type>::is_valid() const
     return mission_type_factory.is_valid( *this );
 }
 
-void mission_type::load_mission_type( JsonObject &jo )
+void mission_type::load_mission_type( JsonObject &jo, const std::string &src )
 {
-    mission_type_factory.load( jo );
+    mission_type_factory.load( jo, src );
 }
 
 void mission_type::reset()
@@ -242,12 +244,24 @@ void assign_function( JsonObject &jo, const std::string &id, Fun &target, const 
     }
 }
 
-void mission_type::load( JsonObject &jo )
+void mission_type::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
 
     mandatory( jo, was_loaded, "difficulty", difficulty );
     mandatory( jo, was_loaded, "value", value );
+
+    auto djo = jo.get_object( "dialogue" );
+    // @todo There should be a cleaner way to do it
+    mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
+    mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
+    mandatory( djo, was_loaded, "accepted", dialogue[ "accepted" ] );
+    mandatory( djo, was_loaded, "rejected", dialogue[ "rejected" ] );
+    mandatory( djo, was_loaded, "advice", dialogue[ "advice" ] );
+    mandatory( djo, was_loaded, "inquire", dialogue[ "inquire" ] );
+    mandatory( djo, was_loaded, "success", dialogue[ "success" ] );
+    mandatory( djo, was_loaded, "success_lie", dialogue[ "success_lie" ] );
+    mandatory( djo, was_loaded, "failure", dialogue[ "failure" ] );
 
     optional( jo, was_loaded, "urgent", urgent );
     optional( jo, was_loaded, "item", item_id );
@@ -281,6 +295,15 @@ void mission_type::load( JsonObject &jo )
 
     if( jo.has_member( "destination" ) ) {
         target_id = oter_id( jo.get_string( "destination" ) );
+    }
+}
+
+void mission_type::check_consistency()
+{
+    for( const auto &m : get_all() ) {
+        if( !m.item_id.empty() && !item::type_is_defined( m.item_id ) ) {
+            debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
+        }
     }
 }
 

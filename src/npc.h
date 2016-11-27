@@ -16,11 +16,13 @@ class player;
 class field_entry;
 class npc_class;
 class auto_pickup;
+class monfaction;
 struct mission_type;
 enum game_message_type : int;
 
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
+using mfaction_id = int_id<monfaction>;
 
 void parse_tags( std::string &phrase, const player &u, const npc &me );
 
@@ -548,7 +550,7 @@ public:
 
  static void load_npc(JsonObject &jsobj);
  npc* find_npc(std::string ident);
- void load_npc_template(std::string ident);
+ void load_npc_template( const std::string &ident );
 
     // Generating our stats, etc.
     void randomize( const npc_class_id &type = NULL_ID );
@@ -628,6 +630,9 @@ public:
     /** Trusts you a lot. */
     bool is_minion() const;
         Attitude attitude_to( const Creature &other ) const override;
+
+        /** For mutant NPCs. Returns how monsters perceive said NPC. Doesn't imply NPC sees them the same. */
+        mfaction_id get_monster_faction() const;
 // What happens when the player makes a request
  int  follow_distance() const; // How closely do we follow the player?
 
@@ -743,6 +748,10 @@ public:
  void move_away_from( const tripoint &p, bool no_bashing = false );
  void move_pause(); // Same as if the player pressed '.'
 
+    const pathfinding_settings &get_pathfinding_settings() const override;
+    const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
+    std::set<tripoint> get_path_avoid() const override;
+
 // Item discovery and fetching
  void find_item  (); // Look around and pick an item
  void pick_up_item (); // Move to, or grab, our targeted item
@@ -753,6 +762,7 @@ public:
     std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
 
     bool has_item_whitelist() const;
+    bool item_name_whitelisted( const std::string &name );
     bool item_whitelisted( const item &it );
 
     /** Returns true if it finds one. */

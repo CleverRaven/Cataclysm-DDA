@@ -101,7 +101,7 @@
     "id": "thompson_drum",
     "type": "MAGAZINE",
     "name": "Thompson drum magazine",
-    "description": "A 50-round drum magazine for the Thompson submachine gun.  Made famous by gangsters, but the military preferred standard 20 and 30-round magazines due to greater reliablity.",
+    "description": "A 50-round drum magazine for the Thompson submachine gun.  Made famous by gangsters, but the military preferred standard 20 and 30-round magazines due to greater reliability.",
     "weight": 500,
     "volume": 4,
     "price": 8000,

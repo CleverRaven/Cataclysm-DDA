@@ -11,6 +11,7 @@
 #include "input.h"
 #include "worldfactory.h"
 #include "catacharset.h"
+#include "game_constants.h"
 
 #ifdef TILES
 #include "cata_tiles.h"
@@ -812,8 +813,8 @@ void options_manager::init()
         0, 20, 0
         );
 
-    add("AUTO_PICKUP_SAFEMODE", "general", _("Auto pickup safemode"),
-        _("Auto pickup is disabled as long as you can see monsters nearby. This is affected by 'Safemode proximity distance'."),
+    add("AUTO_PICKUP_SAFEMODE", "general", _("Auto pickup safe mode"),
+        _("Auto pickup is disabled as long as you can see monsters nearby. This is affected by 'Safe Mode proximity distance'."),
         false
         );
 
@@ -826,35 +827,35 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
-    add("AUTOSAFEMODE", "general", _("Auto-safemode"),
-        _("If true, turns safemode automatically back on after it being disabled beforehand. See option 'Turns to re-enable safemode'"),
+    add("AUTOSAFEMODE", "general", _("Auto-safe mode"),
+        _("If true, turns safemode automatically back on after it being disabled beforehand. See option 'Turns to re-enable safe mode'"),
         false
         );
 
-    add("AUTOSAFEMODETURNS", "general", _("Turns to re-enable safemode"),
-        _("Number of turns after safemode is re-enabled if no hostiles are in 'Safemode proximity distance'."),
+    add("AUTOSAFEMODETURNS", "general", _("Turns to re-enable safe mode"),
+        _("Number of turns after safe mode is re-enabled if no hostiles are in 'Safe Mode proximity distance'."),
         1, 100, 50
         );
 
-    add("SAFEMODE", "general", _("Safemode"),
+    add("SAFEMODE", "general", _("Safe Mode"),
         _("If true, will hold the game and display a warning if a hostile monster/npc is approaching."),
         true
         );
 
-    add("SAFEMODEPROXIMITY", "general", _("Safemode proximity distance"),
-        _("If safemode is enabled, distance to hostiles at which safemode should show a warning. 0 = Max player viewdistance."),
-        0, 50, 0
+    add("SAFEMODEPROXIMITY", "general", _("Safe Mode proximity distance"),
+        _("If safe mode is enabled, distance to hostiles at which safe mode should show a warning. 0 = Max player viewdistance."),
+        0, MAX_VIEW_DISTANCE, 0
         );
 
-    add("SAFEMODEVEH", "general", _("Safemode when driving"),
-        _("When true, safemode will alert you of hostiles while you are driving a vehicle."),
+    add("SAFEMODEVEH", "general", _("Safe Mode when driving"),
+        _("When true, safe mode will alert you of hostiles while you are driving a vehicle."),
         false
         );
 
     mOptionsSort["general"]++;
 
     add("TURN_DURATION", "general", _("Realtime turn progression"),
-        _("If enabled, monsters will take periodic gameplay turns. This value is the delay between each turn, in seconds. Works best with Safemode disabled. 0 = disabled."),
+        _("If enabled, monsters will take periodic gameplay turns. This value is the delay between each turn, in seconds. Works best with Safe Mode disabled. 0 = disabled."),
         0.0, 10.0, 0.0, 0.05
         );
 
@@ -968,6 +969,14 @@ void options_manager::init()
         "lbs,kg", "lbs"
         );
 
+    optionNames["c"] = _("Cup");
+    optionNames["l"] = _("Liter");
+    optionNames["qt"] = _("Quart");
+    add("VOLUME_UNITS", "interface", _("Volume units"),
+        _("Switch between the Cup (c), Liter (L) or Quart (qt)."),
+        "c,l,qt", "l"
+        );
+
     //~ 12h time, e.g. 11:59pm
     optionNames["12h"] = _("12h");
     //~ Military time, e.g. 2359
@@ -1009,6 +1018,11 @@ void options_manager::init()
     add("CLOSE_ADV_INV", "interface", _("Close advanced inventory on move all"),
         _("If true, will close the advanced inventory when the move all items command is used."),
         false
+        );
+
+    add( "INV_USE_ACTION_NAMES", "interface", _( "Display actions in Use Item menu" ),
+        _( "If true, actions (like \"Read\", \"Smoke\", \"Wrap tighter\") will be displayed next to the corresponding items." ),
+        true
         );
 
     mOptionsSort["interface"]++;
@@ -1131,6 +1145,11 @@ void options_manager::init()
     add("ANIMATION_DELAY", "graphics", _("Animation delay"),
         _("The amount of time to pause between animation frames in ms."),
         0, 100, 10
+        );
+
+    add("FORCE_REDRAW", "graphics", _("Force redraw"),
+        _("If true, forces the game to redraw at least once per turn."),
+        true
         );
 
     mOptionsSort["graphics"]++;
@@ -1843,9 +1862,6 @@ void options_manager::show(bool ingame)
     }
     if( lang_changed ) {
         set_language(false);
-        g->mmenu_refresh_title();
-        g->mmenu_refresh_motd();
-        g->mmenu_refresh_credits();
     }
 
     refresh_tiles( used_tiles_changed, pixel_minimap_height_changed, ingame );
@@ -1862,6 +1878,11 @@ void options_manager::serialize(JsonOut &json) const
 
     for( size_t j = 0; j < vPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
+            // Skip blanks between option groups
+            // to avoid empty json entries being stored
+            if( elem.empty() ) {
+                continue;
+            }
             const auto iter = global_options.find( elem );
             if( iter != global_options.end() ) {
                 const auto &opt = iter->second;

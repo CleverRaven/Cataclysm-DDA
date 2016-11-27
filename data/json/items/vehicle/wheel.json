@@ -209,7 +209,6 @@
     "id": "wheel_wood_b",
     "copy-from": "wheel_wood",
     "type": "WHEEL",
-    "category": "veh_parts",
     "name": "banded wooden cart wheel",
     "description": "A wooden cart wheel with metal bands for durability, hand made.",
     "relative": { "weight": 500 }

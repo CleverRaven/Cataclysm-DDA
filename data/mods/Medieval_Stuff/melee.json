@@ -9,7 +9,7 @@
     "description": "This is a bronze polearm that originated in the Shang dynasty of China, if not earlier.  It combines a spear head with the perpendicular blade of the earlier ge or dagger-axe.",
     "price": 50000,
     "material": ["wood", "bronze"],
-    "flags": ["CHOP", "DURABLE_MELEE", "REACH_ATTACK"],
+    "flags": ["DURABLE_MELEE", "REACH_ATTACK"],
     "techniques": ["WBLOCK_1", "IMPALE", "DEF_DISARM"],
     "weight": 3175,
     "volume": 15,
@@ -49,7 +49,7 @@
         "bashing": 4,
         "cutting": 14,
         "to_hit": 2,
-        "flags": ["SHEATH_SWORD","CHOP"],
+        "flags": ["SHEATH_SWORD"],
         "techniques": ["WBLOCK_2"]
     }
 ]
