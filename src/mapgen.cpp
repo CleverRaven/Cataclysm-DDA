@@ -10043,28 +10043,6 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         add_spawn(mon_blob, 8, SEEX, SEEY);
         place_items("sewer", 40, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 
-
-    } else if (terrain_type == "triffid_grove") {
-
-        fill_background(this, t_dirt);
-        for (int rad = 5; rad < SEEX - 2; rad += rng(2, 3)) {
-            square(this, t_tree, rad, rad, 23 - rad, 23 - rad);
-            square(this, t_dirt, rad + 1, rad + 1, 22 - rad, 22 - rad);
-            if (one_in(2)) { // Vertical side opening
-                int x = (one_in(2) ? rad : 23 - rad), y = rng(rad + 1, 22 - rad);
-                ter_set(x, y, t_dirt);
-            } else { // Horizontal side opening
-                int x = rng(rad + 1, 22 - rad), y = (one_in(2) ? rad : 23 - rad);
-                ter_set(x, y, t_dirt);
-            }
-            add_spawn( (one_in(3) ? mon_biollante : mon_triffid), 1, rad + 1, rad + 1);
-            add_spawn( (one_in(3) ? mon_biollante : mon_triffid), 1, 22 - rad, rad + 1);
-            add_spawn( (one_in(3) ? mon_biollante : mon_triffid), 1, rad + 1, 22 - rad);
-            add_spawn( (one_in(3) ? mon_biollante : mon_triffid), 1, 22 - rad, 22 - rad);
-        }
-        square(this, t_slope_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
-
-
     } else if (terrain_type == "triffid_roots") {
 
         fill_background(this, t_root_wall);

@@ -18,12 +18,12 @@ struct MonsterGroup;
 struct city;
 struct overmap_special_location;
 
-using mongroup_id = string_id<MonsterGroup>;
-
 class overmap;
 
 struct overmap_spawns {
-    mongroup_id group;
+    overmap_spawns();
+
+    string_id<MonsterGroup> group;
     numeric_interval<int> population;
     int chance = 0;
 };
@@ -146,7 +146,7 @@ type random();
 #define OMSPEC_FREQ 15
 
 struct overmap_special_spawns : public JsonDeserializer {
-    mongroup_id group;
+    string_id<MonsterGroup> group;
     numeric_interval<int> population;
     numeric_interval<int> radius;
 
