@@ -51,7 +51,7 @@ General notes for all translators are in
 and notes specific to a language may be stored as `<lang_id>.txt`,
 for example `lang/notes/de.txt` for German.
 
-Cataclysm-DDA has more than 14,000 translatable strings,
+Cataclysm-DDA has more than 23,200 translatable strings,
 but don't be discouraged.
 The more translators there are,
 the easier it becomes :).
