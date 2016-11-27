@@ -54,5 +54,15 @@
       "type": "ammobelt",
       "belt": "belt50"
     }
+  },
+  {
+    "id": "ammolinkshot",
+    "copy-from": "ammolink",
+    "type": "GENERIC",
+    "name": "12 gauge ammo belt linkage",
+    "use_action": {
+      "type": "ammobelt",
+      "belt": "beltshot"
+    }
   }
 ]
