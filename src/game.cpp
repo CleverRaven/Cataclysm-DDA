@@ -10271,7 +10271,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
     };
 
-    const std::string liquid_name = liquid.has_infinite_charges() ? liquid.tname() : liquid.display_name( liquid.charges );
+    const std::string liquid_name = liquid.display_name( liquid.charges );
 
     uimenu menu;
     menu.return_invalid = true;

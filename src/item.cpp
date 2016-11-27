@@ -2361,6 +2361,7 @@ std::string item::display_name(unsigned int quantity) const
             break;
     }
 
+    // @todo Refactor it to eliminate duplication. Handle infinite charges properly in all the cases.
     if( is_container() && contents.size() == 1 && contents.front().charges > 0 ) {
         // a container which is not empty
         qty = string_format(" (%i)", contents.front().charges);
@@ -2372,7 +2373,7 @@ std::string item::display_name(unsigned int quantity) const
         qty = string_format(" (%i)", ammo_remaining());
     } else if( is_ammo_container() && !contents.empty() ) {
         qty = string_format( " (%i)", contents.front().charges );
-    } else if( count_by_charges() ) {
+    } else if( count_by_charges() && !has_infinite_charges() ) {
         qty = string_format(" (%i)", charges);
     }
 
