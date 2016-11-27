@@ -965,8 +965,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```MP3_ON``` Turn the mp3 player off.
 - ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
 - ```NOISE_EMITTER_ON``` Turn the noise emitter off.
-- ```PDA``` Use your pda.
-- ```PDA_FLASHLIGHT``` Use your pda as a flashlight.
 - ```PHEROMONE``` Makes zombies love you.
 - ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
 - ```PICKLOCK``` Attempt to pick the lock on doors.
