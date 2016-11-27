@@ -4486,6 +4486,8 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
     opts.push_back( this );
 
     for( const auto e : opts ) {
+
+        // handle base item plus any auxiliary gunmods
         if( e->is_gun() ) {
             for( auto m : e->type->gun->modes ) {
                 // prefix attached gunmods, eg. M203_DEFAULT to avoid index key collisions
@@ -4500,10 +4502,11 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
                 res.emplace( prefix += m.first, item::gun_mode( std::get<0>( m.second ), const_cast<item *>( e ),
                                                                 qty, std::get<2>( m.second ) ) );
             };
-        }
-        if( e->is_gunmod() ) {
+
+        // non-auxiliary gunmods may provide additional modes for the base item
+        } else if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
+                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( this ),
                                                        std::get<1>( m.second ), std::get<2>( m.second ) } );
             }
         }
