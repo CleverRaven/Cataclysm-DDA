@@ -1048,6 +1048,18 @@
     },
     {
         "type" : "keybinding",
+        "id":"TOGGLE_CURSOR",
+        "category":"OVERMAP",
+        "name":"Toggle Cursor",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"C"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOGGLE_OVERLAYS",
         "category":"OVERMAP",
         "name":"Toggle Overlays",

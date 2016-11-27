@@ -2257,13 +2257,15 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                   _(" - List notes")).c_str());
         mvwprintz(wbar, 20, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_BLINKING") +
                   _(" - Toggle Blinking")).c_str());
-        mvwprintz(wbar, 21, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
+        mvwprintz(wbar, 21, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_CURSOR") +
+                  _(" - Toggle Cursor")).c_str());
+        mvwprintz(wbar, 22, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
                   _(" - Toggle Overlays")).c_str());
-        mvwprintz(wbar, 22, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_EXPLORED") +
+        mvwprintz(wbar, 23, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_EXPLORED") +
                   _(" - Toggle Explored")).c_str());
-        mvwprintz(wbar, 23, 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
+        mvwprintz(wbar, 24, 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
                   _(" - Change keys")).c_str());
-        fold_and_print(wbar, 24, 1, 27, c_magenta, (inp_ctxt->get_desc("QUIT") +
+        fold_and_print(wbar, 25, 1, 27, c_magenta, (inp_ctxt->get_desc("QUIT") +
                        _(" - Return to game")).c_str());
     }
     point omt(cursx, cursy);
@@ -2271,8 +2273,10 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     mvwprintz(wbar, getmaxy(wbar) - 1, 1, c_red,
               _("LEVEL %i, %d'%d, %d'%d"), z, om.x, omt.x, om.y, omt.y);
 
+
+
     // draw nice crosshair around the cursor
-    if( blink && !uistate.place_terrain && !uistate.place_special ) {
+    if( blink && !uistate.place_terrain && !uistate.place_special && uistate.overmap_cursor ) {
         mvwputch(w, om_half_height-1, om_half_width-1, c_ltgray, LINE_OXXO);
         mvwputch(w, om_half_height-1, om_half_width+1, c_ltgray, LINE_OOXX);
         mvwputch(w, om_half_height+1, om_half_width-1, c_ltgray, LINE_XXOO);
@@ -2370,6 +2374,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     ictxt.register_action("SEARCH");
     ictxt.register_action("LIST_NOTES");
     ictxt.register_action("TOGGLE_BLINKING");
+    ictxt.register_action("TOGGLE_CURSOR");
     ictxt.register_action("TOGGLE_OVERLAYS");
     ictxt.register_action("TOGGLE_EXPLORED");
     if( data.debug_editor ) {
@@ -2433,6 +2438,9 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             } else {
                 show_explored = true;
             }
+        } else if (action == "TOGGLE_CURSOR") {
+            uistate.overmap_cursor = !uistate.overmap_cursor;
+
         } else if (action == "TOGGLE_OVERLAYS") {
             // if we are currently blinking, turn blinking off.
             if (uistate.overmap_blinking) {
