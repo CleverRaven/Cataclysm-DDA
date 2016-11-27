@@ -401,7 +401,7 @@
       "moves": 150,
       "type": "delayed_transform",
       "transform_age": 43200,
-      "not_ready_msg": "The milk is still curdling.",
+      "not_ready_msg": "The milk is still curdling."
     }
   },
   {
