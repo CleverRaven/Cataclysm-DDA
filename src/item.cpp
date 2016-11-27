@@ -248,8 +248,9 @@ item& item::ammo_set( const itype_id& ammo, long qty )
         // completely fill an integral or existing magazine
         if( magazine_integral() || magazine_current() ) {
             qty = ammo_capacity();
-        } else {
-            // if adding a magazine use default ammo count property if set
+
+        // else try to add a magazine using default ammo count property if set
+        } else if( magazine_default() != "null" ) {
             item mag( magazine_default() );
             if( mag.type->magazine->count > 0 ) {
                 qty = mag.type->magazine->count;
@@ -259,7 +260,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
         }
     }
 
-    if( qty == 0 ) {
+    if( qty <= 0 ) {
         ammo_unset();
         return *this;
     }
@@ -1201,10 +1202,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( !type->engine->fuel.is_null() ) {
             auto col = string_from_color( item::find_type( default_ammo( type->engine->fuel ) )->color );
             info.emplace_back( "ENGINE", _( "Fuel: " ),
-                               string_format( "<color_%s>%s</color>", col.c_str(), type->engine->fuel.c_str() ) );
+                               string_format( "<color_%s>%s</color>", col.c_str(), _( type->engine->fuel.c_str() ) ) );
         }
         if( type->engine->power > 0 && !has_flag( "MANUAL_ENGINE" ) ) {
-            info.emplace_back( "ENGINE", _( "Power: " ), "<num> hp", watt_to_hp( type->engine->power ), true );
+            info.emplace_back( "ENGINE", _( "Power: " ), _( "<num> hp" ), watt_to_hp( type->engine->power ), true );
         }
 
         info.emplace_back( "ENGINE", _( "Efficiency: " ), "<num>%", type->engine->efficiency, true );
@@ -1213,7 +1214,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "ENGINE", _( "Gears: " ), "", type->engine->gears.size(), true );
         }
         if( type->engine->redline > 0 ) {
-            info.emplace_back( "ENGINE", _( "Redline: " ), "<num> rpm", type->engine->redline, true );
+            info.emplace_back( "ENGINE", _( "Redline: " ), _( "<num> rpm" ), type->engine->redline, true );
         }
 
         if( engine_start_time( 20 ) > 0 ) {
@@ -2686,6 +2687,18 @@ bool item::has_any_flag( const std::vector<std::string>& flags ) const
     return false;
 }
 
+item& item::set_flag( const std::string &flag )
+{
+    item_tags.insert( flag );
+    return *this;
+}
+
+item& item::unset_flag( const std::string &flag )
+{
+    item_tags.erase( flag );
+    return *this;
+}
+
 bool item::has_property( const std::string& prop ) const {
    return type->properties.find(prop) != type->properties.end();
 }
@@ -3502,11 +3515,14 @@ bool item::is_food(player const*u) const
         return true;
     }
 
-    if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && ammo_type() == ammotype( "battery" ) ) {
+    if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && type->ammo->type.count( ammotype( "battery" ) ) ) {
         return true;
     }
 
-    if( ( u->has_active_bionic( "bio_reactor" ) || u->has_active_bionic( "bio_advreactor" ) ) && is_ammo() && ( ammo_type() == ammotype( "reactor_slurry" ) || ammo_type() == ammotype( "plutonium" ) ) ) {
+    if( ( u->has_active_bionic( "bio_reactor" ) ||
+          u->has_active_bionic( "bio_advreactor" ) ) &&
+        is_ammo() && ( type->ammo->type.count( ammotype( "plut_slurry" ) ) ||
+                       type->ammo->type.count( ammotype( "plutonium" ) ) ) ) {
         return true;
     }
     if (u->has_active_bionic("bio_furnace") && flammable() && typeId() != "corpse")
@@ -4695,11 +4711,14 @@ void item::casings_handle( const std::function<bool(item &)> &func )
     }
 
     for( auto it = contents.begin(); it != contents.end(); ) {
-        if( it->is_ammo() && it->ammo_type() != ammo_type() ) {
+        if( it->has_flag( "CASING" ) ) {
+            it->unset_flag( "CASING" );
             if( func( *it ) ) {
                 it = contents.erase( it );
                 continue;
             }
+            // didn't handle the casing so reset the flag ready for next call
+            it->set_flag( "CASING" );
         }
         ++it;
     }
@@ -5059,9 +5078,14 @@ bool item::allow_crafting_component() const
     }
 
     // fixes #18886 - turret installation may require items with irremovable mods
-    return std::all_of( contents.begin(), contents.end(), []( const item &e ) {
-        return e.is_gunmod() && e.has_flag( "IRREMOVABLE" );
-    } );
+    if( is_gun() ) {
+        return std::all_of( contents.begin(), contents.end(), [&]( const item &e ) {
+            return e.is_magazine() || ( e.is_gunmod() && e.has_flag( "IRREMOVABLE" ) );
+        } );
+
+    } else {
+        return contents.empty();
+    }
 }
 
 void item::fill_with( item &liquid, long amount )
@@ -5113,8 +5137,7 @@ bool item::use_charges( const itype_id& what, long& qty, std::list<item>& used, 
         }
 
         if( e->is_tool() ) {
-            // for tools we also need to check if this item is a subtype of the required id
-            if( e->typeId() == what || e->type->tool->subtype == what ) {
+            if( e->typeId() == what ) {
                 int n = std::min( e->ammo_remaining(), qty );
                 qty -= n;
 

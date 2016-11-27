@@ -210,6 +210,14 @@ class Item_factory
             m_templates[ def.id ] = def;
         }
 
+        /**
+         * Check if an iuse is known to the Item_factory.
+         * @param type Iuse type id.
+         */
+        bool has_iuse( const std::string &type ) const {
+            return iuse_function_list.find( type ) != iuse_function_list.end();
+        }
+
         void load_item_blacklist( JsonObject &jo );
 
         /**
@@ -242,6 +250,8 @@ class Item_factory
          * Create a new (and currently unused) item type id.
          */
         Item_tag create_artifact_id() const;
+
+        std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
     private:
         std::map<const std::string, itype> m_abstracts;
@@ -310,7 +320,7 @@ class Item_factory
 
         use_function usage_from_string( const std::string &type ) const;
 
-        std::pair<std::string, use_function> usage_from_object( JsonObject &obj ) const;
+        std::pair<std::string, use_function> usage_from_object( JsonObject &obj );
 
         void add_entry( Item_group *sg, JsonObject &obj );
         void load_item_group_entries( Item_group &ig, JsonArray &entries );
@@ -332,6 +342,12 @@ class Item_factory
         void add_actor( iuse_actor *ptr );
 
         std::map<itype_id, migration> migrations;
+
+        /**
+         * Contains the tool subtype mappings for crafing (ie. mess kit is a hotplate etc.).
+         * This is should be obsoleted when @ref requirement_data allows AND/OR nesting.
+         */
+        std::map<itype_id, std::set<itype_id>> tool_subtypes;
 };
 
 #endif

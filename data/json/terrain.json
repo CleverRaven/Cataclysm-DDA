@@ -2890,7 +2890,7 @@
         "transforms_into": "t_tree_apple_harvested",
         "examine_action": "harvest_ter_nectar",
         "harvest_by_season" : [
-            { "seasons": [ "autumn" ], "harvest": { "drop": "apple", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } }
+            { "seasons": [ "autumn" ], "entries": [ { "drop": "apple", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -2933,7 +2933,7 @@
         "transforms_into": "t_tree_pear_harvested",
         "examine_action": "harvest_ter_nectar",
         "harvest_by_season" : [
-            { "seasons": [ "autumn" ], "harvest": { "drop": "pear", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } }
+            { "seasons": [ "autumn" ], "entries": [ { "drop": "pear", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -2976,7 +2976,7 @@
         "transforms_into": "t_tree_cherry_harvested",
         "examine_action": "harvest_ter_nectar",
         "harvest_by_season" : [
-            { "seasons": [ "summer" ], "harvest": { "drop": "cherries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } }
+            { "seasons": [ "summer" ], "entries": [ { "drop": "cherries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3019,7 +3019,7 @@
         "transforms_into": "t_tree_peach_harvested",
         "examine_action": "harvest_ter_nectar",
         "harvest_by_season" : [
-            { "seasons": [ "summer" ], "harvest": { "drop": "peach", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } }
+            { "seasons": [ "summer" ], "entries": [ { "drop": "peach", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3062,7 +3062,7 @@
         "transforms_into": "t_tree_apricot_harvested",
         "examine_action": "harvest_ter_nectar",
         "harvest_by_season" : [
-            { "seasons": [ "autumn" ], "harvest": { "drop": "apricot", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } }
+            { "seasons": [ "autumn" ], "entries": [ { "drop": "apricot", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3105,7 +3105,7 @@
         "transforms_into": "t_tree_plum_harvested",
         "examine_action": "harvest_ter_nectar",
         "harvest_by_season" : [
-            { "seasons": [ "autumn" ], "harvest": { "drop": "plums", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } }
+            { "seasons": [ "autumn" ], "entries": [ { "drop": "plums", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3148,8 +3148,7 @@
         "transforms_into": "t_tree_deadpine",
         "examine_action": "harvest_ter",
         "harvest_by_season" : [
-            { "seasons": [ "spring", "summer", "autumn", "winter" ], "harvest": { "drop": "pine_bough", "base_num": [ 2, 8 ] } },
-            { "seasons": [ "spring", "summer", "autumn", "winter" ], "harvest": { "drop": "pinecone", "base_num": [ 1, 4 ] } }
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "pine_bough", "base_num": [ 2, 8 ] }, { "drop": "pinecone", "base_num": [ 1, 4 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3190,7 +3189,7 @@
         "examine_action": "harvest_ter",
         "transforms_into": "t_tree_birch_harvested",
         "harvest_by_season" : [
-            { "seasons": [ "spring", "summer", "autumn", "winter" ], "harvest": { "drop": "birchbark", "base_num": [ 1, 2 ] } }
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "birchbark", "base_num": [ 1, 2 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3231,7 +3230,7 @@
         "examine_action": "harvest_ter",
         "transforms_into": "t_tree_birch_harvested",
         "harvest_by_season" : [
-            { "seasons": [ "spring", "summer", "autumn", "winter" ], "harvest": { "drop": "willowbark", "base_num": [ 1, 2 ] } }
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "willowbark", "base_num": [ 1, 2 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3471,8 +3470,7 @@
         "transforms_into": "t_shrub_blueberry_harvested",
         "examine_action": "harvest_ter_nectar",
         "harvest_by_season" : [
-            { "seasons": [ "summer" ], "harvest": { "drop": "blueberries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } },
-            { "seasons": [ "summer" ], "harvest": { "drop": "seed_blueberries", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] } }
+            { "seasons": [ "summer" ], "entries": [ { "drop": "blueberries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] }, { "drop": "seed_blueberries", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] } ] }
         ],
         "bash": {
             "str_min": 4, "str_max": 60,
@@ -3507,8 +3505,7 @@
         "transforms_into": "t_shrub_strawberry_harvested",
         "examine_action": "harvest_ter_nectar",
         "harvest_by_season" : [
-            { "seasons": [ "summer" ], "harvest": { "drop": "strawberries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } },
-            { "seasons": [ "summer" ], "harvest": { "drop": "seed_strawberries", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] } }
+            { "seasons": [ "summer" ], "entries": [ { "drop": "strawberries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] }, { "drop": "seed_strawberries", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] } ] }
         ],
         "bash": {
             "str_min": 4, "str_max": 60,
@@ -6051,7 +6048,7 @@
         "examine_action": "harvest_ter",
         "transforms_into": "t_tree",
         "harvest_by_season" : [
-            { "seasons": [ "spring", "summer", "autumn", "winter" ], "harvest": { "drop": "tanbark", "base_num": [ 1, 2 ] } }
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "tanbark", "base_num": [ 1, 2 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,

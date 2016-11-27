@@ -35,6 +35,7 @@
 #include "pathfinding.h"
 #include "scent_map.h"
 #include "cata_utility.h"
+#include "harvest.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -415,7 +416,13 @@ bool map::vehact( vehicle &veh )
         // air resistance
         slowdown = 2.0;
 
-    } else if( !veh.engine_on ) {
+    } else if( !veh.engine_on || veh.skidding ) {
+        double loss = friction_loss;
+
+        if( veh.engine_on && veh.skidding ) {
+            loss /= 3.0;
+        }
+
         // if we don't have an active engine providing thrust then reduce velocity from friction
         double k = 0.5 * veh.total_mass() * pow( veh.current_velocity(), 2 );
         k -= k * friction_loss / veh.k_dynamics();
@@ -431,10 +438,6 @@ bool map::vehact( vehicle &veh )
     // apply crude decay when moving from high traction (road) to low traction (off-road)
     // @todo replace with more correct acceleration model
     slowdown += std::abs( veh.current_velocity() * ( 1.0 - traction ) );
-
-    if( veh.skidding ) {
-        slowdown = std::max( slowdown, veh.velocity / 3.0 );
-    }
 
     if( slowdown > abs( veh.velocity ) ) {
         veh.stop();
@@ -1662,9 +1665,9 @@ ter_id map::ter( const tripoint &p ) const
 /*
  * Get the results of harvesting this tile's furniture or terrain
  */
-const std::list<harvest_entry> &map::get_harvest( const tripoint &pos ) const
+const harvest_id &map::get_harvest( const tripoint &pos ) const
 {
-    static const std::list<harvest_entry> null_harvest = {};
+    static const harvest_id null_harvest( NULL_ID );
     const auto furn_here = furn( pos );
     if( furn_here->examine != iexamine::none ) {
         // Note: if furniture can be examined, the terrain can NOT (until furniture is removed)
@@ -1685,11 +1688,11 @@ const std::list<harvest_entry> &map::get_harvest( const tripoint &pos ) const
 
 const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 {
-    static const std::set<std::string> null_harvest = {};
+    static const std::set<std::string> null_harvest_names = {};
     const auto furn_here = furn( pos );
     if( furn_here->examine != iexamine::none ) {
         if( furn_here->has_flag( TFLAG_HARVESTED ) ) {
-            return null_harvest;
+            return null_harvest_names;
         }
 
         return furn_here->get_harvest_names();
@@ -1697,7 +1700,7 @@ const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 
     const auto ter_here = ter( pos );
     if( ter_here->has_flag( TFLAG_HARVESTED ) ) {
-        return null_harvest;
+        return null_harvest_names;
     }
 
     return ter_here->get_harvest_names();
@@ -1726,7 +1729,8 @@ void map::examine( Character &p, const tripoint &pos )
 
 bool map::is_harvestable( const tripoint &pos ) const
 {
-    return !get_harvest( pos ).empty();
+    const auto &harvest_here = get_harvest( pos );
+    return !harvest_here.is_null() && !harvest_here->empty();
 }
 
 

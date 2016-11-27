@@ -1020,6 +1020,11 @@ void options_manager::init()
         false
         );
 
+    add( "INV_USE_ACTION_NAMES", "interface", _( "Display actions in Use Item menu" ),
+        _( "If true, actions (like \"Read\", \"Smoke\", \"Wrap tighter\") will be displayed next to the corresponding items." ),
+        true
+        );
+
     mOptionsSort["interface"]++;
 
     add("VEHICLE_ARMOR_COLOR", "interface", _("Vehicle plating changes part color"),

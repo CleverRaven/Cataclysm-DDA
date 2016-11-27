@@ -1647,7 +1647,7 @@ static void cycle_action( item& weap, const tripoint &pos ) {
 
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing != "null" ) {
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
-            weap.emplace_back( weap.ammo_data()->ammo->casing );
+            weap.contents.push_back( item( weap.ammo_data()->ammo->casing ).set_flag( "CASING" ) );
 
         } else {
             if( cargo.empty() ) {

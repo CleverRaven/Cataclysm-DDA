@@ -23,6 +23,7 @@ struct itype;
 struct trap;
 struct ter_t;
 struct furn_t;
+class harvest_list;
 
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
@@ -34,6 +35,8 @@ using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
 
 using itype_id = std::string;
+
+using harvest_id = string_id<harvest_list>;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
@@ -193,19 +196,6 @@ enum ter_connects : int {
     TERCONN_WATER,
 };
 
-// Could be reused for butchery
-struct harvest_entry {
-    itype_id drop;
-    float base_number_min;
-    float base_number_max;
-    // This is multiplied by survival and added to the above
-    float scale_number_min;
-    float scale_number_max;
-
-    void load( JsonObject &jo );
-    void check( const std::string &parent_id ) const;
-};
-
 struct map_data_common_t {
     std::string name;  // The plaintext name of the terrain type the user would see (i.e. dirt)
 
@@ -238,12 +228,8 @@ public:
      * When will this terrain/furniture get harvested and what will drop?
      * Note: This excludes items that take extra tools to harvest.
      */
-    std::array<std::list<harvest_entry>, SEASONS_PER_YEAR> harvest_by_season = {{
-        {}, {}, {}, {}
-    }};
-
-    std::array<std::set<std::string>, SEASONS_PER_YEAR> harvest_names_by_season = {{
-        {}, {}, {}, {}
+    std::array<harvest_id, SEASONS_PER_YEAR> harvest_by_season = {{
+        harvest_id( "null" ), harvest_id( "null" ), harvest_id( "null" ), harvest_id( "null" )
     }};
 
     bool transparent;
@@ -271,7 +257,7 @@ public:
     long symbol() const;
     nc_color color() const;
 
-    const std::list<harvest_entry> &get_harvest() const;
+    const harvest_id &get_harvest() const;
     /**
      * Returns a set of names of the items that would be dropped.
      * Used for NPC whitelist checking.
@@ -279,7 +265,6 @@ public:
     const std::set<std::string> &get_harvest_names() const;
 
     virtual void load( JsonObject &jo, const std::string &src );
-    virtual void finalize();
     virtual void check() const;
 };
 
@@ -311,7 +296,6 @@ struct ter_t : map_data_common_t {
 
     void load( JsonObject &jo, const std::string &src ) override;
     void check() const override;
-    static void finalize_all();
 };
 
 void set_ter_ids();
@@ -345,7 +329,6 @@ struct furn_t : map_data_common_t {
 
     void load( JsonObject &jo, const std::string &src ) override;
     void check() const override;
-    static void finalize_all();
 };
 
 /*

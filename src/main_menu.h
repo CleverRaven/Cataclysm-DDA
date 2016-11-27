@@ -24,8 +24,12 @@ class main_menu
         std::vector<std::string> vMenuItems; // MOTD, New Game, Load Game, etc.
         std::vector< std::vector<std::string> > vMenuHotkeys; // hotkeys for the vMenuItems
 
+        // Play a sound whenver the user moves left or right in the main menu or its tabs
+        void on_move() const;
+
         // Tab functions. They return whether a game was started or not.
         bool new_character_tab();
+        bool load_character_tab();
 
         // These variables are shared between @opening_screen and the tab functions.
         // TODO: But this is an ugly short-term solution.
@@ -37,6 +41,7 @@ class main_menu
         int iMenuOffsetY;
         std::vector<std::string> templates;
         int extra_w;
+        std::vector<std::string> savegames;
 
         /**
          * Prints a horizontal list of options
