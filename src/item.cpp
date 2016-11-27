@@ -3338,7 +3338,7 @@ std::string item::damage_symbol() const
 const std::set<itype_id>& item::repaired_with() const
 {
     static std::set<itype_id> no_repair;
-    return ( has_flag( "NO_REPAIR" ) || max_damage() == min_damage() ) ? no_repair : type->repair;
+    return has_flag( "NO_REPAIR" )  ? no_repair : type->repair;
 }
 
 void item::mitigate_damage( damage_unit &du ) const

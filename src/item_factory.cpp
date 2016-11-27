@@ -105,6 +105,11 @@ void Item_factory::finalize() {
     for( auto& e : m_templates ) {
         itype& obj = e.second;
 
+        // @todo separate repairing from reinforcing/enhancement
+        if( obj.damage_max == obj.damage_min ) {
+            obj.item_tags.insert( "NO_REPAIR" );
+        }
+
         if( obj.item_tags.count( "STAB" ) || obj.item_tags.count( "SPEAR" ) ) {
             std::swap(obj.melee[DT_CUT], obj.melee[DT_STAB]);
         }
