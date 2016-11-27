@@ -227,18 +227,9 @@
   },
   {
     "id": "javelin",
+    "copy-from": "javelin",
     "type": "AMMO",
     "name": "wooden javelin",
-    "description": "A wooden spear, honed to a sharper point and fire hardened for toughness.  The grip area has also been carved and covered for better grip.",
-    "weight": 600,
-    "volume": 4,
-    "price": 4000,
-    "to_hit": 2,
-    "bashing": 5,
-    "cutting": 11,
-    "material": [ "wood" ],
-    "symbol": "/",
-    "color": "brown",
     "count": 1,
     "stack_size": 4,
     "ammo_type": "javelin",
@@ -246,10 +237,7 @@
     "damage": 6,
     "dispersion": 135,
     "loudness": 0,
-    "effects": [ "RECOVER_10" ],
-    "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR" ]
+    "effects": [ "RECOVER_10" ]
   },
   {
     "id": "javelin_stone",
@@ -303,22 +291,13 @@
     "effects": [ "RECOVER_10" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "SPEAR", "NONCONDUCTIVE" ]
   },
   {
     "id": "javelin_iron",
+    "copy-from": "javelin_iron",
     "type": "AMMO",
     "name": "iron javelin",
-    "description": "An iron-tipped wooden throwing spear.  The grip area has also been carved and covered for better grip.",
-    "weight": 960,
-    "volume": 4,
-    "price": 2000,
-    "to_hit": 2,
-    "bashing": 5,
-    "cutting": 17,
-    "material": [ "wood", "iron" ],
-    "symbol": "/",
-    "color": "light_gray",
     "count": 1,
     "stack_size": 4,
     "ammo_type": "javelin",
@@ -327,10 +306,7 @@
     "pierce": 3,
     "dispersion": 135,
     "loudness": 0,
-    "effects": [ "RECOVER_15" ],
-    "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR" ]
+    "effects": [ "RECOVER_15" ]
   },
   {
     "id": "spear_stone",
@@ -356,7 +332,6 @@
     "category": "food",
     "name": "small batch of curdling milk",
     "name_plural": "small batches of curdling milk",
-    "//": "price of container",
     "description": "A sealed small waterskin filled with milk that is undergoing the process to become a crude form of cheese, having had vinegar and natural rennet added.",
     "weight": 1870,
     "volume": 7,
@@ -374,8 +349,7 @@
       "moves": 150,
       "type": "delayed_transform",
       "transform_age": 28800,
-      "not_ready_msg": "The milk is still curdling.",
-      "//": "2 days"
+      "not_ready_msg": "The milk is still curdling."
     }
   },
   {
@@ -384,7 +358,6 @@
     "category": "food",
     "name": "batch of curdling milk",
     "name_plural": "batches of curdling milk",
-    "//": "price of container",
     "description": "A sealed waterskin filled with milk that is undergoing the process to become a crude form of cheese, having had vinegar and natural rennet added.",
     "weight": 3617,
     "volume": 14,
@@ -402,8 +375,7 @@
       "moves": 150,
       "type": "delayed_transform",
       "transform_age": 36000,
-      "not_ready_msg": "The milk is still curdling.",
-      "//": "2 and a half days"
+      "not_ready_msg": "The milk is still curdling."
     }
   },
   {
@@ -412,7 +384,6 @@
     "category": "food",
     "name": "large batch of curdling milk",
     "name_plural": "large batches of curdling milk",
-    "//": "price of container",
     "description": "A sealed large waterskin filled with milk that is undergoing the process to become a crude form of cheese, having had vinegar and natural rennet added.",
     "weight": 5241,
     "volume": 21,
@@ -431,7 +402,6 @@
       "type": "delayed_transform",
       "transform_age": 43200,
       "not_ready_msg": "The milk is still curdling.",
-      "//": "3 days"
     }
   },
   {
