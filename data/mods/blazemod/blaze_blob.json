@@ -25,12 +25,12 @@
     "volume": 1,
     "to_hit": -3,
     "bashing": 8,
+    "phase": "liquid",
     "material": "flesh",
     "symbol": "*",
     "color": "red",
     "count": 25,
-    "ammo_type": "bfeed",
-    "phase": "liquid"
+    "ammo_type": "bfeed"
   },
   {
     "id": "bframegrow",
