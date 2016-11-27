@@ -1537,6 +1537,11 @@ bool npc::is_minion() const
     return is_friend() && op_of_u.trust >= 5;
 }
 
+bool npc::guaranteed_hostile() const
+{
+    return is_enemy() || ( my_fac != nullptr && my_fac->likes_u < -10 );
+}
+
 bool npc::is_following() const
 {
  switch (attitude) {
@@ -1671,6 +1676,8 @@ nc_color npc::basic_symbol_color() const
         return c_green;
     } else if( is_following() ) {
         return c_ltgreen;
+    } else if( guaranteed_hostile() ) {
+        return c_red;
     }
     return c_pink;
 }
@@ -1903,7 +1910,7 @@ void npc::die(Creature* nkiller) {
                                       pgettext("memorial_female", "Killed a delicious-looking friend, %s, in cold blood."),
                                       name.c_str());
             }
-        } else if (!is_enemy() || this->hit_by_player) {
+        } else if( !guaranteed_hostile() || hit_by_player ) {
             if (g->u.has_trait("SAPIOVORE")) {
                 g->u.add_memorial_log(pgettext("memorial_male", "Caught and killed an ape.  Prey doesn't have a name."),
                                       pgettext("memorial_female", "Caught and killed an ape.  Prey doesn't have a name."));
