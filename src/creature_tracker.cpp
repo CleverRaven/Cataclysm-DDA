@@ -24,7 +24,7 @@ const monster &Creature_tracker::find( int index ) const
 {
     static monster nullmon;
     if( index < 0 || index >= ( int )monsters_list.size() ) {
-        debugmsg( "Tried to find monster with invalid index %d. Monster num: %d",
+        debugmsg( "Tried to find monster with invalid index %d. Monster num: %zu",
                   index, monsters_list.size() );
         return nullmon;
     }
@@ -150,7 +150,7 @@ void Creature_tracker::remove_from_location_map( const monster &critter )
 void Creature_tracker::remove( const int idx )
 {
     if( idx < 0 || idx >= ( int )monsters_list.size() ) {
-        debugmsg( "Tried to remove monster with invalid index %d. Monster num: %d",
+        debugmsg( "Tried to remove monster with invalid index %d. Monster num: %zu",
                   idx, monsters_list.size() );
         return;
     }

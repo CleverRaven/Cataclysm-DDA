@@ -1360,7 +1360,7 @@ void talk_function::force_on_force(std::vector<npc *> defender, std::string def_
     } else if (advantage > 0){
         adv = ", defender advantage";
     }
-    popup(_("Engagement between %d members of %s %s and %d members of %s %s%s!"),
+    popup(_("Engagement between %zu members of %s %s and %zu members of %s %s%s!"),
         defender.size(), defender[0]->my_fac->name.c_str(), def_desc.c_str(),
         attacker.size(), attacker[0]->my_fac->name.c_str(), att_desc.c_str(),
         adv.c_str());
