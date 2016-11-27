@@ -1668,16 +1668,6 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         def.explosion = load_explosion_data( je );
     }
 
-    if( jo.has_array( "snippet_category" ) ) {
-        // auto-create a category that is unlikely to already be used and put the
-        // snippets in it.
-        def.snippet_category = std::string( "auto:" ) + def.id;
-        JsonArray jarr = jo.get_array( "snippet_category" );
-        SNIPPET.add_snippets_from_json( def.snippet_category, jarr );
-    } else {
-        def.snippet_category = jo.get_string( "snippet_category", "" );
-    }
-
     assign( jo, "flags", def.item_tags );
 
     if( jo.has_member( "qualities" ) ) {
@@ -1721,9 +1711,24 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     if( jo.has_string( "abstract" ) ) {
         def.id = jo.get_string( "abstract" );
-        m_abstracts[ def.id ] = def;
     } else {
         def.id = jo.get_string( "id" );
+    }
+
+    // snippet_category should be loaded after def.id is determined
+    if( jo.has_array( "snippet_category" ) ) {
+        // auto-create a category that is unlikely to already be used and put the
+        // snippets in it.
+        def.snippet_category = std::string( "auto:" ) + def.id;
+        JsonArray jarr = jo.get_array( "snippet_category" );
+        SNIPPET.add_snippets_from_json( def.snippet_category, jarr );
+    } else {
+        def.snippet_category = jo.get_string( "snippet_category", "" );
+    }
+
+    if( jo.has_string( "abstract" ) ) {
+        m_abstracts[ def.id ] = def;
+    } else {
         m_templates[ def.id ] = def;
     }
 }
