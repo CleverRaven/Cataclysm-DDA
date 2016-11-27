@@ -4503,7 +4503,7 @@ item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overf
     };
 
     // Some items never exist on map as a discrete item (must be contained by another item)
-    if( obj.has_flag( "NO_DROP" ) || obj.has_flag( "IRREMOVABLE" ) ) {
+    if( obj.has_flag( "NO_DROP" ) ) {
         return nulitem;
     }
 
