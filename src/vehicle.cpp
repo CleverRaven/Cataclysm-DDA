@@ -985,7 +985,7 @@ void vehicle::use_controls( const tripoint &pos )
             if( camera_on ) {
                 camera_on = false;
                 add_msg( _("Camera system disabled") );
-            } else if( fuel_left(fuel_type_battery, true) ) {
+            } else if( fuel_left(fuel_type_battery, true, true ) ) {
                 camera_on = true;
                 add_msg( _("Camera system enabled") );
             } else {
@@ -1094,7 +1094,7 @@ bool vehicle::start_engine( const int e )
     const vpart_info &einfo = part_info( engines[e] );
     const vehicle_part &eng = parts[ engines[ e ] ];
 
-    if( !fuel_left( einfo.fuel_type ) ) {
+    if( !fuel_left( einfo.fuel_type, true, true ) ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             add_msg( _("The %s's mechanism is out of reach!"), name.c_str() );
         } else {
@@ -1121,7 +1121,7 @@ bool vehicle::start_engine( const int e )
     }
 
     int joules = eng.base.engine_start_energy( g->temperature );
-    if( fuel_left( fuel_type_battery ) < joules ) {
+    if( fuel_left( fuel_type_battery, true, true ) < joules ) {
         add_msg( _( "The %s need at least %i battery charges to start" ), eng.name().c_str(), joules );
         return false;
     }
@@ -1131,7 +1131,7 @@ bool vehicle::start_engine( const int e )
         return false;
     }
 
-    discharge_battery( joules, true );
+    discharge( joules, true );
     return true;
 }
 
@@ -1175,7 +1175,7 @@ void vehicle::backfire( const int e ) const
 
 void vehicle::honk_horn()
 {
-    const bool no_power = ! fuel_left( fuel_type_battery, true );
+    const bool no_power = !fuel_left( fuel_type_battery, true, true );
     bool honked = false;
 
     for( size_t p = 0; p < parts.size(); ++p ) {
@@ -1214,7 +1214,7 @@ void vehicle::honk_horn()
 void vehicle::beeper_sound()
 {
     // No power = no sound
-    if( fuel_left( fuel_type_battery, true ) == 0 ) {
+    if( fuel_left( fuel_type_battery, true, true ) == 0 ) {
         return;
     }
 
@@ -2101,7 +2101,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
 
     // @todo check fuel for combustion engines
 
-    if( fuel_left( "battery", true ) < -std::min( pt.info().epower, 0 ) ) {
+    if( fuel_left( "battery", true, true ) < -std::min( pt.info().epower, 0 ) ) {
         if( alert ) {
             add_msg( m_bad, _( "Insufficient power to enable %s" ), pt.name().c_str() );
         }
@@ -2770,7 +2770,7 @@ point vehicle::pivot_displacement() const
     return dp;
 }
 
-int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
+int vehicle::fuel_left( const itype_id &ftype, bool recurse, bool reactor ) const
 {
     int fl = std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs, const vehicle_part &rhs ) {
         return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_remaining() : 0 );
@@ -2785,6 +2785,17 @@ int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
         // 'cause we have 0 fuel left in the current vehicle. Subtract the 1 immediately
         // after traversal.
         fl = traverse_vehicle_graph(this, fl + 1, fuel_counting_visitor) - 1;
+    }
+
+    if( ftype == fuel_type_battery && reactor ) {
+        for( const auto &pt : parts ) {
+            if( pt.is_reactor() && pt.enabled && !pt.is_broken() ) {
+                const itype *fuel = item::find_type( pt.ammo_current() );
+                if( fuel->ammo ) {
+                    fl += pt.ammo_remaining() * fuel->ammo->energy;
+                }
+            }
+        }
     }
 
     //muscle engines have infinite fuel
@@ -2808,11 +2819,11 @@ int vehicle::fuel_capacity (const itype_id &ftype) const
 int vehicle::drain (const itype_id & ftype, int amount) {
     if( ftype == fuel_type_battery ) {
         // Batteries get special handling to take advantage of jumper
-        // cables -- discharge_battery knows how to recurse properly
+        // cables -- discharge knows how to recurse properly
         // (including taking cable power loss into account).
-        int remnant = discharge_battery(amount, true);
+        int remnant = discharge(amount, true);
 
-        // discharge_battery returns amount of charges that were not
+        // discharge returns amount of charges that were not
         // found anywhere in the power network, whereas this function
         // returns amount of charges consumed; simple subtraction.
         return amount - remnant;
@@ -3372,31 +3383,31 @@ int vehicle::charge_battery (int amount, bool include_other_vehicles)
     return amount;
 }
 
-int vehicle::discharge_battery (int amount, bool recurse)
+int vehicle::discharge( int amount, bool recurse, bool reactor )
 {
+    // try initially to obtain power from local batteries
     for( auto &p : parts ) {
         if( amount <= 0 ) {
             break;
         }
-        if( !p.is_broken() && p.is_battery() ) {
+        if( p.is_battery() && !p.is_broken() ) {
             amount -= p.ammo_consume( amount, global_part_pos3( p ) );
         }
     }
 
-    auto discharge_visitor = [] (vehicle* veh, int amount, int lost) {
-        g->u.add_msg_if_player(m_debug, "CH: %d", amount + lost);
-        return veh->discharge_battery(amount + lost, false);
-    };
-    if(amount > 0 && recurse) { // need more power!
-        amount = traverse_vehicle_graph(this, amount, discharge_visitor);
+    // if insufficient local power try any networked vehicles
+    if( amount > 0 && recurse ) {
+        amount = traverse_vehicle_graph( this, amount, []( vehicle *veh, int amount, int lost ) {
+            return veh->discharge( amount + lost, false, false );
+        } );
     }
 
     // if insufficient local or network electrical power try to engage any reactors
-    if( amount > 0 ) {
+    if( amount > 0 && reactor ) {
         for( auto &pt : parts ) {
 
             // consider only enabled reactors that have remaining fuel
-            if( pt.is_reactor() && pt.enabled && pt.ammo_remaining() ) {
+            if( pt.is_reactor() && pt.enabled && !pt.is_broken() && pt.ammo_remaining() ) {
 
                 const itype *fuel = item::find_type( pt.ammo_current() );
                 if( fuel->ammo ) {
@@ -3404,12 +3415,12 @@ int vehicle::discharge_battery (int amount, bool recurse)
                     int density = fuel->ammo->energy;
 
                     // calculate electrical power (kJ) reactor will provide
-                    int qty = std::min( amount, int( pt.ammo_remaining() * density ) );
+                    int qty = std::min( amount, int( pt.ammo_remaining() * double( density ) / 1000 ) );
 
                     // calculate reactor charges that will be consumed...
                     double burn = double( qty ) / density;
 
-                    // partial charges have a proportional chance of being consumed each turn
+                    // ...partial charges have a proportional chance of being consumed each turn
                     burn += x_in_y( fmod( burn, 1.0 ) * 1000, 1000 ) ? 1 : 0;
 
                     pt.ammo_consume( burn, global_part_pos3( pt ) );
@@ -3423,7 +3434,7 @@ int vehicle::discharge_battery (int amount, bool recurse)
         }
     }
 
-    return amount; // non-zero if we weren't able to fulfill demand.
+    return amount;
 }
 
 void vehicle::idle(bool on_map) {
@@ -3435,8 +3446,8 @@ void vehicle::idle(bool on_map) {
     // ...so partial charges have a proportional chance of being consumed each turn
     deficit += x_in_y( deficit % 1000, 1000 ) ? 1000 : 0;
 
-    // electrical power not supplied from battery must be found from alternators or reactors
-    deficit = discharge_battery( deficit / 1000 );
+    // electrical power not supplied must be found from alternators
+    deficit = discharge( deficit / 1000, true, true );
 
     // calculate maximum possible output from all active alternators
     int generate = 0;
@@ -3718,7 +3729,7 @@ void vehicle::operate_scoop()
                 sounds::sound( position, rng(10, that_item_there->volume() / units::legacy_volume_factor * 2 + 10),
                                _("BEEEThump") );
             }
-            const int battery_deficit = discharge_battery( that_item_there->weight() *
+            const int battery_deficit = discharge( that_item_there->weight() *
                                                            -part_epower( scoop ) / rng( 8, 15 ) );
             if( battery_deficit == 0 && add_item( scoop, *that_item_there ) ) {
                 g->m.i_rem( position, itemdex );
