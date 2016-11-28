@@ -358,7 +358,7 @@
     "material": [ "flesh" ],
     "symbol": ";",
     "color": "light_green",
-    "contains": 30,
+    "contains": 40,
     "seals": true,
     "watertight": true
   },
@@ -775,7 +775,7 @@
     "material": [ "flesh" ],
     "symbol": ";",
     "color": "green",
-    "contains": 60,
+    "contains": 80,
     "seals": true,
     "watertight": true
   },
