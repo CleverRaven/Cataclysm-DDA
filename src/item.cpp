@@ -4681,16 +4681,29 @@ int item::reload_option::moves() const
 
 void item::reload_option::qty( long val )
 {
-    if( ammo->is_ammo() ) {
-        qty_ = std::min( { val, ammo->charges, target->ammo_capacity() - target->ammo_remaining() } );
-
-    } else if( ammo->is_ammo_container() ) {
-        qty_ = std::min( { val, ammo->contents.front().charges, target->ammo_capacity() - target->ammo_remaining() } );
-
-    } else {
-        qty_ = 1L; // when reloading target using a magazine
+    if( ammo->is_magazine() ) {
+        qty_ = 1L;
+        return;
     }
-    qty_ = std::max( std::min( qty_, max_qty ), 1L );
+
+    const item &obj = ammo->is_ammo_container() ? ammo->contents.front() : *ammo;
+    if( !obj.is_ammo() ) {
+        debugmsg( "Invalid reload option: %s", obj.tname().c_str() );
+        return;
+    }
+
+    long limit = target->ammo_capacity() - target->ammo_remaining();
+
+    if( target->ammo_type() == ammotype( "plutonium" ) ) {
+        limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
+    }
+
+    // constrain by available ammo, target capacity and other external factors (max_qty)
+    // @ref max_qty is currently set when reloading ammo belts and limits to available linkages
+    qty_ = std::min( { val, obj.charges, limit, max_qty } );
+
+    // always expect to reload at least one charge
+    qty_ = std::max( qty_, 1L );
 }
 
 int item::casings_count() const
@@ -4747,7 +4760,14 @@ bool item::reload( player &u, item_location loc, long qty )
         return false;
     }
 
-    qty = std::min( qty, ammo_capacity() - ammo_remaining() );
+    // limit quantity of ammo loaded to remaining capacity
+    long limit = ammo_capacity() - ammo_remaining();
+
+    if( ammo_type() == ammotype( "plutonium" ) ) {
+        limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
+    }
+
+    qty = std::min( qty, limit );
 
     casings_handle( [&u]( item &e ) {
         return u.i_add_or_drop( e );
@@ -4789,14 +4809,12 @@ bool item::reload( player &u, item_location loc, long qty )
         curammo = find_type( ammo->typeId() );
 
         if( ammo_type() == ammotype( "plutonium" ) ) {
-            // Warning: qty here refers to minimum of plutonium cells and capacity left
-            // always consume at least one cell but never more than actually available
-            auto cells = std::min( qty / PLUTONIUM_CHARGES + ( qty % PLUTONIUM_CHARGES != 0 ), ammo->charges );
-            ammo->charges -= cells;
+            ammo->charges -= qty;
+
             // any excess is wasted rather than overfilling the item
-            charges += std::min( cells, qty ) * PLUTONIUM_CHARGES;
-            // Cap at max, because the above formula doesn't guarantee it
+            charges += qty * PLUTONIUM_CHARGES;
             charges = std::min( charges, ammo_capacity() );
+
         } else {
             qty = std::min( qty, ammo->charges );
             ammo->charges -= qty;
