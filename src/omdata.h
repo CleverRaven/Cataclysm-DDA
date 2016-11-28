@@ -127,10 +127,11 @@ struct oter_type_t {
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
         std::string extras = "none";
         int mondensity = 0;
-
         // Spawns are added to the submaps *once* upon mapgen of the submaps
         overmap_static_spawns static_spawns;
         bool was_loaded = false;
+
+        oter_type_t() {}
 
         oter_id get_first() const;
         oter_id get_rotated( om_direction::type dir ) const;
