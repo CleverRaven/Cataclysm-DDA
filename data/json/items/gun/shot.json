@@ -1,27 +1,30 @@
 [
   {
     "id": "abzats",
-    "copy-from": "shotgun_base",
+    "copy-from": "m2browning",
     "type": "GUN",
     "name": "heavy automatic shotgun",
     "description": "Modified from the massive M2 Browning, this heavy machine gun has been re-chambered and re-bored for shotgun shells, and completely redesigned to be wielded unmounted by one user.",
-    "weight": 22000,
-    "volume": 18,
-    "price": 750000,
-    "to_hit": -3,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
-    "dispersion": 150,
-    "durability": 6,
-    "loudness": 25,
-    "reload": 400,
-    "barrel_length": 3,
+    "ammo": "shot",
+    "skill": "shotgun",
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
       [ "AUTO", "auto", 5 ]
     ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "mechanism", 4 ], [ "rail", 1 ] ],
-    "magazines": [ [ "shot", [ "beltshot" ] ] ]
+    "magazines": [ [ "shot", [ "beltshot" ] ] ],
+    "relative": {
+      "weight": -16000,
+      "volume": -2,
+      "price": -1050000,
+      "to_hit": -2,
+      "dispersion": -50,
+      "durability": -2,
+      "loudness": 25,
+      "barrel_length": -2
+    },
+    "flags": []
   },
   {
     "id": "ashot",
@@ -221,7 +224,7 @@
   },
   {
     "id": "saiga_12",
-    "copy-from": "shotgun_magazine",
+    "copy-from": "shotgun_base",
     "type": "GUN",
     "name": "Saiga-12",
     "name_plural": "Saiga-12",
@@ -236,6 +239,7 @@
     "durability": 7,
     "barrel_length": 3,
     "magazine_well": 1,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "shot", [ "saiga10mag", "saiga30mag" ] ],
       [ "308", [ "falmag", "falbigmag" ] ],
