@@ -62,7 +62,6 @@
       [ "9mm", [ "calicomag" ] ],
       [ "22", [ "a180mag" ] ],
       [ "45", [ "thompson_drum" ] ],
-      [ "46", [ "hk46bigmag" ] ],
       [ "57", [ "fnp90mag" ] ]
     ]
   },
