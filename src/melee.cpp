@@ -2023,7 +2023,7 @@ void player::steal( npc &target )
         return;
     }
 
-    item_location loc = game_menus::inv::steal_from( target );
+    item_location loc = game_menus::inv::steal( *this, target );
     if( !loc ) {
         return;
     }

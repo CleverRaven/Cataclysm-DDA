@@ -416,14 +416,25 @@ item_location game_menus::inv::read( player &p )
                          _( "You have nothing to read." ) );
 }
 
-item_location game_menus::inv::steal_from( player &p )
+class steal_inventory_preset : public pickup_inventory_preset
 {
-    const auto filter = [ &p ]( const item & it ) {
-        return !p.is_worn( it ) && &p.weapon != &it;
-    };
-    return inv_internal( p, inventory_filter_preset( convert_filter( filter ) ),
-                         string_format( _( "Steal from %s" ), p.name.c_str() ), -1,
-                         string_format( _( "%s's inventory is empty." ), p.name.c_str() ) );
+    public:
+        steal_inventory_preset( const player &p, const player &victim ) :
+            pickup_inventory_preset( p ), victim( victim ) {}
+
+        bool is_shown( const item_location &loc ) const override {
+            return !victim.is_worn( *loc ) && &victim.weapon != &( *loc );
+        }
+
+    private:
+        const player &victim;
+};
+
+item_location game_menus::inv::steal( player &p, player &victim )
+{
+    return inv_internal( victim, steal_inventory_preset( p, victim ),
+                         string_format( _( "Steal from %s" ), victim.name.c_str() ), -1,
+                         string_format( _( "%s's inventory is empty." ), victim.name.c_str() ) );
 }
 
 std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
