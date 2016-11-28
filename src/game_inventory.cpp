@@ -112,17 +112,17 @@ int game::inv_for_id( const itype_id &id, const std::string &title )
     }, string_format( _( "You don't have a %s." ), item::nname( id ).c_str() ) );
 }
 
-int game::inv_for_equipped( const std::string &title )
+int game_menus::inv::take_off( player &p )
 {
-    return inv_for_filter( title, [ this ]( const item & it ) {
-        return u.is_worn( it );
+    return g->inv_for_filter( _( "Take off item" ), [ &p ]( const item & it ) {
+        return p.is_worn( it );
     }, _( "You don't wear anything." ) );
 }
 
-int game::inv_for_unequipped( const std::string &title )
+int game_menus::inv::wear( player &p )
 {
-    return inv_for_filter( title, [ this ]( const item & it ) {
-        return it.is_armor() && !u.is_worn( it );
+    return g->inv_for_filter( _( "Wear item" ), [ &p ]( const item & it ) {
+        return it.is_armor() && !p.is_worn( it );
     }, _( "You don't have any items to wear." ) );
 }
 

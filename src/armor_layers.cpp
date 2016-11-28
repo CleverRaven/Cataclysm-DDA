@@ -1,4 +1,5 @@
 #include "game.h"
+#include "game_inventory.h"
 #include "player.h"
 #include "catacharset.h" // used for utf8_width()
 #include "input.h"
@@ -507,7 +508,7 @@ void player::sort_armor()
             // filter inventory for all items that are armor/clothing
             // NOTE: This is from player's inventory, even for NPCs!
             // @todo Allow making NPCs equip their own stuff
-            int pos = g->inv_for_unequipped( _( "Put on" ) );
+            int pos = game_menus::inv::wear( g->u );
             // only equip if something valid selected!
             if( pos != INT_MIN ) {
                 // wear the item

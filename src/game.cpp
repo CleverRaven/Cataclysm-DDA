@@ -10983,16 +10983,21 @@ void game::eat(int pos)
 void game::wear(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_unequipped( _( "Wear item" ) );
+        pos = game_menus::inv::wear( u );
     }
 
-    u.wear(pos);
+    if( pos == INT_MIN ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    u.wear( pos );
 }
 
 void game::takeoff(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_equipped( _( "Take off item" ) );
+        pos = game_menus::inv::take_off( u );
     }
     if (pos == INT_MIN) {
         add_msg(_("Never mind."));
