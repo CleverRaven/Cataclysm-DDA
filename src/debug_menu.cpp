@@ -202,7 +202,7 @@ void npc_edit_menu()
             wishitem( &p );
             break;
         case D_DELETE_ITEMS:
-            if( !query_yn( "Delete all items from the target?" ) ) {
+            if( !query_yn( _( "Delete all items from the target?" ) ) ) {
                 break;
             }
             for( auto &it : p.worn ) {
@@ -213,7 +213,7 @@ void npc_edit_menu()
             p.weapon = p.ret_null;
             break;
         case D_ITEM_WORN: {
-            int item_pos = g->inv_for_all( "Make target equip" );
+            int item_pos = g->inv_for_all( _( "Make target equip" ) );
             item &to_wear = g->u.i_at( item_pos );
             if( to_wear.is_armor() ) {
                 p.on_item_wear( to_wear );
