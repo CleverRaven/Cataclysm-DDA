@@ -18,6 +18,8 @@ void wishmutate( player *p );
 void wishskill( player *p );
 void mutation_wish();
 
+class mission_debug;
+
 }
 
 #endif // DEBUG_MENU_H

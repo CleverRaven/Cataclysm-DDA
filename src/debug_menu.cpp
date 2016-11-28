@@ -13,7 +13,26 @@
 #include "vitamin.h"
 #include "mission.h"
 
-void debug_menu::teleport_short()
+#include <algorithm>
+#include <vector>
+
+namespace debug_menu
+{
+
+class mission_debug
+{
+    private:
+        // Doesn't actually "destroy" the mission, just removes assignments
+        static void remove_mission( mission &m );
+    public:
+        static void edit_mission( mission &m );
+        static void edit( player &who );
+        static void edit_player();
+        static void edit_npc( npc &who );
+        static std::string describe( const mission &m );
+};
+
+void teleport_short()
 {
     const tripoint where( g->look_around() );
     if( where == tripoint_min || where == g->u.pos() ) {
@@ -24,7 +43,7 @@ void debug_menu::teleport_short()
     add_msg( _( "You teleport to point (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
 
-void debug_menu::teleport_long()
+void teleport_long()
 {
     const tripoint where( overmap::draw_overmap() );
     if( where == overmap::invalid_tripoint ) {
@@ -34,7 +53,7 @@ void debug_menu::teleport_long()
     add_msg( _( "You teleport to submap (%d,%d,%d)." ), where.x, where.y, where.z );
 }
 
-void debug_menu::teleport_overmap()
+void teleport_overmap()
 {
     tripoint dir;
 
@@ -51,12 +70,13 @@ void debug_menu::teleport_overmap()
     add_msg( _( "You teleport to overmap (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
 
-void debug_menu::npc_edit_menu()
+void npc_edit_menu()
 {
     std::vector< tripoint > locations;
     uimenu charmenu;
     charmenu.return_invalid = true;
-    int charnum = -1;
+    // Hack: uimenu doesn't like negative indices in entries
+    int charnum = 0;
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
     locations.emplace_back( g->u.pos() );
     for( auto *npc_p : g->active_npc ) {
@@ -68,7 +88,8 @@ void debug_menu::npc_edit_menu()
     charmenu.callback = &callback;
     charmenu.w_y = 0;
     charmenu.query();
-    int npcdex = charmenu.ret;
+    // Part 2 of the index hack
+    int npcdex = charmenu.ret - 1;
     if( npcdex < -1 || npcdex > charnum ) {
         return;
     }
@@ -112,7 +133,7 @@ void debug_menu::npc_edit_menu()
     }
 
     enum { D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
-           D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD,
+           D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
            D_TELE, D_MUTATE, D_CLASS
          };
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -128,6 +149,7 @@ void debug_menu::npc_edit_menu()
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
     nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
+    nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
@@ -350,6 +372,9 @@ void debug_menu::npc_edit_menu()
             }
         }
         break;
+        case D_MISSION_EDIT:
+        mission_debug::edit( p );
+        break;
         case D_TELE: {
             tripoint newpos = g->look_around();
             if( newpos != tripoint_min ) {
@@ -379,4 +404,181 @@ void debug_menu::npc_edit_menu()
             }
         }
     }
+}
+
+const std::string &mission_status_string( mission::mission_status status )
+{
+    static const std::map<mission::mission_status, std::string> desc {{
+            { mission::mission_status::yet_to_start, _( "Yet to start" ) },
+            { mission::mission_status::in_progress, _( "In progress" ) },
+            { mission::mission_status::success, _( "Success" ) },
+            { mission::mission_status::failure, _( "Failure" ) }
+        }
+    };
+
+    const auto &iter = desc.find( status );
+    if( iter != desc.end() ) {
+        return iter->second;
+    }
+
+    static const std::string errmsg = _( "Bugged" );
+    return errmsg;
+}
+
+std::string mission_debug::describe( const mission &m )
+{
+    std::stringstream data;
+    data << _( "Type:" ) << m.type->id.str();
+    data << _( " Status:" ) << mission_status_string( m.status );
+    data << _( " ID:" ) << m.uid;
+    data << _( " NPC ID:" ) << m.npc_id;
+    data << _( " Target:" ) << m.target.x << "," << m.target.y << "," << m.target.z;
+    data << _( "Player ID:" ) << m.player_id;
+
+    return data.str();
+}
+
+void add_header( uimenu &mmenu, const std::string &str )
+{
+    mmenu.addentry( -1, false, -1, "" );
+    uimenu_entry header( -1, false, -1, str , c_yellow, c_yellow );
+    header.force_color = true;
+    mmenu.entries.push_back( header );
+}
+
+void mission_debug::edit( player &who )
+{
+    if( who.is_player() ) {
+        edit_player();
+    } else if( who.is_npc() ) {
+        edit_npc( dynamic_cast<npc &>( who ) );
+    }
+}
+
+void mission_debug::edit_npc( npc &who )
+{
+    npc_chatbin &bin = who.chatbin;
+    std::vector<mission*> all_missions;
+
+    uimenu mmenu;
+    mmenu.return_invalid = true;
+    mmenu.text = _( "Select mission to edit" );
+
+    add_header( mmenu, _( "Currently assigned missions:" ) );
+    for( mission *m : bin.missions_assigned ) {
+        mmenu.addentry( all_missions.size(), true, MENU_AUTOASSIGN, "%s", m->type->id.c_str() );
+        all_missions.emplace_back( m );
+    }
+
+    add_header( mmenu, _( "Not assigned missions:" ) );
+    for( mission *m : bin.missions ) {
+        mmenu.addentry( all_missions.size(), true, MENU_AUTOASSIGN, "%s", m->type->id.c_str() );
+        all_missions.emplace_back( m );
+    }
+
+    mmenu.query();
+    if( mmenu.ret < 0 || mmenu.ret >= (int)all_missions.size() ) {
+        return;
+    }
+
+    edit_mission( *all_missions[ mmenu.ret ] );
+}
+
+void mission_debug::edit_player()
+{
+    std::vector<mission*> all_missions;
+
+    uimenu mmenu;
+    mmenu.return_invalid = true;
+    mmenu.text = _( "Select mission to edit" );
+
+    add_header( mmenu, _( "Active missions:" ) );
+    for( mission *m : g->u.active_missions ) {
+        mmenu.addentry( all_missions.size(), true, MENU_AUTOASSIGN, "%s", m->type->id.c_str() );
+        all_missions.emplace_back( m );
+    }
+
+    add_header( mmenu, _( "Completed missions:" ) );
+    for( mission *m : g->u.completed_missions ) {
+        mmenu.addentry( all_missions.size(), true, MENU_AUTOASSIGN, "%s", m->type->id.c_str() );
+        all_missions.emplace_back( m );
+    }
+
+    add_header( mmenu, _( "Failed missions:" ) );
+    for( mission *m : g->u.failed_missions ) {
+        mmenu.addentry( all_missions.size(), true, MENU_AUTOASSIGN, "%s", m->type->id.c_str() );
+        all_missions.emplace_back( m );
+    }
+
+    mmenu.query();
+    if( mmenu.ret < 0 || mmenu.ret >= (int)all_missions.size() ) {
+        return;
+    }
+
+    edit_mission( *all_missions[ mmenu.ret ] );
+}
+
+bool remove_from_vec( std::vector<mission *> &vec, mission *m )
+{
+    auto iter = std::remove( vec.begin(), vec.end(), m );
+    bool ret = iter != vec.end();
+    vec.erase( iter, vec.end() );
+    return ret;
+}
+
+void mission_debug::remove_mission( mission &m )
+{
+    if( remove_from_vec( g->u.active_missions, &m ) ) {
+        add_msg( _("Removing from active_missions") );
+    }
+    if( remove_from_vec( g->u.completed_missions, &m ) ) {
+        add_msg( _("Removing from completed_missions") );
+    }
+    if( remove_from_vec( g->u.failed_missions, &m ) ) {
+        add_msg( _("Removing from failed_missions") );
+    }
+
+    if( g->u.active_mission == &m ) {
+        g->u.active_mission = nullptr;
+        add_msg( _("Unsetting active mission") );
+    }
+
+    const auto giver = g->find_npc( m.npc_id );
+    if( giver != nullptr ) {
+        if( remove_from_vec( giver->chatbin.missions_assigned, &m ) ) {
+            add_msg( _("Removing from %s missions_assigned"), giver->name.c_str() );
+        }
+        if( remove_from_vec( giver->chatbin.missions, &m ) ) {
+            add_msg( _("Removing from %s missions"), giver->name.c_str() );
+        }
+    }
+}
+
+void mission_debug::edit_mission( mission &m )
+{
+    uimenu mmenu;
+    mmenu.return_invalid = true;
+    mmenu.text = describe( m );
+
+    enum { M_FAIL, M_SUCCEED, M_REMOVE
+         };
+
+    mmenu.addentry( M_FAIL, true, 'f', "%s", _( "Fail mission" ) );
+    mmenu.addentry( M_SUCCEED, true, 's', "%s", _( "Complete mission successfully" ) );
+    mmenu.addentry( M_REMOVE, true, 'r', "%s", _( "Remove mission without proper cleanup" ) );
+
+    mmenu.query();
+    switch( mmenu.ret ) {
+        case M_FAIL:
+            m.fail();
+            break;
+        case M_SUCCEED:
+            m.wrap_up();
+            break;
+        case M_REMOVE:
+            remove_mission( m );
+            break;
+    }
+}
+
 }
