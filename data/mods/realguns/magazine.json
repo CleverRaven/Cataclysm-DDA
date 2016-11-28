@@ -1,0 +1,21 @@
+[
+  {
+    "id": "saiga10mag_410",
+    "copy-from": "saiga10mag",
+    "type": "MAGAZINE",
+    "name": "Saiga-410 box magazine",
+    "description": "A removable plastic magazine for the Saiga-410 shotgun.  Holds 10 rounds of .410 bore shotshells.",
+    "weight": 180,
+    "ammo_type": "410"
+  },
+  {
+    "id": "saiga30mag_410",
+    "copy-from": "saiga30mag",
+    "type": "MAGAZINE",
+    "name": "Saiga-410 drum magazine",
+    "description": "A removable plastic magazine for the Saiga-410 shotgun.  Holds 30 rounds of .410 bore shotshells.",
+    "weight": 400,
+    "volume": 3,
+    "ammo_type": "410"
+  }
+]

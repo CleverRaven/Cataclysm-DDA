@@ -29,6 +29,29 @@
     "ammo": "10mm_auto"
   },
   {
+    "id": "saiga_12",
+    "copy-from": "saiga_12",
+    "type": "GUN",
+    "name": "Saiga-12",
+    "name_plural": "Saiga-12",
+    "magazines": [
+      [ "410", [ "saiga10mag_410", "saiga30mag_410" ] ],
+      [ "shot", [ "saiga10mag", "saiga30mag" ] ]
+    ]
+  },
+  {
+    "id": "saiga_410",
+    "copy-from": "saiga_12",
+    "type": "GUN",
+    "name": "Saiga-410",
+    "name_plural": "Saiga-410",
+    "description": "A lighter version of the Saiga-12 semi-automatic shotgun, chambered in .410 bore.  Like its 12 gauge version, it uses detachable magazines.",
+    "ammo": "410",
+    "weight": 3400,
+    "volume": 10,
+    "magazines": [ [ "410", [ "saiga10mag_410", "saiga30mag_410" ] ] ]
+  },
+  {
     "id": "m6_asw",
     "type": "GUN",
     "name": "M6 Aircrew Survival Weapon",
