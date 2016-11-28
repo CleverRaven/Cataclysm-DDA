@@ -1137,29 +1137,23 @@ bool vehicle::start_engine( const int e )
 
 void vehicle::start_engines( const bool take_control )
 {
-    bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
-        return !parts[ idx ].is_broken() && parts[ idx ].enabled;
-    } );
+    // check we have at least one unbroken engine
+    if( !has_part( []( const vehicle_part &pt ) { return pt.is_engine(); } ) ) {
+        add_msg( m_info, _( "The %s doesn't have an engine!" ), name.c_str() );
+        return;
+    }
 
-    // if no engines enabled then enable all before trying to start the vehicle
-    if( !has_engine ) {
-        for( auto idx : engines ) {
-            if( !parts[ idx ].is_broken() ) {
-                parts[ idx ].enabled = true;
+    // if no engines enabled then enable the first before trying to start the vehicle
+    if( !current_engine() ) {
+        for( auto &pt : parts ) {
+            if( pt.is_engine() && !pt.removed && !pt.is_broken() ) {
+                pt.enabled = true;
+                break;
             }
         }
     }
 
-    int start_time = 0;
-    for( size_t e = 0; e < engines.size(); ++e ) {
-        has_engine = has_engine || is_engine_on( e );
-        start_time = std::max( start_time, parts[engines[e]].base.engine_start_time( g->temperature ) );
-    }
-
-    if( !has_engine ) {
-        add_msg( m_info, _("The %s doesn't have an engine!"), name.c_str() );
-        return;
-    }
+    int start_time = current_engine().base.engine_start_time( g->temperature );
 
     if( take_control && !g->u.controlling_vehicle ) {
         g->u.controlling_vehicle = true;
@@ -3902,32 +3896,6 @@ void vehicle::thrust( int thd ) {
         vel_inc = std::max( vel_inc, cruise_velocity - velocity );
     }
 
-    //find power ratio used of engines max
-    double load = ((float)abs(vel_inc)) / std::max((thrusting ? accel : brk),1);
-
-
-    // only consume resources if engine accelerating
-    if (load >= 0.01 && thrusting) {
-        //abort if engines not operational
-        if( total_power () <= 0 || !engine_on || accel == 0 ) {
-            if( player_in_control( g->u ) ) {
-                if( total_power( false ) <= 0 ) {
-                    add_msg( m_info, _("The %s doesn't have an engine!"), name.c_str() );
-                } else if( has_engine_type( fuel_type_muscle, true ) ) {
-                    add_msg( m_info, _("The %s's mechanism is out of reach!"), name.c_str() );
-                } else if( !engine_on ) {
-                    add_msg( _("The %s's engine isn't on!"), name.c_str() );
-                } else if( traction < 0.01f ) {
-                    add_msg( _("The %s is stuck."), name.c_str() );
-                } else {
-                    add_msg( _("The %s's engine emits a sneezing sound."), name.c_str() );
-                }
-            }
-            cruise_velocity = 0;
-            return;
-        }
-    }
-
     //change vehicles velocity
     if( (velocity > 0 && velocity + vel_inc < 0) ||
         (velocity < 0 && velocity + vel_inc > 0) ) {
@@ -4773,9 +4741,12 @@ void vehicle::gain_moves()
     }
     of_turn_carry = 0;
 
-    // cruise control TODO: enable for NPC?
-    if( engine_on && player_in_control(g->u) && cruise_velocity != velocity ) {
-        thrust( cruise_velocity > velocity ? 1 : -1 );
+    if( engine_on && current_engine() && player_in_control( g->u ) ) {
+        if( cruise_velocity != velocity ) {
+            thrust( cruise_velocity > velocity ? 1 : -1 );
+        }
+    } else {
+        cruise_velocity = 0;
     }
 
     // Force off-map vehicles to load by visiting them every time we gain moves.
