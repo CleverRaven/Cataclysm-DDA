@@ -2436,7 +2436,7 @@
         "type" : "profession",
         "ident": "bionic_spy",
         "name": "Bionic Agent",
-        "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm, locking capabilities and a hacking module.  And it all runs off piles and piles of everyday household batteries.",
+        "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm, lock picking capabilities and a hacking module.  And it all runs off piles and piles of everyday household batteries.",
         "points": 4,
         "CBMs":[
             "bio_fingerhack",
