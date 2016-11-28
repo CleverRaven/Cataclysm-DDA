@@ -125,7 +125,9 @@
         "category" : "FARM_WOOD",
         "difficulty" : 1,
         "time" : 60,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ] ],
+        "qualities": [ [
+            { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 2 }
+        ] ],
         "pre_terrain" : "t_trunk",
         "post_terrain" : "t_dirt",
         "post_special" : "done_trunk_log"

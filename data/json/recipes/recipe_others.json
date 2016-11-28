@@ -2070,7 +2070,12 @@
       [ "scrap", 6 ]
     ],
     [
-      [ "duct_tape", 30 ]
+      [ "rag", 1 ],
+      [ "duct_tape", 50 ],
+      [ "string_6", 2 ],
+      [ "sinew", 100 ],
+      [ "thread", 100 ],
+      [ "plant_fibre", 100 ]
     ]
   ]
 },{
