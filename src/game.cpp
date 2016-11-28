@@ -5259,9 +5259,7 @@ void game::draw_sidebar()
     mvwprintz(w_location, 1, 15, c_ltgray, "%s ", _("Lighting:"));
     wprintz(w_location, ll.second, ll.first.c_str());
 
-    if (safe_mode != SAFE_MODE_OFF || autosafemode != 0) {
-        right_print( w_location, 0, 1, c_green, "%s", _( "SAFE" ) );
-    }
+    draw_safe_mode();
 
     wrefresh(w_location);
 
@@ -5277,6 +5275,36 @@ void game::draw_sidebar()
     draw_minimap();
     draw_pixel_minimap();
     draw_sidebar_messages();
+}
+
+void game::draw_safe_mode()
+{
+    if (safe_mode == SAFE_MODE_OFF && !autosafemode) {
+        return;
+    }
+
+    const char *safe_text = _( "SAFE" );
+    if (safe_mode != SAFE_MODE_OFF) {
+        right_print( w_location, 0, 1, c_green, "%s", safe_text );
+        return;
+    }
+
+    if (autosafemode) {
+        int text_length = strlen( safe_text );
+        float safe_mode_percent =
+            turnssincelastmon * 100.00 / get_option<int>( "AUTOSAFEMODETURNS" );
+
+        wmove( w_location, 0, getmaxx( w_location ) - text_length - 1);
+
+        for (int i = 0; i < text_length; i++) {
+            nc_color letter_color =
+                safe_mode_percent < (i + 1) * ( 100 / text_length )
+                ? c_red
+                : c_green;
+
+            wputch( w_location, letter_color, safe_text[i] );
+        }
+    }
 }
 
 void game::draw_sidebar_messages()
