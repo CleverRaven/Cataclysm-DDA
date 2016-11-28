@@ -191,7 +191,7 @@ void npc_edit_menu()
 
             if( bp_ptr != nullptr ) {
                 int value;
-                if( query_int( value, "Set the stat to? Currently: %d", *bp_ptr ) && value >= 0 ) {
+                if( query_int( value, _( "Set the stat to? Currently: %d" ), *bp_ptr ) && value >= 0 ) {
                     *bp_ptr = value;
                     p.reset_stats();
                 }
@@ -232,7 +232,6 @@ void npc_edit_menu()
             smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), p.hp_cur[hp_arm_r] );
             smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), p.hp_cur[hp_leg_l] );
             smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), p.hp_cur[hp_leg_r] );
-            smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
             smenu.selected = 0;
             smenu.query();
             int *bp_ptr = nullptr;
@@ -261,7 +260,7 @@ void npc_edit_menu()
 
             if( bp_ptr != nullptr ) {
                 int value;
-                if( query_int( value, "Set the hitpoints to? Currently: %d", *bp_ptr ) && value >= 0 ) {
+                if( query_int( value, _( "Set the hitpoints to? Currently: %d" ), *bp_ptr ) && value >= 0 ) {
                     *bp_ptr = value;
                     p.reset_stats();
                 }
@@ -270,7 +269,7 @@ void npc_edit_menu()
         break;
         case D_PAIN: {
             int value;
-            if( query_int( value, "Cause how much pain? pain: %d", p.get_pain() ) ) {
+            if( query_int( value, _( "Cause how much pain? pain: %d" ), p.get_pain() ) ) {
                 p.mod_pain( value );
             }
         }
@@ -294,19 +293,19 @@ void npc_edit_menu()
             switch( smenu.ret ) {
                 int value;
                 case 0:
-                    if( query_int( value, "Set hunger to? Currently: %d", p.get_hunger() ) ) {
+                    if( query_int( value, _( "Set hunger to? Currently: %d" ), p.get_hunger() ) ) {
                         p.set_hunger( value );
                     }
                     break;
 
                 case 1:
-                    if( query_int( value, "Set thirst to? Currently: %d", p.get_thirst() ) ) {
+                    if( query_int( value, _( "Set thirst to? Currently: %d" ), p.get_thirst() ) ) {
                         p.set_thirst( value );
                     }
                     break;
 
                 case 2:
-                    if( query_int( value, "Set fatigue to? Currently: %d", p.get_fatigue() ) ) {
+                    if( query_int( value, _( "Set fatigue to? Currently: %d" ), p.get_fatigue() ) ) {
                         p.set_fatigue( value );
                     }
                     break;
@@ -314,7 +313,7 @@ void npc_edit_menu()
                 default:
                     if( smenu.ret > 2 && smenu.ret < static_cast<int>( vits.size() + 3 ) ) {
                         auto iter = std::next( vits.begin(), smenu.ret - 3 );
-                        if( query_int( value, "Set %s to? Currently: %d",
+                        if( query_int( value, _( "Set %s to? Currently: %d" ),
                             iter->second.name().c_str(), p.vitamin_get( iter->first ) ) ) {
                             p.vitamin_set( iter->first, value );
                         }
@@ -337,12 +336,12 @@ void npc_edit_menu()
             switch( smenu.ret ) {
                 int value;
                 case 0:
-                    if( query_int( value, "Set the value to? Currently: %d", p.get_healthy() ) ) {
+                    if( query_int( value, _( "Set the value to? Currently: %d" ), p.get_healthy() ) ) {
                         p.set_healthy( value );
                     }
                     break;
                 case 1:
-                    if( query_int( value, "Set the value to? Currently: %d", p.get_healthy_mod() ) ) {
+                    if( query_int( value, _( "Set the value to? Currently: %d" ), p.get_healthy_mod() ) ) {
                         p.set_healthy_mod( value );
                     }
                     break;
@@ -373,8 +372,8 @@ void npc_edit_menu()
         }
         break;
         case D_MISSION_EDIT:
-        mission_debug::edit( p );
-        break;
+            mission_debug::edit( p );
+            break;
         case D_TELE: {
             tripoint newpos = g->look_around();
             if( newpos != tripoint_min ) {
