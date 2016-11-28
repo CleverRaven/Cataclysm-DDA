@@ -8350,7 +8350,6 @@
 "type" : "item_group",
 "id" : "museum_primitive",
 "items" : [
-      ["stone_chopper", 25],
       ["primitive_knife", 50],
       ["primitive_axe", 50],
       ["primitive_shovel", 50],

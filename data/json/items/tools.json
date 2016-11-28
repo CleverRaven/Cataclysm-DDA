@@ -5635,22 +5635,6 @@
     "use_action": "HAMMER"
   },
   {
-    "id": "stone_chopper",
-    "type": "GENERIC",
-    "name": "stone chopper",
-    "description": "Little more than a rock crudely knapped with a rough edge, making it passable as a cutting tool.  Not very effective as a weapon, as it lacks an adequate handle.",
-    "weight": 500,
-    "volume": 1,
-    "to_hit": -2,
-    "bashing": 2,
-    "cutting": 4,
-    "material": "stone",
-    "symbol": "*",
-    "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -40 ] ],
-    "flags": [ "HURT_WHEN_WIELDED" ]
-  },
-  {
     "id": "primitive_knife",
     "type": "TOOL",
     "name": "stone knife",

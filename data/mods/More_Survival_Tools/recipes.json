@@ -623,7 +623,7 @@
   "time": 6000,
   "autolearn": true,
   "components": [
-    [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ], [ "weed", 1 ] ]
+    [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ], [ "veggy_wild", 2 ], [ "weed", 1 ] ]
   ]
 },{
   "type" : "recipe",

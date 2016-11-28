@@ -726,24 +726,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "stone_chopper",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "survival",
-  "difficulty": 0,
-  "time": 1000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ],
-  "components": [
-    [
-      [ "rock", 1 ],
-      [ "sharp_rock", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "primitive_knife",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -762,8 +744,7 @@
     [
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
-      [ "sharp_rock", 1 ],
-      [ "stone_chopper", 1 ]
+      [ "sharp_rock", 1 ]
     ],
     [
       [ "string_6", 1 ],
@@ -7118,7 +7099,7 @@
   "time": 6000,
   "autolearn": true,
   "components": [
-    [ [ "dogbane", 1 ] , [ "cattail_stalk", 1 ] ]
+    [ [ "dogbane", 1 ] , [ "cattail_stalk", 1 ] , [ "veggy_wild", 2 ] ]
   ]
 },{
   "type" : "recipe",
