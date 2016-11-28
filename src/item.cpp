@@ -4655,13 +4655,11 @@ item::reload_option::reload_option( const player *who, const item *target, const
     // magazine, ammo or ammo container
     item& tmp = this->ammo->is_ammo_container() ? this->ammo->contents.front() : *this->ammo;
 
-    long amt = tmp.is_ammo() ? tmp.charges : 1;
-
-    if( this->target->is_gun() && this->target->magazine_integral() && tmp.made_of( SOLID ) ) {
-        amt = 1; // guns with integral magazines reload one round at a time
+    if( tmp.is_ammo() && !target->has_flag( "RELOAD_ONE" ) ) {
+        qty( tmp.charges );
+    } else {
+        qty( 1 );
     }
-
-    qty( amt );
 }
 
 
