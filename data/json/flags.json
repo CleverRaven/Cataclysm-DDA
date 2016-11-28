@@ -135,6 +135,13 @@
     "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty."
   },
   {
+    "id": "NO_REPAIR",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "description": "Prevents repairing of this item even if otherwise suitable tools exist.",
+    "inherit": false
+  },
+  {
     "id": "OUTER",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

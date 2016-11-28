@@ -1568,6 +1568,17 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         insert_separation_line();
 
+        const auto &rep = repaired_with();
+        if( !rep.empty() ) {
+            info.emplace_back( "DESCRIPTION", _( "<bold>Repaired with</bold>: " ) +
+                               enumerate_as_string( rep.begin(), rep.end(), []( const itype_id &e ) {
+                                   return item::find_type( e )->nname( 1 ); } ) );
+            insert_separation_line();
+
+        } else {
+            info.emplace_back( "DESCRIPTION", _( "* This item is <bad>not repairable</bad>." ) );
+        }
+
         // concatenate base and acquired flags...
         std::vector<std::string> flags;
         std::set_union( type->item_tags.begin(), type->item_tags.end(),
@@ -3324,6 +3335,11 @@ std::string item::damage_symbol() const
     return _( R"(|\)" );
 }
 
+const std::set<itype_id>& item::repaired_with() const
+{
+    static std::set<itype_id> no_repair;
+    return has_flag( "NO_REPAIR" )  ? no_repair : type->repair;
+}
 
 void item::mitigate_damage( damage_unit &du ) const
 {

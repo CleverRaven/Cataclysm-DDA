@@ -5461,6 +5461,10 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("That isn't a firearm!"));
         return 0;
     }
+    if( fix->has_flag( "NO_REPAIR" ) ) {
+        p->add_msg_if_player( m_info, _( "You cannot repair your %s." ), fix->tname().c_str() );
+        return 0;
+    }
     if( fix->damage() == fix->min_damage() ) {
         p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."),
                              fix->tname().c_str());
