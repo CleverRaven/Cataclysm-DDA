@@ -865,7 +865,7 @@ bool player::can_feed_battery_with( const item &it ) const
     if( !has_active_bionic( "bio_batteries" ) ) {
         return false;
     }
-    return it.is_ammo() && it.ammo_type() == ammotype( "battery" );
+    return it.is_ammo() && it.type->ammo->type.count( ammotype( "battery" ) );
 }
 
 bool player::feed_battery_with( item &it )
@@ -894,16 +894,23 @@ bool player::feed_battery_with( item &it )
 
 bool player::can_feed_reactor_with( const item &it ) const
 {
-    const std::set<ammotype> acceptable = {{
+    static const std::set<ammotype> acceptable = {{
             ammotype( "reactor_slurry" ),
             ammotype( "plutonium" )
         }
     };
 
+    if( !it.is_ammo() ) {
+        return false;
+    }
+
     if( !has_active_bionic( "bio_reactor" ) && !has_active_bionic( "bio_advreactor" ) ) {
         return false;
     }
-    return it.is_ammo() && acceptable.count( it.ammo_type() );
+
+    return std::any_of( acceptable.begin(), acceptable.end(), [ &it ]( const ammotype & elem ) {
+        return it.type->ammo->type.count( elem );
+    } );
 }
 
 bool player::feed_reactor_with( item &it )
