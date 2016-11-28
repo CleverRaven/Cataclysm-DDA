@@ -1945,7 +1945,7 @@ int editmap::edit_mapgen()
         gmenu.addentry( -1, !id.id().is_null(), 0, "[%3d] %s", ( int )id, id.id().c_str() );
         gmenu.entries[i].extratxt.left = 1;
         gmenu.entries[i].extratxt.color = id->get_color();
-        gmenu.entries[i].extratxt.txt = string_format( "%c", id->sym );
+        gmenu.entries[i].extratxt.txt = string_format( "%c", id->get_sym() );
     }
     real_coords tc;
     do {

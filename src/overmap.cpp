@@ -501,21 +501,28 @@ oter_t::oter_t() : oter_t( null_type ) {}
 oter_t::oter_t( const oter_type_t &type ) :
     type( &type ),
     id( type.id.str() ),
-    id_mapgen( type.id.str() ),
     sym( type.sym ) {}
 
 oter_t::oter_t( const oter_type_t &type, om_direction::type dir ) :
     type( &type ),
     id( type.id.str() + "_" + om_direction::id( dir ) ),
-    id_mapgen( type.id.str() ),
-    sym( om_direction::rotate_symbol( type.sym, dir ) ),
-    dir( dir ) {}
+    dir( dir ),
+    sym( om_direction::rotate_symbol( type.sym, dir ) ) {}
 
 oter_t::oter_t( const oter_type_t &type, size_t line ) :
     type( &type ),
     id( type.id.str() + om_lines::all[line].suffix ),
-    id_mapgen( type.id.str() + om_lines::mapgen_suffixes[om_lines::all[line].mapgen] ),
-    sym( om_lines::all[line].sym ) {}
+    sym( om_lines::all[line].sym ),
+    line( line ) {}
+
+std::string oter_t::get_mapgen_id() const
+{
+    if( type->has_flag( line_drawing ) ) {
+        return type->id.str() + om_lines::mapgen_suffixes[om_lines::all[line].mapgen];
+    } else {
+        return type->id.str();
+    }
+}
 
 inline bool oter_t::type_is( int_id<oter_type_t> type_id ) const
 {
@@ -625,19 +632,21 @@ void overmap_terrains::check_consistency()
     }
 
     for( const auto &elem : terrains.get_all() ) {
-        if( elem.id_mapgen.empty() ) {
+        const std::string mid = elem.get_mapgen_id();
+
+        if( mid.empty() ) {
             continue;
         }
 
-        const bool exists_hardcoded = hardcoded_mapgen.find( elem.id_mapgen ) != hardcoded_mapgen.end();
-        const bool exists_loaded = oter_mapgen.find( elem.id_mapgen ) != oter_mapgen.end();
+        const bool exists_hardcoded = hardcoded_mapgen.find( mid ) != hardcoded_mapgen.end();
+        const bool exists_loaded = oter_mapgen.find( mid ) != oter_mapgen.end();
 
         if( exists_loaded ) {
             if( test_mode && exists_hardcoded ) {
-                debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function. Consider removing the latter.", elem.id_mapgen.c_str() );
+                debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function. Consider removing the latter.", mid.c_str() );
             }
         } else if( !exists_hardcoded ) {
-            debugmsg( "No mapgen terrain exists for \"%s\".", elem.id_mapgen.c_str() );
+            debugmsg( "No mapgen terrain exists for \"%s\".", mid.c_str() );
         }
     }
 }
@@ -2018,7 +2027,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 const oter_id oter = om_direction::rotate( s_ter.terrain, uistate.omedit_rotation );
 
                 special_cache.insert( std::make_pair(
-                    rp, std::make_pair( oter->sym, oter->get_color() ) ) );
+                    rp, std::make_pair( oter->get_sym(), oter->get_color() ) ) );
 
                 s_begin.x = std::min( s_begin.x, rp.x );
                 s_begin.y = std::min( s_begin.y, rp.y );
@@ -2138,7 +2147,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                     // Map tile marked as explored
                     bool const explored = show_explored && overmap_buffer.is_explored(omx, omy, z);
                     ter_color = explored ? c_dkgray : info->get_color();
-                    ter_sym   = info->sym;
+                    ter_sym   = info->get_sym();
                 }
             }
 
@@ -2185,7 +2194,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             if( uistate.place_terrain || uistate.place_special ) {
                 if( blink && uistate.place_terrain && omx == cursx && omy == cursy ) {
                     ter_color = uistate.place_terrain->get_color();
-                    ter_sym = uistate.place_terrain->sym;
+                    ter_sym = uistate.place_terrain->get_sym();
                 } else if( blink && uistate.place_special ) {
                     if( omx - cursx >= s_begin.x && omx - cursx <= s_end.x &&
                         omy - cursy >= s_begin.y && omy - cursy <= s_end.y ) {
@@ -2335,7 +2344,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         } else {
             const auto &ter = ccur_ter.obj();
 
-            mvwputch(wbar, 1, 1, ter.get_color(), ter.sym);
+            mvwputch( wbar, 1, 1, ter.get_color(), ter.get_sym() );
             std::vector<std::string> name = foldstring(ter.get_name(), 25);
             for (size_t i = 0; i < name.size(); i++) {
                 mvwprintz(wbar, i + 1, 3, ter.get_color(), "%s", name[i].c_str());

@@ -161,8 +161,6 @@ struct oter_t {
         const oter_type_t *type; // @todo Don't reference this. Encapsulate further.
 
         oter_str_id id;         // definitive identifier.
-        std::string id_mapgen;  // only for mapgen and almost always == id_base. Unless line_drawing / road.
-        long sym = '\0';        // This is a long, so we can support curses linedrawing.
         om_direction::type dir = om_direction::type::none;
 
         oter_t();
@@ -174,8 +172,14 @@ struct oter_t {
             return type->id;
         }
 
+        std::string get_mapgen_id() const;
+
         const std::string &get_name() const {
             return type->name;
+        }
+
+        long get_sym() const {
+            return sym;
         }
 
         nc_color get_color() const {
@@ -201,14 +205,14 @@ struct oter_t {
         inline bool type_is( int_id<oter_type_t> type_id ) const;
         inline bool type_is( const oter_type_t &type ) const;
 
-        static size_t count();  /// Overall number of loaded objects
-
         bool has_flag( oter_flags flag ) const {
             return type->has_flag( flag );
         }
 
     private:
         static const oter_type_t null_type;
+        long sym = '\0';    // This is a long, so we can support curses linedrawing.
+        size_t line = 0;    // Index of line. Only valid in case of line drawing.
 };
 
 // @todo: Deprecate these operators

@@ -1714,8 +1714,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;
-    const std::string function_key = terrain_type->id_mapgen;
-
+    const std::string function_key = terrain_type->get_mapgen_id();
 
     std::map<std::string, std::vector<mapgen_function*> >::const_iterator fmapit = oter_mapgen.find( function_key );
     if ( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
@@ -10373,7 +10372,7 @@ void map::place_spawns(const mongroup_id& group, const int chance,
     if( !group.is_valid() ) {
         const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
-        debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.id().c_str(), oid->id_mapgen.c_str() );
+        debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.id().c_str(), oid->get_mapgen_id().c_str() );
         return;
     }
 
@@ -10484,7 +10483,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
         const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)",
-                 loc.c_str(), oid.id().c_str(), oid->id_mapgen.c_str() );
+                 loc.c_str(), oid.id().c_str(), oid->get_mapgen_id().c_str() );
         return res;
     }
 
