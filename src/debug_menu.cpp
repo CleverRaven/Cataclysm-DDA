@@ -53,14 +53,20 @@ void debug_menu::teleport_overmap()
 
 void debug_menu::npc_edit_menu()
 {
+    std::vector< tripoint > locations;
     uimenu charmenu;
     charmenu.return_invalid = true;
     int charnum = -1;
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
+    locations.emplace_back( g->u.pos() );
     for( auto *npc_p : g->active_npc ) {
         charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", npc_p->name.c_str() );
+        locations.emplace_back( npc_p->pos() );
     }
 
+    pointmenu_cb callback( locations );
+    charmenu.callback = &callback;
+    charmenu.w_y = 0;
     charmenu.query();
     int npcdex = charmenu.ret;
     if( npcdex < -1 || npcdex > charnum ) {
