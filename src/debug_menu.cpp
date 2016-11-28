@@ -281,8 +281,8 @@ void npc_edit_menu()
             smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
             smenu.addentry( 2, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
 
-            const auto& vits = vitamin::all();
-            for( const auto& v : vits ) {
+            const auto &vits = vitamin::all();
+            for( const auto &v : vits ) {
                 smenu.addentry( -1, true, 0, "%s: %d", v.second.name().c_str(), p.vitamin_get( v.first ) );
             }
 
@@ -291,7 +291,7 @@ void npc_edit_menu()
             smenu.query();
 
             switch( smenu.ret ) {
-                int value;
+                    int value;
                 case 0:
                     if( query_int( value, _( "Set hunger to? Currently: %d" ), p.get_hunger() ) ) {
                         p.set_hunger( value );
@@ -314,7 +314,7 @@ void npc_edit_menu()
                     if( smenu.ret > 2 && smenu.ret < static_cast<int>( vits.size() + 3 ) ) {
                         auto iter = std::next( vits.begin(), smenu.ret - 3 );
                         if( query_int( value, _( "Set %s to? Currently: %d" ),
-                            iter->second.name().c_str(), p.vitamin_get( iter->first ) ) ) {
+                                       iter->second.name().c_str(), p.vitamin_get( iter->first ) ) ) {
                             p.vitamin_set( iter->first, value );
                         }
                     }
@@ -334,7 +334,7 @@ void npc_edit_menu()
             smenu.selected = 0;
             smenu.query();
             switch( smenu.ret ) {
-                int value;
+                    int value;
                 case 0:
                     if( query_int( value, _( "Set the value to? Currently: %d" ), p.get_healthy() ) ) {
                         p.set_healthy( value );
@@ -366,7 +366,7 @@ void npc_edit_menu()
 
             types.addentry( INT_MAX, true, -1, _( "Cancel" ) );
             types.query();
-            if( types.ret >= 0 && types.ret < (int)mts.size() ) {
+            if( types.ret >= 0 && types.ret < ( int )mts.size() ) {
                 np->add_new_mission( mission::reserve_new( mts[ types.ret ]->id, np->getID() ) );
             }
         }
@@ -398,7 +398,7 @@ void npc_edit_menu()
 
             classes.addentry( INT_MAX, true, -1, _( "Cancel" ) );
             classes.query();
-            if( classes.ret < (int)ids.size() && classes.ret >= 0 ) {
+            if( classes.ret < ( int )ids.size() && classes.ret >= 0 ) {
                 np->randomize( ids[ classes.ret ] );
             }
         }
@@ -457,7 +457,7 @@ void mission_debug::edit( player &who )
 void mission_debug::edit_npc( npc &who )
 {
     npc_chatbin &bin = who.chatbin;
-    std::vector<mission*> all_missions;
+    std::vector<mission *> all_missions;
 
     uimenu mmenu;
     mmenu.return_invalid = true;
@@ -476,7 +476,7 @@ void mission_debug::edit_npc( npc &who )
     }
 
     mmenu.query();
-    if( mmenu.ret < 0 || mmenu.ret >= (int)all_missions.size() ) {
+    if( mmenu.ret < 0 || mmenu.ret >= ( int )all_missions.size() ) {
         return;
     }
 
@@ -485,7 +485,7 @@ void mission_debug::edit_npc( npc &who )
 
 void mission_debug::edit_player()
 {
-    std::vector<mission*> all_missions;
+    std::vector<mission *> all_missions;
 
     uimenu mmenu;
     mmenu.return_invalid = true;
@@ -510,7 +510,7 @@ void mission_debug::edit_player()
     }
 
     mmenu.query();
-    if( mmenu.ret < 0 || mmenu.ret >= (int)all_missions.size() ) {
+    if( mmenu.ret < 0 || mmenu.ret >= ( int )all_missions.size() ) {
         return;
     }
 
@@ -528,27 +528,27 @@ bool remove_from_vec( std::vector<mission *> &vec, mission *m )
 void mission_debug::remove_mission( mission &m )
 {
     if( remove_from_vec( g->u.active_missions, &m ) ) {
-        add_msg( _("Removing from active_missions") );
+        add_msg( _( "Removing from active_missions" ) );
     }
     if( remove_from_vec( g->u.completed_missions, &m ) ) {
-        add_msg( _("Removing from completed_missions") );
+        add_msg( _( "Removing from completed_missions" ) );
     }
     if( remove_from_vec( g->u.failed_missions, &m ) ) {
-        add_msg( _("Removing from failed_missions") );
+        add_msg( _( "Removing from failed_missions" ) );
     }
 
     if( g->u.active_mission == &m ) {
         g->u.active_mission = nullptr;
-        add_msg( _("Unsetting active mission") );
+        add_msg( _( "Unsetting active mission" ) );
     }
 
     const auto giver = g->find_npc( m.npc_id );
     if( giver != nullptr ) {
         if( remove_from_vec( giver->chatbin.missions_assigned, &m ) ) {
-            add_msg( _("Removing from %s missions_assigned"), giver->name.c_str() );
+            add_msg( _( "Removing from %s missions_assigned" ), giver->name.c_str() );
         }
         if( remove_from_vec( giver->chatbin.missions, &m ) ) {
-            add_msg( _("Removing from %s missions"), giver->name.c_str() );
+            add_msg( _( "Removing from %s missions" ), giver->name.c_str() );
         }
     }
 }
