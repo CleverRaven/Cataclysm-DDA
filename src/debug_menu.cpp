@@ -563,7 +563,7 @@ void mission_debug::edit_mission( mission &m )
          };
 
     mmenu.addentry( M_FAIL, true, 'f', "%s", _( "Fail mission" ) );
-    mmenu.addentry( M_SUCCEED, true, 's', "%s", _( "Complete mission successfully" ) );
+    mmenu.addentry( M_SUCCEED, true, 'c', "%s", _( "Mark as complete" ) );
     mmenu.addentry( M_REMOVE, true, 'r', "%s", _( "Remove mission without proper cleanup" ) );
 
     mmenu.query();
@@ -572,7 +572,7 @@ void mission_debug::edit_mission( mission &m )
             m.fail();
             break;
         case M_SUCCEED:
-            m.wrap_up();
+            m.status = mission::mission_status::success;
             break;
         case M_REMOVE:
             remove_mission( m );
