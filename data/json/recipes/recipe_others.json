@@ -2070,12 +2070,7 @@
       [ "scrap", 6 ]
     ],
     [
-      [ "rag", 1 ],
-      [ "duct_tape", 50 ],
-      [ "string_6", 2 ],
-      [ "sinew", 100 ],
-      [ "thread", 100 ],
-      [ "plant_fibre", 100 ]
+      [ "duct_tape", 30 ]
     ]
   ]
 },{
@@ -7099,7 +7094,7 @@
   "time": 6000,
   "autolearn": true,
   "components": [
-    [ [ "dogbane", 1 ] , [ "cattail_stalk", 1 ] , [ "veggy_wild", 2 ] ]
+    [ [ "dogbane", 1 ] , [ "cattail_stalk", 1 ] ]
   ]
 },{
   "type" : "recipe",
