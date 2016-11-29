@@ -1531,8 +1531,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool feed_furnace_with( item &it );
         /** Check whether player can consume this very item */
         bool can_consume_as_is( const item &it ) const;
-        /** Returns a reference to the argument. Use with care! */
-        item &as_comestible( item &it ) const;
+        /**
+         * Returns a reference to the item itself (if it's comestible),
+         * the first of its contents (if it's comestible) or null item otherwise.
+         */
+        item &get_comestible_from( item &it ) const;
         /**
          * Consumes an item as medication.
          * @param target Item consumed. Must be a medication or a container of medication.

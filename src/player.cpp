@@ -9351,7 +9351,7 @@ bool player::consume_item( item &target )
         return false;
     }
 
-    item &comest = as_comestible( target );
+    item &comest = get_comestible_from( target );
 
     if( comest.is_null() ) {
         add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname().c_str() );

@@ -1011,7 +1011,7 @@ bool player::can_consume( const item &it ) const
     return !it.is_container_empty() && can_consume_as_is( it.contents.front() );
 }
 
-item &player::as_comestible( item &it ) const
+item &player::get_comestible_from( item &it ) const
 {
     if( can_consume_as_is( it ) ) {
         return it;
@@ -1020,5 +1020,6 @@ item &player::as_comestible( item &it ) const
         return it.contents.front();
     }
     static item null_comestible;
+    null_comestible = item();   // Since it's not const.
     return null_comestible;
 }
