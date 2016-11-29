@@ -6135,7 +6135,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "flags" : ["EATEN_HOT"],
-        "fun" : 1
+        "fun" : 1,
+        "vitamins": [ [ "vitC", 10 ] ]
     },
     {
         "type" : "COMESTIBLE",
@@ -10664,7 +10665,8 @@
         "charges" : 10,
         "stack_size" : 20,
         "flags" : ["EATEN_HOT"],
-        "fun" : -1
+        "fun" : -1,
+        "vitamins": [ [ "calcium", 1 ] ]
     },
     {
         "type" : "COMESTIBLE",
