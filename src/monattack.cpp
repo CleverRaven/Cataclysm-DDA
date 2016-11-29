@@ -479,7 +479,7 @@ bool mattack::acid_barf(monster *z)
     } else {
         target->add_msg_player_or_npc(
             _("The %1$s barfs acid on your %2$s, but it washes off the armor!"),
-            _("The %1$s bites <npcname>'s %2$s, but it washes off the armor!"),
+            _("The %1$s barfs acid on <npcname>'s %2$s, but it washes off the armor!"),
             z->name().c_str(),
             body_part_name_accusative( hit ).c_str() );
     }
@@ -514,7 +514,7 @@ bool mattack::acid_accurate(monster *z)
     proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
     proj.impact.add_damage( DT_ACID, rng( 3, 5 ) );
     // Make it arbitrarily less accurate at close ranges
-    z->projectile_attack( proj, target->pos(), rng( 0, 8000 / range ) );
+    z->projectile_attack( proj, target->pos(), 8000 / range );
 
     return true;
 }

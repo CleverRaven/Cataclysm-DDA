@@ -253,7 +253,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["ice_lab_stairs"] = &mapgen_ice_lab_stairs;
     mapgen_cfunction_map["ice_lab_core"] = &mapgen_ice_lab_core;
     mapgen_cfunction_map["ice_lab_finale"] = &mapgen_ice_lab_finale;
-    mapgen_cfunction_map["nuke_plant_entrance"] = &mapgen_nuke_plant_entrance;
     mapgen_cfunction_map["nuke_plant"] = &mapgen_nuke_plant;
     mapgen_cfunction_map["bunker"] = &mapgen_bunker;
     mapgen_cfunction_map["outpost"] = &mapgen_outpost;
@@ -261,7 +260,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["silo_finale"] = &mapgen_silo_finale;
     mapgen_cfunction_map["temple"] = &mapgen_temple;
     mapgen_cfunction_map["temple_stairs"] = &mapgen_temple_stairs;
-    mapgen_cfunction_map["temple_core"] = &mapgen_temple_core;
     mapgen_cfunction_map["temple_finale"] = &mapgen_temple_finale;
     mapgen_cfunction_map["sewage_treatment"] = &mapgen_sewage_treatment;
     mapgen_cfunction_map["sewage_treatment_hub"] = &mapgen_sewage_treatment_hub;
@@ -284,7 +282,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["anthill"] = &mapgen_anthill;
     mapgen_cfunction_map["slimepit"] = &mapgen_slimepit;
     mapgen_cfunction_map["slimepit_down"] = &mapgen_slimepit_down;
-    mapgen_cfunction_map["triffid_grove"] = &mapgen_triffid_grove;
     mapgen_cfunction_map["triffid_roots"] = &mapgen_triffid_roots;
     mapgen_cfunction_map["triffid_finale"] = &mapgen_triffid_finale;
 
@@ -759,6 +756,8 @@ void mapgen_hive(map *m, oter_id, mapgendata dat, int turn, float)
     }
 
     // j and i loop through appropriate hive-cell center squares
+    const bool is_center = dat.t_nesw[0] == "hive" && dat.t_nesw[1] == "hive" &&
+                           dat.t_nesw[2] == "hive" && dat.t_nesw[3] == "hive";
     for (int j = 5; j < SEEY * 2 - 5; j += 6) {
         for (int i = (j == 5 || j == 17 ? 3 : 6); i < SEEX * 2 - 5; i += 6) {
             if (!one_in(8)) {
@@ -859,14 +858,17 @@ void mapgen_hive(map *m, oter_id, mapgendata dat, int turn, float)
                 if (skip1 == 23 || skip2 == 23)
                     m->ter_set(i + 1, j + 4, t_floor_wax);
 
-                if (dat.t_nesw[0] == "hive" && dat.t_nesw[1] == "hive" &&
-                      dat.t_nesw[2] == "hive" && dat.t_nesw[3] == "hive") {
+                if( is_center ) {
                     m->place_items("hive_center", 90, i - 2, j - 2, i + 2, j + 2, false, turn);
                 } else {
                     m->place_items("hive", 80, i - 2, j - 2, i + 2, j + 2, false, turn);
                 }
             }
         }
+    }
+
+    if( is_center ) {
+        m->place_npc( SEEX, SEEY, "apis" );
     }
 }
 

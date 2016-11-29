@@ -34,6 +34,7 @@
 #include "mtype.h"
 #include "item_factory.h"
 #include "recipe_dictionary.h"
+#include "player_activity.h"
 
 #include "tile_id_data.h" // for monster::json_save
 #include <ctime>
@@ -141,12 +142,12 @@ void game::init_savedata_translation_tables() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-///// player.h
+///// player_activity.h
 
 void player_activity::serialize(JsonOut &json) const
 {
     json.start_object();
-    json.member( "type", int(type) );
+    json.member( "type", type );
     json.member( "moves_left", moves_left );
     json.member( "index", index );
     json.member( "position", position );
@@ -163,15 +164,21 @@ void player_activity::serialize(JsonOut &json) const
 void player_activity::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    int tmptype;
+    std::string tmptype;
     int tmppos;
-    if ( !data.read( "type", tmptype ) || type >= NUM_ACTIVITIES ) {
-        debugmsg( "Bad activity data:\n%s", data.str().c_str() );
+    if ( !data.read( "type", tmptype ) ) {
+        // Then it's a legacy save.
+        int tmp_type_legacy;
+        data.read( "type", tmp_type_legacy );
+        deserialize_legacy_type( tmp_type_legacy, type );
+    } else {
+        type = activity_id( tmptype );
     }
+    
     if ( !data.read( "position", tmppos)) {
         tmppos = INT_MIN;  // If loading a save before position existed, hope.
     }
-    type = activity_type(tmptype);
+    
     data.read( "moves_left", moves_left );
     data.read( "index", index );
     position = tmppos;
@@ -1626,6 +1633,8 @@ void vehicle_part::deserialize(JsonIn &jsin)
 
     std::map<std::string, std::pair<std::string,itype_id>> deprecated = {
         { "laser_gun", { "laser_rifle", "none" } },
+        { "seat_nocargo", { "seat", "none" } },
+        { "engine_plasma", { "minireactor", "none" } },
         { "battery_truck", { "battery_car", "battery" } },
 
         { "diesel_tank_little", { "tank_little", "diesel" } },
@@ -1658,7 +1667,9 @@ void vehicle_part::deserialize(JsonIn &jsin)
         { "external_water_tank", { "external_tank", "water_clean" } },
         { "water_tank_barrel", { "tank_barrel", "water_clean" } },
 
-        { "napalm_tank", { "tank", "napalm" } }
+        { "napalm_tank", { "tank", "napalm" } },
+
+        { "hydrogen_tank", { "tank", "none" } }
     };
 
     // required for compatibility with 0.C saves
@@ -1695,6 +1706,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("enabled", enabled );
     data.read("flags", flags );
     data.read("passenger_id", passenger_id );
+    data.read("crew_id", crew_id );
     data.read("items", items);
     data.read("target_first_x", target.first.x);
     data.read("target_first_y", target.first.y);
@@ -1750,6 +1762,7 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("enabled", enabled);
     json.member("flags", flags);
     json.member("passenger_id", passenger_id);
+    json.member("crew_id", crew_id);
     json.member("items", items);
     json.member("target_first_x", target.first.x);
     json.member("target_first_y", target.first.y);
@@ -1801,7 +1814,6 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("falling", falling);
     data.read("cruise_velocity", cruise_velocity);
     data.read("vertical_velocity", vertical_velocity);
-    data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
     data.read("skidding", skidding);
@@ -1887,6 +1899,12 @@ void vehicle::deserialize(JsonIn &jsin)
     set_legacy_state( "scoop_on", "SCOOP" );
     set_legacy_state( "plow_on", "PLOW" );
     set_legacy_state( "reactor_on", "REACTOR" );
+
+    for( auto &e : parts ) {
+        if( e.is_engine() && &e != &current_engine() ) {
+            e.enabled = false;
+        }
+    }
 }
 
 void vehicle::serialize(JsonOut &json) const
@@ -1903,7 +1921,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "falling", falling );
     json.member( "cruise_velocity", cruise_velocity );
     json.member( "vertical_velocity", vertical_velocity );
-    json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
     json.member( "skidding", skidding );

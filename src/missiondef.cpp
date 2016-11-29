@@ -94,6 +94,7 @@ static const std::map<std::string, std::function<void(mission *)>> mission_funct
     { "standard", { } },
     { "join", mission_start::join },
     { "infect_npc", mission_start::infect_npc },
+    { "need_drugs_npc", mission_start::need_drugs_npc },
     { "place_dog", mission_start::place_dog },
     { "place_zombie_mom", mission_start::place_zombie_mom },
     { "place_zombie_bay", mission_start::place_zombie_bay },
@@ -220,9 +221,9 @@ bool string_id<mission_type>::is_valid() const
     return mission_type_factory.is_valid( *this );
 }
 
-void mission_type::load_mission_type( JsonObject &jo )
+void mission_type::load_mission_type( JsonObject &jo, const std::string &src )
 {
-    mission_type_factory.load( jo );
+    mission_type_factory.load( jo, src );
 }
 
 void mission_type::reset()
@@ -243,7 +244,7 @@ void assign_function( JsonObject &jo, const std::string &id, Fun &target, const 
     }
 }
 
-void mission_type::load( JsonObject &jo )
+void mission_type::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
 

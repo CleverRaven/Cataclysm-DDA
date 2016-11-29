@@ -24,19 +24,19 @@
   {
     "type" : "scenario",
     "ident" : "summer_advanced_start",
-    "edit-mode" : "modify",
-    "add:professions" : ["wasteland_cyborg"]
+    "copy-from" : "summer_advanced_start",
+    "extend": { "professions" : [ "wasteland_cyborg" ] }
   },
   {
     "type" : "scenario",
     "ident" : "ambushed",
-    "edit-mode" : "modify",
-    "add:professions" : ["wasteland_cyborg"]
+    "copy-from" : "ambushed",
+    "extend": { "professions" : [ "wasteland_cyborg" ] }
   },
   {
     "type" : "scenario",
     "ident" : "heli_crash",
-    "edit-mode" : "modify",
-    "add:professions" : ["bio_specops"]
+    "copy-from" : "heli_crash",
+    "extend": { "professions" : [ "bio_specops" ] }
   }
 ]

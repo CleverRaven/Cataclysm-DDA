@@ -54,10 +54,10 @@ Press q or ESC to return to the game." ) ) + 1;
     headers.push_back( _( "i: Bionics" ) );
     headers.push_back( _( "j: Crafting" ) );
     headers.push_back( _( "k: Traps" ) );
-    headers.push_back( _( "l: Items overview" ) );
+    headers.push_back( _( "l: Items Overview" ) );
     headers.push_back( _( "m: Combat" ) );
     headers.push_back( _( "n: Unarmed Styles" ) );
-    headers.push_back( _( "o: Survival tips" ) );
+    headers.push_back( _( "o: Survival Tips" ) );
     headers.push_back( _( "p: Driving" ) );
 
     size_t half_size = headers.size() / 2;
@@ -229,16 +229,28 @@ std::vector<std::string> text_hunger()
 {
     std::vector<std::string> text;
 
-    text.push_back( string_format( _( "\
+    text.push_back( _( "\
 As time passes, you will begin to feel hunger and thirst. When this happens, a status warning at the sidebar \
 will appear. As hunger and thirst reach critical levels, you will begin to suffer movement \
-penalties. Thirst is more dangerous than hunger. Finding food in a city is usually easy; outside \
-of a city, you may have to hunt. After killing an animal, stand over the animal's corpse and butcher it into \
-small chunks of meat by pressing %s. You might also be able to forage for edible fruit or vegetables; \
-to do it, find a promising plant and examine it. Likewise, you may have to drink water from a river or \
-another natural source. To collect it, stand in shallow water and press %s. You'll need a watertight \
-container to store it. Be forewarned that some sources of water aren't trustworthy and may produce \
-diseased water. To make sure it's healthy, purify the water by boiling it or using water purifier before drinking." ),
+penalties." ) );
+
+    text.push_back( _( "\
+Thirst is more dangerous than hunger but you can develop various vitamin deficiencies \
+if you eat poorly. These deficiencies come in stages, so for example you won't go from perfectly good \
+health into a full-blown scurvy in an instant. Any developing and on-going deficiencies will be reported \
+in the character sheet. Deficiencies will inflict various penalties, but luckily they are always \
+reversible, and multivitamin pills can help you to correct any deficiencies. You can also ingest too much \
+vitamins, and that too can create problems. Be sure to have a balanced diet, or at least not a completely \
+atrocious one. You can and should examine food items to view their nutritional facts." ) );
+
+    text.push_back( string_format( _( "\
+Finding food in a city is usually easy; outside of a city, you may have to hunt. After killing \
+an animal, stand over the animal's corpse and butcher it into small chunks of meat by pressing %s. You \
+might also be able to forage for edible fruit or vegetables; to do it, find a promising plant and \
+examine it. Likewise, you may have to drink water from a river or another natural source. To collect it, \
+stand in shallow water and press %s. You'll need a watertight container to store it. Be forewarned \
+that some sources of water aren't trustworthy and may produce diseased water. To make sure it's healthy, \
+purify the water by boiling it or using water purifier before drinking." ),
                                    press_x( ACTION_BUTCHER, "", "" ).c_str(),
                                    press_x( ACTION_PICKUP, "", "" ).c_str() ) );
 
@@ -549,19 +561,53 @@ you make." ) );
 To attack a monster with a melee weapon, simply move into them. The time it takes to attack \
 depends on the size and weight of your weapon. Small, light weapons are the fastest; unarmed \
 attacks increase in speed with your Unarmed Combat skill, and will eventually be VERY fast. \
-A successful hit with a bashing weapon may stun the monster temporarily, while cutting weapons \
-may get stuck, possibly pulling the weapon from your hands-- but a monster with a weapon stuck \
-in it will move much more slowly. A miss may make you stumble and lose movement points. If a \
-monster hits you, your clothing may absorb some damage, but you will absorb the excess." ) );
+A successful hit with a bashing weapon may stun the monster temporarily. A miss may make you \
+stumble and lose movement points. If a monster hits you, your clothing may absorb some damage, \
+but you will absorb the excess." ) );
+
+    text.push_back( _( "\
+Swarms of monsters may call for firearms. Most firearms in the game require compatible magazines \
+to hold the ammunition. Compatible magazines are listed in a given firearm's description. \
+Fortunately, a firearm often spawns with one such magazine in it." ) );
 
     text.push_back( string_format( _( "\
-Swarms of monsters may call for firearms. If you find one, wield it first, then reload by \
-pressing %s. If you wish to change ammo, you must unload the weapon by pressing %s, then \
-reload again. To fire, press %s, move the cursor to the relevant space, then hit '.' or 'f'. \
+You can eject a magazine from a firearm by pressing %s and load it with compatible ammunition \
+separately, or if you have a firearm with a partially filled magazine in it, and some matching \
+loose ammo in the inventory, you can simply order a reload by pressing %s, so you will \
+automatically eject the magazine, fill it with as much ammo as possible, and then put \
+the magazine back in. You don't have to worry about chambering a round though. \
+Of course all this takes some time, so try not to do it if there are monsters nearby." ),
+                                   press_x( ACTION_UNLOAD, "", "" ).c_str(),
+                                   press_x( ACTION_RELOAD, "", "" ).c_str() ) );
+
+    text.push_back( _( "\
+While magazines are often firearm-specific, on some occasions a magazine is compatible with \
+several other firearms. The firearms in the game often reflect real-world prototypes in terms \
+of caliber and compatibility. Below are some examples of interchangeable ammo:\n\
+.308 = 7.62x51mm,\n\
+.223 = 5.56 NATO,\n\
+.270 = 30-06,\n\
+.40 S&W = 10mm." ) );
+
+    text.push_back( _( "Magazine descriptions also list the compatible ammo." ) );
+
+    text.push_back( _( "\
+Note that while several ammo types exist for a given caliber and magazine type, \
+you can't mix and match these types into a single magazine. You can't \
+for example load 9x19mm JHP and 9x19 FMJ ammo into the same magazine, \
+since a magazine always requires identical rounds to be loaded in it." ) );
+
+    text.push_back( _( "\
+Magazines can be stored inside several worn accessories for quicker access, such as \
+chest rigs and ammo pouches. All these compatible storage items are listed in a given \
+magazine's description. At the moment, you can only store one magazine per clothing item. \
+To store a magazine into a clothing item, 'a'ctivate the appropriate clothing item, \
+at which point you'll get to choose which magazine to store." ) );
+
+    text.push_back( string_format( _( "\
+To fire, press %s, move the cursor to the relevant space, then hit '.' or 'f'. \
 Some guns have alternate firing modes, such as burst fire; to cycle modes, press %s. \
 Firing continuously, especially in bursts, will severely reduce accuracy." ),
-                                   press_x( ACTION_RELOAD, "", "" ).c_str(),
-                                   press_x( ACTION_UNLOAD, "", "" ).c_str(),
                                    press_x( ACTION_FIRE, "", "" ).c_str(),
                                    press_x( ACTION_SELECT_FIRE_MODE, "", "" ).c_str() ) );
 

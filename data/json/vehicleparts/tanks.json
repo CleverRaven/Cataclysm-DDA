@@ -86,14 +86,6 @@
     "size": 200000
   },
   {
-    "id": "hydrogen_tank",
-    "copy-from": "tank",
-    "type": "vehicle_part",
-    "name": "hydrogen tank",
-    "fuel_type": "plasma",
-    "color": "light_blue"
-  },
-  {
     "id": "tank_barrel",
     "type": "vehicle_part",
     "name": "barrel (100L)",

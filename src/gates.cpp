@@ -36,7 +36,9 @@ struct gate_data {
     int bash_dmg;
     bool was_loaded;
 
-    void load( JsonObject &jo );
+    void load( JsonObject &jo, const std::string &src );
+    void check() const;
+
     bool is_suitable_wall( const tripoint &pos ) const;
 };
 
@@ -49,7 +51,7 @@ generic_factory<gate_data> gates_data( "gate type", "handle", "other_handles" );
 
 }
 
-void gate_data::load( JsonObject &jo )
+void gate_data::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "door", door );
     mandatory( jo, was_loaded, "floor", floor );
@@ -68,6 +70,35 @@ void gate_data::load( JsonObject &jo )
     optional( jo, was_loaded, "bashing_damage", bash_dmg, 0 );
 }
 
+void gate_data::check() const
+{
+    static const iexamine_function controls_gate( iexamine_function_from_string( "controls_gate" ) );
+    const ter_str_id winch_tid( id.str() );
+
+    if( !winch_tid.is_valid() ) {
+        debugmsg( "Gates \"%s\" have no terrain of the same name, working as a winch.", id.c_str() );
+    } else if( winch_tid->examine != controls_gate ) {
+        debugmsg( "Terrain \"%s\" can't control gates, but gates \"%s\" depend on it.",
+                  winch_tid.c_str(), id.c_str() );
+    }
+
+    if( !door.is_valid() ) {
+        debugmsg( "Invalid door \"%s\" in \"%s\".", door.c_str(), id.c_str() );
+    }
+    if( !floor.is_valid() ) {
+        debugmsg( "Invalid floor \"%s\" in \"%s\".", floor.c_str(), id.c_str() );
+    }
+    for( const auto &elem : walls ) {
+        if( !elem.is_valid() ) {
+            debugmsg( "Invalid wall \"%s\" in \"%s\".", elem.c_str(), id.c_str() );
+        }
+    }
+
+    if( moves < 0 ) {
+        debugmsg( "Gates \"%s\" grant moves.", id.c_str() );
+    }
+}
+
 bool gate_data::is_suitable_wall( const tripoint &pos ) const
 {
     const auto wid = g->m.ter( pos );
@@ -77,9 +108,14 @@ bool gate_data::is_suitable_wall( const tripoint &pos ) const
     return iter != walls.end();
 }
 
-void gates::load_gates( JsonObject &jo )
+void gates::load( JsonObject &jo, const std::string &src )
 {
-    gates_data.load( jo );
+    gates_data.load( jo, src );
+}
+
+void gates::check()
+{
+    gates_data.check();
 }
 
 void gates::reset()
@@ -179,6 +215,6 @@ void gates::open_gate( const tripoint &pos, player &p )
     const gate_data &gate = gates_data.obj( gid );
 
     p.add_msg_if_player( gate.pull_message.c_str() );
-    p.assign_activity( ACT_OPEN_GATE, gate.moves );
+    p.assign_activity( activity_id( "ACT_OPEN_GATE" ), gate.moves );
     p.activity.placement = pos;
 }

@@ -22,6 +22,10 @@ class Item_spawn_data;
 class Item_group;
 class item;
 class item_category;
+class Item_factory;
+
+extern std::unique_ptr<Item_factory> item_controller;
+
 
 class migration
 {
@@ -110,7 +114,8 @@ class Item_factory
          * Note that each entrie in the array has to be a JSON object. The other function above
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
-        void load_item_group( JsonArray &entries, const Group_tag &ident, bool is_collection );
+        void load_item_group( JsonArray &entries, const Group_tag &ident, bool is_collection,
+                              int ammo_chance, int magazine_chance );
         /**
          * Get the item group object. Returns null if the item group does not exists.
          */
@@ -201,7 +206,17 @@ class Item_factory
          * If the item type overrides an existing type, the existing type is deleted first.
          * @param new_type The new item type, must not be null.
          */
-        void add_item_type( itype *new_type );
+        void add_item_type( const itype &def ) {
+            m_templates[ def.id ] = def;
+        }
+
+        /**
+         * Check if an iuse is known to the Item_factory.
+         * @param type Iuse type id.
+         */
+        bool has_iuse( const std::string &type ) const {
+            return iuse_function_list.find( type ) != iuse_function_list.end();
+        }
 
         void load_item_blacklist( JsonObject &jo );
 
@@ -216,18 +231,32 @@ class Item_factory
          * @ref find_template).
          * Value is the itype instance (result of @ref find_template).
          */
-        const std::map<const itype_id, std::unique_ptr<itype>> &get_all_itypes() const {
+        const std::map<const itype_id, itype> &get_all_itypes() const {
             return m_templates;
         }
+
+        /** Find all templates matching the UnaryPredicate function */
+        static std::vector<const itype *> find( const std::function<bool( const itype & )> &func ) {
+            std::vector<const itype *> res;
+            for( const auto &e : item_controller->get_all_itypes() ) {
+                if( func( e.second ) ) {
+                    res.push_back( &e.second );
+                }
+            }
+            return res;
+        }
+
         /**
          * Create a new (and currently unused) item type id.
          */
         Item_tag create_artifact_id() const;
 
-    private:
-        std::map<std::string, std::unique_ptr<itype>> m_abstracts;
+        std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
-        mutable std::map<const itype_id, std::unique_ptr<itype>> m_templates;
+    private:
+        std::map<const std::string, itype> m_abstracts;
+
+        mutable std::map<const itype_id, itype> m_templates;
 
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
@@ -250,7 +279,7 @@ class Item_factory
          * Called before creating a new template and handles inheritance via copy-from
          * May defer instantiation of the template if depends on other objects not as-yet loaded
          */
-        itype *load_definition( JsonObject &jo, const std::string &src );
+        bool load_definition( JsonObject &jo, const std::string &src, itype &def );
 
         /**
          * Load the data of the slot struct. It creates the slot object (of type SlotType) and
@@ -258,6 +287,7 @@ class Item_factory
          */
         template<typename SlotType>
         void load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &src );
+
         /**
          * Load item the item slot if present in json.
          * Checks whether the json object has a member of the given name and if so, loads the item
@@ -280,7 +310,6 @@ class Item_factory
         void load( islot_gunmod &slot, JsonObject &jo, const std::string &src );
         void load( islot_magazine &slot, JsonObject &jo, const std::string &src );
         void load( islot_bionic &slot, JsonObject &jo, const std::string &src );
-        void load( islot_spawn &slot, JsonObject &jo, const std::string &src );
         void load( islot_ammo &slot, JsonObject &jo, const std::string &src );
         void load( islot_seed &slot, JsonObject &jo, const std::string &src );
         void load( islot_artifact &slot, JsonObject &jo, const std::string &src );
@@ -291,15 +320,15 @@ class Item_factory
 
         use_function usage_from_string( const std::string &type ) const;
 
-        std::pair<std::string, use_function> usage_from_object( JsonObject &obj ) const;
+        std::pair<std::string, use_function> usage_from_object( JsonObject &obj );
 
         void add_entry( Item_group *sg, JsonObject &obj );
         void load_item_group_entries( Item_group &ig, JsonArray &entries );
 
-        void load_basic_info( JsonObject &jo, itype *new_item, const std::string &src );
+        void load_basic_info( JsonObject &jo, itype &def, const std::string &src );
         void tags_from_json( JsonObject &jo, std::string member, std::set<std::string> &tags );
-        void set_qualities_from_json( JsonObject &jo, std::string member, itype *new_item );
-        void set_properties_from_json( JsonObject &jo, std::string member, itype *new_item );
+        void set_qualities_from_json( JsonObject &jo, const std::string &member, itype &def );
+        void set_properties_from_json( JsonObject &jo, const std::string &member, itype &def );
 
         void clear();
         void init();
@@ -313,8 +342,12 @@ class Item_factory
         void add_actor( iuse_actor *ptr );
 
         std::map<itype_id, migration> migrations;
-};
 
-extern std::unique_ptr<Item_factory> item_controller;
+        /**
+         * Contains the tool subtype mappings for crafing (ie. mess kit is a hotplate etc.).
+         * This is should be obsoleted when @ref requirement_data allows AND/OR nesting.
+         */
+        std::map<itype_id, std::set<itype_id>> tool_subtypes;
+};
 
 #endif

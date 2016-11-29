@@ -1,10 +1,12 @@
-{
+[
+  {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "Animatronics",
     "name": "Animatronic Monsters",
+    "authors": [ "Lanceo90" ],
     "description": "Adds a chain of bankrupt pizzerias, with still functioning animatronics inside.",
     "category": "buildings",
-    "author": "Lanceo90",
-    "path": ""
-}
+    "dependencies": [ "dda" ],
+    "obsolete": true
+  }
+]

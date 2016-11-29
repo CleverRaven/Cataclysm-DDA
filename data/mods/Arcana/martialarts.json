@@ -2,7 +2,6 @@
     {
         "type" : "martial_art",
         "id" : "style_silat",
-        "edit-mode" : "override",
         "name" : "Silat",
         "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
         "arm_block" : 99,
@@ -10,7 +9,6 @@
         "static_buffs" : [
             {
                 "id" : "silat_buff",
-                "edit-mode" : "override",
                 "name" : "Silat Stance",
                 "description" : "+1 dodge",
                 "unarmed_allowed" : true,
@@ -21,7 +19,6 @@
         "ondodge_buffs" : [
             {
                 "id" : "silat_dodge_buff",
-                "edit-mode" : "override",
                 "name" : "Silat Counter",
                 "description" : "Extra to-hit after successful dodge",
                 "unarmed_allowed" : true,
@@ -94,7 +91,6 @@
     },{
         "type" : "martial_art",
         "id" : "style_fencing",
-        "edit-mode" : "override",
         "name" : "Fencing",
         "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples.  Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.",
         "arm_block" : 99,
@@ -102,7 +98,6 @@
         "onmove_buffs" : [
             {
                 "id" : "fencing_move_buff",
-                "edit-mode" : "override",
                 "name" : "Fencing Footwork",
                 "description" : "+2 stab and +1 acc per stack",
                 "unarmed_allowed" : true,
@@ -139,7 +134,6 @@
     },{
         "type" : "martial_art",
         "id" : "style_niten",
-        "edit-mode" : "override",
         "name" : "Niten Ichi-Ryu",
         "description" : "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.  It primarily focuses on the proper use of the katana and wakizashi, but includes staff techniques as well.",
         "arm_block" : 99,
@@ -147,7 +141,6 @@
             "static_buffs" : [
             {
                 "id": "niten_stationary_buff",
-                "edit-mode" : "override",
                 "name" : "Niten Ichi-Ryu",
                 "description" : "Perception increases dodging and damage.",
                 "min_melee" : 2,
@@ -161,7 +154,6 @@
         "onmove_buffs" : [
             {
                 "id" : "niten_move_buff",
-                "edit-mode" : "override",
                 "name" : "Blocking",
                 "description" : "You forgo dodging on the move, but gain more blocks.",
                 "min_melee" : 2,
@@ -175,7 +167,6 @@
         "onhit_buffs" : [
             {
                 "id" : "niten_hit_buff",
-                "edit-mode" : "override",
                 "name" : "Blocking",
                 "description" : "You forgo dodging on the offensive, but gain more blocks.",
                 "min_melee" : 2,
@@ -189,7 +180,6 @@
         "ondodge_buffs" : [
             {
                 "id" : "niten_set-up",
-                "edit-mode" : "override",
                 "name" : "In-One Timing Set-Up",
                 "description" : "You found a gap in the enemy's defense!",
                 "min_melee" : 4,

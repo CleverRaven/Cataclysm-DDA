@@ -1068,7 +1068,7 @@ std::string fac_wealth_text(int val, int size)
     if (val >= 50000) {
         return _("Impoverished");
     }
-    return _("Destitue");
+    return _("Destitute");
 }
 
 std::string fac_food_supply_text(int val, int size)

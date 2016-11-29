@@ -1938,19 +1938,12 @@ int editmap::edit_mapgen()
     gmenu.w_x = offsetX;
     gmenu.return_invalid = true;
 
-    std::map<std::string, bool> broken_oter_blacklist;
-    broken_oter_blacklist[""] = true;
-    broken_oter_blacklist["road_null"] = true;
-    broken_oter_blacklist["nuke_plant_entrance"] = true;
-    broken_oter_blacklist["nuke_plant"] = true;
-    broken_oter_blacklist["temple_core"] = true;
-
     for( size_t i = 0; i < oter_t::count(); i++ ) {
         oter_id id = oter_id( i );
-        gmenu.addentry( -1, true, 0, "[%3d] %s", ( int )id, id.id().c_str() );
-        if( broken_oter_blacklist.find( id.id().str() ) != broken_oter_blacklist.end() ) {
-            gmenu.entries[i].enabled = false;
+        if( id.id().is_empty() ) {
+            continue;
         }
+        gmenu.addentry( -1, true, 0, "[%3d] %s", ( int )id, id.id().c_str() );
         gmenu.entries[i].extratxt.left = 1;
         gmenu.entries[i].extratxt.color = id->color;
         gmenu.entries[i].extratxt.txt = string_format( "%c", id->sym );

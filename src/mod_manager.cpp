@@ -14,13 +14,17 @@
 #include <unordered_set>
 
 #include "json.h"
+#include "generic_factory.h"
 
 #define MOD_SEARCH_FILE "modinfo.json"
 
-static std::unordered_set<std::string> obsolete_mod_list;
+/** Second field is optional replacement mod */
+static std::map<std::string, std::string> mod_replacements;
+
 // These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories() {
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
+        {"content", _("CORE CONTENT PACKS")},
         {"items", _("ITEM ADDITION MODS")},
         {"creatures", _("CREATURE MODS")},
         {"misc_additions", _("MISC ADDITIONS")},
@@ -56,22 +60,27 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab() {
     return mod_list_cat_tab;
 }
 
-static void load_obsolete_mods( const std::string path )
+static void load_replacement_mods( const std::string path )
 {
     read_from_file_optional( path, [&]( JsonIn &jsin ) {
         jsin.start_array();
-        // find type and dispatch each object until array close
         while (!jsin.end_array()) {
-            obsolete_mod_list.insert( jsin.get_string() );
+            auto arr = jsin.get_array();
+            mod_replacements.emplace( arr.get_string( 0 ), arr.size() > 1 ? arr.get_string( 1 ) : "" );
         }
     } );
 }
 
+bool MOD_INFORMATION::need_lua() const
+{
+    return file_exist( path + "/main.lua" ) || file_exist( path + "/preload.lua" );
+}
+
 mod_manager::mod_manager()
 {
-    // Insure obsolete_mod_list is initialized.
-    if( obsolete_mod_list.empty() && file_exist(FILENAMES["obsolete-mods"]) ) {
-        load_obsolete_mods(FILENAMES["obsolete-mods"]);
+    // Insure mod_replacements is initialized.
+    if( mod_replacements.empty() && file_exist(FILENAMES["mods-replacements"]) ) {
+        load_replacement_mods(FILENAMES["mods-replacements"]);
     }
 }
 
@@ -102,7 +111,8 @@ void mod_manager::refresh_mod_list()
     remove_mod("user:default");
     remove_mod("dev:default");
     for( auto &elem : mod_map ) {
-        mod_dependency_map[elem.second->ident] = elem.second->dependencies;
+        const auto &deps = elem.second->dependencies;
+        mod_dependency_map[elem.second->ident] = std::vector<std::string>( deps.begin(), deps.end() );
     }
     tree.init(mod_dependency_map);
 }
@@ -128,8 +138,9 @@ bool mod_manager::set_default_mods(const std::string &ident)
         return false;
     }
     MOD_INFORMATION &mod = *mod_map[ident];
-    remove_invalid_mods( mod.dependencies );
-    default_mods = mod.dependencies;
+    auto deps = std::vector<std::string>( mod.dependencies.begin(), mod.dependencies.end() );
+    remove_invalid_mods( deps );
+    default_mods = deps;
     return true;
 }
 
@@ -151,7 +162,7 @@ void mod_manager::load_mods_from(std::string path)
     }
 }
 
-void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
+void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
 {
     if (!jo.has_string("type") || jo.get_string("type") != "MOD_INFO") {
         // Ignore anything that is not a mod-info
@@ -166,16 +177,6 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         return;
     }
 
-    std::string t_type = jo.get_string("mod-type", "SUPPLEMENTAL");
-    std::vector<std::string> m_authors;
-    if (jo.has_array("authors")) {
-        m_authors = jo.get_string_array("authors");
-    } else {
-        if(jo.has_string("author")) {
-            m_authors.push_back(jo.get_string("author"));
-        }
-    }
-
     std::string m_name = jo.get_string("name", "");
     if (m_name.empty()) {
         // "No name" gets confusing if many mods have no name
@@ -183,13 +184,6 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         m_name = string_format(_("No name (%s)"), m_ident.c_str());
     } else {
         m_name = _(m_name.c_str());
-    }
-
-    std::string m_desc = jo.get_string("description", "");
-    if (m_desc.empty()) {
-        m_desc = _("No description");
-    } else {
-        m_desc = _(m_desc.c_str());
     }
 
     std::string m_cat = jo.get_string("category", "");
@@ -212,65 +206,28 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         }
     } while( !bCatFound );
 
-    std::string m_path;
-    if (jo.has_string("path")) {
-        m_path = jo.get_string("path");
-        if (m_path.empty()) {
-            // If an empty path is given, use only the
-            // folder of the modinfo.json
-            m_path = main_path;
-        } else {
-            // prefix the folder of modinfo.json
-            m_path = main_path + "/" + m_path;
-        }
-    } else {
-        // Default if no path is given:
-        // "<folder-of-modinfo.json>/data"
-        m_path = main_path + "/data";
-    }
-
-    bool m_need_lua = jo.get_bool("with-lua", false);
-    if ( file_exist(m_path + "/main.lua") || file_exist(m_path + "/preload.lua") ) {
-        m_need_lua = true;
-    }
-
-    std::vector<std::string> m_dependencies;
-
-    if (jo.has_member("dependencies") && jo.has_array("dependencies")) {
-        JsonArray jarr = jo.get_array("dependencies");
-        while(jarr.has_more()) {
-            const std::string dep = jarr.next_string();
-            if (dep == m_ident) {
-                debugmsg("mod %s has itself as dependency", m_ident.c_str());
-                continue;
-            }
-            if (std::find(m_dependencies.begin(), m_dependencies.end(), dep) != m_dependencies.end()) {
-                // Some dependency listed twice, ignore it, what else can be done?
-                continue;
-            }
-            m_dependencies.push_back(dep);
-        }
-    }
-
-    mod_type m_type = MT_CORE;
-    if (t_type == "CORE") {
-        m_type = MT_CORE;
-    } else if (t_type == "SUPPLEMENTAL") {
-        m_type = MT_SUPPLEMENTAL;
-    } else {
-        jo.throw_error( std::string("Invalid mod type: ") + t_type + " for mod " + m_ident );
-    }
-
     std::unique_ptr<MOD_INFORMATION> modfile( new MOD_INFORMATION );
     modfile->ident = m_ident;
-    modfile->_type = m_type;
-    modfile->authors = m_authors;
     modfile->name = m_name;
-    modfile->description = m_desc;
-    modfile->dependencies = m_dependencies;
     modfile->category = p_cat;
-    modfile->path = m_path;
-    modfile->need_lua = m_need_lua;
+
+    if( assign( jo, "path", modfile->path ) ) {
+        modfile->path = path + "/" + modfile->path;
+    } else {
+        modfile->path = path;
+    }
+
+    assign( jo, "legacy", modfile->legacy );
+    assign( jo, "authors", modfile->authors );
+    assign( jo, "maintainers", modfile->maintainers );
+    assign( jo, "description", modfile->description );
+    assign( jo, "dependencies", modfile->dependencies );
+    assign( jo, "core", modfile->core );
+    assign( jo, "obsolete", modfile->obsolete );
+
+    if( modfile->dependencies.count( modfile->ident ) ) {
+        jo.throw_error( "mod specifies self as a dependency", "dependencies" );
+    }
 
     mod_map[modfile->ident] = std::move( modfile );
 }
@@ -438,12 +395,12 @@ void mod_manager::load_mods_list(WORLDPTR world) const
             if( mod.empty() || std::find(amo.begin(), amo.end(), mod) != amo.end() ) {
                 continue;
             }
-            if( obsolete_mod_list.count( mod ) ) {
+            if( mod_replacements.count( mod ) ) {
+                amo.push_back( mod_replacements[ mod ] );
                 obsolete_mod_found = true;
-                continue;
+            } else {
+                amo.push_back(mod);
             }
-
-            amo.push_back(mod);
         }
     } );
     if( obsolete_mod_found ) {

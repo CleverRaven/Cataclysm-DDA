@@ -362,8 +362,8 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
 
     //Loop through all itemfactory items
     //APU now ignores prefixes, bottled items and suffix combinations still not generated
-    for( auto &p : item_controller->get_all_itypes() ) {
-        sItemName = p.second->nname(1);
+    for( const auto &e : item_controller->get_all_itypes() ) {
+        sItemName = e.second.nname(1);
         if (vRules[iTab][iRow].bActive &&
             wildcard_match(sItemName, vRules[iTab][iRow].sRule)) {
             vMatchingItems.push_back(sItemName);
@@ -529,8 +529,8 @@ void auto_pickup::create_rules()
             if ( elem.sRule != "" ) {
                 if( !elem.bExclude ) {
                     //Check include patterns against all itemfactory items
-                    for( auto &p : item_controller->get_all_itypes() ) {
-                        const std::string &cur_item = p.second->nname(1);
+                    for( const auto &e : item_controller->get_all_itypes() ) {
+                        const std::string &cur_item = e.second.nname(1);
                         if( elem.bActive && wildcard_match( cur_item, elem.sRule ) ) {
                             map_items[ cur_item ] = RULE_WHITELISTED;
                         }

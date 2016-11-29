@@ -1,0 +1,82 @@
+[
+  {
+    "abstract": "engine_motor",
+    "type": "vehicle_part",
+    "name": "electric motor",
+    "item": "motor",
+    "location": "engine_block",
+    "fuel_type": "battery",
+    "symbol": "*",
+    "color": "yellow",
+    "broken_color": "red",
+    "flags": [ "ENGINE", "TOOL_WRENCH" ]
+  },
+  {
+    "id": "engine_electric_small",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": "small electric motor",
+    "item": "motor_small",
+    "difficulty": 1,
+    "durability": 120,
+    "damage_modifier": 80,
+    "folded_volume": 1,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 1, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "cable", "charges": [ 3, 6 ] }
+    ],
+    "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] },
+    "delete": { "flags": [ "TOOL_WRENCH" ] }
+  },
+  {
+    "id": "engine_electric",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": "electric motor",
+    "item": "motor",
+    "difficulty": 2,
+    "durability": 200,
+    "damage_modifier": 80,
+    "folded_volume": 6,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 3, 5 ] },
+      { "item": "steel_chunk", "count": [ 3, 5 ] },
+      { "item": "scrap", "count": [ 3, 5 ] },
+      { "item": "cable", "charges": [ 10, 15 ] }
+    ]
+  },
+  {
+    "id": "engine_electric_large",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": "large electric motor",
+    "item": "motor_large",
+    "difficulty": 3,
+    "durability": 400,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 3, 5 ] },
+      { "item": "steel_chunk", "count": [ 3, 5 ] },
+      { "item": "scrap", "count": [ 3, 5 ] },
+      { "item": "cable", "charges": [ 10, 15 ] }
+    ]
+  },
+  {
+    "id": "engine_electric_enhanced",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": "enhanced electric motor",
+    "item": "motor_enhanced",
+    "difficulty": 4,
+    "durability": 200,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 3, 5 ] },
+      { "item": "steel_chunk", "count": [ 3, 5 ] },
+      { "item": "scrap", "count": [ 3, 5 ] },
+      { "item": "cable", "charges": [ 10, 15 ] }
+    ]
+  }
+]

@@ -534,7 +534,7 @@
     "price": 1000,
     "to_hit": 1,
     "bashing": 3,
-    "material": "aluminum",
+    "material": "iron",
     "symbol": ")",
     "color": "light_gray",
     "contains": 1,

@@ -93,7 +93,7 @@ TEST_CASE("Character attacking a zombie", "[melee]") {
     }
 }
 
-TEST_CASE("Character attacking a manhack", "[melee]") {
+TEST_CASE("Character attacking a manhack", "[melee] [!mayfail]") {
     monster manhack( mtype_id( "mon_manhack" ) );
     INFO( "Manhack has get_dodge() == " + std::to_string( manhack.get_dodge() ) );
 

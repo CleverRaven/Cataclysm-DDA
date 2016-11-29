@@ -35,10 +35,10 @@ struct quality {
 
     std::vector<std::pair<int, std::string>> usages;
 
-    void load( JsonObject &jo );
+    void load( JsonObject &jo, const std::string &src );
 
     static void reset();
-    static void load_static( JsonObject &jo );
+    static void load_static( JsonObject &jo, const std::string &src );
 };
 
 struct component {
@@ -185,6 +185,9 @@ struct requirement_data {
 
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();
+
+        /** Finalizes requirements, must be called AFTER finalizing items, but before recipes! */
+        static void finalize();
 
         /** Check consistency of all loaded requirements */
         static void check_consistency();

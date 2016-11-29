@@ -4,27 +4,40 @@ Activities are long term actions, that can be interrupted and (optionally) conti
 
 ## Adding new activities
 
-1. `player_activity.h`: Add an entry to `activity_type`, right before `NUM_ACTIVITIES`.
-2. `player_activity.cpp`: Add a stop phrase in `player_activity::get_stop_phrase` for the new activity. Use the existing phrases as example.
-3. `activity_handlers.h`, `activity_handlers.cpp`: Write a `<activity>_do_turn()` function and/or a `<activity>_finish` function
-4. `player_activity.cpp`: Add a case statement in `player_activity::do_turn` and/or `player_activity::finish` to call the appropriate `activity_handlers` function.
-5. Start the activity by calling `u.assign_activity(ACT_<activity>, ...)`
+1. `player_activities.json` Define properties that apply to all instances of the activity in question.
+2. `activity_handlers.h` Optionally declare a do_turn and/or finish function.
+3. `player_activity.cpp` Optionally update `can_resume_with`. 
+4. `activity_handlers.cpp` Add the functions from #2 into the do_turn and finish maps, and define the functions.
+5. Start the activity by calling `player::assign_activity`.
 
-One might also add a case for the new activity in `player_activity::is_suspendable`, `player_activity::is_abortable` (see documentation of those functions for what they do).
+## JSON Properties
+
+stop_phrase: What to say when asking whether to cancel the activity or not. For example, in "You see the zombie approaching! Stop reading? (Y/N)", the stop_phrase is "Stop reading?".
+abortable (default true): If true, the activity can be aborted with the ACTION_PAUSE key ('.').
+suspendable (true): If true, the activity can be continued without starting from scratch again. This is only possible if `can_resume_with()` returns true.
+rooted (false): If true, then during the activity, recoil is reduced, plant mutants sink their roots into the ground, etc.
+based_on: Can be 'time', 'speed', or 'neither'.
+	time: The amount that `player_activity::moves_left` is decremented by is independent from the character's speed.
+	speed: `player_activity::moves_left` may be decremented faster or slower, depending on the character's speed.
+	neither: `moves_left` will not be decremented. Thus you must define a do_turn function; otherwise the activity will never end!
+no_resume (false): Rather than resuming, you must always restart the activity from scratch.
+
+## Termination
+
+There are several ways an activity can be ended:
+
+1. Call `player_activity::set_to_null()`
+	This can be called if it finished early or something went wrong, such as corrupt data, disappearing items, etc. The activity will not be put into the backlog.
+2. `moves_left` <= 0
+	Once this condition is true, the finish function, if there is one, is called. The finish function should call `set_to_null()`. If there isn't a finish function, `set_to_null()` will be called for you (from player_activity::do_turn).
+3. `game::cancel_activity` or `player::cancel_activity`
+	Canceling an activity prevents the `player_activity::finish` function from running, and the activity does therefore not yield a result. A copy of the activity is written to `player::backlog` if it's suspendable.
 
 ## Notes
 
-An activity is considered finished when `player_activity::moves_left` is at or below 0. One can reach this state either by explicitly setting the value to 0, or over time by decreasing the value each turn.
+While the player character performs the activity, `player_activity::do_turn` is called on each turn. Depending on the JSON properties, this will do some stuff. It will also call the do_turn function, and if `moves_left` is non-positive, the finish function.
 
-Activities can be canceled by calling `game::cancel_activity` or similar. Canceling an activity prevents the `player_activity::finish` function from running, and the activity does therefore not yield a result. `player_activity::finish` is called if the activity is finished normally (`player_activity::moves_left <= 0`).
-
-Canceling the activity with `game::cancel_activity` allows for resuming the activity as a copy of the activity is written to `player::backlog` (only if `player_activity::is_suspendable()` returns `true`).
-
-An activity can be stopped by setting `player_activity::type` to `ACT_NULL`, but this does not allow resuming the task. It is usually used to signal that the activity has been finished early.
-
-While the player character performs the activity, `player_activity::do_turn` is called on each turn. This functions calls some activity specific functions and decrements `player_activity::moves_left`, so it will eventually reach 0.
-
-Some activities (like playing on a PDA) don't have an end result but instead do something each turn (playing on the PDA decreases its batteries and gives a morale bonus).
+Some activities (like playing music on a mp3 player) don't have an end result but instead do something each turn (playing music on the mp3 player decreases its batteries and gives a morale bonus).
 
 If the activity needs any information during its execution or when it's finished (like *where* to do something, *which* item to use to do something, ...), use any of:
 
@@ -39,15 +52,14 @@ Those values are automatically saved and restored when loading a game. Other tha
 
 ### `activity_handlers::<activity>_do_turn` function
 
-Make sure that either:
+To prevent an infinite loop, ensure that one of the following is satisfied:
 
-- `player_activity::moves_left` is decreased (in `<activity>_do_turn` or directly in `player_activity::do_turn`),
-- Or that the activity is stopped there
+- The `based_on` JSON property is `speed` or `time`,
+- Or `player_activity::moves_left` is decreased (in `<activity>_do_turn`,
+- Or that the activity is stopped there (see 'Termination', above).
 
 For example the pulp activity finishes itself when there are no more unpulped corpses on the map. It therefore does not need to decrease `player_activity::moves_left` on each turn.
 
-One can decrease `player_activity::moves_left` either by `player::moves`, which makes the duration of the activity dependent on the player character's **speed**, or one can decrease it by a fixed value, which makes the activity take a specific amount of **time**, independent of the character's speed. This is done for example with the wait activity.
-
 ### `activity_handlers::<activity>_finish` function
 
-This function is called when the activity has been completed. It must set the `player_activity::type` to `ACT_NULL` (or assign a new activity). One should not call `cancel_activity` for the finished activity, as this could make a copy of the activity in `player::backlog`, which allows resuming an already finished activity.
+This function is called when the activity has been completed (`moves_left` <= 0). It must call `set_to_null()` or assign a new activity. One should not call `cancel_activity` for the finished activity, as this could make a copy of the activity in `player::backlog`, which allows resuming an already finished activity.

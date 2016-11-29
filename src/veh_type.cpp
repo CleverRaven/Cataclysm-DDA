@@ -12,6 +12,7 @@
 #include "init.h"
 #include "generic_factory.h"
 #include "character.h"
+#include "cata_utility.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -61,8 +62,8 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
     { "ATOMIC_LIGHT", VPFLAG_ATOMIC_LIGHT },
-    { "ALTERNATOR", VPFLAG_ALTERNATOR },
     { "ENGINE", VPFLAG_ENGINE },
+    { "ALTERNATOR", VPFLAG_ALTERNATOR },
     { "FRIDGE", VPFLAG_FRIDGE },
     { "LIGHT", VPFLAG_LIGHT },
     { "WINDOW", VPFLAG_WINDOW },
@@ -265,6 +266,8 @@ void vpart_info::finalize()
             }            
         }
 
+        e.second.power = hp_to_watt( e.second.power );
+
         // Calculate and cache z-ordering based off of location
         // list_order is used when inspecting the vehicle
         if( e.second.location == "on_roof" ) {
@@ -450,6 +453,9 @@ void vpart_info::check()
         }
         if( part.has_flag( "TURRET" ) && !item::find_type( part.item )->gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
+        }
+        if( part.has_flag( "ENGINE" ) && !item::find_type( part.item )->engine ) {
+            debugmsg( "vehicle part %s has the ENGINE flag but base item is not an engine", part.id.c_str() );
         }
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
@@ -676,7 +682,7 @@ void vehicle_prototype::finalize()
             } else {
                 for( const auto &e : pt.ammo_types ) {
                     auto ammo = item::find_type( e );
-                    if( !ammo->ammo && ammo->ammo->type.count( base->gun->ammo ) ) {
+                    if( !ammo->ammo || !ammo->ammo->type.count( base->gun->ammo ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
                     }

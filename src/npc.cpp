@@ -15,6 +15,8 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "mission.h"
+#include "monfaction.h"
+#include "mutation.h"
 #include "npc_class.h"
 #include "json.h"
 #include "sounds.h"
@@ -59,8 +61,8 @@ const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 
-std::list<item> starting_clothes( const npc_class_id &type, bool male );
-std::list<item> starting_inv( npc *me, const npc_class_id &type );
+void starting_clothes( npc &who, const npc_class_id &type, bool male );
+void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
 {
@@ -187,33 +189,32 @@ npc* npc::find_npc(std::string ident)
     }
 }
 
-void npc::load_npc_template(std::string ident)
+void npc::load_npc_template( const std::string &ident )
 {
-    npc_map::iterator found = _all_npc.find(ident);
-    if (found != _all_npc.end()){
-        idz = found->second.idz;
-        myclass = npc_class_id( found->second.myclass );
-        randomize(myclass);
-        std::string tmpname = found->second.name.c_str();
-        if (tmpname[0] == ','){
-            name = name + found->second.name;
-        } else {
-            name = found->second.name;
-            //Assume if the name is unique, the gender might also be.
-            male = found->second.male;
-        }
-        fac_id = found->second.fac_id;
-        set_fac(fac_id);
-        attitude = found->second.attitude;
-        mission = found->second.mission;
-        chatbin.first_topic = found->second.chatbin.first_topic;
-        if( !found->second.miss_id.is_null() ){
-            add_new_mission( mission::reserve_new( found->second.miss_id, getID() ) );
-        }
-        return;
-    } else {
+    auto found = _all_npc.find( ident );
+    if( found == _all_npc.end() ){
         debugmsg("Tried to get invalid npc: %s", ident.c_str());
         return;
+    }
+
+    idz = found->second.idz;
+    myclass = npc_class_id( found->second.myclass );
+    randomize( myclass );
+    std::string tmpname = found->second.name.c_str();
+    if( tmpname[0] == ',' ){
+        name = name + found->second.name;
+    } else {
+        name = found->second.name;
+        //Assume if the name is unique, the gender might also be.
+        male = found->second.male;
+    }
+    fac_id = found->second.fac_id;
+    set_fac( fac_id );
+    attitude = found->second.attitude;
+    mission = found->second.mission;
+    chatbin.first_topic = found->second.chatbin.first_topic;
+    if( !found->second.miss_id.is_null() ){
+        add_new_mission( mission::reserve_new( found->second.miss_id, getID() ) );
     }
 }
 
@@ -353,11 +354,16 @@ void npc::randomize( const npc_class_id &type )
         hp_cur[i] = hp_max[i];
     }
 
-    starting_weapon(type);
-    worn = starting_clothes(type, male);
-    inv.clear();
-    inv.add_stack(starting_inv(this, type));
+    starting_weapon( type );
+    starting_clothes( *this, type, male );
+    starting_inv( *this, type );
     has_new_items = true;
+
+    for( const auto &pr : type->traits ) {
+        if( rng( 1, 100 ) <= pr.second ) {
+            set_mutation( pr.first );
+        }
+    }
 }
 
 void npc::randomize_from_faction(faction *fac)
@@ -626,60 +632,50 @@ item get_clothing_item( const npc_class_id &type, const std::string &what, bool 
     }
 }
 
-std::list<item> starting_clothes( const npc_class_id &type, bool male )
+void starting_clothes( npc &who, const npc_class_id &type, bool male )
 {
-    std::list<item> ret;
+    std::vector<item> ret;
 
-    item pants = get_clothing_item( type, "pants", male);
-    item shirt = get_clothing_item( type, "shirt", male );
-    item gloves = random_item_from( type, "gloves" );
-    item coat = random_item_from( type, "coat" );
-    item shoes = random_item_from( type, "shoes" );
-    item mask = random_item_from( type, "masks" );
-    // Why is the alternative group not named "npc_glasses" but "npc_eyes"?
-    item glasses = random_item_from( type, "glasses", "npc_eyes" );
-    item hat = random_item_from( type, "hat" );
-    item extras = random_item_from( type, "extra" );
-
-    // Fill in the standard things we wear
-    ret.push_back( shoes );
-    ret.push_back( pants );
-    ret.push_back( shirt );
-    ret.push_back( coat );
-    ret.push_back( gloves );
-    // Bad to wear a mask under a motorcycle helmet
-    if( hat.typeId() != "helmet_motor" ) {
-        ret.push_back( mask );
+    if( item_group::group_is_defined( type->worn_override ) ) {
+        ret = item_group::items_from( type->worn_override );
+    } else {
+        ret.push_back( get_clothing_item( type, "pants", male) );
+        ret.push_back( get_clothing_item( type, "shirt", male ) );
+        ret.push_back( random_item_from( type, "gloves" ) );
+        ret.push_back( random_item_from( type, "coat" ) );
+        ret.push_back( random_item_from( type, "shoes" ) );
+        ret.push_back( random_item_from( type, "masks" ) );
+        // Why is the alternative group not named "npc_glasses" but "npc_eyes"?
+        ret.push_back( random_item_from( type, "glasses", "npc_eyes" ) );
+        ret.push_back( random_item_from( type, "hat" ) );
+        ret.push_back( random_item_from( type, "extra" ) );
     }
-    ret.push_back( glasses );
-    ret.push_back( hat );
-    ret.push_back( extras );
 
-    // the player class and other code all over the place assume that the
-    // worn vector contains *only* armor items. It will *crash* when there
-    // is a non-armor item!
-    // Also: the above might have added null-items that must be filtered out.
-    for( auto it = ret.begin(); it != ret.end(); ) {
-        if( !it->is_null() && it->is_armor() ) {
-            if( !one_in( 3 ) && it->has_flag( "VARSIZE" ) ) {
-                it->item_tags.insert( "FIT" );
-            }
-            ++it;
-        } else {
-            it = ret.erase( it );
+    who.worn.clear();
+    for( item &it : ret ) {
+        if( it.has_flag( "VARSIZE" ) ) {
+            it.item_tags.insert( "FIT" );
+        }
+
+        if( who.can_wear( it ) ) {
+            who.worn.push_back( it );
         }
     }
- return ret;
 }
 
-std::list<item> starting_inv( npc *me, const npc_class_id &type )
+void starting_inv( npc &me, const npc_class_id &type )
 {
     std::list<item> res;
-    res.emplace_back( "lighter" );
+    me.inv.clear();
+    if( item_group::group_is_defined( type->carry_override ) ) {
+        me.inv += item_group::items_from( type->carry_override );
+        return;
+    }
 
+    res.emplace_back( "lighter" );
     // If wielding a gun, get some additional ammo for it
-    if( me->weapon.is_gun() ) {
-        item ammo( default_ammo( me->weapon.ammo_type() ) );
+    if( me.weapon.is_gun() ) {
+        item ammo( default_ammo( me.weapon.ammo_type() ) );
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
@@ -688,11 +684,12 @@ std::list<item> starting_inv( npc *me, const npc_class_id &type )
         }
 
         // @todo Move to npc_class
+        // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
         int qty = 1 + ( type == NC_COWBOY ||
                         type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
-        while ( qty-- != 0 && me->can_pickVolume( ammo ) ) {
+        while ( qty-- != 0 && me.can_pickVolume( ammo ) ) {
             // @todo give NPC a default magazine instead
             res.push_back( ammo );
         }
@@ -702,7 +699,6 @@ std::list<item> starting_inv( npc *me, const npc_class_id &type )
         res.emplace_back( "molotov" );
     }
 
-    // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
     int qty = ( type == NC_EVAC_SHOPKEEP ||
                 type == NC_TRADER ) ? 5 : 2;
     qty = rng( qty, qty * 3 );
@@ -713,7 +709,7 @@ std::list<item> starting_inv( npc *me, const npc_class_id &type )
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
                 tmp.item_tags.insert( "FIT" );
             }
-            if( me->can_pickVolume( tmp ) ) {
+            if( me.can_pickVolume( tmp ) ) {
                 res.push_back( tmp );
             }
         }
@@ -723,7 +719,7 @@ std::list<item> starting_inv( npc *me, const npc_class_id &type )
         return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
 
-    return res;
+    me.inv += res;
 }
 
 void npc::spawn_at(int x, int y, int z)
@@ -814,6 +810,11 @@ skill_id npc::best_skill() const
 
 void npc::starting_weapon( const npc_class_id &type )
 {
+    if( item_group::group_is_defined( type->weapon_override ) ) {
+        weapon = item_group::item_from( type->weapon_override );
+        return;
+    }
+
     const skill_id best = best_skill();
 
     // if NPC has no suitable skills default to stabbing weapon
@@ -1171,7 +1172,7 @@ void npc::make_angry()
         return; // We're already angry!
     }
 
-    add_msg( m_debug, "%s gets angry", name.c_str() );
+    add_msg( "%s gets angry", name.c_str() );
     // Make associated faction, if any, angry at the player too.
     if( my_fac != nullptr ) {
         my_fac->likes_u = std::max( -50, my_fac->likes_u - 50 );
@@ -1292,6 +1293,10 @@ void npc::say( const std::string line, ... ) const
     std::string formatted_line = vstring_format(line, ap);
     va_end(ap);
     parse_tags( formatted_line, g->u, *this );
+    if( has_trait( "MUTE" ) ) {
+        return;
+    }
+
     const bool sees = g->u.sees( *this );
     const bool deaf = g->u.is_deaf();
     if( sees && !deaf ) {
@@ -1532,6 +1537,11 @@ bool npc::is_minion() const
     return is_friend() && op_of_u.trust >= 5;
 }
 
+bool npc::guaranteed_hostile() const
+{
+    return is_enemy() || ( my_fac != nullptr && my_fac->likes_u < -10 );
+}
+
 bool npc::is_following() const
 {
  switch (attitude) {
@@ -1569,7 +1579,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
     if( other.is_npc() ) {
         // Hostile NPCs are also hostile towards player's allied
-        if( is_enemy() && g->u.attitude_to( other ) == A_FRIENDLY ) {
+        if( is_enemy() && other.attitude_to( g->u ) == A_FRIENDLY ) {
             return A_HOSTILE;
         }
 
@@ -1578,9 +1588,26 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         // For now, make it symmetric.
         return other.attitude_to( *this );
     }
-    // Fallback to use the same logic as player, even through it's wrong:
-    // Hostile (towards the player) npcs should see friendly monsters as hostile, too.
-    return player::attitude_to( other );
+
+    // @todo Get rid of the ugly cast without duplicating checks
+    const monster &m = dynamic_cast<const monster &>( other );
+    switch( m.attitude( this ) ) {
+        case MATT_FOLLOW:
+        case MATT_FPASSIVE:
+        case MATT_IGNORE:
+        case MATT_FLEE:
+            return A_NEUTRAL;
+        case MATT_FRIEND:
+        case MATT_ZLAVE:
+            return A_FRIENDLY;
+        case MATT_ATTACK:
+            return A_HOSTILE;
+        case MATT_NULL:
+        case NUM_MONSTER_ATTITUDES:
+            break;
+    }
+
+    return A_NEUTRAL;
 }
 
 int npc::smash_ability() const
@@ -1649,6 +1676,8 @@ nc_color npc::basic_symbol_color() const
         return c_green;
     } else if( is_following() ) {
         return c_ltgreen;
+    } else if( guaranteed_hostile() ) {
+        return c_red;
     }
     return c_pink;
 }
@@ -1666,26 +1695,45 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
         trim_and_print(w, line++, column, iWidth, c_red, _("Wielding a %s"), weapon.tname().c_str());
     }
 
+    const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( std::string &str_in, nc_color color ) {
+        // @todo Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
+        size_t split;
+        do {
+            split = (str_in.length() <= iWidth) ? std::string::npos : str_in.find_last_of(' ', iWidth);
+            if (split == std::string::npos) {
+                mvwprintz(w, line, column, color, str_in.c_str());
+            } else {
+                mvwprintz(w, line, column, color, str_in.substr(0, split).c_str());
+            }
+            str_in = str_in.substr(split + 1);
+            line++;
+        } while (split != std::string::npos && line <= last_line);
+    };
+
     const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(), []( const item &it ) {
         return it.tname();
     } );
-    if( worn_str.empty() ) {
-        return line;
+    if( !worn_str.empty() ) {
+        std::string wearing = _( "Wearing: " ) + remove_color_tags( worn_str );
+        enumerate_print( wearing, c_blue );
     }
-    std::string wearing = _( "Wearing: " ) + remove_color_tags( worn_str );
-    // @todo Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
-    size_t split;
-    do {
-        split = (wearing.length() <= iWidth) ? std::string::npos :
-                                     wearing.find_last_of(' ', iWidth);
-        if (split == std::string::npos) {
-            mvwprintz(w, line, column, c_blue, wearing.c_str());
-        } else {
-            mvwprintz(w, line, column, c_blue, wearing.substr(0, split).c_str());
+
+    const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
+    const std::string trait_str = enumerate_as_string( my_mutations.begin(), my_mutations.end(),
+        [ this, visibility_cap ]( const std::pair<std::string, trait_data> &pr ) -> std::string {
+        const auto &mut_branch = mutation_branch::get( pr.first );
+        // Finally some use for visibility trait of mutations
+        // @todo Balance this formula
+        if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap ) {
+            return mut_branch.name;
         }
-        wearing = wearing.substr(split + 1);
-        line++;
-    } while (split != std::string::npos && line <= last_line);
+
+        return std::string();
+    } );
+    if( !trait_str.empty() ) {
+        std::string mutations = _( "Traits: " ) + remove_color_tags( trait_str );
+        enumerate_print( mutations, c_green );
+    }
 
     return line;
 }
@@ -1840,53 +1888,31 @@ void npc::die(Creature* nkiller) {
     if (g->u.sees( *this )) {
         add_msg(_("%s dies!"), name.c_str());
     }
-    if( killer == &g->u ){
-        if (is_friend()) {
-            if (g->u.has_trait("SAPIOVORE")) {
-                g->u.add_memorial_log(pgettext("memorial_male", "Killed a friendly ape, %s.  Better eaten than eating."),
-                                      pgettext("memorial_female", "Killed a friendly ape, %s.  Better eaten than eating."),
-                                      name.c_str());
-            }
-            else if(!g->u.has_trait("PSYCHOPATH")) {
-                // Very long duration, about 7d, decay starts after 10h.
-                g->u.add_memorial_log(pgettext("memorial_male", "Killed a friend, %s."),
-                                      pgettext("memorial_female", "Killed a friend, %s."),
-                                      name.c_str());
-                g->u.add_morale(MORALE_KILLED_FRIEND, -500, 0, 10000, 600);
-            } else if(!g->u.has_trait("CANNIBAL") && g->u.has_trait("PSYCHOPATH")) {
-                g->u.add_memorial_log(pgettext("memorial_male", "Killed someone foolish enough to call you friend, %s. Didn't care."),
-                                      pgettext("memorial_female", "Killed someone foolish enough to call you friend, %s. Didn't care."),
-                                      name.c_str());
-            } else {
-                g->u.add_memorial_log(pgettext("memorial_male", "Killed a delicious-looking friend, %s, in cold blood."),
-                                      pgettext("memorial_female", "Killed a delicious-looking friend, %s, in cold blood."),
-                                      name.c_str());
-            }
-        } else if (!is_enemy() || this->hit_by_player) {
-            if (g->u.has_trait("SAPIOVORE")) {
-                g->u.add_memorial_log(pgettext("memorial_male", "Caught and killed an ape.  Prey doesn't have a name."),
-                                      pgettext("memorial_female", "Caught and killed an ape.  Prey doesn't have a name."));
-            }
-            else if(!g->u.has_trait("CANNIBAL") && !g->u.has_trait("PSYCHOPATH")) {
-                // Very long duration, about 3.5d, decay starts after 5h.
-                g->u.add_memorial_log(pgettext("memorial_male","Killed an innocent person, %s, in cold blood and felt terrible afterwards."),
-                                      pgettext("memorial_female","Killed an innocent person, %s, in cold blood and felt terrible afterwards."),
-                                      name.c_str());
-                g->u.add_morale(MORALE_KILLED_INNOCENT, -100, 0, 5000, 300);
-            } else if(!g->u.has_trait("CANNIBAL") && g->u.has_trait("PSYCHOPATH")) {
-                g->u.add_memorial_log(pgettext("memorial_male", "Killed an innocent, %s, in cold blood. They were weak."),
-                                      pgettext("memorial_female", "Killed an innocent, %s, in cold blood. They were weak."),
-                                      name.c_str());
-            } else if(g->u.has_trait("CANNIBAL") && !g->u.has_trait("PSYCHOPATH")) {
-                g->u.add_memorial_log(pgettext("memorial_male", "Killed an innocent, %s."),
-                                      pgettext("memorial_female", "Killed an innocent, %s."),
-                                      name.c_str());
-                g->u.add_morale(MORALE_KILLED_INNOCENT, -5, 0, 500, 300);
-            } else {
-                g->u.add_memorial_log(pgettext("memorial_male", "Killed a delicious-looking innocent, %s, in cold blood."),
-                                      pgettext("memorial_female", "Killed a delicious-looking innocent, %s, in cold blood."),
-                                      name.c_str());
-            }
+
+    if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
+        bool cannibal = g->u.has_trait("CANNIBAL");
+        bool psycho = g->u.has_trait("PSYCHOPATH");
+        if( g->u.has_trait( "SAPIOVORE" ) ) {
+            g->u.add_memorial_log(pgettext("memorial_male", "Caught and killed an ape.  Prey doesn't have a name."),
+                                  pgettext("memorial_female", "Caught and killed an ape.  Prey doesn't have a name."));
+        } else if( psycho && cannibal ) {
+            g->u.add_memorial_log(pgettext("memorial_male", "Killed a delicious-looking innocent, %s, in cold blood."),
+                                  pgettext("memorial_female", "Killed a delicious-looking innocent, %s, in cold blood."),
+                                  name.c_str());
+        } else if( psycho ) {
+            g->u.add_memorial_log(pgettext("memorial_male", "Killed an innocent, %s, in cold blood. They were weak."),
+                                  pgettext("memorial_female", "Killed an innocent, %s, in cold blood. They were weak."),
+                                  name.c_str());
+        } else if( cannibal ) {
+            g->u.add_memorial_log(pgettext("memorial_male", "Killed an innocent, %s."),
+                                  pgettext("memorial_female", "Killed an innocent, %s."),
+                                  name.c_str());
+            g->u.add_morale( MORALE_KILLED_INNOCENT, -5, 0, DAYS( 2 ) / MINUTES( 1 ), HOURS( 3 ) / MINUTES( 1 ) );
+        } else {
+            g->u.add_memorial_log(pgettext("memorial_male","Killed an innocent person, %s, in cold blood and felt terrible afterwards."),
+                                  pgettext("memorial_female","Killed an innocent person, %s, in cold blood and felt terrible afterwards."),
+                                  name.c_str());
+            g->u.add_morale( MORALE_KILLED_INNOCENT, -100, 0, DAYS( 2 ) / MINUTES( 1 ), HOURS( 3 ) / MINUTES( 1 ) );
         }
     }
 
@@ -2297,3 +2323,20 @@ std::set<tripoint> npc::get_path_avoid() const
     return ret;
 }
 
+mfaction_id npc::get_monster_faction() const
+{
+    // Those can't be static int_ids, because mods add factions
+    static const string_id<monfaction> human_fac( "human" );
+    static const string_id<monfaction> player_fac( "player" );
+    static const string_id<monfaction> bee_fac( "bee" );
+    
+    if( is_friend() ) {
+        return player_fac.id();
+    }
+
+    if( has_trait( "BEE" ) ) {
+        return bee_fac.id();
+    }
+
+    return human_fac.id();
+}

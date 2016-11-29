@@ -18,6 +18,12 @@
     "description": "This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure)."
   },
   {
+    "id": "BELT_CLIP",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be clipped on to a <info>belt loop</info> of the appropriate size."
+  },
+  {
     "id": "BELTED",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -37,6 +43,12 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This item can be used to block attacks when worn."
+  },
+  {
+    "id": "COLD_START",
+    "type": "json_flag",
+    "context": [ "ENGINE" ],
+    "info": "This engine may be <bad>difficult to start</bad> in cold weather."
   },
   {
     "id": "COLLAR",
@@ -98,6 +110,19 @@
     "description": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
   },
   {
+    "id": "IRREMOVABLE",
+    "type": "json_flag",
+    "context": [ "GUNMOD" ],
+    "description": "This item is a component of the gun it is attached to.  It can't be removed without destroying it.",
+    "inherit": false
+  },
+  {
+    "id": "MANUAL_ENGINE",
+    "type": "json_flag",
+    "context": [ "ENGINE" ],
+    "info": "The power of this engine depends on <neutral>player strength</neutral>."
+  },
+  {
     "id": "NO_CVD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
@@ -108,6 +133,13 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty."
+  },
+  {
+    "id": "NO_REPAIR",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "description": "Prevents repairing of this item even if otherwise suitable tools exist.",
+    "inherit": false
   },
   {
     "id": "OUTER",
@@ -164,6 +196,18 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it."
+  },
+  {
+    "id": "SHEATH_KNIFE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be stored in a sheath of the appropriate size."
+  },
+  {
+    "id": "SHEATH_SWORD",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be stored in a scabbard of the appropriate size."
   },
   {
     "id": "SKINTIGHT",

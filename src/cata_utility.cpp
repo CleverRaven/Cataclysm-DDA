@@ -495,7 +495,7 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
         return true;
 
     } catch( const std::exception &err ) {
-        popup( _( "Failed to read from \"%1$s\": %2$s" ), path.c_str(), err.what() );
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.c_str(), err.what() );
         return false;
     }
 }

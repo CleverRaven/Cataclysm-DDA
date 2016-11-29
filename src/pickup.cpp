@@ -28,7 +28,7 @@ typedef std::pair<item, int> ItemCount;
 typedef std::map<std::string, ItemCount> PickupMap;
 
 // Pickup helper functions
-static void pick_one_up( const tripoint &pickup_target, item &newit,
+static bool pick_one_up( const tripoint &pickup_target, item &newit,
                          vehicle *veh, int cargo_part, int index, int quantity,
                          bool &got_water, bool &offered_swap,
                          PickupMap &mapPickup, bool autopickup );
@@ -184,7 +184,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             if( veh_tool( "welder" ) ) {
                 // Evil hack incoming
                 auto &act = g->u.activity;
-                if( act.type == ACT_REPAIR_ITEM ) {
+                if( act.id() == activity_id( "ACT_REPAIR_ITEM" ) ) {
                     // Magic: first tell activity the item doesn't really exist
                     act.index = INT_MIN;
                     // Then tell it to search it on `pos`
@@ -239,7 +239,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         case RELOAD_TURRET: {
             item::reload_option opt = g->u.select_ammo( *turret.base(), true );
             if( opt ) {
-                g->u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+                g->u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
                 g->u.activity.targets.emplace_back( turret.base() );
                 g->u.activity.targets.push_back( std::move( opt.ammo ) );
             }
@@ -369,7 +369,8 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
     return static_cast<pickup_answer>( choice );
 }
 
-void pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
+// Returns false if pickup caused a prompt and the player selected to cancel pickup
+bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
                   int cargo_part, int index, int quantity, bool &got_water,
                   bool &offered_swap, PickupMap &mapPickup, bool autopickup )
 {
@@ -396,6 +397,7 @@ void pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
         leftovers.charges = 0;
     }
 
+    bool did_prompt = false;
     if( newit.made_of( LIQUID ) ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
@@ -405,6 +407,7 @@ void pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
                                          newit.display_name().c_str() );
             option = handle_problematic_pickup( newit, offered_swap, explain );
+            did_prompt = true;
         } else {
             option = CANCEL;
         }
@@ -413,6 +416,7 @@ void pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             const std::string &explain = string_format( _( "Not enough capacity to stash %s" ),
                                          newit.display_name().c_str() );
             option = handle_problematic_pickup( newit, offered_swap, explain );
+            did_prompt = true;
         } else {
             option = CANCEL;
         }
@@ -474,9 +478,11 @@ void pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             g->m.add_item_or_charges( pickup_target, leftovers );
         }
     }
+
+    return picked_up || !did_prompt;
 }
 
-void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
+bool Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
                         std::list<int> &indices, std::list<int> &quantities, bool autopickup )
 {
     bool got_water = false;
@@ -497,7 +503,8 @@ void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
         cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     }
 
-    while( g->u.moves >= 0 && !indices.empty() ) {
+    bool problem = false;
+    while( !problem && g->u.moves >= 0 && !indices.empty() ) {
         // Pulling from the back of the (in-order) list of indices insures
         // that we pull from the end of the vector.
         int index = indices.back();
@@ -518,8 +525,8 @@ void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
             continue; // No such item.
         }
 
-        pick_one_up( pickup_target, *target, veh, cargo_part, index, quantity,
-                     got_water, offered_swap, mapPickup, autopickup );
+        problem = !pick_one_up( pickup_target, *target, veh, cargo_part, index, quantity,
+                                got_water, offered_swap, mapPickup, autopickup );
     }
 
     if( !mapPickup.empty() ) {
@@ -535,6 +542,8 @@ void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     if( volume_is_okay && g->u.volume_carried() > g->u.volume_capacity() ) {
         add_msg( m_bad, _( "You struggle to carry such a large volume!" ) );
     }
+
+    return !problem;
 }
 
 // Pick up items at (pos).
@@ -597,10 +606,6 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
 
     if( min == -1 ) {
-        if( g->check_zone( "NO_AUTO_PICKUP", pos ) ) {
-            here.clear();
-        }
-
         // Recursively pick up adjacent items if that option is on.
         if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && g->u.pos() == pos ) {
             //Autopickup adjacent
@@ -610,20 +615,21 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 tripoint apos = tripoint( direction_XY( elem ), 0 );
                 apos += pos;
 
-                if( g->m.has_flag( "SEALED", apos ) ) {
-                    continue;
-                }
-                if( g->check_zone( "NO_AUTO_PICKUP", apos ) ) {
-                    continue;
-                }
                 pick_up( apos, min );
             }
+        }
+
+        // Bail out if this square cannot be auto-picked-up
+        if( g->check_zone( "NO_AUTO_PICKUP", pos ) ) {
+            return;
+        } else if( g->m.has_flag( "SEALED", pos ) ) {
+            return;
         }
     }
 
     // Not many items, just grab them
     if( ( int )here.size() <= min && min != -1 ) {
-        g->u.assign_activity( ACT_PICKUP, 0 );
+        g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
         g->u.activity.placement = pos - g->u.pos();
         g->u.activity.values.push_back( from_vehicle );
         // Only one item means index is 0.
@@ -1019,7 +1025,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
 
     // At this point we've selected our items, register an activity to pick them up.
-    g->u.assign_activity( ACT_PICKUP, 0 );
+    g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
     g->u.activity.placement = pos - g->u.pos();
     g->u.activity.values.push_back( from_vehicle );
     if( min == -1 ) {

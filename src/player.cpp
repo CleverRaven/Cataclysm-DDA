@@ -670,11 +670,11 @@ void player::update_mental_focus()
     }
 
     // Moved from calc_focus_equilibrium, because it is now const
-    if( activity.type == ACT_READ ) {
+    if( activity.id() == activity_id( "ACT_READ" ) ) {
         const item *book = activity.targets[0].get_item();
         if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
             add_msg_if_player( m_bad, _( "You lost your book! You stop reading." ) );
-            activity.type = ACT_NULL;
+            activity.set_to_null();
         }
     }
 }
@@ -685,7 +685,7 @@ int player::calc_focus_equilibrium() const
 {
     int focus_gain_rate = 100;
 
-    if( activity.type == ACT_READ ) {
+    if( activity.id() == activity_id( "ACT_READ" ) ) {
         const item &book = *activity.targets[0].get_item();
         if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
             auto &bt = *book.type->book;
@@ -2973,7 +2973,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_stats, 3, 1, h_ltgray, _( "Dexterity:" ) );
 
                     mvwprintz( w_stats, 6, 1, c_magenta, _( "Melee to-hit bonus:" ) );
-                    mvwprintz( w_stats, 6, 22, c_magenta, "%+3d", get_hit_base() );
+                    mvwprintz( w_stats, 6, 22, c_magenta, "%+.2lf", get_hit_base() );
                     if( throw_dex_mod( false ) <= 0 ) {
                         mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing bonus:" ) );
                     } else {
@@ -3554,7 +3554,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     int x = 32;
     int y = sideStyle ?  0 :  1;
     if( is_deaf() ) {
-        mvwprintz( sideStyle ? w2 : w, y, x, c_red, _( "Deaf!" ), volume );
+        mvwprintz( sideStyle ? w2 : w, y, x, c_red, _( "Deaf!" ) );
     } else {
         mvwprintz( sideStyle ? w2 : w, y, x, c_yellow, _( "Sound %d" ), volume );
     }
@@ -3638,13 +3638,8 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         veh = g->m.veh_at( pos() );
     }
     if( veh ) {
-        veh->print_fuel_indicators( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
-        nc_color col_indf1 = c_ltgray;
-
-        float strain = veh->strain();
-        nc_color col_vel = strain <= 0 ? c_ltblue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_ltred : c_red ) );
+        const auto &eng =veh->current_engine();
+        veh->print_fuel_indicator( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 6 : 49, eng.ammo_current() );
 
         //
         // Draw the speedometer.
@@ -3659,22 +3654,19 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         int cruisex = metric ? 9 : 8; // strlen(units) + 6
 
         if( !sideStyle ) {
-            if( !veh->cruise_on ) {
-                speedox += 2;
-            }
             if( !metric ) {
                 speedox++;
             }
         }
 
-        const char *speedo = veh->cruise_on ? "%s....>...." : "%s....";
-        mvwprintz( w, speedoy, speedox,        col_indf1, speedo, velocity_units( VU_VEHICLE ) );
-        mvwprintz( w, speedoy, speedox + velx, col_vel,   "%4d",
-                   int( convert_velocity( veh->velocity, VU_VEHICLE ) ) );
-        if( veh->cruise_on ) {
-            mvwprintz( w, speedoy, speedox + cruisex, c_ltgreen, "%4d",
-                       int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) ) );
-        }
+        const char *speedo = "%s....>....";
+        mvwprintz( w, speedoy, speedox, c_white, speedo, velocity_units( VU_VEHICLE ) );
+        mvwprintz( w, speedoy, speedox + velx, c_ltblue, "%4d",
+                   int( convert_velocity( ms_to_display( veh->current_velocity() ), VU_VEHICLE ) ) );
+
+        mvwprintz( w, speedoy, speedox + cruisex, c_ltgreen, "%4d",
+                   int( convert_velocity( veh->cruise_velocity * 2, VU_VEHICLE ) ) );
+
         if( veh->velocity != 0 ) {
             const int offset_from_screen_edge = sideStyle ? 13 : 8;
             nc_color col_indc = veh->skidding ? c_red : c_green;
@@ -3687,13 +3679,21 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             } else {
                 wprintz( w, col_indc, ">" );
             }
+            int gear = veh->gear( eng );
+            if( gear >= 0 ) {
+                right_print( w, sideStyle ? 4 : 3, 1, c_white, "%s <color_ltblue>%3s</color>",
+                             _( "gear" ), ordinal( gear + 1 ).c_str() );
+            }
         }
 
         if( sideStyle ) {
-            // Make sure this is left-aligned.
-            mvwprintz( w, speedoy, getmaxx( w ) - 9, c_white, "%s", _( "Stm " ) );
-            print_stamina_bar( w );
+            int rpm = veh->rpm( eng );
+            if( rpm > 0 ) {
+                right_print( w, speedoy, 1, c_white, "%s <color_%s>%4d</color>", _( "rpm" ),
+                             veh->overspeed( eng ) ? "red" : "ltblue", rpm );
+           }            
         }
+
     } else {  // Not in vehicle
         nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
                  col_per = c_white, col_spd = c_white, col_time = c_white;
@@ -3905,12 +3905,8 @@ bool player::in_climate_control()
         int vpart = -1;
         vehicle *veh = g->m.veh_at( pos(), vpart );
         if( veh ) {
-            regulated_area = (
-                                 veh->is_inside( vpart ) &&  // Already checks for opened doors
-                                 veh->total_power( true ) > 0 // Out of gas? No AC for you!
-                             );  // TODO: (?) Force player to scrounge together an AC unit
+            regulated_area = veh->is_inside( vpart );
         }
-        // TODO: AC check for when building power is implemented
         last_climate_control_ret = regulated_area;
         if( !regulated_area ) {
             // Takes longer to cool down / warm up with AC, than it does to step outside and feel cruddy.
@@ -5687,7 +5683,7 @@ void player::update_needs( int rate_multiplier )
         }
     }
     if( is_player() && wasnt_fatigued && get_fatigue() > DEAD_TIRED && !lying ) {
-        if (activity.type == ACT_NULL) {
+        if( !activity ) {
             add_msg_if_player(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
                 press_x(ACTION_SLEEP).c_str());
         } else {
@@ -6490,7 +6486,7 @@ void player::hardcoded_effects(effect &it)
         // Presuming that during the first-aid process you're putting pressure
         // on the wound or otherwise suppressing the flow. (Kits contain either
         // quikclot or bandages per the recipe.)
-        if ( one_in(6 / intense) && activity.type != ACT_FIRSTAID ) {
+        if ( one_in(6 / intense) && activity.id() != activity_id( "ACT_FIRSTAID" ) ) {
             add_msg_player_or_npc(m_bad, _("You lose some blood."),
                                            _("<npcname> loses some blood.") );
             // Prolonged haemorrhage is a significant risk for developing anaemia
@@ -8314,21 +8310,27 @@ void player::suffer()
 
             add_msg_if_player(m_good, _("The %s seems to be affected by the discharge."), weapon.tname().c_str());
         }
+        sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
     if (has_bionic("bio_dis_acid") && one_in(1500)) {
         add_msg_if_player(m_bad, _("You suffer a burning acidic discharge!"));
         hurtall(1, nullptr);
+        sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
+        sfx::do_player_death_hurt( g->u, 0 );
     }
     if (has_bionic("bio_drain") && power_level > 24 && one_in(600)) {
         add_msg_if_player(m_bad, _("Your batteries discharge slightly."));
         charge_power(-25);
+        sfx::play_variant_sound( "bionics", "elec_crackle_low", 100 );
     }
     if (has_bionic("bio_noise") && one_in(500)) {
         // TODO: NPCs with said bionic
         if(!is_deaf()) {
             add_msg(m_bad, _("A bionic emits a crackle of noise!"));
+            sfx::play_variant_sound( "bionics", "elec_blast", 100 );
         } else {
-            add_msg(m_bad, _("A bionic shudders, but you hear nothing."));
+            add_msg(m_bad, _("You feel your faulty bionic shudderring."));
+            sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
         }
         sounds::sound( pos(), 60, "");
     }
@@ -8339,17 +8341,20 @@ void player::suffer()
     if (has_bionic("bio_trip") && one_in(500) && !has_effect( effect_visuals )) {
         add_msg_if_player(m_bad, _("Your vision pixelates!"));
         add_effect( effect_visuals, 100 );
+        sfx::play_variant_sound( "bionics", "pixelated", 100 );
     }
     if (has_bionic("bio_spasm") && one_in(3000) && !has_effect( effect_downed )) {
         add_msg_if_player(m_bad, _("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
         mod_pain(1);
         add_effect( effect_stunned, 1);
         add_effect( effect_downed, 1, num_bp, false, 0, true );
+        sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
     if (has_bionic("bio_shakes") && power_level > 24 && one_in(1200)) {
         add_msg_if_player(m_bad, _("Your bionics short-circuit, causing you to tremble and shiver."));
         charge_power(-25);
         add_effect( effect_shakes, 50 );
+        sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
         mod_healthy_mod(-50, -200);
@@ -9391,7 +9396,7 @@ bool player::consume_item( item &target )
  // Consume other type of items.
         // For when bionics let you eat fuel
         if (to_eat->is_ammo() && has_active_bionic("bio_batteries") &&
-            to_eat->ammo_type() == ammotype( "battery" ) ) {
+            to_eat->type->ammo->type.count( ammotype( "battery" ) ) ) {
             const int factor = 1;
             int max_change = max_power_level - power_level;
             if (max_change == 0) {
@@ -9402,8 +9407,8 @@ bool player::consume_item( item &target )
             to_eat->charges++; //there's a flat subtraction later
         } else if( to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") ||
                                            has_active_bionic("bio_advreactor") ) &&
-                   ( to_eat->ammo_type() == ammotype( "reactor_slurry" ) ||
-                     to_eat->ammo_type() == ammotype( "plutonium" ) ) ) {
+                   ( to_eat->type->ammo->type.count( ammotype( "plut_slurry" ) ) ||
+                     to_eat->type->ammo->type.count( ammotype( "plutonium" ) ) ) ) {
             if( to_eat->typeId() == "plut_cell" &&
                 query_yn( _( "Thats a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
                 tank_plut += PLUTONIUM_CHARGES * 10;
@@ -10313,7 +10318,7 @@ void player::mend_item( item_location&& obj, bool interactive )
             return;
         }
 
-        assign_activity( ACT_MEND_ITEM, faults[ sel ].first->time() );
+        assign_activity( activity_id( "ACT_MEND_ITEM" ), faults[ sel ].first->time() );
         activity.name = faults[ sel ].first->id().str();
         activity.targets.push_back( std::move( obj ) );
     }
@@ -10652,7 +10657,7 @@ void player::drop( int pos, const tripoint &where )
 
 void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash )
 {
-    const activity_type type = stash ? ACT_STASH : ACT_DROP;
+    const activity_id type( stash ? "ACT_STASH" : "ACT_DROP" );
 
     if( what.empty() ) {
         return;
@@ -10665,7 +10670,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
         return;
     }
 
-    assign_activity( type, calendar::INDEFINITELY_LONG );
+    assign_activity( type );
     activity.placement = target - pos();
 
     for( auto item_pair : what ) {
@@ -10891,52 +10896,6 @@ void player::use(int inventory_position)
         read(inventory_position);
         return;
 
-    } else if( used->is_gun() && !used->is_gunmod() ) {
-        auto mods = used->gunmods();
-
-        if( mods.empty() ) {
-            add_msg( m_info, _( "Your %s doesn't appear to be modded." ), used->tname().c_str() );
-        }
-
-        mods.erase( std::remove_if( mods.begin(), mods.end(), []( const item *e ) {
-            return e->has_flag( "IRREMOVABLE" );
-        } ), mods.end() );
-
-        if( mods.empty() ) {
-            add_msg( m_info, _( "You can't remove any of the mods from your %s." ), used->tname().c_str() );
-            return;
-        }
-
-        if( is_worn( *used ) ) {
-            // Prevent removal of shoulder straps and thereby making the gun un-wearable again.
-            add_msg( _( "You can not modify your %s while it's worn." ), used->tname().c_str() );
-            return;
-        }
-
-        uimenu prompt;
-        prompt.selected = 0;
-        prompt.text = _( "Remove which modification?" );
-        prompt.return_invalid = true;
-
-        for( decltype( mods.size() ) i = 0; i != mods.size(); ++i ) {
-            prompt.addentry( i, true, -1, mods[ i ]->tname() );
-        }
-
-        prompt.query();
-
-        if( prompt.ret >= 0 ) {
-            item *gm = mods[ prompt.ret ];
-            std::string name = gm->tname();
-            gunmod_remove( *used, *gm );
-            add_msg( _( "You remove your %1$s from your %2$s." ), name.c_str(), used->tname().c_str() );
-
-        } else {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-
-        return;
-
     } else if ( used->type->has_use() ) {
         invoke_item( used );
         return;
@@ -11049,14 +11008,54 @@ bool player::gunmod_remove( item &gun, item& mod )
     gun.gun_set_mode( "DEFAULT" );
     moves -= mod.type->gunmod->install_time / 2;
 
+    if( mod.typeId() == "brass_catcher" ) {
+        gun.casings_handle( [&]( item &e ) {
+            return i_add_or_drop( e );
+        } );
+    }
+
     i_add_or_drop( mod );
     gun.contents.erase( iter );
+
     return true;
+}
+
+std::pair<int, int> player::gunmod_installation_odds( const item& gun, const item& mod ) const
+{
+    // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
+    if( !mod.has_flag( "INSTALL_DIFFICULT" ) || has_trait( "DEBUG_HS" ) ) {
+        return std::make_pair( 100, 0 );
+    }
+
+    int roll = 100; // chance of success (%)
+    int risk = 0;   // chance of failure (%)
+    int chances = 1; // start with 1 in 6 (~17% chance)
+
+    for( const auto &e : mod.type->min_skills ) {
+        // gain an additional chance for every level above the minimum requirement
+        skill_id sk = e.first == "weapon" ? gun.gun_skill() : skill_id( e.first );
+        chances += std::max( get_skill_level( sk ) - e.second, 0 );
+    }
+    // cap success from skill alone to 1 in 5 (~83% chance)
+    roll = std::min( double( chances ), 5.0 ) / 6.0 * 100;
+    // focus is either a penalty or bonus of at most +/-10%
+    roll += ( std::min( std::max( focus_pool, 140 ), 60 ) - 100 ) / 4;
+    // dexterity and intelligence give +/-2% for each point above or below 12
+    roll += ( get_dex() - 12 ) * 2;
+    roll += ( get_int() - 12 ) * 2;
+    // each point of damage to the base gun reduces success by 10%
+    roll -= std::min( gun.damage(), 0 ) * 10;
+    roll = std::min( std::max( roll, 0 ), 100 );
+
+    // risk of causing damage on failure increases with less durable guns
+    risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun.type->gun->durability, 9 ) ) / 10.0 );
+
+    return std::make_pair( roll, risk );
 }
 
 void player::gunmod_add( item &gun, item &mod )
 {
-    if( !gun.gunmod_compatible( mod, false ) ) {
+    if( !gun.gunmod_compatible( mod ) ) {
         debugmsg( "Tried to add incompatible gunmod" );
         return;
     }
@@ -11071,40 +11070,13 @@ void player::gunmod_add( item &gun, item &mod )
         return;
     }
 
-    int roll = 100; // chance of success (%)
-    int risk = 0;   // chance of failure (%)
-
     // any (optional) tool charges that are used during installation
+    auto odds = gunmod_installation_odds( gun, mod );
+    int roll = odds.first;
+    int risk = odds.second;
+
     std::string tool;
     int qty = 0;
-
-    // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
-    if( mod.has_flag( "INSTALL_DIFFICULT" ) && !has_trait( "DEBUG_HS" ) ) {
-        int chances = 1; // start with 1 in 6 (~17% chance)
-
-        for( const auto &elem : compare_skill_requirements( mod.type->min_skills, gun ) ) {
-            // gain an additional chance for every level above the minimum requirement
-            chances += std::max( elem.second, 0 );
-        }
-
-        // cap success from skill alone to 1 in 5 (~83% chance)
-        roll = std::min( double( chances ), 5.0 ) / 6.0 * 100;
-
-        // focus is either a penalty or bonus of at most +/-10%
-        roll += ( std::min( std::max( focus_pool, 140 ), 60 ) - 100 ) / 4;
-
-        // dexterity and intelligence give +/-2% for each point above or below 12
-        roll += ( get_dex() - 12 ) * 2;
-        roll += ( get_int() - 12 ) * 2;
-
-        // each point of damage to the base gun reduces success by 10%
-        roll -= std::min( gun.damage(), 0 ) * 10;
-
-        roll = std::min( roll, 100 );
-
-        // risk of causing damage on failure increases with less durable guns
-        risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun.type->gun->durability, 9 ) ) / 10.0 );
-    }
 
     if( mod.has_flag( "IRREMOVABLE" ) ) {
         if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod.tname().c_str(),
@@ -11157,7 +11129,7 @@ void player::gunmod_add( item &gun, item &mod )
 
     int turns = !has_trait( "DEBUG_HS" ) ? mod.type->gunmod->install_time : 0;
 
-    assign_activity( ACT_GUNMOD_ADD, turns, -1, get_item_position( &gun ), tool );
+    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), turns, -1, get_item_position( &gun ), tool );
     activity.values.push_back( get_item_position( &mod ) );
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
@@ -11331,7 +11303,7 @@ bool player::read( int inventory_position, const bool continuous )
     const int time_taken = time_to_read( it, *reader );
 
     add_msg( m_debug, "player::read: time_taken = %d", time_taken );
-    player_activity act( ACT_READ, time_taken, continuous ? activity.index : 0, reader->getID() );
+    player_activity act( activity_id( "ACT_READ" ), time_taken, continuous ? activity.index : 0, reader->getID() );
     act.targets.push_back( item_location( *this, &it ) );
 
     // If the player hasn't read this book before, skim it to get an idea of what's in it.
@@ -11471,7 +11443,6 @@ bool player::read( int inventory_position, const bool continuous )
         }
         add_msg( m_info, _( "Now reading %s, %s to stop early." ),
                  it.type_name().c_str(), press_x( ACTION_PAUSE ).c_str() );
-        rooted_message();
     }
 
     // Print some informational messages, but only the first time or if the information changes
@@ -11564,7 +11535,7 @@ void player::do_read( item *book )
 {
     auto reading = book->type->book.get();
     if( reading == nullptr ) {
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
     const skill_id &skill = reading->skill;
@@ -11609,7 +11580,7 @@ void player::do_read( item *book )
         if( recipe_list.size() != reading->recipes.size() ) {
             add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
         }
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         return;
     }
 
@@ -11758,9 +11729,9 @@ void player::do_read( item *book )
     }
 
     if( continuous ) {
-        activity.type = ACT_NULL;
+        activity.set_to_null();
         read( get_item_position( book ), true );
-        if( activity.type != ACT_NULL ) {
+        if( activity ) {
             return;
         }
     }
@@ -11771,7 +11742,7 @@ void player::do_read( item *book )
         m->second.call( this, book, false, pos() );
     }
 
-    activity.type = ACT_NULL;
+    activity.set_to_null();
 }
 
 bool player::has_identified( std::string item_id ) const
@@ -12110,7 +12081,7 @@ std::string player::is_snuggling() const
     for( auto candidate = begin; candidate != end; ++candidate ) {
         if( !candidate->is_armor() ) {
             continue;
-        } else if( candidate->volume() > 250_ml &&
+        } else if( candidate->volume() > 250_ml && candidate->get_warmth() > 0 &&
                    ( candidate->covers( bp_torso ) || candidate->covers( bp_leg_l ) ||
                      candidate->covers( bp_leg_r ) ) ) {
             floor_armor = &*candidate;
@@ -12871,7 +12842,7 @@ void player::learn_recipe( const recipe * const rec )
     learned_recipes.include( rec );
 }
 
-void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
+void player::assign_activity( activity_id type, int moves, int index, int pos, std::string name )
 {
     assign_activity( player_activity( type, moves, index, pos, name ) );
 }
@@ -12883,29 +12854,23 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
         activity = backlog.front();
         backlog.pop_front();
     } else {
-        if( activity.type != ACT_NULL ) {
+        if( activity ) {
             backlog.push_front( activity );
         }
 
         activity = act;
     }
-    if( this->moves <= activity.moves_left ) {
-        activity.moves_left -= this->moves;
-        this->moves = 0;
-    } else {
-        this->moves -= activity.moves_left;
-        activity.moves_left = 0;
-    }
+
     activity.warned_of_proximity = false;
+
+    if( activity.rooted() ) {
+        rooted_message();
+    }
 }
 
-bool player::has_activity(const activity_type type) const
+bool player::has_activity(const activity_id type) const
 {
-    if (activity.type == type) {
-        return true;
-    }
-
-    return false;
+    return activity.id() == type;
 }
 
 void player::cancel_activity()
@@ -12918,7 +12883,7 @@ void player::cancel_activity()
             backlog_item = backlog.erase( backlog_item );
         }
     }
-    if( activity.is_suspendable() ) {
+    if( activity && activity.is_suspendable() ) {
         backlog.push_front( activity );
     }
     activity = player_activity();
@@ -13682,7 +13647,13 @@ std::vector<std::string> player::get_overlay_ids() const
     std::vector<std::string> rval;
     std::multimap<int, std::string> mutation_sorting;
 
-    // first get mutations
+
+    // first get effects
+    for( const auto &eff_pr : effects ) {
+        rval.push_back( "effect_" + eff_pr.first.str() );
+    }
+
+    // then get mutations
     for( auto &mutation : get_mutations() ) {
         auto it = base_mutation_overlay_ordering.find( mutation );
         auto it2 = tileset_mutation_overlay_ordering.find( mutation );

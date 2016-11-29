@@ -119,7 +119,9 @@ int main( int argc, const char *argv[] )
 
     std::vector<const char *> arg_vec( argv, argv + argc );
 
-    const std::vector<std::string> mods = extract_mod_selection( arg_vec );
+    std::vector<std::string> mods = extract_mod_selection( arg_vec );
+    mods.insert( mods.begin(), "dda" ); // @todo move unit test items to core
+
     bool dont_save = check_remove_flags( arg_vec, { "-D", "--drop-world" } );
 
     // Note: this must not be invoked before all DDA-specific flags are stripped from arg_vec!

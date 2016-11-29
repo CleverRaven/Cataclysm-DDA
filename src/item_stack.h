@@ -1,12 +1,15 @@
 #ifndef ITEM_STACK_H
 #define ITEM_STACK_H
 
+#include "units.h"
+
 #include <list>
+#include <cstddef>
 
 class item;
 
 // A wrapper class to bundle up the references needed for a caller to safely manipulate
-// items at a particular map x/y location.
+// items and obtain information about items at a particular map x/y location.
 // Note this does not expose the container itself,
 // which means you cannot call e.g. vector::erase() directly.
 
@@ -15,14 +18,49 @@ class item;
 // subclass, e.g. not begin()/end() or range loops.
 class item_stack
 {
+    protected:
+        std::list<item> *mystack;
+
     public:
-        virtual size_t size() const = 0;
-        virtual bool empty() const = 0;
+        item_stack( std::list<item> *mystack ) : mystack( mystack ) { }
+
+        size_t size() const;
+        bool empty() const;
         virtual std::list<item>::iterator erase( std::list<item>::iterator it ) = 0;
         virtual void push_back( const item &newitem ) = 0;
         virtual void insert_at( std::list<item>::iterator, const item &newitem ) = 0;
-        virtual item &front() = 0;
-        virtual item &operator[]( size_t index ) = 0;
+        item &front();
+        item &operator[]( size_t index );
+
+        std::list<item>::iterator begin();
+        std::list<item>::iterator end();
+        std::list<item>::const_iterator begin() const;
+        std::list<item>::const_iterator end() const;
+        std::list<item>::reverse_iterator rbegin();
+        std::list<item>::reverse_iterator rend();
+        std::list<item>::const_reverse_iterator rbegin() const;
+        std::list<item>::const_reverse_iterator rend() const;
+
+        /** Maximum number of items allowed here */
+        virtual int count_limit() const = 0;
+        /** Maximum volume allowed here */
+        virtual units::volume max_volume() const = 0;
+        /** Total volume of the items here */
+        units::volume stored_volume() const;
+        units::volume free_volume() const {
+            return max_volume() - stored_volume();
+        }
+        /**
+         * Returns how many of the @ref it (or how many charges if it's counted by charges)
+         * could be added without violating either the volume or itemcount limits.
+         *
+         * @ret is always at least 0 for all items. For items counted by charges, it is always at
+         * most it.charges.
+         */
+        long amount_can_fit( const item &it ) const;
+        /** Return the item (or nullptr) that stacks with the argument */
+        item *stacks_with( const item &it );
+        const item *stacks_with( const item &it ) const;
 };
 
 #endif

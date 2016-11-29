@@ -44,12 +44,12 @@ scenario::scenario()
 {
 }
 
-void scenario::load_scenario( JsonObject &jsobj )
+void scenario::load_scenario( JsonObject &jo, const std::string &src )
 {
-    all_scenarios.load( jsobj );
+    all_scenarios.load( jo, src );
 }
 
-void scenario::load( JsonObject &jo )
+void scenario::load( JsonObject &jo, const std::string & )
 {
     // TODO: pretty much the same as in profession::load, but different contexts for pgettext.
     // TODO: maybe combine somehow?

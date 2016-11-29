@@ -57,6 +57,7 @@
 #include "weather_gen.h"
 #include "npc_class.h"
 #include "recipe_dictionary.h"
+#include "harvest.h"
 
 #include <string>
 #include <vector>
@@ -143,6 +144,7 @@ void DynamicDataLoader::initialize()
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
     add( "emit", &emit::load_emit );
+    add( "activity_type", &activity_type::load );
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &materials::load );
     add( "bionic", &load_bionic );
@@ -195,8 +197,8 @@ void DynamicDataLoader::initialize()
     add( "ITEM_CATEGORY", []( JsonObject &jo ) { item_controller->load_item_category( jo ); } );
     add( "MIGRATION", []( JsonObject &jo ) { item_controller->load_migration( jo ); } );
 
-    add( "MONSTER", []( JsonObject &jo ) { MonsterGenerator::generator().load_monster( jo ); } );
-    add( "SPECIES", []( JsonObject &jo ) { MonsterGenerator::generator().load_species( jo ); } );
+    add( "MONSTER", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_monster( jo, src ); } );
+    add( "SPECIES", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_species( jo, src ); } );
 
     add( "recipe_category", &load_recipe_category );
     add( "recipe",  []( JsonObject &jo, const std::string &src ) { recipe_dictionary::load( jo, src, false ); } );
@@ -207,10 +209,10 @@ void DynamicDataLoader::initialize()
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
     add( "tutorial_messages", &load_tutorial_messages );
-    add( "overmap_terrain", &load_overmap_terrain );
+    add( "overmap_terrain", &overmap_terrain::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
-    add( "overmap_special", &load_overmap_specials );
+    add( "overmap_special", &overmap_specials::load );
 
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
@@ -233,9 +235,10 @@ void DynamicDataLoader::initialize()
     add( "sound_effect", &sfx::load_sound_effects );
     add( "playlist", &sfx::load_playlist );
 
-    add( "gate", &gates::load_gates );
+    add( "gate", &gates::load );
     add( "overlay_order", &load_overlay_ordering );
-    add( "mission_definition", []( JsonObject &jo ) { mission_type::load_mission_type( jo ); } );
+    add( "mission_definition", []( JsonObject &jo, const std::string &src ) { mission_type::load_mission_type( jo, src ); } );
+    add( "harvest", []( JsonObject &jo, const std::string &src ) { harvest_list::load( jo, src ); } );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
@@ -317,6 +320,7 @@ void DynamicDataLoader::unload_data()
     requirement_data::reset();
     vitamin::reset();
     emit::reset();
+    activity_type::reset();
     fault::reset();
     materials::reset();
     profession::reset();
@@ -344,12 +348,12 @@ void DynamicDataLoader::unload_data()
     quality::reset();
     trap::reset();
     reset_constructions();
-    reset_overmap_terrain();
+    overmap_terrain::reset();
     reset_region_settings();
     reset_mapgens();
     reset_effect_types();
     reset_speech();
-    clear_overmap_specials();
+    overmap_specials::reset();
     ammunition_type::reset();
     unload_talk_topics();
     start_location::reset();
@@ -366,12 +370,13 @@ extern void calculate_mapgen_weights();
 void DynamicDataLoader::finalize_loaded_data()
 {
     item_controller->finalize();
+    requirement_data::finalize();
     vpart_info::finalize();
     set_ter_ids();
     set_furn_ids();
     set_oter_ids();
     trap::finalize();
-    finalize_overmap_terrain();
+    overmap_terrain::finalize();
     vehicle_prototype::finalize();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
@@ -381,6 +386,7 @@ void DynamicDataLoader::finalize_loaded_data()
     finialize_martial_arts();
     finalize_constructions();
     npc_class::finalize_all();
+    harvest_list::finalize_all();
     check_consistency();
 }
 
@@ -390,6 +396,7 @@ void DynamicDataLoader::check_consistency()
     requirement_data::check_consistency();
     vitamin::check_consistency();
     emit::check_consistency();
+    activity_type::check_consistency();
     item_controller->check_definitions();
     materials::check();
     fault::check_consistency();
@@ -402,9 +409,14 @@ void DynamicDataLoader::check_consistency()
     scenario::check_definitions();
     check_martialarts();
     mutation_branch::check_consistency();
+    overmap_terrain::check_consistency();
+    overmap_specials::check_consistency();
     ammunition_type::check_consistency();
     trap::check_consistency();
     check_bionics();
+    gates::check();
     npc_class::check_consistency();
     mission_type::check_consistency();
+    item_action_generator::generator().check_consistency();
+    harvest_list::check_consistency();
 }

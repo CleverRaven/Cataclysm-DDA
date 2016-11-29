@@ -664,7 +664,9 @@ std::string new_artifact()
 {
     if (one_in(2)) { // Generate a "tool" artifact
 
-        it_artifact_tool *art = new it_artifact_tool();
+        it_artifact_tool def;
+        auto art = &def; // avoid huge number of line changes
+
         int form = rng(ARTTOOLFORM_NULL + 1, NUM_ARTTOOLFORMS - 1);
 
         artifact_tool_form_datum *info = &(artifact_tool_form_data[form]);
@@ -778,11 +780,13 @@ std::string new_artifact()
         if (one_in(8) && num_bad + num_good >= 4) {
             art->artifact->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
         }
-        item_controller->add_item_type( art );
+        item_controller->add_item_type( static_cast<itype &>( *art ) );
         return art->get_id();
     } else { // Generate an armor artifact
 
-        it_artifact_armor *art = new it_artifact_armor();
+        it_artifact_armor def;
+        auto art = &def; // avoid huge number of line changes
+
         int form = rng(ARTARMFORM_NULL + 1, NUM_ARTARMFORMS - 1);
         artifact_armor_form_datum *info = &(artifact_armor_form_data[form]);
 
@@ -882,7 +886,7 @@ std::string new_artifact()
             value += passive_effect_cost[passive_tmp];
             art->artifact->effects_worn.push_back(passive_tmp);
         }
-        item_controller->add_item_type( art );
+        item_controller->add_item_type( static_cast<itype &>( *art ) );
         return art->get_id();
     }
 }
@@ -890,7 +894,9 @@ std::string new_artifact()
 std::string new_natural_artifact(artifact_natural_property prop)
 {
     // Natural artifacts are always tools.
-    it_artifact_tool *art = new it_artifact_tool();
+    it_artifact_tool def;
+    auto art = &def; // avoid huge number of line changes
+
     // Pick a form
     artifact_natural_shape shape =
         artifact_natural_shape(rng(ARTSHAPE_NULL + 1, ARTSHAPE_MAX - 1));
@@ -988,7 +994,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
         art->tool->def_charges = art->tool->max_charges = rng( 1, 4 );
         art->artifact->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
     }
-    item_controller->add_item_type( art );
+    item_controller->add_item_type( static_cast<itype &>( *art ) );
     return art->get_id();
 }
 
@@ -997,7 +1003,9 @@ std::string architects_cube()
 {
     std::string artifact_name(std::string type);
 
-    it_artifact_tool *art = new it_artifact_tool();
+    it_artifact_tool def;
+    auto art = &def;
+
     artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
     art->create_name(info->name);
     art->color = info->color;
@@ -1016,7 +1024,7 @@ std::string architects_cube()
     // Add an extra weapon perhaps?
     art->description = _("The architect's cube.");
     art->artifact->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
-    item_controller->add_item_type( art );
+    item_controller->add_item_type( static_cast<itype &>( def ) );
     return art->get_id();
 }
 
@@ -1077,11 +1085,9 @@ void load_artifacts(const std::string &artfilename)
             JsonObject jo = artifact_json.get_object();
             std::string type = jo.get_string("type");
             if (type == "artifact_tool") {
-                it_artifact_tool *art = new it_artifact_tool(jo);
-                item_controller->add_item_type( art );
+                item_controller->add_item_type( static_cast<const itype &>( it_artifact_tool( jo ) ) );
             } else if (type == "artifact_armor") {
-                it_artifact_armor *art = new it_artifact_armor(jo);
-                item_controller->add_item_type( art );
+                item_controller->add_item_type( static_cast<const itype &>( it_artifact_armor( jo ) ) );
             } else {
                 jo.throw_error( "unrecognized artifact type.", "type" );
             }
@@ -1209,13 +1215,16 @@ bool save_artifacts( const std::string &path )
     return write_to_file_exclusive( path, [&]( std::ostream &fout ) {
         JsonOut json( fout );
         json.start_array();
-        for( auto & p : item_controller->get_all_itypes() ) {
-            it_artifact_tool *art_tool = dynamic_cast<it_artifact_tool *>( p.second.get() );
-            it_artifact_armor *art_armor = dynamic_cast<it_artifact_armor *>( p.second.get() );
-            if( art_tool != nullptr ) {
-                json.write( *art_tool );
-            } else if( art_armor != nullptr ) {
-                json.write( *art_armor );
+        for( auto &e : item_controller->get_all_itypes() ) {
+            if( !e.second.artifact ) {
+                continue;
+            }
+
+            if( e.second.tool ) {
+                json.write( it_artifact_tool( e.second ) );
+
+            } else if( e.second.armor ) {
+                json.write( it_artifact_armor( e.second ) );
             }
         }
         json.end_array();

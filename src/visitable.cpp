@@ -380,6 +380,11 @@ VisitResponse visitable<map_cursor>::visit_items(
 {
     auto cur = static_cast<map_cursor *>( this );
 
+    // skip inaccessible items
+    if( g->m.has_flag( "SEALED", *cur ) ) {
+        return VisitResponse::NEXT;
+    }
+
     for( auto &e : g->m.i_at( *cur ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
@@ -691,8 +696,7 @@ static long charges_of_internal( const T& self, const itype_id& id, int limit )
 
     self.visit_items( [&]( const item *e ) {
         if( e->is_tool() ) {
-            // for tools we also need to check if this item is a subtype of the required id
-            if( e->typeId() == id || ( e->is_tool() && e->type->tool->subtype == id ) ) {
+            if( e->typeId() == id ) {
                 qty += e->ammo_remaining(); // includes charges from any contained magazine
             }
             return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;

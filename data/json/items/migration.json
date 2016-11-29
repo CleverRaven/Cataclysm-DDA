@@ -275,6 +275,11 @@
     "replace": "jerrycan"
   },
   {
+    "id": "plasma_engine",
+    "type": "MIGRATION",
+    "replace": "minireactor"
+  },
+  {
     "id": "reloaded_40mm_fletchette",
     "type": "MIGRATION",
     "replace": "40mm_flechette"
@@ -320,5 +325,15 @@
     "id": "pistol_pepperbox",
     "type": "MIGRATION",
     "replace": "colt_navy"
+  },
+  {
+    "id": "pda",
+    "type": "MIGRATION",
+    "replace": "cell_phone"
+  },
+  {
+    "id": "pda_flashlight",
+    "type": "MIGRATION",
+    "replace": "cell_phone"
   }
 ]

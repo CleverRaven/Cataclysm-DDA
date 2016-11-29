@@ -1,13 +1,11 @@
 [
   {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "filthy_morale",
     "name": "Filthy Clothing",
-    "author": "",
     "description": "Wearing dirty clothing dropped by some creatures will cause a morale penalty",
     "category": "rebalance",
-    "path": "modinfo.json"
+    "dependencies": [ "dda" ]
   },
   {
     "type": "WORLD_OPTION",

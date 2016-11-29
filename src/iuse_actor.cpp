@@ -26,6 +26,7 @@
 #include "player.h"
 #include "generic_factory.h"
 #include "map_iterator.h"
+#include "cata_utility.h"
 
 #include <sstream>
 #include <algorithm>
@@ -89,9 +90,9 @@ void iuse_transform::load( JsonObject &obj )
     need_charges = std::max( need_charges, 0L );
     need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ).c_str() ) : _( "You need a source of fire!" );
 
-    obj.read( "menu_option_text", menu_option_text );
-    if( !menu_option_text.empty() ) {
-        menu_option_text = _( menu_option_text.c_str() );
+    obj.read( "menu_text", menu_text );
+    if( !menu_text.empty() ) {
+        menu_text = _( menu_text.c_str() );
     }
 }
 
@@ -155,8 +156,8 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
 
 std::string iuse_transform::get_name() const
 {
-    if( !menu_option_text.empty() ) {
-        return menu_option_text;
+    if( !menu_text.empty() ) {
+        return menu_text;
     }
     return iuse_actor::get_name();
 }
@@ -1058,7 +1059,7 @@ long firestarter_actor::use( player *p, item *it, bool t, const tripoint &spos )
         p->mod_moves( -moves );
         return it->type->charges_to_use();
     }
-    p->assign_activity( ACT_START_FIRE, moves, -1, p->get_item_position( it ), it->tname() );
+    p->assign_activity( activity_id( "ACT_START_FIRE" ), moves, -1, p->get_item_position( it ), it->tname() );
     p->activity.values.push_back( g->natural_light_level( pos.z ) );
     p->activity.placement = pos;
     p->practice( skill_survival, moves_modifier + moves_cost_fast / 100 + 2, 5 );
@@ -1230,7 +1231,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // soon after I write this, I'll go with the one that is cleaner.
     for (auto material : cut_material_components) {
         const material_type &mt = material.obj();
-        materials_salvaged[mt.salvaged_into()] = count / cut_material_components.size();
+        materials_salvaged[mt.salvaged_into()] = std::max( 0, count / ( int )cut_material_components.size() );
     }
 
     add_msg(m_info, _("You try to salvage materials from the %s."), cut->tname().c_str());
@@ -1620,7 +1621,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     ///\EFFECT_FIRSTAID speeds up enzlavement
     const int moves = difficulty * 1200 / p->get_skill_level( skill_firstaid );
 
-    p->assign_activity(ACT_MAKE_ZLAVE, moves);
+    p->assign_activity( activity_id( "ACT_MAKE_ZLAVE" ), moves);
     p->activity.values.push_back(success);
     p->activity.str_values.push_back(corpses[selected_corpse]->display_name());
 
@@ -1984,8 +1985,12 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
-        p->wield_contents( it, pos, draw_cost, false );
+        // worn holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+        if( p->is_worn( *it ) ) {
+            p->wield_contents( it, pos, draw_cost, false );
+        } else {
+            p->wield_contents( it, pos );
+        }
 
     } else {
         item &obj = p->i_at( g->inv_for_filter( prompt, [&](const item& e) { return can_holster(e); } ) );
@@ -1998,6 +2003,18 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     }
 
     return 0;
+}
+
+void holster_actor::info( const item&, std::vector<iteminfo>& dump ) const
+{
+    int scale = 0;
+    dump.emplace_back( "TOOL", _( "Can contain items up to " ), string_format( "<num> %s", volume_units_abbr() ),
+                       round_up( convert_volume( max_volume.value(), &scale ), 1 ), scale == 0, "", max_weight <= 0 );
+
+    if( max_weight > 0 ) {
+        dump.emplace_back( "TOOL", "holster_kg", string_format( _( " or <num> %s" ), weight_units() ),
+                           convert_weight( max_weight ), false, "", true, false, false );
+    }
 }
 
 iuse_actor *bandolier_actor::clone() const
@@ -2175,7 +2192,7 @@ long ammobelt_actor::use( player *p, item *, bool, const tripoint& ) const
 
     item::reload_option opt = p->select_ammo( mag, true );
     if( opt ) {
-        p->assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+        p->assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
         p->activity.targets.emplace_back( *p, &p->i_add( mag ) );
         p->activity.targets.push_back( std::move( opt.ammo ) );
     }
@@ -2220,7 +2237,7 @@ bool could_repair( const player &p, const item &it, bool print_msg )
         }
         return false;
     }
-    if( it.charges < it.type->charges_to_use() ) {
+    if( !it.ammo_sufficient() ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _("Your tool does not have enough charges to do that.") );
         }
@@ -2244,7 +2261,7 @@ long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
         return 0;
     }
 
-    p->assign_activity( ACT_REPAIR_ITEM, 0, p->get_item_position( it ), pos );
+    p->assign_activity( activity_id( "ACT_REPAIR_ITEM" ), 0, p->get_item_position( it ), pos );
     // We also need to store the repair actor subtype in the activity
     p->activity.str_values.push_back( type );
     // All repairs are done in the activity, including charge cost
@@ -2385,7 +2402,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         }
         return false;
     }
-    if( fix.count_by_charges() ) {
+    if( fix.count_by_charges() || fix.has_flag( "NO_REPAIR" ) ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("You cannot repair this type of item.") );
         }
@@ -2467,8 +2484,8 @@ std::pair<float, float> repair_item_actor::repair_chance(
     // Duster |    2   |   5   |  5  |   10%   |   0%
     // Duster |    2   |   2   |  10 |   4%    |   1%
     // Duster | Refit  |   2   |  10 |   0%    |   N/A
-    float success_chance = (10 + 2 * skill - 2 * difficulty) / 100.0f;
-    ///\EFFECT_DEX randomly reduces the chances of damaging an item when repairing
+    float success_chance = (10 + 2 * skill - 2 * difficulty + tool_quality / 5.0f) / 100.0f;
+    ///\EFFECT_DEX reduces the chances of damaging an item when repairing
     float damage_chance = (difficulty - skill - (tool_quality + pl.dex_cur) / 5.0f) / 100.0f;
 
     damage_chance = std::max( 0.0f, std::min( 1.0f, damage_chance ) );
@@ -2617,6 +2634,15 @@ const std::string &repair_item_actor::action_description( repair_item_actor::rep
     return arr[rt];
 }
 
+std::string repair_item_actor::get_name() const
+{
+    const std::string mats = enumerate_as_string( materials.begin(), materials.end(),
+    []( const material_id &mid ) {
+        return mid->name();
+    } );
+    return string_format( _( "Repair %s" ), mats.c_str() );
+}
+
 void heal_actor::load( JsonObject &obj )
 {
     // Mandatory
@@ -2693,7 +2719,7 @@ long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
     if( long_action && &patient == p && !p->is_npc() ) {
         // Assign first aid long action.
         ///\EFFECT_FIRSTAID speeds up firstaid activity
-        p->assign_activity( ACT_FIRSTAID, cost, 0, p->get_item_position( it ), it->tname() );
+        p->assign_activity( activity_id( "ACT_FIRSTAID" ), cost, 0, p->get_item_position( it ), it->tname() );
         p->activity.values.push_back( hpp );
         p->moves = 0;
         return 0;
@@ -2903,7 +2929,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         }
     } else if( patient.is_player() ) {
         // Player healing self - let player select
-        if( healer.activity.type != ACT_FIRSTAID ) {
+        if( healer.activity.id() != activity_id( "ACT_FIRSTAID" ) ) {
             const std::string menu_header = it.tname();
             healed = pick_part_to_heal( healer, patient, menu_header,
                                         limb_power, head_bonus, torso_bonus,
@@ -2913,10 +2939,10 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             }
         }
         // Brick healing if using a first aid kit for the first time.
-        if( long_action && healer.activity.type != ACT_FIRSTAID ) {
+        if( long_action && healer.activity.id() != activity_id( "ACT_FIRSTAID" ) ) {
             // Cancel and wait for activity completion.
             return healed;
-        } else if( healer.activity.type == ACT_FIRSTAID ) {
+        } else if( healer.activity.id() == activity_id( "ACT_FIRSTAID" ) ) {
             // Completed activity, extract body part from it.
             healed = (hp_part)healer.activity.values[0];
         }

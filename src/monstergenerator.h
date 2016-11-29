@@ -36,7 +36,7 @@ struct species_type {
 
     }
 
-    void load( JsonObject &jo );
+    void load( JsonObject &jo, const std::string &src );
 };
 
 class MonsterGenerator
@@ -53,8 +53,8 @@ class MonsterGenerator
         void reset();
 
         // JSON loading functions
-        void load_monster( JsonObject &jo );
-        void load_species( JsonObject &jo );
+        void load_monster( JsonObject &jo, const std::string &src );
+        void load_species( JsonObject &jo, const std::string &src );
 
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
@@ -96,6 +96,7 @@ class MonsterGenerator
         // Using unique_ptr here to avoid including generic_factory.h in this header.
         std::unique_ptr<generic_factory<mtype>> mon_templates;
         std::unique_ptr<generic_factory<species_type>> mon_species;
+        std::vector<mtype_id> hallucination_monsters;
 
         std::map<std::string, phase_id> phase_map;
         std::map<std::string, mon_action_death> death_map;
