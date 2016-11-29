@@ -329,7 +329,6 @@ classes = {
             { name = "increase_kill_count", rval = nil, args = { "mtype_id" } },
             { name = "interactive_inv", rval = nil, args = { } },
             { name = "inv_for_all", rval = "int", args = { "string" } },
-            { name = "inv_for_activatables", rval = "int", args = { "player", "string" } },
             { name = "inv_for_flag", rval = "int", args = { "string", "string" } },
             { name = "inv_map_for_liquid", rval = "item&", args = { "item", "string" } },
             { name = "inv_map_for_liquid", rval = "item&", args = { "item", "string", "int" } },

@@ -17,6 +17,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "material.h"
+#include "options.h"
 #include "harvest.h"
 
 #include <algorithm>
@@ -126,6 +127,12 @@ void MonsterGenerator::finalize_mtypes()
         if( mon.armor_fire < 0 ) {
             mon.armor_fire = 0;
         }
+
+        // adjust for worldgen difficulty parameters
+        mon.speed *= get_world_option<int>( "MONSTER_SPEED" )      / 100.0;
+        mon.hp    *= get_world_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+
+        mon.hp = std::max( mon.hp, 1 ); // lower bound for hp scaling
 
         finalize_pathfinding_settings( mon );
     }
@@ -502,7 +509,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "phase", phase, phase_reader, SOLID );
 
     assign( jo, "diff", difficulty, strict, 0 );
-    assign( jo, "hp", hp, strict, 0 );
+    assign( jo, "hp", hp, strict, 1 );
     assign( jo, "speed", speed, strict, 0 );
     assign( jo, "aggression", agro, strict, -100, 100 );
     assign( jo, "morale", morale, strict );

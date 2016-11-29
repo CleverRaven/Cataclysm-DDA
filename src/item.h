@@ -712,6 +712,9 @@ public:
     /** Provide prefix symbol for UI display dependent upon current item damage level */
     std::string damage_symbol() const;
 
+    /** If possible to repair this item what tools could potentially be used for this purpose? */
+    const std::set<itype_id>& repaired_with() const;
+
     /**
      * Check whether the item has been marked (by calling mark_as_used_by_player)
      * as used by this specific player.
@@ -1014,6 +1017,13 @@ public:
         /*@{*/
         bool has_flag( const std::string& flag ) const;
         bool has_any_flag( const std::vector<std::string>& flags ) const;
+
+        /** Idempotent filter setting an item specific flag. */
+        item& set_flag( const std::string &flag );
+
+        /** Idempotent filter removing an item specific flag */
+        item& unset_flag( const std::string &flag );
+
         /** Removes all item specific flags. */
         void unset_flags();
         /*@}*/

@@ -145,6 +145,8 @@ struct sid_or_sid {
    sid_or_sid(const std::string & s1, const int i, const::std::string s2) : primary_str(s1), secondary_str(s2), chance(i) { }
 };
 
+overmap_spawns::overmap_spawns() : group( NULL_ID ) {}
+
 city::city( int const X, int const Y, int const S)
 : x (X)
 , y (Y)
@@ -337,7 +339,7 @@ void load_oter(oter_t &oter)
     oterlist.push_back(oter);
 }
 
-void reset_overmap_terrain()
+void overmap_terrain::reset()
 {
     otermap.clear();
     oterlist.clear();
@@ -374,7 +376,7 @@ void load_overmap_terrain_mapgens(JsonObject &jo, const std::string id_base,
     }
 }
 
-void load_overmap_terrain(JsonObject &jo)
+void overmap_terrain::load( JsonObject &jo )
 {
     oter_t oter;
     long syms[4];
@@ -519,12 +521,119 @@ void load_overmap_terrain(JsonObject &jo)
     }
 }
 
+void overmap_terrain::check_consistency()
+{
+    // @todo This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
+    static const std::set<std::string> hardcoded_mapgen = {
+        "anthill",
+        "apartments_mod_tower_1",
+        "bunker",
+        "cathedral_1",
+        "cathedral_1_entrance",
+        "cathedral_b",
+        "cathedral_b_entrance",
+        "farm",
+        "farm_field",
+        "fema",
+        "fema_entrance",
+        "haz_sar",
+        "haz_sar_b1",
+        "haz_sar_entrance",
+        "haz_sar_entrance_b1",
+        "hospital",
+        "hospital_entrance",
+        "ice_lab",
+        "ice_lab_stairs",
+        "ice_lab_core",
+        "ice_lab_finale",
+        "lab",
+        "lab_core",
+        "lab_stairs",
+        "lab_finale",
+        "looted_building",  // pseudo-terrain
+        "mansion",
+        "mansion_entrance",
+        "megastore",
+        "megastore_entrance",
+        "mine",
+        "mine_down",
+        "mine_entrance",
+        "mine_finale",
+        "mine_shaft",
+        "office_tower_1",
+        "office_tower_1_entrance",
+        "office_tower_b",
+        "office_tower_b_entrance",
+        "outpost",
+        "prison_1",
+        "prison_2",
+        "prison_3",
+        "prison_4",
+        "prison_5",
+        "prison_6",
+        "prison_7",
+        "prison_8",
+        "prison_9",
+        "prison_b",
+        "prison_b_entrance",
+        "public_works",
+        "public_works_entrance",
+        "radio_tower",
+        "school_1",
+        "school_2",
+        "school_3",
+        "school_4",
+        "school_5",
+        "school_6",
+        "school_7",
+        "school_8",
+        "school_9",
+        "sewage_treatment",
+        "sewage_treatment_hub",
+        "sewage_treatment_under",
+        "silo",
+        "silo_finale",
+        "slimepit",
+        "slimepit_down",
+        "spider_pit_under",
+        "spiral",
+        "spiral_hub",
+        "station_radio",
+        "temple",
+        "temple_finale",
+        "temple_stairs",
+        "toxic_dump",
+        "triffid_finale",
+        "triffid_roots",
+    };
+
+    for( const auto &elem : oterlist ) {
+        if( elem.id.is_null() ) {
+            continue;
+        }
+
+        const bool exists_hardcoded = hardcoded_mapgen.find( elem.id_mapgen ) != hardcoded_mapgen.end();
+        const bool exists_loaded = oter_mapgen.find( elem.id_mapgen ) != oter_mapgen.end();
+
+        if( exists_loaded ) {
+            if( test_mode && exists_hardcoded ) {
+                debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function. Consider removing the latter.", elem.id_mapgen.c_str() );
+            }
+        } else if( !exists_hardcoded ) {
+            debugmsg( "No mapgen terrain exists for \"%s\".", elem.id_mapgen.c_str() );
+        }
+
+        if( elem.static_spawns.group && !elem.static_spawns.group.is_valid() ) {
+            debugmsg( "Invalid monster group \"%s\" in spawns of \"%s\".", elem.static_spawns.group.c_str(), elem.id.c_str() );
+        }
+    }
+}
 
 /*
  * Assemble a map of overmap_terrain base ids pointing to first members of oter groups
  * We'll do this after json loading so references can be used
  */
-void finalize_overmap_terrain( )
+void overmap_terrain::finalize()
 {
     int c = 0;
     for( std::vector<oter_t>::const_iterator it = oterlist.begin(); it != oterlist.end(); ++it ) {
@@ -2238,33 +2347,33 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         mvwprintz(wbar, 3, 1, c_white, _("Distance to target: %d"), distance);
     }
     mvwprintz(wbar, 14, 1, c_magenta, _("Use movement keys to pan."));
-    if (inp_ctxt != NULL) {
+    if( inp_ctxt != nullptr ) {
+        int y = 16;
+
+        const auto print_hint = [&]( const std::string &action, nc_color color = c_magenta ) {
+            y += fold_and_print( wbar, y, 1, 27, color, string_format( _( "%s - %s" ),
+                                 inp_ctxt->get_desc( action ).c_str(),
+                                 inp_ctxt->get_action_name( action ).c_str() ) );
+        };
+
         if( data.debug_editor ) {
-            mvwprintz(wbar, 13, 1, c_ltblue, (inp_ctxt->get_desc("PLACE_TERRAIN") +
-                      _(" - Place Overmap Terrain")).c_str());
-            mvwprintz(wbar, 14, 1, c_ltblue, (inp_ctxt->get_desc("PLACE_SPECIAL") +
-                      _(" - Place Overmap Special")).c_str());
+            print_hint( "PLACE_TERRAIN", c_ltblue );
+            print_hint( "PLACE_SPECIAL", c_ltblue );
+            ++y;
         }
-        mvwprintz(wbar, 15, 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
-                  _(" - Center map on character")).c_str());
-        mvwprintz(wbar, 16, 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
-                  _(" - Search")).c_str());
-        mvwprintz(wbar, 17, 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
-                  _(" - Add/Edit a note")).c_str());
-        mvwprintz(wbar, 18, 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
-                  _(" - Delete a note")).c_str());
-        mvwprintz(wbar, 19, 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
-                  _(" - List notes")).c_str());
-        mvwprintz(wbar, 20, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_BLINKING") +
-                  _(" - Toggle Blinking")).c_str());
-        mvwprintz(wbar, 21, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
-                  _(" - Toggle Overlays")).c_str());
-        mvwprintz(wbar, 22, 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_EXPLORED") +
-                  _(" - Toggle Explored")).c_str());
-        mvwprintz(wbar, 23, 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
-                  _(" - Change keys")).c_str());
-        fold_and_print(wbar, 24, 1, 27, c_magenta, (inp_ctxt->get_desc("QUIT") +
-                       _(" - Return to game")).c_str());
+
+        print_hint( "LEVEL_UP" );
+        print_hint( "LEVEL_DOWN" );
+        print_hint( "CENTER" );
+        print_hint( "SEARCH" );
+        print_hint( "CREATE_NOTE" );
+        print_hint( "DELETE_NOTE" );
+        print_hint( "LIST_NOTES" );
+        print_hint( "TOGGLE_BLINKING" );
+        print_hint( "TOGGLE_OVERLAYS" );
+        print_hint( "TOGGLE_EXPLORED" );
+        print_hint( "HELP_KEYBINDINGS" );
+        print_hint( "QUIT" );
     }
     point omt(cursx, cursy);
     const point om = omt_to_om_remain(omt);
@@ -3132,7 +3241,6 @@ void overmap::build_city_street( int x, int y, int cs, om_direction::type dir, c
 {
     const oter_id road_ns( "road_ns" );
     const oter_id road_ew( "road_ew" );
-    const oter_id road_null( "road_null" );
 
     int c = cs;
     int croad = cs;
@@ -3173,9 +3281,8 @@ void overmap::build_city_street( int x, int y, int cs, om_direction::type dir, c
             ter( x + bias.y, y + bias.x, 0 ) == crossroad ||
             ter( x - bias.y, y - bias.x, 0 ) == road ||
             ter( x - bias.y, y - bias.x, 0 ) == crossroad ) {
-            ter(x, y, 0) = road_null;
-            c = -1;
 
+            c = -1;
         }
 
         if( !one_in( STREETCHANCE ) ) {

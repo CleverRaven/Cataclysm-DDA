@@ -587,7 +587,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return static_cast<int>( round( skill_shift ) );
     };
 
-    if( corpse->harvest->is_null() ) {
+    if( corpse->harvest.is_null() ) {
         butchery_drops_hardcoded( corpse, p, age, roll_butchery );
     } else {
         butchery_drops_harvest( *corpse, *p, age, roll_butchery );

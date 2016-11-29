@@ -165,6 +165,7 @@ public:
     int remove_all_mods     ( player*, item*, bool, const tripoint& );
     int fishing_rod         ( player*, item*, bool, const tripoint& );
     int fish_trap           ( player*, item*, bool, const tripoint& );
+    int gun_detach_gunmods  ( player*, item*, bool, const tripoint& );
     int gun_repair          ( player*, item*, bool, const tripoint& );
     int gunmod_attach       ( player*, item*, bool, const tripoint& );
     int toolmod_attach      ( player*, item*, bool, const tripoint& );
@@ -187,7 +188,6 @@ public:
     int washclothes         ( player*, item*, bool, const tripoint& );
 
 // MACGUFFINS
-    int mcg_note            ( player*, item*, bool, const tripoint& );
 
     int radiocar( player*, item*, bool, const tripoint& );
     int radiocaron( player*, item*, bool, const tripoint& );
@@ -247,10 +247,13 @@ public:
      */
     virtual iuse_actor *clone() const = 0;
     /**
+     * Returns whether the actor is valid (exists in the generator).
+     */
+    virtual bool is_valid() const;
+    /**
      * Returns the translated name of the action. It is used for the item action menu.
      */
     virtual std::string get_name() const;
-
     /**
      * Finalizes the actor. Must be called after all items are loaded.
      */

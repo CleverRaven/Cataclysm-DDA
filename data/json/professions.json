@@ -156,26 +156,25 @@
             }
         ],
         "items": {
-            "both": [
-                "winter_pants_army",
-                "undershirt",
-                "socks",
-                "sweatshirt",
-                "boots_hiking",
-                "garand",
-                "shoulder_strap",
-                "garandclip",
-                "garandclip",
-                "3006",
-                "3006",
-                "m1911",
-                "holster",
-                "m1911mag",
-                "45_acp",
-                "pockknife",
-                "water_clean",
-                "matches"
-            ],
+            "both": {
+                "items": [
+                    "winter_pants_army",
+                    "undershirt",
+                    "socks",
+                    "sweatshirt",
+                    "boots_hiking",
+                    "pockknife",
+                    "water_clean",
+                    "matches"
+                ],
+                "entries": [
+                    { "item": "m1911", "ammo-item": "45_acp", "charges": 7, "container-item": "holster" },
+                    { "item": "45_acp", "charges": 23 },
+                    { "item": "garand", "ammo-item": "3006", "charges": 8, "contents-item": "shoulder_strap" },
+                    { "item": "3006", "charges": 8, "container-item": "garandclip" },
+                    { "item": "3006", "charges": 4 }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -232,15 +231,18 @@
             }
         ],
         "items": {
-            "both": [
-                "knife_butcher",
-                "hat_chef",
-                "jacket_chef",
-                "pants_checkered",
-                "socks",
-                "dress_shoes",
-                "sheath"
-            ],
+            "both": {
+                "items": [
+                    "hat_chef",
+                    "jacket_chef",
+                    "pants_checkered",
+                    "socks",
+                    "dress_shoes"
+                ],
+                "entries": [
+                    { "item": "knife_butcher", "container-item": "sheath" }
+                ]
+            },
             "male": [
                 "briefs"
             ],
@@ -257,17 +259,20 @@
         "description": "What the deuyl?  Ye ne wist noo thing of this straunge plaas nor what wycked enchauntment brought ye hidder.  Wyth this accoustrement ye must needs underfongen to find newe lyflode in the most hidous cataclysm man hath witnessed sithen that deluge Noe rood out in his greet schippe.",
         "points": 1,
         "items": {
-            "both": [
-                "footrags",
-                "loincloth",
-                "cloak_wool",
-                "ragpouch",
-                "small_relic",
-                "gloves_wraps",
-                "tunic_rag",
-                "makeshift_knife",
-                "sheath"
-            ],
+            "both": {
+                "items": [
+                    "footrags",
+                    "loincloth",
+                    "cloak_wool",
+                    "ragpouch",
+                    "small_relic",
+                    "gloves_wraps",
+                    "tunic_rag"
+                ],
+                "entries": [
+                    { "item": "makeshift_knife", "container-item": "sheath" }
+                ]
+            },
             "female": [
                 "chestwrap"
             ]
@@ -553,24 +558,24 @@
             }
         ],
         "items": {
-            "both": [
-                "winter_pants_army",
-                "army_top",
-                "winter_jacket_army",
-                "helmet_liner",
-                "helmet_army",
-                "balclava",
-                "winter_gloves_army",
-                "socks",
-                "boots_combat",
-                "shoulder_strap",
-                "m4a1",
-                "223",
-                "stanag30",
-                "knife_combat",
-                "binoculars",
-                "sheath"
-            ],
+            "both": {
+                "items": [
+                    "winter_pants_army",
+                    "army_top",
+                    "winter_jacket_army",
+                    "helmet_liner",
+                    "helmet_army",
+                    "balclava",
+                    "winter_gloves_army",
+                    "socks",
+                    "boots_combat",
+                    "binoculars"
+                ],
+                "entries": [
+                    { "item": "knife_combat", "container-item": "sheath" },
+                    { "item": "m4a1", "ammo-item": "223", "charges": 30, "contents-item": "shoulder_strap" }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -579,6 +584,12 @@
                 "boxer_shorts"
             ]
         }
+    },
+    {
+        "type": "item_group",
+        "id": "specops_gunmods",
+        "subtype": "collection",
+        "items": [ "shoulder_strap", "suppressor" ]
     },
     {
         "type": "profession",
@@ -621,27 +632,26 @@
             }
         ],
         "items": {
-            "both": [
-                "undershirt",
-                "arm_warmers",
-                "leg_warmers",
-                "pants_army",
-                "jacket_army",
-                "balclava",
-                "beret",
-                "gloves_liner",
-                "gloves_tactical",
-                "socks",
-                "boots_combat",
-                "shoulder_strap",
-                "rm2000_smg",
-                "8x40_25_mag",
-                "suppressor",
-                "8mm_fmj",
-                "8mm_fmj",
-                "sheath",
-                "kukri"
-            ],
+            "both": {
+                "items": [
+                    "undershirt",
+                    "arm_warmers",
+                    "leg_warmers",
+                    "pants_army",
+                    "jacket_army",
+                    "balclava",
+                    "beret",
+                    "gloves_liner",
+                    "gloves_tactical",
+                    "socks",
+                    "boots_combat"
+                ],
+                "entries": [
+                    { "item": "kukri", "container-item": "sheath" },
+                    { "item": "rm2000_smg", "ammo-item": "8mm_fmj", "charges": 25, "contents-group": "specops_gunmods" },
+                    { "item": "8mm_fmj", "charges": 55 }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -770,19 +780,17 @@
                 "items": [
                     "suit",
                     "bowhat",
-                    "glock_19",
-                    "glockmag",
-                    "9mm",
                     "socks",
                     "dress_shoes",
                     "knit_scarf",
                     "cig",
                     "switchblade",
                     "mag_porn",
-                    "sunglasses",
-                    "sholster"
+                    "sunglasses"
                 ],
                 "entries": [
+                    { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
+                    { "item": "9mm", "charges": 35 },
                     { "item": "lighter", "charges": 100 }
                 ]
             },
@@ -802,21 +810,23 @@
         "description": "A low paid security guard, things have suddenly gotten a lot more dangerous than patrolling the grounds warding off potential thieves.  You don't have any particularly useful skills, but you do have some useful equipment since you were on the job when things started going south.",
         "points": 1,
         "items": {
-            "both": [
-                "pants",
-                "socks",
-                "boots_combat",
-                "flashlight",
-                "longshirt",
-                "jacket_light",
-                "holster",
-                "baton",
-                "m9",
-                "m9mag",
-                "9mm",
-                "pockknife",
-                "hat_ball"
-            ],
+            "both": {
+                "items": [
+                    "pants",
+                    "socks",
+                    "boots_combat",
+                    "flashlight",
+                    "longshirt",
+                    "jacket_light",
+                    "baton",
+                    "pockknife",
+                    "hat_ball"
+                ],
+                "entries": [
+                    { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
+                    { "item": "9mm", "charges": 35 }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -869,14 +879,13 @@
                     "tshirt",
                     "socks",
                     "backpack",
-                    "knife_rambo",
                     "rope_30",
                     "whistle",
-                    "canteen",
-                    "scabbard"
+                    "canteen"
                 ],
                 "entries": [
-                    { "item": "lighter", "charges": 100 }
+                    { "item": "lighter", "charges": 100 },
+                    { "item": "knife_rambo", "container-item": "scabbard" }
                 ]
             },
             "male": [
@@ -929,20 +938,23 @@
             "bio_climate"
         ],
         "items": {
-            "both": [
-                "shorts_cargo",
-                "boots",
-                "hat_boonie",
-                "blazer",
-                "tshirt",
-                "socks",
-                "backpack",
-                "knife_rambo",
-                "rope_30",
-                "whistle",
-                "canteen",
-                "scabbard"
-            ],
+            "both": {
+                "items": [
+                    "shorts_cargo",
+                    "boots",
+                    "hat_boonie",
+                    "blazer",
+                    "tshirt",
+                    "socks",
+                    "backpack",
+                    "rope_30",
+                    "whistle",
+                    "canteen"
+                ],
+                "entries": [
+                    { "item": "knife_rambo", "container-item": "scabbard" }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -1096,18 +1108,20 @@
             "PROF_POLICE"
         ],
         "items": {
-            "both": [
-                "pants_army",
-                "socks",
-                "badge_deputy",
-                "sheriffshirt",
-                "boots",
-                "holster",
-                "usp_45",
-                "usp45mag",
-                "45_acp",
-                "whistle"
-            ],
+            "both": {
+                "items": [
+                    "pants_army",
+                    "socks",
+                    "badge_deputy",
+                    "sheriffshirt",
+                    "boots",
+                    "whistle"
+                ],
+                "entries": [
+                    { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+                    { "item": "45_acp", "charges": 18 }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -1127,26 +1141,28 @@
             "PROF_PD_DET"
         ],
         "items": {
-            "both": [
-                "pants",
-                "dress_shirt",
-                "skinny_tie",
-                "waistcoat",
-                "sholster",
-                "trenchcoat",
-                "badge_detective",
-                "gloves_leather",
-                "knit_scarf",
-                "fedora",
-                "wristwatch",
-                "l_sp_45",
-                "lw12mag",
-                "45_acp",
-                "socks",
-                "dress_shoes",
-                "cig",
-                "ref_lighter"
-            ],
+            "both": {
+                "items": [
+                    "pants",
+                    "dress_shirt",
+                    "skinny_tie",
+                    "waistcoat",
+                    "trenchcoat",
+                    "badge_detective",
+                    "gloves_leather",
+                    "knit_scarf",
+                    "fedora",
+                    "wristwatch",
+                    "socks",
+                    "dress_shoes",
+                    "cig",
+                    "ref_lighter"
+                ],
+                "entries": [
+                    { "item": "l_sp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "sholster" },
+                    { "item": "45_acp", "charges": 18 }
+                ]
+            },
             "male": [
                 "briefs"
             ],
@@ -1196,24 +1212,23 @@
             "PROF_SWAT"
         ],
         "items": {
-            "both": [
-                "socks",
-                "swat_armor",
-                "sholster",
-                "tac_fullhelmet",
-                "boots_combat",
-                "gloves_tactical",
-                "badge_swat",
-                "usp_9mm",
-                "usp9mag",
-                "hk_mp5",
-                "mp5mag",
-                "shoulder_strap",
-                "9mm",
-                "9mm",
-                "9mmfmj",
-                "flashbang"
-            ],
+            "both": {
+                "items": [
+                    "socks",
+                    "swat_armor",
+                    "tac_fullhelmet",
+                    "boots_combat",
+                    "gloves_tactical",
+                    "badge_swat",
+                    "9mmfmj",
+                    "flashbang"
+                ],
+                "entries": [
+                    { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "sholster" },
+                    { "item": "hk_mp5", "ammo-item": "9mm", "charges": 30, "contents-item": "shoulder_strap" },
+                    { "item": "9mm", "charges": 55 }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -5202,6 +5217,36 @@
             "female": [
                 "sports_bra",
                 "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "tourist",
+        "name": "Tourist",
+        "description": "You came here to get a taste of New England; Now you hope New England won't get a taste of you!",
+        "points": 1,
+        "items": {
+            "both": [
+                "hat_ball",
+                "knit_scarf",
+                "tshirt",
+                "jacket_light",
+                "gloves_light",
+                "pants",
+                "fanny",
+                "socks",
+                "sneakers",
+                "roadmap",
+                "touristmap",
+                "camera"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
             ]
         }
     }
