@@ -522,7 +522,7 @@ void printHelpMessage(const arg_handler *first_pass_arguments,
         help_map.insert( std::make_pair(help_group, &second_pass_arguments[i]) );
     }
 
-    printf("Command line paramters:\n");
+    printf("Command line parameters:\n");
     std::string current_help_group;
     auto it = help_map.begin();
     auto it_end = help_map.end();
