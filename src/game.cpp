@@ -5283,26 +5283,31 @@ void game::draw_safe_mode()
         return;
     }
 
-    const char *safe_text = _( "SAFE" );
+    const utf8_wrapper safe_text ( _( "SAFE" ) );
     if (safe_mode != SAFE_MODE_OFF) {
-        right_print( w_location, 0, 1, c_green, "%s", safe_text );
+        right_print( w_location, 0, 1, c_green, "%s", safe_text.c_str() );
         return;
     }
 
     if (autosafemode) {
-        int text_length = strlen( safe_text );
         float safe_mode_percent =
             turnssincelastmon * 100.00 / get_option<int>( "AUTOSAFEMODETURNS" );
 
-        wmove( w_location, 0, getmaxx( w_location ) - text_length - 1);
+        int text_size = safe_text.size();
+        int starting_position = getmaxx( w_location ) - safe_text.display_width() - 1;
 
-        for (int i = 0; i < text_length; i++) {
+        int written_size = 0;
+        for (int i = 0; i < text_size; i++) {
             nc_color letter_color =
-                safe_mode_percent < (i + 1) * ( 100 / text_length )
+                safe_mode_percent < (i + 1) * ( 100.00 / text_size )
                 ? c_red
                 : c_green;
 
-            wputch( w_location, letter_color, safe_text[i] );
+            const auto current_char = safe_text.substr(i, 1);
+            mvwputch( w_location, 0, starting_position + written_size,
+                letter_color, current_char.str() );
+
+            written_size += current_char.display_width();
         }
     }
 }
