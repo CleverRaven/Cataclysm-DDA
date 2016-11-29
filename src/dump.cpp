@@ -15,6 +15,7 @@
 #include "veh_type.h"
 #include "npc.h"
 #include "ammo.h"
+#include "crafting.h"
 
 bool game::dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts )
 {
@@ -201,6 +202,50 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                     dump( test_npcs[ "S1" ], gun );
                 }
             }
+        }
+
+    } else if( what == "RECIPE" ) {
+
+        // optionally filter recipes to include only those using specified skills
+        recipe_subset dict;
+        for( const auto &r : recipe_dict ) {
+            if( opts.empty() || std::any_of( opts.begin(), opts.end(), [&r]( const std::string &s ) {
+                if( r.second.skill_used == skill_id( s ) && r.second.difficulty > 0 ) {
+                    return true;
+                }
+                auto iter = r.second.required_skills.find( skill_id( s ) );
+                return iter != r.second.required_skills.end() && iter->second > 0;
+            } ) ) {
+                dict.include( &r.second );
+            }
+        }
+
+        // only consider skills that are required by at least one recipe
+        std::vector<Skill> sk;
+        std::copy_if( Skill::skills.begin(), Skill::skills.end(), std::back_inserter( sk ), [&dict]( const Skill &s ) {
+            return std::any_of( dict.begin(), dict.end(), [&s]( const recipe *r ) {
+                return r->skill_used == s.ident() || r->required_skills.find( s.ident() ) != r->required_skills.end();
+            } );
+        } );
+
+        header = { "Result" };
+
+        for( const auto &e : sk ) {
+            header.push_back( e.ident().str() );
+        }
+
+        for( const recipe *e : dict ) {
+            std::vector<std::string> r;
+            r.push_back( item::find_type( e->result )->nname( 1 ) );
+            for( const auto &s : sk ) {
+                if( e->skill_used == s.ident() ) {
+                    r.push_back( to_string( e->difficulty ) );
+                } else {
+                    auto iter = e->required_skills.find( s.ident() );
+                    r.push_back( to_string( iter != e->required_skills.end() ? iter->second : 0 ) );
+                }
+            }
+            rows.push_back( r );
         }
 
     } else if( what == "VEHICLE" ) {
