@@ -13,7 +13,7 @@
     "color": "green",
     "location": "magazine",
     "mod_targets": [ "rifle", "shotgun" ],
-    "acceptable_ammo": [ "223", "308", "50", "shot" ],
+    "acceptable_ammo": [ "223", "308", "50" ],
     "install_time": 60000,
     "magazine_adaptor": [
       [ "223", [ "belt223" ] ],

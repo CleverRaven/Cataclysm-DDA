@@ -59,7 +59,7 @@
     "id": "ammolinkshot",
     "copy-from": "ammolink",
     "type": "GENERIC",
-    "name": "12 gauge ammo belt linkage",
+    "name": "12 gauge belt linkage",
     "use_action": {
       "type": "ammobelt",
       "belt": "beltshot"

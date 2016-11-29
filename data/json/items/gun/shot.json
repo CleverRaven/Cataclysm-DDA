@@ -15,13 +15,9 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "mechanism", 4 ], [ "rail", 1 ] ],
     "magazines": [ [ "shot", [ "beltshot" ] ] ],
     "relative": {
-      "weight": -16000,
       "volume": -2,
-      "price": -1050000,
-      "to_hit": -2,
       "dispersion": -50,
       "durability": -2,
-      "loudness": 25,
       "barrel_length": -2
     },
     "flags": []
