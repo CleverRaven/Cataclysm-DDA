@@ -5279,17 +5279,17 @@ void game::draw_sidebar()
 
 void game::draw_safe_mode()
 {
-    if (safe_mode == SAFE_MODE_OFF && !autosafemode) {
+    if( safe_mode == SAFE_MODE_OFF && !autosafemode ) {
         return;
     }
 
-    const utf8_wrapper safe_text ( _( "SAFE" ) );
-    if (safe_mode != SAFE_MODE_OFF) {
+    const utf8_wrapper safe_text( _( "SAFE" ) );
+    if( safe_mode != SAFE_MODE_OFF ) {
         right_print( w_location, 0, 1, c_green, "%s", safe_text.c_str() );
         return;
     }
 
-    if (autosafemode) {
+    if( autosafemode ) {
         float safe_mode_percent =
             turnssincelastmon * 100.00 / get_option<int>( "AUTOSAFEMODETURNS" );
 
@@ -5297,15 +5297,15 @@ void game::draw_safe_mode()
         int starting_position = getmaxx( w_location ) - safe_text.display_width() - 1;
 
         int written_size = 0;
-        for (int i = 0; i < text_size; i++) {
+        for( int i = 0; i < text_size; i++ ) {
             nc_color letter_color =
-                safe_mode_percent < (i + 1) * ( 100.00 / text_size )
+                safe_mode_percent < ( i + 1 ) * ( 100.00 / text_size )
                 ? c_red
                 : c_green;
 
-            const auto current_char = safe_text.substr(i, 1);
+            const auto current_char = safe_text.substr( i, 1 );
             mvwputch( w_location, 0, starting_position + written_size,
-                letter_color, current_char.str() );
+                      letter_color, current_char.str() );
 
             written_size += current_char.display_width();
         }
