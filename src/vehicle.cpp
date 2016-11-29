@@ -3409,26 +3409,28 @@ int vehicle::discharge( int amount, bool recurse, bool reactor )
             // consider only enabled reactors that have remaining fuel
             if( pt.is_reactor() && pt.enabled && !pt.is_broken() && pt.ammo_remaining() ) {
 
+                // what type of fuel is this reactor using?
                 const itype *fuel = item::find_type( pt.ammo_current() );
-                if( fuel->ammo ) {
-                    assert( fuel->ammo->energy > 0 ); // enforced in item_factory.cpp
-                    int density = fuel->ammo->energy;
 
-                    // calculate electrical power (kJ) reactor will provide
-                    int qty = std::min( amount, int( pt.ammo_remaining() * double( density ) / 1000 ) );
+                assert( fuel->ammo ); // enforced via vpart_info::check()
+                assert( fuel->ammo->energy > 0 ); // enforced in item_factory.cpp
 
-                    // calculate reactor charges that will be consumed...
-                    double burn = double( qty ) / density;
+                int density = fuel->ammo->energy;
 
-                    // ...partial charges have a proportional chance of being consumed each turn
-                    burn += x_in_y( fmod( burn, 1.0 ) * 1000, 1000 ) ? 1 : 0;
+                // calculate electrical power (kJ) reactor will provide
+                int qty = std::min( amount, int( pt.ammo_remaining() * double( density ) / 1000 ) );
 
-                    pt.ammo_consume( burn, global_part_pos3( pt ) );
-                    amount -= qty;
+                // calculate reactor charges that will be consumed...
+                double burn = double( qty ) / density;
 
-                    if( amount == 0 ) {
-                        break;
-                    }
+                // ...partial charges have a proportional chance of being consumed each turn
+                burn += x_in_y( fmod( burn, 1.0 ) * 1000, 1000 ) ? 1 : 0;
+
+                pt.ammo_consume( burn, global_part_pos3( pt ) );
+                amount -= qty;
+
+                if( amount == 0 ) {
+                    break;
                 }
             }
         }
