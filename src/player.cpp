@@ -8310,21 +8310,27 @@ void player::suffer()
 
             add_msg_if_player(m_good, _("The %s seems to be affected by the discharge."), weapon.tname().c_str());
         }
+        sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
     if (has_bionic("bio_dis_acid") && one_in(1500)) {
         add_msg_if_player(m_bad, _("You suffer a burning acidic discharge!"));
         hurtall(1, nullptr);
+        sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
+        sfx::do_player_death_hurt( g->u, 0 );
     }
     if (has_bionic("bio_drain") && power_level > 24 && one_in(600)) {
         add_msg_if_player(m_bad, _("Your batteries discharge slightly."));
         charge_power(-25);
+        sfx::play_variant_sound( "bionics", "elec_crackle_low", 100 );
     }
     if (has_bionic("bio_noise") && one_in(500)) {
         // TODO: NPCs with said bionic
         if(!is_deaf()) {
             add_msg(m_bad, _("A bionic emits a crackle of noise!"));
+            sfx::play_variant_sound( "bionics", "elec_blast", 100 );
         } else {
-            add_msg(m_bad, _("A bionic shudders, but you hear nothing."));
+            add_msg(m_bad, _("You feel your faulty bionic shudderring."));
+            sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
         }
         sounds::sound( pos(), 60, "");
     }
@@ -8335,17 +8341,20 @@ void player::suffer()
     if (has_bionic("bio_trip") && one_in(500) && !has_effect( effect_visuals )) {
         add_msg_if_player(m_bad, _("Your vision pixelates!"));
         add_effect( effect_visuals, 100 );
+        sfx::play_variant_sound( "bionics", "pixelated", 100 );
     }
     if (has_bionic("bio_spasm") && one_in(3000) && !has_effect( effect_downed )) {
         add_msg_if_player(m_bad, _("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
         mod_pain(1);
         add_effect( effect_stunned, 1);
         add_effect( effect_downed, 1, num_bp, false, 0, true );
+        sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
     if (has_bionic("bio_shakes") && power_level > 24 && one_in(1200)) {
         add_msg_if_player(m_bad, _("Your bionics short-circuit, causing you to tremble and shiver."));
         charge_power(-25);
         add_effect( effect_shakes, 50 );
+        sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
         mod_healthy_mod(-50, -200);
