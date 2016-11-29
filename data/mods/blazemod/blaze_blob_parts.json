@@ -3792,7 +3792,7 @@
         "using": [ [ "Blob_Feeding", 5 ] ]
       }
     },
-    "flags": [ "TURRET", "MANUAL", "BOARDABLE", "BELTABLE", "FOLDABLE", "ENGINE", "CONTROLS", "SEAT", "BED", "USE_TANKS" ]
+    "flags": [ "TURRET", "MANUAL", "BOARDABLE", "BELTABLE", "FOLDABLE", "CONTROLS", "SEAT", "BED", "USE_TANKS" ]
   },
   {
     "id": "razorqueen",
