@@ -175,6 +175,12 @@ class Creature
          *  creature. Should always be overwritten by the appropriate player/NPC/monster function. */
         virtual void melee_attack(Creature &t, bool allow_special,
                                   const matec_id & technique) = 0;
+
+        /** Make a single melee attack with the currently equipped weapon against the targeted
+         *  creature with prerolled hitspread. Should always be overwritten by the appropriate
+         *  player/NPC/monster function. */
+        virtual void melee_attack(Creature &t, bool allow_special,
+                                  const matec_id & technique, int hitspread ) = 0;
         /**
          * Calls the to other melee_attack function with an empty technique id (meaning no specific
          * technique should be used).

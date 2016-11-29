@@ -4503,7 +4503,7 @@ item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overf
     };
 
     // Some items never exist on map as a discrete item (must be contained by another item)
-    if( obj.has_flag( "NO_DROP" ) || obj.has_flag( "IRREMOVABLE" ) ) {
+    if( obj.has_flag( "NO_DROP" ) ) {
         return nulitem;
     }
 
@@ -5016,6 +5016,9 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
                                  const itype_id type, long &quantity)
 {
     std::list<item> ret;
+
+    std::set<vehicle *> vehs;
+
     for( const tripoint &p : closest_tripoints_first( range, origin ) ) {
         // Handle infinite map sources.
         item water = water_from( p );
@@ -5048,27 +5051,24 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             continue;
         }
 
-        const int kpart = veh->part_with_feature(vpart, "FAUCET");
+        vehs.insert( veh );
+
+        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
         const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
         const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
         const int forgepart = veh->part_with_feature(vpart, "FORGE");
         const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
         const int cargo = veh->part_with_feature(vpart, "CARGO");
 
-        if (kpart >= 0) { // we have a faucet, now to see what to drain
+        if (kpart >= 0) {
             itype_id ftype = "null";
 
-            if (type == "water_clean") {
-                ftype = "water_clean";
-            } else if (type == "water") {
-                ftype = "water";
-            } else if (type == "hotplate") {
+            if (type == "hotplate") {
                 ftype = "battery";
             }
 
             item tmp(type, 0); //TODO add a sane birthday arg
             tmp.charges = veh->drain(ftype, quantity);
-            // TODO: Handle water poison when crafting starts respecting it
             quantity -= tmp.charges;
             ret.push_back(tmp);
 
@@ -5159,6 +5159,25 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             ret.splice(ret.end(), tmp);
             if (quantity <= 0) {
                 return ret;
+            }
+        }
+    }
+
+    for( vehicle *v : vehs ) {
+        // if vehicle has FAUCET can use clean water from any of the tanks
+        if( v->has_part( "FAUCET" ) ) {
+            for( auto &pt : v->parts ) {
+                if( pt.is_tank() && pt.ammo_current() == "water_clean" ) {
+                    for( const auto &obj : pt.contents() ) {
+                        if( obj.typeId() == type ) {
+                            ret.push_back( pt.drain( quantity ) );
+                            quantity -= ret.back().charges;
+                            if( quantity == 0 ) {
+                                return ret;
+                            }
+                        }
+                    }
+                }
             }
         }
     }

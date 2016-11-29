@@ -7913,7 +7913,9 @@ bool game::npc_menu( npc &who )
         examine_wounds,
         use_item,
         sort_armor,
-        attack
+        attack,
+        disarm,
+        steal
     };
 
     uimenu amenu;
@@ -7930,6 +7932,10 @@ bool game::npc_menu( npc &who )
     amenu.addentry( use_item, true, 'i', _("Use item on") );
     amenu.addentry( sort_armor, true, 'r', _("Sort armor") );
     amenu.addentry( attack, true, 'a', _("Attack") );
+    if( !who.is_friend() ) {
+        amenu.addentry( disarm, who.is_armed(), 'd', _("Disarm") );
+        amenu.addentry( steal, true, 'S', _("Steal") );
+    }
 
     amenu.query();
 
@@ -8003,6 +8009,13 @@ bool game::npc_menu( npc &who )
             u.melee_attack( who, true );
             who.make_angry();
         }
+    } else if( choice == disarm ) {
+        if( !who.is_enemy() && query_yn( _( "You may be attacked! Proceed?" ) ) )
+        {
+            u.disarm( who );
+        }
+    } else if( choice == steal ) {
+        u.steal( who );
     }
 
     return true;

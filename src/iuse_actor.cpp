@@ -2402,7 +2402,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         }
         return false;
     }
-    if( fix.count_by_charges() ) {
+    if( fix.count_by_charges() || fix.has_flag( "NO_REPAIR" ) ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("You cannot repair this type of item.") );
         }

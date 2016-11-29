@@ -1194,10 +1194,10 @@ void vehicle::honk_horn()
         //Get global position of horn
         const auto horn_pos = global_part_pos3( p );
         //Determine sound
-        if( horn_type.bonus >= 40 ) {
+        if( horn_type.bonus >= 110 ) {
             //~ Loud horn sound
             sounds::sound( horn_pos, horn_type.bonus, _("HOOOOORNK!") );
-        } else if( horn_type.bonus >= 20 ) {
+        } else if( horn_type.bonus >= 80 ) {
             //~ Moderate horn sound
             sounds::sound( horn_pos, horn_type.bonus, _("BEEEP!") );
         } else {
@@ -5330,6 +5330,13 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
         // destroyed parts lose any contained fuels, battery charges or ammo
         leak_fuel( parts [ p ] );
+
+        for( const auto &e : parts[p].items ) {
+            g->m.add_item_or_charges( global_part_pos3( p ), e );
+        }
+        parts[p].items.clear();
+
+        invalidate_mass();
     }
 
     if( parts[p].is_tank() ) {
@@ -5417,7 +5424,7 @@ void vehicle::open(int part_index)
 }
 
 /**
- * Opens an openable part at the specified index. If it's a multipart, opens
+ * Closes an openable part at the specified index. If it's a multipart, closes
  * all attached parts as well.
  * @param part_index The index in the parts list of the part to open.
  */
@@ -5917,6 +5924,15 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
     return false;
 }
 
+const std::list<item>& vehicle_part::contents() const
+{
+    if( !is_tank() ) {
+        static std::list<item> null_contents;
+        return null_contents;
+    }
+    return base.contents;
+}
+
 bool vehicle_part::fill_with( item &liquid, long qty )
 {
     if( liquid.active ) {
@@ -5930,6 +5946,24 @@ bool vehicle_part::fill_with( item &liquid, long qty )
 
     base.fill_with( liquid, qty );
     return true;
+}
+
+item vehicle_part::drain( long qty )
+{
+    if( qty < 0 ) {
+        qty = ammo_remaining();
+    }
+
+    if( !is_tank() || base.contents.empty() || qty == 0 ) {
+        return item();
+    }
+
+    item obj = base.contents.front().split( qty );
+    if( obj.is_null() ) {
+        obj = base.contents.front();
+        base.contents.pop_front();
+    }
+    return obj;
 }
 
 const std::set<fault_id>& vehicle_part::faults() const
