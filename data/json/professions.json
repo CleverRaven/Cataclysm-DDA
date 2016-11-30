@@ -2373,7 +2373,6 @@
         "CBMs":[
             "bio_solar",
             "bio_eye_enhancer",
-            "bio_eye_optic",
             "bio_targeting",
             "bio_climate",
             "bio_evap",
@@ -2415,6 +2414,7 @@
                 "tent_kit",
                 "rollmat",
                 "mil_mess_kit",
+                "binoculars",
                 "shoulder_strap",
                 "m2010",
                 "m2010mag",
@@ -2436,7 +2436,7 @@
         "type" : "profession",
         "ident": "bionic_spy",
         "name": "Bionic Agent",
-        "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm, locking capabilities and a hacking module.  And it all runs off piles and piles of everyday household batteries.",
+        "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm, lock picking capabilities and a hacking module.  And it all runs off piles and piles of everyday household batteries.",
         "points": 4,
         "CBMs":[
             "bio_fingerhack",
@@ -3135,7 +3135,6 @@
         "points": 5,
         "CBMs":[
             "bio_razors",
-            "bio_eye_optic",
             "bio_sunglasses",
             "bio_dex_enhancer",
             "bio_ears",
