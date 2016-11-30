@@ -11,6 +11,13 @@
 #   or make CROSS=i586-mingw32msvc-
 #   or whichever prefix your crosscompiler uses
 #      as long as its name contains mingw32
+# Linux cross-compile to OSX with osxcross
+#   make CROSS=x86_64-apple-darwin15-
+#        NATIVE=osx
+#        CLANG=1
+#        OSXCROSS=1
+#        LIBSDIR=../libs
+#        FRAMEWORKSDIR=../Frameworks
 # Win32 (non-Cygwin)
 #   Run: make NATIVE=win32
 # OS X
@@ -308,6 +315,10 @@ ifeq ($(NATIVE), osx)
   endif
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
+    ifdef OSXCROSS
+      LDFLAGS += -L$(LIBSDIR)/gettext/lib
+      CXXFLAGS += -I$(LIBSDIR)/gettext/include
+    endif
     ifeq ($(MACPORTS), 1)
       ifneq ($(TILES), 1)
         CXXFLAGS += -I$(shell ncursesw6-config --includedir)
@@ -424,14 +435,19 @@ ifdef LUA
     LUA_USE_PKGCONFIG := 1
   endif
 
-  ifdef LUA_USE_PKGCONFIG
-    # On unix-like systems, use pkg-config to find lua
-    LUA_CANDIDATES = lua5.3 lua5.2 lua-5.3 lua-5.2 lua5.1 lua-5.1 lua
-    LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
-        $(shell if $(PKG_CONFIG) --silence-errors --exists $(lua); then echo $(lua);fi)))
-    LUA_PKG = $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
-    LUA_LIBS := $(shell $(PKG_CONFIG) --silence-errors --libs $(LUA_PKG))
-    LUA_CFLAGS := $(shell $(PKG_CONFIG) --silence-errors --cflags $(LUA_PKG))
+  ifdef OSXCROSS
+    LUA_LIBS = -L$(LIBSDIR)/lua/lib -llua -lm
+    LUA_CFLAGS = -I$(LIBSDIR)/lua/include
+  else
+    ifdef LUA_USE_PKGCONFIG
+      # On unix-like systems, use pkg-config to find lua
+      LUA_CANDIDATES = lua5.3 lua5.2 lua-5.3 lua-5.2 lua5.1 lua-5.1 lua
+      LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
+          $(shell if $(PKG_CONFIG) --silence-errors --exists $(lua); then echo $(lua);fi)))
+      LUA_PKG = $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
+      LUA_LIBS := $(shell $(PKG_CONFIG) --silence-errors --libs $(LUA_PKG))
+      LUA_CFLAGS := $(shell $(PKG_CONFIG) --silence-errors --cflags $(LUA_PKG))
+    endif
   endif
 
   LDFLAGS += $(LUA_LIBS)
@@ -525,6 +541,11 @@ else
   else
     ifneq ($(TARGETSYSTEM),WINDOWS)
       LDFLAGS += -lncurses
+    endif
+
+    ifdef OSXCROSS
+      LDFLAGS += -L$(LIBSDIR)/ncurses/lib
+      CXXFLAGS += -I$(LIBSDIR)/ncurses/include
     endif
   endif
 endif
@@ -782,7 +803,11 @@ appclean:
 data/osx/AppIcon.icns: data/osx/AppIcon.iconset
 	iconutil -c icns $<
 
+ifdef OSXCROSS
+app: appclean version $(APPTARGET)
+else
 app: appclean version data/osx/AppIcon.icns $(APPTARGET)
+endif
 	mkdir -p $(APPTARGETDIR)/Contents
 	cp data/osx/Info.plist $(APPTARGETDIR)/Contents/
 	mkdir -p $(APPTARGETDIR)/Contents/MacOS
@@ -802,17 +827,24 @@ app: appclean version data/osx/AppIcon.icns $(APPTARGET)
 	cp -R data/motd $(APPDATADIR)
 	cp -R data/credits $(APPDATADIR)
 	cp -R data/title $(APPDATADIR)
-	# bundle libc++ to fix bad buggy version on osx 10.7
-	LIBCPP=$$(otool -L $(APPTARGET) | grep libc++ | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBCPP $(APPRESOURCESDIR)/ && cp $$(otool -L $$LIBCPP | grep libc++abi | sed -n 's/\(.*\.dylib\).*/\1/p') $(APPRESOURCESDIR)/
 ifdef LANGUAGES
-	ditto lang/mo $(APPRESOURCESDIR)/lang/mo
+	mkdir -p $(APPRESOURCESDIR)/lang/mo/
+	cp -pR lang/mo/ $(APPRESOURCESDIR)/lang/mo/
 endif
 ifeq ($(LOCALIZE), 1)
+ifdef OSXCROSS
+	cp $(LIBSDIR)/gettext/lib/libintl.8.dylib $(APPRESOURCESDIR)
+else
 	LIBINTL=$$(otool -L $(APPTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBINTL $(APPRESOURCESDIR)/
+endif
 endif
 ifdef LUA
 	cp -R lua $(APPRESOURCESDIR)/
+ifdef OSXCROSS
+	cp $(LIBSDIR)/lua/lib/liblua.5.2.4.dylib $(APPRESOURCESDIR)
+else
 	LIBLUA=$$(otool -L $(APPTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && if [ ! -z "$$LIBLUA" ]; then cp $$LIBLUA $(APPRESOURCESDIR)/; fi
+endif
 endif # ifdef LUA
 ifdef TILES
 ifdef SOUND
@@ -827,7 +859,7 @@ ifdef SOUND
 	cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPRESOURCESDIR)/
 	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
 	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
-	cd $(APPRESOURCESDIR)/SDL2_mixer.framework/Frameworks && find . -type d -maxdepth 1 -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf
+	cd $(APPRESOURCESDIR)/SDL2_mixer.framework/Frameworks && find . -maxdepth 1 -type d -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf
 endif  # ifdef SOUND
 else # libsdl build
 	cp $(SDLLIBSDIR)/libSDL2.dylib $(APPRESOURCESDIR)/
@@ -838,11 +870,23 @@ endif  # ifdef FRAMEWORK
 endif  # ifdef TILES
 
 dmgdistclean:
+	rm -rf Cataclysm
 	rm -f Cataclysm.dmg
 	rm -rf lang/mo
 
 dmgdist: dmgdistclean $(L10N) app
+ifdef OSXCROSS
+	mkdir Cataclysm
+	cp -a $(APPTARGETDIR) Cataclysm/$(APPTARGETDIR)
+	cp data/osx/DS_Store Cataclysm/.DS_Store
+	cp data/osx/dmgback.png Cataclysm/.background.png
+	ln -s /Applications Cataclysm/Applications
+	genisoimage -D -V "Cataclysm DDA" -no-pad -r -apple -o Cataclysm-uncompressed.dmg Cataclysm/
+	dmg dmg Cataclysm-uncompressed.dmg Cataclysm.dmg
+	rm Cataclysm-uncompressed.dmg
+else
 	dmgbuild -s data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
+endif
 
 endif  # ifeq ($(NATIVE), osx)
 
