@@ -3249,10 +3249,6 @@ int item::chip_resistance( bool worst ) const
     return res;
 }
 
-int item::damage() const {
-    return fast_floor( damage_ );
-}
-
 int item::min_damage() const
 {
     return type->damage_min;

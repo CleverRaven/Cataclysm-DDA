@@ -682,7 +682,7 @@ public:
     int chip_resistance( bool worst = false ) const;
 
     /** How much damage has the item sustained? */
-    int damage() const;
+    int damage() const { return fast_floor( damage_ ); }
 
     /** Minimum amount of damage to an item (state of maximum repair) */
     int min_damage() const;
