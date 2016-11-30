@@ -650,7 +650,7 @@ void cap_nutrition_thirst( player &p, int capacity, bool food, bool water )
 
 void player::consume_effects( item &food, bool rotten )
 {
-    if( !food.is_food() ) {
+    if( !food.is_comestible() ) {
         debugmsg( "called player::consume_effects with non-comestible" );
         return;
     }
@@ -998,7 +998,8 @@ bool player::feed_furnace_with( item &it )
 
 bool player::can_consume_as_is( const item &it ) const
 {
-    return it.is_food() || can_feed_battery_with( it )
+    return it.is_comestible()
+           || can_feed_battery_with( it )
            || can_feed_reactor_with( it )
            || can_feed_furnace_with( it );
 }

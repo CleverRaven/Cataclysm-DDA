@@ -3517,15 +3517,20 @@ bool item::is_ammo() const
     return type->ammo.get() != nullptr;
 }
 
+bool item::is_comestible() const
+{
+    return type->comestible != nullptr;
+}
+
 bool item::is_food() const
 {
-    return type->comestible != nullptr && ( type->comestible->comesttype == "FOOD" ||
-                                            type->comestible->comesttype == "DRINK" );
+    return is_comestible() && ( type->comestible->comesttype == "FOOD" ||
+                                type->comestible->comesttype == "DRINK" );
 }
 
 bool item::is_medication() const
 {
-    return type->comestible != nullptr && type->comestible->comesttype == "MED";
+    return is_comestible() && type->comestible->comesttype == "MED";
 }
 
 bool item::is_brewable() const
