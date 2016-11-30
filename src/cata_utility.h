@@ -21,6 +21,11 @@ enum units_type {
     VU_WIND
 };
 
+inline int fast_floor( double v )
+{
+    return static_cast<int>( v ) - ( v < static_cast<int>( v ) );
+}
+
 double round_up( double val, unsigned int dp );
 
 bool isBetween( int test, int down, int up );

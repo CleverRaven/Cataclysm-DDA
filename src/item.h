@@ -19,6 +19,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "units.h"
+#include "cata_utility.h"
 
 class game;
 class Character;
