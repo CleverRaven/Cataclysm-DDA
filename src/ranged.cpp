@@ -1887,10 +1887,6 @@ double player::gun_value( const item &weap, long ammo ) const
     const itype *def_ammo_i = ammo_type != "NULL" ?
                               item::find_type( ammo_type ) :
                               nullptr;
-    if( def_ammo_i != nullptr && def_ammo_i->ammo == nullptr ) {
-        debugmsg( "%s is default ammo for gun %s, but lacks ammo data",
-                  def_ammo_i->nname( ammo ).c_str(), weap.tname().c_str() );
-    }
 
     float damage_factor = weap.gun_damage( false );
     damage_factor += weap.gun_pierce( false ) / 2.0;
