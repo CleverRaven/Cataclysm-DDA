@@ -191,17 +191,20 @@ The procedure is very much similar to cross-compilation to Windows from Linux.
 Tested on ubuntu 14.04 LTS but should work on other distros as well.
 
 ### Dependencies
-OSX cross-compiling toolchain [osxcross](https://github.com/tpoechtrager/osxcross)
-`genisoimage` and [libdmg-hfsplus](https://github.com/planetbeing/libdmg-hfsplus.git) to create dmg distributions
+
+  * OSX cross-compiling toolchain [osxcross](https://github.com/tpoechtrager/osxcross)
+
+  * `genisoimage` and [libdmg-hfsplus](https://github.com/planetbeing/libdmg-hfsplus.git) to create dmg distributions
+
 Make sure that all dependency tools are in search `PATH` before compiling.
 
 ### Setup
 
 To set up the compiling environment execute the following commands
-    git clone https://github.com/tpoechtrager/osxcross.git to clone the toolchain
-    cd osxcross
-    cp ~/MacOSX10.11.sdk.tar.bz2 ./tarballs/ copy prepared MacOSX SDK tarball on place. [Read more about it](https://github.com/tpoechtrager/osxcross/blob/master/README.md#packaging-the-sdk)
-    ./build.sh to build everything
+`git clone https://github.com/tpoechtrager/osxcross.git` to clone the toolchain
+`cd osxcross`
+`cp ~/MacOSX10.11.sdk.tar.bz2 ./tarballs/` copy prepared MacOSX SDK tarball on place. [Read more about it](https://github.com/tpoechtrager/osxcross/blob/master/README.md#packaging-the-sdk)
+`./build.sh to build everything`
 
 Have a prepackaged set of libs and frameworks in place, since compiling with `osxcross` built-in MacPorts is rather difficult and not supported at the moment.
 Your directory tree should look like:
