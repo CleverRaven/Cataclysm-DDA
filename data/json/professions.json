@@ -1270,23 +1270,24 @@
             "PROF_SWAT"
         ],
         "items": {
-            "both": [
-                "socks",
-                "swat_armor",
-                "sholster",
-                "tac_fullhelmet",
-                "boots_combat",
-                "gloves_tactical",
-                "badge_swat",
-                "usp_9mm",
-                "usp9mag",
-                "ksg",
-                "shoulder_strap",
-                "shot_00",
-                "shot_beanbag",
-                "9mmfmj",
-                "baton"
-            ],
+            "both": {
+                "items": [
+                    "socks",
+                    "swat_armor",
+                    "tac_fullhelmet",
+                    "boots_combat",
+                    "gloves_tactical",
+                    "badge_swat",
+                    "shot_beanbag",
+                    "baton"
+                ],
+                "entries": [
+                    { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "sholster" },
+                    { "item": "9mmfmj", "charges": 35 },
+                    { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": "shoulder_strap" },
+                    { "item": "shot_00", "charges": 13 }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -1295,6 +1296,15 @@
                 "boy_shorts"
             ]
         }
+    },
+    {
+        "type": "item_group",
+        "id": "police_sniper_gunmods",
+        "subtype": "collection",
+        "items": [
+            "shoulder_strap",
+            "rifle_scope"
+        ]
     },
     {
         "type": "profession",
@@ -1320,26 +1330,25 @@
             "PROF_POLICE"
         ],
         "items": {
-            "both": [
-                "socks",
-                "pants_army",
-                "hoodie",
-                "sneakers",
-                "gloves_tactical",
-                "glasses_bal",
-                "hat_boonie",
-                "badge_deputy",
-                "holster",
-                "wristwatch",
-                "usp_45",
-                "usp45mag",
-                "45_acp",
-                "shoulder_strap",
-                "remington_700",
-                "3006",
-                "3006",
-                "rifle_scope"
-            ],
+            "both": {
+                "items": [
+                    "socks",
+                    "pants_army",
+                    "hoodie",
+                    "sneakers",
+                    "gloves_tactical",
+                    "glasses_bal",
+                    "hat_boonie",
+                    "badge_deputy",
+                    "wristwatch"
+                ],
+                "entries": [
+                    { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+                    { "item": "45_acp", "charges": 18 },
+                    { "item": "remington_700", "ammo-item": "3006", "charges": 4, "contents-group": "police_sniper_gunmods" },
+                    { "item": "3006", "charges": 16 }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -1377,27 +1386,28 @@
             "PROF_POLICE"
         ],
         "items": {
-            "both": [
-                "socks",
-                "pants_cargo",
-                "longshirt",
-                "boots_combat",
-                "gloves_tactical",
-                "modularvestkevlar",
-                "mask_gas",
-                "tac_helmet",
-                "armguard_hard",
-                "knee_pads",
-                "badge_deputy",
-                "holster",
-                "usp_45",
-                "usp45mag",
-                "45_acp",
-                "tonfa",
-                "tazer",
-                "battery",
-                "gasbomb"
-            ],
+            "both": {
+                "items": [
+                    "socks",
+                    "pants_cargo",
+                    "longshirt",
+                    "boots_combat",
+                    "gloves_tactical",
+                    "modularvestkevlar",
+                    "mask_gas",
+                    "tac_helmet",
+                    "armguard_hard",
+                    "knee_pads",
+                    "badge_deputy",
+                    "tonfa",
+                    "gasbomb"
+                ],
+                "entries": [
+                    { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+                    { "item": "45_acp", "charges": 18 },
+                    { "item": "tazer", "charges": 100 }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -1448,20 +1458,22 @@
             }
         ],
         "items": {
-            "both": [
-                "army_top",
-                "knit_scarf",
-                "socks",
-                "boots_steel",
-                "pants_cargo",
-                "jacket_flannel",
-                "compbow",
-                "arrow_cf",
-                "sheath",
-                "knife_hunting",
-                "hat_hunting",
-                "quiver"
-            ],
+            "both": {
+                "items": [
+                    "army_top",
+                    "knit_scarf",
+                    "socks",
+                    "boots_steel",
+                    "pants_cargo",
+                    "jacket_flannel",
+                    "compbow",
+                    "hat_hunting"
+                ],
+                "entries": [
+                    { "item": "quiver", "charges": 8, "contents-item": "arrow_cf" },
+                    { "item": "sheath", "contents-item": "knife_hunting" }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -1484,21 +1496,22 @@
             }
         ],
         "items": {
-            "both": [
-                "army_top",
-                "knit_scarf",
-                "socks",
-                "boots_steel",
-                "pants_cargo",
-                "jacket_flannel",
-                "shoulder_strap",
-                "crossbow",
-                "bolt_metal",
-                "sheath",
-                "knife_hunting",
-                "hat_hunting",
-                "quiver"
-            ],
+            "both": {
+                "items": [
+                    "army_top",
+                    "knit_scarf",
+                    "socks",
+                    "boots_steel",
+                    "pants_cargo",
+                    "jacket_flannel",
+                    "hat_hunting"
+                ],
+                "entries": [
+                    { "item": "crossbow", "ammo-item": "bolt_metal", "charges": 1, "contents-item": "shoulder_strap" },
+                    { "item": "bolt_metal", "charges": 9, "container-item": "quiver" },
+                    { "item": "sheath", "contents-item": "knife_hunting" }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -1525,21 +1538,23 @@
             }
         ],
         "items": {
-            "both": [
-                "army_top",
-                "knit_scarf",
-                "socks",
-                "boots_steel",
-                "pants_cargo",
-                "jacket_flannel",
-                "shoulder_strap",
-                "shotgun_d",
-                "shot_00",
-                "sheath",
-                "knife_hunting",
-                "hat_hunting",
-                "bandolier_shotgun"
-            ],
+            "both": {
+                "items": [
+                    "army_top",
+                    "knit_scarf",
+                    "socks",
+                    "boots_steel",
+                    "pants_cargo",
+                    "jacket_flannel",
+                    "hat_hunting"
+                ],
+                "entries": [
+                    { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2, "contents-item": "shoulder_strap" },
+                    { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
+                    { "item": "shot_00", "charges": 6 },
+                    { "item": "sheath", "contents-item": "knife_hunting" }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -1566,21 +1581,22 @@
             }
         ],
         "items": {
-            "both": [
-                "army_top",
-                "knit_scarf",
-                "socks",
-                "boots_steel",
-                "pants_cargo",
-                "jacket_flannel",
-                "shoulder_strap",
-                "remington_700",
-                "270",
-                "sheath",
-                "knife_hunting",
-                "hat_hunting",
-                "bandolier_rifle"
-            ],
+            "both": {
+                "items": [
+                    "army_top",
+                    "knit_scarf",
+                    "socks",
+                    "boots_steel",
+                    "pants_cargo",
+                    "jacket_flannel",
+                    "hat_hunting"
+                ],
+                "entries": [
+                    { "item": "remington_700", "ammo-item": "270", "charges": 4, "contents-item": "shoulder_strap" },
+                    { "item": "270", "charges": 16, "container-item": "bandolier_rifle" },
+                    { "item": "sheath", "contents-item": "knife_hunting" }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -1603,18 +1619,20 @@
             }
         ],
         "items": {
-            "both": [
-                "tank_top",
-                "socks",
-                "boots_steel",
-                "jeans",
-                "hammer",
-                "multitool",
-                "nailgun",
-                "nail",
-                "nail",
-                "tool_belt"
-            ],
+            "both": {
+                "items": [
+                    "tank_top",
+                    "socks",
+                    "boots_steel",
+                    "jeans",
+                    "multitool"
+                ],
+                "entries": [
+                    { "item": "nailgun", "ammo-item": "nail", "charges": 20 },
+                    { "item": "nail", "charges": 180 },
+                    { "item": "tool_belt", "contents-item": "hammer" }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -1822,17 +1840,20 @@
             }
         ],
         "items": {
-            "both": [
-                "jeans",
-                "tank_top",
-                "chaps_leather",
-                "socks",
-                "boots",
-                "bandana",
-                "jacket_leather",
-                "sheath",
-                "knife_trench"
-            ],
+            "both": {
+                "items": [
+                    "jeans",
+                    "tank_top",
+                    "chaps_leather",
+                    "socks",
+                    "boots",
+                    "bandana",
+                    "jacket_leather"
+                ],
+                "entries": [
+                    { "item": "sheath", "contents-item": "knife_trench" }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
@@ -1895,19 +1916,22 @@
             }
         ],
         "items": {
-            "both": [
-                "waistcoat",
-                "pants",
-                "dress_shirt",
-                "socks",
-                "dress_shoes",
-                "knit_scarf",
-                "gold_watch",
-                "briefcase_smg",
-                "stenmag",
-                "9mm",
-                "cell_phone"
-            ],
+            "both": {
+                "items": [
+                    "waistcoat",
+                    "pants",
+                    "dress_shirt",
+                    "socks",
+                    "dress_shoes",
+                    "knit_scarf",
+                    "gold_watch",
+                    "cell_phone"
+                ],
+                "entries": [
+                    { "item": "briefcase_smg", "ammo-item": "9mm", "charges": 32 },
+                    { "item": "9mm", "charges": 18 }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
