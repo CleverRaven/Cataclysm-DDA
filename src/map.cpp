@@ -5164,10 +5164,10 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
     }
 
     for( vehicle *v : vehs ) {
-        // if vehicle has FAUCET can use clean water from any of the tanks
+        // if vehicle has FAUCET can use contents from any of the tanks
         if( v->has_part( "FAUCET" ) ) {
             for( auto &pt : v->parts ) {
-                if( pt.is_tank() && pt.ammo_current() == "water_clean" ) {
+                if( pt.is_tank() ) {
                     for( const auto &obj : pt.contents() ) {
                         if( obj.typeId() == type ) {
                             ret.push_back( pt.drain( quantity ) );

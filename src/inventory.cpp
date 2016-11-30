@@ -523,10 +523,10 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
     }
 
     for( const vehicle *v : vehs ) {
-        // if vehicle has FAUCET can use clean water from any of the tanks
+        // if vehicle has FAUCET can use contents from any of the tanks
         if( v->has_part( "FAUCET" ) ) {
             for( const auto &pt : v->parts ) {
-                if( pt.is_tank() && pt.ammo_current() == "water_clean" ) {
+                if( pt.is_tank() ) {
                     for( const auto &obj : pt.contents() ) {
                         add_item( obj );
                     }
