@@ -8002,7 +8002,7 @@ bool game::npc_menu( npc &who )
         u.mod_moves( -100 );
     } else if( choice == attack ) {
         if( who.is_enemy() || query_yn( _( "You may be attacked! Proceed?" ) ) ) {
-            u.aggress_npc( who );
+            who.on_attacked( u );
             u.melee_attack( who, true );
         }
     } else if( choice == disarm ) {

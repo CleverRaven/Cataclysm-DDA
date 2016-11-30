@@ -3895,7 +3895,7 @@ int iuse::tazer(player *p, item *it, bool, const tripoint &pos )
     npc *foe = dynamic_cast<npc *>( target );
     if( foe != nullptr &&
         !foe->is_enemy() &&
-        !p->query_yn( _("Really shock %s"), target->disp_name().c_str() ) ) {
+        !p->query_yn( _("Really shock %s?"), target->disp_name().c_str() ) ) {
         return 0;
     }
 
@@ -3928,7 +3928,7 @@ int iuse::tazer(player *p, item *it, bool, const tripoint &pos )
     }
 
     if( foe != nullptr ) {
-        p->aggress_npc( *foe );
+        foe->on_attacked( *p );
     }
 
     return it->type->charges_to_use();

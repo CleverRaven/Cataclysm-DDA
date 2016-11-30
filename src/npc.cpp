@@ -1173,9 +1173,9 @@ void npc::make_angry()
     }
 
     if( g->u.sees( *this ) ) {
-      add_msg( _( "%s gets angry!" ), name.c_str() );
+        add_msg( _( "%s gets angry!" ), name.c_str() );
     }
-    
+
     // Make associated faction, if any, angry at the player too.
     if( my_fac != nullptr ) {
         my_fac->likes_u = std::max( -50, my_fac->likes_u - 50 );
@@ -1185,6 +1185,14 @@ void npc::make_angry()
     attitude = op_of_u.fear > 10 + personality.aggression + personality.bravery
                ? NPCATT_FLEE
                : NPCATT_KILL;
+}
+
+void npc::on_attacked( const Creature &attacker )
+{
+    if( attacker.is_player() && !is_enemy() ) {
+        make_angry();
+        hit_by_player = true;
+    }
 }
 
 int npc::assigned_missions_value()
