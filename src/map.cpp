@@ -5067,7 +5067,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             }
         }
 
-        const int cargo = veh->part_with_feature(vpart, "CARGO");
+        const int cargo = veh->part_with_feature( vpart, "CARGO" );
 
         if (cargo >= 0) {
             std::list<item> tmp =
