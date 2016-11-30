@@ -1946,6 +1946,14 @@ double player::unarmed_value() const
     return melee_value( ret_null );
 }
 
+void player::aggress_npc( npc &target )
+{
+    if( !target.is_enemy() ) {
+        target.make_angry();
+        target.hit_by_player = true;
+    }
+}
+
 void player::disarm( npc &target )
 {
     if( !target.is_armed() ) {
@@ -1965,14 +1973,12 @@ void player::disarm( npc &target )
     their_roll += dice( 3, target.get_per() );
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
-    // make the target angry as they confess our unfriendly move
-    target.make_angry();
-
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
     int hitspread = target.deal_melee_attack( this, hit_roll() );
     if( hitspread < 0 ) {
         // this will not do damage, but trigger all miss effects and on_dodge on target
         melee_attack( target, false, no_technique_id, hitspread );
+        aggress_npc( target );
         return;
     }
 
@@ -1997,22 +2003,22 @@ void player::disarm( npc &target )
             add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it.tname().c_str() );
             mod_moves( -100 );
         }
-
-        return;
-    }
-
-    // deal damage with weapon wielded, and make their weapon fall on floor if we've rolled enough.
-    melee_attack( target, false, no_technique_id, hitspread );
-    mod_moves( -100 );
-    if( my_roll >= their_roll ) {
-        add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ), target.name.c_str(),
-                 it.tname().c_str() );
-        const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
-        g->m.add_item_or_charges( tp, target.i_rem( &it ) );
     } else {
-        add_msg( _( "You smash %s with all your might but %s remains in their hands!" ), target.name.c_str(),
-                 it.tname().c_str() );
+        // deal damage with weapon wielded, and make their weapon fall on floor if we've rolled enough.
+        melee_attack( target, false, no_technique_id, hitspread );
+        mod_moves( -100 );
+        if( my_roll >= their_roll ) {
+            add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ), target.name.c_str(),
+                     it.tname().c_str() );
+            const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+            g->m.add_item_or_charges( tp, target.i_rem( &it ) );
+        } else {
+            add_msg( _( "You smash %s with all your might but %s remains in their hands!" ), target.name.c_str(),
+                     it.tname().c_str() );
+        }
     }
+
+    aggress_npc( target );
 }
 
 void player::steal( npc &target )
@@ -2045,14 +2051,14 @@ void player::steal( npc &target )
 
     const item *it = loc.get_item();
     if( my_roll >= their_roll ) {
-        add_msg( _( "You sneakely steal %s from %s!" ), it->tname().c_str(), target.name.c_str() );
+        add_msg( _( "You sneakily steal %s from %s!" ), it->tname().c_str(), target.name.c_str() );
         i_add( target.i_rem( it ) );
     } else if( my_roll >= their_roll / 2 ) {
         add_msg( _( "You failed to steal %s from %s, but did not attract attention." ), it->tname().c_str(),
                  target.name.c_str() );
     } else  {
         add_msg( _( "You failed to steal %s from %s" ), it->tname().c_str(), target.name.c_str() );
-        target.make_angry();
+        aggress_npc( target );
     }
 
     // consider to deduce less/more moves for balance

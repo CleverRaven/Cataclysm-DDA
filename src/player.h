@@ -1461,6 +1461,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::set<tripoint> get_path_avoid() const override;
 
         /**
+         * Makes the NPC considered to be attacked by the player first if not already hostile.
+         * Angers the NPC to allow for fight or flight.
+         */
+        void aggress_npc( npc &target );
+
+        /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
          * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
          * @param target Target NPC to disarm
