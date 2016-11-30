@@ -1947,14 +1947,6 @@ double player::unarmed_value() const
     return melee_value( ret_null );
 }
 
-void player::aggress_npc( npc &target )
-{
-    if( !target.is_enemy() ) {
-        target.make_angry();
-        target.hit_by_player = true;
-    }
-}
-
 void player::disarm( npc &target )
 {
     if( !target.is_armed() ) {
@@ -1979,7 +1971,7 @@ void player::disarm( npc &target )
     if( hitspread < 0 ) {
         // this will not do damage, but trigger all miss effects and on_dodge on target
         melee_attack( target, false, no_technique_id, hitspread );
-        aggress_npc( target );
+        target.on_attacked( *this );
         return;
     }
 
@@ -2019,7 +2011,7 @@ void player::disarm( npc &target )
         }
     }
 
-    aggress_npc( target );
+    target.on_attacked( *this );
 }
 
 void player::steal( npc &target )
