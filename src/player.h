@@ -42,6 +42,11 @@ using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
 
+namespace debug_menu
+{
+class mission_debug;
+}
+
 // This tries to represent both rating and
 // player's decision to respect said rating
 enum edible_rating {
@@ -1484,6 +1489,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void load(JsonObject &jsin);
 
     private:
+        friend class debug_menu::mission_debug;
+
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
         /** Check if an area-of-effect technique has valid targets */

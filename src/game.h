@@ -765,13 +765,6 @@ class game
         void create_factions(); // Creates new factions (for a new game world)
         void create_starting_npcs(); // Creates NPCs that start near you
 
-        // Player actions
-        void wishitem( player *p = nullptr, int x = -1, int y = -1, int z = -1 );
-        void wishmonster( const tripoint &p = tripoint_min );
-        void wishmutate( player *p );
-        void wishskill( player *p );
-        void mutation_wish(); // Mutate
-
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;

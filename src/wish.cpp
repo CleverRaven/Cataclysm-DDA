@@ -13,6 +13,7 @@
 #include "mutation.h"
 #include "mtype.h"
 #include "player.h"
+#include "debug_menu.h"
 
 #include <sstream>
 
@@ -176,7 +177,7 @@ class wish_mutate_callback: public uimenu_callback
 };
 
 
-void game::wishmutate( player *p )
+void debug_menu::wishmutate( player *p )
 {
     uimenu wmenu;
     int c = 0;
@@ -348,7 +349,7 @@ class wish_monster_callback: public uimenu_callback
         }
 };
 
-void game::wishmonster( const tripoint &p )
+void debug_menu::wishmonster( const tripoint &p )
 {
     std::vector<const mtype *> mtypes;
 
@@ -382,12 +383,12 @@ void game::wishmonster( const tripoint &p )
             if( cb.hallucination ) {
                 mon.hallucination = true;
             }
-            tripoint spawn = ( p == tripoint_min ? look_around() : p );
+            tripoint spawn = ( p == tripoint_min ? g->look_around() : p );
             if( spawn != tripoint_min ) {
                 std::vector<tripoint> spawn_points = closest_tripoints_first( cb.group, spawn );
                 for( auto spawn_point : spawn_points ) {
                     mon.spawn( spawn_point );
-                    add_zombie( mon, true );
+                    g->add_zombie( mon, true );
                 }
                 cb.msg = _( "Monster spawned, choose another or 'q' to quit." );
                 uistate.wishmonster_selected = wmenu.ret;
@@ -437,7 +438,7 @@ class wish_item_callback: public uimenu_callback
         }
 };
 
-void game::wishitem( player *p, int x, int y, int z )
+void debug_menu::wishitem( player *p, int x, int y, int z )
 {
     if( p == NULL && x <= 0 ) {
         debugmsg( "game::wishitem(): invalid parameters" );
@@ -481,7 +482,7 @@ void game::wishitem( player *p, int x, int y, int z )
                 }
                 p->invalidate_crafting_inventory();
             } else if( x >= 0 && y >= 0 ) {
-                m.add_item_or_charges( tripoint( x, y, z ), granted );
+                g->m.add_item_or_charges( tripoint( x, y, z ), granted );
                 wmenu.keypress = 'q';
             }
             if( amount > 0 ) {
@@ -499,7 +500,7 @@ void game::wishitem( player *p, int x, int y, int z )
 /*
  * Set skill on any player object; player character or NPC
  */
-void game::wishskill( player *p )
+void debug_menu::wishskill( player *p )
 {
     const int skoffset = 1;
     uimenu skmenu;
