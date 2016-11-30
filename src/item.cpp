@@ -3255,12 +3255,12 @@ int item::damage() const {
 
 int item::min_damage() const
 {
-    return type ? type->damage_min : 0;
+    return type->damage_min;
 }
 
 int item::max_damage() const
 {
-    return type ? type->damage_max : 0;
+    return type->damage_max;
 }
 
 bool item::mod_damage( double qty, damage_type dt )
