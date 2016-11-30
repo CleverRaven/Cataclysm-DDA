@@ -1675,6 +1675,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
     static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
     static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
+    static const mongroup_id GROUP_SCHOOL( "GROUP_SCHOOL" );
     // Big old switch statement with a case for each overmap terrain type.
     // Many of these can be copied from another type, then rotated; for instance,
     //  "house_east" is identical to "house_north", just rotated 90 degrees to
@@ -6103,7 +6104,7 @@ ssssssssssssssssssssssss\n",
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-        add_spawn(mon_zombie_child, rng(20, 60), SEEX, SEEY);
+        place_spawns( GROUP_SCHOOL, 2, 0, 0, 23, 23, 3);
         if (t_north == "school_2") {
             rotate(3);
         } else if (t_east == "school_2") {
@@ -6152,8 +6153,7 @@ ssssssssssssssssssssssss\n",
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-        add_spawn(mon_zombie_child, rng(5, 20), SEEX, SEEY);
-        add_spawn(mon_zombie, rng(0, 8), SEEX, SEEY);
+        place_spawns( GROUP_SCHOOL, 3, 1, 1, 22, 22, 2);
         for (int i = 0; i <= 23; i++) {
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_desk) {
@@ -6211,7 +6211,7 @@ sssssssss_______ssssssss\n",
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-        add_spawn(mon_zombie_child, rng(0, 8), SEEX, SEEY);
+        place_spawns( GROUP_SCHOOL, 3, 1, 1, 22, 22, 2);
         if (t_north == "school_2") {
             rotate(1);
             if (x_in_y(1, 7)) {
@@ -6284,8 +6284,7 @@ sssssssss_______ssssssss\n",
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-        add_spawn(mon_zombie_child, rng(0, 20), SEEX, SEEY);
-        add_spawn(mon_zombie, rng(0, 4), SEEX, SEEY);
+        place_spawns( GROUP_SCHOOL, 3, 1, 1, 22, 22, 2);
         for (int i = 0; i <= 23; i++) {
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_desk) {
@@ -6343,8 +6342,7 @@ sssssssss_______ssssssss\n",
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-        add_spawn(mon_zombie_child, rng(0, 15), SEEX, SEEY);
-        add_spawn(mon_zombie, rng(0, 4), SEEX, SEEY);
+        place_spawns( GROUP_SCHOOL, 3, 1, 1, 22, 22, 2);
         for (int i = 0; i <= 23; i++) {
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_desk) {
@@ -6406,8 +6404,7 @@ ssssssssssssssssssssssss\n",
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-        add_spawn(mon_zombie_child, rng(0, 20), SEEX, SEEY);
-        add_spawn(mon_zombie, rng(0, 4), SEEX, SEEY);
+        place_spawns( GROUP_SCHOOL, 3, 1, 1, 22, 22, 2);
         for (int i = 0; i <= 23; i++) {
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_desk) {
@@ -6465,8 +6462,7 @@ ssssssssssssssssssssssss\n",
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-        add_spawn(mon_zombie_child, rng(0, 20), SEEX, SEEY);
-        add_spawn(mon_zombie, rng(0, 4), SEEX, SEEY);
+        place_spawns( GROUP_SCHOOL, 3, 1, 1, 22, 22, 2);
         for (int i = 0; i <= 23; i++) {
             for (int j = 0; j <= 23; j++) {
                 if (this->furn(i, j) == f_desk) {
@@ -6524,8 +6520,7 @@ w                       \n\
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-        add_spawn(mon_zombie_child, rng(0, 4), SEEX, SEEY);
-        add_spawn(mon_zombie, rng(0, 1), SEEX, SEEY);
+        place_spawns( GROUP_SCHOOL, 3, 1, 1, 22, 22, 2);
         place_items("cleaning", 80,  22, 23, 23,  23, false, 0);
         spawn_item(12, 15, "american_flag");
         if (t_north == "school_5") {
@@ -6577,8 +6572,7 @@ wd.d.d.d.|....|----|-|-|\n\
                                            f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,
                                            f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
                                            f_locker, f_null));
-        add_spawn(mon_zombie_child, rng(0, 20), SEEX, SEEY);
-        add_spawn(mon_zombie, rng(3, 10), SEEX, SEEY);
+        place_spawns( GROUP_SCHOOL, 3, 1, 1, 22, 22, 2);
         place_items("cleaning", 80,  15,  15, 15,  15, false, 0);
         place_items("cannedfood", 95,  17,  15, 17,  15, false, 0);
         place_items("fast_food", 95,  18,  11, 19,  12, false, 0);
