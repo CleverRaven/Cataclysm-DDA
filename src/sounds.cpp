@@ -226,9 +226,6 @@ void sounds::process_sound_markers( player *p )
     const int weather_vol = weather_data( g->weather ).sound_attn;
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const int volume = std::min(safe_volume, (int)(sound_event_pair.second.volume * volume_multiplier));
-        const std::string& sfx_id = sound_event_pair.second.id;
-        const std::string& sfx_variant = sound_event_pair.second.variant;
-        const int max_volume = std::max( volume, sound_event_pair.second.volume );  // For deafness checks
         int dist = rl_dist( p->pos(), sound_event_pair.first );
         bool ambient = sound_event_pair.second.ambient;
         // Too far away, we didn't hear it!
@@ -238,9 +235,9 @@ void sounds::process_sound_markers( player *p )
         if( is_deaf ) {
             // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
             if( !p->is_immune_effect( effect_deaf )
-                    && rng( ( max_volume - dist ) / 2, ( max_volume - dist ) ) >= 150 ) {
+                    && rng( ( volume - dist ) / 2, ( volume - dist ) ) >= 150 ) {
                 // Prolong deafness, but not as much as if it was freshly applied
-                int duration = std::min( 40, ( max_volume - dist - 130 ) / 8 );
+                int duration = std::min( 40, ( volume - dist - 130 ) / 8 );
                 p->add_effect( effect_deaf, duration );
                 if( !p->has_trait( "DEADENED" ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
@@ -258,8 +255,8 @@ void sounds::process_sound_markers( player *p )
             p->volume = std::max( p->volume, volume );
         }
         // Check for deafness
-        if( !p->is_immune_effect( effect_deaf ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
-            int duration = (max_volume - dist - 130) / 4;
+        if( !p->is_immune_effect( effect_deaf ) && rng((volume - dist) / 2, (volume - dist)) >= 150 ) {
+            int duration = (volume - dist - 130) / 4;
             p->add_effect( effect_deaf, duration );
             if( p->is_deaf() ) {
                 // Need to check for actual deafness
@@ -318,6 +315,9 @@ void sounds::process_sound_markers( player *p )
                 add_msg( m_warning, _( "From the %s you hear %s" ), direction.c_str(), description.c_str() );
             }
         }
+
+        const std::string& sfx_id = sound_event_pair.second.id;
+        const std::string& sfx_variant = sound_event_pair.second.variant;
         // Play the sound effect, if any.
         if( !sfx_id.empty() ) {
             // for our sfx API, 100 is "normal" volume, so scale accordingly
