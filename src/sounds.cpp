@@ -222,10 +222,10 @@ void sounds::process_sound_markers( player *p )
 {
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
-    const int safe_volume = p->worn_with_flag("PARTIAL_DEAF") ? 100 : 9999;
+    const int safe_volume = p->worn_with_flag( "PARTIAL_DEAF" ) ? 100 : 9999;
     const int weather_vol = weather_data( g->weather ).sound_attn;
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
-        const int volume = std::min(safe_volume, (int)(sound_event_pair.second.volume * volume_multiplier));
+        const int volume = std::min( safe_volume, ( int )( sound_event_pair.second.volume * volume_multiplier ) );
         int dist = rl_dist( p->pos(), sound_event_pair.first );
         bool ambient = sound_event_pair.second.ambient;
         // Too far away, we didn't hear it!
@@ -255,8 +255,8 @@ void sounds::process_sound_markers( player *p )
             p->volume = std::max( p->volume, volume );
         }
         // Check for deafness
-        if( !p->is_immune_effect( effect_deaf ) && rng((volume - dist) / 2, (volume - dist)) >= 150 ) {
-            int duration = (volume - dist - 130) / 4;
+        if( !p->is_immune_effect( effect_deaf ) && rng( ( volume - dist ) / 2, ( volume - dist ) ) >= 150 ) {
+            int duration = ( volume - dist - 130 ) / 4;
             p->add_effect( effect_deaf, duration );
             if( p->is_deaf() ) {
                 // Need to check for actual deafness
