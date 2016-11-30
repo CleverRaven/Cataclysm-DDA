@@ -2005,14 +2005,6 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     load_item_group(jsobj, group_id, subtype);
 }
 
-void Item_factory::load_item_group_entries( Item_group& ig, JsonArray& entries )
-{
-    while( entries.has_more() ) {
-        JsonObject subobj = entries.next_object();
-        add_entry( &ig, subobj );
-    }
-}
-
 void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_id,
                                     const bool is_collection, int ammo_chance,
                                     int magazine_chance )
@@ -2021,7 +2013,10 @@ void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_i
     Item_spawn_data *&isd = m_template_groups[group_id];
     Item_group* const ig = make_group_or_throw( isd, type, ammo_chance, magazine_chance );
 
-    load_item_group_entries( *ig, entries );
+    while( entries.has_more() ) {
+        JsonObject subobj = entries.next_object();
+        add_entry( ig, subobj );
+    }
 }
 
 void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
@@ -2054,7 +2049,10 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
 
     if (jsobj.has_member("entries")) {
         JsonArray items = jsobj.get_array("entries");
-        load_item_group_entries( *ig, items );
+        while( items.has_more() ) {
+            JsonObject subobj = items.next_object();
+            add_entry( ig, subobj );
+        }
     }
     if (jsobj.has_member("items")) {
         JsonArray items = jsobj.get_array("items");
