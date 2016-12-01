@@ -422,8 +422,8 @@ class JsonOut
     private:
         std::ostream *stream;
         bool pretty_print;
-        bool need_separator;
-        int indent_level;
+        bool need_separator = false;
+        int indent_level = 0;
 
     public:
         JsonOut(std::ostream &stream, bool pretty_print = false);

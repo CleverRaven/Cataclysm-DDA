@@ -1563,13 +1563,7 @@ std::string JsonIn::substr(size_t pos, size_t len)
     return ret;
 }
 
-
-/* class JsonOut
- * represents an ostream of JSON data,
- * allowing easy serialization of c++ datatypes.
- */
-JsonOut::JsonOut(std::ostream &s, bool pretty)
-    :   stream(&s), pretty_print(pretty), need_separator(false), indent_level(0)
+JsonOut::JsonOut( std::ostream &s, bool pretty ) : stream( &s ), pretty_print( pretty )
 {
     // ensure user's locale doesn't interfere with number format
     stream->imbue(std::locale::classic());
