@@ -239,9 +239,9 @@ void sounds::process_sound_markers( player *p )
         // hear the deafening sound but still suffer additional hearing loss.
         const bool is_sound_deafening = rng( felt_volume / 2, felt_volume ) >= 150;
 
-        // Deaf players hear no sound, but still are at risk of additional hearing loss. 
+        // Deaf players hear no sound, but still are at risk of additional hearing loss.
         if( is_deaf ) {
-            if ( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
+            if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
                 p->add_effect( effect_deaf, std::min( 40, ( felt_volume - 130 ) / 8 ) );
                 if( !p->has_trait( "DEADENED" ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
@@ -266,7 +266,7 @@ void sounds::process_sound_markers( player *p )
         // The heard volume of a sound is the player heard volume, regardless of true volume level.
         const int heard_volume = ( int )( ( raw_volume - weather_vol ) * volume_multiplier ) - distance_to_sound;
 
-        if( heard_volume <= 0) {
+        if( heard_volume <= 0 ) {
             continue;
         }
 
@@ -280,8 +280,8 @@ void sounds::process_sound_markers( player *p )
         if( p->has_effect( effect_sleep ) ) {
             if( ( !( p->has_trait( "HEAVYSLEEPER" ) ||
                      p->has_trait( "HEAVYSLEEPER2" ) ) && dice( 2, 15 ) < heard_volume ) ||
-                    ( p->has_trait( "HEAVYSLEEPER" ) && dice( 3, 15 ) < heard_volume ) ||
-                    ( p->has_trait( "HEAVYSLEEPER2" ) && dice( 6, 15 ) < heard_volume ) ) {
+                ( p->has_trait( "HEAVYSLEEPER" ) && dice( 3, 15 ) < heard_volume ) ||
+                ( p->has_trait( "HEAVYSLEEPER2" ) && dice( 6, 15 ) < heard_volume ) ) {
                 //Not kidding about sleep-thru-firefight
                 p->wake_up();
                 add_msg( m_warning, _( "Something is making noise." ) );
@@ -294,8 +294,8 @@ void sounds::process_sound_markers( player *p )
         if( !sound.ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, distance_to_sound ) ) {
             if( !p->activity.ignore_trivial ) {
                 const std::string query = description.empty()
-                    ? _( "Heard a noise!" )
-                    : string_format( _( "Heard %s!" ), description.c_str() );
+                                          ? _( "Heard a noise!" )
+                                          : string_format( _( "Heard %s!" ), description.c_str() );
 
                 if( g->cancel_activity_or_ignore_query( query.c_str() ) ) {
                     p->activity.ignore_trivial = true;
@@ -317,8 +317,8 @@ void sounds::process_sound_markers( player *p )
             }
         }
 
-        const std::string& sfx_id = sound.id;
-        const std::string& sfx_variant = sound.variant;
+        const std::string &sfx_id = sound.id;
+        const std::string &sfx_variant = sound.variant;
         if( !sfx_id.empty() ) {
             sfx::play_variant_sound( sfx_id, sfx_variant, sfx::get_heard_volume( pos ) );
         }
@@ -354,6 +354,7 @@ void sounds::process_sound_markers( player *p )
                 }
             }
         }
+
         // Then place the sound marker in a random one.
         if( !unseen_points.empty() ) {
             sound_markers.emplace( random_entry( unseen_points ), sound );
