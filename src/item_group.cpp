@@ -334,8 +334,8 @@ void Item_group::add_entry(std::unique_ptr<Item_spawn_data> &ptr)
             std::unique_ptr<Item_modifier> mod( new Item_modifier() );
             sic->modifier = std::move( mod );
         }
-        sic->modifier.get()->with_ammo = with_ammo;
-        sic->modifier.get()->with_magazine = with_magazine;
+        sic->modifier->with_ammo = with_ammo;
+        sic->modifier->with_magazine = with_magazine;
     }
     items.push_back( ptr.get() );
     ptr.release();
