@@ -125,9 +125,9 @@ Install:
 
 This is relatively new and may not be available as a package. To build and install it, run:
 
-    git clone https://github.com/grimfang4/sdl-gpu.git
+    git clone https://github.com/mutability/sdl-gpu.git
     cd sdl-gpu
-    cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr
+    cmake -G "Unix Makefiles"
     sudo make install
 
 ### Building
@@ -178,7 +178,7 @@ If you are not on a Debian derivative (Linux Mint, Ubuntu, etc), you will have t
 
 First you need a SDL_gpu install. Run:
 
-    git clone https://github.com/grimfang4/sdl-gpu.git
+    git clone https://github.com/mutability/sdl-gpu.git
 
     PLATFORM="i686-w64-mingw32.static"
     mkdir sdl-gpu/mxe-${PLATFORM}
