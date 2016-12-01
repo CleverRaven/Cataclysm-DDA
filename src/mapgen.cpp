@@ -1294,21 +1294,73 @@ void mapgen_palette::load_place_mapings( JsonObject &jo, const std::string &memb
     }
 }
 
-mapgen_palette mapgen_palette::load_temp( JsonObject &jo, const std::string & )
+std::map<std::string, mapgen_palette> palettes;
+
+mapgen_palette mapgen_palette::load_temp( JsonObject &jo, const std::string &src )
+{
+    return load_internal( jo, src, false, true );
+}
+
+void mapgen_palette::load( JsonObject &jo, const std::string &src )
+{
+    mapgen_palette ret = load_internal( jo, src, true, false );
+    if( ret.id.empty() ) {
+        jo.throw_error( "Named palette needs an id" );
+    }
+
+    palettes[ ret.id ] = ret;
+}
+
+const mapgen_palette &mapgen_palette::get( const palette_id &id )
+{
+    const auto iter = palettes.find( id );
+    if( iter != palettes.end() ) {
+        return iter->second;
+    }
+
+    debugmsg( "Requested palette with unknown id %s", id.c_str() );
+    static mapgen_palette dummy;
+    return dummy;
+}
+
+void mapgen_palette::add( const palette_id &rh )
+{
+    add( get( rh ) );
+}
+
+void mapgen_palette::add( const mapgen_palette &rh )
+{
+    for( auto &placing : rh.format_placings ) {
+        format_placings[ placing.first ] = placing.second;
+    }
+    for( auto &placing : rh.format_terrain ) {
+        format_terrain[ placing.first ] = placing.second;
+    }
+    for( auto &placing : rh.format_furniture ) {
+        format_furniture[ placing.first ] = placing.second;
+    }
+}
+
+mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string &, bool require_id, bool allow_recur )
 {
     mapgen_palette new_pal;
     auto &format_placings = new_pal.format_placings;
     auto &format_terrain = new_pal.format_terrain;
     auto &format_furniture = new_pal.format_furniture;
-    /*
+    if( require_id ) {
+        new_pal.id = jo.get_string( "id" );
+    }
+
     if( jo.has_array( "palettes" ) ) {
-        JsonArray jarr = jo.get_array( "palettes" );
-        while( jarr.has_more() ) {
-            const std::string other_pal = jarr.next_string();
-            new_pal.add( other_pal );
+        if( allow_recur ) {
+            auto pals = jo.get_string_array( "palettes" );
+            for( auto &p : pals ) {
+                new_pal.add( p );
+            }
+        } else {
+            jo.throw_error( "Recursive palettes are not implemented yet" );
         }
     }
-    */
 
     // manditory: every character in rows must have matching entry, unless fill_ter is set
     // "terrain": { "a": "t_grass", "b": "t_lava" }

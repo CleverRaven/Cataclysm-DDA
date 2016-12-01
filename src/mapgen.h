@@ -150,10 +150,10 @@ public:
     jmapgen_int repeat;
 };
 
+using palette_id = std::string;
+
 class mapgen_palette {
 public:
-    using palette_id = std::string;
-
     palette_id id;
     /**
      * The mapping from character code (key) to a list of things that should be placed. This is
@@ -166,11 +166,6 @@ public:
     std::map<int, furn_id> format_furniture;
     placing_map format_placings;
 
-    /**
-     * Palettes this one already includes. Used to control recursion.
-     */
-    std::set<palette_id> includes;
-
     template<typename PieceType>
     /**
      * Load (append to format_placings) the places that should be put there.
@@ -178,14 +173,22 @@ public:
      */
     void load_place_mapings( JsonObject &jsi, const std::string &member_name, placing_map &format_placings );
     /**
-     * Load a palette object and returns it. Doesn't save it anywhere.
+     * Loads a palette object and returns it. Doesn't save it anywhere.
      */
     static mapgen_palette load_temp( JsonObject &jo, const std::string &src );
     /**
      * Load a palette object and adds it to the global set of palettes.
      * If "palette" field is specified, those palettes will be loaded recursively.
      */
-    void load_palette( JsonObject &jo, const std::string &src );
+    static void load( JsonObject &jo, const std::string &src );
+
+    /**
+     * Returns a palette with given id. If not found, debugmsg and returns a dummy.
+     */
+    static const mapgen_palette &get( const palette_id &id );
+
+private:
+    static mapgen_palette load_internal( JsonObject &jo, const std::string &src, bool require_id, bool allow_recur );
 
     /**
      * Adds a palette to this one. New values take preference over the old ones.
@@ -194,7 +197,6 @@ public:
     void add( const palette_id &rh );
     void add( const mapgen_palette &rh );
 };
-extern std::map<std::string, mapgen_palette> palettes;
 
 struct jmapgen_objects {
 
