@@ -1570,6 +1570,9 @@ JsonOut::JsonOut( std::ostream &s, bool pretty ) : stream( &s ), pretty_print( p
     stream->setf( std::ios_base::showpoint );
     stream->setf( std::ios_base::dec, std::ostream::basefield );
     stream->setf( std::ios_base::fixed, std::ostream::floatfield );
+
+    // automatically stringify bool to "true" or "false"
+    stream->setf( std::ios_base::boolalpha );
 }
 
 void JsonOut::write_indent()
@@ -1661,14 +1664,10 @@ void JsonOut::write_null()
 
 void JsonOut::write(const bool &b)
 {
-    if (need_separator) {
+    if( need_separator ) {
         write_separator();
     }
-    if (b) {
-        stream->write("true", 4);
-    } else {
-        stream->write("false", 5);
-    }
+    *stream << i;
     need_separator = true;
 }
 
