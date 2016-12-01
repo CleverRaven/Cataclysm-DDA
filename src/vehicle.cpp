@@ -2902,7 +2902,8 @@ int vehicle::power_usage() const
     res += camera_on ? camera_epower : 0;
 
     for( const auto &e : parts ) {
-        if( e.enabled ) {
+        // ensure engines consume power (for ignition) only when actually running
+        if( e.enabled && ( !e.is_engine() || engine_on ) ) {
             res += std::min( e.info().epower, 0 ); // consumers only
         }
     }
