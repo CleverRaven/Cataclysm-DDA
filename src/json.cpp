@@ -1662,65 +1662,6 @@ void JsonOut::write_null()
     need_separator = true;
 }
 
-void JsonOut::write(const bool &b)
-{
-    if( need_separator ) {
-        write_separator();
-    }
-    *stream << i;
-    need_separator = true;
-}
-
-void JsonOut::write(const int &i)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << i;
-    need_separator = true;
-}
-
-void JsonOut::write(const unsigned &u)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << u;
-    need_separator = true;
-}
-
-void JsonOut::write(const long &l)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << l;
-    need_separator = true;
-}
-
-void JsonOut::write(const unsigned long &ul)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << ul;
-    need_separator = true;
-}
-
-void JsonOut::write(const double &f)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << f;
-    need_separator = true;
-}
-
 void JsonOut::write(const std::string &s)
 {
     if (need_separator) {
