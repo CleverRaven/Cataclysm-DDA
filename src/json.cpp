@@ -1659,14 +1659,14 @@ void JsonOut::write_null()
     need_separator = true;
 }
 
-void JsonOut::write(const std::string &s)
+void JsonOut::write( const std::string &val )
 {
     if (need_separator) {
         write_separator();
     }
     unsigned char ch;
     stream->put('"');
-    for (auto &i : s) {
+    for( const auto &i : val ) {
         ch = i;
         if (ch == '"') {
             stream->write("\\\"", 2);

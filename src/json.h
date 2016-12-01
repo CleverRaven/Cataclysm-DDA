@@ -2,7 +2,7 @@
 #define JSON_H
 
 #include <type_traits>
-#include <iosfwd>
+#include <iostream>
 #include <string>
 #include <vector>
 #include <bitset>
@@ -441,7 +441,7 @@ class JsonOut
         void write_null();
 
         template <typename T, typename std::enable_if<std::is_fundamental<T>::value, int>::type = 0>
-        void write( const T& val ) {
+        void write( T val ) {
             if( need_separator ) {
                 write_separator();
             }
@@ -450,19 +450,22 @@ class JsonOut
         }
 
         template <typename T, typename std::enable_if<std::is_enum<T>::value, int>::type = 0>
-        void write( const T& val ) {
+        void write( T val ) {
             write( static_cast<typename std::underlying_type<T>::type>( val ) );
         }
 
-        void write(const std::string &s);
+        // strings need escaping and quoting
+        void write( const std::string &val );
+        void write( const char *val ) { write( std::string( val ) ); }
+
+        // char should always be written as an unquoted numeral
+        void write(          char val ) { write( static_cast<int>( val ) ); }
+        void write(   signed char val ) { write( static_cast<int>( val ) ); }
+        void write( unsigned char val ) { write( static_cast<int>( val ) ); }
 
         template<size_t N>
         void write(const std::bitset<N> &b);
 
-        void write(const char *cstr)
-        {
-            write(std::string(cstr));
-        }
         void write(const JsonSerializer &thing);
         // This is for the string_id type
         template <typename T>
