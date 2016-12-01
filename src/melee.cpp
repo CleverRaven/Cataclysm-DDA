@@ -2000,13 +2000,13 @@ void player::disarm( npc &target )
         melee_attack( target, false, no_technique_id, hitspread );
         mod_moves( -100 );
         if( my_roll >= their_roll ) {
-            add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ), target.name.c_str(),
-                     it.tname().c_str() );
+            add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
+                    target.name.c_str(), it.tname().c_str() );
             const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
             g->m.add_item_or_charges( tp, target.i_rem( &it ) );
         } else {
-            add_msg( _( "You smash %s with all your might but %s remains in their hands!" ), target.name.c_str(),
-                     it.tname().c_str() );
+            add_msg( _( "You smash %s with all your might but %s remains in their hands!" ),
+                    target.name.c_str(), it.tname().c_str() );
         }
     }
 

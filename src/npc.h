@@ -612,7 +612,7 @@ public:
  void make_angry(); // Called if the player attacks us
     /*
      * Angers and makes the NPC consider the creature an attacker
-     * if the creature is a plery and the NPC is not already hostile
+     * if the creature is a player and the NPC is not already hostile
      * towards the player.
      */
     void on_attacked( const Creature &attacker );
