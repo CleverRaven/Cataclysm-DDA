@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Steam powered",
+    "name": "Steam Power",
+    "authors": [ "Zachary Parchman" ],
+    "maintainers": [ "Zachary Parchman" ],
+    "description": "Adds steam powered vehicles, weapons and tools.",
+    "category": "vehicles",
+    "dependencies": [ "dda" ]
+  }
+]

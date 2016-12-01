@@ -1,0 +1,160 @@
+[
+  {
+    "abstract": "engine_steam",
+    "type": "ENGINE",
+    "category": "veh_parts",
+    "name": "external combustion engine",
+    "material": "iron",
+    "symbol": ":",
+    "color": "light_cyan"
+  },{
+    "id": "i2_steam",
+    "copy-from": "engine_steam",
+    "type": "ENGINE",
+    "name": "i2 steam engine",
+    "description": "A high power 2 piston steam engine",
+    "weight": 20000,
+    "volume": 25,
+    "price": 25000,
+    "displacement": 200
+  },{
+    "id": "steam_turbine",
+    "copy-from": "engine_steam",
+    "type": "ENGINE",
+    "name": "steam turbine steam engine",
+    "description": "A high power 2 piston steam engine",
+    "weight": 20000,
+    "volume": 25,
+    "price": 25000,
+    "displacement": 500
+  },{
+      "id":"steam",
+      "type":"AMMO",
+      "name": "steam",
+      "name_plural": "steam",
+      "description": "Hot water, very hot water",
+      "category": "fuel",
+      "weight": 0.4,
+      "volume": 1,
+      "price": 40,
+      "price_postapoc": 800,
+      "count": 250,
+      "stack_size": 250,
+      "phase": "liquid",
+      "container": "jerrycan",
+      "material": "hydrocarbons",
+      "symbol": "=",
+      "color": "cyan",
+      "ammo_type": ["gasoline", "flammable"],
+      "damage": 5,
+      "range": 4,
+      "pierce": 5,
+      "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
+      "fuel": {
+          "energy": 0.342
+      }
+  },{
+    "abstract": "engine_steam",
+    "type": "vehicle_part",
+    "location": "engine_block",
+    "symbol": "*",
+    "color": "light_red",
+    "broken_color": "red",
+    "flags": [ "ENGINE", "TOOL_WRENCH" ]
+  },{
+    "id": "steam_i2",
+    "copy-from": "engine_steam",
+    "type": "vehicle_part",
+    "item": "i2_steam",
+    "fuel_type": "steam",
+    "difficulty": 2,
+    "durability": 400,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 10, 20 ] },
+      { "item": "steel_chunk", "count": [ 10, 20 ] },
+      { "item": "scrap", "count": [ 10, 20 ] }
+    ]
+  },{
+    "id": "steam_turbine",
+    "copy-from": "engine_steam",
+    "type": "vehicle_part",
+    "item": "steam_turbine",
+    "fuel_type": "steam",
+    "difficulty": 2,
+    "durability": 400,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 10, 20 ] },
+      { "item": "steel_chunk", "count": [ 10, 20 ] },
+      { "item": "scrap", "count": [ 10, 20 ] }
+    ]
+  },{
+    "abstract": "steam_boiler",
+    "type": "GENERIC",
+    "name": "vehicle alternator",
+    "category": "veh_parts",
+    "material": [ "steel", "copper" ],
+    "symbol": ",",
+    "color": "light_cyan"
+  },{
+    "id": "electric_boiler",
+    "copy-from": "steam_boiler",
+    "type": "GENERIC",
+    "name": "Electric boiler",
+    "description": "An electric water boiler.",
+    "weight": 1100,
+    "volume": 4,
+    "price": 8000
+  },{
+    "id": "gasoline_boiler",
+    "copy-from": "steam_boiler",
+    "type": "GENERIC",
+    "name": "Gasoline boiler",
+    "description": "A gas powered water boiler.",
+    "weight": 1100,
+    "volume": 4,
+    "price": 8000
+  },{
+    "abstract": "steam_boiler",
+    "type": "vehicle_part",
+    "symbol": "*",
+    "color": "yellow",
+    "broken_color": "red",
+    "flags": [ "BOILER" ]
+  },{
+    "id": "electric_boiler",
+    "copy-from": "steam_boiler",
+    "type": "vehicle_part",
+    "fuel_type": "battery",
+    "name": "electric boiler",
+    "item": "electric_boiler",
+    "difficulty": 2,
+    "durability": 250,
+    "power": 200,
+    "damage_modifier": 80,
+    "folded_volume": 5,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 5 ] },
+      { "item": "steel_chunk", "count": [ 2, 5 ] },
+      { "item": "scrap", "count": [ 2, 5 ] }
+    ]
+  },{
+    "id": "gasoline_boiler",
+    "copy-from": "steam_boiler",
+    "type": "vehicle_part",
+    "fuel_type": "gasoline",
+    "name": "gasoline boiler",
+    "item": "gasoline_boiler",
+    "difficulty": 2,
+    "durability": 250,
+    "power": 20,
+    "damage_modifier": 80,
+    "folded_volume": 5,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 5 ] },
+      { "item": "steel_chunk", "count": [ 2, 5 ] },
+      { "item": "scrap", "count": [ 2, 5 ] }
+    ]
+  }
+]

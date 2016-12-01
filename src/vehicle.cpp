@@ -51,6 +51,7 @@ static const itype_id fuel_type_diesel("diesel");
 static const itype_id fuel_type_battery("battery");
 static const itype_id fuel_type_water("water_clean");
 static const itype_id fuel_type_muscle("muscle");
+static const itype_id fuel_type_steam("steam");
 static const std::string part_location_structure("structure");
 
 static const fault_id fault_belt( "fault_engine_belt_drive" );
@@ -612,6 +613,17 @@ void vehicle::control_doors() {
     }
 }
 
+void vehicle::control_boilers() {
+    //show menu until user finishes
+    int b_toggle = 0;
+    while( b_toggle >= 0 && b_toggle < (int)boilers.size() ) {
+        b_toggle = select_boiler();
+        if( b_toggle >= 0 && b_toggle < (int) boilers.size() ){
+            toggle_specific_boiler(b_toggle, !is_part_on(boilers[b_toggle]));
+        }
+    }
+}
+
 void vehicle::control_engines() {
     int e_toggle = 0;
     bool dirty = false;
@@ -654,6 +666,21 @@ void vehicle::control_engines() {
     start_engines();
 }
 
+int vehicle::select_boiler() {
+    uimenu tmenu;
+    std::string boiler_name;
+    tmenu.text = _("Toggle which?");
+    for( size_t e = 0; e < boilers.size(); ++e ) {
+        boiler_name = parts[ boilers[ e ] ].name();
+        tmenu.addentry( e, true, -1, "[%s] %s",
+                        ((parts[boilers[e]].enabled) ? "x" : " ") , boiler_name.c_str() );
+    }
+
+    tmenu.addentry(-1, true, 'q', _("Finish"));
+    tmenu.query();
+    return tmenu.ret;
+}
+
 int vehicle::select_engine() {
     uimenu tmenu;
     std::string name;
@@ -672,6 +699,11 @@ int vehicle::select_engine() {
 void vehicle::toggle_specific_engine(int e,bool on) {
     toggle_specific_part( engines[e], on );
 }
+
+void vehicle::toggle_specific_boiler(int e,bool on) {
+    toggle_specific_part( boilers[e], on );
+}
+
 void vehicle::toggle_specific_part(int p,bool on) {
     parts[p].enabled = on;
 }
@@ -707,6 +739,13 @@ bool vehicle::is_engine_on(int const e) const
 {
     return !parts[ engines[ e ] ].is_broken() && is_part_on( engines[ e ] );
 }
+
+bool vehicle::is_boiler_on(int const e) const
+{
+    return !parts[ boilers[ e ] ].is_broken() && is_part_on( boilers[ e ] );
+}
+
+
 
 bool vehicle::is_part_on(int const p) const
 {
@@ -977,6 +1016,11 @@ void vehicle::use_controls( const tripoint &pos )
     if( has_part( "ENGINE" ) ) {
         options.emplace_back( _( "Control individual engines" ), keybind( "CONTROL_ENGINES" ) );
         actions.push_back( [&]{ control_engines(); } );
+    }
+
+    if( has_part( "BOILER" ) ) {
+        options.emplace_back( _( "Control individual boilers" ), keybind( "CONTROL_BOILERS" ) );
+        actions.push_back( [&]{ control_boilers(); } );
     }
 
     if( is_alarm_on ) {
@@ -3166,6 +3210,8 @@ void vehicle::noise_and_smoke( double load, double time )
                 pwr = cur_pwr*3;
             } else if(is_engine_type(e, fuel_type_muscle)) {
                 pwr = cur_pwr*5;
+            } else if( is_engine_type(e, fuel_type_steam)){
+                pwr = cur_pwr * 3;
             }
             noise = std::max(noise, pwr); // Only the loudest engine counts.
         }
@@ -3569,6 +3615,63 @@ void vehicle::power_parts()
             if( player_in_control(g->u) || g->u.sees( global_pos3() ) ) {
                 add_msg( _("The %s's reactor dies!"), name.c_str() );
             }
+        }
+    }
+
+    if( has_part( "BOILER", true ) ) {
+        for( size_t b=0 ; b < boilers.size(); ++b ) {
+            printf("\nchecking boiler %zu\n", b);
+            if( !is_boiler_on( b ) ) {
+                printf("boiler is off\n");
+                continue;
+            }
+
+            printf("looking for tank\n");
+            const vehicle_part &pt = parts[boilers[b]];
+            auto tank = std::find_if( parts.begin(), parts.end(),
+                      [&pt](const vehicle_part &e){
+                          return pt.mount == e.mount && e.is_tank() && \
+                          e.can_reload("steam");
+                      });
+            if( tank == parts.end() ) {
+                printf("skipping boiler due to lack of tank space\n");
+                continue;
+            }
+
+            //calculate tank space avaliable
+            const float space_left = tank->ammo_capacity() - tank->ammo_remaining();
+
+            if(space_left < 1700){
+                printf("skipping boiler due to lack of tank space @ %i of %i\n",
+                       (int)tank->ammo_remaining(), (int)tank->ammo_capacity());
+                continue;
+            }
+
+            printf("tank space avaliable: %f\n", space_left);
+
+            //now consume fuel to create steam
+            const float multiplier = 1700;
+            const vpart_info &vpi = pt.info();
+            float energy_request = std::min<float>(space_left / multiplier, vpi.power);
+            printf("energy_request : %f\n",energy_request );
+            const float energy_drained = drain_energy( vpi.fuel_type, energy_request);
+            printf("energy_drained : %f\n",energy_drained );
+            float water_request = std::min<float>( energy_request, vpi.power);
+            printf("water_request : %f\n",water_request );
+            if( water_request >= 0 && water_request < 1 ) {
+                water_request += 1.0f;
+            }
+            const float water = drain("water", water_request);
+            printf("water : %f\n",water );
+            const float qty = water * multiplier;
+            printf("qty : %f\n",qty );
+
+            printf("found tank and adding %f steam (%f already there) and using %f energy and %f water\n",
+                   qty,
+                   (double)tank->ammo_remaining(),
+                   energy_drained,
+                   water);
+            tank->ammo_set("steam", tank->ammo_remaining() + qty);
         }
     }
 
@@ -5041,6 +5144,7 @@ void vehicle::refresh()
 {
     alternators.clear();
     engines.clear();
+    boilers.clear();
     reactors.clear();
     solar_panels.clear();
     funnels.clear();
@@ -5074,6 +5178,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag(VPFLAG_ENGINE) ) {
             engines.push_back( p );
+        }
+        if( vpi.has_flag(VPFLAG_BOILER) ) {
+            boilers.push_back( p );
         }
         if( vpi.has_flag("REACTOR") ) {
             reactors.push_back( p );

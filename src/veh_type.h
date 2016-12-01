@@ -57,6 +57,7 @@ enum vpart_bitflags : int {
     VPFLAG_ATOMIC_LIGHT,
     VPFLAG_ALTERNATOR,
     VPFLAG_ENGINE,
+    VPFLAG_BOILER,
     VPFLAG_FRIDGE,
     VPFLAG_LIGHT,
     VPFLAG_WINDOW,
@@ -121,6 +122,7 @@ class vpart_info
          * For engines this is maximum output
          * For alternators is engine power consumed (negative value)
          * For solar panel/powered components (% of 1 fuel per turn, can be > 100)
+         * For boilers it is the power rating and affects water and fuel usage
          */
         int power = 0;
 
