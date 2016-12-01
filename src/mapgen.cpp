@@ -1152,7 +1152,7 @@ void jmapgen_objects::load_objects( JsonObject &jsi, const std::string &member_n
 }
 
 template<typename PieceType>
-void load_place_mapings( JsonObject jobj, mapgen_function_json::placing_map::mapped_type &vect )
+void load_place_mapings( JsonObject jobj, mapgen_palette::placing_map::mapped_type &vect )
 {
     vect.emplace_back( new PieceType( jobj ) );
 }
@@ -1166,7 +1166,7 @@ an overload below.
 The mapgen piece is loaded from the member of the json object named key.
 */
 template<typename PieceType>
-void load_place_mapings( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+void load_place_mapings( JsonObject &pjo, const std::string &key, mapgen_palette::placing_map::mapped_type &vect )
 {
     if( pjo.has_object( key ) ) {
         load_place_mapings<PieceType>( pjo.get_object( key ), vect );
@@ -1183,7 +1183,7 @@ This function allows loading the mapgen pieces from a single string, *or* a json
 The mapgen piece is loaded from the member of the json object named key.
 */
 template<typename PieceType>
-void load_place_mapings_string( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+void load_place_mapings_string( JsonObject &pjo, const std::string &key, mapgen_palette::placing_map::mapped_type &vect )
 {
     if( pjo.has_string( key ) ) {
         try {
@@ -1216,7 +1216,7 @@ instance of jmapgen_alternativly which will chose the mapgen piece to apply to t
 Use this with terrain or traps or other things that can not be applied twice to the same place.
 */
 template<typename PieceType>
-void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key, mapgen_palette::placing_map::mapped_type &vect )
 {
     if( !pjo.has_array( key ) ) {
         load_place_mapings_string<PieceType>( pjo, key, vect );
@@ -1241,25 +1241,25 @@ void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key, 
 }
 
 template<>
-void load_place_mapings<jmapgen_trap>( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+void load_place_mapings<jmapgen_trap>( JsonObject &pjo, const std::string &key, mapgen_palette::placing_map::mapped_type &vect )
 {
     load_place_mapings_alternatively<jmapgen_trap>( pjo, key, vect );
 }
 
 template<>
-void load_place_mapings<jmapgen_furniture>( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+void load_place_mapings<jmapgen_furniture>( JsonObject &pjo, const std::string &key, mapgen_palette::placing_map::mapped_type &vect )
 {
     load_place_mapings_alternatively<jmapgen_furniture>( pjo, key, vect );
 }
 
 template<>
-void load_place_mapings<jmapgen_terrain>( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+void load_place_mapings<jmapgen_terrain>( JsonObject &pjo, const std::string &key, mapgen_palette::placing_map::mapped_type &vect )
 {
     load_place_mapings_alternatively<jmapgen_terrain>( pjo, key, vect );
 }
 
 template<typename PieceType>
-void mapgen_function_json::load_place_mapings( JsonObject &jo, const std::string &member_name, placing_map &format_placings )
+void mapgen_palette::load_place_mapings( JsonObject &jo, const std::string &member_name, placing_map &format_placings )
 {
     if( jo.has_object( "mapping" ) ) {
         JsonObject pjo = jo.get_object( "mapping" );
@@ -1279,7 +1279,7 @@ void mapgen_function_json::load_place_mapings( JsonObject &jo, const std::string
         return;
     }
     /* This is kind of a hack. Loading furniture/terrain from `jo` is already done in
-     * mapgen_function_json::setup, continuing here would load it again and cause trouble.
+     * mapgen_palette::load_temp, continuing here would load it again and cause trouble.
      */
     if( member_name == "terrain" || member_name == "furniture" ) {
         return;
@@ -1292,6 +1292,80 @@ void mapgen_function_json::load_place_mapings( JsonObject &jo, const std::string
         auto &vect = format_placings[ key[0] ];
         ::load_place_mapings<PieceType>( pjo, key, vect );
     }
+}
+
+mapgen_palette mapgen_palette::load_temp( JsonObject &jo, const std::string & )
+{
+    mapgen_palette new_pal;
+    auto &format_placings = new_pal.format_placings;
+    auto &format_terrain = new_pal.format_terrain;
+    auto &format_furniture = new_pal.format_furniture;
+    /*
+    if( jo.has_array( "palettes" ) ) {
+        JsonArray jarr = jo.get_array( "palettes" );
+        while( jarr.has_more() ) {
+            const std::string other_pal = jarr.next_string();
+            new_pal.add( other_pal );
+        }
+    }
+    */
+
+    // manditory: every character in rows must have matching entry, unless fill_ter is set
+    // "terrain": { "a": "t_grass", "b": "t_lava" }
+    if( jo.has_object("terrain") ) {
+        JsonObject pjo = jo.get_object("terrain");
+        for( const auto &key : pjo.get_member_names() ) {
+            if( key.size() != 1 ) {
+                pjo.throw_error( "format map key must be 1 character", key );
+            }
+            if( pjo.has_string( key ) ) {
+                format_terrain[key[0]] = ter_id( pjo.get_string( key ) );
+            } else {
+                auto &vect = format_placings[ key[0] ];
+                ::load_place_mapings<jmapgen_terrain>( pjo, key, vect );
+                if( !vect.empty() ) {
+                    // Dummy entry to signal that this terrain is actually defined, because
+                    // the code below checks that each square on the map has a valid terrain
+                    // defined somehow.
+                    format_terrain[key[0]] = t_null;
+                }
+            }
+        }
+    }
+
+    if( jo.has_object("furniture") ) {
+        JsonObject pjo = jo.get_object("furniture");
+        for( const auto &key : pjo.get_member_names() ) {
+            if( key.size() != 1 ) {
+                pjo.throw_error( "format map key must be 1 character", key );
+            }
+            if( pjo.has_string( key ) ) {
+                format_furniture[key[0]] = furn_id( pjo.get_string( key ) );
+            } else {
+                auto &vect = format_placings[ key[0] ];
+                ::load_place_mapings<jmapgen_furniture>( pjo, key, vect );
+            }
+        }
+    }
+    new_pal.load_place_mapings<jmapgen_field>( jo, "fields", format_placings );
+    new_pal.load_place_mapings<jmapgen_npc>( jo, "npcs", format_placings );
+    new_pal.load_place_mapings<jmapgen_sign>( jo, "signs", format_placings );
+    new_pal.load_place_mapings<jmapgen_vending_machine>( jo, "vendingmachines", format_placings );
+    new_pal.load_place_mapings<jmapgen_toilet>( jo, "toilets", format_placings );
+    new_pal.load_place_mapings<jmapgen_gaspump>( jo, "gaspumps", format_placings );
+    new_pal.load_place_mapings<jmapgen_item_group>( jo, "items", format_placings );
+    new_pal.load_place_mapings<jmapgen_monster_group>( jo, "monsters", format_placings );
+    new_pal.load_place_mapings<jmapgen_vehicle>( jo, "vehicles", format_placings );
+    // json member name is not optimal, it should be plural like all the others above, but that conflicts
+    // with the items entry with refers to item groups.
+    new_pal.load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings );
+    new_pal.load_place_mapings<jmapgen_trap>( jo, "traps", format_placings );
+    new_pal.load_place_mapings<jmapgen_monster>( jo, "monster", format_placings );
+    new_pal.load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings );
+    new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
+    new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings );
+
+    return new_pal;
 }
 
 /*
@@ -1313,6 +1387,7 @@ bool mapgen_function_json::setup() {
         JsonArray parray;
         JsonArray sparray;
         JsonObject pjo;
+
         // mapgensize = jo.get_int("mapgensize", 24); // eventually..
 
         // something akin to mapgen fill_background.
@@ -1325,65 +1400,16 @@ bool mapgen_function_json::setup() {
         format.resize( mapgensize * mapgensize );
         // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
         if ( jo.has_array("rows") ) {
-            placing_map format_placings;
-            std::map<int,ter_id> format_terrain;
-            std::map<int,furn_id> format_furniture;
-            // manditory: every character in rows must have matching entry, unless fill_ter is set
-            // "terrain": { "a": "t_grass", "b": "t_lava" }
-            if ( jo.has_object("terrain") ) {
-                pjo = jo.get_object("terrain");
-                for( const auto &key : pjo.get_member_names() ) {
-                    if( key.size() != 1 ) {
-                        pjo.throw_error( "format map key must be 1 character", key );
-                    }
-                    if( pjo.has_string( key ) ) {
-                        format_terrain[key[0]] = ter_id( pjo.get_string( key ) );
-                    } else {
-                        auto &vect = format_placings[ key[0] ];
-                        ::load_place_mapings<jmapgen_terrain>( pjo, key, vect );
-                        if( !vect.empty() ) {
-                            // Dummy entry to signal that this terrain is actually defined, because
-                            // the code below checks that each square on the map has a valid terrain
-                            // defined somehow.
-                            format_terrain[key[0]] = t_null;
-                        }
-                    }
-                }
-            } else {
+            mapgen_palette palette = mapgen_palette::load_temp( jo, "core" );
+            auto &format_terrain = palette.format_terrain;
+            auto &format_furniture = palette.format_furniture;
+            auto &format_placings = palette.format_placings;
+
+            if( format_terrain.empty() ) {
                 jsin.error( "format: no terrain map" );
             }
-            if ( jo.has_object("furniture") ) {
-                pjo = jo.get_object("furniture");
-                for( const auto &key : pjo.get_member_names() ) {
-                    if( key.size() != 1 ) {
-                        pjo.throw_error( "format map key must be 1 character", key );
-                    }
-                    if( pjo.has_string( key ) ) {
-                        format_furniture[key[0]] = furn_id( pjo.get_string( key ) );
-                    } else {
-                        auto &vect = format_placings[ key[0] ];
-                        ::load_place_mapings<jmapgen_furniture>( pjo, key, vect );
-                    }
-                }
-            }
-            load_place_mapings<jmapgen_field>( jo, "fields", format_placings );
-            load_place_mapings<jmapgen_npc>( jo, "npcs", format_placings );
-            load_place_mapings<jmapgen_sign>( jo, "signs", format_placings );
-            load_place_mapings<jmapgen_vending_machine>( jo, "vendingmachines", format_placings );
-            load_place_mapings<jmapgen_toilet>( jo, "toilets", format_placings );
-            load_place_mapings<jmapgen_gaspump>( jo, "gaspumps", format_placings );
-            load_place_mapings<jmapgen_item_group>( jo, "items", format_placings );
-            load_place_mapings<jmapgen_monster_group>( jo, "monsters", format_placings );
-            load_place_mapings<jmapgen_vehicle>( jo, "vehicles", format_placings );
-            // json member name is not optimal, it should be plural like all the others above, but that conflicts
-            // with the items entry with refers to item groups.
-            load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings );
-            load_place_mapings<jmapgen_trap>( jo, "traps", format_placings );
-            load_place_mapings<jmapgen_monster>( jo, "monster", format_placings );
-            load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings );
-            load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
-            load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings );
-            // manditory: 24 rows of 24 character lines, each of which must have a matching key in "terrain",
+
+            // mandatory: 24 rows of 24 character lines, each of which must have a matching key in "terrain",
             // unless fill_ter is set
             // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
             parray = jo.get_array( "rows" );
@@ -1397,13 +1423,15 @@ bool mapgen_function_json::setup() {
                 }
                 for ( size_t i = 0; i < tmpval.size(); i++ ) {
                     const int tmpkey = tmpval[i];
-                    if ( format_terrain.find( tmpkey ) != format_terrain.end() ) {
-                        format[ calc_index( i, c ) ].ter = format_terrain[ tmpkey ];
+                    auto iter_ter = format_terrain.find( tmpkey );
+                    if ( iter_ter != format_terrain.end() ) {
+                        format[ calc_index( i, c ) ].ter = iter_ter->second;
                     } else if ( ! qualifies ) { // fill_ter should make this kosher
                         parray.throw_error(string_format("  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",c+1,i+1, (char)tmpkey ));
                     }
-                    if ( format_furniture.find( tmpkey ) != format_furniture.end() ) {
-                        format[ calc_index( i, c ) ].furn = format_furniture[ tmpkey ];
+                    auto iter_furn = format_furniture.find( tmpkey );
+                    if ( iter_furn != format_furniture.end() ) {
+                        format[ calc_index( i, c ) ].furn = iter_furn->second;
                     }
                     const auto fpi = format_placings.find( tmpkey );
                     if( fpi != format_placings.end() ) {

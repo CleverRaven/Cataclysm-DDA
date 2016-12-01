@@ -150,6 +150,52 @@ public:
     jmapgen_int repeat;
 };
 
+class mapgen_palette {
+public:
+    using palette_id = std::string;
+
+    palette_id id;
+    /**
+     * The mapping from character code (key) to a list of things that should be placed. This is
+     * similar to @ref objects, but it uses key to get the actual position where to place things
+     * out of the json "bitmap" (which is used to paint the terrain/furniture).
+     */
+    using placing_map = std::map< int, std::vector< std::shared_ptr<jmapgen_piece> > >;
+
+    std::map<int, ter_id> format_terrain;
+    std::map<int, furn_id> format_furniture;
+    placing_map format_placings;
+
+    /**
+     * Palettes this one already includes. Used to control recursion.
+     */
+    std::set<palette_id> includes;
+
+    template<typename PieceType>
+    /**
+     * Load (append to format_placings) the places that should be put there.
+     * member_name is the name of an optional object / array in the json object jsi.
+     */
+    void load_place_mapings( JsonObject &jsi, const std::string &member_name, placing_map &format_placings );
+    /**
+     * Load a palette object and returns it. Doesn't save it anywhere.
+     */
+    static mapgen_palette load_temp( JsonObject &jo, const std::string &src );
+    /**
+     * Load a palette object and adds it to the global set of palettes.
+     * If "palette" field is specified, those palettes will be loaded recursively.
+     */
+    void load_palette( JsonObject &jo, const std::string &src );
+
+    /**
+     * Adds a palette to this one. New values take preference over the old ones.
+     * 
+     */
+    void add( const palette_id &rh );
+    void add( const mapgen_palette &rh );
+};
+extern std::map<std::string, mapgen_palette> palettes;
+
 struct jmapgen_objects {
 
     void add(const jmapgen_place &place, std::shared_ptr<jmapgen_piece> &piece);
@@ -198,18 +244,6 @@ class mapgen_function_json : public virtual mapgen_function {
     std::vector<ter_furn_id> format;
     std::vector<jmapgen_setmap> setmap_points;
 
-    /**
-     * The mapping from character code (key) to a list of things that should be placed. This is
-     * similar to @ref objects, but it uses key to get the actual position where to place things
-     * out of the json "bitmap" (which is used to paint the terrain/furniture).
-     */
-    using placing_map = std::map< int, std::vector< std::shared_ptr<jmapgen_piece> > >;
-    template<typename PieceType>
-    /**
-     * Load (append to format_placings) the places that should be put there.
-     * member_name is the name of an optional object / array in the json object jsi.
-     */
-    void load_place_mapings( JsonObject &jsi, const std::string &member_name, placing_map &format_placings );
     std::string luascript;
 
     bool do_format;
