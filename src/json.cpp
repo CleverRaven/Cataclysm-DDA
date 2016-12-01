@@ -1577,10 +1577,7 @@ JsonOut::JsonOut( std::ostream &s, bool pretty ) : stream( &s ), pretty_print( p
 
 void JsonOut::write_indent()
 {
-    const char indent[5] = "    ";
-    for (int i = 0; i < indent_level; ++i) {
-        stream->write(indent, 4);
-    }
+    std::fill_n( std::ostream_iterator<char>( *stream ), indent_level * 2, ' ' );
 }
 
 void JsonOut::write_separator()
@@ -1596,7 +1593,7 @@ void JsonOut::write_separator()
 void JsonOut::write_member_separator()
 {
     if (pretty_print) {
-        stream->write(" : ", 3);
+        stream->write( ": ", 2 );
     } else {
         stream->put(':');
     }
