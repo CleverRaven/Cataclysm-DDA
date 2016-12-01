@@ -1565,14 +1565,11 @@ std::string JsonIn::substr(size_t pos, size_t len)
 
 JsonOut::JsonOut( std::ostream &s, bool pretty ) : stream( &s ), pretty_print( pretty )
 {
-    // ensure user's locale doesn't interfere with number format
-    stream->imbue(std::locale::classic());
-    // scientific format for floating-point numbers
-    stream->setf(std::ostream::scientific, std::ostream::floatfield);
-    // it's already decimal, but set it anyway
-    stream->setf(std::ostream::dec, std::ostream::basefield);
-    // could also set showbase and showpoint,
-    // but it currently doesn't matter.
+    // ensure consistent and locale-independent formatting of numerals
+    stream->imbue( std::locale::classic() );
+    stream->setf( std::ios_base::showpoint );
+    stream->setf( std::ios_base::dec, std::ostream::basefield );
+    stream->setf( std::ios_base::fixed, std::ostream::floatfield );
 }
 
 void JsonOut::write_indent()
