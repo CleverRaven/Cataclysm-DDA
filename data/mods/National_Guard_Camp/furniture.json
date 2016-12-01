@@ -17,12 +17,6 @@
         { "item": "steel_chunk", "count": [ 5, 25 ] }
       ]
     },
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": 6 },
-        { "item": "nail", "charges": [ 6, 8 ] }
-      ]
-    },
     "flags": [ "TRANSPARENT", "MOUNTABLE" ]
   }
 ]
