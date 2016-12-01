@@ -256,6 +256,10 @@ void mission::wrap_up()
 
 bool mission::is_complete( const int _npc_id ) const
 {
+    if( status == mission_status::success ) {
+        return true;
+    }
+
     auto &u = g->u;
     switch( type->goal ) {
         case MGOAL_GO_TO:

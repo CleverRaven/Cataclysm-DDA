@@ -1241,7 +1241,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         const int npc_index = npc_at( dst );
         if( npc_index >= 0 ) {
             const npc &who = *active_npc[ npc_index ];
-            if( who.is_enemy() ) {
+            if( who.guaranteed_hostile() ) {
                 return true;
             }
             return query_yn( _( "Really attack %s?" ), who.name.c_str() );
@@ -1542,7 +1542,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
     set_last_target( ret.back() );
 
     if( last_target >= 0 && last_target_was_npc ) {
-        if( !active_npc[ last_target ]->is_enemy() ) {
+        if( !active_npc[ last_target ]->guaranteed_hostile() ) {
             // TODO: get rid of this. Or combine it with effect_hit_by_player
             active_npc[ last_target ]->hit_by_player = true; // used for morale penalty
         }
@@ -1647,7 +1647,7 @@ static void cycle_action( item& weap, const tripoint &pos ) {
 
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing != "null" ) {
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
-            weap.emplace_back( weap.ammo_data()->ammo->casing );
+            weap.contents.push_back( item( weap.ammo_data()->ammo->casing ).set_flag( "CASING" ) );
 
         } else {
             if( cargo.empty() ) {
@@ -1887,10 +1887,6 @@ double player::gun_value( const item &weap, long ammo ) const
     const itype *def_ammo_i = ammo_type != "NULL" ?
                               item::find_type( ammo_type ) :
                               nullptr;
-    if( def_ammo_i != nullptr && def_ammo_i->ammo == nullptr ) {
-        debugmsg( "%s is default ammo for gun %s, but lacks ammo data",
-                  def_ammo_i->nname( ammo ).c_str(), weap.tname().c_str() );
-    }
 
     float damage_factor = weap.gun_damage( false );
     damage_factor += weap.gun_pierce( false ) / 2.0;

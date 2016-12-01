@@ -1,0 +1,12 @@
+[
+  {
+    "id": "fish_small",
+    "type": "harvest",
+    "entries": [
+      { "drop": "fish", "scale_num": [ 0.2, 0.4 ], "max": 2 },
+      { "drop": "offal", "base_num": [ 0, 1 ], "scale_num": [ 0.2, 0.4 ], "max": 1 },
+      { "drop": "stomach" },
+      { "drop": "bone", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.5 ], "max": 4 }
+    ]
+  }
+]

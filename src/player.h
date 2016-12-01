@@ -42,6 +42,11 @@ using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
 
+namespace debug_menu
+{
+class mission_debug;
+}
+
 // This tries to represent both rating and
 // player's decision to respect said rating
 enum edible_rating {
@@ -483,6 +488,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param force_technique special technique to use in attack.
          */
         void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) override;
+        /**
+         * Sets up a melee attack and handles melee attack function calls
+         * @param t
+         * @param allow_special whether non-forced martial art technique or mutation attack should be
+         *   possible with this attack.
+         * @param force_technique special technique to use in attack.
+         */
+        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique, int hitspread ) override;
 
         /** Returns a weapon's modified dispersion value */
         double get_weapon_dispersion( const item &obj ) const;
@@ -1452,6 +1465,20 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
 
+        /**
+         * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
+         * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
+         * @param target Target NPC to disarm
+         */
+        void disarm( npc &target );
+
+        /**
+         * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
+         * notices your steal attempt and getting angry with you, and you successfully stealing the item.
+         * @param target Target NPC to steal from
+         */
+        void steal( npc &target );
+
     protected:
         // The player's position on the local map.
         tripoint position;
@@ -1462,6 +1489,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void load(JsonObject &jsin);
 
     private:
+        friend class debug_menu::mission_debug;
+
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
         /** Check if an area-of-effect technique has valid targets */
