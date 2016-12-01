@@ -3279,7 +3279,7 @@ C..C..C...|hhh|#########\n\
                 rotate(3);
             }
         } else if (tw != 0 || rw != 0 || lw != 0 || bw != 0) { // Sewers!
-
+            // @todo This checks if id is a laboratory the hard-coded way. Get rid of the hardcode.
             const auto is_lab = []( const oter_id &id ) {
                 return is_ot_type( "lab", id ) ||
                        is_ot_type( "lab_stairs", id ) ||
