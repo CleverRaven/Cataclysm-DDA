@@ -4565,8 +4565,13 @@ int iuse::torch_lit(player *p, item *it, bool t, const tripoint &pos)
         switch (choice) {
             case 1: {
                 p->add_msg_if_player(_("The torch is extinguished."));
-                it->charges -= 1;
-                it->convert( "torch" ).active = false;
+                if( it->charges <= 1 ) {
+                    it->charges = 0;
+                    it->convert( "torch_done" ).active = false;
+                } else {
+                    it->charges -= 1;
+                    it->convert( "torch" ).active = false;
+                }
                 return 0;
             }
             break;
