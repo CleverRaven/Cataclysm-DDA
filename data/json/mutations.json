@@ -667,7 +667,7 @@
         "name" : "Lactose Intolerance",
         "points" : -1,
         "//" : "Actual digestive issue, on even footing with the -vore mutations.",
-        "description" : "You like 75 percent of the world, cannot tolerate milk or milk based products.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "description" : "You, like 75 percent of the world, cannot tolerate milk or milk based products.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true
     },{
         "type" : "mutation",
