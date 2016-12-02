@@ -116,7 +116,7 @@ void mapbuffer::save( bool delete_after_save )
     std::list<tripoint> submaps_to_delete;
     int next_report = 0;
     for( auto &elem : submaps ) {
-        if ( num_total_submaps > 100 && num_saved_submaps >= next_report ) {
+        if( num_total_submaps > 100 && num_saved_submaps >= next_report ) {
             popup_nowait(_("Please wait as the map saves [%d/%d]"),
                          num_saved_submaps, num_total_submaps);
             next_report += std::max( 100, num_total_submaps / 20 );
