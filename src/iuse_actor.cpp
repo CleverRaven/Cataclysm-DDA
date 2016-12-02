@@ -90,9 +90,9 @@ void iuse_transform::load( JsonObject &obj )
     need_charges = std::max( need_charges, 0L );
     need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ).c_str() ) : _( "You need a source of fire!" );
 
-    obj.read( "menu_option_text", menu_option_text );
-    if( !menu_option_text.empty() ) {
-        menu_option_text = _( menu_option_text.c_str() );
+    obj.read( "menu_text", menu_text );
+    if( !menu_text.empty() ) {
+        menu_text = _( menu_text.c_str() );
     }
 }
 
@@ -156,8 +156,8 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
 
 std::string iuse_transform::get_name() const
 {
-    if( !menu_option_text.empty() ) {
-        return menu_option_text;
+    if( !menu_text.empty() ) {
+        return menu_text;
     }
     return iuse_actor::get_name();
 }
@@ -1985,8 +1985,12 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
-        p->wield_contents( it, pos, draw_cost, false );
+        // worn holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+        if( p->is_worn( *it ) ) {
+            p->wield_contents( it, pos, draw_cost, false );
+        } else {
+            p->wield_contents( it, pos );
+        }
 
     } else {
         item &obj = p->i_at( g->inv_for_filter( prompt, [&](const item& e) { return can_holster(e); } ) );
@@ -2398,7 +2402,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         }
         return false;
     }
-    if( fix.count_by_charges() ) {
+    if( fix.count_by_charges() || fix.has_flag( "NO_REPAIR" ) ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("You cannot repair this type of item.") );
         }
@@ -2628,6 +2632,15 @@ const std::string &repair_item_actor::action_description( repair_item_actor::rep
     }};
 
     return arr[rt];
+}
+
+std::string repair_item_actor::get_name() const
+{
+    const std::string mats = enumerate_as_string( materials.begin(), materials.end(),
+    []( const material_id &mid ) {
+        return mid->name();
+    } );
+    return string_format( _( "Repair %s" ), mats.c_str() );
 }
 
 void heal_actor::load( JsonObject &obj )

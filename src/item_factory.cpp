@@ -28,10 +28,13 @@
 #include "field.h"
 
 #include <algorithm>
+#include <assert.h>
 #include <sstream>
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
+
+static std::set<std::string> repair_actions;
 
 static DynamicDataLoader::deferred_json deferred;
 
@@ -96,8 +99,19 @@ void Item_factory::finalize() {
 
     finalize_item_blacklist();
 
+    // tools that have at least one repair action
+    std::set<itype_id> repair_tools;
+
+    // tools that can be used to repair complex firearms
+    std::set<itype_id> gun_tools;
+
     for( auto& e : m_templates ) {
         itype& obj = e.second;
+
+        // @todo separate repairing from reinforcing/enhancement
+        if( obj.damage_max == obj.damage_min ) {
+            obj.item_tags.insert( "NO_REPAIR" );
+        }
 
         if( obj.item_tags.count( "STAB" ) || obj.item_tags.count( "SPEAR" ) ) {
             std::swap(obj.melee[DT_CUT], obj.melee[DT_STAB]);
@@ -115,6 +129,9 @@ void Item_factory::finalize() {
 
         if( obj.mod ) {
             std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
+            obj.use_methods.emplace( func, usage_from_string( func ) );
+        } else if( obj.gun ) {
+            const std::string func = "GUN_DETACH_GUNMODS";
             obj.use_methods.emplace( func, usage_from_string( func ) );
         }
 
@@ -276,8 +293,54 @@ void Item_factory::finalize() {
             }
         }
 
+        if( obj.tool ) {
+            if( !obj.tool->subtype.empty() && has_template( obj.tool->subtype ) ) {
+                tool_subtypes[ obj.tool->subtype ].insert( obj.id );
+            }
+        }
+
         for( auto &e : obj.use_methods ) {
             e.second.get_actor_ptr()->finalize( obj.id );
+
+            // can this item function as a repair tool?
+            if( repair_actions.count( e.first ) ) {
+                repair_tools.insert( obj.id );
+            }
+
+            // can this item be used to repair complex firearms?
+            if( e.first == "GUN_REPAIR" ) {
+                gun_tools.insert( obj.id );
+            }
+        }
+    }
+
+    for( auto &e : m_templates ) {
+        itype &obj = e.second;
+
+        // handle complex firearms as a special case
+        if( obj.gun && !obj.item_tags.count( "PRIMITIVE_RANGED_WEAPON" ) ) {
+            std::copy( gun_tools.begin(), gun_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
+            continue;
+        }
+
+        // for each item iterate through potential repair tools
+        for( const auto &tool : repair_tools ) {
+
+            // check if item can be repaired with any of the actions?
+            for( const auto &act : repair_actions ) {
+                const use_function *func = m_templates[tool].get_use( act );
+                if( !func ) {
+                    continue;
+                }
+
+                // tool has a possible repair action, check if the materials are compatible
+                const auto &opts = dynamic_cast<const repair_item_actor *>( func->get_actor_ptr() )->materials;
+
+                if( std::any_of( obj.materials.begin(), obj.materials.end(),
+                                 [&opts]( const material_id &m ) { return opts.count( m ); } ) ) {
+                    obj.repair.insert( tool );
+                }
+            }
         }
     }
 }
@@ -441,6 +504,7 @@ void Item_factory::init()
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
+    add_iuse( "GUN_DETACH_GUNMODS", &iuse::gun_detach_gunmods );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
     add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
     add_iuse( "TOOLMOD_ATTACH", &iuse::toolmod_attach );
@@ -461,7 +525,6 @@ void Item_factory::init()
     add_iuse( "MARLOSS_GEL", &iuse::marloss_gel );
     add_iuse( "MARLOSS_SEED", &iuse::marloss_seed );
     add_iuse( "MA_MANUAL", &iuse::ma_manual );
-    add_iuse( "MCG_NOTE", &iuse::mcg_note );
     add_iuse( "MEDITATE", &iuse::meditate );
     add_iuse( "METH", &iuse::meth );
     add_iuse( "MININUKE", &iuse::mininuke );
@@ -472,7 +535,6 @@ void Item_factory::init()
     add_iuse( "MP3_ON", &iuse::mp3_on );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
     add_iuse( "MUTAGEN", &iuse::mutagen );
-    add_iuse( "MUT_IV", &iuse::mut_iv );
     add_iuse( "MUT_IV", &iuse::mut_iv );
     add_iuse( "MYCUS", &iuse::mycus );
     add_iuse( "NOISE_EMITTER_OFF", &iuse::noise_emitter_off );
@@ -836,6 +898,9 @@ void Item_factory::check_definitions() const
             if( !type->tool->revert_msg.empty() && type->tool->revert_to == "null" ) {
                 msg << _( "cannot specify revert_msg without revert_to" ) << "\n";
             }
+            if( !type->tool->subtype.empty() && !has_template( type->tool->subtype ) ) {
+                msg << _( "Invalid tool subtype" ) << type->tool->subtype << "\n";
+            }
         }
         if( type->bionic ) {
             if (!is_valid_bionic(type->bionic->bionic_id)) {
@@ -854,6 +919,16 @@ void Item_factory::check_definitions() const
                 msg << string_format("unseals_into invalid id %s", type->container->unseals_into.c_str() ) << "\n";
             }
         }
+
+        for( const auto &elem : type->use_methods ) {
+            const iuse_actor *actor = elem.second.get_actor_ptr();
+
+            assert( actor );
+            if( !actor->is_valid() ) {
+                msg << string_format( "item action \"%s\" was not described.", actor->type.c_str() ) << "\n";
+            }
+        }
+
         if (msg.str().empty()) {
             continue;
         }
@@ -1646,16 +1721,6 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         def.explosion = load_explosion_data( je );
     }
 
-    if( jo.has_array( "snippet_category" ) ) {
-        // auto-create a category that is unlikely to already be used and put the
-        // snippets in it.
-        def.snippet_category = std::string( "auto:" ) + def.id;
-        JsonArray jarr = jo.get_array( "snippet_category" );
-        SNIPPET.add_snippets_from_json( def.snippet_category, jarr );
-    } else {
-        def.snippet_category = jo.get_string( "snippet_category", "" );
-    }
-
     assign( jo, "flags", def.item_tags );
 
     if( jo.has_member( "qualities" ) ) {
@@ -1699,9 +1764,24 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     if( jo.has_string( "abstract" ) ) {
         def.id = jo.get_string( "abstract" );
-        m_abstracts[ def.id ] = def;
     } else {
         def.id = jo.get_string( "id" );
+    }
+
+    // snippet_category should be loaded after def.id is determined
+    if( jo.has_array( "snippet_category" ) ) {
+        // auto-create a category that is unlikely to already be used and put the
+        // snippets in it.
+        def.snippet_category = std::string( "auto:" ) + def.id;
+        JsonArray jarr = jo.get_array( "snippet_category" );
+        SNIPPET.add_snippets_from_json( def.snippet_category, jarr );
+    } else {
+        def.snippet_category = jo.get_string( "snippet_category", "" );
+    }
+
+    if( jo.has_string( "abstract" ) ) {
+        m_abstracts[ def.id ] = def;
+    } else {
         m_templates[ def.id ] = def;
     }
 }
@@ -1817,6 +1897,8 @@ void Item_factory::clear()
 
     m_templates.clear();
     item_blacklist.clear();
+
+    tool_subtypes.clear();
 }
 
 Item_group *make_group_or_throw( Item_spawn_data *&isd, Item_group::Type t, int ammo_chance, int magazine_chance )
@@ -2040,17 +2122,19 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
     }
 }
 
-std::pair<std::string, use_function> Item_factory::usage_from_object( JsonObject &obj ) const
+std::pair<std::string, use_function> Item_factory::usage_from_object( JsonObject &obj )
 {
     auto type = obj.get_string( "type" );
 
-    use_function method;
     if( type == "repair_item" ) {
         type = obj.get_string( "item_action_type" );
-        method = use_function( new repair_item_actor( type ) );
-    } else {
-        method = usage_from_string( type );
+        if( !has_iuse( type ) ) {
+            add_actor( new repair_item_actor( type ) );
+            repair_actions.insert( type );
+        }
     }
+
+    use_function method = usage_from_string( type );
 
     if( !method.get_actor_ptr() ) {
         obj.throw_error( "unknown use_action", "type" );
@@ -2214,4 +2298,16 @@ Item_tag Item_factory::create_artifact_id() const
         i++;
     } while( has_template( id ) );
     return id;
+}
+
+std::list<itype_id> Item_factory::subtype_replacement( const itype_id &base ) const
+{
+    std::list<itype_id> ret;
+    ret.push_back( base );
+    const auto replacements = tool_subtypes.find( base );
+    if( replacements != tool_subtypes.end() ) {
+        ret.insert( ret.end(), replacements->second.begin(), replacements->second.end() );
+    }
+
+    return ret;
 }

@@ -1123,9 +1123,7 @@ long popup( const std::string &text, PopupFlags flags )
     wrefresh( w );
     delwin( w );
     refresh();
-#ifdef TILES
-    try_sdl_update();
-#endif // TILES
+    refresh_display();
     return ch;
 }
 
@@ -2555,6 +2553,10 @@ bool is_draw_tiles_mode()
 }
 
 void play_music( std::string )
+{
+}
+
+void refresh_display()
 {
 }
 #endif

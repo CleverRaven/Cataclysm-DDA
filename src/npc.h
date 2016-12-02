@@ -629,6 +629,8 @@ public:
     bool is_guarding() const;
     /** Trusts you a lot. */
     bool is_minion() const;
+    /** Is enemy or will turn into one (can't be convinced not to attack). */
+    bool guaranteed_hostile() const;
         Attitude attitude_to( const Creature &other ) const override;
 
         /** For mutant NPCs. Returns how monsters perceive said NPC. Doesn't imply NPC sees them the same. */

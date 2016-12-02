@@ -15,6 +15,7 @@
 #include "veh_type.h"
 #include "npc.h"
 #include "ammo.h"
+#include "crafting.h"
 
 bool game::dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts )
 {
@@ -203,6 +204,50 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             }
         }
 
+    } else if( what == "RECIPE" ) {
+
+        // optionally filter recipes to include only those using specified skills
+        recipe_subset dict;
+        for( const auto &r : recipe_dict ) {
+            if( opts.empty() || std::any_of( opts.begin(), opts.end(), [&r]( const std::string &s ) {
+                if( r.second.skill_used == skill_id( s ) && r.second.difficulty > 0 ) {
+                    return true;
+                }
+                auto iter = r.second.required_skills.find( skill_id( s ) );
+                return iter != r.second.required_skills.end() && iter->second > 0;
+            } ) ) {
+                dict.include( &r.second );
+            }
+        }
+
+        // only consider skills that are required by at least one recipe
+        std::vector<Skill> sk;
+        std::copy_if( Skill::skills.begin(), Skill::skills.end(), std::back_inserter( sk ), [&dict]( const Skill &s ) {
+            return std::any_of( dict.begin(), dict.end(), [&s]( const recipe *r ) {
+                return r->skill_used == s.ident() || r->required_skills.find( s.ident() ) != r->required_skills.end();
+            } );
+        } );
+
+        header = { "Result" };
+
+        for( const auto &e : sk ) {
+            header.push_back( e.ident().str() );
+        }
+
+        for( const recipe *e : dict ) {
+            std::vector<std::string> r;
+            r.push_back( item::find_type( e->result )->nname( 1 ) );
+            for( const auto &s : sk ) {
+                if( e->skill_used == s.ident() ) {
+                    r.push_back( to_string( e->difficulty ) );
+                } else {
+                    auto iter = e->required_skills.find( s.ident() );
+                    r.push_back( to_string( iter != e->required_skills.end() ? iter->second : 0 ) );
+                }
+            }
+            rows.push_back( r );
+        }
+
     } else if( what == "VEHICLE" ) {
         header = {
             "Name", "Weight (empty)", "Weight (fueled)",
@@ -369,6 +414,142 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                 }
 
                 dump( test.first->second, test.second->second );
+            }
+        }
+
+    } else if( what == "GUN_DAMAGE" ) {
+        scol = -1; // unsorted output so graph columns have predictable ordering
+
+        header = { "Name" };
+        for( int range = 1; range <= MAX_RANGE; ++range ) {
+            header.push_back( to_string( range ) );
+        }
+
+        auto dump = [&rows]( const standard_npc & who, const item & gun, int aim_moves ) {
+            // aim for up to aim_moves, or until there's no improvement
+            double recoil = MIN_RECOIL;
+            for( int i = 0; i < aim_moves; ++i ) {
+                double adj = who.aim_per_move( gun, recoil );
+                if( adj <= 0 ) {
+                    aim_moves = i;
+                    break;
+                }
+                recoil -= adj;
+            }
+
+            double dispersion = who.get_weapon_dispersion( gun ) + recoil;
+
+            std::vector<std::string> r;
+            r.push_back( string_format( "%s %s (%dmv aiming)", who.get_name().c_str(), gun.tname().c_str(), aim_moves ) );
+
+            for( int range = 1; range <= MAX_RANGE; ++range ) {
+                if( range > gun.gun_range( &who ) ) {
+                    r.push_back( "0" );
+                    continue;
+                }
+
+                // We want to find the long-run average damage per shot for this dispersion.
+
+                // The base damage is the same for every shot. The damage multiplier varies depending
+                // on the quality of hit (headshot, grazing, etc). Within each category of hit,
+                // there is a uniform random distribution of multipliers.
+
+                // To find the long-run average, first construct the probability density function
+                // for the damage multiplier that is, roughly speaking, f(x) = probability that a
+                // shot will end up with a damage multiplier of x. This function looks something like
+                // this, where the heights of the steps vary depending on the hit probabilities.
+                // The area under each step is the probability of getting that quality of hit.
+                // The total area is 1.0.
+                //
+                // f(x) = probability density
+                // ^
+                // |  miss
+                // |     ^
+                // |     |           -------
+                // |     |           |     |         ------
+                // |     |------     |     |-----    |    |   --------
+                // |     |graze|     | std  good|    |crit|   |h.shot|
+                // +-----|-----|-----|----------|----|----|---|------|-----> x = damage multiplier
+                //       0    0.25  0.5   1.0  1.5  1.75 2.3 2.45   3.35
+
+                // The long-run average (expected value) can be calculated directly from this PDF:
+                //    ∫(-∞,∞) x.f(x) dx
+                // See https://en.wikipedia.org/wiki/Expected_value#Univariate_continuous_random_variable
+
+                // Find the probability of each type of hit
+                // nb: projectile_attack_chance returns the probabilty of a given accuracy _or better_
+                // but we want the probability of hits within each category separately, so subtract the
+                // probabilities at each edge.
+                double p_headshot = who.projectile_attack_chance( dispersion, range, accuracy_headshot );
+                double p_critical = who.projectile_attack_chance( dispersion, range, accuracy_critical ) - who.projectile_attack_chance( dispersion, range, accuracy_headshot );
+                double p_goodhit  = who.projectile_attack_chance( dispersion, range, accuracy_goodhit )  - who.projectile_attack_chance( dispersion, range, accuracy_critical );
+                double p_standard = who.projectile_attack_chance( dispersion, range, accuracy_standard ) - who.projectile_attack_chance( dispersion, range, accuracy_goodhit );
+                double p_grazing  = who.projectile_attack_chance( dispersion, range, accuracy_grazing )  - who.projectile_attack_chance( dispersion, range, accuracy_standard );
+                // double p_miss = 1.0 - who.projectile_attack_chance( dispersion, range, accuracy_grazing );     not actually used below
+
+                // f(x) is the probabilty density function for the damage multiplier x
+                // f(x) = { p_grazing / 0.25     if 0.00 < x <= 0.25
+                //        { p_standard / 0.50    if 0.50 < x <= 1.00
+                //        { p_goodhit / 0.50     if 1.00 < x <= 1.50
+                //        { p_critical / 0.55    if 1.75 < x <= 2.30
+                //        { p_headshot / 0.90    if 2.45 < x <= 3.35
+                //        { p_miss . δ(x)        if x == 0
+                //        { 0                    otherwise
+                //
+                // (the scaling factors ensure that e.g. ∫(0.5,1.0) f(x) dx == p_standard)
+
+                // δ is the Dirac delta function, used here to glue in a discrete value (the
+                // probability of a miss, i.e. a multiplier of exactly 0) into an otherwise
+                // continuous distribution. It is there for completeness so the total area
+                // of the PDF totals 1.0, but it doesn't actually affect the integral.
+                // See https://en.wikipedia.org/wiki/Dirac_delta_function#Probability_theory
+
+                // long-run average  μ = E[X] = ∫x.f(x) dx
+                // we compute the integral piece-wise over each part of the function defined above
+
+                auto xfx_integral = []( double fx, double x1, double x2 ) -> double {
+                    // integrate x.f(x) within [x1,x2] assuming f(x) stays constant in that interval
+                    return fx * ( x2 * x2 - x1 * x1 ) / 2;
+                };
+                double mu = xfx_integral( p_grazing / 0.25, 0, 0.25 ) +
+                            xfx_integral( p_standard / 0.50, 0.50, 1.00 ) +
+                            xfx_integral( p_goodhit / 0.50, 1.00, 1.50 ) +
+                            xfx_integral( p_critical / 0.55, 1.75, 2.30 ) +
+                            xfx_integral( p_headshot / 0.90, 2.45, 3.35 );
+
+                r.push_back( string_format( "%.2f", mu * gun.gun_damage() ) );
+            }
+
+            rows.push_back( r );
+        };
+
+        if( opts.empty() ) {
+            dump( test_npcs[ "S1" ], test_items[ "G1" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G1" ], 1000 );
+            dump( test_npcs[ "S1" ], test_items[ "G2" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G2" ], 1000 );
+            dump( test_npcs[ "S1" ], test_items[ "G3" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G3" ], 1000 );
+            dump( test_npcs[ "S1" ], test_items[ "G4" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G4" ], 1000 );
+
+        } else {
+            for( const auto &str : opts ) {
+                auto idx = str.find( ':' );
+                if( idx == std::string::npos ) {
+                    std::cerr << "cannot parse test case: " << str << std::endl;
+                    return false;
+                }
+                auto test = std::make_pair( test_npcs.find( str.substr( 0, idx ) ),
+                                            test_items.find( str.substr( idx + 1 ) ) );
+
+                if( test.first == test_npcs.end() || test.second == test_items.end() ) {
+                    std::cerr << "invalid test case: " << str << std::endl;
+                    return false;
+                }
+
+                dump( test.first->second, test.second->second, 100 );
+                dump( test.first->second, test.second->second, 1000 );
             }
         }
 

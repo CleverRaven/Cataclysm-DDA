@@ -24,10 +24,6 @@ extern bool test_mode;
 class game;
 extern game *g;
 
-#ifdef TILES
-extern void try_sdl_update();
-#endif // TILES
-
 extern bool trigdist;
 extern bool use_tiles;
 extern bool fov_3d;
@@ -467,12 +463,12 @@ class game
 
         item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
 
+        item_location get_item_from_inventory( player &p, const std::string &title );
         void interactive_inv();
 
         int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
 
         int inv_for_all( const std::string &title, const std::string &none_message = "" );
-        int inv_for_activatables( const player &p, const std::string &title );
         int inv_for_flag( const std::string &flag, const std::string &title );
         int inv_for_id( const itype_id &id, const std::string &title );
         int inv_for_tools_powered_by( const ammotype &battery_id, const std::string &title );
@@ -500,6 +496,8 @@ class game
         /** Custom-filtered menu for inventory items and those that are nearby (within @ref radius). */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
+        /** Item activation menu. */
+        item_location inv_for_activatables( const std::string &title );
         /** Book reading menu. */
         item_location inv_for_books( const std::string &title );
         /** Gunmod installation menu. */
@@ -766,13 +764,6 @@ class game
         void init_lua();          // Initializes lua interpreter.
         void create_factions(); // Creates new factions (for a new game world)
         void create_starting_npcs(); // Creates NPCs that start near you
-
-        // Player actions
-        void wishitem( player *p = nullptr, int x = -1, int y = -1, int z = -1 );
-        void wishmonster( const tripoint &p = tripoint_min );
-        void wishmutate( player *p );
-        void wishskill( player *p );
-        void mutation_wish(); // Mutate
 
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */

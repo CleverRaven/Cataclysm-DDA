@@ -636,26 +636,32 @@ void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
     }
 }
 
+void refresh_display()
+{
+    needupdate = false;
+    lastupdate = SDL_GetTicks();
+
+    // Select default target (the window), copy rendered buffer
+    // there, present it, select the buffer as target again.
+    if( SDL_SetRenderTarget( renderer, NULL ) != 0 ) {
+        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
+    }
+    SDL_RenderSetLogicalSize( renderer, WindowWidth, WindowHeight );
+    if( SDL_RenderCopy( renderer, display_buffer, NULL, NULL ) != 0 ) {
+        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
+    }
+    SDL_RenderPresent(renderer);
+    if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
+        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
+    }
+}
+
 // only update if the set interval has elapsed
-void try_sdl_update()
+static void try_sdl_update()
 {
     unsigned long now = SDL_GetTicks();
     if (now - lastupdate >= interval) {
-        // Select default target (the window), copy rendered buffer
-        // there, present it, select the buffer as target again.
-        if( SDL_SetRenderTarget( renderer, NULL ) != 0 ) {
-            dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
-        }
-        SDL_RenderSetLogicalSize( renderer, WindowWidth, WindowHeight );
-        if( SDL_RenderCopy( renderer, display_buffer, NULL, NULL ) != 0 ) {
-            dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
-        }
-        SDL_RenderPresent(renderer);
-        if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
-            dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
-        }
-        needupdate = false;
-        lastupdate = now;
+        refresh_display();
     } else {
         needupdate = true;
     }

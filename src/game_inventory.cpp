@@ -1,6 +1,7 @@
 #include "game.h"
 
 #include "inventory_ui.h"
+#include "options.h"
 #include "player.h"
 #include "item.h"
 #include "itype.h"
@@ -17,6 +18,13 @@ class inventory_filter_preset : public inventory_selector_preset
     private:
         item_location_filter filter;
 };
+
+item_location_filter convert_filter( const item_filter &filter )
+{
+    return [ &filter ]( const item_location & loc ) {
+        return filter( *loc );
+    };
+}
 
 static item_location inv_internal( player &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
@@ -42,6 +50,18 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     }
 
     return inv_s.execute();
+}
+
+item_location game::get_item_from_inventory( player &p, const std::string &title )
+{
+    const std::string msg = p.is_npc() ? string_format( _( "%s's inventory is empty." ),
+                            p.name.c_str() ) :
+                            std::string( _( "Your inventory is empty." ) );
+
+    return inv_internal( p,
+    inventory_filter_preset( convert_filter( [ &p ]( const item & it ) {
+        return !p.is_worn( it ) && &p.weapon != &it;
+    } ) ), title, -1, msg );
 }
 
 void game::interactive_inv()
@@ -71,13 +91,6 @@ void game::interactive_inv()
     } while( allowed_selections.count( res ) != 0 );
 }
 
-item_location_filter convert_filter( const item_filter &filter )
-{
-    return [ &filter ]( const item_location & loc ) {
-        return filter( *loc );
-    };
-}
-
 int game::inv_for_filter( const std::string &title, item_filter filter,
                           const std::string &none_message )
 {
@@ -89,13 +102,6 @@ int game::inv_for_all( const std::string &title, const std::string &none_message
     const std::string msg = ( none_message.empty() ) ? _( "Your inventory is empty." ) : none_message;
     return u.get_item_position( inv_internal( u, inventory_selector_preset(),
                                 title, -1, none_message ).get_item() );
-}
-
-int game::inv_for_activatables( const player &p, const std::string &title )
-{
-    return inv_for_filter( title, [ &p ]( const item & it ) {
-        return p.rate_action_use( it ) != HINT_CANT;
-    }, _( "You don't have any items you can use." ) );
 }
 
 int game::inv_for_flag( const std::string &flag, const std::string &title )
@@ -159,6 +165,86 @@ item *game::inv_map_for_liquid( const item &liquid, const std::string &title, in
     return inv_internal( u, inventory_filter_preset( filter ), title, radius,
                          string_format( _( "You don't have a suitable container for carrying %s." ),
                                         liquid.tname().c_str() ) ).get_item();
+}
+
+class pickup_inventory_preset : public inventory_selector_preset
+{
+    public:
+        pickup_inventory_preset( const player &p ) : p( p ) {}
+
+        std::string get_denial( const item_location &loc ) const override {
+            if( !p.has_item( *loc ) ) {
+                if( loc->made_of( LIQUID ) ) {
+                    return _( "Can't pick up liquids" );
+                } else if( !p.can_pickVolume( *loc ) ) {
+                    return _( "Too big to pick up" );
+                } else if( !p.can_pickWeight( *loc ) ) {
+                    return _( "Too heavy to pick up" );
+                }
+            }
+
+            return std::string();
+        }
+
+    private:
+        const player &p;
+};
+
+class activatable_inventory_preset : public pickup_inventory_preset
+{
+    public:
+        activatable_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
+            if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
+                append_cell( [ this ]( const item_location & loc ) {
+                    return string_format( "<color_ltgreen>%s</color>", get_action_name( loc ).c_str() );
+                }, _( "ACTION" ) );
+            }
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return p.rate_action_use( *loc ) != HINT_CANT && !get_action_name( loc ).empty();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            if( !p.has_enough_charges( *loc, false ) ) {
+                return string_format(
+                           ngettext( _( "Needs at least %d charge" ),
+                                     _( "Needs at least %d charges" ), loc->ammo_required() ),
+                           loc->ammo_required() );
+            }
+
+            return pickup_inventory_preset::get_denial( loc );
+        }
+
+    protected:
+        std::string get_action_name( const item_location &loc ) const {
+            const auto &uses = loc->type->use_methods;
+
+            if( uses.empty() ) {
+                if( loc->is_food() || loc->is_food_container() ) {
+                    return _( "Consume" );
+                } else if( loc->is_book() ) {
+                    return _( "Read" );
+                } else if( loc->is_bionic() ) {
+                    return _( "Install bionic" );
+                }
+            } else if( uses.size() == 1 ) {
+                return uses.begin()->second.get_name();
+            } else {
+                return _( "..." );
+            }
+
+            return std::string();
+        }
+
+    private:
+        const player &p;
+};
+
+item_location game::inv_for_activatables( const std::string &title )
+{
+    return inv_internal( u, activatable_inventory_preset( u ), title, 1,
+                         _( "You don't have any items you can use." ) );
 }
 
 class gunmod_inventory_preset : public inventory_selector_preset
@@ -232,10 +318,10 @@ item_location game::inv_for_gunmod( const item &gunmod, const std::string &title
                          title, -1, _( "You don't have any guns to modify." ) );
 }
 
-class read_inventory_preset: public inventory_selector_preset
+class read_inventory_preset: public pickup_inventory_preset
 {
     public:
-        read_inventory_preset( const player &p ) : p( p ) {
+        read_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
             static const std::string unknown( _( "<color_dkgray>?</color>" ) );
             static const std::string martial_arts( _( "martial arts" ) );
 
@@ -308,7 +394,7 @@ class read_inventory_preset: public inventory_selector_preset
             if( p.get_book_reader( *loc, denials ) == nullptr && !denials.empty() ) {
                 return denials.front();
             }
-            return std::string();
+            return pickup_inventory_preset::get_denial( loc );
         }
 
     private:

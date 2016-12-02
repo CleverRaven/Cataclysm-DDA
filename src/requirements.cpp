@@ -8,6 +8,7 @@
 #include "inventory.h"
 #include "output.h"
 #include "itype.h"
+#include "item_factory.h"
 #include <sstream>
 #include "calendar.h"
 #include <cmath>
@@ -330,6 +331,24 @@ void requirement_data::check_consistency()
         check_consistency( r.second.tools, r.first.str() );
         check_consistency( r.second.components, r.first.str() );
         check_consistency( r.second.qualities, r.first.str() );
+    }
+}
+
+void requirement_data::finalize()
+{
+    for( auto &r : const_cast<std::map<requirement_id, requirement_data> &>( all() ) ) {
+        auto &vec = r.second.tools;
+        for( auto &list : vec ) {
+            std::vector<tool_comp> new_list;
+            for( auto &comp : list ) {
+                const auto replacements = item_controller->subtype_replacement( comp.type );
+                for( const auto &replaced_type : replacements ) {
+                    new_list.emplace_back( replaced_type, comp.count );
+                }
+            }
+
+            list = new_list;
+        }
     }
 }
 

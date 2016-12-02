@@ -565,14 +565,49 @@ A successful hit with a bashing weapon may stun the monster temporarily. A miss 
 stumble and lose movement points. If a monster hits you, your clothing may absorb some damage, \
 but you will absorb the excess." ) );
 
+    text.push_back( _( "\
+Swarms of monsters may call for firearms. Most firearms in the game require compatible magazines \
+to hold the ammunition. Compatible magazines are listed in a given firearm's description. \
+Fortunately, a firearm often spawns with one such magazine in it." ) );
+
     text.push_back( string_format( _( "\
-Swarms of monsters may call for firearms. If you find one, wield it first, then reload by \
-pressing %s. If you wish to change ammo, you must unload the weapon by pressing %s, then \
-reload again. To fire, press %s, move the cursor to the relevant space, then hit '.' or 'f'. \
+You can eject a magazine from a firearm by pressing %s and load it with compatible ammunition \
+separately, or if you have a firearm with a partially filled magazine in it, and some matching \
+loose ammo in the inventory, you can simply order a reload by pressing %s, so you will \
+automatically eject the magazine, fill it with as much ammo as possible, and then put \
+the magazine back in. You don't have to worry about chambering a round though. \
+Of course all this takes some time, so try not to do it if there are monsters nearby." ),
+                                   press_x( ACTION_UNLOAD, "", "" ).c_str(),
+                                   press_x( ACTION_RELOAD, "", "" ).c_str() ) );
+
+    text.push_back( _( "\
+While magazines are often firearm-specific, on some occasions a magazine is compatible with \
+several other firearms. The firearms in the game often reflect real-world prototypes in terms \
+of caliber and compatibility. Below are some examples of interchangeable ammo:\n\
+.308 = 7.62x51mm,\n\
+.223 = 5.56 NATO,\n\
+.270 = 30-06,\n\
+.40 S&W = 10mm." ) );
+
+    text.push_back( _( "Magazine descriptions also list the compatible ammo." ) );
+
+    text.push_back( _( "\
+Note that while several ammo types exist for a given caliber and magazine type, \
+you can't mix and match these types into a single magazine. You can't \
+for example load 9x19mm JHP and 9x19 FMJ ammo into the same magazine, \
+since a magazine always requires identical rounds to be loaded in it." ) );
+
+    text.push_back( _( "\
+Magazines can be stored inside several worn accessories for quicker access, such as \
+chest rigs and ammo pouches. All these compatible storage items are listed in a given \
+magazine's description. At the moment, you can only store one magazine per clothing item. \
+To store a magazine into a clothing item, 'a'ctivate the appropriate clothing item, \
+at which point you'll get to choose which magazine to store." ) );
+
+    text.push_back( string_format( _( "\
+To fire, press %s, move the cursor to the relevant space, then hit '.' or 'f'. \
 Some guns have alternate firing modes, such as burst fire; to cycle modes, press %s. \
 Firing continuously, especially in bursts, will severely reduce accuracy." ),
-                                   press_x( ACTION_RELOAD, "", "" ).c_str(),
-                                   press_x( ACTION_UNLOAD, "", "" ).c_str(),
                                    press_x( ACTION_FIRE, "", "" ).c_str(),
                                    press_x( ACTION_SELECT_FIRE_MODE, "", "" ).c_str() ) );
 

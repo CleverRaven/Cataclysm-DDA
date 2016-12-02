@@ -71,10 +71,11 @@ RELEASE_FLAGS = -Werror
 WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
 #WARNINGS = -w
+DEBUGSYMS = -g
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  DEBUG = -g
+  DEBUG =
 else
-  DEBUG = -g -D_GLIBCXX_DEBUG
+  DEBUG = -D_GLIBCXX_DEBUG
 endif
 #PROFILE = -pg
 #OTHERS = -O3
@@ -143,6 +144,12 @@ ifneq ($(findstring BSD,$(OS)),)
   BSD = 1
 endif
 
+# Compiler version & target machine - used later for MXE ICE workaround
+ifdef CROSS
+  CXXVERSION := $(shell $(CROSS)$(CXX) --version | grep -i gcc | sed 's/^.* //g')
+  CXXMACHINE := $(shell $(CROSS)$(CXX) -dumpmachine)
+endif
+
 # Expand at reference time to avoid recursive reference
 OS_COMPILER := $(CXX)
 # Appears that the default value of $LD is unsuitable on most systems
@@ -158,11 +165,6 @@ STRIP = $(CROSS)strip
 RC  = $(CROSS)windres
 AR  = $(CROSS)ar
 
-# Capture CXXVERSION if using MXE - used later for ICE workaround
-ifdef CROSS
-  CXXVERSION := $(shell ${OS_COMPILER} --version | grep -i gcc | sed 's/^.* //g')
-endif
-
 # We don't need scientific precision for our math functions, this lets them run much faster.
 CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
@@ -177,7 +179,8 @@ ifdef RELEASE
     endif
   else
     # MXE ICE Workaround
-    ifeq (${CXXVERSION}, 4.9.3)
+    # known bad on 4.9.3 and 4.9.4, if it gets fixed this could include a version test too
+    ifeq ($(CXXMACHINE), x86_64-w64-mingw32.static)
       OPTLEVEL = -O3
     else
       OPTLEVEL = -Os
@@ -205,8 +208,9 @@ ifdef RELEASE
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
+  DEBUG =
   ifndef DEBUG_SYMBOLS
-    DEBUG =
+    DEBUGSYMS =
   endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
@@ -245,7 +249,7 @@ ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
     OTHERS += -std=c++11
 endif
 
-CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
+CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD
 
 BINDIST_EXTRAS += README.md data doc
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz

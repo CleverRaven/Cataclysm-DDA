@@ -23,6 +23,11 @@ enum npc_mission : int;
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 
+namespace debug_menu
+{
+class mission_debug;
+}
+
 enum mission_origin {
     ORIGIN_NULL = 0,
     ORIGIN_GAME_START, // Given when the game starts
@@ -72,6 +77,7 @@ struct mission_start {
     static void standard           ( mission *); // Standard for its goal type
     static void join               ( mission *); // NPC giving mission joins your party
     static void infect_npc         ( mission *); // "infection", remove antibiotics
+    static void need_drugs_npc     ( mission *); // "need drugs" remove item
     static void place_dog          ( mission *); // Put a dog in a house!
     static void place_zombie_mom   ( mission *); // Put a zombie mom in a house!
     static void place_zombie_bay   ( mission *); // Put a boss zombie in the refugee/evac center back bay
@@ -219,8 +225,10 @@ public:
         failure
     };
 private:
-    friend struct mission_type; // so mission_type::create is simpler
-    friend struct mission_start; // so it can initialize some properties
+        friend struct mission_type; // so mission_type::create is simpler
+        friend struct mission_start; // so it can initialize some properties
+        friend class debug_menu::mission_debug;
+
         const mission_type *type;
         std::string description;// Basic descriptive text
         mission_status status;
