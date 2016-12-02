@@ -1932,15 +1932,32 @@ bool load_min_max(std::pair<T, T> &pa, JsonObject &obj, const std::string &name)
     return result;
 }
 
-bool load_sub_ref(std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj, const std::string &name)
+bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj,
+                                 const std::string &name, const Item_group &parent )
 {
     if (obj.has_member(name)) {
         // TODO!
-    } else if (obj.has_member(name + "-item")) {
+    } else if( obj.has_array( name + "-item" ) || obj.has_array( name + "-group" ) ) {
+        if( name != "contents" ) {
+            debugmsg( "It doesn't make sense to use an array for %s (see doc/ITEM_SPAWN.md)", name.c_str() );
+            return false;
+        }
+        const bool isgroup = obj.has_array( name + "-group" );
+        JsonArray arr = obj.get_array( isgroup ? name + "-group" : name + "-item" );
+        ptr.reset( new Item_group( Item_group::Type::G_COLLECTION, 100, parent.with_ammo, parent.with_magazine ) );
+        while( arr.has_more() ) {
+            if( isgroup ) {
+                dynamic_cast<Item_group *>( ptr.get() )->add_group_entry( arr.next_string(), 100 );
+            } else {
+                dynamic_cast<Item_group *>( ptr.get() )->add_item_entry( arr.next_string(), 100 );
+            }
+        }
+        return true;
+    } else if( obj.has_member( name + "-item" ) ) {
         ptr.reset(new Single_item_creator(obj.get_string(name + "-item"), Single_item_creator::S_ITEM,
                                           100));
         return true;
-    } else if (obj.has_member(name + "-group")) {
+    } else if(obj.has_member( name + "-group" ) ) {
         ptr.reset(new Single_item_creator(obj.get_string(name + "-group"),
                                           Single_item_creator::S_ITEM_GROUP, 100));
         return true;
@@ -1986,9 +2003,9 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     use_modifier |= load_min_max(modifier->damage, obj, "damage");
     use_modifier |= load_min_max(modifier->charges, obj, "charges");
     use_modifier |= load_min_max(modifier->count, obj, "count");
-    use_modifier |= load_sub_ref(modifier->ammo, obj, "ammo");
-    use_modifier |= load_sub_ref(modifier->container, obj, "container");
-    use_modifier |= load_sub_ref(modifier->contents, obj, "contents");
+    use_modifier |= load_sub_ref( modifier->ammo, obj, "ammo", *ig );
+    use_modifier |= load_sub_ref( modifier->container, obj, "container", *ig );
+    use_modifier |= load_sub_ref( modifier->contents, obj, "contents", *ig );
     if (use_modifier) {
         dynamic_cast<Single_item_creator *>(ptr.get())->modifier = std::move(modifier);
     }

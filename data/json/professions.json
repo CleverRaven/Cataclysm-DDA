@@ -586,12 +586,6 @@
         }
     },
     {
-        "type": "item_group",
-        "id": "specops_gunmods",
-        "subtype": "collection",
-        "items": [ "shoulder_strap", "suppressor" ]
-    },
-    {
         "type": "profession",
         "ident": "specops",
         "name": "Special Operator",
@@ -648,7 +642,7 @@
                 ],
                 "entries": [
                     { "item": "kukri", "container-item": "sheath" },
-                    { "item": "rm2000_smg", "ammo-item": "8mm_fmj", "charges": 25, "contents-group": "specops_gunmods" },
+                    { "item": "rm2000_smg", "ammo-item": "8mm_fmj", "charges": 25, "contents-item": [ "shoulder_strap", "suppressor" ] },
                     { "item": "8mm_fmj", "charges": 55 }
                 ]
             },
@@ -1298,15 +1292,6 @@
         }
     },
     {
-        "type": "item_group",
-        "id": "police_sniper_gunmods",
-        "subtype": "collection",
-        "items": [
-            "shoulder_strap",
-            "rifle_scope"
-        ]
-    },
-    {
         "type": "profession",
         "ident": "sniper_police",
         "name": "Police Sniper",
@@ -1345,7 +1330,7 @@
                 "entries": [
                     { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
                     { "item": "45_acp", "charges": 18 },
-                    { "item": "remington_700", "ammo-item": "3006", "charges": 4, "contents-group": "police_sniper_gunmods" },
+                    { "item": "remington_700", "ammo-item": "3006", "charges": 4, "contents-item": [ "shoulder_strap", "rifle_scope" ] },
                     { "item": "3006", "charges": 16 }
                 ]
             },
