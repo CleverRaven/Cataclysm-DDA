@@ -1632,8 +1632,8 @@ const tripoint reveal_destination( const std::string &type, bool random )
 {
     const tripoint your_pos = g->u.global_omt_location();
     const tripoint center_pos = random ?
-                                overmap_buffer.find_random( your_pos, type, rng( 80, 120 ), false ) :
-                                overmap_buffer.find_closest( your_pos, type, rng( 80, 120 ), false );
+                                overmap_buffer.find_random( your_pos, type, rng( 40, 80 ), false ) :
+                                overmap_buffer.find_closest( your_pos, type, rng( 40, 80 ), false );
 
     if( center_pos != overmap::invalid_tripoint ) {
         overmap_buffer.reveal( center_pos, 2 );
@@ -1658,7 +1658,7 @@ void reveal_route( mission *miss, const tripoint destination )
 
     if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
         add_msg( _( "%s marks as well the road that leads to it..." ),
-                 npc->name.c_str() );
+                 p->name.c_str() );
     }
 }
 
@@ -1682,6 +1682,11 @@ void reveal_target( mission *miss, const char *omter_id )
     }
 }
 
+void reveal_any_target( mission *miss, std::vector<std::string> omter_ids )
+{
+    reveal_target( miss, random_entry( omter_ids ).c_str() );
+}
+
 void mission_start::reveal_weather_station( mission *miss )
 {
     reveal_target( miss, "station_radio" );
@@ -1694,10 +1699,10 @@ void mission_start::reveal_office_tower( mission *miss )
 
 void mission_start::reveal_doctors_office( mission *miss )
 {
-    reveal_target( miss, "office_doctor" );
+    reveal_any_target( miss, { "office_doctor", "hospital" } );
 }
 
 void mission_start::reveal_cathedral( mission *miss )
 {
-    reveal_target( miss, "cathedral_1" );
+    reveal_any_target( miss, { "cathedral_1", "museum" } );
 }
