@@ -198,7 +198,7 @@
         "bashing": 5,
         "cutting": 3,
         "to_hit": -2,
-        "qualities": [["CUT", 1], ["BUTCHER", -50]]
+        "qualities": [["BUTCHER", -50]]
     },
     {
         "type":"GENERIC",
