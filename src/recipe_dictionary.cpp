@@ -410,14 +410,15 @@ void recipe_dictionary::finalize()
     }
 
     // add pseudo uncrafting recipes
-    for( const auto &e : item_controller->get_all_itypes() ) {
+    for( const itype *e : item_controller->all() ) {
+        const itype_id id = e->get_id();
 
         // books that don't alreay have an uncrafting recipe
-        if( e.second.book && !recipe_dict.uncraft.count( e.first ) && e.second.volume > 0 ) {
-            int pages = e.second.volume / units::from_milliliter( 12.5 );
-            auto &bk = recipe_dict.uncraft[ e.first ];
-            bk.ident_ = e.first;
-            bk.result = e.first;
+        if( e->book && !recipe_dict.uncraft.count( id ) && e->volume > 0 ) {
+            int pages = e->volume / units::from_milliliter( 12.5 );
+            auto &bk = recipe_dict.uncraft[id];
+            bk.ident_ = id;
+            bk.result = id;
             bk.reversible = true;
             bk.requirements_ = *requirement_id( "uncraft_book" ) * pages;
             bk.time = pages * 10; // @todo allow specifying time in requirement_data

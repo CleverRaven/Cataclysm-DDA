@@ -2275,14 +2275,30 @@ void item_group::debug_spawn()
     }
 }
 
-std::vector<Item_tag> Item_factory::get_all_itype_ids() const
-{
-    std::vector<Item_tag> result;
-    result.reserve( m_templates.size() );
-    for( auto & p : m_templates ) {
-        result.push_back( p.first );
-    }
-    return result;
+bool Item_factory::has_template( const itype_id &id ) const {
+    return m_templates.count( id );
+}
+
+std::vector<const itype *> Item_factory::all() const {
+    std::vector<const itype *> res;
+    res.reserve( m_templates.size() );
+
+    std::transform( m_templates.begin(), m_templates.end(), std::back_inserter( res ),
+                    []( const std::pair<itype_id, itype> &e ) { return &e.second; } );
+
+    return res;
+}
+
+/** Find all templates matching the UnaryPredicate function */
+std::vector<const itype *> Item_factory::find( const std::function<bool( const itype & )> &func ) {
+    std::vector<const itype *> res;
+
+    std::vector<const itype *> opts = item_controller->all();
+
+    std::copy_if( opts.begin(), opts.end(), std::back_inserter( res ),
+                  [&func]( const itype *e ) { return func( *e ); } );
+
+    return res;
 }
 
 Item_tag Item_factory::create_artifact_id() const
