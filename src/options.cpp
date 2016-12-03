@@ -635,7 +635,7 @@ void options_manager::cOpt::setValue( int iSetIn )
 }
 
 //set value
-void options_manager::cOpt::setValue(std::string sSetIn)
+bool options_manager::cOpt::setValue(std::string sSetIn)
 {
     if (sType == "string_select") {
         if (getItemPos(sSetIn) != -1) {
@@ -649,11 +649,12 @@ void options_manager::cOpt::setValue(std::string sSetIn)
         bSet = (sSetIn == "True" || sSetIn == "true" || sSetIn == "T" || sSetIn == "t");
 
     } else if (sType == "int") {
-        iSet = atoi(sSetIn.c_str());
-
-        if ( iSet < iMin || iSet > iMax ) {
-            iSet = iDefault;
+        for( const auto &i : sSetIn ) {
+            if( !isdigit(i) && (i != '-') ) {
+                return false;
+            }
         }
+        setValue( atoi(sSetIn.c_str()) );
 
     } else if (sType == "int_map") {
         iSet = atoi(sSetIn.c_str());
@@ -664,16 +665,17 @@ void options_manager::cOpt::setValue(std::string sSetIn)
         }
 
     } else if (sType == "float") {
-        std::istringstream ssTemp(sSetIn);
+        std::istringstream ssTemp( string_replace( sSetIn, ",", "." ) );
         ssTemp.imbue(std::locale::classic());
         float tmpFloat;
         ssTemp >> tmpFloat;
         if(ssTemp) {
             setValue(tmpFloat);
         } else {
-            debugmsg("invalid floating point option: %s", sSetIn.c_str());
+            return false;
         }
     }
+    return true;
 }
 
 /** Fill a mapping with values.

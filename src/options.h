@@ -79,7 +79,8 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 //set to prev item
                 void setPrev();
                 //set value
-                void setValue( std::string sSetIn );
+                // returns true if succeeded
+                bool setValue( std::string sSetIn );
                 void setValue( float fSetIn );
                 void setValue( int iSetIn );
 
