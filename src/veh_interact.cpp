@@ -860,8 +860,8 @@ bool veh_interact::do_repair( std::string &msg )
             return false;
 
         case INVALID_TARGET:
-            if( mostDamagedPart != -1 ) {
-                move_cursor( veh->parts[mostDamagedPart].mount.y + ddy, -( veh->parts[mostDamagedPart].mount.x + ddx ) );
+            if( mostRepairablePart != -1 ) {
+                move_cursor( veh->parts[mostRepairablePart].mount.y + ddy, -( veh->parts[mostRepairablePart].mount.x + ddx ) );
             } else {
                 msg = _( "There are no damaged parts on this vehicle." );
                 return false;
@@ -2086,6 +2086,7 @@ void veh_interact::countDurability()
     }
 
     int hi = 0;
+    int hi_rep=0;
     for( size_t it = 0; it < veh->parts.size(); it++ ) {
         const auto &pt = veh->parts[it];
         if( pt.removed ) {
@@ -2095,6 +2096,10 @@ void veh_interact::countDurability()
         if( dmg > hi ) {
             hi = dmg;
             mostDamagedPart = it;
+        }
+        if( dmg > hi_rep && pt.info().is_repairable()) {
+            hi_rep = dmg;
+            mostRepairablePart = it;
         }
     }
 }

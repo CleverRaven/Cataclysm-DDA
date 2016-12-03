@@ -521,6 +521,12 @@ requirement_data vpart_info::repair_requirements() const
     } );
 }
 
+
+bool vpart_info::is_repairable() const
+{
+    return ! repair_requirements().is_empty();
+}
+
 static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &ch ) {
     if( sk.empty() ) {
         return mv;
