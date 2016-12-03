@@ -325,7 +325,6 @@ bool WinCreate()
 
     if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
         window_flags |= SDL_WINDOW_RESIZABLE;
-        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
     }
 
     if (get_option<std::string>( "FULLSCREEN" ) == "fullscreen") {
@@ -393,6 +392,15 @@ bool WinCreate()
     GPU_SetDefaultAnchor( 0.0, 0.0 );
 
     render_buffer = GPU_CreateImage( back_buffer->w, back_buffer->h, GPU_FORMAT_RGB );
+    if ( get_option<std::string>( "SCALING_MODE" ) == "linear" ) {
+        GPU_SetImageFilter( render_buffer, GPU_FILTER_LINEAR );
+    } else {
+        // "nearest" and "none" both set the render buffer to GPU_FILTER_NEAREST
+        // If "none" is configured we also don't allow resizing of the real window,
+        // so the framebuffer dimensions match the render buffer exactly.
+        GPU_SetImageFilter( render_buffer, GPU_FILTER_NEAREST );
+    }
+
     renderer = GPU_LoadTarget( render_buffer );
     if( !render_buffer || !renderer ) {
         dbg( D_ERROR ) << "Failed to initialize render buffer";
@@ -686,7 +694,13 @@ void refresh_display()
     lastupdate = SDL_GetTicks();
 
     GPU_FlushBlitBuffer();
-    GPU_Blit( render_buffer, NULL, back_buffer, 0, 0 );
+    if( render_buffer->w == back_buffer->w && render_buffer->h == back_buffer->h ) {
+        // no scaling needed
+        GPU_Blit( render_buffer, NULL, back_buffer, 0, 0 );
+    } else {
+        GPU_BlitRect( render_buffer, NULL, back_buffer, NULL );
+    }
+
     GPU_Flip( back_buffer );
     report_gpu_errors();
 }
@@ -1188,6 +1202,12 @@ void CheckMessages()
                 case SDL_WINDOWEVENT_SHOWN:
                 case SDL_WINDOWEVENT_EXPOSED:
                 case SDL_WINDOWEVENT_RESTORED:
+                    needupdate = true;
+                    break;
+                case SDL_WINDOWEVENT_RESIZED:
+                    if( back_buffer ) {
+                        GPU_SetWindowResolution( ev.window.data1, ev.window.data2 );
+                    }
                     needupdate = true;
                     break;
                 default:
@@ -1811,7 +1831,12 @@ input_event input_manager::get_input_event(WINDOW *win) {
     }
 
     if (last_input.type == CATA_INPUT_MOUSE) {
-        SDL_GetMouseState(&last_input.mouse_x, &last_input.mouse_y);
+        SDL_GetMouseState( &last_input.mouse_x, &last_input.mouse_y );
+        if( back_buffer ) {
+            // Convert from framebuffer coordinates to render buffer coordinates
+            last_input.mouse_x = last_input.mouse_x * render_buffer->w / back_buffer->w;
+            last_input.mouse_y = last_input.mouse_y * render_buffer->h / back_buffer->h;
+        }
     } else if (last_input.type == CATA_INPUT_KEYBOARD) {
         previously_pressed_key = last_input.get_first_input();
     }
