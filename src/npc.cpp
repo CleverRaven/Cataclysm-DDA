@@ -96,8 +96,6 @@ npc::npc()
     restock = -1;
     companion_mission = "";
     companion_mission_time = 0;
-    // ret_null is a bit more than just a regular "null", it is the "fist" for unarmed attacks
-    ret_null = item( "null", 0 );
     last_updated = calendar::turn;
 
     path_settings = pathfinding_settings( 0, 1000, 1000, true, false, true );
@@ -247,7 +245,6 @@ void npc::randomize( const npc_class_id &type )
         setID( g->assign_npc_id() );
     }
 
-    ret_null = item("null", 0);
     weapon   = item("null", 0);
     inv.clear();
     personality.aggression = rng(-10, 10);

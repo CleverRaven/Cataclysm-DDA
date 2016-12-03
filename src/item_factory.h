@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <bitset>
 #include <memory>
 #include <list>
@@ -191,9 +192,7 @@ class Item_factory
          * Check if an item type is known to the Item_factory.
          * @param id Item type id (@ref itype::id).
          */
-        bool has_template( const itype_id &id ) const {
-            return m_templates.count( id );
-        }
+        bool has_template( const itype_id &id ) const;
 
         /**
          * Returns the itype with the given id.
@@ -209,7 +208,7 @@ class Item_factory
          * @param new_type The new item type, must not be null.
          */
         void add_item_type( const itype &def ) {
-            m_templates[ def.id ] = def;
+            m_runtimes[ def.id ].reset( new itype( def ) );
         }
 
         /**
@@ -222,31 +221,11 @@ class Item_factory
 
         void load_item_blacklist( JsonObject &jo );
 
-        /**
-         * A list of *all* known item type ids. Each is suitable as input to
-         * @ref find_template or as parameter to @ref item::item.
-         */
-        std::vector<Item_tag> get_all_itype_ids() const;
-        /**
-         * The map of all known item type instances.
-         * Key is the item type id (@ref itype::id, the parameter to
-         * @ref find_template).
-         * Value is the itype instance (result of @ref find_template).
-         */
-        const std::map<const itype_id, itype> &get_all_itypes() const {
-            return m_templates;
-        }
+        /** Get all item templates (both static and runtime) */
+        std::vector<const itype *> all() const;
 
-        /** Find all templates matching the UnaryPredicate function */
-        static std::vector<const itype *> find( const std::function<bool( const itype & )> &func ) {
-            std::vector<const itype *> res;
-            for( const auto &e : item_controller->get_all_itypes() ) {
-                if( func( e.second ) ) {
-                    res.push_back( &e.second );
-                }
-            }
-            return res;
-        }
+        /** Find all item templates (both static and runtime) matching UnaryPredicate function */
+        static std::vector<const itype *> find( const std::function<bool( const itype & )> &func );
 
         /**
          * Create a new (and currently unused) item type id.
@@ -256,9 +235,14 @@ class Item_factory
         std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
     private:
+        /** Set at finalization and prevents alterations to the static item templates */
+        bool frozen = false;
+
         std::map<const std::string, itype> m_abstracts;
 
-        mutable std::map<const itype_id, itype> m_templates;
+        std::unordered_map<itype_id, itype> m_templates;
+
+        mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
 
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;

@@ -403,8 +403,8 @@ class wish_item_callback: public uimenu_callback
     public:
         bool incontainer;
         std::string msg;
-        const std::vector<std::string> &standard_itype_ids;
-        wish_item_callback( const std::vector<std::string> &ids ) :
+        const std::vector<const itype *> &standard_itype_ids;
+        wish_item_callback( const std::vector<const itype *> &ids ) :
             incontainer( false ), msg( "" ), standard_itype_ids( ids ) {
         }
         bool key( int key, int /*entnum*/, uimenu * /*menu*/ ) override {
@@ -424,7 +424,8 @@ class wish_item_callback: public uimenu_callback
             }
             item tmp( standard_itype_ids[entnum], calendar::turn );
             mvwhline( menu->window, 1, startx, ' ', menu->pad_right - 1 );
-            const std::string header = string_format( "#%d: %s%s", entnum, standard_itype_ids[entnum].c_str(),
+            const std::string header = string_format( "#%d: %s%s", entnum,
+                                       standard_itype_ids[entnum]->get_id().c_str(),
                                        ( incontainer ? _( " (contained)" ) : "" ) );
             mvwprintz( menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
                        header.c_str() );
@@ -444,7 +445,8 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
         debugmsg( "game::wishitem(): invalid parameters" );
         return;
     }
-    const std::vector<std::string> standard_itype_ids = item_controller->get_all_itype_ids();
+    const auto opts = item_controller->all();
+
     int prev_amount, amount = 1;
     uimenu wmenu;
     wmenu.w_x = 0;
@@ -452,21 +454,22 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
     wmenu.pad_right = ( TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2 );
     wmenu.return_invalid = true;
     wmenu.selected = uistate.wishitem_selected;
-    wish_item_callback cb( standard_itype_ids );
+    wish_item_callback cb( opts );
     wmenu.callback = &cb;
 
-    for( size_t i = 0; i < standard_itype_ids.size(); i++ ) {
-        item ity( standard_itype_ids[i], 0 );
+    for( size_t i = 0; i < opts.size(); i++ ) {
+        item ity( opts[i], 0 );
         wmenu.addentry( i, true, 0, string_format( _( "%.*s" ), wmenu.pad_right - 5,
                         ity.tname( 1, false ).c_str() ) );
         wmenu.entries[i].extratxt.txt = ity.symbol();
         wmenu.entries[i].extratxt.color = ity.color();
         wmenu.entries[i].extratxt.left = 1;
     }
+
     do {
         wmenu.query();
         if( wmenu.ret >= 0 ) {
-            item granted( standard_itype_ids[wmenu.ret], calendar::turn );
+            item granted( opts[wmenu.ret] );
             prev_amount = amount;
             if( p != NULL ) {
                 amount = std::atoi(

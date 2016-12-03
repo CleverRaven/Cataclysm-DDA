@@ -70,9 +70,9 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                 rows.push_back( r );
             }
         };
-        for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second.ammo ) {
-                dump( item( e.first, calendar::turn, item::solitary_tag {} ) );
+        for( const itype *e : item_controller->all() ) {
+            if( e->ammo ) {
+                dump( item( e, calendar::turn, item::solitary_tag {} ) );
             }
         }
 
@@ -97,9 +97,9 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
 
         body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
 
-        for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second.armor ) {
-                item obj( e.first );
+        for( const itype *e : item_controller->all() ) {
+            if( e->armor ) {
+                item obj( e );
                 if( bp == num_bp || obj.covers( bp ) ) {
                     if( obj.has_flag( "VARSIZE" ) ) {
                         obj.item_tags.insert( "FIT" );
@@ -131,12 +131,12 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             }
             rows.push_back( r );
         };
-        for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second.comestible &&
-                ( e.second.comestible->comesttype == "FOOD" ||
-                  e.second.comestible->comesttype == "DRINK" ) ) {
+        for( const itype *e : item_controller->all() ) {
+            if( e->comestible &&
+                ( e->comestible->comesttype == "FOOD" ||
+                  e->comestible->comesttype == "DRINK" ) ) {
 
-                item food( e.first, calendar::turn, item::solitary_tag {} );
+                item food( e, calendar::turn, item::solitary_tag {} );
                 if( g->u.can_eat( food, false, true ) == EDIBLE ) {
                     dump( food );
                 }
@@ -151,12 +151,12 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         };
 
         std::set<std::string> locations;
-        for( const auto& e : item_controller->get_all_itypes() ) {
-            if( e.second.gun ) {
-                std::transform( e.second.gun->valid_mod_locations.begin(),
-                                e.second.gun->valid_mod_locations.end(),
+        for( const itype *e : item_controller->all() ) {
+            if( e->gun ) {
+                std::transform( e->gun->valid_mod_locations.begin(),
+                                e->gun->valid_mod_locations.end(),
                                 std::inserter( locations, locations.begin() ),
-                                []( const std::pair<std::string, int>& e ) { return e.first; } );
+                                []( const std::pair<std::string, int>& q ) { return q.first; } );
             }
         }
         for( const auto &e : locations ) {
@@ -187,9 +187,9 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             }
             rows.push_back( r );
         };
-        for( const auto& e : item_controller->get_all_itypes() ) {
-            if( e.second.gun ) {
-                item gun( e.first );
+        for( const itype *e : item_controller->all() ) {
+            if( e->gun ) {
+                item gun( e );
                 if( !gun.magazine_integral() ) {
                     gun.emplace_back( gun.magazine_default() );
                 }
@@ -569,19 +569,18 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             r.push_back( to_string( ex.shrapnel.mass ) );
             rows.push_back( r );
         };
-        for( const auto& e : item_controller->get_all_itypes() ) {
-            const auto &itt = e.second;
-            const auto use = itt.get_use( "explosion" );
+        for( const itype *e : item_controller->all() ) {
+            const auto use = e->get_use( "explosion" );
             if( use != nullptr && use->get_actor_ptr() != nullptr ) {
                 const auto actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
                 if( actor != nullptr ) {
-                    dump( itt.nname( 1 ), actor->explosion );
+                    dump( e->nname( 1 ), actor->explosion );
                 }
             }
 
-            auto c_ex = dynamic_cast<const explosion_iuse *>( itt.countdown_action.get_actor_ptr() );
+            auto c_ex = dynamic_cast<const explosion_iuse *>( e->countdown_action.get_actor_ptr() );
             if( c_ex != nullptr ) {
-                dump( itt.nname( 1 ), c_ex->explosion );
+                dump( e->nname( 1 ), c_ex->explosion );
             }
         }
 
