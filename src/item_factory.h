@@ -235,6 +235,9 @@ class Item_factory
         std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
     private:
+        /** Set at finalization and prevents alterations to the static item templates */
+        bool frozen = false;
+
         std::map<const std::string, itype> m_abstracts;
 
         mutable std::unordered_map<itype_id, itype> m_templates;

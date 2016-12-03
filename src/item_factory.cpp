@@ -30,6 +30,7 @@
 #include <algorithm>
 #include <assert.h>
 #include <sstream>
+#include <cassert>
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
@@ -98,6 +99,9 @@ void Item_factory::finalize() {
     }
 
     finalize_item_blacklist();
+
+    // we can no longer add or adjust static item templates
+    frozen = true;
 
     // tools that have at least one repair action
     std::set<itype_id> repair_tools;
@@ -952,6 +956,8 @@ void Item_factory::check_definitions() const
 //Returns the template with the given identification tag
 const itype * Item_factory::find_template( const itype_id& id ) const
 {
+    assert( frozen );
+
     auto found = m_templates.find( id );
     if( found != m_templates.end() ) {
         return &found->second;
@@ -1024,6 +1030,8 @@ void load_optional_enum_array( std::vector<E> &vec, JsonObject &jo, const std::s
 }
 
 bool Item_factory::load_definition( JsonObject& jo, const std::string &src, itype &def ) {
+    assert( !frozen );
+
     if( !jo.has_string( "copy-from" ) ) {
         // if this is a new definition ensure we start with a clean itype
         def = itype();
@@ -1906,6 +1914,8 @@ void Item_factory::clear()
     item_blacklist.clear();
 
     tool_subtypes.clear();
+
+    frozen = false;
 }
 
 Item_group *make_group_or_throw( Item_spawn_data *&isd, Item_group::Type t, int ammo_chance, int magazine_chance )
@@ -2302,6 +2312,8 @@ std::vector<const itype *> Item_factory::all() const {
 
 /** Find all templates matching the UnaryPredicate function */
 std::vector<const itype *> Item_factory::find( const std::function<bool( const itype & )> &func ) {
+    assert( item_controller->frozen );
+
     std::vector<const itype *> res;
 
     std::vector<const itype *> opts = item_controller->all();
