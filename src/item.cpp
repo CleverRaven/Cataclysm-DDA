@@ -3250,18 +3250,14 @@ int item::chip_resistance( bool worst ) const
     return res;
 }
 
-int item::damage() const {
-    return damage_ < 0 ? floor( damage_ ) : ceil( damage_ );
-}
-
 int item::min_damage() const
 {
-    return type ? type->damage_min : 0;
+    return type->damage_min;
 }
 
 int item::max_damage() const
 {
-    return type ? type->damage_max : 0;
+    return type->damage_max;
 }
 
 bool item::mod_damage( double qty, damage_type dt )
