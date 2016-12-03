@@ -3883,13 +3883,13 @@ int iuse::tazer(player *p, item *it, bool, const tripoint &pos )
     }
 
     if( dirp == p->pos() ) {
-        p->add_msg_if_player(m_info, _( "Umm.  No." ));
+        p->add_msg_if_player( m_info, _( "Umm.  No." ) );
         return 0;
     }
 
     Creature *target = g->critter_at( dirp, true );
     if( target == nullptr ) {
-        p->add_msg_if_player(_( "There's nothing to zap there!" ) );
+        p->add_msg_if_player( _( "There's nothing to zap there!" ) );
         return 0;
     }
 
