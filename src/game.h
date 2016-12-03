@@ -126,7 +126,6 @@ typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 
 typedef std::function<bool( const item & )> item_filter;
-typedef std::function<bool( const item_location & )> item_location_filter;
 
 class game
 {
@@ -461,19 +460,11 @@ class game
         std::string list_item_upvote;
         std::string list_item_downvote;
 
-        item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
-
-        item_location get_item_from_inventory( player &p, const std::string &title );
-        void interactive_inv();
-
+        // @todo Move these functions to game_menus::inv and isolate them.
         int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
-
         int inv_for_all( const std::string &title, const std::string &none_message = "" );
         int inv_for_flag( const std::string &flag, const std::string &title );
         int inv_for_id( const itype_id &id, const std::string &title );
-        int inv_for_tools_powered_by( const ammotype &battery_id, const std::string &title );
-        int inv_for_equipped( const std::string &title );
-        int inv_for_unequipped( const std::string &title );
 
         enum inventory_item_menu_positon {
             RIGHT_TERMINAL_EDGE,
@@ -483,29 +474,9 @@ class game
         };
         int inventory_item_menu(int pos, int startx = 0, int width = 50, inventory_item_menu_positon position = RIGHT_OF_INFO);
 
-        /**
-         * @name Customized inventory menus
-         *
-         * The functions here execute customized inventory menus for specific game situations.
-         * Each menu displays only related inventory (or nearby) items along with context dependent information.
-         * More functions will follow. @todo update all 'inv_for...()' functions to return @ref item_location instead of @ref int and move them here.
-         * @param title Title of the menu
-         * @return Either location of the selected item or null location if none was selected.
-         */
-        /*@{*/
         /** Custom-filtered menu for inventory items and those that are nearby (within @ref radius). */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
-        /** Item activation menu. */
-        item_location inv_for_activatables( const std::string &title );
-        /** Book reading menu. */
-        item_location inv_for_books( const std::string &title );
-        /** Gunmod installation menu. */
-        item_location inv_for_gunmod( const item &gunmod, const std::string &title );
-        /*@}*/
-
-        // Select items to drop.  Returns a list of pairs of position, quantity.
-        std::list<std::pair<int, int>> multidrop();
         faction *list_factions(std::string title = "FACTIONS:");
 
         bool has_gametype() const;
@@ -797,7 +768,6 @@ class game
         void examine();
 
         void grab(); // Establish a grab on something.
-        void compare( const tripoint &offset = tripoint_min ); // Compare items 'I'
         void drop(int pos = INT_MIN, const tripoint &where = tripoint_min ); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
