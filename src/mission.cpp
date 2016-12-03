@@ -486,7 +486,7 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 
     const auto &response = type->dialogue.find( topic );
     if( response != type->dialogue.end() ) {
-        return response->second;
+        return _( response->second.c_str() );
     }
 
     return string_format( "Someone forgot to code this message id is %s, topic is %s!", type->id.c_str(), topic.c_str() );
