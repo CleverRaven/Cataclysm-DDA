@@ -1989,8 +1989,6 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     use_modifier |= load_sub_ref(modifier->ammo, obj, "ammo");
     use_modifier |= load_sub_ref(modifier->container, obj, "container");
     use_modifier |= load_sub_ref(modifier->contents, obj, "contents");
-    use_modifier |= ( modifier->with_ammo = ig->with_ammo ) != 0;
-    use_modifier |= ( modifier->with_magazine = ig->with_magazine ) != 0;
     if (use_modifier) {
         dynamic_cast<Single_item_creator *>(ptr.get())->modifier = std::move(modifier);
     }
@@ -2005,14 +2003,6 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     load_item_group(jsobj, group_id, subtype);
 }
 
-void Item_factory::load_item_group_entries( Item_group& ig, JsonArray& entries )
-{
-    while( entries.has_more() ) {
-        JsonObject subobj = entries.next_object();
-        add_entry( &ig, subobj );
-    }
-}
-
 void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_id,
                                     const bool is_collection, int ammo_chance,
                                     int magazine_chance )
@@ -2021,7 +2011,10 @@ void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_i
     Item_spawn_data *&isd = m_template_groups[group_id];
     Item_group* const ig = make_group_or_throw( isd, type, ammo_chance, magazine_chance );
 
-    load_item_group_entries( *ig, entries );
+    while( entries.has_more() ) {
+        JsonObject subobj = entries.next_object();
+        add_entry( ig, subobj );
+    }
 }
 
 void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
@@ -2054,7 +2047,10 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
 
     if (jsobj.has_member("entries")) {
         JsonArray items = jsobj.get_array("entries");
-        load_item_group_entries( *ig, items );
+        while( items.has_more() ) {
+            JsonObject subobj = items.next_object();
+            add_entry( ig, subobj );
+        }
     }
     if (jsobj.has_member("items")) {
         JsonArray items = jsobj.get_array("items");

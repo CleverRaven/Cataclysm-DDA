@@ -101,7 +101,9 @@ class Item_factory
         /**
          * Like above, but the above loads data from several members of the object, this function
          * assume the given array is the "entries" member of the item group.
-         * The entries are loaded via @ref load_item_group_entries.
+         *
+         * For each element in the array, @ref Item_factory::add_entry is called.
+         *
          * Assuming the input array looks like `[ x, y, z ]`, this function loads it like the
          * above would load this object:
          * \code
@@ -323,7 +325,6 @@ class Item_factory
         std::pair<std::string, use_function> usage_from_object( JsonObject &obj );
 
         void add_entry( Item_group *sg, JsonObject &obj );
-        void load_item_group_entries( Item_group &ig, JsonArray &entries );
 
         void load_basic_info( JsonObject &jo, itype &def, const std::string &src );
         void tags_from_json( JsonObject &jo, std::string member, std::set<std::string> &tags );
