@@ -650,11 +650,11 @@ bool options_manager::cOpt::setValue(std::string sSetIn)
 
     } else if (sType == "int") {
         for( const auto &i : sSetIn ) {
-            if( !isdigit(i) && (i != '-') && (i != '%') ) {
+            if( !isdigit( i )  && ( i != '-' ) && ( i != '%' ) ) {
                 return false;
             }
         }
-        setValue( atoi(sSetIn.c_str()) );
+        setValue( atoi( sSetIn.c_str() ) );
 
     } else if (sType == "int_map") {
         iSet = atoi(sSetIn.c_str());
@@ -669,7 +669,7 @@ bool options_manager::cOpt::setValue(std::string sSetIn)
         ssTemp.imbue(std::locale::classic());
         float tmpFloat;
         ssTemp >> tmpFloat;
-        if(ssTemp) {
+        if( ssTemp ) {
             setValue(tmpFloat);
         } else {
             return false;
