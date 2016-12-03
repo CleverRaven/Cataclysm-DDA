@@ -3399,7 +3399,11 @@ void vehicle::idle(bool on_map) {
         // insufficient power so disable electrical parts
         for( auto &e : parts ) {
             if( e.enabled && e.info().epower < 0 ) {
-                e.enabled = false;
+                if( e.is_engine() ) {
+                    engine_on = false;
+                } else {
+                    e.enabled = false;
+                }
             }
         }
 
