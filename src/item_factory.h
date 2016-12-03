@@ -208,7 +208,7 @@ class Item_factory
          * @param new_type The new item type, must not be null.
          */
         void add_item_type( const itype &def ) {
-            m_templates[ def.id ] = def;
+            m_runtimes[ def.id ].reset( new itype( def ) );
         }
 
         /**
@@ -238,6 +238,8 @@ class Item_factory
         std::map<const std::string, itype> m_abstracts;
 
         mutable std::unordered_map<itype_id, itype> m_templates;
+
+        std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
 
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;

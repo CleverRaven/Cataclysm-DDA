@@ -957,6 +957,11 @@ const itype * Item_factory::find_template( const itype_id& id ) const
         return &found->second;
     }
 
+    auto rt = m_runtimes.find( id );
+    if( rt != m_runtimes.end() ) {
+        return rt->second.get();
+    }
+
     debugmsg( "Missing item definition: %s", id.c_str() );
 
     itype def;
@@ -1896,6 +1901,8 @@ void Item_factory::clear()
     iuse_function_list.clear();
 
     m_templates.clear();
+    m_runtimes.clear();
+
     item_blacklist.clear();
 
     tool_subtypes.clear();
@@ -2276,15 +2283,19 @@ void item_group::debug_spawn()
 }
 
 bool Item_factory::has_template( const itype_id &id ) const {
-    return m_templates.count( id );
+    return m_templates.count( id ) || m_runtimes.count( id );
 }
 
 std::vector<const itype *> Item_factory::all() const {
     std::vector<const itype *> res;
-    res.reserve( m_templates.size() );
+    res.reserve( m_templates.size() + m_runtimes.size() );
 
-    std::transform( m_templates.begin(), m_templates.end(), std::back_inserter( res ),
-                    []( const std::pair<itype_id, itype> &e ) { return &e.second; } );
+    for( const auto &e : m_templates ) {
+        res.push_back( &e.second );
+    }
+    for( const auto &e : m_runtimes ) {
+        res.push_back( e.second.get() );
+    }
 
     return res;
 }
