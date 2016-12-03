@@ -16,6 +16,23 @@
     "ammo_type": "bfeed"
   },
   {
+    "id": "lbfeed",
+    "type": "AMMO",
+    "name": "liquid blob feed",
+    "name_plural": "liquid blob feed",
+    "description": "An amalgam of various types of organic material. Boiled into a liquid form.",
+    "weight": 50,
+    "volume": 1,
+    "to_hit": -3,
+    "bashing": 8,
+    "phase": "liquid",
+    "material": "flesh",
+    "symbol": "*",
+    "color": "red",
+    "count": 25,
+    "ammo_type": "bfeed"
+  },
+  {
     "id": "bframegrow",
     "type": "TOOL",
     "category": "tools",

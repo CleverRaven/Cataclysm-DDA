@@ -534,5 +534,11 @@
       [ [ "bfeed", 1000 ] ],
       [ [ "mutagen", 3 ], [ "iv_mutagen", 1 ] ]
     ]
+  },
+  {
+    "id": "Blob_Feeding",
+    "type": "requirement",
+    "//": "Repair of Blob Vehicular Parts",
+    "components": [ [ [ "bfeed", 25 ] ] ]
   }
 ]
