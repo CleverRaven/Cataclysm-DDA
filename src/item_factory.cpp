@@ -2298,6 +2298,8 @@ bool Item_factory::has_template( const itype_id &id ) const {
 }
 
 std::vector<const itype *> Item_factory::all() const {
+    assert( frozen );
+
     std::vector<const itype *> res;
     res.reserve( m_templates.size() + m_runtimes.size() );
 
@@ -2313,8 +2315,6 @@ std::vector<const itype *> Item_factory::all() const {
 
 /** Find all templates matching the UnaryPredicate function */
 std::vector<const itype *> Item_factory::find( const std::function<bool( const itype & )> &func ) {
-    assert( item_controller->frozen );
-
     std::vector<const itype *> res;
 
     std::vector<const itype *> opts = item_controller->all();
