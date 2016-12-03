@@ -2915,7 +2915,7 @@ int vehicle::gear( const vehicle_part &pt ) const {
 
 int vehicle::rpm( const vehicle_part &pt ) const
 {
-    if( !pt.is_engine() ) {
+    if( !( engine_on && pt.is_engine() ) ) {
         return 0;
     }
     // @todo once stalling is implemented remove lower bound ensuring rpm above idle
