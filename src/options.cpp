@@ -1210,7 +1210,7 @@ void options_manager::init()
 
     add("SOFTWARE_RENDERING", "graphics", _("Software rendering"),
         _("Use software renderer instead of graphics card acceleration."),
-        false, COPT_CURSES_HIDE
+        false, COPT_ALWAYS_HIDE
         );
 
     //~ Do not scale the game image to the window size.
