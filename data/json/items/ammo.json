@@ -179,6 +179,7 @@
         "weight" : 80,
         "ammo_type" : "plutonium",
         "count" : 5,
+        "energy": 200,
         "effects" : ["COOKOFF", "NEVER_MISFIRES"]
     },
     {

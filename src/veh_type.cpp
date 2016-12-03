@@ -452,12 +452,19 @@ void vpart_info::check()
         if( !item::type_is_defined( part.item ) ) {
             debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.item.c_str() );
         }
-        if( part.has_flag( "TURRET" ) && !item::find_type( part.item )->gun ) {
+
+        const itype *base = item::find_type( part.item );
+
+        if( part.has_flag( "TURRET" ) && !base->gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
         }
-        if( part.has_flag( "ENGINE" ) && !item::find_type( part.item )->engine ) {
+        if( part.has_flag( "ENGINE" ) && !base->engine ) {
             debugmsg( "vehicle part %s has the ENGINE flag but base item is not an engine", part.id.c_str() );
         }
+        if( part.has_flag( "REACTOR" ) && !( base->tool && base->tool->ammo_id != NULL_ID ) ) {
+            debugmsg( "vehicle part %s has the REACTOR flag but base item is not tool with ammo", part.id.c_str() );
+        }
+
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
                 debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
