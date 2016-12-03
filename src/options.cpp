@@ -650,7 +650,7 @@ bool options_manager::cOpt::setValue(std::string sSetIn)
 
     } else if (sType == "int") {
         for( const auto &i : sSetIn ) {
-            if( !isdigit(i) && (i != '-') ) {
+            if( !isdigit(i) && (i != '-') && (i != '%') ) {
                 return false;
             }
         }
