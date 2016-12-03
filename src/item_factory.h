@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <bitset>
 #include <memory>
 #include <list>
@@ -236,7 +237,7 @@ class Item_factory
     private:
         std::map<const std::string, itype> m_abstracts;
 
-        mutable std::map<itype_id, itype> m_templates;
+        mutable std::unordered_map<itype_id, itype> m_templates;
 
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
