@@ -970,13 +970,14 @@ const itype * Item_factory::find_template( const itype_id& id ) const
 
     debugmsg( "Missing item definition: %s", id.c_str() );
 
-    itype def;
-    def.id = id;
-    def.name = string_format( "undefined-%ss", id.c_str() );
-    def.name_plural = string_format( "undefined-%s", id.c_str() );
-    def.description = string_format( "Missing item definition for %s.", id.c_str() );
+    itype *def = new itype();
+    def->id = id;
+    def->name = string_format( "undefined-%ss", id.c_str() );
+    def->name_plural = string_format( "undefined-%s", id.c_str() );
+    def->description = string_format( "Missing item definition for %s.", id.c_str() );
 
-    return &( m_templates[ id ] = def );
+    m_runtimes[ id ].reset( def );
+    return def;
 }
 
 Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)

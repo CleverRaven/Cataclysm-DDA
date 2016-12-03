@@ -240,9 +240,9 @@ class Item_factory
 
         std::map<const std::string, itype> m_abstracts;
 
-        mutable std::unordered_map<itype_id, itype> m_templates;
+        std::unordered_map<itype_id, itype> m_templates;
 
-        std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
+        mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
 
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
