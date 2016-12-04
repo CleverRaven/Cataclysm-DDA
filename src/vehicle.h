@@ -487,9 +487,6 @@ private:
     bool explode_fuel( int p, damage_type type );
     //damages vehicle controls and security system
     void smash_security_system();
-    // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
-    int part_power( int index, bool at_full_hp = false ) const;
-    int part_power( const vehicle_part &part, bool at_full_hp = false ) const;
 
     // get vpart epowerinfo for part number.
     int part_epower (int index) const;
