@@ -532,15 +532,16 @@ void butchery_drops_harvest( const mtype &mt, player &p, int age, const std::fun
             continue;
         }
 
+        item obj( drop, age, drop->stackable ? roll : -1 );
+        obj.set_mtype( &mt );
+
         if( drop->phase == LIQUID ) {
-            g->handle_all_liquid( item( drop, age, roll ), 1 );
+            g->handle_all_liquid( obj, 1 );
 
         } else if( drop->stackable ) {
-            g->m.add_item_or_charges( p.pos(), item( drop, age, roll ) );
+            g->m.add_item_or_charges( p.pos(), obj );
 
         } else {
-            item obj( drop, age );
-            obj.set_mtype( &mt );
             for( int i = 0; i != roll; ++i ) {
                 g->m.add_item_or_charges( p.pos(), obj );
             }
