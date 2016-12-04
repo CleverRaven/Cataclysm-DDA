@@ -527,6 +527,11 @@ std::string oter_t::get_mapgen_id() const
     }
 }
 
+oter_id oter_t::get_rotated( om_direction::type dir ) const
+{
+    return type->get_rotated( om_direction::add( this->dir, dir ) );
+}
+
 inline bool oter_t::type_is( int_id<oter_type_t> type_id ) const
 {
     return type->id.id() == type_id;
@@ -2026,7 +2031,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         for( const auto &s_ter : uistate.place_special->terrains ) {
             if( s_ter.p.z == 0 ) {
                 const tripoint rp = om_direction::rotate( s_ter.p, uistate.omedit_rotation );
-                const oter_id oter = om_direction::rotate( s_ter.terrain, uistate.omedit_rotation );
+                const oter_id oter =  s_ter.terrain->get_rotated( uistate.omedit_rotation );
 
                 special_cache.insert( std::make_pair(
                     rp, std::make_pair( oter->get_sym(), oter->get_color() ) ) );
@@ -2667,7 +2672,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 // If user chose an already rotated submap, figure out its direction
                 if( terrain && can_rotate ) {
                     for( auto r : om_direction::all ) {
-                        if( uistate.place_terrain->id.id() == om_direction::rotate( uistate.place_terrain->id.id(), r ) ) {
+                        if( uistate.place_terrain->id.id() == uistate.place_terrain->get_rotated( r ) ) {
                             uistate.omedit_rotation = r;
                             break;
                         }
@@ -2722,7 +2727,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                             for( const auto &s_ter : uistate.place_special->terrains ) {
                                 const tripoint pos = curs + om_direction::rotate( s_ter.p, uistate.omedit_rotation );
 
-                                overmap_buffer.ter( pos ) = om_direction::rotate( s_ter.terrain, uistate.omedit_rotation );
+                                overmap_buffer.ter( pos ) = s_ter.terrain->get_rotated( uistate.omedit_rotation );
                                 overmap_buffer.set_seen( pos.x, pos.y, pos.z, true );
                             }
                         }
@@ -2730,8 +2735,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                     } else if( action == "ROTATE" && can_rotate ) {
                         uistate.omedit_rotation = om_direction::turn_right( uistate.omedit_rotation );
                         if( terrain ) {
-                            uistate.place_terrain = &om_direction::rotate( uistate.place_terrain->id.id(),
-                                                                           uistate.omedit_rotation ).obj();
+                            uistate.place_terrain = &uistate.place_terrain->get_rotated( uistate.omedit_rotation ).obj();
                         }
                     }
                     if( uistate.overmap_blinking ) {
@@ -3249,7 +3253,7 @@ void overmap::put_building( int x, int y, om_direction::type dir, const city &to
         building_tid = random_house();
     }
 
-    tid = om_direction::rotate( building_tid, om_direction::opposite( dir ) );
+    tid = building_tid->get_rotated( om_direction::opposite( dir ) );
 }
 
 void overmap::build_city_street( int x, int y, int cs, om_direction::type dir, const city &town )
@@ -3946,11 +3950,6 @@ tripoint om_direction::rotate( const tripoint &p, type dir )
     return tripoint( rotate( { p.x, p.y }, dir ), p.z );
 }
 
-int_id<oter_t> om_direction::rotate( const int_id<oter_t> &oter, om_direction::type dir )
-{
-    return oter->type->get_rotated( add( oter->dir, dir ) );
-}
-
 long om_direction::rotate_symbol( long sym, type dir )
 {
     static const std::map<long, std::array<long, size>> rotated_syms = {{
@@ -4089,8 +4088,8 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
     const bool blob = special.flags.count( "BLOB" ) > 0;
 
     for( const auto &elem : special.terrains ) {
-        const oter_id tid = om_direction::rotate( elem.terrain.id(), dir );
         const tripoint location = p + om_direction::rotate( elem.p, dir );
+        const oter_id tid = elem.terrain->get_rotated( dir );
 
         ter( location.x, location.y, location.z ) = tid;
 

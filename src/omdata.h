@@ -46,7 +46,6 @@ const std::string &name( type dir );
 /** Various rotations. */
 point rotate( const point &p, type dir );
 tripoint rotate( const tripoint &p, type dir );
-int_id<oter_t> rotate( const int_id<oter_t> &oter, type dir );
 long rotate_symbol( long sym, type dir );
 
 /** Returns point(0, 0) displaced in direction @param dir by the @param dist. */
@@ -173,6 +172,7 @@ struct oter_t {
         }
 
         std::string get_mapgen_id() const;
+        oter_id get_rotated( om_direction::type dir ) const;
 
         const std::string &get_name() const {
             return type->name;
