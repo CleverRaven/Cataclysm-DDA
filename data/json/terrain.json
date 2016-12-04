@@ -3268,7 +3268,21 @@
         "color": [ "red", "light_green", "light_green", "red" ],
         "move_cost": 0,
         "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-        "examine_action": "tree_maple",
+        "examine_action": "harvest_ter",
+        "transforms_into": "t_tree_maple_tapped",
+        "harvest_by_season" : [
+          {
+            "seasons": [ "spring", "summer", "autumn", "winter" ],
+            "entries": [ { "drop": "syrup", "base_num": 1, "scale_num": [ 0.5, 1.0 ], "max": 5 } ],
+            "requirements": {
+              "qualities": [
+                { "id": "DRILL", "level": 1 },
+                { "id": "HAMMER", "level": 1 }
+              ],
+              "tools": [ [ [ "tree_spile", -1 ] ] ]
+            }
+          }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -3287,7 +3301,6 @@
         "color": [ "red", "light_green", "light_green", "red" ],
         "move_cost": 0,
         "flags": [ "FLAMMABLE_ASH", "SEALED", "PLACE_ITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "LIQUIDCONT" ],
-        "examine_action": "tree_maple_tapped",
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
