@@ -5553,7 +5553,7 @@ void vehicle::update_time( const calendar &update_to )
 
     // Weather stuff, only for z-levels >= 0
     // TODO: Have it wash cars from blood?
-    if( funnels.empty() ) {
+    if( funnels.empty() && !has_part( []( const vehicle_part &e ) { return e.is_solar(); } ) ) {
         return;
     }
 
