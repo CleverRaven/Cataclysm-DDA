@@ -5291,17 +5291,15 @@ void game::draw_safe_mode( WINDOW *win, int line ) const
 
     if( autosafemode ) {
         const float safe_mode_percent =
-            turnssincelastmon * 100.00 / get_option<int>( "AUTOSAFEMODETURNS" );
+            turnssincelastmon * 100.0f / get_option<int>( "AUTOSAFEMODETURNS" );
 
         const int text_size = safe_text.size();
         const int starting_position = getmaxx( win ) - safe_text.display_width() - 1;
-
+        const float percent_per_char = 100.0f / text_size;
         int written_size = 0;
         for( int i = 0; i < text_size; i++ ) {
-            nc_color letter_color =
-                safe_mode_percent < ( i + 1 ) * ( 100.00 / text_size )
-                ? c_red
-                : c_green;
+            nc_color letter_color = safe_mode_percent < ( i + 1 ) * percent_per_char
+                ? c_red : c_green;
 
             const auto current_char = safe_text.substr( i, 1 );
             mvwputch( win, line, starting_position + written_size,
