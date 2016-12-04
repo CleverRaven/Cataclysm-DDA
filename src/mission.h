@@ -135,6 +135,10 @@ struct mission_start {
     static void ranch_bartender_3  ( mission *); // Expand Bar
     static void ranch_bartender_4  ( mission *); // Expand Bar
     static void place_book         ( mission *); // Place a book to retrieve
+    static void reveal_weather_station ( mission *); // Find weather logs
+    static void reveal_office_tower( mission *); // Find corporate accounts
+    static void reveal_doctors_office ( mission *); // Find patient records
+    static void reveal_cathedral   ( mission *); // Find relic
 };
 
 struct mission_end { // These functions are run when a mission ends
