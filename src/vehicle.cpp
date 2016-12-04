@@ -3445,7 +3445,7 @@ void vehicle::idle(bool on_map) {
 
                 if( noise > 0 ) {
                     auto iter = opts.begin();
-                    for( ; iter != opts.end() && iter->first < noise; ++iter )
+                    for( ; iter != opts.end() && iter->first < noise; ++iter );
                     sounds::ambient_sound( global_pos3(), noise, iter->second );
                 }
 
