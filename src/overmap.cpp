@@ -124,7 +124,7 @@ namespace om_lines
 {
 
 struct type {
-    wchar_t sym;
+    long sym;
     size_t mapgen;
     std::string suffix;
 };
