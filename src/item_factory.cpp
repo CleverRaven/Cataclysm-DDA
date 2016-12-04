@@ -685,6 +685,10 @@ void Item_factory::check_definitions() const
             }
         }
 
+        if( type->phase != SOLID && !type->stackable ) {
+            msg << "non-solid item must be stackable" << "\n";
+        }
+
         if( type->sym.empty() ) {
             msg << "symbol not defined" << "\n";
         } else if( utf8_width( type->sym ) != 1 ) {
