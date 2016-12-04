@@ -90,7 +90,6 @@ automatically_convertible = {
     "fault",
     "furniture",
     "GENERIC",
-    "GUNMOD",
     "item_action",
     "ITEM_CATEGORY",
     "json_flag",
@@ -264,6 +263,19 @@ def extract_gun(item):
         modes = item.get("modes")
         for fire_mode in modes:
             writestr(outfile, fire_mode[1])
+
+
+def extract_gunmod(item):
+    outfile = get_outfile("gunmod")
+    if "name" in item:
+        item_name = item.get("name")
+        writestr(outfile, item_name)
+    if "description" in item:
+        description = item.get("description")
+        writestr(outfile, description)
+    if "location" in item:
+        location = item.get("location")
+        writestr(outfile, location)
 
 
 def extract_professions(item):
@@ -475,6 +487,7 @@ def extract_gate(item):
 extract_specials = {
     "effect_type": extract_effect_type,
     "GUN": extract_gun,
+    "GUNMOD": extract_gunmod,
     "mapgen": extract_mapgen,
     "martial_art": extract_martial_art,
     "material": extract_material,
@@ -685,9 +698,6 @@ def extract(item, infilename):
         wrote = True
     if "reload_noise" in item:
         writestr(outfile, item["reload_noise"], **kwargs)
-        wrote = True
-    if "location" in item:
-        writestr(outfile, item["location"], **kwargs)
         wrote = True
     if "messages" in item:
         for message in item["messages"]:
