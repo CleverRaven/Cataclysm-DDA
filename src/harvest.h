@@ -11,7 +11,6 @@ class harvest_list;
 
 using harvest_id = string_id<harvest_list>;
 
-// Could be reused for butchery
 struct harvest_entry {
     itype_id drop = "null";
     std::pair<float, float> base_num = { 1.0f, 1.0f };
