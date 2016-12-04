@@ -488,9 +488,6 @@ private:
     //damages vehicle controls and security system
     void smash_security_system();
 
-    // get vpart epowerinfo for part number.
-    int part_epower (int index) const;
-
     //Refresh all caches and re-locate all parts
     void refresh();
 

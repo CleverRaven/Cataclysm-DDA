@@ -1259,17 +1259,6 @@ const vpart_info& vehicle::part_info (int index, bool include_removed) const
     return vpart_id::NULL_ID.obj();
 }
 
-// alternators, solar panels, reactors, and accessories all have epower.
-// alternators, solar panels, and reactors provide, whilst accessories consume.
-int vehicle::part_epower(int const index) const
-{
-    int e = part_info(index).epower;
-    if( e < 0 ) {
-        return e; // Consumers always draw full power, even if broken
-    }
-    return e * parts[ index ].hp() / part_info(index).durability;
-}
-
 bool vehicle::has_structural_part(int const dx, int const dy) const
 {
     std::vector<int> parts_here = parts_at_relative(dx, dy, false);
@@ -3660,8 +3649,7 @@ void vehicle::operate_scoop()
                 sounds::sound( position, rng(10, that_item_there->volume() / units::legacy_volume_factor * 2 + 10),
                                _("BEEEThump") );
             }
-            const int battery_deficit = discharge( that_item_there->weight() *
-                                                           -part_epower( scoop ) / rng( 8, 15 ) );
+            const int battery_deficit = discharge( that_item_there->weight() * -parts[scoop].info().epower / rng( 8, 15 ) );
             if( battery_deficit == 0 && add_item( scoop, *that_item_there ) ) {
                 g->m.i_rem( position, itemdex );
             } else {
