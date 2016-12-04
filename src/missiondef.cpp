@@ -294,7 +294,7 @@ void mission_type::load( JsonObject &jo, const std::string & )
     }
 
     if( jo.has_member( "destination" ) ) {
-        target_id = oter_id( jo.get_string( "destination" ) );
+        target_id = string_id<oter_t>( jo.get_string( "destination" ) );
     }
 }
 

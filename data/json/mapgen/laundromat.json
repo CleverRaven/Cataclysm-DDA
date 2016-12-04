@@ -141,7 +141,7 @@
     "id": "s_laundromat",
     "type": "overmap_terrain",
     "name": "laundromat",
-    "sym": [ 94, 62, 118, 60 ],
+    "sym": 94,
     "color": "white_white",
     "rotate": true,
     "see_cost": 5,

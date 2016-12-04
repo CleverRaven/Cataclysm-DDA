@@ -172,7 +172,7 @@
         "id" : "bankruptpizzeria",
         "name" : "Bankrupt Pizzeria",
         "rotate" : true,
-        "sym" : [94, 62, 118, 60],
+        "sym" : 94,
         "color" : "dark_gray",
         "see_cost" : 5,
         "extras" : "build",

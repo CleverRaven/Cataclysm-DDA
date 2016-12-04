@@ -4116,7 +4116,7 @@ void game::debug()
             popup_top(
                 s.c_str(),
                 u.posx(), u.posy(), get_levx(), get_levy(),
-                overmap_buffer.ter( u.global_omt_location() )->name.c_str(),
+                overmap_buffer.ter( u.global_omt_location() )->get_name().c_str(),
                 int( calendar::turn ), int( nextspawn ),
                 ( get_world_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
@@ -4201,8 +4201,8 @@ void game::debug()
         break;
 
         case 14:
-        debug_menu::npc_edit_menu();
-        break;
+            debug_menu::npc_edit_menu();
+            break;
 
         case 15: {
             auto center = look_around();
@@ -4914,9 +4914,8 @@ void game::draw_sidebar()
 
     const oter_id &cur_ter = overmap_buffer.ter(u.global_omt_location());
 
-    const std::string &tername = cur_ter->name;
     werase(w_location);
-    mvwprintz(w_location, 0, 0, cur_ter->color, "%s", utf8_truncate(tername, 14).c_str());
+    mvwprintz(w_location, 0, 0, cur_ter->get_color(), "%s", utf8_truncate( cur_ter->get_name(), 14 ).c_str());
 
     if (get_levz() < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
@@ -5336,11 +5335,11 @@ void game::draw_minimap()
                 ter_sym = 'c';
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter(omx, omy, get_levz());
-                ter_sym = cur_ter->sym;
+                ter_sym = cur_ter->get_sym();
                 if (overmap_buffer.is_explored(omx, omy, get_levz())) {
                     ter_color = c_dkgray;
                 } else {
-                    ter_color = cur_ter->color;
+                    ter_color = cur_ter->get_color();
                 }
             }
             if (!drew_mission && targ.x == omx && targ.y == omy) {
@@ -13214,7 +13213,7 @@ void game::update_overmap_seen()
             for (std::vector<point>::const_iterator it = line.begin();
                  it != line.end() && sight_points >= 0; ++it) {
                 const oter_id &ter = overmap_buffer.ter(it->x, it->y, ompos.z);
-                sight_points -= int( ter->see_cost );
+                sight_points -= int( ter->get_see_cost() );
             }
             if (sight_points >= 0) {
                 overmap_buffer.set_seen(x, y, ompos.z, true);

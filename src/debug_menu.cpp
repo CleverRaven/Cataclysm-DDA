@@ -107,7 +107,7 @@ void npc_edit_menu()
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
                                    np->goal.x, np->goal.y, np->goal.z,
-                                   overmap_buffer.ter( np->goal )->name.c_str() ) << std::endl;
+                                   overmap_buffer.ter( np->goal )->get_name().c_str() ) << std::endl;
         } else {
             data << _( "No destination." ) << std::endl;
         }

@@ -96,7 +96,7 @@
     "id": "veterinarian",
     "type": "overmap_terrain",
     "name": "veterinarian clinic",
-    "sym": [ 94, 62, 118, 60 ],
+    "sym": 94,
     "color": "i_pink",
     "rotate": true,
     "see_cost": 5,
