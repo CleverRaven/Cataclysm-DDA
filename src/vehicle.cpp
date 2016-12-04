@@ -1270,20 +1270,6 @@ int vehicle::part_epower(int const index) const
     return e * parts[ index ].hp() / part_info(index).durability;
 }
 
-int vehicle::epower_to_power(int const epower)
-{
-    // Convert epower units (watts) to power units
-    // Used primarily for calculating battery charge/discharge
-    // TODO: convert batteries to use energy units based on watts (watt-ticks?)
-    constexpr int conversion_factor = 373; // 373 epower == 373 watts == 1 power == 0.5 HP
-    int power = epower / conversion_factor;
-    // epower remainder results in chance at additional charge/discharge
-    if (x_in_y(abs(epower % conversion_factor), conversion_factor)) {
-        power += epower >= 0 ? 1 : -1;
-    }
-    return power;
-}
-
 bool vehicle::has_structural_part(int const dx, int const dy) const
 {
     std::vector<int> parts_here = parts_at_relative(dx, dy, false);

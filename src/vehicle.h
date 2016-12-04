@@ -494,9 +494,6 @@ private:
     // get vpart epowerinfo for part number.
     int part_epower (int index) const;
 
-    // convert epower (watts) to power.
-    static int epower_to_power (int epower);
-
     //Refresh all caches and re-locate all parts
     void refresh();
 
