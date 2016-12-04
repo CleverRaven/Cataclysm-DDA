@@ -766,7 +766,6 @@ classes = {
             { name = "sight_impaired", rval = "bool", args = { } },
             { name = "sight_range", rval = "int", args = { "int" } },
             { name = "skin_name", rval = "string", args = { } },
-            { name = "sleep_hp_regen", rval = nil, args = { "int" } },
             { name = "sleep_spot", rval = "int", args = { "tripoint" } },
             { name = "sort_armor", rval = nil, args = { } },
             { name = "speed_rating", rval = "float", args = { } },

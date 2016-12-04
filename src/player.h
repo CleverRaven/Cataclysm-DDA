@@ -240,16 +240,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void update_vitamins( const vitamin_id& vit );
 
         /**
-          * Handles passive regeneration of pain and maybe hp, except sleep regeneration.
-          * Updates health and checks for sickness.
+          * Handles passive regeneration of pain and maybe hp.
           */
         void regen( int rate_multiplier );
         /** Regenerates stamina */
         void update_stamina( int turns );
         /** Kills the player if too hungry, stimmed up etc., forces tired player to sleep and prints warnings. */
         void check_needs_extremes();
-        /** Handles hp regen during sleep. */
-        void sleep_hp_regen( int rate_multiplier );
 
         /** Returns if the player has hibernation mutation and is asleep and well fed */
         bool is_hibernating() const;
