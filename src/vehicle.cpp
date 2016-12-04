@@ -2891,7 +2891,7 @@ int vehicle::rpm( const vehicle_part &pt ) const
 
 bool vehicle::overspeed( const vehicle_part &pt ) const
 {
-    return pt.is_engine() ? rpm( pt ) > pt.base.type->engine->redline : false;
+    return pt.is_engine() && current_velocity() > safe_velocity(pt);
 }
 
 int vehicle::friction_load() const
