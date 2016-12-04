@@ -4661,9 +4661,7 @@ void vehicle::gain_moves()
  */
 void vehicle::refresh()
 {
-    alternators.clear();
     engines.clear();
-    reactors.clear();
     funnels.clear();
     relative_parts.clear();
     loose_parts.clear();
@@ -4672,7 +4670,6 @@ void vehicle::refresh()
     speciality.clear();
     floating.clear();
     tracking_epower = 0;
-    alternator_load = 0;
     camera_epower = 0;
     extra_drag = 0;
     // Used to sort part list so it displays properly when examining
@@ -4690,14 +4687,8 @@ void vehicle::refresh()
         if( parts[p].removed ) {
             continue;
         }
-        if( vpi.has_flag(VPFLAG_ALTERNATOR) ) {
-            alternators.push_back( p );
-        }
         if( parts[p].is_engine() ) {
             engines.push_back( p );
-        }
-        if( vpi.has_flag("REACTOR") ) {
-            reactors.push_back( p );
         }
         if( vpi.has_flag("FUNNEL") ) {
             funnels.push_back( p );

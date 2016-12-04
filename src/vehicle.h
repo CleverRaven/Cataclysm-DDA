@@ -1175,9 +1175,7 @@ public:
     int removed_part_count;            // Subtract from parts.size() to get the real part count.
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
     std::set<label> labels;            // stores labels
-    std::vector<int> alternators;      // List of alternator indices
     std::vector<int> engines;          // List of engine indices
-    std::vector<int> reactors;         // List of reactor indices
     std::vector<int> funnels;          // List of funnel indices
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;       // List of wheels
@@ -1201,8 +1199,6 @@ public:
      * not change therefor no call to set_submap_moved is required.
      */
     int smx, smy, smz;
-
-    float alternator_load;
 
     // Points occupied by the vehicle
     std::set<tripoint> occupied_points;
