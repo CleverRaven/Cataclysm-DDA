@@ -21,14 +21,17 @@ enum units_type {
     VU_WIND
 };
 
+inline int fast_floor( double v )
+{
+    return static_cast<int>( v ) - ( v < static_cast<int>( v ) );
+}
+
 double round_up( double val, unsigned int dp );
 
 bool isBetween( int test, int down, int up );
 
 /** Does str contain qry via case-insensitive comparison? */
 bool lcmatch( const std::string &str, const std::string &qry );
-
-bool list_items_match( const item *item, std::string sPattern );
 
 std::vector<map_item_stack> filter_item_stacks( std::vector<map_item_stack> stack,
         std::string filter );

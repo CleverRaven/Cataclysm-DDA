@@ -896,7 +896,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             } else if( is_ammo() ) {
                 info.emplace_back( "AMMO", _( "Types: " ),
                                    enumerate_as_string( type->ammo->type.begin(), type->ammo->type.end(),
-                                                        []( const ammotype &e ) { return e->name(); }, false ) );
+                                                        []( const ammotype &e ) { return _( e->name().c_str() ); }, false ) );
             }
 
             const auto& ammo = *ammo_data()->ammo;
@@ -2361,6 +2361,7 @@ std::string item::display_name(unsigned int quantity) const
             break;
     }
 
+    // @todo Refactor it to eliminate duplication. Handle infinite charges properly in all the cases.
     if( is_container() && contents.size() == 1 && contents.front().charges > 0 ) {
         // a container which is not empty
         qty = string_format(" (%i)", contents.front().charges);
@@ -2372,7 +2373,7 @@ std::string item::display_name(unsigned int quantity) const
         qty = string_format(" (%i)", ammo_remaining());
     } else if( is_ammo_container() && !contents.empty() ) {
         qty = string_format( " (%i)", contents.front().charges );
-    } else if( count_by_charges() ) {
+    } else if( count_by_charges() && !has_infinite_charges() ) {
         qty = string_format(" (%i)", charges);
     }
 
@@ -3249,18 +3250,14 @@ int item::chip_resistance( bool worst ) const
     return res;
 }
 
-int item::damage() const {
-    return damage_ < 0 ? floor( damage_ ) : ceil( damage_ );
-}
-
 int item::min_damage() const
 {
-    return type ? type->damage_min : 0;
+    return type->damage_min;
 }
 
 int item::max_damage() const
 {
-    return type ? type->damage_max : 0;
+    return type->damage_max;
 }
 
 bool item::mod_damage( double qty, damage_type dt )

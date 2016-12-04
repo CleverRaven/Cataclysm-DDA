@@ -2,7 +2,6 @@
 #define ANIMATION_H
 
 #include "color.h"
-extern void try_sdl_update();
 
 enum explosion_neighbors {
     N_NO_NEIGHBORS = 0,

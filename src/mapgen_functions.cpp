@@ -175,16 +175,22 @@ void init_mapgen_builtin_functions() {
 
     mapgen_cfunction_map["subway_straight"]    = &mapgen_subway_straight;
     mapgen_cfunction_map["subway_curved"]      = &mapgen_subway_curved;
+    // @todo Add a dedicated dead-end function. For now it copies the straight section above.
+    mapgen_cfunction_map["subway_end"]         = &mapgen_subway_straight;
     mapgen_cfunction_map["subway_tee"]         = &mapgen_subway_tee;
     mapgen_cfunction_map["subway_four_way"]    = &mapgen_subway_four_way;
 
     mapgen_cfunction_map["sewer_straight"]    = &mapgen_sewer_straight;
     mapgen_cfunction_map["sewer_curved"]      = &mapgen_sewer_curved;
+    // @todo Add a dedicated dead-end function. For now it copies the straight section above.
+    mapgen_cfunction_map["sewer_end"]         = &mapgen_sewer_straight;
     mapgen_cfunction_map["sewer_tee"]         = &mapgen_sewer_tee;
     mapgen_cfunction_map["sewer_four_way"]    = &mapgen_sewer_four_way;
 
     mapgen_cfunction_map["ants_straight"]    = &mapgen_ants_straight;
     mapgen_cfunction_map["ants_curved"]      = &mapgen_ants_curved;
+    // @todo Add a dedicated dead-end function. For now it copies the straight section above.
+    mapgen_cfunction_map["ants_end"]         = &mapgen_ants_straight;
     mapgen_cfunction_map["ants_tee"]         = &mapgen_ants_tee;
     mapgen_cfunction_map["ants_four_way"]    = &mapgen_ants_four_way;
     mapgen_cfunction_map["ants_food"] = &mapgen_ants_food;
@@ -399,17 +405,8 @@ ter_id mapgendata::groundcover() {
 }
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
-    if ( north_is_down ) {
-        int iid_diff = (int)terrain_type - terrain_type->loadid_base + 2;
-        if ( iid_diff != 4 ) {
-            m->rotate(iid_diff);
-        }
-    } else {
-        int iid_diff = (int)terrain_type - terrain_type->loadid_base;
-        if ( iid_diff > 0 ) {
-            m->rotate(iid_diff);
-        }
-    }
+    const auto dir = north_is_down ? om_direction::opposite( terrain_type->dir ) : terrain_type->dir;
+    m->rotate( static_cast<int>( dir ) );
 }
 
 #define autorotate(x) mapgen_rotate(m, terrain_type, x)
@@ -1104,7 +1101,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
     // which way should our roads curve, based on neighbor roads?
     int curvedir_nesw[4] = {};
     for( int dir = 0; dir < 4; dir++ ) { // N E S W
-        if( roads_nesw[dir] == false || dat.t_nesw[dir]->id_base != "road" ) {
+        if( roads_nesw[dir] == false || dat.t_nesw[dir]->get_type_id().str() != "road" ) {
             continue;
         }
 
@@ -1443,7 +1440,7 @@ void mapgen_subway_curved(map *m, oter_id terrain_type, mapgendata dat, int, flo
                 }
             }
         }
-        if (dat.t_above >= "sub_station_north" && dat.t_above <= "sub_station_west") {
+        if( is_ot_type( "sub_station", dat.t_above ) ) {
             m->ter_set(SEEX * 2 - 5, rng(SEEY - 5, SEEY + 4), t_stairs_up);
         }
         m->place_items("subway", 30, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
@@ -1472,7 +1469,7 @@ void mapgen_subway_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
                 }
             }
         }
-        if (dat.t_above >= "sub_station_north" && dat.t_above <= "sub_station_west") {
+        if( is_ot_type( "sub_station", dat.t_above ) ) {
             m->ter_set(4, rng(SEEY - 5, SEEY + 4), t_stairs_up);
         }
         m->place_items("subway", 35, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
@@ -2599,8 +2596,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
     }
 
     // For rotation
-    const int iid_diff = (int)terrain_type - terrain_type->loadid_base;
-    const bool has_basement = terrain_type->id_base == "house_base";
+    const bool has_basement = terrain_type->get_type_id().str() == "house_base";
     if( has_basement ) {
         const bool force = get_world_option<bool>( "ALIGN_STAIRS" );
         // Find the basement's stairs first
@@ -2619,7 +2615,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         bool placed_any = false;
         for( const tripoint &p : upstairs ) {
             static const tripoint up = tripoint( 0, 0, 1 );
-            const tripoint here = rotate_point( p + up, iid_diff );
+            const tripoint here = om_direction::rotate( p + up, terrain_type->dir );
             // @todo Less ugly check
             // If aligning isn't forced, allow only floors. Otherwise allow all non-walls
             const ter_t &ter_here = m->ter( here ).obj();
@@ -2733,9 +2729,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
     }
 
-    if ( iid_diff > 0 ) {
-        m->rotate(iid_diff);
-    }
+    m->rotate( static_cast<int>( terrain_type->dir ) );
 }
 
 /////////////////////////////

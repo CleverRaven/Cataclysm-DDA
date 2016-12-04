@@ -6,7 +6,7 @@
     "name": "radio car box",
     "name_plural": "radio car boxes",
     "description": "A RC car, with radio-control and batteries included!  Disassemble to unpack and enjoy.",
-    "weight": 2300,
+    "weight": 3200,
     "volume": 8,
     "price": 30000,
     "to_hit": -1,
@@ -27,7 +27,7 @@
     "max_charges": 100,
     "turns_per_charge": 5,
     "proportional": {
-      "weight": 0.13,
+      "weight": 0.21,
       "volume": 0.25,
       "price": 0.2
     },
@@ -45,7 +45,7 @@
     "max_charges": 50,
     "revert_to": "radio_car",
     "proportional": {
-      "weight": 0.87,
+      "weight": 0.73,
       "volume": 0.75,
       "price": 0.8
     },

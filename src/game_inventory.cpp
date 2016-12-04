@@ -1,10 +1,16 @@
-#include "game.h"
+#include "game_inventory.h"
 
+#include "game.h"
 #include "inventory_ui.h"
 #include "options.h"
 #include "player.h"
 #include "item.h"
 #include "itype.h"
+
+#include <functional>
+
+typedef std::function<bool( const item & )> item_filter;
+typedef std::function<bool( const item_location & )> item_location_filter;
 
 class inventory_filter_preset : public inventory_selector_preset
 {
@@ -52,42 +58,30 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     return inv_s.execute();
 }
 
-item_location game::get_item_from_inventory( player &p, const std::string &title )
-{
-    const std::string msg = p.is_npc() ? string_format( _( "%s's inventory is empty." ),
-                            p.name.c_str() ) :
-                            std::string( _( "Your inventory is empty." ) );
-
-    return inv_internal( p,
-    inventory_filter_preset( convert_filter( [ &p ]( const item & it ) {
-        return !p.is_worn( it ) && &p.weapon != &it;
-    } ) ), title, -1, msg );
-}
-
-void game::interactive_inv()
+void game_menus::inv::common( player &p )
 {
     static const std::set<int> allowed_selections = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };
 
-    u.inv.restack( &u );
-    u.inv.sort();
+    p.inv.restack( &p );
+    p.inv.sort();
 
-    inventory_pick_selector inv_s( u );
+    inventory_pick_selector inv_s( p );
 
-    inv_s.add_character_items( u );
+    inv_s.add_character_items( p );
     inv_s.set_title( _( "Inventory" ) );
 
     int res;
     do {
         inv_s.set_hint( string_format(
                             _( "Item hotkeys assigned: <color_ltgray>%d</color>/<color_ltgray>%d</color>" ),
-                            u.allocated_invlets().size(), inv_chars.size() - u.allocated_invlets().size() ) );
+                            p.allocated_invlets().size(), inv_chars.size() - p.allocated_invlets().size() ) );
         const item_location &location = inv_s.execute();
         if( location == item_location::nowhere ) {
             break;
         }
-        refresh_all();
-        res = inventory_item_menu( u.get_item_position( location.get_item() ) );
-        refresh_all();
+        g->refresh_all();
+        res = g->inventory_item_menu( p.get_item_position( location.get_item() ) );
+        g->refresh_all();
     } while( allowed_selections.count( res ) != 0 );
 }
 
@@ -118,24 +112,17 @@ int game::inv_for_id( const itype_id &id, const std::string &title )
     }, string_format( _( "You don't have a %s." ), item::nname( id ).c_str() ) );
 }
 
-int game::inv_for_tools_powered_by( const ammotype &battery_id, const std::string &title )
+int game_menus::inv::take_off( player &p )
 {
-    return inv_for_filter( title, [ &battery_id ]( const item & it ) {
-        return it.is_tool() && it.ammo_type() == battery_id;
-    }, string_format( _( "You don't have %s-powered tools." ), ammo_name( battery_id ).c_str() ) );
-}
-
-int game::inv_for_equipped( const std::string &title )
-{
-    return inv_for_filter( title, [ this ]( const item & it ) {
-        return u.is_worn( it );
+    return g->inv_for_filter( _( "Take off item" ), [ &p ]( const item & it ) {
+        return p.is_worn( it );
     }, _( "You don't wear anything." ) );
 }
 
-int game::inv_for_unequipped( const std::string &title )
+int game_menus::inv::wear( player &p )
 {
-    return inv_for_filter( title, [ this ]( const item & it ) {
-        return it.is_armor() && !u.is_worn( it );
+    return g->inv_for_filter( _( "Wear item" ), [ &p ]( const item & it ) {
+        return it.is_armor() && !p.is_worn( it );
     }, _( "You don't have any items to wear." ) );
 }
 
@@ -146,11 +133,11 @@ item_location game::inv_map_splice( item_filter filter, const std::string &title
                          title, radius, none_message );
 }
 
-item *game::inv_map_for_liquid( const item &liquid, const std::string &title, int radius )
+item_location game_menus::inv::container_for( player &p, const item &liquid, int radius )
 {
-    const auto filter = [ this, &liquid ]( const item_location & location ) {
+    const auto filter = [ &liquid ]( const item_location & location ) {
         if( location.where() == item_location::type::character ) {
-            Character *character = dynamic_cast<Character *>( critter_at( location.position() ) );
+            Character *character = dynamic_cast<Character *>( g->critter_at( location.position() ) );
             if( character == nullptr ) {
                 debugmsg( "Invalid location supplied to the liquid filter: no character found." );
                 return false;
@@ -162,9 +149,10 @@ item *game::inv_map_for_liquid( const item &liquid, const std::string &title, in
         return location->get_remaining_capacity_for_liquid( liquid, allow_buckets ) > 0;
     };
 
-    return inv_internal( u, inventory_filter_preset( filter ), title, radius,
+    return inv_internal( p, inventory_filter_preset( filter ),
+                         string_format( _( "Container for %s" ), liquid.display_name( liquid.charges ).c_str() ), radius,
                          string_format( _( "You don't have a suitable container for carrying %s." ),
-                                        liquid.tname().c_str() ) ).get_item();
+                                        liquid.tname().c_str() ) );
 }
 
 class pickup_inventory_preset : public inventory_selector_preset
@@ -241,9 +229,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
         const player &p;
 };
 
-item_location game::inv_for_activatables( const std::string &title )
+item_location game_menus::inv::use( player &p )
 {
-    return inv_internal( u, activatable_inventory_preset( u ), title, 1,
+    return inv_internal( p, activatable_inventory_preset( p ),
+                         _( "Use item" ), 1,
                          _( "You don't have any items you can use." ) );
 }
 
@@ -312,10 +301,11 @@ class gunmod_inventory_preset : public inventory_selector_preset
         const item &gunmod;
 };
 
-item_location game::inv_for_gunmod( const item &gunmod, const std::string &title )
+item_location game_menus::inv::gun_to_modify( player &p, const item &gunmod )
 {
-    return inv_internal( u, gunmod_inventory_preset( u, gunmod ),
-                         title, -1, _( "You don't have any guns to modify." ) );
+    return inv_internal( p, gunmod_inventory_preset( p, gunmod ),
+                         _( "Select gun to modify" ), -1,
+                         _( "You don't have any guns to modify." ) );
 }
 
 class read_inventory_preset: public pickup_inventory_preset
@@ -419,24 +409,46 @@ class read_inventory_preset: public pickup_inventory_preset
         const player &p;
 };
 
-item_location game::inv_for_books( const std::string &title )
+item_location game_menus::inv::read( player &p )
 {
-    return inv_internal( u, read_inventory_preset( u ),
-                         title, 1, _( "You have nothing to read." ) );
+    return inv_internal( p, read_inventory_preset( p ),
+                         _( "Read" ), 1,
+                         _( "You have nothing to read." ) );
 }
 
-std::list<std::pair<int, int>> game::multidrop()
+class steal_inventory_preset : public pickup_inventory_preset
 {
-    u.inv.restack( &u );
-    u.inv.sort();
+    public:
+        steal_inventory_preset( const player &p, const player &victim ) :
+            pickup_inventory_preset( p ), victim( victim ) {}
 
-    const inventory_filter_preset preset( [ this ]( const item_location & location ) {
-        return u.can_unwield( *location, false );
+        bool is_shown( const item_location &loc ) const override {
+            return !victim.is_worn( *loc ) && &victim.weapon != &( *loc );
+        }
+
+    private:
+        const player &victim;
+};
+
+item_location game_menus::inv::steal( player &p, player &victim )
+{
+    return inv_internal( victim, steal_inventory_preset( p, victim ),
+                         string_format( _( "Steal from %s" ), victim.name.c_str() ), -1,
+                         string_format( _( "%s's inventory is empty." ), victim.name.c_str() ) );
+}
+
+std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
+{
+    p.inv.restack( &p );
+    p.inv.sort();
+
+    const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
+        return p.can_unwield( *location, false );
     } );
 
-    inventory_drop_selector inv_s( u, preset );
+    inventory_drop_selector inv_s( p, preset );
 
-    inv_s.add_character_items( u );
+    inv_s.add_character_items( p );
     inv_s.set_title( _( "Multidrop" ) );
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 
@@ -444,23 +456,24 @@ std::list<std::pair<int, int>> game::multidrop()
         popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
         return std::list<std::pair<int, int> >();
     }
+
     return inv_s.execute();
 }
 
-void game::compare( const tripoint &offset )
+void game_menus::inv::compare( player &p, const tripoint &offset )
 {
-    u.inv.restack( &u );
-    u.inv.sort();
+    p.inv.restack( &p );
+    p.inv.sort();
 
-    inventory_compare_selector inv_s( u );
+    inventory_compare_selector inv_s( p );
 
-    inv_s.add_character_items( u );
+    inv_s.add_character_items( p );
     inv_s.set_title( _( "Compare" ) );
     inv_s.set_hint( _( "Select two items to compare them." ) );
 
     if( offset != tripoint_min ) {
-        inv_s.add_map_items( u.pos() + offset );
-        inv_s.add_vehicle_items( u.pos() + offset );
+        inv_s.add_map_items( p.pos() + offset );
+        inv_s.add_vehicle_items( p.pos() + offset );
     } else {
         inv_s.add_nearby_items();
     }
@@ -506,7 +519,7 @@ void game::compare( const tripoint &offset )
                 iScrollPosLast++;
             }
 
-            refresh_all();
+            g->refresh_all();
         } while( ch == KEY_PPAGE || ch == KEY_NPAGE );
     } while( true );
 }

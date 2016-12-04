@@ -315,7 +315,7 @@ class advanced_inventory_pane
         /** Only add offset to index, but wrap around! */
         void mod_index( int offset );
 
-        mutable std::map<std::string, bool> filtercache;
+        mutable std::map<std::string, std::function<bool( const item & )>> filtercache;
 };
 
 class advanced_inventory

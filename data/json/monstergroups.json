@@ -1211,6 +1211,23 @@
     ]
   },{
     "type":"monstergroup",
+    "name": "GROUP_SCHOOL",
+    "default": "mon_null",
+    "//": "School monster spawns.",
+    "monsters": [
+      { "monster": "mon_zombie_child", "freq": 650, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fat", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_tough", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_zombie", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_anklebiter", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_sproglodyte", "freq": 5, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_shriekling", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_creepy", "freq": 5, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_snotgobbler", "freq": 5, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_waif", "freq": 5, "cost_multiplier": 3 }
+    ]
+  },{
+    "type":"monstergroup",
     "name" : "GROUP_SAFE",
     "is_safe" : true,
     "default" : "mon_null",

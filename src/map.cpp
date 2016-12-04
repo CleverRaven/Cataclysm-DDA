@@ -4681,7 +4681,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
             }
             if( n.ammo_capacity() > n.ammo_remaining() ) {
                 constexpr int per_charge = 10;
-                const int missing = cur_veh->discharge_battery( per_charge, false );
+                const int missing = cur_veh->discharge( per_charge, false );
                 if( missing < per_charge &&
                     ( missing == 0 || x_in_y( per_charge - missing, per_charge ) ) ) {
                     n.ammo_set( "battery", n.ammo_remaining() + 1 );
@@ -5053,105 +5053,21 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
 
         vehs.insert( veh );
 
-        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
-        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
-        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
-        const int forgepart = veh->part_with_feature(vpart, "FORGE");
-        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
-        const int cargo = veh->part_with_feature(vpart, "CARGO");
+        // try to provide as many charges as possible from any matching vehicle pseudo-tool
+        if( veh->has_part( p, [&type]( const vehicle_part &e ) { return e.info().tools.count( type ); } ) ) {
+            item obj( type );
+            obj.set_flag( "PSEUDO" );
+            obj.ammo_set( obj.ammo_default(), veh->drain( obj.ammo_default(), quantity ) );
+            quantity -= obj.ammo_remaining();
 
-        if (kpart >= 0) {
-            itype_id ftype = "null";
+            ret.push_back( obj );
 
-            if (type == "hotplate") {
-                ftype = "battery";
-            }
-
-            item tmp(type, 0); //TODO add a sane birthday arg
-            tmp.charges = veh->drain(ftype, quantity);
-            quantity -= tmp.charges;
-            ret.push_back(tmp);
-
-            if (quantity == 0) {
+            if( quantity == 0 ) {
                 return ret;
             }
         }
 
-        if (weldpart >= 0) { // we have a weldrig, now to see what to drain
-            itype_id ftype = "null";
-
-            if (type == "welder") {
-                ftype = "battery";
-            } else if (type == "soldering_iron") {
-                ftype = "battery";
-            }
-
-            item tmp(type, 0); //TODO add a sane birthday arg
-            tmp.charges = veh->drain(ftype, quantity);
-            quantity -= tmp.charges;
-            ret.push_back(tmp);
-
-            if (quantity == 0) {
-                return ret;
-            }
-        }
-
-        if (craftpart >= 0) { // we have a craftrig, now to see what to drain
-            itype_id ftype = "null";
-
-            if (type == "press") {
-                ftype = "battery";
-            } else if (type == "vac_sealer") {
-                ftype = "battery";
-            } else if (type == "dehydrator") {
-                ftype = "battery";
-            }
-
-            item tmp(type, 0); //TODO add a sane birthday arg
-            tmp.charges = veh->drain(ftype, quantity);
-            quantity -= tmp.charges;
-            ret.push_back(tmp);
-
-            if (quantity == 0) {
-                return ret;
-            }
-        }
-
-        if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
-            itype_id ftype = "null";
-
-            if (type == "forge") {
-                ftype = "battery";
-            }
-
-            item tmp(type, 0); //TODO add a sane birthday arg
-            tmp.charges = veh->drain(ftype, quantity);
-            quantity -= tmp.charges;
-            ret.push_back(tmp);
-
-            if (quantity == 0) {
-                return ret;
-            }
-        }
-
-        if (chempart >= 0) { // we have a chem_lab, now to see what to drain
-            itype_id ftype = "null";
-
-            if (type == "chemistry_set") {
-                ftype = "battery";
-            } else if (type == "hotplate") {
-                ftype = "battery";
-            }
-
-            item tmp(type, 0); //TODO add a sane birthday arg
-            tmp.charges = veh->drain(ftype, quantity);
-            quantity -= tmp.charges;
-            ret.push_back(tmp);
-
-            if (quantity == 0) {
-                return ret;
-            }
-        }
+        const int cargo = veh->part_with_feature( vpart, "CARGO" );
 
         if (cargo >= 0) {
             std::list<item> tmp =
@@ -5164,10 +5080,10 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
     }
 
     for( vehicle *v : vehs ) {
-        // if vehicle has FAUCET can use clean water from any of the tanks
+        // if vehicle has FAUCET can use contents from any of the tanks
         if( v->has_part( "FAUCET" ) ) {
             for( auto &pt : v->parts ) {
-                if( pt.is_tank() && pt.ammo_current() == "water_clean" ) {
+                if( pt.is_tank() ) {
                     for( const auto &obj : pt.contents() ) {
                         if( obj.typeId() == type ) {
                             ret.push_back( pt.drain( quantity ) );

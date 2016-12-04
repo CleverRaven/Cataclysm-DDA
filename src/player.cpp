@@ -801,9 +801,8 @@ void player::update_bodytemp()
         vehwindspeed = abs( veh->velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
-    std::string omtername = cur_om_ter->name;
     bool sheltered = g->is_sheltered( pos() );
-    int total_windpower = get_local_windpower( weather.windpower + vehwindspeed, omtername, sheltered );
+    int total_windpower = get_local_windpower( weather.windpower + vehwindspeed, cur_om_ter->get_name(), sheltered );
 
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( "BARK" );
@@ -2004,7 +2003,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
 
     //Figure out the location
     const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
-    const std::string &tername = cur_ter->name;
+    const std::string &tername = cur_ter->get_name();
 
     //Were they in a town, or out in the wilderness?
     const auto global_sm_pos = global_sm_location();
@@ -2284,7 +2283,7 @@ void player::add_memorial_log( const char *male_msg, const char *female_msg, ...
                               );
 
     const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
-    const std::string &location = cur_ter->name;
+    const std::string &location = cur_ter->get_name();
 
     std::stringstream log_message;
     log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << msg;
@@ -3401,7 +3400,7 @@ static std::string print_gun_mode( const player &p )
     if( m ) {
         if( m.melee() || !m->is_gunmod() ) {
             return string_format( m.mode.empty() ? "%s" : "%s (%s)",
-                                  p.weapname().c_str(), m.mode.c_str() );
+                                  p.weapname().c_str(), _( m.mode.c_str() ) );
         } else {
             return string_format( "%s (%i/%i)", m->tname().c_str(),
                                   m->ammo_remaining(), m->ammo_capacity() );
@@ -4057,7 +4056,7 @@ bool player::overmap_los( const tripoint &omt, int sight_points )
     for( size_t i = 0; i < line.size() && sight_points >= 0; i++ ) {
         const tripoint &pt = line[i];
         const oter_id &ter = overmap_buffer.ter( pt );
-        sight_points -= int( ter->see_cost );
+        sight_points -= int( ter->get_see_cost() );
         if( sight_points < 0 ) {
             return false;
         }
@@ -5322,14 +5321,11 @@ void player::update_body( int from, int to )
     if( five_mins > 0 ) {
         check_needs_extremes();
         update_needs( five_mins );
-        if( has_effect( effect_sleep ) ) {
-            sleep_hp_regen( five_mins );
-        }
+        regen( five_mins );
     }
 
     const int thirty_mins = ticks_between( from, to, MINUTES(30) );
     if( thirty_mins > 0 ) {
-        regen( thirty_mins );
         get_sick();
         mend( thirty_mins );
     }
@@ -5725,31 +5721,52 @@ void player::regen( int rate_multiplier )
 {
     int pain_ticks = rate_multiplier;
     while( get_pain() > 0 && pain_ticks-- > 0 ) {
-        mod_pain( -( 1 + get_pain() / 10 ) );
+        mod_pain( -roll_remainder( 0.2f + get_pain() / 50.0f ) );
     }
 
+    const bool asleep = has_effect( effect_sleep );
     float heal_rate = 0.0f;
-    // Mutation healing effects
-    if( has_trait("FASTHEALER2") ) {
-        heal_rate += 0.2f;
-    } else if( has_trait("REGEN") ) {
-        heal_rate += 0.5f;
+    if( asleep ) {
+        if( has_trait( "REGEN" ) || has_trait( "FASTHEALER2" ) ) {
+            heal_rate += 1.0f;
+        } else if( has_trait( "FASTHEALER" ) || has_trait( "MET_RAT" ) ) {
+            heal_rate += 0.5f;
+        } else if( has_trait( "SLOWHEALER" ) || has_trait( "ROT1" ) ) {
+            heal_rate += 0.13f;
+        } else {
+            heal_rate += 0.25f;
+        }
+
+        heal_rate += heal_rate * get_healthy() / 200.0f;
+    }
+
+    if( has_trait("ROT3") ) {
+        heal_rate -= 0.1f;
+    } else if( has_trait("ROT2") ) {
+        heal_rate -= 0.04f;
+    } else if( has_trait( "REGEN" ) ) {
+        heal_rate += 1.0f;
+    } else if( has_trait( "FASTHEALER2" ) ) {
+        heal_rate += 0.33f;
+    } else if( has_trait( "FASTHEALER" ) || has_trait( "MET_RAT" ) ) {
+        heal_rate += 0.1f;
+    }
+
+    // Let flimsy affect rot too - otherwise it would be a really horrible combo
+    if( heal_rate != 0.0f ) {
+        if( has_trait("FLIMSY3") ) {
+            heal_rate /= 4.0f;
+        } else if( has_trait("FLIMSY2") ) {
+            heal_rate /= 2.0f;
+        } else if( has_trait("FLIMSY") ) {
+            heal_rate /= 1.33f;
+        }
     }
 
     if( heal_rate > 0.0f ) {
-        int hp_rate = divide_roll_remainder( rate_multiplier * heal_rate, 1.0f );
-        healall( hp_rate );
-    }
-
-    float hurt_rate = 0.0f;
-    if( has_trait("ROT2") ) {
-        hurt_rate += 0.2f;
-    } else if( has_trait("ROT3") ) {
-        hurt_rate += 0.5f;
-    }
-
-    if( hurt_rate > 0.0f ) {
-        int rot_rate = divide_roll_remainder( rate_multiplier * hurt_rate, 1.0f );
+        healall( roll_remainder( rate_multiplier * heal_rate ) );
+    } else if( !asleep && heal_rate < 0.0f ) {
+        int rot_rate = roll_remainder( rate_multiplier * heal_rate );
         // Has to be in loop because some effects depend on rounding
         while( rot_rate-- > 0 ) {
             hurtall( 1, nullptr, false );
@@ -5757,7 +5774,7 @@ void player::regen( int rate_multiplier )
     }
 
     if( radiation > 0 ) {
-        radiation = std::max( 0, radiation - roll_remainder( rate_multiplier / 10.0f ) );
+        radiation = std::max( 0, radiation - roll_remainder( rate_multiplier / 50.0f ) );
     }
 }
 
@@ -5810,39 +5827,6 @@ bool player::is_hibernating() const
     // life like that--but since there's much less fluid reserve than food reserve,
     // simply using the same numbers won't work.
     return has_effect( effect_sleep ) && get_hunger() <= -60 && get_thirst() <= 80 && has_active_mutation("HIBERNATE");
-}
-
-void player::sleep_hp_regen( int rate_multiplier )
-{
-    float heal_chance = get_healthy() / 400.0f;
-    if( has_trait("FASTHEALER") || has_trait("MET_RAT") ) {
-        heal_chance += 1.0f;
-    } else if (has_trait("FASTHEALER2")) {
-        heal_chance += 1.5f;
-    } else if (has_trait("REGEN")) {
-        heal_chance += 2.0f;
-    } else if (has_trait("SLOWHEALER")) {
-        heal_chance += 0.13f;
-    } else {
-        heal_chance += 0.25f;
-    }
-
-    if( is_hibernating() ) {
-        heal_chance /= 7.0f;
-    }
-
-    if( has_trait("FLIMSY") ) {
-        heal_chance /= (4.0f / 3.0f);
-    } else if( has_trait("FLIMSY2") ) {
-        heal_chance /= 2.0f;
-    } else if( has_trait("FLIMSY3") ) {
-        heal_chance /= 4.0f;
-    }
-
-    const int heal_roll = divide_roll_remainder( rate_multiplier * heal_chance, 1.0f );
-    if( heal_roll > 0 ) {
-        healall( heal_roll );
-    }
 }
 
 void player::add_addiction(add_type type, int strength)
@@ -8310,21 +8294,27 @@ void player::suffer()
 
             add_msg_if_player(m_good, _("The %s seems to be affected by the discharge."), weapon.tname().c_str());
         }
+        sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
     if (has_bionic("bio_dis_acid") && one_in(1500)) {
         add_msg_if_player(m_bad, _("You suffer a burning acidic discharge!"));
         hurtall(1, nullptr);
+        sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
+        sfx::do_player_death_hurt( g->u, 0 );
     }
     if (has_bionic("bio_drain") && power_level > 24 && one_in(600)) {
         add_msg_if_player(m_bad, _("Your batteries discharge slightly."));
         charge_power(-25);
+        sfx::play_variant_sound( "bionics", "elec_crackle_low", 100 );
     }
     if (has_bionic("bio_noise") && one_in(500)) {
         // TODO: NPCs with said bionic
         if(!is_deaf()) {
             add_msg(m_bad, _("A bionic emits a crackle of noise!"));
+            sfx::play_variant_sound( "bionics", "elec_blast", 100 );
         } else {
-            add_msg(m_bad, _("A bionic shudders, but you hear nothing."));
+            add_msg(m_bad, _("You feel your faulty bionic shudderring."));
+            sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
         }
         sounds::sound( pos(), 60, "");
     }
@@ -8335,17 +8325,20 @@ void player::suffer()
     if (has_bionic("bio_trip") && one_in(500) && !has_effect( effect_visuals )) {
         add_msg_if_player(m_bad, _("Your vision pixelates!"));
         add_effect( effect_visuals, 100 );
+        sfx::play_variant_sound( "bionics", "pixelated", 100 );
     }
     if (has_bionic("bio_spasm") && one_in(3000) && !has_effect( effect_downed )) {
         add_msg_if_player(m_bad, _("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
         mod_pain(1);
         add_effect( effect_stunned, 1);
         add_effect( effect_downed, 1, num_bp, false, 0, true );
+        sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
     if (has_bionic("bio_shakes") && power_level > 24 && one_in(1200)) {
         add_msg_if_player(m_bad, _("Your bionics short-circuit, causing you to tremble and shiver."));
         charge_power(-25);
         add_effect( effect_shakes, 50 );
+        sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
         mod_healthy_mod(-50, -200);

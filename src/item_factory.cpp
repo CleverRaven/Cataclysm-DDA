@@ -30,6 +30,7 @@
 #include <algorithm>
 #include <assert.h>
 #include <sstream>
+#include <cassert>
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
@@ -98,6 +99,9 @@ void Item_factory::finalize() {
     }
 
     finalize_item_blacklist();
+
+    // we can no longer add or adjust static item templates
+    frozen = true;
 
     // tools that have at least one repair action
     std::set<itype_id> repair_tools;
@@ -952,20 +956,28 @@ void Item_factory::check_definitions() const
 //Returns the template with the given identification tag
 const itype * Item_factory::find_template( const itype_id& id ) const
 {
+    assert( frozen );
+
     auto found = m_templates.find( id );
     if( found != m_templates.end() ) {
         return &found->second;
     }
 
+    auto rt = m_runtimes.find( id );
+    if( rt != m_runtimes.end() ) {
+        return rt->second.get();
+    }
+
     debugmsg( "Missing item definition: %s", id.c_str() );
 
-    itype def;
-    def.id = id;
-    def.name = string_format( "undefined-%ss", id.c_str() );
-    def.name_plural = string_format( "undefined-%s", id.c_str() );
-    def.description = string_format( "Missing item definition for %s.", id.c_str() );
+    itype *def = new itype();
+    def->id = id;
+    def->name = string_format( "undefined-%ss", id.c_str() );
+    def->name_plural = string_format( "undefined-%s", id.c_str() );
+    def->description = string_format( "Missing item definition for %s.", id.c_str() );
 
-    return &( m_templates[ id ] = def );
+    m_runtimes[ id ].reset( def );
+    return def;
 }
 
 Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
@@ -1019,6 +1031,8 @@ void load_optional_enum_array( std::vector<E> &vec, JsonObject &jo, const std::s
 }
 
 bool Item_factory::load_definition( JsonObject& jo, const std::string &src, itype &def ) {
+    assert( !frozen );
+
     if( !jo.has_string( "copy-from" ) ) {
         // if this is a new definition ensure we start with a clean itype
         def = itype();
@@ -1896,9 +1910,13 @@ void Item_factory::clear()
     iuse_function_list.clear();
 
     m_templates.clear();
+    m_runtimes.clear();
+
     item_blacklist.clear();
 
     tool_subtypes.clear();
+
+    frozen = false;
 }
 
 Item_group *make_group_or_throw( Item_spawn_data *&isd, Item_group::Type t, int ammo_chance, int magazine_chance )
@@ -1989,8 +2007,6 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     use_modifier |= load_sub_ref(modifier->ammo, obj, "ammo");
     use_modifier |= load_sub_ref(modifier->container, obj, "container");
     use_modifier |= load_sub_ref(modifier->contents, obj, "contents");
-    use_modifier |= ( modifier->with_ammo = ig->with_ammo ) != 0;
-    use_modifier |= ( modifier->with_magazine = ig->with_magazine ) != 0;
     if (use_modifier) {
         dynamic_cast<Single_item_creator *>(ptr.get())->modifier = std::move(modifier);
     }
@@ -2005,14 +2021,6 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     load_item_group(jsobj, group_id, subtype);
 }
 
-void Item_factory::load_item_group_entries( Item_group& ig, JsonArray& entries )
-{
-    while( entries.has_more() ) {
-        JsonObject subobj = entries.next_object();
-        add_entry( &ig, subobj );
-    }
-}
-
 void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_id,
                                     const bool is_collection, int ammo_chance,
                                     int magazine_chance )
@@ -2021,7 +2029,10 @@ void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_i
     Item_spawn_data *&isd = m_template_groups[group_id];
     Item_group* const ig = make_group_or_throw( isd, type, ammo_chance, magazine_chance );
 
-    load_item_group_entries( *ig, entries );
+    while( entries.has_more() ) {
+        JsonObject subobj = entries.next_object();
+        add_entry( ig, subobj );
+    }
 }
 
 void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
@@ -2054,7 +2065,10 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
 
     if (jsobj.has_member("entries")) {
         JsonArray items = jsobj.get_array("entries");
-        load_item_group_entries( *ig, items );
+        while( items.has_more() ) {
+            JsonObject subobj = items.next_object();
+            add_entry( ig, subobj );
+        }
     }
     if (jsobj.has_member("items")) {
         JsonArray items = jsobj.get_array("items");
@@ -2279,14 +2293,36 @@ void item_group::debug_spawn()
     }
 }
 
-std::vector<Item_tag> Item_factory::get_all_itype_ids() const
-{
-    std::vector<Item_tag> result;
-    result.reserve( m_templates.size() );
-    for( auto & p : m_templates ) {
-        result.push_back( p.first );
+bool Item_factory::has_template( const itype_id &id ) const {
+    return m_templates.count( id ) || m_runtimes.count( id );
+}
+
+std::vector<const itype *> Item_factory::all() const {
+    assert( frozen );
+
+    std::vector<const itype *> res;
+    res.reserve( m_templates.size() + m_runtimes.size() );
+
+    for( const auto &e : m_templates ) {
+        res.push_back( &e.second );
     }
-    return result;
+    for( const auto &e : m_runtimes ) {
+        res.push_back( e.second.get() );
+    }
+
+    return res;
+}
+
+/** Find all templates matching the UnaryPredicate function */
+std::vector<const itype *> Item_factory::find( const std::function<bool( const itype & )> &func ) {
+    std::vector<const itype *> res;
+
+    std::vector<const itype *> opts = item_controller->all();
+
+    std::copy_if( opts.begin(), opts.end(), std::back_inserter( res ),
+                  [&func]( const itype *e ) { return func( *e ); } );
+
+    return res;
 }
 
 Item_tag Item_factory::create_artifact_id() const

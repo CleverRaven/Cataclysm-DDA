@@ -135,6 +135,7 @@ src/filesystem.h
 src/fire.h
 src/flag.h
 src/game_constants.h
+src/game_inventory.h
 src/gates.h
 src/generic_factory.h
 src/get_version.h

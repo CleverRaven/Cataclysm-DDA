@@ -8,12 +8,10 @@
     "color": "white",
     "rotate": false,
     "line_drawing": false,
-    "see_cost": 0,
     "mondensity": 1,
     "allow_road": false,
     "sidewalk": false,
     "known_up": false,
-    "known_down": false,
-    "extras": "none"
+    "known_down": false
   }
 ]

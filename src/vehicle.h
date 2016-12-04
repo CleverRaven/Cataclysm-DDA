@@ -179,6 +179,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Efficiency (0.0,1.0] at which engine converts fuel energy to output power at @ref rpm */
     float efficiency( int rpm ) const;
 
+    /** Effective power output (watts) of part optionally adjusted for effects of damage or faults */
+    int power( bool effects = true ) const;
+
     /**
      *  Get NPC currently assigned to this part (seat, turret etc)?
      *  @note checks crew member is alive and currently allied to the player
@@ -239,7 +242,7 @@ public:
     int hp() const;
 
     /** parts are considered broken at zero health */
-    bool is_broken() const;
+    bool is_broken() const { return base.damage() >= base.max_damage(); }
 
     int blood        = 0;         // how much blood covers part (in turns).
     bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
@@ -785,12 +788,16 @@ public:
      */
     std::map<itype_id, long> fuels_left() const;
 
-    // Checks how much certain fuel left in tanks.
-    int fuel_left (const itype_id &ftype, bool recurse = false) const;
+    /**
+     * How much of a given fuel type is available from various sources
+     * @param recurse for battery power should networked vehicles be considered?
+     * @param reactor for battery power should active reactors be considered?
+     */
+    int fuel_left( const itype_id &ftype, bool recurse = false, bool reactor = false ) const;
+
     int fuel_capacity (const itype_id &ftype) const;
 
     // drains a fuel type (e.g. for the kitchen unit)
-    // returns amount actually drained, does not engage reactor
     int drain (const itype_id &ftype, int amount);
 
     /**
@@ -799,8 +806,6 @@ public:
      */
     std::vector<vehicle_part *> lights( bool active = false );
 
-    void power_parts();
-
     /**
      * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
      * @return amount of charge left over.
@@ -808,10 +813,13 @@ public:
     int charge_battery (int amount, bool recurse = true);
 
     /**
-     * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
+     * Attempt to obtain electrical power from various sources
+     * @param amount maximum power (kJ) to obtain
+     * @param recurse if insufficient local power available should networked vehicles be drained?
+     * @param reactor if insufficient power is available should active reactors will be engaged?
      * @return amount of request unfulfilled (0 if totally successful).
      */
-    int discharge_battery (int amount, bool recurse = true);
+    int discharge( int amount, bool recurse = true, bool reactor = true );
 
     /**
      * Mark mass caches and pivot cache as dirty
@@ -834,6 +842,9 @@ public:
     // between precalc[0] and precalc[1]. This needs to be subtracted from any actual
     // vehicle motion after precalc[1] is prepared.
     point pivot_displacement() const;
+
+    /** Calculate power usage (watts) of all active parts */
+    int power_usage() const;
 
     /** Get currently selected engine (if any) or a null part if none are selected */
     vehicle_part &current_engine();
@@ -860,8 +871,8 @@ public:
     /** Check if specific engine is currently running above redline? */
     bool overspeed( const vehicle_part &pt ) const;
 
-    /** Get load (in watts) on specific engine from both propulsion and alternators */
-    int load( const vehicle_part &pt ) const;
+    /** Get power required (watts) required to replace losses due to friction at current speed  */
+    int friction_load() const;
 
     /** Get acceleration (m/s²) from specific engine dependent upon current @ref load() */
     double acceleration( const vehicle_part &pt ) const;
@@ -1119,8 +1130,7 @@ public:
     bool is_part_on(int p) const;
     //returns whether the engine uses specified fuel type
     bool is_engine_type(int e, const itype_id &ft) const;
-    //returns whether the alternator is operational
-    bool is_alternator_on(int a) const;
+
     //mark engine as on or off
     void toggle_specific_engine(int p, bool on);
     void toggle_specific_part(int p, bool on);
@@ -1251,10 +1261,6 @@ private:
 
     mutable bool pivot_dirty;                  // if true, pivot_cache needs to be recalculated
     mutable point pivot_cache;                 // cached pivot point
-
-    // Get combined power of all engines. If fueled == true, then only engines which
-    // vehicle have fuel for are accounted
-    int total_power (bool fueled = true) const;
 
     void refresh_mass() const;
     void calc_mass_center( bool precalc ) const;

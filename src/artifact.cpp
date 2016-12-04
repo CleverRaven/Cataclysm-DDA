@@ -1215,16 +1215,16 @@ bool save_artifacts( const std::string &path )
     return write_to_file_exclusive( path, [&]( std::ostream &fout ) {
         JsonOut json( fout );
         json.start_array();
-        for( auto &e : item_controller->get_all_itypes() ) {
-            if( !e.second.artifact ) {
+        for( const itype *e : item_controller->all() ) {
+            if( !e->artifact ) {
                 continue;
             }
 
-            if( e.second.tool ) {
-                json.write( it_artifact_tool( e.second ) );
+            if( e->tool ) {
+                json.write( it_artifact_tool( *e ) );
 
-            } else if( e.second.armor ) {
-                json.write( it_artifact_armor( e.second ) );
+            } else if( e->armor ) {
+                json.write( it_artifact_armor( *e ) );
             }
         }
         json.end_array();

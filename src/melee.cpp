@@ -2,6 +2,7 @@
 #include "bionics.h"
 #include "debug.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "map.h"
 #include "debug.h"
 #include "rng.h"
@@ -2022,7 +2023,7 @@ void player::steal( npc &target )
         return;
     }
 
-    item_location loc = g->get_item_from_inventory( target, _( "Steal item" ) );
+    item_location loc = game_menus::inv::steal( *this, target );
     if( !loc ) {
         return;
     }
@@ -2045,13 +2046,13 @@ void player::steal( npc &target )
 
     const item *it = loc.get_item();
     if( my_roll >= their_roll ) {
-        add_msg( _( "You sneakely steal %s from %s!" ), it->tname().c_str(), target.name.c_str() );
+        add_msg( _( "You sneakily steal %1$s from %2$s!" ), it->tname().c_str(), target.name.c_str() );
         i_add( target.i_rem( it ) );
     } else if( my_roll >= their_roll / 2 ) {
-        add_msg( _( "You failed to steal %s from %s, but did not attract attention." ), it->tname().c_str(),
+        add_msg( _( "You failed to steal %1$s from %2$s, but did not attract attention." ), it->tname().c_str(),
                  target.name.c_str() );
     } else  {
-        add_msg( _( "You failed to steal %s from %s" ), it->tname().c_str(), target.name.c_str() );
+        add_msg( _( "You failed to steal %1$s from %2$s." ), it->tname().c_str(), target.name.c_str() );
         target.make_angry();
     }
 
