@@ -574,9 +574,6 @@ public:
     // Attempt to start the vehicle's active engines
     void start_engines( const bool take_control = false );
 
-    // Engine backfire, making a loud noise
-    void backfire( const int e ) const;
-
     // Honk the vehicle's horn, if there are any
     void honk_horn();
     void beeper_sound();
@@ -875,14 +872,11 @@ public:
     /** Get engine noise at given power output (watts) accounting for effect of ancillary parts */
     int engine_noise( const vehicle_part &pt, int power ) const;
 
+    /** Generate smoke at given power output (watts) accounting for faults and ancillary parts */
+    void engine_smoke( const vehicle_part &pt, int power );
+
     // Generate smoke from a part, either at front or back of vehicle depending on velocity.
     void spew_smoke( double joules, int part, int density = 1 );
-
-    /**
-     * Generate noise or smoke from a vehicle with a running engine
-     * @param load current engine load as proportion of maximum output [0.0-1.0]
-     */
-    void noise_and_smoke( double load );
 
     /**
      * Calculates the sum of the area under the wheels of the vehicle.

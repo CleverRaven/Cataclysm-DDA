@@ -1152,14 +1152,6 @@ void vehicle::start_engines( const bool take_control )
     g->u.activity.values.push_back( take_control );
 }
 
-void vehicle::backfire( const int e ) const
-{
-    const int power = watt_to_hp( parts[engines[e]].power( false ) );
-    const tripoint pos = global_part_pos3( engines[e] );
-    //~ backfire sound
-    sounds::ambient_sound( pos, 40 + (power / 30), _( "BANG!" ) );
-}
-
 void vehicle::honk_horn()
 {
     const bool no_power = !fuel_left( fuel_type_battery, true, true );
@@ -2920,55 +2912,38 @@ void vehicle::spew_smoke( double joules, int part, int density )
     g->m.adjust_field_strength( dest, fd_smoke, density );
 }
 
-void vehicle::noise_and_smoke( double load )
+void vehicle::engine_smoke( const vehicle_part &pt, int load )
 {
-    double mufflesmoke = 0.0;
+    if( !pt.is_engine() ) {
+        return;
+    }
+
+    if( !( pt.ammo_current() == fuel_type_gasoline || pt.ammo_current() == fuel_type_diesel ) ) {
+        return; // @todo move to JSON
+    }
+
+    int exhaust = index_of_part( &pt );
+
     double muffle = 1.0, m;
-    int exhaust_part = -1;
     for( size_t p = 0; p < parts.size(); p++ ) {
         if( part_flag(p, "MUFFLER") ) {
             m = 1.0 - (1.0 - part_info(p).bonus / 100.0) * double( parts[p].hp() ) / part_info(p).durability;
             if( m < muffle ) {
                 muffle = m;
-                exhaust_part = int(p);
+                exhaust = int(p);
             }
         }
     }
 
-    bool bad_filter = false;
+    int density = 1;
+    int qty = pt.power( false ) * load * muffle * 3;
 
-    for( size_t e = 0; e < engines.size(); e++ ) {
-        const auto &eng = parts[engines[e]];
-
-        if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
-            if( is_engine_type( e, fuel_type_gasoline ) ) {
-                double dmg = 1.0 - double( eng.hp() ) / eng.info().durability;
-                if( eng.base.faults.count( fault_filter_fuel ) ) {
-                    dmg = 1.0;
-                }
-                if( dmg > 0.75 && one_in( 200 - ( 150 * dmg ) ) ) {
-                    backfire( e );
-                }
-            }
-            double j = eng.power( false ) * load * muffle * 3;
-
-            if( eng.base.faults.count( fault_filter_air ) ) {
-                bad_filter = true;
-                j *= j;
-            }
-
-            if( (exhaust_part == -1) && engine_on ) {
-                spew_smoke( j, index_of_part( &eng ), bad_filter ? MAX_FIELD_DENSITY : 1 );
-            } else {
-                mufflesmoke += j;
-            }
-        }
+    if( pt.base.faults.count( fault_filter_air ) ) {
+        density = MAX_FIELD_DENSITY;
+        qty *= qty;
     }
 
-    if( (exhaust_part != -1) && engine_on &&
-        has_engine_type_not(fuel_type_muscle, true)) { // No engine, no smoke
-        spew_smoke( mufflesmoke, exhaust_part, bad_filter ? MAX_FIELD_DENSITY : 1 );
-    }
+    spew_smoke( qty, exhaust, density );
 }
 
 float vehicle::wheel_area( bool boat ) const
@@ -3474,7 +3449,7 @@ void vehicle::idle(bool on_map) {
                     sounds::ambient_sound( global_pos3(), noise, iter->second );
                 }
 
-                noise_and_smoke( double( load ) / eng.power() );
+                engine_smoke( eng, load );
             }
         }
     }
