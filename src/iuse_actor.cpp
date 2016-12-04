@@ -2037,9 +2037,9 @@ void bandolier_actor::info( const item&, std::vector<iteminfo>& dump ) const
 {
     if( !ammo.empty() ) {
         auto str = std::accumulate( std::next( ammo.begin() ), ammo.end(),
-                                    string_format( "<stat>%s</stat>", ammo_name( *ammo.begin() ).c_str() ),
+                                    string_format( "<stat>%s</stat>", _( ammo_name( *ammo.begin() ).c_str() ) ),
                                     [&]( const std::string& lhs, const ammotype& rhs ) {
-                return lhs + string_format( ", <stat>%s</stat>", ammo_name( rhs ).c_str() );
+                return lhs + string_format( ", <stat>%s</stat>", _( ammo_name( rhs ).c_str() ) );
         } );
 
         dump.emplace_back( "TOOL", string_format(
