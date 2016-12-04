@@ -1433,6 +1433,10 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
 
     const auto &harvest = hid.obj();
 
+    if( !harvest.can_harvest( p.inv ) ) {
+        return false;
+    }
+
     // If nothing can be harvested, neither can nectar
     // Incredibly low priority @todo Allow separating nectar seasons
     if( nectar && drink_nectar( p ) ) {
