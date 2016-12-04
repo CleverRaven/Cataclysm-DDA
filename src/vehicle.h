@@ -877,6 +877,9 @@ public:
     /** Get acceleration (m/s²) from specific engine dependent upon current @ref load() */
     double acceleration( const vehicle_part &pt ) const;
 
+    /** Get engine noise at given power output (watts) accounting for effect of ancillary parts */
+    int engine_noise( const vehicle_part &pt, int power ) const;
+
     // Generate smoke from a part, either at front or back of vehicle depending on velocity.
     void spew_smoke( double joules, int part, int density = 1 );
 

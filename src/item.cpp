@@ -1217,6 +1217,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "ENGINE", _( "Redline: " ), _( "<num> rpm" ), type->engine->redline, true );
         }
 
+        if( type->engine->noise > 0 ) {
+            // @todo change display from arbitrary units to decibels once sound overhaul is complete
+            info.emplace_back( "ENGINE", _( "Noise: " ), "", int( type->engine->noise * 10 ), true, "", true, true );
+        }
+
         if( engine_start_time( 20 ) > 0 ) {
             info.emplace_back( "ENGINE", _( "Starting time (20°C): " ), _( "<num> seconds" ),
                                int( engine_start_time( 20 ) / 16.67 ), true, "", true, true );
