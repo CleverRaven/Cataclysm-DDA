@@ -832,19 +832,13 @@ ifdef LANGUAGES
 	cp -pR lang/mo/ $(APPRESOURCESDIR)/lang/mo/
 endif
 ifeq ($(LOCALIZE), 1)
-ifdef OSXCROSS
-	cp $(LIBSDIR)/gettext/lib/libintl.8.dylib $(APPRESOURCESDIR)
-else
-	LIBINTL=$$(otool -L $(APPTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBINTL $(APPRESOURCESDIR)/
-endif
+	LIBINTL=$$($(CROSS)otool -L $(APPTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && if [ -f $$LIBINTL ]; then cp $$LIBINTL $(APPRESOURCESDIR)/; fi; \
+		if [ ! -z "$$OSXCROSS" ]; then LIBINTL=$$(basename $$LIBINTL) && if [ ! -z "$$LIBINTL" ]; then cp $(LIBSDIR)/gettext/lib/$$LIBINTL $(APPRESOURCESDIR)/; fi; fi
 endif
 ifdef LUA
 	cp -R lua $(APPRESOURCESDIR)/
-ifdef OSXCROSS
-	cp $(LIBSDIR)/lua/lib/liblua.5.2.4.dylib $(APPRESOURCESDIR)
-else
-	LIBLUA=$$(otool -L $(APPTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && if [ ! -z "$$LIBLUA" ]; then cp $$LIBLUA $(APPRESOURCESDIR)/; fi
-endif
+	LIBLUA=$$($(CROSS)otool -L $(APPTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && if [ -f $$LIBLUA ]; then cp $$LIBLUA $(APPRESOURCESDIR)/; fi; \
+		if [ ! -z "$$OSXCROSS" ]; then LIBLUA=$$(basename $$LIBLUA) && if [ ! -z "$$LIBLUA" ]; then cp $(LIBSDIR)/lua/lib/$$LIBLUA $(APPRESOURCESDIR)/; fi; fi
 endif # ifdef LUA
 ifdef TILES
 ifdef SOUND
