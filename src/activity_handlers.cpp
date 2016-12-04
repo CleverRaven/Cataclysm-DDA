@@ -524,7 +524,11 @@ void butchery_drops_harvest( const mtype &mt, player &p, int age, const std::fun
         const itype *drop = item::find_type( entry.drop );
 
         if( roll <= 0 ) {
-            p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ).c_str() );
+            auto msg = mt.species.count( species_id( "ROBOT" ) ) ?
+                ngettext( "You fail to salvage the %s", "You fail to salvage any %s", entry.max ) :
+                ngettext( "You fail to harvest the %s", "You fail to harvest any %s", entry.max );
+
+            p.add_msg_if_player( m_bad, msg, drop->nname( entry.max ).c_str() );
             continue;
         }
 
@@ -542,7 +546,12 @@ void butchery_drops_harvest( const mtype &mt, player &p, int age, const std::fun
             }
         }
 
-        p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ).c_str() );
+        auto msg = mt.species.count( species_id( "ROBOT" ) ) ?
+            ngettext( "You salvage the %s", "You salvage some %s", entry.max ) :
+            ngettext( "You harvest the %s", "You harvest some %s", entry.max );
+
+        p.add_msg_if_player( m_good, msg, drop->nname( roll ).c_str() );
+
         practice++;
     }
 

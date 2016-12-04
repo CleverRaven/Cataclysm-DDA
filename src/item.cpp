@@ -2203,6 +2203,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         if( !name.empty() ) {
             maintext = string_format( npgettext( "item name", "%s corpse of %s", "%s corpses of %s", quantity ),
                                       corpse->nname().c_str(), name.c_str() );
+
+        } else if( corpse->species.count( species_id( "ROBOT" ) ) ) {
+            maintext = string_format( npgettext( "item name", "broken %s", "broken %s", quantity ),
+                                      corpse->nname().c_str() );
+
         } else {
             maintext = string_format( npgettext( "item name", "%s corpse", "%s corpses", quantity ),
                                       corpse->nname().c_str() );
