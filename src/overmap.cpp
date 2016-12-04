@@ -3788,11 +3788,13 @@ bool overmap::is_road(int x, int y, int z)
 
 oter_id overmap::good_road( const oter_type_t &type, int x, int y, int z )
 {
+    const tripoint base( x, y, z );
     std::bitset<om_direction::size> compass;
 
     for( auto dir : om_direction::all ) {
-        const point p( om_direction::displace( dir ) );
-        if( check_ot_type_road( type.id.str(), x + p.x, y + p.y, z ) ) {
+        const tripoint p( base + om_direction::displace( dir ) );
+        // Always connect to outbound tiles.
+        if( !inbounds( p ) || check_ot_type_road( type.id.str(), p.x, p.y, p.z ) ) {
             compass.set( static_cast<int>( dir ) );
         }
     }
