@@ -1453,12 +1453,31 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     for( const auto &entry : harvest ) {
         float min_num = entry.base_num.first + lev * entry.scale_num.first;
         float max_num = entry.base_num.second + lev * entry.scale_num.second;
+
         int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
-        for( int i = 0; i < roll; i++ ) {
-            const item &it = g->m.add_item( p.pos(), item( entry.drop ) );
-            p.add_msg_if_player( _( "You harvest: %s" ), it.tname().c_str() );
-            got_anything = true;
+        if( roll <= 0 ) {
+            continue;
         }
+
+        const itype *drop = item::find_type( entry.drop );
+        item obj( drop, calendar::turn, drop->stackable ? roll : -1 );
+
+        if( drop->phase == LIQUID ) {
+            g->handle_all_liquid( obj, 1 );
+
+        } else if( drop->stackable ) {
+            g->m.add_item_or_charges( p.pos(), obj );
+
+        } else {
+            for( int i = 0; i != roll; ++i ) {
+                g->m.add_item_or_charges( p.pos(), obj );
+            }
+        }
+
+        p.add_msg_if_player( ngettext( "You harvest the %s", "You harvest some %s", entry.max ),
+                             drop->nname( roll ).c_str() );
+
+        got_anything = true;
     }
 
     if( !got_anything ) {
