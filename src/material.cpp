@@ -51,8 +51,10 @@ mat_burn_data load_mat_burn_data( JsonObject &jsobj )
     return bd;
 }
 
-void material_type::load( JsonObject &jsobj, const std::string & )
+void material_type::load( JsonObject &jsobj, const std::string &src )
 {
+    bool strict = src == "core";
+
     mandatory( jsobj, was_loaded, "name", _name, translated_string_reader );
 
     mandatory( jsobj, was_loaded, "bash_resist", _bash_resist );
@@ -77,10 +79,7 @@ void material_type::load( JsonObject &jsobj, const std::string & )
     mandatory( jsobj, was_loaded, "bash_dmg_verb", _bash_dmg_verb, translated_string_reader );
     mandatory( jsobj, was_loaded, "cut_dmg_verb", _cut_dmg_verb, translated_string_reader );
 
-    JsonArray jsarr = jsobj.get_array( "dmg_adj" );
-    while( jsarr.has_more() ) {
-        _dmg_adj.push_back( _( jsarr.next_string().c_str() ) );
-    }
+    assign( jsobj, "dmg_adj", _dmg_adj, strict );
 
     JsonArray burn_data_array = jsobj.get_array( "burn_data" );
     for( size_t intensity = 0; intensity < MAX_FIELD_DENSITY; intensity++ ) {
