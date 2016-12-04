@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-02 19:50+0800\n"
+"POT-Creation-Date: 2016-12-04 19:24+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4242,6 +4242,7 @@ msgid "cacco-plasma."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/gun_from_json.py
+#: lang/json/gun_from_json.py
 msgid "spider laser"
 msgid_plural "spider lasers"
 msgstr[0] ""
@@ -5561,6 +5562,13 @@ msgid_plural "baldrics"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action holster_prompt for baldric.
+#. ~ Use action holster_prompt for back scabbard.
+#. ~ Use action holster_prompt for scabbard.
+#: lang/json/ARMOR_from_json.py
+msgid "Sheath sword"
+msgstr ""
+
 #. ~ Use action holster_msg for baldric.
 #. ~ Use action holster_msg for ankle sheath.
 #. ~ Use action holster_msg for back scabbard.
@@ -5571,13 +5579,6 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 #, no-python-format
 msgid "You sheath your %s"
-msgstr ""
-
-#. ~ Use action holster_prompt for baldric.
-#. ~ Use action holster_prompt for back scabbard.
-#. ~ Use action holster_prompt for scabbard.
-#: lang/json/ARMOR_from_json.py
-msgid "Sheath sword"
 msgstr ""
 
 #. ~ Description for baldric
@@ -6721,19 +6722,19 @@ msgid_plural "firefighter belts"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action holster_prompt for firefighter belt.
+#. ~ Use action holster_prompt for tool belt.
+#. ~ Use action holster_prompt for firefighter belt.
+#: lang/json/ARMOR_from_json.py
+msgid "Attach what to belt loop?"
+msgstr ""
+
 #. ~ Use action holster_msg for firefighter belt.
 #. ~ Use action holster_msg for tool belt.
 #. ~ Use action holster_msg for firefighter belt.
 #: lang/json/ARMOR_from_json.py
 #, no-python-format
 msgid "You clip your %s to your %s"
-msgstr ""
-
-#. ~ Use action holster_prompt for firefighter belt.
-#. ~ Use action holster_prompt for tool belt.
-#. ~ Use action holster_prompt for firefighter belt.
-#: lang/json/ARMOR_from_json.py
-msgid "Attach what to belt loop?"
 msgstr ""
 
 #. ~ Description for firefighter belt
@@ -8575,15 +8576,15 @@ msgid_plural "leather belts"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action holster_prompt for leather belt.
+#: lang/json/ARMOR_from_json.py
+msgid "Stick what into your belt"
+msgstr ""
+
 #. ~ Use action holster_msg for leather belt.
 #: lang/json/ARMOR_from_json.py
 #, no-python-format
 msgid "You tuck your %s into your %s"
-msgstr ""
-
-#. ~ Use action holster_prompt for leather belt.
-#: lang/json/ARMOR_from_json.py
-msgid "Stick what into your belt"
 msgstr ""
 
 #. ~ Description for leather belt
@@ -9470,14 +9471,14 @@ msgid_plural "FB51 optical cloaks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action activate_msg for FB51 optical cloak.
-#: lang/json/ARMOR_from_json.py
-msgid "Your optical cloak flickers as it becomes transparent."
-msgstr ""
-
 #. ~ Use action deactive_msg for FB51 optical cloak.
 #: lang/json/ARMOR_from_json.py src/player.cpp
 msgid "Your optical cloak flickers for a moment as it becomes opaque."
+msgstr ""
+
+#. ~ Use action activate_msg for FB51 optical cloak.
+#: lang/json/ARMOR_from_json.py
+msgid "Your optical cloak flickers as it becomes transparent."
 msgstr ""
 
 #. ~ Description for FB51 optical cloak
@@ -11401,6 +11402,15 @@ msgid_plural "ammo satchels"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action holster_prompt for ammo satchel.
+#. ~ Use action holster_prompt for chest ammo pouch.
+#. ~ Use action holster_prompt for chest rig.
+#. ~ Use action holster_prompt for ankle ammo pouch.
+#. ~ Use action holster_prompt for leg ammo pouch.
+#: lang/json/ARMOR_from_json.py
+msgid "Stash ammo"
+msgstr ""
+
 #. ~ Use action holster_msg for ammo satchel.
 #. ~ Use action holster_msg for chest ammo pouch.
 #. ~ Use action holster_msg for chest rig.
@@ -11409,15 +11419,6 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 #, no-python-format
 msgid "You stash your %s."
-msgstr ""
-
-#. ~ Use action holster_prompt for ammo satchel.
-#. ~ Use action holster_prompt for chest ammo pouch.
-#. ~ Use action holster_prompt for chest rig.
-#. ~ Use action holster_prompt for ankle ammo pouch.
-#. ~ Use action holster_prompt for leg ammo pouch.
-#: lang/json/ARMOR_from_json.py
-msgid "Stash ammo"
 msgstr ""
 
 #. ~ Description for ammo satchel
@@ -33449,1035 +33450,6 @@ msgstr[1] ""
 msgid "An empty hull from a .410 bore shotgun shell."
 msgstr ""
 
-#: lang/json/GUNMOD_from_json.py
-msgid "arrow rest"
-msgid_plural "arrow rests"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for arrow rest
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A small extension above the grip which an arrow rests upon while being "
-"aimed.  Improves accuracy with no drawbacks."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "bow"
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "bow stabilizer"
-msgid_plural "bow stabilizers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for bow stabilizer
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A counterweight placed forward of the bow's grip allows for greater "
-"accuracy.  Aside from increased weight and size, there are no drawbacks."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "brass catcher"
-msgid_plural "brass catchers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for brass catcher
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A bag that hangs off the side of your gun and catches ejected casings so you "
-"don't have to pick them up."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "shotgun"
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "smg"
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "rifle"
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "pistol"
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "launcher"
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "shoulder strap"
-msgid_plural "shoulder straps"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for shoulder strap
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A shoulder strap allows the rifle to be worn over your shoulders like a "
-"piece of clothing.  However, it offers no protection."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-#: lang/json/GUNMOD_from_json.py lang/json/gun_from_json.py
-msgid "crossbow"
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "gyroscopic stabilizer"
-msgid_plural "gyroscopic stabilizers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for gyroscopic stabilizer
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"An advanced unit that straps onto the side of your firearm and reduces "
-"vibration, greatly reducing recoil and increasing accuracy."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "barrel extension"
-msgid_plural "barrel extensions"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for barrel extension
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A longer barrel increases the muzzle velocity of a firearm, contributing to "
-"both accuracy and damage but reduces portability and slows aiming."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "rifled barrel"
-msgid_plural "rifled barrels"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for rifled barrel
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"Rifling a shotgun barrel is mainly done in order to improve its accuracy "
-"when firing slugs.  The rifling makes the gun less suitable for shot, "
-"however."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "shortened barrel"
-msgid_plural "shortened barrels"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for shortened barrel
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A shortened barrel results in markedly reduced accuracy, and a minor "
-"increase in noise, but also greatly improves the ease with which the weapon "
-"can be carried and wielded."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "upstest"
-msgid_plural "upstests"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for upstest
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"Testmod for UPS drain on mods, this should never spawn, if you see this, "
-"it's a bug. 50 UPS drain."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid ".22 caliber conversion kit"
-msgid_plural ".22 caliber conversion kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for .22 caliber conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 5.7mm, 4.6mm, 7.62x39mm "
-"or .223 firearm converts it to a .22 firearm.  The conversion results in a "
-"slight reduction to accuracy."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid ".223 caliber conversion kit"
-msgid_plural ".223 caliber conversion kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for .223 caliber conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"This kit is used to convert a shotgun, 5.45x39mm, 7.62x39mm, .30-06, or .308 "
-"rifle to the popular, accurate, and lighter .223 caliber.  The conversion "
-"results in slight reductions to both accuracy and ammo capacity."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid ".308 caliber conversion kit"
-msgid_plural ".308 caliber conversion kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for .308 caliber conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"This kit is used to convert a shotgun or 7.62x39mm, .223 or .30-06 rifle to "
-"the popular and powerful .308 caliber.  The conversion results in reduced "
-"ammo capacity and a slight reduction to accuracy."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid ".45 caliber conversion kit"
-msgid_plural ".45 caliber conversion kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for .45 caliber conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"Replacing several key parts of a 9mm, .38, .40 or .44 firearm converts it to "
-"a .45 firearm.  The conversion results in a slight reduction to accuracy."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "4.6mm caliber conversion kit"
-msgid_plural "4.6mm caliber conversion kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 4.6mm caliber conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A conversion kit produced by Heckler and Koch, used to convert .22, 9mm, "
-"or .38 firearms to their proprietary 4.6x30mm, a round designed for accuracy "
-"and armor penetration."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "5.7mm caliber conversion kit"
-msgid_plural "5.7mm caliber conversion kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 5.7mm caliber conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A conversion kit produced by FN Herstal, used to convert .22, 9mm, or .38 "
-"firearms to their proprietary 5.7x28mm, a round designed for accuracy and "
-"armor penetration."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "9mm caliber conversion kit"
-msgid_plural "9mm caliber conversion kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 9mm caliber conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"Replacing several key parts of a 9x18mm, .38, .40, .44 or .45 firearm "
-"converts it to a 9mm firearm.  The conversion results in a slight reduction "
-"to accuracy."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "lightweight replacement furniture"
-msgid_plural "lightweight replacement furnitures"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for lightweight replacement furniture
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A set of lightweight composite grips and furniture that reduces a firearm's "
-"weight, and as a consequence, its handling and melee damage."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "ergonomic grip"
-msgid_plural "ergonomic grips"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for ergonomic grip
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A set of ergonomic replacement furniture for a firearm improving handling "
-"and accuracy."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "belt feed adapter"
-msgid_plural "belt feed adapters"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for belt feed adapter
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A kit providing the necessary parts for permanently converting a firearm "
-"from magazine to belt-feed.  Guaranteed to void your warranty."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "leadworks magazine adapter"
-msgid_plural "leadworks magazine adapters"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for leadworks magazine adapter
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A bootleg adapter for permanently converting a firearm to accept proprietary "
-"Leadworks magazines.  Guaranteed to void your warranty."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "auto-fire mechanism"
-msgid_plural "auto-fire mechanisms"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for auto-fire mechanism
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A simple mechanism that converts a pistol to a selective fire weapon with a "
-"burst size of three rounds.  However it reduces accuracy and increases noise."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "rapid blowback"
-msgid_plural "rapid blowbacks"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for rapid blowback
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"An improved blowback mechanism makes your firearm's automatic fire faster, "
-"at the cost of reduced accuracy and increased noise."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "match trigger"
-msgid_plural "match triggers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for match trigger
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A precision weighted trigger assembly that improves a firearm's accuracy."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "tuned mechanism"
-msgid_plural "tuned mechanisms"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for tuned mechanism
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A set of finely tuned internal components which increase the precision and "
-"reliably of a firearm."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "firearm waterproofing"
-msgid_plural "firearm waterproofings"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for firearm waterproofing
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A set of seals and gaskets that will allow a firearm to operate reliably "
-"while submerged in water."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "ported barrel"
-msgid_plural "ported barrels"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for ported barrel
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A ported barrel redirects exhaust gases to compensate for muzzle climb, "
-"improves recoil but increases noise and reduces accuracy slightly."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "homemade suppressor"
-msgid_plural "homemade suppressors"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for homemade suppressor
-#. ~ Description for suppressor
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A suppressor reduces the amount of noise and muzzle flash generated by the "
-"report of a firearm.  Gunfire is extremely loud and can damage your hearing "
-"without protection; a suppressor will bring the loudness of a report down to "
-"generally safe levels.  A suppressor will slightly reduce recoil and muzzle "
-"velocity."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "muzzle brake"
-msgid_plural "muzzle brakes"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for muzzle brake
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A muzzle brake redirects exhaust gases to compensate for muzzle climb, "
-"improving recoil but increasing bulk, noise, and reducing accuracy slightly."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "RK6S34 suppressor"
-msgid_plural "RK6S34 suppressors"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for RK6S34 suppressor
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A suppressor reduces the amount of noise and muzzle flash generated by the "
-"report of a firearm.  This RK6S34 Mustela is a rather advanced version "
-"integral to the RM11B rifle system."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "shotgun suppressor"
-msgid_plural "shotgun suppressors"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for shotgun suppressor
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A suppressor designed to work with shotguns.  It's a lot more complex than a "
-"suppressor for a pistol or rifle."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "suppressor"
-msgid_plural "suppressors"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "compact suppressor"
-msgid_plural "compact suppressors"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for compact suppressor
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A compact suppressor designed for pistols and best used with smaller "
-"calibers.  A suppressor will slightly reduce recoil and muzzle velocity."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "rail-mounted crossbow"
-msgid_plural "rail-mounted crossbows"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for rail-mounted crossbow
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A kit to attach a pair of crossbow arms and a firing rail to the barrel of a "
-"long firearm.  It allows crossbow bolts to be fired."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "offset iron sights"
-msgid_plural "offset iron sights"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for offset iron sights
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"An alternative set of iron sights mounted at 45° for use when a scope or "
-"other modification prevents use of the primary sights."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "rail laser sight"
-msgid_plural "rail laser sights"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for rail laser sight
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A small visible-light laser that mounts on a firearm's accessory rail to "
-"enhance ease and speed of target acquisition.  Aside from increased weight, "
-"there are no drawbacks."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "bow sight"
-msgid_plural "bow sights"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for bow sight
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A set of tritium aiming pins for a bow.  Improves ease of aiming and target "
-"acquisition with no drawbacks."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "holographic sight"
-msgid_plural "holographic sights"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for holographic sight
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"Used extensively by military forces, it increases accuracy and weight.  This "
-"is a step up from a red dot sight."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "iron sights"
-msgid_plural "iron sights"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for iron sights
-#: lang/json/GUNMOD_from_json.py
-msgid "A basic set of iron sights"
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "pistol scope"
-msgid_plural "pistol scopes"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for pistol scope
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A small scope intended for use on a handgun.  Increases weight but improves "
-"accuracy greatly."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "red dot sight"
-msgid_plural "red dot sights"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for red dot sight
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"Adds a red dot optic to the top of your gun, replacing the iron sights.  "
-"Increases accuracy and weight."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "rifle scope"
-msgid_plural "rifle scopes"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for rifle scope
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A long ranged rifle scope used by civilians and military alike, increases "
-"weight but improves accuracy greatly."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "RS1219 scope"
-msgid_plural "RS1219 scopes"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for RS1219 scope
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"An integral component of the RM11B rifle system, the RS1219 Accipiter "
-"digital scope provides auto-adjusting focal length, a user-selectable "
-"reticle, and an offset reflex sight for close objectives."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "adjustable stock"
-msgid_plural "adjustable stocks"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for adjustable stock
-#: lang/json/GUNMOD_from_json.py
-msgid "An adjustable replacement stock improving both recoil and accuracy."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "folding stock"
-msgid_plural "folding stocks"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for folding stock
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A folding stock which reduces volume but needs unfolding before use.  "
-"Increases the time needed to wield the weapon."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "pistol stock"
-msgid_plural "pistol stocks"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for pistol stock
-#: lang/json/GUNMOD_from_json.py
-msgid "An add on stock for handguns considerably improving control of recoil."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "recoil stock"
-msgid_plural "recoil stocks"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for recoil stock
-#: lang/json/GUNMOD_from_json.py
-msgid "A replacement stock designed to absorb perceived recoil."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "aux flamethrower"
-msgid_plural "aux flamethrowers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for aux flamethrower
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"This custom-built miniature flamethrower is made to be attached to almost "
-"any sort of firearm, greatly expanding its lethality."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "bipod"
-msgid_plural "bipods"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for bipod
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"Bipods are commonly used on rifles and machine guns to provide a forward "
-"rest and reduce motion.  Although they greatly improve handling of recoil "
-"they are usable only on certain surfaces and are slow to equip."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "combination gun shotgun"
-msgid_plural "combination gun shotguns"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for combination gun shotgun
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"The integrated underbarrel shotgun of a combination gun which holds two "
-"shots.  It's irremovable."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "pipe combination gun shotgun"
-msgid_plural "pipe combination gun shotguns"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for pipe combination gun shotgun
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"The integrated underbarrel shotgun of a pipe combination gun which holds two "
-"shots.  It's irremovable."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "forward grip"
-msgid_plural "forward grips"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for forward grip
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A grip placed forward on the barrel allows for greater control.  Not as "
-"effective as a bipod but usable under all conditions."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "integrated bayonet"
-msgid_plural "integrated bayonets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for integrated bayonet
-#: lang/json/GUNMOD_from_json.py
-msgid "This is the bayonet integrated in the firearm."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "KSG second magazine"
-msgid_plural "KSG second magazines"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for KSG second magazine
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"The integrated second shotgun magazine of the Kel-Tec KSG which holds 7 "
-"shots.  It's irremovable."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "underbarrel laser sight"
-msgid_plural "underbarrel laser sights"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for underbarrel laser sight
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A visible-light laser that mounts under a firearm's barrel to enhance ease "
-"and speed of target acquisition.  Aside from increased weight, there are no "
-"drawbacks."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "LeMat revolver shotgun"
-msgid_plural "LeMat revolver shotguns"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for LeMat revolver shotgun
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"The integrated underbarrel shotgun of a modified LeMat revolver which holds "
-"a single shot.  It's irremovable."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "M203"
-msgid_plural "M203"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for M203
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"The M203 was originally designed for use with M16 variants but today can be "
-"attached to almost any rifle.  It allows a single 40mm grenade to be loaded "
-"and fired."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "M320 GLM"
-msgid_plural "M320 GLM"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for M320 GLM
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"The M320 Grenade Launcher Module offers the functionality of larger "
-"launchers in a very small package at the cost of decreased accuracy.  It can "
-"be either attached to a rifle or combined with a buttstock for stand alone "
-"use."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "masterkey shotgun"
-msgid_plural "masterkey shotguns"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for masterkey shotgun
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A minimalist pump action shotgun, which can be mounted under the barrel of "
-"many rifles.  It allows a total of four shotgun shells to be loaded and "
-"fired."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "40mm pipe launcher"
-msgid_plural "40mm pipe launchers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 40mm pipe launcher
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"This is a home built launcher tube that can be attached to almost any "
-"rifle.  It allows a single 40mm grenade to be loaded and fired."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "pistol bayonet"
-msgid_plural "pistol bayonets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for pistol bayonet
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A pistol bayonet is a stabbing weapon that can be attached to the front of a "
-"handgun, allowing a melee attack to deal piercing damage."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "RM121 aux shotgun"
-msgid_plural "RM121 aux shotguns"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for RM121 aux shotgun
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic "
-"caseless shotgun, which can be mounted under the barrel of many rifles.  "
-"Accepts RMSA10 box magazines."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "underslung shotgun"
-msgid_plural "underslung shotguns"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for underslung shotgun
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A short shotgun with 2 barrels, which can be mounted under the barrel of "
-"many rifles.  It allows two shotgun shells to be loaded and fired."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "handmade auto-fire mechanism"
-msgid_plural "handmade auto-fire mechanisms"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for handmade auto-fire mechanism
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"Mechanism that allows your CW-24 rifle to fire in fully automatic mode.  It "
-"is handmade."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "5.45 caliber conversion kit"
-msgid_plural "5.45 caliber conversion kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 5.45 caliber conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"This kit is used to convert 6.54 rifle to the 5.45 caliber.  The conversion "
-"results in slight reductions to recoil."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "6.54 caliber conversion kit"
-msgid_plural "6.54 caliber conversion kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 6.54 caliber conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"This kit is used to convert 5.45 rifle to the 6.54 caliber.  The conversion "
-"results in increased recoil."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "7.62 caliber conversion kit"
-msgid_plural "7.62 caliber conversion kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for 7.62 caliber conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"This kit is used to convert 6.54 rifle to the 7.62 caliber.  The conversion "
-"results in increased recoil."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "Flaregun conversion kit"
-msgid_plural "Flaregun conversion kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for Flaregun conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"Replacing several key parts flaregun to convert it to a .40 firearm.  The "
-"conversion results in reduced accuracy and increased recoil."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "integral flamethrower"
-msgid_plural "integral flamethrowers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for integral flamethrower
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"This genuine Herostratus flamethrower is ideal for light brush clearing and "
-"self-defense."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "E.M.A.S."
-msgid_plural "E.M.A.S.s"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for E.M.A.S.
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"ElectroMagnetic Acceleration System is an array of electromagnets attached "
-"to the front of the barrel, accelerating any projectile fired to even higher "
-"velocities, increasing damage, recoil and reducing accuracy.  It does "
-"however drain UPS charges when firing and due to extensive modifications the "
-"gun can no longer operate without a UPS."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "underbarrel bomblet thrower"
-msgid_plural "underbarrel bomblet throwers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for underbarrel bomblet thrower
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A mount for a rifle that holds and fires up to 3 bomblets.  The weight of "
-"the mod and its ammo decreases the accuracy of both firearms some."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py lang/json/skill_from_json.py
-msgid "launchers"
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "makeshift pistol bayonet"
-msgid_plural "makeshift pistol bayonets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for makeshift pistol bayonet
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A makeshift version of a bayonet meant for a pistol that consists of a mere "
-"spike with some string.  It still makes a decent melee weapon in a pinch "
-"when attached to a pistol."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "makeshift sword bayonet"
-msgid_plural "makeshift sword bayonets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for makeshift sword bayonet
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"A makeshift version of a sword bayonet that consists of a salvaged blade "
-"with some string.  It still makes a good melee weapon providing reach "
-"attacks when attached to long arm or crossbow."
-msgstr ""
-
-#. ~ Description for .22 caliber conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 10mm, .45 Colt, 5.7mm, "
-"4.6mm, 7.62x39mm or .223 firearm converts it to a .22 firearm.  The "
-"conversion results in a slight reduction to accuracy."
-msgstr ""
-
-#. ~ Description for .45 caliber conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"Replacing several key parts of a 9mm, .38, .40, 10mm, or .44 or .45 Colt "
-"firearm converts it to a .45 ACP firearm.  The conversion results in a "
-"slight reduction to accuracy."
-msgstr ""
-
-#. ~ Description for 9mm caliber conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"Replacing several key parts of a 9x18mm, .38, .40, 10mm, .44 or .45 firearm "
-"converts it to a 9mm firearm.  The conversion results in a slight reduction "
-"to accuracy."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid ".410 bore conversion kit"
-msgid_plural ".410 bore conversion kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for .410 bore conversion kit
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"This kit is used to convert a shotgun or 7.62x39mm, .223, .308 or .30-06 "
-"rifle to the lightweight .410 shotgun bore.  The conversion results in a "
-"slight reduction to accuracy."
-msgstr ""
-
-#: lang/json/GUNMOD_from_json.py
-msgid "M6 ASW shotgun"
-msgid_plural "M6 ASW shotguns"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for M6 ASW shotgun
-#: lang/json/GUNMOD_from_json.py
-msgid ""
-"The integrated .410 shotgun of the M6 Aircrew Survival Weapon.  It's "
-"irremovable."
-msgstr ""
-
 #: lang/json/ITEM_CATEGORY_from_json.py
 msgid "GUNS"
 msgstr ""
@@ -42767,14 +41739,14 @@ msgid ""
 "explosives, and a short time later it will blow.  Virgins not included."
 msgstr ""
 
-#. ~ Use action sound_msg for zuicide vest.
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid "-tcka- -tcka-."
-msgstr ""
-
 #. ~ Use action no_deactivate_msg for zuicide vest.
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "COWARD!!"
+msgstr ""
+
+#. ~ Use action sound_msg for zuicide vest.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "-tcka- -tcka-."
 msgstr ""
 
 #. ~ Description for zuicide vest
@@ -43085,6 +42057,16 @@ msgid_plural "active EMP grenades"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action no_deactivate_msg for active EMP grenade.
+#. ~ Use action no_deactivate_msg for active flashbang.
+#. ~ Use action no_deactivate_msg for active grenade.
+#. ~ Use action no_deactivate_msg for active scrambler grenade.
+#: lang/json/TOOL_from_json.py
+#: src/iuse.cpp
+#, c-format, no-python-format
+msgid "You've already pulled the %s's pin, try throwing it instead."
+msgstr ""
+
 #. ~ Use action sound_msg for active EMP grenade.
 #. ~ Use action sound_msg for C-4 explosive (armed).
 #. ~ Use action sound_msg for active flashbang.
@@ -43096,16 +42078,6 @@ msgstr[1] ""
 #. ~ Use action sound_msg for active soulbomb.
 #: lang/json/TOOL_from_json.py
 msgid "Tick."
-msgstr ""
-
-#. ~ Use action no_deactivate_msg for active EMP grenade.
-#. ~ Use action no_deactivate_msg for active flashbang.
-#. ~ Use action no_deactivate_msg for active grenade.
-#. ~ Use action no_deactivate_msg for active scrambler grenade.
-#: lang/json/TOOL_from_json.py
-#: src/iuse.cpp
-#, c-format, no-python-format
-msgid "You've already pulled the %s's pin, try throwing it instead."
 msgstr ""
 
 #. ~ Description for active EMP grenade
@@ -43329,14 +42301,14 @@ msgid_plural "bear traps"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action bury_question for bear trap.
-#: lang/json/TOOL_from_json.py
-msgid "Bury the beartrap?"
-msgstr ""
-
 #. ~ Use action done_message for bear trap.
 #: lang/json/TOOL_from_json.py
 msgid "You set the beartrap."
+msgstr ""
+
+#. ~ Use action bury_question for bear trap.
+#: lang/json/TOOL_from_json.py
+msgid "Bury the beartrap?"
 msgstr ""
 
 #. ~ Use action done_message for bear trap.
@@ -43443,14 +42415,14 @@ msgid_plural "inactive EMP hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive EMP hack.
-#: lang/json/TOOL_from_json.py
-msgid "The EMP hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive EMP hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the EMP hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive EMP hack.
+#: lang/json/TOOL_from_json.py
+msgid "The EMP hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive EMP hack
@@ -43467,14 +42439,14 @@ msgid_plural "inactive C-4 hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive C-4 hack.
-#: lang/json/TOOL_from_json.py
-msgid "The C-4 hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive C-4 hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the C-4 hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive C-4 hack.
+#: lang/json/TOOL_from_json.py
+msgid "The C-4 hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive C-4 hack
@@ -43491,14 +42463,14 @@ msgid_plural "inactive flashbang hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive flashbang hack.
-#: lang/json/TOOL_from_json.py
-msgid "The flashbang hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive flashbang hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the flashbang hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive flashbang hack.
+#: lang/json/TOOL_from_json.py
+msgid "The flashbang hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive flashbang hack
@@ -43516,14 +42488,14 @@ msgid_plural "inactive tear gas hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive tear gas hack.
-#: lang/json/TOOL_from_json.py
-msgid "The tear gas hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive tear gas hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the tear gas hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive tear gas hack.
+#: lang/json/TOOL_from_json.py
+msgid "The tear gas hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive tear gas hack
@@ -43541,14 +42513,14 @@ msgid_plural "inactive grenade hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive grenade hack.
-#: lang/json/TOOL_from_json.py
-msgid "The grenade hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive grenade hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the grenade hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive grenade hack.
+#: lang/json/TOOL_from_json.py
+msgid "The grenade hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive grenade hack
@@ -43580,14 +42552,14 @@ msgid_plural "inactive manhacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive manhack.
-#: lang/json/TOOL_from_json.py
-msgid "The manhack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive manhack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the manhack; it's hostile!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive manhack.
+#: lang/json/TOOL_from_json.py
+msgid "The manhack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive manhack
@@ -43605,14 +42577,14 @@ msgid_plural "inactive mininuke hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive mininuke hack.
-#: lang/json/TOOL_from_json.py
-msgid "The mininuke hack floats from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive mininuke hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the mininuke hack.  Pray."
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive mininuke hack.
+#: lang/json/TOOL_from_json.py
+msgid "The mininuke hack floats from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive mininuke hack
@@ -43694,14 +42666,14 @@ msgid_plural "firebrands (off)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action lacks_fuel_message for firebrand (off).
-#: lang/json/TOOL_from_json.py
-msgid "No strength to fight!"
-msgstr ""
-
 #. ~ Use action success_message for firebrand (off).
 #: lang/json/TOOL_from_json.py
 msgid "Charge!!"
+msgstr ""
+
+#. ~ Use action lacks_fuel_message for firebrand (off).
+#: lang/json/TOOL_from_json.py
+msgid "No strength to fight!"
 msgstr ""
 
 #. ~ Description for firebrand (off)
@@ -43729,14 +42701,14 @@ msgstr ""
 msgid "Your sword hisses in the water and goes out."
 msgstr ""
 
-#. ~ Use action noise_message for firebrand (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your blade burns for combat!"
-msgstr ""
-
 #. ~ Use action voluntary_extinguish_message for firebrand (on).
 #: lang/json/TOOL_from_json.py
 msgid "Run away!"
+msgstr ""
+
+#. ~ Use action noise_message for firebrand (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your blade burns for combat!"
 msgstr ""
 
 #. ~ Description for firebrand (on)
@@ -44536,16 +43508,6 @@ msgid_plural "dynamites (lit)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ the sound of a lit fuse
-#. ~ Use action sound_msg for dynamite (lit).
-#. ~ Use action sound_msg for fertilizer bomb (lit).
-#. ~ Use action sound_msg for match head bomb (lit).
-#: lang/json/TOOL_from_json.py
-#: lang/json/TOOL_from_json.py src/iuse.cpp
-#: src/iuse.cpp
-msgid "ssss..."
-msgstr ""
-
 #. ~ Use action no_deactivate_msg for dynamite (lit).
 #. ~ Use action no_deactivate_msg for fertilizer bomb (lit).
 #. ~ Use action no_deactivate_msg for match head bomb (lit).
@@ -44554,6 +43516,16 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format, no-python-format
 msgid "You've already lit the %s, try throwing it instead."
+msgstr ""
+
+#. ~ the sound of a lit fuse
+#. ~ Use action sound_msg for dynamite (lit).
+#. ~ Use action sound_msg for fertilizer bomb (lit).
+#. ~ Use action sound_msg for match head bomb (lit).
+#: lang/json/TOOL_from_json.py
+#: lang/json/TOOL_from_json.py src/iuse.cpp
+#: src/iuse.cpp
+msgid "ssss..."
 msgstr ""
 
 #. ~ Description for dynamite (lit)
@@ -44878,14 +43850,14 @@ msgid_plural "Rising Suns (off)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action lacks_fuel_message for Rising Sun (off).
-#: lang/json/TOOL_from_json.py
-msgid "Time stands still."
-msgstr ""
-
 #. ~ Use action success_message for Rising Sun (off).
 #: lang/json/TOOL_from_json.py
 msgid "The Sun rises."
+msgstr ""
+
+#. ~ Use action lacks_fuel_message for Rising Sun (off).
+#: lang/json/TOOL_from_json.py
+msgid "Time stands still."
 msgstr ""
 
 #. ~ Description for Rising Sun (off)
@@ -44908,14 +43880,14 @@ msgstr[1] ""
 msgid "The Light Fades."
 msgstr ""
 
-#. ~ Use action noise_message for Rising Sun (on).
-#: lang/json/TOOL_from_json.py
-msgid "The Sun shines brightly."
-msgstr ""
-
 #. ~ Use action voluntary_extinguish_message for Rising Sun (on).
 #: lang/json/TOOL_from_json.py
 msgid "The Sun sets."
+msgstr ""
+
+#. ~ Use action noise_message for Rising Sun (on).
+#: lang/json/TOOL_from_json.py
+msgid "The Sun shines brightly."
 msgstr ""
 
 #. ~ Description for Rising Sun (on)
@@ -44932,8 +43904,8 @@ msgid_plural "No. 9's (off)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action lacks_fuel_message for No. 9 (off).
 #. ~ Use action failure_message for No. 9 (off).
+#. ~ Use action lacks_fuel_message for No. 9 (off).
 #: lang/json/TOOL_from_json.py
 #: src/iuse.cpp
 msgid "Click."
@@ -44963,24 +43935,24 @@ msgstr[1] ""
 msgid "Out of ammo!"
 msgstr ""
 
-#. ~ Use action auto_extinguish_message for No. 9 (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your No. 9 cuts out!"
-msgstr ""
-
 #. ~ Use action water_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 hisses in the water and goes out."
 msgstr ""
 
-#. ~ Use action noise_message for No. 9 (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your No. 9 hisses."
-msgstr ""
-
 #. ~ Use action voluntary_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 goes dark."
+msgstr ""
+
+#. ~ Use action auto_extinguish_message for No. 9 (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your No. 9 cuts out!"
+msgstr ""
+
+#. ~ Use action noise_message for No. 9 (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your No. 9 hisses."
 msgstr ""
 
 #. ~ Description for No. 9 (on)
@@ -45211,15 +44183,15 @@ msgid_plural "active makeshift gas grenades"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action sound_msg for active makeshift gas grenade.
-#: lang/json/TOOL_from_json.py
-msgid "Hiss."
-msgstr ""
-
 #. ~ Use action no_deactivate_msg for active makeshift gas grenade.
 #: lang/json/TOOL_from_json.py
 #, no-python-format
 msgid "You've already armed the %s, try throwing it instead."
+msgstr ""
+
+#. ~ Use action sound_msg for active makeshift gas grenade.
+#: lang/json/TOOL_from_json.py
+msgid "Hiss."
 msgstr ""
 
 #. ~ Description for active makeshift gas grenade
@@ -45887,14 +44859,14 @@ msgid_plural "land mines"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action bury_question for land mine.
-#: lang/json/TOOL_from_json.py
-msgid "Bury the land mine?"
-msgstr ""
-
 #. ~ Use action done_message for land mine.
 #: lang/json/TOOL_from_json.py
 msgid "You set the land mine."
+msgstr ""
+
+#. ~ Use action bury_question for land mine.
+#: lang/json/TOOL_from_json.py
+msgid "Bury the land mine?"
 msgstr ""
 
 #. ~ Use action done_message for land mine.
@@ -46561,18 +45533,18 @@ msgid_plural "permanent markers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action gerund for permanent marker.
-#. ~ Use action gerund for survival marker.
-#: lang/json/TOOL_from_json.py
-#: src/iuse.cpp
-msgid "Written"
-msgstr ""
-
 #. ~ Use action verb for permanent marker.
 #. ~ Use action verb for survival marker.
 #: lang/json/TOOL_from_json.py
 #: src/iuse.cpp
 msgid "Write"
+msgstr ""
+
+#. ~ Use action gerund for permanent marker.
+#. ~ Use action gerund for survival marker.
+#: lang/json/TOOL_from_json.py
+#: src/iuse.cpp
+msgid "Written"
 msgstr ""
 
 #. ~ Description for permanent marker
@@ -47230,11 +46202,6 @@ msgid_plural "shishkebabs (off)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action lacks_fuel_message for shishkebab (off).
-#: lang/json/TOOL_from_json.py
-msgid "This thing needs some fuel!"
-msgstr ""
-
 #. ~ Use action failure_message for shishkebab (off).
 #: lang/json/TOOL_from_json.py
 msgid "Aw, dangit.  It fails to start!"
@@ -47243,6 +46210,11 @@ msgstr ""
 #. ~ Use action success_message for shishkebab (off).
 #: lang/json/TOOL_from_json.py
 msgid "Let's dance, Zeds!"
+msgstr ""
+
+#. ~ Use action lacks_fuel_message for shishkebab (off).
+#: lang/json/TOOL_from_json.py
+msgid "This thing needs some fuel!"
 msgstr ""
 
 #. ~ Description for shishkebab (off)
@@ -47265,24 +46237,24 @@ msgstr[1] ""
 msgid "Uncool, outta gas!  Your shishkebab's flame goes out."
 msgstr ""
 
-#. ~ Use action auto_extinguish_message for shishkebab (on).
-#: lang/json/TOOL_from_json.py
-msgid "Bummer, man!  Your shishkebab's flame flickers and dies out."
-msgstr ""
-
 #. ~ Use action water_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your shishkebab hisses in the water and goes out."
 msgstr ""
 
-#. ~ Use action noise_message for shishkebab (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your shishkebab crackles!"
-msgstr ""
-
 #. ~ Use action voluntary_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Peace out.  Your shishkebab's flame dies."
+msgstr ""
+
+#. ~ Use action auto_extinguish_message for shishkebab (on).
+#: lang/json/TOOL_from_json.py
+msgid "Bummer, man!  Your shishkebab's flame flickers and dies out."
+msgstr ""
+
+#. ~ Use action noise_message for shishkebab (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your shishkebab crackles!"
 msgstr ""
 
 #. ~ Description for shishkebab (on)
@@ -47919,17 +46891,17 @@ msgid_plural "active black gunpowder bombs"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action no_deactivate_msg for active black gunpowder bomb.
+#: lang/json/TOOL_from_json.py
+msgid "You've already lit the fuse - throw it!"
+msgstr ""
+
 #. ~ Use action sound_msg for active black gunpowder bomb.
 #. ~ Use action sound_msg for active black gunpowder charge.
 #. ~ Use action sound_msg for active RDX charge.
 #. ~ Use action sound_msg for active RDX sand bomb.
 #: lang/json/TOOL_from_json.py
 msgid "Kshhh."
-msgstr ""
-
-#. ~ Use action no_deactivate_msg for active black gunpowder bomb.
-#: lang/json/TOOL_from_json.py
-msgid "You've already lit the fuse - throw it!"
 msgstr ""
 
 #. ~ Description for active black gunpowder bomb
@@ -48075,14 +47047,14 @@ msgid_plural "burning rocket candys"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action sound_msg for burning rocket candy.
-#: lang/json/TOOL_from_json.py
-msgid "Hsssss."
-msgstr ""
-
 #. ~ Use action no_deactivate_msg for burning rocket candy.
 #: lang/json/TOOL_from_json.py
 msgid "You've already lit the fuse – get rid of it immediately!"
+msgstr ""
+
+#. ~ Use action sound_msg for burning rocket candy.
+#: lang/json/TOOL_from_json.py
+msgid "Hsssss."
 msgstr ""
 
 #. ~ Description for burning rocket candy
@@ -48488,14 +47460,14 @@ msgid_plural "flammenschwerter (aus)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action lacks_fuel_message for flammenschwert (aus).
-#: lang/json/TOOL_from_json.py
-msgid "Dein Flammenschwert hat keinen Brennstoff mehr."
-msgstr ""
-
 #. ~ Use action success_message for flammenschwert (aus).
 #: lang/json/TOOL_from_json.py
 msgid "Die Klinge deines Schwertes brennt!"
+msgstr ""
+
+#. ~ Use action lacks_fuel_message for flammenschwert (aus).
+#: lang/json/TOOL_from_json.py
+msgid "Dein Flammenschwert hat keinen Brennstoff mehr."
 msgstr ""
 
 #. ~ Description for flammenschwert (aus)
@@ -48523,14 +47495,14 @@ msgstr ""
 msgid "Dein Schwert zischt und erlischt."
 msgstr ""
 
-#. ~ Use action noise_message for flammenschwert (an).
-#: lang/json/TOOL_from_json.py
-msgid "Das Feuer um deine Schwertklinge leuchtet hell!"
-msgstr ""
-
 #. ~ Use action voluntary_extinguish_message for flammenschwert (an).
 #: lang/json/TOOL_from_json.py
 msgid "Die Flamme deines Schwertes erlischt."
+msgstr ""
+
+#. ~ Use action noise_message for flammenschwert (an).
+#: lang/json/TOOL_from_json.py
+msgid "Das Feuer um deine Schwertklinge leuchtet hell!"
 msgstr ""
 
 #. ~ Description for zweihänder
@@ -49008,14 +47980,14 @@ msgid_plural "incorruptible swords"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action lacks_fuel_message for incorruptible sword.
-#: lang/json/TOOL_from_json.py
-msgid "The sword needs energy to serve its purpose."
-msgstr ""
-
 #. ~ Use action success_message for incorruptible sword.
 #: lang/json/TOOL_from_json.py
 msgid "The blade gives off a brilliant glow as you invoke its power!"
+msgstr ""
+
+#. ~ Use action lacks_fuel_message for incorruptible sword.
+#: lang/json/TOOL_from_json.py
+msgid "The sword needs energy to serve its purpose."
 msgstr ""
 
 #. ~ Description for incorruptible sword
@@ -49042,14 +48014,14 @@ msgstr ""
 msgid "The sword shimmers in the water, before the glow fades."
 msgstr ""
 
-#. ~ Use action noise_message for incorruptible sword (on).
-#: lang/json/TOOL_from_json.py
-msgid "The glow intensifies, the blade yearning to cleave darkness itself."
-msgstr ""
-
 #. ~ Use action voluntary_extinguish_message for incorruptible sword (on).
 #: lang/json/TOOL_from_json.py
 msgid "The blade dims as you dispel its effect."
+msgstr ""
+
+#. ~ Use action noise_message for incorruptible sword (on).
+#: lang/json/TOOL_from_json.py
+msgid "The glow intensifies, the blade yearning to cleave darkness itself."
 msgstr ""
 
 #. ~ Description for incorruptible sword (on)
@@ -49122,17 +48094,17 @@ msgid_plural "glyphs of trickery"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action hostile_msg for glyph of trickery.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The kreck mimics your movements erratically, cavorting about to mock you!"
+msgstr ""
+
 #. ~ Use action friendly_msg for glyph of trickery.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The kreck looks up at you expectantly, as if wondering what sort of "
 "shenanigans you're plotting."
-msgstr ""
-
-#. ~ Use action hostile_msg for glyph of trickery.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The kreck mimics your movements erratically, cavorting about to mock you!"
 msgstr ""
 
 #. ~ Description for glyph of trickery
@@ -49148,18 +48120,18 @@ msgid_plural "glyphs of impassiveness"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of impassiveness.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The featureless visage of the blank body is indecipherable at first, but its "
-"passive posture suggests friendliness."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of impassiveness.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The featureless visage of the blank body is indecipherable at first, but its "
 "body language suggests hostility."
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of impassiveness.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The featureless visage of the blank body is indecipherable at first, but its "
+"passive posture suggests friendliness."
 msgstr ""
 
 #. ~ Description for glyph of impassiveness
@@ -49176,18 +48148,18 @@ msgid_plural "glyphs of the beholder"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of the beholder.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"You meet the flaming's eye's gaze, and it is the first to blink.  It seems "
-"to be friendly."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the beholder.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The eye levels a wicked gaze upon you.  This is a staring contest you won't "
 "win."
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the beholder.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You meet the flaming's eye's gaze, and it is the first to blink.  It seems "
+"to be friendly."
 msgstr ""
 
 #. ~ Description for glyph of the beholder
@@ -49203,18 +48175,18 @@ msgid_plural "glyphs of Crawling Chaos"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of Crawling Chaos.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The hunting horror is at your beck and call.  A gift from the Stalker among "
-"the Stars?"
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of Crawling Chaos.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "You feel the gaze of Nyarlathotep upon you.  How foolish of you, to steal "
 "the harrier of the Faceless God!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of Crawling Chaos.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The hunting horror is at your beck and call.  A gift from the Stalker among "
+"the Stars?"
 msgstr ""
 
 #. ~ Description for glyph of Crawling Chaos
@@ -49231,18 +48203,18 @@ msgid_plural "glyphs of the eye"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of the eye.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The wyrm springs forth, seeming to regard you passively, or at least "
-"ignoring your presence."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the eye.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The wyrm springs forth, reacting to unfamiliar sounds and scent with a "
 "malevolent screech!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the eye.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The wyrm springs forth, seeming to regard you passively, or at least "
+"ignoring your presence."
 msgstr ""
 
 #. ~ Description for glyph of the eye
@@ -49259,18 +48231,18 @@ msgid_plural "glyphs of Yuggoth"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of Yuggoth.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"You recite an incantation, and the mi-go's response is a quiet murmur in "
-"some unknown language.  It seems to be friendly."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of Yuggoth.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "You begin to recite an incantation, only for the mi-go to parrot your words, "
 "mocking your effort to control it!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of Yuggoth.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You recite an incantation, and the mi-go's response is a quiet murmur in "
+"some unknown language.  It seems to be friendly."
 msgstr ""
 
 #. ~ Description for glyph of Yuggoth
@@ -49287,16 +48259,16 @@ msgid_plural "glyphs of the golem"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of the golem.
-#: lang/json/TOOL_from_json.py
-msgid "You hear a strange burbling, the creature bound to your will."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the golem.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "Eyes of flame meet your gaze, the creature resists your attempt to control "
 "it!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the golem.
+#: lang/json/TOOL_from_json.py
+msgid "You hear a strange burbling, the creature bound to your will."
 msgstr ""
 
 #. ~ Description for glyph of the golem
@@ -49313,18 +48285,18 @@ msgid_plural "glyphs of anthozoa"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of anthozoa.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The flying polyp twitches for a moment, before its movement steadies.  It "
-"seems to be friendly."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of anthozoa.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The flying polyp twitches erratically, reacting to your presence with "
 "apparent hostility!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of anthozoa.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The flying polyp twitches for a moment, before its movement steadies.  It "
+"seems to be friendly."
 msgstr ""
 
 #. ~ Description for glyph of anthozoa
@@ -49341,18 +48313,18 @@ msgid_plural "glyphs of the platyhelminthes"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of the platyhelminthes.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"With the silver glyph as an offering, you bind the yugg to serve you.  You "
-"feel like this is the opposite of how it normally works."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the platyhelminthes.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "An offering of wealth is not enough to placate a servant of Ubb.  The "
 "creature turns hostile!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the platyhelminthes.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"With the silver glyph as an offering, you bind the yugg to serve you.  You "
+"feel like this is the opposite of how it normally works."
 msgstr ""
 
 #. ~ Description for glyph of the platyhelminthes
@@ -49369,18 +48341,18 @@ msgid_plural "glyphs of the Elder Things"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of the Elder Things.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"You hear a voice in your mind.  \"Tekili ...l-li?\"  Your mind exerts a "
-"strange influence upon the shoggoth."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the Elder Things.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "You hear a voice in your mind.  \"Tekeli-li!\"  The shoggoth resists your "
 "efforts to control it!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the Elder Things.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You hear a voice in your mind.  \"Tekili ...l-li?\"  Your mind exerts a "
+"strange influence upon the shoggoth."
 msgstr ""
 
 #. ~ Description for glyph of the Elder Things
@@ -49415,14 +48387,14 @@ msgid_plural "glowing veinreavers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action sound_msg for glowing veinreaver.
-#: lang/json/TOOL_from_json.py
-msgid "Drip."
-msgstr ""
-
 #. ~ Use action no_deactivate_msg for glowing veinreaver.
 #: lang/json/TOOL_from_json.py
 msgid "You can't dispel the effect.  Might want to try throwing it instead."
+msgstr ""
+
+#. ~ Use action sound_msg for glowing veinreaver.
+#: lang/json/TOOL_from_json.py
+msgid "Drip."
 msgstr ""
 
 #. ~ Description for glowing veinreaver
@@ -49939,11 +48911,6 @@ msgid ""
 "larger."
 msgstr ""
 
-#. ~ Use action sound_msg for manhack acidbomb.
-#: lang/json/TOOL_from_json.py
-msgid "pphhhffzzzz"
-msgstr ""
-
 #. ~ Use action no_deactivate_msg for manhack acidbomb.
 #. ~ Use action no_deactivate_msg for medium acidbomb.
 #. ~ Use action no_deactivate_msg for small acidbomb.
@@ -49953,6 +48920,11 @@ msgstr ""
 msgid ""
 "Its a bug that you can see this, but that doesnt mean it won't kill you.  "
 "Throw it!"
+msgstr ""
+
+#. ~ Use action sound_msg for manhack acidbomb.
+#: lang/json/TOOL_from_json.py
+msgid "pphhhffzzzz"
 msgstr ""
 
 #. ~ Description for manhack acidbomb
@@ -49968,14 +48940,14 @@ msgid_plural "inactive acidbomb hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive acidbomb hack.
-#: lang/json/TOOL_from_json.py
-msgid "The acid hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive acidbomb hack.
 #: lang/json/TOOL_from_json.py
 msgid "You mis-program the acidbomb hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive acidbomb hack.
+#: lang/json/TOOL_from_json.py
+msgid "The acid hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive acidbomb hack
@@ -50027,14 +48999,14 @@ msgid_plural "biollante sap globs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action sound_msg for biollante sap glob.
-#: lang/json/TOOL_from_json.py src/map.cpp
-msgid "glass shattering"
-msgstr ""
-
 #. ~ Use action no_deactivate_msg for biollante sap glob.
 #: lang/json/TOOL_from_json.py
 msgid "Don't play with it, throw it."
+msgstr ""
+
+#. ~ Use action sound_msg for biollante sap glob.
+#: lang/json/TOOL_from_json.py src/map.cpp
+msgid "glass shattering"
 msgstr ""
 
 #. ~ Description for biollante sap glob
@@ -50085,14 +49057,14 @@ msgid_plural "inactive firebomb hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive firebomb hack.
-#: lang/json/TOOL_from_json.py
-msgid "The firebomb hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive firebomb hack.
 #: lang/json/TOOL_from_json.py
 msgid "You mis-program the firebomb hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive firebomb hack.
+#: lang/json/TOOL_from_json.py
+msgid "The firebomb hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive firebomb hack
@@ -50116,14 +49088,14 @@ msgid ""
 "something to somebody."
 msgstr ""
 
-#. ~ Use action friendly_msg for revenant rocket.
-#: lang/json/TOOL_from_json.py
-msgid "The missile takes off uncertainly!"
-msgstr ""
-
 #. ~ Use action hostile_msg for revenant rocket.
 #: lang/json/TOOL_from_json.py
 msgid "You mis-program the missile; it's hostile!"
+msgstr ""
+
+#. ~ Use action friendly_msg for revenant rocket.
+#: lang/json/TOOL_from_json.py
+msgid "The missile takes off uncertainly!"
 msgstr ""
 
 #. ~ Description for revenant rocket
@@ -50213,14 +49185,14 @@ msgid_plural "soulcubes"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for soulcube.
-#: lang/json/TOOL_from_json.py
-msgid "As you fiddle with the cube, it flies from your hands!"
-msgstr ""
-
 #. ~ Use action hostile_msg for soulcube.
 #: lang/json/TOOL_from_json.py
 msgid "Oh, it's hostile. That's probably not supposed to happen.  Probably."
+msgstr ""
+
+#. ~ Use action friendly_msg for soulcube.
+#: lang/json/TOOL_from_json.py
+msgid "As you fiddle with the cube, it flies from your hands!"
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -50473,14 +49445,14 @@ msgid_plural "rat spawners"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for rat spawner.
-#: lang/json/TOOL_from_json.py
-msgid "The rat looks up expectently!"
-msgstr ""
-
 #. ~ Use action hostile_msg for rat spawner.
 #: lang/json/TOOL_from_json.py
 msgid "The rat look hostile!"
+msgstr ""
+
+#. ~ Use action friendly_msg for rat spawner.
+#: lang/json/TOOL_from_json.py
+msgid "The rat looks up expectently!"
 msgstr ""
 
 #. ~ Description for rat spawner
@@ -50494,15 +49466,6 @@ msgid_plural "baby web spider spawners"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for baby web spider spawner.
-#. ~ Use action friendly_msg for omega web spider spawner.
-#. ~ Use action friendly_msg for baby trapdoor spider spawner.
-#. ~ Use action friendly_msg for trapdoor spider spawner.
-#. ~ Use action friendly_msg for guardian trapdoor spider spawner.
-#: lang/json/TOOL_from_json.py
-msgid "The spider looks around expectently!"
-msgstr ""
-
 #. ~ Use action hostile_msg for baby web spider spawner.
 #. ~ Use action hostile_msg for omega web spider spawner.
 #. ~ Use action hostile_msg for baby trapdoor spider spawner.
@@ -50510,6 +49473,15 @@ msgstr ""
 #. ~ Use action hostile_msg for guardian trapdoor spider spawner.
 #: lang/json/TOOL_from_json.py
 msgid "The spider look hostile!"
+msgstr ""
+
+#. ~ Use action friendly_msg for baby web spider spawner.
+#. ~ Use action friendly_msg for omega web spider spawner.
+#. ~ Use action friendly_msg for baby trapdoor spider spawner.
+#. ~ Use action friendly_msg for trapdoor spider spawner.
+#. ~ Use action friendly_msg for guardian trapdoor spider spawner.
+#: lang/json/TOOL_from_json.py
+msgid "The spider looks around expectently!"
 msgstr ""
 
 #. ~ Description for baby web spider spawner
@@ -50567,14 +49539,14 @@ msgid_plural "boil bombs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for boil bomb.
-#: lang/json/TOOL_from_json.py
-msgid "The boil takes to the air and begins to grow exponentially."
-msgstr ""
-
 #. ~ Use action hostile_msg for boil bomb.
 #: lang/json/TOOL_from_json.py
 msgid "The boil dances around you!"
+msgstr ""
+
+#. ~ Use action friendly_msg for boil bomb.
+#: lang/json/TOOL_from_json.py
+msgid "The boil takes to the air and begins to grow exponentially."
 msgstr ""
 
 #. ~ Description for boil bomb
@@ -50756,12 +49728,12 @@ msgid_plural "multiplying gelatinous mass"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for multiplying gelatinous mass.
 #. ~ Use action hostile_msg for multiplying gelatinous mass.
-#. ~ Use action friendly_msg for multiplying gray mass.
+#. ~ Use action friendly_msg for multiplying gelatinous mass.
 #. ~ Use action hostile_msg for multiplying gray mass.
-#. ~ Use action friendly_msg for multiplying oozing mass.
+#. ~ Use action friendly_msg for multiplying gray mass.
 #. ~ Use action hostile_msg for multiplying oozing mass.
+#. ~ Use action friendly_msg for multiplying oozing mass.
 #: lang/json/TOOL_from_json.py
 msgid "A blob splits and bounces away!"
 msgstr ""
@@ -50965,14 +49937,14 @@ msgid_plural "dormant blobs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for dormant blob.
-#: lang/json/TOOL_from_json.py
-msgid "The blob becomes active and starts slithering around."
-msgstr ""
-
 #. ~ Use action hostile_msg for dormant blob.
 #: lang/json/TOOL_from_json.py
 msgid "You've made a terrible mistake, the blob is hostile!"
+msgstr ""
+
+#. ~ Use action friendly_msg for dormant blob.
+#: lang/json/TOOL_from_json.py
+msgid "The blob becomes active and starts slithering around."
 msgstr ""
 
 #. ~ Description for dormant blob
@@ -50989,16 +49961,16 @@ msgid_plural "dormant minions"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for dormant minion.
-#: lang/json/TOOL_from_json.py
-msgid "The zombie climbs to its feet and shambles around."
-msgstr ""
-
 #. ~ Use action hostile_msg for dormant minion.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "Something has gone wrong; after getting up the zombie lumbers toward you "
 "menacingly!"
+msgstr ""
+
+#. ~ Use action friendly_msg for dormant minion.
+#: lang/json/TOOL_from_json.py
+msgid "The zombie climbs to its feet and shambles around."
 msgstr ""
 
 #. ~ Description for dormant minion
@@ -51464,8 +50436,11 @@ msgid "shot"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py lang/json/gun_from_json.py
+#: lang/json/gun_from_json.py
 msgid "blunderbuss"
-msgstr ""
+msgid_plural "blunderbusses"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid ".22"
@@ -51612,8 +50587,11 @@ msgid "components"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py lang/json/gun_from_json.py
+#: lang/json/gun_from_json.py
 msgid "RPG-7"
-msgstr ""
+msgid_plural "RPG-7"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "rebreather filter"
@@ -51811,8 +50789,11 @@ msgid "Subdermal Carbon Filament"
 msgstr ""
 
 #: lang/json/bionic_from_json.py lang/json/gun_from_json.py
+#: lang/json/gun_from_json.py
 msgid "Chain Lightning"
-msgstr ""
+msgid_plural "Chain Lightnings"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/bionic_from_json.py
 msgid "Bionic Claws"
@@ -56343,7 +55324,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "self bow"
-msgstr ""
+msgid_plural "self bows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56353,7 +55336,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "short bow"
-msgstr ""
+msgid_plural "short bows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56364,7 +55349,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "compound bow"
-msgstr ""
+msgid_plural "compound bows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56375,7 +55362,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "composite bow"
-msgstr ""
+msgid_plural "composite bows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56386,7 +55375,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "recurve bow"
-msgstr ""
+msgid_plural "recurve bows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56397,7 +55388,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "reflex bow"
-msgstr ""
+msgid_plural "reflex bows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56408,7 +55401,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "longbow"
-msgstr ""
+msgid_plural "longbows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56419,7 +55414,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "reflex recurve bow"
-msgstr ""
+msgid_plural "reflex recurve bows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56431,7 +55428,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pistol crossbow"
-msgstr ""
+msgid_plural "pistol crossbows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56439,6 +55438,12 @@ msgid ""
 "and draw, so it is best suited for hunting small game.  Bolts fired from "
 "this weapon have a good chance of remaining intact for re-use."
 msgstr ""
+
+#: lang/json/gun_from_json.py
+msgid "crossbow"
+msgid_plural "crossbows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56449,7 +55454,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "heavy crossbow"
-msgstr ""
+msgid_plural "heavy crossbows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56461,7 +55468,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "repeating crossbow"
-msgstr ""
+msgid_plural "repeating crossbows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56472,7 +55481,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "BB gun"
-msgstr ""
+msgid_plural "BB guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56481,7 +55492,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "sling"
-msgstr ""
+msgid_plural "slings"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56490,7 +55503,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "slingshot"
-msgstr ""
+msgid_plural "slingshots"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56499,7 +55514,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "brace slingshot"
-msgstr ""
+msgid_plural "brace slingshots"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56509,7 +55526,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "bullet crossbow"
-msgstr ""
+msgid_plural "bullet crossbows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56520,7 +55539,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "FTK-93 fusion gun"
-msgstr ""
+msgid_plural "FTK-93 fusion guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56531,7 +55552,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M72 LAW"
-msgstr ""
+msgid_plural "M72 LAW"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56541,7 +55564,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Tankbot Main Gun"
-msgstr ""
+msgid_plural "Tankbot Main Gun"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56550,7 +55575,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Boeing XM-P plasma rifle"
-msgstr ""
+msgid_plural "Boeing XM-P plasma rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56561,7 +55588,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe combination gun"
-msgstr ""
+msgid_plural "pipe combination guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56572,7 +55601,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pneumatic assault rifle"
-msgstr ""
+msgid_plural "pneumatic assault rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56582,7 +55613,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pneumatic bolt driver"
-msgstr ""
+msgid_plural "pneumatic bolt drivers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56592,7 +55625,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "mininuke launcher"
-msgstr ""
+msgid_plural "mininuke launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56602,7 +55637,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M3 recoilless rifle"
-msgstr ""
+msgid_plural "M3 recoilless rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56613,7 +55650,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M202 FLASH"
-msgstr ""
+msgid_plural "M202 FLASH"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56629,7 +55668,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "speargun"
-msgstr ""
+msgid_plural "spearguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56640,7 +55681,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "mini speargun"
-msgstr ""
+msgid_plural "mini spearguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56651,7 +55694,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "double speargun"
-msgstr ""
+msgid_plural "double spearguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56662,7 +55707,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pneumatic speargun"
-msgstr ""
+msgid_plural "pneumatic spearguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56673,7 +55720,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "combination gun"
-msgstr ""
+msgid_plural "combination guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56684,7 +55733,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "survivor's rocket launcher"
-msgstr ""
+msgid_plural "survivor's rocket launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56693,9 +55744,12 @@ msgid ""
 "and a simple circuit board.  Effective only at medium range, barely."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "water cannon"
-msgstr ""
+msgid_plural "water cannons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56705,7 +55759,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "heavy automatic shotgun"
-msgstr ""
+msgid_plural "heavy automatic shotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56716,7 +55772,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "chemical thrower"
-msgstr ""
+msgid_plural "chemical throwers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56726,15 +55784,21 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "base gun"
-msgstr ""
+msgid_plural "base guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "base flamethrower"
-msgstr ""
+msgid_plural "base flamethrowers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "base launcher"
-msgstr ""
+msgid_plural "base launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "single"
@@ -56742,44 +55806,64 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "base pistol"
-msgstr ""
+msgid_plural "base pistols"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 #: src/item_factory.cpp
 msgid "revolver"
-msgstr ""
+msgid_plural "revolvers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "base rifle"
-msgstr ""
+msgid_plural "base rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "rifles with manual actions"
-msgstr ""
+msgid_plural "rifles with manual actionss"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "semi-automatic rifle"
-msgstr ""
+msgid_plural "semi-automatic rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "fully automatic rifle"
-msgstr ""
+msgid_plural "fully automatic rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "base shotgun"
-msgstr ""
+msgid_plural "base shotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "pump action shotgun"
-msgstr ""
+msgid_plural "pump action shotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "base SMG"
-msgstr ""
+msgid_plural "base SMGs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "H&K G80 Railgun"
-msgstr ""
+msgid_plural "H&K G80 Railguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56790,7 +55874,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM120c shotgun"
-msgstr ""
+msgid_plural "RM120c shotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56801,7 +55887,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM20 autoshotgun"
-msgstr ""
+msgid_plural "RM20 autoshotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56812,7 +55900,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM228 PDW"
-msgstr ""
+msgid_plural "RM228 PDWs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56825,7 +55915,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "American-180"
-msgstr ""
+msgid_plural "American-180"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56836,7 +55928,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Marlin 39A"
-msgstr ""
+msgid_plural "Marlin 39A"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56847,7 +55941,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Mossberg Brownie"
-msgstr ""
+msgid_plural "Mossberg Brownie"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56858,7 +55954,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe rifle: .22"
-msgstr ""
+msgid_plural "pipe rifles: .22"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56868,7 +55966,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM360 rotary carbine"
-msgstr ""
+msgid_plural "RM360 rotary carbines"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56880,7 +55980,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Ruger 10/22"
-msgstr ""
+msgid_plural "Ruger 10/22"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56892,11 +55994,15 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Ruger LCR .22"
-msgstr ""
+msgid_plural "Ruger LCR .22"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "SIG Mosquito"
-msgstr ""
+msgid_plural "SIG Mosquito"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56907,7 +56013,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "S&W 22A"
-msgstr ""
+msgid_plural "S&W 22A"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "A popular .22 pistol."
@@ -56915,7 +56023,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Bushmaster ACR"
-msgstr ""
+msgid_plural "Bushmaster ACRs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56926,7 +56036,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "AR-15"
-msgstr ""
+msgid_plural "AR-15s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56937,7 +56049,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "H&K 416A5"
-msgstr ""
+msgid_plural "H&K 416A5s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56947,7 +56061,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "H&K G36"
-msgstr ""
+msgid_plural "H&K G36s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56958,7 +56074,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L2037 Backup"
-msgstr ""
+msgid_plural "L2037 Backups"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56970,7 +56088,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L523 platform"
-msgstr ""
+msgid_plural "L523 platforms"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56984,7 +56104,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L523-CAR carbine"
-msgstr ""
+msgid_plural "L523-CAR carbines"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56998,7 +56120,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L523-DSR rifle"
-msgstr ""
+msgid_plural "L523-DSR rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57018,7 +56142,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L523-LMG"
-msgstr ""
+msgid_plural "L523-LMGs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57037,7 +56163,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L523-MBR rifle"
-msgstr ""
+msgid_plural "L523-MBR rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57051,7 +56179,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M249"
-msgstr ""
+msgid_plural "M249s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57062,7 +56192,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M27 IAR"
-msgstr ""
+msgid_plural "M27 IARs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57072,7 +56204,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M4A1"
-msgstr ""
+msgid_plural "M4A1s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57083,7 +56217,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Ruger Mini-14"
-msgstr ""
+msgid_plural "Ruger Mini-14s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57094,7 +56230,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "FN SCAR-L"
-msgstr ""
+msgid_plural "FN SCAR-Ls"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57105,7 +56243,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "SIG 552"
-msgstr ""
+msgid_plural "SIG 552s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57119,7 +56259,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Steyr AUG"
-msgstr ""
+msgid_plural "Steyr AUGs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57130,7 +56272,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "survivor carbine"
-msgstr ""
+msgid_plural "survivor carbines"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57140,7 +56284,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M2010 ESR"
-msgstr ""
+msgid_plural "M2010 ESR"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57151,7 +56297,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Weatherby Mark V"
-msgstr ""
+msgid_plural "Weatherby Mark V"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57163,7 +56311,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Winchester Model 70"
-msgstr ""
+msgid_plural "Winchester Model 70"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57174,7 +56324,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Browning BLR"
-msgstr ""
+msgid_plural "Browning BLR"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57185,7 +56337,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M1 Garand"
-msgstr ""
+msgid_plural "M1 Garands"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57196,7 +56350,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M1903 Springfield"
-msgstr ""
+msgid_plural "M1903 Springfields"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57208,7 +56364,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Browning Automatic Rifle"
-msgstr ""
+msgid_plural "Browning Automatic Rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57220,7 +56378,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Remington 700"
-msgstr ""
+msgid_plural "Remington 700"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57231,7 +56391,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe rifle: .30-06"
-msgstr ""
+msgid_plural "pipe rifles: .30-06"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57242,7 +56404,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Survivor Special 700"
-msgstr ""
+msgid_plural "Survivor Special 700"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57253,7 +56417,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "FN FAL"
-msgstr ""
+msgid_plural "FN FAL"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57265,7 +56431,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "H&K G3"
-msgstr ""
+msgid_plural "H&K G3"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57276,7 +56444,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M134D-H Minigun"
-msgstr ""
+msgid_plural "M134D-H Miniguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57289,7 +56459,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M14 EBR-RI"
-msgstr ""
+msgid_plural "M14 EBR-RI"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57300,7 +56472,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M1A"
-msgstr ""
+msgid_plural "M1A"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57310,7 +56484,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M240"
-msgstr ""
+msgid_plural "M240s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57321,7 +56497,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M60"
-msgstr ""
+msgid_plural "M60s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57332,7 +56510,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe rifle: .308"
-msgstr ""
+msgid_plural "pipe rifles: .308"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57343,7 +56523,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Savage 111F"
-msgstr ""
+msgid_plural "Savage 111F"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57353,7 +56535,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "FN SCAR-H"
-msgstr ""
+msgid_plural "FN SCAR-H"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57364,7 +56548,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "SIG Sauer P230"
-msgstr ""
+msgid_plural "SIG Sauer P230"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57374,7 +56560,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Skorpion Vz. 61"
-msgstr ""
+msgid_plural "Skorpion Vz. 61s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57384,7 +56572,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Walther PPK"
-msgstr ""
+msgid_plural "Walther PPK"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57394,7 +56584,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Colt M1861 Navy"
-msgstr ""
+msgid_plural "Colt M1861 Navy"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57405,7 +56597,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "2 Shot Special"
-msgstr ""
+msgid_plural "2 Shot Specials"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57416,7 +56610,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "COP .38"
-msgstr ""
+msgid_plural "COP .38"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57427,7 +56623,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Ruger LCR .38"
-msgstr ""
+msgid_plural "Ruger LCR .38"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57437,7 +56635,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "S&W 619"
-msgstr ""
+msgid_plural "S&W 619"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57447,7 +56647,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Taurus Pro .38"
-msgstr ""
+msgid_plural "Taurus Pro .38"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57457,7 +56659,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Glock 22"
-msgstr ""
+msgid_plural "Glock 22"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57467,7 +56671,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "SIG Pro .40"
-msgstr ""
+msgid_plural "SIG Pro .40"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57477,7 +56683,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "survivor's six shooter"
-msgstr ""
+msgid_plural "survivor's six shooters"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57487,7 +56695,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "S&W 610"
-msgstr ""
+msgid_plural "S&W 610"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57497,7 +56707,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "tube 40mm launcher"
-msgstr ""
+msgid_plural "tube 40mm launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57507,7 +56719,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M320 stand alone launcher"
-msgstr ""
+msgid_plural "M320 stand alone launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57518,7 +56732,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M79 launcher"
-msgstr ""
+msgid_plural "M79 launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57529,7 +56745,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Mark 19 grenade launcher"
-msgstr ""
+msgid_plural "Mark 19 grenade launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57540,7 +56758,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Milkor MGL"
-msgstr ""
+msgid_plural "Milkor MGL"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57551,7 +56771,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM802 grenade launcher"
-msgstr ""
+msgid_plural "RM802 grenade launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57563,7 +56785,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "triple-barrel 40mm launcher"
-msgstr ""
+msgid_plural "triple-barrel 40mm launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57577,7 +56801,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Desert Eagle .44"
-msgstr ""
+msgid_plural "Desert Eagle .44"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57589,7 +56815,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Henry Big Boy .44"
-msgstr ""
+msgid_plural "Henry Big Boy .44"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57599,7 +56827,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "LeMat revolver"
-msgstr ""
+msgid_plural "LeMat revolvers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57611,7 +56841,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Ruger Redhawk"
-msgstr ""
+msgid_plural "Ruger Redhawk"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57622,7 +56854,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "S&W 629"
-msgstr ""
+msgid_plural "S&W 629"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57634,7 +56868,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Colt M1860 Army"
-msgstr ""
+msgid_plural "Colt M1860 Army"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57644,7 +56880,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "TDI Vector"
-msgstr ""
+msgid_plural "TDI Vectors"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57654,7 +56892,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "H&K UMP45"
-msgstr ""
+msgid_plural "H&K UMP45s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57665,7 +56905,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L2031 Enforcer"
-msgstr ""
+msgid_plural "L2031 Enforcer"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57677,7 +56919,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L1820 Long Ranger"
-msgstr ""
+msgid_plural "L1820 Long Ranger"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57691,7 +56935,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L39B-45"
-msgstr ""
+msgid_plural "L39B-45s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57703,7 +56949,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L39-45"
-msgstr ""
+msgid_plural "L39-45s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57715,7 +56963,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M1911"
-msgstr ""
+msgid_plural "M1911s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57725,7 +56975,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "MAC-10"
-msgstr ""
+msgid_plural "MAC-10s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57737,7 +56989,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "homemade hand cannon"
-msgstr ""
+msgid_plural "homemade hand cannons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57748,7 +57002,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Thompson submachine gun"
-msgstr ""
+msgid_plural "Thompson submachine guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57760,11 +57016,15 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "USP .45"
-msgstr ""
+msgid_plural "USP .45s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "Taurus Raging Bull"
-msgstr ""
+msgid_plural "Taurus Raging Bull"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57774,7 +57034,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "H&K MP7"
-msgstr ""
+msgid_plural "H&K MP7s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57785,7 +57047,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "H&K UCP"
-msgstr ""
+msgid_plural "H&K UCPs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57795,7 +57059,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Barrett M107A1"
-msgstr ""
+msgid_plural "Barrett M107A1"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57805,7 +57071,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M2 Browning HMG"
-msgstr ""
+msgid_plural "M2 Browning HMG"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57816,7 +57084,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid ".50 caliber rifle"
-msgstr ""
+msgid_plural ".50 caliber rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57832,7 +57102,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Big Horn Model 89"
-msgstr ""
+msgid_plural "Big Horn Model 89"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57843,7 +57115,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "S&W 500"
-msgstr ""
+msgid_plural "S&W 500"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57853,7 +57127,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "AK-74M"
-msgstr ""
+msgid_plural "AK-74Ms"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57863,7 +57139,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "AN-94"
-msgstr ""
+msgid_plural "AN-94s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57879,7 +57157,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "FN Five-Seven"
-msgstr ""
+msgid_plural "FN Five-Sevens"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57890,7 +57170,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "FN P90"
-msgstr ""
+msgid_plural "FN P90s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57901,7 +57183,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM216 SPIW"
-msgstr ""
+msgid_plural "RM216 SPIWs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57917,7 +57201,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM232 IDW"
-msgstr ""
+msgid_plural "RM232 IDWs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57929,7 +57215,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Elephant gun"
-msgstr ""
+msgid_plural "Elephant guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57940,7 +57228,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "AKM"
-msgstr ""
+msgid_plural "AKMs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57950,7 +57240,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Beretta ARX-160"
-msgstr ""
+msgid_plural "Beretta ARX-160"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57962,7 +57254,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "SKS"
-msgstr ""
+msgid_plural "SKSs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57973,7 +57267,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Mosin-Nagant M44"
-msgstr ""
+msgid_plural "Mosin-Nagant M44"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57983,7 +57279,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Mosin-Nagant M44-EBR"
-msgstr ""
+msgid_plural "Mosin-Nagant M44-EBR"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57993,7 +57291,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Mosin-Nagant 1891/30"
-msgstr ""
+msgid_plural "Mosin-Nagant 1891/30"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58004,7 +57304,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Mosin-Nagant 1891/30-EBR"
-msgstr ""
+msgid_plural "Mosin-Nagant 1891/30-EBR"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58015,7 +57317,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "PPSh-41"
-msgstr ""
+msgid_plural "PPSh-41s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58025,7 +57329,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Tokarev TT-33"
-msgstr ""
+msgid_plural "Tokarev TT-33"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58037,7 +57343,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM103A automagnum"
-msgstr ""
+msgid_plural "RM103A automagnums"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58047,7 +57355,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM11B scout rifle"
-msgstr ""
+msgid_plural "RM11B scout rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58061,7 +57371,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM2000 submachine gun"
-msgstr ""
+msgid_plural "RM2000 submachine guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58072,7 +57384,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM298 HMG"
-msgstr ""
+msgid_plural "RM298 HMGs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58084,7 +57398,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM51 assault rifle"
-msgstr ""
+msgid_plural "RM51 assault rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58096,7 +57412,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM614 LMG"
-msgstr ""
+msgid_plural "RM614 LMGs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58112,7 +57430,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM88 battle rifle"
-msgstr ""
+msgid_plural "RM88 battle rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58124,7 +57444,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM99 revolver"
-msgstr ""
+msgid_plural "RM99 revolvers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58134,7 +57456,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "briefcase SMG"
-msgstr ""
+msgid_plural "briefcase SMGs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58148,7 +57472,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Calico M960"
-msgstr ""
+msgid_plural "Calico M960"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58158,7 +57484,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Cx4 Storm"
-msgstr ""
+msgid_plural "Cx4 Storms"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58169,7 +57497,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Glock 19"
-msgstr ""
+msgid_plural "Glock 19s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58179,7 +57509,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "H&K MP5"
-msgstr ""
+msgid_plural "H&K MP5s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58190,7 +57522,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Kel-Tec SUB-2000"
-msgstr ""
+msgid_plural "Kel-Tec SUB-2000"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58200,7 +57534,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L2032 Lookout"
-msgstr ""
+msgid_plural "L2032 Lookout"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58212,7 +57548,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L39B"
-msgstr ""
+msgid_plural "L39Bs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58225,7 +57563,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L39"
-msgstr ""
+msgid_plural "L39s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58238,7 +57578,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Beretta M9"
-msgstr ""
+msgid_plural "Beretta M9s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58248,11 +57590,15 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe rifle: 9mm"
-msgstr ""
+msgid_plural "pipe rifles: 9mm"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "STEN"
-msgstr ""
+msgid_plural "STENs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58264,7 +57610,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "TEC-9"
-msgstr ""
+msgid_plural "TEC-9"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58275,7 +57623,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "USP 9mm"
-msgstr ""
+msgid_plural "USP 9mms"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58286,7 +57636,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Uzi 9mm"
-msgstr ""
+msgid_plural "Uzi 9mms"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58297,7 +57649,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Makarov PM"
-msgstr ""
+msgid_plural "Makarov PMs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58308,7 +57662,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Skorpion Vz. 82"
-msgstr ""
+msgid_plural "Skorpion Vz. 82s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58318,11 +57674,15 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "fusion blaster"
-msgstr ""
+msgid_plural "fusion blasters"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "laser finger"
-msgstr ""
+msgid_plural "laser fingers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58332,7 +57692,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "flamethrower"
-msgstr ""
+msgid_plural "flamethrowers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58342,7 +57704,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "spraycan flamethrower"
-msgstr ""
+msgid_plural "spraycan flamethrowers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58354,7 +57718,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "simple flamethrower"
-msgstr ""
+msgid_plural "simple flamethrowers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58364,7 +57730,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM451 flamethrower"
-msgstr ""
+msgid_plural "RM451 flamethrowers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58376,7 +57744,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "flintlock carbine"
-msgstr ""
+msgid_plural "flintlock carbines"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58387,7 +57757,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "double-barrel flintlock carbine"
-msgstr ""
+msgid_plural "double-barrel flintlock carbines"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58399,7 +57771,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "flintlock pistol"
-msgstr ""
+msgid_plural "flintlock pistols"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58409,7 +57783,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "flintlock rifle"
-msgstr ""
+msgid_plural "flintlock rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58420,7 +57796,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "heavy rail rifle"
-msgstr ""
+msgid_plural "heavy rail rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58435,7 +57813,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "ferromagnetic rail rifle"
-msgstr ""
+msgid_plural "ferromagnetic rail rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58447,7 +57827,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "coilgun"
-msgstr ""
+msgid_plural "coilguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58457,7 +57839,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "nail gun"
-msgstr ""
+msgid_plural "nail guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58467,7 +57851,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "nail rifle"
-msgstr ""
+msgid_plural "nail rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58478,7 +57864,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "12 gauge pistol"
-msgstr ""
+msgid_plural "12 gauge pistols"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58488,7 +57876,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "manual autoshotgun"
-msgstr ""
+msgid_plural "manual autoshotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58498,7 +57888,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Kel-Tec KSG"
-msgstr ""
+msgid_plural "Kel-Tec KSG"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58509,7 +57901,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L12 Defender"
-msgstr ""
+msgid_plural "L12 Defender"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58520,7 +57914,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M1014 shotgun"
-msgstr ""
+msgid_plural "M1014 shotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58530,7 +57926,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Mossberg 500"
-msgstr ""
+msgid_plural "Mossberg 500"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58540,7 +57938,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "double-barrel pipe shotgun"
-msgstr ""
+msgid_plural "double-barrel pipe shotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58554,7 +57954,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe shotgun"
-msgstr ""
+msgid_plural "pipe shotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58564,7 +57966,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Remington 870"
-msgstr ""
+msgid_plural "Remington 870"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58575,7 +57979,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "shotgun revolver"
-msgstr ""
+msgid_plural "shotgun revolvers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58585,7 +57991,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Saiga-12"
-msgstr ""
+msgid_plural "Saiga-12s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58596,7 +58004,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "double barrel shotgun"
-msgstr ""
+msgid_plural "double barrel shotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58606,7 +58016,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "single barrel shotgun"
-msgstr ""
+msgid_plural "single barrel shotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58617,7 +58029,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "makeshift lever shotgun"
-msgstr ""
+msgid_plural "makeshift lever shotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58627,7 +58041,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "flaregun"
-msgstr ""
+msgid_plural "flareguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "A plastic single shot pistol that can be loaded with signal flares."
@@ -58635,7 +58051,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "XM34 EMP projector"
-msgstr ""
+msgid_plural "XM34 EMP projectors"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58645,7 +58063,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "handheld laser cannon"
-msgstr ""
+msgid_plural "handheld laser cannons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58655,7 +58075,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "A7 laser rifle"
-msgstr ""
+msgid_plural "A7 laser rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58667,7 +58089,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "fusion blaster rifle"
-msgstr ""
+msgid_plural "fusion blaster rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58677,7 +58101,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "V29 laser pistol"
-msgstr ""
+msgid_plural "V29 laser pistols"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58688,7 +58114,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "LACP laser pistol"
-msgstr ""
+msgid_plural "LACP laser pistols"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58699,7 +58127,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "symbol of judgement"
-msgstr ""
+msgid_plural "symbols of judgement"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58710,7 +58140,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "hellfire stave"
-msgstr ""
+msgid_plural "hellfire staves"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58721,7 +58153,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "wraithslayer crossbow"
-msgstr ""
+msgid_plural "wraithslayer crossbows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58732,7 +58166,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "demon claw"
-msgstr ""
+msgid_plural "demon claws"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58743,7 +58179,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "bane staff"
-msgstr ""
+msgid_plural "bane staves"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58754,27 +58192,39 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe rifle: .45"
-msgstr ""
+msgid_plural "pipe rifles: .45"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe rifle: .38"
-msgstr ""
+msgid_plural "pipe rifles: .38"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe rifle: .44"
-msgstr ""
+msgid_plural "pipe rifles: .44"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe rifle: .40"
-msgstr ""
+msgid_plural "pipe rifles: .40"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe rifle: .223"
-msgstr ""
+msgid_plural "pipe rifles: .223"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe SMG: .22"
-msgstr ""
+msgid_plural "pipe SMG: .22s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58785,23 +58235,33 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe SMG: .38"
-msgstr ""
+msgid_plural "pipe SMG: .38s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe SMG: 9mm"
-msgstr ""
+msgid_plural "pipe SMG: 9mms"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe SMG: .40"
-msgstr ""
+msgid_plural "pipe SMG: .40s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe SMG: .45"
-msgstr ""
+msgid_plural "pipe SMG: .45s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "SVS-24"
-msgstr ""
+msgid_plural "SVS-24"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58811,7 +58271,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "SVS-24C"
-msgstr ""
+msgid_plural "SVS-24C"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58822,7 +58284,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "CW-24"
-msgstr ""
+msgid_plural "CW-24"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58833,7 +58297,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "CW-24M"
-msgstr ""
+msgid_plural "CW-24M"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58843,7 +58309,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "CW-24K"
-msgstr ""
+msgid_plural "CW-24K"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58853,7 +58321,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Modified CW-24"
-msgstr ""
+msgid_plural "Modified CW-24"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58864,11 +58334,15 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Modified CW-24M"
-msgstr ""
+msgid_plural "Modified CW-24M"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "CWD-63"
-msgstr ""
+msgid_plural "CWD-63"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58878,7 +58352,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Wrist DREAD"
-msgstr ""
+msgid_plural "Wrist DREAD"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58889,7 +58365,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "JHEC M128"
-msgstr ""
+msgid_plural "JHEC M128s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58899,7 +58377,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Boomlighter 454"
-msgstr ""
+msgid_plural "Boomlighter 454s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58910,7 +58390,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "gunsword"
-msgstr ""
+msgid_plural "gunswords"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58921,7 +58403,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "gunknife"
-msgstr ""
+msgid_plural "gunknives"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58932,7 +58416,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "FiveO handcannon"
-msgstr ""
+msgid_plural "FiveO handcannons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58943,7 +58429,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M919"
-msgstr ""
+msgid_plural "M919s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58954,7 +58442,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Eagle 1776"
-msgstr ""
+msgid_plural "Eagle 1776"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58965,7 +58455,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "L.T. carbine"
-msgstr ""
+msgid_plural "L.T. carbines"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58976,7 +58468,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "arc cannon"
-msgstr ""
+msgid_plural "arc cannons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58987,7 +58481,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M1911 DS"
-msgstr ""
+msgid_plural "M1911 DSs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -58999,7 +58495,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe gun: revolver ammo"
-msgstr ""
+msgid_plural "pipe guns: revolver ammo"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59009,7 +58507,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "lever action carbine"
-msgstr ""
+msgid_plural "lever action carbines"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59019,7 +58519,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "semiautomatic pistol"
-msgstr ""
+msgid_plural "semiautomatic pistols"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59029,7 +58531,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "holdout pistol"
-msgstr ""
+msgid_plural "holdout pistols"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59039,7 +58543,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "submachine gun"
-msgstr ""
+msgid_plural "submachine guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59049,7 +58555,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "advanced submachine gun"
-msgstr ""
+msgid_plural "advanced submachine guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59059,7 +58567,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "plinking carbine"
-msgstr ""
+msgid_plural "plinking carbines"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59081,7 +58591,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "combat shotgun"
-msgstr ""
+msgid_plural "combat shotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59091,7 +58603,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "semiautomatic carbine"
-msgstr ""
+msgid_plural "semiautomatic carbines"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59101,7 +58615,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "assault rifle"
-msgstr ""
+msgid_plural "assault rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59112,7 +58628,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "foreign assault rifle"
-msgstr ""
+msgid_plural "foreign assault rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59122,7 +58640,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "light machine gun"
-msgstr ""
+msgid_plural "light machine guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59133,7 +58653,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "general purpose machine gun"
-msgstr ""
+msgid_plural "general purpose machine guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59143,7 +58665,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "minigun"
-msgstr ""
+msgid_plural "miniguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59155,7 +58679,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "bolt action rifle"
-msgstr ""
+msgid_plural "bolt action rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59166,7 +58692,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "service rifle"
-msgstr ""
+msgid_plural "service rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59176,7 +58704,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "battle rifle"
-msgstr ""
+msgid_plural "battle rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59186,7 +58716,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "medium machine gun"
-msgstr ""
+msgid_plural "medium machine guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59196,7 +58728,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "antimateriel rifle"
-msgstr ""
+msgid_plural "antimateriel rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59207,7 +58741,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "heavy machine gun"
-msgstr ""
+msgid_plural "heavy machine guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59217,7 +58753,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe gun: pistol ammo"
-msgstr ""
+msgid_plural "pipe rifles: pistol ammo"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59227,7 +58765,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pipe gun: rifle ammo"
-msgstr ""
+msgid_plural "pipe guns: rifle ammo"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59238,7 +58778,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "survivor's carbine"
-msgstr ""
+msgid_plural "survivor's carbines"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59249,7 +58791,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "EMP Projector"
-msgstr ""
+msgid_plural "EMP Projectors"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59260,7 +58804,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "hand-held laser cannon"
-msgstr ""
+msgid_plural "hand-held laser cannons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59270,7 +58816,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "laser rifle"
-msgstr ""
+msgid_plural "laser rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59283,7 +58831,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "laser pistol"
-msgstr ""
+msgid_plural "laser pistols"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59293,7 +58843,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "scrap laser pistol"
-msgstr ""
+msgid_plural "scrap laser pistols"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59303,11 +58855,15 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "fusion rifle"
-msgstr ""
+msgid_plural "fusion rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "plasma rifle"
-msgstr ""
+msgid_plural "plasma rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59319,7 +58875,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "magnum pistol"
-msgstr ""
+msgid_plural "magnum pistols"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59329,7 +58887,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "fire lance"
-msgstr ""
+msgid_plural "fire lances"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59340,7 +58900,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "atlatl"
-msgstr ""
+msgid_plural "atlatls"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59350,7 +58912,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Ichaival"
-msgstr ""
+msgid_plural "Ichaivals"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59361,7 +58925,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "hell ball shooter"
-msgstr ""
+msgid_plural "hell ball shooters"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "The living hand of an imp.  It's a bug that you can read this."
@@ -59369,7 +58935,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "hellfire plasma gun"
-msgstr ""
+msgid_plural "hellfire plasma guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59378,7 +58946,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Cyber-rocket launcher"
-msgstr ""
+msgid_plural "Cyber-rocket launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59392,7 +58962,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "napalm launcher"
-msgstr ""
+msgid_plural "napalm launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid "the /massive/ flamethrower mounted to the mancubus' arms."
@@ -59400,7 +58972,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "bomblet pipe launcher"
-msgstr ""
+msgid_plural "bomblet pipe launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59411,7 +58985,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "double bomblet launcher"
-msgstr ""
+msgid_plural "double bomblet launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59422,7 +58998,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "PRMP4 peppergun"
-msgstr ""
+msgid_plural "PRMP4 pepperguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59433,7 +59011,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "PRMP2 arbiter"
-msgstr ""
+msgid_plural "PRMP2 arbiters"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59446,7 +59026,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "shockcannon"
-msgstr ""
+msgid_plural "shockcannons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59457,7 +59039,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "30mm autocannon"
-msgstr ""
+msgid_plural "30mm autocannons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59466,9 +59050,12 @@ msgid ""
 "be mounted on a vehicle to fire."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "120mm tank gun"
-msgstr ""
+msgid_plural "120mm tank guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59478,7 +59065,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "120mm autoloading tank gun"
-msgstr ""
+msgid_plural "120mm autoloading tank guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59488,7 +59077,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "120mm remote weapon system"
-msgstr ""
+msgid_plural "120mm remote weapon systems"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59496,9 +59087,12 @@ msgid ""
 "control.  Obviously it needs to be mounted on a vehicle to fire."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "155mm howitzer"
-msgstr ""
+msgid_plural "155mm howitzers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59508,7 +59102,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "ATGM Launcher"
-msgstr ""
+msgid_plural "ATGM Launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59519,7 +59115,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Vehicular ATGM Launcher"
-msgstr ""
+msgid_plural "Vehicular ATGM Launchers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59527,9 +59125,12 @@ msgid ""
 "fire-and-forget.  Obviously it needs to be mounted on a vehicle to fire."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "biting blob"
-msgstr ""
+msgid_plural "biting blobs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59542,9 +59143,12 @@ msgid ""
 "though it seems pliable enough to pull apart..."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "gel shooter"
-msgstr ""
+msgid_plural "gel shooters"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59555,9 +59159,12 @@ msgid ""
 "without something to control it.  It seems pliable enough to pull apart..."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "frost lancer"
-msgstr ""
+msgid_plural "frost lancers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59569,9 +59176,12 @@ msgid ""
 "control it."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "snapping ooze"
-msgstr ""
+msgid_plural "snapping oozes"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59584,9 +59194,12 @@ msgid ""
 "it."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "blobsaw"
-msgstr ""
+msgid_plural "blobsaws"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59599,9 +59212,12 @@ msgid ""
 "control it."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "fuel puffer"
-msgstr ""
+msgid_plural "fuel puffers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59613,9 +59229,12 @@ msgid ""
 "it."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "acid puffer"
-msgstr ""
+msgid_plural "acid puffers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59627,7 +59246,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "amorphous heart"
-msgstr ""
+msgid_plural "amorphous hearts"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59641,9 +59262,12 @@ msgid ""
 "contact with it; and it appears unnervingly willing to accomodate you..."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "gel spiker"
-msgstr ""
+msgid_plural "gel spikers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59655,9 +59279,12 @@ msgid ""
 "your touch, but the weapon itself is inert without something to control it."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "gel lancer"
-msgstr ""
+msgid_plural "gel lancers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59669,9 +59296,12 @@ msgid ""
 "itself is inert without something to control it."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "gel razor"
-msgstr ""
+msgid_plural "gel razors"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59681,9 +59311,12 @@ msgid ""
 "touch, but the weapon itself is inert without something to control it."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "shock bulb"
-msgstr ""
+msgid_plural "shock bulbs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59693,9 +59326,12 @@ msgid ""
 "the weapon itself is inert without something to control it."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "gel puffer"
-msgstr ""
+msgid_plural "gel puffers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59707,9 +59343,12 @@ msgid ""
 "inert without something to control it."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "fire puffer"
-msgstr ""
+msgid_plural "fire puffers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59721,9 +59360,12 @@ msgid ""
 "control it."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "spark blight"
-msgstr ""
+msgid_plural "spark blights"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59735,9 +59377,12 @@ msgid ""
 "to control it."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "diamond lance"
-msgstr ""
+msgid_plural "diamond lances"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59751,9 +59396,12 @@ msgid ""
 "targets."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "diamond nova"
-msgstr ""
+msgid_plural "diamond novas"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59768,9 +59416,12 @@ msgid ""
 "burst of diamond fragments."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "vortex accelerator"
-msgstr ""
+msgid_plural "vortex accelerators"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59778,9 +59429,12 @@ msgid ""
 "target at high speed.  You'll need some form of platform to mount it on."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "vortex bolter"
-msgstr ""
+msgid_plural "vortex bolters"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59788,9 +59442,12 @@ msgid ""
 "high speed.  You'll need some form of platform to mount it on."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "vortex cannon"
-msgstr ""
+msgid_plural "vortex cannons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59800,9 +59457,12 @@ msgid ""
 "platform to mount it on."
 msgstr ""
 
-#: lang/json/gun_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/gun_from_json.py
+#: lang/json/vehicle_part_from_json.py
 msgid "vortex rifle"
-msgstr ""
+msgid_plural "vortex rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59812,7 +59472,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "storm bolter"
-msgstr ""
+msgid_plural "storm bolters"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59823,7 +59485,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "slingshot cannon"
-msgstr ""
+msgid_plural "slingshot cannons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59835,7 +59499,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "lacerator"
-msgstr ""
+msgid_plural "lacerators"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59846,7 +59512,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "rotary cannon"
-msgstr ""
+msgid_plural "rotary cannons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59858,7 +59526,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "laser cannon"
-msgstr ""
+msgid_plural "laser cannons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59869,7 +59539,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "pulse laser"
-msgstr ""
+msgid_plural "pulse lasers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59880,7 +59552,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "turbolaser cannon"
-msgstr ""
+msgid_plural "turbolaser cannons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59892,7 +59566,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "perforator"
-msgstr ""
+msgid_plural "perforators"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59905,7 +59581,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "needler"
-msgstr ""
+msgid_plural "needlers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59917,7 +59595,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "hypervelocity driver"
-msgstr ""
+msgid_plural "hypervelocity drivers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59931,7 +59611,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "ripper"
-msgstr ""
+msgid_plural "rippers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59942,7 +59624,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "rotary speargun"
-msgstr ""
+msgid_plural "rotary spearguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59953,7 +59637,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "scorpion ballista"
-msgstr ""
+msgid_plural "scorpion ballistas"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59964,7 +59650,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "splintergun"
-msgstr ""
+msgid_plural "splinterguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59976,7 +59664,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "harpoon gun"
-msgstr ""
+msgid_plural "harpoon guns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59986,7 +59676,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "tesla cannon"
-msgstr ""
+msgid_plural "tesla cannons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -59997,7 +59689,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "avalanche rifle"
-msgstr ""
+msgid_plural "avalanche rifles"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -60009,7 +59703,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "COP .357"
-msgstr ""
+msgid_plural "COP .357"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -60025,7 +59721,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Saiga-410"
-msgstr ""
+msgid_plural "Saiga-410"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -60035,7 +59733,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "M6 Aircrew Survival Weapon"
-msgstr ""
+msgid_plural "M6 Aircrew Survival Weapons"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -60047,7 +59747,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Colt Single Action Army"
-msgstr ""
+msgid_plural "Colt Single Action Army"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -60059,7 +59761,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Colt Lightning .45"
-msgstr ""
+msgid_plural "Colt Lightning .45"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -60070,7 +59774,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "Bond Arms Derringer"
-msgstr ""
+msgid_plural "Bond Arms Derringers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -60081,7 +59787,9 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid ".410 youth shotgun"
-msgstr ""
+msgid_plural ".410 youth shotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -60091,12 +59799,977 @@ msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid ".410 pipe shotgun"
-msgstr ""
+msgid_plural ".410 pipe shotguns"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
 "A home-made shotgun, in .410 bore.  It is simply a pipe attached to a stock, "
 "with a hammer to strike the single round it holds."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "arrow rest"
+msgid_plural "arrow rests"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A small extension above the grip which an arrow rests upon while being "
+"aimed.  Improves accuracy with no drawbacks."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "accessories"
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "bow stabilizer"
+msgid_plural "bow stabilizers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A counterweight placed forward of the bow's grip allows for greater "
+"accuracy.  Aside from increased weight and size, there are no drawbacks."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "brass catcher"
+msgid_plural "brass catchers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A bag that hangs off the side of your gun and catches ejected casings so you "
+"don't have to pick them up."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "shoulder strap"
+msgid_plural "shoulder straps"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A shoulder strap allows the rifle to be worn over your shoulders like a "
+"piece of clothing.  However, it offers no protection."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "gyroscopic stabilizer"
+msgid_plural "gyroscopic stabilizers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"An advanced unit that straps onto the side of your firearm and reduces "
+"vibration, greatly reducing recoil and increasing accuracy."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "barrel extension"
+msgid_plural "barrel extensions"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A longer barrel increases the muzzle velocity of a firearm, contributing to "
+"both accuracy and damage but reduces portability and slows aiming."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "barrel"
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "rifled barrel"
+msgid_plural "rifled barrels"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Rifling a shotgun barrel is mainly done in order to improve its accuracy "
+"when firing slugs.  The rifling makes the gun less suitable for shot, "
+"however."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "shortened barrel"
+msgid_plural "shortened barrels"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A shortened barrel results in markedly reduced accuracy, and a minor "
+"increase in noise, but also greatly improves the ease with which the weapon "
+"can be carried and wielded."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "upstest"
+msgid_plural "upstests"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Testmod for UPS drain on mods, this should never spawn, if you see this, "
+"it's a bug. 50 UPS drain."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid ".22 caliber conversion kit"
+msgid_plural ".22 caliber conversion kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Replacing several key parts of a 9mm, .38, .40, 5.7mm, 4.6mm, 7.62x39mm "
+"or .223 firearm converts it to a .22 firearm.  The conversion results in a "
+"slight reduction to accuracy."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "bore"
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid ".223 caliber conversion kit"
+msgid_plural ".223 caliber conversion kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"This kit is used to convert a shotgun, 5.45x39mm, 7.62x39mm, .30-06, or .308 "
+"rifle to the popular, accurate, and lighter .223 caliber.  The conversion "
+"results in slight reductions to both accuracy and ammo capacity."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid ".308 caliber conversion kit"
+msgid_plural ".308 caliber conversion kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"This kit is used to convert a shotgun or 7.62x39mm, .223 or .30-06 rifle to "
+"the popular and powerful .308 caliber.  The conversion results in reduced "
+"ammo capacity and a slight reduction to accuracy."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid ".45 caliber conversion kit"
+msgid_plural ".45 caliber conversion kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Replacing several key parts of a 9mm, .38, .40 or .44 firearm converts it to "
+"a .45 firearm.  The conversion results in a slight reduction to accuracy."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "4.6mm caliber conversion kit"
+msgid_plural "4.6mm caliber conversion kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A conversion kit produced by Heckler and Koch, used to convert .22, 9mm, "
+"or .38 firearms to their proprietary 4.6x30mm, a round designed for accuracy "
+"and armor penetration."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "5.7mm caliber conversion kit"
+msgid_plural "5.7mm caliber conversion kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A conversion kit produced by FN Herstal, used to convert .22, 9mm, or .38 "
+"firearms to their proprietary 5.7x28mm, a round designed for accuracy and "
+"armor penetration."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "9mm caliber conversion kit"
+msgid_plural "9mm caliber conversion kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Replacing several key parts of a 9x18mm, .38, .40, .44 or .45 firearm "
+"converts it to a 9mm firearm.  The conversion results in a slight reduction "
+"to accuracy."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "lightweight replacement furniture"
+msgid_plural "lightweight replacement furnitures"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A set of lightweight composite grips and furniture that reduces a firearm's "
+"weight, and as a consequence, its handling and melee damage."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "grip"
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "ergonomic grip"
+msgid_plural "ergonomic grips"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A set of ergonomic replacement furniture for a firearm improving handling "
+"and accuracy."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "belt feed adapter"
+msgid_plural "belt feed adapters"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A kit providing the necessary parts for permanently converting a firearm "
+"from magazine to belt-feed.  Guaranteed to void your warranty."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "magazine"
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "leadworks magazine adapter"
+msgid_plural "leadworks magazine adapters"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A bootleg adapter for permanently converting a firearm to accept proprietary "
+"Leadworks magazines.  Guaranteed to void your warranty."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "auto-fire mechanism"
+msgid_plural "auto-fire mechanisms"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A simple mechanism that converts a pistol to a selective fire weapon with a "
+"burst size of three rounds.  However it reduces accuracy and increases noise."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "mechanism"
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "rapid blowback"
+msgid_plural "rapid blowbacks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"An improved blowback mechanism makes your firearm's automatic fire faster, "
+"at the cost of reduced accuracy and increased noise."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "match trigger"
+msgid_plural "match triggers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A precision weighted trigger assembly that improves a firearm's accuracy."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "tuned mechanism"
+msgid_plural "tuned mechanisms"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A set of finely tuned internal components which increase the precision and "
+"reliably of a firearm."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "firearm waterproofing"
+msgid_plural "firearm waterproofings"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A set of seals and gaskets that will allow a firearm to operate reliably "
+"while submerged in water."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "ported barrel"
+msgid_plural "ported barrels"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A ported barrel redirects exhaust gases to compensate for muzzle climb, "
+"improves recoil but increases noise and reduces accuracy slightly."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "muzzle"
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "homemade suppressor"
+msgid_plural "homemade suppressors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A suppressor reduces the amount of noise and muzzle flash generated by the "
+"report of a firearm.  Gunfire is extremely loud and can damage your hearing "
+"without protection; a suppressor will bring the loudness of a report down to "
+"generally safe levels.  A suppressor will slightly reduce recoil and muzzle "
+"velocity."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "muzzle brake"
+msgid_plural "muzzle brakes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A muzzle brake redirects exhaust gases to compensate for muzzle climb, "
+"improving recoil but increasing bulk, noise, and reducing accuracy slightly."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "RK6S34 suppressor"
+msgid_plural "RK6S34 suppressors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A suppressor reduces the amount of noise and muzzle flash generated by the "
+"report of a firearm.  This RK6S34 Mustela is a rather advanced version "
+"integral to the RM11B rifle system."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "shotgun suppressor"
+msgid_plural "shotgun suppressors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A suppressor designed to work with shotguns.  It's a lot more complex than a "
+"suppressor for a pistol or rifle."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "suppressor"
+msgid_plural "suppressors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid "compact suppressor"
+msgid_plural "compact suppressors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A compact suppressor designed for pistols and best used with smaller "
+"calibers.  A suppressor will slightly reduce recoil and muzzle velocity."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "rail-mounted crossbow"
+msgid_plural "rail-mounted crossbows"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A kit to attach a pair of crossbow arms and a firing rail to the barrel of a "
+"long firearm.  It allows crossbow bolts to be fired."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "rail"
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "offset iron sights"
+msgid_plural "offset iron sights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"An alternative set of iron sights mounted at 45° for use when a scope or "
+"other modification prevents use of the primary sights."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "rail laser sight"
+msgid_plural "rail laser sights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A small visible-light laser that mounts on a firearm's accessory rail to "
+"enhance ease and speed of target acquisition.  Aside from increased weight, "
+"there are no drawbacks."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "bow sight"
+msgid_plural "bow sights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A set of tritium aiming pins for a bow.  Improves ease of aiming and target "
+"acquisition with no drawbacks."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "sights"
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "holographic sight"
+msgid_plural "holographic sights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Used extensively by military forces, it increases accuracy and weight.  This "
+"is a step up from a red dot sight."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "iron sights"
+msgid_plural "iron sights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid "A basic set of iron sights"
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "pistol scope"
+msgid_plural "pistol scopes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A small scope intended for use on a handgun.  Increases weight but improves "
+"accuracy greatly."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "red dot sight"
+msgid_plural "red dot sights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Adds a red dot optic to the top of your gun, replacing the iron sights.  "
+"Increases accuracy and weight."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "rifle scope"
+msgid_plural "rifle scopes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A long ranged rifle scope used by civilians and military alike, increases "
+"weight but improves accuracy greatly."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "RS1219 scope"
+msgid_plural "RS1219 scopes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"An integral component of the RM11B rifle system, the RS1219 Accipiter "
+"digital scope provides auto-adjusting focal length, a user-selectable "
+"reticle, and an offset reflex sight for close objectives."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "adjustable stock"
+msgid_plural "adjustable stocks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid "An adjustable replacement stock improving both recoil and accuracy."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "stock"
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "folding stock"
+msgid_plural "folding stocks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A folding stock which reduces volume but needs unfolding before use.  "
+"Increases the time needed to wield the weapon."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "pistol stock"
+msgid_plural "pistol stocks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid "An add on stock for handguns considerably improving control of recoil."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "recoil stock"
+msgid_plural "recoil stocks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid "A replacement stock designed to absorb perceived recoil."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "aux flamethrower"
+msgid_plural "aux flamethrowers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"This custom-built miniature flamethrower is made to be attached to almost "
+"any sort of firearm, greatly expanding its lethality."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "underbarrel"
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "bipod"
+msgid_plural "bipods"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Bipods are commonly used on rifles and machine guns to provide a forward "
+"rest and reduce motion.  Although they greatly improve handling of recoil "
+"they are usable only on certain surfaces and are slow to equip."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "combination gun shotgun"
+msgid_plural "combination gun shotguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"The integrated underbarrel shotgun of a combination gun which holds two "
+"shots.  It's irremovable."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "pipe combination gun shotgun"
+msgid_plural "pipe combination gun shotguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"The integrated underbarrel shotgun of a pipe combination gun which holds two "
+"shots.  It's irremovable."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "forward grip"
+msgid_plural "forward grips"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A grip placed forward on the barrel allows for greater control.  Not as "
+"effective as a bipod but usable under all conditions."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "integrated bayonet"
+msgid_plural "integrated bayonets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid "This is the bayonet integrated in the firearm."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "KSG second magazine"
+msgid_plural "KSG second magazines"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"The integrated second shotgun magazine of the Kel-Tec KSG which holds 7 "
+"shots.  It's irremovable."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "underbarrel laser sight"
+msgid_plural "underbarrel laser sights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A visible-light laser that mounts under a firearm's barrel to enhance ease "
+"and speed of target acquisition.  Aside from increased weight, there are no "
+"drawbacks."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "LeMat revolver shotgun"
+msgid_plural "LeMat revolver shotguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"The integrated underbarrel shotgun of a modified LeMat revolver which holds "
+"a single shot.  It's irremovable."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "M203"
+msgid_plural "M203"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"The M203 was originally designed for use with M16 variants but today can be "
+"attached to almost any rifle.  It allows a single 40mm grenade to be loaded "
+"and fired."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "M320 GLM"
+msgid_plural "M320 GLM"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"The M320 Grenade Launcher Module offers the functionality of larger "
+"launchers in a very small package at the cost of decreased accuracy.  It can "
+"be either attached to a rifle or combined with a buttstock for stand alone "
+"use."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "masterkey shotgun"
+msgid_plural "masterkey shotguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A minimalist pump action shotgun, which can be mounted under the barrel of "
+"many rifles.  It allows a total of four shotgun shells to be loaded and "
+"fired."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "40mm pipe launcher"
+msgid_plural "40mm pipe launchers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"This is a home built launcher tube that can be attached to almost any "
+"rifle.  It allows a single 40mm grenade to be loaded and fired."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "pistol bayonet"
+msgid_plural "pistol bayonets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A pistol bayonet is a stabbing weapon that can be attached to the front of a "
+"handgun, allowing a melee attack to deal piercing damage."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "RM121 aux shotgun"
+msgid_plural "RM121 aux shotguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic "
+"caseless shotgun, which can be mounted under the barrel of many rifles.  "
+"Accepts RMSA10 box magazines."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "underslung shotgun"
+msgid_plural "underslung shotguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A short shotgun with 2 barrels, which can be mounted under the barrel of "
+"many rifles.  It allows two shotgun shells to be loaded and fired."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "handmade auto-fire mechanism"
+msgid_plural "handmade auto-fire mechanisms"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Mechanism that allows your CW-24 rifle to fire in fully automatic mode.  It "
+"is handmade."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "5.45 caliber conversion kit"
+msgid_plural "5.45 caliber conversion kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"This kit is used to convert 6.54 rifle to the 5.45 caliber.  The conversion "
+"results in slight reductions to recoil."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "6.54 caliber conversion kit"
+msgid_plural "6.54 caliber conversion kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"This kit is used to convert 5.45 rifle to the 6.54 caliber.  The conversion "
+"results in increased recoil."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "7.62 caliber conversion kit"
+msgid_plural "7.62 caliber conversion kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"This kit is used to convert 6.54 rifle to the 7.62 caliber.  The conversion "
+"results in increased recoil."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "Flaregun conversion kit"
+msgid_plural "Flaregun conversion kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Replacing several key parts flaregun to convert it to a .40 firearm.  The "
+"conversion results in reduced accuracy and increased recoil."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "integral flamethrower"
+msgid_plural "integral flamethrowers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"This genuine Herostratus flamethrower is ideal for light brush clearing and "
+"self-defense."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "E.M.A.S."
+msgid_plural "E.M.A.S.s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"ElectroMagnetic Acceleration System is an array of electromagnets attached "
+"to the front of the barrel, accelerating any projectile fired to even higher "
+"velocities, increasing damage, recoil and reducing accuracy.  It does "
+"however drain UPS charges when firing and due to extensive modifications the "
+"gun can no longer operate without a UPS."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "underbarrel bomblet thrower"
+msgid_plural "underbarrel bomblet throwers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A mount for a rifle that holds and fires up to 3 bomblets.  The weight of "
+"the mod and its ammo decreases the accuracy of both firearms some."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "makeshift pistol bayonet"
+msgid_plural "makeshift pistol bayonets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A makeshift version of a bayonet meant for a pistol that consists of a mere "
+"spike with some string.  It still makes a decent melee weapon in a pinch "
+"when attached to a pistol."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "makeshift sword bayonet"
+msgid_plural "makeshift sword bayonets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"A makeshift version of a sword bayonet that consists of a salvaged blade "
+"with some string.  It still makes a good melee weapon providing reach "
+"attacks when attached to long arm or crossbow."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Replacing several key parts of a 9mm, .38, .40, 10mm, .45 Colt, 5.7mm, "
+"4.6mm, 7.62x39mm or .223 firearm converts it to a .22 firearm.  The "
+"conversion results in a slight reduction to accuracy."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Replacing several key parts of a 9mm, .38, .40, 10mm, or .44 or .45 Colt "
+"firearm converts it to a .45 ACP firearm.  The conversion results in a "
+"slight reduction to accuracy."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"Replacing several key parts of a 9x18mm, .38, .40, 10mm, .44 or .45 firearm "
+"converts it to a 9mm firearm.  The conversion results in a slight reduction "
+"to accuracy."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid ".410 bore conversion kit"
+msgid_plural ".410 bore conversion kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"This kit is used to convert a shotgun or 7.62x39mm, .223, .308 or .30-06 "
+"rifle to the lightweight .410 shotgun bore.  The conversion results in a "
+"slight reduction to accuracy."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "M6 ASW shotgun"
+msgid_plural "M6 ASW shotguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"The integrated .410 shotgun of the M6 Aircrew Survival Weapon.  It's "
+"irremovable."
 msgstr ""
 
 #: lang/json/item_action_from_json.py
@@ -60347,7 +61020,7 @@ msgstr ""
 
 #: lang/json/item_action_from_json.py
 #: lang/json/item_action_from_json.py lang/json/keybinding_from_json.py
-#: src/game.cpp src/game_inventory.cpp
+#: src/game_inventory.cpp
 msgid "Read"
 msgstr ""
 
@@ -62037,6 +62710,11 @@ msgstr ""
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
+msgid "it works."
+msgstr ""
+
+#. ~ Sign
+#: lang/json/mapgen_from_json.py
 msgid "it works again."
 msgstr ""
 
@@ -62048,11 +62726,6 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid "<given_name>, <given_name>, and <given_name> were here!"
-msgstr ""
-
-#. ~ Sign
-#: lang/json/mapgen_from_json.py
-msgid "it works."
 msgstr ""
 
 #. ~ Sign
@@ -66888,7 +67561,7 @@ msgstr ""
 #. ~ Description for Lactose Intolerance
 #: lang/json/mutation_from_json.py
 msgid ""
-"You like 75 percent of the world, cannot tolerate milk or milk based "
+"You, like 75 percent of the world, cannot tolerate milk or milk based "
 "products.  It's possible for you to eat them, but you will suffer morale "
 "penalties due to nausea."
 msgstr ""
@@ -77335,6 +78008,10 @@ msgid ""
 "Your overall skill in using bows and firearms.  With higher levels, this "
 "general experience increases accuracy with any bows or firearms, but is "
 "secondary to practice with the type of ranged weapon in question."
+msgstr ""
+
+#: lang/json/skill_from_json.py
+msgid "launchers"
 msgstr ""
 
 #. ~ Description for launchers
@@ -88063,18 +88740,6 @@ msgid "aisle curtain"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "kitchen unit"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "welding rig"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted electric forge"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
 msgid "wooden armor"
 msgstr ""
 
@@ -88245,6 +88910,18 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "hand rims"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "kitchen unit"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "welding rig"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted electric forge"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -91201,10 +91878,6 @@ msgstr ""
 #: src/armor_layers.cpp
 #, c-format
 msgid "Swap side for %s?"
-msgstr ""
-
-#: src/armor_layers.cpp
-msgid "Put on"
 msgstr ""
 
 #: src/armor_layers.cpp
@@ -99525,10 +100198,6 @@ msgid "There's nothing there to smash!"
 msgstr ""
 
 #: src/game.cpp
-msgid "Use item"
-msgstr ""
-
-#: src/game.cpp
 msgid "You pull a handbrake."
 msgstr ""
 
@@ -100102,11 +100771,6 @@ msgid "Pour into a container"
 msgstr ""
 
 #: src/game.cpp
-#, c-format
-msgid "Container for %s"
-msgstr ""
-
-#: src/game.cpp
 msgid "That's the same container!"
 msgstr ""
 
@@ -100319,14 +100983,6 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid "You leave the empty %s."
-msgstr ""
-
-#: src/game.cpp src/player.cpp
-msgid "Wear item"
-msgstr ""
-
-#: src/game.cpp
-msgid "Take off item"
 msgstr ""
 
 #: src/game.cpp
@@ -101320,18 +101976,12 @@ msgstr ""
 
 #: src/game_inventory.cpp
 #, c-format
-msgid "%s's inventory is empty."
-msgstr ""
-
-#: src/game_inventory.cpp
-#: src/inventory_ui.cpp
-msgid "Your inventory is empty."
-msgstr ""
-
-#: src/game_inventory.cpp
-#, c-format
 msgid ""
 "Item hotkeys assigned: <color_ltgray>%d</color>/<color_ltgray>%d</color>"
+msgstr ""
+
+#: src/game_inventory.cpp src/inventory_ui.cpp
+msgid "Your inventory is empty."
 msgstr ""
 
 #: src/game_inventory.cpp
@@ -101340,16 +101990,24 @@ msgid "You don't have a %s."
 msgstr ""
 
 #: src/game_inventory.cpp
-#, c-format
-msgid "You don't have %s-powered tools."
+msgid "Take off item"
 msgstr ""
 
 #: src/game_inventory.cpp
 msgid "You don't wear anything."
 msgstr ""
 
+#: src/game_inventory.cpp src/player.cpp
+msgid "Wear item"
+msgstr ""
+
 #: src/game_inventory.cpp
 msgid "You don't have any items to wear."
+msgstr ""
+
+#: src/game_inventory.cpp
+#, c-format
+msgid "Container for %s"
 msgstr ""
 
 #: src/game_inventory.cpp
@@ -101388,6 +102046,10 @@ msgid "Install bionic"
 msgstr ""
 
 #: src/game_inventory.cpp
+msgid "Use item"
+msgstr ""
+
+#: src/game_inventory.cpp
 msgid "You don't have any items you can use."
 msgstr ""
 
@@ -101410,6 +102072,10 @@ msgstr ""
 
 #: src/game_inventory.cpp
 msgid "is too difficult for you to modify"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "Select gun to modify"
 msgstr ""
 
 #: src/game_inventory.cpp
@@ -101447,6 +102113,16 @@ msgstr ""
 
 #: src/game_inventory.cpp
 msgid "You have nothing to read."
+msgstr ""
+
+#: src/game_inventory.cpp
+#, c-format
+msgid "Steal from %s"
+msgstr ""
+
+#: src/game_inventory.cpp
+#, c-format
+msgid "%s's inventory is empty."
 msgstr ""
 
 #: src/game_inventory.cpp
@@ -107761,10 +108437,6 @@ msgid "You repair your %s completely!"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Select gun to modify"
-msgstr ""
-
-#: src/iuse.cpp
 msgid "Select tool to modify"
 msgstr ""
 
@@ -111669,22 +112341,18 @@ msgid "%s is hostile!"
 msgstr ""
 
 #: src/melee.cpp
-msgid "Steal item"
+#, c-format
+msgid "You sneakily steal %1$s from %2$s!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "You sneakely steal %s from %s!"
+msgid "You failed to steal %1$s from %2$s, but did not attract attention."
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "You failed to steal %s from %s, but did not attract attention."
-msgstr ""
-
-#: src/melee.cpp
-#, c-format
-msgid "You failed to steal %s from %s"
+msgid "You failed to steal %1$s from %2$s."
 msgstr ""
 
 #. ~ Message %s on the message log was repeated %d times, eg. "You hear a whack! x 12"
@@ -125198,11 +125866,6 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "BRUMBRUMBRUMBRUM!!!"
-msgstr ""
-
-#: src/vehicle.cpp
-#, c-format
-msgid "The %s's reactor dies!"
 msgstr ""
 
 #: src/vehicle.cpp
