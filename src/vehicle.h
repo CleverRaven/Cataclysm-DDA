@@ -875,9 +875,6 @@ public:
     /** Generate smoke at given power output (watts) accounting for faults and ancillary parts */
     void engine_smoke( const vehicle_part &pt, int power );
 
-    // Generate smoke from a part, either at front or back of vehicle depending on velocity.
-    void spew_smoke( double joules, int part, int density = 1 );
-
     /**
      * Calculates the sum of the area under the wheels of the vehicle.
      * @param boat If true, calculates the area under "wheels" that allow swimming.

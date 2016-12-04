@@ -2896,54 +2896,50 @@ int vehicle::engine_noise( const vehicle_part &pt, int load ) const
     return res;
 }
 
-void vehicle::spew_smoke( double joules, int part, int density )
-{
-    if( rng( 1, 10000 ) > joules ) {
-        return;
-    }
-    point p = parts[part].mount;
-    density = std::max( joules / 10000, double( density ) );
-    // Move back from engine/muffler til we find an open space
-    while( relative_parts.find(p) != relative_parts.end() ) {
-        p.x += ( velocity < 0 ? 1 : -1 );
-    }
-    point q = coord_translate(p);
-    tripoint dest( global_x() + q.x, global_y() + q.y, smz );
-    g->m.adjust_field_strength( dest, fd_smoke, density );
-}
-
 void vehicle::engine_smoke( const vehicle_part &pt, int load )
 {
-    if( !pt.is_engine() ) {
+    if( !pt.is_engine() || pt.base.type->engine->smoke <= 0 ) {
         return;
-    }
-
-    if( !( pt.ammo_current() == fuel_type_gasoline || pt.ammo_current() == fuel_type_diesel ) ) {
-        return; // @todo move to JSON
-    }
-
-    int exhaust = index_of_part( &pt );
-
-    double muffle = 1.0, m;
-    for( size_t p = 0; p < parts.size(); p++ ) {
-        if( part_flag(p, "MUFFLER") ) {
-            m = 1.0 - (1.0 - part_info(p).bonus / 100.0) * double( parts[p].hp() ) / part_info(p).durability;
-            if( m < muffle ) {
-                muffle = m;
-                exhaust = int(p);
-            }
-        }
     }
 
     int density = 1;
-    int qty = pt.power( false ) * load * muffle * 3;
+    double qty = load * pt.base.type->engine->smoke / 1000.0;
 
+    // faulty air filters greatly increase both quantity and density of smoke
     if( pt.base.faults.count( fault_filter_air ) ) {
-        density = MAX_FIELD_DENSITY;
         qty *= qty;
+        density = MAX_FIELD_DENSITY;
     }
 
-    spew_smoke( qty, exhaust, density );
+    // get a list of usable exhaust parts or use engine itself itself if none are available
+    auto exhaust = const_cast<const vehicle *>( this )->get_parts( "MUFFLER" );
+    if( exhaust.empty() ) {
+        exhaust.push_back( &pt );
+    }
+
+    // move backwards from each exhaust part (acounting for direction) until we find empty space
+    std::vector<tripoint> opts;
+    for( const vehicle_part *e : exhaust ) {
+        point p = e->mount;
+        while( relative_parts.find( p ) != relative_parts.end() ) {
+            p.x += ( velocity < 0 ? 1 : -1 );
+        }        
+        point q = coord_translate( p );
+        opts.emplace_back( global_x() + q.x, global_y() + q.y, smz );
+    }
+
+    // divide smoke between available exhausts
+    qty /= exhaust.size();
+
+    for( const auto &e : opts ) {
+        if( qty <= 100.0 ) {
+            if( x_in_y( qty, 100.0 ) ) {
+                g->m.propagate_field( e, fd_smoke, 1, density );
+            }
+        } else {
+            g->m.propagate_field( e, fd_smoke, qty / 100 + x_in_y( fmod( qty, 100.0 ), 100.0 ), density );
+        }
+    }
 }
 
 float vehicle::wheel_area( bool boat ) const
