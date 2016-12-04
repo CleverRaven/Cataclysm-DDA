@@ -2931,6 +2931,9 @@ void vehicle::engine_smoke( const vehicle_part &pt, int load )
     // divide smoke between available exhausts
     qty /= exhaust.size();
 
+    // add some randomness to output smoke
+    qty *= rng( 0.8, 1.2 );
+
     for( const auto &e : opts ) {
         if( qty <= 100.0 ) {
             if( x_in_y( qty, 100.0 ) ) {

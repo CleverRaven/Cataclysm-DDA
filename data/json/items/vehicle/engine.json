@@ -23,7 +23,7 @@
     "start_time": 60,
     "start_energy": 160,
     "noise": 5.0,
-    "smoke": 30,
+    "smoke": 24,
     "extend": { "faults": [ "fault_engine_pump_diesel", "fault_engine_glow_plug" ] },
     "flags": [ "COLD_START" ]
   },
@@ -40,7 +40,7 @@
     "gears": [ 3.166, 1.882, 1.296, 0.972, 0.738 ],
     "start_time": 30,
     "noise": 3.0,
-    "smoke": 10,
+    "smoke": 8,
     "extend": { "faults": [ "fault_engine_pump_fuel" ] }
   },
   {
