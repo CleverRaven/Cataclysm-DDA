@@ -1284,15 +1284,6 @@ int vehicle::epower_to_power(int const epower)
     return power;
 }
 
-int vehicle::power_to_epower(int const power)
-{
-    // Convert power units to epower units (watts)
-    // Used primarily for calculating battery charge/discharge
-    // TODO: convert batteries to use energy units based on watts (watt-ticks?)
-    constexpr int conversion_factor = 373; // 373 epower == 373 watts == 1 power == 0.5 HP
-    return power * conversion_factor;
-}
-
 bool vehicle::has_structural_part(int const dx, int const dy) const
 {
     std::vector<int> parts_here = parts_at_relative(dx, dy, false);
@@ -2974,7 +2965,7 @@ void vehicle::noise_and_smoke( double load )
                     backfire( e );
                 }
             }
-            double j = power_to_epower( watt_to_hp( eng.power( false ) ) ) * load * 6.0 * muffle;
+            double j = eng.power( false ) * load * muffle * 3;
 
             if( eng.base.faults.count( fault_filter_air ) ) {
                 bad_filter = true;

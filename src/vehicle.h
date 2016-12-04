@@ -494,9 +494,6 @@ private:
     // convert epower (watts) to power.
     static int epower_to_power (int epower);
 
-    // convert power to epower (watts).
-    static int power_to_epower (int power);
-
     //Refresh all caches and re-locate all parts
     void refresh();
 
