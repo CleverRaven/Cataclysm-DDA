@@ -3456,7 +3456,7 @@ void vehicle::idle(bool on_map) {
             }
 
             if( on_map ) {
-                static std::map<int, std::string> opts = {
+                static std::vector<std::pair<int, std::string>> opts = {
                     {  15, _( "hummm!" ) },
                     {  30, _( "whirrr!" ) },
                     {  60, _( "vroom!" ) },
