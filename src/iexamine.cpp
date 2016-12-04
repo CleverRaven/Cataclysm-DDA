@@ -1484,6 +1484,14 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         p.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
     }
 
+    const requirement_data reqs = harvest.requirements();
+    for( const auto &e : reqs.get_components() ) {
+        p.consume_items( e );
+    }
+    for( const auto &e : reqs.get_tools() ) {
+        p.consume_tools( e );
+    }
+
     return true;
 }
 
