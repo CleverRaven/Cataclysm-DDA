@@ -239,7 +239,7 @@ void DynamicDataLoader::initialize()
     add( "overlay_order", &load_overlay_ordering );
     add( "mission_definition", []( JsonObject &jo, const std::string &src ) { mission_type::load_mission_type( jo, src ); } );
     add( "harvest", []( JsonObject &jo, const std::string &src ) { harvest_list::load( jo, src ); } );
-    add( "palette", []( JsonObject &jo, const std::string &src ) { mapgen_palette::load( jo, src ); } );
+    add( "palette", mapgen_palette::load );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
