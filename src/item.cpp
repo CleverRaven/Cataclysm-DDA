@@ -2164,21 +2164,14 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
 
-            } else if (is_gun())  {
+            } else if( is_firearm() )  {
                 damtext = pgettext( "damage adjective", "accurized " );
             } else {
                 damtext = pgettext( "damage adjective", "reinforced " );
             }
         } else {
-            if (typeId() == "corpse") {
-                if (damage() == 1) damtext = pgettext( "damage adjective", "bruised " );
-                if (damage() == 2) damtext = pgettext( "damage adjective", "damaged " );
-                if (damage() == 3) damtext = pgettext( "damage adjective", "mangled " );
-                if (damage() >= 4) damtext = pgettext( "damage adjective", "pulped " );
-
-            } else if ( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
+            if( !is_corpse() && get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
-
             } else {
                 damtext = string_format( "%s ", get_base_material().dmg_adj( damage() ).c_str() );
             }
@@ -2205,16 +2198,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     const std::map<std::string, std::string>::const_iterator iname = item_vars.find("name");
     std::string maintext = "";
-    if (corpse != NULL && typeId() == "corpse" ) {
-        if (name != "") {
-            maintext = string_format( npgettext( "item name", "%s corpse of %s",
-                                           "%s corpses of %s",
-                                           quantity), corpse->nname().c_str(), name.c_str());
+
+    if( is_corpse() ) {
+        if( !name.empty() ) {
+            maintext = string_format( npgettext( "item name", "%s corpse of %s", "%s corpses of %s", quantity ),
+                                      corpse->nname().c_str(), name.c_str() );
         } else {
-            maintext = string_format( npgettext( "item name", "%s corpse",
-                                           "%s corpses",
-                                           quantity), corpse->nname().c_str());
+            maintext = string_format( npgettext( "item name", "%s corpse", "%s corpses", quantity ),
+                                      corpse->nname().c_str() );
         }
+
     } else if (typeId() == "blood") {
         if (corpse == NULL || corpse->id == NULL_ID )
             maintext = string_format( npgettext( "item name", "human blood",
@@ -3912,18 +3905,20 @@ void item::mark_chapter_as_read( const player &u )
 
 const material_type &item::get_random_material() const
 {
-    if( type->materials.empty() ) {
+    auto opts = made_of();
+    if( opts.empty() ) {
         return material_id( "null" ).obj();
     }
-    return random_entry( type->materials ).obj();
+    return random_entry( opts ).obj();
 }
 
 const material_type &item::get_base_material() const
 {
-    if( type->materials.empty() ) {
+    auto opts = made_of();
+    if( opts.empty() ) {
         return material_id( "null" ).obj();
     }
-    return type->materials.front().obj();
+    return opts.front().obj();
 }
 
 bool item::operator<(const item& other) const
