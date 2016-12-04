@@ -1628,12 +1628,10 @@ void mission_start::place_book( mission *)
 {
 }
 
-const tripoint reveal_destination( const std::string &type, bool random )
+const tripoint reveal_destination( const std::string &type )
 {
     const tripoint your_pos = g->u.global_omt_location();
-    const tripoint center_pos = random ?
-                                overmap_buffer.find_random( your_pos, type, rng( 40, 80 ), false ) :
-                                overmap_buffer.find_closest( your_pos, type, rng( 40, 80 ), false );
+    const tripoint center_pos = overmap_buffer.find_random( your_pos, type, rng( 40, 80 ), false );
 
     if( center_pos != overmap::invalid_tripoint ) {
         overmap_buffer.reveal( center_pos, 2 );
@@ -1646,7 +1644,7 @@ const tripoint reveal_destination( const std::string &type, bool random )
 void reveal_route( mission *miss, const tripoint destination )
 {
     const npc *p = g->find_npc( miss->get_npc_id() );
-    if( p == NULL ) {
+    if( p == nullptr ) {
         debugmsg( "mission_start::infect_npc() couldn't find an NPC!" );
         return;
     }
@@ -1662,18 +1660,18 @@ void reveal_route( mission *miss, const tripoint destination )
     }
 }
 
-void reveal_target( mission *miss, const char *omter_id )
+void reveal_target( mission *miss, const std::string &omter_id )
 {
     const npc *p = g->find_npc( miss->get_npc_id() );
-    if( p == NULL ) {
+    if( p == nullptr ) {
         debugmsg( "mission_start::infect_npc() couldn't find an NPC!" );
         return;
     }
 
-    const tripoint destination = reveal_destination( omter_id, true );
+    const tripoint destination = reveal_destination( omter_id );
     if( destination != overmap::invalid_tripoint ) {
         const oter_id oter = overmap_buffer.ter( destination );
-        add_msg( _( "%s have marked the only %s known to them on your map" ),
+        add_msg( _( "%s have marked the only %s known to them on your map." ),
                  p->name.c_str(), oter->name.c_str() );
         miss->set_target( destination );
         if( one_in( 3 ) ) {
@@ -1682,7 +1680,7 @@ void reveal_target( mission *miss, const char *omter_id )
     }
 }
 
-void reveal_any_target( mission *miss, std::vector<std::string> omter_ids )
+void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids )
 {
     reveal_target( miss, random_entry( omter_ids ).c_str() );
 }
