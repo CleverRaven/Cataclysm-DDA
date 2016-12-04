@@ -767,11 +767,15 @@ public:
     int global_y() const;
     point global_pos() const;
     tripoint global_pos3() const;
-    /**
-     * Get the coordinates of the studied part of the vehicle
-     */
+
+    /**  Get coordinates of vehicle part */
     tripoint global_part_pos3( const int &index ) const;
     tripoint global_part_pos3( const vehicle_part &pt ) const;
+
+    /** Get absolute coordinates of vehicle part in map squares (inclusive overmap and submap) */
+    tripoint real_global_part_pos3( int idx ) const;
+    tripoint real_global_part_pos3( const vehicle_part &pt ) const;
+
     /**
      * Really global absolute coordinates in map squares.
      * This includes the overmap, the submap, and the map square.

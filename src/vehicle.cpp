@@ -2641,6 +2641,16 @@ tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
     return global_pos3() + pt.precalc[ 0 ];
 }
 
+tripoint vehicle::real_global_part_pos3( int idx ) const
+{
+    return real_global_part_pos3( parts[idx] );
+}
+
+tripoint vehicle::real_global_part_pos3( const vehicle_part &pt ) const
+{
+    return real_global_pos3() + pt.precalc[0];
+}
+
 point vehicle::real_global_pos() const
 {
     return g->m.getabs( global_x(), global_y() );
