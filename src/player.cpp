@@ -3401,7 +3401,7 @@ static std::string print_gun_mode( const player &p )
     if( m ) {
         if( m.melee() || !m->is_gunmod() ) {
             return string_format( m.mode.empty() ? "%s" : "%s (%s)",
-                                  p.weapname().c_str(), m.mode.c_str() );
+                                  p.weapname().c_str(), _( m.mode.c_str() ) );
         } else {
             return string_format( "%s (%i/%i)", m->tname().c_str(),
                                   m->ammo_remaining(), m->ammo_capacity() );
