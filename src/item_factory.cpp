@@ -1935,34 +1935,57 @@ bool load_min_max(std::pair<T, T> &pa, JsonObject &obj, const std::string &name)
 bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj,
                                  const std::string &name, const Item_group &parent )
 {
-    if (obj.has_member(name)) {
-        // TODO!
-    } else if( obj.has_array( name + "-item" ) || obj.has_array( name + "-group" ) ) {
-        if( name != "contents" ) {
-            debugmsg( "It doesn't make sense to use an array for %s (see doc/ITEM_SPAWN.md)", name.c_str() );
-            return false;
+    const std::string iname( name + "-item" );
+    const std::string gname( name + "-group" );
+    std::vector< std::pair<const std::string, bool> > entries; // pair.second is true for groups, false for items
+    const int prob = 100;
+
+    auto get_array = [&obj, &name, &entries]( const std::string &arr_name, const bool isgroup ) {
+        if( !obj.has_array( arr_name ) ) {
+            return;
+        } else if( name != "contents" ) {
+            obj.throw_error( string_format( "You can't use an array for '%s'", arr_name.c_str() ) );
         }
-        const bool isgroup = obj.has_array( name + "-group" );
-        JsonArray arr = obj.get_array( isgroup ? name + "-group" : name + "-item" );
-        ptr.reset( new Item_group( Item_group::Type::G_COLLECTION, 100, parent.with_ammo, parent.with_magazine ) );
+        JsonArray arr = obj.get_array( arr_name );
         while( arr.has_more() ) {
-            if( isgroup ) {
-                dynamic_cast<Item_group *>( ptr.get() )->add_group_entry( arr.next_string(), 100 );
-            } else {
-                dynamic_cast<Item_group *>( ptr.get() )->add_item_entry( arr.next_string(), 100 );
-            }
+            entries.push_back( std::make_pair( arr.next_string(), isgroup ) );
         }
-        return true;
-    } else if( obj.has_member( name + "-item" ) ) {
-        ptr.reset(new Single_item_creator(obj.get_string(name + "-item"), Single_item_creator::S_ITEM,
-                                          100));
-        return true;
-    } else if(obj.has_member( name + "-group" ) ) {
-        ptr.reset(new Single_item_creator(obj.get_string(name + "-group"),
-                                          Single_item_creator::S_ITEM_GROUP, 100));
-        return true;
+    };
+    get_array( iname, false );
+    get_array( gname, true );
+
+    if (obj.has_member(name)) {
+        obj.throw_error( string_format( "This has been a TODO since 2014. Use '%s' and/or '%s' instead.",
+                                        iname.c_str(), gname.c_str() ) );
+        return false; // TODO!
     }
-    return false;
+    if( obj.has_string( iname ) ) {
+        entries.push_back( std::make_pair( obj.get_string( iname ), false ) );
+    }
+    if(obj.has_string( gname ) ) {
+        entries.push_back( std::make_pair( obj.get_string( gname ), true ) );
+    }
+
+    if( entries.size() > 1 && name != "contents" ) {
+        obj.throw_error( string_format( "You can only use one of '%s' and '%s'", iname.c_str(), gname.c_str() ) );
+        return false;
+    } else if( entries.size() == 1 ) {
+        const auto type = entries.front().second ? Single_item_creator::Type::S_ITEM_GROUP : Single_item_creator::Type::S_ITEM;
+        ptr.reset( new Single_item_creator( entries.front().first, type, prob ) );
+        return true;
+    } else if( entries.empty() ) {
+        return false;
+    }
+    Item_group *result = new Item_group( Item_group::Type::G_COLLECTION, prob, parent.with_ammo, parent.with_magazine );
+    ptr.reset( result );
+    for( const auto &elem : entries ) {
+        if( elem.second ) {
+            result->add_group_entry( elem.first, prob );
+        } else {
+            result->add_item_entry( elem.first, prob );
+        }
+    }
+    return true;
 }
 
 void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
