@@ -211,6 +211,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Can this part generate electrical power when attached to a running engine? */
     bool is_alternator() const;
 
+    /** Can this part generate electrical power when both outside and illuminated? */
+    bool is_solar() const;
+
     /** Is this any type of vehicle light? */
     bool is_light() const;
 
@@ -1184,7 +1187,6 @@ public:
     std::vector<int> alternators;      // List of alternator indices
     std::vector<int> engines;          // List of engine indices
     std::vector<int> reactors;         // List of reactor indices
-    std::vector<int> solar_panels;     // List of solar panel indices
     std::vector<int> funnels;          // List of funnel indices
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;       // List of wheels

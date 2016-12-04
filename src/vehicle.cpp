@@ -463,7 +463,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             }
 
             //Solar panels have 25% of being destroyed
-            if (part_flag(p, "SOLAR_PANEL") && one_in(4)) {
+            if( pt.is_solar() && one_in( 4 ) ) {
                 set_hp( parts[ p ], 0 );
             }
 
@@ -4690,7 +4690,6 @@ void vehicle::refresh()
     alternators.clear();
     engines.clear();
     reactors.clear();
-    solar_panels.clear();
     funnels.clear();
     relative_parts.clear();
     loose_parts.clear();
@@ -4725,9 +4724,6 @@ void vehicle::refresh()
         }
         if( vpi.has_flag("REACTOR") ) {
             reactors.push_back( p );
-        }
-        if( vpi.has_flag(VPFLAG_SOLAR_PANEL) ) {
-            solar_panels.push_back( p );
         }
         if( vpi.has_flag("FUNNEL") ) {
             funnels.push_back( p );
@@ -5618,7 +5614,7 @@ void vehicle::update_time( const calendar &update_to )
 
     // Weather stuff, only for z-levels >= 0
     // TODO: Have it wash cars from blood?
-    if( funnels.empty() && solar_panels.empty() ) {
+    if( funnels.empty() ) {
         return;
     }
 
@@ -5652,25 +5648,16 @@ void vehicle::update_time( const calendar &update_to )
         }
     }
 
-    if( !solar_panels.empty() ) {
-        int epower = 0;
-        for( int part : solar_panels ) {
-            if( parts[ part ].is_broken() ) {
-                continue;
-            }
-
-            const tripoint part_loc = veh_loc + parts[part].precalc[0];
-            if( !is_sm_tile_outside( part_loc ) ) {
-                continue;
-            }
-
-            epower += ( part_epower( part ) * accum_weather.sunlight ) / DAYLIGHT_LEVEL;
+    int solar = 0;
+    for( const auto &pt : parts ) {
+        if( pt.is_solar() && is_sm_tile_outside( real_global_part_pos3( pt ) ) ) {
+            solar += ( pt.power() * accum_weather.sunlight ) / DAYLIGHT_LEVEL;
         }
+    }
 
-        if( epower > 0 ) {
-            add_msg( m_debug, "%s got %d epower from solars", name.c_str(), epower );
-            charge_battery( epower_to_power( epower ) );
-        }
+    if( solar > 0 ) {
+        add_msg( m_debug, "%s got %d power from solars", name.c_str(), solar );
+        charge_battery( solar );
     }
 }
 
@@ -6000,7 +5987,7 @@ int vehicle_part::power( bool effects ) const
             // @todo handle faults
         }
 
-    } else if( is_alternator() ) {
+    } else if( is_alternator() || is_solar() ) {
         res = info().epower;
     }
 
@@ -6015,6 +6002,11 @@ bool vehicle_part::is_engine() const
 bool vehicle_part::is_alternator() const
 {
     return info().has_flag( VPFLAG_ALTERNATOR );
+}
+
+bool vehicle_part::is_solar() const
+{
+    return info().has_flag( VPFLAG_SOLAR_PANEL );
 }
 
 bool vehicle_part::is_light() const
