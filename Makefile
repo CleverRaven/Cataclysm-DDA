@@ -641,6 +641,7 @@ $(BUILD_PREFIX)$(TARGET_NAME).a: $(ODIR) $(OBJS)
 version:
 	@( VERSION_STRING=$(VERSION) ; \
             [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty --match "[0-9A-Z]*.[0-9A-Z]*" ) && VERSION_STRING=$$GITVERSION ; \
+            [ -n "$(BUILD_NUMBER)" ] && VERSION_STRING="Jenkins $(VERSION)-$(BUILD_NUMBER), git $$VERSION_STRING" ; \
             [ -e "$(SRC_DIR)/version.h" ] && OLDVERSION=$$(grep VERSION $(SRC_DIR)/version.h|cut -d '"' -f2) ; \
             if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee $(SRC_DIR)/version.h ; fi \
          )
