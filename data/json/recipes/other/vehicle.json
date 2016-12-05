@@ -9,18 +9,14 @@
     "difficulty": 5,
     "time": 360000,
     "book_learn": [ [ "textbook_fabrication", 6 ] , [ "textbook_mechanics", 5 ] ],
+    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 2 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id" : "GLARE", "level" : 2 }
-    ],
-    "tools": [
-      [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ] ]
+      { "id": "WRENCH_FINE", "level": 1 }
     ],
     "components": [
       [ [ "pipe", 32 ] ],
-      [ [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
       [ [ "chain", 1 ] ]
     ]
   },
@@ -34,18 +30,14 @@
     "difficulty": 2,
     "time": 60000,
     "book_learn": [ [ "textbook_fabrication", 4 ] , [ "textbook_mechanics", 2 ] , [ "manual_mechanics", 2 ] ],
+    "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
-      { "id": "WRENCH", "level": 1 },
-      { "id" : "GLARE", "level" : 2 }
-    ],
-    "tools": [
-      [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ]
+      { "id": "WRENCH", "level": 1 }
     ],
     "components": [
       [ [ "pipe", 8 ] ],
-      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
       [ [ "wire", 8 ] ]
     ]
   },
