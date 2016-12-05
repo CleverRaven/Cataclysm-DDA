@@ -22,6 +22,7 @@ class input_context;
 class JsonObject;
 class npc;
 class overmapbuffer;
+struct mission_start;
 
 struct mongroup;
 
@@ -163,6 +164,7 @@ struct map_layer {
 
 class overmap
 {
+ friend struct mission_start;
  public:
     overmap(const overmap&) = default;
     overmap(overmap &&) = default;
