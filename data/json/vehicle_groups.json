@@ -210,5 +210,24 @@
             [ "pickup", 20 ],
             [ "road_roller", 80 ]
         ]
+    },
+    {
+        "id": "bandit_vehicles",
+        "type": "vehicle_group",
+        "//": "Vehicles used by Hell's Raiders for scouting and assaults",
+        "vehicles": [
+            [ "quad_bike", 150 ],
+            [ "motorcycle", 300 ]
+        ]
+    },
+    {
+        "id": "warehouse_vehicles",
+        "type": "vehicle_group",
+        "//": "Lifting and hauling vehicles for warehouses, loading bays, and similar locations",
+        "vehicles": [
+            [ "engine_crane", 50 ],
+            [ "handjack", 150 ],
+            [ "wheelbarrow", 100 ]
+        ]
     }
 ]
