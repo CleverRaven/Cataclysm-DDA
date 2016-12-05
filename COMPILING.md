@@ -204,7 +204,8 @@ To set up the compiling environment execute the following commands
 `git clone https://github.com/tpoechtrager/osxcross.git` to clone the toolchain
 `cd osxcross`
 `cp ~/MacOSX10.11.sdk.tar.bz2 ./tarballs/` copy prepared MacOSX SDK tarball on place. [Read more about it](https://github.com/tpoechtrager/osxcross/blob/master/README.md#packaging-the-sdk)
-`./build.sh to build everything`
+`OSX_VERSION_MIN=10.7 ./build.sh to build everything`
+Note the targeted minimum supported version of OSX.
 
 Have a prepackaged set of libs and frameworks in place, since compiling with `osxcross` built-in MacPorts is rather difficult and not supported at the moment.
 Your directory tree should look like:
