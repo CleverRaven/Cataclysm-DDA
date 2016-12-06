@@ -1962,7 +1962,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
     if( obj.has_string( iname ) ) {
         entries.push_back( std::make_pair( obj.get_string( iname ), false ) );
     }
-    if(obj.has_string( gname ) ) {
+    if( obj.has_string( gname ) ) {
         entries.push_back( std::make_pair( obj.get_string( gname ), true ) );
     }
 
@@ -1971,7 +1971,9 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
         return false;
     } else if( entries.size() == 1 ) {
         const auto type = entries.front().second ? Single_item_creator::Type::S_ITEM_GROUP : Single_item_creator::Type::S_ITEM;
-        ptr.reset( new Single_item_creator( entries.front().first, type, prob ) );
+        Single_item_creator *result = new Single_item_creator( entries.front().first, type, prob );
+        result->inherit_ammo_mag_chances( parent.with_ammo, parent.with_magazine );
+        ptr.reset( result );
         return true;
     } else if( entries.empty() ) {
         return false;
