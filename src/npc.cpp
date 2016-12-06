@@ -98,7 +98,7 @@ npc::npc()
     companion_mission_time = 0;
     last_updated = calendar::turn;
 
-    path_settings = pathfinding_settings( 0, 1000, 1000, true, false, true );
+    path_settings = pathfinding_settings( 0, 1000, 1000, true, true, true );
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
