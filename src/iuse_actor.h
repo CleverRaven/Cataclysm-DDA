@@ -758,8 +758,6 @@ class repair_item_actor : public iuse_actor
         /** Convenience wrapped when found material components not required */
         bool has_components( const item &fix, const inventory &inv, bool alert = false ) const;
 
-        /** Returns if components are available. Consumes them if `just_check` is false. */
-        bool handle_components( player &pl, const item &fix, bool print_msg, bool just_check ) const;
         /** Returns the chance to repair and to damage an item. */
         std::pair<float, float> repair_chance(
             const player &pl, const item &fix, repair_type action_type ) const;
@@ -782,6 +780,10 @@ class repair_item_actor : public iuse_actor
         iuse_actor *clone() const override;
 
         std::string get_name() const override;
+
+    private:
+        /** Consumes required materials, @see has_components */
+        void consume_components( player &pl, const item &fix ) const;
 };
 
 class heal_actor : public iuse_actor
