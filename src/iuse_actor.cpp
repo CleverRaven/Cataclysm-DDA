@@ -2252,19 +2252,29 @@ long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
     if( !could_repair( *p, *it, true ) ) {
         return 0;
     }
-    const int pos = g->inv_for_filter( _( "Repair what?" ), [it]( const item &e ) {
-        return e.repaired_with().count( it->typeId() ) && it != &e; // also prevents repairing self
-    }, string_format( _( "You have no items that could be repaired with a %s." ), it->type_name( 1 ).c_str() ) );
 
-    if( pos == INT_MIN ) {
+    // check item for repair tool compatibility and also prevents self-repair
+    auto func = [it]( const item &e ) {
+        return e.repaired_with().count( it->typeId() ) && it != &e;
+    };
+
+    auto fail = string_format( _( "You have no items that could be repaired with a %s." ),
+                               it->type_name( 1 ).c_str() );
+
+    // query for item to repair and abort if nothing compatible was found or selected
+    auto fix = g->inv_map_splice( func, _( "Repair what?" ), 1, fail );
+    if( !fix ) {
         p->add_msg_if_player( m_info, _( "Never mind." ) );
         return 0;
     }
 
-    p->assign_activity( activity_id( "ACT_REPAIR_ITEM" ), 0, p->get_item_position( it ), pos );
+    // setup a long action to peform the repair with all charges consumed in the activity handler
+    p->assign_activity( activity_id( "ACT_REPAIR_ITEM" ), 0, p->get_item_position( it ) );
+    p->activity.targets.push_back( std::move( fix ) );
+
     // We also need to store the repair actor subtype in the activity
     p->activity.str_values.push_back( type );
-    // All repairs are done in the activity, including charge cost
+
     return 0;
 }
 
