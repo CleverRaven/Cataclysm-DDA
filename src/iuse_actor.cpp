@@ -2223,23 +2223,24 @@ void repair_item_actor::load( JsonObject &obj )
     trains_skill_to = obj.get_int( "trains_skill_to", 5 ) - 1;
 }
 
-bool could_repair( const player &p, const item &it, bool print_msg )
+/** Check if the tool itself is currently available for use */
+static bool repair_tool_ready( const player &p, const item &tool, bool alert )
 {
     if( p.is_underwater() ) {
-        if( print_msg ) {
-            p.add_msg_if_player(m_info, _("You can't do that while underwater."));
+        if( alert ) {
+            add_msg( m_info, _( "You can't do that while underwater." ) );
         }
         return false;
     }
     if( p.fine_detail_vision_mod() > 4 ) {
-        if( print_msg ) {
-            p.add_msg_if_player(m_info, _("You can't see to do that!"));
+        if( alert ) {
+            add_msg( m_info, _( "You can't see to do that!" ) );
         }
         return false;
     }
-    if( !it.ammo_sufficient() ) {
-        if( print_msg ) {
-            p.add_msg_if_player( m_info, _("Your tool does not have enough charges to do that.") );
+    if( !tool.ammo_sufficient() ) {
+        if( alert ) {
+            add_msg( m_info, _( "Your tool does not have enough charges to do that." ) );
         }
         return false;
     }
@@ -2249,7 +2250,7 @@ bool could_repair( const player &p, const item &it, bool print_msg )
 
 long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
 {
-    if( !could_repair( *p, *it, true ) ) {
+    if( !repair_tool_ready( *p, *it, true ) ) {
         return 0;
     }
 
@@ -2393,33 +2394,19 @@ int repair_item_actor::repair_recipe_difficulty( const player &pl,
 
 bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fix, bool print_msg ) const
 {
-    if( !could_repair( pl, tool, print_msg ) ) {
+    if( !repair_tool_ready( pl, tool, print_msg ) ) {
         return false;
     }
 
-    if( fix.is_firearm() ) {
+    if( !fix.repaired_with().count( tool.typeId() ) ) {
         if( print_msg ) {
-            pl.add_msg_if_player( m_info, _("That requires gunsmithing tools.") );
-        }
-        return false;
-    }
-    if( fix.count_by_charges() || fix.has_flag( "NO_REPAIR" ) ) {
-        if( print_msg ) {
-            pl.add_msg_if_player( m_info, _("You cannot repair this type of item.") );
+            add_msg( m_info, _( "Your %s cannot be used to repair the %s." ),
+                     tool.tname().c_str(), fix.tname().c_str() );
         }
         return false;
     }
 
-    if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const material_id &mat ) {
-            return mat.obj().repaired_with() == fix.typeId();
-        } ) ) {
-        if( print_msg ) {
-            pl.add_msg_if_player( m_info, _("This can be used to repair other items, not itself.") );
-        }
-        return false;
-    }
-
-    if( !handle_components( pl, fix, print_msg, true ) ) {
+    if( !has_components( fix, pl.crafting_inventory(), print_msg ) ) {
         return false;
     }
 
