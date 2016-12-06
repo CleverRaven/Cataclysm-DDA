@@ -864,24 +864,15 @@ class jmapgen_loot : public jmapgen_piece {
         void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
         {
             if( rng( 0, 99 ) < chance ) {
-                std::vector<item> spawn;
+                // Probabilities are 100 because we already did the roll in the previous line.
+                Item_group result_group( Item_group::Type::G_COLLECTION, 100, ammo, magazine );
                 if( group.empty() ) {
-                    spawn.emplace_back( name, calendar::turn );
+                    result_group.add_item_entry( name, 100 );
                 } else {
-                    spawn = item_group::items_from( group, calendar::turn );
+                    result_group.add_group_entry( group, 100 );
                 }
-
-                for( auto &e: spawn ) {
-                    bool spawn_ammo = rng( 0, 99 ) < ammo && e.ammo_remaining() == 0;
-                    bool spawn_mag  = rng( 0, 99 ) < magazine && !e.magazine_integral() && !e.magazine_current();
-
-                    if( spawn_mag || spawn_ammo ) {
-                        e.contents.emplace_back( e.magazine_default(), e.bday );
-                    }
-                    if( spawn_ammo ) {
-                        e.ammo_set( default_ammo( e.ammo_type() ) );
-                    }
-                }
+                const Item_spawn_data *poly_group = &result_group; // Needed to invoke polymorphic behavior
+                const std::vector<item> spawn = poly_group->create( calendar::turn.get_turn() );
                 m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );
             }
         }
