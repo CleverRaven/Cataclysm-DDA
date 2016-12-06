@@ -69,7 +69,7 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer
         void refresh_map_items() const; //< Only modifies mutable state
 
     public:
-        auto_pickup() : ready( false ) {}
+        auto_pickup() : bChar( false ), ready( false ) {}
 
         bool has_rule( const std::string &sRule );
         void add_rule( const std::string &sRule );
