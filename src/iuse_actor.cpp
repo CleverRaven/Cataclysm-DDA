@@ -2398,14 +2398,6 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return false;
     }
 
-    // In some rare cases (indices getting scrambled after inventory overflow)
-    //  our `fix` can be a different item.
-    if( fix.is_null() ) {
-        if( print_msg ) {
-            pl.add_msg_if_player( m_info, _("You do not have that item!") );
-        }
-        return false;
-    }
     if( fix.is_firearm() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("That requires gunsmithing tools.") );
