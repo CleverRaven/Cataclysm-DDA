@@ -2269,8 +2269,8 @@ long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
         return 0;
     }
 
-    // don't start an activity if required materials are not available
-    if( !has_components( *fix, p->crafting_inventory(), true ) ) {
+    // don't start an activity if repair is not possible
+    if( !can_repair( *p, *it, *fix, true ) ) {
         return 0;
     }
 
