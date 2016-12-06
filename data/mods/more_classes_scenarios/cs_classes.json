@@ -160,7 +160,7 @@
         "type": "profession",
         "ident": "seasoned_tourist",
         "name": "Seasoned Tourist",
-        "description": "Due to your thirst for adventure, hunger for good food, and disposable income, you have been able to travel extensively. You've traveled here to get a taste of New England; now you hope New England won't get a tate of you!",
+        "description": "Due to your thirst for adventure, hunger for good food, and disposable income, you have been able to travel extensively.  You've traveled here to get a taste of New England; now you hope New England won't get a taste of you!",
         "points": 5,
         "skills": [
             {
