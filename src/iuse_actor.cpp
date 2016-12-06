@@ -2252,8 +2252,8 @@ long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
     if( !could_repair( *p, *it, true ) ) {
         return 0;
     }
-    const int pos = g->inv_for_filter( _( "Repair what?" ), [this, it]( const item &itm ) {
-        return itm.made_of_any( materials ) && !itm.count_by_charges() && !itm.is_firearm() && &itm != it;
+    const int pos = g->inv_for_filter( _( "Repair what?" ), [it]( const item &e ) {
+        return e.repaired_with().count( it->typeId() ) && it != &e; // also prevents repairing self
     }, string_format( _( "You have no items that could be repaired with a %s." ), it->type_name( 1 ).c_str() ) );
 
     if( pos == INT_MIN ) {
