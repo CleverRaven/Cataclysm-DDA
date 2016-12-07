@@ -94,9 +94,7 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
 }
 
 void Item_factory::finalize() {
-    if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
-        debugmsg( "JSON contains circular dependency: discarded %i templates", deferred.size() );
-    }
+    DynamicDataLoader::get_instance().load_deferred( deferred );
 
     finalize_item_blacklist();
 

@@ -88,10 +88,10 @@ void DynamicDataLoader::load_object( JsonObject &jo, const std::string &src )
     it->second( jo, src );
 }
 
-bool DynamicDataLoader::load_deferred( deferred_json& data )
+void DynamicDataLoader::load_deferred( deferred_json& data )
 {
     while( !data.empty() ) {
-        size_t n = static_cast<size_t>( data.size() );
+        const size_t n = data.size();
         auto it = data.begin();
         for( size_t idx = 0; idx != n; ++idx ) {
             try {
@@ -106,10 +106,15 @@ bool DynamicDataLoader::load_deferred( deferred_json& data )
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
-            return false; // made no progress on this cycle so abort
+            std::ostringstream discarded;
+            for( const auto &elem : data ) {
+                discarded << elem.first;
+            }
+            debugmsg( "JSON contains circular dependency. Discarded %i objects:\n%s",
+                      data.size(), discarded.str().c_str() );
+            return; // made no progress on this cycle so abort
         }
     }
-    return true;
 }
 
 void load_ingored_type(JsonObject &jo)

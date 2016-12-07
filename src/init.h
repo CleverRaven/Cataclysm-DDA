@@ -124,9 +124,8 @@ class DynamicDataLoader
 
         /**
          * Loads and then removes entries from @param data
-         * @return whether all entries were sucessfully loaded
          */
-        bool load_deferred( deferred_json &data );
+        void load_deferred( deferred_json &data );
 };
 
 void init_names();
