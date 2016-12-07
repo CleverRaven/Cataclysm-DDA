@@ -10497,14 +10497,14 @@ bool player::wear_item( const item &to_wear, bool interactive )
     return true;
 }
 
-bool player::change_side( item *it, bool interactive )
+bool player::change_side( item &it, bool interactive )
 {
-    if( !it->swap_side() ) {
+    if( !it.swap_side() ) {
         if( interactive ) {
             add_msg_player_or_npc( m_info,
                                    _( "You cannot swap the side on which your %s is worn." ),
                                    _( "<npcname> cannot swap the side on which their %s is worn." ),
-                                   it->tname().c_str() );
+                                   it.tname().c_str() );
         }
         return false;
     }
@@ -10512,7 +10512,7 @@ bool player::change_side( item *it, bool interactive )
     if( interactive ) {
         add_msg_player_or_npc( m_info, _( "You swap the side on which your %s is worn." ),
                                        _( "<npcname> swaps the side on which their %s is worn." ),
-                                       it->tname().c_str() );
+                                       it.tname().c_str() );
     }
 
     mod_moves( -250 );
@@ -10533,7 +10533,7 @@ bool player::change_side (int pos, bool interactive) {
         return false;
     }
 
-    return change_side( &it, interactive );
+    return change_side( it, interactive );
 }
 
 hint_rating player::rate_action_takeoff( const item &it ) const

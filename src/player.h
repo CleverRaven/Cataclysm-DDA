@@ -917,7 +917,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear_item( const item &to_wear, bool interactive = true );
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
-        bool change_side( item *target, bool interactive = true );
+        bool change_side( item &it, bool interactive = true );
         bool change_side( int pos, bool interactive = true );
 
         /** Returns all items that must be taken off before taking off this item */
