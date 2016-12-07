@@ -20,7 +20,7 @@ enum body_part : int {
     num_bp
 };
 
-enum side : int {
+enum class side : int {
     BOTH,
     LEFT,
     RIGHT
@@ -33,7 +33,7 @@ const constexpr body_part bp_aBodyPart[] = {
     bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
 };
 
-/** Returns the opposite body part (limb on the other side) */
+/** Returns the opposite side. */
 side opposite_side( side s );
 
 // identify the index of a body part's "other half", or itself if not
