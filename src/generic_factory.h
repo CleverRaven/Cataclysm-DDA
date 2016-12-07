@@ -191,10 +191,6 @@ class generic_factory
 
             static const std::string copy_from( "copy-from" );
             if( jo.has_string( copy_from ) ) {
-                if( jo.has_string( "edit-mode" ) ) {
-                    jo.throw_error( "cannot specify both copy-from and edit-mode" );
-                }
-
                 const std::string source = jo.get_string( copy_from );
                 auto base = map.find( string_id<T>( source ) );
 
