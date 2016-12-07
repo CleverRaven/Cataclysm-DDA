@@ -112,6 +112,7 @@ void DynamicDataLoader::load_deferred( deferred_json& data )
             }
             debugmsg( "JSON contains circular dependency. Discarded %i objects:\n%s",
                       data.size(), discarded.str().c_str() );
+            data.clear();
             return; // made no progress on this cycle so abort
         }
     }
