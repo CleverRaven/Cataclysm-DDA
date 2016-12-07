@@ -725,10 +725,17 @@ long visitable<T>::charges_of( const std::string &what, int limit ) const
 template <>
 long visitable<inventory>::charges_of( const std::string &what, int limit ) const
 {
-    long res = 0;
-    for( const auto &stack : static_cast<const inventory *>( this )->items ) {
-        res += stack.size() * charges_of_internal( stack.front(), what, limit );
+    const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
+    const auto iter = binned.find( what );
+    if( iter == binned.end() ) {
+        return 0;
     }
+
+    long res = 0;
+    for( const item *it : iter->second ) {
+        res += charges_of_internal( *it, what, limit );
+    }
+
     return res;
 }
 
@@ -779,11 +786,18 @@ int visitable<T>::amount_of( const std::string& what, bool pseudo, int limit ) c
 template <>
 int visitable<inventory>::amount_of( const std::string& what, bool pseudo, int limit ) const
 {
-    int res = 0;
-    for( const auto &stack : static_cast<const inventory *>( this )->items ) {
-        res += stack.size() * stack.front().amount_of( what, pseudo, limit );
+    const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
+    const auto iter = binned.find( what );
+    if( iter == binned.end() ) {
+        return 0;
     }
-    return std::min( res, limit );
+
+    long res = 0;
+    for( const item *it : iter->second ) {
+        res += it->amount_of( what, pseudo, limit );
+    }
+
+    return res;
 }
 
 template <>
