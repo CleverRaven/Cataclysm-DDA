@@ -189,23 +189,26 @@ class generic_factory
 
             T def;
 
-            if( jo.has_string( "copy-from" ) ) {
+            static const std::string copy_from( "copy-from" );
+            if( jo.has_string( copy_from ) ) {
                 if( jo.has_string( "edit-mode" ) ) {
                     jo.throw_error( "cannot specify both copy-from and edit-mode" );
                 }
 
-                auto base = map.find( string_id<T>( jo.get_string( "copy-from" ) ) );
-                auto ab = abstracts.find( jo.get_string( "copy-from" ) );
+                const std::string source = jo.get_string( copy_from );
+                auto base = map.find( string_id<T>( source ) );
 
                 if( base != map.end() ) {
                     def = obj( base->second );
-
-                } else if( ab != abstracts.end() ) {
-                    def = ab->second;
-
                 } else {
-                    deferred.emplace_back( jo.str(), src );
-                    return;
+                    auto ab = abstracts.find( source );
+
+                    if( ab != abstracts.end() ) {
+                        def = ab->second;
+                    } else {
+                        deferred.emplace_back( jo.str(), src );
+                        return;
+                    }
                 }
 
                 def.was_loaded = true;
