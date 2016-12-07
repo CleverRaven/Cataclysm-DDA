@@ -380,6 +380,11 @@ bool item::covers( const body_part bp ) const
 
 std::bitset<num_bp> item::get_covered_body_parts() const
 {
+    return get_covered_body_parts( get_side() );
+}
+
+std::bitset<num_bp> item::get_covered_body_parts( side s ) const
+{
     std::bitset<num_bp> res;
 
     if( is_gun() ) {
@@ -395,7 +400,14 @@ std::bitset<num_bp> item::get_covered_body_parts() const
 
     res |= armor->covers;
 
-    switch (get_side()) {
+    if( !armor->sided ) {
+        return res; // Just ignore the side.
+    }
+
+    switch( s ) {
+        case BOTH:
+            break;
+
         case LEFT:
             res.reset(bp_arm_r);
             res.reset(bp_hand_r);
@@ -419,8 +431,8 @@ bool item::is_sided() const {
     return t ? t->sided : false;
 }
 
-int item::get_side() const {
-    return get_var("lateral", BOTH);
+side item::get_side() const {
+    return static_cast<side>( get_var( "lateral", BOTH ) );
 }
 
 bool item::set_side (side s) {
@@ -433,6 +445,11 @@ bool item::set_side (side s) {
     }
 
     return true;
+}
+
+bool item::swap_side()
+{
+    return set_side( opposite_side( get_side() ) );
 }
 
 bool item::is_worn_only_with( const item &it ) const
@@ -2349,10 +2366,13 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 std::string item::display_name(unsigned int quantity) const
 {
     std::string name = tname(quantity);
-    std::string side = "";
-    std::string qty  = "";
+    std::string side;
+    std::string qty;
 
     switch (get_side()) {
+        case BOTH:
+            break;
+
         case LEFT:
             side = string_format(" (%s)", _("left"));
             break;

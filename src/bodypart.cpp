@@ -28,6 +28,20 @@ const std::unordered_map<std::string, body_part> &get_body_parts_map()
 }
 } // namespace
 
+side opposite_side( side s )
+{
+    switch( s ) {
+        case BOTH:
+            return BOTH;
+        case LEFT:
+            return RIGHT;
+        case RIGHT:
+            return LEFT;
+    }
+
+    return s;
+}
+
 body_part get_body_part_token( const std::string &id )
 {
     auto &map = get_body_parts_map();

@@ -33,6 +33,9 @@ const constexpr body_part bp_aBodyPart[] = {
     bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
 };
 
+/** Returns the opposite body part (limb on the other side) */
+side opposite_side( side s );
+
 // identify the index of a body part's "other half", or itself if not
 const size_t bp_aiOther[] = {0, 1, 2, 3, 5, 4, 7, 6, 9, 8, 11, 10};
 

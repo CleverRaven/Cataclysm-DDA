@@ -10521,7 +10521,7 @@ bool player::change_side (int pos, bool interactive) {
         return false;
     }
 
-    it->set_side(it->get_side() == LEFT ? RIGHT : LEFT);
+    it->swap_side();
 
     if (interactive) {
         add_msg_if_player(m_info, _("You swap the side on which your %s is worn."), it->tname().c_str());
