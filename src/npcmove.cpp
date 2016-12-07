@@ -3276,9 +3276,9 @@ bool npc::adjust_worn()
         }
 
         if( !covers_broken( elem, elem.get_side() ) ) {
-            if( covers_broken( elem, opposite_side( elem.get_side() ) ) ) {
-                change_side( elem );
-            } else if( takeoff( elem ) ) {
+            const bool needs_change = covers_broken( elem, opposite_side( elem.get_side() ) );
+            // Try to change side (if it makes sense), or takoff.
+            if( ( needs_change && change_side( elem ) ) || takeoff( elem ) ) {
                 return true;
             }
         }
