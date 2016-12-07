@@ -838,12 +838,13 @@ class jmapgen_loot : public jmapgen_piece {
 
     public:
         jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
-        , group( jsi.get_string( "group", std::string() ) )
-        , name( jsi.get_string( "item", std::string() ) )
         , chance( jsi.get_int( "chance", 100 ) )
-        , ammo( jsi.get_int( "ammo", 0 ) )
-        , magazine( jsi.get_int( "magazine", 0 ) )
         {
+            const std::string group = jsi.get_string( "group", std::string() );
+            const std::string name = jsi.get_string( "item", std::string() );
+            const int ammo = jsi.get_int( "ammo", 0 );
+            const int magazine = jsi.get_int( "magazine", 0 );
+
             if( group.empty() == name.empty() ) {
                 jsi.throw_error( "must provide either item or group" );
             }
@@ -859,30 +860,28 @@ class jmapgen_loot : public jmapgen_piece {
             if( magazine < 0 || magazine > 100 ) {
                 jsi.throw_error( "magazine chance out of range", "magazine" );
             }
+
+            // All the probabilities are 100 because we do the roll in @ref apply.
+            Item_group *result = new Item_group( Item_group::Type::G_COLLECTION, 100, ammo, magazine );
+            if( group.empty() ) {
+                result->add_item_entry( name, 100 );
+            } else {
+                result->add_group_entry( group, 100 );
+            }
+            result_group.reset( result );
         }
 
         void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
         {
             if( rng( 0, 99 ) < chance ) {
-                // Probabilities are 100 because we already did the roll in the previous line.
-                Item_group result_group( Item_group::Type::G_COLLECTION, 100, ammo, magazine );
-                if( group.empty() ) {
-                    result_group.add_item_entry( name, 100 );
-                } else {
-                    result_group.add_group_entry( group, 100 );
-                }
-                const Item_spawn_data *poly_group = &result_group; // Needed to invoke polymorphic behavior
-                const std::vector<item> spawn = poly_group->create( calendar::turn.get_turn() );
+                const std::vector<item> spawn = result_group->create( calendar::turn );
                 m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );
             }
         }
 
     private:
-        const std::string group;
-        const std::string name;
+        std::unique_ptr<Item_spawn_data> result_group;
         int chance;
-        const int ammo;
-        const int magazine;
 };
 
 /**
