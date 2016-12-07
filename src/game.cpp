@@ -351,6 +351,11 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
     return !g->game_error();
 }
 
+bool game::is_core_data_loaded() const
+{
+    return DynamicDataLoader::get_instance().is_data_finalized();
+}
+
 void game::load_core_data()
 {
     // core data can be loaded only once and must be first
