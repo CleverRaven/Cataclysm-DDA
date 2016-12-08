@@ -483,7 +483,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * It is supposed to hide the query_yn to simplify player vs. npc code.
          */
-        virtual bool query_yn( const char *mes, ... ) const = 0;
+        virtual bool query_yn( const char *mes, ... ) const PRINTF_LIKE( 2, 3 ) = 0;
 
         bool is_immune_field( const field_id fid ) const override;
 
