@@ -739,7 +739,7 @@ long visitable<inventory>::charges_of( const std::string &what, int limit ) cons
         }
     }
 
-    return res;
+    return std::min<long>( limit, res );
 }
 
 template <>
@@ -800,7 +800,7 @@ int visitable<inventory>::amount_of( const std::string& what, bool pseudo, int l
         res += it->amount_of( what, pseudo, limit );
     }
 
-    return res;
+    return std::min<long>( limit, res );
 }
 
 template <>
