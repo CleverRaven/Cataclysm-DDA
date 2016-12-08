@@ -1951,9 +1951,13 @@
   "difficulty": 6,
   "time": 24000,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ], "tools": [
     [
-      [ "chemistry_set", 50 ]
+      [ "hotplate", 50 ],
+      [ "toolset", 50 ],
+      [ "fire", -1 ]
     ]
   ],
   "components": [
@@ -1971,9 +1975,13 @@
   "difficulty": 6,
   "time": 36000,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":2}
+  ], "tools": [
     [
-      [ "chemistry_set", 50 ]
+      [ "hotplate", 50 ],
+      [ "toolset", 50 ],
+      [ "fire", -1 ]
     ]
   ],
   "components": [
