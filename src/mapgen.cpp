@@ -838,12 +838,11 @@ class jmapgen_loot : public jmapgen_piece {
 
     public:
         jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
+        , result_group( Item_group::Type::G_COLLECTION, 100, jsi.get_int( "ammo", 0 ), jsi.get_int( "magazine", 0 ) )
         , chance( jsi.get_int( "chance", 100 ) )
         {
             const std::string group = jsi.get_string( "group", std::string() );
             const std::string name = jsi.get_string( "item", std::string() );
-            const int ammo = jsi.get_int( "ammo", 0 );
-            const int magazine = jsi.get_int( "magazine", 0 );
 
             if( group.empty() == name.empty() ) {
                 jsi.throw_error( "must provide either item or group" );
@@ -854,33 +853,26 @@ class jmapgen_loot : public jmapgen_piece {
             if( !name.empty() && !item_controller->has_template( name ) ) {
                 jsi.throw_error( "no such item", "item" );
             }
-            if( ammo < 0 || ammo > 100 ) {
-                jsi.throw_error( "ammo chance out of range", "ammo" );
-            }
-            if( magazine < 0 || magazine > 100 ) {
-                jsi.throw_error( "magazine chance out of range", "magazine" );
-            }
 
             // All the probabilities are 100 because we do the roll in @ref apply.
-            Item_group *result = new Item_group( Item_group::Type::G_COLLECTION, 100, ammo, magazine );
             if( group.empty() ) {
-                result->add_item_entry( name, 100 );
+                result_group.add_item_entry( name, 100 );
             } else {
-                result->add_group_entry( group, 100 );
+                result_group.add_group_entry( group, 100 );
             }
-            result_group.reset( result );
         }
 
         void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
         {
             if( rng( 0, 99 ) < chance ) {
-                const std::vector<item> spawn = result_group->create( calendar::turn );
+                const Item_spawn_data *const isd = &result_group;
+                const std::vector<item> spawn = isd->create( calendar::turn );
                 m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );
             }
         }
 
     private:
-        std::unique_ptr<Item_spawn_data> result_group;
+        Item_group result_group;
         int chance;
 };
 
