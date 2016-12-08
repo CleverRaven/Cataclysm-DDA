@@ -1451,7 +1451,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         float max_num = entry.base_num.second + lev * entry.scale_num.second;
         int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
         for( int i = 0; i < roll; i++ ) {
-            const item &it = g->m.add_item( p.pos(), item( entry.drop ) );
+            const item &it = g->m.add_item_or_charges( p.pos(), item( entry.drop ) );
             p.add_msg_if_player( _( "You harvest: %s" ), it.tname().c_str() );
             got_anything = true;
         }
