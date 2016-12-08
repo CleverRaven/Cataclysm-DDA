@@ -1828,7 +1828,6 @@ void veh_interact::display_stats()
     // Write the most damaged part
     int mostDamagedPart = get_most_damaged_part();
     if (mostDamagedPart != -1) {
-        std::string partName;
         mvwprintz(w_stats, y[6], x[6], c_ltgray, _("Most damaged:"));
         const auto iw = utf8_width(_("Most damaged:")) + 1;
         x[6] += iw;
@@ -1842,19 +1841,34 @@ void veh_interact::display_stats()
             y[i] += hoff - 1;
         }
     }
+    int most_repariable = get_most_repariable_part();
+    if(most_repariable != -1){
+        mvwprintz(w_stats, y[7], x[7], c_ltgray, _("Needs repair:"));
+        const auto iw = utf8_width(_("Needs repair:")) + 1;
+        x[7] += iw;
+        w[7] -= iw;
+        const auto &pt = veh->parts[mostDamagedPart];
+        const auto hoff = fold_and_print( w_stats, y[7], x[7], w[7],
+                                          pt.is_broken() ? c_dkgray : pt.base.damage_color(), pt.name() );
+        // If fold_and_print did write on the next line(s), shift the following entries,
+        // hoff == 1 is already implied and expected - one line is consumed at least.
+        for( size_t i = 7; i < sizeof(y) / sizeof(y[0]); ++i) {
+            y[i] += hoff - 1;
+        }
+    }
 
     bool is_boat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
 
-    fold_and_print(w_stats, y[7], x[7], w[7], c_ltgray,
+    fold_and_print(w_stats, y[8], x[8], w[8], c_ltgray,
                    _("K aerodynamics: <color_ltblue>%3d</color>%%"),
                    int(veh->k_aerodynamics() * 100));
-    fold_and_print(w_stats, y[8], x[8], w[8], c_ltgray,
+    fold_and_print(w_stats, y[9], x[9], w[9], c_ltgray,
                    _("K friction:     <color_ltblue>%3d</color>%%"),
                    int(veh->k_friction() * 100));
-    fold_and_print(w_stats, y[9], x[9], w[9], c_ltgray,
+    fold_and_print(w_stats, y[10], x[10], w[10], c_ltgray,
                    _("K mass:         <color_ltblue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
-    fold_and_print( w_stats, y[10], x[10], w[10], c_ltgray,
+    fold_and_print( w_stats, y[11], x[11], w[11], c_ltgray,
                     _("Offroad:        <color_ltblue>%3d</color>%%"),
                     int( veh->k_traction( veh->wheel_area( is_boat ) * 0.5f ) * 100 ) );
 
