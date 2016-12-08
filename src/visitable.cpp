@@ -690,7 +690,7 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
 }
 
 template <typename T>
-static long charges_of_internal( const T& self, const itype_id& id, int limit )
+static long charges_of_internal( const T& self, const itype_id& id, long limit )
 {
     long qty = 0;
 
@@ -713,7 +713,7 @@ static long charges_of_internal( const T& self, const itype_id& id, int limit )
         return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
 
-    return std::min( qty, long( limit ) );
+    return std::min( qty, limit );
 }
 
 template <typename T>
@@ -734,6 +734,9 @@ long visitable<inventory>::charges_of( const std::string &what, int limit ) cons
     long res = 0;
     for( const item *it : iter->second ) {
         res += charges_of_internal( *it, what, limit );
+        if( res >= limit ) {
+            break;
+        }
     }
 
     return res;
