@@ -524,25 +524,35 @@ void butchery_drops_harvest( const mtype &mt, player &p, int age, const std::fun
         const itype *drop = item::find_type( entry.drop );
 
         if( roll <= 0 ) {
-            p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ).c_str() );
+            auto msg = mt.species.count( species_id( "ROBOT" ) ) ?
+                ngettext( "You fail to salvage the %s", "You fail to salvage any %s", entry.max ) :
+                ngettext( "You fail to harvest the %s", "You fail to harvest any %s", entry.max );
+
+            p.add_msg_if_player( m_bad, msg, drop->nname( entry.max ).c_str() );
             continue;
         }
 
+        item obj( drop, age, drop->stackable ? roll : -1 );
+        obj.set_mtype( &mt );
+
         if( drop->phase == LIQUID ) {
-            g->handle_all_liquid( item( drop, age, roll ), 1 );
+            g->handle_all_liquid( obj, 1 );
 
         } else if( drop->stackable ) {
-            g->m.add_item_or_charges( p.pos(), item( drop, age, roll ) );
+            g->m.add_item_or_charges( p.pos(), obj );
 
         } else {
-            item obj( drop, age );
-            obj.set_mtype( &mt );
             for( int i = 0; i != roll; ++i ) {
                 g->m.add_item_or_charges( p.pos(), obj );
             }
         }
 
-        p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ).c_str() );
+        auto msg = mt.species.count( species_id( "ROBOT" ) ) ?
+            ngettext( "You salvage the %s", "You salvage some %s", entry.max ) :
+            ngettext( "You harvest the %s", "You harvest some %s", entry.max );
+
+        p.add_msg_if_player( m_good, msg, drop->nname( roll ).c_str() );
+
         practice++;
     }
 

@@ -553,7 +553,12 @@ void mtype::load( JsonObject &jo, const std::string &src )
         death_drops = item_group::load_item_group( stream, "distribution" );
     }
 
-    assign( jo, "harvest", harvest, strict );
+    if( jo.has_object( "harvest" ) ) {
+        auto hv = jo.get_object( "harvest" );
+        harvest = harvest_list::load( hv, src, string_format( "harvest_inline_mon_%s", id.c_str() ) );
+    } else {
+        assign( jo, "harvest", harvest, strict );
+    }
 
     const typed_flag_reader<decltype( gen.death_map )> death_reader{ gen.death_map, "invalid monster death function" };
     optional( jo, was_loaded, "death_function", dies, death_reader );

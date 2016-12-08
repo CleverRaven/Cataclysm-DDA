@@ -9,9 +9,13 @@ typedef std::string itype_id;
 class JsonObject;
 class harvest_list;
 
+class inventory;
+
 using harvest_id = string_id<harvest_list>;
 
-// Could be reused for butchery
+struct requirement_data;
+using requirement_id = string_id<requirement_data>;
+
 struct harvest_entry {
     itype_id drop = "null";
     std::pair<float, float> base_num = { 1.0f, 1.0f };
@@ -52,6 +56,12 @@ class harvest_list {
             return names_;
         }
 
+        /** What tools or other consumables are required when using this harvest definition? */
+        requirement_data requirements() const;
+
+        /** Check requirements met optionally displaying failures if @param alert is set */
+        bool can_harvest( const inventory &inv, bool alert = true ) const;
+
         std::list<harvest_entry>::const_iterator begin() const;
         std::list<harvest_entry>::const_iterator end() const;
         std::list<harvest_entry>::const_reverse_iterator rbegin() const;
@@ -76,6 +86,7 @@ class harvest_list {
         harvest_id id_;
         std::list<harvest_entry> entries_;
         std::set<std::string> names_;
+        std::vector<std::pair<requirement_id, int>> reqs;
 
         void finalize();
 };
