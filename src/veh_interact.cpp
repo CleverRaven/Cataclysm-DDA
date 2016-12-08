@@ -860,11 +860,14 @@ bool veh_interact::do_repair( std::string &msg )
             return false;
 
         case INVALID_TARGET:
-            if( mostRepairablePart != -1 ) {
-                move_cursor( veh->parts[mostRepairablePart].mount.y + ddy, -( veh->parts[mostRepairablePart].mount.x + ddx ) );
-            } else {
-                msg = _( "There are no damaged parts on this vehicle." );
-                return false;
+            {
+                int most_repariable = get_most_repariable_part();
+                if( most_repariable != -1 ) {
+                    move_cursor( veh->parts[most_repariable].mount.y + ddy, -( veh->parts[most_repariable].mount.x + ddx ) );
+                } else {
+                    msg = _( "There are no damaged parts on this vehicle." );
+                    return false;
+                }
             }
 
         case MOVING_VEHICLE:
@@ -1222,6 +1225,42 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
     werase( w_list );
     wrefresh( w_list );
     return redraw;
+}
+
+
+int veh_interact::get_most_damaged_part() const
+{
+    int high_index = -1;
+    int high_damage = 0;
+
+    for(size_t i=0; i< veh->parts.size(); i++){
+        const auto & part = veh->parts[i];
+        if( part.removed ) continue;
+
+        int dmg = part.base.damage();
+
+        if(dmg > high_damage)
+            high_index = i;
+    }
+    return high_index;
+}
+
+int veh_interact::get_most_repariable_part() const
+{
+    int high_index = -1;
+    int high_damage = 0;
+
+    for(size_t i=0; i< veh->parts.size(); i++){
+        const auto & part = veh->parts[i];
+        if( part.removed ) continue;
+        if(!part.info().is_repairable()) continue;
+
+        int dmg = part.base.damage();
+
+        if(dmg > high_damage)
+            high_index = i;
+    }
+    return high_index;
 }
 
 bool veh_interact::can_remove_part( int idx ) {
@@ -1787,6 +1826,7 @@ void veh_interact::display_stats()
     fold_and_print( w_stats, y[5], x[5], w[5], c_ltgray, wheel_state_description( *veh ).c_str() );
 
     // Write the most damaged part
+    int mostDamagedPart = get_most_damaged_part();
     if (mostDamagedPart != -1) {
         std::string partName;
         mvwprintz(w_stats, y[6], x[6], c_ltgray, _("Most damaged:"));
@@ -2083,24 +2123,6 @@ void veh_interact::countDurability()
     } else {
         totalDurabilityText = _( "destroyed" );
         totalDurabilityColor = c_dkgray;
-    }
-
-    int hi = 0;
-    int hi_rep=0;
-    for( size_t it = 0; it < veh->parts.size(); it++ ) {
-        const auto &pt = veh->parts[it];
-        if( pt.removed ) {
-            continue;
-        }
-        int dmg = pt.base.damage();
-        if( dmg > hi ) {
-            hi = dmg;
-            mostDamagedPart = it;
-        }
-        if( dmg > hi_rep && pt.info().is_repairable()) {
-            hi_rep = dmg;
-            mostRepairablePart = it;
-        }
     }
 }
 
