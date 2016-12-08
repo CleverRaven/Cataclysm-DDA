@@ -132,6 +132,7 @@ inventory inventory::operator+ (const item &rhs)
 void inventory::unsort()
 {
     sorted = false;
+    binned = false;
 }
 
 bool stack_compare(const std::list<item> &lhs, const std::list<item> &rhs)
@@ -148,6 +149,7 @@ void inventory::sort()
 void inventory::clear()
 {
     items.clear();
+    binned = false;
 }
 
 void inventory::add_stack(const std::list<item> newits)
@@ -167,6 +169,7 @@ void inventory::clone_stack (const std::list<item> &rhs)
         newstack.push_back( rh );
     }
     items.push_back(newstack);
+    binned = false;
 }
 
 void inventory::push_back(std::list<item> newits)
@@ -243,6 +246,7 @@ char inventory::find_usable_cached_invlet(const std::string &item_type)
 
 item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
 {
+    binned = false;
     bool reuse_cached_letter = false;
 
     // Avoid letters that have been manually assigned to other things.
@@ -320,6 +324,7 @@ void inventory::restack(player *p)
         return;
     }
 
+    binned = false;
     std::list<item> to_restack;
     int idx = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx) {
@@ -489,6 +494,7 @@ std::list<item> inventory::reduce_stack_internal(const Locator &locator, int qua
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         if (item_matches_locator(iter->front(), locator, pos)) {
+            binned = false;
             if(quantity >= (int)iter->size() || quantity < 0) {
                 ret = *iter;
                 items.erase(iter);
@@ -519,6 +525,7 @@ item inventory::remove_item(const item *it)
 {
     auto tmp = remove_items_with( [&it](const item& i) { return &i == it; }, 1 );
     if( !tmp.empty() ) {
+        binned = false;
         return tmp.front();
     }
     debugmsg("Tried to remove a item not in inventory (name: %s)", it->tname().c_str());
@@ -531,6 +538,7 @@ item inventory::remove_item_internal(const Locator &locator)
     int pos = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         if (item_matches_locator(iter->front(), locator, pos)) {
+            binned = false;
             if (iter->size() > 1) {
                 std::list<item>::iterator stack_member = iter->begin();
                 char invlet = stack_member->invlet;
@@ -581,6 +589,7 @@ std::list<item> inventory::remove_randomly_by_volume( const units::volume &volum
             chosen_item->invlet = result.back().invlet;
         }
         if( chosen_stack->empty() ) {
+            binned = false;
             items.erase( chosen_stack );
         }
     }
@@ -708,6 +717,7 @@ std::list<item> inventory::use_amount(itype_id it, int _quantity)
             }
         }
         if (iter->empty()) {
+            binned = false;
             iter = items.erase(iter);
         } else if (iter != items.end()) {
             ++iter;
@@ -948,4 +958,23 @@ std::set<char> inventory::allocated_invlets() const
         }
     }
     return invlets;
+}
+
+const itype_bin &inventory::get_binned_items() const
+{
+    if( binned ) {
+        return binned_items;
+    }
+
+    binned_items.clear();
+
+    // Hack warning
+    inventory *this_nonconst = const_cast<inventory *>( this );
+    this_nonconst->visit_items( [ this ]( item *e ) {
+        binned_items[ e->typeId() ].push_back( e );
+        return VisitResponse::NEXT;
+    } );
+
+    binned = true;
+    return binned_items;
 }

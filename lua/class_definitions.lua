@@ -766,7 +766,6 @@ classes = {
             { name = "sight_impaired", rval = "bool", args = { } },
             { name = "sight_range", rval = "int", args = { "int" } },
             { name = "skin_name", rval = "string", args = { } },
-            { name = "sleep_hp_regen", rval = nil, args = { "int" } },
             { name = "sleep_spot", rval = "int", args = { "tripoint" } },
             { name = "sort_armor", rval = nil, args = { } },
             { name = "speed_rating", rval = "float", args = { } },
@@ -1901,7 +1900,7 @@ classes = {
             weight = { type = "int", writable = true },
         },
         functions = {
-            { name = "can_use", rval = "bool", args = { "string" } },
+            { name = "can_use", args = { "string" } },
             { name = "charges_default", rval = "int", args = { } },
             { name = "charges_to_use", rval = "int", args = { } },
             { name = "count_by_charges", rval = "bool", args = { } },

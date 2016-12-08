@@ -690,7 +690,7 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
 }
 
 template <typename T>
-static long charges_of_internal( const T& self, const itype_id& id, int limit )
+static long charges_of_internal( const T& self, const itype_id& id, long limit )
 {
     long qty = 0;
 
@@ -713,7 +713,7 @@ static long charges_of_internal( const T& self, const itype_id& id, int limit )
         return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
 
-    return std::min( qty, long( limit ) );
+    return std::min( qty, limit );
 }
 
 template <typename T>
@@ -725,11 +725,21 @@ long visitable<T>::charges_of( const std::string &what, int limit ) const
 template <>
 long visitable<inventory>::charges_of( const std::string &what, int limit ) const
 {
-    long res = 0;
-    for( const auto &stack : static_cast<const inventory *>( this )->items ) {
-        res += stack.size() * charges_of_internal( stack.front(), what, limit );
+    const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
+    const auto iter = binned.find( what );
+    if( iter == binned.end() ) {
+        return 0;
     }
-    return res;
+
+    long res = 0;
+    for( const item *it : iter->second ) {
+        res += charges_of_internal( *it, what, limit );
+        if( res >= limit ) {
+            break;
+        }
+    }
+
+    return std::min<long>( limit, res );
 }
 
 template <>
@@ -779,11 +789,18 @@ int visitable<T>::amount_of( const std::string& what, bool pseudo, int limit ) c
 template <>
 int visitable<inventory>::amount_of( const std::string& what, bool pseudo, int limit ) const
 {
-    int res = 0;
-    for( const auto &stack : static_cast<const inventory *>( this )->items ) {
-        res += stack.size() * stack.front().amount_of( what, pseudo, limit );
+    const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
+    const auto iter = binned.find( what );
+    if( iter == binned.end() ) {
+        return 0;
     }
-    return std::min( res, limit );
+
+    long res = 0;
+    for( const item *it : iter->second ) {
+        res += it->amount_of( what, pseudo, limit );
+    }
+
+    return std::min<long>( limit, res );
 }
 
 template <>

@@ -135,6 +135,10 @@ struct mission_start {
     static void ranch_bartender_3  ( mission *); // Expand Bar
     static void ranch_bartender_4  ( mission *); // Expand Bar
     static void place_book         ( mission *); // Place a book to retrieve
+    static void reveal_weather_station ( mission *); // Find weather logs
+    static void reveal_office_tower( mission *); // Find corporate accounts
+    static void reveal_doctors_office ( mission *); // Find patient records
+    static void reveal_cathedral   ( mission *); // Find relic
 };
 
 struct mission_end { // These functions are run when a mission ends
@@ -168,7 +172,7 @@ struct mission_type {
     int target_npc_id = -1;
     std::string monster_type = "mon_null";
     int monster_kill_goal = -1;
-    oter_id target_id;
+    string_id<oter_t> target_id;
     mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
 
     std::function<bool(const tripoint &)> place = mission_place::always;

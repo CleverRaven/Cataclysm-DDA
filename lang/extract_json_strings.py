@@ -90,7 +90,6 @@ automatically_convertible = {
     "fault",
     "furniture",
     "GENERIC",
-    "GUNMOD",
     "item_action",
     "ITEM_CATEGORY",
     "json_flag",
@@ -257,6 +256,17 @@ def extract_gun(item):
     if "name" in item:
         item_name = item.get("name")
         writestr(outfile, item_name)
+        if "name_plural" in item:
+            if item.get("name_plural") != "none":
+                writestr(outfile, item_name, item.get("name_plural"))
+            else:
+                writestr(outfile, item_name)
+        else:
+            if item.get("type") in needs_plural:
+                # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
+                writestr(outfile, item_name, "{}s".format(item_name))
+            else:
+                writestr(outfile, item_name)
     if "description" in item:
         description = item.get("description")
         writestr(outfile, description)
@@ -264,6 +274,30 @@ def extract_gun(item):
         modes = item.get("modes")
         for fire_mode in modes:
             writestr(outfile, fire_mode[1])
+
+
+def extract_gunmod(item):
+    outfile = get_outfile("gunmod")
+    if "name" in item:
+        item_name = item.get("name")
+        writestr(outfile, item_name)
+        if "name_plural" in item:
+            if item.get("name_plural") != "none":
+                writestr(outfile, item_name, item.get("name_plural"))
+            else:
+                writestr(outfile, item_name)
+        else:
+            if item.get("type") in needs_plural:
+                # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
+                writestr(outfile, item_name, "{}s".format(item_name))
+            else:
+                writestr(outfile, item_name)
+    if "description" in item:
+        description = item.get("description")
+        writestr(outfile, description)
+    if "location" in item:
+        location = item.get("location")
+        writestr(outfile, location)
 
 
 def extract_professions(item):
@@ -475,6 +509,7 @@ def extract_gate(item):
 extract_specials = {
     "effect_type": extract_effect_type,
     "GUN": extract_gun,
+    "GUNMOD": extract_gunmod,
     "mapgen": extract_mapgen,
     "martial_art": extract_martial_art,
     "material": extract_material,

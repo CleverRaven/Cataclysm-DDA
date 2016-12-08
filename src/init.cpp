@@ -209,7 +209,7 @@ void DynamicDataLoader::initialize()
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
     add( "tutorial_messages", &load_tutorial_messages );
-    add( "overmap_terrain", &overmap_terrain::load );
+    add( "overmap_terrain", &overmap_terrains::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
     add( "overmap_special", &overmap_specials::load );
@@ -348,7 +348,7 @@ void DynamicDataLoader::unload_data()
     quality::reset();
     trap::reset();
     reset_constructions();
-    overmap_terrain::reset();
+    overmap_terrains::reset();
     reset_region_settings();
     reset_mapgens();
     reset_effect_types();
@@ -374,9 +374,8 @@ void DynamicDataLoader::finalize_loaded_data()
     vpart_info::finalize();
     set_ter_ids();
     set_furn_ids();
-    set_oter_ids();
     trap::finalize();
-    overmap_terrain::finalize();
+    overmap_terrains::finalize();
     vehicle_prototype::finalize();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
@@ -409,7 +408,7 @@ void DynamicDataLoader::check_consistency()
     scenario::check_definitions();
     check_martialarts();
     mutation_branch::check_consistency();
-    overmap_terrain::check_consistency();
+    overmap_terrains::check_consistency();
     overmap_specials::check_consistency();
     ammunition_type::check_consistency();
     trap::check_consistency();

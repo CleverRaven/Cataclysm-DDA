@@ -152,6 +152,10 @@ static const std::map<std::string, std::function<void(mission *)>> mission_funct
     { "ranch_bartender_3", mission_start::ranch_bartender_3 },
     { "ranch_bartender_4", mission_start::ranch_bartender_4 },
     { "place_book", mission_start::place_book },
+    { "reveal_weather_station", mission_start::reveal_weather_station },
+    { "reveal_office_tower", mission_start::reveal_office_tower },
+    { "reveal_doctors_office", mission_start::reveal_doctors_office },
+    { "reveal_cathedral", mission_start::reveal_cathedral },
     // Endings
     { "leave", mission_end::leave },
     { "thankful", mission_end::thankful },
@@ -294,7 +298,7 @@ void mission_type::load( JsonObject &jo, const std::string & )
     }
 
     if( jo.has_member( "destination" ) ) {
-        target_id = oter_id( jo.get_string( "destination" ) );
+        target_id = string_id<oter_t>( jo.get_string( "destination" ) );
     }
 }
 

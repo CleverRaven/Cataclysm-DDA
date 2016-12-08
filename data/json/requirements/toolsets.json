@@ -18,7 +18,7 @@
     "id": "sewing_standard",
     "type": "requirement",
     "//": "Crafting or repair of fabric items",
-    "tools": [ [ [ "sewing_kit", 1 ], [ "tailors_kit", 1 ], [ "needle_wood", 1 ] ] ]
+    "tools": [ [ [ "sewing_kit", 1 ], [ "tailors_kit", 1 ], [ "needle_bone", 1 ], [ "needle_wood", 1 ] ] ]
   },
   {
     "id": "welding_standard",

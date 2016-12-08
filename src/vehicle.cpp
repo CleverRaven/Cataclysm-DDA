@@ -860,28 +860,33 @@ void vehicle::use_controls( const tripoint &pos )
     }
 
     auto add_toggle = [&]( const std::string &name, char key, const std::string &flag ) {
-        if( has_part( flag ) ) {
-            if( has_part( flag, true ) ) {
-                options.emplace_back( string_format( _( "Turn off %s" ), name.c_str() ), key );
-                actions.push_back( [=]{
-                    for( auto e : get_parts( flag, true ) ) {
-                        add_msg( _( "Turned off %s." ), e->name().c_str() );
-                        e->enabled = false;
-                    }
-                } );
-            } else {
-                options.emplace_back( string_format( _( "Turn on %s" ), name.c_str() ), key );
-                actions.push_back( [=]{
-                    for( auto e : get_parts( flag ) ) {
-                        if( e->enabled ) {
-                            continue;
-                        }
-                        add_msg( _( "Turned on %s." ), e->name().c_str() );
-                        e->enabled = true;
-                    }
-                } );
-            }
+        // fetch matching parts and abort early if none found
+        auto found = get_parts( flag );
+        if( found.empty() ) {
+            return;
         }
+
+        // determine target state - currently parts of similar type are all switched concurrently
+        bool state = std::none_of( found.begin(), found.end(), []( const vehicle_part *e ) {
+            return e->enabled;
+        } );
+
+        // can menu option be selected - if trying to enable check if part currently usable
+        bool allow = !state || std::any_of( found.begin(), found.end(), [&]( const vehicle_part *e ) {
+            return can_enable( *e );
+        } );
+
+        auto msg = string_format( state ? _( "Turn on %s" ) : _( "Turn off %s" ), name.c_str() );
+        options.emplace_back( -1, allow, key, msg );
+
+        actions.push_back( [=]{
+            for( vehicle_part *e : found ) {
+                if( e->enabled != state ) {
+                    add_msg( state ? _( "Turned on %s" ) : _( "Turned off %s." ), e->name().c_str() );
+                    e->enabled = state;
+                }
+            }
+        } );
     };
 
     add_toggle( _( "reactor" ), keybind( "TOGGLE_REACTOR" ), "REACTOR" );
@@ -2891,7 +2896,7 @@ int vehicle::rpm( const vehicle_part &pt ) const
 
 bool vehicle::overspeed( const vehicle_part &pt ) const
 {
-    return pt.is_engine() ? rpm( pt ) > pt.base.type->engine->redline : false;
+    return pt.is_engine() && current_velocity() > safe_velocity(pt);
 }
 
 int vehicle::friction_load() const

@@ -281,6 +281,7 @@
     "difficulty": 2,
     "value": 140000,
     "item": "record_accounting",
+    "start": "reveal_office_tower",
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_GET_SAFE_BOX",
     "dialogue": {
@@ -303,6 +304,7 @@
     "difficulty": 2,
     "value": 60000,
     "item": "record_patient",
+    "start": "reveal_doctors_office",
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_REACH_FEMA_CAMP",
     "dialogue": {
@@ -325,6 +327,7 @@
     "difficulty": 2,
     "value": 50000,
     "item": "record_weather",
+    "start": "reveal_weather_station",
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "dialogue": {
       "describe": "I wonder if a retreat might exist...",
@@ -346,6 +349,7 @@
     "difficulty": 2,
     "value": 100000,
     "item": "small_relic",
+    "start": "reveal_cathedral",
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_RECOVER_PRIEST_DIARY",
     "dialogue": {
