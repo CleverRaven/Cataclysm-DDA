@@ -269,7 +269,7 @@ bool mission::is_complete( const int _npc_id ) const
         case MGOAL_GO_TO_TYPE:
             {
                 const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
-                return cur_ter->get_type_id() == type->target_id;
+                return is_ot_type( type->target_id.str(), cur_ter );
             }
             break;
 
