@@ -179,7 +179,7 @@ enum ter_bitflags : int {
     TFLAG_NO_FLOOR,
     TFLAG_SEEN_FROM_ABOVE,
     TFLAG_RAMP,
-    MON_AVOID,
+    TFLAG_MON_AVOID,
     NUM_TERFLAGS
 };
 
