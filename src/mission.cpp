@@ -76,10 +76,7 @@ void mission::add_existing( const mission &m )
 void mission::process_all()
 {
     for( auto &e : world_missions ) {
-        auto &m = *e.second.get();
-        if( m.deadline > 0 && m.in_progress() && int( calendar::turn ) > m.deadline ) {
-            m.fail();
-        }
+        e.second->process();
     }
 }
 
@@ -409,6 +406,17 @@ bool mission::has_failed() const
 bool mission::in_progress() const
 {
     return status == mission_status::in_progress;
+}
+
+void mission::process()
+{
+    if( !in_progress() ) {
+        return;
+    }
+
+    if( deadline > 0 && calendar::turn.get_turn() > deadline ) {
+        fail();
+    }
 }
 
 int mission::get_npc_id() const

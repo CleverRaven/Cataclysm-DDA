@@ -312,6 +312,8 @@ public:
     bool has_failed() const;
     /** Checks if the mission is started, but not failed and not succeeded. */
     bool in_progress() const;
+    /** Processes this mission. */
+    void process();
 
     // @todo Give topics a string_id
     std::string dialogue_for_topic( const std::string &topic ) const;
