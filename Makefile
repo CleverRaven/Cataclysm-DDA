@@ -839,7 +839,7 @@ endif
 	cp -R data/title $(APPDATADIR)
 ifdef LANGUAGES
 	mkdir -p $(APPRESOURCESDIR)/lang/mo/
-	cp -pR lang/mo/ $(APPRESOURCESDIR)/lang/mo/
+	cp -pR lang/mo/* $(APPRESOURCESDIR)/lang/mo/
 endif
 ifeq ($(LOCALIZE), 1)
 	LIBINTL=$$($(CROSS)otool -L $(APPTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && if [ -f $$LIBINTL ]; then cp $$LIBINTL $(APPRESOURCESDIR)/; fi; \
