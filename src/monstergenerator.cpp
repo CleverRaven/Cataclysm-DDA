@@ -256,81 +256,81 @@ void MonsterGenerator::init_death()
 
 void MonsterGenerator::init_attack()
 {
-    attack_map["NONE"] = &mattack::none;
-    attack_map["ANTQUEEN"] = &mattack::antqueen;
-    attack_map["SHRIEK"] = &mattack::shriek;
-    attack_map["SHRIEK_ALERT"] = &mattack::shriek_alert;
-    attack_map["SHRIEK_STUN"] = &mattack::shriek_stun;
-    attack_map["RATTLE"] = &mattack::rattle;
-    attack_map["HOWL"] = &mattack::howl;
-    attack_map["ACID"] = &mattack::acid;
-    attack_map["ACID_BARF"] = &mattack::acid_barf;
-    attack_map["ACID_ACCURATE"] = &mattack::acid_accurate;
-    attack_map["SHOCKSTORM"] = &mattack::shockstorm;
-    attack_map["PULL_METAL_WEAPON"] = &mattack::pull_metal_weapon;
-    attack_map["BOOMER"] = &mattack::boomer;
-    attack_map["BOOMER_GLOW"] = &mattack::boomer_glow;
-    attack_map["RESURRECT"] = &mattack::resurrect;
-    attack_map["SMASH"] = &mattack::smash;
-    attack_map["SCIENCE"] = &mattack::science;
-    attack_map["GROWPLANTS"] = &mattack::growplants;
-    attack_map["GROW_VINE"] = &mattack::grow_vine;
-    attack_map["VINE"] = &mattack::vine;
-    attack_map["SPIT_SAP"] = &mattack::spit_sap;
-    attack_map["TRIFFID_HEARTBEAT"] = &mattack::triffid_heartbeat;
-    attack_map["FUNGUS"] = &mattack::fungus;
-    attack_map["FUNGUS_HAZE"] = &mattack::fungus_haze;
-    attack_map["FUNGUS_BIG_BLOSSOM"] = &mattack::fungus_big_blossom;
-    attack_map["FUNGUS_INJECT"] = &mattack::fungus_inject;
-    attack_map["FUNGUS_BRISTLE"] = &mattack::fungus_bristle;
-    attack_map["FUNGUS_GROWTH"] = &mattack::fungus_growth;
-    attack_map["FUNGUS_SPROUT"] = &mattack::fungus_sprout;
-    attack_map["FUNGUS_FORTIFY"] = &mattack::fungus_fortify;
-    attack_map["DERMATIK"] = &mattack::dermatik;
-    attack_map["DERMATIK_GROWTH"] = &mattack::dermatik_growth;
-    attack_map["PLANT"] = &mattack::plant;
-    attack_map["DISAPPEAR"] = &mattack::disappear;
-    attack_map["FORMBLOB"] = &mattack::formblob;
-    attack_map["CALLBLOBS"] = &mattack::callblobs;
-    attack_map["JACKSON"] = &mattack::jackson;
-    attack_map["DANCE"] = &mattack::dance;
-    attack_map["DOGTHING"] = &mattack::dogthing;
-    attack_map["TENTACLE"] = &mattack::tentacle;
-    attack_map["GENE_STING"] = &mattack::gene_sting;
-    attack_map["PARA_STING"] = &mattack::para_sting;
-    attack_map["TRIFFID_GROWTH"] = &mattack::triffid_growth;
-    attack_map["STARE"] = &mattack::stare;
-    attack_map["FEAR_PARALYZE"] = &mattack::fear_paralyze;
-    attack_map["PHOTOGRAPH"] = &mattack::photograph;
-    attack_map["TAZER"] = &mattack::tazer;
-    attack_map["SEARCHLIGHT"] = &mattack::searchlight;
-    attack_map["FLAMETHROWER"] = &mattack::flamethrower;
-    attack_map["COPBOT"] = &mattack::copbot;
-    attack_map["CHICKENBOT"] = &mattack::chickenbot;
-    attack_map["MULTI_ROBOT"] = &mattack::multi_robot;
-    attack_map["RATKING"] = &mattack::ratking;
-    attack_map["GENERATOR"] = &mattack::generator;
-    attack_map["UPGRADE"] = &mattack::upgrade;
-    attack_map["BREATHE"] = &mattack::breathe;
-    attack_map["IMPALE"] = &mattack::impale;
-    attack_map["BRANDISH"] = &mattack::brandish;
-    attack_map["FLESH_GOLEM"] = &mattack::flesh_golem;
-    attack_map["LUNGE"] = &mattack::lunge;
-    attack_map["LONGSWIPE"] = &mattack::longswipe;
-    attack_map["PARROT"] = &mattack::parrot;
-    attack_map["DARKMAN"] = &mattack::darkman;
-    attack_map["SLIMESPRING"] = &mattack::slimespring;
-    attack_map["BIO_OP_TAKEDOWN"] = &mattack::bio_op_takedown;
-    attack_map["SUICIDE"] = &mattack::suicide;
-    attack_map["KAMIKAZE"] = &mattack::kamikaze;
-    attack_map["GRENADIER"] = &mattack::grenadier;
-    attack_map["GRENADIER_ELITE"] = &mattack::grenadier_elite;
-    attack_map["RIOTBOT"] = &mattack::riotbot;
-    attack_map["STRETCH_ATTACK"] = &mattack::stretch_attack;
-    attack_map["STRETCH_BITE"] = &mattack::stretch_bite;
-    attack_map["RANGED_PULL"] = &mattack::ranged_pull;
-    attack_map["GRAB"] = &mattack::grab;
-    attack_map["GRAB_DRAG"] = &mattack::grab_drag;
+    add_hardcoded_attack( "NONE", mattack::none );
+    add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
+    add_hardcoded_attack( "SHRIEK", mattack::shriek );
+    add_hardcoded_attack( "SHRIEK_ALERT", mattack::shriek_alert );
+    add_hardcoded_attack( "SHRIEK_STUN", mattack::shriek_stun );
+    add_hardcoded_attack( "RATTLE", mattack::rattle );
+    add_hardcoded_attack( "HOWL", mattack::howl );
+    add_hardcoded_attack( "ACID", mattack::acid );
+    add_hardcoded_attack( "ACID_BARF", mattack::acid_barf );
+    add_hardcoded_attack( "ACID_ACCURATE", mattack::acid_accurate );
+    add_hardcoded_attack( "SHOCKSTORM", mattack::shockstorm );
+    add_hardcoded_attack( "PULL_METAL_WEAPON", mattack::pull_metal_weapon );
+    add_hardcoded_attack( "BOOMER", mattack::boomer );
+    add_hardcoded_attack( "BOOMER_GLOW", mattack::boomer_glow );
+    add_hardcoded_attack( "RESURRECT", mattack::resurrect );
+    add_hardcoded_attack( "SMASH", mattack::smash );
+    add_hardcoded_attack( "SCIENCE", mattack::science );
+    add_hardcoded_attack( "GROWPLANTS", mattack::growplants );
+    add_hardcoded_attack( "GROW_VINE", mattack::grow_vine );
+    add_hardcoded_attack( "VINE", mattack::vine );
+    add_hardcoded_attack( "SPIT_SAP", mattack::spit_sap );
+    add_hardcoded_attack( "TRIFFID_HEARTBEAT", mattack::triffid_heartbeat );
+    add_hardcoded_attack( "FUNGUS", mattack::fungus );
+    add_hardcoded_attack( "FUNGUS_HAZE", mattack::fungus_haze );
+    add_hardcoded_attack( "FUNGUS_BIG_BLOSSOM", mattack::fungus_big_blossom );
+    add_hardcoded_attack( "FUNGUS_INJECT", mattack::fungus_inject );
+    add_hardcoded_attack( "FUNGUS_BRISTLE", mattack::fungus_bristle );
+    add_hardcoded_attack( "FUNGUS_GROWTH", mattack::fungus_growth );
+    add_hardcoded_attack( "FUNGUS_SPROUT", mattack::fungus_sprout );
+    add_hardcoded_attack( "FUNGUS_FORTIFY", mattack::fungus_fortify );
+    add_hardcoded_attack( "DERMATIK", mattack::dermatik );
+    add_hardcoded_attack( "DERMATIK_GROWTH", mattack::dermatik_growth );
+    add_hardcoded_attack( "PLANT", mattack::plant );
+    add_hardcoded_attack( "DISAPPEAR", mattack::disappear );
+    add_hardcoded_attack( "FORMBLOB", mattack::formblob );
+    add_hardcoded_attack( "CALLBLOBS", mattack::callblobs );
+    add_hardcoded_attack( "JACKSON", mattack::jackson );
+    add_hardcoded_attack( "DANCE", mattack::dance );
+    add_hardcoded_attack( "DOGTHING", mattack::dogthing );
+    add_hardcoded_attack( "TENTACLE", mattack::tentacle );
+    add_hardcoded_attack( "GENE_STING", mattack::gene_sting );
+    add_hardcoded_attack( "PARA_STING", mattack::para_sting );
+    add_hardcoded_attack( "TRIFFID_GROWTH", mattack::triffid_growth );
+    add_hardcoded_attack( "STARE", mattack::stare );
+    add_hardcoded_attack( "FEAR_PARALYZE", mattack::fear_paralyze );
+    add_hardcoded_attack( "PHOTOGRAPH", mattack::photograph );
+    add_hardcoded_attack( "TAZER", mattack::tazer );
+    add_hardcoded_attack( "SEARCHLIGHT", mattack::searchlight );
+    add_hardcoded_attack( "FLAMETHROWER", mattack::flamethrower );
+    add_hardcoded_attack( "COPBOT", mattack::copbot );
+    add_hardcoded_attack( "CHICKENBOT", mattack::chickenbot );
+    add_hardcoded_attack( "MULTI_ROBOT", mattack::multi_robot );
+    add_hardcoded_attack( "RATKING", mattack::ratking );
+    add_hardcoded_attack( "GENERATOR", mattack::generator );
+    add_hardcoded_attack( "UPGRADE", mattack::upgrade );
+    add_hardcoded_attack( "BREATHE", mattack::breathe );
+    add_hardcoded_attack( "IMPALE", mattack::impale );
+    add_hardcoded_attack( "BRANDISH", mattack::brandish );
+    add_hardcoded_attack( "FLESH_GOLEM", mattack::flesh_golem );
+    add_hardcoded_attack( "LUNGE", mattack::lunge );
+    add_hardcoded_attack( "LONGSWIPE", mattack::longswipe );
+    add_hardcoded_attack( "PARROT", mattack::parrot );
+    add_hardcoded_attack( "DARKMAN", mattack::darkman );
+    add_hardcoded_attack( "SLIMESPRING", mattack::slimespring );
+    add_hardcoded_attack( "BIO_OP_TAKEDOWN", mattack::bio_op_takedown );
+    add_hardcoded_attack( "SUICIDE", mattack::suicide );
+    add_hardcoded_attack( "KAMIKAZE", mattack::kamikaze );
+    add_hardcoded_attack( "GRENADIER", mattack::grenadier );
+    add_hardcoded_attack( "GRENADIER_ELITE", mattack::grenadier_elite );
+    add_hardcoded_attack( "RIOTBOT", mattack::riotbot );
+    add_hardcoded_attack( "STRETCH_ATTACK", mattack::stretch_attack );
+    add_hardcoded_attack( "STRETCH_BITE", mattack::stretch_bite );
+    add_hardcoded_attack( "RANGED_PULL", mattack::ranged_pull );
+    add_hardcoded_attack( "GRAB", mattack::grab );
+    add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
 }
 
 void MonsterGenerator::init_defense()
@@ -587,17 +587,17 @@ void mtype::load( JsonObject &jo, const std::string &src )
     if( !was_loaded || jo.has_member( "special_attacks" ) ) {
         special_attacks.clear();
         special_attacks_names.clear();
-        add_special_attacks( jo, "special_attacks" );
+        add_special_attacks( jo, "special_attacks", src );
     } else {
         // Note: special_attacks left as is, new attacks are added to it!
         // Note: member name prefixes are compatible with those used by generic_typed_reader
         if( jo.has_object( "extend" ) ) {
             auto tmp = jo.get_object( "extend" );
-            add_special_attacks( tmp, "special_attacks" );
+            add_special_attacks( tmp, "special_attacks", src );
         }
         if( jo.has_object( "delete" ) ) {
             auto tmp = jo.get_object( "delete" );
-            remove_special_attacks( tmp, "special_attacks" );
+            remove_special_attacks( tmp, "special_attacks", src );
         }
     }
 
@@ -672,36 +672,107 @@ m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const
     return flag_map.find( flag )->second;
 }
 
-template<typename mattack_actor_type>
-mtype_special_attack load_actor( JsonObject obj, int cooldown )
+class mattack_hardcoded_wrapper : public mattack_actor
 {
-    std::unique_ptr<mattack_actor_type> actor( new mattack_actor_type() );
-    actor->load( obj );
-    return mtype_special_attack( actor.release(), cooldown );
+    private:
+        mon_action_attack cpp_function;
+    public:
+        mattack_hardcoded_wrapper( const mattack_id &id, const mon_action_attack f )
+            : mattack_actor( id )
+            , cpp_function( f ) { }
+
+        ~mattack_hardcoded_wrapper() override = default;
+        bool call( monster &m ) const override {
+            return ( *cpp_function )( &m );
+        }
+        mattack_actor *clone() const override {
+            return new mattack_hardcoded_wrapper( *this );
+        }
+
+        void load_internal( JsonObject &, const std::string & ) override {}
+};
+
+mtype_special_attack::mtype_special_attack( const mattack_id &id, const mon_action_attack f )
+    : mtype_special_attack( new mattack_hardcoded_wrapper( id, f ) ) {}
+
+
+void MonsterGenerator::add_hardcoded_attack( const std::string &type, const mon_action_attack f ) {
+    attack_map.emplace( type, mtype_special_attack( type, f ) );
 }
 
-void mtype::add_special_attack( JsonObject obj )
-{
-    const std::string type = obj.get_string( "type" );
-    const int cooldown = obj.get_int( "cooldown" );
+void MonsterGenerator::add_attack( mattack_actor *ptr ) {
+    add_attack( mtype_special_attack( ptr ) );
+}
 
-    if( type == "leap" ) {
-        special_attacks[type] = load_actor<leap_actor>( obj, cooldown );
+void MonsterGenerator::add_attack( const mtype_special_attack &wrapper ) {
+    attack_map.emplace( wrapper->id, wrapper );
+}
+
+mtype_special_attack MonsterGenerator::create_actor( JsonObject obj, const std::string &src ) const
+{
+    // For shorthand notation, so that you can specify just the id
+    const std::string type = obj.get_string( "type", "monster_attack" );
+    const std::string id = obj.get_string( "id", type );
+
+    mattack_actor *new_attack = nullptr;
+    if( type == "monster_attack" ) {
+        const auto &iter = attack_map.find( id );
+        if( iter == attack_map.end() ) {
+            obj.throw_error( "Monster attacks must specify type and/or id", "type" );
+        }
+
+        new_attack = iter->second->clone();
+    } else if( type == "leap" ) {
+        new_attack = new leap_actor();
     } else if( type == "melee" ) {
-        special_attacks[type] = load_actor<melee_actor>( obj, cooldown );
+        new_attack = new melee_actor();
     } else if( type == "bite" ) {
-        special_attacks[type] = load_actor<bite_actor>( obj, cooldown );
+        new_attack = new bite_actor();
     } else if( type == "gun" ) {
-        special_attacks[type] = load_actor<gun_actor>( obj, cooldown );
+        new_attack = new gun_actor();
     } else {
         obj.throw_error( "unknown monster attack", "type" );
-        return;
     }
 
-    special_attacks_names.push_back( type );
+    new_attack->load( obj, src );
+    return mtype_special_attack( new_attack );
 }
 
-void mtype::add_special_attack( JsonArray inner )
+void mattack_actor::load( JsonObject &jo, const std::string &src )
+{
+    bool strict = src == "core";
+
+    // Legacy support
+    if( jo.has_string( "id" ) ) {
+        id = jo.get_string( "type" );
+    } else {
+        assign( jo, "id", id, strict );
+    }
+
+    assign( jo, "cooldown", cooldown, strict );
+
+    load_internal( jo, src );
+}
+
+void MonsterGenerator::load_monster_attack( JsonObject &jo, const std::string &src )
+{
+    add_attack( create_actor( jo, src ) );
+}
+
+void mtype::add_special_attack( JsonObject obj, const std::string &src )
+{
+    mtype_special_attack new_attack = MonsterGenerator::generator().create_actor( obj, src );
+
+    if( special_attacks.count( new_attack->id ) > 0 ) {
+        debugmsg( "%s specifies more than one attack of (sub)type %s, ignoring all but the first",
+                  id.c_str(), new_attack->id.c_str() );
+    } else {
+        special_attacks.emplace( new_attack->id, new_attack );
+        special_attacks_names.push_back( new_attack->id );
+    }
+}
+
+void mtype::add_special_attack( JsonArray inner, const std::string & )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
     const std::string name = inner.get_string( 0 );
@@ -709,11 +780,13 @@ void mtype::add_special_attack( JsonArray inner )
     if( iter == gen.attack_map.end() ) {
         inner.throw_error( "Invalid special_attacks" );
     }
-    special_attacks[name] = mtype_special_attack( iter->second, inner.get_int( 1 ) );
+    special_attacks.emplace( name, mtype_special_attack( iter->second ) );
+    // @tood Less ugly
+    special_attacks.find( name )->second.actor->cooldown = inner.get_int( 1 );
     special_attacks_names.push_back( name );
 }
 
-void mtype::add_special_attacks( JsonObject &jo, const std::string &member ) {
+void mtype::add_special_attacks( JsonObject &jo, const std::string &member, const std::string &src ) {
 
     if( !jo.has_array( member ) ) {
         return;
@@ -722,16 +795,16 @@ void mtype::add_special_attacks( JsonObject &jo, const std::string &member ) {
     JsonArray outer = jo.get_array(member);
     while( outer.has_more() ) {
         if( outer.test_array() ) {
-            add_special_attack( outer.next_array() );
+            add_special_attack( outer.next_array(), src );
         } else if( outer.test_object() ) {
-            add_special_attack( outer.next_object() );
+            add_special_attack( outer.next_object(), src );
         } else {
             outer.throw_error( "array element is neither array nor object." );
         }
     }
 }
 
-void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_name )
+void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_name, const std::string & )
 {
     for( const std::string &name : jo.get_tags( member_name ) ) {
         special_attacks.erase( name );

@@ -9,6 +9,7 @@
 #include "string_id.h"
 #include "damage.h"
 #include "pathfinding.h"
+#include "mattack_common.h"
 
 #include <bitset>
 #include <string>
@@ -171,69 +172,6 @@ struct mon_effect_data
                     id(nid), duration(dur), affect_hit_bp(ahbp), bp(nbp), permanent(perm), chance(nchance) {};
 };
 
-class mattack_actor {
-protected:
-    mattack_actor() { }
-public:
-    virtual ~mattack_actor() { }
-    virtual bool call( monster & ) const = 0;
-    virtual mattack_actor *clone() const = 0;
-};
-
-struct mtype_special_attack {
-protected:
-    enum attack_function_t : int {
-        ATTACK_NONE,
-        ATTACK_CPP,
-        ATTACK_ACTOR_PTR
-    };
-
-    attack_function_t function_type;
-
-    union {
-        mon_action_attack cpp_function;
-        mattack_actor *actor_ptr;
-    };
-
-    int cooldown;
-
-public:
-    mtype_special_attack( int cool = 0 )
-        : function_type(ATTACK_NONE), cooldown( cool )
-    { }
-
-    mtype_special_attack( mon_action_attack f, int cool )
-        : function_type(ATTACK_CPP), cpp_function(f), cooldown(cool)
-    { }
-
-    mtype_special_attack( mattack_actor *f, int cool )
-        : function_type(ATTACK_ACTOR_PTR), actor_ptr(f), cooldown(cool)
-    { }
-
-    mtype_special_attack( const mtype_special_attack &other );
-
-    ~mtype_special_attack();
-
-    void operator=( const mtype_special_attack &other );
-
-    bool call( monster & ) const;
-
-    int get_cooldown() const
-    {
-        return cooldown;
-    }
-
-    void set_cooldown( int i );
-
-    const mattack_actor *get_actor_ptr() const
-    {
-        if( function_type != ATTACK_ACTOR_PTR ) {
-            return nullptr;
-        }
-        return actor_ptr;
-    }
-};
-
 struct mtype {
     private:
         friend class MonsterGenerator;
@@ -242,11 +180,11 @@ struct mtype {
 
         std::set< const species_type* > species_ptrs;
 
-        void add_special_attacks( JsonObject &jo, const std::string &member_name );
-        void remove_special_attacks( JsonObject &jo, const std::string &member_name );
+        void add_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
+        void remove_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
 
-        void add_special_attack( JsonArray jarr );
-        void add_special_attack( JsonObject jo );
+        void add_special_attack( JsonArray jarr, const std::string &src );
+        void add_special_attack( JsonObject jo, const std::string &src );
 
     public:
         mtype_id id;

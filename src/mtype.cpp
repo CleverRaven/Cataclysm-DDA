@@ -204,17 +204,6 @@ int mtype::get_meat_chunks_count() const
     return 0;
 }
 
-bool mtype_special_attack::call( monster &mon ) const
-{
-    if( function_type == ATTACK_CPP ) {
-        return cpp_function( &mon );
-    } else if( function_type == ATTACK_ACTOR_PTR ) {
-        return actor_ptr->call( mon );
-    }
-
-    return false;
-}
-
 mtype_special_attack::~mtype_special_attack()
 {
     if( function_type == ATTACK_ACTOR_PTR ) {

@@ -4,6 +4,7 @@
 #include "mtype.h"
 #include "damage.h"
 #include "weighted_list.h"
+#include "mattack_common.h"
 #include <tuple>
 #include <vector>
 #include <map>
@@ -28,7 +29,7 @@ class leap_actor : public mattack_actor
         leap_actor() { }
         ~leap_actor() override { }
 
-        void load( JsonObject &jo );
+        void load_internal( JsonObject &jo, const std::string &src ) override;
         bool call( monster & ) const override;
         mattack_actor *clone() const override;
 };
@@ -78,7 +79,7 @@ class melee_actor : public mattack_actor
         virtual Creature *find_target( monster &z ) const;
         virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;
 
-        void load( JsonObject &jo );
+        void load_internal( JsonObject &jo, const std::string &src ) override;
         bool call( monster & ) const override;
         mattack_actor *clone() const override;
 };
@@ -95,7 +96,7 @@ class bite_actor : public melee_actor
 
         void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const override;
 
-        void load( JsonObject &jo );
+        void load_internal( JsonObject &jo, const std::string &src ) override;
         mattack_actor *clone() const override;
 };
 
@@ -160,7 +161,7 @@ class gun_actor : public mattack_actor
         gun_actor();
         ~gun_actor() override { }
 
-        void load( JsonObject &jo );
+        void load_internal( JsonObject &jo, const std::string &src ) override;
         bool call( monster & ) const override;
         mattack_actor *clone() const override;
 };
