@@ -86,10 +86,16 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" ) {
     options.get_option( "VEHICLES_CONTROLLED" ).setValue( "true" );
     REQUIRE( get_option<bool>( "VEHICLES_CONTROLLED" ) );
 
-    SECTION( "car" ) {
+    SECTION( "Car on pavement" ) {
         test_efficiency( vproto_id( "car" ), ter_id( "t_pavement" ), -1, 300, 500 );
+    }
+    SECTION( "Car on dirt" ) {
         test_efficiency( vproto_id( "car" ), ter_id( "t_dirt" ), -1, 150, 250 );
+    }
+    SECTION( "Car on pavement, full stop every 5 turns" ) {
         test_efficiency( vproto_id( "car" ), ter_id( "t_pavement" ), 5, 150, 250 );
+    }
+    SECTION( "Car on dirt, full stop every 5 turns" ) {
         test_efficiency( vproto_id( "car" ), ter_id( "t_dirt" ), 5, 100, 200 );
     }
 }
