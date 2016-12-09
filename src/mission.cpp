@@ -416,6 +416,8 @@ void mission::process()
 
     if( deadline > 0 && calendar::turn.get_turn() > deadline ) {
         fail();
+    } else if( npc_id < 0 && is_complete( npc_id ) ) { // No quest giver.
+        wrap_up();
     }
 }
 
