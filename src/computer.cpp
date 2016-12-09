@@ -22,6 +22,7 @@
 
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );
