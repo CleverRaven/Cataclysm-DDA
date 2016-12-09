@@ -13797,8 +13797,10 @@ void player::on_mission_finished( mission &mission )
 {
     if( mission.has_failed() ) {
         failed_missions.push_back( &mission );
+        add_msg_if_player( m_bad, _( "Mission \"%s\" is failed." ), mission.name().c_str() );
     } else {
         completed_missions.push_back( &mission );
+        add_msg_if_player( m_good, _( "Mission \"%s\" is successfully completed." ), mission.name().c_str() );
     }
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &mission );
     if( iter == active_missions.end() ) {
