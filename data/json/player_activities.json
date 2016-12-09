@@ -1,0 +1,304 @@
+[
+  {
+    "id": "ACT_RELOAD",
+    "type": "activity_type",
+    "stop_phrase": "Stop reloading?",
+    "abortable": false,
+    "suspendable": false,
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_READ",
+    "type": "activity_type",
+    "stop_phrase": "Stop reading?",
+    "rooted": true,
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_GAME",
+    "type": "activity_type",
+    "stop_phrase": "Stop playing?",
+    "abortable": false,
+    "rooted": true,
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_WAIT",
+    "type": "activity_type",
+    "stop_phrase": "Stop waiting?",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_CRAFT",
+    "type": "activity_type",
+    "stop_phrase": "Stop crafting?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_LONGCRAFT",
+    "type": "activity_type",
+    "stop_phrase": "Stop crafting?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_DISASSEMBLE",
+    "type": "activity_type",
+    "stop_phrase": "Stop disassembly?",
+    "suspendable": false,
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_BUTCHER",
+    "type": "activity_type",
+    "stop_phrase": "Stop butchering?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_LONGSALVAGE",
+    "type": "activity_type",
+    "stop_phrase": "Stop salvaging?",
+    "abortable": false,
+    "based_on": "speed",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_FORAGE",
+    "type": "activity_type",
+    "stop_phrase": "Stop foraging?",
+    "abortable": false,
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_BUILD",
+    "type": "activity_type",
+    "stop_phrase": "Stop construction?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_VEHICLE",
+    "type": "activity_type",
+    "stop_phrase": "Stop interacting with the vehicle?",
+    "abortable": false,
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_TRAIN",
+    "type": "activity_type",
+    "stop_phrase": "Stop training?",
+    "abortable": false,
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_WAIT_WEATHER",
+    "type": "activity_type",
+    "stop_phrase": "Stop waiting?",
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_FIRSTAID",
+    "type": "activity_type",
+    "stop_phrase": "Stop using first aid?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_FISH",
+    "type": "activity_type",
+    "stop_phrase": "Stop fishing?",
+    "abortable": false,
+    "rooted": true,
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_PICKAXE",
+    "type": "activity_type",
+    "stop_phrase": "Stop mining?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_BURROW",
+    "type": "activity_type",
+    "stop_phrase": "Stop burrowing?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_PULP",
+    "type": "activity_type",
+    "stop_phrase": "Stop smashing?",
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_VIBE",
+    "type": "activity_type",
+    "stop_phrase": "Stop de-stressing?",
+    "abortable": false,
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_MAKE_ZLAVE",
+    "type": "activity_type",
+    "stop_phrase": "Stop cutting tissues?",
+    "suspendable": false,
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_DROP",
+    "type": "activity_type",
+    "stop_phrase": "Stop dropping?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_STASH",
+    "type": "activity_type",
+    "stop_phrase": "Stop stashing?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_PICKUP",
+    "type": "activity_type",
+    "stop_phrase": "Stop picking up?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_MOVE_ITEMS",
+    "type": "activity_type",
+    "stop_phrase": "Stop moving items?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_ADV_INVENTORY",
+    "type": "activity_type",
+    "stop_phrase": "Stop interacting with inventory?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_ARMOR_LAYERS",
+    "type": "activity_type",
+    "stop_phrase": "Stop fiddling with your clothes?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_START_FIRE",
+    "type": "activity_type",
+    "stop_phrase": "Stop lighting the fire?",
+    "rooted": true,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_OPEN_GATE",
+    "type": "activity_type",
+    "stop_phrase": "Stop working the winch?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_FILL_LIQUID",
+    "type": "activity_type",
+    "stop_phrase": "Stop filling the container?",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_HOTWIRE_CAR",
+    "type": "activity_type",
+    "stop_phrase": "Stop hotwiring the vehicle?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_AIM",
+    "type": "activity_type",
+    "stop_phrase": "Stop aiming?",
+    "abortable": false,
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_ATM",
+    "type": "activity_type",
+    "stop_phrase": "Stop using the ATM?",
+    "abortable": false,
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_START_ENGINES",
+    "type": "activity_type",
+    "stop_phrase": "Stop trying to start the vehicle?",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_OXYTORCH",
+    "type": "activity_type",
+    "stop_phrase": "Stop welding?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_CRACKING",
+    "type": "activity_type",
+    "stop_phrase": "Stop cracking?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_REPAIR_ITEM",
+    "type": "activity_type",
+    "stop_phrase": "Stop repairing?",
+    "based_on": "neither"
+  },
+  {
+    "id": "ACT_MEND_ITEM",
+    "type": "activity_type",
+    "stop_phrase": "Stop mending?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_GUNMOD_ADD",
+    "type": "activity_type",
+    "stop_phrase": "Stop modifying gun?",
+    "suspendable": false,
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_WAIT_NPC",
+    "type": "activity_type",
+    "stop_phrase": "Stop interacting with the NPC?",
+    "abortable": false,
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_CLEAR_RUBBLE",
+    "type": "activity_type",
+    "stop_phrase": "Stop clearing that rubble?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_MEDITATE",
+    "type": "activity_type",
+    "stop_phrase": "Stop meditating?",
+    "rooted": true,
+    "based_on": "speed"
+  }
+]

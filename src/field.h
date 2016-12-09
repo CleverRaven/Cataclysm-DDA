@@ -48,6 +48,9 @@ struct field_t {
 
     /** Does it penetrate obstacles like gas, spread like liquid or just lie there like solid? */
     phase_id phase;
+
+    /** Should it decay with out-of-bubble time too? */
+    bool accelerated_decay;
 };
 
 //The master list of id's for a field, corresponding to the fieldlist array.
@@ -160,6 +163,11 @@ public:
     //Allows you to modify the age of the current field entry.
     int setFieldAge(const int new_age);
 
+    /** Adds a number to current age. */
+    int mod_age( int mod ) {
+        return setFieldAge( getFieldAge() + mod );
+    }
+
     //Returns if the current field is dangerous or not.
     bool is_dangerous() const
     {
@@ -176,6 +184,11 @@ public:
     //Returns true if this is an active field, false if it should be removed.
     bool isAlive(){
         return is_alive;
+    }
+
+    bool decays_on_actualize() const
+    {
+        return fieldlist[type].accelerated_decay;
     }
 
 private:

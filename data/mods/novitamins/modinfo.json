@@ -1,13 +1,12 @@
 [
   {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "novitamins",
-    "name": "Simplified nutrition",
-    "author": "Mugling",
+    "name": "Simplified Nutrition",
+    "authors": [ "mugling" ],
     "description": "Disables vitamin requirements.",
     "category": "rebalance",
-    "path": "modinfo.json"
+    "dependencies": [ "dda" ]
   },
   {
     "type": "WORLD_OPTION",

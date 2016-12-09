@@ -1,10 +1,5 @@
 [
     {
-        "type" : "ITEM_CATEGORY",
-        "id" : "veh_parts",
-        "name" : "VEHICLE PARTS",
-        "sort_rank" : 10
-    },{
         "type":"GENERIC",
         "id" : "foldframe",
         "name" : "foldable-light frame",
@@ -45,7 +40,7 @@
         "to_hit" : -3,
         "color" : "light_gray",
         "symbol" : "]",
-        "material" : ["steel"],
+        "material" : ["aluminum"],
         "techniques" : ["DEF_DISARM"],
         "volume" : 40,
         "bashing" : 15,
@@ -241,7 +236,7 @@
         "price" : 40000
     },
     {
-        "type":"GENERIC",
+        "type": "ENGINE",
         "id" : "motor",
         "name" : "electric motor",
         "description" : "A powerful electric motor.  Useful for crafting.",
@@ -252,10 +247,12 @@
         "volume" : 6,
         "bashing" : 4,
         "category" : "veh_parts",
-        "price" : 12000
+        "price" : 12000,
+        "fuel": "battery",
+        "power": 50000
     },
     {
-        "type":"GENERIC",
+        "type": "ENGINE",
         "id" : "motor_enhanced",
         "name" : "enhanced electric motor",
         "description" : "A very powerful and yet lightweight electric motor.  Useful for crafting.",
@@ -266,10 +263,12 @@
         "volume" : 12,
         "bashing" : 4,
         "category" : "veh_parts",
-        "price" : 68000
+        "price" : 68000,
+        "fuel": "battery",
+        "power": 375000
     },
     {
-        "type":"GENERIC",
+        "type": "ENGINE",
         "id" : "motor_large",
         "name" : "large electric motor",
         "description" : "A large and very powerful electric motor.  Useful for crafting.",
@@ -281,10 +280,12 @@
         "volume" : 15,
         "bashing" : 9,
         "category" : "veh_parts",
-        "price" : 22000
+        "price" : 22000,
+        "fuel": "battery",
+        "power": 300000
     },
     {
-        "type":"GENERIC",
+        "type": "ENGINE",
         "id" : "motor_small",
         "name" : "small electric motor",
         "description" : "A small electric motor.  Useful for crafting.",
@@ -295,25 +296,12 @@
         "volume" : 1,
         "bashing" : 1,
         "category" : "veh_parts",
-        "price" : 2000
+        "price" : 2000,
+        "fuel": "battery",
+        "power": 2000
     },
     {
-        "type":"GENERIC",
-        "id" : "plasma_engine",
-        "name" : "plasma engine",
-        "description" : "High technology engine, working on hydrogen fuel.",
-        "weight" : 39689,
-        "to_hit" : -2,
-        "color" : "light_cyan",
-        "symbol" : ":",
-        "material" : ["superalloy", "steel"],
-        "volume" : 12,
-        "bashing" : 7,
-        "category" : "veh_parts",
-        "price" : 90000
-    },
-    {
-        "type":"GENERIC",
+        "type": "ENGINE",
         "id" : "foot_crank",
         "name" : "foot crank",
         "description" : "The pedal and gear assembly from a bicycle.",
@@ -326,10 +314,12 @@
         "bashing" : 8,
         "cutting" : 2,
         "category" : "veh_parts",
-        "price" : 9000
+        "price" : 9000,
+        "power": 250,
+        "flags": [ "MANUAL_ENGINE" ]
     },
     {
-        "type":"GENERIC",
+        "type": "ENGINE",
         "id" : "hand_rims",
         "name" : "set of hand rims",
         "name_plural" : "sets of hand rims",
@@ -342,12 +332,14 @@
         "volume" : 2,
         "bashing" : 10,
         "category" : "veh_parts",
-        "price" : 9000
+        "price" : 9000,
+        "power": 150,
+        "flags": [ "MANUAL_ENGINE" ]
     },
     {
         "type":"GENERIC",
         "id" : "headlight_reinforced",
-        "name" : "reinforced head light",
+        "name" : "reinforced headlight",
         "description" : "A vehicle headlight with a cage built around it to protect it from damage without reducing it's effectiveness.",
         "weight" : 1200,
         "to_hit" : -2,
@@ -583,7 +575,6 @@
         "symbol" : ",",
         "material" : ["superalloy"],
         "volume" : 2,
-        "bashing" : -2,
         "category" : "veh_parts",
         "price" : 8500
     },

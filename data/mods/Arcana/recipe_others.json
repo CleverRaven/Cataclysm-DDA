@@ -104,7 +104,7 @@
   "time": 1000,
   "flags": ["BLIND_HARD"],
   "book_learn": [[ "book_sacrifice", 1 ], [ "book_bloodmagic", 2 ]],
-  "byproducts": { "id" : "essence_blood", "amount" : 3 },
+  "byproducts": [ [ "essence_blood", 3 ] ],
   "tools": [
     [
       [ "book_sacrifice", -1 ],

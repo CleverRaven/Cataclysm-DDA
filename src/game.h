@@ -18,18 +18,18 @@
 extern const int savegame_version;
 extern int save_loading_version;
 
+extern bool test_mode;
+
 // The reference to the one and only game instance.
 class game;
 extern game *g;
-
-#ifdef TILES
-extern void try_sdl_update();
-#endif // TILES
 
 extern bool trigdist;
 extern bool use_tiles;
 extern bool fov_3d;
 extern bool tile_iso;
+
+extern const int core_version;
 
 extern const int savegame_version;
 extern int savegame_loading_version;
@@ -53,7 +53,6 @@ enum input_ret {
 
 enum quit_status {
     QUIT_NO = 0,    // Still playing
-    QUIT_MENU,      // Quit at the menu
     QUIT_SUICIDE,   // Quit with 'Q'
     QUIT_SAVED,     // Saved and quit
     QUIT_DIED,      // Actual death
@@ -75,12 +74,12 @@ enum target_mode {
     TARGET_MODE_REACH
 };
 
-enum activity_type : int;
 enum body_part : int;
 enum weather_type : int;
 enum action_id : int;
 
 struct special_game;
+struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
 using itype_id = std::string;
@@ -127,27 +126,44 @@ typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 
 typedef std::function<bool( const item & )> item_filter;
-typedef std::function<bool( const item_location & )> item_location_filter;
 
 class game
 {
         friend class editmap;
         friend class advanced_inventory;
+        friend class main_menu;
     public:
         game();
         ~game();
 
         /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
-        /** Loads core data and all mods. */
-        void check_all_mod_data();
-        /** Loads core dynamic data. */
+
+        /** Loads core dynamic data. May throw. */
         void load_core_data();
-    protected:
-        /** Loads dynamic data from the given directory. */
-        void load_data_from_dir( const std::string &path, const std::string &src );
-        /** Loads core data and mods from the given world. */
+
+        /**
+         *  Check if mods can be sucessfully loaded
+         *  @param opts check specific mods (or all if unspecified)
+         *  @return whether all mods were successfully loaded
+         */
+        bool check_mod_data( const std::vector<std::string> &opts );
+
+        /** Loads core data and mods from the given world. May throw. */
         void load_world_modfiles(WORLDPTR world);
+
+        /**
+         *  Load content packs
+         *  @param msg string to display whilst loading prompt
+         *  @param packs content packs to load in correct dependent order
+         *  @return true if all packs were found, false if any were missing
+         */
+        bool load_packs( const std::string &msg, const std::vector<std::string>& packs );
+
+    protected:
+        /** Loads dynamic data from the given directory. May throw. */
+        void load_data_from_dir( const std::string &path, const std::string &src );
+
 
         // May be a bit hacky, but it's probably better than the header spaghetti
         std::unique_ptr<map> map_ptr;
@@ -160,8 +176,6 @@ class game
         /** Initializes the UI. */
         void init_ui();
         void setup();
-        /** Returns true if we actually quit the game. Used in main.cpp. */
-        bool game_quit();
         /** Returns true if the game quits through some error. */
         bool game_error();
         /** True if the game has just started or loaded, else false. */
@@ -175,8 +189,8 @@ class game
         void unserialize_master(std::istream &fin);  // for load
         bool unserialize_master_legacy(std::istream &fin);  // for old load
 
-        /** write stats of all loaded items of the given type to stdout */
-        void dump_stats( const std::string& what, dump_mode mode );
+        /** write statisics to stdout and @return true if sucessful */
+        bool dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts );
 
         /** Returns false if saving failed. */
         bool save();
@@ -259,10 +273,6 @@ class game
         void vertical_notes( int z_before, int z_after );
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
         void use_computer( const tripoint &p );
-        /** Attempts to refill the give vehicle's part with the player's current weapon. Returns true if successful. */
-        bool refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test = false);
-        /** Identical to refill_vehicle_part(veh, &veh.parts[part], test). */
-        bool pl_refill_vehicle (vehicle &veh, int part, bool test = false);
         /** Triggers a resonance cascade at p. */
         void resonance_cascade( const tripoint &p );
         /** Triggers a scrambler blast at p. */
@@ -323,23 +333,34 @@ class game
          *  Handles interactive parts of gun firing (target selection, etc.).
          *  @return whether an attack was actually performed
          */
-        bool plfire( const tripoint &default_target = tripoint_min );
+        bool plfire();
 
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also
          *  returns a Bresenham line to that square.  It is called by plfire(),
          *  throw() and vehicle::aim_turrets() */
-        std::vector<tripoint> target( tripoint &p, const tripoint &low, const tripoint &high,
-                                      std::vector<Creature *> t, int &target,
-                                      item *relevant, target_mode mode,
-                                      const tripoint &from = tripoint_min );
+        std::vector<tripoint> target( tripoint src, tripoint dst, int range,
+                                      std::vector<Creature *> t, int target,
+                                      item *relevant, target_mode mode );
+
         /**
-         * Interface to target(), collects a list of targets & selects default target
-         * finally calls target() and returns its result.
-         * Used by vehicle::manual_fire_turret()
+         * Targetting UI callback is passed the item being targeted (if any)
+         * and should return pointer to effective ammo data (if any)
          */
-        std::vector<tripoint> pl_target_ui( tripoint &p, int range, item *relevant, target_mode mode,
-                                            const tripoint &default_target = tripoint_min );
+        using target_callback = std::function<const itype *(item *obj)>;
+
+        /**
+         *  Prompts for target and returns trajectory to it
+         *  @param relevant active item (if any)
+         *  @param ammo effective ammo data (derived from @param relevant if unspecified)
+         *  @param on_mode_change callback when user attempts changing firing mode
+         *  @param on_ammo_change callback when user attempts changing ammo
+         */
+        std::vector<tripoint> pl_target_ui( target_mode mode, item *relevant, int range,
+                                            const itype *ammo = nullptr,
+                                            const target_callback &on_mode_change = target_callback(),
+                                            const target_callback &on_ammo_change = target_callback() );
+
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
@@ -400,7 +421,7 @@ class game
         void refresh_all();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        void update_map(player *p);
+        void update_map( player &p );
         void update_map(int &x, int &y);
         void update_overmap_seen(); // Update which overmap tiles we can see
 
@@ -439,20 +460,11 @@ class game
         std::string list_item_upvote;
         std::string list_item_downvote;
 
-        item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
-
-        void interactive_inv();
-
+        // @todo Move these functions to game_menus::inv and isolate them.
         int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
-        int inv_for_filter( const std::string &title, item_location_filter filter, const std::string &none_message = "" );
-
         int inv_for_all( const std::string &title, const std::string &none_message = "" );
-        int inv_for_activatables( const player &p, const std::string &title );
         int inv_for_flag( const std::string &flag, const std::string &title );
         int inv_for_id( const itype_id &id, const std::string &title );
-        int inv_for_tools_powered_by( const ammotype &battery_id, const std::string &title );
-        int inv_for_equipped( const std::string &title );
-        int inv_for_unequipped( const std::string &title );
 
         enum inventory_item_menu_positon {
             RIGHT_TERMINAL_EDGE,
@@ -462,13 +474,9 @@ class game
         };
         int inventory_item_menu(int pos, int startx = 0, int width = 50, inventory_item_menu_positon position = RIGHT_OF_INFO);
 
+        /** Custom-filtered menu for inventory items and those that are nearby (within @ref radius). */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
-        item_location inv_map_splice( item_location_filter filter, const std::string &title, int radius = 0,
-                                      const std::string &none_message = "" );
-
-        // Select items to drop.  Returns a list of pairs of position, quantity.
-        std::list<std::pair<int, int>> multidrop();
         faction *list_factions(std::string title = "FACTIONS:");
 
         bool has_gametype() const;
@@ -484,7 +492,6 @@ class game
         void reset_zoom();
         int get_user_action_counter() const;
 
-        std::unique_ptr<weather_generator> weather_gen;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
@@ -507,9 +514,14 @@ class game
          * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
+        const weather_generator &get_cur_weather_gen() const;
         const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
+
+        /** Get all living player allies */
+        std::vector<npc *> allies();
+
         std::vector<npc *> active_npc;
         std::vector<npc *> mission_npc;
         std::vector<faction> factions;
@@ -653,11 +665,6 @@ class game
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
 
-        bool opening_screen();// Warn about screen size, then present the main menu
-        void mmenu_refresh_title();
-        void mmenu_refresh_motd();
-        void mmenu_refresh_credits();
-
         /**
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.
@@ -696,13 +703,15 @@ class game
 
         //pixel minimap management
         int pixel_minimap_option;
+
+        /** Attempt to load first valid save (if any) in world */
+        bool load( const std::string &world );
+
     private:
         // Game-start procedures
-        void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
-                        bool bShowDDA = true);
+        void load( std::string worldname, std::string name ); // Load a player-specific save file
         bool load_master(std::string worldname); // Load the master data file, with factions &c
         void load_weather(std::istream &fin);
-        void load(std::string worldname, std::string name); // Load a player-specific save file
         bool start_game(std::string worldname); // Starts a new game in a world
         void start_special_game(special_game_id gametype); // See gamemode.cpp
 
@@ -727,13 +736,11 @@ class game
         void create_factions(); // Creates new factions (for a new game world)
         void create_starting_npcs(); // Creates NPCs that start near you
 
-        // Player actions
-        void wishitem( player *p = nullptr, int x = -1, int y = -1, int z = -1 );
-        void wishmonster( const tripoint &p = tripoint_min );
-        void wishmutate( player *p );
-        void wishskill( player *p );
-        void mutation_wish(); // Mutate
-
+        /** Check for dangerous stuff at dest_loc, return false if the player decides
+        not to step there */
+        bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
+        /** Returns true if the menu handled stuff and player shouldn't do anything else */
+        bool npc_menu( npc &who );
         void pldrive(int x, int y); // drive vehicle
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
@@ -748,8 +755,6 @@ class game
         bool phasing_move( const tripoint &dest );
         // Regular movement. Returns false if it failed for any reason
         bool walk_move( const tripoint &dest );
-        // Places the player at the end of a move; hurts feet, lists items etc.
-        void place_player( const tripoint &dest );
         void on_move_effects();
         void wait(); // Long wait (player action)  '^'
         void open(); // Open a door  'o'
@@ -763,7 +768,6 @@ class game
         void examine();
 
         void grab(); // Establish a grab on something.
-        void compare( const tripoint &offset = tripoint_min ); // Compare items 'I'
         void drop(int pos = INT_MIN, const tripoint &where = tripoint_min ); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
@@ -780,8 +784,17 @@ class game
         void mend( int pos = INT_MIN );
         void autoattack();
 public:
+        // Places the player at the specified point; hurts feet, lists items etc.
+        void place_player( const tripoint &dest );
+        void place_player_overmap( const tripoint &om_dest );
+
         bool unload( item &it ); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
+
+        unsigned int get_seed() const;
+
+        /** If invoked, NPCs will be reloaded before next turn. */
+        void set_npcs_dirty();
 private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
         void read(); // Read a book  'R' (or 'a')
@@ -835,7 +848,6 @@ private:
         void process_events();   // Processes and enacts long-term events
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
-        void hallucinate( const tripoint &center ); // Prints hallucination junk to the screen
         int  mon_info(WINDOW *); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
@@ -880,7 +892,7 @@ private:
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
         void disp_NPCs();           // Currently UNUSED.  Lists global NPCs.
-        void list_missions();       // Listed current, completed and failed missions.
+        void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
         void debug();           // All-encompassing debug screen.  TODO: This.
@@ -911,6 +923,8 @@ private:
         // remoteveh() cache
         int remoteveh_cache_turn;
         vehicle *remoteveh_cache;
+        /** Has a NPC been spawned since last load? */
+        bool npcs_dirty;
 
         std::unique_ptr<special_game> gamemode;
 
@@ -920,6 +934,11 @@ private:
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom;
+
+        /** Seed for all the random numbers that should have consistent randomness (weather). */
+        unsigned int seed;
+
+        weather_type weather_override;
 
         // Preview for auto move route
         std::vector<tripoint> destination_preview;

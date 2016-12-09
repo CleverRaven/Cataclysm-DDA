@@ -2,11 +2,11 @@
 #define VEH_TYPE_H
 
 #include "string_id.h"
-#include "int_id.h"
 #include "enums.h"
 #include "color.h"
 #include "damage.h"
 #include "calendar.h"
+#include "units.h"
 
 #include <vector>
 #include <bitset>
@@ -16,8 +16,7 @@
 using itype_id = std::string;
 
 class vpart_info;
-using vpart_str_id = string_id<vpart_info>;
-using vpart_id = int_id<vpart_info>;
+using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 class vehicle;
@@ -58,7 +57,6 @@ enum vpart_bitflags : int {
     VPFLAG_ALTERNATOR,
     VPFLAG_ENGINE,
     VPFLAG_FRIDGE,
-    VPFLAG_FUEL_TANK,
     VPFLAG_LIGHT,
     VPFLAG_WINDOW,
     VPFLAG_CURTAIN,
@@ -81,10 +79,7 @@ class vpart_info
 {
     public:
         /** Unique identifier for this part */
-        vpart_str_id id;
-
-        /** integer identifier derived from load order (non-saved runtime optimization) */
-        vpart_id loadid;
+        vpart_id id;
 
         /** Translated name of a part */
         std::string name() const;
@@ -126,11 +121,14 @@ class vpart_info
         /** Fuel type of engine or tank */
         itype_id fuel_type = "null";
 
+        /** Default ammo (for turrets) */
+        itype_id default_ammo = "null";
+
         /** Volume of a foldable part when folded */
-        int folded_volume = 0;
+        units::volume folded_volume = 0;
 
         /** Cargo location volume */
-        int size = 0;
+        units::volume size = 0;
 
         /** Mechanics skill required to install item */
         int difficulty = 0;
@@ -162,11 +160,26 @@ class vpart_info
         /** Removal time (in moves) for this component accounting for player skills */
         int removal_time( const Character &ch ) const;
 
+        /** Requirements for repair of this component (per level of damage) */
+        requirement_data repair_requirements() const;
+
+        /** Required skills to repair this component */
+        std::map<skill_id, int> repair_skills;
+
+        /** Repair time (in moves) to fully repair a component (@see repair_time) */
+        int repair_moves = MOVES( HOURS( 1 ) );
+
+        /** Repair time (in moves) to fully repair this component, accounting for player skills */
+        int repair_time( const Character &ch ) const;
+
         /** @ref item_group this part breaks into when destroyed */
         std::string breaks_into_group = "EMPTY_GROUP";
 
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
+
+        /** Pseudo-tools this vehicle part can provide providing the appropriate fuel available */
+        std::set<itype_id> tools;
 
         /** seatbelt (str), muffler (%), horn (vol), light (intensity) */
         int bonus = 0;
@@ -184,6 +197,7 @@ class vpart_info
         /** Second field is the multiplier */
         std::vector<std::pair<requirement_id, int>> install_reqs;
         std::vector<std::pair<requirement_id, int>> removal_reqs;
+        std::vector<std::pair<requirement_id, int>> repair_reqs;
 
     public:
 
@@ -203,7 +217,7 @@ class vpart_info
         static void check();
         static void reset();
 
-        static const std::vector<const vpart_info *> &get_all();
+        static const std::map<vpart_id, vpart_info> &all();
 };
 
 struct vehicle_item_spawn {
@@ -222,8 +236,17 @@ struct vehicle_item_spawn {
  * is a nullptr. Creating a new vehicle copies the blueprint vehicle.
  */
 struct vehicle_prototype {
+    struct part_def {
+        point pos;
+        vpart_id part;
+        int with_ammo = 0;
+        std::set<itype_id> ammo_types;
+        std::pair<int, int> ammo_qty = { -1, -1 };
+        itype_id fuel = "null";
+    };
+
     std::string name;
-    std::vector<std::pair<point, vpart_str_id> > parts;
+    std::vector<part_def> parts;
     std::vector<vehicle_item_spawn> item_spawns;
 
     std::unique_ptr<vehicle> blueprint;
@@ -234,7 +257,5 @@ struct vehicle_prototype {
 
     static std::vector<vproto_id> get_all();
 };
-
-extern const vpart_str_id legacy_vpart_id[74];
 
 #endif

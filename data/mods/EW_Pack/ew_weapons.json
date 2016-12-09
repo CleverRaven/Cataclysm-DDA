@@ -17,13 +17,11 @@
     "to_hit": -1,
     "dispersion": 75,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
-    "recoil": -75,
     "durability": 9,
     "burst": 12,
     "clip_size": 30,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "svs-24c",
@@ -44,13 +42,11 @@
     "range": -2,
     "dispersion": 75,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
-    "recoil": 75,
     "durability": 9,
     "burst": 12,
     "clip_size": 30,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cw-24",
@@ -70,12 +66,10 @@
     "to_hit": -1,
     "dispersion": 75,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
-    "recoil": -75,
     "durability": 9,
     "clip_size": 30,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "grip", 1],["magazine", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cw-24m",
@@ -95,12 +89,10 @@
     "to_hit": -1,
     "dispersion": 75,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
-    "recoil": -105,
     "durability": 9,
     "clip_size": 30,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "grip", 1],["magazine", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cw-24k",
@@ -120,12 +112,10 @@
     "to_hit": -1,
     "dispersion": 75,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
-    "recoil": -30,
     "durability": 9,
     "clip_size": 30,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "grip", 1],["magazine", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cw-24hack",
@@ -145,13 +135,11 @@
     "to_hit": -1,
     "dispersion": 120,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
-    "recoil": -75,
     "durability": 6,
     "burst": 8,
     "clip_size": 30,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "grip", 1],["magazine", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cw-24m_hack",
@@ -171,13 +159,11 @@
     "to_hit": -1,
     "dispersion": 120,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
-    "recoil": -75,
     "durability": 6,
     "burst": 8,
     "clip_size": 30,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "grip", 1],["magazine", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cwd-63",
@@ -197,12 +183,10 @@
     "to_hit": -1,
     "dispersion": 75,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
-    "recoil": -90,
     "durability": 9,
     "clip_size": 10,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "grip", 1],["magazine", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "wrist_dread",
@@ -222,8 +206,6 @@
     "to_hit": -1,
     "dispersion": 150,
     "sight_dispersion": 150,
-    "aim_speed" : 0,
-    "recoil": 0,
     "durability": 8,
     "burst": 30,
     "clip_size": 90,

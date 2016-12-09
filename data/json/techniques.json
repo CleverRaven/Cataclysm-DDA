@@ -129,8 +129,8 @@
         "crit_tec" : true,
         "weighting" : -250,
         "messages" : [
-            "Snicker-snack! You behead %s",
-            "Snicker-snack! <npcname> beheads %s"
+            "Snicker-snack!  You behead %s",
+            "Snicker-snack!  <npcname> beheads %s"
         ]
     },{
         "type" : "technique",

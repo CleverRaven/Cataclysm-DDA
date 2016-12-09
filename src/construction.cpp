@@ -3,6 +3,7 @@
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "debug.h"
 #include "input.h"
 #include "output.h"
@@ -23,6 +24,8 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "item_group.h"
+#include "cata_utility.h"
+#include "uistate.h"
 
 #include <algorithm>
 #include <map>
@@ -37,35 +40,34 @@ static const skill_id skill_throw( "throw" );
 namespace construct
 {
 // Checks for whether terrain mod can proceed
-bool check_nothing( point )
+bool check_nothing( const tripoint & )
 {
     return true;
 }
-bool check_empty( point ); // tile is empty
-bool check_support( point ); // at least two orthogonal supports
-bool check_deconstruct( point ); // either terrain or furniture must be deconstructable
-bool check_up_OK( point ); // tile is empty and you're not on the surface
-bool check_down_OK( point ); // tile is empty and you're not on z-10 already
+bool check_empty( const tripoint & ); // tile is empty
+bool check_support( const tripoint & ); // at least two orthogonal supports
+bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructable
+bool check_up_OK( const tripoint & ); // tile is empty and you're not on the surface
+bool check_down_OK( const tripoint & ); // tile is empty and you're not on z-10 already
 
 // Special actions to be run post-terrain-mod
-void done_nothing( point ) {}
-void done_tree( point );
-void done_trunk_log( point );
-void done_trunk_plank( point );
-void done_vehicle( point );
-void done_deconstruct( point );
-void done_digormine_stair( point, bool );
-void done_dig_stair( point );
-void done_mine_downstair( point );
-void done_mine_upstair( point );
-void done_window_curtains( point );
+void done_nothing( const tripoint & ) {}
+void done_tree( const tripoint & );
+void done_trunk_log( const tripoint & );
+void done_trunk_plank( const tripoint & );
+void done_vehicle( const tripoint & );
+void done_deconstruct( const tripoint & );
+void done_digormine_stair( const tripoint &, bool );
+void done_dig_stair( const tripoint & );
+void done_mine_downstair( const tripoint & );
+void done_mine_upstair( const tripoint & );
+void done_window_curtains( const tripoint & );
 };
 
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const std::string &desc );
-static bool can_construct( construction const *con, int x, int y );
-static bool can_construct( construction const *con );
-static bool player_can_build( player &p, const inventory &inv, construction const *con );
+static bool can_construct( const construction &con );
+static bool player_can_build( player &p, const inventory &inv, const construction &con );
 static bool player_can_build( player &p, const inventory &pinv, const std::string &desc );
 static void place_construction( const std::string &desc );
 
@@ -96,7 +98,7 @@ void load_available_constructions( std::vector<std::string> &available,
     cat_available.clear();
     available.clear();
     for( auto &it : constructions ) {
-        if( !hide_unconstructable || can_construct( &it ) ) {
+        if( !hide_unconstructable || can_construct( it ) ) {
             bool already_have_it = false;
             for( auto &avail_it : available ) {
                 if( avail_it == it.description ) {
@@ -194,18 +196,19 @@ void construction_menu()
     draw_grid( w_con, w_list_width + w_list_x0 );
 
     //tabcount needs to be increased to add more categories
-    int tabcount = 9;
+    int tabcount = 10;
     std::string construct_cat[] = {_( "All" ), _( "Constructions" ), _( "Furniture" ),
                                    _( "Digging and Mining" ), _( "Repairing" ),
                                    _( "Reinforcing" ), _( "Decorative" ),
-                                   _( "Farming and Woodcutting" ), _( "Others" )
+                                   _( "Farming and Woodcutting" ), _( "Others" ),
+                                   _( "Filter" )
                                   };
 
     bool update_info = true;
     bool update_cat = true;
+    bool isnew = true;
     int tabindex = 0;
     int select = 0;
-    int chosen = 0;
     int offset = 0;
     bool exit = false;
     std::string category_name = "";
@@ -230,16 +233,14 @@ void construction_menu()
     ctxt.register_action( "LEFT", _( "Move tab left" ) );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
-    ctxt.register_action( "SCROLL_STAGE_UP" );
-    ctxt.register_action( "SCROLL_STAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "FILTER" );
 
-    std::string hotkeys = ctxt.get_available_single_char_hotkeys();
-
+    std::string filter;
+    int previous_index = 0;
     do {
         if( update_cat ) {
             update_cat = false;
@@ -271,12 +272,33 @@ void construction_menu()
                 case 8:
                     category_name = "OTHER";
                     break;
+                case 9:
+                    category_name = "FILTER";
+                    break;
             }
 
             if( category_name == "ALL" ) {
                 constructs = available;
+                previous_index = tabindex;
+            } else if( category_name == "FILTER" ) {
+                constructs.clear();
+                std::copy_if( available.begin(), available.end(),
+                    std::back_inserter( constructs ),
+                    [&](const std::string &a){
+                        return lcmatch(a, filter);
+                    } );
             } else {
                 constructs = cat_available[category_name];
+                previous_index = tabindex;
+            }
+            if( isnew ){
+                if( !uistate.last_construction.empty() ){
+                    select = std::distance(constructs.begin(),
+                                            std::find( constructs.begin(),
+                                                        constructs.end(),
+                                                        uistate.last_construction ));
+                }
+                filter = uistate.construction_filter;
             }
         }
         // Erase existing tab selection & list of constructions
@@ -293,36 +315,47 @@ void construction_menu()
             bool highlight = ( current == select );
 
             trim_and_print( w_list, i, 0, w_list_width,
-                            construction_color( con_name, highlight ), "%c %s",
-                            ( current < ( int )hotkeys.size() ) ? hotkeys[current] : ' ',
+                            construction_color( con_name, highlight ), "%s",
                             con_name.c_str() );
         }
 
         if( update_info ) {
             update_info = false;
             // Clear out lines for tools & materials
-            const int pos_x = ( w_list_width + w_list_x0 + 2 );
+            const int pos_x = w_list_width + w_list_x0 + 2;
+            const int available_window_width = w_width - pos_x - 1;
             for( int i = 1; i < w_height - 1; i++ ) {
-                mvwhline( w_con, i, pos_x, ' ', w_width - pos_x - 1 );
+                mvwhline( w_con, i, pos_x, ' ', available_window_width );
             }
 
-            //leave room for top and bottom UI text
-            int available_buffer_height = w_height - 5 - 3;
-            int available_window_width = w_width - ( w_list_width + w_list_x0 + 2 ) - 1;
             nc_color color_stage = c_white;
+            std::vector<std::string> notes;
+            notes.push_back( string_format( _( "Press %s or %s to tab." ),
+                             ctxt.get_desc( "LEFT" ).c_str(), ctxt.get_desc( "RIGHT" ).c_str() ) );
+            notes.push_back( string_format( _( "Press %s to search." ),
+                             ctxt.get_desc( "FILTER" ).c_str() ) );
+            notes.push_back( string_format( _( "Press %s to toggle unavailable constructions." ),
+                            ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() ) );
+            notes.push_back( string_format( _( "Press %s to view and edit key-bindings." ),
+                            ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() ) );
+
+            //leave room for top and bottom UI text
+            const int available_buffer_height = w_height - 3 - 3 - (int)notes.size();
+
+            // print the hotkeys regardless of if there are constructions
+            for( size_t i = 0; i < notes.size(); ++i ) {
+                trim_and_print( w_con, w_height - 1 - (int)notes.size() + (int)i, pos_x,
+                                available_window_width, c_white, "%s", notes[i].c_str() );
+            }
 
             if( !constructs.empty() ) {
+                if( select >= (int) constructs.size() ){
+                    select = 0;
+                }
                 std::string current_desc = constructs[select];
-                // Print instructions for toggling recipe hiding.
-                mvwprintz( w_con, w_height - 3, ( w_list_width + w_list_x0 + 2 ), c_white,
-                           _( "Press %s to toggle unavailable constructions." ),
-                           ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() );
-                mvwprintz( w_con, w_height - 2, ( w_list_width + w_list_x0 + 2 ), c_white,
-                           _( "Press %s to view and edit key-bindings." ),
-                           ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
-
                 // Print construction name
-                mvwprintz( w_con, 1, ( w_list_width + w_list_x0 + 2 ), c_white, "%s", current_desc.c_str() );
+                trim_and_print( w_con, 1, pos_x, available_window_width, c_white,
+                                "%s", current_desc.c_str() );
 
                 //only reconstruct the project list when moving away from the current item, or when changing the display mode
                 if( previous_select != select || previous_tabindex != tabindex ||
@@ -346,7 +379,7 @@ void construction_menu()
                          it != options.end(); ++it ) {
                         stage_counter++;
                         construction *current_con = *it;
-                        if( hide_unconstructable && !can_construct( current_con ) ) {
+                        if( hide_unconstructable && !can_construct( *current_con ) ) {
                             continue;
                         }
                         // Update the cached availability of components and tools in the requirement object
@@ -445,12 +478,16 @@ void construction_menu()
                 }
                 if( current_construct_breakpoint > 0 ) {
                     // Print previous stage indicator if breakpoint is past the beginning
-                    mvwprintz( w_con, 2, ( w_list_width + w_list_x0 + 2 ), c_white, _( "^ [P]revious stage(s)" ) );
+                    trim_and_print( w_con, 2, pos_x, available_window_width, c_white,
+                                    _( "Press %s to show previous stage(s)." ),
+                                    ctxt.get_desc( "PAGE_UP" ).c_str() );
                 }
                 if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                          available_buffer_height ) < full_construct_buffer.size() ) {
                     // Print next stage indicator if more breakpoints are remaining after screen height
-                    mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white, _( "v [N]ext stage(s)" ) );
+                    trim_and_print( w_con, w_height - 2 - (int)notes.size(), pos_x, available_window_width,
+                                    c_white, _( "Press %s to show next stage(s)." ),
+                                    ctxt.get_desc( "PAGE_DOWN" ).c_str() );
                 }
                 // Leave room for above/below indicators
                 int ypos = 3;
@@ -471,9 +508,21 @@ void construction_menu()
         wrefresh( w_list );
 
         const std::string action = ctxt.handle_input();
-        const long raw_input_char = ctxt.get_raw_input().get_first_input();
-
-        if( action == "DOWN" ) {
+        if( action == "FILTER" ){
+            filter = string_input_popup( _( "Search" ), 50, filter, "", _( "Filter" ), 100, false );
+            if( !filter.empty() ){
+                update_info = true;
+                update_cat = true;
+                tabindex = 9;
+                select = 0;
+            }else if( previous_index !=9 ){
+                tabindex = previous_index;
+                update_info = true;
+                update_cat = true;
+                select = 0;
+            }
+            uistate.construction_filter = filter;
+        } else if( action == "DOWN" ) {
             update_info = true;
             if( select < ( int )constructs.size() - 1 ) {
                 select++;
@@ -500,19 +549,7 @@ void construction_menu()
             update_cat = true;
             select = 0;
             tabindex = ( tabindex + 1 ) % tabcount;
-        } else if( action == "PAGE_DOWN" ) {
-            update_info = true;
-            select += 15;
-            if( select > ( int )constructs.size() - 1 ) {
-                select = constructs.size() - 1;
-            }
         } else if( action == "PAGE_UP" ) {
-            update_info = true;
-            select -= 15;
-            if( select < 0 ) {
-                select = 0;
-            }
-        } else if( action == "SCROLL_STAGE_UP" ) {
             update_info = true;
             if( current_construct_breakpoint > 0 ) {
                 current_construct_breakpoint--;
@@ -520,7 +557,7 @@ void construction_menu()
             if( current_construct_breakpoint < 0 ) {
                 current_construct_breakpoint = 0;
             }
-        } else if( action == "SCROLL_STAGE_DOWN" ) {
+        } else if( action == "PAGE_DOWN" ) {
             update_info = true;
             if( current_construct_breakpoint < total_project_breakpoints - 1 ) {
                 current_construct_breakpoint++;
@@ -531,7 +568,6 @@ void construction_menu()
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
-            hotkeys = ctxt.get_available_single_char_hotkeys();
             draw_grid( w_con, w_list_width + w_list_x0 );
         } else if( action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) {
             update_info = true;
@@ -540,26 +576,18 @@ void construction_menu()
             select = 0;
             offset = 0;
             load_available_constructions( available, cat_available, hide_unconstructable );
-        } else if( action == "ANY_INPUT" || action == "CONFIRM" ) {
-            if( action == "CONFIRM" ) {
-                chosen = select;
-            } else {
-                // Get the index corresponding to the key pressed.
-                chosen = hotkeys.find_first_of( static_cast<char>( raw_input_char ) );
-                if( chosen == ( int )std::string::npos ) {
-                    continue;
-                }
+        } else if( action == "CONFIRM" ) {
+            if( constructs.empty() || select >= (int) constructs.size() ){
+                continue;// Nothing to be done here
             }
-            if( chosen < ( int )constructs.size() ) {
-                if( player_can_build( g->u, total_inv, constructs[chosen] ) ) {
-                    place_construction( constructs[chosen] );
-                    exit = true;
-                } else {
-                    popup( _( "You can't build that!" ) );
-                    select = chosen;
-                    draw_grid( w_con, w_list_width + w_list_x0 );
-                    update_info = true;
-                }
+            if( player_can_build( g->u, total_inv, constructs[select] ) ) {
+                place_construction( constructs[select] );
+                uistate.last_construction = constructs[select];
+                exit = true;
+            } else {
+                popup( _( "You can't build that!" ) );
+                draw_grid( w_con, w_list_width + w_list_x0 );
+                update_info = true;
             }
         }
     } while( !exit );
@@ -574,23 +602,23 @@ bool player_can_build( player &p, const inventory &pinv, const std::string &desc
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc( desc );
     for( auto &con : cons ) {
-        if( player_can_build( p, pinv, con ) ) {
+        if( player_can_build( p, pinv, *con ) ) {
             return true;
         }
     }
     return false;
 }
 
-bool player_can_build( player &p, const inventory &pinv, construction const *con )
+bool player_can_build( player &p, const inventory &pinv, const construction &con )
 {
     if( p.has_trait( "DEBUG_HS" ) ) {
         return true;
     }
 
-    if( p.get_skill_level( con->skill ) < con->difficulty ) {
+    if( p.get_skill_level( con.skill ) < con.difficulty ) {
         return false;
     }
-    return con->requirements->can_make_with_inventory( pinv );
+    return con.requirements->can_make_with_inventory( pinv );
 }
 
 bool can_construct( const std::string &desc )
@@ -598,54 +626,51 @@ bool can_construct( const std::string &desc )
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc( desc );
     for( auto &con : cons ) {
-        if( can_construct( con ) ) {
+        if( can_construct( *con ) ) {
             return true;
         }
     }
     return false;
 }
 
-bool can_construct( construction const *con, int x, int y )
+bool can_construct( const construction &con, const tripoint &p )
 {
     // see if the special pre-function checks out
-    bool place_okay = con->pre_special( point( x, y ) );
+    bool place_okay = con.pre_special( p );
     // see if the terrain type checks out
-    if( !con->pre_terrain.empty() ) {
-        if( con->pre_is_furniture ) {
-            furn_id f = furn_id( con->pre_terrain );
-            place_okay &= ( g->m.furn( x, y ) == f );
+    if( !con.pre_terrain.empty() ) {
+        if( con.pre_is_furniture ) {
+            furn_id f = furn_id( con.pre_terrain );
+            place_okay &= g->m.furn( p ) == f;
         } else {
-            ter_id t = ter_id( con->pre_terrain );
-            place_okay &= ( g->m.ter( x, y ) == t );
+            ter_id t = ter_id( con.pre_terrain );
+            place_okay &= g->m.ter( p ) == t;
         }
     }
     // see if the flags check out
-    place_okay &= std::all_of(begin(con->pre_flags), end(con->pre_flags),
-        [&](std::string const& flag) { return g->m.has_flag(flag, x, y); });
+    place_okay &= std::all_of( con.pre_flags.begin(), con.pre_flags.end(),
+        [&p] ( const std::string &flag ) {
+        return g->m.has_flag( flag, p );
+    });
 
     // make sure the construction would actually do something
-    if( !con->post_terrain.empty() ) {
-        if( con->post_is_furniture ) {
-            furn_id f = furn_id( con->post_terrain );
-            place_okay &= ( g->m.furn( x, y ) != f );
+    if( !con.post_terrain.empty() ) {
+        if( con.post_is_furniture ) {
+            furn_id f = furn_id( con.post_terrain );
+            place_okay &= g->m.furn( p ) != f;
         } else {
-            ter_id t = ter_id( con->post_terrain );
-            place_okay &= ( g->m.ter( x, y ) != t );
+            ter_id t = ter_id( con.post_terrain );
+            place_okay &= g->m.ter( p ) != t;
         }
     }
     return place_okay;
 }
 
-bool can_construct( construction const *con )
+bool can_construct( const construction &con )
 {
-    for( int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++ ) {
-        for( int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++ ) {
-            if( x == g->u.posx() && y == g->u.posy() ) {
-                y++;
-            }
-            if( can_construct( con, x, y ) ) {
-                return true;
-            }
+    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        if( p != g->u.pos() && can_construct( con, p ) ) {
+            return true;
         }
     }
     return false;
@@ -657,16 +682,11 @@ void place_construction( const std::string &desc )
     const inventory &total_inv = g->u.crafting_inventory();
 
     std::vector<construction *> cons = constructions_by_desc( desc );
-    std::map<tripoint, construction *> valid;
-    for( int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++ ) {
-        for( int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++ ) {
-            if( x == g->u.posx() && y == g->u.posy() ) {
-                y++;
-            }
-            for( auto &con : cons ) {
-                if( can_construct( con, x, y ) && player_can_build( g->u, total_inv, con ) ) {
-                    valid[tripoint( x, y, g->u.posz() )] = con;
-                }
+    std::map<tripoint, const construction *> valid;
+    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        for( const auto *con : cons ) {
+            if( p != g->u.pos() && can_construct( *con, p ) && player_can_build( g->u, total_inv, *con ) ) {
+                valid[ p ] = con;
             }
         }
     }
@@ -677,20 +697,19 @@ void place_construction( const std::string &desc )
     }
     wrefresh( g->w_terrain );
 
-    int dirx, diry;
-    if( !choose_adjacent( _( "Construct where?" ), dirx, diry ) ) {
+    tripoint dirp;
+    if( !choose_adjacent( _( "Construct where?" ), dirp ) ) {
         return;
     }
 
-    tripoint choice( dirx, diry, g->u.posz() );
-    if( valid.find( choice ) == valid.end() ) {
+    if( valid.find( dirp ) == valid.end() ) {
         add_msg( m_info, _( "You cannot build there!" ) );
         return;
     }
 
-    construction *con = valid[choice];
-    g->u.assign_activity( ACT_BUILD, con->adjusted_time(), con->id );
-    g->u.activity.placement = choice;
+    const construction &con = *valid.find( dirp )->second;
+    g->u.assign_activity( activity_id( "ACT_BUILD" ), con.adjusted_time(), con.id );
+    g->u.activity.placement = dirp;
 }
 
 void complete_construction()
@@ -703,19 +722,17 @@ void complete_construction()
 
 
     // Friendly NPCs gain exp from assisting or watching...
-    for( auto &elem : g->active_npc ) {
-        if( rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend() && !elem->in_sleep_state() ) {
-            //If the NPC can understand what you are doing, they gain more exp
-            if (elem->get_skill_level(built.skill) >= built.difficulty){
-                elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
-                                    (int)(built.difficulty * 1.25) );
-                add_msg(m_info, _("%s assists you with the work..."), elem->name.c_str());
-            //NPC near you isn't skilled enough to help
-            } else {
-                elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
-                                    (int)(built.difficulty * 1.25) );
-                add_msg(m_info, _("%s watches you work..."), elem->name.c_str());
-            }
+    for( auto &elem : g->u.get_crafting_helpers() ) {
+        //If the NPC can understand what you are doing, they gain more exp
+        if (elem->get_skill_level(built.skill) >= built.difficulty){
+            elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
+                                (int)(built.difficulty * 1.25) );
+            add_msg(m_info, _("%s assists you with the work..."), elem->name.c_str());
+        //NPC near you isn't skilled enough to help
+        } else {
+            elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
+                                (int)(built.difficulty * 1.25) );
+            add_msg(m_info, _("%s watches you work..."), elem->name.c_str());
         }
     }
 
@@ -727,54 +744,53 @@ void complete_construction()
     }
 
     // Make the terrain change
-    int terx = u.activity.placement.x, tery = u.activity.placement.y;
-    if( built.post_terrain != "" ) {
+    const tripoint terp = u.activity.placement;
+    if( !built.post_terrain.empty() ) {
         if( built.post_is_furniture ) {
-            g->m.furn_set( terx, tery, furn_str_id( built.post_terrain ) );
+            g->m.furn_set( terp, furn_str_id( built.post_terrain ) );
         } else {
-            g->m.ter_set( terx, tery, ter_str_id( built.post_terrain ) );
+            g->m.ter_set( terp, ter_str_id( built.post_terrain ) );
         }
     }
 
     // clear the activity
-    u.activity.type = ACT_NULL;
+    u.activity.set_to_null();
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
-    built.post_special( point( terx, tery ) );
+    built.post_special( terp );
 }
 
-bool construct::check_empty( point p_arg )
+bool construct::check_empty( const tripoint &p )
 {
-    tripoint p( p_arg, g->u.posz() );
     return ( g->m.has_flag( "FLAT", p ) && !g->m.has_furn( p ) &&
              g->is_empty( p ) && g->m.tr_at( p ).is_null() &&
              g->m.i_at( p ).empty() && g->m.veh_at( p ) == NULL );
 }
 
-bool construct::check_support( point p )
+bool construct::check_support( const tripoint &p )
 {
     // need two or more orthogonally adjacent supports
     int num_supports = 0;
-    if( g->m.impassable( p.x, p.y ) ) {
+    if( g->m.impassable( p ) ) {
         return false;
     }
-    if( g->m.has_flag( "SUPPORTS_ROOF", p.x, p.y - 1 ) ) {
+    if( g->m.has_flag( "SUPPORTS_ROOF", tripoint( p.x, p.y - 1, p.z ) ) ) {
         ++num_supports;
     }
-    if( g->m.has_flag( "SUPPORTS_ROOF", p.x, p.y + 1 ) ) {
+    if( g->m.has_flag( "SUPPORTS_ROOF", tripoint( p.x, p.y + 1, p.z ) ) ) {
         ++num_supports;
     }
-    if( g->m.has_flag( "SUPPORTS_ROOF", p.x - 1, p.y ) ) {
+    if( g->m.has_flag( "SUPPORTS_ROOF", tripoint( p.x - 1, p.y, p.z ) ) ) {
         ++num_supports;
     }
-    if( g->m.has_flag( "SUPPORTS_ROOF", p.x + 1, p.y ) ) {
+    if( g->m.has_flag( "SUPPORTS_ROOF", tripoint( p.x + 1, p.y, p.z ) ) ) {
         ++num_supports;
     }
     return num_supports >= 2;
 }
 
-bool construct::check_deconstruct( point p )
+bool construct::check_deconstruct( const tripoint &p )
 {
     if( g->m.has_furn( p.x, p.y ) ) {
         return g->m.furn( p.x, p.y ).obj().deconstruct.can_do;
@@ -783,39 +799,39 @@ bool construct::check_deconstruct( point p )
     return g->m.ter( p.x, p.y ).obj().deconstruct.can_do;
 }
 
-bool construct::check_up_OK( point )
+bool construct::check_up_OK( const tripoint & )
 {
     // You're not going above +OVERMAP_HEIGHT.
     return ( g->get_levz() < OVERMAP_HEIGHT );
 }
 
-bool construct::check_down_OK( point )
+bool construct::check_down_OK( const tripoint & )
 {
     // You're not going below -OVERMAP_DEPTH.
     return ( g->get_levz() > -OVERMAP_DEPTH );
 }
 
-void construct::done_tree( point p )
+void construct::done_tree( const tripoint &p )
 {
-    int x = 0, y = 0;
-    while( !choose_direction( _( "Press a direction for the tree to fall in:" ), x, y ) ) {
+    tripoint dirp;
+    while( !choose_direction( _( "Press a direction for the tree to fall in:" ), dirp ) ) {
         // try again
     }
-    x = p.x + x * 3 + rng( -1, 1 );
-    y = p.y + y * 3 + rng( -1, 1 );
-    std::vector<point> tree = line_to( p.x, p.y, x, y, rng( 1, 8 ) );
+
+    tripoint to = p + point( 3 * dirp.x + rng( -1, 1 ), 3 * dirp.y + rng( -1, 1 ) );
+    std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
     for( auto &elem : tree ) {
-        g->m.destroy( tripoint( elem.x, elem.y, g->get_levz() ) );
-        g->m.ter_set( elem.x, elem.y, t_trunk );
+        g->m.destroy( elem );
+        g->m.ter_set( elem, t_trunk );
     }
 }
 
-void construct::done_trunk_log( point p )
+void construct::done_trunk_log( const tripoint &p )
 {
     g->m.spawn_item( p.x, p.y, "log", rng( 5, 15 ), 0, calendar::turn );
 }
 
-void construct::done_trunk_plank( point p )
+void construct::done_trunk_plank( const tripoint &p )
 {
     ( void )p; //unused
     int num_logs = rng( 5, 15 );
@@ -824,34 +840,36 @@ void construct::done_trunk_plank( point p )
     }
 }
 
-const vpart_str_id &vpart_from_item( const std::string &item_id )
+const vpart_id &vpart_from_item( const std::string &item_id )
 {
-    for( auto vp : vpart_info::get_all() ) {
-        if( vp->item == item_id && vp->has_flag( "INITIAL_PART" ) ) {
-            return vp->id;
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( vp.item == item_id && vp.has_flag( "INITIAL_PART" ) ) {
+            return vp.id;
         }
     }
     // The INITIAL_PART flag is optional, if no part (based on the given item) has it, just use the
     // first part that is based in the given item (this is fine for example if there is only one
     // such type anyway).
-    for( auto vp : vpart_info::get_all() ) {
-        if( vp->item == item_id ) {
-            return vp->id;
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( vp.item == item_id ) {
+            return vp.id;
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
-    static const vpart_str_id frame_id( "frame_vertical_2" );
+    static const vpart_id frame_id( "frame_vertical_2" );
     return frame_id;
 }
 
-void construct::done_vehicle( point p )
+void construct::done_vehicle( const tripoint &p )
 {
     std::string name = string_input_popup( _( "Enter new vehicle name:" ), 20 );
     if( name.empty() ) {
         name = _( "Car" );
     }
 
-    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p.x, p.y, 270, 0, 0 );
+    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
 
     if( !veh ) {
         debugmsg( "error constructing vehicle" );
@@ -865,31 +883,30 @@ void construct::done_vehicle( point p )
     g->m.add_vehicle_to_cache( veh );
 }
 
-void construct::done_deconstruct( point p )
+void construct::done_deconstruct( const tripoint &p )
 {
     // TODO: Make this the argument
-    tripoint p3( p, g->get_levz() );
-    if( g->m.has_furn( p.x, p.y ) ) {
-        const furn_t &f = g->m.furn( p.x, p.y ).obj();
+    if( g->m.has_furn( p ) ) {
+        const furn_t &f = g->m.furn( p ).obj();
         if( !f.deconstruct.can_do ) {
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name.c_str() );
             return;
         }
         if( f.deconstruct.furn_set.str().empty() ) {
-            g->m.furn_set( p.x, p.y, f_null );
+            g->m.furn_set( p, f_null );
         } else {
-            g->m.furn_set( p.x, p.y, f.deconstruct.furn_set );
+            g->m.furn_set( p, f.deconstruct.furn_set );
         }
         add_msg( _( "You disassemble the %s." ), f.name.c_str() );
-        g->m.spawn_items( p3, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
+        g->m.spawn_items( p, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
         // Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
         // mysteriously appearing for a sign later built here, remove the
         // writing from the submap.
-        g->m.delete_signage( p3 );
+        g->m.delete_signage( p );
     } else {
-        const ter_t &t = g->m.ter( p.x, p.y ).obj();
+        const ter_t &t = g->m.ter( p ).obj();
         if( !t.deconstruct.can_do ) {
             add_msg( _( "That %s can not be disassembled!" ), t.name.c_str() );
             return;
@@ -904,48 +921,10 @@ void construct::done_deconstruct( point p )
                 g->u.practice( skill_electronics, 40, 8 );
             }
         }
-        g->m.ter_set( p.x, p.y, t.deconstruct.ter_set );
+        g->m.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "You disassemble the %s." ), t.name.c_str() );
-        g->m.spawn_items( p3, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
+        g->m.spawn_items( p, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
     }
-}
-
-std::vector<point> find_safe_places( point const &center )
-{
-    map &m = g->m;
-    // Determine safe places for the character to get pulled to
-    std::vector<point> safe;
-    for( int i = center.x - 1; i <= center.x + 1; i++ ) {
-        for( int j = center.y - 1; j <= center.y + 1; j++ ) {
-            if( m.passable( i, j ) ) {
-                safe.push_back( point( i, j ) );
-            }
-        }
-    }
-    return safe;
-}
-
-bool catch_with_rope( point const &center )
-{
-    player &u = g->u;
-    std::vector<point> const safe = find_safe_places( center );
-    if( safe.empty() ) {
-        add_msg( m_bad, _( "There's nowhere to pull yourself to, and you fall!" ) );
-        return false;
-    }
-    add_msg( _( "You pull yourself to safety!" ) );
-    const point p = random_entry( safe );
-    u.setx( p.x );
-    u.sety( p.y );
-    g->update_map( &u );
-    return true;
-}
-
-int digging_perception( int const offset )
-{
-    // Smart and perceptive folks can pick up on Bad Stuff Below farther out
-    int prox = ( ( g->u.int_cur + g->u.per_cur ) / 2 ) - offset;
-    return std::max( 1, prox );
 }
 
 void unroll_digging( int const numer_of_2x4s )
@@ -957,318 +936,108 @@ void unroll_digging( int const numer_of_2x4s )
     g->m.spawn_item( g->u.pos(), "2x4", numer_of_2x4s );
 }
 
-void construct::done_digormine_stair( point p, bool dig )
+void construct::done_digormine_stair( const tripoint &p, bool dig )
 {
-    tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
+    tripoint const abs_pos = p;
     tripoint const pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
     tripoint const local_tmp = tmpmap.getlocal( abs_pos );
-    bool danger_lava = false;
-    bool danger_open = false;
-    const int omtilesz = SEEX * 2; // KA101's 1337 copy & paste skillz
-    int const prox = digging_perception( 10 );
-    for( int i = 0; i < omtilesz; i++ ) {
-        for( int j = 0; j < omtilesz; j++ ) {
-            if( rl_dist( local_tmp.x, local_tmp.y, i, j ) <= prox && ( tmpmap.ter( i, j ) == t_lava ) ) {
-                danger_lava = true;
-            }
-            // This ought to catch anything that's open-space
-            if( rl_dist( local_tmp.x, local_tmp.y, i, j ) <= prox && ( tmpmap.move_cost( i, j ) >= 2 ) ) {
-                danger_open = true; // You might not know what's down there!
-            }
-        }
-    }
-    if( danger_lava || danger_open ) { // Bad Stuff detected.  Are you sure?
-        g->m.ter_set( p.x, p.y, t_pit ); // You dug down a bit before detecting the problem
-        if( danger_lava ) {
-            if( !( query_yn( _( "The rock feels much warmer than normal. Proceed?" ) ) ) ) {
-                unroll_digging( dig ? 8 : 12 );
-                return;
-            }
-        }
-        if( danger_open ) {
-            if( !( query_yn( _( "As you dig, the rock starts sounding hollow. Proceed?" ) ) ) ) {
-                unroll_digging( dig ? 8 : 12 );
-                return;
-            }
-        }
-    }
-    if( tmpmap.impassable( local_tmp.x, local_tmp.y ) ) { // Solid rock or a wall.  Safe enough.
-        if( g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" ) ) {
-            if( dig ) {
-                add_msg( _( "You strike deeply into the earth." ) );
-            } else {
-                add_msg( _( "You delve ever deeper into the earth." ) );
-            }
-            g->u.mod_hunger( dig ? 15 : 25 );
-            g->u.mod_thirst( dig ? 15 : 25 );
-            g->u.mod_fatigue( dig ? 20 : 30 );
-            g->u.mod_pain( dig ? 8 : 10 );
+
+    bool dig_muts = g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" );
+
+    int no_mut_penalty = dig_muts ? 10 : 0;
+    int mine_penalty = dig ? 0 : 10;
+    g->u.mod_hunger( 5 + mine_penalty + no_mut_penalty );
+    g->u.mod_thirst( 5 + mine_penalty + no_mut_penalty );
+    g->u.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
+
+    if( tmpmap.ter( local_tmp ) == t_lava ) {
+        if( !( query_yn( _( "The rock feels much warmer than normal. Proceed?" ) ) ) ) {
+            g->m.ter_set( p, t_pit ); // You dug down a bit before detecting the problem
+            unroll_digging( dig ? 8 : 12 );
         } else {
-            if( dig ) {
-                add_msg( _( "You dig a stairway, adding sturdy timbers and a rope for safety." ) );
-            } else {
-                add_msg( _( "You drill out a passage, heading deeper underground." ) );
-            }
-            g->u.mod_hunger( dig ? 25 : 35 );
-            g->u.mod_thirst( dig ? 25 : 35 );
-            g->u.mod_fatigue( dig ? 30 : 40 );
-            if( !( g->u.has_trait( "NOPAIN" ) ) ) {
-                add_msg( m_bad, _( "You're quite sore from all that work, though." ) );
-                g->u.mod_pain( dig ? 8 : 10 ); // Backbreaking work, mining!
-            }
-        }
-        g->m.ter_set( p.x, p.y, t_stairs_down ); // There's the top half
-        // We need to write to submap-local coordinates.
-        tmpmap.ter_set( local_tmp.x, local_tmp.y, t_stairs_up ); // and there's the bottom half.
-        tmpmap.save();
-    } else if( tmpmap.ter( local_tmp.x, local_tmp.y ) == t_lava ) { // Oooooops
-        if( g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" ) ) {
-            if( dig ) {
-                add_msg( m_warning, _( "You strike deeply--above a magma flow!" ) );
-            } else {
-                add_msg( m_warning, _( "You delve down directly above a magma flow!" ) );
-            }
-            g->u.mod_hunger( dig ? 15 : 25 );
-            g->u.mod_thirst( dig ? 15 : 25 );
-            g->u.mod_fatigue( dig ? 20 : 30 );
-            g->u.mod_pain( 4 );
-        } else {
-            if( dig ) {
-                add_msg( m_warning, _( "You just tunneled into lava!" ) );
-            } else {
-                add_msg( m_warning, _( "You just mined into lava!" ) );
-            }
-            g->u.mod_hunger( dig ? 25 : 35 );
-            g->u.mod_thirst( dig ? 25 : 35 );
-            g->u.mod_fatigue( dig ? 30 : 40 );
-            g->u.mod_pain( 4 ); // Backbreaking work, mining!
-        }
-        if( dig )
+            add_msg( m_warning, _( "You just tunneled into lava!" ) );
             g->u.add_memorial_log( pgettext( "memorial_male", "Dug a shaft into lava." ),
                                    pgettext( "memorial_female", "Dug a shaft into lava." ) );
-        else
-            g->u.add_memorial_log( pgettext( "memorial_male", "Mined into lava." ),
-                                   pgettext( "memorial_female", "Mined into lava." ) );
+            g->m.ter_set( p, t_hole );
+        }
 
-        // Now to see if you go swimming.  Same idea as the sinkhole.
-        if( ( ( g->u.get_skill_level( skill_carpentry ) ) + ( g->u.per_cur ) ) > ( ( g->u.str_cur ) + ( rng( 5,
-                10 ) ) ) ) {
-            add_msg( _( "You avoid collapsing the rock underneath you." ) );
-            add_msg( _( "Lashing your lumber together, you make a stable platform." ) );
-            g->m.ter_set( p.x, p.y, t_pit );
-        } else {
-            g->m.ter_set( p.x, p.y, t_hole ); // Collapse handled here.
-            add_msg( _( "The rock gives way beneath you!" ) );
-            add_msg( _( "Your timbers plummet into the lava!" ) );
-            if( g->u.has_amount( "grapnel", 1 ) ) {
-                add_msg( _( "You desperately throw your grappling hook!" ) );
-                int throwroll = rng( g->u.get_skill_level( skill_throw ),
-                                     g->u.get_skill_level( skill_throw ) + g->u.str_cur + g->u.dex_cur );
-                if( throwroll >= 9 ) { // Little tougher here than in a sinkhole
-                    add_msg( _( "The grappling hook catches something!" ) );
-                    if( rng( g->u.get_skill_level( skill_unarmed ),
-                             g->u.get_skill_level( skill_unarmed ) + g->u.str_cur ) > 7 ) {
-                        if( !catch_with_rope( p ) ) {
-                            g->u.use_amount( "grapnel", 1 );
-                            g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "grapnel" );
-                            g->vertical_move( -1, true );
-                        }
-                    } else {
-                        add_msg( m_bad, _( "You're not strong enough to pull yourself out..." ) );
-                        g->u.moves -= 100;
-                        g->u.use_amount( "grapnel", 1 );
-                        g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "grapnel" );
-                        g->vertical_move( -1, true );
-                    }
-                } else {
-                    add_msg( m_bad, _( "Your throw misses completely, and you fall into the lava!" ) );
-                    if( one_in( ( g->u.str_cur + g->u.dex_cur ) / 3 ) ) {
-                        g->u.use_amount( "grapnel", 1 );
-                        g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "grapnel" );
-                    }
-                    g->vertical_move( -1, true );
-                }
-            } else {
-                // You have a rope because you needed one to construct
-                // (You aren't charged it here because you lose it at end/construction)
-                add_msg( _( "You desperately throw your rope!" ) );
-                int throwroll = rng( g->u.get_skill_level( skill_throw ),
-                                     g->u.get_skill_level( skill_throw ) + g->u.str_cur + g->u.dex_cur );
-                if( throwroll >= 11 ) { // No hook, so good luck with that
-                    add_msg( _( "The rope snags and holds!" ) );
-                    if( rng( g->u.get_skill_level( skill_unarmed ),
-                             g->u.get_skill_level( skill_unarmed ) + g->u.str_cur ) > 7 ) {
-                        if( !catch_with_rope( p ) ) {
-                            g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "rope_30" );
-                            g->vertical_move( -1, true );
-                        } else {
-                            add_msg( _( "The rope gives way and plummets, just as you escape." ) );
-                        }
-                    } else {
-                        add_msg( m_bad, _( "You're not strong enough to pull yourself out..." ) );
-                        g->u.moves -= 100;
-                        g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "rope_30" );
-                        g->vertical_move( -1, true );
-                    }
-                } else {
-                    add_msg( m_bad, _( "Your throw misses completely, and you fall into the lava!" ) );
-                    if( one_in( ( g->u.str_cur + g->u.dex_cur ) / 3 ) ) {
-                        g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "rope_30" );
-                    }
-                    g->vertical_move( -1, true );
-                }
-            }
-        }
-    } else if( tmpmap.move_cost( local_tmp.x, local_tmp.y ) >= 2 ) { // Empty non-lava terrain.
-        if( g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" ) ) {
-            if( dig ) {
-                add_msg( _( "You strike deeply into the earth, and break into open space." ) );
-            } else {
-                add_msg( _( "You delve ever deeper into the earth, and break into open space." ) );
-            }
-            g->u.mod_hunger( dig ? 10 : 20 ); // Less heavy work, but making the ladder's still fatiguing
-            g->u.mod_thirst( dig ? 10 : 20 );
-            g->u.mod_fatigue( dig ? 20 : 30 );
-            g->u.mod_pain( 4 );
-        } else {
-            if( dig ) {
-                add_msg( _( "You dig into a preexisting space, and improvise a ladder." ) );
-            } else {
-                add_msg( _( "You mine into a preexisting space, and improvise a ladder." ) );
-            }
-            g->u.mod_hunger( dig ? 20 : 30 );
-            g->u.mod_thirst( dig ? 20 : 30 );
-            g->u.mod_fatigue( dig ? 30 : 40 );
-            if( !( g->u.has_trait( "NOPAIN" ) ) ) {
-                add_msg( m_bad, _( "You're quite sore from all that work, though." ) );
-                g->u.mod_pain( 4 ); // Backbreaking work, mining!
-            }
-        }
-        g->m.ter_set( p.x, p.y, t_stairs_down ); // There's the top half
-        // Again, need to use submap-local coordinates.
-        tmpmap.ter_set( local_tmp.x, local_tmp.y, t_ladder_up ); // and there's the bottom half.
-        // And save to the center coordinate of the current active map.
-        tmpmap.save();
+        return;
     }
+
+    bool impassable = tmpmap.impassable( local_tmp );
+    if( !impassable ) {
+        add_msg( _( "You dig into a preexisting space, and improvise a ladder." ) );
+    } else if( dig ) {
+        add_msg( _( "You dig a stairway, adding sturdy timbers and a rope for safety." ) );
+    } else {
+        add_msg( _( "You drill out a passage, heading deeper underground." ) );
+    }
+    g->m.ter_set( p, t_stairs_down ); // There's the top half
+    // Again, need to use submap-local coordinates.
+    tmpmap.ter_set( local_tmp, impassable ? t_stairs_up : t_ladder_up ); // and there's the bottom half.
+    // And save to the center coordinate of the current active map.
+    tmpmap.save();
 }
 
-void construct::done_dig_stair( point p )
+void construct::done_dig_stair( const tripoint &p )
 {
     done_digormine_stair( p, true );
 }
 
-void construct::done_mine_downstair( point p )
+void construct::done_mine_downstair( const tripoint &p )
 {
     done_digormine_stair( p, false );
 }
 
-void construct::done_mine_upstair( point p )
+void construct::done_mine_upstair( const tripoint &p )
 {
-    tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
+    tripoint const abs_pos = p;
     tripoint const pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
-    tripoint const local_tmp = tmpmap.getlocal( abs_pos );
-    bool danger_lava = false;
-    bool danger_open = false;
-    bool danger_liquid = false;
-    const int omtilesz = SEEX * 2; // KA101's 1337 copy & paste skillz
-    // Tougher with the noisy J-Hammer though
-    int const prox = digging_perception( 10 );
-    for (int i = 0; i < omtilesz; i++) {
-        for (int j = 0; j < omtilesz; j++) {
-          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
-              danger_lava = true;
-          }
-          // This ought to catch anything that's open-space
-          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.move_cost(i, j) >= 2 )) {
-              danger_open = true; // You might not know what's up there!
-          }
-          // Coming up into a river or sewer line could ruin your whole day!
-          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && ( (tmpmap.ter(i, j) == t_water_sh) ||
-          (tmpmap.ter(i, j) == t_sewage) || (tmpmap.ter(i, j) == t_water_dp) ||
-          (tmpmap.ter(i, j) == t_water_pool) ) ) {
-              danger_liquid = true;
-          }
-      }
-  }
-  if (danger_lava || danger_open || danger_liquid) { // Bad Stuff detected.  Are you sure?
-      g->m.ter_set(p.x, p.y, t_rock_floor); // You dug a bit before discovering the problem
-      if (danger_lava) {
-          add_msg(m_warning, _("The rock overhead feels hot.  You decide *not* to mine magma."));
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
+
+    if( tmpmap.ter( local_tmp ) == t_lava ) {
+        g->m.ter_set( p.x, p.y, t_rock_floor ); // You dug a bit before discovering the problem
+        add_msg(m_warning, _("The rock overhead feels hot.  You decide *not* to mine magma."));
         unroll_digging( 12 );
-          return;
-      }
-      if (danger_open) {
-          if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
-            unroll_digging( 12 );
-              return;
-          }
-      }
-      if (danger_liquid) {
-          add_msg(m_warning, _("The rock above is rather damp.  You decide *not* to mine water."));
+        return;
+    }
+
+    static const std::set<ter_id> liquids = {{
+         t_water_sh, t_sewage,t_water_dp, t_water_pool
+    }};
+
+    if ( liquids.count( tmpmap.ter( local_tmp ) ) > 0 ) {
+        g->m.ter_set( p.x, p.y, t_rock_floor ); // You dug a bit before discovering the problem
+        add_msg(m_warning, _("The rock above is rather damp.  You decide *not* to mine water."));
         unroll_digging( 12 );
-          return;
-      }
-  }
-  if (tmpmap.impassable(p.x % SEEX, p.y % SEEY)) { // Solid rock or a wall.  Safe enough.
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
-          add_msg(_("You carve upward and breach open a space."));
-          g->u.mod_hunger(35);
-          g->u.mod_thirst(35);
-          g->u.mod_fatigue(40);
-          g->u.mod_pain(15); // NOPAIN is a THRESH_MEDICAL trait so shouldn't be present here
-      }
-      else {
-          add_msg(_("You drill out a passage, heading for the surface."));
-          g->u.mod_hunger(45);
-          g->u.mod_thirst(45);
-          g->u.mod_fatigue(50);
-          if (!(g->u.has_trait("NOPAIN"))) {
-              add_msg(m_bad, _("You're quite sore from all that work."));
-              g->u.mod_pain(15); // Backbreaking work, mining!
-          }
-      }
-      g->m.ter_set(p.x, p.y, t_stairs_up); // There's the bottom half
-      // We need to write to submap-local coordinates.
-      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_down); // and there's the top half.
-      tmpmap.save();
-   }
-   else if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) >= 2) { // Empty non-lava terrain.
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
-          add_msg(_("You carve upward, and break into open space."));
-          g->u.mod_hunger(30); // Tougher to go up than down.
-          g->u.mod_thirst(30);
-          g->u.mod_fatigue(40);
-          g->u.mod_pain(5);
-      }
-      else {
-          add_msg(_("You drill up into a preexisting space."));
-          g->u.mod_hunger(40);
-          g->u.mod_thirst(40);
-          g->u.mod_fatigue(50);
-          if (!(g->u.has_trait("NOPAIN"))) {
-              add_msg(m_bad, _("You're quite sore from all that work."));
-              g->u.mod_pain(5);
-          }
-      }
-      g->m.ter_set(p.x, p.y, t_stairs_up); // There's the bottom half
-      // Again, need to use submap-local coordinates.
-      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_down); // and there's the top half.
-      // And save to the center coordinate of the current active map.
-      tmpmap.save();
-   }
+        return;
+    }
+
+    bool dig_muts = g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" );
+
+    int no_mut_penalty = dig_muts ? 15 : 0;
+    g->u.mod_hunger( 20 + no_mut_penalty );
+    g->u.mod_thirst( 20 + no_mut_penalty );
+    g->u.mod_fatigue( 25 + no_mut_penalty );
+
+    add_msg( _("You drill out a passage, heading for the surface.") );
+    g->m.ter_set( p.x, p.y, t_stairs_up ); // There's the bottom half
+    // We need to write to submap-local coordinates.
+    tmpmap.ter_set( local_tmp, t_stairs_down ); // and there's the top half.
+    tmpmap.save();
 }
 
-void construct::done_window_curtains(point)
+void construct::done_window_curtains( const tripoint & )
 {
     // copied from iexamine::curtains
-    g->m.spawn_item( g->u.posx(), g->u.posy(), "nail", 1, 4 );
-    g->m.spawn_item( g->u.posx(), g->u.posy(), "sheet", 2 );
-    g->m.spawn_item( g->u.posx(), g->u.posy(), "stick" );
-    g->m.spawn_item( g->u.posx(), g->u.posy(), "string_36" );
+    g->m.spawn_item( g->u.pos(), "nail", 1, 4 );
+    g->m.spawn_item( g->u.pos(), "sheet", 2 );
+    g->m.spawn_item( g->u.pos(), "stick" );
+    g->m.spawn_item( g->u.pos(), "string_36" );
     g->u.add_msg_if_player( _("After boarding up the window the curtains and curtain rod are left.") );
 }
 
@@ -1417,35 +1186,33 @@ int construction::print_time( WINDOW *w, int ypos, int xpos, int width,
 float construction::time_scale() const
 {
     //incorporate construction time scaling
-    if( ACTIVE_WORLD_OPTIONS.empty() || int( ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"] ) == 0 ) {
+    if( get_world_option<int>( "CONSTRUCTION_SCALING" ) == 0 ) {
         return calendar::season_ratio();
     } else {
-        return 100.0 / int( ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"] );
+        return 100.0 / get_world_option<int>( "CONSTRUCTION_SCALING" );
     }
 }
 
 int construction::adjusted_time() const
 {
-    int basic = time;
+    int final_time = time;
     int assistants = 0;
 
-    for( auto &elem : g->active_npc ) {
-        if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() && !elem->in_sleep_state() ) {
-            if( elem->get_skill_level( skill ) >= difficulty ) {
-                assistants++;
-            }
+    for( auto &elem : g->u.get_crafting_helpers() ) {
+        if( elem->get_skill_level( skill ) >= difficulty ) {
+            assistants++;
         }
     }
-    for( int i = 0; i < assistants; i++ ) {
-        basic = basic * .75;
-    }
-    if( basic <= time * .4 ) {
-        basic = time * .4;
+
+    if( assistants >= 2 ) {
+        final_time *= 0.4f;
+    } else if( assistants == 1 ) {
+        final_time *= 0.75f;
     }
 
-    basic *= time_scale();
+    final_time *= time_scale();
 
-    return basic;
+    return final_time;
 }
 
 std::string construction::get_time_string() const
@@ -1483,11 +1250,12 @@ std::vector<std::string> construction::get_folded_time_string( int width ) const
 void finalize_constructions()
 {
     std::vector<item_comp> frame_items;
-    for( auto &vp : vpart_info::get_all() ) {
-        if( !vp->has_flag( "INITIAL_PART" ) ) {
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( !vp.has_flag( "INITIAL_PART" ) ) {
             continue;
         }
-        frame_items.push_back( item_comp( vp->item, 1 ) );
+        frame_items.push_back( item_comp( vp.item, 1 ) );
     }
 
     if( frame_items.empty() ) {

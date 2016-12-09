@@ -4,6 +4,7 @@
 #include "filesystem.h"
 
 // can load from json
+#include "flag.h"
 #include "effect.h"
 #include "emit.h"
 #include "vitamin.h"
@@ -53,7 +54,10 @@
 #include "gates.h"
 #include "overlay_ordering.h"
 #include "worldfactory.h"
+#include "weather_gen.h"
 #include "npc_class.h"
+#include "recipe_dictionary.h"
+#include "harvest.h"
 
 #include <string>
 #include <vector>
@@ -82,6 +86,30 @@ void DynamicDataLoader::load_object( JsonObject &jo, const std::string &src )
         jo.throw_error( "unrecognized JSON object", "type" );
     }
     it->second( jo, src );
+}
+
+bool DynamicDataLoader::load_deferred( deferred_json& data )
+{
+    while( !data.empty() ) {
+        size_t n = static_cast<size_t>( data.size() );
+        auto it = data.begin();
+        for( size_t idx = 0; idx != n; ++idx ) {
+            try {
+                std::istringstream str( it->first );
+                JsonIn jsin( str );
+                JsonObject jo = jsin.get_object();
+                load_object( jo, it->second );
+            } catch( const std::exception &err ) {
+                debugmsg( "Error loading data from json: %s", err.what() );
+            }
+            ++it;
+        }
+        data.erase( data.begin(), it );
+        if( data.size() == n ) {
+            return false; // made no progress on this cycle so abort
+        }
+    }
+    return true;
 }
 
 void load_ingored_type(JsonObject &jo)
@@ -113,8 +141,10 @@ void DynamicDataLoader::initialize()
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
+    add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
     add( "emit", &emit::load_emit );
+    add( "activity_type", &activity_type::load );
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &materials::load );
     add( "bionic", &load_bionic );
@@ -152,6 +182,7 @@ void DynamicDataLoader::initialize()
     add( "GUN", []( JsonObject &jo, const std::string &src ) { item_controller->load_gun( jo, src ); } );
     add( "ARMOR", []( JsonObject &jo, const std::string &src ) { item_controller->load_armor( jo, src ); } );
     add( "TOOL", []( JsonObject &jo, const std::string &src ) { item_controller->load_tool( jo, src ); } );
+    add( "TOOLMOD", []( JsonObject &jo, const std::string &src ) { item_controller->load_toolmod( jo, src ); } );
     add( "TOOL_ARMOR", []( JsonObject &jo, const std::string &src ) { item_controller->load_tool_armor( jo, src ); } );
     add( "BOOK", []( JsonObject &jo, const std::string &src ) { item_controller->load_book( jo, src ); } );
     add( "COMESTIBLE", []( JsonObject &jo, const std::string &src ) { item_controller->load_comestible( jo, src ); } );
@@ -166,25 +197,26 @@ void DynamicDataLoader::initialize()
     add( "ITEM_CATEGORY", []( JsonObject &jo ) { item_controller->load_item_category( jo ); } );
     add( "MIGRATION", []( JsonObject &jo ) { item_controller->load_migration( jo ); } );
 
-    add( "MONSTER", []( JsonObject &jo ) { MonsterGenerator::generator().load_monster( jo ); } );
-    add( "SPECIES", []( JsonObject &jo ) { MonsterGenerator::generator().load_species( jo ); } );
+    add( "MONSTER", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_monster( jo, src ); } );
+    add( "SPECIES", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_species( jo, src ); } );
 
     add( "recipe_category", &load_recipe_category );
-    add( "recipe", &load_recipe );
+    add( "recipe",  []( JsonObject &jo, const std::string &src ) { recipe_dictionary::load( jo, src, false ); } );
+    add( "uncraft", []( JsonObject &jo, const std::string &src ) { recipe_dictionary::load( jo, src, true  ); } );
+
     add( "tool_quality", &quality::load_static );
     add( "technique", &load_technique );
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
     add( "tutorial_messages", &load_tutorial_messages );
-    add( "overmap_terrain", &load_overmap_terrain );
+    add( "overmap_terrain", &overmap_terrains::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
-    add( "overmap_special", &load_overmap_specials );
+    add( "overmap_special", &overmap_specials::load );
 
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
     add( "ITEM_BLACKLIST", []( JsonObject &jo ) { item_controller->load_item_blacklist( jo ); } );
-    add( "ITEM_WHITELIST", []( JsonObject &jo ) { item_controller->load_item_whitelist( jo ); } );
     add( "WORLD_OPTION", &load_world_option );
 
     // loaded earlier.
@@ -203,8 +235,10 @@ void DynamicDataLoader::initialize()
     add( "sound_effect", &sfx::load_sound_effects );
     add( "playlist", &sfx::load_playlist );
 
-    add( "gate", &gates::load_gates );
+    add( "gate", &gates::load );
     add( "overlay_order", &load_overlay_ordering );
+    add( "mission_definition", []( JsonObject &jo, const std::string &src ) { mission_type::load_mission_type( jo, src ); } );
+    add( "harvest", []( JsonObject &jo, const std::string &src ) { harvest_list::load( jo, src ); } );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
@@ -282,9 +316,11 @@ void init_names()
 
 void DynamicDataLoader::unload_data()
 {
+    json_flag::reset();
     requirement_data::reset();
     vitamin::reset();
     emit::reset();
+    activity_type::reset();
     fault::reset();
     materials::reset();
     profession::reset();
@@ -308,16 +344,16 @@ void DynamicDataLoader::unload_data()
     vpart_info::reset();
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
-    reset_recipes();
+    recipe_dictionary::reset();
     quality::reset();
     trap::reset();
     reset_constructions();
-    reset_overmap_terrain();
+    overmap_terrains::reset();
     reset_region_settings();
     reset_mapgens();
     reset_effect_types();
     reset_speech();
-    clear_overmap_specials();
+    overmap_specials::reset();
     ammunition_type::reset();
     unload_talk_topics();
     start_location::reset();
@@ -334,45 +370,52 @@ extern void calculate_mapgen_weights();
 void DynamicDataLoader::finalize_loaded_data()
 {
     item_controller->finalize();
+    requirement_data::finalize();
     vpart_info::finalize();
-    mission_type::initialize(); // Needs overmap terrain.
     set_ter_ids();
     set_furn_ids();
-    set_oter_ids();
     trap::finalize();
-    finalize_overmap_terrain();
+    overmap_terrains::finalize();
     vehicle_prototype::finalize();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
-    finalize_recipes();
+    recipe_dictionary::finalize();
     finialize_martial_arts();
     finalize_constructions();
     npc_class::finalize_all();
+    harvest_list::finalize_all();
     check_consistency();
 }
 
 void DynamicDataLoader::check_consistency()
 {
+    json_flag::check_consistency();
     requirement_data::check_consistency();
     vitamin::check_consistency();
     emit::check_consistency();
+    activity_type::check_consistency();
     item_controller->check_definitions();
     materials::check();
     fault::check_consistency();
     vpart_info::check();
     MonsterGenerator::generator().check_monster_definitions();
     MonsterGroupManager::check_group_definitions();
-    check_recipe_definitions();
     check_furniture_and_terrain();
     check_constructions();
     profession::check_definitions();
     scenario::check_definitions();
     check_martialarts();
     mutation_branch::check_consistency();
+    overmap_terrains::check_consistency();
+    overmap_specials::check_consistency();
     ammunition_type::check_consistency();
     trap::check_consistency();
     check_bionics();
+    gates::check();
     npc_class::check_consistency();
+    mission_type::check_consistency();
+    item_action_generator::generator().check_consistency();
+    harvest_list::check_consistency();
 }

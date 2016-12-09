@@ -7,12 +7,5 @@
       "mon_shia",
       "mon_bear_smoky"
     ]
-  },{
-    "type" : "ITEM_BLACKLIST",
-    "items" : [
-      "granade",
-      "granade_act",
-      "jacqueshammer"
-    ]
   }
 ]

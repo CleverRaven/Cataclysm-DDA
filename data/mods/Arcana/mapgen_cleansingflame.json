@@ -64,9 +64,9 @@
     "type" : "item_group",
     "id" : "cleansing_flame_crafting",
     "items":[
-      ["gold", 1],
+      ["gold_small", 1],
       ["gold_small", 10],
-      ["silver", 2],
+      ["silver_small", 2],
       ["silver_small", 20],
       ["scrap", 15],
       ["copper", 15]

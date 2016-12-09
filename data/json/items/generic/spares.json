@@ -13,7 +13,7 @@
     "copy-from": "spare_part",
     "type": "GENERIC",
     "name": "drive belt",
-    "description": "A synthetic rubber V-belt with steel reinforcement fibers commonly fited to engines or other industrial equipment.",
+    "description": "A synthetic rubber V-belt with steel reinforcement fibers commonly fitted to engines or other industrial equipment.",
     "material": [ "plastic", "steel" ],
     "weight": 850,
     "volume": 2,

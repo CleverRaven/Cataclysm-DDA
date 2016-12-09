@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "makeshift",
+    "name": "More Craftables",
+    "authors": [ "Noctifer-de-Mortem" ],
+    "maintainers": [ "Noctifer-de-Mortem" ],
+    "description": "Allows crafting of more improvised item variants",
+    "category": "items",
+    "dependencies": [ "dda" ]
+  }
+]

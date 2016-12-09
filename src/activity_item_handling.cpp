@@ -21,6 +21,8 @@
 #include <cassert>
 #include <algorithm>
 
+void cancel_aim_processing();
+
 const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_pet( "pet" );
 
@@ -62,11 +64,15 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
                 it.display_name().c_str(), ter_name.c_str() );
-            g->m.add_item_or_charges( where, it, 2 );
+            g->m.add_item_or_charges( where, it );
             continue;
         }
         if( !veh.add_item( part, it ) ) {
-            g->m.add_item_or_charges( where, it, 1 );
+            if( it.count_by_charges() ) {
+                // Maybe we can add a few charges in the trunk and the rest on the ground.
+                it.mod_charges( -veh.add_charges( part, it ) );
+            }
+            g->m.add_item_or_charges( where, it );
             ++fallen_count;
         }
     }
@@ -90,7 +96,8 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
 
 void stash_on_pet( const std::list<item> &items, monster &pet )
 {
-    int remaining_volume = pet.inv.empty() ? 0 : pet.inv.front().get_storage();
+    units::volume remaining_volume = pet.inv.empty() ? units::volume( 0 ) :
+                                     pet.inv.front().get_storage();
     int remaining_weight = pet.weight_capacity();
 
     for( const auto &it : pet.inv ) {
@@ -103,11 +110,11 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
         if( it.volume() > remaining_volume ) {
             add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ),
                      it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
-            g->m.add_item_or_charges( pet.pos(), it, 1 );
+            g->m.add_item_or_charges( pet.pos(), it );
         } else if( it.weight() > remaining_weight ) {
             add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ),
                      it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
-            g->m.add_item_or_charges( pet.pos(), it, 1 );
+            g->m.add_item_or_charges( pet.pos(), it );
         } else {
             pet.add_item( it );
             remaining_volume -= it.volume();
@@ -144,7 +151,7 @@ void drop_on_map( const std::list<item> &items, const tripoint &where )
         }
     }
     for( const auto &it : items ) {
-        g->m.add_item_or_charges( where, it, 2 );
+        g->m.add_item_or_charges( where, it );
     }
 }
 
@@ -257,8 +264,8 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
                     && !second.it->is_worn_only_with( *first.it ) );
     } );
 
-    int storage_loss = 0;                        // Cumulatively increases
-    int remaining_storage = p.volume_capacity(); // Cumulatively decreases
+    units::volume storage_loss = 0;                        // Cumulatively increases
+    units::volume remaining_storage = p.volume_capacity(); // Cumulatively decreases
 
     while( !worn.empty() && !inv.empty() ) {
         storage_loss += worn.front().it->get_storage();
@@ -326,7 +333,7 @@ std::list<item> obtain_activity_items( player_activity &act, player &p )
         items.pop_front();
     }
     // Avoid tumbling to the ground. Unload cleanly.
-    const int excessive_volume = p.volume_carried() - p.volume_capacity();
+    const units::volume excessive_volume = p.volume_carried() - p.volume_capacity();
     if( excessive_volume > 0 ) {
         const auto excess = p.inv.remove_randomly_by_volume( excessive_volume );
         res.insert( res.begin(), excess.begin(), excess.end() );
@@ -393,11 +400,11 @@ void activity_on_turn_pickup()
     }
     g->u.cancel_activity();
 
-    Pickup::do_pickup( pickup_target, from_vehicle, indices, quantities, autopickup );
+    bool keep_going = Pickup::do_pickup( pickup_target, from_vehicle, indices, quantities, autopickup );
 
     // If there are items left, we ran out of moves, so make a new activity with the remainder.
-    if( !indices.empty() ) {
-        g->u.assign_activity( ACT_PICKUP, 0 );
+    if( keep_going && !indices.empty() ) {
+        g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
         g->u.activity.placement = pickup_target;
         g->u.activity.auto_resume = autopickup;
         g->u.activity.values.push_back( from_vehicle );
@@ -407,6 +414,11 @@ void activity_on_turn_pickup()
             g->u.activity.values.push_back( quantities.front() );
             quantities.pop_front();
         }
+    }
+
+    // @todo Move this to advanced inventory instead of hacking it in here
+    if( !keep_going ) {
+        cancel_aim_processing();
     }
 }
 
@@ -545,7 +557,7 @@ void activity_on_turn_move_items()
     move_items( source, from_vehicle, destination, to_vehicle, indices, quantities );
 
     if( !indices.empty() ) {
-        g->u.assign_activity( ACT_MOVE_ITEMS, 0 );
+        g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
         g->u.activity.placement = source;
         g->u.activity.coords.push_back( destination );
         g->u.activity.values.push_back( from_vehicle );

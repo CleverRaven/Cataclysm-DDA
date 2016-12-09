@@ -1,0 +1,37 @@
+[
+  {
+    "id": "mag_throwing",
+    "type": "BOOK",
+    "name": "Diskobolus",
+    "name_plural": "Diskobolus",
+    "description": "A biannual magazine devoted to the art and science of discus-throwing.",
+    "weight": 60,
+    "volume": 1,
+    "price": 480,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "pink",
+    "skill": "throw",
+    "max_level": 1,
+    "intelligence": 1,
+    "time": 8,
+    "fun": 1
+  },
+  {
+    "id": "manual_throw",
+    "type": "BOOK",
+    "name": "The Complete Guide to Pitching",
+    "name_plural": "Complete Guides to Pitching",
+    "description": "A detailed guide for baseball pitchers that combines time-tested techniques and information mixed with a common sense approach to pitching.",
+    "weight": 400,
+    "volume": 2,
+    "price": 2800,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "throw",
+    "max_level": 3,
+    "intelligence": 3,
+    "time": 15
+  }
+]

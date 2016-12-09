@@ -5,8 +5,8 @@
     "name": "board",
     "item": "sheet_metal",
     "location": "center",
-    "durability": 240,
     "difficulty": 1,
+    "durability": 240,
     "breaks_into": "ig_vp_sheet_metal",
     "flags": [ "OPAQUE", "OBSTACLE" ]
   },
@@ -17,8 +17,8 @@
     "item": "sheet",
     "location": "center",
     "broken_color": "dark_gray",
-    "durability": 15,
     "difficulty": 1,
+    "durability": 15,
     "folded_volume": 15,
     "breaks_into": "ig_vp_cloth",
     "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE" ]
@@ -46,8 +46,8 @@
     "item": "steel_plate",
     "location": "center",
     "color": "dark_gray",
-    "durability": 1000,
     "difficulty": 1,
+    "durability": 1000,
     "breaks_into": "ig_vp_steel_plate",
     "flags": [ "OPAQUE", "OBSTACLE" ]
   },
@@ -67,8 +67,8 @@
     "location": "center",
     "color": "brown",
     "broken_color": "brown",
-    "durability": 300,
     "difficulty": 1,
+    "durability": 300,
     "breaks_into": "ig_vp_wood_plate",
     "flags": [ "OPAQUE", "OBSTACLE", "NAILABLE" ]
   },
@@ -86,8 +86,8 @@
     "name": "extra light quarterpanel",
     "item": "pipe",
     "location": "center",
-    "durability": 100,
     "difficulty": 1,
+    "durability": 100,
     "breaks_into": [ { "item": "pipe", "prob": 50 } ],
     "flags": [ "OBSTACLE" ]
   },

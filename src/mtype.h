@@ -8,6 +8,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "damage.h"
+#include "pathfinding.h"
 
 #include <bitset>
 #include <string>
@@ -44,6 +45,9 @@ typedef std::string itype_id;
 
 class emit;
 using emit_id = string_id<emit>;
+
+class harvest_list;
+using harvest_id = string_id<harvest_list>;
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
@@ -103,7 +107,6 @@ enum m_flag : int {
     MF_FIREPROOF,           // Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
-    MF_LEAKSGAS,            // Occasionally leaks gas when moving
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by emp blasts, and other stuff
@@ -150,6 +153,7 @@ enum m_flag : int {
     MF_AVOID_DANGER_1,      // This monster will path around some dangers instead of through them.
     MF_AVOID_DANGER_2,      // This monster will path around most dangers instead of through them.
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
+    MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -255,7 +259,7 @@ struct mtype {
         mfaction_id default_faction;
         /** UTF-8 encoded symbol, should be exactyle one cell wide. */
         std::string sym;
-        nc_color color;
+        nc_color color = c_white;
         m_size size;
         std::vector<material_id> mat;
         phase_id phase;
@@ -268,32 +272,37 @@ struct mtype {
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
 
-        int difficulty; // Used all over; 30 min + (diff-3)*30 min = earliest appearance
-        int agro;       // How likely to attack; -100 to 100
-        int morale;     // Default morale level
+        int difficulty = 0;     /** many uses; 30 min + (diff-3)*30 min = earliest appearance */
+        int hp = 0;
+        int speed = 0;          /** eg. human = 100 */
+        int agro = 0;           /** chance will attack [-100,100] */
+        int morale = 0;         /** initial morale level at spawn */
+
+        int attack_cost = 100;  /** moves per regular attack */
+        int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */
+        int melee_dice = 0;     /** number of dice of bonus bashing damage on melee hit */
+        int melee_sides = 0;    /** number of sides those dice have */
+
+        int sk_dodge = 0;       /** dodge skill */
+
+        /** If unset (-1) then values are calculated automatically from other properties */
+        int armor_bash = -1;    /** innate armor vs. bash */
+        int armor_cut  = -1;    /** innate armor vs. cut */
+        int armor_stab = -1;    /** innate armor vs. stabbing */
+        int armor_acid = -1;    /** innate armor vs. acid */
+        int armor_fire = -1;    /** innate armor vs. fire */
 
         // Vision range is linearly scaled depending on lighting conditions
-        int vision_day;  // Vision range in bright light
-        int vision_night; // Vision range in total darkness
+        int vision_day = 40;    /** vision range in bright light */
+        int vision_night = 1;   /** vision range in total darkness */
 
-        int  speed;       // Speed; human = 100
-        // Number of moves per regular attack.
-        int attack_cost;
         damage_instance melee_damage; // Basic melee attack damage
-        unsigned char melee_skill; // Melee hit skill, 20 is superhuman hitting abilities.
-        unsigned char melee_dice;  // Number of dice of bonus bashing damage on melee hit
-        unsigned char melee_sides; // Number of sides those dice have
-        unsigned char sk_dodge;    // Dodge skill; should be 0 to 5
-        unsigned char armor_bash;  // Natural armor vs. bash
-        unsigned char armor_cut;   // Natural armor vs. cut
-        unsigned char armor_stab;  // Natural armor vs. stabbing
-        unsigned char armor_acid;  // Natural armor vs. acid
-        unsigned char armor_fire;  // Natural armor vs. fire
+
         std::map<std::string, int> starting_ammo; // Amount of ammo the monster spawns with.
         // Name of item group that is used to create item dropped upon death, or empty.
         std::string death_drops;
+        harvest_id harvest;
         float luminance;           // 0 is default, >0 gives luminance to lightmap
-        int hp;
         // special attack frequencies and function pointers
         std::map<std::string, mtype_special_attack> special_attacks;
         std::vector<std::string> special_attacks_names; // names of attacks, in json load order
@@ -312,6 +321,10 @@ struct mtype {
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
         mtype_id burn_into;
+
+        // Monster's ability to destroy terrain and vehicles
+        int bash_skill;
+
         // Default constructor
         mtype ();
         /**
@@ -328,6 +341,8 @@ struct mtype {
 
         /** Emission sources that cycle each turn the monster remains alive */
         std::set<emit_id> emit_fields;
+
+        pathfinding_settings path_settings;
 
         // Used to fetch the properly pluralized monster type name
         std::string nname(unsigned int quantity = 1) const;
@@ -351,7 +366,7 @@ struct mtype {
         int get_meat_chunks_count() const;
 
         // Historically located in monstergenerator.cpp
-        void load( JsonObject &jo );
+        void load( JsonObject &jo, const std::string &src );
 };
 
 mon_effect_data load_mon_effect_data( JsonObject &e );

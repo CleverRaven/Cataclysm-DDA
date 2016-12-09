@@ -1,9 +1,11 @@
-{
+[
+  {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "Slow_Zombies",
     "name": "Slow Zombies",
     "description": "Halves zombie speed.",
     "category": "rebalance",
-    "path": ""
-}
+    "dependencies": [ "dda" ],
+    "obsolete": true
+  }
+]

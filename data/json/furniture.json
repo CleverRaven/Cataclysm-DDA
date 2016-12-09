@@ -198,12 +198,12 @@
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 12 },
-                { "item": "rag", "count": [120, 135] },
+                { "item": "blanket", "count": 2 },
                 { "item": "nail", "charges": [8, 10] }
             ]
         },
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH",
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH",
                   "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
         "bash": {
             "str_min": 12, "str_max": 40,
@@ -213,7 +213,7 @@
                 { "item": "2x4", "count": [5, 8] },
                 { "item": "nail", "charges": [6, 8] },
                 { "item": "splinter", "count": [3, 6] },
-                { "item": "rag", "count": [80, 130] }
+                { "item": "rag", "count": [40, 55] }
             ]
         }
     },{
@@ -588,7 +588,8 @@
             "items": [
                 { "item": "pipe", "count": 1 },
                 { "item": "steel_chunk", "count": 1 },
-                { "item": "scrap", "count": [2, 6] }
+                { "item": "scrap", "count": [2, 6] },
+                { "item": "lead", "charges": [1000, 2000] }
             ]
         },
         "bash": {
@@ -598,7 +599,8 @@
             "items": [
                 { "item": "scrap", "count": [2, 6] },
                 { "item": "steel_chunk", "prob": 50 },
-                { "item": "pipe", "count": 1 }
+                { "item": "pipe", "count": 1 },
+                { "item": "lead", "charges": [1000, 2000] }
             ]
         }
     },{
@@ -1863,7 +1865,10 @@
         "move_cost_mod": 1,
         "required_str": -1,
         "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
-        "examine_action": "flower_datura",
+        "examine_action": "harvest_furn_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "datura_seed", "base_num": [ 2, 6 ] } ] }
+        ],
         "bash": {
             "str_min": 2, "str_max": 6,
             "sound": "crunch.",
@@ -1893,7 +1898,10 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
-        "examine_action": "flower_dandelion",
+        "examine_action": "harvest_furn_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "raw_dandelion", "base_num": [ 1, 4 ] } ] }
+        ],
         "bash": {
             "str_min": 2, "str_max": 6,
             "sound": "crunch.",
@@ -1922,7 +1930,11 @@
         "move_cost_mod": 1,
         "required_str": -1,
         "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
-        "examine_action": "examine_cattails",
+        "examine_action": "harvest_furn",
+        "harvest_by_season" : [
+            { "seasons": [ "winter" ], "entries": [ { "drop": "cattail_rhizome" } ] },
+            { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "cattail_rhizome" }, { "drop": "cattail_stalk", "base_num": [ 1, 4 ] } ] }
+        ],
         "bash": {
             "str_min": 2, "str_max": 6,
             "sound": "crunch.",
@@ -2605,7 +2617,7 @@
         "color": "dkgray",
         "move_cost_mod": 3,
         "required_str": 10,
-        "flags": ["TRANSPARENT", "MINEABLE", "UNSTABLE", "TINY"],
+        "flags": ["TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "TINY"],
         "bash": {
             "str_min": 16, "str_max": 40,
             "sound": "smash!",
@@ -2622,7 +2634,7 @@
         "color": "dkgray",
         "move_cost_mod": 6,
         "required_str": 16,
-        "flags": ["NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "SHORT", "BASHABLE"],
+        "flags": ["NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE"],
         "bash": {
             "str_min": 32, "str_max": 80,
             "sound": "smash!",

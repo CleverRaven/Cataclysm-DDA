@@ -1,5 +1,40 @@
 [
   {
+    "abstract": "artillery_casing",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "A large artillery casing.",
+    "stackable": true,
+    "material": "steel",
+    "symbol": "=",
+    "color": "green",
+    "damage_states": [ 0, 0 ]
+  },
+  {
+    "id": "belt30mm",
+    "copy-from": "magazine_belt",
+    "type": "MAGAZINE",
+    "name": "30x113mm ammo belt",
+    "ammo_type": "30mm",
+    "default_ammo": "30mm_hedp",
+    "capacity": 300,
+    "count": 50,
+    "linkage": "ammolink30mm"
+  },
+  {
+    "id": "ammolink30mm",
+    "copy-from": "ammolink",
+    "type": "GENERIC",
+    "name": "30x113mm autocannon belt linkage",
+    "weight": 6,
+    "volume": "10ml",
+    "stackable": true,
+    "use_action": {
+      "type": "ammobelt",
+      "belt": "belt30mm"
+    }
+  },
+  {
   "type" : "AMMO",
   "id" : "30mm_hedp",
   "price" : 15500,
@@ -8,7 +43,7 @@
   "symbol" : "=",
   "color" : "dark_gray",
   "description" : "A 30x113mm autocannon round using a high-explosive, dual-purpose shell.  Used primarily against light armored vehicles.",
-  "material" : ["steel", "powder"],
+  "material" : ["brass", "powder"],
   "volume" : 5,
   "weight" : 220,
   "bashing" : 1,
@@ -18,10 +53,11 @@
   "pierce" : 210,
   "range" : 60,
   "dispersion" : 50,
-  "recoil" : 800,
+  "recoil" : 8000,
   "count" : 15,
   "effects" : ["COOKOFF", "FRAG"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "30mm_hei",
   "price" : 15500,
@@ -30,7 +66,7 @@
   "symbol" : "=",
   "color" : "dark_gray",
   "description" : "A 30x113mm autocannon round, high explosive incendiary.  Designed for use against unarmored vehicles and to suppress infantry.",
-  "material" : ["steel", "powder"],
+  "material" : ["brass", "powder"],
   "volume" : 5,
   "weight" : 220,
   "bashing" : 1,
@@ -40,10 +76,11 @@
   "pierce" : 75,
   "range" : 60,
   "dispersion" : 50,
-  "recoil" : 800,
+  "recoil" : 8000,
   "count" : 15,
   "effects" : ["COOKOFF", "NAPALM", "EXPLOSIVE_SMALL"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "30mm_slug",
   "price" : 1550,
@@ -62,10 +99,11 @@
   "pierce" : 15,
   "range" : 30,
   "dispersion" : 60,
-  "recoil" : 800,
+  "recoil" : 8000,
   "count" : 10,
   "effects" : ["COOKOFF", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "120mm_usable_heat",
   "price" : 100000,
@@ -83,10 +121,11 @@
   "pierce" : 800,
   "range" : 90,
   "dispersion" : 5,
-  "recoil" : 30,
+  "recoil" : 6000,
   "count" : 1,
   "effects" : ["COOKOFF", "EXPLOSIVE", "TRAIL"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "120mm_usable_ap",
   "price" : 120000,
@@ -104,10 +143,11 @@
   "pierce" : 800,
   "range" : 95,
   "dispersion" : 5,
-  "recoil" : 50,
+  "recoil" : 5000,
   "count" : 1,
   "effects" : ["COOKOFF", "INCENDIARY", "TRAIL"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "120mm_usable_shot",
   "price" : 10000,
@@ -125,10 +165,11 @@
   "pierce" : 10,
   "range" : 20,
   "dispersion" : 30,
-  "recoil" : 75,
+  "recoil" : 7500,
   "count" : 1,
   "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "120mm_usable_slug",
   "price" : 10000,
@@ -146,10 +187,11 @@
   "pierce" : 25,
   "range" : 60,
   "dispersion" : 120,
-  "recoil" : 75,
+  "recoil" : 7500,
   "count" : 1,
   "effects" : ["COOKOFF", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "155mm_heat",
   "price" : 120000,
@@ -167,10 +209,11 @@
   "pierce" : 1200,
   "range" : 120,
   "dispersion" : 25,
-  "recoil" : 60,
+  "recoil" : 6000,
   "count" : 1,
   "effects" : ["COOKOFF", "EXPLOSIVE_BIG", "TRAIL"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "155mm_shot",
   "price" : 12000,
@@ -188,10 +231,11 @@
   "pierce" : 15,
   "range" : 25,
   "dispersion" : 50,
-  "recoil" : 680,
+  "recoil" : 6800,
   "count" : 1,
   "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "155mm_slug",
   "price" : 12000,
@@ -209,10 +253,11 @@
   "pierce" : 35,
   "range" : 75,
   "dispersion" : 150,
-  "recoil" : 80,
+  "recoil" : 8000,
   "count" : 1,
   "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "atgm_heat",
   "price" : 70000,
@@ -229,67 +274,40 @@
   "pierce" : 225,
   "range" : 100,
   "dispersion" : 0,
-  "recoil" : 60,
+  "recoil" : 6000,
   "count" : 1,
   "effects" : ["COOKOFF", "EXPLOSIVE", "NEVER_MISFIRES"]
-},{
-  "type" : "AMMO",
+  },
+  {
+  "type" : "GENERIC",
   "id" : "30mm_casing",
-  "category" : "spare_parts",
-  "price" : 4000,
+  "copy-from": "artillery_casing",
   "name" : "30mm canister",
-  "symbol" : "=",
-  "color" : "dark_gray",
   "description" : "A canister from a spent 30mm shell.",
-  "material" : "steel",
   "volume" : 5,
-  "weight" : 20,
-  "bashing" : 1,
-  "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
-  "recoil" : 0,
-  "count" : 50
-},{
-  "type" : "AMMO",
+  "weight" : 20
+  },
+  {
+  "type" : "GENERIC",
   "id" : "120mm_casing",
-  "category" : "spare_parts",
-  "price" : 4000,
+  "copy-from": "artillery_casing",
   "name" : "120mm canister",
-  "symbol" : "=",
   "color" : "dark_gray",
   "description" : "A large canister from a spent 120mm shell, now an expensive paperweight.",
   "material" : "steel",
   "volume" : 10,
-  "weight" : 300,
-  "bashing" : 1,
-  "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
-  "recoil" : 0,
-  "count" : 5
-},{
-  "type" : "AMMO",
+  "weight" : 300
+  },
+  {
+  "type" : "GENERIC",
   "id" : "155mm_casing",
-  "category" : "spare_parts",
-  "price" : 5000,
+  "copy-from" : "artillery_casing",
   "name" : "155mm canister",
-  "symbol" : "=",
-  "color" : "dark_gray",
   "description" : "A large canister from a spent 155mm shell, now an expensive paperweight.",
-  "material" : "steel",
   "volume" : 15,
-  "weight" : 400,
-  "bashing" : 1,
-  "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
-  "recoil" : 0,
-  "count" : 5
-},{
+  "weight" : 400
+  },
+  {
   "type" : "AMMO",
   "id" : "electric_primer",
   "category" : "spare_parts",
@@ -301,15 +319,11 @@
   "material" : ["steel", "powder"],
   "volume" : 1,
   "weight" : 5,
-  "bashing" : 1,
   "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
-  "recoil" : 0,
   "count" : 10,
   "effects" : ["COOKOFF"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "electric_primer_large",
   "category" : "spare_parts",
@@ -321,15 +335,11 @@
   "material" : ["steel", "powder"],
   "volume" : 1,
   "weight" : 5,
-  "bashing" : 1,
   "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
-  "recoil" : 0,
   "count" : 5,
   "effects" : ["COOKOFF"]
-},{
+  },
+  {
   "id": "30mm_autocannon",
   "type": "GUN",
   "symbol": "(",
@@ -345,17 +355,17 @@
   "volume": 30,
   "bashing": 12,
   "to_hit": -1,
-  "ranged_damage": 0,
   "dispersion": 0,
   "sight_dispersion": 75,
-  "aim_speed" : 5,
-  "recoil": 15,
   "durability": 8,
   "burst": 5,
-  "clip_size": 5,
   "reload": 100,
-  "loudness" : 175
-},{
+  "loudness" : 175,
+  "magazines": [
+      [ "30mm", [ "belt30mm" ] ]
+  ]
+  },
+  {
   "id": "tank_gun_manual",
   "type": "GUN",
   "symbol": "(",
@@ -374,13 +384,12 @@
   "range": 45,
   "dispersion": 0,
   "sight_dispersion": 60,
-  "aim_speed" : 3,
-  "recoil": 10,
   "durability": 9,
   "clip_size": 1,
   "reload": 100,
   "loudness" : 300
-},{
+  },
+  {
   "id": "tank_gun_auto",
   "type": "GUN",
   "symbol": "(",
@@ -398,14 +407,13 @@
   "range": 30,
   "dispersion": 20,
   "sight_dispersion": 60,
-  "aim_speed" : 3,
-  "recoil": -10,
   "durability": 9,
-  "clip_size": 1,
+  "clip_size": 5,
   "reload": 100,
   "loudness" : 300,
   "flags" : [ "NO_RELOAD" ]
-},{
+  },
+  {
   "id": "tank_gun_rws",
   "type": "GUN",
   "symbol": "(",
@@ -423,14 +431,13 @@
   "range": 15,
   "dispersion": 25,
   "sight_dispersion": 60,
-  "aim_speed" : 3,
-  "recoil": -20,
   "durability": 8,
-  "clip_size": 1,
+  "clip_size": 5,
   "reload": 100,
   "loudness" : 300,
   "flags": [ "NO_RELOAD" ]
-},{
+  },
+  {
   "id": "howitzer_gun",
   "type": "GUN",
   "symbol": "(",
@@ -449,13 +456,12 @@
   "range": 45,
   "dispersion": 10,
   "sight_dispersion": 60,
-  "aim_speed" : 4,
-  "recoil": 20,
   "durability": 9,
   "clip_size": 1,
   "reload": 100,
   "loudness" : 400
-},{
+  },
+  {
   "id": "atgm_launcher",
   "type": "GUN",
   "symbol": "(",
@@ -474,13 +480,12 @@
   "range": 15,
   "dispersion": 100,
   "sight_dispersion": 60,
-  "aim_speed" : 6,
-  "recoil": 10,
   "durability": 9,
   "clip_size": 1,
   "reload": 100,
   "loudness" : 200
-},{
+  },
+  {
   "id": "atgm_turret",
   "type": "GUN",
   "symbol": "(",
@@ -497,14 +502,13 @@
   "to_hit": -6,
   "dispersion": 0,
   "sight_dispersion": 20,
-  "aim_speed" : 6,
-  "recoil": -10,
   "durability": 9,
-  "clip_size": 1,
+  "clip_size": 2,
   "reload": 100,
   "loudness" : 200,
   "flags": [ "NO_RELOAD" ]
-},{
+  },
+  {
   "type" : "BOOK",
   "id" : "textbook_launcher",
   "name" : "Artillery and Field Gunnery",

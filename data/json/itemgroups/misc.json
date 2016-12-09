@@ -22,5 +22,15 @@
         { "item": "matches" }
       ] }
     ]
+  },
+  {
+    "id": "stoner",
+    "type": "item_group",
+    "//" : "Processed weed and weed accessories",
+    "items": [
+      [ "joint", 100 ],
+      [ "joint_roach", 20 ],
+      [ "pipe_glass", 10 ]
+    ]
   }
 ]

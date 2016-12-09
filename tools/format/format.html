@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cataclysm web linting tool</title>
+    <style>
+      * { font-family: 'monospace'; }
+      input { display: block; }
+    </style>
+    <script>
+      function lint(form) {
+          var txt = form.getElementsByTagName('textarea')[0];
+          var cmd = form.getElementsByTagName('input')[0];
+
+          if (txt.value.length == 0) {
+              return false;
+          }
+          try {
+              JSON.parse(txt.value);
+          } catch (e) {
+              alert('Syntax error');
+              return false;
+          }
+
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/tools/format/format.pl');
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.timeout = 10000; // 10 seconds
+
+          xhr.onload = function() {
+              if (xhr.status == 200) {
+                  txt.value = xhr.responseText;
+              } else if (xhr.status == 304) {
+                  // no-op
+              } else if (xhr.status == 400) {
+                  alert(xhr.responseText);
+              } else {
+                  alert('Linter currently unavailable');
+              }
+              txt.disabled = false;
+              cmd.disabled = false;
+              window.document.body.style.cursor = "default";
+          };
+
+          xhr.ontimeout = function() {
+              alert('Request timed out');
+              txt.disabled = false;
+              cmd.disabled = false;
+              window.document.body.style.cursor = "default";
+          }
+
+          xhr.send('data=' + encodeURIComponent(txt.value));
+
+          txt.disabled = true;
+          cmd.disabled = true;
+          window.document.body.style.cursor = "wait";
+          return false; // suppress default form action
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Cataclysm web linting tool</h1>
+    <form onsubmit="return lint(this);">
+      <textarea name="data" cols="120" rows="30"></textarea>
+      <input type="submit"/>
+    </form>
+  </body>
+</html>

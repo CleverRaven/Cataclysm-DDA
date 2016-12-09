@@ -30,7 +30,7 @@ void PATH_INFO::init_user_dir(const char *ud)
         user_dir = getenv("LOCALAPPDATA");
         // On Windows userdir without dot
         dir = std::string(user_dir) + "/cataclysm-dda/";
-#elif defined MACOSX && defined TILES
+#elif defined MACOSX
         user_dir = getenv( "HOME" );
         dir = std::string( user_dir ) + "/Library/Application Support/Cataclysm/";
 #elif (defined USE_XDG_DIR)
@@ -71,7 +71,7 @@ void PATH_INFO::update_datadir()
     update_pathname("class_defslua", FILENAMES["luadir"] + "class_definitions.lua");
     update_pathname("fontdir", FILENAMES["datadir"] + "font/");
     update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
-    update_pathname("jsondir", FILENAMES["datadir"] + "json/");
+    update_pathname("jsondir", FILENAMES["datadir"] + "core/");
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
     update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
@@ -87,13 +87,14 @@ void PATH_INFO::update_datadir()
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
+    update_pathname("keybindings_vehicle", FILENAMES["rawdir"] + "keybindings/vehicle.json");
     update_pathname("legacy_fontdata", FILENAMES["datadir"] + "fontdata.json");
     update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
-    update_pathname("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json");
+    update_pathname("mods-dev-default", FILENAMES["moddir"] + "default.json");
     update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
-    update_pathname("obsolete-mods", FILENAMES["moddir"] + "obsolete-mods.json");
+    update_pathname("mods-replacements", FILENAMES["moddir"] + "replacements.json");
     update_pathname("defaultsounddir", FILENAMES["datadir"] + "sound");
 }
 
@@ -105,6 +106,7 @@ void PATH_INFO::update_config_dir()
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
+    update_pathname("safemode", FILENAMES["config_dir"] + "safemode.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
 }
 
@@ -132,7 +134,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("class_defslua", FILENAMES["luadir"] + "class_definitions.lua");
     update_pathname("fontdir", FILENAMES["datadir"] + "font/");
     update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
-    update_pathname("jsondir", FILENAMES["datadir"] + "json/");
+    update_pathname("jsondir", FILENAMES["datadir"] + "core/");
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
     update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
@@ -149,12 +151,13 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
+    update_pathname("keybindings_vehicle", FILENAMES["rawdir"] + "keybindings/vehicle.json");
     update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
-    update_pathname("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json");
+    update_pathname("mods-dev-default", FILENAMES["moddir"] + "default.json");
     update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
-    update_pathname("obsolete-mods", FILENAMES["moddir"] + "obsolete-mods.json");
+    update_pathname("mods-replacements", FILENAMES["moddir"] + "replacements.json");
     update_pathname("defaultsounddir", FILENAMES["datadir"] + "sound");
 
     update_pathname("savedir", FILENAMES["user_dir"] + "save/");
@@ -182,6 +185,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
+    update_pathname("safemode", FILENAMES["config_dir"] + "safemode.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
     update_pathname("worldoptions", "worldoptions.json");
 
@@ -212,13 +216,13 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
     std::string local_path_1; // complete locale: en_NZ
     std::string local_path_2; // only the first part: en
     std::string loc_name;
-    if( OPTIONS["USE_LANG"].getValue().empty() ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() ) {
         const char *v = setlocale( LC_ALL, NULL );
         if( v != NULL ) {
             loc_name = v;
         }
     } else {
-        loc_name = OPTIONS["USE_LANG"].getValue();
+        loc_name = get_option<std::string>( "USE_LANG" );
     }
     if( loc_name == "C" ) {
         loc_name = "en";

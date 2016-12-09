@@ -3,21 +3,50 @@
 #include <algorithm>
 #include <iostream>
 #include <iterator>
+#include <numeric>
 
 #include "compatibility.h"
+#include "cata_utility.h"
 #include "init.h"
 #include "item_factory.h"
+#include "iuse_actor.h"
 #include "player.h"
 #include "vehicle.h"
 #include "veh_type.h"
+#include "npc.h"
+#include "ammo.h"
+#include "crafting.h"
 
-void game::dump_stats( const std::string& what, dump_mode mode )
+bool game::dump_stats( const std::string& what, dump_mode mode, const std::vector<std::string> &opts )
 {
-    load_core_data();
+    try {
+        load_core_data();
+        load_packs( _( "Loading content packs" ), { "dda" } );
+    } catch( const std::exception &err ) {
+        std::cerr << "Error loading data from json: " << err.what() << std::endl;
+        return false;
+    }
     DynamicDataLoader::get_instance().finalize_loaded_data();
 
     std::vector<std::string> header;
     std::vector<std::vector<std::string>> rows;
+
+    int scol = 0; // sorting column
+
+    std::map<std::string, standard_npc> test_npcs;
+    test_npcs[ "S1" ] = standard_npc( "S1", { "gloves_survivor", "mask_lsurvivor" }, 4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
+    test_npcs[ "S2" ] = standard_npc( "S2", { "gloves_fingerless", "sunglasses" }, 4, 8, 8, 8, 10 /* PER 10 */ );
+    test_npcs[ "S3" ] = standard_npc( "S3", { "gloves_plate", "helmet_plate" },  4, 10, 8, 8, 8 /* STAT 10 */ );
+    test_npcs[ "S4" ] = standard_npc( "S4", {}, 0, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
+    test_npcs[ "S5" ] = standard_npc( "S5", {}, 4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
+    test_npcs[ "S6" ] = standard_npc( "S6", { "gloves_hsurvivor", "mask_hsurvivor" }, 4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
+
+    std::map<std::string, item> test_items;
+    test_items[ "G1" ] = item( "glock_19" ).ammo_set( "9mm" );
+    test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( "9mm" );
+    test_items[ "G3" ] = item( "ar15" ).ammo_set( "223" );
+    test_items[ "G4" ] = item( "remington_700" ).ammo_set( "270" );
+    test_items[ "G4" ].emplace_back( "rifle_scope" );
 
     if( what == "AMMO" ) {
         header = {
@@ -25,22 +54,58 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             "Range", "Dispersion", "Recoil", "Damage", "Pierce"
         };
         auto dump = [&rows]( const item& obj ) {
+            // a common task is comparing ammo by type so ammo has multiple repeat the entry
+            for( const auto &e : obj.type->ammo->type ) {
+                std::vector<std::string> r;
+                r.push_back( obj.tname( 1, false ) );
+                r.push_back( e.str() );
+                r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
+                r.push_back( to_string( obj.weight() ) );
+                r.push_back( to_string( obj.type->stack_size ) );
+                r.push_back( to_string( obj.type->ammo->range ) );
+                r.push_back( to_string( obj.type->ammo->dispersion ) );
+                r.push_back( to_string( obj.type->ammo->recoil ) );
+                r.push_back( to_string( obj.type->ammo->damage ) );
+                r.push_back( to_string( obj.type->ammo->pierce ) );
+                rows.push_back( r );
+            }
+        };
+        for( const itype *e : item_controller->all() ) {
+            if( e->ammo ) {
+                dump( item( e, calendar::turn, item::solitary_tag {} ) );
+            }
+        }
+
+    } else if( what == "ARMOR" ) {
+        header = {
+            "Name", "Encumber (fit)", "Warmth", "Weight", "Storage", "Coverage", "Bash", "Cut", "Acid", "Fire"
+        };
+        auto dump = [&rows]( const item& obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            r.push_back( obj.type->ammo->type.str() );
-            r.push_back( to_string( obj.volume() ) );
+            r.push_back( to_string( obj.get_encumber() ) );
+            r.push_back( to_string( obj.get_warmth() ) );
             r.push_back( to_string( obj.weight() ) );
-            r.push_back( to_string( obj.type->stack_size ) );
-            r.push_back( to_string( obj.type->ammo->range ) );
-            r.push_back( to_string( obj.type->ammo->dispersion ) );
-            r.push_back( to_string( obj.type->ammo->recoil ) );
-            r.push_back( to_string( obj.type->ammo->damage ) );
-            r.push_back( to_string( obj.type->ammo->pierce ) );
+            r.push_back( to_string( obj.get_storage() / units::legacy_volume_factor ) );
+            r.push_back( to_string( obj.get_coverage() ) );
+            r.push_back( to_string( obj.bash_resist() ) );
+            r.push_back( to_string( obj.cut_resist() ) );
+            r.push_back( to_string( obj.acid_resist() ) );
+            r.push_back( to_string( obj.fire_resist() ) );
             rows.push_back( r );
         };
-        for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->ammo ) {
-                dump( item( e.first, calendar::turn, item::solitary_tag {} ) );
+
+        body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
+
+        for( const itype *e : item_controller->all() ) {
+            if( e->armor ) {
+                item obj( e );
+                if( bp == num_bp || obj.covers( bp ) ) {
+                    if( obj.has_flag( "VARSIZE" ) ) {
+                        obj.item_tags.insert( "FIT" );
+                    }
+                    dump( obj );
+                }
             }
         }
 
@@ -51,10 +116,10 @@ void game::dump_stats( const std::string& what, dump_mode mode )
         for( const auto& v : vitamin::all() ) {
              header.push_back( v.second.name() );
         }
-        auto dump = [&rows]( const item& obj ) {
+        auto dump = [&rows,&test_npcs]( const item& obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( false ) );
-            r.push_back( to_string( obj.volume() ) );
+            r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( obj.weight() ) );
             r.push_back( to_string( obj.type->stack_size ) );
             r.push_back( to_string( obj.type->comestible->get_calories() ) );
@@ -66,12 +131,12 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             }
             rows.push_back( r );
         };
-        for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->comestible &&
-                ( e.second->comestible->comesttype == "FOOD" ||
-                  e.second->comestible->comesttype == "DRINK" ) ) {
+        for( const itype *e : item_controller->all() ) {
+            if( e->comestible &&
+                ( e->comestible->comesttype == "FOOD" ||
+                  e->comestible->comesttype == "DRINK" ) ) {
 
-                item food( e.first, calendar::turn, item::solitary_tag {} );
+                item food( e, calendar::turn, item::solitary_tag {} );
                 if( g->u.can_eat( food, false, true ) == EDIBLE ) {
                     dump( food );
                 }
@@ -81,98 +146,458 @@ void game::dump_stats( const std::string& what, dump_mode mode )
     } else if( what == "GUN" ) {
         header = {
             "Name", "Ammo", "Volume", "Weight", "Capacity",
-            "Range", "Dispersion", "Recoil", "Damage", "Pierce"
+            "Range", "Dispersion", "Effective recoil", "Damage", "Pierce",
+            "Aim time", "Effective range", "Snapshot range", "Max range"
         };
+
         std::set<std::string> locations;
-        for( const auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->gun ) {
-                std::transform( e.second->gun->valid_mod_locations.begin(),
-                                e.second->gun->valid_mod_locations.end(),
+        for( const itype *e : item_controller->all() ) {
+            if( e->gun ) {
+                std::transform( e->gun->valid_mod_locations.begin(),
+                                e->gun->valid_mod_locations.end(),
                                 std::inserter( locations, locations.begin() ),
-                                []( const std::pair<std::string, int>& e ) { return e.first; } );
+                                []( const std::pair<std::string, int>& q ) { return q.first; } );
             }
         }
         for( const auto &e : locations ) {
             header.push_back( e );
         }
 
-        auto dump = [&rows,&locations]( const item& obj ) {
+        auto dump = [&rows,&locations]( const standard_npc &who, const item& obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
             r.push_back( obj.ammo_type() ? obj.ammo_type().str() : "" );
-            r.push_back( to_string( obj.volume() ) );
+            r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( obj.weight() ) );
             r.push_back( to_string( obj.ammo_capacity() ) );
             r.push_back( to_string( obj.gun_range() ) );
             r.push_back( to_string( obj.gun_dispersion() ) );
-            r.push_back( to_string( obj.gun_recoil() ) );
+            r.push_back( to_string( obj.gun_recoil( who ) ) );
             r.push_back( to_string( obj.gun_damage() ) );
             r.push_back( to_string( obj.gun_pierce() ) );
+
+            r.push_back( to_string( who.gun_engagement_moves( obj ) ) );
+
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::effective ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::snapshot ) ) );
+            r.push_back( string_format( "%.1f", who.gun_engagement_range( obj, player::engagement::maximum ) ) );
+
             for( const auto &e : locations ) {
                 r.push_back( to_string( obj.type->gun->valid_mod_locations[ e ] ) );
             }
             rows.push_back( r );
         };
-        for( const auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->gun ) {
-                item gun( e.first );
-                if( gun.is_reloadable() ) {
-                    if( !gun.magazine_integral() ) {
-                        gun.emplace_back( gun.magazine_default() );
-                    }
-                    gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
+        for( const itype *e : item_controller->all() ) {
+            if( e->gun ) {
+                item gun( e );
+                if( !gun.magazine_integral() ) {
+                    gun.emplace_back( gun.magazine_default() );
                 }
-                dump( gun );
+                gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
+
+                dump( test_npcs[ "S1" ], gun );
 
                 if( gun.type->gun->barrel_length > 0 ) {
                     gun.emplace_back( "barrel_small" );
-                    dump( gun );
+                    dump( test_npcs[ "S1" ], gun );
                 }
             }
         }
 
+    } else if( what == "RECIPE" ) {
+
+        // optionally filter recipes to include only those using specified skills
+        recipe_subset dict;
+        for( const auto &r : recipe_dict ) {
+            if( opts.empty() || std::any_of( opts.begin(), opts.end(), [&r]( const std::string &s ) {
+                if( r.second.skill_used == skill_id( s ) && r.second.difficulty > 0 ) {
+                    return true;
+                }
+                auto iter = r.second.required_skills.find( skill_id( s ) );
+                return iter != r.second.required_skills.end() && iter->second > 0;
+            } ) ) {
+                dict.include( &r.second );
+            }
+        }
+
+        // only consider skills that are required by at least one recipe
+        std::vector<Skill> sk;
+        std::copy_if( Skill::skills.begin(), Skill::skills.end(), std::back_inserter( sk ), [&dict]( const Skill &s ) {
+            return std::any_of( dict.begin(), dict.end(), [&s]( const recipe *r ) {
+                return r->skill_used == s.ident() || r->required_skills.find( s.ident() ) != r->required_skills.end();
+            } );
+        } );
+
+        header = { "Result" };
+
+        for( const auto &e : sk ) {
+            header.push_back( e.ident().str() );
+        }
+
+        for( const recipe *e : dict ) {
+            std::vector<std::string> r;
+            r.push_back( item::find_type( e->result )->nname( 1 ) );
+            for( const auto &s : sk ) {
+                if( e->skill_used == s.ident() ) {
+                    r.push_back( to_string( e->difficulty ) );
+                } else {
+                    auto iter = e->required_skills.find( s.ident() );
+                    r.push_back( to_string( iter != e->required_skills.end() ? iter->second : 0 ) );
+                }
+            }
+            rows.push_back( r );
+        }
+
     } else if( what == "VEHICLE" ) {
         header = {
-            "Name", "Weight (empty)", "Weight (fueled)"
+            "Name", "Weight (empty)", "Weight (fueled)",
+            "Max velocity (t/t)", "Safe velocity (t/t)", "Optimal velocity (t/t)",
+            "Mass coeff %", "Aerodynamics coeff %", "Friction coeff %",
+            "Traction coeff % (grass)"
         };
         auto dump = [&rows]( const vproto_id& obj ) {
             auto veh_empty = vehicle( obj, 0, 0 );
             auto veh_fueled = vehicle( obj, 100, 0 );
 
+            std::vector<item_location> engines;
+            for( const auto &e : veh_fueled.parts ) {
+                if( e.is_engine() ) {
+                    engines.push_back( veh_fueled.part_base( veh_fueled.index_of_part( &e ) ) );
+                }
+            }
+
+            // weight of player is significant for lightweight vehicles with low power engines
+            int mass = veh_fueled.total_mass() + ( player().get_weight() / 1000.0 );
+            double kf = veh_fueled.k_friction();
+
+            double max_vel = std::accumulate(
+                engines.begin(), engines.end(), 0.0f,
+                [&mass,kf]( const double lhs, const item_location &rhs ) {
+                    return std::max( lhs, rhs->type->engine->velocity_max( mass, kf ) );
+            } );
+
+            double safe_vel = std::accumulate(
+                engines.begin(), engines.end(), 0.0f,
+                [&mass,kf]( const double lhs, const item_location &rhs ) {
+                    return std::max( lhs, rhs->type->engine->velocity_safe( mass, kf ) );
+            } );
+
+            double optimal_vel = std::accumulate(
+                engines.begin(), engines.end(), 0.0f,
+                [&mass,kf]( const double lhs, const item_location &rhs ) {
+                    return std::max( lhs, rhs->type->engine->velocity_optimal( mass, kf ) );
+            } );
+
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
             r.push_back( to_string( veh_empty.total_mass() ) );
             r.push_back( to_string( veh_fueled.total_mass() ) );
+            r.push_back( string_format( "%.1f", ms_to_tt( max_vel ) ) );
+            r.push_back( string_format( "%.1f", ms_to_tt( safe_vel ) ) );
+            r.push_back( string_format( "%.1f", ms_to_tt( optimal_vel ) ) );
+            r.push_back( to_string( (int)( 100 * veh_fueled.k_mass() ) ) );
+            r.push_back( to_string( (int)( 100 * veh_fueled.k_aerodynamics() ) ) );
+            r.push_back( to_string( (int)( 100 * veh_fueled.k_friction() ) ) );
+            r.push_back( to_string( (int)( 100 * veh_fueled.k_traction( veh_fueled.wheel_area( false ) / 2.0f ) ) ) );
             rows.push_back( r );
         };
         for( auto& e : vehicle_prototype::get_all() ) {
             dump( e );
         }
 
+    } else if( what == "ENGINE" ) {
+        header = {
+            "Name", "Weight (kg)", "Volume (L)", "Fuel", "Power (hp)", "Efficiency (%)", "Durability",
+            "Optimum (rpm)", "Redline (rpm)", "Optimal (t/t)", "Safe (t/t)"
+        };
+        for( auto &e : vpart_info::all() ) {
+            const item obj( e.second.item );
+            if( !obj.is_engine() ) {
+                continue;
+            }
+            std::vector<std::string> r;
+            r.push_back( e.second.name() );
+            r.push_back( string_format( "%.0f", obj.weight() / 1000.0 ) );
+            r.push_back( string_format( "%.1f", obj.volume() / 1000.0 ) );
+            r.push_back( obj.type->engine->fuel->name() );
+            r.push_back( string_format( "%.0f", watt_to_hp( obj.type->engine->power ) ) );
+            r.push_back( to_string( obj.type->engine->efficiency ) );
+            r.push_back( to_string( e.second.durability ) );
+            if( obj.type->engine->gears.empty() ) {
+                r.insert( r.end(), { "", "", "", "" } );
+            } else {
+                r.push_back( to_string( obj.type->engine->optimum ) );
+                r.push_back( to_string( obj.type->engine->redline ) );
+                r.push_back( string_format( "%.1f", ms_to_tt( obj.type->engine->velocity_optimal( 1 ) ) ) );
+                r.push_back( string_format( "%.1f", ms_to_tt(obj.type->engine->velocity_safe( 1 ) ) ) );
+            }
+            rows.push_back( r );
+        }
+
+    } else if( what == "TRACTION" ) {
+        const int limit = 20000;
+
+        header = { "Name" };
+        for( int i = 1; i != limit; ++i ) {
+            header.push_back( to_string( i ) );
+        }
+
+        auto dump = [&rows]( const itype_id &obj ) {
+            const item eng( obj );
+            std::vector<std::string> r( 1, eng.tname() );
+            for( int i = 1; i != limit; ++i ) {
+                r.push_back( to_string( ms_to_tt( eng.type->engine->velocity_safe( i, 0.8 ) ) ) );
+            }
+            rows.push_back( r );
+        };
+
+        dump( "1cyl_combustion_small" );
+        dump( "i4_combustion" );
+        dump( "v8_combustion" );
+        dump( "v8_diesel" );
+
     } else if( what == "VPART" ) {
         header = {
             "Name", "Location", "Weight", "Size"
         };
-        auto dump = [&rows]( const vpart_info *obj ) {
+        auto dump = [&rows]( const vpart_info &obj ) {
             std::vector<std::string> r;
-            r.push_back( obj->name() );
-            r.push_back( obj->location );
-            r.push_back( to_string( int( ceil( item( obj->item ).weight() / 1000.0 ) ) ) );
-            r.push_back( to_string( obj->size ) );
+            r.push_back( obj.name() );
+            r.push_back( obj.location );
+            r.push_back( to_string( int( ceil( item( obj.item ).weight() / 1000.0 ) ) ) );
+            r.push_back( to_string( obj.size / units::legacy_volume_factor ) );
             rows.push_back( r );
         };
-        for( const auto e : vpart_info::get_all() ) {
-            dump( e );
+        for( const auto &e : vpart_info::all() ) {
+            dump( e.second );
         }
+
+    } else if( what == "AIMING" ) {
+        scol = -1; // unsorted output so graph columns have predictable ordering
+
+        const int cycles = 1400;
+
+        header = { "Name" };
+        for( int i = 0; i <= cycles; ++i ) {
+            header.push_back( to_string( i ) );
+        }
+
+        auto dump = [&rows]( const standard_npc &who, const item &gun) {
+            std::vector<std::string> r( 1, string_format( "%s %s", who.get_name().c_str(), gun.tname().c_str() ) );
+            double penalty = MIN_RECOIL;
+            for( int i = 0; i <= cycles; ++i ) {
+                penalty -= who.aim_per_move( gun, penalty );
+                r.push_back( string_format( "%.2f", who.gun_current_range( gun, penalty ) ) );
+            }
+            rows.push_back( r );
+        };
+
+        if( opts.empty() ) {
+            dump( test_npcs[ "S1" ], test_items[ "G1" ] );
+            dump( test_npcs[ "S1" ], test_items[ "G2" ] );
+            dump( test_npcs[ "S1" ], test_items[ "G3" ] );
+            dump( test_npcs[ "S1" ], test_items[ "G4" ] );
+
+        } else {
+            for( const auto &str : opts ) {
+                auto idx = str.find( ':' );
+                if( idx == std::string::npos ) {
+                    std::cerr << "cannot parse test case: " << str << std::endl;
+                    return false;
+                }
+                auto test = std::make_pair( test_npcs.find( str.substr( 0, idx ) ),
+                                            test_items.find( str.substr( idx + 1 ) ) );
+
+                if( test.first == test_npcs.end() || test.second == test_items.end() ) {
+                    std::cerr << "invalid test case: " << str << std::endl;
+                    return false;
+                }
+
+                dump( test.first->second, test.second->second );
+            }
+        }
+
+    } else if( what == "GUN_DAMAGE" ) {
+        scol = -1; // unsorted output so graph columns have predictable ordering
+
+        header = { "Name" };
+        for( int range = 1; range <= MAX_RANGE; ++range ) {
+            header.push_back( to_string( range ) );
+        }
+
+        auto dump = [&rows]( const standard_npc & who, const item & gun, int aim_moves ) {
+            // aim for up to aim_moves, or until there's no improvement
+            double recoil = MIN_RECOIL;
+            for( int i = 0; i < aim_moves; ++i ) {
+                double adj = who.aim_per_move( gun, recoil );
+                if( adj <= 0 ) {
+                    aim_moves = i;
+                    break;
+                }
+                recoil -= adj;
+            }
+
+            double dispersion = who.get_weapon_dispersion( gun ) + recoil;
+
+            std::vector<std::string> r;
+            r.push_back( string_format( "%s %s (%dmv aiming)", who.get_name().c_str(), gun.tname().c_str(), aim_moves ) );
+
+            for( int range = 1; range <= MAX_RANGE; ++range ) {
+                if( range > gun.gun_range( &who ) ) {
+                    r.push_back( "0" );
+                    continue;
+                }
+
+                // We want to find the long-run average damage per shot for this dispersion.
+
+                // The base damage is the same for every shot. The damage multiplier varies depending
+                // on the quality of hit (headshot, grazing, etc). Within each category of hit,
+                // there is a uniform random distribution of multipliers.
+
+                // To find the long-run average, first construct the probability density function
+                // for the damage multiplier that is, roughly speaking, f(x) = probability that a
+                // shot will end up with a damage multiplier of x. This function looks something like
+                // this, where the heights of the steps vary depending on the hit probabilities.
+                // The area under each step is the probability of getting that quality of hit.
+                // The total area is 1.0.
+                //
+                // f(x) = probability density
+                // ^
+                // |  miss
+                // |     ^
+                // |     |           -------
+                // |     |           |     |         ------
+                // |     |------     |     |-----    |    |   --------
+                // |     |graze|     | std  good|    |crit|   |h.shot|
+                // +-----|-----|-----|----------|----|----|---|------|-----> x = damage multiplier
+                //       0    0.25  0.5   1.0  1.5  1.75 2.3 2.45   3.35
+
+                // The long-run average (expected value) can be calculated directly from this PDF:
+                //    ∫(-∞,∞) x.f(x) dx
+                // See https://en.wikipedia.org/wiki/Expected_value#Univariate_continuous_random_variable
+
+                // Find the probability of each type of hit
+                // nb: projectile_attack_chance returns the probabilty of a given accuracy _or better_
+                // but we want the probability of hits within each category separately, so subtract the
+                // probabilities at each edge.
+                double p_headshot = who.projectile_attack_chance( dispersion, range, accuracy_headshot );
+                double p_critical = who.projectile_attack_chance( dispersion, range, accuracy_critical ) - who.projectile_attack_chance( dispersion, range, accuracy_headshot );
+                double p_goodhit  = who.projectile_attack_chance( dispersion, range, accuracy_goodhit )  - who.projectile_attack_chance( dispersion, range, accuracy_critical );
+                double p_standard = who.projectile_attack_chance( dispersion, range, accuracy_standard ) - who.projectile_attack_chance( dispersion, range, accuracy_goodhit );
+                double p_grazing  = who.projectile_attack_chance( dispersion, range, accuracy_grazing )  - who.projectile_attack_chance( dispersion, range, accuracy_standard );
+                // double p_miss = 1.0 - who.projectile_attack_chance( dispersion, range, accuracy_grazing );     not actually used below
+
+                // f(x) is the probabilty density function for the damage multiplier x
+                // f(x) = { p_grazing / 0.25     if 0.00 < x <= 0.25
+                //        { p_standard / 0.50    if 0.50 < x <= 1.00
+                //        { p_goodhit / 0.50     if 1.00 < x <= 1.50
+                //        { p_critical / 0.55    if 1.75 < x <= 2.30
+                //        { p_headshot / 0.90    if 2.45 < x <= 3.35
+                //        { p_miss . δ(x)        if x == 0
+                //        { 0                    otherwise
+                //
+                // (the scaling factors ensure that e.g. ∫(0.5,1.0) f(x) dx == p_standard)
+
+                // δ is the Dirac delta function, used here to glue in a discrete value (the
+                // probability of a miss, i.e. a multiplier of exactly 0) into an otherwise
+                // continuous distribution. It is there for completeness so the total area
+                // of the PDF totals 1.0, but it doesn't actually affect the integral.
+                // See https://en.wikipedia.org/wiki/Dirac_delta_function#Probability_theory
+
+                // long-run average  μ = E[X] = ∫x.f(x) dx
+                // we compute the integral piece-wise over each part of the function defined above
+
+                auto xfx_integral = []( double fx, double x1, double x2 ) -> double {
+                    // integrate x.f(x) within [x1,x2] assuming f(x) stays constant in that interval
+                    return fx * ( x2 * x2 - x1 * x1 ) / 2;
+                };
+                double mu = xfx_integral( p_grazing / 0.25, 0, 0.25 ) +
+                            xfx_integral( p_standard / 0.50, 0.50, 1.00 ) +
+                            xfx_integral( p_goodhit / 0.50, 1.00, 1.50 ) +
+                            xfx_integral( p_critical / 0.55, 1.75, 2.30 ) +
+                            xfx_integral( p_headshot / 0.90, 2.45, 3.35 );
+
+                r.push_back( string_format( "%.2f", mu * gun.gun_damage() ) );
+            }
+
+            rows.push_back( r );
+        };
+
+        if( opts.empty() ) {
+            dump( test_npcs[ "S1" ], test_items[ "G1" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G1" ], 1000 );
+            dump( test_npcs[ "S1" ], test_items[ "G2" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G2" ], 1000 );
+            dump( test_npcs[ "S1" ], test_items[ "G3" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G3" ], 1000 );
+            dump( test_npcs[ "S1" ], test_items[ "G4" ], 100 );
+            dump( test_npcs[ "S1" ], test_items[ "G4" ], 1000 );
+
+        } else {
+            for( const auto &str : opts ) {
+                auto idx = str.find( ':' );
+                if( idx == std::string::npos ) {
+                    std::cerr << "cannot parse test case: " << str << std::endl;
+                    return false;
+                }
+                auto test = std::make_pair( test_npcs.find( str.substr( 0, idx ) ),
+                                            test_items.find( str.substr( idx + 1 ) ) );
+
+                if( test.first == test_npcs.end() || test.second == test_items.end() ) {
+                    std::cerr << "invalid test case: " << str << std::endl;
+                    return false;
+                }
+
+                dump( test.first->second, test.second->second, 100 );
+                dump( test.first->second, test.second->second, 1000 );
+            }
+        }
+
+    } else if( what == "EXPLOSIVE" ) {
+        header = {
+            // @todo Should display more useful data: shrapnel damage, safe range
+            "Name", "Power", "Power at 5 tiles", "Power halves at", "Shrapnel count", "Shrapnel mass"
+        };
+
+        auto dump = [&rows]( const std::string &name, const explosion_data &ex ) {
+            std::vector<std::string> r;
+            r.push_back( name );
+            r.push_back( to_string( ex.power ) );
+            r.push_back( string_format( "%.1f", ex.power_at_range( 5.0f ) ) );
+            r.push_back( string_format( "%.1f", ex.expected_range( 0.5f ) ) );
+            r.push_back( to_string( ex.shrapnel.count ) );
+            r.push_back( to_string( ex.shrapnel.mass ) );
+            rows.push_back( r );
+        };
+        for( const itype *e : item_controller->all() ) {
+            const auto use = e->get_use( "explosion" );
+            if( use != nullptr && use->get_actor_ptr() != nullptr ) {
+                const auto actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
+                if( actor != nullptr ) {
+                    dump( e->nname( 1 ), actor->explosion );
+                }
+            }
+
+            auto c_ex = dynamic_cast<const explosion_iuse *>( e->countdown_action.get_actor_ptr() );
+            if( c_ex != nullptr ) {
+                dump( e->nname( 1 ), c_ex->explosion );
+            }
+        }
+
+    } else {
+        std::cerr << "unknown argument: " << what << std::endl;
+        return false;
     }
 
     rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string>& e ) {
         return e.empty();
     } ), rows.end() );
 
-    std::sort( rows.begin(), rows.end(), []( const std::vector<std::string>& lhs, const std::vector<std::string>& rhs ) {
-        return lhs[ 0 ] < rhs[ 0 ];
-    } );
+    if( scol >= 0 ) {
+        std::sort( rows.begin(), rows.end(), [&scol]( const std::vector<std::string>& lhs, const std::vector<std::string>& rhs ) {
+            return lhs[ scol ] < rhs[ scol ];
+        } );
+    }
 
     rows.erase( std::unique( rows.begin(), rows.end() ), rows.end() );
 
@@ -209,4 +634,6 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             std::cout << "</table>";
             break;
     }
+
+    return true;
 }

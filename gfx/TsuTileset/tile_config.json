@@ -37,7 +37,6 @@
             "id":"line_trail",
             "bg":12
         },
-
         {
             "id":"animation_line",
             "bg":49
@@ -3548,7 +3547,6 @@
             "rotates":false,
             "multitile":false
         },
-
        {
             "id":"vp_plating_steel",
             "fg":144,

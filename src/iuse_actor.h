@@ -8,6 +8,7 @@
 #include "string_id.h"
 #include "explosion.h"
 #include "vitamin.h"
+#include "units.h"
 #include <limits.h>
 
 struct vehicle_prototype;
@@ -76,7 +77,7 @@ class iuse_transform : public iuse_actor
         /** displayed if item is in player possession with %s replaced by item name */
         std::string need_charges_msg;
 
-        std::string menu_option_text;
+        std::string menu_text;
 
         iuse_transform( const std::string &type = "transform" ) : iuse_actor( type ) {}
 
@@ -86,6 +87,7 @@ class iuse_transform : public iuse_actor
         iuse_actor *clone() const override;
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 class countdown_actor : public iuse_actor
@@ -123,11 +125,6 @@ class explosion_iuse : public iuse_actor
         // Ignored if its power field is < 0
         explosion_data explosion;
 
-        /** Maximum percentage of count that should be dropped within area of effect */
-        int shrapnel_recovery = 0;
-        /** What type of shrapnel to drop */
-        itype_id shrapnel_drop = "null";
-
         // Those 2 values are forwarded to game::draw_explosion,
         // Nothing is drawn if radius < 0 (game::explosion might still draw something)
         int draw_explosion_radius = -1;
@@ -157,6 +154,7 @@ class explosion_iuse : public iuse_actor
         void load( JsonObject &jo ) override;
         long use(player *, item *, bool, const tripoint& ) const override;
         iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
@@ -453,7 +451,8 @@ class inscribe_actor : public iuse_actor
             material_id( "chitin" ),
             material_id( "iron" ),
             material_id( "steel" ),
-            material_id( "silver" )
+            material_id( "silver" ),
+            material_id( "bone" )
         };
 
         // How will the inscription be described
@@ -624,9 +623,9 @@ class holster_actor : public iuse_actor
         /** Message to show when holstering an item */
         std::string holster_msg;
         /** Maximum volume of each item that can be holstered */
-        int max_volume;
+        units::volume max_volume;
         /** Minimum volume of each item that can be holstered or 1/3 max_volume if unspecified */
-        int min_volume;
+        units::volume min_volume;
         /** Maximum weight of each item. If unspecified no weight limit is imposed */
         int max_weight = -1;
         /** Total number of items that holster can contain **/
@@ -650,6 +649,7 @@ class holster_actor : public iuse_actor
         void load( JsonObject &jo ) override;
         long use( player *, item *, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
@@ -763,6 +763,8 @@ class repair_item_actor : public iuse_actor
         void load( JsonObject &jo ) override;
         long use( player *, item *, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
+
+        std::string get_name() const override;
 };
 
 class heal_actor : public iuse_actor

@@ -178,7 +178,7 @@ void Item_modifier::modify(item &new_item) const
         return;
     }
 
-    new_item.damage = std::min( std::max( (int) rng( damage.first, damage.second ), MIN_ITEM_DAMAGE ), MAX_ITEM_DAMAGE );
+    new_item.set_damage( rng( damage.first, damage.second ) );
 
     long ch = (charges.first == charges.second) ? charges.first : rng(charges.first, charges.second);
 
@@ -219,6 +219,20 @@ void Item_modifier::modify(item &new_item) const
             new_item.charges = 0;
         }
     }
+
+    if( new_item.is_tool() || new_item.is_gun() || new_item.is_magazine() ) {
+        bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1 &&
+                          ( !new_item.is_tool() || new_item.type->tool->rand_charges.empty() );
+        bool spawn_mag  = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() && !new_item.magazine_current();
+
+        if( spawn_mag ) {
+            new_item.contents.emplace_back( new_item.magazine_default(), new_item.bday );
+        }
+        if( spawn_ammo ) {
+            new_item.ammo_set( default_ammo( new_item.ammo_type() ) );
+        }
+    }
+
 
     if(container.get() != NULL) {
         item cont = container->create_single(new_item.bday);
@@ -269,9 +283,11 @@ bool Item_modifier::remove_item(const Item_tag &itemid)
 
 
 
-Item_group::Item_group(Type t, int probability)
+Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance )
     : Item_spawn_data(probability)
     , type(t)
+    , with_ammo( ammo_chance )
+    , with_magazine( magazine_chance )
     , sum_prob(0)
     , items()
 {
@@ -308,8 +324,20 @@ void Item_group::add_entry(std::unique_ptr<Item_spawn_data> &ptr)
     if (type == G_COLLECTION) {
         ptr->probability = std::min(100, ptr->probability);
     }
-    items.push_back(ptr.get());
     sum_prob += ptr->probability;
+
+    // Make the ammo and magazine probabilities from the outer entity apply to the nested entity:
+    // If ptr is an Item_group, it already inherited its parent's ammo/magazine chances in its constructor.
+    Single_item_creator *sic = dynamic_cast<Single_item_creator *>( ptr.get() );
+    if( sic && ( with_ammo != 0 || with_magazine != 0 ) ) {
+        if( !sic->modifier ) {
+            std::unique_ptr<Item_modifier> mod( new Item_modifier() );
+            sic->modifier = std::move( mod );
+        }
+        sic->modifier->with_ammo = with_ammo;
+        sic->modifier->with_magazine = with_magazine;
+    }
+    items.push_back( ptr.get() );
     ptr.release();
 }
 
@@ -334,20 +362,6 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
             ItemList tmp = ( elem )->create( birthday, rec );
             result.insert(result.end(), tmp.begin(), tmp.end());
             break;
-        }
-    }
-
-    for( auto& e : result ) {
-        if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
-            bool spawn_ammo = rng( 0, 99 ) < with_ammo && e.ammo_remaining() == 0;
-            bool spawn_mag  = rng( 0, 99 ) < with_magazine && !e.magazine_integral() && !e.magazine_current();
-
-            if( spawn_mag ) {
-                e.contents.emplace_back( e.magazine_default(), e.bday );
-            }
-            if( spawn_ammo ) {
-                e.ammo_set( default_ammo( e.ammo_type() ) );
-            }
         }
     }
 
@@ -493,7 +507,7 @@ Group_tag item_group::load_item_group( JsonIn& stream, const std::string& defaul
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
             debugmsg( "invalid subtype for item group: %s", default_subtype.c_str() );
         }
-        item_controller->load_item_group( jarr, group, default_subtype == "collection" );
+        item_controller->load_item_group( jarr, group, default_subtype == "collection", 0, 0 );
 
         return group;
     } else {

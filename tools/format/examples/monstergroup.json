@@ -1,0 +1,17 @@
+[
+  {
+    "name": "GROUP_MALL",
+    "type": "monstergroup",
+    "default": "mon_zombie",
+    "replace_monster_group": true,
+    "new_monster_group_id": "GROUP_ZOMBIE_MID",
+    "replacement_time": 14,
+    "monsters": [
+      { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fat", "freq": 30, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_cop", "freq": 10, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_child", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_crawler", "freq": 10, "cost_multiplier": 1 }
+    ]
+  }
+]

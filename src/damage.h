@@ -2,6 +2,7 @@
 #define DAMAGE_H
 
 #include "enums.h"
+#include "string_id.h"
 #include <string>
 #include <vector>
 #include <set>
@@ -10,6 +11,9 @@
 class item;
 class monster;
 class JsonObject;
+
+class Skill;
+using skill_id = string_id<Skill>;
 
 enum body_part : int;
 
@@ -30,11 +34,11 @@ enum body_part : int;
 struct damage_unit {
     damage_type type;
     float amount;
-    int res_pen;
+    float res_pen;
     float res_mult;
     float damage_multiplier;
 
-    damage_unit( damage_type dt, float a, int rp = 0, float rm = 1.0f, float mul = 1.0f ) :
+    damage_unit( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f ) :
         type( dt ), amount( a ), res_pen( rp ), res_mult( rm ), damage_multiplier( mul ) { }
 };
 
@@ -44,13 +48,17 @@ struct damage_unit {
 struct damage_instance {
     std::vector<damage_unit> damage_units;
     damage_instance();
-    static damage_instance physical( float bash, float cut, float stab, int arpen = 0 );
-    void add_damage( damage_type dt, float a, int rp = 0, float rm = 1.0f, float mul = 1.0f );
-    damage_instance( damage_type dt, float a, int rp = 0, float rm = 1.0f, float mul = 1.0f );
-    void mult_damage( double multiplier );
+    static damage_instance physical( float bash, float cut, float stab, float arpen = 0.0f );
+    void add_damage( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f );
+    damage_instance( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f );
+    void mult_damage( double multiplier, bool pre_armor = false );
     float type_damage( damage_type dt ) const;
     float total_damage() const;
     void clear();
+    bool empty() const;
+
+    /** Adds a damage instance to this one. Normalizes multipliers, which makes it very lossy. */
+    void add( const damage_instance &b );
 };
 
 struct dealt_damage_instance {
@@ -81,6 +89,8 @@ struct resistances {
 
 damage_type dt_by_name( const std::string &name );
 const std::string &name_by_dt( const damage_type &dt );
+
+const skill_id &skill_by_dt( damage_type dt );
 
 damage_instance load_damage_instance( JsonObject &jo );
 damage_instance load_damage_instance( JsonArray &jarr );

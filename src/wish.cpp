@@ -13,6 +13,7 @@
 #include "mutation.h"
 #include "mtype.h"
 #include "player.h"
+#include "debug_menu.h"
 
 #include <sstream>
 
@@ -176,7 +177,7 @@ class wish_mutate_callback: public uimenu_callback
 };
 
 
-void game::wishmutate( player *p )
+void debug_menu::wishmutate( player *p )
 {
     uimenu wmenu;
     int c = 0;
@@ -348,7 +349,7 @@ class wish_monster_callback: public uimenu_callback
         }
 };
 
-void game::wishmonster( const tripoint &p )
+void debug_menu::wishmonster( const tripoint &p )
 {
     std::vector<const mtype *> mtypes;
 
@@ -382,12 +383,12 @@ void game::wishmonster( const tripoint &p )
             if( cb.hallucination ) {
                 mon.hallucination = true;
             }
-            tripoint spawn = ( p == tripoint_min ? look_around() : p );
+            tripoint spawn = ( p == tripoint_min ? g->look_around() : p );
             if( spawn != tripoint_min ) {
                 std::vector<tripoint> spawn_points = closest_tripoints_first( cb.group, spawn );
                 for( auto spawn_point : spawn_points ) {
                     mon.spawn( spawn_point );
-                    add_zombie( mon, true );
+                    g->add_zombie( mon, true );
                 }
                 cb.msg = _( "Monster spawned, choose another or 'q' to quit." );
                 uistate.wishmonster_selected = wmenu.ret;
@@ -402,8 +403,8 @@ class wish_item_callback: public uimenu_callback
     public:
         bool incontainer;
         std::string msg;
-        const std::vector<std::string> &standard_itype_ids;
-        wish_item_callback( const std::vector<std::string> &ids ) :
+        const std::vector<const itype *> &standard_itype_ids;
+        wish_item_callback( const std::vector<const itype *> &ids ) :
             incontainer( false ), msg( "" ), standard_itype_ids( ids ) {
         }
         bool key( int key, int /*entnum*/, uimenu * /*menu*/ ) override {
@@ -423,7 +424,8 @@ class wish_item_callback: public uimenu_callback
             }
             item tmp( standard_itype_ids[entnum], calendar::turn );
             mvwhline( menu->window, 1, startx, ' ', menu->pad_right - 1 );
-            const std::string header = string_format( "#%d: %s%s", entnum, standard_itype_ids[entnum].c_str(),
+            const std::string header = string_format( "#%d: %s%s", entnum,
+                                       standard_itype_ids[entnum]->get_id().c_str(),
                                        ( incontainer ? _( " (contained)" ) : "" ) );
             mvwprintz( menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
                        header.c_str() );
@@ -437,13 +439,14 @@ class wish_item_callback: public uimenu_callback
         }
 };
 
-void game::wishitem( player *p, int x, int y, int z )
+void debug_menu::wishitem( player *p, int x, int y, int z )
 {
     if( p == NULL && x <= 0 ) {
         debugmsg( "game::wishitem(): invalid parameters" );
         return;
     }
-    const std::vector<std::string> standard_itype_ids = item_controller->get_all_itype_ids();
+    const auto opts = item_controller->all();
+
     int prev_amount, amount = 1;
     uimenu wmenu;
     wmenu.w_x = 0;
@@ -451,21 +454,22 @@ void game::wishitem( player *p, int x, int y, int z )
     wmenu.pad_right = ( TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2 );
     wmenu.return_invalid = true;
     wmenu.selected = uistate.wishitem_selected;
-    wish_item_callback cb( standard_itype_ids );
+    wish_item_callback cb( opts );
     wmenu.callback = &cb;
 
-    for( size_t i = 0; i < standard_itype_ids.size(); i++ ) {
-        item ity( standard_itype_ids[i], 0 );
+    for( size_t i = 0; i < opts.size(); i++ ) {
+        item ity( opts[i], 0 );
         wmenu.addentry( i, true, 0, string_format( _( "%.*s" ), wmenu.pad_right - 5,
                         ity.tname( 1, false ).c_str() ) );
         wmenu.entries[i].extratxt.txt = ity.symbol();
         wmenu.entries[i].extratxt.color = ity.color();
         wmenu.entries[i].extratxt.left = 1;
     }
+
     do {
         wmenu.query();
         if( wmenu.ret >= 0 ) {
-            item granted( standard_itype_ids[wmenu.ret], calendar::turn );
+            item granted( opts[wmenu.ret] );
             prev_amount = amount;
             if( p != NULL ) {
                 amount = std::atoi(
@@ -481,7 +485,7 @@ void game::wishitem( player *p, int x, int y, int z )
                 }
                 p->invalidate_crafting_inventory();
             } else if( x >= 0 && y >= 0 ) {
-                m.add_item_or_charges( tripoint( x, y, z ), granted );
+                g->m.add_item_or_charges( tripoint( x, y, z ), granted );
                 wmenu.keypress = 'q';
             }
             if( amount > 0 ) {
@@ -499,7 +503,7 @@ void game::wishitem( player *p, int x, int y, int z )
 /*
  * Set skill on any player object; player character or NPC
  */
-void game::wishskill( player *p )
+void debug_menu::wishskill( player *p )
 {
     const int skoffset = 1;
     uimenu skmenu;

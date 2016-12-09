@@ -123,7 +123,7 @@
     {
         "type"  : "item_group",
         "id"    : "pizza_trash",
-        "guns_with_ammo": true,
+        "ammo": 100,
         "items" : [
             ["cup_plastic",  40],
             ["wrapper",      34],
@@ -172,7 +172,7 @@
         "id" : "bankruptpizzeria",
         "name" : "Bankrupt Pizzeria",
         "rotate" : true,
-        "sym" : [94, 62, 118, 60],
+        "sym" : 94,
         "color" : "dark_gray",
         "see_cost" : 5,
         "extras" : "build",

@@ -12,15 +12,15 @@
     "type": "ammunition_type"
   },
   {
-    "id": "556",
+    "id": "223",
     "name": "light rifle ammo",
-    "default": "556",
+    "default": "223",
     "type": "ammunition_type"
   },
   {
-    "id": "762",
+    "id": "308",
     "name": "rifle ammo",
-    "default": "762_51",
+    "default": "308",
     "type": "ammunition_type"
   },
   {

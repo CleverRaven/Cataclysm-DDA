@@ -72,6 +72,7 @@ class it_artifact_tool : public itype, public JsonSerializer, public JsonDeseria
 
         it_artifact_tool();
         it_artifact_tool( JsonObject &jo );
+        it_artifact_tool( const itype &base ) : itype( base ) {};
 
         void create_name( const std::string &type );
         void create_name( const std::string &property_name, const std::string &shape_name );
@@ -91,6 +92,7 @@ class it_artifact_armor : public itype, public JsonSerializer, public JsonDeseri
 
         it_artifact_armor();
         it_artifact_armor( JsonObject &jo );
+        it_artifact_armor( const itype &base ) : itype( base ) {};
 
         void create_name( const std::string &type );
 };
@@ -105,7 +107,6 @@ std::string architects_cube();
 
 // note: needs to be called by main() before MAPBUFFER.load
 void load_artifacts( const std::string &filename );
-void load_artifacts_from_ifstream( std::ifstream &f );
 // save artifact definitions to json, path must be the same as for loading.
 bool save_artifacts( const std::string &path );
 

@@ -13,8 +13,6 @@
     "ammo": "signal_flare",
     "skill": "pistol",
     "dispersion": 600,
-    "sight_dispersion": 135,
-    "aim_speed": 1,
     "durability": 7,
     "loudness": 40,
     "clip_size": 1,

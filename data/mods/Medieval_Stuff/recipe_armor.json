@@ -6,7 +6,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "difficulty": 5,
-  "time": 520000,
+  "time": 432000,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
     {"id":"HAMMER","level":3}
@@ -38,7 +38,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "difficulty": 6,
-  "time": 540000,
+  "time": 70000,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
     {"id":"HAMMER","level":3}
@@ -65,7 +65,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "difficulty": 7,
-  "time": 540000,
+  "time": 432000,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
     {"id":"HAMMER","level":3}
@@ -127,7 +127,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "fabrication",
   "difficulty": 5,
-  "time": 500000,
+  "time": 280000,
   "book_learn": [[ "textbook_armwest", 8 ]],
   "qualities": [
     {"id":"HAMMER","level":3}
@@ -148,7 +148,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "fabrication",
   "difficulty": 7,
-  "time": 550000,
+  "time": 448000,
   "book_learn": [[ "textbook_armwest", 8 ]],
   "qualities": [
     {"id":"HAMMER","level":3}
@@ -179,7 +179,7 @@
   "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "fabrication",
   "difficulty": 5,
-  "time": 45000,
+  "time": 120000,
   "autolearn": true,
   "book_learn": [["textbook_armwest", 4], ["recipe_melee", 4]],
   "qualities":[
@@ -203,7 +203,7 @@
   "skill_used": "fabrication",
   "difficulty": 4,
   "skills_required": [ "tailor", 3 ],
-  "time": 28000,
+  "time": 30000,
   "book_learn": [[ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], ["textbook_armschina", 4]],
   "qualities" : [
     {"id":"CUT","level":1}
@@ -233,7 +233,7 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "difficulty": 6,
-  "time": 540000,
+  "time": 432000,
   "book_learn": [[ "textbook_armschina", 5 ]],
   "qualities": [
     {"id":"CUT","level":1},

@@ -10,6 +10,7 @@
 
 #include <string>
 #include <list>
+#include "units.h"
 
 #include "string_id.h"
 
@@ -48,6 +49,7 @@ void toilet( player &p, const tripoint &examp );
 void elevator( player &p, const tripoint &examp );
 void controls_gate( player &p, const tripoint &examp );
 void cardreader( player &p, const tripoint &examp );
+void cvdmachine( player &p, const tripoint &examp );
 void rubble( player &p, const tripoint &examp );
 void crate( player &p, const tripoint &examp );
 void chainfence( player &p, const tripoint &examp );
@@ -63,6 +65,12 @@ void slot_machine( player &p, const tripoint &examp );
 void safe( player &p, const tripoint &examp );
 void gunsafe_ml( player &p, const tripoint &examp );
 void gunsafe_el( player &p, const tripoint &examp );
+void harvest_furn_nectar( player &p, const tripoint &examp );
+void harvest_furn( player &p, const tripoint &examp );
+void harvest_ter_nectar( player &p, const tripoint &examp );
+void harvest_ter( player &p, const tripoint &examp );
+void harvested_plant( player &p, const tripoint &examp );
+void locked_object( player &p, const tripoint &examp );
 void bulletin_board( player &p, const tripoint &examp );
 void fault( player &p, const tripoint &examp );
 void pedestal_wyrm( player &p, const tripoint &examp );
@@ -72,22 +80,16 @@ void fswitch( player &p, const tripoint &examp );
 void flower_poppy( player &p, const tripoint &examp );
 void flower_bluebell( player &p, const tripoint &examp );
 void flower_dahlia( player &p, const tripoint &examp );
-void flower_datura( player &p, const tripoint &examp );
 void flower_marloss( player &p, const tripoint &examp );
-void flower_dandelion( player &p, const tripoint &examp );
-void examine_cattails( player &p, const tripoint &examp );
 void egg_sackbw( player &p, const tripoint &examp );
 void egg_sackcs( player &p, const tripoint &examp );
 void egg_sackws( player &p, const tripoint &examp );
 void fungus( player &p, const tripoint &examp );
 void dirtmound( player &p, const tripoint &examp );
 void aggie_plant( player &p, const tripoint &examp );
-void harvest_tree_shrub( player &p, const tripoint &examp );
-void tree_pine( player &p, const tripoint &examp );
 void tree_hickory( player &p, const tripoint &examp );
 void tree_maple( player &p, const tripoint &examp );
 void tree_maple_tapped( player &p, const tripoint &examp );
-void tree_bark( player &p, const tripoint &examp );
 void shrub_marloss( player &p, const tripoint &examp );
 void tree_marloss( player &p, const tripoint &examp );
 void shrub_wildveggies( player &p, const tripoint &examp );
@@ -116,7 +118,7 @@ bool pour_into_keg( const tripoint &pos, item &liquid );
  * Get the capacity of the keg (if any) at given location. If there is no keg it
  * returns 0.
  */
-int get_keg_capacity( const tripoint &pos );
+units::volume get_keg_capacity( const tripoint &pos );
 /**
  * Check whether there is a keg on the map that can be filled via @ref pour_into_keg.
  */

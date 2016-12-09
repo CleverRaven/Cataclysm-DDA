@@ -62,7 +62,7 @@
                 * 2.7.12 "terrain"
                 * 2.7.13 "monster"
                 * 2.7.14 "rubble"
-                * 2.7.15 "place_liquid"
+                * 2.7.15 "place_liquids"
         * 2.8 "rotation":
 
 * 3 Method: lua
@@ -641,7 +641,7 @@ Values:
 
 Example for dropping a default amount of gasoline (200 units) on the ground:
 ```JSON
-"place_liquid": [
+"place_liquids": [
     { "liquid": "gasoline", "x": 3, "y": 5 }
 ],
 ```

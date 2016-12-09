@@ -28,6 +28,7 @@
 #include "field.h"
 #include "ui.h"
 #include "scent_map.h"
+#include "debug_menu.h"
 
 #include <fstream>
 #include <sstream>
@@ -218,7 +219,6 @@ editmap::editmap()
     hilights["mapgentgt"].color = c_cyan;
     hilights["mapgentgt"].setup();
 
-    oter_special.clear();
     uberdraw = false;
 }
 
@@ -622,7 +622,8 @@ void editmap::update_view( bool update_info )
         const auto &map_cache = g->m.get_cache( target.z );
 
         mvwprintw( w_info, off++, 1, _( "dist: %d u_see: %d v_in: %d scent: %d" ),
-                   rl_dist( g->u.pos(), target ), g->u.sees( target ), veh_in, g->scent( target ) );
+                   rl_dist( g->u.pos(), target ), g->u.sees( target ),
+                   veh_in, g->scent.get( target ) );
         mvwprintw( w_info, off++, 1, _( "sight_range: %d, daylight_sight_range: %d," ),
                    g->u.sight_range( g->light_level( g->u.posz() ) ), g->u.sight_range( DAYLIGHT_LEVEL ) );
         mvwprintw( w_info, off++, 1, _( "transparency: %.5f, visibility: %.5f," ),
@@ -1343,7 +1344,7 @@ int editmap::edit_itm()
             imenu.addentry( imenu_bday, true, -1, pgettext( "item manipulation debug menu entry", "bday: %d" ),
                             ( int )it->bday );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
-                            "damage: %d" ), ( int )it->damage );
+                            "damage: %d" ), it->damage() );
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
                             "burnt: %d" ), ( int )it->burnt );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
@@ -1361,7 +1362,7 @@ int editmap::edit_itm()
                             intval = ( int )it->bday;
                             break;
                         case imenu_damage:
-                            intval = ( int )it->damage;
+                            intval = it->damage();
                             break;
                         case imenu_burnt:
                             intval = ( int )it->burnt;
@@ -1375,8 +1376,8 @@ int editmap::edit_itm()
                             it->bday = retval;
                             imenu.entries[imenu_bday].txt = string_format( "bday: %d", it->bday );
                         } else if( imenu.ret == imenu_damage ) {
-                            it->damage = retval;
-                            imenu.entries[imenu_damage].txt = string_format( "damage: %d", it->damage );
+                            it->set_damage( retval );
+                            imenu.entries[imenu_damage].txt = string_format( "damage: %d", it->damage() );
                         } else if( imenu.ret == imenu_burnt ) {
                             it->burnt = retval;
                             imenu.entries[imenu_burnt].txt = string_format( "burnt: %d", it->burnt );
@@ -1394,7 +1395,7 @@ int editmap::edit_itm()
             wrefresh( w_info );
         } else if( ilmenu.ret == -5 ) {
             ilmenu.ret = UIMENU_INVALID;
-            g->wishitem( nullptr, target.x, target.y, target.z );
+            debug_menu::wishitem( nullptr, target.x, target.y, target.z );
             ilmenu.entries.clear();
             i = 0;
             for( auto &an_item : items ) {
@@ -1685,7 +1686,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, target.z );
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
-    omt_ref = gmenu.ret;
+    omt_ref = oter_id( gmenu.ret );
     tinymap tmpmap;
     // TODO: add a do-not-save-generated-submaps parameter
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
@@ -1714,14 +1715,14 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     gpmenu.show();
     uphelp( _( "[pgup/pgdn]: prev/next oter type" ),
             _( "[up/dn] select, [enter] accept, [q] abort" ),
-            string_format( "Mapgen: %s", oterlist[gmenu.ret].id.substr( 0, 40 ).c_str() )
+            string_format( "Mapgen: %s", oter_id( gmenu.ret ).id().str().substr( 0, 40 ).c_str() )
           );
     int lastsel = gmenu.selected;
     bool showpreview = true;
     do {
         if( gmenu.selected != lastsel ) {
             lastsel = gmenu.selected;
-            omt_ref = gmenu.selected;
+            omt_ref = oter_id( gmenu.selected );
             cleartmpmap( tmpmap );
             tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
             showpreview = true;
@@ -1835,8 +1836,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
                 } else if( gpmenu.ret == 3 ) {
                     popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
-                           orig_oters.t().name.c_str(), orig_oters.c_str(),
-                           omt_ref.t().name.c_str(), omt_ref.c_str() );
+                           orig_oters->get_name().c_str(), orig_oters.id().c_str(),
+                           omt_ref->get_name().c_str(), omt_ref.id().c_str() );
                 }
             } else if( gpmenu.keypress == 'm' ) {
                 // todo; keep preview as is and move target
@@ -1938,22 +1939,13 @@ int editmap::edit_mapgen()
     gmenu.w_x = offsetX;
     gmenu.return_invalid = true;
 
-    std::map<std::string, bool> broken_oter_blacklist;
-    broken_oter_blacklist[""] = true;
-    broken_oter_blacklist["road_null"] = true;
-    broken_oter_blacklist["nuke_plant_entrance"] = true;
-    broken_oter_blacklist["nuke_plant"] = true;
-    broken_oter_blacklist["temple_core"] = true;
+    for( size_t i = 0; i < overmap_terrains::count(); i++ ) {
+        const oter_id id( i );
 
-    for( size_t i = 0; i < oterlist.size(); i++ ) {
-        oter_id id = oter_id( i );
-        gmenu.addentry( -1, true, 0, "[%3d] %s", ( int )id, std::string( id ).c_str() );
-        if( broken_oter_blacklist.find( id ) != broken_oter_blacklist.end() ) {
-            gmenu.entries[i].enabled = false;
-        }
+        gmenu.addentry( -1, !id.id().is_null(), 0, "[%3d] %s", ( int )id, id.id().c_str() );
         gmenu.entries[i].extratxt.left = 1;
-        gmenu.entries[i].extratxt.color = otermap[id].color;
-        gmenu.entries[i].extratxt.txt = string_format( "%c", otermap[id].sym );
+        gmenu.entries[i].extratxt.color = id->get_color();
+        gmenu.entries[i].extratxt.txt = string_format( "%c", id->get_sym() );
     }
     real_coords tc;
     do {

@@ -29,10 +29,10 @@ bool is_adjacent( const monster &z, const Creature &target )
 }
 
 // Modified version of the function on monattack.cpp
-bool dodge_check( int max_accuracy, Creature &target )
+bool dodge_check( float max_accuracy, Creature &target )
 {
     ///\EFFECT_DODGE increases chance of dodging special attacks of monsters
-    int dodge = std::max( target.get_dodge() - rng( 0, max_accuracy ), 0L );
+    float dodge = std::max( target.get_dodge() - rng( 0, max_accuracy ), 0.0f );
     if( rng( 0, 10000 ) < 10000 / ( 1 + ( 99 * exp( -0.6f * dodge ) ) ) ) {
         return true;
     }
@@ -471,24 +471,12 @@ void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) c
         return;
     }
 
-    npc tmp;
-    tmp.name = _( "The " ) + z.name();
+    standard_npc tmp( _( "The " ) + z.name(), {}, 8, fake_str, fake_dex, fake_int, fake_per );
     tmp.set_fake( true );
     tmp.setpos( z.pos() );
-    tmp.str_max = fake_str;
-    tmp.dex_max = fake_dex;
-    tmp.int_max = fake_int;
-    tmp.per_max = fake_per;
-    tmp.str_cur = fake_str;
-    tmp.dex_cur = fake_dex;
-    tmp.int_cur = fake_int;
-    tmp.per_cur = fake_per;
-    tmp.attitude = z.friendly ? NPCATT_DEFEND : NPCATT_KILL;
+    tmp.attitude = z.friendly ? NPCATT_FOLLOW : NPCATT_KILL;
+    tmp.recoil = 0; // no need to aim
 
-    if( fake_skills.empty() ) {
-        tmp.set_skill_level( skill_id( "gun" ), 4 );
-        tmp.set_skill_level( gun.gun_skill(), 8 );
-    }
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );
     }

@@ -20,7 +20,7 @@
     "use_action": {
       "type": "bandolier",
       "capacity": 16,
-      "ammo": [ "556", "762", "50" ]
+      "ammo": [ "223", "308", "50" ]
     }
   },
   {
@@ -43,7 +43,7 @@
     "use_action": {
       "type": "bandolier",
       "capacity": 4,
-      "ammo": [ "556", "762", "50" ]
+      "ammo": [ "223", "308", "50" ]
     }
   }
 ]

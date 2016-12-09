@@ -9,68 +9,35 @@
 #include "debug.h"
 #include "mapsharing.h"
 #include "output.h"
+#include "json.h"
+#include "filesystem.h"
+#include "item_search.h"
 
 #include <algorithm>
+#include <cmath>
+
+double round_up( double val, unsigned int dp )
+{
+    const double denominator = std::pow( 10.0, double( dp ) );
+    return std::ceil( denominator * val ) / denominator;
+}
 
 bool isBetween( int test, int down, int up )
 {
     return test > down && test < up;
 }
 
-bool lcmatch( const std::string &str, const std::string &findstr ); // ui.cpp
-bool list_items_match( const item *item, std::string sPattern )
+bool lcmatch( const std::string &str, const std::string &qry )
 {
-    size_t iPos;
-    bool hasExclude = false;
+    std::string needle;
+    needle.reserve( qry.size() );
+    std::transform( qry.begin(), qry.end(), std::back_inserter( needle ), tolower );
 
-    if( sPattern.find( "-" ) != std::string::npos ) {
-        hasExclude = true;
-    }
+    std::string haystack;
+    haystack.reserve( str.size() );
+    std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
 
-    do {
-        iPos = sPattern.find( "," );
-        std::string pat = ( iPos == std::string::npos ) ? sPattern : sPattern.substr( 0, iPos );
-        bool exclude = false;
-        if( pat.substr( 0, 1 ) == "-" ) {
-            exclude = true;
-            pat = pat.substr( 1, pat.size() - 1 );
-        } else if( hasExclude ) {
-            hasExclude = false; //If there are non exclusive items to filter, we flip this back to false.
-        }
-
-        std::string namepat = pat;
-        std::transform( namepat.begin(), namepat.end(), namepat.begin(), tolower );
-        if( lcmatch( remove_color_tags( item->tname() ), namepat ) ) {
-            return !exclude;
-        }
-
-        if( pat.find( "{", 0 ) != std::string::npos ) {
-            std::string adv_pat_type = pat.substr( 1, pat.find( ":" ) - 1 );
-            std::string adv_pat_search = pat.substr( pat.find( ":" ) + 1,
-                                         ( pat.find( "}" ) - pat.find( ":" ) ) - 1 );
-            std::transform( adv_pat_search.begin(), adv_pat_search.end(), adv_pat_search.begin(), tolower );
-            if( adv_pat_type == "c" && lcmatch( item->get_category().name, adv_pat_search ) ) {
-                return !exclude;
-            } else if( adv_pat_type == "m" ) {
-                for( auto material : item->made_of_types() ) {
-                    if( lcmatch( material->name(), adv_pat_search ) ) {
-                        return !exclude;
-                    }
-                }
-            } else if( adv_pat_type == "dgt" && item->damage > atoi( adv_pat_search.c_str() ) ) {
-                return !exclude;
-            } else if( adv_pat_type == "dlt" && item->damage < atoi( adv_pat_search.c_str() ) ) {
-                return !exclude;
-            }
-        }
-
-        if( iPos != std::string::npos ) {
-            sPattern = sPattern.substr( iPos + 1, sPattern.size() );
-        }
-
-    } while( iPos != std::string::npos );
-
-    return hasExclude;
+    return haystack.find( needle ) != std::string::npos;
 }
 
 std::vector<map_item_stack> filter_item_stacks( std::vector<map_item_stack> stack,
@@ -79,12 +46,18 @@ std::vector<map_item_stack> filter_item_stacks( std::vector<map_item_stack> stac
     std::vector<map_item_stack> ret;
 
     std::string sFilterTemp = filter;
-
-    for( auto &elem : stack ) {
-        if( sFilterTemp == "" || list_items_match( elem.example, sFilterTemp ) ) {
-            ret.push_back( elem );
+    auto z = item_filter_from_string( filter );
+    std::copy_if( stack.begin(),
+                  stack.end(),
+                  std::back_inserter( ret ),
+    [z]( const map_item_stack & a ) {
+        if( a.example != nullptr ) {
+            return z( *a.example );
         }
+        return false;
     }
+                );
+
     return ret;
 }
 
@@ -93,8 +66,9 @@ int list_filter_high_priority( std::vector<map_item_stack> &stack, std::string p
 {
     //TODO:optimize if necessary
     std::vector<map_item_stack> tempstack; // temp
+    const auto filter_fn = item_filter_from_string( priorities );
     for( auto it = stack.begin(); it != stack.end(); ) {
-        if( priorities == "" || !list_items_match( it->example, priorities ) ) {
+        if( priorities.empty() || ( it->example != nullptr && !filter_fn( *it->example ) ) ) {
             tempstack.push_back( *it );
             it = stack.erase( it );
         } else {
@@ -114,8 +88,9 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
 {
     //TODO:optimize if necessary
     std::vector<map_item_stack> tempstack; // temp
+    const auto filter_fn = item_filter_from_string( priorities );
     for( auto it = stack.begin() + start; it != stack.end(); ) {
-        if( priorities != "" && list_items_match( it->example, priorities ) ) {
+        if( !priorities.empty() && it->example != nullptr && filter_fn( *it->example ) ) {
             tempstack.push_back( *it );
             it = stack.erase( it );
         } else {
@@ -130,16 +105,7 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
     return id;
 }
 
-bool compare_by_dist_attitude::operator()( Creature *a, Creature *b ) const
-{
-    const auto aa = u.attitude_to( *a );
-    const auto ab = u.attitude_to( *b );
-    if( aa != ab ) {
-        return aa < ab;
-    }
-    return rl_dist( a->pos(), u.pos() ) < rl_dist( b->pos(), u.pos() );
-}
-
+// Operator overload required by sort interface.
 bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
                                    const std::pair<int, tripoint> &b )
 {
@@ -204,7 +170,7 @@ int bound_mod_to_vals( int val, int mod, int max, int min )
 
 const char *velocity_units( const units_type vel_units )
 {
-    if( OPTIONS["USE_METRIC_SPEEDS"].getValue() == "mph" ) {
+    if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "mph" ) {
         return _( "mph" );
     } else {
         switch( vel_units ) {
@@ -219,7 +185,31 @@ const char *velocity_units( const units_type vel_units )
 
 const char *weight_units()
 {
-    return OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _( "lbs" ) : _( "kg" );
+    return get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ? _( "lbs" ) : _( "kg" );
+}
+
+const char *volume_units_abbr()
+{
+    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
+    if( vol_units == "c" ) {
+        return _( "c" );
+    } else if( vol_units == "l" ) {
+        return _( "L" );
+    } else {
+        return _( "qt" );
+    }
+}
+
+const char *volume_units_long()
+{
+    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
+    if( vol_units == "c" ) {
+        return _( "cup" );
+    } else if( vol_units == "l" ) {
+        return _( "liter" );
+    } else {
+        return _( "quart" );
+    }
 }
 
 /**
@@ -230,7 +220,7 @@ double convert_velocity( int velocity, const units_type vel_units )
     // internal units to mph conversion
     double ret = double( velocity ) / 100;
 
-    if( OPTIONS["USE_METRIC_SPEEDS"] == "km/h" ) {
+    if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "km/h" ) {
         switch( vel_units ) {
             case VU_VEHICLE:
                 // mph to km/h conversion
@@ -252,7 +242,7 @@ double convert_weight( int weight )
 {
     double ret;
     ret = double( weight );
-    if( OPTIONS["USE_METRIC_WEIGHTS"] == "kg" ) {
+    if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
         ret /= 1000;
     } else {
         ret /= 453.6;
@@ -260,9 +250,81 @@ double convert_weight( int weight )
     return ret;
 }
 
+/**
+* Convert volume from ml to units defined by user.
+*/
+double convert_volume( int volume )
+{
+    return convert_volume( volume, NULL );
+}
+
+/**
+* Convert volume from ml to units defined by user,
+* optionally returning the units preferred scale.
+*/
+double convert_volume( int volume, int *out_scale )
+{
+    double ret = volume;
+    int scale = 0;
+    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
+    if( vol_units == "c" ) {
+        ret *= 0.004;
+        scale = 1;
+    } else if( vol_units == "l" ) {
+        ret *= 0.001;
+        scale = 2;
+    } else {
+        ret *= 0.00105669;
+        scale = 2;
+    }
+    if( out_scale != NULL ) {
+        *out_scale = scale;
+    }
+    return ret;
+}
+
 double temp_to_celsius( double fahrenheit )
 {
     return ( ( fahrenheit - 32.0 ) * 5.0 / 9.0 );
+}
+
+double clamp_to_width( double value, int width, int &scale )
+{
+    return clamp_to_width( value, width, scale, NULL );
+}
+
+/**
+* Clamp (number and space wise) value to with,
+* taking into account the specified preferred scale,
+* returning the adjusted (shortened) scale that best fit the width,
+* optionally returning a flag that indicate if the value was truncated to fit the width
+*/
+double clamp_to_width( double value, int width, int &scale, bool *out_truncated )
+{
+    if( out_truncated != NULL ) {
+        *out_truncated = false;
+    }
+    if( value >= std::pow( 10.0, width ) ) {
+        // above the maximum number we can fit in the width without decimal
+        // show the bigest number we can without decimal
+        // flag as truncated
+        value = std::pow( 10.0, width ) - 1.0;
+        scale = 0;
+        if( out_truncated != NULL ) {
+            *out_truncated = true;
+        }
+    } else if( scale > 0 ) {
+        for( int s = 1; s <= scale; s++ ) {
+            int scale_width = 1 + s; // 1 decimal separator + "s"
+            if( width > scale_width && value >= std::pow( 10.0, width - scale_width ) ) {
+                // above the maximum number we can fit in the width with "s" decimals
+                // show this number with one less decimal than "s"
+                scale = s - 1;
+                break;
+            }
+        }
+    }
+    return value;
 }
 
 float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
@@ -360,4 +422,63 @@ bool write_to_file_exclusive( const std::string &path,
         }
         return false;
     }
+}
+
+bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
+{
+    try {
+        std::ifstream fin( path, std::ios::binary );
+        if( !fin ) {
+            throw std::runtime_error( "opening file failed" );
+        }
+        reader( fin );
+        if( fin.bad() ) {
+            throw std::runtime_error( "reading file failed" );
+        }
+        return true;
+
+    } catch( const std::exception &err ) {
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.c_str(), err.what() );
+        return false;
+    }
+}
+
+bool read_from_file( const std::string &path, const std::function<void( JsonIn & )> &reader )
+{
+    return read_from_file( path, [&reader]( std::istream & fin ) {
+        JsonIn jsin( fin );
+        reader( jsin );
+    } );
+}
+
+bool read_from_file( const std::string &path, JsonDeserializer &reader )
+{
+    return read_from_file( path, [&reader]( JsonIn & jsin ) {
+        reader.deserialize( jsin );
+    } );
+}
+
+bool read_from_file_optional( const std::string &path,
+                              const std::function<void( std::istream & )> &reader )
+{
+    // Note: slight race condition here, but we'll ignore it. Worst case: the file
+    // exists and got removed before reading it -> reading fails with a message
+    // Or file does not exists, than everything works fine because it's optional anyway.
+    return file_exist( path ) && read_from_file( path, reader );
+}
+
+bool read_from_file_optional( const std::string &path,
+                              const std::function<void( JsonIn & )> &reader )
+{
+    return read_from_file_optional( path, [&reader]( std::istream & fin ) {
+        JsonIn jsin( fin );
+        reader( jsin );
+    } );
+}
+
+bool read_from_file_optional( const std::string &path, JsonDeserializer &reader )
+{
+    return read_from_file_optional( path, [&reader]( JsonIn & jsin ) {
+        reader.deserialize( jsin );
+    } );
 }

@@ -43,10 +43,20 @@
     ]
   },
   {
+    "id": "supplies_metal_precious",
+    "type": "item_group",
+    "//": "Metals of significant economic value before the cataclysm",
+    "items": [
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ]
+    ]
+  },
+  {
     "id": "supplies_spares_vehicle",
     "type": "item_group",
     "//": "Spare parts for crafting or mending vehicle parts",
     "items": [
+      [ "bb", 40 ],
       [ "drivebelt", 200 ],
       [ "filter_air", 60 ],
       [ "filter_liquid", 60 ],

@@ -142,6 +142,21 @@ void mission_start::infect_npc( mission *miss )
     p->guard_current_pos();
 }
 
+void mission_start::need_drugs_npc( mission *miss )
+{
+    npc *p = g->find_npc( miss->npc_id );
+    if( p == NULL ) {
+        debugmsg( "mission_start::need_drugs_npc() couldn't find an NPC!" );
+        return;
+    }
+    // make sure they don't have any item goal
+    p->remove_items_with( [&]( const item & it ) {
+        return it.typeId() == miss->item_id;
+    } );
+    // Make sure they stay here
+    p->guard_current_pos();
+}
+
 void mission_start::place_dog( mission *miss )
 {
     const tripoint house = random_house_in_closest_city();
@@ -348,7 +363,8 @@ void mission_start::kill_horde_master( mission *miss )
     tile.add_spawn( mon_zombie_master, 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul" );
     tile.add_spawn( mon_zombie_brute, 3, SEEX, SEEY );
     tile.add_spawn( mon_zombie_dog, 3, SEEX, SEEY );
-    if( SEEX > 1 && SEEX < OMAPX && SEEY > 1 && SEEY < OMAPY ) {
+
+    if( overmap::inbounds( SEEX, SEEY, 0, 1 ) ) {
         for( int x = SEEX - 1; x <= SEEX + 1; x++ ) {
             for( int y = SEEY - 1; y <= SEEY + 1; y++ ) {
                 tile.add_spawn( mon_zombie, rng( 3, 10 ), x, y );
@@ -378,7 +394,7 @@ void mission_start::place_npc_software( mission *miss )
     } else if( dev->myclass == NC_DOCTOR ) {
         miss->item_id = "software_medical";
         type = "s_pharm";
-        miss->follow_up = MISSION_GET_ZOMBIE_BLOOD_ANAL;
+        miss->follow_up = mission_type_id( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
     } else if( dev->myclass == NC_SCIENTIST ) {
         miss->item_id = "software_math";
     } else {
@@ -615,7 +631,7 @@ void mission_start::recruit_tracker( mission *miss )
     temp->mission = NPC_MISSION_SHOPKEEP;
     temp->personality.aggression -= 1;
     temp->op_of_u.owed = 10;
-    temp->add_new_mission( mission::reserve_new( MISSION_JOIN_TRACKER, temp->getID() ) );
+    temp->add_new_mission( mission::reserve_new( mission_type_id( "MISSION_JOIN_TRACKER" ), temp->getID() ) );
 }
 
 void mission_start::radio_repeater( mission *miss )
@@ -1625,4 +1641,81 @@ void mission_start::ranch_bartender_4(mission *miss)
 
 void mission_start::place_book( mission *)
 {
+}
+
+const tripoint reveal_destination( const std::string &type )
+{
+    const tripoint your_pos = g->u.global_omt_location();
+    const tripoint center_pos = overmap_buffer.find_random( your_pos, type, rng( 40, 80 ), false );
+
+    if( center_pos != overmap::invalid_tripoint ) {
+        overmap_buffer.reveal( center_pos, 2 );
+        return center_pos;
+    }
+
+    return overmap::invalid_tripoint;
+}
+
+void reveal_route( mission *miss, const tripoint destination )
+{
+    const npc *p = g->find_npc( miss->get_npc_id() );
+    if( p == nullptr ) {
+        debugmsg( "mission_start::infect_npc() couldn't find an NPC!" );
+        return;
+    }
+
+    const tripoint source = g->u.global_omt_location();
+
+    const tripoint source_road = overmap_buffer.find_closest( source, "road", 3, false );
+    const tripoint dest_road = overmap_buffer.find_closest( destination, "road", 3, false );
+
+    if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
+        add_msg( _( "%s marks as well the road that leads to it..." ),
+                 p->name.c_str() );
+    }
+}
+
+void reveal_target( mission *miss, const std::string &omter_id )
+{
+    const npc *p = g->find_npc( miss->get_npc_id() );
+    if( p == nullptr ) {
+        debugmsg( "mission_start::infect_npc() couldn't find an NPC!" );
+        return;
+    }
+
+    const tripoint destination = reveal_destination( omter_id );
+    if( destination != overmap::invalid_tripoint ) {
+        const oter_id oter = overmap_buffer.ter( destination );
+        add_msg( _( "%s have marked the only %s known to them on your map." ),
+                 p->name.c_str(), oter->get_name().c_str() );
+        miss->set_target( destination );
+        if( one_in( 3 ) ) {
+            reveal_route( miss, destination );
+        }
+    }
+}
+
+void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids )
+{
+    reveal_target( miss, random_entry( omter_ids ).c_str() );
+}
+
+void mission_start::reveal_weather_station( mission *miss )
+{
+    reveal_target( miss, "station_radio" );
+}
+
+void mission_start::reveal_office_tower( mission *miss )
+{
+    reveal_target( miss, "office_tower_1" );
+}
+
+void mission_start::reveal_doctors_office( mission *miss )
+{
+    reveal_any_target( miss, { "office_doctor", "hospital" } );
+}
+
+void mission_start::reveal_cathedral( mission *miss )
+{
+    reveal_any_target( miss, { "cathedral_1", "museum" } );
 }

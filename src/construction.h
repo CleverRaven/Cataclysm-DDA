@@ -32,8 +32,8 @@ struct construction {
         int time;
         int difficulty;
 
-        bool ( *pre_special )( point ); // custom constructability check
-        void ( *post_special )( point ); // custom after-effects
+        bool ( *pre_special )( const tripoint & ); // custom constructability check
+        void ( *post_special )( const tripoint & ); // custom after-effects
 
         bool pre_is_furniture; // whether it's furniture or terrain
         bool post_is_furniture; // whether it's furniture or terrain

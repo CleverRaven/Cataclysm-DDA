@@ -1,0 +1,36 @@
+[
+  {
+    "id": "mag_bashing",
+    "type": "BOOK",
+    "name": "Batter Up!",
+    "name_plural": "Batter Up!",
+    "description": "A baseball magazine that focuses on batting tips.  There are lots of colorful, full-page photos of skilled athletes demonstrating proper form and technique.",
+    "weight": 80,
+    "volume": 1,
+    "price": 450,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "pink",
+    "skill": "bashing",
+    "max_level": 1,
+    "intelligence": 5,
+    "time": 8,
+    "fun": 1
+  },
+  {
+    "id": "manual_bashing",
+    "type": "BOOK",
+    "name": "tactical baton defense manual",
+    "description": "An informative guide to self-defense using clubs and batons.  Aimed at the law enforcement and military market, it is packed with time tested, no-nonsense information and written to be understandable for beginners.",
+    "weight": 454,
+    "volume": 1,
+    "price": 2000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "bashing",
+    "max_level": 3,
+    "intelligence": 3,
+    "time": 18
+  }
+]

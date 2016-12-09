@@ -33,12 +33,11 @@
     "name": "electric lantern (on)",
     "name_plural": "electric lanterns (on)",
     "turns_per_charge": 45,
-    "ammo": "battery",
     "revert_to": "electric_lantern",
     "use_action": {
         "type": "transform",
         "target": "electric_lantern",
-        "msg": "The lantern is extinguished."
+        "msg": "You turn the lamp off."
     },
     "flags": [ "LIGHT_15", "TRADER_AVOID" ]
   },
@@ -112,6 +111,7 @@
     "turns_per_charge": 1,
     "revert_to": "handflare_dead",
     "revert_msg": "The flare sputters out",
+    "use_action": [],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
   },
   {
@@ -161,7 +161,7 @@
     "type": "TOOL",
     "name": "acetylene lamp (off)",
     "name_plural": "acetylene lamps (off)",
-    "description": "An antique brass lamp designed to run from a pressurised cylinder of acetylene.  It is an efficient, if not somewhat dangerous light source.",
+    "description": "An antique brass lamp designed to run from a pressurized cylinder of acetylene.  It is an efficient, if not somewhat dangerous light source.",
     "weight": 800,
     "volume": 2,
     "price": 6500,
@@ -192,7 +192,7 @@
     "revert_to": "oxylamp",
     "use_action": {
         "type": "transform",
-        "menu_option_text": "Turn off",
+        "menu_text": "Turn off",
         "msg": "The %s is extinguished",
         "target": "oxylamp"
     },

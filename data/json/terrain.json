@@ -20,6 +20,17 @@
         "flags": ["TRANSPARENT", "NOITEM"]
     },{
         "type" : "terrain",
+        "id" : "t_open_air_rooved",
+        "name": "open air",
+        "symbol": " ",
+        "color": "i_cyan",
+        "move_cost": 2,
+        "roof": "t_flat_roof",
+        "trap": "tr_ledge",
+        "flags": ["TRANSPARENT", "NO_FLOOR"],
+        "examine_action": "climb_down"
+    },{
+        "type" : "terrain",
         "id" : "t_brick_wall_halfway",
         "name": "half-built brick wall",
         "symbol": "#",
@@ -387,7 +398,7 @@
                 "str_min_supported": 100,
                 "bash_below": true
         },
-        "note": "left diggable to clean out corpses-KA101"
+        "//": "left diggable to clean out corpses-KA101"
     },{
         "type" : "terrain",
         "id" : "t_pit_covered",
@@ -860,7 +871,7 @@
         "type" : "terrain",
         "id" : "t_palisade_gate_o",
         "name": "dirt",
-        "comment": "Open palisade gate",
+        "//": "Open palisade gate",
         "symbol": ".",
         "color": "brown",
         "move_cost": 2,
@@ -1124,6 +1135,52 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE"],
         "close": "t_reinforced_glass_shutter",
+        "bash": {
+            "str_min": 40, "str_max": 210,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 20,
+            "sound_fail_vol": 14,
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "glass_shard", "count": [5, 10] },
+                { "item": "wire", "prob": 20 },
+                { "item": "scrap", "count": [3, 5] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_reinforced_door_glass_c",
+        "name": "closed reinforced glass door",
+        "symbol": "+",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL"
+        ],
+        "open": "t_reinforced_door_glass_o",
+        "bash": {
+            "str_min": 40, "str_max": 210,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 20,
+            "sound_fail_vol": 14,
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "glass_shard", "count": [5, 10] },
+                { "item": "wire", "prob": 20 },
+                { "item": "scrap", "count": [3, 5] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_reinforced_door_glass_o",
+        "name": "open reinforced  glass door",
+        "symbol": "'",
+        "color": "ltcyan",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD"],
+        "close": "t_reinforced_door_glass_c",
         "bash": {
             "str_min": 40, "str_max": 210,
             "sound": "glass breaking!",
@@ -1416,6 +1473,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL"],
+        "examine_action": "locked_object",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
             "sound": "smash!",
@@ -1437,6 +1495,7 @@
         "flags": [
             "FLAMMABLE_ASH", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", "CONNECT_TO_WALL"
         ],
+        "examine_action": "locked_object",
         "open": "t_door_o",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
@@ -1482,6 +1541,7 @@
         "move_cost": 0,
         "flags": [
             "FLAMMABLE_ASH", "ALARMED", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL"],
+        "examine_action": "locked_object",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
             "sound": "smash!",
@@ -1505,7 +1565,7 @@
         ],
         "open": "t_door_curtain_o",
         "deconstruct": {
-            "ter_set": "t_null",
+            "ter_set": "t_door_frame",
             "items": [
                 { "item": "stick", "count": 1 },
                 { "item": "sheet", "count": 2 },
@@ -1518,7 +1578,7 @@
             "sound_fail": "slap!",
             "sound_vol": 6,
             "sound_fail_vol": 3,
-            "ter_set": "t_null",
+            "ter_set": "t_door_frame",
             "items": [
                 { "item": "sheet", "count": [0, 1] },
                 { "item": "rag", "count": [2, 5] },
@@ -1569,7 +1629,7 @@
             "ROAD"
         ],
         "deconstruct": {
-            "ter_set": "t_null",
+            "ter_set": "t_door_frame",
             "items": [
                 { "item": "stick", "count": 1 },
                 { "item": "sheet", "count": 2 },
@@ -1583,7 +1643,7 @@
             "sound_fail": "slap!",
             "sound_vol": 5,
             "sound_fail_vol": 2,
-            "ter_set": "t_null",
+            "ter_set": "t_door_frame",
             "items": [
                 { "item": "sheet", "count": [0, 1] },
                 { "item": "rag", "count": [2, 5] },
@@ -1983,7 +2043,7 @@
         "type" : "terrain",
         "id" : "t_door_metal_locked",
         "name": "closed metal door",
-        "comment": "Actually locked",
+        "//": "Actually locked",
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
@@ -2002,11 +2062,12 @@
         "type" : "terrain",
         "id" : "t_door_metal_pickable",
         "name": "closed metal door",
-        "comment": "Actually pickable, but locked",
+        "//": "Actually pickable, but locked",
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
         "flags": ["NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL"],
+        "examine_action": "locked_object",
         "open": "t_door_metal_o",
         "bash": {
             "str_min": 80, "str_max": 250,
@@ -2022,7 +2083,7 @@
         "type" : "terrain",
         "id" : "t_door_bar_c",
         "name": "closed bar door",
-        "comment": "Unlocked, only created at map gen",
+        "//": "Unlocked, only created at map gen",
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
@@ -2062,7 +2123,7 @@
         "type" : "terrain",
         "id" : "t_door_bar_locked",
         "name": "closed bar door",
-        "comment": "Locked",
+        "//": "Locked",
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
@@ -2230,6 +2291,7 @@
             "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE",
             "BARRICADABLE_WINDOW_CURTAINS", "REDUCE_SCENT", "CONNECT_TO_WALL"
         ],
+        "examine_action": "locked_object",
         "close": "t_curtains",
         "open": "t_window_open",
         "deconstruct": {
@@ -2267,6 +2329,7 @@
             "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE",
             "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL"
         ],
+        "examine_action": "locked_object",
         "open": "t_window_no_curtains_open",
         "deconstruct": {
             "ter_set": "t_window_empty",
@@ -2309,7 +2372,7 @@
         "type" : "terrain",
         "id" : "t_window_no_curtains_taped",
         "name": "taped window",
-        "comment": "Taped window without curtains",
+        "//": "Taped window without curtains",
         "symbol": "\"",
         "color": "dkgray",
         "move_cost": 0,
@@ -2331,7 +2394,7 @@
         "type" : "terrain",
         "id" : "t_window_domestic_taped",
         "name": "taped window",
-        "comment": "Taped window with curtains",
+        "//": "Taped window with curtains",
         "symbol": "\"",
         "color": "dkgray",
         "move_cost": 0,
@@ -2824,10 +2887,11 @@
         "color": [ "light_green", "light_green", "red_green", "brown" ], "//": "barren in winter, fruits in autum",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "harvest_season": "AUTUMN",
-        "harvestable": "apple",
-        "examine_action": "harvest_tree_shrub",
         "transforms_into": "t_tree_apple_harvested",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "autumn" ], "entries": [ { "drop": "apple", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -2846,9 +2910,7 @@
         "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
-        "harvest_season": "AUTUMN",
-        "harvestable": "apple",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "transforms_into": "t_tree_apple",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -2868,10 +2930,11 @@
         "color": [ "light_green", "light_green", "ltgreen_green", "brown" ], "//": "barren in winter, fruits in autum",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "harvest_season": "AUTUMN",
-        "harvestable": "pear",
-        "examine_action": "harvest_tree_shrub",
         "transforms_into": "t_tree_pear_harvested",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "autumn" ], "entries": [ { "drop": "pear", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -2890,9 +2953,7 @@
         "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
-        "harvest_season": "AUTUMN",
-        "harvestable": "pear",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "transforms_into": "t_tree_pear",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -2912,10 +2973,11 @@
         "color": [ "light_green", "red_green", "light_green", "brown" ], "//": "barren in winter, fruits in summer",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "harvest_season": "SUMMER",
-        "harvestable": "cherries",
-        "examine_action": "harvest_tree_shrub",
         "transforms_into": "t_tree_cherry_harvested",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "summer" ], "entries": [ { "drop": "cherries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -2934,9 +2996,7 @@
         "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
-        "harvest_season": "SUMMER",
-        "harvestable": "cherries",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "transforms_into": "t_tree_cherry",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -2956,10 +3016,11 @@
         "color": [ "light_green", "ltred_green", "light_green", "brown" ], "//": "barren in winter, fruits in summer",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "harvest_season": "SUMMER",
-        "harvestable": "peach",
-        "examine_action": "harvest_tree_shrub",
         "transforms_into": "t_tree_peach_harvested",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "summer" ], "entries": [ { "drop": "peach", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -2978,9 +3039,7 @@
         "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
-        "harvest_season": "SUMMER",
-        "harvestable": "peach",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "transforms_into": "t_tree_peach",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3000,10 +3059,11 @@
         "color": [ "light_green", "ltred_green", "light_green", "brown" ], "//": "barren in winter, fruits in summer",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "harvest_season": "SUMMER",
-        "harvestable": "apricot",
         "transforms_into": "t_tree_apricot_harvested",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "autumn" ], "entries": [ { "drop": "apricot", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -3022,9 +3082,7 @@
         "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
-        "harvest_season": "SUMMER",
-        "harvestable": "apricot",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "transforms_into": "t_tree_apricot",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3044,10 +3102,11 @@
         "color": [ "light_green", "magenta_green", "light_green", "brown" ], "//": "barren in winter, fruits in summer",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "harvest_season": "SUMMER",
-        "harvestable": "plums",
-        "examine_action": "harvest_tree_shrub",
         "transforms_into": "t_tree_plum_harvested",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "autumn" ], "entries": [ { "drop": "plums", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -3066,9 +3125,7 @@
         "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
-        "harvest_season": "SUMMER",
-        "harvestable": "plums",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "transforms_into": "t_tree_plum",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3088,7 +3145,11 @@
         "color": "green",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_pine",
+        "transforms_into": "t_tree_deadpine",
+        "examine_action": "harvest_ter",
+        "harvest_by_season" : [
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "pine_bough", "base_num": [ 2, 8 ] }, { "drop": "pinecone", "base_num": [ 1, 4 ] } ] }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -3125,9 +3186,11 @@
         "color": [ "ltgreen", "ltgreen", "ltgreen", "brown" ], "//": "barren in winter, harvestable all year round",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_bark",
-        "harvestable": "birchbark",
+        "examine_action": "harvest_ter",
         "transforms_into": "t_tree_birch_harvested",
+        "harvest_by_season" : [
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "birchbark", "base_num": [ 1, 2 ] } ] }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -3164,9 +3227,11 @@
         "color": [ "ltgreen", "ltgreen", "ltgreen", "brown" ], "//": "barren in winter, harvestable all year round",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_bark",
-        "harvestable": "willowbark",
-        "transforms_into": "t_tree_willow_harvested",
+        "examine_action": "harvest_ter",
+        "transforms_into": "t_tree_birch_harvested",
+        "harvest_by_season" : [
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "willowbark", "base_num": [ 1, 2 ] } ] }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -3402,10 +3467,11 @@
         "color": "ltblue_green",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT"],
-        "harvest_season": "SUMMER",
-        "harvestable": "blueberries",
         "transforms_into": "t_shrub_blueberry_harvested",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "summer" ], "entries": [ { "drop": "blueberries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] }, { "drop": "seed_blueberries", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] } ] }
+        ],
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
@@ -3420,10 +3486,8 @@
         "color": "blue_green",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED"],
-        "harvest_season": "SUMMER",
-        "harvestable": "blueberries",
         "transforms_into": "t_shrub_blueberry",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
@@ -3438,10 +3502,11 @@
         "color": "ltred_green",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT"],
-        "harvest_season": "SUMMER",
-        "harvestable": "strawberries",
         "transforms_into": "t_shrub_strawberry_harvested",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvest_ter_nectar",
+        "harvest_by_season" : [
+            { "seasons": [ "summer" ], "entries": [ { "drop": "strawberries", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] }, { "drop": "seed_strawberries", "base_num": [ 1, 2 ], "scaled_num": [ 0, 0.25 ] } ] }
+        ],
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
@@ -3456,10 +3521,8 @@
         "color": "red_green",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED"],
-        "harvest_season": "SUMMER",
-        "harvestable": "strawberries",
         "transforms_into": "t_shrub_strawberry",
-        "examine_action": "harvest_tree_shrub",
+        "examine_action": "harvested_plant",
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
@@ -3781,7 +3844,7 @@
         "type" : "terrain",
         "id" : "t_fungus_floor_in",
         "name": "fungal floor",
-        "comment": "roofed",
+        "//": "roofed",
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
@@ -3799,7 +3862,7 @@
         "type" : "terrain",
         "id" : "t_fungus_floor_sup",
         "name": "fungal floor",
-        "comment": "supports",
+        "//": "supports",
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
@@ -3815,7 +3878,7 @@
         "type" : "terrain",
         "id" : "t_fungus_floor_out",
         "name": "fungal floor",
-        "comment": "outside",
+        "//": "outside",
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
@@ -3941,6 +4004,7 @@
         "color": "ltblue",
         "move_cost": 5,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE"],
+        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -3950,6 +4014,7 @@
         "color": "blue",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE"],
+        "connects_to": "WATER",        
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -3959,6 +4024,7 @@
         "color": "ltblue",
         "move_cost": 5,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "FISHABLE"],
+        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -3968,6 +4034,7 @@
         "color": "blue",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE"],
+        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -4137,7 +4204,7 @@
         "type" : "terrain",
         "id" : "t_gas_pump_a",
         "name": "gasoline pump",
-        "comment": "clone of t_gas_pump, but other color, must be clone every time",
+        "//": "clone of t_gas_pump, but other color, must be clone every time",
         "symbol": "&",
         "color": "yellow_red",
         "move_cost": 0,
@@ -4636,6 +4703,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "PERMEABLE"],
+        "examine_action": "cvdmachine",
         "bash": {
             "str_min": 8, "str_max": 150,
             "sound": "crunch!",
@@ -4768,7 +4836,7 @@
         "type" : "terrain",
         "id" : "t_card_science",
         "name": "card reader",
-        "comment": "Science",
+        "//": "Science",
         "symbol": "6",
         "color": "pink",
         "move_cost": 0,
@@ -4788,7 +4856,7 @@
         "type" : "terrain",
         "id" : "t_card_military",
         "name": "card reader",
-        "comment": "Military",
+        "//": "Military",
         "symbol": "6",
         "color": "pink",
         "move_cost": 0,
@@ -5905,7 +5973,7 @@
         "symbol": ".",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT", "ROAD"],
         "bash": {
             "str_min": 70, "str_max": 300,
             "sound": "concrete cracking and metal screeching!",
@@ -5959,7 +6027,7 @@
         "symbol": "#",
         "color": "ltgray",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THINOBSTACLE", "ROAD"],
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD"],
         "bash": {
             "str_min": 8, "str_max": 150,
             "sound": "crunch!",
@@ -5977,9 +6045,11 @@
         "color": "brown",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_bark",
-        "harvestable": "tanbark",
+        "examine_action": "harvest_ter",
         "transforms_into": "t_tree",
+        "harvest_by_season" : [
+            { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "tanbark", "base_num": [ 1, 2 ] } ] }
+        ],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -5999,7 +6069,7 @@
         "move_cost": 5,
         "flags": ["TRANSPARENT"],
         "bash": {
-            "str_min": 2, "str_max": 4, "num_tests": 2,
+            "str_min": 2, "str_max": 4,
             "sound": "splosh!",
             "sound_fail": "splosh!",
             "ter_set": "t_water_dp",
@@ -6016,7 +6086,7 @@
         "move_cost": 5,
         "flags": ["TRANSPARENT"],
         "bash": {
-            "str_min": 2, "str_max": 4, "num_tests": 2,
+            "str_min": 2, "str_max": 4,
             "sound": "splosh!",
             "sound_fail": "splosh!",
             "ter_set": "t_water_dp",

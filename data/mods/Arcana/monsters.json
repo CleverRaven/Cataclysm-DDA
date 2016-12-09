@@ -2,7 +2,7 @@
     {
     "type" : "MONSTER",
     "id" : "mon_ant_queen",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_ant_queen",
     "death_drops": {
         "subtype": "collection",
         "//": "25% chance of boss-level essence",
@@ -13,7 +13,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_graboid",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_graboid",
     "death_drops": {
         "subtype": "collection",
         "//": "50% chance of essence",
@@ -24,7 +24,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_sludge_crawler",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_sludge_crawler",
     "death_drops": {
         "subtype": "collection",
         "//": "10% chance of essence, not all mutants are anomalous",
@@ -35,22 +35,22 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_shady",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_zombie_shady",
     "death_drops": "default_essence_death_drops"
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_necro",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_zombie_necro",
     "death_drops": "boss_zombie_death_drops", "//": "Anomalous zombie, so you get an essence"
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_master",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_zombie_master",
     "death_drops": "boss_zombie_death_drops", "//": "Anomalous zombie, so you get an essence"
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_hollow",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_zombie_hollow",
     "death_drops": {
         "subtype": "collection",
         "//": "10% chance of essence, it's been overtaken by the blob",
@@ -61,7 +61,7 @@
     },{
         "type" : "MONSTER",
         "id" : "mon_jabberwock",
-        "edit-mode" : "modify",
+        "copy-from" : "mon_jabberwock",
         "death_drops": {
             "subtype": "collection",
             "//": "10% chance of essence",
@@ -72,12 +72,12 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_charred_nightmare",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_charred_nightmare",
     "death_drops": "charred_zombie_death_drops", "//": "You have to tank some serious Fallout-style rads to generate anaomlous essence, so lesser wanderers don't drop any"
     },{
     "type" : "MONSTER",
     "id" : "mon_triffid",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_triffid",
     "death_drops": {
         "subtype": "collection",
         "//": "10% chance of essence",
@@ -88,7 +88,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_triffid_young",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_triffid_young",
     "death_drops": {
         "subtype": "collection",
         "//": "5% chance of essence",
@@ -99,7 +99,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_fungal_fighter",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_fungal_fighter",
     "death_drops": {
         "subtype": "collection",
         "//": "80% chance of an item from group fungal_sting, 50% chance of essence. While triffids are only somewhat otherworldly, fungal fighters deal with an extraplanar threat, so higher odds of essence",
@@ -111,7 +111,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_triffid_queen",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_triffid_queen",
     "death_drops": {
         "subtype": "collection",
         "//": "25% chance of essence, only monsters with queen flag drop the boss-level essence",
@@ -122,7 +122,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_creeper_hub",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_creeper_hub",
     "death_drops": {
         "subtype": "collection",
         "//": "15% chance of essence",
@@ -133,7 +133,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_biollante",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_biollante",
     "death_drops": {
         "subtype": "collection",
         "//": "80% chance of an item from group biollante, 15% chance of essence",
@@ -145,7 +145,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_vinebeast",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_vinebeast",
     "death_drops": {
         "subtype": "collection",
         "//": "10% chance of essence",
@@ -156,7 +156,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_triffid_heart",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_triffid_heart",
     "death_drops": {
         "subtype": "collection",
         "//": "I'm da warboss, so I drop da essence!",
@@ -167,7 +167,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_fungaloid",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_fungaloid",
     "death_drops": {
         "subtype": "collection",
         "//": "10% chance of essence",
@@ -178,7 +178,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_fungaloid_young",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_fungaloid_young",
     "death_drops": {
         "subtype": "collection",
         "//": "5% chance of essence",
@@ -189,7 +189,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_fungaloid_queen",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_fungaloid_queen",
     "death_drops": {
         "subtype": "collection",
         "//": "boss-level essence",
@@ -200,7 +200,7 @@
     },{
       "type" : "MONSTER",
     "id" : "mon_fungaloid_seeder",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_fungaloid_seeder",
     "death_drops": {
         "subtype": "collection",
         "//": "boss-level essence",
@@ -211,7 +211,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_fungal_tendril",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_fungal_tendril",
     "death_drops": {
         "subtype": "collection",
         "//": "5% chance of essence, most of the defensive entities are presumbed mindless and don't drop any ",
@@ -222,7 +222,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_fungal_blossom",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_fungal_blossom",
     "death_drops": {
         "subtype": "collection",
         "//": "25% chance of essence",
@@ -233,7 +233,7 @@
     },{
   "type" : "MONSTER",
         "id" : "mon_blob_brain",
-        "edit-mode" : "modify",
+        "copy-from" : "mon_blob_brain",
         "death_drops": {
             "subtype": "collection",
             "//": "boss-level essence",
@@ -244,7 +244,7 @@
     },{
   "type" : "MONSTER",
         "id" : "mon_blob_large",
-        "edit-mode" : "modify",
+        "copy-from" : "mon_blob_large",
         "death_drops": {
             "subtype": "collection",
             "//": "10% chance of nether-level essence",
@@ -255,7 +255,7 @@
     },{
   "type" : "MONSTER",
         "id" : "mon_blob",
-        "edit-mode" : "modify",
+        "copy-from" : "mon_blob",
         "death_drops": {
             "subtype": "collection",
             "//": "5% chance of nether-level essence, smaller blobs won't yield any",
@@ -266,7 +266,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_one_eye",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_one_eye",
     "death_drops": {
         "subtype": "collection",
         "groups": [
@@ -282,7 +282,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_crawler",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_crawler",
     "death_drops": {
         "subtype": "collection",
         "//": "15% chance of essence, not all mutants are anomalous",
@@ -293,7 +293,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_rat_king",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_rat_king",
     "death_drops": {
         "subtype": "collection",
         "//": "A tangle of rats? Not anomalous. A telepathic, mutagenic tangle of rats? Very anomalous.",
@@ -304,7 +304,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_dermatik_larva",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_dermatik_larva",
     "death_drops": {
         "subtype": "collection",
         "//": "5% chance of essence",
@@ -315,7 +315,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_dermatik",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_dermatik",
     "death_drops": {
         "subtype": "collection",
         "//": "10% chance of essence",
@@ -326,7 +326,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_dark_wyrm",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_dark_wyrm",
     "death_drops": {
         "subtype": "collection",
         "//": "Unearthed creature if the wiki is right, anomalous but not otherworldly",
@@ -337,7 +337,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_amigara_horror",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_amigara_horror",
     "death_drops": {
         "subtype": "collection",
         "//": "Unearthed creature if the wiki is right, anomalous but not otherworldly",
@@ -348,7 +348,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_thing",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_thing",
     "death_drops": {
         "subtype": "collection",
         "//": "Unearthed creature if the wiki is right, anomalous but not otherworldly",
@@ -359,7 +359,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_human_snail",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_human_snail",
     "death_drops": {
         "subtype": "collection",
         "//": "Unearthed creature if the wiki is right, anomalous but not otherworldly",
@@ -370,7 +370,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_twisted_body",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_twisted_body",
     "death_drops": {
         "subtype": "collection",
         "//": "Unearthed creature if the wiki is right, anomalous but not otherworldly",
@@ -381,7 +381,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_vortex",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_vortex",
     "death_drops": {
         "subtype": "collection",
         "//": "Unearthed creature if the wiki is right, anomalous but not otherworldly",
@@ -392,7 +392,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_flying_polyp",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_flying_polyp",
     "name": "flying polyp",
     "death_drops": {
         "subtype": "collection",
@@ -404,7 +404,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_hunting_horror",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_hunting_horror",
     "name": "hunting horror",
     "death_drops": {
         "subtype": "collection",
@@ -416,7 +416,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_mi_go",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_mi_go",
     "death_drops": {
         "subtype": "collection",
         "//": "30% chance of nether-level essence, least anomalous of the Lovecraft references",
@@ -427,7 +427,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_yugg",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_yugg",
     "death_drops": {
         "subtype": "collection",
         "//": "50% chance of nether-level essence",
@@ -438,7 +438,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_gelatin",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_gelatin",
     "death_drops": {
         "subtype": "collection",
         "//": "50% chance of nether-level essence",
@@ -449,7 +449,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_flaming_eye",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_flaming_eye",
     "death_drops": {
         "subtype": "collection",
         "//": "100% chance of nether-level essence, oh the inhumanity!",
@@ -460,7 +460,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_kreck",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_kreck",
     "death_drops": {
         "subtype": "collection",
         "//": "30% chance of nether-level essence",
@@ -471,7 +471,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_gracke",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_gracke",
     "death_drops": {
         "subtype": "collection",
         "//": "50% chance of nether-level essence",
@@ -482,7 +482,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_blank",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_blank",
     "death_drops": {
         "subtype": "collection",
         "//": "50% chance of nether-level essence",
@@ -493,7 +493,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_gozu",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_gozu",
     "death_drops": {
         "subtype": "collection",
         "//": "50% chance of nether-level essence",
@@ -504,7 +504,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_shadow",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_shadow",
     "death_drops": {
         "subtype": "collection",
         "//": "10% chance of nether-level essence",
@@ -515,7 +515,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_darkman",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_darkman",
     "death_drops": {
         "subtype": "collection",
         "//": "50% chance of nether-level essence",
@@ -526,7 +526,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_breather_hub",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_breather_hub",
     "death_drops": {
         "subtype": "collection",
         "//": "100% chance of nether-level essence",
@@ -537,7 +537,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_breather",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_breather",
     "death_drops": {
         "subtype": "collection",
         "//": "5% chance of nether-level essence, presumed to be defensive entity but not entirely mindless",
@@ -548,7 +548,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_shadow_snake",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_shadow_snake",
     "death_drops": {
         "subtype": "collection",
         "//": "30% chance of nether-level essence",
@@ -559,7 +559,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_shoggoth",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_shoggoth",
     "death_drops": {
         "subtype": "collection",
         "//": "100% chance of nether-level essence, this isn't your average friendly neighborhood blob",
@@ -570,27 +570,27 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_dementia",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_dementia",
     "death_drops": "essence_zombie_death_drops"
     },{
     "type" : "MONSTER",
     "id" : "mon_homunculus",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_homunculus",
     "death_drops": "homunculus_death_drops"
     },{
     "type" : "MONSTER",
     "id" : "mon_blood_sacrifice",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_blood_sacrifice",
     "death_drops": "essence_zombie_clothes"
     },{
     "type" : "MONSTER",
     "id" : "mon_flesh_angel",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_flesh_angel",
     "death_drops": "angelic_drops", "//": "Assumed to be important part of the cult, so good loot"
     },{
     "type" : "MONSTER",
     "id" : "mon_player_blob",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_player_blob",
     "death_drops": {
         "subtype": "collection",
         "//": "Tiny, tiny chance of generating blood essence from a very roundabout method of self-harm",
@@ -601,12 +601,12 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_shia",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_shia",
     "death_drops": "essence_shia"
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_dancer",
-    "edit-mode" : "modify",
+    "copy-from" : "mon_zombie_dancer",
     "death_drops": "mon_dancer_death_drops"
     },{
     "type" : "MONSTER",
@@ -642,7 +642,7 @@
     "death_function":"MELT",
     "special_attacks":[["FLAMETHROWER", 10]],
     "description":"A massive animated conflagration, crackling like burning logs as it moves.",
-    "flags":["NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "FIREY", "WARM", "FIREPROOF", "SEES"]
+    "flags":["NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "FIREY", "WARM", "FIREPROOF", "SEES", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_moruboru",
@@ -667,6 +667,7 @@
     "armor_cut":8,
     "hp":680,
     "death_drops": "plant_boss_drops", "//": "Boss-level essence and an item",
+    "emit_fields": [ "emit_toxic_leak" ],
     "death_function":"NORMAL",
     "special_attacks":[
         {
@@ -676,13 +677,13 @@
         ["TENTACLE", 5]
     ],
     "description":"A large plantlike creature with a gaping, toothy maw and numerous vines.  A hideous smell permeates the air around it.",
-    "flags":["HEARS", "SMELLS", "BASHES", "NOHEAD", "POISON", "LEAKSGAS", "NO_BREATHE", "PARALYZEVENOM"]
+    "flags":["HEARS", "SMELLS", "BASHES", "NOHEAD", "POISON", "NO_BREATHE", "PARALYZEVENOM", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_archon",
     "name": "archon",
     "species":"MUTANT",
-    "default_faction":"cult",
+    "default_faction":"archon",
     "symbol":"H",
     "color":"yellow",
     "size":"LARGE",
@@ -703,7 +704,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["FEAR_PARALYZE", 40], ["SHOCKSTORM", 15], ["PARROT", 25]],
     "description":"A tall, robed figure twisted into a mockery of the human form, brandishing a strange golden talisman.  You feel an otherworldly presence about it.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "HUMAN", "BONES", "FLIES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "HUMAN", "BONES", "FLIES", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dracolich",
@@ -745,6 +746,6 @@
         ["FLAMETHROWER", 10]
     ],
     "description":"A massive, reptilian creature with batlike wings.  Its body is withered and rotten, large chunks of flesh stripped to the bone, and the membranes of its wings are in tatters.  You wonder how such a large beast could fly in the first place, let alone in that condition.",
-    "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "WARM", "FIREPROOF", "FLIES", "BASHES", "POISON", "BONES", "BLEED", "REVIVES", "NO_BREATHE"]
+    "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "WARM", "FIREPROOF", "FLIES", "POISON", "BONES", "BLEED", "REVIVES", "NO_BREATHE", "PRIORITIZE_TARGETS"]
     }
 ]

@@ -38,7 +38,6 @@
 
 // for loading monster dialogue:
 #include <iostream>
-#include <fstream>
 
 #include <limits>  // std::numeric_limits
 #define SKIPLINE(stream) stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n')
@@ -168,7 +167,7 @@ npc make_fake_npc(monster *z, int str, int dex, int inte, int per) {
     tmp.int_cur = inte;
     tmp.per_cur = per;
     if( z->friendly != 0 ) {
-        tmp.attitude = NPCATT_DEFEND;
+        tmp.attitude = NPCATT_FOLLOW;
     } else {
         tmp.attitude = NPCATT_KILL;
     }
@@ -480,7 +479,7 @@ bool mattack::acid_barf(monster *z)
     } else {
         target->add_msg_player_or_npc(
             _("The %1$s barfs acid on your %2$s, but it washes off the armor!"),
-            _("The %1$s bites <npcname>'s %2$s, but it washes off the armor!"),
+            _("The %1$s barfs acid on <npcname>'s %2$s, but it washes off the armor!"),
             z->name().c_str(),
             body_part_name_accusative( hit ).c_str() );
     }
@@ -515,7 +514,7 @@ bool mattack::acid_accurate(monster *z)
     proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
     proj.impact.add_damage( DT_ACID, rng( 3, 5 ) );
     // Make it arbitrarily less accurate at close ranges
-    z->projectile_attack( proj, target->pos(), rng( 0, 8000 / range ) );
+    z->projectile_attack( proj, target->pos(), 8000 / range );
 
     return true;
 }
@@ -607,34 +606,6 @@ bool mattack::pull_metal_weapon(monster *z)
                                                        _("The %s unsuccessfully attempts to pull <npcname>'s weapon away."), z->name().c_str() );
             }
         }
-    }
-
-    return true;
-}
-
-bool mattack::smokecloud(monster *z)
-{
-    const auto place_smoke = [&]( const int x, const int y ) {
-        tripoint dest( x, y, z->posz() );
-        if( g->m.passable( dest ) &&
-            g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
-            g->m.add_field( dest, fd_smoke, 2, 0 );
-        }
-    };
-
-    const int monx = z->posx();
-    const int mony = z->posy();
-    for (int i = -3; i <= 3; i++) {
-        for (int j = -3; j <= 3; j++) {
-            place_smoke( monx + i, mony + j );
-        }
-    }
-    //Round it out a bit
-    for( int i = -2; i <= 2; i++ ) {
-        place_smoke( monx + i, mony + 4 );
-        place_smoke( monx + i, mony - 4 );
-        place_smoke( monx + 4, mony + i );
-        place_smoke( monx - 4, mony + i );
     }
 
     return true;
@@ -778,7 +749,7 @@ bool mattack::resurrect(monster *z)
                 }
                 return false;
             }
-            int raise_score = (i.damage + 1) * mt->hp + i.burnt;
+            int raise_score = (i.damage() + 1) * mt->hp + i.burnt;
             lowest_raise_score = std::min( lowest_raise_score, raise_score );
             if( raise_score <= raising_level ) {
                 corpses.push_back( std::make_pair( p, &i ) );
@@ -832,7 +803,7 @@ bool mattack::resurrect(monster *z)
     }
 
     std::pair<tripoint, item*> raised = random_entry( corpses );
-    float corpse_damage = raised.second->damage;
+    float corpse_damage = raised.second->damage();
     // Did we successfully raise something?
     if (g->revive_corpse(raised.first, *raised.second)) {
         g->m.i_rem( raised.first, raised.second );
@@ -1393,8 +1364,10 @@ bool mattack::triffid_heartbeat(monster *z)
         // Maybe remove this and allow spawning monsters above?
         return true;
     }
+
+    static pathfinding_settings root_pathfind( 10, 20, 50, false, false, false );
     if (rl_dist( z->pos(), g->u.pos() ) > 5 &&
-        !g->m.route( g->u.pos(), z->pos(), 10, 20 ).empty()) {
+        !g->m.route( g->u.pos(), z->pos(), root_pathfind ).empty()) {
         add_msg(m_warning, _("The root walls creak around you."));
         for( const tripoint &dest : g->m.points_in_radius( z->pos(), 3 ) ) {
             if (g->is_empty(dest) && one_in(4)) {
@@ -1405,7 +1378,7 @@ bool mattack::triffid_heartbeat(monster *z)
         }
         // Open blank tiles as long as there's no possible route
         int tries = 0;
-        while (g->m.route( g->u.pos(), z->pos(), 10, 20 ).empty() &&
+        while (g->m.route( g->u.pos(), z->pos(), root_pathfind ).empty() &&
                tries < 20) {
             int x = rng(g->u.posx(), z->posx() - 3), y = rng(g->u.posy(), z->posy() - 3);
             tripoint dest( x, y, z->posz() );
@@ -2744,6 +2717,7 @@ void mattack::rifle( monster *z, Creature *target )
     npc tmp = make_fake_npc(z, 16, 10, 8, 12);
     tmp.set_skill_level( skill_rifle, 8 );
     tmp.set_skill_level( skill_gun, 6 );
+    tmp.recoil = 0; // no need to aim
 
     if( target == &g->u ) {
         if (!z->has_effect( effect_targeted )) {
@@ -2802,6 +2776,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     npc tmp = make_fake_npc(z, 16, 10, 8, 12);
     tmp.set_skill_level( skill_launcher, 8 );
     tmp.set_skill_level( skill_gun, 6 );
+    tmp.recoil = 0; // no need to aim
     z->moves -= 150;   // It takes a while
 
     if (z->ammo[ammo_type] <= 0) {
@@ -2857,16 +2832,14 @@ void mattack::tankgun( monster *z, Creature *target )
     // Target the vehicle itself instead if there is one.
     vehicle *veh = g->m.veh_at( target->pos() );
     if( veh != nullptr ) {
-        veh->center_of_mass( aim_point.x, aim_point.y );
-        point vpos = veh->global_pos();
-        aim_point.x += vpos.x;
-        aim_point.y += vpos.y;
+        aim_point = veh->global_pos3() + veh->rotated_center_of_mass();
     }
     // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.
     npc tmp = make_fake_npc(z, 12, 8, 8, 8);
     tmp.set_skill_level( skill_launcher, 1 );
     tmp.set_skill_level( skill_gun, 1 );
+    tmp.recoil = 0; // no need to aim
     z->moves -= 150;   // It takes a while
 
     if (z->ammo[ammo_type] <= 0) {
@@ -4652,9 +4625,9 @@ bool mattack::stretch_attack(monster *z)
     return true;
 }
 
-bool mattack::dodge_check(monster *z, Creature *target){
+bool mattack::dodge_check( monster *z, Creature *target ) {
     ///\EFFECT_DODGE increases chance of dodging, vs their melee skill
-    int dodge = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L );
+    float dodge = std::max( target->get_dodge() - rng( 0, z->get_hit() ), 0.0f );
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge)))) {
         return true;
     }

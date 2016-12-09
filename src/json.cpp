@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 #include <bitset>
+#include <iterator>
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
@@ -690,16 +691,6 @@ bool JsonArray::has_object(int i)
     return jsin->test_object();
 }
 
-
-/* class JsonIn
- * represents an istream of JSON data,
- * allowing easy extraction into c++ datatypes.
- */
-JsonIn::JsonIn(std::istream &s, bool strict) :
-    stream(&s), strict(strict), ate_separator(false)
-{
-}
-
 int JsonIn::tell()
 {
     return stream->tellg();
@@ -756,14 +747,14 @@ void JsonIn::skip_separator()
     eat_whitespace();
     ch = peek();
     if (ch == ',') {
-        if (strict && ate_separator) {
+        if( ate_separator ) {
             error("duplicate separator");
         }
         stream->get();
         ate_separator = true;
     } else if (ch == ']' || ch == '}' || ch == ':') {
         // okay
-        if (strict && ate_separator) {
+        if( ate_separator ) {
             std::stringstream err;
             err << "separator should not be found before '" << ch << "'";
             uneat_whitespace();
@@ -772,12 +763,12 @@ void JsonIn::skip_separator()
         ate_separator = false;
     } else if (ch == EOF) {
         // that's okay too... probably
-        if (strict && ate_separator) {
+        if( ate_separator ) {
             uneat_whitespace();
             error("separator at end of file not strictly allowed");
         }
         ate_separator = false;
-    } else if (strict) {
+    } else {
         // not okay >:(
         uneat_whitespace();
         error("missing separator", 1);
@@ -793,7 +784,7 @@ void JsonIn::skip_pair_separator()
         std::stringstream err;
         err << "expected pair separator ':', not '" << ch << "'";
         error(err.str(), -1);
-    } else if (strict && ate_separator) {
+    } else if( ate_separator ) {
         error("duplicate separator not strictly allowed", -1);
     }
     ate_separator = true;
@@ -816,7 +807,7 @@ void JsonIn::skip_string()
             continue;
         } else if (ch == '"') {
             break;
-        } else if (strict && (ch == '\r' || ch == '\n')) {
+        } else if( ch == '\r' || ch == '\n' ) {
             error("string not closed before end of line", -1);
         }
     }
@@ -999,9 +990,9 @@ std::string JsonIn::get_string()
             // end of the string
             end_value();
             return s;
-        } else if (strict && (ch == '\r' || ch == '\n')) {
+        } else if( ch == '\r' || ch == '\n' ) {
             error("reached end of line without closing string", -1);
-        } else if (strict && (unsigned char)ch < 0x20) {
+        } else if( (unsigned char) ch < 0x20 ) {
             error("invalid character inside string", -1);
         } else {
             s += ch;
@@ -1051,7 +1042,7 @@ double JsonIn::get_float()
         err << "expecting number but found '" << ch << "'";
         error(err.str(), -1);
     }
-    if (strict && ch == '0') {
+    if( ch == '0' ) {
         // allow a single leading zero in front of a '.' or 'e'/'E'
         stream->get(ch);
         if (ch >= '0' && ch <= '9') {
@@ -1162,7 +1153,7 @@ bool JsonIn::end_array()
 {
     eat_whitespace();
     if (peek() == ']') {
-        if (strict && ate_separator) {
+        if( ate_separator ) {
             uneat_whitespace();
             error("separator not strictly allowed at end of array");
         }
@@ -1195,7 +1186,7 @@ bool JsonIn::end_object()
 {
     eat_whitespace();
     if (peek() == '}') {
-        if (strict && ate_separator) {
+        if( ate_separator ) {
             uneat_whitespace();
             error("separator not strictly allowed at end of object");
         }
@@ -1474,9 +1465,8 @@ void JsonIn::error(std::string message, int offset)
     size_t pos = tell();
     rewind(3, 240);
     size_t startpos = tell();
-    char buffer[241];
-    stream->read(&buffer[0], pos - startpos);
-    buffer[pos - startpos] = '\0';
+    std::string buffer( pos - startpos, '\0' );
+    stream->read( &buffer[0], pos - startpos );
     err << buffer;
     if (!is_whitespace(peek())) {
         err << peek();
@@ -1574,30 +1564,21 @@ std::string JsonIn::substr(size_t pos, size_t len)
     return ret;
 }
 
-
-/* class JsonOut
- * represents an ostream of JSON data,
- * allowing easy serialization of c++ datatypes.
- */
-JsonOut::JsonOut(std::ostream &s, bool pretty)
-    :   stream(&s), pretty_print(pretty), need_separator(false), indent_level(0)
+JsonOut::JsonOut( std::ostream &s, bool pretty ) : stream( &s ), pretty_print( pretty )
 {
-    // ensure user's locale doesn't interfere with number format
-    stream->imbue(std::locale::classic());
-    // scientific format for floating-point numbers
-    stream->setf(std::ostream::scientific, std::ostream::floatfield);
-    // it's already decimal, but set it anyway
-    stream->setf(std::ostream::dec, std::ostream::basefield);
-    // could also set showbase and showpoint,
-    // but it currently doesn't matter.
+    // ensure consistent and locale-independent formatting of numerals
+    stream->imbue( std::locale::classic() );
+    stream->setf( std::ios_base::showpoint );
+    stream->setf( std::ios_base::dec, std::ostream::basefield );
+    stream->setf( std::ios_base::fixed, std::ostream::floatfield );
+
+    // automatically stringify bool to "true" or "false"
+    stream->setf( std::ios_base::boolalpha );
 }
 
 void JsonOut::write_indent()
 {
-    const char indent[5] = "    ";
-    for (int i = 0; i < indent_level; ++i) {
-        stream->write(indent, 4);
-    }
+    std::fill_n( std::ostream_iterator<char>( *stream ), indent_level * 2, ' ' );
 }
 
 void JsonOut::write_separator()
@@ -1613,7 +1594,7 @@ void JsonOut::write_separator()
 void JsonOut::write_member_separator()
 {
     if (pretty_print) {
-        stream->write(" : ", 3);
+        stream->write( ": ", 2 );
     } else {
         stream->put(':');
     }
@@ -1679,77 +1660,14 @@ void JsonOut::write_null()
     need_separator = true;
 }
 
-void JsonOut::write(const bool &b)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    if (b) {
-        stream->write("true", 4);
-    } else {
-        stream->write("false", 5);
-    }
-    need_separator = true;
-}
-
-void JsonOut::write(const int &i)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << i;
-    need_separator = true;
-}
-
-void JsonOut::write(const unsigned &u)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << u;
-    need_separator = true;
-}
-
-void JsonOut::write(const long &l)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << l;
-    need_separator = true;
-}
-
-void JsonOut::write(const unsigned long &ul)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << ul;
-    need_separator = true;
-}
-
-void JsonOut::write(const double &f)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << f;
-    need_separator = true;
-}
-
-void JsonOut::write(const std::string &s)
+void JsonOut::write( const std::string &val )
 {
     if (need_separator) {
         write_separator();
     }
     unsigned char ch;
     stream->put('"');
-    for (auto &i : s) {
+    for( const auto &i : val ) {
         ch = i;
         if (ch == '"') {
             stream->write("\\\"", 2);

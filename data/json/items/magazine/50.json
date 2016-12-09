@@ -3,7 +3,7 @@
     "id": "belt50",
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
-    "name": ".50 ammo belt",
+    "name": "ammo belt",
     "ammo_type": "50",
     "capacity": 100,
     "count": 100,

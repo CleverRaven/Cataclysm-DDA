@@ -25,8 +25,7 @@
         "id": "ig_vp_xlframe",
         "subtype": "collection",
         "entries": [
-            {"item": "pipe", "count": [0, 4]},
-            {"item": "scrap", "count": [2, 4]}
+            {"item": "material_aluminium_ingot", "count": [1, 4]}
         ]
     },
     {
@@ -119,21 +118,6 @@
         "size" : 25,
         "location" : "center",
         "flags" : ["BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO", "TOOL_WRENCH"],
-        "breaks_into": "ig_vp_seat"
-    },{
-        "type" : "vehicle_part",
-        "id" : "seat_nocargo",
-        "name" : "military seat",
-        "symbol" : "#",
-        "color" : "red",
-        "broken_symbol" : "*",
-        "broken_color" : "red",
-        "damage_modifier" : 60,
-        "durability" : 250,
-        "item" : "seat",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["SEAT", "BOARDABLE", "BELTABLE"],
         "breaks_into": "ig_vp_seat"
     },{
         "type" : "vehicle_part",
@@ -254,11 +238,20 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : ["NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "count": [3, 5]},
             {"item": "string_36", "count": [10, 15]}
-        ]
+        ],
+        "requirements": {
+          "install": {
+            "time": 60000,
+            "components": [ [ [ "rope_6", 1 ] ] ]
+          },
+          "repair": {
+            "time": 30000,
+            "using": [ [ "adhesive", 1 ] ]
+          }
+        }
     },{
         "type" : "vehicle_part",
         "id" : "aisle_horizontal",
@@ -377,7 +370,18 @@
         "item" : "sheet",
         "difficulty" : 1,
         "location" : "roof",
-        "flags" : ["ROOF", "FOLDABLE", "NAILABLE"],
+        "requirements": {
+          "install": {
+            "time": 30000,
+            "components": [ [ [ "string_6", 2 ], [ "duct_tape", 25 ] ] ]
+          },
+          "repair": {
+            "time": 15000,
+            "skills": [ [ "tailor", 1 ] ],
+            "using": [ [ "sewing_standard", 50 ], [ "fabric_standard", 1 ] ]
+          }
+        },
+        "flags" : ["ROOF", "FOLDABLE"],
         "breaks_into" : "ig_vp_cloth"
     },{
         "type" : "vehicle_part",
@@ -582,164 +586,6 @@
         "breaks_into" : []
     },{
         "type" : "vehicle_part",
-        "id" : "engine_electric_small",
-        "name" : "small electric motor",
-        "symbol" : "*",
-        "color" : "yellow",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 120,
-        "power" : 20,
-        "epower" : -5000,
-        "fuel_type" : "battery",
-        "item" : "motor_small",
-        "difficulty" : 1,
-        "location" : "engine_block",
-        "folded_volume": 1,
-        "flags" : ["TOOL_SCREWDRIVER", "ENGINE", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [1, 2]},
-            {"item": "steel_chunk", "count": [1, 2]},
-            {"item": "scrap", "count": [1, 2]},
-            {"item": "cable", "charges": [3, 6]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "engine_electric",
-        "name" : "electric motor",
-        "symbol" : "*",
-        "color" : "yellow",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 200,
-        "power" : 100,
-        "epower" : -20000,
-        "fuel_type" : "battery",
-        "item" : "motor",
-        "difficulty" : 2,
-        "location" : "engine_block",
-        "folded_volume": 6,
-        "flags" : ["ENGINE", "TOOL_WRENCH", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [3, 5]},
-            {"item": "scrap", "count": [3, 5]},
-            {"item": "cable", "charges": [10, 15]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "engine_electric_enhanced",
-        "name" : "enhanced electric motor",
-        "symbol" : "*",
-        "color" : "yellow",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 200,
-        "power" : 500,
-        "epower" : -200000,
-        "fuel_type" : "battery",
-        "item" : "motor_enhanced",
-        "difficulty" : 4,
-        "location" : "engine_block",
-        "flags" : ["ENGINE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [3, 5]},
-            {"item": "scrap", "count": [3, 5]},
-            {"item": "cable", "charges": [10, 15]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "engine_electric_large",
-        "name" : "large electric motor",
-        "symbol" : "*",
-        "color" : "yellow",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 400,
-        "power" : 400,
-        "epower" : -120000,
-        "fuel_type" : "battery",
-        "item" : "motor_large",
-        "difficulty" : 3,
-        "location" : "engine_block",
-        "flags" : ["ENGINE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [30, 40]},
-            {"item": "steel_chunk", "count": [30, 40]},
-            {"item": "scrap", "count": [30, 40]},
-            {"item": "cable", "charges": [15, 20]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "engine_plasma",
-        "name" : "plasma engine",
-        "symbol" : "*",
-        "color" : "light_blue",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 250,
-        "power" : 400,
-        "epower" : 2238,
-        "fuel_type" : "plasma",
-        "item" : "plasma_engine",
-        "difficulty" : 8,
-        "location" : "engine_block",
-        "flags" : ["ENGINE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [10, 15]},
-            {"item": "steel_chunk", "count": [10, 15]},
-            {"item": "scrap", "count": [10, 15]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "foot_pedals",
-        "name" : "foot pedals",
-        "symbol" : "*",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 50,
-        "durability" : 50,
-        "folded_volume": 2,
-        "power" : 45,
-        "fuel_type" : "muscle",
-        "item" : "foot_crank",
-        "difficulty" : 1,
-        "location" : "engine_block",
-        "flags" : ["ENGINE", "FOLDABLE", "MUSCLE_LEGS", "CONTROLS", "TOOL_WRENCH"],
-        "breaks_into" : [
-            {"item": "steel_chunk", "count": [1, 2]},
-            {"item": "scrap", "count": [0, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "hand_rims",
-        "name" : "hand rims",
-        "symbol" : "*",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 50,
-        "durability" : 50,
-        "folded_volume": 2,
-        "power" : 32,
-        "fuel_type" : "muscle",
-        "item" : "hand_rims",
-        "difficulty" : 1,
-        "location" : "engine_block",
-        "flags" : ["ENGINE", "FOLDABLE", "MUSCLE_ARMS", "CONTROLS"],
-        "breaks_into" : [
-            {"item": "steel_chunk", "count": [1, 2]},
-            {"item": "scrap", "count": [0, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "storage_battery_mount",
         "name" : "swappable storage battery case",
         "symbol" : "O",
@@ -773,7 +619,7 @@
         "item" : "minireactor",
         "difficulty" : 6,
         "location" : "fuel_source",
-        "flags" : ["FUEL_TANK", "REACTOR"],
+        "flags" : ["REACTOR"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [6, 11]},
             {"item": "steel_chunk", "count": [6, 11]},
@@ -847,11 +693,21 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE"],
+        "flags" : ["CARGO", "BOARDABLE", "COVERED"],
         "breaks_into" : [
             {"item": "splinter", "count": [3, 5]},
             {"item": "string_36", "count": [10, 15]}
-        ]
+        ],
+        "requirements": {
+          "install": {
+            "time": 60000,
+            "components": [ [ [ "rope_6", 1 ] ] ]
+          },
+          "repair": {
+            "time": 30000,
+            "using": [ [ "adhesive", 1 ] ]
+          }
+        }
     },{
         "type" : "vehicle_part",
         "id" : "wood box",
@@ -1086,7 +942,7 @@
         "damage_modifier" : 10,
         "durability" : 35,
         "epower" : -300,
-        "bonus" : 25,
+        "bonus" : 120,
         "item" : "processor",
         "difficulty" : 6,
         "location" : "on_controls",
@@ -1281,117 +1137,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "kitchen_unit",
-        "name" : "kitchen unit",
-        "symbol" : "&",
-        "color" : "light_cyan",
-        "broken_symbol" : "x",
-        "broken_color" : "light_cyan",
-        "damage_modifier" : 10,
-        "durability" : 80,
-        "size" : 200,
-        "item" : "kitchen_unit",
-        "difficulty" : 3,
-        "location" : "center",
-        "flags" : ["CARGO", "OBSTACLE", "KITCHEN", "FAUCET", "COVERED", "TOOL_WRENCH"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [30, 40]},
-            {"item": "steel_chunk", "count": [30, 40]},
-            {"item": "scrap", "count": [30, 40]},
-            {"item": "pan", "prob": 50},
-            {"item": "pot", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "welding_rig",
-        "name" : "welding rig",
-        "symbol" : "&",
-        "color" : "light_red",
-        "broken_symbol" : "x",
-        "broken_color" : "light_red",
-        "damage_modifier" : 10,
-        "durability" : 80,
-        "size" : 200,
-        "item" : "weldrig",
-        "difficulty" : 3,
-        "location" : "center",
-        "flags" : ["CARGO", "OBSTACLE", "WELDRIG", "COVERED", "TOOL_WRENCH"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 6]},
-            {"item": "steel_chunk", "count": [3, 6]},
-            {"item": "scrap", "count": [3, 6]},
-            {"item": "welder", "charges": 0, "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "craft_rig",
-        "name" : "FOODCO kitchen buddy",
-        "symbol" : "&",
-        "color" : "light_green",
-        "broken_symbol" : "x",
-        "broken_color" : "light_gray",
-        "damage_modifier" : 10,
-        "durability" : 80,
-        "size" : 200,
-        "item" : "craftrig",
-        "difficulty" : 3,
-        "location" : "center",
-        "flags" : ["CARGO", "OBSTACLE", "CRAFTRIG", "WATER_PURIFIER", "COVERED", "TOOL_WRENCH"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 7]},
-            {"item": "steel_chunk", "count": [4, 7]},
-            {"item": "scrap", "count": [4, 7]},
-            {"item": "pan", "prob": 50},
-            {"item": "pot", "prob": 50},
-            {"item": "water_purifier", "charges": 0, "prob": 50},
-            {"item": "vac_sealer", "charges": 0, "prob": 50},
-            {"item": "dehydrator", "charges": 0, "prob": 50},
-            {"item": "press", "charges": 0, "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "chemlab",
-        "name" : "onboard chemistry lab",
-        "symbol" : "&",
-        "color" : "yellow",
-        "broken_symbol" : "x",
-        "broken_color" : "light_gray",
-        "damage_modifier" : 10,
-        "durability" : 80,
-        "size" : 200,
-        "item" : "chemlab",
-        "difficulty" : 3,
-        "location" : "center",
-        "flags" : ["CARGO", "OBSTACLE", "CHEMLAB", "FAUCET", "COVERED", "TOOL_WRENCH"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 7]},
-            {"item": "steel_chunk", "count": [4, 7]},
-            {"item": "scrap", "count": [4, 7]},
-            {"item": "chemistry_set", "charges": 0, "prob": 50},
-            {"item": "hotplate", "charges": 0, "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "veh_forge",
-        "name" : "mounted electric forge",
-        "symbol" : "&",
-        "color" : "red",
-        "broken_symbol" : "x",
-        "broken_color" : "light_gray",
-        "damage_modifier" : 10,
-        "durability" : 80,
-        "size" : 200,
-        "item" : "forgerig",
-        "difficulty" : 3,
-        "location" : "center",
-        "flags" : ["CARGO", "OBSTACLE", "FORGE", "TOOL_WRENCH"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "plating_wood",
         "name" : "wooden armor",
         "symbol" : ")",
@@ -1542,7 +1287,7 @@
         "damage_modifier" : 10,
         "durability" : 75,
         "folded_volume": 1,
-        "bonus" : 15,
+        "bonus" : 45,
         "item" : "horn_bicycle",
         "difficulty" : 1,
         "flags" : ["HORN", "FOLDABLE", "TOOL_SCREWDRIVER"],
@@ -1559,7 +1304,7 @@
         "broken_color" : "red",
         "damage_modifier" : 10,
         "durability" : 100,
-        "bonus" : 30,
+        "bonus" : 100,
         "item" : "horn_car",
         "difficulty" : 2,
         "flags" : ["HORN", "TOOL_SCREWDRIVER"],
@@ -1576,7 +1321,7 @@
         "broken_color" : "red",
         "damage_modifier" : 10,
         "durability" : 125,
-        "bonus" : 45,
+        "bonus" : 120,
         "item" : "horn_big",
         "difficulty" : 2,
         "flags" : ["HORN", "TOOL_SCREWDRIVER"],
@@ -1593,7 +1338,7 @@
         "broken_color" : "dark_gray",
         "damage_modifier" : 10,
         "durability" : 90,
-        "bonus" : 28,
+        "bonus" : 40,
         "item" : "beeper",
         "difficulty" : 2,
         "flags" : ["BEEPER", "ODDTURN", "TOOL_SCREWDRIVER"],
@@ -1735,7 +1480,7 @@
         "damage_modifier" : 0,
         "durability" : 60,
         "epower" : -2,
-        "bonus" : 40,
+        "bonus" : 80,
         "item" : "stereo",
         "difficulty" : 2,
         "flags" : ["STEREO", "TOOL_SCREWDRIVER"],
@@ -2032,24 +1777,6 @@
             {"item": "e_scrap", "count": [4, 16]},
             {"item": "plastic_chunk", "count": [2, 8]}
         ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "watercannon",
-        "name" : "water cannon",
-        "symbol" : "t",
-        "color" : "blue",
-        "broken_symbol" : "#",
-        "broken_color" : "blue",
-        "damage_modifier" : 80,
-        "durability" : 400,
-        "range" : 7,
-        "item" : "watercannon",
-        "difficulty" : 5,
-        "location" : "on_roof",
-        "flags" : ["TURRET"],
-        "breaks_into" : [
-            {"item": "watercannon", "prob": 50}
-        ]
     },
     {
         "type" : "vehicle_part",
@@ -2171,16 +1898,16 @@
         "broken_symbol" : ";",
         "broken_color" : "dark_gray",
         "durability" : 100,
-        "epower" : -50,
-        "size":400,
-        "damage_modifier":10,
+        "epower" : -5,
+        "size" : 400,
+        "damage_modifier" : 10,
         "item" : "v_scoop_item",
         "difficulty" : 1,
-        "flags": ["SCOOP","CARGO"],
-        "location":"under",
+        "flags" : ["SCOOP","CARGO"],
+        "location" : "under",
         "breaks_into" : [
-            {"item": "scrap", "min": 2, "max": 5},
-            {"item": "plastic_chunk","min":1,"max":5}
+            {"item": "scrap", "count": [ 2, 5 ] },
+            {"item": "plastic_chunk", "count": [ 1, 5 ] }
         ]
     },{
         "type" : "vehicle_part",

@@ -1,11 +1,7 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
-/**
- * Should a debugmsg result in an exception instead of a propmt?
- * Useful for preventing unit tests stalling waiting for keyboard input
- */
-extern bool debug_fatal;
+#include "printf_check.h"
 
 /**
  *      debugmsg(msg, ...)
@@ -69,7 +65,7 @@ extern bool debug_fatal;
 
 // Don't use this, use debugmsg instead.
 void realDebugmsg( const char *filename, const char *line, const char *funcname, const char *mes,
-                   ... );
+                   ... ) PRINTF_LIKE( 4, 5 );
 
 // Enumerations                                                     {{{1
 // ---------------------------------------------------------------------

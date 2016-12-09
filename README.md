@@ -53,7 +53,7 @@ Press the `?` key, followed by the `1` key to see the full list of key commands.
 
 #### How can I start a new world?
 
-**Reset** on the main menu will generate a fresh world for you.
+**World** on the main menu will generate a fresh world for you. Select **Create World**.
 
 #### I've found a bug / I would like to make a suggestion. What should I do?
 

@@ -1,15 +1,10 @@
 [
     {
-        "type": "recipe",
+        "type": "uncraft",
         "result": "654",
-        "id_suffix": "uncraft",
-        "category": "CC_NONCRAFT",
-        "subcategory": "CSC_NONCRAFT",
         "skill_used": "gun",
         "difficulty": 5,
         "time": 500,
-        "reversible": true,
-        "autolearn": true,
         "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
         "tools": [ [ [ "puller", -1 ] ] ],
         "components": [
@@ -21,16 +16,11 @@
         ]
     },
     {
-        "type": "recipe",
+        "type": "uncraft",
         "result": "654t",
-        "id_suffix": "uncraft",
-        "category": "CC_NONCRAFT",
-        "subcategory": "CSC_NONCRAFT",
         "skill_used": "gun",
         "difficulty": 5,
         "time": 500,
-        "reversible": true,
-        "autolearn": true,
         "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
         "tools": [ [ [ "puller", -1 ] ] ],
         "components": [

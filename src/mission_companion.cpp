@@ -22,7 +22,6 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include <fstream>
 #include <algorithm>
 
 const skill_id skill_dodge( "dodge" );
@@ -1195,11 +1194,11 @@ bool talk_function::carpenter_return(npc *p)
             popup(_("Darting out a window, %s escaped the collapse."), comp->name.c_str());
         } else if( skill_3 > rng( 1, 8 ) ) {
             popup(_("%s didn't make it out in time..."), comp->name.c_str());
-            popup(_("but was rescued from the debris with only minor injuries!"), comp->name.c_str());
+            popup(_("but %s was rescued from the debris with only minor injuries!"), comp->name.c_str());
         } else {
             popup(_("%s didn't make it out in time..."), comp->name.c_str());
-            popup(_("Everyone who was trapped under the collapsing roof died..."), comp->name.c_str());
-            popup(_("I'm sorry, there is nothing we could do."), comp->name.c_str());
+            popup(_("Everyone who was trapped under the collapsing roof died..."));
+            popup(_("I'm sorry, there is nothing we could do."));
             companion_lost(comp);
             return false;
         }
@@ -1597,6 +1596,6 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
         }
     }
     bay.save();
-    overmap_buffer.ter(site.x, site.y, site.z) = "looted_building";
+    overmap_buffer.ter(site.x, site.y, site.z) = oter_id( "looted_building" );
     return items_found;
 }

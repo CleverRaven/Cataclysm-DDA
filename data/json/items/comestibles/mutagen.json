@@ -30,7 +30,7 @@
         "copy-from" : "iv_mutagen_flavor",
         "type" : "COMESTIBLE",
         "name" : "alpha serum",
-        "price" : 1000000, "//" : "One of the things MasterCard can't buy.",
+        "price" : 1000000,
         "color" : "light_green",
         "healthy" : -4,
         "flags" : "MUTAGEN_ALPHA"
@@ -186,7 +186,7 @@
         "color" : "dark_gray",
         "flags" : "MUTAGEN_SPIDER"
     },
-     {
+    {
         "id" : "iv_mutagen_troglobite",
         "copy-from" : "iv_mutagen_flavor",
         "type" : "COMESTIBLE",
@@ -211,8 +211,6 @@
         "description" : "A super-concentrated stem cell treatment.  You need a syringe to inject it.",
         "price" : 900000, "//" : "*May* have been commercially traded, but not in this preparation.",
         "color" : "magenta",
-        "healthy" : -10,
-        "stim" : -10,
         "addiction_potential" : 8,
         "use_action" : "PURIFY_IV"
     },

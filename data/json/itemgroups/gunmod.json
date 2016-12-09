@@ -33,6 +33,7 @@
       [ "laser_sight", 40 ],
       [ "light_grip", 50 ],
       [ "match_trigger", 20 ],
+      [ "offset_sights", 40 ],
       [ "pistol_bayonet", 10 ],
       [ "pistol_scope", 10 ],
       [ "pistol_stock", 10 ],
@@ -59,7 +60,6 @@
     "//" : "Military specification gunmods found only at military sites.",
     "items": [
       [ "aux_flamer", 20 ],
-      [ "bayonet", 100 ],
       [ "holo_sight", 100 ],
       [ "m203", 30 ],
       [ "m320_mod", 10 ],

@@ -70,11 +70,14 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         bool list_item_downvote_active = false;
         bool list_item_priority_active = false;
         bool list_item_init = false;
+        // construction menu selections
+        std::string construction_filter;
+        std::string last_construction;
 
         // overmap editor selections
         const oter_t *place_terrain = nullptr;
         const overmap_special *place_special = nullptr;
-        int omedit_rotation = 0;
+        om_direction::type omedit_rotation = om_direction::type::none;
 
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
            output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );

@@ -16,9 +16,9 @@
 #include <stdexcept>
 #include <errno.h>
 #include <ctype.h>
+#include <algorithm>
 
 extern bool tile_iso;
-extern bool lcmatch( const std::string &str, const std::string &findstr ); // ui.cpp
 
 static const std::string default_context_id( "default" );
 
@@ -28,6 +28,7 @@ struct ContainsPredicate {
 
     ContainsPredicate( const T1 &container ) : container( container ) { }
 
+    // Operator overload required to leverage std functional iterface.
     bool operator()( T2 c ) {
         return std::find( container.begin(), container.end(), c ) != container.end();
     }
@@ -64,9 +65,8 @@ bool is_mouse_enabled()
 //helper function for those have problem inputing certain characters.
 std::string get_input_string_from_file( std::string fname )
 {
-    std::string ret = "";
-    std::ifstream fin( fname.c_str() );
-    if( fin ) {
+    std::string ret;
+    read_from_file_optional( fname, [&ret]( std::istream & fin ) {
         getline( fin, ret );
         //remove utf8 bmm
         if( !ret.empty() && ( unsigned char )ret[0] == 0xef ) {
@@ -75,7 +75,7 @@ std::string get_input_string_from_file( std::string fname )
         while( !ret.empty() && ( ret[ret.size() - 1] == '\r' ||  ret[ret.size() - 1] == '\n' ) ) {
             ret.erase( ret.size() - 1, 1 );
         }
-    }
+    } );
     return ret;
 }
 
@@ -93,6 +93,11 @@ void input_manager::init()
         load( FILENAMES["keybindings"], false );
     } catch( const JsonError &err ) {
         throw std::runtime_error( FILENAMES["keybindings"] + ": " + err.what() );
+    }
+    try {
+        load( FILENAMES["keybindings_vehicle"], false );
+    } catch( const JsonError &err ) {
+        throw std::runtime_error( FILENAMES["keybindings_vehicle"] + ": " + err.what() );
     }
     try {
         load( FILENAMES["user_keybindings"], true );
@@ -641,7 +646,7 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
 }
 
 const std::string input_context::get_desc( const std::string &action_descriptor,
-        const unsigned int max_limit )
+        const unsigned int max_limit ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         return "(*)"; // * for wildcard
@@ -981,7 +986,7 @@ void input_context::display_help()
             inp_mngr.get_action_attributes( action_id, category, &is_local );
             const std::string name = get_action_name( action_id );
 
-            if( status == s_remove && ( !OPTIONS["QUERY_KEYBIND_REMOVAL"] ||
+            if( status == s_remove && ( !get_option<bool>( "QUERY_KEYBIND_REMOVAL" ) ||
                                         query_yn( _( "Clear keys for %s?" ), name.c_str() ) ) ) {
 
                 // If it's global, reset the global actions.
@@ -1304,10 +1309,9 @@ void input_context::set_iso( bool mode )
 }
 
 std::vector<std::string> input_context::filter_strings_by_phrase(
-    const std::vector<std::string> &strings, std::string phrase ) const
+    const std::vector<std::string> &strings, const std::string &phrase ) const
 {
     std::vector<std::string> filtered_strings;
-    transform( phrase.begin(), phrase.end(), phrase.begin(), tolower );
 
     for( auto &str : strings ) {
         if( lcmatch( remove_color_tags( get_action_name( str ) ), phrase ) ) {

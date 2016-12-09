@@ -7,6 +7,7 @@
 #include "bionics.h"
 #include "skill.h"
 #include "map_selector.h"
+#include "pathfinding.h"
 
 #include <map>
 
@@ -99,10 +100,6 @@ class Character : public Creature, public visitable<Character>
         virtual int get_per_bonus() const;
         virtual int get_int_bonus() const;
 
-        // Penalty modifiers applied for ranged attacks due to low stats
-        virtual int ranged_dex_mod() const;
-        virtual int ranged_per_mod() const;
-
         /** Setters for stats exclusive to characters */
         virtual void set_str_bonus(int nstr);
         virtual void set_dex_bonus(int ndex);
@@ -146,19 +143,17 @@ class Character : public Creature, public visitable<Character>
         virtual void set_stomach_food(int n_stomach_food);
         virtual void set_stomach_water(int n_stomach_water);
 
-        void mod_stat( const std::string &stat, int modifier ) override;
+        void mod_stat( const std::string &stat, float modifier ) override;
 
-        /* Calculate aim improvement based on character stats/skills and gunsight properties
-         * @param recoil amount of applicable recoil when determining which gunsight to use
-         * @return MOC of aim improvement per 10 moves
-         * @note These units chosen as MOC/move would be too fast (lower bound 1MOC/move) and
-         * move/MOC too slow (upper bound 1MOC/move).
-         * As a result the smallest unit of aim time is 10 moves. */
-        int aim_per_time( const item& gun, int recoil ) const;
+        /* Adjusts provided sight dispersion to account for player stats */
+        int effective_dispersion( int dispersion ) const;
+
+        /* Calculate aim improvement per move spent aiming at a given @ref recoil */
+        double aim_per_move( const item &gun, double recoil ) const;
 
         /** Combat getters */
-        int get_dodge_base() const override;
-        int get_hit_base() const override;
+        float get_dodge_base() const override;
+        float get_hit_base() const override;
 
         /** Handles health fluctuations over time */
         virtual void update_health(int external_modifiers = 0);
@@ -217,7 +212,7 @@ class Character : public Creature, public visitable<Character>
          * This is adjusted by the light level at the *character's* position
          * to simulate glare, etc, night vision only works if you are in the dark.
          */
-        float get_vision_threshold(int light_level) const;
+        float get_vision_threshold( float light_level ) const;
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -412,15 +407,21 @@ class Character : public Creature, public visitable<Character>
         int throw_range( const item & ) const;
 
         int weight_carried() const;
-        int volume_carried() const;
+        units::volume volume_carried() const;
         int weight_capacity() const override;
-        int volume_capacity() const;
-        int volume_capacity_reduced_by( int mod ) const;
+        units::volume volume_capacity() const;
+        units::volume volume_capacity_reduced_by( units::volume mod ) const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
+        /**
+         * Checks if character stats and skills meet minimum requirements for the item.
+         * Prints an appropriate message if requirements not met.
+         * @param context optionally override effective item when checking contextual skills
+         */
+        bool can_use( const item& it, const item &context = item() ) const;
 
-        virtual void drop_inventory_overflow();
+        void drop_inventory_overflow();
 
         bool has_artifact_with(const art_effect_passive effect) const;
 
@@ -436,17 +437,28 @@ class Character : public Creature, public visitable<Character>
         SkillLevel &get_skill_level( const skill_id &ident );
 
         /** for serialization */
-        SkillLevel const& get_skill_level(const skill_id &ident) const;
+        SkillLevel const& get_skill_level(const skill_id &ident, const item &context = item() ) const;
         void set_skill_level( const skill_id &ident, int level );
         void boost_skill_level( const skill_id &ident, int delta );
 
-        bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
-
-        /** Return character dispersion penalty dependent upon relevant gun skill level */
-        int skill_dispersion( const item& gun, bool random ) const;
+        /** Calculates skill difference
+         * @param req Required skills to be compared with.
+         * @param context An item to provide context for contextual skills. Can be null.
+         * @return Difference in skills. Positive numbers - exceeds; negative - lacks; empty map - no difference.
+         */
+        std::map<skill_id, int> compare_skill_requirements( const std::map<skill_id, int> &req,
+                                                            const item &context = item() ) const;
+        /** Checks whether the character's skills meet the required */
+        bool meets_skill_requirements( const std::map<skill_id, int> &req,
+                                       const item &context = item() ) const;
+        /** Checks whether the character's stats meets the stats required by the item */
+        bool meets_stat_requirements( const item &it ) const;
+        /** Checks whether the character meets overall requirements to be able to use the item */
+        bool meets_requirements( const item &it, const item &context = item() ) const;
+        /** Returns a string of missed requirements (both stats and skills) */
+        std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
 
         // --------------- Other Stuff ---------------
-
 
         /** return the calendar::turn the character expired */
         int get_turn_died() const
@@ -471,7 +483,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * It is supposed to hide the query_yn to simplify player vs. npc code.
          */
-        virtual bool query_yn( const char *mes, ... ) const = 0;
+        virtual bool query_yn( const char *mes, ... ) const PRINTF_LIKE( 2, 3 ) = 0;
 
         bool is_immune_field( const field_id fid ) const override;
 
@@ -495,6 +507,7 @@ class Character : public Creature, public visitable<Character>
         }
         /** Empties the trait list */
         void empty_traits();
+        /** Adds mandatory scenario and profession traits unless you already have them */
         void add_traits();
 
         // --------------- Values ---------------
@@ -582,6 +595,12 @@ class Character : public Creature, public visitable<Character>
 
         // turn the character expired, if -1 it has not been set yet.
         int turn_died = -1;
+
+        /**
+         * Cache for pathfinding settings.
+         * Most of it isn't changed too often, hence mutable.
+         */
+        mutable pathfinding_settings path_settings;
 
     private:
         /** Needs (hunger, thirst, fatigue, etc.) */

@@ -32,7 +32,7 @@
     "time": 10000,
     "reversible": false,
     "autolearn": true,
-    "byproducts": { "id": "wax", "amount": 4 },
+    "byproducts": [ [ "wax", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
     "tools": [ [ [ "rag", -1 ] ] ],
     "components": [ [ [ "honeycomb", 2 ] ] ]

@@ -15,7 +15,6 @@
         "pierce" : 0,
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 1,
         "effects" : ["NEVER_MISFIRES"]
     },{
@@ -34,7 +33,6 @@
         "pierce" : 0,
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 1,
         "effects" : ["NEVER_MISFIRES"]
     },{
@@ -53,7 +51,6 @@
         "pierce" : 0,
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 1,
         "effects" : ["NEVER_MISFIRES"]
     }

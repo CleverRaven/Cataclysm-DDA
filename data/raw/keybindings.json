@@ -459,6 +459,170 @@
     },
     {
         "type" : "keybinding",
+        "id": "ADD_DEFAULT_RULESET",
+        "category": "SAFEMODE",
+        "name": "Add default ruleset",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"~"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ADD_RULE",
+        "category": "SAFEMODE",
+        "name": "Add rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"a"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"A"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_RULE",
+        "category": "SAFEMODE",
+        "name": "Remove rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"R"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "COPY_RULE",
+        "category": "SAFEMODE",
+        "name": "Copy rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"c"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"C"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SWAP_RULE_GLOBAL_CHAR",
+        "category": "SAFEMODE",
+        "name": "Move rule global <-> character",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"m"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"M"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ENABLE_RULE",
+        "category": "SAFEMODE",
+        "name": "Enable rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"E"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "DISABLE_RULE",
+        "category": "SAFEMODE",
+        "name": "Disable rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"d"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"D"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_RULE_UP",
+        "category": "SAFEMODE",
+        "name": "Move rule up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_RULE_DOWN",
+        "category": "SAFEMODE",
+        "name": "Move rule down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "TEST_RULE",
+        "category": "SAFEMODE",
+        "name": "Test rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"t"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"T"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SWITCH_SAFEMODE_OPTION",
+        "category": "SAFEMODE",
+        "name": "Enable safemode option",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"S"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "USAGE_HELP",
         "category": "SORT_ARMOR",
         "name": "Display Usage Help",
@@ -1102,6 +1266,28 @@
     },
     {
         "type" : "keybinding",
+        "id":"SWITCH_AMMO",
+        "name":"Switch ammo",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"o"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SWITCH_MODE",
+        "name":"Switch Firing Mode",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"SELECT",
         "name":"Select",
         "bindings":[
@@ -1450,6 +1636,15 @@
     },
     {
         "type" : "keybinding",
+        "id": "ASSIGN_CREW",
+        "category": "VEH_INTERACT",
+        "name": "Assign crew",
+        "bindings":[
+            { "input_method":"keyboard", "key":"w" }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "RELABEL",
         "category": "VEH_INTERACT",
         "name": "Relabel a portion of a vehicle",
@@ -1697,8 +1892,9 @@
     { "type":"keybinding", "name": "Disassemble items", "category":"DEFAULTMODE", "id":"disassemble", "bindings":[ { "input_method":"keyboard", "key":"(" } ] },
     { "type":"keybinding", "name": "Sleep", "category":"DEFAULTMODE", "id":"sleep", "bindings":[ { "input_method":"keyboard", "key":"$" } ] },
     { "type":"keybinding", "name": "Control Vehicle", "category":"DEFAULTMODE", "id":"control_vehicle", "bindings":[ { "input_method":"keyboard", "key":"^" } ] },
-    { "type":"keybinding", "name": "Toggle Safemode", "category":"DEFAULTMODE", "id":"safemode", "bindings":[ { "input_method":"keyboard", "key":"!" } ] },
+    { "type":"keybinding", "name": "Toggle Safe Mode", "category":"DEFAULTMODE", "id":"safemode", "bindings":[ { "input_method":"keyboard", "key":"!" } ] },
     { "type":"keybinding", "name": "Ignore Nearby Enemy", "category":"DEFAULTMODE", "id":"ignore_enemy", "bindings":[ { "input_method":"keyboard", "key":"'" } ] },
+    { "type":"keybinding", "name": "Whitelist enemy", "category":"DEFAULTMODE", "id":"whitelist_enemy", "bindings":[ { "input_method":"keyboard", "key":"~" } ] },
     { "type":"keybinding", "name": "Save and Quit", "category":"DEFAULTMODE", "id":"save", "bindings":[ { "input_method":"keyboard", "key":"S" } ] },
     { "type":"keybinding", "name": "Commit Suicide", "category":"DEFAULTMODE", "id":"quit", "bindings":[ { "input_method":"keyboard", "key":"Q" } ] },
     { "type":"keybinding", "name": "View Player Info", "category":"DEFAULTMODE", "id":"player_data", "bindings":[ { "input_method":"keyboard", "key":"@" } ] },
@@ -1711,7 +1907,7 @@
     { "type":"keybinding", "name": "View Help", "category":"DEFAULTMODE", "id":"help", "bindings":[ { "input_method":"keyboard", "key":"?" } ] },
     { "type":"keybinding", "name": "Zoom In", "category":"DEFAULTMODE", "id":"zoom_in", "bindings":[ { "input_method":"keyboard", "key":"z" } ] },
     { "type":"keybinding", "name": "Zoom Out", "category":"DEFAULTMODE", "id":"zoom_out", "bindings":[ { "input_method":"keyboard", "key":"Z" } ] },
-    { "type":"keybinding", "name": "Toggle Debug Mode", "category":"DEFAULTMODE", "id":"debug_mode", "bindings":[ { "input_method":"keyboard", "key":"~" } ] },
+    { "type":"keybinding", "name": "Toggle Debug Mode", "category":"DEFAULTMODE", "id":"debug_mode", "bindings":[ { "input_method":"keyboard", "key":"" } ] },
     { "type":"keybinding", "name": "Debug Menu", "category":"DEFAULTMODE", "id":"debug" },
     { "type":"keybinding", "name": "View Scentmap", "category":"DEFAULTMODE", "id":"debug_scent" },
     { "type":"keybinding", "name": "Switch Sidebar Style", "category":"DEFAULTMODE", "id":"toggle_sidebar_style" },
@@ -1729,6 +1925,12 @@
     { "type":"keybinding", "name": "Craft as long as possible", "category":"DEFAULTMODE", "id":"long_craft" },
     { "type":"keybinding", "name": "Toggle Auto-Safemode", "category":"DEFAULTMODE", "id":"autosafe" },
     { "type":"keybinding", "name": "Autoattack", "category":"DEFAULTMODE", "id":"autoattack", "bindings":[ { "input_method":"keyboard", "key":"TAB" } ] },
+    { "type":"keybinding", "name": "Main Menu", "category":"DEFAULTMODE", "id":"main_menu", "bindings":[ { "input_method":"keyboard", "key":"ESC" } ] },
+    { "type":"keybinding", "name": "Keybindings", "category":"DEFAULTMODE", "id":"open_keybindings" },
+    { "type":"keybinding", "name": "Options", "category":"DEFAULTMODE", "id":"open_options" },
+    { "type":"keybinding", "name": "Autopickup manager", "category":"DEFAULTMODE", "id":"open_autopickup" },
+    { "type":"keybinding", "name": "Safe Mode manager", "category":"DEFAULTMODE", "id":"open_safemode" },
+    { "type":"keybinding", "name": "Color manager", "category":"DEFAULTMODE", "id":"open_color" },
     {
       "type":"keybinding",
       "name": "Toggle move mode (run/walk)",
@@ -2550,18 +2752,6 @@
             {
                 "input_method":"keyboard",
                 "key":"k"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id": "VITAMINS",
-        "category": "ITEM_ACTIONS",
-        "name": "Vitamins",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"v"
             }
         ]
     },

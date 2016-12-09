@@ -6,17 +6,17 @@
     "item": "cantilever_medium",
     "location": "structure",
     "symbol": "=",
-    "color": "light_gray",
     "broken_symbol": "*",
+    "color": "light_gray",
     "broken_color": "light_blue",
     "difficulty": 5,
     "durability": 200,
-    "qualities": [ [ "LIFT", 4 ], [ "JACK", 12 ] ],
-    "flags" : [ "TOOL_WRENCH", "PROTRUSION", "OBSTACLE", "UNMOUNT_ON_DAMAGE" ],
     "breaks_into": [
-        { "item": "pipe", "count": [ 8, 32 ] },
-        { "item": "scrap", "count": [ 8, 24 ] }
-    ]
+      { "item": "pipe", "count": [ 8, 32 ] },
+      { "item": "scrap", "count": [ 8, 24 ] }
+    ],
+    "qualities": [ [ "LIFT", 4 ], [ "JACK", 40 ] ],
+    "flags": [ "TOOL_WRENCH", "PROTRUSION", "OBSTACLE", "UNMOUNT_ON_DAMAGE" ]
   },
   {
     "id": "crane_small",
@@ -25,17 +25,17 @@
     "item": "cantilever_small",
     "location": "center",
     "symbol": "=",
-    "color": "light_gray",
     "broken_symbol": "*",
+    "color": "light_gray",
     "broken_color": "light_blue",
-    "folded_volume": 12,
     "difficulty": 2,
     "durability": 100,
-    "qualities": [ [ "LIFT", 1 ], [ "JACK", 3 ] ],
-    "flags" : [ "TOOL_WRENCH", "PROTRUSION", "OBSTACLE", "FOLDABLE" ],
+    "folded_volume": 12,
     "breaks_into": [
-        { "item": "pipe", "count": [ 2, 8 ] },
-        { "item": "scrap", "count": [ 2, 6 ] }
-    ]
+      { "item": "pipe", "count": [ 2, 8 ] },
+      { "item": "scrap", "count": [ 2, 6 ] }
+    ],
+    "qualities": [ [ "LIFT", 1 ], [ "JACK", 7 ] ],
+    "flags": [ "TOOL_WRENCH", "PROTRUSION", "OBSTACLE", "FOLDABLE" ]
   }
 ]

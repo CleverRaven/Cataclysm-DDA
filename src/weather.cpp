@@ -70,8 +70,9 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
     }
     // TODO: maybe have different rotting speed when underground?
     int ret = 0;
+    const auto &wgen = g->get_cur_weather_gen();
     for (calendar i(startturn); i.get_turn() < endturn; i += 600) {
-        w_point w = g->weather_gen->get_weather(location, i);
+        w_point w = wgen.get_weather( location, i, g->get_seed() );
         ret += std::min(600, endturn - i.get_turn()) * get_hourly_rotpoints_at_temp(w.temperature) / 600;
     }
     return ret;
@@ -112,6 +113,7 @@ weather_sum sum_conditions( const calendar &startturn,
     int tick_size = MINUTES(1);
     weather_sum data;
 
+    const auto wgen = g->get_cur_weather_gen();
     for( calendar turn(startturn); turn < endturn; turn += tick_size ) {
         const int diff = endturn - startturn;
         if( diff <= 0 ) {
@@ -124,7 +126,7 @@ weather_sum sum_conditions( const calendar &startturn,
             tick_size = MINUTES(1);
         }
 
-        const auto wtype = g->weather_gen->get_weather_conditions( point( location.x, location.y ), turn );
+        const auto wtype = wgen.get_weather_conditions( location, turn, g->get_seed() );
         proc_weather_sum( wtype, data, turn, tick_size );
     }
 
@@ -271,7 +273,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
     // Give each funnel on the map a chance to collect the rain.
     const auto &funnel_locs = g->m.trap_locations( tr.loadid );
     for( auto loc : funnel_locs ) {
-        int maxcontains = 0;
+        units::volume maxcontains = 0;
         auto items = g->m.i_at( loc );
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
@@ -542,14 +544,15 @@ std::string weather_forecast( point const &abs_sm_pos )
     // int weather_proportions[NUM_WEATHER_TYPES] = {0};
     double high = -100.0;
     double low = 100.0;
-    point const abs_ms_pos = sm_to_ms_copy( abs_sm_pos );
+    const tripoint abs_ms_pos = tripoint( sm_to_ms_copy( abs_sm_pos ), 0 );
     // TODO wind direction and speed
     int last_hour = calendar::turn - ( calendar::turn % HOURS(1) );
     for(int d = 0; d < 6; d++) {
         weather_type forecast = WEATHER_NULL;
+        const auto wgen = g->get_cur_weather_gen();
         for(calendar i(last_hour + 7200 * d); i < last_hour + 7200 * (d + 1); i += 600) {
-            w_point w = g->weather_gen->get_weather( abs_ms_pos, i );
-            forecast = std::max(forecast, g->weather_gen->get_weather_conditions(w));
+            w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
+            forecast = std::max( forecast, wgen.get_weather_conditions( w ) );
             high = std::max(high, w.temperature);
             low = std::min(low, w.temperature);
         }
@@ -564,7 +567,7 @@ std::string weather_forecast( point const &abs_sm_pos )
             started_at_night = false;
         }
         if(d > 0 && ((started_at_night && !(d % 2)) || (!started_at_night && d % 2))) {
-            day = rmp_format(_("<Mon Night>%s Night"), c.day_of_week().c_str());
+            day = string_format( pgettext( "Mon Night", "%s Night" ), c.day_of_week().c_str() );
         } else {
             day = c.day_of_week();
         }
@@ -586,14 +589,13 @@ std::string print_temperature( double fahrenheit, int decimals )
     ret.precision( decimals );
     ret << std::fixed;
 
-    if(OPTIONS["USE_CELSIUS"] == "celsius") {
+    if(get_option<std::string>( "USE_CELSIUS" ) == "celsius") {
         ret << temp_to_celsius( fahrenheit );
-        return rmp_format( _( "<Celsius>%sC" ), ret.str().c_str() );
+        return string_format( pgettext( "temperatur in Celsius", "%sC" ), ret.str().c_str() );
     } else {
         ret << fahrenheit;
-        return rmp_format( _( "<Fahrenheit>%sF" ), ret.str().c_str() );
+        return string_format( pgettext( "temperatur in Fahrenheit", "%sF" ), ret.str().c_str() );
     }
-
 }
 
 /**
@@ -606,7 +608,7 @@ std::string print_humidity( double humidity, int decimals )
     ret << std::fixed;
 
     ret << humidity;
-    return rmp_format( _( "%s%%" ), ret.str().c_str() );
+    return string_format( pgettext( "humidity in percent", "%s%%" ), ret.str().c_str() );
 }
 
 /**
@@ -619,7 +621,7 @@ std::string print_pressure( double pressure, int decimals )
     ret << std::fixed;
 
     ret << pressure / 10;
-    return rmp_format( _( "%s kPa" ), ret.str().c_str() );
+    return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret.str().c_str() );
 }
 
 

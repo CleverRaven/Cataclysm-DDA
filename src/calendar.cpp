@@ -286,11 +286,11 @@ std::string calendar::print_duration( int turns )
 {
     std::string res;
 
-    if( turns <= MINUTES( 1 ) ) {
+    if( turns < MINUTES( 1 ) ) {
         const int sec = FULL_SECONDS_IN( turns );
         res += string_format( ngettext( "%d second", "%d seconds", sec ), sec );
 
-    } else if( turns <= HOURS( 1 ) ) {
+    } else if( turns < HOURS( 1 ) ) {
         const int min = FULL_MINUTES_IN( turns );
         const int sec = FULL_SECONDS_IN( turns % MINUTES( 1 ) );
         res += string_format( ngettext( "%d minute", "%d minutes", min ), min );
@@ -298,7 +298,7 @@ std::string calendar::print_duration( int turns )
             res += string_format( ngettext( " and %d second", " and %d seconds", sec ), sec );
         }
 
-    } else if( turns <= DAYS( 1 ) ) {
+    } else if( turns < DAYS( 1 ) ) {
         const int hour = FULL_HOURS_IN( turns );
         const int min = FULL_MINUTES_IN( turns % HOURS( 1 ) );
         res += string_format( ngettext( "%d hour", "%d hours", hour ), hour );
@@ -322,10 +322,10 @@ std::string calendar::print_time(bool just_hour) const
     std::ostringstream time_string;
     int hour_param;
 
-    if (OPTIONS["24_HOUR"] == "military") {
+    if (get_option<std::string>( "24_HOUR" ) == "military") {
         hour_param = hour % 24;
         time_string << string_format("%02d%02d.%02d", hour_param, minute, second);
-    } else if (OPTIONS["24_HOUR"] == "24h") {
+    } else if (get_option<std::string>( "24_HOUR" ) == "24h") {
         hour_param = hour % 24;
         if (just_hour) {
             time_string << hour_param;
@@ -450,16 +450,8 @@ std::string calendar::day_of_week() const
 
 int calendar::season_length()
 {
-    const auto iter = ACTIVE_WORLD_OPTIONS.find( "SEASON_LENGTH" );
-    if( iter != ACTIVE_WORLD_OPTIONS.end() ) {
-        const int length = iter->second;
-        if( length > 0 ) {
-            return length;
-        }
-    }
-    // 14 is the default and it's used whenever the input is invalid so
-    // everyone using this can rely on it being larger than 0.
-    return 14;
+    // Avoid returning 0 as this value is used in division and expected to be non-zero.
+    return std::max( get_world_option<int>( "SEASON_LENGTH" ), 1 );
 }
 
 int calendar::turn_of_year() const

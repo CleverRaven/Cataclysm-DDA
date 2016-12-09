@@ -16,23 +16,22 @@ struct pair_greater_cmp {
     bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b );
 };
 
-// TODO: Put this into a header (which one?) and maybe move the implementation somewhere else.
-/** Comparator object to sort creatures according to their attitude from "u",
- * and (on same attitude) according to their distance to "u".
- */
-struct compare_by_dist_attitude {
-    const Creature &u;
-    bool operator()( Creature *a, Creature *b ) const;
-};
-
 enum units_type {
     VU_VEHICLE,
     VU_WIND
 };
 
+inline int fast_floor( double v )
+{
+    return static_cast<int>( v ) - ( v < static_cast<int>( v ) );
+}
+
+double round_up( double val, unsigned int dp );
+
 bool isBetween( int test, int down, int up );
 
-bool list_items_match( const item *item, std::string sPattern );
+/** Does str contain qry via case-insensitive comparison? */
+bool lcmatch( const std::string &str, const std::string &qry );
 
 std::vector<map_item_stack> filter_item_stacks( std::vector<map_item_stack> stack,
         std::string filter );
@@ -46,9 +45,48 @@ double logarithmic_range( int min, int max, int pos );
 int bound_mod_to_vals( int val, int mod, int max, int min );
 const char *velocity_units( const units_type vel_units );
 const char *weight_units();
+const char *volume_units_abbr();
+const char *volume_units_long();
 double convert_velocity( int velocity, const units_type vel_units );
 double convert_weight( int weight );
+double convert_volume( int volume );
+double convert_volume( int volume, int *out_scale );
 double temp_to_celsius( double fahrenheit );
+
+double clamp_to_width( double value, int width, int &scale );
+double clamp_to_width( double value, int width, int &scale, bool *out_truncated );
+
+constexpr double ms_to_mph( double val )
+{
+    return val * 2.237;
+}
+
+constexpr double mph_to_ms( double val )
+{
+    return val / 2.237;
+}
+
+/** convert velocity (m/s) to arbitrary display units */
+constexpr double ms_to_display( double val )
+{
+    return ms_to_mph( val ) * 100 * 2;
+}
+
+/** convert velocity (m/s) to fractional tiles per turn */
+constexpr double ms_to_tt( double v )
+{
+    return ms_to_mph( v ) / 10.0;
+}
+
+constexpr double hp_to_watt( double val )
+{
+    return val * 745.7;
+}
+
+constexpr double watt_to_hp( double val )
+{
+    return val / 745.7;
+}
 
 /**
  * From `points`, finds p1 and p2 such that p1.first < x < p2.first
@@ -126,7 +164,37 @@ class ofstream_wrapper
  */
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *fail_message );
+class JsonIn;
+class JsonDeserializer;
+/**
+ * Try to open and read from given file using the given callback.
+ * The file is opened for reading (binary mode), given to the callback (which does the actual
+ * reading) and closed.
+ * Any exceptions from the callbacks are caught and reported as `debugmsg`.
+ * If the stream is in a fail state (other than EOF) after the callback returns, it is handled as
+ * error as well.
+ *
+ * The callback can either be a generic `std::istream`, a @ref JsonIn stream (which has been
+ * initialized from the `std::istream`) or a @ref JsonDeserializer object (in case of the later,
+ * it's `JsonDeserializer::deserialize` method will be invoked).
+ *
+ * The functions with the "_optional" prefix do not show a debug message when the file does not
+ * exist. They simply ignore the call and return `false` immediately (without calling the callback).
+ * They can be used for loading legacy files.
+ *
+ * @return `true` is the file was read without any errors, `false` upon any error.
+ */
+/**@{*/
+bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
+bool read_from_file( const std::string &path, const std::function<void( JsonIn & )> &reader );
+bool read_from_file( const std::string &path, JsonDeserializer &reader );
 
+bool read_from_file_optional( const std::string &path,
+                              const std::function<void( std::istream & )> &reader );
+bool read_from_file_optional( const std::string &path,
+                              const std::function<void( JsonIn & )> &reader );
+bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
+/**@}*/
 /**
  * Same as ofstream_wrapper, but uses exclusive I/O (@ref fopen_exclusive).
  * The interface intentionally matches ofstream_wrapper. One should be able to use

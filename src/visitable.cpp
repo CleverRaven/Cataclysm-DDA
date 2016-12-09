@@ -97,7 +97,7 @@ static int has_quality_from_vpart( const vehicle& veh, int part, const quality_i
     for( const auto &n : veh.parts_at_relative( pos.x, pos.y ) ) {
 
         // only unbroken parts can provide tool qualities
-        if( veh.parts[ n ].hp > 0 ) {
+        if( !veh.parts[ n ].is_broken() ) {
             auto tq = veh.part_info( n ).qualities;
             auto iter = tq.find( qual );
 
@@ -116,6 +116,19 @@ template <typename T>
 bool visitable<T>::has_quality( const quality_id &qual, int level, int qty ) const
 {
     return has_quality_internal( *this, qual, level, qty ) == qty;
+}
+
+template <>
+bool visitable<inventory>::has_quality( const quality_id &qual, int level, int qty ) const
+{
+    long res = 0;
+    for( const auto &stack : static_cast<const inventory *>( this )->items ) {
+        res += stack.size() * has_quality_internal( stack.front(), qual, level, qty );
+        if( res >= qty ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 template <>
@@ -176,7 +189,7 @@ static int max_quality_from_vpart( const vehicle& veh, int part, const quality_i
     for( const auto &n : veh.parts_at_relative( pos.x, pos.y ) ) {
 
         // only unbroken parts can provide tool qualities
-        if( veh.parts[ n ].hp > 0 ) {
+        if( !veh.parts[ n ].is_broken() ) {
             auto tq = veh.part_info( n ).qualities;
             auto iter = tq.find( qual );
 
@@ -367,6 +380,11 @@ VisitResponse visitable<map_cursor>::visit_items(
 {
     auto cur = static_cast<map_cursor *>( this );
 
+    // skip inaccessible items
+    if( g->m.has_flag( "SEALED", *cur ) ) {
+        return VisitResponse::NEXT;
+    }
+
     for( auto &e : g->m.i_at( *cur ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
@@ -430,19 +448,17 @@ item visitable<T>::remove_item( item& it ) {
     }
 }
 
-template <typename OutputIterator>
 static void remove_internal( const std::function<bool( item & )> &filter, item &node, int &count,
-                             OutputIterator out )
+                             std::list<item> &res )
 {
     for( auto it = node.contents.begin(); it != node.contents.end(); ) {
         if( filter( *it ) ) {
-            out = std::move( *it );
-            it = node.contents.erase( it );
+            res.splice( res.end(), node.contents, it++ );
             if( --count == 0 ) {
                 return;
             }
         } else {
-            remove_internal( filter, *it, count, out );
+            remove_internal( filter, *it, count, res );
             ++it;
         }
     }
@@ -459,7 +475,7 @@ std::list<item> visitable<item>::remove_items_with( const std::function<bool( co
         return res; // nothing to do
     }
 
-    remove_internal( filter, *it, count, std::back_inserter( res ) );
+    remove_internal( filter, *it, count, res );
     return res;
 }
 
@@ -475,38 +491,31 @@ std::list<item> visitable<inventory>::remove_items_with( const
         return res; // nothing to do
     }
 
-    for( auto stack = inv->items.begin(); stack != inv->items.end(); ) {
-        // all items in a stack are identical so we only need to call the predicate once
-        if( filter( stack->front() ) ) {
+    for( auto stack = inv->items.begin(); stack != inv->items.end() && count > 0; ) {
+        std::list<item> &istack = *stack;
+        const auto original_invlet = istack.front().invlet;
 
-            if( count >= int( stack->size() ) ) {
-                // remove the entire stack
-                count -= stack->size();
-                res.splice( res.end(), *stack );
-                stack = inv->items.erase( stack );
-                if( count == 0 ) {
-                    return res;
+        for( auto istack_iter = istack.begin(); istack_iter != istack.end() && count > 0; ) {
+            if( filter( *istack_iter ) ) {
+                count--;
+                res.splice( res.end(), istack, istack_iter++ );
+                // The non-first items of a stack may have different invlets, the code
+                // in inventory only ever checks the invlet of the first item. This
+                // ensures that the first item of a stack always has the same invlet, even
+                // after the orignal first item was removed.
+                if( istack_iter == istack.begin() && istack_iter != istack.end() ) {
+                    istack_iter->invlet = original_invlet;
                 }
 
             } else {
-                // remove only some of the stack
-                char invlet = stack->front().invlet;
-                auto fin = stack->begin();
-                std::advance( fin, count );
-                res.splice( res.end(), *stack, stack->begin(), fin );
-                stack->front().invlet = invlet; // preserve invlet for remaining stacked items
-                return res;
+                remove_internal( filter, *istack_iter, count, res );
+                ++istack_iter;
             }
+        }
 
+        if( istack.empty() ) {
+            stack = inv->items.erase( stack );
         } else {
-            // recurse through the contents of each stacked item separately
-            for( auto &e : *stack ) {
-                remove_internal( filter, e, count, std::back_inserter( res ) );
-                if( count == 0 ) {
-                    return res;
-                }
-            }
-
             ++stack;
         }
     }
@@ -540,7 +549,7 @@ std::list<item> visitable<Character>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            remove_internal( filter, *iter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -553,7 +562,7 @@ std::list<item> visitable<Character>::remove_items_with( const
         res.push_back( ch->remove_weapon() );
         count--;
     } else {
-        remove_internal( filter, ch->weapon, count, std::back_inserter( res ) );
+        remove_internal( filter, ch->weapon, count, res );
     }
 
     return res;
@@ -596,7 +605,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            remove_internal( filter, *iter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -649,7 +658,7 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            remove_internal( filter, *iter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -681,14 +690,13 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
 }
 
 template <typename T>
-static long charges_of_internal( const T& self, const itype_id& id, int limit )
+static long charges_of_internal( const T& self, const itype_id& id, long limit )
 {
     long qty = 0;
 
     self.visit_items( [&]( const item *e ) {
         if( e->is_tool() ) {
-            // for tools we also need to check if this item is a subtype of the required id
-            if( e->typeId() == id || ( e->is_tool() && e->type->tool->subtype == id ) ) {
+            if( e->typeId() == id ) {
                 qty += e->ammo_remaining(); // includes charges from any contained magazine
             }
             return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
@@ -705,13 +713,33 @@ static long charges_of_internal( const T& self, const itype_id& id, int limit )
         return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
 
-    return std::min( qty, long( limit ) );
+    return std::min( qty, limit );
 }
 
 template <typename T>
 long visitable<T>::charges_of( const std::string &what, int limit ) const
 {
     return charges_of_internal( *this, what, limit );
+}
+
+template <>
+long visitable<inventory>::charges_of( const std::string &what, int limit ) const
+{
+    const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
+    const auto iter = binned.find( what );
+    if( iter == binned.end() ) {
+        return 0;
+    }
+
+    long res = 0;
+    for( const item *it : iter->second ) {
+        res += charges_of_internal( *it, what, limit );
+        if( res >= limit ) {
+            break;
+        }
+    }
+
+    return std::min<long>( limit, res );
 }
 
 template <>
@@ -756,6 +784,23 @@ template <typename T>
 int visitable<T>::amount_of( const std::string& what, bool pseudo, int limit ) const
 {
     return amount_of_internal( *this, what, pseudo, limit );
+}
+
+template <>
+int visitable<inventory>::amount_of( const std::string& what, bool pseudo, int limit ) const
+{
+    const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
+    const auto iter = binned.find( what );
+    if( iter == binned.end() ) {
+        return 0;
+    }
+
+    long res = 0;
+    for( const item *it : iter->second ) {
+        res += it->amount_of( what, pseudo, limit );
+    }
+
+    return std::min<long>( limit, res );
 }
 
 template <>

@@ -10,7 +10,6 @@
 #include "catacharset.h"
 #include "ui.h"
 #include <iostream>
-#include <fstream>
 
 zone_manager::zone_manager()
 {
@@ -190,22 +189,10 @@ void zone_manager::load_zones()
     std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(
                                g->u.name ) + ".zones.json";
 
-    std::ifstream fin;
-    fin.open( savefile.c_str(), std::ifstream::in | std::ifstream::binary );
-    if( !fin.good() ) {
-        fin.close();
-        cache_data();
-        return;
-    }
-
-    try {
+    read_from_file_optional( savefile, [&]( std::istream & fin ) {
         JsonIn jsin( fin );
         deserialize( jsin );
-    } catch( const JsonError &e ) {
-        DebugLog( D_ERROR, DC_ALL ) << "load_zones: " << e;
-    }
-
-    fin.close();
+    } );
 
     cache_data();
 }

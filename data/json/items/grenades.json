@@ -49,16 +49,28 @@
     "name": "nail bomb",
     "description": "A crude and bulky improvised fragmentation grenade.  Use this item to light the fuse.  You will then have five turns before it explodes; throwing it would be a good idea.",
     "category": "weapons",
-    "weight": 290,
+    "weight": 470,
     "volume": 2,
+    "bashing": 4,
+    "to_hit": 1,
     "price": 900,
-    "material": ["steel", "plastic"],
+    "material": ["glass", "iron"],
     "symbol": "*",
     "color": "green",
+    "explode_in_fire" : true,
+    "explosion" : {
+        "power": 12,
+        "shrapnel": {
+            "count": 40,
+            "mass": 4,
+            "recovery": 10,
+            "drop": "nail"
+        }
+    },
     "use_action": {
         "type": "countdown",
         "name": "Arm grenade",
-        "message": "You pull the pin on the %s."
+        "message": "You light the fuse on the %s."
     },
     "countdown_interval": 5,
     "countdown_destroy": true,
@@ -75,7 +87,7 @@
             }
         }
     },
-    "flags": [ "BOMB" ]
+    "flags": [ "BOMB", "NONCONDUCTIVE" ]
   },
   {
     "id": "smokebomb",

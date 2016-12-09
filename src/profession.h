@@ -2,6 +2,8 @@
 #define PROFESSION_H
 
 #include "string_id.h"
+#include "item_group.h"
+#include "item.h"
 
 #include <string>
 #include <vector>
@@ -47,9 +49,15 @@ enum add_type : int;
         std::string _description_female;
         std::string _gender_req;
         signed int _point_cost;
-        itypedecvec _starting_items;
-        itypedecvec _starting_items_male;
-        itypedecvec _starting_items_female;
+
+        // TODO: In professions.json, replace lists of itypes (legacy) with item groups
+        itypedecvec legacy_starting_items;
+        itypedecvec legacy_starting_items_male;
+        itypedecvec legacy_starting_items_female;
+        Group_tag _starting_items = "EMPTY_GROUP";
+        Group_tag _starting_items_male = "EMPTY_GROUP";
+        Group_tag _starting_items_female = "EMPTY_GROUP";
+
         std::vector<addiction> _starting_addictions;
         std::vector<std::string> _starting_CBMs;
         std::vector<std::string> _starting_traits;
@@ -58,13 +66,13 @@ enum add_type : int;
 
         void check_item_definitions( const itypedecvec &items ) const;
 
-        void load( JsonObject &jsobj );
+        void load( JsonObject &jo, const std::string &src );
 
     public:
         //these three aren't meant for external use, but had to be made public regardless
         profession();
 
-        static void load_profession( JsonObject &jsobj );
+        static void load_profession( JsonObject &obj, const std::string &src );
 
         // these should be the only ways used to get at professions
         static const profession *generic(); // points to the generic, default profession
@@ -85,7 +93,7 @@ enum add_type : int;
         std::string description( bool male ) const;
         std::string gender_req() const;
         signed int point_cost() const;
-        itypedecvec items( bool male ) const;
+        std::vector<item> items( bool male ) const;
         std::vector<addiction> addictions() const;
         std::vector<std::string> CBMs() const;
         std::vector<std::string> traits() const;
@@ -105,6 +113,7 @@ enum add_type : int;
          * @return true, if player can pick profession. Otherwise - false.
          */
         bool can_pick( player *u, int points ) const;
+        bool locked_traits( const std::string &trait ) const;
 
 };
 

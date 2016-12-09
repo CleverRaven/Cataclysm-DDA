@@ -18,7 +18,7 @@
         "pierce" : 8,
         "range" : 38,
         "dispersion" : 5,
-        "recoil" : 450,
+        "recoil" : 1500,
         "count" : 30,
         "effects" : ["COOKOFF"]
     },
@@ -41,29 +41,19 @@
         "pierce" : 32,
         "range" : 38,
         "dispersion" : 5,
-        "recoil" : 450,
+        "recoil" : 1500,
         "count" : 30,
         "effects" : ["COOKOFF"]
     },
     {
-        "type" : "AMMO",
+        "type" : "GENERIC",
         "id" : "654_casing",
-        "category" : "spare_parts",
-        "price" : 10000,
+        "copy-from": "casing",
         "name" : "6.54x42mm casing",
-        "symbol" : "=",
-        "color" : "dark_gray",
         "description" : "An empty casing from a 6.54x42 round.",
         "material" : "steel",
-        "volume" : 1,
-        "weight" : 5,
-        "bashing" : 1,
-        "ammo_type" : "components",
-        "damage" : 0,
-        "range" : 0,
-        "dispersion" : 0,
-        "recoil" : 0,
-        "count" : 200
+        "volume" : "10ml",
+        "weight" : 5
     },
     {
         "type" : "AMMO",
@@ -83,7 +73,6 @@
         "pierce" : 2,
         "range" : 8,
         "dispersion" : 8,
-        "recoil" : 3,
         "count" : 200
     }
 ]

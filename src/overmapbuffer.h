@@ -2,7 +2,9 @@
 #define OVERMAPBUFFER_H
 
 #include "enums.h"
+#include "int_id.h"
 #include "overmap_types.h"
+
 #include <set>
 #include <list>
 #include <memory>
@@ -13,7 +15,10 @@ struct mongroup;
 class monster;
 class npc;
 struct om_vehicle;
-struct oter_id;
+
+struct oter_t;
+using oter_id = int_id<oter_t>;
+
 class overmap;
 struct radio_tower;
 struct regional_settings;
@@ -84,7 +89,6 @@ public:
     void toggle_explored(int x, int y, int z);
     bool seen(int x, int y, int z);
     void set_seen(int x, int y, int z, bool seen = true);
-    bool has_npc(int x, int y, int z);
     bool has_vehicle( int x, int y, int z );
     bool has_horde(int x, int y, int z);
     std::vector<om_vehicle> get_vehicle( int x, int y, int z );
@@ -192,6 +196,19 @@ public:
         int dist, bool must_be_seen);
 
     /**
+     * Returns a random point of specific terrain type among those found in certain search radius.
+     * This function may create new overmaps if needed.
+     * @param radius The maximal radius of the area to search for the desired terrain.
+     * A value of 0 will search an area equal to 4 entire overmaps.
+     * @returns If no matching tile can be found @ref overmap::invalid_tripoint is returned.
+     * @param origin uses overmap terrain coordinates.
+     * @param must_be_seen If true, only terrain seen by the player
+     * should be searched.
+     */
+    tripoint find_random(const tripoint& origin, const std::string& type,
+        int dist, bool must_be_seen);
+
+    /**
      * Mark a square area around center on z-level z
      * as seen.
      * center is in absolute overmap terrain coords.
@@ -202,6 +219,8 @@ public:
      */
     bool reveal(const point &center, int radius, int z);
     bool reveal( const tripoint &center, int radius );
+
+    bool reveal_route( const tripoint &source, const tripoint &dest, int radius = 0 );
     /**
      * Returns the closest point of terrain type.
      * This function may create new overmaps if needed.

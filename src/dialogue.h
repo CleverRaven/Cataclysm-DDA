@@ -29,18 +29,12 @@ namespace talk_function {
     void bionic_remove        ( npc & );
 
     void construction_tips    ( npc & );
-    void buy_beer             ( npc & );
-    void buy_brandy           ( npc & );
-    void buy_rum              ( npc & );
-    void buy_whiskey          ( npc & );
     void buy_haircut          ( npc & );
     void buy_shave            ( npc & );
     void buy_10_logs          ( npc & );
     void buy_100_logs         ( npc & );
     void give_equipment       ( npc & );
     void start_trade          ( npc & );
-    std::string bulk_trade_inquire   (npc *, itype_id);
-    void bulk_trade_accept    (npc *, itype_id);
     void assign_base          ( npc & );
     void assign_guard         ( npc & );
     void stop_guard           ( npc & );

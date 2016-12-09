@@ -21,77 +21,77 @@ void check_test_overmap_data( const overmap &test_map )
 {
     // Spot-check a bunch of terrain values.
     // Bottom level, "L 0" in the save
-    REQUIRE(std::string( test_map.get_ter(0, 0, -10) ) == "empty_rock");
-    REQUIRE(std::string( test_map.get_ter(47, 3, -10) ) == "empty_rock");
-    REQUIRE(std::string( test_map.get_ter(48, 3, -10) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(49, 3, -10) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(50, 3, -10) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(51, 3, -10) ) == "empty_rock");
-    REQUIRE(std::string( test_map.get_ter(45, 4, -10) ) == "empty_rock");
-    REQUIRE(std::string( test_map.get_ter(46, 4, -10) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(47, 4, -10) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(48, 4, -10) ) == "slimepit");
-    REQUIRE(std::string( test_map.get_ter(49, 4, -10) ) == "slimepit");
-    REQUIRE(std::string( test_map.get_ter(50, 4, -10) ) == "slimepit");
-    REQUIRE(std::string( test_map.get_ter(51, 4, -10) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(52, 4, -10) ) == "empty_rock");
-    
-    REQUIRE(std::string( test_map.get_ter(179, 179, -10) ) == "empty_rock");
-    // Level -9, "L 1" in the save
-    REQUIRE(std::string( test_map.get_ter(0, 0, -9) ) == "empty_rock");
-    REQUIRE(std::string( test_map.get_ter(44, 1, -9) ) == "empty_rock");
-    REQUIRE(std::string( test_map.get_ter(45, 1, -9) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(46, 1, -9) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(47, 1, -9) ) == "empty_rock");
-    REQUIRE(std::string( test_map.get_ter(48, 1, -9) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(49, 1, -9) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(50, 1, -9) ) == "empty_rock");
+    REQUIRE(test_map.get_ter(0, 0, -10).id() == "empty_rock");
+    REQUIRE(test_map.get_ter(47, 3, -10).id() == "empty_rock");
+    REQUIRE(test_map.get_ter(48, 3, -10).id() == "rock");
+    REQUIRE(test_map.get_ter(49, 3, -10).id() == "rock");
+    REQUIRE(test_map.get_ter(50, 3, -10).id() == "rock");
+    REQUIRE(test_map.get_ter(51, 3, -10).id() == "empty_rock");
+    REQUIRE(test_map.get_ter(45, 4, -10).id() == "empty_rock");
+    REQUIRE(test_map.get_ter(46, 4, -10).id() == "rock");
+    REQUIRE(test_map.get_ter(47, 4, -10).id() == "rock");
+    REQUIRE(test_map.get_ter(48, 4, -10).id() == "slimepit");
+    REQUIRE(test_map.get_ter(49, 4, -10).id() == "slimepit");
+    REQUIRE(test_map.get_ter(50, 4, -10).id() == "slimepit");
+    REQUIRE(test_map.get_ter(51, 4, -10).id() == "rock");
+    REQUIRE(test_map.get_ter(52, 4, -10).id() == "empty_rock");
 
-    REQUIRE(std::string( test_map.get_ter(43, 2, -9) ) == "empty_rock");
-    REQUIRE(std::string( test_map.get_ter(44, 2, -9) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(45, 2, -9) ) == "slimepit");
-    REQUIRE(std::string( test_map.get_ter(46, 2, -9) ) == "slimepit");
-    REQUIRE(std::string( test_map.get_ter(47, 2, -9) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(48, 2, -9) ) == "slimepit");
-    REQUIRE(std::string( test_map.get_ter(49, 2, -9) ) == "slimepit");
-    REQUIRE(std::string( test_map.get_ter(50, 2, -9) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(51, 2, -9) ) == "empty_rock");
+    REQUIRE(test_map.get_ter(179, 179, -10).id() == "empty_rock");
+    // Level -9, "L 1" in the save
+    REQUIRE(test_map.get_ter(0, 0, -9).id() == "empty_rock");
+    REQUIRE(test_map.get_ter(44, 1, -9).id() == "empty_rock");
+    REQUIRE(test_map.get_ter(45, 1, -9).id() == "rock");
+    REQUIRE(test_map.get_ter(46, 1, -9).id() == "rock");
+    REQUIRE(test_map.get_ter(47, 1, -9).id() == "empty_rock");
+    REQUIRE(test_map.get_ter(48, 1, -9).id() == "rock");
+    REQUIRE(test_map.get_ter(49, 1, -9).id() == "rock");
+    REQUIRE(test_map.get_ter(50, 1, -9).id() == "empty_rock");
+
+    REQUIRE(test_map.get_ter(43, 2, -9).id() == "empty_rock");
+    REQUIRE(test_map.get_ter(44, 2, -9).id() == "rock");
+    REQUIRE(test_map.get_ter(45, 2, -9).id() == "slimepit");
+    REQUIRE(test_map.get_ter(46, 2, -9).id() == "slimepit");
+    REQUIRE(test_map.get_ter(47, 2, -9).id() == "rock");
+    REQUIRE(test_map.get_ter(48, 2, -9).id() == "slimepit");
+    REQUIRE(test_map.get_ter(49, 2, -9).id() == "slimepit");
+    REQUIRE(test_map.get_ter(50, 2, -9).id() == "rock");
+    REQUIRE(test_map.get_ter(51, 2, -9).id() == "empty_rock");
 
     // Level -3, "L 7" in save
-    REQUIRE(std::string( test_map.get_ter(0, 0, -3) ) == "empty_rock");
-    REQUIRE(std::string( test_map.get_ter(156, 0, -3) ) == "empty_rock");
-    REQUIRE(std::string( test_map.get_ter(157, 0, -3) ) == "temple_stairs");
-    REQUIRE(std::string( test_map.get_ter(158, 0, -3) ) == "empty_rock");
-    REQUIRE(std::string( test_map.get_ter(45, 5, -3) ) == "empty_rock");
-    REQUIRE(std::string( test_map.get_ter(46, 5, -3) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(47, 5, -3) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(48, 5, -3) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(49, 5, -3) ) == "rock");
-    REQUIRE(std::string( test_map.get_ter(50, 5, -3) ) == "empty_rock");
-    REQUIRE(std::string( test_map.get_ter(133, 5, -3) ) == "empty_rock");
-    REQUIRE(std::string( test_map.get_ter(134, 5, -3) ) == "mine");
-    REQUIRE(std::string( test_map.get_ter(135, 5, -3) ) == "empty_rock");
+    REQUIRE(test_map.get_ter(0, 0, -3).id() == "empty_rock");
+    REQUIRE(test_map.get_ter(156, 0, -3).id() == "empty_rock");
+    REQUIRE(test_map.get_ter(157, 0, -3).id() == "temple_stairs");
+    REQUIRE(test_map.get_ter(158, 0, -3).id() == "empty_rock");
+    REQUIRE(test_map.get_ter(45, 5, -3).id() == "empty_rock");
+    REQUIRE(test_map.get_ter(46, 5, -3).id() == "rock");
+    REQUIRE(test_map.get_ter(47, 5, -3).id() == "rock");
+    REQUIRE(test_map.get_ter(48, 5, -3).id() == "rock");
+    REQUIRE(test_map.get_ter(49, 5, -3).id() == "rock");
+    REQUIRE(test_map.get_ter(50, 5, -3).id() == "empty_rock");
+    REQUIRE(test_map.get_ter(133, 5, -3).id() == "empty_rock");
+    REQUIRE(test_map.get_ter(134, 5, -3).id() == "mine");
+    REQUIRE(test_map.get_ter(135, 5, -3).id() == "empty_rock");
 
     // Ground level
-    REQUIRE(std::string( test_map.get_ter(0, 0, 0) ) == "field");
-    REQUIRE(std::string( test_map.get_ter(23, 0, 0) ) == "field");
-    REQUIRE(std::string( test_map.get_ter(24, 0, 0) ) == "forest_thick");
-    REQUIRE(std::string( test_map.get_ter(25, 0, 0) ) == "forest_thick");
-    REQUIRE(std::string( test_map.get_ter(26, 0, 0) ) == "forest_thick");
-    REQUIRE(std::string( test_map.get_ter(27, 0, 0) ) == "forest");
-    REQUIRE(std::string( test_map.get_ter(28, 0, 0) ) == "forest");
-    REQUIRE(std::string( test_map.get_ter(29, 0, 0) ) == "forest");
-    REQUIRE(std::string( test_map.get_ter(30, 0, 0) ) == "forest");
+    REQUIRE(test_map.get_ter(0, 0, 0).id() == "field");
+    REQUIRE(test_map.get_ter(23, 0, 0).id() == "field");
+    REQUIRE(test_map.get_ter(24, 0, 0).id() == "forest_thick");
+    REQUIRE(test_map.get_ter(25, 0, 0).id() == "forest_thick");
+    REQUIRE(test_map.get_ter(26, 0, 0).id() == "forest_thick");
+    REQUIRE(test_map.get_ter(27, 0, 0).id() == "forest");
+    REQUIRE(test_map.get_ter(28, 0, 0).id() == "forest");
+    REQUIRE(test_map.get_ter(29, 0, 0).id() == "forest");
+    REQUIRE(test_map.get_ter(30, 0, 0).id() == "forest");
 
     // Sky
-    REQUIRE(std::string( test_map.get_ter(0, 0, 1) ) == "open_air");
-    REQUIRE(std::string( test_map.get_ter(179, 179, 1) ) == "open_air");
+    REQUIRE(test_map.get_ter(0, 0, 1).id() == "open_air");
+    REQUIRE(test_map.get_ter(179, 179, 1).id() == "open_air");
 
-    REQUIRE(std::string( test_map.get_ter(0, 0, 2) ) == "open_air");
-    REQUIRE(std::string( test_map.get_ter(179, 179, 2) ) == "open_air");
+    REQUIRE(test_map.get_ter(0, 0, 2).id() == "open_air");
+    REQUIRE(test_map.get_ter(179, 179, 2).id() == "open_air");
 
-    REQUIRE(std::string( test_map.get_ter(0, 0, 10) ) == "open_air");
-    REQUIRE(std::string( test_map.get_ter(179, 179, 10) ) == "open_air");
+    REQUIRE(test_map.get_ter(0, 0, 10).id() == "open_air");
+    REQUIRE(test_map.get_ter(179, 179, 10).id() == "open_air");
 
     // Spot-check a few of the monster groups.
     std::vector<mongroup> expected_groups{
@@ -118,7 +118,7 @@ void check_test_overmap_data( const overmap &test_map )
     for( auto group : expected_groups ) {
         REQUIRE(test_map.mongroup_check(group));
     }
-    
+
     // Only a few cities, so check them all.
     std::vector<city> expected_cities {{145, 53, 9},{24,60,7},{90,114,2},{108,129,9},{83,26,10},
                                      {140,89,2},{71,33,2},{67,111,2},{97,144,9},{96,166,2}};

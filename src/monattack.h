@@ -17,7 +17,6 @@ bool acid_accurate      (monster *z);
 bool acid_barf          (monster *z);
 bool shockstorm         (monster *z);
 bool pull_metal_weapon  (monster *z);
-bool smokecloud         (monster *z);
 bool boomer             (monster *z);
 bool boomer_glow        (monster *z);
 bool resurrect          (monster *z);

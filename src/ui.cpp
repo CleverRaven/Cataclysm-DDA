@@ -12,6 +12,7 @@
 #include "options.h"
 #include "game.h"
 #include "player.h"
+#include "cata_utility.h"
 
 #ifdef debuguimenu
 #define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)
@@ -195,17 +196,6 @@ void uimenu::init()
     last_fsize = -1;
     last_vshift = -1;
     hotkeys = DEFAULT_HOTKEYS;
-}
-
-/*
- * case insensitive string::find( string::findstr ). findstr must be lowercased
- */
-bool lcmatch(const std::string &str, const std::string &findstr)
-{
-    std::string ret = "";
-    ret.reserve( str.size() );
-    transform( str.begin(), str.end(), std::back_inserter(ret), tolower );
-    return ( (int)ret.find( findstr ) != -1 );
 }
 
 /*
@@ -597,7 +587,7 @@ void uimenu::show()
             int ei = fentries [ fei ];
             nc_color co = ( ei == selected ?
                             hilight_color :
-                            ( entries[ ei ].enabled ?
+                            ( entries[ ei ].enabled || entries[ei].force_color ?
                               entries[ ei ].text_color :
                               disabled_color )
                           );
@@ -605,16 +595,17 @@ void uimenu::show()
             if ( hilight_full ) {
                 mvwprintz(window, estart + si, pad_left + 1, co , "%s", padspaces.c_str());
             }
-            if(entries[ ei ].enabled && entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
-                mvwprintz( window, estart + si, pad_left + 2, ( ei == selected ) ? hilight_color :
-                           hotkey_color , "%c", entries[ ei ].hotkey );
+            if( entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
+                const nc_color hotkey_co = ei == selected ? hilight_color : hotkey_color;
+                mvwprintz( window, estart + si, pad_left + 2, entries[ ei ].enabled ? hotkey_co : co,
+                           "%c", entries[ ei ].hotkey );
             }
             if( padspaces.size() > 3 ) {
                 // padspaces's length indicates the maximal width of the entry, it is used above to
                 // activate the highlighting, it is used to override previous text there, but in both
                 // cases printeing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
                 // to be used.
-                const auto entry = utf8_wrapper( entries[ ei ].txt );
+                const auto entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) : entries[ ei ].txt );
                 trim_and_print( window, estart + si, pad_left + 4,
                                 w_width - 5 - pad_left - pad_right, co, "%s", entry.c_str() );
             }

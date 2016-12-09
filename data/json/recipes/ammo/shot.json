@@ -16,7 +16,7 @@
     "components": [
       [ [ "shot_hull", 20 ] ],
       [ [ "shotgun_primer", 20 ] ],
-      [ [ "gunpowder", 120 ] ],
+      [ [ "gunpowder", 120 ], [ "chem_black_powder", 120 ] ],
       [ [ "lead", 200 ] ]
     ]
   },
@@ -37,7 +37,7 @@
     "components": [
       [ [ "shot_hull", 20 ] ],
       [ [ "shotgun_primer", 20 ] ],
-      [ [ "gunpowder", 60 ] ],
+      [ [ "gunpowder", 60 ], [ "chem_black_powder", 60 ] ],
       [ [ "lead", 200 ] ]
     ]
   },
@@ -55,7 +55,7 @@
     "components": [
       [ [ "shot_hull", 10 ] ],
       [ [ "shotgun_primer", 10 ] ],
-      [ [ "gunpowder", 60 ] ],
+      [ [ "gunpowder", 60 ], [ "chem_black_powder", 60 ] ],
       [ [ "combatnail", 100 ] ]
     ]
   },
@@ -76,7 +76,7 @@
     "components": [
       [ [ "shot_hull", 20 ] ],
       [ [ "shotgun_primer", 20 ] ],
-      [ [ "gunpowder", 120 ] ],
+      [ [ "gunpowder", 120 ], [ "chem_black_powder", 120 ] ],
       [ [ "lead", 400 ] ]
     ]
   },
@@ -94,7 +94,7 @@
     "components": [
       [ [ "shot_hull", 20 ] ],
       [ [ "shotgun_primer", 20 ] ],
-      [ [ "gunpowder", 120 ] ],
+      [ [ "gunpowder", 120 ], [ "chem_black_powder", 120 ] ],
       [ [ "scrap", 10 ], [ "nail", 100 ], [ "bb", 200 ] ]
     ]
   }

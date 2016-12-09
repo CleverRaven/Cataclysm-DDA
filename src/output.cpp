@@ -3,7 +3,6 @@
 #include <cstdarg>
 #include <cstring>
 #include <stdlib.h>
-#include <fstream>
 #include <sstream>
 #include <algorithm>
 #include <map>
@@ -24,6 +23,7 @@
 #include "item.h"
 #include "line.h"
 #include "name.h"
+#include "cata_utility.h"
 
 // Display data
 int TERMX;
@@ -42,10 +42,13 @@ int FULL_SCREEN_HEIGHT;
 int OVERMAP_WINDOW_HEIGHT;
 int OVERMAP_WINDOW_WIDTH;
 
+static std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
 
 scrollingcombattext SCT;
 extern bool tile_iso;
 extern bool use_tiles;
+
+extern bool test_mode;
 
 void delwin_functor::operator()( WINDOW *w ) const
 {
@@ -362,11 +365,11 @@ int right_print( WINDOW *w, const int line, const int right_indent, const nc_col
 {
     va_list ap;
     va_start( ap, mes );
-    utf8_wrapper text = vstring_format( mes, ap );
+    const std::string text = vstring_format( mes, ap );
     va_end( ap );
 
     const int available_width = std::max( 1, getmaxx( w ) - right_indent );
-    const int x = std::max( 0, available_width - ( int )text.display_width() );
+    const int x = std::max( 0, available_width - utf8_width( text, true ) );
     trim_and_print( w, line, x, available_width, FG, "%s", text.c_str() );
     return x;
 }
@@ -613,7 +616,7 @@ bool internal_query_yn( const char *mes, va_list ap )
 {
     const std::string text = vstring_format( mes, ap );
 
-    bool const force_uc = !!OPTIONS["FORCE_CAPITAL_YN"];
+    bool const force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
 
     //~ Translation of query answer letters (y mean yes, n - no)
     //~ Translation MUST contain symbols ONLY from ASCII charset. Undefined behavior otherwise.
@@ -700,7 +703,7 @@ bool internal_query_yn( const char *mes, va_list ap )
     return ( ( ch != KEY_ESCAPE ) && result );
 }
 
-int query_int( const char *mes, ... )
+bool query_int( int &result, const char *mes, ... )
 {
     va_list ap;
     va_start( ap, mes );
@@ -708,9 +711,17 @@ int query_int( const char *mes, ... )
     va_end( ap );
 
     std::string raw_input = string_input_popup( text );
+    if( raw_input.empty() ) { //ESC key is pressed
+        return false;
+    }
 
     //Note that atoi returns 0 for anything it doesn't like.
-    return atoi( raw_input.c_str() );
+    int num = atoi( raw_input.c_str() );
+    if( raw_input != "0" && num == 0) { //invalid input
+        return false;
+    }
+    result = num;
+    return true;
 }
 
 std::string string_input_popup( std::string title, int width, std::string input, std::string desc,
@@ -1057,6 +1068,11 @@ void popup_top( const char *mes, ... )
 
 long popup( const std::string &text, PopupFlags flags )
 {
+    if( test_mode ) {
+        std::cerr << text << std::endl;
+        return 0;
+    }
+
     int width = 0;
     int height = 2;
     std::vector<std::string> folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
@@ -1107,9 +1123,7 @@ long popup( const std::string &text, PopupFlags flags )
     wrefresh( w );
     delwin( w );
     refresh();
-#ifdef TILES
-    try_sdl_update();
-#endif // TILES
+    refresh_display();
     return ch;
 }
 
@@ -1129,6 +1143,22 @@ void popup_nowait( const char *mes, ... )
     const std::string text = vstring_format( mes, ap );
     va_end( ap );
     popup( text, PF_NO_WAIT );
+}
+
+void popup_status( const char *title, const char *msg, ... )
+{
+    std::string text;
+    if( !test_mode && title != nullptr ) {
+        text += title;
+        text += "\n";
+    }
+
+    va_list ap;
+    va_start( ap, msg );
+    const std::string fmt = vstring_format( msg, ap );
+    va_end( ap );
+
+    popup( text + fmt, PF_NO_WAIT );
 }
 
 void full_screen_popup( const char *mes, ... )
@@ -1151,6 +1181,12 @@ int draw_item_info( const int iLeft, const int iWidth, const int iTop, const int
                     const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
 {
     WINDOW *win = newwin( iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X );
+
+#ifdef TILES
+    clear_window_area( win );
+#endif // TILES
+    wclear( win );
+    wrefresh( win );
 
     const auto result = draw_item_info( win, sItemName, sTypeName, vItemDisplay, vItemCompare,
                                         selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win );
@@ -1238,7 +1274,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
             }
 
             if( vItemDisplay[i].sValue != "-999" ) {
-                nc_color thisColor = OPTIONS["INFO_HIGHLIGHT"] ? c_yellow : c_ltgray;
+                nc_color thisColor = c_yellow;
                 for( auto &k : vItemCompare ) {
                     if( k.sValue != "-999" ) {
                         if( vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType ) {
@@ -1266,7 +1302,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                 if( vItemDisplay[i].is_int == true ) {
                     buffer << string_format( "%.0f", vItemDisplay[i].dValue );
                 } else {
-                    buffer << string_format( "%.1f", vItemDisplay[i].dValue );
+                    buffer << string_format( "%.2f", vItemDisplay[i].dValue );
                 }
                 buffer << "</color>";
             }
@@ -1424,6 +1460,23 @@ std::string to_upper_case( const std::string &s )
         return std::use_facet<std::ctype<char_t>>( std::locale() ).toupper( ch );
     } );
     return res;
+}
+
+std::string ordinal( int val ) {
+    switch( val ) {
+        case 1: return _( "1st" );
+        case 2: return _( "2nd" );
+        case 3: return _( "3rd" );
+        case 4: return _( "4th" );
+        case 5: return _( "5th" );
+        case 6: return _( "6th" );
+        case 7: return _( "7th" );
+        case 8: return _( "8th" );
+        case 9: return _( "9th" );
+
+        // fallback (not translated)
+        default: return string_format( "%ith", val );
+    };
 }
 
 // find the position of each non-printing tag in a string
@@ -1616,7 +1669,7 @@ void draw_scrollbar( WINDOW *window, const int iCurrentLine, const int iContentH
 void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHeight,
                    const int iNumEntries )
 {
-    if( OPTIONS["MENU_SCROLL"] ) {
+    if( get_option<bool>( "MENU_SCROLL" ) ) {
         if( iNumEntries > iContentHeight ) {
             iStartPos = iCurrentLine - ( iContentHeight - 1 ) / 2;
 
@@ -1659,7 +1712,7 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     mvwprintz( w_hit, 0, 0, cColor, "%s", cTile.c_str() );
     wrefresh( w_hit );
 
-    timeout( static_cast<int>( OPTIONS["ANIMATION_DELAY"] ) );
+    timeout( get_option<int>( "ANIMATION_DELAY" ) );
     getch(); //using this, because holding down a key with nanosleep can get yourself killed
     timeout( -1 );
 }
@@ -1973,30 +2026,7 @@ get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
            ( ratio >= 0.3 && !is_mon ) ? strings[7]  :
            ( ratio >= 0.2 )            ? strings[8]  :
            ( ratio >= 0.1 && !is_mon ) ? strings[9]  :
-           ( ratio >= 0.0 )            ? strings[10] : strings[11];
-}
-
-std::pair<std::string, nc_color> const &get_item_hp_bar( const int dmg )
-{
-    using pair_t = std::pair<std::string, nc_color>;
-    static std::array<pair_t, 7> const strings {
-        {
-            //~ item health bars
-            pair_t {_( R"(++)" ), c_green},
-                   pair_t {_( R"(||)" ), c_ltgreen},
-                   pair_t {_( R"(|\)" ), c_yellow},
-                   pair_t {_( R"(|.)" ), c_magenta},
-                   pair_t {_( R"(\.)" ), c_ltred},
-                   pair_t {_( R"(..)" ), c_red},
-                   pair_t {_( R"(??)" ), c_white},
-        }
-    };
-
-    if( dmg >= -1 && dmg <= 4 ) {
-        return strings[dmg + 1];
-    }
-
-    return strings[6];
+           ( ratio >  0.0 )            ? strings[10] : strings[11];
 }
 
 std::pair<std::string, nc_color> const &get_light_level( const float light )
@@ -2125,7 +2155,7 @@ void scrollingcombattext::add( const int p_iPosX, const int p_iPosY, direction p
                                const std::string p_sText2, const game_message_type p_gmt2,
                                const std::string p_sType )
 {
-    if( OPTIONS["ANIMATION_SCT"] ) {
+    if( get_option<bool>( "ANIMATION_SCT" ) ) {
 
         int iCurStep = 0;
 
@@ -2356,17 +2386,165 @@ int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg )
     return -1;
 }
 
+/**
+ * Match text containing wildcards (*)
+ * @param text_in Text to check
+ * @param pattern_in Pattern to check text_in against
+ * Case insenitive search
+ * Possible patterns:
+ * *
+ * wooD
+ * wood*
+ * *wood
+ * Wood*aRrOW
+ * wood*arrow*
+ * *wood*arrow
+ * *wood*hard* *x*y*z*arrow*
+ **/
+bool wildcard_match(const std::string &text_in, const std::string &pattern_in)
+{
+    std::string text = text_in;
+
+    if (text == "") {
+        return false;
+    } else if (text == "*") {
+        return true;
+    }
+
+    int pos;
+    std::vector<std::string> pattern;
+
+    wildcard_split(wildcard_trim_rule(pattern_in), '*', pattern);
+
+    if (pattern.size() == 1) { // no * found
+        return (text.length() == pattern[0].length() && ci_find_substr(text, pattern[0]) != -1);
+    }
+
+    for (auto it = pattern.begin(); it != pattern.end(); ++it) {
+        if (it == pattern.begin() && *it != "") {
+            if (text.length() < it->length() ||
+                ci_find_substr(text.substr(0, it->length()), *it) == -1) {
+                return false;
+            }
+
+            text = text.substr(it->length(), text.length() - it->length());
+        } else if (it == pattern.end() - 1 && *it != "") {
+            if (text.length() < it->length() ||
+                ci_find_substr(text.substr(text.length() - it->length(),
+                                            it->length()), *it) == -1) {
+                return false;
+            }
+        } else {
+            if (!(*it).empty()) {
+                pos = ci_find_substr(text, *it);
+                if (pos == -1) {
+                    return false;
+                }
+
+                text = text.substr(pos + (int)it->length(), (int)text.length() - pos);
+            }
+        }
+    }
+
+    return true;
+}
+
+std::string wildcard_trim_rule(const std::string &pattern_in)
+{
+    std::string pattern = pattern_in;
+    size_t pos = pattern.find("**");
+
+    //Remove all double ** in pattern
+    while(pos != std::string::npos) {
+        pattern = pattern.substr(0, pos) + pattern.substr(pos + 1, pattern.length() - pos - 1);
+        pos = pattern.find("**");
+    }
+
+    return pattern;
+}
+
+std::vector<std::string> &wildcard_split(const std::string &text_in, char delim_in, std::vector<std::string> &elems_in)
+{
+    std::stringstream ss(text_in);
+    std::string item;
+    elems_in.clear();
+    while (std::getline(ss, item, delim_in)) {
+        elems_in.push_back(item);
+    }
+
+    if ( text_in.substr(text_in.length() - 1, 1) == "*") {
+        elems_in.push_back("");
+    }
+
+    return elems_in;
+}
+
+// find substring (case insensitive)
+int ci_find_substr( const std::string &str1, const std::string &str2, const std::locale &loc )
+{
+    std::string::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(),
+                                [&] ( const char str1_in, const char str2_in ) {
+                                    return std::toupper( str1_in, loc ) == std::toupper( str2_in, loc );
+                                } );
+    if ( it != str1.end() ) {
+        return it - str1.begin();
+    } else {
+        return -1;    // not found
+    }
+}
+
+/**
+* Convert, round up and format a volume.
+*/
+std::string format_volume( const units::volume &volume )
+{
+    return format_volume( volume, 0, NULL, NULL );
+}
+
+/**
+* Convert, clamp, round up and format a volume,
+* taking into account the specified width (0 for inlimited space),
+* optionally returning a flag that indicate if the value was truncated to fit the width,
+* optionally returning the formated value as double.
+*/
+std::string format_volume( const units::volume &volume, int width, bool *out_truncated, double *out_value )
+{
+    // convert and get the units preferred scale
+    int scale = 0;
+    double value = convert_volume( volume.value(), &scale );
+    // clamp to the specified width
+    if( width != 0 ) {
+        value = clamp_to_width( value, std::abs( width ), scale, out_truncated );
+    }
+    // round up
+    value = round_up( value, scale );
+    if( out_value != NULL ) {
+        *out_value = value;
+    }
+    // format
+    if( width < 0 ) {
+        // left-justify the specified width
+        return string_format( "%-*.*f", std::abs( width ), scale, value );
+    } else if( width > 0 ) {
+        // right-justify the specified width
+        return string_format( "%*.*f", width, scale, value );
+    } else {
+        // no width
+        return string_format( "%.*f", scale, value );
+    }
+}
+
 // In non-SDL mode, width/height is just what's specified in the menu
 #if !defined(TILES)
 int get_terminal_width()
 {
-    int width = OPTIONS["TERMINAL_X"];
+    int width = get_option<int>( "TERMINAL_X" );
     return width < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : width;
 }
 
 int get_terminal_height()
 {
-    return OPTIONS["TERMINAL_Y"];
+    return get_option<int>( "TERMINAL_Y" );
 }
 
 bool is_draw_tiles_mode()
@@ -2375,6 +2553,10 @@ bool is_draw_tiles_mode()
 }
 
 void play_music( std::string )
+{
+}
+
+void refresh_display()
 {
 }
 #endif

@@ -1,4 +1,5 @@
 #include "game.h"
+#include "game_inventory.h"
 #include "player.h"
 #include "catacharset.h" // used for utf8_width()
 #include "input.h"
@@ -6,6 +7,7 @@
 #include "item.h"
 #include "translations.h"
 #include "npc.h"
+#include "cata_utility.h"
 
 #include <vector>
 #include <string>
@@ -14,28 +16,43 @@ namespace
 {
 std::string clothing_layer( item const &worn_item );
 std::vector<std::string> clothing_properties( item const &worn_item, int width );
+std::vector<std::string> clothing_protection( item const &worn_item, int width );
 std::vector<std::string> clothing_flags_description( item const &worn_item );
 
 void draw_mid_pane( WINDOW *w_sort_middle, item const &worn_item )
 {
-    int middle_w = getmaxx( w_sort_middle );
-    size_t i = fold_and_print( w_sort_middle, 0, 1, middle_w - 1, c_white,
+    const int win_width = getmaxx( w_sort_middle );
+    const size_t win_height = ( size_t )getmaxy( w_sort_middle );
+    size_t i = fold_and_print( w_sort_middle, 0, 1, win_width - 1, c_white,
                                worn_item.type_name( 1 ) ) - 1;
-    std::vector<std::string> props = clothing_properties( worn_item, middle_w - 3 );
+    std::vector<std::string> props = clothing_properties( worn_item, win_width - 3 );
+    nc_color color = c_ltgray;
     for( auto &iter : props ) {
-        // [headers] are green, info is gray
-        nc_color color = ( iter[0] == '[' ? c_green : c_ltgray );
-        mvwprintz( w_sort_middle, ++i, 2, color, iter.c_str() );
+        print_colored_text( w_sort_middle, ++i, 2, color, c_ltgray, iter.c_str() );
     }
 
-    i += 2;
-    i += fold_and_print( w_sort_middle, i, 0, middle_w, c_ltblue,
-                         clothing_layer( worn_item ) );
+    std::vector<std::string> prot = clothing_protection( worn_item, win_width - 3 );
+    if( i + prot.size() < win_height ) {
+        for( auto &iter : prot ) {
+            print_colored_text( w_sort_middle, ++i, 2, color, c_ltgray, iter.c_str() );
+        }
+    } else {
+        return;
+    }
 
+    i++;
+    std::vector<std::string> layer_desc = foldstring( clothing_layer( worn_item ), win_width );
+    if( i + layer_desc.size() < win_height && !clothing_layer( worn_item ).empty() ) {
+        for( auto &iter : layer_desc ) {
+            mvwprintz( w_sort_middle, ++i, 0, c_ltblue, iter.c_str() );
+        }
+    }
+
+    i++;
     std::vector<std::string> desc = clothing_flags_description( worn_item );
     if( !desc.empty() ) {
-        for( size_t j = 0; j < desc.size(); ++j ) {
-            i += -1 + fold_and_print( w_sort_middle, i + j, 0, middle_w, c_ltblue, desc[j] );
+        for( size_t j = 0; j < desc.size() && i + j < win_height; ++j ) {
+            i += -1 + fold_and_print( w_sort_middle, i + j, 0, win_width, c_ltblue, desc[j] );
         }
     }
 }
@@ -60,27 +77,35 @@ std::string clothing_layer( item const &worn_item )
 std::vector<std::string> clothing_properties( item const &worn_item, int const width )
 {
     std::vector<std::string> props;
-    props.reserve( 9 );
+    props.reserve( 5 );
 
     const std::string space = "  ";
-    props.push_back( string_format( "[%s]", _( "Properties" ) ) );
+    props.push_back( string_format( "<color_c_green>[%s]</color>", _( "Properties" ) ) );
     props.push_back( name_and_value( space + _( "Coverage:" ),
                                      string_format( "%3d", worn_item.get_coverage() ), width ) );
     props.push_back( name_and_value( space + _( "Encumbrance:" ),
                                      string_format( "%3d", worn_item.get_encumber() ), width ) );
     props.push_back( name_and_value( space + _( "Warmth:" ),
                                      string_format( "%3d", worn_item.get_warmth() ), width ) );
-    props.push_back( name_and_value( space + _( "Storage:" ),
-                                     string_format( "%3d", worn_item.get_storage() ), width ) );
-    props.push_back( string_format( "[%s]", _( "Protection" ) ) );
-    props.push_back( name_and_value( space + _( "Bash:" ),
-                                     string_format( "%3d", int( worn_item.bash_resist() ) ), width ) );
-    props.push_back( name_and_value( space + _( "Cut:" ),
-                                     string_format( "%3d", int( worn_item.cut_resist() ) ), width ) );
-    props.push_back( name_and_value( space + _( "Environmental:" ),
-                                     string_format( "%3d", int( worn_item.get_env_resist() ) ), width ) );
-
+    props.push_back( name_and_value( space + string_format( _( "Storage (%s):" ), volume_units_abbr() ),
+                                     format_volume( worn_item.get_storage() ), width ) );
     return props;
+}
+
+std::vector<std::string> clothing_protection( item const &worn_item, int const width )
+{
+    std::vector<std::string> prot;
+    prot.reserve( 4 );
+
+    const std::string space = "  ";
+    prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
+    prot.push_back( name_and_value( space + _( "Bash:" ),
+                                    string_format( "%3d", int( worn_item.bash_resist() ) ), width ) );
+    prot.push_back( name_and_value( space + _( "Cut:" ),
+                                    string_format( "%3d", int( worn_item.cut_resist() ) ), width ) );
+    prot.push_back( name_and_value( space + _( "Environmental:" ),
+                                    string_format( "%3d", int( worn_item.get_env_resist() ) ), width ) );
+    return prot;
 }
 
 std::vector<std::string> clothing_flags_description( item const &worn_item )
@@ -127,9 +152,10 @@ std::vector<std::string> clothing_flags_description( item const &worn_item )
 } //namespace
 
 struct layering_item_info {
-    int damage;
+    nc_color damage;
     int encumber;
     std::string name;
+    // Operator overload required to leverage vector equality operator.
     bool operator ==( const layering_item_info &o ) const {
         return this->damage == o.damage &&
                this->encumber == o.encumber &&
@@ -137,12 +163,12 @@ struct layering_item_info {
     }
 };
 
-std::vector<layering_item_info> items_cover_bp( const Character &c, int bp )
+static std::vector<layering_item_info> items_cover_bp( const Character &c, int bp )
 {
     std::vector<layering_item_info> s;
     for( auto &elem : c.worn ) {
         if( elem.covers( static_cast<body_part>( bp ) ) ) {
-            layering_item_info t = {elem.damage, elem.get_encumber(), elem.type_name( 1 )};
+            layering_item_info t = { elem.damage_color(), elem.get_encumber(), elem.type_name( 1 ) };
             s.push_back( t );
         }
     }
@@ -239,8 +265,6 @@ void player::sort_armor()
     WINDOW *w_encumb      = newwin( num_bp + 1, middle_w, win_y + 3 + cont_h - num_bp - 1,
                                     win_x + left_w + 2 );
 
-    nc_color dam_color[] = {c_green, c_ltgreen, c_yellow, c_magenta, c_ltred, c_red};
-
     input_context ctxt( "SORT_ARMOR" );
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
@@ -259,20 +283,18 @@ void player::sort_armor()
         if( is_player() ) {
             // Totally hoisted this from advanced_inv
             if( g->u.moves < 0 ) {
-                g->u.assign_activity( ACT_ARMOR_LAYERS, 0 );
+                g->u.assign_activity( activity_id( "ACT_ARMOR_LAYERS" ), 0 );
                 g->u.activity.auto_resume = true;
                 return;
             }
         } else {
             // Player is sorting NPC's armor here
-            // TODO: Add all sorts of checks here, to prevent player from wasting NPC moves
             if( rl_dist( g->u.pos(), pos() ) > 1 ) {
+                add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), name.c_str() );
                 return;
             }
             if( attitude_to( g->u ) != Creature::A_FRIENDLY ) {
-                return;
-            }
-            if( moves < -200 ) {
+                add_msg_if_npc( m_bad, _( "%s is not friendly!" ), name.c_str() );
                 return;
             }
         }
@@ -307,7 +329,7 @@ void player::sort_armor()
 
         // Left header
         mvwprintz( w_sort_left, 0, 0, c_ltgray, _( "(Innermost)" ) );
-        right_print( w_sort_left, 0, 0, c_ltgray, _( "Storage" ) );
+        right_print( w_sort_left, 0, 0, c_ltgray, _( "Storage (%s)" ), volume_units_abbr() );
         // Left list
         for( int drawindex = 0; drawindex < leftListSize; drawindex++ ) {
             int itemindex = leftListOffset + drawindex;
@@ -318,10 +340,10 @@ void player::sort_armor()
 
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
             trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
-                            dam_color[int( tmp_worn[itemindex]->damage + 1 )],
+                            tmp_worn[itemindex]->damage_color(),
                             tmp_worn[itemindex]->type_name( 1 ).c_str() );
-            mvwprintz( w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d",
-                       tmp_worn[itemindex]->get_storage() );
+            right_print( w_sort_left, drawindex + 1, 0, c_ltgray, "%s",
+                         format_volume( tmp_worn[itemindex]->get_storage() ).c_str() );
         }
 
         // Left footer
@@ -367,7 +389,7 @@ void player::sort_armor()
             rightListSize++;
             for( auto &elem : items_cover_bp( *this, cover ) ) {
                 if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
-                    trim_and_print( w_sort_right, pos, 2, right_w - 4, dam_color[elem.damage + 1],
+                    trim_and_print( w_sort_right, pos, 2, right_w - 4, elem.damage,
                                     elem.name.c_str() );
                     mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
                                elem.encumber );
@@ -398,14 +420,6 @@ void player::sort_armor()
         if( is_npc() && action == "ASSIGN_INVLETS" ) {
             // It doesn't make sense to assign invlets to NPC items
             continue;
-        }
-
-        if( is_npc() && ( action == "EQUIP_ARMOR" || action == "REMOVE_ARMOR" ) ) {
-            const npc &np = dynamic_cast<const npc &>( *this );
-            if( !np.is_minion() && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
-                popup( _( "%s says: I don't trust you enough to let you do that!" ), disp_name().c_str() );
-                continue;
-            }
         }
 
         if( action == "UP" && leftListSize > 0 ) {
@@ -494,7 +508,7 @@ void player::sort_armor()
             // filter inventory for all items that are armor/clothing
             // NOTE: This is from player's inventory, even for NPCs!
             // @todo Allow making NPCs equip their own stuff
-            int pos = g->inv_for_unequipped( _( "Put on:" ) );
+            int pos = game_menus::inv::wear( g->u );
             // only equip if something valid selected!
             if( pos != INT_MIN ) {
                 // wear the item

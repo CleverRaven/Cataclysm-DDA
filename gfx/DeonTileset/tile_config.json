@@ -42,7 +42,6 @@
             "id":"line_trail",
             "fg":288
         },
-
         {
             "id":"animation_line",
             "bg":49
@@ -2920,7 +2919,6 @@
          "rotates" : false,
          "multitile" : false
       },
-
         {
             "id":"shot_hull",
             "fg":577,

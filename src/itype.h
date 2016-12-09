@@ -11,6 +11,8 @@
 #include "explosion.h"
 #include "vitamin.h"
 #include "emit.h"
+#include "units.h"
+#include "damage.h"
 
 #include <string>
 #include <vector>
@@ -49,6 +51,9 @@ using quality_id = string_id<quality>;
 
 enum field_id : int;
 
+/** Proportion of vehicle kinetic energy lost per turn to friction */
+extern double friction_loss;
+
 // Returns the name of a category of ammo (e.g. "shot")
 std::string ammo_name( const ammotype &ammo );
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
@@ -64,6 +69,7 @@ struct islot_tool {
 
     long max_charges = 0;
     long def_charges = 0;
+    std::vector<long> rand_charges;
     unsigned char charges_per_use = 0;
     unsigned char turns_per_charge = 0;
 };
@@ -127,9 +133,9 @@ struct islot_brewable {
 
 struct islot_container {
     /**
-     * Volume, scaled by the default-stack size of the item that is contained in this container.
+     * Inner volume of the container.
      */
-    int contains = 0;
+    units::volume contains = 0;
     /**
      * Can be resealed.
      */
@@ -162,28 +168,28 @@ struct islot_armor {
     /**
      * How much this item encumbers the player.
      */
-    signed char encumber = 0;
+    int encumber = 0;
     /**
      * Percentage of the body part area that this item covers.
      * This determines how likely it is to hit the item instead of the player.
      */
-    unsigned char coverage = 0;
+    int coverage = 0;
     /**
      * TODO: document me.
      */
-    unsigned char thickness = 0;
+    int thickness = 0;
     /**
      * Resistance to environmental effects.
      */
-    unsigned char env_resist = 0;
+    int env_resist = 0;
     /**
      * How much warmth this item provides.
      */
-    signed char warmth = 0;
+    int warmth = 0;
     /**
      * How much storage this items provides when worn.
      */
-    unsigned char storage = 0;
+    units::volume storage = 0;
     /**
      * Whether this is a power armor item.
      */
@@ -253,6 +259,20 @@ struct islot_book {
     recipe_list_t recipes;
 };
 
+struct islot_mod {
+    /** If non-empty restrict mod to items with those base (before modifiers) ammo types */
+    std::set<ammotype> acceptable_ammo;
+
+    /** If set modifies parent ammo to this type */
+    ammotype ammo_modifier = NULL_ID;
+
+    /** If non-empty replaces the compatible magazines for the parent item */
+    std::map< ammotype, std::set<itype_id> > magazine_adaptor;
+
+    /** Proportional adjusgtment of parent item ammo capacity */
+    float capacity_multiplier = 1.0;
+};
+
 /**
  * Common data for ranged things: guns, gunmods and ammo.
  * The values of the gun itself, its mods and its current ammo (optional) are usually summed
@@ -275,10 +295,6 @@ struct common_ranged_data {
      * Dispersion "bonus" from gun.
      */
     int dispersion = 0;
-    /**
-     * Recoil "bonus" from gun.
-     */
-    int recoil = 0;
 };
 
 struct islot_engine
@@ -287,8 +303,47 @@ struct islot_engine
     friend item;
 
     public:
-        /** for combustion engines the displacement (cc) */
-        int displacement = 0;
+        /** maximum power output (in kW) */
+        int power = 0;
+
+        /** fuel consumed by engine (if any) */
+        ammotype fuel = NULL_ID;
+
+        /** how efficient is engine at converting fuel into raw power (1-100] */
+        int efficiency = 100;
+
+        /** for engine with gears what is the minimum engine rpm? */
+        int idle = 0;
+
+        /** for engines with gears what is the optimum engine rpm? */
+        int optimum = 0;
+
+        /** for engines with gears what is the maximum safe rpm before engine damage occurs? */
+        int redline = 0;
+
+        /** discrete gears (if any) in ascending order */
+        std::vector<float> gears;
+
+        /** moves required to start the engine (or zero for instantaneous start) */
+        int start_time = 0;
+
+        /** battery energy (kJ) required to start (if any). @note 1kJ = 1 "battery" charge */
+        int start_energy = 0;
+
+        /** Theoretical max velocity (m/s) if used in vehicle of @ref mass with @ref dynamics */
+        double velocity_max( int mass, float dynamics = 1.0 ) const;
+
+        /** Max velocity avoiding damage (m/s) if used in vehicle of @ref mass with @ref dynamics */
+        double velocity_safe( int mass, float dynamics = 1.0 ) const;
+
+        /** Most fuel efficient velocity (m/s) if used in vehicle of @ref mass with @ref dynamics */
+        double velocity_optimal( int mass, float dynamics = 1.0 ) const;
+
+        /** Select most efficient gear at @ref velocity (m/s) or @return -1 if no (suitable) gears */
+        int best_gear( double velocity ) const;
+
+        /** Get rpm at @ref velocity (m/s) presuming selection of @see best_gear() or 0 if stalled */
+        int effective_rpm( double velocity ) const;
 
     private:
         /** What faults (if any) can occur */
@@ -336,11 +391,8 @@ struct islot_gun : common_ranged_data {
      */
     int reload_noise_volume = 0;
 
-    /** @todo add documentation */
-    int sight_dispersion = 0;
-
-    /** @todo add documentation */
-    int aim_speed = 0;
+    /** Maximum aim achievable using base weapon sights */
+    int sight_dispersion = 120;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
@@ -352,7 +404,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Length of gun barrel, if positive allows sawing down of the barrel
      */
-    int barrel_length = 0;
+    units::volume barrel_length = 0;
     /**
      * Effects that are applied to the ammo when fired.
      */
@@ -377,6 +429,15 @@ struct islot_gun : common_ranged_data {
 
     /** Burst size for AUTO mode (legacy field for items not migrated to specify modes ) */
     int burst = 0;
+
+    /** How easy is control of recoil? If unset value automatically derived from weapon type */
+    int handling = -1;
+
+    /**
+     *  Additional recoil applied per shot before effects of handling are considered
+     *  @note useful for adding recoil effect to guns which otherwise consume no ammo
+     */
+    int recoil = 0;
 };
 
 struct islot_gunmod : common_ranged_data {
@@ -386,17 +447,12 @@ struct islot_gunmod : common_ranged_data {
     /** What kind of weapons can this gunmod be used with (eg. "rifle", "crossbow")? */
     std::set<std::string> usable;
 
-    /** If non-empty restrict mod to guns with those base (before modifiers) ammo types */
-    std::set<ammotype> acceptable_ammo;
-
-    /** If changed from the default of "NULL" modifies parent guns ammo to this type */
-    ammotype ammo_modifier = NULL_ID;
-
     /** @todo add documentation */
     int sight_dispersion = -1;
 
-    /** @todo add documentation */
-    int aim_speed = -1;
+    /**
+     *  If set (non-zero) mod functions as sight when recoil above mod @ref sight_dispersion */
+    int aim_cost = 0;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
@@ -407,11 +463,11 @@ struct islot_gunmod : common_ranged_data {
     /** Increases base gun UPS consumption by this many charges per shot */
     int ups_charges = 0;
 
-    /** If non-empty replaces the compatible magazines for the base gun */
-    std::map< ammotype, std::set<itype_id> > magazine_adaptor;
-
     /** Firing modes added to or replacing those of the base gun */
     std::map<std::string, std::tuple<std::string, int, std::set<std::string>>> mode_modifier;
+
+    /** Relative adjustment to base gun handling */
+    int handling = 0;
 };
 
 struct islot_magazine {
@@ -423,6 +479,9 @@ struct islot_magazine {
 
     /** Default amount of ammo contained by a magazine (often set for ammo belts) */
     int count = 0;
+
+    /** Default type of ammo contained by a magazine (often set for ammo belts) */
+    itype_id default_ammo = "NULL";
 
     /**
      * How reliable this this magazine on a range of 0 to 10?
@@ -444,7 +503,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * Ammo type, basically the "form" of the ammo that fits into the gun/tool.
      */
-    ammotype type;
+    std::set<ammotype> type;
     /**
      * Type id of casings, can be "null" for no casings at all.
      */
@@ -474,6 +533,9 @@ struct islot_ammo : common_ranged_data {
      */
     int loudness = -1;
 
+    /** Recoil (per shot), roughly equivalent to kinetic energy (in Joules) */
+    int recoil = 0;
+
     /**
      * Should this ammo explode in fire?
      * This value is cached by item_factory based on ammo_effects and item material.
@@ -487,6 +549,9 @@ struct islot_ammo : common_ranged_data {
      * @warning It is not read from the json directly.
      * */
     bool special_cookoff = false;
+
+    /** Fuel energy density (kJ per charge) */
+    int energy = 1;
 };
 
 struct islot_bionic {
@@ -529,12 +594,6 @@ struct islot_seed {
     islot_seed() { }
 };
 
-// Data used when spawning items, should be obsoleted by the spawn system, but
-// is still used at several places and makes it easier when it applies to all new items of a type.
-struct islot_spawn {
-    std::vector<long> rand_charges;
-};
-
 struct islot_artifact {
     art_charge charge_type;
     std::vector<art_effect_passive> effects_wielded;
@@ -557,28 +616,35 @@ struct itype {
     copyable_unique_ptr<islot_brewable> brewable;
     copyable_unique_ptr<islot_armor> armor;
     copyable_unique_ptr<islot_book> book;
+    copyable_unique_ptr<islot_mod> mod;
     copyable_unique_ptr<islot_engine> engine;
     copyable_unique_ptr<islot_wheel> wheel;
     copyable_unique_ptr<islot_gun> gun;
     copyable_unique_ptr<islot_gunmod> gunmod;
     copyable_unique_ptr<islot_magazine> magazine;
     copyable_unique_ptr<islot_bionic> bionic;
-    copyable_unique_ptr<islot_spawn> spawn;
     copyable_unique_ptr<islot_ammo> ammo;
     copyable_unique_ptr<islot_seed> seed;
     copyable_unique_ptr<islot_artifact> artifact;
     /*@}*/
 
 protected:
-    std::string id; /** unique string identifier for this type */
+    std::string id = "null"; /** unique string identifier for this type */
 
     // private because is should only be accessed through itype::nname!
     // name and name_plural are not translated automatically
     // nname() is used for display purposes
-    std::string name;        // Proper name, singular form, in American English.
-    std::string name_plural; // name, plural form, in American English.
+    std::string name = "none";        // Proper name, singular form, in American English.
+    std::string name_plural = "none"; // name, plural form, in American English.
+
+    /** If set via JSON forces item category to this (preventing automatic assignment) */
+    std::string category_force;
 
 public:
+    itype() {
+        melee.fill( 0 );
+    }
+
     std::string snippet_category;
     std::string description; // Flavor text
 
@@ -623,20 +689,24 @@ public:
 
     phase_id phase      = SOLID; // e.g. solid, liquid, gas
 
+    /** Can item be combined with other identical items? */
+    bool stackable = false;
+
     /** After loading from JSON these properties guaranteed to be zero or positive */
     /*@{*/
     int weight          =  0; // Weight in grams for item (or each stack member)
-    int volume          =  0; // Space occupied by items of this type
+    units::volume volume = 0; // Space occupied by items of this type
     int price           =  0; // Value before cataclysm
     int price_post      = -1; // Value after cataclysm (dependent upon practical usages)
     int stack_size      =  0; // Maximum identical items that can stack per above unit volume
-    int integral_volume = -1; // Space consumed when integrated as part of another item (defaults to volume)
+    units::volume integral_volume = units::from_milliliter( -1 ); // Space consumed when integrated as part of another item (defaults to volume)
     /*@}*/
 
     bool rigid = true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
 
-    int melee_dam = 0; // Bonus for melee damage; may be a penalty
-    int melee_cut = 0; // Cutting damage in melee
+    /** Damage output in melee for zero or more damage types */
+    std::array<int, NUM_DT> melee;
+
     int m_to_hit  = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable
 
     unsigned light_emission = 0;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
@@ -646,6 +716,12 @@ public:
     nc_color color = c_white; // Color on the map (color.h)
     std::string sym;
 
+    int damage_min = -1; /** Minimum amount of damage to an item (state of maximum repair) */
+    int damage_max =  4; /** Maximum amount of damage to an item (state before destroyed) */
+
+    /** What items can be used to repair this item? @see Item_factory::finalize */
+    std::set<itype_id> repair;
+
     /** Magazine types (if any) for each ammo type that can be used to reload this item */
     std::map< ammotype, std::set<itype_id> > magazines;
 
@@ -653,7 +729,7 @@ public:
     std::map< ammotype, itype_id > magazine_default;
 
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
-    int magazine_well = 0;
+    units::volume magazine_well = 0;
 
     std::string get_item_type_string() const
     {
@@ -686,15 +762,7 @@ public:
         return id;
     }
 
-    bool count_by_charges() const
-    {
-        if( ammo ) {
-            return true;
-        } else if( comestible ) {
-            return phase == LIQUID || comestible->def_charges > 1 || stack_size > 1;
-        }
-        return false;
-    }
+    bool count_by_charges() const { return stackable; }
 
     int charges_default() const {
         if( tool ) {
@@ -704,7 +772,7 @@ public:
         } else if( ammo ) {
             return ammo->def_charges;
         }
-        return 0;
+        return stackable ? 1 : 0;
     }
 
     int charges_to_use() const
@@ -731,8 +799,6 @@ public:
     long invoke( player *p, item *it, const tripoint &pos ) const; // Picks first method or returns 0
     long invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const;
     long tick( player *p, item *it, const tripoint &pos ) const;
-
-    itype() : id("null"), name("none"), name_plural("none") {}
 
     virtual ~itype() { };
 };

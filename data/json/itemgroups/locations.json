@@ -76,6 +76,13 @@
       ["blood", 20],
       ["vacutainer", 10]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "cave_minerals",
+    "items":[
+      ["material_niter", 20],
+      ["material_limestone", 5]
+    ]
   }
 ]
  

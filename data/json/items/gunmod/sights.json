@@ -13,8 +13,8 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "bow" ],
-    "aim_speed": 6,
-    "sight_dispersion": 45
+    "sight_dispersion": 45,
+    "aim_cost": 6
   },
   {
     "id": "holo_sight",
@@ -29,34 +29,36 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "pistol", "launcher" ],
-    "min_skills": [ [ "gun", 3 ] ],
-    "aim_speed": 4,
-    "sight_dispersion": 35
+    "sight_dispersion": 60,
+    "aim_cost": 6,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "improve_sights",
     "type": "GUNMOD",
-    "name": "improved iron sights",
-    "name_plural": "improved iron sights",
-    "description": "Improves the weapon's iron sights, increasing accuracy.  No drawbacks.",
+    "name": "iron sights",
+    "name_plural": "iron sights",
+    "description": "A basic set of iron sights",
     "weight": 60,
     "volume": 1,
     "integral_volume": 0,
     "price": 72000,
-    "material": [ "plastic", "steel" ],
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "min_skills": [ [ "gun", 1 ] ],
-    "aim_speed": 6,
-    "sight_dispersion": 45
+    "sight_dispersion": 120,
+    "aim_cost": 6,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "pistol_scope",
     "type": "GUNMOD",
     "name": "pistol scope",
-    "description": "A small scope intended for use on a handgun or submachine gun, increases weight but improves accuracy greatly.",
+    "description": "A small scope intended for use on a handgun.  Increases weight but improves accuracy greatly.",
     "weight": 212,
     "volume": 1,
     "price": 54000,
@@ -64,10 +66,11 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "pistol", "smg", "crossbow" ],
-    "min_skills": [ [ "gun", 3 ] ],
-    "aim_speed": 8,
-    "sight_dispersion": 15
+    "mod_targets": [ "pistol", "crossbow" ],
+    "sight_dispersion": 30,
+    "aim_cost": 10,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "red_dot_sight",
@@ -83,9 +86,10 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol", "crossbow", "launcher" ],
-    "min_skills": [ [ "gun", 2 ] ],
-    "aim_speed": 3,
-    "sight_dispersion": 50
+    "sight_dispersion": 90,
+    "aim_cost": 4,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 2 ] ],
+    "flags": [ "DISABLE_SIGHTS" ]
   },
   {
     "id": "rifle_scope",
@@ -100,10 +104,23 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "rifle", "crossbow", "launcher" ],
-    "min_skills": [ [ "gun", 4 ], [ "rifle", 1 ] ],
     "install_time": 30000,
-    "aim_speed": 10,
     "sight_dispersion": 0,
-    "flags": [ "ZOOM" ]
+    "aim_cost": 10,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
+    "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
+  },
+  {
+    "id": "riv_scope",
+    "copy-from": "rifle_scope",
+    "type": "GUNMOD",
+    "name": "RS1219 scope",
+    "description": "An integral component of the RM11B rifle system, the RS1219 Accipiter digital scope provides auto-adjusting focal length, a user-selectable reticle, and an offset reflex sight for close objectives.",
+    "weight": 0,
+    "volume": 0,
+    "price": 0,
+    "material": [ "superalloy", "ceramic" ],
+    "proportional": { "aim_cost": 0.8 },
+    "flags": [ "ZOOM", "IRREMOVABLE" ]
   }
 ]

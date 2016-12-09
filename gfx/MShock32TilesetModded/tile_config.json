@@ -7307,6 +7307,12 @@
           "rotates": false
         },
         {
+          "id": "battery_truck",
+          "fg": 1423,
+          "bg": 621,
+          "rotates": false
+        },
+        {
           "id": "battleaxe_fake",
           "fg": 2475,
           "bg": 621,
@@ -9255,6 +9261,12 @@
           "rotates": false
         },
         {
+          "id": "mon_ant_terminal",
+          "fg": 1690,
+          "bg": 622,
+          "rotates": false
+        },
+        {
           "id": "mon_ant_fungus",
           "fg": 1691,
           "bg": 622,
@@ -9273,7 +9285,19 @@
           "rotates": false
         },
         {
+          "id": "mon_ant_queen_firebug",
+          "fg": 1693,
+          "bg": 622,
+          "rotates": false
+        },
+        {
           "id": "mon_ant_soldier",
+          "fg": 1694,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_ant_soldier_terminal",
           "fg": 1694,
           "bg": 622,
           "rotates": false
@@ -9291,7 +9315,31 @@
           "rotates": false
         },
         {
+          "id": "mon_bear_pk",
+          "fg": 1697,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_bear_weak",
+          "fg": 1697,
+          "bg": 622,
+          "rotates": false
+        },
+        {
           "id": "mon_bee",
+          "fg": 1700,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_bee_scout",
+          "fg": 1700,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_bee_soldier",
           "fg": 1700,
           "bg": 622,
           "rotates": false
@@ -9400,6 +9448,18 @@
         },
         {
           "id": "mon_cougar",
+          "fg": 1726,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_cougar_pk",
+          "fg": 1726,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_cougar_weak",
           "fg": 1726,
           "bg": 622,
           "rotates": false
@@ -9711,6 +9771,12 @@
           "rotates": false
         },
         {
+          "id": "mon_jabberwock_pk",
+          "fg": 1812,
+          "bg": 622,
+          "rotates": false
+        },
+        {
           "id": "mon_kreck",
           "fg": 1813,
           "bg": 622,
@@ -9754,6 +9820,18 @@
         },
         {
           "id": "mon_moose",
+          "fg": 1819,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_moose_pk",
+          "fg": 1819,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_moose_weak",
           "fg": 1819,
           "bg": 622,
           "rotates": false
@@ -9891,6 +9969,12 @@
           "rotates": false
         },
         {
+          "id": "mon_spider_trapdoor_giant_pk",
+          "fg": 1857,
+          "bg": 622,
+          "rotates": false
+        },
+        {
           "id": "mon_spider_web",
           "fg": 1858,
           "bg": 622,
@@ -9898,6 +9982,24 @@
         },
         {
           "id": "mon_spider_web_giant",
+          "fg": 1858,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_spider_web_alpha",
+          "fg": 1858,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_spider_web_omega",
+          "fg": 1858,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_spider_web_mu",
           "fg": 1858,
           "bg": 622,
           "rotates": false
@@ -9963,6 +10065,12 @@
           "rotates": false
         },
         {
+          "id": "mon_triffid_pk",
+          "fg": 1873,
+          "bg": 622,
+          "rotates": false
+        },
+        {
           "id": "mon_triffid_heart",
           "fg": 1874,
           "bg": 622,
@@ -10017,6 +10125,12 @@
           "rotates": false
         },
         {
+          "id": "mon_vinebeast_terminal",
+          "fg": 1885,
+          "bg": 622,
+          "rotates": false
+        },
+        {
           "id": "mon_vortex",
           "fg": 1886,
           "bg": 622,
@@ -10065,6 +10179,18 @@
           "rotates": false
         },
         {
+          "id": "mon_zombie_2",
+          "fg": 1894,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_3",
+          "fg": 1894,
+          "bg": 622,
+          "rotates": false
+        },
+        {
           "id": "mon_zombie_brute",
           "fg": 1900,
           "bg": 622,
@@ -10072,6 +10198,18 @@
         },
         {
           "id": "mon_zombie_child",
+          "fg": 1902,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_child_2",
+          "fg": 1902,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_child_3",
           "fg": 1902,
           "bg": 622,
           "rotates": false
@@ -10102,6 +10240,18 @@
         },
         {
           "id": "mon_zombie_fat",
+          "fg": 1910,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_fat_2",
+          "fg": 1910,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_fat_3",
           "fg": 1910,
           "bg": 622,
           "rotates": false
@@ -10203,7 +10353,25 @@
           "rotates": false
         },
         {
+          "id": "mon_zombie_swimmer_pk",
+          "fg": 1939,
+          "bg": 622,
+          "rotates": false
+        },
+        {
           "id": "mon_zombie_tough",
+          "fg": 1941,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_tough_2",
+          "fg": 1941,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_tough_3",
           "fg": 1941,
           "bg": 622,
           "rotates": false
@@ -10486,6 +10654,12 @@
         },
         {
           "id": "mon_boomer_huge",
+          "fg": 1712,
+          "bg": 622,
+          "rotates": false
+        },
+        {
+          "id": "mon_boomer_huge_pk",
           "fg": 1712,
           "bg": 622,
           "rotates": false
@@ -12399,6 +12573,12 @@
           "id": "t_tree",
           "fg": 2304,
           "bg": 629,
+          "rotates": false
+        },
+        {
+          "id": "mon_treent_green",
+          "fg": 2304,
+          "bg": 622,
           "rotates": false
         },
         {
@@ -17982,12 +18162,27 @@
           "rotates": false
         },
         {
+          "id": "can_drink_unsealed",
+          "fg": 1034,
+          "rotates": false
+        },
+        {
           "id": "can_food",
           "fg": 1035,
           "rotates": false
         },
         {
+          "id": "can_food_unsealed",
+          "fg": 1035,
+          "rotates": false
+        },
+        {
           "id": "cup_plastic",
+          "fg": 1036,
+          "rotates": false
+        },
+        {
+          "id": "cup_plastic_unsealed",
           "fg": 1036,
           "rotates": false
         },
@@ -18002,7 +18197,17 @@
           "rotates": false
         },
         {
+          "id": "jar_3l_glass_sealed",
+          "fg": 1039,
+          "rotates": false
+        },
+        {
           "id": "jar_glass",
+          "fg": 1040,
+          "rotates": false
+        },
+        {
+          "id": "jar_glass_sealed",
           "fg": 1040,
           "rotates": false
         },
@@ -18605,6 +18810,12 @@
         {
           "id": "f_mannequin",
           "fg": 1155,
+          "rotates": false
+        },
+        {
+          "id": "mon_hallu_mannequin",
+          "fg": 1155,
+          "bg": 622,
           "rotates": false
         },
         {
@@ -19378,6 +19589,11 @@
           "rotates": false
         },
         {
+          "id": "vp_battery_truck",
+          "fg": 1423,
+          "rotates": false
+        },
+        {
           "id": "vp_small_storage_battery",
           "fg": 1423,
           "rotates": true
@@ -20035,6 +20251,16 @@
         {
           "id": "m9bigmag",
           "fg": 1675,
+          "rotates": false
+        },
+        {
+          "id": "ppshmag",
+          "fg": 1675,
+          "rotates": false
+        },
+        {
+          "id": "ppshdrum",
+          "fg": 1685,
           "rotates": false
         },
         {
@@ -21287,6 +21513,45 @@
           ]
         },
         {
+          "id": "t_rock_smooth",
+          "fg": 2077,
+          "bg": 650,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 2077,
+              "bg": 650
+            },
+            {
+              "id": "corner",
+              "fg": 2078,
+              "bg": 650
+            },
+            {
+              "id": "edge",
+              "fg": 2079,
+              "bg": 650
+            },
+            {
+              "id": "t_connection",
+              "fg": 2081,
+              "bg": 650
+            },
+            {
+              "id": "end_piece",
+              "fg": 2080,
+              "bg": 650
+            },
+            {
+              "id": "unconnected",
+              "fg": 2082,
+              "bg": 650
+            }
+          ]
+        },
+        {
           "id": "t_metal",
           "fg": 2865,
           "bg": 2241,
@@ -22390,6 +22655,11 @@
         },
         {
           "id": "t_open_air",
+          "bg": 2848,
+          "rotates": false
+        },
+        {
+          "id": "t_open_air_rooved",
           "bg": 2848,
           "rotates": false
         },
