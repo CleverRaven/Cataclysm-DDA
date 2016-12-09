@@ -88,6 +88,10 @@ bool monster::can_move_to( const tripoint &p ) const
     if( has_flag( MF_SUNDEATH ) && g->is_in_sunlight( p ) ) {
         return false;
     }
+    
+    if( has_flag( MF_RESPECT_MON_AVOID ) && g->m.has_flag( "MON_AVOID", p ) ) {
+        return false;
+    }
 
     const ter_id target = g->m.ter( p );
     const field &target_field = g->m.field_at( p );
