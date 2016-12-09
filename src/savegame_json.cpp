@@ -174,11 +174,11 @@ void player_activity::deserialize(JsonIn &jsin)
     } else {
         type = activity_id( tmptype );
     }
-    
+
     if ( !data.read( "position", tmppos)) {
         tmppos = INT_MIN;  // If loading a save before position existed, hope.
     }
-    
+
     data.read( "moves_left", moves_left );
     data.read( "index", index );
     position = tmppos;
@@ -1459,7 +1459,7 @@ void item::io( Archive& archive )
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
-    archive.io( "name", name, type_name( 1 ) ); // TODO: change default to empty string
+    archive.io( "name", corpse_name, std::string() ); // TODO: change default to empty string
     archive.io( "invlet", invlet, '\0' );
     archive.io( "damage", damage_, 0.0 );
     archive.io( "active", active, false );
