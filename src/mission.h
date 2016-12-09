@@ -40,7 +40,7 @@ enum mission_origin {
 enum mission_goal {
     MGOAL_NULL = 0,
     MGOAL_GO_TO,             // Reach a certain overmap tile
-    MGOAL_GO_TO_TYPE,        // Instead of a point, go to an oter_id map tile like "hospital_entrance"
+    MGOAL_GO_TO_TYPE,        // Instead of a point, go to an oter_type_id map tile like "hospital_entrance"
     MGOAL_FIND_ITEM,         // Find an item of a given type
     MGOAL_FIND_ANY_ITEM,     // Find an item tagged with this mission
     MGOAL_FIND_MONSTER,      // Find and retrieve a friendly monster
@@ -172,7 +172,7 @@ struct mission_type {
     int target_npc_id = -1;
     std::string monster_type = "mon_null";
     int monster_kill_goal = -1;
-    string_id<oter_t> target_id;
+    string_id<oter_type_t> target_id;
     mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
 
     std::function<bool(const tripoint &)> place = mission_place::always;
@@ -244,7 +244,7 @@ private:
         tripoint target;
         itype_id item_id;       // Item that needs to be found (or whatever)
         int item_count;         // The number of above items needed
-        oter_id target_id;      // Destination type to be reached
+        string_id<oter_type_t> target_id;      // Destination type to be reached
         npc_class_id recruit_class;// The type of NPC you are to recruit
         int target_npc_id;     // The ID of a specific NPC to interact with
         std::string monster_type;    // Monster ID that are to be killed

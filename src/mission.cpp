@@ -272,7 +272,7 @@ bool mission::is_complete( const int _npc_id ) const
         case MGOAL_GO_TO_TYPE:
             {
                 const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
-                return cur_ter == type->target_id.id();
+                return cur_ter->get_type_id() == type->target_id;
             }
             break;
 
@@ -502,7 +502,7 @@ mission::mission()
     target = tripoint(INT_MIN, INT_MIN, INT_MIN);
     item_id = "null";
     item_count = 1;
-    target_id = oter_id( 0 );
+    target_id = NULL_ID;
     recruit_class = NC_NONE;
     target_npc_id = -1;
     monster_type = "mon_null";
