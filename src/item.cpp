@@ -3912,18 +3912,13 @@ void item::mark_chapter_as_read( const player &u )
 
 const material_type &item::get_random_material() const
 {
-    if( type->materials.empty() ) {
-        return material_id( "null" ).obj();
-    }
-    return random_entry( type->materials ).obj();
+    return random_entry( made_of(), material_id::NULL_ID ).obj();
 }
 
 const material_type &item::get_base_material() const
 {
-    if( type->materials.empty() ) {
-        return material_id( "null" ).obj();
-    }
-    return type->materials.front().obj();
+    const auto mats = made_of();
+    return mats.empty() ? material_id::NULL_ID.obj() : mats.front().obj();
 }
 
 bool item::operator<(const item& other) const
