@@ -1520,11 +1520,11 @@ public:
         skill_id contextualize_skill( const skill_id &id ) const;
 
     private:
-        std::string name;
         double damage_ = 0;
         const itype* curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype* corpse = nullptr;
+        std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
         light_emission light = nolight;
 

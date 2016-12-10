@@ -217,16 +217,16 @@ void item::load_info( const std::string &data )
     dump >> burnt >> poison >> ammotmp >> owned >> bday >>
          mode >> acttmp >> corp >> mission_id >> player_id;
     corpse = NULL;
-    getline(dump, name);
-    if (name == " ''")
-        name = "";
-    else {
-        size_t pos = name.find_first_of("@@");
+    getline(dump, corpse_name);
+    if( corpse_name == " ''" ) {
+        corpse_name = "";
+    } else {
+        size_t pos = corpse_name.find_first_of( "@@" );
         while (pos != std::string::npos)  {
-            name.replace(pos, 2, "\n");
-            pos = name.find_first_of("@@");
+            corpse_name.replace( pos, 2, "\n" );
+            pos = corpse_name.find_first_of( "@@" );
         }
-        name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
+        corpse_name = corpse_name.substr( 2, corpse_name.size() - 3 ); // s/^ '(.*)'$/\1/
     }
     gun_set_mode( mode );
 
@@ -547,7 +547,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_MEDITATE" ),
         activity_id( NULL_ID ) // NUM_ACTIVITIES
     };
-    
+
     if( legacy_type < 0 || ( size_t )legacy_type >= legacy_map.size() ) {
         debugmsg( "Bad legacy activity data. Got %d, exected something from 0 to %d", legacy_type, legacy_map.size() );
         dest = activity_id( NULL_ID );

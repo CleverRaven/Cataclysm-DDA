@@ -734,7 +734,6 @@ void game::setup()
     nextweather = HOURS( get_option<int>( "INITIAL_TIME" ) ) + MINUTES(30);
 
     turnssincelastmon = 0; //Auto safe mode init
-    autosafemode = get_option<bool>( "AUTOSAFEMODE" );
     safemodeveh =
         get_option<bool>( "SAFEMODEVEH" ); //Vehicle safemode check, in practice didn't trigger when needed
 
@@ -3231,27 +3230,22 @@ bool game::handle_action()
             } else {
                 turnssincelastmon = 0;
                 set_safe_mode( SAFE_MODE_OFF );
-                if (autosafemode) {
-                    add_msg(m_info, _("Safe mode OFF! (Auto safe mode still enabled!)"));
-                } else {
-                    add_msg(m_info, _("Safe mode OFF!"));
-                }
+                add_msg( m_info, get_option<bool>( "AUTOSAFEMODE" )
+                    ? _( "Safe mode OFF! (Auto safe mode still enabled!)" ) : _( "Safe mode OFF!" ) );
             }
-            if( u.has_effect( effect_laserlocked) ) {
-                u.remove_effect( effect_laserlocked);
+            if( u.has_effect( effect_laserlocked ) ) {
+                u.remove_effect( effect_laserlocked );
                 safe_mode_warning_logged = false;
             }
             break;
 
-        case ACTION_TOGGLE_AUTOSAFE:
-            if (autosafemode) {
-                add_msg(m_info, _("Auto safe mode OFF!"));
-                autosafemode = false;
-            } else {
-                add_msg(m_info, _("Auto safe mode ON"));
-                autosafemode = true;
-            }
+        case ACTION_TOGGLE_AUTOSAFE: {
+            auto &autosafemode_option = get_options().get_option( "AUTOSAFEMODE" );
+            add_msg(m_info, autosafemode_option.value_as<bool>()
+                ? _( "Auto safe mode OFF!" ) : _( "Auto safe mode ON!" ) );
+            autosafemode_option.setNext();
             break;
+        }
 
         case ACTION_IGNORE_ENEMY:
             if (safe_mode == SAFE_MODE_STOP) {
@@ -4944,9 +4938,7 @@ void game::draw_sidebar()
     mvwprintz(w_location, 1, 15, c_ltgray, "%s ", _("Lighting:"));
     wprintz(w_location, ll.second, ll.first.c_str());
 
-    if (safe_mode != SAFE_MODE_OFF || autosafemode != 0) {
-        right_print( w_location, 0, 1, c_green, "%s", _( "SAFE" ) );
-    }
+    draw_safe_mode( w_location, 0 );
 
     wrefresh(w_location);
 
@@ -4962,6 +4954,40 @@ void game::draw_sidebar()
     draw_minimap();
     draw_pixel_minimap();
     draw_sidebar_messages();
+}
+
+void game::draw_safe_mode( WINDOW *win, int line ) const
+{
+    const bool autosafemode = get_option<bool>( "AUTOSAFEMODE" );
+    if( safe_mode == SAFE_MODE_OFF && !autosafemode ) {
+        return;
+    }
+
+    const utf8_wrapper safe_text( _( "SAFE" ) );
+    if( safe_mode != SAFE_MODE_OFF ) {
+        right_print( win, line, 1, c_green, "%s", safe_text.c_str() );
+        return;
+    }
+
+    if( autosafemode ) {
+        const float safe_mode_percent =
+            turnssincelastmon * 100.0f / get_option<int>( "AUTOSAFEMODETURNS" );
+
+        const int text_size = safe_text.size();
+        const int starting_position = getmaxx( win ) - safe_text.display_width() - 1;
+        const float percent_per_char = 100.0f / text_size;
+        int written_size = 0;
+        for( int i = 0; i < text_size; i++ ) {
+            nc_color letter_color = safe_mode_percent < ( i + 1 ) * percent_per_char
+                ? c_red : c_green;
+
+            const auto current_char = safe_text.substr( i, 1 );
+            mvwputch( win, line, starting_position + written_size,
+                      letter_color, current_char.str() );
+
+            written_size += current_char.display_width();
+        }
+    }
 }
 
 void game::draw_sidebar_messages()
@@ -5712,7 +5738,7 @@ int game::mon_info(WINDOW *w)
         if (safe_mode == SAFE_MODE_ON) {
             set_safe_mode( SAFE_MODE_STOP );
         }
-    } else if (autosafemode && newseen == 0) { // Auto-safe mode
+    } else if ( get_option<bool>( "AUTOSAFEMODE" ) && newseen == 0 ) { // Auto-safe mode
         turnssincelastmon++;
         if (turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF) {
             set_safe_mode( SAFE_MODE_ON );
