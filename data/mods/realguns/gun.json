@@ -138,7 +138,6 @@
     "color": "brown",
     "ammo": "410",
     "skill": "pistol",
-    "range": 3,
     "dispersion": 520,
     "durability": 6,
     "clip_size": 2,
