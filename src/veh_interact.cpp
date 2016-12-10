@@ -861,9 +861,10 @@ bool veh_interact::do_repair( std::string &msg )
 
         case INVALID_TARGET:
             {
-                int most_repariable = get_most_repariable_part();
-                if( most_repariable != -1 ) {
-                    move_cursor( veh->parts[most_repariable].mount.y + ddy, -( veh->parts[most_repariable].mount.x + ddx ) );
+                vehicle_part *mostRepariable = get_most_repariable_part();
+                if( mostRepariable )
+                {
+                    move_cursor( mostRepariable->mount.y + ddy, -( mostRepariable->mount.x + ddx ) );
                 } else {
                     msg = _( "There are no damaged parts on this vehicle." );
                     return false;
@@ -1228,39 +1229,47 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 }
 
 
-int veh_interact::get_most_damaged_part() const
+vehicle_part *veh_interact::get_most_damaged_part() const
 {
-    int high_index = -1;
+    vehicle_part *high_part = nullptr;
     int high_damage = 0;
 
-    for(size_t i=0; i< veh->parts.size(); i++){
-        const auto & part = veh->parts[i];
-        if( part.removed ) continue;
+    for( size_t i = 0; i < veh->parts.size(); i++ ) {
+        auto *part = &veh->parts[i];
+        if( part->removed ) {
+            continue;
+        }
 
-        int dmg = part.base.damage();
+        int dmg = part->base.damage();
 
-        if(dmg > high_damage)
-            high_index = i;
+        if( dmg > high_damage ) {
+            high_part = part;
+        }
     }
-    return high_index;
+    return high_part;
 }
 
-int veh_interact::get_most_repariable_part() const
+vehicle_part *veh_interact::get_most_repariable_part() const
 {
-    int high_index = -1;
+    vehicle_part *high_part = nullptr;
     int high_damage = 0;
 
-    for(size_t i=0; i< veh->parts.size(); i++){
-        const auto & part = veh->parts[i];
-        if( part.removed ) continue;
-        if(!part.info().is_repairable()) continue;
+    for( size_t i = 0; i < veh->parts.size(); i++ ) {
+        auto *part = &veh->parts[i];
+        if( part->removed ) {
+            continue;
+        }
+        if( !part->info().is_repairable() ) {
+            continue;
+        }
 
-        int dmg = part.base.damage();
+        int dmg = part->base.damage();
 
-        if(dmg > high_damage)
-            high_index = i;
+        if( dmg > high_damage ) {
+            high_part = part;
+        }
     }
-    return high_index;
+    return high_part;
 }
 
 bool veh_interact::can_remove_part( int idx ) {
@@ -1825,44 +1834,39 @@ void veh_interact::display_stats()
 
     fold_and_print( w_stats, y[5], x[5], w[5], c_ltgray, wheel_state_description( *veh ).c_str() );
 
-    // Write the most damaged part
-    int mostDamagedPart = get_most_damaged_part();
-    int most_repariable = get_most_repariable_part();
-    if (mostDamagedPart != -1) {
-        if( mostDamagedPart == most_repariable){
-            mvwprintz(w_stats, y[6], x[6], c_ltgray, _("Most damaged:"));
-            auto iw = utf8_width(_("Most damaged:")) + 1;
-            x[6] += iw;
-            w[6] -= iw;
 
-        } else {
-            mvwprintz(w_stats, y[6], x[6], c_ltgray, _("Most damaged (can't repair):"));
-            auto iw = utf8_width(_("Most damaged (can't repair):")) + 1;
-            x[6] += iw;
-            w[6] -= iw;
-        }
-        const auto &pt = veh->parts[mostDamagedPart];
-        const auto hoff = fold_and_print( w_stats, y[6], x[6], w[6],
-                                          pt.is_broken() ? c_dkgray : pt.base.damage_color(), pt.name() );
+    //This lambda handles printing parts in the "Most damaged" and "Needs repair" cases
+    //for the veh_interact ui
+    auto print_part = [&]( const char * str, int slot, vehicle_part *pt )
+    {
+        mvwprintz( w_stats, y[slot], x[slot], c_ltgray, str);
+        auto iw = utf8_width( str ) + 1;
+        x[slot] += iw;
+        w[slot] -= iw;
+
+        const auto hoff = fold_and_print( w_stats, y[slot], x[slot], w[slot],
+                                          pt->is_broken() ? c_dkgray : pt->base.damage_color(), pt->name() );
+
         // If fold_and_print did write on the next line(s), shift the following entries,
         // hoff == 1 is already implied and expected - one line is consumed at least.
-        for( size_t i = 7; i < sizeof(y) / sizeof(y[0]); ++i) {
+        for( size_t i = slot + 1; i < sizeof( y ) / sizeof( y[0] ); ++i ) {
             y[i] += hoff - 1;
         }
+    };
+
+    vehicle_part *mostDamagedPart = get_most_damaged_part();
+    vehicle_part *mostRepariable = get_most_repariable_part();
+
+    // Write the most damaged part
+    if( mostDamagedPart ) {
+        char const *damaged_header = mostDamagedPart == mostRepariable ?
+                                            _( "Most damaged:" ) : _( "Most damaged (can't repair):" );
+        print_part( damaged_header, 6, mostDamagedPart );
     }
-    if(most_repariable != -1 && most_repariable != mostDamagedPart){
-        mvwprintz(w_stats, y[7], x[7], c_ltgray, _("Needs repair:"));
-        const auto iw = utf8_width(_("Needs repair:")) + 1;
-        x[7] += iw;
-        w[7] -= iw;
-        const auto &pt = veh->parts[most_repariable];
-        const auto hoff = fold_and_print( w_stats, y[7], x[7], w[7],
-                                          pt.is_broken() ? c_dkgray : pt.base.damage_color(), pt.name() );
-        // If fold_and_print did write on the next line(s), shift the following entries,
-        // hoff == 1 is already implied and expected - one line is consumed at least.
-        for( size_t i = 8; i < sizeof(y) / sizeof(y[0]); ++i) {
-            y[i] += hoff - 1;
-        }
+    // Write the part that needs repair the most.
+    if( mostRepariable && mostRepariable != mostDamagedPart ) {
+        char const * needsRepair = _( "Needs repair:" );
+        print_part( needsRepair, 7, mostRepariable );
     }
 
     bool is_boat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
