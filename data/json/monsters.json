@@ -51,10 +51,7 @@
         "type": "bite",
         "cooldown": 15
       },
-      {
-        "id": "impale",
-        "cooldown": 20
-      }
+      [ "impale", 20 ]
     ],
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
     "death_function": [ "NORMAL" ],
@@ -5771,10 +5768,7 @@
           }
         ]
       },
-      {
-        "id": "impale",
-        "cooldown": 25
-      }
+      { "id": "impale" }
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
