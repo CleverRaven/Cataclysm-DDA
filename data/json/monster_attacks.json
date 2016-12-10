@@ -1,6 +1,7 @@
 [
   {
-    "type": "melee",
+    "type": "monster_attack",
+    "attack_type": "melee",
     "id": "impale",
     "move_cost": 150,
     "damage_max_instance": [

@@ -17,7 +17,7 @@ public:
     mattack_actor( const mattack_id &new_id ) : id( new_id ) { }
 
     mattack_id id;
-    bool was_loaded;
+    bool was_loaded = false;
 
     int cooldown = 0;
 

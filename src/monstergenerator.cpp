@@ -22,6 +22,8 @@
 
 #include <algorithm>
 
+extern bool test_mode;
+
 const mtype_id mon_generator( "mon_generator" );
 
 template<>
@@ -481,7 +483,7 @@ class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_r
 
 void mtype::load( JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "core";
+    bool strict = src == "dda";
 
     MonsterGenerator &gen = MonsterGenerator::generator();
 
@@ -683,7 +685,7 @@ class mattack_hardcoded_wrapper : public mattack_actor
 
         ~mattack_hardcoded_wrapper() override = default;
         bool call( monster &m ) const override {
-            return ( *cpp_function )( &m );
+            return cpp_function( &m );
         }
         mattack_actor *clone() const override {
             return new mattack_hardcoded_wrapper( *this );
@@ -697,7 +699,7 @@ mtype_special_attack::mtype_special_attack( const mattack_id &id, const mon_acti
 
 
 void MonsterGenerator::add_hardcoded_attack( const std::string &type, const mon_action_attack f ) {
-    attack_map.emplace( type, mtype_special_attack( type, f ) );
+    add_attack( mtype_special_attack( type, f ) );
 }
 
 void MonsterGenerator::add_attack( mattack_actor *ptr ) {
@@ -705,33 +707,46 @@ void MonsterGenerator::add_attack( mattack_actor *ptr ) {
 }
 
 void MonsterGenerator::add_attack( const mtype_special_attack &wrapper ) {
+    if( attack_map.count( wrapper->id ) > 0 ) {
+        if( test_mode ) {
+            debugmsg( "Overwritting monster attack with id %s", wrapper->id.c_str() );
+        }
+
+        attack_map.erase( wrapper->id );
+    }
+
     attack_map.emplace( wrapper->id, wrapper );
 }
 
 mtype_special_attack MonsterGenerator::create_actor( JsonObject obj, const std::string &src ) const
 {
-    // For shorthand notation, so that you can specify just the id
+    // Legacy support: tolerate attack types being specified as the type
     const std::string type = obj.get_string( "type", "monster_attack" );
-    const std::string id = obj.get_string( "id", type );
+    const std::string attack_type = obj.get_string( "attack_type", type );
+
+    if( type != "monster_attack" && attack_type != type ) {
+        obj.throw_error( "Specifying \"attack_type\" is only allowed when \"type\" is \"monster_attack\" or not specified", "type" );
+    }
 
     mattack_actor *new_attack = nullptr;
-    if( type == "monster_attack" ) {
+    if( attack_type == "monster_attack" ) {
+        const std::string id = obj.get_string( "id" );
         const auto &iter = attack_map.find( id );
         if( iter == attack_map.end() ) {
             obj.throw_error( "Monster attacks must specify type and/or id", "type" );
         }
 
         new_attack = iter->second->clone();
-    } else if( type == "leap" ) {
+    } else if( attack_type == "leap" ) {
         new_attack = new leap_actor();
-    } else if( type == "melee" ) {
+    } else if( attack_type == "melee" ) {
         new_attack = new melee_actor();
-    } else if( type == "bite" ) {
+    } else if( attack_type == "bite" ) {
         new_attack = new bite_actor();
-    } else if( type == "gun" ) {
+    } else if( attack_type == "gun" ) {
         new_attack = new gun_actor();
     } else {
-        obj.throw_error( "unknown monster attack", "type" );
+        obj.throw_error( "unknown monster attack", "attack_type" );
     }
 
     new_attack->load( obj, src );
@@ -740,18 +755,21 @@ mtype_special_attack MonsterGenerator::create_actor( JsonObject obj, const std::
 
 void mattack_actor::load( JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "core";
+    bool strict = src == "dda";
 
     // Legacy support
-    if( jo.has_string( "id" ) ) {
+    if( !jo.has_string( "id" ) ) {
         id = jo.get_string( "type" );
     } else {
-        assign( jo, "id", id, strict );
+        // Loading ids can't be strict at the moment, since it has to match the stored version
+        assign( jo, "id", id, false );
     }
 
     assign( jo, "cooldown", cooldown, strict );
 
     load_internal( jo, src );
+    // Set was_loaded manually because we don't have generic_factory to do it for us
+    was_loaded = true;
 }
 
 void MonsterGenerator::load_monster_attack( JsonObject &jo, const std::string &src )
@@ -764,12 +782,19 @@ void mtype::add_special_attack( JsonObject obj, const std::string &src )
     mtype_special_attack new_attack = MonsterGenerator::generator().create_actor( obj, src );
 
     if( special_attacks.count( new_attack->id ) > 0 ) {
-        debugmsg( "%s specifies more than one attack of (sub)type %s, ignoring all but the first",
-                  id.c_str(), new_attack->id.c_str() );
-    } else {
-        special_attacks.emplace( new_attack->id, new_attack );
-        special_attacks_names.push_back( new_attack->id );
+        special_attacks.erase( new_attack->id );
+        const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(), new_attack->id );
+        if( iter != special_attacks_names.end() ) {
+            special_attacks_names.erase( iter );
+        }
+        if( test_mode ) {
+            debugmsg( "%s specifies more than one attack of (sub)type %s, ignoring all but the last",
+                      id.c_str(), new_attack->id.c_str() );
+        }
     }
+
+    special_attacks.emplace( new_attack->id, new_attack );
+    special_attacks_names.push_back( new_attack->id );
 }
 
 void mtype::add_special_attack( JsonArray inner, const std::string & )
@@ -780,9 +805,21 @@ void mtype::add_special_attack( JsonArray inner, const std::string & )
     if( iter == gen.attack_map.end() ) {
         inner.throw_error( "Invalid special_attacks" );
     }
-    special_attacks.emplace( name, mtype_special_attack( iter->second ) );
-    // @tood Less ugly
-    special_attacks.find( name )->second.actor->cooldown = inner.get_int( 1 );
+
+    if( special_attacks.count( name ) > 0 ) {
+        special_attacks.erase( name );
+        const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(), name );
+        if( iter != special_attacks_names.end() ) {
+            special_attacks_names.erase( iter );
+        }
+        if( test_mode ) {
+            debugmsg( "%s specifies more than one attack of (sub)type %s, ignoring all but the last",
+                      id.c_str(), name.c_str() );
+        }
+    }
+    auto new_attack = mtype_special_attack( iter->second );
+    new_attack.actor->cooldown = inner.get_int( 1 );
+    special_attacks.emplace( name, new_attack );
     special_attacks_names.push_back( name );
 }
 

@@ -51,7 +51,10 @@
         "type": "bite",
         "cooldown": 15
       },
-      [ "IMPALE", 20 ]
+      {
+        "id": "impale",
+        "cooldown": 20
+      }
     ],
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
     "death_function": [ "NORMAL" ],
@@ -275,12 +278,7 @@
     "dodge": 8,
     "vision_day": 20,
     "vision_night": 20,
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 0
-      }
-    ],
+    "special_attacks": [ { "type": "bite" } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1", "BONES", "LEATHER" ]
@@ -5774,8 +5772,8 @@
         ]
       },
       {
-        "cooldown": 25,
-        "id": "impale"
+        "id": "impale",
+        "cooldown": 25
       }
     ],
     "death_drops": "default_zombie_death_drops",

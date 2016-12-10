@@ -10,7 +10,7 @@
 #include "sounds.h"
 #include "npc.h"
 #include "debug.h"
-#include <algorithm>
+#include "generic_factory.h"
 
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_infected( "infected" );
@@ -40,7 +40,7 @@ bool dodge_check( float max_accuracy, Creature &target )
     return false;
 }
 
-void leap_actor::load( JsonObject &obj )
+void leap_actor::load_internal( JsonObject &obj, const std::string & )
 {
     // Mandatory:
     max_range = obj.get_float( "max_range" );
@@ -150,7 +150,7 @@ void load_if_available( std::string &to, JsonObject &obj, const std::string &id,
     }
 }
 
-void melee_actor::load( JsonObject &obj )
+void melee_actor::load_internal( JsonObject &obj, const std::string & )
 {
     // Optional:
     if( obj.has_array( "damage_max_instance" ) ) {
@@ -165,19 +165,18 @@ void melee_actor::load( JsonObject &obj )
     move_cost = obj.get_int( "move_cost", 100 );
     accuracy = obj.get_int( "accuracy", INT_MIN );
 
-    load_if_available( miss_msg_u, obj, "miss_msg_u", _( "The %s lunges at you, but you dodge!" ) );
-    load_if_available( miss_msg_npc, obj, "miss_msg_npc",
-                       _( "The %s lunges at <npcname>, but they dodge!" ) );
-
-    //~ 1$s is monster name, 2$s bodypart in accusative
-    load_if_available( hit_dmg_u, obj, "hit_dmg_u", _( "The %1$s bites your %2$s!" ) );
-    load_if_available( hit_dmg_npc, obj, "hit_dmg_npc", _( "The %1$s bites <npcname>'s %2$s!" ) );
-
-    //~ 1$s is monster name, 2$s bodypart in accusative
-    load_if_available( no_dmg_msg_u, obj, "no_dmg_msg_u",
-                       _( "The %1$s bites your %2$s, but fails to penetrate armor!" ) );
-    load_if_available( no_dmg_msg_npc, obj, "no_dmg_msg_npc",
-                       _( "The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
+    optional( obj, was_loaded, "miss_msg_u", miss_msg_u, translated_string_reader,
+              _( "The %s lunges at you, but you dodge!" ) );
+    optional( obj, was_loaded, "no_dmg_msg_u", no_dmg_msg_u, translated_string_reader,
+              _( "The %1$s bites your %2$s, but fails to penetrate armor!" ) );
+    optional( obj, was_loaded, "hit_dmg_u", hit_dmg_u, translated_string_reader,
+              _( "The %1$s bites your %2$s!" ) );
+    optional( obj, was_loaded, "miss_msg_npc", miss_msg_npc, translated_string_reader,
+              _( "The %s lunges at <npcname>, but they dodge!" ) );
+    optional( obj, was_loaded, "no_dmg_msg_npc", no_dmg_msg_npc, translated_string_reader,
+              _( "The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
+    optional( obj, was_loaded, "hit_dmg_npc", hit_dmg_npc, translated_string_reader,
+              _( "The %1$s bites <npcname>'s %2$s!" ) );
 
     if( obj.has_array( "body_parts" ) ) {
         JsonArray jarr = obj.get_array( "body_parts" );
@@ -292,9 +291,9 @@ bite_actor::bite_actor()
 {
 }
 
-void bite_actor::load( JsonObject &obj )
+void bite_actor::load_internal( JsonObject &obj, const std::string &src )
 {
-    melee_actor::load( obj );
+    melee_actor::load_internal( obj, src );
     no_infection_chance = obj.get_int( "no_infection_chance", 14 );
 }
 
@@ -322,7 +321,7 @@ gun_actor::gun_actor()
 {
 }
 
-void gun_actor::load( JsonObject &obj )
+void gun_actor::load_internal( JsonObject &obj, const std::string & )
 {
     gun_type = obj.get_string( "gun_type" );
 
