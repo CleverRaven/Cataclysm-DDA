@@ -140,16 +140,6 @@ melee_actor::melee_actor()
     move_cost = 100;
 }
 
-void load_if_available( std::string &to, JsonObject &obj, const std::string &id,
-                        const std::string &def )
-{
-    if( obj.has_string( id ) ) {
-        to = _( obj.get_string( id ).c_str() );
-    } else {
-        to = def;
-    }
-}
-
 void melee_actor::load_internal( JsonObject &obj, const std::string & )
 {
     // Optional:
