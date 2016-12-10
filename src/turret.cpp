@@ -143,7 +143,7 @@ std::set<itype_id> turret_data::ammo_options() const
         for( const auto &e : veh->fuels_left() ) {
             const itype *fuel = item::find_type( e.first );
             if( fuel->ammo && fuel->ammo->type.count( part->base.ammo_type() ) &&
-                e.second > part->base.ammo_required() ) {
+                e.second >= part->base.ammo_required() ) {
 
                 opts.insert( fuel->get_id() );
             }
@@ -224,7 +224,7 @@ turret_data::status turret_data::query() const
     }
 
     auto ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
-    if( ups > veh->fuel_left( fuel_type_battery ) ) {
+    if( ups > veh->fuel_left( fuel_type_battery, true, true ) ) {
         return status::no_power;
     }
 

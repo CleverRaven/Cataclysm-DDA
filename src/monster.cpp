@@ -927,7 +927,13 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
     }
 }
 
-void monster::melee_attack( Creature &target, bool, const matec_id& )
+void monster::melee_attack( Creature &target, bool allow_special, const matec_id& force_technique )
+{
+    int hitspread = target.deal_melee_attack(this, hit_roll());
+    melee_attack( target, allow_special, force_technique, hitspread );
+}
+
+void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspread )
 {
     mod_moves( -type->attack_cost );
     if( type->melee_dice == 0 ) {
@@ -960,7 +966,7 @@ void monster::melee_attack( Creature &target, bool, const matec_id& )
     }
 
     dealt_damage_instance dealt_dam;
-    int hitspread = target.deal_melee_attack(this, hit_roll());
+
     if( hitspread >= 0 ) {
         target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
     }

@@ -39,6 +39,7 @@ which denotes that this item group uses the old format (which is technically a d
 
 `ammo` specifies the percent chance that the entries will spawn fully loaded (if it needs a magazine, it will be added for you).
 `magazine` specifies the percent chance that the entries will spawn with a magazine.
+Both of these default to 0 if unspecified.
 
 Note that `ammo` and `magazine` only apply to tools, guns, and magazines. Furthermore, they don't apply to items whose entry explicitly specifies
 how much ammo (charges) to spawn with, or to tools whose JSON item definition specifies a random amount or a fixed, nonzero amount of
@@ -49,13 +50,25 @@ If the entries array contains an item group, then the outermost ammo and magazin
 3. The Entries Array
 ====
 
-The `entries` list contains entries, each entry can be one of this:
+The `entries` list contains entries, each entry can be one of the following:
 ```
 { "item": "<item-id>", ... }
 ```
 or
 ```
 { "group": "<group-id>", ... }
+```
+or
+```
+{ "distribution": [
+    "An array of entries, each of which can match any of these 4 formats"
+] }
+```
+or
+```
+{ "collection": [
+    "An array of entries, each of which can match any of these 4 formats"
+] }
 ```
 
 The game decides based on the existence of either the `item` or the `group` value if the entry denotes a item or a reference to another item group.

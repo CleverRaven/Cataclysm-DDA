@@ -27,11 +27,10 @@ struct mongroup;
 
 struct oter_weight {
     inline bool operator ==(const oter_weight &other) const {
-        return ot_sid == other.ot_sid;
+        return id == other.id;
     }
 
-    std::string ot_sid;
-    int ot_iid;
+    string_id<oter_type_t> id;
 };
 
 struct city_settings {
@@ -39,6 +38,14 @@ struct city_settings {
    int park_radius = 130; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
    weighted_int_list<oter_weight> shops;
    weighted_int_list<oter_weight> parks;
+
+    oter_id pick_shop() const {
+        return shops.pick()->id->get_first();
+    }
+
+    oter_id pick_park() const {
+        return parks.pick()->id->get_first();
+    }
 };
 
 /*
@@ -94,7 +101,6 @@ struct regional_settings {
 
     regional_settings() : id("null"), default_oter("field"), default_groundcover(t_null, 0, t_null) { }
     void setup();
-    static void setup_oter(oter_weight &oter);
 };
 
 
@@ -391,7 +397,7 @@ public:
   bool is_road(int x, int y, int z);
   void polish(const int z, const std::string &terrain_type="all");
   void chip_rock(int x, int y, int z);
-  void good_road(const std::string &base, int x, int y, int z);
+  oter_id good_road( const oter_type_t &type, int x, int y, int z );
   void good_river(int x, int y, int z);
   // Returns a vector of enabled overmap specials.
   std::vector<const overmap_special *> get_enabled_specials() const;
@@ -420,14 +426,22 @@ typedef std::unordered_map<std::string, regional_settings> t_regional_settings_m
 typedef t_regional_settings_map::const_iterator t_regional_settings_map_citr;
 extern t_regional_settings_map region_settings_map;
 
-void load_overmap_terrain(JsonObject &jo);
-void reset_overmap_terrain();
 void load_region_settings(JsonObject &jo);
 void reset_region_settings();
 void load_region_overlay(JsonObject &jo);
 void apply_region_overlay(JsonObject &jo, regional_settings &region);
 
-void finalize_overmap_terrain();
+namespace overmap_terrains
+{
+
+void load( JsonObject &jo, const std::string &src );
+void check_consistency();
+void finalize();
+void reset();
+
+size_t count();
+
+}
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);

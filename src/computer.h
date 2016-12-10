@@ -2,6 +2,7 @@
 #define COMPUTER_H
 
 #include "cursesdef.h" // WINDOW
+#include "printf_check.h"
 #include <vector>
 #include <string>
 
@@ -141,19 +142,19 @@ class computer
         // Reset to a blank terminal (e.g. at start of usage loop)
         void reset_terminal();
         // Prints a line to the terminal (with printf flags)
-        void print_line( const char *text, ... );
+        void print_line( const char *text, ... ) PRINTF_LIKE( 2, 3 );
         // For now, the same as print_line but in red (TODO: change this?)
-        void print_error( const char *text, ... );
+        void print_error( const char *text, ... ) PRINTF_LIKE( 2, 3 );
         // Wraps and prints a block of text with a 1-space indent
-        void print_text( const char *text, ... );
+        void print_text( const char *text, ... ) PRINTF_LIKE( 2, 3 );
         // Prints code-looking gibberish
         void print_gibberish_line();
         // Prints a line and waits for Y/N/Q
-        char query_ynq( const char *text, ... );
+        char query_ynq( const char *text, ... ) PRINTF_LIKE( 2, 3 );
         // Same as query_ynq, but returns true for y or Y
-        bool query_bool( const char *text, ... );
+        bool query_bool( const char *text, ... ) PRINTF_LIKE( 2, 3 );
         // Simply wait for any key, returns True
-        bool query_any( const char *text, ... );
+        bool query_any( const char *text, ... ) PRINTF_LIKE( 2, 3 );
         // Move the cursor to the beginning of the next line
         void print_newline();
 };

@@ -324,8 +324,20 @@ void Item_group::add_entry(std::unique_ptr<Item_spawn_data> &ptr)
     if (type == G_COLLECTION) {
         ptr->probability = std::min(100, ptr->probability);
     }
-    items.push_back(ptr.get());
     sum_prob += ptr->probability;
+
+    // Make the ammo and magazine probabilities from the outer entity apply to the nested entity:
+    // If ptr is an Item_group, it already inherited its parent's ammo/magazine chances in its constructor.
+    Single_item_creator *sic = dynamic_cast<Single_item_creator *>( ptr.get() );
+    if( sic && ( with_ammo != 0 || with_magazine != 0 ) ) {
+        if( !sic->modifier ) {
+            std::unique_ptr<Item_modifier> mod( new Item_modifier() );
+            sic->modifier = std::move( mod );
+        }
+        sic->modifier->with_ammo = with_ammo;
+        sic->modifier->with_magazine = with_magazine;
+    }
+    items.push_back( ptr.get() );
     ptr.release();
 }
 

@@ -256,6 +256,10 @@ void mission::wrap_up()
 
 bool mission::is_complete( const int _npc_id ) const
 {
+    if( status == mission_status::success ) {
+        return true;
+    }
+
     auto &u = g->u;
     switch( type->goal ) {
         case MGOAL_GO_TO:
@@ -268,7 +272,7 @@ bool mission::is_complete( const int _npc_id ) const
         case MGOAL_GO_TO_TYPE:
             {
                 const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
-                return cur_ter == type->target_id;
+                return cur_ter == type->target_id.id();
             }
             break;
 
@@ -482,7 +486,7 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 
     const auto &response = type->dialogue.find( topic );
     if( response != type->dialogue.end() ) {
-        return response->second;
+        return _( response->second.c_str() );
     }
 
     return string_format( "Someone forgot to code this message id is %s, topic is %s!", type->id.c_str(), topic.c_str() );

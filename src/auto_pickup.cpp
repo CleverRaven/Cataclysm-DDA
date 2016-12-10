@@ -78,7 +78,9 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
     tmpx += shortcut_print(w_header, 0, tmpx, c_white, c_ltgreen, _("<M>ove")) + 2;
     tmpx += shortcut_print(w_header, 0, tmpx, c_white, c_ltgreen, _("<E>nable")) + 2;
     tmpx += shortcut_print(w_header, 0, tmpx, c_white, c_ltgreen, _("<D>isable")) + 2;
-    shortcut_print(w_header, 0, tmpx, c_white, c_ltgreen, _("<T>est"));
+    if( g->u.name != "" ) {
+        shortcut_print(w_header, 0, tmpx, c_white, c_ltgreen, _("<T>est"));
+    }
     tmpx = 0;
     tmpx += shortcut_print(w_header, 1, tmpx, c_white, c_ltgreen,
                            _("<+-> Move up/down")) + 2;
@@ -323,9 +325,9 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                 iLine--;
                 iColumn = 1;
             }
-        } else if (action == "TEST_RULE" && currentPageNonEmpty) {
+        } else if (action == "TEST_RULE" && currentPageNonEmpty && g->u.name != "") {
             test_pattern(iTab, iLine);
-        } else if (action == "SWITCH_OPTION") {
+        } else if (action == "SWITCH_AUTO_PICKUP_OPTION") {
             // @todo Now that NPCs use this function, it could be used for them too
             get_options().get_option( "AUTO_PICKUP" ).setNext();
             get_options().save();
@@ -343,9 +345,9 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             if( g->u.name != "" ) {
                 save_character();
             }
-        } else {
-            create_rules();
         }
+
+        ready = false;
     } else {
         vRules = vRulesOld;
     }
@@ -362,8 +364,8 @@ void auto_pickup::test_pattern(const int iTab, const int iRow)
 
     //Loop through all itemfactory items
     //APU now ignores prefixes, bottled items and suffix combinations still not generated
-    for( const auto &e : item_controller->get_all_itypes() ) {
-        sItemName = e.second.nname(1);
+    for( const itype *e : item_controller->all() ) {
+        sItemName = e->nname(1);
         if (vRules[iTab][iRow].bActive &&
             wildcard_match(sItemName, vRules[iTab][iRow].sRule)) {
             vMatchingItems.push_back(sItemName);
@@ -483,7 +485,7 @@ void auto_pickup::remove_rule(const std::string &sRule)
         if (sRule.length() == it->sRule.length() &&
             ci_find_substr(sRule, it->sRule) != -1) {
             vRules[CHARACTER_TAB].erase(it);
-            create_rules();
+            ready = false;
             break;
         }
     }
@@ -517,7 +519,7 @@ void auto_pickup::create_rule( const std::string &to_match )
     }
 }
 
-void auto_pickup::create_rules()
+void auto_pickup::refresh_map_items() const
 {
     map_items.clear();
 
@@ -529,8 +531,8 @@ void auto_pickup::create_rules()
             if ( elem.sRule != "" ) {
                 if( !elem.bExclude ) {
                     //Check include patterns against all itemfactory items
-                    for( const auto &e : item_controller->get_all_itypes() ) {
-                        const std::string &cur_item = e.second.nname(1);
+                    for( const itype *e : item_controller->all() ) {
+                        const std::string &cur_item = e->nname( 1 );
                         if( elem.bActive && wildcard_match( cur_item, elem.sRule ) ) {
                             map_items[ cur_item ] = RULE_WHITELISTED;
                         }
@@ -547,10 +549,16 @@ void auto_pickup::create_rules()
             }
         }
     }
+
+    ready = true;
 }
 
 rule_state auto_pickup::check_item( const std::string &sItemName ) const
 {
+    if( !ready ) {
+        refresh_map_items();
+    }
+
     const auto iter = map_items.find( sItemName );
     if( iter != map_items.end() ) {
         return iter->second;
@@ -562,6 +570,7 @@ rule_state auto_pickup::check_item( const std::string &sItemName ) const
 void auto_pickup::clear_character_rules()
 {
     vRules[CHARACTER_TAB].clear();
+    ready = false;
 }
 
 bool auto_pickup::save_character()
@@ -591,10 +600,6 @@ bool auto_pickup::save(const bool bCharacter)
     return write_to_file( savefile, [&]( std::ostream &fout ) {
         JsonOut jout( fout, true );
         serialize(jout);
-
-        if(!bCharacter) {
-            create_rules();
-        }
     }, _( "autopickup configuration" ) );
 }
 
@@ -625,7 +630,7 @@ void auto_pickup::load(const bool bCharacter)
         }
     }
 
-    create_rules();
+    ready = false;
 }
 
 void auto_pickup::serialize(JsonOut &json) const
@@ -648,6 +653,7 @@ void auto_pickup::serialize(JsonOut &json) const
 void auto_pickup::deserialize(JsonIn &jsin)
 {
     vRules[(bChar) ? CHARACTER_TAB : GLOBAL_TAB].clear();
+    ready = false;
 
     jsin.start_array();
     while (!jsin.end_array()) {
@@ -687,6 +693,7 @@ bool auto_pickup::load_legacy(const bool bCharacter)
 void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &fin )
 {
     rules.clear();
+    ready = false;
 
     std::string sLine;
     while(!fin.eof()) {

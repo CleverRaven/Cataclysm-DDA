@@ -629,6 +629,8 @@ public:
     bool is_guarding() const;
     /** Trusts you a lot. */
     bool is_minion() const;
+    /** Is enemy or will turn into one (can't be convinced not to attack). */
+    bool guaranteed_hostile() const;
         Attitude attitude_to( const Creature &other ) const override;
 
         /** For mutant NPCs. Returns how monsters perceive said NPC. Doesn't imply NPC sees them the same. */
@@ -791,20 +793,20 @@ public:
     void guard_current_pos();
 
  //message related stuff
- void add_msg_if_npc(const char* msg, ...) const override;
- void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const override;
- void add_msg_if_npc(game_message_type type, const char* msg, ...) const override;
- void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const override;
- void add_msg_if_player(const char *, ...) const override{};
- void add_msg_if_player(game_message_type, const char *, ...) const override{};
- void add_memorial_log(const char*, const char*, ...) override {};
+ void add_msg_if_npc(const char* msg, ...) const override PRINTF_LIKE( 2, 3 );
+ void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const override PRINTF_LIKE( 3, 4 );
+ void add_msg_if_npc(game_message_type type, const char* msg, ...) const override PRINTF_LIKE( 3, 4 );
+ void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const override PRINTF_LIKE( 4, 5 );
+ void add_msg_if_player(const char *, ...) const override PRINTF_LIKE( 2, 3 ) {};
+ void add_msg_if_player(game_message_type, const char *, ...) const override PRINTF_LIKE( 3, 4 ) {};
+ void add_memorial_log(const char*, const char*, ...) override  PRINTF_LIKE( 3, 4 ) {};
  virtual void add_miss_reason(const char *, unsigned int) {};
-    void add_msg_player_or_say( const char *, const char *, ... ) const override;
-    void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override;
+ void add_msg_player_or_say( const char *, const char *, ... ) const override PRINTF_LIKE( 3, 4 );
+ void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override PRINTF_LIKE( 4, 5 );
 
 // The preceding are in npcmove.cpp
 
-    bool query_yn( const char *mes, ... ) const override;
+ bool query_yn( const char *mes, ... ) const override PRINTF_LIKE( 2, 3 );
 
     // Note: NPCs use a different speed rating than players
     // Because they can't run yet

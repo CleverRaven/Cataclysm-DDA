@@ -28,6 +28,7 @@
 #include "field.h"
 #include "ui.h"
 #include "scent_map.h"
+#include "debug_menu.h"
 
 #include <fstream>
 #include <sstream>
@@ -1394,7 +1395,7 @@ int editmap::edit_itm()
             wrefresh( w_info );
         } else if( ilmenu.ret == -5 ) {
             ilmenu.ret = UIMENU_INVALID;
-            g->wishitem( nullptr, target.x, target.y, target.z );
+            debug_menu::wishitem( nullptr, target.x, target.y, target.z );
             ilmenu.entries.clear();
             i = 0;
             for( auto &an_item : items ) {
@@ -1835,8 +1836,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
                 } else if( gpmenu.ret == 3 ) {
                     popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
-                           orig_oters->name.c_str(), orig_oters.id().c_str(),
-                           omt_ref->name.c_str(), omt_ref.id().c_str() );
+                           orig_oters->get_name().c_str(), orig_oters.id().c_str(),
+                           omt_ref->get_name().c_str(), omt_ref.id().c_str() );
                 }
             } else if( gpmenu.keypress == 'm' ) {
                 // todo; keep preview as is and move target
@@ -1938,22 +1939,13 @@ int editmap::edit_mapgen()
     gmenu.w_x = offsetX;
     gmenu.return_invalid = true;
 
-    std::map<std::string, bool> broken_oter_blacklist;
-    broken_oter_blacklist[""] = true;
-    broken_oter_blacklist["road_null"] = true;
-    broken_oter_blacklist["nuke_plant_entrance"] = true;
-    broken_oter_blacklist["nuke_plant"] = true;
-    broken_oter_blacklist["temple_core"] = true;
+    for( size_t i = 0; i < overmap_terrains::count(); i++ ) {
+        const oter_id id( i );
 
-    for( size_t i = 0; i < oter_t::count(); i++ ) {
-        oter_id id = oter_id( i );
-        gmenu.addentry( -1, true, 0, "[%3d] %s", ( int )id, id.id().c_str() );
-        if( broken_oter_blacklist.find( id.id().str() ) != broken_oter_blacklist.end() ) {
-            gmenu.entries[i].enabled = false;
-        }
+        gmenu.addentry( -1, !id.id().is_null(), 0, "[%3d] %s", ( int )id, id.id().c_str() );
         gmenu.entries[i].extratxt.left = 1;
-        gmenu.entries[i].extratxt.color = id->color;
-        gmenu.entries[i].extratxt.txt = string_format( "%c", id->sym );
+        gmenu.entries[i].extratxt.color = id->get_color();
+        gmenu.entries[i].extratxt.txt = string_format( "%c", id->get_sym() );
     }
     real_coords tc;
     do {

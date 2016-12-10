@@ -6,7 +6,7 @@
     "symbol": "*",
     "color": "light_red",
     "broken_color": "red",
-    "flags": [ "TOOL_WRENCH" ]
+    "flags": [ "ENGINE", "TOOL_WRENCH" ]
   },
   {
     "id": "diesel_engine_i6",

@@ -75,7 +75,7 @@
   {
     "id": "TALK_EVAC_MERCHANT_PLANS3",
     "type": "talk_topic",
-    "dynamic_line": "Well the refugees were staying here on the first floor when one their parties tried to sneak a dying guy in through the loading bay, we ended up being awoken to shrieks and screams. Maybe two dozen people died that night.  The remaining refugees were banished the next day and went on to form a couple of scavenging bands.  I'd say we got twenty decent men or women still here but our real strength comes from all of our business partners that are accustomed to doing whatever is needed to survive.",
+    "dynamic_line": "Well the refugees were staying here on the first floor when one their parties tried to sneak a dying guy in through the loading bay, we ended up being awoken to shrieks and screams.  Maybe two dozen people died that night.  The remaining refugees were banished the next day and went on to form a couple of scavenging bands.  I'd say we got twenty decent men or women still here but our real strength comes from all of our business partners that are accustomed to doing whatever is needed to survive.",
     "responses": [
       {
         "text": "Guess it works for you...",

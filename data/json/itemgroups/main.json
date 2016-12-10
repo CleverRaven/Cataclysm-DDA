@@ -3,6 +3,7 @@
     "type" : "item_group",
     "id" : "rare",
     "//" : "Items that should have very low frequencies and or few locations.",
+    "magazine": 100,
     "items":[
       ["12mm", 20],
       ["adrenaline_injector", 20],

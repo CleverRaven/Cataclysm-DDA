@@ -464,7 +464,7 @@ WINDOW *curses_init(void)
     int overmap_fontheight = 16;
     int overmap_fontsize = 16;
     std::string overmap_typeface;
-    bool fontblending;
+    bool fontblending = false;
 
     std::ifstream jsonstream(FILENAMES["fontdata"].c_str(), std::ifstream::binary);
     if (jsonstream.good()) {

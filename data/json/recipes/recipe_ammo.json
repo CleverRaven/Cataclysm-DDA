@@ -2835,63 +2835,6 @@
     ]
   },
   {
-    "type" : "recipe",
-    "result": "flintlock_ammo",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 3,
-    "time": 20000,
-    "autolearn": true,
-    "components": [
-      [
-        [ "gunpowder", 300 ],
-        [ "chem_black_powder", 300 ]
-      ],
-      [
-        [ "lead", 300 ],
-        [ "gold_small", 300 ],
-        [ "silver_small", 300 ],
-        [ "tin", 300 ],
-        [ "bismuth", 300 ],
-        [ "solder_wire", 300 ]
-      ],
-      [
-        [ "bag_plastic", 1 ],
-        [ "paper", 10 ]
-      ]
-    ]
-  },{
-    "type" : "recipe",
-    "result": "flintlock_shot",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_SHOT",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 3,
-    "time": 20000,
-    "autolearn": true,
-    "components": [
-      [
-        [ "gunpowder", 300 ],
-        [ "chem_black_powder", 300 ]
-      ],
-      [
-        [ "lead", 300 ],
-        [ "gold_small", 300 ],
-        [ "silver_small", 300 ],
-        [ "tin", 300 ],
-        [ "bismuth", 300 ],
-        [ "solder_wire", 300 ]
-      ],
-      [
-        [ "bag_plastic", 1 ],
-        [ "paper", 10 ]
-      ]
-    ]
-  },
-  {
     "type": "recipe",
     "result": "reloaded_762_54R",
     "category": "CC_AMMO",

@@ -9,7 +9,7 @@
     "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
-    "flags": [ "TOOL_WRENCH" ]
+    "flags": [ "ENGINE", "TOOL_WRENCH" ]
   },
   {
     "id": "engine_electric_small",

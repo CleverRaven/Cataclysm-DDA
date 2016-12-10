@@ -42,6 +42,11 @@ using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
 
+namespace debug_menu
+{
+class mission_debug;
+}
+
 // This tries to represent both rating and
 // player's decision to respect said rating
 enum edible_rating {
@@ -235,16 +240,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void update_vitamins( const vitamin_id& vit );
 
         /**
-          * Handles passive regeneration of pain and maybe hp, except sleep regeneration.
-          * Updates health and checks for sickness.
+          * Handles passive regeneration of pain and maybe hp.
           */
         void regen( int rate_multiplier );
         /** Regenerates stamina */
         void update_stamina( int turns );
         /** Kills the player if too hungry, stimmed up etc., forces tired player to sleep and prints warnings. */
         void check_needs_extremes();
-        /** Handles hp regen during sleep. */
-        void sleep_hp_regen( int rate_multiplier );
 
         /** Returns if the player has hibernation mutation and is asleep and well fed */
         bool is_hibernating() const;
@@ -483,6 +485,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param force_technique special technique to use in attack.
          */
         void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) override;
+        /**
+         * Sets up a melee attack and handles melee attack function calls
+         * @param t
+         * @param allow_special whether non-forced martial art technique or mutation attack should be
+         *   possible with this attack.
+         * @param force_technique special technique to use in attack.
+         */
+        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique, int hitspread ) override;
 
         /** Returns a weapon's modified dispersion value */
         double get_weapon_dispersion( const item &obj ) const;
@@ -1323,7 +1333,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         //Dumps all memorial events into a single newline-delimited string
         std::string dump_memorial() const;
         //Log an event, to be later written to the memorial file
-        void add_memorial_log(const char *male_msg, const char *female_msg, ...) override;
+        void add_memorial_log(const char *male_msg, const char *female_msg, ...) override PRINTF_LIKE( 3, 4 );
         //Loads the memorial log from a file
         void load_memorial_file(std::istream &fin);
         //Notable events, to be printed in memorial
@@ -1359,13 +1369,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void burn_move_stamina( int moves );
 
         //message related stuff
-        void add_msg_if_player(const char *msg, ...) const override;
-        void add_msg_if_player(game_message_type type, const char *msg, ...) const override;
-        void add_msg_player_or_npc(const char *player_str, const char *npc_str, ...) const override;
+        void add_msg_if_player(const char *msg, ...) const override PRINTF_LIKE( 2, 3 );
+        void add_msg_if_player(game_message_type type, const char *msg, ...) const override PRINTF_LIKE( 3, 4 );
+        void add_msg_player_or_npc(const char *player_str, const char *npc_str, ...) const override PRINTF_LIKE( 3, 4 );
         void add_msg_player_or_npc(game_message_type type, const char *player_str,
-                                           const char *npc_str, ...) const override;
-        void add_msg_player_or_say( const char *, const char *, ... ) const override;
-        void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override;
+                                   const char *npc_str, ...) const override PRINTF_LIKE( 4, 5 );
+        void add_msg_player_or_say( const char *, const char *, ... ) const override PRINTF_LIKE( 3, 4 );
+        void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override PRINTF_LIKE( 4, 5 );
 
         typedef std::map<tripoint, std::string> trap_map;
         bool knows_trap( const tripoint &pos ) const;
@@ -1441,7 +1451,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Prints message(s) about current health
         void print_health() const;
 
-        bool query_yn( const char *mes, ... ) const override;
+        bool query_yn( const char *mes, ... ) const override PRINTF_LIKE( 2, 3 );
 
         /**
          * Has the item enough charges to invoke its use function?
@@ -1451,6 +1461,20 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
+
+        /**
+         * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
+         * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
+         * @param target Target NPC to disarm
+         */
+        void disarm( npc &target );
+
+        /**
+         * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
+         * notices your steal attempt and getting angry with you, and you successfully stealing the item.
+         * @param target Target NPC to steal from
+         */
+        void steal( npc &target );
 
     protected:
         // The player's position on the local map.
@@ -1462,6 +1486,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void load(JsonObject &jsin);
 
     private:
+        friend class debug_menu::mission_debug;
+
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
         /** Check if an area-of-effect technique has valid targets */

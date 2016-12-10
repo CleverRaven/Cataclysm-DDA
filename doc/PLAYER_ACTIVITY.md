@@ -37,7 +37,7 @@ There are several ways an activity can be ended:
 
 While the player character performs the activity, `player_activity::do_turn` is called on each turn. Depending on the JSON properties, this will do some stuff. It will also call the do_turn function, and if `moves_left` is non-positive, the finish function.
 
-Some activities (like playing on a PDA) don't have an end result but instead do something each turn (playing on the PDA decreases its batteries and gives a morale bonus).
+Some activities (like playing music on a mp3 player) don't have an end result but instead do something each turn (playing music on the mp3 player decreases its batteries and gives a morale bonus).
 
 If the activity needs any information during its execution or when it's finished (like *where* to do something, *which* item to use to do something, ...), use any of:
 

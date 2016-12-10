@@ -1152,7 +1152,7 @@
             "draw_cost": 3,
             "max_volume": 4,
             "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
-        }, "HAMMER" ],
+        } ],
         "qualities": [["HAMMER", 3], ["SAW_M", 2], ["SAW_W", 2], ["WRENCH", 2],
         ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
     },
@@ -1285,7 +1285,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You loosen your %s.",
-            "target": "patchwork_scarf_loose"
+            "target": "patchwork_scarf_loose",
+            "menu_text": "Loosen"
         },
         "covers" : ["MOUTH"],
         "flags" : ["OUTER"],
@@ -1313,7 +1314,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You wrap your scarf tighter.",
-            "target": "patchwork_scarf"
+            "target": "patchwork_scarf",
+            "menu_text": "Wrap tighter"
         },
         "covers" : ["MOUTH"],
         "flags" : ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
@@ -1340,7 +1342,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You loosen your %s.",
-            "target": "long_patchwork_scarf_loose"
+            "target": "long_patchwork_scarf_loose",
+            "menu_text": "Loosen"
         },
         "covers" : ["MOUTH"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
@@ -1367,7 +1370,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You wrap your scarf tighter.",
-            "target": "long_patchwork_scarf"
+            "target": "long_patchwork_scarf",
+            "menu_text": "Wrap tighter"
         },
         "revert_to": "long_patchwork_scarf",
         "covers" : ["MOUTH"],
@@ -1395,7 +1399,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You loosen your %s.",
-            "target": "knit_scarf_loose"
+            "target": "knit_scarf_loose",
+            "menu_text": "Loosen"
         },
         "covers" : ["MOUTH"],
         "flags" : ["OUTER"],
@@ -1423,7 +1428,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You wrap your scarf tighter.",
-            "target": "knit_scarf"
+            "target": "knit_scarf",
+            "menu_text": "Wrap tighter"
         },
         "covers" : ["MOUTH"],
         "flags" : ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
@@ -1450,7 +1456,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You loosen your %s.",
-            "target": "long_knit_scarf_loose"
+            "target": "long_knit_scarf_loose",
+            "menu_text": "Loosen"
         },
         "covers" : ["MOUTH"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
@@ -1477,7 +1484,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You wrap your scarf tighter.",
-            "target": "long_knit_scarf"
+            "target": "long_knit_scarf",
+            "menu_text": "Wrap tighter"
         },
         "revert_to": "long_knit_scarf",
         "covers" : ["MOUTH"],
@@ -1505,7 +1513,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You loosen your %s.",
-            "target": "scarf_loose"
+            "target": "scarf_loose",
+            "menu_text": "Loosen"
         },
         "covers" : ["MOUTH"],
         "flags" : ["OUTER"],
@@ -1533,7 +1542,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You wrap your scarf a bit tighter.",
-            "target": "scarf"
+            "target": "scarf",
+            "menu_text": "Wrap tighter"
         },
         "covers" : ["MOUTH"],
         "flags" : ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
@@ -1560,7 +1570,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You loosen your %s.",
-            "target": "scarf_long_loose"
+            "target": "scarf_long_loose",
+            "menu_text": "Loosen"
         },
         "covers" : ["MOUTH"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
@@ -1587,7 +1598,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You wrap your scarf tighter.",
-            "target": "scarf_long"
+            "target": "scarf_long",
+            "menu_text": "Wrap tighter"
         },
         "revert_to": "scarf_long",
         "covers" : ["MOUTH"],
@@ -1615,7 +1627,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You loosen your %s.",
-            "target": "scarf_fur_loose"
+            "target": "scarf_fur_loose",
+            "menu_text": "Loosen"
         },
         "covers" : ["MOUTH"],
         "flags" : ["OUTER"],
@@ -1643,7 +1656,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You wrap your scarf a bit tighter.",
-            "target": "scarf_fur"
+            "target": "scarf_fur",
+            "menu_text": "Wrap tighter"
         },
         "covers" : ["MOUTH"],
         "flags" : ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
@@ -1670,7 +1684,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You loosen your %s.",
-            "target": "scarf_fur_long_loose"
+            "target": "scarf_fur_long_loose",
+            "menu_text": "Loosen"
         },
         "covers" : ["MOUTH"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
@@ -1697,7 +1712,8 @@
         "use_action": {
             "type": "transform",
             "msg": "You wrap your scarf tighter.",
-            "target": "scarf_fur_long"
+            "target": "scarf_fur_long",
+            "menu_text": "Wrap tighter"
         },
         "revert_to": "scarf_fur_long",
         "covers" : ["MOUTH"],

@@ -2319,18 +2319,6 @@
         "category": "spare_parts"
     },
     {
-        "type" : "GENERIC",
-        "id" : "note",
-        "name" : "note",
-        "description" : "A hand-written paper note.",
-        "to_hit" : -2,
-        "color" : "white",
-        "symbol" : "?",
-        "material" : ["paper"],
-        "volume" : 3,
-        "price" : 0,
-        "use_action": "MCG_NOTE"
-    },{
         "id": "light_bulb",
         "type":"GENERIC",
         "name": "light bulb",

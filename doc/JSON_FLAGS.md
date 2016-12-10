@@ -965,8 +965,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```MP3_ON``` Turn the mp3 player off.
 - ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
 - ```NOISE_EMITTER_ON``` Turn the noise emitter off.
-- ```PDA``` Use your pda.
-- ```PDA_FLASHLIGHT``` Use your pda as a flashlight.
 - ```PHEROMONE``` Makes zombies love you.
 - ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
 - ```PICKLOCK``` Attempt to pick the lock on doors.
@@ -1033,6 +1031,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```UNBREAKABLE_MELEE``` ... Does never get damaged when used as melee weapon.
 - ```UNRECOVERABLE``` Cannot be recovered from a disassembly.
 - ```DANGEROUS``` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies "NPC_THROW_NOW".
+- ```NO_REPAIR``` ... Prevents repairing of this item even if otherwise suitable tools exist.
 - ```NPC_THROW_NOW``` ... NPCs will try to throw this item away, preferably at enemies. Implies "TRADER_AVOID" and "NPC_THROWN".
 - ```NPC_ACTIVATE``` ... NPCs can activate this item as an alternative attack. Currently by throwing it right after activation. Implied by "BOMB".
 - ```NPC_THROWN``` ... NPCs will throw this item (without activating it first) as an alternative attack.

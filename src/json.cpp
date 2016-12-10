@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 #include <bitset>
+#include <iterator>
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
@@ -1563,30 +1564,21 @@ std::string JsonIn::substr(size_t pos, size_t len)
     return ret;
 }
 
-
-/* class JsonOut
- * represents an ostream of JSON data,
- * allowing easy serialization of c++ datatypes.
- */
-JsonOut::JsonOut(std::ostream &s, bool pretty)
-    :   stream(&s), pretty_print(pretty), need_separator(false), indent_level(0)
+JsonOut::JsonOut( std::ostream &s, bool pretty ) : stream( &s ), pretty_print( pretty )
 {
-    // ensure user's locale doesn't interfere with number format
-    stream->imbue(std::locale::classic());
-    // scientific format for floating-point numbers
-    stream->setf(std::ostream::scientific, std::ostream::floatfield);
-    // it's already decimal, but set it anyway
-    stream->setf(std::ostream::dec, std::ostream::basefield);
-    // could also set showbase and showpoint,
-    // but it currently doesn't matter.
+    // ensure consistent and locale-independent formatting of numerals
+    stream->imbue( std::locale::classic() );
+    stream->setf( std::ios_base::showpoint );
+    stream->setf( std::ios_base::dec, std::ostream::basefield );
+    stream->setf( std::ios_base::fixed, std::ostream::floatfield );
+
+    // automatically stringify bool to "true" or "false"
+    stream->setf( std::ios_base::boolalpha );
 }
 
 void JsonOut::write_indent()
 {
-    const char indent[5] = "    ";
-    for (int i = 0; i < indent_level; ++i) {
-        stream->write(indent, 4);
-    }
+    std::fill_n( std::ostream_iterator<char>( *stream ), indent_level * 2, ' ' );
 }
 
 void JsonOut::write_separator()
@@ -1602,7 +1594,7 @@ void JsonOut::write_separator()
 void JsonOut::write_member_separator()
 {
     if (pretty_print) {
-        stream->write(" : ", 3);
+        stream->write( ": ", 2 );
     } else {
         stream->put(':');
     }
@@ -1668,77 +1660,14 @@ void JsonOut::write_null()
     need_separator = true;
 }
 
-void JsonOut::write(const bool &b)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    if (b) {
-        stream->write("true", 4);
-    } else {
-        stream->write("false", 5);
-    }
-    need_separator = true;
-}
-
-void JsonOut::write(const int &i)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << i;
-    need_separator = true;
-}
-
-void JsonOut::write(const unsigned &u)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << u;
-    need_separator = true;
-}
-
-void JsonOut::write(const long &l)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << l;
-    need_separator = true;
-}
-
-void JsonOut::write(const unsigned long &ul)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << ul;
-    need_separator = true;
-}
-
-void JsonOut::write(const double &f)
-{
-    if (need_separator) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << f;
-    need_separator = true;
-}
-
-void JsonOut::write(const std::string &s)
+void JsonOut::write( const std::string &val )
 {
     if (need_separator) {
         write_separator();
     }
     unsigned char ch;
     stream->put('"');
-    for (auto &i : s) {
+    for( const auto &i : val ) {
         ch = i;
         if (ch == '"') {
             stream->write("\\\"", 2);

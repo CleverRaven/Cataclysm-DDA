@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <bitset>
 #include <memory>
 #include <list>
@@ -101,7 +102,9 @@ class Item_factory
         /**
          * Like above, but the above loads data from several members of the object, this function
          * assume the given array is the "entries" member of the item group.
-         * The entries are loaded via @ref load_item_group_entries.
+         *
+         * For each element in the array, @ref Item_factory::add_entry is called.
+         *
          * Assuming the input array looks like `[ x, y, z ]`, this function loads it like the
          * above would load this object:
          * \code
@@ -189,9 +192,7 @@ class Item_factory
          * Check if an item type is known to the Item_factory.
          * @param id Item type id (@ref itype::id).
          */
-        bool has_template( const itype_id &id ) const {
-            return m_templates.count( id );
-        }
+        bool has_template( const itype_id &id ) const;
 
         /**
          * Returns the itype with the given id.
@@ -207,46 +208,41 @@ class Item_factory
          * @param new_type The new item type, must not be null.
          */
         void add_item_type( const itype &def ) {
-            m_templates[ def.id ] = def;
+            m_runtimes[ def.id ].reset( new itype( def ) );
+        }
+
+        /**
+         * Check if an iuse is known to the Item_factory.
+         * @param type Iuse type id.
+         */
+        bool has_iuse( const std::string &type ) const {
+            return iuse_function_list.find( type ) != iuse_function_list.end();
         }
 
         void load_item_blacklist( JsonObject &jo );
 
-        /**
-         * A list of *all* known item type ids. Each is suitable as input to
-         * @ref find_template or as parameter to @ref item::item.
-         */
-        std::vector<Item_tag> get_all_itype_ids() const;
-        /**
-         * The map of all known item type instances.
-         * Key is the item type id (@ref itype::id, the parameter to
-         * @ref find_template).
-         * Value is the itype instance (result of @ref find_template).
-         */
-        const std::map<const itype_id, itype> &get_all_itypes() const {
-            return m_templates;
-        }
+        /** Get all item templates (both static and runtime) */
+        std::vector<const itype *> all() const;
 
-        /** Find all templates matching the UnaryPredicate function */
-        static std::vector<const itype *> find( const std::function<bool( const itype & )> &func ) {
-            std::vector<const itype *> res;
-            for( const auto &e : item_controller->get_all_itypes() ) {
-                if( func( e.second ) ) {
-                    res.push_back( &e.second );
-                }
-            }
-            return res;
-        }
+        /** Find all item templates (both static and runtime) matching UnaryPredicate function */
+        static std::vector<const itype *> find( const std::function<bool( const itype & )> &func );
 
         /**
          * Create a new (and currently unused) item type id.
          */
         Item_tag create_artifact_id() const;
 
+        std::list<itype_id> subtype_replacement( const itype_id & ) const;
+
     private:
+        /** Set at finalization and prevents alterations to the static item templates */
+        bool frozen = false;
+
         std::map<const std::string, itype> m_abstracts;
 
-        mutable std::map<const itype_id, itype> m_templates;
+        std::unordered_map<itype_id, itype> m_templates;
+
+        mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
 
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
@@ -310,10 +306,9 @@ class Item_factory
 
         use_function usage_from_string( const std::string &type ) const;
 
-        std::pair<std::string, use_function> usage_from_object( JsonObject &obj ) const;
+        std::pair<std::string, use_function> usage_from_object( JsonObject &obj );
 
         void add_entry( Item_group *sg, JsonObject &obj );
-        void load_item_group_entries( Item_group &ig, JsonArray &entries );
 
         void load_basic_info( JsonObject &jo, itype &def, const std::string &src );
         void tags_from_json( JsonObject &jo, std::string member, std::set<std::string> &tags );
@@ -332,6 +327,12 @@ class Item_factory
         void add_actor( iuse_actor *ptr );
 
         std::map<itype_id, migration> migrations;
+
+        /**
+         * Contains the tool subtype mappings for crafing (ie. mess kit is a hotplate etc.).
+         * This is should be obsoleted when @ref requirement_data allows AND/OR nesting.
+         */
+        std::map<itype_id, std::set<itype_id>> tool_subtypes;
 };
 
 #endif

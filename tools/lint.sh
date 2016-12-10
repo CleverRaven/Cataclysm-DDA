@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 PERL=`which perl`
 if [ $? -ne 0 ]; then

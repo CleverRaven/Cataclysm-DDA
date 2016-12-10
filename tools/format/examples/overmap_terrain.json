@@ -1,0 +1,17 @@
+[
+  {
+    "id": "mapgen-test",
+    "type": "overmap_terrain",
+    "name": "",
+    "//": "Its contents make no sense, it is supposed to use all the available mapgen possibilities.",
+    "sym": 37,
+    "color": "white",
+    "rotate": false,
+    "line_drawing": false,
+    "mondensity": 1,
+    "allow_road": false,
+    "sidewalk": false,
+    "known_up": false,
+    "known_down": false
+  }
+]

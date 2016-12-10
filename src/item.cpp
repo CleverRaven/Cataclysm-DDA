@@ -248,8 +248,9 @@ item& item::ammo_set( const itype_id& ammo, long qty )
         // completely fill an integral or existing magazine
         if( magazine_integral() || magazine_current() ) {
             qty = ammo_capacity();
-        } else {
-            // if adding a magazine use default ammo count property if set
+
+        // else try to add a magazine using default ammo count property if set
+        } else if( magazine_default() != "null" ) {
             item mag( magazine_default() );
             if( mag.type->magazine->count > 0 ) {
                 qty = mag.type->magazine->count;
@@ -259,7 +260,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
         }
     }
 
-    if( qty == 0 ) {
+    if( qty <= 0 ) {
         ammo_unset();
         return *this;
     }
@@ -895,7 +896,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             } else if( is_ammo() ) {
                 info.emplace_back( "AMMO", _( "Types: " ),
                                    enumerate_as_string( type->ammo->type.begin(), type->ammo->type.end(),
-                                                        []( const ammotype &e ) { return e->name(); }, false ) );
+                                                        []( const ammotype &e ) { return _( e->name().c_str() ); }, false ) );
             }
 
             const auto& ammo = *ammo_data()->ammo;
@@ -1201,10 +1202,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( !type->engine->fuel.is_null() ) {
             auto col = string_from_color( item::find_type( default_ammo( type->engine->fuel ) )->color );
             info.emplace_back( "ENGINE", _( "Fuel: " ),
-                               string_format( "<color_%s>%s</color>", col.c_str(), type->engine->fuel.c_str() ) );
+                               string_format( "<color_%s>%s</color>", col.c_str(), _( type->engine->fuel.c_str() ) ) );
         }
         if( type->engine->power > 0 && !has_flag( "MANUAL_ENGINE" ) ) {
-            info.emplace_back( "ENGINE", _( "Power: " ), "<num> hp", watt_to_hp( type->engine->power ), true );
+            info.emplace_back( "ENGINE", _( "Power: " ), _( "<num> hp" ), watt_to_hp( type->engine->power ), true );
         }
 
         info.emplace_back( "ENGINE", _( "Efficiency: " ), "<num>%", type->engine->efficiency, true );
@@ -1213,7 +1214,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "ENGINE", _( "Gears: " ), "", type->engine->gears.size(), true );
         }
         if( type->engine->redline > 0 ) {
-            info.emplace_back( "ENGINE", _( "Redline: " ), "<num> rpm", type->engine->redline, true );
+            info.emplace_back( "ENGINE", _( "Redline: " ), _( "<num> rpm" ), type->engine->redline, true );
         }
 
         if( engine_start_time( 20 ) > 0 ) {
@@ -1566,6 +1567,17 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         insert_separation_line();
+
+        const auto &rep = repaired_with();
+        if( !rep.empty() ) {
+            info.emplace_back( "DESCRIPTION", _( "<bold>Repaired with</bold>: " ) +
+                               enumerate_as_string( rep.begin(), rep.end(), []( const itype_id &e ) {
+                                   return item::find_type( e )->nname( 1 ); } ) );
+            insert_separation_line();
+
+        } else {
+            info.emplace_back( "DESCRIPTION", _( "* This item is <bad>not repairable</bad>." ) );
+        }
 
         // concatenate base and acquired flags...
         std::vector<std::string> flags;
@@ -2349,6 +2361,7 @@ std::string item::display_name(unsigned int quantity) const
             break;
     }
 
+    // @todo Refactor it to eliminate duplication. Handle infinite charges properly in all the cases.
     if( is_container() && contents.size() == 1 && contents.front().charges > 0 ) {
         // a container which is not empty
         qty = string_format(" (%i)", contents.front().charges);
@@ -2360,7 +2373,7 @@ std::string item::display_name(unsigned int quantity) const
         qty = string_format(" (%i)", ammo_remaining());
     } else if( is_ammo_container() && !contents.empty() ) {
         qty = string_format( " (%i)", contents.front().charges );
-    } else if( count_by_charges() ) {
+    } else if( count_by_charges() && !has_infinite_charges() ) {
         qty = string_format(" (%i)", charges);
     }
 
@@ -2684,6 +2697,18 @@ bool item::has_any_flag( const std::vector<std::string>& flags ) const
     }
 
     return false;
+}
+
+item& item::set_flag( const std::string &flag )
+{
+    item_tags.insert( flag );
+    return *this;
+}
+
+item& item::unset_flag( const std::string &flag )
+{
+    item_tags.erase( flag );
+    return *this;
 }
 
 bool item::has_property( const std::string& prop ) const {
@@ -3225,18 +3250,14 @@ int item::chip_resistance( bool worst ) const
     return res;
 }
 
-int item::damage() const {
-    return damage_ < 0 ? floor( damage_ ) : ceil( damage_ );
-}
-
 int item::min_damage() const
 {
-    return type ? type->damage_min : 0;
+    return type->damage_min;
 }
 
 int item::max_damage() const
 {
-    return type ? type->damage_max : 0;
+    return type->damage_max;
 }
 
 bool item::mod_damage( double qty, damage_type dt )
@@ -3311,6 +3332,11 @@ std::string item::damage_symbol() const
     return _( R"(|\)" );
 }
 
+const std::set<itype_id>& item::repaired_with() const
+{
+    static std::set<itype_id> no_repair;
+    return has_flag( "NO_REPAIR" )  ? no_repair : type->repair;
+}
 
 void item::mitigate_damage( damage_unit &du ) const
 {
@@ -3502,11 +3528,14 @@ bool item::is_food(player const*u) const
         return true;
     }
 
-    if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && ammo_type() == ammotype( "battery" ) ) {
+    if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && type->ammo->type.count( ammotype( "battery" ) ) ) {
         return true;
     }
 
-    if( ( u->has_active_bionic( "bio_reactor" ) || u->has_active_bionic( "bio_advreactor" ) ) && is_ammo() && ( ammo_type() == ammotype( "reactor_slurry" ) || ammo_type() == ammotype( "plutonium" ) ) ) {
+    if( ( u->has_active_bionic( "bio_reactor" ) ||
+          u->has_active_bionic( "bio_advreactor" ) ) &&
+        is_ammo() && ( type->ammo->type.count( ammotype( "plut_slurry" ) ) ||
+                       type->ammo->type.count( ammotype( "plutonium" ) ) ) ) {
         return true;
     }
     if (u->has_active_bionic("bio_furnace") && flammable() && typeId() != "corpse")
@@ -3883,18 +3912,13 @@ void item::mark_chapter_as_read( const player &u )
 
 const material_type &item::get_random_material() const
 {
-    if( type->materials.empty() ) {
-        return material_id( "null" ).obj();
-    }
-    return random_entry( type->materials ).obj();
+    return random_entry( made_of(), material_id::NULL_ID ).obj();
 }
 
 const material_type &item::get_base_material() const
 {
-    if( type->materials.empty() ) {
-        return material_id( "null" ).obj();
-    }
-    return type->materials.front().obj();
+    const auto mats = made_of();
+    return mats.empty() ? material_id::NULL_ID.obj() : mats.front().obj();
 }
 
 bool item::operator<(const item& other) const
@@ -4470,6 +4494,8 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
     opts.push_back( this );
 
     for( const auto e : opts ) {
+
+        // handle base item plus any auxiliary gunmods
         if( e->is_gun() ) {
             for( auto m : e->type->gun->modes ) {
                 // prefix attached gunmods, eg. M203_DEFAULT to avoid index key collisions
@@ -4484,10 +4510,11 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
                 res.emplace( prefix += m.first, item::gun_mode( std::get<0>( m.second ), const_cast<item *>( e ),
                                                                 qty, std::get<2>( m.second ) ) );
             };
-        }
-        if( e->is_gunmod() ) {
+
+        // non-auxiliary gunmods may provide additional modes for the base item
+        } else if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
+                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( this ),
                                                        std::get<1>( m.second ), std::get<2>( m.second ) } );
             }
         }
@@ -4639,13 +4666,11 @@ item::reload_option::reload_option( const player *who, const item *target, const
     // magazine, ammo or ammo container
     item& tmp = this->ammo->is_ammo_container() ? this->ammo->contents.front() : *this->ammo;
 
-    long amt = tmp.is_ammo() ? tmp.charges : 1;
-
-    if( this->target->is_gun() && this->target->magazine_integral() && tmp.made_of( SOLID ) ) {
-        amt = 1; // guns with integral magazines reload one round at a time
+    if( tmp.is_ammo() && !target->has_flag( "RELOAD_ONE" ) ) {
+        qty( tmp.charges );
+    } else {
+        qty( 1 );
     }
-
-    qty( amt );
 }
 
 
@@ -4664,16 +4689,29 @@ int item::reload_option::moves() const
 
 void item::reload_option::qty( long val )
 {
-    if( ammo->is_ammo() ) {
-        qty_ = std::min( { val, ammo->charges, target->ammo_capacity() - target->ammo_remaining() } );
-
-    } else if( ammo->is_ammo_container() ) {
-        qty_ = std::min( { val, ammo->contents.front().charges, target->ammo_capacity() - target->ammo_remaining() } );
-
-    } else {
-        qty_ = 1L; // when reloading target using a magazine
+    if( ammo->is_magazine() ) {
+        qty_ = 1L;
+        return;
     }
-    qty_ = std::max( std::min( qty_, max_qty ), 1L );
+
+    const item &obj = ammo->is_ammo_container() ? ammo->contents.front() : *ammo;
+    if( !obj.is_ammo() ) {
+        debugmsg( "Invalid reload option: %s", obj.tname().c_str() );
+        return;
+    }
+
+    long limit = target->ammo_capacity() - target->ammo_remaining();
+
+    if( target->ammo_type() == ammotype( "plutonium" ) ) {
+        limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
+    }
+
+    // constrain by available ammo, target capacity and other external factors (max_qty)
+    // @ref max_qty is currently set when reloading ammo belts and limits to available linkages
+    qty_ = std::min( { val, obj.charges, limit, max_qty } );
+
+    // always expect to reload at least one charge
+    qty_ = std::max( qty_, 1L );
 }
 
 int item::casings_count() const
@@ -4695,11 +4733,14 @@ void item::casings_handle( const std::function<bool(item &)> &func )
     }
 
     for( auto it = contents.begin(); it != contents.end(); ) {
-        if( it->is_ammo() && it->ammo_type() != ammo_type() ) {
+        if( it->has_flag( "CASING" ) ) {
+            it->unset_flag( "CASING" );
             if( func( *it ) ) {
                 it = contents.erase( it );
                 continue;
             }
+            // didn't handle the casing so reset the flag ready for next call
+            it->set_flag( "CASING" );
         }
         ++it;
     }
@@ -4727,7 +4768,14 @@ bool item::reload( player &u, item_location loc, long qty )
         return false;
     }
 
-    qty = std::min( qty, ammo_capacity() - ammo_remaining() );
+    // limit quantity of ammo loaded to remaining capacity
+    long limit = ammo_capacity() - ammo_remaining();
+
+    if( ammo_type() == ammotype( "plutonium" ) ) {
+        limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
+    }
+
+    qty = std::min( qty, limit );
 
     casings_handle( [&u]( item &e ) {
         return u.i_add_or_drop( e );
@@ -4769,14 +4817,12 @@ bool item::reload( player &u, item_location loc, long qty )
         curammo = find_type( ammo->typeId() );
 
         if( ammo_type() == ammotype( "plutonium" ) ) {
-            // Warning: qty here refers to minimum of plutonium cells and capacity left
-            // always consume at least one cell but never more than actually available
-            auto cells = std::min( qty / PLUTONIUM_CHARGES + ( qty % PLUTONIUM_CHARGES != 0 ), ammo->charges );
-            ammo->charges -= cells;
+            ammo->charges -= qty;
+
             // any excess is wasted rather than overfilling the item
-            charges += std::min( cells, qty ) * PLUTONIUM_CHARGES;
-            // Cap at max, because the above formula doesn't guarantee it
+            charges += qty * PLUTONIUM_CHARGES;
             charges = std::min( charges, ammo_capacity() );
+
         } else {
             qty = std::min( qty, ammo->charges );
             ammo->charges -= qty;
@@ -5059,9 +5105,14 @@ bool item::allow_crafting_component() const
     }
 
     // fixes #18886 - turret installation may require items with irremovable mods
-    return std::all_of( contents.begin(), contents.end(), []( const item &e ) {
-        return e.is_gunmod() && e.has_flag( "IRREMOVABLE" );
-    } );
+    if( is_gun() ) {
+        return std::all_of( contents.begin(), contents.end(), [&]( const item &e ) {
+            return e.is_magazine() || ( e.is_gunmod() && e.has_flag( "IRREMOVABLE" ) );
+        } );
+
+    } else {
+        return contents.empty();
+    }
 }
 
 void item::fill_with( item &liquid, long amount )
@@ -5113,8 +5164,7 @@ bool item::use_charges( const itype_id& what, long& qty, std::list<item>& used, 
         }
 
         if( e->is_tool() ) {
-            // for tools we also need to check if this item is a subtype of the required id
-            if( e->typeId() == what || e->type->tool->subtype == what ) {
+            if( e->typeId() == what ) {
                 int n = std::min( e->ammo_remaining(), qty );
                 qty -= n;
 
