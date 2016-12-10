@@ -829,7 +829,7 @@
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
-        "allow_road" : true
+        "rotate" : true
     },{
         "type" : "overmap_terrain",
         "id" : "farm",
