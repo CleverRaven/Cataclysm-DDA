@@ -117,7 +117,6 @@ item::item( const itype *type, int turn, long qty ) : type( type )
 {
     bday = turn >= 0 ? turn : int( calendar::turn );
     corpse = typeId() == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
-    name = type_name();
     item_counter = type->countdown_interval;
 
     if( qty >= 0 ) {
@@ -193,7 +192,7 @@ item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
 
     // This is unconditional because the item constructor above sets result.name to
     // "human corpse".
-    result.name = name;
+    result.corpse_name = name;
 
     return result;
 }
@@ -2206,10 +2205,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     const std::map<std::string, std::string>::const_iterator iname = item_vars.find("name");
     std::string maintext = "";
     if (corpse != NULL && typeId() == "corpse" ) {
-        if (name != "") {
+        if( !corpse_name.empty() ) {
             maintext = string_format( npgettext( "item name", "%s corpse of %s",
                                            "%s corpses of %s",
-                                           quantity), corpse->nname().c_str(), name.c_str());
+                                           quantity), corpse->nname().c_str(), corpse_name.c_str());
         } else {
             maintext = string_format( npgettext( "item name", "%s corpse",
                                            "%s corpses",
@@ -3912,18 +3911,13 @@ void item::mark_chapter_as_read( const player &u )
 
 const material_type &item::get_random_material() const
 {
-    if( type->materials.empty() ) {
-        return material_id( "null" ).obj();
-    }
-    return random_entry( type->materials ).obj();
+    return random_entry( made_of(), material_id::NULL_ID ).obj();
 }
 
 const material_type &item::get_base_material() const
 {
-    if( type->materials.empty() ) {
-        return material_id( "null" ).obj();
-    }
-    return type->materials.front().obj();
+    const auto mats = made_of();
+    return mats.empty() ? material_id::NULL_ID.obj() : mats.front().obj();
 }
 
 bool item::operator<(const item& other) const
@@ -5891,14 +5885,14 @@ std::string item::type_name( unsigned int quantity ) const
 {
     const auto iter = item_vars.find( "name" );
     if( corpse != nullptr && typeId() == "corpse" ) {
-        if( name.empty() ) {
+        if( corpse_name.empty() ) {
             return string_format( npgettext( "item name", "%s corpse",
                                          "%s corpses", quantity ),
                                corpse->nname().c_str() );
         } else {
             return string_format( npgettext( "item name", "%s corpse of %s",
                                          "%s corpses of %s", quantity ),
-                               corpse->nname().c_str(), name.c_str() );
+                               corpse->nname().c_str(), corpse_name.c_str() );
         }
     } else if( typeId() == "blood" ) {
         if( corpse == nullptr || corpse->id == NULL_ID ) {
