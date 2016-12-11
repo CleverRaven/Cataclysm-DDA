@@ -48,7 +48,7 @@
             "both": {
                 "items": [
                 "balclava",
-				"army_top",
+                "army_top",
                 "arm_warmers",
                 "gloves_liner",
                 "leg_warmers",
@@ -61,7 +61,7 @@
             ],
                 "entries": [
                     { "item": "knife_combat", "container-item": "sheath" },
-					{ "item": "v29", "container-item": "sholster" },
+                    { "item": "v29", "container-item": "sholster" },
                     { "item": "rm51_assault_rifle", "ammo-item": "8mm_fmj", "charges": 50, "contents-item": "shoulder_strap" },
                     { "item": "8mm_fmj", "charges": 50 }
                 ]
