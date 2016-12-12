@@ -2431,7 +2431,7 @@ field_id field_entry::setFieldType(const field_id new_field_id){
 
 int field_entry::setFieldDensity(const int new_density)
 {
-    is_alive = new_density > 1;
+    is_alive = new_density > 0;
     return density = std::max( std::min( new_density, MAX_FIELD_DENSITY ), 1 );
 }
 
