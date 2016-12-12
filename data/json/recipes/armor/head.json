@@ -307,6 +307,7 @@
     "difficulty": 6,
     "time": 540000,
     "book_learn": [ [ "textbook_armwest", 5 ] ],
+    "using": [ [ "forging_standard", 15 ], [ "steel_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
@@ -314,13 +315,9 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 300 ], [ "oxy_torch", 60 ] ]
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
-    "components": [
-      [ [ "steel_lump", 10 ], [ "steel_chunk", 40 ] ],
-      [ [ "fur", 4 ], [ "leather", 4 ] ]
-    ]
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ]
   },
   {
     "result": "helmet_bone",
@@ -382,6 +379,7 @@
     "difficulty": 9,
     "time": 600000,
     "book_learn": [ [ "textbook_armeast", 8 ] ],
+    "using": [ [ "forging_standard", 23 ], [ "steel_standard", 12 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
@@ -389,11 +387,9 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 450 ], [ "oxy_torch", 90 ] ]
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [
-      [ [ "steel_lump", 12 ] ],
       [ [ "fur", 14 ], [ "tanned_pelt", 2 ], [ "leather", 14 ], [ "tanned_hide", 2 ] ],
       [ [ "rag", 4 ] ]
     ]
@@ -437,6 +433,7 @@
     "difficulty": 7,
     "time": 540000,
     "book_learn": [ [ "textbook_armwest", 6 ] ],
+    "using": [ [ "forging_standard", 18 ], [ "steel_standard", 14 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
@@ -444,13 +441,9 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 350 ], [ "oxy_torch", 70 ] ]
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
-    "components": [
-      [ [ "steel_lump", 14 ], [ "steel_chunk", 56 ] ],
-      [ [ "fur", 4 ], [ "leather", 4 ] ]
-    ]
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ]
   },
   {
     "result": "helmet_scavenger",
@@ -776,6 +769,7 @@
     "time": 20000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
+    "using": [ [ "adhesive", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 20 ] ],
@@ -784,7 +778,6 @@
     "components": [
       [ [ "mask_bunker", 1 ] ],
       [ [ "nomex", 4 ] ],
-      [ [ "duct_tape", 200 ], [ "superglue", 2 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
     ]
   },
@@ -799,6 +792,7 @@
     "time": 20000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
+    "using": [ [ "adhesive", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 20 ] ],
@@ -807,7 +801,6 @@
     "components": [
       [ [ "mask_bunker", 1 ] ],
       [ [ "nomex", 8 ] ],
-      [ [ "duct_tape", 200 ], [ "superglue", 2 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 6 ] ]
     ]
   },
@@ -879,6 +872,7 @@
     "skills_required": [ "tailor", 7 ],
     "time": 20000,
     "autolearn": true,
+    "using": [ [ "adhesive", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 20 ] ],
@@ -888,7 +882,6 @@
       [ [ "rebreather", 1 ] ],
       [ [ "goggles_swim", 1 ] ],
       [ [ "plastic_chunk", 4 ] ],
-      [ [ "duct_tape", 200 ], [ "superglue", 2 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
     ]
   },
@@ -902,6 +895,7 @@
     "skills_required": [ "tailor", 7 ],
     "time": 20000,
     "autolearn": true,
+    "using": [ [ "adhesive", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 20 ] ],
@@ -911,7 +905,6 @@
       [ [ "rebreather", 1 ] ],
       [ [ "goggles_swim", 1 ] ],
       [ [ "plastic_chunk", 8 ] ],
-      [ [ "duct_tape", 200 ], [ "superglue", 2 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 6 ] ]
     ]
   },
@@ -925,12 +918,12 @@
     "skills_required": [ "tailor", 7 ],
     "time": 20000,
     "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
     ]
@@ -945,12 +938,12 @@
     "skills_required": [ "tailor", 5 ],
     "time": 20000,
     "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
       [ [ "rag", 3 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
     ]
@@ -989,12 +982,12 @@
     "skills_required": [ "tailor", 6 ],
     "time": 20000,
     "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
       [ [ "leather", 3 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ]
     ]
@@ -1009,12 +1002,12 @@
     "skills_required": [ "tailor", 5 ],
     "time": 20000,
     "autolearn": true,
+    "using": [ [ "adhesive", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "duct_tape", 150 ], [ "superglue", 2 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 6 ] ]
     ]
   },
@@ -1028,6 +1021,7 @@
     "skills_required": [ "tailor", 7 ],
     "time": 20000,
     "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 10 ] ],
@@ -1036,7 +1030,6 @@
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ],
       [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ]
     ]
@@ -1051,6 +1044,7 @@
     "skills_required": [ "tailor", 7 ],
     "time": 20000,
     "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 10 ] ],
@@ -1059,7 +1053,6 @@
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ],
       [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ]
     ]
@@ -1282,6 +1275,7 @@
     "skills_required": [ "tailor", 4 ],
     "time": 20000,
     "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 10 ] ],
@@ -1290,7 +1284,6 @@
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_welding", 1 ], [ "sunglasses", 1 ], [ "fancy_sunglasses", 1 ], [ "fitover_sunglasses", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "duct_tape", 25 ], [ "superglue", 1 ] ],
       [ [ "leather", 3 ] ],
       [ [ "kevlar_plate", 2 ] ]
     ]
