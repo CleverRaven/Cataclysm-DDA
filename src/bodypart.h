@@ -27,7 +27,7 @@ enum side : int {
 };
 
 // map integers to body part enum
-const constexpr body_part bp_aBodyPart[] = {
+constexpr body_part bp_aBodyPart[] = {
     bp_torso, bp_head, bp_eyes, bp_mouth,
     bp_arm_l, bp_arm_r, bp_hand_l, bp_hand_r,
     bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
