@@ -19,6 +19,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "units.h"
+#include "cata_utility.h"
 
 class game;
 class Character;
@@ -528,8 +529,16 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /** Set current item @ref rot relative to shelf life (no-op if item does not spoil) */
     void set_relative_rot( double val );
 
-    /** Get time left to rot, ignoring fridge (max int if item does not spoil) */
-    int get_time_until_rotten();
+    /**
+     * Get time left to rot, ignoring fridge.
+     * Returns time to rot if item is able to, max int - N otherwise,
+     * where N is
+     * 3 for food,
+     * 2 for medication,
+     * 1 for other comestibles,
+     * 0 otherwise.
+     */
+    int spoilage_sort_order();
 
     /** an item is fresh if it is capable of rotting but still has a long shelf life remaining */
     bool is_fresh() const { return goes_bad() && get_relative_rot() < 0.1; }
@@ -673,7 +682,7 @@ public:
     int chip_resistance( bool worst = false ) const;
 
     /** How much damage has the item sustained? */
-    int damage() const;
+    int damage() const { return fast_floor( damage_ ); }
 
     /** Minimum amount of damage to an item (state of maximum repair) */
     int min_damage() const;
@@ -703,6 +712,9 @@ public:
 
     /** Provide prefix symbol for UI display dependent upon current item damage level */
     std::string damage_symbol() const;
+
+    /** If possible to repair this item what tools could potentially be used for this purpose? */
+    const std::set<itype_id>& repaired_with() const;
 
     /**
      * Check whether the item has been marked (by calling mark_as_used_by_player)
@@ -809,6 +821,18 @@ public:
 
     /** Returns the total area of this wheel or 0 if it isn't one. */
     int wheel_area() const;
+
+    /**
+     *  How difficult is it to start the engine at specified temperature (celcius)
+     *  @return scalar factor [0.0 - 1.0] where a higher value represents increasing difficulty
+     */
+    double engine_start_difficulty( int temperature ) const;
+
+    /** Moves required to start engine at specified temperature (celcius) */
+    int engine_start_time( int temperature ) const;
+
+    /** battery charges (kJ) required to start at specified temperature (celcius) */
+    int engine_start_energy( int temperature ) const;
 
     /**
      * Can this item have given item/itype as content?
@@ -994,6 +1018,13 @@ public:
         /*@{*/
         bool has_flag( const std::string& flag ) const;
         bool has_any_flag( const std::vector<std::string>& flags ) const;
+
+        /** Idempotent filter setting an item specific flag. */
+        item& set_flag( const std::string &flag );
+
+        /** Idempotent filter removing an item specific flag */
+        item& unset_flag( const std::string &flag );
+
         /** Removes all item specific flags. */
         void unset_flags();
         /*@}*/
@@ -1420,15 +1451,6 @@ public:
         /*@}*/
 
         /**
-         * @name Vehicle parts
-         *
-         *@{*/
-
-        /** for combustion engines the displacement (cc) */
-        int engine_displacement() const;
-        /*@}*/
-
-        /**
          * Returns the pointer to use_function with name use_name assigned to the type of
          * this item or any of its contents. Checks contents recursively.
          * Returns nullptr if not found.
@@ -1498,11 +1520,11 @@ public:
         skill_id contextualize_skill( const skill_id &id ) const;
 
     private:
-        std::string name;
         double damage_ = 0;
         const itype* curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype* corpse = nullptr;
+        std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
         light_emission light = nolight;
 

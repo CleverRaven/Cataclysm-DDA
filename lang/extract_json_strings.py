@@ -3,6 +3,7 @@
 
 import json
 import os
+import subprocess 
 
 # Exceptions
 class WrongJSONItem(Exception):
@@ -21,7 +22,12 @@ not_json = {
     "LOADING_ORDER.md"
 }
 
-# don't parse this files. Full related path.
+git_files_list = {
+    ".",
+}
+
+
+# these files will not be parsed. Full related path.
 ignore_files = {
     "data/mods/replacements.json",
     "data/raw/color_templates/no_bright_background.json"
@@ -34,6 +40,7 @@ ignorable = {
     "emit",
     "epilogue", # FIXME right now this object can't be translated correctly
     "GAME_OPTION",
+    "harvest",
     "ITEM_BLACKLIST",
     "item_group",
     "ITEM_OPTION",
@@ -83,14 +90,11 @@ automatically_convertible = {
     "fault",
     "furniture",
     "GENERIC",
-    "GUN",
-    "GUNMOD",
     "item_action",
     "ITEM_CATEGORY",
     "json_flag",
     "keybinding",
     "MAGAZINE",
-    "mission_definition",
     "MOD_INFO",
     "MONSTER",
     "mutation",
@@ -246,6 +250,56 @@ def extract_effect_type(item):
         writestr(outfile, msg, context="memorial_female",
           comment="Female memorial remove log for effect(s) '{}'.".format(', '.join(name)))
 
+
+def extract_gun(item):
+    outfile = get_outfile("gun")
+    if "name" in item:
+        item_name = item.get("name")
+        writestr(outfile, item_name)
+        if "name_plural" in item:
+            if item.get("name_plural") != "none":
+                writestr(outfile, item_name, item.get("name_plural"))
+            else:
+                writestr(outfile, item_name)
+        else:
+            if item.get("type") in needs_plural:
+                # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
+                writestr(outfile, item_name, "{}s".format(item_name))
+            else:
+                writestr(outfile, item_name)
+    if "description" in item:
+        description = item.get("description")
+        writestr(outfile, description)
+    if "modes" in item:
+        modes = item.get("modes")
+        for fire_mode in modes:
+            writestr(outfile, fire_mode[1])
+
+
+def extract_gunmod(item):
+    outfile = get_outfile("gunmod")
+    if "name" in item:
+        item_name = item.get("name")
+        writestr(outfile, item_name)
+        if "name_plural" in item:
+            if item.get("name_plural") != "none":
+                writestr(outfile, item_name, item.get("name_plural"))
+            else:
+                writestr(outfile, item_name)
+        else:
+            if item.get("type") in needs_plural:
+                # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
+                writestr(outfile, item_name, "{}s".format(item_name))
+            else:
+                writestr(outfile, item_name)
+    if "description" in item:
+        description = item.get("description")
+        writestr(outfile, description)
+    if "location" in item:
+        location = item.get("location")
+        writestr(outfile, location)
+
+
 def extract_professions(item):
     outfile = get_outfile("professions")
     nm = item["name"]
@@ -356,6 +410,35 @@ def extract_talk_topic(item):
         extract_talk_response(r, outfile)
 
 
+def extract_missiondef(item):
+    outfile = get_outfile("mission_def")
+    item_name = item.get("name")
+    if item_name is None:
+        raise WrongJSONItem("JSON item don't contain 'name' field", item)
+    writestr(outfile, item_name)
+    dialogue = item.get("dialogue")
+    if dialogue is None:
+        raise WrongJSONItem("JSON item don't contain 'dialogue' field", item)
+    if "describe" in dialogue:
+        writestr(outfile, dialogue.get("describe"))
+    if "offer" in dialogue:
+        writestr(outfile, dialogue.get("offer"))
+    if "accepted" in dialogue:
+        writestr(outfile, dialogue.get("accepted"))
+    if "rejected" in dialogue:
+        writestr(outfile, dialogue.get("rejected"))
+    if "advice" in dialogue:
+        writestr(outfile, dialogue.get("advice"))
+    if "inquire" in dialogue:
+        writestr(outfile, dialogue.get("inquire"))
+    if "success" in dialogue:
+        writestr(outfile, dialogue.get("success"))
+    if "success_lie" in dialogue:
+        writestr(outfile, dialogue.get("success_lie"))
+    if "failure" in dialogue:
+        writestr(outfile, dialogue.get("failure"))
+
+
 def extract_mutation(item):
     outfile = get_outfile("mutation_category")
 
@@ -425,9 +508,12 @@ def extract_gate(item):
 # these objects need to have their strings specially extracted
 extract_specials = {
     "effect_type": extract_effect_type,
+    "GUN": extract_gun,
+    "GUNMOD": extract_gunmod,
     "mapgen": extract_mapgen,
     "martial_art": extract_martial_art,
     "material": extract_material,
+    "mission_definition": extract_missiondef,
     "mutation_category": extract_mutation,
     "profession": extract_professions,
     "recipe_category": extract_recipe_category,
@@ -657,6 +743,12 @@ def extract(item, infilename):
     if not wrote:
         print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))
 
+def is_official_mod(full_path):
+    for i in official_mods:
+        if full_path.find(i) != -1:
+            return True
+    return False
+
 def extract_all_from_dir(json_dir):
     """Extract strings from every json file in the specified directory,
     recursing into any subdirectories."""
@@ -671,7 +763,10 @@ def extract_all_from_dir(json_dir):
         elif f in skiplist or full_name in ignore_files:
             continue
         elif f.endswith(".json"):
-            extract_all_from_file(full_name)
+            if full_name in git_files_list:
+                extract_all_from_file(full_name)
+            else:
+                print("Skipping untracked file: '{}'".format(full_name))
         elif f not in not_json:
             print("Skipping file: '{}'".format(f))
     for d in dirs:
@@ -705,11 +800,23 @@ def add_fake_types():
     # fake monster types
     writestr(outfile, "human", "humans")
 
+def prepare_git_file_list():
+    command_str = "git ls-files"
+    res = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True) 
+    output = res.stdout.readlines() 
+    res.communicate()
+    if res.returncode != 0:
+        print("'git ls-files' command exited with non-zero exit code: {}".format(res.returncode))
+        exit(1)
+    for f in output:
+        if len(f) > 0:
+            git_files_list.add(f[:-1].decode('utf8'))
 
 ##
 ##  EXTRACTION
 ##
 
+prepare_git_file_list()
 extract_all_from_dir(json_dir)
 extract_all_from_dir(raw_dir)
 extract_all_from_dir(mods_dir)

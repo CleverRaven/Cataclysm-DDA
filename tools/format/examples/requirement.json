@@ -1,0 +1,18 @@
+[
+  {
+    "id": "vehicle_nail_install",
+    "type": "requirement",
+    "//": "Compatible with legacy flag NAILABLE",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "nail", 20 ] ] ]
+  },
+  {
+    "id": "bullet_forming",
+    "type": "requirement",
+    "//": "Forming of bullets from raw materials",
+    "tools": [
+      [ [ "press", -1 ] ],
+      [ [ "fire", -1 ], [ "hotplate", 2 ] ]
+    ]
+  }
+]

@@ -5,6 +5,6 @@
     "name": "Prevent Zombie Revivication",
     "description": "Disables zombie revival.",
     "category": "rebalance",
-    "path": ""
+    "dependencies": [ "dda" ]
   }
 ]

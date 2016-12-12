@@ -48,13 +48,15 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer
                 ~cRules() {};
         };
 
+        mutable bool ready; //< true if map_items has been populated from vRules
+
         /**
          * The currently-active set of auto-pickup rules, in a form that allows quick
          * lookup. When this is filled (by @ref auto_pickup::create_rules()), every
          * item existing in the game that matches a rule (either white- or blacklist)
          * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
          */
-        std::unordered_map<std::string, rule_state> map_items;
+        mutable std::unordered_map<std::string, rule_state> map_items;
 
         /**
          * - vRules[0,1] aka vRules[GLOBAL,CHARACTER]: current rules split into global and
@@ -64,11 +66,14 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer
 
         void load_legacy_rules( std::vector<cRules> &rules, std::istream &fin );
 
+        void refresh_map_items() const; //< Only modifies mutable state
+
     public:
+        auto_pickup() : bChar( false ), ready( false ) {}
+
         bool has_rule( const std::string &sRule );
         void add_rule( const std::string &sRule );
         void remove_rule( const std::string &sRule );
-        void create_rules();
         void create_rule( const std::string &to_match );
         void clear_character_rules();
         rule_state check_item( const std::string &sItemName ) const;

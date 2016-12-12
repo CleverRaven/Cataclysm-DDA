@@ -175,6 +175,12 @@ class Creature
          *  creature. Should always be overwritten by the appropriate player/NPC/monster function. */
         virtual void melee_attack(Creature &t, bool allow_special,
                                   const matec_id & technique) = 0;
+
+        /** Make a single melee attack with the currently equipped weapon against the targeted
+         *  creature with prerolled hitspread. Should always be overwritten by the appropriate
+         *  player/NPC/monster function. */
+        virtual void melee_attack(Creature &t, bool allow_special,
+                                  const matec_id & technique, int hitspread ) = 0;
         /**
          * Calls the to other melee_attack function with an empty technique id (meaning no specific
          * technique should be used).
@@ -496,16 +502,16 @@ class Creature
         virtual int print_info(WINDOW *w, int vStart, int vLines, int column) const = 0;
 
         // Message related stuff
-        virtual void add_msg_if_player(const char *, ...) const {};
-        virtual void add_msg_if_player(game_message_type, const char *, ...) const {};
-        virtual void add_msg_if_npc(const char *, ...) const {};
-        virtual void add_msg_if_npc(game_message_type, const char *, ...) const {};
-        virtual void add_msg_player_or_npc(const char *, const char *, ...) const {};
-        virtual void add_msg_player_or_npc(game_message_type, const char *, const char *, ...) const {};
-        virtual void add_msg_player_or_say( const char *, const char *, ... ) const {};
-        virtual void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const {};
+        virtual void add_msg_if_player(const char *, ...) const PRINTF_LIKE( 2, 3 ) {};
+        virtual void add_msg_if_player(game_message_type, const char *, ...) const  PRINTF_LIKE( 3, 4 ) {};
+        virtual void add_msg_if_npc(const char *, ...) const  PRINTF_LIKE( 2, 3 ) {};
+        virtual void add_msg_if_npc(game_message_type, const char *, ...) const PRINTF_LIKE( 3, 4 ) {};
+        virtual void add_msg_player_or_npc(const char *, const char *, ...) const PRINTF_LIKE( 3, 4 ) {};
+        virtual void add_msg_player_or_npc(game_message_type, const char *, const char *, ...) const PRINTF_LIKE( 4, 5 ) {};
+        virtual void add_msg_player_or_say( const char *, const char *, ... ) const PRINTF_LIKE( 3, 4 ) {};
+        virtual void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const PRINTF_LIKE( 4, 5 ) {};
 
-        virtual void add_memorial_log(const char *, const char *, ...) {};
+        virtual void add_memorial_log(const char *, const char *, ...) PRINTF_LIKE( 3, 4 ) {};
 
         virtual nc_color symbol_color() const = 0;
         virtual nc_color basic_symbol_color() const = 0;

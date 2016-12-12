@@ -24,10 +24,6 @@ extern bool test_mode;
 class game;
 extern game *g;
 
-#ifdef TILES
-extern void try_sdl_update();
-#endif // TILES
-
 extern bool trigdist;
 extern bool use_tiles;
 extern bool fov_3d;
@@ -130,7 +126,6 @@ typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 
 typedef std::function<bool( const item & )> item_filter;
-typedef std::function<bool( const item_location & )> item_location_filter;
 
 class game
 {
@@ -156,6 +151,15 @@ class game
 
         /** Loads core data and mods from the given world. May throw. */
         void load_world_modfiles(WORLDPTR world);
+
+        /**
+         *  Load content packs
+         *  @param msg string to display whilst loading prompt
+         *  @param packs content packs to load in correct dependent order
+         *  @return true if all packs were found, false if any were missing
+         */
+        bool load_packs( const std::string &msg, const std::vector<std::string>& packs );
+
     protected:
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src );
@@ -456,19 +460,11 @@ class game
         std::string list_item_upvote;
         std::string list_item_downvote;
 
-        item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
-
-        void interactive_inv();
-
+        // @todo Move these functions to game_menus::inv and isolate them.
         int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
-
         int inv_for_all( const std::string &title, const std::string &none_message = "" );
-        int inv_for_activatables( const player &p, const std::string &title );
         int inv_for_flag( const std::string &flag, const std::string &title );
         int inv_for_id( const itype_id &id, const std::string &title );
-        int inv_for_tools_powered_by( const ammotype &battery_id, const std::string &title );
-        int inv_for_equipped( const std::string &title );
-        int inv_for_unequipped( const std::string &title );
 
         enum inventory_item_menu_positon {
             RIGHT_TERMINAL_EDGE,
@@ -478,27 +474,9 @@ class game
         };
         int inventory_item_menu(int pos, int startx = 0, int width = 50, inventory_item_menu_positon position = RIGHT_OF_INFO);
 
-        /**
-         * @name Customized inventory menus
-         *
-         * The functions here execute customized inventory menus for specific game situations.
-         * Each menu displays only related inventory (or nearby) items along with context dependent information.
-         * More functions will follow. @todo update all 'inv_for...()' functions to return @ref item_location instead of @ref int and move them here.
-         * @param title Title of the menu
-         * @return Either location of the selected item or null location if none was selected.
-         */
-        /*@{*/
         /** Custom-filtered menu for inventory items and those that are nearby (within @ref radius). */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
-        /** Book reading menu. */
-        item_location inv_for_books( const std::string &title );
-        /** Gunmod installation menu. */
-        item_location inv_for_gunmod( const item &gunmod, const std::string &title );
-        /*@}*/
-
-        // Select items to drop.  Returns a list of pairs of position, quantity.
-        std::list<std::pair<int, int>> multidrop();
         faction *list_factions(std::string title = "FACTIONS:");
 
         bool has_gametype() const;
@@ -758,13 +736,6 @@ class game
         void create_factions(); // Creates new factions (for a new game world)
         void create_starting_npcs(); // Creates NPCs that start near you
 
-        // Player actions
-        void wishitem( player *p = nullptr, int x = -1, int y = -1, int z = -1 );
-        void wishmonster( const tripoint &p = tripoint_min );
-        void wishmutate( player *p );
-        void wishskill( player *p );
-        void mutation_wish(); // Mutate
-
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
@@ -784,8 +755,6 @@ class game
         bool phasing_move( const tripoint &dest );
         // Regular movement. Returns false if it failed for any reason
         bool walk_move( const tripoint &dest );
-        // Places the player at the end of a move; hurts feet, lists items etc.
-        void place_player( const tripoint &dest );
         void on_move_effects();
         void wait(); // Long wait (player action)  '^'
         void open(); // Open a door  'o'
@@ -799,7 +768,6 @@ class game
         void examine();
 
         void grab(); // Establish a grab on something.
-        void compare( const tripoint &offset = tripoint_min ); // Compare items 'I'
         void drop(int pos = INT_MIN, const tripoint &where = tripoint_min ); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
@@ -816,6 +784,10 @@ class game
         void mend( int pos = INT_MIN );
         void autoattack();
 public:
+        // Places the player at the specified point; hurts feet, lists items etc.
+        void place_player( const tripoint &dest );
+        void place_player_overmap( const tripoint &om_dest );
+
         bool unload( item &it ); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
 
@@ -902,6 +874,7 @@ private:
         void draw_HP();          // Draws the player's HP and Power level
         /** Draws the sidebar (if it's visible), including all windows there */
         void draw_sidebar();
+        void draw_safe_mode( WINDOW *win, int line ) const;
         void draw_sidebar_messages();
         void draw_pixel_minimap();  // Draws the pixel minimap based on the player's current location
 
@@ -935,7 +908,6 @@ private:
         bool safe_mode_warning_logged;
         std::vector<int> new_seen_mon;
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
-        bool autosafemode; // is autosafemode enabled?
         bool safemodeveh; // safemode while driving?
         int turnssincelastmon; // needed for auto run mode
         //  quit_status uquit;    // Set to true if the player quits ('Q')

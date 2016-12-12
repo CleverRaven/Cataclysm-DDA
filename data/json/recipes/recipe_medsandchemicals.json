@@ -28,7 +28,7 @@
   "time": 30000,
   "book_learn": [["textbook_firstaid", 2] , ["pocket_firstaid", 2], ["manual_first_aid", 2], ["atomic_survival", 4], ["textbook_chemistry", 5], ["adv_chemistry", 4] , ["emergency_book", 3]],
   "qualities":[
-    {"id":"BOIL","level":1,"amount":1}
+    {"id":"BOIL","level":1}
   ], "tools": [
     [
       [ "hotplate", 3 ],
@@ -54,7 +54,7 @@
   "time": 10000,
   "autolearn": true,
   "qualities":[
-    {"id":"BOIL","level":2,"amount":1}
+    {"id":"BOIL","level":2}
   ], "tools": [
     [
       [ "hotplate", 3 ],
@@ -80,7 +80,7 @@
   "time": 5000,
   "autolearn": true,
   "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SCREW","level":1}
   ], "components": [
     [
       [ "battery", 125 ]
@@ -112,8 +112,8 @@
   "time": 15000,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":2,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":2}
   ],
   "tools": [
     [
@@ -180,7 +180,7 @@
   "time": 20000,
   "book_learn": [["textbook_chemistry", 5] , ["adv_chemistry", 5] , [ "recipe_labchem", 5]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":1}
+    {"id":"CHEM","level":1}
   ], "tools": [
     [
       [ "hotplate", 15 ],
@@ -212,7 +212,7 @@
   "time": 30000,
   "book_learn": [["textbook_chemistry", 4] , ["adv_chemistry", 4] , [ "recipe_labchem", 4]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":1}
+    {"id":"CHEM","level":1}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -243,7 +243,7 @@
   "time": 5000,
   "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 2] , ["survival_book", 3]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":1}
+    {"id":"CHEM","level":1}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -267,7 +267,7 @@
   "time": 5000,
   "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 2] , ["survival_book", 3]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":1}
+    {"id":"CHEM","level":1}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -291,7 +291,7 @@
   "time": 5000,
   "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 2] , ["atomic_survival", 2] , ["textbook_survival", 1] , ["survival_book", 3] , [ "recipe_labchem", 2]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":1}
+    {"id":"CHEM","level":1}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -319,7 +319,7 @@
   "time": 30000,
   "book_learn": [["textbook_chemistry", 5] , ["adv_chemistry", 4] , ["pocket_survival", 5] , ["atomic_survival", 5] , ["textbook_survival", 5] , ["survival_book", 5] , [ "recipe_labchem", 4]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -349,7 +349,7 @@
   "time": 30000,
   "book_learn": [["textbook_chemistry", 7] , ["adv_chemistry", 6] , ["pocket_survival", 8] , ["atomic_survival", 6] , ["textbook_survival", 6] , ["survival_book", 7] , [ "recipe_labchem", 6]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -383,7 +383,7 @@
   "time": 30000,
   "book_learn": [["textbook_chemistry", 8] , ["adv_chemistry", 7] , ["pocket_survival", 8] , ["atomic_survival", 8] , ["textbook_survival", 8] , ["survival_book", 8] , [ "recipe_labchem", 7]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -421,7 +421,7 @@
   "time": 2000,
   "book_learn": [["textbook_chemistry", 7] , ["adv_chemistry", 7] , ["atomic_survival", 6] , [ "recipe_labchem", 6]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":1}
+    {"id":"CHEM","level":1}
   ], "tools": [
     [
       [ "hotplate", 3 ],
@@ -449,7 +449,7 @@
   "time": 4000,
   "book_learn": [["textbook_chemistry", 7] , ["adv_chemistry", 7] , ["atomic_survival", 6] , [ "recipe_labchem", 6]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":1}
+    {"id":"CHEM","level":1}
   ], "tools": [
     [
       [ "hotplate", 3 ],
@@ -480,7 +480,7 @@
   "time": 4000,
   "book_learn": [["textbook_chemistry", 8] , ["adv_chemistry", 8] , ["atomic_survival", 7] , [ "recipe_labchem", 7]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":1}
+    {"id":"CHEM","level":1}
   ], "tools": [
     [
       [ "hotplate", 3 ],
@@ -511,7 +511,7 @@
   "time": 30000,
   "book_learn": [["textbook_chemistry", 8] , ["adv_chemistry", 6]  , [ "recipe_labchem", 7]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -549,7 +549,7 @@
   "time": 10000,
   "book_learn": [["textbook_gaswarfare",  8] , ["recipe_creepy", 8] , ["recipe_animal", 8] , ["recipe_maiar", 7] , ["recipe_serum", 7] , [ "recipe_labchem", 7]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -587,7 +587,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_labchem", 9]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -611,7 +611,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -644,7 +644,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -668,7 +668,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_maiar", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -702,7 +702,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_maiar", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -726,7 +726,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_maiar", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -758,7 +758,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_maiar", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -782,7 +782,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_maiar", 8 ] , [ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -814,7 +814,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_maiar", 8 ] , [ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -838,7 +838,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -873,7 +873,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -897,7 +897,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -929,7 +929,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -953,7 +953,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_animal", 7 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -984,7 +984,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1008,7 +1008,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -1039,7 +1039,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1063,7 +1063,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -1094,7 +1094,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1118,7 +1118,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -1149,7 +1149,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1173,7 +1173,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -1204,7 +1204,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] ,  [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1228,7 +1228,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -1262,7 +1262,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1286,7 +1286,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -1317,7 +1317,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1341,7 +1341,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -1372,7 +1372,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1396,7 +1396,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_maiar", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -1427,7 +1427,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_maiar", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1451,7 +1451,7 @@
   "time": 10000,
   "book_learn": [[ "recipe_medicalmut", 9 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -1499,7 +1499,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_medicalmut", 9 ] , [ "recipe_serum", 9 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1523,7 +1523,7 @@
   "autolearn": true,
   "note": "'stick the blob globs in a can and seal it' does not seem hugely challenging",
   "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
+    {"id":"SCREW","level":1}
   ], "components": [
     [
       [ "canister_empty", 1 ]
@@ -1543,7 +1543,7 @@
   "time": 10000,
   "book_learn": [["textbook_gaswarfare", 9] , ["atomic_survival", 9] , ["record_patient", 9] , ["recipe_maiar", 8] , [ "recipe_labchem", 7]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -1576,7 +1576,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_serum", 9] , [ "recipe_labchem", 9]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1600,7 +1600,7 @@
   "time": 20000,
   "book_learn": [[ "recipe_alpha", 9 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 50 ],
@@ -1637,7 +1637,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_alpha", 9 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1661,7 +1661,7 @@
   "time": 12500,
   "book_learn": [[ "recipe_elfa", 10 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 31 ],
@@ -1692,7 +1692,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_elfa", 10 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1716,7 +1716,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_chimera", 9]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1749,7 +1749,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_chimera", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1773,7 +1773,7 @@
   "time": 12500,
   "book_learn": [[ "recipe_raptor", 9 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 31 ],
@@ -1803,7 +1803,7 @@
   "time": 15000,
   "book_learn": [[ "recipe_raptor", 9 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 37 ],
@@ -1827,7 +1827,7 @@
   "time": 24000,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5] , ["atomic_survival", 5]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -1855,8 +1855,8 @@
   "time": 36000,
   "book_learn": [["adv_chemistry", 6] , ["textbook_chemistry", 7] , ["recipe_labchem", 6] , ["atomic_survival", 5]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1},
-    {"id":"CONTAIN","level":1,"amount":1}
+    {"id":"CHEM","level":2},
+    {"id":"CONTAIN","level":1}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -1893,7 +1893,7 @@
   "time": 24000,
   "book_learn": [["adv_chemistry", 2] , ["textbook_chemistry", 2] , ["recipe_labchem", 2] , ["atomic_survival", 3]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -1922,7 +1922,7 @@
   "time": 24000,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 4] , ["atomic_survival", 4] , ["textbook_survival", 4]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -2000,7 +2000,7 @@
   "time": 12000,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -2028,7 +2028,7 @@
   "batch_time_factors":[80, 4],
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":1}
+    {"id":"CHEM","level":1}
   ], "tools": [
     [
       [ "hotplate", 25 ],
@@ -2055,7 +2055,7 @@
   "time": 6000,
   "book_learn": [["adv_chemistry", 3] , ["textbook_chemistry", 3] , ["atomic_survival", 4]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -2089,7 +2089,7 @@
   "time": 12000,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":1,"amount":1}
+    {"id":"CHEM","level":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
@@ -2154,7 +2154,7 @@
   "autolearn": true,
   "book_learn": [["adv_chemistry", 2] , ["textbook_chemistry", 2] , ["recipe_labchem", 3] , ["atomic_survival", 2]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":1}
+    {"id":"CHEM","level":1}
   ], "tools": [
     [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
   ],
@@ -2224,8 +2224,8 @@
   "time": 45000,
   "book_learn": [[ "recipe_creepy", 7 ], [ "recipe_serum", 7 ]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"CHEM","level":2,"amount":1}],
+    {"id":"CUT","level":1},
+    {"id":"CHEM","level":2}],
   "tools": [
       [
         [ "hotplate", 20 ],
@@ -2248,7 +2248,7 @@
   "difficulty": 3,
   "time": 45000,
   "qualities" : [
-    {"id":"CHEM","level":1,"amount":1}],
+    {"id":"CHEM","level":1}],
   "autolearn": true,
   "tools": [
     [
@@ -2282,7 +2282,7 @@
   "time": 5000,
   "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 2] , ["survival_book", 3]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":1}
+    {"id":"CHEM","level":1}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -2305,7 +2305,7 @@
   "difficulty": 7,
   "time": 25000,
   "book_learn": [[ "recipe_labchem", 7 ], ["textbook_chemistry", 7]],
-  "qualities":[ {"id":"BOIL","level":2,"amount":1} ],
+  "qualities":[ {"id":"BOIL","level":2} ],
     "tools": [
     [
       [ "fire", -1 ],
@@ -2343,7 +2343,7 @@
   "difficulty": 7,
   "time": 15000,
   "autolearn": true,
-  "qualities":[{"id":"BOIL","level":2,"amount":1}],
+  "qualities":[{"id":"BOIL","level":2}],
   "tools": [
     [[ "chemistry_set", 25 ]],
     [
@@ -2366,8 +2366,8 @@
 "time": 10000,
 "autolearn": true,
 "qualities":[
-{"id":"BOIL","level":2,"amount":1},
-{"id":"CHEM","level":2,"amount":1}
+{"id":"BOIL","level":2},
+{"id":"CHEM","level":2}
 ], "tools": [
 [
 [ "fire", -1 ],
@@ -2394,8 +2394,8 @@
 "time": 2500,
 "autolearn": true,
 "qualities":[
-{"id":"BOIL","level":2,"amount":1},
-{"id":"CHEM","level":2,"amount":1}
+{"id":"BOIL","level":2},
+{"id":"CHEM","level":2}
 ], "tools": [
 [
 [ "fire", -1 ],
@@ -2426,8 +2426,8 @@
 "time": 3000,
 "autolearn": true,
 "qualities":[
-{"id":"BOIL","level":2,"amount":1},
-{"id":"CHEM","level":2,"amount":1}
+{"id":"BOIL","level":2},
+{"id":"CHEM","level":2}
 ], "tools": [
 [
 [ "fire", -1 ],
@@ -2510,7 +2510,7 @@
   "book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 4 ], ["textbook_chemistry", 5], ["textbook_armschina", 5]],
   "qualities" :
     [
-      {"id":"CONTAIN","level":1,"amount":1}
+      {"id":"CONTAIN","level":1}
     ],
   "components": [
     [
@@ -2536,7 +2536,7 @@
   "time": 20000,
   "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 2 ] , [ "manual_shotgun", 3 ] , [ "manual_pistol", 3 ], [ "adv_chemistry", 3 ] , [ "textbook_chemistry", 3 ]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":2}
   ], "tools": [
     [
       [ "hotplate", 50 ],
@@ -2567,7 +2567,7 @@
 "book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 5 ] , ["textbook_chemistry", 7]],
 "qualities" :
 [
-{"id":"CONTAIN","level":1,"amount":1}
+{"id":"CONTAIN","level":1}
 ],
 "components": [
 [
@@ -2589,7 +2589,7 @@
 "time": 4000,
 "autolearn": true,
 "qualities":[
-{"id":"BOIL","level":2,"amount":1}
+{"id":"BOIL","level":2}
 ], "tools": [
 [
 [ "fire", -1 ],
@@ -2613,8 +2613,8 @@
 "time": 75000,
 "book_learn": [[ "recipe_labchem", 8 ], ["textbook_anarch", 10]],
 "qualities":[
-{"id":"BOIL","level":2,"amount":1},
-{"id":"CHEM","level":2,"amount":1}
+{"id":"BOIL","level":2},
+{"id":"CHEM","level":2}
 ], "tools": [
 [
 [ "fire", -1 ],
@@ -2644,7 +2644,7 @@
 "time": 2000,
 "autolearn": true,
 "qualities":[
-{"id":"BOIL","level":2,"amount":1}
+{"id":"BOIL","level":2}
 ],
 "components": [
 [
@@ -2665,7 +2665,7 @@
 "time": 55000,
 "book_learn": [[ "recipe_labchem", 8 ]],
 "qualities":[
-{"id":"BOIL","level":2,"amount":1}
+{"id":"BOIL","level":2}
 ],
 "components": [
 [
@@ -2689,7 +2689,7 @@
 "time": 5000,
 "book_learn": [[ "textbook_anarch", 5 ] , [ "recipe_labchem", 4 ], ["textbook_chemistry", 5]],
 "qualities":[
-{"id":"BOIL","level":2,"amount":1}
+{"id":"BOIL","level":2}
 ],
 "components": [
 [
@@ -2713,7 +2713,7 @@
 "time": 30000,
 "book_learn": [[ "textbook_anarch", 4 ] , [ "recipe_labchem", 3 ], ["textbook_chemistry", 5]],
 "qualities":[
-{"id":"BOIL","level":2,"amount":1}
+{"id":"BOIL","level":2}
 ],
 "tools": [
     [
@@ -2740,9 +2740,9 @@
   "time": 60000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"BOIL","level":2,"amount":1}
+    {"id":"HAMMER","level":1},
+    {"id":"CUT","level":1},
+    {"id":"BOIL","level":2}
   ],
   "tools": [
     [

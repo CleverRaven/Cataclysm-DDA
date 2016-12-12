@@ -41,7 +41,7 @@ enum advanced_inv_sortby {
     SORTBY_CHARGES,
     SORTBY_CATEGORY,
     SORTBY_DAMAGE,
-    SORTBY_STALENESS
+    SORTBY_SPOILAGE
 };
 
 struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
@@ -49,6 +49,12 @@ struct sort_case_insensitive_less : public std::binary_function< char, char, boo
         return toupper( static_cast< unsigned char >( x ) ) < toupper( static_cast< unsigned char >( y ) );
     }
 };
+
+/**
+ * Cancels ongoing move all action.
+ * @todo Make this not needed.
+ */
+void cancel_aim_processing();
 
 struct advanced_inv_listitem;
 
@@ -309,7 +315,7 @@ class advanced_inventory_pane
         /** Only add offset to index, but wrap around! */
         void mod_index( int offset );
 
-        mutable std::map<std::string, bool> filtercache;
+        mutable std::map<std::string, std::function<bool( const item & )>> filtercache;
 };
 
 class advanced_inventory

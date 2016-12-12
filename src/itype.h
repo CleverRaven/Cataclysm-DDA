@@ -51,6 +51,9 @@ using quality_id = string_id<quality>;
 
 enum field_id : int;
 
+/** Proportion of vehicle kinetic energy lost per turn to friction */
+extern double friction_loss;
+
 // Returns the name of a category of ammo (e.g. "shot")
 std::string ammo_name( const ammotype &ammo );
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
@@ -66,6 +69,7 @@ struct islot_tool {
 
     long max_charges = 0;
     long def_charges = 0;
+    std::vector<long> rand_charges;
     unsigned char charges_per_use = 0;
     unsigned char turns_per_charge = 0;
 };
@@ -299,8 +303,47 @@ struct islot_engine
     friend item;
 
     public:
-        /** for combustion engines the displacement (cc) */
-        int displacement = 0;
+        /** maximum power output (in kW) */
+        int power = 0;
+
+        /** fuel consumed by engine (if any) */
+        ammotype fuel = NULL_ID;
+
+        /** how efficient is engine at converting fuel into raw power (1-100] */
+        int efficiency = 100;
+
+        /** for engine with gears what is the minimum engine rpm? */
+        int idle = 0;
+
+        /** for engines with gears what is the optimum engine rpm? */
+        int optimum = 0;
+
+        /** for engines with gears what is the maximum safe rpm before engine damage occurs? */
+        int redline = 0;
+
+        /** discrete gears (if any) in ascending order */
+        std::vector<float> gears;
+
+        /** moves required to start the engine (or zero for instantaneous start) */
+        int start_time = 0;
+
+        /** battery energy (kJ) required to start (if any). @note 1kJ = 1 "battery" charge */
+        int start_energy = 0;
+
+        /** Theoretical max velocity (m/s) if used in vehicle of @ref mass with @ref dynamics */
+        double velocity_max( int mass, float dynamics = 1.0 ) const;
+
+        /** Max velocity avoiding damage (m/s) if used in vehicle of @ref mass with @ref dynamics */
+        double velocity_safe( int mass, float dynamics = 1.0 ) const;
+
+        /** Most fuel efficient velocity (m/s) if used in vehicle of @ref mass with @ref dynamics */
+        double velocity_optimal( int mass, float dynamics = 1.0 ) const;
+
+        /** Select most efficient gear at @ref velocity (m/s) or @return -1 if no (suitable) gears */
+        int best_gear( double velocity ) const;
+
+        /** Get rpm at @ref velocity (m/s) presuming selection of @see best_gear() or 0 if stalled */
+        int effective_rpm( double velocity ) const;
 
     private:
         /** What faults (if any) can occur */
@@ -506,6 +549,9 @@ struct islot_ammo : common_ranged_data {
      * @warning It is not read from the json directly.
      * */
     bool special_cookoff = false;
+
+    /** Fuel energy density (kJ per charge) */
+    int energy = 1;
 };
 
 struct islot_bionic {
@@ -548,12 +594,6 @@ struct islot_seed {
     islot_seed() { }
 };
 
-// Data used when spawning items, should be obsoleted by the spawn system, but
-// is still used at several places and makes it easier when it applies to all new items of a type.
-struct islot_spawn {
-    std::vector<long> rand_charges;
-};
-
 struct islot_artifact {
     art_charge charge_type;
     std::vector<art_effect_passive> effects_wielded;
@@ -583,7 +623,6 @@ struct itype {
     copyable_unique_ptr<islot_gunmod> gunmod;
     copyable_unique_ptr<islot_magazine> magazine;
     copyable_unique_ptr<islot_bionic> bionic;
-    copyable_unique_ptr<islot_spawn> spawn;
     copyable_unique_ptr<islot_ammo> ammo;
     copyable_unique_ptr<islot_seed> seed;
     copyable_unique_ptr<islot_artifact> artifact;
@@ -679,6 +718,9 @@ public:
 
     int damage_min = -1; /** Minimum amount of damage to an item (state of maximum repair) */
     int damage_max =  4; /** Maximum amount of damage to an item (state before destroyed) */
+
+    /** What items can be used to repair this item? @see Item_factory::finalize */
+    std::set<itype_id> repair;
 
     /** Magazine types (if any) for each ammo type that can be used to reload this item */
     std::map< ammotype, std::set<itype_id> > magazines;

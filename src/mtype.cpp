@@ -28,6 +28,7 @@ mtype::mtype()
     burn_into = NULL_ID;
     dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
+    harvest = NULL_ID;
     luminance = 0;
     bash_skill = 0;
     flags.insert( MF_HUMAN );

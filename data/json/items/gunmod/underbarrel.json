@@ -349,24 +349,6 @@
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
   {
-    "id": "sword_bayonet",
-    "type": "GUNMOD",
-    "name": "sword bayonet",
-    "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a shotgun or rifle, allowing a melee attack to deal cutting damage.",
-    "weight": 923,
-    "volume": 3,
-    "price": 5000,
-    "cutting": 18,
-    "material": [ "steel" ],
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "underbarrel",
-    "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
-    "dispersion_modifier": 20,
-    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ]
-  },
-  {
     "id": "u_shotgun",
     "type": "GUNMOD",
     "name": "underslung shotgun",

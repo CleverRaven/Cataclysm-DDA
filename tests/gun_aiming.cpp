@@ -142,9 +142,9 @@ TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
 
         WHEN( "the gun ranges are examined" ) {
             std::vector<item> guns;
-            for( const auto& e : item_controller->get_all_itypes() ) {
-                if( e.second.gun ) {
-                    guns.emplace_back( e.first );
+            for( const itype *e : item_controller->all() ) {
+                if( e->gun ) {
+                    guns.emplace_back( e );
                     auto &gun = guns.back();
                     if( !gun.magazine_integral() ) {
                         gun.emplace_back( gun.magazine_default() );

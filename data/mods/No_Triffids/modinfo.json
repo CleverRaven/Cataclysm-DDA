@@ -6,7 +6,8 @@
     "authors": [ "Williham Totland" ],
     "description": "Removes triffids from the game.",
     "category": "monster_exclude",
-    "path": ""
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "MONSTER_BLACKLIST",

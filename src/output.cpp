@@ -1123,9 +1123,7 @@ long popup( const std::string &text, PopupFlags flags )
     wrefresh( w );
     delwin( w );
     refresh();
-#ifdef TILES
-    try_sdl_update();
-#endif // TILES
+    refresh_display();
     return ch;
 }
 
@@ -1183,6 +1181,12 @@ int draw_item_info( const int iLeft, const int iWidth, const int iTop, const int
                     const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
 {
     WINDOW *win = newwin( iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X );
+
+#ifdef TILES
+    clear_window_area( win );
+#endif // TILES
+    wclear( win );
+    wrefresh( win );
 
     const auto result = draw_item_info( win, sItemName, sTypeName, vItemDisplay, vItemCompare,
                                         selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win );
@@ -1456,6 +1460,23 @@ std::string to_upper_case( const std::string &s )
         return std::use_facet<std::ctype<char_t>>( std::locale() ).toupper( ch );
     } );
     return res;
+}
+
+std::string ordinal( int val ) {
+    switch( val ) {
+        case 1: return _( "1st" );
+        case 2: return _( "2nd" );
+        case 3: return _( "3rd" );
+        case 4: return _( "4th" );
+        case 5: return _( "5th" );
+        case 6: return _( "6th" );
+        case 7: return _( "7th" );
+        case 8: return _( "8th" );
+        case 9: return _( "9th" );
+
+        // fallback (not translated)
+        default: return string_format( "%ith", val );
+    };
 }
 
 // find the position of each non-printing tag in a string
@@ -2532,6 +2553,10 @@ bool is_draw_tiles_mode()
 }
 
 void play_music( std::string )
+{
+}
+
+void refresh_display()
 {
 }
 #endif

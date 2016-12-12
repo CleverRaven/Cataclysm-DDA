@@ -40,61 +40,6 @@ bool lcmatch( const std::string &str, const std::string &qry )
     return haystack.find( needle ) != std::string::npos;
 }
 
-bool list_items_match( const item *item, std::string sPattern )
-{
-    size_t iPos;
-    bool hasExclude = false;
-
-    if( sPattern.find( "-" ) != std::string::npos ) {
-        hasExclude = true;
-    }
-
-    do {
-        iPos = sPattern.find( "," );
-        std::string pat = ( iPos == std::string::npos ) ? sPattern : sPattern.substr( 0, iPos );
-        bool exclude = false;
-        if( pat.substr( 0, 1 ) == "-" ) {
-            exclude = true;
-            pat = pat.substr( 1, pat.size() - 1 );
-        } else if( hasExclude ) {
-            hasExclude = false; //If there are non exclusive items to filter, we flip this back to false.
-        }
-
-        std::string namepat = pat;
-        std::transform( namepat.begin(), namepat.end(), namepat.begin(), tolower );
-        if( lcmatch( remove_color_tags( item->tname() ), namepat ) ) {
-            return !exclude;
-        }
-
-        if( pat.find( "{", 0 ) != std::string::npos ) {
-            std::string adv_pat_type = pat.substr( 1, pat.find( ":" ) - 1 );
-            std::string adv_pat_search = pat.substr( pat.find( ":" ) + 1,
-                                         ( pat.find( "}" ) - pat.find( ":" ) ) - 1 );
-            std::transform( adv_pat_search.begin(), adv_pat_search.end(), adv_pat_search.begin(), tolower );
-            if( adv_pat_type == "c" && lcmatch( item->get_category().name, adv_pat_search ) ) {
-                return !exclude;
-            } else if( adv_pat_type == "m" ) {
-                for( auto material : item->made_of_types() ) {
-                    if( lcmatch( material->name(), adv_pat_search ) ) {
-                        return !exclude;
-                    }
-                }
-            } else if( adv_pat_type == "dgt" && item->damage() > atoi( adv_pat_search.c_str() ) ) {
-                return !exclude;
-            } else if( adv_pat_type == "dlt" && item->damage() < atoi( adv_pat_search.c_str() ) ) {
-                return !exclude;
-            }
-        }
-
-        if( iPos != std::string::npos ) {
-            sPattern = sPattern.substr( iPos + 1, sPattern.size() );
-        }
-
-    } while( iPos != std::string::npos );
-
-    return hasExclude;
-}
-
 std::vector<map_item_stack> filter_item_stacks( std::vector<map_item_stack> stack,
         std::string filter )
 {
@@ -112,11 +57,7 @@ std::vector<map_item_stack> filter_item_stacks( std::vector<map_item_stack> stac
         return false;
     }
                 );
-    // for( auto &elem : stack ) {
-    //     if( sFilterTemp == "" || list_items_match( elem.example, sFilterTemp ) ) {
-    //         ret.push_back( elem );
-    //     }
-    // }
+
     return ret;
 }
 
@@ -125,8 +66,9 @@ int list_filter_high_priority( std::vector<map_item_stack> &stack, std::string p
 {
     //TODO:optimize if necessary
     std::vector<map_item_stack> tempstack; // temp
+    const auto filter_fn = item_filter_from_string( priorities );
     for( auto it = stack.begin(); it != stack.end(); ) {
-        if( priorities == "" || !list_items_match( it->example, priorities ) ) {
+        if( priorities.empty() || ( it->example != nullptr && !filter_fn( *it->example ) ) ) {
             tempstack.push_back( *it );
             it = stack.erase( it );
         } else {
@@ -146,8 +88,9 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
 {
     //TODO:optimize if necessary
     std::vector<map_item_stack> tempstack; // temp
+    const auto filter_fn = item_filter_from_string( priorities );
     for( auto it = stack.begin() + start; it != stack.end(); ) {
-        if( priorities != "" && list_items_match( it->example, priorities ) ) {
+        if( !priorities.empty() && it->example != nullptr && filter_fn( *it->example ) ) {
             tempstack.push_back( *it );
             it = stack.erase( it );
         } else {

@@ -58,7 +58,8 @@ using mtype_id = string_id<mtype>;
 struct projectile;
 struct veh_collision;
 class tileray;
-struct harvest_entry;
+class harvest_list;
+using harvest_id = string_id<harvest_list>;
 
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
@@ -557,9 +558,8 @@ public:
     ter_id ter( const tripoint &p ) const;
     /**
      * Returns the full harvest list, for spawning.
-     * @todo Find it a better home that it can share with butchery drops.
      */
-    const std::list<harvest_entry> &get_harvest( const tripoint &p ) const;
+    const harvest_id &get_harvest( const tripoint &p ) const;
     /**
      * Returns names of the items that would be dropped.
      */
@@ -1066,7 +1066,6 @@ public:
 
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
- void post_process(unsigned zones);
  void place_spawns(const mongroup_id& group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);

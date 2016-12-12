@@ -1162,9 +1162,9 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "scrap", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
       [ [ "RAM", 1 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "battery", 100 ] ]
+      [ [ "processor", 1 ] ]
     ]
   },
   {
@@ -1928,18 +1928,6 @@
     ]
   },
   {
-    "result": "pda",
-    "type": "uncraft",
-    "time": 1200,
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "small_lcd_screen", 1 ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "RAM", 1 ] ]
-    ]
-  },
-  {
     "result": "pillow",
     "type": "uncraft",
     "time": 1000,
@@ -2051,6 +2039,22 @@
     ]
   },
   {
+    "result": "radio_car",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "time": 7000,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "antenna", 1 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "receiver", 1 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
+  },
+  {
     "result": "radio_car_box",
     "type": "uncraft",
     "time": 500,
@@ -2060,6 +2064,19 @@
       [ [ "battery", 200 ] ]
     ]
   },
+  {
+  "result": "radiocontrol",
+  "type": "uncraft",
+  "skill_used": "electronics",
+  "time": 3000,
+  "qualities": [ { "id": "SCREW", "level": 1 } ],
+  "components": [
+    [ [ "antenna", 1 ] ],
+    [ [ "e_scrap", 2 ] ],
+    [ [ "transponder", 1 ] ],
+    [ [ "plastic_chunk", 1 ] ]
+  ]
+},
   {
     "result": "rag",
     "type": "uncraft",

@@ -1,0 +1,20 @@
+[
+  {
+    "result": "flintlock_ammo",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "ammo_bullet", 10 ] ],
+    "components": [
+      [ [ "chem_black_powder", 10 ] ]
+    ]
+  },
+  {
+    "result": "flintlock_shot",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "ammo_bullet", 10 ] ],
+    "components": [
+      [ [ "chem_black_powder", 10 ] ]
+    ]
+  }
+]

@@ -871,7 +871,7 @@
     "type": "AMMO",
     "name": "diamond fragments",
     "description": "These small fragments of diamond are formed as a byproduct from the crystallization process of a diamond matrix.  While the substance usually decays when separated from the catalyst; these fragments are small enough to remain stable.",
-    "weight": 350,
+    "weight": 3,
     "volume": 1,
     "price": 10000,
     "bashing": 1,
@@ -999,8 +999,7 @@
       { "item": "scrap", "count": [ 4, 12 ] },
       { "item": "steel_chunk", "count": [ 2, 5 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
-    ],
-    "flags": [ "REACTOR" ]
+    ]
   },
   {
     "id": "vgen2",
@@ -1027,7 +1026,7 @@
       { "item": "scrap", "count": [ 4, 12 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
-    "flags": [ "ENGINE", "TOOL_NONE" ]
+    "flags": [ "TOOL_NONE" ]
   },
   {
     "id": "vgen2",

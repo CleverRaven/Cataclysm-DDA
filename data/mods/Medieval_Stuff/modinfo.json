@@ -6,6 +6,6 @@
     "authors": [ "Chaosvolt" ],
     "description": "Assorted fun things for the wannabe knight, legionary, and more.",
     "category": "items",
-    "path": ""
+    "dependencies": [ "dda" ]
   }
 ]

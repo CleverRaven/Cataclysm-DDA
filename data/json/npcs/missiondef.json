@@ -132,6 +132,33 @@
     }
   },
   {
+    "id": "MISSION_GET_INHALER",
+    "type": "mission_definition",
+    "name": "Find Inhaler",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 150000,
+    "urgent": true,
+    "item": "inhaler",
+    "start": "need_drugs_npc",
+    "end": "thankful",
+    "fail": "kill_npc",
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "deadline_low": 30,
+    "deadline_high": 48,
+    "dialogue": {
+      "describe": "I'm... short... of breath....",
+      "offer": "I'm asthmatic.  I need you to get an inhaler for me...",
+      "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry...",
+      "rejected": "What?!  Please, <ill_die> without your help!",
+      "advice": "There's a town nearby.  Check pharmacies; it'll be behind the counter.",
+      "inquire": "Find any inhaler yet?",
+      "success": "Oh thank god!  I'll be right as rain in no time.",
+      "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
+      "failure": "How am I not dead already?!"
+    }
+  },
+  {
     "id": "MISSION_GET_ANTIBIOTICS",
     "type": "mission_definition",
     "name": "Find Antibiotics",
@@ -220,7 +247,7 @@
       "advice": "They shouldn't be that hard to find... should they?",
       "inquire": "Any luck?",
       "success": "Great work, Deputy.  We're in business.",
-      "success_lie": "Thanks for trying... I guess.",
+      "success_lie": "Thanks for trying...  I guess.",
       "failure": "The day of reckoning will come for the criminals if it hasn't already."
     }
   },
@@ -254,6 +281,7 @@
     "difficulty": 2,
     "value": 140000,
     "item": "record_accounting",
+    "start": "reveal_office_tower",
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_GET_SAFE_BOX",
     "dialogue": {
@@ -264,7 +292,7 @@
       "advice": "Try a big corporate building of some sort, they're bound to have an accounting department.",
       "inquire": "Any luck?",
       "success": "Great, let's see... uh... hmmm...  Fine, I didn't even do my own taxes but I'm sure this will prove their guilt if we get an expert to examine it.",
-      "success_lie": "Thanks for trying... I guess.",
+      "success_lie": "Thanks for trying...  I guess.",
       "failure": "The day of reckoning will come for the corporations if it hasn't already."
     }
   },
@@ -276,6 +304,7 @@
     "difficulty": 2,
     "value": 60000,
     "item": "record_patient",
+    "start": "reveal_doctors_office",
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_REACH_FEMA_CAMP",
     "dialogue": {
@@ -286,7 +315,7 @@
       "advice": "I bet you'll run into a lot of those things in the hospital, please be careful.",
       "inquire": "Any luck?",
       "success": "Oh dear, I thought Timmy would have made it...",
-      "success_lie": "Thanks for trying... I guess.",
+      "success_lie": "Thanks for trying...  I guess.",
       "failure": "I bet some of them are still out there..."
     }
   },
@@ -298,6 +327,7 @@
     "difficulty": 2,
     "value": 50000,
     "item": "record_weather",
+    "start": "reveal_weather_station",
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "dialogue": {
       "describe": "I wonder if a retreat might exist...",
@@ -319,11 +349,12 @@
     "difficulty": 2,
     "value": 100000,
     "item": "small_relic",
+    "start": "reveal_cathedral",
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_RECOVER_PRIEST_DIARY",
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle...",
-      "offer": "As the world seems to abandon the reality that we once knew, it becomes plausible that the old superstitions that were cast aside may have had some truth to them.  Please go and find me a religious relic...I doubt it will be of much use but I've got to hope in something.",
+      "offer": "As the world seems to abandon the reality that we once knew, it becomes plausible that the old superstitions that were cast aside may have had some truth to them.  Please go and find me a religious relic...  I doubt it will be of much use but I've got to hope in something.",
       "accepted": "I wish you the best of luck, may whatever god you please guide your path.",
       "rejected": "Ya, I guess the stress may just be getting to me...",
       "advice": "I suppose a large church or cathedral may have something.",
@@ -353,7 +384,7 @@
       "advice": "This shouldn't be hard unless we run into a horde.",
       "inquire": "Any luck?",
       "success": "Great, anything I can't use to prosecute the bastards is yours, as promised.",
-      "success_lie": "Thanks for trying... I guess.",
+      "success_lie": "Thanks for trying...  I guess.",
       "failure": "The day of reckoning will come for the corporations if it hasn't already."
     }
   },
@@ -417,9 +448,9 @@
       "offer": "You have no idea how interesting this diary is.  I have two very promising leads...  First things first, the Catholic Church has been performing its own investigations into global cult phenomenon and it appears to have become very interested in a local cult as of recently.  Could you investigate a location for me?  I'm not sure what was going on here but the priest seemed fairly worried about it.",
       "accepted": "I wish you the best of luck, may whatever god you please guide your path...  You may need it this time more than the past excursions you have gone on.  There is a note about potential human sacrifice in the days immediately before and after the outbreak.  The name of the cult is believed to be the Church of Starry Wisdom but it is noted that accounts differ.",
       "rejected": "Ya, I guess the stress may just be getting to me...",
-      "advice": "I doubt the site is still occupied but I'd carry a firearm at least... I'm not sure what you might be looking for but I'm positive you'll find something out of the ordinary if you look long enough.",
+      "advice": "I doubt the site is still occupied but I'd carry a firearm at least...  I'm not sure what you might be looking for but I'm positive you'll find something out of the ordinary if you look long enough.",
       "inquire": "I'm positive there is something there... there has to be, any luck?",
-      "success": "Thank you, your account of these... demonic creations proves the fears the churches had were well founded.  Our priority should be routing out any survivors of this cult... I don't known if they are responsible for the outbreak but they certainly know more about it than I do.",
+      "success": "Thank you, your account of these... demonic creations proves the fears the churches had were well founded.  Our priority should be routing out any survivors of this cult...  I don't known if they are responsible for the outbreak but they certainly know more about it than I do.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }
@@ -537,7 +568,7 @@
       "inquire": "Any luck?",
       "success": "You look a little shaken up, I can't tell you how glad I am that you killed it though.",
       "success_lie": "Something in the shadows still seems to stare at me when I look at the woods.",
-      "failure": "I'm glad you came back alive... I wasn't sure if I had sent you to your death."
+      "failure": "I'm glad you came back alive...  I wasn't sure if I had sent you to your death."
     }
   },
   {
@@ -791,11 +822,11 @@
     "dialogue": {
       "describe": "We need help...",
       "offer": "I've located a Hell's Raiders encampment in the region that appears to be coordinating operations against the Free Merchants.  We know almost nothing about the command structure in the 'gang' so I need to send someone in to decapitate the leadership.  The raid will be held under orders of the U.S. Marshals Service and by agreeing to the mission you will become a marshal, swearing to assist the federal government in regaining order.",
-      "accepted": "Now repeat after me...I do solemnly swear that I will support and defend the Constitution of the United States against all enemies, foreign and domestic......that I will bear true faith and allegiance to the same......that I take this obligation freely, without any mental reservation or purpose of evasion......and that I will well and faithfully discharge the duties of the office on which I am about to enter.To establish justice, insure domestic tranquility, provide for the common defense, promote the general welfare and secure the blessings of liberty.So help me God.Congratulations Marshal, don't forget your badge and gun.  As a marshal all men or women assisting you are considered deputy marshals so keep them in line.",
+      "accepted": "Now repeat after me...  I do solemnly swear that I will support and defend the Constitution of the United States against all enemies, foreign and domestic...... that I will bear true faith and allegiance to the same...... that I take this obligation freely, without any mental reservation or purpose of evasion...... and that I will well and faithfully discharge the duties of the office on which I am about to enter.  To establish justice, insure domestic tranquility, provide for the common defense, promote the general welfare and secure the blessings of liberty.  So help me God.  Congratulations Marshal, don't forget your badge and gun.  As a marshal all men or women assisting you are considered deputy marshals so keep them in line.",
       "rejected": "Come back when you get a chance, we could use a few good men.",
       "advice": "I'd recommend having two deputies... it would be a death trap if a single man got surrounded.",
       "inquire": "Has the leadership been dealt with?",
-      "success": "Marshal, you continue to impress us.If you are interested, I recently received a message that a unit was deploying into our AO.I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.The bird dropped them off next to a pump station.  Can't tell you much more.If you cound locate the captain in charge, I'm sure he could use your skills.  Don't forget to wear your badge when meeting with them.Thank you once again marshal.",
+      "success": "Marshal, you continue to impress us.  If you are interested, I recently received a message that a unit was deploying into our AO.  I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.  The bird dropped them off next to a pump station.  Can't tell you much more.  If you cound locate the captain in charge, I'm sure he could use your skills.  Don't forget to wear your badge when meeting with them.  Thank you once again marshal.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }
@@ -1007,7 +1038,7 @@
       "offer": "We have the basic equipment that we need but without a functioning power grid we are forced to rely on the readily available vehicle batteries.  This is going to be a chore but I'll need twelve car batteries to swap between charging and powering our equipment.  The good news is that they don't need to be charged, we can take care of that.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
-      "advice": "Cars can be found in traffic jams along roads or in parking lots... I'm sure you can find a few.",
+      "advice": "Cars can be found in traffic jams along roads or in parking lots...  I'm sure you can find a few.",
       "inquire": "Do you have the car batteries?",
       "success": "I'm impressed with your abilities.",
       "success_lie": "What good does this do us?",
@@ -1699,7 +1730,7 @@
       "advice": "Traveling the backroads would be a good way to search for one.",
       "inquire": "Shall we keep looking for a farm house?",
       "success": "Well, my adventuring days are over.  I can't thank you enough.  Trying to make this place self sustaining will take some work but the future is looking brighter.  At least it ought to be safe for now.  You'll always be welcome here.",
-      "success_lie": "Thanks for trying... I guess.",
+      "success_lie": "Thanks for trying...  I guess.",
       "failure": "I guess it was just a pipe dream."
     }
   },
@@ -1717,12 +1748,12 @@
     "dialogue": {
       "describe": "Maybe they escaped to one of the camps...",
       "offer": "I can't thank you enough for bringing me the patient records but I do have another request.  You seem to know your way around... could you take me to one of the FEMA camps?  I know some were overrun but I don't want to believe all of them could have fallen.",
-      "accepted": "Thank you, just bring me to the camp... I just want to see.",
+      "accepted": "Thank you, just bring me to the camp...  I just want to see.",
       "rejected": "Please, I don't know what else to do.",
       "advice": "We should go at night, if it is overrun then we can quickly make our escape.",
       "inquire": "Any leads on where a camp might be?",
       "success": "I guess this wasn't as bright an idea as I thought.",
-      "success_lie": "Thanks for trying... I guess.",
+      "success_lie": "Thanks for trying...  I guess.",
       "failure": "I bet some of them are still out there..."
     }
   },

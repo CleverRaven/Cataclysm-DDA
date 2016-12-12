@@ -6,7 +6,8 @@
     "authors": [ "daftfad" ],
     "description": "Removes all special zombies from the game.",
     "category": "monster_exclude",
-    "path": "modinfo.json"
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "MONSTER_BLACKLIST",

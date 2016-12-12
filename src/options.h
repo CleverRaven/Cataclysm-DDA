@@ -98,6 +98,8 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 std::string sTooltip;
                 std::string sType;
 
+                std::string format;
+
                 copt_hide_t hide;
                 int iSortPos;
 
@@ -172,7 +174,8 @@ class options_manager : public JsonSerializer, public JsonDeserializer
         void add( const std::string sNameIn, const std::string sPageIn,
                   const std::string sMenuTextIn, const std::string sTooltipIn,
                   const int iMinIn, int iMaxIn, int iDefaultIn,
-                  copt_hide_t opt_hide = COPT_NO_HIDE );
+                  copt_hide_t opt_hide = COPT_NO_HIDE,
+                  const std::string &format = "%i" );
 
         //add int map option
         void add( const std::string sNameIn, const std::string sPageIn,
@@ -185,7 +188,8 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                   const std::string sMenuTextIn, const std::string sTooltipIn,
                   const float fMinIn, float fMaxIn,
                   float fDefaultIn, float fStepIn,
-                  copt_hide_t opt_hide = COPT_NO_HIDE );
+                  copt_hide_t opt_hide = COPT_NO_HIDE,
+                  const std::string &format = "%.2f" );
 
     private:
         std::unordered_map<std::string, cOpt> global_options;

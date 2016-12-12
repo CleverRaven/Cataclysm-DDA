@@ -130,9 +130,26 @@ void profession::load( JsonObject &jo, const std::string & )
 
     if( !was_loaded || jo.has_member( "items" ) ) {
         JsonObject items_obj = jo.get_object( "items" );
-        optional( items_obj, was_loaded, "both", _starting_items, item_reader{} );
-        optional( items_obj, was_loaded, "male", _starting_items_male, item_reader{} );
-        optional( items_obj, was_loaded, "female", _starting_items_female, item_reader{} );
+
+        if( items_obj.has_array( "both" ) ) {
+            optional( items_obj, was_loaded, "both", legacy_starting_items, item_reader{} );
+        }
+        if( items_obj.has_object( "both" ) ) {
+            _starting_items = item_group::load_item_group( *items_obj.get_raw( "both" ), "collection" );
+        }
+        if( items_obj.has_array( "male" ) ) {
+            optional( items_obj, was_loaded, "male", legacy_starting_items_male, item_reader{} );
+        }
+        if( items_obj.has_object( "male" ) ) {
+            _starting_items_male = item_group::load_item_group( *items_obj.get_raw( "male" ), "collection" );
+        }
+        if( items_obj.has_array( "female" ) ) {
+            optional( items_obj, was_loaded, "female",  legacy_starting_items_female, item_reader{} );
+        }
+        if( items_obj.has_object( "female" ) ) {
+            _starting_items_female = item_group::load_item_group( *items_obj.get_raw( "female" ),
+                                     "collection" );
+        }
     }
 
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader{} );
@@ -211,9 +228,20 @@ void profession::check_item_definitions( const itypedecvec &items ) const
 
 void profession::check_definition() const
 {
-    check_item_definitions( _starting_items );
-    check_item_definitions( _starting_items_female );
-    check_item_definitions( _starting_items_male );
+    check_item_definitions( legacy_starting_items );
+    check_item_definitions( legacy_starting_items_female );
+    check_item_definitions( legacy_starting_items_male );
+
+    if( !item_group::group_is_defined( _starting_items ) ) {
+        debugmsg( "_starting_items group is undefined" );
+    }
+    if( !item_group::group_is_defined( _starting_items_male ) ) {
+        debugmsg( "_starting_items_male group is undefined" );
+    }
+    if( !item_group::group_is_defined( _starting_items_female ) ) {
+        debugmsg( "_starting_items_female group is undefined" );
+    }
+
     for( auto const &a : _starting_CBMs ) {
         if( !is_valid_bionic( a ) ) {
             debugmsg( "bionic %s for profession %s does not exist", a.c_str(), id.c_str() );
@@ -266,11 +294,36 @@ signed int profession::point_cost() const
     return _point_cost;
 }
 
-profession::itypedecvec profession::items( bool male ) const
+// TODO Combine items that stack with each other
+std::vector<item> profession::items( bool male ) const
 {
-    auto result = _starting_items;
-    const auto &gender_items = male ? _starting_items_male : _starting_items_female;
-    result.insert( result.begin(), gender_items.begin(), gender_items.end() );
+    std::vector<item> result;
+    auto add_legacy_items = [&result]( const itypedecvec & vec ) {
+        for( const itypedec &elem : vec ) {
+            item it( elem.type_id, 0, item::default_charges_tag{} );
+            if( !elem.snippet_id.empty() ) {
+                it.set_snippet( elem.snippet_id );
+            }
+            it = it.in_its_container();
+            result.push_back( it );
+        }
+    };
+
+    add_legacy_items( legacy_starting_items );
+    add_legacy_items( male ? legacy_starting_items_male : legacy_starting_items_female );
+
+    const std::vector<item> group_both = item_group::items_from( _starting_items );
+    const std::vector<item> group_gender = item_group::items_from( male ? _starting_items_male :
+                                           _starting_items_female );
+    result.insert( result.begin(), group_both.begin(), group_both.end() );
+    result.insert( result.begin(), group_gender.begin(), group_gender.end() );
+
+    for( item &it : result ) {
+        if( it.has_flag( "VARSIZE" ) ) {
+            it.item_tags.insert( "FIT" );
+        }
+    }
+
     return result;
 }
 

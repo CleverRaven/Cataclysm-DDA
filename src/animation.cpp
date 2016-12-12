@@ -31,9 +31,7 @@ tripoint relative_view_pos( player const &u, tripoint const &p ) noexcept
 
 void draw_animation_delay(long const scale = 1)
 {
-#ifdef TILES
-    try_sdl_update();
-#endif // TILES
+    refresh_display();
 
     auto const delay = get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000l;
 

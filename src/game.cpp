@@ -14,6 +14,7 @@
 #include "gamemode.h"
 #include "mapbuffer.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "editmap.h"
 #include "bodypart.h"
 #include "map.h"
@@ -83,6 +84,7 @@
 #include "cata_utility.h"
 #include "pathfinding.h"
 #include "projectile.h"
+#include "game_inventory.h"
 #include "gates.h"
 #include "item_factory.h"
 #include "scent_map.h"
@@ -118,7 +120,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const int core_version = 5;
+const int core_version = 6;
 
 /** Will be set to true when running unit tests */
 bool test_mode = false;
@@ -293,10 +295,12 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
     // deduplicated list of mods to check
     std::set<std::string> check( opts.begin(), opts.end() );
 
-    // if no specific mods specified check everything
+    // if no specific mods specified check all non-obsolete mods
     if( check.empty() ) {
         for( const auto &e : mods ) {
-            check.emplace( e.first );
+            if( !e.second->obsolete ) {
+                check.emplace( e.first );
+            }
         }
     }
 
@@ -712,13 +716,6 @@ void game::setup()
     popup_status( _( "Please wait while the world data loads..." ), _( "Loading core data" ) );
     load_core_data();
 
-    for( int i = get_world_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
-        popup_status( _( "Please wait while the world data loads..." ),
-                      _( "Applying legacy migration (%i/%i)" ), i, core_version - 1 );
-
-        load_data_from_dir( FILENAMES["legacydir"] + to_string( i ), "legacy" );
-    }
-
     load_world_modfiles(world_generator->active_world);
 
     m =  map( get_world_option<bool>( "ZLEVELS" ) );
@@ -737,7 +734,6 @@ void game::setup()
     nextweather = HOURS( get_option<int>( "INITIAL_TIME" ) ) + MINUTES(30);
 
     turnssincelastmon = 0; //Auto safe mode init
-    autosafemode = get_option<bool>( "AUTOSAFEMODE" );
     safemodeveh =
         get_option<bool>( "SAFEMODEVEH" ); //Vehicle safemode check, in practice didn't trigger when needed
 
@@ -1527,7 +1523,6 @@ bool game::do_turn()
 
         const bool in_bubble_z = m.has_zlevels() || sm_loc.z == get_levz();
         for( auto &veh : sm->vehicles ) {
-            veh->power_parts();
             veh->idle( in_bubble_z && m.inbounds(in_reality.x, in_reality.y) );
         }
     }
@@ -1545,6 +1540,7 @@ bool game::do_turn()
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
         draw();
+        refresh_display();
     }
     u.process_active_items();
 
@@ -1555,6 +1551,7 @@ bool game::do_turn()
     if( u.has_effect( effect_sleep) && calendar::once_every(MINUTES(30)) ) {
         draw();
         refresh();
+        refresh_display();
     }
 
     u.update_bodytemp();
@@ -2856,12 +2853,11 @@ bool game::handle_action()
             break;
 
         case ACTION_INVENTORY:
-            interactive_inv();
-            refresh_all();
+            game_menus::inv::common( u );
             break;
 
         case ACTION_COMPARE:
-            compare();
+            game_menus::inv::compare( u );
             break;
 
         case ACTION_ORGANIZE:
@@ -3234,27 +3230,22 @@ bool game::handle_action()
             } else {
                 turnssincelastmon = 0;
                 set_safe_mode( SAFE_MODE_OFF );
-                if (autosafemode) {
-                    add_msg(m_info, _("Safe mode OFF! (Auto safe mode still enabled!)"));
-                } else {
-                    add_msg(m_info, _("Safe mode OFF!"));
-                }
+                add_msg( m_info, get_option<bool>( "AUTOSAFEMODE" )
+                    ? _( "Safe mode OFF! (Auto safe mode still enabled!)" ) : _( "Safe mode OFF!" ) );
             }
-            if( u.has_effect( effect_laserlocked) ) {
-                u.remove_effect( effect_laserlocked);
+            if( u.has_effect( effect_laserlocked ) ) {
+                u.remove_effect( effect_laserlocked );
                 safe_mode_warning_logged = false;
             }
             break;
 
-        case ACTION_TOGGLE_AUTOSAFE:
-            if (autosafemode) {
-                add_msg(m_info, _("Auto safe mode OFF!"));
-                autosafemode = false;
-            } else {
-                add_msg(m_info, _("Auto safe mode ON"));
-                autosafemode = true;
-            }
+        case ACTION_TOGGLE_AUTOSAFE: {
+            auto &autosafemode_option = get_options().get_option( "AUTOSAFEMODE" );
+            add_msg(m_info, autosafemode_option.value_as<bool>()
+                ? _( "Auto safe mode OFF!" ) : _( "Auto safe mode ON!" ) );
+            autosafemode_option.setNext();
             break;
+        }
 
         case ACTION_IGNORE_ENEMY:
             if (safe_mode == SAFE_MODE_STOP) {
@@ -3710,27 +3701,35 @@ void game::load_world_modfiles(WORLDPTR world)
     erase();
     refresh();
 
-    if (world != NULL) {
+    if( world ) {
+        auto &mods = world->active_mod_order;
+
+        // remove any duplicates whilst preserving order (fixes #19385)
+        std::set<std::string> found;
+        mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const std::string &e ) {
+            if( found.count( e ) ) {
+                return true;
+            } else {
+                found.insert( e );
+                return false;
+            }
+        } ), mods.end() );
+
+        // require at least one core mod (saves before version 6 may implicitly require dda pack)
+        if( std::none_of( mods.begin(), mods.end(), []( const std::string &e ) {
+            return world_generator->get_mod_manager()->mod_map[e]->core;
+        } ) ) {
+            mods.insert( mods.begin(), "dda" );
+        }
+
         load_artifacts(world->world_path + "/artifacts.gsav");
-        mod_manager *mm = world_generator->get_mod_manager();
         // this code does not care about mod dependencies,
         // it assumes that those dependencies are static and
         // are resolved during the creation of the world.
         // That means world->active_mod_order contains a list
         // of mods in the correct order.
-        for( const auto &mod_ident : world->active_mod_order ) {
-            if (mm->has_mod(mod_ident)) {
-                MOD_INFORMATION &mod = *mm->mod_map[mod_ident];
-                if( !mod.obsolete ) {
-                    // Silently ignore mods marked as obsolete.
-                    popup_status( _( "Please wait while the world data loads..." ),
-                                  _( "Loading mods (%s)" ), mod.ident.c_str() );
-                    load_data_from_dir( mod.path, mod.ident );
-                }
-            } else {
-                debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
-            }
-        }
+        load_packs( _( "Please wait while the world data loads..." ), mods );
+
         // Load additional mods from that world-specific folder
         load_data_from_dir( world->world_path + "/mods", "custom" );
     }
@@ -3740,6 +3739,40 @@ void game::load_world_modfiles(WORLDPTR world)
     popup_status( _( "Please wait while the world data loads..." ), _( "Finalizing and verifying" ) );
 
     DynamicDataLoader::get_instance().finalize_loaded_data();
+}
+
+bool game::load_packs( const std::string &msg, const std::vector<std::string>& packs )
+{
+    std::vector<std::string> missing;
+
+    mod_manager *mm = world_generator->get_mod_manager();
+    for( const auto &e : packs ) {
+        if( !mm->has_mod( e ) ) {
+            missing.push_back( e );
+            continue;
+        }
+
+        MOD_INFORMATION &mod = *mm->mod_map[e];
+        popup_status( msg.c_str(), _( "Loading content (%s)" ), e.c_str() );
+        load_data_from_dir( mod.path, mod.ident );
+
+        // if mod specifies legacy migrations load any that are required
+        if( !mod.legacy.empty() ) {
+            for( int i = get_world_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
+
+                popup_status( msg.c_str(), _( "Applying legacy migration (%s %i/%i)" ),
+                              e.c_str(), i, core_version - 1 );
+
+                load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident );
+            }
+        }
+    }
+
+    for( const auto &e : missing ) {
+        debugmsg( "unknown content %s", e.c_str() );
+    }
+
+    return missing.empty();
 }
 
 //Saves all factions and missions and npcs.
@@ -4014,6 +4047,8 @@ void game::debug()
                        _( "Set automove route" ),     // 28
                        _( "Show mutation category levels" ), // 29
                        _( "Overmap editor" ),         // 30
+                       _( "Draw benchmark (5 seconds)" ),    // 31
+                       _( "Teleport - Adjacent overmap" ),   // 32
                        _( "Cancel" ),
                        NULL );
     int veh_num;
@@ -4021,66 +4056,17 @@ void game::debug()
     refresh_all();
     switch( action ) {
         case 1:
-            wishitem( &u );
+            debug_menu::wishitem( &u );
             break;
 
-        case 2: {
-            if( u.in_vehicle ) {
-                m.unboard_vehicle( u.pos() );
-            }
+        case 2:
+            debug_menu::teleport_short();
+            break;
 
-            auto pt = look_around();
-            if( pt == tripoint_min ) {
-                break;
-            }
+        case 3:
+            debug_menu::teleport_long();
+            break;
 
-            if( m.has_zlevels() && pt.z != get_levz() ) {
-                vertical_shift( pt.z );
-            }
-
-            u.setpos( pt );
-            update_map( u );
-            pt = u.pos();
-            add_msg( _( "You teleport to point (%d,%d,%d)" ), pt.x, pt.y, pt.z );
-
-            if( m.veh_at( u.pos() ) != nullptr ) {
-                m.board_vehicle( u.pos(), &u );
-            }
-        }
-        break;
-
-        case 3: {
-            tripoint tmp = overmap::draw_overmap();
-            if( tmp != overmap::invalid_tripoint ) {
-                //First offload the active npcs.
-                unload_npcs();
-                while( num_zombies() > 0 ) {
-                    despawn_monster( 0 );
-                }
-                if( u.in_vehicle ) {
-                    m.unboard_vehicle( u.pos() );
-                }
-                const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
-                const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
-                for( int z = minz; z <= maxz; z++ ) {
-                    m.clear_vehicle_cache( z );
-                    m.clear_vehicle_list( z );
-                }
-                // offset because load_map expects the coordinates of the top left corner, but the
-                // player will be centered in the middle of the map.
-                const int nlevx = tmp.x * 2 - int( MAPSIZE / 2 );
-                const int nlevy = tmp.y * 2 - int( MAPSIZE / 2 );
-                u.setz( tmp.z );
-                load_map( tripoint( nlevx, nlevy, tmp.z ) );
-                load_npcs();
-                m.spawn_monsters( true ); // Static monsters
-                update_overmap_seen();
-                // update weather now as it could be different on the new location
-                nextweather = calendar::turn;
-                draw_minimap();
-            }
-        }
-        break;
         case 4: {
             auto &cur_om = get_cur_om();
             for( int i = 0; i < OMAPX; i++ ) {
@@ -4111,7 +4097,7 @@ void game::debug()
         break;
 
         case 6:
-            wishmonster();
+            debug_menu::wishmonster();
             break;
 
         case 7: {
@@ -4124,7 +4110,7 @@ void game::debug()
             popup_top(
                 s.c_str(),
                 u.posx(), u.posy(), get_levx(), get_levy(),
-                overmap_buffer.ter( u.global_omt_location() )->name.c_str(),
+                overmap_buffer.ter( u.global_omt_location() )->get_name().c_str(),
                 int( calendar::turn ), int( nextspawn ),
                 ( get_world_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
@@ -4149,7 +4135,7 @@ void game::debug()
             break;
 
         case 9:
-            wishmutate( &u );
+            debug_menu::wishmutate( &u );
             break;
 
         case 10:
@@ -4163,7 +4149,7 @@ void game::debug()
                         const vehicle_prototype &proto = elem.obj();
                         veh_strings.push_back( elem );
                         //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
-                        opts.push_back( string_format( _( "%1$s (%2$s)" ), proto.name.c_str(),
+                        opts.push_back( string_format( _( "%1$s (%2$s)" ), _( proto.name.c_str() ),
                                                        elem.c_str() ) );
                     }
                 }
@@ -4183,7 +4169,7 @@ void game::debug()
             break;
 
         case 11: {
-            wishskill( &u );
+            debug_menu::wishskill( &u );
         }
         break;
 
@@ -4208,324 +4194,9 @@ void game::debug()
         }
         break;
 
-        case 14: {
-            tripoint pos = look_around();
-            int npcdex = npc_at( pos );
-            if( npcdex == -1 && pos != u.pos() ) {
-                popup( _( "No character there." ) );
-            } else {
-                player &p = npcdex != -1 ? *active_npc[npcdex] : u;
-                // The NPC is also required for "Add mission", so has to be in this scope
-                npc *np = npcdex != -1 ? active_npc[npcdex] : nullptr;
-                uimenu nmenu;
-                nmenu.return_invalid = true;
-
-                if( np != nullptr ) {
-                    std::stringstream data;
-                    data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
-                    data << np->myclass.obj().get_name() << "; " <<
-                         npc_attitude_name( np->attitude ) << std::endl;
-                    if( np->has_destination() ) {
-                        data << string_format( _( "Destination: %d:%d:%d (%s)" ),
-                                               np->goal.x, np->goal.y, np->goal.z,
-                                               overmap_buffer.ter( np->goal )->name.c_str() ) << std::endl;
-                    } else {
-                        data << _( "No destination." ) << std::endl;
-                    }
-                    data << string_format( _( "Trust: %d" ), np->op_of_u.trust ) << " "
-                         << string_format( _( "Fear: %d" ), np->op_of_u.fear ) << " "
-                         << string_format( _( "Value: %d" ), np->op_of_u.value ) << " "
-                         << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << " "
-                         << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << std::endl;
-
-                    data << string_format( _( "Aggression: %d" ), int( np->personality.aggression ) ) << " "
-                         << string_format( _( "Bravery: %d" ), int( np->personality.bravery ) ) << " "
-                         << string_format( _( "Collector: %d" ), int( np->personality.collector ) ) << " "
-                         << string_format( _( "Altruism: %d" ), int( np->personality.altruism ) ) << std::endl;
-
-                    data << _( "Needs:" ) << std::endl;
-                    for( const auto &need : np->needs ) {
-                        data << need << std::endl;
-                    }
-
-                    nmenu.text = data.str();
-                } else {
-                    nmenu.text = _( "Player" );
-                }
-
-                enum { D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
-                       D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION, D_TELE,
-                       D_MUTATE, D_CLASS
-                     };
-                nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
-                nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
-                nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
-                nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _( "[d]elete (all) items" ) );
-                nmenu.addentry( D_ITEM_WORN, true, 'w', "%s",
-                                _( "[w]ear/[w]ield an item from player's inventory" ) );
-                nmenu.addentry( D_HP, true, 'h', "%s", _( "Set [h]it points" ) );
-                nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause [p]ain" ) );
-                nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
-                nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set [n]eeds" ) );
-                nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
-                nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
-                nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
-                if( p.is_npc() ) {
-                    nmenu.addentry( D_MISSION, true, 'm', "%s", _( "Add [m]ission" ) );
-                    nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
-                }
-                nmenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-                nmenu.selected = 0;
-                nmenu.query();
-                switch( nmenu.ret ) {
-                    case D_SKILLS:
-                        wishskill( &p );
-                        break;
-                    case D_STATS: {
-                        uimenu smenu;
-                        smenu.return_invalid = true;
-                        smenu.addentry( 0, true, 'S', "%s: %d", _( "Maximum strength" ), p.str_max );
-                        smenu.addentry( 1, true, 'D', "%s: %d", _( "Maximum dexterity" ), p.dex_max );
-                        smenu.addentry( 2, true, 'I', "%s: %d", _( "Maximum intelligence" ), p.int_max );
-                        smenu.addentry( 3, true, 'P', "%s: %d", _( "Maximum perception" ), p.per_max );
-                        smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-                        smenu.selected = 0;
-                        smenu.query();
-                        int *bp_ptr = nullptr;
-                        switch( smenu.ret ) {
-                            case 0:
-                                bp_ptr = &p.str_max;
-                                break;
-                            case 1:
-                                bp_ptr = &p.dex_max;
-                                break;
-                            case 2:
-                                bp_ptr = &p.int_max;
-                                break;
-                            case 3:
-                                bp_ptr = &p.per_max;
-                                break;
-                            default:
-                                break;
-                        }
-
-                        if( bp_ptr != nullptr ) {
-                            int value;
-                            if( query_int( value, "Set the stat to? Currently: %d", *bp_ptr ) && value >= 0 ) {
-                                *bp_ptr = value;
-                                p.reset_stats();
-                            }
-                        }
-                    }
-                    break;
-                    case D_ITEMS:
-                        wishitem( &p );
-                        break;
-                    case D_DELETE_ITEMS:
-                        if( !query_yn( "Delete all items from the target?" ) ) {
-                            break;
-                        }
-                        for( auto &it : p.worn ) {
-                            it.on_takeoff( p );
-                        }
-                        p.worn.clear();
-                        p.inv.clear();
-                        p.weapon = p.ret_null;
-                        break;
-                    case D_ITEM_WORN: {
-                        int item_pos = inv_for_filter( "Make target equip:", []( const item &it ) {
-                            return it.is_armor();
-                        } );
-                        item &to_wear = u.i_at( item_pos );
-                        if( to_wear.is_armor() ) {
-                            p.on_item_wear( to_wear );
-                            p.worn.push_back( to_wear );
-                        } else if( !to_wear.is_null() ) {
-                            p.weapon = to_wear;
-                        }
-                    }
-                    break;
-                    case D_HP: {
-                        uimenu smenu;
-                        smenu.return_invalid = true;
-                        smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), p.hp_cur[hp_torso] );
-                        smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), p.hp_cur[hp_head] );
-                        smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), p.hp_cur[hp_arm_l] );
-                        smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), p.hp_cur[hp_arm_r] );
-                        smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), p.hp_cur[hp_leg_l] );
-                        smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), p.hp_cur[hp_leg_r] );
-                        smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-                        smenu.selected = 0;
-                        smenu.query();
-                        int *bp_ptr = nullptr;
-                        switch( smenu.ret ) {
-                            case 0:
-                                bp_ptr = &p.hp_cur[hp_torso];
-                                break;
-                            case 1:
-                                bp_ptr = &p.hp_cur[hp_head];
-                                break;
-                            case 2:
-                                bp_ptr = &p.hp_cur[hp_arm_l];
-                                break;
-                            case 3:
-                                bp_ptr = &p.hp_cur[hp_arm_r];
-                                break;
-                            case 4:
-                                bp_ptr = &p.hp_cur[hp_leg_l];
-                                break;
-                            case 5:
-                                bp_ptr = &p.hp_cur[hp_leg_r];
-                                break;
-                            default:
-                                break;
-                        }
-
-                        if( bp_ptr != nullptr ) {
-                            int value;
-                            if( query_int( value, "Set the hitpoints to? Currently: %d", *bp_ptr ) && value >= 0 ) {
-                                *bp_ptr = value;
-                                p.reset_stats();
-                            }
-                        }
-                    }
-                    break;
-                    case D_PAIN: {
-                        int value;
-                        if( query_int( value, "Cause how much pain? pain: %d", p.get_pain() ) ) {
-                            p.mod_pain( value );
-                        }
-                    }
-                    break;
-                    case D_NEEDS: {
-                        uimenu smenu;
-                        smenu.return_invalid = true;
-                        smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
-                        smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
-                        smenu.addentry( 2, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
-
-                        const auto& vits = vitamin::all();
-                        for( const auto& v : vits ) {
-                            smenu.addentry( -1, true, 0, "%s: %d", v.second.name().c_str(), p.vitamin_get( v.first ) );
-                        }
-
-                        smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-                        smenu.selected = 0;
-                        smenu.query();
-
-                        switch( smenu.ret ) {
-                            int value;
-                            case 0:
-                                if( query_int( value, "Set hunger to? Currently: %d", p.get_hunger() ) ) {
-                                    p.set_hunger( value );
-                                }
-                                break;
-
-                            case 1:
-                                if( query_int( value, "Set thirst to? Currently: %d", p.get_thirst() ) ) {
-                                    p.set_thirst( value );
-                                }
-                                break;
-
-                            case 2:
-                                if( query_int( value, "Set fatigue to? Currently: %d", p.get_fatigue() ) ) {
-                                    p.set_fatigue( value );
-                                }
-                                break;
-
-                            default:
-                                if( smenu.ret > 2 && smenu.ret < static_cast<int>( vits.size() + 3 ) ) {
-                                    auto iter = std::next( vits.begin(), smenu.ret - 3 );
-                                    if( query_int( value, "Set %s to? Currently: %d",
-                                        iter->second.name().c_str(), p.vitamin_get( iter->first ) ) ) {
-                                        p.vitamin_set( iter->first, value );
-                                    }
-                                }
-                        }
-
-                    }
-                    break;
-                    case D_MUTATE:
-                        wishmutate( &p );
-                        break;
-                    case D_HEALTHY: {
-                        uimenu smenu;
-                        smenu.return_invalid = true;
-                        smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), p.get_healthy() );
-                        smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), p.get_healthy_mod() );
-                        smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-                        smenu.selected = 0;
-                        smenu.query();
-                        switch( smenu.ret ) {
-                            int value;
-                            case 0:
-                                if( query_int( value, "Set the value to? Currently: %d", p.get_healthy() ) ) {
-                                    p.set_healthy( value );
-                                }
-                                break;
-                            case 1:
-                                if( query_int( value, "Set the value to? Currently: %d", p.get_healthy_mod() ) ) {
-                                    p.set_healthy_mod( value );
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    break;
-                    case D_STATUS:
-                        p.disp_info();
-                        break;
-                    case D_MISSION: {
-                        uimenu types;
-                        types.return_invalid = true;
-                        types.text = _( "Choose mission type" );
-                        const auto all_missions = mission_type::get_all();
-                        std::vector<const mission_type *> mts;
-                        for( size_t i = 0; i < all_missions.size(); i++ ) {
-                            types.addentry( i, true, -1, all_missions[ i ].name );
-                            mts.push_back( &all_missions[ i ] );
-                        }
-
-                        types.addentry( INT_MAX, true, -1, _( "Cancel" ) );
-                        types.query();
-                        if( types.ret >= 0 && types.ret < (int)mts.size() ) {
-                            np->add_new_mission( mission::reserve_new( mts[ types.ret ]->id, np->getID() ) );
-                        }
-                    }
-                    break;
-                    case D_TELE: {
-                        tripoint newpos = look_around();
-                        if( newpos != tripoint_min ) {
-                            p.setpos( newpos );
-                            if( p.is_player() ) {
-                                update_map( u );
-                            }
-                        }
-                    }
-                    break;
-                    case D_CLASS: {
-                        uimenu classes;
-                        classes.return_invalid = true;
-                        classes.text = _( "Choose new class" );
-                        std::vector<npc_class_id> ids;
-                        size_t i = 0;
-                        for( auto &cl : npc_class::get_all() ) {
-                            ids.push_back( cl.id );
-                            classes.addentry( i, true, -1, cl.get_name() );
-                            i++;
-                        }
-
-                        classes.addentry( INT_MAX, true, -1, _( "Cancel" ) );
-                        classes.query();
-                        if( classes.ret < (int)ids.size() && classes.ret >= 0 ) {
-                            np->randomize( ids[ classes.ret ] );
-                        }
-                    }
-                }
-            }
-        }
-        break;
+        case 14:
+            debug_menu::npc_edit_menu();
+            break;
 
         case 15: {
             auto center = look_around();
@@ -4698,16 +4369,39 @@ void game::debug()
             }
         }
         break;
-        case 29: {
+        case 29:
             for( const auto & elem : u.mutation_category_level ) {
                 add_msg( "%s: %d", elem.first.c_str(), elem.second );
             }
-        }
-        break;
-        case 30: {
+            break;
+
+        case 30:
             overmap::draw_editor();
+            break;
+
+        case 31: {
+            // call the draw procedure as many times as possible in 5 seconds
+            auto start_tick = std::chrono::steady_clock::now();
+            auto end_tick = std::chrono::steady_clock::now();
+            long difference = 0;
+            int draw_counter = 0;
+            while( true ) {
+                end_tick = std::chrono::steady_clock::now();
+                difference = std::chrono::duration_cast<std::chrono::milliseconds>(end_tick - start_tick).count();
+                if( difference >= 5000 ) {
+                    break;
+                }
+                draw();
+                draw_counter++;
+            }
+            add_msg( m_info, _( "Drew %d times in %.3f seconds. (%.3f fps average)" ), draw_counter,
+                     difference / 1000.0, 1000.0 * draw_counter / ( double )difference );
         }
         break;
+
+        case 32:
+            debug_menu::teleport_overmap();
+            break;
     }
     erase();
     refresh_all();
@@ -5132,9 +4826,6 @@ void game::draw()
     if( !is_draw_tiles_mode() ) {
         wrefresh(w_terrain);
     }
-#ifdef TILES
-    try_sdl_update();
-#endif // TILES
 }
 
 void game::draw_pixel_minimap()
@@ -5217,9 +4908,8 @@ void game::draw_sidebar()
 
     const oter_id &cur_ter = overmap_buffer.ter(u.global_omt_location());
 
-    const std::string &tername = cur_ter->name;
     werase(w_location);
-    mvwprintz(w_location, 0, 0, cur_ter->color, "%s", utf8_truncate(tername, 14).c_str());
+    mvwprintz(w_location, 0, 0, cur_ter->get_color(), "%s", utf8_truncate( cur_ter->get_name(), 14 ).c_str());
 
     if (get_levz() < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
@@ -5248,21 +4938,14 @@ void game::draw_sidebar()
     mvwprintz(w_location, 1, 15, c_ltgray, "%s ", _("Lighting:"));
     wprintz(w_location, ll.second, ll.first.c_str());
 
+    draw_safe_mode( w_location, 0 );
+
     wrefresh(w_location);
 
-    //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
               season_name_upper(calendar::turn.get_season()).c_str(), calendar::turn.days() + 1);
-    if (safe_mode != SAFE_MODE_OFF || autosafemode != 0) {
-        int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
-        wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
-        const char *letters[] = { "S", "A", "F", "E" };
-        for (int i = 0; i < 4; i++) {
-            nc_color c = (safe_mode == SAFE_MODE_OFF && iPercent < (i + 1) * 25) ? c_red : c_green;
-            wprintz(w_status, c, letters[i]);
-        }
-    }
+
     wrefresh(w_status);
     if( sideStyle ) {
         wrefresh(w_status2);
@@ -5271,6 +4954,40 @@ void game::draw_sidebar()
     draw_minimap();
     draw_pixel_minimap();
     draw_sidebar_messages();
+}
+
+void game::draw_safe_mode( WINDOW *win, int line ) const
+{
+    const bool autosafemode = get_option<bool>( "AUTOSAFEMODE" );
+    if( safe_mode == SAFE_MODE_OFF && !autosafemode ) {
+        return;
+    }
+
+    const utf8_wrapper safe_text( _( "SAFE" ) );
+    if( safe_mode != SAFE_MODE_OFF ) {
+        right_print( win, line, 1, c_green, "%s", safe_text.c_str() );
+        return;
+    }
+
+    if( autosafemode ) {
+        const float safe_mode_percent =
+            turnssincelastmon * 100.0f / get_option<int>( "AUTOSAFEMODETURNS" );
+
+        const int text_size = safe_text.size();
+        const int starting_position = getmaxx( win ) - safe_text.display_width() - 1;
+        const float percent_per_char = 100.0f / text_size;
+        int written_size = 0;
+        for( int i = 0; i < text_size; i++ ) {
+            nc_color letter_color = safe_mode_percent < ( i + 1 ) * percent_per_char
+                ? c_red : c_green;
+
+            const auto current_char = safe_text.substr( i, 1 );
+            mvwputch( win, line, starting_position + written_size,
+                      letter_color, current_char.str() );
+
+            written_size += current_char.display_width();
+        }
+    }
 }
 
 void game::draw_sidebar_messages()
@@ -5644,11 +5361,11 @@ void game::draw_minimap()
                 ter_sym = 'c';
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter(omx, omy, get_levz());
-                ter_sym = cur_ter->sym;
+                ter_sym = cur_ter->get_sym();
                 if (overmap_buffer.is_explored(omx, omy, get_levz())) {
                     ter_color = c_dkgray;
                 } else {
-                    ter_color = cur_ter->color;
+                    ter_color = cur_ter->get_color();
                 }
             }
             if (!drew_mission && targ.x == omx && targ.y == omy) {
@@ -6021,7 +5738,7 @@ int game::mon_info(WINDOW *w)
         if (safe_mode == SAFE_MODE_ON) {
             set_safe_mode( SAFE_MODE_STOP );
         }
-    } else if (autosafemode && newseen == 0) { // Auto-safe mode
+    } else if ( get_option<bool>( "AUTOSAFEMODE" ) && newseen == 0 ) { // Auto-safe mode
         turnssincelastmon++;
         if (turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF) {
             set_safe_mode( SAFE_MODE_ON );
@@ -7285,33 +7002,26 @@ void game::close( const tripoint &closep )
             add_msg(m_info, _("You cannot close the %s."), door_name.c_str());
         }
     } else {
-        // Scoot up to 10 volume of items out of the way, only counting items that are vol >= 1.
+        // Scoot up to 25 liters of items out of the way
         if (m.furn(closep) != f_safe_o && !items_in_way.empty()) {
+            const units::volume max_nudge = 25000_ml;
             units::volume total_item_volume = 0;
-            if (items_in_way.size() > 10) {
-                add_msg(m_info, _("Too many items to push out of the way!"));
-                return;
-            }
             for( auto &elem : items_in_way ) {
-                // Don't even count tiny items.
-                if( elem.volume() < 250_ml ) {
-                    continue;
-                }
-                if( elem.volume() > 2500_ml ) {
+                if( elem.volume() > max_nudge ) {
                     add_msg( m_info, _( "There's a %s in the way that is too big to just nudge out "
                                         "of the way." ),
                              elem.tname().c_str() );
                     return;
                 }
                 total_item_volume += elem.volume();
-                if (total_item_volume > 2500_ml ) {
+                if (total_item_volume > max_nudge ) {
                     add_msg(m_info, _("There is too much stuff in the way."));
                     return;
                 }
             }
             add_msg(_("You push %s out of the way."), items_in_way.size() == 1 ?
                     items_in_way[0].tname().c_str() : _("some stuff"));
-            u.moves -= items_in_way.size() * 10;
+            u.moves -= std::min( total_item_volume / ( max_nudge / 50 ), 100 );
         }
 
         didit = m.close_door( closep, inside, false );
@@ -7415,13 +7125,16 @@ void game::smash()
 void game::use_item(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_activatables( u, _( "Use item:" ) );
+        auto loc = game_menus::inv::use( u );
+
+        if( !loc ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+
+        pos = loc.obtain( u );
     }
 
-    if (pos == INT_MIN) {
-        add_msg(_("Never mind."));
-        return;
-    }
     refresh_all();
     u.use(pos);
     u.invalidate_crafting_inventory();
@@ -7784,7 +7497,7 @@ bool pet_menu(monster *z)
     }
 
     if (attach_bag == choice) {
-        int pos = g->inv_for_filter( _("Bag item:"), []( const item &it ) {
+        int pos = g->inv_for_filter( _("Bag item"), []( const item &it ) {
             return it.is_armor() && it.get_storage() > 0;
         } );
 
@@ -7860,7 +7573,7 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        const auto items_to_stash = g->multidrop();
+        const auto items_to_stash = game_menus::inv::multidrop( g->u );
         if( !items_to_stash.empty() ) {
             g->u.drop( items_to_stash, z->pos(), true );
             z->add_effect( effect_controlled, 5);
@@ -7912,7 +7625,9 @@ bool game::npc_menu( npc &who )
         examine_wounds,
         use_item,
         sort_armor,
-        attack
+        attack,
+        disarm,
+        steal
     };
 
     uimenu amenu;
@@ -7929,6 +7644,10 @@ bool game::npc_menu( npc &who )
     amenu.addentry( use_item, true, 'i', _("Use item on") );
     amenu.addentry( sort_armor, true, 'r', _("Sort armor") );
     amenu.addentry( attack, true, 'a', _("Attack") );
+    if( !who.is_friend() ) {
+        amenu.addentry( disarm, who.is_armed(), 'd', _("Disarm") );
+        amenu.addentry( steal, true, 'S', _("Steal") );
+    }
 
     amenu.query();
 
@@ -7977,7 +7696,7 @@ bool game::npc_menu( npc &who )
                    actor->head_power >= 0 &&
                    actor->torso_power >= 0;
         };
-        const int pos = inv_for_filter( _("Use which item:"), will_accept );
+        const int pos = inv_for_filter( _( "Use which item?" ), will_accept );
 
         if( pos == INT_MIN ) {
             add_msg( _("Never mind") );
@@ -8002,6 +7721,13 @@ bool game::npc_menu( npc &who )
             u.melee_attack( who, true );
             who.make_angry();
         }
+    } else if( choice == disarm ) {
+        if( !who.is_enemy() && query_yn( _( "You may be attacked! Proceed?" ) ) )
+        {
+            u.disarm( who );
+        }
+    } else if( choice == steal ) {
+        u.steal( who );
     }
 
     return true;
@@ -9526,7 +9252,7 @@ int game::list_items(const int iLastState)
     do {
         if (!ground_items.empty() || iLastState == 1) {
             if (action == "COMPARE") {
-                compare( active_pos );
+                game_menus::inv::compare( u, active_pos );
                 reset = true;
                 refresh_all();
             } else if (action == "FILTER") {
@@ -10256,7 +9982,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
     };
 
-    const std::string liquid_name = liquid.has_infinite_charges() ? liquid.tname() : liquid.display_name( liquid.charges );
+    const std::string liquid_name = liquid.display_name( liquid.charges );
 
     uimenu menu;
     menu.return_invalid = true;
@@ -10279,8 +10005,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
 
     menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
     actions.emplace_back( [&]() {
-        const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
-        item * const cont = inv_map_for_liquid( liquid, text, radius );
+        item * const cont = game_menus::inv::container_for( u, liquid, radius ).get_item();
 
         if( cont == nullptr || cont->is_null() ) {
             add_msg( _( "Never mind." ) );
@@ -10404,7 +10129,7 @@ void game::drop( int pos, const tripoint &where )
     if( pos != INT_MIN ) {
         u.drop( pos, where );
     } else {
-        u.drop( multidrop(), where );
+        u.drop( game_menus::inv::multidrop( u ), where );
     }
 }
 
@@ -10421,7 +10146,7 @@ void game::drop_in_direction()
 void game::reassign_item( int pos )
 {
     if( pos == INT_MIN ) {
-        pos = inv_for_all( _( "Reassign item:" ) );
+        pos = inv_for_all( _( "Reassign item" ) );
     }
     if( pos == INT_MIN ) {
         add_msg( _( "Never mind." ) );
@@ -10476,7 +10201,7 @@ void game::plthrow(int pos)
     }
 
     if (pos == INT_MIN) {
-        pos = inv_for_all( _( "Throw item:" ), _( "You don't have any items to throw." ) );
+        pos = inv_for_all( _( "Throw item" ), _( "You don't have any items to throw." ) );
         refresh_all();
     }
 
@@ -10944,7 +10669,7 @@ void game::eat(int pos)
             return false; // temporary fix for #12991
         }
         return it.made_of( SOLID ) && (it.is_food( &u ) || it.is_food_container( &u ) );
-    }, _( "Consume item:" ), 1, _( "You have nothing to consume." ) );
+    }, _( "Consume item" ), 1, _( "You have nothing to consume." ) );
 
     item *it = item_loc.get_item();
     if( !it ) {
@@ -10969,16 +10694,21 @@ void game::eat(int pos)
 void game::wear(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_unequipped( _( "Wear item:" ) );
+        pos = game_menus::inv::wear( u );
     }
 
-    u.wear(pos);
+    if( pos == INT_MIN ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    u.wear( pos );
 }
 
 void game::takeoff(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_equipped( _( "Take off item:" ) );
+        pos = game_menus::inv::take_off( u );
     }
     if (pos == INT_MIN) {
         add_msg(_("Never mind."));
@@ -10990,7 +10720,7 @@ void game::takeoff(int pos)
 void game::change_side(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_filter( _( "Change side for item:" ), [&]( const item &it ) {
+        pos = inv_for_filter( _( "Change side for item" ), [&]( const item &it ) {
             return u.is_worn(it) && it.is_sided();
         }, _( "You don't have sided items worn." ) );
     }
@@ -11089,7 +10819,7 @@ void game::unload(int pos)
     if( pos == INT_MIN ) {
         it = inv_map_splice( [&]( const item &it ) {
             return u.rate_action_unload( it ) == HINT_GOOD;
-        }, _( "Unload item:" ), 1, _( "You have nothing to unload." ) ).get_item();
+        }, _( "Unload item" ), 1, _( "You have nothing to unload." ) ).get_item();
 
         if( it == nullptr ) {
             add_msg( _("Never mind.") );
@@ -11300,7 +11030,7 @@ void game::wield( int pos )
         return;
     }
     if( pos == INT_MIN ) {
-        pos = inv_for_all( _( "Wield item:" ), _( "You have nothing to wield." ) );
+        pos = inv_for_all( _( "Wield item" ), _( "You have nothing to wield." ) );
     }
 
     if( pos == INT_MIN ) {
@@ -11323,36 +11053,12 @@ void game::wield( int pos )
 void game::read()
 {
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = inv_for_books( _( "Read:" ) );
+    auto loc = game_menus::inv::read( u );
 
-    item *book = loc.get_item();
-    if( !book ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-
-    int pos = u.get_item_position( book );
-
-    // Book is already in the inventory so attempt reading.
-    if( pos != INT_MIN ) {
-        u.read( pos );
-        return;
-    }
-
-    if( u.volume_carried() + book->volume() > u.volume_capacity() ) {
-        add_msg( _( "No space in inventory for %s" ), book->tname().c_str() );
-        return;
-    }
-
-    // Add book to inventory and attempt to read it.
-    pos = u.get_item_position( &u.i_add( *book ) );
-    // At this point there is one copy of the book on the ground and one in the inventory.
-    if( u.read( pos ) ) {
-        // We started reading so remove book from map or vehicle tile.
-        loc.remove_item();
+    if( loc ) {
+        u.read( loc.obtain( u ) );
     } else {
-        // We failed so undo adding the book to the inventory.
-        u.i_rem( pos );
+        add_msg( _( "Never mind." ) );
     }
 }
 
@@ -11477,15 +11183,7 @@ void game::pldrive(int x, int y)
         u.moves -= std::max( cost, u.get_speed() / 3 + 1 );
     }
 
-    if( y != 0 ) {
-        int thr_amount = 10 * 100;
-        if( veh->cruise_on ) {
-            veh->cruise_thrust( -y * thr_amount );
-        } else {
-            veh->thrust( -y );
-            u.moves = std::min( u.moves, 0 );
-        }
-    }
+    veh->cruise_thrust( -y * 1000 );
 
     // @todo Actually check if we're on land on water (or disable water-skidding)
     if( veh->skidding && ( veh->valid_wheel_config( false ) || veh->valid_wheel_config( true ) ) ) {
@@ -12059,8 +11757,50 @@ bool game::walk_move( const tripoint &dest_loc )
         sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume(u.pos()) );
     }
 
+    if( u.has_trait( "LEG_TENT_BRACE" ) && ( !u.footwear_factor() ||
+                                             ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
+        // DX and IN are long suits for Cephalopods,
+        // so this shouldn't cause too much hardship
+        // Presumed that if it's swimmable, they're
+        // swimming and won't stick
+        ///\EFFECT_DEX decreases chance of tentacles getting stuck to the ground
+
+        ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
+        if( ( !m.has_flag( "SWIMMABLE", dest_loc ) && one_in( 80 + u.dex_cur + u.int_cur ) ) ) {
+            add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
+            u.mod_fatigue( 1 );
+        }
+    }
+
+    if( !u.has_artifact_with( AEP_STEALTH ) && !u.has_trait( "DEBUG_SILENT" ) ) {
+        if( !u.has_trait( "LEG_TENTACLES" ) ) {
+            if( u.has_trait("LIGHTSTEP") || u.is_wearing( "rm13_armor_on" ) ) {
+                sounds::sound( dest_loc, 2, "", true, "none", "none" );    // Sound of footsteps may awaken nearby monsters
+                sfx::do_footstep();
+            } else if( u.has_trait( "CLUMSY" ) ) {
+                sounds::sound( dest_loc, 10, "", true, "none", "none" );
+                sfx::do_footstep();
+            } else if( u.has_bionic( "bio_ankles" ) ) {
+                sounds::sound( dest_loc, 12, "", true, "none", "none" );
+                sfx::do_footstep();
+            } else {
+                sounds::sound( dest_loc, 6, "", true, "none" );
+                sfx::do_footstep();
+            }
+        }
+
+        if( one_in( 20 ) && u.has_artifact_with( AEP_MOVEMENT_NOISE ) ) {
+            sounds::sound( u.pos(), 40, _( "You emit a rattling sound." ) );
+        }
+    }
+
+    if( dest_loc != u.pos() ) {
+        u.lifetime_stats()->squares_walked++;
+    }
+
     place_player( dest_loc );
     on_move_effects();
+
     return true;
 }
 
@@ -12117,39 +11857,7 @@ void game::place_player( const tripoint &dest_loc )
     } else if (u.has_effect( effect_bouldering)) {
         u.remove_effect( effect_bouldering);
     }
-    if (u.has_trait("LEG_TENT_BRACE") && (!u.footwear_factor() ||
-                                             (u.footwear_factor() == .5 && one_in(2)))) {
-        // DX and IN are long suits for Cephalopods,
-        // so this shouldn't cause too much hardship
-        // Presumed that if it's swimmable, they're
-        // swimming and won't stick
-        ///\EFFECT_DEX decreases chance of tentacles getting stuck to the ground
 
-        ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
-        if ((!(m.has_flag("SWIMMABLE", dest_loc)) && (one_in(80 + u.dex_cur + u.int_cur)))) {
-            add_msg(_("Your tentacles stick to the ground, but you pull them free."));
-            u.mod_fatigue(1);
-        }
-    }
-    if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES") &&
-        !u.has_trait("DEBUG_SILENT")) {
-        if (u.has_trait("LIGHTSTEP") || u.is_wearing("rm13_armor_on")) {
-            sounds::sound(dest_loc, 2, "", true, "none", "none");    // Sound of footsteps may awaken nearby monsters
-            sfx::do_footstep();
-        } else if (u.has_trait("CLUMSY")) {
-            sounds::sound(dest_loc, 10, "", true, "none", "none");
-            sfx::do_footstep();
-        } else if (u.has_bionic("bio_ankles")) {
-            sounds::sound(dest_loc, 12, "", true, "none", "none");
-            sfx::do_footstep();
-        } else {
-            sounds::sound(dest_loc, 6, "", true, "none");
-            sfx::do_footstep();
-        }
-    }
-    if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE)) {
-        sounds::sound(u.pos(), 40, _("You emit a rattling sound."));
-    }
     // If we moved out of the nonant, we need update our map data
     if (m.has_flag("SWIMMABLE", dest_loc) && u.has_effect( effect_onfire)) {
         add_msg(_("The water puts out the flames!"));
@@ -12169,11 +11877,6 @@ void game::place_player( const tripoint &dest_loc )
     if( u.in_vehicle ) {
         m.unboard_vehicle( u.pos() );
     }
-
-    if( dest_loc != u.pos() ) {
-        u.lifetime_stats()->squares_walked++;
-    }
-
     // Move the player
     // Start with z-level, to make make it less likely that old functions (2D ones) freak out
     if( m.has_zlevels() && dest_loc.z != get_levz() ) {
@@ -12200,10 +11903,6 @@ void game::place_player( const tripoint &dest_loc )
     // Try to detect.
     u.search_surroundings();
     m.creature_on_trap( u );
-
-    // apply martial art move bonuses
-    u.ma_onmove_effects();
-
     // Drench the player if swimmable
     if( m.has_flag( "SWIMMABLE", u.pos() ) ) {
         u.drench( 40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r), false );
@@ -12291,6 +11990,36 @@ void game::place_player( const tripoint &dest_loc )
         add_msg(m_info, _("%s to drive."),
                 press_x(ACTION_CONTROL_VEHICLE).c_str());
     }
+}
+
+void game::place_player_overmap( const tripoint &om_dest )
+{
+    //First offload the active npcs.
+    unload_npcs();
+    while( num_zombies() > 0 ) {
+        despawn_monster( 0 );
+    }
+    if( u.in_vehicle ) {
+        m.unboard_vehicle( u.pos() );
+    }
+    const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
+    const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
+    for( int z = minz; z <= maxz; z++ ) {
+        m.clear_vehicle_cache( z );
+        m.clear_vehicle_list( z );
+    }
+    // offset because load_map expects the coordinates of the top left corner, but the
+    // player will be centered in the middle of the map.
+    const tripoint map_om_pos( om_dest.x * 2 - MAPSIZE / 2, om_dest.y * 2 - MAPSIZE / 2, om_dest.z );
+    const tripoint player_pos( u.pos().x, u.pos().y, map_om_pos.z );
+
+    load_map( map_om_pos );
+    load_npcs();
+    m.spawn_monsters( true ); // Static monsters
+    update_overmap_seen();
+    // update weather now as it could be different on the new location
+    nextweather = calendar::turn;
+    place_player( player_pos );
 }
 
 bool game::phasing_move( const tripoint &dest_loc )
@@ -12698,6 +12427,9 @@ void game::on_move_effects()
             u.add_effect( effect_winded, 3);
         }
     }
+
+    // apply martial art move bonuses
+    u.ma_onmove_effects();
 
     sfx::do_ambient();
 }
@@ -13507,7 +13239,7 @@ void game::update_overmap_seen()
             for (std::vector<point>::const_iterator it = line.begin();
                  it != line.end() && sight_points >= 0; ++it) {
                 const oter_id &ter = overmap_buffer.ter(it->x, it->y, ompos.z);
-                sight_points -= int( ter->see_cost );
+                sight_points -= int( ter->get_see_cost() );
             }
             if (sight_points >= 0) {
                 overmap_buffer.set_seen(x, y, ompos.z, true);

@@ -157,6 +157,61 @@
         "flags" : ["SCEN_ONLY"]
     },
     {
+        "type": "profession",
+        "ident": "seasoned_tourist",
+        "name": "Seasoned Tourist",
+        "description": "Due to your thirst for adventure, hunger for good food, and disposable income, you have been able to travel extensively.  You've traveled here to get a taste of New England; now you hope New England won't get a taste of you!",
+        "points": 5,
+        "skills": [
+            {
+                "level": 3,
+                "name": "speech"
+            },
+            {
+                "level": 2,
+                "name": "barter"
+            },
+            {
+                "level": 2,
+                "name": "cooking"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+        "items": {
+            "both": [
+                "knit_scarf",
+                "undershirt",
+                "dress_shirt",
+                "jacket_light",
+                "gloves_light",
+                "pants",
+                "fanny",
+                "socks",
+                "sneakers",
+                "roadmap",
+                "restaurantmap",
+                "shavingkit",
+                "mess_kit",
+                "aluminum_foil",
+                "cell_phone",
+                "can_chowder",
+                "apple_cider",
+                "fruit_leather",
+                "suitcase_m"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
         "type" : "profession",
         "ident": "trans_human",
         "name": "Post-Human Cyborg",

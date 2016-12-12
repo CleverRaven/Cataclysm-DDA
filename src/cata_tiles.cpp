@@ -1379,8 +1379,8 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                             }
                         }
                         draw_rhombus(
-                            destx + minimap_border_width + x * minimap_tile_size.x,
-                            desty + minimap_border_height + y * minimap_tile_size.y,
+                            destx + minimap_border_width + x * minimap_tile_size.x + minimap_tile_size.x / 2,
+                            desty + minimap_border_height + y * minimap_tile_size.y + minimap_tile_size.y / 2,
                             minimap_tile_size.x,
                             c,
                             width,
@@ -2725,8 +2725,13 @@ void cata_tiles::do_tile_loading_report() {
 
     tile_loading_report<ter_t>( ter_t::count(), "Terrain", "" );
     tile_loading_report<furn_t>( furn_t::count(), "Furniture", "" );
-    //TODO: exclude fake items from Item_factory::init_old()
-    tile_loading_report(item_controller->get_all_itypes(), "Items", "");
+
+    std::map<itype_id, const itype *> items;
+    for( const itype *e : item_controller->all() ) {
+        items.emplace( e->get_id(), e );
+    }
+    tile_loading_report( items, "Items", "" );
+
     auto mtypes = MonsterGenerator::generator().get_all_mtypes();
     lr_generic( mtypes.begin(), mtypes.end(), []( const std::vector<mtype>::iterator &m ) {
         return ( *m ).id.str();

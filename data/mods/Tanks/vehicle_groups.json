@@ -53,7 +53,6 @@
         "type" : "vehicle_group",
         "id" : "bandit_vehicles",
         "vehicles" : [
-            ["motorcycle", 300],
             ["pickup_technical", 150],
             ["tractor_bandit", 150]
         ]
@@ -65,6 +64,13 @@
             ["tractor_heavy_seed",250],
             ["tractor_heavy_reaper",250],
             ["tractor_bandit", 100]
+        ]
+    },
+    {
+        "id": "warehouse_vehicles",
+        "type": "vehicle_group",
+        "vehicles": [
+            [ "forklift", 100 ]
         ]
     }
 ]

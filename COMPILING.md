@@ -185,6 +185,72 @@ Run:
     PLATFORM="i686-w64-mingw32.static"
     make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" LUA=1 RELEASE=1 LOCALIZE=1
 
+## Cross-compile to Mac OS X from Linux
+
+The procedure is very much similar to cross-compilation to Windows from Linux.
+Tested on ubuntu 14.04 LTS but should work on other distros as well.
+
+### Dependencies
+
+  * OSX cross-compiling toolchain [osxcross](https://github.com/tpoechtrager/osxcross)
+
+  * `genisoimage` and [libdmg-hfsplus](https://github.com/planetbeing/libdmg-hfsplus.git) to create dmg distributions
+
+Make sure that all dependency tools are in search `PATH` before compiling.
+
+### Setup
+
+To set up the compiling environment execute the following commands
+`git clone https://github.com/tpoechtrager/osxcross.git` to clone the toolchain
+`cd osxcross`
+`cp ~/MacOSX10.11.sdk.tar.bz2 ./tarballs/` copy prepared MacOSX SDK tarball on place. [Read more about it](https://github.com/tpoechtrager/osxcross/blob/master/README.md#packaging-the-sdk)
+`OSX_VERSION_MIN=10.7 ./build.sh to build everything`
+Note the targeted minimum supported version of OSX.
+
+Have a prepackaged set of libs and frameworks in place, since compiling with `osxcross` built-in MacPorts is rather difficult and not supported at the moment.
+Your directory tree should look like:
+
+    ~/
+    ├── Frameworks
+    │   ├── SDL2.framework
+    │   ├── SDL2_image.framework
+    │   ├── SDL2_mixer.framework
+    │   └── SDL2_ttf.framework
+    └── libs
+        ├── gettext
+        │   ├── include
+        │   └── lib
+        ├── lua
+        │   ├── include
+        │   └── lib
+        └── ncurses
+            ├── include
+            └── lib
+
+Populated with respective frameworks, dylibs and headers.
+Tested lib versions are libintl.8.dylib for gettext, liblua.5.2.4.dylib for lua, libncurses.5.4.dylib for ncurses.
+These libs were obtained from `homebrew` binary distribution at OS X 10.11
+Frameworks were obtained from SDL official website as described in the next [section](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING.md#sdl)
+
+### Building (SDL)
+
+To build full feature tiles and sound enabled version with localizations and lua enabled:
+
+    make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
+      RELEASE=1 LOCALIZE=1 LANGUAGES=all LUA=1 TILES=1 SOUND=1 FRAMEWORK=1
+      OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
+
+Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable.
+
+### Building (ncurses)
+
+To build full curses version with localizations and lua enabled:
+
+    make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
+      RELEASE=1 LOCALIZE=1 LANGUAGES=all LUA=1 OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
+
+Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable.
+
 # Mac OS X
 
 To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the Cataclysm forumla on Homebrew Games.
@@ -294,6 +360,7 @@ The Cataclysm source is compiled using `make`.
 * `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++.
 * `MACPORTS=1` build against dependencies installed via Macports, currently only `gettext` and `ncurses`.
 * `USE_HOME_DIR=1` places user files (config, saves, graveyard, etc) in the user's home directory. For curses builds, this is `/Users/<user>/.cataclysm-dda`, for SDL builds it is `/Users/<user>/Library/Application Support/Cataclysm`.
+* `DEBUG_SYMBOLS=1` retains debug symbols when building an optimized release binary, making it easy for developers to spot the crash site.
 
 In addition to the options above, there is an `app` make target which will package the tiles build into `Cataclysm.app`, a complete tiles build in a Mac application that can run without Terminal.
 

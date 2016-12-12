@@ -4,7 +4,7 @@
         "id" : "Prison",
         "overmaps" : [
             { "point":[-1,0,0], "overmap": "prison_3"},
-            { "point":[0,0,0], "overmap": "prison_2", "connect":"road"},
+            { "point":[0,0,0], "overmap": "prison_2"},
             { "point":[1,0,0], "overmap": "prison_1"},
             { "point":[-1,1,0], "overmap": "prison_6"},
             { "point":[0,1,0], "overmap": "prison_5"},
@@ -21,6 +21,9 @@
             { "point":[-1,2,-1], "overmap": "prison_b"},
             { "point":[0,2,-1], "overmap": "prison_b"},
             { "point":[1,2,-1], "overmap": "prison_b"}
+        ],
+        "connections" : [
+            { "point" : [0,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "land" ],
         "city_distance" : [3, -1],
@@ -74,7 +77,7 @@
         "overmaps" : [
             { "point":[0,0,0], "overmap": "farm_unsettled_barn"},
             { "point":[0,0,1], "overmap": "farm_unsettled_barn_f2"},
-            { "point":[1,0,0], "overmap": "farm_unsettled_house", "connect": "road"},
+            { "point":[1,0,0], "overmap": "farm_unsettled_house"},
             { "point":[2,0,0], "overmap": "farm_unsettled_topright"},
             { "point":[0,1,0], "overmap": "farm_unsettled_centerleft"},
             { "point":[1,1,0], "overmap": "farm_unsettled_centercenter"},
@@ -82,6 +85,9 @@
             { "point":[0,2,0], "overmap": "farm_unsettled_bottomleft"},
             { "point":[1,2,0], "overmap": "farm_unsettled_bottomcenter"},
             { "point":[2,2,0], "overmap": "farm_unsettled_bottomright"}
+        ],
+        "connections" : [
+            { "point" : [1,-1,0], "terrain" : "road" }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [20, -1],

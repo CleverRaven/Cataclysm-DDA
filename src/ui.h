@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include "color.h"
 #include "cursesdef.h"
+#include "printf_check.h"
+
 ////////////////////////////////////////////////////////////////////////////////////
 /*
  * uimenu constants
@@ -193,13 +195,13 @@ class uimenu: public ui_container
         void refresh( bool refresh_callback = true ) override;
         void redraw( bool redraw_callback = true );
         void addentry( std::string str );
-        void addentry( const char *format, ... );
+        void addentry( const char *format, ... ) PRINTF_LIKE( 2, 3 );
         void addentry( int r, bool e, int k, std::string str );
-        void addentry( int r, bool e, int k, const char *format, ... );
+        void addentry( int r, bool e, int k, const char *format, ... ) PRINTF_LIKE( 5, 6 );
         void addentry_desc( std::string str, std::string desc );
         void addentry_desc( int r, bool e, int k, std::string str, std::string desc );
         void settext( std::string str );
-        void settext( const char *format, ... );
+        void settext( const char *format, ... ) PRINTF_LIKE( 2, 3 );
 
         void reset();
         ~uimenu();

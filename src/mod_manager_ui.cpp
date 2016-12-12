@@ -89,7 +89,15 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
     }
 
     if( !mod->description.empty() ) {
-        info << mod->description << "\n";
+        info << _( mod->description.c_str() ) << "\n";
+    }
+
+    if( mod->need_lua() ) {
+#ifdef LUA
+        info << _( "This mod requires <color_green>Lua support</color>" ) << "\n";
+#else
+        info << _( "This mod requires <color_red>Lua support</color>" ) << "\n";
+#endif
     }
 
     std::string note = !mm_tree->is_available( mod->ident ) ? mm_tree->get_node(
@@ -98,15 +106,6 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
         info << "<color_red>" << note << "</color>";
     }
 
-#ifndef LUA
-    if( mod->need_lua ) {
-        std::string lua_msg = "";
-        lua_msg += "<color_red>";
-        lua_msg += _( "This mod requires Lua but your CDDA build doesn't support it!" );
-        lua_msg += "</color>";
-        info << lua_msg;
-    }
-#endif
     return info.str();
 }
 

@@ -7,6 +7,6 @@
     "maintainers": [ "BorkBorkGoesTheCode", "DangerNoodle" ],
     "description": "Adds more overlapping ammo types and more real-world firearms.",
     "category": "items",
-    "path": ""
+    "dependencies": [ "dda" ]
   }
 ]

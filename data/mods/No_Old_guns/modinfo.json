@@ -7,7 +7,7 @@
     "maintainers": [ "Rivet-the-Zombie" ],
     "description": "Removes all black powder and pre-Cold War firearms.",
     "category": "item_exclude",
-    "path": "modinfo.json"
+    "dependencies": [ "dda" ]
   },
   {
     "type": "ITEM_BLACKLIST",
