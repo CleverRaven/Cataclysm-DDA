@@ -113,7 +113,7 @@
     "difficulty": 1,
     "time": 8000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "string_36", 1 ], [ "string_6", 2 ] ],
       [ [ "bottle_plastic", 1 ], [ "bottle_plastic_small", 2 ] ]
@@ -131,7 +131,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "textbook_fireman", 6 ], [ "advanced_electronics", 5 ], [ "textbook_electronics", 6 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_welding", 1 ], [ "mask_gas", 1 ] ],
       [ [ "power_supply", 1 ] ],
@@ -152,7 +152,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "advanced_electronics", 4 ], [ "textbook_electronics", 4 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_welding", 1 ], [ "mask_gas", 1 ] ],
       [ [ "power_supply", 1 ] ],
@@ -308,7 +308,7 @@
     "time": 540000,
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "qualities": [
-      { "id": "HAMMER", "level": 3, "amount": 1 },
+      { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
@@ -332,7 +332,7 @@
     "time": 60000,
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "bone", 24 ], [ "bone_human", 24 ], [ "bone_tainted", 48 ] ] ]
   },
   {
@@ -359,7 +359,7 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 45000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ],
       [ [ "sewing_kit", 10 ] ]
@@ -383,7 +383,7 @@
     "time": 600000,
     "book_learn": [ [ "textbook_armeast", 8 ] ],
     "qualities": [
-      { "id": "HAMMER", "level": 3, "amount": 1 },
+      { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
@@ -407,7 +407,7 @@
     "difficulty": 4,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "sewing_kit", 18 ] ] ],
     "components": [ [ [ "leather", 16 ], [ "tanned_hide", 3 ], [ "fur", 16 ], [ "tanned_pelt", 3 ] ] ]
   },
@@ -420,7 +420,7 @@
     "difficulty": 5,
     "time": 40000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "sewing_kit", 65 ] ] ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
@@ -438,7 +438,7 @@
     "time": 540000,
     "book_learn": [ [ "textbook_armwest", 6 ] ],
     "qualities": [
-      { "id": "HAMMER", "level": 3, "amount": 1 },
+      { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
@@ -462,7 +462,7 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 40000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "soldering_iron", 8 ], [ "toolset", 8 ] ],
       [ [ "sewing_kit", 65 ] ]
@@ -484,7 +484,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 45000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ],
       [ [ "sewing_kit", 10 ] ]
@@ -508,7 +508,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 60000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "welder", 84 ], [ "welder_crude", 126 ], [ "soldering_iron", 126 ], [ "toolset", 126 ] ],
       [ [ "sewing_kit", 20 ] ]
@@ -534,7 +534,7 @@
     "time": 45000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
       [ [ "sewing_kit", 40 ] ]
@@ -556,7 +556,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": 45000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
       [ [ "sewing_kit", 40 ] ]
@@ -578,7 +578,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 45000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
       [ [ "sewing_kit", 40 ] ]
@@ -616,7 +616,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 45000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
       [ [ "sewing_kit", 40 ] ]
@@ -639,7 +639,7 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 45000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ],
       [ [ "sewing_kit", 40 ] ]
@@ -662,7 +662,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 60000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ],
       [ [ "sewing_kit", 80 ] ]
@@ -776,7 +776,7 @@
     "time": 20000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 20 ] ],
       [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
@@ -799,7 +799,7 @@
     "time": 20000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 20 ] ],
       [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
@@ -822,7 +822,7 @@
     "time": 20000,
     "decomp_learn": 3,
     "book_learn": [ [ "textbook_fireman", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "emergency_book", 3 ], [ "textbook_gaswarfare", 3 ] ],
-    "qualities": [ { "id": "WRENCH", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_swim", 2 ] ],
       [ [ "mask_filter", 3 ], [ "muffler", 1 ] ],
@@ -840,7 +840,7 @@
     "skills_required": [ "fabrication", 1 ],
     "time": 20000,
     "book_learn": [ [ "textbook_fireman", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "emergency_book", 3 ], [ "textbook_gaswarfare", 3 ] ],
-    "qualities": [ { "id": "WRENCH", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_swim", 2 ] ],
@@ -861,7 +861,7 @@
     "skills_required": [ "fabrication", 1 ],
     "time": 20000,
     "book_learn": [ [ "textbook_fireman", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "emergency_book", 3 ], [ "textbook_gaswarfare", 3 ] ],
-    "qualities": [ { "id": "WRENCH", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_gas", 1 ] ],
@@ -879,7 +879,7 @@
     "skills_required": [ "tailor", 7 ],
     "time": 20000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 20 ] ],
       [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
@@ -902,7 +902,7 @@
     "skills_required": [ "tailor", 7 ],
     "time": 20000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 20 ] ],
       [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
@@ -925,7 +925,7 @@
     "skills_required": [ "tailor", 7 ],
     "time": 20000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
@@ -945,7 +945,7 @@
     "skills_required": [ "tailor", 5 ],
     "time": 20000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
@@ -989,7 +989,7 @@
     "skills_required": [ "tailor", 6 ],
     "time": 20000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
@@ -1009,7 +1009,7 @@
     "skills_required": [ "tailor", 5 ],
     "time": 20000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
@@ -1028,7 +1028,7 @@
     "skills_required": [ "tailor", 7 ],
     "time": 20000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 10 ] ],
       [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
@@ -1051,7 +1051,7 @@
     "skills_required": [ "tailor", 7 ],
     "time": 20000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 10 ] ],
       [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
@@ -1127,7 +1127,7 @@
     "skills_required": [ "tailor", 1 ],
     "time": 80000,
     "book_learn": [ [ "manual_swimming", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 1 ] ],
@@ -1149,7 +1149,7 @@
     "skills_required": [ "tailor", 3 ],
     "time": 85000,
     "book_learn": [ [ "manual_swimming", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ] ],
@@ -1172,7 +1172,7 @@
     "skills_required": [ "electronics", 4 ],
     "time": 20000,
     "autolearn": true,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "rebreather", 1 ] ],
@@ -1282,7 +1282,7 @@
     "skills_required": [ "tailor", 4 ],
     "time": 20000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 10 ] ],
       [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ]
@@ -1305,7 +1305,7 @@
     "skills_required": [ "tailor", 2 ],
     "time": 80000,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [
       [ [ "sewing_kit", 8 ] ],
       [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ]
