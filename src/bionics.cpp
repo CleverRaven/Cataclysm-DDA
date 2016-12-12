@@ -1135,7 +1135,7 @@ std::map<body_part, int> player::bionic_installation_issues( const std::string &
     for( auto &elem : bionics[ bioid ].occupied_bodyparts ) {
         const int lacked_slots = elem.second - get_free_bionics_slots( elem.first );
         if( lacked_slots > 0 ) {
-            issues.emplace( elem.first, lacked_slots );
+            issues[ elem.first ] = lacked_slots;
         }
     }
     return issues;
@@ -1333,8 +1333,8 @@ void load_bionic( JsonObject &jsobj )
     if( !jsarr.empty() ) {
         while( jsarr.has_more() ) {
             JsonArray ja = jsarr.next_array();
-            new_bionic.occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                                   ja.get_int( 1 ) );
+            new_bionic.occupied_bodyparts[ get_body_part_token( ja.get_string( 0 ) ) ] =
+                                                   ja.get_int( 1 );
         }
     }
 
