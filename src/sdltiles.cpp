@@ -27,6 +27,7 @@
 #include "lightmap.h"
 #include "rng.h"
 #include <algorithm>
+#include "cata_utility.h"
 
 //TODO replace these includes with filesystem.h
 #ifdef _MSC_VER
@@ -1764,8 +1765,21 @@ inline SDL_Color ccolor( const std::string &color )
 // Instead it should return ERR or OK, see man curs_color
 int curses_start_color( void )
 {
-    const std::string path = FILENAMES["colors"];
+    const std::string default_path = FILENAMES["colors"];
+    std::string path = FILENAMES["base_colors"];
+    bool use_default_colors = false;
+
+    if ( !file_exist(path) ){
+        std::ifstream src(default_path.c_str(), std::ifstream::in | std::ios::binary);
+        write_to_file_exclusive(path, [&src]( std::ostream &dst ) {
+            dst << src.rdbuf();
+        }, _("base colors") );
+        use_default_colors = true;
+        path = default_path;
+    }
+
     std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
+TRY_COLORFILE:
     try {
         JsonIn jsin( colorfile );
         // Manually load the colordef object because the json handler isn't loaded yet.
@@ -1777,7 +1791,15 @@ int curses_start_color( void )
         }
     } catch( const JsonError &e ) {
         dbg( D_ERROR ) << "Failed to load color definitions from " << path << ": " << e;
-        return ERR;
+        if ( use_default_colors ){
+            return ERR;
+        } else{
+            use_default_colors = true;
+            path = default_path;
+            colorfile.close();
+            colorfile.open( path.c_str(), std::ifstream::in | std::ifstream::binary );
+            goto TRY_COLORFILE;
+        }
     }
     for( size_t c = 0; c < main_color_names.size(); c++ ) {
         windowsPalette[c]  = ccolor( main_color_names[c] );

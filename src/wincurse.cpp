@@ -15,6 +15,7 @@
 #include "path_info.h"
 #include "filesystem.h"
 #include "debug.h"
+#include "cata_utility.h"
 
 //***********************************
 //Globals                           *
@@ -672,7 +673,21 @@ int curses_start_color(void)
     //TODO: this should be reviewed in the future.
 
     //Load the console colors from colors.json
-    std::ifstream colorfile(FILENAMES["colors"].c_str(), std::ifstream::in | std::ifstream::binary);
+    const std::string default_path = FILENAMES["colors"];
+    std::string path = FILENAMES["base_colors"];
+    bool use_default_colors = false;
+
+    if ( !file_exist(path) ){
+        std::ifstream src(default_path.c_str(), std::ifstream::in | std::ios::binary);
+        write_to_file_exclusive(path, [&src]( std::ostream &dst ) {
+            dst << src.rdbuf();
+        }, _("base colors") );
+        use_default_colors = true;
+        path = default_path;
+    }
+
+    std::ifstream colorfile(path.c_str(), std::ifstream::in | std::ifstream::binary);
+TRY_COLORFILE:
     try{
         JsonIn jsin(colorfile);
         // Manually load the colordef object because the json handler isn't loaded yet.
@@ -684,7 +699,15 @@ int curses_start_color(void)
             jo.finish();
         }
     } catch( const JsonError &err ){
-        throw std::runtime_error( FILENAMES["colors"] + ": " + err.what() );
+        if ( use_default_colors ){
+            throw std::runtime_error( FILENAMES["colors"] + ": " + err.what() );
+        } else{
+            use_default_colors = true;
+            path = default_path;
+            colorfile.close();
+            colorfile.open( path.c_str(), std::ifstream::in | std::ifstream::binary );
+            goto TRY_COLORFILE;
+        }
     }
 
     if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
