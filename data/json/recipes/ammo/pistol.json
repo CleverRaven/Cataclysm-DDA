@@ -51,7 +51,7 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 3 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet_762x25", 1 ], [ "ammo_762_25", 1 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet_762x25", 1 ], [ "ammo_762_25", 1 ] ],
     "components": [ [ [ "gunpowder", 4 ] ] ]
   },
   {
@@ -66,7 +66,7 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
     "components": [ [ [ "gunpowder", 3 ] ] ]
   },
   {
@@ -81,7 +81,7 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_pistol", 3 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
     "components": [ [ [ "gunpowder", 4 ] ] ]
   },
   {
@@ -96,7 +96,7 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
     "components": [ [ [ "gunpowder", 5 ] ] ]
   },
   {
@@ -111,7 +111,7 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
     "components": [
       [ [ "gunpowder", 3 ] ],
       [ [ "copper", 1 ] ]
