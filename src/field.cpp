@@ -1973,7 +1973,7 @@ void map::player_in_field( player &u )
             }
 
             if( total_damage > 0 ) {
-                u.add_msg_player_or_npc(m_bad, _("You're electrocuted!"), _("<npcname> is electrocuted!"));
+                u.add_msg_player_or_npc(m_bad, _("You're shocked!"), _("<npcname> is shocked!"));
             } else {
                 u.add_msg_player_or_npc( _("The electric cloud doesn't affect you."),
                                      _("The electric cloud doesn't seem to affect <npcname>.") );
