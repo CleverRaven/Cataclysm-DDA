@@ -246,6 +246,9 @@ class inventory_column
         void move_entries_to( inventory_column &dest );
         void clear();
 
+        /** Selects the specified location. */
+        bool select( const item_location &loc );
+
         void set_multiselect( bool multiselect ) {
             this->multiselect = multiselect;
         }
@@ -420,6 +423,11 @@ class inventory_selector
                         const std::function<item_location( item * )> &locator,
                         const std::vector<std::list<item *>> &stacks,
                         const item_category *custom_category = nullptr );
+        /**
+         * Selects the @param loc.
+         * @return true on success.
+         */
+        bool select( const item_location &loc );
 
         inventory_input get_input();
 

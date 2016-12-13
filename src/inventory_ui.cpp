@@ -554,6 +554,17 @@ void inventory_column::clear()
     prepare_paging();
 }
 
+bool inventory_column::select( const item_location &loc )
+{
+    for( size_t index = 0; index < entries.size(); ++index ) {
+        if( entries[index].is_selectable() && entries[index].location == loc ) {
+            select( index, scroll_direction::FORWARD );
+            return true;
+        }
+    }
+    return false;
+}
+
 size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const {
     if( !entry.is_item() ) {
         return 0;
@@ -887,9 +898,26 @@ void inventory_selector::add_nearby_items( int radius )
     }
 }
 
+bool inventory_selector::select( const item_location &loc )
+{
+    bool res = false;
+
+    for( size_t i = 0; i < columns.size(); ++i ) {
+        auto elem = columns[i];
+        if( elem->visible() && elem->select( loc ) ) {
+            if( !res && elem->activatable() ) {
+                set_active_column( i );
+                res = true;
+            }
+        }
+    }
+
+    return res;
+}
+
 inventory_entry *inventory_selector::find_entry_by_invlet( long invlet ) const
 {
-    for( const auto &elem : columns ) {
+    for( const auto elem : columns ) {
         const auto res = elem->find_by_invlet( invlet );
         if( res != nullptr ) {
             return res;
@@ -1491,6 +1519,7 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
             count *= 10;
             count += input.ch - '0';
         } else if( input.entry != nullptr ) {
+            select( input.entry->location );
             set_drop_count( *input.entry, count );
             count = 0;
         } else if( input.action == "RIGHT" ) {
