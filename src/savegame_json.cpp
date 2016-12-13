@@ -174,11 +174,11 @@ void player_activity::deserialize(JsonIn &jsin)
     } else {
         type = activity_id( tmptype );
     }
-    
+
     if ( !data.read( "position", tmppos)) {
         tmppos = INT_MIN;  // If loading a save before position existed, hope.
     }
-    
+
     data.read( "moves_left", moves_left );
     data.read( "index", index );
     position = tmppos;
@@ -1459,7 +1459,7 @@ void item::io( Archive& archive )
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
-    archive.io( "name", name, type_name( 1 ) ); // TODO: change default to empty string
+    archive.io( "name", corpse_name, std::string() ); // TODO: change default to empty string
     archive.io( "invlet", invlet, '\0' );
     archive.io( "damage", damage_, 0.0 );
     archive.io( "active", active, false );
@@ -1992,7 +1992,7 @@ void mission::deserialize(JsonIn &jsin)
 
     const std::string omid = jo.get_string( "target_id", "" );
     if( !omid.empty() ) {
-        target_id = oter_id( omid );
+        target_id = string_id<oter_type_t>( omid );
     }
 
     if( jo.has_int( "recruit_class" ) ) {
@@ -2033,7 +2033,7 @@ void mission::serialize(JsonOut &json) const
 
     json.member("item_id", item_id);
     json.member("item_count", item_count);
-    json.member("target_id", target_id.id());
+    json.member("target_id", target_id.str());
     json.member("recruit_class", recruit_class);
     json.member("target_npc_id", target_npc_id);
     json.member("monster_type", monster_type);

@@ -248,8 +248,10 @@ void assign_function( JsonObject &jo, const std::string &id, Fun &target, const 
     }
 }
 
-void mission_type::load( JsonObject &jo, const std::string & )
+void mission_type::load( JsonObject &jo, const std::string &src )
 {
+    const bool strict = src == "dda";
+
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
 
     mandatory( jo, was_loaded, "difficulty", difficulty );
@@ -297,9 +299,7 @@ void mission_type::load( JsonObject &jo, const std::string & )
         follow_up = mission_type_id( jo.get_string( "followup" ) );
     }
 
-    if( jo.has_member( "destination" ) ) {
-        target_id = string_id<oter_t>( jo.get_string( "destination" ) );
-    }
+    assign( jo, "destination", target_id, strict );
 }
 
 void mission_type::check_consistency()

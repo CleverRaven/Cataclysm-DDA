@@ -874,6 +874,7 @@ private:
         void draw_HP();          // Draws the player's HP and Power level
         /** Draws the sidebar (if it's visible), including all windows there */
         void draw_sidebar();
+        void draw_safe_mode( WINDOW *win, int line ) const;
         void draw_sidebar_messages();
         void draw_pixel_minimap();  // Draws the pixel minimap based on the player's current location
 
@@ -907,7 +908,6 @@ private:
         bool safe_mode_warning_logged;
         std::vector<int> new_seen_mon;
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
-        bool autosafemode; // is autosafemode enabled?
         bool safemodeveh; // safemode while driving?
         int turnssincelastmon; // needed for auto run mode
         //  quit_status uquit;    // Set to true if the player quits ('Q')
