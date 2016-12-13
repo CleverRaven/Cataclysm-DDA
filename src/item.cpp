@@ -2208,25 +2208,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         }
     }
 
-    const std::map<std::string, std::string>::const_iterator iname = item_vars.find( "name" );
     std::string maintext;
-    if( corpse != nullptr && typeId() == "corpse" ) {
-        if( !corpse_name.empty() ) {
-            maintext = string_format( npgettext( "item name", "%s corpse of %s", "%s corpses of %s", quantity ),
-                                      corpse->nname().c_str(), corpse_name.c_str() );
-        } else {
-            maintext = string_format( npgettext( "item name", "%s corpse", "%s corpses", quantity ),
-                                      corpse->nname().c_str() );
-        }
-    } else if( typeId() == "blood" ) {
-        if( corpse == nullptr || corpse->id == NULL_ID ) {
-            maintext = string_format( npgettext( "item name", "human blood", "human blood", quantity ) );
-        } else {
-            maintext = string_format( npgettext( "item name", "%s blood", "%s blood", quantity ),
-                                      corpse->nname().c_str() );
-        }
-    } else if( iname != item_vars.end() ) {
-        maintext = iname->second;
+    if( is_corpse() || typeId() == "blood" || item_vars.find( "name" ) != item_vars.end() ) {
+        maintext = type_name( quantity );
     } else if( is_gun() || is_tool() || is_magazine() ) {
         ret.str("");
         ret << label( quantity );
