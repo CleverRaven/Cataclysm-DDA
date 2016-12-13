@@ -1,0 +1,24 @@
+[
+  {
+    "id": "sw_610",
+    "copy-from": "pistol_revolver",
+    "type": "GUN",
+    "name": "S&W 610",
+    "name_plural": "S&W 610",
+    "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round.",
+    "weight": 1133,
+    "volume": 2,
+    "price": 74000,
+    "to_hit": -2,
+    "bashing": 10,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "10mm_auto",
+    "ranged_damage": 1,
+    "dispersion": 320,
+    "durability": 8,
+    "clip_size": 6,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+  }
+]
