@@ -1409,6 +1409,9 @@ item_location inventory_pick_selector::execute()
         const inventory_input input = get_input();
 
         if( input.entry != nullptr ) {
+            if( select( input.entry->location ) ) {
+                refresh_window();
+            }
             return input.entry->location.clone();
         } else if( input.action == "QUIT" ) {
             return item_location();
@@ -1458,6 +1461,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
         const inventory_input input = get_input();
 
         if( input.entry != nullptr ) {
+            select( input.entry->location );
             toggle_entry( input.entry );
         } else if( input.action == "RIGHT" ) {
             const auto selection( get_active_column().get_all_selected() );
