@@ -523,3 +523,62 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
         } while( ch == KEY_PPAGE || ch == KEY_NPAGE );
     } while( true );
 }
+
+void game_menus::inv::reassign_letter( player &p, item &it )
+{
+    while( true ) {
+        const long invlet = popup_getkey(
+                                _( "Enter new letter (press SPACE for none, ESCAPE to cancel)." ) );
+
+        if( invlet == KEY_ESCAPE ) {
+            break;
+        } else if( invlet == ' ' ) {
+            p.reassign_item( it, 0 );
+            break;
+        } else if( inv_chars.valid( invlet ) ) {
+            p.reassign_item( it, invlet );
+            break;
+        }
+    }
+}
+
+void game_menus::inv::swap_letters( player &p )
+{
+    p.inv.restack( &p );
+    p.inv.sort();
+
+    inventory_pick_selector inv_s( p );
+
+    inv_s.add_character_items( p );
+    inv_s.set_title( _( "Swap Inventory Letters" ) );
+    inv_s.set_display_stats( false );
+
+    if( inv_s.empty() ) {
+        popup( std::string( _( "Your inventory is empty." ) ), PF_GET_KEY );
+        return;
+    }
+
+    while( true ) {
+        const std::string invlets = colorize_symbols( inv_chars.get_allowed_chars(),
+        [ &p ]( const std::string::value_type & elem ) {
+            if( p.assigned_invlet.count( elem ) ) {
+                return c_yellow;
+            } else if( p.invlet_to_position( elem ) != INT_MIN ) {
+                return c_white;
+            } else {
+                return c_dkgray;
+            }
+        } );
+
+        inv_s.set_hint( invlets );
+
+        auto loc = inv_s.execute();
+
+        if( !loc ) {
+            break;
+        }
+
+        reassign_letter( p, *loc );
+        g->refresh_all();
+    }
+}

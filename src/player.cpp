@@ -10977,6 +10977,33 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     return used->is_tool() && consume_charges( *actually_used, charges_used );
 }
 
+void player::reassign_item( item &it, long invlet )
+{
+    if( invlet ) {
+        item &prev = i_at( invlet_to_position( invlet ) );
+        if( !prev.is_null() ) {
+            prev.invlet = it.invlet;
+        }
+    }
+
+    if( !invlet || it.invlet == invlet ) {
+        const auto iter = assigned_invlet.find( it.invlet );
+        if( iter != assigned_invlet.end() ) {
+            assigned_invlet.erase( iter );
+            if( invlet ) {
+                return;
+            }
+        }
+    }
+
+    if( !invlet || inv_chars.valid( invlet ) ) {
+        it.invlet = invlet;
+        if( invlet ) {
+            assigned_invlet[invlet] = it.typeId();
+        }
+    }
+}
+
 bool player::gunmod_remove( item &gun, item& mod )
 {
     auto iter = std::find_if( gun.contents.begin(), gun.contents.end(), [&mod]( const item& e ) {

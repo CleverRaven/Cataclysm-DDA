@@ -28,6 +28,8 @@ namespace inv
 
 void common( player &p );
 void compare( player &p, const tripoint &offset = tripoint_min );
+void reassign_letter( player &p, item &it );
+void swap_letters( player &p );
 
 /** Todo: let them return item_location */
 int take_off( player &p );
