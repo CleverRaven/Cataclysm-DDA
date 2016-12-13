@@ -177,7 +177,7 @@
     "category": "veh_parts",
     "name": "wide wheel",
     "description": "A wide wheel.  \\o/ This wide.",
-    "weight": 17600,
+    "weight": 20000,
     "volume": 70,
     "price": 34000,
     "bashing": 17,
@@ -186,7 +186,7 @@
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 24,
-    "width": 14
+    "width": 25
   },
   {
     "id": "wheel_wood",
