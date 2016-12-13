@@ -1257,7 +1257,7 @@ void computer::activate_failure(computer_failure fail)
     break;
 
     case COMPFAIL_DAMAGE:
-        add_msg(m_neutral, _("The console electrocutes you."));
+        add_msg(m_neutral, _("The console shocks you."));
         if( g->u.is_elec_immune() ) {
             add_msg( m_good, _("You're protected from electric shocks.") );
         } else {
