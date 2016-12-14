@@ -89,7 +89,7 @@ bool monster::can_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( has_flag( MF_RESPECT_MON_AVOID ) && g->m.has_flag( "MON_AVOID", p ) ){
+    if( has_flag( MF_RESPECT_MON_AVOID ) && g->m.has_flag( "MON_AVOID", p ) ) {
         return false;
     }
 
