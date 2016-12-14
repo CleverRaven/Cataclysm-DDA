@@ -337,29 +337,28 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
 
         if( old == "apartments_con_tower_1_entrance" ||
             old == "apartments_mod_tower_1_entrance" ) {
-            const std::string base = old.substr( 0, 21 );
+            const std::string base = old.substr( 0, old.rfind( "1_entrance" ) );
             const std::string other = base + "1";
             nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
             nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
             nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
             nearby.push_back( { -1, other, -1, other , base + "SW_west" } );
 
-        } else if( old == "apartments_con_tower_1" || "apartments_mod_tower_1" ) {
-            const std::string base = old.substr( 0, 21 );
+        } else if( old == "apartments_con_tower_1" || old == "apartments_mod_tower_1" ) {
+            const std::string base = old.substr( 0, old.rfind( "1" ) );
             const std::string entr = base + "1_entrance";
-            const std::string other = base + "1";
-            nearby.push_back( { 1, other, 1, entr, base + "NW_north" } );
-            nearby.push_back( { -1, other, -1, entr, base + "NW_south" } );
-            nearby.push_back( { -1, entr, 1, other, base + "NW_east" } );
-            nearby.push_back( { 1, entr, -1, other, base + "NW_west" } );
-            nearby.push_back( { -1, other, 1, other, base + "NE_north" } );
-            nearby.push_back( { 1, other, -1, other, base + "NE_south" } );
-            nearby.push_back( { -1, other, -1, other, base + "NE_east" } );
-            nearby.push_back( { 1, other, 1, other, base + "NE_west" } );
-            nearby.push_back( { -1, entr, -1, other, base + "SE_north" } );
-            nearby.push_back( { 1, entr, 1, other, base + "SE_south" } );
-            nearby.push_back( { 1, other, -1, entr, base + "SE_east" } );
-            nearby.push_back( { -1, other, 1, entr, base + "SE_west" } );
+            nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
+            nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
+            nearby.push_back( { -1, entr, 1, old, base + "NW_east" } );
+            nearby.push_back( { 1, entr, -1, old, base + "NW_west" } );
+            nearby.push_back( { -1, old, 1, old, base + "NE_north" } );
+            nearby.push_back( { 1, old, -1, old, base + "NE_south" } );
+            nearby.push_back( { -1, old, -1, old, base + "NE_east" } );
+            nearby.push_back( { 1, old, 1, old, base + "NE_west" } );
+            nearby.push_back( { -1, entr, -1, old, base + "SE_north" } );
+            nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
+            nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
+            nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
 
         } else if( old.compare( 0, 14, "hotel_tower_1_" ) == 0 ) {
             const std::string hotel = "hotel_tower_1_";
