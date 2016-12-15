@@ -86,13 +86,13 @@
     "skills_required": [ "cutting", 1 ],
     "time": 40000,
     "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "CUT", "level": 1 }
     ],
     "components": [
       [ [ "leather", 12 ], [ "tanned_hide", 2 ] ],
-      [ [ "superglue", 1 ] ],
       [ [ "2x4", 2 ] ],
       [ [ "nail", 8 ] ]
     ]
@@ -218,13 +218,13 @@
     "skills_required": [ "cutting", 2 ],
     "time": 40000,
     "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "CUT", "level": 1 }
     ],
     "components": [
       [ [ "leather", 15 ], [ "tanned_hide", 3 ] ],
-      [ [ "superglue", 1 ] ],
       [ [ "2x4", 2 ] ],
       [ [ "nail", 10 ] ]
     ]
@@ -340,10 +340,10 @@
     "skills_required": [ "fabrication", 1 ],
     "time": 1500,
     "autolearn": true,
+    "using": [ [ "adhesive", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "components": [
       [ [ "rag", 6 ], [ "leather", 6 ], [ "string_6", 3 ] ],
-      [ [ "duct_tape", 35 ], [ "superglue", 5 ] ],
       [ [ "jerrycan", 1 ] ]
     ]
   },
@@ -514,12 +514,10 @@
     "decomp_learn": 3,
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ] ],
+    "using": [ [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "sewing_kit", 8 ] ] ],
-    "components": [
-      [ [ "leather", 8 ], [ "tanned_hide", 1 ] ],
-      [ [ "scrap", 3 ], [ "steel_chunk", 1 ] ]
-    ]
+    "components": [ [ [ "leather", 8 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "quiver_large_birchbark",
@@ -561,13 +559,13 @@
     "skills_required": [ "cutting", 1 ],
     "time": 40000,
     "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "CUT", "level": 1 }
     ],
     "components": [
       [ [ "leather", 10 ], [ "tanned_hide", 2 ] ],
-      [ [ "superglue", 1 ] ],
       [ [ "2x4", 2 ] ],
       [ [ "nail", 5 ] ]
     ]
