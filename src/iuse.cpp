@@ -6692,7 +6692,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
 
                 if( p->is_elec_immune() ) {
                     if( one_in( 10 ) ) {
-                        add_msg( m_good, _("The cuffs try to shock you, but you're protected from electrocution.") );
+                        add_msg( m_good, _("The cuffs try to shock you, but you're protected from electricity.") );
                     }
                 } else {
                     add_msg(m_bad, _("Ouch, the cuffs shock you!"));

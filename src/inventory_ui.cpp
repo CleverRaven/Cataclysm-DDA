@@ -37,11 +37,8 @@ static const int normal_column_gap = 8;
 /** The minimal occupancy ratio (see @refer get_columns_occupancy_ratio()) to align columns to the center */
 static const double min_ratio_to_center = 0.85;
 
-static const item_category items_worn_category( "ITEMS_WORN", _( "ITEMS WORN" ), -100 );
-static const item_category weapon_held_category( "WEAPON_HELD", _( "WEAPON HELD" ), -200 );
-
 /** These categories should keep their original order and can't be re-sorted by inventory presets */
-static const std::set<item_category> ordered_categories = {{ items_worn_category }};
+static const std::set<std::string> ordered_categories = {{ "ITEMS_WORN" }};
 
 struct navigation_mode_data {
     navigation_mode next_mode;
@@ -507,7 +504,7 @@ void inventory_column::prepare_paging()
         while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
             std::advance( to, 1 );
         }
-        if( ordered_categories.count( *from->get_category_ptr() ) == 0 ) {
+        if( ordered_categories.count( from->get_category_ptr()->id ) == 0 ) {
             std::sort( from, to, [ this ]( const inventory_entry &lhs, const inventory_entry &rhs ) {
                 if( lhs.is_selectable() != rhs.is_selectable() ) {
                     return lhs.is_selectable(); // Disabled items always go last
@@ -834,6 +831,8 @@ void inventory_selector::add_items( inventory_column &target_column,
 
 void inventory_selector::add_character_items( Character &character )
 {
+    static const item_category items_worn_category( "ITEMS_WORN", _( "ITEMS WORN" ), -100 );
+    static const item_category weapon_held_category( "WEAPON_HELD", _( "WEAPON HELD" ), -200 );
     character.visit_items( [ this, &character ]( item *it ) {
         if( it == &character.weapon ) {
             add_item( own_gear_column, item_location( character, it ), 1, &weapon_held_category );
