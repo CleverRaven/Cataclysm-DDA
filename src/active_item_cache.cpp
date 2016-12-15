@@ -1,4 +1,5 @@
 #include "active_item_cache.h"
+#include "debug.h"
 
 #include <algorithm>
 
@@ -11,26 +12,46 @@ void active_item_cache::remove( std::list<item>::iterator it, point location )
     // But the processing_speed may have changed, so if it's not in the expected container,
     // remove it from all containers to ensure no stale iterator remains.
     auto &expected = active_items[it->processing_speed()];
-    const auto iter = std::find_if( expected.begin(), expected.end(), predicate );
+    auto iter = std::find_if( expected.begin(), expected.end(), predicate );
     if( iter != expected.end() ) {
+        active_item_set.erase( iter->item_id );
         expected.erase( iter );
-    } else {
-        for( auto &e : active_items ) {
-            e.second.remove_if( predicate );
+        return;
+    }
+    for( auto &e : active_items ) {
+        iter = std::find_if( e.second.begin(), e.second.end(), predicate );
+        if( iter != e.second.end() ) {
+            active_item_set.erase( iter->item_id );
+            e.second.erase( iter );
+            return;
         }
     }
-    active_item_set.erase( &*it );
+    debugmsg( "Critical: The item isn't there!" );
 }
 
 void active_item_cache::add( std::list<item>::iterator it, point location )
 {
-    active_items[it->processing_speed()].push_back( item_reference{ location, it, &*it } );
-    active_item_set.insert( &*it );
+    // Active item processing should always remove the item, then sometimes add it back.
+    // If this is changed, active_item_set (or how it's handled in this function) will need to be changed.
+    // Just don't use iterators or pointers because they can and will cause undefined behavior.
+    assert( active_item_set.count( next_free_id ) == 0 );
+
+    active_items[it->processing_speed()].push_back( item_reference{ location, it, next_free_id } );
+    active_item_set.insert( next_free_id );
+    ++next_free_id; // Note: overflow is well-defined for unsigned ints.
 }
 
 bool active_item_cache::has( std::list<item>::iterator it, point ) const
 {
-    return active_item_set.count( &*it ) != 0;
+    for( const auto &o : active_items ) {
+        const bool found = std::any_of( o.second.begin(), o.second.end(), [&it]( const item_reference &ir ) {
+            return it == ir.item_iterator;
+        } );
+        if( found ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool active_item_cache::has( item_reference const &itm ) const
