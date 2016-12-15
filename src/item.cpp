@@ -2231,13 +2231,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
                                       contents.front().tname( quantity, with_prefix ).c_str() );
         } else if( contents.front().is_food() ) {
-            if( contents.front().charges > 1 ) {
-                maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
-                                          contents.front().tname( contents.front().charges, with_prefix ).c_str() );
-            } else {
-                maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
-                                          contents.front().tname( quantity, with_prefix ).c_str() );
-            }
+            const unsigned contents_count = contents.front().charges > 1 ? contents.front().charges : quantity;
+            maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
+                                      contents.front().tname( contents_count, with_prefix ).c_str() );
         } else {
             maintext = string_format( pgettext( "item name", "%s with %s" ), label( quantity ).c_str(),
                                       contents.front().tname( quantity, with_prefix ).c_str() );
