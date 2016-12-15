@@ -113,7 +113,6 @@ class Character : public Creature, public visitable<Character>
         /** Getters for health values exclusive to characters */
         virtual int get_healthy() const;
         virtual int get_healthy_mod() const;
-        virtual int get_radiation() const;
 
         /** Modifiers for health values exclusive to characters */
         virtual void mod_healthy(int nhealthy);
@@ -122,7 +121,6 @@ class Character : public Creature, public visitable<Character>
         /** Setters for health values exclusive to characters */
         virtual void set_healthy(int nhealthy);
         virtual void set_healthy_mod(int nhealthy_mod);
-        virtual void set_radiation(int rad);
 
         /** Getter for need values exclusive to characters */
         virtual int get_hunger() const;
@@ -570,7 +568,6 @@ class Character : public Creature, public visitable<Character>
         /** How healthy the character is. */
         int healthy;
         int healthy_mod;
-        int radiation;
 
         std::array<encumbrance_data, num_bp> encumbrance_cache;
 

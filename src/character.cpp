@@ -1488,10 +1488,6 @@ int Character::get_healthy_mod() const
     return healthy_mod;
 }
 
-int Character::get_radiation() const
-{
-    return radiation;
-}
 
 /*
  * Innate stats setters
@@ -1543,10 +1539,7 @@ void Character::set_healthy_mod(int nhealthy_mod)
     healthy_mod = nhealthy_mod;
 }
 
-void Character::set_radiation(int rad)
-{
-    radiation = rad;
-}
+
 void Character::mod_healthy_mod(int nhealthy_mod, int cap)
 {
     // TODO: This really should be a full morale-like system, with per-effect caps

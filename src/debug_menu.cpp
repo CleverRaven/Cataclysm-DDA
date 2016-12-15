@@ -330,7 +330,7 @@ void npc_edit_menu()
             smenu.return_invalid = true;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), p.get_healthy() );
             smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), p.get_healthy_mod() );
-            smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), p.get_radiation() );
+            smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), p.radiation );
             smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
             smenu.selected = 0;
             smenu.query();
@@ -346,8 +346,8 @@ void npc_edit_menu()
                         p.set_healthy_mod( value );
                     }
                 case 2:
-                    if( query_int( value, _( "Set the value to? Currently: %d"), p.get_radiation() ) ) {
-                        p.set_radiation( value );
+                    if( query_int( value, _( "Set the value to? Currently: %d"), p.radiation ) ) {
+                        p.radiation = value;
                     }
 
                     break;
