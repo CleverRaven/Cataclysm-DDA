@@ -121,11 +121,9 @@ automatically_convertible = {
 
 # for these objects a plural form is needed
 needs_plural = {
-    "AMMO",
     "ARMOR",
     "BIONIC_ITEM",
     "BOOK",
-    "COMESTIBLE",
     "CONTAINER",
     "GENERIC",
     "GUN",
@@ -671,7 +669,7 @@ def extract(item, infilename):
             else:
                 writestr(outfile, name, **kwargs)
         else:
-            if object_type in needs_plural and item["type"] != "AMMO" and item["type"] != "COMESTIBLE":
+            if object_type in needs_plural:
                 # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
                 writestr(outfile, name, "{}s".format(name), **kwargs)
             else:
