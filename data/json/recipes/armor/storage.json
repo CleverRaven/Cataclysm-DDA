@@ -9,7 +9,7 @@
     "skills_required": [ "pistol", 3 ],
     "time": 15000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2, "amount": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "sewing_kit", 40 ] ] ],
     "components": [
       [ [ "leather", 9 ], [ "tanned_hide", 1 ] ],
@@ -86,13 +86,13 @@
     "skills_required": [ "cutting", 1 ],
     "time": 40000,
     "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
     "qualities": [
-      { "id": "HAMMER", "level": 1, "amount": 1 },
-      { "id": "CUT", "level": 1, "amount": 1 }
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 }
     ],
     "components": [
       [ [ "leather", 12 ], [ "tanned_hide", 2 ] ],
-      [ [ "superglue", 1 ] ],
       [ [ "2x4", 2 ] ],
       [ [ "nail", 8 ] ]
     ]
@@ -218,13 +218,13 @@
     "skills_required": [ "cutting", 2 ],
     "time": 40000,
     "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
     "qualities": [
-      { "id": "HAMMER", "level": 1, "amount": 1 },
-      { "id": "CUT", "level": 1, "amount": 1 }
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 }
     ],
     "components": [
       [ [ "leather", 15 ], [ "tanned_hide", 3 ] ],
-      [ [ "superglue", 1 ] ],
       [ [ "2x4", 2 ] ],
       [ [ "nail", 10 ] ]
     ]
@@ -340,10 +340,10 @@
     "skills_required": [ "fabrication", 1 ],
     "time": 1500,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3, "amount": 1 } ],
+    "using": [ [ "adhesive", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "components": [
       [ [ "rag", 6 ], [ "leather", 6 ], [ "string_6", 3 ] ],
-      [ [ "duct_tape", 35 ], [ "superglue", 5 ] ],
       [ [ "jerrycan", 1 ] ]
     ]
   },
@@ -355,7 +355,7 @@
     "skill_used": "tailor",
     "time": 8000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "sewing_kit", 12 ] ] ],
     "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
@@ -463,7 +463,7 @@
     "difficulty": 1,
     "time": 15000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "string_36", 2 ] ],
       [ [ "bag_plastic", 8 ] ]
@@ -498,7 +498,7 @@
     "decomp_learn": 3,
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "birchbark", 3 ] ] ]
   },
   {
@@ -514,12 +514,10 @@
     "decomp_learn": 3,
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2, "amount": 1 } ],
+    "using": [ [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "sewing_kit", 8 ] ] ],
-    "components": [
-      [ [ "leather", 8 ], [ "tanned_hide", 1 ] ],
-      [ [ "scrap", 3 ], [ "steel_chunk", 1 ] ]
-    ]
+    "components": [ [ [ "leather", 8 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "quiver_large_birchbark",
@@ -534,7 +532,7 @@
     "decomp_learn": 4,
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "birchbark", 10 ] ] ]
   },
   {
@@ -561,13 +559,13 @@
     "skills_required": [ "cutting", 1 ],
     "time": 40000,
     "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
     "qualities": [
-      { "id": "HAMMER", "level": 1, "amount": 1 },
-      { "id": "CUT", "level": 1, "amount": 1 }
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 }
     ],
     "components": [
       [ [ "leather", 10 ], [ "tanned_hide", 2 ] ],
-      [ [ "superglue", 1 ] ],
       [ [ "2x4", 2 ] ],
       [ [ "nail", 5 ] ]
     ]
@@ -625,7 +623,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": 100000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "sewing_kit", 200 ] ] ],
     "components": [
       [ [ "rag", 18 ] ],
@@ -645,7 +643,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 80000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "sewing_kit", 120 ] ] ],
     "components": [
       [ [ "rag", 10 ] ],
@@ -665,7 +663,7 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 90000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "sewing_kit", 160 ] ] ],
     "components": [
       [ [ "rag", 14 ] ],
@@ -685,7 +683,7 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 70000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "sewing_kit", 80 ] ] ],
     "components": [
       [ [ "rag", 6 ] ],
@@ -705,7 +703,7 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 70000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "sewing_kit", 100 ] ] ],
     "components": [
       [ [ "rag", 6 ] ],
