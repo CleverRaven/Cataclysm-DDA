@@ -12,11 +12,6 @@
     "components": [ [ [ "lead", 1 ], [ "bismuth", 1 ], [ "silver_small", 1 ], [ "gold_small", 1 ] ] ]
   },
   {
-    "id": "ammo_bullet_762x25",
-    "type": "requirement",
-    "components": [ [ [ "lead", 2 ], [ "bismuth", 3 ], [ "silver_small", 2 ], [ "gold_small", 1 ] ] ]
-  },
-  {
     "id": "cvd_diamond",
     "type": "requirement",
     "//": "Materials required to apply diamond coating (per 250ml volume)",
