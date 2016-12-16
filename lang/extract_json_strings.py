@@ -671,7 +671,7 @@ def extract(item, infilename):
             else:
                 writestr(outfile, name, **kwargs)
         else:
-            if object_type in needs_plural:
+            if object_type in needs_plural and item["type"] != "AMMO" and item["type"] != "COMESTIBLE":
                 # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
                 writestr(outfile, name, "{}s".format(name), **kwargs)
             else:
