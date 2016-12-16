@@ -347,7 +347,7 @@ void npc_edit_menu()
                     }
                     break;
                 case 2:
-                    if( query_int( value, _( "Set the value to? Currently: %d"), p.radiation ) ) {
+                    if( query_int( value, _( "Set the value to? Currently: %d" ), p.radiation ) ) {
                         p.radiation = value;
                     }
                     break;
@@ -446,7 +446,7 @@ std::string mission_debug::describe( const mission &m )
 void add_header( uimenu &mmenu, const std::string &str )
 {
     mmenu.addentry( -1, false, -1, "" );
-    uimenu_entry header( -1, false, -1, str , c_yellow, c_yellow );
+    uimenu_entry header( -1, false, -1, str, c_yellow, c_yellow );
     header.force_color = true;
     mmenu.entries.push_back( header );
 }
