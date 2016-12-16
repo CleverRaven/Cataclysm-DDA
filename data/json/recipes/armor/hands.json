@@ -249,6 +249,7 @@
     "difficulty": 6,
     "time": 420000,
     "book_learn": [ [ "textbook_armwest", 5 ] ],
+    "using": [ [ "forging_standard", 15 ], [ "steel_standard", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
@@ -256,13 +257,9 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "forge", 300 ], [ "oxy_torch", 60 ] ]
+      [ [ "swage", -1 ] ]
     ],
-    "components": [
-      [ [ "steel_lump", 6 ], [ "steel_chunk", 48 ] ],
-      [ [ "fur", 10 ], [ "tanned_pelt", 2 ], [ "leather", 10 ], [ "tanned_hide", 2 ] ]
-    ]
+    "components": [ [ [ "fur", 10 ], [ "tanned_pelt", 2 ], [ "leather", 10 ], [ "tanned_hide", 2 ] ] ]
   },
   {
     "result": "gloves_survivor",
