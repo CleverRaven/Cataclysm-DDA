@@ -345,11 +345,11 @@ void npc_edit_menu()
                     if( query_int( value, _( "Set the value to? Currently: %d" ), p.get_healthy_mod() ) ) {
                         p.set_healthy_mod( value );
                     }
+                    break;
                 case 2:
                     if( query_int( value, _( "Set the value to? Currently: %d"), p.radiation ) ) {
                         p.radiation = value;
                     }
-
                     break;
                 default:
                     break;
