@@ -49,6 +49,7 @@
 #include "monfaction.h"
 #include "martialarts.h"
 #include "veh_type.h"
+#include "vehicle.h"
 #include "clzones.h"
 #include "sounds.h"
 #include "gates.h"
@@ -342,6 +343,7 @@ void DynamicDataLoader::unload_data()
     SNIPPET.clear_snippets();
     vehicle_prototype::reset();
     vpart_info::reset();
+    clear_vehicle_null_part();
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
     recipe_dictionary::reset();

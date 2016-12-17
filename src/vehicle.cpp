@@ -66,6 +66,8 @@ const skill_id skill_mechanics( "mechanics" );
 
 const efftype_id effect_stunned( "stunned" );
 
+static vehicle_part null_part;
+
 // Vehicle stack methods.
 std::list<item>::iterator vehicle_stack::erase( std::list<item>::iterator it )
 {
@@ -2433,7 +2435,7 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
             partname += string_format( _(" (vol: %s/%s %s)"),
-                                       format_volume( stored_volume( pl[i] ) ).c_str(), 
+                                       format_volume( stored_volume( pl[i] ) ).c_str(),
                                        format_volume( max_volume( pl[i] ) ).c_str(),
                                        volume_units_abbr() );
         }
@@ -2852,7 +2854,6 @@ vehicle_part &vehicle::current_engine()
         return e.is_engine() && e.enabled;
     } );
 
-    static vehicle_part null_part;
     return eng != parts.end() ? *eng : null_part;
 }
 
@@ -4480,7 +4481,7 @@ bool vehicle::add_item( int part, const item &itm )
     }
     bool charge = itm.count_by_charges();
     vehicle_stack istack = get_items( part );
-    const long to_move = istack.amount_can_fit( itm );    
+    const long to_move = istack.amount_can_fit( itm );
     if( to_move == 0 || ( charge && to_move < itm.charges ) ) {
         return false; // @add_charges should be used in the latter case
     }
@@ -5674,6 +5675,11 @@ void vehicle::update_time( const calendar &update_to )
     }
 }
 
+void clear_vehicle_null_part()
+{
+    null_part.clear_info();
+}
+
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
@@ -5980,7 +5986,7 @@ float vehicle_part::efficiency( int rpm ) const
 
     float eff = base.type->engine->efficiency / 100.0;
 
-    // operating outside optimal rpm is less efficient 
+    // operating outside optimal rpm is less efficient
     double penalty = std::abs( base.type->engine->optimum - rpm ) / 1000.0;
     return eff / ( 1.0 + penalty );
 }
@@ -6058,6 +6064,11 @@ const vpart_info &vehicle_part::info() const
         info_cache = &id.obj();
     }
     return *info_cache;
+}
+
+void vehicle_part::clear_info()
+{
+    info_cache = nullptr;
 }
 
 void vehicle::invalidate_mass()
