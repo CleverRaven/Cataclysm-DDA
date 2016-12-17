@@ -7016,7 +7016,7 @@ vehicle *pickveh( const tripoint& center, bool advanced )
         auto &v = veh.v;
         const auto gp = v->global_pos();
         if( rl_dist( center.x, center.y, gp.x, gp.y ) < 40 &&
-            v->fuel_left( "battery", true ) > 0 &&
+            v->fuel_left( "battery", true, true ) > 0 &&
             ( v->all_parts_with_feature( advctrl, true ).size() > 0 ||
             ( !advanced && v->all_parts_with_feature( ctrl, true ).size() > 0 ) ) ) {
             vehs.push_back( v );
@@ -7058,7 +7058,7 @@ int iuse::remoteveh(player *p, item *it, bool t, const tripoint &pos)
         } else if( remote == nullptr ) {
             p->add_msg_if_player( _("Lost contact with the vehicle.") );
             stop = true;
-        } else if( remote->fuel_left( "battery", true ) == 0 ) {
+        } else if( remote->fuel_left( "battery", true, true ) == 0 ) {
             p->add_msg_if_player( m_bad, _("The vehicle's battery died.") );
             stop = true;
         }
