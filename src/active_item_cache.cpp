@@ -31,27 +31,26 @@ void active_item_cache::remove( std::list<item>::iterator it, point location )
 
 void active_item_cache::add( std::list<item>::iterator it, point location )
 {
-    // Active item processing should always remove the item, then sometimes add it back.
-    // If this is changed, active_item_set (or how it's handled in this function) will need to be changed.
-    // Just don't use iterators or pointers because they can and will cause undefined behavior.
+    // Uniqueness is guaranteed because active item processing always removes the item,
+    // processes it, then sometimes add it back.
     assert( active_item_set.count( next_free_id ) == 0 );
 
-    active_items[it->processing_speed()].push_back( item_reference{ location, it, next_free_id } );
+    active_items[it->processing_speed()].push_back( item_reference { location, it, next_free_id } );
     active_item_set.insert( next_free_id );
-    ++next_free_id; // Note: overflow is well-defined for unsigned ints.
+    // Blindly incrementing is safe because the C++ standard says that unsigned ints wrap around.
+    ++next_free_id;
 }
 
-bool active_item_cache::has( std::list<item>::iterator it, point ) const
+bool active_item_cache::has( std::list<item>::iterator it, point p ) const
 {
-    for( const auto &o : active_items ) {
-        const bool found = std::any_of( o.second.begin(), o.second.end(), [&it]( const item_reference &ir ) {
-            return it == ir.item_iterator;
-        } );
-        if( found ) {
-            return true;
-        }
-    }
-    return false;
+    const auto predicate = [&]( const item_reference & ir ) {
+        // Comparing iterators from different sequences is undefined, so check the point first
+        return ir.location == p && it == ir.item_iterator;
+    };
+    return std::any_of( active_items.begin(), active_items.end(),
+    [&]( const std::pair< int, std::list<item_reference> > &elem ) {
+        return std::any_of( elem.second.begin(), elem.second.end(), predicate );
+    } );
 }
 
 bool active_item_cache::has( item_reference const &itm ) const

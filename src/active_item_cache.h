@@ -28,7 +28,7 @@ class active_item_cache
         void add( std::list<item>::iterator it, point location );
 
         // WARNING: Do not call this version of has from the item processing code!
-        bool has( std::list<item>::iterator it, point ) const;
+        bool has( std::list<item>::iterator it, point p ) const;
         bool has( item_reference const &itm ) const;
         bool empty() const;
         std::list<item_reference> get();
