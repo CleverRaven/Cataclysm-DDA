@@ -69,7 +69,7 @@ constexpr double mph_to_ms( double val )
 /** convert velocity (m/s) to arbitrary display units */
 constexpr double ms_to_display( double val )
 {
-    return ms_to_mph( val ) * 100 * 2;
+    return ms_to_mph( val ) * 100;
 }
 
 /** convert velocity (m/s) to fractional tiles per turn */
