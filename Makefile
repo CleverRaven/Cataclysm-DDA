@@ -885,7 +885,7 @@ ifdef OSXCROSS
 	cp data/osx/DS_Store Cataclysm/.DS_Store
 	cp data/osx/dmgback.png Cataclysm/.background.png
 	ln -s /Applications Cataclysm/Applications
-	genisoimage -D -V "Cataclysm DDA" -no-pad -r -apple -o Cataclysm-uncompressed.dmg Cataclysm/
+	genisoimage -quiet -D -V "Cataclysm DDA" -no-pad -r -apple -o Cataclysm-uncompressed.dmg Cataclysm/
 	dmg dmg Cataclysm-uncompressed.dmg Cataclysm.dmg
 	rm Cataclysm-uncompressed.dmg
 else
