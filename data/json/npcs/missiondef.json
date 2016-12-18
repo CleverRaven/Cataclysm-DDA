@@ -1850,7 +1850,7 @@
     "name": "Reach Refugee Center",
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 1,
-    "value": 50000,
+    "value": 0,
     "start": "reveal_refugee_center",
     "origins": [ "ORIGIN_COMPUTER" ],
     "destination": "evac_center_18"
