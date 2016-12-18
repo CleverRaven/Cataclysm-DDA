@@ -862,8 +862,7 @@ bool veh_interact::do_repair( std::string &msg )
         case INVALID_TARGET:
             {
                 vehicle_part *mostRepariable = get_most_repariable_part();
-                if( mostRepariable )
-                {
+                if( mostRepariable ) {
                     move_cursor( mostRepariable->mount.y + ddy, -( mostRepariable->mount.x + ddx ) );
                 } else {
                     msg = _( "There are no damaged parts on this vehicle." );
