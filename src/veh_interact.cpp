@@ -861,9 +861,9 @@ bool veh_interact::do_repair( std::string &msg )
 
         case INVALID_TARGET:
             {
-                vehicle_part *mostRepariable = get_most_repariable_part();
-                if( mostRepariable ) {
-                    move_cursor( mostRepariable->mount.y + ddy, -( mostRepariable->mount.x + ddx ) );
+                vehicle_part *most_repairable = get_most_repariable_part();
+                if( most_repairable ) {
+                    move_cursor( most_repairable->mount.y + ddy, -( most_repairable->mount.x + ddx ) );
                 } else {
                     msg = _( "There are no damaged parts on this vehicle." );
                     return false;
@@ -1230,45 +1230,41 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
 vehicle_part *veh_interact::get_most_damaged_part() const
 {
-    vehicle_part *high_part = nullptr;
-    int high_damage = 0;
+    auto part_damage_comparison = []( const vehicle_part &a, const vehicle_part &b )
+    {
+        return !b.removed && b.base.damage() > a.base.damage();
+    };
 
-    for( size_t i = 0; i < veh->parts.size(); i++ ) {
-        auto *part = &veh->parts[i];
-        if( part->removed ) {
-            continue;
-        }
-
-        int dmg = part->base.damage();
-
-        if( dmg > high_damage ) {
-            high_part = part;
-        }
+    auto high_damage_iterator = std::max_element( veh->parts.begin(),
+                                veh->parts.end(),
+                                part_damage_comparison );
+    if( high_damage_iterator == veh->parts.end() ||
+        high_damage_iterator->removed ) {
+        return nullptr;
     }
-    return high_part;
+
+    return &( *high_damage_iterator );
 }
 
 vehicle_part *veh_interact::get_most_repariable_part() const
 {
-    vehicle_part *high_part = nullptr;
-    int high_damage = 0;
+    auto part_damage_comparison = []( const vehicle_part &a, const vehicle_part &b )
+    {
+        return !b.removed &&
+               b.info().is_repairable() &&
+               b.base.damage() > a.base.damage();
+    };
 
-    for( size_t i = 0; i < veh->parts.size(); i++ ) {
-        auto *part = &veh->parts[i];
-        if( part->removed ) {
-            continue;
-        }
-        if( !part->info().is_repairable() ) {
-            continue;
-        }
-
-        int dmg = part->base.damage();
-
-        if( dmg > high_damage ) {
-            high_part = part;
-        }
+    auto high_damage_iterator = std::max_element( veh->parts.begin(),
+                                veh->parts.end(),
+                                part_damage_comparison );
+    if( high_damage_iterator == veh->parts.end() ||
+        high_damage_iterator->removed ||
+        !high_damage_iterator->info().is_repairable() ) {
+        return nullptr;
     }
-    return high_part;
+
+    return &( *high_damage_iterator );
 }
 
 bool veh_interact::can_remove_part( int idx ) {
@@ -1854,18 +1850,18 @@ void veh_interact::display_stats()
     };
 
     vehicle_part *mostDamagedPart = get_most_damaged_part();
-    vehicle_part *mostRepariable = get_most_repariable_part();
+    vehicle_part *most_repairable = get_most_repariable_part();
 
     // Write the most damaged part
     if( mostDamagedPart ) {
-        char const *damaged_header = mostDamagedPart == mostRepariable ?
+        char const *damaged_header = mostDamagedPart == most_repairable ?
                                             _( "Most damaged:" ) : _( "Most damaged (can't repair):" );
         print_part( damaged_header, 6, mostDamagedPart );
     }
     // Write the part that needs repair the most.
-    if( mostRepariable && mostRepariable != mostDamagedPart ) {
+    if( most_repairable && most_repairable != mostDamagedPart ) {
         char const * needsRepair = _( "Needs repair:" );
-        print_part( needsRepair, 7, mostRepariable );
+        print_part( needsRepair, 7, most_repairable );
     }
 
     bool is_boat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
