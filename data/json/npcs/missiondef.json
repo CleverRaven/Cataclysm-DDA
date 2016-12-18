@@ -1853,6 +1853,6 @@
     "value": 0,
     "start": "reveal_refugee_center",
     "origins": [ "ORIGIN_COMPUTER" ],
-    "destination": "evac_center_18"
+    "destination": "evac_center"
   }
 ]
