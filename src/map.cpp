@@ -1290,7 +1290,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
     for( size_t i = 0; i < src_submap->vehicles.size(); i++ ) {
         if( src_submap->vehicles[i]->posx == src_offset_x &&
             src_submap->vehicles[i]->posy == src_offset_y &&
-            src_submap->vehicles[i]->parts.size() > 0 ) {
+            !src_submap->vehicles[i]->parts.empty() ) {
             our_i = i;
             break;
         }
