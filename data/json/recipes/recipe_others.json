@@ -6256,7 +6256,8 @@
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"COOK","level":2},
-    {"id":"BOIL","level":1}
+    {"id":"BOIL","level":1},
+    {"id":"CONTAIN","level":1}
   ],
   "tools": [
     [
@@ -6328,7 +6329,8 @@
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"COOK","level":2},
-    {"id":"BOIL","level":1}
+    {"id":"BOIL","level":1},
+    {"id":"CONTAIN","level":1}
   ],
   "tools": [
     [
