@@ -1883,13 +1883,19 @@ void holster_actor::load( JsonObject &obj )
 {
     holster_prompt = obj.get_string( "holster_prompt", "" );
     holster_msg    = obj.get_string( "holster_msg",    "" );
+	
+	int max_v = obj.get_int( "max_volume" );
+	int min_v = obj.get_int( "min_volume", max_v / 3);   
+	// the legacy_volume_factor must be applied after the min volume computation 
+	// in order to keep previous rounding truncation behavior
+	// In practice, an holster of a max volume of 4 should accept an item of volume 1
+	// This is the case for the survivor utility belt
+	// 4/3 == 1 (due to rounding) --> min real volume == 1*250 (so an item of volume 1*250 is ok)
+	// if we change the unit before the division
+	// 4*250 / 3 = 333 --> an item of volume 1*250 is NOT ok.
+	max_volume = max_v * units::legacy_volume_factor;
+	min_volume = min_v * units::legacy_volume_factor;
 
-    max_volume = obj.get_int( "max_volume" ) * units::legacy_volume_factor;
-    if( obj.has_member( "min_volume" ) ) {
-        min_volume = obj.get_int( "min_volume" ) * units::legacy_volume_factor;
-    } else {
-        min_volume = max_volume / 3;
-    }
     max_weight = obj.get_int( "max_weight", max_weight );
     multi      = obj.get_int( "multi",      multi );
     draw_cost  = obj.get_int( "draw_cost",  draw_cost );
