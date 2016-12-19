@@ -26,6 +26,7 @@
 #include "mtype.h"
 #include "itype.h"
 #include "item_factory.h"
+#include "assign.h"
 
 #include <algorithm>
 #include <cassert>
@@ -837,43 +838,30 @@ class jmapgen_loot : public jmapgen_piece {
     friend jmapgen_objects;
 
     public:
-        jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
-        , group( jsi.get_string( "group", std::string() ) )
-        , name( jsi.get_string( "item", std::string() ) )
-        , chance( jsi.get_int( "chance", 100 ) )
-        , ammo( jsi.get_int( "ammo", 0 ) )
-        , magazine( jsi.get_int( "magazine", 0 ) )
-        {
-            if( group.empty() == name.empty() ) {
-                jsi.throw_error( "must provide either item or group" );
-            }
-            if( !group.empty() && !item_group::group_is_defined( group ) ) {
-                jsi.throw_error( "no such item group", "group" );
-            }
-            if( !name.empty() && !item_controller->has_template( name ) ) {
-                jsi.throw_error( "no such item", "item" );
-            }
-            if( ammo < 0 || ammo > 100 ) {
-                jsi.throw_error( "ammo chance out of range", "ammo" );
-            }
-            if( magazine < 0 || magazine > 100 ) {
-                jsi.throw_error( "magazine chance out of range", "magazine" );
+        jmapgen_loot( JsonObject &jo ) : jmapgen_piece() {
+            assign( jo, "loot", id );
+            assign( jo, "chance", chance, false, 1, 100 );
+            assign( jo, "ammo", ammo, false, 0, 100 );
+            assign( jo, "magazine", magazine, false, 0, 100 );
+
+            if( !item_group::group_is_defined( id ) && !item_controller->has_template( id ) ) {
+                jo.throw_error( "no such item", "loot" );
             }
         }
 
         void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
         {
-            if( rng( 0, 99 ) < chance ) {
+            if( rng( 0, 100 ) <= chance ) {
                 std::vector<item> spawn;
-                if( group.empty() ) {
-                    spawn.emplace_back( name, calendar::turn );
+                if( item_group::group_is_defined( id ) ) {
+                    spawn = item_group::items_from( id, calendar::turn );
                 } else {
-                    spawn = item_group::items_from( group, calendar::turn );
+                    spawn.emplace_back( id, calendar::turn );
                 }
 
                 for( auto &e: spawn ) {
-                    bool spawn_ammo = rng( 0, 99 ) < ammo && e.ammo_remaining() == 0;
-                    bool spawn_mag  = rng( 0, 99 ) < magazine && !e.magazine_integral() && !e.magazine_current();
+                    bool spawn_ammo = rng( 0, 100 ) <= ammo && e.ammo_remaining() == 0;
+                    bool spawn_mag  = rng( 0, 100 ) <= magazine && !e.magazine_integral() && !e.magazine_current();
 
                     if( spawn_mag || spawn_ammo ) {
                         e.contents.emplace_back( e.magazine_default(), e.bday );
@@ -887,11 +875,10 @@ class jmapgen_loot : public jmapgen_piece {
         }
 
     private:
-        const std::string group;
-        const std::string name;
-        int chance;
-        const int ammo;
-        const int magazine;
+        std::string id;
+        int chance = 100;
+        int ammo = 0;
+        int magazine = 0;
 };
 
 /**
