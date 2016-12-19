@@ -1460,8 +1460,6 @@ int Character::get_int_base() const
     return int_max;
 }
 
-
-
 int Character::get_str_bonus() const
 {
     return str_bonus;
@@ -1487,7 +1485,6 @@ int Character::get_healthy_mod() const
 {
     return healthy_mod;
 }
-
 
 /*
  * Innate stats setters
@@ -1538,8 +1535,6 @@ void Character::set_healthy_mod(int nhealthy_mod)
 {
     healthy_mod = nhealthy_mod;
 }
-
-
 void Character::mod_healthy_mod(int nhealthy_mod, int cap)
 {
     // TODO: This really should be a full morale-like system, with per-effect caps
