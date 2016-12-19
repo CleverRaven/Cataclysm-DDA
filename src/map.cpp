@@ -5090,6 +5090,9 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
                             quantity -= ret.back().charges;
                             if( quantity == 0 ) {
                                 return ret;
+                            } else {
+                                // stop iterating this tank's contents, try next tank
+                                break;
                             }
                         }
                     }
