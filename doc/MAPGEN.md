@@ -6,9 +6,10 @@
     * 1.1.0 Embedded
     * 1.1.1 Standalone
   * 1.2 Format and variables
-    * 1.2.0 "method":
-    * 1.2.1 "om_terrain":
-    * 1.2.2 "weight":
+    * 1.2.0 "method"
+    * 1.2.1 "om_terrain"
+    * 1.2.2 "om_terrain_multi"
+    * 1.2.3 "weight"
   * 1.3 How "overmap_terrain" variables affect mapgen
   * 1.4 Limitations / TODO
 * 2 Method: json
@@ -164,7 +165,7 @@ The above example only illustrate the mapgen entries, not the actual format for 
 ]```
 
 ### 1.2.1 "om_terrain":
-**required for standalone**
+**required for standalone unless using "om_terrain_multi"**
 > Values:
 > * "matching_overmap_terrain_id" - see overmap_terrain.json for a list
 
@@ -173,7 +174,27 @@ The above example only illustrate the mapgen entries, not the actual format for 
 > * [ "list_of", "oter_ids" ]
 ##### Example: "om_terrain": [ "house", "house_base" ]
 
-### 1.2.2 "weight":
+### 1.2.2 "om_terrain_multi"
+> Values: [ [ "oter_id", "oter_id", ... ], [ "oter_id", "oter_id", ... ], ... ]
+
+As an alternative to "om_terrain", "om_terrain_multi" allows for multiple overmap terrains to be defined using a single json object, with the "rows" property expanding in blocks of 24x24 characters to accommodate as many overmap terrains as are listed here. The terrain ids are specified using a nested array of strings which represent the rows and columns of overmap terrain ids (found in overmap_terrain.json) that are associated with the "rows" property described in section 2.1 of this document. To use "om_terrain_multi", "om_terrain" must not be specified.
+
+Characters mapped using the "terrain", "furniture", or any of the special mappings ("items", "monsters", etc) will be applied universally to all of the listed overmap terrains.
+
+Placing things using x/y coordinates ("place_monsters", "place_loot", "add", etc) works using the full extended coordinates beyond 24x24. An important limitation is that ranged random coordinates (such as "x": [ 10, 18 ]) must not cross the 24x24 terrain boundaries. Ranges such as [ 0, 23 ] and [ 50, 70 ] are valid, but [ 0, 47 ] and [ 15, 35 ] are not because they extend beyond a single 24x24 block.
+
+##### Example:
+
+```
+"om_terrain_multi": [
+  [ "apartments_mod_tower_NW", "apartments_mod_tower_NE" ],
+  [ "apartments_mod_tower_SW", "apartments_mod_tower_SE" ]
+]
+```
+
+In this example, the "rows" property should be 48x48, with each quadrant of 24x24 being associated with each of the four apartments_mod_tower overmap terrain ids specified.
+
+### 1.2.3 "weight":
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000 is the default, so adding something with weight '500' will make it appear 1/3 times, unless more functions are added. (An insanely high value like 10000000 is useful for testing)
 > Values:
 > * number - *0 disables*
@@ -206,7 +227,7 @@ Example: "fill_ter": "t_grass"
 
 # 2.1 "rows":
 *required if "fill_ter" is unset*
-> Value: ([array]): 24 rows of 24 character lines. Each character is defined by "terrain" and optionally "furniture" below
+> Value: ([array]): blocks of 24 rows of blocks of 24 character lines. Each character is defined by "terrain" and optionally "furniture" below
 
 Other parts can be linked with this map, for example one can place things like a gaspump (with gasoline) or a toilet (with water) or items from an item group or fields at the square given by a character.
 
