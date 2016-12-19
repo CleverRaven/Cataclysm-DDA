@@ -838,12 +838,12 @@ class jmapgen_loot : public jmapgen_piece {
 
     public:
         jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
-        , group( jsi.get_string( "group", std::string() ) )
-        , name( jsi.get_string( "item", std::string() ) )
+        , result_group( Item_group::Type::G_COLLECTION, 100, jsi.get_int( "ammo", 0 ), jsi.get_int( "magazine", 0 ) )
         , chance( jsi.get_int( "chance", 100 ) )
-        , ammo( jsi.get_int( "ammo", 0 ) )
-        , magazine( jsi.get_int( "magazine", 0 ) )
         {
+            const std::string group = jsi.get_string( "group", std::string() );
+            const std::string name = jsi.get_string( "item", std::string() );
+
             if( group.empty() == name.empty() ) {
                 jsi.throw_error( "must provide either item or group" );
             }
@@ -853,45 +853,27 @@ class jmapgen_loot : public jmapgen_piece {
             if( !name.empty() && !item_controller->has_template( name ) ) {
                 jsi.throw_error( "no such item", "item" );
             }
-            if( ammo < 0 || ammo > 100 ) {
-                jsi.throw_error( "ammo chance out of range", "ammo" );
-            }
-            if( magazine < 0 || magazine > 100 ) {
-                jsi.throw_error( "magazine chance out of range", "magazine" );
+
+            // All the probabilities are 100 because we do the roll in @ref apply.
+            if( group.empty() ) {
+                result_group.add_item_entry( name, 100 );
+            } else {
+                result_group.add_group_entry( group, 100 );
             }
         }
 
         void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
         {
             if( rng( 0, 99 ) < chance ) {
-                std::vector<item> spawn;
-                if( group.empty() ) {
-                    spawn.emplace_back( name, calendar::turn );
-                } else {
-                    spawn = item_group::items_from( group, calendar::turn );
-                }
-
-                for( auto &e: spawn ) {
-                    bool spawn_ammo = rng( 0, 99 ) < ammo && e.ammo_remaining() == 0;
-                    bool spawn_mag  = rng( 0, 99 ) < magazine && !e.magazine_integral() && !e.magazine_current();
-
-                    if( spawn_mag || spawn_ammo ) {
-                        e.contents.emplace_back( e.magazine_default(), e.bday );
-                    }
-                    if( spawn_ammo ) {
-                        e.ammo_set( default_ammo( e.ammo_type() ) );
-                    }
-                }
+                const Item_spawn_data *const isd = &result_group;
+                const std::vector<item> spawn = isd->create( calendar::turn );
                 m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );
             }
         }
 
     private:
-        const std::string group;
-        const std::string name;
+        Item_group result_group;
         int chance;
-        const int ammo;
-        const int magazine;
 };
 
 /**
