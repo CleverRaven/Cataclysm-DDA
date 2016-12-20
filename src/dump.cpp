@@ -342,7 +342,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             header.push_back( to_string( i ) );
         }
 
-        auto dump = [&rows]( const itype_id &obj ) {
+        auto dump = [&rows, &limit]( const itype_id &obj ) {
             const item eng( obj );
             std::vector<std::string> r( 1, eng.tname() );
             for( int i = 1; i != limit; ++i ) {
