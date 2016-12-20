@@ -194,7 +194,7 @@ class mapgen_function_json : public virtual mapgen_function {
     bool setup() override;
     void generate(map *, const oter_id &, const mapgendata &, int, float) override;
 
-    mapgen_function_json( std::string s, int w = 1000, const int x_grid_offset = 0, const int y_grid_offset = 0 );
+    mapgen_function_json( const std::string s, int w = 1000, const int x_grid_offset = 0, const int y_grid_offset = 0 );
     ~mapgen_function_json() override {
     }
 

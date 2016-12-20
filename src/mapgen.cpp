@@ -426,7 +426,7 @@ bool mapgen_function_json::check_inbounds( const jmapgen_int & var ) const {
     return true;
 }
 
-mapgen_function_json::mapgen_function_json( std::string s, const int w, const int x_grid_offset, const int y_grid_offset )
+mapgen_function_json::mapgen_function_json( const std::string s, const int w, const int x_grid_offset, const int y_grid_offset )
 : mapgen_function( w )
 , jdata( std::move( s ) )
 , mapgensize( 24 )
@@ -1119,8 +1119,8 @@ jmapgen_objects::jmapgen_objects( const int x_offset, const int y_offset, const 
 
 bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
 {
-    if( place.x.val < 0 || (size_t)place.x.val > mapgensize - 1 ||
-        place.y.val < 0 || (size_t)place.y.val > mapgensize - 1 ) {
+    if( place.x.val < 0 || place.x.val > (int)mapgensize - 1 ||
+        place.y.val < 0 || place.y.val > (int)mapgensize - 1 ) {
         return false;
     }
 
