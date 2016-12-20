@@ -17,6 +17,7 @@ extern std::map<std::string, std::string> FILENAMES;
 
 namespace PATH_INFO
 {
+void cd_to_base_path( const std::string exe_dir );
 void init_base_path( std::string path );
 void init_user_dir( const char *ud = "" );
 void update_datadir( void );

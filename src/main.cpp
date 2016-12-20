@@ -58,6 +58,10 @@ int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 int main(int argc, char *argv[])
 {
 #endif
+    std::string exe_path = argv[0];
+    std::string exe_dir = exe_path.substr( 0, exe_path.find_last_of( FILE_SEP ) );
+    PATH_INFO::cd_to_base_path( exe_dir );
+
     int seed = time(NULL);
     bool verifyexit = false;
     bool check_mods = false;

@@ -18,6 +18,7 @@
 #ifdef _MSC_VER
 #   include "wdirent.h"
 #   include <direct.h>
+#   define chdir _chdir
 #else
 #   include <dirent.h>
 #   include <unistd.h>
@@ -60,14 +61,27 @@ bool do_mkdir(std::string const& path, int const mode)
 
 } //anonymous namespace
 
-bool assure_dir_exist(std::string const &path)
+bool cd(const char *dir) {
+    return 0 == chdir(dir);
+}
+
+bool dir_exist( std::string const &path )
 {
-    DIR *dir = opendir(path.c_str());
-    if(dir != nullptr) {
-        closedir(dir);
+    DIR *dir = opendir( path.c_str() );
+    if( dir != nullptr ) {
+        closedir( dir );
         return true;
     }
-    return do_mkdir(path, 0777);
+    return false;
+}
+
+bool assure_dir_exist( std::string const &path )
+{
+    if( dir_exist( path ) ) {
+        return true;
+    }
+    
+    return do_mkdir( path, 0777 );
 }
 
 bool file_exist(const std::string &path)
