@@ -8,8 +8,7 @@
   * 1.2 Format and variables
     * 1.2.0 "method"
     * 1.2.1 "om_terrain"
-    * 1.2.2 "om_terrain_multi"
-    * 1.2.3 "weight"
+    * 1.2.2 "weight"
   * 1.3 How "overmap_terrain" variables affect mapgen
   * 1.4 Limitations / TODO
 * 2 Method: json
@@ -165,19 +164,22 @@ The above example only illustrate the mapgen entries, not the actual format for 
 ]```
 
 ### 1.2.1 "om_terrain":
-**required for standalone unless using "om_terrain_multi"**
+**required for standalone**
 > Values:
 > * "matching_overmap_terrain_id" - see overmap_terrain.json for a list
 
 -or-
 
 > * [ "list_of", "oter_ids" ]
+This form creates duplicate overmap terrains by applying the same json mapgen to each of the listed overmap terrain ids.
+
 ##### Example: "om_terrain": [ "house", "house_base" ]
 
-### 1.2.2 "om_terrain_multi"
-> Values: [ [ "oter_id", "oter_id", ... ], [ "oter_id", "oter_id", ... ], ... ]
+-or-
 
-As an alternative to "om_terrain", "om_terrain_multi" allows for multiple overmap terrains to be defined using a single json object, with the "rows" property expanding in blocks of 24x24 characters to accommodate as many overmap terrains as are listed here. The terrain ids are specified using a nested array of strings which represent the rows and columns of overmap terrain ids (found in overmap_terrain.json) that are associated with the "rows" property described in section 2.1 of this document. To use "om_terrain_multi", "om_terrain" must not be specified.
+> * [ [ "oter_id", "oter_id", ... ], [ "oter_id", "oter_id", ... ], ... ]
+
+This form allows for multiple overmap terrains to be defined using a single json object, with the "rows" property expanding in blocks of 24x24 characters to accommodate as many overmap terrains as are listed here. The terrain ids are specified using a nested array of strings which represent the rows and columns of overmap terrain ids (found in overmap_terrain.json) that are associated with the "rows" property described in section 2.1 of this document.
 
 Characters mapped using the "terrain", "furniture", or any of the special mappings ("items", "monsters", etc) will be applied universally to all of the listed overmap terrains.
 
@@ -186,7 +188,7 @@ Placing things using x/y coordinates ("place_monsters", "place_loot", "add", etc
 ##### Example:
 
 ```
-"om_terrain_multi": [
+"om_terrain": [
   [ "apartments_mod_tower_NW", "apartments_mod_tower_NE" ],
   [ "apartments_mod_tower_SW", "apartments_mod_tower_SE" ]
 ]
@@ -194,7 +196,7 @@ Placing things using x/y coordinates ("place_monsters", "place_loot", "add", etc
 
 In this example, the "rows" property should be 48x48, with each quadrant of 24x24 being associated with each of the four apartments_mod_tower overmap terrain ids specified.
 
-### 1.2.3 "weight":
+### 1.2.2 "weight":
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000 is the default, so adding something with weight '500' will make it appear 1/3 times, unless more functions are added. (An insanely high value like 10000000 is useful for testing)
 > Values:
 > * number - *0 disables*

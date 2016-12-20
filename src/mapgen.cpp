@@ -346,41 +346,42 @@ mapgen_function *load_mapgen_function( JsonObject &jio, const std::string id_bas
 void load_mapgen( JsonObject &jo )
 {
     if( jo.has_array( "om_terrain" ) ) {
-        std::vector<std::string> mapgenid_list;
         JsonArray ja = jo.get_array( "om_terrain" );
-        while( ja.has_more() ) {
-            mapgenid_list.push_back( ja.next_string() );
-        }
-        if( !mapgenid_list.empty() ) {
-            std::string mapgenid = mapgenid_list[0];
-            mapgen_function *mgfunc = load_mapgen_function( jo, mapgenid, -1 );
-            if( mgfunc != NULL ) {
-               for( auto &i : mapgenid_list ) {
-                   oter_mapgen[ i ].push_back( mgfunc );
-               }
-            }
-        }
-    } else if ( jo.has_string( "om_terrain" ) ) {
-        load_mapgen_function(jo, jo.get_string( "om_terrain" ), -1);
-    } else if( jo.has_array( "om_terrain_multi" ) ) {
-        JsonArray rows = jo.get_array( "om_terrain_multi" );
-        int x_offset = 0;
-        int y_offset = 0;
-        while( rows.has_more() ) {
-            JsonArray row_items = rows.next_array();
-            while( row_items.has_more() ) {
-                std::string mapgenid = row_items.next_string();
-                mapgen_function *mgfunc = load_mapgen_function( jo, mapgenid, -1, x_offset, y_offset );
-                if( mgfunc != NULL ) {
-                   oter_mapgen[ mapgenid ].push_back( mgfunc );
+        if( ja.test_array() ) {
+            int x_offset = 0;
+            int y_offset = 0;
+            while( ja.has_more() ) {
+                JsonArray row_items = ja.next_array();
+                while( row_items.has_more() ) {
+                    const std::string mapgenid = row_items.next_string();
+                    mapgen_function *mgfunc = load_mapgen_function( jo, mapgenid, -1, x_offset, y_offset );
+                    if( mgfunc != nullptr ) {
+                       oter_mapgen[ mapgenid ].push_back( mgfunc );
+                    }
+                    x_offset++;
                 }
-                x_offset++;
+                y_offset++;
+                x_offset = 0;
             }
-            y_offset++;
-            x_offset = 0;
+        } else {
+            std::vector<std::string> mapgenid_list;
+            while( ja.has_more() ) {
+                mapgenid_list.push_back( ja.next_string() );
+            }
+            if( !mapgenid_list.empty() ) {
+                const std::string mapgenid = mapgenid_list[0];
+                mapgen_function *mgfunc = load_mapgen_function( jo, mapgenid, -1 );
+                if( mgfunc != nullptr ) {
+                   for( auto &i : mapgenid_list ) {
+                       oter_mapgen[ i ].push_back( mgfunc );
+                   }
+                }
+            }
         }
+    } else if( jo.has_string( "om_terrain" ) ) {
+        load_mapgen_function( jo, jo.get_string( "om_terrain" ), -1 );
     } else {
-        debugmsg( "mapgen entry requires \"om_terrain\" (string or array) or \"om_terrain_multi\" (array of arrays)\n%s\n", jo.str().c_str() );
+        debugmsg( "mapgen entry requires \"om_terrain\" (string, array of strings, or array of array of strings)\n%s\n", jo.str().c_str() );
     }
 }
 

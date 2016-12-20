@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain_multi": [
+    "om_terrain": [
       [ "apartments_mod_tower_NW", "apartments_mod_tower_NE" ],
       [ "apartments_mod_tower_SW", "apartments_mod_tower_SE" ]
     ],
