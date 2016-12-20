@@ -212,7 +212,7 @@ void vehicle::add_missing_frames()
             }
             if( !found ) {
                 // Install missing frame
-                parts.emplace_back( frame_part.id, next_x, next_y, item( frame_part.item ) );
+                parts.emplace_back( frame_part.get_id(), next_x, next_y, item( frame_part.item ) );
             }
         }
 
@@ -242,9 +242,9 @@ void vehicle::add_steerable_wheels()
             continue;
         }
 
-        if (part_flag(p, VPFLAG_WHEEL)) {
-            vpart_id steerable_id(part_info(p).id.str() + "_steerable");
-            if (steerable_id.is_valid()) {
+        if( part_flag( p, VPFLAG_WHEEL ) ) {
+            vpart_id steerable_id( part_info( p ).get_id().str() + "_steerable" );
+            if( steerable_id.is_valid() ) {
                 // We can convert this.
                 if (parts[p].mount.x != axle) {
                     // Found a new axle further forward than the
@@ -1176,7 +1176,7 @@ void vehicle::honk_horn()
         }
         //Only bicycle horn doesn't need electricity to work
         const vpart_info &horn_type = part_info( p );
-        if( ( horn_type.id != vpart_id( "horn_bicycle" ) ) && no_power ) {
+        if( ( horn_type.get_id() != vpart_id( "horn_bicycle" ) ) && no_power ) {
             continue;
         }
         if( ! honked ) {
@@ -1364,7 +1364,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         const vpart_info &other_part = parts[elem].info();
 
         //Parts with no location can stack with each other (but not themselves)
-        if( part.id == other_part.id ||
+        if( part.get_id() == other_part.get_id() ||
                 (!part.location.empty() && part.location == other_part.location)) {
             return false;
         }
@@ -2322,7 +2322,7 @@ char vehicle::part_sym( const int p, const bool exact ) const
 
 // similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles during draw_vpart
 // vector returns at least 1 element, max of 2 elements. If 2 elements the second denotes if it is open or damaged
-const vpart_id &vehicle::part_id_string(int const p, char &part_mod) const
+vpart_id vehicle::part_id_string(int const p, char &part_mod) const
 {
     part_mod = 0;
     if( p < 0 || p >= (int)parts.size() || parts[p].removed ) {
@@ -2330,7 +2330,7 @@ const vpart_id &vehicle::part_id_string(int const p, char &part_mod) const
     }
 
     int displayed_part = part_displayed_at(parts[p].mount.x, parts[p].mount.y);
-    const vpart_id &idinfo = parts[displayed_part].id;
+    const vpart_id idinfo = parts[displayed_part].id;
 
     if (part_flag (displayed_part, VPFLAG_OPENABLE) && parts[displayed_part].open) {
         part_mod = 1; // open
@@ -5420,7 +5420,7 @@ void vehicle::open_or_close(int const part_index, bool const opening)
         const int delta = dx * dx + dy * dy;
 
         const bool is_near = (delta == 1);
-        const bool is_id = part_info(next_index).id == part_info(part_index).id;
+        const bool is_id = part_info(next_index).get_id() == part_info(part_index).get_id();
         const bool do_next = !!parts[next_index].open ^ opening;
 
         if (is_near && is_id && do_next) {

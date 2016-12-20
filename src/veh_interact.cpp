@@ -96,7 +96,7 @@ player_activity veh_interact::serialize_activity()
     res.values.push_back( -ddx );   // values[4]
     res.values.push_back( -ddy );   // values[5]
     res.values.push_back( veh->index_of_part( pt ) ); // values[6]
-    res.str_values.push_back( vp->id.str() );
+    res.str_values.push_back( vp->get_id().str() );
     res.targets.emplace_back( std::move( target ) );
 
     return res;
@@ -1534,8 +1534,8 @@ void veh_interact::move_cursor (int dx, int dy)
         int divider_index = 0;
         for( const auto &e : vpart_info::all() ) {
             const vpart_info &vp = e.second;
-            if( veh->can_mount( vdx, vdy, vp.id ) ) {
-                if ( vp.id != vpart_shapes[ vp.name()+ vp.item][0]->id )
+            if( veh->can_mount( vdx, vdy, vp.get_id() ) ) {
+                if ( vp.get_id() != vpart_shapes[ vp.name()+ vp.item][0]->get_id() )
                     continue; // only add first shape to install list
                 if (can_potentially_install(vp)) {
                     can_mount.insert( can_mount.begin() + divider_index++, &vp );
