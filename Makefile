@@ -476,14 +476,14 @@ ifdef TILES
 		-I$(FRAMEWORKSDIR)/SDL2_image.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers
       LDFLAGS += -F$(FRAMEWORKSDIR) \
-		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa
+		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf
       CXXFLAGS += $(OSX_INC)
     else # libsdl build
       DEFINES += -DOSX_SDL2_LIBS
       # handle #include "SDL2/SDL.h" and "SDL.h"
       CXXFLAGS += $(shell sdl2-config --cflags) \
 		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
-      LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
+      LDFLAGS += $(shell sdl2-config --libs) -lSDL2_ttf
       LDFLAGS += -lSDL2_image
     endif
   else # not osx
@@ -798,6 +798,7 @@ endif
 
 ifeq ($(NATIVE), osx)
 APPTARGETDIR=Cataclysm.app
+APPBINDIR=$(APPTARGETDIR)/Contents/MacOS
 APPRESOURCESDIR=$(APPTARGETDIR)/Contents/Resources
 APPFRAMEWORKSDIR=$(APPTARGETDIR)/Contents/Frameworks
 APPDATADIR=$(APPRESOURCESDIR)/data
@@ -822,11 +823,11 @@ app: appclean version data/osx/AppIcon.icns $(APPTARGET)
 endif
 	mkdir -p $(APPTARGETDIR)/Contents
 	cp data/osx/Info.plist $(APPTARGETDIR)/Contents/
-	mkdir -p $(APPTARGETDIR)/Contents/MacOS
-	cp data/osx/Cataclysm.sh $(APPTARGETDIR)/Contents/MacOS/
+	mkdir -p $(APPBINDIR)
+	cp $(APPTARGET) $(APPBINDIR)/
+	cp data/osx/Cataclysm.sh $(APPBINDIR)/
 	mkdir -p $(APPFRAMEWORKSDIR)
 	mkdir -p $(APPRESOURCESDIR)
-	cp $(APPTARGET) $(APPRESOURCESDIR)/
 	cp data/osx/AppIcon.icns $(APPRESOURCESDIR)/
 	mkdir -p $(APPDATADIR)
 	cp data/fontdata.json $(APPDATADIR)
@@ -873,8 +874,10 @@ else # libsdl build
 	cp $(SDLLIBSDIR)/libSDL2_image.dylib $(APPFRAMEWORKSDIR)/
 	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPFRAMEWORKSDIR)/
 endif  # ifdef FRAMEWORK
-
 endif  # ifdef TILES
+	# Update dylib dependencies to rpaths
+	for lib in $(CROSS)`otool -L $(APPBINDIR)/$(APPTARGET) | grep .dylib | sed -n 's/\(.*\.dylib\).*/\1/p' | grep -v /usr/lib/`; do $(CROSS)install_name_tool -change $$lib @rpath/`basename $$lib` $(APPBINDIR)/$(APPTARGET); done;
+
 
 dmgdistclean:
 	rm -rf Cataclysm
