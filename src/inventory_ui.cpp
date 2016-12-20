@@ -899,12 +899,14 @@ inventory_entry *inventory_selector::find_entry_by_invlet( long invlet ) const
 
 void inventory_selector::rearrange_columns( size_t client_width )
 {
-    if( !own_gear_column.empty() && is_overflown( client_width ) ) {
-        own_gear_column.move_entries_to( own_inv_column );
-    }
-
-    if( !map_column.empty() && is_overflown( client_width ) ) {
-        map_column.move_entries_to( own_inv_column );
+    while( is_overflown( client_width ) ) {
+        if( !own_gear_column.empty() ) {
+            own_gear_column.move_entries_to( own_inv_column );
+        } else if( !map_column.empty() ) {
+            map_column.move_entries_to( own_inv_column );
+        } else {
+            break;  // There's nothing we can do about it.
+        }
     }
 }
 
@@ -1063,14 +1065,11 @@ std::vector<std::string> inventory_selector::get_stats() const
 
 void inventory_selector::resize_window( int width, int height )
 {
-    border = width < TERMX || height < TERMY ? 1 : 0;
-
-    const int w = width + ( width + 2 * border <= TERMX ? 2 * border : 0 );
-    const int h = height + ( height + 2 * border <= TERMY ? 2 * border : 0 );
-    const int x = VIEW_OFFSET_X + ( TERMX - w ) / 2;
-    const int y = VIEW_OFFSET_Y + ( TERMY - h ) / 2;
-
-    w_inv.reset( newwin( h, w, y, x ) );
+    if( !w_inv || width != getmaxx( w_inv.get() ) || height != getmaxy( w_inv.get() ) ) {
+        w_inv.reset( newwin( height, width,
+                             VIEW_OFFSET_Y + ( TERMY - height ) / 2,
+                             VIEW_OFFSET_X + ( TERMX - width ) / 2 ) );
+    }
 }
 
 void inventory_selector::refresh_window() const
@@ -1079,13 +1078,10 @@ void inventory_selector::refresh_window() const
 
     werase( w_inv.get() );
 
+    draw_frame( w_inv.get() );
     draw_header( w_inv.get() );
     draw_columns( w_inv.get() );
     draw_footer( w_inv.get() );
-
-    if( border != 0 ) {
-        draw_frame( w_inv.get() );
-    }
 
     wrefresh( w_inv.get() );
 }
@@ -1101,17 +1097,17 @@ void inventory_selector::update()
         return cur_dim + 2 * max_win_snap_distance >= max_dim ? max_dim : cur_dim;
     };
 
-    const size_t nc_width = 2;
-    const size_t nc_height = get_header_height() + 3;
-    // Prepare an initial layout.
-    prepare_layout( TERMX, TERMY );
-    // Resize the window (possibly snapping to the screen edges).
-    resize_window( snap( get_layout_width() + nc_width, TERMX ),
-                   snap( get_layout_height() + nc_height, TERMY ) );
-    // Adjust to the new size.
-    prepare_layout( getmaxx( w_inv.get() ) - nc_width - 2 * border,
-                    getmaxy( w_inv.get() ) - nc_height - 2 * border );
+    const int nc_width = 2 * ( 1 + border );
+    const int nc_height = get_header_height() + 3 + 2 * border;
 
+    prepare_layout( TERMX - nc_width, TERMY - nc_height );
+
+    const int win_width  = snap( get_layout_width() + nc_width, TERMX );
+    const int win_height = snap( std::max<int>( get_layout_height() + nc_height, FULL_SCREEN_HEIGHT ), TERMY );
+
+    prepare_layout( win_width - nc_width, win_height - nc_height );
+
+    resize_window( win_width, win_height );
     refresh_window();
 
     layout_is_valid = true;
@@ -1407,8 +1403,9 @@ inventory_multiselector::inventory_multiselector( const player &p,
 
 void inventory_multiselector::rearrange_columns( size_t client_width )
 {
-    selection_col->set_visibility( !is_overflown( client_width ) );
+    selection_col->set_visibility( true );
     inventory_selector::rearrange_columns( client_width );
+    selection_col->set_visibility( !is_overflown( client_width ) );
 }
 
 void inventory_multiselector::on_entry_add( const inventory_entry &entry )
