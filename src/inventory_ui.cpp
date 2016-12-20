@@ -143,7 +143,7 @@ size_t inventory_column::get_width() const
 }
 
 size_t inventory_column::get_height() const {
-    return std::min( entries.size(), entries_per_page );
+    return std::min( entries.size(), height );
 }
 
 inventory_selector_preset::inventory_selector_preset()
@@ -308,10 +308,10 @@ std::string inventory_column::get_entry_denial( const inventory_entry &entry ) c
     return entry.is_item() ? preset.get_denial( entry.location ) : std::string();
 }
 
-void inventory_column::set_width( const size_t width )
+void inventory_column::set_width( const size_t new_width )
 {
     reset_width();
-    int width_gap = get_width() - width;
+    int width_gap = get_width() - new_width;
     // Now adjust the width if we must
     while( width_gap != 0 ) {
         const int step = width_gap > 0 ? -1 : 1;
@@ -342,16 +342,17 @@ void inventory_column::set_width( const size_t width )
         cell->current_width += step;
         width_gap += step;
     }
-    reserved_width = width;
+    reserved_width = new_width;
 }
 
-void inventory_column::set_height( size_t height ) {
-    if( entries_per_page != height ) {
-        if( height == 0 ) {
+void inventory_column::set_height( size_t new_height ) {
+    if( height != new_height ) {
+        if( new_height == 0 ) {
             debugmsg( "Unable to assign zero height." );
             return;
         }
-        entries_per_page = height;
+        height = new_height;
+        entries_per_page = new_height;
         paging_is_valid = false;
     }
 }
@@ -514,20 +515,34 @@ void inventory_column::prepare_paging()
         }
         from = to;
     }
-    // Recover categories according to the new number of entries per page
+    // Recover categories
     const item_category *current_category = nullptr;
-    for( size_t i = 0; i < entries.size(); ++i ) {
-        if( entries[i].get_category_ptr() == current_category && i % entries_per_page != 0 ) {
+    for( auto iter = entries.begin(); iter != entries.end(); ++iter ) {
+        if( iter->get_category_ptr() == current_category ) {
             continue;
         }
-        current_category = entries[i].get_category_ptr();
-        const inventory_entry insertion = ( i % entries_per_page == entries_per_page - 1 )
-            ? inventory_entry() // the last item on the page must not be a category
-            : inventory_entry( current_category ); // the first item on the page must be a category
-        entries.insert( entries.begin() + i, insertion );
-        expand_to_fit( insertion );
+        current_category = iter->get_category_ptr();
+        iter = entries.insert( iter, inventory_entry( current_category ) );
+        expand_to_fit( *iter );
     }
-
+    // Determine the new height.
+    entries_per_page = height;
+    if( entries.size() > entries_per_page ) {
+        entries_per_page -= 1;  // Make room for the page number.
+        for( size_t i = entries_per_page - 1; i < entries.size(); i += entries_per_page ) {
+            auto iter = std::next( entries.begin(), i );
+            if( iter->is_category() ) {
+                // The last item on the page must not be a category.
+                entries.insert( iter, inventory_entry() );
+            } else {
+                // The first item on the next page must be a category.
+                iter = std::next( iter );
+                if( iter != entries.end() && iter->is_item() ) {
+                    entries.insert( iter, inventory_entry( iter->get_category_ptr() ) );
+                }
+            }
+        }
+    }
     paging_is_valid = true;
     // Select the uppermost possible entry
     select( 0, scroll_direction::FORWARD );
@@ -682,6 +697,10 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
                 }
             }
         }
+    }
+
+    if( pages_count() > 1 ) {
+        mvwprintw( win, y + height - 1, x, _( "Page %d/%d" ), page_index() + 1, pages_count() );
     }
 }
 
@@ -1103,7 +1122,7 @@ void inventory_selector::update()
     };
 
     const int nc_width = 2 * ( 1 + border );
-    const int nc_height = get_header_height() + 2 + 2 * border;
+    const int nc_height = get_header_height() + 1 + 2 * border;
 
     prepare_layout( TERMX - nc_width, TERMY - nc_height );
 
@@ -1144,11 +1163,6 @@ void inventory_selector::draw_columns( WINDOW *w ) const
             elem->draw( w, x, y );
         } else {
             active_x = x;
-        }
-
-        if( elem->pages_count() > 1 ) {
-            mvwprintw( w, getmaxy( w ) - ( border + 1 ) - 1, x, _( "Page %d/%d" ),
-                       elem->page_index() + 1, elem->pages_count() );
         }
 
         x += elem->get_width() + gap;
