@@ -58,7 +58,6 @@ void map::build_transparency_cache( const int zlev )
     }
 
     // Default to just barely not transparent.
-    const float LightTransparencyOpenAir = (float)LIGHT_TRANSPARENCY_OPEN_AIR;
     std::uninitialized_fill_n(
         &transparency_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, LIGHT_TRANSPARENCY_OPEN_AIR);
 

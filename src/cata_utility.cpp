@@ -468,7 +468,7 @@ bool read_from_file_optional( const std::string &path,
 }
 
 bool read_from_file_optional_json( const std::string &path,
-                              const std::function<void( JsonIn & )> &reader )
+                                   const std::function<void( JsonIn & )> &reader )
 {
     return read_from_file_optional( path, [&reader]( std::istream & fin ) {
         JsonIn jsin( fin );
