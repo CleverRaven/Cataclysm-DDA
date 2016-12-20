@@ -983,7 +983,7 @@ size_t inventory_selector::get_footer_min_width() const
     navigation_mode m = mode;
 
     do {
-        result = std::max( size_t( utf8_width( get_footer( m ).first, true ) ), result );
+        result = std::max( size_t( utf8_width( get_footer( m ).first, true ) ) + 2 + 4, result );
         m = get_navigation_data( m ).next_mode;
     } while( m != mode );
 
@@ -1103,7 +1103,7 @@ void inventory_selector::update()
     };
 
     const int nc_width = 2 * ( 1 + border );
-    const int nc_height = get_header_height() + 3 + 2 * border;
+    const int nc_height = get_header_height() + 2 + 2 * border;
 
     prepare_layout( TERMX - nc_width, TERMY - nc_height );
 
@@ -1172,20 +1172,27 @@ void inventory_selector::draw_frame( WINDOW *w ) const
 std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode m ) const
 {
     if( has_available_choices() ) {
-        //~ %1$s - category name, %2$s, %3$s - key names
-        return std::make_pair( string_format( _( "%1$s; %2$s switches mode, %3$s confirms." ),
-                                              get_navigation_data( m ).name.c_str(),
-                                              ctxt.get_desc( "CATEGORY_SELECTION" ).c_str(),
-                                              ctxt.get_desc( "CONFIRM" ).c_str() ),
+        return std::make_pair( get_navigation_data( m ).name,
                                get_navigation_data( m ).color );
     }
-    return std::make_pair( _( "There are no available choices." ), i_red );
+    return std::make_pair( _( "There are no available choices" ), i_red );
 }
 
 void inventory_selector::draw_footer( WINDOW *w ) const
 {
     const auto footer = get_footer( mode );
-    center_print( w, getmaxy( w ) - ( border + 1 ), footer.second, "%s", footer.first.c_str() );
+    if( !footer.first.empty() ) {
+        const int string_width = utf8_width( footer.first );
+        const int x1 = std::max( getmaxx( w ) - string_width, 0 ) / 2;
+        const int x2 = x1 + string_width - 1;
+        const int y = getmaxy( w ) - border;
+
+        mvwprintz( w, y, x1, footer.second, "%s", footer.first.c_str() );
+        mvwputch( w, y, x1 - 1, c_ltgray, ' ' );
+        mvwputch( w, y, x2 + 1, c_ltgray, ' ' );
+        mvwputch( w, y, x1 - 2, c_ltgray, LINE_XOXX );
+        mvwputch( w, y, x2 + 2, c_ltgray, LINE_XXXO );
+    }
 }
 
 inventory_selector::inventory_selector( const player &u, const inventory_selector_preset &preset )
@@ -1366,7 +1373,7 @@ void inventory_selector::append_column( inventory_column &column )
 const navigation_mode_data &inventory_selector::get_navigation_data( navigation_mode m ) const
 {
     static const std::map<navigation_mode, navigation_mode_data> mode_data = {
-        { navigation_mode::ITEM,     { navigation_mode::CATEGORY, _( "Item selection mode" ),     c_ltgray } },
+        { navigation_mode::ITEM,     { navigation_mode::CATEGORY, std::string(),                  c_ltgray } },
         { navigation_mode::CATEGORY, { navigation_mode::ITEM,     _( "Category selection mode" ), h_white  } }
     };
 
