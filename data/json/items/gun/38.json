@@ -30,7 +30,7 @@
     "type": "GUN",
     "name": "COP .38",
     "name_plural": "COP .38",
-    "description": "The COP 38 is a four-shot derringer-type pistol chambered for the .38 round.  It was designed by Robert Hillberg, based on his earlier work on the Hillberg Insurgency Weapon.",
+    "description": "The COP .38 is a small, chubby derringer pistol that bears a slight resemblance to the Mossberg Brownie.  It has four barrels arranged in a square formation.",
     "weight": 857,
     "volume": 2,
     "price": 120000,

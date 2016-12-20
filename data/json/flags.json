@@ -45,6 +45,12 @@
     "info": "This item can be used to block attacks when worn."
   },
   {
+    "id": "COLD_START",
+    "type": "json_flag",
+    "context": [ "ENGINE" ],
+    "info": "This engine may be <bad>difficult to start</bad> in cold weather."
+  },
+  {
     "id": "COLLAR",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -111,6 +117,12 @@
     "inherit": false
   },
   {
+    "id": "MANUAL_ENGINE",
+    "type": "json_flag",
+    "context": [ "ENGINE" ],
+    "info": "The power of this engine depends on <neutral>player strength</neutral>."
+  },
+  {
     "id": "NO_CVD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
@@ -121,6 +133,13 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty."
+  },
+  {
+    "id": "NO_REPAIR",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "description": "Prevents repairing of this item even if otherwise suitable tools exist.",
+    "inherit": false
   },
   {
     "id": "OUTER",

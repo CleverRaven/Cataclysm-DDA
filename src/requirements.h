@@ -186,6 +186,9 @@ struct requirement_data {
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();
 
+        /** Finalizes requirements, must be called AFTER finalizing items, but before recipes! */
+        static void finalize();
+
         /** Check consistency of all loaded requirements */
         static void check_consistency();
 
@@ -236,6 +239,8 @@ struct requirement_data {
         template<typename T>
         static void check_consistency( const std::vector< std::vector<T> > &vec,
                                        const std::string &display_name );
+        template<typename T>
+        static void finalize( std::vector< std::vector<T> > &vec );
         template<typename T>
         static std::string print_missing_objs( const std::string &header,
                                                const std::vector< std::vector<T> > &objs );

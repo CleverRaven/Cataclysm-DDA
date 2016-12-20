@@ -95,7 +95,7 @@
         "id" : "fieldoffice",
         "name" : "wildlife field office",
         "rotate" : true,
-        "sym" : [94, 62, 118, 60],
+        "sym" : 94,
         "color" : "brown",
         "see_cost" : 5,
         "extras" : "build",

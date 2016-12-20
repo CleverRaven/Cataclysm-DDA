@@ -2,6 +2,7 @@
 #include "bionics.h"
 #include "debug.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "map.h"
 #include "debug.h"
 #include "rng.h"
@@ -254,9 +255,15 @@ static void melee_train( player &p, int lo, int hi ) {
                 ceil( bash / total * rng( lo, hi ) ), hi );
 }
 
+void player::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique )
+{
+    int hitspread = t.deal_melee_attack( this, hit_roll() );
+    melee_attack( t, allow_special, force_technique, hitspread );
+}
+
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique)
+void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique, int hit_spread)
 {
     if( !t.is_player() ) {
         // @todo Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
@@ -267,7 +274,6 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
     int move_cost = attack_speed( weapon );
 
-    const float hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( hit_spread < 0 ) {
         int stumble_pen = stumble(*this);
         sfx::generate_melee_sound( pos(), t.pos(), 0, 0);
@@ -1939,4 +1945,117 @@ double player::unarmed_value() const
 {
     // TODO: Martial arts
     return melee_value( ret_null );
+}
+
+void player::disarm( npc &target )
+{
+    if( !target.is_armed() ) {
+        return;
+    }
+
+    static const matec_id no_technique_id( "" );
+
+    ///\EFFECT_STR increases chance to disarm, primary stat
+    ///\EFFECT_DEX increases chance to disarm, secondary stat
+    int my_roll = dice( 3, 2 * get_str() + get_dex() );
+
+    ///\EFFECT_MELEE increases chance to disarm
+    my_roll += dice( 3, get_skill_level( skill_melee ) );
+
+    int their_roll = dice( 3, 2 * target.get_str() + target.get_dex() );
+    their_roll += dice( 3, target.get_per() );
+    their_roll += dice( 3, target.get_skill_level( skill_melee ) );
+
+    // make the target angry as they confess our unfriendly move
+    target.make_angry();
+
+    // roll your melee and target's dodge skills to check if grab/smash attack succeeds
+    int hitspread = target.deal_melee_attack( this, hit_roll() );
+    if( hitspread < 0 ) {
+        // this will not do damage, but trigger all miss effects and on_dodge on target
+        melee_attack( target, false, no_technique_id, hitspread );
+        return;
+    }
+
+    item &it = target.weapon;
+    // hitspread >= 0, which means we are going to disarm by grabbing target by their weapon
+    if( !is_armed() ) {
+        ///\EFFECT_UNARMED increases chance to disarm, bonus when nothing wielded
+        my_roll += dice( 3, get_skill_level( skill_unarmed ) );
+
+        if( my_roll >= their_roll ) {
+            add_msg( _( "You grab at %s and pull with all your force!" ), it.tname().c_str() );
+            add_msg( _( "You forcefully take %s from %s!" ), it.tname().c_str(), target.name.c_str() );
+            // wield() will deduce our moves, consider to deduce more/less moves for balance
+            item rem_it = target.i_rem( &it );
+            wield( rem_it );
+        } else if( my_roll >= their_roll / 2 ) {
+            add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ), it.tname().c_str() );
+            const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+            g->m.add_item_or_charges( tp, target.i_rem( &it ) );
+            mod_moves( -100 );
+        } else {
+            add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it.tname().c_str() );
+            mod_moves( -100 );
+        }
+
+        return;
+    }
+
+    // deal damage with weapon wielded, and make their weapon fall on floor if we've rolled enough.
+    melee_attack( target, false, no_technique_id, hitspread );
+    mod_moves( -100 );
+    if( my_roll >= their_roll ) {
+        add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ), target.name.c_str(),
+                 it.tname().c_str() );
+        const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+        g->m.add_item_or_charges( tp, target.i_rem( &it ) );
+    } else {
+        add_msg( _( "You smash %s with all your might but %s remains in their hands!" ), target.name.c_str(),
+                 it.tname().c_str() );
+    }
+}
+
+void player::steal( npc &target )
+{
+    if( target.is_enemy() ) {
+        add_msg( _( "%s is hostile!" ), target.name.c_str() );
+        return;
+    }
+
+    item_location loc = game_menus::inv::steal( *this, target );
+    if( !loc ) {
+        return;
+    }
+
+    ///\EFFECT_DEX defines the chance to steal
+    int my_roll = dice( 3, get_dex() );
+
+    ///\EFFECT_UNARMED adds bonus to stealing when wielding nothing
+    if( !is_armed() ) {
+        my_roll += dice( 4, 3 );
+    }
+    if( has_trait( "DEFT" ) ) {
+        my_roll += dice( 2, 6 );
+    }
+    if( has_trait( "CLUMSY" ) ) {
+        my_roll -= dice( 4, 6 );
+    }
+
+    int their_roll = dice( 5, target.get_per() );
+
+    const item *it = loc.get_item();
+    if( my_roll >= their_roll ) {
+        add_msg( _( "You sneakily steal %1$s from %2$s!" ), it->tname().c_str(), target.name.c_str() );
+        i_add( target.i_rem( it ) );
+    } else if( my_roll >= their_roll / 2 ) {
+        add_msg( _( "You failed to steal %1$s from %2$s, but did not attract attention." ), it->tname().c_str(),
+                 target.name.c_str() );
+    } else  {
+        add_msg( _( "You failed to steal %1$s from %2$s." ), it->tname().c_str(), target.name.c_str() );
+        target.make_angry();
+    }
+
+    // consider to deduce less/more moves for balance
+    mod_moves( -200 );
 }

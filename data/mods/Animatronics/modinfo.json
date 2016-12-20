@@ -6,7 +6,7 @@
     "authors": [ "Lanceo90" ],
     "description": "Adds a chain of bankrupt pizzerias, with still functioning animatronics inside.",
     "category": "buildings",
-    "obsolete": true,
-    "path": ""
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

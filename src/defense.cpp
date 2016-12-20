@@ -261,7 +261,7 @@ void defense_game::init_map()
             int percent = 100 * ((j / 2 + MAPSIZE * (i / 2))) /
                           ((MAPSIZE) * (MAPSIZE + 1));
             if (percent >= old_percent + 1) {
-                popup_nowait(_("Please wait as the map generates [%2d%]"), percent);
+                popup_nowait(_("Please wait as the map generates [%2d%%]"), percent);
                 old_percent = percent;
             }
             // Round down to the nearest even number

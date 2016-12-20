@@ -6,8 +6,8 @@
     "authors": [ "pisskop" ],
     "description": "Adds many new creatures and rebalances existing spawns to make the game more challenging.",
     "category": "creatures",
-    "dependencies": [ "crazy_cataclysm" ],
-    "path": ""
+    "dependencies": [ "dda", "crazy_cataclysm" ],
+    "obsolete": true
   },
   {
     "type": "ITEM_BLACKLIST",

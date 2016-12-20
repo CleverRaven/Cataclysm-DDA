@@ -5,7 +5,7 @@
     "name": "DinoMod",
     "description": "Adds dinosaurs.",
     "category": "creatures",
-    "obsolete": true,
-    "path": ""
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

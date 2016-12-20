@@ -1,7 +1,7 @@
 [
     {
         "type": "mapgen",
-        "om_terrain": "3storyA_third",
+        "om_terrain": "3storyA_roof",
         "weight": 250,
         "method": "json",
         "object": {

@@ -114,7 +114,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         selectmenu.addentry( RELOAD_TURRET, true, 'r', _( "Reload %s" ), turret.name().c_str() );
     }
 
-    if( ( has_kitchen || has_chemlab ) && veh->fuel_left( "battery" ) > 0 ) {
+    if( ( has_kitchen || has_chemlab ) && veh->fuel_left( "battery", true, true ) > 0 ) {
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _( "Use the hotplate" ) );
     }
 
@@ -124,12 +124,12 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         selectmenu.addentry( DRINK, true, 'd', _( "Have a drink" ) );
     }
 
-    if( has_weldrig && veh->fuel_left( "battery" ) > 0 ) {
+    if( has_weldrig && veh->fuel_left( "battery", true, true ) > 0 ) {
         selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig?" ) );
     }
 
     if( has_purify ) {
-        bool can_purify = veh->fuel_left( "battery" ) >=
+        bool can_purify = veh->fuel_left( "battery", true, true ) >=
                           item::find_type( "water_purifier" )->charges_to_use();
 
         selectmenu.addentry( USE_PURIFIER, can_purify,
@@ -152,10 +152,10 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
     auto veh_tool = [&]( const itype_id & obj ) {
         item pseudo( obj );
-        if( veh->fuel_left( "battery" ) < pseudo.ammo_required() ) {
+        if( veh->fuel_left( "battery", true, true ) < pseudo.ammo_required() ) {
             return false;
         }
-        auto qty = pseudo.ammo_capacity() - veh->discharge_battery( pseudo.ammo_capacity() );
+        auto qty = pseudo.ammo_capacity() - veh->discharge( pseudo.ammo_capacity() );
         pseudo.ammo_set( "battery", qty );
         g->u.invoke_item( &pseudo );
         veh->charge_battery( pseudo.ammo_remaining() );
@@ -214,7 +214,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             if( tank ) {
                 double cost = item::find_type( "water_purifier" )->charges_to_use();
 
-                if( veh->fuel_left( "battery" ) < tank.ammo_remaining() * cost ) {
+                if( veh->fuel_left( "battery", true, true ) < tank.ammo_remaining() * cost ) {
                     //~ $1 - vehicle name, $2 - part name
                     add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
                              veh->name.c_str(), tank.name().c_str() );
@@ -224,7 +224,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                     add_msg( m_good, _( "You purify the contents of the %1$s's %2$s" ),
                              veh->name.c_str(), tank.name().c_str() );
 
-                    veh->discharge_battery( tank.ammo_remaining() * cost );
+                    veh->discharge( tank.ammo_remaining() * cost );
                     tank.ammo_set( "water_clean", tank.ammo_remaining() );
                 }
             }

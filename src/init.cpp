@@ -57,6 +57,7 @@
 #include "weather_gen.h"
 #include "npc_class.h"
 #include "recipe_dictionary.h"
+#include "harvest.h"
 
 #include <string>
 #include <vector>
@@ -208,7 +209,7 @@ void DynamicDataLoader::initialize()
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
     add( "tutorial_messages", &load_tutorial_messages );
-    add( "overmap_terrain", &load_overmap_terrain );
+    add( "overmap_terrain", &overmap_terrains::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
     add( "overmap_special", &overmap_specials::load );
@@ -237,6 +238,7 @@ void DynamicDataLoader::initialize()
     add( "gate", &gates::load );
     add( "overlay_order", &load_overlay_ordering );
     add( "mission_definition", []( JsonObject &jo, const std::string &src ) { mission_type::load_mission_type( jo, src ); } );
+    add( "harvest", []( JsonObject &jo, const std::string &src ) { harvest_list::load( jo, src ); } );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
@@ -346,7 +348,7 @@ void DynamicDataLoader::unload_data()
     quality::reset();
     trap::reset();
     reset_constructions();
-    reset_overmap_terrain();
+    overmap_terrains::reset();
     reset_region_settings();
     reset_mapgens();
     reset_effect_types();
@@ -368,24 +370,22 @@ extern void calculate_mapgen_weights();
 void DynamicDataLoader::finalize_loaded_data()
 {
     item_controller->finalize();
+    requirement_data::finalize();
     vpart_info::finalize();
-    ter_t::finalize_all();
-    furn_t::finalize_all();
     set_ter_ids();
     set_furn_ids();
-    set_oter_ids();
     trap::finalize();
-    finalize_overmap_terrain();
+    overmap_terrains::finalize();
     vehicle_prototype::finalize();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
-    finalize_furniture_and_terrain();
     recipe_dictionary::finalize();
     finialize_martial_arts();
     finalize_constructions();
     npc_class::finalize_all();
+    harvest_list::finalize_all();
     check_consistency();
 }
 
@@ -408,6 +408,7 @@ void DynamicDataLoader::check_consistency()
     scenario::check_definitions();
     check_martialarts();
     mutation_branch::check_consistency();
+    overmap_terrains::check_consistency();
     overmap_specials::check_consistency();
     ammunition_type::check_consistency();
     trap::check_consistency();
@@ -415,4 +416,6 @@ void DynamicDataLoader::check_consistency()
     gates::check();
     npc_class::check_consistency();
     mission_type::check_consistency();
+    item_action_generator::generator().check_consistency();
+    harvest_list::check_consistency();
 }

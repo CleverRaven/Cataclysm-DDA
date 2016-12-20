@@ -14,6 +14,7 @@
 #include "item.h"
 #include "itype.h"
 
+#include <set>
 #include <string>
 #include <vector>
 #include <map>
@@ -33,10 +34,11 @@ static const int min_denial_gap = 2;
 static const int min_column_gap = 2;
 /** The gap between two columns when there's enough space, but they are not centered */
 static const int normal_column_gap = 8;
-/** The gap on the edges of the screen */
-static const int screen_border_gap = 1;
 /** The minimal occupancy ratio (see @refer get_columns_occupancy_ratio()) to align columns to the center */
-static const double min_ratio_to_center = 0.65;
+static const double min_ratio_to_center = 0.85;
+
+/** These categories should keep their original order and can't be re-sorted by inventory presets */
+static const std::set<std::string> ordered_categories = {{ "ITEMS_WORN" }};
 
 struct navigation_mode_data {
     navigation_mode next_mode;
@@ -502,12 +504,14 @@ void inventory_column::prepare_paging()
         while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
             std::advance( to, 1 );
         }
-        std::sort( from, to, [ this ]( const inventory_entry &lhs, const inventory_entry &rhs ) {
-            if( lhs.is_selectable() != rhs.is_selectable() ) {
-                return lhs.is_selectable(); // Disabled items always go last
-            }
-            return preset.sort_compare( lhs.location, rhs.location );
-        } );
+        if( ordered_categories.count( from->get_category_ptr()->id ) == 0 ) {
+            std::sort( from, to, [ this ]( const inventory_entry &lhs, const inventory_entry &rhs ) {
+                if( lhs.is_selectable() != rhs.is_selectable() ) {
+                    return lhs.is_selectable(); // Disabled items always go last
+                }
+                return preset.sort_compare( lhs.location, rhs.location );
+            } );
+        }
         from = to;
     }
     // Recover categories according to the new number of entries per page
@@ -827,14 +831,13 @@ void inventory_selector::add_items( inventory_column &target_column,
 
 void inventory_selector::add_character_items( Character &character )
 {
-    static const item_category weapon_held_cat( "WEAPON HELD", _( "WEAPON HELD" ), -200 );
-    static const item_category items_worn_cat( "ITEMS WORN", _( "ITEMS WORN" ), -100 );
-
+    static const item_category items_worn_category( "ITEMS_WORN", _( "ITEMS WORN" ), -100 );
+    static const item_category weapon_held_category( "WEAPON_HELD", _( "WEAPON HELD" ), -200 );
     character.visit_items( [ this, &character ]( item *it ) {
         if( it == &character.weapon ) {
-            add_item( own_gear_column, item_location( character, it ), 1, &weapon_held_cat );
+            add_item( own_gear_column, item_location( character, it ), 1, &weapon_held_category );
         } else if( character.is_worn( *it ) ) {
-            add_item( own_gear_column, item_location( character, it ), 1, &items_worn_cat );
+            add_item( own_gear_column, item_location( character, it ), 1, &items_worn_category );
         }
         return VisitResponse::NEXT;
     } );
@@ -934,7 +937,7 @@ size_t inventory_selector::get_layout_width() const
 {
     const size_t min_hud_width = std::max( get_header_min_width(), get_footer_min_width() );
     const auto visible_columns = get_visible_columns();
-    const size_t gaps = visible_columns.size() > 1 ? min_column_gap * ( visible_columns.size() - 1 ) : 0;
+    const size_t gaps = visible_columns.size() > 1 ? normal_column_gap * ( visible_columns.size() - 1 ) : 0;
 
     return std::max( get_columns_width( visible_columns ) + gaps, min_hud_width );
 }
@@ -982,15 +985,15 @@ size_t inventory_selector::get_footer_min_width() const
 
 void inventory_selector::draw_header( WINDOW *w ) const
 {
-    trim_and_print( w, 0, screen_border_gap, getmaxx( w ) - screen_border_gap, c_white, "%s", title.c_str() );
-    trim_and_print( w, 1, screen_border_gap, getmaxx( w ) - screen_border_gap, c_dkgray, "%s", hint.c_str() );
+    trim_and_print( w, border, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_white, "%s", title.c_str() );
+    trim_and_print( w, border + 1, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_dkgray, "%s", hint.c_str() );
 
-    mvwhline( w, get_header_height(), 0, LINE_OXOX, getmaxx( w ) );
+    mvwhline( w, border + get_header_height(), border, LINE_OXOX, getmaxx( w ) - 2 * border );
 
     if( display_stats ) {
-        size_t y = 0;
+        size_t y = border;
         for( const std::string &elem : get_stats() ) {
-            right_print( w, y++, screen_border_gap, c_dkgray, elem.c_str() );
+            right_print( w, y++, border + 1, c_dkgray, elem.c_str() );
         }
     }
 }
@@ -1060,20 +1063,14 @@ std::vector<std::string> inventory_selector::get_stats() const
 
 void inventory_selector::resize_window( int width, int height )
 {
-    if( width < TERMX || height < TERMY ) {
-        // Windowed mode.
-        const int w = width + ( width + 2 <= TERMX ? 2 : 0 );
-        const int h = height + ( height + 2 <= TERMY ? 2 : 0 );
-        const int x = VIEW_OFFSET_X + ( TERMX - w ) / 2;
-        const int y = VIEW_OFFSET_Y + ( TERMY - h ) / 2;
+    border = width < TERMX || height < TERMY ? 1 : 0;
 
-        w_inv.reset( newwin( h - 2, w - 2, y + 1, x + 1 ) );
-        w_border.reset( newwin( h, w, y, x ) );
-    } else {
-        // Fullscreen mode.
-        w_inv.reset( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) );
-        w_border.reset();
-    }
+    const int w = width + ( width + 2 * border <= TERMX ? 2 * border : 0 );
+    const int h = height + ( height + 2 * border <= TERMY ? 2 * border : 0 );
+    const int x = VIEW_OFFSET_X + ( TERMX - w ) / 2;
+    const int y = VIEW_OFFSET_Y + ( TERMY - h ) / 2;
+
+    w_inv.reset( newwin( h, w, y, x ) );
 }
 
 void inventory_selector::refresh_window() const
@@ -1086,9 +1083,8 @@ void inventory_selector::refresh_window() const
     draw_columns( w_inv.get() );
     draw_footer( w_inv.get() );
 
-    if( w_border ) {
-        draw_frame( w_border.get() );
-        wrefresh( w_border.get() );
+    if( border != 0 ) {
+        draw_frame( w_inv.get() );
     }
 
     wrefresh( w_inv.get() );
@@ -1105,7 +1101,7 @@ void inventory_selector::update()
         return cur_dim + 2 * max_win_snap_distance >= max_dim ? max_dim : cur_dim;
     };
 
-    const size_t nc_width = 2 * screen_border_gap;
+    const size_t nc_width = 2;
     const size_t nc_height = get_header_height() + 3;
     // Prepare an initial layout.
     prepare_layout( TERMX, TERMY );
@@ -1113,8 +1109,8 @@ void inventory_selector::update()
     resize_window( snap( get_layout_width() + nc_width, TERMX ),
                    snap( get_layout_height() + nc_height, TERMY ) );
     // Adjust to the new size.
-    prepare_layout( getmaxx( w_inv.get() ) - nc_width,
-                    getmaxy( w_inv.get() ) - nc_height );
+    prepare_layout( getmaxx( w_inv.get() ) - nc_width - 2 * border,
+                    getmaxy( w_inv.get() ) - nc_height - 2 * border );
 
     refresh_window();
 
@@ -1125,7 +1121,7 @@ void inventory_selector::draw_columns( WINDOW *w ) const
 {
     const auto columns = get_visible_columns();
 
-    const int screen_width = getmaxx( w ) - 2 * screen_border_gap;
+    const int screen_width = getmaxx( w ) - 2 * ( border + 1 );
     const bool centered = are_columns_centered( screen_width );
 
     const int free_space = screen_width - get_columns_width( columns );
@@ -1134,8 +1130,8 @@ void inventory_selector::draw_columns( WINDOW *w ) const
     const int gap_rounding_error = centered && columns.size() > 1
                                        ? free_space % ( columns.size() - 1 ) : 0;
 
-    size_t x = screen_border_gap;
-    size_t y = get_header_height() + 1;
+    size_t x = border + 1;
+    size_t y = get_header_height() + border + 1;
     size_t active_x = 0;
 
     for( const auto &elem : columns ) {
@@ -1150,7 +1146,7 @@ void inventory_selector::draw_columns( WINDOW *w ) const
         }
 
         if( elem->pages_count() > 1 ) {
-            mvwprintw( w, getmaxy( w ) - 2, x, _( "Page %d/%d" ),
+            mvwprintw( w, getmaxy( w ) - ( border + 1 ) - 1, x, _( "Page %d/%d" ),
                        elem->page_index() + 1, elem->pages_count() );
         }
 
@@ -1165,12 +1161,11 @@ void inventory_selector::draw_columns( WINDOW *w ) const
 
 void inventory_selector::draw_frame( WINDOW *w ) const
 {
-    const int y = 1 + get_header_height();
-
     draw_border( w );
 
+    const int y = border + get_header_height();
     mvwhline( w, y, 0, LINE_XXXO, 1 );
-    mvwhline( w, y, getmaxx( w ) - 1, LINE_XOXX, 1 );
+    mvwhline( w, y, getmaxx( w ) - border, LINE_XOXX, 1 );
 }
 
 std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode m ) const
@@ -1189,7 +1184,7 @@ std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode
 void inventory_selector::draw_footer( WINDOW *w ) const
 {
     const auto footer = get_footer( mode );
-    center_print( w, getmaxy( w ) - 1, footer.second, "%s", footer.first.c_str() );
+    center_print( w, getmaxy( w ) - ( border + 1 ), footer.second, "%s", footer.first.c_str() );
 }
 
 inventory_selector::inventory_selector( const player &u, const inventory_selector_preset &preset )

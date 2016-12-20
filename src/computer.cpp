@@ -557,7 +557,7 @@ void computer::activate_function(computer_action action, char ch)
         //~ %s is terrain name
         g->u.add_memorial_log( pgettext("memorial_male", "Launched a nuke at a %s."),
                                pgettext("memorial_female", "Launched a nuke at a %s."),
-                               oter->name.c_str() );
+                               oter->get_name().c_str() );
         for(int x = target.x - 2; x <= target.x + 2; x++) {
             for(int y = target.y - 2; y <= target.y + 2; y++) {
                 // give it a nice rounded shape
@@ -1257,7 +1257,7 @@ void computer::activate_failure(computer_failure fail)
     break;
 
     case COMPFAIL_DAMAGE:
-        add_msg(m_neutral, _("The console electrocutes you."));
+        add_msg(m_neutral, _("The console shocks you."));
         if( g->u.is_elec_immune() ) {
             add_msg( m_good, _("You're protected from electric shocks.") );
         } else {

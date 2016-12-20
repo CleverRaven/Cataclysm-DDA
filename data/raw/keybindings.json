@@ -2757,18 +2757,6 @@
     },
     {
         "type" : "keybinding",
-        "id": "VITAMINS",
-        "category": "ITEM_ACTIONS",
-        "name": "Vitamins",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"v"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
         "id": "repair_metal",
         "category": "ITEM_ACTIONS",
         "name": "Solder/Weld",

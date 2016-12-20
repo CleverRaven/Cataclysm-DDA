@@ -1,5 +1,6 @@
 #include "iexamine.h"
 #include "game.h"
+#include "harvest.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "debug.h"
@@ -1423,12 +1424,14 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
 
 static bool harvest_common( player &p, const tripoint &examp, bool furn, bool nectar )
 {
-    const auto harvest = g->m.get_harvest( examp );
-    if( harvest.empty() ) {
+    const auto hid = g->m.get_harvest( examp );
+    if( hid.is_null() || hid->empty() ) {
         p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
         iexamine::none( p, examp );
         return false;
     }
+
+    const auto &harvest = hid.obj();
 
     // If nothing can be harvested, neither can nectar
     // Incredibly low priority @todo Allow separating nectar seasons
@@ -1444,11 +1447,11 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     int lev = p.get_skill_level( skill_survival );
     bool got_anything = false;
     for( const auto &entry : harvest ) {
-        float min_num = entry.base_number_min + lev * entry.scale_number_min;
-        float max_num = entry.base_number_max + lev * entry.scale_number_max;
-        int roll = round( rng_float( min_num, max_num ) );
+        float min_num = entry.base_num.first + lev * entry.scale_num.first;
+        float max_num = entry.base_num.second + lev * entry.scale_num.second;
+        int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
         for( int i = 0; i < roll; i++ ) {
-            const item &it = g->m.add_item( p.pos(), item( entry.drop ) );
+            const item &it = g->m.add_item_or_charges( p.pos(), item( entry.drop ) );
             p.add_msg_if_player( _( "You harvest: %s" ), it.tname().c_str() );
             got_anything = true;
         }
@@ -2972,33 +2975,31 @@ static std::string str_to_illiterate_str(std::string s)
     }
 }
 
-static std::string getGasDiscountName(int discount)
+static std::string getGasDiscountName( int discount )
 {
-    if (discount == 3) {
-        return str_to_illiterate_str(_("Platinum member"));
-    } else if (discount == 2) {
-        return str_to_illiterate_str(_("Gold member"));
-    } else if (discount == 1) {
-        return str_to_illiterate_str(_("Silver member"));
+    if( discount == 3 ) {
+        return str_to_illiterate_str( _( "Platinum member" ) );
+    } else if( discount == 2 ) {
+        return str_to_illiterate_str( _( "Gold member" ) );
+    } else if( discount == 1 ) {
+        return str_to_illiterate_str( _( "Silver member" ) );
     } else {
-        return str_to_illiterate_str(_("Beloved customer"));
+        return str_to_illiterate_str( _( "Beloved customer" ) );
     }
 }
 
-static int getPricePerGasUnit(int discount)
+static long getGasPricePerLiter( int discount )
 {
-    if (discount == 3) {
-        return 250;
-    } else if (discount == 2) {
-        return 300;
-    } else if (discount == 1) {
-        return 330;
+    // Those prices are in cents
+    static const long prices[4] = { 1400, 1320, 1200, 1000 };
+    if( discount < 0 || discount > 3 ) {
+        return prices[0];
     } else {
-        return 350;
+        return prices[discount];
     }
 }
 
-static tripoint getGasPumpByNumber(const tripoint &p, int number)
+static tripoint getGasPumpByNumber( const tripoint &p, int number )
 {
     const int radius = 12;
 
@@ -3007,8 +3008,8 @@ static tripoint getGasPumpByNumber(const tripoint &p, int number)
     tripoint tmp = p;
     int &i = tmp.x;
     int &j = tmp.y;
-    for (i = p.x - radius; i <= p.x + radius; i++) {
-        for (j = p.y - radius; j <= p.y + radius; j++) {
+    for( i = p.x - radius; i <= p.x + radius; i++ ) {
+        for( j = p.y - radius; j <= p.y + radius; j++ ) {
             const auto t = g->m.ter( tmp );
             if( ( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) && number == k++ ) {
                 return tmp;
@@ -3019,15 +3020,15 @@ static tripoint getGasPumpByNumber(const tripoint &p, int number)
     return tripoint_min;
 }
 
-static bool toPumpFuel(const tripoint &src, const tripoint &dst, long units)
+static bool toPumpFuel( const tripoint &src, const tripoint &dst, long units )
 {
-    if (src == tripoint_min) {
+    if( src == tripoint_min ) {
         return false;
     }
 
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
-        if( item_it->made_of(LIQUID)) {
+        if( item_it->made_of( LIQUID ) ) {
             if( item_it->charges < units ) {
                 return false;
             }
@@ -3038,8 +3039,8 @@ static bool toPumpFuel(const tripoint &src, const tripoint &dst, long units)
 
             const auto backup_pump = g->m.ter( dst );
             g->m.ter_set( dst, ter_id( NULL_ID ) );
-            g->m.add_item_or_charges(dst, liq_d);
-            g->m.ter_set(dst, backup_pump);
+            g->m.add_item_or_charges( dst, liq_d );
+            g->m.ter_set( dst, backup_pump );
 
             if( item_it->charges < 1 ) {
                 items.erase( item_it );
@@ -3052,23 +3053,23 @@ static bool toPumpFuel(const tripoint &src, const tripoint &dst, long units)
     return false;
 }
 
-static long fromPumpFuel(const tripoint &dst, const tripoint &src)
+static long fromPumpFuel( const tripoint &dst, const tripoint &src )
 {
-    if (src == tripoint_min) {
+    if( src == tripoint_min ) {
         return -1;
     }
 
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
-        if( item_it->made_of(LIQUID)) {
+        if( item_it->made_of( LIQUID ) ) {
             // how much do we have in the pump?
             item liq_d( item_it->type, calendar::turn, item_it->charges );
 
             // add the charges to the destination
             const auto backup_tank = g->m.ter( dst );
-            g->m.ter_set(dst, ter_id( NULL_ID ) );
-            g->m.add_item_or_charges(dst, liq_d);
-            g->m.ter_set(dst, backup_tank );
+            g->m.ter_set( dst, ter_id( NULL_ID ) );
+            g->m.add_item_or_charges( dst, liq_d );
+            g->m.ter_set( dst, backup_tank );
 
             // remove the liquid from the pump
             long amount = item_it->charges;
@@ -3079,7 +3080,7 @@ static long fromPumpFuel(const tripoint &dst, const tripoint &src)
     return -1;
 }
 
-static void turnOnSelectedPump(const tripoint &p, int number)
+static void turnOnSelectedPump( const tripoint &p, int number )
 {
     const int radius = 12;
 
@@ -3087,21 +3088,21 @@ static void turnOnSelectedPump(const tripoint &p, int number)
     tripoint tmp = p;
     int &i = tmp.x;
     int &j = tmp.y;
-    for (i = p.x - radius; i <= p.x + radius; i++) {
-        for (j = p.y - radius; j <= p.y + radius; j++) {
+    for( i = p.x - radius; i <= p.x + radius; i++ ) {
+        for( j = p.y - radius; j <= p.y + radius; j++ ) {
             const auto t = g->m.ter( tmp );
             if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
-                if (number == k++) {
-                    g->m.ter_set(tmp, ter_str_id( "t_gas_pump_a" ) );
+                if( number == k++ ) {
+                    g->m.ter_set( tmp, ter_str_id( "t_gas_pump_a" ) );
                 } else {
-                    g->m.ter_set(tmp, ter_str_id( "t_gas_pump" ) );
+                    g->m.ter_set( tmp, ter_str_id( "t_gas_pump" ) );
                 }
             }
         }
     }
 }
 
-void iexamine::pay_gas(player &p, const tripoint &examp)
+void iexamine::pay_gas( player &p, const tripoint &examp )
 {
 
     int choice = -1;
@@ -3111,83 +3112,83 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
     const int refund = 4;
     const int cancel = 5;
 
-    if (p.has_trait("ILLITERATE")) {
-        popup(_("You're illiterate, and can't read the screen."));
+    if( p.has_trait( "ILLITERATE" ) ) {
+        popup( _( "You're illiterate, and can't read the screen." ) );
     }
 
     int pumpCount = getNearPumpCount( examp );
-    if (pumpCount == 0) {
-        popup(str_to_illiterate_str(_("Failure! No gas pumps found!")).c_str());
+    if( pumpCount == 0 ) {
+        popup( str_to_illiterate_str( _( "Failure! No gas pumps found!" ) ).c_str() );
         return;
     }
 
     long tankGasUnits;
     tripoint pTank = getNearFilledGasTank( examp, tankGasUnits );
-    if (pTank == tripoint_min) {
-        popup(str_to_illiterate_str(_("Failure! No gas tank found!")).c_str());
+    if( pTank == tripoint_min ) {
+        popup( str_to_illiterate_str( _( "Failure! No gas tank found!" ) ).c_str() );
         return;
     }
 
-    if (tankGasUnits == 0) {
-        popup(str_to_illiterate_str(
-                  _("This station is out of fuel.  We apologize for the inconvenience.")).c_str());
+    if( tankGasUnits == 0 ) {
+        popup( str_to_illiterate_str(
+                   _( "This station is out of fuel.  We apologize for the inconvenience." ) ).c_str() );
         return;
     }
 
-    if (uistate.ags_pay_gas_selected_pump + 1 > pumpCount) {
+    if( uistate.ags_pay_gas_selected_pump + 1 > pumpCount ) {
         uistate.ags_pay_gas_selected_pump = 0;
     }
 
-    int discount = findBestGasDiscount(p);
-    std::string discountName = getGasDiscountName(discount);
+    int discount = findBestGasDiscount( p );
+    std::string discountName = getGasDiscountName( discount );
 
-    int pricePerUnit = getPricePerGasUnit(discount);
-    std::string unitPriceStr = string_format(_("$%0.2f"), pricePerUnit / 100.0);
+    long pricePerUnit = getGasPricePerLiter( discount );
+    std::string unitPriceStr = string_format( _( "$%0.2f" ), pricePerUnit / 100.0f );
 
-    bool can_hack = (!p.has_trait("ILLITERATE") && ((p.has_charges("electrohack", 25)) ||
-                     (p.has_bionic("bio_fingerhack") && p.power_level > 24)));
+    bool can_hack = ( !p.has_trait( "ILLITERATE" ) && ( ( p.has_charges( "electrohack", 25 ) ) ||
+                      ( p.has_bionic( "bio_fingerhack" ) && p.power_level > 24 ) ) );
 
     uimenu amenu;
     amenu.selected = 1;
-    amenu.text = str_to_illiterate_str(_("Welcome to AutoGas!"));
-    amenu.addentry(0, false, -1, str_to_illiterate_str(_("What would you like to do?")));
+    amenu.text = str_to_illiterate_str( _( "Welcome to AutoGas!" ) );
+    amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "What would you like to do?" ) ) );
 
-    amenu.addentry(buy_gas, true, 'b', str_to_illiterate_str(_("Buy gas.")));
-    amenu.addentry(refund, true, 'r', str_to_illiterate_str(_("Refund cash.")));
+    amenu.addentry( buy_gas, true, 'b', str_to_illiterate_str( _( "Buy gas." ) ) );
+    amenu.addentry( refund, true, 'r', str_to_illiterate_str( _( "Refund cash." ) ) );
 
-    std::string gaspumpselected = str_to_illiterate_str(_("Current gas pump: ")) +
+    std::string gaspumpselected = str_to_illiterate_str( _( "Current gas pump: " ) ) +
                                   to_string( uistate.ags_pay_gas_selected_pump + 1 );
-    amenu.addentry(0, false, -1, gaspumpselected);
-    amenu.addentry(choose_pump, true, 'p', str_to_illiterate_str(_("Choose a gas pump.")));
+    amenu.addentry( 0, false, -1, gaspumpselected );
+    amenu.addentry( choose_pump, true, 'p', str_to_illiterate_str( _( "Choose a gas pump." ) ) );
 
-    amenu.addentry(0, false, -1, str_to_illiterate_str(_("Your discount: ")) + discountName);
-    amenu.addentry(0, false, -1, str_to_illiterate_str(_("Your price per gasoline unit: ")) +
-                   unitPriceStr);
+    amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "Your discount: " ) ) + discountName );
+    amenu.addentry( 0, false, -1, str_to_illiterate_str( _( "Your price per gasoline unit: " ) ) +
+                    unitPriceStr );
 
-    if (can_hack) {
-        amenu.addentry(hack, true, 'h', _("Hack console."));
+    if( can_hack ) {
+        amenu.addentry( hack, true, 'h', _( "Hack console." ) );
     }
 
-    amenu.addentry(cancel, true, 'q', str_to_illiterate_str(_("Cancel")));
+    amenu.addentry( cancel, true, 'q', str_to_illiterate_str( _( "Cancel" ) ) );
 
     amenu.query();
     choice = amenu.ret;
 
-    if (choose_pump == choice) {
+    if( choose_pump == choice ) {
         uimenu amenu;
         amenu.selected = uistate.ags_pay_gas_selected_pump + 1;
-        amenu.text = str_to_illiterate_str(_("Please choose gas pump:"));
+        amenu.text = str_to_illiterate_str( _( "Please choose gas pump:" ) );
 
-        amenu.addentry(0, true, 'q', str_to_illiterate_str(_("Cancel")));
+        amenu.addentry( 0, true, 'q', str_to_illiterate_str( _( "Cancel" ) ) );
 
-        for (int i = 0; i < pumpCount; i++) {
+        for( int i = 0; i < pumpCount; i++ ) {
             amenu.addentry( i + 1, true, -1,
-                            str_to_illiterate_str(_("Pump ")) + to_string(i + 1) );
+                            str_to_illiterate_str( _( "Pump " ) ) + to_string( i + 1 ) );
         }
         amenu.query();
         choice = amenu.ret;
 
-        if (choice == 0) {
+        if( choice == 0 ) {
             return;
         }
 
@@ -3199,7 +3200,7 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
 
     }
 
-    if (buy_gas == choice) {
+    if( buy_gas == choice ) {
         item *cashcard;
 
         const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
@@ -3209,43 +3210,40 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
             return;
         }
 
-        cashcard = &(p.i_at(pos));
+        cashcard = &( p.i_at( pos ) );
 
-        if (cashcard->charges < pricePerUnit) {
-            popup(str_to_illiterate_str(
-                      _("Not enough money, please refill your cash card.")).c_str()); //or ride on a solar car, ha ha ha
+        if( cashcard->charges < pricePerUnit ) {
+            popup( str_to_illiterate_str(
+                       _( "Not enough money, please refill your cash card." ) ).c_str() ); //or ride on a solar car, ha ha ha
             return;
         }
 
-        long c_max = cashcard->charges / pricePerUnit;
-        long max = (c_max < tankGasUnits) ? c_max : tankGasUnits;
+        long maximum_liters = std::min( cashcard->charges / pricePerUnit, tankGasUnits / 1000 );
 
         std::string popupmsg = string_format(
-                                   ngettext("How many gas units to buy? Max:%d unit. (0 to cancel) ",
-                                            "How many gas units to buy? Max:%d units. (0 to cancel) ",
-                                            max), max);
-        long amount = std::atoi(string_input_popup(popupmsg, 20,
-                                     to_string(max), "", "", -1, true).c_str()
-                                    );
-        if (amount <= 0) {
+                                   _( "How many liters of gasoline to buy? Max: %d L. (0 to cancel) " ), maximum_liters );
+        long liters = std::atoi( string_input_popup( popupmsg, 20,
+                                 to_string( maximum_liters ), "", "", -1, true ).c_str()
+                               );
+        if( liters <= 0 ) {
             return;
         }
-        if (amount > max) {
-            amount = max;
+        if( liters > maximum_liters ) {
+            liters = maximum_liters;
         }
 
         tripoint pGasPump = getGasPumpByNumber( examp,  uistate.ags_pay_gas_selected_pump );
-        if( !toPumpFuel( pTank, pGasPump, amount ) ) {
+        if( !toPumpFuel( pTank, pGasPump, liters * 1000 ) ) {
             return;
         }
 
-        sounds::sound(p.pos(), 6, _("Glug Glug Glug"));
+        sounds::sound( p.pos(), 6, _( "Glug Glug Glug" ) );
 
-        cashcard->charges -= amount * pricePerUnit;
+        cashcard->charges -= liters * pricePerUnit;
 
-        add_msg(m_info, ngettext("Your cash card now holds %d cent.",
-                                 "Your cash card now holds %d cents.",
-                                 cashcard->charges), cashcard->charges);
+        add_msg( m_info, ngettext( "Your cash card now holds %d cent.",
+                                   "Your cash card now holds %d cents.",
+                                   cashcard->charges ), cashcard->charges );
         p.moves -= 100;
         return;
     }
@@ -3255,29 +3253,29 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
             case HACK_UNABLE:
                 break;
             case HACK_FAIL:
-                p.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
-                                    pgettext("memorial_female", "Set off an alarm."));
-                sounds::sound(p.pos(), 60, _("an alarm sound!"));
-                if (examp.z > 0 && !g->event_queued(EVENT_WANTED)) {
-                    g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p.global_sm_location());
+                p.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
+                                    pgettext( "memorial_female", "Set off an alarm." ) );
+                sounds::sound( p.pos(), 60, _( "an alarm sound!" ) );
+                if( examp.z > 0 && !g->event_queued( EVENT_WANTED ) ) {
+                    g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p.global_sm_location() );
                 }
                 break;
             case HACK_NOTHING:
-                add_msg(_("Nothing happens."));
+                add_msg( _( "Nothing happens." ) );
                 break;
             case HACK_SUCCESS:
                 tripoint pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
                 if( toPumpFuel( pTank, pGasPump, tankGasUnits ) ) {
-                    add_msg(_("You hack the terminal and route all available fuel to your pump!"));
-                    sounds::sound(p.pos(), 6, _("Glug Glug Glug Glug Glug Glug Glug Glug Glug"));
+                    add_msg( _( "You hack the terminal and route all available fuel to your pump!" ) );
+                    sounds::sound( p.pos(), 6, _( "Glug Glug Glug Glug Glug Glug Glug Glug Glug" ) );
                 } else {
-                    add_msg(_("Nothing happens."));
+                    add_msg( _( "Nothing happens." ) );
                 }
                 break;
         }
     }
 
-    if (refund == choice) {
+    if( refund == choice ) {
         item *cashcard;
 
         const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
@@ -3287,20 +3285,20 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
             return;
         }
 
-        cashcard = &(p.i_at(pos));
+        cashcard = &( p.i_at( pos ) );
         // Ok, we have a cash card. Now we need to know what's left in the pump.
         tripoint pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
         long amount = fromPumpFuel( pTank, pGasPump );
-        if (amount >= 0) {
-            sounds::sound(p.pos(), 6, _("Glug Glug Glug"));
-            cashcard->charges += amount * pricePerUnit;
-            add_msg(m_info, ngettext("Your cash card now holds %d cent.",
-                                     "Your cash card now holds %d cents.",
-                                     cashcard->charges), cashcard->charges);
+        if( amount >= 0 ) {
+            sounds::sound( p.pos(), 6, _( "Glug Glug Glug" ) );
+            cashcard->charges += amount * pricePerUnit / 1000.0f;
+            add_msg( m_info, ngettext( "Your cash card now holds %d cent.",
+                                       "Your cash card now holds %d cents.",
+                                       cashcard->charges ), cashcard->charges );
             p.moves -= 100;
             return;
         } else {
-            popup(_("Unable to refund, no fuel in pump."));
+            popup( _( "Unable to refund, no fuel in pump." ) );
             return;
         }
     }

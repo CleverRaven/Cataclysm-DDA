@@ -179,6 +179,7 @@
         "weight" : 80,
         "ammo_type" : "plutonium",
         "count" : 5,
+        "energy": 200,
         "effects" : ["COOKOFF", "NEVER_MISFIRES"]
     },
     {
@@ -832,7 +833,7 @@
         "name" : "nicotine liquid",
         "symbol" : "=",
         "color" : "yellow",
-        "description" : "A liquid is made up of propylene glycol, vegetable glycerine, flavorings and nicotine.",
+        "description" : "A liquid that is made up of propylene glycol, vegetable glycerine, flavorings and nicotine.",
         "container" : "bottle_plastic_small",
         "phase" : "liquid",
         "volume" : 0,
@@ -946,6 +947,7 @@
         "category" : "chems",
         "price" : 3500,
         "name" : "sprayable fungicide",
+        "name_plural" : "sprayable fungicide",
         "symbol" : "=",
         "color" : "yellow",
         "description" : "Fungicide enhanced with sulfur to create sprayable anti-fungal ammo for the chemical thrower.  Best be used with some kind of mask or mouth protection.",

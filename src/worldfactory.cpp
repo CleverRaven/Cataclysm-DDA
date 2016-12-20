@@ -70,7 +70,7 @@ worldfactory::worldfactory()
     tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_options, this, _1, _2));
     tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_confirm, this, _1, _2));
 
-    tab_strings.push_back(_("Mods to use"));
+    tab_strings.push_back(_("Content"));
     tab_strings.push_back(_("World Gen Options"));
     tab_strings.push_back(_("CONFIRMATION"));
 }
@@ -150,7 +150,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         std::vector<std::string>::iterator mod_it;
         for (mod_it = retworld->active_mod_order.begin(); mod_it != retworld->active_mod_order.end();) {
             MOD_INFORMATION &minfo = *mman->mod_map[*mod_it];
-            if ( minfo.need_lua ) {
+            if ( minfo.need_lua() ) {
                 mod_it = retworld->active_mod_order.erase(mod_it);
             } else {
                 mod_it++;
@@ -809,7 +809,7 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
 
                     auto &mod = *mman->mod_map[*iter];
 #ifndef LUA
-                    if( mod.need_lua ) {
+                    if( mod.need_lua() ) {
                         trim_and_print( w, iNum - start, 4, wwidth, c_dkgray, "%s", mod.name.c_str() );
                     } else {
                         trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod.name.c_str() );
@@ -1042,7 +1042,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         } else if( action == "CONFIRM" ) {
             if( active_header == 0 && !current_tab_mods.empty() ) {
 #ifndef LUA
-                if( mman->mod_map[current_tab_mods[cursel[0]]]->need_lua ) {
+                if( mman->mod_map[current_tab_mods[cursel[0]]]->need_lua() ) {
                     popup(_("Can't add mod. This mod requires Lua support."));
                     redraw_active = true;
                     draw_modselection_borders(win, &ctxt);
@@ -1226,7 +1226,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
 #ifndef LUA
             for (std::string &mod : world->active_mod_order) {
                 auto &temp = *mman->mod_map[mod];
-                if ( temp.need_lua ) {
+                if ( temp.need_lua() ) {
                     popup(_("Mod '%s' requires Lua support."), temp.name.c_str());
                     return -2; // Move back to modselect tab.
                 }
@@ -1388,7 +1388,7 @@ bool worldfactory::world_need_lua_build(std::string world_name)
         return false;
     }
     for (std::string &mod : world->active_mod_order) {
-        if( mman->has_mod( mod ) && mman->mod_map[mod]->need_lua ) {
+        if( mman->has_mod( mod ) && mman->mod_map[mod]->need_lua() ) {
             return true;
         }
     }

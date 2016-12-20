@@ -76,10 +76,7 @@ void mission::add_existing( const mission &m )
 void mission::process_all()
 {
     for( auto &e : world_missions ) {
-        auto &m = *e.second.get();
-        if( m.deadline > 0 && m.in_progress() && int( calendar::turn ) > m.deadline ) {
-            m.fail();
-        }
+        e.second->process();
     }
 }
 
@@ -256,6 +253,10 @@ void mission::wrap_up()
 
 bool mission::is_complete( const int _npc_id ) const
 {
+    if( status == mission_status::success ) {
+        return true;
+    }
+
     auto &u = g->u;
     switch( type->goal ) {
         case MGOAL_GO_TO:
@@ -268,7 +269,7 @@ bool mission::is_complete( const int _npc_id ) const
         case MGOAL_GO_TO_TYPE:
             {
                 const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
-                return cur_ter == type->target_id;
+                return is_ot_type( type->target_id.str(), cur_ter );
             }
             break;
 
@@ -407,6 +408,19 @@ bool mission::in_progress() const
     return status == mission_status::in_progress;
 }
 
+void mission::process()
+{
+    if( !in_progress() ) {
+        return;
+    }
+
+    if( deadline > 0 && calendar::turn.get_turn() > deadline ) {
+        fail();
+    } else if( npc_id < 0 && is_complete( npc_id ) ) { // No quest giver.
+        wrap_up();
+    }
+}
+
 int mission::get_npc_id() const
 {
     return npc_id;
@@ -482,7 +496,7 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 
     const auto &response = type->dialogue.find( topic );
     if( response != type->dialogue.end() ) {
-        return response->second;
+        return _( response->second.c_str() );
     }
 
     return string_format( "Someone forgot to code this message id is %s, topic is %s!", type->id.c_str(), topic.c_str() );
@@ -498,7 +512,7 @@ mission::mission()
     target = tripoint(INT_MIN, INT_MIN, INT_MIN);
     item_id = "null";
     item_count = 1;
-    target_id = oter_id( 0 );
+    target_id = NULL_ID;
     recruit_class = NC_NONE;
     target_npc_id = -1;
     monster_type = "mon_null";

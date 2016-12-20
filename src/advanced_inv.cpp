@@ -21,6 +21,7 @@
 #include "mapdata.h"
 #include "field.h"
 #include "cata_utility.h"
+#include "item_search.h"
 
 #include <map>
 #include <set>
@@ -830,13 +831,13 @@ bool advanced_inventory_pane::is_filtered( const item *it ) const
 
     std::string str = it->tname();
     if( filtercache.find( str ) == filtercache.end() ) {
-        bool match = !list_items_match( it, filter );
-        filtercache[ str ] = match;
+        const auto filter_fn = item_filter_from_string( filter );
+        filtercache[ str ] = filter_fn;
 
-        return match;
+        return !filter_fn( *it );
     }
 
-    return filtercache[ str ];
+    return !filtercache[ str ]( *it );
 }
 
 // roll our own, to handle moving stacks better

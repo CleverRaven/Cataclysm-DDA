@@ -1460,8 +1460,6 @@ int Character::get_int_base() const
     return int_max;
 }
 
-
-
 int Character::get_str_bonus() const
 {
     return str_bonus;

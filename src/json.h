@@ -2,7 +2,7 @@
 #define JSON_H
 
 #include <type_traits>
-#include <iosfwd>
+#include <iostream>
 #include <string>
 #include <vector>
 #include <bitset>
@@ -422,8 +422,8 @@ class JsonOut
     private:
         std::ostream *stream;
         bool pretty_print;
-        bool need_separator;
-        int indent_level;
+        bool need_separator = false;
+        int indent_level = 0;
 
     public:
         JsonOut(std::ostream &stream, bool pretty_print = false);
@@ -439,39 +439,39 @@ class JsonOut
 
         // write data to the output stream as JSON
         void write_null();
-        void write(const bool &b);
-        void write(const char &c)
-        {
-            write(static_cast<int>(c));
+
+        template <typename T, typename std::enable_if<std::is_fundamental<T>::value, int>::type = 0>
+        void write( T val ) {
+            if( need_separator ) {
+                write_separator();
+            }
+            *stream << val;
+            need_separator = true;
         }
-        void write(const signed char &c)
-        {
-            write(static_cast<unsigned>(c));
+
+        template <typename T, typename std::enable_if<std::is_enum<T>::value, int>::type = 0>
+        void write( T val ) {
+            write( static_cast<typename std::underlying_type<T>::type>( val ) );
         }
-        void write(const int &i);
-        void write(const unsigned &u);
-        void write(const long &l);
-        void write(const unsigned long &ul);
-        void write(const double &f);
-        void write(const std::string &s);
+
+        // strings need escaping and quoting
+        void write( const std::string &val );
+        void write( const char *val ) { write( std::string( val ) ); }
+
+        // char should always be written as an unquoted numeral
+        void write(          char val ) { write( static_cast<int>( val ) ); }
+        void write(   signed char val ) { write( static_cast<int>( val ) ); }
+        void write( unsigned char val ) { write( static_cast<int>( val ) ); }
+
         template<size_t N>
         void write(const std::bitset<N> &b);
-        void write(const char *cstr)
-        {
-            write(std::string(cstr));
-        }
+
         void write(const JsonSerializer &thing);
         // This is for the string_id type
         template <typename T>
         auto write(const T &thing) -> decltype(thing.str(), (void)0)
         {
             write( thing.str() );
-        }
-
-        // enum ~> underlying type
-        template <typename T, typename std::enable_if<std::is_enum<T>::value>::type* = nullptr>
-        void write(T const &value) {
-            write(static_cast<typename std::underlying_type<T>::type>(value));
         }
 
         // enum ~> string

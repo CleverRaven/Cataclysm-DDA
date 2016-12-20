@@ -582,6 +582,12 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint& origin, const std
     return result;
 }
 
+tripoint overmapbuffer::find_random( const tripoint &origin, const std::string &type,
+                                     int dist, bool must_be_seen )
+{
+    return random_entry( find_all( origin, type, dist, must_be_seen ), overmap::invalid_tripoint );
+}
+
 npc* overmapbuffer::find_npc(int id) {
     for( auto &it : overmaps ) {
         for( auto &elem : it.second->npcs ) {

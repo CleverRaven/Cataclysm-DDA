@@ -196,6 +196,19 @@ public:
         int dist, bool must_be_seen);
 
     /**
+     * Returns a random point of specific terrain type among those found in certain search radius.
+     * This function may create new overmaps if needed.
+     * @param radius The maximal radius of the area to search for the desired terrain.
+     * A value of 0 will search an area equal to 4 entire overmaps.
+     * @returns If no matching tile can be found @ref overmap::invalid_tripoint is returned.
+     * @param origin uses overmap terrain coordinates.
+     * @param must_be_seen If true, only terrain seen by the player
+     * should be searched.
+     */
+    tripoint find_random(const tripoint& origin, const std::string& type,
+        int dist, bool must_be_seen);
+
+    /**
      * Mark a square area around center on z-level z
      * as seen.
      * center is in absolute overmap terrain coords.

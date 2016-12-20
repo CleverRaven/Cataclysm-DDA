@@ -15,5 +15,14 @@
       [ [ "9mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
     ]
+  },
+  {
+    "id": "ammo_shot",
+    "type": "requirement",
+    "//": "Components required for shotgun ammo",
+    "components": [
+      [ [ "shot_hull", 1 ] ],
+      [ [ "shotgun_primer", 1 ] ]
+    ]
   }
 ]

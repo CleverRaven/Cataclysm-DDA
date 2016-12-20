@@ -1973,7 +1973,7 @@ void map::player_in_field( player &u )
             }
 
             if( total_damage > 0 ) {
-                u.add_msg_player_or_npc(m_bad, _("You're electrocuted!"), _("<npcname> is electrocuted!"));
+                u.add_msg_player_or_npc(m_bad, _("You're shocked!"), _("<npcname> is shocked!"));
             } else {
                 u.add_msg_player_or_npc( _("The electric cloud doesn't affect you."),
                                      _("The electric cloud doesn't seem to affect <npcname>.") );
@@ -2431,7 +2431,7 @@ field_id field_entry::setFieldType(const field_id new_field_id){
 
 int field_entry::setFieldDensity(const int new_density)
 {
-    is_alive = new_density > 1;
+    is_alive = new_density > 0;
     return density = std::max( std::min( new_density, MAX_FIELD_DENSITY ), 1 );
 }
 

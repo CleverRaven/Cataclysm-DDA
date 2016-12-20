@@ -10,10 +10,8 @@
     "batch_time_factors": [ 90, 4 ],
     "reversible": true,
     "autolearn": true,
-    "tools": [
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 20 ], [ "char_forge", 20 ] ]
-    ],
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
@@ -27,10 +25,7 @@
     "batch_time_factors": [ 90, 4 ],
     "reversible": true,
     "autolearn": true,
-    "tools": [
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 80 ], [ "char_forge", 80 ] ]
-    ],
-    "components": [ [ [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
+    "using": [ [ "forging_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   }
 ]

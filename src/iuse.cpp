@@ -2,6 +2,7 @@
 
 #include "coordinate_conversions.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "map.h"
 #include "mapdata.h"
 #include "output.h"
@@ -4565,8 +4566,13 @@ int iuse::torch_lit(player *p, item *it, bool t, const tripoint &pos)
         switch (choice) {
             case 1: {
                 p->add_msg_if_player(_("The torch is extinguished."));
-                it->charges -= 1;
-                it->convert( "torch" ).active = false;
+                if( it->charges <= 1 ) {
+                    it->charges = 0;
+                    it->convert( "torch_done" ).active = false;
+                } else {
+                    it->charges -= 1;
+                    it->convert( "torch" ).active = false;
+                }
                 return 0;
             }
             break;
@@ -4603,8 +4609,13 @@ int iuse::battletorch_lit(player *p, item *it, bool t, const tripoint &pos)
         switch (choice) {
             case 1: {
                 p->add_msg_if_player(_("The Louisville Slaughterer is extinguished."));
-                it->charges -= 1;
-                it->convert( "battletorch" ).active = false;
+                if( it->charges <= 1 ) {
+                    it->charges = 0;
+                    it->convert( "battletorch_done" ).active = false;
+                } else {
+                    it->charges -= 1;
+                    it->convert( "battletorch" ).active = false;
+                }
                 return 0;
             }
             break;
@@ -4679,14 +4690,6 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     return it->type->charges_to_use();
-}
-
-/* MACGUFFIN FUNCTIONS
- * These functions should refer to it->associated_mission for the particulars
- */
-int iuse::mcg_note(player *, item *, bool, const tripoint& )
-{
-    return 0;
 }
 
 int iuse::artifact(player *p, item *it, bool, const tripoint& )
@@ -5398,6 +5401,53 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
+int iuse::gun_detach_gunmods( player *p, item* it, bool, const tripoint& )
+{
+    auto mods = it->gunmods();
+
+    if( mods.empty() ) {
+        p->add_msg_if_player( m_info, _( "Your %s doesn't appear to be modded." ), it->tname().c_str() );
+        return 0;
+    }
+
+    mods.erase( std::remove_if( mods.begin(), mods.end(), []( const item *e ) {
+        return e->has_flag( "IRREMOVABLE" );
+    } ), mods.end() );
+
+    if( mods.empty() ) {
+        p->add_msg_if_player( m_info, _( "You can't remove any of the mods from your %s." ), it->tname().c_str() );
+        return 0;
+    }
+
+    if( p->is_worn( *it ) ) {
+        // Prevent removal of shoulder straps and thereby making the gun un-wearable again.
+        p->add_msg_if_player( _( "You can not modify your %s while it's worn." ), it->tname().c_str() );
+        return 0;
+    }
+
+    uimenu prompt;
+    prompt.selected = 0;
+    prompt.text = _( "Remove which modification?" );
+    prompt.return_invalid = true;
+
+    for( size_t i = 0; i != mods.size(); ++i ) {
+        prompt.addentry( i, true, -1, mods[ i ]->tname() );
+    }
+
+    prompt.query();
+
+    if( prompt.ret >= 0 ) {
+        item *gm = mods[ prompt.ret ];
+        std::string name = gm->tname();
+        p->gunmod_remove( *it, *gm );
+        p->add_msg_if_player( _( "You remove your %1$s from your %2$s." ), name.c_str(), it->tname().c_str() );
+    } else {
+        p->add_msg_if_player( _( "Never mind." ) );
+    }
+
+    return 0;
+}
+
 int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
 {
     if( !it->ammo_sufficient() ) {
@@ -5420,6 +5470,10 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
     }
     if (!fix->is_firearm()) {
         p->add_msg_if_player(m_info, _("That isn't a firearm!"));
+        return 0;
+    }
+    if( fix->has_flag( "NO_REPAIR" ) ) {
+        p->add_msg_if_player( m_info, _( "You cannot repair your %s." ), fix->tname().c_str() );
         return 0;
     }
     if( fix->damage() == fix->min_damage() ) {
@@ -5468,7 +5522,7 @@ int iuse::gunmod_attach( player *p, item *it, bool, const tripoint& ) {
         return 0;
     }
 
-    auto loc = g->inv_for_gunmod( *it, _( "Select gun to modify" ) );
+    auto loc = game_menus::inv::gun_to_modify( *p, *it );
 
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -6638,7 +6692,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
 
                 if( p->is_elec_immune() ) {
                     if( one_in( 10 ) ) {
-                        add_msg( m_good, _("The cuffs try to shock you, but you're protected from electrocution.") );
+                        add_msg( m_good, _("The cuffs try to shock you, but you're protected from electricity.") );
                     }
                 } else {
                     add_msg(m_bad, _("Ouch, the cuffs shock you!"));
@@ -6962,7 +7016,7 @@ vehicle *pickveh( const tripoint& center, bool advanced )
         auto &v = veh.v;
         const auto gp = v->global_pos();
         if( rl_dist( center.x, center.y, gp.x, gp.y ) < 40 &&
-            v->fuel_left( "battery", true ) > 0 &&
+            v->fuel_left( "battery", true, true ) > 0 &&
             ( v->all_parts_with_feature( advctrl, true ).size() > 0 ||
             ( !advanced && v->all_parts_with_feature( ctrl, true ).size() > 0 ) ) ) {
             vehs.push_back( v );
@@ -7004,7 +7058,7 @@ int iuse::remoteveh(player *p, item *it, bool t, const tripoint &pos)
         } else if( remote == nullptr ) {
             p->add_msg_if_player( _("Lost contact with the vehicle.") );
             stop = true;
-        } else if( remote->fuel_left( "battery", true ) == 0 ) {
+        } else if( remote->fuel_left( "battery", true, true ) == 0 ) {
             p->add_msg_if_player( m_bad, _("The vehicle's battery died.") );
             stop = true;
         }
@@ -7589,10 +7643,9 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
             vehwindspeed = abs( veh->velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
-        const std::string &omtername = cur_om_ter->name;
         /* windpower defined in internal velocity units (=.01 mph) */
         int windpower = int(100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                                                          omtername, g->is_sheltered( g->u.pos() ) ) );
+                                                          cur_om_ter->get_name(), g->is_sheltered( g->u.pos() ) ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),

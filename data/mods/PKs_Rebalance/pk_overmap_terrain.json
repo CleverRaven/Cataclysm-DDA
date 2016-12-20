@@ -271,15 +271,6 @@
         "mondensity": 5
     },{
         "type": "overmap_terrain",
-        "id": "trapdoor_pit_loner",
-        "name": "field",
-        "sym": 46,
-        "color": "brown",
-        "see_cost": 2,
-        "extras": "field",
-        "mondensity": 3
-    },{
-        "type": "overmap_terrain",
         "id": "trapdoor_pit_b1",
         "name": "spider lairs",
         "sym": 79,
@@ -294,7 +285,6 @@
         "sym" : 56,
         "color" : "yellow",
         "see_cost" : 5,
-        "extras" : "none",
         "mondensity" : 4
     },{
         "type" : "overmap_terrain",

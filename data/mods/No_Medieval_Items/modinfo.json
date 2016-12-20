@@ -7,7 +7,7 @@
     "maintainers": [ "Rivet-the-Zombie" ],
     "description": "Removes medieval weapons, armors, and specific books.",
     "category": "item_exclude",
-    "path": "modinfo.json"
+    "dependencies": [ "dda" ]
   },
   {
     "type": "ITEM_BLACKLIST",

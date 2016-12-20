@@ -27,6 +27,7 @@
 #include "catalua.h"
 #include "fault.h"
 #include "construction.h"
+#include "harvest.h"
 
 #include <math.h>
 #include <sstream>
@@ -240,33 +241,14 @@ void set_up_butchery( player_activity &act, player &u )
     act.moves_left = time_to_cut;
 }
 
-void activity_handlers::butcher_finish( player_activity *act, player *p )
+void butchery_drops_hardcoded( const mtype *corpse, player *p, int age, const std::function<int(void)> &roll_butchery )
 {
-    if( act->index < 0 ) {
-        set_up_butchery( *act, *p );
-        return;
-    }
-    // Corpses can disappear (rezzing!), so check for that
-    auto items_here = g->m.i_at( p->pos() );
-    if( static_cast<int>( items_here.size() ) <= act->index ||
-        !( items_here[act->index].is_corpse() ) ) {
-        p->add_msg_if_player( m_info, _( "There's no corpse to butcher!" ) );
-        act->set_to_null();
-        return;
-    }
-
-    item &corpse_item = items_here[act->index];
-    const mtype *corpse = corpse_item.get_mtype();
-    auto contents = corpse_item.contents;
-    const int age = corpse_item.bday;
     itype_id meat = corpse->get_meat_itype();
     if( corpse->made_of( material_id( "bone" ) ) ) {
         //For butchering yield purposes, we treat it as bones, not meat
         meat = "null";
     }
-    g->m.i_rem( p->pos(), act->index );
 
-    const int factor = p->max_quality( quality_id( "BUTCHER" ) );
     int pieces = corpse->get_meat_chunks_count();
     int skins = 0;
     int bones = 0;
@@ -322,26 +304,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             break;
     }
 
-    const int skill_level = p->get_skill_level( skill_survival );
-
-    auto roll_butchery = [&]() {
-        double skill_shift = 0.0;
-        ///\EFFECT_SURVIVAL randomly increases butcher rolls
-        skill_shift += rng_float( 0, skill_level - 3 );
-        ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
-        skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
-
-        if( factor < 0 ) {
-            skill_shift -= rng_float( 0, -factor / 5.0 );
-        }
-
-        return static_cast<int>( round( skill_shift ) );
-    };
-
-    int practice = std::max( 0, 4 + pieces + roll_butchery() );
-
-    p->practice( skill_survival, practice, max_practice );
-
     // Lose some meat, skins, etc if the rolls are low
     pieces +=   std::min( 0, roll_butchery() );
     skins +=    std::min( 0, roll_butchery() - 4 );
@@ -351,6 +313,10 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     feathers += std::min( 0, roll_butchery() - 1 );
     wool +=     std::min( 0, roll_butchery() );
     stomach = roll_butchery() >= 0;
+
+    int practice = std::max( 0, 4 + pieces + roll_butchery() );
+
+    p->practice( skill_survival, practice, max_practice );
 
     if( bones > 0 ) {
         if( corpse->made_of( material_id( "veggy" ) ) ) {
@@ -524,19 +490,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
     }
 
-
-    // Recover hidden items
-    for( auto &content : contents  ) {
-        if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
-            //~ %1$s - item name, %2$s - monster name
-            p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content.tname().c_str(),
-                     corpse->nname().c_str() );
-            g->m.add_item_or_charges( p->pos(), content );
-        } else if( content.is_bionic()  ) {
-            g->m.spawn_item(p->pos(), "burnt_out_bionic", 1, 0, age);
-        }
-    }
-
     //now handle the meat, if there is any
     if( meat!= "null" ) {
         if( pieces <= 0 ) {
@@ -557,6 +510,100 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             for( int i = 1; i <= pieces; ++i ) {
                 g->m.add_item_or_charges( p->pos(), one_in( 3 ) ? parts : chunk );
             }
+        }
+    }
+}
+
+void butchery_drops_harvest( const mtype &mt, player &p, int age, const std::function<int(void)> &roll_butchery )
+{
+    int practice = 4 + roll_butchery();
+    for( const auto &entry : *mt.harvest ) {
+        int butchery = roll_butchery();
+        float min_num = entry.base_num.first + butchery * entry.scale_num.first;
+        float max_num = entry.base_num.second + butchery * entry.scale_num.second;
+        int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
+
+        const itype *drop = item::find_type( entry.drop );
+
+        if( roll <= 0 ) {
+            p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ).c_str() );
+            continue;
+        }
+
+        if( drop->phase == LIQUID ) {
+            g->handle_all_liquid( item( drop, age, roll ), 1 );
+
+        } else if( drop->stackable ) {
+            g->m.add_item_or_charges( p.pos(), item( drop, age, roll ) );
+
+        } else {
+            item obj( drop, age );
+            obj.set_mtype( &mt );
+            for( int i = 0; i != roll; ++i ) {
+                g->m.add_item_or_charges( p.pos(), obj );
+            }
+        }
+
+        p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ).c_str() );
+        practice++;
+    }
+
+    p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
+}
+
+void activity_handlers::butcher_finish( player_activity *act, player *p )
+{
+    if( act->index < 0 ) {
+        set_up_butchery( *act, *p );
+        return;
+    }
+    // Corpses can disappear (rezzing!), so check for that
+    auto items_here = g->m.i_at( p->pos() );
+    if( static_cast<int>( items_here.size() ) <= act->index ||
+        !( items_here[act->index].is_corpse() ) ) {
+        p->add_msg_if_player( m_info, _( "There's no corpse to butcher!" ) );
+        act->set_to_null();
+        return;
+    }
+
+    item &corpse_item = items_here[act->index];
+    auto contents = corpse_item.contents;
+    const mtype *corpse = corpse_item.get_mtype();
+    const int age = corpse_item.bday;
+    g->m.i_rem( p->pos(), act->index );
+
+    const int skill_level = p->get_skill_level( skill_survival );
+    const int factor = p->max_quality( quality_id( "BUTCHER" ) );
+
+    auto roll_butchery = [&]() {
+        double skill_shift = 0.0;
+        ///\EFFECT_SURVIVAL randomly increases butcher rolls
+        skill_shift += rng_float( 0, skill_level - 3 );
+        ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
+        skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
+
+        if( factor < 0 ) {
+            skill_shift -= rng_float( 0, -factor / 5.0 );
+        }
+
+        return static_cast<int>( round( skill_shift ) );
+    };
+
+    if( corpse->harvest.is_null() ) {
+        butchery_drops_hardcoded( corpse, p, age, roll_butchery );
+    } else {
+        butchery_drops_harvest( *corpse, *p, age, roll_butchery );
+    }
+
+    // Recover hidden items
+    for( auto &content : contents  ) {
+        if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
+            //~ %1$s - item name, %2$s - monster name
+            p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content.tname().c_str(),
+                     corpse->nname().c_str() );
+            g->m.add_item_or_charges( p->pos(), content );
+        } else if( content.is_bionic()  ) {
+            g->m.spawn_item(p->pos(), "burnt_out_bionic", 1, 0, age);
         }
     }
 

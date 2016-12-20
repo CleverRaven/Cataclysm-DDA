@@ -1323,6 +1323,48 @@
     "use_action": "CATFOOD"
   },
   {
+    "id": "cell_phone",
+    "type": "TOOL",
+    "name": "cell phone",
+    "name_plural": "cell phones",
+    "description": "This is a typical smartphone that features an LED for use as a flash.  Using this cellphone will turn it on and provide light, assuming it is charged with batteries.",
+    "weight": 226,
+    "volume": 1,
+    "price": 10000,
+    "price_postapoc": 2000,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": "battery",
+    "initial_charges": 100,
+    "max_charges": 100,
+    "charges_per_use": 1,
+    "use_action": {
+      "target": "cell_phone_flashlight",
+      "msg": "You activate the flashlight app.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The cellphones's batteries are dead.",
+      "type": "transform"
+    },
+    "flags": [ "WATCH", "ALARMCLOCK" ]
+  },
+  {
+    "id": "cell_phone_flashlight",
+    "copy-from": "cell_phone",
+    "type": "TOOL",
+    "name": "cell phone - Flashlight",
+    "name_plural": "cell phones - Flashlight",
+    "turns_per_charge": 30,
+    "revert_to": "cell_phone",
+    "use_action": {
+      "target": "cell_phone",
+      "msg": "You deactivate the flashlight app.",
+      "type": "transform"
+    },
+    "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ]
+  },
+  {
     "id": "chainsaw_off",
     "type": "TOOL",
     "name": "chainsaw (off)",
@@ -4225,7 +4267,6 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "blue",
-    "initial_charges": 100,
     "rand_charges": [ 1, 10, 12, 15, 16, 22, 44, 50, 67, 75, 82, 100 ],
     "max_charges": 100,
     "charges_per_use": 1,
@@ -4746,7 +4787,7 @@
       "need_fire": 1,
       "type": "transform"
     },
-    "flags": [ "NPC_ACTIVATE" ]
+    "flags": [ "NPC_ACTIVATE", "NO_REPAIR" ]
   },
   {
     "id": "molotov_lit",
@@ -4767,7 +4808,7 @@
     "max_charges": 5,
     "turns_per_charge": 1,
     "use_action": "MOLOTOV_LIT",
-    "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW" ]
+    "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR" ]
   },
   {
     "id": "mop",
@@ -5140,56 +5181,6 @@
     "material": "iron",
     "symbol": ")",
     "color": "dark_gray"
-  },
-  {
-    "id": "pda",
-    "type": "TOOL",
-    "name": "PDA",
-    "description": "This is a small, multipurpose electronic device.  It can be loaded with a variety of apps, providing all kinds of functionality.",
-    "weight": 141,
-    "volume": 1,
-    "price": 3500,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ",",
-    "color": "blue",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "charges_per_use": 1,
-    "use_action": {
-      "target": "pda_flashlight",
-      "msg": "You activate the flashlight app.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The PDA's batteries are dead.",
-      "type": "transform"
-    },
-    "flags": [ "WATCH", "ALARMCLOCK" ]
-  },
-  {
-    "id": "pda_flashlight",
-    "type": "TOOL",
-    "name": "PDA - Flashlight",
-    "name_plural": "PDAs - Flashlight",
-    "description": "This is a small, multipurpose electronic device.  This PDA has its flashlight app on, and is providing light.",
-    "weight": 141,
-    "volume": 1,
-    "price": 3500,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ",",
-    "color": "blue",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "charges_per_use": 1,
-    "turns_per_charge": 30,
-    "revert_to": "pda",
-    "use_action": {
-      "target": "pda",
-      "msg": "The PDA screen goes blank.",
-      "type": "transform"
-    },
-    "flags": [ "LIGHT_10", "TRADER_AVOID" ]
   },
   {
     "id": "permanent_marker",
@@ -5707,135 +5698,6 @@
     "color": "green"
   },
   {
-    "id": "radio",
-    "type": "TOOL",
-    "name": "radio (off)",
-    "name_plural": "radios (off)",
-    "description": "This is a portable radio.  Using this radio turns it on.  It will pick up any nearby signals being broadcast and play them audibly.",
-    "weight": 295,
-    "volume": 4,
-    "price": 1000,
-    "to_hit": -1,
-    "bashing": 4,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "use_action": "RADIO_OFF"
-  },
-  {
-    "id": "radio_car",
-    "type": "TOOL",
-    "name": "RC car",
-    "description": "A remote-controlled car.  Fun for young and old alike.",
-    "weight": 907,
-    "volume": 5,
-    "price": 2000,
-    "to_hit": -1,
-    "material": "plastic",
-    "symbol": "#",
-    "color": "red",
-    "ammo": "battery",
-    "initial_charges": 50,
-    "max_charges": 50,
-    "revert_to": "radio_car",
-    "use_action": "RADIOCAR",
-    "flags": [ "RADIO_CONTAINER" ]
-  },
-  {
-    "id": "radio_car_box",
-    "type": "GENERIC",
-    "category": "other",
-    "name": "Radio car box",
-    "name_plural": "Radio car boxes",
-    "description": "A RC car, with radio-control and batteries included!  Disassemble to unpack and enjoy.",
-    "weight": 350,
-    "volume": 8,
-    "price": 30000,
-    "to_hit": -1,
-    "material": [ "plastic" ],
-    "symbol": ")",
-    "color": "red"
-  },
-  {
-    "id": "radio_car_on",
-    "type": "TOOL",
-    "name": "RC car (on)",
-    "name_plural": "RC cars (on)",
-    "description": "This remote-controlled car is on, and draining its batteries just like a real electric car!  Use a remote control to drive it around.",
-    "weight": 907,
-    "volume": 5,
-    "price": 2000,
-    "to_hit": -1,
-    "material": "plastic",
-    "symbol": "#",
-    "color": "red",
-    "ammo": "battery",
-    "initial_charges": 50,
-    "max_charges": 50,
-    "turns_per_charge": 5,
-    "revert_to": "radio_car",
-    "use_action": "RADIOCARON",
-    "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID" ]
-  },
-  {
-    "id": "radio_mod",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": "radio activation mod",
-    "description": "This small piece of electronics can be attached to certain items and activate them after receiving a radio signal.",
-    "weight": 142,
-    "volume": 1,
-    "price": 5000,
-    "to_hit": -2,
-    "material": "steel",
-    "symbol": ";",
-    "color": "dark_gray",
-    "use_action": "RADIO_MOD"
-  },
-  {
-    "id": "radio_on",
-    "type": "TOOL",
-    "name": "radio (on)",
-    "name_plural": "radios (on)",
-    "description": "This portable radio is turned on, and continually draining its batteries.  It is playing the broadcast being sent from any nearby radio towers.",
-    "weight": 295,
-    "volume": 4,
-    "price": 1000,
-    "to_hit": -1,
-    "bashing": 4,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "turns_per_charge": 8,
-    "revert_to": "radio",
-    "use_action": "RADIO_ON",
-    "flags": [ "TRADER_AVOID" ]
-  },
-  {
-    "id": "radiocontrol",
-    "type": "TOOL",
-    "name": "RC control",
-    "description": "A remote control for RC cars, with joystick to steer the car and colorful buttons that don't seem to do anything.  Perhaps they were for the deluxe model?",
-    "weight": 907,
-    "volume": 4,
-    "price": 2000,
-    "to_hit": -1,
-    "material": "plastic",
-    "symbol": "#",
-    "color": "yellow",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "turns_per_charge": 5,
-    "use_action": "RADIOCONTROL"
-  },
-  {
     "id": "rag",
     "type": "TOOL",
     "category": "spare_parts",
@@ -5897,7 +5759,7 @@
         "active": true,
         "need_charges": 1,
         "need_charges_msg": "Nothing happens.",
-        "menu_option_text": "Light up",
+        "menu_text": "Light up",
         "type": "transform"
       },
       {
@@ -5934,30 +5796,11 @@
         "target": "ref_lighter",
         "msg": "You extinguish the lighter.",
         "active": false,
-        "menu_option_text": "Extinguish",
+        "menu_text": "Extinguish",
         "type": "transform"
       }
     ],
     "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID" ]
-  },
-  {
-    "id": "remotevehcontrol",
-    "type": "TOOL",
-    "name": "remote vehicle controller",
-    "description": "A remote controller for real cars.  Can turn onboard devices on and off.  Some cars can be driven remotely.",
-    "weight": 907,
-    "volume": 4,
-    "price": 2000,
-    "to_hit": -1,
-    "material": "plastic",
-    "symbol": "#",
-    "color": "yellow",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "charges_per_use": 1,
-    "turns_per_charge": 10,
-    "use_action": "REMOTEVEH"
   },
   {
     "id": "restaurantmap",
@@ -7843,22 +7686,6 @@
         "You play a little ballad on your trumpet."
       ]
     }
-  },
-  {
-    "id": "two_way_radio",
-    "type": "TOOL",
-    "name": "two-way radio",
-    "description": "This is a radio with a transmitting unit.  You could use it to contact someone who also has one.  Unfortunately no one seems to use those nowadays...",
-    "weight": 431,
-    "volume": 2,
-    "price": 2000,
-    "bashing": 6,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "green",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100
   },
   {
     "id": "ukulele",

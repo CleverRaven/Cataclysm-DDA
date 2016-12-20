@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 #include <functional>
+#include <unordered_map>
 
 class map;
 class npc;
@@ -18,6 +19,7 @@ typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
+typedef std::unordered_map< itype_id, std::list<const item *> > itype_bin;
 
 class salvage_actor;
 
@@ -173,6 +175,12 @@ class inventory : public visitable<inventory>
 
         std::set<char> allocated_invlets() const;
 
+        /**
+         * Returns visitable items binned by their itype.
+         * May not contain items that wouldn't be visited by @ref visitable methods.
+         */
+        const itype_bin &get_binned_items() const;
+
     private:
         // For each item ID, store a set of "favorite" inventory letters.
         std::map<std::string, std::vector<char> > invlet_cache;
@@ -186,6 +194,14 @@ class inventory : public visitable<inventory>
 
         invstack items;
         bool sorted;
+
+        mutable bool binned;
+        /**
+         * Items binned by their type.
+         * That is, item_bin["carrot"] is a list of pointers to all carrots in inventory.
+         * `mutable` because this is a pure cache that doesn't affect the contained items.
+         */
+        mutable itype_bin binned_items;
 };
 
 #endif

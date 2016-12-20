@@ -94,6 +94,7 @@ static const std::map<std::string, std::function<void(mission *)>> mission_funct
     { "standard", { } },
     { "join", mission_start::join },
     { "infect_npc", mission_start::infect_npc },
+    { "need_drugs_npc", mission_start::need_drugs_npc },
     { "place_dog", mission_start::place_dog },
     { "place_zombie_mom", mission_start::place_zombie_mom },
     { "place_zombie_bay", mission_start::place_zombie_bay },
@@ -151,6 +152,10 @@ static const std::map<std::string, std::function<void(mission *)>> mission_funct
     { "ranch_bartender_3", mission_start::ranch_bartender_3 },
     { "ranch_bartender_4", mission_start::ranch_bartender_4 },
     { "place_book", mission_start::place_book },
+    { "reveal_weather_station", mission_start::reveal_weather_station },
+    { "reveal_office_tower", mission_start::reveal_office_tower },
+    { "reveal_doctors_office", mission_start::reveal_doctors_office },
+    { "reveal_cathedral", mission_start::reveal_cathedral },
     // Endings
     { "leave", mission_end::leave },
     { "thankful", mission_end::thankful },
@@ -243,8 +248,10 @@ void assign_function( JsonObject &jo, const std::string &id, Fun &target, const 
     }
 }
 
-void mission_type::load( JsonObject &jo, const std::string & )
+void mission_type::load( JsonObject &jo, const std::string &src )
 {
+    const bool strict = src == "dda";
+
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
 
     mandatory( jo, was_loaded, "difficulty", difficulty );
@@ -292,9 +299,7 @@ void mission_type::load( JsonObject &jo, const std::string & )
         follow_up = mission_type_id( jo.get_string( "followup" ) );
     }
 
-    if( jo.has_member( "destination" ) ) {
-        target_id = oter_id( jo.get_string( "destination" ) );
-    }
+    assign( jo, "destination", target_id, strict );
 }
 
 void mission_type::check_consistency()

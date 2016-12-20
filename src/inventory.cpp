@@ -9,6 +9,7 @@
 #include "npc.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "veh_type.h"
 #include "mapdata.h"
 #include "map_iterator.h"
 #include <algorithm>
@@ -131,6 +132,7 @@ inventory inventory::operator+ (const item &rhs)
 void inventory::unsort()
 {
     sorted = false;
+    binned = false;
 }
 
 bool stack_compare(const std::list<item> &lhs, const std::list<item> &rhs)
@@ -147,6 +149,7 @@ void inventory::sort()
 void inventory::clear()
 {
     items.clear();
+    binned = false;
 }
 
 void inventory::add_stack(const std::list<item> newits)
@@ -166,6 +169,7 @@ void inventory::clone_stack (const std::list<item> &rhs)
         newstack.push_back( rh );
     }
     items.push_back(newstack);
+    binned = false;
 }
 
 void inventory::push_back(std::list<item> newits)
@@ -242,6 +246,7 @@ char inventory::find_usable_cached_invlet(const std::string &item_type)
 
 item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
 {
+    binned = false;
     bool reuse_cached_letter = false;
 
     // Avoid letters that have been manually assigned to other things.
@@ -319,6 +324,7 @@ void inventory::restack(player *p)
         return;
     }
 
+    binned = false;
     std::list<item> to_restack;
     int idx = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx) {
@@ -382,6 +388,9 @@ static long count_charges_in_list(const itype *type, const map_stack &items)
 void inventory::form_from_map( const tripoint &origin, int range, bool assign_invlet )
 {
     items.clear();
+
+    std::set<vehicle *> vehs;
+
     for( const tripoint &p : g->m.points_in_radius( origin, range ) ) {
         if (g->m.has_furn( p ) && g->m.accessible_furniture( origin, p, range )) {
             const furn_t &f = g->m.furn( p ).obj();
@@ -439,10 +448,6 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             }
         }
 
-        // WARNING: The part below has a bug that's currently quite minor
-        // When a vehicle has multiple faucets in range, available water is
-        //  multiplied by the number of faucets.
-        // Same thing happens for all other tools and resources, but not cargo
         int vpart = -1;
         vehicle *veh = g->m.veh_at( p, vpart );
 
@@ -450,97 +455,34 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             continue;
         }
 
-        //Adds faucet to kitchen stuff; may be horribly wrong to do such....
-        //ShouldBreak into own variable
-        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
-        const int faupart = veh->part_with_feature(vpart, "FAUCET");
-        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
-        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
-        const int forgepart = veh->part_with_feature(vpart, "FORGE");
-        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
-        const int cargo = veh->part_with_feature(vpart, "CARGO");
+        vehs.insert( veh );
 
+        const int cargo = veh->part_with_feature(vpart, "CARGO");
         if (cargo >= 0) {
             *this += std::list<item>( veh->get_items(cargo).begin(),
                                       veh->get_items(cargo).end() );
         }
 
-        if(faupart >= 0 ) {
-            item clean_water("water_clean", 0);
-            clean_water.charges = veh->fuel_left("water_clean");
-            add_item(clean_water);
-
-            item water("water", 0);
-            water.charges = veh->fuel_left("water");
-            // TODO: Poison
-            add_item(water);
+        for( const auto pt : veh->get_parts( p ) ) {
+            // does any part on this tile provide any pseudo-tools?
+            for( const auto &e : pt->info().tools ) {
+                item obj( e );
+                obj.ammo_set( obj.ammo_default(), veh->fuel_left( obj.ammo_default() ) );
+                add_item( obj.set_flag( "PSEUDO" ) );
+            }
         }
+    }
 
-        if (kpart >= 0) {
-            item hotplate("hotplate", 0);
-            hotplate.charges = veh->fuel_left("battery", true);
-            hotplate.item_tags.insert("PSEUDO");
-            add_item(hotplate);
-
-            item clean_water("water_clean", 0);
-            clean_water.charges = veh->fuel_left("water_clean");
-            add_item(clean_water);
-
-            item water("water", 0);
-            water.charges = veh->fuel_left("water");
-            // TODO: Poison
-            add_item(water);
-
-            item pot("pot", 0);
-            pot.item_tags.insert("PSEUDO");
-            add_item(pot);
-            item pan("pan", 0);
-            pan.item_tags.insert("PSEUDO");
-            add_item(pan);
-        }
-        if (weldpart >= 0) {
-            item welder("welder", 0);
-            welder.charges = veh->fuel_left("battery", true);
-            welder.item_tags.insert("PSEUDO");
-            add_item(welder);
-
-            item soldering_iron("soldering_iron", 0);
-            soldering_iron.charges = veh->fuel_left("battery", true);
-            soldering_iron.item_tags.insert("PSEUDO");
-            add_item(soldering_iron);
-        }
-        if (craftpart >= 0) {
-            item vac_sealer("vac_sealer", 0);
-            vac_sealer.charges = veh->fuel_left("battery", true);
-            vac_sealer.item_tags.insert("PSEUDO");
-            add_item(vac_sealer);
-
-            item dehydrator("dehydrator", 0);
-            dehydrator.charges = veh->fuel_left("battery", true);
-            dehydrator.item_tags.insert("PSEUDO");
-            add_item(dehydrator);
-
-            item press("press", 0);
-            press.charges = veh->fuel_left("battery", true);
-            press.item_tags.insert("PSEUDO");
-            add_item(press);
-        }
-        if (forgepart >= 0) {
-            item forge("forge", 0);
-            forge.charges = veh->fuel_left("battery", true);
-            forge.item_tags.insert("PSEUDO");
-            add_item(forge);
-        }
-        if (chempart >= 0) {
-            item hotplate("hotplate", 0);
-            hotplate.charges = veh->fuel_left("battery", true);
-            hotplate.item_tags.insert("PSEUDO");
-            add_item(hotplate);
-
-            item chemistry_set("chemistry_set", 0);
-            chemistry_set.charges = veh->fuel_left("battery", true);
-            chemistry_set.item_tags.insert("PSEUDO");
-            add_item(chemistry_set);
+    for( const vehicle *v : vehs ) {
+        // if vehicle has FAUCET can use contents from any of the tanks
+        if( v->has_part( "FAUCET" ) ) {
+            for( const auto &pt : v->parts ) {
+                if( pt.is_tank() ) {
+                    for( const auto &obj : pt.contents() ) {
+                        add_item( obj );
+                    }
+                }
+            }
         }
     }
 }
@@ -552,6 +494,7 @@ std::list<item> inventory::reduce_stack_internal(const Locator &locator, int qua
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         if (item_matches_locator(iter->front(), locator, pos)) {
+            binned = false;
             if(quantity >= (int)iter->size() || quantity < 0) {
                 ret = *iter;
                 items.erase(iter);
@@ -582,6 +525,7 @@ item inventory::remove_item(const item *it)
 {
     auto tmp = remove_items_with( [&it](const item& i) { return &i == it; }, 1 );
     if( !tmp.empty() ) {
+        binned = false;
         return tmp.front();
     }
     debugmsg("Tried to remove a item not in inventory (name: %s)", it->tname().c_str());
@@ -594,6 +538,7 @@ item inventory::remove_item_internal(const Locator &locator)
     int pos = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         if (item_matches_locator(iter->front(), locator, pos)) {
+            binned = false;
             if (iter->size() > 1) {
                 std::list<item>::iterator stack_member = iter->begin();
                 char invlet = stack_member->invlet;
@@ -644,6 +589,7 @@ std::list<item> inventory::remove_randomly_by_volume( const units::volume &volum
             chosen_item->invlet = result.back().invlet;
         }
         if( chosen_stack->empty() ) {
+            binned = false;
             items.erase( chosen_stack );
         }
     }
@@ -771,6 +717,7 @@ std::list<item> inventory::use_amount(itype_id it, int _quantity)
             }
         }
         if (iter->empty()) {
+            binned = false;
             iter = items.erase(iter);
         } else if (iter != items.end()) {
             ++iter;
@@ -1011,4 +958,23 @@ std::set<char> inventory::allocated_invlets() const
         }
     }
     return invlets;
+}
+
+const itype_bin &inventory::get_binned_items() const
+{
+    if( binned ) {
+        return binned_items;
+    }
+
+    binned_items.clear();
+
+    // Hack warning
+    inventory *this_nonconst = const_cast<inventory *>( this );
+    this_nonconst->visit_items( [ this ]( item *e ) {
+        binned_items[ e->typeId() ].push_back( e );
+        return VisitResponse::NEXT;
+    } );
+
+    binned = true;
+    return binned_items;
 }

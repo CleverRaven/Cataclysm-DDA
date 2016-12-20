@@ -84,6 +84,7 @@
 #include "cata_utility.h"
 #include "pathfinding.h"
 #include "projectile.h"
+#include "game_inventory.h"
 #include "gates.h"
 #include "item_factory.h"
 #include "scent_map.h"
@@ -119,7 +120,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const int core_version = 5;
+const int core_version = 6;
 
 /** Will be set to true when running unit tests */
 bool test_mode = false;
@@ -715,13 +716,6 @@ void game::setup()
     popup_status( _( "Please wait while the world data loads..." ), _( "Loading core data" ) );
     load_core_data();
 
-    for( int i = get_world_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
-        popup_status( _( "Please wait while the world data loads..." ),
-                      _( "Applying legacy migration (%i/%i)" ), i, core_version - 1 );
-
-        load_data_from_dir( FILENAMES["legacydir"] + to_string( i ), "legacy" );
-    }
-
     load_world_modfiles(world_generator->active_world);
 
     m =  map( get_world_option<bool>( "ZLEVELS" ) );
@@ -740,7 +734,6 @@ void game::setup()
     nextweather = HOURS( get_option<int>( "INITIAL_TIME" ) ) + MINUTES(30);
 
     turnssincelastmon = 0; //Auto safe mode init
-    autosafemode = get_option<bool>( "AUTOSAFEMODE" );
     safemodeveh =
         get_option<bool>( "SAFEMODEVEH" ); //Vehicle safemode check, in practice didn't trigger when needed
 
@@ -1530,7 +1523,6 @@ bool game::do_turn()
 
         const bool in_bubble_z = m.has_zlevels() || sm_loc.z == get_levz();
         for( auto &veh : sm->vehicles ) {
-            veh->power_parts();
             veh->idle( in_bubble_z && m.inbounds(in_reality.x, in_reality.y) );
         }
     }
@@ -1548,6 +1540,7 @@ bool game::do_turn()
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
         draw();
+        refresh_display();
     }
     u.process_active_items();
 
@@ -1558,6 +1551,7 @@ bool game::do_turn()
     if( u.has_effect( effect_sleep) && calendar::once_every(MINUTES(30)) ) {
         draw();
         refresh();
+        refresh_display();
     }
 
     u.update_bodytemp();
@@ -2442,7 +2436,7 @@ vehicle *game::remoteveh()
         tripoint vp;
         remote_veh_string >> vp.x >> vp.y >> vp.z;
         vehicle *veh = m.veh_at( vp );
-        if( veh && veh->fuel_left( "battery", true ) > 0 ) {
+        if( veh && veh->fuel_left( "battery", true, true ) > 0 ) {
             remoteveh_cache = veh;
         } else {
             remoteveh_cache = nullptr;
@@ -2859,12 +2853,11 @@ bool game::handle_action()
             break;
 
         case ACTION_INVENTORY:
-            interactive_inv();
-            refresh_all();
+            game_menus::inv::common( u );
             break;
 
         case ACTION_COMPARE:
-            compare();
+            game_menus::inv::compare( u );
             break;
 
         case ACTION_ORGANIZE:
@@ -3237,27 +3230,22 @@ bool game::handle_action()
             } else {
                 turnssincelastmon = 0;
                 set_safe_mode( SAFE_MODE_OFF );
-                if (autosafemode) {
-                    add_msg(m_info, _("Safe mode OFF! (Auto safe mode still enabled!)"));
-                } else {
-                    add_msg(m_info, _("Safe mode OFF!"));
-                }
+                add_msg( m_info, get_option<bool>( "AUTOSAFEMODE" )
+                    ? _( "Safe mode OFF! (Auto safe mode still enabled!)" ) : _( "Safe mode OFF!" ) );
             }
-            if( u.has_effect( effect_laserlocked) ) {
-                u.remove_effect( effect_laserlocked);
+            if( u.has_effect( effect_laserlocked ) ) {
+                u.remove_effect( effect_laserlocked );
                 safe_mode_warning_logged = false;
             }
             break;
 
-        case ACTION_TOGGLE_AUTOSAFE:
-            if (autosafemode) {
-                add_msg(m_info, _("Auto safe mode OFF!"));
-                autosafemode = false;
-            } else {
-                add_msg(m_info, _("Auto safe mode ON"));
-                autosafemode = true;
-            }
+        case ACTION_TOGGLE_AUTOSAFE: {
+            auto &autosafemode_option = get_options().get_option( "AUTOSAFEMODE" );
+            add_msg(m_info, autosafemode_option.value_as<bool>()
+                ? _( "Auto safe mode OFF!" ) : _( "Auto safe mode ON!" ) );
+            autosafemode_option.setNext();
             break;
+        }
 
         case ACTION_IGNORE_ENEMY:
             if (safe_mode == SAFE_MODE_STOP) {
@@ -3713,27 +3701,35 @@ void game::load_world_modfiles(WORLDPTR world)
     erase();
     refresh();
 
-    if (world != NULL) {
+    if( world ) {
+        auto &mods = world->active_mod_order;
+
+        // remove any duplicates whilst preserving order (fixes #19385)
+        std::set<std::string> found;
+        mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const std::string &e ) {
+            if( found.count( e ) ) {
+                return true;
+            } else {
+                found.insert( e );
+                return false;
+            }
+        } ), mods.end() );
+
+        // require at least one core mod (saves before version 6 may implicitly require dda pack)
+        if( std::none_of( mods.begin(), mods.end(), []( const std::string &e ) {
+            return world_generator->get_mod_manager()->mod_map[e]->core;
+        } ) ) {
+            mods.insert( mods.begin(), "dda" );
+        }
+
         load_artifacts(world->world_path + "/artifacts.gsav");
-        mod_manager *mm = world_generator->get_mod_manager();
         // this code does not care about mod dependencies,
         // it assumes that those dependencies are static and
         // are resolved during the creation of the world.
         // That means world->active_mod_order contains a list
         // of mods in the correct order.
-        for( const auto &mod_ident : world->active_mod_order ) {
-            if (mm->has_mod(mod_ident)) {
-                MOD_INFORMATION &mod = *mm->mod_map[mod_ident];
-                if( !mod.obsolete ) {
-                    // Silently ignore mods marked as obsolete.
-                    popup_status( _( "Please wait while the world data loads..." ),
-                                  _( "Loading mods (%s)" ), mod.ident.c_str() );
-                    load_data_from_dir( mod.path, mod.ident );
-                }
-            } else {
-                debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
-            }
-        }
+        load_packs( _( "Please wait while the world data loads..." ), mods );
+
         // Load additional mods from that world-specific folder
         load_data_from_dir( world->world_path + "/mods", "custom" );
     }
@@ -3743,6 +3739,40 @@ void game::load_world_modfiles(WORLDPTR world)
     popup_status( _( "Please wait while the world data loads..." ), _( "Finalizing and verifying" ) );
 
     DynamicDataLoader::get_instance().finalize_loaded_data();
+}
+
+bool game::load_packs( const std::string &msg, const std::vector<std::string>& packs )
+{
+    std::vector<std::string> missing;
+
+    mod_manager *mm = world_generator->get_mod_manager();
+    for( const auto &e : packs ) {
+        if( !mm->has_mod( e ) ) {
+            missing.push_back( e );
+            continue;
+        }
+
+        MOD_INFORMATION &mod = *mm->mod_map[e];
+        popup_status( msg.c_str(), _( "Loading content (%s)" ), e.c_str() );
+        load_data_from_dir( mod.path, mod.ident );
+
+        // if mod specifies legacy migrations load any that are required
+        if( !mod.legacy.empty() ) {
+            for( int i = get_world_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
+
+                popup_status( msg.c_str(), _( "Applying legacy migration (%s %i/%i)" ),
+                              e.c_str(), i, core_version - 1 );
+
+                load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident );
+            }
+        }
+    }
+
+    for( const auto &e : missing ) {
+        debugmsg( "unknown content %s", e.c_str() );
+    }
+
+    return missing.empty();
 }
 
 //Saves all factions and missions and npcs.
@@ -4026,7 +4056,7 @@ void game::debug()
     refresh_all();
     switch( action ) {
         case 1:
-            wishitem( &u );
+            debug_menu::wishitem( &u );
             break;
 
         case 2:
@@ -4067,7 +4097,7 @@ void game::debug()
         break;
 
         case 6:
-            wishmonster();
+            debug_menu::wishmonster();
             break;
 
         case 7: {
@@ -4080,7 +4110,7 @@ void game::debug()
             popup_top(
                 s.c_str(),
                 u.posx(), u.posy(), get_levx(), get_levy(),
-                overmap_buffer.ter( u.global_omt_location() )->name.c_str(),
+                overmap_buffer.ter( u.global_omt_location() )->get_name().c_str(),
                 int( calendar::turn ), int( nextspawn ),
                 ( get_world_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
@@ -4105,7 +4135,7 @@ void game::debug()
             break;
 
         case 9:
-            wishmutate( &u );
+            debug_menu::wishmutate( &u );
             break;
 
         case 10:
@@ -4119,7 +4149,7 @@ void game::debug()
                         const vehicle_prototype &proto = elem.obj();
                         veh_strings.push_back( elem );
                         //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
-                        opts.push_back( string_format( _( "%1$s (%2$s)" ), proto.name.c_str(),
+                        opts.push_back( string_format( _( "%1$s (%2$s)" ), _( proto.name.c_str() ),
                                                        elem.c_str() ) );
                     }
                 }
@@ -4139,7 +4169,7 @@ void game::debug()
             break;
 
         case 11: {
-            wishskill( &u );
+            debug_menu::wishskill( &u );
         }
         break;
 
@@ -4164,324 +4194,9 @@ void game::debug()
         }
         break;
 
-        case 14: {
-            tripoint pos = look_around();
-            int npcdex = npc_at( pos );
-            if( npcdex == -1 && pos != u.pos() ) {
-                popup( _( "No character there." ) );
-            } else {
-                player &p = npcdex != -1 ? *active_npc[npcdex] : u;
-                // The NPC is also required for "Add mission", so has to be in this scope
-                npc *np = npcdex != -1 ? active_npc[npcdex] : nullptr;
-                uimenu nmenu;
-                nmenu.return_invalid = true;
-
-                if( np != nullptr ) {
-                    std::stringstream data;
-                    data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
-                    data << np->myclass.obj().get_name() << "; " <<
-                         npc_attitude_name( np->attitude ) << std::endl;
-                    if( np->has_destination() ) {
-                        data << string_format( _( "Destination: %d:%d:%d (%s)" ),
-                                               np->goal.x, np->goal.y, np->goal.z,
-                                               overmap_buffer.ter( np->goal )->name.c_str() ) << std::endl;
-                    } else {
-                        data << _( "No destination." ) << std::endl;
-                    }
-                    data << string_format( _( "Trust: %d" ), np->op_of_u.trust ) << " "
-                         << string_format( _( "Fear: %d" ), np->op_of_u.fear ) << " "
-                         << string_format( _( "Value: %d" ), np->op_of_u.value ) << " "
-                         << string_format( _( "Anger: %d" ), np->op_of_u.anger ) << " "
-                         << string_format( _( "Owed: %d" ), np->op_of_u.owed ) << std::endl;
-
-                    data << string_format( _( "Aggression: %d" ), int( np->personality.aggression ) ) << " "
-                         << string_format( _( "Bravery: %d" ), int( np->personality.bravery ) ) << " "
-                         << string_format( _( "Collector: %d" ), int( np->personality.collector ) ) << " "
-                         << string_format( _( "Altruism: %d" ), int( np->personality.altruism ) ) << std::endl;
-
-                    data << _( "Needs:" ) << std::endl;
-                    for( const auto &need : np->needs ) {
-                        data << need << std::endl;
-                    }
-
-                    nmenu.text = data.str();
-                } else {
-                    nmenu.text = _( "Player" );
-                }
-
-                enum { D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
-                       D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION, D_TELE,
-                       D_MUTATE, D_CLASS
-                     };
-                nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
-                nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
-                nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
-                nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _( "[d]elete (all) items" ) );
-                nmenu.addentry( D_ITEM_WORN, true, 'w', "%s",
-                                _( "[w]ear/[w]ield an item from player's inventory" ) );
-                nmenu.addentry( D_HP, true, 'h', "%s", _( "Set [h]it points" ) );
-                nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause [p]ain" ) );
-                nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
-                nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set [n]eeds" ) );
-                nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
-                nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
-                nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
-                if( p.is_npc() ) {
-                    nmenu.addentry( D_MISSION, true, 'm', "%s", _( "Add [m]ission" ) );
-                    nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
-                }
-                nmenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-                nmenu.selected = 0;
-                nmenu.query();
-                switch( nmenu.ret ) {
-                    case D_SKILLS:
-                        wishskill( &p );
-                        break;
-                    case D_STATS: {
-                        uimenu smenu;
-                        smenu.return_invalid = true;
-                        smenu.addentry( 0, true, 'S', "%s: %d", _( "Maximum strength" ), p.str_max );
-                        smenu.addentry( 1, true, 'D', "%s: %d", _( "Maximum dexterity" ), p.dex_max );
-                        smenu.addentry( 2, true, 'I', "%s: %d", _( "Maximum intelligence" ), p.int_max );
-                        smenu.addentry( 3, true, 'P', "%s: %d", _( "Maximum perception" ), p.per_max );
-                        smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-                        smenu.selected = 0;
-                        smenu.query();
-                        int *bp_ptr = nullptr;
-                        switch( smenu.ret ) {
-                            case 0:
-                                bp_ptr = &p.str_max;
-                                break;
-                            case 1:
-                                bp_ptr = &p.dex_max;
-                                break;
-                            case 2:
-                                bp_ptr = &p.int_max;
-                                break;
-                            case 3:
-                                bp_ptr = &p.per_max;
-                                break;
-                            default:
-                                break;
-                        }
-
-                        if( bp_ptr != nullptr ) {
-                            int value;
-                            if( query_int( value, "Set the stat to? Currently: %d", *bp_ptr ) && value >= 0 ) {
-                                *bp_ptr = value;
-                                p.reset_stats();
-                            }
-                        }
-                    }
-                    break;
-                    case D_ITEMS:
-                        wishitem( &p );
-                        break;
-                    case D_DELETE_ITEMS:
-                        if( !query_yn( "Delete all items from the target?" ) ) {
-                            break;
-                        }
-                        for( auto &it : p.worn ) {
-                            it.on_takeoff( p );
-                        }
-                        p.worn.clear();
-                        p.inv.clear();
-                        p.weapon = p.ret_null;
-                        break;
-                    case D_ITEM_WORN: {
-                        int item_pos = inv_for_filter( "Make target equip", []( const item &it ) {
-                            return it.is_armor();
-                        } );
-                        item &to_wear = u.i_at( item_pos );
-                        if( to_wear.is_armor() ) {
-                            p.on_item_wear( to_wear );
-                            p.worn.push_back( to_wear );
-                        } else if( !to_wear.is_null() ) {
-                            p.weapon = to_wear;
-                        }
-                    }
-                    break;
-                    case D_HP: {
-                        uimenu smenu;
-                        smenu.return_invalid = true;
-                        smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), p.hp_cur[hp_torso] );
-                        smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), p.hp_cur[hp_head] );
-                        smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), p.hp_cur[hp_arm_l] );
-                        smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), p.hp_cur[hp_arm_r] );
-                        smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), p.hp_cur[hp_leg_l] );
-                        smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), p.hp_cur[hp_leg_r] );
-                        smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-                        smenu.selected = 0;
-                        smenu.query();
-                        int *bp_ptr = nullptr;
-                        switch( smenu.ret ) {
-                            case 0:
-                                bp_ptr = &p.hp_cur[hp_torso];
-                                break;
-                            case 1:
-                                bp_ptr = &p.hp_cur[hp_head];
-                                break;
-                            case 2:
-                                bp_ptr = &p.hp_cur[hp_arm_l];
-                                break;
-                            case 3:
-                                bp_ptr = &p.hp_cur[hp_arm_r];
-                                break;
-                            case 4:
-                                bp_ptr = &p.hp_cur[hp_leg_l];
-                                break;
-                            case 5:
-                                bp_ptr = &p.hp_cur[hp_leg_r];
-                                break;
-                            default:
-                                break;
-                        }
-
-                        if( bp_ptr != nullptr ) {
-                            int value;
-                            if( query_int( value, "Set the hitpoints to? Currently: %d", *bp_ptr ) && value >= 0 ) {
-                                *bp_ptr = value;
-                                p.reset_stats();
-                            }
-                        }
-                    }
-                    break;
-                    case D_PAIN: {
-                        int value;
-                        if( query_int( value, "Cause how much pain? pain: %d", p.get_pain() ) ) {
-                            p.mod_pain( value );
-                        }
-                    }
-                    break;
-                    case D_NEEDS: {
-                        uimenu smenu;
-                        smenu.return_invalid = true;
-                        smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
-                        smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
-                        smenu.addentry( 2, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
-
-                        const auto& vits = vitamin::all();
-                        for( const auto& v : vits ) {
-                            smenu.addentry( -1, true, 0, "%s: %d", v.second.name().c_str(), p.vitamin_get( v.first ) );
-                        }
-
-                        smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-                        smenu.selected = 0;
-                        smenu.query();
-
-                        switch( smenu.ret ) {
-                            int value;
-                            case 0:
-                                if( query_int( value, "Set hunger to? Currently: %d", p.get_hunger() ) ) {
-                                    p.set_hunger( value );
-                                }
-                                break;
-
-                            case 1:
-                                if( query_int( value, "Set thirst to? Currently: %d", p.get_thirst() ) ) {
-                                    p.set_thirst( value );
-                                }
-                                break;
-
-                            case 2:
-                                if( query_int( value, "Set fatigue to? Currently: %d", p.get_fatigue() ) ) {
-                                    p.set_fatigue( value );
-                                }
-                                break;
-
-                            default:
-                                if( smenu.ret > 2 && smenu.ret < static_cast<int>( vits.size() + 3 ) ) {
-                                    auto iter = std::next( vits.begin(), smenu.ret - 3 );
-                                    if( query_int( value, "Set %s to? Currently: %d",
-                                        iter->second.name().c_str(), p.vitamin_get( iter->first ) ) ) {
-                                        p.vitamin_set( iter->first, value );
-                                    }
-                                }
-                        }
-
-                    }
-                    break;
-                    case D_MUTATE:
-                        wishmutate( &p );
-                        break;
-                    case D_HEALTHY: {
-                        uimenu smenu;
-                        smenu.return_invalid = true;
-                        smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), p.get_healthy() );
-                        smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), p.get_healthy_mod() );
-                        smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
-                        smenu.selected = 0;
-                        smenu.query();
-                        switch( smenu.ret ) {
-                            int value;
-                            case 0:
-                                if( query_int( value, "Set the value to? Currently: %d", p.get_healthy() ) ) {
-                                    p.set_healthy( value );
-                                }
-                                break;
-                            case 1:
-                                if( query_int( value, "Set the value to? Currently: %d", p.get_healthy_mod() ) ) {
-                                    p.set_healthy_mod( value );
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    break;
-                    case D_STATUS:
-                        p.disp_info();
-                        break;
-                    case D_MISSION: {
-                        uimenu types;
-                        types.return_invalid = true;
-                        types.text = _( "Choose mission type" );
-                        const auto all_missions = mission_type::get_all();
-                        std::vector<const mission_type *> mts;
-                        for( size_t i = 0; i < all_missions.size(); i++ ) {
-                            types.addentry( i, true, -1, all_missions[ i ].name );
-                            mts.push_back( &all_missions[ i ] );
-                        }
-
-                        types.addentry( INT_MAX, true, -1, _( "Cancel" ) );
-                        types.query();
-                        if( types.ret >= 0 && types.ret < (int)mts.size() ) {
-                            np->add_new_mission( mission::reserve_new( mts[ types.ret ]->id, np->getID() ) );
-                        }
-                    }
-                    break;
-                    case D_TELE: {
-                        tripoint newpos = look_around();
-                        if( newpos != tripoint_min ) {
-                            p.setpos( newpos );
-                            if( p.is_player() ) {
-                                update_map( u );
-                            }
-                        }
-                    }
-                    break;
-                    case D_CLASS: {
-                        uimenu classes;
-                        classes.return_invalid = true;
-                        classes.text = _( "Choose new class" );
-                        std::vector<npc_class_id> ids;
-                        size_t i = 0;
-                        for( auto &cl : npc_class::get_all() ) {
-                            ids.push_back( cl.id );
-                            classes.addentry( i, true, -1, cl.get_name() );
-                            i++;
-                        }
-
-                        classes.addentry( INT_MAX, true, -1, _( "Cancel" ) );
-                        classes.query();
-                        if( classes.ret < (int)ids.size() && classes.ret >= 0 ) {
-                            np->randomize( ids[ classes.ret ] );
-                        }
-                    }
-                }
-            }
-        }
-        break;
+        case 14:
+            debug_menu::npc_edit_menu();
+            break;
 
         case 15: {
             auto center = look_around();
@@ -5193,9 +4908,8 @@ void game::draw_sidebar()
 
     const oter_id &cur_ter = overmap_buffer.ter(u.global_omt_location());
 
-    const std::string &tername = cur_ter->name;
     werase(w_location);
-    mvwprintz(w_location, 0, 0, cur_ter->color, "%s", utf8_truncate(tername, 14).c_str());
+    mvwprintz(w_location, 0, 0, cur_ter->get_color(), "%s", utf8_truncate( cur_ter->get_name(), 14 ).c_str());
 
     if (get_levz() < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
@@ -5224,21 +4938,14 @@ void game::draw_sidebar()
     mvwprintz(w_location, 1, 15, c_ltgray, "%s ", _("Lighting:"));
     wprintz(w_location, ll.second, ll.first.c_str());
 
+    draw_safe_mode( w_location, 0 );
+
     wrefresh(w_location);
 
-    //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
               season_name_upper(calendar::turn.get_season()).c_str(), calendar::turn.days() + 1);
-    if (safe_mode != SAFE_MODE_OFF || autosafemode != 0) {
-        int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
-        wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
-        const char *letters[] = { "S", "A", "F", "E" };
-        for (int i = 0; i < 4; i++) {
-            nc_color c = (safe_mode == SAFE_MODE_OFF && iPercent < (i + 1) * 25) ? c_red : c_green;
-            wprintz(w_status, c, letters[i]);
-        }
-    }
+
     wrefresh(w_status);
     if( sideStyle ) {
         wrefresh(w_status2);
@@ -5247,6 +4954,40 @@ void game::draw_sidebar()
     draw_minimap();
     draw_pixel_minimap();
     draw_sidebar_messages();
+}
+
+void game::draw_safe_mode( WINDOW *win, int line ) const
+{
+    const bool autosafemode = get_option<bool>( "AUTOSAFEMODE" );
+    if( safe_mode == SAFE_MODE_OFF && !autosafemode ) {
+        return;
+    }
+
+    const utf8_wrapper safe_text( _( "SAFE" ) );
+    if( safe_mode != SAFE_MODE_OFF ) {
+        right_print( win, line, 1, c_green, "%s", safe_text.c_str() );
+        return;
+    }
+
+    if( autosafemode ) {
+        const float safe_mode_percent =
+            turnssincelastmon * 100.0f / get_option<int>( "AUTOSAFEMODETURNS" );
+
+        const int text_size = safe_text.size();
+        const int starting_position = getmaxx( win ) - safe_text.display_width() - 1;
+        const float percent_per_char = 100.0f / text_size;
+        int written_size = 0;
+        for( int i = 0; i < text_size; i++ ) {
+            nc_color letter_color = safe_mode_percent < ( i + 1 ) * percent_per_char
+                ? c_red : c_green;
+
+            const auto current_char = safe_text.substr( i, 1 );
+            mvwputch( win, line, starting_position + written_size,
+                      letter_color, current_char.str() );
+
+            written_size += current_char.display_width();
+        }
+    }
 }
 
 void game::draw_sidebar_messages()
@@ -5620,11 +5361,11 @@ void game::draw_minimap()
                 ter_sym = 'c';
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter(omx, omy, get_levz());
-                ter_sym = cur_ter->sym;
+                ter_sym = cur_ter->get_sym();
                 if (overmap_buffer.is_explored(omx, omy, get_levz())) {
                     ter_color = c_dkgray;
                 } else {
-                    ter_color = cur_ter->color;
+                    ter_color = cur_ter->get_color();
                 }
             }
             if (!drew_mission && targ.x == omx && targ.y == omy) {
@@ -5997,7 +5738,7 @@ int game::mon_info(WINDOW *w)
         if (safe_mode == SAFE_MODE_ON) {
             set_safe_mode( SAFE_MODE_STOP );
         }
-    } else if (autosafemode && newseen == 0) { // Auto-safe mode
+    } else if ( get_option<bool>( "AUTOSAFEMODE" ) && newseen == 0 ) { // Auto-safe mode
         turnssincelastmon++;
         if (turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF) {
             set_safe_mode( SAFE_MODE_ON );
@@ -7261,33 +7002,26 @@ void game::close( const tripoint &closep )
             add_msg(m_info, _("You cannot close the %s."), door_name.c_str());
         }
     } else {
-        // Scoot up to 10 volume of items out of the way, only counting items that are vol >= 1.
+        // Scoot up to 25 liters of items out of the way
         if (m.furn(closep) != f_safe_o && !items_in_way.empty()) {
+            const units::volume max_nudge = 25000_ml;
             units::volume total_item_volume = 0;
-            if (items_in_way.size() > 10) {
-                add_msg(m_info, _("Too many items to push out of the way!"));
-                return;
-            }
             for( auto &elem : items_in_way ) {
-                // Don't even count tiny items.
-                if( elem.volume() < 250_ml ) {
-                    continue;
-                }
-                if( elem.volume() > 2500_ml ) {
+                if( elem.volume() > max_nudge ) {
                     add_msg( m_info, _( "There's a %s in the way that is too big to just nudge out "
                                         "of the way." ),
                              elem.tname().c_str() );
                     return;
                 }
                 total_item_volume += elem.volume();
-                if (total_item_volume > 2500_ml ) {
+                if (total_item_volume > max_nudge ) {
                     add_msg(m_info, _("There is too much stuff in the way."));
                     return;
                 }
             }
             add_msg(_("You push %s out of the way."), items_in_way.size() == 1 ?
                     items_in_way[0].tname().c_str() : _("some stuff"));
-            u.moves -= items_in_way.size() * 10;
+            u.moves -= std::min( total_item_volume / ( max_nudge / 50 ), 100 );
         }
 
         didit = m.close_door( closep, inside, false );
@@ -7391,13 +7125,16 @@ void game::smash()
 void game::use_item(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_activatables( u, _( "Use item" ) );
+        auto loc = game_menus::inv::use( u );
+
+        if( !loc ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+
+        pos = loc.obtain( u );
     }
 
-    if (pos == INT_MIN) {
-        add_msg(_("Never mind."));
-        return;
-    }
     refresh_all();
     u.use(pos);
     u.invalidate_crafting_inventory();
@@ -7836,7 +7573,7 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        const auto items_to_stash = g->multidrop();
+        const auto items_to_stash = game_menus::inv::multidrop( g->u );
         if( !items_to_stash.empty() ) {
             g->u.drop( items_to_stash, z->pos(), true );
             z->add_effect( effect_controlled, 5);
@@ -7888,7 +7625,9 @@ bool game::npc_menu( npc &who )
         examine_wounds,
         use_item,
         sort_armor,
-        attack
+        attack,
+        disarm,
+        steal
     };
 
     uimenu amenu;
@@ -7905,6 +7644,10 @@ bool game::npc_menu( npc &who )
     amenu.addentry( use_item, true, 'i', _("Use item on") );
     amenu.addentry( sort_armor, true, 'r', _("Sort armor") );
     amenu.addentry( attack, true, 'a', _("Attack") );
+    if( !who.is_friend() ) {
+        amenu.addentry( disarm, who.is_armed(), 'd', _("Disarm") );
+        amenu.addentry( steal, true, 'S', _("Steal") );
+    }
 
     amenu.query();
 
@@ -7978,6 +7721,13 @@ bool game::npc_menu( npc &who )
             u.melee_attack( who, true );
             who.make_angry();
         }
+    } else if( choice == disarm ) {
+        if( !who.is_enemy() && query_yn( _( "You may be attacked! Proceed?" ) ) )
+        {
+            u.disarm( who );
+        }
+    } else if( choice == steal ) {
+        u.steal( who );
     }
 
     return true;
@@ -9413,24 +9163,9 @@ int game::list_items(const int iLastState)
     WINDOW *w_item_info = newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_item_infoptr( w_item_info );
 
-    //Area to search +- of players position.
-    ///\EFFECT_PER increases range of interacting with items on the ground from a list
-    const int iRadius = 12 + (u.per_cur * 2);
-
-    bool sort_radius;
-    bool addcategory;
-
     // use previously selected sorting method
-    if (uistate.list_item_sort == 1) {
-        sort_radius = true;
-        addcategory = false;
-    } else if (uistate.list_item_sort == 2) {
-        sort_radius = false;
-        addcategory = true;
-    } else { // default state after start
-        sort_radius = true;
-        addcategory = false;
-    }
+    bool sort_radius = uistate.list_item_sort != 2;
+    bool addcategory = !sort_radius;
 
     // reload filter/priority settings on the first invocation, if they were active
     if (!uistate.list_item_init) {
@@ -9447,12 +9182,15 @@ int game::list_items(const int iLastState)
     }
 
     //this stores the items found, along with the coordinates
-    std::vector<map_item_stack> ground_items_radius = find_nearby_items(iRadius);
+    ///\EFFECT_PER increases range of interacting with items on the ground from a list
+    const std::vector<map_item_stack> ground_items_radius = find_nearby_items( 2 * u.per_cur + 12 );
+    if( iLastState != 1 && ground_items_radius.empty() ) {
+        return 0;
+    }
     std::vector<map_item_stack> ground_items = ground_items_radius;
     //this stores only those items that match our filter
-    std::vector<map_item_stack> filtered_items = (sFilter != "" ?
-            filter_item_stacks(ground_items, sFilter) :
-            ground_items);
+    std::vector<map_item_stack> filtered_items =
+        !sFilter.empty() ? filter_item_stacks( ground_items, sFilter ) : ground_items;
     int highPEnd = list_filter_high_priority(filtered_items, list_item_upvote);
     int lowPStart = list_filter_low_priority(filtered_items, highPEnd, list_item_downvote);
     int iItemNum = ground_items.size();
@@ -9500,331 +9238,267 @@ int game::list_items(const int iLastState)
     ctxt.register_action("TRAVEL_TO");
 
     do {
-        if (!ground_items.empty() || iLastState == 1) {
-            if (action == "COMPARE") {
-                compare( active_pos );
-                reset = true;
-                refresh_all();
-            } else if (action == "FILTER") {
-                draw_item_filter_rules(w_item_info, iInfoHeight);
-                sFilter = string_input_popup(_("Filter:"), 55, sFilter,
-                                _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "item_filter", 256);
-                reset = true;
-                refilter = true;
-                addcategory = !sort_radius;
-                if ( sFilter != "" ) {
-                    uistate.list_item_filter_active = true;
-                } else {
-                    uistate.list_item_filter_active = false;
-                }
-            } else if (action == "RESET_FILTER") {
-                sFilter = "";
-                filtered_items = ground_items;
-                iLastActive = tripoint_min;
-                reset = true;
-                refilter = true;
-                uistate.list_item_filter_active = false;
-                addcategory = !sort_radius;
-            } else if (action == "EXAMINE" && filtered_items.size()) {
-                std::vector<iteminfo> vThisItem, vDummy;
-
-                activeItem->example->info(true, vThisItem);
-                int iDummySelect = 0;
-                draw_item_info(0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
-                               activeItem->example->tname(), activeItem->example->type_name(), vThisItem, vDummy, iDummySelect,
-                               false, false, true);
-                // wait until the user presses a key to wipe the screen
-
-                iLastActive = tripoint_min;
-                reset = true;
-            } else if (action == "PRIORITY_INCREASE") {
-                std::string temp = ask_item_priority_high(w_item_info, iInfoHeight);
-                list_item_upvote = temp;
-                refilter = true;
-                reset = true;
-                addcategory = !sort_radius;
-                if ( list_item_upvote != "" ) {
-                    uistate.list_item_priority_active = true;
-                } else {
-                    uistate.list_item_priority_active = false;
-                }
-            } else if (action == "PRIORITY_DECREASE") {
-                std::string temp = ask_item_priority_low(w_item_info, iInfoHeight);
-                list_item_downvote = temp;
-                refilter = true;
-                reset = true;
-                addcategory = !sort_radius;
-                if ( list_item_downvote != "" ) {
-                    uistate.list_item_downvote_active = true;
-                } else {
-                    uistate.list_item_downvote_active = false;
-                }
-            } else if (action == "SORT") {
-                if ( sort_radius ) {
-                    sort_radius = false;
-                    addcategory = true;
-                    std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
-                    uistate.list_item_sort = 2; // list is sorted by category
-                } else {
-                    sort_radius = true;
-                    ground_items = ground_items_radius;
-                    uistate.list_item_sort = 1; // list is sorted by distance
-                }
-
-                highPEnd = -1;
-                lowPStart = -1;
-                iCatSortNum = 0;
-
-                mSortCategory.clear();
-                refilter = true;
-                reset = true;
-
-            } else if( action == "TRAVEL_TO" ) {
-                if( !u.sees( u.pos() + active_pos ) ) {
-                    add_msg(_("You can't see that destination."));
-                }
-                auto route = m.route( u.pos(), u.pos() + active_pos, u.get_pathfinding_settings(), u.get_path_avoid() );
-                if( route.size() > 1 ) {
-                    route.pop_back();
-                    u.set_destination( route );
-                    break;
-                } else {
-                    add_msg(m_info, _("You can't travel there."));
-                }
-            }
-
-            if ( uistate.list_item_sort == 1 ) {
-                ground_items = ground_items_radius;
-            } else if ( uistate.list_item_sort == 2 ) {
-                std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
-            }
-
-            if (refilter) {
-                refilter = false;
-
-                filtered_items = filter_item_stacks(ground_items, sFilter);
-                highPEnd = list_filter_high_priority(filtered_items, list_item_upvote);
-                lowPStart = list_filter_low_priority(filtered_items, highPEnd, list_item_downvote);
-                iActive = 0;
-                page_num = 0;
-                iLastActive = tripoint_min;
-                iItemNum = filtered_items.size();
-            }
-
-            if ( addcategory ) {
-                addcategory = false;
-                std::string sLastCategoryName = "";
-                iCatSortNum = 0;
-                mSortCategory.clear();
-
-                if ( highPEnd > 0 ) {
-                    mSortCategory[0] = _("HIGH PRIORITY");
-                    iCatSortNum++;
-                }
-
-                const int iStart = (highPEnd > 0) ? highPEnd : 0;
-                const int iEnd = (lowPStart < (int)filtered_items.size()) ? lowPStart : filtered_items.size() ;
-
-                for (int i=iStart; i < iEnd; i++) {
-                    if ( filtered_items[i].example->get_category().name != sLastCategoryName ) {
-                        sLastCategoryName = filtered_items[i].example->get_category().name;
-                        mSortCategory[i + iCatSortNum] = _(sLastCategoryName.c_str());
-
-                        iCatSortNum++;
-                    }
-                }
-
-                if ( lowPStart < (int)filtered_items.size() ) {
-                    mSortCategory[lowPStart + iCatSortNum] = _("LOW PRIORITY");
-                    iCatSortNum++;
-                }
-
-                if ( mSortCategory[0] != "" ) {
-                    iActive++;
-                }
-
-                iItemNum = filtered_items.size() + iCatSortNum;
-            }
-
-            if (reset) {
-                reset_item_list_state(w_items_border, iInfoHeight, sort_radius);
-                reset = false;
-                iScrollPos = 0;
-            }
-
-            if (action == "UP") {
-                do {
-                    iActive--;
-                } while(mSortCategory[iActive] != "");
-                iScrollPos = 0;
-                page_num = 0;
-                if (iActive < 0) {
-                    iActive = iItemNum - 1;
-                }
-            } else if (action == "DOWN") {
-                do {
-                    iActive++;
-                } while(mSortCategory[iActive] != "");
-                iScrollPos = 0;
-                page_num = 0;
-                if (iActive >= iItemNum) {
-                    iActive = (mSortCategory[0] != "") ? 1 : 0;
-                }
-            } else if (action == "RIGHT") {
-                page_num++;
-                if (!filtered_items.empty() && page_num >= (int)activeItem->vIG.size()) {
-                    page_num = activeItem->vIG.size() - 1;
-                }
-            } else if (action == "LEFT") {
-                page_num--;
-                if (page_num < 0) {
-                    page_num = 0;
-                }
-            } else if (action == "PAGE_UP") {
-                iScrollPos--;
-            } else if (action == "PAGE_DOWN") {
-                iScrollPos++;
-            } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
-                u.view_offset = stored_view_offset;
-                return 1;
-            }
-
-            if (ground_items.empty() && iLastState == 1) {
-                reset_item_list_state(w_items_border, iInfoHeight, sort_radius);
-                wrefresh(w_items_border);
-                mvwprintz(w_items, 10, 2, c_white, _("You don't see any items around you!"));
+        if( action == "COMPARE" ) {
+            game_menus::inv::compare( u, active_pos );
+            reset = true;
+            refresh_all();
+        } else if( action == "FILTER" ) {
+            draw_item_filter_rules( w_item_info, iInfoHeight );
+            sFilter = string_input_popup( _( "Filter:" ), 55, sFilter,
+                                          _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ),
+                                          "item_filter", 256 );
+            reset = true;
+            refilter = true;
+            addcategory = !sort_radius;
+            uistate.list_item_filter_active = !sFilter.empty();
+        } else if( action == "RESET_FILTER" ) {
+            sFilter.clear();
+            filtered_items = ground_items;
+            iLastActive = tripoint_min;
+            reset = true;
+            refilter = true;
+            uistate.list_item_filter_active = false;
+            addcategory = !sort_radius;
+        } else if( action == "EXAMINE" && !filtered_items.empty() ) {
+            std::vector<iteminfo> vThisItem, vDummy;
+            int dummy = 0; // draw_item_info needs an int &
+            activeItem->example->info( true, vThisItem );
+            draw_item_info( 0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
+                           activeItem->example->tname(), activeItem->example->type_name(), vThisItem, vDummy, dummy,
+                           false, false, true );
+            // wait until the user presses a key to wipe the screen
+            iLastActive = tripoint_min;
+            reset = true;
+        } else if( action == "PRIORITY_INCREASE" ) {
+            list_item_upvote = ask_item_priority_high( w_item_info, iInfoHeight );
+            refilter = true;
+            reset = true;
+            addcategory = !sort_radius;
+            uistate.list_item_priority_active = !list_item_upvote.empty();
+        } else if( action == "PRIORITY_DECREASE" ) {
+            list_item_downvote = ask_item_priority_low( w_item_info, iInfoHeight );
+            refilter = true;
+            reset = true;
+            addcategory = !sort_radius;
+            uistate.list_item_downvote_active = !list_item_downvote.empty();
+        } else if( action == "SORT" ) {
+            if( sort_radius ) {
+                sort_radius = false;
+                addcategory = true;
+                uistate.list_item_sort = 2; // list is sorted by category
             } else {
-                werase(w_items);
+                sort_radius = true;
+                uistate.list_item_sort = 1; // list is sorted by distance
+            }
+            highPEnd = -1;
+            lowPStart = -1;
+            iCatSortNum = 0;
 
-                calcStartPos(iStartPos, iActive, iMaxRows, iItemNum);
+            mSortCategory.clear();
+            refilter = true;
+            reset = true;
+        } else if( action == "TRAVEL_TO" ) {
+            if( !u.sees( u.pos() + active_pos ) ) {
+                add_msg( _( "You can't see that destination." ) );
+            }
+            auto route = m.route( u.pos(), u.pos() + active_pos, u.get_pathfinding_settings(), u.get_path_avoid() );
+            if( route.size() > 1 ) {
+                route.pop_back();
+                u.set_destination( route );
+                break;
+            } else {
+                add_msg(m_info, _("You can't travel there."));
+            }
+        }
+        if( uistate.list_item_sort == 1 ) {
+            ground_items = ground_items_radius;
+        } else if( uistate.list_item_sort == 2 ) {
+            std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
+        }
 
-                int iNum = 0;
-                active_pos = tripoint_zero;
-                std::stringstream sText;
-                bool high = true;
-                bool low = false;
-                int index = 0;
-                int iCatSortOffset = 0;
-                bool bKeepIter = false;
+        if( refilter ) {
+            refilter = false;
+            filtered_items = filter_item_stacks( ground_items, sFilter );
+            highPEnd = list_filter_high_priority( filtered_items, list_item_upvote );
+            lowPStart = list_filter_low_priority( filtered_items, highPEnd, list_item_downvote );
+            iActive = 0;
+            page_num = 0;
+            iLastActive = tripoint_min;
+            iItemNum = filtered_items.size();
+        }
 
-                for (int i=0; i < iStartPos; i++) {
-                    if (mSortCategory[i] != "") {
-                        iNum++;
-                    }
+        if( addcategory ) {
+            addcategory = false;
+            iCatSortNum = 0;
+            mSortCategory.clear();
+            if( highPEnd > 0 ) {
+                mSortCategory[0] = _( "HIGH PRIORITY" );
+                iCatSortNum++;
+            }
+            std::string last_cat_name;
+            for( int i = std::max( 0, highPEnd ); i < std::min( lowPStart, ( int )filtered_items.size() ); i++ ) {
+                const std::string &cat_name = filtered_items[i].example->get_category().name;
+                if( cat_name != last_cat_name ) {
+                    mSortCategory[i + iCatSortNum++] = cat_name;
+                    last_cat_name = cat_name;
                 }
+            }
+            if( lowPStart < (int)filtered_items.size() ) {
+                mSortCategory[lowPStart + iCatSortNum++] = _( "LOW PRIORITY" );
+            }
+            if( !mSortCategory[0].empty() ) {
+                iActive++;
+            }
+            iItemNum = int( filtered_items.size() ) + iCatSortNum;
+        }
 
-                for (std::vector<map_item_stack>::iterator iter = filtered_items.begin();
-                     iter != filtered_items.end(); ++index) {
+        if( reset ) {
+            reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
+            reset = false;
+            iScrollPos = 0;
+        }
 
-                    if ( index < highPEnd + iCatSortOffset ) {
-                        high = true;
-                    } else if ( index >= lowPStart + iCatSortOffset ) {
-                        low = true;
-                    } else {
-                        high = false;
-                        low = false;
-                    }
+        if( action == "UP" ) {
+            do {
+                iActive--;
+            } while( !mSortCategory[iActive].empty() );
+            iScrollPos = 0;
+            page_num = 0;
+            if( iActive < 0 ) {
+                iActive = iItemNum - 1;
+            }
+        } else if( action == "DOWN" ) {
+            do {
+                iActive++;
+            } while( !mSortCategory[iActive].empty() );
+            iScrollPos = 0;
+            page_num = 0;
+            if( iActive >= iItemNum ) {
+                iActive = mSortCategory[0].empty() ? 0 : 1;
+            }
+        } else if( action == "RIGHT" ) {
+            if( ++page_num >= ( int )activeItem->vIG.size() && !filtered_items.empty() ) {
+                page_num = activeItem->vIG.size() - 1;
+            }
+        } else if( action == "LEFT" ) {
+            page_num = std::max( 0, page_num - 1 );
+        } else if( action == "PAGE_UP" ) {
+            iScrollPos--;
+        } else if( action == "PAGE_DOWN" ) {
+            iScrollPos++;
+        } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
+            u.view_offset = stored_view_offset;
+            return 1;
+        }
 
-                    if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows)) {
-                        int iThisPage = 0;
+        if( ground_items.empty() && iLastState == 1 ) {
+            reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
+            wrefresh( w_items_border );
+            mvwprintz( w_items, 10, 2, c_white, _( "You don't see any items around you!" ) );
+        } else {
+            werase( w_items );
+            calcStartPos( iStartPos, iActive, iMaxRows, iItemNum );
+            int iNum = 0;
+            active_pos = tripoint_zero;
+            bool high = true;
+            bool low = false;
+            int index = 0;
+            int iCatSortOffset = 0;
 
-                        if ( mSortCategory[iNum] != "" ) {
-                            iCatSortOffset++;
-                            bKeepIter = true;
-
-                            mvwprintz(w_items, iNum - iStartPos, 1, c_magenta, "%s", mSortCategory[iNum].c_str());
-
-                        } else {
-                            if (iNum == iActive) {
-                                iThisPage = page_num;
-
-                                active_pos = iter->vIG[iThisPage].pos;
-
-                                activeItem = &(*iter);
-                            }
-
-                            sText.str("");
-
-                            if (iter->vIG.size() > 1) {
-                                sText << "[" << iThisPage + 1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
-                            }
-
-                            sText << iter->example->tname();
-
-                            if (iter->vIG[iThisPage].count > 1) {
-                                sText << " [" << iter->vIG[iThisPage].count << "]";
-                            }
-
-                            trim_and_print(w_items, iNum - iStartPos, 1, width - 9,
-                                      ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : iter->example->color_in_inventory()))),
-                                      "%s", (sText.str()).c_str());
-                            int numw = iItemNum > 9 ? 2 : 1;
-                            mvwprintz(w_items, iNum - iStartPos, width - (6 + numw),
-                                      ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                                      numw, square_dist(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y),
-                                      direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y)).c_str()
-                                     );
-                        }
-                    }
-
-                    if ( bKeepIter ) {
-                        bKeepIter = false;
-                    } else {
-                        ++iter;
-                    }
-
+            for( int i=0; i < iStartPos; i++ ) {
+                if( !mSortCategory[i].empty() ) {
                     iNum++;
                 }
-
-                iNum = 0;
-                for (int i=0; i < iActive; i++) {
-                    if (mSortCategory[i] != "") {
-                        iNum++;
-                    }
-                }
-
-                mvwprintz(w_items_border, 0, (width - 9) / 2 + ((iItemNum > 9) ? 0 : 1),
-                          c_ltgreen, " %*d", ((iItemNum > 9) ? 2 : 1), (iItemNum > 0) ? iActive - iNum + 1 : 0);
-                wprintz(w_items_border, c_white, " / %*d ", ((iItemNum > 9) ? 2 : 1), iItemNum - iCatSortNum);
-
-                werase(w_item_info);
-
-                if ( iItemNum > 0 ) {
-                    std::vector<iteminfo> vThisItem, vDummy;
-                    activeItem->example->info(true, vThisItem);
-
-                    draw_item_info(w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true);
-
-                    //Only redraw trail/terrain if x/y position changed
-                    if( active_pos != iLastActive ) {
-                        iLastActive = active_pos;
-                        centerlistview( active_pos );
-                        draw_trail_to_square( active_pos, true );
-                    }
-                }
-
-                draw_scrollbar(w_items_border, iActive, iMaxRows, iItemNum, 1);
-                wrefresh(w_items_border);
             }
+            for( auto iter = filtered_items.begin(); iter != filtered_items.end(); ++index ) {
+                if( index < highPEnd + iCatSortOffset ) {
+                    high = true;
+                } else if( index >= lowPStart + iCatSortOffset ) {
+                    low = true;
+                } else {
+                    high = false;
+                    low = false;
+                }
 
-            bool bDrawLeft = (ground_items.empty() && iLastState == 1) || filtered_items.empty();
-            draw_custom_border(w_item_info, bDrawLeft, true, false, true,
-                               LINE_XOXO, LINE_XOXO, true, true);
+                if( iNum >= iStartPos && iNum < iStartPos + ( iMaxRows > iItemNum ? iItemNum : iMaxRows ) ) {
+                    int iThisPage = 0;
+                    if( !mSortCategory[iNum].empty() ) {
+                        iCatSortOffset++;
+                        mvwprintz( w_items, iNum - iStartPos, 1, c_magenta, "%s", mSortCategory[iNum].c_str() );
+                    } else {
+                        if( iNum == iActive ) {
+                            iThisPage = page_num;
+                            active_pos = iter->vIG[iThisPage].pos;
+                            activeItem = &( *iter );
+                        }
+                        std::stringstream sText;
+                        if( iter->vIG.size() > 1 ) {
+                            sText << "[" << iThisPage + 1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
+                        }
+                        sText << iter->example->tname();
+                        if( iter->vIG[iThisPage].count > 1 ) {
+                            sText << " [" << iter->vIG[iThisPage].count << "]";
+                        }
 
-            wrefresh(w_items);
-            wrefresh(w_item_info);
+                        nc_color col = c_ltgreen;
+                        if( iNum != iActive ) {
+                            if( high ) {
+                                col = c_yellow;
+                            } else if( low ) {
+                                col = c_red;
+                            } else {
+                                col = iter->example->color_in_inventory();
+                            }
+                        }
+                        trim_and_print( w_items, iNum - iStartPos, 1, width - 9, col, "%s", sText.str().c_str() );
+                        const int numw = iItemNum > 9 ? 2 : 1;
+                        const int x = iter->vIG[iThisPage].pos.x;
+                        const int y = iter->vIG[iThisPage].pos.y;
+                        mvwprintz( w_items, iNum - iStartPos, width - 6 - numw, iNum == iActive ? c_ltgreen : c_ltgray,
+                                   "%*d %s", numw, square_dist( 0, 0, x, y ),
+                                   direction_name_short( direction_from( 0, 0, x, y ) ).c_str() );
+                        ++iter;
+                    }
+                } else {
+                    ++iter;
+                }
+                iNum++;
+            }
+            iNum = 0;
+            for( int i=0; i < iActive; i++ ) {
+                if( !mSortCategory[i].empty() ) {
+                    iNum++;
+                }
+            }
+            mvwprintz( w_items_border, 0, ( width - 9 ) / 2 + ( iItemNum > 9 ? 0 : 1 ),
+                       c_ltgreen, " %*d", iItemNum > 9 ? 2 : 1, iItemNum > 0 ? iActive - iNum + 1 : 0 );
+            wprintz( w_items_border, c_white, " / %*d ", iItemNum > 9 ? 2 : 1, iItemNum - iCatSortNum );
+            werase(w_item_info);
 
-            refresh();
-
-            action = ctxt.handle_input();
-        } else {
-            iReturn = 0;
-            action = "QUIT";
+            if( iItemNum > 0 ) {
+                std::vector<iteminfo> vThisItem, vDummy;
+                activeItem->example->info( true, vThisItem );
+                draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
+                //Only redraw trail/terrain if x/y position changed
+                if( active_pos != iLastActive ) {
+                    iLastActive = active_pos;
+                    centerlistview( active_pos );
+                    draw_trail_to_square( active_pos, true );
+                }
+            }
+            draw_scrollbar( w_items_border, iActive, iMaxRows, iItemNum, 1 );
+            wrefresh( w_items_border );
         }
+
+        const bool bDrawLeft = ( ground_items.empty() && iLastState == 1 ) || filtered_items.empty();
+        draw_custom_border( w_item_info, bDrawLeft, true, false, true, LINE_XOXO, LINE_XOXO, true, true);
+        wrefresh(w_items);
+        wrefresh(w_item_info);
+        refresh();
+        action = ctxt.handle_input();
     } while (action != "QUIT");
 
     u.view_offset = stored_view_offset;
-
     return iReturn;
 }
 
@@ -10232,7 +9906,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
     };
 
-    const std::string liquid_name = liquid.has_infinite_charges() ? liquid.tname() : liquid.display_name( liquid.charges );
+    const std::string liquid_name = liquid.display_name( liquid.charges );
 
     uimenu menu;
     menu.return_invalid = true;
@@ -10255,8 +9929,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
 
     menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
     actions.emplace_back( [&]() {
-        const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
-        item * const cont = inv_map_for_liquid( liquid, text, radius );
+        item * const cont = game_menus::inv::container_for( u, liquid, radius ).get_item();
 
         if( cont == nullptr || cont->is_null() ) {
             add_msg( _( "Never mind." ) );
@@ -10380,7 +10053,7 @@ void game::drop( int pos, const tripoint &where )
     if( pos != INT_MIN ) {
         u.drop( pos, where );
     } else {
-        u.drop( multidrop(), where );
+        u.drop( game_menus::inv::multidrop( u ), where );
     }
 }
 
@@ -10945,16 +10618,21 @@ void game::eat(int pos)
 void game::wear(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_unequipped( _( "Wear item" ) );
+        pos = game_menus::inv::wear( u );
     }
 
-    u.wear(pos);
+    if( pos == INT_MIN ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    u.wear( pos );
 }
 
 void game::takeoff(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_equipped( _( "Take off item" ) );
+        pos = game_menus::inv::take_off( u );
     }
     if (pos == INT_MIN) {
         add_msg(_("Never mind."));
@@ -11299,36 +10977,12 @@ void game::wield( int pos )
 void game::read()
 {
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = inv_for_books( _( "Read" ) );
+    auto loc = game_menus::inv::read( u );
 
-    item *book = loc.get_item();
-    if( !book ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-
-    int pos = u.get_item_position( book );
-
-    // Book is already in the inventory so attempt reading.
-    if( pos != INT_MIN ) {
-        u.read( pos );
-        return;
-    }
-
-    if( u.volume_carried() + book->volume() > u.volume_capacity() ) {
-        add_msg( _( "No space in inventory for %s" ), book->tname().c_str() );
-        return;
-    }
-
-    // Add book to inventory and attempt to read it.
-    pos = u.get_item_position( &u.i_add( *book ) );
-    // At this point there is one copy of the book on the ground and one in the inventory.
-    if( u.read( pos ) ) {
-        // We started reading so remove book from map or vehicle tile.
-        loc.remove_item();
+    if( loc ) {
+        u.read( loc.obtain( u ) );
     } else {
-        // We failed so undo adding the book to the inventory.
-        u.i_rem( pos );
+        add_msg( _( "Never mind." ) );
     }
 }
 
@@ -11453,15 +11107,7 @@ void game::pldrive(int x, int y)
         u.moves -= std::max( cost, u.get_speed() / 3 + 1 );
     }
 
-    if( y != 0 ) {
-        int thr_amount = 10 * 100;
-        if( veh->cruise_on ) {
-            veh->cruise_thrust( -y * thr_amount );
-        } else {
-            veh->thrust( -y );
-            u.moves = std::min( u.moves, 0 );
-        }
-    }
+    veh->cruise_thrust( -y * 1000 );
 
     // @todo Actually check if we're on land on water (or disable water-skidding)
     if( veh->skidding && ( veh->valid_wheel_config( false ) || veh->valid_wheel_config( true ) ) ) {
@@ -12288,16 +11934,16 @@ void game::place_player_overmap( const tripoint &om_dest )
     }
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
-    const int nlevx = om_dest.x * 2 - int( MAPSIZE / 2 );
-    const int nlevy = om_dest.y * 2 - int( MAPSIZE / 2 );
+    const tripoint map_om_pos( om_dest.x * 2 - MAPSIZE / 2, om_dest.y * 2 - MAPSIZE / 2, om_dest.z );
+    const tripoint player_pos( u.pos().x, u.pos().y, map_om_pos.z );
 
-    load_map( tripoint( nlevx, nlevy, om_dest.z ) );
+    load_map( map_om_pos );
     load_npcs();
     m.spawn_monsters( true ); // Static monsters
     update_overmap_seen();
     // update weather now as it could be different on the new location
     nextweather = calendar::turn;
-    place_player( u.pos() );
+    place_player( player_pos );
 }
 
 bool game::phasing_move( const tripoint &dest_loc )
@@ -13517,7 +13163,7 @@ void game::update_overmap_seen()
             for (std::vector<point>::const_iterator it = line.begin();
                  it != line.end() && sight_points >= 0; ++it) {
                 const oter_id &ter = overmap_buffer.ter(it->x, it->y, ompos.z);
-                sight_points -= int( ter->see_cost );
+                sight_points -= int( ter->get_see_cost() );
             }
             if (sight_points >= 0) {
                 overmap_buffer.set_seen(x, y, ompos.z, true);

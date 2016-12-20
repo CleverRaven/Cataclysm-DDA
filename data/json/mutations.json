@@ -79,7 +79,7 @@
         "id" : "FASTHEALER",
         "name" : "Fast Healer",
         "points" : 2,
-        "description" : "You heal a little faster than most; sleeping will heal more lost HP.",
+        "description" : "You heal faster when sleeping and will even recover small amount of HP when not sleeping.",
         "starting_trait" : true,
         "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "MET_RAT"],
         "changes_to" : ["FASTHEALER2", "REGEN_LIZ"],
@@ -667,7 +667,7 @@
         "name" : "Lactose Intolerance",
         "points" : -1,
         "//" : "Actual digestive issue, on even footing with the -vore mutations.",
-        "description" : "You like 75 percent of the world, cannot tolerate milk or milk based products.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "description" : "You, like 75 percent of the world, cannot tolerate milk or milk based products.  It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true
     },{
         "type" : "mutation",
@@ -3719,7 +3719,7 @@
         "name" : "Rapid Metabolism",
         "points" : -2,
         "valid" : false,
-        "description" : "You require more resources than most, but heal more rapidly as well.",
+        "description" : "You require more resources than most, but heal more rapidly as well.  Provides weak regeneration even when not asleep.",
         "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "FASTHEALER", "FASTHEALER2", "REGEN", "ROT1", "ROT2", "ROT3", "WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
         "prereqs" : ["HUNGER"],
         "prereqs2" : ["SLEEPY"],
@@ -3794,7 +3794,7 @@
         "name" : "Weakening",
         "points" : -2,
         "bodytemp_modifiers" : [-250, -250],
-        "description" : "You feel as though you are slowly weakening, but it's so slight a feeling that it does not affect you at all.",
+        "description" : "You feel as though you are slowly weakening and your body heals slower.",
         "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "changes_to" : ["ROT2"],
         "category" : ["MUTCAT_ELFA"]

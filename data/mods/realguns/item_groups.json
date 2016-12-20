@@ -16,8 +16,8 @@
     "id": "ammo_pistol_common",
     "type": "item_group",
     "items": [
-        [ "357", 30 ],
-        [ "45_long_colt", 30 ]
+      [ "357", 30 ],
+      [ "45_long_colt", 30 ]
     ]
   },
   {
@@ -29,9 +29,9 @@
     "id": "ammo_pistol_reloaded",
     "type": "item_group",
     "items": [
-        [ "reloaded_357", 50 ],
-        [ "reloaded_357_P", 20 ],
-        [ "reloaded_45_long_colt", 40 ]
+      [ "reloaded_357", 50 ],
+      [ "reloaded_357_P", 20 ],
+      [ "reloaded_45_long_colt", 40 ]
     ]
   },
   {
@@ -78,6 +78,11 @@
     "items": [ [ "shotgun_410", 30 ] ]
   },
   {
+    "id": "guns_shotgun_rare",
+    "type": "item_group",
+    "items": [ [ "saiga_410", 30 ] ]
+  },
+  {
     "id": "guns_shotgun_improvised",
     "type": "item_group",
     "items": [ [ "410_pipe_shotgun", 70 ] ]
@@ -110,8 +115,22 @@
     "id": "ammo_casings",
     "type": "item_group",
     "items": [
-      [ "410_hull", 75 ],
-      [ "45lc_casing", 40 ]
+      { "item": "410_hull", "prob": 75, "count": 20 },
+      { "item": "45lc_casing", "prob": 40, "count": 20 }
     ]
+  },
+  {
+    "id": "mags_shotgun_rare",
+    "type": "item_group",
+    "//": "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
+    "items": [
+      [ "saiga10mag_410", 50 ],
+      [ "saiga30mag_410", 10 ]
+    ]
+  },
+  {
+    "id": "gunmod_rare",
+    "type": "item_group",
+    "items": [ [ "retool_410", 20 ] ]
   }
 ]

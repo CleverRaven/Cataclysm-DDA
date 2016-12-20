@@ -90,9 +90,9 @@ void iuse_transform::load( JsonObject &obj )
     need_charges = std::max( need_charges, 0L );
     need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ).c_str() ) : _( "You need a source of fire!" );
 
-    obj.read( "menu_option_text", menu_option_text );
-    if( !menu_option_text.empty() ) {
-        menu_option_text = _( menu_option_text.c_str() );
+    obj.read( "menu_text", menu_text );
+    if( !menu_text.empty() ) {
+        menu_text = _( menu_text.c_str() );
     }
 }
 
@@ -156,8 +156,8 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
 
 std::string iuse_transform::get_name() const
 {
-    if( !menu_option_text.empty() ) {
-        return menu_option_text;
+    if( !menu_text.empty() ) {
+        return menu_text;
     }
     return iuse_actor::get_name();
 }
@@ -1883,13 +1883,19 @@ void holster_actor::load( JsonObject &obj )
 {
     holster_prompt = obj.get_string( "holster_prompt", "" );
     holster_msg    = obj.get_string( "holster_msg",    "" );
+	
+	int max_v = obj.get_int( "max_volume" );
+	int min_v = obj.get_int( "min_volume", max_v / 3);   
+	// the legacy_volume_factor must be applied after the min volume computation 
+	// in order to keep previous rounding truncation behavior
+	// In practice, an holster of a max volume of 4 should accept an item of volume 1
+	// This is the case for the survivor utility belt
+	// 4/3 == 1 (due to rounding) --> min real volume == 1*250 (so an item of volume 1*250 is ok)
+	// if we change the unit before the division
+	// 4*250 / 3 = 333 --> an item of volume 1*250 is NOT ok.
+	max_volume = max_v * units::legacy_volume_factor;
+	min_volume = min_v * units::legacy_volume_factor;
 
-    max_volume = obj.get_int( "max_volume" ) * units::legacy_volume_factor;
-    if( obj.has_member( "min_volume" ) ) {
-        min_volume = obj.get_int( "min_volume" ) * units::legacy_volume_factor;
-    } else {
-        min_volume = max_volume / 3;
-    }
     max_weight = obj.get_int( "max_weight", max_weight );
     multi      = obj.get_int( "multi",      multi );
     draw_cost  = obj.get_int( "draw_cost",  draw_cost );
@@ -1985,8 +1991,12 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
-        p->wield_contents( it, pos, draw_cost, false );
+        // worn holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+        if( p->is_worn( *it ) ) {
+            p->wield_contents( it, pos, draw_cost, false );
+        } else {
+            p->wield_contents( it, pos );
+        }
 
     } else {
         item &obj = p->i_at( g->inv_for_filter( prompt, [&](const item& e) { return can_holster(e); } ) );
@@ -2033,9 +2043,9 @@ void bandolier_actor::info( const item&, std::vector<iteminfo>& dump ) const
 {
     if( !ammo.empty() ) {
         auto str = std::accumulate( std::next( ammo.begin() ), ammo.end(),
-                                    string_format( "<stat>%s</stat>", ammo_name( *ammo.begin() ).c_str() ),
+                                    string_format( "<stat>%s</stat>", _( ammo_name( *ammo.begin() ).c_str() ) ),
                                     [&]( const std::string& lhs, const ammotype& rhs ) {
-                return lhs + string_format( ", <stat>%s</stat>", ammo_name( rhs ).c_str() );
+                return lhs + string_format( ", <stat>%s</stat>", _( ammo_name( rhs ).c_str() ) );
         } );
 
         dump.emplace_back( "TOOL", string_format(
@@ -2398,7 +2408,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         }
         return false;
     }
-    if( fix.count_by_charges() ) {
+    if( fix.count_by_charges() || fix.has_flag( "NO_REPAIR" ) ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("You cannot repair this type of item.") );
         }
@@ -2628,6 +2638,15 @@ const std::string &repair_item_actor::action_description( repair_item_actor::rep
     }};
 
     return arr[rt];
+}
+
+std::string repair_item_actor::get_name() const
+{
+    const std::string mats = enumerate_as_string( materials.begin(), materials.end(),
+    []( const material_id &mid ) {
+        return mid->name();
+    } );
+    return string_format( _( "Repair %s" ), mats.c_str() );
 }
 
 void heal_actor::load( JsonObject &obj )

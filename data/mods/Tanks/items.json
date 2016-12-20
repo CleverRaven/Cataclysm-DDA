@@ -1,27 +1,41 @@
 [
   {
+    "abstract": "artillery_casing",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "a large artillery casing",
+    "name_plural": "large artillery casings",
+    "stackable": true,
+    "material": "steel",
+    "symbol": "=",
+    "color": "green",
+    "damage_states": [ 0, 0 ]
+  },
+  {
     "id": "belt30mm",
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
-    "name": "30 belt",
-    "description": "An ammo belt consisting of metal linkages which disintegrate upon firing.  This one holds 30mm autocannon ammo, and is too bulky to be worn like other ammo belts.",
+    "name": "30x113mm ammo belt",
     "ammo_type": "30mm",
     "default_ammo": "30mm_hedp",
-    "capacity": 150,
+    "capacity": 300,
     "count": 50,
     "linkage": "ammolink30mm"
-  },{
+  },
+  {
     "id": "ammolink30mm",
     "copy-from": "ammolink",
     "type": "GENERIC",
-    "name": "30mm autocannon belt linkage",
+    "name": "30x113mm autocannon belt linkage",
     "weight": 6,
     "volume": "10ml",
+    "stackable": true,
     "use_action": {
       "type": "ammobelt",
       "belt": "belt30mm"
     }
-  },{
+  },
+  {
   "type" : "AMMO",
   "id" : "30mm_hedp",
   "price" : 15500,
@@ -30,7 +44,7 @@
   "symbol" : "=",
   "color" : "dark_gray",
   "description" : "A 30x113mm autocannon round using a high-explosive, dual-purpose shell.  Used primarily against light armored vehicles.",
-  "material" : ["steel", "powder"],
+  "material" : ["brass", "powder"],
   "volume" : 5,
   "weight" : 220,
   "bashing" : 1,
@@ -43,7 +57,8 @@
   "recoil" : 8000,
   "count" : 15,
   "effects" : ["COOKOFF", "FRAG"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "30mm_hei",
   "price" : 15500,
@@ -52,7 +67,7 @@
   "symbol" : "=",
   "color" : "dark_gray",
   "description" : "A 30x113mm autocannon round, high explosive incendiary.  Designed for use against unarmored vehicles and to suppress infantry.",
-  "material" : ["steel", "powder"],
+  "material" : ["brass", "powder"],
   "volume" : 5,
   "weight" : 220,
   "bashing" : 1,
@@ -65,7 +80,8 @@
   "recoil" : 8000,
   "count" : 15,
   "effects" : ["COOKOFF", "NAPALM", "EXPLOSIVE_SMALL"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "30mm_slug",
   "price" : 1550,
@@ -87,7 +103,8 @@
   "recoil" : 8000,
   "count" : 10,
   "effects" : ["COOKOFF", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "120mm_usable_heat",
   "price" : 100000,
@@ -108,7 +125,8 @@
   "recoil" : 6000,
   "count" : 1,
   "effects" : ["COOKOFF", "EXPLOSIVE", "TRAIL"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "120mm_usable_ap",
   "price" : 120000,
@@ -129,7 +147,8 @@
   "recoil" : 5000,
   "count" : 1,
   "effects" : ["COOKOFF", "INCENDIARY", "TRAIL"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "120mm_usable_shot",
   "price" : 10000,
@@ -150,7 +169,8 @@
   "recoil" : 7500,
   "count" : 1,
   "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "120mm_usable_slug",
   "price" : 10000,
@@ -171,7 +191,8 @@
   "recoil" : 7500,
   "count" : 1,
   "effects" : ["COOKOFF", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "155mm_heat",
   "price" : 120000,
@@ -192,7 +213,8 @@
   "recoil" : 6000,
   "count" : 1,
   "effects" : ["COOKOFF", "EXPLOSIVE_BIG", "TRAIL"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "155mm_shot",
   "price" : 12000,
@@ -213,7 +235,8 @@
   "recoil" : 6800,
   "count" : 1,
   "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "155mm_slug",
   "price" : 12000,
@@ -234,7 +257,8 @@
   "recoil" : 8000,
   "count" : 1,
   "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "atgm_heat",
   "price" : 70000,
@@ -254,61 +278,37 @@
   "recoil" : 6000,
   "count" : 1,
   "effects" : ["COOKOFF", "EXPLOSIVE", "NEVER_MISFIRES"]
-},{
-  "type" : "AMMO",
+  },
+  {
+  "type" : "GENERIC",
   "id" : "30mm_casing",
-  "category" : "spare_parts",
-  "price" : 4000,
+  "copy-from": "artillery_casing",
   "name" : "30mm canister",
-  "symbol" : "=",
-  "color" : "dark_gray",
   "description" : "A canister from a spent 30mm shell.",
-  "material" : "steel",
   "volume" : 5,
-  "weight" : 20,
-  "bashing" : 1,
-  "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
-  "count" : 50
-},{
-  "type" : "AMMO",
+  "weight" : 20
+  },
+  {
+  "type" : "GENERIC",
   "id" : "120mm_casing",
-  "category" : "spare_parts",
-  "price" : 4000,
+  "copy-from": "artillery_casing",
   "name" : "120mm canister",
-  "symbol" : "=",
   "color" : "dark_gray",
   "description" : "A large canister from a spent 120mm shell, now an expensive paperweight.",
   "material" : "steel",
   "volume" : 10,
-  "weight" : 300,
-  "bashing" : 1,
-  "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
-  "count" : 5
-},{
-  "type" : "AMMO",
+  "weight" : 300
+  },
+  {
+  "type" : "GENERIC",
   "id" : "155mm_casing",
-  "category" : "spare_parts",
-  "price" : 5000,
+  "copy-from" : "artillery_casing",
   "name" : "155mm canister",
-  "symbol" : "=",
-  "color" : "dark_gray",
   "description" : "A large canister from a spent 155mm shell, now an expensive paperweight.",
-  "material" : "steel",
   "volume" : 15,
-  "weight" : 400,
-  "bashing" : 1,
-  "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
-  "count" : 5
-},{
+  "weight" : 400
+  },
+  {
   "type" : "AMMO",
   "id" : "electric_primer",
   "category" : "spare_parts",
@@ -320,14 +320,11 @@
   "material" : ["steel", "powder"],
   "volume" : 1,
   "weight" : 5,
-  "bashing" : 1,
   "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
   "count" : 10,
   "effects" : ["COOKOFF"]
-},{
+  },
+  {
   "type" : "AMMO",
   "id" : "electric_primer_large",
   "category" : "spare_parts",
@@ -339,14 +336,11 @@
   "material" : ["steel", "powder"],
   "volume" : 1,
   "weight" : 5,
-  "bashing" : 1,
   "ammo_type" : "components",
-  "damage" : 0,
-  "range" : 0,
-  "dispersion" : 0,
   "count" : 5,
   "effects" : ["COOKOFF"]
-},{
+  },
+  {
   "id": "30mm_autocannon",
   "type": "GUN",
   "symbol": "(",
@@ -362,7 +356,6 @@
   "volume": 30,
   "bashing": 12,
   "to_hit": -1,
-  "ranged_damage": 0,
   "dispersion": 0,
   "sight_dispersion": 75,
   "durability": 8,
@@ -372,7 +365,8 @@
   "magazines": [
       [ "30mm", [ "belt30mm" ] ]
   ]
-},{
+  },
+  {
   "id": "tank_gun_manual",
   "type": "GUN",
   "symbol": "(",
@@ -395,7 +389,8 @@
   "clip_size": 1,
   "reload": 100,
   "loudness" : 300
-},{
+  },
+  {
   "id": "tank_gun_auto",
   "type": "GUN",
   "symbol": "(",
@@ -418,7 +413,8 @@
   "reload": 100,
   "loudness" : 300,
   "flags" : [ "NO_RELOAD" ]
-},{
+  },
+  {
   "id": "tank_gun_rws",
   "type": "GUN",
   "symbol": "(",
@@ -441,7 +437,8 @@
   "reload": 100,
   "loudness" : 300,
   "flags": [ "NO_RELOAD" ]
-},{
+  },
+  {
   "id": "howitzer_gun",
   "type": "GUN",
   "symbol": "(",
@@ -464,7 +461,8 @@
   "clip_size": 1,
   "reload": 100,
   "loudness" : 400
-},{
+  },
+  {
   "id": "atgm_launcher",
   "type": "GUN",
   "symbol": "(",
@@ -487,7 +485,8 @@
   "clip_size": 1,
   "reload": 100,
   "loudness" : 200
-},{
+  },
+  {
   "id": "atgm_turret",
   "type": "GUN",
   "symbol": "(",
@@ -509,7 +508,8 @@
   "reload": 100,
   "loudness" : 200,
   "flags": [ "NO_RELOAD" ]
-},{
+  },
+  {
   "type" : "BOOK",
   "id" : "textbook_launcher",
   "name" : "Artillery and Field Gunnery",
