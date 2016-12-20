@@ -965,10 +965,15 @@ size_t inventory_selector::get_header_min_width() const
 {
     const size_t titles_width = std::max( utf8_width( title, true ),
                                           utf8_width( hint, true ) );
+    if( !display_stats ) {
+        return titles_width;
+    }
+
     size_t stats_width = 0;
     for( const std::string &elem : get_stats() ) {
         stats_width = std::max( size_t( utf8_width( elem, true ) ), stats_width );
     }
+
     return titles_width + stats_width + ( stats_width != 0 ? 3 : 0 );
 }
 
