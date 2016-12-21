@@ -72,6 +72,22 @@ bool visitable<T>::has_item_with( const std::function<bool( const item & )> &fil
     } ) == VisitResponse::ABORT;
 }
 
+/** Sums the two terms, being careful to not trigger overflow.
+ * Doesn't handle underflow.
+ *
+ * @param a The first addend.
+ * @param b The second addend.
+ * @return the sum of the addends, but truncated to std::numeric_limits<int>::max().
+ */
+template <typename T>
+static T sum_no_wrap( T a, T b ) {
+    if( a > std::numeric_limits<T>::max() - b ||
+        b > std::numeric_limits<T>::max() - a ) {
+        return std::numeric_limits<T>::max();
+    }
+    return a + b;
+}
+
 template <typename T>
 static int has_quality_internal( const T& self, const quality_id &qual, int level, int limit )
 {
@@ -79,7 +95,7 @@ static int has_quality_internal( const T& self, const quality_id &qual, int leve
 
     self.visit_items( [&qual, level, &limit, &qty]( const item *e ) {
         if( e->get_quality( qual ) >= level ) {
-            qty += e->count_by_charges() ? e->charges : 1;
+            qty = sum_no_wrap( qty, e->count_by_charges() ? int( e->charges ) : 1 );
             if( qty >= limit ) {
                 return VisitResponse::ABORT; // found sufficient items
             }
@@ -103,9 +119,7 @@ static int has_quality_from_vpart( const vehicle& veh, int part, const quality_i
 
             // does the part provide this quality?
             if( iter != tq.end() && iter->second >= level ) {
-                if( ++qty >= limit ) {
-                    break;
-                }
+                qty = sum_no_wrap( qty, 1 );
             }
         }
     }
@@ -121,7 +135,7 @@ bool visitable<T>::has_quality( const quality_id &qual, int level, int qty ) con
 template <>
 bool visitable<inventory>::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    long res = 0;
+    int res = 0;
     for( const auto &stack : static_cast<const inventory *>( this )->items ) {
         res += stack.size() * has_quality_internal( stack.front(), qual, level, qty );
         if( res >= qty ) {
@@ -697,13 +711,14 @@ static long charges_of_internal( const T& self, const itype_id& id, long limit )
     self.visit_items( [&]( const item *e ) {
         if( e->is_tool() ) {
             if( e->typeId() == id ) {
-                qty += e->ammo_remaining(); // includes charges from any contained magazine
+                // includes charges from any included magazine.
+                qty = sum_no_wrap( qty, e->ammo_remaining() );
             }
             return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
 
         } else if( e->count_by_charges() ) {
             if( e->typeId() == id ) {
-                qty += e->charges;
+                qty = sum_no_wrap( qty, e->charges );
             }
             // items counted by charges are not themselves expected to be containers
             return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
@@ -733,7 +748,7 @@ long visitable<inventory>::charges_of( const std::string &what, long limit ) con
 
     long res = 0;
     for( const item *it : iter->second ) {
-        res += charges_of_internal( *it, what, limit );
+        res = sum_no_wrap( res, charges_of_internal( *it, what, limit ) );
         if( res >= limit ) {
             break;
         }
@@ -758,12 +773,12 @@ long visitable<Character>::charges_of( const std::string &what, long limit ) con
 
     if( what == "UPS" ) {
         long qty = 0;
-        qty += charges_of( "UPS_off" );
-        qty += charges_of( "adv_UPS_off" ) / 0.6;
+        qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
+        qty = sum_no_wrap( qty, long( charges_of( "adv_UPS_off" ) / 0.6 ) );
         if ( p && p->has_active_bionic( "bio_ups" ) ) {
-            qty += p->power_level;
+            qty = sum_no_wrap( qty, long( p->power_level ) );
         }
-        return std::min( qty, long( limit ) );
+        return std::min( qty, limit );
     }
 
     return charges_of_internal( *this, what, limit );
@@ -774,7 +789,9 @@ static int amount_of_internal( const T& self, const itype_id& id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit] ( const item *e ) {
-        qty += ( e->typeId() == id && e->allow_crafting_component() && ( pseudo || !e->has_flag( "PSEUDO" ) ) );
+        if( e->typeId() == id && e->allow_crafting_component() && ( pseudo || !e->has_flag( "PSEUDO" ) ) ) {
+            qty = sum_no_wrap( qty, 1 );
+        }
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
     return qty;
@@ -795,9 +812,9 @@ int visitable<inventory>::amount_of( const std::string& what, bool pseudo, int l
         return 0;
     }
 
-    long res = 0;
+    int res = 0;
     for( const item *it : iter->second ) {
-        res += it->amount_of( what, pseudo, limit );
+        res = sum_no_wrap( res, it->amount_of( what, pseudo, limit ) );
     }
 
     return std::min<long>( limit, res );
@@ -815,7 +832,9 @@ int visitable<Character>::amount_of( const std::string& what, bool pseudo, int l
     if( what == "apparatus" && pseudo ) {
         int qty = 0;
         visit_items( [&qty, &limit] ( const item *e ) {
-            qty += e->get_quality( quality_id( "SMOKE_PIPE" ) ) >= 1;
+            if( e->get_quality( quality_id( "SMOKE_PIPE" ) ) >= 1 ) {
+                qty = sum_no_wrap( qty, 1 );
+            }
             return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
         } );
         return std::min( qty, limit );
