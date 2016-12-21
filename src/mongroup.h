@@ -38,7 +38,7 @@ struct MonsterGroupEntry {
     }
 
     MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost,
-                       int new_pack_max, int new_pack_min, int new_starts,
+                       int new_pack_min, int new_pack_max, int new_starts,
                        int new_ends )
         : name( id )
         , frequency( new_freq )

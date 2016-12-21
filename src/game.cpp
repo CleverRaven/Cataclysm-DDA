@@ -2436,7 +2436,7 @@ vehicle *game::remoteveh()
         tripoint vp;
         remote_veh_string >> vp.x >> vp.y >> vp.z;
         vehicle *veh = m.veh_at( vp );
-        if( veh && veh->fuel_left( "battery", true ) > 0 ) {
+        if( veh && veh->fuel_left( "battery", true, true ) > 0 ) {
             remoteveh_cache = veh;
         } else {
             remoteveh_cache = nullptr;
@@ -9162,24 +9162,9 @@ int game::list_items(const int iLastState)
     WINDOW *w_item_info = newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_item_infoptr( w_item_info );
 
-    //Area to search +- of players position.
-    ///\EFFECT_PER increases range of interacting with items on the ground from a list
-    const int iRadius = 12 + (u.per_cur * 2);
-
-    bool sort_radius;
-    bool addcategory;
-
     // use previously selected sorting method
-    if (uistate.list_item_sort == 1) {
-        sort_radius = true;
-        addcategory = false;
-    } else if (uistate.list_item_sort == 2) {
-        sort_radius = false;
-        addcategory = true;
-    } else { // default state after start
-        sort_radius = true;
-        addcategory = false;
-    }
+    bool sort_radius = uistate.list_item_sort != 2;
+    bool addcategory = !sort_radius;
 
     // reload filter/priority settings on the first invocation, if they were active
     if (!uistate.list_item_init) {
@@ -9196,12 +9181,15 @@ int game::list_items(const int iLastState)
     }
 
     //this stores the items found, along with the coordinates
-    std::vector<map_item_stack> ground_items_radius = find_nearby_items(iRadius);
+    ///\EFFECT_PER increases range of interacting with items on the ground from a list
+    const std::vector<map_item_stack> ground_items_radius = find_nearby_items( 2 * u.per_cur + 12 );
+    if( iLastState != 1 && ground_items_radius.empty() ) {
+        return 0;
+    }
     std::vector<map_item_stack> ground_items = ground_items_radius;
     //this stores only those items that match our filter
-    std::vector<map_item_stack> filtered_items = (sFilter != "" ?
-            filter_item_stacks(ground_items, sFilter) :
-            ground_items);
+    std::vector<map_item_stack> filtered_items =
+        !sFilter.empty() ? filter_item_stacks( ground_items, sFilter ) : ground_items;
     int highPEnd = list_filter_high_priority(filtered_items, list_item_upvote);
     int lowPStart = list_filter_low_priority(filtered_items, highPEnd, list_item_downvote);
     int iItemNum = ground_items.size();
@@ -9249,331 +9237,267 @@ int game::list_items(const int iLastState)
     ctxt.register_action("TRAVEL_TO");
 
     do {
-        if (!ground_items.empty() || iLastState == 1) {
-            if (action == "COMPARE") {
-                game_menus::inv::compare( u, active_pos );
-                reset = true;
-                refresh_all();
-            } else if (action == "FILTER") {
-                draw_item_filter_rules(w_item_info, iInfoHeight);
-                sFilter = string_input_popup(_("Filter:"), 55, sFilter,
-                                _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "item_filter", 256);
-                reset = true;
-                refilter = true;
-                addcategory = !sort_radius;
-                if ( sFilter != "" ) {
-                    uistate.list_item_filter_active = true;
-                } else {
-                    uistate.list_item_filter_active = false;
-                }
-            } else if (action == "RESET_FILTER") {
-                sFilter = "";
-                filtered_items = ground_items;
-                iLastActive = tripoint_min;
-                reset = true;
-                refilter = true;
-                uistate.list_item_filter_active = false;
-                addcategory = !sort_radius;
-            } else if (action == "EXAMINE" && filtered_items.size()) {
-                std::vector<iteminfo> vThisItem, vDummy;
-
-                activeItem->example->info(true, vThisItem);
-                int iDummySelect = 0;
-                draw_item_info(0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
-                               activeItem->example->tname(), activeItem->example->type_name(), vThisItem, vDummy, iDummySelect,
-                               false, false, true);
-                // wait until the user presses a key to wipe the screen
-
-                iLastActive = tripoint_min;
-                reset = true;
-            } else if (action == "PRIORITY_INCREASE") {
-                std::string temp = ask_item_priority_high(w_item_info, iInfoHeight);
-                list_item_upvote = temp;
-                refilter = true;
-                reset = true;
-                addcategory = !sort_radius;
-                if ( list_item_upvote != "" ) {
-                    uistate.list_item_priority_active = true;
-                } else {
-                    uistate.list_item_priority_active = false;
-                }
-            } else if (action == "PRIORITY_DECREASE") {
-                std::string temp = ask_item_priority_low(w_item_info, iInfoHeight);
-                list_item_downvote = temp;
-                refilter = true;
-                reset = true;
-                addcategory = !sort_radius;
-                if ( list_item_downvote != "" ) {
-                    uistate.list_item_downvote_active = true;
-                } else {
-                    uistate.list_item_downvote_active = false;
-                }
-            } else if (action == "SORT") {
-                if ( sort_radius ) {
-                    sort_radius = false;
-                    addcategory = true;
-                    std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
-                    uistate.list_item_sort = 2; // list is sorted by category
-                } else {
-                    sort_radius = true;
-                    ground_items = ground_items_radius;
-                    uistate.list_item_sort = 1; // list is sorted by distance
-                }
-
-                highPEnd = -1;
-                lowPStart = -1;
-                iCatSortNum = 0;
-
-                mSortCategory.clear();
-                refilter = true;
-                reset = true;
-
-            } else if( action == "TRAVEL_TO" ) {
-                if( !u.sees( u.pos() + active_pos ) ) {
-                    add_msg(_("You can't see that destination."));
-                }
-                auto route = m.route( u.pos(), u.pos() + active_pos, u.get_pathfinding_settings(), u.get_path_avoid() );
-                if( route.size() > 1 ) {
-                    route.pop_back();
-                    u.set_destination( route );
-                    break;
-                } else {
-                    add_msg(m_info, _("You can't travel there."));
-                }
-            }
-
-            if ( uistate.list_item_sort == 1 ) {
-                ground_items = ground_items_radius;
-            } else if ( uistate.list_item_sort == 2 ) {
-                std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
-            }
-
-            if (refilter) {
-                refilter = false;
-
-                filtered_items = filter_item_stacks(ground_items, sFilter);
-                highPEnd = list_filter_high_priority(filtered_items, list_item_upvote);
-                lowPStart = list_filter_low_priority(filtered_items, highPEnd, list_item_downvote);
-                iActive = 0;
-                page_num = 0;
-                iLastActive = tripoint_min;
-                iItemNum = filtered_items.size();
-            }
-
-            if ( addcategory ) {
-                addcategory = false;
-                std::string sLastCategoryName = "";
-                iCatSortNum = 0;
-                mSortCategory.clear();
-
-                if ( highPEnd > 0 ) {
-                    mSortCategory[0] = _("HIGH PRIORITY");
-                    iCatSortNum++;
-                }
-
-                const int iStart = (highPEnd > 0) ? highPEnd : 0;
-                const int iEnd = (lowPStart < (int)filtered_items.size()) ? lowPStart : filtered_items.size() ;
-
-                for (int i=iStart; i < iEnd; i++) {
-                    if ( filtered_items[i].example->get_category().name != sLastCategoryName ) {
-                        sLastCategoryName = filtered_items[i].example->get_category().name;
-                        mSortCategory[i + iCatSortNum] = _(sLastCategoryName.c_str());
-
-                        iCatSortNum++;
-                    }
-                }
-
-                if ( lowPStart < (int)filtered_items.size() ) {
-                    mSortCategory[lowPStart + iCatSortNum] = _("LOW PRIORITY");
-                    iCatSortNum++;
-                }
-
-                if ( mSortCategory[0] != "" ) {
-                    iActive++;
-                }
-
-                iItemNum = filtered_items.size() + iCatSortNum;
-            }
-
-            if (reset) {
-                reset_item_list_state(w_items_border, iInfoHeight, sort_radius);
-                reset = false;
-                iScrollPos = 0;
-            }
-
-            if (action == "UP") {
-                do {
-                    iActive--;
-                } while(mSortCategory[iActive] != "");
-                iScrollPos = 0;
-                page_num = 0;
-                if (iActive < 0) {
-                    iActive = iItemNum - 1;
-                }
-            } else if (action == "DOWN") {
-                do {
-                    iActive++;
-                } while(mSortCategory[iActive] != "");
-                iScrollPos = 0;
-                page_num = 0;
-                if (iActive >= iItemNum) {
-                    iActive = (mSortCategory[0] != "") ? 1 : 0;
-                }
-            } else if (action == "RIGHT") {
-                page_num++;
-                if (!filtered_items.empty() && page_num >= (int)activeItem->vIG.size()) {
-                    page_num = activeItem->vIG.size() - 1;
-                }
-            } else if (action == "LEFT") {
-                page_num--;
-                if (page_num < 0) {
-                    page_num = 0;
-                }
-            } else if (action == "PAGE_UP") {
-                iScrollPos--;
-            } else if (action == "PAGE_DOWN") {
-                iScrollPos++;
-            } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
-                u.view_offset = stored_view_offset;
-                return 1;
-            }
-
-            if (ground_items.empty() && iLastState == 1) {
-                reset_item_list_state(w_items_border, iInfoHeight, sort_radius);
-                wrefresh(w_items_border);
-                mvwprintz(w_items, 10, 2, c_white, _("You don't see any items around you!"));
+        if( action == "COMPARE" ) {
+            game_menus::inv::compare( u, active_pos );
+            reset = true;
+            refresh_all();
+        } else if( action == "FILTER" ) {
+            draw_item_filter_rules( w_item_info, iInfoHeight );
+            sFilter = string_input_popup( _( "Filter:" ), 55, sFilter,
+                                          _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ),
+                                          "item_filter", 256 );
+            reset = true;
+            refilter = true;
+            addcategory = !sort_radius;
+            uistate.list_item_filter_active = !sFilter.empty();
+        } else if( action == "RESET_FILTER" ) {
+            sFilter.clear();
+            filtered_items = ground_items;
+            iLastActive = tripoint_min;
+            reset = true;
+            refilter = true;
+            uistate.list_item_filter_active = false;
+            addcategory = !sort_radius;
+        } else if( action == "EXAMINE" && !filtered_items.empty() ) {
+            std::vector<iteminfo> vThisItem, vDummy;
+            int dummy = 0; // draw_item_info needs an int &
+            activeItem->example->info( true, vThisItem );
+            draw_item_info( 0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
+                           activeItem->example->tname(), activeItem->example->type_name(), vThisItem, vDummy, dummy,
+                           false, false, true );
+            // wait until the user presses a key to wipe the screen
+            iLastActive = tripoint_min;
+            reset = true;
+        } else if( action == "PRIORITY_INCREASE" ) {
+            list_item_upvote = ask_item_priority_high( w_item_info, iInfoHeight );
+            refilter = true;
+            reset = true;
+            addcategory = !sort_radius;
+            uistate.list_item_priority_active = !list_item_upvote.empty();
+        } else if( action == "PRIORITY_DECREASE" ) {
+            list_item_downvote = ask_item_priority_low( w_item_info, iInfoHeight );
+            refilter = true;
+            reset = true;
+            addcategory = !sort_radius;
+            uistate.list_item_downvote_active = !list_item_downvote.empty();
+        } else if( action == "SORT" ) {
+            if( sort_radius ) {
+                sort_radius = false;
+                addcategory = true;
+                uistate.list_item_sort = 2; // list is sorted by category
             } else {
-                werase(w_items);
+                sort_radius = true;
+                uistate.list_item_sort = 1; // list is sorted by distance
+            }
+            highPEnd = -1;
+            lowPStart = -1;
+            iCatSortNum = 0;
 
-                calcStartPos(iStartPos, iActive, iMaxRows, iItemNum);
+            mSortCategory.clear();
+            refilter = true;
+            reset = true;
+        } else if( action == "TRAVEL_TO" ) {
+            if( !u.sees( u.pos() + active_pos ) ) {
+                add_msg( _( "You can't see that destination." ) );
+            }
+            auto route = m.route( u.pos(), u.pos() + active_pos, u.get_pathfinding_settings(), u.get_path_avoid() );
+            if( route.size() > 1 ) {
+                route.pop_back();
+                u.set_destination( route );
+                break;
+            } else {
+                add_msg(m_info, _("You can't travel there."));
+            }
+        }
+        if( uistate.list_item_sort == 1 ) {
+            ground_items = ground_items_radius;
+        } else if( uistate.list_item_sort == 2 ) {
+            std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
+        }
 
-                int iNum = 0;
-                active_pos = tripoint_zero;
-                std::stringstream sText;
-                bool high = true;
-                bool low = false;
-                int index = 0;
-                int iCatSortOffset = 0;
-                bool bKeepIter = false;
+        if( refilter ) {
+            refilter = false;
+            filtered_items = filter_item_stacks( ground_items, sFilter );
+            highPEnd = list_filter_high_priority( filtered_items, list_item_upvote );
+            lowPStart = list_filter_low_priority( filtered_items, highPEnd, list_item_downvote );
+            iActive = 0;
+            page_num = 0;
+            iLastActive = tripoint_min;
+            iItemNum = filtered_items.size();
+        }
 
-                for (int i=0; i < iStartPos; i++) {
-                    if (mSortCategory[i] != "") {
-                        iNum++;
-                    }
+        if( addcategory ) {
+            addcategory = false;
+            iCatSortNum = 0;
+            mSortCategory.clear();
+            if( highPEnd > 0 ) {
+                mSortCategory[0] = _( "HIGH PRIORITY" );
+                iCatSortNum++;
+            }
+            std::string last_cat_name;
+            for( int i = std::max( 0, highPEnd ); i < std::min( lowPStart, ( int )filtered_items.size() ); i++ ) {
+                const std::string &cat_name = filtered_items[i].example->get_category().name;
+                if( cat_name != last_cat_name ) {
+                    mSortCategory[i + iCatSortNum++] = cat_name;
+                    last_cat_name = cat_name;
                 }
+            }
+            if( lowPStart < (int)filtered_items.size() ) {
+                mSortCategory[lowPStart + iCatSortNum++] = _( "LOW PRIORITY" );
+            }
+            if( !mSortCategory[0].empty() ) {
+                iActive++;
+            }
+            iItemNum = int( filtered_items.size() ) + iCatSortNum;
+        }
 
-                for (std::vector<map_item_stack>::iterator iter = filtered_items.begin();
-                     iter != filtered_items.end(); ++index) {
+        if( reset ) {
+            reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
+            reset = false;
+            iScrollPos = 0;
+        }
 
-                    if ( index < highPEnd + iCatSortOffset ) {
-                        high = true;
-                    } else if ( index >= lowPStart + iCatSortOffset ) {
-                        low = true;
-                    } else {
-                        high = false;
-                        low = false;
-                    }
+        if( action == "UP" ) {
+            do {
+                iActive--;
+            } while( !mSortCategory[iActive].empty() );
+            iScrollPos = 0;
+            page_num = 0;
+            if( iActive < 0 ) {
+                iActive = iItemNum - 1;
+            }
+        } else if( action == "DOWN" ) {
+            do {
+                iActive++;
+            } while( !mSortCategory[iActive].empty() );
+            iScrollPos = 0;
+            page_num = 0;
+            if( iActive >= iItemNum ) {
+                iActive = mSortCategory[0].empty() ? 0 : 1;
+            }
+        } else if( action == "RIGHT" ) {
+            if( ++page_num >= ( int )activeItem->vIG.size() && !filtered_items.empty() ) {
+                page_num = activeItem->vIG.size() - 1;
+            }
+        } else if( action == "LEFT" ) {
+            page_num = std::max( 0, page_num - 1 );
+        } else if( action == "PAGE_UP" ) {
+            iScrollPos--;
+        } else if( action == "PAGE_DOWN" ) {
+            iScrollPos++;
+        } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
+            u.view_offset = stored_view_offset;
+            return 1;
+        }
 
-                    if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows)) {
-                        int iThisPage = 0;
+        if( ground_items.empty() && iLastState == 1 ) {
+            reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
+            wrefresh( w_items_border );
+            mvwprintz( w_items, 10, 2, c_white, _( "You don't see any items around you!" ) );
+        } else {
+            werase( w_items );
+            calcStartPos( iStartPos, iActive, iMaxRows, iItemNum );
+            int iNum = 0;
+            active_pos = tripoint_zero;
+            bool high = true;
+            bool low = false;
+            int index = 0;
+            int iCatSortOffset = 0;
 
-                        if ( mSortCategory[iNum] != "" ) {
-                            iCatSortOffset++;
-                            bKeepIter = true;
-
-                            mvwprintz(w_items, iNum - iStartPos, 1, c_magenta, "%s", mSortCategory[iNum].c_str());
-
-                        } else {
-                            if (iNum == iActive) {
-                                iThisPage = page_num;
-
-                                active_pos = iter->vIG[iThisPage].pos;
-
-                                activeItem = &(*iter);
-                            }
-
-                            sText.str("");
-
-                            if (iter->vIG.size() > 1) {
-                                sText << "[" << iThisPage + 1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
-                            }
-
-                            sText << iter->example->tname();
-
-                            if (iter->vIG[iThisPage].count > 1) {
-                                sText << " [" << iter->vIG[iThisPage].count << "]";
-                            }
-
-                            trim_and_print(w_items, iNum - iStartPos, 1, width - 9,
-                                      ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : iter->example->color_in_inventory()))),
-                                      "%s", (sText.str()).c_str());
-                            int numw = iItemNum > 9 ? 2 : 1;
-                            mvwprintz(w_items, iNum - iStartPos, width - (6 + numw),
-                                      ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                                      numw, square_dist(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y),
-                                      direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y)).c_str()
-                                     );
-                        }
-                    }
-
-                    if ( bKeepIter ) {
-                        bKeepIter = false;
-                    } else {
-                        ++iter;
-                    }
-
+            for( int i=0; i < iStartPos; i++ ) {
+                if( !mSortCategory[i].empty() ) {
                     iNum++;
                 }
-
-                iNum = 0;
-                for (int i=0; i < iActive; i++) {
-                    if (mSortCategory[i] != "") {
-                        iNum++;
-                    }
-                }
-
-                mvwprintz(w_items_border, 0, (width - 9) / 2 + ((iItemNum > 9) ? 0 : 1),
-                          c_ltgreen, " %*d", ((iItemNum > 9) ? 2 : 1), (iItemNum > 0) ? iActive - iNum + 1 : 0);
-                wprintz(w_items_border, c_white, " / %*d ", ((iItemNum > 9) ? 2 : 1), iItemNum - iCatSortNum);
-
-                werase(w_item_info);
-
-                if ( iItemNum > 0 ) {
-                    std::vector<iteminfo> vThisItem, vDummy;
-                    activeItem->example->info(true, vThisItem);
-
-                    draw_item_info(w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true);
-
-                    //Only redraw trail/terrain if x/y position changed
-                    if( active_pos != iLastActive ) {
-                        iLastActive = active_pos;
-                        centerlistview( active_pos );
-                        draw_trail_to_square( active_pos, true );
-                    }
-                }
-
-                draw_scrollbar(w_items_border, iActive, iMaxRows, iItemNum, 1);
-                wrefresh(w_items_border);
             }
+            for( auto iter = filtered_items.begin(); iter != filtered_items.end(); ++index ) {
+                if( index < highPEnd + iCatSortOffset ) {
+                    high = true;
+                } else if( index >= lowPStart + iCatSortOffset ) {
+                    low = true;
+                } else {
+                    high = false;
+                    low = false;
+                }
 
-            bool bDrawLeft = (ground_items.empty() && iLastState == 1) || filtered_items.empty();
-            draw_custom_border(w_item_info, bDrawLeft, true, false, true,
-                               LINE_XOXO, LINE_XOXO, true, true);
+                if( iNum >= iStartPos && iNum < iStartPos + ( iMaxRows > iItemNum ? iItemNum : iMaxRows ) ) {
+                    int iThisPage = 0;
+                    if( !mSortCategory[iNum].empty() ) {
+                        iCatSortOffset++;
+                        mvwprintz( w_items, iNum - iStartPos, 1, c_magenta, "%s", mSortCategory[iNum].c_str() );
+                    } else {
+                        if( iNum == iActive ) {
+                            iThisPage = page_num;
+                            active_pos = iter->vIG[iThisPage].pos;
+                            activeItem = &( *iter );
+                        }
+                        std::stringstream sText;
+                        if( iter->vIG.size() > 1 ) {
+                            sText << "[" << iThisPage + 1 << "/" << iter->vIG.size() << "] (" << iter->totalcount << ") ";
+                        }
+                        sText << iter->example->tname();
+                        if( iter->vIG[iThisPage].count > 1 ) {
+                            sText << " [" << iter->vIG[iThisPage].count << "]";
+                        }
 
-            wrefresh(w_items);
-            wrefresh(w_item_info);
+                        nc_color col = c_ltgreen;
+                        if( iNum != iActive ) {
+                            if( high ) {
+                                col = c_yellow;
+                            } else if( low ) {
+                                col = c_red;
+                            } else {
+                                col = iter->example->color_in_inventory();
+                            }
+                        }
+                        trim_and_print( w_items, iNum - iStartPos, 1, width - 9, col, "%s", sText.str().c_str() );
+                        const int numw = iItemNum > 9 ? 2 : 1;
+                        const int x = iter->vIG[iThisPage].pos.x;
+                        const int y = iter->vIG[iThisPage].pos.y;
+                        mvwprintz( w_items, iNum - iStartPos, width - 6 - numw, iNum == iActive ? c_ltgreen : c_ltgray,
+                                   "%*d %s", numw, square_dist( 0, 0, x, y ),
+                                   direction_name_short( direction_from( 0, 0, x, y ) ).c_str() );
+                        ++iter;
+                    }
+                } else {
+                    ++iter;
+                }
+                iNum++;
+            }
+            iNum = 0;
+            for( int i=0; i < iActive; i++ ) {
+                if( !mSortCategory[i].empty() ) {
+                    iNum++;
+                }
+            }
+            mvwprintz( w_items_border, 0, ( width - 9 ) / 2 + ( iItemNum > 9 ? 0 : 1 ),
+                       c_ltgreen, " %*d", iItemNum > 9 ? 2 : 1, iItemNum > 0 ? iActive - iNum + 1 : 0 );
+            wprintz( w_items_border, c_white, " / %*d ", iItemNum > 9 ? 2 : 1, iItemNum - iCatSortNum );
+            werase(w_item_info);
 
-            refresh();
-
-            action = ctxt.handle_input();
-        } else {
-            iReturn = 0;
-            action = "QUIT";
+            if( iItemNum > 0 ) {
+                std::vector<iteminfo> vThisItem, vDummy;
+                activeItem->example->info( true, vThisItem );
+                draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
+                //Only redraw trail/terrain if x/y position changed
+                if( active_pos != iLastActive ) {
+                    iLastActive = active_pos;
+                    centerlistview( active_pos );
+                    draw_trail_to_square( active_pos, true );
+                }
+            }
+            draw_scrollbar( w_items_border, iActive, iMaxRows, iItemNum, 1 );
+            wrefresh( w_items_border );
         }
+
+        const bool bDrawLeft = ( ground_items.empty() && iLastState == 1 ) || filtered_items.empty();
+        draw_custom_border( w_item_info, bDrawLeft, true, false, true, LINE_XOXO, LINE_XOXO, true, true);
+        wrefresh(w_items);
+        wrefresh(w_item_info);
+        refresh();
+        action = ctxt.handle_input();
     } while (action != "QUIT");
 
     u.view_offset = stored_view_offset;
-
     return iReturn;
 }
 

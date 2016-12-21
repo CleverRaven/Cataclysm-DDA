@@ -544,7 +544,6 @@ void overmap_terrains::check_consistency()
     // @todo This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
     static const std::set<std::string> hardcoded_mapgen = {
         "anthill",
-        "apartments_mod_tower_1",
         "bunker",
         "cathedral_1",
         "cathedral_1_entrance",

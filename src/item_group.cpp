@@ -291,6 +291,15 @@ Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_c
     , sum_prob(0)
     , items()
 {
+    if( probability <= 0 || ( t != Type::G_DISTRIBUTION && probability > 100 ) ) {
+        debugmsg( "Probability %d out of range", probability );
+    }
+    if( ammo_chance < 0 || ammo_chance > 100 ) {
+        debugmsg( "Ammo chance %d is out of range.", ammo_chance );
+    }
+    if( magazine_chance < 0 || magazine_chance > 100 ) {
+        debugmsg( "Magazine chance %d is out of range.", magazine_chance );
+    }
 }
 
 Item_group::~Item_group()
