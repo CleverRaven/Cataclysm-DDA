@@ -424,7 +424,7 @@ bool write_to_file_exclusive( const std::string &path,
     }
 }
 
-std::istream &safe_getline( std::istream & ins, std::string & str )
+std::istream &safe_getline( std::istream &ins, std::string &str )
 {
     str.clear();
     std::istream::sentry se( ins, true );
@@ -446,7 +446,7 @@ std::istream &safe_getline( std::istream & ins, std::string & str )
                 }
                 return ins;
             default:
-                str += (char)c;
+                str += ( char )c;
         }
     }
 }
