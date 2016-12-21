@@ -34,6 +34,7 @@ enum mission_origin {
     ORIGIN_OPENER_NPC, // NPC comes up to you when the game starts
     ORIGIN_ANY_NPC,    // Any NPC
     ORIGIN_SECONDARY,  // Given at the end of another mission
+    ORIGIN_COMPUTER,   // Taken after reading investigation provoking entries in computer terminal
     NUM_ORIGIN
 };
 
@@ -139,6 +140,7 @@ struct mission_start {
     static void reveal_office_tower( mission *); // Find corporate accounts
     static void reveal_doctors_office ( mission *); // Find patient records
     static void reveal_cathedral   ( mission *); // Find relic
+    static void reveal_refugee_center ( mission *); // Find refugee center
 };
 
 struct mission_end { // These functions are run when a mission ends
