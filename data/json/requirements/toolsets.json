@@ -5,7 +5,7 @@
     "//": "Forming of bullets from raw materials",
     "tools": [
       [ [ "press", -1 ] ],
-      [ [ "fire", -1 ], [ "hotplate", 2 ] ]
+      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
     ]
   },
   {
