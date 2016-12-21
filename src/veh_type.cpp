@@ -85,6 +85,24 @@ static DynamicDataLoader::deferred_json deferred;
 template<>
 const vpart_id string_id<vpart_info>::NULL_ID( "null" );
 
+vpart_info vpart_info::make_null_vpart_info()
+{
+    vpart_info null_part;
+
+    null_part.id = NULL_ID;
+    null_part.name_ = "null part";
+    null_part.sym = '?';
+    null_part.color = def_c_red;
+    null_part.sym_broken = '?';
+    null_part.color_broken = def_c_red;
+    null_part.durability = 100;
+    null_part.item = "null";
+    null_part.difficulty = 0;
+    null_part.flags.insert( "NOINSTALL" );
+
+    return null_part;
+}
+
 template<>
 bool string_id<vpart_info>::is_valid() const
 {
