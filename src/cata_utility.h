@@ -224,4 +224,6 @@ class ofstream_wrapper_exclusive
 bool write_to_file_exclusive( const std::string &path,
                               const std::function<void( std::ostream & )> &writer,  const char *fail_message );
 
+std::istream &safe_getline( std::istream &ins, std::string &str );
+
 #endif // CAT_UTILITY_H
