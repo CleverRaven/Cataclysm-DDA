@@ -725,16 +725,27 @@ void monster::move()
                 }
             }
 
+            // A flag to allow non-stumbling critters to stumble when the most direct choice is bad.
+            bool bad_choice = false;
+
             const Creature *target = g->critter_at( candidate, is_hallucination() );
-            // When attacking an adjacent enemy, we're direct.
-            if( target != nullptr && attitude_to( *target ) == A_HOSTILE ) {
-                moved = true;
-                next_step = candidate;
-                break;
+            if( target != nullptr ) {
+                const Creature::Attitude att = attitude_to( *target );
+                if( att == A_HOSTILE ) {
+                    // When attacking an adjacent enemy, we're direct.
+                    moved = true;
+                    next_step = candidate;
+                    break;
+                } else if( att == A_FRIENDLY && ( target->is_player() || target->is_npc() ) ) {
+                    continue; // Friendly firing the player or an NPC is illegal for gameplay reasons
+                } else if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
+                    // Bail out if there's a non-hostile monster in the way and we're not pushy.
+                    continue;
+                }
+                // Friendly fire and pushing are always bad choices - they take a lot of time
+                bad_choice = true;
             }
 
-            // Allow non-stumbling critters to stumble when most direct choice is bad
-            bool bad_choice = false;
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash ) {
@@ -750,15 +761,7 @@ void monster::move()
                     bad_choice = true;
                 }
             }
-            // Bail out if there's a non-hostile monster in the way and we're not pushy.
-            if( target != nullptr && attitude_to( *target ) != A_HOSTILE ) {
-                if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
-                    continue;
-                }
 
-                // Friendly fire and pushing are always bad choices - they take a lot of time
-                bad_choice = true;
-            }
             const float progress = distance_to_target - trig_dist( candidate, destination );
             // The x2 makes the first (and most direct) path twice as likely,
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
