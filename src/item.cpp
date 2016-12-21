@@ -2244,64 +2244,62 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = label( quantity );
     }
 
-    std::string tagtext = "";
-    std::string modtext = "";
-    ret.str("");
-    if (is_food()) {
+    std::string modtext;
+    ret.str( "" );
+    if( is_food() ) {
         if( rotten() ) {
-            ret << _(" (rotten)");
-        } else if ( is_going_bad()) {
-            ret << _(" (old)");
+            ret << _( " (rotten)" );
+        } else if( is_going_bad() ) {
+            ret << _( " (old)" );
         } else if( is_fresh() ) {
-            ret << _(" (fresh)");
+            ret << _( " (fresh)" );
         }
 
-        if (has_flag("HOT")) {
-            ret << _(" (hot)");
-            }
-        if (has_flag("COLD")) {
-            ret << _(" (cold)");
-            }
+        if( has_flag( "HOT" ) ) {
+            ret << _( " (hot)" );
+        }
+        if( has_flag( "COLD" ) ) {
+            ret << _( " (cold)" );
+        }
     }
 
-    if (has_flag("FIT")) {
-        ret << _(" (fits)");
+    if( has_flag( "FIT" ) ) {
+        ret << _( " (fits)" );
     }
 
     if( is_filthy() ) {
-        ret << _(" (filthy)" );
+        ret << _( " (filthy)" );
     }
 
-    if (is_tool() && has_flag("USE_UPS")){
-        ret << _(" (UPS)");
+    if( is_tool() && has_flag( "USE_UPS" ) ){
+        ret << _( " (UPS)" );
     }
     if( has_flag( "RADIO_MOD" ) ) {
-        ret << _(" (radio:");
+        ret << _( " (radio:" );
         if( has_flag( "RADIOSIGNAL_1" ) ) {
-            ret << _("R)");
+            ret << pgettext( "The radio mod is associated with the [R]ed button.", "R)" );
         } else if( has_flag( "RADIOSIGNAL_2" ) ) {
-            ret << _("B)");
+            ret << pgettext( "The radio mod is associated with the [B]lue button.", "B)" );
         } else if( has_flag( "RADIOSIGNAL_3" ) ) {
-            ret << _("G)");
+            ret << pgettext( "The radio mod is associated with the [G]reen button.", "G)" );
         } else {
-            ret << _("Bug");
+            debugmsg( "Why is the radio neither red, blue, nor green?" );
+            ret << "?)";
         }
     }
 
     if( gunmod_find( "barrel_small" ) ) {
-        modtext += _( "sawn-off ");
+        modtext += _( "sawn-off " );
     }
-
     if( has_flag( "DIAMOND" ) ) {
         modtext += std::string( _( "diamond" ) ) + " ";
     }
-
-    if(has_flag("WET"))
-       ret << _(" (wet)");
-
-    if(has_flag("LITCIG"))
-        ret << _(" (lit)");
-
+    if( has_flag( "WET" ) ) {
+       ret << _( " (wet)" );
+    }
+    if( has_flag( "LITCIG" ) ) {
+        ret << _( " (lit)" );
+    }
     if( already_used_by_player( g->u ) ) {
         ret << _( " (used)" );
     }
@@ -2312,18 +2310,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _( " (active)" );
     }
 
-    tagtext = ret.str();
-
-    ret.str("");
+    const std::string tagtext = ret.str();
+    ret.str( "" );
 
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt"). %3$s: tool modifier text (eg. "atomic"). %4$s: vehicle part text (eg. "3.8-Liter"). $5$s: main item text (eg. "apple"). %6s: tags (eg. "(wet) (fits)").
-    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s"), damtext.c_str(), burntext.c_str(),
-                        modtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str());
+    ret << string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext.c_str(), burntext.c_str(),
+                          modtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str() );
 
-    static const std::string const_str_item_note("item_note");
-    if( item_vars.find(const_str_item_note) != item_vars.end() ) {
+    if( item_vars.find( "item_note" ) != item_vars.end() ) {
         //~ %s is an item name. This style is used to denote items with notes.
-        return string_format(_("*%s*"), ret.str().c_str());
+        return string_format( _( "*%s*" ), ret.str().c_str() );
     } else {
         return ret.str();
     }
