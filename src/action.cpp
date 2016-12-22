@@ -32,7 +32,7 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
                              std::string &keymap_file_loaded_from,
                              std::set<action_id> &unbound_keymap )
 {
-    const auto parser = [&]( std::istream & fin ) {
+    const std::function<void(std::istream&)> parser = [&]( std::istream & fin ) {
         parse_keymap( fin, keymap, unbound_keymap );
     };
     if( read_from_file_optional( FILENAMES["keymap"], parser ) ) {

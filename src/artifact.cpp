@@ -261,14 +261,14 @@ it_artifact_tool::it_artifact_tool() : itype()
     price = 0;
     tool->charges_per_use = 1;
     artifact->charge_type = ARTC_NULL;
-    use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
+    use_methods[ "ARTIFACT" ] = use_function( "ARTIFACT", &iuse::artifact );
 }
 
 it_artifact_tool::it_artifact_tool( JsonObject &jo ) : itype()
 {
     tool.reset( new islot_tool() );
     artifact.reset( new islot_artifact() );
-    use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
+    use_methods[ "ARTIFACT" ] = use_function( "ARTIFACT", &iuse::artifact );
     deserialize( jo );
 }
 
@@ -1079,7 +1079,7 @@ std::string artifact_name(std::string type)
 
 void load_artifacts(const std::string &artfilename)
 {
-    read_from_file_optional( artfilename, []( JsonIn &artifact_json ) {
+    read_from_file_optional( artfilename, std::function<void(JsonIn&)>( []( JsonIn &artifact_json ) {
         artifact_json.start_array();
         while (!artifact_json.end_array()) {
             JsonObject jo = artifact_json.get_object();
@@ -1092,7 +1092,7 @@ void load_artifacts(const std::string &artfilename)
                 jo.throw_error( "unrecognized artifact type.", "type" );
             }
         }
-    } );
+    } ) );
 }
 
 void it_artifact_tool::deserialize(JsonObject &jo)
