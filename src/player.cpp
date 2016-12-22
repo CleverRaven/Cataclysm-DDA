@@ -61,7 +61,7 @@
 #include <iterator>
 
 #ifdef TILES
-#include "SDL2/SDL.h"
+#include "SDL.h"
 #endif // TILES
 
 //Used for e^(x) functions

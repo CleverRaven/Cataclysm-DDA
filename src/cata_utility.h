@@ -13,7 +13,7 @@ class map_item_stack;
 struct tripoint;
 
 struct pair_greater_cmp {
-    bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b );
+    bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b ) const;
 };
 
 enum units_type {
@@ -186,13 +186,13 @@ class JsonDeserializer;
  */
 /**@{*/
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
-bool read_from_file( const std::string &path, const std::function<void( JsonIn & )> &reader );
+bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader );
 bool read_from_file( const std::string &path, JsonDeserializer &reader );
 
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader );
-bool read_from_file_optional( const std::string &path,
-                              const std::function<void( JsonIn & )> &reader );
+bool read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( JsonIn & )> &reader );
 bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
 /**@}*/
 /**

@@ -107,7 +107,7 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
 
 // Operator overload required by sort interface.
 bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
-                                   const std::pair<int, tripoint> &b )
+                                   const std::pair<int, tripoint> &b ) const
 {
     return a.first > b.first;
 }
@@ -470,7 +470,7 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
     }
 }
 
-bool read_from_file( const std::string &path, const std::function<void( JsonIn & )> &reader )
+bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader )
 {
     return read_from_file( path, [&reader]( std::istream & fin ) {
         JsonIn jsin( fin );
@@ -480,7 +480,7 @@ bool read_from_file( const std::string &path, const std::function<void( JsonIn &
 
 bool read_from_file( const std::string &path, JsonDeserializer &reader )
 {
-    return read_from_file( path, [&reader]( JsonIn & jsin ) {
+    return read_from_file_json( path, [&reader]( JsonIn & jsin ) {
         reader.deserialize( jsin );
     } );
 }
@@ -494,8 +494,8 @@ bool read_from_file_optional( const std::string &path,
     return file_exist( path ) && read_from_file( path, reader );
 }
 
-bool read_from_file_optional( const std::string &path,
-                              const std::function<void( JsonIn & )> &reader )
+bool read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( JsonIn & )> &reader )
 {
     return read_from_file_optional( path, [&reader]( std::istream & fin ) {
         JsonIn jsin( fin );
@@ -505,7 +505,7 @@ bool read_from_file_optional( const std::string &path,
 
 bool read_from_file_optional( const std::string &path, JsonDeserializer &reader )
 {
-    return read_from_file_optional( path, [&reader]( JsonIn & jsin ) {
+    return read_from_file_optional_json( path, [&reader]( JsonIn & jsin ) {
         reader.deserialize( jsin );
     } );
 }

@@ -73,7 +73,7 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
         } else {
             parts.set( get_body_part_token( val ) );
         }
-        sided += ( val == "ARM_EITHER" || val == "HAND_EITHER" ||
+        sided |= ( val == "ARM_EITHER" || val == "HAND_EITHER" ||
                    val == "LEG_EITHER" || val == "FOOT_EITHER" );
     };
 
