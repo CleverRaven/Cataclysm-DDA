@@ -424,6 +424,33 @@ bool write_to_file_exclusive( const std::string &path,
     }
 }
 
+std::istream &safe_getline( std::istream &ins, std::string &str )
+{
+    str.clear();
+    std::istream::sentry se( ins, true );
+    std::streambuf *sb = ins.rdbuf();
+
+    while( true ) {
+        int c = sb->sbumpc();
+        switch( c ) {
+            case '\n':
+                return ins;
+            case '\r':
+                if( sb->sgetc() == '\n' ) {
+                    sb->sbumpc();
+                }
+                return ins;
+            case EOF:
+                if( str.empty() ) {
+                    ins.setstate( std::ios::eofbit );
+                }
+                return ins;
+            default:
+                str += ( char )c;
+        }
+    }
+}
+
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
 {
     try {
