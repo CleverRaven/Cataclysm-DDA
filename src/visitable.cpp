@@ -717,13 +717,13 @@ static long charges_of_internal( const T& self, const itype_id& id, long limit )
 }
 
 template <typename T>
-long visitable<T>::charges_of( const std::string &what, int limit ) const
+long visitable<T>::charges_of( const std::string &what, long limit ) const
 {
     return charges_of_internal( *this, what, limit );
 }
 
 template <>
-long visitable<inventory>::charges_of( const std::string &what, int limit ) const
+long visitable<inventory>::charges_of( const std::string &what, long limit ) const
 {
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
     const auto iter = binned.find( what );
@@ -743,14 +743,14 @@ long visitable<inventory>::charges_of( const std::string &what, int limit ) cons
 }
 
 template <>
-long visitable<Character>::charges_of( const std::string &what, int limit ) const
+long visitable<Character>::charges_of( const std::string &what, long limit ) const
 {
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
 
     if( what == "toolset") {
         if( p && p->has_active_bionic( "bio_tools" ) ) {
-            return std::min( p->power_level, limit );
+            return std::min( (long)p->power_level, limit );
         } else {
             return 0;
         }

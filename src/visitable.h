@@ -73,7 +73,7 @@ class visitable
          * Count maximum available charges from this instance and any contained items
          * @param limit stop searching after this many charges have been found
          */
-        long charges_of( const std::string &what, int limit = INT_MAX ) const;
+        long charges_of( const std::string &what, long limit = INT_MAX ) const;
 
         /**
          * Count items matching id including both this instance and any contained items
