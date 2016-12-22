@@ -32,6 +32,8 @@ using vproto_id = string_id<vehicle_prototype>;
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);
 
+void clear_vehicle_null_part();
+
 //How far to scatter parts from a vehicle when the part is destroyed (+/-)
 constexpr int SCATTER_DISTANCE = 3;
 constexpr int k_mvel = 200; //adjust this to balance collision damage
@@ -285,6 +287,9 @@ private:
 public:
     /** Get part definition common to all parts of this type */
     const vpart_info &info() const;
+
+    /* Clear info cache */
+    void clear_info();
 
     // json saving/loading
     using JsonSerializer::serialize;
@@ -906,7 +911,7 @@ public:
     /**
      * Wheel friction coefficient of the vehicle.
      * Inversely proportional to (wheel area + constant).
-     * 
+     *
      * Affects @ref k_dynamics, which in turn affects velocity and acceleration.
      */
     float k_friction() const;
@@ -925,7 +930,7 @@ public:
     /**
      * Mass coefficient of the vehicle.
      * Roughly proportional to vehicle's mass divided by wheel area, times constant.
-     * 
+     *
      * Affects safe velocity (moderately), acceleration (heavily).
      * Also affects braking (including handbraking) and velocity drop during coasting.
      */
@@ -935,7 +940,7 @@ public:
      * Traction coefficient of the vehicle.
      * 1.0 on road. Outside roads, depends on mass divided by wheel area
      * and the surface beneath wheels.
-     * 
+     *
      * Affects safe velocity, acceleration and handling difficulty.
      */
     float k_traction( float wheel_traction_area ) const;
