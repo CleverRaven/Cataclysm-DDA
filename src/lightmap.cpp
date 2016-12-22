@@ -676,9 +676,9 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     float (&transparency_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = map_cache.transparency_cache;
     float (&seen_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = map_cache.seen_cache;
 
-    const float LightTransparencySolid = LIGHT_TRANSPARENCY_SOLID;
+    constexpr float light_transparency_solid = LIGHT_TRANSPARENCY_SOLID;
     std::uninitialized_fill_n(
-        &seen_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, LightTransparencySolid);
+        &seen_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, light_transparency_solid );
 
     if( !fov_3d ) {
         seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
