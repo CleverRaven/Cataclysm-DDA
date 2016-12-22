@@ -900,13 +900,10 @@
     "skill_used": "electronics",
     "difficulty": 6,
     "time": 120000,
+    "using": [ [ "welding_standard", 5 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [
-      [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
-      [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
     ],
     "components": [
       [ [ "power_supply", 4 ] ],
@@ -1009,8 +1006,8 @@
     "skill_used": "electronics",
     "difficulty": 3,
     "time": 180000,
+    "using": [ [ "welding_standard", 6 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "oxy_torch", 12 ], [ "welder", 60 ], [ "toolset", 90 ], [ "welder_crude", 90 ] ] ],
     "components": [
       [ [ "power_supply", 4 ] ],
       [ [ "motor", 1 ] ],
@@ -1023,13 +1020,10 @@
     "skill_used": "electronics",
     "difficulty": 6,
     "time": 120000,
+    "using": [ [ "welding_standard", 5 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [
-      [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
-      [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
     ],
     "components": [
       [ [ "power_supply", 4 ] ],
@@ -1061,14 +1055,11 @@
     "skill_used": "electronics",
     "difficulty": 8,
     "time": 600000,
+    "using": [ [ "welding_standard", 200 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [
-      [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ],
-      [ [ "oxy_torch", 40 ], [ "welder", 200 ], [ "toolset", 300 ], [ "welder_crude", 300 ] ]
     ],
     "components": [
       [ [ "flamethrower", 1 ] ],
@@ -1089,13 +1080,10 @@
     "skill_used": "electronics",
     "difficulty": 8,
     "time": 300000,
+    "using": [ [ "welding_standard", 100 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [
-      [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
-      [ [ "oxy_torch", 20 ], [ "welder", 100 ], [ "toolset", 150 ], [ "welder_crude", 150 ] ]
     ],
     "components": [
       [ [ "power_supply", 12 ] ],
@@ -1453,8 +1441,8 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": 750000,
+    "using": [ [ "welding_standard", 50 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "welder", 500 ], [ "toolset", 750 ] ] ],
     "components": [
       [ [ "steel_plate", 10 ] ],
       [ [ "steel_lump", 70 ] ]
@@ -1691,14 +1679,11 @@
     "skill_used": "mechanics",
     "difficulty": 4,
     "time": 30000,
+    "using": [ [ "welding_standard", 3 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [
-      [ [ "soldering_iron", 40 ], [ "toolset", 40 ] ],
-      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "toolset", 45 ], [ "welder_crude", 45 ] ]
     ],
     "components": [
       [ [ "amplifier", 2 ] ],
@@ -1713,14 +1698,11 @@
     "skill_used": "mechanics",
     "difficulty": 6,
     "time": 50000,
+    "using": [ [ "welding_standard", 5 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "SAW_M", "level": 1 }
-    ],
-    "tools": [
-      [ [ "soldering_iron", 50 ], [ "toolset", 50 ] ],
-      [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
     ],
     "components": [
       [ [ "power_supply", 2 ] ],
@@ -2137,8 +2119,8 @@
     "result": "seat",
     "type": "uncraft",
     "time": 5000,
+    "using": [ [ "welding_standard", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "oxy_torch", 12 ], [ "welder", 25 ], [ "welder_crude", 40 ], [ "toolset", 40 ] ] ],
     "components": [
       [ [ "pipe", 4 ] ],
       [ [ "spring", 2 ] ],
