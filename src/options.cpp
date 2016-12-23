@@ -938,7 +938,7 @@ void options_manager::init()
     optionNames["ru"] = R"(Русский)";
     optionNames["zh_CN"] = R"(中文(天朝))";
     optionNames["zh_TW"] = R"(中文(台灣))";
-    add("USE_LANG", "interface", _("Language"), _("Switch Language. Requires restart."),
+    add("USE_LANG", "interface", _("Language"), _("Switch Language."),
         ",en,fr,de,it_IT,es_AR,es_ES,ja,ko,pt_BR,pt_PT,ru,zh_CN,zh_TW",
         ""
         );
@@ -1870,7 +1870,7 @@ void options_manager::show(bool ingame)
         }
     }
     if( lang_changed ) {
-        set_language(false);
+        set_language();
     }
 
     refresh_tiles( used_tiles_changed, pixel_minimap_height_changed, ingame );
