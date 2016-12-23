@@ -77,12 +77,17 @@ enum vpart_bitflags : int {
  * Other flags are self-explanatory in their names. */
 class vpart_info
 {
-    public:
+    private:
         /** Unique identifier for this part */
         vpart_id id;
 
+    public:
         /** Translated name of a part */
         std::string name() const;
+
+        vpart_id get_id() const {
+            return id;
+        }
 
         /** base item for this part */
         itype_id item;
@@ -211,6 +216,8 @@ class vpart_info
             return bitflags.test( flag );
         }
         void set_flag( const std::string &flag );
+
+        static vpart_info make_null_vpart_info();
 
         static void load( JsonObject &jo, const std::string &src );
         static void finalize();

@@ -840,12 +840,12 @@ void construct::done_trunk_plank( const tripoint &p )
     }
 }
 
-const vpart_id &vpart_from_item( const std::string &item_id )
+vpart_id vpart_from_item( const std::string &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
         if( vp.item == item_id && vp.has_flag( "INITIAL_PART" ) ) {
-            return vp.id;
+            return vp.get_id();
         }
     }
     // The INITIAL_PART flag is optional, if no part (based on the given item) has it, just use the
@@ -854,7 +854,7 @@ const vpart_id &vpart_from_item( const std::string &item_id )
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
         if( vp.item == item_id ) {
-            return vp.id;
+            return vp.get_id();
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
