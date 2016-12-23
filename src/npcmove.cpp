@@ -55,6 +55,7 @@ enum npc_action : int {
     npc_base_idle,
     npc_noop,
     npc_reach_attack, npc_aim,
+    npc_investigate,
     num_npc_actions
 };
 
@@ -338,12 +339,16 @@ void npc::move()
             // No items, so follow the player?
             action = npc_follow_player;
         }
+    }
 
-        if( action == npc_undecided ) {
-            // Do our long-term action
-            action = long_term_goal_action();
-            print_action( "long_term_goal_action %s", action );
-        }
+    if( action == npc_undecided ) {
+        action = investigate();
+    }
+
+    if( action == npc_undecided ) {
+        // Do our long-term action
+        action = long_term_goal_action();
+        print_action( "long_term_goal_action %s", action );
     }
 
     /* Sometimes we'll be following the player at this point, but close enough that
@@ -684,6 +689,10 @@ void npc::execute_action( npc_action action )
 
     case npc_goto_destination:
         go_to_destination();
+        break;
+
+    case npc_investigate:
+        go_investigate();
         break;
 
     case npc_avoid_friendly_fire:
@@ -1189,6 +1198,15 @@ npc_action npc::address_player()
             return npc_pause;
         }
     }
+    return npc_undecided;
+}
+
+npc_action npc::investigate()
+{
+    if( has_investigation_interest() ) {
+        return npc_investigate;
+    }
+
     return npc_undecided;
 }
 
@@ -2823,6 +2841,11 @@ bool npc::saw_player_recently() const
              last_seen_player_turn > 0 );
 }
 
+bool npc::has_investigation_interest() const
+{
+    return investigation_target != no_goal_point && investigation_time > 0;
+}
+
 bool npc::has_destination() const
 {
     return goal != no_goal_point;
@@ -2929,6 +2952,26 @@ void npc::set_destination()
 
     goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
     add_msg( m_debug, "New goal: %s at %d,%d,%d", dest_type.c_str(), goal.x, goal.y, goal.z );
+}
+
+void npc::go_investigate()
+{
+    if( !has_investigation_interest() ) {
+        add_msg( m_debug, "called npc::go_investigate with no target" );
+        move_pause();
+        return;
+    }
+
+    investigation_time -= 1;
+    update_path( investigation_target );
+    if( path.size() > 1 ) {
+        move_to_next();
+    } else {
+        investigation_time = 0;
+        investigation_target = no_goal_point;
+        // Pause one turn (several seconds) to allow NPC to investigate location
+        move_pause();
+    }
 }
 
 void npc::go_to_destination()
@@ -3044,6 +3087,8 @@ std::string npc_action_name(npc_action action)
         return _("Talk to player");
     case npc_mug_player:
         return _("Mug player");
+    case npc_investigate:
+        return _("Investigate location");
     case npc_goto_destination:
         return _("Go to destination");
     case npc_avoid_friendly_fire:

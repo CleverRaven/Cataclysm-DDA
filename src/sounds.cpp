@@ -68,6 +68,8 @@ struct centroid {
 // Static globals tracking sounds events of various kinds.
 // The sound events since the last monster turn.
 static std::vector<std::pair<tripoint, int>> recent_sounds;
+// The verbal sound events since the last monster turn.
+static std::vector<std::tuple<tripoint, int, verbal_shout_id>> recent_verbal_sounds;
 // The sound events since the last interactive player turn. (doesn't count sleep etc)
 static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
@@ -78,7 +80,7 @@ void sounds::ambient_sound( const tripoint &p, int vol, std::string description 
     sound( p, vol, description, true );
 }
 
-void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient, const std::string& id, const std::string& variant )
+void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient, const std::string& id, const std::string& variant, verbal_shout_id verbal_shout_id )
 {
     if( vol < 0 ) {
         // Bail out if no volume.
@@ -88,12 +90,30 @@ void sounds::sound( const tripoint &p, int vol, std::string description, bool am
     recent_sounds.emplace_back( std::make_pair( p, vol ) );
     sounds_since_last_turn.emplace_back(
         std::make_pair( p, sound_event {vol, description, ambient, false, id, variant} ) );
+    if( verbal_shout_id != VERBAL_SHOUT_NONE ) {
+        recent_verbal_sounds.emplace_back( p, vol, verbal_shout_id );
+    }
 }
 
 void sounds::add_footstep( const tripoint &p, int volume, int, monster * )
 {
     sounds_since_last_turn.emplace_back(
         std::make_pair( p, sound_event {volume, "", false, true, "", ""} ) );
+}
+
+const char * sounds::sound_event_id( verbal_shout_id verbal_shout_id ) {
+    switch( verbal_shout_id ) {
+        case VERBAL_SHOUT_NONE:
+            return "";
+        case VERBAL_SHOUT_CALL:
+            return "VERBAL_SHOUT_CALL";
+        case NUM_VERBAL_SHOUT:
+            debugmsg("Invalid verbal_shout_id");
+            return "";
+    }
+
+    debugmsg("Invalid verbal_shout_id");
+    return "";
 }
 
 template <typename C>
@@ -187,7 +207,7 @@ int get_signal_for_hordes( const centroid &centr )
 
 void sounds::process_sounds()
 {
-    std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
+    const std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
     const int weather_vol = weather_data( g->weather ).sound_attn;
     for( const auto &this_centroid : sound_clusters ) {
         // Since monsters don't go deaf ATM we can just use the weather modified volume
@@ -216,6 +236,14 @@ void sounds::process_sounds()
         }
     }
     recent_sounds.clear();
+
+    for( const auto &sound : recent_verbal_sounds ) {
+        for( auto &npc : g->active_npc ) {
+            const int volume = std::get<1>(sound) - weather_vol;
+            npc->hear_sound( std::get<0>(sound), volume, std::get<2>(sound) );
+        }
+    }
+    recent_verbal_sounds.clear();
 }
 
 void sounds::process_sound_markers( player *p )
@@ -366,6 +394,7 @@ void sounds::process_sound_markers( player *p )
 void sounds::reset_sounds()
 {
     recent_sounds.clear();
+    recent_verbal_sounds.clear();
     sounds_since_last_turn.clear();
     sound_markers.clear();
 }

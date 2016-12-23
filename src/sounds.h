@@ -12,6 +12,12 @@ class player;
 class Creature;
 class item;
 
+enum verbal_shout_id : int {
+    VERBAL_SHOUT_NONE,
+    VERBAL_SHOUT_CALL,
+    NUM_VERBAL_SHOUT
+};
+
 namespace sounds
 {
 // Methods for recording sound events.
@@ -26,11 +32,13 @@ namespace sounds
  * @returns true if the player could hear the sound.
  */
 void sound( const tripoint &p, int vol, std::string description, bool ambient = false,
-            const std::string &id = "", const std::string &variant = "default" );
+            const std::string &id = "", const std::string &variant = "default",
+            verbal_shout_id verbal_shout_id = VERBAL_SHOUT_NONE );
 /** Functions identical to sound(..., true). */
 void ambient_sound( const tripoint &p, int vol, std::string description );
 /** Creates a list of coordinates at which to draw footsteps. */
 void add_footstep( const tripoint &p, int volume, int distance, monster *source );
+const char *sound_event_id( verbal_shout_id verbal_shout_id );
 
 /* Make sure the sounds are all reset when we start a new game. */
 void reset_sounds();

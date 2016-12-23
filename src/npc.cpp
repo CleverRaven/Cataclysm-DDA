@@ -76,6 +76,8 @@ npc::npc()
     wanted_item_pos = no_goal_point;
     guard_pos = no_goal_point;
     goal = no_goal_point;
+    investigation_target = no_goal_point;
+    investigation_time = 0;
     fetching_item = false;
     has_new_items = true;
     worst_item_value = 0;
@@ -1305,6 +1307,47 @@ void npc::say( const std::string line, ... ) const
     } else {
         add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name.c_str() );
         sounds::sound(pos(), 16, "");
+    }
+}
+
+void npc::hear_sound( const tripoint &source, float volume, verbal_shout_id verbal_shout_id )
+{
+    if( is_deaf() ) {
+        return;
+    }
+
+    // Estimating loudness falloff linearly with distance as done elsewhere.
+    const int dist = rl_dist( source, pos() );
+    volume -= dist;
+    // TODO: Could factor in weather, terrain, temperature, ambient sound, etc
+    // TODO: More severe attenuation shenanigans for diff underground z axis?
+    volume *= hearing_ability();
+
+    // 2 is the quietest perceptible sound
+    if( volume < 2 ) {
+        return;
+    }
+
+    // Sound localization error: proportional to distance, and inversely proportional
+    // to loudness. Clamp to distance so target is never in opposite direction
+    const bool sees_source = sees(source);
+    const int localization_error = sees_source ? 0 : std::min( dist / volume, (float)dist );
+    const int target_x = source.x + rng(-localization_error, localization_error);
+    const int target_y = source.y + rng(-localization_error, localization_error);
+    const int target_z = source.z;
+
+    if( verbal_shout_id == VERBAL_SHOUT_CALL ) {
+        // ~30% average. ~0% w/ min trust. ~95% w/ max trust.
+        const bool will_investigate_unseen = personality.aggression + personality.bravery + 2 * op_of_u.trust > 10;
+        // ~80% average. ~20% w/ min trust. ~100% w/ max trust.
+        const bool will_investigate_seen = sees_source && attitude != NPCATT_FLEE && personality.bravery + op_of_u.trust > op_of_u.fear;
+
+        // If following, unnecessary since we're already moving towards the
+        // player, or the player told us to guard/wait here.
+        if( !is_following() && ( will_investigate_unseen || will_investigate_seen ) ) {
+            investigation_time = 2 * dist;
+            investigation_target = tripoint( target_x, target_y, target_z );
+        }
     }
 }
 

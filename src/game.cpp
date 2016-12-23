@@ -10955,13 +10955,16 @@ void game::chat()
 
     nmenu.return_invalid = true;
     nmenu.addentry( i++, true, 'a', _( "Yell" ) );
+    nmenu.addentry( i++, true, 's', _( "Shout to call any nearby survivors" ) );
     nmenu.addentry( i++, true, 'q', _( "Cancel" ) );
 
     nmenu.query();
-    if( nmenu.ret < 0 || nmenu.ret > (int)available.size() ) {
+    if( nmenu.ret < 0 || nmenu.ret > (int)available.size() + 1 ) {
         return;
     } else if( nmenu.ret == (int)available.size() ) {
         u.shout();
+    } else if( nmenu.ret == (int)available.size() + 1 ) {
+        u.shout( _( "You shout, \"Hey! Come here!\"" ), VERBAL_SHOUT_CALL );
     } else {
         available[nmenu.ret]->talk_to_u();
     }

@@ -4,6 +4,7 @@
 #include "character.h"
 #include "copyable_unique_ptr.h"
 #include "item.h"
+#include "sounds.h"
 #include "player_activity.h"
 #include "recipe_dictionary.h"
 #include "weighted_list.h"
@@ -394,7 +395,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void pause(); // '.' command; pauses & reduces recoil
         void toggle_move_mode(); // Toggles to the next move mode.
-        void shout( std::string text = "" );
+        void shout( std::string msg = "", verbal_shout_id verbal_shout_id = VERBAL_SHOUT_NONE );
 
         // martialarts.cpp
         /** Fires all non-triggered martial arts events */

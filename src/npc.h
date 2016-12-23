@@ -19,6 +19,7 @@ class auto_pickup;
 class monfaction;
 struct mission_type;
 enum game_message_type : int;
+enum verbal_shout_id : int;
 
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
@@ -679,6 +680,7 @@ public:
     bool emergency( float danger ) const;
     bool is_active() const;
     void say( const std::string line, ...) const;
+    void hear_sound( const tripoint &source, float vol, verbal_shout_id verbal_shout_id );
     void decide_needs();
     void die(Creature* killer) override;
     bool is_dead() const;
@@ -707,6 +709,7 @@ public:
     npc_action address_needs();
     npc_action address_needs( float danger );
     npc_action address_player();
+    npc_action investigate();
     npc_action long_term_goal_action();
     // Returns true if did something and we should end turn
     bool scan_new_items();
@@ -786,9 +789,11 @@ public:
 
 // Movement on the overmap scale
  bool has_destination() const; // Do we have a long-term destination?
+ bool has_investigation_interest() const;
  void set_destination(); // Pick a place to go
  void go_to_destination(); // Move there; on the micro scale
  void reach_destination(); // We made it!
+ void go_investigate();
 
     void guard_current_pos();
 
@@ -864,8 +869,8 @@ public:
      */
     tripoint goal;
 
-    tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
-    int wander_time;
+    tripoint investigation_target;
+    int investigation_time;
 
     /**
      * Location and index of the corpse we'd like to pulp (if any).
