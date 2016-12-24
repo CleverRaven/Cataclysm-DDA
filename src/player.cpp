@@ -4288,7 +4288,8 @@ void player::shout( std::string msg )
     // Balanced around  whisper for wearing bondage mask
     // and noise ~= 10(door smashing) for wearing dust mask for character with strength = 8
     ///\EFFECT_STR increases shouting volume
-    int noise = base + str_cur * shout_multiplier - encumb( bp_mouth ) * 3 / 2;
+    const int penalty = encumb( bp_mouth ) * 3 / 2;
+    int noise = base + str_cur * shout_multiplier - penalty;
 
     // Minimum noise volume possible after all reductions.
     // Volume 1 can't be heard even by player
@@ -4311,6 +4312,12 @@ void player::shout( std::string msg )
     }
 
     sounds::sound( pos(), noise, msg );
+    if( noise <= minimum_noise ) {
+        add_msg( m_warning, _( "The sound of your voice is almost completely muffled!" ) );
+    } else if( noise * 2 <= noise + penalty ) {
+        // The shout's volume is 1/2 or lower of what it would be without the penalty
+        add_msg( m_warning, _( "The sound of your voice is significantly muffled!" ) );
+    }
 }
 
 void player::toggle_move_mode()
