@@ -238,7 +238,9 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             }
         } else if (action == "ADD_RULE") {
             bStuffChanged = true;
-            vRules[iTab].push_back(cRules("", true, false));
+            static const cRules def( string_format( _( "%s to edit this rule." ), ctxt.press_x( "CONFIRM" ).c_str() ),
+                                     true, false );
+            vRules[iTab].push_back( def );
             iLine = vRules[iTab].size() - 1;
         } else if (action == "REMOVE_RULE" && currentPageNonEmpty) {
             bStuffChanged = true;
