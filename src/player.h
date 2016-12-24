@@ -923,10 +923,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns all items that must be taken off before taking off this item */
         std::list<const item *> get_dependent_worn_items( const item &it ) const;
         /** Takes off an item, returning false on fail. The taken off item is processed in the @param interact */
-        bool takeoff( const item &it, std::list<item> *res = nullptr );
-        bool takeoff( int pos );
+        bool takeoff( const item &it, bool interactive = true, std::list<item> *res = nullptr );
+        bool takeoff( int pos, bool interactive = true );
         /** Drops an item to the specified location */
-        void drop( int pos, const tripoint &where = tripoint_min );
+        void drop( int pos, const tripoint &where = tripoint_min, bool interactive = true );
         void drop( const std::list<std::pair<int, int>> &what, const tripoint &where = tripoint_min, bool stash = false );
 
         /** Try to wield a contained item consuming moves proportional to weapon skill and volume.
@@ -1532,6 +1532,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void use_fire(const int quantity);
 
         void react_to_felt_pain( int intensity );
+
+        bool takeoff_internal( const item &it, bool interactive, std::list<item> *res );
 
         int pkill;
 

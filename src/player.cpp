@@ -10574,7 +10574,7 @@ std::list<const item *> player::get_dependent_worn_items( const item &it ) const
     return dependent;
 }
 
-bool player::takeoff( const item &it, std::list<item> *res )
+bool player::takeoff_internal( const item &it, bool interactive, std::list<item> *res )
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item &wit ) {
         return &it == &wit;
@@ -10587,24 +10587,11 @@ bool player::takeoff( const item &it, std::list<item> *res )
         return false;
     }
 
-    const auto dependent = get_dependent_worn_items( it );
-    if( res == nullptr && !dependent.empty() ) {
-        add_msg_player_or_npc( m_info,
-                               _( "You can't take off power armor while wearing other power armor components." ),
-                               _( "<npcname> can't take off power armor while wearing other power armor components." ) );
-        return false;
-    }
-
-    for( const auto dep_it : dependent ) {
-        if( !takeoff( *dep_it, res ) ) {
-            return false; // Failed to takeoff a dependent item
-        }
-    }
-
     if( res == nullptr ) {
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
-            if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
-                drop( get_item_position( &it ) );
+            if( is_npc() || ( interactive && query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname( 1, false ).c_str() ) ) ) {
+                drop( get_item_position( &it ), pos(), false );
+                return true;
             }
             return false;
         }
@@ -10615,7 +10602,7 @@ bool player::takeoff( const item &it, std::list<item> *res )
 
     add_msg_player_or_npc( _( "You take off your %s." ),
                            _( "<npcname> takes off their %s." ),
-                           it.tname().c_str() );
+                           it.tname( 1, false ).c_str() );
 
     mod_moves( -250 );    // TODO: Make this variable
     iter->on_takeoff( *this );
@@ -10627,15 +10614,52 @@ bool player::takeoff( const item &it, std::list<item> *res )
     return true;
 }
 
-bool player::takeoff( int pos )
+bool player::takeoff( const item &it, bool interactive, std::list<item> *res )
 {
-    return takeoff( i_at( pos ) );
+    const auto dependent = get_dependent_worn_items( it );
+    if( interactive && !dependent.empty() && !is_npc() ) {
+        const std::string dep_str = enumerate_as_string( dependent.begin(), dependent.end(),
+        []( const item *it ) {
+            return it->tname( 1, false );
+        } );
+        //~ %1$s - list of items (one or many), %2$s - how much longer it shall take (x2, x3 e.t.c)
+        if( !query_yn( _( "First you'll have to take off your %1$s (x%2$d times longer).  Continue?" ),
+                       dep_str.c_str(), dependent.size() + 1 ) ) {
+            return false;
+        }
+    }
+
+    for( const auto dep_it : dependent ) {
+        if( !takeoff_internal( *dep_it, interactive, res ) ) {
+            return false; // Failed to takeoff a dependent item
+        }
+    }
+
+    return takeoff_internal( it, interactive, res );
 }
 
-void player::drop( int pos, const tripoint &where )
+bool player::takeoff( int pos, bool interactive )
+{
+    return takeoff( i_at( pos ), interactive );
+}
+
+void player::drop( int pos, const tripoint &where, bool interactive )
 {
     const item &it = i_at( pos );
     const int count = it.count_by_charges() ? it.charges : 1;
+
+    const auto dependent = get_dependent_worn_items( it );
+    if( interactive && !dependent.empty() && !is_npc() ) {
+        const std::string dep_str = enumerate_as_string( dependent.begin(), dependent.end(),
+        []( const item *it ) {
+            return it->tname( 1, false );
+        } );
+        //~ %1$s - list of items (one or many), %2$s - how much longer it shall take (x2, x3 e.t.c)
+        if( !query_yn( _( "Your %1$s will be dropped too (x%2$d times longer).  Continue?" ),
+                       dep_str.c_str(), dependent.size() + 1 ) ) {
+            return;
+        }
+    }
 
     drop( { std::make_pair( pos, count ) }, where );
 }
