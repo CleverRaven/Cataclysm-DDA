@@ -289,8 +289,12 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 draw_border(w_help);
                 wrefresh(w_help);
-                vRules[iTab][iLine].sRule = wildcard_trim_rule(string_input_popup(_("Pickup Rule:"),
-                        30, vRules[iTab][iLine].sRule));
+                const std::string r = string_input_popup( _( "Pickup Rule (CTRL-U: clear line):" ), 30,
+                                                          vRules[iTab][iLine].sRule );
+                // ESCing from the window returns an empty string- the player would lose his complex pattern.
+                if( !r.empty() ) {
+                    vRules[iTab][iLine].sRule = wildcard_trim_rule( r );
+                }
             } else if (iColumn == 2) {
                 vRules[iTab][iLine].bExclude =
                     !vRules[iTab][iLine].bExclude;
