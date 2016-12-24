@@ -99,9 +99,9 @@ void set_language()
 #include <cstring> // strcmp
 #include <map>
 
-void set_language( bool reload_options )
+void set_language()
 {
-    ( void ) reload_options; // Cancels MinGW warning on Windows
+    return;
 }
 
 // sanitized message cache
