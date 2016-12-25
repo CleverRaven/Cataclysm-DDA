@@ -15,18 +15,18 @@
 # Jin Zhang <610037437@qq.com>, 2016
 # Lin Shu <1678161186@qq.com>, 2016
 # Miigon Anonymous <miigon.pg@gmail.com>, 2016
-# qaza, 2016
-# qaza, 2016
+# Yu Huang, 2016
+# Yu Huang, 2016
 # startobira <startobira@163.com>, 2016
-# qaza, 2016
+# Yu Huang, 2016
 # zy h <hzy2980426@163.com>, 2016
 # 何方神圣 何 <1366003560@qq.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-16 21:49+0800\n"
-"PO-Revision-Date: 2016-12-18 05:25+0000\n"
+"POT-Creation-Date: 2016-12-24 15:10+0800\n"
+"PO-Revision-Date: 2016-12-24 07:17+0000\n"
 "Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -417,7 +417,7 @@ msgid ""
 "A 84x246mm High Explosive Dual Purpose anti-materiel round for the Carl "
 "Gustav M3 recoilless rifle.  Designed to be highly effective against "
 "vehicles and structures."
-msgstr "一枚用于卡尔古斯塔夫 M3 无后坐力炮的84X246mm高爆两用反器材弹，用于有效打击车辆和建筑。"
+msgstr "用于卡尔古斯塔夫 M3 无后坐力炮的84X246mm高爆两用反器材弹，用于有效打击车辆和建筑。"
 
 #: lang/json/AMMO_from_json.py
 msgid "FFV469 smoke rocket"
@@ -429,7 +429,7 @@ msgid ""
 "A 84x246mm smoke marker round for the Carl Gustav M3 recoilless rifle.  "
 "Commonly used for signaling, target designation, and for screening troop "
 "movements."
-msgstr "一枚用于卡尔古斯塔夫 M3 无后坐力炮的84x246mm烟雾弹，常用于发信号、指示目标和掩护部队。"
+msgstr "用于卡尔古斯塔夫 M3 无后坐力炮的84x246mm烟雾弹，常用于发信号、指示目标和掩护部队。"
 
 #: lang/json/AMMO_from_json.py
 msgid "PG-7VL rocket"
@@ -479,7 +479,7 @@ msgstr "煤炭"
 msgid ""
 "Flammable black chunks of carbon-based material commonly used for cooking "
 "and heating."
-msgstr "一些黑色易燃的碳化物，常用于烹饪和取暖。"
+msgstr "黑色易燃的碳化物，常用于烹饪和取暖。"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "modified mininuke"
@@ -504,7 +504,7 @@ msgid ""
 "A tiny glass vial filled with advanced fast-healing chemicals which can only"
 " be activated by a Rivtech jet injector device.  A label on the side warns "
 "against using more than two doses per hour."
-msgstr "一只小小的装满了快速助愈化合物的玻璃药水瓶，可以用Rivtech注射器来激活使用。\n侧标上印着一行警告：\"每小时最多使用两剂\"。"
+msgstr "一只小小的装满了快速助愈化合物的玻璃药水瓶，可以用Rivtech注射器来激活使用。药水瓶上贴着的侧标上印着一行警告：\"每小时最多使用两剂\"。"
 
 #: lang/json/AMMO_from_json.py
 msgid "RA10K stimulant module"
@@ -516,7 +516,7 @@ msgid ""
 "A pressurized multi-chamber glass vial filled with powerful chemical "
 "stimulants which can only be activated by a Rivtech stimulant delivery "
 "system."
-msgstr "一瓶具有数个单独内腔的装满了强力兴奋剂化合物的玻璃瓶，里面的兴奋剂只能用Rivtech公司专用的注射器来激活使用。"
+msgstr "一瓶具有数个单独内腔的装满了强力兴奋剂化合物的玻璃瓶。里面的兴奋剂只能用Rivtech公司专用的注射器来激活使用。"
 
 #: lang/json/AMMO_from_json.py
 msgid "rebreather filter cartridge"
@@ -525,7 +525,7 @@ msgstr "呼吸器滤芯"
 #. ~ Description for rebreather filter cartridge
 #: lang/json/AMMO_from_json.py
 msgid "A replacement filter cartridge for a rebreather."
-msgstr "一个循环呼吸器面罩使用的过滤芯。"
+msgstr "循环呼吸器面罩使用的过滤芯。"
 
 #: lang/json/AMMO_from_json.py
 msgid "nicotine liquid"
@@ -4818,6 +4818,13 @@ msgid "baldric"
 msgid_plural "baldrics"
 msgstr[0] "大刀鞘（肩）"
 
+#. ~ Use action holster_prompt for baldric.
+#. ~ Use action holster_prompt for back scabbard.
+#. ~ Use action holster_prompt for scabbard.
+#: lang/json/ARMOR_from_json.py
+msgid "Sheath sword"
+msgstr "收刀"
+
 #. ~ Use action holster_msg for baldric.
 #. ~ Use action holster_msg for ankle sheath.
 #. ~ Use action holster_msg for back scabbard.
@@ -4829,13 +4836,6 @@ msgstr[0] "大刀鞘（肩）"
 #, no-python-format
 msgid "You sheath your %s"
 msgstr "你将 %s 收好。"
-
-#. ~ Use action holster_prompt for baldric.
-#. ~ Use action holster_prompt for back scabbard.
-#. ~ Use action holster_prompt for scabbard.
-#: lang/json/ARMOR_from_json.py
-msgid "Sheath sword"
-msgstr "收刀"
 
 #. ~ Description for baldric
 #: lang/json/ARMOR_from_json.py
@@ -5889,6 +5889,13 @@ msgid "firefighter belt"
 msgid_plural "firefighter belts"
 msgstr[0] "消防腰带"
 
+#. ~ Use action holster_prompt for firefighter belt.
+#. ~ Use action holster_prompt for tool belt.
+#. ~ Use action holster_prompt for firefighter belt.
+#: lang/json/ARMOR_from_json.py
+msgid "Attach what to belt loop?"
+msgstr "把什么装载在腰带上？"
+
 #. ~ Use action holster_msg for firefighter belt.
 #. ~ Use action holster_msg for tool belt.
 #. ~ Use action holster_msg for firefighter belt.
@@ -5896,13 +5903,6 @@ msgstr[0] "消防腰带"
 #, no-python-format
 msgid "You clip your %s to your %s"
 msgstr "你把 %s 装载到你的 %s 上。"
-
-#. ~ Use action holster_prompt for firefighter belt.
-#. ~ Use action holster_prompt for tool belt.
-#. ~ Use action holster_prompt for firefighter belt.
-#: lang/json/ARMOR_from_json.py
-msgid "Attach what to belt loop?"
-msgstr "把什么装载在腰带上？"
 
 #. ~ Description for firefighter belt
 #: lang/json/ARMOR_from_json.py
@@ -7606,16 +7606,16 @@ msgid "leather belt"
 msgid_plural "leather belts"
 msgstr[0] "皮带"
 
+#. ~ Use action holster_prompt for leather belt.
+#: lang/json/ARMOR_from_json.py
+msgid "Stick what into your belt"
+msgstr "把什么放到腰带上？"
+
 #. ~ Use action holster_msg for leather belt.
 #: lang/json/ARMOR_from_json.py
 #, no-python-format
 msgid "You tuck your %s into your %s"
 msgstr "你将 %s 放进你的 %s。"
-
-#. ~ Use action holster_prompt for leather belt.
-#: lang/json/ARMOR_from_json.py
-msgid "Stick what into your belt"
-msgstr "把什么放到腰带上？"
 
 #. ~ Description for leather belt
 #: lang/json/ARMOR_from_json.py
@@ -8433,15 +8433,15 @@ msgid "FB51 optical cloak"
 msgid_plural "FB51 optical cloaks"
 msgstr[0] "FB-51光学披风"
 
-#. ~ Use action activate_msg for FB51 optical cloak.
-#: lang/json/ARMOR_from_json.py
-msgid "Your optical cloak flickers as it becomes transparent."
-msgstr "你的光学披风闪烁着，变得透明。"
-
 #. ~ Use action deactive_msg for FB51 optical cloak.
 #: lang/json/ARMOR_from_json.py src/player.cpp
 msgid "Your optical cloak flickers for a moment as it becomes opaque."
 msgstr "你的光学披风闪了几下，显现了原形。"
+
+#. ~ Use action activate_msg for FB51 optical cloak.
+#: lang/json/ARMOR_from_json.py
+msgid "Your optical cloak flickers as it becomes transparent."
+msgstr "你的光学披风闪烁着，变得透明。"
 
 #. ~ Description for FB51 optical cloak
 #: lang/json/ARMOR_from_json.py
@@ -10213,6 +10213,15 @@ msgid "ammo satchel"
 msgid_plural "ammo satchels"
 msgstr[0] "弹药腕包"
 
+#. ~ Use action holster_prompt for ammo satchel.
+#. ~ Use action holster_prompt for chest ammo pouch.
+#. ~ Use action holster_prompt for chest rig.
+#. ~ Use action holster_prompt for ankle ammo pouch.
+#. ~ Use action holster_prompt for leg ammo pouch.
+#: lang/json/ARMOR_from_json.py
+msgid "Stash ammo"
+msgstr "存储弹药"
+
 #. ~ Use action holster_msg for ammo satchel.
 #. ~ Use action holster_msg for chest ammo pouch.
 #. ~ Use action holster_msg for chest rig.
@@ -10222,15 +10231,6 @@ msgstr[0] "弹药腕包"
 #, no-python-format
 msgid "You stash your %s."
 msgstr "你存入了你的 %s 。"
-
-#. ~ Use action holster_prompt for ammo satchel.
-#. ~ Use action holster_prompt for chest ammo pouch.
-#. ~ Use action holster_prompt for chest rig.
-#. ~ Use action holster_prompt for ankle ammo pouch.
-#. ~ Use action holster_prompt for leg ammo pouch.
-#: lang/json/ARMOR_from_json.py
-msgid "Stash ammo"
-msgstr "存储弹药"
 
 #. ~ Description for ammo satchel
 #: lang/json/ARMOR_from_json.py
@@ -11334,8 +11334,8 @@ msgid "Adrenaline Pump CBM"
 msgid_plural "Adrenaline Pump CBMs"
 msgstr[0] "肾上腺素泵CBM"
 
-#. ~ Description for Adrenaline Pump CBM
 #. ~ Description for Adrenaline Pump
+#. ~ Description for Adrenaline Pump CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A stimulator system has been implanted alongside your adrenal glands, "
@@ -11348,8 +11348,8 @@ msgid "Active Defense System CBM"
 msgid_plural "Active Defense System CBMs"
 msgstr[0] "主动防御系统CBM"
 
-#. ~ Description for Active Defense System CBM
 #. ~ Description for Active Defense System
+#. ~ Description for Active Defense System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  Anything"
@@ -11375,8 +11375,8 @@ msgid "Alarm System CBM"
 msgid_plural "Alarm System CBMs"
 msgstr[0] "警报系统CBM"
 
-#. ~ Description for Alarm System CBM
 #. ~ Description for Alarm System
+#. ~ Description for Alarm System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A motion-detecting alarm system will notice almost all movement within a "
@@ -11389,8 +11389,8 @@ msgid "Arms Alloy Plating CBM"
 msgid_plural "Arms Alloy Plating CBMs"
 msgstr[0] "合金装甲-手臂CBM"
 
-#. ~ Description for Arms Alloy Plating CBM
 #. ~ Description for Alloy Plating - Arms
+#. ~ Description for Arms Alloy Plating CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your arms has been replaced by a strong armor, protecting you "
@@ -11402,8 +11402,8 @@ msgid "Protective Lenses CBM"
 msgid_plural "Protective Lenses CBMs"
 msgstr[0] "防护镜片CBM"
 
-#. ~ Description for Protective Lenses CBM
 #. ~ Description for Protective Lenses
+#. ~ Description for Protective Lenses CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eye sockets have been sealed with highly protective mirrored lenses and"
@@ -11416,8 +11416,8 @@ msgid "Head Alloy Plating CBM"
 msgid_plural "Head Alloy Plating CBMs"
 msgstr[0] "合金装甲-头部CBM"
 
-#. ~ Description for Head Alloy Plating CBM
 #. ~ Description for Alloy Plating - Head
+#. ~ Description for Head Alloy Plating CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your head has been replaced by a strong armor, protecting both "
@@ -11429,8 +11429,8 @@ msgid "Legs Alloy Plating CBM"
 msgid_plural "Legs Alloy Plating CBMs"
 msgstr[0] "合金装甲-腿部CBM"
 
-#. ~ Description for Legs Alloy Plating CBM
 #. ~ Description for Alloy Plating - Legs
+#. ~ Description for Legs Alloy Plating CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your legs has been replaced by a strong armor, protecting you "
@@ -11442,8 +11442,8 @@ msgid "Torso Alloy Plating CBM"
 msgid_plural "Torso Alloy Plating CBMs"
 msgstr[0] "合金装甲-躯干CBM"
 
-#. ~ Description for Torso Alloy Plating CBM
 #. ~ Description for Alloy Plating - Torso
+#. ~ Description for Torso Alloy Plating CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your torso has been replaced by a strong armor, protecting you "
@@ -11455,8 +11455,8 @@ msgid "Battery System CBM"
 msgid_plural "Battery System CBMs"
 msgstr[0] "电池供能CBM"
 
-#. ~ Description for Battery System CBM
 #. ~ Description for Battery System
+#. ~ Description for Battery System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have a battery draining attachment, and thus can make use of the energy "
@@ -11469,8 +11469,8 @@ msgid "Monomolecular Blade CBM"
 msgid_plural "Monomolecular Blade CBMs"
 msgstr[0] "单分子刀刃CBM"
 
-#. ~ Description for Monomolecular Blade CBM
 #. ~ Description for Monomolecular Blade
+#. ~ Description for Monomolecular Blade CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A deadly foot-long blade made of advanced material now resides inside your "
@@ -11497,8 +11497,8 @@ msgid "Blood Analysis CBM"
 msgid_plural "Blood Analysis CBMs"
 msgstr[0] "血液分析CBM"
 
-#. ~ Description for Blood Analysis CBM
 #. ~ Description for Blood Analysis
+#. ~ Description for Blood Analysis CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Small sensors have been implanted in your heart, allowing you to analyze "
@@ -11510,8 +11510,8 @@ msgid "Blood Filter CBM"
 msgid_plural "Blood Filter CBMs"
 msgstr[0] "血液过滤CBM"
 
-#. ~ Description for Blood Filter CBM
 #. ~ Description for Blood Filter
+#. ~ Description for Blood Filter CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A filtration system in your heart allows you to actively filter out chemical"
@@ -11525,8 +11525,8 @@ msgid "Cable Charger System CBM"
 msgid_plural "Cable Charger System CBMs"
 msgstr[0] "电缆充电器CBM"
 
-#. ~ Description for Cable Charger System CBM
 #. ~ Description for Cable Charger System
+#. ~ Description for Cable Charger System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have a complex port mounted above your hip.  While active, it will drain"
@@ -11538,8 +11538,8 @@ msgid "Subdermal Carbon Filament CBM"
 msgid_plural "Subdermal Carbon Filament CBMs"
 msgstr[0] "皮下碳纤维层CBM"
 
-#. ~ Description for Subdermal Carbon Filament CBM
 #. ~ Description for Subdermal Carbon Filament
+#. ~ Description for Subdermal Carbon Filament CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This"
@@ -11551,8 +11551,8 @@ msgid "Chain Lightning CBM"
 msgid_plural "Chain Lightning CBMs"
 msgstr[0] "连锁闪电CBM"
 
-#. ~ Description for Chain Lightning CBM
 #. ~ Description for Chain Lightning
+#. ~ Description for Chain Lightning CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your body is equipped with a chain lightning generator, allowing you to emit"
@@ -11565,8 +11565,8 @@ msgid "Bionic Claws CBM"
 msgid_plural "Bionic Claws CBMs"
 msgstr[0] "生化合金爪CBM"
 
-#. ~ Description for Bionic Claws CBM
 #. ~ Description for Bionic Claws
+#. ~ Description for Bionic Claws CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Vicious claws have been installed inside your fingers, allowing you to "
@@ -11580,8 +11580,8 @@ msgid "Internal Climate Control CBM"
 msgid_plural "Internal Climate Control CBMs"
 msgstr[0] "恒温机构CBM"
 
-#. ~ Description for Internal Climate Control CBM
 #. ~ Description for Internal Climate Control
+#. ~ Description for Internal Climate Control CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Throughout your body lies a network of thermal piping which eases the "
@@ -11593,8 +11593,8 @@ msgid "Cloaking System CBM"
 msgid_plural "Cloaking System CBMs"
 msgstr[0] "隐身系统CBM"
 
-#. ~ Description for Cloaking System CBM
 #. ~ Description for Cloaking System
+#. ~ Description for Cloaking System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "This high-power system uses a set of cameras and LEDs to make you blend into"
@@ -11620,8 +11620,8 @@ msgid "Wired Reflexes CBM"
 msgid_plural "Wired Reflexes CBMs"
 msgstr[0] "线性反射弧CBM"
 
-#. ~ Description for Wired Reflexes CBM
 #. ~ Description for Wired Reflexes
+#. ~ Description for Wired Reflexes CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your reaction time has been greatly enhanced with bionic nerve stimulators, "
@@ -11633,8 +11633,8 @@ msgid "Expanded Digestive System CBM"
 msgid_plural "Expanded Digestive System CBMs"
 msgstr[0] "多重消化系统CBM"
 
-#. ~ Description for Expanded Digestive System CBM
 #. ~ Description for Expanded Digestive System
+#. ~ Description for Expanded Digestive System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have been outfitted with three synthetic stomachs and industrial-grade "
@@ -11677,8 +11677,8 @@ msgid "Ethanol Burner CBM"
 msgid_plural "Ethanol Burner CBMs"
 msgstr[0] "酒精锅炉CBM"
 
-#. ~ Description for Ethanol Burner CBM
 #. ~ Description for Ethanol Burner
+#. ~ Description for Ethanol Burner CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You burn alcohol as fuel in an extremely efficient reaction.  However, you "
@@ -11690,8 +11690,8 @@ msgid "Aero-Evaporator CBM"
 msgid_plural "Aero-Evaporator CBMs"
 msgstr[0] "湿气凝水器CBM"
 
-#. ~ Description for Aero-Evaporator CBM
 #. ~ Description for Aero-Evaporator
+#. ~ Description for Aero-Evaporator CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "This unit draws moisture from the surrounding air, which then is poured from"
@@ -11703,8 +11703,8 @@ msgid "Diamond Cornea CBM"
 msgid_plural "Diamond Cornea CBMs"
 msgstr[0] "钻石角膜CBM"
 
-#. ~ Description for Diamond Cornea CBM
 #. ~ Description for Diamond Cornea
+#. ~ Description for Diamond Cornea CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid "Your vision is greatly enhanced, giving you a +2 bonus to perception."
 msgstr "你的视觉被大幅强化了，感知+2。"
@@ -11714,8 +11714,8 @@ msgid "Telescopic Eyes CBM"
 msgid_plural "Telescopic Eyes CBMs"
 msgstr[0] "自动对焦眼球CBM"
 
-#. ~ Description for Telescopic Eyes CBM
 #. ~ Description for Telescopic Eyes
+#. ~ Description for Telescopic Eyes CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Much of the material in your inner eye has been removed and replaced with an"
@@ -11729,8 +11729,8 @@ msgid "Facial Distortion CBM"
 msgid_plural "Facial Distortion CBMs"
 msgstr[0] "变脸系统CBM"
 
-#. ~ Description for Facial Distortion CBM
 #. ~ Description for Facial Distortion
+#. ~ Description for Facial Distortion CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Through controlled application of electrochemical impulses, you are capable "
@@ -11743,8 +11743,8 @@ msgid "Dielectric Capacitance System CBM"
 msgid_plural "Dielectric Capacitance System CBMs"
 msgstr[0] "电解屏蔽CBM"
 
-#. ~ Description for Dielectric Capacitance System CBM
 #. ~ Description for Dielectric Capacitance System
+#. ~ Description for Dielectric Capacitance System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Throughout your body lies a network of miniature piezoelectric capacitors "
@@ -11757,8 +11757,8 @@ msgid "Fingerhack CBM"
 msgid_plural "Fingerhack CBMs"
 msgstr[0] "指端黑客仪CBM"
 
-#. ~ Description for Fingerhack CBM
 #. ~ Description for Fingerhack
+#. ~ Description for Fingerhack CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "One of your fingers has an electrohack embedded in it; an all-purpose "
@@ -11772,8 +11772,8 @@ msgid "Flashbang Generator CBM"
 msgid_plural "Flashbang Generator CBMs"
 msgstr[0] "闪光弹生成器CBM"
 
-#. ~ Description for Flashbang Generator CBM
 #. ~ Description for Flashbang Generator
+#. ~ Description for Flashbang Generator CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Light emitting diodes integrated into your skin can release a flash "
@@ -11786,8 +11786,8 @@ msgid "Cranial Flashlight CBM"
 msgid_plural "Cranial Flashlight CBMs"
 msgstr[0] "脑壳手电CBM"
 
-#. ~ Description for Cranial Flashlight CBM
 #. ~ Description for Cranial Flashlight
+#. ~ Description for Cranial Flashlight CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid "Mounted between your eyes is a small but powerful LED flashlight."
 msgstr "在你的两眼之间安装了一个小巧强劲的LED闪光灯"
@@ -11810,8 +11810,8 @@ msgid "Integrated Dosimeter CBM"
 msgid_plural "Integrated Dosimeter CBMs"
 msgstr[0] "辐照探测仪CBM"
 
-#. ~ Description for Integrated Dosimeter CBM
 #. ~ Description for Integrated Dosimeter
+#. ~ Description for Integrated Dosimeter CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Small radiation sensors have been implanted throughout your body, allowing "
@@ -11824,8 +11824,8 @@ msgid "Oxygenator CBM"
 msgid_plural "Oxygenator CBMs"
 msgstr[0] "氧气交换机CBM"
 
-#. ~ Description for Oxygenator CBM
 #. ~ Description for Oxygenator
+#. ~ Description for Oxygenator CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A complex oxygen delivery system.  Improves the ability to extract oxygen "
@@ -11838,8 +11838,8 @@ msgid "Terranian Sonar CBM"
 msgid_plural "Terranian Sonar CBMs"
 msgstr[0] "声纳之足CBM"
 
-#. ~ Description for Terranian Sonar CBM
 #. ~ Description for Terranian Sonar
+#. ~ Description for Terranian Sonar CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your feet are equipped with precision sonar equipment, allowing you to "
@@ -11851,8 +11851,8 @@ msgid "Heat Drain CBM"
 msgid_plural "Heat Drain CBMs"
 msgstr[0] "热能吸取CBM"
 
-#. ~ Description for Heat Drain CBM
 #. ~ Description for Heat Drain
+#. ~ Description for Heat Drain CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While fighting unarmed against a warm-blooded opponent, there is a chance "
@@ -11865,8 +11865,8 @@ msgid "Thermal Dissipation CBM"
 msgid_plural "Thermal Dissipation CBMs"
 msgstr[0] "热能防护CBM"
 
-#. ~ Description for Thermal Dissipation CBM
 #. ~ Description for Thermal Dissipation
+#. ~ Description for Thermal Dissipation CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Powerful heatsinks and supermaterials are woven into your flesh.  While "
@@ -11879,8 +11879,8 @@ msgid "Hydraulic Muscles CBM"
 msgid_plural "Hydraulic Muscles CBMs"
 msgstr[0] "液压肌肉CBM"
 
-#. ~ Description for Hydraulic Muscles CBM
 #. ~ Description for Hydraulic Muscles
+#. ~ Description for Hydraulic Muscles CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While activated, your muscles will be greatly enhanced, increasing your "
@@ -11904,8 +11904,8 @@ msgid "Cerebral Booster CBM"
 msgid_plural "Cerebral Booster CBMs"
 msgstr[0] "生脑处理器CBM"
 
-#. ~ Description for Cerebral Booster CBM
 #. ~ Description for Cerebral Booster
+#. ~ Description for Cerebral Booster CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus"
@@ -11917,8 +11917,8 @@ msgid "Finger-Mounted Laser CBM"
 msgid_plural "Finger-Mounted Laser CBMs"
 msgstr[0] "手指激光枪CBM"
 
-#. ~ Description for Finger-Mounted Laser CBM
 #. ~ Description for Finger-Mounted Laser
+#. ~ Description for Finger-Mounted Laser CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "One of your fingers has a small high-powered laser embedded in it.  This "
@@ -11931,8 +11931,8 @@ msgid "Leukocyte Breeder System CBM"
 msgid_plural "Leukocyte Breeder System CBMs"
 msgstr[0] "白细胞培育系统CBM"
 
-#. ~ Description for Leukocyte Breeder System CBM
 #. ~ Description for Leukocyte Breeder System
+#. ~ Description for Leukocyte Breeder System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You are equipped with bionic stimulators which augment your haematopoiesis "
@@ -11946,8 +11946,8 @@ msgid "Mini-Flamethrower CBM"
 msgid_plural "Mini-Flamethrower CBMs"
 msgstr[0] "迷你火焰指CBM"
 
-#. ~ Description for Mini-Flamethrower CBM
 #. ~ Description for Mini-Flamethrower
+#. ~ Description for Mini-Flamethrower CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The index fingers of both hands have powerful fire starters which extend "
@@ -11959,8 +11959,8 @@ msgid "Fingerpick CBM"
 msgid_plural "Fingerpick CBMs"
 msgstr[0] "手指开锁器CBM"
 
-#. ~ Description for Fingerpick CBM
 #. ~ Description for Fingerpick
+#. ~ Description for Fingerpick CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "One of your fingers has an electronic lockpick embedded in it.  This "
@@ -11973,8 +11973,8 @@ msgid "Electromagnetic Unit CBM"
 msgid_plural "Electromagnetic Unit CBMs"
 msgstr[0] "掌心电磁铁CBM"
 
-#. ~ Description for Electromagnetic Unit CBM
 #. ~ Description for Electromagnetic Unit
+#. ~ Description for Electromagnetic Unit CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Embedded in your hand is a powerful electromagnet, allowing you to pull "
@@ -11986,8 +11986,8 @@ msgid "Nictating Membrane CBM"
 msgid_plural "Nictating Membrane CBMs"
 msgstr[0] "人工瞬膜CBM"
 
-#. ~ Description for Nictating Membrane CBM
 #. ~ Description for Nictating Membrane
+#. ~ Description for Nictating Membrane CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eyes have a thin membrane that closes over your eyes while underwater, "
@@ -11999,8 +11999,8 @@ msgid "Enhanced Memory Banks CBM"
 msgid_plural "Enhanced Memory Banks CBMs"
 msgstr[0] "记忆增强CBM"
 
-#. ~ Description for Enhanced Memory Banks CBM
 #. ~ Description for Enhanced Memory Banks
+#. ~ Description for Enhanced Memory Banks CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your memory has been enhanced with small quantum storage drives.  Any time "
@@ -12013,8 +12013,8 @@ msgid "Metabolic Interchange CBM"
 msgid_plural "Metabolic Interchange CBMs"
 msgstr[0] "代谢供能CBM"
 
-#. ~ Description for Metabolic Interchange CBM
 #. ~ Description for Metabolic Interchange
+#. ~ Description for Metabolic Interchange CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your digestive system and power supply are interconnected.  Any drain on "
@@ -12026,8 +12026,8 @@ msgid "Weather Reader CBM"
 msgid_plural "Weather Reader CBMs"
 msgstr[0] "气象识别CBM"
 
-#. ~ Description for Weather Reader CBM
 #. ~ Description for Weather Reader
+#. ~ Description for Weather Reader CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A multitude of scientific instruments and sensors collect environmental "
@@ -12053,8 +12053,8 @@ msgid "Artificial Night Generator CBM"
 msgid_plural "Artificial Night Generator CBMs"
 msgstr[0] "人工黑暗制造机CBM"
 
-#. ~ Description for Artificial Night Generator CBM
 #. ~ Description for Artificial Night Generator
+#. ~ Description for Artificial Night Generator CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid "Destructive interference eliminates all light within a 15 tile radius."
 msgstr "通过干扰光线的传播来消除附近15码内所有的光源，制造出一个人工黑夜"
@@ -12064,8 +12064,8 @@ msgid "Implanted Night Vision CBM"
 msgid_plural "Implanted Night Vision CBMs"
 msgstr[0] "植入式夜视仪CBM"
 
-#. ~ Description for Implanted Night Vision CBM
 #. ~ Description for Implanted Night Vision
+#. ~ Description for Implanted Night Vision CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eyes have been modified to amplify existing light, allowing you to see "
@@ -12077,8 +12077,8 @@ msgid "Offensive Defense System CBM"
 msgid_plural "Offensive Defense System CBMs"
 msgstr[0] "反击防御系统CBM"
 
-#. ~ Description for Offensive Defense System CBM
 #. ~ Description for Offensive Defense System
+#. ~ Description for Offensive Defense System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
@@ -12091,8 +12091,8 @@ msgid "Sensory Dulling CBM"
 msgid_plural "Sensory Dulling CBMs"
 msgstr[0] "痛感抑制CBM"
 
-#. ~ Description for Sensory Dulling CBM
 #. ~ Description for Sensory Dulling
+#. ~ Description for Sensory Dulling CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your nervous system is wired to allow you to inhibit the signals of pain, "
@@ -12117,8 +12117,8 @@ msgid "Power Armor Interface CBM"
 msgid_plural "Power Armor Interface CBMs"
 msgstr[0] "动力装甲接口CBM"
 
-#. ~ Description for Power Armor Interface CBM
 #. ~ Description for Power Armor Interface
+#. ~ Description for Power Armor Interface CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Interfaces your power system with the internal charging port on suits of "
@@ -12130,8 +12130,8 @@ msgid "Power Armor Mk. II Interface CBM"
 msgid_plural "Power Armor Mk. II Interface CBMs"
 msgstr[0] "动力装甲接口Mk.II CBM"
 
-#. ~ Description for Power Armor Mk. II Interface CBM
 #. ~ Description for Power Armor Interface Mk. II
+#. ~ Description for Power Armor Mk. II Interface CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Interfaces your power system with the internal charging port on suits of "
@@ -12144,8 +12144,8 @@ msgid "Power Storage CBM"
 msgid_plural "Power Storage CBMs"
 msgstr[0] "储能模块CBM"
 
-#. ~ Description for Power Storage CBM
 #. ~ Description for Power Storage
+#. ~ Description for Power Storage CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Compact Bionics Module that upgrades your power capacity by 100 units.  "
@@ -12158,8 +12158,8 @@ msgid "Power Storage CBM Mk. II"
 msgid_plural "Power Storage CBMs Mk. II"
 msgstr[0] "储能模块II型CBM"
 
-#. ~ Description for Power Storage CBM Mk. II
 #. ~ Description for Power Storage Mk. II
+#. ~ Description for Power Storage CBM Mk. II
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Compact Bionics Module developed at DoubleTech Industries as a replacement "
@@ -12172,8 +12172,8 @@ msgid "Probability Travel CBM"
 msgid_plural "Probability Travel CBMs"
 msgstr[0] "量子移动CBM"
 
-#. ~ Description for Probability Travel CBM
 #. ~ Description for Probability Travel
+#. ~ Description for Probability Travel CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Increases your body's wavelength, allowing you to quantum tunnel through "
@@ -12198,8 +12198,8 @@ msgid "Radiation Scrubber System CBM"
 msgid_plural "Radiation Scrubber System CBMs"
 msgstr[0] "辐射清洗系统CBM"
 
-#. ~ Description for Radiation Scrubber System CBM
 #. ~ Description for Radiation Scrubber System
+#. ~ Description for Radiation Scrubber System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A system of advanced piezomechanical blood filters have been implanted "
@@ -12212,8 +12212,8 @@ msgid "Railgun CBM"
 msgid_plural "Railgun CBMs"
 msgstr[0] "电磁轨道臂CBM"
 
-#. ~ Description for Railgun CBM
 #. ~ Description for Railgun
+#. ~ Description for Railgun CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "EM field generators in your arms double the range and damage of thrown iron "
@@ -12226,8 +12226,8 @@ msgid "Fingertip Razors CBM"
 msgid_plural "Fingertip Razors CBMs"
 msgstr[0] "指尖剃刀CBM"
 
-#. ~ Description for Fingertip Razors CBM
 #. ~ Description for Fingertip Razors
+#. ~ Description for Fingertip Razors CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You possess razor-sharp retractable claws underneath your fingernails, ten "
@@ -12265,8 +12265,8 @@ msgid "Recycler Unit CBM"
 msgid_plural "Recycler Unit CBMs"
 msgstr[0] "回收单元CBM"
 
-#. ~ Description for Recycler Unit CBM
 #. ~ Description for Recycler Unit
+#. ~ Description for Recycler Unit CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your digestive system has been outfitted with a series of filters and "
@@ -12279,8 +12279,8 @@ msgid "Remote Controller CBM"
 msgid_plural "Remote Controller CBMs"
 msgstr[0] "远程控制CBM"
 
-#. ~ Description for Remote Controller CBM
 #. ~ Description for Remote Controller
+#. ~ Description for Remote Controller CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A small module connected to your brain allows you to interface with nearby "
@@ -12305,8 +12305,8 @@ msgid "Olfactory Mask CBM"
 msgid_plural "Olfactory Mask CBMs"
 msgstr[0] "体味屏蔽CBM"
 
-#. ~ Description for Olfactory Mask CBM
 #. ~ Description for Olfactory Mask
+#. ~ Description for Olfactory Mask CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While this system is powered, your body will produce very little odor, "
@@ -12318,8 +12318,8 @@ msgid "Scent Vision CBM"
 msgid_plural "Scent Vision CBMs"
 msgstr[0] "形象化嗅觉系统CBM"
 
-#. ~ Description for Scent Vision CBM
 #. ~ Description for Scent Vision
+#. ~ Description for Scent Vision CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While this system is powered, you're able to visually sense your own scent, "
@@ -12332,8 +12332,8 @@ msgid "Electroshock Unit CBM"
 msgid_plural "Electroshock Unit CBMs"
 msgstr[0] "电击部件CBM"
 
-#. ~ Description for Electroshock Unit CBM
 #. ~ Description for Electroshock Unit
+#. ~ Description for Electroshock Unit CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While fighting unarmed, or with a weapon that conducts electricity, there is"
@@ -12346,8 +12346,8 @@ msgid "Shockwave Generator CBM"
 msgid_plural "Shockwave Generator CBMs"
 msgstr[0] "冲击波发生器CBM"
 
-#. ~ Description for Shockwave Generator CBM
 #. ~ Description for Shockwave Generator
+#. ~ Description for Shockwave Generator CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You generate a powerful shockwave, knocking back all nearby creatures.  "
@@ -12360,8 +12360,8 @@ msgid "Solar Panels CBM"
 msgid_plural "Solar Panels CBMs"
 msgstr[0] "太阳能CBM"
 
-#. ~ Description for Solar Panels CBM
 #. ~ Description for Solar Panels
+#. ~ Description for Solar Panels CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have a few solar panels installed.  While in direct sunlight, your power"
@@ -12373,8 +12373,8 @@ msgid "Synaptic Accelerator CBM"
 msgid_plural "Synaptic Accelerator CBMs"
 msgstr[0] "触觉加速器CBM"
 
-#. ~ Description for Synaptic Accelerator CBM
 #. ~ Description for Synaptic Accelerator
+#. ~ Description for Synaptic Accelerator CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 #, no-python-format
 msgid ""
@@ -12387,8 +12387,8 @@ msgid "Internal Storage CBM"
 msgid_plural "Internal Storage CBMs"
 msgstr[0] "胸部存储单元CBM"
 
-#. ~ Description for Internal Storage CBM
 #. ~ Description for Internal Storage
+#. ~ Description for Internal Storage CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Space inside your chest cavity has been converted into a storage area.  You "
@@ -12400,8 +12400,8 @@ msgid "Muscle Augmentation CBM"
 msgid_plural "Muscle Augmentation CBMs"
 msgstr[0] "人工肌肉纤维CBM"
 
-#. ~ Description for Muscle Augmentation CBM
 #. ~ Description for Muscle Augmentation
+#. ~ Description for Muscle Augmentation CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your muscular system has been enhanced with myomer fibers, giving you a +2 "
@@ -12427,8 +12427,8 @@ msgid "Targeting System CBM"
 msgid_plural "Targeting System CBMs"
 msgstr[0] "瞄准系统CBM"
 
-#. ~ Description for Targeting System CBM
 #. ~ Description for Targeting System
+#. ~ Description for Targeting System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eyes are equipped with range finders, and their movement is synced with"
@@ -12441,8 +12441,8 @@ msgid "Teleportation Unit CBM"
 msgid_plural "Teleportation Unit CBMs"
 msgstr[0] "短距离传送组件CBM"
 
-#. ~ Description for Teleportation Unit CBM
 #. ~ Description for Teleportation Unit
+#. ~ Description for Teleportation Unit CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "This highly experimental unit folds space over short distances, instantly "
@@ -12455,8 +12455,8 @@ msgid "Time Dilation CBM"
 msgid_plural "Time Dilation CBMs"
 msgstr[0] "时间膨胀CBM"
 
-#. ~ Description for Time Dilation CBM
 #. ~ Description for Time Dilation
+#. ~ Description for Time Dilation CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "At an immense cost of power, you may increase your body speed and reactions "
@@ -12469,8 +12469,8 @@ msgid "Integrated Toolset CBM"
 msgid_plural "Integrated Toolset CBMs"
 msgstr[0] "瑞士军手CBM"
 
-#. ~ Description for Integrated Toolset CBM
 #. ~ Description for Integrated Toolset
+#. ~ Description for Integrated Toolset CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Implanted in your hands and fingers is a complete tool set - screwdriver, "
@@ -12483,8 +12483,8 @@ msgid "Joint Torsion Ratchet CBM"
 msgid_plural "Joint Torsion Ratchet CBMs"
 msgstr[0] "动力齿轮CBM"
 
-#. ~ Description for Joint Torsion Ratchet CBM
 #. ~ Description for Joint Torsion Ratchet
+#. ~ Description for Joint Torsion Ratchet CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your joints have been equipped with torsion ratchets that generate power "
@@ -12496,8 +12496,8 @@ msgid "Uncanny Dodge CBM"
 msgid_plural "Uncanny Dodge CBMs"
 msgstr[0] "神奇闪避CBM"
 
-#. ~ Description for Uncanny Dodge CBM
 #. ~ Description for Uncanny Dodge
+#. ~ Description for Uncanny Dodge CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your nervous system has been augmented with bionic processors, allowing you "
@@ -12534,8 +12534,8 @@ msgid "Water Extraction Unit CBM"
 msgid_plural "Water Extraction Unit CBMs"
 msgstr[0] "体液萃取器CBM"
 
-#. ~ Description for Water Extraction Unit CBM
 #. ~ Description for Water Extraction Unit
+#. ~ Description for Water Extraction Unit CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Nanotubes embedded in the palm of your hand will pump any available fluid "
@@ -24238,8 +24238,8 @@ msgstr "靠近火源"
 #. ~ Description for nearby fire
 #. ~ Description for muscle
 #. ~ Description for a smoking device and a source of flame
-#. ~ Description for seeing this is a bug
 #. ~ Description for weapon
+#. ~ Description for seeing this is a bug
 #: lang/json/GENERIC_from_json.py lang/json/GENERIC_from_json.py
 #: lang/json/TOOL_from_json.py lang/json/TOOL_from_json.py
 #: lang/json/skill_from_json.py
@@ -37018,15 +37018,15 @@ msgid "mining helmet"
 msgid_plural "mining helmets"
 msgstr[0] "采矿头盔"
 
-#. ~ Use action need_charges_msg for mining helmet.
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid "The helmet's batteries are dead."
-msgstr "头盔的电池耗尽了。"
-
 #. ~ Use action msg for mining helmet.
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "You turn the helmet on."
 msgstr "你打开了头盔灯。"
+
+#. ~ Use action need_charges_msg for mining helmet.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "The helmet's batteries are dead."
+msgstr "头盔的电池耗尽了。"
 
 #. ~ Description for mining helmet
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -37092,19 +37092,6 @@ msgid "pair of thermal electric socks"
 msgid_plural "pairs of thermal electric socks"
 msgstr[0] "电热袜（关）"
 
-#. ~ Use action need_charges_msg for pair of thermal electric socks.
-#. ~ Use action need_charges_msg for thermal electric suit.
-#. ~ Use action need_charges_msg for pair of thermal electric gloves.
-#. ~ Use action need_charges_msg for thermal electric balaclava.
-#. ~ Use action need_charges_msg for firefighter PBA mask.
-#. ~ Use action need_charges_msg for pair of light amp goggles.
-#. ~ Use action need_charges_msg for pair of infrared goggles.
-#. ~ Use action need_charges_msg for thermal electric outfit.
-#: lang/json/TOOL_ARMOR_from_json.py src/iuse.cpp
-#, c-format, no-python-format
-msgid "The %s's batteries are dead."
-msgstr "%s 没电了。"
-
 #. ~ Use action msg for pair of thermal electric socks.
 #. ~ Use action msg for thermal electric suit.
 #. ~ Use action msg for pair of thermal electric gloves.
@@ -37122,6 +37109,19 @@ msgstr "%s 没电了。"
 #, c-format, no-python-format
 msgid "You activate your %s."
 msgstr "你激活你的 %s。"
+
+#. ~ Use action need_charges_msg for pair of thermal electric socks.
+#. ~ Use action need_charges_msg for thermal electric suit.
+#. ~ Use action need_charges_msg for pair of thermal electric gloves.
+#. ~ Use action need_charges_msg for thermal electric balaclava.
+#. ~ Use action need_charges_msg for firefighter PBA mask.
+#. ~ Use action need_charges_msg for pair of light amp goggles.
+#. ~ Use action need_charges_msg for pair of infrared goggles.
+#. ~ Use action need_charges_msg for thermal electric outfit.
+#: lang/json/TOOL_ARMOR_from_json.py src/iuse.cpp
+#, c-format, no-python-format
+msgid "The %s's batteries are dead."
+msgstr "%s 没电了。"
 
 #. ~ Description for pair of thermal electric socks
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -37254,15 +37254,15 @@ msgid "head torch"
 msgid_plural "head torchs"
 msgstr[0] "头灯"
 
-#. ~ Use action need_charges_msg for head torch.
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid "The head torch batteries are dead."
-msgstr "头灯的电池耗尽了。"
-
 #. ~ Use action msg for head torch.
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "You turn the head torch on."
 msgstr "你打开了头灯。"
+
+#. ~ Use action need_charges_msg for head torch.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "The head torch batteries are dead."
+msgstr "头灯的电池耗尽了。"
 
 #. ~ Description for head torch
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -37289,15 +37289,15 @@ msgid "survivor head torch"
 msgid_plural "survivor head torchs"
 msgstr[0] "幸存者头灯"
 
-#. ~ Use action need_charges_msg for survivor head torch.
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid "The survivor head torch batteries are dead."
-msgstr "幸存者头灯的电池耗尽了。"
-
 #. ~ Use action msg for survivor head torch.
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "You turn the survivor head torch on."
 msgstr "你打开了幸存者头灯。"
+
+#. ~ Use action need_charges_msg for survivor head torch.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "The survivor head torch batteries are dead."
+msgstr "幸存者头灯的电池耗尽了。"
 
 #. ~ Description for survivor head torch
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -38093,15 +38093,15 @@ msgid "shooter's earmuffs"
 msgid_plural "shooter's earmuffs"
 msgstr[0] "射击护耳"
 
-#. ~ Use action need_charges_msg for shooter's earmuffs.
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid "The earmuff's batteries are dead."
-msgstr "护耳的电池耗尽了。"
-
 #. ~ Use action msg for shooter's earmuffs.
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "You turn the earmuffs on."
 msgstr "你启动了护耳。"
+
+#. ~ Use action need_charges_msg for shooter's earmuffs.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "The earmuff's batteries are dead."
+msgstr "护耳的电池耗尽了。"
 
 #. ~ Description for shooter's earmuffs
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -38148,17 +38148,17 @@ msgid "mask of insight"
 msgid_plural "masks of insight"
 msgstr[0] "真视面具"
 
-#. ~ Use action need_charges_msg for mask of insight.
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid "Fuel the mask with consecrated essence, to open your eyes."
-msgstr "给这个面具注入神圣精华，来扩展你的眼界。"
-
 #. ~ Use action msg for mask of insight.
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
 "The mask appears to contort into a fearsome visage, the eyeholes momentarily"
 " seeming to glow."
 msgstr "面具似乎扭曲成一个可怕的面貌，它的眼瞳有一瞬间似乎发光了。"
+
+#. ~ Use action need_charges_msg for mask of insight.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "Fuel the mask with consecrated essence, to open your eyes."
+msgstr "给这个面具注入神圣精华，来扩展你的眼界。"
 
 #. ~ Description for mask of insight
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -38225,17 +38225,17 @@ msgid "mantle of shadows"
 msgid_plural "mantles of shadows"
 msgstr[0] "暗影披风"
 
-#. ~ Use action need_charges_msg for mantle of shadows.
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid "The mantle requires essence to bring forth the night."
-msgstr "披风需要魔力精华才能带来黑夜。"
-
 #. ~ Use action msg for mantle of shadows.
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
 "The robe's fabric darkens to a rich shade of black, cloaking your "
 "surroundings in a flickering illusion."
 msgstr "披风的布料变暗直到成为一滩浓厚的黑影，你周围的环境伪装成一个不断闪烁的幻影。"
+
+#. ~ Use action need_charges_msg for mantle of shadows.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "The mantle requires essence to bring forth the night."
+msgstr "披风需要魔力精华才能带来黑夜。"
 
 #. ~ Description for mantle of shadows
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -39217,16 +39217,16 @@ msgstr[0] "御火者（开）"
 msgid "Run away!"
 msgstr "是时候逃跑了！"
 
+#. ~ Use action noise_message for firebrand (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your blade burns for combat!"
+msgstr "你的刀刃为战而燃！"
+
 #. ~ Use action water_extinguish_message for firebrand (on).
 #. ~ Use action water_extinguish_message for Rising Sun (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your sword hisses in the water and goes out."
 msgstr "你手中的剑在水中嘶嘶作响，熄灭了。"
-
-#. ~ Use action noise_message for firebrand (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your blade burns for combat!"
-msgstr "你的刀刃为战而燃！"
 
 #. ~ Use action charges_extinguish_message for firebrand (on).
 #: lang/json/TOOL_from_json.py
@@ -39429,15 +39429,15 @@ msgid "cell phone"
 msgid_plural "cell phones"
 msgstr[0] "手提电话"
 
-#. ~ Use action need_charges_msg for cell phone.
-#: lang/json/TOOL_from_json.py
-msgid "The cellphones's batteries are dead."
-msgstr "手机没电了。"
-
 #. ~ Use action msg for cell phone.
 #: lang/json/TOOL_from_json.py
 msgid "You activate the flashlight app."
 msgstr "你启动了手电筒应用。"
+
+#. ~ Use action need_charges_msg for cell phone.
+#: lang/json/TOOL_from_json.py
+msgid "The cellphones's batteries are dead."
+msgstr "手机没电了。"
 
 #. ~ Description for cell phone
 #: lang/json/TOOL_from_json.py
@@ -40365,30 +40365,30 @@ msgid "No. 9 (on)"
 msgid_plural "No. 9's (on)"
 msgstr[0] "No. 9（开）"
 
+#. ~ Use action auto_extinguish_message for No. 9 (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your No. 9 cuts out!"
+msgstr "你的No. 9熄火了！"
+
 #. ~ Use action voluntary_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 goes dark."
 msgstr "你的No. 9变暗了。"
-
-#. ~ Use action water_extinguish_message for No. 9 (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your No. 9 hisses in the water and goes out."
-msgstr "你的No. 9在水中嘶嘶作响，熄灭了。"
 
 #. ~ Use action noise_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 hisses."
 msgstr "你的No. 9发出咝咝声。"
 
+#. ~ Use action water_extinguish_message for No. 9 (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your No. 9 hisses in the water and goes out."
+msgstr "你的No. 9在水中嘶嘶作响，熄灭了。"
+
 #. ~ Use action charges_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Out of ammo!"
 msgstr "没子弹了！"
-
-#. ~ Use action auto_extinguish_message for No. 9 (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your No. 9 cuts out!"
-msgstr "你的No. 9熄火了！"
 
 #. ~ Description for No. 9 (on)
 #: lang/json/TOOL_from_json.py
@@ -40640,18 +40640,18 @@ msgid "gasoline lantern (off)"
 msgid_plural "gasoline lanterns (off)"
 msgstr[0] "汽油灯（关）"
 
-#. ~ Use action need_charges_msg for gasoline lantern (off).
-#. ~ Use action need_charges_msg for oil lamp (off).
-#: lang/json/TOOL_from_json.py
-msgid "The lamp is empty."
-msgstr "油灯没油了。"
-
 #. ~ Use action msg for gasoline lantern (off).
 #. ~ Use action msg for oil lamp (off).
 #. ~ Use action msg for electric lantern (off).
 #: lang/json/TOOL_from_json.py
 msgid "You turn the lamp on."
 msgstr "你点亮了灯。"
+
+#. ~ Use action need_charges_msg for gasoline lantern (off).
+#. ~ Use action need_charges_msg for oil lamp (off).
+#: lang/json/TOOL_from_json.py
+msgid "The lamp is empty."
+msgstr "油灯没油了。"
 
 #. ~ Description for gasoline lantern (off)
 #: lang/json/TOOL_from_json.py
@@ -41050,15 +41050,15 @@ msgid "filled charcoal kiln"
 msgid_plural "filled charcoal kilns"
 msgstr[0] "炭窑（满）"
 
-#. ~ Use action need_fire_msg for filled charcoal kiln.
-#: lang/json/TOOL_from_json.py
-msgid "You need something to light it with!"
-msgstr "你需要点火工具！"
-
 #. ~ Use action msg for filled charcoal kiln.
 #: lang/json/TOOL_from_json.py
 msgid "You light the wood."
 msgstr "你点燃了木头。"
+
+#. ~ Use action need_fire_msg for filled charcoal kiln.
+#: lang/json/TOOL_from_json.py
+msgid "You need something to light it with!"
+msgstr "你需要点火工具！"
 
 #. ~ Description for filled charcoal kiln
 #: lang/json/TOOL_from_json.py
@@ -41192,15 +41192,15 @@ msgid "L-stick (off)"
 msgid_plural "l-sticks (off)"
 msgstr[0] "光棒（关）"
 
-#. ~ Use action need_charges_msg for L-stick (off).
-#: lang/json/TOOL_from_json.py
-msgid "The L-stick(tm)'s batteries are empty."
-msgstr "光棒的电池耗尽了。"
-
 #. ~ Use action msg for L-stick (off).
 #: lang/json/TOOL_from_json.py
 msgid "The L-stick(tm) lights up."
 msgstr "光棒亮了起来。"
+
+#. ~ Use action need_charges_msg for L-stick (off).
+#: lang/json/TOOL_from_json.py
+msgid "The L-stick(tm)'s batteries are empty."
+msgstr "光棒的电池耗尽了。"
 
 #. ~ Description for L-stick (off)
 #: lang/json/TOOL_from_json.py
@@ -41867,17 +41867,17 @@ msgid "permanent marker"
 msgid_plural "permanent markers"
 msgstr[0] "记号笔"
 
-#. ~ Use action verb for permanent marker.
-#. ~ Use action verb for survival marker.
-#: lang/json/TOOL_from_json.py src/iuse.cpp
-msgid "Write"
-msgstr "写"
-
 #. ~ Use action gerund for permanent marker.
 #. ~ Use action gerund for survival marker.
 #: lang/json/TOOL_from_json.py src/iuse.cpp
 msgid "Written"
 msgstr "写好的"
+
+#. ~ Use action verb for permanent marker.
+#. ~ Use action verb for survival marker.
+#: lang/json/TOOL_from_json.py src/iuse.cpp
+msgid "Write"
+msgstr "写"
 
 #. ~ Description for permanent marker
 #: lang/json/TOOL_from_json.py
@@ -42230,16 +42230,16 @@ msgid "refillable lighter"
 msgid_plural "refillable lighters"
 msgstr[0] "充气打火机"
 
+#. ~ Use action msg for refillable lighter.
+#: lang/json/TOOL_from_json.py
+msgid "You flick the lighter."
+msgstr "你打着了打火机。"
+
 #. ~ Use action need_charges_msg for refillable lighter.
 #: lang/json/TOOL_from_json.py src/game.cpp src/gates.cpp src/gates.cpp
 #: src/iexamine.cpp src/iexamine.cpp
 msgid "Nothing happens."
 msgstr "没有任何事情发生。"
-
-#. ~ Use action msg for refillable lighter.
-#: lang/json/TOOL_from_json.py
-msgid "You flick the lighter."
-msgstr "你打着了打火机。"
 
 #. ~ Description for refillable lighter
 #: lang/json/TOOL_from_json.py
@@ -42519,30 +42519,30 @@ msgid "shishkebab (on)"
 msgid_plural "shishkebabs (on)"
 msgstr[0] "串烧叉（开）"
 
+#. ~ Use action auto_extinguish_message for shishkebab (on).
+#: lang/json/TOOL_from_json.py
+msgid "Bummer, man!  Your shishkebab's flame flickers and dies out."
+msgstr "倒霉！你的火焰刀闪烁了几下熄灭了。"
+
 #. ~ Use action voluntary_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Peace out.  Your shishkebab's flame dies."
 msgstr "安静一会。你的火焰刀熄灭了。"
-
-#. ~ Use action water_extinguish_message for shishkebab (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your shishkebab hisses in the water and goes out."
-msgstr "你的火焰刀在水中嘶嘶作响，熄灭了。"
 
 #. ~ Use action noise_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your shishkebab crackles!"
 msgstr "你的火焰刀发出噼啪声！"
 
+#. ~ Use action water_extinguish_message for shishkebab (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your shishkebab hisses in the water and goes out."
+msgstr "你的火焰刀在水中嘶嘶作响，熄灭了。"
+
 #. ~ Use action charges_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Uncool, outta gas!  Your shishkebab's flame goes out."
 msgstr "惨了，没油了！火焰熄灭了。"
-
-#. ~ Use action auto_extinguish_message for shishkebab (on).
-#: lang/json/TOOL_from_json.py
-msgid "Bummer, man!  Your shishkebab's flame flickers and dies out."
-msgstr "倒霉！你的火焰刀闪烁了几下熄灭了。"
 
 #. ~ Description for shishkebab (on)
 #: lang/json/TOOL_from_json.py
@@ -42671,15 +42671,15 @@ msgid "smart lamp (off)"
 msgid_plural "smart lamps (off)"
 msgstr[0] "遥控灯（关）"
 
-#. ~ Use action need_charges_msg for smart lamp (off).
-#: lang/json/TOOL_from_json.py
-msgid "The smart lamp batteries are dead."
-msgstr "遥控灯的电池耗尽了。"
-
 #. ~ Use action msg for smart lamp (off).
 #: lang/json/TOOL_from_json.py
 msgid "You turn the smart lamp on."
 msgstr "你打开遥控灯。"
+
+#. ~ Use action need_charges_msg for smart lamp (off).
+#: lang/json/TOOL_from_json.py
+msgid "The smart lamp batteries are dead."
+msgstr "遥控灯的电池耗尽了。"
 
 #. ~ Description for smart lamp (off)
 #: lang/json/TOOL_from_json.py
@@ -43701,15 +43701,15 @@ msgstr[0] "焰光终结者（开）"
 msgid "Die Flamme deines Schwertes erlischt."
 msgstr "你的火焰剑熄灭了。（德语）"
 
-#. ~ Use action water_extinguish_message for flammenschwert (an).
-#: lang/json/TOOL_from_json.py
-msgid "Dein Schwert zischt und erlischt."
-msgstr "你的巨剑在水中嘶嘶作响，熄灭了。（德语）"
-
 #. ~ Use action noise_message for flammenschwert (an).
 #: lang/json/TOOL_from_json.py
 msgid "Das Feuer um deine Schwertklinge leuchtet hell!"
 msgstr "大剑熊熊燃烧着，发出耀眼的光芒（德语）！"
+
+#. ~ Use action water_extinguish_message for flammenschwert (an).
+#: lang/json/TOOL_from_json.py
+msgid "Dein Schwert zischt und erlischt."
+msgstr "你的巨剑在水中嘶嘶作响，熄灭了。（德语）"
 
 #. ~ Use action charges_extinguish_message for flammenschwert (an).
 #: lang/json/TOOL_from_json.py
@@ -43802,15 +43802,15 @@ msgid "flashlight (off)"
 msgid_plural "flashlights (off)"
 msgstr[0] "手电筒（关）"
 
-#. ~ Use action need_charges_msg for flashlight (off).
-#: lang/json/TOOL_from_json.py
-msgid "The flashlight's batteries are dead."
-msgstr "手电的电池耗尽了。"
-
 #. ~ Use action msg for flashlight (off).
 #: lang/json/TOOL_from_json.py
 msgid "You turn the flashlight on."
 msgstr "你打开了手电筒。"
+
+#. ~ Use action need_charges_msg for flashlight (off).
+#: lang/json/TOOL_from_json.py
+msgid "The flashlight's batteries are dead."
+msgstr "手电的电池耗尽了。"
 
 #. ~ Description for flashlight (off)
 #: lang/json/TOOL_from_json.py
@@ -43864,15 +43864,15 @@ msgid "heavy duty flashlight (off)"
 msgid_plural "heavy duty flashlights (off)"
 msgstr[0] "耐用手电筒（关）"
 
-#. ~ Use action need_charges_msg for heavy duty flashlight (off).
-#: lang/json/TOOL_from_json.py
-msgid "The heavy duty flashlight's batteries are dead."
-msgstr "耐用手电的电池耗尽了。"
-
 #. ~ Use action msg for heavy duty flashlight (off).
 #: lang/json/TOOL_from_json.py
 msgid "You turn the heavy duty flashlight on."
 msgstr "你打开了耐用手电筒。"
+
+#. ~ Use action need_charges_msg for heavy duty flashlight (off).
+#: lang/json/TOOL_from_json.py
+msgid "The heavy duty flashlight's batteries are dead."
+msgstr "耐用手电的电池耗尽了。"
 
 #. ~ Description for heavy duty flashlight (off)
 #: lang/json/TOOL_from_json.py
@@ -44188,15 +44188,15 @@ msgstr[0] "不朽之剑（开）"
 msgid "The blade dims as you dispel its effect."
 msgstr "在你消除它的效果之后，剑刃失去了光芒。"
 
-#. ~ Use action water_extinguish_message for incorruptible sword (on).
-#: lang/json/TOOL_from_json.py
-msgid "The sword shimmers in the water, before the glow fades."
-msgstr "剑在水中闪了几下，然后光芒消散了。"
-
 #. ~ Use action noise_message for incorruptible sword (on).
 #: lang/json/TOOL_from_json.py
 msgid "The glow intensifies, the blade yearning to cleave darkness itself."
 msgstr "剑刃的白光更加耀眼了，它渴望着斩断黑暗本身。"
+
+#. ~ Use action water_extinguish_message for incorruptible sword (on).
+#: lang/json/TOOL_from_json.py
+msgid "The sword shimmers in the water, before the glow fades."
+msgstr "剑在水中闪了几下，然后光芒消散了。"
 
 #. ~ Use action charges_extinguish_message for incorruptible sword (on).
 #: lang/json/TOOL_from_json.py
@@ -44215,15 +44215,15 @@ msgid "hammer of the hunter"
 msgid_plural "hammers of the hunter"
 msgstr[0] "猎人之锤"
 
-#. ~ Use action need_charges_msg for hammer of the hunter.
-#: lang/json/TOOL_from_json.py
-msgid "Dull essence shall make the hammer shine."
-msgstr "黯淡精华应该能让这把锤子发光。"
-
 #. ~ Use action msg for hammer of the hunter.
 #: lang/json/TOOL_from_json.py
 msgid "\"Ave martello!\" The hammer gives off a golden light."
 msgstr "\"Ave martello!\"锤子发出金色的光芒。"
+
+#. ~ Use action need_charges_msg for hammer of the hunter.
+#: lang/json/TOOL_from_json.py
+msgid "Dull essence shall make the hammer shine."
+msgstr "黯淡精华应该能让这把锤子发光。"
 
 #. ~ Description for hammer of the hunter
 #: lang/json/TOOL_from_json.py
@@ -44681,17 +44681,17 @@ msgid "cursed blade"
 msgid_plural "cursed blades"
 msgstr[0] "诅咒之刃"
 
-#. ~ Use action need_charges_msg for cursed blade.
-#: lang/json/TOOL_from_json.py
-msgid "Nine motes of blood shall awaken the blade."
-msgstr "九缕鲜血将唤醒这把利刃。"
-
 #. ~ Use action msg for cursed blade.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The runes on the blade glow for a moment, and you feel a strange bloodlust "
 "overtake you."
 msgstr "刀刃上的符文发出了一阵光芒，你感到一股奇特的嗜血欲望占据了你。"
+
+#. ~ Use action need_charges_msg for cursed blade.
+#: lang/json/TOOL_from_json.py
+msgid "Nine motes of blood shall awaken the blade."
+msgstr "九缕鲜血将唤醒这把利刃。"
 
 #. ~ Description for cursed blade
 #: lang/json/TOOL_from_json.py
@@ -44862,15 +44862,15 @@ msgid "ember carrier"
 msgid_plural "ember carriers"
 msgstr[0] "火种罐"
 
-#. ~ Use action need_fire_msg for ember carrier.
-#: lang/json/TOOL_from_json.py
-msgid "You need a lighter or fire to light this."
-msgstr "你需要一个打火机或火点燃这。"
-
 #. ~ Use action msg for ember carrier.
 #: lang/json/TOOL_from_json.py
 msgid "You light the tinder."
 msgstr "你点燃了引火物。"
+
+#. ~ Use action need_fire_msg for ember carrier.
+#: lang/json/TOOL_from_json.py
+msgid "You need a lighter or fire to light this."
+msgstr "你需要一个打火机或火点燃这。"
 
 #. ~ Description for ember carrier
 #: lang/json/TOOL_from_json.py
@@ -51317,20 +51317,10 @@ msgstr "哐当。"
 msgid "mounted blade"
 msgstr "挂好的刀刃"
 
-#. ~ 'close' action message of some gate object.
-#: lang/json/gates_from_json.py
-msgid "The gate is closed!"
-msgstr "大门被关上了！"
-
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The gate can't be closed!"
 msgstr "大门无法被关上！"
-
-#. ~ 'open' action message of some gate object.
-#: lang/json/gates_from_json.py
-msgid "The gate is opened!"
-msgstr "大门被打开了！"
 
 #. ~ 'pull' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -51339,18 +51329,18 @@ msgstr "你转动了把手……"
 
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "The barn doors closed!"
-msgstr "谷仓的门关上了！"
+msgid "The gate is closed!"
+msgstr "大门被关上了！"
+
+#. ~ 'open' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The gate is opened!"
+msgstr "大门被打开了！"
 
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The barn doors can't be closed!"
 msgstr "谷仓的门无法被关上！"
-
-#. ~ 'open' action message of some gate object.
-#: lang/json/gates_from_json.py
-msgid "The barn doors opened!"
-msgstr "谷仓的门打开了！"
 
 #. ~ 'pull' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -51359,38 +51349,48 @@ msgstr "你拉了把绳子……"
 
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "The palisade gate swings closed with a crash!"
-msgstr "栅栏门\"碰\"的一声被关上了！"
+msgid "The barn doors closed!"
+msgstr "谷仓的门关上了！"
+
+#. ~ 'open' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The barn doors opened!"
+msgstr "谷仓的门打开了！"
 
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The palisade gate can't be closed!"
 msgstr "栅栏门无法被关上！"
 
+#. ~ 'close' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The palisade gate swings closed with a crash!"
+msgstr "栅栏门\"碰\"的一声被关上了！"
+
 #. ~ 'open' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The palisade gate swings open!"
 msgstr "栅栏门打开了！"
-
-#. ~ 'close' action message of some gate object.
-#: lang/json/gates_from_json.py
-msgid "The door slams shut!"
-msgstr "门关上了！"
 
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The door can't be closed!"
 msgstr "门无法被关上！"
 
-#. ~ 'open' action message of some gate object.
-#: lang/json/gates_from_json.py
-msgid "The door rises!"
-msgstr "门打开了！"
-
 #. ~ 'pull' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "You throw the lever..."
 msgstr "你扳下开关……"
+
+#. ~ 'close' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The door slams shut!"
+msgstr "门关上了！"
+
+#. ~ 'open' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The door rises!"
+msgstr "门打开了！"
 
 #: lang/json/gun_from_json.py
 msgid "self bow"
@@ -57744,7 +57744,7 @@ msgstr "打开物品栏"
 msgid "Compare two Items"
 msgstr "比较两件物品"
 
-#: lang/json/keybinding_from_json.py
+#: lang/json/keybinding_from_json.py src/game_inventory.cpp
 msgid "Swap Inventory Letters"
 msgstr "更改物品字母"
 
@@ -58314,13 +58314,13 @@ msgstr "危险！严禁吸烟！有爆炸危险！"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
-msgid "Maintained by the the <city> church."
-msgstr "由<city>教会赞助。"
+msgid "Closed at sunset."
+msgstr "傍晚关门。"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
-msgid "Closed at sunset."
-msgstr "傍晚关门。"
+msgid "Maintained by the the <city> church."
+msgstr "由<city>教会赞助。"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
@@ -61826,6 +61826,10 @@ msgstr "谢谢你帮忙找到他！"
 #: lang/json/mission_def_from_json.py
 msgid "Oh no!  My poor puppy..."
 msgstr "哦不！我可怜的小狗……"
+
+#: lang/json/mission_def_from_json.py
+msgid "Reach Refugee Center"
+msgstr "前往难民中心"
 
 #. ~ Mutation class name
 #: lang/json/mutation_category_from_json.py lang/json/mutation_from_json.py
@@ -90350,28 +90354,6 @@ msgid ""
 "TO WRITE US A LETTER PLEASE SEND IT TO...\n"
 msgstr "如果您有任何关于您的访问的意见反馈， \n请联系紧急情况公共事务管理办事处的有关部门。  \n本地的办事处电话在上午9点到下午4点有人接听， \n电话号码是：1-800-255-5678                                      \n\n如果您想要现场与我们沟通或是信件沟通，\n请参阅该地址：……\n"
 
-#: src/computer.cpp
-msgid "You don't know where the address could be..."
-msgstr "（你不知道这个地址在哪里……）"
-
-#: src/computer.cpp
-msgid "You already know that address..."
-msgstr "（你已经知道这个地址……）"
-
-#: src/computer.cpp
-msgid "It takes you forever to find the address on your map..."
-msgstr "（你不管怎么找都在地图上找不到这个地址……）"
-
-#: src/computer.cpp
-msgid "You mark the refugee center and the road that leads to it..."
-msgstr "（你标记了难民中心的位置及到那里去的路……）"
-
-#: src/computer.cpp
-msgid ""
-"You mark the refugee center, but you have no idea how to get there by "
-"road..."
-msgstr "（你标记了难民中心的位置，但不知道怎么顺着路过去……）"
-
 #: src/construction.cpp
 msgid " Construction "
 msgstr " 建筑选项 "
@@ -90944,9 +90926,10 @@ msgstr "拆解物品"
 msgid "You don't have any items to disassemble."
 msgstr "你没有任何可以分解的物品。"
 
-#: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp src/iuse.cpp
-#: src/iuse.cpp src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp
-#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp src/player.cpp
+#: src/crafting.cpp src/game.cpp src/game.cpp src/game.cpp src/iexamine.cpp
+#: src/iexamine.cpp src/iexamine.cpp src/iuse.cpp src/iuse.cpp src/iuse.cpp
+#: src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp src/npctalk.cpp
+#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp
 #: src/veh_interact.cpp
 msgid "Never mind."
 msgstr "没有什么情况。"
@@ -91511,6 +91494,10 @@ msgstr "健康"
 #: src/debug_menu.cpp
 msgid "Health modifier"
 msgstr "健康修改"
+
+#: src/debug_menu.cpp
+msgid "Radiation"
+msgstr "辐射"
 
 #: src/debug_menu.cpp
 #, c-format
@@ -96480,23 +96467,6 @@ msgid "Drop where?"
 msgstr "丢在哪里？"
 
 #: src/game.cpp
-msgid "Reassign item"
-msgstr "重新指定物品快捷键"
-
-#: src/game.cpp
-#, c-format
-msgid "%s; enter new letter (press SPACE for none, ESCAPE to cancel)."
-msgstr "%s；输入新字符（按空格键清除，按ESC键退出）。"
-
-#: src/game.cpp
-#, c-format
-msgid ""
-"Invalid inventory letter. Only those characters are valid:\n"
-"\n"
-"%s"
-msgstr "无效的字符。只有以下字符有效：\n\n%s"
-
-#: src/game.cpp
 msgid "You can't effectively throw while you're in your shell."
 msgstr "你缩在龟壳里无法有效投掷物品。"
 
@@ -97815,6 +97785,10 @@ msgstr "选择两个物品来比较。"
 #: src/game_inventory.cpp
 msgid "There are no items to compare."
 msgstr "没有可比较的项目。"
+
+#: src/game_inventory.cpp
+msgid "Enter new letter (press SPACE for none, ESCAPE to cancel)."
+msgstr "输入新字母 (按下空格键输入空，按下ESC键退出)。"
 
 #: src/gamemode.cpp
 msgid "Tutorial"
@@ -100208,6 +100182,11 @@ msgid "%d of %d"
 msgstr "（%d/%d）"
 
 #: src/inventory_ui.cpp
+#, c-format
+msgid "Page %d/%d"
+msgstr "页 %d/%d"
+
+#: src/inventory_ui.cpp
 msgid "ITEMS WORN"
 msgstr "穿戴物品"
 
@@ -100226,19 +100205,8 @@ msgid "Volume (%s):"
 msgstr "体积（%s）："
 
 #: src/inventory_ui.cpp
-#, c-format
-msgid "Page %d/%d"
-msgstr "页 %d/%d"
-
-#. ~ %1$s - category name, %2$s, %3$s - key names
-#: src/inventory_ui.cpp
-#, c-format
-msgid "%1$s; %2$s switches mode, %3$s confirms."
-msgstr "%1$s 和 %2$s 切换模式，%3$s 确认。"
-
-#: src/inventory_ui.cpp
-msgid "There are no available choices."
-msgstr "没有有效的选项。"
+msgid "There are no available choices"
+msgstr "没有可用的选项"
 
 #: src/inventory_ui.cpp
 msgid "Next column"
@@ -100259,10 +100227,6 @@ msgstr "切换选择模式"
 #: src/inventory_ui.cpp
 msgid "End"
 msgstr "末页"
-
-#: src/inventory_ui.cpp
-msgid "Item selection mode"
-msgstr "物品选择模式"
 
 #: src/inventory_ui.cpp
 msgid "Category selection mode"
@@ -101276,33 +101240,6 @@ msgstr "烧焦的 "
 #: src/item.cpp
 #, c-format
 msgctxt "item name"
-msgid "%s corpse of %s"
-msgid_plural "%s corpses of %s"
-msgstr[0] "%s 的尸体（%s）"
-
-#: src/item.cpp
-#, c-format
-msgctxt "item name"
-msgid "%s corpse"
-msgid_plural "%s corpses"
-msgstr[0] "%s 的尸体"
-
-#: src/item.cpp
-msgctxt "item name"
-msgid "human blood"
-msgid_plural "human blood"
-msgstr[0] "人类血液"
-
-#: src/item.cpp
-#, c-format
-msgctxt "item name"
-msgid "%s blood"
-msgid_plural "%s blood"
-msgstr[0] "%s 血液"
-
-#: src/item.cpp
-#, c-format
-msgctxt "item name"
 msgid "%s of %s"
 msgstr "%s 之 %s"
 
@@ -101602,6 +101539,33 @@ msgstr "你卷绕电缆。"
 #, c-format
 msgid "You need an UPS to run the %s!"
 msgstr "你需要一个激活的UPS来启动 %s！"
+
+#: src/item.cpp
+#, c-format
+msgctxt "item name"
+msgid "%s corpse"
+msgid_plural "%s corpses"
+msgstr[0] "%s 的尸体"
+
+#: src/item.cpp
+#, c-format
+msgctxt "item name"
+msgid "%s corpse of %s"
+msgid_plural "%s corpses of %s"
+msgstr[0] "%s 的尸体（%s）"
+
+#: src/item.cpp
+msgctxt "item name"
+msgid "human blood"
+msgid_plural "human blood"
+msgstr[0] "人类血液"
+
+#: src/item.cpp
+#, c-format
+msgctxt "item name"
+msgid "%s blood"
+msgid_plural "%s blood"
+msgstr[0] "%s 血液"
 
 #: src/item_action.cpp
 msgid "You do not have an item that can perform this action."
@@ -108573,6 +108537,28 @@ msgstr "%s 也标记了去那里的道路……"
 #, c-format
 msgid "%s have marked the only %s known to them on your map."
 msgstr "%s 在你的地图上标记了他们知道的唯一的 %s 的地址。"
+
+#: src/mission_start.cpp
+msgid "You don't know where the address could be..."
+msgstr "（你不知道这个地址在哪里……）"
+
+#: src/mission_start.cpp
+msgid "You already know that address..."
+msgstr "（你已经知道这个地址……）"
+
+#: src/mission_start.cpp
+msgid "It takes you forever to find the address on your map..."
+msgstr "（你不管怎么找都在地图上找不到这个地址……）"
+
+#: src/mission_start.cpp
+msgid "You mark the refugee center and the road that leads to it..."
+msgstr "（你标记了难民中心的位置及到那里去的路……）"
+
+#: src/mission_start.cpp
+msgid ""
+"You mark the refugee center, but you have no idea how to get there by "
+"road..."
+msgstr "（你标记了难民中心的位置，但不知道怎么顺着路过去……）"
 
 #: src/mission_ui.cpp
 msgid "ACTIVE MISSIONS"
@@ -116433,22 +116419,22 @@ msgstr "最终状态："
 #: src/player.cpp
 #, c-format
 msgid "Str %d"
-msgstr "力量 %d"
+msgstr "力 %d"
 
 #: src/player.cpp
 #, c-format
 msgid "Dex %d"
-msgstr "敏捷 %d"
+msgstr "敏 %d"
 
 #: src/player.cpp
 #, c-format
 msgid "Int %d"
-msgstr "智力 %d"
+msgstr "智 %d"
 
 #: src/player.cpp
 #, c-format
 msgid "Per %d"
-msgstr "感知 %d"
+msgstr "感 %d"
 
 #: src/player.cpp
 msgid "Base Stats:"
@@ -118331,7 +118317,7 @@ msgstr "你内部的能量已经充满。"
 
 #: src/player.cpp
 msgid "Thats a LOT of plutonium.  Are you sure you want that much?"
-msgstr "钚剂量过大，你真的确定要这么多吗？"
+msgstr "钚剂量过大，你真的确定要这么多么？"
 
 #: src/player.cpp
 #, c-format
@@ -118361,7 +118347,7 @@ msgstr "你现在穿着一个空的 %s。"
 #: src/player.cpp
 #, c-format
 msgid "You drop the empty %s."
-msgstr "你将空的 %s丢到了地上。"
+msgstr "你丢下了空的 %s。"
 
 #: src/player.cpp
 #, c-format
@@ -118429,7 +118415,7 @@ msgstr "你不能在装备动力装甲的同时装备 %s！"
 
 #: src/player.cpp
 msgid "You don't have a hand free to wear that."
-msgstr "你没有多余的手来穿它。"
+msgstr "你没有多余的手来穿它！"
 
 #. ~ always plural form
 #: src/player.cpp
