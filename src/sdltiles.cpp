@@ -2340,10 +2340,10 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
         }
         lt_out = ( Sint16 )( ( float )lt_avg / ( float )( end - begin + 1 ) );
         rt_out = ( Sint16 )( ( float )rt_avg / ( float )( end - begin + 1 ) );
-        result->abuf[( 4 * i ) + 1] = ( lt_out >> 8 ) & 0xFF;
-        result->abuf[( 4 * i ) + 0] = lt_out & 0xFF;
-        result->abuf[( 4 * i ) + 3] = ( rt_out >> 8 ) & 0xFF;
-        result->abuf[( 4 * i ) + 2] = rt_out & 0xFF;
+        result->abuf[( 4 * i ) + 1] = (Uint8)(( lt_out >> 8 ) & 0xFF);
+        result->abuf[( 4 * i ) + 0] = (Uint8)(lt_out & 0xFF);
+        result->abuf[( 4 * i ) + 3] = (Uint8)(( rt_out >> 8 ) & 0xFF);
+        result->abuf[( 4 * i ) + 2] = (Uint8)(rt_out & 0xFF);
     }
     return result;
 }
