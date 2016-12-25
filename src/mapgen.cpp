@@ -4241,12 +4241,10 @@ ff.......|....|WWWWWWWW|\n\
                     // ---     -+-
                     // -+- ==> -+-
                     // ...     ...
-                    if( ( ter( doorx + i, doory ) == t_concrete_wall || ter( doorx + i, doory ) == t_concrete_wall ) &&
-                        ter( doorx - i, doory ) == t_floor ) {
+                    if( ter( doorx + i, doory ) == t_concrete_wall && ter( doorx - i, doory ) == t_floor ) {
                         ter_set( doorx + i, doory, t_door_c );
                     }
-                    if( ( ter( doorx, doory + i ) == t_concrete_wall || ter( doorx, doory + i ) == t_concrete_wall ) &&
-                        ter( doorx, doory - i ) == t_floor ) {
+                    if( ter( doorx, doory + i ) == t_concrete_wall && ter( doorx, doory - i ) == t_floor ) {
                         ter_set( doorx, doory + i, t_door_c );
                     }
                 }
