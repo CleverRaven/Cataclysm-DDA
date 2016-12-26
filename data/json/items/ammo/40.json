@@ -23,7 +23,7 @@
     "name_plural": ".40 S&W FMJ",
     "description": ".40 S&W ammunition with 180gr FMJ bullets.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense.",
     "relative": {
-      "damage": -3,
+      "damage": -2,
       "pierce": 6
     }
   },
