@@ -234,12 +234,6 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             if (iLine < 0) {
                 iLine = vRules[iTab].size() - 1;
             }
-        } else if (action == "ADD_RULE") {
-            bStuffChanged = true;
-            static const cRules def( string_format( _( "%s to edit this rule." ), ctxt.press_x( "CONFIRM" ).c_str() ),
-                                     true, false );
-            vRules[iTab].push_back( def );
-            iLine = vRules[iTab].size() - 1;
         } else if (action == "REMOVE_RULE" && currentPageNonEmpty) {
             bStuffChanged = true;
             vRules[iTab].erase(vRules[iTab].begin() + iLine);
@@ -270,8 +264,13 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                 iLine = vRules[(iTab == GLOBAL_TAB) ? CHARACTER_TAB : GLOBAL_TAB].size() - 1;
                 iTab = (iTab == GLOBAL_TAB) ? CHARACTER_TAB : GLOBAL_TAB;
             }
-        } else if (action == "CONFIRM" && currentPageNonEmpty) {
-            bStuffChanged = true;
+        } else if( ( action == "ADD_RULE" ) || ( action == "CONFIRM" && currentPageNonEmpty ) ) {
+            const int old_iLine = iLine;
+            if( action == "ADD_RULE" ) {
+                 vRules[iTab].push_back( cRules( "", true, false ) );
+                 iLine = vRules[iTab].size() - 1;
+            }
+
             if (iColumn == 1) {
                 fold_and_print(w_help, 1, 1, 999, c_white,
                                _(
@@ -287,15 +286,20 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 draw_border(w_help);
                 wrefresh(w_help);
-                const std::string r = string_input_popup( _( "Pickup Rule (CTRL-U: clear line):" ), 30,
-                                                          vRules[iTab][iLine].sRule );
-                // ESCing from the window returns an empty string- the player would lose his complex pattern.
+                const std::string r = string_input_popup( _( "Pickup Rule:" ), 30, vRules[iTab][iLine].sRule );
+                // If r is empty, then either (1) The player ESC'ed from the window (changed their mind), or
+                // (2) Explicitly entered an empty rule- which isn't allowed since "*" should be used
+                // to include/exclude everything
                 if( !r.empty() ) {
                     vRules[iTab][iLine].sRule = wildcard_trim_rule( r );
+                    bStuffChanged = true;
+                } else if( action == "ADD_RULE" ) {
+                    vRules[iTab].pop_back();
+                    iLine = old_iLine;
                 }
             } else if (iColumn == 2) {
-                vRules[iTab][iLine].bExclude =
-                    !vRules[iTab][iLine].bExclude;
+                bStuffChanged = true;
+                vRules[iTab][iLine].bExclude = !vRules[iTab][iLine].bExclude;
             }
         } else if (action == "ENABLE_RULE" && currentPageNonEmpty) {
             bStuffChanged = true;
