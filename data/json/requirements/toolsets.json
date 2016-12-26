@@ -15,6 +15,12 @@
     "tools": [ [ [ "forge", 20 ], [ "char_forge", 20 ], [ "oxy_torch", 20 ] ] ]
   },
   {
+    "id": "heating_standard",
+    "type": "requirement",
+    "//": "Heating of foods, liquids or chemicals",
+    "tools": [ [ [ "fire", -1 ], [ "hotplate", 1 ], [ "toolset", 1 ] ] ]
+  },
+  {
     "id": "sewing_standard",
     "type": "requirement",
     "//": "Crafting or repair of fabric items",
