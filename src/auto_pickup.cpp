@@ -271,7 +271,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                  iLine = vRules[iTab].size() - 1;
             }
 
-            if (iColumn == 1) {
+            if( iColumn == 1 || action == "ADD_RULE" ) {
                 fold_and_print(w_help, 1, 1, 999, c_white,
                                _(
                                    "* is used as a Wildcard. A few Examples:\n"
