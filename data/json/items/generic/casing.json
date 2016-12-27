@@ -23,8 +23,8 @@
     "id": "22_casing",
     "copy-from": "casing",
     "type": "GENERIC",
-    "name": ".22 casing",
-    "description": "An empty casing from a .22 round.  These can't be hand-reloaded.",
+    "name": ".22 LR casing",
+    "description": "An empty casing from a .22 LR round.  These can't be hand-reloaded.",
     "weight": 2,
     "volume": "3ml"
   },
@@ -41,7 +41,7 @@
     "id": "300_casing",
     "copy-from": "casing",
     "type": "GENERIC",
-    "name": ".300 casing",
+    "name": ".300 Win Mag casing",
     "description": "An empty casing from a .300 Winchester Magnum round.",
     "weight": 7,
     "volume": "10ml"
@@ -59,8 +59,8 @@
     "id": "32_casing",
     "copy-from": "casing",
     "type": "GENERIC",
-    "name": ".32 casing",
-    "description": "An empty casing from a .32 round.",
+    "name": ".32 ACP casing",
+    "description": "An empty casing from a .32 ACP round.",
     "weight": 2,
     "volume": "3ml"
   },
@@ -68,8 +68,8 @@
     "id": "38_casing",
     "copy-from": "casing",
     "type": "GENERIC",
-    "name": ".38 casing",
-    "description": "An empty casing from a .38 round.",
+    "name": ".38 Special casing",
+    "description": "An empty casing from a .38 Special round.",
     "weight": 3,
     "volume": "4ml"
   },
@@ -77,8 +77,8 @@
     "id": "40_casing",
     "copy-from": "casing",
     "type": "GENERIC",
-    "name": ".40 casing",
-    "description": "An empty casing from a .40 round.",
+    "name": ".40 S&W casing",
+    "description": "An empty casing from a .40 S&W round.",
     "weight": 3,
     "volume": "5ml"
   },
@@ -98,8 +98,8 @@
     "id": "44_casing",
     "copy-from": "casing",
     "type": "GENERIC",
-    "name": ".44 casing",
-    "description": "An empty casing from a .44 round.",
+    "name": ".44 Magnum casing",
+    "description": "An empty casing from a .44 Magnum round.",
     "weight": 4,
     "volume": "6ml"
   },
@@ -116,7 +116,7 @@
     "id": "45_casing",
     "copy-from": "casing",
     "type": "GENERIC",
-    "name": ".45 casing",
+    "name": ".45 ACP casing",
     "description": "An empty casing from a .45 ACP round.",
     "weight": 4,
     "volume": "6ml"
