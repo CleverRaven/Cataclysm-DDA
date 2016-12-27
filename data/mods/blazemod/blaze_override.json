@@ -349,7 +349,7 @@
   },
   {
     "id": "mininuke_launcher",
-    "copy-fom": "mininuke_launcher",
+    "copy-from": "mininuke_launcher",
     "type": "GUN",
     "name": "mininuke launcher",
     "ammo": "h_projectile"
