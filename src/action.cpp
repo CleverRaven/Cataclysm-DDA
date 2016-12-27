@@ -838,8 +838,9 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );
 
-    if (get_world_option<bool>( "QUIT_NOSAVE" ))
+    if( get_world_option<bool>( "QUIT_NOSAVE" ) ) {
         REGISTER_ACTION( ACTION_QUIT_NOSAVE );
+    }
 
     int width = 0;
     for( auto &entrie : entries ) {
