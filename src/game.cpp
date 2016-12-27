@@ -2150,6 +2150,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("quickload");
 #endif
     ctxt.register_action("quit");
+    ctxt.register_action("quit_nosave");
     ctxt.register_action("player_data");
     ctxt.register_action("map");
     ctxt.register_action("missions");
@@ -3279,6 +3280,17 @@ bool game::handle_action()
                     u.place_corpse();
                     uquit = QUIT_SUICIDE;
                 }
+            }
+            refresh_all();
+            break;
+
+        case ACTION_QUIT_NOSAVE:
+            if (!get_world_option<bool>( "QUIT_NOSAVE" )) {
+                add_msg( m_info, _( "Quitting without saving is disabled in this world's settings." ));
+                break;
+            } else if (query_yn(_("Quit without saving?"))) {
+                u.moves = 0;
+                uquit = QUIT_NOSAVED;
             }
             refresh_all();
             break;

@@ -93,6 +93,7 @@ enum action_id : int {
     ACTION_QUICKSAVE,
     ACTION_QUICKLOAD,
     ACTION_QUIT,
+    ACTION_QUIT_NOSAVE,
     // Info Screens
     ACTION_PL_INFO,
     ACTION_MAP,

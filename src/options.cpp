@@ -1298,6 +1298,11 @@ void options_manager::init()
         "no,yes,query", "no"
         );
 
+    add("QUIT_NOSAVE", "world_default", _("Allow quitting without saving"),
+        _("When enabled, allows you to quit to the main menu without saving."),
+        false
+        );
+
     mOptionsSort["world_default"]++;
 
     add("CITY_SIZE", "world_default", _("Size of cities"),
