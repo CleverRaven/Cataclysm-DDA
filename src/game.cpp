@@ -3285,10 +3285,9 @@ bool game::handle_action()
             break;
 
         case ACTION_QUIT_NOSAVE:
-            if (!get_world_option<bool>( "QUIT_NOSAVE" )) {
-                add_msg( m_info, _( "Quitting without saving is disabled in this world's settings." ));
-                break;
-            } else if (query_yn(_("Quit without saving?"))) {
+            if( !get_world_option<bool>( "QUIT_NOSAVE" ) ) {
+                add_msg( m_info, _( "Quitting without saving is disabled in this world's settings." ) );
+            } else if( query_yn( _( "Quit without saving?" ) ) ) {
                 u.moves = 0;
                 uquit = QUIT_NOSAVED;
             }
