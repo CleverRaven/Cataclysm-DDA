@@ -6255,8 +6255,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1},
-    {"id":"COOK","level":3},
-    {"id":"BOIL","level":2},
+    {"id":"COOK","level":2},
+    {"id":"BOIL","level":1},
     {"id":"CONTAIN","level":1}
   ],
   "tools": [
@@ -6328,8 +6328,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1},
-    {"id":"COOK","level":3},
-    {"id":"BOIL","level":2},
+    {"id":"COOK","level":2},
+    {"id":"BOIL","level":1},
     {"id":"CONTAIN","level":1}
   ],
   "tools": [
