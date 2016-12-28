@@ -2150,7 +2150,6 @@ input_context get_default_mode_input_context()
     ctxt.register_action("quickload");
 #endif
     ctxt.register_action("quit");
-    ctxt.register_action("quit_nosave");
     ctxt.register_action("player_data");
     ctxt.register_action("map");
     ctxt.register_action("missions");
@@ -3284,16 +3283,6 @@ bool game::handle_action()
             refresh_all();
             break;
 
-        case ACTION_QUIT_NOSAVE:
-            if( !get_world_option<bool>( "QUIT_NOSAVE" ) ) {
-                add_msg( m_info, _( "Quitting without saving is disabled in this world's settings." ) );
-            } else if( query_yn( _( "Quit without saving?" ) ) ) {
-                u.moves = 0;
-                uquit = QUIT_NOSAVED;
-            }
-            refresh_all();
-            break;
-
         case ACTION_SAVE:
             if (query_yn(_("Save and quit?"))) {
                 if(save()) {
@@ -4059,6 +4048,7 @@ void game::debug()
                        _( "Overmap editor" ),         // 30
                        _( "Draw benchmark (5 seconds)" ),    // 31
                        _( "Teleport - Adjacent overmap" ),   // 32
+                       _( "Quit Without Saving" ),    // 33
                        _( "Cancel" ),
                        NULL );
     int veh_num;
@@ -4411,6 +4401,12 @@ void game::debug()
 
         case 32:
             debug_menu::teleport_overmap();
+            break;
+        case 33:
+            if( query_yn( _( "Quit without saving?" ) ) ) {
+                u.moves = 0;
+                uquit = QUIT_NOSAVED;
+            }
             break;
     }
     erase();

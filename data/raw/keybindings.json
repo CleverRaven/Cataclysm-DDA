@@ -1897,7 +1897,6 @@
     { "type":"keybinding", "name": "Whitelist enemy", "category":"DEFAULTMODE", "id":"whitelist_enemy", "bindings":[ { "input_method":"keyboard", "key":"~" } ] },
     { "type":"keybinding", "name": "Save and Quit", "category":"DEFAULTMODE", "id":"save", "bindings":[ { "input_method":"keyboard", "key":"S" } ] },
     { "type":"keybinding", "name": "Commit Suicide", "category":"DEFAULTMODE", "id":"quit", "bindings":[ { "input_method":"keyboard", "key":"Q" } ] },
-    { "type":"keybinding", "name": "Quit Without Saving", "category":"DEFAULTMODE", "id":"quit_nosave" },
     { "type":"keybinding", "name": "View Player Info", "category":"DEFAULTMODE", "id":"player_data", "bindings":[ { "input_method":"keyboard", "key":"@" } ] },
     { "type":"keybinding", "name": "View Map", "category":"DEFAULTMODE", "id":"map", "bindings":[ { "input_method":"keyboard", "key":"m" } ] },
     { "type":"keybinding", "name": "View Missions", "category":"DEFAULTMODE", "id":"missions", "bindings":[ { "input_method":"keyboard", "key":"M" } ] },
