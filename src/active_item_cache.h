@@ -23,12 +23,21 @@ class active_item_cache
         std::unordered_set<unsigned> active_item_set;
         unsigned next_free_id = 0;
 
+        /**
+         * Helper function for remove and for the more dangerous version of has.
+         *
+         * @param found: This output will be undefined if not found, otherwise it will be the found element.
+         * @ret: INT_MIN if not found, otherwise found is in active_items[ret]
+        */
+        int find( std::list<item_reference>::const_iterator &found,
+                         const std::list<item>::iterator target, const point &target_loc ) const;
+
     public:
-        void remove( std::list<item>::iterator it, point location );
-        void add( std::list<item>::iterator it, point location );
+        void remove( const std::list<item>::iterator it, const point &location );
+        void add( const std::list<item>::iterator it, const point &location );
 
         // WARNING: Do not call this version of has from the item processing code!
-        bool has( std::list<item>::iterator it, point p ) const;
+        bool has( const std::list<item>::iterator it, const point &p ) const;
         bool has( item_reference const &itm ) const;
         bool empty() const;
         std::list<item_reference> get();

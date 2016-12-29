@@ -2,34 +2,46 @@
 #include "debug.h"
 
 #include <algorithm>
+#include <cassert>
 
-void active_item_cache::remove( std::list<item>::iterator it, point location )
+void active_item_cache::remove( const std::list<item>::iterator it, const point &location )
 {
-    const auto predicate = [&]( const item_reference & active_item ) {
-        return location == active_item.location && active_item.item_iterator == it;
-    };
-    // The iterator is expected to be in this list, as it was added that way in `add`.
-    // But the processing_speed may have changed, so if it's not in the expected container,
-    // remove it from all containers to ensure no stale iterator remains.
-    auto &expected = active_items[it->processing_speed()];
-    auto iter = std::find_if( expected.begin(), expected.end(), predicate );
-    if( iter != expected.end() ) {
-        active_item_set.erase( iter->item_id );
-        expected.erase( iter );
-        return;
+    std::list<item_reference>::const_iterator interior;
+    const int key = find( interior, it, location );
+    if( key != INT_MIN ) {
+        active_item_set.erase( interior->item_id );
+        active_items[key].erase( interior );
+    } else {
+        debugmsg( "Critical: The item isn't there!" );
     }
-    for( auto &e : active_items ) {
-        iter = std::find_if( e.second.begin(), e.second.end(), predicate );
-        if( iter != e.second.end() ) {
-            active_item_set.erase( iter->item_id );
-            e.second.erase( iter );
-            return;
-        }
-    }
-    debugmsg( "Critical: The item isn't there!" );
 }
 
-void active_item_cache::add( std::list<item>::iterator it, point location )
+int active_item_cache::find( std::list<item_reference>::const_iterator &found,
+                                    const std::list<item>::iterator target, const point &target_loc ) const
+{
+    const auto predicate = [&target, &target_loc]( const item_reference & ir ) {
+        // Check the point first- comparing iterators from different sequences is undefined
+        return target_loc == ir.location && target == ir.item_iterator;
+    };
+
+    const auto expected = active_items.find( target->processing_speed() );
+    if( expected != active_items.end() ) {
+        found = std::find_if( expected->second.begin(), expected->second.end(), predicate );
+        if( found != expected->second.end() ) {
+            return expected->first;
+        }
+    }
+    // In rare cases, the item_reference will be in the wrong list (see #17364)
+    for( auto elem = active_items.begin(); elem != active_items.end(); ++elem ) {
+        found = std::find_if( elem->second.begin(), elem->second.end(), predicate );
+        if( found != elem->second.end() ) {
+            return elem->first;
+        }
+    }
+    return INT_MIN;
+}
+
+void active_item_cache::add( const std::list<item>::iterator it, const point &location )
 {
     // Uniqueness is guaranteed because active item processing always removes the item,
     // processes it, then sometimes add it back.
@@ -41,16 +53,10 @@ void active_item_cache::add( std::list<item>::iterator it, point location )
     ++next_free_id;
 }
 
-bool active_item_cache::has( std::list<item>::iterator it, point p ) const
+bool active_item_cache::has( const std::list<item>::iterator it, const point &p ) const
 {
-    const auto predicate = [&]( const item_reference & ir ) {
-        // Comparing iterators from different sequences is undefined, so check the point first
-        return ir.location == p && it == ir.item_iterator;
-    };
-    return std::any_of( active_items.begin(), active_items.end(),
-    [&]( const std::pair< int, std::list<item_reference> > &elem ) {
-        return std::any_of( elem.second.begin(), elem.second.end(), predicate );
-    } );
+    std::list<item_reference>::const_iterator dummy_found;
+    return find( dummy_found, it, p ) != INT_MIN;
 }
 
 bool active_item_cache::has( item_reference const &itm ) const
