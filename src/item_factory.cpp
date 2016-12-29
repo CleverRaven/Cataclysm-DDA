@@ -469,6 +469,7 @@ void Item_factory::init()
     add_iuse( "CARVER_OFF", &iuse::carver_off );
     add_iuse( "CARVER_ON", &iuse::carver_on );
     add_iuse( "CATFOOD", &iuse::catfood );
+    add_iuse( "CELL_PHONE_ON", &iuse::cell_phone_on );
     add_iuse( "CHAINSAW_OFF", &iuse::chainsaw_off );
     add_iuse( "CHAINSAW_ON", &iuse::chainsaw_on );
     add_iuse( "CHEW", &iuse::chew );

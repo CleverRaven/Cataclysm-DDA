@@ -7879,3 +7879,57 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 
     return it->type->charges_to_use();
 }
+
+int iuse::cell_phone_on( player *p, item *it, bool t, const tripoint& )
+{
+    const std::string led_on = "LIGHT_20";
+    
+    if (t) {
+        if( it->ammo_remaining() > 0 ) {
+            if( it->has_flag( led_on ) ) {
+                calendar::once_every( MINUTES(1) ) && it->ammo_consume( 1, p->pos() );
+            } else {
+                calendar::once_every( HOURS(1) ) && it->ammo_consume( 1, p->pos() );
+            }
+        } else {
+            it->convert( "cell_phone" ).active = false;
+        }
+    } else { // Activated
+        bool illiterate = p->has_trait( "ILLITERATE" );
+        
+        int choice = 2;
+        if( it->ammo_remaining() > 0 ) {
+            if( !illiterate ) {
+                choice = menu( true, _( "Cell phone:" ), _( "Toggle flashlight app" ), _( "Turn off" ), NULL );
+            } else {
+                choice = menu( true, _( "Cell phone:" ), _( "Look at the screen" ), _( "Turn off" ), NULL );
+            }
+        }
+
+        switch( choice ) {
+        case 1:
+            if( illiterate ) {
+                p->add_msg_if_player( _( "You don't understand what's shown on the screen." ) );
+                break;
+            }
+            
+            if( it->has_flag( led_on ) ) {
+                p->add_msg_if_player( _( "You turn off the flashlight app." ) );
+                it->convert( "cell_phone_on" ).active = true;
+            } else {
+                p->add_msg_if_player( _( "You turn on the flashlight app." ) );
+                it->convert( "cell_phone_flashlight" ).active = true;
+            }
+            
+            break;
+        case 2:
+            p->add_msg_if_player( _( "The cell phone powers off." ) );
+            it->convert( "cell_phone" ).active = false;
+            break;
+        case 3:
+            break;
+        }
+    }
+
+    return 0;
+}

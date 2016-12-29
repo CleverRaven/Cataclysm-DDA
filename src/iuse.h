@@ -186,6 +186,7 @@ public:
     int ladder              ( player*, item*, bool, const tripoint& );
     int saw_barrel          ( player*, item*, bool, const tripoint& );
     int washclothes         ( player*, item*, bool, const tripoint& );
+    int cell_phone_on       ( player*, item*, bool, const tripoint& );
 
 // MACGUFFINS
 

@@ -245,6 +245,10 @@
         "name" : "Place"
     },{
         "type" : "item_action",
+        "id" : "CELL_PHONE_ON",
+        "name" : "Turn off"
+    },{
+        "type" : "item_action",
         "id" : "CHAINSAW_OFF",
         "name" : "Turn on"
     },{
