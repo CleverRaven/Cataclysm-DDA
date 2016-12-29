@@ -12,7 +12,7 @@
     "category": "food",
     "name": "water",
     "name_plural": "water",
-    "description": "Water, the stuff of life, the best thirst-quencher available..",
+    "description": "Water, the stuff of life, the best thirst-quencher available.  It would be safer to drink once purified.",
     "weight": 250,
     "volume": 1,
     "price": 50,
