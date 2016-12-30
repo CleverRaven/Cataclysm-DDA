@@ -8118,7 +8118,7 @@ void player::suffer()
         }
 
         if( rads > 0.0f && calendar::once_every(MINUTES(3)) && has_bionic("bio_geiger") ) {
-            add_msg_if_player(m_warning, _("You feel anomalous sensation coming from your radiation sensors."));
+            add_msg_if_player(m_warning, _("You feel an anomalous sensation coming from your radiation sensors."));
         }
 
         int rads_max = roll_remainder( rads );
