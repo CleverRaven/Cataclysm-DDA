@@ -270,8 +270,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /** Burns the item. Returns true if the item was destroyed. */
     bool burn( fire_data &bd );
 
- // Returns the category of this item.
- const item_category &get_category() const;
+    // Returns the category of this item.
+    const item_category &get_category() const;
 
     class reload_option {
         public:

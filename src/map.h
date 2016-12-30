@@ -1358,22 +1358,22 @@ private:
                           const tripoint &view_center,
                           bool low_light, bool bright_light, bool inorder ) const;
 
- long determine_wall_corner( const tripoint &p ) const;
- void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
- // apply a circular light pattern immediately, however it's best to use...
- void apply_light_source( const tripoint &p, float luminance);
- // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
- // light rays from causing massive slowdowns, if there's a huge amount of light.
- void add_light_source( const tripoint &p, float luminance);
- // Handle just cardinal directions and 45 deg angles.
- void apply_directional_light( const tripoint &p, int direction, float luminance );
- void apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle = 30 );
- void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                      const tripoint &s, const tripoint &e, float luminance);
- void add_light_from_items( const tripoint &p, std::list<item>::iterator begin,
-                            std::list<item>::iterator end );
- void calc_ray_end(int angle, int range, const tripoint &p, tripoint &out ) const;
- vehicle *add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks);
+    long determine_wall_corner( const tripoint &p ) const;
+    void cache_seen( const int fx, const int fy, const int tx, const int ty, const int max_range );
+    // apply a circular light pattern immediately, however it's best to use...
+    void apply_light_source( const tripoint &p, float luminance);
+    // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
+    // light rays from causing massive slowdowns, if there's a huge amount of light.
+    void add_light_source( const tripoint &p, float luminance);
+    // Handle just cardinal directions and 45 deg angles.
+    void apply_directional_light( const tripoint &p, int direction, float luminance );
+    void apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle = 30 );
+    void apply_light_ray( bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                          const tripoint &s, const tripoint &e, float luminance );
+    void add_light_from_items( const tripoint &p, std::list<item>::iterator begin,
+                               std::list<item>::iterator end );
+    void calc_ray_end( int angle, int range, const tripoint &p, tripoint &out ) const;
+    vehicle *add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
     // Internal methods used to bash just the selected features
     // Information on what to bash/what was bashed is read from/written to the bash_params struct
