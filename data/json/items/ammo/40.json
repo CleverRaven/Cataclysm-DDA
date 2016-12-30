@@ -18,7 +18,7 @@
     "id": "40fmj",
     "copy-from": "40sw",
     "type": "AMMO",
-    "name": ".40 FMJ",
+    "name": ".40 S&W FMJ",
     "description": ".40 S&W ammunition with 180gr FMJ bullets.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense.",
     "relative": {
       "damage": -3,
@@ -28,7 +28,7 @@
   {
     "id": "40sw",
     "type": "AMMO",
-    "name": ".40 S&W",
+    "name": ".40 S&W JHP",
     "description": ".40 S&W ammunition with 135gr JHP bullets.  The .40 S&W round is a descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.",
     "weight": 9,
     "volume": 1,

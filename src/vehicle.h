@@ -101,6 +101,8 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     vehicle_part( const vpart_id& vp, int dx, int dy, item&& it );
 
+    static vehicle_part make_null_part();
+
     /** Check this instance is non-null (not default constructed) */
     explicit operator bool() const;
 
@@ -731,7 +733,7 @@ public:
 
     // get symbol for map
     char part_sym( int p, bool exact = false ) const;
-    const vpart_id &part_id_string(int p, char &part_mod) const;
+    vpart_id part_id_string(int p, char &part_mod) const;
 
     // get color for map
     nc_color part_color( int p, bool exact = false ) const;

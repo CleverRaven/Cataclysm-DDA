@@ -409,7 +409,10 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     const bool strict = src == "dda";
 
     assign( jo, "sym", sym, strict );
-    assign( jo, "name", name, strict );
+    if( assign( jo, "name", name, strict ) ) {
+        // Store localized name if assign() succeeds
+        name = _( name.c_str() );
+    }
     assign( jo, "see_cost", see_cost, strict );
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );
@@ -544,7 +547,6 @@ void overmap_terrains::check_consistency()
     // @todo This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
     static const std::set<std::string> hardcoded_mapgen = {
         "anthill",
-        "apartments_mod_tower_1",
         "bunker",
         "cathedral_1",
         "cathedral_1_entrance",

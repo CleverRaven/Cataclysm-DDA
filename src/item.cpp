@@ -2155,109 +2155,93 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
     std::stringstream ret;
 
-// MATERIALS-TODO: put this in json
-    std::string damtext = "";
+    // MATERIALS-TODO: put this in json
+    std::string damtext;
 
     if( ( damage() != 0 || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() && with_prefix ) {
         if( damage() < 0 )  {
             if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
                 damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
-
-            } else if (is_gun())  {
+            } else if( is_gun() ) {
                 damtext = pgettext( "damage adjective", "accurized " );
             } else {
                 damtext = pgettext( "damage adjective", "reinforced " );
             }
-        } else {
-            if (typeId() == "corpse") {
-                if (damage() == 1) damtext = pgettext( "damage adjective", "bruised " );
-                if (damage() == 2) damtext = pgettext( "damage adjective", "damaged " );
-                if (damage() == 3) damtext = pgettext( "damage adjective", "mangled " );
-                if (damage() >= 4) damtext = pgettext( "damage adjective", "pulped " );
-
-            } else if ( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-                damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
-
-            } else {
-                damtext = string_format( "%s ", get_base_material().dmg_adj( damage() ).c_str() );
+        } else if( typeId() == "corpse" ) {
+            if( damage() > 0 ) {
+                switch( damage() ) {
+                    case 1:
+                        damtext = pgettext( "damage adjective", "bruised " );
+                        break;
+                    case 2:
+                        damtext = pgettext( "damage adjective", "damaged " );
+                        break;
+                    case 3:
+                        damtext = pgettext( "damage adjective", "mangled " );
+                        break;
+                    default:
+                        damtext = pgettext( "damage adjective", "pulped " );
+                        break;
+                }
             }
+        } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
+            damtext = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() + " </color>";
+        } else {
+            damtext = string_format( "%s ", get_base_material().dmg_adj( damage() ).c_str() );
         }
     }
-
     if( !faults.empty() ) {
         damtext.insert( 0, _( "faulty " ) );
     }
 
-    std::string vehtext = "";
+    std::string vehtext;
     if( is_wheel() && type->wheel->diameter > 0 ) {
         vehtext = string_format( pgettext( "vehicle adjective", "%d\" " ), type->wheel->diameter );
     }
 
-    std::string burntext = "";
-    if (with_prefix && !made_of(LIQUID)) {
+    std::string burntext;
+    if( with_prefix && !made_of( LIQUID ) ) {
         if( volume() >= 1000_ml && burnt * 125_ml >= volume() ) {
             burntext = pgettext( "burnt adjective", "badly burnt " );
-        } else if (burnt > 0) {
+        } else if( burnt > 0 ) {
             burntext = pgettext( "burnt adjective", "burnt " );
         }
     }
 
-    const std::map<std::string, std::string>::const_iterator iname = item_vars.find("name");
-    std::string maintext = "";
-    if (corpse != NULL && typeId() == "corpse" ) {
-        if( !corpse_name.empty() ) {
-            maintext = string_format( npgettext( "item name", "%s corpse of %s",
-                                           "%s corpses of %s",
-                                           quantity), corpse->nname().c_str(), corpse_name.c_str());
-        } else {
-            maintext = string_format( npgettext( "item name", "%s corpse",
-                                           "%s corpses",
-                                           quantity), corpse->nname().c_str());
-        }
-    } else if (typeId() == "blood") {
-        if (corpse == NULL || corpse->id == NULL_ID )
-            maintext = string_format( npgettext( "item name", "human blood",
-                                          "human blood",
-                                          quantity));
-        else
-            maintext = string_format( npgettext( "item name", "%s blood",
-                                           "%s blood",
-                                           quantity), corpse->nname().c_str());
-    }
-    else if (iname != item_vars.end()) {
-        maintext = iname->second;
-    }
-    else if( is_gun() || is_tool() || is_magazine() ) {
+    std::string maintext;
+    if( is_corpse() || typeId() == "blood" || item_vars.find( "name" ) != item_vars.end() ) {
+        maintext = type_name( quantity );
+    } else if( is_gun() || is_tool() || is_magazine() ) {
         ret.str("");
-        ret << label(quantity);
+        ret << label( quantity );
         for( const auto mod : is_gun() ? gunmods() : toolmods() ) {
             if( !type->gun || !type->gun->built_in_mods.count( mod->typeId() ) ) {
                 ret << "+";
             }
         }
         maintext = ret.str();
-    } else if( is_armor() && item_tags.count("wooled") + item_tags.count("furred") +
-        item_tags.count("leather_padded") + item_tags.count("kevlar_padded") > 0 ) {
+    } else if( is_armor() && item_tags.count( "wooled" ) + item_tags.count( "furred" ) +
+               item_tags.count( "leather_padded" ) + item_tags.count( "kevlar_padded" ) > 0 ) {
         ret.str("");
-        ret << label(quantity);
+        ret << label( quantity );
         ret << "+";
         maintext = ret.str();
-    } else if (contents.size() == 1) {
+    } else if( contents.size() == 1 ) {
         if( contents.front().made_of( LIQUID ) ) {
-            maintext = string_format( pgettext( "item name", "%s of %s" ), label(quantity).c_str(), contents.front().tname( quantity, with_prefix ).c_str());
+            maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
+                                      contents.front().tname( quantity, with_prefix ).c_str() );
         } else if( contents.front().is_food() ) {
-            maintext = contents.front().charges > 1 ? string_format( pgettext( "item name", "%s of %s" ), label(quantity).c_str(),
-                                                            contents.front().tname(contents.front().charges, with_prefix).c_str()) :
-                                                 string_format( pgettext( "item name", "%s of %s" ), label(quantity).c_str(),
-                                                            contents.front().tname( quantity, with_prefix ).c_str());
+            const unsigned contents_count = contents.front().charges > 1 ? contents.front().charges : quantity;
+            maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ).c_str(),
+                                      contents.front().tname( contents_count, with_prefix ).c_str() );
         } else {
-            maintext = string_format( pgettext( "item name", "%s with %s" ), label(quantity).c_str(), contents.front().tname( quantity, with_prefix ).c_str());
+            maintext = string_format( pgettext( "item name", "%s with %s" ), label( quantity ).c_str(),
+                                      contents.front().tname( quantity, with_prefix ).c_str() );
         }
-    }
-    else if (!contents.empty()) {
-        maintext = string_format( pgettext( "item name", "%s, full" ), label(quantity).c_str());
+    } else if( !contents.empty() ) {
+        maintext = string_format( pgettext( "item name", "%s, full" ), label( quantity ).c_str() );
     } else {
-        maintext = label(quantity);
+        maintext = label( quantity );
     }
 
     std::string tagtext = "";
@@ -3095,7 +3079,8 @@ int item::bash_resist( bool to_self ) const
     if( is_armor() ) {
         // base resistance
         // Don't give reinforced items +armor, just more resistance to ripping
-        const int eff_damage = to_self ? std::min( damage(), 0 ) : std::max( damage(), 0 );
+        const int dmg = damage();
+        const int eff_damage = to_self ? std::min( dmg , 0 ) : std::max( dmg, 0 );
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
@@ -3141,7 +3126,8 @@ int item::cut_resist( bool to_self ) const
     if( is_armor() ) {
         // base resistance
         // Don't give reinforced items +armor, just more resistance to ripping
-        const int eff_damage = to_self ? std::min( damage(), 0 ) : std::max( damage(), 0 );
+        const int dmg = damage();
+        const int eff_damage = to_self ? std::min(dmg, 0) : std::max(dmg, 0);
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 

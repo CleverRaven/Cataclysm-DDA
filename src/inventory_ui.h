@@ -246,6 +246,9 @@ class inventory_column
         void move_entries_to( inventory_column &dest );
         void clear();
 
+        /** Selects the specified location. */
+        bool select( const item_location &loc );
+
         void set_multiselect( bool multiselect ) {
             this->multiselect = multiselect;
         }
@@ -258,8 +261,8 @@ class inventory_column
             this->visibility = visibility;
         }
 
-        void set_width( size_t width );
-        void set_height( size_t height );
+        void set_width( size_t new_width );
+        void set_height( size_t new_height );
         size_t get_width() const;
         size_t get_height() const;
         /** Expands the column to fit the new entry. */
@@ -329,6 +332,7 @@ class inventory_column
         size_t selected_index = 0;
         size_t page_offset = 0;
         size_t entries_per_page = std::numeric_limits<size_t>::max();
+        size_t height = std::numeric_limits<size_t>::max();
         size_t reserved_width = 0;
 
     private:
@@ -420,6 +424,11 @@ class inventory_selector
                         const std::function<item_location( item * )> &locator,
                         const std::vector<std::list<item *>> &stacks,
                         const item_category *custom_category = nullptr );
+        /**
+         * Selects the @param loc.
+         * @return true on success.
+         */
+        bool select( const item_location &loc );
 
         inventory_input get_input();
 
@@ -518,7 +527,7 @@ class inventory_selector
         inventory_column own_gear_column;    // Column for own gear (weapon, armor) items
         inventory_column map_column;         // Column for map and vehicle items
 
-        int border = 0;                      // Width of the window border
+        const int border = 1;                // Width of the window border
 
         bool display_stats = true;
         bool layout_is_valid = false;

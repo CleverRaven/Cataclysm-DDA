@@ -22,6 +22,7 @@
 
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );
@@ -1384,7 +1385,7 @@ void computer::remove_option( computer_action const action )
 
 void computer::mark_refugee_center()
 {
-    print_line( _("\
+    print_line( _( "\
 IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n\
 THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.  \n\
 THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND \n\
@@ -1393,31 +1394,16 @@ THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND \n\
 IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n\
 TO WRITE US A LETTER PLEASE SEND IT TO...\n" ) );
 
-    const tripoint your_pos = g->u.global_omt_location();
-    const tripoint center_pos = overmap_buffer.find_closest( your_pos, "evac_center_13", 0, false );
-
-    if( center_pos == overmap::invalid_tripoint ) {
-        query_any( _( "You don't know where the address could be..." ) );
-        return;
+    const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
+    const std::vector<mission *> missions = g->u.get_active_missions();
+    if( !std::any_of( missions.begin(), missions.end(), [ &mission_type ]( mission * mission ) {
+        return mission->get_type().id == mission_type;
+    } ) ) {
+        const auto mission = mission::reserve_new( mission_type, -1 );
+        mission->assign( g->u );
     }
 
-    if( overmap_buffer.seen( center_pos.x, center_pos.y, center_pos.z ) ) {
-        query_any( _( "You already know that address..." ) );
-        return;
-    }
-
-    print_line( _( "It takes you forever to find the address on your map..." ) );
-
-    overmap_buffer.reveal( center_pos, 3 );
-
-    const tripoint source_road = overmap_buffer.find_closest( your_pos, "road", 3, false );
-    const tripoint dest_road = overmap_buffer.find_closest( center_pos, "road", 3, false );
-
-    if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
-        query_any( _( "You mark the refugee center and the road that leads to it..." ) );
-    } else {
-        query_any( _( "You mark the refugee center, but you have no idea how to get there by road..." ) );
-    }
+    query_any( _( "Press any key to continue..." ) );
 }
 
 bool computer::query_bool(const char *mes, ...)

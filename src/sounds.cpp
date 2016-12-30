@@ -397,7 +397,7 @@ std::pair<std::vector<tripoint>, std::vector<tripoint>> sounds::get_monster_soun
     std::vector<tripoint> cluster_centroids;
     cluster_centroids.reserve( sound_clusters.size() );
     for( const auto &sound : sound_clusters ) {
-        cluster_centroids.emplace_back( sound.x, sound.y, sound.z );
+        cluster_centroids.emplace_back( (int)sound.x, (int)sound.y, (int)sound.z );
     }
     return { sound_locations, cluster_centroids };
 }

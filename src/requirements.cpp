@@ -649,8 +649,8 @@ static bool apply_blacklist( std::vector<std::vector<T>> &vec, const std::string
 
 void requirement_data::blacklist_item( const std::string &id )
 {
-    blacklisted += apply_blacklist( tools, id );
-    blacklisted += apply_blacklist( components, id );
+    blacklisted |= apply_blacklist( tools, id );
+    blacklisted |= apply_blacklist( components, id );
 }
 
 const requirement_data::alter_tool_comp_vector &requirement_data::get_tools() const

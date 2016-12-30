@@ -176,10 +176,10 @@ float player::metabolic_rate() const
     // Note: Values do not match hungry/v.hungry/famished/starving,
     // because effective hunger is affected by speed (which drops when hungry)
     static const std::vector<std::pair<float, float>> thresholds = {{
-            { 300, 1.0f },
-            { 2000, 0.8f },
-            { 5000, 0.6f },
-            { 8000, 0.5f }
+            { 300.0f, 1.0f },
+            { 2000.0f, 0.8f },
+            { 5000.0f, 0.6f },
+            { 8000.0f, 0.5f }
         }
     };
 

@@ -25,7 +25,7 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine]" ) {
             vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), 65, 65, 270, 0, 0 );
             REQUIRE( veh );
 
-            const int idx = veh->install_part( 0, 0, e->id, true );
+            const int idx = veh->install_part( 0, 0, e->get_id(), true );
             REQUIRE( idx >= 0 );
 
             REQUIRE( veh->install_part( 0,  0, vpart_id( "storage_battery" ), true ) >= 0 );

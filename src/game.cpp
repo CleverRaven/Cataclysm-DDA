@@ -1995,7 +1995,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
                 u.disassemble(pos);
                 break;
             case '=':
-                reassign_item(pos);
+                game_menus::inv::reassign_letter( u, u.i_at( pos ) );
                 break;
             case KEY_PPAGE:
                 // Prevent the menu from scrolling with this key. TODO: Ideally the menu
@@ -2436,7 +2436,7 @@ vehicle *game::remoteveh()
         tripoint vp;
         remote_veh_string >> vp.x >> vp.y >> vp.z;
         vehicle *veh = m.veh_at( vp );
-        if( veh && veh->fuel_left( "battery", true ) > 0 ) {
+        if( veh && veh->fuel_left( "battery", true, true ) > 0 ) {
             remoteveh_cache = veh;
         } else {
             remoteveh_cache = nullptr;
@@ -2861,8 +2861,7 @@ bool game::handle_action()
             break;
 
         case ACTION_ORGANIZE:
-            reassign_item();
-            refresh_all();
+            game_menus::inv::swap_letters( u );
             break;
 
         case ACTION_USE:
@@ -10065,56 +10064,6 @@ void game::drop_in_direction()
         refresh_all();
         drop( INT_MIN, dirp );
     }
-}
-
-void game::reassign_item( int pos )
-{
-    if( pos == INT_MIN ) {
-        pos = inv_for_all( _( "Reassign item" ) );
-    }
-    if( pos == INT_MIN ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-
-    item &change_from = u.i_at( pos );
-    if( change_from.is_null() ) {
-        return;
-    }
-    long newch = popup_getkey( _( "%s; enter new letter (press SPACE for none, ESCAPE to cancel)." ),
-                               change_from.tname().c_str() );
-    if( newch == KEY_ESCAPE ) {
-        add_msg( m_neutral, _( "Never mind." ) );
-        return;
-    }
-    if( newch == ' ' ) {
-        newch = 0;
-    } else if( !inv_chars.valid( newch ) ) {
-        add_msg( m_info, _("Invalid inventory letter. Only those characters are valid:\n\n%s"),
-                 inv_chars.get_allowed_chars().c_str() );
-        return;
-    }
-    if( change_from.invlet == newch ) {
-        // toggle assignment status
-        auto iter = u.assigned_invlet.find(newch);
-        if( iter == u.assigned_invlet.end() ) {
-            u.assigned_invlet[newch] = change_from.typeId();
-        } else {
-            u.assigned_invlet.erase(iter);
-        }
-        return;
-    }
-
-    const int oldpos = newch == 0 ? INT_MIN : u.invlet_to_position( newch );
-    if( oldpos != INT_MIN ) {
-        item &change_to = u.i_at( oldpos );
-        change_to.invlet = change_from.invlet;
-        add_msg( m_info, "%c - %s", change_to.invlet == 0 ? ' ' : change_to.invlet,
-                 change_to.tname().c_str() );
-    }
-    change_from.invlet = newch;
-    u.assigned_invlet[newch] = change_from.typeId();
-    add_msg( m_info, "%c - %s", newch == 0 ? ' ' : newch, change_from.tname().c_str() );
 }
 
 void game::plthrow(int pos)

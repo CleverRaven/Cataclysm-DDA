@@ -61,7 +61,7 @@
 #include <iterator>
 
 #ifdef TILES
-#include "SDL2/SDL.h"
+#include "SDL.h"
 #endif // TILES
 
 //Used for e^(x) functions
@@ -8118,7 +8118,7 @@ void player::suffer()
         }
 
         if( rads > 0.0f && calendar::once_every(MINUTES(3)) && has_bionic("bio_geiger") ) {
-            add_msg_if_player(m_warning, _("You feel anomalous sensation coming from your radiation sensors."));
+            add_msg_if_player(m_warning, _("You feel an anomalous sensation coming from your radiation sensors."));
         }
 
         int rads_max = roll_remainder( rads );
@@ -8314,7 +8314,7 @@ void player::suffer()
             add_msg(m_bad, _("A bionic emits a crackle of noise!"));
             sfx::play_variant_sound( "bionics", "elec_blast", 100 );
         } else {
-            add_msg(m_bad, _("You feel your faulty bionic shudderring."));
+            add_msg(m_bad, _("You feel your faulty bionic shuddering."));
             sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
         }
         sounds::sound( pos(), 60, "");
@@ -10975,6 +10975,33 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
 
     long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
     return used->is_tool() && consume_charges( *actually_used, charges_used );
+}
+
+void player::reassign_item( item &it, long invlet )
+{
+    if( invlet ) {
+        item &prev = i_at( invlet_to_position( invlet ) );
+        if( !prev.is_null() ) {
+            prev.invlet = it.invlet;
+        }
+    }
+
+    if( !invlet || it.invlet == invlet ) {
+        const auto iter = assigned_invlet.find( it.invlet );
+        if( iter != assigned_invlet.end() ) {
+            assigned_invlet.erase( iter );
+            if( invlet ) {
+                return;
+            }
+        }
+    }
+
+    if( !invlet || inv_chars.valid( invlet ) ) {
+        it.invlet = invlet;
+        if( invlet ) {
+            assigned_invlet[invlet] = it.typeId();
+        }
+    }
 }
 
 bool player::gunmod_remove( item &gun, item& mod )

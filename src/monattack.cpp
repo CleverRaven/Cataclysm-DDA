@@ -2059,16 +2059,15 @@ bool mattack::formblob(monster *z)
             continue;
         }
 
-        monster *mon = dynamic_cast<monster*>( critter );
-        if( mon == nullptr ) {
+        if( critter->is_player() || critter->is_npc() ) {
             // If we hit the player or some NPC, cover them with slime
             didit = true;
             // TODO: Add some sort of a resistance/dodge roll
-            g->u.add_effect( effect_slimed, rng( 0, z->get_hp() ) );
+            critter->add_effect( effect_slimed, rng( 0, z->get_hp() ) );
             break;
         }
 
-        monster &othermon = *mon;
+        monster &othermon = *( dynamic_cast<monster *>( critter ) );
         // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
         if( z->get_speed_base() > 40 && othermon.type->in_species( BLOB ) ) {
             if( othermon.type->id == mon_blob_brain ) {

@@ -212,7 +212,7 @@ void vehicle::add_missing_frames()
             }
             if( !found ) {
                 // Install missing frame
-                parts.emplace_back( frame_part.id, next_x, next_y, item( frame_part.item ) );
+                parts.emplace_back( frame_part.get_id(), next_x, next_y, item( frame_part.item ) );
             }
         }
 
@@ -242,9 +242,9 @@ void vehicle::add_steerable_wheels()
             continue;
         }
 
-        if (part_flag(p, VPFLAG_WHEEL)) {
-            vpart_id steerable_id(part_info(p).id.str() + "_steerable");
-            if (steerable_id.is_valid()) {
+        if( part_flag( p, VPFLAG_WHEEL ) ) {
+            vpart_id steerable_id( part_info( p ).get_id().str() + "_steerable" );
+            if( steerable_id.is_valid() ) {
                 // We can convert this.
                 if (parts[p].mount.x != axle) {
                     // Found a new axle further forward than the
@@ -1176,7 +1176,7 @@ void vehicle::honk_horn()
         }
         //Only bicycle horn doesn't need electricity to work
         const vpart_info &horn_type = part_info( p );
-        if( ( horn_type.id != vpart_id( "horn_bicycle" ) ) && no_power ) {
+        if( ( horn_type.get_id() != vpart_id( "horn_bicycle" ) ) && no_power ) {
             continue;
         }
         if( ! honked ) {
@@ -1364,7 +1364,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         const vpart_info &other_part = parts[elem].info();
 
         //Parts with no location can stack with each other (but not themselves)
-        if( part.id == other_part.id ||
+        if( part.get_id() == other_part.get_id() ||
                 (!part.location.empty() && part.location == other_part.location)) {
             return false;
         }
@@ -2322,15 +2322,15 @@ char vehicle::part_sym( const int p, const bool exact ) const
 
 // similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles during draw_vpart
 // vector returns at least 1 element, max of 2 elements. If 2 elements the second denotes if it is open or damaged
-const vpart_id &vehicle::part_id_string(int const p, char &part_mod) const
+vpart_id vehicle::part_id_string(int const p, char &part_mod) const
 {
     part_mod = 0;
     if( p < 0 || p >= (int)parts.size() || parts[p].removed ) {
-        return NULL_ID;
+        return vpart_id::NULL_ID;
     }
 
     int displayed_part = part_displayed_at(parts[p].mount.x, parts[p].mount.y);
-    const vpart_id &idinfo = parts[displayed_part].id;
+    const vpart_id idinfo = parts[displayed_part].id;
 
     if (part_flag (displayed_part, VPFLAG_OPENABLE) && parts[displayed_part].open) {
         part_mod = 1; // open
@@ -2433,7 +2433,7 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
             partname += string_format( _(" (vol: %s/%s %s)"),
-                                       format_volume( stored_volume( pl[i] ) ).c_str(), 
+                                       format_volume( stored_volume( pl[i] ) ).c_str(),
                                        format_volume( max_volume( pl[i] ) ).c_str(),
                                        volume_units_abbr() );
         }
@@ -2852,7 +2852,8 @@ vehicle_part &vehicle::current_engine()
         return e.is_engine() && e.enabled;
     } );
 
-    static vehicle_part null_part;
+    static vehicle_part null_part = vehicle_part::make_null_part();
+
     return eng != parts.end() ? *eng : null_part;
 }
 
@@ -4480,7 +4481,7 @@ bool vehicle::add_item( int part, const item &itm )
     }
     bool charge = itm.count_by_charges();
     vehicle_stack istack = get_items( part );
-    const long to_move = istack.amount_can_fit( itm );    
+    const long to_move = istack.amount_can_fit( itm );
     if( to_move == 0 || ( charge && to_move < itm.charges ) ) {
         return false; // @add_charges should be used in the latter case
     }
@@ -5420,7 +5421,7 @@ void vehicle::open_or_close(int const part_index, bool const opening)
         const int delta = dx * dx + dy * dy;
 
         const bool is_near = (delta == 1);
-        const bool is_id = part_info(next_index).id == part_info(part_index).id;
+        const bool is_id = part_info(next_index).get_id() == part_info(part_index).get_id();
         const bool do_next = !!parts[next_index].open ^ opening;
 
         if (is_near && is_id && do_next) {
@@ -5677,19 +5678,29 @@ void vehicle::update_time( const calendar &update_to )
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
+
 vehicle_part::vehicle_part()
     : mount( 0, 0 ), id( NULL_ID ) {}
 
 vehicle_part::vehicle_part( const vpart_id& vp, int const dx, int const dy, item&& obj )
     : mount( dx, dy ), id( vp ), base( std::move( obj ) )
 {
-	// Mark base item as being installed as a vehicle part
-	base.item_tags.insert( "VEHICLE" );
+    // Mark base item as being installed as a vehicle part
+    base.item_tags.insert( "VEHICLE" );
 
     if( base.typeId() != vp->item ) {
         debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
                   vp->item.c_str(), base.typeId().c_str() );
     }
+}
+
+vehicle_part vehicle_part::make_null_part()
+{
+    static vpart_info null_part_info = vpart_info::make_null_vpart_info();
+
+    vehicle_part null_part;
+    null_part.info_cache = &null_part_info;
+    return null_part;
 }
 
 vehicle_part::operator bool() const {
@@ -5980,7 +5991,7 @@ float vehicle_part::efficiency( int rpm ) const
 
     float eff = base.type->engine->efficiency / 100.0;
 
-    // operating outside optimal rpm is less efficient 
+    // operating outside optimal rpm is less efficient
     double penalty = std::abs( base.type->engine->optimum - rpm ) / 1000.0;
     return eff / ( 1.0 + penalty );
 }

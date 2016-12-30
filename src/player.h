@@ -956,6 +956,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** As above two, but with position equal to current position */
         bool invoke_item( item* );
         bool invoke_item( item*, const std::string& );
+        /** Reassign letter. */
+        void reassign_item( item &it, long invlet );
 
         /** Consume charges of a tool or comestible item, potentially destroying it in the process
          *  @qty number of charges to consume which must be non-zero

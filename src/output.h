@@ -663,4 +663,38 @@ void play_music( std::string playlist );
  */
 void refresh_display();
 
+/**
+ * Assigns a custom color to each symbol.
+ * @return Colorized string.
+ * @param func Function that accepts symbols (std::string::value_type) and returns colors.
+ */
+template<typename Pred>
+std::string colorize_symbols( const std::string &str, Pred func )
+{
+    std::ostringstream res;
+    nc_color prev_color = c_unset;
+
+    const auto closing_tag = [ &res, prev_color ]() {
+        if( prev_color != c_unset ) {
+            res << "</color>";
+        }
+    };
+
+    for( const auto &elem : str ) {
+        const nc_color new_color = func( elem );
+
+        if( prev_color != new_color ) {
+            closing_tag();
+            res << "<color_" << get_all_colors().get_name( new_color ) << ">";
+            prev_color = new_color;
+        }
+
+        res << elem;
+    }
+
+    closing_tag();
+
+    return res.str();
+}
+
 #endif
