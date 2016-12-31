@@ -1954,12 +1954,12 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
             m->furn_set(x1 + 2, y2 - 1, f_desk);
             while (pos_x1 < x2) {
                 pos_x1 += 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
+                if (m->ter(pos_x1, pos_y1) == t_wall) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
                 pos_x1 += 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
+                if (m->ter(pos_x1, pos_y1) == t_wall) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
@@ -1972,12 +1972,12 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
             m->furn_set(x1 + 2, y2 - 1, f_desk);
             while (pos_x1 > x1) {
                 pos_x1 -= 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
+                if (m->ter(pos_x1, pos_y1) == t_wall) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
                 pos_x1 -= 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
+                if (m->ter(pos_x1, pos_y1) == t_wall) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
@@ -1990,12 +1990,12 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
             m->furn_set(x1 + 2, y2 - 1, f_desk);
             while (pos_x1 < x2) {
                 pos_x1 += 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
+                if (m->ter(pos_x1, pos_y1) == t_wall) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
                 pos_x1 += 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
+                if (m->ter(pos_x1, pos_y1) == t_wall) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
@@ -2008,12 +2008,12 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
             m->furn_set(x1 + 2, y2 - 1, f_desk);
             while (pos_x1 > x1) {
                 pos_x1 -= 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
+                if (m->ter(pos_x1, pos_y1) == t_wall) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
                 pos_x1 -= 1;
-                if ((m->ter(pos_x1, pos_y1) == t_wall) || (m->ter(pos_x1, pos_y1) == t_wall)) {
+                if (m->ter(pos_x1, pos_y1) == t_wall) {
                     break;
                 }
                 m->furn_set(pos_x1, pos_y1, f_bookcase);
@@ -2184,7 +2184,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
         placed = "softdrugs";
         chance = 72;
         m->furn_set(x2 - 1, y2 - 2, f_bathtub);
-        if (one_in(3) && !((m->ter(x2 - 1, y2 - 3) == t_wall) || (m->ter(x2 - 1, y2 - 3) == t_wall))) {
+        if (one_in(3) && !(m->ter(x2 - 1, y2 - 3) == t_wall)) {
             m->furn_set(x2 - 1, y2 - 3, f_bathtub);
         }
         if (!((m->furn(x1 + 1, y2 - 2) == f_toilet) || (m->furn(x1 + 1, y2 - 2) == f_bathtub))) {
@@ -2668,7 +2668,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
                 if (m->ter(i, j) == t_window_domestic && !one_in(3)) {
                     m->ter_set(i, j, t_window_frame);
                 }
-                if ((m->ter(i, j) == t_wall || m->ter(i, j) == t_wall) && one_in(8)) {
+                if (m->ter(i, j) == t_wall && one_in(8)) {
                     m->ter_set(i, j, t_paper);
                 }
             }
