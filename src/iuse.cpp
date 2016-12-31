@@ -2671,6 +2671,7 @@ int iuse::ma_manual(player *p, item *it, bool, const tripoint& )
 
     // strip "manual_" from the start of the item id, add the rest to "style_"
     // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
+    // (also change equivalent code in item.cpp's color_in_inventory)
     const matype_id style_to_learn( "style_" + it->typeId().substr(7) );
 
     if (p->has_martialart(style_to_learn)) {
