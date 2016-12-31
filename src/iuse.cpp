@@ -7884,7 +7884,7 @@ int iuse::cell_phone_on( player *p, item *it, bool t, const tripoint& )
 {
     const std::string led_on = "LIGHT_20";
     
-    if (t) {
+    if(t) {
         if( it->ammo_remaining() > 0 ) {
             if( it->has_flag( led_on ) ) {
                 calendar::once_every( MINUTES(1) ) && it->ammo_consume( 1, p->pos() );
