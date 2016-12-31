@@ -12049,6 +12049,9 @@ bool player::can_sleep()
 
 void player::fall_asleep(int duration)
 {
+    if( activity ) {
+        cancel_activity();
+    }
     add_effect( effect_sleep, duration );
 }
 
