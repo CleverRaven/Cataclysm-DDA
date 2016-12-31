@@ -1739,7 +1739,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
 bool vehicle::remove_part (int p)
 {
     if (p >= (int)parts.size()) {
-        debugmsg("Tried to remove part %d but only %d parts!", p, parts.size());
+        debugmsg("Tried to remove part %d but only %zu parts!", p, parts.size());
         return false;
     }
     if (parts[p].removed) {

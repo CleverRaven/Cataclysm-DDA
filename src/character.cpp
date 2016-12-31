@@ -1779,7 +1779,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const int line = i + y_off;
 
         const nc_color color = show_all ? c_green : state_col;
-        mvwprintz( hp_window, line, 1, color, "%d: %s", i + 1, e.name.c_str() );
+        mvwprintz( hp_window, line, 1, color, "%zu: %s", i + 1, e.name.c_str() );
 
         const auto print_hp = [&]( const int x, const nc_color col, const int hp ) {
             const auto bar = get_hp_bar( hp, maximal_hp, false );
@@ -1820,7 +1820,7 @@ hp_part Character::body_window( const std::string &menu_header,
             print_hp( 24, color, 0 );
         }
     }
-    mvwprintz( hp_window, parts.size() + y_off, 1, c_ltgray, _("%d: Exit"), parts.size() + 1 );
+    mvwprintz( hp_window, parts.size() + y_off, 1, c_ltgray, _("%zu: Exit"), parts.size() + 1 );
 
     wrefresh(hp_window);
     char ch;

@@ -169,7 +169,7 @@ void computer::use()
         print_newline();
         print_line("%s - %s", name.c_str(), _("Root Menu"));
         for (size_t i = 0; i < options_size; i++) {
-            print_line("%d - %s", i + 1, options[i].name.c_str());
+            print_line("%zu - %s", i + 1, options[i].name.c_str());
         }
         print_line("Q - %s", _("Quit and shut down"));
         print_newline();

@@ -1343,7 +1343,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
     if( act->values.size() < 7 ) {
         dbg(D_ERROR) << "game:process_activity: invalid ACT_VEHICLE values: "
                      << act->values.size();
-        debugmsg("process_activity invalid ACT_VEHICLE values:%d",
+        debugmsg("process_activity invalid ACT_VEHICLE values:%zu",
                  act->values.size());
     } else {
         if( veh ) {

@@ -5882,7 +5882,7 @@ void game::cleanup_dead()
     for( size_t i = 0; i < num_zombies(); i++ ) {
         monster &critter = critter_tracker->find(i);
         if( critter.is_dead() ) {
-            dbg(D_INFO) << string_format("cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
+            dbg(D_INFO) << string_format("cleanup_dead: critter[%zu] %d,%d dead:%c hp:%d %s",
                                          i, critter.posx(), critter.posy(), (critter.is_dead() ? '1' : '0'),
                                          critter.get_hp(), critter.name().c_str());
             critter.die( nullptr );
@@ -10455,7 +10455,7 @@ void game::butcher()
             butcher_type = BUTCHER_SALVAGE;
             indexer_index = ret - corpses.size() - disassembles.size();
         } else {
-            debugmsg( "Invalid butchery index: %d", ret );
+            debugmsg( "Invalid butchery index: %zu", ret );
             return;
         }
     }
@@ -13158,7 +13158,7 @@ void game::update_stair_monsters()
     }
 
     if( m.has_zlevels() ) {
-        debugmsg( "%d monsters coming to stairs on a map with z-levels",
+        debugmsg( "%zu monsters coming to stairs on a map with z-levels",
                   coming_to_stairs.size() );
         coming_to_stairs.clear();
     }

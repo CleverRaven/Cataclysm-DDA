@@ -390,10 +390,10 @@ void reset_mapgens()
 size_t mapgen_function_json::calc_index( const size_t x, const size_t y) const
 {
     if( x >= mapgensize ) {
-        debugmsg( "invalid value %d for x in mapgen_function_json::calc_index", x );
+        debugmsg( "invalid value %zu for x in mapgen_function_json::calc_index", x );
     }
     if( y >= mapgensize ) {
-        debugmsg( "invalid value %d for y in mapgen_function_json::calc_index", y );
+        debugmsg( "invalid value %zu for y in mapgen_function_json::calc_index", y );
     }
     return y * mapgensize + x;
 }
@@ -421,7 +421,7 @@ mapgen_function_json::mapgen_function_json( std::string s, int const w )
 {
 }
 
-#define inboundchk(v,j) if (! check_inbounds(v) ) { j.throw_error(string_format("Value must be between 0 and %d",mapgensize)); }
+#define inboundchk(v,j) if (! check_inbounds(v) ) { j.throw_error(string_format("Value must be between 0 and %zu",mapgensize)); }
 
 jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
 {
@@ -1370,19 +1370,19 @@ bool mapgen_function_json::setup() {
             // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
             parray = jo.get_array( "rows" );
             if ( parray.size() != mapgensize ) {
-                parray.throw_error( string_format("  format: rows: must have %d rows, not %d",mapgensize,parray.size() ));
+                parray.throw_error( string_format("  format: rows: must have %zu rows, not %zu",mapgensize,parray.size() ));
             }
             for( size_t c = 0; c < mapgensize; c++ ) {
                 const auto tmpval = parray.next_string();
                 if ( tmpval.size() != mapgensize ) {
-                    parray.throw_error(string_format("  format: row %d must have %d columns, not %d", c, mapgensize, tmpval.size()));
+                    parray.throw_error(string_format("  format: row %zu must have %zu columns, not %zu", c, mapgensize, tmpval.size()));
                 }
                 for ( size_t i = 0; i < tmpval.size(); i++ ) {
                     const int tmpkey = tmpval[i];
                     if ( format_terrain.find( tmpkey ) != format_terrain.end() ) {
                         format[ calc_index( i, c ) ].ter = format_terrain[ tmpkey ];
                     } else if ( ! qualifies ) { // fill_ter should make this kosher
-                        parray.throw_error(string_format("  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",c+1,i+1, (char)tmpkey ));
+                        parray.throw_error(string_format("  format: rows: row %zu column %zu: '%c' is not in 'terrain', and no 'fill_ter' is set!",c+1,i+1, (char)tmpkey ));
                     }
                     if ( format_furniture.find( tmpkey ) != format_furniture.end() ) {
                         format[ calc_index( i, c ) ].furn = format_furniture[ tmpkey ];
