@@ -22,7 +22,23 @@ class main_menu
         std::vector<std::string> mmenu_motd;
         std::vector<std::string> mmenu_credits;
         std::vector<std::string> vMenuItems; // MOTD, New Game, Load Game, etc.
+        std::vector<std::string> vWorldSubItems;
+        std::vector< std::vector<std::string> > vWorldHotkeys;
+        std::vector<std::string> vSettingsSubItems;
+        std::vector< std::vector<std::string> > vSettingsHotkeys;
         std::vector< std::vector<std::string> > vMenuHotkeys; // hotkeys for the vMenuItems
+
+        /**
+         * Does what it sounds like, but this function also exists in order to gracefully handle
+         * the case where the player goes to the 'Settings' tab and changes the language.
+        */
+        void init_strings();
+        /** Helper function for @ref init_strings */
+        std::vector<std::string> load_file( const std::string &path,
+                                            const std::string &alt_text ) const;
+        /** Another helper function for @ref init_strings */
+        std::vector<std::string> get_hotkeys( const std::string &s );
+
 
         // Play a sound whenver the user moves left or right in the main menu or its tabs
         void on_move() const;
@@ -60,13 +76,6 @@ class main_menu
         */
         void print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                          bool bShowDDA = true );
-
-        std::vector<std::string> load_file( const std::string &path,
-                                            const std::string &alt_text ) const;
-        void mmenu_refresh_title();
-        void mmenu_refresh_credits();
-        void mmenu_refresh_motd();
-        std::vector<std::string> get_hotkeys( const std::string &s );
 
         void display_credits();
 };

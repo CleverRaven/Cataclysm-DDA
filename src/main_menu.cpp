@@ -144,20 +144,15 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
     return result;
 }
 
-void main_menu::mmenu_refresh_title()
+void main_menu::init_strings()
 {
+    // ASCII Art
     mmenu_title = load_file( PATH_INFO::find_translated_file( "titledir", ".title", "title" ),
                              _( "Cataclysm: Dark Days Ahead" ) );
-}
-
-void main_menu::mmenu_refresh_motd()
-{
+    // MOTD
     mmenu_motd = load_file( PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ),
                             _( "No message today." ) );
-}
-
-void main_menu::mmenu_refresh_credits()
-{
+    // Credits
     mmenu_credits.clear();
     std::vector<std::string> buffer;
     read_from_file_optional( PATH_INFO::find_translated_file( "creditsdir", ".credits",
@@ -188,6 +183,46 @@ void main_menu::mmenu_refresh_credits()
     }
     if( mmenu_credits.empty() ) {
         mmenu_credits.push_back( _( "No credits information found." ) );
+    }
+
+    // fill menu with translated menu items
+    vMenuItems.clear();
+    vMenuItems.push_back( pgettext( "Main Menu", "<M|m>OTD" ) );
+    vMenuItems.push_back( pgettext( "Main Menu", "<N|n>ew Game" ) );
+    vMenuItems.push_back( pgettext( "Main Menu", "Lo<a|A>d" ) );
+    vMenuItems.push_back( pgettext( "Main Menu", "<W|w>orld" ) );
+    vMenuItems.push_back( pgettext( "Main Menu", "<S|s>pecial" ) );
+    vMenuItems.push_back( pgettext( "Main Menu", "Se<t|T>tings" ) );
+    vMenuItems.push_back( pgettext( "Main Menu", "H<e|E|?>lp" ) );
+    vMenuItems.push_back( pgettext( "Main Menu", "<C|c>redits" ) );
+    vMenuItems.push_back( pgettext( "Main Menu", "<Q|q>uit" ) );
+
+    // determine hotkeys from translated menu item text
+    vMenuHotkeys.clear();
+    for( const std::string &item : vMenuItems ) {
+        vMenuHotkeys.push_back( get_hotkeys( item ) );
+    }
+
+    vWorldSubItems.clear();
+    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<C|c>reate World" ) );
+    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
+    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
+
+    vWorldHotkeys.clear();
+    for( const std::string &item : vWorldSubItems ) {
+        vWorldHotkeys.push_back( get_hotkeys( item ) );
+    }
+
+    vSettingsSubItems.clear();
+    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );
+    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "K<e|E>ybindings" ) );
+    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<A|a>utopickup" ) );
+    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<S|s>afemode" ) );
+    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<C|c>olors" ) );
+
+    vSettingsHotkeys.clear();
+    for( auto item : vSettingsSubItems ) {
+        vSettingsHotkeys.push_back( get_hotkeys( item ) );
     }
 }
 
@@ -262,46 +297,7 @@ bool main_menu::opening_screen()
     // note: if iMenuOffset is changed,
     // please update MOTD and credits to indicate how long they can be.
 
-    // fill menu with translated menu items
-    vMenuItems.clear();
-    vMenuItems.push_back( pgettext( "Main Menu", "<M|m>OTD" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<N|n>ew Game" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "Lo<a|A>d" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<W|w>orld" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<S|s>pecial" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "Se<t|T>tings" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "H<e|E|?>lp" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<C|c>redits" ) );
-    vMenuItems.push_back( pgettext( "Main Menu", "<Q|q>uit" ) );
-
-    // determine hotkeys from (possibly translated) menu item text
-    vMenuHotkeys.clear();
-    for( auto item : vMenuItems ) {
-        vMenuHotkeys.push_back( get_hotkeys( item ) );
-    }
-
-    std::vector<std::string> vWorldSubItems;
-    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<C|c>reate World" ) );
-    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
-    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
-    std::vector<std::vector<std::string>> vWorldHotkeys;
-    for( auto item : vWorldSubItems ) {
-        vWorldHotkeys.push_back( get_hotkeys( item ) );
-    }
-
-    std::vector<std::string> vSettingsSubItems;
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "K<e|E>ybindings" ) );
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<A|a>utopickup" ) );
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<S|s>afemode" ) );
-    vSettingsSubItems.push_back( pgettext( "Main Menu|Settings", "<C|c>olors" ) );
-
-    std::vector<std::vector<std::string>> vSettingsHotkeys;
-    for( auto item : vSettingsSubItems ) {
-        vSettingsHotkeys.push_back( get_hotkeys( item ) );
-    }
-
-    mmenu_refresh_title();
+    init_strings();
     print_menu( w_open, 0, iMenuOffsetX, iMenuOffsetY );
 
     dirent *dp;
@@ -337,10 +333,6 @@ bool main_menu::opening_screen()
     // for the menu shortcuts
     ctxt.register_action( "ANY_INPUT" );
     bool start = false;
-
-    // Load MOTD and Credits, load it once as it shouldn't change for the duration of the application being open
-    mmenu_refresh_motd();
-    mmenu_refresh_credits();
 
     g->u = player();
 
@@ -610,10 +602,9 @@ bool main_menu::opening_screen()
                 if( action == "UP" || action == "CONFIRM" ) {
                     if( sel2 == 0 ) {
                         get_options().show( true );
-                        // Refresh these since the language may have changed
-                        mmenu_refresh_title();
-                        mmenu_refresh_credits();
-                        mmenu_refresh_motd();
+                        // The language may have changed- gracefully handle this.
+                        init_strings();
+                        print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY, ( sel1 != 0 ) );
                     } else if( sel2 == 1 ) {
                         ctxt.display_help();
                     } else if( sel2 == 2 ) {
