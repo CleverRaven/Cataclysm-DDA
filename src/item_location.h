@@ -93,6 +93,12 @@ class item_location : public JsonSerializer, public JsonDeserializer
     private:
         class impl;
         std::shared_ptr<impl> ptr;
+
+        /* Not implemented on purpose. This triggers a compiler / linker
+         * error when used in any implicit conversion. It prevents the
+         * implicit conversion to int. */
+        template<typename T>
+        operator T() const;
 };
 
 #endif
