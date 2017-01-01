@@ -68,7 +68,6 @@ static std::list<item>  nulitems;          // Returned when &i_at() is asked for
 static field            nulfield;          // Returned when &field_at() is asked for an OOB value
 static int              null_temperature;  // Because radiation does it too
 static level_cache      nullcache;         // Dummy cache for z-levels outside bounds
-static item             nulitem;           // Returned when item adding functions fail to add an item
 
 // Less for performance and more so that it's visible for when ter_t gets its string_id
 static std::string null_ter_t = "t_null";
@@ -4318,7 +4317,7 @@ item &map::spawn_an_item(const tripoint &p, item new_item,
     new_item = new_item.in_its_container();
     if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) ||
         has_flag("DESTROY_ITEM", p) ) {
-        return nulitem;
+        return null_item_reference();
     }
 
     new_item.set_damage( damlevel );
@@ -4441,17 +4440,17 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
     // Some items never exist on map as a discrete item (must be contained by another item)
     if( obj.has_flag( "NO_DROP" ) ) {
-        return nulitem;
+        return null_item_reference();
     }
 
     // If intended drop tile destroys the item then we don't attempt to overflow
     if( !valid_tile( pos ) ) {
-        return nulitem;
+        return null_item_reference();
     }
 
     if( !has_flag( "NOITEM", pos ) && valid_limits( pos ) ) {
         if( obj.on_drop( pos ) ) {
-            return nulitem;
+            return null_item_reference();
         }
 
         // If tile can contain items place here...
@@ -4467,7 +4466,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             }
 
             if( obj.on_drop( e ) ) {
-                return nulitem;
+                return null_item_reference();
             }
 
             if( !valid_tile( e ) || has_flag( "NOITEM", e ) || !valid_limits( e ) ) {
@@ -4478,13 +4477,13 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
     }
 
     // failed due to lack of space at target tile (+/- overflow tiles)
-    return nulitem;
+    return null_item_reference();
 }
 
 item &map::add_item(const tripoint &p, item new_item)
 {
     if( !inbounds( p ) ) {
-        return nulitem;
+        return null_item_reference();
     }
     int lx, ly;
     submap * const current_submap = get_submap_at(p, lx, ly);
@@ -4501,11 +4500,11 @@ item &map::add_item_at( const tripoint &p,
                         std::list<item>::iterator index, item new_item )
 {
     if( new_item.made_of(LIQUID) && has_flag( "SWIMMABLE", p ) ) {
-        return nulitem;
+        return null_item_reference();
     }
 
     if( has_flag( "DESTROY_ITEM", p ) ) {
-        return nulitem;
+        return null_item_reference();
     }
 
     if( new_item.has_flag("ACT_IN_FIRE") && get_field( p, fd_fire ) != nullptr ) {

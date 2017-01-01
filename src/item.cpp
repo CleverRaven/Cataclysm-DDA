@@ -3892,8 +3892,7 @@ bool item::can_contain( const itype &tp ) const
 const item &item::get_contained() const
 {
     if( contents.empty() ) {
-        static const item null_item;
-        return null_item;
+        return null_item_reference();
     }
     return contents.front();
 }
