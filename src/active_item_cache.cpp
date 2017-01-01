@@ -10,14 +10,19 @@ void active_item_cache::remove( const std::list<item>::iterator it, const point 
     const int key = find( interior, it, location );
     if( key != INT_MIN ) {
         active_item_set.erase( interior->item_id );
-        active_items[key].erase( interior );
+
+        // Workaround for a bug in clang- const_iterators can't be erased
+        std::list<item_reference>::iterator clang = active_items[key].begin();
+        std::advance( clang, std::distance<std::list<item_reference>::const_iterator>( clang, interior ) );
+
+        active_items[key].erase( clang );
     } else {
         debugmsg( "Critical: The item isn't there!" );
     }
 }
 
 int active_item_cache::find( std::list<item_reference>::const_iterator &found,
-                                    const std::list<item>::iterator target, const point &target_loc ) const
+                             const std::list<item>::iterator target, const point &target_loc ) const
 {
     const auto predicate = [&target, &target_loc]( const item_reference & ir ) {
         // Check the point first- comparing iterators from different sequences is undefined

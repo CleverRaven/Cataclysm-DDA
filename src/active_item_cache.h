@@ -30,7 +30,7 @@ class active_item_cache
          * @ret: INT_MIN if not found, otherwise found is in active_items[ret]
         */
         int find( std::list<item_reference>::const_iterator &found,
-                         const std::list<item>::iterator target, const point &target_loc ) const;
+                  const std::list<item>::iterator target, const point &target_loc ) const;
 
     public:
         void remove( const std::list<item>::iterator it, const point &location );
