@@ -678,8 +678,8 @@ void editmap::update_view( bool update_info )
                             g->m.i_at( target ).front().tname().c_str() );
             off++;
             if( g->m.i_at( target ).size() > 1 ) {
-                mvwprintw( w_info, off, 1, ngettext( "There is %zu other item there as well.",
-                                                     "There are %zu other items there as well.",
+                mvwprintw( w_info, off, 1, ngettext( "There is %d other item there as well.",
+                                                     "There are %d other items there as well.",
                                                      g->m.i_at( target ).size() - 1 ),
                            g->m.i_at( target ).size() - 1 );
                 off++;
@@ -1777,7 +1777,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             }
                             destsm->delete_vehicles();
                             for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
-                                s += string_format( "  copying vehicle %zu/%zu", i, srcsm->vehicles.size() );
+                                s += string_format( "  copying vehicle %d/%d", i, srcsm->vehicles.size() );
                                 vehicle *veh1 = srcsm->vehicles[i];
                                 // vehicle *veh1 = veh;   // fixme: is this required?
                                 veh1->smx = target_sub.x + x;
@@ -1792,7 +1792,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             int spawns_todo = 0;
                             for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
                                 int mx = srcsm->spawns[i].posx, my = srcsm->spawns[i].posy;
-                                s += string_format( "  copying monster %zu/%zu pos %d,%d\n", i, srcsm->spawns.size(), mx, my );
+                                s += string_format( "  copying monster %d/%d pos %d,%d\n", i, srcsm->spawns.size(), mx, my );
                                 destsm->spawns.push_back( srcsm->spawns[i] );
                                 spawns_todo++;
                             }

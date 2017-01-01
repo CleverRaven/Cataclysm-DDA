@@ -264,7 +264,7 @@ void vpart_info::set_flag( const std::string &flag )
 void vpart_info::finalize()
 {
     if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
-        debugmsg( "JSON contains circular dependency: discarded %zu vehicle parts", deferred.size() );
+        debugmsg( "JSON contains circular dependency: discarded %i vehicle parts", deferred.size() );
     }
 
     for( auto& e : vpart_info_all ) {
@@ -694,7 +694,7 @@ void vehicle_prototype::finalize()
             }
 
             if( blueprint.install_part( pt.pos.x, pt.pos.y, pt.part ) < 0 ) {
-                debugmsg( "init_vehicles: '%s' part '%s'(%zu) can't be installed to %d,%d",
+                debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name.c_str(), pt.part.c_str(),
                           blueprint.parts.size(), pt.pos.x, pt.pos.y );
             }

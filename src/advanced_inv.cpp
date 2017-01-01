@@ -352,7 +352,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
 
         //print weight column
         double it_weight = convert_weight( sitem.weight );
-        int w_precision;
+        size_t w_precision;
         print_color = ( it_weight > 0 ) ? thiscolor : thiscolordark;
 
         if( it_weight >= 1000.0 ) {

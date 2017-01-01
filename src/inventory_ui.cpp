@@ -66,7 +66,7 @@ class selection_column_preset: public inventory_selector_preset
             std::ostringstream res;
             const size_t available_count = entry.get_available_count();
             if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                res << string_format( _( "%zu of %zu" ), entry.chosen_count, available_count ) << ' ';
+                res << string_format( _( "%d of %d" ), entry.chosen_count, available_count ) << ' ';
             } else if( available_count != 1 ) {
                 res << available_count << ' ';
             }
@@ -169,14 +169,14 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
     const size_t count = entry.get_stack_size();
     const std::string disp_name = entry.location->display_name( count );
 
-    return ( count > 1 ) ? string_format( "%zu %s", count, disp_name.c_str() ) : disp_name;
+    return ( count > 1 ) ? string_format( "%d %s", count, disp_name.c_str() ) : disp_name;
 }
 
 std::string inventory_selector_preset::get_cell_text( const inventory_entry &entry,
         size_t cell_index ) const
 {
     if( cell_index >= cells.size() ) {
-        debugmsg( "Invalid cell index %zu.", cell_index );
+        debugmsg( "Invalid cell index %d.", cell_index );
         return "it's a bug!";
     }
     if( !entry ) {

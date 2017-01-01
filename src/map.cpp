@@ -2336,7 +2336,7 @@ void map::process_falling()
     }
 
     if( !support_cache_dirty.empty() ) {
-        add_msg( m_debug, "Checking %zu tiles for falling objects",
+        add_msg( m_debug, "Checking %d tiles for falling objects",
                  support_cache_dirty.size() );
         // We want the cache to stay constant, but falling can change it
         std::set<tripoint> last_cache = std::move( support_cache_dirty );
@@ -5590,7 +5590,7 @@ void map::debug()
  for (int i = 0; i <= SEEX * 2; i++) {
   for (int j = 0; j <= SEEY * 2; j++) {
    if (i_at(i, j).size() > 0) {
-    mvprintw(1, 0, "%d, %d: %zu items", i, j, i_at(i, j).size());
+    mvprintw(1, 0, "%d, %d: %d items", i, j, i_at(i, j).size());
     mvprintw(2, 0, "%s, %d", i_at(i, j)[0].symbol().c_str(), i_at(i, j)[0].color());
     getch();
    }
@@ -7634,7 +7634,7 @@ tripoint map::get_abs_sub() const
 submap *map::getsubmap( const size_t grididx ) const
 {
     if( grididx >= grid.size() ) {
-        debugmsg( "Tried to access invalid grid index %zu. Grid size: %zu", grididx, grid.size() );
+        debugmsg( "Tried to access invalid grid index %d. Grid size: %d", grididx, grid.size() );
         return nullptr;
     }
     return grid[grididx];
@@ -7643,10 +7643,10 @@ submap *map::getsubmap( const size_t grididx ) const
 void map::setsubmap( const size_t grididx, submap * const smap )
 {
     if( grididx >= grid.size() ) {
-        debugmsg( "Tried to access invalid grid index %zu", grididx );
+        debugmsg( "Tried to access invalid grid index %d", grididx );
         return;
     } else if( smap == nullptr ) {
-        debugmsg( "Tried to set NULL submap pointer at index %zu", grididx );
+        debugmsg( "Tried to set NULL submap pointer at index %d", grididx );
         return;
     }
     grid[grididx] = smap;

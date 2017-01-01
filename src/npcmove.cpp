@@ -2039,7 +2039,7 @@ std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 
 void npc::drop_items(int weight, int volume)
 {
-    add_msg( m_debug, "%s is dropping items-%d,%d (%zu items, wgt %d/%d, vol %d/%d)",
+    add_msg( m_debug, "%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
                  name.c_str(), weight, volume, inv.size(), weight_carried(),
                  weight_capacity(), volume_carried() / units::legacy_volume_factor, volume_capacity() / units::legacy_volume_factor);
 
@@ -2104,7 +2104,7 @@ void npc::drop_items(int weight, int volume)
             // Fix the rest of those indices.
             for (size_t i = 0; i < rVol.size(); i++) {
                 if (i > rVol.size())
-                    debugmsg("npc::drop_items() - looping through rVol - Size is %zu, i is %zu",
+                    debugmsg("npc::drop_items() - looping through rVol - Size is %d, i is %d",
                              rVol.size(), i);
                 if (rVol[i].index > index) {
                     rVol[i].index--;

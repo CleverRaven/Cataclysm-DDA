@@ -3382,7 +3382,7 @@ void parse_tags( std::string &phrase, const player &u, const npc &me )
                     break;
             }
         } else if( !tag.empty() ) {
-            debugmsg("Bad tag. '%s' (%zu - %zu)", tag.c_str(), fa, fb);
+            debugmsg("Bad tag. '%s' (%d - %d)", tag.c_str(), fa, fb);
             phrase.replace(fa, fb - fa + 1, "????");
         }
     } while( fa != std::string::npos && fb != std::string::npos );
