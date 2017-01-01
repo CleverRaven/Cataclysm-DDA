@@ -4,6 +4,7 @@
     "ident": "More_Survival_Tools",
     "name": "More Survival Tools",
     "authors": [ "Chaosvolt" ],
+    "maintainers": [ "DangerNoodle" ],
     "description": "For those who prefer being innawoods.  Adds several tools, various recipes additions/tweaks, plus two new classes.",
     "category": "items",
     "dependencies": [ "dda" ]
