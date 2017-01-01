@@ -54,7 +54,7 @@ const_invslice inventory::const_slice() const
 const std::list<item> &inventory::const_stack(int i) const
 {
     if (i < 0 || i >= (int)items.size()) {
-        debugmsg("Attempted to access stack %d in an inventory (size %zu)", i, items.size());
+        debugmsg("Attempted to access stack %d in an inventory (size %d)", i, items.size());
         return nullstack;
     }
 

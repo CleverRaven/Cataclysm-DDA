@@ -1063,8 +1063,8 @@ Press %s to buy everything in your cart, %s to buy nothing."),
                 popup(_("You can't afford those items!"));
             } else if ((items[0].empty() && query_yn(_("Really buy nothing?"))) ||
                        (!items[0].empty() &&
-                        query_yn(ngettext("Buy %zu item, leaving you with $%.2f?",
-                                          "Buy %zu items, leaving you with $%.2f?",
+                        query_yn(ngettext("Buy %d item, leaving you with $%.2f?",
+                                          "Buy %d items, leaving you with $%.2f?",
                                           items[0].size()),
                                  items[0].size(),
                                  ( static_cast<long>( g->u.cash ) - static_cast<long>( total_price ) ) / 100.0 ))) {
