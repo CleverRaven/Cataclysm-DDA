@@ -3664,7 +3664,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
                    int( convert_velocity( ms_to_display( veh->current_velocity() ), VU_VEHICLE ) ) );
 
         mvwprintz( w, speedoy, speedox + cruisex, c_ltgreen, "%4d",
-                   int( convert_velocity( veh->cruise_velocity * 2, VU_VEHICLE ) ) );
+                   int( convert_velocity( veh->cruise_velocity , VU_VEHICLE ) ) );
 
         if( veh->velocity != 0 ) {
             const int offset_from_screen_edge = sideStyle ? 13 : 8;
