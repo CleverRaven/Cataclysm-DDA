@@ -26,7 +26,7 @@
     "start_name": "Anywhere",
     "allowed_locs": [ "house", "s_grocery", "s_gun", "s_garage", "pawn", "bank", "mil_surplus", "furniture", "s_library", "s_bookstore" ],
     "blacklist_professions": true,
-    "professions": [ "medic", "jr_survivalist", "camper" ]
+    "professions": [ "medic", "jr_survivalist", "camper", "cyberjunkie" ]
   },
   {
     "type": "scenario",
