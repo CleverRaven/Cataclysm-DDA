@@ -2348,17 +2348,17 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 std::string item::display_name(unsigned int quantity) const
 {
     std::string name = tname(quantity);
-    std::string side;
+    std::string sidetxt;
     std::string qty;
 
     switch (get_side()) {
         case side::BOTH:
             break;
         case side::LEFT:
-            side = string_format(" (%s)", _("left"));
+            sidetxt = string_format(" (%s)", _("left"));
             break;
         case side::RIGHT:
-            side = string_format(" (%s)", _("right"));
+            sidetxt = string_format(" (%s)", _("right"));
             break;
     }
 
@@ -2378,7 +2378,7 @@ std::string item::display_name(unsigned int quantity) const
         qty = string_format(" (%i)", charges);
     }
 
-    return string_format("%s%s%s", name.c_str(), side.c_str(), qty.c_str());
+    return string_format("%s%s%s", name.c_str(), sidetxt.c_str(), qty.c_str());
 }
 
 nc_color item::color() const
