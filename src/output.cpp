@@ -1717,7 +1717,8 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     wrefresh( w_hit );
 
     timeout( get_option<int>( "ANIMATION_DELAY" ) );
-    getch(); //using this, because holding down a key with nanosleep can get yourself killed
+    // Skip input (if any), because holding down a key with nanosleep can get yourself killed
+    inp_mngr.get_input_event( nullptr );
     timeout( -1 );
 }
 
