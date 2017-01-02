@@ -34,7 +34,12 @@ private:
     std::string _description_female;
     std::string _gender_req;
     std::string _start_name;
-    std::vector<string_id<profession>> _allowed_professions;
+
+    bool blacklist = false; // If true, professions is a blacklist.
+    std::vector<string_id<profession>> professions;
+    /** Returns all permitted professions */
+    std::vector<string_id<profession>> permitted_professions() const;
+
     std::set<std::string> _allowed_traits;
     std::set<std::string> _forced_traits;
     std::set<std::string> _forbidden_traits;
@@ -76,7 +81,7 @@ public:
     start_location_id start_location() const;
     start_location_id random_start_location() const;
     std::string start_name() const;
-    const profession* get_profession() const;
+    const profession* get_default_profession() const;
     const profession* random_profession() const;
     bool profquery( const string_id<profession> &proff ) const;
     bool traitquery(std::string trait) const;
@@ -91,6 +96,12 @@ public:
     std::vector<std::string> items_female() const;
     bool has_map_special() const;
     const std::string& get_map_special() const;
+
+    /**
+     * Returns "All", "Limited", or "Almost all" (translated)
+     * This is used by newcharacter.cpp
+    */
+    std::string prof_count_str() const;
 
 
     /**
