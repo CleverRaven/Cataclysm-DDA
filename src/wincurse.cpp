@@ -613,14 +613,14 @@ input_event input_manager::get_input_event( WINDOW * /*win*/ )
         if( key < 127 ) {
             // Single byte sequence
         } else if( 194 <= key && key <= 223 ) {
-            rval.text.append( 1, ( char ) getch() );
+            rval.text.append( 1, ( char ) curses_getch() );
         } else if( 224 <= key && key <= 239 ) {
-            rval.text.append( 1, ( char ) getch() );
-            rval.text.append( 1, ( char ) getch() );
+            rval.text.append( 1, ( char ) curses_getch() );
+            rval.text.append( 1, ( char ) curses_getch() );
         } else if( 240 <= key && key <= 244 ) {
-            rval.text.append( 1, ( char ) getch() );
-            rval.text.append( 1, ( char ) getch() );
-            rval.text.append( 1, ( char ) getch() );
+            rval.text.append( 1, ( char ) curses_getch() );
+            rval.text.append( 1, ( char ) curses_getch() );
+            rval.text.append( 1, ( char ) curses_getch() );
         } else {
             // Other control character, etc. - no text at all, return an event
             // without the text property

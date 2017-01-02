@@ -288,28 +288,6 @@ int wredrawln( WINDOW* /*win*/, int /*beg_line*/, int /*num_lines*/ ) {
     return OK;
 }
 
-int getch(void)
-{
-    return wgetch(mainwin);
-}
-
-int wgetch(WINDOW *win)
-{
-    return curses_getch(win);
-}
-
-int mvgetch(int y, int x)
-{
-    move(y, x);
-    return getch();
-}
-
-int mvwgetch(WINDOW *win, int y, int x)
-{
-    move(y, x);
-    return wgetch(win);
-}
-
 // Get a sequence of Unicode code points, store them in target
 // return the display width of the extracted string.
 inline int fill(const char *&fmt, int &len, std::string &target)
