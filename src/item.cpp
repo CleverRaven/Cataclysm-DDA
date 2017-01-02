@@ -431,6 +431,7 @@ bool item::is_sided() const {
 }
 
 side item::get_side() const {
+    // MSVC complains if directly cast double to enum
     return static_cast<side>( static_cast<int>( get_var( "lateral", static_cast<int>( side::BOTH ) ) ) );
 }
 
