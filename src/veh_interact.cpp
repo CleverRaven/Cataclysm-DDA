@@ -864,6 +864,7 @@ bool veh_interact::do_repair( std::string &msg )
                 vehicle_part *most_repairable = get_most_repariable_part();
                 if( most_repairable ) {
                     move_cursor( most_repairable->mount.y + ddy, -( most_repairable->mount.x + ddx ) );
+                    return false;
                 } else {
                     msg = _( "There are no damaged parts on this vehicle." );
                     return false;
@@ -1597,7 +1598,7 @@ void veh_interact::move_cursor (int dx, int dy)
         for (size_t i = 0; i < parts_here.size(); i++) {
             auto &pt = veh->parts[parts_here[i]];
 
-            if( pt.base.damage() > 0 ) {
+            if( pt.base.damage() > 0 && pt.info().is_repairable() ) {
                 need_repair.push_back( i );
             }
             if( pt.info().has_flag( "WHEEL" ) ) {
