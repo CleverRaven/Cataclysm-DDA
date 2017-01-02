@@ -4053,6 +4053,7 @@ void game::debug()
                        _( "Overmap editor" ),         // 30
                        _( "Draw benchmark (5 seconds)" ),    // 31
                        _( "Teleport - Adjacent overmap" ),   // 32
+                       _( "Quit to Main Menu" ),    // 33
                        _( "Cancel" ),
                        NULL );
     int veh_num;
@@ -4405,6 +4406,12 @@ void game::debug()
 
         case 32:
             debug_menu::teleport_overmap();
+            break;
+        case 33:
+            if( query_yn( _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
+                u.moves = 0;
+                uquit = QUIT_NOSAVED;
+            }
             break;
     }
     erase();

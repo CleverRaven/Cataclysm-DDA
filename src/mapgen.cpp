@@ -1355,6 +1355,7 @@ bool mapgen_function_json::setup() {
             load_place_mapings<jmapgen_toilet>( jo, "toilets", format_placings );
             load_place_mapings<jmapgen_gaspump>( jo, "gaspumps", format_placings );
             load_place_mapings<jmapgen_item_group>( jo, "items", format_placings );
+            load_place_mapings<jmapgen_loot>( jo, "loot", format_placings );
             load_place_mapings<jmapgen_monster_group>( jo, "monsters", format_placings );
             load_place_mapings<jmapgen_vehicle>( jo, "vehicles", format_placings );
             // json member name is not optimal, it should be plural like all the others above, but that conflicts

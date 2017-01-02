@@ -5083,15 +5083,17 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         // if vehicle has FAUCET can use contents from any of the tanks
         if( v->has_part( "FAUCET" ) ) {
             for( auto &pt : v->parts ) {
-                if( pt.is_tank() ) {
-                    for( const auto &obj : pt.contents() ) {
-                        if( obj.typeId() == type ) {
-                            ret.push_back( pt.drain( quantity ) );
-                            quantity -= ret.back().charges;
-                            if( quantity == 0 ) {
-                                return ret;
-                            }
-                        }
+                if( pt.is_tank() && pt.ammo_current() == type ) {
+                    item fluid = pt.drain( quantity );
+                    if( fluid.is_null() ) {
+                        debugmsg( "Vehicle part returned null item when draining" );
+                        continue;
+                    }
+
+                    ret.push_back( fluid );
+                    quantity -= ret.back().charges;
+                    if( quantity == 0 ) {
+                        return ret;
                     }
                 }
             }

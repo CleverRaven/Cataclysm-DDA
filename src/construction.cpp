@@ -938,7 +938,7 @@ void unroll_digging( int const numer_of_2x4s )
 
 void construct::done_digormine_stair( const tripoint &p, bool dig )
 {
-    tripoint const abs_pos = p;
+    tripoint const abs_pos = g->m.getabs( p );
     tripoint const pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
