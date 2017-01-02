@@ -1081,17 +1081,19 @@ bool vehicle::fold_up() {
 
 bool vehicle::start_engine( const int e )
 {
-    if( !is_engine_on( e ) ) { return false; }
+    if( !is_engine_on( e ) ) {
+        return false;
+    }
 
-    const vpart_info &einfo = part_info( engines[e] );
+    const vpart_info &einfo = part_info( engines[ e ] );
     const vehicle_part &eng = parts[ engines[ e ] ];
 
     if( !fuel_left( einfo.fuel_type, true, true ) ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
-            add_msg( _("The %s's mechanism is out of reach!"), name.c_str() );
+            add_msg( _( "The %s's mechanism is out of reach!" ), name.c_str() );
         } else {
-            add_msg( _("Looks like the %1$s is out of %2$s."), eng.name().c_str(),
-                item::nname( einfo.fuel_type ).c_str() );
+            add_msg( _( "Looks like the %1$s is out of %2$s." ), eng.name().c_str(),
+                     item::nname( einfo.fuel_type ).c_str() );
         }
         return false;
     }
@@ -1103,23 +1105,23 @@ bool vehicle::start_engine( const int e )
     }
 
     if( eng.faults().count( fault_immobiliser ) ) {
-        add_msg( _( "The %s cannot start with a faulty immobiliser." ), eng.name().c_str() );
+        add_msg( _( "The %s makes a long beeping sound." ), eng.name().c_str() );
         return false;
     }
 
     if( eng.faults().count( fault_starter ) ) {
-        add_msg( _( "The %s cannot start with a faulty starter motor." ), eng.name().c_str() );
+        add_msg( _( "The %s makes a single clicking sound." ), eng.name().c_str() );
         return false;
     }
 
     int joules = eng.base.engine_start_energy( g->temperature );
     if( fuel_left( fuel_type_battery, true, true ) < joules ) {
-        add_msg( _( "The %s need at least %i battery charges to start" ), eng.name().c_str(), joules );
+        add_msg( _( "The %s makes a rapid clicking sound." ), eng.name().c_str() );
         return false;
     }
 
     if( eng.faults().count( fault_pump ) || eng.faults().count( fault_diesel ) ) {
-        add_msg( _( "The %s quickly stutters out due to a faulty fuel pump" ), eng.name().c_str() );
+        add_msg( _( "The %s quickly stutters out." ), eng.name().c_str() );
         return false;
     }
 
@@ -3484,7 +3486,7 @@ void vehicle::idle(bool on_map) {
                 // consume fuel or disable the engine if insufficient was available
                 if( drain( eng.ammo_current(), qty ) != int( qty ) ) {
                     if( g->u.sees( global_pos3() ) ) {
-                        add_msg( m_bad, _( "The %s has run out of %s." ),
+                        add_msg( m_bad, _( "The %s's engine sputters out." ),
                                  name.c_str(), fuel->nname( qty ).c_str() );
                     }
                     engine_on = false;
