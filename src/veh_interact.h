@@ -151,12 +151,12 @@ class veh_interact
         nc_color totalDurabilityColor;
 
         /** Returns the most damaged part's index, or -1 if they're all healthy. */
-        vehicle_part * get_most_damaged_part() const;
+        vehicle_part *get_most_damaged_part() const;
 
         /** Returns the index of the part that needs repair the most.
          * This may not be mostDamagedPart since not all parts can be repaired
          * If there are no damaged parts this returns -1 */
-        vehicle_part * get_most_repariable_part() const;
+        vehicle_part *get_most_repariable_part() const;
 
         //do_remove supporting operation, writes requirements to ui
         bool can_remove_part( int idx );
