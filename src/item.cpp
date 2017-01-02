@@ -2345,46 +2345,46 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 }
 
-std::string item::display_name(unsigned int quantity) const
+std::string item::display_name( unsigned int quantity ) const
 {
-    std::string name = tname(quantity);
+    std::string name = tname( quantity );
     std::string sidetxt;
-    std::string qty;
+    std::string amt;
 
-    switch (get_side()) {
+    switch( get_side() ) {
         case side::BOTH:
             break;
         case side::LEFT:
-            sidetxt = string_format(" (%s)", _("left"));
+            sidetxt = string_format( " (%s)", _( "left" ) );
             break;
         case side::RIGHT:
-            sidetxt = string_format(" (%s)", _("right"));
+            sidetxt = string_format( " (%s)", _( "right" ) );
             break;
     }
-    int chargeSum = 0;
+    int amount = 0;
     bool itemContainer = is_container() && contents.size() == 1;
     bool ammoContainer = is_ammo_container() && !contents.empty();
     bool isContainer = itemContainer || ammoContainer;
-    
+
     // We should handle infinite charges properly in all cases.
-    if ( isContainer ) {
-        chargeSum = contents.front().charges;
-    } else if ( is_book() && get_chapters() > 0 ) {
+    if( isContainer ) {
+        amount = contents.front().charges;
+    } else if( is_book() && get_chapters() > 0 ) {
         // a book which has remaining unread chapters
-        chargeSum = get_remaining_chapters(g->u);
-    } else if ( ammo_capacity() > 0 ) {
+        amount = get_remaining_chapters( g->u );
+    } else if( ammo_capacity() > 0 ) {
         // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
-        chargeSum = ammo_remaining();
-    } else if ( count_by_charges() && !has_infinite_charges() ) {
+        amount = ammo_remaining();
+    } else if( count_by_charges() && !has_infinite_charges() ) {
         // A chargeable item
-        chargeSum = charges;
+        amount = charges;
     }
 
-    if (chargeSum) {
-        qty = string_format(" (%i)", chargeSum);
+    if( amount ) {
+        amt = string_format( " (%i)", amount );
     }
 
-    return string_format("%s%s%s", name.c_str(), sidetxt.c_str(), qty.c_str());
+    return string_format( "%s%s%s", name.c_str(), sidetxt.c_str(), amt.c_str() );
 }
 
 nc_color item::color() const
