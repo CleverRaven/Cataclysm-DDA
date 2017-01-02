@@ -3,7 +3,6 @@
     "id": "223",
     "type": "AMMO",
     "name": ".223 Remington",
-    "name_plural": ".223 Remington",
     "description": ".223 Remington ammunition with 36gr JHP bullets.  The .223 round has been very popular with civilian shooters for almost a century, finding use in a wide variety of weapons.  It generates lower pressure than 5.56 NATO leading to slightly decreased accuracy and recoil.",
     "weight": 12,
     "volume": 1,
@@ -27,7 +26,6 @@
     "copy-from": "223",
     "type": "AMMO",
     "name": "5.56 NATO M855A1",
-    "name_plural": "5.56 NATO M855A1",
     "description": "5.56x45mm ammunition with a 62gr FMJ bullet containing a steel penetrator.  Its light weight, high accuracy, and manageable recoil lead to widespread use in the 20th century and it remains popular among militaries and civilians.",
     "price": 3500,
     "relative": {
@@ -43,7 +41,6 @@
     "copy-from": "556",
     "type": "AMMO",
     "name": "5.56 NATO tracer",
-    "name_plural": "5.56 NATO tracer",
     "description": "This ammunition is a one-in-five mix of M855A1 and M856 tracer rounds to help keep the weapon they are fired from on target.",
     "extend": { "effects": [ "INCENDIARY" ] }
   },
@@ -52,7 +49,6 @@
     "copy-from": "223",
     "type": "AMMO",
     "name": "reloaded .223 Remington",
-    "name_plural": "reloaded .223 Remington",
     "proportional": {
       "price": 0.7,
       "damage": 0.9,
@@ -66,7 +62,6 @@
     "copy-from": "556",
     "type": "AMMO",
     "name": "reloaded 5.56 NATO",
-    "name_plural": "reloaded 5.56 NATO",
     "proportional": {
       "price": 0.7,
       "damage": 0.9,
@@ -80,7 +75,6 @@
     "copy-from": "556_incendiary",
     "type": "AMMO",
     "name": "reloaded 5.56 NATO tracer",
-    "name_plural": "reloaded 5.56 NATO tracer",
     "proportional": {
       "price": 0.7,
       "damage": 0.9,

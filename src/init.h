@@ -59,6 +59,9 @@ class DynamicDataLoader
          */
         typedef std::list<std::pair<std::string, std::string>> deferred_json;
 
+    private:
+        bool finalized = false;
+
     protected:
         /**
          * Maps the type string (comming from json) to the
@@ -124,9 +127,15 @@ class DynamicDataLoader
 
         /**
          * Loads and then removes entries from @param data
-         * @return whether all entries were sucessfully loaded
          */
-        bool load_deferred( deferred_json &data );
+        void load_deferred( deferred_json &data );
+
+        /**
+         * Returns whether the data is finalized and ready to be utilized.
+         */
+        bool is_data_finalized() const {
+            return finalized;
+        }
 };
 
 void init_names();

@@ -379,6 +379,11 @@ bool item::covers( const body_part bp ) const
 
 std::bitset<num_bp> item::get_covered_body_parts() const
 {
+    return get_covered_body_parts( get_side() );
+}
+
+std::bitset<num_bp> item::get_covered_body_parts( side s ) const
+{
     std::bitset<num_bp> res;
 
     if( is_gun() ) {
@@ -394,15 +399,22 @@ std::bitset<num_bp> item::get_covered_body_parts() const
 
     res |= armor->covers;
 
-    switch (get_side()) {
-        case LEFT:
+    if( !armor->sided ) {
+        return res; // Just ignore the side.
+    }
+
+    switch( s ) {
+        case side::BOTH:
+            break;
+
+        case side::LEFT:
             res.reset(bp_arm_r);
             res.reset(bp_hand_r);
             res.reset(bp_leg_r);
             res.reset(bp_foot_r);
             break;
 
-        case RIGHT:
+        case side::RIGHT:
             res.reset(bp_arm_l);
             res.reset(bp_hand_l);
             res.reset(bp_leg_l);
@@ -418,20 +430,27 @@ bool item::is_sided() const {
     return t ? t->sided : false;
 }
 
-int item::get_side() const {
-    return get_var("lateral", BOTH);
+side item::get_side() const {
+    return static_cast<side>( get_var( "lateral", static_cast<int>( side::BOTH ) ) );
 }
 
 bool item::set_side (side s) {
-    if (!is_sided()) return false;
+    if( !is_sided() ) {
+        return false;
+    }
 
-    if (s == BOTH) {
+    if( s == side::BOTH ) {
         erase_var("lateral");
     } else {
-        set_var("lateral", s);
+        set_var("lateral", static_cast<int>( s ) );
     }
 
     return true;
+}
+
+bool item::swap_side()
+{
+    return set_side( opposite_side( get_side() ) );
 }
 
 bool item::is_worn_only_with( const item &it ) const
@@ -2047,23 +2066,23 @@ nc_color item::color_in_inventory() const
 
 void item::on_wear( Character &p )
 {
-    if (is_sided() && get_side() == BOTH) {
+    if( is_sided() && get_side() == side::BOTH ) {
         // for sided items wear the item on the side which results in least encumbrance
         int lhs = 0, rhs = 0;
 
-        set_side(LEFT);
+        set_side( side::LEFT );
         const auto left_enc = p.get_encumbrance( *this );
         for( size_t i = 0; i < num_bp; i++ ) {
             lhs += left_enc[i].encumbrance;
         }
 
-        set_side(RIGHT);
+        set_side( side::RIGHT );
         const auto right_enc = p.get_encumbrance( *this );
         for( size_t i = 0; i < num_bp; i++ ) {
             rhs += right_enc[i].encumbrance;
         }
 
-        set_side(lhs <= rhs ? LEFT : RIGHT);
+        set_side( lhs <= rhs ? side::LEFT : side::RIGHT );
     }
 
     // TODO: artifacts currently only work with the player character
@@ -2079,7 +2098,7 @@ void item::on_takeoff( Character &p )
     p.on_item_takeoff( *this );
 
     if (is_sided()) {
-        set_side(BOTH);
+        set_side( side::BOTH );
     }
 }
 
@@ -2329,14 +2348,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 std::string item::display_name(unsigned int quantity) const
 {
     std::string name = tname(quantity);
-    std::string side = "";
-    std::string qty  = "";
+    std::string side;
+    std::string qty;
 
     switch (get_side()) {
-        case LEFT:
+        case side::BOTH:
+            break;
+        case side::LEFT:
             side = string_format(" (%s)", _("left"));
             break;
-        case RIGHT:
+        case side::RIGHT:
             side = string_format(" (%s)", _("right"));
             break;
     }

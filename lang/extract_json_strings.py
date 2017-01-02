@@ -121,11 +121,9 @@ automatically_convertible = {
 
 # for these objects a plural form is needed
 needs_plural = {
-    "AMMO",
     "ARMOR",
     "BIONIC_ITEM",
     "BOOK",
-    "COMESTIBLE",
     "CONTAINER",
     "GENERIC",
     "GUN",

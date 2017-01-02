@@ -168,6 +168,9 @@ class vpart_info
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
 
+        /** Returns whether or not the part is repairable  */
+        bool is_repairable() const;
+
         /** Required skills to repair this component */
         std::map<skill_id, int> repair_skills;
 

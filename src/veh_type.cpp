@@ -263,9 +263,7 @@ void vpart_info::set_flag( const std::string &flag )
 
 void vpart_info::finalize()
 {
-    if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
-        debugmsg( "JSON contains circular dependency: discarded %i vehicle parts", deferred.size() );
-    }
+    DynamicDataLoader::get_instance().load_deferred( deferred );
 
     for( auto& e : vpart_info_all ) {
         // if part name specified ensure it is translated
@@ -282,7 +280,7 @@ void vpart_info::finalize()
             auto b = vpart_bitflag_map.find( f );
             if( b != vpart_bitflag_map.end() ) {
                 e.second.bitflags.set( b->second );
-            }            
+            }
         }
 
         e.second.power = hp_to_watt( e.second.power );
@@ -537,6 +535,12 @@ requirement_data vpart_info::repair_requirements() const
         []( const requirement_data &lhs, const std::pair<requirement_id, int> &rhs ) {
         return lhs + ( *rhs.first * rhs.second );
     } );
+}
+
+
+bool vpart_info::is_repairable() const
+{
+    return !repair_requirements().is_empty();
 }
 
 static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &ch ) {

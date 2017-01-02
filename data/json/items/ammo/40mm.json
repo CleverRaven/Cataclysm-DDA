@@ -32,7 +32,6 @@
     "copy-from": "40mm_grenade",
     "type": "AMMO",
     "name": "40mm concussive",
-    "name_plural": "40mm concussive",
     "description": "A 40mm grenade with a concussive explosion load.",
     "extend": { "effects": [ "EXPLOSIVE" ] }
   },
@@ -69,7 +68,6 @@
     "copy-from": "40mm_grenade",
     "type": "AMMO",
     "name": "40mm frag",
-    "name_plural": "40mm frag",
     "description": "A 40mm grenade with a small explosive load and a high number of damaging fragments.",
     "extend": { "effects": [ "FRAG" ] }
   },
@@ -78,7 +76,6 @@
     "copy-from": "40mm_grenade",
     "type": "AMMO",
     "name": "40mm incendiary",
-    "name_plural": "40mm incendiaries",
     "description": "A 40mm grenade with a small napalm load, designed to create a burst of flame.",
     "extend": { "effects": [ "NAPALM" ] }
   },
@@ -98,7 +95,6 @@
     "copy-from": "40mm_grenade",
     "type": "AMMO",
     "name": "40mm smoke cover",
-    "name_plural": "40mm smoke cover",
     "description": "A 40mm grenade designed to provide smoke cover.",
     "drop": "smokebomb_act",
     "extend": { "effects": [ "TRAIL", "NO_EMBED" ] }
@@ -108,7 +104,6 @@
     "copy-from": "40mm_grenade",
     "type": "AMMO",
     "name": "40mm teargas",
-    "name_plural": "40mm teargas",
     "description": "A 40mm grenade with a teargas load.  It will burst in a cloud of highly incapacitating gas.",
     "drop": "gasbomb_act",
     "extend": { "effects": [ "NO_EMBED" ] }

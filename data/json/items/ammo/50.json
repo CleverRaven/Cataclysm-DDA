@@ -4,7 +4,6 @@
     "copy-from": "50bmg",
     "type": "AMMO",
     "name": ".50 BMG tracer",
-    "name_plural": ".50 BMG tracer",
     "description": "A tracer variant of the powerful .50 BMG sniper round.  Tracer rounds to help keep the weapon they are fired from on target at the risk of igniting flammable substances.",
     "count": 10,
     "effects": [ "INCENDIARY" ],
@@ -14,7 +13,6 @@
     "id": "50bmg",
     "type": "AMMO",
     "name": ".50 BMG Ball",
-    "name_plural": ".50 BMG Ball",
     "description": "The .50 BMG is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
     "weight": 50,
     "volume": 1,
@@ -38,7 +36,6 @@
     "copy-from": "50bmg",
     "type": "AMMO",
     "name": ".50 BMG AP",
-    "name_plural": ".50 BMG AP",
     "description": "Variant of the .50 BMG round that uses a core of very dense, hardened tungsten steel.  Penetration is increased, but damage is reduced.",
     "count": 10,
     "relative": {
@@ -51,7 +48,6 @@
     "copy-from": "50_incendiary",
     "type": "AMMO",
     "name": "reloaded .50 BMG API",
-    "name_plural": "reloaded .50 BMG API",
     "description": "An armor-piercing incendiary variant of the powerful .50 BMG sniper round.  Incendiary rounds are designed to burn hotly upon impact, piercing armor and igniting flammable substances.  This one has been hand-reloaded.",
     "proportional": {
       "price": 0.7,
@@ -66,7 +62,6 @@
     "copy-from": "50bmg",
     "type": "AMMO",
     "name": "reloaded .50 BMG Ball",
-    "name_plural": "reloaded .50 BMG Ball",
     "description": "The .50 BMG is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.  This one has been hand-reloaded.",
     "proportional": {
       "price": 0.7,
@@ -81,7 +76,6 @@
     "copy-from": "50ss",
     "type": "AMMO",
     "name": "reloaded .50 BMG AP",
-    "name_plural": "reloaded .50 BMG AP",
     "description": "Variant of the .50 BMG round that uses a core of very dense, hardened tungsten steel.  Penetration is increased, but damage is reduced.  This one has been hand-reloaded.",
     "proportional": {
       "price": 0.7,

@@ -156,7 +156,17 @@ bool Single_item_creator::has_item(const Item_tag &itemid) const
     return type == S_ITEM && itemid == id;
 }
 
-
+void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int mag )
+{
+    if( ammo != 0 || mag != 0 ) {
+        if( !modifier ) {
+            std::unique_ptr<Item_modifier> mod( new Item_modifier() );
+            modifier = std::move( mod );
+        }
+        modifier->with_ammo = ammo;
+        modifier->with_magazine = mag;
+    }
+}
 
 Item_modifier::Item_modifier()
     : damage(0, 0)
@@ -338,13 +348,8 @@ void Item_group::add_entry(std::unique_ptr<Item_spawn_data> &ptr)
     // Make the ammo and magazine probabilities from the outer entity apply to the nested entity:
     // If ptr is an Item_group, it already inherited its parent's ammo/magazine chances in its constructor.
     Single_item_creator *sic = dynamic_cast<Single_item_creator *>( ptr.get() );
-    if( sic && ( with_ammo != 0 || with_magazine != 0 ) ) {
-        if( !sic->modifier ) {
-            std::unique_ptr<Item_modifier> mod( new Item_modifier() );
-            sic->modifier = std::move( mod );
-        }
-        sic->modifier->with_ammo = with_ammo;
-        sic->modifier->with_magazine = with_magazine;
+    if( sic ) {
+        sic->inherit_ammo_mag_chances( with_ammo, with_magazine );
     }
     items.push_back( ptr.get() );
     ptr.release();

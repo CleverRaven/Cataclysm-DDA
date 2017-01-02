@@ -2723,6 +2723,10 @@ void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &
 void cata_tiles::do_tile_loading_report() {
     DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << get_option<std::string>( "TILES" );
 
+    if( !g->is_core_data_loaded() ) {
+        return; // There's nothing to do anymore without the core data.
+    }
+
     tile_loading_report<ter_t>( ter_t::count(), "Terrain", "" );
     tile_loading_report<furn_t>( furn_t::count(), "Furniture", "" );
 

@@ -142,6 +142,9 @@ class game
         /** Loads core dynamic data. May throw. */
         void load_core_data();
 
+        /** Returns whether the core data is currently loaded. */
+        bool is_core_data_loaded() const;
+
         /**
          *  Check if mods can be sucessfully loaded
          *  @param opts check specific mods (or all if unspecified)

@@ -3258,39 +3258,27 @@ npc_target::npc_target() : npc_target( TARGET_NONE, 0 )
 {
 }
 
-bool covers_broken( const Character &who, const item &it )
-{
-    const auto covered = it.get_covered_body_parts();
-    for( size_t i = 0; i < num_hp_parts; i++ ) {
-
-        if( who.hp_cur[ i ] <= 0 && covered[ player::hp_to_bp( hp_part( i ) ) ] ) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 bool npc::adjust_worn()
 {
-    // Currently just splints
-    const std::string splint_string( "SPLINT" );
-    for( auto &it : worn ) {
-        if( !it.has_flag( splint_string ) ) {
+    const auto covers_broken = [this]( const item &it, side s ) {
+        const auto covered = it.get_covered_body_parts( s );
+        for( size_t i = 0; i < num_hp_parts; i++ ) {
+            if( hp_cur[ i ] <= 0 && covered.test( hp_to_bp( hp_part( i ) ) ) ) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    for( auto &elem : worn ) {
+        if( !elem.has_flag( "SPLINT" ) ) {
             continue;
         }
 
-        // If the split is covering a broken part, let it stay there
-        bool any_broken = covers_broken( *this, it );
-        if( any_broken ) {
-            continue;
-        }
-
-        // Not covering any broken part, see if we have any on opposite side
-        it.set_side( it.get_side() == LEFT ? RIGHT : LEFT );
-        any_broken = covers_broken( *this, it );
-        if( !any_broken ) {
-            if( takeoff( it ) ) {
+        if( !covers_broken( elem, elem.get_side() ) ) {
+            const bool needs_change = covers_broken( elem, opposite_side( elem.get_side() ) );
+            // Try to change side (if it makes sense), or takoff.
+            if( ( needs_change && change_side( elem ) ) || takeoff( elem ) ) {
                 return true;
             }
         }

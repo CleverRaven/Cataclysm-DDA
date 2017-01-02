@@ -10498,40 +10498,43 @@ bool player::wear_item( const item &to_wear, bool interactive )
     return true;
 }
 
-bool player::change_side (item *target, bool interactive)
+bool player::change_side( item &it, bool interactive )
 {
-    return change_side(get_item_position(target), interactive);
-}
-
-bool player::change_side (int pos, bool interactive) {
-    int idx = worn_position_to_index(pos);
-    if (static_cast<size_t>(idx) >= worn.size()) {
-        if (interactive) {
-            add_msg_if_player(m_info, _("You are not wearing that item."));
+    if( !it.swap_side() ) {
+        if( interactive ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "You cannot swap the side on which your %s is worn." ),
+                                   _( "<npcname> cannot swap the side on which their %s is worn." ),
+                                   it.tname().c_str() );
         }
         return false;
     }
 
-    auto it = worn.begin();
-    std::advance(it, idx);
-
-    if (!it->is_sided()) {
-        if (interactive) {
-            add_msg_if_player(m_info, _("You cannot swap the side on which your %s is worn."), it->tname().c_str());
-        }
-        return false;
+    if( interactive ) {
+        add_msg_player_or_npc( m_info, _( "You swap the side on which your %s is worn." ),
+                                       _( "<npcname> swaps the side on which their %s is worn." ),
+                                       it.tname().c_str() );
     }
 
-    it->set_side(it->get_side() == LEFT ? RIGHT : LEFT);
-
-    if (interactive) {
-        add_msg_if_player(m_info, _("You swap the side on which your %s is worn."), it->tname().c_str());
-        moves -= 250;
-    }
-
+    mod_moves( -250 );
     reset_encumbrance();
 
     return true;
+}
+
+bool player::change_side (int pos, bool interactive) {
+    item &it( i_at( pos ) );
+
+    if( !is_worn( it ) ) {
+        if( interactive ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "You are not wearing that item." ),
+                                   _( "<npcname> isn't wearing that item." ) );
+        }
+        return false;
+    }
+
+    return change_side( it, interactive );
 }
 
 hint_rating player::rate_action_takeoff( const item &it ) const
@@ -10605,6 +10608,7 @@ bool player::takeoff( const item &it, std::list<item> *res )
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
                 drop( get_item_position( &it ) );
+                return true;
             }
             return false;
         }

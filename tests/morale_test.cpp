@@ -266,7 +266,7 @@ TEST_CASE( "player_morale" )
 
         WHEN( "wearing a legpouch" ) {
             item legpouch( "legpouch", 0 );
-            legpouch.set_side( LEFT );
+            legpouch.set_side( side::LEFT );
 
             m.on_item_wear( legpouch );
             THEN( "half of the roots are suffering" ) {
