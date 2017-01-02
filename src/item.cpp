@@ -2361,21 +2361,27 @@ std::string item::display_name(unsigned int quantity) const
             sidetxt = string_format(" (%s)", _("right"));
             break;
     }
-
-    // @todo Refactor it to eliminate duplication. Handle infinite charges properly in all the cases.
-    if( is_container() && contents.size() == 1 && contents.front().charges > 0 ) {
-        // a container which is not empty
-        qty = string_format(" (%i)", contents.front().charges);
-    } else if( is_book() && get_chapters() > 0 ) {
+    int chargeSum = 0;
+    bool itemContainer = is_container() && contents.size() == 1;
+    bool ammoContainer = is_ammo_container() && !contents.empty();
+    bool isContainer = itemContainer || ammoContainer;
+    
+    // We should handle infinite charges properly in all cases.
+    if ( isContainer ) {
+        chargeSum = contents.front().charges;
+    } else if ( is_book() && get_chapters() > 0 ) {
         // a book which has remaining unread chapters
-        qty = string_format(" (%i)", get_remaining_chapters(g->u));
-    } else if( ammo_capacity() > 0 ) {
+        chargeSum = get_remaining_chapters(g->u);
+    } else if ( ammo_capacity() > 0 ) {
         // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
-        qty = string_format(" (%i)", ammo_remaining());
-    } else if( is_ammo_container() && !contents.empty() ) {
-        qty = string_format( " (%i)", contents.front().charges );
-    } else if( count_by_charges() && !has_infinite_charges() ) {
-        qty = string_format(" (%i)", charges);
+        chargeSum = ammo_remaining();
+    } else if ( count_by_charges() && !has_infinite_charges() ) {
+        // A chargeable item
+        chargeSum = charges;
+    }
+
+    if (chargeSum) {
+        qty = string_format(" (%i)", chargeSum);
     }
 
     return string_format("%s%s%s", name.c_str(), sidetxt.c_str(), qty.c_str());
