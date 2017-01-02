@@ -591,76 +591,7 @@ uint64_t GetPerfCount(){
     return Count;
 }
 
-input_event input_manager::get_input_event( WINDOW * /*win*/ )
-{
-    previously_pressed_key = 0;
-    long key = curses_getch();
-    input_event rval;
-    if( key == ERR ) {
-        if( input_timeout > 0 ) {
-            rval.type = CATA_INPUT_TIMEOUT;
-        } else {
-            rval.type = CATA_INPUT_ERROR;
-        }
-    } else {
-        if( key == 127 ) { // == Unicode DELETE
-            previously_pressed_key = KEY_BACKSPACE;
-            return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
-        }
-        rval.type = CATA_INPUT_KEYBOARD;
-        rval.text.append( 1, ( char ) key );
-        // Read the UTF-8 sequence (if any)
-        if( key < 127 ) {
-            // Single byte sequence
-        } else if( 194 <= key && key <= 223 ) {
-            rval.text.append( 1, ( char ) curses_getch() );
-        } else if( 224 <= key && key <= 239 ) {
-            rval.text.append( 1, ( char ) curses_getch() );
-            rval.text.append( 1, ( char ) curses_getch() );
-        } else if( 240 <= key && key <= 244 ) {
-            rval.text.append( 1, ( char ) curses_getch() );
-            rval.text.append( 1, ( char ) curses_getch() );
-            rval.text.append( 1, ( char ) curses_getch() );
-        } else {
-            // Other control character, etc. - no text at all, return an event
-            // without the text property
-            previously_pressed_key = key;
-            return input_event( key, CATA_INPUT_KEYBOARD );
-        }
-        // Now we have loaded an UTF-8 sequence (possibly several bytes)
-        // but we should only return *one* key, so return the code point of it.
-        const char *utf8str = rval.text.c_str();
-        int len = rval.text.length();
-        const uint32_t cp = UTF8_getch( &utf8str, &len );
-        if( cp == UNKNOWN_UNICODE ) {
-            // Invalid UTF-8 sequence, this should never happen, what now?
-            // Maybe return any error instead?
-            previously_pressed_key = key;
-            return input_event( key, CATA_INPUT_KEYBOARD );
-        }
-        previously_pressed_key = cp;
-        // for compatibility only add the first byte, not the code point
-        // as it would  conflict with the special keys defined by ncurses
-        rval.add_input( key );
-    }
-
-    return rval;
-}
-
-bool gamepad_available()
-{
-    return false;
-}
-
-bool input_context::get_coordinates( WINDOW *capture_win, int &x, int &y )
-{
-    // TODO: implement this properly
-    return false;
-}
-
-//Not terribly sure how this function is suppose to work,
-//but jday helped to figure most of it out
-int curses_getch(WINDOW* win)
+input_event input_manager::get_input_event( WINDOW *win )
 {
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
@@ -694,9 +625,40 @@ int curses_getch(WINDOW* win)
         ShowCursor(false);
     }
 
-    return lastchar;
+    previously_pressed_key = 0;
+    input_event rval;
+    if( lastchar == ERR ) {
+        if( input_timeout > 0 ) {
+            rval.type = CATA_INPUT_TIMEOUT;
+        } else {
+            rval.type = CATA_INPUT_ERROR;
+        }
+    } else {
+        if( lastchar == 127 ) { // == Unicode DELETE
+            previously_pressed_key = KEY_BACKSPACE;
+            return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
+        }
+        rval.type = CATA_INPUT_KEYBOARD;
+        rval.text = UTF32_to_UTF8( lastchar );
+        previously_pressed_key = lastchar;
+        // for compatibility only add the first byte, not the code point
+        // as it would  conflict with the special keys defined by ncurses
+        rval.add_input( lastchar );
+    }
+
+    return rval;
 }
 
+bool gamepad_available()
+{
+    return false;
+}
+
+bool input_context::get_coordinates( WINDOW *capture_win, int &x, int &y )
+{
+    // TODO: implement this properly
+    return false;
+}
 
 //Ends the terminal, destroy everything
 int curses_destroy(void)
