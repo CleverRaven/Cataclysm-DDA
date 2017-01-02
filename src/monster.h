@@ -243,10 +243,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool block_hit( Creature *source, body_part &bp_hit, damage_instance &d ) override;
         using Creature::melee_attack;
         void melee_attack( Creature &p, bool allow_special, const matec_id &force_technique ) override;
-        void melee_attack( Creature &p, bool allow_special, const matec_id &force_technique, int hitspread ) override;
+        void melee_attack( Creature &p, bool allow_special, const matec_id &force_technique,
+                           int hitspread ) override;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
         void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
-                                              int &pain ) override;
+                                      int &pain ) override;
         void apply_damage( Creature *source, body_part bp, int amount ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
@@ -272,8 +273,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void add_eff_effects( effect e, bool reduced ) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp,
-                                 bool permanent = false,
-                                 int intensity = 0, bool force = false ) override;
+                         bool permanent = false,
+                         int intensity = 0, bool force = false ) override;
 
         float power_rating() const override;
         float speed_rating() const override;

@@ -36,7 +36,8 @@ harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
     return ret;
 }
 
-const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src, const std::string &id )
+const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src,
+                                      const std::string &id )
 {
     harvest_list ret;
     if( jo.has_string( "id" ) ) {
