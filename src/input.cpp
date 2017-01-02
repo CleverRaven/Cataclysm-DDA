@@ -1098,9 +1098,17 @@ long input_manager::get_previously_pressed_key() const
 
 void input_manager::wait_for_any_key()
 {
-    // TODO: make this proper: ignore mouse and similiar
-    // handle timeouts and errors.
-    getch();
+    while( true ) {
+        switch( inp_mngr.get_input_event( nullptr ).type ) {
+            case CATA_INPUT_KEYBOARD:
+                return;
+            // errors are accepted as well to avoid an infinite loop
+            case CATA_INPUT_ERROR:
+                return;
+            default:
+                break;
+        }
+    }
 }
 
 #ifndef TILES
