@@ -3,7 +3,7 @@
         "type": "profession",
         "ident": "bio_specops",
         "name": "Bionic Spec-Op",
-        "description": "Once bionic augmentation proved safe, you were choosen for a top secret soldier augmentation program. As if being a top-tier special forces operator the before procedure wasn't enough, your new enhancememts allow you to handle any combat scenario be it human or not.",
+        "description": "Once bionic augmentation proved safe, you were choosen for a top secret soldier augmentation program.  As if being a top-tier special forces operator before the procedure wasn't enough, your new enhancememts allow you to handle any combat scenario be it human or not.",
         "points": 12,
         "CBMs":[
             "bio_targeting",
