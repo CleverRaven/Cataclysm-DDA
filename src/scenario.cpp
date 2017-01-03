@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <cmath>
 
 #include "scenario.h"
 
@@ -177,8 +178,8 @@ void scenario::check_definition() const
         }
     }
     if( std::any_of( professions.begin(), professions.end(), [&]( const string_id<profession> &p ) {
-        return std::count( professions.begin(), professions.end(), p ) > 1;
-        } ) ) {
+    return std::count( professions.begin(), professions.end(), p ) > 1;
+    } ) ) {
         debugmsg( "Duplicate entries in the professions array." );
     }
 
@@ -241,9 +242,12 @@ start_location_id scenario::random_start_location() const
 
 std::vector<string_id<profession>> scenario::permitted_professions() const
 {
+    if( !cached_permitted_professions.empty() ) {
+        return cached_permitted_professions;
+    }
 
-    std::vector<string_id<profession>> res;
     const auto all = profession::get_all();
+    std::vector<string_id<profession>> &res = cached_permitted_professions;
     for( const profession &p : all ) {
         if( profquery( p.ident() ) ) {
             res.push_back( p.ident() );
@@ -266,13 +270,22 @@ const profession *scenario::get_default_profession() const
     return &permitted_professions().front().obj();
 }
 
-const profession *scenario::random_profession() const
+const profession *scenario::weighted_random_profession() const
 {
-    if( professions.empty() ) {
+    // Strategy: 1/3 of the time, return the generic profession (if it's permitted).
+    // Otherwise, the weight of each permitted profession is 2 / ( |point cost| + 2 )
+    const auto choices = permitted_professions();
+    if( one_in( 3 ) && choices.front() == profession::generic()->ident() ) {
         return profession::generic();
-    } else {
-        return &random_entry( permitted_professions() ).obj();
     }
+
+    while( true ) {
+        const string_id<profession> &candidate = random_entry_ref( choices );
+        if( x_in_y( 2, 2 + std::abs( candidate->point_cost() ) ) ) {
+            return &candidate.obj();
+        }
+    }
+    return profession::generic(); // Suppress warnings
 }
 
 std::string scenario::prof_count_str() const
@@ -308,7 +321,8 @@ std::vector<std::string> scenario::items_female() const
 
 bool scenario::profquery( const string_id<profession> &proff ) const
 {
-    const bool present = std::find( professions.begin(), professions.end(), proff ) != professions.end();
+    const bool present = std::find( professions.begin(), professions.end(), proff ) !=
+                         professions.end();
     if( blacklist || professions.empty() ) {
         return !proff->has_flag( "SCEN_ONLY" ) && !present;
     }
@@ -331,8 +345,8 @@ bool scenario::forbidden_traits( std::string trait ) const
 int scenario::profsize() const
 {
     return permitted_professions().size();
-
 }
+
 bool scenario::has_flag( std::string flag ) const
 {
     return flags.count( flag ) != 0;

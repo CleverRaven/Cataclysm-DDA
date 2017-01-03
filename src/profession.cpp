@@ -166,28 +166,6 @@ const profession *profession::generic()
     return &generic_profession_id.obj();
 }
 
-// Strategy: a third of the time, return the generic profession.  Otherwise, return a profession,
-// weighting 0 cost professions more likely--the weight of a profession with cost n is 2/(|n|+2),
-// e.g., cost 1 is 2/3rds as likely, cost -2 is 1/2 as likely.
-const profession *profession::weighted_random()
-{
-    if( one_in( 3 ) ) {
-        return generic();
-    }
-
-    const auto &list = all_profs.get_all();
-    while( true ) {
-        auto iter = list.begin();
-        std::advance( iter, rng( 0, list.size() - 1 ) );
-        const profession &prof = *iter;
-
-        if( x_in_y( 2, abs( prof.point_cost() ) + 2 ) && !prof.has_flag( "SCEN_ONLY" ) ) {
-            return &prof;
-        }
-        // else reroll in the while loop.
-    }
-}
-
 const std::vector<profession> &profession::get_all()
 {
     return all_profs.get_all();

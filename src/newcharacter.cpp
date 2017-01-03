@@ -248,11 +248,7 @@ void player::randomize( const bool random_scenario, points_left &points )
         g->scen = random_entry( scenarios );
     }
 
-    if( g->scen->profsize() > 0 ) {
-        g->u.prof = g->scen->random_profession();
-    } else {
-        g->u.prof = profession::weighted_random();
-    }
+    g->u.prof = g->scen->weighted_random_profession();
     g->u.start_location = g->scen->random_start_location();
 
     str_max = rng( 6, HIGH_STAT - 2 );

@@ -36,7 +36,13 @@ private:
     std::string _start_name;
 
     bool blacklist = false; // If true, professions is a blacklist.
-    std::vector<string_id<profession>> professions;
+    std::vector<string_id<profession>> professions; // as specified in JSON, verbatim
+
+    /**
+     * @ref permitted_professions populates this vector on the first call, which takes
+     * a bit of work. On subsequent calls, this vector is returned.
+    */
+    mutable std::vector<string_id<profession>> cached_permitted_professions;
     /** Returns all permitted professions */
     std::vector<string_id<profession>> permitted_professions() const;
 
@@ -82,7 +88,7 @@ public:
     start_location_id random_start_location() const;
     std::string start_name() const;
     const profession* get_default_profession() const;
-    const profession* random_profession() const;
+    const profession* weighted_random_profession() const;
     bool profquery( const string_id<profession> &proff ) const;
     bool traitquery(std::string trait) const;
     bool locked_traits(std::string trait) const;
