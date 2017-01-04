@@ -183,19 +183,51 @@ class pickup_inventory_preset : public inventory_selector_preset
 class disassemble_inventory_preset : public pickup_inventory_preset
 {
     public:
-        disassemble_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {}
+        disassemble_inventory_preset( const player &p, const inventory &inv ) :
+            pickup_inventory_preset( p ), p( p ), inv( inv ) {
+
+            append_cell( [ this ]( const item_location & loc ) {
+                const auto &req = get_recipe( loc ).disassembly_requirements();
+                if( req.is_empty() ) {
+                    return std::string();
+                }
+                const auto components = req.get_components();
+                return enumerate_as_string( components.begin(), components.end(),
+                []( const decltype( components )::value_type & comps ) {
+                    return comps.front().to_string();
+                } );
+            }, _( "YIELD" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return calendar( get_recipe( loc ).time / 100 ).textify_period();
+            }, _( "TIME" ) );
+        }
 
         bool is_shown( const item_location &loc ) const override {
+            return get_recipe( loc );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            std::string denial;
+            if( !p.can_disassemble( *loc, inv, &denial ) ) {
+                return denial;
+            }
+            return std::string();
+        }
+
+    protected:
+        const recipe &get_recipe( const item_location &loc ) const {
             return recipe_dictionary::get_uncraft( loc->typeId() );
         }
 
     private:
         const player &p;
+        const inventory inv;
 };
 
 item_location game_menus::inv::disassemble( player &p )
 {
-    return inv_internal( p, disassemble_inventory_preset( p ),
+    return inv_internal( p, disassemble_inventory_preset( p, p.crafting_inventory() ),
                          _( "Disassemble item" ), 1,
                          _( "You don't have any items you could disassemble." ) );
 }
