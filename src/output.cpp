@@ -52,12 +52,9 @@ extern bool test_mode;
 
 void delwin_functor::operator()( WINDOW *w ) const
 {
-    if( w == nullptr ) {
-        return;
+    if( w != nullptr ) {
+        delwin( w );
     }
-    werase( w );
-    wrefresh( w );
-    delwin( w );
 }
 
 // utf8 version
