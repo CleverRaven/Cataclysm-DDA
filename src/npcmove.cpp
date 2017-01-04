@@ -3173,7 +3173,7 @@ bool npc::complain()
 
 void npc::do_reload( item &it )
 {
-    auto reload_opt = select_ammo( it );
+    item::reload_option reload_opt = select_ammo( it );
 
     if( !reload_opt ) {
         debugmsg( "do_reload failed: no usable ammo for %s", it.tname().c_str() );
@@ -3182,8 +3182,8 @@ void npc::do_reload( item &it )
 
     // Note: we may be reloading the magazine inside, not the gun itself
     // Maybe @todo: allow reload functions to understand such reloads instead of const casts
-    auto &target = const_cast<item &>( *reload_opt.target );
-    auto &usable_ammo = reload_opt.ammo;
+    item &target = const_cast<item &>( *reload_opt.target );
+    item_location &usable_ammo = reload_opt.ammo;
 
     long qty = std::max( 1l, std::min( usable_ammo->charges, it.ammo_capacity() - it.ammo_remaining() ) );
     int reload_time = item_reload_cost( it, *usable_ammo, qty );

@@ -144,7 +144,7 @@ struct points_left {
     {
         if( limit == MULTI_POOL ) {
             return string_format( _("Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>"),
-                stat_points_left() >= 0 ? "ltgray" : "red",	stat_points,
+                stat_points_left() >= 0 ? "ltgray" : "red", stat_points,
                 trait_points >= 0 ? '+' : '-',
                 trait_points_left() >= 0 ? "ltgray" : "red", abs(trait_points),
                 skill_points >= 0 ? '+' : '-',
@@ -2312,13 +2312,13 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
                 }
             } else if( !points.is_valid() ) {
                 if( points.skill_points_left() < 0 ) {
-	                popup(_("You cannot save a template with this many points allocated, change some features and try again."));
+                    popup( _( "You cannot save a template with this many points allocated, change some features and try again." ) );
                 } else if( points.trait_points_left() < 0 ) {
-                        popup(_("You cannot save a template with this many trait points allocated, change some traits or lower some stats and try again."));
+                    popup( _( "You cannot save a template with this many trait points allocated, change some traits or lower some stats and try again." ) );
                 } else if( points.stat_points_left() < 0 ) {
-                        popup(_("You cannot save a template with this many stat points allocated, lower some stats and try again."));
+                    popup( _( "You cannot save a template with this many stat points allocated, lower some stats and try again." ) );
                 } else {
-                        popup(_("You cannot save a template with negative unused points."));
+                    popup( _( "You cannot save a template with negative unused points." ) );
                 }
 
             } else {
