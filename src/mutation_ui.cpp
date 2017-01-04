@@ -163,7 +163,7 @@ void player::power_mutations()
                         ( menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1 ) ) {
                         break;
                     }
-                    type = c_cyan;
+                    type = ( has_base_trait( passive[i] ) ? c_cyan : c_ltcyan );
                     mvwprintz( wBio, list_start_y + i, 2, type, "%c %s", td.key, md.name.c_str() );
                 }
             }
@@ -178,12 +178,10 @@ void player::power_mutations()
                         ( menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1 ) ) {
                         break;
                     }
-                    if( !td.powered ) {
-                        type = c_red;
-                    } else if( td.powered ) {
-                        type = c_ltgreen;
+                    if( td.powered ) {
+                        type = ( has_base_trait( active[i] ) ? c_green : c_ltgreen );
                     } else {
-                        type = c_ltred;
+                        type = ( has_base_trait( active[i] ) ? c_red : c_ltred );
                     }
                     // TODO: track resource(s) used and specify
                     mvwputch( wBio, list_start_y + i, second_column, type, td.key );
