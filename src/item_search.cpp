@@ -16,13 +16,13 @@ item_filter_from_string( std::string filter )
             return true;
         };
     }
-    
+
     // remove curly braces (they only get in the way)
-    if( filter.find( '{' ) != std::string::npos ){
-        filter.erase( std::remove( filter.begin(), filter.end(), '{') );
+    if( filter.find( '{' ) != std::string::npos ) {
+        filter.erase( std::remove( filter.begin(), filter.end(), '{' ) );
     }
-    if( filter.find( '}' ) != std::string::npos ){
-        filter.erase( std::remove( filter.begin(), filter.end(), '}') );
+    if( filter.find( '}' ) != std::string::npos ) {
+        filter.erase( std::remove( filter.begin(), filter.end(), '}' ) );
     }
     if( filter.find( "," ) != std::string::npos ) {
         // functions which only one of which must return true
@@ -40,28 +40,28 @@ item_filter_from_string( std::string filter )
                     functions.push_back( current_func );
                 }
             }
-            if( comma != std::string::npos ){
+            if( comma != std::string::npos ) {
                 filter = trim( filter.substr( comma + 1 ) );
                 comma = filter.find( "," );
-            }else {
+            } else {
                 break;
             }
         }
-        
+
         return [functions, inv_functions]( const item & it ) {
-            auto apply = [&]( const std::function<bool(const item&)>& func ){
+            auto apply = [&]( const std::function<bool( const item & )> &func ) {
                 return func( it );
             };
             bool p_result = std::any_of( functions.begin(), functions.end(),
-            apply);
+                                         apply );
             bool n_result = std::all_of(
                                 inv_functions.begin(),
                                 inv_functions.end(),
-            apply );
-            if( !functions.empty() && inv_functions.empty() ){
+                                apply );
+            if( !functions.empty() && inv_functions.empty() ) {
                 return p_result;
             }
-            if( functions.empty() && !inv_functions.empty() ){
+            if( functions.empty() && !inv_functions.empty() ) {
                 return n_result;
             }
             return p_result && n_result;

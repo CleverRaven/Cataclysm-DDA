@@ -24,7 +24,8 @@ struct harvest_entry {
     static harvest_entry load( JsonObject &jo, const std::string &src );
 };
 
-class harvest_list {
+class harvest_list
+{
     public:
         harvest_list() : id_( NULL_ID ) {}
 
@@ -59,7 +60,7 @@ class harvest_list {
 
         /** Load harvest data, create relevant global entries, then return the id of the new list */
         static const harvest_id &load( JsonObject &jo, const std::string &src,
-                                      const std::string &force_id = "" );
+                                       const std::string &force_id = "" );
 
         /** Get all currently loaded harvest data */
         static const std::map<harvest_id, harvest_list> &all();
