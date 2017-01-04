@@ -4992,16 +4992,10 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
-    {"id":"SAW_W","level":2},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"SAW_W","level":2}
   ], "tools": [
     [
-      ["welder", 20],
-      ["welder_crude", 30],
-      ["toolset", 30]
-    ],
-    [
-      ["fire", -1]
+      [ "anvil", -1 ]
     ]
   ],
   "components": [
