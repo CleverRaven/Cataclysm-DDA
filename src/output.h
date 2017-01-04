@@ -16,6 +16,7 @@
 #include <memory>
 #include <map>
 
+struct input_event;
 struct iteminfo;
 enum direction : unsigned;
 class input_context;
@@ -368,13 +369,13 @@ long popup( const std::string &text, PopupFlags flags );
 void full_screen_popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
 /*@}*/
 
-int draw_item_info( WINDOW *win, const std::string sItemName, const std::string sTypeName,
+input_event draw_item_info( WINDOW *win, const std::string sItemName, const std::string sTypeName,
                     std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                     int &selected, const bool without_getch = false, const bool without_border = false,
                     const bool handle_scrolling = false, const bool scrollbar_left = true,
                     const bool use_full_win = false );
 
-int draw_item_info( const int iLeft, int iWidth, const int iTop, const int iHeight,
+input_event draw_item_info( const int iLeft, int iWidth, const int iTop, const int iHeight,
                     const std::string sItemName, const std::string sTypeName,
                     std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                     int &selected, const bool without_getch = false, const bool without_border = false,

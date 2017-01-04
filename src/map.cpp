@@ -36,6 +36,7 @@
 #include "scent_map.h"
 #include "cata_utility.h"
 #include "harvest.h"
+#include "input.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -5588,17 +5589,17 @@ void map::add_camp( const tripoint &p, const std::string& name )
 void map::debug()
 {
  mvprintw(0, 0, "MAP DEBUG");
- getch();
+ inp_mngr.wait_for_any_key();
  for (int i = 0; i <= SEEX * 2; i++) {
   for (int j = 0; j <= SEEY * 2; j++) {
    if (i_at(i, j).size() > 0) {
     mvprintw(1, 0, "%d, %d: %d items", i, j, i_at(i, j).size());
     mvprintw(2, 0, "%s, %d", i_at(i, j)[0].symbol().c_str(), i_at(i, j)[0].color());
-    getch();
+    inp_mngr.wait_for_any_key();
    }
   }
  }
- getch();
+ inp_mngr.wait_for_any_key();
 }
 
 void map::update_visibility_cache( const int zlev ) {

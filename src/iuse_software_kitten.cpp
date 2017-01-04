@@ -3,6 +3,7 @@
 #include "output.h"
 #include "translations.h"
 #include "posix_time.h"
+#include "input.h"
 
 #include <cstdlib>  // Needed for rand()
 #include <iostream>
@@ -368,7 +369,7 @@ The game ends when robotfindskitten. Alternatively, you may end the game by hitt
 'q', 'Q' or the escape key."));
     fold_and_print(w, pos, 1, getmaxx(w) - 4, c_ltgray, _("Press any key to start."));
     wrefresh(w);
-    getch();
+    inp_mngr.wait_for_any_key();
 }
 
 void robot_finds_kitten::process_input(int input, WINDOW *w)

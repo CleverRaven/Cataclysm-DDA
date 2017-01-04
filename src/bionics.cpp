@@ -310,7 +310,7 @@ bool player::activate_bionic( int b, bool eff_only )
         }
         wrefresh( w );
         refresh();
-        getch();
+        inp_mngr.wait_for_any_key();
         delwin( w );
     } else if( bio.id == "bio_blood_filter" ) {
         static const std::vector<efftype_id> removable = {{

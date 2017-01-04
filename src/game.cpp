@@ -4290,7 +4290,7 @@ void game::debug()
                 mvwputch( w_terrain, offset.y + sound.y, offset.x + sound.x, c_red, '?' );
             }
             wrefresh( w_terrain );
-            getch();
+            inp_mngr.wait_for_any_key();
 #else
             popup( _( "This binary was not compiled with tiles support." ) );
 #endif
@@ -4709,7 +4709,7 @@ void game::disp_NPCs()
                   apos.x, apos.y, apos.z);
     }
     wrefresh(w);
-    getch();
+    inp_mngr.wait_for_any_key();
     werase(w);
     wrefresh(w);
     delwin(w);
@@ -13820,7 +13820,7 @@ void game::display_scent()
     draw_ter();
     scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
     wrefresh(w_terrain);
-    getch();
+    inp_mngr.wait_for_any_key();
 }
 
 void game::init_autosave()

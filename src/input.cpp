@@ -1096,6 +1096,13 @@ long input_manager::get_previously_pressed_key() const
     return previously_pressed_key;
 }
 
+void input_manager::wait_for_any_key()
+{
+    // TODO: make this proper: ignore mouse and similiar
+    // handle timeouts and errors.
+    getch();
+}
+
 #ifndef TILES
 // If we're using curses, we need to provide get_input_event() here.
 input_event input_manager::get_input_event( WINDOW * /*win*/ )

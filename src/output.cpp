@@ -310,7 +310,7 @@ void multipage( WINDOW *w, std::vector<std::string> text, std::string caption, i
             center_print( w, height - 1, c_ltgray, _( "Press any key for more..." ) );
             wrefresh( w );
             refresh();
-            getch();
+            inp_mngr.wait_for_any_key();
             werase( w );
             begin_y = 0;
         } else {
@@ -319,7 +319,7 @@ void multipage( WINDOW *w, std::vector<std::string> text, std::string caption, i
     }
     wrefresh( w );
     refresh();
-    getch();
+    inp_mngr.wait_for_any_key();
 }
 
 // returns single string with left aligned name and right aligned value
@@ -1176,7 +1176,7 @@ void full_screen_popup( const char *mes, ... )
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 //@param without_getch don't wait getch, return = (int)' ';
-int draw_item_info( const int iLeft, const int iWidth, const int iTop, const int iHeight,
+input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, const int iHeight,
                     const std::string sItemName, const std::string sTypeName,
                     std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                     int &selected, const bool without_getch, const bool without_border,
@@ -1320,7 +1320,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     return buffer.str();
 }
 
-int draw_item_info( WINDOW *win, const std::string sItemName, const std::string sTypeName,
+input_event draw_item_info( WINDOW *win, const std::string sItemName, const std::string sTypeName,
                     std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                     int &selected, const bool without_getch, const bool without_border,
                     const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
@@ -1341,7 +1341,7 @@ int draw_item_info( WINDOW *win, const std::string sItemName, const std::string 
     const auto width = getmaxx( win ) - ( use_full_win ? 1 : b * 2 );
     const auto height = getmaxy( win ) - ( use_full_win ? 0 : 2 );
 
-    int ch = ( int )' ';
+    input_event result;
     while( true ) {
         int iLines = 0;
         if( !buffer.str().empty() ) {
@@ -1372,7 +1372,8 @@ int draw_item_info( WINDOW *win, const std::string sItemName, const std::string 
         }
 
         // TODO: use input context
-        ch = ( int )inp_mngr.get_input_event(nullptr).get_first_input();
+        result = inp_mngr.get_input_event( nullptr );
+        const int ch = ( int )result.get_first_input();
         if( handle_scrolling && ch == KEY_PPAGE ) {
             selected--;
             werase( win );
@@ -1380,17 +1381,17 @@ int draw_item_info( WINDOW *win, const std::string sItemName, const std::string 
             selected++;
             werase( win );
         } else if( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
-            ch = '\n';
+            result = input_event( static_cast<long>( '\n' ), CATA_INPUT_KEYBOARD );
             break;
         } else if( selected == KEY_LEFT ) {
-            ch = ( int )' ';
+            result = input_event( static_cast<long>( ' ' ), CATA_INPUT_KEYBOARD );
             break;
         } else {
             break;
         }
     }
 
-    return ch;
+    return result;
 }
 
 char rand_char()
