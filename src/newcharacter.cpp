@@ -535,32 +535,13 @@ bool player::create(character_type type, std::string tempname)
         }
     }
 
-    std::vector<item> prof_items = g->u.prof->items( g->u.male );
-
-    // Those with certain special traits are guaranteed to start with certain items
-    if( has_trait( "HYPEROPIC" ) && has_trait( "MYOPIC" ) ) {
-        prof_items.push_back( item( "glasses_bifocal" ) );
-    }
-    else if( has_trait( "MYOPIC" ) ) {
-        prof_items.push_back( item( "glasses_eye" ) );
-    }
-    else if( has_trait( "HYPEROPIC" ) ) {
-        prof_items.push_back( item( "glasses_reading" ) );
-    }
-
-    if( has_trait( "ASTHMA" ) ) {
-        prof_items.push_back( item( "inhaler", 0, item::default_charges_tag{} ) );
-    }
-    if (has_trait("CANNIBAL")) {
-        prof_items.push_back( item( "cookbook_human", 0 ) );
-    }
-    if( has_trait( "ALBINO" ) ) {
-        prof_items.push_back( item( "teleumbrella", 0 ) );
-    }
+    std::list<item> prof_items = g->u.prof->items( g->u.male, g->u.get_mutations() );
 
     for( item &it : prof_items ) {
         if( it.is_armor() ) {
-            wear_item( it, false ); // If wearing fails, we fail silently
+            if( !wear_item( it, false ) ) {
+                debugmsg( "%s: failed to wear %s", g->u.prof->ident().c_str(), it.typeId().c_str() );
+            }
         } else if( it.has_flag( "WET" ) ) {
             it.active = true;
             it.item_counter = 450; // Give it some time to dry off
@@ -1415,7 +1396,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
         }
 
         // Profession items
-        const auto prof_items = sorted_profs[cur_id]->items( u->male );
+        const auto prof_items = sorted_profs[cur_id]->items( u->male, u->get_mutations() );
         if( prof_items.empty() ) {
             buffer << pgettext( "set_profession_item", "None" ) << "\n";
         } else {

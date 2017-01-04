@@ -1,5 +1,87 @@
 [
     {
+        "type": "json_item_substitution",
+        "substitutions": [
+            {
+                "traits_present": [ "WOOLALLERGY" ],
+                "former": "blazer",
+                "latter": "jacket_leather_red"
+            },
+            {
+                "traits_present": [ "WOOLALLERGY" ],
+                "former": "hat_hunting",
+                "latter": "hat_fur"
+            },
+            {
+                "traits_present": [ "WOOLALLERGY" ],
+                "former": "hat_newsboy",
+                "latter": "hat_cotton"
+            },
+            {
+                "traits_present": [ "WOOLALLERGY" ],
+                "former": "peacoat",
+                "latter": "jacket_flannel"
+            },
+            {
+                "traits_present": [ "WOOLALLERGY" ],
+                "former": "sweater",
+                "latter": "sweatshirt"
+            },
+            {
+                "traits_present": [ "WOOLALLERGY" ],
+                "former": "boots_winter",
+                "latter": "boots_fur"
+            },
+            {
+                "traits_present": [ "WOOLALLERGY" ],
+                "former": "cloak_wool",
+                "latter": "cloak_leather"
+            },
+            {
+                "traits_present": [ "WOOLALLERGY" ],
+                "former": "gloves_wool",
+                "latter": "gloves_winter"
+            },
+            {
+                "traits_present": [ "ANTIWHEAT" ],
+                "former": "hardtack",
+                "latter": "cornbread",
+                "count": 2
+            },
+            {
+                "traits_present": [ "ANTIJUNK" ],
+                "former": "gum",
+                "latter": "fried_seeds"
+            },
+            {
+                "traits_present": [ "HYPEROPIC", "MYOPIC" ],
+                "latter": "glasses_bifocal"
+            },
+            {
+                "traits_present": [ "HYPEROPIC" ],
+                "traits_absent": [ "MYOPIC" ],
+                "latter": "glasses_reading"
+            },
+            {
+                "traits_present": [ "MYOPIC" ],
+                "traits_absent": [ "HYPEROPIC" ],
+                "latter": "glasses_eye"
+            },
+            {
+                "traits_present": [ "ASTHMA" ],
+                "latter": "inhaler"
+            },
+            {
+                "traits_present": [ "CANNIBAL" ],
+                "latter": "cookbook_human"
+            },
+            {
+                "traits_present": [ "ALBINO" ],
+                "latter": "teleumbrella"
+            }
+        ]
+    },
+    {
             "type": "profession",
             "ident": "bionic_prepper",
             "name": "Bionic Prepper",
