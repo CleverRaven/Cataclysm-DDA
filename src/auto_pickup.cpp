@@ -39,12 +39,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
-    std::map<int, bool> mapLines;
-    mapLines[4] = true;
-    mapLines[50] = true;
-    mapLines[60] = true;
-
-    const int iTotalCols = mapLines.size() - 1;
+    const int iTotalCols = 2;
 
     WINDOW *w_help = newwin((FULL_SCREEN_HEIGHT / 2) - 2, FULL_SCREEN_WIDTH * 3 / 4,
                                         7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
@@ -59,49 +54,52 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                                    1 + iOffsetX);
     WINDOW_PTR wptr( w );
 
-    draw_border( w_border, BORDER_COLOR, custom_name );
+    /**
+     * All of the stuff in this lambda needs to be drawn (1) initially, and
+     * (2) after closing the HELP_KEYBINDINGS window (since it mangles the screen)
+    */
+    const auto initial_draw = [&]() {
+        // Redraw the border
+        draw_border( w_border, BORDER_COLOR, custom_name );
+        mvwputch( w_border, 3,  0, c_ltgray, LINE_XXXO) ; // |-
+        mvwputch( w_border, 3, 79, c_ltgray, LINE_XOXX ); // -|
+        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 5, c_ltgray, LINE_XXOX ); // _|_
+        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 51, c_ltgray, LINE_XXOX );
+        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, 61, c_ltgray, LINE_XXOX );
+        wrefresh( w_border );
 
-    mvwputch(w_border, 3,  0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_border, 3, 79, c_ltgray, LINE_XOXX); // -|
-
-    for( auto &mapLine : mapLines ) {
-        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, mapLine.first + 1, c_ltgray,
-                  LINE_XXOX ); // _|_
-    }
-
-    wrefresh(w_border);
-
-    int tmpx = 0;
-    tmpx += shortcut_print(w_header, 0, tmpx, c_white, c_ltgreen, _("<A>dd")) + 2;
-    tmpx += shortcut_print(w_header, 0, tmpx, c_white, c_ltgreen, _("<R>emove")) + 2;
-    tmpx += shortcut_print(w_header, 0, tmpx, c_white, c_ltgreen, _("<C>opy")) + 2;
-    tmpx += shortcut_print(w_header, 0, tmpx, c_white, c_ltgreen, _("<M>ove")) + 2;
-    tmpx += shortcut_print(w_header, 0, tmpx, c_white, c_ltgreen, _("<E>nable")) + 2;
-    tmpx += shortcut_print(w_header, 0, tmpx, c_white, c_ltgreen, _("<D>isable")) + 2;
-    if( g->u.name != "" ) {
-        shortcut_print(w_header, 0, tmpx, c_white, c_ltgreen, _("<T>est"));
-    }
-    tmpx = 0;
-    tmpx += shortcut_print(w_header, 1, tmpx, c_white, c_ltgreen,
-                           _("<+-> Move up/down")) + 2;
-    tmpx += shortcut_print(w_header, 1, tmpx, c_white, c_ltgreen, _("<Enter>-Edit")) + 2;
-    shortcut_print(w_header, 1, tmpx, c_white, c_ltgreen, _("<Tab>-Switch Page"));
-
-    for (int i = 0; i < 78; i++) {
-        if (mapLines[i]) {
-            mvwputch(w_header, 2, i, c_ltgray, LINE_OXXX);
-            mvwputch(w_header, 3, i, c_ltgray, LINE_XOXO);
-        } else {
-            mvwputch(w_header, 2, i, c_ltgray, LINE_OXOX); // Draw line under header
+        // Redraw the header
+        int tmpx = 0;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<A>dd" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<R>emove" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<C>opy" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _("<M>ove" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<E>nable" ) ) + 2;
+        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<D>isable" ) ) + 2;
+        if( !g->u.name.empty() ) {
+            shortcut_print( w_header, 0, tmpx, c_white, c_ltgreen, _( "<T>est" ) );
         }
-    }
+        tmpx = 0;
+        tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen,
+                                _( "<+-> Move up/down" ) ) + 2;
+        tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<Enter>-Edit" ) ) + 2;
+        shortcut_print( w_header, 1, tmpx, c_white, c_ltgreen, _( "<Tab>-Switch Page" ) );
 
-    mvwprintz(w_header, 3, 1, c_white, "#");
-    mvwprintz(w_header, 3, 8, c_white, _("Rules"));
-    mvwprintz(w_header, 3, 52, c_white, _("I/E"));
+        for( int i = 0; i < 78; i++ ) {
+            if( i == 4 || i == 50 || i == 60 ) {
+                mvwputch( w_header, 2, i, c_ltgray, LINE_OXXX );
+                mvwputch( w_header, 3, i, c_ltgray, LINE_XOXO );
+            } else {
+                mvwputch( w_header, 2, i, c_ltgray, LINE_OXOX ); // Draw line under header
+            }
+        }
+        mvwprintz( w_header, 3, 1, c_white, "#" );
+        mvwprintz( w_header, 3, 8, c_white, _( "Rules" ) );
+        mvwprintz( w_header, 3, 52, c_white, _( "I/E" ) );
+        wrefresh( w_header );
+    };
 
-    wrefresh(w_header);
-
+    initial_draw();
     int iTab = GLOBAL_TAB;
     int iLine = 0;
     int iColumn = 1;
@@ -151,7 +149,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         // Clear the lines
         for (int i = 0; i < iContentHeight; i++) {
             for (int j = 0; j < 79; j++) {
-                if (mapLines[j]) {
+                if( j == 4 || j == 50 || j == 60 ) {
                     mvwputch(w, i, j, c_ltgray, LINE_XOXO);
                 } else {
                     mvwputch(w, i, j, c_black, ' ');
@@ -236,10 +234,6 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             if (iLine < 0) {
                 iLine = vRules[iTab].size() - 1;
             }
-        } else if (action == "ADD_RULE") {
-            bStuffChanged = true;
-            vRules[iTab].push_back(cRules("", true, false));
-            iLine = vRules[iTab].size() - 1;
         } else if (action == "REMOVE_RULE" && currentPageNonEmpty) {
             bStuffChanged = true;
             vRules[iTab].erase(vRules[iTab].begin() + iLine);
@@ -270,9 +264,14 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                 iLine = vRules[(iTab == GLOBAL_TAB) ? CHARACTER_TAB : GLOBAL_TAB].size() - 1;
                 iTab = (iTab == GLOBAL_TAB) ? CHARACTER_TAB : GLOBAL_TAB;
             }
-        } else if (action == "CONFIRM" && currentPageNonEmpty) {
-            bStuffChanged = true;
-            if (iColumn == 1) {
+        } else if( ( action == "ADD_RULE" ) || ( action == "CONFIRM" && currentPageNonEmpty ) ) {
+            const int old_iLine = iLine;
+            if( action == "ADD_RULE" ) {
+                 vRules[iTab].push_back( cRules( "", true, false ) );
+                 iLine = vRules[iTab].size() - 1;
+            }
+
+            if( iColumn == 1 || action == "ADD_RULE" ) {
                 fold_and_print(w_help, 1, 1, 999, c_white,
                                _(
                                    "* is used as a Wildcard. A few Examples:\n"
@@ -287,11 +286,20 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 draw_border(w_help);
                 wrefresh(w_help);
-                vRules[iTab][iLine].sRule = wildcard_trim_rule(string_input_popup(_("Pickup Rule:"),
-                        30, vRules[iTab][iLine].sRule));
+                const std::string r = string_input_popup( _( "Pickup Rule:" ), 30, vRules[iTab][iLine].sRule );
+                // If r is empty, then either (1) The player ESC'ed from the window (changed their mind), or
+                // (2) Explicitly entered an empty rule- which isn't allowed since "*" should be used
+                // to include/exclude everything
+                if( !r.empty() ) {
+                    vRules[iTab][iLine].sRule = wildcard_trim_rule( r );
+                    bStuffChanged = true;
+                } else if( action == "ADD_RULE" ) {
+                    vRules[iTab].pop_back();
+                    iLine = old_iLine;
+                }
             } else if (iColumn == 2) {
-                vRules[iTab][iLine].bExclude =
-                    !vRules[iTab][iLine].bExclude;
+                bStuffChanged = true;
+                vRules[iTab][iLine].bExclude = !vRules[iTab][iLine].bExclude;
             }
         } else if (action == "ENABLE_RULE" && currentPageNonEmpty) {
             bStuffChanged = true;
@@ -331,6 +339,8 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
             // @todo Now that NPCs use this function, it could be used for them too
             get_options().get_option( "AUTO_PICKUP" ).setNext();
             get_options().save();
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            initial_draw(); // de-mangle parts of the screen
         }
     }
 

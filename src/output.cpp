@@ -2465,9 +2465,13 @@ std::string wildcard_trim_rule(const std::string &pattern_in)
 
 std::vector<std::string> &wildcard_split(const std::string &text_in, char delim_in, std::vector<std::string> &elems_in)
 {
+    elems_in.clear();
+    if( text_in.empty() ) {
+        return elems_in; // Well, that was easy.
+    }
+
     std::stringstream ss(text_in);
     std::string item;
-    elems_in.clear();
     while (std::getline(ss, item, delim_in)) {
         elems_in.push_back(item);
     }
