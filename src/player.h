@@ -1190,9 +1190,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /**
          * Check if the player can disassemble an item using the current crafting inventory
-         * @param alert if set display message about missing tools/charges.
+         * @param err Error message in case of e.g. missing tools/charges.
          */
-        bool can_disassemble( const item &obj, const inventory &inv, bool alert = false ) const;
+        bool can_disassemble( const item &obj, const inventory &inv, std::string *err = nullptr ) const;
 
         bool disassemble();
         bool disassemble( int pos );
