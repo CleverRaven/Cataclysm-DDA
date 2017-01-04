@@ -270,7 +270,8 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
  * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
  */
 
-mapgen_function *load_mapgen_function( JsonObject &jio, const std::string id_base, int default_idx ) {
+mapgen_function *load_mapgen_function( JsonObject &jio, const std::string id_base,
+                                       int default_idx, const int x_offset, const int y_offset ) {
     int mgweight = jio.get_int( "weight", 1000 );
     mapgen_function *ret = NULL;
     if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
@@ -325,7 +326,7 @@ mapgen_function *load_mapgen_function( JsonObject &jio, const std::string id_bas
             if( jio.has_object( "object" ) ) {
                 JsonObject jo = jio.get_object( "object" );
                 std::string jstr = jo.str();
-                ret = new mapgen_function_json( jstr, mgweight );
+                ret = new mapgen_function_json( jstr, mgweight, x_offset, y_offset );
                 oter_mapgen[id_base].push_back( ret );
             } else {
                 debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
@@ -345,24 +346,42 @@ mapgen_function *load_mapgen_function( JsonObject &jio, const std::string id_bas
 void load_mapgen( JsonObject &jo )
 {
     if( jo.has_array( "om_terrain" ) ) {
-        std::vector<std::string> mapgenid_list;
         JsonArray ja = jo.get_array( "om_terrain" );
-        while( ja.has_more() ) {
-            mapgenid_list.push_back( ja.next_string() );
-        }
-        if( !mapgenid_list.empty() ) {
-            std::string mapgenid = mapgenid_list[0];
-            mapgen_function *mgfunc = load_mapgen_function( jo, mapgenid, -1 );
-            if( mgfunc != NULL ) {
-               for( auto &i : mapgenid_list ) {
-                   oter_mapgen[ i ].push_back( mgfunc );
-               }
+        if( ja.test_array() ) {
+            int x_offset = 0;
+            int y_offset = 0;
+            while( ja.has_more() ) {
+                JsonArray row_items = ja.next_array();
+                while( row_items.has_more() ) {
+                    const std::string mapgenid = row_items.next_string();
+                    mapgen_function *mgfunc = load_mapgen_function( jo, mapgenid, -1, x_offset, y_offset );
+                    if( mgfunc != nullptr ) {
+                       oter_mapgen[ mapgenid ].push_back( mgfunc );
+                    }
+                    x_offset++;
+                }
+                y_offset++;
+                x_offset = 0;
+            }
+        } else {
+            std::vector<std::string> mapgenid_list;
+            while( ja.has_more() ) {
+                mapgenid_list.push_back( ja.next_string() );
+            }
+            if( !mapgenid_list.empty() ) {
+                const std::string mapgenid = mapgenid_list[0];
+                mapgen_function *mgfunc = load_mapgen_function( jo, mapgenid, -1 );
+                if( mgfunc != nullptr ) {
+                   for( auto &i : mapgenid_list ) {
+                       oter_mapgen[ i ].push_back( mgfunc );
+                   }
+                }
             }
         }
-    } else if ( jo.has_string( "om_terrain" ) ) {
-        load_mapgen_function(jo, jo.get_string( "om_terrain" ), -1);
+    } else if( jo.has_string( "om_terrain" ) ) {
+        load_mapgen_function( jo, jo.get_string( "om_terrain" ), -1 );
     } else {
-        debugmsg("mapgen entry requires \"om_terrain\": \"something\", or \"om_terrain\": [ \"list\", \"of\" \"somethings\" ]\n%s\n", jo.str().c_str() );
+        debugmsg( "mapgen entry requires \"om_terrain\" (string, array of strings, or array of array of strings)\n%s\n", jo.str().c_str() );
     }
 }
 
@@ -407,16 +426,18 @@ bool mapgen_function_json::check_inbounds( const jmapgen_int & var ) const {
     return true;
 }
 
-mapgen_function_json::mapgen_function_json( std::string s, int const w )
+mapgen_function_json::mapgen_function_json( const std::string s, const int w, const int x_grid_offset, const int y_grid_offset )
 : mapgen_function( w )
 , jdata( std::move( s ) )
 , mapgensize( 24 )
 , fill_ter( t_null )
 , format()
 , setmap_points()
+, x_offset( x_grid_offset * mapgensize )
+, y_offset( y_grid_offset * mapgensize )
 , do_format( false )
 , is_ready( false )
-, objects()
+, objects( x_offset, y_offset, mapgensize )
 , rotation( 0 )
 {
 }
@@ -573,6 +594,13 @@ jmapgen_place::jmapgen_place( JsonObject &jsi )
 , y( jsi, "y" )
 , repeat( jsi, "repeat", 1, 1 )
 {
+}
+
+void jmapgen_place::offset( const int x_offset, const int y_offset ) {
+    x.val -= x_offset;
+    x.valmax -= x_offset;
+    y.val -= y_offset;
+    y.valmax -= y_offset;
 }
 
 /**
@@ -1083,6 +1111,32 @@ public:
     }
 };
 
+jmapgen_objects::jmapgen_objects( const int x_offset, const int y_offset, const int mapgensize )
+: x_offset( x_offset )
+, y_offset( y_offset )
+, mapgensize( mapgensize )
+{}
+
+bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
+{
+    if( place.x.val < 0 || place.x.val > (int)mapgensize - 1 ||
+        place.y.val < 0 || place.y.val > (int)mapgensize - 1 ) {
+        return false;
+    }
+
+    if( (size_t)place.x.valmax > mapgensize - 1 ) {
+        jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
+        return false;
+    }
+
+    if( (size_t)place.y.valmax > mapgensize - 1 ) {
+        jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
+        return false;
+    }
+
+    return true;
+}
+
 void jmapgen_objects::add(const jmapgen_place &place, std::shared_ptr<jmapgen_piece> &piece)
 {
     objects.emplace_back(place, piece);
@@ -1093,9 +1147,14 @@ void jmapgen_objects::load_objects( JsonArray parray )
 {
     while( parray.has_more() ) {
         auto jsi = parray.next_object();
-        const jmapgen_place where( jsi );
-        std::shared_ptr<jmapgen_piece> what( new PieceType( jsi ) );
-        add(where, what);
+
+        jmapgen_place where( jsi );
+        where.offset( x_offset, y_offset );
+
+        if( check_bounds( where, jsi ) ) {
+            std::shared_ptr<jmapgen_piece> what( new PieceType( jsi ) );
+            add( where, what );
+        }
     }
 }
 
@@ -1105,6 +1164,11 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
     while( parray.has_more() ) {
         auto jsi = parray.next_object();
         jmapgen_place where( jsi );
+        where.offset( x_offset, y_offset );
+
+        if( !check_bounds( where, jsi ) ) {
+            continue;
+        }
 
         auto loot = new jmapgen_loot( jsi );
         auto rate = get_world_option<float>( "ITEM_SPAWNRATE" );
@@ -1295,7 +1359,6 @@ bool mapgen_function_json::setup() {
         JsonArray parray;
         JsonArray sparray;
         JsonObject pjo;
-        // mapgensize = jo.get_int("mapgensize", 24); // eventually..
 
         // something akin to mapgen fill_background.
         if ( jo.read("fill_ter", tmpval) ) {
@@ -1366,31 +1429,32 @@ bool mapgen_function_json::setup() {
             load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings );
             load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
             load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings );
-            // manditory: 24 rows of 24 character lines, each of which must have a matching key in "terrain",
-            // unless fill_ter is set
-            // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
+
             parray = jo.get_array( "rows" );
-            if ( parray.size() != mapgensize ) {
-                parray.throw_error( string_format("  format: rows: must have %d rows, not %d",mapgensize,parray.size() ));
+            if ( parray.size() < mapgensize + y_offset ) {
+                parray.throw_error( string_format( "  format: rows: must have at least %d rows, not %d",
+                                                   mapgensize + y_offset, parray.size() ));
             }
-            for( size_t c = 0; c < mapgensize; c++ ) {
-                const auto tmpval = parray.next_string();
-                if ( tmpval.size() != mapgensize ) {
-                    parray.throw_error(string_format("  format: row %d must have %d columns, not %d", c, mapgensize, tmpval.size()));
+            for( size_t c = y_offset; c < mapgensize + y_offset; c++ ) {
+                const auto tmpval = parray.get_string( c );
+                if ( tmpval.size() < mapgensize + x_offset ) {
+                    parray.throw_error( string_format( "  format: row %d must have at least %d columns, not %d",
+                                                       c + 1, mapgensize + x_offset, tmpval.size()));
                 }
-                for ( size_t i = 0; i < tmpval.size(); i++ ) {
+                for ( size_t i = x_offset; i < mapgensize + x_offset; i++ ) {
                     const int tmpkey = tmpval[i];
                     if ( format_terrain.find( tmpkey ) != format_terrain.end() ) {
-                        format[ calc_index( i, c ) ].ter = format_terrain[ tmpkey ];
+                        format[ calc_index( i - x_offset, c - y_offset ) ].ter = format_terrain[ tmpkey ];
                     } else if ( ! qualifies ) { // fill_ter should make this kosher
-                        parray.throw_error(string_format("  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",c+1,i+1, (char)tmpkey ));
+                        parray.throw_error( string_format( "  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",
+                                                           c + 1, i + 1, (char)tmpkey ) );
                     }
                     if ( format_furniture.find( tmpkey ) != format_furniture.end() ) {
-                        format[ calc_index( i, c ) ].furn = format_furniture[ tmpkey ];
+                        format[ calc_index( i - x_offset, c - y_offset ) ].furn = format_furniture[ tmpkey ];
                     }
                     const auto fpi = format_placings.find( tmpkey );
                     if( fpi != format_placings.end() ) {
-                        jmapgen_place where( i, c );
+                        jmapgen_place where( i - x_offset, c - y_offset );
                         for( auto &what: fpi->second ) {
                             objects.add(where, what);
                         }
