@@ -693,7 +693,8 @@ bool internal_query_yn( const char *mes, va_list ap )
         fold_and_print( w, 1, 1, win_width, c_ltred, text + query );
         wrefresh( w );
 
-        ch = getch();
+        // TODO: use input context
+        ch = inp_mngr.get_input_event(nullptr).get_first_input();
     };
 
     werase( w );
@@ -1108,7 +1109,8 @@ long popup( const std::string &text, PopupFlags flags )
     // Don't wait if not required.
     while( ( flags & PF_NO_WAIT ) == 0 ) {
         wrefresh( w );
-        ch = getch();
+        // TODO: use input context
+        ch = inp_mngr.get_input_event(nullptr).get_first_input();
         if( ( flags & PF_GET_KEY ) != 0 ) {
             // return the first key that got pressed.
             werase( w );
@@ -1369,7 +1371,8 @@ int draw_item_info( WINDOW *win, const std::string sItemName, const std::string 
             break;
         }
 
-        ch = ( int )getch();
+        // TODO: use input context
+        ch = ( int )inp_mngr.get_input_event(nullptr).get_first_input();
         if( handle_scrolling && ch == KEY_PPAGE ) {
             selected--;
             werase( win );
@@ -2093,7 +2096,8 @@ void display_table( WINDOW *w, const std::string &title, int columns,
         }
         draw_scrollbar( w, offset, rows, data.size() / 3, 2, 0 );
         wrefresh( w );
-        int ch = getch();
+        // TODO: use input context
+        int ch = inp_mngr.get_input_event(nullptr).get_first_input();
         if( ch == KEY_DOWN && ( ( offset + 1 ) * columns ) < ( int )data.size() ) {
             offset++;
         } else if( ch == KEY_UP && offset > 0 ) {

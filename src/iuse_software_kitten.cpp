@@ -323,7 +323,8 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     wrefresh(w);
     /* Now the fun begins. */
     int input = '.';
-    input = getch();
+    // TODO: use input context
+    input = inp_mngr.get_input_event(nullptr).get_first_input();
 
     while (input != 'q' && input != 'Q' && input != 27 /*escape*/) {
         process_input(input, w);
@@ -342,7 +343,8 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
             old_y = robot.y;
         }
         wrefresh(w);
-        input = getch();
+        // TODO: use input context / rewrite loop so this is only called at one place
+        input = inp_mngr.get_input_event(nullptr).get_first_input();
     }
 }
 
@@ -453,7 +455,8 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
             ret = true;
             int ech = input;
             do {
-                ech = getch ();
+                // TODO: use input context
+                ech = inp_mngr.get_input_event(nullptr).get_first_input();
             } while ( ech == input );
         }
         break;

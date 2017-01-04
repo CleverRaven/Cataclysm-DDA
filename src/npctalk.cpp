@@ -3480,7 +3480,7 @@ int dialogue::choose_response( int const hilight_lines )
         }
         wrefresh( win );
         // TODO: input_context?
-        const long ch = getch();
+        const long ch = inp_mngr.get_input_event(nullptr).get_first_input();
         switch( ch ) {
             case KEY_DOWN:
             case KEY_NPAGE:
@@ -3918,7 +3918,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             wrefresh(w_them);
             wrefresh(w_you);
         } // Done updating the screen
-        ch = getch();
+        // TODO: use input context
+        ch = inp_mngr.get_input_event(nullptr).get_first_input();
         switch (ch) {
             case '\t':
                 focus_them = !focus_them;
@@ -3942,7 +3943,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 mvwprintz(w_tmp, 1, 1, c_red, _("Examine which item?"));
                 draw_border(w_tmp);
                 wrefresh(w_tmp);
-                help = getch() - 'a';
+                // TODO: use input context
+                help = inp_mngr.get_input_event(nullptr).get_first_input() - 'a';
                 werase(w_tmp);
                 delwin(w_tmp);
                 mvwprintz(w_head, 0, 0, c_white, header_message.c_str(), p.name.c_str());

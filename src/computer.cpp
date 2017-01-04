@@ -19,6 +19,7 @@
 #include "field.h"
 #include "player.h"
 #include "text_snippets.h"
+#include "input.h"
 
 #include <string>
 #include <sstream>
@@ -176,7 +177,8 @@ void computer::use()
 
         char ch;
         do {
-            ch = getch();
+            // TODO: use input context
+            ch = inp_mngr.get_input_event(nullptr).get_first_input();
         } while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' >= (char)options_size));
         if (ch == 'q' || ch == 'Q') {
             break; // Exit from main computer loop
@@ -1415,7 +1417,8 @@ bool computer::query_bool(const char *mes, ...)
     print_line("%s (Y/N/Q)", text.c_str());
     char ret;
     do {
-        ret = getch();
+        // TODO: use input context
+        ret = inp_mngr.get_input_event(nullptr).get_first_input();
     } while (ret != 'y' && ret != 'Y' && ret != 'n' && ret != 'N' && ret != 'q' &&
              ret != 'Q');
     return (ret == 'y' || ret == 'Y');
@@ -1441,7 +1444,8 @@ char computer::query_ynq(const char *mes, ...)
     print_line("%s (Y/N/Q)", text.c_str());
     char ret;
     do {
-        ret = getch();
+        // TODO: use input context
+        ret = inp_mngr.get_input_event(nullptr).get_first_input();
     } while (ret != 'y' && ret != 'Y' && ret != 'n' && ret != 'N' && ret != 'q' &&
              ret != 'Q');
     return ret;

@@ -3680,7 +3680,8 @@ int iuse::firecracker_pack(player *p, item *it, bool, const tripoint& )
     wrefresh(w);
     bool close = false;
     long charges = 1;
-    char ch = getch();
+    // TODO: use input context
+    char ch = inp_mngr.get_input_event(nullptr).get_first_input();
     while (!close) {
         if (ch == 'I') {
             charges++;
@@ -3730,7 +3731,8 @@ int iuse::firecracker_pack(player *p, item *it, bool, const tripoint& )
             return 0; // don't use any charges at all
         }
         if (!close) {
-            ch = getch();
+            // TODO: rewrite loop so this is only called at one place
+            ch = inp_mngr.get_input_event(nullptr).get_first_input();
         }
     }
     return charges;

@@ -1051,7 +1051,8 @@ void display_help()
             refresh();
             needs_refresh = false;
         };
-        ch = getch();
+        // TODO: use input context
+        ch = inp_mngr.get_input_event( nullptr ).get_first_input();
         switch( ch ) {
             case 'a':
             case 'A':

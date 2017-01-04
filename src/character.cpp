@@ -1826,7 +1826,8 @@ hp_part Character::body_window( const std::string &menu_header,
     char ch;
     hp_part healed_part = num_hp_parts;
     do {
-        ch = getch();
+        // TODO: use input context
+        ch = inp_mngr.get_input_event(nullptr).get_first_input();
         const size_t index = ch - '1';
         if( index < parts.size() && parts[index].allowed ) {
             healed_part = parts[index].hp;
