@@ -4,6 +4,8 @@
 #include "inventory_ui.h"
 #include "options.h"
 #include "player.h"
+#include "crafting.h"
+#include "recipe_dictionary.h"
 #include "item.h"
 #include "itype.h"
 
@@ -177,6 +179,26 @@ class pickup_inventory_preset : public inventory_selector_preset
     private:
         const player &p;
 };
+
+class disassemble_inventory_preset : public pickup_inventory_preset
+{
+    public:
+        disassemble_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {}
+
+        bool is_shown( const item_location &loc ) const override {
+            return recipe_dictionary::get_uncraft( loc->typeId() );
+        }
+
+    private:
+        const player &p;
+};
+
+item_location game_menus::inv::disassemble( player &p )
+{
+    return inv_internal( p, disassemble_inventory_preset( p ),
+                         _( "Disassemble item" ), 1,
+                         _( "You don't have any items you could disassemble." ) );
+}
 
 class activatable_inventory_preset : public pickup_inventory_preset
 {

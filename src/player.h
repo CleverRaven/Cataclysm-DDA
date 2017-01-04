@@ -1194,7 +1194,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         bool can_disassemble( const item &obj, const inventory &inv, bool alert = false ) const;
 
-        bool disassemble(int pos = INT_MAX);
+        bool disassemble();
+        bool disassemble( int pos );
         bool disassemble( item &obj, int pos, bool ground, bool interactive = true );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
         void complete_disassemble();

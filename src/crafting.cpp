@@ -4,6 +4,7 @@
 #include "craft_command.h"
 #include "debug.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "input.h"
 #include "inventory.h"
 #include "itype.h"
@@ -1089,16 +1090,20 @@ bool player::can_disassemble( const item &obj, const inventory &inv, bool alert 
     return true;
 }
 
-bool player::disassemble( int dis_pos )
+bool player::disassemble()
 {
-    if( dis_pos == INT_MAX ) {
-        dis_pos = g->inv_for_all( _( "Disassemble item" ),
-                                  _( "You don't have any items to disassemble." ) );
-    }
-    if( dis_pos == INT_MIN ) {
-        add_msg_if_player( m_info, _( "Never mind." ) );
+    auto loc = game_menus::inv::disassemble( *this );
+
+    if( !loc ) {
+        add_msg( _( "Never mind." ) );
         return false;
     }
+
+    return disassemble( loc.obtain( *this ) );
+}
+
+bool player::disassemble( int dis_pos )
+{
     return disassemble( i_at( dis_pos ), dis_pos, false );
 }
 

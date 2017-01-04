@@ -43,6 +43,8 @@ std::list<std::pair<int, int>> multidrop( player &p );
 
 /** Choosing a container for liquid. */
 item_location container_for( player &p, const item &liquid, int radius = 0 );
+/** Item disassembling menu. */
+item_location disassemble( player &p );
 /** Gunmod installation menu. */
 item_location gun_to_modify( player &p, const item &gunmod );
 /** Book reading menu. */
