@@ -1137,11 +1137,17 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
     }
 
     // last chance to back out
-    if( interactive &&
-        get_option<bool>( "QUERY_DISASSEMBLE" ) &&
-        !query_yn( _( "Disassembling the %s will take about %s. Continue?" ),
-                   obj.tname().c_str(), calendar::print_duration( r.time / 100 ).c_str() ) ) {
-        return false;
+    if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
+        const auto components( r.disassembly_requirements().get_components() );
+        std::ostringstream list;
+        for( const auto &elem : components ) {
+            list << "- " << elem.front().to_string() << std::endl;
+        }
+
+        if( !query_yn( _( "Disassembling the %s may yield:\n%s\nReally disassemble?" ), obj.tname().c_str(),
+                       list.str().c_str() ) ) {
+            return false;
+        }
     }
 
     if( activity.id() != activity_id( "ACT_DISASSEMBLE" ) ) {
