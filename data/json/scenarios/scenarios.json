@@ -197,5 +197,24 @@
     "start_name": "Bottom of a mine",
     "professions" : ["miner"],
     "allowed_locs" : ["mine_finale"]
+  },
+  {
+    "type": "scenario",
+    "ident": "riot_cop",
+    "name": "Fled the Riots",
+    "points": -3,
+    "description": "You were assigned to the last of the real riots; one of the last to flee when the rioters stopped breathing but kept moving.",
+    "start_name": "Public Holdout",
+    "allowed_locs": [ "s_bookstore", "s_grocery", "police", "s_garage", "s_library", "hospital", "mall_a_30", "religous_church", "religous_cemetery" ],
+    "flags": [ "SUR_START" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "isolationist",
+    "name": "Out of Town",
+    "points": 1,
+    "description": "You were outside of civilization when the bombs fell; you didn't even know the end had come, or that everyone was (un)dead.  Will this ignorance save you from the fate of the rest?",
+    "start_name": "Out of City",
+    "allowed_locs": [ "Swamp Shack", "campground", "survivalist farm", "cabin_woods" ]
   }
 ]

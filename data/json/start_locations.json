@@ -142,5 +142,41 @@
     "ident": "prison",
     "name": "Prison",
     "target": "prison_b_entrance"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "Swamp Shack",
+    "name" : "Hermit Shack",
+    "target" : "hunter_shack"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "campground",
+    "name" : "campgrounds",
+    "target" : "campsite_a"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "survivalist farm",
+    "name" : "farm",
+    "target" : "farm"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "cabin_woods",
+    "name" : "cabin in the woods",
+    "target" : "cabin"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "religous_church",
+    "name" : "Church",
+    "target" : "church"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "religous_cemetery",
+    "name" : "Religious Cemetery",
+    "target" : "cemetery_4square_10"
   }
 ]
