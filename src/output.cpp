@@ -1438,15 +1438,30 @@ long special_symbol( long sym )
     }
 }
 
-std::string trim( const std::string &s )
+template<typename Prep>
+std::string trim( const std::string &s, Prep prep )
 {
-    auto wsfront = std::find_if_not( s.begin(), s.end(), []( int c ) {
-        return std::isspace( c );
+    auto wsfront = std::find_if_not( s.begin(), s.end(), [&prep]( int c ) {
+        return prep( c );
     } );
     return std::string( wsfront, std::find_if_not( s.rbegin(),
-    std::string::const_reverse_iterator( wsfront ), []( int c ) {
-        return std::isspace( c );
+    std::string::const_reverse_iterator( wsfront ), [&prep]( int c ) {
+        return prep( c );
     } ).base() );
+}
+
+std::string trim( const std::string &s )
+{
+    return trim( s, []( int c ) {
+        return std::isspace( c );
+    } );
+}
+
+std::string trim_punctuation_marks( const std::string &s )
+{
+    return trim( s, []( int c ) {
+        return std::ispunct( c );
+    } );
 }
 
 typedef std::string::value_type char_t;

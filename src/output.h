@@ -385,6 +385,7 @@ char rand_char();
 long special_symbol( long sym );
 
 std::string trim( const std::string &s ); // Remove spaces from the start and the end of a string
+std::string trim_punctuation_marks( const std::string &s ); // Removes punctuation marks from the start and the end of a string
 std::string to_upper_case( const std::string &s ); // Converts the string to upper case
 
 /** Get value in ordinal form, eg 1st, 2nd, 3rd for values [1,9] */
