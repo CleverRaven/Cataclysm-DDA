@@ -303,9 +303,14 @@ size_t inventory_column::get_cells_width() const
     } );
 }
 
-std::string inventory_column::get_entry_denial( const inventory_entry &entry ) const
+std::string inventory_column::get_denial( const item_location &loc ) const
 {
-    return entry.is_item() ? preset.get_denial( entry.location ) : std::string();
+    return trim_punctuation_marks( preset.get_denial( loc ) );
+}
+
+std::string inventory_column::get_denial( const inventory_entry &entry ) const
+{
+    return entry.is_item() ? get_denial( entry.location ) : std::string();
 }
 
 void inventory_column::set_width( const size_t new_width )
@@ -363,7 +368,7 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
         return;
     }
 
-    const std::string denial = get_entry_denial( entry );
+    const std::string denial = get_denial( entry );
 
     for( size_t i = 0, num = denial.empty() ? cells.size() : 1; i < num; ++i ) {
         auto &cell = cells[i];
@@ -637,7 +642,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
             }
         }
 
-        const std::string &denial = get_entry_denial( entry );
+        const std::string denial = get_denial( entry );
 
         if( !denial.empty() ) {
             const size_t max_denial_width = std::max( int( get_width() - ( min_denial_gap + get_entry_cell_width( entry, 0 ) ) ), 0 );

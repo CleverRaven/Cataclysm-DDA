@@ -318,7 +318,8 @@ class inventory_column
         /** Sum of the cell widths */
         size_t get_cells_width() const;
 
-        std::string get_entry_denial( const inventory_entry &entry ) const;
+        std::string get_denial( const item_location &loc ) const;
+        std::string get_denial( const inventory_entry &entry ) const;
 
         const inventory_selector_preset &preset;
 
