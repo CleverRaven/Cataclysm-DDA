@@ -325,6 +325,40 @@ std::string calendar::print_duration( int turns )
     return print_clipped_duration( turns );
 }
 
+std::string calendar::print_approx_duration( int turns, bool verbose )
+{
+    const auto make_result = [verbose]( int turns, const char *verbose_str, const char *short_str ) {
+        return string_format( verbose ? verbose_str : short_str, print_clipped_duration( turns ).c_str() );
+    };
+
+    int divider = 0;
+    int vicinity = 0;
+
+    if( turns > DAYS( 1 ) ) {
+        divider = DAYS( 1 );
+        vicinity = HOURS( 2 );
+    } else if( turns > HOURS( 1 ) ) {
+        divider = HOURS( 1 );
+        vicinity = MINUTES( 5 );
+    } // Minutes and seconds can be estimated precisely.
+
+    if( divider != 0 ) {
+        const int remainder = turns % divider;
+
+        if( remainder >= divider - vicinity ) {
+            turns += divider;
+        } else if( remainder > vicinity ) {
+            if( remainder < divider / 2 ) {
+                return make_result( turns, _( "more than %s" ), ">%s" );
+            } else {
+                return make_result( turns + divider, _( "less than %s" ), "<%s" );
+            }
+        }
+    }
+
+    return make_result( turns, _( "about %s" ), "%s" );
+}
+
 std::string calendar::print_time(bool just_hour) const
 {
     std::ostringstream time_string;

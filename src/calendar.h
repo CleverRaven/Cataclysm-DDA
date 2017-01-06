@@ -168,6 +168,11 @@ class calendar
         static std::string print_clipped_duration( int turns );
         /** Returns normal duration. */
         static std::string print_duration( int turns );
+        /**
+         * Returns approximate duration.
+         * @prarm verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
+         */
+        static std::string print_approx_duration( int turns, bool verbose = true );
 
         /** Returns the current time in a string according to the options set */
         std::string print_time( bool just_hour = false ) const;
