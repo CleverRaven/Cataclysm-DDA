@@ -37,6 +37,9 @@ enum class type : int {
 const std::array<type, 4> all = {{ type::north, type::east, type::south, type::west }};
 const size_t size = all.size();
 
+/** Number of bits needed to store directions. */
+const size_t bits = size_t( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
+
 /** Identifier for serialization purposes. */
 const std::string &id( type dir );
 

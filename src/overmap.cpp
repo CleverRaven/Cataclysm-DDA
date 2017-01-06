@@ -133,7 +133,8 @@ const std::array<std::string, 5> mapgen_suffixes = {{
     "_straight", "_curved", "_end", "_tee", "_four_way"
 }};
 
-const std::array<type, om_direction::size * om_direction::size - 1> all = {{
+const std::array<type, 1 + om_direction::bits> all = {{
+    { LINE_XXXX, 4, "_isolated"  },   // 0  ----
     { LINE_XOXO, 2, "_end_south" },   // 1  ---n
     { LINE_OXOX, 2, "_end_west"  },   // 2  --e-
     { LINE_XXOO, 1, "_ne"        },   // 3  --en
@@ -152,6 +153,13 @@ const std::array<type, om_direction::size * om_direction::size - 1> all = {{
 }};
 
 const size_t size = all.size();
+
+constexpr size_t rotate( size_t line, om_direction::type dir )
+{
+    // Bitwise rotation to the left.
+    return ( ( ( line << static_cast<size_t>( dir ) ) |
+               ( line >> ( om_direction::size - static_cast<size_t>( dir ) ) ) ) & om_direction::bits );
+}
 
 }
 
@@ -529,7 +537,11 @@ std::string oter_t::get_mapgen_id() const
 
 oter_id oter_t::get_rotated( om_direction::type dir ) const
 {
-    return type->get_rotated( om_direction::add( this->dir, dir ) );
+    if( type->has_flag( line_drawing ) ) {
+        return type->get_linear( om_lines::rotate( this->line, dir ) );
+    } else {
+        return type->get_rotated( om_direction::add( this->dir, dir ) );
+    }
 }
 
 inline bool oter_t::type_is( int_id<oter_type_t> type_id ) const
@@ -3799,11 +3811,7 @@ oter_id overmap::good_road( const oter_type_t &type, int x, int y, int z )
         }
     }
 
-    if( compass.none() ) {
-        compass.set(); // No adjoining roads/etc. Happens occasionally, esp. with sewers.
-    }
-
-    return type.get_linear( compass.to_ulong() - 1 );
+    return type.get_linear( compass.to_ulong() );
 }
 
 void overmap::good_river(int x, int y, int z)
