@@ -282,39 +282,47 @@ float calendar::sunlight() const
     }
 }
 
-std::string calendar::print_duration( int turns )
+std::string calendar::print_clipped_duration( int turns )
 {
-    std::string res;
+    if( turns >= INDEFINITELY_LONG ) {
+        return _( "forewer" );
+    }
 
     if( turns < MINUTES( 1 ) ) {
         const int sec = FULL_SECONDS_IN( turns );
-        res += string_format( ngettext( "%d second", "%d seconds", sec ), sec );
-
+        return string_format( ngettext( "%d second", "%d seconds", sec ), sec );
     } else if( turns < HOURS( 1 ) ) {
         const int min = FULL_MINUTES_IN( turns );
-        const int sec = FULL_SECONDS_IN( turns % MINUTES( 1 ) );
-        res += string_format( ngettext( "%d minute", "%d minutes", min ), min );
-        if( sec != 0 ) {
-            res += string_format( ngettext( " and %d second", " and %d seconds", sec ), sec );
-        }
-
+        return string_format( ngettext( "%d minute", "%d minutes", min ), min );
     } else if( turns < DAYS( 1 ) ) {
         const int hour = FULL_HOURS_IN( turns );
-        const int min = FULL_MINUTES_IN( turns % HOURS( 1 ) );
-        res += string_format( ngettext( "%d hour", "%d hours", hour ), hour );
-        if( min != 0 ) {
-            res += string_format( ngettext( " and %d minute", " and %d minutes", min ), min );
-        }
+        return string_format( ngettext( "%d hour", "%d hours", hour ), hour );
+    }
+    const int day = FULL_DAYS_IN( turns );
+    return string_format( ngettext( "%d day", "%d days", day ), day );
+}
 
-    } else {
-        const int day = FULL_DAYS_IN( turns );
-        const int hour = FULL_HOURS_IN( turns % DAYS( 1 ) );
-        res += string_format( ngettext( "%d day", "%d days", day ), day );
-        if( hour != 0 ) {
-            res += string_format( ngettext( " and %d hour", " and %d hours", hour ), hour );
+std::string calendar::print_duration( int turns )
+{
+    int divider = 0;
+
+    if( turns > MINUTES( 1 ) && turns < INDEFINITELY_LONG ) {
+        if( turns < HOURS( 1 ) ) {
+            divider = MINUTES( 1 );
+        } else if( turns < DAYS( 1 ) ) {
+            divider = HOURS( 1 );
+        } else {
+            divider = DAYS( 1 );
         }
     }
-    return res;
+
+    if( divider != 0 ) {
+        return string_format( _( "%s and %s" ),
+                              print_clipped_duration( turns ).c_str(),
+                              print_clipped_duration( turns % divider ).c_str() );
+    }
+
+    return print_clipped_duration( turns );
 }
 
 std::string calendar::print_time(bool just_hour) const

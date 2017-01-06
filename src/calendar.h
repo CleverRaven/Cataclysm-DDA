@@ -164,6 +164,9 @@ class calendar
         /** Returns the remaining time (in turns) before the specified diurnal time (in turns) */
         int diurnal_time_before( int turn ) const;
 
+        /** Returns clipped duration (minutes without seconds, hours without minutes e.t.c.) */
+        static std::string print_clipped_duration( int turns );
+        /** Returns normal duration. */
         static std::string print_duration( int turns );
 
         /** Returns the current time in a string according to the options set */
