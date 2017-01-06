@@ -1504,7 +1504,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             insert_separation_line();
             info.push_back( iteminfo( "DESCRIPTION",
                 string_format( _( "Disassembling this item takes %s and might yield: %s." ),
-                               calendar::print_duration( dis.time / 100 ).c_str(), components_list.c_str() ) ) );
+                               calendar::print_approx_duration( dis.time / 100 ).c_str(), components_list.c_str() ) ) );
         }
     }
 
