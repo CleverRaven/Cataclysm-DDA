@@ -6007,7 +6007,7 @@ void player::print_health() const
     }
     int current_health = get_healthy();
     if( has_trait( "SELFAWARE" ) ) {
-        add_msg_if_player( "Your current health value is: %d", current_health );
+        add_msg_if_player( _( "Your current health value is %d." ), current_health );
     }
 
     if( current_health > 0 &&
