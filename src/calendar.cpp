@@ -285,7 +285,7 @@ float calendar::sunlight() const
 std::string calendar::print_clipped_duration( int turns )
 {
     if( turns >= INDEFINITELY_LONG ) {
-        return _( "forewer" );
+        return _( "forever" );
     }
 
     if( turns < MINUTES( 1 ) ) {
@@ -317,7 +317,8 @@ std::string calendar::print_duration( int turns )
     }
 
     if( divider != 0 ) {
-        return string_format( _( "%s and %s" ),
+        //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
+        return string_format( _( "%1$s and %2$s" ),
                               print_clipped_duration( turns ).c_str(),
                               print_clipped_duration( turns % divider ).c_str() );
     }
@@ -349,13 +350,15 @@ std::string calendar::print_approx_duration( int turns, bool verbose )
             turns += divider;
         } else if( remainder > vicinity ) {
             if( remainder < divider / 2 ) {
+                //~ %s - time (e.g. 2 hours).
                 return make_result( turns, _( "more than %s" ), ">%s" );
             } else {
+                //~ %s - time (e.g. 2 hours).
                 return make_result( turns + divider, _( "less than %s" ), "<%s" );
             }
         }
     }
-
+    //~ %s - time (e.g. 2 hours).
     return make_result( turns, _( "about %s" ), "%s" );
 }
 
