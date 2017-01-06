@@ -272,7 +272,7 @@ std::string uimenu::inputfilter()
                                    false, key, spos, identifier, 4, w_height - 1 );
         // key = filter_input->keypress;
         if ( key != KEY_ESCAPE ) {
-            if ( scrollby(0, key) == false ) {
+            if ( scrollby( scroll_amount_from_key( key ) ) == false ) {
                 filterlist();
             }
             show();
@@ -690,24 +690,27 @@ void uimenu::redraw( bool redraw_callback )
     */
 }
 
+int uimenu::scroll_amount_from_key( const int key )
+{
+    if( key == KEY_UP ) {
+        return -1;
+    } else if( key == KEY_PPAGE ) {
+        return (-vmax + 1);
+    } else if( key == KEY_DOWN ) {
+        return 1;
+    } else if( key == KEY_NPAGE ) {
+        return vmax - 1;
+    } else {
+        return 0;
+    }
+}
+
 /*
  * check for valid scrolling keypress and handle. return false if invalid keypress
  */
-bool uimenu::scrollby(int scrollby, const int key)
+bool uimenu::scrollby( const int scrollby )
 {
-    if ( key != 0 ) {
-        if ( key == KEY_UP ) {
-            scrollby = -1;
-        } else if ( key == KEY_PPAGE ) {
-            scrollby = (-vmax + 1);
-        } else if ( key == KEY_DOWN ) {
-            scrollby = 1;
-        } else if ( key == KEY_NPAGE ) {
-            scrollby = vmax - 1;
-        } else {
-            return false;
-        }
-    } else if ( scrollby == 0 ) {
+    if ( scrollby == 0 ) {
         return false;
     }
 
@@ -776,7 +779,7 @@ void uimenu::query(bool loop)
         // TODO: use local input context instead of global input manager
         keypress = inp_mngr.get_input_event().get_first_input();
 
-        if ( scrollby(0, keypress) == true ) {
+        if ( scrollby( scroll_amount_from_key( keypress ) ) == true ) {
             /* nothing */
         } else if ( filtering && ( keypress == '/' || keypress == '.' ) ) {
             inputfilter();

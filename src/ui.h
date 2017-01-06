@@ -187,7 +187,8 @@ class uimenu: public ui_container
         void init();
         void setup();
         void show();
-        bool scrollby( int scrollby = 0, const int key = 0 );
+        bool scrollby( int scrollby );
+        int scroll_amount_from_key( const int key );
         void query( bool loop = true );
         void filterlist();
         void apply_scrollbar();
