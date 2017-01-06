@@ -2362,10 +2362,10 @@ std::string item::display_name( unsigned int quantity ) const
             break;
     }
     int amount = 0;
-    bool hasitem = is_container() && contents.size() == 1;
-    bool hasammo = is_ammo_container() && !contents.empty();
-    bool contains = hasitem || hasammo;
-    bool showamt = false;
+    bool has_item = is_container() && contents.size() == 1;
+    bool has_ammo = is_ammo_container() && !contents.empty();
+    bool contains = has_item || has_ammo;
+    bool show_amt = false;
 
     // We should handle infinite charges properly in all cases.
     if( contains ) {
@@ -2376,13 +2376,13 @@ std::string item::display_name( unsigned int quantity ) const
     } else if( ammo_capacity() > 0 ) {
         // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
         amount = ammo_remaining();
-        showamt = true;
+        show_amt = true;
     } else if( count_by_charges() && !has_infinite_charges() ) {
         // A chargeable item
         amount = charges;
     }
 
-    if( amount || showamt ) {
+    if( amount || show_amt ) {
         amt = string_format( " (%i)", amount );
     }
 
