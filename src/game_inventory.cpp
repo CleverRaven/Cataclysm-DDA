@@ -212,7 +212,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
             if( !p.can_disassemble( *loc, inv, &denial ) ) {
                 return denial;
             }
-            return std::string();
+            return pickup_inventory_preset::get_denial( loc );
         }
 
     protected:
