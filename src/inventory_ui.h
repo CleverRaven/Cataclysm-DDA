@@ -253,10 +253,6 @@ class inventory_column
             this->multiselect = multiselect;
         }
 
-        void set_mode( navigation_mode mode ) {
-            this->mode = mode;
-        }
-
         void set_visibility( bool visibility ) {
             this->visibility = visibility;
         }
@@ -286,6 +282,10 @@ class inventory_column
         /** The column has been deactivated. */
         virtual void on_deactivate() {
             active = false;
+        }
+        /** Selection mode has been changed. */
+        virtual void on_mode_change( navigation_mode mode ) {
+            this->mode = mode;
         }
 
     protected:
@@ -370,7 +370,11 @@ class selection_column : public inventory_column
         }
 
         virtual void prepare_paging() override;
+
         virtual void on_change( const inventory_entry &entry ) override;
+        virtual void on_mode_change( navigation_mode ) override {
+            // Intentionally ignore mode change.
+        }
 
     private:
         const std::unique_ptr<item_category> selected_cat;

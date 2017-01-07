@@ -1402,13 +1402,13 @@ void inventory_selector::toggle_navigation_mode()
 {
     mode = get_navigation_data( mode ).next_mode;
     for( auto &elem : columns ) {
-        elem->set_mode( mode );
+        elem->on_mode_change( mode );
     }
 }
 
 void inventory_selector::append_column( inventory_column &column )
 {
-    column.set_mode( mode );
+    column.on_mode_change( mode );
 
     if( columns.empty() ) {
         column.on_activate();
