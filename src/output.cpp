@@ -1108,9 +1108,11 @@ long popup( const std::string &text, PopupFlags flags, bool progress_bar, double
         fold_and_print( w, i + 1, 1, width, c_white, "%s", folded[i].c_str() );
     }
     if( progress_bar ) {
-        int done = progress * ( width - 2 );
-        std::string done_str( done, '\u2588' ); //U+2588 is full block character
-        fold_and_print( w, folded.size() + 1, 1, width, invert_color( c_black ), "%s", done_str.c_str() );
+        const int done = progress * ( width - 2 );
+        for( int i = 1; i <= done; i++) {
+            //U+2588 is full block character
+            fold_and_print( w, folded.size() + 1, i, width, c_white, "\u2588" );
+        }
     }
 
     long ch = 0;
