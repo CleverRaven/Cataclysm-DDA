@@ -806,11 +806,17 @@ void uimenu::query(bool loop)
             /* nothing */
         } else if ( filtering && action == "FILTER" ) {
             inputfilter();
-        } else if ( !fentries.empty() && ( action == "CONFIRM" ||
-                                           keymap.find(keypress) != keymap.end() ) ) {
-            if ( keymap.find(keypress) != keymap.end() ) {
-                selected = keymap[ keypress ];//fixme ?
+        } else if( action == "ANY_INPUT" && event.type == CATA_INPUT_KEYBOARD ) {
+            const auto iter = keymap.find( keypress );
+            if( iter != keymap.end() ) {
+                selected = iter->second;
             }
+            if( entries[ selected ].enabled ) {
+                ret = entries[ selected ].retval; // valid
+            } else if ( return_invalid ) {
+                ret = 0 - entries[ selected ].retval; // disabled
+            }
+        } else if ( !fentries.empty() && action == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
             } else if ( return_invalid ) {
