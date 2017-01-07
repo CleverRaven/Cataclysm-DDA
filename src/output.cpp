@@ -1066,7 +1066,7 @@ void popup_top( const char *mes, ... )
     popup( text, PF_ON_TOP );
 }
 
-long popup( const std::string &text, PopupFlags flags )
+long popup( const std::string &text, PopupFlags flags, bool progress_bar, double progress )
 {
     if( test_mode ) {
         std::cerr << text << std::endl;
@@ -1077,6 +1077,10 @@ long popup( const std::string &text, PopupFlags flags )
     int height = 2;
     std::vector<std::string> folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
     height += folded.size();
+    if( progress_bar ) {
+        // Preserve a line for displaying progress bar
+        ++height;
+    }
     for( auto &elem : folded ) {
         int cw = utf8_width( elem, true );
         if( cw > width ) {
@@ -1102,6 +1106,11 @@ long popup( const std::string &text, PopupFlags flags )
 
     for( size_t i = 0; i < folded.size(); ++i ) {
         fold_and_print( w, i + 1, 1, width, c_white, "%s", folded[i].c_str() );
+    }
+    if( progress_bar ) {
+        int done = progress * ( width - 2 );
+        std::string done_str( done, '\u2588' ); //U+2588 is full block character
+        fold_and_print( w, folded.size() + 1, 1, width, invert_color( c_black ), "%s", done_str.c_str() );
     }
 
     long ch = 0;

@@ -362,9 +362,10 @@ typedef enum {
 long popup_getkey( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
 void popup_top( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
 void popup_nowait( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
+void popup_nowait_with_progressbar( double progress, const char *mes, ... ) PRINTF_LIKE( 2, 3 );
 void popup_status( const char *title, const char *msg, ... ) PRINTF_LIKE( 2, 3 );
 void popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
-long popup( const std::string &text, PopupFlags flags );
+long popup( const std::string &text, PopupFlags flags, bool progress_bar = false, double progress = 0.0 );
 void full_screen_popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
 /*@}*/
 
