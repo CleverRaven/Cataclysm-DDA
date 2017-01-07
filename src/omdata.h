@@ -208,6 +208,8 @@ struct oter_t {
         inline bool type_is( int_id<oter_type_t> type_id ) const;
         inline bool type_is( const oter_type_t &type ) const;
 
+        bool has_connection( om_direction::type dir ) const;
+
         bool has_flag( oter_flags flag ) const {
             return type->has_flag( flag );
         }

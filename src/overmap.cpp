@@ -161,6 +161,11 @@ constexpr size_t rotate( size_t line, om_direction::type dir )
                ( line >> ( om_direction::size - static_cast<size_t>( dir ) ) ) ) & om_direction::bits );
 }
 
+constexpr bool has_segment( size_t line, om_direction::type dir )
+{
+    return static_cast<bool>( line & 1 << static_cast<int>( dir ) );
+}
+
 }
 
 //const regional_settings default_region_settings;
@@ -552,6 +557,11 @@ inline bool oter_t::type_is( int_id<oter_type_t> type_id ) const
 inline bool oter_t::type_is( const oter_type_t &type ) const
 {
     return this->type == &type;
+}
+
+bool oter_t::has_connection( om_direction::type dir ) const
+{
+    return om_lines::has_segment( line, dir );
 }
 
 void overmap_terrains::load( JsonObject &jo, const std::string &src )

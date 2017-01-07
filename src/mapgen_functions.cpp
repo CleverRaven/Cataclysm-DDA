@@ -1011,28 +1011,21 @@ void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
     m->add_spawn(mon_fungaloid_seeder, 1, 12, 12);
 }
 
-int terrain_type_with_suffix_to_nesw_array( oter_id terrain_type, bool array[4] ) {
-    // extract the suffix from the terrain type name
-    const std::string &sid = terrain_type.id().str();
-    std::string suffix = sid.substr( sid.find_last_of( "_" ) + 1 );
-    // non-"_end" end tiles have _north _east _south _west, all of which contain "t"
-    if( suffix.find( "t" ) != std::string::npos ) {
-        suffix = suffix.substr( 0, 1 );
-        suffix = ( suffix == "n" ) ? "s" : // and they are all backwards :(
-                 ( suffix == "e" ) ? "w" :
-                 ( suffix == "s" ) ? "n" :
-                 ( suffix == "w" ) ? "e" : "" ;
-    }
-    // manhole exception
-    if( suffix == "manhole" ) {
-        suffix = "nesw";
+int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] ) {
+    // @todo It's a DAMN UGLY hack. Remove it as soon as possible.
+    if( terrain_type == oter_id( "road_nesw_manhole" ) ) {
+        array[0] = true;
+        array[1] = true;
+        array[2] = true;
+        array[3] = true;
+        return 4;
     }
     // count and mark which directions the road goes
+    const auto &oter( *terrain_type );
     int num_dirs = 0;
-    num_dirs += ( array[0] = ( suffix.find( "n" ) != std::string::npos ) );
-    num_dirs += ( array[1] = ( suffix.find( "e" ) != std::string::npos ) );
-    num_dirs += ( array[2] = ( suffix.find( "s" ) != std::string::npos ) );
-    num_dirs += ( array[3] = ( suffix.find( "w" ) != std::string::npos ) );
+    for( const auto dir : om_direction::all ) {
+        num_dirs += ( array[static_cast<int>( dir )] = oter.has_connection( dir ) );
+    }
     return num_dirs;
 }
 
@@ -1092,7 +1085,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
 
     // which of the cardinal directions get roads?
     bool roads_nesw[4] = {};
-    int num_dirs = terrain_type_with_suffix_to_nesw_array( terrain_type, roads_nesw );
+    int num_dirs = terrain_type_to_nesw_array( terrain_type, roads_nesw );
     // if this is a dead end, extend past the middle of the tile
     int dead_end_extension = ( num_dirs == 1 ? 8 : 0 );
 
@@ -1106,7 +1099,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
         // n_* contain details about the neighbor being considered
         bool n_roads_nesw[4] = {};
         //TODO figure out how to call this function without creating a new oter_id object
-        int n_num_dirs = terrain_type_with_suffix_to_nesw_array( dat.t_nesw[dir], n_roads_nesw );
+        int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_roads_nesw );
         // if 2-way neighbor has a road facing us
         if( n_num_dirs == 2 && n_roads_nesw[( dir + 2 ) % 4] ) {
             // curve towards the direction the neighbor turns
