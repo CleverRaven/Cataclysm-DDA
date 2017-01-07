@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-30 21:38+0800\n"
-"PO-Revision-Date: 2016-12-30 14:00+0000\n"
+"POT-Creation-Date: 2017-01-06 17:50+0800\n"
+"PO-Revision-Date: 2017-01-06 10:54+0000\n"
 "Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -12761,8 +12761,9 @@ msgstr[1] ""
 #. ~ Description for Metabolic Interchange CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Your digestive system and power supply are interconnected.  Any drain on "
-"energy instead increases your hunger.  Can be toggled on and off at will."
+"Your digestive system and power supply are interconnected.  Energy drains "
+"will be regularly counteracted by increasing hunger.  Can be toggled on and "
+"off at will."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -33818,14 +33819,14 @@ msgid "Allows crafting of more improvised item variants"
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "Huge Vehicles"
+msgid "Fuel Multiplier Mod"
 msgstr ""
 
-#. ~ Description for Huge Vehicles
+#. ~ Description for Fuel Multiplier Mod
 #: lang/json/MOD_INFO_from_json.py
 msgid ""
-"Alters game balance to allow easier construction and operation of huge "
-"vehicles"
+"Triples the base potency of gasoline and diesel fuels, making ultra-large "
+"vehicles more viable"
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -41038,14 +41039,14 @@ msgid_plural "inactive EMP hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive EMP hack.
-#: lang/json/TOOL_from_json.py
-msgid "The EMP hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive EMP hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the EMP hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive EMP hack.
+#: lang/json/TOOL_from_json.py
+msgid "The EMP hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive EMP hack
@@ -41062,14 +41063,14 @@ msgid_plural "inactive C-4 hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive C-4 hack.
-#: lang/json/TOOL_from_json.py
-msgid "The C-4 hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive C-4 hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the C-4 hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive C-4 hack.
+#: lang/json/TOOL_from_json.py
+msgid "The C-4 hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive C-4 hack
@@ -41086,14 +41087,14 @@ msgid_plural "inactive flashbang hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive flashbang hack.
-#: lang/json/TOOL_from_json.py
-msgid "The flashbang hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive flashbang hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the flashbang hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive flashbang hack.
+#: lang/json/TOOL_from_json.py
+msgid "The flashbang hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive flashbang hack
@@ -41111,14 +41112,14 @@ msgid_plural "inactive tear gas hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive tear gas hack.
-#: lang/json/TOOL_from_json.py
-msgid "The tear gas hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive tear gas hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the tear gas hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive tear gas hack.
+#: lang/json/TOOL_from_json.py
+msgid "The tear gas hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive tear gas hack
@@ -41136,14 +41137,14 @@ msgid_plural "inactive grenade hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive grenade hack.
-#: lang/json/TOOL_from_json.py
-msgid "The grenade hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive grenade hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the grenade hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive grenade hack.
+#: lang/json/TOOL_from_json.py
+msgid "The grenade hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive grenade hack
@@ -41175,14 +41176,14 @@ msgid_plural "inactive manhacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive manhack.
-#: lang/json/TOOL_from_json.py
-msgid "The manhack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive manhack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the manhack; it's hostile!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive manhack.
+#: lang/json/TOOL_from_json.py
+msgid "The manhack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive manhack
@@ -41200,14 +41201,14 @@ msgid_plural "inactive mininuke hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive mininuke hack.
-#: lang/json/TOOL_from_json.py
-msgid "The mininuke hack floats from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive mininuke hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the mininuke hack.  Pray."
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive mininuke hack.
+#: lang/json/TOOL_from_json.py
+msgid "The mininuke hack floats from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive mininuke hack
@@ -41324,15 +41325,15 @@ msgstr "Le tua lame bruciano dal combattimento"
 msgid "Your sword hisses in the water and goes out."
 msgstr ""
 
-#. ~ Use action voluntary_extinguish_message for firebrand (on).
-#: lang/json/TOOL_from_json.py
-msgid "Run away!"
-msgstr "Scappa via!"
-
 #. ~ Use action charges_extinguish_message for firebrand (on).
 #: lang/json/TOOL_from_json.py
 msgid "Thy strength fades!"
 msgstr "La tua forza svanisce!"
+
+#. ~ Use action voluntary_extinguish_message for firebrand (on).
+#: lang/json/TOOL_from_json.py
+msgid "Run away!"
+msgstr "Scappa via!"
 
 #. ~ Description for firebrand (on)
 #: lang/json/TOOL_from_json.py
@@ -42496,15 +42497,15 @@ msgstr[1] ""
 msgid "The Sun shines brightly."
 msgstr "Il sole brilla con intensita'"
 
-#. ~ Use action voluntary_extinguish_message for Rising Sun (on).
-#: lang/json/TOOL_from_json.py
-msgid "The Sun sets."
-msgstr "Il sole tramonta"
-
 #. ~ Use action charges_extinguish_message for Rising Sun (on).
 #: lang/json/TOOL_from_json.py
 msgid "The Light Fades."
 msgstr "La luce svanisce."
+
+#. ~ Use action voluntary_extinguish_message for Rising Sun (on).
+#: lang/json/TOOL_from_json.py
+msgid "The Sun sets."
+msgstr "Il sole tramonta"
 
 #. ~ Description for Rising Sun (on)
 #: lang/json/TOOL_from_json.py
@@ -42520,8 +42521,8 @@ msgid_plural "No. 9's (off)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action lacks_fuel_message for No. 9 (off).
 #. ~ Use action failure_message for No. 9 (off).
+#. ~ Use action lacks_fuel_message for No. 9 (off).
 #: lang/json/TOOL_from_json.py src/iuse.cpp
 msgid "Click."
 msgstr "Click."
@@ -42550,25 +42551,25 @@ msgstr[1] ""
 msgid "Your No. 9 hisses."
 msgstr "Il tuo No. 9 emette dei sibili."
 
-#. ~ Use action auto_extinguish_message for No. 9 (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your No. 9 cuts out!"
-msgstr "Il tuo No. 9 si spegne."
-
 #. ~ Use action water_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 hisses in the water and goes out."
 msgstr ""
 
-#. ~ Use action voluntary_extinguish_message for No. 9 (on).
+#. ~ Use action auto_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
-msgid "Your No. 9 goes dark."
-msgstr "Il tuo No. 9 si spegne"
+msgid "Your No. 9 cuts out!"
+msgstr "Il tuo No. 9 si spegne."
 
 #. ~ Use action charges_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Out of ammo!"
 msgstr "Munizioni esaurite!"
+
+#. ~ Use action voluntary_extinguish_message for No. 9 (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your No. 9 goes dark."
+msgstr "Il tuo No. 9 si spegne"
 
 #. ~ Description for No. 9 (on)
 #: lang/json/TOOL_from_json.py
@@ -44819,6 +44820,11 @@ msgid_plural "shishkebabs (off)"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action failure_message for shishkebab (off).
+#: lang/json/TOOL_from_json.py
+msgid "Aw, dangit.  It fails to start!"
+msgstr ""
+
 #. ~ Use action lacks_fuel_message for shishkebab (off).
 #: lang/json/TOOL_from_json.py
 msgid "This thing needs some fuel!"
@@ -44827,11 +44833,6 @@ msgstr ""
 #. ~ Use action success_message for shishkebab (off).
 #: lang/json/TOOL_from_json.py
 msgid "Let's dance, Zeds!"
-msgstr ""
-
-#. ~ Use action failure_message for shishkebab (off).
-#: lang/json/TOOL_from_json.py
-msgid "Aw, dangit.  It fails to start!"
 msgstr ""
 
 #. ~ Description for shishkebab (off)
@@ -44854,24 +44855,24 @@ msgstr[1] ""
 msgid "Your shishkebab crackles!"
 msgstr "Il tuo shishkebab crepita!"
 
-#. ~ Use action auto_extinguish_message for shishkebab (on).
-#: lang/json/TOOL_from_json.py
-msgid "Bummer, man!  Your shishkebab's flame flickers and dies out."
-msgstr ""
-
 #. ~ Use action water_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your shishkebab hisses in the water and goes out."
 msgstr ""
 
-#. ~ Use action voluntary_extinguish_message for shishkebab (on).
+#. ~ Use action auto_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
-msgid "Peace out.  Your shishkebab's flame dies."
+msgid "Bummer, man!  Your shishkebab's flame flickers and dies out."
 msgstr ""
 
 #. ~ Use action charges_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Uncool, outta gas!  Your shishkebab's flame goes out."
+msgstr ""
+
+#. ~ Use action voluntary_extinguish_message for shishkebab (on).
+#: lang/json/TOOL_from_json.py
+msgid "Peace out.  Your shishkebab's flame dies."
 msgstr ""
 
 #. ~ Description for shishkebab (on)
@@ -46112,15 +46113,15 @@ msgstr "La fiamma della tua spada infuocata brucia vivamente!"
 msgid "Dein Schwert zischt und erlischt."
 msgstr ""
 
-#. ~ Use action voluntary_extinguish_message for flammenschwert (an).
-#: lang/json/TOOL_from_json.py
-msgid "Die Flamme deines Schwertes erlischt."
-msgstr "La fiamma della tua spada si spegne."
-
 #. ~ Use action charges_extinguish_message for flammenschwert (an).
 #: lang/json/TOOL_from_json.py
 msgid "Deinem Flammenschwert ist der Brennstoff ausgegangen!"
 msgstr "La tua spada infuocata sta finendo la benzina!"
+
+#. ~ Use action voluntary_extinguish_message for flammenschwert (an).
+#: lang/json/TOOL_from_json.py
+msgid "Die Flamme deines Schwertes erlischt."
+msgstr "La fiamma della tua spada si spegne."
 
 #. ~ Description for zweihänder
 #: lang/json/TOOL_from_json.py
@@ -46631,14 +46632,14 @@ msgstr ""
 msgid "The sword shimmers in the water, before the glow fades."
 msgstr ""
 
-#. ~ Use action voluntary_extinguish_message for incorruptible sword (on).
-#: lang/json/TOOL_from_json.py
-msgid "The blade dims as you dispel its effect."
-msgstr ""
-
 #. ~ Use action charges_extinguish_message for incorruptible sword (on).
 #: lang/json/TOOL_from_json.py
 msgid "The sword's radiance fades."
+msgstr ""
+
+#. ~ Use action voluntary_extinguish_message for incorruptible sword (on).
+#: lang/json/TOOL_from_json.py
+msgid "The blade dims as you dispel its effect."
 msgstr ""
 
 #. ~ Description for incorruptible sword (on)
@@ -46711,17 +46712,17 @@ msgid_plural "glyphs of trickery"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action hostile_msg for glyph of trickery.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The kreck mimics your movements erratically, cavorting about to mock you!"
+msgstr ""
+
 #. ~ Use action friendly_msg for glyph of trickery.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The kreck looks up at you expectantly, as if wondering what sort of "
 "shenanigans you're plotting."
-msgstr ""
-
-#. ~ Use action hostile_msg for glyph of trickery.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The kreck mimics your movements erratically, cavorting about to mock you!"
 msgstr ""
 
 #. ~ Description for glyph of trickery
@@ -46737,18 +46738,18 @@ msgid_plural "glyphs of impassiveness"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of impassiveness.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The featureless visage of the blank body is indecipherable at first, but its"
-" passive posture suggests friendliness."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of impassiveness.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The featureless visage of the blank body is indecipherable at first, but its"
 " body language suggests hostility."
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of impassiveness.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The featureless visage of the blank body is indecipherable at first, but its"
+" passive posture suggests friendliness."
 msgstr ""
 
 #. ~ Description for glyph of impassiveness
@@ -46765,18 +46766,18 @@ msgid_plural "glyphs of the beholder"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of the beholder.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"You meet the flaming's eye's gaze, and it is the first to blink.  It seems "
-"to be friendly."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the beholder.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The eye levels a wicked gaze upon you.  This is a staring contest you won't "
 "win."
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the beholder.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You meet the flaming's eye's gaze, and it is the first to blink.  It seems "
+"to be friendly."
 msgstr ""
 
 #. ~ Description for glyph of the beholder
@@ -46792,18 +46793,18 @@ msgid_plural "glyphs of Crawling Chaos"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of Crawling Chaos.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The hunting horror is at your beck and call.  A gift from the Stalker among "
-"the Stars?"
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of Crawling Chaos.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "You feel the gaze of Nyarlathotep upon you.  How foolish of you, to steal "
 "the harrier of the Faceless God!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of Crawling Chaos.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The hunting horror is at your beck and call.  A gift from the Stalker among "
+"the Stars?"
 msgstr ""
 
 #. ~ Description for glyph of Crawling Chaos
@@ -46820,18 +46821,18 @@ msgid_plural "glyphs of the eye"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of the eye.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The wyrm springs forth, seeming to regard you passively, or at least "
-"ignoring your presence."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the eye.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The wyrm springs forth, reacting to unfamiliar sounds and scent with a "
 "malevolent screech!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the eye.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The wyrm springs forth, seeming to regard you passively, or at least "
+"ignoring your presence."
 msgstr ""
 
 #. ~ Description for glyph of the eye
@@ -46848,18 +46849,18 @@ msgid_plural "glyphs of Yuggoth"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of Yuggoth.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"You recite an incantation, and the mi-go's response is a quiet murmur in "
-"some unknown language.  It seems to be friendly."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of Yuggoth.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "You begin to recite an incantation, only for the mi-go to parrot your words,"
 " mocking your effort to control it!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of Yuggoth.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You recite an incantation, and the mi-go's response is a quiet murmur in "
+"some unknown language.  It seems to be friendly."
 msgstr ""
 
 #. ~ Description for glyph of Yuggoth
@@ -46876,16 +46877,16 @@ msgid_plural "glyphs of the golem"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of the golem.
-#: lang/json/TOOL_from_json.py
-msgid "You hear a strange burbling, the creature bound to your will."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the golem.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "Eyes of flame meet your gaze, the creature resists your attempt to control "
 "it!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the golem.
+#: lang/json/TOOL_from_json.py
+msgid "You hear a strange burbling, the creature bound to your will."
 msgstr ""
 
 #. ~ Description for glyph of the golem
@@ -46902,18 +46903,18 @@ msgid_plural "glyphs of anthozoa"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of anthozoa.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The flying polyp twitches for a moment, before its movement steadies.  It "
-"seems to be friendly."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of anthozoa.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The flying polyp twitches erratically, reacting to your presence with "
 "apparent hostility!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of anthozoa.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The flying polyp twitches for a moment, before its movement steadies.  It "
+"seems to be friendly."
 msgstr ""
 
 #. ~ Description for glyph of anthozoa
@@ -46930,18 +46931,18 @@ msgid_plural "glyphs of the platyhelminthes"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of the platyhelminthes.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"With the silver glyph as an offering, you bind the yugg to serve you.  You "
-"feel like this is the opposite of how it normally works."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the platyhelminthes.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "An offering of wealth is not enough to placate a servant of Ubb.  The "
 "creature turns hostile!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the platyhelminthes.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"With the silver glyph as an offering, you bind the yugg to serve you.  You "
+"feel like this is the opposite of how it normally works."
 msgstr ""
 
 #. ~ Description for glyph of the platyhelminthes
@@ -46958,18 +46959,18 @@ msgid_plural "glyphs of the Elder Things"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for glyph of the Elder Things.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"You hear a voice in your mind.  \"Tekili ...l-li?\"  Your mind exerts a "
-"strange influence upon the shoggoth."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the Elder Things.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "You hear a voice in your mind.  \"Tekeli-li!\"  The shoggoth resists your "
 "efforts to control it!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the Elder Things.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You hear a voice in your mind.  \"Tekili ...l-li?\"  Your mind exerts a "
+"strange influence upon the shoggoth."
 msgstr ""
 
 #. ~ Description for glyph of the Elder Things
@@ -47557,14 +47558,14 @@ msgid_plural "inactive acidbomb hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive acidbomb hack.
-#: lang/json/TOOL_from_json.py
-msgid "The acid hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive acidbomb hack.
 #: lang/json/TOOL_from_json.py
 msgid "You mis-program the acidbomb hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive acidbomb hack.
+#: lang/json/TOOL_from_json.py
+msgid "The acid hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive acidbomb hack
@@ -47674,14 +47675,14 @@ msgid_plural "inactive firebomb hacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for inactive firebomb hack.
-#: lang/json/TOOL_from_json.py
-msgid "The firebomb hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive firebomb hack.
 #: lang/json/TOOL_from_json.py
 msgid "You mis-program the firebomb hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive firebomb hack.
+#: lang/json/TOOL_from_json.py
+msgid "The firebomb hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive firebomb hack
@@ -47705,14 +47706,14 @@ msgid ""
 "something to somebody."
 msgstr ""
 
-#. ~ Use action friendly_msg for revenant rocket.
-#: lang/json/TOOL_from_json.py
-msgid "The missile takes off uncertainly!"
-msgstr ""
-
 #. ~ Use action hostile_msg for revenant rocket.
 #: lang/json/TOOL_from_json.py
 msgid "You mis-program the missile; it's hostile!"
+msgstr ""
+
+#. ~ Use action friendly_msg for revenant rocket.
+#: lang/json/TOOL_from_json.py
+msgid "The missile takes off uncertainly!"
 msgstr ""
 
 #. ~ Description for revenant rocket
@@ -47802,14 +47803,14 @@ msgid_plural "soulcubes"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for soulcube.
-#: lang/json/TOOL_from_json.py
-msgid "As you fiddle with the cube, it flies from your hands!"
-msgstr ""
-
 #. ~ Use action hostile_msg for soulcube.
 #: lang/json/TOOL_from_json.py
 msgid "Oh, it's hostile. That's probably not supposed to happen.  Probably."
+msgstr ""
+
+#. ~ Use action friendly_msg for soulcube.
+#: lang/json/TOOL_from_json.py
+msgid "As you fiddle with the cube, it flies from your hands!"
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -48062,14 +48063,14 @@ msgid_plural "rat spawners"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for rat spawner.
-#: lang/json/TOOL_from_json.py
-msgid "The rat looks up expectently!"
-msgstr ""
-
 #. ~ Use action hostile_msg for rat spawner.
 #: lang/json/TOOL_from_json.py
 msgid "The rat look hostile!"
+msgstr ""
+
+#. ~ Use action friendly_msg for rat spawner.
+#: lang/json/TOOL_from_json.py
+msgid "The rat looks up expectently!"
 msgstr ""
 
 #. ~ Description for rat spawner
@@ -48083,15 +48084,6 @@ msgid_plural "baby web spider spawners"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for baby web spider spawner.
-#. ~ Use action friendly_msg for omega web spider spawner.
-#. ~ Use action friendly_msg for baby trapdoor spider spawner.
-#. ~ Use action friendly_msg for trapdoor spider spawner.
-#. ~ Use action friendly_msg for guardian trapdoor spider spawner.
-#: lang/json/TOOL_from_json.py
-msgid "The spider looks around expectently!"
-msgstr ""
-
 #. ~ Use action hostile_msg for baby web spider spawner.
 #. ~ Use action hostile_msg for omega web spider spawner.
 #. ~ Use action hostile_msg for baby trapdoor spider spawner.
@@ -48099,6 +48091,15 @@ msgstr ""
 #. ~ Use action hostile_msg for guardian trapdoor spider spawner.
 #: lang/json/TOOL_from_json.py
 msgid "The spider look hostile!"
+msgstr ""
+
+#. ~ Use action friendly_msg for baby web spider spawner.
+#. ~ Use action friendly_msg for omega web spider spawner.
+#. ~ Use action friendly_msg for baby trapdoor spider spawner.
+#. ~ Use action friendly_msg for trapdoor spider spawner.
+#. ~ Use action friendly_msg for guardian trapdoor spider spawner.
+#: lang/json/TOOL_from_json.py
+msgid "The spider looks around expectently!"
 msgstr ""
 
 #. ~ Description for baby web spider spawner
@@ -48156,14 +48157,14 @@ msgid_plural "boil bombs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for boil bomb.
-#: lang/json/TOOL_from_json.py
-msgid "The boil takes to the air and begins to grow exponentially."
-msgstr ""
-
 #. ~ Use action hostile_msg for boil bomb.
 #: lang/json/TOOL_from_json.py
 msgid "The boil dances around you!"
+msgstr ""
+
+#. ~ Use action friendly_msg for boil bomb.
+#: lang/json/TOOL_from_json.py
+msgid "The boil takes to the air and begins to grow exponentially."
 msgstr ""
 
 #. ~ Description for boil bomb
@@ -48347,12 +48348,12 @@ msgid_plural "multiplying gelatinous mass"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for multiplying gelatinous mass.
 #. ~ Use action hostile_msg for multiplying gelatinous mass.
-#. ~ Use action friendly_msg for multiplying gray mass.
+#. ~ Use action friendly_msg for multiplying gelatinous mass.
 #. ~ Use action hostile_msg for multiplying gray mass.
-#. ~ Use action friendly_msg for multiplying oozing mass.
+#. ~ Use action friendly_msg for multiplying gray mass.
 #. ~ Use action hostile_msg for multiplying oozing mass.
+#. ~ Use action friendly_msg for multiplying oozing mass.
 #: lang/json/TOOL_from_json.py
 msgid "A blob splits and bounces away!"
 msgstr ""
@@ -48556,14 +48557,14 @@ msgid_plural "dormant blobs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for dormant blob.
-#: lang/json/TOOL_from_json.py
-msgid "The blob becomes active and starts slithering around."
-msgstr ""
-
 #. ~ Use action hostile_msg for dormant blob.
 #: lang/json/TOOL_from_json.py
 msgid "You've made a terrible mistake, the blob is hostile!"
+msgstr ""
+
+#. ~ Use action friendly_msg for dormant blob.
+#: lang/json/TOOL_from_json.py
+msgid "The blob becomes active and starts slithering around."
 msgstr ""
 
 #. ~ Description for dormant blob
@@ -48580,16 +48581,16 @@ msgid_plural "dormant minions"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action friendly_msg for dormant minion.
-#: lang/json/TOOL_from_json.py
-msgid "The zombie climbs to its feet and shambles around."
-msgstr ""
-
 #. ~ Use action hostile_msg for dormant minion.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "Something has gone wrong; after getting up the zombie lumbers toward you "
 "menacingly!"
+msgstr ""
+
+#. ~ Use action friendly_msg for dormant minion.
+#: lang/json/TOOL_from_json.py
+msgid "The zombie climbs to its feet and shambles around."
 msgstr ""
 
 #. ~ Description for dormant minion
@@ -53882,6 +53883,11 @@ msgstr ""
 msgid "mounted blade"
 msgstr ""
 
+#. ~ 'close' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The gate is closed!"
+msgstr "Il cancello e' chiuso!"
+
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The gate can't be closed!"
@@ -53899,8 +53905,8 @@ msgstr "Il cancello e' aperto!"
 
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "The gate is closed!"
-msgstr "Il cancello e' chiuso!"
+msgid "The barn doors closed!"
+msgstr "La porta del fienile e' chiusa!"
 
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -53919,8 +53925,8 @@ msgstr "La porta del fienile si apre!"
 
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "The barn doors closed!"
-msgstr "La porta del fienile e' chiusa!"
+msgid "The palisade gate swings closed with a crash!"
+msgstr "Il cancello della palizzata si richiude con un forte tonfo!"
 
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -53934,8 +53940,8 @@ msgstr "Il cancello della palizzata si spalanca!"
 
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "The palisade gate swings closed with a crash!"
-msgstr "Il cancello della palizzata si richiude con un forte tonfo!"
+msgid "The door slams shut!"
+msgstr ""
 
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -53950,11 +53956,6 @@ msgstr ""
 #. ~ 'open' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The door rises!"
-msgstr ""
-
-#. ~ 'close' action message of some gate object.
-#: lang/json/gates_from_json.py
-msgid "The door slams shut!"
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -61304,12 +61305,12 @@ msgstr ""
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
-msgid "Closed at sunset."
+msgid "Maintained by the the <city> church."
 msgstr ""
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
-msgid "Maintained by the the <city> church."
+msgid "Closed at sunset."
 msgstr ""
 
 #. ~ Sign
@@ -61365,8 +61366,8 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid ""
-"This was once a infromation map for the <city> area, but it has long since "
-"been eroded beyond usefullness.  There are small holders for tourist maps "
+"This was once an information map for the <city> area, but it has long since "
+"eroded beyond usefullness.  There are small holders for tourist maps "
 "attached."
 msgstr ""
 
@@ -70246,6 +70247,7 @@ msgid "sugar house"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+#: lang/json/start_location_from_json.py
 msgid "farm"
 msgstr "fattoria"
 
@@ -76310,6 +76312,76 @@ msgstr ""
 #: lang/json/scenario_from_json.py
 msgctxt "start_name"
 msgid "Bottom of a mine"
+msgstr ""
+
+#. ~ Name for scenario 'Fled the Riots' for a male character
+#: lang/json/scenario_from_json.py
+msgctxt "scenario_male"
+msgid "Fled the Riots"
+msgstr ""
+
+#. ~ Name for scenario 'Fled the Riots' for a female character
+#: lang/json/scenario_from_json.py
+msgctxt "scenario_female"
+msgid "Fled the Riots"
+msgstr ""
+
+#. ~ Description for scenario 'Fled the Riots' for a male character.
+#: lang/json/scenario_from_json.py
+msgctxt "scen_desc_male"
+msgid ""
+"You were assigned to the last of the real riots; one of the last to flee "
+"when the rioters stopped breathing but kept moving."
+msgstr ""
+
+#. ~ Description for scenario 'Fled the Riots' for a female character.
+#: lang/json/scenario_from_json.py
+msgctxt "scen_desc_female"
+msgid ""
+"You were assigned to the last of the real riots; one of the last to flee "
+"when the rioters stopped breathing but kept moving."
+msgstr ""
+
+#. ~ Starting location for scenario 'Fled the Riots'.
+#: lang/json/scenario_from_json.py
+msgctxt "start_name"
+msgid "Public Holdout"
+msgstr ""
+
+#. ~ Name for scenario 'Out of Town' for a male character
+#: lang/json/scenario_from_json.py
+msgctxt "scenario_male"
+msgid "Out of Town"
+msgstr ""
+
+#. ~ Name for scenario 'Out of Town' for a female character
+#: lang/json/scenario_from_json.py
+msgctxt "scenario_female"
+msgid "Out of Town"
+msgstr ""
+
+#. ~ Description for scenario 'Out of Town' for a male character.
+#: lang/json/scenario_from_json.py
+msgctxt "scen_desc_male"
+msgid ""
+"You were outside of civilization when the bombs fell; you didn't even know "
+"the end had come, or that everyone was (un)dead.  Will this ignorance save "
+"you from the fate of the rest?"
+msgstr ""
+
+#. ~ Description for scenario 'Out of Town' for a female character.
+#: lang/json/scenario_from_json.py
+msgctxt "scen_desc_female"
+msgid ""
+"You were outside of civilization when the bombs fell; you didn't even know "
+"the end had come, or that everyone was (un)dead.  Will this ignorance save "
+"you from the fate of the rest?"
+msgstr ""
+
+#. ~ Starting location for scenario 'Out of Town'.
+#: lang/json/scenario_from_json.py
+msgctxt "start_name"
+msgid "Out of City"
 msgstr ""
 
 #. ~ Name for scenario 'Seeker of the Arcane' for a male character
@@ -83378,6 +83450,26 @@ msgstr ""
 
 #: lang/json/start_location_from_json.py
 msgid "Prison"
+msgstr ""
+
+#: lang/json/start_location_from_json.py
+msgid "Hermit Shack"
+msgstr ""
+
+#: lang/json/start_location_from_json.py
+msgid "campgrounds"
+msgstr ""
+
+#: lang/json/start_location_from_json.py
+msgid "cabin in the woods"
+msgstr ""
+
+#: lang/json/start_location_from_json.py src/faction.cpp
+msgid "Church"
+msgstr "Chiesa"
+
+#: lang/json/start_location_from_json.py
+msgid "Religious Cemetery"
 msgstr ""
 
 #: lang/json/start_location_from_json.py
@@ -96111,10 +96203,6 @@ msgid "Brotherhood"
 msgstr "Fratellanza"
 
 #: src/faction.cpp
-msgid "Church"
-msgstr "Chiesa"
-
-#: src/faction.cpp
 msgid "Creed"
 msgstr "Dottrina"
 
@@ -98303,6 +98391,10 @@ msgid "Teleport - Adjacent overmap"
 msgstr ""
 
 #: src/game.cpp
+msgid "Quit to Main Menu"
+msgstr ""
+
+#: src/game.cpp
 msgid "Current overmap revealed."
 msgstr "Sovramappa corrente rivelata."
 
@@ -98466,6 +98558,12 @@ msgstr "Imposta il turno a ? (Un giorno è %i turni)"
 #: src/game.cpp
 #, c-format
 msgid "Drew %d times in %.3f seconds. (%.3f fps average)"
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"Quit without saving? This may cause issues such as duplicated or missing "
+"items and vehicles!"
 msgstr ""
 
 #: src/game.cpp
@@ -104337,23 +104435,18 @@ msgid " (radio:"
 msgstr ""
 
 #: src/item.cpp
+msgctxt "The radio mod is associated with the [R]ed button."
 msgid "R)"
 msgstr ""
 
 #: src/item.cpp
+msgctxt "The radio mod is associated with the [B]lue button."
 msgid "B)"
 msgstr ""
 
 #: src/item.cpp
+msgctxt "The radio mod is associated with the [G]reen button."
 msgid "G)"
-msgstr ""
-
-#: src/item.cpp
-msgid "Bug"
-msgstr ""
-
-#: src/item.cpp
-msgid "sawn-off "
 msgstr ""
 
 #: src/item.cpp
@@ -104371,6 +104464,10 @@ msgstr "(usato)"
 #: src/item.cpp
 msgid " (active)"
 msgstr "(attivo)"
+
+#: src/item.cpp
+msgid "sawn-off "
+msgstr ""
 
 #. ~ This is a string to construct the item name as it is displayed. This
 #. format string has been added for maximum flexibility. The strings are:
@@ -109780,10 +109877,6 @@ msgid "No credits information found."
 msgstr ""
 
 #: src/main_menu.cpp
-msgid " CREDITS "
-msgstr ""
-
-#: src/main_menu.cpp
 msgctxt "Main Menu"
 msgid "<M|m>OTD"
 msgstr "<M|m>OTD"
@@ -109866,6 +109959,10 @@ msgstr ""
 #: src/main_menu.cpp
 msgctxt "Main Menu|Settings"
 msgid "<C|c>olors"
+msgstr ""
+
+#: src/main_menu.cpp
+msgid " CREDITS "
 msgstr ""
 
 #: src/main_menu.cpp
@@ -117869,8 +117966,8 @@ msgid "Language"
 msgstr "Lingua"
 
 #: src/options.cpp
-msgid "Switch Language. Requires restart."
-msgstr "Cambia la lingua. Occorre riavviare il gioco."
+msgid "Switch Language."
+msgstr ""
 
 #: src/options.cpp
 msgid "Fahrenheit"
@@ -120124,6 +120221,14 @@ msgid "yourself shout loudly!"
 msgstr ""
 
 #: src/player.cpp
+msgid "The sound of your voice is almost completely muffled!"
+msgstr ""
+
+#: src/player.cpp
+msgid "The sound of your voice is significantly muffled!"
+msgstr ""
+
+#: src/player.cpp
 msgid "You start running."
 msgstr ""
 
@@ -121693,17 +121798,31 @@ msgid "<npcname> puts on their %s."
 msgstr ""
 
 #: src/player.cpp
-msgid "You are not wearing that item."
-msgstr ""
-
-#: src/player.cpp
 #, c-format
 msgid "You cannot swap the side on which your %s is worn."
 msgstr ""
 
 #: src/player.cpp
 #, c-format
+msgid "<npcname> cannot swap the side on which their %s is worn."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
 msgid "You swap the side on which your %s is worn."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "<npcname> swaps the side on which their %s is worn."
+msgstr ""
+
+#: src/player.cpp
+msgid "You are not wearing that item."
+msgstr ""
+
+#: src/player.cpp
+msgid "<npcname> isn't wearing that item."
 msgstr ""
 
 #: src/player.cpp
@@ -123735,8 +123854,16 @@ msgid "Status:"
 msgstr "Stato:"
 
 #: src/veh_interact.cpp
+msgid "Most damaged (can't repair):"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Most damaged:"
 msgstr "Più danneggiato:"
+
+#: src/veh_interact.cpp
+msgid "Needs repair:"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
@@ -124266,22 +124393,22 @@ msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s cannot start with a faulty immobiliser."
+msgid "The %s makes a long beeping sound."
 msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s cannot start with a faulty starter motor."
+msgid "The %s makes a single clicking sound."
 msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s need at least %i battery charges to start"
+msgid "The %s makes a rapid clicking sound."
 msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s quickly stutters out due to a faulty fuel pump"
+msgid "The %s quickly stutters out."
 msgstr ""
 
 #. ~ backfire sound
@@ -124390,7 +124517,7 @@ msgstr "Il motore del veicolo %s si è spento!"
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s has run out of %s."
+msgid "The %s's engine sputters out."
 msgstr ""
 
 #: src/vehicle.cpp
