@@ -117,9 +117,9 @@ void mapbuffer::save( bool delete_after_save )
     int next_report = 0;
     for( auto &elem : submaps ) {
         if( num_total_submaps > 100 && num_saved_submaps >= next_report ) {
-            popup_nowait(_("Please wait as the map saves [%d/%d]"),
-                         num_saved_submaps, num_total_submaps);
-            next_report += std::max( 100, num_total_submaps / 20 );
+            popup_nowait_with_progressbar( num_saved_submaps * 1.0 / num_total_submaps,
+                               _( "Please wait as the map saves [%d/%d]" ), num_saved_submaps, num_total_submaps );
+            next_report += num_total_submaps / 20;
         }
 
         // Whatever the coordinates of the current submap are,
