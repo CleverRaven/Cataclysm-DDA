@@ -1154,6 +1154,15 @@ void popup_nowait( const char *mes, ... )
     popup( text, PF_NO_WAIT );
 }
 
+void popup_nowait_with_progressbar( double progress, const char *mes, ... )
+{
+    va_list ap;
+    va_start( ap, mes );
+    const std::string text = vstring_format( mes, ap );
+    va_end( ap );
+    popup( text, PF_NO_WAIT, true, progress );
+}
+
 void popup_status( const char *title, const char *msg, ... )
 {
     std::string text;
