@@ -2,9 +2,9 @@
 # Translators:
 # 에메넬 1 <pola8846@gmail.com>, 2015-2016
 # 3strikerz <dlrhkd109@naver.com>, 2015
-# Chun Su, LEE <lchs312@naver.com>, 2016
+# Chun Su, LEE <lchs312@naver.com>, 2016-2017
 # 3strikerz <dlrhkd109@naver.com>, 2015
-# fenjo <fenjo1@gmail.com>, 2016
+# fenjo <fenjo1@gmail.com>, 2016-2017
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013
 # 김정국 <forforever12@gmail.com>, 2016
 # indejeC <s203258@naver.com>, 2015
@@ -29,9 +29,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-30 21:38+0800\n"
-"PO-Revision-Date: 2016-12-31 10:44+0000\n"
-"Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
+"POT-Creation-Date: 2017-01-06 17:50+0800\n"
+"PO-Revision-Date: 2017-01-06 12:05+0000\n"
+"Last-Translator: fenjo <fenjo1@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12020,9 +12020,10 @@ msgstr[0] "CBM:신진대사 전환기"
 #. ~ Description for Metabolic Interchange CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Your digestive system and power supply are interconnected.  Any drain on "
-"energy instead increases your hunger.  Can be toggled on and off at will."
-msgstr "소화기관과 전력 공급장치를 내부적으로 연결했습니다. 최대 보유량이 될 때까지 전력을 충전하며, 그동안 배고픔 정도를 소모합니다. 마음대로 껐다 켰다 할 수 있습니다."
+"Your digestive system and power supply are interconnected.  Energy drains "
+"will be regularly counteracted by increasing hunger.  Can be toggled on and "
+"off at will."
+msgstr "소화기관과 내장전력 공급장치를 내부적으로 연결했습니다. 내장전력 소모시 배고픔 정도를 소모합니다. 켜고 끌 수 있습니다."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Weather Reader CBM"
@@ -28749,12 +28750,12 @@ msgstr ".223탄의 빈 탄피."
 #: lang/json/GENERIC_from_json.py
 msgid ".22 LR casing"
 msgid_plural ".22 LR casings"
-msgstr[0] ""
+msgstr[0] ".22 LR 탄피"
 
 #. ~ Description for .22 LR casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a .22 LR round.  These can't be hand-reloaded."
-msgstr ""
+msgstr ".22 LR탄의 빈 탄피. 재생하여 사용할 수 없다."
 
 #: lang/json/GENERIC_from_json.py
 msgid ".30-06 casing"
@@ -28769,7 +28770,7 @@ msgstr ".30-06탄의 빈 탄피."
 #: lang/json/GENERIC_from_json.py
 msgid ".300 Win Mag casing"
 msgid_plural ".300 Win Mag casings"
-msgstr[0] ""
+msgstr[0] ".300 Win Mag 탄피"
 
 #. ~ Description for .300 Win Mag casing
 #: lang/json/GENERIC_from_json.py
@@ -28789,32 +28790,32 @@ msgstr ".308탄의 빈 탄피."
 #: lang/json/GENERIC_from_json.py
 msgid ".32 ACP casing"
 msgid_plural ".32 ACP casings"
-msgstr[0] ""
+msgstr[0] ".32 ACP 탄피"
 
 #. ~ Description for .32 ACP casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a .32 ACP round."
-msgstr ""
+msgstr ".32 ACP탄의 빈 탄피."
 
 #: lang/json/GENERIC_from_json.py
 msgid ".38 Special casing"
 msgid_plural ".38 Special casings"
-msgstr[0] ""
+msgstr[0] ".38 Special 탄피"
 
 #. ~ Description for .38 Special casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a .38 Special round."
-msgstr ""
+msgstr ".38 Special탄의 빈 탄피."
 
 #: lang/json/GENERIC_from_json.py
 msgid ".40 S&W casing"
 msgid_plural ".40 S&W casings"
-msgstr[0] ""
+msgstr[0] ".40 S&W 탄피"
 
 #. ~ Description for .40 S&W casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a .40 S&W round."
-msgstr ""
+msgstr ".40 S&W탄의 빈 탄피."
 
 #: lang/json/GENERIC_from_json.py
 msgid "40mm canister"
@@ -28829,12 +28830,12 @@ msgstr "발사된 40mm 유탄의 빈 탄피."
 #: lang/json/GENERIC_from_json.py
 msgid ".44 Magnum casing"
 msgid_plural ".44 Magnum casings"
-msgstr[0] ""
+msgstr[0] ".44 Magnum 탄피"
 
 #. ~ Description for .44 Magnum casing
 #: lang/json/GENERIC_from_json.py
 msgid "An empty casing from a .44 Magnum round."
-msgstr ""
+msgstr ".44 Magnum탄의 빈 탄피."
 
 #: lang/json/GENERIC_from_json.py
 msgid ".454 Casull casing"
@@ -28849,7 +28850,7 @@ msgstr ".454 Casull탄의 빈 탄피."
 #: lang/json/GENERIC_from_json.py
 msgid ".45 ACP casing"
 msgid_plural ".45 ACP casings"
-msgstr[0] ""
+msgstr[0] ".45 ACP 탄피"
 
 #. ~ Description for .45 ACP casing
 #. ~ Description for .45 Long Colt casing
@@ -31881,15 +31882,15 @@ msgid "Allows crafting of more improvised item variants"
 msgstr "더 많은 급조 물품 종류를 추가합니다."
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "Huge Vehicles"
-msgstr "초대형 차량"
+msgid "Fuel Multiplier Mod"
+msgstr ""
 
-#. ~ Description for Huge Vehicles
+#. ~ Description for Fuel Multiplier Mod
 #: lang/json/MOD_INFO_from_json.py
 msgid ""
-"Alters game balance to allow easier construction and operation of huge "
-"vehicles"
-msgstr "초대형 차량의 건조와 운용을 더 쉽도록 게임 밸런스를 변경합니다."
+"Triples the base potency of gasoline and diesel fuels, making ultra-large "
+"vehicles more viable"
+msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "More Classes and Scenarios"
@@ -34328,7 +34329,7 @@ msgstr "이 General Atomics TX-1 Guardian 모델은 작은 자동 터렛으로, 
 
 #: lang/json/MONSTER_from_json.py
 msgid "autonomous drone"
-msgstr ""
+msgstr "무인 드론"
 
 #: lang/json/MONSTER_from_json.py
 msgid "EMP hack"
@@ -38953,15 +38954,15 @@ msgid "inactive EMP hack"
 msgid_plural "inactive EMP hacks"
 msgstr[0] "EMP 맨핵 (꺼짐)"
 
-#. ~ Use action friendly_msg for inactive EMP hack.
-#: lang/json/TOOL_from_json.py
-msgid "The EMP hack flies from your hand and surveys the area!"
-msgstr "EMP 맨핵이 손에서 날아올라 주변을 관찰한다!"
-
 #. ~ Use action hostile_msg for inactive EMP hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the EMP hack; take cover!"
 msgstr "EMP 맨핵을 잘못 프로그래밍했다. 모두 다 엎드려!"
+
+#. ~ Use action friendly_msg for inactive EMP hack.
+#: lang/json/TOOL_from_json.py
+msgid "The EMP hack flies from your hand and surveys the area!"
+msgstr "EMP 맨핵이 손에서 날아올라 주변을 관찰한다!"
 
 #. ~ Description for inactive EMP hack
 #: lang/json/TOOL_from_json.py
@@ -38976,15 +38977,15 @@ msgid "inactive C-4 hack"
 msgid_plural "inactive C-4 hacks"
 msgstr[0] "C-4 맨핵 (꺼짐)"
 
-#. ~ Use action friendly_msg for inactive C-4 hack.
-#: lang/json/TOOL_from_json.py
-msgid "The C-4 hack flies from your hand and surveys the area!"
-msgstr "C-4 맨핵이 손에서 날아올라 주변을 관찰한다!"
-
 #. ~ Use action hostile_msg for inactive C-4 hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the C-4 hack; take cover!"
 msgstr "C-4 맨핵을 잘못 프로그래밍했다. 모두 다 엎드려!"
+
+#. ~ Use action friendly_msg for inactive C-4 hack.
+#: lang/json/TOOL_from_json.py
+msgid "The C-4 hack flies from your hand and surveys the area!"
+msgstr "C-4 맨핵이 손에서 날아올라 주변을 관찰한다!"
 
 #. ~ Description for inactive C-4 hack
 #: lang/json/TOOL_from_json.py
@@ -38999,15 +39000,15 @@ msgid "inactive flashbang hack"
 msgid_plural "inactive flashbang hacks"
 msgstr[0] "섬광탄 맨핵 (꺼짐)"
 
-#. ~ Use action friendly_msg for inactive flashbang hack.
-#: lang/json/TOOL_from_json.py
-msgid "The flashbang hack flies from your hand and surveys the area!"
-msgstr "섬광탄 맨핵이 손에서 날아올라 주변을 관찰한다!"
-
 #. ~ Use action hostile_msg for inactive flashbang hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the flashbang hack; take cover!"
 msgstr "섬광탄 맨핵을 잘못 프로그래밍했다. 모두 다 엎드려!"
+
+#. ~ Use action friendly_msg for inactive flashbang hack.
+#: lang/json/TOOL_from_json.py
+msgid "The flashbang hack flies from your hand and surveys the area!"
+msgstr "섬광탄 맨핵이 손에서 날아올라 주변을 관찰한다!"
 
 #. ~ Description for inactive flashbang hack
 #: lang/json/TOOL_from_json.py
@@ -39023,15 +39024,15 @@ msgid "inactive tear gas hack"
 msgid_plural "inactive tear gas hacks"
 msgstr[0] "최루탄 맨핵 (꺼짐)"
 
-#. ~ Use action friendly_msg for inactive tear gas hack.
-#: lang/json/TOOL_from_json.py
-msgid "The tear gas hack flies from your hand and surveys the area!"
-msgstr "최루탄 맨핵이 손에서 날아올라 주변을 관찰한다!"
-
 #. ~ Use action hostile_msg for inactive tear gas hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the tear gas hack; take cover!"
 msgstr "최루탄 맨핵을 잘못 프로그래밍했다. 모두 다 엎드려!"
+
+#. ~ Use action friendly_msg for inactive tear gas hack.
+#: lang/json/TOOL_from_json.py
+msgid "The tear gas hack flies from your hand and surveys the area!"
+msgstr "최루탄 맨핵이 손에서 날아올라 주변을 관찰한다!"
 
 #. ~ Description for inactive tear gas hack
 #: lang/json/TOOL_from_json.py
@@ -39047,15 +39048,15 @@ msgid "inactive grenade hack"
 msgid_plural "inactive grenade hacks"
 msgstr[0] "수류탄 맨핵 (꺼짐)"
 
-#. ~ Use action friendly_msg for inactive grenade hack.
-#: lang/json/TOOL_from_json.py
-msgid "The grenade hack flies from your hand and surveys the area!"
-msgstr "수류탄 맨핵이 손에서 날아올라 주변을 관찰한다!"
-
 #. ~ Use action hostile_msg for inactive grenade hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the grenade hack; take cover!"
 msgstr "수류탄 맨핵을 잘못 프로그래밍했다. 모두 다 엎드려!"
+
+#. ~ Use action friendly_msg for inactive grenade hack.
+#: lang/json/TOOL_from_json.py
+msgid "The grenade hack flies from your hand and surveys the area!"
+msgstr "수류탄 맨핵이 손에서 날아올라 주변을 관찰한다!"
 
 #. ~ Description for inactive grenade hack
 #: lang/json/TOOL_from_json.py
@@ -39084,15 +39085,15 @@ msgid "inactive manhack"
 msgid_plural "inactive manhacks"
 msgstr[0] "맨핵 (꺼짐)"
 
-#. ~ Use action friendly_msg for inactive manhack.
-#: lang/json/TOOL_from_json.py
-msgid "The manhack flies from your hand and surveys the area!"
-msgstr "맨핵이 손에서 날아올라 주변을 관찰한다!"
-
 #. ~ Use action hostile_msg for inactive manhack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the manhack; it's hostile!"
 msgstr "맨핵을 잘못 프로그래밍해서 적대적으로 변했다!"
+
+#. ~ Use action friendly_msg for inactive manhack.
+#: lang/json/TOOL_from_json.py
+msgid "The manhack flies from your hand and surveys the area!"
+msgstr "맨핵이 손에서 날아올라 주변을 관찰한다!"
 
 #. ~ Description for inactive manhack
 #: lang/json/TOOL_from_json.py
@@ -39108,15 +39109,15 @@ msgid "inactive mininuke hack"
 msgid_plural "inactive mininuke hacks"
 msgstr[0] "소형핵 맨핵 (꺼짐)"
 
-#. ~ Use action friendly_msg for inactive mininuke hack.
-#: lang/json/TOOL_from_json.py
-msgid "The mininuke hack floats from your hand and surveys the area!"
-msgstr "소형핵 맨핵이 손에서 떠올라 주변을 관찰한다!"
-
 #. ~ Use action hostile_msg for inactive mininuke hack.
 #: lang/json/TOOL_from_json.py
 msgid "You misprogram the mininuke hack.  Pray."
 msgstr "소형핵 맨핵을 잘못 프로그래밍했다. 모두 기도합시다."
+
+#. ~ Use action friendly_msg for inactive mininuke hack.
+#: lang/json/TOOL_from_json.py
+msgid "The mininuke hack floats from your hand and surveys the area!"
+msgstr "소형핵 맨핵이 손에서 떠올라 주변을 관찰한다!"
 
 #. ~ Description for inactive mininuke hack
 #: lang/json/TOOL_from_json.py
@@ -39226,15 +39227,15 @@ msgstr "날이 타오른다!"
 msgid "Your sword hisses in the water and goes out."
 msgstr "칼이 물속에서 칙칙 소리를 내더니 꺼졌다."
 
-#. ~ Use action voluntary_extinguish_message for firebrand (on).
-#: lang/json/TOOL_from_json.py
-msgid "Run away!"
-msgstr "불이 꺼졌다."
-
 #. ~ Use action charges_extinguish_message for firebrand (on).
 #: lang/json/TOOL_from_json.py
 msgid "Thy strength fades!"
 msgstr "연료가 부족해 불이 꺼졌다."
+
+#. ~ Use action voluntary_extinguish_message for firebrand (on).
+#: lang/json/TOOL_from_json.py
+msgid "Run away!"
+msgstr "불이 꺼졌다."
 
 #. ~ Description for firebrand (on)
 #: lang/json/TOOL_from_json.py
@@ -40321,15 +40322,15 @@ msgstr[0] "라이징선 (켜짐)"
 msgid "The Sun shines brightly."
 msgstr "태양처럼 밝은 불꽃을 뿜고 있다."
 
-#. ~ Use action voluntary_extinguish_message for Rising Sun (on).
-#: lang/json/TOOL_from_json.py
-msgid "The Sun sets."
-msgstr "태양이 지듯 불꽃이 꺼졌다."
-
 #. ~ Use action charges_extinguish_message for Rising Sun (on).
 #: lang/json/TOOL_from_json.py
 msgid "The Light Fades."
 msgstr "빛이 희미해진다."
+
+#. ~ Use action voluntary_extinguish_message for Rising Sun (on).
+#: lang/json/TOOL_from_json.py
+msgid "The Sun sets."
+msgstr "태양이 지듯 불꽃이 꺼졌다."
 
 #. ~ Description for Rising Sun (on)
 #: lang/json/TOOL_from_json.py
@@ -40344,8 +40345,8 @@ msgid "No. 9 (off)"
 msgid_plural "No. 9's (off)"
 msgstr[0] "No. 9's (꺼짐)"
 
-#. ~ Use action lacks_fuel_message for No. 9 (off).
 #. ~ Use action failure_message for No. 9 (off).
+#. ~ Use action lacks_fuel_message for No. 9 (off).
 #: lang/json/TOOL_from_json.py src/iuse.cpp
 msgid "Click."
 msgstr "찰칵."
@@ -40373,25 +40374,25 @@ msgstr[0] "No. 9's (켜짐)"
 msgid "Your No. 9 hisses."
 msgstr "No. 9에서 쉭쉭 거리는 소리가 난다."
 
-#. ~ Use action auto_extinguish_message for No. 9 (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your No. 9 cuts out!"
-msgstr "No. 9가 작동을 멈췄다!"
-
 #. ~ Use action water_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 hisses in the water and goes out."
 msgstr "No. 9가 물속에서 칙칙 소리를 내더니 꺼졌다."
 
-#. ~ Use action voluntary_extinguish_message for No. 9 (on).
+#. ~ Use action auto_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
-msgid "Your No. 9 goes dark."
-msgstr "No. 9가 어두워지며 꺼졌다."
+msgid "Your No. 9 cuts out!"
+msgstr "No. 9가 작동을 멈췄다!"
 
 #. ~ Use action charges_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Out of ammo!"
 msgstr "탄약이 바닥났다!"
+
+#. ~ Use action voluntary_extinguish_message for No. 9 (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your No. 9 goes dark."
+msgstr "No. 9가 어두워지며 꺼졌다."
 
 #. ~ Description for No. 9 (on)
 #: lang/json/TOOL_from_json.py
@@ -42493,6 +42494,11 @@ msgid "shishkebab (off)"
 msgid_plural "shishkebabs (off)"
 msgstr[0] "시시케밥 (꺼짐)"
 
+#. ~ Use action failure_message for shishkebab (off).
+#: lang/json/TOOL_from_json.py
+msgid "Aw, dangit.  It fails to start!"
+msgstr "빌어먹을... 켜지지가 않는다!"
+
 #. ~ Use action lacks_fuel_message for shishkebab (off).
 #: lang/json/TOOL_from_json.py
 msgid "This thing needs some fuel!"
@@ -42502,11 +42508,6 @@ msgstr "연료가 부족해 켤 수 없다!"
 #: lang/json/TOOL_from_json.py
 msgid "Let's dance, Zeds!"
 msgstr "불이 타오른다. 좀비 놈들과 신나게 춤출 준비가 되었다!"
-
-#. ~ Use action failure_message for shishkebab (off).
-#: lang/json/TOOL_from_json.py
-msgid "Aw, dangit.  It fails to start!"
-msgstr "빌어먹을... 켜지지가 않는다!"
 
 #. ~ Description for shishkebab (off)
 #: lang/json/TOOL_from_json.py
@@ -42527,25 +42528,25 @@ msgstr[0] "시시케밥 (켜짐)"
 msgid "Your shishkebab crackles!"
 msgstr "시시케밥에서 딱딱거리며 불타는 소리가 난다!"
 
-#. ~ Use action auto_extinguish_message for shishkebab (on).
-#: lang/json/TOOL_from_json.py
-msgid "Bummer, man!  Your shishkebab's flame flickers and dies out."
-msgstr "게으르기는... 쯧쯧. 시시케밥의 불이 깜박이더니 꺼졌다."
-
 #. ~ Use action water_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your shishkebab hisses in the water and goes out."
 msgstr "시시케밥이 물 속에서 칙칙 소리를 내더니 꺼졌다."
 
-#. ~ Use action voluntary_extinguish_message for shishkebab (on).
+#. ~ Use action auto_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
-msgid "Peace out.  Your shishkebab's flame dies."
-msgstr "친구여, 안녕. 시시케밥의 불을 껐다."
+msgid "Bummer, man!  Your shishkebab's flame flickers and dies out."
+msgstr "게으르기는... 쯧쯧. 시시케밥의 불이 깜박이더니 꺼졌다."
 
 #. ~ Use action charges_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Uncool, outta gas!  Your shishkebab's flame goes out."
 msgstr "연료가 없다! 시시케밥의 불이 꺼졌다."
+
+#. ~ Use action voluntary_extinguish_message for shishkebab (on).
+#: lang/json/TOOL_from_json.py
+msgid "Peace out.  Your shishkebab's flame dies."
+msgstr "친구여, 안녕. 시시케밥의 불을 껐다."
 
 #. ~ Description for shishkebab (on)
 #: lang/json/TOOL_from_json.py
@@ -43709,14 +43710,14 @@ msgstr ""
 msgid "Dein Schwert zischt und erlischt."
 msgstr ""
 
-#. ~ Use action voluntary_extinguish_message for flammenschwert (an).
-#: lang/json/TOOL_from_json.py
-msgid "Die Flamme deines Schwertes erlischt."
-msgstr ""
-
 #. ~ Use action charges_extinguish_message for flammenschwert (an).
 #: lang/json/TOOL_from_json.py
 msgid "Deinem Flammenschwert ist der Brennstoff ausgegangen!"
+msgstr ""
+
+#. ~ Use action voluntary_extinguish_message for flammenschwert (an).
+#: lang/json/TOOL_from_json.py
+msgid "Die Flamme deines Schwertes erlischt."
 msgstr ""
 
 #. ~ Description for zweihänder
@@ -44196,14 +44197,14 @@ msgstr ""
 msgid "The sword shimmers in the water, before the glow fades."
 msgstr ""
 
-#. ~ Use action voluntary_extinguish_message for incorruptible sword (on).
-#: lang/json/TOOL_from_json.py
-msgid "The blade dims as you dispel its effect."
-msgstr ""
-
 #. ~ Use action charges_extinguish_message for incorruptible sword (on).
 #: lang/json/TOOL_from_json.py
 msgid "The sword's radiance fades."
+msgstr ""
+
+#. ~ Use action voluntary_extinguish_message for incorruptible sword (on).
+#: lang/json/TOOL_from_json.py
+msgid "The blade dims as you dispel its effect."
 msgstr ""
 
 #. ~ Description for incorruptible sword (on)
@@ -44272,17 +44273,17 @@ msgid "glyph of trickery"
 msgid_plural "glyphs of trickery"
 msgstr[0] "계략의 글리프"
 
+#. ~ Use action hostile_msg for glyph of trickery.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The kreck mimics your movements erratically, cavorting about to mock you!"
+msgstr ""
+
 #. ~ Use action friendly_msg for glyph of trickery.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The kreck looks up at you expectantly, as if wondering what sort of "
 "shenanigans you're plotting."
-msgstr ""
-
-#. ~ Use action hostile_msg for glyph of trickery.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The kreck mimics your movements erratically, cavorting about to mock you!"
 msgstr ""
 
 #. ~ Description for glyph of trickery
@@ -44297,18 +44298,18 @@ msgid "glyph of impassiveness"
 msgid_plural "glyphs of impassiveness"
 msgstr[0] "무감각의 글리프"
 
-#. ~ Use action friendly_msg for glyph of impassiveness.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The featureless visage of the blank body is indecipherable at first, but its"
-" passive posture suggests friendliness."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of impassiveness.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The featureless visage of the blank body is indecipherable at first, but its"
 " body language suggests hostility."
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of impassiveness.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The featureless visage of the blank body is indecipherable at first, but its"
+" passive posture suggests friendliness."
 msgstr ""
 
 #. ~ Description for glyph of impassiveness
@@ -44324,18 +44325,18 @@ msgid "glyph of the beholder"
 msgid_plural "glyphs of the beholder"
 msgstr[0] "비홀더의 글리프"
 
-#. ~ Use action friendly_msg for glyph of the beholder.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"You meet the flaming's eye's gaze, and it is the first to blink.  It seems "
-"to be friendly."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the beholder.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The eye levels a wicked gaze upon you.  This is a staring contest you won't "
 "win."
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the beholder.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You meet the flaming's eye's gaze, and it is the first to blink.  It seems "
+"to be friendly."
 msgstr ""
 
 #. ~ Description for glyph of the beholder
@@ -44350,18 +44351,18 @@ msgid "glyph of Crawling Chaos"
 msgid_plural "glyphs of Crawling Chaos"
 msgstr[0] "기어다니는 혼돈의 글리프"
 
-#. ~ Use action friendly_msg for glyph of Crawling Chaos.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The hunting horror is at your beck and call.  A gift from the Stalker among "
-"the Stars?"
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of Crawling Chaos.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "You feel the gaze of Nyarlathotep upon you.  How foolish of you, to steal "
 "the harrier of the Faceless God!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of Crawling Chaos.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The hunting horror is at your beck and call.  A gift from the Stalker among "
+"the Stars?"
 msgstr ""
 
 #. ~ Description for glyph of Crawling Chaos
@@ -44377,18 +44378,18 @@ msgid "glyph of the eye"
 msgid_plural "glyphs of the eye"
 msgstr[0] "안구의 글리프"
 
-#. ~ Use action friendly_msg for glyph of the eye.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The wyrm springs forth, seeming to regard you passively, or at least "
-"ignoring your presence."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the eye.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The wyrm springs forth, reacting to unfamiliar sounds and scent with a "
 "malevolent screech!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the eye.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The wyrm springs forth, seeming to regard you passively, or at least "
+"ignoring your presence."
 msgstr ""
 
 #. ~ Description for glyph of the eye
@@ -44404,18 +44405,18 @@ msgid "glyph of Yuggoth"
 msgid_plural "glyphs of Yuggoth"
 msgstr[0] "유고스의 글리프"
 
-#. ~ Use action friendly_msg for glyph of Yuggoth.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"You recite an incantation, and the mi-go's response is a quiet murmur in "
-"some unknown language.  It seems to be friendly."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of Yuggoth.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "You begin to recite an incantation, only for the mi-go to parrot your words,"
 " mocking your effort to control it!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of Yuggoth.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You recite an incantation, and the mi-go's response is a quiet murmur in "
+"some unknown language.  It seems to be friendly."
 msgstr ""
 
 #. ~ Description for glyph of Yuggoth
@@ -44431,16 +44432,16 @@ msgid "glyph of the golem"
 msgid_plural "glyphs of the golem"
 msgstr[0] "골렘의 글리프"
 
-#. ~ Use action friendly_msg for glyph of the golem.
-#: lang/json/TOOL_from_json.py
-msgid "You hear a strange burbling, the creature bound to your will."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the golem.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "Eyes of flame meet your gaze, the creature resists your attempt to control "
 "it!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the golem.
+#: lang/json/TOOL_from_json.py
+msgid "You hear a strange burbling, the creature bound to your will."
 msgstr ""
 
 #. ~ Description for glyph of the golem
@@ -44456,18 +44457,18 @@ msgid "glyph of anthozoa"
 msgid_plural "glyphs of anthozoa"
 msgstr[0] "화충류의 글리프"
 
-#. ~ Use action friendly_msg for glyph of anthozoa.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"The flying polyp twitches for a moment, before its movement steadies.  It "
-"seems to be friendly."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of anthozoa.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The flying polyp twitches erratically, reacting to your presence with "
 "apparent hostility!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of anthozoa.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The flying polyp twitches for a moment, before its movement steadies.  It "
+"seems to be friendly."
 msgstr ""
 
 #. ~ Description for glyph of anthozoa
@@ -44483,18 +44484,18 @@ msgid "glyph of the platyhelminthes"
 msgid_plural "glyphs of the platyhelminthes"
 msgstr[0] "편형동물의 글리프"
 
-#. ~ Use action friendly_msg for glyph of the platyhelminthes.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"With the silver glyph as an offering, you bind the yugg to serve you.  You "
-"feel like this is the opposite of how it normally works."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the platyhelminthes.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "An offering of wealth is not enough to placate a servant of Ubb.  The "
 "creature turns hostile!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the platyhelminthes.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"With the silver glyph as an offering, you bind the yugg to serve you.  You "
+"feel like this is the opposite of how it normally works."
 msgstr ""
 
 #. ~ Description for glyph of the platyhelminthes
@@ -44510,18 +44511,18 @@ msgid "glyph of the Elder Things"
 msgid_plural "glyphs of the Elder Things"
 msgstr[0] "장로들의 글리프"
 
-#. ~ Use action friendly_msg for glyph of the Elder Things.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"You hear a voice in your mind.  \"Tekili ...l-li?\"  Your mind exerts a "
-"strange influence upon the shoggoth."
-msgstr ""
-
 #. ~ Use action hostile_msg for glyph of the Elder Things.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "You hear a voice in your mind.  \"Tekeli-li!\"  The shoggoth resists your "
 "efforts to control it!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the Elder Things.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You hear a voice in your mind.  \"Tekili ...l-li?\"  Your mind exerts a "
+"strange influence upon the shoggoth."
 msgstr ""
 
 #. ~ Description for glyph of the Elder Things
@@ -45074,14 +45075,14 @@ msgid "inactive acidbomb hack"
 msgid_plural "inactive acidbomb hacks"
 msgstr[0] "산성폭탄 맨핵 (꺼짐)"
 
-#. ~ Use action friendly_msg for inactive acidbomb hack.
-#: lang/json/TOOL_from_json.py
-msgid "The acid hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive acidbomb hack.
 #: lang/json/TOOL_from_json.py
 msgid "You mis-program the acidbomb hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive acidbomb hack.
+#: lang/json/TOOL_from_json.py
+msgid "The acid hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive acidbomb hack
@@ -45185,14 +45186,14 @@ msgid "inactive firebomb hack"
 msgid_plural "inactive firebomb hacks"
 msgstr[0] ""
 
-#. ~ Use action friendly_msg for inactive firebomb hack.
-#: lang/json/TOOL_from_json.py
-msgid "The firebomb hack flies from your hand and surveys the area!"
-msgstr ""
-
 #. ~ Use action hostile_msg for inactive firebomb hack.
 #: lang/json/TOOL_from_json.py
 msgid "You mis-program the firebomb hack; take cover!"
+msgstr ""
+
+#. ~ Use action friendly_msg for inactive firebomb hack.
+#: lang/json/TOOL_from_json.py
+msgid "The firebomb hack flies from your hand and surveys the area!"
 msgstr ""
 
 #. ~ Description for inactive firebomb hack
@@ -45215,15 +45216,15 @@ msgid ""
 "something to somebody."
 msgstr "가볍고 초미세 층이 있는 우주시대의 플라스틱 조각. 이제 더이상 생산할 수 없으며 누군가에게는 가치가 있을 것 같습니다."
 
-#. ~ Use action friendly_msg for revenant rocket.
-#: lang/json/TOOL_from_json.py
-msgid "The missile takes off uncertainly!"
-msgstr "미사일이 목적지 불명 상태로 발사되었다!"
-
 #. ~ Use action hostile_msg for revenant rocket.
 #: lang/json/TOOL_from_json.py
 msgid "You mis-program the missile; it's hostile!"
 msgstr "미사일 프로그래밍에 실수가 있었다. 적대적으로 변했다!"
+
+#. ~ Use action friendly_msg for revenant rocket.
+#: lang/json/TOOL_from_json.py
+msgid "The missile takes off uncertainly!"
+msgstr "미사일이 목적지 불명 상태로 발사되었다!"
 
 #. ~ Description for revenant rocket
 #: lang/json/TOOL_from_json.py
@@ -45306,15 +45307,15 @@ msgid "soulcube"
 msgid_plural "soulcubes"
 msgstr[0] "영혼큐브"
 
-#. ~ Use action friendly_msg for soulcube.
-#: lang/json/TOOL_from_json.py
-msgid "As you fiddle with the cube, it flies from your hands!"
-msgstr "큐브를 만지자 마자, 큐브가 손에서 날아오른다!"
-
 #. ~ Use action hostile_msg for soulcube.
 #: lang/json/TOOL_from_json.py
 msgid "Oh, it's hostile. That's probably not supposed to happen.  Probably."
 msgstr "오, 적개심을 품고 있네요. 아마도 아무런 반응도 일어나지 않는 것 같네요. 아마도요."
+
+#. ~ Use action friendly_msg for soulcube.
+#: lang/json/TOOL_from_json.py
+msgid "As you fiddle with the cube, it flies from your hands!"
+msgstr "큐브를 만지자 마자, 큐브가 손에서 날아오른다!"
 
 #: lang/json/TOOL_from_json.py
 msgid "incubating boil bomb"
@@ -45547,15 +45548,15 @@ msgid "rat spawner"
 msgid_plural "rat spawners"
 msgstr[0] "쥐 스포너"
 
-#. ~ Use action friendly_msg for rat spawner.
-#: lang/json/TOOL_from_json.py
-msgid "The rat looks up expectently!"
-msgstr "쥐는 뭔가 좋은 것을 기대하는 듯이 쳐다보고 있다!"
-
 #. ~ Use action hostile_msg for rat spawner.
 #: lang/json/TOOL_from_json.py
 msgid "The rat look hostile!"
 msgstr "쥐는 적대적인 것 같다!"
+
+#. ~ Use action friendly_msg for rat spawner.
+#: lang/json/TOOL_from_json.py
+msgid "The rat looks up expectently!"
+msgstr "쥐는 뭔가 좋은 것을 기대하는 듯이 쳐다보고 있다!"
 
 #. ~ Description for rat spawner
 #: lang/json/TOOL_from_json.py
@@ -45567,15 +45568,6 @@ msgid "baby web spider spawner"
 msgid_plural "baby web spider spawners"
 msgstr[0] ""
 
-#. ~ Use action friendly_msg for baby web spider spawner.
-#. ~ Use action friendly_msg for omega web spider spawner.
-#. ~ Use action friendly_msg for baby trapdoor spider spawner.
-#. ~ Use action friendly_msg for trapdoor spider spawner.
-#. ~ Use action friendly_msg for guardian trapdoor spider spawner.
-#: lang/json/TOOL_from_json.py
-msgid "The spider looks around expectently!"
-msgstr ""
-
 #. ~ Use action hostile_msg for baby web spider spawner.
 #. ~ Use action hostile_msg for omega web spider spawner.
 #. ~ Use action hostile_msg for baby trapdoor spider spawner.
@@ -45584,6 +45576,15 @@ msgstr ""
 #: lang/json/TOOL_from_json.py
 msgid "The spider look hostile!"
 msgstr "거미는 적대적인 것 같다!"
+
+#. ~ Use action friendly_msg for baby web spider spawner.
+#. ~ Use action friendly_msg for omega web spider spawner.
+#. ~ Use action friendly_msg for baby trapdoor spider spawner.
+#. ~ Use action friendly_msg for trapdoor spider spawner.
+#. ~ Use action friendly_msg for guardian trapdoor spider spawner.
+#: lang/json/TOOL_from_json.py
+msgid "The spider looks around expectently!"
+msgstr ""
 
 #. ~ Description for baby web spider spawner
 #: lang/json/TOOL_from_json.py
@@ -45635,15 +45636,15 @@ msgid "boil bomb"
 msgid_plural "boil bombs"
 msgstr[0] "진균낭 폭탄"
 
-#. ~ Use action friendly_msg for boil bomb.
-#: lang/json/TOOL_from_json.py
-msgid "The boil takes to the air and begins to grow exponentially."
-msgstr "진균낭이 튀어나와 기하급수적으로 자라나기 시작한다."
-
 #. ~ Use action hostile_msg for boil bomb.
 #: lang/json/TOOL_from_json.py
 msgid "The boil dances around you!"
 msgstr "진균낭이 당신 주변을 돌며 춤춘다!"
+
+#. ~ Use action friendly_msg for boil bomb.
+#: lang/json/TOOL_from_json.py
+msgid "The boil takes to the air and begins to grow exponentially."
+msgstr "진균낭이 튀어나와 기하급수적으로 자라나기 시작한다."
 
 #. ~ Description for boil bomb
 #: lang/json/TOOL_from_json.py
@@ -45817,12 +45818,12 @@ msgid "multiplying gelatinous mass"
 msgid_plural "multiplying gelatinous mass"
 msgstr[0] ""
 
-#. ~ Use action friendly_msg for multiplying gelatinous mass.
 #. ~ Use action hostile_msg for multiplying gelatinous mass.
-#. ~ Use action friendly_msg for multiplying gray mass.
+#. ~ Use action friendly_msg for multiplying gelatinous mass.
 #. ~ Use action hostile_msg for multiplying gray mass.
-#. ~ Use action friendly_msg for multiplying oozing mass.
+#. ~ Use action friendly_msg for multiplying gray mass.
 #. ~ Use action hostile_msg for multiplying oozing mass.
+#. ~ Use action friendly_msg for multiplying oozing mass.
 #: lang/json/TOOL_from_json.py
 msgid "A blob splits and bounces away!"
 msgstr ""
@@ -46004,15 +46005,15 @@ msgid "dormant blob"
 msgid_plural "dormant blobs"
 msgstr[0] "블럽(휴면중)"
 
-#. ~ Use action friendly_msg for dormant blob.
-#: lang/json/TOOL_from_json.py
-msgid "The blob becomes active and starts slithering around."
-msgstr "덩어리가 깨어나더니 미끄러지듯 움직이기 시작했다."
-
 #. ~ Use action hostile_msg for dormant blob.
 #: lang/json/TOOL_from_json.py
 msgid "You've made a terrible mistake, the blob is hostile!"
 msgstr "심각한 실수를 저질러서 덩어리가 적대적이게 되었다!"
+
+#. ~ Use action friendly_msg for dormant blob.
+#: lang/json/TOOL_from_json.py
+msgid "The blob becomes active and starts slithering around."
+msgstr "덩어리가 깨어나더니 미끄러지듯 움직이기 시작했다."
 
 #. ~ Description for dormant blob
 #: lang/json/TOOL_from_json.py
@@ -46027,17 +46028,17 @@ msgid "dormant minion"
 msgid_plural "dormant minions"
 msgstr[0] "좀비 (휴면중)"
 
-#. ~ Use action friendly_msg for dormant minion.
-#: lang/json/TOOL_from_json.py
-msgid "The zombie climbs to its feet and shambles around."
-msgstr "좀비가 제 발로 일어서더니 비틀거리며 움직인다."
-
 #. ~ Use action hostile_msg for dormant minion.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "Something has gone wrong; after getting up the zombie lumbers toward you "
 "menacingly!"
 msgstr "무언가 잘못됐는지 좀비가 일어나서 이쪽을 보며 위협적으로 다가오기 시작했다!"
+
+#. ~ Use action friendly_msg for dormant minion.
+#: lang/json/TOOL_from_json.py
+msgid "The zombie climbs to its feet and shambles around."
+msgstr "좀비가 제 발로 일어서더니 비틀거리며 움직인다."
 
 #. ~ Description for dormant minion
 #: lang/json/TOOL_from_json.py
@@ -51320,6 +51321,11 @@ msgstr "티이이이잉"
 msgid "mounted blade"
 msgstr ""
 
+#. ~ 'close' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The gate is closed!"
+msgstr "큰 문이 닫혔습니다!"
+
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The gate can't be closed!"
@@ -51337,8 +51343,8 @@ msgstr "큰 문이 열렸습니다!"
 
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "The gate is closed!"
-msgstr "큰 문이 닫혔습니다!"
+msgid "The barn doors closed!"
+msgstr "헛간 문이 닫혔습니다!"
 
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -51357,8 +51363,8 @@ msgstr "헛간 문이 열렸습니다!"
 
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "The barn doors closed!"
-msgstr "헛간 문이 닫혔습니다!"
+msgid "The palisade gate swings closed with a crash!"
+msgstr "울타리 문이 쾅 하는 소리와 함께 닫혔습니다!"
 
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -51372,8 +51378,8 @@ msgstr "울타리 문이 열렸습니다!"
 
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "The palisade gate swings closed with a crash!"
-msgstr "울타리 문이 쾅 하는 소리와 함께 닫혔습니다!"
+msgid "The door slams shut!"
+msgstr "문이 쾅하고 닫혔다!"
 
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
@@ -51389,11 +51395,6 @@ msgstr "레버를 조작했다..."
 #: lang/json/gates_from_json.py
 msgid "The door rises!"
 msgstr "문이 열렸다!"
-
-#. ~ 'close' action message of some gate object.
-#: lang/json/gates_from_json.py
-msgid "The door slams shut!"
-msgstr "문이 쾅하고 닫혔다!"
 
 #: lang/json/gun_from_json.py
 msgid "self bow"
@@ -58317,12 +58318,12 @@ msgstr "위험! 담배를 피지 마시오! 폭발의 위험이 있습니다!"
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
-msgid "Closed at sunset."
+msgid "Maintained by the the <city> church."
 msgstr ""
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
-msgid "Maintained by the the <city> church."
+msgid "Closed at sunset."
 msgstr ""
 
 #. ~ Sign
@@ -58378,8 +58379,8 @@ msgstr ""
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
 msgid ""
-"This was once a infromation map for the <city> area, but it has long since "
-"been eroded beyond usefullness.  There are small holders for tourist maps "
+"This was once an information map for the <city> area, but it has long since "
+"eroded beyond usefullness.  There are small holders for tourist maps "
 "attached."
 msgstr ""
 
@@ -67259,6 +67260,7 @@ msgid "sugar house"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+#: lang/json/start_location_from_json.py
 msgid "farm"
 msgstr "농장"
 
@@ -73324,6 +73326,76 @@ msgstr "당신은 광산에서 채굴 작업을 하던 중이었습니다. 무�
 msgctxt "start_name"
 msgid "Bottom of a mine"
 msgstr "광산 최하층"
+
+#. ~ Name for scenario 'Fled the Riots' for a male character
+#: lang/json/scenario_from_json.py
+msgctxt "scenario_male"
+msgid "Fled the Riots"
+msgstr ""
+
+#. ~ Name for scenario 'Fled the Riots' for a female character
+#: lang/json/scenario_from_json.py
+msgctxt "scenario_female"
+msgid "Fled the Riots"
+msgstr ""
+
+#. ~ Description for scenario 'Fled the Riots' for a male character.
+#: lang/json/scenario_from_json.py
+msgctxt "scen_desc_male"
+msgid ""
+"You were assigned to the last of the real riots; one of the last to flee "
+"when the rioters stopped breathing but kept moving."
+msgstr ""
+
+#. ~ Description for scenario 'Fled the Riots' for a female character.
+#: lang/json/scenario_from_json.py
+msgctxt "scen_desc_female"
+msgid ""
+"You were assigned to the last of the real riots; one of the last to flee "
+"when the rioters stopped breathing but kept moving."
+msgstr ""
+
+#. ~ Starting location for scenario 'Fled the Riots'.
+#: lang/json/scenario_from_json.py
+msgctxt "start_name"
+msgid "Public Holdout"
+msgstr ""
+
+#. ~ Name for scenario 'Out of Town' for a male character
+#: lang/json/scenario_from_json.py
+msgctxt "scenario_male"
+msgid "Out of Town"
+msgstr ""
+
+#. ~ Name for scenario 'Out of Town' for a female character
+#: lang/json/scenario_from_json.py
+msgctxt "scenario_female"
+msgid "Out of Town"
+msgstr ""
+
+#. ~ Description for scenario 'Out of Town' for a male character.
+#: lang/json/scenario_from_json.py
+msgctxt "scen_desc_male"
+msgid ""
+"You were outside of civilization when the bombs fell; you didn't even know "
+"the end had come, or that everyone was (un)dead.  Will this ignorance save "
+"you from the fate of the rest?"
+msgstr ""
+
+#. ~ Description for scenario 'Out of Town' for a female character.
+#: lang/json/scenario_from_json.py
+msgctxt "scen_desc_female"
+msgid ""
+"You were outside of civilization when the bombs fell; you didn't even know "
+"the end had come, or that everyone was (un)dead.  Will this ignorance save "
+"you from the fate of the rest?"
+msgstr ""
+
+#. ~ Starting location for scenario 'Out of Town'.
+#: lang/json/scenario_from_json.py
+msgctxt "start_name"
+msgid "Out of City"
+msgstr ""
 
 #. ~ Name for scenario 'Seeker of the Arcane' for a male character
 #: lang/json/scenario_from_json.py
@@ -80392,6 +80464,26 @@ msgstr "광산 최하층"
 #: lang/json/start_location_from_json.py
 msgid "Prison"
 msgstr "감옥"
+
+#: lang/json/start_location_from_json.py
+msgid "Hermit Shack"
+msgstr ""
+
+#: lang/json/start_location_from_json.py
+msgid "campgrounds"
+msgstr ""
+
+#: lang/json/start_location_from_json.py
+msgid "cabin in the woods"
+msgstr ""
+
+#: lang/json/start_location_from_json.py src/faction.cpp
+msgid "Church"
+msgstr "교회"
+
+#: lang/json/start_location_from_json.py
+msgid "Religious Cemetery"
+msgstr ""
 
 #: lang/json/start_location_from_json.py
 msgid "Strange Grove"
@@ -89471,7 +89563,7 @@ msgstr "%1$s을(를) %2$s에 부었다."
 
 #: src/character.cpp src/veh_interact.cpp
 msgid "There's some left over!"
-msgstr "뭔가 남아있습니다!"
+msgstr "뭔가 남아있다!"
 
 #: src/character.cpp
 #, c-format
@@ -93093,10 +93185,6 @@ msgid "Brotherhood"
 msgstr "조직"
 
 #: src/faction.cpp
-msgid "Church"
-msgstr "교회"
-
-#: src/faction.cpp
 msgid "Creed"
 msgstr "신념"
 
@@ -95285,6 +95373,10 @@ msgid "Teleport - Adjacent overmap"
 msgstr ""
 
 #: src/game.cpp
+msgid "Quit to Main Menu"
+msgstr ""
+
+#: src/game.cpp
 msgid "Current overmap revealed."
 msgstr "현 모든 지도 밝힘."
 
@@ -95445,6 +95537,12 @@ msgstr "턴 설정 ? (하루는 %i 턴)"
 #: src/game.cpp
 #, c-format
 msgid "Drew %d times in %.3f seconds. (%.3f fps average)"
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"Quit without saving? This may cause issues such as duplicated or missing "
+"items and vehicles!"
 msgstr ""
 
 #: src/game.cpp
@@ -101295,24 +101393,19 @@ msgid " (radio:"
 msgstr " (라디오:"
 
 #: src/item.cpp
+msgctxt "The radio mod is associated with the [R]ed button."
 msgid "R)"
 msgstr "적)"
 
 #: src/item.cpp
+msgctxt "The radio mod is associated with the [B]lue button."
 msgid "B)"
 msgstr "청)"
 
 #: src/item.cpp
+msgctxt "The radio mod is associated with the [G]reen button."
 msgid "G)"
 msgstr "녹)"
-
-#: src/item.cpp
-msgid "Bug"
-msgstr "버그"
-
-#: src/item.cpp
-msgid "sawn-off "
-msgstr "절단한"
 
 #: src/item.cpp
 msgid " (wet)"
@@ -101329,6 +101422,10 @@ msgstr " (사용됨)"
 #: src/item.cpp
 msgid " (active)"
 msgstr " (사용중)"
+
+#: src/item.cpp
+msgid "sawn-off "
+msgstr "절단한"
 
 #. ~ This is a string to construct the item name as it is displayed. This
 #. format string has been added for maximum flexibility. The strings are:
@@ -106728,10 +106825,6 @@ msgid "No credits information found."
 msgstr "크레딧 정보가 없습니다."
 
 #: src/main_menu.cpp
-msgid " CREDITS "
-msgstr "만든이"
-
-#: src/main_menu.cpp
 msgctxt "Main Menu"
 msgid "<M|m>OTD"
 msgstr "공지"
@@ -106815,6 +106908,10 @@ msgstr "안전모드(<S|s>)"
 msgctxt "Main Menu|Settings"
 msgid "<C|c>olors"
 msgstr "색상(<C|c>)"
+
+#: src/main_menu.cpp
+msgid " CREDITS "
+msgstr "만든이"
 
 #: src/main_menu.cpp
 msgid "Unable to make config directory. Check permissions."
@@ -114802,8 +114899,8 @@ msgid "Language"
 msgstr "표시언어"
 
 #: src/options.cpp
-msgid "Switch Language. Requires restart."
-msgstr "언어를 변경합니다. 재시작이 필요합니다."
+msgid "Switch Language."
+msgstr ""
 
 #: src/options.cpp
 msgid "Fahrenheit"
@@ -115465,13 +115562,13 @@ msgstr "괴물 설장까지 걸리는 시간을 설정합니다. 수치가 높�
 
 #: src/options.cpp
 msgid "Monster speed"
-msgstr ""
+msgstr "괴물 이동속도"
 
 #: src/options.cpp
 msgid ""
 "Determines the movement rate of monsters. A higher value increases monster "
 "speed and a lower reduces it."
-msgstr ""
+msgstr "괴물들의 이동속도를 결정합니다. 높은 값은 이동속도를 높이고, 낮은 값은 이동속도를 낮춥니다."
 
 #: src/options.cpp
 msgid "Monster resilience"
@@ -115649,11 +115746,11 @@ msgstr "켜면 차량 부품이 더이상 손상되지 않는다. 차량 부품�
 
 #: src/options.cpp
 msgid "Morale penalty for filthy clothing."
-msgstr ""
+msgstr "더러운 옷에 대한 의욕 패널티"
 
 #: src/options.cpp
 msgid "If true, wearing filthy clothing will cause morale penalties."
-msgstr ""
+msgstr "이 설정을 켜면 더러운 옷을 입는 것이 의욕 패널티를 유발합니다."
 
 #: src/options.cpp
 msgid "Disables tracking vitamins in food items."
@@ -115904,7 +116001,7 @@ msgstr ""
 #: src/overmap.cpp
 #, c-format
 msgid "Rotation: %s %s"
-msgstr ""
+msgstr "위치: %s %s"
 
 #: src/overmap.cpp
 msgid "Areas highlighted in red"
@@ -117048,6 +117145,14 @@ msgstr "찢는듯한 소리로 울부짖었다!"
 #: src/player.cpp
 msgid "yourself shout loudly!"
 msgstr "아주 크게 고함을 질렀다!"
+
+#: src/player.cpp
+msgid "The sound of your voice is almost completely muffled!"
+msgstr ""
+
+#: src/player.cpp
+msgid "The sound of your voice is significantly muffled!"
+msgstr ""
 
 #: src/player.cpp
 msgid "You start running."
@@ -118617,18 +118722,32 @@ msgid "<npcname> puts on their %s."
 msgstr "<npcname>이(가) %s을(를) 입었다."
 
 #: src/player.cpp
-msgid "You are not wearing that item."
-msgstr "착용 중인 장비가 아니다."
-
-#: src/player.cpp
 #, c-format
 msgid "You cannot swap the side on which your %s is worn."
 msgstr "%s는 착용 위치를 바꿀 수 없다."
 
 #: src/player.cpp
 #, c-format
+msgid "<npcname> cannot swap the side on which their %s is worn."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
 msgid "You swap the side on which your %s is worn."
 msgstr "%s의 착용 위치를 바꿨다."
+
+#: src/player.cpp
+#, c-format
+msgid "<npcname> swaps the side on which their %s is worn."
+msgstr ""
+
+#: src/player.cpp
+msgid "You are not wearing that item."
+msgstr "착용 중인 장비가 아니다."
+
+#: src/player.cpp
+msgid "<npcname> isn't wearing that item."
+msgstr ""
 
 #: src/player.cpp
 msgid "<npcname> is not wearing that item."
@@ -120650,8 +120769,16 @@ msgid "Status:"
 msgstr "상태:"
 
 #: src/veh_interact.cpp
+msgid "Most damaged (can't repair):"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Most damaged:"
 msgstr "최고손상:"
+
+#: src/veh_interact.cpp
+msgid "Needs repair:"
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
@@ -121181,23 +121308,23 @@ msgstr "%1$s에는 %2$s이(가) 없는것 같다."
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s cannot start with a faulty immobiliser."
-msgstr ""
+msgid "The %s makes a long beeping sound."
+msgstr "%s이(가) 길게 삑 소리를 냈다."
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s cannot start with a faulty starter motor."
-msgstr ""
+msgid "The %s makes a single clicking sound."
+msgstr "%s이(가) 한 번 딸깍거리는 소리를 냈다."
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s need at least %i battery charges to start"
-msgstr ""
+msgid "The %s makes a rapid clicking sound."
+msgstr "%s이(가) 빠르게 딸깍거리는 소리를 냈다."
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s quickly stutters out due to a faulty fuel pump"
-msgstr ""
+msgid "The %s quickly stutters out."
+msgstr "%s이(가) 드드드득 소리를 냈다."
 
 #. ~ backfire sound
 #: src/vehicle.cpp
@@ -121305,7 +121432,7 @@ msgstr "%s의 엔진이 꺼졌다!"
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s has run out of %s."
+msgid "The %s's engine sputters out."
 msgstr ""
 
 #: src/vehicle.cpp
