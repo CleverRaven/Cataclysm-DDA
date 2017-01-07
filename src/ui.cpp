@@ -822,7 +822,7 @@ void uimenu::query(bool loop)
             break;
         } else {
             if ( keycallback ) {
-                skipkey = callback->key( keypress, selected, this );
+                skipkey = callback->key( event, selected, this );
             }
             if ( ! skipkey && return_invalid ) {
                 ret = -1;

@@ -50,9 +50,8 @@ class actmenu_cb : public uimenu_callback
         }
         ~actmenu_cb() override { }
 
-        bool key( int ch, int /*num*/, uimenu * /*menu*/ ) override {
-            input_event wrap = input_event( ch, CATA_INPUT_KEYBOARD );
-            const std::string action = ctxt.input_to_action( wrap );
+        bool key( const input_event &event, int /*num*/, uimenu * /*menu*/ ) override {
+            const std::string action = ctxt.input_to_action( event );
             if( action == "HELP_KEYBINDINGS" ) {
                 ctxt.display_help();
                 return true;

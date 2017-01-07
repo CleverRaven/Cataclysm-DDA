@@ -18,6 +18,8 @@ const int MENU_ALIGN_RIGHT = 1;
 const int MENU_WIDTH_ENTRIES = -2;
 const int MENU_AUTOASSIGN = -1;
 
+struct input_event;
+
 /*
  * mvwzstr: line of text with horizontal offset and color
  */
@@ -115,7 +117,7 @@ class uimenu_callback
             myptr = ptr;
         }
         virtual void select( int /*entnum*/, uimenu * ) {};
-        virtual bool key( int /*key*/, int /*entnum*/, uimenu * ) {
+        virtual bool key( const input_event &/*key*/, int /*entnum*/, uimenu * ) {
             return false;
         };
         virtual void refresh( uimenu * ) {};
