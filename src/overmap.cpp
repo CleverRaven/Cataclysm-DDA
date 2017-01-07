@@ -1510,9 +1510,6 @@ void overmap::generate(const overmap *north, const overmap *east,
                     river_end.push_back(point(i, OMAPY - 1));
                 }
             }
-            if (south->get_ter(i, 0, 0) == "road_nesw") {
-                roads_out.push_back(city(i, OMAPY - 1, 0));
-            }
         }
         for (auto &i : south->roads_out) {
             if (i.y == 0) {
@@ -1533,9 +1530,6 @@ void overmap::generate(const overmap *north, const overmap *east,
                     river_end[river_end.size() - 1].y < i - 6) {
                     river_end.push_back(point(OMAPX - 1, i));
                 }
-            }
-            if (east->get_ter(0, i, 0) == "road_nesw") {
-                roads_out.push_back(city(OMAPX - 1, i, 0));
             }
         }
         for (auto &i : east->roads_out) {
@@ -1717,10 +1711,10 @@ bool overmap::generate_sub(int const z)
             if (is_ot_type("house_base", oter_above)) {
                 ter(i, j, z) = oter_id( "basement" );
             } else if (is_ot_type("sub_station", oter_above)) {
-                ter(i, j, z) = oter_id( "subway_nesw" );
+                ter(i, j, z) = oter_id( "subway_isolated" );
                 subway_points.push_back(city(i, j, 0));
             } else if (oter_above == "road_nesw_manhole") {
-                ter(i, j, z) = oter_id( "sewer_nesw" );
+                ter(i, j, z) = oter_id( "sewer_isolated" );
                 sewer_points.push_back(city(i, j, 0));
             } else if (oter_above == "sewage_treatment") {
                 sewer_points.push_back(city(i, j, 0));
@@ -3611,7 +3605,7 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
 
     const oter_id bridge_ns( "bridge_ns" );
     const oter_id bridge_ew( "bridge_ew" );
-    const oter_id base_nesw( base + "_nesw" );
+    const oter_id base_isolated( base + "_isolated" );
 
     for( const auto &node : pf::find_path( source, dest, OMAPX, OMAPY, estimate ) ) {
         auto &id = ter( node.x, node.y, z );
@@ -3619,7 +3613,7 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
         if( is_river( id ) ) {
             id = node.dir == 1 || node.dir == 3 ? bridge_ns : bridge_ew;
         } else {
-            id = base_nesw;
+            id = base_isolated;
         }
     }
 }
