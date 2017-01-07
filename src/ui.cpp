@@ -798,7 +798,6 @@ void uimenu::query(bool loop)
 
     show();
     do {
-        bool skiprefresh = false;
         bool skipkey = false;
         const auto action = ctxt.handle_input();
         const auto event = ctxt.get_raw_input();
@@ -829,9 +828,7 @@ void uimenu::query(bool loop)
             }
         }
 
-        if ( skiprefresh == false ) {
-            show();
-        }
+        show();
     } while ( loop && (ret == startret ) );
 }
 
