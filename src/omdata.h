@@ -189,6 +189,10 @@ struct oter_t {
             return type->color;
         }
 
+        size_t get_line() const {
+            return line;
+        }
+
         unsigned char get_see_cost() const {
             return type->see_cost;
         }
@@ -266,7 +270,7 @@ struct overmap_special_terrain : public JsonDeserializer {
 
 struct overmap_special_connection : public JsonDeserializer {
     tripoint p;
-    oter_str_id terrain;
+    string_id<oter_type_t> terrain;
     bool existing = false;
 
     void deserialize( JsonIn &jsin ) override {

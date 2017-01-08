@@ -134,7 +134,7 @@ const std::array<std::string, 5> mapgen_suffixes = {{
 }};
 
 const std::array<type, 1 + om_direction::bits> all = {{
-    { LINE_XXXX, 4, "_isolated"  },   // 0  ----
+    {         0, 4, "_isolated"  },   // 0  ----
     { LINE_XOXO, 2, "_end_south" },   // 1  ---n
     { LINE_OXOX, 2, "_end_west"  },   // 2  --e-
     { LINE_XXOO, 1, "_ne"        },   // 3  --en
@@ -159,6 +159,11 @@ constexpr size_t rotate( size_t line, om_direction::type dir )
     // Bitwise rotation to the left.
     return ( ( ( line << static_cast<size_t>( dir ) ) |
                ( line >> ( om_direction::size - static_cast<size_t>( dir ) ) ) ) & om_direction::bits );
+}
+
+constexpr size_t set_segment( size_t line, om_direction::type dir )
+{
+    return line | 1 << static_cast<int>( dir );
 }
 
 constexpr bool has_segment( size_t line, om_direction::type dir )
@@ -1670,7 +1675,7 @@ void overmap::generate(const overmap *north, const overmap *east,
         road_points.push_back(i);
     }
     // And finally connect them via "highways"
-    place_hiways(road_points, 0, "road");
+    place_hiways( road_points, 0, oter_type_id( "road" ) );
     place_specials();
     // Clean up our roads and rivers
     polish(0);
@@ -1794,9 +1799,9 @@ bool overmap::generate_sub(int const z)
     for (auto &i : goo_points) {
         requires_sub |= build_slimepit(i.x, i.y, z, i.s);
     }
-    place_hiways(sewer_points, z, "sewer");
+    place_hiways(sewer_points, z, oter_type_id( "sewer") );
     polish(z, "sewer");
-    place_hiways(subway_points, z, "subway");
+    place_hiways(subway_points, z, oter_type_id( "subway" ) );
     for (auto &i : subway_points) {
         ter(i.x, i.y, z) = oter_id( "subway_station" );
     }
@@ -3594,15 +3599,17 @@ void overmap::place_rifts(int const z)
     }
 }
 
-void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::string &base )
+void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const int_id<oter_type_t> &type_id )
 {
     const tripoint source( x1, y1, z );
     const tripoint dest( x2, y2, z );
-    const int disp = base == "road" ? 5 : 2;
+    const int disp = type_id == oter_type_id( "road" ) ? 5 : 2;
 
-    const auto estimate = [ this, disp, &base, &dest ]( const pf::node &prev, const pf::node &cur ) {
+    const auto estimate = [ this, disp, &type_id, &dest ]( const pf::node &prev, const pf::node &cur ) {
         // Reject nodes that don't allow roads to cross them (e.g. buildings)
-        if( !road_allowed( ter( cur.x, cur.y, dest.z ) ) ) {
+        const auto &id( ter( cur.x, cur.y, dest.z ) );
+
+        if( !road_allowed( id ) ) {
             return -1;
         }
         // Reject nodes that make corners on the river
@@ -3613,9 +3620,9 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
 
         int res = ( std::abs( dest.x - cur.x ) + std::abs( dest.y - cur.y ) ) / disp;
         // Prefer existing roads.
-        res += check_ot_type( base, cur.x, cur.y, dest.z ) ? 0 : 3;
+        res += id->type_is( type_id ) ? 0 : 3;
         // Prefer flat land over bridges
-        res += !is_river( ter( cur.x, cur.y, dest.z ) ) ? 0 : 2;
+        res += !is_river( id ) ? 0 : 2;
         // Try not to turn too much
         //res += (mn.d == d) ? 0 : 1;
         return res;
@@ -3623,20 +3630,23 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const std::stri
 
     const oter_id bridge_ns( "bridge_ns" );
     const oter_id bridge_ew( "bridge_ew" );
-    const oter_id base_isolated( base + "_isolated" );
 
     for( const auto &node : pf::find_path( source, dest, OMAPX, OMAPY, estimate ) ) {
-        auto &id = ter( node.x, node.y, z );
+        auto &id( ter( node.x, node.y, z ) );
 
         if( is_river( id ) ) {
             id = node.dir == 1 || node.dir == 3 ? bridge_ns : bridge_ew;
         } else {
-            id = base_isolated;
+            // @todo Eliminate discrepancy which requires casting and rotation. That is, make 'node' support 'om_direction'.
+            const om_direction::type dir( om_direction::turn_left( static_cast<om_direction::type>( node.dir ) ) );
+            const size_t prev_line( id->type_is( type_id ) ? id->get_line() : 0 );
+
+            id = type_id->get_linear( om_lines::set_segment( prev_line, dir ) );
         }
     }
 }
 
-void overmap::place_hiways( const std::vector<city> &cities, int z, const std::string &base )
+void overmap::place_hiways( const std::vector<city> &cities, int z, const int_id<oter_type_t> &type_id )
 {
     if (cities.size() == 1) {
         return;
@@ -3652,7 +3662,7 @@ void overmap::place_hiways( const std::vector<city> &cities, int z, const std::s
             }
         }
         if( closest > 0 ) {
-            make_hiway(cities[i].x, cities[i].y, best.x, best.y, z, base);
+            make_hiway( cities[i].x, cities[i].y, best.x, best.y, z, type_id );
         }
     }
 }
@@ -3685,7 +3695,7 @@ void overmap::polish(const int z, const std::string &terrain_type)
 
             if( check_all || oter_obj.type_is( target_type ) ) {
                 if( oter_obj.has_flag( line_drawing ) ) {
-                    oter = good_road( *oter_obj.type, x, y, z );
+                    oter = good_road( oter_obj, tripoint( x, y, z ) );
 
                     if( one_in( 4 ) && oter == road_nesw ) {
                         oter = road_mahole;
@@ -3706,7 +3716,7 @@ void overmap::polish(const int z, const std::string &terrain_type)
                         // So, fix it by making that square normal road;
                         // also taking other road pieces that may be next
                         // to it into account. A bit of a kludge but it works.
-                        oter = good_road( road_type, x, y, z );
+                        oter = good_road( *oter_id( "road_isolated" ), tripoint( x, y, z ) );
                     }
                 } else if( is_ot_type( "river", oter ) ) {
                     good_river(x, y, z);
@@ -3810,20 +3820,19 @@ bool overmap::is_road(int x, int y, int z)
     //oter_t(ter(x, y, z)).is_road;
 }
 
-oter_id overmap::good_road( const oter_type_t &type, int x, int y, int z )
+oter_id overmap::good_road( const oter_t &oter, const tripoint &p )
 {
-    const tripoint base( x, y, z );
-    std::bitset<om_direction::size> compass;
+    size_t line = oter.get_line();
 
     for( auto dir : om_direction::all ) {
-        const tripoint p( base + om_direction::displace( dir ) );
+        const tripoint np( p + om_direction::displace( dir ) );
         // Always connect to outbound tiles.
-        if( !inbounds( p ) || check_ot_type_road( type.id.str(), p.x, p.y, p.z ) ) {
-            compass.set( static_cast<int>( dir ) );
+        if( !inbounds( np ) || check_ot_type_road( oter.type->id.str(), np.x, np.y, np.z ) ) {
+            line = om_lines::set_segment( line, dir );
         }
     }
 
-    return type.get_linear( compass.to_ulong() );
+    return oter.type->get_linear( line );
 }
 
 void overmap::good_river(int x, int y, int z)
@@ -4129,7 +4138,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
     if( cit ) {
         for( const auto &elem : special.connections ) {
             const tripoint rp = p + om_direction::rotate( elem.p, dir );
-            make_hiway( rp.x, rp.y, cit.x, cit.y, rp.z, elem.terrain.str() );
+            make_hiway( rp.x, rp.y, cit.x, cit.y, rp.z, elem.terrain.id() );
         }
     }
     // Place spawns.
