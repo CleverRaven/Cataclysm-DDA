@@ -476,8 +476,16 @@ void oter_type_t::finalize()
 void oter_type_t::register_terrain( const oter_t &peer, size_t n, size_t max_n )
 {
     assert( n < max_n );
+    assert( peer.type_is( *this ) );
+
     directional_peers.resize( max_n );
-    directional_peers[n] = terrains.insert( peer ).id.id();
+
+    if( peer.id.is_valid() ) {
+        directional_peers[n] = peer.id.id();
+        debugmsg( "Can't register the new overmap terrain \"%s\". It already exists.", peer.id.c_str() );
+    } else {
+        directional_peers[n] = terrains.insert( peer ).id.id();
+    }
 }
 
 oter_id oter_type_t::get_first() const
