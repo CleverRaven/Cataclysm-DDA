@@ -455,7 +455,7 @@ class input_context
 
         std::vector<std::string> registered_actions;
     public:
-        const std::string &input_to_action( input_event &inp );
+        const std::string &input_to_action( const input_event &inp ) const;
     private:
         bool registered_any_input;
         std::string category; // The input category this context uses.
