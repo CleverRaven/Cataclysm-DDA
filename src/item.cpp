@@ -50,8 +50,6 @@
 #include <tuple>
 #include <iterator>
 
-using namespace units::literals;
-
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
 const skill_id skill_survival( "survival" );

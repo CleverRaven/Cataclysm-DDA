@@ -268,24 +268,22 @@ inline constexpr double to_liter( const volume &v )
     return v.value() / 1000.0;
 }
 
-namespace literals
-{
-// Implicitly converted to volume, which has int as value_type!
-inline constexpr volume operator"" _ml( const unsigned long long v )
-{
-    return from_milliliter( v );
-}
-
-inline constexpr quantity<double, volume_in_milliliter_tag> operator"" _ml( const long double v )
-{
-    return from_milliliter( v );
-}
-} // namespace literals
-
 // Legacy conversions factor for old volume values.
 // Don't use in new code! Use one of the from_* functions instead.
 static constexpr volume legacy_volume_factor = from_milliliter( 250 );
 
 } // namespace units
+
+// Implicitly converted to volume, which has int as value_type!
+inline constexpr units::volume operator"" _ml( const unsigned long long v )
+{
+    return units::from_milliliter( v );
+}
+
+inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _ml(
+    const long double v )
+{
+    return units::from_milliliter( v );
+}
 
 #endif

@@ -6952,7 +6952,6 @@ void game::close()
 
 void game::close( const tripoint &closep )
 {
-    using namespace units::literals;
     bool didit = false;
     const bool inside = !m.is_outside( u.pos() );
 

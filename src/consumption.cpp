@@ -19,8 +19,6 @@
 #include <string>
 #include <algorithm>
 
-using namespace units::literals;
-
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_tapeworm( "tapeworm" );
