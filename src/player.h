@@ -763,16 +763,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &eat );
-        /**
-         * Consumes an item as medication.
-         * Can be used to heal others (using `pos` argument), if med type handles that.
-         * Will complain if the item isn't actually a med type.
-         * @param target Item consumed. Must be a medication or a container of medication.
-         * @param pos Position to invoke the medicine on.
-         * @return Whether the target was fully consumed.
-         */
-        bool consume_med( item &target, const tripoint &pos );
-
         /** This block is to be moved to character.h */
         bool is_allergic( const item &food ) const;
         /** Returns allergy type or MORALE_NULL if not allergic for this player */
@@ -854,6 +844,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Check player capable of unwielding an item.
           * @param alert display reason for any failure */
         bool can_unwield( const item& it, bool alert = true ) const;
+        /** Check player's capability of consumption overall */
+        bool can_consume( const item &it ) const;
+
         /**
          * Removes currently wielded item (if any) and replaces it with the target item
          * @param target replacement item to wield or null item to remove existing weapon without replacing it
@@ -1530,6 +1523,31 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void deactivate_mutation( const std::string &mut );
         bool has_fire(const int quantity) const;
         void use_fire(const int quantity);
+
+        /** Determine player's capability of recharging their CBMs. */
+        bool can_feed_battery_with( const item &it ) const;
+        bool can_feed_reactor_with( const item &it ) const;
+        bool can_feed_furnace_with( const item &it ) const;
+        /**
+         * Recharge CBMs whenever possible.
+         * @return true when recharging was successful.
+         */
+        bool feed_battery_with( item &it );
+        bool feed_reactor_with( item &it );
+        bool feed_furnace_with( item &it );
+        /** Check whether player can consume this very item */
+        bool can_consume_as_is( const item &it ) const;
+        /**
+         * Returns a reference to the item itself (if it's comestible),
+         * the first of its contents (if it's comestible) or null item otherwise.
+         */
+        item &get_comestible_from( item &it ) const;
+        /**
+         * Consumes an item as medication.
+         * @param target Item consumed. Must be a medication or a container of medication.
+         * @return Whether the target was fully consumed.
+         */
+        bool consume_med( item &target );
 
         void react_to_felt_pain( int intensity );
 

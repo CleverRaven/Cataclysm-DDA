@@ -9930,7 +9930,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     }
     std::vector<std::function<void()>> actions;
 
-    if( liquid.is_food( &u ) ) {
+    if( u.can_consume( liquid ) ) {
         menu.addentry( -1, true, 'e', _( "Consume it" ) );
         actions.emplace_back( [&]() {
             // consume_item already consumes moves.
@@ -10553,7 +10553,7 @@ void game::eat(int pos)
         if( it.typeId() == "1st_aid" ) {
             return false; // temporary fix for #12991
         }
-        return it.made_of( SOLID ) && (it.is_food( &u ) || it.is_food_container( &u ) );
+        return it.made_of( SOLID ) && u.can_consume( it );
     }, _( "Consume item" ), 1, _( "You have nothing to consume." ) );
 
     item *it = item_loc.get_item();

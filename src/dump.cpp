@@ -131,15 +131,12 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             }
             rows.push_back( r );
         };
-        for( const itype *e : item_controller->all() ) {
-            if( e->comestible &&
-                ( e->comestible->comesttype == "FOOD" ||
-                  e->comestible->comesttype == "DRINK" ) ) {
 
-                item food( e, calendar::turn, item::solitary_tag {} );
-                if( g->u.can_eat( food, false, true ) == EDIBLE ) {
-                    dump( food );
-                }
+        for( const itype *e : item_controller->all() ) {
+            item food( e, calendar::turn, item::solitary_tag {} );
+
+            if( food.is_food() && g->u.can_eat( food, false, true ) == EDIBLE ) {
+                dump( food );
             }
         }
 

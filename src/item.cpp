@@ -3524,57 +3524,20 @@ bool item::is_ammo() const
     return type->ammo.get() != nullptr;
 }
 
-bool item::is_food(player const*u) const
-{
-    if( !u ) {
-        return is_food();
-    }
-
-    if( is_null() ) {
-        return false;
-    }
-
-    if( type->comestible ) {
-        return true;
-    }
-
-    if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && type->ammo->type.count( ammotype( "battery" ) ) ) {
-        return true;
-    }
-
-    if( ( u->has_active_bionic( "bio_reactor" ) ||
-          u->has_active_bionic( "bio_advreactor" ) ) &&
-        is_ammo() && ( type->ammo->type.count( ammotype( "plut_slurry" ) ) ||
-                       type->ammo->type.count( ammotype( "plutonium" ) ) ) ) {
-        return true;
-    }
-    if (u->has_active_bionic("bio_furnace") && flammable() && typeId() != "corpse")
-        return true;
-    return false;
-}
-
-bool item::is_food_container(player const*u) const
-{
-    return (contents.size() >= 1 && contents.front().is_food(u));
-}
-
-bool item::is_food() const
+bool item::is_comestible() const
 {
     return type->comestible != nullptr;
 }
 
-bool item::is_medication() const
+bool item::is_food() const
 {
-    if( type->comestible == nullptr || type->comestible->comesttype != "MED" ) {
-        return false;
-    }
-
-    return true;
+    return is_comestible() && ( type->comestible->comesttype == "FOOD" ||
+                                type->comestible->comesttype == "DRINK" );
 }
 
-bool item::is_medication_container() const
+bool item::is_medication() const
 {
-    return !contents.empty() && contents.front().is_medication();
+    return is_comestible() && type->comestible->comesttype == "MED";
 }
 
 bool item::is_brewable() const
