@@ -4430,7 +4430,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     float vel2 = 0.0f;
     do {
         smashed = false;
-        // Impulse of vehicle
+        // Impulse and velocity delta calculations
+        // Scalar (non-vector), so divide by 100 and multiply by 99 at iteration end to guarantee exit.
         const float vel1 = coll_velocity / 100.0f;
         // Velocity of car after collision
         const float vel1_a = (mass*vel1 + mass2*vel2 + e*mass2*(vel2 - vel1)) / (mass + mass2);
@@ -4440,13 +4441,14 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         const float E_before = 0.5f * (mass * vel1 * vel1)   + 0.5f * (mass2 * vel2 * vel2);
         const float E_after =  0.5f * (mass * vel1_a*vel1_a) + 0.5f * (mass2 * vel2_a*vel2_a);
         const float d_E = E_before - E_after;
+
         if( d_E <= 0 ) {
             // Deformation energy is signed
             // If it's negative, it means something went wrong
             // But it still does happen sometimes...
             if( fabs(vel1_a) < fabs(vel1) ) {
                 // Lower vehicle's speed to prevent infinite loops
-                coll_velocity = vel1_a * 90;
+                coll_velocity = vel1_a * 99;
             }
             if( fabs(vel2_a) > fabs(vel2) ) {
                 vel2 = vel2_a;
@@ -4550,7 +4552,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
         }
 
-        coll_velocity = vel1_a * ( smashed ? 100 : 90 );
+        coll_velocity = vel1_a * ( smashed ? 100 : 99 );
         // Stop processing when sign inverts, not when we reach 0
     } while( !smashed && sgn( coll_velocity ) == vel_sign );
 
