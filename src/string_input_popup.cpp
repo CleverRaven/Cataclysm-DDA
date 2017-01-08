@@ -174,7 +174,7 @@ std::string string_input_win_from_context( WINDOW *w, input_context &ctxt, std::
             wrefresh( w );
         }
 
-        if ( draw_only ) {
+        if( draw_only ) {
             return input;
         }
 
