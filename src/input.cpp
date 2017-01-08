@@ -1099,7 +1099,7 @@ long input_manager::get_previously_pressed_key() const
 void input_manager::wait_for_any_key()
 {
     while( true ) {
-        switch( inp_mngr.get_input_event( nullptr ).type ) {
+        switch( inp_mngr.get_input_event().type ) {
             case CATA_INPUT_KEYBOARD:
                 return;
             // errors are accepted as well to avoid an infinite loop
@@ -1109,6 +1109,11 @@ void input_manager::wait_for_any_key()
                 break;
         }
     }
+}
+
+input_event input_manager::get_input_event()
+{
+    return get_input_event( nullptr );
 }
 
 #if !(defined TILES || defined _WIN32 || defined WINDOWS)

@@ -774,7 +774,7 @@ void uimenu::query(bool loop)
         bool skiprefresh = false;
         bool skipkey = false;
         // TODO: use local input context instead of global input manager
-        keypress = inp_mngr.get_input_event(nullptr).get_first_input();
+        keypress = inp_mngr.get_input_event().get_first_input();
 
         if ( scrollby(0, keypress) == true ) {
             /* nothing */

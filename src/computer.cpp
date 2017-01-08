@@ -178,7 +178,7 @@ void computer::use()
         char ch;
         do {
             // TODO: use input context
-            ch = inp_mngr.get_input_event(nullptr).get_first_input();
+            ch = inp_mngr.get_input_event().get_first_input();
         } while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' >= (char)options_size));
         if (ch == 'q' || ch == 'Q') {
             break; // Exit from main computer loop
@@ -1418,7 +1418,7 @@ bool computer::query_bool(const char *mes, ...)
     char ret;
     do {
         // TODO: use input context
-        ret = inp_mngr.get_input_event(nullptr).get_first_input();
+        ret = inp_mngr.get_input_event().get_first_input();
     } while (ret != 'y' && ret != 'Y' && ret != 'n' && ret != 'N' && ret != 'q' &&
              ret != 'Q');
     return (ret == 'y' || ret == 'Y');
@@ -1445,7 +1445,7 @@ char computer::query_ynq(const char *mes, ...)
     char ret;
     do {
         // TODO: use input context
-        ret = inp_mngr.get_input_event(nullptr).get_first_input();
+        ret = inp_mngr.get_input_event().get_first_input();
     } while (ret != 'y' && ret != 'Y' && ret != 'n' && ret != 'N' && ret != 'q' &&
              ret != 'Q');
     return ret;

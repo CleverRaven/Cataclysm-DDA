@@ -694,7 +694,7 @@ bool internal_query_yn( const char *mes, va_list ap )
         wrefresh( w );
 
         // TODO: use input context
-        ch = inp_mngr.get_input_event(nullptr).get_first_input();
+        ch = inp_mngr.get_input_event().get_first_input();
     };
 
     werase( w );
@@ -1110,7 +1110,7 @@ long popup( const std::string &text, PopupFlags flags )
     while( ( flags & PF_NO_WAIT ) == 0 ) {
         wrefresh( w );
         // TODO: use input context
-        ch = inp_mngr.get_input_event(nullptr).get_first_input();
+        ch = inp_mngr.get_input_event().get_first_input();
         if( ( flags & PF_GET_KEY ) != 0 ) {
             // return the first key that got pressed.
             werase( w );
@@ -1372,7 +1372,7 @@ input_event draw_item_info( WINDOW *win, const std::string sItemName, const std:
         }
 
         // TODO: use input context
-        result = inp_mngr.get_input_event( nullptr );
+        result = inp_mngr.get_input_event();
         const int ch = ( int )result.get_first_input();
         if( handle_scrolling && ch == KEY_PPAGE ) {
             selected--;
@@ -1718,7 +1718,7 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
 
     timeout( get_option<int>( "ANIMATION_DELAY" ) );
     // Skip input (if any), because holding down a key with nanosleep can get yourself killed
-    inp_mngr.get_input_event( nullptr );
+    inp_mngr.get_input_event();
     timeout( -1 );
 }
 
@@ -2099,7 +2099,7 @@ void display_table( WINDOW *w, const std::string &title, int columns,
         draw_scrollbar( w, offset, rows, data.size() / 3, 2, 0 );
         wrefresh( w );
         // TODO: use input context
-        int ch = inp_mngr.get_input_event(nullptr).get_first_input();
+        int ch = inp_mngr.get_input_event().get_first_input();
         if( ch == KEY_DOWN && ( ( offset + 1 ) * columns ) < ( int )data.size() ) {
             offset++;
         } else if( ch == KEY_UP && offset > 0 ) {

@@ -90,7 +90,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
                     text.c_str(), funcname, filename, line );
 
     for( bool stop = false; !stop; ) {
-        switch( inp_mngr.get_input_event( nullptr ).get_first_input() ) {
+        switch( inp_mngr.get_input_event().get_first_input() ) {
             case 'i':
             case 'I':
                 ignored_messages.insert( msg_key );

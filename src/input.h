@@ -195,6 +195,7 @@ class input_manager
          * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
          */
         input_event get_input_event( WINDOW *win );
+        input_event get_input_event();
 
         /**
          * Wait until the user presses a key. Mouse and similar input is ignored,
