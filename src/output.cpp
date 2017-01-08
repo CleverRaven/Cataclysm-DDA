@@ -1066,7 +1066,29 @@ void popup_top( const char *mes, ... )
     popup( text, PF_ON_TOP );
 }
 
-long popup( const std::string &text, PopupFlags flags, bool progress_bar, double progress )
+long popup_progress_bar( const std::string &text, PopupFlags flags, double progress )
+{
+    if( test_mode ) {
+        std::cerr << text << std::endl;
+        return 0;
+    }
+
+    int width = 0;
+    int height = 2;
+    std::vector<std::string> folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
+    for( auto &elem : folded ) {
+        int cw = utf8_width( elem, true );
+        if( cw > width ) {
+            width = cw;
+        }
+    }
+    folded.push_back( ( std::string )"\n" + get_labeled_bar( progress, width, "", '*' ) );
+    width += 2;
+    height += folded.size();
+    return popup_window( width, height, folded, flags );
+}
+
+long popup( const std::string &text, PopupFlags flags )
 {
     if( test_mode ) {
         std::cerr << text << std::endl;
@@ -1077,10 +1099,6 @@ long popup( const std::string &text, PopupFlags flags, bool progress_bar, double
     int height = 2;
     std::vector<std::string> folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
     height += folded.size();
-    if( progress_bar ) {
-        // Preserve a line for displaying progress bar
-        ++height;
-    }
     for( auto &elem : folded ) {
         int cw = utf8_width( elem, true );
         if( cw > width ) {
@@ -1088,6 +1106,12 @@ long popup( const std::string &text, PopupFlags flags, bool progress_bar, double
         }
     }
     width += 2;
+    return popup_window( width, height, folded, flags );
+}
+
+long popup_window( int width, int height, const std::vector<std::string> &folded,
+                   const PopupFlags &flags )
+{
     WINDOW *w;
     if( ( flags & PF_FULLSCREEN ) != 0 ) {
         w = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -1106,13 +1130,6 @@ long popup( const std::string &text, PopupFlags flags, bool progress_bar, double
 
     for( size_t i = 0; i < folded.size(); ++i ) {
         fold_and_print( w, i + 1, 1, width, c_white, "%s", folded[i].c_str() );
-    }
-    if( progress_bar ) {
-        const int done = progress * ( width - 2 );
-        for( int i = 1; i <= done; i++) {
-            //U+2588 is full block character
-            fold_and_print( w, folded.size() + 1, i, width, c_white, "\u2588" );
-        }
     }
 
     long ch = 0;
@@ -1162,7 +1179,7 @@ void popup_nowait_with_progressbar( double progress, const char *mes, ... )
     va_start( ap, mes );
     const std::string text = vstring_format( mes, ap );
     va_end( ap );
-    popup( text, PF_NO_WAIT, true, progress );
+    popup_progress_bar( text, PF_NO_WAIT, progress );
 }
 
 void popup_status( const char *title, const char *msg, ... )
