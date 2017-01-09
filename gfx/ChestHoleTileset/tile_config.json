@@ -40129,7 +40129,7 @@
         {
           "id": "t_underbrush_harvested_winter",
           "fg": 2829,
-          "bg": 640,
+          "bg": 669,
           "rotates": false
         },
         {
@@ -44019,7 +44019,7 @@
         {
           "id": "t_underbrush_season_winter",
           "fg": 2198,
-          "bg": 66
+          "bg": 669
         },
         {
           "id": "t_tree_young_season_winter",
