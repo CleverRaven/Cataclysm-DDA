@@ -1000,6 +1000,12 @@
         "breaks_into": []
     },{
         "type" : "vehicle_part",
+        "copy-from": "v_curtain",
+        "id" : "v_curtain_sliding",
+        "name": "sliding curtain",
+        "flags": ["OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN", "MULTISQUARE"]
+    },{
+        "type" : "vehicle_part",
         "id"   : "aisle_curtain",
         "name" : "aisle curtain",
         "symbol": "\"",
