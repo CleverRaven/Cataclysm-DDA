@@ -1212,7 +1212,7 @@
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
         "name" : "calcium tablet",
-        "description" : "White calcium tablets.  Widely used by elderly people with osteoporosis as a method to supplement calcium before apocalypse.",
+        "description" : "White calcium tablets.  Widely used by elderly people with osteoporosis as a method to supplement calcium before the apocalypse.",
         "weight" : 1,
         "volume" : 1,
         "price" : 400,
