@@ -81,21 +81,33 @@ void test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_
     CHECK( tiles_travelled <= max_dist );
 }
 
+void test_vehicle( std::string type, long target ) {
+    SECTION( type + " on pavement" ) {
+        test_efficiency( vproto_id( type ), ter_id( "t_pavement" ), -1, target * 0.9, target * 1.1 );
+    }
+    SECTION( type + " on dirt" ) {
+        test_efficiency( vproto_id( type ), ter_id( "t_dirt" ), -1, target * 0.45, target * 1.1 );
+    }
+    SECTION( type + " on pavement, full stop every 5 turns" ) {
+        test_efficiency( vproto_id( type ), ter_id( "t_pavement" ), 5, target * 0.045, target * 0.1 );
+    }
+    SECTION( type + " on dirt, full stop every 5 turns" ) {
+        test_efficiency( vproto_id( type ), ter_id( "t_dirt" ), 5, target * 0.025, target * 0.1 );
+    }
+}
+
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" ) {
     options_manager &options = get_options();
     options.get_option( "VEHICLES_CONTROLLED" ).setValue( "true" );
     REQUIRE( get_option<bool>( "VEHICLES_CONTROLLED" ) );
 
-    SECTION( "Car on pavement" ) {
-        test_efficiency( vproto_id( "car" ), ter_id( "t_pavement" ), -1, 300, 500 );
-    }
-    SECTION( "Car on dirt" ) {
-        test_efficiency( vproto_id( "car" ), ter_id( "t_dirt" ), -1, 150, 250 );
-    }
-    SECTION( "Car on pavement, full stop every 5 turns" ) {
-        test_efficiency( vproto_id( "car" ), ter_id( "t_pavement" ), 5, 150, 250 );
-    }
-    SECTION( "Car on dirt, full stop every 5 turns" ) {
-        test_efficiency( vproto_id( "car" ), ter_id( "t_dirt" ), 5, 100, 200 );
-    }
+    test_vehicle( "beetle", 48000 );
+    test_vehicle( "car", 48000 );
+    test_vehicle( "car_sports", 51400 );
+    //test_vehicle( "electric_car", 300 );
+    test_vehicle( "suv", 99000 );
+    test_vehicle( "motorcycle", 7400 );
+    test_vehicle( "quad_bike", 7100 );
+    test_vehicle( "scooter", 6400 );
+    test_vehicle( "superbike", 8334 );
 }
