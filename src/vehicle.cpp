@@ -5279,10 +5279,10 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
         // destroyed parts lose any contained fuels, battery charges or ammo
         leak_fuel( parts [ p ] );
 
-        for( const auto &e : parts[p].items ) {
-            g->m.add_item_or_charges( global_part_pos3( p ), e );
+        for( auto iter = parts[p].items.begin(); iter != parts[p].items.end(); ) {
+            g->m.add_item_or_charges( global_part_pos3( p ), *iter );
+            iter = remove_item( p, iter ); // Also removes it from the @ref active_item_cache if needed.
         }
-        parts[p].items.clear();
 
         invalidate_mass();
     }

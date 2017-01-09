@@ -1,36 +1,67 @@
 #include "active_item_cache.h"
+#include "debug.h"
 
 #include <algorithm>
+#include <cassert>
 
-void active_item_cache::remove( std::list<item>::iterator it, point location )
+void active_item_cache::remove( const std::list<item>::iterator it, const point &location )
 {
-    const auto predicate = [&]( const item_reference & active_item ) {
-        return location == active_item.location && active_item.item_iterator == it;
-    };
-    // The iterator is expected to be in this list, as it was added that way in `add`.
-    // But the processing_speed may have changed, so if it's not in the expected container,
-    // remove it from all containers to ensure no stale iterator remains.
-    auto &expected = active_items[it->processing_speed()];
-    const auto iter = std::find_if( expected.begin(), expected.end(), predicate );
-    if( iter != expected.end() ) {
-        expected.erase( iter );
+    std::list<item_reference>::const_iterator interior;
+    const int key = find( interior, it, location );
+    if( key != INT_MIN ) {
+        active_item_set.erase( interior->item_id );
+
+        // Workaround for a bug in clang- const_iterators can't be erased
+        std::list<item_reference>::iterator clang = active_items[key].begin();
+        std::advance( clang, std::distance<std::list<item_reference>::const_iterator>( clang, interior ) );
+
+        active_items[key].erase( clang );
     } else {
-        for( auto &e : active_items ) {
-            e.second.remove_if( predicate );
+        debugmsg( "Critical: The item isn't there!" );
+    }
+}
+
+int active_item_cache::find( std::list<item_reference>::const_iterator &found,
+                             const std::list<item>::iterator target, const point &target_loc ) const
+{
+    const auto predicate = [&target, &target_loc]( const item_reference & ir ) {
+        // Check the point first- comparing iterators from different sequences is undefined
+        return target_loc == ir.location && target == ir.item_iterator;
+    };
+
+    const auto expected = active_items.find( target->processing_speed() );
+    if( expected != active_items.end() ) {
+        found = std::find_if( expected->second.begin(), expected->second.end(), predicate );
+        if( found != expected->second.end() ) {
+            return expected->first;
         }
     }
-    active_item_set.erase( &*it );
+    // In rare cases, the item_reference will be in the wrong list (see #17364)
+    for( auto elem = active_items.begin(); elem != active_items.end(); ++elem ) {
+        found = std::find_if( elem->second.begin(), elem->second.end(), predicate );
+        if( found != elem->second.end() ) {
+            return elem->first;
+        }
+    }
+    return INT_MIN;
 }
 
-void active_item_cache::add( std::list<item>::iterator it, point location )
+void active_item_cache::add( const std::list<item>::iterator it, const point &location )
 {
-    active_items[it->processing_speed()].push_back( item_reference{ location, it, &*it } );
-    active_item_set.insert( &*it );
+    // Uniqueness is guaranteed because active item processing always removes the item,
+    // processes it, then sometimes add it back.
+    assert( active_item_set.count( next_free_id ) == 0 );
+
+    active_items[it->processing_speed()].push_back( item_reference { location, it, next_free_id } );
+    active_item_set.insert( next_free_id );
+    // Blindly incrementing is safe because the C++ standard says that unsigned ints wrap around.
+    ++next_free_id;
 }
 
-bool active_item_cache::has( std::list<item>::iterator it, point ) const
+bool active_item_cache::has( const std::list<item>::iterator it, const point &p ) const
 {
-    return active_item_set.count( &*it ) != 0;
+    std::list<item_reference>::const_iterator dummy_found;
+    return find( dummy_found, it, p ) != INT_MIN;
 }
 
 bool active_item_cache::has( item_reference const &itm ) const
