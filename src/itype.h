@@ -330,6 +330,12 @@ struct islot_engine
         /** battery energy (kJ) required to start (if any). @note 1kJ = 1 "battery" charge */
         int start_energy = 0;
 
+        /** noise (arbitrary units) produced by engine per kW */
+        double noise = 0.0;
+
+        /** percentage chance [0,100] to produce a smoke field scaled per kW */
+        int smoke = 0;
+
         /** Theoretical max velocity (m/s) if used in vehicle of @ref mass with @ref dynamics */
         double velocity_max( int mass, float dynamics = 1.0 ) const;
 

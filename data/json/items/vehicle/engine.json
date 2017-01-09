@@ -22,6 +22,8 @@
     "gears": [ 3.891, 2.74, 1.652, 1.134, 0.912 ],
     "start_time": 60,
     "start_energy": 160,
+    "noise": 5.0,
+    "smoke": 24,
     "extend": { "faults": [ "fault_engine_pump_diesel", "fault_engine_glow_plug" ] },
     "flags": [ "COLD_START" ]
   },
@@ -37,6 +39,8 @@
     "redline": 3800,
     "gears": [ 3.166, 1.882, 1.296, 0.972, 0.738 ],
     "start_time": 30,
+    "noise": 3.0,
+    "smoke": 8,
     "extend": { "faults": [ "fault_engine_pump_fuel" ] }
   },
   {
@@ -50,6 +54,7 @@
     "power": 3000,
     "gears": [ 4.291 ],
     "faults": [],
+    "relative": { "noise": 3.0 },
     "proportional": {
       "efficiency": 0.5,
       "start_time": 4

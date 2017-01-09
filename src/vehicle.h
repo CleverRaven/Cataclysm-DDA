@@ -213,6 +213,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Can this part generate electrical power when attached to a running engine? */
     bool is_alternator() const;
 
+    /** Can this part generate electrical power when both outside and illuminated? */
+    bool is_solar() const;
+
     /** Is this any type of vehicle light? */
     bool is_light() const;
 
@@ -486,18 +489,6 @@ private:
     bool explode_fuel( int p, damage_type type );
     //damages vehicle controls and security system
     void smash_security_system();
-    // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
-    int part_power( int index, bool at_full_hp = false ) const;
-    int part_power( const vehicle_part &part, bool at_full_hp = false ) const;
-
-    // get vpart epowerinfo for part number.
-    int part_epower (int index) const;
-
-    // convert epower (watts) to power.
-    static int epower_to_power (int epower);
-
-    // convert power to epower (watts).
-    static int power_to_epower (int power);
 
     //Refresh all caches and re-locate all parts
     void refresh();
@@ -584,9 +575,6 @@ public:
 
     // Attempt to start the vehicle's active engines
     void start_engines( const bool take_control = false );
-
-    // Engine backfire, making a loud noise
-    void backfire( const int e ) const;
 
     // Honk the vehicle's horn, if there are any
     void honk_horn();
@@ -772,11 +760,15 @@ public:
     int global_y() const;
     point global_pos() const;
     tripoint global_pos3() const;
-    /**
-     * Get the coordinates of the studied part of the vehicle
-     */
+
+    /**  Get coordinates of vehicle part */
     tripoint global_part_pos3( const int &index ) const;
     tripoint global_part_pos3( const vehicle_part &pt ) const;
+
+    /** Get absolute coordinates of vehicle part in map squares (inclusive overmap and submap) */
+    tripoint real_global_part_pos3( int idx ) const;
+    tripoint real_global_part_pos3( const vehicle_part &pt ) const;
+
     /**
      * Really global absolute coordinates in map squares.
      * This includes the overmap, the submap, and the map square.
@@ -879,14 +871,11 @@ public:
     /** Get acceleration (m/s²) from specific engine dependent upon current @ref load() */
     double acceleration( const vehicle_part &pt ) const;
 
-    // Generate smoke from a part, either at front or back of vehicle depending on velocity.
-    void spew_smoke( double joules, int part, int density = 1 );
+    /** Get engine noise at given power output (watts) accounting for effect of ancillary parts */
+    int engine_noise( const vehicle_part &pt, int power ) const;
 
-    /**
-     * Generate noise or smoke from a vehicle with a running engine
-     * @param load current engine load as proportion of maximum output [0.0-1.0]
-     */
-    void noise_and_smoke( double load );
+    /** Generate smoke at given power output (watts) accounting for faults and ancillary parts */
+    void engine_smoke( const vehicle_part &pt, int power );
 
     /**
      * Calculates the sum of the area under the wheels of the vehicle.
@@ -1179,10 +1168,7 @@ public:
     int removed_part_count;            // Subtract from parts.size() to get the real part count.
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
     std::set<label> labels;            // stores labels
-    std::vector<int> alternators;      // List of alternator indices
     std::vector<int> engines;          // List of engine indices
-    std::vector<int> reactors;         // List of reactor indices
-    std::vector<int> solar_panels;     // List of solar panel indices
     std::vector<int> funnels;          // List of funnel indices
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;       // List of wheels
@@ -1206,8 +1192,6 @@ public:
      * not change therefor no call to set_submap_moved is required.
      */
     int smx, smy, smz;
-
-    float alternator_load;
 
     // Points occupied by the vehicle
     std::set<tripoint> occupied_points;

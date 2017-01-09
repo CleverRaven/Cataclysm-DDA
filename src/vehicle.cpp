@@ -463,7 +463,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             }
 
             //Solar panels have 25% of being destroyed
-            if (part_flag(p, "SOLAR_PANEL") && one_in(4)) {
+            if( pt.is_solar() && one_in( 4 ) ) {
                 set_hp( parts[ p ], 0 );
             }
 
@@ -1159,14 +1159,6 @@ void vehicle::start_engines( const bool take_control )
     g->u.activity.values.push_back( take_control );
 }
 
-void vehicle::backfire( const int e ) const
-{
-    const int power = watt_to_hp( parts[engines[e]].power( false ) );
-    const tripoint pos = global_part_pos3( engines[e] );
-    //~ backfire sound
-    sounds::ambient_sound( pos, 40 + (power / 30), _( "BANG!" ) );
-}
-
 void vehicle::honk_horn()
 {
     const bool no_power = !fuel_left( fuel_type_battery, true, true );
@@ -1264,40 +1256,6 @@ const vpart_info& vehicle::part_info (int index, bool include_removed) const
         }
     }
     return vpart_id::NULL_ID.obj();
-}
-
-// alternators, solar panels, reactors, and accessories all have epower.
-// alternators, solar panels, and reactors provide, whilst accessories consume.
-int vehicle::part_epower(int const index) const
-{
-    int e = part_info(index).epower;
-    if( e < 0 ) {
-        return e; // Consumers always draw full power, even if broken
-    }
-    return e * parts[ index ].hp() / part_info(index).durability;
-}
-
-int vehicle::epower_to_power(int const epower)
-{
-    // Convert epower units (watts) to power units
-    // Used primarily for calculating battery charge/discharge
-    // TODO: convert batteries to use energy units based on watts (watt-ticks?)
-    constexpr int conversion_factor = 373; // 373 epower == 373 watts == 1 power == 0.5 HP
-    int power = epower / conversion_factor;
-    // epower remainder results in chance at additional charge/discharge
-    if (x_in_y(abs(epower % conversion_factor), conversion_factor)) {
-        power += epower >= 0 ? 1 : -1;
-    }
-    return power;
-}
-
-int vehicle::power_to_epower(int const power)
-{
-    // Convert power units to epower units (watts)
-    // Used primarily for calculating battery charge/discharge
-    // TODO: convert batteries to use energy units based on watts (watt-ticks?)
-    constexpr int conversion_factor = 373; // 373 epower == 373 watts == 1 power == 0.5 HP
-    return power * conversion_factor;
 }
 
 bool vehicle::has_structural_part(int const dx, int const dy) const
@@ -2657,6 +2615,16 @@ tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
     return global_pos3() + pt.precalc[ 0 ];
 }
 
+tripoint vehicle::real_global_part_pos3( int idx ) const
+{
+    return real_global_part_pos3( parts[idx] );
+}
+
+tripoint vehicle::real_global_part_pos3( const vehicle_part &pt ) const
+{
+    return real_global_pos3() + pt.precalc[0];
+}
+
 point vehicle::real_global_pos() const
 {
     return g->m.getabs( global_x(), global_y() );
@@ -2921,100 +2889,68 @@ double vehicle::acceleration( const vehicle_part &pt ) const
     return safe_velocity( pt ) * k_mass();
 }
 
-void vehicle::spew_smoke( double joules, int part, int density )
+int vehicle::engine_noise( const vehicle_part &pt, int load ) const
 {
-    if( rng( 1, 10000 ) > joules ) {
-        return;
+    if( !pt.is_engine() ) {
+        return 0;
     }
-    point p = parts[part].mount;
-    density = std::max( joules / 10000, double( density ) );
-    // Move back from engine/muffler til we find an open space
-    while( relative_parts.find(p) != relative_parts.end() ) {
-        p.x += ( velocity < 0 ? 1 : -1 );
+
+    int res = load * pt.base.type->engine->noise / 1000.0;
+
+    if( has_part( "MUFFLER" ) ) {
+        res /= 2;
     }
-    point q = coord_translate(p);
-    tripoint dest( global_x() + q.x, global_y() + q.y, smz );
-    g->m.adjust_field_strength( dest, fd_smoke, density );
+
+    return res;
 }
 
-void vehicle::noise_and_smoke( double load )
+void vehicle::engine_smoke( const vehicle_part &pt, int load )
 {
-    const int sound_levels[] = { 0, 15, 30, 60, 100, 140, 180, INT_MAX };
-    const char *sound_msgs[] = { "", _("hummm!"), _("whirrr!"), _("vroom!"), _("roarrr!"), _("ROARRR!"),
-                                 _("BRRROARRR!!"), _("BRUMBRUMBRUMBRUM!!!") };
-    double noise = 0.0;
-    double mufflesmoke = 0.0;
-    double muffle = 1.0, m;
-    int exhaust_part = -1;
-    for( size_t p = 0; p < parts.size(); p++ ) {
-        if( part_flag(p, "MUFFLER") ) {
-            m = 1.0 - (1.0 - part_info(p).bonus / 100.0) * double( parts[p].hp() ) / part_info(p).durability;
-            if( m < muffle ) {
-                muffle = m;
-                exhaust_part = int(p);
+    if( !pt.is_engine() || pt.base.type->engine->smoke <= 0 ) {
+        return;
+    }
+
+    int density = 1;
+    double qty = load * pt.base.type->engine->smoke / 1000.0;
+
+    // faulty air filters greatly increase both quantity and density of smoke
+    if( pt.base.faults.count( fault_filter_air ) ) {
+        qty *= qty;
+        density = MAX_FIELD_DENSITY;
+    }
+
+    // get a list of usable exhaust parts or use engine itself itself if none are available
+    auto exhaust = const_cast<const vehicle *>( this )->get_parts( "MUFFLER" );
+    if( exhaust.empty() ) {
+        exhaust.push_back( &pt );
+    }
+
+    // move backwards from each exhaust part (acounting for direction) until we find empty space
+    std::vector<tripoint> opts;
+    for( const vehicle_part *e : exhaust ) {
+        point p = e->mount;
+        while( relative_parts.find( p ) != relative_parts.end() ) {
+            p.x += ( velocity < 0 ? 1 : -1 );
+        }        
+        point q = coord_translate( p );
+        opts.emplace_back( global_x() + q.x, global_y() + q.y, smz );
+    }
+
+    // divide smoke between available exhausts
+    qty /= exhaust.size();
+
+    // add some randomness to output smoke
+    qty *= rng( 0.8, 1.2 );
+
+    for( const auto &e : opts ) {
+        if( qty <= 100.0 ) {
+            if( x_in_y( qty, 100.0 ) ) {
+                g->m.propagate_field( e, fd_smoke, 1, density );
             }
+        } else {
+            g->m.propagate_field( e, fd_smoke, qty / 100 + x_in_y( fmod( qty, 100.0 ), 100.0 ), density );
         }
     }
-
-    bool bad_filter = false;
-
-    for( size_t e = 0; e < engines.size(); e++ ) {
-        int p = engines[e];
-        const auto &eng = parts[engines[e]];
-
-        if( is_engine_on(e) &&
-                (is_engine_type(e, fuel_type_muscle) || fuel_left (part_info(p).fuel_type)) ) {
-            double pwr = 10.0; // Default noise if nothing else found, shouldn't happen
-            double max_pwr = double( power_to_epower( watt_to_hp( eng.power( false ) ) ) ) / 40000;
-            double cur_pwr = load * max_pwr;
-
-            if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
-
-                if( is_engine_type( e, fuel_type_gasoline ) ) {
-                    double dmg = 1.0 - double( parts[p].hp() ) / part_info( p ).durability;
-                    if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
-                        dmg = 1.0;
-                    }
-                    if( dmg > 0.75 && one_in( 200 - ( 150 * dmg ) ) ) {
-                        backfire( e );
-                    }
-                }
-                double j = power_to_epower( watt_to_hp( eng.power( false ) ) ) * load * 6.0 * muffle;
-
-                if( parts[ p ].base.faults.count( fault_filter_air ) ) {
-                    bad_filter = true;
-                    j *= j;
-                }
-
-                if( (exhaust_part == -1) && engine_on ) {
-                    spew_smoke( j, p, bad_filter ? MAX_FIELD_DENSITY : 1 );
-                } else {
-                    mufflesmoke += j;
-                }
-                pwr = (cur_pwr*15 + max_pwr*3 + 5) * muffle;
-            } else if(is_engine_type(e, fuel_type_battery)) {
-                pwr = cur_pwr*3;
-            } else if(is_engine_type(e, fuel_type_muscle)) {
-                pwr = cur_pwr*5;
-            }
-            noise = std::max(noise, pwr); // Only the loudest engine counts.
-        }
-    }
-
-    if( (exhaust_part != -1) && engine_on &&
-        has_engine_type_not(fuel_type_muscle, true)) { // No engine, no smoke
-        spew_smoke( mufflesmoke, exhaust_part, bad_filter ? MAX_FIELD_DENSITY : 1 );
-    }
-    // Even a vehicle with engines off will make noise traveling at high speeds
-    noise = std::max( noise, double(fabs(velocity/500.0)) );
-    int lvl = 0;
-    if( one_in(4) && rng(0, 30) < noise &&
-        has_engine_type_not(fuel_type_muscle, true)) {
-       while( noise > sound_levels[lvl] ) {
-           lvl++;
-       }
-    }
-    sounds::ambient_sound( global_pos3(), noise, sound_msgs[lvl] );
 }
 
 float vehicle::wheel_area( bool boat ) const
@@ -3502,7 +3438,25 @@ void vehicle::idle(bool on_map) {
             }
 
             if( on_map ) {
-                noise_and_smoke( double( load ) / eng.power() );
+                static std::vector<std::pair<int, std::string>> opts = {
+                    {  15, _( "hummm!" ) },
+                    {  30, _( "whirrr!" ) },
+                    {  60, _( "vroom!" ) },
+                    { 100, _( "roarrr!" ) },
+                    { 140, _( "ROARRR!" ) },
+                    { 180, _( "BRRROARRR!!" ) },
+                    { INT_MAX, _( "BRUMBRUMBRUMBRUM!!!" ) }
+                };
+
+                int noise = engine_noise( eng, load );
+
+                if( noise > 0 ) {
+                    auto iter = opts.begin();
+                    for( ; iter != opts.end() && iter->first < noise; ++iter );
+                    sounds::ambient_sound( global_pos3(), noise, iter->second );
+                }
+
+                engine_smoke( eng, load );
             }
         }
     }
@@ -3677,8 +3631,7 @@ void vehicle::operate_scoop()
                 sounds::sound( position, rng(10, that_item_there->volume() / units::legacy_volume_factor * 2 + 10),
                                _("BEEEThump") );
             }
-            const int battery_deficit = discharge( that_item_there->weight() *
-                                                           -part_epower( scoop ) / rng( 8, 15 ) );
+            const int battery_deficit = discharge( that_item_there->weight() * -parts[scoop].info().epower / rng( 8, 15 ) );
             if( battery_deficit == 0 && add_item( scoop, *that_item_there ) ) {
                 g->m.i_rem( position, itemdex );
             } else {
@@ -4690,10 +4643,7 @@ void vehicle::gain_moves()
  */
 void vehicle::refresh()
 {
-    alternators.clear();
     engines.clear();
-    reactors.clear();
-    solar_panels.clear();
     funnels.clear();
     relative_parts.clear();
     loose_parts.clear();
@@ -4702,7 +4652,6 @@ void vehicle::refresh()
     speciality.clear();
     floating.clear();
     tracking_epower = 0;
-    alternator_load = 0;
     camera_epower = 0;
     extra_drag = 0;
     // Used to sort part list so it displays properly when examining
@@ -4720,17 +4669,8 @@ void vehicle::refresh()
         if( parts[p].removed ) {
             continue;
         }
-        if( vpi.has_flag(VPFLAG_ALTERNATOR) ) {
-            alternators.push_back( p );
-        }
         if( parts[p].is_engine() ) {
             engines.push_back( p );
-        }
-        if( vpi.has_flag("REACTOR") ) {
-            reactors.push_back( p );
-        }
-        if( vpi.has_flag(VPFLAG_SOLAR_PANEL) ) {
-            solar_panels.push_back( p );
         }
         if( vpi.has_flag("FUNNEL") ) {
             funnels.push_back( p );
@@ -5621,7 +5561,7 @@ void vehicle::update_time( const calendar &update_to )
 
     // Weather stuff, only for z-levels >= 0
     // TODO: Have it wash cars from blood?
-    if( funnels.empty() && solar_panels.empty() ) {
+    if( funnels.empty() && !has_part( []( const vehicle_part &e ) { return e.is_solar(); } ) ) {
         return;
     }
 
@@ -5655,25 +5595,16 @@ void vehicle::update_time( const calendar &update_to )
         }
     }
 
-    if( !solar_panels.empty() ) {
-        int epower = 0;
-        for( int part : solar_panels ) {
-            if( parts[ part ].is_broken() ) {
-                continue;
-            }
-
-            const tripoint part_loc = veh_loc + parts[part].precalc[0];
-            if( !is_sm_tile_outside( part_loc ) ) {
-                continue;
-            }
-
-            epower += ( part_epower( part ) * accum_weather.sunlight ) / DAYLIGHT_LEVEL;
+    int solar = 0;
+    for( const auto &pt : parts ) {
+        if( pt.is_solar() && is_sm_tile_outside( real_global_part_pos3( pt ) ) ) {
+            solar += ( pt.power() * accum_weather.sunlight ) / DAYLIGHT_LEVEL;
         }
+    }
 
-        if( epower > 0 ) {
-            add_msg( m_debug, "%s got %d epower from solars", name.c_str(), epower );
-            charge_battery( epower_to_power( epower ) );
-        }
+    if( solar > 0 ) {
+        add_msg( m_debug, "%s got %d power from solars", name.c_str(), solar );
+        charge_battery( solar );
     }
 }
 
@@ -6013,7 +5944,7 @@ int vehicle_part::power( bool effects ) const
             // @todo handle faults
         }
 
-    } else if( is_alternator() ) {
+    } else if( is_alternator() || is_solar() ) {
         res = info().epower;
     }
 
@@ -6028,6 +5959,11 @@ bool vehicle_part::is_engine() const
 bool vehicle_part::is_alternator() const
 {
     return info().has_flag( VPFLAG_ALTERNATOR );
+}
+
+bool vehicle_part::is_solar() const
+{
+    return info().has_flag( VPFLAG_SOLAR_PANEL );
 }
 
 bool vehicle_part::is_light() const
