@@ -58,7 +58,8 @@
     "color": "dark_gray",
     "contains": 400,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "55gal_drum",
@@ -76,7 +77,8 @@
     "color": "dark_gray",
     "contains": 800,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "bag_canvas",
@@ -278,7 +280,8 @@
     "symbol": ")",
     "color": "light_gray",
     "contains": 20,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "camelbak",
@@ -458,7 +461,8 @@
     "color": "brown",
     "contains": 60,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 2 ] ]
   },
   {
     "id": "clay_watercont",
@@ -475,7 +479,8 @@
     "color": "brown",
     "contains": 150,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 2 ] ]
   },
   {
     "id": "cup_plastic",
@@ -545,7 +550,8 @@
       "coverage": 2,
       "material_thickness": 1
     },
-    "flags": [ "WAIST" ]
+    "flags": [ "WAIST" ],
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "glass",
@@ -659,7 +665,8 @@
     "color": "green",
     "contains": "10L",
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "jerrycan_big",
@@ -677,7 +684,8 @@
     "color": "green",
     "contains": "20L",
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "jug_clay",
@@ -694,7 +702,8 @@
     "color": "brown",
     "contains": 4,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 2 ] ]
   },
   {
     "id": "jug_plastic",
@@ -729,7 +738,8 @@
     "color": "light_cyan",
     "contains": 200,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "keg_steel",
@@ -747,7 +757,8 @@
     "color": "light_cyan",
     "contains": 200,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "large_stomach_sealed",
@@ -784,7 +795,8 @@
     "color": "light_cyan",
     "contains": "60L",
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "metal_tank_little",
@@ -802,7 +814,8 @@
     "color": "light_cyan",
     "contains": "2L",
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "stomach_sealed",
