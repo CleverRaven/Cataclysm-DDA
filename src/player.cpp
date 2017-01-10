@@ -3637,9 +3637,11 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         veh = g->m.veh_at( pos() );
     }
     if( veh ) {
-        const auto &eng =veh->current_engine();
-        veh->print_fuel_indicator( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 6 : 49, eng.ammo_current() );
+        veh->print_fuel_indicator( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49,
+                                   veh->current_engine().ammo_current() );
 
+        nc_color col_indf1 = c_ltgray;
+        nc_color col_vel = c_ltblue;
         //
         // Draw the speedometer.
         //
@@ -3659,8 +3661,8 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         }
 
         const char *speedo = "%s....>....";
-        mvwprintz( w, speedoy, speedox, c_white, speedo, velocity_units( VU_VEHICLE ) );
-        mvwprintz( w, speedoy, speedox + velx, c_ltblue, "%4d",
+        mvwprintz( w, speedoy, speedox,        col_indf1, speedo, velocity_units( VU_VEHICLE ) );
+        mvwprintz( w, speedoy, speedox + velx, col_vel,   "%4d",
                    int( convert_velocity( veh->velocity, VU_VEHICLE ) ) );
 
         mvwprintz( w, speedoy, speedox + cruisex, c_ltgreen, "%4d",
@@ -3678,18 +3680,19 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             } else {
                 wprintz( w, col_indc, ">" );
             }
-            int gear = veh->gear( eng );
+            int gear = veh->gear( veh->current_engine() );
             if( gear >= 0 ) {
-                right_print( w, sideStyle ? 4 : 3, 1, c_white, "%s <color_ltblue>%3s</color>",
-                             _( "gear" ), ordinal( gear + 1 ).c_str() );
+                int gx = getmaxx( w ) - offset_from_screen_edge + 4;
+                mvwprintz( w, sideStyle ? 4 : 3, gx, c_white, _( "gear" ) );           
+                mvwprintz( w, sideStyle ? 4 : 3, gx + 5, c_ltblue, "%d%s", gear + 1, ordinal( gear + 1 ) );
             }
         }
 
         if( sideStyle ) {
-            int rpm = veh->rpm( eng );
+            int rpm = veh->rpm( veh->current_engine() );
             if( rpm > 0 ) {
-                right_print( w, speedoy, 1, c_white, "%s <color_%s>%4d</color>", _( "rpm" ),
-                             rpm <= eng.rpm_redline() ? "ltblue" : "red", rpm );
+                mvwprintz( w, speedoy, getmaxx( w ) - 9, c_white, "%s ", _( "rpm" ) );
+                mvwprintz( w, speedoy, getmaxx( w ) - 5, c_ltblue, "%4d", rpm ); 
            }            
         }
 

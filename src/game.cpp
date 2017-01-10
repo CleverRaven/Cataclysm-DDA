@@ -4950,16 +4950,21 @@ void game::draw_sidebar()
     mvwprintz(w_location, 1, 15, c_ltgray, "%s ", _("Lighting:"));
     wprintz(w_location, ll.second, ll.first.c_str());
 
-    if (safe_mode != SAFE_MODE_OFF || autosafemode != 0) {
-        right_print( w_location, 0, 1, c_green, "%s", _( "SAFE" ) );
-    }
-
     wrefresh(w_location);
 
+    //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
     mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"),
               season_name_upper(calendar::turn.get_season()).c_str(), calendar::turn.days() + 1);
-
+    if (safe_mode != SAFE_MODE_OFF || autosafemode != 0) {
+        int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
+        wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
+        const char *letters[] = { "S", "A", "F", "E" };
+        for (int i = 0; i < 4; i++) {
+            nc_color c = (safe_mode == SAFE_MODE_OFF && iPercent < (i + 1) * 25) ? c_red : c_green;
+            wprintz(w_status, c, letters[i]);
+        }
+    }
     wrefresh(w_status);
     if( sideStyle ) {
         wrefresh(w_status2);
