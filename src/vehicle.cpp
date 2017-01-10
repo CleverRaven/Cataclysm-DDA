@@ -3418,14 +3418,8 @@ int vehicle::discharge_battery (int amount, bool recurse)
 void vehicle::idle(bool on_map) {
     auto &eng = current_engine();
 
-    // power usage is in watts but battery storage (kJ) is less granular...
-    int deficit = power_usage();
-
-    // ...so partial charges have a proportional chance of being consumed each turn
-    deficit += x_in_y( deficit % 1000, 1000 ) ? 1000 : 0;
-
     // electrical power not supplied from battery must be found from alternators or reactors
-    deficit = discharge_battery( deficit / 1000 );
+    int deficit = discharge_battery( power_usage() );
 
     // calculate maximum possible output from all active alternators
     int generate = 0;
@@ -3467,14 +3461,8 @@ void vehicle::idle(bool on_map) {
         // @todo engage reactor
 
     } else {
-        // as above power generation is in watts but battery storage (kJ) is less granular...
-        int recharge = generate - deficit;
-
-        // ...so partial charges have a proportional chance of being added each turn
-        recharge += x_in_y( recharge % 1000, 1000 ) ? 1000 : 0;
-
         // attempt to recharge battery limiting generated power to total battery capacity
-        generate -= charge_battery( recharge );
+        generate -= charge_battery( generate - deficit );
     }
 
     if( engine_on && eng ) {
