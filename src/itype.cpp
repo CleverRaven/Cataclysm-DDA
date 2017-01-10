@@ -9,8 +9,6 @@
 #include <algorithm>
 #include <cmath>
 
-double friction_loss = 0.25;
-
 std::string itype::nname( unsigned int const quantity ) const
 {
     return ngettext( name.c_str(), name_plural.c_str(), quantity );
@@ -84,7 +82,7 @@ const itype_id &default_ammo( const ammotype &t )
 double islot_engine::velocity_max( int mass, float dynamics ) const
 {
     // scale engine power (J/s) to amount where 100% of output is consumed replacing friction losses
-    double e = power * dynamics / friction_loss;
+    double e = power * dynamics / 0.25;
     return sqrt( e / mass );
 }
 

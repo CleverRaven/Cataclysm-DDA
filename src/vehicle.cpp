@@ -2948,8 +2948,8 @@ int vehicle::load( const vehicle_part &pt ) const
     // kinetic energy (J)
     double k = 0.5 * total_mass() * pow( v, 2 );
 
-    // engine power (J/s) replaces energy lost via friction (~25% for typical vehicle)
-    double res = k * friction_loss / k_dynamics();
+    // engine power (J/s) replaces energy lost via friction (~10% for typical vehicle)
+    double res = k * 0.05 / k_dynamics();
 
     for( const auto &e : parts ) {
         if( e.mount == pt.mount && e.is_alternator() && !e.is_broken() ) {

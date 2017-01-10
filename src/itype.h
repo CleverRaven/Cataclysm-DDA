@@ -51,9 +51,6 @@ using quality_id = string_id<quality>;
 
 enum field_id : int;
 
-/** Proportion of vehicle kinetic energy lost per turn to friction */
-extern double friction_loss;
-
 // Returns the name of a category of ammo (e.g. "shot")
 std::string ammo_name( const ammotype &ammo );
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
