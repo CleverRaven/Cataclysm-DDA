@@ -11,7 +11,7 @@ TEST_CASE( "vehicle_engine", "[vehicle] [engine]" ) {
             // prevent created vehicles colliding with terrain and producing wrecks
             for( int x = 0; x <= 100; ++x ) {
                 for( int y = 0; y <= 100; ++y ) {
-                    g->m.ter_set( x, y, ter_id( "t_grass" ) );
+                    g->m.ter_set( x, y, ter_id( "t_null" ) );
                     g->m.furn_set( x, y, furn_id( "f_null" ) );
                 }
             }
