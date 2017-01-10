@@ -1102,6 +1102,32 @@ bool vehicle::fold_up() {
     return true;
 }
 
+double vehicle::engine_cold_factor( const int e ) const
+{
+    if( !is_engine_type( e, fuel_type_diesel ) ) { return 0.0; }
+
+    int eff_temp = g->get_temperature();
+    if( !parts[ engines[ e ] ].faults().count( fault_glowplug ) ) {
+        eff_temp = std::min( eff_temp, 20 );
+    }
+
+    return 1.0 - (std::max( 0, std::min( 30, eff_temp ) ) / 30.0);
+}
+
+int vehicle::engine_start_time( const int e ) const
+{
+    if( !is_engine_on( e ) || is_engine_type( e, fuel_type_muscle ) ||
+        !fuel_left( part_info( engines[e] ).fuel_type ) ) { return 0; }
+
+    const double dmg = 1.0 - double( parts[engines[e]].hp() ) / part_info( engines[e] ).durability;
+
+    // non-linear range [100-1000]; f(0.0) = 100, f(0.6) = 250, f(0.8) = 500, f(0.9) = 1000
+    // diesel engines with working glow plugs always start with f = 0.6 (or better)
+    const int cold = ( 1 / tanh( 1 - std::min( engine_cold_factor( e ), 0.9 ) ) ) * 100;
+
+    return ( part_power( engines[ e ], true ) / 16 ) + ( 100 * dmg ) + cold;
+}
+
 bool vehicle::start_engine( const int e )
 {
     if( !is_engine_on( e ) ) { return false; }
@@ -1122,10 +1148,13 @@ bool vehicle::start_engine( const int e )
     const double dmg = 1.0 - ((double)parts[engines[e]].hp() / einfo.durability);
     const int engine_power = part_power( engines[e], true );
 
-    auto mv = parts[engines[e]].starting_time();
-    if( mv > 0 ) {
-        const tripoint pos = global_part_pos3( engines[e] );
-        sounds::ambient_sound( pos, mv / 10, "" );
+    if( einfo.fuel_type != fuel_type_muscle ) {
+        if( einfo.fuel_type == fuel_type_gasoline && dmg > 0.75 && one_in( 20 ) ) {
+            backfire( e );
+        } else {
+            const tripoint pos = global_part_pos3( engines[e] );
+            sounds::ambient_sound( pos, engine_start_time( e ) / 10, "" );
+        }
     }
 
     // Immobilisers need removing before the vehicle can be started
@@ -1140,7 +1169,7 @@ bool vehicle::start_engine( const int e )
             add_msg( _( "The %s makes a single clicking sound." ), eng.name().c_str() );
             return false;
         }
-        int pwr = engine_power * ( 1.0 + dmg ) * ( 1.0 + eng.starting_difficulty() ) / 1000.0;
+        int pwr = engine_power * ( 1.0 + dmg ) * ( 1.0 + engine_cold_factor( e ) ) / 1000.0;
         if( discharge_battery( pwr, true ) != 0 ) {
             add_msg( _( "The %s makes a rapid clicking sound." ), eng.name().c_str() );
             return false;
@@ -1180,7 +1209,7 @@ void vehicle::start_engines( const bool take_control )
     int start_time = 0;
     for( size_t e = 0; e < engines.size(); ++e ) {
         has_engine = has_engine || is_engine_on( e );
-        start_time = std::max( start_time, parts[engines[e]].starting_time() );
+        start_time = std::max( start_time, engine_start_time( e ) );
     }
 
     if( !has_engine ) {
@@ -6206,16 +6235,6 @@ int vehicle_part::rpm_redline() const
 int vehicle_part::rpm_optimum() const
 {
     return base.is_engine() ? base.type->engine->optimum : 0;
-}
-
-double vehicle_part::starting_difficulty() const
-{
-    return base.engine_start_difficulty( g->temperature );
-}
-
-int vehicle_part::starting_time() const
-{
-    return base.engine_start_time( g->temperature );
 }
 
 bool vehicle_part::is_engine() const

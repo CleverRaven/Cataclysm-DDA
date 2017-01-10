@@ -189,12 +189,6 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Optimal rpm giving the best performance and fuel efficiency? */
     int rpm_optimum() const;
 
-    /** How difficult is it to start the engine [0.0 - 1.0] */
-    double starting_difficulty() const;
-
-    /** How many moves does it take to start the engine? */
-    int starting_time() const;
-
     /*@}*/
 
     /**
@@ -515,6 +509,12 @@ private:
     bool do_environmental_effects();
 
     units::volume total_folded_volume() const;
+
+    // Calculate how long it takes to attempt to start an engine
+    int engine_start_time( const int e ) const;
+
+    // How much does the temperature effect the engine starting (0.0 - 1.0)
+    double engine_cold_factor( const int e ) const;
 
     /**
      * Find a possibly off-map vehicle. If necessary, loads up its submap through

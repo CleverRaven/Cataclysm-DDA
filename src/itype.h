@@ -321,9 +321,6 @@ struct islot_engine
         /** discrete gears (if any) in ascending order */
         std::vector<float> gears;
 
-        /** moves required to start the engine (or zero for instantaneous start) */
-        int start_time = 0;
-
     private:
         /** What faults (if any) can occur */
         std::set<fault_id> faults;
