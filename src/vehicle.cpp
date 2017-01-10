@@ -2971,8 +2971,13 @@ double vehicle::safe_velocity( const vehicle_part &pt ) const
     return std::min( max_velocity( pt ), v / 100 * 0.447 );
 }
 
-int vehicle::gear( const vehicle_part &pt ) const {
-    auto gears = pt.gears();
+int vehicle::gear() const {
+    const auto &eng = current_engine();
+    if( !eng ) {
+        return -1;
+    }
+
+    auto gears = eng.gears();
 
     int best = INT_MAX;
     int sel = -1;
@@ -2982,12 +2987,12 @@ int vehicle::gear( const vehicle_part &pt ) const {
         int eng_rpm = std::abs( velocity ) * gears[idx];
 
         // dont allow selection of any gear that would result in a stall
-        if( eng_rpm < pt.rpm_idle() ) {
+        if( eng_rpm < eng.rpm_idle() ) {
             continue;
         }
 
         // how distance from engine optimum rpm
-        int delta = std::abs( eng_rpm - pt.rpm_optimum() );
+        int delta = std::abs( eng_rpm - eng.rpm_optimum() );
 
         // select best gear (or we return -1 for engines without discrete gears)
         if( delta < best ) {
@@ -2999,15 +3004,20 @@ int vehicle::gear( const vehicle_part &pt ) const {
     return sel;
 }
 
-int vehicle::rpm( const vehicle_part &pt ) const
+int vehicle::rpm() const
 {
-    int g = gear( pt );
+    const auto &eng = current_engine();
+    if( !eng ) {
+        return 0;
+    }
+
+    int g = gear();
     if( g < 0 ) {
         return 0;
     }
 
-    int res = std::abs( velocity ) * pt.gears()[g];
-    return std::max( res, pt.rpm_idle() );
+    int res = std::abs( velocity ) * eng.gears()[g];
+    return std::max( res, eng.rpm_idle() );
 }
 
 int vehicle::load( const vehicle_part &pt ) const
@@ -3031,9 +3041,14 @@ int vehicle::load( const vehicle_part &pt ) const
     return res;
 }
 
-double vehicle::acceleration( const vehicle_part &pt ) const
+double vehicle::acceleration() const
 {
-    return safe_velocity( pt ) * k_mass();
+    const auto &eng = current_engine();
+    if( !eng ) {
+        return 0;
+    }
+
+    return safe_velocity( eng ) * k_mass();
 }
 
 void vehicle::spew_smoke( double joules, int part, int density )
@@ -3631,7 +3646,7 @@ void vehicle::idle(bool on_map) {
                 double energy = pwr * 6; // 1 turn = 6s
 
                 // adjust for engine efficiency
-                double eff = eng.efficiency( rpm( eng ) );
+                double eff = eng.efficiency( rpm() );
                 energy /= eff;
 
                 // calculate fuel consumption
@@ -3652,7 +3667,7 @@ void vehicle::idle(bool on_map) {
     }
 
     // overspeed engines incur damage
-    if( rpm( eng ) > eng.rpm_redline() ) {
+    if( rpm() > eng.rpm_redline() ) {
         if( one_in( 10 ) ) {
             add_msg( _( "Your engine emits a high pitched whine." ) );
         } else if( one_in( 10 ) ) {
@@ -3931,7 +3946,7 @@ void vehicle::thrust( int thd ) {
 
     // @todo Pass this as an argument to avoid recalculating
     float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
-    int accel = acceleration( eng ) * 6 * 2.237 * traction;
+    int accel = acceleration() * 6 * 2.237 * traction;
     if( thrusting && accel == 0 ) {
         if( player_in_control( g->u ) ) {
             add_msg( _("The %s is too heavy for its engine(s)!"), name.c_str() );

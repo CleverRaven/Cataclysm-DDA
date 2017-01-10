@@ -3680,7 +3680,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             } else {
                 wprintz( w, col_indc, ">" );
             }
-            int gear = veh->gear( veh->current_engine() );
+            int gear = veh->gear();
             if( gear >= 0 ) {
                 int gx = getmaxx( w ) - offset_from_screen_edge + 4;
                 mvwprintz( w, sideStyle ? 4 : 3, gx, c_white, _( "gear" ) );           
@@ -3689,7 +3689,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         }
 
         if( sideStyle ) {
-            int rpm = veh->rpm( veh->current_engine() );
+            int rpm = veh->rpm();
             if( rpm > 0 ) {
                 mvwprintz( w, speedoy, getmaxx( w ) - 9, c_white, "%s ", _( "rpm" ) );
                 mvwprintz( w, speedoy, getmaxx( w ) - 5, c_ltblue, "%4d", rpm ); 

@@ -856,17 +856,17 @@ public:
     /** Most fuel efficient velocity when using a specific engine */
     double optimal_velocity( const vehicle_part &pt ) const;
 
-    /** Get current gear for specific engine (or zero for engines without discrete gears) */
-    int gear( const vehicle_part &pt ) const;
+    /** Get current engine gear (or zero for engines without discrete gears) */
+    int gear() const;
 
-    /** Get current rpm of specific engine (or zero if engine is not running) */
-    int rpm( const vehicle_part &pt ) const;
+    /** Get current engine rpm (or zero if engine is not running) */
+    int rpm() const;
 
     /** Get load (in watts) on specific engine from both propulsion and alternators */
     int load( const vehicle_part &pt ) const;
 
-    /** Get acceleration (m/s²) from specific engine dependent upon current @ref load() */
-    double acceleration( const vehicle_part &pt ) const;
+    /** Get max acceleration (m/s²) dependent upon current @ref velocity and engine @ref load() */
+    double acceleration() const;
 
     // Generate smoke from a part, either at front or back of vehicle depending on velocity.
     void spew_smoke( double joules, int part, int density = 1 );
