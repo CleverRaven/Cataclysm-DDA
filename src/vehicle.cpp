@@ -947,6 +947,14 @@ void vehicle::use_controls( const tripoint &pos )
             options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
             actions.push_back( [&]{ control_doors(); } );
         }
+
+        options.emplace_back( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ),
+                              keybind( "TOGGLE_CRUISE_CONTROL" ) );
+
+        actions.emplace_back( [&]{
+            cruise_on = !cruise_on;
+            add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
+        } );
     }
 
     options.emplace_back( tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ),
@@ -4023,15 +4031,21 @@ void vehicle::thrust( int thd ) {
     }
 
     // Keep exact cruise control speed
-    if( thd > 0 ) {
-        vel_inc = std::min( vel_inc, cruise_velocity - velocity );
-    } else {
-        vel_inc = std::max( vel_inc, cruise_velocity - velocity );
+    if( cruise_on ) {
+        if( thd > 0 ) {
+            vel_inc = std::min( vel_inc, cruise_velocity - velocity );
+        } else {
+            vel_inc = std::max( vel_inc, cruise_velocity - velocity );
+        }
     }
 
     //find power ratio used of engines max
-    double load = ((float)abs(vel_inc)) / std::max((thrusting ? accel : brk),1);
-
+    double load;
+    if( cruise_on ) {
+        load = ((float)abs(vel_inc)) / std::max((thrusting ? accel : brk),1);
+    } else {
+        load = (thrusting ? 1.0 : 0.0);
+    }
 
     // only consume resources if engine accelerating
     if (load >= 0.01 && thrusting) {
@@ -4911,8 +4925,8 @@ void vehicle::gain_moves()
     of_turn_carry = 0;
 
     // cruise control TODO: enable for NPC?
-    if( player_in_control(g->u) && cruise_velocity != velocity ) {
-        thrust( cruise_velocity > velocity ? 1 : -1 );
+    if( player_in_control(g->u) && cruise_on && cruise_velocity != velocity ) {
+        thrust( (cruise_velocity) > velocity ? 1 : -1 );
     }
 
     // Force off-map vehicles to load by visiting them every time we gain moves.
