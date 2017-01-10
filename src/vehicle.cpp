@@ -3640,6 +3640,9 @@ void vehicle::idle(bool on_map) {
                 // partial charges have a proportional chance of being consumed each turn
                 qty += x_in_y( fmod( qty, 1.0 ) * 1000, 1000 ) ? 1 : 0;
                 drain( eng.ammo_current(), qty );
+
+                add_msg( m_debug, "energy: %ikJ, eff: %i%% fuel: %i",
+                         int( energy / 1000 ), int( eff * 100 ), int( qty ) );
             }
 
             if( on_map ) {
