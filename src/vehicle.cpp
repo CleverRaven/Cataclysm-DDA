@@ -3582,7 +3582,7 @@ void vehicle::idle(bool on_map) {
                 // consume fuel or disable the engine if insufficient was available
                 if( drain( eng.ammo_current(), qty ) != int( qty ) ) {
                     if( g->u.sees( global_pos3() ) ) {
-                        add_msg( m_bad, _( "The %s has run out of %s." ),
+                        add_msg( m_bad, _( "The %s has fun out of %s." ),
                                  name.c_str(), fuel->nname( qty ).c_str() );
                     }
                     eng.enabled = false;
