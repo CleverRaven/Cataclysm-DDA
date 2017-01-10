@@ -78,31 +78,3 @@ const itype_id &default_ammo( const ammotype &t )
 {
     return t.obj().default_ammotype();
 }
-
-double islot_engine::velocity_max( int mass, float dynamics ) const
-{
-    // scale engine power (J/s) to amount where 100% of output is consumed replacing friction losses
-    double power = power * dynamics / 0.05;
-    return sqrt( power / 2 / mass * 2 );
-}
-
-// @todo remove conversion once velocity is exclusively in m/s
-#define RESCALE_GEARS(q) ( q / 100 * 0.447 )
-
-double islot_engine::velocity_optimal( int mass, float dynamics ) const
-{
-    auto limit = velocity_max( mass, dynamics );
-    if( gears.empty() ) {
-        return limit; // engines without discrete gearing are equally efficient at any velocity
-    }
-    return std::min( optimum / RESCALE_GEARS( gears.back() ), limit );
-}
-
-double islot_engine::velocity_safe( int mass, float dynamics ) const
-{
-    auto limit = velocity_max( mass, dynamics );
-    if( gears.empty() ) {
-        return limit; // engines without discrete gearing can operate safely at any velocity
-    }
-    return std::min( redline / RESCALE_GEARS( gears.back() ), limit );
-}

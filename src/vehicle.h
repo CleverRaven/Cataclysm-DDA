@@ -166,8 +166,30 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Get wheel width (inches) or return 0 if part is not wheel */
     int wheel_width() const;
 
+    /**
+     * @name Engine stats
+     *
+     * Engines with gears have variable rpm dependent upon vehicle speed
+     * These values are define in the JSON definitions of the parts base item
+     */
+    /*@{*/
+
     /** Efficiency (0.0,1.0] at which engine converts fuel energy to output power at @ref rpm */
     float efficiency( int rpm ) const;
+
+    /** Get discrete engine gears (if any) in ascending order */
+    const std::vector<float>& gears() const;
+
+    /** Minimum idle rpm before stalling? */
+    int rpm_idle() const;
+
+    /** Maximum safe rpm before engine damage occurs? */
+    int rpm_redline() const;
+
+    /** Optimal rpm giving the best performance and fuel efficiency? */
+    int rpm_optimum() const;
+
+    /*@}*/
 
     /**
      *  Get NPC currently assigned to this part (seat, turret etc)?
@@ -836,9 +858,6 @@ public:
 
     /** Get current rpm of specific engine (or zero if engine is not running) */
     int rpm( const vehicle_part &pt ) const;
-
-    /** Check if specific engine is currently running above redline? */
-    bool overspeed( const vehicle_part &pt ) const;
 
     /** Get load (in watts) on specific engine from both propulsion and alternators */
     int load( const vehicle_part &pt ) const;

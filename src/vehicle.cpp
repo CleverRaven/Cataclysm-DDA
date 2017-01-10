@@ -2906,38 +2906,62 @@ const vehicle_part &vehicle::current_engine() const
 
 double vehicle::max_velocity( const vehicle_part &pt ) const
 {
-    return pt.is_engine() ? pt.base.type->engine->velocity_max( total_mass(), k_dynamics() ) : 0.0;
+    if( !pt.is_engine() ) {
+        return 0.0;
+    }
+
+    // scale engine power (J/s) to amount where 100% of output is consumed replacing friction losses
+    double power = pt.base.type->engine->power * k_dynamics() / 0.05;
+
+    // maximum velocity (m/s)
+    return sqrt( power / 2 / total_mass() * 2 );
 }
 
 double vehicle::optimal_velocity( const vehicle_part &pt ) const
 {
-    return pt.is_engine() ? pt.base.type->engine->velocity_optimal( total_mass(), k_dynamics() ) : 0.0;
+    // engines without discrete gearing are equally efficient at any velocity
+    if( pt.gears().empty() ) {
+        return max_velocity( pt );
+    }
+
+    // get velocity at optimal rpm in highest available gear
+    double v = pt.rpm_optimum() / pt.gears().back();
+
+    // @todo remove conversion once velocity is exclusively in m/s
+    return std::min( max_velocity( pt ), v / 100 * 0.447 );
 }
 
 double vehicle::safe_velocity( const vehicle_part &pt ) const
 {
-    return pt.is_engine() ? pt.base.type->engine->velocity_safe( total_mass(), k_dynamics() ) : 0.0;
+    // engines without discrete gearing cannot sustain damage from excessive rpm
+    if( pt.gears().empty() ) {
+        return max_velocity( pt );
+    }
+
+    // get velocity at redline rpm in highest available gear
+    double v = pt.rpm_redline() / pt.gears().back();
+
+    // @todo remove conversion once velocity is exclusively in m/s
+    return std::min( max_velocity( pt ), v / 100 * 0.447 );
 }
 
 int vehicle::gear( const vehicle_part &pt ) const {
-    if( !pt.is_engine() ) {
-        return -1;
-    }
+    auto gears = pt.gears();
 
     int best = INT_MAX;
     int sel = -1;
 
-    for( size_t idx = 0; idx != pt.base.type->engine->gears.size(); ++idx ) {
+    for( size_t idx = 0; idx != gears.size(); ++idx ) {
         // calculate engine RPM using this gear
-        int eng_rpm = std::abs( velocity ) * pt.base.type->engine->gears[idx];
+        int eng_rpm = std::abs( velocity ) * gears[idx];
 
         // dont allow selection of any gear that would result in a stall
-        if( eng_rpm < pt.base.type->engine->idle ) {
+        if( eng_rpm < pt.rpm_idle() ) {
             continue;
         }
 
-        // distance from engine optimum rpm
-        int delta = std::abs( eng_rpm - pt.base.type->engine->optimum );
+        // how distance from engine optimum rpm
+        int delta = std::abs( eng_rpm - pt.rpm_optimum() );
 
         // select best gear (or we return -1 for engines without discrete gears)
         if( delta < best ) {
@@ -2956,13 +2980,8 @@ int vehicle::rpm( const vehicle_part &pt ) const
         return 0;
     }
 
-    int res = std::abs( velocity ) * pt.base.type->engine->gears[g];
-    return std::max( res, pt.base.type->engine->idle );
-}
-
-bool vehicle::overspeed( const vehicle_part &pt ) const
-{
-    return pt.is_engine() ? rpm( pt ) <= pt.base.type->engine->redline : false;
+    int res = std::abs( velocity ) * pt.gears()[g];
+    return std::max( res, pt.rpm_idle() );
 }
 
 int vehicle::load( const vehicle_part &pt ) const
@@ -3604,7 +3623,7 @@ void vehicle::idle(bool on_map) {
     }
 
     // overspeed engines incur damage
-    if( overspeed( eng ) ) {
+    if( rpm( eng ) > eng.rpm_redline() ) {
         if( one_in( 10 ) ) {
             add_msg( _( "Your engine emits a high pitched whine." ) );
         } else if( one_in( 10 ) ) {
@@ -6087,8 +6106,29 @@ float vehicle_part::efficiency( int rpm ) const
     float eff = base.type->engine->efficiency / 100.0;
 
     // operating outside optimal rpm is less efficient 
-    double penalty = std::abs( base.type->engine->optimum - rpm ) / 1000.0;
+    double penalty = std::abs( rpm_optimum() - rpm ) / 1000.0;
     return eff / ( 1.0 + penalty );
+}
+
+const std::vector<float> &vehicle_part::gears() const
+{
+    static std::vector<float> no_gears;
+    return base.is_engine() ? base.type->engine->gears : no_gears;
+}
+
+int vehicle_part::rpm_idle() const
+{
+    return base.is_engine() ? base.type->engine->idle : 0;
+}
+
+int vehicle_part::rpm_redline() const
+{
+    return base.is_engine() ? base.type->engine->redline : 0;
+}
+
+int vehicle_part::rpm_optimum() const
+{
+    return base.is_engine() ? base.type->engine->optimum : 0;
 }
 
 bool vehicle_part::is_engine() const

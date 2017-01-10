@@ -3689,8 +3689,8 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             int rpm = veh->rpm( eng );
             if( rpm > 0 ) {
                 right_print( w, speedoy, 1, c_white, "%s <color_%s>%4d</color>", _( "rpm" ),
-                             veh->overspeed( eng ) ? "red" : "ltblue", rpm );
-           }
+                             rpm <= eng.rpm_redline() ? "ltblue" : "red", rpm );
+           }            
         }
 
     } else {  // Not in vehicle
