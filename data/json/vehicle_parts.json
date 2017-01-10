@@ -1003,7 +1003,7 @@
         "copy-from": "v_curtain",
         "id" : "v_curtain_sliding",
         "name": "sliding curtain",
-        "flags": ["OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN", "MULTISQUARE"]
+        "extend": { "flags": [ "MULTISQUARE" ] }
     },{
         "type" : "vehicle_part",
         "id"   : "aisle_curtain",
