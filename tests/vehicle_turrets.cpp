@@ -60,9 +60,9 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [!mayfail]" ) {
             if( veh->part_flag( idx, "USE_TANKS" ) ) {
                 auto *tank = biggest_tank( ammo );
                 REQUIRE( tank );
-                INFO( tank->id.str() );      
+                INFO( tank->get_id().str() );
 
-                auto tank_idx = veh->install_part( 0, 0, tank->id, true );
+                auto tank_idx = veh->install_part( 0, 0, tank->get_id(), true );
                 REQUIRE( tank_idx >= 0 );
                 REQUIRE( veh->parts[ tank_idx ].ammo_set( default_ammo( ammo ) ) );
 
