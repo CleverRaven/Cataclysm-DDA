@@ -866,15 +866,20 @@ void vehicle::use_controls( const tripoint &pos )
             return;
         }
 
+        // can this menu option be selected by the user?
+        bool allow = true;
+
         // determine target state - currently parts of similar type are all switched concurrently
         bool state = std::none_of( found.begin(), found.end(), []( const vehicle_part *e ) {
             return e->enabled;
         } );
 
-        // can menu option be selected - if trying to enable check if part currently usable
-        bool allow = !state || std::any_of( found.begin(), found.end(), [&]( const vehicle_part *e ) {
-            return can_enable( *e );
-        } );
+        // if toggled part potentially usable check if could be enabled now (sufficient fuel etc.)
+        if( state ) {
+            allow = std::any_of( found.begin(), found.end(), [&]( const vehicle_part *e ) {
+                return can_enable( *e );
+            } );
+        }
 
         auto msg = string_format( state ? _( "Turn on %s" ) : _( "Turn off %s" ), name.c_str() );
         options.emplace_back( -1, allow, key, msg );
