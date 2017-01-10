@@ -20,7 +20,6 @@
       { "item": "pan", "prob": 50 },
       { "item": "pot", "prob": 50 }
     ],
-    "tools": [ "hotplate", "pot" ],
     "flags": [ "CARGO", "OBSTACLE", "KITCHEN", "FAUCET", "COVERED", "TOOL_WRENCH" ]
   },
   {
@@ -43,7 +42,6 @@
       { "item": "scrap", "count": [ 3, 6 ] },
       { "item": "welder", "prob": 50, "charges": 0 }
     ],
-    "tools": [ "welder", "soldering_iron" ],
     "flags": [ "CARGO", "OBSTACLE", "WELDRIG", "COVERED", "TOOL_WRENCH" ]
   },
   {
@@ -71,7 +69,6 @@
       { "item": "dehydrator", "prob": 50, "charges": 0 },
       { "item": "press", "prob": 50, "charges": 0 }
     ],
-    "tools": [ "vac_sealer", "dehydrator", "press" ],
     "flags": [ "CARGO", "OBSTACLE", "CRAFTRIG", "WATER_PURIFIER", "COVERED", "TOOL_WRENCH" ]
   },
   {
@@ -95,7 +92,6 @@
       { "item": "chemistry_set", "prob": 50, "charges": 0 },
       { "item": "hotplate", "prob": 50, "charges": 0 }
     ],
-    "tools": [ "hotplate", "chemistry_set" ],
     "flags": [ "CARGO", "OBSTACLE", "CHEMLAB", "FAUCET", "COVERED", "TOOL_WRENCH" ]
   },
   {
@@ -117,7 +113,6 @@
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
-    "tools": [ "forge" ],
     "flags": [ "CARGO", "OBSTACLE", "FORGE", "TOOL_WRENCH" ]
   }
 ]

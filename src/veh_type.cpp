@@ -179,7 +179,6 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "size", def.size );
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
-    assign( jo, "tools", def.tools );
     assign( jo, "flags", def.flags );
 
     if( jo.has_member( "requirements" ) ) {
@@ -466,11 +465,6 @@ void vpart_info::check()
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
                 debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
-            }
-        }
-        for( const auto &e : part.tools ) {
-            if( !item::type_is_defined( e ) ) {
-                debugmsg( "vehicle part %s has undefined tool item %s", part.id.c_str(), e.c_str() );
             }
         }
     }

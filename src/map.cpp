@@ -5053,21 +5053,105 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
 
         vehs.insert( veh );
 
-        // try to provide as many charges as possible from any matching vehicle pseudo-tool
-        if( veh->has_part( p, [&type]( const vehicle_part &e ) { return e.info().tools.count( type ); } ) ) {
-            item obj( type );
-            obj.set_flag( "PSEUDO" );
-            obj.ammo_set( obj.ammo_default(), veh->drain( obj.ammo_default(), quantity ) );
-            quantity -= obj.ammo_remaining();
+        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
+        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
+        const int forgepart = veh->part_with_feature(vpart, "FORGE");
+        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
+        const int cargo = veh->part_with_feature(vpart, "CARGO");
 
-            ret.push_back( obj );
+        if (kpart >= 0) {
+            itype_id ftype = "null";
 
-            if( quantity == 0 ) {
+            if (type == "hotplate") {
+                ftype = "battery";
+            }
+
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
                 return ret;
             }
         }
 
-        const int cargo = veh->part_with_feature( vpart, "CARGO" );
+        if (weldpart >= 0) { // we have a weldrig, now to see what to drain
+            itype_id ftype = "null";
+
+            if (type == "welder") {
+                ftype = "battery";
+            } else if (type == "soldering_iron") {
+                ftype = "battery";
+            }
+
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
+                return ret;
+            }
+        }
+
+        if (craftpart >= 0) { // we have a craftrig, now to see what to drain
+            itype_id ftype = "null";
+
+            if (type == "press") {
+                ftype = "battery";
+            } else if (type == "vac_sealer") {
+                ftype = "battery";
+            } else if (type == "dehydrator") {
+                ftype = "battery";
+            }
+
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
+                return ret;
+            }
+        }
+
+        if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
+            itype_id ftype = "null";
+
+            if (type == "forge") {
+                ftype = "battery";
+            }
+
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
+                return ret;
+            }
+        }
+
+        if (chempart >= 0) { // we have a chem_lab, now to see what to drain
+            itype_id ftype = "null";
+
+            if (type == "chemistry_set") {
+                ftype = "battery";
+            } else if (type == "hotplate") {
+                ftype = "battery";
+            }
+
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
+                return ret;
+            }
+        }
 
         if (cargo >= 0) {
             std::list<item> tmp =

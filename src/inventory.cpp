@@ -9,7 +9,6 @@
 #include "npc.h"
 #include "itype.h"
 #include "vehicle.h"
-#include "veh_type.h"
 #include "mapdata.h"
 #include "map_iterator.h"
 #include <algorithm>
@@ -457,19 +456,74 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
 
         vehs.insert( veh );
 
+        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
+        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
+        const int forgepart = veh->part_with_feature(vpart, "FORGE");
+        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
         const int cargo = veh->part_with_feature(vpart, "CARGO");
+
         if (cargo >= 0) {
             *this += std::list<item>( veh->get_items(cargo).begin(),
                                       veh->get_items(cargo).end() );
         }
 
-        for( const auto pt : veh->get_parts( p ) ) {
-            // does any part on this tile provide any pseudo-tools?
-            for( const auto &e : pt->info().tools ) {
-                item obj( e );
-                obj.ammo_set( obj.ammo_default(), veh->fuel_left( obj.ammo_default() ) );
-                add_item( obj.set_flag( "PSEUDO" ) );
-            }
+        if (kpart >= 0) {
+            item hotplate("hotplate", 0);
+            hotplate.charges = veh->fuel_left("battery", true);
+            hotplate.item_tags.insert("PSEUDO");
+            add_item(hotplate);
+
+            item pot("pot", 0);
+            pot.item_tags.insert("PSEUDO");
+            add_item(pot);
+            item pan("pan", 0);
+            pan.item_tags.insert("PSEUDO");
+            add_item(pan);
+        }
+        if (weldpart >= 0) {
+            item welder("welder", 0);
+            welder.charges = veh->fuel_left("battery", true);
+            welder.item_tags.insert("PSEUDO");
+            add_item(welder);
+
+            item soldering_iron("soldering_iron", 0);
+            soldering_iron.charges = veh->fuel_left("battery", true);
+            soldering_iron.item_tags.insert("PSEUDO");
+            add_item(soldering_iron);
+        }
+        if (craftpart >= 0) {
+            item vac_sealer("vac_sealer", 0);
+            vac_sealer.charges = veh->fuel_left("battery", true);
+            vac_sealer.item_tags.insert("PSEUDO");
+            add_item(vac_sealer);
+
+            item dehydrator("dehydrator", 0);
+            dehydrator.charges = veh->fuel_left("battery", true);
+            dehydrator.item_tags.insert("PSEUDO");
+            add_item(dehydrator);
+
+            item press("press", 0);
+            press.charges = veh->fuel_left("battery", true);
+            press.item_tags.insert("PSEUDO");
+            add_item(press);
+        }
+        if (forgepart >= 0) {
+            item forge("forge", 0);
+            forge.charges = veh->fuel_left("battery", true);
+            forge.item_tags.insert("PSEUDO");
+            add_item(forge);
+        }
+        if (chempart >= 0) {
+            item hotplate("hotplate", 0);
+            hotplate.charges = veh->fuel_left("battery", true);
+            hotplate.item_tags.insert("PSEUDO");
+            add_item(hotplate);
+
+            item chemistry_set("chemistry_set", 0);
+            chemistry_set.charges = veh->fuel_left("battery", true);
+            chemistry_set.item_tags.insert("PSEUDO");
+            add_item(chemistry_set);
         }
     }
 
