@@ -825,9 +825,6 @@ public:
     vehicle_part &current_engine();
     const vehicle_part &current_engine() const;
 
-    /** Get current vehicle velocity (m/s) */
-    double current_velocity() const;
-
     /** Get maximum velocity (m/s) when using a specific engine */
     double max_velocity( const vehicle_part &pt ) const;
 

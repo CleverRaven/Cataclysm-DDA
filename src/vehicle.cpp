@@ -2913,11 +2913,6 @@ const vehicle_part &vehicle::current_engine() const
     return const_cast<vehicle *>( this )->current_engine();
 }
 
-double vehicle::current_velocity() const
-{
-    return velocity / 100 * 0.44704;
-}
-
 double vehicle::max_velocity( const vehicle_part &pt ) const
 {
     return pt.is_engine() ? pt.base.type->engine->velocity_max( total_mass(), k_dynamics() ) : 0.0;
@@ -2934,7 +2929,8 @@ double vehicle::safe_velocity( const vehicle_part &pt ) const
 }
 
 int vehicle::gear( const vehicle_part &pt ) const {
-    return pt.is_engine() ? pt.base.type->engine->best_gear( current_velocity() ) : -1;
+    double v = velocity / 100 * 0.44704; // current velocity (m/s)
+    return pt.is_engine() ? pt.base.type->engine->best_gear( v ) : -1;
 }
 
 int vehicle::rpm( const vehicle_part &pt ) const
@@ -2942,8 +2938,10 @@ int vehicle::rpm( const vehicle_part &pt ) const
     if( !pt.is_engine() ) {
         return 0;
     }
+
     // @todo once stalling is implemented remove lower bound ensuring rpm above idle
-    return std::max( pt.base.type->engine->effective_rpm( current_velocity() ), pt.base.type->engine->idle );
+    double v = velocity / 100 * 0.44704; // current velocity (m/s)
+    return std::max( pt.base.type->engine->effective_rpm( v ), pt.base.type->engine->idle );
 }
 
 bool vehicle::overspeed( const vehicle_part &pt ) const
@@ -2953,8 +2951,11 @@ bool vehicle::overspeed( const vehicle_part &pt ) const
 
 int vehicle::load( const vehicle_part &pt ) const
 {
+    // current velocity (m/s)
+    double v = velocity / 100 * 0.44704;
+
     // kinetic energy (J)
-    double k = 0.5 * total_mass() * pow( current_velocity(), 2 );
+    double k = 0.5 * total_mass() * pow( v, 2 );
 
     // engine power (J/s) replaces energy lost via friction (~25% for typical vehicle)
     double res = k * friction_loss / k_dynamics();

@@ -1810,9 +1810,9 @@ void veh_interact::display_stats()
 
     fold_and_print( w_stats, y[0], x[0], w[0], c_ltgray,
                     _( "Optimal/Safe/Top Speed: <color_ltgreen>%d</color>/<color_yellow>%d</color>/<color_ltred>%d</color> %s" ),
-                    int( convert_velocity( ms_to_display( optimal_vel ), VU_VEHICLE ) ),
-                    int( convert_velocity( ms_to_display( safe_vel ), VU_VEHICLE ) ),
-                    int( convert_velocity( ms_to_display( max_vel ), VU_VEHICLE ) ),
+                    int( convert_velocity( optimal_vel  * 2.237 * 100, VU_VEHICLE ) ),
+                    int( convert_velocity( safe_vel  * 2.237 * 100, VU_VEHICLE ) ),
+                    int( convert_velocity( max_vel * 2.237 * 100, VU_VEHICLE ) ),
                     velocity_units( VU_VEHICLE ) );
 
     fold_and_print( w_stats, y[2], x[2], w[2], c_ltgray,

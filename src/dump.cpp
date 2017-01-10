@@ -248,7 +248,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
     } else if( what == "VEHICLE" ) {
         header = {
             "Name", "Weight (empty)", "Weight (fueled)",
-            "Max velocity (t/t)", "Safe velocity (t/t)", "Optimal velocity (t/t)",
+            "Max velocity (mph)", "Safe velocity (mph)", "Optimal velocity (mph)",
             "Mass coeff %", "Aerodynamics coeff %", "Friction coeff %",
             "Traction coeff % (grass)"
         };
@@ -289,9 +289,9 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             r.push_back( veh_empty.name );
             r.push_back( to_string( veh_empty.total_mass() ) );
             r.push_back( to_string( veh_fueled.total_mass() ) );
-            r.push_back( string_format( "%.1f", ms_to_tt( max_vel ) ) );
-            r.push_back( string_format( "%.1f", ms_to_tt( safe_vel ) ) );
-            r.push_back( string_format( "%.1f", ms_to_tt( optimal_vel ) ) );
+            r.push_back( to_string( int( ms_to_mph( max_vel ) ) ) );
+            r.push_back( to_string( int( ms_to_mph( safe_vel ) ) ) );
+            r.push_back( to_string( int( ms_to_mph( optimal_vel ) ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_mass() ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_aerodynamics() ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_friction() ) ) );
@@ -305,7 +305,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
     } else if( what == "ENGINE" ) {
         header = {
             "Name", "Weight (kg)", "Volume (L)", "Fuel", "Power (hp)", "Efficiency (%)", "Durability",
-            "Optimum (rpm)", "Redline (rpm)", "Optimal (t/t)", "Safe (t/t)"
+            "Optimum (rpm)", "Redline (rpm)", "Optimal (mph)", "Safe (mph)"
         };
         for( auto &e : vpart_info::all() ) {
             const item obj( e.second.item );
@@ -325,8 +325,8 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             } else {
                 r.push_back( to_string( obj.type->engine->optimum ) );
                 r.push_back( to_string( obj.type->engine->redline ) );
-                r.push_back( string_format( "%.1f", ms_to_tt( obj.type->engine->velocity_optimal( 1 ) ) ) );
-                r.push_back( string_format( "%.1f", ms_to_tt(obj.type->engine->velocity_safe( 1 ) ) ) );
+                r.push_back( string_format( "%.0f", ms_to_mph( obj.type->engine->velocity_optimal( 1 ) ) ) );
+                r.push_back( string_format( "%.0f", ms_to_mph(obj.type->engine->velocity_safe( 1 ) ) ) );
             }
             rows.push_back( r );
         }
@@ -343,7 +343,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             const item eng( obj );
             std::vector<std::string> r( 1, eng.tname() );
             for( int i = 1; i != limit; ++i ) {
-                r.push_back( to_string( ms_to_tt( eng.type->engine->velocity_safe( i, 0.8 ) ) ) );
+                r.push_back( to_string( ms_to_mph( eng.type->engine->velocity_safe( i, 0.8 ) ) ) );
             }
             rows.push_back( r );
         };

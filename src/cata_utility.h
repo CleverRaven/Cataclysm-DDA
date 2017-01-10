@@ -60,29 +60,15 @@ constexpr double ms_to_mph( double val )
 {
     return val * 2.237;
 }
-
 constexpr double mph_to_ms( double val )
 {
     return val / 2.237;
-}
-
-/** convert velocity (m/s) to arbitrary display units */
-constexpr double ms_to_display( double val )
-{
-    return ms_to_mph( val ) * 100 * 2;
-}
-
-/** convert velocity (m/s) to fractional tiles per turn */
-constexpr double ms_to_tt( double v )
-{
-    return ms_to_mph( v ) / 10.0;
 }
 
 constexpr double hp_to_watt( double val )
 {
     return val * 745.7;
 }
-
 constexpr double watt_to_hp( double val )
 {
     return val / 745.7;

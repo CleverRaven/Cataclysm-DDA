@@ -16,7 +16,7 @@ static void test_max_velocity( const vproto_id &id, double min, double max ) {
     auto base = veh.part_base( veh.index_of_part( &veh.current_engine() ) );
     REQUIRE( base );
     int mass = veh.total_mass() + ( player().get_weight() / 1000.0 );
-    const double v = ms_to_tt( base->type->engine->velocity_max( mass, veh.k_dynamics() ) );
+    const double v = ms_to_mph( base->type->engine->velocity_max( mass, veh.k_dynamics() ) ) / 10.0;
     REQUIRE( v >= min );
     REQUIRE( v <= max );
 }
@@ -29,7 +29,7 @@ static void test_safe_velocity( const vproto_id &id, double min, double max ) {
     auto base = veh.part_base( veh.index_of_part( &veh.current_engine() ) );
     REQUIRE( base );
     int mass = veh.total_mass() + ( player().get_weight() / 1000.0 );
-    const double v = ms_to_tt( base->type->engine->velocity_safe( mass, veh.k_dynamics() );
+    const double v = ms_to_mph( base->type->engine->velocity_safe( mass, veh.k_dynamics() ) ) / 10.0;
     REQUIRE( v >= min );
     REQUIRE( v <= max );
 }
@@ -42,7 +42,7 @@ static void test_optimal_velocity( const vproto_id &id, double min, double max )
     auto base = veh.part_base( veh.index_of_part( &veh.current_engine() ) );
     REQUIRE( base );
     int mass = veh.total_mass() + ( player().get_weight() / 1000.0 );
-    const double v = ms_to_tt( base->type->engine->velocity_optimal( mass, veh.k_dynamics() ) );
+    const double v = ms_to_mph( base->type->engine->velocity_optimal( mass, veh.k_dynamics() ) ) / 10.0;
     REQUIRE( v >= min );
     REQUIRE( v <= max );
 }
