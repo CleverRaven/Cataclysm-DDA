@@ -142,21 +142,11 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /* Can part in current state be reloaded optionally with specific @ref obj */
     bool can_reload( const itype_id &obj = "" ) const;
 
-    /** Inspect contents of tank or @return empty list if part is not a vehicle tank */
-    const std::list<item>& contents() const;
-
     /**
      *  Try adding @param liquid to tank optionally limited by @param qty
      *  @return whether any of the liquid was consumed (which may be less than qty)
      */
     bool fill_with( item &liquid, long qty = LONG_MAX );
-
-    /**
-     *  Try to drain liquid from a tank
-     *  @param qty number of charges to drain or negative to drain the entire tank
-     *  @return drained liquid or null item if tank empty or part was not a tank
-     */
-    item drain( long qty = -1 );
 
     /** Current faults affecting this part (if any) */
     const std::set<fault_id>& faults() const;

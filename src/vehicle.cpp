@@ -5924,15 +5924,6 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
     return false;
 }
 
-const std::list<item>& vehicle_part::contents() const
-{
-    if( !is_tank() ) {
-        static std::list<item> null_contents;
-        return null_contents;
-    }
-    return base.contents;
-}
-
 bool vehicle_part::fill_with( item &liquid, long qty )
 {
     if( liquid.active ) {
@@ -5946,24 +5937,6 @@ bool vehicle_part::fill_with( item &liquid, long qty )
 
     base.fill_with( liquid, qty );
     return true;
-}
-
-item vehicle_part::drain( long qty )
-{
-    if( qty < 0 ) {
-        qty = ammo_remaining();
-    }
-
-    if( !is_tank() || base.contents.empty() || qty == 0 ) {
-        return item();
-    }
-
-    item obj = base.contents.front().split( qty );
-    if( obj.is_null() ) {
-        obj = base.contents.front();
-        base.contents.pop_front();
-    }
-    return obj;
 }
 
 const std::set<fault_id>& vehicle_part::faults() const
