@@ -2,9 +2,9 @@
   {
     "type": "MOD_INFO",
     "ident": "megaveh",
-    "name": "Fuel Multiplier Mod",
+    "name": "Huge Vehicles",
     "authors": [ "Aabbcc" ],
-    "description": "Triples the base potency of gasoline and diesel fuels, making ultra-large vehicles more viable",
+    "description": "Alters game balance to allow easier construction and operation of huge vehicles",
     "category": "rebalance",
     "dependencies": [ "dda" ]
   }
