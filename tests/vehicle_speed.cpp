@@ -8,7 +8,6 @@
 
 /** check max velocity for vehicle between @ref min and @ref max tiles per turn */
 static void test_max_velocity( const vproto_id &id, double min, double max ) {
-    INFO( "max velocity (tiles/turn)" );
     REQUIRE( id.is_valid() );
     const vehicle veh( id, 100, 0 );
     const double v = ms_to_mph( veh.max_velocity( veh.current_engine() ) ) / 10.0;
@@ -18,7 +17,6 @@ static void test_max_velocity( const vproto_id &id, double min, double max ) {
 
 /** check safe velocity for vehicle between @ref min and @ref max tiles per turn */
 static void test_safe_velocity( const vproto_id &id, double min, double max ) {
-    INFO( "safe velocity (tiles/turn)" );
     REQUIRE( id.is_valid() );
     const vehicle veh( id, 100, 0 );
     const double v = ms_to_mph( veh.safe_velocity( veh.current_engine() ) ) / 10.0;
@@ -28,7 +26,6 @@ static void test_safe_velocity( const vproto_id &id, double min, double max ) {
 
 /** check optimal velocity for vehicle between @ref min and @ref max tiles per turn */
 static void test_optimal_velocity( const vproto_id &id, double min, double max ) {
-    INFO( "optimal velocity (tiles/turn)" );
     REQUIRE( id.is_valid() );
     const vehicle veh( id, 100, 0 );
     const double v = ms_to_mph( veh.optimal_velocity( veh.current_engine() ) ) / 10.0;
@@ -63,26 +60,5 @@ TEST_CASE( "vehicle_speed", "[vehicle] [engine]" ) {
         test_max_velocity    ( vproto_id( "humvee" ), 2.5, 3.5 );
         test_safe_velocity   ( vproto_id( "humvee" ), 2.5, 3.5 );
         test_optimal_velocity( vproto_id( "humvee" ), 2.0, 3.0 );
-    }
-
-    SECTION( "road_roller" ) {
-        // huge vehicle with poor dynamics but a powerful traction engine that is slow but efficient
-        test_max_velocity    ( vproto_id( "road_roller" ), 1.0, 2.0 );
-        test_safe_velocity   ( vproto_id( "road_roller" ), 1.0, 2.0 );
-        test_optimal_velocity( vproto_id( "road_roller" ), 1.0, 2.0 );
-    }
-
-    SECTION( "car_sports" ) {
-        // twice as fast as a regular car but not especially efficient at the higher speeds
-        test_max_velocity    ( vproto_id( "car_sports" ), 10.0, 12.0 );
-        test_safe_velocity   ( vproto_id( "car_sports" ), 10.0, 12.0 );
-        test_optimal_velocity( vproto_id( "car_sports" ), 6.0, 7.0 );
-    }
-
-    SECTION( "car_sports_electric" ) {
-        // electric cars have similar speeds to gasoline but are equally efficient at all speeds
-        test_max_velocity    ( vproto_id( "car_sports_electric" ), 10.0, 12.0 );
-        test_safe_velocity   ( vproto_id( "car_sports_electric" ), 10.0, 12.0 );
-        test_optimal_velocity( vproto_id( "car_sports_electric" ), 10.0, 12.0 );
     }
 }

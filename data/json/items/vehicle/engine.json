@@ -123,19 +123,19 @@
   },
   {
     "id": "v12_combustion",
-    "copy-from": "v6_combustion",
+    "copy-from": "v8_combustion",
     "type": "ENGINE",
     "name": "V12 engine",
     "description": "A massive and extremely powerful V12 engine typically found in high end sports cars.  Despite the inclusion of an extra gear and the ability to run at higher speeds the operator must be careful not to push the engine past its limits.",
-    "gears": [ 3.166, 1.982, 1.396, 1.102, 0.819, 0.689 ],
+    "weight": 320000,
+    "volume": 96,
+    "power": 420000,
+    "gears": [ 2.766, 1.712, 1.096, 0.872, 0.638, 0.529 ],
     "proportional": {
-      "weight": 2.4,
-      "volume": 2.0,
-      "power": 2.6,
       "efficiency": 0.8,
-      "idle": 1.2,
-      "optimum": 1.2,
-      "redline": 1.2
+      "idle": 1.5,
+      "optimum": 1.5,
+      "redline": 1.5
     }
   },
   {
