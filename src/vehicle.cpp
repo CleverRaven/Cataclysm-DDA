@@ -274,12 +274,9 @@ void vehicle::save (std::ostream &stout)
 
 void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 {
-    // @todo support setting default engine via vehicle JSON definition
-    for( auto &e : parts ) {
-        if( e.is_engine() ) {
-            e.enabled = true;
-            break;
-        }
+    // vehicle parts excluding engines are by default turned off
+    for( auto &pt : parts ) {
+        pt.enabled = pt.base.is_engine() && !current_engine();
     }
 
     bool destroySeats = false;

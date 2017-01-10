@@ -13,7 +13,6 @@ static void test_max_velocity( const vproto_id &id, double min, double max ) {
     INFO( "max velocity (tiles/turn)" );
     REQUIRE( id.is_valid() );
     vehicle veh( id, 100, 0 );
-    REQUIRE( veh.current_engine() );
     auto base = veh.part_base( veh.index_of_part( &veh.current_engine() ) );
     REQUIRE( base );
     int mass = veh.total_mass() + ( player().get_weight() / 1000.0 );
@@ -27,7 +26,6 @@ static void test_safe_velocity( const vproto_id &id, double min, double max ) {
     INFO( "safe velocity (tiles/turn)" );
     REQUIRE( id.is_valid() );
     vehicle veh( id, 100, 0 );
-    REQUIRE( veh.current_engine() );
     auto base = veh.part_base( veh.index_of_part( &veh.current_engine() ) );
     REQUIRE( base );
     int mass = veh.total_mass() + ( player().get_weight() / 1000.0 );
@@ -41,7 +39,6 @@ static void test_optimal_velocity( const vproto_id &id, double min, double max )
     INFO( "optimal velocity (tiles/turn)" );
     REQUIRE( id.is_valid() );
     vehicle veh( id, 100, 0 );
-    REQUIRE( veh.current_engine() );
     auto base = veh.part_base( veh.index_of_part( &veh.current_engine() ) );
     REQUIRE( base );
     int mass = veh.total_mass() + ( player().get_weight() / 1000.0 );

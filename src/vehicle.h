@@ -235,10 +235,7 @@ public:
     bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     bool removed     = false;     // true if this part is removed. The part won't disappear until the end of the turn
                                   // so our indices can remain consistent.
-
-    /** Is part currently active/ready for use? */
-    bool enabled = false;
-
+    bool enabled     = true;      //
     int flags        = 0;         //
     int passenger_id = 0;         // carrying passenger
 
