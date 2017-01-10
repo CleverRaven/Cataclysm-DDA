@@ -2948,20 +2948,6 @@ double vehicle::max_velocity( const vehicle_part &pt ) const
     return sqrt( power / 2 / total_mass() * 2 );
 }
 
-double vehicle::optimal_velocity( const vehicle_part &pt ) const
-{
-    // engines without discrete gearing are equally efficient at any velocity
-    if( pt.gears().empty() ) {
-        return max_velocity( pt );
-    }
-
-    // get velocity at optimal rpm in highest available gear
-    double v = pt.rpm_optimum() / pt.gears().back();
-
-    // @todo remove conversion once velocity is exclusively in m/s
-    return std::min( max_velocity( pt ), v / 100 * 0.447 );
-}
-
 double vehicle::safe_velocity( const vehicle_part &pt ) const
 {
     // engines without discrete gearing cannot sustain damage from excessive rpm

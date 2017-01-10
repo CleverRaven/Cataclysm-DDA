@@ -1804,15 +1804,10 @@ void veh_interact::display_stats()
                                        [&]( const double lhs, const vehicle_part &rhs ) {
                                            return std::max( lhs, veh->safe_velocity( rhs ) ); } );
 
-    double optimal_vel = std::accumulate( veh->parts.begin(), veh->parts.end(), 0.0f,
-                                          [&]( const double lhs, const vehicle_part &rhs ) {
-                                              return std::max( lhs, veh->optimal_velocity( rhs ) ); } );
-
     fold_and_print( w_stats, y[0], x[0], w[0], c_ltgray,
-                    _( "Optimal/Safe/Top Speed: <color_ltgreen>%d</color>/<color_yellow>%d</color>/<color_ltred>%d</color> %s" ),
-                    int( convert_velocity( optimal_vel  * 2.237 * 100, VU_VEHICLE ) ),
-                    int( convert_velocity( safe_vel  * 2.237 * 100, VU_VEHICLE ) ),
-                    int( convert_velocity( max_vel * 2.237 * 100, VU_VEHICLE ) ),
+                    _( "Safe/Top Speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s" ),
+                    int( convert_velocity( max_vel  * 2.237 * 100, VU_VEHICLE ) ),
+                    int( convert_velocity( safe_vel * 2.237 * 100, VU_VEHICLE ) ),
                     velocity_units( VU_VEHICLE ) );
 
     fold_and_print( w_stats, y[2], x[2], w[2], c_ltgray,

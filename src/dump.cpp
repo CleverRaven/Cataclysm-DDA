@@ -248,7 +248,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
     } else if( what == "VEHICLE" ) {
         header = {
             "Name", "Weight (empty)", "Weight (fueled)",
-            "Max velocity (mph)", "Safe velocity (mph)", "Optimal velocity (mph)",
+            "Max velocity (mph)", "Safe velocity (mph)",
             "Mass coeff %", "Aerodynamics coeff %", "Friction coeff %",
             "Traction coeff % (grass)"
         };
@@ -264,17 +264,12 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                                                [&]( const double lhs, const vehicle_part &rhs ) {
                                                    return std::max( lhs, veh_fueled.safe_velocity( rhs ) ); } );
 
-            double optimal_vel = std::accumulate( veh_fueled.parts.begin(), veh_fueled.parts.end(), 0.0f,
-                                                  [&]( const double lhs, const vehicle_part &rhs ) {
-                                                      return std::max( lhs, veh_fueled.optimal_velocity( rhs ) ); } );
-
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
             r.push_back( to_string( veh_empty.total_mass() ) );
             r.push_back( to_string( veh_fueled.total_mass() ) );
             r.push_back( to_string( int( ms_to_mph( max_vel ) ) ) );
             r.push_back( to_string( int( ms_to_mph( safe_vel ) ) ) );
-            r.push_back( to_string( int( ms_to_mph( optimal_vel ) ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_mass() ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_aerodynamics() ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_friction() ) ) );

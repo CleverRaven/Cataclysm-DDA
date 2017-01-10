@@ -853,9 +853,6 @@ public:
     /** Highest velocity avoiding engine damage (m/s) when using a specific engine */
     double safe_velocity( const vehicle_part &pt ) const;
 
-    /** Most fuel efficient velocity when using a specific engine */
-    double optimal_velocity( const vehicle_part &pt ) const;
-
     /** Get current engine gear (or zero for engines without discrete gears) */
     int gear() const;
 
