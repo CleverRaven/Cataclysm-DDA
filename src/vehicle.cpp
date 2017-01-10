@@ -2903,23 +2903,6 @@ bool vehicle::do_environmental_effects()
     return needed;
 }
 
-int vehicle::power_usage() const
-{
-    int res = 0;
-
-    // handle part not yet migrated to have discrete enabled status
-    res += is_alarm_on ? alarm_epower : 0;
-    res += camera_on ? camera_epower : 0;
-
-    for( const auto &e : parts ) {
-        if( e.enabled ) {
-            res += std::min( e.info().epower, 0 ); // consumers only
-        }
-    }
-
-    return - res; // apply correct sign
-}
-
 vehicle_part &vehicle::current_engine()
 {
     // @todo cache this somewhere

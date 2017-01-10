@@ -825,9 +825,6 @@ public:
     // vehicle motion after precalc[1] is prepared.
     point pivot_displacement() const;
 
-    /** Calculate power usage (watts) of all active parts */
-    int power_usage() const;
-
     /** Get currently selected engine (if any) or a null part if none are selected */
     vehicle_part &current_engine();
     const vehicle_part &current_engine() const;
