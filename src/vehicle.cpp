@@ -3556,7 +3556,7 @@ void vehicle::idle(bool on_map) {
         if( eng.base.has_flag( "MANUAL_ENGINE" ) &&
             player_in_control( g->u ) && global_part_pos3( eng ) == g->u.pos() ) {
             // Effort is load to max power ratio
-            float effort = std::min( 1.0f, (float)load( eng ) / std::max( 1, part_power( eng ) ) );
+            float effort = std::min( 1.0f, (float)load( eng ) / part_power( eng ) );
 
             // At full effort, increase resource consumption by 500%
             if( x_in_y( effort, MINUTES( 1 ) ) ) {
