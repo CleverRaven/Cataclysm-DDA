@@ -21,7 +21,6 @@
     "redline": 3200,
     "gears": [ 3.891, 2.74, 1.652, 1.134, 0.912 ],
     "start_time": 60,
-    "start_energy": 160,
     "extend": { "faults": [ "fault_engine_pump_diesel", "fault_engine_glow_plug" ] },
     "flags": [ "COLD_START" ]
   },
@@ -65,7 +64,7 @@
     "volume": 16,
     "power": 16000,
     "gears": [ 3.166, 1.882, 1.126 ],
-    "start_energy": 20,
+    "start_energy": 25,
     "faults": [ "fault_engine_starter" ]
   },
   {
@@ -91,7 +90,7 @@
     "weight": 120000,
     "volume": 60,
     "power": 60000,
-    "start_energy": 80
+    "start_energy": 100
   },
   {
     "id": "v6_combustion",
@@ -146,7 +145,8 @@
     "description": "A bulky 4-cylinder diesel combustion engine commonly found in light commercial vehicles.  More efficient than a gasoline engine presuming you can scavenge or craft the required fuel.",
     "weight": 145000,
     "volume": 72,
-    "power": 60000
+    "power": 60000,
+    "start_energy": 300
   },
   {
     "id": "v6_diesel",
@@ -159,7 +159,7 @@
       "volume": 1.4,
       "power": 1.5,
       "start_time": 2,
-      "start_energy": 1.5
+      "start_energy": 2
     }
   },
   {
@@ -175,7 +175,7 @@
     "proportional": {
       "redline": 0.8,
       "start_time": 2,
-      "start_energy": 1.5
+      "start_energy": 2
     }
   }
 ]

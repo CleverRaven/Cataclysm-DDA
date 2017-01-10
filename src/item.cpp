@@ -3685,9 +3685,9 @@ double item::engine_start_difficulty( int temperature ) const
 {
     double res = 0.0;
 
-    // engine wear gradually increases penalty with a maximum of 0.3
+    // engine wear gradually increases penalty with a maximum of 0.4
     if( max_damage() > 0 ) {
-        res += std::min( damage_ / double( max_damage() ), 0.3 );
+        res += std::min( damage_ / double( max_damage() ), 0.4 );
     }
 
     // diesel engines with working glow plugs have maximum penalty of 0.6
