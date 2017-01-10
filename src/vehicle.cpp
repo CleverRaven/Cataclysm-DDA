@@ -5809,7 +5809,7 @@ int vehicle_part::hp() const
 /** parts are considered broken at zero health */
 bool vehicle_part::is_broken() const
 {
-    return base.damage() >= base.max_damage();
+    return hp() <= 0;
 }
 
 itype_id vehicle_part::ammo_current() const
