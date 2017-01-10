@@ -48,7 +48,7 @@
     "weight": 32000,
     "volume": 16,
     "price": 30000,
-    "power": 15000,
+    "power": 20,
     "gears": [ 3.166, 1.882, 1.296 ],
     "faults": [ "fault_engine_starter" ]
   },
@@ -61,7 +61,7 @@
     "weight": 4000,
     "volume": 8,
     "price": 6000,
-    "power": 6000,
+    "power": 8,
     "redline": 5000,
     "gears": [ 3.891 ],
     "faults": [],
@@ -76,7 +76,7 @@
     "weight": 120000,
     "volume": 60,
     "price": 15000,
-    "power": 60000
+    "power": 80
   },
   {
     "id": "i6_diesel",
@@ -87,7 +87,7 @@
     "weight": 145000,
     "volume": 72,
     "price": 27000,
-    "power": 60000
+    "power": 80
   },
   {
     "id": "v2_combustion",
@@ -98,7 +98,7 @@
     "weight": 45000,
     "volume": 6,
     "price": 10000,
-    "power": 60000
+    "power": 80
   },
   {
     "id": "v6_combustion",
@@ -109,7 +109,7 @@
     "weight": 100000,
     "volume": 14,
     "price": 18000,
-    "power": 60000
+    "power": 80
   },
   {
     "id": "v6_diesel",
@@ -120,7 +120,7 @@
     "weight": 110000,
     "volume": 15,
     "price": 20000,
-    "power": 60000
+    "power": 80
   },
   {
     "id": "v8_combustion",
@@ -131,7 +131,7 @@
     "weight": 200000,
     "volume": 120,
     "price": 25000,
-    "power": 60000
+    "power": 80
   },
   {
     "id": "v8_diesel",
@@ -142,7 +142,7 @@
     "weight": 220000,
     "volume": 112,
     "price": 96500,
-    "power": 150000
+    "power": 190
   },
   {
     "id": "v12_combustion",
@@ -153,7 +153,7 @@
     "weight": 300000,
     "volume": 32,
     "price": 36000,
-    "power": 420000,
+    "power": 580,
     "idle": 1200,
     "optimum": 2500,
     "gears": [ 2.766, 1.712, 1.096, 0.872, 0.638, 0.529 ]

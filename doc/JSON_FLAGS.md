@@ -449,6 +449,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```KITCHEN``` Acts as a kitchen unit and heat source for crafting.
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
 - ```MULTISQUARE``` Causes this part and any adjacent parts with the same ID to act as a singular part.
+- ```MUSCLE_ARMS``` Power of the engine with such flag depends on player's strength (it's less effective than ```MUSCLE_LEGS```).
+- ```MUSCLE_LEGS``` Power of the engine with such flag depends on player's strength.
 - ```NAILABLE``` Attached with nails
 - ```NEEDS_BATTERY_MOUNT```
 - ```NOINSTALL``` Cannot be installed.

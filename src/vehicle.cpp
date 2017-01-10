@@ -1305,13 +1305,18 @@ int vehicle::part_power(int const index, bool at_full_hp) const
     const vehicle_part &vp = parts[index];
     int pwr = 0;
 
-    if( vp.base.is_engine() ) {
-        pwr = vp.base.type->engine->power;
+    ///\EFFECT_STR increases power output of manual engines
+    if( part_flag( index, "MUSCLE_LEGS" ) ) {
+        // average man (STR 10) = 1/3 hp
+        pwr = g->u.str_cur * hp_to_watt( 0.033 );
 
-        ///\EFFECT_STR increases power output of manual engines
-        if( vp.base.has_flag( "MANUAL_ENGINE" ) ) {
-            pwr *= g->u.str_cur;
-        }
+    } else if( part_flag( index, "MUSCLE_ARMS" ) ) {
+        // average man (STR 10) = 1/4 hp
+        pwr = g->u.str_cur * hp_to_watt( 0.025 );
+
+    } else if( vp.base.is_engine() ) {
+        // for combustion engines use the base item stats and scale with damage
+        pwr = vp.base.type->engine->power;
 
     } else if( part_flag( index, VPFLAG_ENGINE ) || part_flag( index, VPFLAG_ALTERNATOR ) ) {
         pwr = vp.info().power;
@@ -3620,7 +3625,7 @@ int vehicle::discharge_battery (int amount, bool recurse)
 void vehicle::idle(bool on_map) {
     const auto &eng = current_engine();
     if( eng ) {
-        if( eng.base.has_flag( "MANUAL_ENGINE" ) ) {
+        if( eng.info().has_flag( "MUSCLE_ARM" ) || eng.info().has_flag( "MUSCLE_LEG" ) ) {
             if( one_in( 10 ) ) {
                 int q = std::min( int( load( eng ) / 10 ), 1 );
                 g->u.mod_hunger( q );

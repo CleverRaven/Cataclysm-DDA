@@ -1223,7 +1223,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "ENGINE", _( "Fuel: " ),
                                string_format( "<color_%s>%s</color>", col.c_str(), type->engine->fuel.c_str() ) );
         }
-        if( type->engine->power > 0 && !has_flag( "MANUAL_ENGINE" ) ) {
+        if( type->engine->power > 0 ) {
             info.emplace_back( "ENGINE", _( "Power: " ), "<num> hp", watt_to_hp( type->engine->power ), true );
         }
 
@@ -3695,7 +3695,7 @@ double item::engine_start_difficulty( int temperature ) const
 
 int item::engine_start_time( int temperature ) const
 {
-    if( !is_engine() || has_flag( "MANUAL_ENGINE" ) ) {
+    if( !is_engine() ) {
         return 0;
     }
 

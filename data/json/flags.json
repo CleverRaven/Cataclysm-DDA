@@ -117,12 +117,6 @@
     "inherit": false
   },
   {
-    "id": "MANUAL_ENGINE",
-    "type": "json_flag",
-    "context": [ "ENGINE" ],
-    "info": "The power of this engine depends on <neutral>player strength</neutral>."
-  },
-  {
     "id": "NO_CVD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
