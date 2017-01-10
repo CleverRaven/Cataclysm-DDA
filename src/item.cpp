@@ -1221,10 +1221,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( !type->engine->fuel.is_null() ) {
             auto col = string_from_color( item::find_type( default_ammo( type->engine->fuel ) )->color );
             info.emplace_back( "ENGINE", _( "Fuel: " ),
-                               string_format( "<color_%s>%s</color>", col.c_str(), _( type->engine->fuel.c_str() ) ) );
+                               string_format( "<color_%s>%s</color>", col.c_str(), type->engine->fuel.c_str() ) );
         }
         if( type->engine->power > 0 && !has_flag( "MANUAL_ENGINE" ) ) {
-            info.emplace_back( "ENGINE", _( "Power: " ), _( "<num> hp" ), watt_to_hp( type->engine->power ), true );
+            info.emplace_back( "ENGINE", _( "Power: " ), "<num> hp", watt_to_hp( type->engine->power ), true );
         }
 
         info.emplace_back( "ENGINE", _( "Efficiency: " ), "<num>%", type->engine->efficiency, true );
@@ -1233,7 +1233,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "ENGINE", _( "Gears: " ), "", type->engine->gears.size(), true );
         }
         if( type->engine->redline > 0 ) {
-            info.emplace_back( "ENGINE", _( "Redline: " ), _( "<num> rpm" ), type->engine->redline, true );
+            info.emplace_back( "ENGINE", _( "Redline: " ), "<num> rpm", type->engine->redline, true );
         }
 
         if( engine_start_time( 20 ) > 0 ) {
