@@ -33,7 +33,7 @@
     "efficiency": 20,
     "idle": 800,
     "optimum": 2000,
-    "redline": 3800,
+    "redline": 4000,
     "gears": [ 3.166, 1.882, 1.296, 0.972, 0.738 ],
     "start_time": 30,
     "extend": { "faults": [ "fault_engine_pump_fuel" ] }
@@ -46,8 +46,9 @@
     "description": "A compact single-cylinder 2-stroke combustion engine.  The simple design with no external components makes it exceptionally reliable but relatively inefficient.  Intended for lightweight vehicles its fixed gearing severely limits maximum speed.",
     "weight": 4000,
     "volume": 8,
-    "power": 3000,
-    "gears": [ 4.291 ],
+    "power": 6000,
+    "redline": 5000,
+    "gears": [ 3.891 ],
     "faults": [],
     "proportional": {
       "efficiency": 0.5,
@@ -62,7 +63,7 @@
     "description": "A single-cylinder 4-stroke combustion engine commonly installed on motorcycles and similar vehicles.  Although lacking in power it is relatively reliable and reasonably fuel efficient.",
     "weight": 32000,
     "volume": 16,
-    "power": 16000,
+    "power": 15000,
     "gears": [ 3.166, 1.882, 1.126 ],
     "start_energy": 25,
     "faults": [ "fault_engine_starter" ]
@@ -130,7 +131,7 @@
     "proportional": {
       "weight": 2.4,
       "volume": 2.0,
-      "power": 2.7,
+      "power": 2.6,
       "efficiency": 0.8,
       "idle": 1.2,
       "optimum": 1.2,

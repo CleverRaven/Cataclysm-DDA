@@ -4,19 +4,14 @@
 #include "map.h"
 #include "vehicle.h"
 #include "veh_type.h"
-#include "itype.h"
-#include "player.h"
 #include "cata_utility.h"
 
 /** check max velocity for vehicle between @ref min and @ref max tiles per turn */
 static void test_max_velocity( const vproto_id &id, double min, double max ) {
     INFO( "max velocity (tiles/turn)" );
     REQUIRE( id.is_valid() );
-    vehicle veh( id, 100, 0 );
-    auto base = veh.part_base( veh.index_of_part( &veh.current_engine() ) );
-    REQUIRE( base );
-    int mass = veh.total_mass() + ( player().get_weight() / 1000.0 );
-    const double v = ms_to_mph( base->type->engine->velocity_max( mass, veh.k_dynamics() ) ) / 10.0;
+    const vehicle veh( id, 100, 0 );
+    const double v = ms_to_mph( veh.max_velocity( veh.current_engine() ) ) / 10.0;
     REQUIRE( v >= min );
     REQUIRE( v <= max );
 }
@@ -25,11 +20,8 @@ static void test_max_velocity( const vproto_id &id, double min, double max ) {
 static void test_safe_velocity( const vproto_id &id, double min, double max ) {
     INFO( "safe velocity (tiles/turn)" );
     REQUIRE( id.is_valid() );
-    vehicle veh( id, 100, 0 );
-    auto base = veh.part_base( veh.index_of_part( &veh.current_engine() ) );
-    REQUIRE( base );
-    int mass = veh.total_mass() + ( player().get_weight() / 1000.0 );
-    const double v = ms_to_mph( base->type->engine->velocity_safe( mass, veh.k_dynamics() ) ) / 10.0;
+    const vehicle veh( id, 100, 0 );
+    const double v = ms_to_mph( veh.safe_velocity( veh.current_engine() ) ) / 10.0;
     REQUIRE( v >= min );
     REQUIRE( v <= max );
 }
@@ -38,11 +30,8 @@ static void test_safe_velocity( const vproto_id &id, double min, double max ) {
 static void test_optimal_velocity( const vproto_id &id, double min, double max ) {
     INFO( "optimal velocity (tiles/turn)" );
     REQUIRE( id.is_valid() );
-    vehicle veh( id, 100, 0 );
-    auto base = veh.part_base( veh.index_of_part( &veh.current_engine() ) );
-    REQUIRE( base );
-    int mass = veh.total_mass() + ( player().get_weight() / 1000.0 );
-    const double v = ms_to_mph( base->type->engine->velocity_optimal( mass, veh.k_dynamics() ) ) / 10.0;
+    const vehicle veh( id, 100, 0 );
+    const double v = ms_to_mph( veh.optimal_velocity( veh.current_engine() ) ) / 10.0;
     REQUIRE( v >= min );
     REQUIRE( v <= max );
 }
@@ -64,9 +53,9 @@ TEST_CASE( "vehicle_speed", "[vehicle] [engine]" ) {
 
     SECTION( "motorcycle" ) {
         // less efficient than car but can be driven faster (with increasing risk of engine damage)
-        test_max_velocity    ( vproto_id( "motorcycle" ), 7.5, 8.5 );
-        test_safe_velocity   ( vproto_id( "motorcycle" ), 6.0, 7.0 );
-        test_optimal_velocity( vproto_id( "motorcycle" ), 3.0, 4.0 );
+        test_max_velocity    ( vproto_id( "motorcycle" ), 9.0, 10.0 );
+        test_safe_velocity   ( vproto_id( "motorcycle" ), 6.0,  7.0 );
+        test_optimal_velocity( vproto_id( "motorcycle" ), 3.0,  4.0 );
     }
 
     SECTION( "humvee" ) {
@@ -95,12 +84,5 @@ TEST_CASE( "vehicle_speed", "[vehicle] [engine]" ) {
         test_max_velocity    ( vproto_id( "car_sports_electric" ), 10.0, 12.0 );
         test_safe_velocity   ( vproto_id( "car_sports_electric" ), 10.0, 12.0 );
         test_optimal_velocity( vproto_id( "car_sports_electric" ), 10.0, 12.0 );
-    }
-
-    SECTION( "scooter" ) {
-        // light with fixed gearing high speeds possible only at inefficient and dangerous high rpm
-        test_max_velocity    ( vproto_id( "scooter" ), 4.0, 5.0 );
-        test_safe_velocity   ( vproto_id( "scooter" ), 1.5, 2.5 );
-        test_optimal_velocity( vproto_id( "scooter" ), 0.5, 1.5 );
     }
 }
