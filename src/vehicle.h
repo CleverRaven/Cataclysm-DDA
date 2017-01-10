@@ -179,9 +179,6 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Efficiency (0.0,1.0] at which engine converts fuel energy to output power at @ref rpm */
     float efficiency( int rpm ) const;
 
-    /** Effective power output (watts) of part optionally adjusted for effects of damage or faults */
-    int power( bool effects = true ) const;
-
     /**
      *  Get NPC currently assigned to this part (seat, turret etc)?
      *  @note checks crew member is alive and currently allied to the player

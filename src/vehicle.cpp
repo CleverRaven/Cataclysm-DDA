@@ -1164,7 +1164,7 @@ void vehicle::start_engines( const bool take_control )
 
 void vehicle::backfire( const int e ) const
 {
-    const int power = watt_to_hp( parts[engines[e]].power( false ) );
+    const int power = watt_to_hp( part_power( engines[e], true ) );
     const tripoint pos = global_part_pos3( engines[e] );
     //~ backfire sound
     sounds::ambient_sound( pos, 40 + (power / 30), _( "BANG!" ) );
@@ -1267,6 +1267,39 @@ const vpart_info& vehicle::part_info (int index, bool include_removed) const
         }
     }
     return vpart_id::NULL_ID.obj();
+}
+
+// engines & alternators all have power.
+// engines provide, whilst alternators consume.
+int vehicle::part_power(const vehicle_part &vp, bool at_full_hp) const
+{
+    const auto &info = vp.info();
+    int pwr = 0;
+
+    if( vp.base.is_engine() ) {
+        pwr = vp.base.type->engine->power;
+    } else if( info.has_flag( VPFLAG_ALTERNATOR ) ) {
+        pwr = info.power;
+    }
+
+    if( pwr <= 0 ) {
+        return pwr; // Consumers always draw full power, even if broken
+    }
+    if( at_full_hp ) {
+        return pwr; // Assume full hp
+    }
+    // Damaged engines give less power, but gas/diesel handle it better
+    if( info.fuel_type == fuel_type_gasoline ||
+        info.fuel_type == fuel_type_diesel ) {
+        return pwr * (0.25 + (0.75 * ((double)vp.hp() / info.durability)));
+    } else {
+        return double( pwr * vp.hp() ) / info.durability;
+    }
+}
+
+int vehicle::part_power(int const index, bool at_full_hp) const
+{
+    return part_power( parts[index], at_full_hp );
 }
 
 // alternators, solar panels, reactors, and accessories all have epower.
@@ -2962,12 +2995,10 @@ void vehicle::noise_and_smoke( double load )
 
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
-        const auto &eng = parts[engines[e]];
-
         if( is_engine_on(e) &&
                 (is_engine_type(e, fuel_type_muscle) || fuel_left (part_info(p).fuel_type)) ) {
             double pwr = 10.0; // Default noise if nothing else found, shouldn't happen
-            double max_pwr = double( power_to_epower( watt_to_hp( eng.power( false ) ) ) ) / 40000;
+            double max_pwr = double(power_to_epower(watt_to_hp(part_power(p, true))))/40000;
             double cur_pwr = load * max_pwr;
 
             if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
@@ -2981,7 +3012,7 @@ void vehicle::noise_and_smoke( double load )
                         backfire( e );
                     }
                 }
-                double j = power_to_epower( watt_to_hp( eng.power( false ) ) ) * load * 6.0 * muffle;
+                double j = power_to_epower( watt_to_hp( part_power( p, true ) ) ) * load * 6.0 * muffle;
 
                 if( parts[ p ].base.faults.count( fault_filter_air ) ) {
                     bad_filter = true;
@@ -3393,16 +3424,14 @@ void vehicle::idle(bool on_map) {
     // electrical power not supplied must be found from alternators
     deficit = discharge( deficit / 1000, true, true );
 
-    // calculate maximum possible output (watts) from all active alternators
+    // calculate maximum possible output from all active alternators
     int generate = 0;
     if( engine_on && eng ) {
-        for( const auto &alt : parts ) {
-            if( alt.is_alternator() && alt.mount == eng.mount ) {
-                generate += alt.power();
+        for( const auto &e : parts ) {
+            if( e.is_alternator() && !e.is_broken() && e.mount == eng.mount ) {
+                generate += e.info().epower;
             }
         }
-        // prevent perpetual motion machines
-        generate = std::min( generate, eng.power() );
     }
 
     if( deficit > generate ) {
@@ -3446,7 +3475,7 @@ void vehicle::idle(bool on_map) {
         if( eng.base.has_flag( "MANUAL_ENGINE" ) &&
             player_in_control( g->u ) && global_part_pos3( eng ) == g->u.pos() ) {
             // Effort is load to max power ratio
-            float effort = std::min( 1.0f, (float) load / std::max( 1, eng.power() ) );
+            float effort = std::min( 1.0f, (float) load / std::max( 1, part_power( eng ) ) );
 
             // At full effort, increase resource consumption by 500%
             if( x_in_y( effort, MINUTES( 1 ) ) ) {
@@ -3500,7 +3529,7 @@ void vehicle::idle(bool on_map) {
             }
 
             if( on_map ) {
-                noise_and_smoke( double( load ) / eng.power() );
+                noise_and_smoke( double( load ) / part_power( index_of_part( &eng ) ) );
             }
         }
     }
@@ -5984,28 +6013,6 @@ float vehicle_part::efficiency( int rpm ) const
     // operating outside optimal rpm is less efficient 
     double penalty = std::abs( base.type->engine->optimum - rpm ) / 1000.0;
     return eff / ( 1.0 + penalty );
-}
-
-int vehicle_part::power( bool effects ) const
-{
-    if( is_broken() ) {
-        return 0;
-    }
-
-    int res = 0;
-
-    if( is_engine() ) {
-        res = base.type->engine->power;
-
-        if( effects ) {
-            // @todo handle faults
-        }
-
-    } else if( is_alternator() ) {
-        res = info().epower;
-    }
-
-    return effects ? double( res * hp() ) / info().durability : res;
 }
 
 bool vehicle_part::is_engine() const
