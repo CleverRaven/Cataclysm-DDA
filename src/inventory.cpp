@@ -387,9 +387,6 @@ static long count_charges_in_list(const itype *type, const map_stack &items)
 void inventory::form_from_map( const tripoint &origin, int range, bool assign_invlet )
 {
     items.clear();
-
-    std::set<vehicle *> vehs;
-
     for( const tripoint &p : g->m.points_in_radius( origin, range ) ) {
         if (g->m.has_furn( p ) && g->m.accessible_furniture( origin, p, range )) {
             const furn_t &f = g->m.furn( p ).obj();
@@ -447,6 +444,10 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             }
         }
 
+        // WARNING: The part below has a bug that's currently quite minor
+        // When a vehicle has multiple faucets in range, available water is
+        //  multiplied by the number of faucets.
+        // Same thing happens for all other tools and resources, but not cargo
         int vpart = -1;
         vehicle *veh = g->m.veh_at( p, vpart );
 
@@ -454,9 +455,10 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             continue;
         }
 
-        vehs.insert( veh );
-
+        //Adds faucet to kitchen stuff; may be horribly wrong to do such....
+        //ShouldBreak into own variable
         const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+        const int faupart = veh->part_with_feature(vpart, "FAUCET");
         const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
         const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
         const int forgepart = veh->part_with_feature(vpart, "FORGE");
@@ -468,11 +470,31 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
                                       veh->get_items(cargo).end() );
         }
 
+        if(faupart >= 0 ) {
+            item clean_water("water_clean", 0);
+            clean_water.charges = veh->fuel_left("water_clean");
+            add_item(clean_water);
+
+            item water("water", 0);
+            water.charges = veh->fuel_left("water");
+            // TODO: Poison
+            add_item(water);
+        }
+
         if (kpart >= 0) {
             item hotplate("hotplate", 0);
             hotplate.charges = veh->fuel_left("battery", true);
             hotplate.item_tags.insert("PSEUDO");
             add_item(hotplate);
+
+            item clean_water("water_clean", 0);
+            clean_water.charges = veh->fuel_left("water_clean");
+            add_item(clean_water);
+
+            item water("water", 0);
+            water.charges = veh->fuel_left("water");
+            // TODO: Poison
+            add_item(water);
 
             item pot("pot", 0);
             pot.item_tags.insert("PSEUDO");
@@ -524,19 +546,6 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             chemistry_set.charges = veh->fuel_left("battery", true);
             chemistry_set.item_tags.insert("PSEUDO");
             add_item(chemistry_set);
-        }
-    }
-
-    for( const vehicle *v : vehs ) {
-        // if vehicle has FAUCET can use contents from any of the tanks
-        if( v->has_part( "FAUCET" ) ) {
-            for( const auto &pt : v->parts ) {
-                if( pt.is_tank() ) {
-                    for( const auto &obj : pt.contents() ) {
-                        add_item( obj );
-                    }
-                }
-            }
         }
     }
 }

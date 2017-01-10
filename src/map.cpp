@@ -5000,9 +5000,6 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
                                  const itype_id type, long &quantity)
 {
     std::list<item> ret;
-
-    std::set<vehicle *> vehs;
-
     for( const tripoint &p : closest_tripoints_first( range, origin ) ) {
         // Handle infinite map sources.
         item water = water_from( p );
@@ -5035,24 +5032,27 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             continue;
         }
 
-        vehs.insert( veh );
-
-        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+        const int kpart = veh->part_with_feature(vpart, "FAUCET");
         const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
         const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
         const int forgepart = veh->part_with_feature(vpart, "FORGE");
         const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
         const int cargo = veh->part_with_feature(vpart, "CARGO");
 
-        if (kpart >= 0) {
+        if (kpart >= 0) { // we have a faucet, now to see what to drain
             itype_id ftype = "null";
 
-            if (type == "hotplate") {
+            if (type == "water_clean") {
+                ftype = "water_clean";
+            } else if (type == "water") {
+                ftype = "water";
+            } else if (type == "hotplate") {
                 ftype = "battery";
             }
 
             item tmp(type, 0); //TODO add a sane birthday arg
             tmp.charges = veh->drain(ftype, quantity);
+            // TODO: Handle water poison when crafting starts respecting it
             quantity -= tmp.charges;
             ret.push_back(tmp);
 
@@ -5143,27 +5143,6 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             ret.splice(ret.end(), tmp);
             if (quantity <= 0) {
                 return ret;
-            }
-        }
-    }
-
-    for( vehicle *v : vehs ) {
-        // if vehicle has FAUCET can use contents from any of the tanks
-        if( v->has_part( "FAUCET" ) ) {
-            for( auto &pt : v->parts ) {
-                if( pt.is_tank() && pt.ammo_current() == type ) {
-                    item fluid = pt.drain( quantity );
-                    if( fluid.is_null() ) {
-                        debugmsg( "Vehicle part returned null item when draining" );
-                        continue;
-                    }
-
-                    ret.push_back( fluid );
-                    quantity -= ret.back().charges;
-                    if( quantity == 0 ) {
-                        return ret;
-                    }
-                }
             }
         }
     }
