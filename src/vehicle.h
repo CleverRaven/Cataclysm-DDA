@@ -662,9 +662,6 @@ public:
      */
     bool has_part( const tripoint &pos, const std::string &flag, bool enabled = false ) const;
 
-    /** Check at least one unbroken part at global position @ref pos matching predicate @ref func */
-    bool has_part( const tripoint &pos, const std::function<bool(const vehicle_part &)> &func ) const;
-
     /**
      *  Get all unbroken vehicle parts with @ref flag
      *  @param enabled if set part must also be enabled to be considered

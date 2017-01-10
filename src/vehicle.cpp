@@ -2025,21 +2025,18 @@ bool vehicle::has_part( const std::string &flag, bool enabled ) const
 
 bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabled ) const
 {
-    if( enabled ) {
-        return has_part( pos, [&]( const vehicle_part &e ) { return e.enabled && e.info().has_flag( flag ); } );
-    } else {
-        return has_part( pos, [&]( const vehicle_part &e ) { return e.info().has_flag( flag ); } );
-    }
-}
-
-bool vehicle::has_part( const tripoint &pos, const std::function<bool(const vehicle_part &)> &func ) const
-{
     auto px = pos.x - global_x();
     auto py = pos.y - global_y();
 
-    return std::any_of( parts.begin(), parts.end(), [px,py,&func]( const vehicle_part &e ) {
-        return e.precalc[0].x == px && e.precalc[0].y == py && !e.removed && !e.is_broken() && func( e );
-    } );
+    for( const auto &e : parts ) {
+        if( e.precalc[0].x != px || e.precalc[0].y != py ) {
+            continue;
+        }
+        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && e.info().has_flag( flag ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 std::vector<vehicle_part *> vehicle::get_parts( const std::string &flag, bool enabled )
