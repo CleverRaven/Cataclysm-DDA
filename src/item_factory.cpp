@@ -142,15 +142,6 @@ void Item_factory::finalize() {
             if( get_world_option<bool>( "NO_FAULTS" ) ) {
                 obj.engine->faults.clear();
             }
-
-            /**
-             *  For our purposes gearboxes and differentials are combined
-             *  1:3.7 is a fairly typical differential gearing
-             *  0.15 is a magic constant based upon ~15" tyres
-             */
-            for( auto &e : obj.engine->gears ) {
-                e *= 3.7 * 0.15;
-            }
         }
 
         // If no category was forced via JSON automatically calculate one now
