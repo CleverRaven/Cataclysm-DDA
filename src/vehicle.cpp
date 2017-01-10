@@ -1181,7 +1181,7 @@ void vehicle::start_engines( const bool take_control )
 
 void vehicle::backfire( const int e ) const
 {
-    const int power = watt_to_hp( part_power( engines[e], true ) );
+    const int power = part_power( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
     //~ backfire sound
     sounds::ambient_sound( pos, 40 + (power / 30), _( "BANG!" ) );
