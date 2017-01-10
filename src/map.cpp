@@ -416,13 +416,7 @@ bool map::vehact( vehicle &veh )
         // air resistance
         slowdown = 2.0;
 
-    } else if( !veh.engine_on || veh.skidding ) {
-        double loss = friction_loss;
-
-        if( veh.engine_on && veh.skidding ) {
-            loss /= 3.0;
-        }
-
+    } else if( !veh.engine_on ) {
         // if we don't have an active engine providing thrust then reduce velocity from friction
         double k = 0.5 * veh.total_mass() * pow( veh.current_velocity(), 2 );
         k -= k * friction_loss / veh.k_dynamics();
@@ -438,6 +432,10 @@ bool map::vehact( vehicle &veh )
     // apply crude decay when moving from high traction (road) to low traction (off-road)
     // @todo replace with more correct acceleration model
     slowdown += std::abs( veh.current_velocity() * ( 1.0 - traction ) );
+
+    if( veh.skidding ) {
+        slowdown = std::max( slowdown, veh.velocity / 3.0 );
+    }
 
     if( slowdown > abs( veh.velocity ) ) {
         veh.stop();
