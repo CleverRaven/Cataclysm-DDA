@@ -82,8 +82,8 @@ const itype_id &default_ammo( const ammotype &t )
 double islot_engine::velocity_max( int mass, float dynamics ) const
 {
     // scale engine power (J/s) to amount where 100% of output is consumed replacing friction losses
-    double e = power * dynamics / 0.25;
-    return sqrt( e / mass );
+    double e = power * dynamics / 0.05;
+    return sqrt( e / 2 / mass * 2 );
 }
 
 double islot_engine::velocity_optimal( int mass, float dynamics ) const
