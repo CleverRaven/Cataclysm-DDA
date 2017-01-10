@@ -3544,11 +3544,8 @@ int vehicle::discharge_battery (int amount, bool recurse)
 void vehicle::idle(bool on_map) {
     auto &eng = current_engine();
     if( eng ) {
-        if( eng.base.has_flag( "MANUAL_ENGINE" ) &&
-            player_in_control( g->u ) && global_part_pos3( eng ) == g->u.pos() ) {
-
-            // bicycle traveling ~10 overmap tiles of road results in "very hungry"
-            if( one_in( 50 ) ) {
+        if( eng.base.has_flag( "MANUAL_ENGINE" ) ) {
+            if( one_in( 10 ) ) {
                 int q = std::max( int( load( eng ) / 10 ), 1 );
                 g->u.mod_hunger( q );
                 g->u.mod_thirst( q );
