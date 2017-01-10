@@ -984,7 +984,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                                   _( ammo_name( mod->ammo_type() ).c_str() ) ), mod->ammo_capacity(), true );
             }
         } else {
-            info.emplace_back( "GUN", _( "Type: " ), ammo_name( mod->ammo_type() ) );
+            info.emplace_back( "GUN", _( "Type: " ), _( ammo_name( mod->ammo_type() ).c_str() ) );
             if( mod->magazine_current() ) {
                 info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", mod->magazine_current()->tname().c_str() ) );
             }
