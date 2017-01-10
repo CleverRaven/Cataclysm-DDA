@@ -2852,8 +2852,7 @@ vehicle_part &vehicle::current_engine()
         return e.is_engine() && e.enabled;
     } );
 
-    static vehicle_part null_part = vehicle_part::make_null_part();
-
+    static vehicle_part null_part;
     return eng != parts.end() ? *eng : null_part;
 }
 
@@ -5678,28 +5677,19 @@ void vehicle::update_time( const calendar &update_to )
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
-static vpart_info null_part_info = vpart_info::make_null_vpart_info();
-
 vehicle_part::vehicle_part()
     : mount( 0, 0 ), id( NULL_ID ) {}
 
 vehicle_part::vehicle_part( const vpart_id& vp, int const dx, int const dy, item&& obj )
     : mount( dx, dy ), id( vp ), base( std::move( obj ) )
 {
-    // Mark base item as being installed as a vehicle part
-    base.item_tags.insert( "VEHICLE" );
+	// Mark base item as being installed as a vehicle part
+	base.item_tags.insert( "VEHICLE" );
 
     if( base.typeId() != vp->item ) {
         debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
                   vp->item.c_str(), base.typeId().c_str() );
     }
-}
-
-vehicle_part vehicle_part::make_null_part()
-{
-    vehicle_part null_part;
-    null_part.info_cache = &null_part_info;
-    return null_part;
 }
 
 vehicle_part::operator bool() const {

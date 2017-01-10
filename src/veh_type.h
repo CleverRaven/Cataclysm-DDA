@@ -220,8 +220,6 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
-        static vpart_info make_null_vpart_info();
-
         static void load( JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
