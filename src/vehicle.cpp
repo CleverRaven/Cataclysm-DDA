@@ -850,6 +850,11 @@ void vehicle::use_controls( const tripoint &pos )
                     add_msg( _( "You let go of the controls." ) );
                 }
                 engine_on = false;
+                for( auto &e : parts ) {
+                    if( e.is_engine() ) {
+                        e.enabled = false;
+                    }
+                }
                 g->u.controlling_vehicle = false;
                 g->setremoteveh( nullptr );
             } );
@@ -3520,7 +3525,7 @@ void vehicle::idle(bool on_map) {
                         add_msg( m_bad, _( "The %s has run out of %s." ),
                                  name.c_str(), fuel->nname( qty ).c_str() );
                     }
-                    engine_on = false;
+                    eng.enabled = false;
                 }
             }
 
@@ -3890,7 +3895,7 @@ void vehicle::cruise_thrust (int amount)
     }
 
     const auto &eng = current_engine();
-    if( !engine_on || !eng ) {
+    if( !eng ) {
         return;
     }
 
@@ -4712,7 +4717,7 @@ void vehicle::gain_moves()
     of_turn_carry = 0;
 
     // cruise control TODO: enable for NPC?
-    if( engine_on && player_in_control(g->u) && cruise_velocity != velocity ) {
+    if( player_in_control(g->u) && cruise_velocity != velocity ) {
         thrust( cruise_velocity > velocity ? 1 : -1 );
     }
 
