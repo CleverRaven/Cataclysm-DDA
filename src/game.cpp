@@ -4949,7 +4949,9 @@ void game::draw_sidebar()
     mvwprintz(w_location, 1, 15, c_ltgray, "%s ", _("Lighting:"));
     wprintz(w_location, ll.second, ll.first.c_str());
 
-    draw_safe_mode( w_location, 0 );
+    if (safe_mode != SAFE_MODE_OFF || autosafemode != 0) {
+        right_print( w_location, 0, 1, c_green, "%s", _( "SAFE" ) );
+    }
 
     wrefresh(w_location);
 
@@ -4965,40 +4967,6 @@ void game::draw_sidebar()
     draw_minimap();
     draw_pixel_minimap();
     draw_sidebar_messages();
-}
-
-void game::draw_safe_mode( WINDOW *win, int line ) const
-{
-    const bool autosafemode = get_option<bool>( "AUTOSAFEMODE" );
-    if( safe_mode == SAFE_MODE_OFF && !autosafemode ) {
-        return;
-    }
-
-    const utf8_wrapper safe_text( _( "SAFE" ) );
-    if( safe_mode != SAFE_MODE_OFF ) {
-        right_print( win, line, 1, c_green, "%s", safe_text.c_str() );
-        return;
-    }
-
-    if( autosafemode ) {
-        const float safe_mode_percent =
-            turnssincelastmon * 100.0f / get_option<int>( "AUTOSAFEMODETURNS" );
-
-        const int text_size = safe_text.size();
-        const int starting_position = getmaxx( win ) - safe_text.display_width() - 1;
-        const float percent_per_char = 100.0f / text_size;
-        int written_size = 0;
-        for( int i = 0; i < text_size; i++ ) {
-            nc_color letter_color = safe_mode_percent < ( i + 1 ) * percent_per_char
-                ? c_red : c_green;
-
-            const auto current_char = safe_text.substr( i, 1 );
-            mvwputch( win, line, starting_position + written_size,
-                      letter_color, current_char.str() );
-
-            written_size += current_char.display_width();
-        }
-    }
 }
 
 void game::draw_sidebar_messages()
