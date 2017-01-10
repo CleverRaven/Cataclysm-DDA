@@ -3008,7 +3008,7 @@ void vehicle::noise_and_smoke( double load )
         if( is_engine_on(e) &&
                 (is_engine_type(e, fuel_type_muscle) || fuel_left (part_info(p).fuel_type)) ) {
             double pwr = 10.0; // Default noise if nothing else found, shouldn't happen
-            double max_pwr = double(power_to_epower(watt_to_hp(part_power(p, true))))/40000;
+            double max_pwr = double(power_to_epower(part_power(p, true)))/40000;
             double cur_pwr = load * max_pwr;
 
             if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
@@ -3533,7 +3533,7 @@ int vehicle::discharge_battery (int amount, bool recurse)
 }
 
 void vehicle::idle(bool on_map) {
-    auto &eng = current_engine();
+    const auto &eng = current_engine();
     if( eng ) {
         if( eng.base.has_flag( "MANUAL_ENGINE" ) ) {
             if( one_in( 10 ) ) {
@@ -3569,29 +3569,23 @@ void vehicle::idle(bool on_map) {
 
                 // partial charges have a proportional chance of being consumed each turn
                 qty += x_in_y( fmod( qty, 1.0 ) * 1000, 1000 ) ? 1 : 0;
-
-                // consume fuel or disable the engine if insufficient was available
-                if( drain( eng.ammo_current(), qty ) != int( qty ) ) {
-                    if( g->u.sees( global_pos3() ) ) {
-                        add_msg( m_bad, _( "The %s has fun out of %s." ),
-                                 name.c_str(), fuel->nname( qty ).c_str() );
-                    }
-                    eng.enabled = false;
-                }
-            }
-
-            // overspeed engines incur damage
-            if( overspeed( eng ) ) {
-                if( g->u.sees( global_pos3() ) && one_in( 10 ) ) {
-                    add_msg( _( "Your engine emits a loud grinding sound." ) );
-                }
-                damage_direct( index_of_part( &eng ), 1 );
+                drain( eng.ammo_current(), qty );
             }
 
             if( on_map ) {
                 noise_and_smoke( pwr / part_power( index_of_part( &eng ) ) );
             }
         }
+    }
+
+    // overspeed engines incur damage
+    if( overspeed( eng ) ) {
+        if( one_in( 10 ) ) {
+            add_msg( _( "Your engine emits a high pitched whine." ) );
+        } else if( one_in( 10 ) ) {
+            add_msg( _( "Your engine emits a loud grinding sound." ) );
+        }
+        damage_direct( index_of_part( &eng ), 1 );
     }
 
     if( !warm_enough_to_plant() ) {
