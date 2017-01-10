@@ -1093,10 +1093,8 @@ public:
     void operate_plow();
     //main method for the control of individual engines
     void control_engines();
-
-    /** shows ui menu to select an engine and @return true if change was made */
-    bool select_engine();
-
+    // shows ui menu to select an engine
+    int select_engine();
     //returns whether the engine is enabled or not, and has fueltype
     bool is_engine_type_on(int e, const itype_id &ft) const;
     //returns whether the engine is enabled or not

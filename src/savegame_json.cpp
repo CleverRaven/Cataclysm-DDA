@@ -1899,12 +1899,6 @@ void vehicle::deserialize(JsonIn &jsin)
     set_legacy_state( "scoop_on", "SCOOP" );
     set_legacy_state( "plow_on", "PLOW" );
     set_legacy_state( "reactor_on", "REACTOR" );
-
-    for( auto &e : parts ) {
-        if( e.is_engine() && &e != &current_engine() ) {
-            e.enabled = false;
-        }
-    }
 }
 
 void vehicle::serialize(JsonOut &json) const

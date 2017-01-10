@@ -276,7 +276,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 {
     // vehicle parts excluding engines are by default turned off
     for( auto &pt : parts ) {
-        pt.enabled = pt.base.is_engine() && !current_engine();
+        pt.enabled = pt.base.is_engine();
     }
 
     bool destroySeats = false;
@@ -601,14 +601,36 @@ void vehicle::control_doors() {
 }
 
 void vehicle::control_engines() {
-    if( !select_engine() ) {
-        return;
+    int e_toggle = 0;
+    bool dirty = false;
+    //count active engines
+    int active_count = 0;
+    for (size_t e = 0; e < engines.size(); ++e){
+        if (is_part_on(engines[e])){
+            active_count++;
+        }
     }
+
+    //show menu until user finishes
+    while( e_toggle >= 0 && e_toggle < (int)engines.size() ) {
+        e_toggle = select_engine();
+        if( e_toggle >= 0 && e_toggle < (int)engines.size() &&
+            (active_count > 1 || !is_part_on(engines[e_toggle]))) {
+            active_count += (!is_part_on(engines[e_toggle])) ? 1 : -1;
+            toggle_specific_engine(e_toggle, !is_part_on(engines[e_toggle]));
+            dirty = true;
+        }
+    }
+
+    if( !dirty ) { return; }
+
+    auto eng = std::find_if( parts.begin(), parts.end(), []( const vehicle_part &e ) {
+        return e.is_engine() && e.enabled;
+    } );
 
     // if current velocity greater than new configuration safe speed
     // drop down cruise velocity.
-    auto eng = current_engine();
-    int safe_vel = ms_to_mph( safe_velocity( eng ) ) * 100;
+    int safe_vel = safe_velocity( *eng ) * 2.237 * 100;
     if( velocity > safe_vel ) {
         cruise_velocity = safe_vel;
     }
@@ -624,32 +646,19 @@ void vehicle::control_engines() {
     start_engines();
 }
 
-bool vehicle::select_engine() {
+int vehicle::select_engine() {
     uimenu tmenu;
     std::string name;
     tmenu.text = _("Toggle which?");
-
-    std::vector<vehicle_part *> opts;
-    for( const auto &e : parts ) {
-        if( e.is_engine() && !e.removed && !e.is_broken() ) {
-            opts.push_back( const_cast<vehicle_part *>( &e ) );
-            tmenu.addentry( -1, !e.enabled, -1, "[%c] %s", e.enabled ? 'x' : ' ', e.name().c_str() );
-        }
+    for( size_t e = 0; e < engines.size(); ++e ) {
+        name = parts[ engines[ e ] ].name();
+        tmenu.addentry( e, true, -1, "[%s] %s",
+                        ((parts[engines[e]].enabled) ? "x" : " ") , name.c_str() );
     }
 
     tmenu.addentry(-1, true, 'q', _("Finish"));
-
     tmenu.query();
-    if( tmenu.ret >= 0 && tmenu.ret < int( engines.size() ) ) {
-        for( auto &e : parts ) {
-            if( e.is_engine() ) {
-                e.enabled = false;
-            }
-        }
-        opts[tmenu.ret]->enabled = true;
-        return true;
-    }
-    return false;
+    return tmenu.ret;
 }
 
 void vehicle::toggle_specific_engine(int e,bool on) {
@@ -848,11 +857,6 @@ void vehicle::use_controls( const tripoint &pos )
                     add_msg( _( "You let go of the controls." ) );
                 }
                 engine_on = false;
-                for( auto &e : parts ) {
-                    if( e.is_engine() ) {
-                        e.enabled = false;
-                    }
-                }
                 g->u.controlling_vehicle = false;
                 g->setremoteveh( nullptr );
             } );
@@ -953,16 +957,7 @@ void vehicle::use_controls( const tripoint &pos )
         actions.push_back( [&]{ fold_up(); } );
     }
 
-    int multi = 0;
-    for( const auto &e : parts ) {
-        if( e.is_engine() && !e.removed && !e.is_broken() ) {
-            if( ++multi > 1 ) {
-                break;
-            }
-        }
-    }
-
-    if( multi > 1 ) {
+    if( has_part( "ENGINE" ) ) {
         options.emplace_back( _( "Control individual engines" ), keybind( "CONTROL_ENGINES" ) );
         actions.push_back( [&]{ control_engines(); } );
     }
@@ -1753,7 +1748,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
 {
     // Should be checked before installing the part
     bool enable = false;
-    if( new_part.is_engine() && !current_engine() ) {
+    if( new_part.is_engine() ) {
         enable = true;
     } else {
         // @todo read toggle groups from JSON
