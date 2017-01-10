@@ -82,9 +82,12 @@ const itype_id &default_ammo( const ammotype &t )
 double islot_engine::velocity_max( int mass, float dynamics ) const
 {
     // scale engine power (J/s) to amount where 100% of output is consumed replacing friction losses
-    double e = power * dynamics / 0.05;
-    return sqrt( e / 2 / mass * 2 );
+    double power = power * dynamics / 0.05;
+    return sqrt( power / 2 / mass * 2 );
 }
+
+// @todo remove conversion once velocity is exclusively in m/s
+#define RESCALE_GEARS(q) ( q / 100 * 0.447 )
 
 double islot_engine::velocity_optimal( int mass, float dynamics ) const
 {
@@ -92,7 +95,7 @@ double islot_engine::velocity_optimal( int mass, float dynamics ) const
     if( gears.empty() ) {
         return limit; // engines without discrete gearing are equally efficient at any velocity
     }
-    return std::min( double( optimum ) / gears.back(), limit );
+    return std::min( optimum / RESCALE_GEARS( gears.back() ), limit );
 }
 
 double islot_engine::velocity_safe( int mass, float dynamics ) const
@@ -101,36 +104,5 @@ double islot_engine::velocity_safe( int mass, float dynamics ) const
     if( gears.empty() ) {
         return limit; // engines without discrete gearing can operate safely at any velocity
     }
-    return std::min( double( redline ) / gears.back(), limit );
-}
-
-int islot_engine::best_gear( double velocity ) const
-{
-    int best = INT_MAX;
-    int sel = -1; // either no gears or stalled
-
-    for( size_t idx = 0; idx != gears.size(); ++idx ) {
-        // calculate engine RPM using this gear
-        int eng_rpm = std::abs( velocity ) * gears[idx];
-
-        // dont allow selection of any gear that would result in a stall
-        if( eng_rpm < idle ) {
-            continue;
-        }
-
-        // select best gear (closest to optimum rpm)
-        int delta = std::abs( eng_rpm - optimum );
-        if( delta < best ) {
-            best = delta;
-            sel = idx;
-        }
-    }
-
-    return sel;
-}
-
-int islot_engine::effective_rpm( double velocity ) const
-{
-    int g = best_gear( velocity );
-    return g >= 0 ? std::abs( velocity ) * gears[g] : 0;
+    return std::min( redline / RESCALE_GEARS( gears.back() ), limit );
 }

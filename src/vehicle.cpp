@@ -2920,19 +2920,44 @@ double vehicle::safe_velocity( const vehicle_part &pt ) const
 }
 
 int vehicle::gear( const vehicle_part &pt ) const {
-    double v = velocity / 100 * 0.44704; // current velocity (m/s)
-    return pt.is_engine() ? pt.base.type->engine->best_gear( v ) : -1;
+    if( !pt.is_engine() ) {
+        return -1;
+    }
+
+    int best = INT_MAX;
+    int sel = -1;
+
+    for( size_t idx = 0; idx != pt.base.type->engine->gears.size(); ++idx ) {
+        // calculate engine RPM using this gear
+        int eng_rpm = std::abs( velocity ) * pt.base.type->engine->gears[idx];
+
+        // dont allow selection of any gear that would result in a stall
+        if( eng_rpm < pt.base.type->engine->idle ) {
+            continue;
+        }
+
+        // distance from engine optimum rpm
+        int delta = std::abs( eng_rpm - pt.base.type->engine->optimum );
+
+        // select best gear (or we return -1 for engines without discrete gears)
+        if( delta < best ) {
+            best = delta;
+            sel = idx;
+        }
+    }
+
+    return sel;
 }
 
 int vehicle::rpm( const vehicle_part &pt ) const
 {
-    if( !pt.is_engine() ) {
+    int g = gear( pt );
+    if( g < 0 ) {
         return 0;
     }
 
-    // @todo once stalling is implemented remove lower bound ensuring rpm above idle
-    double v = velocity / 100 * 0.44704; // current velocity (m/s)
-    return std::max( pt.base.type->engine->effective_rpm( v ), pt.base.type->engine->idle );
+    int res = std::abs( velocity ) * pt.base.type->engine->gears[g];
+    return std::max( res, pt.base.type->engine->idle );
 }
 
 bool vehicle::overspeed( const vehicle_part &pt ) const

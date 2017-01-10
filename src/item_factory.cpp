@@ -143,12 +143,12 @@ void Item_factory::finalize() {
             }
 
             /**
-             *  For our purposes gearboxes and axle differentials are combined
-             *  1:3.7 is a typical differential gearing
-             *  33.6 is a magic constant roughly based upon ~15" tyres
+             *  For our purposes gearboxes and differentials are combined
+             *  1:3.7 is a fairly typical differential gearing
+             *  0.15 is a magic constant based upon ~15" tyres
              */
             for( auto &e : obj.engine->gears ) {
-                e *= 3.7 * 33.6;
+                e *= 3.7 * 0.15;
             }
         }
 

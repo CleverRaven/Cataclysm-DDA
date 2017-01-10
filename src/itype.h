@@ -336,11 +336,6 @@ struct islot_engine
         /** Most fuel efficient velocity (m/s) if used in vehicle of @ref mass with @ref dynamics */
         double velocity_optimal( int mass, float dynamics = 1.0 ) const;
 
-        /** Select most efficient gear at @ref velocity (m/s) or @return -1 if no (suitable) gears */
-        int best_gear( double velocity ) const;
-
-        /** Get rpm at @ref velocity (m/s) presuming selection of @see best_gear() or 0 if stalled */
-        int effective_rpm( double velocity ) const;
 
     private:
         /** What faults (if any) can occur */
