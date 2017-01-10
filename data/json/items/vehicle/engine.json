@@ -50,7 +50,6 @@
     "price": 30000,
     "power": 15000,
     "gears": [ 3.166, 1.882, 1.296 ],
-    "start_energy": 25,
     "faults": [ "fault_engine_starter" ]
   },
   {
@@ -66,10 +65,7 @@
     "redline": 5000,
     "gears": [ 3.891 ],
     "faults": [],
-    "proportional": {
-        "efficiency": 0.5,
-        "start_time": 4.0
-    }
+    "proportional": { "efficiency": 0.5 }
   },
   {
     "id": "i4_combustion",
@@ -80,8 +76,7 @@
     "weight": 120000,
     "volume": 60,
     "price": 15000,
-    "power": 60000,
-    "start_energy": 100
+    "power": 60000
   },
   {
     "id": "i6_diesel",
@@ -92,8 +87,7 @@
     "weight": 145000,
     "volume": 72,
     "price": 27000,
-    "power": 60000,
-    "start_energy": 300
+    "power": 60000
   },
   {
     "id": "v2_combustion",

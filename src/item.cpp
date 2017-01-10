@@ -1613,12 +1613,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         if( is_engine() ) {
-            if( type->engine->start_time == 0 ) {
-                info.emplace_back( "ENGINE", _( "* This engine can be started <good>instantaneously</good>." ) );
-            }
-            if( type->engine->start_energy == 0 ) {
-                info.emplace_back( "ENGINE", _( "* This engine can be started <good>without a battery</good>." ) );
-            }
             if( type->engine->gears.empty() ) {
                 info.emplace_back( "ENGINE", _( "* This engines efficiency is <good>independent of speed</good>." ) );
             }
@@ -3683,33 +3677,36 @@ int item::wheel_area() const
 
 double item::engine_start_difficulty( int temperature ) const
 {
-    double res = 0.0;
-
-    // engine wear gradually increases penalty with a maximum of 0.4
-    if( max_damage() > 0 ) {
-        res += std::min( damage_ / double( max_damage() ), 0.4 );
+    if( !is_engine() ) {
+        return 0;
     }
 
-    // diesel engines with working glow plugs have maximum penalty of 0.6
-    if( has_flag( "COLD_START" ) ) {
-        static const fault_id fault_glowplug( "fault_engine_glow_plug" );
-        if( !faults.count( fault_glowplug ) ) {
-            temperature = std::max( temperature, 12 );
-        }
-        res += 1.0 - ( std::max( 0, std::min( 30, temperature ) ) / 30.0 );
+    if( !has_flag( "COLD_START" ) ) {
+        return 0.0;
     }
 
-    return std::min( res, 1.0 );
+    static const fault_id fault_glowplug( "fault_engine_glow_plug" );
+    if( !faults.count( fault_glowplug ) ) {
+        temperature = std::max( temperature, 10 );
+    }
+
+    return 1.0 - ( std::max( 0, std::min( 30, temperature ) ) / 30.0 );
 }
 
-int item::engine_start_time( int temp ) const
+int item::engine_start_time( int temperature ) const
 {
-    return is_engine() ? type->engine->start_time * pow( 1.0 + engine_start_difficulty( temp ), 3 ) : 0;
-}
+    if( !is_engine() || has_flag( "MANUAL_ENGINE" ) ) {
+        return 0;
+    }
 
-int item::engine_start_energy( int temp ) const
-{
-    return is_engine() ? type->engine->start_energy * pow( 1.0 + engine_start_difficulty( temp ), 3 ) : 0;
+    int res = type->engine->start_time;
+
+    // non-linear range [100-1000]; f(0.0) = 100, f(0.6) = 250, f(0.8) = 500, f(0.9) = 1000
+    // diesel engines with working glow plugs always start with f > 0.6
+    res += ( 1 / tanh( 1 - std::min( engine_start_difficulty( temperature ), 0.9 ) ) ) * 100;
+
+    // engine wear also gradually increases starting time
+    return std::max( res + ( damage_ * 100 ) - 100, 0.0 );
 }
 
 bool item::is_container_empty() const

@@ -1112,34 +1112,46 @@ bool vehicle::start_engine( const int e )
         return false;
     }
 
+    const double dmg = 1.0 - ((double)parts[engines[e]].hp() / einfo.durability);
+    const int engine_power = part_power( engines[e], true );
+
     auto mv = parts[engines[e]].starting_time();
     if( mv > 0 ) {
         const tripoint pos = global_part_pos3( engines[e] );
         sounds::ambient_sound( pos, mv / 10, "" );
     }
 
+    // Immobilisers need removing before the vehicle can be started
     if( eng.faults().count( fault_immobiliser ) ) {
-        add_msg( _( "The %s cannot start with a faulty immobiliser." ), eng.name().c_str() );
+        add_msg( _( "The %s makes a long beeping sound." ), eng.name().c_str() );
         return false;
     }
 
-    if( eng.faults().count( fault_starter ) ) {
-        add_msg( _( "The %s cannot start with a faulty starter motor." ), eng.name().c_str() );
-        return false;
+    // Engine with starter motors can fail on both battery and starter motor
+    if( eng.faults_potential().count( fault_starter ) ) {
+        if( eng.faults().count( fault_starter ) ) {
+            add_msg( _( "The %s makes a single clicking sound." ), eng.name().c_str() );
+            return false;
+        }
+        int pwr = engine_power * ( 1.0 + dmg ) * ( 1.0 + eng.starting_difficulty() ) / 1000.0;
+        if( discharge_battery( pwr, true ) != 0 ) {
+            add_msg( _( "The %s makes a rapid clicking sound." ), eng.name().c_str() );
+            return false;
+        }
     }
 
-    int joules = eng.base.engine_start_energy( g->temperature );
-    if( fuel_left( fuel_type_battery ) <= joules ) {
-        add_msg( _( "The %s need at least %i battery charges to start" ), eng.name().c_str(), joules );
-        return false;
-    }
-
+    // Engines always fail to start with faulty fuel pumps
     if( eng.faults().count( fault_pump ) || eng.faults().count( fault_diesel ) ) {
-        add_msg( _( "The %s quickly stutters out due to a faulty fuel pump" ), eng.name().c_str() );
+        add_msg( _( "The %s quickly stutters out." ), eng.name().c_str() );
         return false;
     }
 
-    discharge_battery( joules, true );
+    // Damaged engines have a chance of failing to start
+    if( x_in_y( dmg * 100, 120 ) ) {
+        add_msg( _( "The %s makes a terrible clanking sound." ), eng.name().c_str() );
+        return false;
+    }
+
     return true;
 }
 

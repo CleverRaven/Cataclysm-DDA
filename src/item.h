@@ -822,15 +822,12 @@ public:
 
     /**
      *  How difficult is it to start the engine at specified temperature (celcius)
-     *  @return scalar factor [0.0 - 1.0] where a higher value represents increasing difficulty
+     *  @return scalar factor [0.0 - 1.0]
      */
     double engine_start_difficulty( int temperature ) const;
 
     /** Moves required to start engine at specified temperature (celcius) */
     int engine_start_time( int temperature ) const;
-
-    /** battery charges (kJ) required to start at specified temperature (celcius) */
-    int engine_start_energy( int temperature ) const;
 
     /**
      * Can this item have given item/itype as content?

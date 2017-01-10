@@ -324,9 +324,6 @@ struct islot_engine
         /** moves required to start the engine (or zero for instantaneous start) */
         int start_time = 0;
 
-        /** battery energy (kJ) required to start (if any). @note 1kJ = 1 "battery" charge */
-        int start_energy = 0;
-
     private:
         /** What faults (if any) can occur */
         std::set<fault_id> faults;
