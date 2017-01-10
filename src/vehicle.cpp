@@ -1308,18 +1308,19 @@ int vehicle::part_power(int const index, bool at_full_hp) const
     ///\EFFECT_STR increases power output of manual engines
     if( part_flag( index, "MUSCLE_LEGS" ) ) {
         // average man (STR 10) = 1/3 hp
-        pwr = g->u.str_cur * hp_to_watt( 0.033 );
+        pwr = g->u.str_cur * 0.033 * 745.7;
 
     } else if( part_flag( index, "MUSCLE_ARMS" ) ) {
         // average man (STR 10) = 1/4 hp
-        pwr = g->u.str_cur * hp_to_watt( 0.025 );
+        pwr = g->u.str_cur * 0.025 * 745.7;
 
     } else if( vp.base.is_engine() ) {
         // for combustion engines use the base item stats and scale with damage
         pwr = vp.base.type->engine->power;
 
     } else if( part_flag( index, VPFLAG_ENGINE ) || part_flag( index, VPFLAG_ALTERNATOR ) ) {
-        pwr = vp.info().power;
+        // convert JSON hp into SI metric units (watts)
+        pwr = vp.info().power * 745.7;
     }
 
     if( pwr <= 0 ) {

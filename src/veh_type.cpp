@@ -12,7 +12,6 @@
 #include "init.h"
 #include "generic_factory.h"
 #include "character.h"
-#include "cata_utility.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -263,8 +262,6 @@ void vpart_info::finalize()
                 e.second.bitflags.set( b->second );
             }
         }
-
-        e.second.power = hp_to_watt( e.second.power );
 
         // Calculate and cache z-ordering based off of location
         // list_order is used when inspecting the vehicle

@@ -4,7 +4,6 @@
 #include "artifact.h"
 #include "bionics.h"
 #include "catacharset.h"
-#include "cata_utility.h"
 #include "construction.h"
 #include "crafting.h"
 #include "debug.h"
@@ -138,7 +137,7 @@ void Item_factory::finalize() {
         }
 
         if( obj.engine ) {
-            obj.engine->power = hp_to_watt( obj.engine->power );
+            obj.engine->power *= 745.7; // convert mechanical horsepower to watts
 
             if( get_world_option<bool>( "NO_FAULTS" ) ) {
                 obj.engine->faults.clear();

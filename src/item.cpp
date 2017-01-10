@@ -1224,7 +1224,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                string_format( "<color_%s>%s</color>", col.c_str(), type->engine->fuel.c_str() ) );
         }
         if( type->engine->power > 0 ) {
-            info.emplace_back( "ENGINE", _( "Power: " ), "<num> hp", watt_to_hp( type->engine->power ), true );
+            info.emplace_back( "ENGINE", _( "Power: " ), "<num> hp", type->engine->power / 745.7, true );
         }
 
         info.emplace_back( "ENGINE", _( "Efficiency: " ), "<num>%", type->engine->efficiency, true );

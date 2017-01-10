@@ -6,7 +6,6 @@
 #include <numeric>
 
 #include "compatibility.h"
-#include "cata_utility.h"
 #include "init.h"
 #include "item_factory.h"
 #include "iuse_actor.h"
@@ -268,8 +267,8 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             r.push_back( veh_empty.name );
             r.push_back( to_string( veh_empty.total_mass() ) );
             r.push_back( to_string( veh_fueled.total_mass() ) );
-            r.push_back( to_string( int( ms_to_mph( max_vel ) ) ) );
-            r.push_back( to_string( int( ms_to_mph( safe_vel ) ) ) );
+            r.push_back( to_string( int( max_vel  * 2.237 ) ) );
+            r.push_back( to_string( int( safe_vel * 2.237 ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_mass() ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_aerodynamics() ) ) );
             r.push_back( to_string( (int)( 100 * veh_fueled.k_friction() ) ) );
