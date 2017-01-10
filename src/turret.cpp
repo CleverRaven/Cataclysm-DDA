@@ -224,7 +224,7 @@ turret_data::status turret_data::query() const
     }
 
     auto ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
-    if( ups > veh->fuel_left( fuel_type_battery, true, true ) ) {
+    if( ups > veh->fuel_left( fuel_type_battery ) ) {
         return status::no_power;
     }
 
