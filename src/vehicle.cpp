@@ -3025,8 +3025,15 @@ int vehicle::rpm() const
     return std::max( res, eng.rpm_idle() );
 }
 
-int vehicle::load( const vehicle_part &pt ) const
+int vehicle::load() const
 {
+    const auto &eng = current_engine();
+
+    // if engine isn't running skip calculating load
+    if( !eng ) {
+        return 0;
+    }
+
     // current velocity (m/s)
     double v = velocity / 100 * 0.44704;
 
@@ -3034,16 +3041,16 @@ int vehicle::load( const vehicle_part &pt ) const
     double k = 0.5 * total_mass() * pow( v, 2 );
 
     // engine power (J/s) replaces energy lost via friction (~10% for typical vehicle)
-    double res = k * 0.05 / k_dynamics();
+    double p = k * 0.05 / k_dynamics();
 
-    for( const auto &e : parts ) {
-        if( e.mount == pt.mount && e.is_alternator() && !e.is_broken() ) {
+    for( const auto &pt : parts ) {
+        if( pt.mount == eng.mount && pt.is_alternator() && !pt.is_broken() ) {
             // alternators have negative sign but should increase current engine load
-            res -= e.info().power;
+            p -= pt.info().power;
         }
     }
 
-    return res;
+    return p;
 }
 
 double vehicle::acceleration() const
@@ -3627,7 +3634,7 @@ void vehicle::idle(bool on_map) {
     if( eng ) {
         if( eng.info().has_flag( "MUSCLE_ARM" ) || eng.info().has_flag( "MUSCLE_LEG" ) ) {
             if( one_in( 10 ) ) {
-                int q = std::min( int( load( eng ) / 10 ), 1 );
+                int q = std::min( int( load() / 10 ), 1 );
                 g->u.mod_hunger( q );
                 g->u.mod_thirst( q );
                 g->u.mod_fatigue( q );
@@ -3639,7 +3646,7 @@ void vehicle::idle(bool on_map) {
             }
 
         } else {
-            double pwr = load( eng );
+            double pwr = load();
 
             // determine energy density of current fuel
             const itype *fuel = item::find_type( eng.ammo_current() );
@@ -3668,16 +3675,6 @@ void vehicle::idle(bool on_map) {
                 noise_and_smoke( pwr / part_power( index_of_part( &eng ) ) );
             }
         }
-    }
-
-    // overspeed engines incur damage
-    if( rpm() > eng.rpm_redline() ) {
-        if( one_in( 10 ) ) {
-            add_msg( _( "Your engine emits a high pitched whine." ) );
-        } else if( one_in( 10 ) ) {
-            add_msg( _( "Your engine emits a loud grinding sound." ) );
-        }
-        damage_direct( index_of_part( &eng ), 1 );
     }
 
     if( !warm_enough_to_plant() ) {
@@ -3920,7 +3917,8 @@ void vehicle::thrust( int thd ) {
         skidding = false;
     }
 
-    if( !thd || skidding ) {
+    // No need to change velocity
+    if( !thd ) {
         return;
     }
 
@@ -4007,6 +4005,22 @@ void vehicle::thrust( int thd ) {
             cruise_velocity = 0;
             return;
         }
+    }
+
+    // overspeed engines incur damage
+    if( rpm() > eng.rpm_redline() ) {
+        if( one_in( 10 ) ) {
+            add_msg( _( "Your engine emits a high pitched whine." ) );
+        } else if( one_in( 10 ) ) {
+            add_msg( _( "Your engine emits a loud grinding sound." ) );
+        }
+        damage_direct( index_of_part( &eng ), 1 );
+    }
+
+    //wheels aren't facing the right way to change velocity properly
+    //lower down, since engines should be getting damaged anyway
+    if( skidding ) {
+        return;
     }
 
     //change vehicles velocity
