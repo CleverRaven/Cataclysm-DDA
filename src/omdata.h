@@ -312,6 +312,7 @@ class overmap_special
         // Used by generic_factory
         bool was_loaded = false;
         void load( JsonObject &jo, const std::string &src );
+        void finalize();
         void check() const;
 };
 
@@ -319,6 +320,7 @@ namespace overmap_specials
 {
 
 void load( JsonObject &jo, const std::string &src );
+void finalize();
 void check_consistency();
 void reset();
 

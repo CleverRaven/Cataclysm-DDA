@@ -305,6 +305,13 @@ void overmap_specials::load( JsonObject &jo, const std::string &src )
     specials.load( jo, src );
 }
 
+void overmap_specials::finalize()
+{
+    for( const auto &elem : specials.get_all() ) {
+        const_cast<overmap_special &>( elem ).finalize(); // This cast is ugly, but safe.
+    }
+}
+
 void overmap_specials::check_consistency()
 {
     const size_t max_count = ( OMAPX / OMSPEC_FREQ ) * ( OMAPY / OMSPEC_FREQ ) / 2;
@@ -1140,12 +1147,23 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "occurrences", occurrences );
 
     optional( jo, was_loaded, "connections", connections );
+
     assign( jo, "spawns", spawns, strict );
 
     assign( jo, "city_sizes", city_size, strict );
     assign( jo, "city_distance", city_distance, strict );
     assign( jo, "rotate", rotatable, strict );
     assign( jo, "flags", flags, strict );
+}
+
+void overmap_special::finalize()
+{
+    for( auto &elem : connections ) {
+        const auto &oter = get_terrain_at( elem.p );
+        if( !elem.terrain && oter.terrain ) {
+            elem.terrain = oter.terrain->type->id;    // Defaulted.
+        }
+    }
 }
 
 void overmap_special::check() const
@@ -1170,8 +1188,14 @@ void overmap_special::check() const
 
     for( const auto &elem : connections ) {
         const auto &oter = get_terrain_at( elem.p );
-        if( oter.terrain ) {
-            debugmsg( "In overmap special \"%s\", point [%d,%d,%d] overwrites \"%s\".",
+        if( !elem.terrain ) {
+            debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] doesn't have a terrain.",
+                      id.c_str(), elem.p.x, elem.p.y, elem.p.z );
+        } else if( !elem.existing && !elem.terrain->has_flag( line_drawing ) ) {
+            debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] \"%s\" isn't drawn with lines.",
+                      id.c_str(), elem.p.x, elem.p.y, elem.p.z, elem.terrain.c_str() );
+        } else if( oter.terrain && !oter.terrain->type_is( elem.terrain ) ) {
+            debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] overwrites \"%s\".",
                       id.c_str(), elem.p.x, elem.p.y, elem.p.z, oter.terrain.c_str() );
         }
     }
