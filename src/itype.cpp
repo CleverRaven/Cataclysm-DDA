@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <cmath>
 
-double friction_loss = 0.05;
+double friction_loss = 0.25;
 
 std::string itype::nname( unsigned int const quantity ) const
 {
