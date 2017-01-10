@@ -3546,7 +3546,7 @@ void vehicle::idle(bool on_map) {
     if( eng ) {
         if( eng.base.has_flag( "MANUAL_ENGINE" ) ) {
             if( one_in( 10 ) ) {
-                int q = std::max( int( load( eng ) / 10 ), 1 );
+                int q = std::min( int( load( eng ) / 10 ), 1 );
                 g->u.mod_hunger( q );
                 g->u.mod_thirst( q );
                 g->u.mod_fatigue( q );
