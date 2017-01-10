@@ -3022,7 +3022,7 @@ void vehicle::noise_and_smoke( double load )
                         backfire( e );
                     }
                 }
-                double j = power_to_epower( watt_to_hp( part_power( p, true ) ) ) * load * 6.0 * muffle;
+                double j = power_to_epower(part_power(p, true)) * load * 6.0 * muffle;
 
                 if( parts[ p ].base.faults.count( fault_filter_air ) ) {
                     bad_filter = true;
