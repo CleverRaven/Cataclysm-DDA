@@ -144,7 +144,7 @@
     "item": "v8_combustion",
     "fuel_type": "gasoline",
     "difficulty": 3,
-    "durability": 800,
+    "durability": 400,
     "epower": -200,
     "damage_modifier": 80,
     "breaks_into": [

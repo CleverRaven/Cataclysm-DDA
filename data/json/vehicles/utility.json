@@ -104,7 +104,7 @@
       { "x": 0, "y": 0, "part": "floodlight" },
       { "x": 0, "y": 0, "part": "controls" },
       { "x": 0, "y": 0, "part": "horn_big" },
-      { "x": 1, "y": 0, "part": "diesel_engine_v8" },
+      { "x": 1, "y": 0, "part": "diesel_engine_i6" },
       { "x": 1, "y": 0, "part": "alternator_truck" },
       { "x": 1, "y": 0, "part": "battery_car" },
       { "x": -1, "y": 0, "part": "tank", "fuel": "diesel" },
