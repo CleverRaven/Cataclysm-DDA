@@ -239,7 +239,7 @@ public:
     int hp() const;
 
     /** parts are considered broken at zero health */
-    bool is_broken() const { return base.damage() >= base.max_damage(); }
+    bool is_broken() const;
 
     int blood        = 0;         // how much blood covers part (in turns).
     bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead

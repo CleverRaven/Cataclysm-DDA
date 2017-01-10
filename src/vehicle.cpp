@@ -5806,6 +5806,12 @@ int vehicle_part::hp() const
     return dur - ( dur * base.damage() / base.max_damage() );
 }
 
+/** parts are considered broken at zero health */
+bool vehicle_part::is_broken() const
+{
+    return base.damage() >= base.max_damage();
+}
+
 itype_id vehicle_part::ammo_current() const
 {
     if( is_battery() ) {
