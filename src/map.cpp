@@ -4681,7 +4681,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
             }
             if( n.ammo_capacity() > n.ammo_remaining() ) {
                 constexpr int per_charge = 10;
-                const int missing = cur_veh->discharge( per_charge, false );
+                const int missing = cur_veh->discharge_battery( per_charge, false );
                 if( missing < per_charge &&
                     ( missing == 0 || x_in_y( per_charge - missing, per_charge ) ) ) {
                     n.ammo_set( "battery", n.ammo_remaining() + 1 );

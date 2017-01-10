@@ -38,7 +38,7 @@ TEST_CASE( "vehicle_engine", "[vehicle] [engine]" ) {
                 REQUIRE( veh.safe_velocity( pt ) <= veh.max_velocity( pt ) );
 
                 // sufficient power available to start the engine at 10°C
-                REQUIRE( base->engine_start_energy( 10 ) <= veh.fuel_left( "battery", true, true ) );
+                REQUIRE( base->engine_start_energy( 10 ) <= veh.fuel_left( "battery" ) );
             }
 
             g->m.destroy_vehicle( &veh );

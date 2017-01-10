@@ -155,7 +155,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         if( veh->fuel_left( "battery", true, true ) < pseudo.ammo_required() ) {
             return false;
         }
-        auto qty = pseudo.ammo_capacity() - veh->discharge( pseudo.ammo_capacity() );
+        auto qty = pseudo.ammo_capacity() - veh->discharge_battery( pseudo.ammo_capacity() );
         pseudo.ammo_set( "battery", qty );
         g->u.invoke_item( &pseudo );
         veh->charge_battery( pseudo.ammo_remaining() );
@@ -224,7 +224,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                     add_msg( m_good, _( "You purify the contents of the %1$s's %2$s" ),
                              veh->name.c_str(), tank.name().c_str() );
 
-                    veh->discharge( tank.ammo_remaining() * cost );
+                    veh->discharge_battery( tank.ammo_remaining() * cost );
                     tank.ammo_set( "water_clean", tank.ammo_remaining() );
                 }
             }

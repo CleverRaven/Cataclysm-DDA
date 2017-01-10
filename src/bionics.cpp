@@ -688,7 +688,7 @@ void player::process_bionic( int b )
                 continue;
             }
 
-            wants_power_amt = veh->discharge( wants_power_amt );
+            wants_power_amt = veh->discharge_battery( wants_power_amt );
             if( wants_power_amt == 0 ) {
                 charge_power( 1 );
                 break;

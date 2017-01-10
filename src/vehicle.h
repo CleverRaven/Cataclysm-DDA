@@ -785,16 +785,12 @@ public:
      */
     std::map<itype_id, long> fuels_left() const;
 
-    /**
-     * How much of a given fuel type is available from various sources
-     * @param recurse for battery power should networked vehicles be considered?
-     * @param reactor for battery power should active reactors be considered?
-     */
-    int fuel_left( const itype_id &ftype, bool recurse = false, bool reactor = false ) const;
-
+    // Checks how much certain fuel left in tanks.
+    int fuel_left (const itype_id &ftype, bool recurse = false) const;
     int fuel_capacity (const itype_id &ftype) const;
 
     // drains a fuel type (e.g. for the kitchen unit)
+    // returns amount actually drained, does not engage reactor
     int drain (const itype_id &ftype, int amount);
 
     /**
@@ -810,13 +806,11 @@ public:
     int charge_battery (int amount, bool recurse = true);
 
     /**
-     * Attempt to obtain electrical power from various sources
-     * @param amount maximum power (kJ) to obtain
-     * @param recurse if insufficient local power available should networked vehicles be drained?
-     * @param reactor if insufficient power is available should active reactors will be engaged?
+     * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
+     * @note if insufficient power is available any active reactors will be engaged
      * @return amount of request unfulfilled (0 if totally successful).
      */
-    int discharge( int amount, bool recurse = true, bool reactor = true );
+    int discharge_battery (int amount, bool recurse = true);
 
     /**
      * Mark mass caches and pivot cache as dirty
