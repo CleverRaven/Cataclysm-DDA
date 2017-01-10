@@ -2433,7 +2433,7 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
             partname += string_format( _(" (vol: %s/%s %s)"),
-                                       format_volume( stored_volume( pl[i] ) ).c_str(),
+                                       format_volume( stored_volume( pl[i] ) ).c_str(), 
                                        format_volume( max_volume( pl[i] ) ).c_str(),
                                        volume_units_abbr() );
         }
@@ -4481,7 +4481,7 @@ bool vehicle::add_item( int part, const item &itm )
     }
     bool charge = itm.count_by_charges();
     vehicle_stack istack = get_items( part );
-    const long to_move = istack.amount_can_fit( itm );
+    const long to_move = istack.amount_can_fit( itm );    
     if( to_move == 0 || ( charge && to_move < itm.charges ) ) {
         return false; // @add_charges should be used in the latter case
     }
@@ -5678,6 +5678,7 @@ void vehicle::update_time( const calendar &update_to )
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
+static vpart_info null_part_info = vpart_info::make_null_vpart_info();
 
 vehicle_part::vehicle_part()
     : mount( 0, 0 ), id( NULL_ID ) {}
@@ -5696,8 +5697,6 @@ vehicle_part::vehicle_part( const vpart_id& vp, int const dx, int const dy, item
 
 vehicle_part vehicle_part::make_null_part()
 {
-    static vpart_info null_part_info = vpart_info::make_null_vpart_info();
-
     vehicle_part null_part;
     null_part.info_cache = &null_part_info;
     return null_part;
@@ -5991,7 +5990,7 @@ float vehicle_part::efficiency( int rpm ) const
 
     float eff = base.type->engine->efficiency / 100.0;
 
-    // operating outside optimal rpm is less efficient
+    // operating outside optimal rpm is less efficient 
     double penalty = std::abs( base.type->engine->optimum - rpm ) / 1000.0;
     return eff / ( 1.0 + penalty );
 }
