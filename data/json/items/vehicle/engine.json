@@ -64,7 +64,7 @@
     "weight": 32000,
     "volume": 16,
     "power": 15000,
-    "gears": [ 3.166, 1.882, 1.126 ],
+    "gears": [ 3.166, 1.882, 1.296 ],
     "start_energy": 25,
     "faults": [ "fault_engine_starter" ]
   },
@@ -158,7 +158,7 @@
     "proportional": {
       "weight": 1.5,
       "volume": 1.4,
-      "power": 1.5,
+      "power": 1.2,
       "start_time": 2,
       "start_energy": 2
     }
