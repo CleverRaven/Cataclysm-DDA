@@ -29,7 +29,7 @@ static void test_safe_velocity( const vproto_id &id, double min, double max ) {
     auto base = veh.part_base( veh.index_of_part( &veh.current_engine() ) );
     REQUIRE( base );
     int mass = veh.total_mass() + ( player().get_weight() / 1000.0 );
-    const double v = ms_to_tt( base->type->engine->velocity_safe( mass, veh.k_dynamics() ) );
+    const double v = ms_to_tt( base->type->engine->velocity_safe( mass, veh.k_dynamics() );
     REQUIRE( v >= min );
     REQUIRE( v <= max );
 }

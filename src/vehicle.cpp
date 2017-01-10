@@ -2960,7 +2960,7 @@ int vehicle::load( const vehicle_part &pt ) const
     double res = k * friction_loss / k_dynamics();
 
     // if the wheels are slipping we need more power to maintain the same speed */
-    res *= 1.0 + k_traction( g->m.vehicle_wheel_traction( *this ) );
+    res / k_traction();
 
     for( const auto &e : parts ) {
         if( e.mount == pt.mount && e.is_alternator() && !e.is_broken() ) {
