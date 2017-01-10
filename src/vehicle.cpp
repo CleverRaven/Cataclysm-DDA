@@ -2959,9 +2959,6 @@ int vehicle::load( const vehicle_part &pt ) const
     // engine power (J/s) replaces energy lost via friction (~25% for typical vehicle)
     double res = k * friction_loss / k_dynamics();
 
-    // if the wheels are slipping we need more power to maintain the same speed */
-    res / k_traction();
-
     for( const auto &e : parts ) {
         if( e.mount == pt.mount && e.is_alternator() && !e.is_broken() ) {
             // alternators have negative sign but should increase current engine load
