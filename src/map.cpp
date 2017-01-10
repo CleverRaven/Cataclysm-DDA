@@ -424,10 +424,10 @@ bool map::vehact( vehicle &veh )
 
         // always slow down by at least 1mph
         slowdown = std::max( ms_to_mph( slowdown ) * 100, 100.0 );
-    }
 
-    if( veh.skidding ) {
-        slowdown = std::max( slowdown, veh.velocity / 3.0 );
+        if( veh.skidding ) {
+            slowdown = std::max( slowdown, veh.velocity / 3.0 );
+        }
     }
 
     if( slowdown > abs( veh.velocity ) ) {
