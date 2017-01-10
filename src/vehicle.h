@@ -807,7 +807,6 @@ public:
 
     /**
      * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
-     * @note if insufficient power is available any active reactors will be engaged
      * @return amount of request unfulfilled (0 if totally successful).
      */
     int discharge_battery (int amount, bool recurse = true);

@@ -3401,38 +3401,6 @@ int vehicle::discharge_battery (int amount, bool recurse)
         amount = traverse_vehicle_graph(this, amount, discharge_visitor);
     }
 
-    // if insufficient local or network electrical power try to engage any reactors
-    if( amount > 0 ) {
-        for( auto &pt : parts ) {
-
-            // consider only enabled reactors that have remaining fuel
-            if( pt.is_reactor() && pt.enabled && pt.ammo_remaining() ) {
-
-                const itype *fuel = item::find_type( pt.ammo_current() );
-                if( fuel->ammo ) {
-                    assert( fuel->ammo->energy > 0 ); // enforced in item_factory.cpp
-                    int density = fuel->ammo->energy;
-
-                    // calculate electrical power (kJ) reactor will provide
-                    int qty = std::min( amount, int( pt.ammo_remaining() * density ) );
-
-                    // calculate reactor charges that will be consumed...
-                    double burn = double( qty ) / density;
-
-                    // partial charges have a proportional chance of being consumed each turn
-                    burn += x_in_y( fmod( burn, 1.0 ) * 1000, 1000 ) ? 1 : 0;
-
-                    pt.ammo_consume( burn, global_part_pos3( pt ) );
-                    amount -= qty;
-
-                    if( amount == 0 ) {
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
     return amount; // non-zero if we weren't able to fulfill demand.
 }
 
@@ -3458,7 +3426,10 @@ void vehicle::idle(bool on_map) {
         }
     }
 
-    if( deficit > generate ) {
+    int nuclear = 0;
+    // @todo calculate reactor capacity
+
+    if( deficit > generate + nuclear ) {
         // insufficient power so disable electrical parts
         for( auto &e : parts ) {
             if( e.enabled && e.info().epower < 0 ) {
@@ -3480,6 +3451,9 @@ void vehicle::idle(bool on_map) {
                 add_msg( _( "The %s's engine dies!" ), name.c_str() );
             }
         }
+
+    } else if( deficit > generate ) {
+        // @todo engage reactor
 
     } else {
         // as above power generation is in watts but battery storage (kJ) is less granular...
