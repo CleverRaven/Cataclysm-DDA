@@ -285,57 +285,6 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             dump( e );
         }
 
-    } else if( what == "ENGINE" ) {
-        header = {
-            "Name", "Weight (kg)", "Volume (L)", "Fuel", "Power (hp)", "Efficiency (%)", "Durability",
-            "Optimum (rpm)", "Redline (rpm)", "Optimal (mph)", "Safe (mph)"
-        };
-        for( auto &e : vpart_info::all() ) {
-            const item obj( e.second.item );
-            if( !obj.is_engine() ) {
-                continue;
-            }
-            std::vector<std::string> r;
-            r.push_back( e.second.name() );
-            r.push_back( string_format( "%.0f", obj.weight() / 1000.0 ) );
-            r.push_back( string_format( "%.1f", obj.volume() / 1000.0 ) );
-            r.push_back( obj.type->engine->fuel->name() );
-            r.push_back( string_format( "%.0f", watt_to_hp( obj.type->engine->power ) ) );
-            r.push_back( to_string( obj.type->engine->efficiency ) );
-            r.push_back( to_string( e.second.durability ) );
-            if( obj.type->engine->gears.empty() ) {
-                r.insert( r.end(), { "", "", "", "" } );
-            } else {
-                r.push_back( to_string( obj.type->engine->optimum ) );
-                r.push_back( to_string( obj.type->engine->redline ) );
-                r.push_back( string_format( "%.0f", ms_to_mph( obj.type->engine->velocity_optimal( 1 ) ) ) );
-                r.push_back( string_format( "%.0f", ms_to_mph(obj.type->engine->velocity_safe( 1 ) ) ) );
-            }
-            rows.push_back( r );
-        }
-
-    } else if( what == "TRACTION" ) {
-        const int limit = 20000;
-
-        header = { "Name" };
-        for( int i = 1; i != limit; ++i ) {
-            header.push_back( to_string( i ) );
-        }
-
-        auto dump = [&rows, &limit]( const itype_id &obj ) {
-            const item eng( obj );
-            std::vector<std::string> r( 1, eng.tname() );
-            for( int i = 1; i != limit; ++i ) {
-                r.push_back( to_string( ms_to_mph( eng.type->engine->velocity_safe( i, 0.8 ) ) ) );
-            }
-            rows.push_back( r );
-        };
-
-        dump( "1cyl_combustion_small" );
-        dump( "i4_combustion" );
-        dump( "v8_combustion" );
-        dump( "v8_diesel" );
-
     } else if( what == "VPART" ) {
         header = {
             "Name", "Location", "Weight", "Size"
