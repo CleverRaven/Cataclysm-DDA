@@ -11,7 +11,7 @@
     "parts": [
       { "x": 0, "y": 0, "part": "frame_vertical_2" },
       { "x": 0, "y": 0, "part": "robot_controls" },
-      { "x": 0, "y": 0, "part": "engine_electric_small" },
+      { "x": 0, "y": 0, "part": "engine_electric" },
       { "x": 0, "y": 0, "part": "roof" },
       { "x": -1, "y": 0, "part": "frame_vertical_2" },
       { "x": -1, "y": 0, "part": "roof" },

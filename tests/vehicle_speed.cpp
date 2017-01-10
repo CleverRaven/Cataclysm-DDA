@@ -103,11 +103,4 @@ TEST_CASE( "vehicle_speed", "[vehicle] [engine]" ) {
         test_safe_velocity   ( vproto_id( "scooter" ), 1.5, 2.5 );
         test_optimal_velocity( vproto_id( "scooter" ), 0.5, 1.5 );
     }
-
-    SECTION( "scooter_electric" ) {
-        // More efficient than the gasoline alternative but similarly struggles when carrying cargo
-        test_max_velocity    ( vproto_id( "scooter_electric" ), 4.0, 5.0 );
-        test_safe_velocity   ( vproto_id( "scooter_electric" ), 4.0, 5.0 );
-        test_optimal_velocity( vproto_id( "scooter_electric" ), 4.0, 5.0 );
-    }
 }

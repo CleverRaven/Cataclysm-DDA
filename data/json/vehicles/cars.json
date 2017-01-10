@@ -993,7 +993,7 @@
       { "x": 1, "y": 2, "part": "windshield" },
       { "x": 2, "y": 0, "part": "xlframe_horizontal" },
       { "x": 2, "y": 0, "part": "halfboard_nw" },
-      { "x": 2, "y": 0, "part": "engine_electric" },
+      { "x": 2, "y": 0, "part": "engine_electric_large" },
       { "x": 2, "y": 1, "part": "xlframe_horizontal" },
       { "x": 2, "y": 1, "part": "halfboard_ne" },
       { "x": 2, "y": -1, "part": "xlframe_nw" },

@@ -298,7 +298,7 @@
         "category" : "veh_parts",
         "price" : 2000,
         "fuel": "battery",
-        "power": 2000
+        "power": 15000
     },
     {
         "type": "ENGINE",
