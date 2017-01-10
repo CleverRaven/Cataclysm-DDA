@@ -3465,7 +3465,7 @@ void vehicle::idle(bool on_map) {
         recharge += x_in_y( recharge % 1000, 1000 ) ? 1000 : 0;
 
         // attempt to recharge battery limiting generated power to total battery capacity
-        generate -= charge_battery( recharge / 1000 );
+        generate -= charge_battery( recharge );
     }
 
     if( engine_on && eng ) {
