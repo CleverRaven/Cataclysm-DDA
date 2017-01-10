@@ -256,34 +256,17 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             auto veh_empty = vehicle( obj, 0, 0 );
             auto veh_fueled = vehicle( obj, 100, 0 );
 
-            std::vector<item_location> engines;
-            for( const auto &e : veh_fueled.parts ) {
-                if( e.is_engine() ) {
-                    engines.push_back( veh_fueled.part_base( veh_fueled.index_of_part( &e ) ) );
-                }
-            }
+            double max_vel = std::accumulate( veh_fueled.parts.begin(), veh_fueled.parts.end(), 0.0f,
+                                              [&]( const double lhs, const vehicle_part &rhs ) {
+                                                  return std::max( lhs, veh_fueled.max_velocity( rhs ) ); } );
 
-            // weight of player is significant for lightweight vehicles with low power engines
-            int mass = veh_fueled.total_mass() + ( player().get_weight() / 1000.0 );
-            double kf = veh_fueled.k_friction();
+            double safe_vel = std::accumulate( veh_fueled.parts.begin(), veh_fueled.parts.end(), 0.0f,
+                                               [&]( const double lhs, const vehicle_part &rhs ) {
+                                                   return std::max( lhs, veh_fueled.safe_velocity( rhs ) ); } );
 
-            double max_vel = std::accumulate(
-                engines.begin(), engines.end(), 0.0f,
-                [&mass,kf]( const double lhs, const item_location &rhs ) {
-                    return std::max( lhs, rhs->type->engine->velocity_max( mass, kf ) );
-            } );
-
-            double safe_vel = std::accumulate(
-                engines.begin(), engines.end(), 0.0f,
-                [&mass,kf]( const double lhs, const item_location &rhs ) {
-                    return std::max( lhs, rhs->type->engine->velocity_safe( mass, kf ) );
-            } );
-
-            double optimal_vel = std::accumulate(
-                engines.begin(), engines.end(), 0.0f,
-                [&mass,kf]( const double lhs, const item_location &rhs ) {
-                    return std::max( lhs, rhs->type->engine->velocity_optimal( mass, kf ) );
-            } );
+            double optimal_vel = std::accumulate( veh_fueled.parts.begin(), veh_fueled.parts.end(), 0.0f,
+                                                  [&]( const double lhs, const vehicle_part &rhs ) {
+                                                      return std::max( lhs, veh_fueled.optimal_velocity( rhs ) ); } );
 
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
