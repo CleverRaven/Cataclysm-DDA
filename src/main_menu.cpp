@@ -477,13 +477,7 @@ bool main_menu::opening_screen()
                 if( action == "UP" || action == "CONFIRM" ) {
                     if( sel2 == 0 ) { // Create world
                         // Open up world creation screen!
-                        if( world_generator->make_new_world() ) {
-                            // TODO: This is extremely hacky
-                            *this = main_menu();
-                            return opening_screen();
-                        } else {
-                            layer = 1;
-                        }
+                        world_generator->make_new_world();
                     } else if( sel2 == 1 || sel2 == 2 ) { // Delete World | Reset World
                         layer = 3;
                         sel3 = 0;
@@ -672,14 +666,13 @@ bool main_menu::opening_screen()
                             }
                         }
 
+                        layer = 2; // Go to world submenu, not list of worlds
                         if( query_yes ) {
                             g->delete_world( world_generator->all_worldnames[sel3], do_delete );
 
                             savegames.clear();
                             MAPBUFFER.reset();
                             overmap_buffer.clear();
-
-                            layer = 2;
 
                             if( do_delete ) {
                                 // delete world and all contents
@@ -691,11 +684,6 @@ bool main_menu::opening_screen()
                             if( world_generator->all_worldnames.empty() ) {
                                 sel2 = 0; // reset to create world selection
                             }
-                        } else {
-                            // hacky resolution to the issue of persisting world names on the screen
-                            // TODO: Use a non-hacky resolution
-                            *this = main_menu();
-                            return opening_screen();
                         }
                     }
                     print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
