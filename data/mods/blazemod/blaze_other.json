@@ -1,5 +1,29 @@
 [
   {
+    "id": "1cyl_combustion",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "1-cylinder engine",
+    "description": "A single-cylinder 4-stroke combustion engine.",
+    "weight": 20000,
+    "volume": 6,
+    "price": 10000,
+    "displacement": 85,
+    "faults": [ "fault_engine_starter" ]
+  },
+  {
+    "id": "1cyl_combustion_small",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "small 1-cylinder engine",
+    "description": "A small single-cylinder 2-stroke combustion engine.",
+    "weight": 10000,
+    "volume": 3,
+    "price": 6000,
+    "displacement": 60,
+    "faults": []
+  },
+  {
     "id": "rebar_plate",
     "type": "GENERIC",
     "category": "veh_parts",
