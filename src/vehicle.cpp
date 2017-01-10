@@ -1293,15 +1293,21 @@ const vpart_info& vehicle::part_info (int index, bool include_removed) const
 
 // engines & alternators all have power.
 // engines provide, whilst alternators consume.
-int vehicle::part_power(const vehicle_part &vp, bool at_full_hp) const
+int vehicle::part_power(int const index, bool at_full_hp) const
 {
-    const auto &info = vp.info();
+    const vehicle_part &vp = parts[index];
     int pwr = 0;
 
     if( vp.base.is_engine() ) {
         pwr = vp.base.type->engine->power;
-    } else if( info.has_flag( VPFLAG_ALTERNATOR ) ) {
-        pwr = info.power;
+
+        ///\EFFECT_STR increases power output of manual engines
+        if( vp.base.has_flag( "MANUAL_ENGINE" ) ) {
+            pwr *= g->u.str_cur;
+        }
+
+    } else if( part_flag( index, VPFLAG_ALTERNATOR ) ) {
+        pwr = vp.info().power;
     }
 
     if( pwr <= 0 ) {
@@ -1311,18 +1317,13 @@ int vehicle::part_power(const vehicle_part &vp, bool at_full_hp) const
         return pwr; // Assume full hp
     }
     // Damaged engines give less power, but gas/diesel handle it better
-    if( info.fuel_type == fuel_type_gasoline ||
-        info.fuel_type == fuel_type_diesel ) {
-        return pwr * (0.25 + (0.75 * ((double)vp.hp() / info.durability)));
+    if( part_info(index).fuel_type == fuel_type_gasoline ||
+        part_info(index).fuel_type == fuel_type_diesel ) {
+        return pwr * (0.25 + (0.75 * ((double)parts[index].hp() / part_info(index).durability)));
     } else {
-        return double( pwr * vp.hp() ) / info.durability;
+        return double( pwr * parts[index].hp() ) / part_info(index).durability;
     }
-}
-
-int vehicle::part_power(int const index, bool at_full_hp) const
-{
-    return part_power( parts[index], at_full_hp );
-}
+ }
 
 // alternators, solar panels, reactors, and accessories all have epower.
 // alternators, solar panels, and reactors provide, whilst accessories consume.
@@ -3552,21 +3553,19 @@ void vehicle::idle(bool on_map) {
     if( engine_on && eng ) {
         if( eng.base.has_flag( "MANUAL_ENGINE" ) &&
             player_in_control( g->u ) && global_part_pos3( eng ) == g->u.pos() ) {
-            // Effort is load to max power ratio
-            float effort = std::min( 1.0f, (float)load( eng ) / part_power( eng ) );
 
-            // At full effort, increase resource consumption by 500%
-            if( x_in_y( effort, MINUTES( 1 ) ) ) {
-                g->u.mod_hunger( 1 );
-                g->u.mod_thirst( 1 );
-                g->u.mod_fatigue( 1 );
+            // bicycle traveling ~10 overmap tiles of road results in "very hungry"
+            if( one_in( 50 ) ) {
+                int q = std::max( int( load( eng ) / 10 ), 1 );
+                g->u.mod_hunger( q );
+                g->u.mod_thirst( q );
+                g->u.mod_fatigue( q );
+                g->u.mod_stat( "stamina", -q );
 
                 if( g->u.has_bionic( "bio_torsionratchet" ) ) {
                     g->u.charge_power( 1 );
                 }
             }
-
-            g->u.mod_stat( "stamina", -roll_remainder( effort * 10 ) );
 
         } else {
             double pwr = load( eng );
