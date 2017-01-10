@@ -3543,7 +3543,7 @@ int vehicle::discharge_battery (int amount, bool recurse)
 
 void vehicle::idle(bool on_map) {
     auto &eng = current_engine();
-    if( engine_on && eng ) {
+    if( eng ) {
         if( eng.base.has_flag( "MANUAL_ENGINE" ) &&
             player_in_control( g->u ) && global_part_pos3( eng ) == g->u.pos() ) {
 
