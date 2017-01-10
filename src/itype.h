@@ -530,7 +530,7 @@ struct islot_ammo : common_ranged_data {
     bool special_cookoff = false;
 
     /** Fuel energy density (kJ per charge) */
-    int energy = 1;
+    int energy = 0;
 };
 
 struct islot_bionic {

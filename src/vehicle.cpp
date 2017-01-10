@@ -3638,8 +3638,7 @@ void vehicle::idle(bool on_map) {
 
             // determine energy density of current fuel
             const itype *fuel = item::find_type( eng.ammo_current() );
-            if( fuel->ammo ) {
-                assert( fuel->ammo->energy > 0 ); // enforced in item_factory.cpp
+            if( fuel->ammo && fuel->ammo->energy > 0 ) {
                 int density = fuel->ammo->energy;
 
                 // convert power (W) to energy (J)

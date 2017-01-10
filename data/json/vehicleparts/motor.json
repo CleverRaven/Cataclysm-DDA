@@ -19,6 +19,8 @@
     "item": "motor_small",
     "difficulty": 1,
     "durability": 120,
+    "power": 20,
+    "epower": -1000,
     "damage_modifier": 80,
     "folded_volume": 1,
     "breaks_into": [
@@ -38,6 +40,8 @@
     "item": "motor",
     "difficulty": 2,
     "durability": 200,
+    "power": 100,
+    "epower": -5000,
     "damage_modifier": 80,
     "folded_volume": 6,
     "breaks_into": [
@@ -55,6 +59,8 @@
     "item": "motor_large",
     "difficulty": 3,
     "durability": 400,
+    "power": 400,
+    "epower": -40000,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },
@@ -71,6 +77,8 @@
     "item": "motor_enhanced",
     "difficulty": 4,
     "durability": 200,
+    "power": 500,
+    "epower": -60000,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },
