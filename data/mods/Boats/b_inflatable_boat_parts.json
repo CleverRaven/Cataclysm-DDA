@@ -50,6 +50,6 @@
     "damage_modifier": 50,
     "folded_volume": 2,
     "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] } ],
-    "flags": [ "ENGINE", "CONTROLS", "FOLDABLE", "TOOL_NONE" ]
+    "flags": [ "CONTROLS", "FOLDABLE", "TOOL_NONE" ]
   }
 ]
