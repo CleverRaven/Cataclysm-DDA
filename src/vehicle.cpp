@@ -1129,7 +1129,7 @@ bool vehicle::start_engine( const int e )
     }
 
     int joules = eng.base.engine_start_energy( g->temperature );
-    if( fuel_left( fuel_type_battery ) < joules ) {
+    if( fuel_left( fuel_type_battery ) <= joules ) {
         add_msg( _( "The %s need at least %i battery charges to start" ), eng.name().c_str(), joules );
         return false;
     }
