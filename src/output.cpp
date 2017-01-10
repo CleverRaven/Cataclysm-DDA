@@ -1462,19 +1462,6 @@ std::string to_upper_case( const std::string &s )
     return res;
 }
 
-const char * ordinal( long val ) {
-    auto str = std::to_string( val );
-    if( str.length() == 1 ) {
-        switch( str.back() ) {
-            case '1': return "st";
-            case '2': return "nd";
-            case '3': return "rd";
-            default:  return "th";
-        }
-    }
-    return "th";
-}
-
 // find the position of each non-printing tag in a string
 std::vector<size_t> get_tag_positions( const std::string &s )
 {

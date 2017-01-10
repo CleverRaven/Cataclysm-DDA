@@ -300,26 +300,8 @@ struct islot_engine
     friend item;
 
     public:
-        /** maximum power output (in kW) */
-        int power = 0;
-
-        /** fuel consumed by engine (if any) */
-        ammotype fuel = NULL_ID;
-
-        /** how efficient is engine at converting fuel into raw power (1-100] */
-        int efficiency = 100;
-
-        /** for engine with gears what is the minimum engine rpm? */
-        int idle = 0;
-
-        /** for engines with gears what is the optimum engine rpm? */
-        int optimum = 0;
-
-        /** for engines with gears what is the maximum safe rpm before engine damage occurs? */
-        int redline = 0;
-
-        /** discrete gears (if any) in ascending order */
-        std::vector<float> gears;
+        /** for combustion engines the displacement (cc) */
+        int displacement = 0;
 
     private:
         /** What faults (if any) can occur */
@@ -525,9 +507,6 @@ struct islot_ammo : common_ranged_data {
      * @warning It is not read from the json directly.
      * */
     bool special_cookoff = false;
-
-    /** Fuel energy density (kJ per charge) */
-    int energy = 0;
 };
 
 struct islot_bionic {

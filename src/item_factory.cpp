@@ -136,12 +136,8 @@ void Item_factory::finalize() {
             obj.use_methods.emplace( func, usage_from_string( func ) );
         }
 
-        if( obj.engine ) {
-            obj.engine->power *= 745.7; // convert mechanical horsepower to watts
-
-            if( get_world_option<bool>( "NO_FAULTS" ) ) {
-                obj.engine->faults.clear();
-            }
+        if( obj.engine && get_world_option<bool>( "NO_FAULTS" ) ) {
+            obj.engine->faults.clear();
         }
 
         // If no category was forced via JSON automatically calculate one now
@@ -209,8 +205,6 @@ void Item_factory::finalize() {
                 obj.ammo->cookoff = false;
                 obj.ammo->special_cookoff = false;
             }
-
-            obj.ammo->energy *= 1000; // convert kJ to J
         }
         // for magazines ensure default_ammo is set
         if( obj.magazine && obj.magazine->default_ammo == "NULL" ) {
@@ -707,22 +701,6 @@ void Item_factory::check_definitions() const
         }
 
         if( type->engine ) {
-            check_ammo_type( msg, type->engine->fuel );
-
-            for( float g : type->engine->gears ) {
-                if( g <= 0 ) {
-                    msg << string_format( "invalid engine gearing %.2f", g ) << "\n";
-                }
-            }
-
-            if( type->engine->idle > type->engine->redline ) {
-                msg << string_format( "idle rpm outside safe range" ) << "\n";
-            }
-
-            if( type->engine->optimum < type->engine->idle || type->engine->optimum > type->engine->redline ) {
-                msg << string_format( "optimal rpm outside safe range" ) << "\n";
-            }
-
             for( const auto& f : type->engine->faults ) {
                 if( !f.is_valid() ) {
                     msg << string_format( "invalid item fault %s", f.c_str() ) << "\n";
@@ -1081,7 +1059,6 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &sr
     assign( jo, "count", slot.def_charges, strict, 1L );
     assign( jo, "loudness", slot.loudness, strict, 0 );
     assign( jo, "effects", slot.ammo_effects, strict );
-    assign( jo, "energy", slot.energy, strict, 0 );
 }
 
 void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
@@ -1094,24 +1071,10 @@ void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_engine &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_engine &slot, JsonObject &jo, const std::string & )
 {
-    bool strict = src == "core";
-    assign( jo, "power", slot.power, strict, 0 );
-    assign( jo, "fuel", slot.fuel, strict );
-    assign( jo, "efficiency", slot.efficiency, strict, 1, 100 );
-    assign( jo, "idle", slot.idle, strict, 0 );
-    assign( jo, "optimum", slot.optimum, strict, 0 );
-    assign( jo, "redline", slot.redline, strict, 0 );
-    assign( jo, "faults", slot.faults, strict );
-
-    if( jo.has_array( "gears" ) ) {
-        slot.gears.clear();
-        auto arr = jo.get_array( "gears" );
-        while( arr.has_more() ) {
-            slot.gears.push_back( arr.next_float() );
-        }
-    }
+    assign( jo, "displacement", slot.displacement );
+    assign( jo, "faults", slot.faults );
 }
 
 void Item_factory::load_engine( JsonObject &jo, const std::string &src )

@@ -1444,6 +1444,15 @@ public:
         /*@}*/
 
         /**
+         * @name Vehicle parts
+         *
+         *@{*/
+
+        /** for combustion engines the displacement (cc) */
+        int engine_displacement() const;
+        /*@}*/
+
+        /**
          * Returns the pointer to use_function with name use_name assigned to the type of
          * this item or any of its contents. Checks contents recursively.
          * Returns nullptr if not found.

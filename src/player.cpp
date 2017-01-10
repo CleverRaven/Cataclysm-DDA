@@ -3637,11 +3637,14 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         veh = g->m.veh_at( pos() );
     }
     if( veh ) {
-        veh->print_fuel_indicator( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49,
-                                   veh->current_engine().ammo_current() );
-
+        veh->print_fuel_indicators( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
         nc_color col_indf1 = c_ltgray;
-        nc_color col_vel = c_ltblue;
+
+        float strain = veh->strain();
+        nc_color col_vel = strain <= 0 ? c_ltblue :
+                           ( strain <= 0.2 ? c_yellow :
+                             ( strain <= 0.4 ? c_ltred : c_red ) );
+
         //
         // Draw the speedometer.
         //
@@ -3680,22 +3683,13 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             } else {
                 wprintz( w, col_indc, ">" );
             }
-            int gear = veh->gear();
-            if( gear >= 0 ) {
-                int gx = getmaxx( w ) - offset_from_screen_edge + 4;
-                mvwprintz( w, sideStyle ? 4 : 3, gx, c_white, _( "gear" ) );           
-                mvwprintz( w, sideStyle ? 4 : 3, gx + 5, c_ltblue, "%d%s", gear + 1, ordinal( gear + 1 ) );
-            }
         }
 
         if( sideStyle ) {
-            int rpm = veh->rpm();
-            if( rpm > 0 ) {
-                mvwprintz( w, speedoy, getmaxx( w ) - 9, c_white, "%s ", _( "rpm" ) );
-                mvwprintz( w, speedoy, getmaxx( w ) - 5, c_ltblue, "%4d", rpm ); 
-           }            
+            // Make sure this is left-aligned.
+            mvwprintz( w, speedoy, getmaxx( w ) - 9, c_white, "%s", _( "Stm " ) );
+            print_stamina_bar( w );
         }
-
     } else {  // Not in vehicle
         nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
                  col_per = c_white, col_spd = c_white, col_time = c_white;
@@ -3907,8 +3901,12 @@ bool player::in_climate_control()
         int vpart = -1;
         vehicle *veh = g->m.veh_at( pos(), vpart );
         if( veh ) {
-            regulated_area = veh->is_inside( vpart );
+            regulated_area = (
+                                 veh->is_inside( vpart ) &&  // Already checks for opened doors
+                                 veh->total_power( true ) > 0 // Out of gas? No AC for you!
+                             );  // TODO: (?) Force player to scrounge together an AC unit
         }
+        // TODO: AC check for when building power is implemented
         last_climate_control_ret = regulated_area;
         if( !regulated_area ) {
             // Takes longer to cool down / warm up with AC, than it does to step outside and feel cruddy.

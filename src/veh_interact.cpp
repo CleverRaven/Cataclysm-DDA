@@ -1796,20 +1796,18 @@ void veh_interact::display_stats()
         }
     }
 
-    double max_vel = std::accumulate( veh->parts.begin(), veh->parts.end(), 0.0f,
-                                      [&]( const double lhs, const vehicle_part &rhs ) {
-                                          return std::max( lhs, veh->max_velocity( rhs ) ); } );
-
-    double safe_vel = std::accumulate( veh->parts.begin(), veh->parts.end(), 0.0f,
-                                       [&]( const double lhs, const vehicle_part &rhs ) {
-                                           return std::max( lhs, veh->safe_velocity( rhs ) ); } );
-
     fold_and_print( w_stats, y[0], x[0], w[0], c_ltgray,
                     _( "Safe/Top Speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s" ),
-                    int( convert_velocity( max_vel  * 2.237 * 100, VU_VEHICLE ) ),
-                    int( convert_velocity( safe_vel * 2.237 * 100, VU_VEHICLE ) ),
+                    int( convert_velocity( veh->safe_velocity( false ), VU_VEHICLE ) ),
+                    int( convert_velocity( veh->max_velocity( false ), VU_VEHICLE ) ),
                     velocity_units( VU_VEHICLE ) );
+    //TODO: extract accelerations units to its own function
 
+    fold_and_print( w_stats, y[1], x[1], w[1], c_ltgray,
+                    //~ /t means per turn
+                    _( "Acceleration: <color_ltblue>%3d</color> %s/t" ),
+                    int( convert_velocity( veh->acceleration( false ), VU_VEHICLE ) ),
+                    velocity_units( VU_VEHICLE ) );
     fold_and_print( w_stats, y[2], x[2], w[2], c_ltgray,
                     _( "Mass: <color_ltblue>%5.0f</color> %s" ),
                     convert_weight( veh->total_mass() * 1000.0f ), weight_units() );

@@ -1214,29 +1214,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "GUNMOD", temp2.str() ) );
 
     }
-
-    if( is_engine() ) {
-        insert_separation_line();
-
-        if( !type->engine->fuel.is_null() ) {
-            auto col = string_from_color( item::find_type( default_ammo( type->engine->fuel ) )->color );
-            info.emplace_back( "ENGINE", _( "Fuel: " ),
-                               string_format( "<color_%s>%s</color>", col.c_str(), type->engine->fuel.c_str() ) );
-        }
-        if( type->engine->power > 0 ) {
-            info.emplace_back( "ENGINE", _( "Power: " ), "<num> hp", type->engine->power / 745.7, true );
-        }
-
-        info.emplace_back( "ENGINE", _( "Efficiency: " ), "<num>%", type->engine->efficiency, true );
-
-        if( !type->engine->gears.empty() ) {
-            info.emplace_back( "ENGINE", _( "Gears: " ), "", type->engine->gears.size(), true );
-        }
-        if( type->engine->redline > 0 ) {
-            info.emplace_back( "ENGINE", _( "Redline: " ), "<num> rpm", type->engine->redline, true );
-        }
-    }
-
     if( is_armor() ) {
         temp1.str( "" );
         temp1 << _( "Covers: " );
@@ -1603,16 +1580,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
-        if( is_engine() ) {
-            if( type->engine->gears.empty() ) {
-                info.emplace_back( "ENGINE", _( "* This engines efficiency is <good>independent of speed</good>." ) );
-            }
-
-            if( type->engine->fuel == ammotype( "diesel" ) ) {
-                info.emplace_back( "ENGINE", _( "* This engine may be <bad>difficult to start</bad> in cold weather." ) );
-            }
-        }
-
         if( is_armor() ) {
             if( has_flag( "FIT" ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -1934,6 +1901,11 @@ int item::get_free_mod_locations( const std::string &location ) const
     return result;
 }
 
+int item::engine_displacement() const
+{
+    return type->engine ? type->engine->displacement : 0;
+}
+
 const std::string &item::symbol() const
 {
     return type->sym;
@@ -2203,8 +2175,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         damtext.insert( 0, _( "faulty " ) );
     }
 
-    std::string vehtext;
-    if( is_wheel() && type->wheel->diameter > 0 ) {
+    std::string vehtext = "";
+    if( is_engine() && engine_displacement() > 0 ) {
+        vehtext = string_format( pgettext( "vehicle adjective", "%2.1fL " ), engine_displacement() / 100.0f );
+
+    } else if( is_wheel() && type->wheel->diameter > 0 ) {
         vehtext = string_format( pgettext( "vehicle adjective", "%d\" " ), type->wheel->diameter );
     }
 

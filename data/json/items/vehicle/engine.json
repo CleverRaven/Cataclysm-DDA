@@ -6,83 +6,67 @@
     "name": "internal combustion engine",
     "material": "iron",
     "symbol": ":",
-    "color": "light_cyan",
-    "efficiency": 20
+    "color": "light_cyan"
   },
   {
     "abstract": "engine_diesel",
     "copy-from": "engine_combustion",
     "type": "ENGINE",
     "name": "base diesel engine",
-    "fuel": "diesel",
-    "gears": [ 3.891, 2.740, 1.652, 1.134, 0.912 ],
-    "idle": 800,
-    "optimum": 1800,
-    "redline": 3200,
-    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_filter_fuel", "fault_engine_glow_plug", "fault_engine_immobiliser", "fault_engine_pump_diesel", "fault_engine_pump_water", "fault_engine_starter" ],
-    "proportional": { "efficiency": 1.5 }
+    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_filter_fuel", "fault_engine_glow_plug", "fault_engine_immobiliser", "fault_engine_pump_diesel", "fault_engine_pump_water", "fault_engine_starter" ]
   },
   {
     "abstract": "engine_gasoline",
     "copy-from": "engine_combustion",
     "type": "ENGINE",
     "name": "base gasoline engine",
-    "fuel": "gasoline",
-    "gears": [ 3.166, 1.882, 1.296, 0.972, 0.738 ],
-    "idle": 800,
-    "optimum": 2000,
-    "redline": 4000,
     "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_filter_fuel", "fault_engine_immobiliser", "fault_engine_pump_fuel", "fault_engine_pump_water", "fault_engine_starter" ]
   },
   {
     "id": "1cyl_combustion",
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
-    "name": "motorcycle engine (0.4L)",
-    "description": "A single-cylinder 4-stroke combustion engine commonly installed on motorcycles and similar vehicles.  Although lacking in power it is relatively reliable and reasonably fuel efficient",
-    "weight": 32000,
-    "volume": 16,
-    "price": 30000,
-    "power": 20,
-    "gears": [ 3.166, 1.882, 1.296 ],
+    "name": "1-cylinder engine",
+    "description": "A single-cylinder 4-stroke combustion engine.",
+    "weight": 20000,
+    "volume": 6,
+    "price": 10000,
+    "displacement": 60,
     "faults": [ "fault_engine_starter" ]
   },
   {
     "id": "1cyl_combustion_small",
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
-    "name": "2-stroke engine (0.2L)",
-    "description": "A compact single-cylinder 2-stroke combustion engine.  It can be started without an electrical power source via the integral kick start.  The simple design makes it exceptionally reliable but relatively inefficient.",
-    "weight": 4000,
-    "volume": 8,
+    "name": "small 1-cylinder engine",
+    "description": "A small single-cylinder 2-stroke combustion engine.",
+    "weight": 10000,
+    "volume": 3,
     "price": 6000,
-    "power": 8,
-    "gears": [ 3.891 ],
-    "redline": 5000,
-    "faults": [],
-    "proportional": { "efficiency": 0.5 }
+    "displacement": 30,
+    "faults": []
   },
   {
     "id": "i4_combustion",
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
-    "name": "gasoline engine (2.0L)",
-    "description": "A standard 4-cylinder combustion engine that might be found in a typical car.",
-    "weight": 120000,
-    "volume": 60,
+    "name": "Inline-4 engine",
+    "description": "A small, yet powerful 4-cylinder combustion engine.",
+    "weight": 70000,
+    "volume": 6,
     "price": 15000,
-    "power": 80
+    "displacement": 250
   },
   {
     "id": "i6_diesel",
     "copy-from": "engine_diesel",
     "type": "ENGINE",
-    "name": "diesel engine (2.0L)",
-    "description": "A bulky 4-cylinder diesel combustion engine commonly found in light commercial vehicles.",
-    "weight": 145000,
-    "volume": 72,
+    "name": "I6 diesel engine",
+    "description": "A powerful straight-6 diesel engine.",
+    "weight": 105000,
+    "volume": 15,
     "price": 27000,
-    "power": 80
+    "displacement": 600
   },
   {
     "id": "v2_combustion",
@@ -93,7 +77,7 @@
     "weight": 45000,
     "volume": 6,
     "price": 10000,
-    "power": 80
+    "displacement": 100
   },
   {
     "id": "v6_combustion",
@@ -104,7 +88,7 @@
     "weight": 100000,
     "volume": 14,
     "price": 18000,
-    "power": 80
+    "displacement": 400
   },
   {
     "id": "v6_diesel",
@@ -115,7 +99,7 @@
     "weight": 110000,
     "volume": 15,
     "price": 20000,
-    "power": 80
+    "displacement": 400
   },
   {
     "id": "v8_combustion",
@@ -124,20 +108,20 @@
     "name": "V8 engine",
     "description": "A large and very powerful 8-cylinder combustion engine.",
     "weight": 200000,
-    "volume": 120,
+    "volume": 25,
     "price": 25000,
-    "power": 80
+    "displacement": 650
   },
   {
     "id": "v8_diesel",
     "copy-from": "engine_diesel",
     "type": "ENGINE",
-    "name": "diesel engine (6.2L)",
+    "name": "V8 diesel engine",
     "description": "A powerful 8-cylinder diesel engine.",
     "weight": 220000,
-    "volume": 112,
-    "price": 96500,
-    "power": 190
+    "volume": 26,
+    "price": 26500,
+    "displacement": 650
   },
   {
     "id": "v12_combustion",
@@ -148,9 +132,6 @@
     "weight": 300000,
     "volume": 32,
     "price": 36000,
-    "power": 580,
-    "gears": [ 2.766, 1.712, 1.096, 0.872, 0.638, 0.529 ],
-    "idle": 1200,
-    "optimum": 2500
+    "displacement": 1200
   }
 ]
