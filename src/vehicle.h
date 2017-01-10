@@ -1127,7 +1127,8 @@ public:
     bool is_part_on(int p) const;
     //returns whether the engine uses specified fuel type
     bool is_engine_type(int e, const itype_id &ft) const;
-
+    //returns whether the alternator is operational
+    bool is_alternator_on(int a) const;
     //mark engine as on or off
     void toggle_specific_engine(int p, bool on);
     void toggle_specific_part(int p, bool on);
@@ -1258,6 +1259,10 @@ private:
 
     mutable bool pivot_dirty;                  // if true, pivot_cache needs to be recalculated
     mutable point pivot_cache;                 // cached pivot point
+
+    // Get combined power of all engines. If fueled == true, then only engines which
+    // vehicle have fuel for are accounted
+    int total_power (bool fueled = true) const;
 
     void refresh_mass() const;
     void calc_mass_center( bool precalc ) const;

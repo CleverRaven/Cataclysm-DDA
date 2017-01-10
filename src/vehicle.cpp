@@ -698,6 +698,19 @@ bool vehicle::is_part_on(int const p) const
     return parts[p].enabled;
 }
 
+bool vehicle::is_alternator_on(int const a) const
+{
+    auto alt = parts[ alternators [ a ] ];
+    if( alt.is_broken() ) {
+        return false;
+    }
+
+    return std::any_of( engines.begin(), engines.end(), [this,&alt]( int idx ) {
+        auto& eng = parts [ idx ];
+        return eng.enabled && eng.mount == alt.mount && !eng.faults().count( fault_belt );
+    } );
+}
+
 bool vehicle::has_security_working() const
 {
     bool found_security = false;
@@ -2843,6 +2856,31 @@ int vehicle::drain (const itype_id & ftype, int amount) {
     }
 
     return drained;
+}
+
+int vehicle::total_power(bool const fueled) const
+{
+    int pwr = 0;
+    int cnt = 0;
+
+    for (size_t e = 0; e < engines.size(); e++) {
+        int p = engines[e];
+        if (is_engine_on(e) && (fuel_left (part_info(p).fuel_type) || !fueled)) {
+            pwr += part_power(p);
+            cnt++;
+        }
+    }
+
+    for (size_t a = 0; a < alternators.size();a++){
+        int p = alternators[a];
+        if (is_alternator_on(a)) {
+            pwr += part_power(p); // alternators have negative power
+        }
+    }
+    if (cnt > 1) {
+        pwr = pwr * 4 / (4 + cnt -1);
+    }
+    return pwr;
 }
 
 bool vehicle::do_environmental_effects()
