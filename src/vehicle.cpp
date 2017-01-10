@@ -2879,6 +2879,27 @@ int vehicle::drain (const itype_id & ftype, int amount) {
     return drained;
 }
 
+int vehicle::basic_consumption(const itype_id &ftype) const
+{
+    int fcon = 0;
+    for( size_t e = 0; e < engines.size(); ++e ) {
+        if(is_engine_type_on(e, ftype)) {
+            if( part_info( engines[e] ).fuel_type == fuel_type_battery &&
+                part_epower( engines[e] ) >= 0 ) {
+                // Electric engine - use epower instead
+                fcon -= epower_to_power( part_epower( engines[e] ) );
+
+            } else if( !is_engine_type( e, fuel_type_muscle ) ) {
+                fcon += part_power( engines[e] );
+                if( parts[ e ].faults().count( fault_filter_air ) ) {
+                    fcon *= 2;
+                }
+            }
+        }
+    }
+    return fcon;
+}
+
 int vehicle::total_power(bool const fueled) const
 {
     int pwr = 0;

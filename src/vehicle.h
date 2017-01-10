@@ -1249,6 +1249,9 @@ private:
     mutable bool pivot_dirty;                  // if true, pivot_cache needs to be recalculated
     mutable point pivot_cache;                 // cached pivot point
 
+    // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
+    int basic_consumption (const itype_id &ftype) const;
+
     // Get combined power of all engines. If fueled == true, then only engines which
     // vehicle have fuel for are accounted
     int total_power (bool fueled = true) const;
