@@ -19,7 +19,7 @@
   },
   {
     "id": "hand_paddles",
-    "type": "ENGINE",
+    "type": "GENERIC",
     "category": "veh_parts",
     "name": "oars",
     "name_plural": "oars",
@@ -31,9 +31,7 @@
     "bashing": 10,
     "material": [ "wood" ],
     "symbol": ":",
-    "color": "light_gray",
-    "power": 250,
-    "flags": [ "MANUAL_ENGINE" ]
+    "color": "light_gray"
   },
   {
     "id": "inflatable_airbag",
