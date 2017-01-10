@@ -773,6 +773,9 @@ public:
     // returns amount actually drained, does not engage reactor
     int drain (const itype_id &ftype, int amount);
 
+    // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
+    int basic_consumption (const itype_id &ftype) const;
+
     void consume_fuel( double load );
 
     /**
@@ -1219,9 +1222,6 @@ private:
 
     mutable bool pivot_dirty;                  // if true, pivot_cache needs to be recalculated
     mutable point pivot_cache;                 // cached pivot point
-
-    // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
-    int basic_consumption (const itype_id &ftype) const;
 
     void refresh_mass() const;
     void calc_mass_center( bool precalc ) const;

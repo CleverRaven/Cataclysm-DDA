@@ -2607,7 +2607,14 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
             opts.emplace( pt.ammo_current() );
         }
     }
-    return std::vector<itype_id>( opts.begin(), opts.end() );
+
+    std::vector<itype_id> res( opts.begin(), opts.end() );
+
+    std::sort( res.begin(), res.end(), [&]( const itype_id &lhs, const itype_id &rhs ) {
+        return basic_consumption( rhs ) < basic_consumption( lhs );
+    } );
+
+    return res;
 }
 
 /**
