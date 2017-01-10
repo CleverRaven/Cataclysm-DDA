@@ -426,9 +426,6 @@ bool map::vehact( vehicle &veh )
         slowdown = std::max( ms_to_mph( slowdown ) * 100, 100.0 );
     }
 
-    // if for any reason we are above max velocity apply decay
-    slowdown += ( veh.max_velocity( veh.current_engine() ) - veh.current_velocity() ) / 2;
-
     if( veh.skidding ) {
         slowdown = std::max( slowdown, veh.velocity / 3.0 );
     }
