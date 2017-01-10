@@ -2974,7 +2974,7 @@ bool vehicle::overspeed( const vehicle_part &pt ) const
     return pt.is_engine() && current_velocity() > safe_velocity(pt);
 }
 
-int vehicle::friction_load() const
+int vehicle::load( const vehicle_part &pt ) const
 {
     // kinetic energy (J)
     double k = 0.5 * total_mass() * pow( current_velocity(), 2 );
@@ -2984,6 +2984,13 @@ int vehicle::friction_load() const
 
     // if the wheels are slipping we need more power to maintain the same speed */
     res *= 1.0 + k_traction( g->m.vehicle_wheel_traction( *this ) );
+
+    for( const auto &e : parts ) {
+        if( e.mount == pt.mount && e.is_alternator() && !e.is_broken() ) {
+            // alternators have negative sign but should increase current engine load
+            res -= e.info().power;
+        }
+    }
 
     return res;
 }
@@ -3282,6 +3289,148 @@ std::vector<vehicle_part *> vehicle::lights( bool active )
     return res;
 }
 
+void vehicle::power_parts()
+{
+    int epower = 0;
+
+    for( const auto pt : lights( true ) ) {
+        epower += pt->info().epower;
+    }
+
+    for( const auto pt : get_parts( "SCOOP", true ) ) {
+        epower += pt->info().epower;
+    }
+    for( const auto pt : get_parts( "RECHARGE", true ) ) {
+        epower += pt->info().epower;
+    }
+    for( const auto pt : get_parts( "FRIDGE", true ) ) {
+        epower += pt->info().epower;
+    }
+
+    // Consumers of epower
+    if( is_alarm_on ) epower += alarm_epower;
+    if( camera_on ) epower += camera_epower;
+    // Engines: can both produce (plasma) or consume (gas, diesel)
+    // Gas engines require epower to run for ignition system, ECU, etc.
+    int engine_epower = 0;
+    if( engine_on ) {
+        for( size_t e = 0; e < engines.size(); ++e ) {
+            // Electric engines consume power when actually used, not passively
+            if( is_engine_on( e ) && !is_engine_type(e, fuel_type_battery) ) {
+                engine_epower += part_epower( engines[e] );
+            }
+        }
+
+        epower += engine_epower;
+    }
+
+    // Producers of epower
+    if(engine_on) {
+        // If the engine is on, the alternators are working.
+        int alternators_epower = 0;
+        int alternators_power = 0;
+        for( size_t p = 0; p < alternators.size(); ++p ) {
+            if(is_alternator_on(p)) {
+                alternators_epower += part_info(alternators[p]).epower;
+                alternators_power += part_power(alternators[p]);
+            }
+        }
+        if(alternators_epower > 0) {
+            alternator_load = (float)abs(alternators_power);
+            epower += alternators_epower;
+        }
+    }
+
+    int epower_capacity_left = power_to_epower(fuel_capacity(fuel_type_battery) - fuel_left(fuel_type_battery));
+    if( has_part( "REACTOR", true ) && epower_capacity_left - epower > 0 ) {
+        // Still not enough surplus epower to fully charge battery
+        // Produce additional epower from any reactors
+        bool reactor_working = false;
+        for( auto &elem : reactors ) {
+            if( !parts[ elem ].is_broken() && parts[elem].ammo_remaining() > 0 ) {
+                // Efficiency: one unit of fuel is this many units of battery
+                // Note: One battery is roughtly 373 units of epower
+                const int efficiency = part_info( elem ).power;
+                const int avail_fuel = parts[elem].ammo_remaining() * efficiency;
+
+                const int elem_epower = std::min( part_epower( elem ), power_to_epower( avail_fuel ) );
+                // Cap output at what we can achieve and utilize
+                const int reactors_output = std::min( elem_epower, epower_capacity_left - epower );
+                // Units of fuel consumed before adjustment for efficiency
+                const int battery_consumed = epower_to_power( reactors_output );
+                // Fuel consumed in actual units of the resource
+                int fuel_consumed = battery_consumed / efficiency;
+                // Remainder has a chance of resulting in more fuel consumption
+                if( x_in_y( battery_consumed % efficiency, efficiency ) ) {
+                    fuel_consumed++;
+                }
+
+                parts[ elem ].ammo_consume( fuel_consumed, global_part_pos3( elem ) );
+                reactor_working = true;
+
+                epower += reactors_output;
+            }
+        }
+
+        if( !reactor_working ) {
+            // All reactors out of fuel or destroyed
+            for( auto pt : get_parts( "REACTOR" ) ) {
+                pt->enabled = false;
+            }
+            if( player_in_control(g->u) || g->u.sees( global_pos3() ) ) {
+                add_msg( _("The %s's reactor dies!"), name.c_str() );
+            }
+        }
+    }
+
+    int battery_deficit = 0;
+    if(epower > 0) {
+        // store epower surplus in battery
+        charge_battery(epower_to_power(epower));
+    } else if(epower < 0) {
+        // draw epower deficit from battery
+        battery_deficit = discharge_battery(abs(epower_to_power(epower)));
+    }
+
+    if( battery_deficit != 0 ) {
+        for( auto &pt : lights() ) {
+            // atomic lights don't consume epower, so don't turn them off
+            if( pt->info().epower < 0 ) {
+                pt->enabled = false;
+            }
+        }
+
+        for( auto pt : get_parts( "STEREO" ) ) {
+            pt->enabled = false;
+        }
+        for( auto pt : get_parts( "CHIMES" ) ) {
+            pt->enabled = false;
+        }
+        for( auto pt : get_parts( "SCOOP" ) ) {
+            pt->enabled = false;
+        }
+        for( auto pt : get_parts( "RECHARGE" ) ) {
+            pt->enabled = false;
+        }
+        for( auto pt : get_parts( "FRIDGE" ) ) {
+            pt->enabled = false;
+        }
+
+        is_alarm_on = false;
+        camera_on = false;
+        if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
+            add_msg( _("The %s's battery dies!"), name.c_str() );
+        }
+        if( engine_epower < 0 ) {
+            // Not enough epower to run gas engine ignition system
+            engine_on = false;
+            if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
+                add_msg( _("The %s's engine dies!"), name.c_str() );
+            }
+        }
+    }
+}
+
 vehicle* vehicle::find_vehicle( const tripoint &where )
 {
     // Is it in the reality bubble?
@@ -3417,62 +3566,11 @@ int vehicle::discharge_battery (int amount, bool recurse)
 
 void vehicle::idle(bool on_map) {
     auto &eng = current_engine();
-
-    // electrical power not supplied from battery must be found from alternators or reactors
-    int deficit = discharge_battery( power_usage() );
-
-    // calculate maximum possible output from all active alternators
-    int generate = 0;
     if( engine_on && eng ) {
-        for( const auto &e : parts ) {
-            if( e.is_alternator() && !e.is_broken() && e.mount == eng.mount ) {
-                generate += e.info().epower;
-            }
-        }
-    }
-
-    int nuclear = 0;
-    // @todo calculate reactor capacity
-
-    if( deficit > generate + nuclear ) {
-        // insufficient power so disable electrical parts
-        for( auto &e : parts ) {
-            if( e.enabled && e.info().epower < 0 ) {
-                e.enabled = false;
-            }
-        }
-
-        // handle parts using legacy global state
-        is_alarm_on = false;
-        camera_on = false;
-
-        if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
-            add_msg( _( "The %s's battery dies!" ), name.c_str() );
-        }
-
-        if( eng.info().epower < 0 ) {
-            engine_on = false;
-            if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
-                add_msg( _( "The %s's engine dies!" ), name.c_str() );
-            }
-        }
-
-    } else if( deficit > generate ) {
-        // @todo engage reactor
-
-    } else {
-        // attempt to recharge battery limiting generated power to total battery capacity
-        generate -= charge_battery( generate - deficit );
-    }
-
-    if( engine_on && eng ) {
-        // calculate load on engine from both propulsion and alternators
-        int load = friction_load() + generate;
-
         if( eng.base.has_flag( "MANUAL_ENGINE" ) &&
             player_in_control( g->u ) && global_part_pos3( eng ) == g->u.pos() ) {
             // Effort is load to max power ratio
-            float effort = std::min( 1.0f, (float) load / std::max( 1, part_power( eng ) ) );
+            float effort = std::min( 1.0f, (float)load( eng ) / std::max( 1, part_power( eng ) ) );
 
             // At full effort, increase resource consumption by 500%
             if( x_in_y( effort, MINUTES( 1 ) ) ) {
@@ -3488,6 +3586,8 @@ void vehicle::idle(bool on_map) {
             g->u.mod_stat( "stamina", -roll_remainder( effort * 10 ) );
 
         } else {
+            double pwr = load( eng );
+
             // determine energy density of current fuel
             const itype *fuel = item::find_type( eng.ammo_current() );
             if( fuel->ammo ) {
@@ -3495,7 +3595,7 @@ void vehicle::idle(bool on_map) {
                 int density = fuel->ammo->energy;
 
                 // convert power (W) to energy (J)
-                double energy = load * 6; // 1 turn = 6s
+                double energy = pwr * 6; // 1 turn = 6s
 
                 // adjust for engine efficiency
                 double eff = eng.efficiency( rpm( eng ) );
@@ -3526,7 +3626,7 @@ void vehicle::idle(bool on_map) {
             }
 
             if( on_map ) {
-                noise_and_smoke( double( load ) / part_power( index_of_part( &eng ) ) );
+                noise_and_smoke( pwr / part_power( index_of_part( &eng ) ) );
             }
         }
     }
@@ -3539,6 +3639,7 @@ void vehicle::idle(bool on_map) {
             e->enabled = false;
         }
     }
+
 
     if( has_part( "STEREO", true ) ) {
         play_music();

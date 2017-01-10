@@ -789,6 +789,8 @@ public:
      */
     std::vector<vehicle_part *> lights( bool active = false );
 
+    void power_parts();
+
     /**
      * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
      * @return amount of charge left over.
@@ -851,8 +853,8 @@ public:
     /** Check if specific engine is currently running above redline? */
     bool overspeed( const vehicle_part &pt ) const;
 
-    /** Get power required (watts) required to replace losses due to friction at current speed  */
-    int friction_load() const;
+    /** Get load (in watts) on specific engine from both propulsion and alternators */
+    int load( const vehicle_part &pt ) const;
 
     /** Get acceleration (m/s²) from specific engine dependent upon current @ref load() */
     double acceleration( const vehicle_part &pt ) const;
