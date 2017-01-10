@@ -5390,7 +5390,7 @@ void vehicle::open(int part_index)
 }
 
 /**
- * Closes an openable part at the specified index. If it's a multipart, closes
+ * Opens an openable part at the specified index. If it's a multipart, opens
  * all attached parts as well.
  * @param part_index The index in the parts list of the part to open.
  */
