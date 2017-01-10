@@ -104,8 +104,12 @@ std::string tool_comp::to_string( int batch ) const
 std::string item_comp::to_string( int batch ) const
 {
     const int c = std::abs( count ) * batch;
+    const auto type_ptr = item::find_type( type );
+    if( type_ptr->stackable ) {
+        return string_format( "%s (%d)", type_ptr->nname( 1 ).c_str(), c );
+    }
     //~ <item-count> <item-name>
-    return string_format( ngettext( "%d %s", "%d %s", c ), c, item::nname( type, c ).c_str() );
+    return string_format( ngettext( "%d %s", "%d %s", c ), c, type_ptr->nname( c ).c_str() );
 }
 
 void quality_requirement::load( JsonArray &jsarr )
