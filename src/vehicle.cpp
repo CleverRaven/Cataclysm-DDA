@@ -2956,7 +2956,7 @@ int vehicle::load( const vehicle_part &pt ) const
     // kinetic energy (J)
     double k = 0.5 * total_mass() * pow( current_velocity(), 2 );
 
-    // engine power (J/s) replaces energy lost via friction
+    // engine power (J/s) replaces energy lost via friction (~25% for typical vehicle)
     double res = k * friction_loss / k_dynamics();
 
     // if the wheels are slipping we need more power to maintain the same speed */
