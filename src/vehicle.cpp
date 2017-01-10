@@ -3960,6 +3960,14 @@ void vehicle::thrust( int thd ) {
         skidding = false;
     }
 
+    if( has_part( "STEREO", true ) ) {
+        play_music();
+    }
+
+    if( has_part( "CHIMES", true ) ) {
+        play_chimes();
+    }
+
     // No need to change velocity
     if( !thd ) {
         return;
