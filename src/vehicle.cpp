@@ -847,7 +847,7 @@ void vehicle::use_controls( const tripoint &pos )
         return;
     }
 
-    if( has_part( []( const vehicle_part &e ) { return e.is_engine(); } ) ) {
+    if( has_part( "ENGINE" ) ) {
         if( g->u.controlling_vehicle || ( remote && engine_on ) ) {
             options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
             actions.push_back( [&] {
@@ -1842,7 +1842,7 @@ bool vehicle::remove_part (int p)
     }
 
     // Update current engine configuration if needed
-    if( parts[p].is_engine() && !engines.empty() ){
+    if(part_flag(p, "ENGINE") && engines.size() > 1){
         bool any_engine_on = false;
 
         for(auto &e : engines) {
@@ -2010,20 +2010,11 @@ int vehicle::part_with_feature_at_relative (const point &pt, const std::string &
     return -1;
 }
 
-bool vehicle::has_part( const std::function<bool(const vehicle_part &)> &func ) const
-{
-    return std::any_of( parts.begin(), parts.end(), [&func]( const vehicle_part &e ) {
-        return !e.removed && !e.is_broken() && func( e );
-    } );
-}
-
 bool vehicle::has_part( const std::string &flag, bool enabled ) const
 {
-    if( enabled ) {
-        return has_part( [&flag]( const vehicle_part &e ) { return e.enabled && e.info().has_flag( flag ); } );
-    } else {
-        return has_part( [&flag]( const vehicle_part &e ) { return e.info().has_flag( flag ); } );
-    }
+    return std::any_of( parts.begin(), parts.end(), [&flag,&enabled]( const vehicle_part &e ) {
+        return !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && e.info().has_flag( flag );
+    } );
 }
 
 bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabled ) const

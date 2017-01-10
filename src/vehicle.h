@@ -621,9 +621,6 @@ public:
     int part_with_feature_at_relative (const point &pt, const std::string &f, bool unbroken = true) const;
     int part_with_feature (int p, vpart_bitflags f, bool unbroken = true) const;
 
-    /** Check if vehicle has at least one unbroken part matching predicate @ref func */
-    bool has_part( const std::function<bool(const vehicle_part &)> &func ) const;
-
     /**
      *  Check if vehicle has at least one unbroken part with @ref flag
      *  @param enabled if set part must also be enabled to be considered
