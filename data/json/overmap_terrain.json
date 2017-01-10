@@ -1702,7 +1702,7 @@
         "id" : "haz_sar_entrance",
         "name" : "hazardous waste sarcophagus",
         "sym" : 88,
-        "color" : "light_red",
+        "color" : "pink",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
