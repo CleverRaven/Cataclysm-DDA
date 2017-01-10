@@ -1147,23 +1147,29 @@ bool vehicle::start_engine( const int e )
 
 void vehicle::start_engines( const bool take_control )
 {
-    // check we have at least one unbroken engine
-    if( !has_part( []( const vehicle_part &pt ) { return pt.is_engine(); } ) ) {
-        add_msg( m_info, _( "The %s doesn't have an engine!" ), name.c_str() );
-        return;
-    }
+    bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
+        return !parts[ idx ].is_broken() && parts[ idx ].enabled;
+    } );
 
-    // if no engines enabled then enable the first before trying to start the vehicle
-    if( !current_engine() ) {
-        for( auto &pt : parts ) {
-            if( pt.is_engine() && !pt.removed && !pt.is_broken() ) {
-                pt.enabled = true;
-                break;
+    // if no engines enabled then enable all before trying to start the vehicle
+    if( !has_engine ) {
+        for( auto idx : engines ) {
+            if( !parts[ idx ].is_broken() ) {
+                parts[ idx ].enabled = true;
             }
         }
     }
 
-    int start_time = current_engine().base.engine_start_time( g->temperature );
+    int start_time = 0;
+    for( size_t e = 0; e < engines.size(); ++e ) {
+        has_engine = has_engine || is_engine_on( e );
+        start_time = std::max( start_time, parts[engines[e]].base.engine_start_time( g->temperature ) );
+    }
+
+    if( !has_engine ) {
+        add_msg( m_info, _("The %s doesn't have an engine!"), name.c_str() );
+        return;
+    }
 
     if( take_control && !g->u.controlling_vehicle ) {
         g->u.controlling_vehicle = true;
