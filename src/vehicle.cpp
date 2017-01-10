@@ -437,7 +437,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
                 set_hp( parts[ p ], part_info( p ).durability );
             }
 
-            if( pt.is_engine() ) {
+            if( part_flag( p, VPFLAG_ENGINE ) ) {
                 // If possible set an engine fault rather than destroying the engine outright
                 if( destroyEngine && parts[ p ].faults_potential().empty() ) {
                     set_hp( parts[ p ], 0 );
@@ -1301,7 +1301,7 @@ int vehicle::part_power(int const index, bool at_full_hp) const
             pwr *= g->u.str_cur;
         }
 
-    } else if( part_flag( index, VPFLAG_ALTERNATOR ) ) {
+    } else if( part_flag( index, VPFLAG_ENGINE ) || part_flag( index, VPFLAG_ALTERNATOR ) ) {
         pwr = vp.info().power;
     }
 
@@ -1445,6 +1445,12 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_id &id) const
         }
     }
 
+    // only one muscle engine allowed
+    if( part.has_flag(VPFLAG_ENGINE) && part.fuel_type == fuel_type_muscle &&
+        has_engine_type(fuel_type_muscle, false) ) {
+        return false;
+    }
+
     // alternators must be installed on an engine (excluding electric motors)
     if( part.has_flag( VPFLAG_ALTERNATOR ) &&
         std::none_of( parts_in_square.begin(), parts_in_square.end(), [&]( const int idx ) {
@@ -1567,7 +1573,7 @@ bool vehicle::can_unmount(int const p) const
     std::vector<int> parts_in_square = parts_at_relative(dx, dy, false);
 
     // Can't remove an engine if there's still an alternator there
-    if( parts[p].is_engine() && part_with_feature(p, VPFLAG_ALTERNATOR) >= 0) {
+    if(part_flag(p, VPFLAG_ENGINE) && part_with_feature(p, VPFLAG_ALTERNATOR) >= 0) {
         return false;
     }
 
@@ -2794,11 +2800,19 @@ int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
     }
 
     //muscle engines have infinite fuel
-    if( ftype == fuel_type_muscle && g->m.veh_at( g->u.pos() ) == this && player_in_control( g->u ) &&
-        has_part( g->u.pos(), []( const vehicle_part &e ) {
-            return e.is_engine() && e.enabled && e.info().fuel_type == fuel_type_muscle;
-        } ) ) {
-        fl += 10;
+    if (ftype == fuel_type_muscle) {
+        int part_under_player;
+        // @todo Allow NPCs to power those
+        vehicle *veh = g->m.veh_at( g->u.pos(), part_under_player );
+        bool player_controlling = player_in_control(g->u);
+
+        //if the engine in the player tile is a muscle engine, and player is controlling vehicle
+        if( veh == this && player_controlling && part_under_player >= 0 ) {
+            int p = part_with_feature(part_under_player, VPFLAG_ENGINE);
+            if( p >= 0 && part_info(p).fuel_type == fuel_type_muscle && is_part_on( p ) ) {
+                fl += 10;
+            }
+        }
     }
 
     return fl;
@@ -2907,12 +2921,15 @@ const vehicle_part &vehicle::current_engine() const
 double vehicle::max_velocity( const vehicle_part &pt ) const
 {
     if( !pt.is_engine() ) {
-        return 0.0;
+        return 0.0f;
     }
 
-    // scale engine power (J/s) to amount where 100% of output is consumed replacing friction losses
-    double power = pt.base.type->engine->power * k_dynamics() / 0.05;
+    // engine power (J/s)
+    double power = pt.base.is_engine() ? pt.base.type->engine->power : pt.info().power;
 
+    // scale power to amount where 100% of output would be consumed replacing losses from friction
+    power *= k_dynamics() / 0.05;
+ 
     // maximum velocity (m/s)
     return sqrt( power / 2 / total_mass() * 2 );
 }
@@ -4872,7 +4889,7 @@ void vehicle::refresh()
         if( vpi.has_flag(VPFLAG_ALTERNATOR) ) {
             alternators.push_back( p );
         }
-        if( parts[p].is_engine() ) {
+        if( vpi.has_flag(VPFLAG_ENGINE) ) {
             engines.push_back( p );
         }
         if( vpi.has_flag("REACTOR") ) {
@@ -6143,7 +6160,7 @@ int vehicle_part::starting_time() const
 
 bool vehicle_part::is_engine() const
 {
-    return base.is_engine();
+    return info().has_flag( VPFLAG_ENGINE );
 }
 
 bool vehicle_part::is_alternator() const

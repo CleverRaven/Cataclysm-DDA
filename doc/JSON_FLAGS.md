@@ -435,6 +435,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```DIFFICULTY_REMOVE```
 - ```DOME_LIGHT```
 - ```DOOR_MOTOR```
+- ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
 - ```EVENTURN``` Only on during even turns.
 - ```EXTRA_DRAG``` tells the vehicle that the part exerts engine power reduction.
 - ```FAUCET```
