@@ -189,6 +189,12 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Optimal rpm giving the best performance and fuel efficiency? */
     int rpm_optimum() const;
 
+    /** How difficult is it to start the engine [0.0 - 1.0] */
+    double starting_difficulty() const;
+
+    /** How many moves does it take to start the engine? */
+    int starting_time() const;
+
     /*@}*/
 
     /**
