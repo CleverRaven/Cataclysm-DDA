@@ -2442,7 +2442,7 @@ vehicle *game::remoteveh()
         tripoint vp;
         remote_veh_string >> vp.x >> vp.y >> vp.z;
         vehicle *veh = m.veh_at( vp );
-        if( veh && veh->fuel_left( "battery", true, true ) > 0 ) {
+        if( veh && veh->fuel_left( "battery", true ) > 0 ) {
             remoteveh_cache = veh;
         } else {
             remoteveh_cache = nullptr;
