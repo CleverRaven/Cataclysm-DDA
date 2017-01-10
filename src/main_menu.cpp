@@ -407,6 +407,9 @@ bool main_menu::opening_screen()
                         case 2:
                             start = load_character_tab();
                             break;
+                        case 3:
+                            world_tab();
+                            break;
                         default:
                             break;
                     }
@@ -851,7 +854,11 @@ bool main_menu::load_character_tab()
     return start;
 }
 
-        if( sel1 == 3 ) { // World Menu
+void main_menu::world_tab()
+{
+    while( sel1 == 3 && ( layer == 2 || layer == 3 ) ) {
+        print_menu( w_open, 3, iMenuOffsetX, iMenuOffsetY, true );
+        if( layer == 2 ) { // World Menu
             // Show options for Create, Destroy, Reset worlds.
             // Create world goes directly to Make World screen.
             // Reset and Destroy ask for world to modify.
@@ -921,10 +928,7 @@ bool main_menu::load_character_tab()
                     sel3 = 0;
                 }
             }
-
-
-
-        if( sel1 == 3 ) { // Show world names
+        } else if( layer == 3 ) { // Show world names
             int i = 0;
             for( std::vector<std::string>::iterator it = world_generator->all_worldnames.begin();
                  it != world_generator->all_worldnames.end(); ++it ) {
@@ -1002,3 +1006,5 @@ bool main_menu::load_character_tab()
                 print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
             }
         }
+    } // end while layer == ...
+}
