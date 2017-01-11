@@ -26,8 +26,6 @@
 #include "mtype.h"
 #include <algorithm>
 
-using namespace units::literals;
-
 const float sqrt2 = std::sqrt( 2.0f );
 
 const skill_id skill_throw( "throw" );

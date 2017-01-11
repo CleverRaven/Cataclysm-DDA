@@ -32,8 +32,6 @@
 #include <algorithm>
 #include <numeric>
 
-using namespace units::literals;
-
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );

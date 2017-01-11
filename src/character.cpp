@@ -21,8 +21,6 @@
 
 #include <algorithm>
 
-using namespace units::literals;
-
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );

@@ -9,7 +9,6 @@
 #include "enums.h"
 #include "input.h"
 #include "output.h"
-#include "units.h"
 #include "item_location.h"
 
 class Character;

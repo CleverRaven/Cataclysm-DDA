@@ -54,8 +54,6 @@
 
 #include "iuse_software.h"
 
-using namespace units::literals;
-
 const mtype_id mon_bee( "mon_bee" );
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_cat( "mon_cat" );

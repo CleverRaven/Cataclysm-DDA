@@ -17,8 +17,6 @@
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
-using namespace units::literals;
-
 template<typename V, typename B>
 inline units::quantity<V, B> rng( const units::quantity<V, B> &min, const units::quantity<V, B> &max )
 {

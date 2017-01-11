@@ -5,6 +5,13 @@
 #include "int_id.h"
 #include "init.h"
 
+#include "debug.h"
+#include "json.h"
+#include "color.h"
+#include "translations.h"
+#include "units.h"
+#include "assign.h"
+
 #include <string>
 #include <unordered_map>
 #include <bitset>
@@ -14,13 +21,6 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
-
-#include "debug.h"
-#include "json.h"
-#include "color.h"
-#include "translations.h"
-#include "units.h"
-#include "assign.h"
 
 /**
 A generic class to store objects identified by a `string_id`.
