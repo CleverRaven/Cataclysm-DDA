@@ -665,8 +665,7 @@
     "color": "green",
     "contains": "10L",
     "seals": true,
-    "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "watertight": true
   },
   {
     "id": "jerrycan_big",
