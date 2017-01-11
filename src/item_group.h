@@ -145,11 +145,8 @@ class Item_modifier
          */
         std::pair<long, long> charges;
         /**
-         * Ammo for guns. If NULL the gun spawns
-         * without ammo.
-         * This does not take @ref charges into count. Instead it
-         * assumes that the item returned by that Single_item_creator
-         * contains the charges.
+         * Ammo for guns. If NULL the gun spawns without ammo.
+         * This takes @ref charges and @ref with_ammo into account.
          */
         std::unique_ptr<Item_spawn_data> ammo;
         /**
