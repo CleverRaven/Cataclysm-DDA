@@ -382,6 +382,20 @@ input_event draw_item_info( const int iLeft, int iWidth, const int iTop, const i
                     const bool handle_scrolling = false, const bool scrollbar_left = true,
                     const bool use_full_win = false );
 
+enum class item_filter_type: int {
+    FIRST = 1, // used for indexing into tables
+    FILTER = 1,
+    LOW_PRIORITY = 2,
+    HIGH_PRIORITY = 3
+};
+/**
+ * Write some tips (such as precede items with - to exclude them) onto the window.
+ *
+ * @param starty: Where to start relative to the top of the window.
+ * @param height: Every row from starty to starty + height - 1 will be cleared before printing the rules.
+*/
+void draw_item_filter_rules( WINDOW *win, int starty, int height, item_filter_type type );
+
 char rand_char();
 long special_symbol( long sym );
 

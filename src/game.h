@@ -451,15 +451,7 @@ class game
                                   int last_line, bool draw_terrain_indicators,
                                   const visibility_variables &cache );
 
-        std::vector<map_item_stack> find_nearby_items(int iRadius);
-        void draw_item_filter_rules(WINDOW *window, int rows);
-        std::string ask_item_priority_high(WINDOW *window, int rows);
-        std::string ask_item_priority_low(WINDOW *window, int rows);
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
-        void reset_item_list_state(WINDOW *window, int height, bool bRadiusSort);
-        std::string sFilter; // this is a member so that it's remembered over time
-        std::string list_item_upvote;
-        std::string list_item_downvote;
 
         // @todo Move these functions to game_menus::inv and isolate them.
         int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
@@ -737,9 +729,23 @@ class game
         void create_factions(); // Creates new factions (for a new game world)
         void create_starting_npcs(); // Creates NPCs that start near you
 
+        // V Menu Functions and helpers:
         void list_items_monsters(); // Called when you invoke the `V`-menu
-        int list_items(const int iLastState);
-        int list_monsters(const int iLastState);
+
+        enum class vmenu_ret : int {
+            CHANGE_TAB,
+            QUIT,
+            FIRE, // Who knew, apparently you can do that in list_monsters
+        };
+
+        game::vmenu_ret list_items( const std::vector<map_item_stack> &item_list );
+        std::vector<map_item_stack> find_nearby_items( int iRadius );
+        void reset_item_list_state( WINDOW *window, int height, bool bRadiusSort );
+        std::string sFilter; // this is a member so that it's remembered over time
+        std::string list_item_upvote;
+        std::string list_item_downvote;
+
+        game::vmenu_ret list_monsters( const std::vector<Creature *> &monster_list );
 
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */

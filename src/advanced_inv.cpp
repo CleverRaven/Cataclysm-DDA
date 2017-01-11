@@ -1639,7 +1639,7 @@ void advanced_inventory::display()
             std::string filter = spane.filter;
             filter_edit = true;
 
-            g->draw_item_filter_rules( dpane.window, 12 );
+            draw_item_filter_rules( dpane.window, 1, 11, item_filter_type::FILTER );
 
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
