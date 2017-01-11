@@ -699,8 +699,7 @@
     "color": "brown",
     "contains": 4,
     "seals": true,
-    "watertight": true,
-    "qualities": [ [ "BOIL", 2 ] ]
+    "watertight": true
   },
   {
     "id": "jug_plastic",
