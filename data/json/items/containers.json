@@ -443,7 +443,7 @@
     "contains": 1,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "clay_hydria",
@@ -461,8 +461,7 @@
     "color": "brown",
     "contains": 60,
     "seals": true,
-    "watertight": true,
-    "qualities": [ [ "BOIL", 2 ] ]
+    "watertight": true
   },
   {
     "id": "clay_watercont",
@@ -479,8 +478,7 @@
     "color": "brown",
     "contains": 150,
     "seals": true,
-    "watertight": true,
-    "qualities": [ [ "BOIL", 2 ] ]
+    "watertight": true
   },
   {
     "id": "cup_plastic",
