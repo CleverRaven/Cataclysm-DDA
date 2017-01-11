@@ -2327,12 +2327,13 @@ std::string item::display_name( unsigned int quantity ) const
             break;
     }
     int amount = 0;
-    bool itemContainer = is_container() && contents.size() == 1;
-    bool ammoContainer = is_ammo_container() && !contents.empty();
-    bool isContainer = itemContainer || ammoContainer;
+    bool has_item = is_container() && contents.size() == 1;
+    bool has_ammo = is_ammo_container() && !contents.empty();
+    bool contains = has_item || has_ammo;
+    bool show_amt = false;
 
     // We should handle infinite charges properly in all cases.
-    if( isContainer ) {
+    if( contains ) {
         amount = contents.front().charges;
     } else if( is_book() && get_chapters() > 0 ) {
         // a book which has remaining unread chapters
@@ -2340,12 +2341,13 @@ std::string item::display_name( unsigned int quantity ) const
     } else if( ammo_capacity() > 0 ) {
         // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
         amount = ammo_remaining();
+        show_amt = true;
     } else if( count_by_charges() && !has_infinite_charges() ) {
         // A chargeable item
         amount = charges;
     }
 
-    if( amount ) {
+    if( amount || show_amt ) {
         amt = string_format( " (%i)", amount );
     }
 
