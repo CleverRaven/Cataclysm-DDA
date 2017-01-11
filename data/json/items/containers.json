@@ -550,8 +550,8 @@
       "coverage": 2,
       "material_thickness": 1
     },
-    "flags": [ "WAIST" ],
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
+    "flags": [ "WAIST" ]
   },
   {
     "id": "glass",
