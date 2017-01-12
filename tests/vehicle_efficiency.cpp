@@ -49,13 +49,12 @@ void test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_
 
     vehicle &veh = *veh_ptr;
     veh.engine_on = true;
-    REQUIRE( (bool)veh.current_engine() );
-    REQUIRE( veh.safe_velocity( veh.current_engine() ) > 0 );
-    veh.cruise_velocity = veh.safe_velocity( veh.current_engine() ) * 2.237 * 100;
+    REQUIRE( veh.safe_velocity() > 0 );
+    veh.cruise_velocity = veh.safe_velocity();
     int reset_counter = 0;
     long tiles_travelled = 0;
     int turn_count = 0;
-    while( veh.engine_on && veh.safe_velocity( veh.current_engine() ) > 0 ) {
+    while( veh.engine_on && veh.safe_velocity() > 0 ) {
         g->m.vehmove();
         veh.idle( true );
         // How much it moved
