@@ -5,7 +5,6 @@
 #include "item.h"
 #include <list>
 #include <unordered_map>
-#include <unordered_set>
 
 // A struct used to uniquely identify an item within a submap or vehicle.
 struct item_reference {
@@ -20,7 +19,8 @@ class active_item_cache
     private:
         std::unordered_map<int, std::list<item_reference>> active_items;
         // Cache for fast lookup when we're iterating over the active items to verify the item is present.
-        std::unordered_set<item *> active_item_set;
+        // Key is item_id, value is whether it was returned in the last call to get
+        std::unordered_map<item *, bool> active_item_set;
 
     public:
         void remove( std::list<item>::iterator it, point location );

@@ -1,5 +1,7 @@
 #include "active_item_cache.h"
 
+#include "debug.h"
+
 #include <algorithm>
 
 void active_item_cache::remove( std::list<item>::iterator it, point location )
@@ -19,23 +21,27 @@ void active_item_cache::remove( std::list<item>::iterator it, point location )
             e.second.remove_if( predicate );
         }
     }
-    active_item_set.erase( &*it );
+    if( active_item_set.erase( &*it ) == 0 ) {
+        // map erase returns number of elements erased
+        debugmsg( "The item isn't there!" );
+    }
 }
 
 void active_item_cache::add( std::list<item>::iterator it, point location )
 {
     active_items[it->processing_speed()].push_back( item_reference{ location, it, &*it } );
-    active_item_set.insert( &*it );
+    active_item_set[ &*it ] = false;
 }
 
 bool active_item_cache::has( std::list<item>::iterator it, point ) const
 {
-    return active_item_set.count( &*it ) != 0;
+    return active_item_set.find( &*it ) != active_item_set.end();
 }
 
 bool active_item_cache::has( item_reference const &itm ) const
 {
-    return active_item_set.count( itm.item_id ) != 0;
+    const auto found = active_item_set.find( itm.item_id );
+    return found != active_item_set.end() && found->second;
 }
 
 bool active_item_cache::empty() const
@@ -54,6 +60,7 @@ std::list<item_reference> active_item_cache::get()
         // Rely on iteration logic to make sure the number is sane.
         int num_to_process = tuple.second.size() / tuple.first;
         for( auto &an_iter : tuple.second ) {
+            active_item_set[an_iter.item_id] = true;
             items_to_process.push_back( an_iter );
             if( --num_to_process < 0 ) {
                 break;
