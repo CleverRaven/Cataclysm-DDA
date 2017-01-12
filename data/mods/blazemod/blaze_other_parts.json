@@ -359,7 +359,7 @@
     "durability": 100,
     "epower": -75,
     "bonus": 24,
-    "damage_modifier": 10,
+    "damage_modifier": 2,
     "folded_volume": 8,
     "breaks_into": [
       { "item": "e_scrap", "count": [ 4, 16 ] },
