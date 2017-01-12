@@ -11,7 +11,9 @@
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
+#include "catacharset.h"
 #include "init.h"
+#include "input.h"
 #include "path_info.h"
 #include "filesystem.h"
 #include "debug.h"
@@ -591,9 +593,7 @@ uint64_t GetPerfCount(){
     return Count;
 }
 
-//Not terribly sure how this function is suppose to work,
-//but jday helped to figure most of it out
-int curses_getch(WINDOW* win)
+input_event input_manager::get_input_event( WINDOW *win )
 {
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
@@ -627,9 +627,40 @@ int curses_getch(WINDOW* win)
         ShowCursor(false);
     }
 
-    return lastchar;
+    previously_pressed_key = 0;
+    input_event rval;
+    if( lastchar == ERR ) {
+        if( input_timeout > 0 ) {
+            rval.type = CATA_INPUT_TIMEOUT;
+        } else {
+            rval.type = CATA_INPUT_ERROR;
+        }
+    } else {
+        if( lastchar == 127 ) { // == Unicode DELETE
+            previously_pressed_key = KEY_BACKSPACE;
+            return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
+        }
+        rval.type = CATA_INPUT_KEYBOARD;
+        rval.text = utf32_to_utf8( lastchar );
+        previously_pressed_key = lastchar;
+        // for compatibility only add the first byte, not the code point
+        // as it would  conflict with the special keys defined by ncurses
+        rval.add_input( lastchar );
+    }
+
+    return rval;
 }
 
+bool gamepad_available()
+{
+    return false;
+}
+
+bool input_context::get_coordinates( WINDOW *, int &, int & )
+{
+    // TODO: implement this properly
+    return false;
+}
 
 //Ends the terminal, destroy everything
 int curses_destroy(void)

@@ -1393,7 +1393,8 @@ point overmap::display_notes(int z)
             wrefresh(w_notes);
             redraw = false;
         }
-        ch = getch();
+        // TODO: use input context
+        ch = inp_mngr.get_input_event().get_first_input();
         if (ch == '<' && start >= maxitems) {
             start -= maxitems;
             redraw = true;

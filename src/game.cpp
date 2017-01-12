@@ -4291,7 +4291,7 @@ void game::debug()
                 mvwputch( w_terrain, offset.y + sound.y, offset.x + sound.x, c_red, '?' );
             }
             wrefresh( w_terrain );
-            getch();
+            inp_mngr.wait_for_any_key();
 #else
             popup( _( "This binary was not compiled with tiles support." ) );
 #endif
@@ -4710,7 +4710,7 @@ void game::disp_NPCs()
                   apos.x, apos.y, apos.z);
     }
     wrefresh(w);
-    getch();
+    inp_mngr.wait_for_any_key();
     werase(w);
     wrefresh(w);
     delwin(w);
@@ -13801,7 +13801,7 @@ void game::display_scent()
     draw_ter();
     scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
     wrefresh(w_terrain);
-    getch();
+    inp_mngr.wait_for_any_key();
 }
 
 void game::init_autosave()
@@ -13888,7 +13888,7 @@ void intro()
                                                        "make the terminal just a smidgen taller?"),
                            minWidth, minHeight, maxx, maxy);
         }
-        wgetch(tmp);
+        inp_mngr.wait_for_any_key();
         getmaxyx(stdscr, maxy, maxx);
     }
     werase(tmp);
@@ -13902,7 +13902,7 @@ void intro()
               "characters (e.g. empty boxes or question marks). You have been warned.");
         fold_and_print(tmp, 0, 0, maxx, c_white, unicode_error_msg, minWidth, minHeight, maxx, maxy);
         wrefresh(tmp);
-        wgetch(tmp);
+        inp_mngr.wait_for_any_key();
         werase(tmp);
     }
 #endif

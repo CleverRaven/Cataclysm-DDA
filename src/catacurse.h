@@ -135,7 +135,6 @@ int werase( WINDOW *win );
 int start_color( void );
 int init_pair( short pair, short f, short b );
 int wmove( WINDOW *win, int y, int x );
-int getnstr( char *str, int size );
 int clear( void );
 int clearok( WINDOW *win );
 int erase( void );
@@ -180,7 +179,6 @@ int curses_destroy();
 void curses_drawwindow( WINDOW *win );
 void curses_delay( int delay );
 void curses_timeout( int t );
-int curses_getch( WINDOW *win );
 // may throw std::exception
 int curses_start_color();
 

@@ -19,6 +19,7 @@
 #include "field.h"
 #include "player.h"
 #include "text_snippets.h"
+#include "input.h"
 
 #include <string>
 #include <sstream>
@@ -176,7 +177,8 @@ void computer::use()
 
         char ch;
         do {
-            ch = getch();
+            // TODO: use input context
+            ch = inp_mngr.get_input_event().get_first_input();
         } while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' >= (char)options_size));
         if (ch == 'q' || ch == 'Q') {
             break; // Exit from main computer loop
@@ -729,7 +731,7 @@ INITIATING STANDARD TREMOR TEST..."));
         print_gibberish_line();
         print_newline();
         print_error(_("FILE CORRUPTED, PRESS ANY KEY..."));
-        getch();
+        inp_mngr.wait_for_any_key();
         reset_terminal();
         break;
 
@@ -758,13 +760,13 @@ of pureed bone & LSD."));
                 print_error(_("--ACCESS GRANTED--"));
                 print_error(_("Mission Complete!"));
                 miss->step_complete( 1 );
-                getch();
+                inp_mngr.wait_for_any_key();
                 return;
                 //break;
             }
         }
         print_error(_("ACCESS DENIED"));
-        getch();
+        inp_mngr.wait_for_any_key();
         break;
 
     case COMPACT_REPEATER_MOD:
@@ -775,7 +777,7 @@ of pureed bone & LSD."));
                     print_error(_("Repeater mod installed..."));
                     print_error(_("Mission Complete!"));
                     g->u.use_amount("radio_repeater_mod", 1);
-                    getch();
+                    inp_mngr.wait_for_any_key();
                     options.clear();
                     activate_failure(COMPFAIL_SHUTDOWN);
                     break;
@@ -783,7 +785,7 @@ of pureed bone & LSD."));
             }
         }else{
             print_error(_("You do not have a repeater mod to install..."));
-            getch();
+            inp_mngr.wait_for_any_key();
             break;
         }
         break;
@@ -805,7 +807,7 @@ of pureed bone & LSD."));
             usb->put_in(software);
             print_line(_("Software downloaded."));
         }
-        getch();
+        inp_mngr.wait_for_any_key();
         break;
 
     case COMPACT_BLOOD_ANAL:
@@ -1344,7 +1346,7 @@ void computer::activate_failure(computer_failure fail)
                 }
             }
         }
-        getch();
+        inp_mngr.wait_for_any_key();
         break;
 
     case COMPFAIL_DESTROY_DATA:
@@ -1367,7 +1369,7 @@ void computer::activate_failure(computer_failure fail)
                 }
             }
         }
-        getch();
+        inp_mngr.wait_for_any_key();
         break;
 
     }// switch (fail)
@@ -1415,7 +1417,8 @@ bool computer::query_bool(const char *mes, ...)
     print_line("%s (Y/N/Q)", text.c_str());
     char ret;
     do {
-        ret = getch();
+        // TODO: use input context
+        ret = inp_mngr.get_input_event().get_first_input();
     } while (ret != 'y' && ret != 'Y' && ret != 'n' && ret != 'N' && ret != 'q' &&
              ret != 'Q');
     return (ret == 'y' || ret == 'Y');
@@ -1428,7 +1431,7 @@ bool computer::query_any(const char *mes, ...)
     const std::string text = vstring_format(mes, ap);
     va_end(ap);
     print_line("%s", text.c_str());
-    getch();
+    inp_mngr.wait_for_any_key();
     return true;
 }
 
@@ -1441,7 +1444,8 @@ char computer::query_ynq(const char *mes, ...)
     print_line("%s (Y/N/Q)", text.c_str());
     char ret;
     do {
-        ret = getch();
+        // TODO: use input context
+        ret = inp_mngr.get_input_event().get_first_input();
     } while (ret != 'y' && ret != 'Y' && ret != 'n' && ret != 'N' && ret != 'q' &&
              ret != 'Q');
     return ret;

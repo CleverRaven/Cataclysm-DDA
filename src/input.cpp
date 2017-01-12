@@ -1096,14 +1096,33 @@ long input_manager::get_previously_pressed_key() const
     return previously_pressed_key;
 }
 
-#ifndef TILES
+void input_manager::wait_for_any_key()
+{
+    while( true ) {
+        switch( inp_mngr.get_input_event().type ) {
+            case CATA_INPUT_KEYBOARD:
+                return;
+            // errors are accepted as well to avoid an infinite loop
+            case CATA_INPUT_ERROR:
+                return;
+            default:
+                break;
+        }
+    }
+}
+
+input_event input_manager::get_input_event()
+{
+    return get_input_event( nullptr );
+}
+
+#if !(defined TILES || defined _WIN32 || defined WINDOWS)
 // If we're using curses, we need to provide get_input_event() here.
 input_event input_manager::get_input_event( WINDOW * /*win*/ )
 {
     previously_pressed_key = 0;
     long key = getch();
     // Our current tiles and Windows code doesn't have ungetch()
-#if !(defined TILES || defined _WIN32 || defined WINDOWS)
     if( key != ERR ) {
         long newch;
         // Clear the buffer of characters that match the one we're going to act on.
@@ -1117,7 +1136,6 @@ input_event input_manager::get_input_event( WINDOW * /*win*/ )
             ungetch( newch );
         }
     }
-#endif
     input_event rval;
     if( key == ERR ) {
         if( input_timeout > 0 ) {
@@ -1125,7 +1143,6 @@ input_event input_manager::get_input_event( WINDOW * /*win*/ )
         } else {
             rval.type = CATA_INPUT_ERROR;
         }
-#if !(defined TILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
         // ncurses mouse handling
     } else if( key == KEY_MOUSE ) {
         MEVENT event;
@@ -1149,7 +1166,6 @@ input_event input_manager::get_input_event( WINDOW * /*win*/ )
         } else {
             rval.type = CATA_INPUT_ERROR;
         }
-#endif
     } else {
         if( key == 127 ) { // == Unicode DELETE
             previously_pressed_key = KEY_BACKSPACE;

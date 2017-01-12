@@ -288,66 +288,6 @@ int wredrawln( WINDOW* /*win*/, int /*beg_line*/, int /*num_lines*/ ) {
     return OK;
 }
 
-int getch(void)
-{
-    return wgetch(mainwin);
-}
-
-int wgetch(WINDOW *win)
-{
-    return curses_getch(win);
-}
-
-int mvgetch(int y, int x)
-{
-    move(y, x);
-    return getch();
-}
-
-int mvwgetch(WINDOW *win, int y, int x)
-{
-    move(y, x);
-    return wgetch(win);
-}
-
-int getnstr(char *str, int size)
-{
-    int startX = mainwin->cursorx;
-    int count = 0;
-    char input;
-    while(true) {
-        input = getch();
-        // Carriage return, Line feed and End of File terminate the input.
-        if( input == '\r' || input == '\n' || input == '\x04' ) {
-            str[count] = '\x00';
-            return count;
-        } else if( input == 127 ) { // Backspace, remapped from \x8 in ProcessMessages()
-            if( count == 0 ) {
-                continue;
-            }
-            str[count] = '\x00';
-            if(echoOn == 1) {
-                mvaddch(mainwin->cursory, startX + count, ' ');
-            }
-            --count;
-            if(echoOn == 1) {
-                move(mainwin->cursory, startX + count);
-            }
-        } else {
-            if( count >= size - 1 ) { // Still need space for trailing 0x00
-                continue;
-            }
-            str[count] = input;
-            ++count;
-            if(echoOn == 1) {
-                move(mainwin->cursory, startX + count);
-                mvaddch(mainwin->cursory, startX + count, input);
-            }
-        }
-    }
-    return count;
-}
-
 // Get a sequence of Unicode code points, store them in target
 // return the display width of the extracted string.
 inline int fill(const char *&fmt, int &len, std::string &target)
