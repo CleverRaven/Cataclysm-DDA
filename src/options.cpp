@@ -1282,11 +1282,6 @@ void options_manager::init()
         false
         );
 
-    add("VEHICLES_CONTROLLED", "debug", _("Makes all vehicles count as controlled."),
-        _("If true, vehicles will accelerate without the player in them and won't skid."),
-        false, COPT_ALWAYS_HIDE
-        );
-
     ////////////////////////////WORLD DEFAULT////////////////////
     add("CORE_VERSION", "world_default", _("Core version data"),
         _("Controls what migrations are applied for legacy worlds"),

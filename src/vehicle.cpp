@@ -160,7 +160,7 @@ bool vehicle::player_in_control(player const& p) const
 {
     // Debug switch to prevent vehicles from skidding
     // without having to place the player in them.
-    if( test_mode && get_option<bool>( "VEHICLES_CONTROLLED" ) ) {
+    if( tags.count( "IN_CONTROL_OVERRIDE" ) ) {
         return true;
     }
 

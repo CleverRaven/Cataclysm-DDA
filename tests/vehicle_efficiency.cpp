@@ -48,6 +48,7 @@ void test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_
     }
 
     vehicle &veh = *veh_ptr;
+    veh.tags.insert( "IN_CONTROL_OVERRIDE" );
     veh.engine_on = true;
     REQUIRE( veh.safe_velocity() > 0 );
     veh.cruise_velocity = veh.safe_velocity();
@@ -96,10 +97,6 @@ void test_vehicle( std::string type, long target ) {
 }
 
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" ) {
-    options_manager &options = get_options();
-    options.get_option( "VEHICLES_CONTROLLED" ).setValue( "true" );
-    REQUIRE( get_option<bool>( "VEHICLES_CONTROLLED" ) );
-
     test_vehicle( "beetle", 48000 );
     test_vehicle( "car", 48000 );
     test_vehicle( "car_sports", 51400 );
