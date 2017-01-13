@@ -9439,7 +9439,7 @@ int game::list_items(const int iLastState)
                         const int x = iter->vIG[iThisPage].pos.x;
                         const int y = iter->vIG[iThisPage].pos.y;
                         mvwprintz( w_items, iNum - iStartPos, width - 6 - numw, iNum == iActive ? c_ltgreen : c_ltgray,
-                                   "%*d %s", numw, square_dist( 0, 0, x, y ),
+                                   "%*d %s", numw, rl_dist( 0, 0, x, y ),
                                    direction_name_short( direction_from( 0, 0, x, y ) ).c_str() );
                         ++iter;
                     }
@@ -9674,13 +9674,9 @@ int game::list_monsters(const int iLastState)
                     mvwprintz(w_monsters, y, 28, color, "%s", sText.c_str());
 
                     int numw = iMonsterNum > 9 ? 2 : 1;
-                    mvwprintz(w_monsters, y, width - (6 + numw),
-                                (selected ? c_ltgreen : c_ltgray), "%*d %s",
-                                numw, square_dist(0, 0, critter->posx() - u.posx(),
-                                                critter->posy() - u.posy()),
-                                direction_name_short(
-                                    direction_from( 0, 0, critter->posx() - u.posx(),
-                                                    critter->posy() - u.posy())).c_str() );
+                    mvwprintz( w_monsters, y, width - (6 + numw), (selected ? c_ltgreen : c_ltgray), "%*d %s",
+                                numw, rl_dist( u.pos(), critter->pos() ),
+                                direction_name_short( direction_from( u.pos(), critter->pos() ) ).c_str() );
             }
 
             mvwprintz(w_monsters_border, 0, (width - 9) / 2 + ((iMonsterNum > 9) ? 0 : 1),
