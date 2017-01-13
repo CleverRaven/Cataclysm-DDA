@@ -32,5 +32,38 @@
     "reliability": 8,
     "reload_time": 40,
     "flags": [ "MAG_BULKY" ]
+  },
+  {
+    "id": "cwd-63bigmag",
+    "type": "MAGAZINE",
+    "name": "CWD-63 extended magazine",
+    "description": "A cheap 10-round box magazine for the CWD-63.  It's not as reliable.",
+    "weight": 120,
+    "volume": 2,
+    "price": 1500,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "308",
+    "capacity": 20,
+    "reliability": 7,
+    "reload_time": 120,
+    "flags": [ "MAG_BULKY" ]
+  },
+  {
+    "id": "cwd-63mag",
+    "type": "MAGAZINE",
+    "name": "CWD-63 magazine",
+    "description": "Since it's created for the .308 round, it doesn't need the curved shape of the original magazine.",
+    "weight": 160,
+    "volume": 1,
+    "price": 3450,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "308",
+    "capacity": 10,
+    "reliability": 10,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]
