@@ -29,7 +29,7 @@ void clear_game( const ter_id &terrain )
         g->m.i_clear( p );
     }
 
-    for( auto &veh : g->m.get_vehicles( tripoint( 0, 0, 0 ), tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+    for( wrapped_vehicle &veh : g->m.get_vehicles( tripoint( 0, 0, 0 ), tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
         g->m.destroy_vehicle( veh.v );
     }
 
