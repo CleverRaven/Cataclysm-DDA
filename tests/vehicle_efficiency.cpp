@@ -81,29 +81,30 @@ void test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_
     CHECK( tiles_travelled <= max_dist );
 }
 
-void test_vehicle( std::string type, long target ) {
+void test_vehicle( std::string type, long pavement_target, long dirt_target, long pavement_target_w_stops, long dirt_target_w_stops ) {
     SECTION( type + " on pavement" ) {
-        test_efficiency( vproto_id( type ), ter_id( "t_pavement" ), -1, target * 0.9, target * 1.1 );
+        test_efficiency( vproto_id( type ), ter_id( "t_pavement" ), -1, pavement_target * 0.8, pavement_target * 1.2 );
     }
     SECTION( type + " on dirt" ) {
-        test_efficiency( vproto_id( type ), ter_id( "t_dirt" ), -1, target * 0.45, target * 1.1 );
+        test_efficiency( vproto_id( type ), ter_id( "t_dirt" ), -1, dirt_target * 0.9, dirt_target * 1.1 );
     }
     SECTION( type + " on pavement, full stop every 5 turns" ) {
-        test_efficiency( vproto_id( type ), ter_id( "t_pavement" ), 5, target * 0.045, target * 0.1 );
+        test_efficiency( vproto_id( type ), ter_id( "t_pavement" ), 5, pavement_target_w_stops * 0.9, pavement_target_w_stops * 1.1 );
     }
     SECTION( type + " on dirt, full stop every 5 turns" ) {
-        test_efficiency( vproto_id( type ), ter_id( "t_dirt" ), 5, target * 0.025, target * 0.1 );
+        test_efficiency( vproto_id( type ), ter_id( "t_dirt" ), 5, dirt_target_w_stops * 0.9, dirt_target_w_stops * 1.1 );
     }
 }
 
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" ) {
-    test_vehicle( "beetle", 48000 );
-    test_vehicle( "car", 48000 );
-    test_vehicle( "car_sports", 51400 );
-    //test_vehicle( "electric_car", 300 );
-    test_vehicle( "suv", 99000 );
-    test_vehicle( "motorcycle", 7400 );
-    test_vehicle( "quad_bike", 7100 );
-    test_vehicle( "scooter", 6400 );
-    test_vehicle( "superbike", 8334 );
+    test_vehicle( "beetle", 48000, 45000, 2375, 2175 );
+    test_vehicle( "car", 48000, 31000, 2375, 1575 );
+    test_vehicle( "car_sports", 51400, 31000, 2465, 1478 );
+    // Electric car seems to spawn with no charge.
+    test_vehicle( "electric_car", 300 );
+    test_vehicle( "suv", 99000, 56500, 4950, 2725 );
+    test_vehicle( "motorcycle", 7400, 4100, 575, 330 );
+    test_vehicle( "quad_bike", 6600, 4500, 500, 330 );
+    test_vehicle( "scooter", 6550, 6900, 550, 550 );
+    test_vehicle( "superbike", 8200, 4167, 600, 300 );
 }
