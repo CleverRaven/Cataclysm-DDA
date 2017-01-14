@@ -385,12 +385,17 @@ void debug_menu::wishmonster( const tripoint &p )
             }
             tripoint spawn = ( p == tripoint_min ? g->look_around() : p );
             if( spawn != tripoint_min ) {
-                std::vector<tripoint> spawn_points = closest_tripoints_first( cb.group, spawn );
-                for( auto spawn_point : spawn_points ) {
-                    mon.spawn( spawn_point );
-                    g->add_zombie( mon, true );
+                const std::vector<tripoint> spawn_points = closest_tripoints_first( cb.group, spawn );
+                int num_spawned = 0;
+                for( const tripoint &spawn_point : spawn_points ) {
+                    if( g->critter_at( spawn_point ) == nullptr ) {
+                        ++num_spawned;
+                        mon.spawn( spawn_point );
+                        g->add_zombie( mon, true );
+                    }
                 }
-                cb.msg = _( "Monster spawned, choose another or 'q' to quit." );
+                cb.msg = string_format( _( "Spawned %d/%d monsters, choose another or 'q' to quit." ),
+                                        num_spawned, int( spawn_points.size() ) );
                 uistate.wishmonster_selected = wmenu.ret;
                 wmenu.redraw();
             }
