@@ -66,6 +66,47 @@ void string_input_popup::create_context()
     ctxt->register_action( "ANY_INPUT" );
 }
 
+void string_input_popup::show_history( utf8_wrapper &ret )
+{
+    if( _identifier.empty() ) {
+        return;
+    }
+    std::vector<std::string> &hist = uistate.gethistory( _identifier );
+    uimenu hmenu;
+    hmenu.title = _( "d: delete history" );
+    hmenu.return_invalid = true;
+    for( size_t h = 0; h < hist.size(); h++ ) {
+        hmenu.addentry( h, true, -2, hist[h] );
+    }
+    if( !ret.empty() && ( hmenu.entries.empty() ||
+                          hmenu.entries[hist.size() - 1].txt != ret.str() ) ) {
+        hmenu.addentry( hist.size(), true, -2, ret.str() );
+        hmenu.selected = hist.size();
+    } else {
+        hmenu.selected = hist.size() - 1;
+    }
+    // number of lines that make up the menu window: title,2*border+entries
+    hmenu.w_height = 3 + hmenu.entries.size();
+    hmenu.w_y = getbegy( w ) - hmenu.w_height;
+    if( hmenu.w_y < 0 ) {
+        hmenu.w_y = 0;
+        hmenu.w_height = std::max( getbegy( w ), 4 );
+    }
+    hmenu.w_x = getbegx( w );
+
+    hmenu.query();
+    if( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret.str() ) {
+        ret = hmenu.entries[hmenu.ret].txt;
+        if( hmenu.ret < ( int )hist.size() ) {
+            hist.erase( hist.begin() + hmenu.ret );
+            hist.push_back( ret.str() );
+        }
+        _position = ret.size();
+    } else if( hmenu.keypress == 'd' ) {
+        hist.clear();
+    }
+}
+
 const std::string &string_input_popup::query( const bool loop, const bool draw_only )
 {
     if( !w ) {
@@ -190,43 +231,8 @@ const std::string &string_input_popup::query( const bool loop, const bool draw_o
         } else if( ch == '\n' ) {
             return_key = true;
         } else if( ch == KEY_UP ) {
-            if( !_identifier.empty() ) {
-                std::vector<std::string> &hist = uistate.gethistory( _identifier );
-                uimenu hmenu;
-                hmenu.title = _( "d: delete history" );
-                hmenu.return_invalid = true;
-                for( size_t h = 0; h < hist.size(); h++ ) {
-                    hmenu.addentry( h, true, -2, hist[h].c_str() );
-                }
-                if( !ret.empty() && ( hmenu.entries.empty() ||
-                                      hmenu.entries[hist.size() - 1].txt != ret.str() ) ) {
-                    hmenu.addentry( hist.size(), true, -2, ret.str() );
-                    hmenu.selected = hist.size();
-                } else {
-                    hmenu.selected = hist.size() - 1;
-                }
-                // number of lines that make up the menu window: title,2*border+entries
-                hmenu.w_height = 3 + hmenu.entries.size();
-                hmenu.w_y = getbegy( w ) - hmenu.w_height;
-                if( hmenu.w_y < 0 ) {
-                    hmenu.w_y = 0;
-                    hmenu.w_height = std::max( getbegy( w ), 4 );
-                }
-                hmenu.w_x = getbegx( w );
-
-                hmenu.query();
-                if( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret.str() ) {
-                    ret = hmenu.entries[hmenu.ret].txt;
-                    if( hmenu.ret < ( int )hist.size() ) {
-                        hist.erase( hist.begin() + hmenu.ret );
-                        hist.push_back( ret.str() );
-                    }
-                    _position = ret.size();
-                    redraw = true;
-                } else if( hmenu.keypress == 'd' ) {
-                    hist.clear();
-                }
-            }
+            show_history( ret );
+            redraw = true;
         } else if( ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == 9 ) {
             /* absolutely nothing */
         } else if( ch == KEY_RIGHT ) {

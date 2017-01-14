@@ -11,6 +11,7 @@
 
 class input_context;
 struct input_event;
+class utf8_wrapper;
 
 /**
  * Shows a window querying the user for input.
@@ -65,6 +66,8 @@ class string_input_popup
 
         void create_window();
         void create_context();
+
+        void show_history( utf8_wrapper &ret );
 
     public:
         string_input_popup();
