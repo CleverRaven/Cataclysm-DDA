@@ -216,9 +216,10 @@ struct oter_t {
             return type->static_spawns;
         }
 
-        inline bool type_is( int_id<oter_type_t> type_id ) const;
+        inline bool type_is( const int_id<oter_type_t> &type_id ) const;
         inline bool type_is( const oter_type_t &type ) const;
 
+        bool can_connect_to( const int_id<oter_t> &oter ) const;
         bool has_connection( om_direction::type dir ) const;
 
         bool has_flag( oter_flags flag ) const {

@@ -569,7 +569,7 @@ oter_id oter_t::get_rotated( om_direction::type dir ) const
     }
 }
 
-inline bool oter_t::type_is( int_id<oter_type_t> type_id ) const
+inline bool oter_t::type_is( const int_id<oter_type_t> &type_id ) const
 {
     return type->id.id() == type_id;
 }
@@ -577,6 +577,18 @@ inline bool oter_t::type_is( int_id<oter_type_t> type_id ) const
 inline bool oter_t::type_is( const oter_type_t &type ) const
 {
     return this->type == &type;
+}
+
+bool oter_t::can_connect_to( const int_id<oter_t> &oter ) const
+{
+    // @todo JSONize.
+    const auto is_road = []( const int_id<oter_t> &oter ) {
+        return is_ot_type( "road",   oter ) ||
+               is_ot_type( "bridge", oter ) ||
+               is_ot_type( "hiway",  oter );
+    };
+
+    return is_road( id ) ? is_road( oter ) : type_is( *oter->type );
 }
 
 bool oter_t::has_connection( om_direction::type dir ) const
@@ -1272,6 +1284,11 @@ const oter_id overmap::get_ter(const int x, const int y, const int z) const
     }
 
     return layer[z + OVERMAP_DEPTH].terrain[x][y];
+}
+
+const oter_id overmap::get_ter( const tripoint &p ) const
+{
+    return get_ter( p.x, p.y, p.z );
 }
 
 bool &overmap::seen(int x, int y, int z)
@@ -3724,7 +3741,7 @@ void overmap::polish(const int z, const std::string &terrain_type)
 
             if( check_all || oter_obj.type_is( target_type ) ) {
                 if( oter_obj.has_flag( line_drawing ) ) {
-                    oter = good_road( oter_obj, tripoint( x, y, z ) );
+                    oter = good_connection( oter_obj, tripoint( x, y, z ) );
 
                     if( one_in( 4 ) && oter == road_nesw ) {
                         oter = road_mahole;
@@ -3745,7 +3762,7 @@ void overmap::polish(const int z, const std::string &terrain_type)
                         // So, fix it by making that square normal road;
                         // also taking other road pieces that may be next
                         // to it into account. A bit of a kludge but it works.
-                        oter = good_road( *oter_id( "road_isolated" ), tripoint( x, y, z ) );
+                        oter = good_connection( *oter_id( "road_isolated" ), tripoint( x, y, z ) );
                     }
                 } else if( is_ot_type( "river", oter ) ) {
                     good_river(x, y, z);
@@ -3821,21 +3838,6 @@ bool overmap::check_ot_type(const std::string &otype, int x, int y, int z) const
     return is_ot_type(otype, oter);
 }
 
-bool overmap::check_ot_type_road(const std::string &otype, int x, int y, int z)
-{
-    const oter_id oter = ter(x, y, z);
-    if(otype == "road" || otype == "bridge" || otype == "hiway") {
-        if(is_ot_type("road", oter) || is_ot_type ("bridge", oter) || is_ot_type("hiway", oter)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    return is_ot_type(otype, oter);
-}
-
-
-
 bool overmap::is_road(int x, int y, int z)
 {
     if( !inbounds( x, y, z ) ) {
@@ -3849,14 +3851,14 @@ bool overmap::is_road(int x, int y, int z)
     //oter_t(ter(x, y, z)).is_road;
 }
 
-oter_id overmap::good_road( const oter_t &oter, const tripoint &p )
+oter_id overmap::good_connection( const oter_t &oter, const tripoint &p )
 {
     size_t line = oter.get_line();
 
-    for( auto dir : om_direction::all ) {
+    for( const auto dir : om_direction::all ) {
         const tripoint np( p + om_direction::displace( dir ) );
         // Always connect to outbound tiles.
-        if( !inbounds( np ) || check_ot_type_road( oter.get_type_id().str(), np.x, np.y, np.z ) ) {
+        if( !inbounds( np ) || oter.can_connect_to( get_ter( np ) ) ) {
             line = om_lines::set_segment( line, dir );
         }
     }
