@@ -981,7 +981,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             if( mod->ammo_capacity() ) {
                 info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ),
                                    string_format( ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
-                                                  ammo_name( mod->ammo_type() ) ), mod->ammo_capacity(), true );
+                                                  ammo_name( mod->ammo_type() ).c_str() ), mod->ammo_capacity(), true );
             }
         } else {
             info.emplace_back( "GUN", _( "Type: " ), ammo_name( mod->ammo_type() ) );
