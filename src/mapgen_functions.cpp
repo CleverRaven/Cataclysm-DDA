@@ -1012,14 +1012,6 @@ void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
 }
 
 int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] ) {
-    // @todo It's a DAMN UGLY hack. Remove it as soon as possible.
-    if( terrain_type == oter_id( "road_nesw_manhole" ) ) {
-        array[0] = true;
-        array[1] = true;
-        array[2] = true;
-        array[3] = true;
-        return 4;
-    }
     // count and mark which directions the road goes
     const auto &oter( *terrain_type );
     int num_dirs = 0;

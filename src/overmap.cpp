@@ -581,6 +581,11 @@ inline bool oter_t::type_is( const oter_type_t &type ) const
 
 bool oter_t::has_connection( om_direction::type dir ) const
 {
+    // @todo It's a DAMN UGLY hack. Remove it as soon as possible.
+    static const oter_str_id road_manhole( "road_nesw_manhole" );
+    if( id == road_manhole ) {
+        return true;
+    }
     return om_lines::has_segment( line, dir );
 }
 
