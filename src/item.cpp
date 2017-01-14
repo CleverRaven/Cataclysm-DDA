@@ -898,7 +898,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     if( is_magazine() && !has_flag( "NO_RELOAD" ) ) {
         info.emplace_back( "MAGAZINE", _( "Capacity: " ),
                            string_format( ngettext( "<num> round of %s", "<num> rounds of %s", ammo_capacity() ),
-                                          _( ammo_name( ammo_type() ).c_str() ) ), ammo_capacity(), true );
+                                          ammo_name( ammo_type() ).c_str() ), ammo_capacity(), true );
 
         info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> per round" ),
                            type->magazine->reload_time, true, "", true, true );
