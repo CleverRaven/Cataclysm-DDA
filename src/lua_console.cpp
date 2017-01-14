@@ -46,7 +46,7 @@ std::string lua_console::get_input()
     .max_length( width )
     .identifier( "LUA" );
     popup.callbacks = callbacks;
-    popup.query( true, true );
+    popup.query();
     return popup.text();
 }
 

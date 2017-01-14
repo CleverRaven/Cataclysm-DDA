@@ -1215,7 +1215,7 @@ bool game::cleanup_at_end()
         std::string sLastWords = string_input_popup()
                                  .window( w_rip, iStartX, iNameLine, iStartX + iMaxWidth - 4 - 1 )
                                  .max_length( iMaxWidth - 4 - 1 )
-                                 .query( true, true );
+                                 .query();
         death_screen();
         if (uquit == QUIT_SUICIDE) {
             u.add_memorial_log(pgettext("memorial_male", "%s committed suicide."),

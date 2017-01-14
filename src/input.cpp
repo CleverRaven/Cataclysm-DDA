@@ -942,7 +942,7 @@ void input_context::display_help()
         spopup.text( filter_phrase );
         if( status == s_show ) {
             spopup.ch_code_blacklist = bound_character_blacklist;
-            filter_phrase = spopup.query( false, true, false );
+            filter_phrase = spopup.query( false );
             action = ctxt.input_to_action( ctxt.get_raw_input() );
         } else {
             spopup.ch_code_blacklist.clear();

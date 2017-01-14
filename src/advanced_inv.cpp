@@ -1648,7 +1648,7 @@ void advanced_inventory::display()
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, ( w_width / 2 ) - 3, c_cyan, " >" );
-                filter = spopup.query( false, true );
+                filter = spopup.query( false );
                 spane.set_filter( filter );
                 redraw_pane( src );
             } while( spopup.context().get_raw_input().get_first_input() != '\n' && spopup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
