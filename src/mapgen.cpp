@@ -10101,7 +10101,6 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 
     // finally, any terrain with SIDEWALKS should contribute sidewalks to neighboring diagonal roads
     if( terrain_type->has_flag( has_sidewalk ) ) {
-        int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] );
         for( int dir = 4; dir < 8; dir++ ) { // NE SE SW NW
             bool n_roads_nesw[4] = {};
             int n_num_dirs = terrain_type_to_nesw_array( oter_id( t_nesw[dir] ), n_roads_nesw );
