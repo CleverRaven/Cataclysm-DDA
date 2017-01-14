@@ -553,20 +553,16 @@ oter_t::oter_t( const oter_type_t &type, size_t line ) :
 
 std::string oter_t::get_mapgen_id() const
 {
-    if( type->has_flag( line_drawing ) ) {
-        return type->id.str() + om_lines::mapgen_suffixes[om_lines::all[line].mapgen];
-    } else {
-        return type->id.str();
-    }
+    return type->has_flag( line_drawing )
+        ? type->id.str() + om_lines::mapgen_suffixes[om_lines::all[line].mapgen]
+        : type->id.str();
 }
 
 oter_id oter_t::get_rotated( om_direction::type dir ) const
 {
-    if( type->has_flag( line_drawing ) ) {
-        return type->get_linear( om_lines::rotate( this->line, dir ) );
-    } else {
-        return type->get_rotated( om_direction::add( this->dir, dir ) );
-    }
+    return type->has_flag( line_drawing )
+        ? type->get_linear( om_lines::rotate( this->line, dir ) )
+        : type->get_rotated( om_direction::add( this->dir, dir ) );
 }
 
 inline bool oter_t::type_is( const int_id<oter_type_t> &type_id ) const
@@ -4103,7 +4099,7 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
 
         for( const auto &con : special.connections ) {
             const tripoint rp = p + om_direction::rotate( con.p, r );
-            const oter_id &oter = get_ter( rp.x, rp.y, rp.z );
+            const oter_id &oter = get_ter( rp );
 
             if( is_ot_type( con.terrain.str(), oter ) ) {
                 ++score; // Found another one satisfied connection.
@@ -4131,7 +4127,7 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
     const auto rotation = find_if( first, last, [&]( om_direction::type r ) {
         for( const auto &elem : special.terrains ) {
             const tripoint rp = p + om_direction::rotate( elem.p, r );
-            if( !inbounds( rp, 1 ) || ( rp.z == 0 && !special.can_be_placed_on( get_ter( rp.x, rp.y, rp.z ) ) ) ) {
+            if( !inbounds( rp, 1 ) || ( rp.z == 0 && !special.can_be_placed_on( get_ter( rp ) ) ) ) {
                 return false;
             }
         }
