@@ -946,7 +946,7 @@ void input_context::display_help()
             action = ctxt.input_to_action( ctxt.get_raw_input() );
         } else {
             spopup.ch_code_blacklist.clear();
-            spopup.query( false, true, true );
+            spopup.query( false, true );
             action = ctxt.handle_input();
         }
         raw_input_char = ctxt.get_raw_input().get_first_input();

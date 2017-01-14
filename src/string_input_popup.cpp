@@ -66,8 +66,7 @@ void string_input_popup::create_context()
     ctxt->register_action( "ANY_INPUT" );
 }
 
-const std::string &string_input_popup::query( const bool loop, const bool dorefresh,
-        const bool draw_only )
+const std::string &string_input_popup::query( const bool loop, const bool draw_only )
 {
     if( !w ) {
         create_window();
@@ -165,9 +164,7 @@ const std::string &string_input_popup::query( const bool loop, const bool dorefr
             wrefresh( w );
         }
 
-        if( dorefresh ) {
-            wrefresh( w );
-        }
+        wrefresh( w );
 
         if( draw_only ) {
             return _text;
