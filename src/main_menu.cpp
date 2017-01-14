@@ -407,89 +407,16 @@ bool main_menu::opening_screen()
                         case 2:
                             start = load_character_tab();
                             break;
+                        case 3:
+                            world_tab();
+                            break;
                         default:
                             break;
                     }
                 }
             }
         } else if( layer == 2 ) {
-            if( sel1 == 3 ) { // World Menu
-                // Show options for Create, Destroy, Reset worlds.
-                // Create world goes directly to Make World screen.
-                // Reset and Destroy ask for world to modify.
-                // Reset empties world of everything but options, then makes new world within it.
-                // Destroy asks for confirmation, then destroys everything in world and then removes world folder.
-
-                // only show reset / destroy world if there is at least one valid world existing!
-
-                if( MAP_SHARING::isSharing() && !MAP_SHARING::isWorldmenu() && !MAP_SHARING::isAdmin() ) {
-                    layer = 1;
-                    popup( _( "Only the admin can change worlds." ) );
-                    continue;
-                }
-
-                int world_subs_to_display = ( !world_generator->all_worldnames.empty() ) ? vWorldSubItems.size() :
-                                            1;
-                std::vector<std::string> world_subs;
-                int xoffset = 25 + iMenuOffsetX + extra_w / 2;
-                int yoffset = iMenuOffsetY - 2;
-                int xlen = 0;
-                for( int i = 0; i < world_subs_to_display; ++i ) {
-                    world_subs.push_back( vWorldSubItems[i] );
-                    xlen += vWorldSubItems[i].size() + 2; // Open and close brackets added
-                }
-                xlen += world_subs.size() - 1;
-                if( world_subs.size() > 1 ) {
-                    xoffset -= 6;
-                }
-                print_menu_items( w_open, world_subs, sel2, yoffset, xoffset - ( xlen / 4 ) );
-                wrefresh( w_open );
-                refresh();
-                std::string action = ctxt.handle_input();
-                std::string sInput = ctxt.get_raw_input().text;
-                for( int i = 0; i < world_subs_to_display; ++i ) {
-                    for( auto hotkey : vWorldHotkeys[i] ) {
-                        if( sInput == hotkey ) {
-                            sel2 = i;
-                            action = "CONFIRM";
-                        }
-                    }
-                }
-
-                if( action == "LEFT" ) {
-                    if( sel2 > 0 ) {
-                        --sel2;
-                    } else {
-                        sel2 = world_subs_to_display - 1;
-                    }
-                    on_move();
-                } else if( action == "RIGHT" ) {
-                    if( sel2 < world_subs_to_display - 1 ) {
-                        ++sel2;
-                    } else {
-                        sel2 = 0;
-                    }
-                    on_move();
-                } else if( action == "DOWN" || action == "QUIT" ) {
-                    layer = 1;
-                }
-
-                if( action == "UP" || action == "CONFIRM" ) {
-                    if( sel2 == 0 ) { // Create world
-                        // Open up world creation screen!
-                        if( world_generator->make_new_world() ) {
-                            // TODO: This is extremely hacky
-                            *this = main_menu();
-                            return opening_screen();
-                        } else {
-                            layer = 1;
-                        }
-                    } else if( sel2 == 1 || sel2 == 2 ) { // Delete World | Reset World
-                        layer = 3;
-                        sel3 = 0;
-                    }
-                }
-            } else if( sel1 == 4 ) { // Special game
+            if( sel1 == 4 ) { // Special game
                 if( MAP_SHARING::isSharing() ) { // Thee can't save special games, therefore thee can't share them
                     layer = 1;
                     popup( _( "Special games don't work with shared maps." ) );
@@ -614,91 +541,6 @@ bool main_menu::opening_screen()
                     } else if( sel2 == 4 ) {
                         all_colors.show_gui();
                     }
-                }
-            }
-        } else if( layer == 3 ) {
-            if( sel1 == 3 ) { // Show world names
-                int i = 0;
-                for( std::vector<std::string>::iterator it = world_generator->all_worldnames.begin();
-                     it != world_generator->all_worldnames.end(); ++it ) {
-                    int savegames_count = world_generator->all_worlds[*it]->world_saves.size();
-                    int line = iMenuOffsetY - 4 - i;
-                    nc_color color1, color2;
-                    if( *it == "TUTORIAL" || *it == "DEFENSE" ) {
-                        color1 = c_ltcyan;
-                        color2 = h_ltcyan;
-                    } else {
-                        color1 = c_white;
-                        color2 = h_white;
-                    }
-                    mvwprintz( w_open, line, 26 + iMenuOffsetX + extra_w / 2,
-                               ( sel3 == i ? color2 : color1 ), "%s (%d)", ( *it ).c_str(), savegames_count );
-                    ++i;
-                }
-                wrefresh( w_open );
-                refresh();
-                std::string action = ctxt.handle_input();
-
-                if( action == "DOWN" ) {
-                    if( sel3 > 0 ) {
-                        --sel3;
-                    } else {
-                        sel3 = world_generator->all_worldnames.size() - 1;
-                    }
-                } else if( action == "UP" ) {
-                    if( sel3 < ( int )world_generator->all_worldnames.size() - 1 ) {
-                        ++sel3;
-                    } else {
-                        sel3 = 0;
-                    }
-                } else if( action == "LEFT" || action == "QUIT" ) {
-                    layer = 2;
-
-                    print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
-                }
-                if( action == "RIGHT" || action == "CONFIRM" ) {
-                    if( sel3 >= 0 && sel3 < ( int )world_generator->all_worldnames.size() ) {
-                        bool query_yes = false;
-                        bool do_delete = false;
-                        if( sel2 == 1 ) { // Delete World
-                            if( query_yn( _( "Delete the world and all saves?" ) ) ) {
-                                query_yes = true;
-                                do_delete = true;
-                            }
-                        } else if( sel2 == 2 ) { // Reset World
-                            if( query_yn( _( "Remove all saves and regenerate world?" ) ) ) {
-                                query_yes = true;
-                                do_delete = false;
-                            }
-                        }
-
-                        if( query_yes ) {
-                            g->delete_world( world_generator->all_worldnames[sel3], do_delete );
-
-                            savegames.clear();
-                            MAPBUFFER.reset();
-                            overmap_buffer.clear();
-
-                            layer = 2;
-
-                            if( do_delete ) {
-                                // delete world and all contents
-                                world_generator->remove_world( world_generator->all_worldnames[sel3] );
-                            } else {
-                                // clear out everything but worldoptions from this world
-                                world_generator->all_worlds[world_generator->all_worldnames[sel3]]->world_saves.clear();
-                            }
-                            if( world_generator->all_worldnames.empty() ) {
-                                sel2 = 0; // reset to create world selection
-                            }
-                        } else {
-                            // hacky resolution to the issue of persisting world names on the screen
-                            // TODO: Use a non-hacky resolution
-                            *this = main_menu();
-                            return opening_screen();
-                        }
-                    }
-                    print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
                 }
             }
         }
@@ -1010,4 +852,159 @@ bool main_menu::load_character_tab()
         }
     } // end while
     return start;
+}
+
+void main_menu::world_tab()
+{
+    while( sel1 == 3 && ( layer == 2 || layer == 3 ) ) {
+        print_menu( w_open, 3, iMenuOffsetX, iMenuOffsetY, true );
+        if( layer == 2 ) { // World Menu
+            // Show options for Create, Destroy, Reset worlds.
+            // Create world goes directly to Make World screen.
+            // Reset and Destroy ask for world to modify.
+            // Reset empties world of everything but options, then makes new world within it.
+            // Destroy asks for confirmation, then destroys everything in world and then removes world folder.
+
+            // only show reset / destroy world if there is at least one valid world existing!
+
+            if( MAP_SHARING::isSharing() && !MAP_SHARING::isWorldmenu() && !MAP_SHARING::isAdmin() ) {
+                layer = 1;
+                popup( _( "Only the admin can change worlds." ) );
+                continue;
+            }
+
+            int world_subs_to_display = ( !world_generator->all_worldnames.empty() ) ? vWorldSubItems.size() :
+                                        1;
+            std::vector<std::string> world_subs;
+            int xoffset = 25 + iMenuOffsetX + extra_w / 2;
+            int yoffset = iMenuOffsetY - 2;
+            int xlen = 0;
+            for( int i = 0; i < world_subs_to_display; ++i ) {
+                world_subs.push_back( vWorldSubItems[i] );
+                xlen += vWorldSubItems[i].size() + 2; // Open and close brackets added
+            }
+            xlen += world_subs.size() - 1;
+            if( world_subs.size() > 1 ) {
+                xoffset -= 6;
+            }
+            print_menu_items( w_open, world_subs, sel2, yoffset, xoffset - ( xlen / 4 ) );
+            wrefresh( w_open );
+            refresh();
+            std::string action = ctxt.handle_input();
+            std::string sInput = ctxt.get_raw_input().text;
+            for( int i = 0; i < world_subs_to_display; ++i ) {
+                for( auto hotkey : vWorldHotkeys[i] ) {
+                    if( sInput == hotkey ) {
+                        sel2 = i;
+                        action = "CONFIRM";
+                    }
+                }
+            }
+
+            if( action == "LEFT" ) {
+                if( sel2 > 0 ) {
+                    --sel2;
+                } else {
+                    sel2 = world_subs_to_display - 1;
+                }
+                on_move();
+            } else if( action == "RIGHT" ) {
+                if( sel2 < world_subs_to_display - 1 ) {
+                    ++sel2;
+                } else {
+                    sel2 = 0;
+                }
+                on_move();
+            } else if( action == "DOWN" || action == "QUIT" ) {
+                layer = 1;
+            }
+
+            if( action == "UP" || action == "CONFIRM" ) {
+                if( sel2 == 0 ) { // Create world
+                    // Open up world creation screen!
+                    world_generator->make_new_world();
+                } else if( sel2 == 1 || sel2 == 2 ) { // Delete World | Reset World
+                    layer = 3;
+                    sel3 = 0;
+                }
+            }
+        } else if( layer == 3 ) { // Show world names
+            int i = 0;
+            for( std::vector<std::string>::iterator it = world_generator->all_worldnames.begin();
+                 it != world_generator->all_worldnames.end(); ++it ) {
+                int savegames_count = world_generator->all_worlds[*it]->world_saves.size();
+                int line = iMenuOffsetY - 4 - i;
+                nc_color color1, color2;
+                if( *it == "TUTORIAL" || *it == "DEFENSE" ) {
+                    color1 = c_ltcyan;
+                    color2 = h_ltcyan;
+                } else {
+                    color1 = c_white;
+                    color2 = h_white;
+                }
+                mvwprintz( w_open, line, 26 + iMenuOffsetX + extra_w / 2,
+                           ( sel3 == i ? color2 : color1 ), "%s (%d)", ( *it ).c_str(), savegames_count );
+                ++i;
+            }
+            wrefresh( w_open );
+            refresh();
+            std::string action = ctxt.handle_input();
+
+            if( action == "DOWN" ) {
+                if( sel3 > 0 ) {
+                    --sel3;
+                } else {
+                    sel3 = world_generator->all_worldnames.size() - 1;
+                }
+            } else if( action == "UP" ) {
+                if( sel3 < ( int )world_generator->all_worldnames.size() - 1 ) {
+                    ++sel3;
+                } else {
+                    sel3 = 0;
+                }
+            } else if( action == "LEFT" || action == "QUIT" ) {
+                layer = 2;
+
+                print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
+            }
+            if( action == "RIGHT" || action == "CONFIRM" ) {
+                if( sel3 >= 0 && sel3 < ( int )world_generator->all_worldnames.size() ) {
+                    bool query_yes = false;
+                    bool do_delete = false;
+                    if( sel2 == 1 ) { // Delete World
+                        if( query_yn( _( "Delete the world and all saves?" ) ) ) {
+                            query_yes = true;
+                            do_delete = true;
+                        }
+                    } else if( sel2 == 2 ) { // Reset World
+                        if( query_yn( _( "Remove all saves and regenerate world?" ) ) ) {
+                            query_yes = true;
+                            do_delete = false;
+                        }
+                    }
+
+                    layer = 2; // Go to world submenu, not list of worlds
+                    if( query_yes ) {
+                        g->delete_world( world_generator->all_worldnames[sel3], do_delete );
+
+                        savegames.clear();
+                        MAPBUFFER.reset();
+                        overmap_buffer.clear();
+
+                        if( do_delete ) {
+                            // delete world and all contents
+                            world_generator->remove_world( world_generator->all_worldnames[sel3] );
+                        } else {
+                            // clear out everything but worldoptions from this world
+                            world_generator->all_worlds[world_generator->all_worldnames[sel3]]->world_saves.clear();
+                        }
+                        if( world_generator->all_worldnames.empty() ) {
+                            sel2 = 0; // reset to create world selection
+                        }
+                    }
+                }
+                print_menu( w_open, sel1, iMenuOffsetX, iMenuOffsetY );
+            }
+        }
+    } // end while layer == ...
 }

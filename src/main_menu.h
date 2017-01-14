@@ -43,9 +43,11 @@ class main_menu
         // Play a sound whenver the user moves left or right in the main menu or its tabs
         void on_move() const;
 
-        // Tab functions. They return whether a game was started or not.
+        // Tab functions. They return whether a game was started or not. The ones that can never
+        // start a game have a void return type.
         bool new_character_tab();
         bool load_character_tab();
+        void world_tab();
 
         // These variables are shared between @opening_screen and the tab functions.
         // TODO: But this is an ugly short-term solution.
