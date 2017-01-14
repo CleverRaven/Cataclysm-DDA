@@ -228,7 +228,6 @@ const std::string &string_input_popup::query( const bool loop, const bool draw_o
             return _text;
         }
 
-        bool return_key = false;
         const std::string action = ctxt->handle_input();
         const input_event ev = ctxt->get_raw_input();
         ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
@@ -246,7 +245,9 @@ const std::string &string_input_popup::query( const bool loop, const bool draw_o
             _canceled = true;
             return _text;
         } else if( ch == '\n' ) {
-            return_key = true;
+            add_to_history( ret.str() );
+            _text = ret.str();
+            return _text;
         } else if( ch == KEY_UP ) {
             show_history( ret );
             redraw = true;
@@ -295,7 +296,9 @@ const std::string &string_input_popup::query( const bool loop, const bool draw_o
         } else if( ch == ERR ) {
             // Ignore the error
         } else if( ch != 0 && _only_digits && !isdigit( ch ) ) {
-            return_key = true;
+            add_to_history( ret.str() );
+            _text = ret.str();
+            return _text;
         } else if( _max_length > 0 && ( int )ret.length() >= _max_length ) {
             // no further input possible, ignore key
         } else if( !ev.text.empty() ) {
@@ -303,12 +306,6 @@ const std::string &string_input_popup::query( const bool loop, const bool draw_o
             ret.insert( _position, t );
             _position += t.length();
             redraw = true;
-        }
-
-        if( return_key ) { //"/n" return code
-            add_to_history( ret.str() );
-            _text = ret.str();
-            return _text;
         }
     } while( loop == true );
     _text = ret.str();
