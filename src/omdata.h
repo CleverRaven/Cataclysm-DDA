@@ -122,6 +122,9 @@ using oter_str_id = string_id<oter_t>;
 
 struct oter_type_t {
     public:
+        static const oter_type_t null_type;
+
+    public:
         string_id<oter_type_t> id;
         std::string name;               // Localized name
         long sym = '\0';                // This is a long, so we can support curses linedrawing
@@ -159,11 +162,11 @@ struct oter_type_t {
 };
 
 struct oter_t {
-    public:
-        const oter_type_t *type; // @todo Don't reference this. Encapsulate further.
+    private:
+        const oter_type_t *type;
 
+    public:
         oter_str_id id;         // definitive identifier.
-        om_direction::type dir = om_direction::type::none;
 
         oter_t();
         oter_t( const oter_type_t &type );
@@ -187,6 +190,10 @@ struct oter_t {
 
         nc_color get_color() const {
             return type->color;
+        }
+
+        om_direction::type get_dir() const {
+            return dir;
         }
 
         size_t get_line() const {
@@ -219,9 +226,9 @@ struct oter_t {
         }
 
     private:
-        static const oter_type_t null_type;
-        long sym = '\0';    // This is a long, so we can support curses linedrawing.
-        size_t line = 0;    // Index of line. Only valid in case of line drawing.
+        om_direction::type dir = om_direction::type::none;
+        long sym = '\0';         // This is a long, so we can support curses linedrawing.
+        size_t line = 0;         // Index of line. Only valid in case of line drawing.
 };
 
 // @todo: Deprecate these operators

@@ -118,7 +118,7 @@ static const std::map<std::string, overmap_special_location> special_locations =
     { "wilderness", { { "forest" , "field" }, {                  } } }
 };
 
-const oter_type_t oter_t::null_type;
+const oter_type_t oter_type_t::null_type;
 
 namespace om_lines
 {
@@ -532,7 +532,7 @@ oter_id oter_type_t::get_linear( size_t n ) const
     return directional_peers[n];
 }
 
-oter_t::oter_t() : oter_t( null_type ) {}
+oter_t::oter_t() : oter_t( oter_type_t::null_type ) {}
 
 oter_t::oter_t( const oter_type_t &type ) :
     type( &type ),
@@ -1166,7 +1166,7 @@ void overmap_special::finalize()
     for( auto &elem : connections ) {
         const auto &oter = get_terrain_at( elem.p );
         if( !elem.terrain && oter.terrain ) {
-            elem.terrain = oter.terrain->type->id;    // Defaulted.
+            elem.terrain = oter.terrain->get_type_id();    // Defaulted.
         }
     }
 }
@@ -3856,12 +3856,12 @@ oter_id overmap::good_road( const oter_t &oter, const tripoint &p )
     for( auto dir : om_direction::all ) {
         const tripoint np( p + om_direction::displace( dir ) );
         // Always connect to outbound tiles.
-        if( !inbounds( np ) || check_ot_type_road( oter.type->id.str(), np.x, np.y, np.z ) ) {
+        if( !inbounds( np ) || check_ot_type_road( oter.get_type_id().str(), np.x, np.y, np.z ) ) {
             line = om_lines::set_segment( line, dir );
         }
     }
 
-    return oter.type->get_linear( line );
+    return line == oter.get_line() ? oter.id : oter.get_type_id()->get_linear( line );
 }
 
 void overmap::good_river(int x, int y, int z)
