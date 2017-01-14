@@ -9,6 +9,10 @@
 
 #include <cstdlib>
 
+static const nc_color string_color = c_magenta;
+static const nc_color cursor_color = h_ltgray;
+static const nc_color underscore_color = c_ltgray;
+
 string_input_popup::string_input_popup() = default;
 
 string_input_popup::~string_input_popup() = default;
@@ -107,6 +111,54 @@ void string_input_popup::show_history( utf8_wrapper &ret )
     }
 }
 
+void string_input_popup::draw( const utf8_wrapper &ret, const int shift ) const
+{
+    const int scrmax = _endx - _startx;
+    // remove the scrolled out of view part from the input string
+    const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
+    // Clear the line
+    mvwprintw( w, _starty, _startx, std::string( scrmax, ' ' ).c_str() );
+    // Print the whole input string in default color
+    mvwprintz( w, _starty, _startx, string_color, "%s", ds.c_str() );
+    size_t sx = ds.display_width();
+    // Print the cursor in its own color
+    if( _position < ( int )ret.length() ) {
+        utf8_wrapper cursor = ret.substr( _position, 1 );
+        size_t a = _position;
+        while( a > 0 && cursor.display_width() == 0 ) {
+            // A combination code point, move back to the earliest
+            // non-combination code point
+            a--;
+            cursor = ret.substr( a, _position - a + 1 );
+        }
+        size_t left_over = ret.substr( 0, a ).display_width() - shift;
+        mvwprintz( w, _starty, _startx + left_over, cursor_color, "%s", cursor.c_str() );
+    } else if( _position == _max_length && _max_length > 0 ) {
+        mvwprintz( w, _starty, _startx + sx, cursor_color, " " );
+        sx++; // don't override trailing ' '
+    } else {
+        mvwprintz( w, _starty, _startx + sx, cursor_color, "_" );
+        sx++; // don't override trailing '_'
+    }
+    if( ( int )sx < scrmax ) {
+        // could be scrolled out of view when the cursor is at the start of the input
+        size_t l = scrmax - sx;
+        if( _max_length > 0 ) {
+            if( ( int )ret.length() >= _max_length ) {
+                l = 0; // no more input possible!
+            } else if( _position == ( int )ret.length() ) {
+                // one '_' is already printed, formated as cursor
+                l = std::min<size_t>( l, _max_length - ret.length() - 1 );
+            } else {
+                l = std::min<size_t>( l, _max_length - ret.length() );
+            }
+        }
+        if( l > 0 ) {
+            mvwprintz( w, _starty, _startx + sx, underscore_color, std::string( l, '_' ).c_str() );
+        }
+    }
+}
+
 const std::string &string_input_popup::query( const bool loop, const bool draw_only )
 {
     if( !w ) {
@@ -116,13 +168,10 @@ const std::string &string_input_popup::query( const bool loop, const bool draw_o
         create_context();
     }
     utf8_wrapper ret( _text );
-    nc_color string_color = c_magenta;
-    nc_color cursor_color = h_ltgray;
-    nc_color underscore_color = c_ltgray;
     if( _position == -1 ) {
         _position = ret.length();
     }
-    int scrmax = _endx - _startx;
+    const int scrmax = _endx - _startx;
     // in output (console) cells, not characters of the string!
     int shift = 0;
     bool redraw = true;
@@ -159,49 +208,7 @@ const std::string &string_input_popup::query( const bool loop, const bool draw_o
 
         if( redraw ) {
             redraw = false;
-            // remove the scrolled out of view part from the input string
-            const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
-            // Clear the line
-            mvwprintw( w, _starty, _startx, std::string( scrmax, ' ' ).c_str() );
-            // Print the whole input string in default color
-            mvwprintz( w, _starty, _startx, string_color, "%s", ds.c_str() );
-            size_t sx = ds.display_width();
-            // Print the cursor in its own color
-            if( _position < ( int )ret.length() ) {
-                utf8_wrapper cursor = ret.substr( _position, 1 );
-                size_t a = _position;
-                while( a > 0 && cursor.display_width() == 0 ) {
-                    // A combination code point, move back to the earliest
-                    // non-combination code point
-                    a--;
-                    cursor = ret.substr( a, _position - a + 1 );
-                }
-                size_t left_over = ret.substr( 0, a ).display_width() - shift;
-                mvwprintz( w, _starty, _startx + left_over, cursor_color, "%s", cursor.c_str() );
-            } else if( _position == _max_length && _max_length > 0 ) {
-                mvwprintz( w, _starty, _startx + sx, cursor_color, " " );
-                sx++; // don't override trailing ' '
-            } else {
-                mvwprintz( w, _starty, _startx + sx, cursor_color, "_" );
-                sx++; // don't override trailing '_'
-            }
-            if( ( int )sx < scrmax ) {
-                // could be scrolled out of view when the cursor is at the start of the input
-                size_t l = scrmax - sx;
-                if( _max_length > 0 ) {
-                    if( ( int )ret.length() >= _max_length ) {
-                        l = 0; // no more input possible!
-                    } else if( _position == ( int )ret.length() ) {
-                        // one '_' is already printed, formated as cursor
-                        l = std::min<size_t>( l, _max_length - ret.length() - 1 );
-                    } else {
-                        l = std::min<size_t>( l, _max_length - ret.length() );
-                    }
-                }
-                if( l > 0 ) {
-                    mvwprintz( w, _starty, _startx + sx, underscore_color, std::string( l, '_' ).c_str() );
-                }
-            }
+            draw( ret, shift );
             wrefresh( w );
         }
 
