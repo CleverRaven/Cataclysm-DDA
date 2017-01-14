@@ -10827,21 +10827,22 @@ void player::use(int inventory_position)
         if( install_bionics( *used->type ) ) {
             i_rem(inventory_position);
         }
-        return;
-    } else if (used->is_food() || used->is_food_container()) {
+
+    } else if( used->is_food() ||
+               used->is_medication() ||
+               used->get_contained().is_food() ||
+               used->get_contained().is_medication() ) {
         consume(inventory_position);
-        return;
+
     } else if (used->is_book()) {
         read(inventory_position);
-        return;
 
     } else if ( used->type->has_use() ) {
         invoke_item( used );
-        return;
+
     } else {
         add_msg(m_info, _("You can't do anything interesting with your %s."),
                 used->tname().c_str());
-        return;
     }
 }
 
