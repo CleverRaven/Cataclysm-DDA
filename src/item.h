@@ -880,6 +880,10 @@ public:
  std::list<item> contents;
 
         /**
+         * Return a contained item (if any and only one).
+         */
+        const item &get_contained() const;
+        /**
          * Unloads the item's contents.
          * @param c Character who receives the contents.
          *          If c is the player, liquids will be handled, otherwise they will be spilled.

@@ -3756,6 +3756,15 @@ bool item::can_contain( const itype &tp ) const
     return true;
 }
 
+const item &item::get_contained() const
+{
+    if( contents.size() != 1 ) {
+        static const item null_item;
+        return null_item;
+    }
+    return contents.front();
+}
+
 bool item::spill_contents( Character &c )
 {
     if( !is_container() || is_container_empty() ) {
