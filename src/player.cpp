@@ -10711,16 +10711,14 @@ hint_rating player::rate_action_use( const item &it ) const
         }
     } else if (it.is_bionic()) {
         return HINT_GOOD;
-    } else if (it.is_food() || it.is_food_container() || it.is_book() || it.is_armor()) {
+    } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
         return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
     } else if (it.is_gun()) {
-        if (!it.contents.empty()) {
-            return HINT_GOOD;
-        } else {
-            return HINT_IFFY;
-        }
+        return it.is_container_empty() ? HINT_IFFY : HINT_GOOD;
     } else if( it.type->has_use() ) {
         return HINT_GOOD;
+    } else if( !it.is_container_empty() ) {
+        return rate_action_use( it.get_contained() );
     }
 
     return HINT_CANT;

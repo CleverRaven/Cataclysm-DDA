@@ -184,13 +184,13 @@ class activatable_inventory_preset : public pickup_inventory_preset
         activatable_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
             if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
                 append_cell( [ this ]( const item_location & loc ) {
-                    return string_format( "<color_ltgreen>%s</color>", get_action_name( loc ).c_str() );
+                    return string_format( "<color_ltgreen>%s</color>", get_action_name( *loc ).c_str() );
                 }, _( "ACTION" ) );
             }
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return p.rate_action_use( *loc ) != HINT_CANT && !get_action_name( loc ).empty();
+            return p.rate_action_use( *loc ) != HINT_CANT && !get_action_name( *loc ).empty();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -205,21 +205,25 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
     protected:
-        std::string get_action_name( const item_location &loc ) const {
-            const auto &uses = loc->type->use_methods;
+        std::string get_action_name( const item &it ) const {
+            const auto &uses = it.type->use_methods;
 
             if( uses.empty() ) {
-                if( loc->is_food() || loc->is_food_container() ) {
+                if( it.is_food() || it.is_medication() ) {
                     return _( "Consume" );
-                } else if( loc->is_book() ) {
+                } else if( it.is_book() ) {
                     return _( "Read" );
-                } else if( loc->is_bionic() ) {
+                } else if( it.is_bionic() ) {
                     return _( "Install bionic" );
                 }
             } else if( uses.size() == 1 ) {
                 return uses.begin()->second.get_name();
             } else {
                 return _( "..." );
+            }
+
+            if( !it.is_container_empty() ) {
+                return get_action_name( it.get_contained() );
             }
 
             return std::string();
