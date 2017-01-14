@@ -68,6 +68,7 @@ class string_input_popup
         void create_context();
 
         void show_history( utf8_wrapper &ret );
+        void add_to_history( const std::string &value ) const;
         void draw( const utf8_wrapper &ret, int shift ) const;
 
     public:

@@ -111,6 +111,16 @@ void string_input_popup::show_history( utf8_wrapper &ret )
     }
 }
 
+void string_input_popup::add_to_history( const std::string &value ) const
+{
+    if( !_identifier.empty() && !value.empty() ) {
+        std::vector<std::string> &hist = uistate.gethistory( _identifier );
+        if( hist.size() == 0 || hist[hist.size() - 1] != value ) {
+            hist.push_back( value );
+        }
+    }
+}
+
 void string_input_popup::draw( const utf8_wrapper &ret, const int shift ) const
 {
     const int scrmax = _endx - _startx;
@@ -296,16 +306,9 @@ const std::string &string_input_popup::query( const bool loop, const bool draw_o
         }
 
         if( return_key ) { //"/n" return code
-            {
-                if( !_identifier.empty() && !ret.empty() ) {
-                    std::vector<std::string> &hist = uistate.gethistory( _identifier );
-                    if( hist.size() == 0 || hist[hist.size() - 1] != ret.str() ) {
-                        hist.push_back( ret.str() );
-                    }
-                }
-                _text = ret.str();
-                return _text;
-            }
+            add_to_history( ret.str() );
+            _text = ret.str();
+            return _text;
         }
     } while( loop == true );
     _text = ret.str();
