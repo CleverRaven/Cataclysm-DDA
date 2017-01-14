@@ -758,13 +758,12 @@ bool veh_interact::do_install( std::string &msg )
 
         const std::string action = main_context.handle_input();
         if ( action == "FILTER" ){
-            filter = string_input_popup()
-                    .title( _( "Search for part" ) )
-                    .width( 50 )
-                    .text( filter )
-                    .description( _( "Filter" ) )
-                    .max_length( 100 )
-                    .query();
+            string_input_popup()
+            .title( _( "Search for part" ) )
+            .width( 50 )
+            .description( _( "Filter" ) )
+            .max_length( 100 )
+            .edit( filter );
             tab = 7; // Move to the user filter tab.
             display_grid();
             display_stats();

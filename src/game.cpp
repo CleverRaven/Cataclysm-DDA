@@ -9168,14 +9168,13 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             refresh_all();
         } else if( action == "FILTER" ) {
             draw_item_filter_rules( w_item_info, iInfoHeight );
-            sFilter = string_input_popup()
-                      .title( _( "Filter:" ) )
-                      .width( 55 )
-                      .text( sFilter )
-                      .description( _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ) )
-                      .identifier( "item_filter" )
-                      .max_length( 256 )
-                      .query();
+            string_input_popup()
+            .title( _( "Filter:" ) )
+            .width( 55 )
+            .description( _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ) )
+            .identifier( "item_filter" )
+            .max_length( 256 )
+            .edit( sFilter );
             reset = true;
             refilter = true;
             addcategory = !sort_radius;

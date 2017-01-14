@@ -45,13 +45,11 @@ void minesweeper_game::new_level(WINDOW *w_minesweeper)
                 iVal = iMin;
             }
 
-            iVal = std::atoi( string_input_popup()
-                              .title( sType )
-                              .width( 5 )
-                              .text( to_string( iVal ) )
-                              .description( ssTemp.str() )
-                              .only_digits( true )
-                              .query().c_str() );
+            string_input_popup()
+            .title( sType )
+            .width( 5 )
+            .description( ssTemp.str() )
+            .edit( iVal );
         } while( iVal < iMin || iVal > iMax);
     };
 

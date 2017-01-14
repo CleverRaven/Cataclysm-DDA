@@ -510,13 +510,12 @@ void construction_menu()
 
         const std::string action = ctxt.handle_input();
         if( action == "FILTER" ){
-            filter = string_input_popup()
-                     .title( _( "Search" ) )
-                     .width( 50 )
-                     .text( filter )
-                     .description( _( "Filter" ) )
-                     .max_length( 100 )
-                     .query();
+            string_input_popup()
+            .title( _( "Search" ) )
+            .width( 50 )
+            .description( _( "Filter" ) )
+            .max_length( 100 )
+            .edit( filter );
             if( !filter.empty() ){
                 update_info = true;
                 update_cat = true;

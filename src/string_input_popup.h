@@ -164,6 +164,17 @@ class string_input_popup
         bool canceled() const {
             return _canceled;
         }
+        /**
+         * Edit values in place. This combines: calls to @ref text to set the
+         * current value, @ref query to get user input and setting the
+         * value back into the parameter object (when the popup was not
+         * canceled). Cancelling the popup keeps the value unmodified.
+         */
+        /**@{*/
+        void edit( std::string &text );
+        void edit( long &value );
+        void edit( int &value );
+        /**@}*/
 
         std::map<long, std::function<void()>> callbacks;
         std::set<long> ch_code_blacklist;

@@ -478,12 +478,11 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
             item granted( opts[wmenu.ret] );
             prev_amount = amount;
             if( p != NULL ) {
-                amount = std::atoi( string_input_popup()
-                                    .title( _( "How many?" ) )
-                                    .text( to_string( amount ) )
-                                    .width( 20 )
-                                    .description( granted.tname() )
-                                    .query().c_str() );
+                string_input_popup()
+                .title( _( "How many?" ) )
+                .width( 20 )
+                .description( granted.tname() )
+                .edit( amount );
             }
             if( dynamic_cast<wish_item_callback *>( wmenu.callback )->incontainer ) {
                 granted = granted.in_its_container();

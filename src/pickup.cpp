@@ -804,11 +804,10 @@ void Pickup::pick_up( const tripoint &pos, int min )
                        ) ) {
                 idx = selected;
             } else if( action == "FILTER" ) {
-                filter = string_input_popup()
-                         .title( _( "Set filter" ) )
-                         .width( 30 )
-                         .text( filter )
-                         .query();
+                string_input_popup()
+                .title( _( "Set filter" ) )
+                .width( 30 )
+                .edit( filter );
                 filter_changed = true;
             } else if( action == "ANY_INPUT" && raw_input_char == '`' ) {
                 std::string ext = string_input_popup()
@@ -868,11 +867,10 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         // The filter must have results, or simply be emptied,
                         // as this screen can't be reached without there being
                         // items available
-                        filter = string_input_popup()
-                                 .title( _( "Set filter" ) )
-                                 .width( 30 )
-                                 .text( filter )
-                                 .query();
+                        string_input_popup()
+                        .title( _( "Set filter" ) )
+                        .width( 30 )
+                        .edit( filter );
                     }
                 }
                 filter_changed = false;

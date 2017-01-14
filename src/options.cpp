@@ -539,12 +539,11 @@ void options_manager::cOpt::setNext()
 
     } else if (sType == "string_input") {
         int iMenuTextLength = sMenuText.length();
-        sSet = string_input_popup()
-               .width( ( iMaxLength > 80 ) ? 80 : ( ( iMaxLength < iMenuTextLength ) ? iMenuTextLength : iMaxLength + 1) )
-               .text( sSet )
-               .description( sMenuText )
-               .max_length( iMaxLength )
-               .query();
+        string_input_popup()
+        .width( ( iMaxLength > 80 ) ? 80 : ( ( iMaxLength < iMenuTextLength ) ? iMenuTextLength : iMaxLength + 1) )
+        .description( sMenuText )
+        .max_length( iMaxLength )
+        .edit( sSet );
 
     } else if (sType == "bool") {
         bSet = !bSet;

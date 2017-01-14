@@ -5,6 +5,9 @@
 #include "catacharset.h"
 #include "output.h"
 #include "ui.h"
+#include "compatibility.h"
+
+#include <cstdlib>
 
 string_input_popup::string_input_popup() = default;
 
@@ -314,4 +317,34 @@ string_input_popup &string_input_popup::context( input_context &ctxt )
     ctxt_ptr.reset();
     this->ctxt = &ctxt;
     return *this;
+}
+
+void string_input_popup::edit( std::string &value )
+{
+    only_digits( true );
+    text( value );
+    query();
+    if( !canceled() ) {
+        value = text();
+    }
+}
+
+void string_input_popup::edit( long &value )
+{
+    only_digits( true );
+    text( to_string( value ) );
+    query();
+    if( !canceled() ) {
+        value = std::atol( text().c_str() );
+    }
+}
+
+void string_input_popup::edit( int &value )
+{
+    only_digits( true );
+    text( to_string( value ) );
+    query();
+    if( !canceled() ) {
+        value = std::atoi( text().c_str() );
+    }
 }
