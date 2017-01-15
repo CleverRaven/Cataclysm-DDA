@@ -69,3 +69,13 @@ std::list<item_reference> active_item_cache::get()
     }
     return items_to_process;
 }
+
+void active_item_cache::subtract_locations( const point &delta )
+{
+    for( auto &pair : active_items ) {
+        for( item_reference &ir : pair.second ) {
+            ir.location -= delta;
+        }
+    }
+}
+

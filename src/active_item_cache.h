@@ -30,6 +30,9 @@ class active_item_cache
         bool has( item_reference const &itm ) const;
         bool empty() const;
         std::list<item_reference> get();
+
+        /** Subtract delta from every item_reference's location */
+        void subtract_locations( const point &delta );
 };
 
 #endif

@@ -5374,6 +5374,8 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &imp
  */
 void vehicle::shift_parts( const point delta )
 {
+    // Don't invalidate the active item cache's location!
+    active_items.subtract_locations( delta );
     for( auto &elem : parts ) {
         elem.mount -= delta;
     }
