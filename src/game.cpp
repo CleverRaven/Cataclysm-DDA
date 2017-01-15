@@ -10260,8 +10260,8 @@ bool game::plfire( item *weapon, int bp_cost, bool held )
     std::vector<tripoint> trajectory = pl_target_ui( tmode, cached_weapon, range );
 
     if( trajectory.empty() ) {
-        bool is_aiming = u.activity.id() != activity_id( "ACT_AIM" );
-        if( is_aiming && gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
+        bool not_aiming = u.activity.id() != activity_id( "ACT_AIM" );
+        if( not_aiming && gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
             const auto previous_moves = u.moves;
             unload( *gun );
             // Give back time for unloading as essentially nothing has been done.
