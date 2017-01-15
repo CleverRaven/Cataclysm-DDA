@@ -582,11 +582,11 @@ struct handler<std::bitset<N>> {
     }
     template<typename T>
     void insert( std::bitset<N> &container, const T &data ) const {
-        container.insert( data );
+        container.set( data );
     }
     template<typename T>
     void erase( std::bitset<N> &container, const T &data ) const {
-        container.erase( data );
+        container.reset( data );
     }
     static constexpr bool is_container = true;
 };
