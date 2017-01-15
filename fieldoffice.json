@@ -100,7 +100,6 @@
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true,
         "mapgen": [
             {
             "method": "json",
@@ -195,7 +194,8 @@
                 ],
             "comment": "end of mapgen json definition ---v"
         },
-        "comment": "end of mapgen entry ---v"
+        "comment": "end of mapgen entry ---v",
+        "flags" : [ "SIDEWALK" ]
     }
     ]
     }
