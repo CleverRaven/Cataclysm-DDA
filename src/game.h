@@ -348,6 +348,7 @@ class game
          * Otherwise, it tries using the stored parameters (player's weapon by default).
          * @param weapon Pointer to the weapon we began aiming with.
          * @param bp_cost The amount by which the player's power reserve is decreased after firing.
+         * @param held Whether the weapon to be fired requires the player to wield it.
          * @return Whether an attack was actually performed.
          */
         bool plfire( item *weapon = nullptr, int bp_cost = 0, bool held = true );
