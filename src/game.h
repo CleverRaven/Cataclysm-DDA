@@ -337,7 +337,7 @@ class game
          * Returns true if the player is allowed to fire a given item, or false if otherwise.
          * reload_time is stored as a side effect of condition testing.
          * @param weapon The item that needs to be checked, which we are trying to fire.
-         * @param reload_time Modifies the time spent gy certain guns reloading to fire.
+         * @param reload_time Modifies the time spent by certain guns reloading to fire.
          * @return True if all conditions are true, otherwise false.
          */
         bool plfire_check( item &weapon, int &reload_time );
