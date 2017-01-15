@@ -345,7 +345,7 @@ class game
          *  If weapon != nullptr, parameters are used and stored for future reference. 
          *  Otherwise, it tries using the stored parameters (player's weapon by default).
          */
-        bool plfire( item *weapon = nullptr, int bp_cost = 0 );
+        bool plfire( item *weapon = nullptr, int bp_cost = 0, bool held = true );
 
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also

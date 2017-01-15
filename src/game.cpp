@@ -10224,22 +10224,28 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
     return okay;
 }
 
-bool game::plfire( item *weapon, int bp_cost )
+bool game::plfire( item *weapon, int bp_cost, bool held )
 {
     static int bio_power_cost = 0;
     static item *cached_weapon = nullptr;
+    static bool held_weapon = true;
     
     if( weapon != nullptr ) {
         // valid weapon, set the cached weapon and bp_cost to the current values.
         cached_weapon = weapon;
         bio_power_cost = bp_cost;
+        held_weapon = held;
     } else if( !cached_weapon ) {
         // if no weapon is cached, default to the player's weapon.
         cached_weapon = &u.weapon;
+        held_weapon = true;
     }
-        
+
     int reload_time = 0;
-    if( !plfire_check( *cached_weapon, reload_time ) ) {
+    
+    // If we were wielding this weapon when we started aiming, make sure we still are.
+    bool lost_gun = ( held_weapon && &u.weapon != cached_weapon );
+    if( lost_gun || !plfire_check( *cached_weapon, reload_time ) ) {
         bio_power_cost = 0;
         return false;
     }
