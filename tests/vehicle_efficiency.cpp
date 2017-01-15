@@ -9,6 +9,7 @@
 #include "player.h"
 #include "cata_utility.h"
 #include "options.h"
+#include "test_statistics.h"
 
 void clear_game( const ter_id &terrain )
 {
@@ -36,7 +37,7 @@ void clear_game( const ter_id &terrain )
     g->m.build_map_cache( 0, true );
 }
 
-void test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_velocity_turn, long min_dist, long max_dist )
+long test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_velocity_turn, long min_dist, long max_dist )
 {
     clear_game( terrain );
 
@@ -44,7 +45,7 @@ void test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_
     vehicle *veh_ptr = g->m.add_vehicle( veh_id, starting_point, -90, 5, 0 );
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
-        return;
+        return 0;
     }
 
     vehicle &veh = *veh_ptr;
@@ -79,6 +80,26 @@ void test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_
 
     CHECK( tiles_travelled >= min_dist );
     CHECK( tiles_travelled <= max_dist );
+    return tiles_travelled;
+}
+
+void find_inner( std::string type, std::string terrain, int delay ) {
+    statistics efficiency;
+    for( int i = 0; i < 10; i++) {
+        efficiency.add( test_efficiency( vproto_id( type ), ter_id( terrain ), delay, 0, 0 ) );
+    }
+    printf( "Testing %s on %s with %s: Min %d, Max %d, Midpoint %f.\n",
+	    type.c_str(), terrain.c_str(), (delay < 0) ? "no resets" : "resets every 5 turns",
+	    efficiency.min(), efficiency.max(), ( efficiency.min() + efficiency.max() ) / 2.0 );
+}
+
+void find_efficiency( std::string type ) {
+    SECTION( "finding efficiency of " + type ) {
+        find_inner( type, "t_pavement", -1 );
+        find_inner( type, "t_dirt", -1 );
+        find_inner( type, "t_pavement", 5 );
+        find_inner( type, "t_dirt", 5 );
+    }
 }
 
 void test_vehicle( std::string type, long pavement_target, long dirt_target, long pavement_target_w_stops, long dirt_target_w_stops ) {
@@ -107,4 +128,6 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" ) {
     test_vehicle( "quad_bike", 6600, 4500, 500, 330 );
     test_vehicle( "scooter", 6550, 6900, 550, 550 );
     test_vehicle( "superbike", 8200, 4167, 600, 300 );
+    find_efficiency( "apc" );
+    find_efficiency( "humvee" );
 }
