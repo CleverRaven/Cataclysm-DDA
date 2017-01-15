@@ -331,7 +331,7 @@ string_input_popup &string_input_popup::context( input_context &ctxt )
 
 void string_input_popup::edit( std::string &value )
 {
-    only_digits( true );
+    only_digits( false );
     text( value );
     query();
     if( !canceled() ) {
