@@ -117,6 +117,7 @@ void force_comedown( effect &eff )
 bool player::activate_bionic( int b, bool eff_only )
 {
     bionic &bio = my_bionics[b];
+    static item bio_gun( weapon );
 
     // Special compatibility code for people who updated saves with their claws out
     if( ( weapon.typeId() == "bio_claws_weapon" && bio.id == "bio_claws_weapon" ) ||
@@ -152,13 +153,10 @@ bool player::activate_bionic( int b, bool eff_only )
 
     // On activation effects go here
     if( bionics[bio.id].gun_bionic ) {
-        item old_weapon = weapon;
-        weapon = item( bionics[bio.id].fake_item );
+        charge_power( bionics[bio.id].power_activate );
+        bio_gun = item( bionics[bio.id].fake_item );
         g->refresh_all();
-        if( !g->plfire() ) {
-            charge_power( bionics[bio.id].power_activate );
-        }
-        weapon = old_weapon;
+        g->plfire( &bio_gun, bionics[bio.id].power_activate );
     } else if( bionics[ bio.id ].weapon_bionic ) {
         if( weapon.has_flag( "NO_UNWIELD" ) ) {
             add_msg( m_info, _( "Deactivate your %s first!" ), weapon.tname().c_str() );

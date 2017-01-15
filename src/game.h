@@ -334,10 +334,17 @@ class game
         bool revive_corpse( const tripoint &location, item &corpse );
 
         /**
-         *  Handles interactive parts of gun firing (target selection, etc.).
-         *  @return whether an attack was actually performed
+         *  Returns true if the player is allowed to fire a given item, or false if otherwise.
+         *  reload_time is currently stored as a side effect of condition testing.
          */
-        bool plfire();
+        bool plfire_check( item &weapon, int &reload_time );
+
+        /**
+         *  Handles interactive parts of gun firing (target selection, etc.).
+         *  @return whether an attack was actually performed.
+         *  If no valid weapon parameter is passed, try to use the last one provided.
+         */
+        bool plfire( item *weapon = nullptr, int bp_cost = 0 );
 
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also

@@ -3012,7 +3012,7 @@ bool game::handle_action()
             }
 
             if( u.weapon.is_gun() ) {
-                plfire();
+                plfire(&u.weapon);
 
             } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
                 int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
@@ -3030,7 +3030,7 @@ bool game::handle_action()
         case ACTION_FIRE_BURST: {
             auto mode = u.weapon.gun_get_mode_id();
             if( u.weapon.gun_set_mode( "AUTO" ) ) {
-                plfire();
+                plfire(&u.weapon);
                 u.weapon.gun_set_mode( mode );
             }
             break;
@@ -10115,37 +10115,46 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
-bool game::plfire()
-{
-    if( u.has_effect( effect_relax_gas) ) {
+bool game::plfire_check(item &weapon, int &reload_time) {
+    bool okay = true;
+    vehicle *veh = nullptr;
+    
+    if( u.has_effect( effect_relax_gas ) ) {
         if( one_in(5) ) {
-            add_msg(m_good, _("Your eyes steel, and you raise your weapon!"));
+            add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
         } else {
             u.moves -= rng(2, 5) * 10;
-            add_msg(m_bad, _("You can't fire your weapon, it's too heavy..."));
+            add_msg( m_bad, _( "You can't fire your weapon, it's too heavy..." ) );
             return false;
         }
     }
-
-    if( u.weapon.is_gunmod() ) {
-        add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), u.weapon.tname().c_str() );
+    
+    if( weapon.is_gunmod() ) {
+        add_msg( m_info, 
+            _( "The %s must be attached to a gun, it can not be fired separately." ), 
+            weapon.tname().c_str() );
         return false;
     }
 
-    auto gun = u.weapon.gun_current_mode();
+    auto gun = weapon.gun_current_mode();
 
-    if( !( gun && u.can_use( *gun ) ) ) {
-        return false; // check a valid mode was returned and we are able to use it
+    // check that a valid mode was returned and we are able to use it
+    if ( !( gun && u.can_use( *gun ) ) ) {
+        return false;
     }
-
-    vehicle *veh = m.veh_at(u.pos());
+    
+    veh = m.veh_at( u.pos() );
     if( veh != nullptr && veh->player_in_control( u ) && gun->is_two_handed( u ) ) {
-        add_msg(m_info, _("You need a free arm to drive!"));
+        add_msg( m_info, _( "You need a free arm to drive!" ) );
         return false;
     }
-
-    int reload_time = 0;
+    
     if( !gun.melee() ) {
+        
+        if( !weapon.is_gun() ) {
+            return false;
+        }
+        
         if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() || u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
             add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname().c_str() );
             return false;
@@ -10154,19 +10163,22 @@ bool game::plfire()
         if( gun->has_flag( "RELOAD_AND_SHOOT" ) && !gun->ammo_remaining() ) {
             item::reload_option opt = u.select_ammo( *gun );
             if( !opt ) {
-                return false; // menu cancelled
+                // Menu cancelled
+                return false;
             }
 
             reload_time += opt.moves();
+            
             if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
-                return false; // unable to reload
+                // Reload not allowed
+                return false;
             }
 
             // Burn 2x the strength required to fire in stamina.
             u.mod_stat( "stamina", gun->type->min_str * -2 );
 
             // At low stamina levels, firing starts getting slow.
-            int sta_percent = (100 * u.stamina) / u.get_stamina_max();
+            int sta_percent = ( 100 * u.stamina ) / u.get_stamina_max();
             reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
             refresh_all();
@@ -10197,23 +10209,47 @@ bool game::plfire()
 
         if( gun->has_flag( "MOUNTED_GUN" ) ) {
             int vpart = -1;
-            vehicle *veh = m.veh_at( u.pos(), vpart );
+            veh = m.veh_at( u.pos(), vpart );
             if( !m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() ) &&
-                (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
+                (!veh || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
                 add_msg(m_info,
                         _("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
                 return false;
             }
         }
     }
+    
+    return okay;
+}
 
+bool game::plfire(item *weapon, int bp_cost)
+{
+    static int bio_power_cost = 0;
+    static item *cached_weapon = nullptr;
+    
+    if ( weapon ) {
+        // If valid weapon parameter passed, set the stored bp_cost to current value.
+        cached_weapon = weapon;
+        bio_power_cost = bp_cost;
+    } else if ( !cached_weapon ) {
+        // default to the player's weapon
+        cached_weapon = &u.weapon;
+    }
+        
+    int reload_time = 0;
+    if ( !plfire_check( *cached_weapon, reload_time ) ) {
+        bio_power_cost = 0;
+        return false;
+    }
+
+    auto gun = cached_weapon->gun_current_mode();
     int range = gun.melee() ? gun.qty : u.gun_engagement_range( *gun, player::engagement::maximum );
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
     target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-    std::vector<tripoint> trajectory = pl_target_ui( tmode, &u.weapon, range );
+    std::vector<tripoint> trajectory = pl_target_ui( tmode, cached_weapon, range );
 
     if (trajectory.empty()) {
         if( gun->has_flag( "RELOAD_AND_SHOOT" ) && u.activity.id() != activity_id( "ACT_AIM" ) ) {
@@ -10239,8 +10275,14 @@ bool game::plfire()
         // @todo add check for TRIGGERHAPPY
         res = u.fire_gun( trajectory.back(), gun.qty, *gun );
     }
+    
+    if ( res && bio_power_cost ) {
+        u.charge_power( -bio_power_cost );
+        bio_power_cost = 0;
+    }
 
     reenter_fullscreen();
+    
     return res;
 }
 
