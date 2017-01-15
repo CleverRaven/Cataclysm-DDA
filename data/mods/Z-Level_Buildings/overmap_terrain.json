@@ -9,7 +9,7 @@
         "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2fmotel_1",
@@ -20,7 +20,7 @@
         "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2fmotel_2",
@@ -31,7 +31,7 @@
         "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2fmotel_3",
@@ -42,7 +42,7 @@
         "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2fmotel_entrance_f2",
@@ -53,7 +53,7 @@
         "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2fmotel_1_f2",
@@ -64,7 +64,7 @@
         "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2fmotel_2_f2",
@@ -75,7 +75,7 @@
         "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2fmotel_3_f2",
@@ -86,7 +86,7 @@
         "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2fmotel_1_r",
@@ -97,7 +97,7 @@
         "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2fmotel_2_r",
@@ -108,7 +108,7 @@
         "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2fmotel_3_r",
@@ -119,7 +119,7 @@
         "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_1",
@@ -128,7 +128,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_2",
@@ -137,7 +137,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_3",
@@ -146,7 +146,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_4",
@@ -155,7 +155,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_5",
@@ -164,7 +164,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_6",
@@ -173,7 +173,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_7",
@@ -182,7 +182,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_8",
@@ -191,7 +191,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_9",
@@ -200,7 +200,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_10",
@@ -209,7 +209,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_11",
@@ -218,7 +218,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_12",
@@ -227,7 +227,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_13",
@@ -236,7 +236,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_14",
@@ -245,7 +245,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_15",
@@ -254,7 +254,7 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "loffice_tower_16",
@@ -263,6 +263,6 @@
         "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     }
 ]

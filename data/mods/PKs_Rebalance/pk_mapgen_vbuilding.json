@@ -465,7 +465,6 @@
     "see_cost" : 5,
     "extras" : "build",
     "mondensity" : 2,
-    "sidewalk" : true,
     "mapgen": [ {
             "method": "json",
             "comment": "stone wall varient",
@@ -558,7 +557,8 @@
                 ]
             }
         }
-    ]
+    ],
+    "flags" : [ "SIDEWALK" ]
     },
     {
         "type" : "mapgen",
@@ -759,7 +759,6 @@
         "see_cost"   : 5,
         "extras"     : "build",
         "mondensity" : 2,
-        "sidewalk"   : true,
         "mapgen":
         [
             {
@@ -861,6 +860,7 @@
                     }
                 }
             }
-        ]
+        ],
+        "flags" : [ "SIDEWALK" ]
     }
 ]

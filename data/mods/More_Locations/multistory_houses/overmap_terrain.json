@@ -9,7 +9,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "3storyA_second",
@@ -60,7 +60,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "3storyB_second",
@@ -111,7 +111,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "3storyC_second",
@@ -162,7 +162,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "3storyD_second",
@@ -213,7 +213,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "3storyE_second",
@@ -264,7 +264,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "3storyF_second",
@@ -315,7 +315,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2storyA_second",
@@ -356,7 +356,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2storyB_second",
@@ -397,7 +397,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2storyC_second",
@@ -438,7 +438,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2storyD_second",
@@ -479,7 +479,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2storyE_second",
@@ -520,7 +520,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "2storyF_second",
@@ -561,7 +561,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "combohouseA_second",
@@ -602,7 +602,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "combogarageA_second",
@@ -613,7 +613,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "combogarageA_roof",
@@ -634,7 +634,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "combohouseB_second",
@@ -675,7 +675,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "combogarageB_second",
@@ -686,7 +686,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "combogarageB_roof",
@@ -707,7 +707,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "combohouseC_second",
@@ -748,7 +748,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "combogarageC_second",
@@ -759,7 +759,7 @@
         "extras" : "build",
         "see_cost" : 2,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "combogarageC_roof",

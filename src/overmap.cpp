@@ -189,6 +189,16 @@ generic_factory<overmap_special> specials( "overmap special" );
 
 }
 
+static const std::map<std::string, oter_flags> oter_flags_map = {
+    { "KNOWN_DOWN", known_down   },
+    { "KNOWN_UP",   known_up     },
+    { "RIVER",      river_tile   },
+    { "SIDEWALK",   has_sidewalk },
+    { "ALLOW_ROAD", allow_road   },
+    { "ROTATES",    rotates      },
+    { "LINEAR",     line_drawing }
+};
+
 /*
  * Temporary container id_or_id. Stores str for delayed lookup and conversion.
  */
@@ -435,17 +445,13 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "color", color, color_reader{} );
 
+    const typed_flag_reader<decltype( oter_flags_map )> flag_reader{ oter_flags_map, "invalid overmap terrain flag" };
+    optional( jo, was_loaded, "flags", flags, flag_reader );
+
     set_flag( rotates, jo.get_bool( "rotate", false ) );
-    set_flag( line_drawing, jo.get_bool( "line_drawing", false ) );
-    set_flag( known_down, jo.get_bool( "known_down", false ) );
-    set_flag( known_up, jo.get_bool( "known_up", false ) );
-    set_flag( has_sidewalk, jo.get_bool( "sidewalk", false ) );
-    set_flag( allow_road, jo.get_bool( "allow_road", false ) );
-    set_flag( river_tile, id.str().compare( 0, 5, "river", 5 ) == 0 ||
-                          id.str().compare( 0, 6, "bridge", 6 ) == 0 );
 
     if( has_flag( rotates ) && has_flag( line_drawing ) ) {
-        jo.throw_error( "Can't have \"rotate\" and \"line_drawing\" at the same time." );
+        jo.throw_error( "Can't have \"rotate\" and \"LINEAR\" at the same time." );
     }
 
     if( has_flag( line_drawing ) ) {

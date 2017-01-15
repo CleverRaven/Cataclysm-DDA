@@ -14,7 +14,6 @@
     "rotate": true,
     "see_cost": 5,
     "mondensity": 2,
-    "sidewalk": true,
     "mapgen": [
       {
         "method": "json",
@@ -89,6 +88,7 @@
           ]
         }
       }
-    ]
+    ],
+    "flags" : [ "SIDEWALK" ]
   }
 ]

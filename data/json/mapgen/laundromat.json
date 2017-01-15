@@ -146,7 +146,6 @@
     "rotate": true,
     "see_cost": 5,
     "mondensity": 2,
-    "sidewalk": true,
     "extras": "build",
     "mapgen": [
       {
@@ -251,6 +250,7 @@
           ]
         }
       }
-    ]
+    ],
+    "flags" : [ "SIDEWALK" ]
   }
 ]

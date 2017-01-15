@@ -70,7 +70,6 @@
       "see_cost" : 5,
       "extras" : "build",
       "mondensity" : 2,
-      "sidewalk" : true,
       "mapgen": [
           { "weight": 1000,
               "method": "json", "object": {
@@ -148,7 +147,8 @@
                   ]
               }
           }
-      ]
+      ],
+      "flags" : [ "SIDEWALK" ]
    },
    {
       "type" : "terrain",
