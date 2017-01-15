@@ -4446,9 +4446,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             // Deformation energy is signed
             // If it's negative, it means something went wrong
             // But it still does happen sometimes...
+            // @todo: debugmsg?..
             if( fabs(vel1_a) < fabs(vel1) ) {
                 // Lower vehicle's speed to prevent infinite loops
-                coll_velocity = vel1_a * 99;
+                coll_velocity = vel1_a * 80;
             }
             if( fabs(vel2_a) > fabs(vel2) ) {
                 vel2 = vel2_a;
@@ -4552,7 +4553,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
         }
 
-        coll_velocity = vel1_a * ( smashed ? 100 : 99 );
+        coll_velocity = vel1_a * ( smashed ? 100 : 97 );
         // Stop processing when sign inverts, not when we reach 0
     } while( !smashed && sgn( coll_velocity ) == vel_sign );
 
