@@ -10229,17 +10229,17 @@ bool game::plfire( item *weapon, int bp_cost )
     static int bio_power_cost = 0;
     static item *cached_weapon = nullptr;
     
-    if ( weapon != nullptr ) {
+    if( weapon != nullptr ) {
         // If valid weapon parameter passed, set the stored bp_cost to current value.
         cached_weapon = weapon;
         bio_power_cost = bp_cost;
-    } else if ( !cached_weapon ) {
+    } else if( !cached_weapon ) {
         // if no weapon is cached, default to the player's weapon
         cached_weapon = &u.weapon;
     }
         
     int reload_time = 0;
-    if ( !plfire_check( *cached_weapon, reload_time ) ) {
+    if( !plfire_check( *cached_weapon, reload_time ) ) {
         bio_power_cost = 0;
         return false;
     }
@@ -10253,7 +10253,7 @@ bool game::plfire( item *weapon, int bp_cost )
     target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
     std::vector<tripoint> trajectory = pl_target_ui( tmode, cached_weapon, range );
 
-    if ( trajectory.empty() ) {
+    if( trajectory.empty() ) {
         bool is_aiming = u.activity.id() != activity_id( "ACT_AIM" );
         if( is_aiming && gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
             const auto previous_moves = u.moves;
@@ -10279,7 +10279,7 @@ bool game::plfire( item *weapon, int bp_cost )
         res = u.fire_gun( trajectory.back(), gun.qty, *gun );
     }
     
-    if ( res && bio_power_cost ) {
+    if( res && bio_power_cost ) {
         u.charge_power( -bio_power_cost );
         bio_power_cost = 0;
     }
