@@ -9,10 +9,6 @@
 
 #include <cstdlib>
 
-static const nc_color string_color = c_magenta;
-static const nc_color cursor_color = h_ltgray;
-static const nc_color underscore_color = c_ltgray;
-
 string_input_popup::string_input_popup() = default;
 
 string_input_popup::~string_input_popup() = default;
@@ -123,6 +119,11 @@ void string_input_popup::add_to_history( const std::string &value ) const
 
 void string_input_popup::draw( const utf8_wrapper &ret, const int shift ) const
 {
+    // Not static because color values are not constants, but function calls!
+    const nc_color string_color = c_magenta;
+    const nc_color cursor_color = h_ltgray;
+    const nc_color underscore_color = c_ltgray;
+
     const int scrmax = _endx - _startx;
     // remove the scrolled out of view part from the input string
     const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
