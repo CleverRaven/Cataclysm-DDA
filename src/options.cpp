@@ -539,9 +539,12 @@ void options_manager::cOpt::setNext()
 
     } else if (sType == "string_input") {
         int iMenuTextLength = sMenuText.length();
-        sSet = string_input_popup("", (iMaxLength > 80) ? 80 : ((iMaxLength < iMenuTextLength) ? iMenuTextLength : iMaxLength+1),
-                                  sSet, sMenuText, "", iMaxLength
-                                 );
+        sSet = string_input_popup()
+               .width( ( iMaxLength > 80 ) ? 80 : ( ( iMaxLength < iMenuTextLength ) ? iMenuTextLength : iMaxLength + 1) )
+               .text( sSet )
+               .description( sMenuText )
+               .max_length( iMaxLength )
+               .query();
 
     } else if (sType == "bool") {
         bSet = !bSet;
@@ -1789,8 +1792,12 @@ void options_manager::show(bool ingame)
                 const bool is_int = cur_opt.getType() == "int";
                 const bool is_float = cur_opt.getType() == "float";
                 const std::string old_opt_val = cur_opt.getValueName();
-                const std::string opt_val = string_input_popup(
-                                                cur_opt.getMenuText(), 80, old_opt_val, "", "", -1, is_int);
+                const std::string opt_val = string_input_popup()
+                                            .title( cur_opt.getMenuText() )
+                                            .width( 80 )
+                                            .text( old_opt_val )
+                                            .only_digits( is_int )
+                                            .query();
                 if (!opt_val.empty() && opt_val != old_opt_val) {
                     if (is_float) {
                         std::istringstream ssTemp(opt_val);

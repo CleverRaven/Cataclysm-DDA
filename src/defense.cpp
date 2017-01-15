@@ -500,7 +500,11 @@ void defense_game::setup()
             }
             refresh_setup(w, selection);
         } else if (action == "SAVE_TEMPLATE") {
-            std::string name = string_input_popup(_("Template Name:"), 20); //TODO: this is NON FUNCTIONAL!!!
+            std::string name = string_input_popup()
+                               .title( _( "Template Name:" ) )
+                               .width( 20 )
+                               .query();
+            //TODO: this is NON FUNCTIONAL!!!
             refresh_setup(w, selection);
         } else {
             switch (selection) {

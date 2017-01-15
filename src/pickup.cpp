@@ -804,13 +804,18 @@ void Pickup::pick_up( const tripoint &pos, int min )
                        ) ) {
                 idx = selected;
             } else if( action == "FILTER" ) {
-                filter = string_input_popup( "Set filter", 30, filter,
-                                             "",
-                                             _( "set filter" ) );
+                filter = string_input_popup()
+                         .title( _( "Set filter" ) )
+                         .width( 30 )
+                         .text( filter )
+                         .query();
                 filter_changed = true;
             } else if( action == "ANY_INPUT" && raw_input_char == '`' ) {
-                std::string ext = string_input_popup(
-                                      _( "Enter 2 letters (case sensitive):" ), 3, "", "", "", 2 );
+                std::string ext = string_input_popup()
+                                  .title( _( "Enter 2 letters (case sensitive):" ) )
+                                  .width( 3 )
+                                  .max_length( 2 )
+                                  .query();
                 if( ext.size() == 2 ) {
                     int p1 = pickup_chars.find( ext.at( 0 ) );
                     int p2 = pickup_chars.find( ext.at( 1 ) );
@@ -863,9 +868,11 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         // The filter must have results, or simply be emptied,
                         // as this screen can't be reached without there being
                         // items available
-                        filter = string_input_popup( "Set filter", 30, filter,
-                                                     "",
-                                                     _( "set filter" ) );
+                        filter = string_input_popup()
+                                 .title( _( "Set filter" ) )
+                                 .width( 30 )
+                                 .text( filter )
+                                 .query();
                     }
                 }
                 filter_changed = false;

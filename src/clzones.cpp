@@ -21,7 +21,12 @@ zone_manager::zone_manager()
 
 void zone_manager::zone_data::set_name()
 {
-    const std::string new_name = string_input_popup( _( "Zone name:" ), 55, name, "", "", 15 );
+    const std::string new_name = string_input_popup()
+                                 .title( _( "Zone name:" ) )
+                                 .width( 55 )
+                                 .text( name )
+                                 .max_length( 15 )
+                                 .query();
 
     name = ( new_name.empty() ) ? _( "<no name>" ) : new_name;
 }

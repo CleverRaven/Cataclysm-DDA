@@ -22,8 +22,6 @@ lua_console::~lua_console()
 
 std::string lua_console::get_input()
 {
-    long key = 0;
-    int pos = -1;
     std::map<long, std::function<void()>> callbacks {
         {
             KEY_ESCAPE, [this]()
@@ -43,8 +41,13 @@ std::string lua_console::get_input()
                 this->scroll_down();
             }
         } };
-    return string_input_win( iWin, "", width, 0, 0, width, true, key, pos,
-                             "LUA", 0, lines, true, false, callbacks );
+    string_input_popup popup;
+    popup.window( iWin, 0, 0, width )
+    .max_length( width )
+    .identifier( "LUA" );
+    popup.callbacks = callbacks;
+    popup.query( true, true );
+    return popup.text();
 }
 
 void lua_console::draw()

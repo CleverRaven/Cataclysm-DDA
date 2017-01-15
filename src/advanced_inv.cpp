@@ -1404,6 +1404,8 @@ void advanced_inventory::display()
     recalc = true;
     redraw = true;
 
+    string_input_popup spopup;
+
     while( !exit ) {
         if( g->u.moves < 0 ) {
             do_return_entry();
@@ -1635,22 +1637,21 @@ void advanced_inventory::display()
             }
             redraw = true;
         } else if( action == "FILTER" ) {
-            long key = 0;
-            int spos = -1;
             std::string filter = spane.filter;
             filter_edit = true;
+            spopup.window( spane.window, 4, w_height - 1, ( w_width / 2 ) - 4 )
+                 .max_length( 256 )
+                 .text( filter );
 
             draw_item_filter_rules( dpane.window, 1, 11, item_filter_type::FILTER );
 
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, ( w_width / 2 ) - 3, c_cyan, " >" );
-                filter = string_input_win( spane.window, spane.filter, 256, 4,
-                                           w_height - 1, ( w_width / 2 ) - 4, false, key, spos, "",
-                                           4, getmaxy( spane.window ) - 1 );
+                filter = spopup.query( false, true );
                 spane.set_filter( filter );
                 redraw_pane( src );
-            } while( key != '\n' && key != KEY_ESCAPE );
+            } while( spopup.context().get_raw_input().get_first_input() != '\n' && spopup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
             filter_edit = false;
             spane.redraw = true;
             dpane.redraw = true;
@@ -2147,7 +2148,11 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         if(amount <= 0) {
            popup(_("The destination is already full!"));
         } else {
-            amount = std::atoi(string_input_popup(popupmsg, 20, "", "", "", -1, true).c_str());
+            amount = std::atoi( string_input_popup()
+                                .title( popupmsg )
+                                .width( 20 )
+                                .only_digits( true )
+                                .query().c_str() );
         }
         if( amount <= 0 ) {
             redraw = true;

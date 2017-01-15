@@ -255,8 +255,12 @@ private:
     //! Prompt for an integral value clamped to [0, max].
     static long prompt_for_amount(char const *const msg, long const max) {
         const std::string formatted = string_format(msg, max);
-        const int amount = std::atol(string_input_popup(
-            formatted, 20, to_string(max), "", "", -1, true).c_str());
+        const int amount = std::atol( string_input_popup()
+                                      .title( formatted )
+                                      .width( 20 )
+                                      .text( to_string( max ) )
+                                      .only_digits( true )
+                                      .query().c_str() );
 
         return (amount > max) ? max : (amount <= 0) ? 0 : amount;
     };
@@ -2774,9 +2778,12 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
     //~ Loading fuel or other items into a piece of furniture.
     const std::string popupmsg = string_format(_("Put how many of the %1$s into the %2$s?"),
                                  ammo->nname(max_amount).c_str(), f.name.c_str());
-    long amount = std::atoi( string_input_popup( popupmsg, 20,
-                                  to_string(max_amount),
-                                  "", "", -1, true).c_str() );
+    long amount = std::atoi( string_input_popup()
+                             .title( popupmsg )
+                             .width( 20 )
+                             .text( to_string( max_amount ) )
+                             .only_digits( true )
+                             .query().c_str() );
     if (amount <= 0 || amount > max_amount) {
         return;
     }
@@ -2851,7 +2858,10 @@ void iexamine::sign(player &p, const tripoint &examp)
                                             _("You graffiti a message onto the sign.");
         std::string ignore_message = _("You leave the sign alone.");
         if (query_yn(query_message.c_str())) {
-            std::string signage = string_input_popup(_("Spray what?"), 0, "", "", "signage");
+            std::string signage = string_input_popup()
+                                  .title( _( "Spray what?" ) )
+                                  .identifier( "signage" )
+                                  .query();
             if (signage.empty()) {
                 p.add_msg_if_player(m_neutral, ignore_message.c_str());
             } else {
@@ -3224,8 +3234,12 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         std::string popupmsg = string_format(
                                    _( "How many liters of gasoline to buy? Max: %d L. (0 to cancel) " ), maximum_liters );
-        long liters = std::atoi( string_input_popup( popupmsg, 20,
-                                 to_string( maximum_liters ), "", "", -1, true ).c_str()
+        long liters = std::atoi( string_input_popup()
+                                 .title( popupmsg )
+                                 .width( 20 )
+                                 .text( to_string( maximum_liters ) )
+                                 .only_digits( true )
+                                 .query().c_str()
                                );
         if( liters <= 0 ) {
             return;

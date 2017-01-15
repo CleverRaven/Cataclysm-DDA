@@ -510,7 +510,13 @@ void construction_menu()
 
         const std::string action = ctxt.handle_input();
         if( action == "FILTER" ){
-            filter = string_input_popup( _( "Search" ), 50, filter, "", _( "Filter" ), 100, false );
+            filter = string_input_popup()
+                     .title( _( "Search" ) )
+                     .width( 50 )
+                     .text( filter )
+                     .description( _( "Filter" ) )
+                     .max_length( 100 )
+                     .query();
             if( !filter.empty() ){
                 update_info = true;
                 update_cat = true;
@@ -865,7 +871,10 @@ vpart_id vpart_from_item( const std::string &item_id )
 
 void construct::done_vehicle( const tripoint &p )
 {
-    std::string name = string_input_popup( _( "Enter new vehicle name:" ), 20 );
+    std::string name = string_input_popup()
+                       .title( _( "Enter new vehicle name:" ) )
+                       .width( 20 )
+                       .query();
     if( name.empty() ) {
         name = _( "Car" );
     }

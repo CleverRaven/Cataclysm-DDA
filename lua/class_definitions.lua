@@ -2151,7 +2151,7 @@ global_functions = {
         rval = nil
     },
     string_input_popup = {
-        cpp_name = "string_input_popup",
+        cpp_name = "string_input_popup_wrapper",
         args = { "string", "int", "string" },
         rval = "string"
     },

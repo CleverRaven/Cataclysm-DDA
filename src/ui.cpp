@@ -256,8 +256,6 @@ void uimenu::filterlist()
 std::string uimenu::inputfilter()
 {
     std::string identifier = ""; // todo: uimenu.filter_identifier ?
-    long key = 0;
-    int spos = -1;
     mvwprintz(window, w_height - 1, 2, border_color, "< ");
     mvwprintz(window, w_height - 1, w_width - 3, border_color, " >");
     /*
@@ -267,20 +265,26 @@ std::string uimenu::inputfilter()
         int origfselected = fselected;
         int origvshift = vshift;
     */
+    string_input_popup popup;
+    popup.text( filter )
+         .max_length( 256 )
+         .window( window, 4, w_height - 1, w_width - 4 )
+         .identifier( identifier );
+    input_event event;
     do {
         // filter=filter_input->query(filter, false);
-        filter = string_input_win( window, filter, 256, 4, w_height - 1, w_width - 4,
-                                   false, key, spos, identifier, 4, w_height - 1 );
+        filter = popup.query( false, true );
+        event = popup.context().get_raw_input();
         // key = filter_input->keypress;
-        if ( key != KEY_ESCAPE ) {
-            if ( scrollby( scroll_amount_from_key( key ) ) == false ) {
+        if ( event.get_first_input() != KEY_ESCAPE ) {
+            if ( scrollby( scroll_amount_from_key( event.get_first_input() ) ) == false ) {
                 filterlist();
             }
             show();
         }
-    } while(key != '\n' && key != KEY_ESCAPE);
+    } while(event.get_first_input() != '\n' && event.get_first_input() != KEY_ESCAPE);
 
-    if ( key == KEY_ESCAPE ) {
+    if ( event.get_first_input() == KEY_ESCAPE ) {
         /*
         //perhaps as an option
                 filter = origfilter;

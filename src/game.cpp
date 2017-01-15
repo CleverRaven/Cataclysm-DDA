@@ -1211,13 +1211,11 @@ bool game::cleanup_at_end()
         mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH / 2) - (sTemp.length() / 2), c_ltgray,
                   sTemp.c_str());
 
-        long cInput = '\n';
-        int iPos = -1;
         int iStartX = (FULL_SCREEN_WIDTH / 2) - ((iMaxWidth - 4) / 2);
-        std::string sLastWords = string_input_win(w_rip, "", iMaxWidth - 4 - 1,
-                                 iStartX, iNameLine, iStartX + iMaxWidth - 4 - 1,
-                                 true, cInput, iPos);
-
+        std::string sLastWords = string_input_popup()
+                                 .window( w_rip, iStartX, iNameLine, iStartX + iMaxWidth - 4 - 1 )
+                                 .max_length( iMaxWidth - 4 - 1 )
+                                 .query( true, true );
         death_screen();
         if (uquit == QUIT_SUICIDE) {
             u.add_memorial_log(pgettext("memorial_male", "%s committed suicide."),
@@ -4310,7 +4308,12 @@ void game::debug()
             break;
         case 27: {
             auto set_turn = [&]( const int initial, const int factor, const char * const msg ) {
-                const auto text = string_input_popup( msg, 20, to_string( initial ), "", "", 20, true );
+                const auto text = string_input_popup()
+                                  .title( msg )
+                                  .width( 20 )
+                                  .text( to_string( initial ) )
+                                  .only_digits( true )
+                                  .query();
                 if( text.empty() ) {
                     return;
                 }
@@ -7472,7 +7475,10 @@ bool pet_menu(monster *z)
     }
 
     if ( rename == choice ) {
-        std::string unique_name = string_input_popup( _("Enter new pet name:"), 20 );
+        std::string unique_name = string_input_popup()
+                                  .title( _( "Enter new pet name:" ) )
+                                  .width( 20 )
+                                  .query();
         if( unique_name.length() > 0 ) {
             z->unique_name = unique_name;
         }
@@ -9161,10 +9167,15 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             reset = true;
             refresh_all();
         } else if( action == "FILTER" ) {
-            draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
-            sFilter = string_input_popup( _( "Filter:" ), 55, sFilter,
-                                          _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ),
-                                          "item_filter", 256 );
+            draw_item_filter_rules( w_item_info, iInfoHeight );
+            sFilter = string_input_popup()
+                      .title( _( "Filter:" ) )
+                      .width( 55 )
+                      .text( sFilter )
+                      .description( _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ) )
+                      .identifier( "item_filter" )
+                      .max_length( 256 )
+                      .query();
             reset = true;
             refilter = true;
             addcategory = !sort_radius;
@@ -9189,18 +9200,28 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             reset = true;
         } else if( action == "PRIORITY_INCREASE" ) {
             draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::HIGH_PRIORITY );
-            list_item_upvote = string_input_popup( _( "High Priority:" ), 55, list_item_upvote,
-                                                   _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ),
-                                                   "list_item_priority", 256 );
+            list_item_upvote = string_input_popup()
+                               .title( _( "High Priority:" ) )
+                               .width( 55 )
+                               .text( list_item_upvote )
+                               .description( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ) )
+                               .identifier( "list_item_priority" )
+                               .max_width( 256 )
+                               .query();
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
             uistate.list_item_priority_active = !list_item_upvote.empty();
         } else if( action == "PRIORITY_DECREASE" ) {
             draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::LOW_PRIORITY );
-            list_item_downvote = string_input_popup( _( "Low Priority:" ), 55, list_item_downvote,
-                                                     _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ),
-                                                     "list_item_downvote", 256 );
+            list_item_downvote = string_input_popup()
+                                 .title( _( "Low Priority:" ) )
+                                 .width( 55 )
+                                 .text( list_item_downvote )
+                                 .description( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ) )
+                                 .identifier( "list_item_downvote" )
+                                 .max_width( 256 )
+                                 .query();
             refilter = true;
             reset = true;
             addcategory = !sort_radius;

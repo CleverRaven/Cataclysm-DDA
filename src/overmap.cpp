@@ -2533,9 +2533,12 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                                               _(color_pair.second.c_str()) );
             }
             const std::string old_note = overmap_buffer.note(curs);
-            const std::string new_note = string_input_popup(
-                _("Note (X:TEXT for custom symbol, G; for color):"),
-                45, old_note, color_notes); // 45 char max
+            const std::string new_note = string_input_popup()
+                                         .title( _("Note (X:TEXT for custom symbol, G; for color):") )
+                                         .width( 45 )
+                                         .text( old_note )
+                                         .description( color_notes )
+                                         .query();
             if( new_note.empty() && !old_note.empty() ) {
                 // do nothing, the player should be using [D]elete
             } else if( old_note != new_note ) {
@@ -2572,7 +2575,9 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
         } else if (action == "TOGGLE_EXPLORED") {
             overmap_buffer.toggle_explored(curs.x, curs.y, curs.z);
         } else if (action == "SEARCH") {
-            std::string term = string_input_popup(_("Search term:"));
+            std::string term = string_input_popup()
+                              .title( _( "Search term:" ) )
+                              .query();
             if(term.empty()) {
                 continue;
             }

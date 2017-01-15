@@ -4,19 +4,27 @@
 #include "cursesdef.h"
 
 #include <string>
+#include <memory>
 #include <map>
 #include <set>
 #include <functional>
 
 class input_context;
+struct input_event;
 
 /**
  * Shows a window querying the user for input.
  *
  * Returns the input that was entered. If the user cancels the input (e.g. by pressing escape),
  * an empty string is returned. An empty string may also be returned when the user does not enter
- * any text and confirms the input (by pressing ENTER). It's currently not possible these two
- * situations.
+ * any text and confirms the input (by pressing ENTER).
+ *
+ * Examples:
+ * \code
+    input = string_input_popup().title("Enter something").query();
+    // shows the input field in window w at coordinates (10,20) up to (30,20).
+    input = string_input_popup().window(w, 10, 20, 30).query();
+ * \endcode
  *
  * @param title The displayed title, describing what to enter. @ref color_tags can be used.
  * @param width Width of the input area where the user input appears.
@@ -30,22 +38,135 @@ class input_context;
  * ignored and the returned string is never longer than this.
  * @param only_digits Whether to only allow digits in the string.
  */
-std::string string_input_popup( std::string title, int width = 0, std::string input = "",
-                                std::string desc = "", std::string identifier = "",
-                                int max_length = -1, bool only_digits = false );
+class string_input_popup
+{
+    private:
+        std::string _title;
+        std::string _text;
+        std::string _description;
+        std::string _identifier;
+        int _width = 0;
+        int _max_length = -1;
+        bool _only_digits = false;
+        int _startx = 0;
+        int _starty = 0;
+        int _endx = 0;
+        int _position = 0;
 
-std::string string_input_win( WINDOW *w, std::string input, int max_length, int startx,
-                              int starty, int endx, bool loop, long &key, int &pos,
-                              std::string identifier = "", int w_x = -1, int w_y = -1,
-                              bool dorefresh = true, bool only_digits = false,
-                              std::map<long, std::function<void()>> callbacks = std::map<long, std::function<void()>>(),
-                              std::set<long> ch_code_blacklist = std::set<long>() );
+        WINDOW_PTR w_ptr;
+        WINDOW *w = nullptr;
 
-std::string string_input_win_from_context(
-    WINDOW *w, input_context &ctxt, std::string input, int max_length, int startx, int starty,
-    int endx, bool loop, std::string &action, long &ch, int &pos, std::string identifier = "",
-    int w_x = -1, int w_y = -1, bool dorefresh = true, bool only_digits = false, bool draw_only = false,
-    std::map<long, std::function<void()>> callbacks = std::map<long, std::function<void()>>(),
-    std::set<long> ch_code_blacklist = std::set<long>() );
+        std::unique_ptr<input_context> ctxt_ptr;
+        input_context *ctxt = nullptr;
+
+        bool _canceled = false;
+
+        void query_more( bool loop, bool dorefresh );
+
+        void create_window();
+        void create_context();
+
+    public:
+        string_input_popup();
+        ~string_input_popup();
+        /**
+         * The title: short string before the actual input field.
+         * It's optional, default is an empty string.
+         */
+        string_input_popup &title( std::string value ) {
+            _title = value;
+            return *this;
+        }
+        /**
+         * Set / get the text that can be modified by the user.
+         * Note that cancelling the query makes this an empty string.
+         * It's optional default is an empty string.
+         */
+        /**@{*/
+        string_input_popup &text( std::string value ) {
+            _text = value;
+            return *this;
+        }
+        const std::string &text() const {
+            return _text;
+        }
+        /**@}*/
+        /**
+         * Additional help text, shown below the input box.
+         * It's optional, default is an empty text.
+         */
+        string_input_popup &description( std::string value ) {
+            _description = value;
+            return *this;
+        }
+        /**
+         * An identifier to be used to store / get the input
+         * history. If empty (the default), no history will be
+         * available, otherwise the history associated with
+         * the identifier will be available.
+         * If the input is not canceled, the new input is
+         * added to the history.
+         */
+        string_input_popup &identifier( std::string value ) {
+            _identifier = value;
+            return *this;
+        }
+        /**
+         * Width (in console cells) of the input field itself.
+         */
+        string_input_popup &width( int value ) {
+            _width = value;
+            return *this;
+        }
+        /**
+         * Maximal amount of Unicode characters that can be
+         * given by the user. The default is something like 1000.
+         */
+        string_input_popup &max_length( int value ) {
+            _max_length = value;
+            return *this;
+        }
+        /**
+         * If true, any non-digit input cancels the input. Default is false.
+         */
+        string_input_popup &only_digits( bool value ) {
+            _only_digits = value;
+            return *this;
+        }
+        /**
+         * Set the window area where to display the input text. If this is set,
+         * the class will not create a separate window and *only* the editable
+         * text will be printed at the given part of the given window.
+         * Integer parameters define the area (one line) where the editable
+         * text is printed.
+         */
+        string_input_popup &window( WINDOW *w, int startx, int starty, int endx );
+        /**
+         * Set / get the input context that is used to gather user input.
+         * The class will create its own context if none is set here.
+         */
+        /**@{*/
+        string_input_popup &context( input_context &ctxt );
+        input_context &context() const {
+            return *ctxt;
+        }
+        /**@}*/
+        /**
+         * Draws the input box, waits for input (if \p loop is true).
+         * @return @ref text()
+         */
+        const std::string &query( bool loop = true, bool dorefresh = true, bool draw_only = false );
+        /**
+         * Whether the input box was canceled via the ESCAPE key (or similar)
+         * If the input was finished via the ENTER key (or similar), this will
+         * return `false`.
+         */
+        bool canceled() const {
+            return _canceled;
+        }
+
+        std::map<long, std::function<void()>> callbacks;
+        std::set<long> ch_code_blacklist;
+};
 
 #endif

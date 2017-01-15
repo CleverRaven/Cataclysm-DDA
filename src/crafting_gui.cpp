@@ -536,21 +536,25 @@ const recipe *select_crafting_recipe( int &batch_size )
             redraw = true;
             keepline = true;
         } else if( action == "FILTER" ) {
-            filterstring = string_input_popup( _( "Search:" ), 85, filterstring,
-                                               _( "Special prefixes for requirements:\n"
-                                                  "  [t] search tools\n"
-                                                  "  [c] search components\n"
-                                                  "  [q] search qualities\n"
-                                                  "  [s] search skills\n"
-                                                  "Special prefixes for results:\n"
-                                                  "  [Q] search qualities\n"
-                                                  "Examples:\n"
-                                                  "  t:soldering iron\n"
-                                                  "  c:two by four\n"
-                                                  "  q:metal sawing\n"
-                                                  "  s:cooking\n"
-                                                  "  Q:fine bolt turning"
-                                                ) );
+            filterstring = string_input_popup()
+                           .title( _( "Search:" ) )
+                           .width( 85 )
+                           .text( filterstring )
+                           .description( _( "Special prefixes for requirements:\n"
+                                            "  [t] search tools\n"
+                                            "  [c] search components\n"
+                                            "  [q] search qualities\n"
+                                            "  [s] search skills\n"
+                                            "Special prefixes for results:\n"
+                                            "  [Q] search qualities\n"
+                                            "Examples:\n"
+                                            "  t:soldering iron\n"
+                                            "  c:two by four\n"
+                                            "  q:metal sawing\n"
+                                            "  s:cooking\n"
+                                            "  Q:fine bolt turning"
+                                          ) )
+                           .query();
             redraw = true;
         } else if( action == "QUIT" ) {
             chosen = nullptr;

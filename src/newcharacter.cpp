@@ -1516,8 +1516,12 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
             profession_sorter.sort_by_points = !profession_sorter.sort_by_points;
             recalc_profs = true;
         } else if (action == "FILTER") {
-            filterstring = string_input_popup(_("Search:"), 60, filterstring,
-                _("Search by profession name."));
+            filterstring = string_input_popup()
+                           .title( _( "Search:" ) )
+                           .width( 60 )
+                           .text( filterstring )
+                           .description( _( "Search by profession name." ) )
+                           .query();
             recalc_profs = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
@@ -2033,8 +2037,12 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
             scenario_sorter.sort_by_points = !scenario_sorter.sort_by_points;
             recalc_scens = true;
         } else if (action == "FILTER") {
-            filterstring = string_input_popup(_("Search:"), 60, filterstring,
-                _("Search by scenario name."));
+            filterstring = string_input_popup()
+                           .title( _( "Search:" ) )
+                           .width( 60 )
+                           .text( filterstring )
+                           .description( _( "Search by scenario name." ) )
+                           .query();
             recalc_scens = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
@@ -2438,7 +2446,10 @@ std::string Character::random_bad_trait()
 void save_template(player *u)
 {
     std::string title = _("Name of template:");
-    std::string name = string_input_popup( title, FULL_SCREEN_WIDTH - utf8_width(title) - 8 );
+    std::string name = string_input_popup()
+                       .title( title )
+                       .width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 )
+                       .query();
     if (name.length() == 0) {
         return;
     }

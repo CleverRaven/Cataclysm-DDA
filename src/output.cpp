@@ -711,17 +711,13 @@ bool query_int( int &result, const char *mes, ... )
     const std::string text = vstring_format( mes, ap );
     va_end( ap );
 
-    std::string raw_input = string_input_popup( text );
-    if( raw_input.empty() ) { //ESC key is pressed
+    string_input_popup popup;
+    popup.text( text ).only_digits( true );
+    popup.query();
+    if( popup.canceled() ) {
         return false;
     }
-
-    //Note that atoi returns 0 for anything it doesn't like.
-    int num = atoi( raw_input.c_str() );
-    if( raw_input != "0" && num == 0) { //invalid input
-        return false;
-    }
-    result = num;
+    result = atoi( popup.text().c_str() );
     return true;
 }
 

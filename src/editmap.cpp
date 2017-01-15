@@ -136,7 +136,9 @@ void edit_json( SAVEOBJ *it )
             }
             fs2.clear();
         } else if( tmret == 1 ) {
-            std::string ret = string_input_popup( "test", 50240, save1, "", "jsonedit" );
+            std::string ret = string_input_popup()
+                              .text( save1 )
+                              .query();
             if( !ret.empty() ) {
                 fs1 = fld_string( save1, TERMX - 10 );
                 save1 = ret;
@@ -1370,7 +1372,11 @@ int editmap::edit_itm()
                             break;
                     }
                     int retval = std::atoi(
-                                     string_input_popup( "set: ", 20, to_string( intval ) ).c_str()
+                                     string_input_popup()
+                                     .title( "set: " )
+                                     .width( 20 )
+                                     .text( to_string( intval ) )
+                                     .query().c_str()
                                  );
                     if( intval != retval ) {
                         if( imenu.ret == imenu_bday ) {
