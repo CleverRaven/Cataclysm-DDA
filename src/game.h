@@ -335,14 +335,15 @@ class game
 
         /**
          *  Returns true if the player is allowed to fire a given item, or false if otherwise.
-         *  reload_time is currently stored as a side effect of condition testing.
+         *  reload_time is stored as a side effect of condition testing.
          */
         bool plfire_check( item &weapon, int &reload_time );
 
         /**
          *  Handles interactive parts of gun firing (target selection, etc.).
          *  @return whether an attack was actually performed.
-         *  If no valid weapon parameter is passed, try to use the last one provided.
+         *  If weapon != nullptr, parameters are used and stored for future reference. 
+         *  Otherwise, it tries using the stored parameters (player's weapon by default).
          */
         bool plfire( item *weapon = nullptr, int bp_cost = 0 );
 

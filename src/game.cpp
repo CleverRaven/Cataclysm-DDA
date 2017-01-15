@@ -3012,7 +3012,7 @@ bool game::handle_action()
             }
 
             if( u.weapon.is_gun() ) {
-                plfire(&u.weapon);
+                plfire( &u.weapon );
 
             } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
                 int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
@@ -3030,7 +3030,7 @@ bool game::handle_action()
         case ACTION_FIRE_BURST: {
             auto mode = u.weapon.gun_get_mode_id();
             if( u.weapon.gun_set_mode( "AUTO" ) ) {
-                plfire(&u.weapon);
+                plfire( &u.weapon );
                 u.weapon.gun_set_mode( mode );
             }
             break;
@@ -10115,7 +10115,7 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
-bool game::plfire_check(item &weapon, int &reload_time) {
+bool game::plfire_check( item &weapon, int &reload_time ) {
     bool okay = true;
     vehicle *veh = nullptr;
     
@@ -10139,7 +10139,8 @@ bool game::plfire_check(item &weapon, int &reload_time) {
     auto gun = weapon.gun_current_mode();
 
     // check that a valid mode was returned and we are able to use it
-    if ( !( gun && u.can_use( *gun ) ) ) {
+    if( !( gun && u.can_use( *gun ) ) ) {
+        add_msg( m_info, _( "You can no longer fire." ) );
         return false;
     }
     
@@ -10186,7 +10187,7 @@ bool game::plfire_check(item &weapon, int &reload_time) {
 
         if( !gun->ammo_sufficient() && !gun->has_flag("RELOAD_AND_SHOOT") ) {
             if( !gun->ammo_remaining() ) {
-                add_msg(m_info, _("You need to reload!"));
+                add_msg( m_info, _( "You need to reload!" ) );
             } else {
                 add_msg( m_info, _( "Your %s needs %i charges to fire!" ), gun->tname().c_str(), gun->ammo_required() );
             }
@@ -10194,8 +10195,8 @@ bool game::plfire_check(item &weapon, int &reload_time) {
         }
 
         if( gun->get_gun_ups_drain() > 0 ) {
-            const int ups_drain       = gun->get_gun_ups_drain();
-            const int adv_ups_drain   = std::max( 1, ups_drain * 3 / 5 );
+            const int ups_drain = gun->get_gun_ups_drain();
+            const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
 
             if( !( u.has_charges( "UPS_off", ups_drain ) ||
                    u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
@@ -10210,10 +10211,11 @@ bool game::plfire_check(item &weapon, int &reload_time) {
         if( gun->has_flag( "MOUNTED_GUN" ) ) {
             int vpart = -1;
             veh = m.veh_at( u.pos(), vpart );
-            if( !m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() ) &&
-                (!veh || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
+            bool v_mountable = ( veh && veh->part_with_feature( vpart, "MOUNTABLE" ) >= 0 );
+            bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() );
+            if( !t_mountable && !v_mountable ) {
                 add_msg(m_info,
-                        _("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
+                        _( "You must stand near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc." ) );
                 return false;
             }
         }
@@ -10222,17 +10224,17 @@ bool game::plfire_check(item &weapon, int &reload_time) {
     return okay;
 }
 
-bool game::plfire(item *weapon, int bp_cost)
+bool game::plfire( item *weapon, int bp_cost )
 {
     static int bio_power_cost = 0;
     static item *cached_weapon = nullptr;
     
-    if ( weapon ) {
+    if ( weapon != nullptr ) {
         // If valid weapon parameter passed, set the stored bp_cost to current value.
         cached_weapon = weapon;
         bio_power_cost = bp_cost;
     } else if ( !cached_weapon ) {
-        // default to the player's weapon
+        // if no weapon is cached, default to the player's weapon
         cached_weapon = &u.weapon;
     }
         
@@ -10251,11 +10253,12 @@ bool game::plfire(item *weapon, int bp_cost)
     target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
     std::vector<tripoint> trajectory = pl_target_ui( tmode, cached_weapon, range );
 
-    if (trajectory.empty()) {
-        if( gun->has_flag( "RELOAD_AND_SHOOT" ) && u.activity.id() != activity_id( "ACT_AIM" ) ) {
+    if ( trajectory.empty() ) {
+        bool is_aiming = u.activity.id() != activity_id( "ACT_AIM" );
+        if( is_aiming && gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
             const auto previous_moves = u.moves;
             unload( *gun );
-            // Give back time for unloading as essentially nothing has been done at all.
+            // Give back time for unloading as essentially nothing has been done.
             // Note that reload_time has not been applied either.
             u.moves = previous_moves;
         }

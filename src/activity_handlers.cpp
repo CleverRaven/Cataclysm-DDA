@@ -1813,7 +1813,7 @@ void activity_handlers::meditate_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::aim_do_turn( player_activity *act, player *)
+void activity_handlers::aim_do_turn( player_activity *act, player * )
 {
     if( act->index == 0 ) {
         g->m.build_map_cache( g->get_levz() );

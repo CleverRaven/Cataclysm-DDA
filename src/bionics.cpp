@@ -117,6 +117,8 @@ void force_comedown( effect &eff )
 bool player::activate_bionic( int b, bool eff_only )
 {
     bionic &bio = my_bionics[b];
+    
+    // Preserve the fake weapon used to initiate bionic gun firing
     static item bio_gun( weapon );
 
     // Special compatibility code for people who updated saves with their claws out
