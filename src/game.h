@@ -334,16 +334,21 @@ class game
         bool revive_corpse( const tripoint &location, item &corpse );
 
         /**
-         *  Returns true if the player is allowed to fire a given item, or false if otherwise.
-         *  reload_time is stored as a side effect of condition testing.
+         * Returns true if the player is allowed to fire a given item, or false if otherwise.
+         * reload_time is stored as a side effect of condition testing.
+         * @param weapon The item that needs to be checked, which we are trying to fire.
+         * @param reload_time Modifies the time spent gy certain guns reloading to fire.
+         * @return True if all conditions are true, otherwise false.
          */
         bool plfire_check( item &weapon, int &reload_time );
 
         /**
-         *  Handles interactive parts of gun firing (target selection, etc.).
-         *  @return whether an attack was actually performed.
-         *  If weapon != nullptr, parameters are used and stored for future reference. 
-         *  Otherwise, it tries using the stored parameters (player's weapon by default).
+         * Handles interactive parts of gun firing (target selection, etc.).
+         * If weapon != nullptr, parameters are used and stored for future reference. 
+         * Otherwise, it tries using the stored parameters (player's weapon by default).
+         * @param weapon Pointer to the weapon we began aiming with.
+         * @param bp_cost The amount by which the player's power reserve is decreased after firing.
+         * @return Whether an attack was actually performed.
          */
         bool plfire( item *weapon = nullptr, int bp_cost = 0, bool held = true );
 
