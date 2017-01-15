@@ -385,19 +385,6 @@ oter_id overmap::random_house() const
     return one_in( settings.house_basement_chance) ? house : house_base;
 }
 
-// oter_t specific affirmatives to is_road, set at startup (todo; jsonize)
-bool isroad(std::string bstr)
-{
-    if (bstr == "road" || bstr == "bridge" ||
-        bstr == "subway" || bstr == "sewer" ||
-        bstr == "sewage_treatment_hub" ||
-        bstr == "sewage_treatment_under" ||
-        bstr == "rift" || bstr == "hellmouth") {
-        return true;
-    }
-    return false;
-}
-
 /*
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
@@ -451,7 +438,6 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     set_flag( known_up, jo.get_bool( "known_up", false ) );
     set_flag( has_sidewalk, jo.get_bool( "sidewalk", false ) );
     set_flag( allow_road, jo.get_bool( "allow_road", false ) );
-    set_flag( road_tile, isroad( id.str() ) );
     set_flag( river_tile, id.str().compare( 0, 5, "river", 5 ) == 0 ||
                           id.str().compare( 0, 6, "bridge", 6 ) == 0 );
 
@@ -1514,7 +1500,6 @@ void overmap::generate(const overmap *north, const overmap *east,
                        const overmap *south, const overmap *west)
 {
     dbg(D_INFO) << "overmap::generate start...";
-    std::vector<city> road_points; // cities and roads_out together
     std::vector<point> river_start;// West/North endpoints of rivers
     std::vector<point> river_end; // East/South endpoints of rivers
 
@@ -1709,15 +1694,18 @@ void overmap::generate(const overmap *north, const overmap *east,
         }
     }
 
+    std::vector<point> road_points; // cities and roads_out together
     // Compile our master list of roads; it's less messy if roads_out is first
-    for (auto &i : roads_out) {
-        road_points.push_back(i);
+    road_points.reserve( roads_out.size() + cities.size() );
+    for( const auto &elem : roads_out ) {
+        road_points.emplace_back( elem.x, elem.y );
     }
-    for (auto &i : cities) {
-        road_points.push_back(i);
+    for( const auto &elem : cities ) {
+        road_points.emplace_back( elem.x, elem.y );
     }
-    // And finally connect them via "highways"
-    place_hiways( road_points, 0, oter_type_id( "road" ) );
+    // And finally connect them via roads.
+    connect_closest_points( road_points, 0, oter_type_id( "road" ) );
+
     place_specials();
     // Clean up our roads and rivers
     polish(0);
@@ -1742,8 +1730,9 @@ void overmap::generate(const overmap *north, const overmap *east,
 bool overmap::generate_sub(int const z)
 {
     bool requires_sub = false;
-    std::vector<city> subway_points;
-    std::vector<city> sewer_points;
+    std::vector<point> subway_points;
+    std::vector<point> sewer_points;
+
     std::vector<city> ant_points;
     std::vector<city> goo_points;
     std::vector<city> lab_points;
@@ -1777,12 +1766,12 @@ bool overmap::generate_sub(int const z)
                 ter(i, j, z) = oter_id( "basement" );
             } else if (is_ot_type("sub_station", oter_above)) {
                 ter(i, j, z) = oter_id( "subway_isolated" );
-                subway_points.push_back(city(i, j, 0));
+                subway_points.emplace_back( i, j );
             } else if (oter_above == "road_nesw_manhole") {
                 ter(i, j, z) = oter_id( "sewer_isolated" );
-                sewer_points.push_back(city(i, j, 0));
+                sewer_points.emplace_back( i, j );
             } else if (oter_above == "sewage_treatment") {
-                sewer_points.push_back(city(i, j, 0));
+                sewer_points.emplace_back( i, j );
             } else if (oter_above == "cave" && z == -1) {
                 if (one_in(3)) {
                     ter(i, j, z) = oter_id( "cave_rat" );
@@ -1841,9 +1830,9 @@ bool overmap::generate_sub(int const z)
     for (auto &i : goo_points) {
         requires_sub |= build_slimepit(i.x, i.y, z, i.s);
     }
-    place_hiways(sewer_points, z, oter_type_id( "sewer") );
+    connect_closest_points( sewer_points, z, oter_type_id( "sewer") );
     polish(z, "sewer");
-    place_hiways(subway_points, z, oter_type_id( "subway" ) );
+    connect_closest_points( subway_points, z, oter_type_id( "subway" ) );
     for (auto &i : subway_points) {
         ter(i.x, i.y, z) = oter_id( "subway_station" );
     }
@@ -3329,48 +3318,30 @@ void overmap::put_building( int x, int y, om_direction::type dir, const city &to
 
 void overmap::build_city_street( int x, int y, int cs, om_direction::type dir, const city &town )
 {
-    const oter_id road_ns( "road_ns" );
-    const oter_id road_ew( "road_ew" );
+    const oter_type_id road( "road" );
 
     int c = cs;
     int croad = cs;
 
-    oter_id road;
-    oter_id crossroad;
-
-    switch( dir ) {
-        case om_direction::type::north:
-        case om_direction::type::south:
-            road = road_ns;
-            crossroad = road_ew;
-            break;
-        case om_direction::type::east:
-        case om_direction::type::west:
-            road = road_ew;
-            crossroad = road_ns;
-            break;
-        case om_direction::type::invalid:
-            debugmsg( "Invalid road rotation." );
+    if( dir == om_direction::type::invalid ) {
+        debugmsg( "Invalid road direction." );
+        return;
     }
 
     const point bias = om_direction::displace( dir );  // Northern vector.
 
     // Grow in the stated direction, sprouting off sub-roads and placing buildings as we go.
     while( c > 0 && inbounds( x, y, 0, 1 ) &&
-           (ter(x + bias.x, y + bias.y, 0) == settings.default_oter || c == cs) ) {
+           (ter(x + bias.x, y + bias.y, 0)->has_flag( allow_road ) || c == cs) ) {
         x += bias.x;
         y += bias.y;
         c--;
-        ter( x, y, 0 ) = road;
+        ter( x, y, 0 ) = road->get_first();
         // Look for a crossroad or a road ahead, if we find one,
         // set current tile to be road_null and c to -1 to prevent further branching.
-        if( ter( x + bias.x, y + bias.y, 0 ) == road ||
-            ter( x + bias.x, y + bias.y, 0 ) == crossroad ||
-            // This looks left and right of the current motion of travel.
-            ter( x + bias.y, y + bias.x, 0 ) == road ||
-            ter( x + bias.y, y + bias.x, 0 ) == crossroad ||
-            ter( x - bias.y, y - bias.x, 0 ) == road ||
-            ter( x - bias.y, y - bias.x, 0 ) == crossroad ) {
+        if( ter( x + bias.x, y + bias.y, 0 )->type_is( road ) ||
+            ter( x + bias.y, y + bias.x, 0 )->type_is( road ) ||
+            ter( x - bias.y, y - bias.x, 0 )->type_is( road ) ) {
 
             c = -1;
         }
@@ -3383,16 +3354,18 @@ void overmap::build_city_street( int x, int y, int cs, om_direction::type dir, c
         }
 
         // Look to each side, and branch if the way is clear.
-        if (c < croad - 1 && c >= 2 && ( ter(x + bias.y, y + bias.x, 0) == settings.default_oter &&
-                                         ter(x - bias.y, y - bias.x, 0) == settings.default_oter ) ) {
+        if (c < croad - 1 && c >= 2 && ( ter(x + bias.y, y + bias.x, 0)->has_flag( allow_road ) &&
+                                         ter(x - bias.y, y - bias.x, 0)->has_flag( allow_road ) ) ) {
             croad = c;
             build_city_street( x, y, cs - rng( 1, 3 ), om_direction::turn_left( dir ), town );
             build_city_street( x, y, cs - rng( 1, 3 ), om_direction::turn_right( dir ), town );
         }
     }
     // Now we're done growing, if there's a road ahead, add one more road segment to meet it.
-    if (is_road(x + (2 * bias.x) , y + (2 * bias.y), 0)) {
-        ter( x + bias.x, y + bias.y, 0 ) = road_ns;
+    if( get_ter( x + bias.x, y + bias.y, 0 )->has_flag( allow_road ) &&
+        get_ter( x + 2 * bias.x, y + 2 * bias.y, 0 )->can_connect_to( road->get_first() ) ) {
+
+        ter( x + bias.x, y + bias.y, 0 ) = road->get_first();
     }
 
     // If we're big, make a right turn at the edge of town.
@@ -3641,22 +3614,20 @@ void overmap::place_rifts(int const z)
     }
 }
 
-void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const int_id<oter_type_t> &type_id )
+void overmap::build_connection( const point &source, const point &dest, int z, const int_id<oter_type_t> &type_id )
 {
-    const tripoint source( x1, y1, z );
-    const tripoint dest( x2, y2, z );
     const int disp = type_id == oter_type_id( "road" ) ? 5 : 2;
 
-    const auto estimate = [ this, disp, &type_id, &dest ]( const pf::node &prev, const pf::node &cur ) {
+    const auto estimate = [&]( const pf::node &prev, const pf::node &cur ) {
         // Reject nodes that don't allow roads to cross them (e.g. buildings)
-        const auto &id( ter( cur.x, cur.y, dest.z ) );
+        const auto &id( ter( cur.x, cur.y, z ) );
 
         if( !road_allowed( id ) ) {
             return -1;
         }
         // Reject nodes that make corners on the river
-        if( prev.dir != cur.dir && ( is_river( ter( prev.x, prev.y, dest.z ) ) ||
-                                     is_river( ter( cur.x, cur.y, dest.z ) ) ) ) {
+        if( prev.dir != cur.dir && ( is_river( ter( prev.x, prev.y, z ) ) ||
+                                     is_river( ter( cur.x, cur.y, z ) ) ) ) {
             return -1;
         }
 
@@ -3688,23 +3659,23 @@ void overmap::make_hiway( int x1, int y1, int x2, int y2, int z, const int_id<ot
     }
 }
 
-void overmap::place_hiways( const std::vector<city> &cities, int z, const int_id<oter_type_t> &type_id )
+void overmap::connect_closest_points( const std::vector<point> &points, int z, const int_id<oter_type_t> &type_id )
 {
-    if (cities.size() == 1) {
+    if( points.size() == 1 ) {
         return;
     }
-    city best;
-    for (size_t i = 0; i < cities.size(); i++) {
+    for( size_t i = 0; i < points.size(); ++i ) {
         int closest = -1;
-        for (size_t j = i + 1; j < cities.size(); j++) {
-            int distance = trig_dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
-            if (distance < closest || closest < 0) {
+        int k;
+        for( size_t j = i + 1; j < points.size(); j++ ) {
+            const int distance = trig_dist( points[i].x, points[i].y, points[j].x, points[j].y );
+            if( distance < closest || closest < 0) {
                 closest = distance;
-                best = cities[j];
+                k = j;
             }
         }
         if( closest > 0 ) {
-            make_hiway( cities[i].x, cities[i].y, best.x, best.y, z, type_id );
+            build_connection( points[i], points[k], z, type_id );
         }
     }
 }
@@ -3832,19 +3803,6 @@ bool overmap::check_ot_type(const std::string &otype, int x, int y, int z) const
 {
     const oter_id oter = get_ter(x, y, z);
     return is_ot_type(otype, oter);
-}
-
-bool overmap::is_road(int x, int y, int z)
-{
-    if( !inbounds( x, y, z ) ) {
-        for (auto &it : roads_out) {
-            if (abs(it.x - x) + abs(it.y - y) <= 1) {
-                return true;
-            }
-        }
-    }
-    return ter(x, y, z)->has_flag( road_tile );
-    //oter_t(ter(x, y, z)).is_road;
 }
 
 oter_id overmap::good_connection( const oter_t &oter, const tripoint &p )
@@ -4164,8 +4122,8 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
     // Make connections.
     if( cit ) {
         for( const auto &elem : special.connections ) {
-            const tripoint rp = p + om_direction::rotate( elem.p, dir );
-            make_hiway( rp.x, rp.y, cit.x, cit.y, rp.z, elem.terrain.id() );
+            const tripoint rp( p + om_direction::rotate( elem.p, dir ) );
+            build_connection( point( rp.x, rp.y ), point( cit.x, cit.y ), elem.p.z, elem.terrain.id() );
         }
     }
     // Place spawns.

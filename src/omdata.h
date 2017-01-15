@@ -109,7 +109,6 @@ enum oter_flags {
     known_down = 0,
     known_up,
     river_tile,
-    road_tile,
     has_sidewalk,
     allow_road,
     rotates,      // does this tile have four versions, one for each direction?

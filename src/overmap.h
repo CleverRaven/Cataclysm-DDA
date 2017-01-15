@@ -389,12 +389,11 @@ public:
   bool build_slimepit(int x, int y, int z, int s);
   void build_mine(int x, int y, int z, int s);
   void place_rifts(int const z);
-  // Connection highways
-  void place_hiways( const std::vector<city> &cities, int z, const int_id<oter_type_t> &type_id );
-  void make_hiway( int x1, int y1, int x2, int y2, int z, const int_id<oter_type_t> &type_id );
+    // Connection laying
+    void build_connection( const point &source, const point &dest, int z, const int_id<oter_type_t> &type_id );
+    void connect_closest_points( const std::vector<point> &points, int z, const int_id<oter_type_t> &type_id );
   // Polishing
   bool check_ot_type(const std::string &otype, int x, int y, int z) const;
-  bool is_road(int x, int y, int z);
   void polish(const int z, const std::string &terrain_type="all");
   void chip_rock(int x, int y, int z);
 
