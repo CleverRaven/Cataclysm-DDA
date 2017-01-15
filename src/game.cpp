@@ -10143,7 +10143,7 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
         add_msg( m_info, _( "You can no longer fire." ) );
         return false;
     }
-    
+
     veh = m.veh_at( u.pos() );
     if( veh != nullptr && veh->player_in_control( u ) && gun->is_two_handed( u ) ) {
         add_msg( m_info, _( "You need a free arm to drive!" ) );
@@ -10230,11 +10230,11 @@ bool game::plfire( item *weapon, int bp_cost )
     static item *cached_weapon = nullptr;
     
     if( weapon != nullptr ) {
-        // If valid weapon parameter passed, set the stored bp_cost to current value.
+        // valid weapon, set the cached weapon and bp_cost to the current values.
         cached_weapon = weapon;
         bio_power_cost = bp_cost;
     } else if( !cached_weapon ) {
-        // if no weapon is cached, default to the player's weapon
+        // if no weapon is cached, default to the player's weapon.
         cached_weapon = &u.weapon;
     }
         
