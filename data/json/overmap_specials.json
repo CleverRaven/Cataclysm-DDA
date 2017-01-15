@@ -332,7 +332,7 @@
         "locations" : [ "wilderness", "swamp" ],
         "city_distance" : [4, -1],
         "city_sizes" : [2, 10],
-        "occurrences" : [0, 20]
+        "occurrences" : [0, 5]
     },{
         "type" : "overmap_special",
         "id" : "Military Outpost",
