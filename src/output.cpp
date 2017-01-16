@@ -1237,6 +1237,39 @@ std::string replace_colors( std::string text )
     return text;
 }
 
+void draw_item_filter_rules( WINDOW *win, int starty, int height, item_filter_type type )
+{
+    // Clear every row, but the leftmost/rightmost pixels intact.
+    const int len = getmaxx( win ) - 2;
+    for( int i = 0; i < height; i++ ) {
+        mvwprintz( win, starty + i, 1, c_black, std::string( len, ' ' ).c_str() );
+    }
+
+    // Not static so that language changes are correctly handled
+    const std::string intros[] = {
+        _( "Type part of an item's name to filter it." ),
+        _( "Type part of an item's name to move nearby items to the bottom." ),
+        _( "Type part of an item's name to move nearby items to the top." )
+    };
+    const int tab_idx = int( type ) - int( item_filter_type::FIRST );
+    starty += 1 + fold_and_print( win, starty, 1, len, c_white, intros[tab_idx] );
+
+    starty += fold_and_print( win, starty, 1, len, c_white, _( "Separate multiple items with ," ) );
+    //~ An example of how to separate multiple items with a comma when filtering items.
+    starty += 1 + fold_and_print( win, starty, 1, len, c_white, _( "Example: back,flash,aid, ,band" ) );
+
+    if( type == item_filter_type::FILTER ) {
+        starty += fold_and_print( win, starty, 1, len, c_white, _( "To exclude items, place - in front." ) );
+        //~ An example of how to exclude items with - when filtering items.
+        starty += 1 + fold_and_print( win, starty, 1, len, c_white, _( "Example: -pipe,-chunk,-steel" ) );
+    }
+
+    starty += fold_and_print( win, starty, 1, len, c_white, _( "Search [c]ategory or [m]aterial:" ) );
+    //~ An example of how to filter items based on category or material.
+    fold_and_print( win, starty, 1, len, c_white, _( "Example: c:food,m:iron" ) );
+    wrefresh( win );
+}
+
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                               const std::vector<iteminfo> &vItemCompare )
 {

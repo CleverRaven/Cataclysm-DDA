@@ -8852,64 +8852,6 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
     return ret;
 }
 
-void game::draw_item_filter_rules(WINDOW *window, int rows)
-{
-    for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, std::string(getmaxx(window) - 2, ' ').c_str());
-    }
-
-    mvwprintz(window, 0, 2, c_white, "%s", _("Type part of an item's name to"));
-    mvwprintz(window, 1, 2, c_white, "%s", _("filter it."));
-
-    mvwprintz(window, 3, 2, c_white, "%s", _("Separate multiple items with ,"));
-    mvwprintz(window, 4, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
-
-    mvwprintz(window, 6, 2, c_white, "%s", _("To exclude items, place - in front"));
-    mvwprintz(window, 7, 2, c_white, "%s", _("Example: -pipe,-chunk,-steel"));
-
-    mvwprintz(window, 9, 2, c_white, "%s", _("Search [c]ategory or [m]aterial:"));
-    mvwprintz(window, 10, 2, c_white, "%s", _("Example: c:food,m:iron"));
-    wrefresh(window);
-}
-
-std::string game::ask_item_priority_high(WINDOW *window, int rows)
-{
-    for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, std::string(getmaxx(window) - 2, ' ').c_str());
-    }
-
-    mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
-    mvwprintz(window, 3, 2, c_white, "%s", _("nearby items to the top."));
-
-    mvwprintz(window, 5, 2, c_white, "%s", _("Separate multiple items with ,"));
-    mvwprintz(window, 6, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
-
-    mvwprintz(window, 8, 2, c_white, "%s", _("Search [c]ategory or [m]aterial:"));
-    mvwprintz(window, 9, 2, c_white, "%s", _("Example: {c:food},{m:iron}"));
-    wrefresh(window);
-    return string_input_popup(_("High Priority:"), 55, list_item_upvote,
-                              _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_priority", 256);
-}
-
-std::string game::ask_item_priority_low(WINDOW *window, int rows)
-{
-    for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, std::string(getmaxx(window) - 2, ' ').c_str());
-    }
-
-    mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
-    mvwprintz(window, 3, 2, c_white, "%s", _("nearby items to the bottom."));
-
-    mvwprintz(window, 5, 2, c_white, "%s", _("Separate multiple items with ,"));
-    mvwprintz(window, 6, 2, c_white, "%s", _("Example: back,flash,aid, ,band"));
-
-    mvwprintz(window, 8, 2, c_white, "%s", _("Search [c]ategory or [m]aterial:"));
-    mvwprintz(window, 9, 2, c_white, "%s", _("Example: {c:food},{m:iron}"));
-    wrefresh(window);
-    return string_input_popup(_("Low Priority:"), 55, list_item_downvote,
-                              _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_downvote", 256);
-}
-
 void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
 {
     //Reset terrain
@@ -9100,39 +9042,42 @@ int game::get_user_action_counter() const
 
 void game::list_items_monsters()
 {
-    int iRetItems = -1;
-    int iRetMonsters = -1;
-    int startas = uistate.list_item_mon;
-    temp_exit_fullscreen();
-    do {
-        if (startas != 2) { // last mode 2 = list_monster
-            startas = 0;      // but only for the first bit of the loop
-            iRetItems = list_items(iRetMonsters);
-        } else {
-            iRetItems = -2;   // so we'll try list_items if list_monsters found 0
-        }
-        if (iRetItems != -1 || startas == 2) {
-            startas = 0;
-            iRetMonsters = list_monsters(iRetItems);
-            if (iRetMonsters == 2) {
-                iRetItems = -1; // will fire, exit loop
-            } else if (iRetMonsters == -1 && iRetItems == -2) {
-                iRetItems = -1; // exit if requested on list_monsters firstrun
-            }
-        }
-    } while (iRetItems != -1 && iRetMonsters != -1 && !(iRetItems == 0 && iRetMonsters == 0));
+    const std::vector<Creature *> mons = u.get_visible_creatures( DAYLIGHT_LEVEL );
+    ///\EFFECT_PER increases range of interacting with items on the ground from a list
+    const std::vector<map_item_stack> items = find_nearby_items( 2 * u.per_cur + 12 );
 
-    if (iRetItems == 0 && iRetMonsters == 0) {
-        add_msg(m_info, _("You don't see any items or monsters around you!"));
-    } else if (iRetMonsters == 2) {
-        refresh_all();
+    if( mons.empty() && items.empty() ) {
+        add_msg( m_info, _( "You don't see any items or monsters around you!" ) );
+        return;
+    }
+    // If the current list is empty, switch to the non-empty list
+    if( uistate.vmenu_show_items ) {
+        if( items.empty() ) {
+            uistate.vmenu_show_items = false;
+        }
+    } else if( mons.empty() ) {
+        uistate.vmenu_show_items = true;
+    }
+
+    temp_exit_fullscreen();
+    game::vmenu_ret ret;
+    while( true ) {
+        ret = uistate.vmenu_show_items ? list_items( items ) : list_monsters( mons );
+        if( ret == game::vmenu_ret::CHANGE_TAB ) {
+            uistate.vmenu_show_items = !uistate.vmenu_show_items;
+        } else {
+            break;
+        }
+    }
+
+    refresh_all();
+    if( ret == game::vmenu_ret::FIRE ) {
         plfire();
     }
-    refresh_all();
     reenter_fullscreen();
 }
 
-int game::list_items(const int iLastState)
+game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 {
     int iInfoHeight = std::min(25, TERMY / 2);
     const int width = use_narrow_sidebar() ? 45 : 55;
@@ -9165,28 +9110,18 @@ int game::list_items(const int iLastState)
         uistate.list_item_init = true;
     }
 
-    //this stores the items found, along with the coordinates
-    ///\EFFECT_PER increases range of interacting with items on the ground from a list
-    const std::vector<map_item_stack> ground_items_radius = find_nearby_items( 2 * u.per_cur + 12 );
-    if( iLastState != 1 && ground_items_radius.empty() ) {
-        return 0;
-    }
-    std::vector<map_item_stack> ground_items = ground_items_radius;
+    std::vector<map_item_stack> ground_items = item_list;
     //this stores only those items that match our filter
     std::vector<map_item_stack> filtered_items =
         !sFilter.empty() ? filter_item_stacks( ground_items, sFilter ) : ground_items;
     int highPEnd = list_filter_high_priority(filtered_items, list_item_upvote);
     int lowPStart = list_filter_low_priority(filtered_items, highPEnd, list_item_downvote);
     int iItemNum = ground_items.size();
-    if (iItemNum > 0) {
-        uistate.list_item_mon = 1; // remember we've tabbed here
-    }
 
     const tripoint stored_view_offset = u.view_offset;
 
     u.view_offset = tripoint_zero;
 
-    int iReturn = -1;
     int iActive = 0; // Item index that we're looking at
     const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2;
     int iStartPos = 0;
@@ -9227,7 +9162,7 @@ int game::list_items(const int iLastState)
             reset = true;
             refresh_all();
         } else if( action == "FILTER" ) {
-            draw_item_filter_rules( w_item_info, iInfoHeight );
+            draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
             sFilter = string_input_popup( _( "Filter:" ), 55, sFilter,
                                           _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ),
                                           "item_filter", 256 );
@@ -9254,13 +9189,19 @@ int game::list_items(const int iLastState)
             iLastActive = tripoint_min;
             reset = true;
         } else if( action == "PRIORITY_INCREASE" ) {
-            list_item_upvote = ask_item_priority_high( w_item_info, iInfoHeight );
+            draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::HIGH_PRIORITY );
+            list_item_upvote = string_input_popup( _( "High Priority:" ), 55, list_item_upvote,
+                                                   _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ),
+                                                   "list_item_priority", 256 );
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
             uistate.list_item_priority_active = !list_item_upvote.empty();
         } else if( action == "PRIORITY_DECREASE" ) {
-            list_item_downvote = ask_item_priority_low( w_item_info, iInfoHeight );
+            draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::LOW_PRIORITY );
+            list_item_downvote = string_input_popup( _( "Low Priority:" ), 55, list_item_downvote,
+                                                     _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ),
+                                                     "list_item_downvote", 256 );
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
@@ -9295,7 +9236,7 @@ int game::list_items(const int iLastState)
             }
         }
         if( uistate.list_item_sort == 1 ) {
-            ground_items = ground_items_radius;
+            ground_items = item_list;
         } else if( uistate.list_item_sort == 2 ) {
             std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
         }
@@ -9372,10 +9313,10 @@ int game::list_items(const int iLastState)
             iScrollPos++;
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
-            return 1;
+            return game::vmenu_ret::CHANGE_TAB;
         }
 
-        if( ground_items.empty() && iLastState == 1 ) {
+        if( ground_items.empty() ) {
             reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
             wrefresh( w_items_border );
             mvwprintz( w_items, 10, 2, c_white, _( "You don't see any items around you!" ) );
@@ -9474,7 +9415,7 @@ int game::list_items(const int iLastState)
             wrefresh( w_items_border );
         }
 
-        const bool bDrawLeft = ( ground_items.empty() && iLastState == 1 ) || filtered_items.empty();
+        const bool bDrawLeft = ground_items.empty() || filtered_items.empty();
         draw_custom_border( w_item_info, bDrawLeft, true, false, true, LINE_XOXO, LINE_XOXO, true, true);
         wrefresh(w_items);
         wrefresh(w_item_info);
@@ -9483,18 +9424,11 @@ int game::list_items(const int iLastState)
     } while (action != "QUIT");
 
     u.view_offset = stored_view_offset;
-    return iReturn;
+    return game::vmenu_ret::QUIT;
 }
 
-int game::list_monsters(const int iLastState)
+game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list )
 {
-    const auto vMonsters = u.get_visible_creatures( DAYLIGHT_LEVEL );
-    const int iMonsterNum = vMonsters.size();
-
-    if( vMonsters.empty() && iLastState != 1 ) {
-        return 0;
-    }
-
     int iInfoHeight = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
     const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
@@ -9512,8 +9446,6 @@ int game::list_monsters(const int iLastState)
     WINDOW *w_monster_info_border = newwin(iInfoHeight, width,
                                            TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_monster_info_borderptr( w_monster_info_border );
-
-    uistate.list_item_mon = 2; // remember we've tabbed here
 
     const int iWeaponRange = u.gun_engagement_range( u.weapon, player::engagement::maximum );
 
@@ -9570,16 +9502,16 @@ int game::list_monsters(const int iLastState)
         if (action == "UP") {
             iActive--;
             if (iActive < 0) {
-                iActive = iMonsterNum - 1;
+                iActive = int( monster_list.size() ) - 1;
             }
         } else if (action == "DOWN") {
             iActive++;
-            if (iActive >= iMonsterNum) {
+            if( iActive >= int( monster_list.size() ) ) {
                 iActive = 0;
             }
         } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
             u.view_offset = stored_view_offset;
-            return 1;
+            return game::vmenu_ret::CHANGE_TAB;
         } else if (action == "SAFEMODE_BLACKLIST_REMOVE") {
             const auto m = dynamic_cast<monster*>( cCurMon );
             const std::string monName = (m != nullptr) ? m->name() : "human";
@@ -9602,27 +9534,27 @@ int game::list_monsters(const int iLastState)
                 rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
                 last_target = mon_at( cCurMon->pos(), true );
                 u.view_offset = stored_view_offset;
-                return 2;
+                return game::vmenu_ret::FIRE;
             }
         }
 
-        if (vMonsters.empty()) {
+        if( monster_list.empty() ) {
             wrefresh(w_monsters_border);
             mvwprintz(w_monsters, 10, 2, c_white, _("You don't see any monsters around you!"));
         } else {
-            if( static_cast<size_t>( iActive ) >= vMonsters.size() ) {
+            if( static_cast<size_t>( iActive ) >= monster_list.size() ) {
                 iActive = 0;
             }
             werase(w_monsters);
 
-            calcStartPos(iStartPos, iActive, iMaxRows, iMonsterNum);
+            calcStartPos( iStartPos, iActive, iMaxRows, int( monster_list.size() ) );
 
-            cCurMon = vMonsters[iActive];
+            cCurMon = monster_list[iActive];
             iActivePos = cCurMon->pos() - u.pos();
 
-            const auto endY = std::min<int>( iMaxRows, iMonsterNum - iStartPos );
+            const auto endY = std::min<int>( iMaxRows, int( monster_list.size() ) - iStartPos );
             for( int y = 0; y < endY; ++y ) {
-                const auto critter = vMonsters[y + iStartPos];
+                const auto critter = monster_list[y + iStartPos];
                 const bool selected = ( cCurMon == critter );
                 const auto m = dynamic_cast<monster*>( critter );
                 const auto p = dynamic_cast<npc*>( critter );
@@ -9673,15 +9605,16 @@ int game::list_monsters(const int iLastState)
                     }
                     mvwprintz(w_monsters, y, 28, color, "%s", sText.c_str());
 
-                    int numw = iMonsterNum > 9 ? 2 : 1;
+                    int numw = monster_list.size() > 9 ? 2 : 1;
                     mvwprintz( w_monsters, y, width - (6 + numw), (selected ? c_ltgreen : c_ltgray), "%*d %s",
                                 numw, rl_dist( u.pos(), critter->pos() ),
                                 direction_name_short( direction_from( u.pos(), critter->pos() ) ).c_str() );
             }
 
-            mvwprintz(w_monsters_border, 0, (width - 9) / 2 + ((iMonsterNum > 9) ? 0 : 1),
-                        c_ltgreen, " %*d", ((iMonsterNum > 9) ? 2 : 1), iActive + 1);
-            wprintz(w_monsters_border, c_white, " / %*d ", ((iMonsterNum > 9) ? 2 : 1), iMonsterNum);
+            // TODO: What makes 9 so magic?
+            mvwprintz( w_monsters_border, 0, (width - 9) / 2 + monster_list.size() > 9 ? 0 : 1,
+                       c_ltgreen, " %*d", monster_list.size() > 9 ? 2 : 1, iActive + 1 );
+            wprintz( w_monsters_border, c_white, " / %*d ", monster_list.size() > 9 ? 2 : 1, int( monster_list.size() ) );
 
             werase(w_monster_info);
 
@@ -9706,7 +9639,7 @@ int game::list_monsters(const int iLastState)
                 draw_trail_to_square( iActivePos, false );
             }
 
-            draw_scrollbar(w_monsters_border, iActive, iMaxRows, iMonsterNum, 1);
+            draw_scrollbar( w_monsters_border, iActive, iMaxRows, int( monster_list.size() ), 1 );
             wrefresh(w_monsters_border);
         }
 
@@ -9733,7 +9666,7 @@ int game::list_monsters(const int iLastState)
 
     u.view_offset = stored_view_offset;
 
-    return -1;
+    return game::vmenu_ret::QUIT;
 }
 
 // Establish or release a grab on a vehicle

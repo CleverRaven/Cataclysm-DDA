@@ -61,7 +61,9 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         tripoint adv_inv_last_coords = {-999, -999, -999};
         int last_inv_start = -2;
         int last_inv_sel = -2;
-        int list_item_mon = -1;
+
+        // V Menu Stuff
+        bool vmenu_show_items = true; // false implies show monsters
         int list_item_sort = 0;
         std::string list_item_filter;
         std::string list_item_downvote;
@@ -70,6 +72,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         bool list_item_downvote_active = false;
         bool list_item_priority_active = false;
         bool list_item_init = false;
+
         // construction menu selections
         std::string construction_filter;
         std::string last_construction;
@@ -132,7 +135,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             json.member("editmap_nsa_viewmode", editmap_nsa_viewmode);
             json.member("overmap_blinking", overmap_blinking);
             json.member("overmap_show_overlays", overmap_show_overlays);
-            json.member("list_item_mon", list_item_mon);
+            json.member( "vmenu_show_items", vmenu_show_items );
             json.member("list_item_sort", list_item_sort);
             json.member("list_item_filter_active", list_item_filter_active);
             json.member("list_item_downvote_active", list_item_downvote_active);
@@ -212,7 +215,13 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             jo.read("adv_inv_container_content_type", adv_inv_container_content_type);
             jo.read("overmap_blinking", overmap_blinking);
             jo.read("overmap_show_overlays", overmap_show_overlays);
-            jo.read("list_item_mon", list_item_mon);
+
+            if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
+                // This is an old save: 1 means view items, 2 means view monsters,
+                // -1 means uninitialized
+                vmenu_show_items = jo.get_int( "list_item_mon", -1 ) != 2;
+            }
+
             jo.read("list_item_sort", list_item_sort);
             jo.read("list_item_filter_active", list_item_filter_active);
             jo.read("list_item_downvote_active", list_item_downvote_active);
