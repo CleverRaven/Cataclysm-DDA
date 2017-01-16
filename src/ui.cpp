@@ -785,7 +785,6 @@ void uimenu::query(bool loop)
     }
     int startret = UIMENU_INVALID;
     ret = UIMENU_INVALID;
-    bool keycallback = (callback != NULL );
 
     input_context ctxt( "UIMENU" );
     ctxt.register_updown();
@@ -820,7 +819,7 @@ void uimenu::query(bool loop)
         } else if ( action == "QUIT" && return_invalid) { //break loop with ESCAPE key
             break;
         } else {
-            if ( keycallback ) {
+            if( callback ) {
                 skipkey = callback->key( event, selected, this );
             }
             if ( ! skipkey && return_invalid ) {
