@@ -60,8 +60,9 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_
 {
     clear_game( terrain );
 
-    const tripoint starting_point( 60, 60, 0 );
-    vehicle *veh_ptr = g->m.add_vehicle( veh_id, starting_point, -90, 0, 0 );
+    const tripoint map_starting_point( 60, 60, 0 );
+    vehicle *veh_ptr = g->m.add_vehicle( veh_id, map_starting_point, -90, 0, 0 );
+
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
         return 0;
@@ -69,6 +70,7 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_
 
     set_vehicle_fuel( veh_ptr, fuel_level );
     vehicle &veh = *veh_ptr;
+    const tripoint starting_point = veh.global_pos3();
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
     veh.engine_on = true;
     REQUIRE( veh.safe_velocity() > 0 );
