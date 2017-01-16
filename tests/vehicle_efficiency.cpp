@@ -104,30 +104,42 @@ void find_efficiency( std::string type ) {
 
 void test_vehicle( std::string type, long pavement_target, long dirt_target, long pavement_target_w_stops, long dirt_target_w_stops ) {
     SECTION( type + " on pavement" ) {
+      for( int i = 0; i < 10; i++)
         test_efficiency( vproto_id( type ), ter_id( "t_pavement" ), -1, pavement_target * 0.8, pavement_target * 1.2 );
     }
     SECTION( type + " on dirt" ) {
+      for( int i = 0; i < 10; i++)
         test_efficiency( vproto_id( type ), ter_id( "t_dirt" ), -1, dirt_target * 0.9, dirt_target * 1.1 );
     }
     SECTION( type + " on pavement, full stop every 5 turns" ) {
+      for( int i = 0; i < 10; i++)
         test_efficiency( vproto_id( type ), ter_id( "t_pavement" ), 5, pavement_target_w_stops * 0.9, pavement_target_w_stops * 1.1 );
     }
     SECTION( type + " on dirt, full stop every 5 turns" ) {
+      for( int i = 0; i < 10; i++)
         test_efficiency( vproto_id( type ), ter_id( "t_dirt" ), 5, dirt_target_w_stops * 0.9, dirt_target_w_stops * 1.1 );
     }
 }
 
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" ) {
-    test_vehicle( "beetle", 48000, 45000, 2375, 2175 );
-    test_vehicle( "car", 48000, 31000, 2375, 1575 );
-    test_vehicle( "car_sports", 51400, 31000, 2465, 1478 );
-    // Electric car seems to spawn with no charge.
-    test_vehicle( "electric_car", 300 );
-    test_vehicle( "suv", 99000, 56500, 4950, 2725 );
-    test_vehicle( "motorcycle", 7400, 4100, 575, 330 );
-    test_vehicle( "quad_bike", 6600, 4500, 500, 330 );
-    test_vehicle( "scooter", 6550, 6900, 550, 550 );
-    test_vehicle( "superbike", 8200, 4167, 600, 300 );
-    find_efficiency( "apc" );
-    find_efficiency( "humvee" );
+  //test_vehicle( "beetle", 48518, 44531, 2372, 2175 );
+  //test_vehicle( "car", 48000, 31000, 2375, 1575 );
+  //test_vehicle( "car_sports", 51400, 31000, 2465, 1478 );
+  // Electric car seems to spawn with no charge.
+  //test_vehicle( "electric_car", 300 );
+  //test_vehicle( "suv", 99000, 56500, 4950, 2725 );
+  //test_vehicle( "motorcycle", 7400, 4100, 575, 330 );
+  //test_vehicle( "quad_bike", 6600, 4500, 500, 330 );
+  //test_vehicle( "scooter", 6550, 6900, 550, 550 );
+  //test_vehicle( "superbike", 8200, 4167, 600, 300 );
+  //test_vehicle( "ambulance", 95000, 86000, 3650, 3200 );
+  //test_vehicle( "fire_engine", 97000, 92000, 4120, 3820 );
+  find_efficiency( "apc" );
+  find_efficiency( "humvee" );
+  test_vehicle( "fire_truck", 77077, 16972, 3201, 763 );
+  test_vehicle( "truck_swat", 80451, 11170, 3470, 745 );
+  test_vehicle( "tractor_plow", 55923, 56126, 2351, 2349 );
+  test_vehicle( "aapc-mg", 320207, 292725, 11843, 10152 );
+  //test_vehicle( "apc", 82000, 16000, 3200, 800 );
+  //test_vehicle( "humvee", 82000, 16000, 3200, 800 );
 }
