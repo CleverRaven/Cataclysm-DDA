@@ -1,0 +1,12 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "DOOM_MOD",
+    "name": "Doom Mod",
+    "description": "Adds monsters, items, and locations from the game Doom.  Currently being mainlined, see the forum for the complete mod.",
+    "category": "creatures",
+    "author": "pisskop",
+    "path": ""
+}
+]
