@@ -707,7 +707,7 @@ const std::string &input_context::handle_input()
         }
 
         if( next_action.type == CATA_INPUT_MOUSE ) {
-            if( !handling_coordinate_input ) {
+            if( !handling_coordinate_input && action == CATA_ERROR ) {
                 continue; // Ignore this mouse input.
             }
 
