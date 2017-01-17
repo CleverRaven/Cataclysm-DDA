@@ -711,10 +711,14 @@ int uimenu::scroll_amount_from_action( const std::string &action )
         return -1;
     } else if( action == "PAGE_UP" ) {
         return (-vmax + 1);
+    } else if( action == "SCROLL_UP" ) {
+        return -3;
     } else if( action == "DOWN" ) {
         return 1;
     } else if( action == "PAGE_DOWN" ) {
         return vmax - 1;
+    } else if( action == "SCROLL_DOWN" ) {
+        return +3;
     } else {
         return 0;
     }
@@ -790,6 +794,8 @@ void uimenu::query(bool loop)
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "FILTER" );
