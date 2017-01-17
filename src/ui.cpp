@@ -705,6 +705,21 @@ int uimenu::scroll_amount_from_key( const int key )
     }
 }
 
+int uimenu::scroll_amount_from_action( const std::string &action )
+{
+    if( action == "UP" ) {
+        return -1;
+    } else if( action == "PAGE_UP" ) {
+        return (-vmax + 1);
+    } else if( action == "DOWN" ) {
+        return 1;
+    } else if( action == "PAGE_DOWN" ) {
+        return vmax - 1;
+    } else {
+        return 0;
+    }
+}
+
 /*
  * check for valid scrolling keypress and handle. return false if invalid keypress
  */
@@ -772,18 +787,28 @@ void uimenu::query(bool loop)
     ret = UIMENU_INVALID;
     bool keycallback = (callback != NULL );
 
+    input_context ctxt( "UIMENU" );
+    ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "ANY_INPUT" );
+
     show();
     do {
         bool skiprefresh = false;
         bool skipkey = false;
-        // TODO: use local input context instead of global input manager
-        keypress = inp_mngr.get_input_event().get_first_input();
+        const auto action = ctxt.handle_input();
+        const auto event = ctxt.get_raw_input();
+        keypress = event.get_first_input();
 
-        if ( scrollby( scroll_amount_from_key( keypress ) ) == true ) {
+        if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
             /* nothing */
-        } else if ( filtering && ( keypress == '/' || keypress == '.' ) ) {
+        } else if ( filtering && action == "FILTER" ) {
             inputfilter();
-        } else if ( !fentries.empty() && ( keypress == '\n' || keypress == KEY_ENTER ||
+        } else if ( !fentries.empty() && ( action == "CONFIRM" ||
                                            keymap.find(keypress) != keymap.end() ) ) {
             if ( keymap.find(keypress) != keymap.end() ) {
                 selected = keymap[ keypress ];//fixme ?
@@ -793,7 +818,7 @@ void uimenu::query(bool loop)
             } else if ( return_invalid ) {
                 ret = 0 - entries[ selected ].retval; // disabled
             }
-        } else if ( keypress == KEY_ESCAPE && return_invalid) { //break loop with ESCAPE key
+        } else if ( action == "QUIT" && return_invalid) { //break loop with ESCAPE key
             break;
         } else {
             if ( keycallback ) {
