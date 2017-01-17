@@ -248,11 +248,7 @@ void player::randomize( const bool random_scenario, points_left &points )
         g->scen = random_entry( scenarios );
     }
 
-    if( g->scen->profsize() > 0 ) {
-        g->u.prof = g->scen->random_profession();
-    } else {
-        g->u.prof = profession::weighted_random();
-    }
+    g->u.prof = g->scen->weighted_random_profession();
     g->u.start_location = g->scen->random_start_location();
 
     str_max = rng( 6, HIGH_STAT - 2 );
@@ -1939,14 +1935,10 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
         draw_sorting_indicator(w_sorting, ctxt, scenario_sorter);
 
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Professions:"));
-        wprintz(w_profession, c_ltgray, _("\n"));
-        if (sorted_scens[cur_id]->profsize() > 0) {
-            wprintz(w_profession, c_ltgray, _("Limited"));
-        } else {
-            wprintz(w_profession, c_ltgray, _("All"));
-        }
+        wprintz( w_profession, c_ltgray,
+                 string_format( _( "\n%s" ), sorted_scens[cur_id]->prof_count_str().c_str() ).c_str() );
         wprintz(w_profession, c_ltgray, _(", default:\n"));
-        auto const scenario_prof = sorted_scens[cur_id]->get_profession();
+        auto const scenario_prof = sorted_scens[cur_id]->get_default_profession();
         auto const prof_points = scenario_prof->point_cost();
         auto const prof_color = prof_points > 0 ? c_green : c_ltgray;
         wprintz(w_profession, prof_color, scenario_prof->gender_appropriate_name(u->male).c_str());
@@ -2025,7 +2017,7 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
             u->int_max = 8;
             u->per_max = 8;
             g->scen = sorted_scens[cur_id];
-            u->prof = g->scen->get_profession();
+            u->prof = g->scen->get_default_profession();
             u->empty_traits();
             u->empty_skills();
             u->add_traits();

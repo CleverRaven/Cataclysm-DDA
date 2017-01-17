@@ -76,8 +76,6 @@ enum add_type : int;
 
         // these should be the only ways used to get at professions
         static const profession *generic(); // points to the generic, default profession
-        // return a random profession, weighted for use w/ random character creation or npcs
-        static const profession *weighted_random();
         static const std::vector<profession> &get_all();
 
         static bool has_initialized();
