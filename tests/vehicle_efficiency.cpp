@@ -54,10 +54,12 @@ void set_vehicle_fuel( vehicle *v, float veh_fuel_mult ) {
     }
 }
 
-const float fuel_level = 0.01;
+const float fuel_level = 0.001;
 
-long test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_velocity_turn, long min_dist, long max_dist )
+long test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_velocity_turn, long target_distance )
 {
+    long min_dist = target_distance * 0.9;
+    long max_dist = target_distance * 1.1;
     clear_game( terrain );
 
     const tripoint map_starting_point( 60, 60, 0 );
@@ -114,7 +116,7 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_
 void find_inner( std::string type, std::string terrain, int delay ) {
     statistics efficiency;
     for( int i = 0; i < 10; i++) {
-        efficiency.add( test_efficiency( vproto_id( type ), ter_id( terrain ), delay, 0, 0 ) );
+        efficiency.add( test_efficiency( vproto_id( type ), ter_id( terrain ), delay, 0 ) );
     }
     printf( "Testing %s on %s with %s: Min %d, Max %d, Midpoint %f.\n",
 	    type.c_str(), terrain.c_str(), (delay < 0) ? "no resets" : "resets every 5 turns",
@@ -132,16 +134,16 @@ void find_efficiency( std::string type ) {
 
 void test_vehicle( std::string type, long pavement_target, long dirt_target, long pavement_target_w_stops, long dirt_target_w_stops ) {
     SECTION( type + " on pavement" ) {
-        test_efficiency( vproto_id( type ), ter_id( "t_pavement" ), -1, pavement_target * 0.8, pavement_target * 1.2 );
+        test_efficiency( vproto_id( type ), ter_id( "t_pavement" ), -1, pavement_target );
     }
     SECTION( type + " on dirt" ) {
-        test_efficiency( vproto_id( type ), ter_id( "t_dirt" ), -1, dirt_target * 0.8, dirt_target * 1.2 );
+        test_efficiency( vproto_id( type ), ter_id( "t_dirt" ), -1, dirt_target );
     }
     SECTION( type + " on pavement, full stop every 5 turns" ) {
-        test_efficiency( vproto_id( type ), ter_id( "t_pavement" ), 5, pavement_target_w_stops * 0.8, pavement_target_w_stops * 1.2 );
+        test_efficiency( vproto_id( type ), ter_id( "t_pavement" ), 5, pavement_target_w_stops );
     }
     SECTION( type + " on dirt, full stop every 5 turns" ) {
-        test_efficiency( vproto_id( type ), ter_id( "t_dirt" ), 5, dirt_target_w_stops * 0.8, dirt_target_w_stops * 1.2 );
+        test_efficiency( vproto_id( type ), ter_id( "t_dirt" ), 5, dirt_target_w_stops );
     }
 }
 
