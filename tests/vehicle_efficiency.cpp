@@ -166,7 +166,6 @@ TEST_CASE( "vehicle_find_efficiency", "[.]" ) {
   find_efficiency( "fire_truck" );
   find_efficiency( "truck_swat" );
   find_efficiency( "tractor_plow" );
-  find_efficiency( "aapc-mg" );
   find_efficiency( "apc" );
   find_efficiency( "humvee" );
 }
@@ -191,7 +190,6 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" ) {
   test_vehicle( "fire_truck", 1561000, 354000, 65000, 18000 );
   test_vehicle( "truck_swat", 1624000, 241000, 73000, 18000 );
   test_vehicle( "tractor_plow", 1152000, 1152000, 43000, 43000 );
-  test_vehicle( "aapc-mg", 6433000, 5899500, 238000, 204000 );
   test_vehicle( "apc", 6433000, 5982000, 238000, 221000 );
   test_vehicle( "humvee", 1982000, 1095000, 78000, 43000 );
 }
