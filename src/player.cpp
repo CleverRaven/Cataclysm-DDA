@@ -10711,16 +10711,14 @@ hint_rating player::rate_action_use( const item &it ) const
         }
     } else if (it.is_bionic()) {
         return HINT_GOOD;
-    } else if (it.is_food() || it.is_food_container() || it.is_book() || it.is_armor()) {
+    } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
         return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
     } else if (it.is_gun()) {
-        if (!it.contents.empty()) {
-            return HINT_GOOD;
-        } else {
-            return HINT_IFFY;
-        }
+        return it.is_container_empty() ? HINT_IFFY : HINT_GOOD;
     } else if( it.type->has_use() ) {
         return HINT_GOOD;
+    } else if( !it.is_container_empty() ) {
+        return rate_action_use( it.get_contained() );
     }
 
     return HINT_CANT;
@@ -10827,21 +10825,22 @@ void player::use(int inventory_position)
         if( install_bionics( *used->type ) ) {
             i_rem(inventory_position);
         }
-        return;
-    } else if (used->is_food() || used->is_food_container()) {
+
+    } else if( used->is_food() ||
+               used->is_medication() ||
+               used->get_contained().is_food() ||
+               used->get_contained().is_medication() ) {
         consume(inventory_position);
-        return;
+
     } else if (used->is_book()) {
         read(inventory_position);
-        return;
 
     } else if ( used->type->has_use() ) {
         invoke_item( used );
-        return;
+
     } else {
         add_msg(m_info, _("You can't do anything interesting with your %s."),
                 used->tname().c_str());
-        return;
     }
 }
 
