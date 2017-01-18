@@ -3764,10 +3764,8 @@ bool game::load_packs( const std::string &msg, const std::vector<std::string>& p
         // if mod specifies legacy migrations load any that are required
         if( !mod.legacy.empty() ) {
             for( int i = get_world_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
-
                 popup_status( msg.c_str(), _( "Applying legacy migration (%s %i/%i)" ),
                               e.c_str(), i, core_version - 1 );
-
                 load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident );
             }
         }
