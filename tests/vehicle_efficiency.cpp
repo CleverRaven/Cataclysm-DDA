@@ -75,6 +75,11 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_
     veh.engine_on = true;
     REQUIRE( veh.safe_velocity() > 0 );
     veh.cruise_velocity = veh.safe_velocity();
+    // If we aren't testing repeated cold starts, start the vehicle at cruising velocity.
+    // Otherwise changing the amount of fuel in the tank perturbs the test results.
+    if( reset_velocity_turn == -1 ) {
+        veh.velocity = veh.cruise_velocity;
+    }
     int reset_counter = 0;
     long tiles_travelled = 0;
     int turn_count = 0;
