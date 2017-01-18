@@ -65,5 +65,20 @@
     "capacity": 10,
     "reliability": 10,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "svs24_bigrobodrum",
+    "type": "MAGAZINE",
+    "name": "SVS-24 robodrum",
+    "description": "todo",
+    "weight": 2358,
+    "volume": 5,
+    "price": 12000,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "654",
+    "reliability": 9,
+    "flags": [ "MAG_BULKY" ]
   }
 ]
