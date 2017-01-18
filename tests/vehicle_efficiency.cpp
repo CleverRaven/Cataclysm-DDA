@@ -174,22 +174,22 @@ TEST_CASE( "vehicle_find_efficiency", "[.]" ) {
 // Amount of cruising range for a fixed amount of fuel.
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" ) {
-  test_vehicle( "beetle", 937800, 886750, 47400, 43300 );
-  test_vehicle( "car", 907050, 595600, 47650, 31500 );
-  test_vehicle( "car_sports", 858200, 429150, 48500, 28850 );
+  test_vehicle( "beetle", 987000, 901499, 48000, 44000 );
+  test_vehicle( "car", 961000, 642000, 49000, 32000 );
+  test_vehicle( "car_sports", 1120000, 704000, 41000, 25000 );
   // Electric car seems to spawn with no charge.
   //test_vehicle( "electric_car", 300 );
-  test_vehicle( "suv", 1953850, 1078100, 98800, 54300 );
-  test_vehicle( "motorcycle", 133850, 68450, 11350, 6450 );
-  test_vehicle( "quad_bike", 113800, 78600, 9700, 6450 );
-  test_vehicle( "scooter", 130550, 121900, 11150, 10400 );
-  test_vehicle( "superbike", 121950, 40700, 11650, 5700 );
-  test_vehicle( "ambulance", 1825150, 1647700, 72850, 63950 );
-  test_vehicle( "fire_engine", 1859050, 1752900, 82250, 77350 );
-  test_vehicle( "fire_truck", 1445700, 277700, 64350, 15550 );
-  test_vehicle( "truck_swat", 1553350, 206350, 69250, 15050 );
-  test_vehicle( "tractor_plow", 1045350, 1091050, 47000, 47000 );
-  test_vehicle( "aapc-mg", 6372750, 5765650, 236900, 203050 );
-  test_vehicle( "apc", 6379250, 5894700, 236550, 219450 );
-  test_vehicle( "humvee", 1873600, 962600, 79300, 42400 );
+  test_vehicle( "suv", 2021000, 1156000, 100000, 56000 );
+  test_vehicle( "motorcycle", 154000, 90000, 10000, 5000 );
+  test_vehicle( "quad_bike", 139000, 96500, 8000, 5000 );
+  test_vehicle( "scooter", 138000, 138000, 11000, 11000 );
+  test_vehicle( "superbike", 181000, 104000, 8000, 4000 );
+  test_vehicle( "ambulance", 1944000, 1768000, 74000, 65000 );
+  test_vehicle( "fire_engine", 2000000, 1902000, 83000, 78500 );
+  test_vehicle( "fire_truck", 1561000, 354000, 65000, 18000 );
+  test_vehicle( "truck_swat", 1624000, 241000, 73000, 18000 );
+  test_vehicle( "tractor_plow", 1152000, 1152000, 43000, 43000 );
+  test_vehicle( "aapc-mg", 6433000, 5899500, 238000, 204000 );
+  test_vehicle( "apc", 6433000, 5982000, 238000, 221000 );
+  test_vehicle( "humvee", 1982000, 1095000, 78000, 43000 );
 }
