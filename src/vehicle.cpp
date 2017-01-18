@@ -3387,13 +3387,20 @@ void vehicle::consume_fuel( double load = 1.0 )
 
         //get exact amount of fuel needed
         double amnt_precise = double(amnt_fuel_use) / ft.coeff;
-
         amnt_precise *= load * (1.0 + st * st * 100);
         int amnt = int(amnt_precise);
-        // consumption remainder results in chance at additional fuel consumption
-        if( x_in_y(int(amnt_precise*1000) % 1000, 1000) ) {
-            amnt += 1;
+        // Add in the previous remainder if it exists, and then stash anything that is left.
+        double remainder = amnt_precise - amnt;
+        auto previous_remainder = fuel_remainder.find( ft.id );
+        if( previous_remainder != fuel_remainder.end() ) {
+            remainder += previous_remainder->second;
+            if( (int)remainder >= 1 ) {
+                amnt += (int)remainder;
+                remainder -= (int)remainder;
+            }
         }
+        fuel_remainder[ ft.id ] = remainder;
+
         drain( ft.id, amnt );
     }
     //do this with chance proportional to current load
