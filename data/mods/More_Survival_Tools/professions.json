@@ -31,22 +31,24 @@
                 "name": "cooking"
             }
         ],
-        "items": {
-            "both": [
+        "both": {
+            "ammo": 100,
+            "items": [
                 "loincloth_fur",
                 "cloak_fur",
                 "backpack_leather",
                 "boots_fur",
                 "gloves_fur",
                 "scarf_fur",
-                "quiver",
-                "crossbow_makeshift",
-                "bolt_wood",
                 "copper_knife",
                 "pot_makeshift",
                 "waterskin",
-                "flint_steel",
-                "tinderbox"
+                "flint_steel"
+            ],
+            "entries": [
+                { "item": "crossbow_makeshift", "ammo-item": "bolt_wood" },
+                { "item": "bolt_wood", "charges": 14, "container-item": "quiver" },
+                { "item": "tinderbox", "charges": [ 10, 20 ] }
             ]
         }
     },
