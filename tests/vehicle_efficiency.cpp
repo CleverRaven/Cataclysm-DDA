@@ -145,6 +145,34 @@ void test_vehicle( std::string type, long pavement_target, long dirt_target, lon
     }
 }
 
+/** This isn't a test per se, it executes this code to
+ * determine the current state of vehicle efficiency.
+ **/
+TEST_CASE( "vehicle_find_efficiency", "[.]" ) {
+  find_efficiency( "beetle" );
+  find_efficiency( "car" );
+  find_efficiency( "car_sports" );
+  // Electric car seems to spawn with no charge.
+  //find_efficiency( "electric_car", 300 );
+  find_efficiency( "suv" );
+  find_efficiency( "motorcycle" );
+  find_efficiency( "quad_bike" );
+  find_efficiency( "scooter" );
+  find_efficiency( "superbike" );
+  find_efficiency( "ambulance" );
+  find_efficiency( "fire_engine" );
+  find_efficiency( "fire_truck" );
+  find_efficiency( "truck_swat" );
+  find_efficiency( "tractor_plow" );
+  find_efficiency( "aapc-mg" );
+  find_efficiency( "apc" );
+  find_efficiency( "humvee" );
+}
+
+// TODO:
+// Amount of fuel needed to reach safe speed.
+// Amount of cruising range for a fixed amount of fuel.
+// Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" ) {
   test_vehicle( "beetle", 937800, 886750, 47400, 43300 );
   test_vehicle( "car", 907050, 595600, 47650, 31500 );
