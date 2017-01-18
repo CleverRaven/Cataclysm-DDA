@@ -1417,7 +1417,7 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
 
 void WORLD::load_options( JsonIn &jsin )
 {
-    // if core data version isn't specified then presume version 1
+    // if core data version isn't specified then assume version 1
     int version = 1;
 
     auto &opts = get_options();
