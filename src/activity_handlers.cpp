@@ -1813,14 +1813,9 @@ void activity_handlers::meditate_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::aim_do_turn( player_activity *act, player *p )
+void activity_handlers::aim_do_turn( player_activity *act, player * )
 {
     if( act->index == 0 ) {
-        if( !p->weapon.is_gun() ) {
-            // We lost our gun somehow, bail out.
-            act->set_to_null();
-        }
-
         g->m.build_map_cache( g->get_levz() );
         g->plfire();
     }
