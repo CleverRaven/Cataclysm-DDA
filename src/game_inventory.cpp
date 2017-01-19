@@ -369,7 +369,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 const int actual_turns = p.time_to_read( *loc, *reader ) / MOVES( 1 );
                 // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
                 const int normal_turns = get_book( loc ).time * reader->read_speed() / MOVES( 1 );
-                const std::string duration = calendar( actual_turns ).textify_period();
+                const std::string duration = calendar::print_approx_duration( actual_turns, false );
 
                 if( actual_turns > normal_turns ) { // Longer - complicated stuff.
                     return string_format( "<color_ltred>%s</color>", duration.c_str() );

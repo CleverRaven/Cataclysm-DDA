@@ -244,7 +244,7 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
     bool ok = reqs.can_make_with_inventory( inv );
 
     msg << _( "<color_white>Time required:</color>\n" );
-    msg << "> " << calendar::print_duration( moves / 100 ) << "\n";
+    msg << "> " << calendar::print_approx_duration( moves / 100 ) << "\n";
 
     msg << _( "<color_white>Skills required:</color>\n" );
     for( const auto& e : skills ) {
@@ -973,7 +973,7 @@ bool veh_interact::do_refill( std::string &msg )
 
     auto act = [&]( const vehicle_part &pt ) {
         auto validate = [&]( const item &obj ) {
-            if( pt.is_tank() ) { 
+            if( pt.is_tank() ) {
                 // cannot refill using active liquids (those that rot) due to #18570
                 if( obj.is_watertight_container() && !obj.contents.empty() && !obj.contents.front().active ) {
                     return pt.can_reload( obj.contents.front().typeId() );

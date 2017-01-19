@@ -282,39 +282,84 @@ float calendar::sunlight() const
     }
 }
 
-std::string calendar::print_duration( int turns )
+std::string calendar::print_clipped_duration( int turns )
 {
-    std::string res;
+    if( turns >= INDEFINITELY_LONG ) {
+        return _( "forever" );
+    }
 
     if( turns < MINUTES( 1 ) ) {
         const int sec = FULL_SECONDS_IN( turns );
-        res += string_format( ngettext( "%d second", "%d seconds", sec ), sec );
-
+        return string_format( ngettext( "%d second", "%d seconds", sec ), sec );
     } else if( turns < HOURS( 1 ) ) {
         const int min = FULL_MINUTES_IN( turns );
-        const int sec = FULL_SECONDS_IN( turns % MINUTES( 1 ) );
-        res += string_format( ngettext( "%d minute", "%d minutes", min ), min );
-        if( sec != 0 ) {
-            res += string_format( ngettext( " and %d second", " and %d seconds", sec ), sec );
-        }
-
+        return string_format( ngettext( "%d minute", "%d minutes", min ), min );
     } else if( turns < DAYS( 1 ) ) {
         const int hour = FULL_HOURS_IN( turns );
-        const int min = FULL_MINUTES_IN( turns % HOURS( 1 ) );
-        res += string_format( ngettext( "%d hour", "%d hours", hour ), hour );
-        if( min != 0 ) {
-            res += string_format( ngettext( " and %d minute", " and %d minutes", min ), min );
-        }
+        return string_format( ngettext( "%d hour", "%d hours", hour ), hour );
+    }
+    const int day = FULL_DAYS_IN( turns );
+    return string_format( ngettext( "%d day", "%d days", day ), day );
+}
 
-    } else {
-        const int day = FULL_DAYS_IN( turns );
-        const int hour = FULL_HOURS_IN( turns % DAYS( 1 ) );
-        res += string_format( ngettext( "%d day", "%d days", day ), day );
-        if( hour != 0 ) {
-            res += string_format( ngettext( " and %d hour", " and %d hours", hour ), hour );
+std::string calendar::print_duration( int turns )
+{
+    int divider = 0;
+
+    if( turns > MINUTES( 1 ) && turns < INDEFINITELY_LONG ) {
+        if( turns < HOURS( 1 ) ) {
+            divider = MINUTES( 1 );
+        } else if( turns < DAYS( 1 ) ) {
+            divider = HOURS( 1 );
+        } else {
+            divider = DAYS( 1 );
         }
     }
-    return res;
+
+    if( divider != 0 ) {
+        //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
+        return string_format( _( "%1$s and %2$s" ),
+                              print_clipped_duration( turns ).c_str(),
+                              print_clipped_duration( turns % divider ).c_str() );
+    }
+
+    return print_clipped_duration( turns );
+}
+
+std::string calendar::print_approx_duration( int turns, bool verbose )
+{
+    const auto make_result = [verbose]( int turns, const char *verbose_str, const char *short_str ) {
+        return string_format( verbose ? verbose_str : short_str, print_clipped_duration( turns ).c_str() );
+    };
+
+    int divider = 0;
+    int vicinity = 0;
+
+    if( turns > DAYS( 1 ) ) {
+        divider = DAYS( 1 );
+        vicinity = HOURS( 2 );
+    } else if( turns > HOURS( 1 ) ) {
+        divider = HOURS( 1 );
+        vicinity = MINUTES( 5 );
+    } // Minutes and seconds can be estimated precisely.
+
+    if( divider != 0 ) {
+        const int remainder = turns % divider;
+
+        if( remainder >= divider - vicinity ) {
+            turns += divider;
+        } else if( remainder > vicinity ) {
+            if( remainder < divider / 2 ) {
+                //~ %s - time (e.g. 2 hours).
+                return make_result( turns, _( "more than %s" ), ">%s" );
+            } else {
+                //~ %s - time (e.g. 2 hours).
+                return make_result( turns + divider, _( "less than %s" ), "<%s" );
+            }
+        }
+    }
+    //~ %s - time (e.g. 2 hours).
+    return make_result( turns, _( "about %s" ), "%s" );
 }
 
 std::string calendar::print_time(bool just_hour) const
