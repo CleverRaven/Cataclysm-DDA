@@ -58,8 +58,8 @@ const float fuel_level = 0.001;
 
 long test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_velocity_turn, long target_distance )
 {
-    long min_dist = target_distance * 0.9;
-    long max_dist = target_distance * 1.1;
+    long min_dist = target_distance * 0.99;
+    long max_dist = target_distance * 1.01;
     clear_game( terrain );
 
     const tripoint map_starting_point( 60, 60, 0 );
@@ -175,19 +175,19 @@ TEST_CASE( "vehicle_find_efficiency", "[.]" ) {
 // Amount of cruising range for a fixed amount of fuel.
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" ) {
-  test_vehicle( "beetle", 987000, 901499, 48000, 44000 );
+  test_vehicle( "beetle", 987000, 908000, 48000, 44000 );
   test_vehicle( "car", 961000, 642000, 49000, 32000 );
   test_vehicle( "car_sports", 1120000, 704000, 41000, 25000 );
   // Electric car seems to spawn with no charge.
   //test_vehicle( "electric_car", 300 );
-  test_vehicle( "suv", 2021000, 1156000, 100000, 56000 );
+  test_vehicle( "suv", 2021000, 1161000, 100000, 56000 );
   test_vehicle( "motorcycle", 154000, 90000, 10000, 5000 );
-  test_vehicle( "quad_bike", 139000, 96500, 8000, 5000 );
+  test_vehicle( "quad_bike", 139000, 98000, 8000, 5000 );
   test_vehicle( "scooter", 138000, 138000, 11000, 11000 );
   test_vehicle( "superbike", 181000, 104000, 8000, 4000 );
   test_vehicle( "ambulance", 1944000, 1768000, 74000, 65000 );
-  test_vehicle( "fire_engine", 2000000, 1902000, 83000, 78500 );
-  test_vehicle( "fire_truck", 1561000, 354000, 65000, 18000 );
+  test_vehicle( "fire_engine", 2000000, 1902000, 83000, 80000 );
+  test_vehicle( "fire_truck", 1561000, 384000, 65000, 18000 );
   test_vehicle( "truck_swat", 1624000, 241000, 73000, 18000 );
   test_vehicle( "tractor_plow", 1152000, 1152000, 43000, 43000 );
   test_vehicle( "apc", 6433000, 5982000, 238000, 221000 );
