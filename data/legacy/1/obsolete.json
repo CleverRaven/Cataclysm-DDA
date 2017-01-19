@@ -217,19 +217,6 @@
     "weight": 10,
     "volume": 1,
     "to_hit": 1
-    },
-  {
-    "type": "GENERIC",
-    "id": "music_cd",
-    "symbol": "?",
-    "color": "white",
-    "name": "music CD",
-    "description": "A CD with many hit songs burned to it.",
-    "price": 250,
-    "material": "plastic",
-    "weight": 15,
-    "volume": 0,
-    "to_hit": -2
   },
   {
     "type" : "GUNMOD",

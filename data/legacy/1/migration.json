@@ -1,0 +1,7 @@
+[
+  {
+    "id": "music_cd",
+    "type": "MIGRATION",
+    "replace": "plastic_chunk"
+  }
+]
