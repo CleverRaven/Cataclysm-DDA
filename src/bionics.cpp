@@ -607,15 +607,15 @@ void player::process_bionic( int b )
             int power_cost = bionics[bio.id].power_over_time;
             if( power_cost > 0 ) {
                if( bio.info().armor_interface ) {
-                    // Don't use any power for active armor interfaces unless we have powered armor.
-                    item *power_armor = nullptr;
+                    // Don't spend any power on armor interfaces unless we're wearing powered armor.
+                    bool powered_armor = false;
                     for( auto &w : worn ) {
                         if( w.active && w.is_power_armor() ) {
-                            power_armor = &w;
+                            powered_armor = true;
                             break;
                         }
                     }
-                    if( !power_armor ) {
+                    if( !powered_armor ) {
                         power_cost = 0;
                     }
                 }
