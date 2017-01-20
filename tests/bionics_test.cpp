@@ -6,8 +6,6 @@
 #include "game.h"
 #include "player.h"
 
-// TODO: test: bio_batteries bio_cable bio_furnace bio_reactor bio_advreactor ... anything with power_source
-
 void give_and_activate( player &p, std::string const &bioid ) {
     INFO( "bionic " + bioid + " is valid" );
     REQUIRE( is_valid_bionic( bioid ) );
@@ -83,4 +81,7 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
         INFO( "CAN'T consume car battery with charges" );
         REQUIRE( !dummy.can_consume( it ) );
     }
+
+    // TODO: bio_cable bio_furnace bio_reactor bio_advreactor
+    // TODO: (pick from stuff with power_source)
 }
