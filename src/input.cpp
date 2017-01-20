@@ -1126,11 +1126,11 @@ input_event input_manager::get_input_event( WINDOW * /*win*/ )
     if( key != ERR ) {
         long newch;
         // Clear the buffer of characters that match the one we're going to act on.
-        timeout( 0 );
+        set_timeout( 0 );
         do {
             newch = getch();
         } while( newch != ERR && newch == key );
-        timeout( -1 );
+        set_timeout( -1 );
         // If we read a different character than the one we're going to act on, re-queue it.
         if( newch != ERR && newch != key ) {
             ungetch( newch );
