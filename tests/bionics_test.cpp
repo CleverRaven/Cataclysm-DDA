@@ -38,6 +38,18 @@ void clear_bionics( player &p ) {
     return;
 }
 
+void test_not_consumable( player &p, item &it ) {
+    it.ammo_unset();
+    INFO( "consume " + it.tname() + " with " + std::to_string( it.ammo_remaining() ) + " charges" );
+    REQUIRE( !p.can_consume( it ) );
+
+    it.ammo_set( default_ammo( it.ammo_type() ), -1 ); // -1 -> full
+    INFO( "consume " + it.tname() + " with " + std::to_string( it.ammo_remaining() ) + " charges" );
+    REQUIRE( !p.can_consume( it ) );
+
+    return;
+}
+
 TEST_CASE( "bionics", "[bionics] [item]" ) {
     player &dummy = g->u;
 
@@ -57,33 +69,17 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
     SECTION( "bio_batteries" ) {
         give_and_activate( dummy, "bio_batteries" );
 
-        constexpr int turn0 = 0;
-        constexpr long charges0 = 0;
-        constexpr long chargesfull = -1;
-
         // Special case: old-school stackable.
         INFO( "consume old-school batteries" );
-        REQUIRE( dummy.can_consume( item( "battery", turn0, 1 ) ) );
+        REQUIRE( dummy.can_consume( item( "battery", 0, 1 ) ) );
 
-        item it = item( "UPS_off", turn0, charges0 );
+        std::list<item> items;
+        items.emplace_back( item( "UPS_off", 0, 0 ) );
+        items.emplace_back( item( "battery_car", 0, 0 ) );
 
-        it.ammo_unset();
-        INFO( "consume " + it.tname() + " with " + std::to_string( it.ammo_remaining() ) + " charges" );
-        REQUIRE( !dummy.can_consume( it ) );
-
-        it.ammo_set( default_ammo( it.ammo_type() ), chargesfull );
-        INFO( "consume " + it.tname() + " with " + std::to_string( it.ammo_remaining() ) + " charges" );
-        REQUIRE( !dummy.can_consume( it ) );
-
-        it = item( "battery_car", turn0, charges0 );
-
-        it.ammo_unset();
-        INFO( "consume " + it.tname() + " with " + std::to_string( it.ammo_remaining() ) + " charges" );
-        REQUIRE( !dummy.can_consume( it ) );
-
-        it.ammo_set( default_ammo( it.ammo_type() ), chargesfull );
-        INFO( "consume " + it.tname() + " with " + std::to_string( it.ammo_remaining() ) + " charges" );
-        REQUIRE( !dummy.can_consume( it ) );
+        for( auto it: items ) {
+            test_not_consumable( dummy, it );
+        }
     }
 
     // TODO: bio_cable bio_furnace bio_reactor bio_advreactor
