@@ -58,27 +58,31 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
         give_and_activate( dummy, "bio_batteries" );
 
         constexpr int turn0 = 0;
-        constexpr long charges0 = -1;
+        constexpr long charges0 = 0;
+        constexpr long chargesfull = -1;
 
-        INFO( "CAN consume old-school batteries" );
+        // Special case: old-school stackable.
+        INFO( "consume old-school batteries" );
         REQUIRE( dummy.can_consume( item( "battery", turn0, 1 ) ) );
 
-        item it;
+        item it = item( "UPS_off", turn0, charges0 );
 
-        it = item( "UPS_off", turn0, charges0 );
-        INFO( "CAN'T consume UPS without charges" );
+        it.ammo_unset();
+        INFO( "consume " + it.tname() + " with " + std::to_string( it.ammo_remaining() ) + " charges" );
         REQUIRE( !dummy.can_consume( it ) );
 
-        it.charges = 1;
-        INFO( "CAN'T consume UPS with charges" );
+        it.ammo_set( default_ammo( it.ammo_type() ), chargesfull );
+        INFO( "consume " + it.tname() + " with " + std::to_string( it.ammo_remaining() ) + " charges" );
         REQUIRE( !dummy.can_consume( it ) );
 
         it = item( "battery_car", turn0, charges0 );
-        INFO( "CAN'T consume car battery without charges" );
+
+        it.ammo_unset();
+        INFO( "consume " + it.tname() + " with " + std::to_string( it.ammo_remaining() ) + " charges" );
         REQUIRE( !dummy.can_consume( it ) );
 
-        it.emplace_back( it.type->magazine->default_ammo, turn0, 1 );
-        INFO( "CAN'T consume car battery with charges" );
+        it.ammo_set( default_ammo( it.ammo_type() ), chargesfull );
+        INFO( "consume " + it.tname() + " with " + std::to_string( it.ammo_remaining() ) + " charges" );
         REQUIRE( !dummy.can_consume( it ) );
     }
 
