@@ -596,36 +596,58 @@ void player::process_bionic( int b )
         // Only powered bionics should be processed
         return;
     }
-
+    
+    bool no_charge = false;
     if( bio.charge > 0 ) {
         // Units already with charge just lose charge
         bio.charge--;
     } else {
         if( bionics[bio.id].charge_time > 0 ) {
             // Try to recharge our bionic if it is made for it
-            if( bionics[bio.id].power_over_time > 0 ) {
-                if( power_level < bionics[bio.id].power_over_time ) {
-                    // No power to recharge, so deactivate
-                    bio.powered = false;
-                    add_msg( m_neutral, _( "Your %s powers down." ), bionics[bio.id].name.c_str() );
-                    // This purposely bypasses the deactivation cost
-                    deactivate_bionic( b, true );
-                    return;
+            int power_cost = bionics[bio.id].power_over_time;
+            if( power_cost > 0 ) {
+                bool armor_interface = false;
+                // This really should not be the sole way to check for power armor interface CBMs...
+                static std::string mk1 = "bio_power_armor_interface";
+                static std::string mk2 = "bio_power_armor_interface_mk_II";
+                if( ( bio.id == mk1 || bio.id == mk2 ) ) {
+                    armor_interface = true;
+                }
+                if( armor_interface ) {
+                    // Don't use any power for armor interfaces unless we have active powered armor.
+                    item *armor = nullptr;
+                    for( auto &w : worn ) {
+                        if( w.active && w.is_power_armor() ) {
+                            armor = &w;
+                            break;
+                        }
+                    }
+                    if( !armor ) {
+                        power_cost = 0;
+                    }
+                }
+                if( power_level < power_cost ) {
+                    no_charge = true;
                 } else {
                     // Pay the recharging cost
-                    charge_power( -bionics[bio.id].power_over_time );
+                    charge_power( -power_cost );
                     // We just spent our first turn of charge, so -1 here
                     bio.charge = bionics[bio.id].charge_time - 1;
                 }
                 // Some bionics are a 1-shot activation so they just deactivate at 0 charge.
             } else {
-                bio.powered = false;
-                add_msg( m_neutral, _( "Your %s powers down." ), bionics[bio.id].name.c_str() );
-                // This purposely bypasses the deactivation cost
-                deactivate_bionic( b, true );
-                return;
+                no_charge = true;
             }
         }
+    }
+    
+    if( no_charge ) {
+        // No power to recharge, so deactivate
+        bio.powered = false;
+        add_msg( m_neutral, _( "Your %s powers down." ), bionics[bio.id].name.c_str() );
+        // This purposely bypasses the deactivation cost
+        deactivate_bionic( b, true );
+        return;
     }
 
     // Bionic effects on every turn they are active go here.

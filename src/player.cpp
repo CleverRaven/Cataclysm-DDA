@@ -8866,23 +8866,23 @@ void player::process_active_items()
             cloak->active = false;
         }
     }
-    static const std::string BIO_POWER_ARMOR_INTERFACE( "bio_power_armor_interface" );
-    static const std::string BIO_POWER_ARMOR_INTERFACE_MK_II( "bio_power_armor_interface_mkII" );
-    const bool has_power_armor_interface = ( has_active_bionic( BIO_POWER_ARMOR_INTERFACE ) ||
-                                             has_active_bionic( BIO_POWER_ARMOR_INTERFACE_MK_II ) ) &&
-                                           power_level > 0;
-    // For power armor that is powered via the armor interface bionic, energy is consumed by that bionic
-    // (it's an active bionic consuming power on its own). The bionic is preferred over UPS usage.
-    // Only if the character does not have that bionic it falls back to the UPS.
-    if( power_armor != nullptr && !has_power_armor_interface ) {
-        if( ch_UPS > 0 ) {
-            use_charges( "UPS", 4 );
-        } else {
-            add_msg_if_player( m_warning, _( "Your power armor disengages." ) );
-            // Bypass the "you deactivate the ..." message
-            power_armor->active = false;
+
+    // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
+    if( power_armor != nullptr ) {
+        const int power_cost = 4;
+        bool bio_powered = can_interface_armor() && power_level > 0;
+        // Bionic power costs are handled elsewhere.
+        if( !bio_powered ) {
+            if( ch_UPS > power_cost ) {
+                use_charges( "UPS", power_cost );
+            } else {
+                // Deactivate armor here, bypassing the usual deactivation message.
+                add_msg_if_player( m_warning, _( "Your power armor disengages." ) );
+                power_armor->active = false;
+            }
         }
     }
+
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     ch_UPS = charges_of( "UPS" ); // might have been changed by cloak
@@ -13919,4 +13919,10 @@ std::set<tripoint> player::get_path_avoid() const
     // @todo Add known traps in a way that doesn't destroy performance
 
     return ret;
+}
+
+bool player::can_interface_armor() const {
+    bool active = ( has_active_bionic( "bio_power_armor_interface" ) || 
+                    has_active_bionic( "bio_power_armor_interface_mkII" ) );
+    return active;
 }
