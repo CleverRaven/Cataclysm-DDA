@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-13 23:47+0800\n"
-"PO-Revision-Date: 2017-01-14 21:16+0000\n"
+"PO-Revision-Date: 2017-01-19 19:00+0000\n"
 "Last-Translator: 김정국 <forforever12@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -48707,7 +48707,7 @@ msgstr "AI tag used to stop a monster reviving with ammo.  This is a bug if you 
 
 #: lang/json/effects_from_json.py
 msgid "Asked to Lead"
-msgstr "Asked to Lead"
+msgstr "선도하기를 요청받음"
 
 #. ~ Description of effect 'Asked to Lead'.
 #: lang/json/effects_from_json.py
@@ -48716,7 +48716,7 @@ msgstr "AI tag for asking to lead NPCs.  This is a bug if you have it."
 
 #: lang/json/effects_from_json.py
 msgid "Asked to Follow"
-msgstr "Asked to Follow"
+msgstr "따라오기를 요청받음"
 
 #. ~ Description of effect 'Asked to Follow'.
 #: lang/json/effects_from_json.py
@@ -48726,7 +48726,7 @@ msgstr "AI tag for asking to NPCs to follow you.  This is a bug if you have it."
 
 #: lang/json/effects_from_json.py
 msgid "Asked to Train"
-msgstr "Asked to Train"
+msgstr "기술을 가르쳐줄 것을 요청받음"
 
 #. ~ Description of effect 'Asked to Train'.
 #: lang/json/effects_from_json.py
@@ -80700,7 +80700,7 @@ msgstr "\"그렇게 할 거야, 고마워!\""
 
 #: lang/json/talk_topic_from_json.py src/npctalk.cpp
 msgid "Nope."
-msgstr "아아니."
+msgstr "싫어."
 
 #: lang/json/talk_topic_from_json.py
 msgid "That's pretty blunt!"
@@ -80857,7 +80857,7 @@ msgstr "이 주위에서 뭐 하는 중이야?"
 
 #: lang/json/talk_topic_from_json.py
 msgid "Got tips for avoiding trouble?"
-msgstr "문제를 피하기 위해 뭔가 해줄 말이 있나?"
+msgstr "뭔가 조언은 없어?"
 
 #: lang/json/talk_topic_from_json.py
 msgid "Have you seen anyone who might be hiding something?"
@@ -91053,7 +91053,7 @@ msgstr "분해할 것이 없다."
 #: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp
 #: src/veh_interact.cpp
 msgid "Never mind."
-msgstr "아무것도 하지 않았다."
+msgstr "아무것도 아냐."
 
 #: src/crafting.cpp
 msgid "It's rotten, I'm not taking that apart."
@@ -91385,7 +91385,7 @@ msgstr ""
 
 #: src/debug_menu.cpp
 msgid "You"
-msgstr ""
+msgstr "당신"
 
 #: src/debug_menu.cpp src/newcharacter.cpp src/player.cpp src/player.cpp
 msgid "Female"
@@ -99486,7 +99486,7 @@ msgstr "문에 무엇을 합니까?"
 
 #: src/iexamine.cpp
 msgid "Open door."
-msgstr "열린 문."
+msgstr "문 열기."
 
 #: src/iexamine.cpp
 msgid "Peek through peephole."
@@ -99570,7 +99570,7 @@ msgstr "%s 을(를) 조사하다 보니 얼떨떨하고 갑자기 세상이 낯�
 
 #: src/iexamine.cpp
 msgid "This flower tastes very wrong..."
-msgstr "이 꽃의 맛은 굉장히 잘못됐다..."
+msgstr "꽃 맛이 굉장히 이상하다..."
 
 #: src/iexamine.cpp
 #, c-format
@@ -107127,7 +107127,7 @@ msgstr "막사 출입구"
 
 #: src/mapgen.cpp
 msgid "UNLOCK ENTRANCE"
-msgstr "열린 출입구"
+msgstr "출입구 잠금해제"
 
 #: src/mapgen.cpp
 msgid "Magazine Entrance"
@@ -107379,11 +107379,11 @@ msgstr "폴컴 OS v1.47"
 
 #: src/mapgen_functions.cpp
 msgid "Open Supply Room"
-msgstr "열린 보급실"
+msgstr "보급실 열기"
 
 #: src/mapgen_functions.cpp
 msgid "Open Evidence Locker"
-msgstr "열린 증거물품 보관함"
+msgstr "증거물품 보관함 열기"
 
 #: src/mapgen_functions.cpp
 msgid "Consolidated Computerized Bank of the Treasury"
@@ -112922,7 +112922,7 @@ msgstr "좋아. 이거 받아."
 
 #: src/npctalk.cpp
 msgid "<no>, and if you ask again, <ill_kill_you>!"
-msgstr "<no>, 다시 물어보면 <ill_kill_you>!"
+msgstr "<no>,  한 번 만 더 똑같이 물어보면 <ill_kill_you>!"
 
 #: src/npctalk.cpp
 msgid "<no><punc> <fuck_you>!"
@@ -112966,7 +112966,7 @@ msgstr "음... 내 생각은 다른데."
 
 #: src/npctalk.cpp
 msgid "What is it?"
-msgstr "이게 뭔데?"
+msgstr "왜 그래?"
 
 #: src/npctalk.cpp
 msgid "You're really leaving?"
@@ -113561,7 +113561,7 @@ msgstr "%1$s이(가) %2$s을(를) 줬다."
 
 #: src/npctalk.cpp
 msgid "Any tips for surviving?"
-msgstr "생존을 위해 뭔가 해줄 말이 있나?"
+msgstr "살아남는 데에 도움이 되는 조언 같은 건 없어?"
 
 #: src/npctalk.cpp
 msgid "What would it cost to hire you?"
@@ -113817,7 +113817,7 @@ msgstr "나하고 같이 여행할래?"
 
 #: src/npctalk.cpp
 msgid "Let's trade items."
-msgstr "거래 좀 하자고."
+msgstr "거래하자."
 
 #: src/npctalk.cpp
 msgid "I can't leave the shelter without equipment..."
@@ -113857,7 +113857,7 @@ msgstr "어... 아무것도 아냐."
 
 #: src/npctalk.cpp
 msgid "Never mind, I'll do without.  Bye."
-msgstr "아무것도 아냐, 그거 없이 하지. 안녕."
+msgstr "잊어버려. 알아서 할게. 안녕."
 
 #: src/npctalk.cpp
 msgid "Thank you!"
@@ -113958,7 +113958,7 @@ msgstr "얼마나 더 멀리?"
 
 #: src/npctalk.cpp
 msgid "I'm going to go my own way for a while."
-msgstr "잠깐 나 혼자 움직일게."
+msgstr "한동안 혼자서 다니고 싶은데."
 
 #: src/npctalk.cpp
 msgid "I'd like to lead for a while."
@@ -114042,7 +114042,7 @@ msgstr "기지에서 기다려."
 
 #: src/npctalk.cpp
 msgid "Guard this position."
-msgstr "이 자리를 지키도록 해."
+msgstr "이 장소를 경비해줘."
 
 #: src/npctalk.cpp
 msgid "I'd like to know a bit more about you..."
@@ -114050,15 +114050,15 @@ msgstr "너에 대해 조금 더 알고싶어."
 
 #: src/npctalk.cpp
 msgid "I want you to use this item"
-msgstr "네가 이걸 써줬으면 좋겠어."
+msgstr "이걸 무기로 사용했으면 좋겠어."
 
 #: src/npctalk.cpp
 msgid "Hold on to this item"
-msgstr "이 아이템을 들고 있어."
+msgstr "이 아이템을 갖고 있어."
 
 #: src/npctalk.cpp
 msgid "Miscellaneous rules..."
-msgstr "규칙에 대해 몇 가지 말할게 있어..."
+msgstr "행동수칙에 대해서 말하고 싶은데."
 
 #: src/npctalk.cpp
 msgid "I'll give you some space."
