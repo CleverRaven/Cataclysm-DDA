@@ -8976,6 +8976,17 @@ int player::invlet_to_position( const long linvlet ) const
     return inv.invlet_to_position( invlet );
 }
 
+bool player::can_interface_armor() const {
+    bool okay = false;
+    for( const bionic &b : my_bionics ) {
+        if( b.powered && b.info().armor_interface ) {
+            okay = true;
+            break;
+        }
+    }
+    return okay;
+}
+
 const martialart &player::get_combat_style() const
 {
     return style_selected.obj();
@@ -13919,10 +13930,4 @@ std::set<tripoint> player::get_path_avoid() const
     // @todo Add known traps in a way that doesn't destroy performance
 
     return ret;
-}
-
-bool player::can_interface_armor() const {
-    bool active = ( has_active_bionic( "bio_power_armor_interface" ) || 
-                    has_active_bionic( "bio_power_armor_interface_mkII" ) );
-    return active;
 }

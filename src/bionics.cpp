@@ -606,23 +606,16 @@ void player::process_bionic( int b )
             // Try to recharge our bionic if it is made for it
             int power_cost = bionics[bio.id].power_over_time;
             if( power_cost > 0 ) {
-                bool armor_interface = false;
-                // This really should not be the sole way to check for power armor interface CBMs...
-                static std::string mk1 = "bio_power_armor_interface";
-                static std::string mk2 = "bio_power_armor_interface_mk_II";
-                if( ( bio.id == mk1 || bio.id == mk2 ) ) {
-                    armor_interface = true;
-                }
-                if( armor_interface ) {
-                    // Don't use any power for armor interfaces unless we have active powered armor.
-                    item *armor = nullptr;
+               if( bio.info().armor_interface ) {
+                    // Don't use any power for active armor interfaces unless we have powered armor.
+                    item *power_armor = nullptr;
                     for( auto &w : worn ) {
                         if( w.active && w.is_power_armor() ) {
-                            armor = &w;
+                            power_armor = &w;
                             break;
                         }
                     }
-                    if( !armor ) {
+                    if( !power_armor ) {
                         power_cost = 0;
                     }
                 }
@@ -634,8 +627,8 @@ void player::process_bionic( int b )
                     // We just spent our first turn of charge, so -1 here
                     bio.charge = bionics[bio.id].charge_time - 1;
                 }
-                // Some bionics are a 1-shot activation so they just deactivate at 0 charge.
             } else {
+                // Some bionics are a 1-shot activation so they just deactivate at 0 charge.
                 no_charge = true;
             }
         }
@@ -1341,6 +1334,8 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.gun_bionic = jsobj.get_bool( "gun_bionic", false );
     new_bionic.weapon_bionic = jsobj.get_bool( "weapon_bionic", false );
+    new_bionic.armor_interface = jsobj.get_bool( "armor_interface", false );
+    
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );
     }
