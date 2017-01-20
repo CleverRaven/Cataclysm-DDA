@@ -579,13 +579,6 @@ const std::string &input_context::input_to_action( const input_event &inp ) cons
     return CATA_ERROR;
 }
 
-void input_manager::set_timeout( int delay )
-{
-    timeout( delay );
-    // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
-    input_timeout = delay;
-}
-
 void input_context::register_action( const std::string &action_descriptor )
 {
     register_action( action_descriptor, "" );
@@ -1209,6 +1202,13 @@ input_event input_manager::get_input_event( WINDOW * /*win*/ )
     }
 
     return rval;
+}
+
+void input_manager::set_timeout( int delay )
+{
+    timeout( delay );
+    // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
+    input_timeout = delay;
 }
 
 // Also specify that we don't have a gamepad plugged in.
