@@ -635,7 +635,7 @@ void options_manager::cOpt::setValue( int iSetIn )
 }
 
 //set value
-void options_manager::cOpt::setValue(std::string sSetIn)
+bool options_manager::cOpt::setValue(std::string sSetIn)
 {
     if (sType == "string_select") {
         if (getItemPos(sSetIn) != -1) {
@@ -649,11 +649,12 @@ void options_manager::cOpt::setValue(std::string sSetIn)
         bSet = (sSetIn == "True" || sSetIn == "true" || sSetIn == "T" || sSetIn == "t");
 
     } else if (sType == "int") {
-        iSet = atoi(sSetIn.c_str());
-
-        if ( iSet < iMin || iSet > iMax ) {
-            iSet = iDefault;
+        for( const auto &i : sSetIn ) {
+            if( !isdigit( i )  && ( i != '-' ) && ( i != '%' ) ) {
+                return false;
+            }
         }
+        setValue( atoi( sSetIn.c_str() ) );
 
     } else if (sType == "int_map") {
         iSet = atoi(sSetIn.c_str());
@@ -664,16 +665,17 @@ void options_manager::cOpt::setValue(std::string sSetIn)
         }
 
     } else if (sType == "float") {
-        std::istringstream ssTemp(sSetIn);
+        std::istringstream ssTemp( string_replace( sSetIn, ",", "." ) );
         ssTemp.imbue(std::locale::classic());
         float tmpFloat;
         ssTemp >> tmpFloat;
-        if(ssTemp) {
+        if( ssTemp ) {
             setValue(tmpFloat);
         } else {
-            debugmsg("invalid floating point option: %s", sSetIn.c_str());
+            return false;
         }
     }
+    return true;
 }
 
 /** Fill a mapping with values.
@@ -1785,30 +1787,11 @@ void options_manager::show(bool ingame)
             if (cur_opt.getType() == "bool" || cur_opt.getType() == "string_select" || cur_opt.getType() == "string_input" ) {
                 cur_opt.setNext();
             } else {
-                const bool is_int = cur_opt.getType() == "int";
-                const bool is_float = cur_opt.getType() == "float";
                 const std::string old_opt_val = cur_opt.getValueName();
-                const std::string opt_val = string_input_popup(
-                                                cur_opt.getMenuText(), 80, old_opt_val, "", "", -1, is_int);
+                const std::string opt_val = string_input_popup( cur_opt.getMenuText(), 80, old_opt_val );
                 if (!opt_val.empty() && opt_val != old_opt_val) {
-                    if (is_float) {
-                        std::istringstream ssTemp(opt_val);
-                        ssTemp.imbue(std::locale(""));
-                        // This uses the current locale, to allow the users
-                        // to use their own decimal format.
-                        float tmpFloat;
-                        ssTemp >> tmpFloat;
-                        if (ssTemp) {
-                            cur_opt.setValue(tmpFloat);
-
-                        } else {
-                            popup(_("Invalid input: not a number"));
-                        }
-                    } else {
-                        // option is of type "int": string_input_popup
-                        // has taken care that the string contains
-                        // only digits, parsing is done in setValue
-                        cur_opt.setValue(opt_val);
+                    if( !cur_opt.setValue( opt_val ) ) {
+                        popup( _("Invalid input.") );
                     }
                 }
             }
