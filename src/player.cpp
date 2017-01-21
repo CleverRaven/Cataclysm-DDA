@@ -8978,7 +8978,7 @@ int player::invlet_to_position( const long linvlet ) const
 
 bool player::can_interface_armor() const {
     bool okay = std::any_of( my_bionics.begin(), my_bionics.end(), 
-        []( const bionic &b ) { return ( b.powered && b.info().armor_interface ); } );
+        []( const bionic &b ) { return b.powered && b.info().armor_interface; } );
     return okay;
 }
 
