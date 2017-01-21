@@ -1603,7 +1603,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "standing_stones",
-        "name" : "forest?",
+        "name" : "forest",
         "sym" : 70,
         "color" : "green",
         "see_cost" : 3,
