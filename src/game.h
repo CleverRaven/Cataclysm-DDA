@@ -151,6 +151,10 @@ class game
          */
         std::string get_player_base_save_path() const;
         /**
+         * Base path for saving world data. This yields a path to a folder.
+         */
+        std::string get_world_base_save_path() const;
+        /**
          *  Load content packs
          *  @param msg string to display whilst loading prompt
          *  @param packs content packs to load in correct dependent order

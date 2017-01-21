@@ -8,7 +8,6 @@
 #include "overmapbuffer.h"
 #include "cata_utility.h"
 #include "mapdata.h"
-#include "worldfactory.h"
 #include "game.h"
 #include "json.h"
 #include "map.h"
@@ -104,7 +103,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
 void mapbuffer::save( bool delete_after_save )
 {
     std::stringstream map_directory;
-    map_directory << world_generator->active_world->world_path << "/maps";
+    map_directory << g->get_world_base_save_path() << "/maps";
     assure_dir_exist( map_directory.str() );
 
     int num_saved_submaps = 0;
@@ -400,7 +399,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     const tripoint om_addr = sm_to_omt_copy( p );
     const tripoint segment_addr = omt_to_seg_copy( om_addr );
     std::stringstream quad_path;
-    quad_path << world_generator->active_world->world_path << "/maps/" <<
+    quad_path << g->get_world_base_save_path() << "/maps/" <<
               segment_addr.x << "." << segment_addr.y << "." << segment_addr.z << "/" <<
               om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
 

@@ -3519,7 +3519,7 @@ void game::death_screen()
 
 void game::move_save_to_graveyard()
 {
-    const std::string &save_dir      = world_generator->active_world->world_path;
+    const std::string &save_dir      = get_world_base_save_path();
     const std::string &graveyard_dir = FILENAMES["graveyarddir"];
     const std::string &prefix        = base64_encode(u.name) + ".";
 
@@ -3553,7 +3553,7 @@ void game::move_save_to_graveyard()
 void game::load_master()
 {
     using namespace std::placeholders;
-    const auto datafile = world_generator->active_world->world_path + "/master.gsav";
+    const auto datafile = get_world_base_save_path() + "/master.gsav";
     read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
     faction_manager_ptr->create_if_needed();
 }
@@ -3585,7 +3585,7 @@ void game::load( const save_t &name )
 {
     using namespace std::placeholders;
 
-    const std::string worldpath = world_generator->active_world->world_path + "/";
+    const std::string worldpath = get_world_base_save_path() + "/";
     const std::string playerfile = worldpath + name.base_path() + ".sav";
 
     // Now load up the master game data; factions (and more?)
@@ -3619,7 +3619,7 @@ void game::load( const save_t &name )
     get_auto_pickup().load_character(); // Load character auto pickup rules
     get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
-    read_from_file_optional( world_generator->active_world->world_path + "/uistate.json", []( std::istream &stream ) {
+    read_from_file_optional( get_world_base_save_path() + "/uistate.json", []( std::istream &stream ) {
         JsonIn jsin( stream );
         uistate.deserialize( jsin );
     } );
@@ -3673,7 +3673,7 @@ void game::load_world_modfiles( loading_ui &ui )
         mods.insert( mods.begin(), mod_id( "dda" ) );
     }
 
-    load_artifacts( world_generator->active_world->world_path + "/artifacts.gsav" );
+    load_artifacts( get_world_base_save_path() + "/artifacts.gsav" );
     // this code does not care about mod dependencies,
     // it assumes that those dependencies are static and
     // are resolved during the creation of the world.
@@ -3682,7 +3682,7 @@ void game::load_world_modfiles( loading_ui &ui )
     load_packs( _( "Loading files" ), mods, ui );
 
     // Load additional mods from that world-specific folder
-    load_data_from_dir( world_generator->active_world->world_path + "/mods", "custom", ui );
+    load_data_from_dir( get_world_base_save_path() + "/mods", "custom", ui );
 
     catacurses::erase();
     catacurses::refresh();
@@ -3732,7 +3732,7 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
 //Saves all factions and missions and npcs.
 bool game::save_factions_missions_npcs()
 {
-    std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
+    std::string masterfile = get_world_base_save_path() + "/master.gsav";
     return write_to_file_exclusive( masterfile, [&]( std::ostream &fout ) {
         serialize_master(fout);
     }, _( "factions data" ) );
@@ -3740,7 +3740,7 @@ bool game::save_factions_missions_npcs()
 
 bool game::save_artifacts()
 {
-    std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
+    std::string artfilename = get_world_base_save_path() + "/artifacts.gsav";
     return ::save_artifacts( artfilename );
 }
 
@@ -3783,7 +3783,7 @@ bool game::save()
              !save_maps() ||
              !get_auto_pickup().save_character() ||
              !get_safemode().save_character() ||
-             !write_to_file_exclusive( world_generator->active_world->world_path + "/uistate.json", [&]( std::ostream &fout ) {
+             !write_to_file_exclusive( get_world_base_save_path() + "/uistate.json", [&]( std::ostream &fout ) {
                 JsonOut jsout( fout );
                 uistate.serialize( jsout );
              }, _( "uistate data" ) ) ) {
@@ -13755,5 +13755,10 @@ Creature *game::get_creature_if( const std::function<bool( const Creature & )> &
 
 std::string game::get_player_base_save_path() const
 {
-    return world_generator->active_world->world_name + "/" + base64_encode( u.name )
+    return get_world_base_save_path() + "/" + base64_encode( u.name );
+}
+
+std::string game::get_world_base_save_path() const
+{
+    return world_generator->active_world->world_path;
 }

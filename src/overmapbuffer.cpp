@@ -11,7 +11,6 @@
 #include "mongroup.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
-#include "worldfactory.h"
 #include "npc.h"
 #include "vehicle.h"
 #include "filesystem.h"
@@ -40,7 +39,7 @@ std::string overmapbuffer::terrain_filename(int const x, int const y)
 {
     std::ostringstream filename;
 
-    filename << world_generator->active_world->world_path << "/";
+    filename << g->get_world_base_save_path() << "/";
     filename << "o." << x << "." << y;
 
     return filename.str();
