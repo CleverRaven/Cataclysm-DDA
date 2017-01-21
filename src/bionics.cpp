@@ -608,13 +608,8 @@ void player::process_bionic( int b )
             if( power_cost > 0 ) {
                if( bio.info().armor_interface ) {
                     // Don't spend any power on armor interfaces unless we're wearing powered armor.
-                    bool powered_armor = false;
-                    for( auto &w : worn ) {
-                        if( w.active && w.is_power_armor() ) {
-                            powered_armor = true;
-                            break;
-                        }
-                    }
+                    bool powered_armor = std::any_of( worn.begin(), worn.end(), 
+                        []( const item &w ) { return ( w.active && w.is_power_armor() ); } );
                     if( !powered_armor ) {
                         power_cost = 0;
                     }
