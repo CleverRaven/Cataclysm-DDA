@@ -262,7 +262,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```QUEEN``` When it dies, local populations start to die off too.
 - ```REGENERATES_10``` Monster regenerates quickly over time.
 - ```REGENERATES_50``` Monster regenerates very quickly over time.
-- ```REGENERATES_50``` Monster regenerates very quickly in poorly lit tiles.
+- ```REGENERATES_IN_DARK``` Monster regenerates very quickly in poorly lit tiles.
 - ```REGEN_MORALE``` Will stop fleeing if at max hp, and regen anger and morale.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
 - ```SEES``` It can see you (and will run/follow).
