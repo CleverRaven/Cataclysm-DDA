@@ -3759,7 +3759,7 @@ bool game::save_maps()
 
 bool game::save_player_data()
 {
-    const std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
+    const std::string playerfile = get_player_base_save_path();
 
     const bool saved_data = write_to_file( playerfile + ".sav", [&]( std::ostream &fout ) {
         serialize(fout);
@@ -13751,4 +13751,9 @@ Creature *game::get_creature_if( const std::function<bool( const Creature & )> &
         }
     }
     return nullptr;
+}
+
+std::string game::get_player_base_save_path() const
+{
+    return world_generator->active_world->world_name + "/" + base64_encode( u.name )
 }
