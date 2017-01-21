@@ -8873,7 +8873,7 @@ void player::process_active_items()
         bool bio_powered = can_interface_armor() && power_level > 0;
         // Bionic power costs are handled elsewhere.
         if( !bio_powered ) {
-            if( ch_UPS > power_cost ) {
+            if( ch_UPS >= power_cost ) {
                 use_charges( "UPS", power_cost );
             } else {
                 // Deactivate armor here, bypassing the usual deactivation message.
