@@ -800,7 +800,6 @@ void uimenu::query(bool loop)
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "ANY_INPUT" );
-    hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
     show();
     do {
