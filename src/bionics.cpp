@@ -592,12 +592,14 @@ bool player::deactivate_bionic( int b, bool eff_only )
 /**
  *  @param bio the bionic that is meant to be recharged.
  *  @param amount the amount of power that is to be spent recharging the bionic. 
+ *  @param factor multiplies the power cost per turn.
+ *  @param rate divides the number of turns we may charge (rate of 2 discharges in half the time).
  *  @return indicates whether we successfully charged the bionic.
  */
-bool attempt_recharge( player &p, bionic &bio, int &amount, int mult = 1 ) {
+bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, float rate = 1 ) {
     bionic_data const &info = bio.info();
-    const int armor_power_cost = 1 * mult;
-    int power_cost = info.power_over_time * mult;
+    const int armor_power_cost = 1 * factor;
+    int power_cost = info.power_over_time * factor;
     bool recharged = true;
     
     if( power_cost > 0 ) {
@@ -615,7 +617,7 @@ bool attempt_recharge( player &p, bionic &bio, int &amount, int mult = 1 ) {
             // Set the recharging cost and charge the bionic.
             amount = power_cost;
             // This is our first turn of charging, so subtract a turn from the recharge delay.
-            bio.charge = info.charge_time - 1;
+            bio.charge = info.charge_time - rate;
         }
     } else {
         // Some bionics are a 1-shot activation so they just deactivate at 0 charge.
@@ -632,18 +634,17 @@ void player::process_bionic( int b )
     if( !bio.powered ) {
         return;
     }
-    // To prepare for any future abnormal power costs due to options, environment or status effects:
-    int charge_loss_factor = 1;
-    int charge_loss_rate = 1;
-    int charge_cost_mult = ( charge_loss_rate * charge_loss_factor );
+    
+    int discharge_factor = 1;
+    int discharge_rate = 1;
     
     if( bio.charge > 0 ) {
-        bio.charge -= charge_cost_mult;
+        bio.charge -= discharge_rate;
     } else {
         if( bio.info().charge_time > 0 ) {
             // Try to recharge our bionic if it is made for it
-            int charge_amount = 0;
-            bool recharged = attempt_recharge( *this, bio, charge_amount, charge_cost_mult );
+            int cost = 0;
+            bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
             if( !recharged ) {
                 // No power to recharge, so deactivate
                 bio.powered = false;
@@ -652,8 +653,8 @@ void player::process_bionic( int b )
                 deactivate_bionic( b, true );
                 return;
             }
-            if( charge_amount ) {
-                charge_power( -charge_amount );
+            if( cost ) {
+                charge_power( -cost );
             }
         }
     }
