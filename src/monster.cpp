@@ -1740,6 +1740,12 @@ void monster::process_effects()
         add_msg( m_warning, _( "The %s seems a little healthier." ), name().c_str() );
     }
 
+    if( has_flag( MF_REGENERATES_IN_DARK ) && g->m.light_at( pos() ) <= LL_LOW ) {
+        if(heal( 50 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+            add_msg( m_warning, _( "The %s uses the darkness to regenerate." ), name().c_str() );
+        }
+    }
+
     //Monster will regen morale and aggression if it is on max HP
     //It regens more morale and aggression if is currently fleeing.
     if( has_flag( MF_REGENMORALE ) && hp >= type->hp ) {
