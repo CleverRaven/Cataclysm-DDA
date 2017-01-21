@@ -28,6 +28,7 @@
 #include "weather.h"
 #include "sounds.h"
 #include "cata_utility.h"
+#include "string_input_popup.h"
 
 #include <sstream>
 #include <algorithm>

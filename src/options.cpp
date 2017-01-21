@@ -12,6 +12,7 @@
 #include "worldfactory.h"
 #include "catacharset.h"
 #include "game_constants.h"
+#include "string_input_popup.h"
 
 #ifdef TILES
 #include "cata_tiles.h"

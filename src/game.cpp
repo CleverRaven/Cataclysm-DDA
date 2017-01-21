@@ -90,6 +90,7 @@
 #include "scent_map.h"
 #include "safemode_ui.h"
 #include "game_constants.h"
+#include "string_input_popup.h"
 
 #include <map>
 #include <set>

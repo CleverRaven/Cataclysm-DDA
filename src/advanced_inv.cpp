@@ -22,6 +22,7 @@
 #include "field.h"
 #include "cata_utility.h"
 #include "item_search.h"
+#include "string_input_popup.h"
 
 #include <map>
 #include <set>

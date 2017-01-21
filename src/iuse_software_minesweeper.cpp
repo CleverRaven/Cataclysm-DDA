@@ -7,6 +7,7 @@
 #include "input.h"
 #include "catacharset.h"
 #include "translations.h"
+#include "string_input_popup.h"
 
 #include <string>
 #include <sstream>

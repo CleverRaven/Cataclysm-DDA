@@ -32,6 +32,7 @@
 #include "mapbuffer.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "string_input_popup.h"
 
 #include <cassert>
 #include <stdlib.h>

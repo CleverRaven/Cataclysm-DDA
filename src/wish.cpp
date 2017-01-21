@@ -14,6 +14,7 @@
 #include "mtype.h"
 #include "player.h"
 #include "debug_menu.h"
+#include "string_input_popup.h"
 
 #include <sstream>
 

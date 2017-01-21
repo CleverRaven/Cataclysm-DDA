@@ -41,6 +41,7 @@
 #include "weather.h"
 #include "cata_utility.h"
 #include "map_iterator.h"
+#include "string_input_popup.h"
 
 #include <vector>
 #include <sstream>

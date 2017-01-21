@@ -27,6 +27,7 @@
 #include "generic_factory.h"
 #include "map_iterator.h"
 #include "cata_utility.h"
+#include "string_input_popup.h"
 
 #include <sstream>
 #include <algorithm>

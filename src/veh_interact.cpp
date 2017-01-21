@@ -20,6 +20,7 @@
 #include "vehicle_selector.h"
 #include "fault.h"
 #include "npc.h"
+#include "string_input_popup.h"
 
 #include <cmath>
 #include <list>

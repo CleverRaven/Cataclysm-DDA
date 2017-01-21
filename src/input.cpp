@@ -11,6 +11,8 @@
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "options.h"
+#include "string_input_popup.h"
+
 #include <fstream>
 #include <sstream>
 #include <stdexcept>

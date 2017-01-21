@@ -21,7 +21,7 @@
 #include "ui.h"
 #include "mutation.h"
 #include "crafting.h"
-
+#include "string_input_popup.h"
 
 #ifndef _MSC_VER
 #include <unistd.h>

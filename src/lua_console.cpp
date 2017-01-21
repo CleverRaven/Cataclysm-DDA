@@ -3,6 +3,7 @@
 #include "catalua.h"
 #include "catacharset.h"
 #include "input.h"
+#include "string_input_popup.h"
 
 #include <map>
 

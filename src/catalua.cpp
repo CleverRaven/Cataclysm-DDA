@@ -30,6 +30,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "filesystem.h"
+#include "string_input_popup.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"

@@ -19,6 +19,7 @@
 #include "input.h"
 #include "overmap.h"
 #include "player.h"
+#include "string_input_popup.h"
 
 #include <string>
 #include <vector>

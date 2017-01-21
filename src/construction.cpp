@@ -26,6 +26,7 @@
 #include "item_group.h"
 #include "cata_utility.h"
 #include "uistate.h"
+#include "string_input_popup.h"
 
 #include <algorithm>
 #include <map>

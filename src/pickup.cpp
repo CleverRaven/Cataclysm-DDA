@@ -18,6 +18,7 @@
 #include "vehicle_selector.h"
 #include "veh_interact.h"
 #include "item_search.h"
+#include "string_input_popup.h"
 
 #include <map>
 #include <vector>

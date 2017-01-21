@@ -9,6 +9,8 @@
 #include "worldfactory.h"
 #include "catacharset.h"
 #include "ui.h"
+#include "string_input_popup.h"
+
 #include <iostream>
 
 zone_manager::zone_manager()

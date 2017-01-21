@@ -12,6 +12,7 @@
 #include "input.h"
 #include "worldfactory.h"
 #include "itype.h"
+#include "string_input_popup.h"
 
 #include <stdlib.h>
 #include <sstream>

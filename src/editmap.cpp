@@ -29,6 +29,7 @@
 #include "ui.h"
 #include "scent_map.h"
 #include "debug_menu.h"
+#include "string_input_popup.h"
 
 #include <fstream>
 #include <sstream>

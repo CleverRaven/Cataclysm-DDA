@@ -13,6 +13,7 @@
 #include "game.h"
 #include "player.h"
 #include "cata_utility.h"
+#include "string_input_popup.h"
 
 #ifdef debuguimenu
 #define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)

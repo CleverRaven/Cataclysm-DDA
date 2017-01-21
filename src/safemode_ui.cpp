@@ -14,7 +14,7 @@
 #include "generic_factory.h"
 #include "worldfactory.h"
 #include "monstergenerator.h"
-#include "debug.h"
+#include "string_input_popup.h"
 
 #include <stdlib.h>
 #include <fstream>
