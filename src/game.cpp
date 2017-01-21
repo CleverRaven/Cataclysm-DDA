@@ -1833,9 +1833,7 @@ void game::handle_key_blocking_activity()
 
     if( u.activity && u.activity.moves_left > 0 && u.activity.is_abortable() ) {
         input_context ctxt = get_default_mode_input_context();
-        inp_mngr.set_timeout( 1 );
-        const std::string action = ctxt.handle_input();
-        inp_mngr.reset_timeout();
+        const std::string action = ctxt.handle_input( 1 );
         if (action == "pause") {
             cancel_activity_query(_("Confirm:"));
         } else if (action == "player_data") {

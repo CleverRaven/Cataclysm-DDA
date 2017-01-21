@@ -2505,10 +2505,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     std::string action;
     bool show_explored = true;
     do {
-        inp_mngr.set_timeout( BLINK_SPEED );
         draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, data);
-        action = ictxt.handle_input();
-        inp_mngr.reset_timeout();
+        action = ictxt.handle_input( BLINK_SPEED );
 
         int dirx, diry;
         if (ictxt.get_direction(dirx, diry, action)) {
@@ -2610,9 +2608,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 mvwprintz(w_search, 10, 1, c_white, _("Enter/Spacebar to select."));
                 mvwprintz(w_search, 11, 1, c_white, _("q or ESC to return."));
                 wrefresh(w_search);
-                inp_mngr.set_timeout( BLINK_SPEED );
-                action = ctxt.handle_input();
-                inp_mngr.reset_timeout();
+                action = ctxt.handle_input( BLINK_SPEED );
                 if (uistate.overmap_blinking) {
                     uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 }
@@ -2709,9 +2705,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                     mvwprintz( w_editor, 13, 1, c_white, _("[ESCAPE/Q] Cancel") );
                     wrefresh( w_editor );
 
-                    inp_mngr.set_timeout( BLINK_SPEED );
-                    action = ctxt.handle_input();
-                    inp_mngr.reset_timeout();
+                    action = ctxt.handle_input( BLINK_SPEED );
 
                     if( ictxt.get_direction( dirx, diry, action ) ) {
                         curs.x += dirx;

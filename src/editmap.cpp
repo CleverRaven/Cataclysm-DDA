@@ -393,9 +393,7 @@ tripoint editmap::edit()
         uphelp( pgettext( "map editor", "[t]rap, [f]ield, [HJKL] move++, [v] showall" ),
                 pgettext( "map editor", "[g] terrain/furn, [o] mapgen, [i]tems, [q]uit" ),
                 pgettext( "map editor state", "Looking around" ) );
-        inp_mngr.set_timeout( BLINK_SPEED );
-        action = ctxt.handle_input();
-        inp_mngr.reset_timeout();
+        action = ctxt.handle_input( BLINK_SPEED );
 
         if( action == "EDIT_TERRAIN" ) {
             edit_ter();
@@ -1585,9 +1583,7 @@ int editmap::select_shape( shapetype shape, int mode )
               _( "[m]move, [s]hape, [y] swap, [z] to start" ) ),
             _( "[enter] accept, [q] abort, [v] showall" ),
             ( moveall == true ? _( "Moving selection" ) : _( "Resizing selection" ) ) );
-        inp_mngr.set_timeout( BLINK_SPEED );
-        action = ctxt.handle_input();
-        inp_mngr.reset_timeout();
+        action = ctxt.handle_input( BLINK_SPEED );
         if( action == "RESIZE" ) {
             if( ! moveall ) {
                 const int offset = g->right_sidebar ? -16 : 16;
@@ -1896,9 +1892,7 @@ int editmap::mapgen_retarget()
                     "Mapgen: Moving target" ) );
 
     do {
-        inp_mngr.set_timeout( BLINK_SPEED );
-        action = ctxt.handle_input();
-        inp_mngr.reset_timeout();
+        action = ctxt.handle_input( BLINK_SPEED );
         blink = !blink;
         if( ctxt.get_direction( omx, omy, action ) ) {
             tripoint ptarget = tripoint( target.x + ( omx * 24 ), target.y + ( omy * 24 ), target.z );

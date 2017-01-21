@@ -201,10 +201,7 @@ int snake_game::start_game()
 
         wrefresh(w_snake);
 
-        //Check input
-        inp_mngr.set_timeout(iGameSpeed);
-        const std::string action = ctxt.handle_input();
-        inp_mngr.reset_timeout();
+        const std::string action = ctxt.handle_input( iGameSpeed );
 
         if (action == "UP") {
             if (iDirY != 1) {

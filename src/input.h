@@ -385,6 +385,7 @@ class input_context
          *
          */
         const std::string &handle_input();
+        const std::string &handle_input( int timeout );
 
         /**
          * Convert a direction action(UP, DOWN etc) to a delta x and y.

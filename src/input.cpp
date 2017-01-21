@@ -682,6 +682,14 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
     return rval.str();
 }
 
+const std::string &input_context::handle_input( const int timeout )
+{
+    inp_mngr.set_timeout( timeout );
+    const std::string &result = handle_input();
+    inp_mngr.reset_timeout();
+    return result;
+}
+
 const std::string &input_context::handle_input()
 {
     next_action.type = CATA_INPUT_ERROR;
