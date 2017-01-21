@@ -563,7 +563,7 @@ const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
 const std::string COORDINATE = "COORDINATE";
 const std::string TIMEOUT = "TIMEOUT";
 
-const std::string &input_context::input_to_action( input_event &inp )
+const std::string &input_context::input_to_action( const input_event &inp ) const
 {
     for( auto &elem : registered_actions ) {
         const std::string &action = elem;
@@ -707,7 +707,7 @@ const std::string &input_context::handle_input()
         }
 
         if( next_action.type == CATA_INPUT_MOUSE ) {
-            if( !handling_coordinate_input ) {
+            if( !handling_coordinate_input && action == CATA_ERROR ) {
                 continue; // Ignore this mouse input.
             }
 

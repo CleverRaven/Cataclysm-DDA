@@ -9554,9 +9554,9 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
     struct : public uimenu_callback {
         std::function<std::string( int )> draw_row;
 
-        bool key( int ch, int idx, uimenu * menu ) override {
+        bool key( const input_event &event, int idx, uimenu * menu ) override {
             auto &sel = static_cast<std::vector<reload_option> *>( myptr )->operator[]( idx );
-            switch( ch ) {
+            switch( event.get_first_input() ) {
                 case KEY_LEFT:
                     sel.qty( sel.qty() - 1 );
                     menu->entries[ idx ].txt = draw_row( idx );
@@ -9913,8 +9913,8 @@ static const std::array<matype_id, 4> bio_cqb_styles {{
 class ma_style_callback : public uimenu_callback
 {
 public:
-    bool key(int key, int entnum, uimenu *menu) override {
-        if( key != '?' ) {
+    bool key(const input_event &event, int entnum, uimenu *menu) override {
+        if( event.get_first_input() != '?' ) {
             return false;
         }
         matype_id style_selected;
