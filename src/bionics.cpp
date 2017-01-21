@@ -589,55 +589,75 @@ bool player::deactivate_bionic( int b, bool eff_only )
     return true;
 }
 
+/**
+ *  @param bio the bionic that is meant to be recharged.
+ *  @param amount the amount of power that is to be spent recharging the bionic. 
+ *  @return indicates whether we successfully charged the bionic.
+ */
+bool attempt_recharge( player &p, bionic &bio, int &amount, int mult = 1 ) {
+    bionic_data const &info = bio.info();
+    const int armor_power_cost = 1 * mult;
+    int power_cost = info.power_over_time * mult;
+    bool recharged = true;
+    
+    if( power_cost > 0 ) {
+        if( info.armor_interface ) {
+            // Don't spend any power on armor interfacing unless we're wearing active powered armor.
+            bool powered_armor = std::any_of( p.worn.begin(), p.worn.end(), 
+                []( const item &w ) { return w.active && w.is_power_armor(); } );
+            if( !powered_armor ) {
+                power_cost -= armor_power_cost;
+            }
+        }
+        if( p.power_level < power_cost ) {
+            recharged = false;
+        } else {
+            // Set the recharging cost and charge the bionic.
+            amount = power_cost;
+            // This is our first turn of charging, so subtract a turn from the recharge delay.
+            bio.charge = info.charge_time - 1;
+        }
+    } else {
+        // Some bionics are a 1-shot activation so they just deactivate at 0 charge.
+        recharged = false;
+    }
+    
+    return recharged;
+}
+
 void player::process_bionic( int b )
 {
     bionic &bio = my_bionics[b];
+    // Only powered bionics should be processed
     if( !bio.powered ) {
-        // Only powered bionics should be processed
         return;
     }
+    // To prepare for any future abnormal power costs due to options, environment or status effects:
+    int charge_loss_factor = 1;
+    int charge_loss_rate = 1;
+    int charge_cost_mult = ( charge_loss_rate * charge_loss_factor );
     
-    bool no_charge = false;
     if( bio.charge > 0 ) {
-        // Units already with charge just lose charge
-        bio.charge--;
+        bio.charge -= charge_cost_mult;
     } else {
-        if( bionics[bio.id].charge_time > 0 ) {
+        if( bio.info().charge_time > 0 ) {
             // Try to recharge our bionic if it is made for it
-            int power_cost = bionics[bio.id].power_over_time;
-            if( power_cost > 0 ) {
-               if( bio.info().armor_interface ) {
-                    // Don't spend any power on armor interfaces unless we're wearing powered armor.
-                    bool powered_armor = std::any_of( worn.begin(), worn.end(), 
-                        []( const item &w ) { return w.active && w.is_power_armor(); } );
-                    if( !powered_armor ) {
-                        power_cost = 0;
-                    }
-                }
-                if( power_level < power_cost ) {
-                    no_charge = true;
-                } else {
-                    // Pay the recharging cost
-                    charge_power( -power_cost );
-                    // We just spent our first turn of charge, so -1 here
-                    bio.charge = bionics[bio.id].charge_time - 1;
-                }
-            } else {
-                // Some bionics are a 1-shot activation so they just deactivate at 0 charge.
-                no_charge = true;
+            int charge_amount = 0;
+            bool recharged = attempt_recharge( *this, bio, charge_amount, charge_cost_mult );
+            if( !recharged ) {
+                // No power to recharge, so deactivate
+                bio.powered = false;
+                add_msg( m_neutral, _( "Your %s powers down." ), bio.info().name.c_str() );
+                // This purposely bypasses the deactivation cost
+                deactivate_bionic( b, true );
+                return;
+            }
+            if( charge_amount ) {
+                charge_power( -charge_amount );
             }
         }
     }
     
-    if( no_charge ) {
-        // No power to recharge, so deactivate
-        bio.powered = false;
-        add_msg( m_neutral, _( "Your %s powers down." ), bionics[bio.id].name.c_str() );
-        // This purposely bypasses the deactivation cost
-        deactivate_bionic( b, true );
-        return;
-    }
-
     // Bionic effects on every turn they are active go here.
     if( bio.id == "bio_night" ) {
         if( calendar::once_every( 5 ) ) {
