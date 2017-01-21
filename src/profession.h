@@ -21,29 +21,6 @@ enum add_type : int;
     class Skill;
     using skill_id = string_id<Skill>;
 
-class json_item_substitution {
-    public:
-        void reset();
-        void load( JsonObject &jo, const std::string & );
-        void check_consistency();
-
-    private:
-        struct substitution {
-            std::vector<std::string> traits_present; // If the player has all of these traits
-            std::vector<std::string> traits_absent; // And they don't have any of these traits
-            itype_id former; // Then replace any starting items with this itype
-            int count; // with this amount of items with
-            itype_id latter; // this itype
-        };
-        // Note: If former.empty(), then latter is a bonus item
-        std::vector<substitution> substitutions;
-        bool meets_trait_conditions( const substitution &sub,
-                                     const std::vector<std::string> &traits ) const;
-    public:
-        std::vector<itype_id> get_bonus_items( const std::vector<std::string> &traits ) const;
-        std::vector<item> get_substitution( const item &it, const std::vector<std::string> &traits ) const;
-};
-
 class profession
 {
     public:
@@ -63,14 +40,8 @@ class profession
         friend class string_id<profession>;
         friend class generic_factory<profession>;
 
-        static void load_json_item_substitution( JsonObject &jo, const std::string &src );
-        static void reset_json_item_substitution();
-        static void check_consistency_json_item_substitution();
     private:
         string_id<profession> id;
-
-        static json_item_substitution item_substitution;
-
         bool was_loaded = false;
 
         std::string _name_male;

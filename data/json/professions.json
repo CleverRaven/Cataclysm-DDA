@@ -1,6 +1,6 @@
 [
     {
-        "type": "json_item_substitution",
+        "type": "profession",
         "substitutions": [
             {
                 "traits_present": [ "WOOLALLERGY" ],
@@ -44,14 +44,27 @@
             },
             {
                 "traits_present": [ "ANTIWHEAT" ],
+                "traits_absent": [ "MEATARIAN" ],
                 "former": "hardtack",
                 "latter": "cornbread",
                 "count": 2
             },
             {
+                "traits_present": [ "ANTIWHEAT", "MEATARIAN" ],
+                "former": "hardtack",
+                "latter": "meat_cooked",
+                "count": 6
+            },
+            {
                 "traits_present": [ "ANTIJUNK" ],
+                "traits_absent": [ "MEATARIAN" ],
                 "former": "gum",
                 "latter": "fried_seeds"
+            },
+            {
+                "traits_present": [ "ANTIJUNK", "MEATARIAN" ],
+                "former": "gum",
+                "latter": "cracklins"
             },
             {
                 "traits_present": [ "HYPEROPIC", "MYOPIC" ],

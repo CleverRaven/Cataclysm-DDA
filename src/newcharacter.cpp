@@ -538,10 +538,10 @@ bool player::create(character_type type, std::string tempname)
     std::list<item> prof_items = g->u.prof->items( g->u.male, g->u.get_mutations() );
 
     for( item &it : prof_items ) {
+        // TODO: debugmsg if food that isn't a seed is inedible
         if( it.is_armor() ) {
-            if( !wear_item( it, false ) ) {
-                debugmsg( "%s: failed to wear %s", g->u.prof->ident().c_str(), it.typeId().c_str() );
-            }
+            // TODO: debugmsg if wearing fails
+            wear_item( it, false );
         } else if( it.has_flag( "WET" ) ) {
             it.active = true;
             it.item_counter = 450; // Give it some time to dry off
@@ -2386,6 +2386,9 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
+    // TODO: According to crude profiling (interrupts + backtraces), this function accounts for well over
+    // half of the execution time of the test case in new_character_test.cpp
+    // Refactor to allow permitted/forbidden/required traits/professions to be obtained in one function call.
     for( auto &traits_iter : mutation_branch::get_all() ) {
         if( g->scen->locked_traits( traits_iter.first ) && !has_trait( traits_iter.first ) ) {
             toggle_trait( traits_iter.first );

@@ -162,7 +162,6 @@ void DynamicDataLoader::initialize()
     add( "ammunition_type", &ammunition_type::load_ammunition_type );
     add( "scenario", &scenario::load_scenario );
     add( "start_location", &start_location::load_location );
-    add( "json_item_substitution", &profession::load_json_item_substitution );
 
     // json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
     // Non Static Function Access
@@ -362,7 +361,6 @@ void DynamicDataLoader::unload_data()
     gates::reset();
     reset_overlay_ordering();
     npc_class::reset_npc_classes();
-    profession::reset_json_item_substitution();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
@@ -420,5 +418,4 @@ void DynamicDataLoader::check_consistency()
     mission_type::check_consistency();
     item_action_generator::generator().check_consistency();
     harvest_list::check_consistency();
-    profession::check_consistency_json_item_substitution();
 }

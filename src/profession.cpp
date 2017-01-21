@@ -18,13 +18,39 @@
 #include "itype.h"
 #include "generic_factory.h"
 
-json_item_substitution profession::item_substitution;
-
 namespace
 {
 generic_factory<profession> all_profs( "profession", "ident" );
 const string_id<profession> generic_profession_id( "unemployed" );
 }
+
+/**
+ * This class is used to replace certain items with other items when the player has
+ * a certain combination of traits. There is only one instance of this class, and it
+ * is only accessible by the profession module.
+*/
+static class json_item_substitution {
+    public:
+        void reset();
+        void load( JsonObject &jo );
+        void check_consistency();
+
+    private:
+        struct substitution {
+            std::vector<std::string> traits_present; // If the player has all of these traits
+            std::vector<std::string> traits_absent; // And they don't have any of these traits
+            itype_id former; // Then replace any starting items with this itype
+            int count; // with this amount of items with
+            itype_id latter; // this itype
+        };
+        // Note: If former.empty(), then latter is a bonus item
+        std::vector<substitution> substitutions;
+        bool meets_trait_conditions( const substitution &sub,
+                                     const std::vector<std::string> &traits ) const;
+    public:
+        std::vector<itype_id> get_bonus_items( const std::vector<std::string> &traits ) const;
+        std::vector<item> get_substitution( const item &it, const std::vector<std::string> &traits ) const;
+} item_substitutions;
 
 template<>
 const profession &string_id<profession>::obj() const
@@ -46,7 +72,11 @@ profession::profession()
 
 void profession::load_profession( JsonObject &jo, const std::string &src )
 {
-    all_profs.load( jo, src );
+    if( jo.has_array( "substitutions" ) ) {
+        item_substitutions.load( jo ); // This isn't actually a profession
+    } else {
+        all_profs.load( jo, src );
+    }
 }
 
 class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
@@ -198,10 +228,12 @@ const std::vector<profession> &profession::get_all()
 void profession::reset()
 {
     all_profs.reset();
+    item_substitutions.reset();
 }
 
 void profession::check_definitions()
 {
+    item_substitutions.check_consistency();
     for( const auto &prof : all_profs.get_all() ) {
         prof.check_definition();
     }
@@ -296,7 +328,6 @@ signed int profession::point_cost() const
     return _point_cost;
 }
 
-// TODO Combine items that stack with each other
 std::list<item> profession::items( bool male, const std::vector<std::string> &traits ) const
 {
     std::list<item> result;
@@ -320,12 +351,12 @@ std::list<item> profession::items( bool male, const std::vector<std::string> &tr
     result.insert( result.begin(), group_both.begin(), group_both.end() );
     result.insert( result.begin(), group_gender.begin(), group_gender.end() );
 
-    std::vector<itype_id> bonus = item_substitution.get_bonus_items( traits );
+    std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
     for( const itype_id &elem : bonus ) {
         result.push_back( item( elem, 0, item::default_charges_tag{} ) );
     }
     for( auto iter = result.begin(); iter != result.end(); ) {
-        std::vector<item> subs = item_substitution.get_substitution( *iter, traits );
+        std::vector<item> subs = item_substitutions.get_substitution( *iter, traits );
         if( !subs.empty() ) {
             result.insert( result.begin(), subs.begin(), subs.end() );
             iter = result.erase( iter );
@@ -337,6 +368,26 @@ std::list<item> profession::items( bool male, const std::vector<std::string> &tr
     for( item &it : result ) {
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
+        }
+    }
+
+    if( result.empty() ) {
+        // No need to do the below stuff. Plus it would cause said below stuff to crash
+        return result;
+    }
+
+    // Merge charges for items that stack with each other
+    for( auto outer = result.begin(); std::next( outer ) != result.end(); ++outer ) {
+        if( !outer->count_by_charges() ) {
+            continue;
+        }
+        for( auto inner = std::next( outer ); inner != result.end(); ) {
+            if( outer->stacks_with( *inner ) ) {
+                outer->merge_charges( *inner );
+                inner = result.erase( inner );
+            } else {
+                ++inner;
+            }
         }
     }
 
@@ -385,27 +436,12 @@ bool profession::locked_traits( const std::string &trait ) const
 
 // item_substitution stuff:
 
-void profession::load_json_item_substitution( JsonObject &jo, const std::string &src )
-{
-    item_substitution.load( jo, src );
-}
-
-void profession::reset_json_item_substitution()
-{
-    item_substitution.reset();
-}
-
-void profession::check_consistency_json_item_substitution()
-{
-    item_substitution.check_consistency();
-}
-
 void json_item_substitution::reset()
 {
     substitutions.clear();
 }
 
-void json_item_substitution::load( JsonObject &jo, const std::string & )
+void json_item_substitution::load( JsonObject &jo )
 {
     if( !jo.has_array( "substitutions" ) ) {
         jo.throw_error( "No `substitutions` array found." );
@@ -474,7 +510,15 @@ std::vector<item> json_item_substitution::get_substitution( const item &it, cons
     for( const substitution &sub : substitutions ) {
         if( it.typeId() == sub.former && meets_trait_conditions( sub, traits ) ) {
             item replacer = it;
+            // We must use convert in order to keep properties like damage/burnt/etc the same.
             replacer.convert( sub.latter );
+
+            if( replacer.count_by_charges() ) {
+                // The resulting charges must reflect the latter itype's stack size, rather
+                // than the property of the item that's being replaced.
+                replacer.mod_charges( replacer.type->charges_default() - replacer.charges );
+            }
+
             for( int i = 0; i < sub.count; i++ ) {
                 ret.push_back( replacer );
             }
