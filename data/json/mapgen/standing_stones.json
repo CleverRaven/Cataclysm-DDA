@@ -3,9 +3,7 @@
     "name": "GROUP_STANDING_STONES",
     "type": "monstergroup",
     "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_darkman", "freq": 100, "cost_multiplier": 1, "conditions" : ["NIGHT"] }
-    ]
+    "monsters": [ { "monster": "mon_darkman", "freq": 100, "cost_multiplier": 1, "conditions": [ "NIGHT" ] } ]
   },
   {
     "type": "mapgen",
@@ -40,16 +38,16 @@
         "ffffff..........ffffffff"
       ],
       "terrain": {
+        "#": "t_dirt",
         ".": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt" ],
-        "f": [ "t_grass", "t_grass", "t_grass", "t_tree", "t_tree_young", "t_underbrush", "t_underbrush", "t_underbrush", "t_dirt" ],
-        "s": "t_dirt",
-        "o": "t_dirt",
         "O": "t_dirt",
-        "#": "t_dirt"
+        "f": [ "t_grass", "t_grass", "t_grass", "t_tree", "t_tree_young", "t_underbrush", "t_underbrush", "t_underbrush", "t_dirt" ],
+        "o": "t_dirt",
+        "s": "t_dirt"
       },
       "furniture": {
-        "o": "f_boulder_small",
-        "O": "f_boulder_large"
+        "O": "f_boulder_large",
+        "o": "f_boulder_small"
       },
       "traps": {
         "#": "tr_brazier"
