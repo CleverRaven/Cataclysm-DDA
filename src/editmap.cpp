@@ -395,7 +395,7 @@ tripoint editmap::edit()
                 pgettext( "map editor state", "Looking around" ) );
         inp_mngr.set_timeout( BLINK_SPEED );
         action = ctxt.handle_input();
-        inp_mngr.set_timeout( -1 );
+        inp_mngr.reset_timeout();
 
         if( action == "EDIT_TERRAIN" ) {
             edit_ter();
@@ -1587,7 +1587,7 @@ int editmap::select_shape( shapetype shape, int mode )
             ( moveall == true ? _( "Moving selection" ) : _( "Resizing selection" ) ) );
         inp_mngr.set_timeout( BLINK_SPEED );
         action = ctxt.handle_input();
-        inp_mngr.set_timeout( -1 );
+        inp_mngr.reset_timeout();
         if( action == "RESIZE" ) {
             if( ! moveall ) {
                 const int offset = g->right_sidebar ? -16 : 16;
@@ -1747,7 +1747,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
         if( gpmenu.keypress != ERR ) {
             if( gpmenu.ret != UIMENU_INVALID ) {
-                inp_mngr.set_timeout( -1 );
+                inp_mngr.reset_timeout();
                 if( gpmenu.ret == 0 ) {
 
                     cleartmpmap( tmpmap );
@@ -1855,7 +1855,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
         }
     } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != 4 );
 
-    inp_mngr.set_timeout( -1 );
+    inp_mngr.reset_timeout();
     werase( w_preview );
     wrefresh( w_preview );
     delwin( w_preview );
@@ -1898,7 +1898,7 @@ int editmap::mapgen_retarget()
     do {
         inp_mngr.set_timeout( BLINK_SPEED );
         action = ctxt.handle_input();
-        inp_mngr.set_timeout( -1 );
+        inp_mngr.reset_timeout();
         blink = !blink;
         if( ctxt.get_direction( omx, omy, action ) ) {
             tripoint ptarget = tripoint( target.x + ( omx * 24 ), target.y + ( omy * 24 ), target.z );

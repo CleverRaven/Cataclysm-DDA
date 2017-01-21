@@ -1735,7 +1735,7 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     inp_mngr.set_timeout( get_option<int>( "ANIMATION_DELAY" ) );
     // Skip input (if any), because holding down a key with nanosleep can get yourself killed
     inp_mngr.get_input_event();
-    inp_mngr.set_timeout( -1 );
+    inp_mngr.reset_timeout();
 }
 
 #if defined(_MSC_VER)

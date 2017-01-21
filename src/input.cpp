@@ -818,7 +818,7 @@ bool input_context::get_direction( int &dx, int &dy, const std::string &action )
 
 void input_context::display_help()
 {
-    inp_mngr.set_timeout( -1 );
+    inp_mngr.reset_timeout();
     // Shamelessly stolen from help.cpp
     WINDOW *w_help = newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
                              1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
@@ -1130,7 +1130,7 @@ input_event input_manager::get_input_event( WINDOW * /*win*/ )
         do {
             newch = getch();
         } while( newch != ERR && newch == key );
-        set_timeout( -1 );
+        reset_timeout();
         // If we read a different character than the one we're going to act on, re-queue it.
         if( newch != ERR && newch != key ) {
             ungetch( newch );

@@ -2508,7 +2508,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
         inp_mngr.set_timeout( BLINK_SPEED );
         draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, data);
         action = ictxt.handle_input();
-        inp_mngr.set_timeout( -1 );
+        inp_mngr.reset_timeout();
 
         int dirx, diry;
         if (ictxt.get_direction(dirx, diry, action)) {
@@ -2612,7 +2612,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 wrefresh(w_search);
                 inp_mngr.set_timeout( BLINK_SPEED );
                 action = ctxt.handle_input();
-                inp_mngr.set_timeout( -1 );
+                inp_mngr.reset_timeout();
                 if (uistate.overmap_blinking) {
                     uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 }
@@ -2711,7 +2711,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
 
                     inp_mngr.set_timeout( BLINK_SPEED );
                     action = ctxt.handle_input();
-                    inp_mngr.set_timeout( -1 );
+                    inp_mngr.reset_timeout();
 
                     if( ictxt.get_direction( dirx, diry, action ) ) {
                         curs.x += dirx;

@@ -212,6 +212,9 @@ class input_manager
          * events to be generated correctly.
          */
         void set_timeout( int delay );
+        void reset_timeout() {
+            set_timeout( -1 );
+        }
 
     private:
         friend class input_context;
