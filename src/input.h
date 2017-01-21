@@ -215,6 +215,9 @@ class input_manager
         void reset_timeout() {
             set_timeout( -1 );
         }
+        int get_timeout() const {
+            return input_timeout;
+        }
 
     private:
         friend class input_context;
