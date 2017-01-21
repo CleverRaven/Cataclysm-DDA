@@ -1740,7 +1740,7 @@ void monster::process_effects()
         add_msg( m_warning, _( "The %s seems a little healthier." ), name().c_str() );
     }
 
-    if( has_flag( MF_REGENERATES_IN_DARK ) && heal( 40 - int(g->m.ambient_light_at( pos() ) ) ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+    if( has_flag( MF_REGENERATES_IN_DARK ) && heal( 40 - int( g->m.ambient_light_at( pos() ) ) ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
         add_msg( m_warning, _( "The %s uses the darkness to regenerate." ), name().c_str() );
     }
 
