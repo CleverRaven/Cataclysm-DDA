@@ -596,7 +596,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
  *  @param rate divides the number of turns we may charge (rate of 2 discharges in half the time).
  *  @return indicates whether we successfully charged the bionic.
  */
-bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, float rate = 1 ) {
+bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int rate = 1 ) {
     bionic_data const &info = bio.info();
     const int armor_power_cost = 1 * factor;
     int power_cost = info.power_over_time * factor;
