@@ -388,6 +388,7 @@ void DynamicDataLoader::finalize_loaded_data()
     set_furn_ids();
     trap::finalize();
     overmap_terrains::finalize();
+    overmap_specials::finalize();
     vehicle_prototype::finalize();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();

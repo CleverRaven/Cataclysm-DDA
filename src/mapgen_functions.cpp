@@ -403,8 +403,8 @@ ter_id mapgendata::groundcover() {
 }
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
-    const auto dir = north_is_down ? om_direction::opposite( terrain_type->dir ) : terrain_type->dir;
-    m->rotate( static_cast<int>( dir ) );
+    const auto dir = terrain_type->get_dir();
+    m->rotate( static_cast<int>( north_is_down ? om_direction::opposite( dir ) : dir ) );
 }
 
 #define autorotate(x) mapgen_rotate(m, terrain_type, x)
@@ -1011,28 +1011,13 @@ void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
     m->add_spawn(mon_fungaloid_seeder, 1, 12, 12);
 }
 
-int terrain_type_with_suffix_to_nesw_array( oter_id terrain_type, bool array[4] ) {
-    // extract the suffix from the terrain type name
-    const std::string &sid = terrain_type.id().str();
-    std::string suffix = sid.substr( sid.find_last_of( "_" ) + 1 );
-    // non-"_end" end tiles have _north _east _south _west, all of which contain "t"
-    if( suffix.find( "t" ) != std::string::npos ) {
-        suffix = suffix.substr( 0, 1 );
-        suffix = ( suffix == "n" ) ? "s" : // and they are all backwards :(
-                 ( suffix == "e" ) ? "w" :
-                 ( suffix == "s" ) ? "n" :
-                 ( suffix == "w" ) ? "e" : "" ;
-    }
-    // manhole exception
-    if( suffix == "manhole" ) {
-        suffix = "nesw";
-    }
+int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] ) {
     // count and mark which directions the road goes
+    const auto &oter( *terrain_type );
     int num_dirs = 0;
-    num_dirs += ( array[0] = ( suffix.find( "n" ) != std::string::npos ) );
-    num_dirs += ( array[1] = ( suffix.find( "e" ) != std::string::npos ) );
-    num_dirs += ( array[2] = ( suffix.find( "s" ) != std::string::npos ) );
-    num_dirs += ( array[3] = ( suffix.find( "w" ) != std::string::npos ) );
+    for( const auto dir : om_direction::all ) {
+        num_dirs += ( array[static_cast<int>( dir )] = oter.has_connection( dir ) );
+    }
     return num_dirs;
 }
 
@@ -1092,7 +1077,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
 
     // which of the cardinal directions get roads?
     bool roads_nesw[4] = {};
-    int num_dirs = terrain_type_with_suffix_to_nesw_array( terrain_type, roads_nesw );
+    int num_dirs = terrain_type_to_nesw_array( terrain_type, roads_nesw );
     // if this is a dead end, extend past the middle of the tile
     int dead_end_extension = ( num_dirs == 1 ? 8 : 0 );
 
@@ -1106,7 +1091,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
         // n_* contain details about the neighbor being considered
         bool n_roads_nesw[4] = {};
         //TODO figure out how to call this function without creating a new oter_id object
-        int n_num_dirs = terrain_type_with_suffix_to_nesw_array( dat.t_nesw[dir], n_roads_nesw );
+        int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_roads_nesw );
         // if 2-way neighbor has a road facing us
         if( n_num_dirs == 2 && n_roads_nesw[( dir + 2 ) % 4] ) {
             // curve towards the direction the neighbor turns
@@ -2613,7 +2598,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         bool placed_any = false;
         for( const tripoint &p : upstairs ) {
             static const tripoint up = tripoint( 0, 0, 1 );
-            const tripoint here = om_direction::rotate( p + up, terrain_type->dir );
+            const tripoint here = om_direction::rotate( p + up, terrain_type->get_dir() );
             // @todo Less ugly check
             // If aligning isn't forced, allow only floors. Otherwise allow all non-walls
             const ter_t &ter_here = m->ter( here ).obj();
@@ -2727,7 +2712,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
     }
 
-    m->rotate( static_cast<int>( terrain_type->dir ) );
+    m->rotate( static_cast<int>( terrain_type->get_dir() ) );
 }
 
 /////////////////////////////

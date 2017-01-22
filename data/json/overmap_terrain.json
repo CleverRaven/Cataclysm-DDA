@@ -118,22 +118,15 @@
         "mapgen_curved": [
             { "method": "builtin", "name": "road_curved" }
         ],
+        "mapgen_end": [
+            { "method": "builtin", "name": "road_end" }
+        ],
         "mapgen_tee": [
             { "method": "builtin", "name": "road_tee" }
         ],
         "mapgen_four_way": [
             { "method": "builtin", "name": "road_four_way" }
         ]
-    },{
-        "type" : "overmap_terrain",
-        "id" : "road_end",
-        "name" : "road",
-        "color" : "dark_gray",
-        "see_cost" : 2,
-        "extras" : "road",
-        "allow_road" : true,
-        "rotate" : true,
-        "sym" : 4194424
     },{
         "type" : "overmap_terrain",
         "id" : "road_nesw_manhole",
@@ -1709,7 +1702,7 @@
         "id" : "haz_sar_entrance",
         "name" : "hazardous waste sarcophagus",
         "sym" : 88,
-        "color" : "light_red",
+        "color" : "pink",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",

@@ -37,6 +37,9 @@ enum class type : int {
 const std::array<type, 4> all = {{ type::north, type::east, type::south, type::west }};
 const size_t size = all.size();
 
+/** Number of bits needed to store directions. */
+const size_t bits = size_t( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
+
 /** Identifier for serialization purposes. */
 const std::string &id( type dir );
 
@@ -46,7 +49,6 @@ const std::string &name( type dir );
 /** Various rotations. */
 point rotate( const point &p, type dir );
 tripoint rotate( const tripoint &p, type dir );
-int_id<oter_t> rotate( const int_id<oter_t> &oter, type dir );
 long rotate_symbol( long sym, type dir );
 
 /** Returns point(0, 0) displaced in direction @param dir by the @param dist. */
@@ -107,7 +109,6 @@ enum oter_flags {
     known_down = 0,
     known_up,
     river_tile,
-    road_tile,
     has_sidewalk,
     allow_road,
     rotates,      // does this tile have four versions, one for each direction?
@@ -119,6 +120,9 @@ using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
 
 struct oter_type_t {
+    public:
+        static const oter_type_t null_type;
+
     public:
         string_id<oter_type_t> id;
         std::string name;               // Localized name
@@ -157,11 +161,11 @@ struct oter_type_t {
 };
 
 struct oter_t {
-    public:
-        const oter_type_t *type; // @todo Don't reference this. Encapsulate further.
+    private:
+        const oter_type_t *type;
 
+    public:
         oter_str_id id;         // definitive identifier.
-        om_direction::type dir = om_direction::type::none;
 
         oter_t();
         oter_t( const oter_type_t &type );
@@ -173,6 +177,7 @@ struct oter_t {
         }
 
         std::string get_mapgen_id() const;
+        oter_id get_rotated( om_direction::type dir ) const;
 
         const std::string &get_name() const {
             return type->name;
@@ -184,6 +189,14 @@ struct oter_t {
 
         nc_color get_color() const {
             return type->color;
+        }
+
+        om_direction::type get_dir() const {
+            return dir;
+        }
+
+        size_t get_line() const {
+            return line;
         }
 
         unsigned char get_see_cost() const {
@@ -202,17 +215,20 @@ struct oter_t {
             return type->static_spawns;
         }
 
-        inline bool type_is( int_id<oter_type_t> type_id ) const;
+        inline bool type_is( const int_id<oter_type_t> &type_id ) const;
         inline bool type_is( const oter_type_t &type ) const;
+
+        bool can_connect_to( const int_id<oter_t> &oter ) const;
+        bool has_connection( om_direction::type dir ) const;
 
         bool has_flag( oter_flags flag ) const {
             return type->has_flag( flag );
         }
 
     private:
-        static const oter_type_t null_type;
-        long sym = '\0';    // This is a long, so we can support curses linedrawing.
-        size_t line = 0;    // Index of line. Only valid in case of line drawing.
+        om_direction::type dir = om_direction::type::none;
+        long sym = '\0';         // This is a long, so we can support curses linedrawing.
+        size_t line = 0;         // Index of line. Only valid in case of line drawing.
 };
 
 // @todo: Deprecate these operators
@@ -261,7 +277,7 @@ struct overmap_special_terrain : public JsonDeserializer {
 
 struct overmap_special_connection : public JsonDeserializer {
     tripoint p;
-    oter_str_id terrain;
+    string_id<oter_type_t> terrain;
     bool existing = false;
 
     void deserialize( JsonIn &jsin ) override {
@@ -303,6 +319,7 @@ class overmap_special
         // Used by generic_factory
         bool was_loaded = false;
         void load( JsonObject &jo, const std::string &src );
+        void finalize();
         void check() const;
 };
 
@@ -310,6 +327,7 @@ namespace overmap_specials
 {
 
 void load( JsonObject &jo, const std::string &src );
+void finalize();
 void check_consistency();
 void reset();
 

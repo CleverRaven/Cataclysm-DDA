@@ -495,7 +495,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
         return res;
     };
 
-    const auto path = pf::find_path( start, finish, 2*OX, 2*OY, estimate );
+    const auto path = pf::find_path( point( start.x, start.y ), point( finish.x, finish.y ), 2*OX, 2*OY, estimate );
 
     if( path.empty() ) {
         return false;

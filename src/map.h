@@ -1157,8 +1157,8 @@ public:
  int getmapsize() const { return my_MAPSIZE; };
  bool has_zlevels() const { return zlevels; }
 
- // Not protected/private for mapgen_functions.cpp access
- void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
+    // Not protected/private for mapgen_functions.cpp access
+    void rotate(int turns);   // Rotates the current map 90*turns degress clockwise
                               // Useful for houses, shops, etc
 
 // Monster spawning:

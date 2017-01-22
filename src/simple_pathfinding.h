@@ -32,8 +32,8 @@ struct node {
 /// integer estimation (smaller - better) for the current node or a negative value
 /// if the node is unsuitable.
 template<class BinaryPredicate>
-std::vector<node> find_path( const tripoint &source,
-                             const tripoint &dest,
+std::vector<node> find_path( const point &source,
+                             const point &dest,
                              const int max_x,
                              const int max_y,
                              BinaryPredicate estimator )
@@ -52,9 +52,6 @@ std::vector<node> find_path( const tripoint &source,
     std::vector<node> res;
 
     if( source == dest ) {
-        return res;
-    } else if( source.z != dest.z ) {
-        debugmsg( "Pathfinding through z-levels is not supported yet." );
         return res;
     }
 
