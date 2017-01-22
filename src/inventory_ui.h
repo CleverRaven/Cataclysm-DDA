@@ -241,7 +241,6 @@ class inventory_column
         void draw( WINDOW *win, size_t x, size_t y ) const;
 
         void add_entry( const inventory_entry &entry );
-        void remove_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
         void clear();
 
@@ -250,10 +249,6 @@ class inventory_column
 
         void set_multiselect( bool multiselect ) {
             this->multiselect = multiselect;
-        }
-
-        void set_mode( navigation_mode mode ) {
-            this->mode = mode;
         }
 
         void set_visibility( bool visibility ) {
@@ -286,6 +281,10 @@ class inventory_column
         virtual void on_deactivate() {
             active = false;
         }
+        /** Selection mode has been changed. */
+        virtual void on_mode_change( navigation_mode mode ) {
+            this->mode = mode;
+        }
 
     protected:
         /**
@@ -317,7 +316,8 @@ class inventory_column
         /** Sum of the cell widths */
         size_t get_cells_width() const;
 
-        std::string get_entry_denial( const inventory_entry &entry ) const;
+        std::string get_denial( const item_location &loc ) const;
+        std::string get_denial( const inventory_entry &entry ) const;
 
         const inventory_selector_preset &preset;
 
@@ -368,10 +368,15 @@ class selection_column : public inventory_column
         }
 
         virtual void prepare_paging() override;
+
         virtual void on_change( const inventory_entry &entry ) override;
+        virtual void on_mode_change( navigation_mode ) override {
+            // Intentionally ignore mode change.
+        }
 
     private:
         const std::unique_ptr<item_category> selected_cat;
+        inventory_entry last_changed;
 };
 
 class inventory_selector
@@ -437,6 +442,8 @@ class inventory_selector
         void on_change( const inventory_entry &entry );
 
         void prepare_layout( size_t client_width, size_t client_height );
+        void prepare_layout();
+
         size_t get_layout_width() const;
         size_t get_layout_height() const;
 
@@ -575,12 +582,14 @@ class inventory_drop_selector : public inventory_multiselector
         std::list<std::pair<int, int>> execute();
 
     protected:
-        std::map<const item *, int> dropping;
-        mutable std::unique_ptr<player> dummy;
-
         const player &get_player_for_stats() const;
         /** Toggle item dropping */
-        void set_drop_count( inventory_entry &entry, size_t count );
+        void set_chosen_count( inventory_entry &entry, size_t count );
+
+    private:
+        std::map<const item *, int> dropping;
+        size_t max_chosen_count;
+        mutable std::unique_ptr<player> dummy;
 };
 
 #endif
