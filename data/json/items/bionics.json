@@ -719,7 +719,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Internal Storage CBM",
-    "description": "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 8 units of volume.",
+    "description": "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 2 liters of volume.",
     "price": 400000,
     "difficulty": 7
   },
