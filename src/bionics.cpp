@@ -598,9 +598,9 @@ bool player::deactivate_bionic( int b, bool eff_only )
  */
 bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int rate = 1 ) {
     bionic_data const &info = bio.info();
-    const int armor_power_cost = 1 * factor;
+    const int armor_power_cost = 1;
     int power_cost = info.power_over_time * factor;
-    bool recharged = true;
+    bool recharged = false;
     
     if( power_cost > 0 ) {
         if( info.armor_interface ) {
@@ -608,20 +608,16 @@ bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int 
             bool powered_armor = std::any_of( p.worn.begin(), p.worn.end(), 
                 []( const item &w ) { return w.active && w.is_power_armor(); } );
             if( !powered_armor ) {
-                power_cost -= armor_power_cost;
+                power_cost -= armor_power_cost * factor;
             }
         }
-        if( p.power_level < power_cost ) {
-            recharged = false;
-        } else {
+        if( p.power_level >= power_cost ) {
             // Set the recharging cost and charge the bionic.
             amount = power_cost;
             // This is our first turn of charging, so subtract a turn from the recharge delay.
             bio.charge = info.charge_time - rate;
+            recharged = true;
         }
-    } else {
-        // Some bionics are a 1-shot activation so they just deactivate at 0 charge.
-        recharged = false;
     }
     
     return recharged;
@@ -635,6 +631,7 @@ void player::process_bionic( int b )
         return;
     }
     
+    // These might be affected by environmental conditions, status effects, faulty bionics, etc.
     int discharge_factor = 1;
     int discharge_rate = 1;
     
