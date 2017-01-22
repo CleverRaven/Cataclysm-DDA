@@ -191,7 +191,6 @@ struct targeting_data {
     const itype *ammo;
     game::target_callback on_mode_change;
     game::target_callback on_ammo_change;
-//    targeting_data() = default;
 };
 
 class user_turn {
@@ -9982,10 +9981,10 @@ void game::plfire_veh_turret( turret_data *tur ) {
                 };
             }
 
-            item *turret_gun = &( *turret.base() );
+            item *turret_gun = &*turret.base();
             targeting_data params = { 
                 TARGET_MODE_TURRET_MANUAL, turret_gun, 
-                turret.range(), &*turret.ammo_data(), 
+                turret.range(), turret.ammo_data(), 
                 switch_mode, switch_ammo 
             };
             
@@ -10187,28 +10186,33 @@ bool game::plfire( item *weapon, int bp_cost, targeting_data *tdata )
     
     auto gun = cached_weapon->gun_current_mode();
     
-    if( weapon || tdata ) {
-        // valid weapon, set the cached weapon and bp_cost to the current values.
-        cached_weapon = weapon ? weapon : ( tdata->relevant ? tdata->relevant : &u.weapon );
+    if( weapon ) {
+        // weapon not null: set the cached weapon, targeting data and bp_cost to the current values.
+        cached_weapon = weapon;
         bio_power_cost = bp_cost;
-        held_weapon = &u.weapon != cached_weapon;
-        gun = cached_weapon->gun_current_mode();
-        if ( tdata ) {
-            params = *tdata;
-        } else {
+        held_weapon = &u.weapon == weapon;
+        gun = weapon->gun_current_mode();
+    }
+    
+    if( tdata ) {
+        params = *tdata;
+        if( !weapon && tdata->relevant ) {
+            cached_weapon = tdata->relevant;
+        }
+    } else {
             target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
             int range = gun.melee() ? gun.qty : u.gun_engagement_range( *gun, player::engagement::maximum );
-            itype *ammo = nullptr;  // if ammo is null, pl_target_ui works it out
+            const itype *ammo = gun->ammo_data();
             targeting_data tmp = { tmode, cached_weapon, range, ammo, target_callback(), target_callback() };
             params = tmp;
-        }
     }
 
     int reload_time = 0;
     
     // If we were wielding this weapon when we started aiming, make sure we still are.
     bool lost_gun = ( held_weapon && &u.weapon != cached_weapon );
-    if( lost_gun || !plfire_check( *cached_weapon, reload_time ) ) {
+    bool passed_check = plfire_check( *cached_weapon, reload_time );
+    if( lost_gun || !passed_check ) {
         bio_power_cost = 0;
         return false;
     }
