@@ -589,45 +589,73 @@ bool player::deactivate_bionic( int b, bool eff_only )
     return true;
 }
 
+/**
+ *  @param bio the bionic that is meant to be recharged.
+ *  @param amount the amount of power that is to be spent recharging the bionic. 
+ *  @param factor multiplies the power cost per turn.
+ *  @param rate divides the number of turns we may charge (rate of 2 discharges in half the time).
+ *  @return indicates whether we successfully charged the bionic.
+ */
+bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int rate = 1 ) {
+    bionic_data const &info = bio.info();
+    const int armor_power_cost = 1;
+    int power_cost = info.power_over_time * factor;
+    bool recharged = false;
+    
+    if( power_cost > 0 ) {
+        if( info.armor_interface ) {
+            // Don't spend any power on armor interfacing unless we're wearing active powered armor.
+            bool powered_armor = std::any_of( p.worn.begin(), p.worn.end(), 
+                []( const item &w ) { return w.active && w.is_power_armor(); } );
+            if( !powered_armor ) {
+                power_cost -= armor_power_cost * factor;
+            }
+        }
+        if( p.power_level >= power_cost ) {
+            // Set the recharging cost and charge the bionic.
+            amount = power_cost;
+            // This is our first turn of charging, so subtract a turn from the recharge delay.
+            bio.charge = info.charge_time - rate;
+            recharged = true;
+        }
+    }
+    
+    return recharged;
+}
+
 void player::process_bionic( int b )
 {
     bionic &bio = my_bionics[b];
+    // Only powered bionics should be processed
     if( !bio.powered ) {
-        // Only powered bionics should be processed
         return;
     }
-
+    
+    // These might be affected by environmental conditions, status effects, faulty bionics, etc.
+    int discharge_factor = 1;
+    int discharge_rate = 1;
+    
     if( bio.charge > 0 ) {
-        // Units already with charge just lose charge
-        bio.charge--;
+        bio.charge -= discharge_rate;
     } else {
-        if( bionics[bio.id].charge_time > 0 ) {
+        if( bio.info().charge_time > 0 ) {
             // Try to recharge our bionic if it is made for it
-            if( bionics[bio.id].power_over_time > 0 ) {
-                if( power_level < bionics[bio.id].power_over_time ) {
-                    // No power to recharge, so deactivate
-                    bio.powered = false;
-                    add_msg( m_neutral, _( "Your %s powers down." ), bionics[bio.id].name.c_str() );
-                    // This purposely bypasses the deactivation cost
-                    deactivate_bionic( b, true );
-                    return;
-                } else {
-                    // Pay the recharging cost
-                    charge_power( -bionics[bio.id].power_over_time );
-                    // We just spent our first turn of charge, so -1 here
-                    bio.charge = bionics[bio.id].charge_time - 1;
-                }
-                // Some bionics are a 1-shot activation so they just deactivate at 0 charge.
-            } else {
+            int cost = 0;
+            bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
+            if( !recharged ) {
+                // No power to recharge, so deactivate
                 bio.powered = false;
-                add_msg( m_neutral, _( "Your %s powers down." ), bionics[bio.id].name.c_str() );
+                add_msg( m_neutral, _( "Your %s powers down." ), bio.info().name.c_str() );
                 // This purposely bypasses the deactivation cost
                 deactivate_bionic( b, true );
                 return;
             }
+            if( cost ) {
+                charge_power( -cost );
+            }
         }
     }
-
+    
     // Bionic effects on every turn they are active go here.
     if( bio.id == "bio_night" ) {
         if( calendar::once_every( 5 ) ) {
@@ -1319,6 +1347,8 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.gun_bionic = jsobj.get_bool( "gun_bionic", false );
     new_bionic.weapon_bionic = jsobj.get_bool( "weapon_bionic", false );
+    new_bionic.armor_interface = jsobj.get_bool( "armor_interface", false );
+    
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );
     }

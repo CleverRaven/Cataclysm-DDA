@@ -807,6 +807,7 @@
       [ "TORSO", 4 ],
       [ "HEAD", 1 ]
     ],
+    "armor_interface": true,
     "toggled": true,
     "act_cost": 1,
     "react_cost": 1,
@@ -821,6 +822,7 @@
       [ "TORSO", 3 ],
       [ "HEAD", 2 ]
     ],
+    "armor_interface": true,
     "toggled": true,
     "act_cost": 1,
     "react_cost": 1,

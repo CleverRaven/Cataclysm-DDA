@@ -719,13 +719,8 @@ void ups_based_armor_actor::load( JsonObject &obj )
     obj.read( "out_of_power_msg", out_of_power_msg );
 }
 
-bool has_power_armor_interface(const player &p)
-{
-    return p.has_active_bionic( "bio_power_armor_interface" ) || p.has_active_bionic( "bio_power_armor_interface_mkII" );
-}
-
 bool has_powersource(const item &i, const player &p) {
-    if( i.is_power_armor() && has_power_armor_interface( p ) && p.power_level > 0 ) {
+    if( i.is_power_armor() && p.can_interface_armor() && p.power_level > 0 ) {
         return true;
     }
     return p.has_charges( "UPS", 1 );
