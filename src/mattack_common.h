@@ -32,7 +32,7 @@ public:
 struct mtype_special_attack {
 protected:
     // @todo Remove friend
-    friend class mtype;
+    friend struct mtype;
     std::unique_ptr<mattack_actor> actor;
 
 public:
