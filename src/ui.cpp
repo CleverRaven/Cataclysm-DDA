@@ -817,11 +817,11 @@ void uimenu::query(bool loop)
             const auto iter = keymap.find( keypress );
             if( iter != keymap.end() ) {
                 selected = iter->second;
-            }
-            if( entries[ selected ].enabled ) {
-                ret = entries[ selected ].retval; // valid
-            } else if ( return_invalid ) {
-                ret = 0 - entries[ selected ].retval; // disabled
+                if( entries[ selected ].enabled ) {
+                    ret = entries[ selected ].retval; // valid
+                } else if( return_invalid ) {
+                    ret = 0 - entries[ selected ].retval; // disabled
+                }
             }
         } else if ( !fentries.empty() && action == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
