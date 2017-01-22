@@ -212,6 +212,12 @@ class input_manager
          * events to be generated correctly.
          */
         void set_timeout( int delay );
+        void reset_timeout() {
+            set_timeout( -1 );
+        }
+        int get_timeout() const {
+            return input_timeout;
+        }
 
     private:
         friend class input_context;
@@ -382,6 +388,7 @@ class input_context
          *
          */
         const std::string &handle_input();
+        const std::string &handle_input( int timeout );
 
         /**
          * Convert a direction action(UP, DOWN etc) to a delta x and y.

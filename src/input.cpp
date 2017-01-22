@@ -579,13 +579,6 @@ const std::string &input_context::input_to_action( const input_event &inp ) cons
     return CATA_ERROR;
 }
 
-void input_manager::set_timeout( int delay )
-{
-    timeout( delay );
-    // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
-    input_timeout = delay;
-}
-
 void input_context::register_action( const std::string &action_descriptor )
 {
     register_action( action_descriptor, "" );
@@ -687,6 +680,14 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
         }
     }
     return rval.str();
+}
+
+const std::string &input_context::handle_input( const int timeout )
+{
+    inp_mngr.set_timeout( timeout );
+    const std::string &result = handle_input();
+    inp_mngr.reset_timeout();
+    return result;
 }
 
 const std::string &input_context::handle_input()
@@ -818,7 +819,7 @@ bool input_context::get_direction( int &dx, int &dy, const std::string &action )
 
 void input_context::display_help()
 {
-    inp_mngr.set_timeout( -1 );
+    inp_mngr.reset_timeout();
     // Shamelessly stolen from help.cpp
     WINDOW *w_help = newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
                              1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
@@ -1126,11 +1127,11 @@ input_event input_manager::get_input_event( WINDOW * /*win*/ )
     if( key != ERR ) {
         long newch;
         // Clear the buffer of characters that match the one we're going to act on.
-        timeout( 0 );
+        set_timeout( 0 );
         do {
             newch = getch();
         } while( newch != ERR && newch == key );
-        timeout( -1 );
+        reset_timeout();
         // If we read a different character than the one we're going to act on, re-queue it.
         if( newch != ERR && newch != key ) {
             ungetch( newch );
@@ -1209,6 +1210,13 @@ input_event input_manager::get_input_event( WINDOW * /*win*/ )
     }
 
     return rval;
+}
+
+void input_manager::set_timeout( int delay )
+{
+    timeout( delay );
+    // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
+    input_timeout = delay;
 }
 
 // Also specify that we don't have a gamepad plugged in.

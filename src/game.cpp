@@ -1833,9 +1833,7 @@ void game::handle_key_blocking_activity()
 
     if( u.activity && u.activity.moves_left > 0 && u.activity.is_abortable() ) {
         input_context ctxt = get_default_mode_input_context();
-        timeout(1);
-        const std::string action = ctxt.handle_input();
-        timeout(-1);
+        const std::string action = ctxt.handle_input( 1 );
         if (action == "pause") {
             cancel_activity_query(_("Confirm:"));
         } else if (action == "player_data") {
@@ -2367,7 +2365,7 @@ input_context game::get_player_input(std::string &action)
             //updating the pixel minimap here allows red flashing indicators for enemies to actually flicker
             draw_pixel_minimap();
         }
-        inp_mngr.set_timeout(-1);
+        inp_mngr.reset_timeout();
     } else {
         inp_mngr.set_timeout( 125 );
         while( handle_mouseview( ctxt, action ) ) {
@@ -2375,7 +2373,7 @@ input_context game::get_player_input(std::string &action)
                 break;
             }
         }
-        inp_mngr.set_timeout( -1 );
+        inp_mngr.reset_timeout();
     }
 
     return ctxt;
@@ -8498,7 +8496,7 @@ void game::zones_manager()
 
             inp_mngr.set_timeout(BLINK_SPEED);
         } else {
-            inp_mngr.set_timeout(-1);
+            inp_mngr.reset_timeout();
         }
 
         wrefresh(w_zones);
@@ -8507,7 +8505,7 @@ void game::zones_manager()
         //Wait for input
         action = ctxt.handle_input();
     } while (action != "QUIT");
-    inp_mngr.set_timeout(-1);
+    inp_mngr.reset_timeout();
 
     werase(w_zones);
     werase(w_zones_border);
@@ -8794,7 +8792,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
         u.view_offset.z = 0;
     }
 
-    inp_mngr.set_timeout(-1);
+    inp_mngr.reset_timeout();
 
     if (bNewWindow) {
         werase(w_info);

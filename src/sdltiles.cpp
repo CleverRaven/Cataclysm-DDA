@@ -1770,8 +1770,9 @@ int curses_start_color( void )
     return OK;
 }
 
-void curses_timeout(int t)
+void input_manager::set_timeout( const int t )
 {
+    input_timeout = t;
     inputdelay = t;
 }
 

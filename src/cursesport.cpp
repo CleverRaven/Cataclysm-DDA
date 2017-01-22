@@ -733,11 +733,6 @@ int move(int y, int x)
     return wmove(mainwin, y, x);
 }
 
-//Set the amount of time getch waits for input
-void timeout(int delay)
-{
-    curses_timeout(delay);
-}
 void set_escdelay(int) { } //PORTABILITY, DUMMY FUNCTION
 
 

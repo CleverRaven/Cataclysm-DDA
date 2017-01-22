@@ -1744,10 +1744,10 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     mvwprintz( w_hit, 0, 0, cColor, "%s", cTile.c_str() );
     wrefresh( w_hit );
 
-    timeout( get_option<int>( "ANIMATION_DELAY" ) );
+    inp_mngr.set_timeout( get_option<int>( "ANIMATION_DELAY" ) );
     // Skip input (if any), because holding down a key with nanosleep can get yourself killed
     inp_mngr.get_input_event();
-    timeout( -1 );
+    inp_mngr.reset_timeout();
 }
 
 #if defined(_MSC_VER)

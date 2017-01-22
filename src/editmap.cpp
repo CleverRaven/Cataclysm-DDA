@@ -393,9 +393,7 @@ tripoint editmap::edit()
         uphelp( pgettext( "map editor", "[t]rap, [f]ield, [HJKL] move++, [v] showall" ),
                 pgettext( "map editor", "[g] terrain/furn, [o] mapgen, [i]tems, [q]uit" ),
                 pgettext( "map editor state", "Looking around" ) );
-        timeout( BLINK_SPEED );
-        action = ctxt.handle_input();
-        timeout( -1 );
+        action = ctxt.handle_input( BLINK_SPEED );
 
         if( action == "EDIT_TERRAIN" ) {
             edit_ter();
@@ -1585,9 +1583,7 @@ int editmap::select_shape( shapetype shape, int mode )
               _( "[m]move, [s]hape, [y] swap, [z] to start" ) ),
             _( "[enter] accept, [q] abort, [v] showall" ),
             ( moveall == true ? _( "Moving selection" ) : _( "Resizing selection" ) ) );
-        timeout( BLINK_SPEED );
-        action = ctxt.handle_input();
-        timeout( -1 );
+        action = ctxt.handle_input( BLINK_SPEED );
         if( action == "RESIZE" ) {
             if( ! moveall ) {
                 const int offset = g->right_sidebar ? -16 : 16;
@@ -1741,13 +1737,13 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
         } else {
             update_view( false ); //wrefresh(g->w_terrain);
         }
-        timeout( BLINK_SPEED * 3 );
+        inp_mngr.set_timeout( BLINK_SPEED * 3 );
         int gpmenupos = gpmenu.selected;
         gpmenu.query( false );
 
         if( gpmenu.keypress != ERR ) {
             if( gpmenu.ret != UIMENU_INVALID ) {
-                timeout( -1 );
+                inp_mngr.reset_timeout();
                 if( gpmenu.ret == 0 ) {
 
                     cleartmpmap( tmpmap );
@@ -1855,7 +1851,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
         }
     } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != 4 );
 
-    timeout( -1 );
+    inp_mngr.reset_timeout();
     werase( w_preview );
     wrefresh( w_preview );
     delwin( w_preview );
@@ -1896,9 +1892,7 @@ int editmap::mapgen_retarget()
                     "Mapgen: Moving target" ) );
 
     do {
-        timeout( BLINK_SPEED );
-        action = ctxt.handle_input();
-        timeout( -1 );
+        action = ctxt.handle_input( BLINK_SPEED );
         blink = !blink;
         if( ctxt.get_direction( omx, omy, action ) ) {
             tripoint ptarget = tripoint( target.x + ( omx * 24 ), target.y + ( omy * 24 ), target.z );

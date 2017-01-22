@@ -160,7 +160,6 @@ int getbegy( WINDOW *win );
 int getcurx( WINDOW *win );
 int getcury( WINDOW *win );
 int move( int y, int x );
-void timeout( int delay ); //PORTABILITY, DUMMY FUNCTION
 void set_escdelay( int delay ); //PORTABILITY, DUMMY FUNCTION
 int echo( void );
 int noecho( void );
@@ -178,7 +177,6 @@ WINDOW *curses_init();
 int curses_destroy();
 void curses_drawwindow( WINDOW *win );
 void curses_delay( int delay );
-void curses_timeout( int t );
 // may throw std::exception
 int curses_start_color();
 
