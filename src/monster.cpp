@@ -1742,8 +1742,8 @@ void monster::process_effects()
 
     if( has_flag( MF_REGENERATES_IN_DARK ) ) {
         const float light = g->m.ambient_light_at( pos() );
-        if ( heal ( int( 50.0 *  pow( 2.71 , - light*light / 10000 ) )  > 0 && one_in( 2 ) && g->u.sees( *this ) ) ) {
-        add_msg( m_warning, _( "The %s uses the darkness to regenerate." ), name().c_str() );
+        if ( heal ( int( 50.0 *  exp( - light*light / 10000 ) )  > 0 && one_in( 2 ) && g->u.sees( *this ) ) ) {
+            add_msg( m_warning, _( "The %s uses the darkness to regenerate." ), name().c_str() );
         }
     }
 
