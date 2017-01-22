@@ -57,6 +57,14 @@ struct encumbrance_data {
     }
 };
 
+struct wrapped_location {
+    wrapped_location( const item *p, item_location &&l ) : parent( p ), location( std::move( l ) ) { }
+    wrapped_location( wrapped_location && ) = default;
+
+    const item *parent;
+    item_location location;
+};
+
 class Character : public Creature, public visitable<Character>
 {
     public:
@@ -396,7 +404,7 @@ class Character : public Creature, public visitable<Character>
          * @param empty whether empty magazines should be considered as possible ammo
          * @param radius adjacent map/vehicle tiles to search. 0 for only player tile, -1 for only inventory
          */
-        std::vector<item_location> find_ammo( const item& obj, bool empty = true, int radius = 1 ) const;
+        std::vector<wrapped_location> find_ammo( const item& obj, bool empty = true, int radius = 1 ) const;
 
         /**
          * Counts ammo and UPS charges (lower of) for a given gun on the character.

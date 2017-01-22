@@ -1899,6 +1899,9 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
         addentry( 'U', pgettext("action", "unload"), u.rate_action_unload( oThisItem ) );
         addentry( 'r', pgettext("action", "reload"), u.rate_action_reload( oThisItem ) );
         addentry( 'p', pgettext("action", "part reload"), u.rate_action_reload( oThisItem ) );
+        addentry( 'P', pgettext( "action", !oThisItem.has_flag( "PREFERRED_AMMO_SOURCE" ) ?
+                                           "mark preferred reload" :
+                                           "unmark preferred reload" ), HINT_GOOD );
         addentry( 'm', pgettext("action", "mend"), u.rate_action_mend( oThisItem ) );
         addentry( 'D', pgettext("action", "disassemble"), u.rate_action_disassemble( oThisItem ) );
         addentry( '=', pgettext("action", "reassign"), HINT_GOOD );
@@ -1988,6 +1991,16 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
                 break;
             case 'p':
                 reload( pos, true );
+                break;
+            case 'P':
+            {
+                auto &it = u.i_at( pos );
+                if( it.has_flag( "PREFERRED_AMMO_SOURCE" ) ) {
+                    it.unset_flag( "PREFERRED_AMMO_SOURCE" );
+                } else {
+                    it.set_flag( "PREFERRED_AMMO_SOURCE" );
+                }
+            }
                 break;
             case 'm':
                 mend( pos );
