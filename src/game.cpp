@@ -184,6 +184,16 @@ bool is_valid_in_w_terrain(int x, int y)
     return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
 }
 
+struct targeting_data {
+    target_mode mode;
+    item *relevant;
+    int range;
+    const itype *ammo;
+    game::target_callback on_mode_change;
+    game::target_callback on_ammo_change;
+//    targeting_data() = default;
+};
+
 class user_turn {
 
 private:
@@ -2920,109 +2930,7 @@ bool game::handle_action()
             break;
 
         case ACTION_FIRE:
-            // Use vehicle turret or draw a pistol from a holster if unarmed
-            if( !u.is_armed() ) {
-
-                int part = -1;
-                vehicle *veh = m.veh_at( u.pos(), part );
-
-                turret_data turret;
-                if( veh && ( turret = veh->turret_query( u.pos() ) ) ) {
-                    switch( turret.query() ) {
-                        case turret_data::status::no_ammo:
-                            add_msg( m_bad, _( "The %s is out of ammo." ), turret.name().c_str() );
-                            break;
-
-                        case turret_data::status::no_power:
-                            add_msg( m_bad,  _( "The %s is not powered." ), turret.name().c_str() );
-                            break;
-
-                        case turret_data::status::ready: {
-                            // if more than one firing mode provide callback to cyle through them
-                            target_callback switch_mode;
-                            if( turret.base()->gun_all_modes().size() > 1 ) {
-                                switch_mode = [&turret]( item *obj ) {
-                                    obj->gun_cycle_mode();
-                                    // currently gun modes dont change ammo but they may in the future
-                                    return turret.ammo_current() == "null" ? nullptr :
-                                           item::find_type( turret.ammo_current() );
-                                };
-                            }
-
-                            // if multiple ammo types available provide callback to cycle alternatives
-                            target_callback switch_ammo;
-                            if( turret.ammo_options().size() > 1 ) {
-                                switch_ammo = [&turret]( item * ) {
-                                    const auto opts = turret.ammo_options();
-                                    auto iter = opts.find( turret.ammo_current() );
-                                    turret.ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
-                                    return item::find_type( turret.ammo_current() );
-                                };
-                            }
-
-                            auto trajectory = pl_target_ui( TARGET_MODE_TURRET_MANUAL, &*turret.base(),
-                                                            turret.range(), turret.ammo_data(),
-                                                            switch_mode, switch_ammo );
-
-                            if( !trajectory.empty() ) {
-                                turret.fire( u, trajectory.back() );
-                            }
-                            break;
-                        }
-
-                        default:
-                            debugmsg( "unknown turret status" );
-                            break;
-                    }
-                    break;
-                }
-
-                if( veh ) {
-                    int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
-                    if( vpcontrols >= 0 && veh->turrets_aim() ) {
-                        break;
-                    }
-                }
-
-                std::vector<std::string> options( 1, _("Cancel") );
-                std::vector<std::function<void()>> actions( 1, []{} );
-
-                for( auto &w : u.worn ) {
-                    if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
-                        !w.contents.empty() && w.contents.front().is_gun() ) {
-                        // draw (first) gun contained in holster
-                        options.push_back( string_format( _("%s from %s (%d)" ),
-                                                          w.contents.front().tname().c_str(),
-                                                          w.type_name().c_str(),
-                                                          w.contents.front().ammo_remaining() ) );
-
-                        actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
-
-                    } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
-                        // wield item currently worn using shoulder strap
-                        options.push_back( w.display_name() );
-                        actions.push_back( [&]{ u.wield( w ); } );
-                    }
-                }
-                if( options.size() > 1 ) {
-                    actions[ ( uimenu( false, _("Draw what?"), options ) ) - 1 ]();
-                }
-            }
-
-            if( u.weapon.is_gun() ) {
-                plfire( &u.weapon );
-
-            } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
-                int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
-                temp_exit_fullscreen();
-                m.draw( w_terrain, u.pos() );
-                std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_REACH, &u.weapon,range );
-                if( !trajectory.empty() ) {
-                    u.reach_attack( trajectory.back() );
-                }
-                draw_ter();
-                reenter_fullscreen();
-            }
+            plfire_attempt();
             break;
 
         case ACTION_FIRE_BURST: {
@@ -10040,6 +9948,122 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
+void game::plfire_veh_turret( turret_data *tur ) {
+    turret_data &turret = *tur;
+    switch( turret.query() ) {
+        case turret_data::status::no_ammo:
+            add_msg( m_bad, _( "The %s is out of ammo." ), turret.name().c_str() );
+            return;
+
+        case turret_data::status::no_power:
+            add_msg( m_bad,  _( "The %s is not powered." ), turret.name().c_str() );
+            return;
+
+        case turret_data::status::ready: {
+            // if more than one firing mode provide callback to cyle through them
+            target_callback switch_mode;
+            if( turret.base()->gun_all_modes().size() > 1 ) {
+                switch_mode = [&turret]( item *obj ) {
+                    obj->gun_cycle_mode();
+                    // currently gun modes dont change ammo but they may in the future
+                    return turret.ammo_current() == "null" ? nullptr :
+                           item::find_type( turret.ammo_current() );
+                };
+            }
+
+            // if multiple ammo types available provide callback to cycle alternatives
+            target_callback switch_ammo;
+            if( turret.ammo_options().size() > 1 ) {
+                switch_ammo = [&turret]( item * ) {
+                    const auto opts = turret.ammo_options();
+                    auto iter = opts.find( turret.ammo_current() );
+                    turret.ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
+                    return item::find_type( turret.ammo_current() );
+                };
+            }
+
+            item *turret_gun = &( *turret.base() );
+            targeting_data params = { 
+                TARGET_MODE_TURRET_MANUAL, turret_gun, 
+                turret.range(), &*turret.ammo_data(), 
+                switch_mode, switch_ammo 
+            };
+            
+            plfire( turret_gun, 0, &params );
+            break;
+        }
+
+        default:
+            debugmsg( "unknown turret status" );
+            break;
+    }
+    return;
+}
+
+void game::plfire_attempt() {
+    // Use vehicle turret or draw a pistol from a holster if unarmed
+    if( !u.is_armed() ) {
+
+        int part = -1;
+        vehicle *veh = m.veh_at( u.pos(), part );
+        if( veh ) {
+            turret_data turret = veh->turret_query( u.pos() );
+            if( turret ) {
+                plfire_veh_turret( &turret );
+                return;
+            }
+            int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
+            if( vpcontrols >= 0 ) {
+                if ( veh->turrets_aim() ) {
+                    add_msg( m_info, _( "You target the turrets." ) );
+                }
+                return;
+            }
+        }
+
+        // Indices must match those of actions container.
+        std::vector<std::string> options( 1, _("Cancel") );
+        // A vector of functions that may cause the player to wield a gun.
+        std::vector<std::function<void()>> actions( 1, []{} );
+
+        for( auto &w : u.worn ) {
+            if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
+                !w.contents.empty() && w.contents.front().is_gun() ) {
+                // draw (first) gun contained in holster
+                options.push_back( string_format( _("%s from %s (%d)" ),
+                                                  w.contents.front().tname().c_str(),
+                                                  w.type_name().c_str(),
+                                                  w.contents.front().ammo_remaining() ) );
+
+                actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
+
+            } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
+                // wield item currently worn using shoulder strap
+                options.push_back( w.display_name() );
+                actions.push_back( [&]{ u.wield( w ); } );
+            }
+        }
+        if( options.size() > 1 ) {
+            actions[ ( uimenu( false, _("Draw what?"), options ) ) - 1 ]();
+        }
+    }
+
+    if( u.weapon.is_gun() ) {
+        plfire( &u.weapon );
+
+    } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
+        int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
+        temp_exit_fullscreen();
+        m.draw( w_terrain, u.pos() );
+        std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_REACH, &u.weapon, range );
+        if( !trajectory.empty() ) {
+            u.reach_attack( trajectory.back() );
+        }
+        draw_ter();
+        reenter_fullscreen();
+    }
+}
+
 bool game::plfire_check( item &weapon, int &reload_time ) {
     bool okay = true;
     vehicle *veh = nullptr;
@@ -10149,21 +10173,35 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
     return okay;
 }
 
-bool game::plfire( item *weapon, int bp_cost, bool held )
+std::vector<tripoint> plfire_target( game *g, targeting_data &params ) {
+    return g->pl_target_ui( params.mode, params.relevant, params.range, params.ammo, 
+                            params.on_mode_change, params.on_ammo_change );
+}
+
+bool game::plfire( item *weapon, int bp_cost, targeting_data *tdata )
 {
     static int bio_power_cost = 0;
-    static item *cached_weapon = nullptr;
+    static item *cached_weapon = &u.weapon;
     static bool held_weapon = true;
+    static targeting_data params;
     
-    if( weapon != nullptr ) {
+    auto gun = cached_weapon->gun_current_mode();
+    
+    if( weapon || tdata ) {
         // valid weapon, set the cached weapon and bp_cost to the current values.
-        cached_weapon = weapon;
+        cached_weapon = weapon ? weapon : ( tdata->relevant ? tdata->relevant : &u.weapon );
         bio_power_cost = bp_cost;
-        held_weapon = held;
-    } else if( !cached_weapon ) {
-        // if no weapon is cached, default to the player's weapon.
-        cached_weapon = &u.weapon;
-        held_weapon = true;
+        held_weapon = &u.weapon != cached_weapon;
+        gun = cached_weapon->gun_current_mode();
+        if ( tdata ) {
+            params = *tdata;
+        } else {
+            target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+            int range = gun.melee() ? gun.qty : u.gun_engagement_range( *gun, player::engagement::maximum );
+            itype *ammo = nullptr;  // if ammo is null, pl_target_ui works it out
+            targeting_data tmp = { tmode, cached_weapon, range, ammo, target_callback(), target_callback() };
+            params = tmp;
+        }
     }
 
     int reload_time = 0;
@@ -10175,14 +10213,9 @@ bool game::plfire( item *weapon, int bp_cost, bool held )
         return false;
     }
 
-    auto gun = cached_weapon->gun_current_mode();
-    int range = gun.melee() ? gun.qty : u.gun_engagement_range( *gun, player::engagement::maximum );
-
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
-
-    target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-    std::vector<tripoint> trajectory = pl_target_ui( tmode, cached_weapon, range );
+    std::vector<tripoint> trajectory = plfire_target( this, params );
 
     if( trajectory.empty() ) {
         bool not_aiming = u.activity.id() != activity_id( "ACT_AIM" );
@@ -10207,7 +10240,7 @@ bool game::plfire( item *weapon, int bp_cost, bool held )
     } else {
         u.moves -= reload_time;
         // @todo add check for TRIGGERHAPPY
-        res = u.fire_gun( trajectory.back(), gun.qty, *gun );
+        res = u.fire_gun( trajectory.back(), gun.qty, *gun, u.recoil );
     }
     
     if( res && bio_power_cost ) {

@@ -533,10 +533,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          *  @param target where the first shot is aimed at (may vary for later shots)
          *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
          *  @param gun item to fire (which does not necessary have to be in the players possession)
+         *  @param gun_recoil the effective recoil value used in firing the shot.
          *  @return number of shots actually fired
          */
         int fire_gun( const tripoint &target, int shots = 1 );
-        int fire_gun( const tripoint &target, int shots, item& gun );
+        int fire_gun( const tripoint &target, int shots, item& gun, double &cur_recoil );
 
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &target );

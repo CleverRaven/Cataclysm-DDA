@@ -118,6 +118,8 @@ struct w_point;
 struct explosion_data;
 struct visibility_variables;
 class scent_map;
+class turret_data;
+struct targeting_data;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -332,6 +334,9 @@ class game
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
         bool revive_corpse( const tripoint &location, item &corpse );
+        
+        void plfire_veh_turret( turret_data *tur );
+        void plfire_attempt();
 
         /**
          * Returns true if the player is allowed to fire a given item, or false if otherwise.
@@ -351,7 +356,7 @@ class game
          * @param held Whether the weapon to be fired requires the player to wield it.
          * @return Whether an attack was actually performed.
          */
-        bool plfire( item *weapon = nullptr, int bp_cost = 0, bool held = true );
+        bool plfire( item *weapon = nullptr, int bp_cost = 0, targeting_data *tdata = nullptr );
 
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also

@@ -535,10 +535,10 @@ bool player::handle_gun_damage( item &it )
 
 int player::fire_gun( const tripoint &target, int shots )
 {
-    return fire_gun( target, shots, weapon );
+    return fire_gun( target, shots, weapon, recoil );
 }
 
-int player::fire_gun( const tripoint &target, int shots, item& gun )
+int player::fire_gun( const tripoint &target, int shots, item& gun, double &cur_recoil )
 {
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", name.c_str(), gun.tname().c_str() );
@@ -591,7 +591,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
         int qty = gun.gun_recoil( *this, bipod );
         delay  += qty * absorb;
-        recoil += qty * ( 1.0 - absorb );
+        cur_recoil += qty * ( 1.0 - absorb );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
@@ -656,7 +656,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     }
 
     // apply delayed recoil
-    recoil += delay;
+    cur_recoil += delay;
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
@@ -1086,6 +1086,9 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                                           const target_callback &on_ammo_change )
 {
     static const std::vector<tripoint> empty_result{};
+    // Something that can stand in for us in case relevant is null.
+    relevant = relevant ? relevant : &u.weapon;
+    
     std::vector<tripoint> ret;
 
     tripoint src = u.pos();

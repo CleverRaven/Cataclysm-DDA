@@ -242,8 +242,7 @@ int turret_data::fire( player &p, const tripoint &target )
     p.add_effect( effect_on_roof, 1 );
 
     // turrets are subject only to recoil_vehicle()
-    int old = p.recoil;
-    p.recoil = 0;
+    double tur_recoil = 0;
 
     auto mode = base()->gun_current_mode();
 
@@ -254,7 +253,7 @@ int turret_data::fire( player &p, const tripoint &target )
         mode->ammo_set( ammo, std::min( qty * mode.qty, long( veh->fuel_left( ammo ) ) ) );
     }
 
-    shots = p.fire_gun( target, mode.qty, *mode );
+    shots = p.fire_gun( target, mode.qty, *mode, tur_recoil );
 
     if( part->info().has_flag( "USE_TANKS" ) ) {
         veh->drain( ammo, qty * shots );
@@ -264,7 +263,6 @@ int turret_data::fire( player &p, const tripoint &target )
     veh->drain( fuel_type_battery, mode->get_gun_ups_drain() * shots );
 
     p.remove_effect( effect_on_roof );
-    p.recoil = old;
 
     return shots;
 }
@@ -394,7 +392,7 @@ bool vehicle::turrets_aim()
 
     return !trajectory.empty();
 }
-
+        
 int vehicle::automatic_fire_turret( vehicle_part &pt )
 {
     auto gun = turret_query( pt );
@@ -404,22 +402,29 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     tripoint pos = global_part_pos3( pt );
 
-    npc tmp;
-    tmp.set_fake( true );
-    tmp.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name().c_str() );
-    tmp.set_skill_level( gun.base()->gun_skill(), 8 );
-    tmp.set_skill_level( skill_id( "gun" ), 4 );
-    tmp.recoil = 0; // turrets are subject only to recoil_vehicle()
-    tmp.setpos( pos );
-    tmp.str_cur = 16;
-    tmp.dex_cur = 8;
-    tmp.per_cur = 12;
+    // Make a fake NPC to represent the targeting system
+    static npc cpu = npc();
+    if( !cpu.is_fake() ) {
+        cpu.set_fake( true );
+        cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name().c_str() );
+        cpu.recoil = 0; // turrets are subject only to recoil_vehicle()
+    }
+    
+    // These might all be affected by vehicle part damage, weather effects, etc.
+    cpu.set_skill_level( gun.base()->gun_skill(), 8 );
+    cpu.set_skill_level( skill_id( "gun" ), 4 );
+    cpu.str_cur = 16;
+    cpu.dex_cur = 8;
+    cpu.per_cur = 12;
+    cpu.setpos( pos );
+    
     // Assume vehicle turrets are friendly to the player.
-    tmp.attitude = NPCATT_FOLLOW;
+    cpu.attitude = NPCATT_FOLLOW;
 
     int area = aoe_size( gun.ammo_effects() );
     if( area > 0 ) {
-        area += area == 1 ? 1 : 2; // Pad a bit for less friendly fire
+        // Pad a bit for less friendly fire
+        area += area == 1 ? 1 : 2;
     }
 
     tripoint targ = pos;
@@ -428,22 +433,23 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         // Manual target not set, find one automatically
         const bool u_see = g->u.sees( pos );
         int boo_hoo;
-
+    
         // @todo calculate chance to hit and cap range based upon this
         int range = std::min( gun.range(), 12 );
-        Creature *auto_target = tmp.auto_find_hostile_target( range, boo_hoo, area );
+        Creature *auto_target = cpu.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
             if( u_see && boo_hoo ) {
                 add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
-                                              "%s points in your direction and emits %d annoyed sounding beeps.",
-                                              boo_hoo ),
-                         tmp.name.c_str(), boo_hoo );
+                                            "%s points in your direction and emits %d annoyed sounding beeps.",
+                                            boo_hoo ),
+                        cpu.name.c_str(), boo_hoo );
             }
             return 0;
         }
-
-        targ = auto_target->pos();
-    } else if( target.first != target.second ) {
+    
+        tripoint targ = auto_target->pos();
+        
+    } else {
         // Target set manually
         // Make sure we didn't move between aiming and firing (it's a bug if we did)
         if( targ != target.first ) {
@@ -451,16 +457,11 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
             return 0;
         }
 
-        targ = target.second;
         // Remove the target
+        targ = target.second;
         target.second = target.first;
-    } else {
-        // Shouldn't happen
-        target.first = target.second;
-        return 0;
     }
-
-    auto shots = gun.fire( tmp, targ );
+    auto shots = gun.fire( cpu, targ );
 
     if( g->u.sees( pos ) && shots ) {
         add_msg( _( "The %1$s fires its %2$s!" ), name.c_str(), pt.name().c_str() );
