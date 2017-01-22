@@ -1932,7 +1932,7 @@ nc_color Character::symbol_color() const
         return white_background( basic );
     }
 
-    if( in_sleep_state() ) {
+    if( in_sleep_state() || has_effect( effect_downed ) ) {
         return hilite( basic );
     }
 

@@ -145,7 +145,7 @@ monster::monster( const mtype_id& id ) : monster()
     hp = type->hp;
     for( auto &sa : type->special_attacks ) {
         auto &entry = special_attacks[sa.first];
-        entry.cooldown = rng( 0, sa.second.get_cooldown() );
+        entry.cooldown = rng( 0, sa.second->cooldown );
     }
     anger = type->agro;
     morale = type->morale;
@@ -195,7 +195,7 @@ void monster::poly( const mtype_id& id )
     special_attacks.clear();
     for( auto &sa : type->special_attacks ) {
         auto &entry = special_attacks[sa.first];
-        entry.cooldown = sa.second.get_cooldown();
+        entry.cooldown = sa.second->cooldown;
     }
     faction = type->default_faction;
     upgrades = type->upgrades;
@@ -1061,7 +1061,8 @@ void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspre
     // Add any on damage effects
     for( const auto &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            target.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
+            const body_part affected_bp = eff.affect_hit_bp ? bp_hit : eff.bp;
+            target.add_effect( eff.id, eff.duration, affected_bp, eff.permanent );
         }
     }
 
@@ -1503,22 +1504,22 @@ int monster::impact( const int force, const tripoint &p )
 
 void monster::reset_special(const std::string &special_name)
 {
-    special_attacks[special_name].cooldown = type->special_attacks.at(special_name).get_cooldown();
+    set_special( special_name, type->special_attacks.at(special_name)->cooldown );
 }
 
 void monster::reset_special_rng(const std::string &special_name)
 {
-    special_attacks[special_name].cooldown = rng( 0,type->special_attacks.at(special_name).get_cooldown() );
+    set_special( special_name, rng( 0, type->special_attacks.at(special_name)->cooldown ) );
 }
 
 void monster::set_special(const std::string &special_name, int time)
 {
-    special_attacks[special_name].cooldown = time;
+    special_attacks[ special_name ].cooldown = time;
 }
 
 void monster::disable_special(const std::string &special_name)
 {
-    special_attacks[special_name].enabled = false;
+    special_attacks.at( special_name ).enabled = false;
 }
 
 void monster::normalize_ammo( const int old_ammo )

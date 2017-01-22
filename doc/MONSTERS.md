@@ -252,6 +252,11 @@ The id of the effect that is to be applied.
 
 How long (in turns) the effect should last.
 
+### "affect_hit_bp"
+(boolean, optional)
+
+Whether the effect should be applied to the hit body part instead of the one set below.
+
 ### "bp"
 (string, optional)
 

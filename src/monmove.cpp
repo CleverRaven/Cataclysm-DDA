@@ -556,7 +556,7 @@ void monster::move()
     // this into another monster type). Therefor we can not iterate over it
     // directly and instead iterate over the map from the monster type
     // (properties of monster types should never change).
-    for( auto &sp_type : type->special_attacks ) {
+    for( const auto &sp_type : type->special_attacks ) {
         const std::string &special_name = sp_type.first;
         const auto local_iter = special_attacks.find( special_name );
         if( local_iter == special_attacks.end() ) {
@@ -570,8 +570,9 @@ void monster::move()
         if( local_attack_data.cooldown > 0 ) {
             local_attack_data.cooldown--;
         }
+
         if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
-            if( !sp_type.second.call( *this ) ) {
+            if( !sp_type.second->call( *this ) ) {
                 continue;
             }
 
