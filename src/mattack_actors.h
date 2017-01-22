@@ -31,29 +31,62 @@ class leap_actor : public mattack_actor
         mattack_actor *clone() const override;
 };
 
-class bite_actor : public mattack_actor
+class melee_attack_actor : public mattack_actor
 {
     public:
         // Maximum damage (and possible tags) from the attack
         damage_instance damage_max_instance;
         // Minimum multiplier on damage above (rolled per attack)
-        float min_mul;
+        float min_mul = 0.0f;
         // Maximum multiplier on damage above (also per attack)
-        float max_mul;
+        float max_mul = 1.0f;
         // Cost in moves (for attacker)
-        int move_cost;
+        int move_cost = 100;
         // If set, the attack will use a different accuracy from mon's
         // regular melee attack.
-        int accuracy;
+        int accuracy = INT_MIN;
+
+        // Messages for relevant events (self-explanatory)
+        std::string missed_player;
+        std::string missed_nonplayer;
+        std::string damaged_player;
+        std::string damaged_nonplayer;
+        std::string glanced_player;
+        std::string glanced_nonplayer;
+
+        melee_effect_actor();
+        ~melee_effect_actor() override { }
+
+        // Find something to attack
+        virtual Creature *find_target( monster &z ) const;
+        // What happens if we didn't manage to hit the creature
+        // Returns true if the attack is used up and should go on cooldown
+        virtual bool on_miss( monster &z, Creature *target ) const;
+        // As above, but for a hit
+        virtual bool on_hit( monster &z, Creature *target ) const;
+        // On hit that damages the intended target
+        virtual bool on_damaged( monster &z, Creature *target, dealt_damage_instance &ddi ) const;
+        // On hit that glances off
+        virtual bool on_undamaged( monster &z, Creature *target ) const;
+
+        virtual void load( JsonObject &jo );
+        bool call( monster & ) const override;
+        mattack_actor *clone() const override;
+};
+
+class bite_actor : public melee_effect_actor
+{
+    public:
         // one_in( this - damage dealt ) chance of getting infected
         // ie. the higher is this, the lower chance of infection
         int no_infection_chance;
 
-        bite_actor();
+        bite_actor() : damage_max_instance( damage_instance::physical( 9, 0, 0, 0 ) ) { }
         ~bite_actor() override { }
 
-        void load( JsonObject &jo );
-        bool call( monster & ) const override;
+        bool on_damaged( monster &z, Creature *target, dealt_damage_instance &ddi ) const override;
+
+        void load( JsonObject &jo ) override;
         mattack_actor *clone() const override;
 };
 
