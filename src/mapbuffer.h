@@ -22,10 +22,8 @@ class mapbuffer
         /** Load the entire world from savefiles into submaps in this instance. **/
         void load( std::string worldname );
         /** Store all submaps in this instance into savefiles.
-         * @ref delete_after_save If true, the saved submaps are removed
-         * from the mapbuffer (and deleted).
          **/
-        void save( bool delete_after_save = false );
+        void save();
 
         /** Delete all buffered submaps. **/
         void reset();

@@ -99,7 +99,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
     return iter->second;
 }
 
-void mapbuffer::save( bool delete_after_save )
+void mapbuffer::save()
 {
     std::stringstream map_directory;
     map_directory << world_generator->active_world->world_path << "/maps";
@@ -148,11 +148,12 @@ void mapbuffer::save( bool delete_after_save )
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
         const bool zlev_del = !map_has_zlevels && om_addr.z != g->get_levz();
-        save_quad( dirname.str(), quad_path.str(), om_addr, submaps_to_delete,
-                   delete_after_save || zlev_del ||
-                   om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
-                   om_addr.x > map_origin.x + (MAPSIZE / 2) ||
-                   om_addr.y > map_origin.y + (MAPSIZE / 2) );
+        const bool delete_quad = zlev_del ||
+            om_addr.x < map_origin.x ||
+            om_addr.y < map_origin.y ||
+            om_addr.x > map_origin.x + ( MAPSIZE / 2 ) ||
+            om_addr.y > map_origin.y + ( MAPSIZE / 2 );
+        save_quad( dirname.str(), quad_path.str(), om_addr, submaps_to_delete, delete_quad );
         num_saved_submaps += 4;
     }
     for( auto &elem : submaps_to_delete ) {
