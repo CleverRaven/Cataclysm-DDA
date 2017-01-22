@@ -433,21 +433,21 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         // Manual target not set, find one automatically
         const bool u_see = g->u.sees( pos );
         int boo_hoo;
-    
+
         // @todo calculate chance to hit and cap range based upon this
         int range = std::min( gun.range(), 12 );
         Creature *auto_target = cpu.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
             if( u_see && boo_hoo ) {
                 add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
-                                            "%s points in your direction and emits %d annoyed sounding beeps.",
-                                            boo_hoo ),
+                                              "%s points in your direction and emits %d annoyed sounding beeps.",
+                                               boo_hoo ),
                         cpu.name.c_str(), boo_hoo );
             }
             return 0;
         }
     
-        tripoint targ = auto_target->pos();
+        targ = auto_target->pos();
         
     } else {
         // Target set manually
@@ -461,6 +461,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         targ = target.second;
         target.second = target.first;
     }
+    
     auto shots = gun.fire( cpu, targ );
 
     if( g->u.sees( pos ) && shots ) {

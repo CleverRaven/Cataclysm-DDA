@@ -1086,8 +1086,10 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                                           const target_callback &on_ammo_change )
 {
     static const std::vector<tripoint> empty_result{};
-    // Something that can stand in for us in case relevant is null.
-    relevant = relevant ? relevant : &u.weapon;
+    if ( !relevant ) {
+        // Just something to stand in for a null
+        relevant = &u.weapon;
+    }
     
     std::vector<tripoint> ret;
 
