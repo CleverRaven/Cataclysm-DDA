@@ -442,11 +442,11 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
                 add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
                                               "%s points in your direction and emits %d annoyed sounding beeps.",
                                                boo_hoo ),
-                        cpu.name.c_str(), boo_hoo );
+                         cpu.name.c_str(), boo_hoo );
             }
             return 0;
         }
-    
+
         targ = auto_target->pos();
         
     } else {
@@ -461,7 +461,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         targ = target.second;
         target.second = target.first;
     }
-    
+
     auto shots = gun.fire( cpu, targ );
 
     if( g->u.sees( pos ) && shots ) {
