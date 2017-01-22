@@ -121,11 +121,9 @@ automatically_convertible = {
 
 # for these objects a plural form is needed
 needs_plural = {
-    "AMMO",
     "ARMOR",
     "BIONIC_ITEM",
     "BOOK",
-    "COMESTIBLE",
     "CONTAINER",
     "GENERIC",
     "GUN",
@@ -416,27 +414,26 @@ def extract_missiondef(item):
     if item_name is None:
         raise WrongJSONItem("JSON item don't contain 'name' field", item)
     writestr(outfile, item_name)
-    dialogue = item.get("dialogue")
-    if dialogue is None:
-        raise WrongJSONItem("JSON item don't contain 'dialogue' field", item)
-    if "describe" in dialogue:
-        writestr(outfile, dialogue.get("describe"))
-    if "offer" in dialogue:
-        writestr(outfile, dialogue.get("offer"))
-    if "accepted" in dialogue:
-        writestr(outfile, dialogue.get("accepted"))
-    if "rejected" in dialogue:
-        writestr(outfile, dialogue.get("rejected"))
-    if "advice" in dialogue:
-        writestr(outfile, dialogue.get("advice"))
-    if "inquire" in dialogue:
-        writestr(outfile, dialogue.get("inquire"))
-    if "success" in dialogue:
-        writestr(outfile, dialogue.get("success"))
-    if "success_lie" in dialogue:
-        writestr(outfile, dialogue.get("success_lie"))
-    if "failure" in dialogue:
-        writestr(outfile, dialogue.get("failure"))
+    if "dialogue" in item:
+        dialogue = item.get("dialogue")
+        if "describe" in dialogue:
+            writestr(outfile, dialogue.get("describe"))
+        if "offer" in dialogue:
+            writestr(outfile, dialogue.get("offer"))
+        if "accepted" in dialogue:
+            writestr(outfile, dialogue.get("accepted"))
+        if "rejected" in dialogue:
+            writestr(outfile, dialogue.get("rejected"))
+        if "advice" in dialogue:
+            writestr(outfile, dialogue.get("advice"))
+        if "inquire" in dialogue:
+            writestr(outfile, dialogue.get("inquire"))
+        if "success" in dialogue:
+            writestr(outfile, dialogue.get("success"))
+        if "success_lie" in dialogue:
+            writestr(outfile, dialogue.get("success_lie"))
+        if "failure" in dialogue:
+            writestr(outfile, dialogue.get("failure"))
 
 
 def extract_mutation(item):

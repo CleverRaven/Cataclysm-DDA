@@ -145,12 +145,17 @@ public:
     jmapgen_place() : x( 0, 0 ), y( 0, 0 ), repeat( 1, 1 ) { }
     jmapgen_place(const int a, const int b) : x( a ), y( b ), repeat( 1, 1 ) { }
     jmapgen_place( JsonObject &jsi );
+    void offset( const int x, const int y );
     jmapgen_int x;
     jmapgen_int y;
     jmapgen_int repeat;
 };
 
 struct jmapgen_objects {
+
+    jmapgen_objects( const int x_offset, const int y_offset, const int mapgensize );
+
+    bool check_bounds( const jmapgen_place place, JsonObject &jso );
 
     void add(const jmapgen_place &place, std::shared_ptr<jmapgen_piece> &piece);
 
@@ -177,6 +182,9 @@ private:
      */
     using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<jmapgen_piece> >;
     std::vector<jmapgen_obj> objects;
+    int x_offset;
+    int y_offset;
+    size_t mapgensize;
 };
 
 class mapgen_function_json : public virtual mapgen_function {
@@ -186,7 +194,7 @@ class mapgen_function_json : public virtual mapgen_function {
     bool setup() override;
     void generate(map *, const oter_id &, const mapgendata &, int, float) override;
 
-    mapgen_function_json( std::string s, int w = 1000 );
+    mapgen_function_json( const std::string s, int w = 1000, const int x_grid_offset = 0, const int y_grid_offset = 0 );
     ~mapgen_function_json() override {
     }
 
@@ -197,6 +205,8 @@ class mapgen_function_json : public virtual mapgen_function {
     ter_id fill_ter;
     std::vector<ter_furn_id> format;
     std::vector<jmapgen_setmap> setmap_points;
+    int x_offset;
+    int y_offset;
 
     /**
      * The mapping from character code (key) to a list of things that should be placed. This is
@@ -237,7 +247,7 @@ class mapgen_function_lua : public virtual mapgen_function {
 /*
  * Load mapgen function of any type from a jsonobject
  */
-mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_base, int default_idx);
+mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_base, int default_idx, int x_offset = 0, int y_offset = 0 );
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( ie, [ "house", "house_base" ] )

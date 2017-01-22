@@ -272,7 +272,7 @@ std::string uimenu::inputfilter()
                                    false, key, spos, identifier, 4, w_height - 1 );
         // key = filter_input->keypress;
         if ( key != KEY_ESCAPE ) {
-            if ( scrollby(0, key) == false ) {
+            if ( scrollby( scroll_amount_from_key( key ) ) == false ) {
                 filterlist();
             }
             show();
@@ -690,24 +690,46 @@ void uimenu::redraw( bool redraw_callback )
     */
 }
 
+int uimenu::scroll_amount_from_key( const int key )
+{
+    if( key == KEY_UP ) {
+        return -1;
+    } else if( key == KEY_PPAGE ) {
+        return (-vmax + 1);
+    } else if( key == KEY_DOWN ) {
+        return 1;
+    } else if( key == KEY_NPAGE ) {
+        return vmax - 1;
+    } else {
+        return 0;
+    }
+}
+
+int uimenu::scroll_amount_from_action( const std::string &action )
+{
+    if( action == "UP" ) {
+        return -1;
+    } else if( action == "PAGE_UP" ) {
+        return (-vmax + 1);
+    } else if( action == "SCROLL_UP" ) {
+        return -3;
+    } else if( action == "DOWN" ) {
+        return 1;
+    } else if( action == "PAGE_DOWN" ) {
+        return vmax - 1;
+    } else if( action == "SCROLL_DOWN" ) {
+        return +3;
+    } else {
+        return 0;
+    }
+}
+
 /*
  * check for valid scrolling keypress and handle. return false if invalid keypress
  */
-bool uimenu::scrollby(int scrollby, const int key)
+bool uimenu::scrollby( const int scrollby )
 {
-    if ( key != 0 ) {
-        if ( key == KEY_UP ) {
-            scrollby = -1;
-        } else if ( key == KEY_PPAGE ) {
-            scrollby = (-vmax + 1);
-        } else if ( key == KEY_DOWN ) {
-            scrollby = 1;
-        } else if ( key == KEY_NPAGE ) {
-            scrollby = vmax - 1;
-        } else {
-            return false;
-        }
-    } else if ( scrollby == 0 ) {
+    if ( scrollby == 0 ) {
         return false;
     }
 
@@ -767,42 +789,58 @@ void uimenu::query(bool loop)
     }
     int startret = UIMENU_INVALID;
     ret = UIMENU_INVALID;
-    bool keycallback = (callback != NULL );
+
+    input_context ctxt( "UIMENU" );
+    ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "ANY_INPUT" );
+    hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
     show();
     do {
-        bool skiprefresh = false;
         bool skipkey = false;
-        keypress = getch();
+        const auto action = ctxt.handle_input();
+        const auto event = ctxt.get_raw_input();
+        keypress = event.get_first_input();
 
-        if ( scrollby(0, keypress) == true ) {
+        if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
             /* nothing */
-        } else if ( filtering && ( keypress == '/' || keypress == '.' ) ) {
+        } else if ( filtering && action == "FILTER" ) {
             inputfilter();
-        } else if ( !fentries.empty() && ( keypress == '\n' || keypress == KEY_ENTER ||
-                                           keymap.find(keypress) != keymap.end() ) ) {
-            if ( keymap.find(keypress) != keymap.end() ) {
-                selected = keymap[ keypress ];//fixme ?
+        } else if( action == "ANY_INPUT" && event.type == CATA_INPUT_KEYBOARD ) {
+            const auto iter = keymap.find( keypress );
+            if( iter != keymap.end() ) {
+                selected = iter->second;
             }
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
             } else if ( return_invalid ) {
                 ret = 0 - entries[ selected ].retval; // disabled
             }
-        } else if ( keypress == KEY_ESCAPE && return_invalid) { //break loop with ESCAPE key
+        } else if ( !fentries.empty() && action == "CONFIRM" ) {
+            if( entries[ selected ].enabled ) {
+                ret = entries[ selected ].retval; // valid
+            } else if ( return_invalid ) {
+                ret = 0 - entries[ selected ].retval; // disabled
+            }
+        } else if ( action == "QUIT" && return_invalid) { //break loop with ESCAPE key
             break;
         } else {
-            if ( keycallback ) {
-                skipkey = callback->key( keypress, selected, this );
+            if( callback ) {
+                skipkey = callback->key( event, selected, this );
             }
             if ( ! skipkey && return_invalid ) {
                 ret = -1;
             }
         }
 
-        if ( skiprefresh == false ) {
-            show();
-        }
+        show();
     } while ( loop && (ret == startret ) );
 }
 

@@ -163,9 +163,9 @@
         "color" : "dark_gray",
         "broken_symbol" : ")",
         "broken_color" : "dark_gray",
-        "durability" : 100,
+        "durability" : 250,
         "item" : "alloy_sheet",
-        "difficulty" : 4,
+        "difficulty" : 5,
         "location" : "armor",
         "folded_volume": 2,
         "flags" : ["ARMOR", "FOLDABLE"],
@@ -238,13 +238,6 @@
         "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 18
     },{
-        "id": "cargo_space",
-        "copy-from": "cargo_space",
-        "type": "vehicle_part",
-        "name" : "cargo space",
-        "extend": { "flags": [ "FOLDABLE" ] },
-        "folded_volume": 200
-    },{
         "id": "stereo",
         "copy-from": "stereo",
         "type": "vehicle_part",
@@ -293,5 +286,107 @@
         "name" : "clock",
         "extend": { "flags": [ "FOLDABLE" ] },
         "folded_volume": 1
+    },{
+        "id": "water_faucet",
+        "copy-from": "water_faucet",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 1
+    },{
+        "id": "controls_electronic",
+        "copy-from": "controls_electronic",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 6
+    },{
+        "id": "engine_1cyl",
+        "copy-from": "engine_1cyl",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 16
+    },{
+        "id": "engine_1cyl_small",
+        "copy-from": "engine_1cyl_small",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 8
+    },{
+        "id": "engine_vtwin",
+        "copy-from": "engine_vtwin",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 26
+    },{
+        "id": "minireactor",
+        "copy-from": "minireactor",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 6
+    },{
+        "id": "blade_horizontal",
+        "copy-from": "blade_horizontal",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 3
+    },{
+        "id": "blade_vertical",
+        "copy-from": "blade_vertical",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 3
+    },{
+        "id": "spike",
+        "copy-from": "spike",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 1
+    },{
+        "id": "spike_wood",
+        "copy-from": "spike_wood",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 5
+    },{
+        "id": "beeper",
+        "copy-from": "beeper",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 1
+    },{
+        "id": "wheel_barrow",
+        "copy-from": "wheel_barrow",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 9
+    },{
+        "id": "wheel_small",
+        "copy-from": "wheel_small",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 9
+    },{
+        "id": "wheel_small_steerable",
+        "copy-from": "wheel_small_steerable",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 9
+    },{
+        "id": "tank_small",
+        "copy-from": "tank_small",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 40
+    },{
+        "id": "chimes",
+        "copy-from": "chimes",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 16
+    },{
+        "id": "water_purifier",
+        "copy-from": "water_purifier",
+        "type": "vehicle_part",
+        "extend": { "flags": [ "FOLDABLE" ] },
+        "folded_volume": 12
     }
 ]

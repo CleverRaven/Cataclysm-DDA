@@ -1,19 +1,19 @@
 [
   {
-    "id": "boat_board",
-    "type": "vehicle_part",
-    "name": "boat board",
-    "item": "boat_board",
-    "location": "under",
-    "symbol": "o",
-    "broken_symbol": "x",
-    "color": "brown",
-    "broken_color": "light_gray",
-    "difficulty": 2,
-    "durability": 40,
-    "damage_modifier": 50,
-    "breaks_into": [ { "item": "splinter", "count": [ 10, 20 ] } ],
-    "flags": [ "FLOATS", "STABLE", "BOARDABLE", "NAILABLE" ],
-    "description": "A wooden board that keeps the boat afloat.  To change a vehicle into a boat, place as you would wheels on a car.  Then attach oars or a motor to get the boat to move."
+    "type" : "vehicle_part",
+    "id" : "boat_board",
+    "name" : "boat board",
+    "description": "A wooden board that keeps the boat afloat.  To change a vehicle into a boat, place as you would wheels on a car.  Then attach oars or a motor to get the boat to move.",
+    "symbol" : "o",
+    "color" : "brown",
+    "broken_symbol" : "x",
+    "broken_color" : "light_gray",
+    "damage_modifier" : 50,
+    "durability" : 40,
+    "item" : "boat_board",
+    "difficulty" : 2,
+    "location" : "under",
+    "flags" : ["FLOATS", "STABLE", "BOARDABLE", "NAILABLE"],
+    "breaks_into" : [ {"item": "splinter", "count": [10, 20]} ]
   }
 ]

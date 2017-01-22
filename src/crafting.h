@@ -43,7 +43,7 @@ struct recipe {
         int difficulty = 0;
 
         /** Fetch combined requirement data (inline and via "using" syntax) */
-        const requirement_data& requirements() const {
+        const requirement_data &requirements() const {
             return requirements_;
         }
 
@@ -55,7 +55,7 @@ struct recipe {
         /** Combined requirements cached when recipe finalized */
         requirement_data requirements_;
 
-        std::map<itype_id,int> byproducts;
+        std::map<itype_id, int> byproducts;
 
         // Does the item spawn contained in container?
         bool contained = false;
@@ -80,7 +80,7 @@ struct recipe {
         int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
         int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
 
-        std::map<itype_id,int> booksets;
+        std::map<itype_id, int> booksets;
         std::set<std::string> flags;
 
         const std::string &ident() const;

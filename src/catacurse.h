@@ -135,7 +135,6 @@ int werase( WINDOW *win );
 int start_color( void );
 int init_pair( short pair, short f, short b );
 int wmove( WINDOW *win, int y, int x );
-int getnstr( char *str, int size );
 int clear( void );
 int clearok( WINDOW *win );
 int erase( void );
@@ -161,7 +160,6 @@ int getbegy( WINDOW *win );
 int getcurx( WINDOW *win );
 int getcury( WINDOW *win );
 int move( int y, int x );
-void timeout( int delay ); //PORTABILITY, DUMMY FUNCTION
 void set_escdelay( int delay ); //PORTABILITY, DUMMY FUNCTION
 int echo( void );
 int noecho( void );
@@ -179,8 +177,6 @@ WINDOW *curses_init();
 int curses_destroy();
 void curses_drawwindow( WINDOW *win );
 void curses_delay( int delay );
-void curses_timeout( int t );
-int curses_getch( WINDOW *win );
 // may throw std::exception
 int curses_start_color();
 

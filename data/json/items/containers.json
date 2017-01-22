@@ -300,11 +300,11 @@
     "armor_data": {
       "covers": [ "TORSO" ],
       "coverage": 15,
-      "encumbrance": 1,
+      "encumbrance": 0,
       "storage": 4,
       "material_thickness": 1
     },
-    "flags": [ "BELTED", "VARSIZE" ]
+    "flags": [ "BELTED" ]
   },
   {
     "id": "can_drink",

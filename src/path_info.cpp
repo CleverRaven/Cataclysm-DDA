@@ -63,12 +63,9 @@ void PATH_INFO::update_pathname(std::string name, std::string path)
 
 void PATH_INFO::update_datadir()
 {
+    // Shared dirs
     update_pathname("gfxdir", FILENAMES["datadir"] + "gfx/");
     update_pathname("luadir", FILENAMES["datadir"] + "lua/");
-
-    // Shared dirs
-    update_pathname("autoexeclua", FILENAMES["luadir"] + "autoexec.lua");
-    update_pathname("class_defslua", FILENAMES["luadir"] + "class_definitions.lua");
     update_pathname("fontdir", FILENAMES["datadir"] + "font/");
     update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
     update_pathname("jsondir", FILENAMES["datadir"] + "core/");
@@ -81,6 +78,8 @@ void PATH_INFO::update_datadir()
     update_pathname("sounddir", FILENAMES["datadir"] + "sound");
 
     // Shared files
+    update_pathname("autoexeclua", FILENAMES["luadir"] + "autoexec.lua");
+    update_pathname("class_defslua", FILENAMES["luadir"] + "class_definitions.lua");
     update_pathname("title", FILENAMES["titledir"] + "en.title");
     update_pathname("motd", FILENAMES["motddir"] + "en.motd");
     update_pathname("credits", FILENAMES["creditsdir"] + "en.credits");

@@ -963,11 +963,11 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
             draw_points.push_back( tile_render_info( tripoint( x, y, center.z ), height_3d ) );
         }
-	const decltype (&cata_tiles::draw_furniture) drawing_layers[]={
-			 &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
-                        &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
-                        &cata_tiles::draw_vpart_below, &cata_tiles::draw_terrain_below,
-                        &cata_tiles::draw_critter_at };
+        const decltype ( &cata_tiles::draw_furniture ) drawing_layers[] = {
+            &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
+            &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
+            &cata_tiles::draw_vpart_below, &cata_tiles::draw_terrain_below,
+            &cata_tiles::draw_critter_at };
         // for each of the drawing layers in order, back to front ...
         for( auto f : drawing_layers ) {
             // ... draw all the points we drew terrain for, in the same order
@@ -2722,6 +2722,10 @@ void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &
 
 void cata_tiles::do_tile_loading_report() {
     DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << get_option<std::string>( "TILES" );
+
+    if( !g->is_core_data_loaded() ) {
+        return; // There's nothing to do anymore without the core data.
+    }
 
     tile_loading_report<ter_t>( ter_t::count(), "Terrain", "" );
     tile_loading_report<furn_t>( furn_t::count(), "Furniture", "" );

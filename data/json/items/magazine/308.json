@@ -67,7 +67,7 @@
     "weight": 120,
     "volume": 2,
     "price": 1200,
-    "material": "steel",
+    "material": "aluminum",
     "symbol": "#",
     "color": "ltgray",
     "ammo_type": "308",

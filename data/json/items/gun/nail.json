@@ -11,7 +11,7 @@
     "price": 75000,
     "to_hit": -2,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "copper", "steel" ],
     "ammo": "nail",
     "skill": "rifle",
     "range": 12,

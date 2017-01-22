@@ -4661,7 +4661,7 @@
      [ "scrap", 36 ]
     ],
     [
-     [ "jerrycan_big", 1 ]
+     [ "metal_tank", 1 ]
     ],
     [
      [ "pipe", 3]
@@ -4701,7 +4701,7 @@
      [ "scrap", 4 ]
     ],
     [
-     [ "jerrycan_big", 1 ]
+     [ "metal_tank", 1 ]
     ]
   ]
 },{
@@ -4805,7 +4805,7 @@
        [ "scrap", 72 ]
      ],
      [
-       [ "jerrycan_big", 1 ]
+       [ "metal_tank", 1 ]
      ],
      [
        [ "pipe", 8 ]
@@ -4848,7 +4848,7 @@
        [ "scrap", 36 ]
      ],
      [
-       [ "jerrycan_big", 1 ]
+       [ "metal_tank", 1 ]
      ],
      [
        [ "pipe", 4 ]
@@ -4930,7 +4930,7 @@
        [ "scrap", 60 ]
      ],
      [
-       [ "jerrycan_big", 1 ]
+       [ "metal_tank", 1 ]
      ],
      [
        ["pipe", 6]
@@ -4992,16 +4992,10 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
-    {"id":"SAW_W","level":2},
-    { "id" : "GLARE", "level" : 2 }
+    {"id":"SAW_W","level":2}
   ], "tools": [
     [
-      ["welder", 20],
-      ["welder_crude", 30],
-      ["toolset", 30]
-    ],
-    [
-      ["fire", -1]
+      [ "anvil", -1 ]
     ]
   ],
   "components": [
@@ -6255,8 +6249,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1},
-    {"id":"COOK","level":3},
-    {"id":"BOIL","level":2},
+    {"id":"COOK","level":2},
+    {"id":"BOIL","level":1},
     {"id":"CONTAIN","level":1}
   ],
   "tools": [
@@ -6328,8 +6322,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1},
-    {"id":"COOK","level":3},
-    {"id":"BOIL","level":2},
+    {"id":"COOK","level":2},
+    {"id":"BOIL","level":1},
     {"id":"CONTAIN","level":1}
   ],
   "tools": [

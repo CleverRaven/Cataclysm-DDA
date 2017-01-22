@@ -62,7 +62,7 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab() {
 
 static void load_replacement_mods( const std::string path )
 {
-    read_from_file_optional( path, [&]( JsonIn &jsin ) {
+    read_from_file_optional_json( path, [&]( JsonIn &jsin ) {
         jsin.start_array();
         while (!jsin.end_array()) {
             auto arr = jsin.get_array();
@@ -193,7 +193,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
     do {
         for( size_t i = 0; i < get_mod_list_categories().size(); ++i ) {
             if( get_mod_list_categories()[i].first == m_cat ) {
-                p_cat = { i, get_mod_list_categories()[i].second };
+                p_cat = { int(i), get_mod_list_categories()[i].second };
                 bCatFound = true;
                 break;
             }
@@ -216,8 +216,10 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
     } else {
         modfile->path = path;
     }
+    if( assign( jo, "legacy", modfile->legacy ) ) {
+        modfile->legacy = path + "/" + modfile->legacy;
+    }
 
-    assign( jo, "legacy", modfile->legacy );
     assign( jo, "authors", modfile->authors );
     assign( jo, "maintainers", modfile->maintainers );
     assign( jo, "description", modfile->description );
@@ -336,7 +338,7 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
 void mod_manager::load_mod_info(std::string info_file_path)
 {
     const std::string main_path = info_file_path.substr(0, info_file_path.find_last_of("/\\"));
-    read_from_file_optional( info_file_path, [&]( JsonIn &jsin ) {
+    read_from_file_optional_json( info_file_path, [&]( JsonIn &jsin ) {
         if( jsin.test_object() ) {
             // find type and dispatch single object
             JsonObject jo = jsin.get_object();
@@ -388,7 +390,7 @@ void mod_manager::load_mods_list(WORLDPTR world) const
     std::vector<std::string> &amo = world->active_mod_order;
     amo.clear();
     bool obsolete_mod_found = false;
-    read_from_file_optional( get_mods_list_file( world ), [&]( JsonIn &jsin ) {
+    read_from_file_optional_json( get_mods_list_file( world ), [&]( JsonIn &jsin ) {
         JsonArray ja = jsin.get_array();
         while (ja.has_more()) {
             const std::string mod = ja.next_string();

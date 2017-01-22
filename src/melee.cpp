@@ -25,8 +25,6 @@
 
 #include "cursesdef.h"
 
-using namespace units::literals;
-
 static const matec_id tec_none( "tec_none" );
 static const matec_id WBLOCK_1( "WBLOCK_1" );
 static const matec_id WBLOCK_2( "WBLOCK_2" );

@@ -252,7 +252,7 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
             if( !(*fit)->setup() ) {
                 dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
                 ++funcnum;
-				continue; // disqualify! doesn't get to play in the pool
+                continue; // disqualify! doesn't get to play in the pool
             }
             wtotal += weight;
             oter_mapgen_weights[ oit->first ][ wtotal ] = funcnum;
@@ -270,7 +270,8 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
  * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
  */
 
-mapgen_function *load_mapgen_function( JsonObject &jio, const std::string id_base, int default_idx ) {
+mapgen_function *load_mapgen_function( JsonObject &jio, const std::string id_base,
+                                       int default_idx, const int x_offset, const int y_offset ) {
     int mgweight = jio.get_int( "weight", 1000 );
     mapgen_function *ret = NULL;
     if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
@@ -325,7 +326,7 @@ mapgen_function *load_mapgen_function( JsonObject &jio, const std::string id_bas
             if( jio.has_object( "object" ) ) {
                 JsonObject jo = jio.get_object( "object" );
                 std::string jstr = jo.str();
-                ret = new mapgen_function_json( jstr, mgweight );
+                ret = new mapgen_function_json( jstr, mgweight, x_offset, y_offset );
                 oter_mapgen[id_base].push_back( ret );
             } else {
                 debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
@@ -345,24 +346,42 @@ mapgen_function *load_mapgen_function( JsonObject &jio, const std::string id_bas
 void load_mapgen( JsonObject &jo )
 {
     if( jo.has_array( "om_terrain" ) ) {
-        std::vector<std::string> mapgenid_list;
         JsonArray ja = jo.get_array( "om_terrain" );
-        while( ja.has_more() ) {
-            mapgenid_list.push_back( ja.next_string() );
-        }
-        if( !mapgenid_list.empty() ) {
-            std::string mapgenid = mapgenid_list[0];
-            mapgen_function *mgfunc = load_mapgen_function( jo, mapgenid, -1 );
-            if( mgfunc != NULL ) {
-               for( auto &i : mapgenid_list ) {
-                   oter_mapgen[ i ].push_back( mgfunc );
-               }
+        if( ja.test_array() ) {
+            int x_offset = 0;
+            int y_offset = 0;
+            while( ja.has_more() ) {
+                JsonArray row_items = ja.next_array();
+                while( row_items.has_more() ) {
+                    const std::string mapgenid = row_items.next_string();
+                    mapgen_function *mgfunc = load_mapgen_function( jo, mapgenid, -1, x_offset, y_offset );
+                    if( mgfunc != nullptr ) {
+                       oter_mapgen[ mapgenid ].push_back( mgfunc );
+                    }
+                    x_offset++;
+                }
+                y_offset++;
+                x_offset = 0;
+            }
+        } else {
+            std::vector<std::string> mapgenid_list;
+            while( ja.has_more() ) {
+                mapgenid_list.push_back( ja.next_string() );
+            }
+            if( !mapgenid_list.empty() ) {
+                const std::string mapgenid = mapgenid_list[0];
+                mapgen_function *mgfunc = load_mapgen_function( jo, mapgenid, -1 );
+                if( mgfunc != nullptr ) {
+                   for( auto &i : mapgenid_list ) {
+                       oter_mapgen[ i ].push_back( mgfunc );
+                   }
+                }
             }
         }
-    } else if ( jo.has_string( "om_terrain" ) ) {
-        load_mapgen_function(jo, jo.get_string( "om_terrain" ), -1);
+    } else if( jo.has_string( "om_terrain" ) ) {
+        load_mapgen_function( jo, jo.get_string( "om_terrain" ), -1 );
     } else {
-        debugmsg("mapgen entry requires \"om_terrain\": \"something\", or \"om_terrain\": [ \"list\", \"of\" \"somethings\" ]\n%s\n", jo.str().c_str() );
+        debugmsg( "mapgen entry requires \"om_terrain\" (string, array of strings, or array of array of strings)\n%s\n", jo.str().c_str() );
     }
 }
 
@@ -407,16 +426,18 @@ bool mapgen_function_json::check_inbounds( const jmapgen_int & var ) const {
     return true;
 }
 
-mapgen_function_json::mapgen_function_json( std::string s, int const w )
+mapgen_function_json::mapgen_function_json( const std::string s, const int w, const int x_grid_offset, const int y_grid_offset )
 : mapgen_function( w )
 , jdata( std::move( s ) )
 , mapgensize( 24 )
 , fill_ter( t_null )
 , format()
 , setmap_points()
+, x_offset( x_grid_offset * mapgensize )
+, y_offset( y_grid_offset * mapgensize )
 , do_format( false )
 , is_ready( false )
-, objects()
+, objects( x_offset, y_offset, mapgensize )
 , rotation( 0 )
 {
 }
@@ -573,6 +594,13 @@ jmapgen_place::jmapgen_place( JsonObject &jsi )
 , y( jsi, "y" )
 , repeat( jsi, "repeat", 1, 1 )
 {
+}
+
+void jmapgen_place::offset( const int x_offset, const int y_offset ) {
+    x.val -= x_offset;
+    x.valmax -= x_offset;
+    y.val -= y_offset;
+    y.valmax -= y_offset;
 }
 
 /**
@@ -838,12 +866,12 @@ class jmapgen_loot : public jmapgen_piece {
 
     public:
         jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
-        , group( jsi.get_string( "group", std::string() ) )
-        , name( jsi.get_string( "item", std::string() ) )
+        , result_group( Item_group::Type::G_COLLECTION, 100, jsi.get_int( "ammo", 0 ), jsi.get_int( "magazine", 0 ) )
         , chance( jsi.get_int( "chance", 100 ) )
-        , ammo( jsi.get_int( "ammo", 0 ) )
-        , magazine( jsi.get_int( "magazine", 0 ) )
         {
+            const std::string group = jsi.get_string( "group", std::string() );
+            const std::string name = jsi.get_string( "item", std::string() );
+
             if( group.empty() == name.empty() ) {
                 jsi.throw_error( "must provide either item or group" );
             }
@@ -853,45 +881,27 @@ class jmapgen_loot : public jmapgen_piece {
             if( !name.empty() && !item_controller->has_template( name ) ) {
                 jsi.throw_error( "no such item", "item" );
             }
-            if( ammo < 0 || ammo > 100 ) {
-                jsi.throw_error( "ammo chance out of range", "ammo" );
-            }
-            if( magazine < 0 || magazine > 100 ) {
-                jsi.throw_error( "magazine chance out of range", "magazine" );
+
+            // All the probabilities are 100 because we do the roll in @ref apply.
+            if( group.empty() ) {
+                result_group.add_item_entry( name, 100 );
+            } else {
+                result_group.add_group_entry( group, 100 );
             }
         }
 
         void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
         {
             if( rng( 0, 99 ) < chance ) {
-                std::vector<item> spawn;
-                if( group.empty() ) {
-                    spawn.emplace_back( name, calendar::turn );
-                } else {
-                    spawn = item_group::items_from( group, calendar::turn );
-                }
-
-                for( auto &e: spawn ) {
-                    bool spawn_ammo = rng( 0, 99 ) < ammo && e.ammo_remaining() == 0;
-                    bool spawn_mag  = rng( 0, 99 ) < magazine && !e.magazine_integral() && !e.magazine_current();
-
-                    if( spawn_mag || spawn_ammo ) {
-                        e.contents.emplace_back( e.magazine_default(), e.bday );
-                    }
-                    if( spawn_ammo ) {
-                        e.ammo_set( default_ammo( e.ammo_type() ) );
-                    }
-                }
+                const Item_spawn_data *const isd = &result_group;
+                const std::vector<item> spawn = isd->create( calendar::turn );
                 m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );
             }
         }
 
     private:
-        const std::string group;
-        const std::string name;
+        Item_group result_group;
         int chance;
-        const int ammo;
-        const int magazine;
 };
 
 /**
@@ -1101,6 +1111,32 @@ public:
     }
 };
 
+jmapgen_objects::jmapgen_objects( const int x_offset, const int y_offset, const int mapgensize )
+: x_offset( x_offset )
+, y_offset( y_offset )
+, mapgensize( mapgensize )
+{}
+
+bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
+{
+    if( place.x.val < 0 || place.x.val > (int)mapgensize - 1 ||
+        place.y.val < 0 || place.y.val > (int)mapgensize - 1 ) {
+        return false;
+    }
+
+    if( (size_t)place.x.valmax > mapgensize - 1 ) {
+        jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
+        return false;
+    }
+
+    if( (size_t)place.y.valmax > mapgensize - 1 ) {
+        jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
+        return false;
+    }
+
+    return true;
+}
+
 void jmapgen_objects::add(const jmapgen_place &place, std::shared_ptr<jmapgen_piece> &piece)
 {
     objects.emplace_back(place, piece);
@@ -1111,9 +1147,14 @@ void jmapgen_objects::load_objects( JsonArray parray )
 {
     while( parray.has_more() ) {
         auto jsi = parray.next_object();
-        const jmapgen_place where( jsi );
-        std::shared_ptr<jmapgen_piece> what( new PieceType( jsi ) );
-        add(where, what);
+
+        jmapgen_place where( jsi );
+        where.offset( x_offset, y_offset );
+
+        if( check_bounds( where, jsi ) ) {
+            std::shared_ptr<jmapgen_piece> what( new PieceType( jsi ) );
+            add( where, what );
+        }
     }
 }
 
@@ -1123,6 +1164,11 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
     while( parray.has_more() ) {
         auto jsi = parray.next_object();
         jmapgen_place where( jsi );
+        where.offset( x_offset, y_offset );
+
+        if( !check_bounds( where, jsi ) ) {
+            continue;
+        }
 
         auto loot = new jmapgen_loot( jsi );
         auto rate = get_world_option<float>( "ITEM_SPAWNRATE" );
@@ -1313,7 +1359,6 @@ bool mapgen_function_json::setup() {
         JsonArray parray;
         JsonArray sparray;
         JsonObject pjo;
-        // mapgensize = jo.get_int("mapgensize", 24); // eventually..
 
         // something akin to mapgen fill_background.
         if ( jo.read("fill_ter", tmpval) ) {
@@ -1373,6 +1418,7 @@ bool mapgen_function_json::setup() {
             load_place_mapings<jmapgen_toilet>( jo, "toilets", format_placings );
             load_place_mapings<jmapgen_gaspump>( jo, "gaspumps", format_placings );
             load_place_mapings<jmapgen_item_group>( jo, "items", format_placings );
+            load_place_mapings<jmapgen_loot>( jo, "loot", format_placings );
             load_place_mapings<jmapgen_monster_group>( jo, "monsters", format_placings );
             load_place_mapings<jmapgen_vehicle>( jo, "vehicles", format_placings );
             // json member name is not optimal, it should be plural like all the others above, but that conflicts
@@ -1383,31 +1429,32 @@ bool mapgen_function_json::setup() {
             load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings );
             load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
             load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings );
-            // manditory: 24 rows of 24 character lines, each of which must have a matching key in "terrain",
-            // unless fill_ter is set
-            // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
+
             parray = jo.get_array( "rows" );
-            if ( parray.size() != mapgensize ) {
-                parray.throw_error( string_format("  format: rows: must have %d rows, not %d",mapgensize,parray.size() ));
+            if ( parray.size() < mapgensize + y_offset ) {
+                parray.throw_error( string_format( "  format: rows: must have at least %d rows, not %d",
+                                                   mapgensize + y_offset, parray.size() ));
             }
-            for( size_t c = 0; c < mapgensize; c++ ) {
-                const auto tmpval = parray.next_string();
-                if ( tmpval.size() != mapgensize ) {
-                    parray.throw_error(string_format("  format: row %d must have %d columns, not %d", c, mapgensize, tmpval.size()));
+            for( size_t c = y_offset; c < mapgensize + y_offset; c++ ) {
+                const auto tmpval = parray.get_string( c );
+                if ( tmpval.size() < mapgensize + x_offset ) {
+                    parray.throw_error( string_format( "  format: row %d must have at least %d columns, not %d",
+                                                       c + 1, mapgensize + x_offset, tmpval.size()));
                 }
-                for ( size_t i = 0; i < tmpval.size(); i++ ) {
+                for ( size_t i = x_offset; i < mapgensize + x_offset; i++ ) {
                     const int tmpkey = tmpval[i];
                     if ( format_terrain.find( tmpkey ) != format_terrain.end() ) {
-                        format[ calc_index( i, c ) ].ter = format_terrain[ tmpkey ];
+                        format[ calc_index( i - x_offset, c - y_offset ) ].ter = format_terrain[ tmpkey ];
                     } else if ( ! qualifies ) { // fill_ter should make this kosher
-                        parray.throw_error(string_format("  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",c+1,i+1, (char)tmpkey ));
+                        parray.throw_error( string_format( "  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",
+                                                           c + 1, i + 1, (char)tmpkey ) );
                     }
                     if ( format_furniture.find( tmpkey ) != format_furniture.end() ) {
-                        format[ calc_index( i, c ) ].furn = format_furniture[ tmpkey ];
+                        format[ calc_index( i - x_offset, c - y_offset ) ].furn = format_furniture[ tmpkey ];
                     }
                     const auto fpi = format_placings.find( tmpkey );
                     if( fpi != format_placings.end() ) {
-                        jmapgen_place where( i, c );
+                        jmapgen_place where( i - x_offset, c - y_offset );
                         for( auto &what: fpi->second ) {
                             objects.add(where, what);
                         }
@@ -1726,283 +1773,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
         fmapit->second[fidx]->generate(this, terrain_type, dat, turn, density);
-    // todo; make these mappable functions
-    } else if (terrain_type == "apartments_mod_tower_1") {
-
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        if ((t_south == "apartments_mod_tower_1_entrance" && t_east == "apartments_mod_tower_1") ||
-            (t_north == "apartments_mod_tower_1" && t_east == "apartments_mod_tower_1_entrance")
-            || (t_west == "apartments_mod_tower_1" && t_north == "apartments_mod_tower_1_entrance") ||
-            (t_south == "apartments_mod_tower_1" && t_west == "apartments_mod_tower_1_entrance")) {
-            mapf::formatted_set_simple(this, 0, 0,
-                                       "\
-                        \n\
-       |----ww----|     \n\
-       |dBB....oddw     \n\
-    |--|.BB.......w     \n\
-    |r.+..........|     \n\
-    |--|-----+--|+|--|  \n\
-    RsswFFFF...^|.STb|  \n\
-    Rssw........+...b|-w\n\
-    RssX........|--|-|EE\n\
-    Rss|c.htth...oo|r|EE\n\
-    Rss|e.htth.....+.|xE\n\
- |-----|c.........A|-|-=\n\
- |..BBd|cOS........|....\n\
- w..BB.|--|+|......D....\n\
- |d....+.r|u|^....t|....\n\
- |r...||--|-|------|....\n\
- w....|STb|u|...e.S|....\n\
- |....+..b|.+.....c|....\n\
- |--|+|-+-|-|.....O|....\n\
- RssX.....A....cccc|....\n\
- Rssw.........h.hh.|....\n\
- Rssw..............D....\n\
- Rss|..ooo.FFFF...^|....\n\
- R|-|--------------|....\n",
-                                       mapf::ter_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o", t_floor,
-                                               t_floor,    t_floor, t_elevator, t_stairs_down, t_stairs_up, t_railing_h, t_railing_v, t_rock,
-                                               t_door_glass_c, t_floor, t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall,
-                                               t_floor, t_floor, t_door_c, t_door_locked_interior, t_door_metal_c, t_door_locked, t_window,
-                                               t_floor,   t_floor,  t_floor, t_floor,  t_floor, t_floor, t_floor,   t_floor,   t_floor,
-                                               t_sidewalk, t_floor),
-                                       mapf::furn_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o",
-                                               f_cupboard, f_armchair, f_sofa,  f_null,     f_null,        f_null,      f_null,      f_null,
-                                               f_null, f_null,         f_rack,  f_null,           f_null,  f_indoor_plant, f_null,  f_null,
-                                               f_null,   f_table, f_bed,   f_null,   f_null,                 f_null,         f_null,        f_null,
-                                               f_bathtub, f_toilet, f_sink,  f_fridge, f_oven,  f_chair, f_counter, f_dresser, f_locker, f_null,
-                                               f_bookcase));
-            for (int i = 0; i <= 23; i++) {
-                for (int j = 0; j <= 23; j++) {
-                    if (this->furn(i, j) == f_dresser) {
-                        place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                    }
-                    if (this->furn(i, j) == f_rack) {
-                        place_items("dresser", 30,  i,  j, i,  j, false, 0);
-                        place_items("jackets", 60,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_fridge) {
-                        place_items("fridge", 70,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_oven) {
-                        place_items("oven", 70,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_cupboard) {
-                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                        place_items("home_hw", 30,  i,  j, i,  j, false, 0);
-                        place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
-                        place_items("pasta", 50,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_bookcase) {
-                        place_items("magazines", 30,  i,  j, i,  j, false, 0);
-                        place_items("novels", 40,  i,  j, i,  j, false, 0);
-                        place_items("alcohol", 30,  i,  j, i,  j, false, 0);
-                        place_items("manuals", 20,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_sink) {
-                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
-                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_toilet) {
-                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
-                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
-                    } else if (this->furn(i, j) == f_bed) {
-                        place_items("bed", 60,  i,  j, i,  j, false, 0);
-                    }
-                }
-            }
-            if (density > 1) {
-                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
-            } else {
-                add_spawn(mon_zombie, rng(1, 8), 15, 10);
-            }
-            if (t_west == "apartments_mod_tower_1_entrance") {
-                rotate(1);
-            }
-            if (t_north == "apartments_mod_tower_1_entrance") {
-                rotate(2);
-            }
-            if (t_east == "apartments_mod_tower_1_entrance") {
-                rotate(3);
-            }
-        }
-
-        else if ((t_west == "apartments_mod_tower_1_entrance" && t_north == "apartments_mod_tower_1") ||
-                 (t_north == "apartments_mod_tower_1_entrance" && t_east == "apartments_mod_tower_1")
-                 || (t_west == "apartments_mod_tower_1" && t_south == "apartments_mod_tower_1_entrance") ||
-                 (t_south == "apartments_mod_tower_1" && t_east == "apartments_mod_tower_1_entrance")) {
-            mapf::formatted_set_simple(this, 0, 0,
-                                       "\
-....|cSe.u.htth...oo.w  \n\
-....|O.....htth......w  \n\
-....|ccc..........|X-|  \n\
-....|......|----+-|ssR  \n\
-....|.....A|dBB...|ssR  \n\
-....|.....^|.BB...wssR  \n\
-....D...|--|......wssR  \n\
-....|-+-|r.+......|ssR  \n\
-....|..r|--|----|+|--|| \n\
-....|---|..+.STb|....b| \n\
-....|u..+..|...b|S.T.b| \n\
-....|---|..|-|+-|-----| \n\
-....|cSe...|r+..d.BBd.| \n\
-....|O.....|-|....BB..w \n\
-....|ccc.....+........| \n\
-....D.......A|....o|--| \n\
-....|........|-www-|    \n\
-....|t.......wsssssR    \n\
-G-w-|t...FFF.XsssssR    \n\
-ss  |--ww----|aaaaa|    \n\
-ss                      \n\
-ss                      \n\
-ss                      \n\
-ss                      \n",
-                                       mapf::ter_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o", t_floor,
-                                               t_floor,    t_floor, t_elevator, t_stairs_down, t_stairs_up, t_railing_h, t_railing_v, t_rock,
-                                               t_door_glass_c, t_floor, t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall,
-                                               t_floor, t_floor, t_door_c, t_door_locked_interior, t_door_metal_c, t_door_locked, t_window,
-                                               t_floor,   t_floor,  t_floor, t_floor,  t_floor, t_floor, t_floor,   t_floor,   t_floor,
-                                               t_sidewalk, t_floor),
-                                       mapf::furn_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o",
-                                               f_cupboard, f_armchair, f_sofa,  f_null,     f_null,        f_null,      f_null,      f_null,
-                                               f_null, f_null,         f_rack,  f_null,           f_null,  f_indoor_plant, f_null,  f_null,
-                                               f_null,   f_table, f_bed,   f_null,   f_null,                 f_null,         f_null,        f_null,
-                                               f_bathtub, f_toilet, f_sink,  f_fridge, f_oven,  f_chair, f_counter, f_dresser, f_locker, f_null,
-                                               f_bookcase));
-            for (int i = 0; i <= 23; i++) {
-                for (int j = 0; j <= 23; j++) {
-                    if (this->furn(i, j) == f_dresser) {
-                        place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                    }
-                    if (this->furn(i, j) == f_rack) {
-                        place_items("dresser", 30,  i,  j, i,  j, false, 0);
-                        place_items("jackets", 60,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_fridge) {
-                        place_items("fridge", 70,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_oven) {
-                        place_items("oven", 70,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_cupboard) {
-                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                        place_items("home_hw", 30,  i,  j, i,  j, false, 0);
-                        place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
-                        place_items("pasta", 50,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_bookcase) {
-                        place_items("magazines", 30,  i,  j, i,  j, false, 0);
-                        place_items("novels", 40,  i,  j, i,  j, false, 0);
-                        place_items("alcohol", 30,  i,  j, i,  j, false, 0);
-                        place_items("manuals", 20,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_sink) {
-                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
-                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_toilet) {
-                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
-                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
-                    } else if (this->furn(i, j) == f_bed) {
-                        place_items("bed", 60,  i,  j, i,  j, false, 0);
-                    }
-                }
-            }
-            if (density > 1) {
-                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
-            } else {
-                add_spawn(mon_zombie, rng(1, 8), 15, 10);
-            }
-            if (t_north == "apartments_mod_tower_1_entrance") {
-                rotate(1);
-            }
-            if (t_east == "apartments_mod_tower_1_entrance") {
-                rotate(2);
-            }
-            if (t_south == "apartments_mod_tower_1_entrance") {
-                rotate(3);
-            }
-        }
-
-        else {
-            mapf::formatted_set_simple(this, 0, 0,
-                                       "\
-                        \n\
-     |----ww----|       \n\
-     wcxc....BBd|       \n\
-     w.h.....BB.|--|    \n\
-     |..........+.r|    \n\
-  |--|+|--+-----|--|    \n\
-  |bTS.|...FFFF.wssR    \n\
-w-|b...+........wssR    \n\
-EE|-|--|........XssR    \n\
-EE|r|..........c|ssR    \n\
-EE|.+..........e|ssR    \n\
-=-|-|..hh......c|-----| \n\
-....|..tt....SOc|dBB..| \n\
-....D..tt..|+|--|.BB..w \n\
-....|..hh.^|u|r.+....d| \n\
-....|------|-|--||...r| \n\
-....|S.e..^|u|bTS|....w \n\
-....|c.....+.|b..+....| \n\
-....|O.....|-|-+-|+|--| \n\
-....|cccc...oo..A..XssR \n\
-....|.h.h..........wssR \n\
-....D..............wssR \n\
-....|^....A..FFFF..|ssR \n\
-....|--------------|-|R \n",
-                                       mapf::ter_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o", t_floor,
-                                               t_floor,    t_floor, t_elevator, t_stairs_down, t_stairs_up, t_railing_h, t_railing_v, t_rock,
-                                               t_door_glass_c, t_floor, t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall,
-                                               t_floor, t_floor, t_door_c, t_door_locked_interior, t_door_metal_c, t_door_locked, t_window,
-                                               t_floor,   t_floor,  t_floor, t_floor,  t_floor, t_floor, t_floor,   t_floor,   t_floor,
-                                               t_sidewalk, t_floor),
-                                       mapf::furn_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o",
-                                               f_cupboard, f_armchair, f_sofa,  f_null,     f_null,        f_null,      f_null,      f_null,
-                                               f_null, f_null,         f_rack,  f_null,           f_null,  f_indoor_plant, f_null,  f_null,
-                                               f_null,   f_table, f_bed,   f_null,   f_null,                 f_null,         f_null,        f_null,
-                                               f_bathtub, f_toilet, f_sink,  f_fridge, f_oven,  f_chair, f_counter, f_dresser, f_locker, f_null,
-                                               f_bookcase));
-            for (int i = 0; i <= 23; i++) {
-                for (int j = 0; j <= 23; j++) {
-                    if (this->furn(i, j) == f_locker) {
-                        place_items("office", 70,  i,  j, i,  j, false, 0);
-                    }
-                    if (this->furn(i, j) == f_dresser) {
-                        place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                    }
-                    if (this->furn(i, j) == f_rack) {
-                        place_items("dresser", 30,  i,  j, i,  j, false, 0);
-                        place_items("jackets", 60,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_fridge) {
-                        place_items("fridge", 70,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_oven) {
-                        place_items("oven", 70,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_cupboard) {
-                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                        place_items("home_hw", 30,  i,  j, i,  j, false, 0);
-                        place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
-                        place_items("pasta", 50,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_bookcase) {
-                        place_items("magazines", 30,  i,  j, i,  j, false, 0);
-                        place_items("novels", 40,  i,  j, i,  j, false, 0);
-                        place_items("alcohol", 30,  i,  j, i,  j, false, 0);
-                        place_items("manuals", 20,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_sink) {
-                        place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
-                        place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                    } else if (this->furn(i, j) == f_toilet) {
-                        place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
-                        place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
-                    } else if (this->furn(i, j) == f_bed) {
-                        place_items("bed", 60,  i,  j, i,  j, false, 0);
-                    }
-                }
-            }
-            if (density > 1) {
-                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
-            } else {
-                add_spawn(mon_zombie, rng(1, 8), 15, 10);
-            }
-            if (t_west == "apartments_mod_tower_1" && t_north == "apartments_mod_tower_1") {
-                rotate(1);
-            } else if (t_east == "apartments_mod_tower_1" && t_north == "apartments_mod_tower_1") {
-                rotate(2);
-            } else if (t_east == "apartments_mod_tower_1" && t_south == "apartments_mod_tower_1") {
-                rotate(3);
-            }
-        }
-
-
+    // todo; make these json or mappable functions
     } else if (terrain_type == "office_tower_1_entrance") {
 
         dat.fill_groundcover();
@@ -4535,12 +4306,10 @@ ff.......|....|WWWWWWWW|\n\
                     // ---     -+-
                     // -+- ==> -+-
                     // ...     ...
-                    if( ( ter( doorx + i, doory ) == t_concrete_wall || ter( doorx + i, doory ) == t_concrete_wall ) &&
-                        ter( doorx - i, doory ) == t_floor ) {
+                    if( ter( doorx + i, doory ) == t_concrete_wall && ter( doorx - i, doory ) == t_floor ) {
                         ter_set( doorx + i, doory, t_door_c );
                     }
-                    if( ( ter( doorx, doory + i ) == t_concrete_wall || ter( doorx, doory + i ) == t_concrete_wall ) &&
-                        ter( doorx, doory - i ) == t_floor ) {
+                    if( ter( doorx, doory + i ) == t_concrete_wall && ter( doorx, doory - i ) == t_floor ) {
                         ter_set( doorx, doory + i, t_door_c );
                     }
                 }
@@ -10330,13 +10099,11 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         }
     }
 
-    int terrain_type_with_suffix_to_nesw_array( oter_id terrain_type, bool array[4] );
-
     // finally, any terrain with SIDEWALKS should contribute sidewalks to neighboring diagonal roads
     if( terrain_type->has_flag( has_sidewalk ) ) {
         for( int dir = 4; dir < 8; dir++ ) { // NE SE SW NW
             bool n_roads_nesw[4] = {};
-            int n_num_dirs = terrain_type_with_suffix_to_nesw_array( oter_id( t_nesw[dir] ), n_roads_nesw );
+            int n_num_dirs = terrain_type_to_nesw_array( oter_id( t_nesw[dir] ), n_roads_nesw );
             // only handle diagonal neighbors
             if( n_num_dirs == 2 &&
                 n_roads_nesw[( ( dir - 4 ) + 3 ) % 4] &&

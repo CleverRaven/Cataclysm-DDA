@@ -61,7 +61,7 @@
 #include <iterator>
 
 #ifdef TILES
-#include "SDL2/SDL.h"
+#include "SDL.h"
 #endif // TILES
 
 //Used for e^(x) functions
@@ -75,8 +75,6 @@
 #include <sstream>
 #include <stdlib.h>
 #include <limits>
-
-using namespace units::literals;
 
 const double MIN_RECOIL = 600;
 
@@ -3637,8 +3635,13 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         veh = g->m.veh_at( pos() );
     }
     if( veh ) {
-        const auto &eng =veh->current_engine();
-        veh->print_fuel_indicator( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 6 : 49, eng.ammo_current() );
+        veh->print_fuel_indicators( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
+        nc_color col_indf1 = c_ltgray;
+
+        float strain = veh->strain();
+        nc_color col_vel = strain <= 0 ? c_ltblue :
+                           ( strain <= 0.2 ? c_yellow :
+                             ( strain <= 0.4 ? c_ltred : c_red ) );
 
         //
         // Draw the speedometer.
@@ -3653,19 +3656,22 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         int cruisex = metric ? 9 : 8; // strlen(units) + 6
 
         if( !sideStyle ) {
+            if( !veh->cruise_on ) {
+                speedox += 2;
+            }
             if( !metric ) {
                 speedox++;
             }
         }
 
-        const char *speedo = "%s....>....";
-        mvwprintz( w, speedoy, speedox, c_white, speedo, velocity_units( VU_VEHICLE ) );
-        mvwprintz( w, speedoy, speedox + velx, c_ltblue, "%4d",
-                   int( convert_velocity( ms_to_display( veh->current_velocity() ), VU_VEHICLE ) ) );
-
-        mvwprintz( w, speedoy, speedox + cruisex, c_ltgreen, "%4d",
-                   int( convert_velocity( veh->cruise_velocity * 2, VU_VEHICLE ) ) );
-
+        const char *speedo = veh->cruise_on ? "%s....>...." : "%s....";
+        mvwprintz( w, speedoy, speedox,        col_indf1, speedo, velocity_units( VU_VEHICLE ) );
+        mvwprintz( w, speedoy, speedox + velx, col_vel,   "%4d",
+                   int( convert_velocity( veh->velocity, VU_VEHICLE ) ) );
+        if( veh->cruise_on ) {
+            mvwprintz( w, speedoy, speedox + cruisex, c_ltgreen, "%4d",
+                       int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) ) );
+        }
         if( veh->velocity != 0 ) {
             const int offset_from_screen_edge = sideStyle ? 13 : 8;
             nc_color col_indc = veh->skidding ? c_red : c_green;
@@ -3678,21 +3684,13 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             } else {
                 wprintz( w, col_indc, ">" );
             }
-            int gear = veh->gear( eng );
-            if( gear >= 0 ) {
-                right_print( w, sideStyle ? 4 : 3, 1, c_white, "%s <color_ltblue>%3s</color>",
-                             _( "gear" ), ordinal( gear + 1 ).c_str() );
-            }
         }
 
         if( sideStyle ) {
-            int rpm = veh->rpm( eng );
-            if( rpm > 0 ) {
-                right_print( w, speedoy, 1, c_white, "%s <color_%s>%4d</color>", _( "rpm" ),
-                             veh->overspeed( eng ) ? "red" : "ltblue", rpm );
-           }
+            // Make sure this is left-aligned.
+            mvwprintz( w, speedoy, getmaxx( w ) - 9, c_white, "%s", _( "Stm " ) );
+            print_stamina_bar( w );
         }
-
     } else {  // Not in vehicle
         nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
                  col_per = c_white, col_spd = c_white, col_time = c_white;
@@ -3904,8 +3902,12 @@ bool player::in_climate_control()
         int vpart = -1;
         vehicle *veh = g->m.veh_at( pos(), vpart );
         if( veh ) {
-            regulated_area = veh->is_inside( vpart );
+            regulated_area = (
+                                 veh->is_inside( vpart ) &&  // Already checks for opened doors
+                                 veh->total_power( true ) > 0 // Out of gas? No AC for you!
+                             );  // TODO: (?) Force player to scrounge together an AC unit
         }
+        // TODO: AC check for when building power is implemented
         last_climate_control_ret = regulated_area;
         if( !regulated_area ) {
             // Takes longer to cool down / warm up with AC, than it does to step outside and feel cruddy.
@@ -4288,7 +4290,8 @@ void player::shout( std::string msg )
     // Balanced around  whisper for wearing bondage mask
     // and noise ~= 10(door smashing) for wearing dust mask for character with strength = 8
     ///\EFFECT_STR increases shouting volume
-    int noise = base + str_cur * shout_multiplier - encumb( bp_mouth ) * 3 / 2;
+    const int penalty = encumb( bp_mouth ) * 3 / 2;
+    int noise = base + str_cur * shout_multiplier - penalty;
 
     // Minimum noise volume possible after all reductions.
     // Volume 1 can't be heard even by player
@@ -4310,6 +4313,13 @@ void player::shout( std::string msg )
         noise = std::max(minimum_noise, noise / 2);
     }
 
+    if( noise <= minimum_noise ) {
+        add_msg( m_warning, _( "The sound of your voice is almost completely muffled!" ) );
+        msg.clear();
+    } else if( noise * 2 <= noise + penalty ) {
+        // The shout's volume is 1/2 or lower of what it would be without the penalty
+        add_msg( m_warning, _( "The sound of your voice is significantly muffled!" ) );
+    }
     sounds::sound( pos(), noise, msg );
 }
 
@@ -5999,7 +6009,7 @@ void player::print_health() const
     }
     int current_health = get_healthy();
     if( has_trait( "SELFAWARE" ) ) {
-        add_msg_if_player( "Your current health value is: %d", current_health );
+        add_msg_if_player( _( "Your current health value is %d." ), current_health );
     }
 
     if( current_health > 0 &&
@@ -8118,7 +8128,7 @@ void player::suffer()
         }
 
         if( rads > 0.0f && calendar::once_every(MINUTES(3)) && has_bionic("bio_geiger") ) {
-            add_msg_if_player(m_warning, _("You feel anomalous sensation coming from your radiation sensors."));
+            add_msg_if_player(m_warning, _("You feel an anomalous sensation coming from your radiation sensors."));
         }
 
         int rads_max = roll_remainder( rads );
@@ -8314,7 +8324,7 @@ void player::suffer()
             add_msg(m_bad, _("A bionic emits a crackle of noise!"));
             sfx::play_variant_sound( "bionics", "elec_blast", 100 );
         } else {
-            add_msg(m_bad, _("You feel your faulty bionic shudderring."));
+            add_msg(m_bad, _("You feel your faulty bionic shuddering."));
             sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
         }
         sounds::sound( pos(), 60, "");
@@ -8856,23 +8866,23 @@ void player::process_active_items()
             cloak->active = false;
         }
     }
-    static const std::string BIO_POWER_ARMOR_INTERFACE( "bio_power_armor_interface" );
-    static const std::string BIO_POWER_ARMOR_INTERFACE_MK_II( "bio_power_armor_interface_mkII" );
-    const bool has_power_armor_interface = ( has_active_bionic( BIO_POWER_ARMOR_INTERFACE ) ||
-                                             has_active_bionic( BIO_POWER_ARMOR_INTERFACE_MK_II ) ) &&
-                                           power_level > 0;
-    // For power armor that is powered via the armor interface bionic, energy is consumed by that bionic
-    // (it's an active bionic consuming power on its own). The bionic is preferred over UPS usage.
-    // Only if the character does not have that bionic it falls back to the UPS.
-    if( power_armor != nullptr && !has_power_armor_interface ) {
-        if( ch_UPS > 0 ) {
-            use_charges( "UPS", 4 );
-        } else {
-            add_msg_if_player( m_warning, _( "Your power armor disengages." ) );
-            // Bypass the "you deactivate the ..." message
-            power_armor->active = false;
+
+    // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
+    if( power_armor != nullptr ) {
+        const int power_cost = 4;
+        bool bio_powered = can_interface_armor() && power_level > 0;
+        // Bionic power costs are handled elsewhere.
+        if( !bio_powered ) {
+            if( ch_UPS >= power_cost ) {
+                use_charges( "UPS", power_cost );
+            } else {
+                // Deactivate armor here, bypassing the usual deactivation message.
+                add_msg_if_player( m_warning, _( "Your power armor disengages." ) );
+                power_armor->active = false;
+            }
         }
     }
+
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     ch_UPS = charges_of( "UPS" ); // might have been changed by cloak
@@ -8964,6 +8974,12 @@ int player::invlet_to_position( const long linvlet ) const
         }
     }
     return inv.invlet_to_position( invlet );
+}
+
+bool player::can_interface_armor() const {
+    bool okay = std::any_of( my_bionics.begin(), my_bionics.end(), 
+        []( const bionic &b ) { return b.powered && b.info().armor_interface; } );
+    return okay;
 }
 
 const martialart &player::get_combat_style() const
@@ -9301,21 +9317,14 @@ int player::drink_from_hands(item& water) {
     return charges_consumed;
 }
 
-
 // @todo Properly split meds and food instead of hacking around
-bool player::consume_med( item &target, const tripoint &pos )
+bool player::consume_med( item &target )
 {
-    item *the_med = nullptr;
-    if( target.is_medication_container() ) {
-        the_med = &target.contents.front();
-    } else if( target.is_medication() ) {
-        the_med = &target;
-    } else {
-        debugmsg( "%s tried to use a %s as medication", name.c_str(), target.tname().c_str() );
+    if( !target.is_medication() ) {
         return false;
     }
 
-    const itype_id tool_type = the_med->type->comestible->tool;
+    const itype_id tool_type = target.type->comestible->tool;
     const auto req_tool = item::find_type( tool_type );
     if( req_tool->tool ) {
         if( !( has_amount( tool_type, 1 ) && has_charges( tool_type, req_tool->tool->charges_per_use ) ) ) {
@@ -9326,8 +9335,8 @@ bool player::consume_med( item &target, const tripoint &pos )
     }
 
     long amount_used = 1;
-    if( the_med->type->has_use() ) {
-        amount_used = the_med->type->invoke( this, the_med, pos );
+    if( target.type->has_use() ) {
+        amount_used = target.type->invoke( this, &target, pos() );
         if( amount_used <= 0 ) {
             return false;
         }
@@ -9335,109 +9344,56 @@ bool player::consume_med( item &target, const tripoint &pos )
 
     // @todo Get the target it was used on
     // Otherwise injecting someone will give us addictions etc.
-    consume_effects( *the_med );
+    consume_effects( target );
     mod_moves( -250 );
-    the_med->charges -= amount_used;
-    return the_med->charges <= 0;
+    target.charges -= amount_used;
+    return target.charges <= 0;
 }
 
 bool player::consume_item( item &target )
 {
     if( target.is_null() ) {
-        add_msg_if_player( m_info, _("You do not have that item."));
+        add_msg_if_player( m_info, _( "You do not have that item." ) );
         return false;
     }
-    if (is_underwater()) {
-        add_msg_if_player( m_info, _("You can't do that while underwater."));
+    if( is_underwater() ) {
+        add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return false;
     }
-    item *to_eat = nullptr;
-    bool in_container = target.is_food_container( this );
-    if( in_container ) {
-        to_eat = &target.contents.front();
-    } else if( target.is_food( this ) ) {
-        to_eat = &target;
-    } else {
-        add_msg_if_player(m_info, _("You can't eat your %s."), target.tname().c_str());
+
+    item &comest = get_comestible_from( target );
+
+    if( comest.is_null() ) {
+        add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname().c_str() );
         if(is_npc()) {
             debugmsg("%s tried to eat a %s", name.c_str(), target.tname().c_str());
         }
         return false;
     }
 
-    if( to_eat->is_medication() ) {
-        return consume_med( target, pos() );
-    } else if( to_eat->is_food() ) {
-        if( to_eat->type->comestible->comesttype == "FOOD" ||
-            to_eat->type->comestible->comesttype == "DRINK") {
-            if( !eat( *to_eat ) ) {
-                return false;
-            }
-        } else {
-            debugmsg("Unknown comestible type of item: %s\n", to_eat->tname().c_str());
+    if( consume_med( comest ) ||
+        eat( comest ) ||
+        feed_battery_with( comest ) ||
+        feed_reactor_with( comest ) ||
+        feed_furnace_with( comest ) ) {
+
+        if( target.is_container() ) {
+            target.on_contents_changed();
         }
 
-    } else {
- // Consume other type of items.
-        // For when bionics let you eat fuel
-        if (to_eat->is_ammo() && has_active_bionic("bio_batteries") &&
-            to_eat->type->ammo->type.count( ammotype( "battery" ) ) ) {
-            const int factor = 1;
-            int max_change = max_power_level - power_level;
-            if (max_change == 0) {
-                add_msg_if_player(m_info, _("Your internal power storage is fully powered."));
-            }
-            charge_power(to_eat->charges / factor);
-            to_eat->charges -= max_change * factor; //negative charges seem to be okay
-            to_eat->charges++; //there's a flat subtraction later
-        } else if( to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") ||
-                                           has_active_bionic("bio_advreactor") ) &&
-                   ( to_eat->type->ammo->type.count( ammotype( "plut_slurry" ) ) ||
-                     to_eat->type->ammo->type.count( ammotype( "plutonium" ) ) ) ) {
-            if( to_eat->typeId() == "plut_cell" &&
-                query_yn( _( "Thats a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
-                tank_plut += PLUTONIUM_CHARGES * 10;
-            } else if (to_eat->typeId() == "plut_slurry_dense") {
-                tank_plut += PLUTONIUM_CHARGES;
-            } else if (to_eat->typeId() == "plut_slurry") {
-                tank_plut += PLUTONIUM_CHARGES / 2;
-            }
-            add_msg_player_or_npc( _("You add your %s to your reactor's tank."), _("<npcname> pours %s into their reactor's tank."),
-            to_eat->tname().c_str());
-        } else if (!to_eat->is_food() && !to_eat->is_food_container(this)) {
-            if (to_eat->is_book()) {
-                if (to_eat->type->book->skill && !query_yn(_("Really eat %s?"), to_eat->tname().c_str())) {
-                    return false;
-                }
-            }
-            int charge = (to_eat->volume() / 250_ml + to_eat->weight()) / 9;
-            if (to_eat->made_of( material_id( "leather" ) )) {
-                charge /= 4;
-            }
-            if (to_eat->made_of( material_id( "wood" ) )) {
-                charge /= 2;
-            }
-            charge_power(charge);
-            to_eat->charges = 0;
-            add_msg_player_or_npc( _("You eat your %s."), _("<npcname> eats a %s."),
-                                     to_eat->tname().c_str());
-        }
-        moves -= 250;
+        return comest.charges <= 0;
     }
 
-    to_eat->charges -= 1;
-    if( in_container ) {
-        target.on_contents_changed();
-    }
-
-    return to_eat->charges <= 0;
+    return false;
 }
 
 bool player::consume(int target_position)
 {
     auto &target = i_at( target_position );
-    const bool was_in_container = target.is_food_container( this );
+
     if( consume_item( target ) ) {
+        const bool was_in_container = !can_consume_as_is( target );
+
         if( was_in_container ) {
             i_rem( &target.contents.front() );
         } else {
@@ -9604,9 +9560,9 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
     struct : public uimenu_callback {
         std::function<std::string( int )> draw_row;
 
-        bool key( int ch, int idx, uimenu * menu ) override {
+        bool key( const input_event &event, int idx, uimenu * menu ) override {
             auto &sel = static_cast<std::vector<reload_option> *>( myptr )->operator[]( idx );
-            switch( ch ) {
+            switch( event.get_first_input() ) {
                 case KEY_LEFT:
                     sel.qty( sel.qty() - 1 );
                     menu->entries[ idx ].txt = draw_row( idx );
@@ -9963,8 +9919,8 @@ static const std::array<matype_id, 4> bio_cqb_styles {{
 class ma_style_callback : public uimenu_callback
 {
 public:
-    bool key(int key, int entnum, uimenu *menu) override {
-        if( key != '?' ) {
+    bool key(const input_event &event, int entnum, uimenu *menu) override {
+        if( event.get_first_input() != '?' ) {
             return false;
         }
         matype_id style_selected;
@@ -10267,7 +10223,7 @@ void player::mend_item( item_location&& obj, bool interactive )
 
             std::ostringstream descr;
             descr << _( "<color_white>Time required:</color>\n" );
-            descr << "> " << calendar::print_duration( f.first->time() / 100 ) << "\n";
+            descr << "> " << calendar::print_approx_duration( f.first->time() / 100 ) << "\n";
             descr << _( "<color_white>Skills:</color>\n" );
             for( const auto& e : f.first->skills() ) {
                 bool hasSkill = get_skill_level( e.first ) >= e.second;
@@ -10498,40 +10454,43 @@ bool player::wear_item( const item &to_wear, bool interactive )
     return true;
 }
 
-bool player::change_side (item *target, bool interactive)
+bool player::change_side( item &it, bool interactive )
 {
-    return change_side(get_item_position(target), interactive);
-}
-
-bool player::change_side (int pos, bool interactive) {
-    int idx = worn_position_to_index(pos);
-    if (static_cast<size_t>(idx) >= worn.size()) {
-        if (interactive) {
-            add_msg_if_player(m_info, _("You are not wearing that item."));
+    if( !it.swap_side() ) {
+        if( interactive ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "You cannot swap the side on which your %s is worn." ),
+                                   _( "<npcname> cannot swap the side on which their %s is worn." ),
+                                   it.tname().c_str() );
         }
         return false;
     }
 
-    auto it = worn.begin();
-    std::advance(it, idx);
-
-    if (!it->is_sided()) {
-        if (interactive) {
-            add_msg_if_player(m_info, _("You cannot swap the side on which your %s is worn."), it->tname().c_str());
-        }
-        return false;
+    if( interactive ) {
+        add_msg_player_or_npc( m_info, _( "You swap the side on which your %s is worn." ),
+                                       _( "<npcname> swaps the side on which their %s is worn." ),
+                                       it.tname().c_str() );
     }
 
-    it->set_side(it->get_side() == LEFT ? RIGHT : LEFT);
-
-    if (interactive) {
-        add_msg_if_player(m_info, _("You swap the side on which your %s is worn."), it->tname().c_str());
-        moves -= 250;
-    }
-
+    mod_moves( -250 );
     reset_encumbrance();
 
     return true;
+}
+
+bool player::change_side (int pos, bool interactive) {
+    item &it( i_at( pos ) );
+
+    if( !is_worn( it ) ) {
+        if( interactive ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "You are not wearing that item." ),
+                                   _( "<npcname> isn't wearing that item." ) );
+        }
+        return false;
+    }
+
+    return change_side( it, interactive );
 }
 
 hint_rating player::rate_action_takeoff( const item &it ) const
@@ -10605,6 +10564,7 @@ bool player::takeoff( const item &it, std::list<item> *res )
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
                 drop( get_item_position( &it ) );
+                return true;
             }
             return false;
         }
@@ -10757,16 +10717,14 @@ hint_rating player::rate_action_use( const item &it ) const
         }
     } else if (it.is_bionic()) {
         return HINT_GOOD;
-    } else if (it.is_food() || it.is_food_container() || it.is_book() || it.is_armor()) {
+    } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
         return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
     } else if (it.is_gun()) {
-        if (!it.contents.empty()) {
-            return HINT_GOOD;
-        } else {
-            return HINT_IFFY;
-        }
+        return it.is_container_empty() ? HINT_IFFY : HINT_GOOD;
     } else if( it.type->has_use() ) {
         return HINT_GOOD;
+    } else if( !it.is_container_empty() ) {
+        return rate_action_use( it.get_contained() );
     }
 
     return HINT_CANT;
@@ -10873,21 +10831,22 @@ void player::use(int inventory_position)
         if( install_bionics( *used->type ) ) {
             i_rem(inventory_position);
         }
-        return;
-    } else if (used->is_food() || used->is_food_container()) {
+
+    } else if( used->is_food() ||
+               used->is_medication() ||
+               used->get_contained().is_food() ||
+               used->get_contained().is_medication() ) {
         consume(inventory_position);
-        return;
+
     } else if (used->is_book()) {
         read(inventory_position);
-        return;
 
     } else if ( used->type->has_use() ) {
         invoke_item( used );
-        return;
+
     } else {
         add_msg(m_info, _("You can't do anything interesting with your %s."),
                 used->tname().c_str());
-        return;
     }
 }
 
@@ -10901,21 +10860,6 @@ bool player::invoke_item( item* used, const tripoint &pt )
     if( !has_enough_charges( *used, true ) ) {
         return false;
     }
-
-    // Food can't be invoked here - it is already invoked as a part of consumption
-    // Same for meds
-    if( used->is_food() || used->is_food_container() ||
-        used->is_medication() || used->is_medication_container() ) {
-        bool med = used->is_medication() || used->is_medication_container();
-        bool in_container = used->is_food_container() || used->is_medication_container();
-        bool consumed = med ? consume_med( *used, pt ) : consume_item( *used );
-        if( consumed ) {
-            i_rem( in_container ? &used->contents.front() : used );
-        }
-
-        return consumed;
-    }
-
 
     if( used->type->use_methods.size() < 2 ) {
         const long charges_used = used->type->invoke( this, used, pt );
@@ -10959,22 +10903,35 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
                   method.c_str(), used->tname().c_str() );
     }
 
-    // Food can't be invoked here - it is already invoked as a part of consumption
-    // Same for meds
-    if( used->is_food() || used->is_food_container() ||
-        used->is_medication() || used->is_medication_container() ) {
-        bool med = used->is_medication() || used->is_medication_container();
-        bool in_container = used->is_food_container() || used->is_medication_container();
-        bool consumed = med ? consume_med( *used, pt ) : consume_item( *used );
-        if( consumed ) {
-            i_rem( in_container ? &used->contents.front() : used );
-        }
-
-        return consumed;
-    }
-
     long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
     return used->is_tool() && consume_charges( *actually_used, charges_used );
+}
+
+void player::reassign_item( item &it, long invlet )
+{
+    if( invlet ) {
+        item &prev = i_at( invlet_to_position( invlet ) );
+        if( !prev.is_null() ) {
+            prev.invlet = it.invlet;
+        }
+    }
+
+    if( !invlet || it.invlet == invlet ) {
+        const auto iter = assigned_invlet.find( it.invlet );
+        if( iter != assigned_invlet.end() ) {
+            assigned_invlet.erase( iter );
+            if( invlet ) {
+                return;
+            }
+        }
+    }
+
+    if( !invlet || inv_chars.valid( invlet ) ) {
+        it.invlet = invlet;
+        if( invlet ) {
+            assigned_invlet[invlet] = it.typeId();
+        }
+    }
 }
 
 bool player::gunmod_remove( item &gun, item& mod )
@@ -12022,6 +11979,9 @@ bool player::can_sleep()
 
 void player::fall_asleep(int duration)
 {
+    if( activity ) {
+        cancel_activity();
+    }
     add_effect( effect_sleep, duration );
 }
 
@@ -13797,8 +13757,10 @@ void player::on_mission_finished( mission &mission )
 {
     if( mission.has_failed() ) {
         failed_missions.push_back( &mission );
+        add_msg_if_player( m_bad, _( "Mission \"%s\" is failed." ), mission.name().c_str() );
     } else {
         completed_missions.push_back( &mission );
+        add_msg_if_player( m_good, _( "Mission \"%s\" is successfully completed." ), mission.name().c_str() );
     }
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &mission );
     if( iter == active_missions.end() ) {

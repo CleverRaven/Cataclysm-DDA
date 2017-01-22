@@ -377,9 +377,7 @@ void recipe_dictionary::finalize_internal( std::map<std::string, recipe> &obj )
 
 void recipe_dictionary::finalize()
 {
-    if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
-        debugmsg( "JSON contains circular dependency: discarded %i recipes", deferred.size() );
-    }
+    DynamicDataLoader::get_instance().load_deferred( deferred );
 
     finalize_internal( recipe_dict.recipes );
     finalize_internal( recipe_dict.uncraft );

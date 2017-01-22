@@ -54,8 +54,6 @@
 
 #include "iuse_software.h"
 
-using namespace units::literals;
-
 const mtype_id mon_bee( "mon_bee" );
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_cat( "mon_cat" );
@@ -3680,7 +3678,8 @@ int iuse::firecracker_pack(player *p, item *it, bool, const tripoint& )
     wrefresh(w);
     bool close = false;
     long charges = 1;
-    char ch = getch();
+    // TODO: use input context
+    char ch = inp_mngr.get_input_event().get_first_input();
     while (!close) {
         if (ch == 'I') {
             charges++;
@@ -3730,7 +3729,8 @@ int iuse::firecracker_pack(player *p, item *it, bool, const tripoint& )
             return 0; // don't use any charges at all
         }
         if (!close) {
-            ch = getch();
+            // TODO: rewrite loop so this is only called at one place
+            ch = inp_mngr.get_input_event().get_first_input();
         }
     }
     return charges;
@@ -6692,7 +6692,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
 
                 if( p->is_elec_immune() ) {
                     if( one_in( 10 ) ) {
-                        add_msg( m_good, _("The cuffs try to shock you, but you're protected from electrocution.") );
+                        add_msg( m_good, _("The cuffs try to shock you, but you're protected from electricity.") );
                     }
                 } else {
                     add_msg(m_bad, _("Ouch, the cuffs shock you!"));

@@ -20,6 +20,7 @@
 #include "event.h"
 #include "catacharset.h"
 #include "ui.h"
+#include "units.h"
 #include "trap.h"
 #include "itype.h"
 #include "basecamp.h"
@@ -2097,7 +2098,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 }
 
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
-units::volume iexamine::get_keg_capacity( const tripoint &pos ) {
+static units::volume get_keg_capacity( const tripoint &pos ) {
     const furn_t &furn = g->m.furn( pos ).obj();
     if( furn.id == "f_standing_tank" )  { return units::from_liter( 300 ); }
     else if( furn.id == "f_wood_keg" )  { return units::from_liter( 125 ); }

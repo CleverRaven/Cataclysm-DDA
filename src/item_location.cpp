@@ -249,11 +249,7 @@ class item_location::impl::item_on_person : public item_location::impl
         }
 
         int obtain( Character &ch, long qty ) override {
-            ch.moves -= obtain_cost( ch, qty );
-
-            if( who.is_worn( *target() ) ) {
-                target()->on_takeoff( dynamic_cast<player &>( who ) );
-            }
+            ch.mod_moves( -obtain_cost( ch, qty ) );
 
             if( &ch.i_at( ch.get_item_position( target() ) ) == target() ) {
                 // item already in target characters inventory at base of stack
@@ -265,11 +261,10 @@ class item_location::impl::item_on_person : public item_location::impl
                 return ch.get_item_position( &ch.i_add( obj ) );
             } else {
                 int inv = ch.get_item_position( &ch.i_add( *target() ) );
-                remove_item();
+                remove_item();  // This also takes off the item from whoever wears it.
                 return inv;
             }
         }
-
 
         int obtain_cost( const Character &ch, long qty ) const override {
             if( !target() ) {

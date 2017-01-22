@@ -26,8 +26,6 @@
 #include "mtype.h"
 #include <algorithm>
 
-using namespace units::literals;
-
 const float sqrt2 = std::sqrt( 2.0f );
 
 const skill_id skill_throw( "throw" );
@@ -1162,7 +1160,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 
     std::vector<aim_type> aim_types;
     std::vector<aim_type>::iterator aim_mode;
-    int sight_dispersion = u.effective_dispersion( u.weapon.sight_dispersion() );
+    int sight_dispersion = u.effective_dispersion( relevant->sight_dispersion() );
 
     if( mode == TARGET_MODE_FIRE ) {
         aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
@@ -1344,7 +1342,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             int predicted_delay = 0;
             if( aim_mode->has_threshold && aim_mode->threshold < u.recoil ) {
                 do{
-                    const double aim_amount = u.aim_per_move( u.weapon, predicted_recoil );
+                    const double aim_amount = u.aim_per_move( *relevant, predicted_recoil );
                     if( aim_amount > 0 ) {
                         predicted_delay++;
                         predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );

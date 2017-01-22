@@ -1639,7 +1639,7 @@ void advanced_inventory::display()
             std::string filter = spane.filter;
             filter_edit = true;
 
-            g->draw_item_filter_rules( dpane.window, 12 );
+            draw_item_filter_rules( dpane.window, 1, 11, item_filter_type::FILTER );
 
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
@@ -1704,7 +1704,7 @@ void advanced_inventory::display()
                 int iDummySelect = 0;
                 ret = draw_item_info( info_startx,
                                       info_width, 0, 0, it.tname(), it.type_name(), vThisItem, vDummy, iDummySelect,
-                                      false, false, true );
+                                      false, false, true ).get_first_input();
             }
             if( ret == KEY_NPAGE || ret == KEY_DOWN ) {
                 spane.scroll_by( +1 );

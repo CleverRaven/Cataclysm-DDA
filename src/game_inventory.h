@@ -28,6 +28,8 @@ namespace inv
 
 void common( player &p );
 void compare( player &p, const tripoint &offset = tripoint_min );
+void reassign_letter( player &p, item &it );
+void swap_letters( player &p );
 
 /** Todo: let them return item_location */
 int take_off( player &p );
@@ -41,6 +43,8 @@ std::list<std::pair<int, int>> multidrop( player &p );
 
 /** Choosing a container for liquid. */
 item_location container_for( player &p, const item &liquid, int radius = 0 );
+/** Item disassembling menu. */
+item_location disassemble( player &p );
 /** Gunmod installation menu. */
 item_location gun_to_modify( player &p, const item &gunmod );
 /** Book reading menu. */

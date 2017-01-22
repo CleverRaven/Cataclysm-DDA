@@ -40,7 +40,7 @@ const char *npgettext( const char *const context, const char *const msgid,
     }
 }
 
-void set_language( bool reload_options )
+void set_language()
 {
     // Step 1. Setup locale settings.
     std::string lang_opt = get_option<std::string>( "USE_LANG" );
@@ -90,10 +90,8 @@ void set_language( bool reload_options )
     textdomain( "cataclysm-dda" );
 
     // Step 3. Reload options strings with right language
-    if( reload_options ) {
-        get_options().init();
-        get_options().load();
-    }
+    get_options().init();
+    get_options().load();
 }
 
 #else // !LOCALIZE
@@ -101,9 +99,9 @@ void set_language( bool reload_options )
 #include <cstring> // strcmp
 #include <map>
 
-void set_language( bool reload_options )
+void set_language()
 {
-    ( void ) reload_options; // Cancels MinGW warning on Windows
+    return;
 }
 
 // sanitized message cache

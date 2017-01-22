@@ -32,8 +32,6 @@
 #include <algorithm>
 #include <numeric>
 
-using namespace units::literals;
-
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );
@@ -721,13 +719,8 @@ void ups_based_armor_actor::load( JsonObject &obj )
     obj.read( "out_of_power_msg", out_of_power_msg );
 }
 
-bool has_power_armor_interface(const player &p)
-{
-    return p.has_active_bionic( "bio_power_armor_interface" ) || p.has_active_bionic( "bio_power_armor_interface_mkII" );
-}
-
 bool has_powersource(const item &i, const player &p) {
-    if( i.is_power_armor() && has_power_armor_interface( p ) && p.power_level > 0 ) {
+    if( i.is_power_armor() && p.can_interface_armor() && p.power_level > 0 ) {
         return true;
     }
     return p.has_charges( "UPS", 1 );
@@ -1882,14 +1875,19 @@ iuse_actor *holster_actor::clone() const
 void holster_actor::load( JsonObject &obj )
 {
     holster_prompt = obj.get_string( "holster_prompt", "" );
-    holster_msg    = obj.get_string( "holster_msg",    "" );
+    holster_msg = obj.get_string( "holster_msg", "" );
+    int max_v = obj.get_int( "max_volume" );
+    int min_v = obj.get_int( "min_volume", max_v / 3 );
+    // the legacy_volume_factor must be applied after the min volume computation
+    // in order to keep previous rounding truncation behavior
+    // In practice, an holster of a max volume of 4 should accept an item of volume 1
+    // This is the case for the survivor utility belt
+    // 4/3 == 1 (due to rounding) --> min real volume == 1*250 (so an item of volume 1*250 is ok)
+    // if we change the unit before the division
+    // 4*250 / 3 = 333 --> an item of volume 1*250 is NOT ok.
+    max_volume = max_v * units::legacy_volume_factor;
+    min_volume = min_v * units::legacy_volume_factor;
 
-    max_volume = obj.get_int( "max_volume" ) * units::legacy_volume_factor;
-    if( obj.has_member( "min_volume" ) ) {
-        min_volume = obj.get_int( "min_volume" ) * units::legacy_volume_factor;
-    } else {
-        min_volume = max_volume / 3;
-    }
     max_weight = obj.get_int( "max_weight", max_weight );
     multi      = obj.get_int( "multi",      multi );
     draw_cost  = obj.get_int( "draw_cost",  draw_cost );

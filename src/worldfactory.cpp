@@ -1417,7 +1417,7 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
 
 void WORLD::load_options( JsonIn &jsin )
 {
-    // if core data version isn't specified then presume version 1
+    // if core data version isn't specified then assume version 1
     int version = 1;
 
     auto &opts = get_options();
@@ -1467,7 +1467,7 @@ bool worldfactory::load_world_options(WORLDPTR &world)
 
     using namespace std::placeholders;
     const auto path = world->world_path + "/" + FILENAMES["worldoptions"];
-    if( read_from_file_optional( path, std::bind( &WORLD::load_options, world, _1 ) ) ) {
+    if( read_from_file_optional_json( path, std::bind( &WORLD::load_options, world, _1 ) ) ) {
         return true;
     }
 

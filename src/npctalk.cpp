@@ -686,36 +686,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_MISSION_REWARD" ) {
         return _("Sure, here you go!");
 
-    } else if( topic == "TALK_EVAC_GUARD3" ) {
-        return _("Keep to yourself and you won't find any problems.");
-
-    } else if( topic == "TALK_EVAC_GUARD3_NEW" ) {
-        return _("I haven't been here for long but I do my best to watch who "
-                 "comes and goes.  You can't always predict who will bring trouble.");
-
-    } else if( topic == "TALK_EVAC_GUARD3_RULES" ) {
-        return _("Keep your head down and stay out of my way.");
-
-    } else if( topic == "TALK_EVAC_GUARD3_HIDE1" ) {
-        return _("Like what?");
-
-    } else if( topic == "TALK_EVAC_GUARD3_HIDE2" ) {
-        return _("You're new here, who the hell put you up to this crap?");
-
-    } else if( topic == "TALK_EVAC_GUARD3_WASTE" ) {
-        return _("If you don't get on with your business I'm going to have to "
-                 "ask you to leave and not come back.");
-
-    } else if( topic == "TALK_EVAC_GUARD3_DEAD" ) {
-        return _("That's it, you're dead!");
-
-    } else if( topic == "TALK_EVAC_GUARD3_HOSTILE" ) {
-        return _("You must really have a death wish!");
-
-    } else if( topic == "TALK_EVAC_GUARD3_INSULT" ) {
-        return _("We don't put-up with garbage like you, finish your business and "
-                 "get the hell out.");
-
     } else if( topic == "TALK_EVAC_HUNTER" ) {
         if (g->u.is_wearing("badge_marshal"))
             return _("I thought I smelled a pig.  I jest... please don't arrest me.");
@@ -1753,27 +1723,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 add_response( _("[STR 11] I punch things in face real good!"), "TALK_EVAC_MERCHANT_NO" );
             }
 
-    } else if( topic == "TALK_EVAC_GUARD3" ) {
-            add_response( _("What do you do around here?"), "TALK_EVAC_GUARD3_NEW" );
-            add_response( _("Got tips for avoiding trouble?"), "TALK_EVAC_GUARD3_RULES" );
-            add_response( _("Have you seen anyone who might be hiding something?"), "TALK_EVAC_GUARD3_HIDE1" );
-            add_response_done( _("Bye...") );
-
-    } else if( topic == "TALK_EVAC_GUARD3_NEW" ) {
-            add_response( _("..."), "TALK_EVAC_GUARD3" );
-
-    } else if( topic == "TALK_EVAC_GUARD3_RULES" ) {
-            add_response( _("OK..."), "TALK_EVAC_GUARD3" );
-
-    } else if( topic == "TALK_EVAC_GUARD3_WASTE" ) {
-            add_response( _("Sorry..."), "TALK_EVAC_GUARD3" );
-
-    } else if( topic == "TALK_EVAC_GUARD3_HIDE1" ) {
-            add_response( _("I'm not sure..."), "TALK_EVAC_GUARD3_WASTE" );
-            add_response( _("Like they could be working for someone else?"), "TALK_EVAC_GUARD3_HIDE2" );
-
     } else if( topic == "TALK_EVAC_GUARD3_HIDE2" ) {
-            add_response( _("Sorry, I didn't mean to offend you..."), "TALK_EVAC_GUARD3_WASTE" );
             RESPONSE(_("Get bent, traitor!"));
                 TRIAL(TALK_TRIAL_INTIMIDATE, 20 + p->op_of_u.fear * 3);
                     SUCCESS("TALK_EVAC_GUARD3_HOSTILE");
@@ -1787,18 +1737,13 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             p->my_fac->likes_u -= 15;//The Free Merchants are insulted by your actions!
             p->my_fac->respects_u -= 15;
             p->my_fac = g->faction_by_ident("hells_raiders");
-            add_response_done( _("I didn't mean it!") );
-            add_response_done( _("...") );
 
     } else if( topic == "TALK_EVAC_GUARD3_INSULT" ) {
             p->my_fac->likes_u -= 5;//The Free Merchants are insulted by your actions!
             p->my_fac->respects_u -= 5;
-            add_response_done( _("...") );
 
     } else if( topic == "TALK_EVAC_GUARD3_DEAD" ) {
             p->my_fac = g->faction_by_ident("hells_raiders");
-            add_response_done( _("I didn't mean it!") );
-            add_response_done( _("...") );
 
     } else if( topic == "TALK_EVAC_HUNTER" ) {
             add_response( _("You... smelled me?"), "TALK_EVAC_HUNTER_SMELL" );
@@ -3535,7 +3480,7 @@ int dialogue::choose_response( int const hilight_lines )
         }
         wrefresh( win );
         // TODO: input_context?
-        const long ch = getch();
+        const long ch = inp_mngr.get_input_event().get_first_input();
         switch( ch ) {
             case KEY_DOWN:
             case KEY_NPAGE:
@@ -3973,7 +3918,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             wrefresh(w_them);
             wrefresh(w_you);
         } // Done updating the screen
-        ch = getch();
+        // TODO: use input context
+        ch = inp_mngr.get_input_event().get_first_input();
         switch (ch) {
             case '\t':
                 focus_them = !focus_them;
@@ -3997,7 +3943,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 mvwprintz(w_tmp, 1, 1, c_red, _("Examine which item?"));
                 draw_border(w_tmp);
                 wrefresh(w_tmp);
-                help = getch() - 'a';
+                // TODO: use input context
+                help = inp_mngr.get_input_event().get_first_input() - 'a';
                 werase(w_tmp);
                 delwin(w_tmp);
                 mvwprintz(w_head, 0, 0, c_white, header_message.c_str(), p.name.c_str());
@@ -4451,7 +4398,8 @@ enum consumption_result {
 // Returns true if we destroyed the item through consumption
 consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
-    bool consuming_contents = it.is_food_container( &p );
+    // @todo Unify this with 'player::consume_item()'
+    bool consuming_contents = it.is_food_container();
     item &to_eat = consuming_contents ? it.contents.front() : it;
     const auto comest = to_eat.type->comestible.get();
     if( comest == nullptr ) {
@@ -4466,12 +4414,12 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
 
     // TODO: Make it not a copy+paste from player::consume_item
     int amount_used = 1;
-    if( comest->comesttype == "FOOD" || comest->comesttype == "DRINK" ) {
+    if( to_eat.is_food() ) {
         if( !p.eat( to_eat ) ) {
             reason = _("It doesn't look like a good idea to consume this...");
             return REFUSED;
         }
-    } else if (comest->comesttype == "MED") {
+    } else if( to_eat.is_medication() ) {
         if (comest->tool != "null") {
             bool has = p.has_amount( comest->tool, 1 );
             if( item::count_by_charges( comest->tool ) ) {

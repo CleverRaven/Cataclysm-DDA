@@ -16,6 +16,7 @@
 #include <memory>
 #include <map>
 
+struct input_event;
 struct iteminfo;
 enum direction : unsigned;
 class input_context;
@@ -368,27 +369,39 @@ long popup( const std::string &text, PopupFlags flags );
 void full_screen_popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
 /*@}*/
 
-int draw_item_info( WINDOW *win, const std::string sItemName, const std::string sTypeName,
+input_event draw_item_info( WINDOW *win, const std::string sItemName, const std::string sTypeName,
                     std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                     int &selected, const bool without_getch = false, const bool without_border = false,
                     const bool handle_scrolling = false, const bool scrollbar_left = true,
                     const bool use_full_win = false );
 
-int draw_item_info( const int iLeft, int iWidth, const int iTop, const int iHeight,
+input_event draw_item_info( const int iLeft, int iWidth, const int iTop, const int iHeight,
                     const std::string sItemName, const std::string sTypeName,
                     std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                     int &selected, const bool without_getch = false, const bool without_border = false,
                     const bool handle_scrolling = false, const bool scrollbar_left = true,
                     const bool use_full_win = false );
 
+enum class item_filter_type: int {
+    FIRST = 1, // used for indexing into tables
+    FILTER = 1,
+    LOW_PRIORITY = 2,
+    HIGH_PRIORITY = 3
+};
+/**
+ * Write some tips (such as precede items with - to exclude them) onto the window.
+ *
+ * @param starty: Where to start relative to the top of the window.
+ * @param height: Every row from starty to starty + height - 1 will be cleared before printing the rules.
+*/
+void draw_item_filter_rules( WINDOW *win, int starty, int height, item_filter_type type );
+
 char rand_char();
 long special_symbol( long sym );
 
 std::string trim( const std::string &s ); // Remove spaces from the start and the end of a string
+std::string trim_punctuation_marks( const std::string &s ); // Removes punctuation marks from the start and the end of a string
 std::string to_upper_case( const std::string &s ); // Converts the string to upper case
-
-/** Get value in ordinal form, eg 1st, 2nd, 3rd for values [1,9] */
-std::string ordinal( int val );
 
 /**
  * @name printf-like string formatting.
@@ -662,5 +675,39 @@ void play_music( std::string playlist );
  * delaying the update until the next time we are waiting for user input.
  */
 void refresh_display();
+
+/**
+ * Assigns a custom color to each symbol.
+ * @return Colorized string.
+ * @param func Function that accepts symbols (std::string::value_type) and returns colors.
+ */
+template<typename Pred>
+std::string colorize_symbols( const std::string &str, Pred func )
+{
+    std::ostringstream res;
+    nc_color prev_color = c_unset;
+
+    const auto closing_tag = [ &res, prev_color ]() {
+        if( prev_color != c_unset ) {
+            res << "</color>";
+        }
+    };
+
+    for( const auto &elem : str ) {
+        const nc_color new_color = func( elem );
+
+        if( prev_color != new_color ) {
+            closing_tag();
+            res << "<color_" << get_all_colors().get_name( new_color ) << ">";
+            prev_color = new_color;
+        }
+
+        res << elem;
+    }
+
+    closing_tag();
+
+    return res.str();
+}
 
 #endif

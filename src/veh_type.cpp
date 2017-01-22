@@ -12,7 +12,6 @@
 #include "init.h"
 #include "generic_factory.h"
 #include "character.h"
-#include "cata_utility.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -62,8 +61,8 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
     { "ATOMIC_LIGHT", VPFLAG_ATOMIC_LIGHT },
-    { "ENGINE", VPFLAG_ENGINE },
     { "ALTERNATOR", VPFLAG_ALTERNATOR },
+    { "ENGINE", VPFLAG_ENGINE },
     { "FRIDGE", VPFLAG_FRIDGE },
     { "LIGHT", VPFLAG_LIGHT },
     { "WINDOW", VPFLAG_WINDOW },
@@ -179,7 +178,6 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "size", def.size );
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
-    assign( jo, "tools", def.tools );
     assign( jo, "flags", def.flags );
 
     if( jo.has_member( "requirements" ) ) {
@@ -245,9 +243,7 @@ void vpart_info::set_flag( const std::string &flag )
 
 void vpart_info::finalize()
 {
-    if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
-        debugmsg( "JSON contains circular dependency: discarded %i vehicle parts", deferred.size() );
-    }
+    DynamicDataLoader::get_instance().load_deferred( deferred );
 
     for( auto& e : vpart_info_all ) {
         // if part name specified ensure it is translated
@@ -264,10 +260,8 @@ void vpart_info::finalize()
             auto b = vpart_bitflag_map.find( f );
             if( b != vpart_bitflag_map.end() ) {
                 e.second.bitflags.set( b->second );
-            }            
+            }
         }
-
-        e.second.power = hp_to_watt( e.second.power );
 
         // Calculate and cache z-ordering based off of location
         // list_order is used when inspecting the vehicle
@@ -452,27 +446,12 @@ void vpart_info::check()
         if( !item::type_is_defined( part.item ) ) {
             debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.item.c_str() );
         }
-
-        const itype *base = item::find_type( part.item );
-
-        if( part.has_flag( "TURRET" ) && !base->gun ) {
+        if( part.has_flag( "TURRET" ) && !item::find_type( part.item )->gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
         }
-        if( part.has_flag( "ENGINE" ) && !base->engine ) {
-            debugmsg( "vehicle part %s has the ENGINE flag but base item is not an engine", part.id.c_str() );
-        }
-        if( part.has_flag( "REACTOR" ) && !( base->tool && base->tool->ammo_id != NULL_ID ) ) {
-            debugmsg( "vehicle part %s has the REACTOR flag but base item is not tool with ammo", part.id.c_str() );
-        }
-
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
                 debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
-            }
-        }
-        for( const auto &e : part.tools ) {
-            if( !item::type_is_defined( e ) ) {
-                debugmsg( "vehicle part %s has undefined tool item %s", part.id.c_str(), e.c_str() );
             }
         }
     }
@@ -519,6 +498,12 @@ requirement_data vpart_info::repair_requirements() const
         []( const requirement_data &lhs, const std::pair<requirement_id, int> &rhs ) {
         return lhs + ( *rhs.first * rhs.second );
     } );
+}
+
+
+bool vpart_info::is_repairable() const
+{
+    return !repair_requirements().is_empty();
 }
 
 static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &ch ) {
@@ -695,7 +680,7 @@ void vehicle_prototype::finalize()
             } else {
                 for( const auto &e : pt.ammo_types ) {
                     auto ammo = item::find_type( e );
-                    if( !ammo->ammo || !ammo->ammo->type.count( base->gun->ammo ) ) {
+                    if( !ammo->ammo && ammo->ammo->type.count( base->gun->ammo ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
                     }

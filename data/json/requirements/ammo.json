@@ -1,5 +1,14 @@
 [
   {
+    "id": "ammo_40mm",
+    "type": "requirement",
+    "//": "Components required for 40mm ammo",
+    "components": [
+      [ [ "40mm_casing", 1 ] ],
+      [ [ "shotgun_primer", 1 ] ]
+    ]
+  },
+  {
     "id": "ammo_762_25",
     "type": "requirement",
     "components": [
@@ -14,6 +23,15 @@
     "components": [
       [ [ "9mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
+    ]
+  },
+  {
+    "id": "ammo_shot",
+    "type": "requirement",
+    "//": "Components required for shotgun and signal flare ammo",
+    "components": [
+      [ [ "shot_hull", 1 ] ],
+      [ [ "shotgun_primer", 1 ] ]
     ]
   }
 ]

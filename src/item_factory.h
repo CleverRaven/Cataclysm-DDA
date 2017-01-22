@@ -308,6 +308,18 @@ class Item_factory
 
         std::pair<std::string, use_function> usage_from_object( JsonObject &obj );
 
+        /**
+         * Helper function for Item_group loading
+         *
+         * If obj contains an array or string titled name + "-item" or name + "-group",
+         * this resets ptr and adds the item(s) or group(s) to it.
+         *
+         * @param parent: The item group that obj is in. Used so that the result's magazine and ammo
+         *                probabilities can be inherited.
+         * @ret: Whether anything was loaded.
+         */
+        bool load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj,
+                           const std::string &name, const Item_group &parent );
         void add_entry( Item_group *sg, JsonObject &obj );
 
         void load_basic_info( JsonObject &jo, itype &def, const std::string &src );

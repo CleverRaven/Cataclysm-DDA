@@ -4,6 +4,8 @@
 #include "inventory_ui.h"
 #include "options.h"
 #include "player.h"
+#include "crafting.h"
+#include "recipe_dictionary.h"
 #include "item.h"
 #include "itype.h"
 
@@ -178,19 +180,71 @@ class pickup_inventory_preset : public inventory_selector_preset
         const player &p;
 };
 
+class disassemble_inventory_preset : public pickup_inventory_preset
+{
+    public:
+        disassemble_inventory_preset( const player &p, const inventory &inv ) :
+            pickup_inventory_preset( p ), p( p ), inv( inv ) {
+
+            append_cell( [ this ]( const item_location & loc ) {
+                const auto &req = get_recipe( loc ).disassembly_requirements();
+                if( req.is_empty() ) {
+                    return std::string();
+                }
+                const auto components = req.get_components();
+                return enumerate_as_string( components.begin(), components.end(),
+                []( const decltype( components )::value_type & comps ) {
+                    return comps.front().to_string();
+                } );
+            }, _( "YIELD" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return calendar( get_recipe( loc ).time / 100 ).textify_period();
+            }, _( "TIME" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return get_recipe( loc );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            std::string denial;
+            if( !p.can_disassemble( *loc, inv, &denial ) ) {
+                return denial;
+            }
+            return pickup_inventory_preset::get_denial( loc );
+        }
+
+    protected:
+        const recipe &get_recipe( const item_location &loc ) const {
+            return recipe_dictionary::get_uncraft( loc->typeId() );
+        }
+
+    private:
+        const player &p;
+        const inventory inv;
+};
+
+item_location game_menus::inv::disassemble( player &p )
+{
+    return inv_internal( p, disassemble_inventory_preset( p, p.crafting_inventory() ),
+                         _( "Disassemble item" ), 1,
+                         _( "You don't have any items you could disassemble." ) );
+}
+
 class activatable_inventory_preset : public pickup_inventory_preset
 {
     public:
         activatable_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
             if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
                 append_cell( [ this ]( const item_location & loc ) {
-                    return string_format( "<color_ltgreen>%s</color>", get_action_name( loc ).c_str() );
+                    return string_format( "<color_ltgreen>%s</color>", get_action_name( *loc ).c_str() );
                 }, _( "ACTION" ) );
             }
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return p.rate_action_use( *loc ) != HINT_CANT && !get_action_name( loc ).empty();
+            return p.rate_action_use( *loc ) != HINT_CANT && !get_action_name( *loc ).empty();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -205,21 +259,25 @@ class activatable_inventory_preset : public pickup_inventory_preset
         }
 
     protected:
-        std::string get_action_name( const item_location &loc ) const {
-            const auto &uses = loc->type->use_methods;
+        std::string get_action_name( const item &it ) const {
+            const auto &uses = it.type->use_methods;
 
             if( uses.empty() ) {
-                if( loc->is_food() || loc->is_food_container() ) {
+                if( it.is_food() || it.is_medication() ) {
                     return _( "Consume" );
-                } else if( loc->is_book() ) {
+                } else if( it.is_book() ) {
                     return _( "Read" );
-                } else if( loc->is_bionic() ) {
+                } else if( it.is_bionic() ) {
                     return _( "Install bionic" );
                 }
             } else if( uses.size() == 1 ) {
                 return uses.begin()->second.get_name();
             } else {
                 return _( "..." );
+            }
+
+            if( !it.is_container_empty() ) {
+                return get_action_name( it.get_contained() );
             }
 
             return std::string();
@@ -365,7 +423,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 const int actual_turns = p.time_to_read( *loc, *reader ) / MOVES( 1 );
                 // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
                 const int normal_turns = get_book( loc ).time * reader->read_speed() / MOVES( 1 );
-                const std::string duration = calendar( actual_turns ).textify_period();
+                const std::string duration = calendar::print_approx_duration( actual_turns, false );
 
                 if( actual_turns > normal_turns ) { // Longer - complicated stuff.
                     return string_format( "<color_ltred>%s</color>", duration.c_str() );
@@ -509,7 +567,8 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
             draw_item_info( 0, ( TERMX - VIEW_OFFSET_X * 2 ) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
                             sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast, true ); //without getch(
             ch = draw_item_info( ( TERMX - VIEW_OFFSET_X * 2 ) / 2, ( TERMX - VIEW_OFFSET_X * 2 ) / 2,
-                                 0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
+                                 0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh,
+                                 iScrollPos ).get_first_input();
 
             if( ch == KEY_PPAGE ) {
                 iScrollPos--;
@@ -522,4 +581,63 @@ void game_menus::inv::compare( player &p, const tripoint &offset )
             g->refresh_all();
         } while( ch == KEY_PPAGE || ch == KEY_NPAGE );
     } while( true );
+}
+
+void game_menus::inv::reassign_letter( player &p, item &it )
+{
+    while( true ) {
+        const long invlet = popup_getkey(
+                                _( "Enter new letter (press SPACE for none, ESCAPE to cancel)." ) );
+
+        if( invlet == KEY_ESCAPE ) {
+            break;
+        } else if( invlet == ' ' ) {
+            p.reassign_item( it, 0 );
+            break;
+        } else if( inv_chars.valid( invlet ) ) {
+            p.reassign_item( it, invlet );
+            break;
+        }
+    }
+}
+
+void game_menus::inv::swap_letters( player &p )
+{
+    p.inv.restack( &p );
+    p.inv.sort();
+
+    inventory_pick_selector inv_s( p );
+
+    inv_s.add_character_items( p );
+    inv_s.set_title( _( "Swap Inventory Letters" ) );
+    inv_s.set_display_stats( false );
+
+    if( inv_s.empty() ) {
+        popup( std::string( _( "Your inventory is empty." ) ), PF_GET_KEY );
+        return;
+    }
+
+    while( true ) {
+        const std::string invlets = colorize_symbols( inv_chars.get_allowed_chars(),
+        [ &p ]( const std::string::value_type & elem ) {
+            if( p.assigned_invlet.count( elem ) ) {
+                return c_yellow;
+            } else if( p.invlet_to_position( elem ) != INT_MIN ) {
+                return c_white;
+            } else {
+                return c_dkgray;
+            }
+        } );
+
+        inv_s.set_hint( invlets );
+
+        auto loc = inv_s.execute();
+
+        if( !loc ) {
+            break;
+        }
+
+        reassign_letter( p, *loc );
+        g->refresh_all();
+    }
 }

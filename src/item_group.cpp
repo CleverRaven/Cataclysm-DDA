@@ -156,7 +156,17 @@ bool Single_item_creator::has_item(const Item_tag &itemid) const
     return type == S_ITEM && itemid == id;
 }
 
-
+void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int mag )
+{
+    if( ammo != 0 || mag != 0 ) {
+        if( !modifier ) {
+            std::unique_ptr<Item_modifier> mod( new Item_modifier() );
+            modifier = std::move( mod );
+        }
+        modifier->with_ammo = ammo;
+        modifier->with_magazine = mag;
+    }
+}
 
 Item_modifier::Item_modifier()
     : damage(0, 0)
@@ -164,6 +174,8 @@ Item_modifier::Item_modifier()
     , charges(-1, -1)
     , ammo()
     , container()
+    , with_ammo( 0 )
+    , with_magazine( 0 )
 {
 }
 
@@ -200,17 +212,15 @@ void Item_modifier::modify(item &new_item) const
         }
     }
 
-    if( new_item.is_gun() && ( ammo.get() != nullptr || ch > 0 ) ) {
+    if( ch > 0 && ( new_item.is_gun() || new_item.is_magazine() ) ) {
         if( ammo.get() == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
             if( new_item.ammo_type() ) {
                 new_item.ammo_set( default_ammo( new_item.ammo_type() ), ch );
             }
         } else {
-            // Prefer explicit charges of the gun, else take the charges of the ammo item,
-            // Gun charges are easier to define: {"item":"gun","charge":10,"ammo-item":"ammo"}
             const item am = ammo->create_single( new_item.bday );
-            new_item.ammo_set( am.typeId(), ch > 0 ? ch : am.charges );
+            new_item.ammo_set( am.typeId(), ch );
         }
         // Make sure the item is in valid state
         if( new_item.ammo_data() && new_item.magazine_integral() ) {
@@ -228,8 +238,14 @@ void Item_modifier::modify(item &new_item) const
         if( spawn_mag ) {
             new_item.contents.emplace_back( new_item.magazine_default(), new_item.bday );
         }
+
         if( spawn_ammo ) {
-            new_item.ammo_set( default_ammo( new_item.ammo_type() ) );
+            if( ammo.get() ) {
+                const item am = ammo->create_single( new_item.bday );
+                new_item.ammo_set( am.typeId() );
+            } else {
+                new_item.ammo_set( default_ammo( new_item.ammo_type() ) );
+            }
         }
     }
 
@@ -263,6 +279,12 @@ void Item_modifier::check_consistency() const
     if (container.get() != NULL) {
         container->check_consistency();
     }
+    if( with_ammo < 0 || with_ammo > 100 ) {
+        debugmsg( "Item modifier's ammo chance %d is out of range", with_ammo );
+    }
+    if( with_magazine < 0 || with_magazine > 100 ) {
+        debugmsg( "Item modifier's magazine chance %d is out of range", with_magazine );
+    }
 }
 
 bool Item_modifier::remove_item(const Item_tag &itemid)
@@ -291,6 +313,15 @@ Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_c
     , sum_prob(0)
     , items()
 {
+    if( probability <= 0 || ( t != Type::G_DISTRIBUTION && probability > 100 ) ) {
+        debugmsg( "Probability %d out of range", probability );
+    }
+    if( ammo_chance < 0 || ammo_chance > 100 ) {
+        debugmsg( "Ammo chance %d is out of range.", ammo_chance );
+    }
+    if( magazine_chance < 0 || magazine_chance > 100 ) {
+        debugmsg( "Magazine chance %d is out of range.", magazine_chance );
+    }
 }
 
 Item_group::~Item_group()
@@ -329,13 +360,8 @@ void Item_group::add_entry(std::unique_ptr<Item_spawn_data> &ptr)
     // Make the ammo and magazine probabilities from the outer entity apply to the nested entity:
     // If ptr is an Item_group, it already inherited its parent's ammo/magazine chances in its constructor.
     Single_item_creator *sic = dynamic_cast<Single_item_creator *>( ptr.get() );
-    if( sic && ( with_ammo != 0 || with_magazine != 0 ) ) {
-        if( !sic->modifier ) {
-            std::unique_ptr<Item_modifier> mod( new Item_modifier() );
-            sic->modifier = std::move( mod );
-        }
-        sic->modifier->with_ammo = with_ammo;
-        sic->modifier->with_magazine = with_magazine;
+    if( sic ) {
+        sic->inherit_ammo_mag_chances( with_ammo, with_magazine );
     }
     items.push_back( ptr.get() );
     ptr.release();

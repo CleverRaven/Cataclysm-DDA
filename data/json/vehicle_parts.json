@@ -1137,6 +1137,117 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "kitchen_unit",
+        "name" : "kitchen unit",
+        "symbol" : "&",
+        "color" : "light_cyan",
+        "broken_symbol" : "x",
+        "broken_color" : "light_cyan",
+        "damage_modifier" : 10,
+        "durability" : 80,
+        "size" : 200,
+        "item" : "kitchen_unit",
+        "difficulty" : 3,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "KITCHEN", "FAUCET", "COVERED", "TOOL_WRENCH"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [30, 40]},
+            {"item": "steel_chunk", "count": [30, 40]},
+            {"item": "scrap", "count": [30, 40]},
+            {"item": "pan", "prob": 50},
+            {"item": "pot", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "welding_rig",
+        "name" : "welding rig",
+        "symbol" : "&",
+        "color" : "light_red",
+        "broken_symbol" : "x",
+        "broken_color" : "light_red",
+        "damage_modifier" : 10,
+        "durability" : 80,
+        "size" : 200,
+        "item" : "weldrig",
+        "difficulty" : 3,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "WELDRIG", "COVERED", "TOOL_WRENCH"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [3, 6]},
+            {"item": "steel_chunk", "count": [3, 6]},
+            {"item": "scrap", "count": [3, 6]},
+            {"item": "welder", "charges": 0, "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "craft_rig",
+        "name" : "FOODCO kitchen buddy",
+        "symbol" : "&",
+        "color" : "light_green",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 10,
+        "durability" : 80,
+        "size" : 200,
+        "item" : "craftrig",
+        "difficulty" : 3,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "CRAFTRIG", "WATER_PURIFIER", "COVERED", "TOOL_WRENCH"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [4, 7]},
+            {"item": "steel_chunk", "count": [4, 7]},
+            {"item": "scrap", "count": [4, 7]},
+            {"item": "pan", "prob": 50},
+            {"item": "pot", "prob": 50},
+            {"item": "water_purifier", "charges": 0, "prob": 50},
+            {"item": "vac_sealer", "charges": 0, "prob": 50},
+            {"item": "dehydrator", "charges": 0, "prob": 50},
+            {"item": "press", "charges": 0, "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "chemlab",
+        "name" : "onboard chemistry lab",
+        "symbol" : "&",
+        "color" : "yellow",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 10,
+        "durability" : 80,
+        "size" : 200,
+        "item" : "chemlab",
+        "difficulty" : 3,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "CHEMLAB", "FAUCET", "COVERED", "TOOL_WRENCH"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [4, 7]},
+            {"item": "steel_chunk", "count": [4, 7]},
+            {"item": "scrap", "count": [4, 7]},
+            {"item": "chemistry_set", "charges": 0, "prob": 50},
+            {"item": "hotplate", "charges": 0, "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "veh_forge",
+        "name" : "mounted electric forge",
+        "symbol" : "&",
+        "color" : "red",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 10,
+        "durability" : 80,
+        "size" : 200,
+        "item" : "forgerig",
+        "difficulty" : 3,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "FORGE", "TOOL_WRENCH"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [4, 5]},
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 6]}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "plating_wood",
         "name" : "wooden armor",
         "symbol" : ")",

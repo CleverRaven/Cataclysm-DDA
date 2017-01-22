@@ -125,7 +125,9 @@
         "category" : "FARM_WOOD",
         "difficulty" : 1,
         "time" : 60,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ] ],
+        "qualities": [ [
+            { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 2 }
+        ] ],
         "pre_terrain" : "t_trunk",
         "post_terrain" : "t_dirt",
         "post_special" : "done_trunk_log"
@@ -1581,7 +1583,7 @@
         "components" : [
             [ [ "2x4", 4 ] ],
             [ [ "nail", 6 ] ],
-            [ [ "blanket", 1 ], [ "sheet", 2 ] ]
+            [  [ "sheet", 2 ], [ "blanket", 1 ], [ "down_blanket", 1] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_makeshift_bed"
@@ -1614,7 +1616,7 @@
         "components" : [
             [ [ "2x4", 12 ] ],
             [ [ "nail", 10 ] ],
-            [ [ "sheet", 4 ], [ "blanket", 2 ] ]
+            [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_bed"
@@ -1635,7 +1637,7 @@
         "components" : [
             [ [ "2x4", 10 ] ],
             [ [ "nail", 8 ] ],
-            [ [ "blanket", 1 ] ]
+            [ [ "blanket", 1 ], [ "down_blanket", 1] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_armchair"
@@ -1656,7 +1658,7 @@
         "components" : [
             [ [ "2x4", 12 ] ],
             [ [ "nail", 10 ] ],
-            [ [ "blanket", 1 ] ]
+            [ [ "blanket", 1 ], [ "down_blanket", 1] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_sofa"

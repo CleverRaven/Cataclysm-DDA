@@ -44,6 +44,13 @@ struct bionic_data {
      * Prevents all other activation effects.
      */
     bool weapon_bionic = false;
+    /**
+     * If true, this bionic can provide power to powered armor.
+     */
+    bool armor_interface = false;
+    /**
+     * Body part slots used to install this bionic, mapped to the amount of space required.
+     */
     std::map<body_part, size_t> occupied_bodyparts;
     /**
      * Fake item created for crafting with this bionic available.

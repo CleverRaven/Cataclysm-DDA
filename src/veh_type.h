@@ -77,12 +77,17 @@ enum vpart_bitflags : int {
  * Other flags are self-explanatory in their names. */
 class vpart_info
 {
-    public:
+    private:
         /** Unique identifier for this part */
         vpart_id id;
 
+    public:
         /** Translated name of a part */
         std::string name() const;
+
+        vpart_id get_id() const {
+            return id;
+        }
 
         /** base item for this part */
         itype_id item;
@@ -163,6 +168,9 @@ class vpart_info
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
 
+        /** Returns whether or not the part is repairable  */
+        bool is_repairable() const;
+
         /** Required skills to repair this component */
         std::map<skill_id, int> repair_skills;
 
@@ -177,9 +185,6 @@ class vpart_info
 
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
-
-        /** Pseudo-tools this vehicle part can provide providing the appropriate fuel available */
-        std::set<itype_id> tools;
 
         /** seatbelt (str), muffler (%), horn (vol), light (intensity) */
         int bonus = 0;

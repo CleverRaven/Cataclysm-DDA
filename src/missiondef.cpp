@@ -156,6 +156,7 @@ static const std::map<std::string, std::function<void(mission *)>> mission_funct
     { "reveal_office_tower", mission_start::reveal_office_tower },
     { "reveal_doctors_office", mission_start::reveal_doctors_office },
     { "reveal_cathedral", mission_start::reveal_cathedral },
+    { "reveal_refugee_center", mission_start::reveal_refugee_center },
     // Endings
     { "leave", mission_end::leave },
     { "thankful", mission_end::thankful },
@@ -177,7 +178,8 @@ static const std::map<std::string, mission_origin> origin_map = {{
     { "ORIGIN_GAME_START", ORIGIN_GAME_START },
     { "ORIGIN_OPENER_NPC", ORIGIN_OPENER_NPC },
     { "ORIGIN_ANY_NPC", ORIGIN_ANY_NPC },
-    { "ORIGIN_SECONDARY", ORIGIN_SECONDARY }
+    { "ORIGIN_SECONDARY", ORIGIN_SECONDARY },
+    { "ORIGIN_COMPUTER", ORIGIN_COMPUTER }
 }};
 template<>
 mission_origin string_to_enum<mission_origin>( const std::string &data )
@@ -248,30 +250,43 @@ void assign_function( JsonObject &jo, const std::string &id, Fun &target, const 
     }
 }
 
-void mission_type::load( JsonObject &jo, const std::string & )
+void mission_type::load( JsonObject &jo, const std::string &src )
 {
+    const bool strict = src == "dda";
+
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
 
     mandatory( jo, was_loaded, "difficulty", difficulty );
     mandatory( jo, was_loaded, "value", value );
 
-    auto djo = jo.get_object( "dialogue" );
-    // @todo There should be a cleaner way to do it
-    mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
-    mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
-    mandatory( djo, was_loaded, "accepted", dialogue[ "accepted" ] );
-    mandatory( djo, was_loaded, "rejected", dialogue[ "rejected" ] );
-    mandatory( djo, was_loaded, "advice", dialogue[ "advice" ] );
-    mandatory( djo, was_loaded, "inquire", dialogue[ "inquire" ] );
-    mandatory( djo, was_loaded, "success", dialogue[ "success" ] );
-    mandatory( djo, was_loaded, "success_lie", dialogue[ "success_lie" ] );
-    mandatory( djo, was_loaded, "failure", dialogue[ "failure" ] );
+    if( jo.has_member( "origins" ) ) {
+        origins.clear();
+        for( auto &m : jo.get_tags( "origins" ) ) {
+            origins.emplace_back( io::string_to_enum_look_up( io::origin_map, m ) );
+        }
+    }
+
+    if( std::any_of( origins.begin(), origins.end(), []( mission_origin origin ) {
+        return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
+    } ) ) {
+        auto djo = jo.get_object( "dialogue" );
+        // @todo There should be a cleaner way to do it
+        mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
+        mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
+        mandatory( djo, was_loaded, "accepted", dialogue[ "accepted" ] );
+        mandatory( djo, was_loaded, "rejected", dialogue[ "rejected" ] );
+        mandatory( djo, was_loaded, "advice", dialogue[ "advice" ] );
+        mandatory( djo, was_loaded, "inquire", dialogue[ "inquire" ] );
+        mandatory( djo, was_loaded, "success", dialogue[ "success" ] );
+        mandatory( djo, was_loaded, "success_lie", dialogue[ "success_lie" ] );
+        mandatory( djo, was_loaded, "failure", dialogue[ "failure" ] );
+    }
 
     optional( jo, was_loaded, "urgent", urgent );
     optional( jo, was_loaded, "item", item_id );
     optional( jo, was_loaded, "count", item_count, 1 );
 
-    goal = jo.get_enum_value<decltype(goal)>( "goal" );
+    goal = jo.get_enum_value<decltype( goal )>( "goal" );
 
     assign_function( jo, "place", place, tripoint_function_map );
     assign_function( jo, "start", start, mission_function_map );
@@ -286,20 +301,11 @@ void mission_type::load( JsonObject &jo, const std::string & )
         deadline_high = DAYS( jo.get_int( "deadline_high" ) );
     }
 
-    if( jo.has_member( "origins" ) ) {
-        origins.clear();
-        for( auto &m : jo.get_tags( "origins" ) ) {
-            origins.emplace_back( io::string_to_enum_look_up( io::origin_map, m ) );
-        }
-    }
-
     if( jo.has_member( "followup" ) ) {
         follow_up = mission_type_id( jo.get_string( "followup" ) );
     }
 
-    if( jo.has_member( "destination" ) ) {
-        target_id = string_id<oter_t>( jo.get_string( "destination" ) );
-    }
+    assign( jo, "destination", target_id, strict );
 }
 
 void mission_type::check_consistency()

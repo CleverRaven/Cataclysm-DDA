@@ -763,16 +763,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &eat );
-        /**
-         * Consumes an item as medication.
-         * Can be used to heal others (using `pos` argument), if med type handles that.
-         * Will complain if the item isn't actually a med type.
-         * @param target Item consumed. Must be a medication or a container of medication.
-         * @param pos Position to invoke the medicine on.
-         * @return Whether the target was fully consumed.
-         */
-        bool consume_med( item &target, const tripoint &pos );
-
         /** This block is to be moved to character.h */
         bool is_allergic( const item &food ) const;
         /** Returns allergy type or MORALE_NULL if not allergic for this player */
@@ -854,6 +844,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Check player capable of unwielding an item.
           * @param alert display reason for any failure */
         bool can_unwield( const item& it, bool alert = true ) const;
+        /** Check player's capability of consumption overall */
+        bool can_consume( const item &it ) const;
+
         /**
          * Removes currently wielded item (if any) and replaces it with the target item
          * @param target replacement item to wield or null item to remove existing weapon without replacing it
@@ -917,7 +910,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear_item( const item &to_wear, bool interactive = true );
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
-        bool change_side( item *target, bool interactive = true );
+        bool change_side( item &it, bool interactive = true );
         bool change_side( int pos, bool interactive = true );
 
         /** Returns all items that must be taken off before taking off this item */
@@ -956,6 +949,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** As above two, but with position equal to current position */
         bool invoke_item( item* );
         bool invoke_item( item*, const std::string& );
+        /** Reassign letter. */
+        void reassign_item( item &it, long invlet );
 
         /** Consume charges of a tool or comestible item, potentially destroying it in the process
          *  @qty number of charges to consume which must be non-zero
@@ -1113,6 +1108,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
         int invlet_to_position( long invlet ) const;
+        
+        /**
+        * Check whether player has a bionic power armor interface.
+        * @return true if player has an active bionic capable of powering armor, false otherwise.
+        */
+        bool can_interface_armor() const;
 
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
@@ -1188,11 +1189,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /**
          * Check if the player can disassemble an item using the current crafting inventory
-         * @param alert if set display message about missing tools/charges.
+         * @param err Error message in case of e.g. missing tools/charges.
          */
-        bool can_disassemble( const item &obj, const inventory &inv, bool alert = false ) const;
+        bool can_disassemble( const item &obj, const inventory &inv, std::string *err = nullptr ) const;
 
-        bool disassemble(int pos = INT_MAX);
+        bool disassemble();
+        bool disassemble( int pos );
         bool disassemble( item &obj, int pos, bool ground, bool interactive = true );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
         void complete_disassemble();
@@ -1529,6 +1531,31 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_fire(const int quantity) const;
         void use_fire(const int quantity);
 
+        /** Determine player's capability of recharging their CBMs. */
+        bool can_feed_battery_with( const item &it ) const;
+        bool can_feed_reactor_with( const item &it ) const;
+        bool can_feed_furnace_with( const item &it ) const;
+        /**
+         * Recharge CBMs whenever possible.
+         * @return true when recharging was successful.
+         */
+        bool feed_battery_with( item &it );
+        bool feed_reactor_with( item &it );
+        bool feed_furnace_with( item &it );
+        /** Check whether player can consume this very item */
+        bool can_consume_as_is( const item &it ) const;
+        /**
+         * Returns a reference to the item itself (if it's comestible),
+         * the first of its contents (if it's comestible) or null item otherwise.
+         */
+        item &get_comestible_from( item &it ) const;
+        /**
+         * Consumes an item as medication.
+         * @param target Item consumed. Must be a medication or a container of medication.
+         * @return Whether the target was fully consumed.
+         */
+        bool consume_med( item &target );
+
         void react_to_felt_pain( int intensity );
 
         int pkill;
@@ -1574,6 +1601,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
+
 };
 
 #endif

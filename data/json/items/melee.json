@@ -151,7 +151,7 @@
         "flags" : ["DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE"],
         "to_hit": 1,
         "category" : "weapons",
-        "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", 16]]
+        "qualities": [["AXE", 2], ["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", 16]]
     },
     {
         "type":"GENERIC",

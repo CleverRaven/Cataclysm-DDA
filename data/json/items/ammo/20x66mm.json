@@ -116,7 +116,6 @@
     "copy-from": "20x66_shot",
     "type": "AMMO",
     "name": "20x66mm incendiary",
-    "name_plural": "20x66mm incendiaries",
     "description": "20x66mm caseless shotgun rounds, incendiary type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "price": 100000,
     "count": 10,

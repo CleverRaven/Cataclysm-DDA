@@ -4,6 +4,7 @@
 #include "craft_command.h"
 #include "debug.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "input.h"
 #include "inventory.h"
 #include "itype.h"
@@ -1029,26 +1030,39 @@ void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
     consume_tools( select_tool_component( tools, batch, map_inv, hotkeys ), batch );
 }
 
-bool player::can_disassemble( const item &obj, const inventory &inv, bool alert ) const
+bool player::can_disassemble( const item &obj, const inventory &inv, std::string *err ) const
 {
-    const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
-    if( !r ) {
-        if( alert ) {
-            add_msg_if_player( m_info, _( "You cannot disassemble the %s" ), obj.tname().c_str() );
+    const auto error = [&err]( const std::string & message ) {
+        if( err != nullptr ) {
+            *err = message;
         }
         return false;
+    };
+
+    const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
+
+    if( !r ) {
+        return error( string_format( _( "You cannot disassemble this." ) ) );
+    }
+
+    // check sufficient light
+    if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
+        return error( _( "You can't see to craft!" ) );
+    }
+    // refuse to disassemble rotten items
+    if( obj.goes_bad() || ( obj.is_food_container() && obj.contents.front().goes_bad() ) ) {
+        if( obj.rotten() || ( obj.is_food_container() && obj.contents.front().rotten() ) ) {
+            return error( _( "It's rotten, I'm not taking that apart." ) );
+        }
     }
 
     if( obj.count_by_charges() && !r.has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
         // Create a new item to get the default charges
         int qty = r.create_result().charges;
         if( obj.charges < qty ) {
-            if( alert ) {
-                auto msg = ngettext( "You need at least %d charge of %s to disassemble it.",
-                                     "You need at least %d charges of %s to disassemble it.", qty );
-                add_msg_if_player( m_info, msg, qty, obj.tname().c_str() );
-            }
-            return false;
+            auto msg = ngettext( "You need at least %d charge of %s.",
+                                 "You need at least %d charges of %s.", qty );
+            return error( string_format( msg, qty, obj.tname().c_str() ) );
         }
     }
 
@@ -1057,86 +1071,76 @@ bool player::can_disassemble( const item &obj, const inventory &inv, bool alert 
     for( const auto &opts : dis.get_qualities() ) {
         for( const auto &qual : opts ) {
             if( !qual.has( inv ) ) {
-                if( alert ) {
-                    add_msg_if_player( m_info, _( "To disassemble %s, you need %s" ),
-                                       obj.tname().c_str(), qual.to_string().c_str() );
-                }
-                return false;
+                // Here should be no dot at the end of the string as 'to_string()' provides it.
+                return error( string_format( _( "You need %s" ), qual.to_string().c_str() ) );
             }
         }
     }
 
     for( const auto &opts : dis.get_tools() ) {
-        if( !std::any_of( opts.begin(), opts.end(), [&]( const tool_comp & tool ) {
-        return ( tool.count <= 0 && inv.has_tools( tool.type, 1 ) ) ||
+        const bool found = std::any_of( opts.begin(), opts.end(),
+        [&]( const tool_comp & tool ) {
+            return ( tool.count <= 0 && inv.has_tools( tool.type, 1 ) ) ||
                    ( tool.count >  0 && inv.has_charges( tool.type, tool.count ) );
-        } ) ) {
-            if( alert ) {
-                if( opts[0].count <= 0 ) {
-                    add_msg( m_info, _( "You need a %s to disassemble %s." ),
-                             item::nname( opts[0].type ).c_str(), obj.tname().c_str() );
-                } else {
-                    add_msg( m_info, ngettext( "You need a %s with %d charge to disassemble %s.",
-                                               "You need a %s with %d charges to disassemble %s.",
-                                               opts[0].count ),
-                             item::nname( opts[0].type ).c_str(), opts[0].count, obj.tname().c_str() );
-                }
+        } );
+
+        if( !found ) {
+            if( opts.front().count <= 0 ) {
+                return error( string_format( _( "You need %s." ),
+                                             item::nname( opts.front().type ).c_str() ) );
+            } else {
+                return error( string_format( ngettext( "You need a %s with %d charge.",
+                                                       "You need a %s with %d charges.",
+                                                       opts.front().count ),
+                                             item::nname( opts.front().type ).c_str(), opts.front().count ) );
             }
-            return false;
         }
     }
 
     return true;
 }
 
-bool player::disassemble( int dis_pos )
+bool player::disassemble()
 {
-    if( dis_pos == INT_MAX ) {
-        dis_pos = g->inv_for_all( _( "Disassemble item" ),
-                                  _( "You don't have any items to disassemble." ) );
-    }
-    if( dis_pos == INT_MIN ) {
-        add_msg_if_player( m_info, _( "Never mind." ) );
+    auto loc = game_menus::inv::disassemble( *this );
+
+    if( !loc ) {
+        add_msg( _( "Never mind." ) );
         return false;
     }
+
+    return disassemble( loc.obtain( *this ) );
+}
+
+bool player::disassemble( int dis_pos )
+{
     return disassemble( i_at( dis_pos ), dis_pos, false );
 }
 
 bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 {
-    const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
-
-    // check sufficient light
-    if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
+    // check sufficient tools for disassembly
+    std::string err;
+    if( !can_disassemble( obj, crafting_inventory(), &err ) ) {
         if( interactive ) {
-            add_msg_if_player( m_info, _( "You can't see to craft!" ) );
+            add_msg_if_player( m_info, "%s", err.c_str() );
         }
         return false;
     }
 
-    // refuse to disassemble rotten items
-    if( obj.goes_bad() || ( obj.is_food_container() && obj.contents.front().goes_bad() ) ) {
-        obj.calc_rot( global_square_location() );
-        if( obj.rotten() || ( obj.is_food_container() && obj.contents.front().rotten() ) ) {
-            if( interactive ) {
-                add_msg_if_player( m_info, _( "It's rotten, I'm not taking that apart." ) );
-            }
+    const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
+    // last chance to back out
+    if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
+        const auto components( r.disassembly_requirements().get_components() );
+        std::ostringstream list;
+        for( const auto &elem : components ) {
+            list << "- " << elem.front().to_string() << std::endl;
+        }
+
+        if( !query_yn( _( "Disassembling the %s may yield:\n%s\nReally disassemble?" ), obj.tname().c_str(),
+                       list.str().c_str() ) ) {
             return false;
         }
-    }
-
-    // check sufficient tools for disassembly
-    const inventory &inv = crafting_inventory();
-    if( !can_disassemble( obj, inv, interactive ) ) {
-        return false;
-    }
-
-    // last chance to back out
-    if( interactive &&
-        get_option<bool>( "QUERY_DISASSEMBLE" ) &&
-        !query_yn( _( "Disassembling the %s will take about %s. Continue?" ),
-                   obj.tname().c_str(), calendar::print_duration( r.time / 100 ).c_str() ) ) {
-        return false;
     }
 
     if( activity.id() != activity_id( "ACT_DISASSEMBLE" ) ) {

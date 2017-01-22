@@ -563,7 +563,7 @@ const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
 const std::string COORDINATE = "COORDINATE";
 const std::string TIMEOUT = "TIMEOUT";
 
-const std::string &input_context::input_to_action( input_event &inp )
+const std::string &input_context::input_to_action( const input_event &inp ) const
 {
     for( auto &elem : registered_actions ) {
         const std::string &action = elem;
@@ -577,13 +577,6 @@ const std::string &input_context::input_to_action( input_event &inp )
         }
     }
     return CATA_ERROR;
-}
-
-void input_manager::set_timeout( int delay )
-{
-    timeout( delay );
-    // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
-    input_timeout = delay;
 }
 
 void input_context::register_action( const std::string &action_descriptor )
@@ -689,6 +682,14 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
     return rval.str();
 }
 
+const std::string &input_context::handle_input( const int timeout )
+{
+    inp_mngr.set_timeout( timeout );
+    const std::string &result = handle_input();
+    inp_mngr.reset_timeout();
+    return result;
+}
+
 const std::string &input_context::handle_input()
 {
     next_action.type = CATA_INPUT_ERROR;
@@ -707,7 +708,7 @@ const std::string &input_context::handle_input()
         }
 
         if( next_action.type == CATA_INPUT_MOUSE ) {
-            if( !handling_coordinate_input ) {
+            if( !handling_coordinate_input && action == CATA_ERROR ) {
                 continue; // Ignore this mouse input.
             }
 
@@ -818,7 +819,7 @@ bool input_context::get_direction( int &dx, int &dy, const std::string &action )
 
 void input_context::display_help()
 {
-    inp_mngr.set_timeout( -1 );
+    inp_mngr.reset_timeout();
     // Shamelessly stolen from help.cpp
     WINDOW *w_help = newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
                              1 + ( int )( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
@@ -1096,28 +1097,46 @@ long input_manager::get_previously_pressed_key() const
     return previously_pressed_key;
 }
 
-#ifndef TILES
+void input_manager::wait_for_any_key()
+{
+    while( true ) {
+        switch( inp_mngr.get_input_event().type ) {
+            case CATA_INPUT_KEYBOARD:
+                return;
+            // errors are accepted as well to avoid an infinite loop
+            case CATA_INPUT_ERROR:
+                return;
+            default:
+                break;
+        }
+    }
+}
+
+input_event input_manager::get_input_event()
+{
+    return get_input_event( nullptr );
+}
+
+#if !(defined TILES || defined _WIN32 || defined WINDOWS)
 // If we're using curses, we need to provide get_input_event() here.
 input_event input_manager::get_input_event( WINDOW * /*win*/ )
 {
     previously_pressed_key = 0;
     long key = getch();
     // Our current tiles and Windows code doesn't have ungetch()
-#if !(defined TILES || defined _WIN32 || defined WINDOWS)
     if( key != ERR ) {
         long newch;
         // Clear the buffer of characters that match the one we're going to act on.
-        timeout( 0 );
+        set_timeout( 0 );
         do {
             newch = getch();
         } while( newch != ERR && newch == key );
-        timeout( -1 );
+        reset_timeout();
         // If we read a different character than the one we're going to act on, re-queue it.
         if( newch != ERR && newch != key ) {
             ungetch( newch );
         }
     }
-#endif
     input_event rval;
     if( key == ERR ) {
         if( input_timeout > 0 ) {
@@ -1125,7 +1144,6 @@ input_event input_manager::get_input_event( WINDOW * /*win*/ )
         } else {
             rval.type = CATA_INPUT_ERROR;
         }
-#if !(defined TILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
         // ncurses mouse handling
     } else if( key == KEY_MOUSE ) {
         MEVENT event;
@@ -1149,7 +1167,6 @@ input_event input_manager::get_input_event( WINDOW * /*win*/ )
         } else {
             rval.type = CATA_INPUT_ERROR;
         }
-#endif
     } else {
         if( key == 127 ) { // == Unicode DELETE
             previously_pressed_key = KEY_BACKSPACE;
@@ -1193,6 +1210,13 @@ input_event input_manager::get_input_event( WINDOW * /*win*/ )
     }
 
     return rval;
+}
+
+void input_manager::set_timeout( int delay )
+{
+    timeout( delay );
+    // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
+    input_timeout = delay;
 }
 
 // Also specify that we don't have a gamepad plugged in.

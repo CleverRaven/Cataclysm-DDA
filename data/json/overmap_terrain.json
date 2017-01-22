@@ -118,22 +118,15 @@
         "mapgen_curved": [
             { "method": "builtin", "name": "road_curved" }
         ],
+        "mapgen_end": [
+            { "method": "builtin", "name": "road_end" }
+        ],
         "mapgen_tee": [
             { "method": "builtin", "name": "road_tee" }
         ],
         "mapgen_four_way": [
             { "method": "builtin", "name": "road_four_way" }
         ]
-    },{
-        "type" : "overmap_terrain",
-        "id" : "road_end",
-        "name" : "road",
-        "color" : "dark_gray",
-        "see_cost" : 2,
-        "extras" : "road",
-        "allow_road" : true,
-        "rotate" : true,
-        "sym" : 4194424
     },{
         "type" : "overmap_terrain",
         "id" : "road_nesw_manhole",
@@ -429,19 +422,41 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "apartments_mod_tower_1_entrance",
+        "id" : "apartments_mod_tower_NW",
         "name" : "apartment tower",
         "sym" : 65,
         "color" : "light_green",
+        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "apartments_mod_tower_1",
+        "id" : "apartments_mod_tower_NE",
         "name" : "apartment tower",
         "sym" : 65,
         "color" : "light_green",
+        "rotate": true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "apartments_mod_tower_SW",
+        "name" : "apartment tower",
+        "sym" : 65,
+        "color" : "light_green",
+        "rotate": true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "apartments_mod_tower_SE",
+        "name" : "apartment tower",
+        "sym" : 65,
+        "color" : "light_green",
+        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
@@ -813,6 +828,16 @@
         "color" : "brown",
         "see_cost" : 5,
         "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "sugar_house",
+        "name" : "sugar house",
+        "sym" : 83,
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "rotate" : true
     },{
         "type" : "overmap_terrain",
         "id" : "farm",
@@ -1677,7 +1702,7 @@
         "id" : "haz_sar_entrance",
         "name" : "hazardous waste sarcophagus",
         "sym" : 88,
-        "color" : "light_red",
+        "color" : "pink",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",

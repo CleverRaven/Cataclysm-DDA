@@ -57,7 +57,7 @@ void sokoban_game::parse_level( std::istream &fin )
 
     std::string sLine;
     while(!fin.eof()) {
-        getline(fin, sLine);
+        safe_getline(fin, sLine);
 
         if (sLine.substr(0, 3) == "; #") {
             iNumLevel++;

@@ -40,6 +40,177 @@
     ]
   },
   {
+    "result": "reloaded_10mm",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "manual_pistol", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "45_casing", 1 ] ],
+      [ [ "gunpowder", 5 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_38_fmj",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 4 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "manual_pistol", 2 ], [ "recipe_bullets", 3 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "38_casing", 1 ] ],
+      [ [ "gunpowder", 2 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_38_special",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "manual_pistol", 1 ], [ "recipe_bullets", 2 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "38_casing", 1 ] ],
+      [ [ "gunpowder", 2 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_38_super",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 3 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "manual_pistol", 3 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "38_casing", 1 ] ],
+      [ [ "gunpowder", 3 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_40fmj",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 4 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "45_casing", 1 ] ],
+      [ [ "gunpowder", 4 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_40sw",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "manual_pistol", 2 ], [ "recipe_bullets", 3 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "45_casing", 1 ] ],
+      [ [ "gunpowder", 4 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_45_acp",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "manual_pistol", 3 ], [ "manual_smg", 3 ], [ "recipe_bullets", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
+    "components": [
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "45_casing", 1 ] ],
+      [ [ "gunpowder", 4 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_45_jhp",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "manual_pistol", 2 ], [ "manual_smg", 2 ], [ "recipe_bullets", 3 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
+    "components": [
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "45_casing", 1 ] ],
+      [ [ "gunpowder", 4 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_45_super",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "manual_pistol", 4 ], [ "manual_smg", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
+    "components": [
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "45_casing", 1 ] ],
+      [ [ "gunpowder", 5 ] ]
+    ]
+  },
+  {
     "result": "reloaded_762_25",
     "type": "recipe",
     "category": "CC_AMMO",
@@ -51,7 +222,7 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 3 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet_762x25", 1 ], [ "ammo_762_25", 1 ] ],
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_762_25", 1 ] ],
     "components": [ [ [ "gunpowder", 4 ] ] ]
   },
   {
@@ -64,7 +235,7 @@
     "skills_required": [ "gun", 4 ],
     "time": 5000,
     "batch_time_factors": [ 50, 10 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "book_learn": [ [ "manual_pistol", 1 ], [ "manual_smg", 1 ], [ "recipe_bullets", 2 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
     "components": [ [ [ "gunpowder", 3 ] ] ]
@@ -79,7 +250,7 @@
     "skills_required": [ "gun", 3 ],
     "time": 5000,
     "batch_time_factors": [ 50, 10 ],
-    "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_pistol", 3 ] ],
+    "book_learn": [ [ "manual_pistol", 3 ], [ "manual_smg", 3 ], [ "recipe_bullets", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
     "components": [ [ [ "gunpowder", 4 ] ] ]
@@ -94,7 +265,7 @@
     "skills_required": [ "gun", 5 ],
     "time": 5000,
     "batch_time_factors": [ 50, 10 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "book_learn": [ [ "manual_pistol", 4 ], [ "manual_smg", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
     "components": [ [ [ "gunpowder", 5 ] ] ]
@@ -109,7 +280,7 @@
     "skills_required": [ "gun", 1 ],
     "time": 5000,
     "batch_time_factors": [ 50, 10 ],
-    "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
+    "book_learn": [ [ "manual_pistol", 2 ], [ "manual_smg", 2 ], [ "recipe_bullets", 3 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
     "components": [

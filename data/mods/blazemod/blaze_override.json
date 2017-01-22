@@ -57,6 +57,52 @@
     "flags": [ "FOLDABLE" ]
   },
   {
+    "id": "engine_1cyl_small",
+    "type": "vehicle_part",
+    "name": "1-cylinder engine",
+    "item": "1cyl_combustion_small",
+    "location": "engine_block",
+    "fuel_type": "gasoline",
+    "symbol": "*",
+    "broken_symbol": "#",
+    "color": "light_red",
+    "broken_color": "red",
+    "difficulty": 2,
+    "durability": 120,
+    "epower": 0,
+    "damage_modifier": 80,
+    "folded_volume": 3,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 2, 4 ] }
+    ],
+    "flags": [ "ENGINE", "VARIABLE_SIZE", "FOLDABLE" ]
+  },
+  {
+    "id": "engine_1cyl",
+    "type": "vehicle_part",
+    "name": "1-cylinder engine",
+    "item": "1cyl_combustion",
+    "location": "engine_block",
+    "fuel_type": "gasoline",
+    "symbol": "*",
+    "broken_symbol": "#",
+    "color": "light_red",
+    "broken_color": "red",
+    "difficulty": 2,
+    "durability": 150,
+    "epower": 0,
+    "damage_modifier": 80,
+    "folded_volume": 6,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 5, 10 ] },
+      { "item": "steel_chunk", "count": [ 5, 10 ] },
+      { "item": "scrap", "count": [ 5, 10 ] }
+    ],
+    "flags": [ "ENGINE", "VARIABLE_SIZE", "FOLDABLE" ]
+  },
+  {
     "id": "storage_battery_mount",
     "type": "vehicle_part",
     "name": "swappable storage battery case",

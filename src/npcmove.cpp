@@ -3173,7 +3173,7 @@ bool npc::complain()
 
 void npc::do_reload( item &it )
 {
-    auto reload_opt = select_ammo( it );
+    item::reload_option reload_opt = select_ammo( it );
 
     if( !reload_opt ) {
         debugmsg( "do_reload failed: no usable ammo for %s", it.tname().c_str() );
@@ -3182,8 +3182,8 @@ void npc::do_reload( item &it )
 
     // Note: we may be reloading the magazine inside, not the gun itself
     // Maybe @todo: allow reload functions to understand such reloads instead of const casts
-    auto &target = const_cast<item &>( *reload_opt.target );
-    auto &usable_ammo = reload_opt.ammo;
+    item &target = const_cast<item &>( *reload_opt.target );
+    item_location &usable_ammo = reload_opt.ammo;
 
     long qty = std::max( 1l, std::min( usable_ammo->charges, it.ammo_capacity() - it.ammo_remaining() ) );
     int reload_time = item_reload_cost( it, *usable_ammo, qty );
@@ -3258,39 +3258,27 @@ npc_target::npc_target() : npc_target( TARGET_NONE, 0 )
 {
 }
 
-bool covers_broken( const Character &who, const item &it )
-{
-    const auto covered = it.get_covered_body_parts();
-    for( size_t i = 0; i < num_hp_parts; i++ ) {
-
-        if( who.hp_cur[ i ] <= 0 && covered[ player::hp_to_bp( hp_part( i ) ) ] ) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 bool npc::adjust_worn()
 {
-    // Currently just splints
-    const std::string splint_string( "SPLINT" );
-    for( auto &it : worn ) {
-        if( !it.has_flag( splint_string ) ) {
+    const auto covers_broken = [this]( const item &it, side s ) {
+        const auto covered = it.get_covered_body_parts( s );
+        for( size_t i = 0; i < num_hp_parts; i++ ) {
+            if( hp_cur[ i ] <= 0 && covered.test( hp_to_bp( hp_part( i ) ) ) ) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    for( auto &elem : worn ) {
+        if( !elem.has_flag( "SPLINT" ) ) {
             continue;
         }
 
-        // If the split is covering a broken part, let it stay there
-        bool any_broken = covers_broken( *this, it );
-        if( any_broken ) {
-            continue;
-        }
-
-        // Not covering any broken part, see if we have any on opposite side
-        it.set_side( it.get_side() == LEFT ? RIGHT : LEFT );
-        any_broken = covers_broken( *this, it );
-        if( !any_broken ) {
-            if( takeoff( it ) ) {
+        if( !covers_broken( elem, elem.get_side() ) ) {
+            const bool needs_change = covers_broken( elem, opposite_side( elem.get_side() ) );
+            // Try to change side (if it makes sense), or takoff.
+            if( ( needs_change && change_side( elem ) ) || takeoff( elem ) ) {
                 return true;
             }
         }

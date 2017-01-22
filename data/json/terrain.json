@@ -3376,7 +3376,10 @@
             "str_min": 4, "str_max": 30,
             "sound": "crunch.",
             "sound_fail": "brush.",
-            "ter_set": "t_dirt"
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 30 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -3392,7 +3395,10 @@
             "str_min": 4, "str_max": 30,
             "sound": "crunch.",
             "sound_fail": "brush.",
-            "ter_set": "t_dirt"
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 30 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -3408,7 +3414,10 @@
             "str_min": 4, "str_max": 30,
             "sound": "crunch.",
             "sound_fail": "brush.",
-            "ter_set": "t_dirt"
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 30 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -3424,7 +3433,10 @@
             "str_min": 4, "str_max": 30,
             "sound": "crunch.",
             "sound_fail": "brush.",
-            "ter_set": "t_dirt"
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 30 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -3440,7 +3452,10 @@
             "str_min": 4, "str_max": 30,
             "sound": "crunch.",
             "sound_fail": "brush.",
-            "ter_set": "t_dirt"
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 30 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -3457,7 +3472,10 @@
             "str_min": 4, "str_max": 30,
             "sound": "crunch.",
             "sound_fail": "brush.",
-            "ter_set": "t_dirt"
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 30 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -3476,7 +3494,10 @@
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
             "sound_fail": "brush.",
-            "ter_set": "t_dirt"
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 30 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -3492,7 +3513,10 @@
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
             "sound_fail": "brush.",
-            "ter_set": "t_dirt"
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 30 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -3511,7 +3535,10 @@
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
             "sound_fail": "brush.",
-            "ter_set": "t_dirt"
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 30 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -3527,7 +3554,10 @@
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
             "sound_fail": "brush.",
-            "ter_set": "t_dirt"
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "withered", "prob": 30 }
+            ]
         }
     },{
         "type" : "terrain",
