@@ -67,7 +67,7 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
-    "id": "svs24_bigrobodrum",
+    "id": "svs24_robodrum",
     "type": "MAGAZINE",
     "name": "SVS-24 robodrum",
     "description": "An advanced 135-round drum magazine.  Like the auto-magazine, it loads cartridges using microrobotics.",
