@@ -105,23 +105,13 @@ void mapbuffer::save()
     map_directory << world_generator->active_world->world_path << "/maps";
     assure_dir_exist( map_directory.str().c_str() );
 
-    int num_saved_submaps = 0;
-    int num_total_submaps = submaps.size();
-
     const tripoint map_origin = sm_to_omt_copy( g->m.get_abs_sub() );
     const bool map_has_zlevels = g != nullptr && g->m.has_zlevels();
 
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint> saved_submaps;
     std::list<tripoint> submaps_to_delete;
-    int next_report = 0;
     for( auto &elem : submaps ) {
-        if( num_total_submaps > 100 && num_saved_submaps >= next_report ) {
-            popup_nowait(_("Please wait as the map saves [%d/%d]"),
-                         num_saved_submaps, num_total_submaps);
-            next_report += std::max( 100, num_total_submaps / 20 );
-        }
-
         // Whatever the coordinates of the current submap are,
         // we're saving a 2x2 quad of submaps at a time.
         // Submaps are generated in quads, so we know if we have one member of a quad,
@@ -154,7 +144,6 @@ void mapbuffer::save()
             om_addr.x > map_origin.x + ( MAPSIZE / 2 ) ||
             om_addr.y > map_origin.y + ( MAPSIZE / 2 );
         save_quad( dirname.str(), quad_path.str(), om_addr, submaps_to_delete, delete_quad );
-        num_saved_submaps += 4;
     }
     for( auto &elem : submaps_to_delete ) {
         remove_submap( elem );
