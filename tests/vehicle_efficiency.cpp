@@ -187,7 +187,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" ) {
   //test_vehicle( "electric_car", 300 );
   test_vehicle( "suv", 2021000, 1161000, 100000, 56000 );
   test_vehicle( "motorcycle", 154000, 90000, 10000, 5000 );
-  test_vehicle( "quad_bike", 139000, 98000, 8000, 5000 );
+  test_vehicle( "quad_bike", 139000, 95000, 8000, 5000 );
   test_vehicle( "scooter", 138000, 138000, 11000, 11000 );
   test_vehicle( "superbike", 181000, 104000, 8000, 4000 );
   test_vehicle( "ambulance", 1944000, 1768000, 74000, 65000 );
