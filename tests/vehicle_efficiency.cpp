@@ -71,6 +71,11 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain, int reset_
     }
 
     set_vehicle_fuel( veh_ptr, fuel_level );
+    // Remove all items from cargo to normalize weight.
+    for( size_t p = 0; p < veh_ptr->parts.size(); p++ ) {
+        auto &pt = veh_ptr->parts[ p ];
+        while( veh_ptr->remove_item( p, 0 ) );
+    }
     vehicle &veh = *veh_ptr;
     const tripoint starting_point = veh.global_pos3();
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
