@@ -1160,7 +1160,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 
     std::vector<aim_type> aim_types;
     std::vector<aim_type>::iterator aim_mode;
-    int sight_dispersion = u.effective_dispersion( relevant->sight_dispersion() );
+    int sight_dispersion = relevant != nullptr ? u.effective_dispersion( relevant->sight_dispersion() ) : 0;
 
     if( mode == TARGET_MODE_FIRE ) {
         aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
