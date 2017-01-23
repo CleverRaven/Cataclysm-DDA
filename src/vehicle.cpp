@@ -158,6 +158,12 @@ bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
 
 bool vehicle::player_in_control(player const& p) const
 {
+    // Debug switch to prevent vehicles from skidding
+    // without having to place the player in them.
+    if( tags.count( "IN_CONTROL_OVERRIDE" ) ) {
+        return true;
+    }
+
     int veh_part;
 
     if( g->m.veh_at( p.pos(), veh_part ) == this &&
@@ -3381,13 +3387,20 @@ void vehicle::consume_fuel( double load = 1.0 )
 
         //get exact amount of fuel needed
         double amnt_precise = double(amnt_fuel_use) / ft.coeff;
-
         amnt_precise *= load * (1.0 + st * st * 100);
         int amnt = int(amnt_precise);
-        // consumption remainder results in chance at additional fuel consumption
-        if( x_in_y(int(amnt_precise*1000) % 1000, 1000) ) {
-            amnt += 1;
+        // Add in the previous remainder if it exists, and then stash anything that is left.
+        double remainder = amnt_precise - amnt;
+        auto previous_remainder = fuel_remainder.find( ft.id );
+        if( previous_remainder != fuel_remainder.end() ) {
+            remainder += previous_remainder->second;
+            if( (int)remainder >= 1 ) {
+                amnt += (int)remainder;
+                remainder -= (int)remainder;
+            }
         }
+        fuel_remainder[ ft.id ] = remainder;
+
         drain( ft.id, amnt );
     }
     //do this with chance proportional to current load
@@ -5956,8 +5969,8 @@ vehicle_part::vehicle_part()
 vehicle_part::vehicle_part( const vpart_id& vp, int const dx, int const dy, item&& obj )
     : mount( dx, dy ), id( vp ), base( std::move( obj ) )
 {
-	// Mark base item as being installed as a vehicle part
-	base.item_tags.insert( "VEHICLE" );
+        // Mark base item as being installed as a vehicle part
+        base.item_tags.insert( "VEHICLE" );
 
     if( base.typeId() != vp->item ) {
         debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
