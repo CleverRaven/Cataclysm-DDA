@@ -8,10 +8,12 @@
     "difficulty": 9,
     "time": 480000,
     "book_learn": [[ "book_asgard", 10 ]],
-    "qualities": [ {"id":"HAMMER","level":3} ],
+    "qualities": [
+      {"id":"HAMMER","level":3},
+      {"id":"CHISEL","level":3}
+    ],
     "tools": [
       [ ["tongs", -1] ],
-      [ ["chisel", -1] ],
       [ ["anvil", -1] ],
       [ ["swage", -1] ],
       [ ["forge", 350], [ "char_forge", 70], [ "oxy_torch", 70] ]
@@ -31,10 +33,12 @@
     "difficulty": 9,
     "time": 480000,
     "book_learn": [[ "book_asgard", 10 ]],
-    "qualities": [ {"id":"HAMMER","level":3} ],
+    "qualities": [
+      {"id":"HAMMER","level":3},
+      {"id":"CHISEL","level":3}
+    ],
     "tools": [
       [ ["tongs", -1] ],
-      [ ["chisel", -1] ],
       [ ["anvil", -1] ],
       [ ["swage", -1] ],
       [ ["forge", 350], [ "char_forge", 70], [ "oxy_torch", 70] ]
@@ -53,10 +57,12 @@
     "difficulty": 9,
     "time": 480000,
     "book_learn": [[ "book_asgard", 10 ]],
-    "qualities": [ {"id":"HAMMER","level":3} ],
+    "qualities": [
+      {"id":"HAMMER","level":3},
+      {"id":"CHISEL","level":3}
+    ],
     "tools": [
       [ ["tongs", -1] ],
-      [ ["chisel", -1] ],
       [ ["anvil", -1] ],
       [ ["swage", -1] ],
       [ ["forge", 350], [ "char_forge", 70], [ "oxy_torch", 70] ]
@@ -75,10 +81,12 @@
     "difficulty": 9,
     "time": 480000,
     "book_learn": [[ "book_asgard", 10 ]],
-    "qualities": [ {"id":"HAMMER","level":3} ],
+    "qualities": [
+      {"id":"HAMMER","level":3},
+      {"id":"CHISEL","level":3}
+    ],
     "tools": [
       [ ["tongs", -1] ],
-      [ ["chisel", -1] ],
       [ ["anvil", -1] ],
       [ ["swage", -1] ],
       [ ["forge", 350], [ "char_forge", 70], [ "oxy_torch", 70] ]
