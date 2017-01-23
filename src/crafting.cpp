@@ -35,6 +35,7 @@ const efftype_id effect_contacts( "contacts" );
 static const std::string fake_recipe_book = "book";
 
 void remove_from_component_lookup( recipe *r );
+void drop_or_handle( const item &newit, player &p );
 
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
@@ -859,6 +860,24 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     return selected;
 }
 
+// Prompts player to empty all newly-unsealed containers in inventory
+// Called after something that might have opened containers (making them buckets) but not emptied them
+void empty_buckets( player &p )
+{
+    // First grab (remove) all items that are non-empty buckets and not wielded
+    auto buckets = p.remove_items_with( [&p]( const item &it ) {
+        return it.is_bucket_nonempty() && &it != &p.weapon;
+    }, INT_MAX );
+    for( auto &it : buckets ) {
+        for( const item &in : it.contents ) {
+            drop_or_handle( in, p );
+        }
+
+        it.contents.empty();
+        drop_or_handle( it, p );
+    }
+}
+
 std::list<item> player::consume_items( const comp_selection<item_comp> &is, int batch )
 {
     std::list<item> ret;
@@ -906,6 +925,7 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
         }
     }
     lastconsumed = selected_comp.type;
+    empty_buckets( *this );
     return ret;
 }
 
