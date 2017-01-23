@@ -350,8 +350,8 @@ bool vehicle::turrets_aim()
     // reload all turrets and clear any existing targets
     auto opts = turrets();
     for( auto e : opts ) {
-        e->target.first  = tripoint_min;
-        e->target.second = tripoint_min;
+        e->target.first = global_part_pos3( *e );
+        e->target.second = e->target.first;
     }
 
     // find radius of a circle centered at u encompassing all points turrets can aim at
@@ -409,6 +409,7 @@ int vehicle::turrets_aim_and_fire() {
         for( auto& t : turrets() ) {
             // Only fire those turrets the player set to manual control.
             if( t != nullptr && !t->enabled ) {
+                debugmsg( "Firing %s.", t->name().c_str() );
                 fire_if_able( t );
             }
         }
@@ -443,9 +444,10 @@ int vehicle::automatic_fire_turret( vehicle_part& pt)
         return 0;
     }
 
-    tripoint pos = global_part_pos3( pt );
-
     int shots = 0;
+
+    // The position of the vehicle part.
+    tripoint pos = global_part_pos3( pt );
     
     // Create the targeting computer's npc
     npc cpu = get_targeting_npc( pt );
@@ -456,15 +458,17 @@ int vehicle::automatic_fire_turret( vehicle_part& pt)
         area += area == 1 ? 1 : 2;
     }
 
+    // The position on which we are firing
     tripoint targ = pos;
-    auto target = pt.target;
+    // The current target of the turret.
+    auto &target = pt.target;
     if( target.first == target.second ) {
-        // Manual target not set, find one automatically
         const bool u_see = g->u.sees( pos );
         int boo_hoo;
 
         // @todo calculate chance to hit and cap range based upon this
-        int range = std::min( gun.range(), 12 );
+        int max_range = 12;
+        int range = std::min( gun.range(), max_range );
         Creature *auto_target = cpu.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
             if( u_see && boo_hoo ) {
@@ -476,23 +480,23 @@ int vehicle::automatic_fire_turret( vehicle_part& pt)
             return shots;
         }
 
-        targ = auto_target->pos();
+        target.first = pos;
+        target.second = auto_target->pos();
 
     } else {
-        // Target is set, make sure we didn't move after aiming (it's a bug if we did).
-        if( targ != target.first ) {
+        // Target is already set, make sure we didn't move after aiming (it's a bug if we did).
+        if( pos != target.first ) {
             target.second = target.first;
             debugmsg( "%s moved after aiming but before it could fire.", cpu.name.c_str() );
             return shots;
         }
-
-        // Get the turret's target and reset it
-        targ = target.second;
-        target.second = target.first;
     }
-
+    
+    // Get the turret's target and reset it
+    targ = target.second;
+    target.second = target.first;
     shots = gun.fire( cpu, targ );
-
+    
     if( shots && g->u.sees( pos ) && !g->u.sees( targ ) ) {
         add_msg( _( "The %1$s fires its %2$s!" ), name.c_str(), pt.name().c_str() );
     }
