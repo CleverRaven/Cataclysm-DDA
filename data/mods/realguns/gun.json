@@ -186,6 +186,26 @@
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
+    "id": "af2011a1_38super",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "AF2011A1 .38 Super",
+    "description": "A double-barrel semi-automatic pistol.  It looks like two M1911s melded together.",
+    "weight": 1710,
+    "volume": 4,
+    "price": 470000,
+    "to_hit": -2,
+    "bashing": 12,
+    "material": "steel",
+    "color": "light_gray",
+    "ammo": "38_super",
+    "dispersion": 520,
+    "durability": 7,
+    "valid_mod_locations": [ [ "grip", 1 ] ],
+    "magazine_well": 2,
+    "magazines": [ [ "38_super", [ "af2011a1mag" ] ] ]
+  },
+  {
     "id": "m1991a1_38super",
     "copy-from": "m1911",
     "type": "GUN",
