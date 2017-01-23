@@ -117,10 +117,12 @@
   "difficulty": 2,
   "time": 90000,
   "autolearn": true,
-  "qualities":[{"id":"HAMMER","level":3}],
+  "qualities":[
+    {"id":"HAMMER","level":3},
+    { "id": "CHISEL", "level": 3 }
+  ],
   "tools": [
     [ ["tongs", -1] ],
-    [ ["chisel", -1] ],
     [ ["anvil", -1] ],
     [ ["forge", 100], [ "oxy_torch", 20] ]
   ],
@@ -723,10 +725,10 @@
   "time": 80000,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3}
+    {"id":"HAMMER","level":3},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [ ["tongs", -1] ],
-      [ ["chisel", -1]],
       [ ["anvil", -1] ],
       [ ["forge", 100], [ "oxy_torch", 20] ]
       ],
