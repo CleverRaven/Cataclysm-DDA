@@ -347,11 +347,13 @@ void vehicle::turrets_set_mode()
 
 bool vehicle::turrets_aim()
 {
-    // reload all turrets and clear any existing targets
+    // Clear any existing targets for turrets under manual control
     auto opts = turrets();
     for( auto e : opts ) {
-        e->target.first = global_part_pos3( *e );
-        e->target.second = e->target.first;
+        if( !e->enabled ) {
+            e->target.first = global_part_pos3( *e );
+            e->target.second = e->target.first;
+        }
     }
 
     // find radius of a circle centered at u encompassing all points turrets can aim at
@@ -384,7 +386,9 @@ bool vehicle::turrets_aim()
     if( !trajectory.empty() ) {
         // set target for any turrets in range
         for( auto e : turrets( trajectory.back() ) ) {
-            e->target.second = trajectory.back();
+            if( !e->enabled ) {
+                e->target.second = trajectory.back();
+            }
         }
         ///\EFFECT_INT speeds up aiming of vehicle turrets
         g->u.moves = std::min( 0, g->u.moves - 100 + ( 5 * g->u.int_cur ) );
@@ -404,16 +408,17 @@ int vehicle::turrets_aim_and_fire() {
             }
         }
     };
+
     if( turrets_aim() ) {
         // turrets_aim sets the targets only for the turrets in range.
         for( auto& t : turrets() ) {
             // Only fire those turrets the player set to manual control.
             if( t != nullptr && !t->enabled ) {
-                debugmsg( "Firing %s.", t->name().c_str() );
                 fire_if_able( t );
             }
         }
     }
+
     return shots;
 }
 
@@ -463,6 +468,11 @@ int vehicle::automatic_fire_turret( vehicle_part& pt)
     // The current target of the turret.
     auto &target = pt.target;
     if( target.first == target.second ) {
+        // Just set the initial values here.
+        // Calling turret_data.fire on tripoint (INT_MIN,INT_MIN,INT_MIN) starts a bad alloc crash
+        //      triggered at `trajectory.insert( trajectory.begin(), source ):ranged.cpp:236`
+        target.first = pos;
+        target.second = pos;
         const bool u_see = g->u.sees( pos );
         int boo_hoo;
 
@@ -480,7 +490,6 @@ int vehicle::automatic_fire_turret( vehicle_part& pt)
             return shots;
         }
 
-        target.first = pos;
         target.second = auto_target->pos();
 
     } else {
@@ -495,6 +504,11 @@ int vehicle::automatic_fire_turret( vehicle_part& pt)
     // Get the turret's target and reset it
     targ = target.second;
     target.second = target.first;
+    
+    if( targ.x < 0 || targ.y < 0 || targ.z < 0 ) {
+        debugmsg("wtf %d,%d from %d,%d",targ.x,targ.y,target.first.x,target.first.y);
+        return 0;
+    }
     shots = gun.fire( cpu, targ );
     
     if( shots && g->u.sees( pos ) && !g->u.sees( targ ) ) {

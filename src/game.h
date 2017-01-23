@@ -334,9 +334,20 @@ class game
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
         bool revive_corpse( const tripoint &location, item &corpse );
-        
-        void plfire_veh_turret( turret_data *tur );
-        void plfire_attempt();
+
+        /**
+         * Attempt to fire a vehicle turret at the same coordinates as the player.
+         * @param tur pointer to the data for the turret being fired.
+         * @return whether the turret was fired.
+         */
+        bool plfire_veh_turret( turret_data *tur );
+
+        /**
+         * Attempt to fire the player's weapon, offering a menu selection of weapons to wield 
+         * if they aren't currently holding anything.
+         * @return whether we actually fired something.
+         */
+        bool plfire_attempt();
 
         /**
          * Returns true if the player is allowed to fire a given item, or false if otherwise.

@@ -9947,16 +9947,17 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
-void game::plfire_veh_turret( turret_data *tur ) {
+bool game::plfire_veh_turret( turret_data *tur ) {
+    bool fired = false;
     turret_data &turret = *tur;
     switch( turret.query() ) {
         case turret_data::status::no_ammo:
             add_msg( m_bad, _( "The %s is out of ammo." ), turret.name().c_str() );
-            return;
+            break;
 
         case turret_data::status::no_power:
             add_msg( m_bad,  _( "The %s is not powered." ), turret.name().c_str() );
-            return;
+            break;
 
         case turret_data::status::ready: {
             // if more than one firing mode provide callback to cyle through them
@@ -9988,7 +9989,7 @@ void game::plfire_veh_turret( turret_data *tur ) {
                 switch_mode, switch_ammo 
             };
             
-            plfire( turret_gun, 0, &params );
+            fired = plfire( turret_gun, 0, &params );
             break;
         }
 
@@ -9996,10 +9997,11 @@ void game::plfire_veh_turret( turret_data *tur ) {
             debugmsg( "unknown turret status" );
             break;
     }
-    return;
+    return fired;
 }
 
-void game::plfire_attempt() {
+bool game::plfire_attempt() {
+    bool fired = false;
     // Use vehicle turret or draw a pistol from a holster if unarmed
     if( !u.is_armed() ) {
 
@@ -10008,13 +10010,11 @@ void game::plfire_attempt() {
         if( veh ) {
             turret_data turret = veh->turret_query( u.pos() );
             if( turret ) {
-                plfire_veh_turret( &turret );
-                return;
+                return plfire_veh_turret( &turret );
             }
             int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
             if( vpcontrols >= 0 ) {
-                veh->turrets_aim_and_fire();
-                return;
+                return ( veh->turrets_aim_and_fire() > 0 );
             }
         }
 
@@ -10046,7 +10046,7 @@ void game::plfire_attempt() {
     }
 
     if( u.weapon.is_gun() ) {
-        plfire( &u.weapon );
+        fired = plfire( &u.weapon );
 
     } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
         int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
@@ -10059,6 +10059,8 @@ void game::plfire_attempt() {
         draw_ter();
         reenter_fullscreen();
     }
+    
+    return fired;
 }
 
 bool game::plfire_check( item &weapon, int &reload_time ) {
