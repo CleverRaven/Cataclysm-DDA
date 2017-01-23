@@ -158,6 +158,12 @@ bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
 
 bool vehicle::player_in_control(player const& p) const
 {
+    // Debug switch to prevent vehicles from skidding
+    // without having to place the player in them.
+    if( test_mode && get_option<bool>( "VEHICLES_CONTROLLED" ) ) {
+        return true;
+    }
+
     int veh_part;
 
     if( g->m.veh_at( p.pos(), veh_part ) == this &&

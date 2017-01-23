@@ -4821,6 +4821,10 @@ static void draw_footsteps( WINDOW *window, const tripoint &offset )
 
 void game::draw()
 {
+    if( test_mode ) {
+        return;
+    }
+
     // Draw map
     werase(w_terrain);
 
