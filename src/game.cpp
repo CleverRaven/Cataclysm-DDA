@@ -10013,8 +10013,16 @@ void game::plfire_attempt() {
             }
             int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
             if( vpcontrols >= 0 ) {
-                if ( veh->turrets_aim() ) {
-                    add_msg( m_info, _( "You target the turrets." ) );
+                if( veh->turrets_aim() ) {
+                    // turrets_aim sets the targets only for the turrets in range.
+                    for( auto& t : veh->turrets() ) {
+                        if ( t->target.first != t->target.second ) {
+                            turret = veh->turret_query( *t );
+                            if( turret.query() == turret_data::status::ready ) {
+                                turret.fire( u, t->target.second );
+                            }
+                        }
+                    }
                 }
                 return;
             }

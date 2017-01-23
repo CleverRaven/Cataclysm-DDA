@@ -395,21 +395,21 @@ bool vehicle::turrets_aim()
         
 int vehicle::automatic_fire_turret( vehicle_part &pt )
 {
-    auto gun = turret_query( pt );
+    turret_data gun = turret_query( pt );
     if( gun.query() != turret_data::status::ready ) {
         return 0;
     }
 
     tripoint pos = global_part_pos3( pt );
 
+    int shots = 0;
+
     // Make a fake NPC to represent the targeting system
-    static npc cpu = npc();
-    if( !cpu.is_fake() ) {
-        cpu.set_fake( true );
-        cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name().c_str() );
-        cpu.recoil = 0; // turrets are subject only to recoil_vehicle()
-    }
-    
+    npc cpu;
+    cpu.set_fake( true );
+    cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name().c_str() );
+    // turrets are subject only to recoil_vehicle()
+    cpu.recoil = 0;
     // These might all be affected by vehicle part damage, weather effects, etc.
     cpu.set_skill_level( gun.base()->gun_skill(), 8 );
     cpu.set_skill_level( skill_id( "gun" ), 4 );
@@ -417,7 +417,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     cpu.dex_cur = 8;
     cpu.per_cur = 12;
     cpu.setpos( pos );
-    
+
     // Assume vehicle turrets are friendly to the player.
     cpu.attitude = NPCATT_FOLLOW;
 
@@ -428,7 +428,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     tripoint targ = pos;
-    auto &target = pt.target;
+    auto target = pt.target;
     if( target.first == target.second ) {
         // Manual target not set, find one automatically
         const bool u_see = g->u.sees( pos );
@@ -441,30 +441,30 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
             if( u_see && boo_hoo ) {
                 add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
                                               "%s points in your direction and emits %d annoyed sounding beeps.",
-                                               boo_hoo ),
+                                              boo_hoo ),
                          cpu.name.c_str(), boo_hoo );
             }
-            return 0;
+            return shots;
         }
 
         targ = auto_target->pos();
-        
+
     } else {
-        // Target set manually
-        // Make sure we didn't move between aiming and firing (it's a bug if we did)
+        // Target is set, make sure we didn't move after aiming (it's a bug if we did).
         if( targ != target.first ) {
             target.second = target.first;
-            return 0;
+            debugmsg( "%s moved after aiming but before it could fire.", cpu.name.c_str() );
+            return shots;
         }
 
-        // Remove the target
+        // Get the turret's target and reset it
         targ = target.second;
         target.second = target.first;
     }
 
-    auto shots = gun.fire( cpu, targ );
+    shots = gun.fire( cpu, targ );
 
-    if( g->u.sees( pos ) && shots ) {
+    if( shots && g->u.sees( pos ) && !g->u.sees( targ ) ) {
         add_msg( _( "The %1$s fires its %2$s!" ), name.c_str(), pt.name().c_str() );
     }
 
