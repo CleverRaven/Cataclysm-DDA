@@ -410,11 +410,15 @@ int vehicle::turrets_aim_and_fire() {
     };
 
     if( turrets_aim() ) {
-        // turrets_aim sets the targets only for the turrets in range.
+        // turrets_aim already set the targets for the turrets within range.
         for( auto& t : turrets() ) {
             // Only fire those turrets the player set to manual control.
             if( t != nullptr && !t->enabled ) {
                 fire_if_able( t );
+                if( !( shots > 0 ) ) {
+                    add_msg( m_warning, 
+                        _( "No turrets are configured for manual fire." ) );
+                }
             }
         }
     }
@@ -505,10 +509,6 @@ int vehicle::automatic_fire_turret( vehicle_part& pt)
     targ = target.second;
     target.second = target.first;
     
-    if( targ.x < 0 || targ.y < 0 || targ.z < 0 ) {
-        debugmsg("wtf %d,%d from %d,%d",targ.x,targ.y,target.first.x,target.first.y);
-        return 0;
-    }
     shots = gun.fire( cpu, targ );
     
     if( shots && g->u.sees( pos ) && !g->u.sees( targ ) ) {
