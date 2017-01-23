@@ -69,7 +69,7 @@ class MonsterGenerator
         mtype_id get_valid_hallucination() const;
         friend struct mtype;
         friend struct species_type;
-        friend struct mattack_actor;
+        friend class mattack_actor;
 
     protected:
         m_flag m_flag_from_string( std::string flag ) const;
