@@ -23,7 +23,7 @@ bool should_combine_bps( const player &p, size_t l, size_t r )
 {
     const auto enc_data = p.get_encumbrance();
     return enc_data[l] == enc_data[r] &&
-        temperature_print_rescaling( p.temp_conv[l] ) == temperature_print_rescaling( p.temp_conv[r] );
+           temperature_print_rescaling( p.temp_conv[l] ) == temperature_print_rescaling( p.temp_conv[r] );
 }
 
 void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing ) const
@@ -65,16 +65,17 @@ void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing )
     for( auto bp : parts ) {
         const encumbrance_data &e = enc_data[bp];
         bool highlighted = ( selected_clothing == nullptr ) ? false :
-            ( selected_clothing->covers( static_cast<body_part>( bp ) ) );
+                           ( selected_clothing->covers( static_cast<body_part>( bp ) ) );
         bool combine = should_combine_bps( *this, bp, bp_aiOther[bp] );
         out.clear();
         // limb, and possible color highlighting
-        out = string_format( "%-7s", body_part_name_as_heading( bp_aBodyPart[bp], combine ? 2 : 1 ).c_str() );
+        out = string_format( "%-7s", body_part_name_as_heading( bp_aBodyPart[bp],
+                             combine ? 2 : 1 ).c_str() );
         // Two different highlighting schemes, highlight if the line is selected as per line being set.
         // Make the text green if this part is covered by the passed in item.
         int limb_color = ( orig_line == bp ) ?
-            ( highlighted ? h_green : h_ltgray ) :
-            ( highlighted ? c_green : c_ltgray );
+                         ( highlighted ? h_green : h_ltgray ) :
+                         ( highlighted ? c_green : c_ltgray );
         mvwprintz( win, row, 1, limb_color, out.c_str() );
         // take into account the new encumbrance system for layers
         out = string_format( "(%1d) ", static_cast<int>( e.layer_penalty / 10.0 ) );
@@ -83,7 +84,8 @@ void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing )
         wprintz( win, encumb_color( e.encumbrance ), string_format( "%3d", e.armor_encumbrance ).c_str() );
         // seperator in low toned color
         wprintz( win, c_ltgray, "+" );
-        wprintz( win, encumb_color( e.encumbrance ), string_format( "%-3d", e.encumbrance - e.armor_encumbrance ).c_str() );
+        wprintz( win, encumb_color( e.encumbrance ), string_format( "%-3d",
+                 e.encumbrance - e.armor_encumbrance ).c_str() );
         // print warmth, tethered to right hand side of the window
         out = string_format( "(% 3d)", temperature_print_rescaling( temp_conv[bp] ) );
         mvwprintz( win, row, getmaxx( win ) - 6, bodytemp_color( bp ), out.c_str() );
@@ -133,6 +135,63 @@ std::string melee_cost_text( int moves )
 std::string dodge_skill_text( double mod )
 {
     return string_format( _( "Dodge skill %+.1f. " ), mod );
+}
+
+std::string get_encumbrance_description( const player &p, body_part bp, bool combine )
+{
+    std::string s;
+    // Body parts that can't combine with anything shouldn't print double values on combine
+    // This shouldn't happen, but handle this, just in case
+    bool combines_with_other = ( int )bp_aiOther[bp] != bp;
+    int eff_encumbrance = p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
+    switch( bp ) {
+        case bp_torso: {
+            const int melee_roll_pen = std::max( -eff_encumbrance, -80 );
+            s += string_format( _( "Melee attack rolls %+d%%; " ), melee_roll_pen );
+            s += dodge_skill_text( - ( eff_encumbrance / 10 ) );
+            s += swim_cost_text( ( eff_encumbrance / 10 ) * ( 80 - p.get_skill_level( skill_swimming ) * 3 ) );
+            s += melee_cost_text( eff_encumbrance );
+            break;
+        }
+        case bp_head:
+            s += _( "Head encumbrance has no effect; it simply limits how much you can put on." );
+            break;
+        case bp_eyes:
+            s += string_format( _( "Perception %+d when checking traps or firing ranged weapons;\n"
+                                   "Perception %+.1f when throwing items." ),
+                                -( eff_encumbrance / 10 ),
+                                double( -( eff_encumbrance / 10 ) ) / 2 );
+            break;
+        case bp_mouth:
+            s += _( "Covering your mouth will make it more difficult to breathe and catch your breath." );
+            break;
+        case bp_arm_l:
+        case bp_arm_r:
+            s += _( "Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons." );
+            break;
+        case bp_hand_l:
+        case bp_hand_r:
+            s += _( "Reduces the speed at which you can handle or manipulate items\n" );
+            s += reload_cost_text( ( eff_encumbrance / 10 ) * 15 );
+            s += string_format( _( "Dexterity %+d when throwing items;\n" ), -( eff_encumbrance / 10 ) );
+            s += melee_cost_text( eff_encumbrance / 2 );
+            break;
+        case bp_leg_l:
+        case bp_leg_r:
+            s += run_cost_text( int( eff_encumbrance * 0.15 ) );
+            s += swim_cost_text( ( eff_encumbrance / 10 ) * ( 50 - p.get_skill_level(
+                                     skill_swimming ) * 2 ) / 2 );
+            s += dodge_skill_text( -eff_encumbrance / 10.0 / 4.0 );
+            break;
+        case bp_foot_l:
+        case bp_foot_r:
+            s += run_cost_text( int( eff_encumbrance * 0.25 ) );
+            break;
+        case num_bp:
+            break;
+    }
+
+    return s;
 }
 
 void player::disp_info()
@@ -780,58 +839,18 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
                 werase( w_info );
                 std::string s;
-                if( line == 0 ) {
-                    const int melee_roll_pen = std::max( -encumb( bp_torso ), -80 );
-                    s += string_format( _( "Melee attack rolls %+d%%; " ), melee_roll_pen );
-                    s += dodge_skill_text( - ( encumb( bp_torso ) / 10 ) );
-                    s += swim_cost_text( ( encumb( bp_torso ) / 10 ) * ( 80 - get_skill_level( skill_swimming ) * 3 ) );
-                    s += melee_cost_text( encumb( bp_torso ) );
-                } else if( line == 1 ) { //Torso
-                    s += _( "Head encumbrance has no effect; it simply limits how much you can put on." );
-                } else if( line == 2 ) { //Head
-                    s += string_format( _( "Perception %+d when checking traps or firing ranged weapons;\n"
-                                           "Perception %+.1f when throwing items." ),
-                                        -( encumb( bp_eyes ) / 10 ),
-                                        double( -( encumb( bp_eyes ) / 10 ) ) / 2 );
-                } else if( line == 3 ) { //Eyes
-                    s += _( "Covering your mouth will make it more difficult to breathe and catch your breath." );
-                } else if( line == 4 ) { //Left Arm
-                    s += _( "Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons." );
-                } else if( line == 5 ) { //Right Arm
-                    s += _( "Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons." );
-                } else if( line == 6 ) { //Left Hand
-                    s += _( "Reduces the speed at which you can handle or manipulate items\n" );
-                    s += reload_cost_text( ( encumb( bp_hand_l ) / 10 ) * 15 );
-                    s += string_format( _( "Dexterity %+d when throwing items;\n" ), -( encumb( bp_hand_l ) / 10 ) );
-                    s += melee_cost_text( encumb( bp_hand_l ) / 2 );
-                } else if( line == 7 ) { //Right Hand
-                    s += _( "Reduces the speed at which you can handle or manipulate items\n" );
-                    s += reload_cost_text( ( encumb( bp_hand_r ) / 10 ) * 15 );
-                    s += string_format( _( "Dexterity %+d when throwing items;\n" ), -( encumb( bp_hand_r ) / 10 ) );
-                    s += melee_cost_text( encumb( bp_hand_r ) / 2 );
-                } else if( line == 8 ) { //Left Leg
-                    s += run_cost_text( int( encumb( bp_leg_l ) * 0.15 ) );
-                    s += swim_cost_text( ( encumb( bp_leg_l ) / 10 ) * ( 50 - get_skill_level(
-                                             skill_swimming ) * 2 ) / 2 );
-                    s += dodge_skill_text( -encumb( bp_leg_l ) / 10.0 / 4.0 );
-                } else if( line == 9 ) { //Right Leg
-                    s += run_cost_text( int( encumb( bp_leg_r ) * 0.15 ) );
-                    s += swim_cost_text( ( encumb( bp_leg_r ) / 10 ) * ( 50 - get_skill_level(
-                                             skill_swimming ) * 2 ) / 2 );
-                    s += dodge_skill_text( -encumb( bp_leg_r ) / 10.0 / 4.0 );
-                } else if( line == 10 ) { //Left Foot
-                    s += run_cost_text( int( encumb( bp_foot_l ) * 0.25 ) );
-                } else if( line == 11 ) { //Right Foot
-                    s += run_cost_text( int( encumb( bp_foot_r ) * 0.25 ) );
-                }
+
+                body_part bp = line <= 11 ? bp_aBodyPart[line] : num_bp;
+                bool combined_here = bp_aiOther[line] == line + 1 && // first of a pair
+                                     should_combine_bps( *this, line, bp_aiOther[line] );
+                s += get_encumbrance_description( *this, bp, combined_here );
                 fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
                 wrefresh( w_info );
 
                 action = ctxt.handle_input();
                 if( action == "DOWN" ) {
                     if( line < num_bp - 1 ) {
-                        if( bp_aiOther[line] == line + 1 && // first of a pair
-                            should_combine_bps( *this, line, bp_aiOther[line] ) ) {
+                        if( combined_here ) {
                             line += ( line < num_bp - 2 ) ? 2 : 0; // skip a line if we aren't at the last pair
                         } else {
                             line++; // unpaired or unequal
