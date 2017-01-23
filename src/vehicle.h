@@ -22,6 +22,7 @@
 
 class map;
 class player;
+class npc;
 class vehicle;
 class vpart_info;
 enum vpart_bitflags : int;
@@ -1041,6 +1042,17 @@ public:
      */
     bool turrets_aim();
 
+    /*
+     * Call turrets_aim and then fire turrets if we get a valid target.
+     * @return the number of shots fired.
+     */
+    int turrets_aim_and_fire();
+    
+    /*
+     * @param pt the vehicle part containing the turret we're trying to target.
+     * @return npc object with suitable attributes for targeting a vehicle turret.
+     */
+    npc get_targeting_npc( vehicle_part& pt );
     /*@}*/
 
     /**

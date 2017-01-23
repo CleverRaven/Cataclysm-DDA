@@ -392,8 +392,51 @@ bool vehicle::turrets_aim()
 
     return !trajectory.empty();
 }
-        
-int vehicle::automatic_fire_turret( vehicle_part &pt )
+
+int vehicle::turrets_aim_and_fire() { 
+    int shots = 0;
+    auto fire_if_able = [&]( vehicle_part *t ) {
+        if( t->target.first != t->target.second ) {
+            turret_data turret = this->turret_query( *t );
+            if( turret.query() == turret_data::status::ready ) {
+                npc cpu = get_targeting_npc( *t );
+                shots += turret.fire( cpu, t->target.second );
+            }
+        }
+    };
+    if( turrets_aim() ) {
+        // turrets_aim sets the targets only for the turrets in range.
+        for( auto& t : turrets() ) {
+            // Only fire those turrets the player set to manual control.
+            if( t != nullptr && !t->enabled ) {
+                fire_if_able( t );
+            }
+        }
+    }
+    return shots;
+}
+
+npc vehicle::get_targeting_npc( vehicle_part& pt ) {
+    turret_data turret = turret_query( pt );
+    // Make a fake NPC to represent the targeting system
+    npc cpu;
+    cpu.set_fake( true );
+    cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name().c_str() );
+    // turrets are subject only to recoil_vehicle()
+    cpu.recoil = 0;
+    // These might all be affected by vehicle part damage, weather effects, etc.
+    cpu.set_skill_level( turret.base()->gun_skill(), 8 );
+    cpu.set_skill_level( skill_id( "gun" ), 4 );
+    cpu.str_cur = 16;
+    cpu.dex_cur = 8;
+    cpu.per_cur = 12;
+    cpu.setpos( global_part_pos3( pt ) );
+    // Assume vehicle turrets are friendly to the player.
+    cpu.attitude = NPCATT_FOLLOW;    
+    return cpu;
+}
+
+int vehicle::automatic_fire_turret( vehicle_part& pt)
 {
     turret_data gun = turret_query( pt );
     if( gun.query() != turret_data::status::ready ) {
@@ -403,23 +446,9 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     tripoint pos = global_part_pos3( pt );
 
     int shots = 0;
-
-    // Make a fake NPC to represent the targeting system
-    npc cpu;
-    cpu.set_fake( true );
-    cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name().c_str() );
-    // turrets are subject only to recoil_vehicle()
-    cpu.recoil = 0;
-    // These might all be affected by vehicle part damage, weather effects, etc.
-    cpu.set_skill_level( gun.base()->gun_skill(), 8 );
-    cpu.set_skill_level( skill_id( "gun" ), 4 );
-    cpu.str_cur = 16;
-    cpu.dex_cur = 8;
-    cpu.per_cur = 12;
-    cpu.setpos( pos );
-
-    // Assume vehicle turrets are friendly to the player.
-    cpu.attitude = NPCATT_FOLLOW;
+    
+    // Create the targeting computer's npc
+    npc cpu = get_targeting_npc( pt );
 
     int area = aoe_size( gun.ammo_effects() );
     if( area > 0 ) {
