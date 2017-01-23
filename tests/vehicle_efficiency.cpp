@@ -119,8 +119,8 @@ void find_inner( std::string type, std::string terrain, int delay ) {
         efficiency.add( test_efficiency( vproto_id( type ), ter_id( terrain ), delay, 0 ) );
     }
     printf( "Testing %s on %s with %s: Min %d, Max %d, Midpoint %f.\n",
-	    type.c_str(), terrain.c_str(), (delay < 0) ? "no resets" : "resets every 5 turns",
-	    efficiency.min(), efficiency.max(), ( efficiency.min() + efficiency.max() ) / 2.0 );
+            type.c_str(), terrain.c_str(), (delay < 0) ? "no resets" : "resets every 5 turns",
+            efficiency.min(), efficiency.max(), ( efficiency.min() + efficiency.max() ) / 2.0 );
 }
 
 void find_efficiency( std::string type ) {

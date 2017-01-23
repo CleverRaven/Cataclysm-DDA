@@ -5967,8 +5967,8 @@ vehicle_part::vehicle_part()
 vehicle_part::vehicle_part( const vpart_id& vp, int const dx, int const dy, item&& obj )
     : mount( dx, dy ), id( vp ), base( std::move( obj ) )
 {
-	// Mark base item as being installed as a vehicle part
-	base.item_tags.insert( "VEHICLE" );
+        // Mark base item as being installed as a vehicle part
+        base.item_tags.insert( "VEHICLE" );
 
     if( base.typeId() != vp->item ) {
         debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
