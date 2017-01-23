@@ -303,6 +303,11 @@ void vehicle::turrets_set_targeting()
 
         sel = menu.ret;
         turrets[ sel ]->enabled = !turrets[ sel ]->enabled;
+        
+        // clear the turret's current targets to prevent unwanted auto-firing
+        tripoint pos = locations[ sel ];
+        turrets[ sel ]->target.first = pos;
+        turrets[ sel ]->target.second = pos;        
     }
 }
 
@@ -345,12 +350,12 @@ void vehicle::turrets_set_mode()
     }
 }
 
-bool vehicle::turrets_aim()
+bool vehicle::turrets_aim( bool manual )
 {
     // Clear any existing targets for turrets under manual control
     auto opts = turrets();
     for( auto e : opts ) {
-        if( !e->enabled ) {
+        if( !e->enabled || !manual ) {
             e->target.first = global_part_pos3( *e );
             e->target.second = e->target.first;
         }
@@ -386,7 +391,7 @@ bool vehicle::turrets_aim()
     if( !trajectory.empty() ) {
         // set target for any turrets in range
         for( auto e : turrets( trajectory.back() ) ) {
-            if( !e->enabled ) {
+            if( !e->enabled || !manual ) {
                 e->target.second = trajectory.back();
             }
         }
@@ -415,10 +420,6 @@ int vehicle::turrets_aim_and_fire() {
             // Only fire those turrets the player set to manual control.
             if( t != nullptr && !t->enabled ) {
                 fire_if_able( t );
-                if( !( shots > 0 ) ) {
-                    add_msg( m_warning, 
-                        _( "No turrets are configured for manual fire." ) );
-                }
             }
         }
     }
@@ -427,7 +428,6 @@ int vehicle::turrets_aim_and_fire() {
 }
 
 npc vehicle::get_targeting_npc( vehicle_part& pt ) {
-    turret_data turret = turret_query( pt );
     // Make a fake NPC to represent the targeting system
     npc cpu;
     cpu.set_fake( true );
@@ -435,7 +435,7 @@ npc vehicle::get_targeting_npc( vehicle_part& pt ) {
     // turrets are subject only to recoil_vehicle()
     cpu.recoil = 0;
     // These might all be affected by vehicle part damage, weather effects, etc.
-    cpu.set_skill_level( turret.base()->gun_skill(), 8 );
+    cpu.set_skill_level( turret_query( pt ).base()->gun_skill(), 8 );
     cpu.set_skill_level( skill_id( "gun" ), 4 );
     cpu.str_cur = 16;
     cpu.dex_cur = 8;
@@ -446,7 +446,7 @@ npc vehicle::get_targeting_npc( vehicle_part& pt ) {
     return cpu;
 }
 
-int vehicle::automatic_fire_turret( vehicle_part& pt)
+int vehicle::automatic_fire_turret( vehicle_part& pt )
 {
     turret_data gun = turret_query( pt );
     if( gun.query() != turret_data::status::ready ) {
@@ -469,15 +469,15 @@ int vehicle::automatic_fire_turret( vehicle_part& pt)
 
     // The position on which we are firing
     tripoint targ = pos;
+    const bool u_see = g->u.sees( pos );
     // The current target of the turret.
     auto &target = pt.target;
     if( target.first == target.second ) {
-        // Just set the initial values here.
+        // Set the initial values here.
         // Calling turret_data.fire on tripoint (INT_MIN,INT_MIN,INT_MIN) starts a bad alloc crash
-        //      triggered at `trajectory.insert( trajectory.begin(), source ):ranged.cpp:236`
+        //      triggered at `trajectory.insert( trajectory.begin(), source )` at ranged.cpp:236
         target.first = pos;
         target.second = pos;
-        const bool u_see = g->u.sees( pos );
         int boo_hoo;
 
         // @todo calculate chance to hit and cap range based upon this
@@ -511,7 +511,7 @@ int vehicle::automatic_fire_turret( vehicle_part& pt)
     
     shots = gun.fire( cpu, targ );
     
-    if( shots && g->u.sees( pos ) && !g->u.sees( targ ) ) {
+    if( shots && u_see && !g->u.sees( targ ) ) {
         add_msg( _( "The %1$s fires its %2$s!" ), name.c_str(), pt.name().c_str() );
     }
 

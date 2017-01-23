@@ -1038,9 +1038,10 @@ public:
 
     /*
      * Set specific target for automatic turret fire
+     * @param manual_only if true, will limit target assignment to manually controlled turrets
      * @returns whether a valid target was selected
      */
-    bool turrets_aim();
+    bool turrets_aim( bool manual = true );
 
     /*
      * Call turrets_aim and then fire turrets if we get a valid target.

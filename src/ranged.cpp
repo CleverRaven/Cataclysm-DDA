@@ -1182,7 +1182,8 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 
     std::vector<aim_type> aim_types;
     std::vector<aim_type>::iterator aim_mode;
-    int sight_dispersion = u.effective_dispersion( relevant->sight_dispersion() );
+    int sight_dispersion = ( relevant != nullptr ? 
+        u.effective_dispersion( relevant->sight_dispersion() ) : 0 );
 
     if( mode == TARGET_MODE_FIRE ) {
         aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
@@ -2229,7 +2230,7 @@ bool game::plfire( item *weapon, int bp_cost, targeting_data *tdata )
     auto gun = cached_weapon->gun_current_mode();
     
     if( weapon ) {
-        // weapon not null: set the cached weapon, targeting data and bp_cost to the current values.
+        // weapon not null: set the cached variables to the current values.
         cached_weapon = weapon;
         bio_power_cost = bp_cost;
         held_weapon = &u.weapon == weapon;
