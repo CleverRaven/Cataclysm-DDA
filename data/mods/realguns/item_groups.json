@@ -67,7 +67,10 @@
   {
     "id": "guns_pistol_obscure",
     "type": "item_group",
-    "items": [ [ "m1991a1_38super", 150 ] ]
+    "items": [
+      [ "af2011a1_38super", 100 ],
+      [ "m1991a1_38super", 150 ]
+    ]
   },
   {
     "id": "guns_rifle_rare",
