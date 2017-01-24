@@ -14,9 +14,7 @@
       { "id": "SAW_M", "level": 1 },
       { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "oxy_torch", 20 ] ]
-    ],
+    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "oxy_torch", 20 ] ] ],
     "components": [
       [ [ "rebar", 4 ] ],
       [ [ "scrap", 3 ] ]
