@@ -1003,7 +1003,7 @@ void vehicle::use_controls( const tripoint &pos )
         options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
         actions.push_back( [&]{ turrets_set_mode(); } );
 
-        // We can fire manual turrets with ACTION_FIRE at the controls and game::plfire_attempt
+        // We can fire manual turrets with ACTION_FIRE at the controls using game::plfire_attempt.
         // This lets us manually override and set the target for the automatic turrets instead.
         options.emplace_back( _( "Aim automatic turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
         actions.push_back( [&]{ turrets_aim( false ); } );

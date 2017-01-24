@@ -352,7 +352,7 @@ void vehicle::turrets_set_mode()
 
 bool vehicle::turrets_aim( bool manual )
 {
-    // Clear any existing targets for turrets under manual control
+    // Clear any existing targets for turrets we want to aim
     auto opts = turrets();
     for( auto e : opts ) {
         if( !e->enabled || !manual ) {
