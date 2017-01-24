@@ -1103,7 +1103,6 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                                           const target_callback &on_ammo_change )
 {
     static const std::vector<tripoint> empty_result{};
-    
     std::vector<tripoint> ret;
 
     tripoint src = u.pos();

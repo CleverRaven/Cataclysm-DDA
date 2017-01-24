@@ -1048,6 +1048,12 @@ public:
      * @return the number of shots fired.
      */
     int turrets_aim_and_fire();
+
+    /*
+     * Call turrets_aim and then fire a selected single turret if we have a valid target.
+     * @return the number of shots fired.
+     */
+    int turret_aim_single();
     
     /*
      * @param pt the vehicle part containing the turret we're trying to target.

@@ -829,7 +829,7 @@ void vehicle::use_controls( const tripoint &pos )
         auto const keys = input_context( "VEHICLE" ).keys_bound_to( opt );
         return keys.empty() ? ' ' : keys.front();
     };
-
+    
     bool remote = g->remoteveh() == this;
     bool has_electronic_controls = false;
 
@@ -1002,11 +1002,17 @@ void vehicle::use_controls( const tripoint &pos )
 
         options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
         actions.push_back( [&]{ turrets_set_mode(); } );
-
-        // We can fire manual turrets with ACTION_FIRE at the controls using game::plfire_attempt.
+        
+        // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
+        options.emplace_back( _( "Aim turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
+        actions.push_back( [&]{ turrets_aim_and_fire(); } );
+        
         // This lets us manually override and set the target for the automatic turrets instead.
-        options.emplace_back( _( "Aim automatic turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
+        options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
         actions.push_back( [&]{ turrets_aim( false ); } );
+        
+        options.emplace_back( _( "Aim an individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
+        actions.push_back( [&]{ turret_aim_single(); } );
     }
 
     if( has_electronic_controls && (camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) ) {

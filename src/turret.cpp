@@ -427,6 +427,51 @@ int vehicle::turrets_aim_and_fire() {
     return shots;
 }
 
+int vehicle::turret_aim_single() { 
+    int shots = 0;
+    std::vector<std::string> options( 1, _("Cancel") );
+    std::vector<vehicle_part*> guns( 1, nullptr );
+    
+    // Get a group of turrets that are ready to fire
+    for( auto &t : turrets() ) {
+        if( t != nullptr ) {
+            turret_data data = turret_query( *t );
+            if( data.query() == turret_data::status::ready ) {
+                options.push_back( t->name() );
+                guns.push_back( t );
+            }
+        }
+    }
+    
+    vehicle_part *chosen;
+    
+    if( options.size() > 1 ) {
+        chosen = guns[ ( uimenu( false, _( "Fire which turret?" ), options ) ) - 1 ];
+    } else {
+        add_msg( m_warning, _( "None of the turrets are available to fire." ) );
+        return shots;
+    }
+    
+    if( chosen !=  nullptr ) {
+        // Reset targeting info
+        int range = chosen->base.gun_range();
+        tripoint pos = global_part_pos3( *chosen );
+        chosen->target = std::make_pair( pos, pos );
+        std::vector<tripoint> trajectory = g->pl_target_ui( TARGET_MODE_TURRET, &chosen->base, range );
+        // speed aiming of vehicle turrets
+        g->u.moves = std::min( 0, g->u.moves - 100 + ( 5 * g->u.int_cur ) );
+        if( !trajectory.empty() ) {
+            chosen->target.second = trajectory.back();
+            npc cpu = get_targeting_npc( *chosen );
+            shots = turret_query( *chosen ).fire( cpu, chosen->target.second );
+            chosen->target.second = pos;
+        }
+    }
+    
+    return shots;
+
+}
+
 npc vehicle::get_targeting_npc( vehicle_part& pt ) {
     // Make a fake NPC to represent the targeting system
     npc cpu;

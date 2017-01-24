@@ -172,7 +172,7 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Set turret firing modes",
-    "bindings":[ { "input_method": "keyboard", "key": "x" } ]
+    "bindings":[ { "input_method": "keyboard", "key": "F" } ]
   },
   {
     "id": "TURRET_MANUAL_AIM",
@@ -180,6 +180,20 @@
     "category": "VEHICLE",
     "name": "Aim turrets manually",
     "bindings":[ { "input_method": "keyboard", "key": "X" } ]
+  },
+  {
+    "id": "TURRET_MANUAL_OVERRIDE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Aim automatic turrets manually",
+    "bindings":[ { "input_method": "keyboard", "key": "x" } ]
+  },
+  {
+    "id": "TURRET_SINGLE_FIRE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Aim a single turret",
+    "bindings":[ { "input_method": "keyboard", "key": "T" } ]
   },
   {
     "id": "TURRET_TARGET_MODE",
