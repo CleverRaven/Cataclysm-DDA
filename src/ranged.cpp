@@ -2028,12 +2028,12 @@ bool game::plfire_veh_turret( turret_data *tur )
             }
 
             targeting_data args = {
-                TARGET_MODE_TURRET_MANUAL, & *turret.base(),
+                TARGET_MODE_TURRET_MANUAL, &*turret.base(),
                 turret.range(), turret.ammo_data(),
                 switch_mode, switch_ammo
             };
 
-            fired = plfire( 0, 0, &args );
+            fired = plfire( &*turret.base(), 0, &args );
             break;
         }
 
