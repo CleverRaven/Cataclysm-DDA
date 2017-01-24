@@ -550,7 +550,7 @@ int player::fire_gun( const tripoint &target, int shots )
     return fire_gun( target, shots, weapon, recoil );
 }
 
-int player::fire_gun( const tripoint &target, int shots, item& gun, double &cur_recoil )
+int player::fire_gun( const tripoint &target, int shots, item &gun, double &cur_recoil )
 {
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", name.c_str(), gun.tname().c_str() );
@@ -1991,7 +1991,8 @@ double player::gun_value( const item &weap, long ammo ) const
     return std::max( 0.0, gun_value );
 }
 
-bool game::plfire_veh_turret( turret_data *tur ) {
+bool game::plfire_veh_turret( turret_data *tur )
+{
     bool fired = false;
     turret_data &turret = *tur;
     switch( turret.query() ) {
@@ -2007,7 +2008,7 @@ bool game::plfire_veh_turret( turret_data *tur ) {
             // if more than one firing mode provide callback to cyle through them
             target_callback switch_mode;
             if( turret.base()->gun_all_modes().size() > 1 ) {
-                switch_mode = [&turret]( item *obj ) {
+                switch_mode = [&turret]( item * obj ) {
                     obj->gun_cycle_mode();
                     // currently gun modes dont change ammo but they may in the future
                     return turret.ammo_current() == "null" ? nullptr :
@@ -2026,12 +2027,12 @@ bool game::plfire_veh_turret( turret_data *tur ) {
                 };
             }
 
-            targeting_data args = { 
-                TARGET_MODE_TURRET_MANUAL, &*turret.base(), 
-                turret.range(), turret.ammo_data(), 
-                switch_mode, switch_ammo 
+            targeting_data args = {
+                TARGET_MODE_TURRET_MANUAL, & *turret.base(),
+                turret.range(), turret.ammo_data(),
+                switch_mode, switch_ammo
             };
-            
+
             fired = plfire( 0, 0, &args );
             break;
         }
@@ -2043,7 +2044,8 @@ bool game::plfire_veh_turret( turret_data *tur ) {
     return fired;
 }
 
-bool game::plfire_attempt() {
+bool game::plfire_attempt()
+{
     bool fired = false;
     if( !u.is_armed() ) {
         // Use vehicle turret or draw a pistol from a holster if unarmed
@@ -2062,29 +2064,29 @@ bool game::plfire_attempt() {
         }
 
         // Indices must match those of actions container.
-        std::vector<std::string> options( 1, _("Cancel") );
+        std::vector<std::string> options( 1, _( "Cancel" ) );
         // A vector of functions that may cause the player to wield a gun.
-        std::vector<std::function<void()>> actions( 1, []{} );
+        std::vector<std::function<void()>> actions( 1, [] {} );
 
         for( auto &w : u.worn ) {
             if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
                 !w.contents.empty() && w.contents.front().is_gun() ) {
                 // draw (first) gun contained in holster
-                options.push_back( string_format( _("%s from %s (%d)" ),
+                options.push_back( string_format( _( "%s from %s (%d)" ),
                                                   w.contents.front().tname().c_str(),
                                                   w.type_name().c_str(),
                                                   w.contents.front().ammo_remaining() ) );
 
-                actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
+                actions.push_back( [&] { u.invoke_item( &w, "holster" ); } );
 
             } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
                 // wield item currently worn using shoulder strap
                 options.push_back( w.display_name() );
-                actions.push_back( [&]{ u.wield( w ); } );
+                actions.push_back( [&] { u.wield( w ); } );
             }
         }
         if( options.size() > 1 ) {
-            actions[ ( uimenu( false, _("Draw what?"), options ) ) - 1 ]();
+            actions[( uimenu( false, _( "Draw what?" ), options ) ) - 1 ]();
         }
     }
 
@@ -2102,28 +2104,29 @@ bool game::plfire_attempt() {
         draw_ter();
         reenter_fullscreen();
     }
-    
+
     return fired;
 }
 
-bool game::plfire_check( item &weapon, int &reload_time ) {
+bool game::plfire_check( item &weapon, int &reload_time )
+{
     bool okay = true;
     vehicle *veh = nullptr;
-    
+
     if( u.has_effect( effect_relax_gas ) ) {
-        if( one_in(5) ) {
+        if( one_in( 5 ) ) {
             add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
         } else {
-            u.moves -= rng(2, 5) * 10;
+            u.moves -= rng( 2, 5 ) * 10;
             add_msg( m_bad, _( "You can't fire your weapon, it's too heavy..." ) );
             return false;
         }
     }
-    
+
     if( weapon.is_gunmod() ) {
-        add_msg( m_info, 
-            _( "The %s must be attached to a gun, it can not be fired separately." ), 
-            weapon.tname().c_str() );
+        add_msg( m_info,
+                 _( "The %s must be attached to a gun, it can not be fired separately." ),
+                 weapon.tname().c_str() );
         return false;
     }
 
@@ -2140,14 +2143,15 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
         add_msg( m_info, _( "You need a free arm to drive!" ) );
         return false;
     }
-    
+
     if( !gun.melee() ) {
-        
+
         if( !weapon.is_gun() ) {
             return false;
         }
-        
-        if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() || u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
+
+        if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() ||
+                u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
             add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname().c_str() );
             return false;
         }
@@ -2160,7 +2164,7 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
             }
 
             reload_time += opt.moves();
-            
+
             if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
                 // Reload not allowed
                 return false;
@@ -2176,11 +2180,12 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
             refresh_all();
         }
 
-        if( !gun->ammo_sufficient() && !gun->has_flag("RELOAD_AND_SHOOT") ) {
+        if( !gun->ammo_sufficient() && !gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
             if( !gun->ammo_remaining() ) {
                 add_msg( m_info, _( "You need to reload!" ) );
             } else {
-                add_msg( m_info, _( "Your %s needs %i charges to fire!" ), gun->tname().c_str(), gun->ammo_required() );
+                add_msg( m_info, _( "Your %s needs %i charges to fire!" ), gun->tname().c_str(),
+                         gun->ammo_required() );
             }
             return false;
         }
@@ -2191,9 +2196,9 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
 
             if( !( u.has_charges( "UPS_off", ups_drain ) ||
                    u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                   (u.has_active_bionic( "bio_ups" ) && u.power_level >= ups_drain ) ) ) {
+                   ( u.has_active_bionic( "bio_ups" ) && u.power_level >= ups_drain ) ) ) {
                 add_msg( m_info,
-                         _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
+                         _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
                          ups_drain, adv_ups_drain );
                 return false;
             }
@@ -2205,13 +2210,13 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
             bool v_mountable = ( veh && veh->part_with_feature( vpart, "MOUNTABLE" ) >= 0 );
             bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() );
             if( !t_mountable && !v_mountable ) {
-                add_msg(m_info,
-                        _( "You must stand near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc." ) );
+                add_msg( m_info,
+                         _( "You must stand near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc." ) );
                 return false;
             }
         }
     }
-    
+
     return okay;
 }
 
@@ -2221,9 +2226,9 @@ bool game::plfire( item *weapon, int bp_cost, targeting_data *tdata )
     static item *cached_weapon = &u.weapon;
     static bool held_weapon = true;
     static targeting_data args;
-    
+
     auto gun = cached_weapon->gun_current_mode();
-    
+
     if( weapon ) {
         // weapon not null: set the cached variables to the current values.
         cached_weapon = weapon;
@@ -2231,22 +2236,22 @@ bool game::plfire( item *weapon, int bp_cost, targeting_data *tdata )
         held_weapon = &u.weapon == weapon;
         gun = weapon->gun_current_mode();
     }
-    
+
     if( tdata ) {
         args = *tdata;
         if( !weapon && tdata->relevant ) {
             cached_weapon = tdata->relevant;
         }
     } else {
-            target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-            int range = gun.melee() ? gun.qty : u.gun_engagement_range( *gun, player::engagement::maximum );
-            const itype *ammo = gun->ammo_data();
-            targeting_data tmp = { tmode, cached_weapon, range, ammo, target_callback(), target_callback() };
-            args = tmp;
+        target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+        int range = gun.melee() ? gun.qty : u.gun_engagement_range( *gun, player::engagement::maximum );
+        const itype *ammo = gun->ammo_data();
+        targeting_data tmp = { tmode, cached_weapon, range, ammo, target_callback(), target_callback() };
+        args = tmp;
     }
 
     int reload_time = 0;
-    
+
     // If we were wielding this weapon when we started aiming, make sure we still are.
     bool lost_gun = ( held_weapon && &u.weapon != cached_weapon );
     bool passed_check = plfire_check( *cached_weapon, reload_time );
@@ -2284,13 +2289,14 @@ bool game::plfire( item *weapon, int bp_cost, targeting_data *tdata )
         // @todo add check for TRIGGERHAPPY
         res = u.fire_gun( trajectory.back(), gun.qty, *gun, u.recoil );
     }
-    
+
     if( res && bio_power_cost ) {
         u.charge_power( -bio_power_cost );
         bio_power_cost = 0;
     }
 
     reenter_fullscreen();
-    
+
     return res;
 }
+
