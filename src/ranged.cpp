@@ -550,6 +550,11 @@ int player::fire_gun( const tripoint &target, int shots )
     return fire_gun( target, shots, weapon, recoil );
 }
 
+int player::fire_gun( const tripoint &target, int shots, item &gun )
+{
+    return fire_gun( target, shots, gun, recoil );
+}
+
 int player::fire_gun( const tripoint &target, int shots, item &gun, double &cur_recoil )
 {
     if( !gun.is_gun() ) {

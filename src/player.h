@@ -537,7 +537,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          *  @return number of shots actually fired
          */
         int fire_gun( const tripoint &target, int shots = 1 );
-        int fire_gun( const tripoint &target, int shots, item& gun, double &cur_recoil );
+        int fire_gun( const tripoint &target, int shots, item &gun);
+        int fire_gun( const tripoint &target, int shots, item &gun, double &cur_recoil );
 
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &target );
