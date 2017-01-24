@@ -108,9 +108,7 @@
       { "id": "SAW_M", "level": 1 },
       { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "welder", 25 ], [ "welder_crude", 50 ], [ "toolset", 50 ], [ "oxy_torch", 2 ] ]
-    ],
+    "tools": [ [ [ "welder", 25 ], [ "welder_crude", 50 ], [ "toolset", 50 ], [ "oxy_torch", 2 ] ] ],
     "components": [
       [ [ "lens", 2 ] ],
       [ [ "scrap", 9 ], [ "steel_chunk", 3 ] ],
@@ -163,9 +161,7 @@
       { "id": "SAW_M", "level": 1 },
       { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "welder", 25 ], [ "welder_crude", 50 ], [ "toolset", 50 ], [ "oxy_torch", 2 ] ]
-    ],
+    "tools": [ [ [ "welder", 25 ], [ "welder_crude", 50 ], [ "toolset", 50 ], [ "oxy_torch", 2 ] ] ],
     "components": [
       [ [ "UPS_off", 2 ], [ "small_storage_battery", 2 ] ],
       [ [ "lens", 4 ] ],
@@ -290,9 +286,7 @@
       { "id": "WRENCH_FINE", "level": 1 },
       { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ]
-    ],
+    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
     "components": [
       [ [ "pipe", 12 ] ],
       [ [ "nail", 100 ], [ "duct_tape", 200 ], [ "superglue", 2 ] ],
