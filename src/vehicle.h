@@ -1038,8 +1038,9 @@ public:
 
     /*
      * Set specific target for automatic turret fire
-     * @param manual if true, will limit target assignment to manually controlled turrets
-     * @returns whether a valid target was selected
+     * @param manual if true, will limit target assignment to manually controlled turrets.
+     *                  if false, will assign targets only to automatic turrets.
+     * @returns whether a valid target was selected.
      */
     bool turrets_aim( bool manual = true );
 
@@ -1059,7 +1060,7 @@ public:
      * @param pt the vehicle part containing the turret we're trying to target.
      * @return npc object with suitable attributes for targeting a vehicle turret.
      */
-    npc get_targeting_npc( vehicle_part& pt );
+    npc get_targeting_npc( vehicle_part &pt );
     /*@}*/
 
     /**
