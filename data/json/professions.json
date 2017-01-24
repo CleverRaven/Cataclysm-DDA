@@ -32,11 +32,11 @@
             ],
             "items": {
                 "both": [
-                    "shorts_cargo",
+                    "pants_cargo",
                     "boots",
                     "hat_boonie",
-                    "jacket_light",
                     "tshirt",
+                    "jacket_light",
                     "socks",
                     "backpack",
                     "rope_30",
@@ -866,11 +866,11 @@
             "both": {
                 "items": [
                     "flashlight",
-                    "shorts_cargo",
+                    "pants_cargo",
                     "boots",
                     "hat_boonie",
-                    "jacket_light",
                     "tshirt",
+                    "jacket_light",
                     "socks",
                     "backpack",
                     "rope_30",
@@ -934,11 +934,11 @@
         "items": {
             "both": {
                 "items": [
-                    "shorts_cargo",
+                    "pants_cargo",
                     "boots",
                     "hat_boonie",
-                    "jacket_light",
                     "tshirt",
+                    "jacket_light",
                     "socks",
                     "backpack",
                     "rope_30",
