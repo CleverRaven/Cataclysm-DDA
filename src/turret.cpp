@@ -446,7 +446,7 @@ int vehicle::turret_aim_single() {
     vehicle_part *chosen;
     
     if( options.size() > 1 ) {
-        chosen = guns[ ( uimenu( false, _( "Fire which turret?" ), options ) ) - 1 ];
+        chosen = guns[ ( uimenu( false, _( "Aim which turret?" ), options ) ) - 1 ];
     } else {
         add_msg( m_warning, _( "None of the turrets are available to fire." ) );
         return shots;
