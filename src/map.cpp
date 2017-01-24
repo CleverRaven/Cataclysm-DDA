@@ -2128,6 +2128,7 @@ void map::drop_everything( const tripoint &p )
     drop_furniture( p );
     drop_items( p );
     drop_vehicle( p );
+    drop_fields( p );
 }
 
 void map::drop_furniture( const tripoint &p )
@@ -2304,6 +2305,38 @@ void map::drop_vehicle( const tripoint &p )
     }
 
     veh->falling = true;
+}
+
+void map::drop_fields( const tripoint &p )
+{
+    field &fld = field_at( p );
+    if( fld.fieldCount() == 0 ) {
+        return;
+    }
+
+    // Ugly two-pass for now - field access is weird
+    bool dropped = false;
+    const tripoint below = p - tripoint( 0, 0, 1 );
+    for( const auto &iter : fld ) {
+        const field_entry &entry = iter.second;
+        // For now only drop cosmetic fields, which don't warrant per-turn check
+        // Active fields "drop themselves"
+        if( entry.decays_on_actualize() ) {
+            add_field( below, entry.getFieldType(), entry.getFieldDensity(), entry.getFieldAge() );
+            dropped = true;
+        }
+    }
+
+    // Now remove the dropped fields (that's the ugly part)
+    while( dropped ) {
+        dropped = false;
+        for( auto iter = fld.begin(); !dropped && iter != fld.end(); ) {
+            if( iter->second.decays_on_actualize() ) {
+                dropped = fld.removeField( iter->second.getFieldType() );
+                break;
+            }
+        }
+    }
 }
 
 void map::support_dirty( const tripoint &p )
@@ -5491,8 +5524,14 @@ bool map::add_field(const tripoint &p, const field_id t, int density, const int 
     // TODO: Make it skip transparent fields
     set_transparency_cache_dirty( p.z );
 
+    const field_t &ft = fieldlist[t];
     if( field_type_dangerous( t ) ) {
         set_pathfinding_cache_dirty( p.z );
+    }
+
+    // Ensure blood type fields don't hang in the air
+    if( zlevels && ft.accelerated_decay ) {
+        support_dirty( p );
     }
 
     return true;

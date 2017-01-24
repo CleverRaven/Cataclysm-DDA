@@ -1057,6 +1057,7 @@ public:
     void drop_furniture( const tripoint &p );
     void drop_items( const tripoint &p );
     void drop_vehicle( const tripoint &p );
+    void drop_fields( const tripoint &p );
     /*@}*/
 
     /**
