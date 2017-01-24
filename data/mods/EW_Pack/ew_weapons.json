@@ -21,8 +21,8 @@
     "burst": 12,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines": [
-        [ "654", [ "svs_robomag", "svs24_robodrum" ] ],
-        [ "545x39", [ "cw24_robomag", "cw24_bigrobomag", "ak74mag", "ak74bigmag" ] ],
+        [ "654", [ "svs24_robomag", "svs24_robodrum" ] ],
+        [ "545x39", [ "cw24_robomag", "cw24_bigrobomag", "ak74mag" ] ],
         [ "762", [ "akmmag", "akmbigmag" ] ]
     ]
   },
@@ -85,7 +85,7 @@
     "price": 160000,
     "ammo": "762",
     "magazines": [
-      [ "762", [ "akmmag", "akmbigmag" ] ]
+        [ "762", [ "akmmag", "akmbigmag" ] ],
         [ "545x39", [ "cw24_robomag", "cw24_bigrobomag" ] ],
         [ "654", [ "svs24_robomag", "svs24_robodrum" ] ]
     ]
