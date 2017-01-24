@@ -829,7 +829,7 @@ void vehicle::use_controls( const tripoint &pos )
         auto const keys = input_context( "VEHICLE" ).keys_bound_to( opt );
         return keys.empty() ? ' ' : keys.front();
     };
-    
+
     bool remote = g->remoteveh() == this;
     bool has_electronic_controls = false;
 
