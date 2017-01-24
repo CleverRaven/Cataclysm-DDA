@@ -303,11 +303,11 @@ void vehicle::turrets_set_targeting()
 
         sel = menu.ret;
         turrets[ sel ]->enabled = !turrets[ sel ]->enabled;
-        
+
         // clear the turret's current targets to prevent unwanted auto-firing
         tripoint pos = locations[ sel ];
         turrets[ sel ]->target.first = pos;
-        turrets[ sel ]->target.second = pos;        
+        turrets[ sel ]->target.second = pos;
     }
 }
 
@@ -402,9 +402,10 @@ bool vehicle::turrets_aim( bool manual )
     return !trajectory.empty();
 }
 
-int vehicle::turrets_aim_and_fire() { 
+int vehicle::turrets_aim_and_fire()
+{
     int shots = 0;
-    auto fire_if_able = [&]( vehicle_part *t ) {
+    auto fire_if_able = [&]( vehicle_part * t ) {
         if( t->target.first != t->target.second ) {
             turret_data turret = this->turret_query( *t );
             if( turret.query() == turret_data::status::ready ) {
@@ -416,7 +417,7 @@ int vehicle::turrets_aim_and_fire() {
 
     if( turrets_aim() ) {
         // turrets_aim already set the targets for the turrets within range.
-        for( auto& t : turrets() ) {
+        for( auto &t : turrets() ) {
             // Only fire those turrets the player set to manual control.
             if( t != nullptr && !t->enabled ) {
                 fire_if_able( t );
@@ -427,11 +428,12 @@ int vehicle::turrets_aim_and_fire() {
     return shots;
 }
 
-int vehicle::turret_aim_single() { 
+int vehicle::turret_aim_single()
+{
     int shots = 0;
-    std::vector<std::string> options( 1, _("Cancel") );
-    std::vector<vehicle_part*> guns( 1, nullptr );
-    
+    std::vector<std::string> options( 1, _( "Cancel" ) );
+    std::vector<vehicle_part *> guns( 1, nullptr );
+
     // Get a group of turrets that are ready to fire
     for( auto &t : turrets() ) {
         if( t != nullptr ) {
@@ -442,16 +444,16 @@ int vehicle::turret_aim_single() {
             }
         }
     }
-    
+
     vehicle_part *chosen;
-    
+
     if( options.size() > 1 ) {
-        chosen = guns[ ( uimenu( false, _( "Aim which turret?" ), options ) ) - 1 ];
+        chosen = guns[( uimenu( false, _( "Aim which turret?" ), options ) ) - 1 ];
     } else {
         add_msg( m_warning, _( "None of the turrets are available to fire." ) );
         return shots;
     }
-    
+
     if( chosen !=  nullptr ) {
         // Reset targeting info
         int range = chosen->base.gun_range();
@@ -467,12 +469,13 @@ int vehicle::turret_aim_single() {
             chosen->target.second = pos;
         }
     }
-    
+
     return shots;
 
 }
 
-npc vehicle::get_targeting_npc( vehicle_part& pt ) {
+npc vehicle::get_targeting_npc( vehicle_part &pt )
+{
     // Make a fake NPC to represent the targeting system
     npc cpu;
     cpu.set_fake( true );
@@ -487,11 +490,11 @@ npc vehicle::get_targeting_npc( vehicle_part& pt ) {
     cpu.per_cur = 12;
     cpu.setpos( global_part_pos3( pt ) );
     // Assume vehicle turrets are friendly to the player.
-    cpu.attitude = NPCATT_FOLLOW;    
+    cpu.attitude = NPCATT_FOLLOW;
     return cpu;
 }
 
-int vehicle::automatic_fire_turret( vehicle_part& pt )
+int vehicle::automatic_fire_turret( vehicle_part &pt )
 {
     turret_data gun = turret_query( pt );
     if( gun.query() != turret_data::status::ready ) {
@@ -502,7 +505,7 @@ int vehicle::automatic_fire_turret( vehicle_part& pt )
 
     // The position of the vehicle part.
     tripoint pos = global_part_pos3( pt );
-    
+
     // Create the targeting computer's npc
     npc cpu = get_targeting_npc( pt );
 
@@ -549,13 +552,13 @@ int vehicle::automatic_fire_turret( vehicle_part& pt )
             return shots;
         }
     }
-    
+
     // Get the turret's target and reset it
     targ = target.second;
     target.second = target.first;
-    
+
     shots = gun.fire( cpu, targ );
-    
+
     if( shots && u_see && !g->u.sees( targ ) ) {
         add_msg( _( "The %1$s fires its %2$s!" ), name.c_str(), pt.name().c_str() );
     }
