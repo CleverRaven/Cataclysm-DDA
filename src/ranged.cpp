@@ -550,7 +550,7 @@ int player::fire_gun( const tripoint &target, int shots )
     return fire_gun( target, shots, weapon, recoil );
 }
 
-int player::fire_gun( const tripoint &target, int shots, item &gun, double &cur_recoil )
+int player::fire_gun( const tripoint &target, int shots, item& gun, double &cur_recoil )
 {
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", name.c_str(), gun.tname().c_str() );
@@ -583,8 +583,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun, double &cur_
     ///\EFFECT_SMG delays effects of recoil during automatic fire
     ///\EFFECT_RIFLE delays effects of recoil during automatic fire
     ///\EFFECT_SHOTGUN delays effects of recoil during automatic fire
-    double absorb = std::min( int( get_skill_level( gun.gun_skill() ) ),
-                              MAX_SKILL ) / double( MAX_SKILL * 2 );
+    double absorb = std::min( int( get_skill_level( gun.gun_skill() ) ), MAX_SKILL ) / double( MAX_SKILL * 2 );
 
     tripoint aim = target;
     int curshot = 0;
@@ -643,14 +642,14 @@ int player::fire_gun( const tripoint &target, int shots, item &gun, double &cur_
             // Find suitable targets that are in range, hostile and near any previous target
             auto hostiles = get_targetable_creatures( gun.gun_range( this ) );
 
-            hostiles.erase( std::remove_if( hostiles.begin(), hostiles.end(), [&]( const Creature * z ) {
+            hostiles.erase( std::remove_if( hostiles.begin(), hostiles.end(), [&]( const Creature *z ) {
                 if( rl_dist( z->pos(), aim ) > get_skill_level( skill_gun ) ) {
                     return true; ///\EFFECT_GUN increases range of automatic retargeting during burst fire
 
                 } else if( z->is_dead_state() ) {
                     return true;
 
-                } else if( has_trait( "TRIGGERHAPPY" ) && one_in( 10 ) ) {
+                } else if( has_trait( "TRIGGERHAPPY") && one_in( 10 ) ) {
                     return false; // Trigger happy sometimes doesn't care who we shoot
 
                 } else {
@@ -676,8 +675,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun, double &cur_
 
     practice( skill_gun, xp * ( get_skill_level( skill_gun ) + 1 ) );
     if( hits && !xp && one_in( 10 ) ) {
-        add_msg_if_player( m_info,
-                           _( "You'll need to aim at more distant targets to further improve your marksmanship." ) );
+        add_msg_if_player( m_info, _( "You'll need to aim at more distant targets to further improve your marksmanship." ) );
     }
 
     // launchers train weapon skill for both hits and misses
@@ -1094,19 +1092,17 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
     return line_number;
 }
 
-std::vector<tripoint> game::pl_target_ui( targeting_data &args )
-{
-    return pl_target_ui( args.mode, args.relevant, args.range,
+std::vector<tripoint> game::pl_target_ui( targeting_data &args ) {
+    return pl_target_ui( args.mode, args.relevant, args.range, 
                          args.ammo, args.on_mode_change, args.on_ammo_change );
 }
 
 // TODO: Shunt redundant drawing code elsewhere
-std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int range,
-        const itype *ammo,
-        const target_callback &on_mode_change,
-        const target_callback &on_ammo_change )
+std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int range, const itype *ammo,
+                                          const target_callback &on_mode_change,
+                                          const target_callback &on_ammo_change )
 {
-    static const std::vector<tripoint> empty_result {};
+    static const std::vector<tripoint> empty_result{};
     std::vector<tripoint> ret;
 
     tripoint src = u.pos();
@@ -1115,10 +1111,10 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
     std::vector<Creature *> t;
     int target;
 
-    auto update_targets = [&]( int range, std::vector<Creature *> &targets, int &idx, tripoint & dst ) {
+    auto update_targets = [&]( int range, std::vector<Creature *>& targets, int &idx, tripoint &dst ) {
         targets = u.get_targetable_creatures( range );
 
-        targets.erase( std::remove_if( targets.begin(), targets.end(), [&]( const Creature * e ) {
+        targets.erase( std::remove_if( targets.begin(), targets.end(), [&]( const Creature *e ) {
             return u.attitude_to( *e ) == Creature::Attitude::A_FRIENDLY;
         } ), targets.end() );
 
@@ -1127,7 +1123,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             return;
         }
 
-        std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
+        std::sort( targets.begin(), targets.end(), [&]( const Creature *lhs, const Creature *rhs ) {
             return rl_dist( lhs->pos(), u.pos() ) < rl_dist( rhs->pos(), u.pos() );
         } );
 
@@ -1154,8 +1150,8 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 
     WINDOW *w_target = newwin( height, getmaxx( w_messages ), top, getbegx( w_messages ) );
 
-    input_context ctxt( "TARGET" );
-    ctxt.set_iso( true );
+    input_context ctxt("TARGET");
+    ctxt.set_iso(true);
     // "ANY_INPUT" should be added before any real help strings
     // Or strings will be written on window border.
     ctxt.register_action( "ANY_INPUT" );
@@ -1181,8 +1177,8 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 
     std::vector<aim_type> aim_types;
     std::vector<aim_type>::iterator aim_mode;
-    int sight_dispersion = ( relevant != nullptr ?
-                             u.effective_dispersion( relevant->sight_dispersion() ) : 0 );
+    int sight_dispersion = ( relevant != nullptr ? 
+        u.effective_dispersion( relevant->sight_dispersion() ) : 0 );
 
     if( mode == TARGET_MODE_FIRE ) {
         aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
@@ -1195,12 +1191,11 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         // Weapons with <120 s_d can be aimed 'carefully'
         // All other weapons can only be 'aimed'
         std::vector<int> thresholds = {
-            ( int ) floor( ( ( MIN_RECOIL - sight_dispersion ) * 2 / 3 + sight_dispersion ) /
-            threshold_step ) *threshold_step,
-            ( int ) floor( ( ( MIN_RECOIL - sight_dispersion ) / 3 + sight_dispersion ) /
-            threshold_step ) *threshold_step,
-            ( int ) floor( sight_dispersion / threshold_step ) *threshold_step
-        };
+            (int) floor( ( ( MIN_RECOIL - sight_dispersion ) * 2 / 3 + sight_dispersion ) /
+                         threshold_step ) * threshold_step,
+            (int) floor( ( ( MIN_RECOIL - sight_dispersion ) / 3 + sight_dispersion ) /
+                         threshold_step ) * threshold_step,
+            (int) floor( sight_dispersion / threshold_step ) * threshold_step };
         std::vector<int>::iterator thresholds_it;
         // Remove duplicate thresholds.
         thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
@@ -1209,22 +1204,19 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
         }
         thresholds_it = thresholds.begin();
-        aim_types.push_back( aim_type { _( "Aim" ), "AIMED_SHOT",
-                                        _( "%c to aim and fire." ), true,
-                                        *thresholds_it
-                                      } );
+        aim_types.push_back( aim_type { _("Aim"), "AIMED_SHOT",
+                             _("%c to aim and fire."), true,
+                             *thresholds_it } );
         thresholds_it++;
         if( thresholds_it != thresholds.end() ) {
-            aim_types.push_back( aim_type { _( "Careful Aim" ), "CAREFUL_SHOT",
-                                            _( "%c to take careful aim and fire." ), true,
-                                            *thresholds_it
-                                          } );
+            aim_types.push_back( aim_type { _("Careful Aim"), "CAREFUL_SHOT",
+                                 _("%c to take careful aim and fire."), true,
+                                 *thresholds_it } );
             thresholds_it++;
             if( thresholds_it != thresholds.end() ) {
-                aim_types.push_back( aim_type { _( "Precise Aim" ), "PRECISE_SHOT",
-                                                _( "%c to take precise aim and fire." ), true,
-                                                *thresholds_it
-                                              } );
+                aim_types.push_back( aim_type { _("Precise Aim"), "PRECISE_SHOT",
+                                     _("%c to take precise aim and fire."), true,
+                                     *thresholds_it } );
             }
         }
         for( std::vector<aim_type>::iterator it = aim_types.begin(); it != aim_types.end(); it++ ) {
@@ -1236,20 +1228,20 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
     }
 
     int num_instruction_lines = draw_targeting_window( w_target, relevant ? relevant->tname() : "", u,
-                                mode, ctxt, aim_types,
-                                bool( on_mode_change ), bool( on_ammo_change ) );
+                                                       mode, ctxt, aim_types,
+                                                       bool( on_mode_change ), bool( on_ammo_change ) );
 
     bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
     std::string enemiesmsg;
     if( t.empty() ) {
-        enemiesmsg = _( "No targets in range." );
+        enemiesmsg = _("No targets in range.");
     } else {
-        enemiesmsg = string_format( ngettext( "%d target in range.", "%d targets in range.",
-                                              t.size() ), t.size() );
+        enemiesmsg = string_format(ngettext("%d target in range.", "%d targets in range.",
+                                            t.size()), t.size());
     }
 
-    const auto set_last_target = [this]( const tripoint & dst ) {
+    const auto set_last_target = [this]( const tripoint &dst ) {
         if( ( last_target = npc_at( dst ) ) >= 0 ) {
             last_target_was_npc = true;
 
@@ -1258,7 +1250,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         }
     };
 
-    const auto confirm_non_enemy_target = [this]( const tripoint & dst ) {
+    const auto confirm_non_enemy_target = [this]( const tripoint &dst ) {
         if( dst == u.pos() ) {
             return true;
         }
@@ -1280,12 +1272,12 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         // This chunk of code handles shifting the aim point around
         // at maximum range when using circular distance.
         // The range > 1 check ensures that you can alweays at least hit adjacent squares.
-        if( trigdist && range > 1 && round( trig_dist( src, dst ) ) > range ) {
+        if( trigdist && range > 1 && round(trig_dist( src, dst )) > range ) {
             bool cont = true;
             tripoint cp = dst;
             for( size_t i = 0; i < ret.size() && cont; i++ ) {
-                if( round( trig_dist( src, ret[i] ) ) > range ) {
-                    ret.resize( i );
+                if( round(trig_dist( src, ret[i] )) > range ) {
+                    ret.resize(i);
                     cont = false;
                 } else {
                     cp = ret[i];
@@ -1300,22 +1292,20 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             center = u.pos() + u.view_offset;
         }
         // Clear the target window.
-        for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
+        for( int i = 1; i <= getmaxy(w_target) - num_instruction_lines - 2; i++ ) {
             // Clear width excluding borders.
-            for( int j = 1; j <= getmaxx( w_target ) - 2; j++ ) {
+            for( int j = 1; j <= getmaxx(w_target) - 2; j++ ) {
                 mvwputch( w_target, i, j, c_white, ' ' );
             }
         }
-        draw_ter( center, true );
+        draw_ter(center, true);
         int line_number = 1;
         Creature *critter = critter_at( dst, true );
         if( dst != src ) {
             // Only draw those tiles which are on current z-level
             auto ret_this_zlevel = ret;
             ret_this_zlevel.erase( std::remove_if( ret_this_zlevel.begin(), ret_this_zlevel.end(),
-            [&center]( const tripoint & pt ) {
-                return pt.z != center.z;
-            } ), ret_this_zlevel.end() );
+                [&center]( const tripoint &pt ) { return pt.z != center.z; } ), ret_this_zlevel.end() );
             // Only draw a highlighted trajectory if we can see the endpoint.
             // Provides feedback to the player, and avoids leaking information
             // about tiles they can't see.
@@ -1323,10 +1313,10 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 
             // Print to target window
             mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d, %s" ),
-                       rl_dist( src, dst ), range, enemiesmsg.c_str() );
+                      rl_dist( src, dst ), range, enemiesmsg.c_str() );
 
         } else {
-            mvwprintw( w_target, line_number++, 1, _( "Range: %d, %s" ), range, enemiesmsg.c_str() );
+            mvwprintw( w_target, line_number++, 1, _("Range: %d, %s"), range, enemiesmsg.c_str() );
         }
 
         line_number++;
@@ -1360,40 +1350,38 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         if( critter && critter != &u && u.sees( *critter ) ) {
             // The 6 is 2 for the border and 4 for aim bars.
             int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 6 );
-            line_number = critter->print_info( w_target, line_number, available_lines, 1 );
+            line_number = critter->print_info( w_target, line_number, available_lines, 1);
         } else {
-            mvwputch( w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*' );
+            mvwputch(w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*');
         }
 
         if( mode == TARGET_MODE_FIRE && critter != nullptr && u.sees( *critter ) ) {
             double predicted_recoil = u.recoil;
             int predicted_delay = 0;
             if( aim_mode->has_threshold && aim_mode->threshold < u.recoil ) {
-                do {
+                do{
                     const double aim_amount = u.aim_per_move( *relevant, predicted_recoil );
                     if( aim_amount > 0 ) {
                         predicted_delay++;
                         predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
                     }
                 } while( predicted_recoil > aim_mode->threshold &&
-                         predicted_recoil - sight_dispersion > 0 );
+                          predicted_recoil - sight_dispersion > 0 );
             } else {
                 predicted_recoil = u.recoil;
             }
 
-            line_number = print_aim_bars( u, w_target, line_number, &*relevant->gun_current_mode(), critter,
-                                          predicted_recoil );
+            line_number = print_aim_bars( u, w_target, line_number, &*relevant->gun_current_mode(), critter, predicted_recoil );
 
             if( aim_mode->has_threshold ) {
-                mvwprintw( w_target, line_number++, 1, _( "%s Delay: %i" ), aim_mode->name.c_str(),
-                           predicted_delay );
+                mvwprintw(w_target, line_number++, 1, _("%s Delay: %i"), aim_mode->name.c_str(), predicted_delay );
             }
         } else if( mode == TARGET_MODE_TURRET ) {
             line_number = draw_turret_aim( u, w_target, line_number, dst );
         }
 
-        wrefresh( w_target );
-        wrefresh( w_terrain );
+        wrefresh(w_target);
+        wrefresh(w_terrain);
         refresh();
 
         std::string action;
@@ -1410,7 +1398,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         tripoint targ( 0, 0, 0 );
         // Our coordinates will either be determined by coordinate input(mouse),
         // by a direction key, or by the previous value.
-        if( action == "SELECT" && ctxt.get_coordinates( g->w_terrain, targ.x, targ.y ) ) {
+        if( action == "SELECT" && ctxt.get_coordinates(g->w_terrain, targ.x, targ.y) ) {
             if( !get_option<bool>( "USE_TILES" ) && snap_to_target ) {
                 // Snap to target doesn't currently work with tiles.
                 targ.x += dst.x - src.x;
@@ -1419,7 +1407,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             targ.x -= dst.x;
             targ.y -= dst.y;
         } else {
-            ctxt.get_direction( targ.x, targ.y, action );
+            ctxt.get_direction(targ.x, targ.y, action);
             if( targ.x == -2 ) {
                 targ.x = 0;
                 targ.y = 0;
@@ -1452,19 +1440,19 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             dst.y = std::min( std::max( dst.y + targ.y, src.y - range ), src.y + range );
             dst.z = std::min( std::max( dst.z + targ.z, src.z - range ), src.z + range );
 
-        } else if( ( action == "PREV_TARGET" ) && ( target != -1 ) ) {
+        } else if( (action == "PREV_TARGET") && (target != -1) ) {
             int newtarget = find_target( t, dst ) - 1;
             if( newtarget < 0 ) {
                 newtarget = t.size() - 1;
             }
             dst = t[newtarget]->pos();
-        } else if( ( action == "NEXT_TARGET" ) && ( target != -1 ) ) {
+        } else if( (action == "NEXT_TARGET") && (target != -1) ) {
             int newtarget = find_target( t, dst ) + 1;
-            if( newtarget == ( int )t.size() ) {
+            if( newtarget == (int)t.size() ) {
                 newtarget = 0;
             }
             dst = t[newtarget]->pos();
-        } else if( ( action == "AIM" ) && target != -1 ) {
+        } else if( (action == "AIM") && target != -1 ) {
             // No confirm_non_enemy_target here because we have not initiated the firing.
             // Aiming can be stopped / aborted at any time.
             for( int i = 0; i != 10; ++i ) {
@@ -1491,7 +1479,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             if( aim_mode == aim_types.end() ) {
                 aim_mode = aim_types.begin();
             }
-        } else if( ( action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT" ) &&
+        } else if( (action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT") &&
                    target != -1 ) {
             // This action basically means "FIRE" as well, the actual firing may be delayed
             // through aiming, but there is usually no means to stop it. Therefor we query here.
@@ -1501,7 +1489,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             int aim_threshold;
             std::vector<aim_type>::iterator it;
             for( it = aim_types.begin(); it != aim_types.end(); it++ ) {
-                if( action == it->action ) {
+                if ( action == it->action ) {
                     break;
                 }
             }
@@ -1519,7 +1507,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 continue;
             }
             if( u.recoil <= aim_threshold ||
-                u.recoil - sight_dispersion == 0 ) {
+                u.recoil - sight_dispersion == 0) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
                 delwin( w_target );
@@ -1553,12 +1541,12 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             ret.clear();
         } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
             snap_to_target = !snap_to_target;
-        } else if( action == "QUIT" ) { // return empty vector (cancel)
+        } else if (action == "QUIT") { // return empty vector (cancel)
             ret.clear();
             target = -1;
             break;
         }
-    } while( true );
+    } while (true);
 
     delwin( w_target );
     u.view_offset = old_offset;
@@ -2003,8 +1991,7 @@ double player::gun_value( const item &weap, long ammo ) const
     return std::max( 0.0, gun_value );
 }
 
-bool game::plfire_veh_turret( turret_data *tur )
-{
+bool game::plfire_veh_turret( turret_data *tur ) {
     bool fired = false;
     turret_data &turret = *tur;
     switch( turret.query() ) {
@@ -2020,7 +2007,7 @@ bool game::plfire_veh_turret( turret_data *tur )
             // if more than one firing mode provide callback to cyle through them
             target_callback switch_mode;
             if( turret.base()->gun_all_modes().size() > 1 ) {
-                switch_mode = [&turret]( item * obj ) {
+                switch_mode = [&turret]( item *obj ) {
                     obj->gun_cycle_mode();
                     // currently gun modes dont change ammo but they may in the future
                     return turret.ammo_current() == "null" ? nullptr :
@@ -2039,12 +2026,12 @@ bool game::plfire_veh_turret( turret_data *tur )
                 };
             }
 
-            targeting_data args = {
-                TARGET_MODE_TURRET_MANUAL, & *turret.base(),
-                turret.range(), turret.ammo_data(),
-                switch_mode, switch_ammo
+            targeting_data args = { 
+                TARGET_MODE_TURRET_MANUAL, &*turret.base(), 
+                turret.range(), turret.ammo_data(), 
+                switch_mode, switch_ammo 
             };
-
+            
             fired = plfire( 0, 0, &args );
             break;
         }
@@ -2056,8 +2043,7 @@ bool game::plfire_veh_turret( turret_data *tur )
     return fired;
 }
 
-bool game::plfire_attempt()
-{
+bool game::plfire_attempt() {
     bool fired = false;
     if( !u.is_armed() ) {
         // Use vehicle turret or draw a pistol from a holster if unarmed
@@ -2076,29 +2062,29 @@ bool game::plfire_attempt()
         }
 
         // Indices must match those of actions container.
-        std::vector<std::string> options( 1, _( "Cancel" ) );
+        std::vector<std::string> options( 1, _("Cancel") );
         // A vector of functions that may cause the player to wield a gun.
-        std::vector<std::function<void()>> actions( 1, [] {} );
+        std::vector<std::function<void()>> actions( 1, []{} );
 
         for( auto &w : u.worn ) {
             if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
                 !w.contents.empty() && w.contents.front().is_gun() ) {
                 // draw (first) gun contained in holster
-                options.push_back( string_format( _( "%s from %s (%d)" ),
+                options.push_back( string_format( _("%s from %s (%d)" ),
                                                   w.contents.front().tname().c_str(),
                                                   w.type_name().c_str(),
                                                   w.contents.front().ammo_remaining() ) );
 
-                actions.push_back( [&] { u.invoke_item( &w, "holster" ); } );
+                actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
 
             } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
                 // wield item currently worn using shoulder strap
                 options.push_back( w.display_name() );
-                actions.push_back( [&] { u.wield( w ); } );
+                actions.push_back( [&]{ u.wield( w ); } );
             }
         }
         if( options.size() > 1 ) {
-            actions[( uimenu( false, _( "Draw what?" ), options ) ) - 1 ]();
+            actions[ ( uimenu( false, _("Draw what?"), options ) ) - 1 ]();
         }
     }
 
@@ -2116,29 +2102,28 @@ bool game::plfire_attempt()
         draw_ter();
         reenter_fullscreen();
     }
-
+    
     return fired;
 }
 
-bool game::plfire_check( item &weapon, int &reload_time )
-{
+bool game::plfire_check( item &weapon, int &reload_time ) {
     bool okay = true;
     vehicle *veh = nullptr;
-
+    
     if( u.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
+        if( one_in(5) ) {
             add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
         } else {
-            u.moves -= rng( 2, 5 ) * 10;
+            u.moves -= rng(2, 5) * 10;
             add_msg( m_bad, _( "You can't fire your weapon, it's too heavy..." ) );
             return false;
         }
     }
-
+    
     if( weapon.is_gunmod() ) {
-        add_msg( m_info,
-                 _( "The %s must be attached to a gun, it can not be fired separately." ),
-                 weapon.tname().c_str() );
+        add_msg( m_info, 
+            _( "The %s must be attached to a gun, it can not be fired separately." ), 
+            weapon.tname().c_str() );
         return false;
     }
 
@@ -2155,15 +2140,14 @@ bool game::plfire_check( item &weapon, int &reload_time )
         add_msg( m_info, _( "You need a free arm to drive!" ) );
         return false;
     }
-
+    
     if( !gun.melee() ) {
-
+        
         if( !weapon.is_gun() ) {
             return false;
         }
-
-        if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() ||
-                u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
+        
+        if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() || u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
             add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname().c_str() );
             return false;
         }
@@ -2176,7 +2160,7 @@ bool game::plfire_check( item &weapon, int &reload_time )
             }
 
             reload_time += opt.moves();
-
+            
             if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
                 // Reload not allowed
                 return false;
@@ -2192,12 +2176,11 @@ bool game::plfire_check( item &weapon, int &reload_time )
             refresh_all();
         }
 
-        if( !gun->ammo_sufficient() && !gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
+        if( !gun->ammo_sufficient() && !gun->has_flag("RELOAD_AND_SHOOT") ) {
             if( !gun->ammo_remaining() ) {
                 add_msg( m_info, _( "You need to reload!" ) );
             } else {
-                add_msg( m_info, _( "Your %s needs %i charges to fire!" ), gun->tname().c_str(),
-                         gun->ammo_required() );
+                add_msg( m_info, _( "Your %s needs %i charges to fire!" ), gun->tname().c_str(), gun->ammo_required() );
             }
             return false;
         }
@@ -2208,9 +2191,9 @@ bool game::plfire_check( item &weapon, int &reload_time )
 
             if( !( u.has_charges( "UPS_off", ups_drain ) ||
                    u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                   ( u.has_active_bionic( "bio_ups" ) && u.power_level >= ups_drain ) ) ) {
+                   (u.has_active_bionic( "bio_ups" ) && u.power_level >= ups_drain ) ) ) {
                 add_msg( m_info,
-                         _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
+                         _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
                          ups_drain, adv_ups_drain );
                 return false;
             }
@@ -2222,13 +2205,13 @@ bool game::plfire_check( item &weapon, int &reload_time )
             bool v_mountable = ( veh && veh->part_with_feature( vpart, "MOUNTABLE" ) >= 0 );
             bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() );
             if( !t_mountable && !v_mountable ) {
-                add_msg( m_info,
-                         _( "You must stand near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc." ) );
+                add_msg(m_info,
+                        _( "You must stand near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc." ) );
                 return false;
             }
         }
     }
-
+    
     return okay;
 }
 
@@ -2238,9 +2221,9 @@ bool game::plfire( item *weapon, int bp_cost, targeting_data *tdata )
     static item *cached_weapon = &u.weapon;
     static bool held_weapon = true;
     static targeting_data args;
-
+    
     auto gun = cached_weapon->gun_current_mode();
-
+    
     if( weapon ) {
         // weapon not null: set the cached variables to the current values.
         cached_weapon = weapon;
@@ -2248,22 +2231,22 @@ bool game::plfire( item *weapon, int bp_cost, targeting_data *tdata )
         held_weapon = &u.weapon == weapon;
         gun = weapon->gun_current_mode();
     }
-
+    
     if( tdata ) {
         args = *tdata;
         if( !weapon && tdata->relevant ) {
             cached_weapon = tdata->relevant;
         }
     } else {
-        target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-        int range = gun.melee() ? gun.qty : u.gun_engagement_range( *gun, player::engagement::maximum );
-        const itype *ammo = gun->ammo_data();
-        targeting_data tmp = { tmode, cached_weapon, range, ammo, target_callback(), target_callback() };
-        args = tmp;
+            target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+            int range = gun.melee() ? gun.qty : u.gun_engagement_range( *gun, player::engagement::maximum );
+            const itype *ammo = gun->ammo_data();
+            targeting_data tmp = { tmode, cached_weapon, range, ammo, target_callback(), target_callback() };
+            args = tmp;
     }
 
     int reload_time = 0;
-
+    
     // If we were wielding this weapon when we started aiming, make sure we still are.
     bool lost_gun = ( held_weapon && &u.weapon != cached_weapon );
     bool passed_check = plfire_check( *cached_weapon, reload_time );
@@ -2301,13 +2284,13 @@ bool game::plfire( item *weapon, int bp_cost, targeting_data *tdata )
         // @todo add check for TRIGGERHAPPY
         res = u.fire_gun( trajectory.back(), gun.qty, *gun, u.recoil );
     }
-
+    
     if( res && bio_power_cost ) {
         u.charge_power( -bio_power_cost );
         bio_power_cost = 0;
     }
 
     reenter_fullscreen();
-
+    
     return res;
 }
