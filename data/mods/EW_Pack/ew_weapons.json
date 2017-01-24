@@ -12,7 +12,7 @@
     "skill": "rifle",
     "ammo": "654",
     "weight": 3900,
-    "volume": 10,
+    "volume": 8,
     "bashing": 12,
     "to_hit": -1,
     "dispersion": 75,
@@ -35,7 +35,7 @@
     "description": "The compact version of the standard SVS-24.  It is commonly issued to tank crews or special forces due to its smaller size.  The shorter barrel reduces accuracy.",
     "price": 440000,
     "weight": 3000,
-    "volume": 8,
+    "volume": 5,
     "range": -2,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -51,7 +51,7 @@
     "material": ["steel", "plastic"],
     "ammo": "545x39",
     "weight": 3900,
-    "volume": 10,
+    "volume": 8,
     "bashing": 12,
     "to_hit": -1,
     "dispersion": 75,
@@ -133,7 +133,7 @@
     "material": ["steel", "wood"],
     "ammo": "308",
     "weight": 4300,
-    "volume": 12,
+    "volume": 11,
     "bashing": 12,
     "to_hit": -1,
     "dispersion": 75,
@@ -144,7 +144,6 @@
       [ "308", [ "cwd-63mag", "cwd-63bigmag" ] ],
       [ "223", [ "stanag10" ] ]
     ]
-          
   },
   {
     "id": "wrist_dread",
