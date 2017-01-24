@@ -99,6 +99,22 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
     return iter->second;
 }
 
+/**
+ * Helper to enumerate the coordinates of a quad of submaps based on an overmap address.
+ **/
+static std::vector<tripoint> make_quad_addresses( const tripoint &om_addr )
+{
+    static const std::vector<point> offsets = { {0, 0}, {0, 1}, {1, 0}, {1, 1} };
+    std::vector<tripoint> submap_addrs;
+    for( auto &offsets_offset : offsets ) {
+        tripoint submap_addr = omt_to_sm_copy( om_addr );
+        submap_addr.x += offsets_offset.x;
+        submap_addr.y += offsets_offset.y;
+        submap_addrs.push_back( submap_addr );
+    }
+    return submap_addrs;
+}
+
 void mapbuffer::save()
 {
     std::stringstream map_directory;
@@ -154,19 +170,11 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
                            const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
                            bool delete_after_save )
 {
-    std::vector<point> offsets;
-    std::vector<tripoint> submap_addrs;
-    offsets.push_back( point(0, 0) );
-    offsets.push_back( point(0, 1) );
-    offsets.push_back( point(1, 0) );
-    offsets.push_back( point(1, 1) );
+    std::vector<tripoint> submap_addrs = make_quad_addresses( om_addr );
 
     bool all_uniform = true;
-    for( auto &offsets_offset : offsets ) {
-        tripoint submap_addr = omt_to_sm_copy( om_addr );
-        submap_addr.x += offsets_offset.x;
-        submap_addr.y += offsets_offset.y;
-        submap_addrs.push_back( submap_addr );
+
+    for( auto &submap_addr : submap_addrs ) {
         submap *sm = submaps[submap_addr];
         if( sm != nullptr && !sm->is_uniform ) {
             all_uniform = false;
