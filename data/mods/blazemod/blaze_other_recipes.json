@@ -10,9 +10,10 @@
     "time": 8000,
     "reversible": true,
     "autolearn": true,
-      "qualities": [ { "id": "SAW_M", "level": 1 },
-                     { "id": "GLARE", "level": 2 }
-      ],
+    "qualities": [ 
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 }
+    ],
     "tools": [
       [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "oxy_torch", 20 ] ]
     ],
