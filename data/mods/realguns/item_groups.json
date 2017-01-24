@@ -65,6 +65,14 @@
     ]
   },
   {
+    "id": "guns_pistol_obscure",
+    "type": "item_group",
+    "items": [
+      [ "af2011a1_38super", 100 ],
+      [ "m1991a1_38super", 150 ]
+    ]
+  },
+  {
     "id": "guns_rifle_rare",
     "type": "item_group",
     "items": [
@@ -119,6 +127,14 @@
       { "item": "45lc_casing", "prob": 40, "count": 20 }
     ]
   },
+  {
+    "id": "mags_obscure",
+    "type": "item_group",
+    "items": [
+      [ "m1991_38smag", 10 ],
+      [ "af2011a1mag", 10 ]
+    ]
+  }
   {
     "id": "mags_shotgun_rare",
     "type": "item_group",

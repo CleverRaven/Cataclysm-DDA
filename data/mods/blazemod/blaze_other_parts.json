@@ -584,7 +584,7 @@
     "broken_color": "yellow",
     "difficulty": 6,
     "durability": 250,
-    "epower": 1465,
+    "epower": 600,
     "damage_modifier": 10,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 6 ] },
@@ -606,7 +606,7 @@
     "broken_color": "yellow",
     "difficulty": 6,
     "durability": 250,
-    "epower": 2950,
+    "epower": 1200,
     "damage_modifier": 10,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 6 ] },
@@ -825,7 +825,7 @@
     "broken_color": "light_gray",
     "difficulty": 4,
     "durability": 300,
-    "epower": 125,
+    "epower": 45,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
@@ -846,7 +846,7 @@
     "color": "light_blue",
     "broken_color": "light_gray",
     "difficulty": 6,
-    "durability": 300,
+    "durability": 90,
     "epower": 230,
     "damage_modifier": 80,
     "breaks_into": [
@@ -869,7 +869,7 @@
     "broken_color": "yellow",
     "difficulty": 4,
     "durability": 20,
-    "epower": 133,
+    "epower": 50,
     "damage_modifier": 10,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
@@ -891,7 +891,7 @@
     "broken_color": "yellow",
     "difficulty": 6,
     "durability": 20,
-    "epower": 244,
+    "epower": 100,
     "damage_modifier": 10,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
@@ -913,7 +913,7 @@
     "broken_color": "light_gray",
     "difficulty": 8,
     "durability": 30,
-    "epower": 605,
+    "epower": 300,
     "damage_modifier": 10,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 4 ] },
