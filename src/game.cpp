@@ -11181,8 +11181,12 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         const vehicle *const veh = m.veh_at( dest_loc, vpart );
         const bool boardable = veh && veh->part_with_feature( vpart, "BOARDABLE" ) >= 0;
         // Hack for now, later ledge should stop being a trap
-        if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
-            m.has_floor( dest_loc ) && !boardable ) {
+        // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
+        if( tr.loadid == tr_ledge && m.has_zlevels() ) {
+            if( !boardable && !m.has_floor_or_support( dest_loc ) ) {
+                harmful_stuff.push_back( tr.name.c_str() );
+            }
+        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() ) {
             harmful_stuff.push_back( tr.name.c_str() );
         }
 
