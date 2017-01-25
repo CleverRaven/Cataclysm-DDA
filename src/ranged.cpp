@@ -24,6 +24,7 @@
 #include "vehicle.h"
 #include "field.h"
 #include "mtype.h"
+#include "item.h" // item::gun_mode
 #include "ui.h"  // uimenu
 
 #include <algorithm>
@@ -2038,7 +2039,7 @@ bool game::plfire_veh_turret( turret_data *tur )
                 switch_mode, switch_ammo
             };
 
-            fired = plfire( &*turret.base(), 0, &args );
+            fired = plfire( 0, 0, &args );
             break;
         }
 
@@ -2232,29 +2233,38 @@ bool game::plfire( item *weapon, int bp_cost, targeting_data *tdata )
     static bool held_weapon = true;
     static targeting_data args;
 
-    auto gun = cached_weapon->gun_current_mode();
+    item::gun_mode gun;
+    auto set_cached = [&]( item *weap ) {
+        cached_weapon = weap;
+        bio_power_cost = bp_cost;
+        held_weapon = &u.weapon == weap;
+    };
 
     if( weapon ) {
         // weapon not null: set the cached variables to the current values.
-        cached_weapon = weapon;
-        bio_power_cost = bp_cost;
-        held_weapon = &u.weapon == weapon;
+        set_cached( weapon );
         gun = weapon->gun_current_mode();
+        if ( !tdata ) {
+            // We were passed a weapon but no targeting data, so assemble some data from the weapon.
+            target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+            double gun_range = u.gun_engagement_range( *gun, player::engagement::maximum );
+            int range = gun.melee() ? gun.qty : gun_range;
+            const itype *ammo = gun->ammo_data();
+            target_callback empty_func = target_callback();
+            targeting_data tmp = { tmode, weapon, range, ammo, empty_func, empty_func };
+            args = tmp;
+        }
     }
 
     if( tdata ) {
+        // targeting data received, store this for subsequent calls.
         args = *tdata;
         if( !weapon && tdata->relevant ) {
-            cached_weapon = tdata->relevant;
+            set_cached( tdata->relevant );
         }
-    } else {
-        target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-        int range = gun.melee() ? gun.qty : u.gun_engagement_range( *gun, player::engagement::maximum );
-        const itype *ammo = gun->ammo_data();
-        targeting_data tmp = { tmode, cached_weapon, range, ammo, target_callback(), target_callback() };
-        args = tmp;
     }
 
+    gun = cached_weapon->gun_current_mode();
     int reload_time = 0;
 
     // If we were wielding this weapon when we started aiming, make sure we still are.
@@ -2304,4 +2314,3 @@ bool game::plfire( item *weapon, int bp_cost, targeting_data *tdata )
 
     return res;
 }
-
