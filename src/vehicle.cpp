@@ -6235,7 +6235,8 @@ void vehicle_part::unset_crew()
     crew_id = -1;
 }
 
-void vehicle_part::reset_target( tripoint pos ) {
+void vehicle_part::reset_target( tripoint pos )
+{
     target.first = pos;
     target.second = pos;
 }

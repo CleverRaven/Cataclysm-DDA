@@ -192,7 +192,7 @@
     "id": "TURRET_SINGLE_FIRE",
     "type": "keybinding",
     "category": "VEHICLE",
-    "name": "Aim a single turret",
+    "name": "Aim individual turret",
     "bindings":[ { "input_method": "keyboard", "key": "T" } ]
   },
   {
