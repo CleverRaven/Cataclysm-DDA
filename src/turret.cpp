@@ -401,7 +401,7 @@ bool vehicle::turrets_aim( bool manual, bool automatic )
 int vehicle::turrets_aim_and_fire( bool manual, bool automatic )
 {
     int shots = 0;
-    auto fire_if_able = [&]( vehicle_part *t ) {
+    auto fire_if_able = [&]( vehicle_part * t ) {
         bool has_target = t->target.first != t->target.second;
         bool allowed = ( manual && !t->enabled ) || ( automatic && t->enabled );
         if( has_target && allowed ) {
