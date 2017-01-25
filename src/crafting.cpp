@@ -865,7 +865,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
 void empty_buckets( player &p )
 {
     // First grab (remove) all items that are non-empty buckets and not wielded
-    auto buckets = p.remove_items_with( [&p]( const item &it ) {
+    auto buckets = p.remove_items_with( [&p]( const item & it ) {
         return it.is_bucket_nonempty() && &it != &p.weapon;
     }, INT_MAX );
     for( auto &it : buckets ) {
@@ -873,7 +873,7 @@ void empty_buckets( player &p )
             drop_or_handle( in, p );
         }
 
-        it.contents.empty();
+        it.contents.clear();
         drop_or_handle( it, p );
     }
 }
