@@ -6235,6 +6235,11 @@ void vehicle_part::unset_crew()
     crew_id = -1;
 }
 
+void vehicle_part::reset_target( tripoint pos ) {
+    target.first = pos;
+    target.second = pos;
+}
+
 bool vehicle_part::is_engine() const
 {
     return info().has_flag( VPFLAG_ENGINE );

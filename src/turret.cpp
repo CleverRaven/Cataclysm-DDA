@@ -241,9 +241,6 @@ int turret_data::fire( player &p, const tripoint &target )
 
     p.add_effect( effect_on_roof, 1 );
 
-    // turrets are subject only to recoil_vehicle()
-    double tur_recoil = 0;
-
     auto mode = base()->gun_current_mode();
 
     auto ammo = ammo_current();
@@ -253,7 +250,7 @@ int turret_data::fire( player &p, const tripoint &target )
         mode->ammo_set( ammo, std::min( qty * mode.qty, long( veh->fuel_left( ammo ) ) ) );
     }
 
-    shots = p.fire_gun( target, mode.qty, *mode, tur_recoil );
+    shots = p.fire_gun( target, mode.qty, *mode );
 
     if( part->info().has_flag( "USE_TANKS" ) ) {
         veh->drain( ammo, qty * shots );
@@ -350,14 +347,13 @@ void vehicle::turrets_set_mode()
     }
 }
 
-bool vehicle::turrets_aim( bool manual )
+bool vehicle::turrets_aim( bool manual, bool automatic )
 {
     // Clear any existing targets for turrets we want to aim
     auto opts = turrets();
     for( auto e : opts ) {
-        if( !e->enabled || !manual ) {
-            e->target.first = global_part_pos3( *e );
-            e->target.second = e->target.first;
+        if( ( !e->enabled && manual ) || ( e->enabled && automatic ) ) {
+            e->reset_target( global_part_pos3( *e ) );
         }
     }
 
@@ -402,11 +398,13 @@ bool vehicle::turrets_aim( bool manual )
     return !trajectory.empty();
 }
 
-int vehicle::turrets_aim_and_fire()
+int vehicle::turrets_aim_and_fire( bool manual, bool automatic )
 {
     int shots = 0;
-    auto fire_if_able = [&]( vehicle_part * t ) {
-        if( t->target.first != t->target.second ) {
+    auto fire_if_able = [&]( vehicle_part *t ) {
+        bool has_target = t->target.first != t->target.second;
+        bool allowed = ( manual && !t->enabled ) || ( automatic && t->enabled );
+        if( has_target && allowed ) {
             turret_data turret = this->turret_query( *t );
             if( turret.query() == turret_data::status::ready ) {
                 npc cpu = get_targeting_npc( *t );
@@ -416,13 +414,9 @@ int vehicle::turrets_aim_and_fire()
     };
 
     if( turrets_aim() ) {
-        // turrets_aim already set the targets for the turrets within range.
-        for( auto &t : turrets() ) {
-            // Only fire those turrets the player set to manual control.
-            if( t != nullptr && !t->enabled ) {
-                fire_if_able( t );
-            }
-        }
+        // turrets_aim already set the targets for any turrets within range.
+        auto const &turs = turrets();
+        std::for_each( turs.begin(), turs.end(), fire_if_able );
     }
 
     return shots;
@@ -524,8 +518,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         // Set the initial values here.
         // Calling turret_data.fire on tripoint (INT_MIN,INT_MIN,INT_MIN) starts a bad alloc crash
         //      triggered at `trajectory.insert( trajectory.begin(), source )` at ranged.cpp:236
-        target.first = pos;
-        target.second = pos;
+        pt.reset_target( pos );
         int boo_hoo;
 
         // @todo calculate chance to hit and cap range based upon this
@@ -555,7 +548,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     // Get the turret's target and reset it
     targ = target.second;
-    target.second = target.first;
+    pt.reset_target( pos );
 
     shots = gun.fire( cpu, targ );
 

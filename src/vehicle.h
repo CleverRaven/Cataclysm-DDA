@@ -182,6 +182,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Remove any currently assigned crew member for this part */
     void unset_crew();
 
+    /** Reset the target for this part. */
+    void reset_target( tripoint pos );
+
     /**
      * @name Part capabilities
      *
@@ -1038,17 +1041,19 @@ public:
 
     /*
      * Set specific target for automatic turret fire
-     * @param manual if true, will limit target assignment to manually controlled turrets.
-     *                  if false, will assign targets only to automatic turrets.
+     * @param manual if true, allows target assignment for manually controlled turrets.
+     * @param automatic if true, allows target assignment for automatically controlled turrets.
      * @returns whether a valid target was selected.
      */
-    bool turrets_aim( bool manual = true );
+    bool turrets_aim( bool manual = true, bool automatic = false );
 
     /*
      * Call turrets_aim and then fire turrets if we get a valid target.
+     * @param manual if true, allows targeting and firing for manual turrets.
+     * @param automatic if true, allows targeting and firing for automatic turrets.
      * @return the number of shots fired.
      */
-    int turrets_aim_and_fire();
+    int turrets_aim_and_fire( bool manual = true, bool automatic = false );
 
     /*
      * Call turrets_aim and then fire a selected single turret if we have a valid target.
