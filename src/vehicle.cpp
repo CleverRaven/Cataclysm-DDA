@@ -1005,13 +1005,13 @@ void vehicle::use_controls( const tripoint &pos )
         
         // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
         options.emplace_back( _( "Aim turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
-        actions.push_back( [&]{ turrets_aim_and_fire(); } );
+        actions.push_back( [&]{ turrets_aim_and_fire( true, false ); } );
         
         // This lets us manually override and set the target for the automatic turrets instead.
         options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
-        actions.push_back( [&]{ turrets_aim( false ); } );
+        actions.push_back( [&]{ turrets_aim( false, true ); } );
         
-        options.emplace_back( _( "Aim an individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
+        options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
         actions.push_back( [&]{ turret_aim_single(); } );
     }
 

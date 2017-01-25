@@ -349,13 +349,24 @@ void vehicle::turrets_set_mode()
 
 bool vehicle::turrets_aim( bool manual, bool automatic )
 {
-    // Clear any existing targets for turrets we want to aim
+    // Only work with turrets we want and are able to fire
     auto opts = turrets();
-    for( auto e : opts ) {
-        if( ( !e->enabled && manual ) || ( e->enabled && automatic ) ) {
-            e->reset_target( global_part_pos3( *e ) );
-        }
+    auto last = opts.end();
+    opts.erase( std::remove_if( opts.begin(), last, [&]( vehicle_part * vp ) {
+        bool available = turret_query( *vp ).query() == turret_data::status::ready;
+        bool selected = ( !vp->enabled && manual ) || ( vp->enabled && automatic );
+        return !available || !selected;
+    } ), last );
+
+    if( opts.empty() ) {
+        add_msg( m_warning, _( "Can't aim turrets: all turrets are offline" ) );
+        return false;
     }
+
+    // Clear any existing targets for turrets we want to aim
+    std::for_each( opts.begin(), opts.end(), [&]( vehicle_part * vp ) {
+        vp->reset_target( global_part_pos3( *vp ) );
+    } );
 
     // find radius of a circle centered at u encompassing all points turrets can aim at
     int range = std::accumulate( opts.begin(), opts.end(), 0, [&]( const int lhs, vehicle_part * e ) {
@@ -376,26 +387,23 @@ bool vehicle::turrets_aim( bool manual, bool automatic )
         return std::max( lhs, res );
     } );
 
-    if( opts.empty() ) {
-        add_msg( m_warning, _( "Can't aim turrets: all turrets are offline" ) );
-        return false;
-    }
-
     tripoint pos = g->u.pos();
     std::vector<tripoint> trajectory = g->pl_target_ui( TARGET_MODE_TURRET, nullptr, range );
 
-    if( !trajectory.empty() ) {
+    bool got_target = !trajectory.empty();
+    if( got_target ) {
         // set target for any turrets in range
-        for( auto e : turrets( trajectory.back() ) ) {
-            if( !e->enabled || !manual ) {
-                e->target.second = trajectory.back();
+        for( vehicle_part *vp : opts ) {
+            tripoint targ = trajectory.back();
+            if( rl_dist( global_part_pos3( *vp ), targ ) <= vp->base.gun_range() ) {
+                vp->target.second = targ;
             }
         }
         ///\EFFECT_INT speeds up aiming of vehicle turrets
         g->u.moves = std::min( 0, g->u.moves - 100 + ( 5 * g->u.int_cur ) );
     }
 
-    return !trajectory.empty();
+    return got_target;
 }
 
 int vehicle::turrets_aim_and_fire( bool manual, bool automatic )
@@ -413,7 +421,7 @@ int vehicle::turrets_aim_and_fire( bool manual, bool automatic )
         }
     };
 
-    if( turrets_aim() ) {
+    if( turrets_aim( manual, automatic ) ) {
         // turrets_aim already set the targets for any turrets within range.
         auto const &turs = turrets();
         std::for_each( turs.begin(), turs.end(), fire_if_able );
