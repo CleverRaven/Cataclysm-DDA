@@ -117,6 +117,24 @@ static void test_internal( const npc& who, const std::vector<item> &guns )
             }
         }
     }
+
+    WHEN( "the target is bigger" ) {
+        THEN( "chance to hit is greater" ) {
+            for( const auto &gun : guns ) {
+                CAPTURE( gun.tname() );
+                for( int i = MS_TINY; i < MS_HUGE - 1; i++ ) {
+                    m_size target_size = static_cast<m_size>( i );
+                    double accuracy = 0.5;
+                    double recoil = MIN_RECOIL;
+                    double chance = 0.5;
+                    double range = who.gun_current_range( gun, recoil, chance, accuracy );
+                    double dispersion = who.get_weapon_dispersion( gun ) + recoil;
+                    CHECK( who.projectile_attack_chance( dispersion, range, accuracy, target_size + 1 ) >=
+                           who.projectile_attack_chance( dispersion, range, accuracy, target_size ) );
+                }
+            }
+        }
+    }
 }
 
 TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
