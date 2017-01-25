@@ -555,20 +555,20 @@ double player::crit_chance( float roll_hit, float target_dodge, const item &weap
     return chance_triple;
 }
 
-float player::get_dodge_base() const
+float player::get_dodge_base( bool include_size ) const
 {
     // @todo Remove this override?
-    return Character::get_dodge_base();
+    return Character::get_dodge_base( include_size );
 }
 
-float player::get_dodge() const
+float player::get_dodge( bool include_size ) const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() ) {
         return 0.0f;
     }
 
-    float ret = Creature::get_dodge();
+    float ret = Creature::get_dodge( include_size );
     // Chop in half if we are unable to move
     if( has_effect( effect_beartrap ) || has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ) {
         ret /= 2;
@@ -597,9 +597,9 @@ float player::get_dodge() const
     return std::max( 0.0f, ret );
 }
 
-float player::dodge_roll()
+float player::dodge_roll( bool include_size )
 {
-    return get_dodge() * 5;
+    return get_dodge( include_size ) * 5;
 }
 
 float player::bonus_damage( bool random ) const

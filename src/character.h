@@ -152,7 +152,7 @@ class Character : public Creature, public visitable<Character>
         double aim_per_move( const item &gun, double recoil ) const;
 
         /** Combat getters */
-        float get_dodge_base() const override;
+        float get_dodge_base( bool include_size = true ) const override;
         float get_hit_base() const override;
 
         /** Handles health fluctuations over time */

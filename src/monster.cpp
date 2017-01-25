@@ -1363,7 +1363,7 @@ float monster::get_hit_base() const
     return type->melee_skill;
 }
 
-float monster::get_dodge_base() const
+float monster::get_dodge_base( bool ) const
 {
     return type->sk_dodge;
 }
@@ -1410,24 +1410,26 @@ float monster::stability_roll() const
     return stability;
 }
 
-float monster::get_dodge() const
+float monster::get_dodge( bool include_size ) const
 {
     float ret = 0.0f;
-    switch( type->size ) {
-        case MS_TINY:
-            ret += 6;
-            break;
-        case MS_SMALL:
-            ret += 3;
-            break;
-        case MS_LARGE:
-            ret -= 2;
-            break;
-        case MS_HUGE:
-            ret -= 4;
-            break;
-        case MS_MEDIUM:
-            break; // keep default
+    if( include_size ) {
+        switch( type->size ) {
+            case MS_TINY:
+                ret += 6;
+                break;
+            case MS_SMALL:
+                ret += 3;
+                break;
+            case MS_LARGE:
+                ret -= 2;
+                break;
+            case MS_HUGE:
+                ret -= 4;
+                break;
+            case MS_MEDIUM:
+                break; // keep default
+        }
     }
 
     if( has_effect( effect_downed ) ) {
@@ -1435,7 +1437,7 @@ float monster::get_dodge() const
         return ret;
     }
 
-    ret += Creature::get_dodge();
+    ret += Creature::get_dodge( include_size );
     if( has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) || has_effect( effect_beartrap ) || has_effect( effect_tied ) ) {
         ret /= 2;
     }
@@ -1452,9 +1454,9 @@ float monster::get_melee() const
     return type->melee_skill;
 }
 
-float monster::dodge_roll()
+float monster::dodge_roll( bool include_size )
 {
-    return get_dodge() * 5;
+    return get_dodge( include_size ) * 5;
 }
 
 float monster::fall_damage_mod() const

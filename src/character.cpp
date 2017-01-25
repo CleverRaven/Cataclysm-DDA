@@ -1694,7 +1694,7 @@ void Character::update_health(int external_modifiers)
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
 
-float Character::get_dodge_base() const
+float Character::get_dodge_base( bool ) const
 {
     ///\EFFECT_DEX increases dodge base
     ///\EFFECT_DODGE increases dodge_base

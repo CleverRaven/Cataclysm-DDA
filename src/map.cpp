@@ -2034,6 +2034,20 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     return up.get_furn_t().movecost >= 0;
 }
 
+double map::ranged_target_size( const tripoint &p ) const
+{
+    if( impassable( p ) ) {
+        return 1.0;
+    }
+
+    if( !has_floor( p ) ) {
+        return 0.0;
+    }
+
+    // @todo Handle cases like shrubs, trees, furniture, sandbags...
+    return 0.1;
+}
+
 // End of move cost
 
 int map::climb_difficulty( const tripoint &p ) const

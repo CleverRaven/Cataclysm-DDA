@@ -617,11 +617,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles combat effects, returns a string of any valid combat effect messages */
         std::string melee_special_effects(Creature &t, damage_instance &d, const ma_technique &tec);
         /** Returns Creature::get_dodge_base modified by the player's skill level */
-        float get_dodge_base() const override;   // Returns the players's dodge, modded by clothing etc
+        float get_dodge_base( bool include_size = true ) const override;   // Returns the players's dodge, modded by clothing etc
         /** Returns Creature::get_dodge() modified by any player effects */
-        float get_dodge() const override;
+        float get_dodge( bool include_size = true ) const override;
         /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
-        float dodge_roll() override;
+        float dodge_roll( bool include_size = true ) override;
 
         /** Returns melee skill level, to be used to throttle dodge practice. **/
         float get_melee() const override;
