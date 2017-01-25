@@ -346,15 +346,16 @@ void vehicle::turrets_set_mode()
     }
 }
 
-bool vehicle::turrets_aim( bool manual, bool automatic )
+bool vehicle::turrets_aim( bool manual, bool automatic, vehicle_part *tur_part )
 {
     // Only work with turrets we want and are able to fire
     auto opts = turrets();
     auto last = opts.end();
     opts.erase( std::remove_if( opts.begin(), last, [&]( vehicle_part * vp ) {
         bool available = turret_query( *vp ).query() == turret_data::status::ready;
-        bool selected = ( !vp->enabled && manual ) || ( vp->enabled && automatic );
-        return !available || !selected;
+        bool mode_ok = ( ( !vp->enabled && manual ) || ( vp->enabled && automatic ) );
+        bool part_wanted = mode_ok || ( tur_part && vp == tur_part );
+        return !available || !part_wanted;
     } ), last );
 
     if( opts.empty() ) {
@@ -405,19 +406,18 @@ bool vehicle::turrets_aim( bool manual, bool automatic )
     return got_target;
 }
 
-int vehicle::turrets_aim_and_fire( bool manual, bool automatic )
+int vehicle::turrets_aim_and_fire( bool manual, bool automatic, vehicle_part *tur_part )
 {
     int shots = 0;
     auto fire_if_able = [&]( vehicle_part * vp ) {
-        bool has_target = vp->target.first != vp->target.second;
-        if( has_target && ( manual && !vp->enabled ) ) {
+        if( vp->target.first != vp->target.second && !vp->enabled ) {
             turret_data turret = this->turret_query( *vp );
             npc cpu = get_targeting_npc( *vp );
             shots += turret.fire( cpu, vp->target.second );
         }
     };
 
-    if( turrets_aim( manual, automatic ) ) {
+    if( turrets_aim( manual, automatic, tur_part ) ) {
         // turrets_aim already set the targets for any available turrets that can reach the target.
         auto const &turs = turrets();
         std::for_each( turs.begin(), turs.end(), fire_if_able );
@@ -426,9 +426,13 @@ int vehicle::turrets_aim_and_fire( bool manual, bool automatic )
     return shots;
 }
 
-int vehicle::turret_aim_single()
+int vehicle::turrets_aim_single( vehicle_part *tur_part )
 {
     int shots = 0;
+    if( tur_part ) {
+        return turrets_aim_and_fire( false, false, tur_part );
+    }
+
     std::vector<std::string> options( 1, _( "Cancel" ) );
     std::vector<vehicle_part *> guns( 1, nullptr );
 
@@ -453,21 +457,7 @@ int vehicle::turret_aim_single()
     }
 
     if( chosen !=  nullptr ) {
-        // Reset targeting info
-        int range = chosen->base.gun_range();
-        tripoint pos = global_part_pos3( *chosen );
-        chosen->target = std::make_pair( pos, pos );
-        std::vector<tripoint> trajectory = g->pl_target_ui( TARGET_MODE_TURRET, &chosen->base, range );
-        if( !trajectory.empty() ) {
-            // speed aiming of vehicle turrets
-            g->u.moves = std::min( 0, g->u.moves - 100 + ( 5 * g->u.int_cur ) );
-            chosen->target.second = trajectory.back();
-            npc cpu = get_targeting_npc( *chosen );
-            // Only fire manual turrets here, auto turrets will fire themselves with a valid target.
-            if( !chosen->enabled ) {
-                shots = turret_query( *chosen ).fire( cpu, chosen->target.second );
-            }
-        }
+        shots = turrets_aim_and_fire( false, false, chosen );
     }
 
     return shots;

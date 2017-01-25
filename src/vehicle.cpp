@@ -1012,7 +1012,7 @@ void vehicle::use_controls( const tripoint &pos )
         actions.push_back( [&]{ turrets_aim( false, true ); } );
         
         options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
-        actions.push_back( [&]{ turret_aim_single(); } );
+        actions.push_back( [&]{ turrets_aim_single(); } );
     }
 
     if( has_electronic_controls && (camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) ) {
