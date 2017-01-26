@@ -158,7 +158,7 @@ bool player::activate_bionic( int b, bool eff_only )
         charge_power( bionics[bio.id].power_activate );
         bio_gun = item( bionics[bio.id].fake_item );
         g->refresh_all();
-        g->plfire( &bio_gun, bionics[bio.id].power_activate, false );
+        g->plfire( &bio_gun, bionics[bio.id].power_activate );
     } else if( bionics[ bio.id ].weapon_bionic ) {
         if( weapon.has_flag( "NO_UNWIELD" ) ) {
             add_msg( m_info, _( "Deactivate your %s first!" ), weapon.tname().c_str() );

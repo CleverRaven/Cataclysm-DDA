@@ -185,6 +185,15 @@ bool is_valid_in_w_terrain(int x, int y)
     return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
 }
 
+struct targeting_data {
+    target_mode mode;
+    item *relevant;
+    int range;
+    const itype *ammo;
+    game::target_callback on_mode_change;
+    game::target_callback on_ammo_change;
+};
+
 class user_turn {
 
 private:
@@ -10059,6 +10068,12 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
+// TODO: Move this and related data/functions to src/ranged.cpp
+std::vector<tripoint> game::pl_target_ui( targeting_data &args ) {
+    return pl_target_ui( args.mode, args.relevant, args.range,
+                         args.ammo, args.on_mode_change, args.on_ammo_change );
+}
+
 bool game::plfire_check( item &weapon, int &reload_time ) {
     bool okay = true;
     vehicle *veh = nullptr;
@@ -10168,40 +10183,58 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
     return okay;
 }
 
-bool game::plfire( item *weapon, int bp_cost, bool held )
+bool game::plfire( item *weapon, int bp_cost, targeting_data *tdata )
 {
     static int bio_power_cost = 0;
-    static item *cached_weapon = nullptr;
+    static item *cached_weapon = &u.weapon;
     static bool held_weapon = true;
-    
-    if( weapon != nullptr ) {
-        // valid weapon, set the cached weapon and bp_cost to the current values.
-        cached_weapon = weapon;
+    static targeting_data args;
+
+    item::gun_mode gun;
+    auto set_cached = [&]( item *weap ) {
+        cached_weapon = weap;
         bio_power_cost = bp_cost;
-        held_weapon = held;
-    } else if( !cached_weapon ) {
-        // if no weapon is cached, default to the player's weapon.
-        cached_weapon = &u.weapon;
-        held_weapon = true;
+        held_weapon = &u.weapon == weap;
+    };
+
+    if( weapon ) {
+        // weapon not null: set the cached variables to the current values.
+        set_cached( weapon );
+        gun = weapon->gun_current_mode();
+        if ( !tdata ) {
+            // We were passed a weapon but no targeting data, so assemble some data from the weapon.
+            target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+            double gun_range = u.gun_engagement_range( *gun, player::engagement::maximum );
+            int range = gun.melee() ? gun.qty : gun_range;
+            const itype *ammo = gun->ammo_data();
+            target_callback empty_func = target_callback();
+            targeting_data tmp = { tmode, weapon, range, ammo, empty_func, empty_func };
+            args = tmp;
+        }
     }
 
+    if( tdata ) {
+        // targeting data received, store this for subsequent calls.
+        args = *tdata;
+        if( !weapon && tdata->relevant ) {
+            set_cached( tdata->relevant );
+        }
+    }
+
+    gun = cached_weapon->gun_current_mode();
     int reload_time = 0;
-    
+
     // If we were wielding this weapon when we started aiming, make sure we still are.
     bool lost_gun = ( held_weapon && &u.weapon != cached_weapon );
-    if( lost_gun || !plfire_check( *cached_weapon, reload_time ) ) {
+    bool passed_check = plfire_check( *cached_weapon, reload_time );
+    if( lost_gun || !passed_check ) {
         bio_power_cost = 0;
         return false;
     }
 
-    auto gun = cached_weapon->gun_current_mode();
-    int range = gun.melee() ? gun.qty : u.gun_engagement_range( *gun, player::engagement::maximum );
-
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
-
-    target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-    std::vector<tripoint> trajectory = pl_target_ui( tmode, cached_weapon, range );
+    std::vector<tripoint> trajectory = pl_target_ui( args );
 
     if( trajectory.empty() ) {
         bool not_aiming = u.activity.id() != activity_id( "ACT_AIM" );
@@ -10226,16 +10259,16 @@ bool game::plfire( item *weapon, int bp_cost, bool held )
     } else {
         u.moves -= reload_time;
         // @todo add check for TRIGGERHAPPY
-        res = u.fire_gun( trajectory.back(), gun.qty, *gun );
+        res = u.fire_gun( trajectory.back(), gun.qty, *gun, u.recoil );
     }
-    
+
     if( res && bio_power_cost ) {
         u.charge_power( -bio_power_cost );
         bio_power_cost = 0;
     }
 
     reenter_fullscreen();
-    
+
     return res;
 }
 

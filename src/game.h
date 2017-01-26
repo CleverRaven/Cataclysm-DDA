@@ -119,6 +119,7 @@ struct w_point;
 struct explosion_data;
 struct visibility_variables;
 class scent_map;
+struct targeting_data;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -345,14 +346,15 @@ class game
 
         /**
          * Handles interactive parts of gun firing (target selection, etc.).
-         * If weapon != nullptr, parameters are used and stored for future reference. 
-         * Otherwise, it tries using the stored parameters (player's weapon by default).
+         * If @param weapon or @param tdata->relevant are not null, arguments are stored for use.
+         * Otherwise, it tries using the stored parameters (defaulting to the player's weapon).
          * @param weapon Pointer to the weapon we began aiming with.
          * @param bp_cost The amount by which the player's power reserve is decreased after firing.
+         * @param targeting_data holds parameters which are passed to pl_target_ui on each call.
          * @param held Whether the weapon to be fired requires the player to wield it.
          * @return Whether an attack was actually performed.
          */
-        bool plfire( item *weapon = nullptr, int bp_cost = 0, bool held = true );
+        bool plfire( item *weapon = nullptr, int bp_cost = 0, targeting_data *tdata = nullptr );
 
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also
@@ -370,15 +372,19 @@ class game
 
         /**
          *  Prompts for target and returns trajectory to it
-         *  @param relevant active item (if any)
+         *  @param mode targeting mode, which affects UI display among other things
+         *  @param relevant active item, if any (for instance, a weapon to be aimed)
+         *  @param range the maximum distance to which we're allowed to draw a target.
          *  @param ammo effective ammo data (derived from @param relevant if unspecified)
          *  @param on_mode_change callback when user attempts changing firing mode
          *  @param on_ammo_change callback when user attempts changing ammo
+         *  @param args structure containing arguments passed to the overloaded form.
          */
         std::vector<tripoint> pl_target_ui( target_mode mode, item *relevant, int range,
                                             const itype *ammo = nullptr,
                                             const target_callback &on_mode_change = target_callback(),
                                             const target_callback &on_ammo_change = target_callback() );
+        std::vector<tripoint> pl_target_ui( targeting_data &args );
 
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
