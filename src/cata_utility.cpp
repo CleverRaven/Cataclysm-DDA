@@ -513,8 +513,7 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
 std::string native_to_utf8( const std::string &str )
 {
 #if defined(_WIN32) || defined(WINDOWS)
-    // 1. Convert native encoded str to Unicode
-    // 2. Convert Unicode sequence into UTF-8
+    // native encoded string --> Unicode sequence --> UTF-8 string
     int unicode_size = MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, NULL, NULL ) + 1;
     std::wstring unicode( unicode_size, '\0' );
     MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, &unicode[0], unicode_size );
@@ -533,8 +532,7 @@ std::string native_to_utf8( const std::string &str )
 std::string utf8_to_native( const std::string &str )
 {
 #if defined(_WIN32) || defined(WINDOWS)
-    // 1. Convert UTF-8 encoded str to Unicode
-    // 2. Convert Unicode sequence into native codes
+    // UTF-8 string --> Unicode sequence --> native encoded string
     int unicode_size = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, NULL ) + 1;
     std::wstring unicode( unicode_size, '\0' );
     MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &unicode[0], unicode_size );
