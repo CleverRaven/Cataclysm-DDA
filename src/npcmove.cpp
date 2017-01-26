@@ -526,7 +526,7 @@ void npc::execute_action( npc_action action )
             break;
         }
         aim();
-        fire_gun( tar, mode.qty, *mode, recoil );
+        fire_gun( tar, mode.qty, *mode );
         break;
     }
 

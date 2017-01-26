@@ -118,8 +118,6 @@ struct w_point;
 struct explosion_data;
 struct visibility_variables;
 class scent_map;
-class turret_data;
-struct targeting_data;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -336,20 +334,6 @@ class game
         bool revive_corpse( const tripoint &location, item &corpse );
 
         /**
-         * Attempt to fire a vehicle turret at the same coordinates as the player.
-         * @param tur pointer to the data for the turret being fired.
-         * @return whether the turret was fired.
-         */
-        bool plfire_veh_turret( turret_data *tur );
-
-        /**
-         * Attempt to fire the player's weapon, offering a menu selection of weapons to wield 
-         * if they aren't currently holding anything.
-         * @return whether we actually fired something.
-         */
-        bool plfire_attempt();
-
-        /**
          * Returns true if the player is allowed to fire a given item, or false if otherwise.
          * reload_time is stored as a side effect of condition testing.
          * @param weapon The item that needs to be checked, which we are trying to fire.
@@ -364,10 +348,10 @@ class game
          * Otherwise, it tries using the stored parameters (player's weapon by default).
          * @param weapon Pointer to the weapon we began aiming with.
          * @param bp_cost The amount by which the player's power reserve is decreased after firing.
-         * @param targeting_data holds parameters which are passed to pl_target_ui on each call.
+         * @param held Whether the weapon to be fired requires the player to wield it.
          * @return Whether an attack was actually performed.
          */
-        bool plfire( item *weapon = nullptr, int bp_cost = 0, targeting_data *tdata = nullptr );
+        bool plfire( item *weapon = nullptr, int bp_cost = 0, bool held = true );
 
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also
@@ -385,19 +369,15 @@ class game
 
         /**
          *  Prompts for target and returns trajectory to it
-         *  @param mode targeting mode, which affects UI display among other things
-         *  @param relevant active item, if any (for instance, a weapon to be aimed)
-         *  @param range the maximum distance to which we're allowed to draw a target.
+         *  @param relevant active item (if any)
          *  @param ammo effective ammo data (derived from @param relevant if unspecified)
          *  @param on_mode_change callback when user attempts changing firing mode
          *  @param on_ammo_change callback when user attempts changing ammo
-         *  @param args structure containing arguments passed to the overloaded form.
          */
         std::vector<tripoint> pl_target_ui( target_mode mode, item *relevant, int range,
                                             const itype *ammo = nullptr,
                                             const target_callback &on_mode_change = target_callback(),
                                             const target_callback &on_ammo_change = target_callback() );
-        std::vector<tripoint> pl_target_ui( targeting_data &args );
 
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();

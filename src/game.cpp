@@ -2920,7 +2920,109 @@ bool game::handle_action()
             break;
 
         case ACTION_FIRE:
-            plfire_attempt();
+            // Use vehicle turret or draw a pistol from a holster if unarmed
+            if( !u.is_armed() ) {
+
+                int part = -1;
+                vehicle *veh = m.veh_at( u.pos(), part );
+
+                turret_data turret;
+                if( veh && ( turret = veh->turret_query( u.pos() ) ) ) {
+                    switch( turret.query() ) {
+                        case turret_data::status::no_ammo:
+                            add_msg( m_bad, _( "The %s is out of ammo." ), turret.name().c_str() );
+                            break;
+
+                        case turret_data::status::no_power:
+                            add_msg( m_bad,  _( "The %s is not powered." ), turret.name().c_str() );
+                            break;
+
+                        case turret_data::status::ready: {
+                            // if more than one firing mode provide callback to cyle through them
+                            target_callback switch_mode;
+                            if( turret.base()->gun_all_modes().size() > 1 ) {
+                                switch_mode = [&turret]( item *obj ) {
+                                    obj->gun_cycle_mode();
+                                    // currently gun modes dont change ammo but they may in the future
+                                    return turret.ammo_current() == "null" ? nullptr :
+                                           item::find_type( turret.ammo_current() );
+                                };
+                            }
+
+                            // if multiple ammo types available provide callback to cycle alternatives
+                            target_callback switch_ammo;
+                            if( turret.ammo_options().size() > 1 ) {
+                                switch_ammo = [&turret]( item * ) {
+                                    const auto opts = turret.ammo_options();
+                                    auto iter = opts.find( turret.ammo_current() );
+                                    turret.ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
+                                    return item::find_type( turret.ammo_current() );
+                                };
+                            }
+
+                            auto trajectory = pl_target_ui( TARGET_MODE_TURRET_MANUAL, &*turret.base(),
+                                                            turret.range(), turret.ammo_data(),
+                                                            switch_mode, switch_ammo );
+
+                            if( !trajectory.empty() ) {
+                                turret.fire( u, trajectory.back() );
+                            }
+                            break;
+                        }
+
+                        default:
+                            debugmsg( "unknown turret status" );
+                            break;
+                    }
+                    break;
+                }
+
+                if( veh ) {
+                    int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
+                    if( vpcontrols >= 0 && veh->turrets_aim() ) {
+                        break;
+                    }
+                }
+
+                std::vector<std::string> options( 1, _("Cancel") );
+                std::vector<std::function<void()>> actions( 1, []{} );
+
+                for( auto &w : u.worn ) {
+                    if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
+                        !w.contents.empty() && w.contents.front().is_gun() ) {
+                        // draw (first) gun contained in holster
+                        options.push_back( string_format( _("%s from %s (%d)" ),
+                                                          w.contents.front().tname().c_str(),
+                                                          w.type_name().c_str(),
+                                                          w.contents.front().ammo_remaining() ) );
+
+                        actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
+
+                    } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
+                        // wield item currently worn using shoulder strap
+                        options.push_back( w.display_name() );
+                        actions.push_back( [&]{ u.wield( w ); } );
+                    }
+                }
+                if( options.size() > 1 ) {
+                    actions[ ( uimenu( false, _("Draw what?"), options ) ) - 1 ]();
+                }
+            }
+
+            if( u.weapon.is_gun() ) {
+                plfire( &u.weapon );
+
+            } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
+                int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
+                temp_exit_fullscreen();
+                m.draw( w_terrain, u.pos() );
+                std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_REACH, &u.weapon,range );
+                if( !trajectory.empty() ) {
+                    u.reach_attack( trajectory.back() );
+                }
+                draw_ter();
+                reenter_fullscreen();
+            }
             break;
 
         case ACTION_FIRE_BURST: {
@@ -4719,6 +4821,10 @@ static void draw_footsteps( WINDOW *window, const tripoint &offset )
 
 void game::draw()
 {
+    if( test_mode ) {
+        return;
+    }
+
     // Draw map
     werase(w_terrain);
 
@@ -9936,6 +10042,186 @@ void game::plthrow(int pos)
 
     u.throw_item( trajectory.back(), thrown );
     reenter_fullscreen();
+}
+
+bool game::plfire_check( item &weapon, int &reload_time ) {
+    bool okay = true;
+    vehicle *veh = nullptr;
+    
+    if( u.has_effect( effect_relax_gas ) ) {
+        if( one_in(5) ) {
+            add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
+        } else {
+            u.moves -= rng(2, 5) * 10;
+            add_msg( m_bad, _( "You can't fire your weapon, it's too heavy..." ) );
+            return false;
+        }
+    }
+    
+    if( weapon.is_gunmod() ) {
+        add_msg( m_info, 
+            _( "The %s must be attached to a gun, it can not be fired separately." ), 
+            weapon.tname().c_str() );
+        return false;
+    }
+
+    auto gun = weapon.gun_current_mode();
+
+    // check that a valid mode was returned and we are able to use it
+    if( !( gun && u.can_use( *gun ) ) ) {
+        add_msg( m_info, _( "You can no longer fire." ) );
+        return false;
+    }
+
+    veh = m.veh_at( u.pos() );
+    if( veh != nullptr && veh->player_in_control( u ) && gun->is_two_handed( u ) ) {
+        add_msg( m_info, _( "You need a free arm to drive!" ) );
+        return false;
+    }
+    
+    if( !gun.melee() ) {
+        
+        if( !weapon.is_gun() ) {
+            return false;
+        }
+        
+        if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() || u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
+            add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname().c_str() );
+            return false;
+        }
+
+        if( gun->has_flag( "RELOAD_AND_SHOOT" ) && !gun->ammo_remaining() ) {
+            item::reload_option opt = u.select_ammo( *gun );
+            if( !opt ) {
+                // Menu cancelled
+                return false;
+            }
+
+            reload_time += opt.moves();
+            
+            if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
+                // Reload not allowed
+                return false;
+            }
+
+            // Burn 2x the strength required to fire in stamina.
+            u.mod_stat( "stamina", gun->type->min_str * -2 );
+
+            // At low stamina levels, firing starts getting slow.
+            int sta_percent = ( 100 * u.stamina ) / u.get_stamina_max();
+            reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
+
+            refresh_all();
+        }
+
+        if( !gun->ammo_sufficient() && !gun->has_flag("RELOAD_AND_SHOOT") ) {
+            if( !gun->ammo_remaining() ) {
+                add_msg( m_info, _( "You need to reload!" ) );
+            } else {
+                add_msg( m_info, _( "Your %s needs %i charges to fire!" ), gun->tname().c_str(), gun->ammo_required() );
+            }
+            return false;
+        }
+
+        if( gun->get_gun_ups_drain() > 0 ) {
+            const int ups_drain = gun->get_gun_ups_drain();
+            const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
+
+            if( !( u.has_charges( "UPS_off", ups_drain ) ||
+                   u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+                   (u.has_active_bionic( "bio_ups" ) && u.power_level >= ups_drain ) ) ) {
+                add_msg( m_info,
+                         _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
+                         ups_drain, adv_ups_drain );
+                return false;
+            }
+        }
+
+        if( gun->has_flag( "MOUNTED_GUN" ) ) {
+            int vpart = -1;
+            veh = m.veh_at( u.pos(), vpart );
+            bool v_mountable = ( veh && veh->part_with_feature( vpart, "MOUNTABLE" ) >= 0 );
+            bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() );
+            if( !t_mountable && !v_mountable ) {
+                add_msg(m_info,
+                        _( "You must stand near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc." ) );
+                return false;
+            }
+        }
+    }
+    
+    return okay;
+}
+
+bool game::plfire( item *weapon, int bp_cost, bool held )
+{
+    static int bio_power_cost = 0;
+    static item *cached_weapon = nullptr;
+    static bool held_weapon = true;
+    
+    if( weapon != nullptr ) {
+        // valid weapon, set the cached weapon and bp_cost to the current values.
+        cached_weapon = weapon;
+        bio_power_cost = bp_cost;
+        held_weapon = held;
+    } else if( !cached_weapon ) {
+        // if no weapon is cached, default to the player's weapon.
+        cached_weapon = &u.weapon;
+        held_weapon = true;
+    }
+
+    int reload_time = 0;
+    
+    // If we were wielding this weapon when we started aiming, make sure we still are.
+    bool lost_gun = ( held_weapon && &u.weapon != cached_weapon );
+    if( lost_gun || !plfire_check( *cached_weapon, reload_time ) ) {
+        bio_power_cost = 0;
+        return false;
+    }
+
+    auto gun = cached_weapon->gun_current_mode();
+    int range = gun.melee() ? gun.qty : u.gun_engagement_range( *gun, player::engagement::maximum );
+
+    temp_exit_fullscreen();
+    m.draw( w_terrain, u.pos() );
+
+    target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+    std::vector<tripoint> trajectory = pl_target_ui( tmode, cached_weapon, range );
+
+    if( trajectory.empty() ) {
+        bool not_aiming = u.activity.id() != activity_id( "ACT_AIM" );
+        if( not_aiming && gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
+            const auto previous_moves = u.moves;
+            unload( *gun );
+            // Give back time for unloading as essentially nothing has been done.
+            // Note that reload_time has not been applied either.
+            u.moves = previous_moves;
+        }
+        reenter_fullscreen();
+        return false;
+    }
+    draw_ter(); // Recenter our view
+
+    bool res = false;
+
+    if( gun.melee() ) {
+        u.reach_attack( trajectory.back() );
+        res = true;
+
+    } else {
+        u.moves -= reload_time;
+        // @todo add check for TRIGGERHAPPY
+        res = u.fire_gun( trajectory.back(), gun.qty, *gun );
+    }
+    
+    if( res && bio_power_cost ) {
+        u.charge_power( -bio_power_cost );
+        bio_power_cost = 0;
+    }
+
+    reenter_fullscreen();
+    
+    return res;
 }
 
 // Helper for game::butcher
