@@ -1087,6 +1087,10 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 {
     static const std::vector<tripoint> empty_result{};
     std::vector<tripoint> ret;
+    
+    if ( !relevant ) {
+        relevant = &u.weapon;
+    }
 
     tripoint src = u.pos();
     tripoint dst = u.pos();
