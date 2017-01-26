@@ -509,3 +509,43 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
         reader.deserialize( jsin );
     } );
 }
+
+std::string native_to_utf8( const std::string &str )
+{
+#if defined(_WIN32) || defined(WINDOWS)
+    // 1. Convert native encoded str to Unicode
+    // 2. Convert Unicode sequence into UTF-8
+    int unicode_size = MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, NULL, NULL ) + 1;
+    std::wstring unicode( unicode_size, '\0' );
+    MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, &unicode[0], unicode_size );
+    int utf8_size = WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, NULL, 0, NULL, NULL ) + 1;
+    std::string result( utf8_size, '\0' );
+    WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, &result[0], utf8_size, NULL, NULL );
+    while( !result.empty() && result.back() == '\0' ) {
+        result.pop_back();
+    }
+    return result;
+#else
+    return str;
+#endif
+}
+
+std::string utf8_to_native( const std::string &str )
+{
+#if defined(_WIN32) || defined(WINDOWS)
+    // 1. Convert UTF-8 encoded str to Unicode
+    // 2. Convert Unicode sequence into native codes
+    int unicode_size = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, NULL ) + 1;
+    std::wstring unicode( unicode_size, '\0' );
+    MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &unicode[0], unicode_size );
+    int native_size = WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, NULL, 0, NULL, NULL ) + 1;
+    std::string result( native_size, '\0' );
+    WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, &result[0], native_size, NULL, NULL );
+    while( !result.empty() && result.back() == '\0' ) {
+        result.pop_back();
+    }
+    return result;
+#else
+    return str;
+#endif
+}
