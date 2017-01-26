@@ -791,7 +791,7 @@ void add_corpse( const tripoint &p );
                     const unsigned quantity=1, const long charges=0,
                     const unsigned birthday=0, const int damlevel=0);
 
-    item &add_item_or_charges( const int x, const int y, const item &obj, bool overflow = true );
+    item &add_item_or_charges( const int x, const int y, item obj, bool overflow = true );
 
     void add_item(const int x, const int y, item new_item);
     void spawn_an_item( const int x, const int y, item new_item,
@@ -826,7 +826,7 @@ void add_corpse( const tripoint &p );
      *  @return reference to dropped (and possibly stacked) item or null item on failure
      *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
      */
-    item &add_item_or_charges( const tripoint &pos, const item &obj, bool overflow = true );
+    item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
 
     /** Helper for map::add_item */
     item &add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
@@ -997,8 +997,11 @@ void add_corpse( const tripoint &p );
         void propagate_field( const tripoint &center, field_id fid,
                               int amount, int max_density = MAX_FIELD_DENSITY );
 
-        /** Runs one cycle of emission @ref src which **may** result in propagation of fields */
-        void emit_field( const tripoint &pos, const emit_id &src );
+        /**
+         * Runs one cycle of emission @ref src which **may** result in propagation of fields
+         * @param mul Multiplies the chance and possibly qty (if `chance*mul > 100`) of the emission
+         */
+        void emit_field( const tripoint &pos, const emit_id &src, float mul = 1.0f );
 
 // End of 3D field function block
 

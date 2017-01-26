@@ -4270,7 +4270,7 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
                 quantity, charges, birthday, damlevel );
 }
 
-item &map::add_item_or_charges(const int x, const int y, const item &obj, bool overflow )
+item &map::add_item_or_charges(const int x, const int y, item obj, bool overflow )
 {
     return add_item_or_charges( tripoint( x, y, abs_sub.z ), obj, overflow );
 }
@@ -4446,7 +4446,7 @@ units::volume map::free_volume( const tripoint &p )
     return i_at( p ).free_volume();
 }
 
-item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overflow )
+item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 {
     // Checks if item would not be destroyed if added to this tile
     auto valid_tile = [&]( const tripoint &e ) {
@@ -4498,6 +4498,10 @@ item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overf
     }
 
     if( !has_flag( "NOITEM", pos ) && valid_limits( pos ) ) {
+        if( obj.on_drop( pos ) ) {
+            return nulitem;
+        }
+
         // If tile can contain items place here...
         return place_item( pos );
 
@@ -4506,9 +4510,18 @@ item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overf
         auto tiles = closest_tripoints_first( 2, pos );
         tiles.erase( tiles.begin() ); // we already tried this position
         for( const auto &e : tiles ) {
-            if( valid_tile( e ) && !has_flag( "NOITEM", e ) && valid_limits( e ) ) {
-                return place_item( e );
+            if( !inbounds( e ) ) {
+                continue;
             }
+
+            if( obj.on_drop( e ) ) {
+                return nulitem;
+            }
+
+            if( !valid_tile( e ) || has_flag( "NOITEM", e ) && !valid_limits( e ) ) {
+                continue;
+            }
+	    return place_item( e );
         }
     }
 
