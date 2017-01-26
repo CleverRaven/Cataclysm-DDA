@@ -107,6 +107,11 @@
 #include <sys/stat.h>
 #include <errno.h>
 
+#if defined(_WIN32) || defined(WINDOWS)
+// needed by MultiByteToWideChar
+#include <Windows.h>
+#endif
+
 /* Indicates that d_type field is available in dirent structure */
 #define _DIRENT_HAVE_D_TYPE
 
@@ -772,16 +777,22 @@ dirent_mbstowcs_s(
     const char *mbstr,
     size_t count)
 {
-    int error;
-
-#if defined(_MSC_VER)  &&  _MSC_VER >= 1400
-
-    /* Microsoft Visual Studio 2005 or later */
-    error = mbstowcs_s (pReturnValue, wcstr, sizeInWords, mbstr, count);
-
+#if defined(_WIN32) || defined(WINDOWS)
+    int required_size = MultiByteToWideChar( CP_ACP, 0, mbstr, -1, NULL, NULL ) + 1;
+    if( required_size > sizeInWords ) {
+        return 1;
+    }
+    int n = MultiByteToWideChar( CP_ACP, 0, mbstr, -1, wcstr, required_size );
+    if( n == 0 ) {
+        debugmsg( "MultiByteToWideChar failed!" );
+        return 1;
+    }
+    if( pReturnValue ) {
+        *pReturnValue = n;
+    }
+    return 0;
 #else
-
-    /* Older Visual Studio or non-Microsoft compiler */
+    int error;
     size_t n;
 
     /* Convert to wide-character string */
@@ -807,10 +818,8 @@ dirent_mbstowcs_s(
         error = 1;
 
     }
-
-#endif
-
     return error;
+#endif
 }
 
 /* Convert wide-character string to multi-byte string */
