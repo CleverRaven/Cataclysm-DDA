@@ -249,13 +249,13 @@ int turret_data::fire( player &p, const tripoint &target )
     if( part->info().has_flag( "USE_TANKS" ) ) {
         mode->ammo_set( ammo, std::min( qty * mode.qty, long( veh->fuel_left( ammo ) ) ) );
     }
-    
+
     // turrets are subject only to recoil_vehicle()
     double old = p.recoil;
     p.recoil = 0;
-    
+
     shots = p.fire_gun( target, mode.qty, *mode );
-    
+
     p.recoil = old;
 
     if( part->info().has_flag( "USE_TANKS" ) ) {
