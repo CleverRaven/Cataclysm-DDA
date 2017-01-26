@@ -2928,6 +2928,7 @@ bool game::handle_action()
             break;
 
         case ACTION_FIRE:
+            // TODO: Move handling this to a new function
             // Use vehicle turret or draw a pistol from a holster if unarmed
             if( !u.is_armed() ) {
 
@@ -2936,6 +2937,7 @@ bool game::handle_action()
 
                 turret_data turret;
                 if( veh && ( turret = veh->turret_query( u.pos() ) ) ) {
+                    // TODO: move this to separate function
                     switch( turret.query() ) {
                         case turret_data::status::no_ammo:
                             add_msg( m_bad, _( "The %s is out of ammo." ), turret.name().c_str() );
@@ -2968,13 +2970,13 @@ bool game::handle_action()
                                 };
                             }
 
-                            auto trajectory = pl_target_ui( TARGET_MODE_TURRET_MANUAL, &*turret.base(),
-                                                            turret.range(), turret.ammo_data(),
-                                                            switch_mode, switch_ammo );
+                            targeting_data args = {
+                                TARGET_MODE_TURRET_MANUAL, &*turret.base(),
+                                turret.range(), turret.ammo_data(),
+                                switch_mode, switch_ammo
+                            };
 
-                            if( !trajectory.empty() ) {
-                                turret.fire( u, trajectory.back() );
-                            }
+                            fired = plfire( 0, 0, &args );
                             break;
                         }
 
