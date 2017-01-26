@@ -831,16 +831,22 @@ dirent_wcstombs_s(
     const wchar_t *wcstr,
     size_t count)
 {
-    int error;
-
-#if defined(_MSC_VER)  &&  _MSC_VER >= 1400
-
-    /* Microsoft Visual Studio 2005 or later */
-    error = wcstombs_s (pReturnValue, mbstr, sizeInBytes, wcstr, count);
-
+#if defined(_WIN32) || defined(WINDOWS)
+    int required_size = WideCharToMultiByte( CP_ACP, 0, wcstr, -1, NULL, 0, NULL, NULL ) + 1;
+    if( required_size > sizeInBytes ) {
+        return 1;
+    }
+    int n = WideCharToMultiByte( CP_ACP, 0, wcstr, -1, mbstr, required_size, NULL, NULL );
+    if( n == 0 ) {
+        debugmsg( "WideCharToMultiByte failed!" );
+        return 1;
+    }
+    if( pReturnValue ) {
+        *pReturnValue = n;
+    }
+    return 0;
 #else
-
-    /* Older Visual Studio or non-Microsoft compiler */
+    int error;
     size_t n;
 
     /* Convert to multi-byte string */
@@ -866,10 +872,9 @@ dirent_wcstombs_s(
         error = 1;
 
     }
-
-#endif
-
+    
     return error;
+#endif
 }
 
 /* Set errno variable */
