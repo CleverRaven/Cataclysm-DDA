@@ -1,0 +1,9 @@
+{
+    "type": "MOD_INFO",
+    "ident": "c_cba",
+    "author": "Charles Harris",
+    "name": "Cataclysm: Craft Beers Ahead",
+    "description" : "Adds new content that includes a selection of seventeen new craft beers.  There are also new generic beer styles that can be used as reference for new beers.  Additional planned content which has not yet been implemented includes new locations (brewpub, microbrewery, a local homebrew store, a homebrewer's house, etc.), books, and recipes.",
+    "category": "items",
+    "path": ""
+}
