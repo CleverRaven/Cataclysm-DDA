@@ -2976,7 +2976,7 @@ bool game::handle_action()
                                 switch_mode, switch_ammo
                             };
 
-                            fired = plfire( 0, 0, &args );
+                            plfire( 0, 0, &args );
                             break;
                         }
 
@@ -10205,12 +10205,12 @@ bool game::plfire( item *weapon, int bp_cost, targeting_data *tdata )
         gun = weapon->gun_current_mode();
         if ( !tdata ) {
             // We were passed a weapon but no targeting data, so assemble some data from the weapon.
-            target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-            double gun_range = u.gun_engagement_range( *gun, player::engagement::maximum );
-            int range = gun.melee() ? gun.qty : gun_range;
-            const itype *ammo = gun->ammo_data();
-            target_callback empty_func = target_callback();
-            targeting_data tmp = { tmode, weapon, range, ammo, empty_func, empty_func };
+            int gun_range = u.gun_engagement_range( *gun, player::engagement::maximum );
+            targeting_data tmp = {
+                gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE,
+                weapon, gun.melee() ? gun.qty : gun_range,
+                gun->ammo_data(), target_callback(), target_callback()
+            };
             args = tmp;
         }
     }
@@ -10261,7 +10261,7 @@ bool game::plfire( item *weapon, int bp_cost, targeting_data *tdata )
     } else {
         u.moves -= reload_time;
         // @todo add check for TRIGGERHAPPY
-        res = u.fire_gun( trajectory.back(), gun.qty, *gun, u.recoil );
+        res = u.fire_gun( trajectory.back(), gun.qty, *gun );
     }
 
     if( res && bio_power_cost ) {
