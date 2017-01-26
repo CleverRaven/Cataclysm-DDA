@@ -194,4 +194,7 @@ bool write_to_file_exclusive( const std::string &path,
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
 
+std::string native_to_utf8( const std::string &str );
+std::string utf8_to_native( const std::string &str );
+
 #endif // CAT_UTILITY_H
