@@ -2979,7 +2979,7 @@ bool game::handle_action()
 
                 if( veh ) {
                     int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
-                    if( vpcontrols >= 0 && veh->turrets_aim() ) {
+                    if( vpcontrols >= 0 && veh->turrets_aim_and_fire() ) {
                         break;
                     }
                 }

@@ -414,6 +414,7 @@ int vehicle::turrets_aim_and_fire( bool manual, bool automatic, vehicle_part *tu
             turret_data turret = this->turret_query( *vp );
             npc cpu = get_targeting_npc( *vp );
             shots += turret.fire( cpu, vp->target.second );
+            vp->reset_target( global_part_pos3( *vp ) );
         }
     };
 
