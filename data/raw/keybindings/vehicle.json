@@ -185,7 +185,7 @@
     "id": "TURRET_MANUAL_OVERRIDE",
     "type": "keybinding",
     "category": "VEHICLE",
-    "name": "Aim automatic turrets manually",
+    "name": "Aim automatic turrets",
     "bindings":[ { "input_method": "keyboard", "key": "V" } ]
   },
   {
