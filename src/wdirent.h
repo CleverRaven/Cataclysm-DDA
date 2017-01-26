@@ -872,7 +872,7 @@ dirent_wcstombs_s(
         error = 1;
 
     }
-    
+
     return error;
 #endif
 }
