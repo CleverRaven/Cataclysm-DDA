@@ -45,7 +45,22 @@ void clear_bionics( player &p ) {
     return;
 }
 
-void test_consumable_charges( player &p, item &it, bool when_empty, bool when_full ) {
+void test_consumable_charges( player &p, item &it, bool when_none, bool when_max ) {
+    INFO( "\'" + it.tname() + "\' is count-by-charges");
+    CHECK( it.count_by_charges() );
+
+    it.charges = 0;
+    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
+    REQUIRE( p.can_consume( it ) == when_none );
+
+    it.charges = LONG_MAX;
+    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
+    REQUIRE( p.can_consume( it ) == when_max );
+
+    return;
+}
+
+void test_consumable_ammo( player &p, item &it, bool when_empty, bool when_full ) {
     it.ammo_unset();
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_empty );
@@ -85,21 +100,21 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
         }
 
         std::list<item> never;
-        never.emplace_back( item( "battery_atomic", 0, 0 ) ); // TOOLMOD
+        never.emplace_back( item( "battery_atomic", 0, 0 ) ); // TOOLMOD, no ammo actually
         never.emplace_back( item( "rm13_armor",     0, 0 ) ); // TOOL_ARMOR
         for( auto it: never ) {
-            test_consumable_charges( dummy, it, false, false );
+            test_consumable_ammo( dummy, it, false, false );
         }
     }
 
     SECTION( "bio_batteries" ) {
         give_and_activate( dummy, "bio_batteries" );
 
-        // Special case: old-school stackable.
-        INFO( "consume old-school batteries" );
-        //REQUIRE( !dummy.can_consume( item( "battery", 0, 0 ) ) );
-        REQUIRE( dummy.can_consume( item( "battery", 0, 1 ) ) );
-        REQUIRE( dummy.can_consume( item( "battery", 0, LONG_MAX ) ) );
+        std::list<item> always;
+        always.emplace_back( item( "battery", 0, 0 ) );
+        for( auto it: always ) {
+            test_consumable_ammo( dummy, it, false, false );
+        }
 
         std::list<item> never;
         never.emplace_back( item( "flashlight",  0, 0 ) ); // !is_magazine()
@@ -107,7 +122,7 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
         never.emplace_back( item( "UPS_off",     0, 0 ) ); // NO_UNLOAD, !is_magazine()
         never.emplace_back( item( "battery_car", 0, 0 ) ); // NO_UNLOAD, is_magazine()
         for( auto it: never ) {
-            test_consumable_charges( dummy, it, false, false );
+            test_consumable_ammo( dummy, it, false, false );
         }
     }
 
