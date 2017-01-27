@@ -45,7 +45,9 @@ void give_and_activate( player &p, std::string const &bioid ) {
     return;
 }
 
-void test_consumable_charges( player &p, item &it, bool when_none, bool when_max ) {
+void test_consumable_charges( player &p, std::string &itemname, bool when_none, bool when_max ) {
+    item it = item( itemname, 0, 0 ) ;
+
     INFO( "\'" + it.tname() + "\' is count-by-charges");
     CHECK( it.count_by_charges() );
 
@@ -60,7 +62,9 @@ void test_consumable_charges( player &p, item &it, bool when_none, bool when_max
     return;
 }
 
-void test_consumable_ammo( player &p, item &it, bool when_empty, bool when_full ) {
+void test_consumable_ammo( player &p, std::string &itemname, bool when_empty, bool when_full ) {
+    item it = item( itemname, 0, 0 ) ;
+
     it.ammo_unset();
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_empty );
@@ -91,17 +95,18 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
     SECTION( "bio_advreactor" ) {
         give_and_activate( dummy, "bio_advreactor" );
 
-        std::list<item> always;
-        // FIXME: same as for batteries, no `ammo`
-        always.emplace_back( item( "plut_cell",   0, 0 ) ); // solid
-        always.emplace_back( item( "plut_slurry", 0, 0 ) ); // uncontained liquid!
+        static const std::list<std::string> always = {
+            "plut_cell",  // solid
+            "plut_slurry" // uncontained liquid! not shown in game menu
+        };
         for( auto it: always ) {
             test_consumable_charges( dummy, it, true, true );
         }
 
-        std::list<item> never;
-        never.emplace_back( item( "battery_atomic", 0, 0 ) ); // TOOLMOD, no ammo actually
-        never.emplace_back( item( "rm13_armor",     0, 0 ) ); // TOOL_ARMOR
+        static const std::list<std::string> never = {
+            "battery_atomic", // TOOLMOD, no ammo actually
+            "rm13_armor"      // TOOL_ARMOR
+        };
         for( auto it: never ) {
             test_consumable_ammo( dummy, it, false, false );
         }
@@ -110,17 +115,19 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
     SECTION( "bio_batteries" ) {
         give_and_activate( dummy, "bio_batteries" );
 
-        std::list<item> always;
-        always.emplace_back( item( "battery", 0, 0 ) );
+        static const std::list<std::string> always = {
+            "battery" // old-school
+        };
         for( auto it: always ) {
-            test_consumable_ammo( dummy, it, false, false );
+            test_consumable_charges( dummy, it, true, true );
         }
 
-        std::list<item> never;
-        never.emplace_back( item( "flashlight",  0, 0 ) ); // !is_magazine()
-        never.emplace_back( item( "laser_rifle", 0, 0 ) ); // NO_UNLOAD, uses ups_charges
-        never.emplace_back( item( "UPS_off",     0, 0 ) ); // NO_UNLOAD, !is_magazine()
-        never.emplace_back( item( "battery_car", 0, 0 ) ); // NO_UNLOAD, is_magazine()
+        static const std::list<std::string> never = {
+            "flashlight",  // !is_magazine()
+            "laser_rifle", // NO_UNLOAD, uses ups_charges
+            "UPS_off",     // NO_UNLOAD, !is_magazine()
+            "battery_car"  // NO_UNLOAD, is_magazine()
+        };
         for( auto it: never ) {
             test_consumable_ammo( dummy, it, false, false );
         }
