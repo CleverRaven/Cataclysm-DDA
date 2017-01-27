@@ -1865,18 +1865,20 @@ int petfood(player *p, item *it, bool is_dogfood)
         return 0;
     }
     p->moves -= 15;
-    int mon_dex = g->mon_at( dirp, true );
-    if (mon_dex != -1) {
-        if (g->zombie(mon_dex).type->id == (is_dogfood ? mon_dog : mon_cat)) {
+    const int mon_idx = g->mon_at( dirp, true );
+    const int npc_idx = g->npc_at( dirp );
+    if(mon_idx != -1) {
+        monster &mon = g->zombie( mon_idx );
+        if(mon.type->id == (is_dogfood ? mon_dog : mon_cat)) {
             p->add_msg_if_player(m_good, is_dogfood
-              ? _("The dog seems to like you!")
-              : _("The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats."));
-            g->zombie(mon_dex).friendly = -1;
-            if (is_dogfood) {
-                g->zombie(mon_dex).add_effect( effect_pet, 1, num_bp, true);
+                ? _("The dog seems to like you!")
+                : _("The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats."));
+            mon.friendly = -1;
+            if( is_dogfood ) {
+                mon.add_effect( effect_pet, 1, num_bp, true );
             }
-        } else if( is_dogfood && g->zombie( mon_dex ).type->id == mon_dog_thing ) {
-            p->apply_damage( &g->zombie( mon_dex ), bp_hand_r, rng( 1, 10 ) );
+        } else if( is_dogfood && mon.type->id == mon_dog_thing ) {
+            p->apply_damage( &mon, bp_hand_r, rng( 1, 10 ) );
             p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
             if( one_in( 5 ) ) {
                 p->add_msg_if_player( _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
