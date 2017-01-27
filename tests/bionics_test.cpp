@@ -76,9 +76,10 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
         REQUIRE( dummy.can_consume( item( "battery", 0, LONG_MAX ) ) );
 
         std::list<item> never;
-        never.emplace_back( item( "UPS_off", 0, 0 ) );
-        never.emplace_back( item( "battery_car", 0, 0 ) );
-
+        never.emplace_back( item( "flashlight",  0, 0 ) ); // !is_magazine()
+        never.emplace_back( item( "laser_rifle", 0, 0 ) ); // NO_UNLOAD, uses ups_charges
+        never.emplace_back( item( "UPS_off",     0, 0 ) ); // NO_UNLOAD, !is_magazine()
+        never.emplace_back( item( "battery_car", 0, 0 ) ); // NO_UNLOAD, is_magazine()
         for( auto it: never ) {
             test_consumable_charges( dummy, it, false, false );
         }
