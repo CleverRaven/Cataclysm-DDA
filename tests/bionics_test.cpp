@@ -71,7 +71,9 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
 
         // Special case: old-school stackable.
         INFO( "consume old-school batteries" );
+        //REQUIRE( !dummy.can_consume( item( "battery", 0, 0 ) ) );
         REQUIRE( dummy.can_consume( item( "battery", 0, 1 ) ) );
+        REQUIRE( dummy.can_consume( item( "battery", 0, LONG_MAX ) ) );
 
         std::list<item> items;
         items.emplace_back( item( "UPS_off", 0, 0 ) );
