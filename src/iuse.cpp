@@ -58,6 +58,7 @@ const mtype_id mon_bee( "mon_bee" );
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_cat( "mon_cat" );
 const mtype_id mon_dog( "mon_dog" );
+const mtype_id mon_dog_thing( "mon_dog_thing" );
 const mtype_id mon_fly( "mon_fly" );
 const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
 const mtype_id mon_shadow( "mon_shadow" );
@@ -1873,6 +1874,12 @@ int petfood(player *p, item *it, bool is_dogfood)
             g->zombie(mon_dex).friendly = -1;
             if (is_dogfood) {
                 g->zombie(mon_dex).add_effect( effect_pet, 1, num_bp, true);
+            }
+        } else if( is_dogfood && g->zombie( mon_dex ).type->id == mon_dog_thing ) {
+            p->apply_damage( &g->zombie( mon_dex ), bp_hand_r, rng( 1, 10 ) );
+            p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
+            if( one_in( 5 ) ) {
+                p->add_msg_if_player( _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
             }
         } else {
             p->add_msg_if_player(_("The %s seems quite unimpressed!"),
