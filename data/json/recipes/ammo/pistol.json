@@ -54,7 +54,7 @@
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "components": [
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "45_casing", 1 ] ],
+      [ [ "40_casing", 1 ] ],
       [ [ "gunpowder", 5 ] ]
     ]
   },
@@ -130,7 +130,7 @@
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "components": [
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "45_casing", 1 ] ],
+      [ [ "40_casing", 1 ] ],
       [ [ "gunpowder", 4 ] ]
     ]
   },
@@ -149,7 +149,7 @@
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "components": [
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "45_casing", 1 ] ],
+      [ [ "40_casing", 1 ] ],
       [ [ "gunpowder", 4 ] ]
     ]
   },
