@@ -95,6 +95,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool is_symbol_highlighted() const override;
 
         nc_color color_with_effects() const; // Color with fire, beartrapped, etc.
+
+        std::string extended_description() const override;
         // Inverts color if inv==true
         bool has_flag( const m_flag f ) const override; // Returns true if f is set (see mtype.h)
         bool can_see() const;      // MF_SEES and no ME_BLIND

@@ -264,6 +264,8 @@ public:
      */
     const std::set<std::string> &get_harvest_names() const;
 
+    const std::string &description() const;
+
     virtual void load( JsonObject &jo, const std::string &src );
     virtual void check() const;
 };

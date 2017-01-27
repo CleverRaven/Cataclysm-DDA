@@ -513,6 +513,8 @@ class Creature
 
         virtual void add_memorial_log(const char *, const char *, ...) PRINTF_LIKE( 3, 4 ) {};
 
+        virtual std::string extended_description() const = 0;
+
         virtual nc_color symbol_color() const = 0;
         virtual nc_color basic_symbol_color() const = 0;
         virtual const std::string &symbol() const = 0;

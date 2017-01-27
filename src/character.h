@@ -493,6 +493,8 @@ class Character : public Creature, public visitable<Character>
         /** Color's character's tile's background */
         nc_color symbol_color() const override;
 
+        std::string extended_description() const override;
+
         // In newcharacter.cpp
         void empty_skills();
         /** Returns a random name from NAMES_* */

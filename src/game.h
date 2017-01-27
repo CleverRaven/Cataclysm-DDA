@@ -465,6 +465,9 @@ class game
                                   int last_line, bool draw_terrain_indicators,
                                   const visibility_variables &cache );
 
+        /** Long description of (visible) things at tile. */
+        void extended_description( const tripoint &p );
+
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
         // @todo Move these functions to game_menus::inv and isolate them.
