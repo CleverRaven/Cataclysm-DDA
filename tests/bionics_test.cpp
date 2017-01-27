@@ -14,9 +14,16 @@ void give_and_activate( player &p, std::string const &bioid ) {
     INFO( "dummy has gotten " + bioid + " bionic " );
     REQUIRE( p.has_bionic( bioid ) );
 
-    // shortcut: "last added bionic"
-    // @todo: rework to allow "linked" bionics
-    const int bioindex = p.num_bionics() - 1;
+    // get bionic's index - might not be "last added" due to "integrated" ones
+    int bioindex = -1;
+    for( size_t i = 0; i < p.my_bionics.size(); i++ ) {
+        const auto &bio = p.my_bionics[ i ];
+        if( bio.id == bioid ) {
+            bioindex = i;
+        }
+    }
+    REQUIRE( bioindex != -1 );
+
     const bionic &bio = p.bionic_at_index( bioindex );
     REQUIRE( bio.id == bioid );
 
@@ -66,6 +73,25 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
     CHECK( dummy.power_level == 0 );
     REQUIRE( dummy.max_power_level > 0 );
 
+    SECTION( "bio_advreactor" ) {
+        give_and_activate( dummy, "bio_advreactor" );
+
+        std::list<item> always;
+        // FIXME: same as for batteries, no `ammo`
+        always.emplace_back( item( "plut_cell",   0, 0 ) ); // solid
+        always.emplace_back( item( "plut_slurry", 0, 0 ) ); // uncontained liquid!
+        for( auto it: always ) {
+            test_consumable_charges( dummy, it, true, true );
+        }
+
+        std::list<item> never;
+        never.emplace_back( item( "battery_atomic", 0, 0 ) ); // TOOLMOD
+        never.emplace_back( item( "rm13_armor",     0, 0 ) ); // TOOL_ARMOR
+        for( auto it: never ) {
+            test_consumable_charges( dummy, it, false, false );
+        }
+    }
+
     SECTION( "bio_batteries" ) {
         give_and_activate( dummy, "bio_batteries" );
 
@@ -85,6 +111,6 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
         }
     }
 
-    // TODO: bio_cable bio_furnace bio_reactor bio_advreactor
+    // TODO: bio_cable bio_furnace bio_reactor
     // TODO: (pick from stuff with power_source)
 }
