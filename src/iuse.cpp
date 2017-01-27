@@ -1898,8 +1898,11 @@ int petfood(player *p, item *it, bool is_dogfood)
                 person.make_angry();
             }
         }
-    } else {
+    } else if( query_yn( _( "Do you want to spill it on the ground?" ) ) ) {
         p->add_msg_if_player(m_bad, _("You spill the %s all over the ground."), it->tname().c_str());
+    } else {
+        p->add_msg_if_player( _( "You saved your %s for later." ), it->tname().c_str() );
+        return 0;
     }
     return 1;
 }
