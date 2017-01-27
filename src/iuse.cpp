@@ -1892,9 +1892,9 @@ int petfood(player *p, item *it, bool is_dogfood)
             _( "Are you sure you want to feed a person the dog food?" ) :
             _( "Are you sure you want to feed a person the cat food?" ) ) ) {
             p->add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it->tname().c_str(), person.name.c_str() );
-            if( person.is_friend() || one_in( 10 ) ) {
-                person.say( _( "You're disgusting." ) );
-            } else if( x_in_y( 7, 9 ) ) {
+            if( person.is_friend() || x_in_y( 2, 3 ) ) {
+                person.say( _( "Okay, but please, don't give me this again. I don't want to eat dog food in the cataclysm all day." ) );
+            } else if( one_in( 2 ) ) {
                 person.op_of_u.fear += 20;
                 person.attitude = NPCATT_FLEE;
                 person.say( _( "God damn it! There is a psycopath!" ) );
