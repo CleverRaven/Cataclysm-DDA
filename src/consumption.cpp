@@ -1007,7 +1007,9 @@ bool player::can_consume( const item &it ) const
     if( can_consume_as_is( it ) ) {
         return true;
     }
-    return !it.is_container_empty() && can_consume_as_is( it.contents.front() );
+    // checking NO_UNLOAD to prevent consumption of `battery` when contained in `battery_car` (#20012)
+    return !it.is_container_empty() && !it.has_flag( "NO_UNLOAD" ) &&
+           can_consume_as_is( it.contents.front() );
 }
 
 item &player::get_comestible_from( item &it ) const
