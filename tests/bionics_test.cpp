@@ -38,14 +38,14 @@ void clear_bionics( player &p ) {
     return;
 }
 
-void test_not_consumable( player &p, item &it ) {
+void test_consumable_charges( player &p, item &it, bool when_empty, bool when_full ) {
     it.ammo_unset();
-    INFO( "consume " + it.tname() + " with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( !p.can_consume( it ) );
+    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
+    REQUIRE( p.can_consume( it ) == when_empty );
 
     it.ammo_set( default_ammo( it.ammo_type() ), -1 ); // -1 -> full
-    INFO( "consume " + it.tname() + " with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( !p.can_consume( it ) );
+    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
+    REQUIRE( p.can_consume( it ) == when_full );
 
     return;
 }
@@ -75,12 +75,12 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
         REQUIRE( dummy.can_consume( item( "battery", 0, 1 ) ) );
         REQUIRE( dummy.can_consume( item( "battery", 0, LONG_MAX ) ) );
 
-        std::list<item> items;
-        items.emplace_back( item( "UPS_off", 0, 0 ) );
-        items.emplace_back( item( "battery_car", 0, 0 ) );
+        std::list<item> never;
+        never.emplace_back( item( "UPS_off", 0, 0 ) );
+        never.emplace_back( item( "battery_car", 0, 0 ) );
 
-        for( auto it: items ) {
-            test_not_consumable( dummy, it );
+        for( auto it: never ) {
+            test_consumable_charges( dummy, it, false, false );
         }
     }
 
