@@ -1884,8 +1884,19 @@ int petfood(player *p, item *it, bool is_dogfood)
                 p->add_msg_if_player( _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
             }
         } else {
-            p->add_msg_if_player(_("The %s seems quite unimpressed!"),
-                                 g->zombie(mon_dex).name().c_str());
+            p->add_msg_if_player( _( "The %s seems quite unimpressed!" ), mon.name().c_str() );
+        }
+    } else if( npc_idx != -1 ) {
+        npc &person = *g->active_npc[npc_idx];
+        if( query_yn( is_dogfood ?
+            _( "Are you sure you want to feed a person the dog food?" ) :
+            _( "Are you sure you want to feed a person the cat food?" ) ) ) {
+            p->add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it->tname().c_str(), person.name.c_str() );
+            if( person.is_friend() || one_in( 3 ) ) {
+                person.say( _( "You're disgusting." ) );
+            } else {
+                person.make_angry();
+            }
         }
     } else {
         p->add_msg_if_player(m_bad, _("You spill the %s all over the ground."), it->tname().c_str());
