@@ -1895,7 +1895,7 @@ int petfood(player *p, item *it, bool is_dogfood)
             if( person.is_friend() || x_in_y( 9, 10 ) ) {
                 person.say( _( "Okay, but please, don't give me this again. I don't want to eat dog food in the cataclysm all day." ) );
             } else {
-                p->add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name().c_str() );
+                p->add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name.c_str() );
                 person.make_angry();
             }
         }
