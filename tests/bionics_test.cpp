@@ -6,6 +6,14 @@
 #include "game.h"
 #include "player.h"
 
+void clear_bionics( player &p ) {
+    p.my_bionics.clear();
+    p.power_level = 0;
+    p.max_power_level = 0;
+
+    return;
+}
+
 void give_and_activate( player &p, std::string const &bioid ) {
     INFO( "bionic " + bioid + " is valid" );
     REQUIRE( is_valid_bionic( bioid ) );
@@ -33,14 +41,6 @@ void give_and_activate( player &p, std::string const &bioid ) {
         INFO( "bionic " + bio.id + " with index " + std::to_string( bioindex ) + " is active " );
         REQUIRE( p.has_active_bionic( bioid ) );
     }
-
-    return;
-}
-
-void clear_bionics( player &p ) {
-    p.my_bionics.clear();
-    p.power_level = 0;
-    p.max_power_level = 0;
 
     return;
 }
