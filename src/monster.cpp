@@ -450,7 +450,11 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
 std::string monster::extended_description() const
 {
     // @todo Add tons of info here
-    return name();
+    std::string ret = string_format( _ ( "This is a %s" ), name().c_str() );
+    ret += "\n--\n";
+    auto hp_bar = hp_description( hp, type->hp );
+    ret += get_tag_from_color( hp_bar.second ) + hp_bar.first;
+    return replace_colors( ret );
 }
 
 const std::string &monster::symbol() const
