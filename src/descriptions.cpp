@@ -39,8 +39,7 @@ c to describe creatures, f to describe furniture, t to describe terrain, esc/ent
         std::string desc;
         // Allow looking at invisible tiles - player may want to examine hallucinations etc.
         switch( cur_target ) {
-            case description_target::creature:
-            {
+            case description_target::creature: {
                 const Creature *critter = critter_at( p );
                 if( critter != nullptr && u.sees( *critter ) ) {
                     desc = critter->extended_description();
@@ -48,7 +47,7 @@ c to describe creatures, f to describe furniture, t to describe terrain, esc/ent
                     desc = _( "You do not see any creature here." );
                 }
             }
-                break;
+            break;
             case description_target::furniture:
                 if( !u.sees( p ) || !m.has_furn( p ) ) {
                     desc = _( "You do not see any furniture here." );
