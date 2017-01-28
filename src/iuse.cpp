@@ -1878,7 +1878,7 @@ int petfood(player *p, item *it, bool is_dogfood)
                 mon.add_effect( effect_pet, 1, num_bp, true );
             }
         } else if( is_dogfood && mon.type->id == mon_dog_thing ) {
-            p->apply_damage( &mon, bp_hand_r, rng( 1, 10 ) );
+            p->deal_damage( &mon, bp_hand_r, damage_instance( DT_CUT, rng( 1, 10 ) ) );
             p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
             if( one_in( 5 ) ) {
                 p->add_msg_if_player( _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
