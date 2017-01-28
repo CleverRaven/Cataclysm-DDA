@@ -2337,3 +2337,33 @@ mfaction_id npc::get_monster_faction() const
 
     return human_fac.id();
 }
+
+std::string npc::extended_description() const
+{
+    std::ostringstream ss;
+    // For some reason setting it using str or constructor doesn't work
+    ss << Character::extended_description();
+
+    ss << std::endl << "--" << std::endl;
+    if( attitude == NPCATT_KILL ) {
+        ss << _( "Is trying to kill you." );
+    } else if( attitude == NPCATT_FLEE ) {
+        ss << _( "Is trying to flee from you." );
+    } else if( is_friend() ) {
+        ss << _( "Is your friend." );
+    } else if( is_following() ) {
+        ss << _( "Is following you." );
+    } else if( guaranteed_hostile() ) {
+        ss << _( "Will try to kill you or flee from you if you reveal yourself." );
+    } else {
+        ss << _( "Is neutral." );
+    }
+
+    if( hit_by_player ) {
+        ss << "--" << std::endl;
+        ss << _( "Is still innocent and killing them will be considered murder." );
+        // @todo "But you don't care because you're an edgy psycho"
+    }
+
+    return replace_colors( ss.str() );
+}

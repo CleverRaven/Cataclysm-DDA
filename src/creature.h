@@ -420,6 +420,11 @@ class Creature
         };
 
         virtual body_part get_random_body_part( bool main = false ) const = 0;
+        /**
+         * Returns body parts in order in which they should be displayed.
+         * @param main If true, only displays parts that can have hit points
+         */
+        virtual std::vector<body_part> get_all_body_parts( bool main = false ) const = 0;
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;
