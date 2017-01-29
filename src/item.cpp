@@ -2540,12 +2540,12 @@ units::volume item::volume( bool integral ) const
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume", ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
             if     ( tmpvol <=  3 ) ; // intentional NOP
-            else if( tmpvol <=  5 ) ret -=  500_ml;
-            else if( tmpvol <=  6 ) ret -=  750_ml;
-            else if( tmpvol <=  8 ) ret -= 1000_ml;
-            else if( tmpvol <= 11 ) ret -= 1250_ml;
-            else if( tmpvol <= 16 ) ret -= 1500_ml;
-            else                    ret -= 1750_ml;
+            else if( tmpvol <=  5 ) ret -=  250_ml;
+            else if( tmpvol <=  6 ) ret -=  500_ml;
+            else if( tmpvol <=  9 ) ret -=  750_ml;
+            else if( tmpvol <= 12 ) ret -= 1000_ml;
+            else if( tmpvol <= 15 ) ret -= 1250_ml;
+            else                    ret -= 1500_ml;
         }
 
         if( gunmod_find( "barrel_small" ) ) {
