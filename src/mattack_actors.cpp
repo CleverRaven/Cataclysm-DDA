@@ -346,7 +346,9 @@ void gun_actor::load_internal( JsonObject &obj, const std::string & )
 
     obj.read( "move_cost", move_cost );
 
-    obj.read( "description", description );
+    if( obj.read( "description", description ) ) {
+        description = _( description.c_str() );
+    }
     obj.read( "failure_msg", failure_msg );
     obj.read( "no_ammo_sound", no_ammo_sound );
 
@@ -359,7 +361,9 @@ void gun_actor::load_internal( JsonObject &obj, const std::string & )
     obj.read( "targeting_timeout", targeting_timeout );
     obj.read( "targeting_timeout_extend", targeting_timeout_extend );
 
-    obj.read( "targeting_sound", targeting_sound );
+    if( obj.read( "targeting_sound", targeting_sound ) ) {
+        targeting_sound = _( targeting_sound.c_str() );
+    }
     obj.read( "targeting_volume", targeting_volume );
 
     obj.get_bool( "laser_lock", laser_lock );
