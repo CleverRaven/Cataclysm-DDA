@@ -115,11 +115,38 @@ static std::vector<tripoint> make_quad_addresses( const tripoint &om_addr )
     return submap_addrs;
 }
 
-void mapbuffer::save()
+static std::string make_map_directory( const std::string &path_end )
 {
     std::stringstream map_directory;
-    map_directory << world_generator->active_world->world_path << "/maps";
+    map_directory << world_generator->active_world->world_path << "/" << path_end;
     assure_dir_exist( map_directory.str().c_str() );
+    return map_directory.str();
+}
+
+static std::string make_segment_directory( const tripoint &om_addr, const std::string &map_directory )
+{
+    // A segment is a chunk of 32x32 submap quads.
+    // We're breaking them into subdirectories so there aren't too many files per directory.
+    // Might want to make a set for this one too so it's only checked once per save().
+    std::stringstream dirname;
+    tripoint segment_addr = omt_to_seg_copy( om_addr );
+    dirname << map_directory << "/" << segment_addr.x << "." <<
+        segment_addr.y << "." << segment_addr.z;
+    assure_dir_exist( dirname.str().c_str() );
+    return dirname.str();
+}
+
+static std::string make_quad_path( const tripoint &om_addr, const std::string &segment_directory )
+{
+    std::stringstream quad_path;
+    quad_path << segment_directory << "/" << om_addr.x << "." <<
+        om_addr.y << "." << om_addr.z << ".map";
+    return quad_path.str();
+}
+
+void mapbuffer::save()
+{
+    std::string map_directory = make_map_directory( "maps" );
 
     const tripoint map_origin = sm_to_omt_copy( g->m.get_abs_sub() );
     const bool map_has_zlevels = g != nullptr && g->m.has_zlevels();
@@ -139,17 +166,8 @@ void mapbuffer::save()
         }
         saved_submaps.insert( om_addr );
 
-        // A segment is a chunk of 32x32 submap quads.
-        // We're breaking them into subdirectories so there aren't too many files per directory.
-        // Might want to make a set for this one too so it's only checked once per save().
-        std::stringstream dirname;
-        tripoint segment_addr = omt_to_seg_copy( om_addr );
-        dirname << map_directory.str() << "/" << segment_addr.x << "." <<
-                     segment_addr.y << "." << segment_addr.z;
-
-        std::stringstream quad_path;
-        quad_path << dirname.str() << "/" << om_addr.x << "." <<
-                  om_addr.y << "." << om_addr.z << ".map";
+        std::string dirname = make_segment_directory( om_addr, map_directory );
+        std::string quad_path = make_quad_path( om_addr, dirname );
 
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
@@ -159,16 +177,15 @@ void mapbuffer::save()
             om_addr.y < map_origin.y ||
             om_addr.x > map_origin.x + ( MAPSIZE / 2 ) ||
             om_addr.y > map_origin.y + ( MAPSIZE / 2 );
-        save_quad( dirname.str(), quad_path.str(), om_addr, submaps_to_delete, delete_quad );
+        save_quad( quad_path, om_addr, submaps_to_delete, delete_quad );
     }
     for( auto &elem : submaps_to_delete ) {
         remove_submap( elem );
     }
 }
 
-void mapbuffer::save_quad( const std::string &dirname, const std::string &filename,
-                           const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
-                           bool delete_after_save )
+void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
+                           std::list<tripoint> &submaps_to_delete, bool delete_after_save )
 {
     std::vector<tripoint> submap_addrs = make_quad_addresses( om_addr );
 
@@ -194,8 +211,6 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         return;
     }
 
-    // Don't create the directory if it would be empty
-    assure_dir_exist( dirname.c_str() );
     ofstream_wrapper_exclusive fout( filename );
     JsonOut jsout( fout );
     jsout.start_array();
@@ -394,19 +409,18 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
 {
     // Map the tripoint to the submap quad that stores it.
     const tripoint om_addr = sm_to_omt_copy( p );
-    const tripoint segment_addr = omt_to_seg_copy( om_addr );
-    std::stringstream quad_path;
-    quad_path << world_generator->active_world->world_path << "/maps/" <<
-              segment_addr.x << "." << segment_addr.y << "." << segment_addr.z << "/" <<
-              om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
+
+    std::string map_directory = make_map_directory( "maps" );
+    std::string dirname = make_segment_directory( om_addr, map_directory );
+    std::string quad_path = make_quad_path( om_addr, dirname );
 
     using namespace std::placeholders;
-    if( !read_from_file_optional_json( quad_path.str(), std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
+    if( !read_from_file_optional_json( quad_path, std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
         // If it doesn't exist, trigger generating it.
         return NULL;
     }
     if( submaps.count( p ) == 0 ) {
-        debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.str().c_str(), p.x, p.y,
+        debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.c_str(), p.x, p.y,
                  p.z);
         return NULL;
     }
