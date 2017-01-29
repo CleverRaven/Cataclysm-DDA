@@ -309,6 +309,8 @@ mattack_actor *bite_actor::clone() const
 
 gun_actor::gun_actor()
 {
+    description = _( "The %1$s fires its %2$s!" );
+    targeting_sound = _( "beep-beep-beep!" );
 }
 
 void gun_actor::load_internal( JsonObject &obj, const std::string & )
