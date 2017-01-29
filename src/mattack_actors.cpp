@@ -349,8 +349,12 @@ void gun_actor::load_internal( JsonObject &obj, const std::string & )
     if( obj.read( "description", description ) ) {
         description = _( description.c_str() );
     }
-    obj.read( "failure_msg", failure_msg );
-    obj.read( "no_ammo_sound", no_ammo_sound );
+    if( obj.read( "failure_msg", failure_msg ) ) {
+        failure_msg = _( failure_msg.c_str() );
+    }
+    if( obj.read( "no_ammo_sound", no_ammo_sound ) ) {
+        no_ammo_sound = _( no_ammo_sound.c_str() );
+    }
 
     obj.read( "targeting_cost", targeting_cost );
 
