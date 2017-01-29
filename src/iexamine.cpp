@@ -813,27 +813,22 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
     auto check_tent_intact = [&]() -> bool {
         int radius = dropped == "large_tent_kit" ? 2 : 1;
         furn_id floor =
-            dropped == "tent_kit" ? f_groundsheet
-            : dropped == "large_tent_kit" ? f_large_groundsheet
-            : f_skin_groundsheet;
+            dropped == "tent_kit" ? f_groundsheet : f_large_groundsheet;
         furn_id wall =
-            dropped == "tent_kit" ? f_canvas_wall
-            : dropped == "large_tent_kit" ? f_large_canvas_wall
-            : f_skin_wall;
+            dropped == "tent_kit" ? f_canvas_wall : f_large_canvas_wall;
         furn_id door =
-            dropped == "tent_kit" ? f_canvas_door
-            : dropped == "large_tent_kit" ? f_large_canvas_door
-            : f_skin_door;
+            dropped == "tent_kit" ? f_canvas_door : f_large_canvas_door;
+        furn_id door_opened =
+            dropped == "tent_kit" ? f_canvas_door_o : f_large_canvas_door_o;
         furn_id center_floor =
-            dropped == "large_tent_kit" ? f_center_groundsheet
-            : floor;
+            dropped == "large_tent_kit" ? f_center_groundsheet : floor;
         for( int i = -radius; i <= radius; i++ ) {
             for( int j = -radius; j <= radius; j++ ) {
                 if( i != -radius && i != radius && j != -radius && j != radius ) {
                     if( g->m.furn( examp.x + i, examp.y + j ) != floor && g->m.furn( examp.x + i, examp.y + j ) != center_floor ) {
                         return false;
                     }
-                } else if( g->m.furn( examp.x + i, examp.y + j ) != wall && g->m.furn( examp.x + i, examp.y + j ) != door ) {
+                } else if( g->m.furn( examp.x + i, examp.y + j ) != wall && g->m.furn( examp.x + i, examp.y + j ) != door && g->m.furn( examp.x + i, examp.y + j ) != door_opened ) {
                     return false;
                 }
             }
