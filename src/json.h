@@ -1,4 +1,3 @@
-#pragma once
 #ifndef JSON_H
 #define JSON_H
 
