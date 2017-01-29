@@ -124,7 +124,10 @@ class gun_actor : public mattack_actor
         int max_ammo = INT_MAX; /** limited also by monster starting_ammo */
 
         /** Description of the attack being run */
-        std::string description = "The %s fires its %s";
+        std::string description = "The %1$s fires its %2$s!";
+#if 0
+        _("The %1$s fires its %2$s!"); // makes xgettext spot this string
+#endif
 
         /** Message to display (if any) for failures to fire excluding lack of ammo */
         std::string failure_msg;
@@ -148,6 +151,9 @@ class gun_actor : public mattack_actor
         int targeting_timeout_extend = 3; /** Increase timeout by this many turns after each shot */
 
         std::string targeting_sound = "beep-beep-beep!";
+#if 0
+        _("beep-beep-beep!");
+#endif
         int targeting_volume = 6; /** If set to zero don't emit any targetting sounds */
 
         bool laser_lock = false; /** Does switching between targets incur further targeting penalty */
