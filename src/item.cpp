@@ -2082,6 +2082,7 @@ void item::on_wield( player &p, int mv )
         mv += penalty;
     }
 
+    // for folding stocks
     if( has_flag("NEEDS_UNFOLD") ) {
         int penalty = 300 - p.get_skill_level( gun_skill() ) * 10;
         p.moves -= penalty;
