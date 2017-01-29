@@ -3,94 +3,114 @@
         "type": "profession",
         "substitutions": [
             {
-                "traits_present": [ "WOOLALLERGY" ],
-                "former": "blazer",
-                "latter": "jacket_leather_red"
+                "trait": "WOOLALLERGY",
+                "sub": [
+                    [ "blazer", "jacket_leather_red" ],
+                    [ "hat_hunting", "hat_fur" ],
+                    [ "hat_newsboy", "hat_cotton" ],
+                    [ "peacoat", "jacket_flannel" ],
+                    [ "sweater", "sweatshirt" ],
+                    [ "boots_winter", "boots_fur" ],
+                    [ "cloak_wool", "cloak_leather" ],
+                    [ "gloves_wool", "gloves_winter" ]
+                ]
             },
             {
-                "traits_present": [ "WOOLALLERGY" ],
-                "former": "hat_hunting",
-                "latter": "hat_fur"
+                "item": "hardtack",
+                "sub": [
+                    [ [ "ANTIWHEAT" ], [ "MEATARIAN" ], "cornbread" ],
+                    [ [ "ANTIWHEAT", "MEATARIAN" ], "meat_cooked", 0.72 ]
+                ]
             },
             {
-                "traits_present": [ "WOOLALLERGY" ],
-                "former": "hat_newsboy",
-                "latter": "hat_cotton"
+                "item": "gum",
+                "sub": [
+                    [ [ "ANTIJUNK" ], "nic_gum" ]
+                ]
             },
             {
-                "traits_present": [ "WOOLALLERGY" ],
-                "former": "peacoat",
-                "latter": "jacket_flannel"
+                "item": "sandwich_pbj",
+                "sub": [
+                    [ [ "ANTIFRUIT" ], [ "ANTIWHEAT" ], "sandwich_pbh" ],
+                    [ [ "ANTIWHEAT" ], [ "VEGETARIAN" ], "cracklins", 5.625 ],
+                    [ [ "ANTIWHEAT", "VEGETARIAN" ], "boiled_egg" ]
+                ]
             },
             {
-                "traits_present": [ "WOOLALLERGY" ],
-                "former": "sweater",
-                "latter": "sweatshirt"
+                "item": "granola",
+                "sub": [
+                    [ [ "ANTIFRUIT" ], [ "MEATARIAN" ], "pemmican", 0.838 ],
+                    [ [ "ANTIFRUIT", "MEATARIAN" ], "jerky", 4 ],
+                    [ [ "ANTIWHEAT" ], [ "ANTIFRUIT" ], "boiled_egg", 0.818 ]
+                ]
             },
             {
-                "traits_present": [ "WOOLALLERGY" ],
-                "former": "boots_winter",
-                "latter": "boots_fur"
+                "item": "juice",
+                "sub": [
+                    [ [ "ANTIFRUIT" ], [ "ANTIJUNK" ], "lemonlime" ],
+                    [ [ "ANTIFRUIT", "ANTIJUNK" ], "water_clean", 0.4 ]
+                ]
             },
             {
-                "traits_present": [ "WOOLALLERGY" ],
-                "former": "cloak_wool",
-                "latter": "cloak_leather"
+                "item": "cheeseburger",
+                "sub": [
+                    [ [ "ANTIWHEAT" ], [ "ANTIJUNK" ], "fries", 4 ],
+                    [ [ "ANTIWHEAT", "ANTIJUNK" ], [ "MEATARIAN" ], "veggy_salad" ],
+                    [ [ "ANTIWHEAT", "ANTIJUNK", "MEATARIAN" ], "fried_spam" ],
+                    [ [ "LACTOSE" ], [ "ANTIWHEAT", "VEGETARIAN" ], "hamburger" ],
+                    [ [ "LACTOSE", "VEGETARIAN" ], [ "ANTIWHEAT" ], "sandwich_veggy" ],
+                    [ [ "VEGETARIAN" ], [ "ANTIWHEAT", "LACTOSE" ], "sandwich_cheese_grilled" ]
+                ]
             },
             {
-                "traits_present": [ "WOOLALLERGY" ],
-                "former": "gloves_wool",
-                "latter": "gloves_winter"
+                "item": "pizza_meat",
+                "sub": [
+                    [ [ "VEGETARIAN" ], [ "ANTIWHEAT" ], "pizza_veggy" ],
+                    [ [ "VEGETARIAN", "ANTIWHEAT" ], "veggy_salad" ],
+                    [ [ "ANTIWHEAT" ], [ "VEGETARIAN", "ANTIJUNK" ], "fchicken", 3 ],
+                    [ [ "ANTIWHEAT", "ANTIJUNK" ], [ "VEGETARIAN" ], "fish_fried", 2 ]
+                ]
             },
             {
-                "traits_present": [ "ANTIWHEAT" ],
-                "traits_absent": [ "MEATARIAN" ],
-                "former": "hardtack",
-                "latter": "cornbread",
-                "count": 2
+                "item": "pizza_veggy",
+                "sub": [
+                    [ [ "ANTIWHEAT", "VEGETARIAN" ], "veggy_salad" ],
+                    [ [ "ANTIWHEAT" ], [ "VEGETARIAN", "ANTIJUNK" ], "fchicken", 3 ],
+                    [ [ "ANTIWHEAT", "ANTIJUNK" ], [ "VEGETARIAN" ], "fish_fried", 2 ],
+                    [ [ "MEATARIAN" ], [ "ANTIWHEAT" ], "pizza_meat" ]
+                ]
             },
             {
-                "traits_present": [ "ANTIWHEAT", "MEATARIAN" ],
-                "former": "hardtack",
-                "latter": "meat_cooked",
-                "count": 6
+                "item": "can_beans",
+                "sub": [
+                    [ [ "MEATARIAN" ], "can_spam" ]
+                ]
             },
             {
-                "traits_present": [ "ANTIJUNK" ],
-                "traits_absent": [ "MEATARIAN" ],
-                "former": "gum",
-                "latter": "fried_seeds"
+                "item": "glasses_eye",
+                "sub": [
+                    [ [ "HYPEROPIC" ], "glasses_bifocal" ]
+                ],
+                "bonus": "MYOPIC"
             },
             {
-                "traits_present": [ "ANTIJUNK", "MEATARIAN" ],
-                "former": "gum",
-                "latter": "cracklins"
+                "item": "glasses_reading",
+                "sub": [
+                    [ [ "MYOPIC" ], "glasses_bifocal" ]
+                ],
+                "bonus": "HYPEROPIC"
             },
             {
-                "traits_present": [ "HYPEROPIC", "MYOPIC" ],
-                "latter": "glasses_bifocal"
+                "item": "inhaler",
+                "bonus": "ASTHMA"
             },
             {
-                "traits_present": [ "HYPEROPIC" ],
-                "traits_absent": [ "MYOPIC" ],
-                "latter": "glasses_reading"
+                "item": "cookbook_human",
+                "bonus": "CANNIBAL"
             },
             {
-                "traits_present": [ "MYOPIC" ],
-                "traits_absent": [ "HYPEROPIC" ],
-                "latter": "glasses_eye"
-            },
-            {
-                "traits_present": [ "ASTHMA" ],
-                "latter": "inhaler"
-            },
-            {
-                "traits_present": [ "CANNIBAL" ],
-                "latter": "cookbook_human"
-            },
-            {
-                "traits_present": [ "ALBINO" ],
-                "latter": "teleumbrella"
+                "item": "teleumbrella",
+                "bonus": "ALBINO"
             }
         ]
     },

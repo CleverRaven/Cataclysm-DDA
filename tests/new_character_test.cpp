@@ -14,7 +14,7 @@
 #include <algorithm>
 #include <unordered_map>
 
-std::vector<std::string> next_subset( const std::vector<std::string> &set )
+static std::vector<std::string> next_subset( const std::vector<std::string> &set )
 {
     // Doing it this way conveniently returns a vector containing solely set[foo] before
     // it returns any other vectors with set[foo] in it
@@ -31,7 +31,7 @@ std::vector<std::string> next_subset( const std::vector<std::string> &set )
     return ret;
 }
 
-bool try_set_traits( const std::vector<std::string> &traits )
+static bool try_set_traits( const std::vector<std::string> &traits )
 {
     g->u.empty_traits();
     // TODO: This line accounts for well over half of the execution time of the test case
@@ -46,6 +46,20 @@ bool try_set_traits( const std::vector<std::string> &traits )
         }
     }
     return true;
+}
+
+static player get_sanitized_player()
+{
+    // You'd think that this hp stuff would be in the c'tor...
+    player ret = player();
+    ret.recalc_hp();
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        ret.hp_cur[i] = ret.hp_max[i];
+    }
+    // Set these insanely high so can_eat doesn't return TOO_FULL
+    ret.set_hunger( 10000 );
+    ret.set_thirst( 10000 );
+    return ret;
 }
 
 // TODO: Due to character::add_traits, mutations (ie traits unavailable in the generic scenario)
@@ -116,15 +130,8 @@ TEST_CASE( "starting_items" ) {
         }
     };
 
-    g->u = player();
-    // You'd think that this hp stuff would be in the c'tor...
-    g->u.recalc_hp();
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        g->u.hp_cur[i] = g->u.hp_max[i];
-    }
-    // Set these insanely high so can_eat doesn't return TOO_FULL
-    g->u.set_hunger( 10000 );
-    g->u.set_thirst( 10000 );
+    g->u = get_sanitized_player();
+    const player control = get_sanitized_player(); // Avoid false positives from ingredients like salt and cornmeal
 
     std::vector<std::string> traits = next_subset( mutations );
     for( ; !traits.empty(); traits = next_subset( mutations ) ) {
@@ -139,13 +146,18 @@ TEST_CASE( "starting_items" ) {
                     g->u.worn.clear();
                     g->u.reset_encumbrance();
                     g->u.male = i == 0;
-                    const std::list<item> items = prof->items( g->u.male, traits );
+                    std::list<item> items = prof->items( g->u.male, traits );
+                    for( const item &it : items ) {
+                        items.insert( items.begin(), it.contents.begin(), it.contents.end() );
+                    }
+
                     for( const item &it : items ) {
                         // Seeds don't count- they're for growing things, not eating
-                        if( !it.is_seed() && it.is_food() && g->u.can_eat( it, false, false ) != EDIBLE ) {
-                            add_failure( *prof, g->u.get_mutations(), it.type->get_id(), "Couldn't eat it" );
+                        if( !it.is_seed() && it.is_food() && g->u.can_eat( it, false, false ) != EDIBLE &&
+                            control.can_eat( it, false, false ) == EDIBLE ) {
+                            add_failure( *prof, g->u.get_mutations(), it.typeId(), "Couldn't eat it" );
                         } else if( it.is_armor() && !g->u.wear_item( it, false ) ) {
-                            add_failure( *prof, g->u.get_mutations(), it.type->get_id(), "Couldn't wear it" );
+                            add_failure( *prof, g->u.get_mutations(), it.typeId(), "Couldn't wear it" );
                         }
                     }
                 } // all genders
