@@ -1,3 +1,4 @@
+#pragma once
 #ifndef WORLDFACTORY_H
 #define WORLDFACTORY_H
 

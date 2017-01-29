@@ -1,3 +1,4 @@
+#pragma once
 #ifndef PATH_INFO_H
 #define PATH_INFO_H
 

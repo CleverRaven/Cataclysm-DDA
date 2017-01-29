@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ADDICTION_H
 #define ADDICTION_H
 

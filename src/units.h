@@ -1,3 +1,4 @@
+#pragma once
 #ifndef QUANTITY_CATA_H
 #define QUANTITY_CATA_H
 

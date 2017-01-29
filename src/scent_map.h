@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SCENT_H
 #define SCENT_H
 

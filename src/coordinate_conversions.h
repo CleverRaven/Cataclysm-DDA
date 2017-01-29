@@ -1,3 +1,4 @@
+#pragma once
 #ifndef COORDINATE_CONVERSIONS_H
 #define COORDINATE_CONVERSIONS_H
 

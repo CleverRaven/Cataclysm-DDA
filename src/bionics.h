@@ -1,3 +1,4 @@
+#pragma once
 #ifndef BIONICS_H
 #define BIONICS_H
 

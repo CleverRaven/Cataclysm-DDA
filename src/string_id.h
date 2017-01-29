@@ -1,3 +1,4 @@
+#pragma once
 #ifndef STRING_ID_H
 #define STRING_ID_H
 

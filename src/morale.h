@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MORALE_H
 #define MORALE_H
 

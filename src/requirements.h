@@ -1,3 +1,4 @@
+#pragma once
 #ifndef REQUIREMENTS_H
 #define REQUIREMENTS_H
 

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SPEECH_H
 #define SPEECH_H
 

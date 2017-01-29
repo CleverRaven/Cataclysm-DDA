@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ARTIFACT_H
 #define ARTIFACT_H
 

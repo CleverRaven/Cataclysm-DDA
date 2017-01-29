@@ -1,3 +1,4 @@
+#pragma once
 #ifndef BUILDING_GENERATION_H
 #define BUILDING_GENERATION_H
 

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef VITAMIN_H
 #define VITAMIN_H
 

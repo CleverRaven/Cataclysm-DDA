@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MONSTER_GENERATOR_H
 #define MONSTER_GENERATOR_H
 
