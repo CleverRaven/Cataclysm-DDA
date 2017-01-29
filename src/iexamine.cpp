@@ -810,6 +810,45 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
         dropped = "null";
     }
 
+    auto check_intact = [&]() -> bool {
+        int radius = dropped == "large_tent_kit" ? 2 : 1;
+        furn_id floor =
+            dropped == "tent_kit" ? f_groundsheet
+            : dropped == "large_tent_kit" ? f_large_groundsheet
+            : f_skin_groundsheet;
+        furn_id wall =
+            dropped == "tent_kit" ? f_canvas_wall
+            : dropped == "large_tent_kit" ? f_large_canvas_wall
+            : f_skin_wall;
+        furn_id door =
+            dropped == "tent_kit" ? f_canvas_door
+            : dropped == "large_tent_kit" ? f_large_canvas_door
+            : f_skin_door;
+        furn_id center_floor =
+            dropped == "large_tent_kit" ? f_center_groundsheet
+            : floor;
+        for( int i = -radius; i <= radius; i++ ) {
+            for( int j = -radius; j <= radius; j++ ) {
+                if( i != -radius && i != radius && j != -radius && j != radius ) {
+                    if( g->m.furn( examp.x + i, examp.y + j ) != floor && g->m.furn( examp.x + i, examp.y + j ) != center_floor ) {
+                        return false;
+                    }
+                } else if( g->m.furn( examp.x + i, examp.y + j ) != wall && g->m.furn( examp.x + i, examp.y + j ) != door ) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
+
+    if( name == "tent" && !check_intact() ) {
+        if( dropped == "tent_kit" ) {
+            dropped = "broketent";
+        } else {
+            dropped = "largebroketent";
+        }
+    }
+
     if( !query_yn(_("Take down the %s?"), name.c_str() ) ) {
         none( p, examp );
         return;
