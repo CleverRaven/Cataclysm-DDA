@@ -60,6 +60,9 @@ class item_location : public JsonSerializer, public JsonDeserializer
         /** Returns the position where the item is found */
         tripoint position() const;
 
+        /** Returns the carrier or nullptr if type != character */
+        Character *carrier() const;
+
         /** Describes the item location
          *  @param ch if set description is relative to character location */
         std::string describe( const Character *ch = nullptr ) const;

@@ -1149,6 +1149,11 @@ void options_manager::init()
         true
         );
 
+    add("CONSOLE_DRAW_CACHE", "graphics", _("Cache console drawing"),
+        _("If true, non-tiles map drawing will be cached. Faster, but fails to update in some cases. Does nothing if tiles are enabled."),
+        false
+        );
+
     mOptionsSort["graphics"]++;
 
     add("TERMINAL_X", "graphics", _("Terminal width"),

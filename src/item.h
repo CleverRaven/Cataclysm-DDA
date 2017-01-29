@@ -140,18 +140,20 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         /**
          * Filter converting this instance to another type preserving all other aspects
          * @param new_type the type id to convert to
+         * @param loc where is the item located in the game
          * @return same instance to allow method chaining
          */
-        item& convert( const itype_id& new_type );
+        item& convert( const itype_id& new_type, item_location loc = item_location() );
 
         /**
-         * Filter converting this instance to the inactive type
+         * Filter converting this instance to the inactive type when carried by a character
          * If the item is either inactive or cannot be deactivated is a no-op
-         * @param ch character currently possessing or acting upon the item (if any)
-         * @param alert whether to display any messages
+         * @param loc location of the item
+         * @param alert whether to display any messages if item is on player
          * @return same instance to allow method chaining
          */
-        item& deactivate( const Character *ch = nullptr, bool alert = true );
+        item& deactivate( item_location loc, bool alert = true );
+        item& deactivate( Character *carrier = nullptr, bool alert = true );
 
         /** Filter converting instance to active state */
         item& activate();

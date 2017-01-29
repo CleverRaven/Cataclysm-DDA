@@ -72,6 +72,10 @@ class item_location::impl
             return tripoint_min;
         }
 
+        virtual Character *carrier() const {
+            return nullptr;
+        }
+
         virtual std::string describe( const Character * ) const {
             return "";
         }
@@ -224,6 +228,10 @@ class item_location::impl::item_on_person : public item_location::impl
 
         tripoint position() const override {
             return who.pos();
+        }
+
+        Character *carrier() const override {
+            return &who;
         }
 
         std::string describe( const Character *ch ) const override {
@@ -506,6 +514,11 @@ item_location::type item_location::where() const
 tripoint item_location::position() const
 {
     return ptr->position();
+}
+
+Character *item_location::carrier() const
+{
+    return ptr->carrier();
 }
 
 std::string item_location::describe( const Character *ch ) const
