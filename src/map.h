@@ -107,6 +107,9 @@ struct visibility_variables {
     // cached values for map visibility calculations
     int g_light_level;
     int u_clairvoyance;
+    int u_clairvoyance_squared;
+    int u_unimpaired_range;
+    int u_unimpaired_range_squared;
     bool u_sight_impaired;
     bool u_is_boomered;
     float vision_threshold;
@@ -239,9 +242,11 @@ class map
     lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache ) const;
     visibility_type get_visibility( const lit_level ll,
                                     const visibility_variables &cache ) const;
+    visibility_type get_visibility( const lit_level ll, bool boomered ) const;
 
     bool apply_vision_effects( WINDOW *w, lit_level ll,
                                const visibility_variables &cache ) const;
+    bool apply_vision_effects( WINDOW *w, lit_level ll, bool boomered ) const;
 
     /** Draw a visible part of the map into `w`.
      *
@@ -1352,14 +1357,14 @@ private:
                        const maptile &tile,
                        bool invert, bool show_items,
                        const tripoint &view_center,
-                       bool low_light, bool bright_light, bool inorder ) const;
+                       nc_color tercol_override, bool inorder ) const;
     /**
      * Draws the tile as seen from above.
      */
     void draw_from_above( WINDOW* w, player &u, const tripoint &p,
                           const maptile &tile, bool invert,
                           const tripoint &view_center,
-                          bool low_light, bool bright_light, bool inorder ) const;
+                          nc_color tercol_override, bool inorder ) const;
 
     long determine_wall_corner( const tripoint &p ) const;
     void cache_seen( const int fx, const int fy, const int tx, const int ty, const int max_range );

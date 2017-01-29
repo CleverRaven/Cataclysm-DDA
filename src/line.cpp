@@ -228,6 +228,13 @@ std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t
     return line;
 }
 
+int trig_dist_squared(const tripoint &loc1, const tripoint &loc2)
+{
+    return ((loc1.x - loc2.x) * (loc1.x - loc2.x)) +
+           ((loc1.y - loc2.y) * (loc1.y - loc2.y)) +
+           ((loc1.z - loc2.z) * (loc1.z - loc2.z));
+}
+
 float trig_dist(const int x1, const int y1, const int x2, const int y2)
 {
     return trig_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
@@ -235,9 +242,7 @@ float trig_dist(const int x1, const int y1, const int x2, const int y2)
 
 float trig_dist(const tripoint &loc1, const tripoint &loc2)
 {
-    return sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x)) +
-                ((loc1.y - loc2.y) * (loc1.y - loc2.y)) +
-                ((loc1.z - loc2.z) * (loc1.z - loc2.z)));
+    return sqrt(double(trig_dist_squared(loc1, loc2)));
 }
 
 int square_dist(const int x1, const int y1, const int x2, const int y2)
@@ -270,6 +275,16 @@ int rl_dist(const tripoint &loc1, const tripoint &loc2)
         return trig_dist(loc1, loc2);
     }
     return square_dist(loc1, loc2);
+}
+
+int rl_dist_squared( const tripoint &loc1, const tripoint &loc2 )
+{
+    if( trigdist ) {
+        return trig_dist_squared( loc1, loc2 );
+    }
+
+    int sq_dist = square_dist( loc1, loc2 );
+    return sq_dist * sq_dist;
 }
 
 // This more general version of this function gives correct values for larger values.

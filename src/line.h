@@ -109,12 +109,15 @@ std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t
 // sqrt(dX^2 + dY^2)
 float trig_dist( int x1, int y1, int x2, int y2 );
 float trig_dist( const tripoint &loc1, const tripoint &loc2 );
+// trig_dist but without sqrt at the end. For specific optimizations
+int trig_dist_squared( const tripoint &loc1, const tripoint &loc2 );
 // Roguelike distance; minimum of dX and dY
 int square_dist( int x1, int y1, int x2, int y2 );
 int square_dist( const tripoint &loc1, const tripoint &loc2 );
 int rl_dist( int x1, int y1, int x2, int y2 );
 int rl_dist( const tripoint &loc1, const tripoint &loc2 );
 int rl_dist( const point &a, const point &b );
+int rl_dist_squared( const tripoint &loc1, const tripoint &loc2 );
 std::pair<std::pair<double, double>, double> slope_of( const std::vector<tripoint> &line );
 // Get the magnitude of the slope ranging from 0.0 to 1.0
 float get_normalized_angle( const point &start, const point &end );

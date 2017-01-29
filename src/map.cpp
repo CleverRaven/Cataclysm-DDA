@@ -5663,14 +5663,18 @@ void map::debug()
 }
 
 void map::update_visibility_cache( const int zlev ) {
-    visibility_variables_cache.variables_set = true; // Not used yet
-    visibility_variables_cache.g_light_level = (int)g->light_level( zlev );
-    visibility_variables_cache.vision_threshold = g->u.get_vision_threshold(
+    auto &cache = visibility_variables_cache;
+    cache.variables_set = true; // Not used yet
+    cache.g_light_level = (int)g->light_level( zlev );
+    cache.vision_threshold = g->u.get_vision_threshold(
         get_cache_ref(g->u.posz()).lm[g->u.posx()][g->u.posy()] );
 
-    visibility_variables_cache.u_clairvoyance = g->u.clairvoyance();
-    visibility_variables_cache.u_sight_impaired = g->u.sight_impaired();
-    visibility_variables_cache.u_is_boomered = g->u.has_effect( effect_boomered);
+    cache.u_clairvoyance = g->u.clairvoyance();
+    cache.u_clairvoyance_squared = cache.u_clairvoyance * cache.u_clairvoyance;
+    cache.u_unimpaired_range = g->u.unimpaired_range();
+    cache.u_unimpaired_range_squared = cache.u_unimpaired_range * cache.u_unimpaired_range;
+    cache.u_sight_impaired = g->u.sight_impaired();
+    cache.u_is_boomered = g->u.has_effect( effect_boomered );
 
     int sm_squares_seen[MAPSIZE][MAPSIZE];
     std::memset(sm_squares_seen, 0, sizeof(sm_squares_seen));
@@ -5683,7 +5687,7 @@ void map::update_visibility_cache( const int zlev ) {
     int &y = p.y;
     for( x = 0; x < MAPSIZE * SEEX; x++ ) {
         for( y = 0; y < MAPSIZE * SEEY; y++ ) {
-            lit_level ll = apparent_light_at( p, visibility_variables_cache );
+            lit_level ll = apparent_light_at( p, cache );
             visibility_cache[x][y] = ll;
             sm_squares_seen[ x / SEEX ][ y / SEEY ] += (ll == LL_BRIGHT || ll == LL_LIT);
         }
@@ -5706,25 +5710,29 @@ const visibility_variables &map::get_visibility_variables_cache() const {
 }
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const {
-    const int dist = rl_dist( g->u.pos(), p );
+    // Squared because this part is SLOW and we don't need that sqrt at the end
+    // We only compare this range to two values: would be better to just approx. it for most cases
+    const int dist_squared = rl_dist_squared( g->u.pos(), p );
 
     // Clairvoyance overrides everything.
-    if( dist <= cache.u_clairvoyance ) {
+    if( dist_squared <= cache.u_clairvoyance_squared ) {
         return LL_BRIGHT;
     }
+
     const auto &map_cache = get_cache_ref(p.z);
     bool obstructed = map_cache.seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1;
-    const float apparent_light = map_cache.seen_cache[p.x][p.y] * map_cache.lm[p.x][p.y];
 
     // Unimpaired range is an override to strictly limit vision range based on various conditions,
     // but the player can still see light sources.
-    if( dist > g->u.unimpaired_range() ) {
-        if( !obstructed && map_cache.sm[p.x][p.y] > 0.0) {
+    if( dist_squared > cache.u_unimpaired_range_squared ) {
+        if( !obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
             return LL_BRIGHT_ONLY;
         } else {
             return LL_DARK;
         }
     }
+
+    const float apparent_light = map_cache.seen_cache[p.x][p.y] * map_cache.lm[p.x][p.y];
     if( obstructed ) {
         if( apparent_light > LIGHT_AMBIENT_LIT ) {
             if( apparent_light > cache.g_light_level ) {
@@ -5756,35 +5764,43 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
 }
 
 visibility_type map::get_visibility( const lit_level ll, const visibility_variables &cache ) const {
-    switch (ll) {
-    case LL_DARK: // can't see this square at all
-        if( cache.u_is_boomered ) {
-            return VIS_BOOMER_DARK;
-        } else {
-            return VIS_DARK;
-        }
-    case LL_BRIGHT_ONLY: // can only tell that this square is bright
-        if( cache.u_is_boomered ) {
-            return VIS_BOOMER;
-        } else {
-            return VIS_LIT;
-        }
-    case LL_LOW: // low light, square visible in monochrome
-    case LL_LIT: // normal light
-    case LL_BRIGHT: // bright light
-        return VIS_CLEAR;
-    case LL_BLANK:
-        return VIS_HIDDEN;
+    return get_visibility( ll, cache.u_is_boomered );
+}
+
+visibility_type map::get_visibility( const lit_level ll, bool boomered ) const {
+    switch( ll ) {
+        case LL_DARK: // can't see this square at all
+            if( boomered ) {
+                return VIS_BOOMER_DARK;
+            } else {
+                return VIS_DARK;
+            }
+        case LL_BRIGHT_ONLY: // can only tell that this square is bright
+            if( boomered ) {
+                return VIS_BOOMER;
+            } else {
+                return VIS_LIT;
+            }
+        case LL_LOW: // low light, square visible in monochrome
+        case LL_LIT: // normal light
+        case LL_BRIGHT: // bright light
+            return VIS_CLEAR;
+        case LL_BLANK:
+            return VIS_HIDDEN;
     }
     return VIS_HIDDEN;
 }
 
 bool map::apply_vision_effects( WINDOW *w, lit_level ll,
                                 const visibility_variables &cache ) const {
+    return apply_vision_effects( w, ll, cache.u_is_boomered );
+}
+
+bool map::apply_vision_effects( WINDOW *w, lit_level ll, bool boomered ) const {
     int symbol = ' ';
     nc_color color = c_black;
 
-    switch( get_visibility(ll, cache) ) {
+    switch( get_visibility( ll, boomered ) ) {
         case VIS_CLEAR:
             // Drew the tile, so bail out now.
             return false;
@@ -5810,6 +5826,22 @@ bool map::apply_vision_effects( WINDOW *w, lit_level ll,
     return true;
 }
 
+nc_color get_ter_color_override( const player &u, bool bright_light, bool low_light )
+{
+    const auto u_vision = u.get_vision_modes();
+    if( u_vision[BOOMERED] ) {
+        return c_magenta;
+    } else if( u_vision[NV_GOGGLES] ) {
+        return bright_light ? c_white : c_ltgreen;
+    } else if( low_light ) {
+        return c_dkgray;
+    } else if( u_vision[DARKNESS] ) {
+        return c_dkgray;
+    }
+
+    return 0;
+}
+
 void map::draw( WINDOW* w, const tripoint &center )
 {
     // We only need to draw anything if we're not in tiles mode.
@@ -5823,6 +5855,15 @@ void map::draw( WINDOW* w, const tripoint &center )
     const visibility_variables &cache = g->m.get_visibility_variables_cache();
 
     const auto &visibility_cache = get_cache_ref( center.z ).visibility_cache;
+
+    // Cached terrain color override levels for when player wears NV goggles etc.
+    // For 3 light levels: bright, low and the rest
+    std::array<nc_color, 3> tcol_override_levels = {{
+        get_ter_color_override( g->u, false, true ),
+        get_ter_color_override( g->u, false, false ),
+        get_ter_color_override( g->u, true, false )
+        
+    }};
 
     // X and y are in map coordinates, but might be out of range of the map.
     // When they are out of range, we just draw '#'s.
@@ -5862,15 +5903,19 @@ void map::draw( WINDOW* w, const tripoint &center )
                 const lit_level lighting = visibility_cache[x][y];
                 if( !apply_vision_effects( w, lighting, cache ) ) {
                     const maptile curr_maptile = maptile( cur_submap, lx, ly );
+                    size_t light_level = ( lighting == LL_BRIGHT ? 1 : 0 ) +
+                                         ( lighting != LL_LOW ? 1 : 0 );
+                    nc_color tercolor_override = tcol_override_levels[light_level];
+
                     const bool just_this_zlevel =
                         draw_maptile( w, g->u, p, curr_maptile,
                                       false, true, center,
-                                      lighting == LL_LOW, lighting == LL_BRIGHT, true );
+                                      tercolor_override, true );
                     if( !just_this_zlevel ) {
                         p.z--;
                         const maptile tile_below = maptile( sm_below, lx, ly );
                         draw_from_above( w, g->u, p, tile_below, false, center,
-                                         lighting == LL_LOW, lighting == LL_BRIGHT, false );
+                                         tercolor_override, false );
                         p.z++;
                     }
                 }
@@ -5906,15 +5951,17 @@ void map::drawsq( WINDOW* w, player &u, const tripoint &p, const bool invert_arg
         return;
     }
 
+    nc_color tercol_override = get_ter_color_override( u, bright_light, low_light );
+
     const maptile tile = maptile_at( p );
     const bool done = draw_maptile( w, u, p, tile, invert_arg, show_items_arg,
-                                    view_center, low_light, bright_light, inorder );
+                                    view_center, tercol_override, inorder );
     if( !done ) {
         tripoint below( p.x, p.y, p.z - 1 );
         const maptile tile_below = maptile_at( below );
         draw_from_above( w, u, below, tile_below,
                          invert_arg, view_center,
-                         low_light, bright_light, false );
+                         tercol_override, false );
     }
 }
 
@@ -5927,12 +5974,12 @@ bool map::need_draw_lower_floor( const tripoint &p )
 bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &curr_maptile,
                         bool invert, bool show_items,
                         const tripoint &view_center,
-                        const bool low_light, const bool bright_light, const bool inorder ) const
+                        nc_color tercol_override, const bool inorder ) const
 {
     nc_color tercol;
     const ter_t &curr_ter = curr_maptile.get_ter_t();
-    const furn_t &curr_furn = curr_maptile.get_furn_t();
-    const trap &curr_trap = curr_maptile.get_trap().obj();
+    const furn_id &curr_furn_id = curr_maptile.get_furn();
+    const trap_id &curr_trap_id = curr_maptile.get_trap();
     const field &curr_field = curr_maptile.get_field();
     long sym;
     bool hi = false;
@@ -5940,7 +5987,8 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     bool draw_item_sym = false;
     static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
 
-    if( curr_furn.id ) {
+    if( curr_furn_id ) {
+        const furn_t &curr_furn = curr_furn_id.obj();
         sym = curr_furn.symbol();
         tercol = curr_furn.color();
     } else {
@@ -5954,22 +6002,25 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
         }
         tercol = curr_ter.color();
     }
-    if( curr_ter.has_flag( TFLAG_SWIMMABLE ) && curr_ter.has_flag( TFLAG_DEEP_WATER ) && !u.is_underwater() ) {
+    if( show_items && curr_ter.has_flag( TFLAG_SWIMMABLE ) && curr_ter.has_flag( TFLAG_DEEP_WATER ) && !u.is_underwater() ) {
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    if( curr_trap.can_see( p, g->u ) ) {
-        tercol = curr_trap.color;
-        if (curr_trap.sym == '%') {
-            switch(rng(1, 5)) {
-            case 1: sym = '*'; break;
-            case 2: sym = '0'; break;
-            case 3: sym = '8'; break;
-            case 4: sym = '&'; break;
-            case 5: sym = '+'; break;
+    if( curr_trap_id ) {
+        const trap &curr_trap = curr_trap_id.obj();
+        if( curr_trap.can_see( p, g->u ) ) {
+            tercol = curr_trap.color;
+            if (curr_trap.sym == '%') {
+                switch(rng(1, 5)) {
+                case 1: sym = '*'; break;
+                case 2: sym = '0'; break;
+                case 3: sym = '8'; break;
+                case 4: sym = '&'; break;
+                case 5: sym = '+'; break;
+                }
+            } else {
+                sym = curr_trap.sym;
             }
-        } else {
-            sym = curr_trap.sym;
         }
     }
     if( curr_field.fieldCount() > 0 ) {
@@ -6051,15 +6102,8 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
         sym = determine_wall_corner( p );
     }
 
-    const auto u_vision = u.get_vision_modes();
-    if( u_vision[BOOMERED] ) {
-        tercol = c_magenta;
-    } else if( u_vision[NV_GOGGLES] ) {
-        tercol = (bright_light) ? c_white : c_ltgreen;
-    } else if( low_light ) {
-        tercol = c_dkgray;
-    } else if( u_vision[DARKNESS] ) {
-        tercol = c_dkgray;
+    if( tercol_override != 0 ) {
+        tercol = tercol_override;
     }
 
     if( invert ) {
@@ -6091,11 +6135,11 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     return !zlevels || sym != ' ' || !item_sym.empty() || p.z <= -OVERMAP_DEPTH || !curr_ter.has_flag( TFLAG_NO_FLOOR );
 }
 
-void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
+void map::draw_from_above( WINDOW* w, player &, const tripoint &p,
                            const maptile &curr_tile,
                            const bool invert,
                            const tripoint &view_center,
-                           bool low_light, bool bright_light, bool inorder ) const
+                           nc_color tercol_override, bool inorder ) const
 {
     static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
 
@@ -6146,15 +6190,8 @@ void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
         sym = determine_wall_corner( p );
     }
 
-    const auto u_vision = u.get_vision_modes();
-    if( u_vision[BOOMERED] ) {
-        tercol = c_magenta;
-    } else if( u_vision[NV_GOGGLES] ) {
-        tercol = (bright_light) ? c_white : c_ltgreen;
-    } else if( low_light ) {
-        tercol = c_dkgray;
-    } else if( u_vision[DARKNESS] ) {
-        tercol = c_dkgray;
+    if( tercol_override != 0 ) {
+        tercol = tercol_override;
     }
 
     if( invert ) {
