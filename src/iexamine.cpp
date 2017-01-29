@@ -810,7 +810,7 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
         dropped = "null";
     }
 
-    auto check_intact = [&]() -> bool {
+    auto check_tent_intact = [&]() -> bool {
         int radius = dropped == "large_tent_kit" ? 2 : 1;
         furn_id floor =
             dropped == "tent_kit" ? f_groundsheet
@@ -841,7 +841,7 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
         return true;
     };
 
-    if( name == "tent" && !check_intact() ) {
+    if( name == "tent" && !check_tent_intact() ) {
         if( dropped == "tent_kit" ) {
             dropped = "broketent";
         } else {
