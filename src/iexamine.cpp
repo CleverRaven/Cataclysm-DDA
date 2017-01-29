@@ -822,13 +822,17 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
             dropped == "tent_kit" ? f_canvas_door_o : f_large_canvas_door_o;
         furn_id center_floor =
             dropped == "large_tent_kit" ? f_center_groundsheet : floor;
+        // Traversing all the tiles this tent occupies
         for( int i = -radius; i <= radius; i++ ) {
             for( int j = -radius; j <= radius; j++ ) {
+                const furn_id &furn_here = g->m.furn( examp.x + i, examp.y + j );
                 if( i != -radius && i != radius && j != -radius && j != radius ) {
-                    if( g->m.furn( examp.x + i, examp.y + j ) != floor && g->m.furn( examp.x + i, examp.y + j ) != center_floor ) {
+                    // So we are inside the tent
+                    if( furn_here != floor && furn_here != center_floor ) {
                         return false;
                     }
-                } else if( g->m.furn( examp.x + i, examp.y + j ) != wall && g->m.furn( examp.x + i, examp.y + j ) != door && g->m.furn( examp.x + i, examp.y + j ) != door_opened ) {
+                } else if( furn_here != wall && furn_here != door && furn_here != door_opened ) {
+                    // We are on the border of the tent
                     return false;
                 }
             }
