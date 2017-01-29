@@ -3,7 +3,6 @@
 
 #include "character.h"
 #include "copyable_unique_ptr.h"
-#include "item.h"
 #include "player_activity.h"
 #include "recipe_dictionary.h"
 #include "weighted_list.h"
@@ -11,9 +10,7 @@
 #include "craft_command.h"
 
 #include <unordered_set>
-#include <bitset>
 #include <memory>
-#include <array>
 
 static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
 

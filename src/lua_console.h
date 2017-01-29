@@ -3,9 +3,6 @@
 
 #include "output.h"
 #include "cursesdef.h"
-
-#include <string>
-#include <vector>
 #include <utility>
 
 typedef int nc_color;

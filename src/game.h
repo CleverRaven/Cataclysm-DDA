@@ -9,8 +9,6 @@
 #include "item_location.h"
 #include "cursesdef.h"
 
-#include <vector>
-#include <map>
 #include <unordered_map>
 #include <list>
 #include <stdarg.h>

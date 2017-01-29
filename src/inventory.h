@@ -1,16 +1,8 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include "visitable.h"
 #include "item.h"
-#include "enums.h"
-
-#include <list>
-#include <string>
 #include <utility>
-#include <vector>
-#include <functional>
-#include <unordered_map>
 
 class map;
 class npc;

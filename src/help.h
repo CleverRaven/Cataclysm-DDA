@@ -2,7 +2,6 @@
 #define HELP_H
 
 #include "json.h"
-#include <string>
 
 void display_help();
 

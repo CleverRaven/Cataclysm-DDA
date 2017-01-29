@@ -1,13 +1,6 @@
 #ifndef MONGROUP_H
 #define MONGROUP_H
 
-#include <vector>
-#include <map>
-#include <set>
-#include <string>
-#include "enums.h"
-#include "json.h"
-#include "string_id.h"
 #include "monster.h"
 
 // from overmap.h

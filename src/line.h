@@ -1,12 +1,9 @@
 #ifndef LINE_H
 #define LINE_H
 
-#include <vector>
-#include <string>
 #include "enums.h"
 #include <functional>
 #include <math.h>
-
 #include "game_constants.h"
 
 /** Converts degrees to radians */

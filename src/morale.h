@@ -1,14 +1,11 @@
 #ifndef MORALE_H
 #define MORALE_H
 
-#include "json.h"
 #include "calendar.h"
 #include "effect.h"
-#include "bodypart.h"
 #include "morale_types.h"
 
 #include <stdlib.h>
-#include <string>
 #include <functional>
 
 class item;

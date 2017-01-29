@@ -3,9 +3,6 @@
 
 #include "enums.h"
 #include "string_id.h"
-#include <string>
-#include <vector>
-#include <set>
 #include <memory>
 
 class item;

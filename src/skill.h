@@ -6,9 +6,6 @@
 #include "string_id.h"
 
 #include <functional>
-#include <string>
-#include <vector>
-#include <set>
 #include <iosfwd>
 
 class Skill;

@@ -2,9 +2,7 @@
 #define EFFECT_H
 
 #include "pldata.h"
-#include "json.h"
 #include "enums.h"
-#include "string_id.h"
 #include <unordered_map>
 #include <tuple>
 

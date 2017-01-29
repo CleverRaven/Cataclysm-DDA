@@ -1,15 +1,12 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "visitable.h"
 #include "creature.h"
 #include "inventory.h"
 #include "bionics.h"
 #include "skill.h"
 #include "map_selector.h"
 #include "pathfinding.h"
-
-#include <map>
 
 using skill_id = string_id<Skill>;
 enum field_id : int;

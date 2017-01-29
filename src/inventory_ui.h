@@ -4,8 +4,6 @@
 #include <limits>
 #include <memory>
 
-#include "color.h"
-#include "cursesdef.h"
 #include "enums.h"
 #include "input.h"
 #include "output.h"

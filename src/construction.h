@@ -5,8 +5,6 @@
 #include "enums.h" // point
 #include "string_id.h"
 
-#include <string>
-#include <set>
 #include <functional>
 
 class JsonObject;

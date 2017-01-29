@@ -1,12 +1,8 @@
 #ifndef MISSION_H
 #define MISSION_H
 
-#include <vector>
-#include <string>
-
 #include "omdata.h"
 #include "itype.h"
-#include "json.h"
 #include "npc_favor.h"
 
 class mission;

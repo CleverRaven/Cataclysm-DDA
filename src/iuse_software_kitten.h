@@ -3,7 +3,6 @@
 
 #include "cursesdef.h"
 #include "color.h"
-#include <string>
 
 struct kobject {
     int x;

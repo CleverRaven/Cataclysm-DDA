@@ -3,12 +3,9 @@
 
 #include "enums.h"
 #include "string_id.h"
-
 #include <functional>
 #include <limits>
 #include <list>
-#include <string>
-#include <vector>
 
 class item;
 struct quality;

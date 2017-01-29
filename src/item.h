@@ -2,18 +2,11 @@
 #define ITEM_H
 
 #include <climits>
-#include <string>
-#include <vector>
-#include <list>
 #include <bitset>
 #include <unordered_set>
-#include <set>
 #include "visitable.h"
-#include "enums.h"
-#include "json.h"
 #include "color.h"
 #include "bodypart.h"
-#include "string_id.h"
 #include "line.h"
 #include "item_location.h"
 #include "damage.h"

@@ -6,15 +6,10 @@
 #include "enums.h"
 #include "color.h"
 #include "int_id.h"
-#include "string_id.h"
 #include "damage.h"
 #include "pathfinding.h"
 #include "mattack_common.h"
 
-#include <bitset>
-#include <string>
-#include <vector>
-#include <set>
 #include <math.h>
 
 class Creature;
