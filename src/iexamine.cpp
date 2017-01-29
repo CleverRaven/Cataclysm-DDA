@@ -810,7 +810,7 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
         dropped = "null";
     }
 
-    if( !query_yn(_("Take down the %s?"), name.c_str() ) ) {
+    if( !query_yn(_("Take down the %s?"), _( name.c_str() ) ) ) {
         none( p, examp );
         return;
     }
