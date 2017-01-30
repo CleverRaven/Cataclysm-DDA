@@ -4823,6 +4823,17 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
     }
 
+    const int infection_chance = dealt_dams.type_damage( DT_BASH ) + ( dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB ) ) * 4;
+    const bool filthy = std::any_of( worn.begin(), worn.end(), [bp]( const item& e )
+    {
+        return e.covers( bp ) && e.is_filthy();
+    } );
+    if( filthy && x_in_y( infection_chance, 100 ) )
+    {
+        add_effect( effect_bite, 1, bp, true );
+        add_msg_if_player( "Filth from your clothing has implanted deep in the wound." );
+    } 
+    
     on_hurt( source );
     return dealt_dams;
 }
