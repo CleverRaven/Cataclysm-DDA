@@ -7,34 +7,31 @@ TRANSLATORS
 The current official locations for translating Cataclysm-DDA is at
 [Launchpad Translations](https://translations.launchpad.net/cdda) and [Transifex Translations](https://www.transifex.com/projects/p/cataclysm-dda).
 
-You can join to your language translation project:
-
-On [Transifex](https://www.transifex.com/projects/p/cataclysm-dda/):
-* Argentinian
-* Chinese (Simplified)
-* Chinese (Traditional)
+You can join to your language translation project on [Transifex](https://www.transifex.com/projects/p/cataclysm-dda/). Currently the following languages are being maintained:
 * German
-* Italian
-* Russian
+* Argentinian
 * Spanish
-
-On [Launchpad](https://translations.launchpad.net/cdda):
 * French
+* Italian
 * Japanese
 * Korean
-* Brazilian (inative)
+* Brazilian
+* Russian
+* Simplified Chinese
+* Traditional Chinese
+
+Some language translations are maintained on [Launchpad](https://translations.launchpad.net/cdda) but discontinued:
 * Czech (inactive)
 * Polish (inactive)
 * Portuguese (inactive)
 * Serbian (inactive)
 * Vietnamese (inactive)
 
-If your language is not translated you can add it into any translation project on launchpad.net or transifex.com(prefered).
-Using Launchpad Translations anyone can help translate.
-All you need to do is set up a Launchpad account,
-and tell it your preferred language.
-After that, your language should show up for translation,
-even if you are starting a new translation from scratch.
+(Migrating to Transifex and translating those languages again are welcome.)
+
+Welcome to help translate the game for your language on [Transifex](https://www.transifex.com/projects/p/cataclysm-dda/)! If you are new to Transifex, all you need to do is just to sign up a new account, and join the team. If your language is not on the list above, it doesn't matter. You can add your language on Transifex.
+
+Many hands make light work. Don't forget to bring some friends with you together to do the translation.
 
 If you have any questions or comments about translation,
 feel free to post in the "Translations Team Discussion" subforum of
@@ -54,7 +51,7 @@ General notes for all translators are in
 and notes specific to a language may be stored as `<lang_id>.txt`,
 for example `lang/notes/de.txt` for German.
 
-Cataclysm-DDA has more than 14,000 translatable strings,
+Cataclysm-DDA has more than 23,200 translatable strings,
 but don't be discouraged.
 The more translators there are,
 the easier it becomes :).

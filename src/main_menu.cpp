@@ -30,6 +30,15 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+const std::vector<std::string> banner_messages{
+    "Contribute code at https://github.com/CleverRaven/Cataclysm-DDA/",
+    "Spotted a bug? Report it at the forums: http://smf.cataclysmdda.com/",
+    "Welcome to help translate the game! See doc/TRANSLATING.md for details.",
+    "Want a space for discussion? https://www.reddit.com/r/cataclysmdda/",
+    "Want a space for discussion? http://smf.cataclysmdda.com/",
+    "Not fully translated? Read doc/TRANSLATING.md to join the translation."
+};
+
 void main_menu::on_move() const
 {
     sfx::play_variant_sound( "menu_move", "default", 100 );
@@ -74,8 +83,7 @@ void main_menu::print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, in
         mvwputch( w_open, window_height - 2, i, c_white, LINE_OXOX );
     }
 
-    center_print( w_open, window_height - 1, c_red,
-                  _( "Please report bugs on github.com/CleverRaven/Cataclysm-DDA/ or the forums." ) );
+    center_print( w_open, window_height - 1, c_red, _( random_entry( banner_messages ).c_str() ) );
 
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
