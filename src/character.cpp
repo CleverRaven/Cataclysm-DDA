@@ -21,6 +21,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <numeric>
 
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );

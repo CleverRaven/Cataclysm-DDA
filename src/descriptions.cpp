@@ -6,8 +6,6 @@
 #include "input.h"
 #include "ui.h"
 
-#include <numeric>
-
 enum class description_target : int {
     creature,
     furniture,
