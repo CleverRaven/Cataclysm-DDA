@@ -1,5 +1,10 @@
 [
   {
+    "id": "762_m87",
+    "type": "MIGRATION",
+    "replace": "762_m67"
+  },
+  {
     "id": "40mm_acidbomb",
     "type": "MIGRATION",
     "replace": "40mm_teargas"
