@@ -2069,6 +2069,7 @@ void item::on_wield( player &p, int mv )
         g->add_artifact_messages( type->artifact->effects_wielded );
     }
 
+    // weapons with bayonet/bipod or other generic "unhandiness"
     if( has_flag("SLOW_WIELD") && !is_gunmod() ) {
         float d = 32.0; // arbitrary linear scaling factor
         if( is_gun() ) {
@@ -2082,8 +2083,8 @@ void item::on_wield( player &p, int mv )
         mv += penalty;
     }
 
-    // for folding stocks
-    if( has_flag("NEEDS_UNFOLD") ) {
+    // weapons with a folding stock
+    if( has_flag( "NEEDS_UNFOLD" ) && !is_gunmod() ) {
         int penalty = std::max( 0, 300 - p.get_skill_level( gun_skill() ) * 10 );
         p.moves -= penalty;
         mv += penalty;
