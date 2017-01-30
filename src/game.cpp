@@ -8760,7 +8760,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             }
         } else if( action == "EXTENDED_DESCRIPTION" ){
             extended_description( lp );
-            draw_ter( lp, true );
+            draw_sidebar();
+            draw( lp, true );
         } else if (!ctxt.get_coordinates(w_terrain, lx, ly) && action != "MOUSE_MOVE") {
             int dx, dy;
             ctxt.get_direction(dx, dy, action);
