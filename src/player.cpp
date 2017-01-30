@@ -4823,8 +4823,8 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
     }
 
-    int infection_chance = dealt_dams.type_damage( DT_BASH ) + ( dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB ) ) * 4;
-    bool filthy = std::any_of( worn.begin(), worn.end(), [bp]( const item& e )
+    const int infection_chance = dealt_dams.type_damage( DT_BASH ) + ( dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB ) ) * 4;
+    const bool filthy = std::any_of( worn.begin(), worn.end(), [bp]( const item& e )
     {
         return e.covers( bp ) && e.is_filthy();
     } );
