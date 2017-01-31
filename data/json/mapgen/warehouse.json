@@ -85,7 +85,8 @@
         { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 }
       ],
       "place_vehicles": [
-        { "vehicle": "flatbed_truck", "x": 12, "y": 13, "chance": 50, "rotation": 270 }
+        { "vehicle": "flatbed_truck", "x": 12, "y": 13, "chance": 50, "rotation": 270 },
+        { "vehicle": "warehouse_vehicles", "x": 17, "y": 13, "chance": 50, "rotation": 270 }
       ]
     }
   }

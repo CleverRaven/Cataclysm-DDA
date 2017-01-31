@@ -19,7 +19,7 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 0, 2 ] }
     ],
-    "flags": [ "ENGINE", "FOLDABLE", "CONTROLS", "TOOL_WRENCH" ]
+    "flags": [ "ENGINE", "FOLDABLE", "MUSCLE_LEGS", "CONTROLS", "TOOL_WRENCH" ]
   },
   {
     "id": "hand_rims",
@@ -41,6 +41,6 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 0, 2 ] }
     ],
-    "flags": [ "ENGINE", "FOLDABLE", "CONTROLS" ]
+    "flags": [ "ENGINE", "FOLDABLE", "MUSCLE_ARMS", "CONTROLS" ]
   }
 ]

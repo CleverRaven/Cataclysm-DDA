@@ -5,6 +5,13 @@
 #include "int_id.h"
 #include "init.h"
 
+#include "debug.h"
+#include "json.h"
+#include "color.h"
+#include "translations.h"
+#include "units.h"
+#include "assign.h"
+
 #include <string>
 #include <unordered_map>
 #include <bitset>
@@ -14,13 +21,6 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
-
-#include "debug.h"
-#include "json.h"
-#include "color.h"
-#include "translations.h"
-#include "units.h"
-#include "assign.h"
 
 /**
 A generic class to store objects identified by a `string_id`.
@@ -189,23 +189,22 @@ class generic_factory
 
             T def;
 
-            if( jo.has_string( "copy-from" ) ) {
-                if( jo.has_string( "edit-mode" ) ) {
-                    jo.throw_error( "cannot specify both copy-from and edit-mode" );
-                }
-
-                auto base = map.find( string_id<T>( jo.get_string( "copy-from" ) ) );
-                auto ab = abstracts.find( jo.get_string( "copy-from" ) );
+            static const std::string copy_from( "copy-from" );
+            if( jo.has_string( copy_from ) ) {
+                const std::string source = jo.get_string( copy_from );
+                auto base = map.find( string_id<T>( source ) );
 
                 if( base != map.end() ) {
                     def = obj( base->second );
-
-                } else if( ab != abstracts.end() ) {
-                    def = ab->second;
-
                 } else {
-                    deferred.emplace_back( jo.str(), src );
-                    return;
+                    auto ab = abstracts.find( source );
+
+                    if( ab != abstracts.end() ) {
+                        def = ab->second;
+                    } else {
+                        deferred.emplace_back( jo.str(), src );
+                        return;
+                    }
                 }
 
                 def.was_loaded = true;
@@ -259,9 +258,7 @@ class generic_factory
 
         /** Finalize all entries (derived classes should chain to this method) */
         virtual void finalize() {
-            if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
-                debugmsg( "JSON contains circular dependency: discarded %i entries", deferred.size() );
-            }
+            DynamicDataLoader::get_instance().load_deferred( deferred );
             abstracts.clear();
         }
 

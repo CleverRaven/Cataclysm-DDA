@@ -7,5 +7,11 @@
       "professions": [ "wanderer", "caveman" ],
       "allowed_locs": [ "swamp" ]
     }
+  },
+  {
+    "type": "scenario",
+    "ident": "summer_advanced_start",
+    "copy-from": "summer_advanced_start",
+    "extend": { "professions": [ "wanderer" ] }
   }
 ]

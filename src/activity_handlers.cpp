@@ -39,6 +39,8 @@ const skill_id skill_carpentry( "carpentry" );
 const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );
 
+using namespace activity_handlers;
+
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::do_turn_functions =
 {
     { activity_id( "ACT_BURROW" ), burrow_do_turn },
@@ -1105,33 +1107,33 @@ void activity_handlers::pickaxe_do_turn(player_activity *act, player *p)
     }
 }
 
-void activity_handlers::pickaxe_finish(player_activity *act, player *p)
+void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 {
     const tripoint pos( act->placement );
-    item *it = &p->i_at(act->position);
+    item *it = &p->i_at( act->position );
 
     act->set_to_null(); // Invalidate the activity early to prevent a query from mod_pain()
 
-    if( g->m.is_bashable(pos) && g->m.has_flag("SUPPORTS_ROOF", pos) &&
+    if( g->m.is_bashable( pos ) && g->m.has_flag( "SUPPORTS_ROOF", pos ) &&
         g->m.ter(pos) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
-        p->mod_hunger(15);
-        p->mod_thirst(15);
-        if( p->has_trait("STOCKY_TROGLO") ) {
-            p->mod_fatigue(20); // Yep, dwarves can dig longer before tiring
+        p->mod_hunger( 15 );
+        p->mod_thirst( 15 );
+        if( p->has_trait( "STOCKY_TROGLO" ) ) {
+            p->mod_fatigue( 20 ); // Yep, dwarves can dig longer before tiring
         } else {
-            p->mod_fatigue(30);
+            p->mod_fatigue( 30 );
         }
-        p->mod_pain(2 * rng(1, 3));
+        p->mod_pain( 2 * rng( 1, 3 ) );
         // Mining is construction work!
         p->practice( skill_carpentry, 5 );
     } else if( g->m.move_cost(pos) == 2 && g->get_levz() == 0 &&
                g->m.ter(pos) != t_dirt && g->m.ter(pos) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
-        p->mod_hunger(5);
-        p->mod_thirst(5);
-        p->mod_fatigue(10);
+        p->mod_hunger( 5 );
+        p->mod_thirst( 5 );
+        p->mod_fatigue( 10 );
     }
     g->m.destroy( pos, true );
     it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
@@ -1811,14 +1813,9 @@ void activity_handlers::meditate_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::aim_do_turn( player_activity *act, player *p )
+void activity_handlers::aim_do_turn( player_activity *act, player * )
 {
     if( act->index == 0 ) {
-        if( !p->weapon.is_gun() ) {
-            // We lost our gun somehow, bail out.
-            act->set_to_null();
-        }
-
         g->m.build_map_cache( g->get_levz() );
         g->plfire();
     }

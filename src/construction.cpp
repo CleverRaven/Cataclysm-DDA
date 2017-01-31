@@ -840,12 +840,12 @@ void construct::done_trunk_plank( const tripoint &p )
     }
 }
 
-const vpart_id &vpart_from_item( const std::string &item_id )
+vpart_id vpart_from_item( const std::string &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
         if( vp.item == item_id && vp.has_flag( "INITIAL_PART" ) ) {
-            return vp.id;
+            return vp.get_id();
         }
     }
     // The INITIAL_PART flag is optional, if no part (based on the given item) has it, just use the
@@ -854,7 +854,7 @@ const vpart_id &vpart_from_item( const std::string &item_id )
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
         if( vp.item == item_id ) {
-            return vp.id;
+            return vp.get_id();
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
@@ -938,7 +938,7 @@ void unroll_digging( int const numer_of_2x4s )
 
 void construct::done_digormine_stair( const tripoint &p, bool dig )
 {
-    tripoint const abs_pos = p;
+    tripoint const abs_pos = g->m.getabs( p );
     tripoint const pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );

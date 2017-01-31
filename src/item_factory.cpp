@@ -4,7 +4,6 @@
 #include "artifact.h"
 #include "bionics.h"
 #include "catacharset.h"
-#include "cata_utility.h"
 #include "construction.h"
 #include "crafting.h"
 #include "debug.h"
@@ -73,7 +72,7 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
         } else {
             parts.set( get_body_part_token( val ) );
         }
-        sided += ( val == "ARM_EITHER" || val == "HAND_EITHER" ||
+        sided |= ( val == "ARM_EITHER" || val == "HAND_EITHER" ||
                    val == "LEG_EITHER" || val == "FOOT_EITHER" );
     };
 
@@ -94,9 +93,7 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
 }
 
 void Item_factory::finalize() {
-    if( !DynamicDataLoader::get_instance().load_deferred( deferred ) ) {
-        debugmsg( "JSON contains circular dependency: discarded %i templates", deferred.size() );
-    }
+    DynamicDataLoader::get_instance().load_deferred( deferred );
 
     finalize_item_blacklist();
 
@@ -139,19 +136,8 @@ void Item_factory::finalize() {
             obj.use_methods.emplace( func, usage_from_string( func ) );
         }
 
-        if( obj.engine ) {
-            if( get_world_option<bool>( "NO_FAULTS" ) ) {
-                obj.engine->faults.clear();
-            }
-
-            /**
-             *  For our purposes gearboxes and axle differentials are combined
-             *  1:3.7 is a typical differential gearing
-             *  33.6 is a magic constant roughly based upon ~15" tyres
-             */
-            for( auto &e : obj.engine->gears ) {
-                e *= 3.7 * 33.6;
-            }
+        if( obj.engine && get_world_option<bool>( "NO_FAULTS" ) ) {
+            obj.engine->faults.clear();
         }
 
         // If no category was forced via JSON automatically calculate one now
@@ -219,8 +205,6 @@ void Item_factory::finalize() {
                 obj.ammo->cookoff = false;
                 obj.ammo->special_cookoff = false;
             }
-
-            obj.ammo->energy *= 1000; // convert kJ to J
         }
         // for magazines ensure default_ammo is set
         if( obj.magazine && obj.magazine->default_ammo == "NULL" ) {
@@ -345,6 +329,10 @@ void Item_factory::finalize() {
                     obj.repair.insert( tool );
                 }
             }
+        }
+
+        if( obj.drop_action.get_actor_ptr() != nullptr ) {
+            obj.drop_action.get_actor_ptr()->finalize( obj.id );
         }
     }
 }
@@ -627,6 +615,7 @@ void Item_factory::init()
     add_actor( new unfold_vehicle_iuse() );
     add_actor( new ups_based_armor_actor() );
     add_actor( new place_trap_actor() );
+    add_actor( new emit_actor() );
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
@@ -717,22 +706,6 @@ void Item_factory::check_definitions() const
         }
 
         if( type->engine ) {
-            check_ammo_type( msg, type->engine->fuel );
-
-            for( float g : type->engine->gears ) {
-                if( g <= 0 ) {
-                    msg << string_format( "invalid engine gearing %.2f", g ) << "\n";
-                }
-            }
-
-            if( type->engine->idle > type->engine->redline ) {
-                msg << string_format( "idle rpm outside safe range" ) << "\n";
-            }
-
-            if( type->engine->optimum < type->engine->idle || type->engine->optimum > type->engine->redline ) {
-                msg << string_format( "optimal rpm outside safe range" ) << "\n";
-            }
-
             for( const auto& f : type->engine->faults ) {
                 if( !f.is_valid() ) {
                     msg << string_format( "invalid item fault %s", f.c_str() ) << "\n";
@@ -1091,7 +1064,6 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &sr
     assign( jo, "count", slot.def_charges, strict, 1L );
     assign( jo, "loudness", slot.loudness, strict, 0 );
     assign( jo, "effects", slot.ammo_effects, strict );
-    assign( jo, "energy", slot.energy, strict, 1 );
 }
 
 void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
@@ -1104,26 +1076,10 @@ void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_engine &slot, JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_engine &slot, JsonObject &jo, const std::string & )
 {
-    bool strict = src == "core";
-    assign( jo, "power", slot.power, strict, 0 );
-    assign( jo, "fuel", slot.fuel, strict );
-    assign( jo, "efficiency", slot.efficiency, strict, 1, 100 );
-    assign( jo, "idle", slot.idle, strict, 0 );
-    assign( jo, "optimum", slot.optimum, strict, 0 );
-    assign( jo, "redline", slot.redline, strict, 0 );
-    assign( jo, "faults", slot.faults, strict );
-    assign( jo, "start_time", slot.start_time, strict, 0 );
-    assign( jo, "start_energy", slot.start_energy, strict, 0 );
-
-    if( jo.has_array( "gears" ) ) {
-        slot.gears.clear();
-        auto arr = jo.get_array( "gears" );
-        while( arr.has_more() ) {
-            slot.gears.push_back( arr.next_float() );
-        }
-    }
+    assign( jo, "displacement", slot.displacement );
+    assign( jo, "faults", slot.faults );
 }
 
 void Item_factory::load_engine( JsonObject &jo, const std::string &src )
@@ -1762,6 +1718,14 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         def.countdown_action = usage_from_object( tmp ).second;
     }
 
+    if( jo.has_string( "drop_action" ) ) {
+        def.drop_action = usage_from_string( jo.get_string( "drop_action" ) );
+
+    } else if( jo.has_object( "drop_action" ) ) {
+        auto tmp = jo.get_object( "drop_action" );
+        def.drop_action = usage_from_object( tmp ).second;
+    }
+
     load_slot_optional( def.container, jo, "container_data", src );
     load_slot_optional( def.armor, jo, "armor_data", src );
     load_slot_optional( def.book, jo, "book_data", src );
@@ -1950,20 +1914,62 @@ bool load_min_max(std::pair<T, T> &pa, JsonObject &obj, const std::string &name)
     return result;
 }
 
-bool load_sub_ref(std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj, const std::string &name)
+bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj,
+                                 const std::string &name, const Item_group &parent )
 {
+    const std::string iname( name + "-item" );
+    const std::string gname( name + "-group" );
+    std::vector< std::pair<const std::string, bool> > entries; // pair.second is true for groups, false for items
+    const int prob = 100;
+
+    auto get_array = [&obj, &name, &entries]( const std::string &arr_name, const bool isgroup ) {
+        if( !obj.has_array( arr_name ) ) {
+            return;
+        } else if( name != "contents" ) {
+            obj.throw_error( string_format( "You can't use an array for '%s'", arr_name.c_str() ) );
+        }
+        JsonArray arr = obj.get_array( arr_name );
+        while( arr.has_more() ) {
+            entries.push_back( std::make_pair( arr.next_string(), isgroup ) );
+        }
+    };
+    get_array( iname, false );
+    get_array( gname, true );
+
     if (obj.has_member(name)) {
-        // TODO!
-    } else if (obj.has_member(name + "-item")) {
-        ptr.reset(new Single_item_creator(obj.get_string(name + "-item"), Single_item_creator::S_ITEM,
-                                          100));
-        return true;
-    } else if (obj.has_member(name + "-group")) {
-        ptr.reset(new Single_item_creator(obj.get_string(name + "-group"),
-                                          Single_item_creator::S_ITEM_GROUP, 100));
-        return true;
+        obj.throw_error( string_format( "This has been a TODO since 2014. Use '%s' and/or '%s' instead.",
+                                        iname.c_str(), gname.c_str() ) );
+        return false; // TODO!
     }
-    return false;
+    if( obj.has_string( iname ) ) {
+        entries.push_back( std::make_pair( obj.get_string( iname ), false ) );
+    }
+    if( obj.has_string( gname ) ) {
+        entries.push_back( std::make_pair( obj.get_string( gname ), true ) );
+    }
+
+    if( entries.size() > 1 && name != "contents" ) {
+        obj.throw_error( string_format( "You can only use one of '%s' and '%s'", iname.c_str(), gname.c_str() ) );
+        return false;
+    } else if( entries.size() == 1 ) {
+        const auto type = entries.front().second ? Single_item_creator::Type::S_ITEM_GROUP : Single_item_creator::Type::S_ITEM;
+        Single_item_creator *result = new Single_item_creator( entries.front().first, type, prob );
+        result->inherit_ammo_mag_chances( parent.with_ammo, parent.with_magazine );
+        ptr.reset( result );
+        return true;
+    } else if( entries.empty() ) {
+        return false;
+    }
+    Item_group *result = new Item_group( Item_group::Type::G_COLLECTION, prob, parent.with_ammo, parent.with_magazine );
+    ptr.reset( result );
+    for( const auto &elem : entries ) {
+        if( elem.second ) {
+            result->add_group_entry( elem.first, prob );
+        } else {
+            result->add_item_entry( elem.first, prob );
+        }
+    }
+    return true;
 }
 
 void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
@@ -2004,9 +2010,9 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     use_modifier |= load_min_max(modifier->damage, obj, "damage");
     use_modifier |= load_min_max(modifier->charges, obj, "charges");
     use_modifier |= load_min_max(modifier->count, obj, "count");
-    use_modifier |= load_sub_ref(modifier->ammo, obj, "ammo");
-    use_modifier |= load_sub_ref(modifier->container, obj, "container");
-    use_modifier |= load_sub_ref(modifier->contents, obj, "contents");
+    use_modifier |= load_sub_ref( modifier->ammo, obj, "ammo", *ig );
+    use_modifier |= load_sub_ref( modifier->container, obj, "container", *ig );
+    use_modifier |= load_sub_ref( modifier->contents, obj, "contents", *ig );
     if (use_modifier) {
         dynamic_cast<Single_item_creator *>(ptr.get())->modifier = std::move(modifier);
     }

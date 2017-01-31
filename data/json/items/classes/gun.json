@@ -57,7 +57,8 @@
     "abstract": "rifle_manual",
     "copy-from": "rifle_base",
     "type": "GUN",
-    "name": "rifles with manual actions",
+    "name": "rifle with manual actions",
+    "name_plural": "rifles with manual actions",
     "//": "Manual actions exclude the magazine location preventing installation of belt-feed adaptors",
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },

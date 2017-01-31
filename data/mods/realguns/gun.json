@@ -76,7 +76,7 @@
     "barrel_length": 2,
     "built_in_mods": [ "M6_shotgun" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "SLOW_WIELD", "COLLAPSIBLE_STOCK" ]
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
   },
   {
     "id": "colt_saa",
@@ -138,7 +138,6 @@
     "color": "brown",
     "ammo": "410",
     "skill": "pistol",
-    "range": 3,
     "dispersion": 520,
     "durability": 6,
     "clip_size": 2,
@@ -185,5 +184,34 @@
     "barrel_length": 4,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+  },
+  {
+    "id": "af2011a1_38super",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "AF2011A1 .38 Super",
+    "description": "A double-barrel semi-automatic pistol.  It looks like two M1911s melded together.",
+    "weight": 1710,
+    "volume": 4,
+    "price": 470000,
+    "to_hit": -2,
+    "bashing": 12,
+    "material": "steel",
+    "color": "light_gray",
+    "ammo": "38_super",
+    "dispersion": 520,
+    "durability": 7,
+    "valid_mod_locations": [ [ "grip", 1 ] ],
+    "magazine_well": 2,
+    "magazines": [ [ "38_super", [ "af2011a1mag" ] ] ]
+  },
+  {
+    "id": "m1991a1_38super",
+    "copy-from": "m1911",
+    "type": "GUN",
+    "name": "M1991A1 .38 Super",
+    "description": "A modern M1911, chambered for the .38 Super cartridge.  It can achieve good accuracy.",
+    "ammo": "38_super",
+    "magazines": [ [ "38_super", [ "m1991_38smag" ] ] ]
   }
 ]

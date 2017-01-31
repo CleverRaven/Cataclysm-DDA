@@ -270,8 +270,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /** Burns the item. Returns true if the item was destroyed. */
     bool burn( fire_data &bd );
 
- // Returns the category of this item.
- const item_category &get_category() const;
+    // Returns the category of this item.
+    const item_category &get_category() const;
 
     class reload_option {
         public:
@@ -411,6 +411,14 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * @return true if this item should be deleted (count-by-charges items with no remaining charges)
      */
     bool use_charges( const itype_id& what, long& qty, std::list<item>& used, const tripoint& pos );
+
+    /**
+     * Invokes item type's @ref drop_action.
+     * This function can change the item.
+     * @param pos Where is the item being placed. Note: the item isn't there yet.
+     * @return true if the item was destroyed during placement.
+     */
+    bool on_drop( const tripoint &pos );
 
  /**
   * Consume a specific amount of items of a specific type.
@@ -786,13 +794,11 @@ public:
  bool destroyed_at_zero_charges() const;
 // Most of the is_whatever() functions call the same function in our itype
  bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
- bool is_food(player const*u) const;// Some non-food items are food to certain players
- bool is_food_container(player const*u) const;  // Ditto
+ bool is_comestible() const;
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
  bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
  bool is_medication() const;            // Is it a medication that only pretends to be food?
- bool is_medication_container() const;  // Does it contain medication that isn't actually food?
  bool is_bionic() const;
  bool is_magazine() const;
  bool is_ammo_belt() const;
@@ -821,18 +827,6 @@ public:
 
     /** Returns the total area of this wheel or 0 if it isn't one. */
     int wheel_area() const;
-
-    /**
-     *  How difficult is it to start the engine at specified temperature (celcius)
-     *  @return scalar factor [0.0 - 1.0] where a higher value represents increasing difficulty
-     */
-    double engine_start_difficulty( int temperature ) const;
-
-    /** Moves required to start engine at specified temperature (celcius) */
-    int engine_start_time( int temperature ) const;
-
-    /** battery charges (kJ) required to start at specified temperature (celcius) */
-    int engine_start_energy( int temperature ) const;
 
     /**
      * Can this item have given item/itype as content?
@@ -893,6 +887,10 @@ public:
  const itype* type;
  std::list<item> contents;
 
+        /**
+         * Return a contained item (if any and only one).
+         */
+        const item &get_contained() const;
         /**
          * Unloads the item's contents.
          * @param c Character who receives the contents.
@@ -1109,8 +1107,10 @@ public:
          * @code if( some_armor.get_covered_body_parts().test( bp_head ) ) { ... } @endcode
          * For testing only a single body part, use @ref covers instead. This function allows you
          * to get the whole covering data in one call.
+         * @param side Specifies the side. Will be ignored for non-sided items.
          */
         std::bitset<num_bp> get_covered_body_parts() const;
+        std::bitset<num_bp> get_covered_body_parts( side s ) const;
         /**
           * Returns true if item is armor and can be worn on different sides of the body
           */
@@ -1118,11 +1118,16 @@ public:
         /**
          *  Returns side item currently worn on. Returns BOTH if item is not sided or no side currently set
          */
-        int get_side() const;
+        side get_side() const;
         /**
           * Change the side on which the item is worn. Returns false if the item is not sided
           */
         bool set_side (side s);
+
+        /**
+         * Swap the side on which the item is worn. Returns false if the item is not sided
+         */
+        bool swap_side();
         /**
          * Returns the warmth value that this item has when worn. See player class for temperature
          * related code, or @ref player::warmth. Returned values should be positive. A value
@@ -1451,6 +1456,15 @@ public:
         /*@}*/
 
         /**
+         * @name Vehicle parts
+         *
+         *@{*/
+
+        /** for combustion engines the displacement (cc) */
+        int engine_displacement() const;
+        /*@}*/
+
+        /**
          * Returns the pointer to use_function with name use_name assigned to the type of
          * this item or any of its contents. Checks contents recursively.
          * Returns nullptr if not found.
@@ -1520,11 +1534,11 @@ public:
         skill_id contextualize_skill( const skill_id &id ) const;
 
     private:
-        std::string name;
         double damage_ = 0;
         const itype* curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype* corpse = nullptr;
+        std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
         light_emission light = nolight;
 

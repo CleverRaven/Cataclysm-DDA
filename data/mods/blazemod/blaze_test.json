@@ -47,12 +47,12 @@
     "byproducts": [ [ "vpower" ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 },
+      { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
-      [ [ "goggles_welding", -1 ] ],
       [ [ "tongs", -1 ] ],
-      [ [ "chisel", -1 ] ],
       [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 400 ], [ "char_forge", 100 ] ],
@@ -80,12 +80,12 @@
     "byproducts": [ [ "vpower" ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 },
+      { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
-      [ [ "goggles_welding", -1 ] ],
       [ [ "tongs", -1 ] ],
-      [ [ "chisel", -1 ] ],
       [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 400 ], [ "char_forge", 100 ] ],
@@ -113,12 +113,10 @@
     "autolearn": true,
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "goggles_welding", -1 ] ],
-      [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ]
-    ],
+    "tools": [ [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ] ],
     "components": [
       [ [ "cargo_rack", 1 ] ],
       [ [ "teleporter", 1 ] ],
@@ -257,11 +255,11 @@
     "difficulty": 10,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [
-      [ [ "chisel", -1 ] ],
-      [ [ "oxy_torch", 2 ], [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ] ]
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 }
     ],
+    "tools": [ [ [ "oxy_torch", 2 ], [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ] ] ],
     "components": [
       [ [ "charcoal", 50 ] ],
       [ [ "plasma", 10 ] ],
@@ -999,7 +997,8 @@
       { "item": "scrap", "count": [ 4, 12 ] },
       { "item": "steel_chunk", "count": [ 2, 5 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
-    ]
+    ],
+    "flags": [ "REACTOR" ]
   },
   {
     "id": "vgen2",
@@ -1026,7 +1025,7 @@
       { "item": "scrap", "count": [ 4, 12 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
-    "flags": [ "TOOL_NONE" ]
+    "flags": [ "ENGINE", "TOOL_NONE" ]
   },
   {
     "id": "vgen2",

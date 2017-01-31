@@ -791,7 +791,7 @@ void add_corpse( const tripoint &p );
                     const unsigned quantity=1, const long charges=0,
                     const unsigned birthday=0, const int damlevel=0);
 
-    item &add_item_or_charges( const int x, const int y, const item &obj, bool overflow = true );
+    item &add_item_or_charges( const int x, const int y, item obj, bool overflow = true );
 
     void add_item(const int x, const int y, item new_item);
     void spawn_an_item( const int x, const int y, item new_item,
@@ -826,7 +826,7 @@ void add_corpse( const tripoint &p );
      *  @return reference to dropped (and possibly stacked) item or null item on failure
      *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
      */
-    item &add_item_or_charges( const tripoint &pos, const item &obj, bool overflow = true );
+    item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
 
     /** Helper for map::add_item */
     item &add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
@@ -997,8 +997,11 @@ void add_corpse( const tripoint &p );
         void propagate_field( const tripoint &center, field_id fid,
                               int amount, int max_density = MAX_FIELD_DENSITY );
 
-        /** Runs one cycle of emission @ref src which **may** result in propagation of fields */
-        void emit_field( const tripoint &pos, const emit_id &src );
+        /**
+         * Runs one cycle of emission @ref src which **may** result in propagation of fields
+         * @param mul Multiplies the chance and possibly qty (if `chance*mul > 100`) of the emission
+         */
+        void emit_field( const tripoint &pos, const emit_id &src, float mul = 1.0f );
 
 // End of 3D field function block
 
@@ -1157,8 +1160,8 @@ public:
  int getmapsize() const { return my_MAPSIZE; };
  bool has_zlevels() const { return zlevels; }
 
- // Not protected/private for mapgen_functions.cpp access
- void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
+    // Not protected/private for mapgen_functions.cpp access
+    void rotate(int turns);   // Rotates the current map 90*turns degress clockwise
                               // Useful for houses, shops, etc
 
 // Monster spawning:
@@ -1358,22 +1361,22 @@ private:
                           const tripoint &view_center,
                           bool low_light, bool bright_light, bool inorder ) const;
 
- long determine_wall_corner( const tripoint &p ) const;
- void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
- // apply a circular light pattern immediately, however it's best to use...
- void apply_light_source( const tripoint &p, float luminance);
- // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
- // light rays from causing massive slowdowns, if there's a huge amount of light.
- void add_light_source( const tripoint &p, float luminance);
- // Handle just cardinal directions and 45 deg angles.
- void apply_directional_light( const tripoint &p, int direction, float luminance );
- void apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle = 30 );
- void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                      const tripoint &s, const tripoint &e, float luminance);
- void add_light_from_items( const tripoint &p, std::list<item>::iterator begin,
-                            std::list<item>::iterator end );
- void calc_ray_end(int angle, int range, const tripoint &p, tripoint &out ) const;
- vehicle *add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks);
+    long determine_wall_corner( const tripoint &p ) const;
+    void cache_seen( const int fx, const int fy, const int tx, const int ty, const int max_range );
+    // apply a circular light pattern immediately, however it's best to use...
+    void apply_light_source( const tripoint &p, float luminance);
+    // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
+    // light rays from causing massive slowdowns, if there's a huge amount of light.
+    void add_light_source( const tripoint &p, float luminance);
+    // Handle just cardinal directions and 45 deg angles.
+    void apply_directional_light( const tripoint &p, int direction, float luminance );
+    void apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle = 30 );
+    void apply_light_ray( bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                          const tripoint &s, const tripoint &e, float luminance );
+    void add_light_from_items( const tripoint &p, std::list<item>::iterator begin,
+                               std::list<item>::iterator end );
+    void calc_ray_end( int angle, int range, const tripoint &p, tripoint &out ) const;
+    vehicle *add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
     // Internal methods used to bash just the selected features
     // Information on what to bash/what was bashed is read from/written to the bash_params struct

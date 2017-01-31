@@ -589,6 +589,10 @@ void player::power_bionics()
                         deactivate_bionic( b );
                     } else {
                         activate_bionic( b );
+                        // Clear the menu if we are firing a bionic gun
+                        if( tmp->info().gun_bionic ) {
+                            break;
+                        }
                     }
                     // update message log and the menu
                     g->refresh_all();

@@ -1,6 +1,30 @@
 [
     {
         "type" : "keybinding",
+        "id": "SCROLL_UP",
+        "category": "UIMENU",
+        "name": "Scroll up",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"SCROLL_UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_DOWN",
+        "category": "UIMENU",
+        "name": "Scroll down",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"SCROLL_DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"UP",
         "name":"Pan up",
         "bindings":[

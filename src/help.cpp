@@ -855,7 +855,7 @@ O           Parking lot - Empty lot, few items. Mostly useless." ) );
     }
     wrefresh( win );
     refresh();
-    getch();
+    inp_mngr.wait_for_any_key();
 }
 
 std::vector<std::string> text_guns()
@@ -1051,7 +1051,8 @@ void display_help()
             refresh();
             needs_refresh = false;
         };
-        ch = getch();
+        // TODO: use input context
+        ch = inp_mngr.get_input_event().get_first_input();
         switch( ch ) {
             case 'a':
             case 'A':

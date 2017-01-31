@@ -9,6 +9,7 @@
 #include "string_id.h"
 #include "damage.h"
 #include "pathfinding.h"
+#include "mattack_common.h"
 
 #include <bitset>
 #include <string>
@@ -37,6 +38,7 @@ using species_id = string_id<species_type>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
 class JsonArray;
+class JsonIn;
 class material_type;
 using material_id = string_id<material_type>;
 
@@ -161,75 +163,13 @@ struct mon_effect_data
 {
     efftype_id id;
     int duration;
+    bool affect_hit_bp;
     body_part bp;
     bool permanent;
     int chance;
 
-    mon_effect_data(const efftype_id &nid, int dur, body_part nbp, bool perm, int nchance) :
-                    id(nid), duration(dur), bp(nbp), permanent(perm), chance(nchance) {};
-};
-
-class mattack_actor {
-protected:
-    mattack_actor() { }
-public:
-    virtual ~mattack_actor() { }
-    virtual bool call( monster & ) const = 0;
-    virtual mattack_actor *clone() const = 0;
-};
-
-struct mtype_special_attack {
-protected:
-    enum attack_function_t : int {
-        ATTACK_NONE,
-        ATTACK_CPP,
-        ATTACK_ACTOR_PTR
-    };
-
-    attack_function_t function_type;
-
-    union {
-        mon_action_attack cpp_function;
-        mattack_actor *actor_ptr;
-    };
-
-    int cooldown;
-
-public:
-    mtype_special_attack( int cool = 0 )
-        : function_type(ATTACK_NONE), cooldown( cool )
-    { }
-
-    mtype_special_attack( mon_action_attack f, int cool )
-        : function_type(ATTACK_CPP), cpp_function(f), cooldown(cool)
-    { }
-
-    mtype_special_attack( mattack_actor *f, int cool )
-        : function_type(ATTACK_ACTOR_PTR), actor_ptr(f), cooldown(cool)
-    { }
-
-    mtype_special_attack( const mtype_special_attack &other );
-
-    ~mtype_special_attack();
-
-    void operator=( const mtype_special_attack &other );
-
-    bool call( monster & ) const;
-
-    int get_cooldown() const
-    {
-        return cooldown;
-    }
-
-    void set_cooldown( int i );
-
-    const mattack_actor *get_actor_ptr() const
-    {
-        if( function_type != ATTACK_ACTOR_PTR ) {
-            return nullptr;
-        }
-        return actor_ptr;
-    }
+    mon_effect_data(const efftype_id &nid, int dur, bool ahbp, body_part nbp, bool perm, int nchance) :
+                    id(nid), duration(dur), affect_hit_bp(ahbp), bp(nbp), permanent(perm), chance(nchance) {};
 };
 
 struct mtype {
@@ -240,11 +180,11 @@ struct mtype {
 
         std::set< const species_type* > species_ptrs;
 
-        void add_special_attacks( JsonObject &jo, const std::string &member_name );
-        void remove_special_attacks( JsonObject &jo, const std::string &member_name );
+        void add_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
+        void remove_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
 
-        void add_special_attack( JsonArray jarr );
-        void add_special_attack( JsonObject jo );
+        void add_special_attack( JsonArray jarr, const std::string &src );
+        void add_special_attack( JsonObject jo, const std::string &src );
 
     public:
         mtype_id id;
@@ -366,5 +306,7 @@ struct mtype {
         // Historically located in monstergenerator.cpp
         void load( JsonObject &jo, const std::string &src );
 };
+
+mon_effect_data load_mon_effect_data( JsonObject &e );
 
 #endif

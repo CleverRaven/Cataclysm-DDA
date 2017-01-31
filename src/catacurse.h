@@ -12,6 +12,8 @@
 #include <string>
 #include <cstdint>
 
+#include "printf_check.h"
+
 typedef int chtype;
 typedef unsigned short attr_t;
 
@@ -127,20 +129,19 @@ int getch( void );
 int wgetch( WINDOW *win );
 int mvgetch( int y, int x );
 int mvwgetch( WINDOW *win, int y, int x );
-int mvwprintw( WINDOW *win, int y, int x, const char *fmt, ... );
-int mvprintw( int y, int x, const char *fmt, ... );
+int mvwprintw( WINDOW *win, int y, int x, const char *fmt, ... ) PRINTF_LIKE( 4, 5 );
+int mvprintw( int y, int x, const char *fmt, ... ) PRINTF_LIKE( 3, 4 );
 int werase( WINDOW *win );
 int start_color( void );
 int init_pair( short pair, short f, short b );
 int wmove( WINDOW *win, int y, int x );
-int getnstr( char *str, int size );
 int clear( void );
 int clearok( WINDOW *win );
 int erase( void );
 int endwin( void );
 int mvwaddch( WINDOW *win, int y, int x, const chtype ch );
 int wclear( WINDOW *win );
-int wprintw( WINDOW *win, const char *fmt, ... );
+int wprintw( WINDOW *win, const char *fmt, ... ) PRINTF_LIKE( 2, 3 );
 WINDOW *initscr( void );
 int cbreak( void ); //PORTABILITY, DUMMY FUNCTION
 int keypad( WINDOW *faux, bool bf ); //PORTABILITY, DUMMY FUNCTION
@@ -151,7 +152,7 @@ int wattroff( WINDOW *win, int attrs );
 int attron( int attrs );
 int attroff( int attrs );
 int waddch( WINDOW *win, const chtype ch );
-int printw( const char *fmt, ... );
+int printw( const char *fmt, ... ) PRINTF_LIKE( 1, 2 );
 int getmaxx( WINDOW *win );
 int getmaxy( WINDOW *win );
 int getbegx( WINDOW *win );
@@ -159,7 +160,6 @@ int getbegy( WINDOW *win );
 int getcurx( WINDOW *win );
 int getcury( WINDOW *win );
 int move( int y, int x );
-void timeout( int delay ); //PORTABILITY, DUMMY FUNCTION
 void set_escdelay( int delay ); //PORTABILITY, DUMMY FUNCTION
 int echo( void );
 int noecho( void );
@@ -177,8 +177,6 @@ WINDOW *curses_init();
 int curses_destroy();
 void curses_drawwindow( WINDOW *win );
 void curses_delay( int delay );
-void curses_timeout( int t );
-int curses_getch( WINDOW *win );
 // may throw std::exception
 int curses_start_color();
 

@@ -36,6 +36,7 @@
 #include "scent_map.h"
 #include "cata_utility.h"
 #include "harvest.h"
+#include "input.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -411,34 +412,16 @@ bool map::vehact( vehicle &veh )
         veh.falling = false;
     }
 
-    double slowdown = 0.0;
+    // Mph lost per tile when coasting
+    int base_slowdown = veh.skidding ? 200 : 20;
     if( should_fall ) {
-        // air resistance
-        slowdown = 2.0;
-
-    } else if( !veh.engine_on || veh.skidding ) {
-        double loss = friction_loss;
-
-        if( veh.engine_on && veh.skidding ) {
-            loss /= 3.0;
-        }
-
-        // if we don't have an active engine providing thrust then reduce velocity from friction
-        double k = 0.5 * veh.total_mass() * pow( veh.current_velocity(), 2 );
-        k -= k * friction_loss / veh.k_dynamics();
-        slowdown = veh.current_velocity() - sqrt( ( 2 * k ) / veh.total_mass() );
-
-        // always slow down by at least 1mph
-        slowdown = std::max( ms_to_mph( slowdown ) * 100, 100.0 );
+        // Just air resistance
+        base_slowdown = 2;
     }
 
-    const float wheel_traction_area = vehicle_wheel_traction( veh );
-    const float traction = veh.k_traction( wheel_traction_area );
-
-    // apply crude decay when moving from high traction (road) to low traction (off-road)
-    // @todo replace with more correct acceleration model
-    slowdown += std::abs( veh.current_velocity() * ( 1.0 - traction ) );
-
+    // k slowdown second.
+    const float k_slowdown = (0.1 + veh.k_dynamics()) / ((0.1) + veh.k_mass());
+    const int slowdown = veh.drag() + (int)ceil( k_slowdown * base_slowdown );
     if( slowdown > abs( veh.velocity ) ) {
         veh.stop();
     } else if( veh.velocity < 0 ) {
@@ -457,6 +440,8 @@ bool map::vehact( vehicle &veh )
         return true;
     }
 
+    const float wheel_traction_area = vehicle_wheel_traction( veh );
+    const float traction = veh.k_traction( wheel_traction_area );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( wheel_traction_area < 0 ) {
         add_msg(m_bad, _("Your %s sank."), veh.name.c_str());
@@ -3823,7 +3808,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 ter_set(p, t_floor);
             }
         }
-    } else if( terrain == t_reinforced_glass ) {
+    } else if( terrain == t_reinforced_glass || terrain == t_reinforced_door_glass_c ) {
         // reinforced glass stops most bullets
         // laser beams are attenuated
         if (ammo_effects.count("LASER")) {
@@ -3832,7 +3817,11 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             //Greatly weakens power of bullets
             dam -= 40;
             if( dam <= 0 && g->u.sees( p ) ) {
-                add_msg(_("The shot is stopped by the reinforced glass wall!"));
+                if( terrain == t_reinforced_glass ) {
+                    add_msg( _( "The shot is stopped by the reinforced glass wall!" ) );
+                } else {
+                    add_msg( _( "The shot is stopped by the reinforced glass door!" ) );
+                }
             } else if (dam >= 40) {
                 //high powered bullets penetrate the glass, but only extremely strong
                 // ones (80 before reduction) actually destroy the glass itself.
@@ -4285,7 +4274,7 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
                 quantity, charges, birthday, damlevel );
 }
 
-item &map::add_item_or_charges(const int x, const int y, const item &obj, bool overflow )
+item &map::add_item_or_charges(const int x, const int y, item obj, bool overflow )
 {
     return add_item_or_charges( tripoint( x, y, abs_sub.z ), obj, overflow );
 }
@@ -4461,7 +4450,7 @@ units::volume map::free_volume( const tripoint &p )
     return i_at( p ).free_volume();
 }
 
-item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overflow )
+item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 {
     // Checks if item would not be destroyed if added to this tile
     auto valid_tile = [&]( const tripoint &e ) {
@@ -4513,6 +4502,10 @@ item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overf
     }
 
     if( !has_flag( "NOITEM", pos ) && valid_limits( pos ) ) {
+        if( obj.on_drop( pos ) ) {
+            return nulitem;
+        }
+
         // If tile can contain items place here...
         return place_item( pos );
 
@@ -4521,9 +4514,18 @@ item &map::add_item_or_charges( const tripoint &pos, const item &obj, bool overf
         auto tiles = closest_tripoints_first( 2, pos );
         tiles.erase( tiles.begin() ); // we already tried this position
         for( const auto &e : tiles ) {
-            if( valid_tile( e ) && !has_flag( "NOITEM", e ) && valid_limits( e ) ) {
-                return place_item( e );
+            if( !inbounds( e ) ) {
+                continue;
             }
+
+            if( obj.on_drop( e ) ) {
+                return nulitem;
+            }
+
+            if( !valid_tile( e ) || has_flag( "NOITEM", e ) || !valid_limits( e ) ) {
+                continue;
+            }
+	    return place_item( e );
         }
     }
 
@@ -4681,7 +4683,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
             }
             if( n.ammo_capacity() > n.ammo_remaining() ) {
                 constexpr int per_charge = 10;
-                const int missing = cur_veh->discharge( per_charge, false );
+                const int missing = cur_veh->discharge_battery( per_charge, false );
                 if( missing < per_charge &&
                     ( missing == 0 || x_in_y( per_charge - missing, per_charge ) ) ) {
                     n.ammo_set( "battery", n.ammo_remaining() + 1 );
@@ -5016,9 +5018,6 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
                                  const itype_id type, long &quantity)
 {
     std::list<item> ret;
-
-    std::set<vehicle *> vehs;
-
     for( const tripoint &p : closest_tripoints_first( range, origin ) ) {
         // Handle infinite map sources.
         item water = water_from( p );
@@ -5051,23 +5050,110 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             continue;
         }
 
-        vehs.insert( veh );
+        const int kpart = veh->part_with_feature(vpart, "FAUCET");
+        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
+        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
+        const int forgepart = veh->part_with_feature(vpart, "FORGE");
+        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
+        const int cargo = veh->part_with_feature(vpart, "CARGO");
 
-        // try to provide as many charges as possible from any matching vehicle pseudo-tool
-        if( veh->has_part( p, [&type]( const vehicle_part &e ) { return e.info().tools.count( type ); } ) ) {
-            item obj( type );
-            obj.set_flag( "PSEUDO" );
-            obj.ammo_set( obj.ammo_default(), veh->drain( obj.ammo_default(), quantity ) );
-            quantity -= obj.ammo_remaining();
+        if (kpart >= 0) { // we have a faucet, now to see what to drain
+            itype_id ftype = "null";
 
-            ret.push_back( obj );
+            if (type == "water_clean") {
+                ftype = "water_clean";
+            } else if (type == "water") {
+                ftype = "water";
+            } else if (type == "hotplate") {
+                ftype = "battery";
+            }
 
-            if( quantity == 0 ) {
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            // TODO: Handle water poison when crafting starts respecting it
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
                 return ret;
             }
         }
 
-        const int cargo = veh->part_with_feature( vpart, "CARGO" );
+        if (weldpart >= 0) { // we have a weldrig, now to see what to drain
+            itype_id ftype = "null";
+
+            if (type == "welder") {
+                ftype = "battery";
+            } else if (type == "soldering_iron") {
+                ftype = "battery";
+            }
+
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
+                return ret;
+            }
+        }
+
+        if (craftpart >= 0) { // we have a craftrig, now to see what to drain
+            itype_id ftype = "null";
+
+            if (type == "press") {
+                ftype = "battery";
+            } else if (type == "vac_sealer") {
+                ftype = "battery";
+            } else if (type == "dehydrator") {
+                ftype = "battery";
+            }
+
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
+                return ret;
+            }
+        }
+
+        if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
+            itype_id ftype = "null";
+
+            if (type == "forge") {
+                ftype = "battery";
+            }
+
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
+                return ret;
+            }
+        }
+
+        if (chempart >= 0) { // we have a chem_lab, now to see what to drain
+            itype_id ftype = "null";
+
+            if (type == "chemistry_set") {
+                ftype = "battery";
+            } else if (type == "hotplate") {
+                ftype = "battery";
+            }
+
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
+                return ret;
+            }
+        }
 
         if (cargo >= 0) {
             std::list<item> tmp =
@@ -5075,25 +5161,6 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             ret.splice(ret.end(), tmp);
             if (quantity <= 0) {
                 return ret;
-            }
-        }
-    }
-
-    for( vehicle *v : vehs ) {
-        // if vehicle has FAUCET can use contents from any of the tanks
-        if( v->has_part( "FAUCET" ) ) {
-            for( auto &pt : v->parts ) {
-                if( pt.is_tank() ) {
-                    for( const auto &obj : pt.contents() ) {
-                        if( obj.typeId() == type ) {
-                            ret.push_back( pt.drain( quantity ) );
-                            quantity -= ret.back().charges;
-                            if( quantity == 0 ) {
-                                return ret;
-                            }
-                        }
-                    }
-                }
             }
         }
     }
@@ -5486,10 +5553,13 @@ void map::add_splatter( const field_id type, const tripoint &where, int intensit
         int anchor_part = -1;
         vehicle* veh = veh_at( where, anchor_part );
         if( veh != nullptr ) {
+            // Might be -1 if all the vehicle's parts at where are marked for removal
             const int part = veh->part_displayed_at( veh->parts[anchor_part].mount.x,
                                                      veh->parts[anchor_part].mount.y );
-            veh->parts[part].blood += 200 * std::min( intensity, 3 ) / 3;
-            return;
+            if( part != -1 ) {
+                veh->parts[part].blood += 200 * std::min( intensity, 3 ) / 3;
+                return;
+            }
         }
     }
     adjust_field_strength( where, type, intensity );
@@ -5583,17 +5653,17 @@ void map::add_camp( const tripoint &p, const std::string& name )
 void map::debug()
 {
  mvprintw(0, 0, "MAP DEBUG");
- getch();
+ inp_mngr.wait_for_any_key();
  for (int i = 0; i <= SEEX * 2; i++) {
   for (int j = 0; j <= SEEY * 2; j++) {
    if (i_at(i, j).size() > 0) {
     mvprintw(1, 0, "%d, %d: %d items", i, j, i_at(i, j).size());
     mvprintw(2, 0, "%s, %d", i_at(i, j)[0].symbol().c_str(), i_at(i, j)[0].color());
-    getch();
+    inp_mngr.wait_for_any_key();
    }
   }
  }
- getch();
+ inp_mngr.wait_for_any_key();
 }
 
 void map::update_visibility_cache( const int zlev ) {

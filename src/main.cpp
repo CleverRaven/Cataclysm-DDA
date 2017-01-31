@@ -406,11 +406,11 @@ int main(int argc, char *argv[])
         DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
     }
 
-    // Options strings loaded with system locale
+    // Options strings loaded with system locale. Even though set_language calls these, we
+    // need to call them from here too.
     get_options().init();
     get_options().load();
-
-    set_language(true);
+    set_language();
 
     // in test mode don't initialize curses to avoid escape sequences being inserted into output stream
     if( !test_mode ) {
@@ -547,6 +547,8 @@ void printHelpMessage(const arg_handler *first_pass_arguments,
 
 void exit_handler(int s)
 {
+    const int old_timeout = inp_mngr.get_timeout();
+    inp_mngr.reset_timeout();
     if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
         erase(); // Clear screen
 
@@ -564,4 +566,5 @@ void exit_handler(int s)
 
         exit( exit_status );
     }
+    inp_mngr.set_timeout( old_timeout );
 }

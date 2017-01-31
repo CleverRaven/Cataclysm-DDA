@@ -222,26 +222,27 @@ void sounds::process_sound_markers( player *p )
 {
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
-    const int safe_volume = p->worn_with_flag("PARTIAL_DEAF") ? 100 : 9999;
     const int weather_vol = weather_data( g->weather ).sound_attn;
+
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
-        const int volume = std::min(safe_volume, (int)(sound_event_pair.second.volume * volume_multiplier));
-        const std::string& sfx_id = sound_event_pair.second.id;
-        const std::string& sfx_variant = sound_event_pair.second.variant;
-        const int max_volume = std::max( volume, sound_event_pair.second.volume );  // For deafness checks
-        int dist = rl_dist( p->pos(), sound_event_pair.first );
-        bool ambient = sound_event_pair.second.ambient;
-        // Too far away, we didn't hear it!
-        if( dist > volume ) {
-            continue;
-        }
+        const tripoint &pos = sound_event_pair.first;
+        const sound_event &sound = sound_event_pair.second;
+
+        const int distance_to_sound = rl_dist( p->pos(), pos );
+        const int raw_volume = sound.volume;
+
+        // The felt volume of a sound is not affected by negative multipliers, such as already
+        // deafened players or players with sub-par hearing to begin with.
+        const int felt_volume = ( int )( raw_volume * std::min( 1.0f, volume_multiplier ) ) - distance_to_sound;
+
+        // Deafening is based on the felt volume, as a player may be too deaf to
+        // hear the deafening sound but still suffer additional hearing loss.
+        const bool is_sound_deafening = rng( felt_volume / 2, felt_volume ) >= 150;
+
+        // Deaf players hear no sound, but still are at risk of additional hearing loss.
         if( is_deaf ) {
-            // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
-            if( !p->is_immune_effect( effect_deaf )
-                    && rng( ( max_volume - dist ) / 2, ( max_volume - dist ) ) >= 150 ) {
-                // Prolong deafness, but not as much as if it was freshly applied
-                int duration = std::min( 40, ( max_volume - dist - 130 ) / 8 );
-                p->add_effect( effect_deaf, duration );
+            if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
+                p->add_effect( effect_deaf, std::min( 40, ( felt_volume - 130 ) / 8 ) );
                 if( !p->has_trait( "DEADENED" ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( p->get_pain() < 10 ) {
@@ -249,38 +250,38 @@ void sounds::process_sound_markers( player *p )
                     }
                 }
             }
-            // We're deaf, skip rest of processing.
             continue;
         }
-        // Player volume meter includes all sounds from their tile and adjacent tiles
-        // TODO: Add noises from vehicle player is in.
-        if( dist <= 1 ) {
-            p->volume = std::max( p->volume, volume );
-        }
-        // Check for deafness
-        if( !p->is_immune_effect( effect_deaf ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
-            int duration = (max_volume - dist - 130) / 4;
-            p->add_effect( effect_deaf, duration );
+
+        if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
+            const int deafness_duration = ( felt_volume - 130 ) / 4;
+            p->add_effect( effect_deaf, deafness_duration );
             if( p->is_deaf() ) {
-                // Need to check for actual deafness
                 is_deaf = true;
-                sfx::do_hearing_loss( duration );
+                sfx::do_hearing_loss( deafness_duration );
                 continue;
             }
         }
-        // At this point we are dealing with attention (as opposed to physical effects)
-        // so reduce volume by the amount of ambient noise from the weather.
-        const int mod_vol = ( sound_event_pair.second.volume - weather_vol ) * volume_multiplier;
-        // The noise was drowned out by the surroundings.
-        if( mod_vol - dist < 0 ) {
+
+        // The heard volume of a sound is the player heard volume, regardless of true volume level.
+        const int heard_volume = ( int )( ( raw_volume - weather_vol ) * volume_multiplier ) - distance_to_sound;
+
+        if( heard_volume <= 0 ) {
             continue;
         }
+
+        // Player volume meter includes all sounds from their tile and adjacent tiles
+        // TODO: Add noises from vehicle player is in.
+        if( distance_to_sound <= 1 ) {
+            p->volume = std::max( p->volume, heard_volume );
+        }
+
         // See if we need to wake someone up
         if( p->has_effect( effect_sleep ) ) {
             if( ( !( p->has_trait( "HEAVYSLEEPER" ) ||
-                     p->has_trait( "HEAVYSLEEPER2" ) ) && dice( 2, 15 ) < mod_vol - dist ) ||
-                    ( p->has_trait( "HEAVYSLEEPER" ) && dice( 3, 15 ) < mod_vol - dist ) ||
-                    ( p->has_trait( "HEAVYSLEEPER2" ) && dice( 6, 15 ) < mod_vol - dist ) ) {
+                     p->has_trait( "HEAVYSLEEPER2" ) ) && dice( 2, 15 ) < heard_volume ) ||
+                ( p->has_trait( "HEAVYSLEEPER" ) && dice( 3, 15 ) < heard_volume ) ||
+                ( p->has_trait( "HEAVYSLEEPER2" ) && dice( 6, 15 ) < heard_volume ) ) {
                 //Not kidding about sleep-thru-firefight
                 p->wake_up();
                 add_msg( m_warning, _( "Something is making noise." ) );
@@ -288,17 +289,14 @@ void sounds::process_sound_markers( player *p )
                 continue;
             }
         }
-        const tripoint &pos = sound_event_pair.first;
-        const std::string &description = sound_event_pair.second.description;
-        if( !ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, dist ) ) {
-            if( p->activity.ignore_trivial != true ) {
-                std::string query;
-                if( description.empty() ) {
-                    query = _( "Heard a noise!" );
-                } else {
-                    query = string_format( _( "Heard %s!" ),
-                                           sound_event_pair.second.description.c_str() );
-                }
+
+        const std::string &description = sound.description;
+        if( !sound.ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, distance_to_sound ) ) {
+            if( !p->activity.ignore_trivial ) {
+                const std::string query = description.empty()
+                                          ? _( "Heard a noise!" )
+                                          : string_format( _( "Heard %s!" ), description.c_str() );
+
                 if( g->cancel_activity_or_ignore_query( query.c_str() ) ) {
                     p->activity.ignore_trivial = true;
                     for( auto activity : p->backlog ) {
@@ -307,7 +305,7 @@ void sounds::process_sound_markers( player *p )
                 }
             }
         }
-        // Only print a description if it exists
+
         if( !description.empty() ) {
             // If it came from us, don't print a direction
             if( pos == p->pos() ) {
@@ -318,28 +316,31 @@ void sounds::process_sound_markers( player *p )
                 add_msg( m_warning, _( "From the %s you hear %s" ), direction.c_str(), description.c_str() );
             }
         }
-        // Play the sound effect, if any.
+
+        const std::string &sfx_id = sound.id;
+        const std::string &sfx_variant = sound.variant;
         if( !sfx_id.empty() ) {
-            // for our sfx API, 100 is "normal" volume, so scale accordingly
-            int heard_volume = sfx::get_heard_volume( pos );
-            sfx::play_variant_sound( sfx_id, sfx_variant, heard_volume );
-            //add_msg("Playing sound effect %s, %s, %d", sfx_id.c_str(), sfx_variant.c_str(), heard_volume);
+            sfx::play_variant_sound( sfx_id, sfx_variant, sfx::get_heard_volume( pos ) );
         }
-        // If Z coord is different, draw even when you can see the source
-        const bool diff_z = pos.z != p->posz();
+
         // Place footstep markers.
         if( pos == p->pos() || p->sees( pos ) ) {
             // If we are or can see the source, don't draw a marker.
             continue;
         }
+
         int err_offset;
-        if( mod_vol / dist < 2 ) {
+        if( heard_volume + distance_to_sound / distance_to_sound < 2 ) {
             err_offset = 3;
-        } else if( mod_vol / dist < 3 ) {
+        } else if( heard_volume + distance_to_sound / distance_to_sound < 3 ) {
             err_offset = 2;
         } else {
             err_offset = 1;
         }
+
+        // If Z coord is different, draw even when you can see the source
+        const bool diff_z = pos.z != p->posz();
+
         // Enumerate the valid points the player *cannot* see.
         // Unless the source is on a different z-level, then any point is fine
         std::vector<tripoint> unseen_points;
@@ -353,10 +354,10 @@ void sounds::process_sound_markers( player *p )
                 }
             }
         }
+
         // Then place the sound marker in a random one.
         if( !unseen_points.empty() ) {
-            sound_markers.emplace( random_entry( unseen_points ),
-                                   sound_event_pair.second );
+            sound_markers.emplace( random_entry( unseen_points ), sound );
         }
     }
     sounds_since_last_turn.clear();
@@ -396,7 +397,7 @@ std::pair<std::vector<tripoint>, std::vector<tripoint>> sounds::get_monster_soun
     std::vector<tripoint> cluster_centroids;
     cluster_centroids.reserve( sound_clusters.size() );
     for( const auto &sound : sound_clusters ) {
-        cluster_centroids.emplace_back( sound.x, sound.y, sound.z );
+        cluster_centroids.emplace_back( (int)sound.x, (int)sound.y, (int)sound.z );
     }
     return { sound_locations, cluster_centroids };
 }

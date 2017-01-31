@@ -1,73 +1,73 @@
 * 0 Intro
-	* 0.0 How buildings and terrain are generated
+  * 0.0 How buildings and terrain are generated
 * 1 Adding mapgen entries.
-    * 1.0 Methods
-    * 1.1 Placement
-	    * 1.1.0 Embedded
-	    * 1.1.1 Standalone
-    * 1.2 Format and variables
-		* 1.2.0 "method":
-		* 1.2.1 "om_terrain":
-		* 1.2.1 "weight":
-	* 1.3 How "overmap_terrain" variables affect mapgen
-    * 1.4 Limitations / TODO
+  * 1.0 Methods
+  * 1.1 Placement
+    * 1.1.0 Embedded
+    * 1.1.1 Standalone
+  * 1.2 Format and variables
+    * 1.2.0 "method"
+    * 1.2.1 "om_terrain"
+    * 1.2.2 "weight"
+  * 1.3 How "overmap_terrain" variables affect mapgen
+  * 1.4 Limitations / TODO
 * 2 Method: json
-	* 2.0 "fill_ter":
-        * 2.1 "rows":
-	* 2.1.0 "terrain":
-	* 2.1.1 "furniture":
-        * 2.3 "set": [ ...
-	        * 2.3.0 "point" { ...
-		        * 2.3.0.0 "x" & "y": 123 | [ 12, 34 ]
-		        * 2.3.0.1 "id": "..."
-		        * 2.3.0.2 "chance": 123
-		        * 2.3.0.3 "repeat": [ 1, 23 ]
-	        * 2.3.1 "line" {}
-		        * 2.3.1.0 "x" & "y"
-		        * 2.3.1.1 "x2" & "y2"
-		        * 2.3.1.2 "id"
-		        * 2.3.1.3 "chance"
-		        * 2.3.1.4 "repeat"
-	        * 2.3.2 "square" {}
-        * 2.4 "place_groups": []
-	        * 2.4.0 "monster":
-		        * 2.4.0.0 "x" & "y"
-		        * 2.4.0.1 "chance"
-		        * 2.4.0.2 "repeat"
-	        * 2.4.1 "item":
-		        * 2.4.1.0 "x" & "y"
-                        * 2.4.1.1 "amount"
-		        * 2.4.1.2 "chance"
-		        * 2.4.1.3 "repeat"
-        * 2.5 "add": []
-                * 2.5.0 "item":
-                        * 2.5.0.0 "x" / "y"
-                        * 2.5.0.1 "amount"
-                        * 2.5.0.2 "chance"
-                        * 2.5.0.3 "repeat"
-        * 2.6 "lua":
-        * 2.7 specials:
-                * 2.7.0 "fields"
-                * 2.7.1 "npcs"
-                * 2.7.2 "signs"
-                * 2.7.3 "vendingmachines"
-                * 2.7.4 "toilets"
-                * 2.7.5 "gaspumps"
-                * 2.7.6 "items"
-                * 2.7.7 "monsters"
-                * 2.7.8 "vehicles"
-                * 2.7.9 "item"
-                * 2.7.10 "traps"
-                * 2.7.11 "furniture"
-                * 2.7.12 "terrain"
-                * 2.7.13 "monster"
-                * 2.7.14 "rubble"
-                * 2.7.15 "place_liquids"
-        * 2.8 "rotation":
-
+  * 2.0 "fill_ter":
+  * 2.1 "rows":
+    * 2.1.0 "terrain":
+    * 2.1.1 "furniture":
+  * 2.2 "set": [ ...
+    * 2.2.0 "point" { ...
+      * 2.2.0.0 "x" & "y": 123 | [ 12, 34 ]
+      * 2.2.0.1 "id": "..."
+      * 2.2.0.2 "chance": 123
+      * 2.2.0.3 "repeat": [ 1, 23 ]
+    * 2.2.1 "line" {}
+      * 2.2.1.0 "x" & "y"
+      * 2.2.1.1 "x2" & "y2"
+      * 2.2.1.2 "id"
+      * 2.2.1.3 "chance"
+      * 2.2.1.4 "repeat"
+    * 2.2.2 "square" {}
+  * 2.3 "place_groups": []
+    * 2.3.0 "monster":
+      * 2.3.0.0 "x" & "y"
+      * 2.3.0.1 "chance"
+      * 2.3.0.2 "repeat"
+    * 2.3.1 "item":
+      * 2.3.1.0 "x" & "y"
+      * 2.3.1.1 "amount"
+      * 2.3.1.2 "chance"
+      * 2.3.1.3 "repeat"
+  * 2.4 "add": []
+    * 2.4.0 "item":
+      * 2.4.0.0 "x" / "y"
+      * 2.4.0.1 "amount"
+      * 2.4.0.2 "chance"
+      * 2.4.0.3 "repeat"
+  * 2.5 "lua":
+  * 2.6 specials:
+    * 2.6.0 "fields"
+    * 2.6.1 "npcs"
+    * 2.6.2 "signs"
+    * 2.6.3 "vendingmachines"
+    * 2.6.4 "toilets"
+    * 2.6.5 "gaspumps"
+    * 2.6.6 "items"
+    * 2.6.7 "monsters"
+    * 2.6.8 "vehicles"
+    * 2.6.9 "item"
+    * 2.6.10 "traps"
+    * 2.6.11 "furniture"
+    * 2.6.12 "terrain"
+    * 2.6.13 "monster"
+    * 2.6.14 "rubble"
+    * 2.6.15 "place_liquids"
+    * 2.6.16 "loot"
+  * 2.7 "rotation"
 * 3 Method: lua
-	* 3.0 Tested functions
-        * 3.1 Example script inside overmap_terrain entry
+  * 3.0 Tested functions
+  * 3.1 Example script inside overmap_terrain entry
 
 # 0 Intro
 Note: You may wish to read over JSON_INFO.md beforehand.
@@ -171,7 +171,30 @@ The above example only illustrate the mapgen entries, not the actual format for 
 -or-
 
 > * [ "list_of", "oter_ids" ]
+This form creates duplicate overmap terrains by applying the same json mapgen to each of the listed overmap terrain ids.
+
 ##### Example: "om_terrain": [ "house", "house_base" ]
+
+-or-
+
+> * [ [ "oter_id", "oter_id", ... ], [ "oter_id", "oter_id", ... ], ... ]
+
+This form allows for multiple overmap terrains to be defined using a single json object, with the "rows" property expanding in blocks of 24x24 characters to accommodate as many overmap terrains as are listed here. The terrain ids are specified using a nested array of strings which represent the rows and columns of overmap terrain ids (found in overmap_terrain.json) that are associated with the "rows" property described in section 2.1 of this document.
+
+Characters mapped using the "terrain", "furniture", or any of the special mappings ("items", "monsters", etc) will be applied universally to all of the listed overmap terrains.
+
+Placing things using x/y coordinates ("place_monsters", "place_loot", "add", etc) works using the full extended coordinates beyond 24x24. An important limitation is that ranged random coordinates (such as "x": [ 10, 18 ]) must not cross the 24x24 terrain boundaries. Ranges such as [ 0, 23 ] and [ 50, 70 ] are valid, but [ 0, 47 ] and [ 15, 35 ] are not because they extend beyond a single 24x24 block.
+
+##### Example:
+
+```
+"om_terrain": [
+  [ "apartments_mod_tower_NW", "apartments_mod_tower_NE" ],
+  [ "apartments_mod_tower_SW", "apartments_mod_tower_SE" ]
+]
+```
+
+In this example, the "rows" property should be 48x48, with each quadrant of 24x24 being associated with each of the four apartments_mod_tower overmap terrain ids specified.
 
 ### 1.2.2 "weight":
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000 is the default, so adding something with weight '500' will make it appear 1/3 times, unless more functions are added. (An insanely high value like 10000000 is useful for testing)
@@ -206,7 +229,7 @@ Example: "fill_ter": "t_grass"
 
 # 2.1 "rows":
 *required if "fill_ter" is unset*
-> Value: ([array]): 24 rows of 24 character lines. Each character is defined by "terrain" and optionally "furniture" below
+> Value: ([array]): blocks of 24 rows of blocks of 24 character lines. Each character is defined by "terrain" and optionally "furniture" below
 
 Other parts can be linked with this map, for example one can place things like a gaspump (with gasoline) or a toilet (with water) or items from an item group or fields at the square given by a character.
 
@@ -253,11 +276,11 @@ Example: "terrain":{ " ": "t_grass", "d": "t_floor", "5": "t_wall_glass_h", "%":
 
 Example: "furniture":{ "d": "f_dumpster", "5": "f_null", "%": "f_null", "O": "f_oven", "r": "f_rack", "^": "f_indoor_plant", "t": "f_table", "T": "f_toilet", "S": "f_sink", "e": "f_fridge", "h": "f_chair", "c": "f_counter", "l": "f_locker", },
 
-## 2.3 "set"
+## 2.2 "set"
 **optional** Specific commands to set terrain, furniture, traps, radiation, etc. Array is processed in order.
 > Value:  [array of {objects}]: [ { "point": .. }, { "line": .. }, { "square": .. }, ... ]
 
-### 2.3.0 "point"
+### 2.2.0 "point"
 **required** Set things by point. Requires "x", "y", "id" (or "amount" for "radiation")
 > Value: "terrain", "furniture", "trap", "radiation"
 
@@ -267,7 +290,7 @@ Example: { "point": "trap", "id": "tr_beartrap", "x:" [ 0, 23 ], "y": [ 5, 18 ],
 
 Example: { "point": "radiation", "id": "f_chair", "x:" 12, "y": 12, "amount": 20 }
 
-#### 2.3.0.0 "x" / "y"
+#### 2.2.0.0 "x" / "y"
 **both required** x/y coordinates. If it's an array, the result is a random number in that range
 > Value: 0-23
 
@@ -277,33 +300,33 @@ Example: { "point": "radiation", "id": "f_chair", "x:" 12, "y": 12, "amount": 20
 
 Example: "x": 12, "y": [ 5, 15 ]
 
-#### 2.3.0.1 "id"
+#### 2.2.0.1 "id"
 **required except by "radiation"** See terrain.json, furniture.json, and trap.json for "id" strings
 > Value: "ter_id", "furn_id", or "trap_id"
 
 Example: "id": "tr_beartrap"
 
-#### 2.3.0.2 "amount"
+#### 2.2.0.2 "amount"
 **required for "radiation"** Radiation amount
 > Value: 0-100
 
-#### 2.3.0.3 "chance"
+#### 2.2.0.3 "chance"
 **optional** one-in-??? chance to apply
 > Value: *number*
 
-#### 2.3.0.4 "repeat"
+#### 2.2.0.4 "repeat"
 **optional** repeat this randomly between ??? and ??? times. Only makes sense if the coordinates are random
 > Value: [ *number*, *number* ]
 
 Example: [ 1, 3 ] - apply 1-3 times
 
-### 2.3.1 "line"
+### 2.2.1 "line"
 **required** Set things in a line. Requires "x", "y", "x2", "y2", "id" (or "amount" for "radiation")
 > Value: "terrain", "furniture", "trap", "radiation"
 
 Example: { "point": "terrain", "id": "t_lava", "x:" 5, "y": 5, "x2": 20, "y2": 20 }
 
-#### 2.3.1.0 "x" / "y"
+#### 2.2.1.0 "x" / "y"
 **both required** start x/y coordinates. If it's an array, the result is a random number in that range
 > Value: 0-23
 
@@ -313,7 +336,7 @@ Example: { "point": "terrain", "id": "t_lava", "x:" 5, "y": 5, "x2": 20, "y2": 2
 
 Example: "x": 12, "y": [ 5, 15 ]
 
-#### 2.3.1.1 "x2" / "y2"
+#### 2.2.1.1 "x2" / "y2"
 **both required** end x/y coordinates. If it's an array, the result is a random number in that range
 > Value: 0-23
 
@@ -323,44 +346,44 @@ Example: "x": 12, "y": [ 5, 15 ]
 
 Example: "x2": 22, "y2": [ 15, 20 ]
 
-#### 2.3.1.2 "id"
+#### 2.2.1.2 "id"
 **required except by "radiation"** See terrain.json, furniture.json, and trap.json for "id" strings
 > Value: "ter_id", "furn_id", or "trap_id"
 
 Example: "id": "f_counter"
 
-#### 2.3.1.3 "amount"
+#### 2.2.1.3 "amount"
 **required for "radiation"** Radiation amount
 > Value: 0-100
 
-#### 2.3.1.4 "chance"
+#### 2.2.1.4 "chance"
 **optional** one-in-??? chance to apply
 > Value: *number*
 
-#### 2.3.1.5 "repeat"
+#### 2.2.1.5 "repeat"
 **optional** repeat this randomly between ??? and ??? times. Only makes sense if the coordinates are random
 > Value: [ *number*, *number* ]
 
 Example: [ 1, 3 ] - apply 1-3 times
 
-### 2.3.2 "square"
+### 2.2.2 "square"
 **required** Define a square of things. Requires "x", "y", "x2", "y2", "id" (or "amount" for "radiation")
 > Value: "terrain", "furniture", "trap", "radiation"
 
 Example: { "square": "radiation", "amount": 10, "x:" [ 0, 5 ], "y": [ 0, 5 ], "x2": [ 18, 23 ], "y2": [ 18, 23 ] }
 The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define opposite corners
 
-## 2.4 "place_groups"
+## 2.3 "place_groups"
 **optional** Spawn items or monsters from item_groups.json and monster_groups.json
 > Value: [ array of {objects} ]: [ { "monster": ... }, { "item": ... }, ... ]
 
-### 2.4.0 "monster"
+### 2.3.0 "monster"
 **required** The monster group id, which picks random critters from a list
 > Value: "MONSTER_GROUP"
 
 Example: { "monster": "GROUP_ZOMBIE", "x": [ 13, 15 ], "y": 15, "chance": 10 }
 
-#### 2.4.0.0 "x" / "y"
+#### 2.3.0.0 "x" / "y"
 **required** Spawn coordinates ( specific or area rectangle )
 > Value: 0-23
 
@@ -373,21 +396,21 @@ Each monster generated from the monster group will be placed in a different rand
 Example: "x": 12, "y": [ 5, 15 ]
 These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
 
-#### 2.4.0.1 "density"
+#### 2.3.0.1 "density"
 **optional** magic sauce spawn amount number. Someone else describe this better >.>
 > Value: *floating point number*
 
-#### 2.4.0.2 "chance"
+#### 2.3.0.2 "chance"
 **optional** one-in-??? chance to apply
 > Value: *number*
 
-### 2.4.1 "item"
+### 2.3.1 "item"
 **required** The item group id, which picks random stuff from a list
 > Value: "ITEM_GROUP"
 
 Example: { "item": "livingroom", "x": [ 13, 15 ], "y": 15, "chance": 50 }
 
-#### 2.4.1.0 "x" / "y"
+#### 2.3.1.0 "x" / "y"
 **required** Spawn coordinates ( specific or area rectangle )
 > Value: 0-23
 
@@ -400,21 +423,21 @@ Each item from the item group will be placed in a different random location with
 Example: "x": 12, "y": [ 5, 15 ]
 These values will produce a rectangle for map::place_items from ( 12, 5 ) to ( 12, 15 ) inclusive.
 
-#### 2.4.1.1 "chance"
+#### 2.3.1.1 "chance"
 **required** unlike everything else, this is a percentage. Maybe
 > Value: *number*
 
-## 2.5 "add"
+## 2.4 "add"
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
 > Value: [ array of {objects} ]: [ { "item", ... }, ... ]
 
-### 2.5.0 "item"
+### 2.4.0 "item"
 **required** A valid itype ID. see everything in data/json/items
 > Value: "string"
 
 Example: { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1, 3], "chance": 2 }
 
-#### 2.5.0.0 "x" / "y"
+#### 2.4.0.0 "x" / "y"
 **required** Spawn coordinates ( specific or random )
 > Value: 0-23
 
@@ -424,7 +447,7 @@ Example: { "item": "weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [1,
 
 Example: "x": 12, "y": [ 5, 15 ]
 
-#### 2.5.0.1 "amount"
+#### 2.4.0.1 "amount"
 **required** Spawn this amount [ or, range ]
 > Value: *number*
 
@@ -434,23 +457,23 @@ Example: "x": 12, "y": [ 5, 15 ]
 
 Example: "amount": [ 5, 15 ]
 
-#### 2.5.0.2 "chance"
+#### 2.4.0.2 "chance"
 **optional** one-in-??? chance to apply
 > Value: *number*
 
-#### 2.5.0.3 "repeat"
+#### 2.4.0.3 "repeat"
 **optional** repeat this randomly between ??? and ??? times. Only makes sense if the coordinates are random
 > Value: [ *number*, *number* ]
 
 Example: [ 1, 3 ] - apply 1-3 times
 
-#### 2.6 "lua"
+#### 2.5 "lua"
 **optional** lua script to run after all of the above finishes. See below.
 > Value: "string"
 
 Example: "lua": "if game.one_in(5000) then\n map:square_ter(\"t_lava\", 3, 3, 20, 20)\n game.add_msg(\"Oh noes micro volcano ;.;\")\n end"
 
-# 2.7 specials
+# 2.6 specials
 **optional** Special map features that do more than just placing furniture / terrain.
 
 Specials can be defined either via a mapping like the terrain / furniture mapping using the "rows" entry above or through their exact location by its coordinates.
@@ -536,46 +559,46 @@ Same as
 }
 ```
 
-### 2.7.0 "fields"
+### 2.6.0 "fields"
 Places a field (see fields.h). Values:
 - "field": (required, string) the field type (e.g. "fd_blood")
 - "density": (optional, integer) field density. Defaults to 1. Possible values are 1, 2, or 3.
 - "age": (optional, integer) field age. Defaults to 0.
 
-### 2.7.1 "npcs"
+### 2.6.1 "npcs"
 Places a new NPC. Values:
 - "class": (required, string) the npc class id, see data/json/npcs/npc.json or define your own npc class.
 
-### 2.7.2 "signs"
+### 2.6.2 "signs"
 Places a sign (furniture f_sign) with a message written on it. Either "signage" or "snippet" must be defined.  The message may include tags like \<full_name\>, \<given_name\>, and \<family_name\> that will insert a randomly generated name, or \<city\> that will insert the nearest city name.  Values:
 - "signage": (optional, string) the message that should appear on the sign.
 - "snippet": (optional, string) a category of snippets that can appear on the sign.
 
-### 2.7.3 "vendingmachines"
+### 2.6.3 "vendingmachines"
 Places a vending machine (furniture) and fills it with items. The machine can sometimes spawn as broken one. Values:
 - "item_group": (optional, string) the item group that is used to create items inside the machine. It defaults to either "vending_food" or "vending_drink" (randomly chosen).
 
-### 2.7.4 "toilets"
+### 2.6.4 "toilets"
 Places a toilet (furniture) and adds water to it. Values:
 - "amount": (optional, integer or min/max array) the amount of water to be placed in the toilet.
 
-### 2.7.5 "gaspumps"
+### 2.6.5 "gaspumps"
 Places a gas pump with gasoline (or sometimes diesel) in it. Values:
 - "amount": (optional, integer or min/max array) the amount of fuel to be placed in the pump.
 - "fuel": (optional, string: "gasoline" or "diesel") the type of fuel to be placed in the pump.
 
-### 2.7.6 "items"
+### 2.6.6 "items"
 Places items from an item group. Values:
 - "item": (required, string) the item group to use.
 - "chance": (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
 
-### 2.7.7 "monsters"
+### 2.6.7 "monsters"
 Places a monster spawn point, the actual monsters are spawned when the map is loaded. Values:
 - "monster": (required, string) a monster group id, when the map is loaded, a random monsters from that group are spawned.
 - "density": (optional, float) if defined, it overrides the default monster density at the location (monster density is bigger towards the city centers) (see `map::place_spawns`).
 - "chance": (optional, integer or min/max array) one in x chance of spawn point being created (see `map::place_spawns`).
 
-### 2.7.8 "vehicles"
+### 2.6.8 "vehicles"
 Places a vehicle. Values:
 - "vehicle": (required, string) type of the vehicle or id of a vehicle group.
 - "chance": (optional, integer or min/max array) x in 100 chance of the vehicle spawning at all. The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
@@ -583,7 +606,7 @@ Places a vehicle. Values:
 - "fuel": (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full). 
 - "status": (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
 
-### 2.7.9 "item"
+### 2.6.9 "item"
 Places a specific item. Values:
 - "item": (required, string) the item type id of the new item.
 - "chance": (optional, integer or min/max array) one in x chance that the item will spawn. Default is 1, meaning it will always spawn.
@@ -599,25 +622,25 @@ To use this type with explicit coordinates use the name "add" (this if for backw
 ]
 ```
 
-### 2.7.10 "traps"
+### 2.6.10 "traps"
 Places a trap. Values:
 - "trap": (required, string) type id of the trap (e.g. tr_beartrap).
 
-### 2.7.11 "furniture"
+### 2.6.11 "furniture"
 Places furniture. Values:
 - "furn": (required, string) type id of the furniture (e.g. f_chair).
 
-### 2.7.12 "terrain"
+### 2.6.12 "terrain"
 Places terrain. Values:
 - "ter": (required, string) type id of the terrain (e.g. t_floor).
 
-### 2.7.13 "monster"
+### 2.6.13 "monster"
 Places a specific monster. Values:
 - "monster": (required, string) type id of the monster (e.g. mon_zombie).
 - "friendly": (optional, bool) whether the monster is friendly, default is false.
 - "name": (optional, string) a name for that monster, optional, default is to create an unnamed monster.
 
-### 2.7.14 "rubble"
+### 2.6.14 "rubble"
 Creates rubble and bashes existing terrain (this step is applied last, after other things like furniture/terrain have been set). Creating rubble invokes the bashing function that can destroy terrain and cause structures to collapse.
 Values:
 - "rubble_type": (optional, furniture id, default: f_rubble) the type of the created rubble.
@@ -632,7 +655,7 @@ To use this type with explicit coordinates use the name "place_rubble" (no plura
 ]
 ```
 
-### 2.7.15 "place_liquids"
+### 2.6.15 "place_liquids"
 Creates a liquid item at the specified location. Liquids can't currently be picked up (except for gasoline in tanks or pumps), but can be used to add flavor to mapgen.
 Values:
 - "liquid": (required, item id) the item (a liquid)
@@ -646,7 +669,16 @@ Example for dropping a default amount of gasoline (200 units) on the ground:
 ],
 ```
 
-# 2.8 "rotation"
+### 2.6.16 "loot"
+Places item(s) from an item group, or an individual item. An important distinction between this and `add` and `item`/`items` is that `loot` can spawn a single item from a distribution group (without looping), and it uses a different calculation for the chance of the item(s) spawning. It can also spawn a matching magazine and ammo for guns.
+- Either `group` or `item` must be specified, but not both
+  - "group": (string) the item group to use (see `ITEM_SPAWN.md` for notes on collection vs distribution groups)
+  - "item": (string) the type id of the item to spawn
+- "chance": (optional, integer) x in 100 chance of item(s) spawning. Defaults to 100.
+- "ammo": (optional, integer) x in 100 chance of item(s) spawning with the default amount of ammo. Defaults to 0.
+- "magazine": (optional, integer) x in 100 chance of item(s) spawning with the default magazine. Defaults to 0.
+
+# 2.7 "rotation"
 Rotates the generated map after all the other mapgen stuff has been done. The value can be a single integer or a range (out of which a value will be randomly chosen). Example:
 ```JSON
 "rotation": [ 0, 3 ],

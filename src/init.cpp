@@ -59,6 +59,7 @@
 #include "recipe_dictionary.h"
 #include "harvest.h"
 
+#include <assert.h>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -88,10 +89,10 @@ void DynamicDataLoader::load_object( JsonObject &jo, const std::string &src )
     it->second( jo, src );
 }
 
-bool DynamicDataLoader::load_deferred( deferred_json& data )
+void DynamicDataLoader::load_deferred( deferred_json& data )
 {
     while( !data.empty() ) {
-        size_t n = static_cast<size_t>( data.size() );
+        const size_t n = data.size();
         auto it = data.begin();
         for( size_t idx = 0; idx != n; ++idx ) {
             try {
@@ -106,10 +107,16 @@ bool DynamicDataLoader::load_deferred( deferred_json& data )
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
-            return false; // made no progress on this cycle so abort
+            std::ostringstream discarded;
+            for( const auto &elem : data ) {
+                discarded << elem.first;
+            }
+            debugmsg( "JSON contains circular dependency. Discarded %i objects:\n%s",
+                      data.size(), discarded.str().c_str() );
+            data.clear();
+            return; // made no progress on this cycle so abort
         }
     }
-    return true;
 }
 
 void load_ingored_type(JsonObject &jo)
@@ -239,11 +246,14 @@ void DynamicDataLoader::initialize()
     add( "overlay_order", &load_overlay_ordering );
     add( "mission_definition", []( JsonObject &jo, const std::string &src ) { mission_type::load_mission_type( jo, src ); } );
     add( "harvest", []( JsonObject &jo, const std::string &src ) { harvest_list::load( jo, src ); } );
+
+    add( "monster_attack", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_monster_attack( jo, src ); } );
     add( "palette", mapgen_palette::load );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
 {
+    assert( !finalized && "Can't load additional data after finalization. Must be unloaded first." );
     // We assume that each folder is consistent in itself,
     // and all the previously loaded folders.
     // E.g. the core might provide a vpart "frame-x"
@@ -317,6 +327,8 @@ void init_names()
 
 void DynamicDataLoader::unload_data()
 {
+    finalized = false;
+
     json_flag::reset();
     requirement_data::reset();
     vitamin::reset();
@@ -370,6 +382,8 @@ void DynamicDataLoader::unload_data()
 extern void calculate_mapgen_weights();
 void DynamicDataLoader::finalize_loaded_data()
 {
+    assert( !finalized && "Can't finalize the data twice." );
+
     item_controller->finalize();
     requirement_data::finalize();
     vpart_info::finalize();
@@ -377,6 +391,7 @@ void DynamicDataLoader::finalize_loaded_data()
     set_furn_ids();
     trap::finalize();
     overmap_terrains::finalize();
+    overmap_specials::finalize();
     vehicle_prototype::finalize();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
@@ -388,6 +403,8 @@ void DynamicDataLoader::finalize_loaded_data()
     npc_class::finalize_all();
     harvest_list::finalize_all();
     check_consistency();
+
+    finalized = true;
 }
 
 void DynamicDataLoader::check_consistency()

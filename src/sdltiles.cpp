@@ -1696,21 +1696,6 @@ std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize,
     return nullptr;
 }
 
-//Ported from windows and copied comments as well
-//Not terribly sure how this function is suppose to work,
-//but jday helped to figure most of it out
-int curses_getch(WINDOW* win)
-{
-    input_event evt = inp_mngr.get_input_event(win);
-    while(evt.type != CATA_INPUT_KEYBOARD) {
-        evt = inp_mngr.get_input_event(win);
-        if (evt.type == CATA_INPUT_TIMEOUT) {
-            return ERR; // Calling functions expect an ERR on timeout
-        }
-    }
-    return evt.sequence[0];
-}
-
 //Ends the terminal, destroy everything
 int curses_destroy(void)
 {
@@ -1785,8 +1770,9 @@ int curses_start_color( void )
     return OK;
 }
 
-void curses_timeout(int t)
+void input_manager::set_timeout( const int t )
 {
+    input_timeout = t;
     inputdelay = t;
 }
 
@@ -2340,10 +2326,10 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
         }
         lt_out = ( Sint16 )( ( float )lt_avg / ( float )( end - begin + 1 ) );
         rt_out = ( Sint16 )( ( float )rt_avg / ( float )( end - begin + 1 ) );
-        result->abuf[( 4 * i ) + 1] = ( lt_out >> 8 ) & 0xFF;
-        result->abuf[( 4 * i ) + 0] = lt_out & 0xFF;
-        result->abuf[( 4 * i ) + 3] = ( rt_out >> 8 ) & 0xFF;
-        result->abuf[( 4 * i ) + 2] = rt_out & 0xFF;
+        result->abuf[( 4 * i ) + 1] = (Uint8)(( lt_out >> 8 ) & 0xFF);
+        result->abuf[( 4 * i ) + 0] = (Uint8)(lt_out & 0xFF);
+        result->abuf[( 4 * i ) + 3] = (Uint8)(( rt_out >> 8 ) & 0xFF);
+        result->abuf[( 4 * i ) + 2] = (Uint8)(rt_out & 0xFF);
     }
     return result;
 }

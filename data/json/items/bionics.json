@@ -466,7 +466,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Metabolic Interchange CBM",
-    "description": "Your digestive system and power supply are interconnected.  Any drain on energy instead increases your hunger.  Can be toggled on and off at will.",
+    "description": "Your digestive system and power supply are interconnected.  Energy drains will be regularly counteracted by increasing hunger.  Can be toggled on and off at will.",
     "price": 70000,
     "difficulty": 4
   },
@@ -719,7 +719,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Internal Storage CBM",
-    "description": "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 8 units of volume.",
+    "description": "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 2 liters of volume.",
     "price": 400000,
     "difficulty": 7
   },

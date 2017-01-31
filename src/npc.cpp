@@ -98,7 +98,7 @@ npc::npc()
     companion_mission_time = 0;
     last_updated = calendar::turn;
 
-    path_settings = pathfinding_settings( 0, 1000, 1000, true, false, true );
+    path_settings = pathfinding_settings( 0, 1000, 1000, true, true, true );
 }
 
 standard_npc::standard_npc( const std::string &name, const std::vector<itype_id> &clothing,
@@ -1169,7 +1169,7 @@ void npc::make_angry()
         return; // We're already angry!
     }
 
-    add_msg( "%s gets angry", name.c_str() );
+    add_msg( _( "%s gets angry!" ), name.c_str() );
     // Make associated faction, if any, angry at the player too.
     if( my_fac != nullptr ) {
         my_fac->likes_u = std::max( -50, my_fac->likes_u - 50 );

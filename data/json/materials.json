@@ -551,6 +551,7 @@
     "ident": "neoprene",
     "name": "Neoprene",
     "density": 4,
+    "soft": true,
     "bash_resist": 2,
     "cut_resist": 1,
     "acid_resist": 1,

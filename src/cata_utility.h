@@ -13,7 +13,7 @@ class map_item_stack;
 struct tripoint;
 
 struct pair_greater_cmp {
-    bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b );
+    bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b ) const;
 };
 
 enum units_type {
@@ -55,38 +55,6 @@ double temp_to_celsius( double fahrenheit );
 
 double clamp_to_width( double value, int width, int &scale );
 double clamp_to_width( double value, int width, int &scale, bool *out_truncated );
-
-constexpr double ms_to_mph( double val )
-{
-    return val * 2.237;
-}
-
-constexpr double mph_to_ms( double val )
-{
-    return val / 2.237;
-}
-
-/** convert velocity (m/s) to arbitrary display units */
-constexpr double ms_to_display( double val )
-{
-    return ms_to_mph( val ) * 100 * 2;
-}
-
-/** convert velocity (m/s) to fractional tiles per turn */
-constexpr double ms_to_tt( double v )
-{
-    return ms_to_mph( v ) / 10.0;
-}
-
-constexpr double hp_to_watt( double val )
-{
-    return val * 745.7;
-}
-
-constexpr double watt_to_hp( double val )
-{
-    return val / 745.7;
-}
 
 /**
  * From `points`, finds p1 and p2 such that p1.first < x < p2.first
@@ -186,13 +154,13 @@ class JsonDeserializer;
  */
 /**@{*/
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
-bool read_from_file( const std::string &path, const std::function<void( JsonIn & )> &reader );
+bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader );
 bool read_from_file( const std::string &path, JsonDeserializer &reader );
 
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader );
-bool read_from_file_optional( const std::string &path,
-                              const std::function<void( JsonIn & )> &reader );
+bool read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( JsonIn & )> &reader );
 bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
 /**@}*/
 /**
@@ -223,5 +191,7 @@ class ofstream_wrapper_exclusive
 /** See @ref write_to_file, but uses the exclusive I/O functions. */
 bool write_to_file_exclusive( const std::string &path,
                               const std::function<void( std::ostream & )> &writer,  const char *fail_message );
+
+std::istream &safe_getline( std::istream &ins, std::string &str );
 
 #endif // CAT_UTILITY_H

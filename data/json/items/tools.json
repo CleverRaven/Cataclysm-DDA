@@ -5849,7 +5849,7 @@
     "name": "stone pot",
     "description": "A large stone, roughly hollowed out into a pot.",
     "weight": 1500,
-    "volume": 10,
+    "volume": 8,
     "price": 0,
     "to_hit": -1,
     "bashing": 4,
@@ -5857,10 +5857,10 @@
     "symbol": ";",
     "color": "dark_gray",
     "container_data": {
-      "contains": 8,
+      "contains": 6,
       "watertight": true
     },
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
   {

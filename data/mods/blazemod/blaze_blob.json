@@ -289,6 +289,40 @@
     }
   },
   {
+    "id": "gasoline",
+    "type": "AMMO",
+    "category": "fuel",
+    "name": "gasoline",
+    "name_plural": "gasoline",
+    "description": "Gasoline is a highly flammable liquid.  When under pressure, it has the potential for violent explosion.",
+    "weight": 1,
+    "volume": 1,
+    "price": 40,
+    "price_postapoc": 800,
+    "phase": "liquid",
+    "container": "jerrycan",
+    "material": "hydrocarbons",
+    "symbol": "=",
+    "color": "light_red",
+    "count": 250,
+    "stack_size": 250,
+    "ammo_type": [ "gasoline", "flammable" ],
+    "range": 4,
+    "damage": 5,
+    "pierce": 5,
+    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
+    "explosion": {
+      "power": 10,
+      "distance_factor": 0.01,
+      "shrapnel": {
+        "count": 25,
+        "mass": 1,
+        "drop": "gasoline",
+        "recovery": 100
+      }
+    }
+  },
+  {
     "id": "gloople",
     "type": "TOOL",
     "category": "tools",

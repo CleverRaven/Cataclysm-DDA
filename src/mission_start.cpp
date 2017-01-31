@@ -1719,3 +1719,34 @@ void mission_start::reveal_cathedral( mission *miss )
 {
     reveal_any_target( miss, { "cathedral_1", "museum" } );
 }
+
+void mission_start::reveal_refugee_center( mission *miss )
+{
+    const tripoint your_pos = g->u.global_omt_location();
+    const tripoint center_pos = overmap_buffer.find_closest( your_pos, "evac_center_18", 0, false );
+
+    if( center_pos == overmap::invalid_tripoint ) {
+        add_msg( _( "You don't know where the address could be..." ) );
+        return;
+    }
+
+    miss->set_target( center_pos );
+
+    if( overmap_buffer.seen( center_pos.x, center_pos.y, center_pos.z ) ) {
+        add_msg( _( "You already know that address..." ) );
+        return;
+    }
+
+    add_msg( _( "It takes you forever to find the address on your map..." ) );
+
+    overmap_buffer.reveal( center_pos, 3 );
+
+    const tripoint source_road = overmap_buffer.find_closest( your_pos, "road", 3, false );
+    const tripoint dest_road = overmap_buffer.find_closest( center_pos, "road", 3, false );
+
+    if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
+        add_msg( _( "You mark the refugee center and the road that leads to it..." ) );
+    } else {
+        add_msg( _( "You mark the refugee center, but you have no idea how to get there by road..." ) );
+    }
+}

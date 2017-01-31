@@ -1,13 +1,14 @@
 #ifndef VISITABLE_H
 #define VISITABLE_H
 
-#include <vector>
-#include <list>
-#include <functional>
-#include <string>
-
 #include "enums.h"
 #include "string_id.h"
+
+#include <functional>
+#include <limits>
+#include <list>
+#include <string>
+#include <vector>
 
 class item;
 struct quality;
@@ -73,7 +74,7 @@ class visitable
          * Count maximum available charges from this instance and any contained items
          * @param limit stop searching after this many charges have been found
          */
-        long charges_of( const std::string &what, int limit = INT_MAX ) const;
+        long charges_of( const std::string &what, long limit = std::numeric_limits<long>::max() ) const;
 
         /**
          * Count items matching id including both this instance and any contained items
@@ -81,7 +82,8 @@ class visitable
          * @param limit stop searching after this many matches
          * @note items must be empty to be considered a match
          */
-        int amount_of( const std::string &what, bool pseudo = true, int limit = INT_MAX ) const;
+        int amount_of( const std::string &what, bool pseudo = true,
+                       int limit = std::numeric_limits<int>::max() ) const;
 
         /** Check instance provides at least qty of an item (@see amount_of) */
         bool has_amount( const std::string &what, int qty, bool pseudo = true ) const {
@@ -100,7 +102,7 @@ class visitable
          * @return any items removed (items counted by charges are not guaranteed to be stacked)
          */
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
-                                           int count = INT_MAX );
+                                           int count = std::numeric_limits<int>::max() );
 
         /** Removes and returns the item which must be contained by this instance */
         item remove_item( item &it );

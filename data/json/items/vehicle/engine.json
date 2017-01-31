@@ -6,176 +6,132 @@
     "name": "internal combustion engine",
     "material": "iron",
     "symbol": ":",
-    "color": "light_cyan",
-    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_filter_fuel", "fault_engine_immobiliser", "fault_engine_pump_water", "fault_engine_starter" ]
+    "color": "light_cyan"
   },
   {
     "abstract": "engine_diesel",
     "copy-from": "engine_combustion",
     "type": "ENGINE",
     "name": "base diesel engine",
-    "fuel": "diesel",
-    "efficiency": 30,
-    "idle": 800,
-    "optimum": 1800,
-    "redline": 3200,
-    "gears": [ 3.891, 2.74, 1.652, 1.134, 0.912 ],
-    "start_time": 60,
-    "start_energy": 160,
-    "extend": { "faults": [ "fault_engine_pump_diesel", "fault_engine_glow_plug" ] },
-    "flags": [ "COLD_START" ]
+    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_filter_fuel", "fault_engine_glow_plug", "fault_engine_immobiliser", "fault_engine_pump_diesel", "fault_engine_pump_water", "fault_engine_starter" ]
   },
   {
     "abstract": "engine_gasoline",
     "copy-from": "engine_combustion",
     "type": "ENGINE",
     "name": "base gasoline engine",
-    "fuel": "gasoline",
-    "efficiency": 20,
-    "idle": 800,
-    "optimum": 2000,
-    "redline": 3800,
-    "gears": [ 3.166, 1.882, 1.296, 0.972, 0.738 ],
-    "start_time": 30,
-    "extend": { "faults": [ "fault_engine_pump_fuel" ] }
-  },
-  {
-    "id": "1cyl_combustion_small",
-    "copy-from": "engine_gasoline",
-    "type": "ENGINE",
-    "name": "2-stroke engine (0.2L)",
-    "description": "A compact single-cylinder 2-stroke combustion engine.  The simple design with no external components makes it exceptionally reliable but relatively inefficient.  Intended for lightweight vehicles its fixed gearing severely limits maximum speed.",
-    "weight": 4000,
-    "volume": 8,
-    "power": 3000,
-    "gears": [ 4.291 ],
-    "faults": [],
-    "proportional": {
-      "efficiency": 0.5,
-      "start_time": 4
-    }
+    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_filter_fuel", "fault_engine_immobiliser", "fault_engine_pump_fuel", "fault_engine_pump_water", "fault_engine_starter" ]
   },
   {
     "id": "1cyl_combustion",
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
-    "name": "motorcycle engine (0.4L)",
-    "description": "A single-cylinder 4-stroke combustion engine commonly installed on motorcycles and similar vehicles.  Although lacking in power it is relatively reliable and reasonably fuel efficient.",
-    "weight": 32000,
-    "volume": 16,
-    "power": 16000,
-    "gears": [ 3.166, 1.882, 1.126 ],
-    "start_energy": 20,
+    "name": "1-cylinder engine",
+    "description": "A single-cylinder 4-stroke combustion engine.",
+    "weight": 20000,
+    "volume": 6,
+    "price": 10000,
+    "displacement": 60,
     "faults": [ "fault_engine_starter" ]
   },
   {
-    "id": "v2_combustion",
-    "copy-from": "1cyl_combustion",
+    "id": "1cyl_combustion_small",
+    "copy-from": "engine_gasoline",
     "type": "ENGINE",
-    "name": "V-twin engine (0.4L)",
-    "description": "An air cooled 2-cylinder 4-stroke combustion engine.  Lacking any significant electrical parts it is simple to maintain.  It is lightweight and durable but lacking in power and unsuitable for high road speeds.",
-    "proportional": {
-      "weight": 1.2,
-      "volume": 1.6,
-      "power": 1.4,
-      "start_energy": 2
-    },
-    "delete": { "faults": [ "fault_engine_immobiliser", "fault_engine_pump_water" ] }
+    "name": "small 1-cylinder engine",
+    "description": "A small single-cylinder 2-stroke combustion engine.",
+    "weight": 10000,
+    "volume": 3,
+    "price": 6000,
+    "displacement": 30,
+    "faults": []
   },
   {
     "id": "i4_combustion",
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
-    "name": "gasoline engine (2.0L)",
-    "description": "A standard 4-cylinder combustion engine that might be found in a typical car.  Decidedly average.",
-    "weight": 120000,
-    "volume": 60,
-    "power": 60000,
-    "start_energy": 80
-  },
-  {
-    "id": "v6_combustion",
-    "copy-from": "i4_combustion",
-    "type": "ENGINE",
-    "name": "V6 engine (2.5L)",
-    "description": "An upgraded version of the standard gasoline engine.  This design includes two additional cylinders and is more powerful but unfortunately less fuel efficient.",
-    "proportional": {
-      "weight": 1.5,
-      "volume": 1.4,
-      "power": 1.4,
-      "efficiency": 0.9,
-      "start_energy": 2
-    }
-  },
-  {
-    "id": "v8_combustion",
-    "copy-from": "i4_combustion",
-    "type": "ENGINE",
-    "name": "Wankel engine",
-    "description": "A rare design of gasoline engine utilising a single triangular rotor.  Although exceptionally durable and capable of running at very high speeds they were unpopular before the cataclysm due to environmental concerns about their inefficiency.",
-    "proportional": {
-      "weight": 0.8,
-      "efficiency": 0.8,
-      "idle": 2,
-      "optimum": 2,
-      "redline": 2
-    }
-  },
-  {
-    "id": "v12_combustion",
-    "copy-from": "v6_combustion",
-    "type": "ENGINE",
-    "name": "V12 engine",
-    "description": "A massive and extremely powerful V12 engine typically found in high end sports cars.  Despite the inclusion of an extra gear and the ability to run at higher speeds the operator must be careful not to push the engine past its limits.",
-    "gears": [ 3.166, 1.982, 1.396, 1.102, 0.819, 0.689 ],
-    "proportional": {
-      "weight": 2.4,
-      "volume": 2.0,
-      "power": 2.7,
-      "efficiency": 0.8,
-      "idle": 1.2,
-      "optimum": 1.2,
-      "redline": 1.2
-    }
+    "name": "Inline-4 engine",
+    "description": "A small, yet powerful 4-cylinder combustion engine.",
+    "weight": 70000,
+    "volume": 6,
+    "price": 15000,
+    "displacement": 250
   },
   {
     "id": "i6_diesel",
     "copy-from": "engine_diesel",
     "type": "ENGINE",
-    "name": "diesel engine (2.0L)",
-    "description": "A bulky 4-cylinder diesel combustion engine commonly found in light commercial vehicles.  More efficient than a gasoline engine presuming you can scavenge or craft the required fuel.",
-    "weight": 145000,
-    "volume": 72,
-    "power": 60000
+    "name": "I6 diesel engine",
+    "description": "A powerful straight-6 diesel engine.",
+    "weight": 105000,
+    "volume": 15,
+    "price": 27000,
+    "displacement": 600
+  },
+  {
+    "id": "v2_combustion",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "V-twin engine",
+    "description": "A 2-cylinder 4-stroke combustion engine.",
+    "weight": 45000,
+    "volume": 6,
+    "price": 10000,
+    "displacement": 100
+  },
+  {
+    "id": "v6_combustion",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "V6 engine",
+    "description": "A powerful 6-cylinder combustion engine.",
+    "weight": 100000,
+    "volume": 14,
+    "price": 18000,
+    "displacement": 400
   },
   {
     "id": "v6_diesel",
-    "copy-from": "i6_diesel",
+    "copy-from": "engine_diesel",
     "type": "ENGINE",
-    "name": "truck engine (4.0L)",
-    "description": "A powerful 6-cylinder diesel engine commonly found in heavy commercial vehicles.  Increased displacement makes starting more difficult so it is best used with higher capacity batteries, especially in cold weather.",
-    "proportional": {
-      "weight": 1.5,
-      "volume": 1.4,
-      "power": 1.5,
-      "start_time": 2,
-      "start_energy": 1.5
-    }
+    "name": "V6 diesel engine",
+    "description": "A powerful 6-cylinder diesel engine.",
+    "weight": 110000,
+    "volume": 15,
+    "price": 20000,
+    "displacement": 400
+  },
+  {
+    "id": "v8_combustion",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "V8 engine",
+    "description": "A large and very powerful 8-cylinder combustion engine.",
+    "weight": 200000,
+    "volume": 25,
+    "price": 25000,
+    "displacement": 650
   },
   {
     "id": "v8_diesel",
     "copy-from": "engine_diesel",
     "type": "ENGINE",
-    "name": "traction engine (6.2L)",
-    "description": "An exceptionally powerful 8-cylinder diesel engine.  It has low gearing and is designed for pulling heavy loads at low speeds.",
+    "name": "V8 diesel engine",
+    "description": "A powerful 8-cylinder diesel engine.",
     "weight": 220000,
-    "volume": 112,
-    "power": 250000,
-    "gears": [ 4.603, 4.151, 3.891, 3.104, 2.743, 1.952 ],
-    "proportional": {
-      "redline": 0.8,
-      "start_time": 2,
-      "start_energy": 1.5
-    }
+    "volume": 26,
+    "price": 26500,
+    "displacement": 650
+  },
+  {
+    "id": "v12_combustion",
+    "copy-from": "engine_gasoline",
+    "type":"ENGINE",
+    "name": "V12 engine",
+    "description": "A massive and extremely powerful V12 engine, usually built into high end sports cars.",
+    "weight": 300000,
+    "volume": 32,
+    "price": 36000,
+    "displacement": 1200
   }
 ]

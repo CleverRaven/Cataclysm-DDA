@@ -52,12 +52,9 @@ extern bool test_mode;
 
 void delwin_functor::operator()( WINDOW *w ) const
 {
-    if( w == nullptr ) {
-        return;
+    if( w != nullptr ) {
+        delwin( w );
     }
-    werase( w );
-    wrefresh( w );
-    delwin( w );
 }
 
 // utf8 version
@@ -310,7 +307,7 @@ void multipage( WINDOW *w, std::vector<std::string> text, std::string caption, i
             center_print( w, height - 1, c_ltgray, _( "Press any key for more..." ) );
             wrefresh( w );
             refresh();
-            getch();
+            inp_mngr.wait_for_any_key();
             werase( w );
             begin_y = 0;
         } else {
@@ -319,7 +316,7 @@ void multipage( WINDOW *w, std::vector<std::string> text, std::string caption, i
     }
     wrefresh( w );
     refresh();
-    getch();
+    inp_mngr.wait_for_any_key();
 }
 
 // returns single string with left aligned name and right aligned value
@@ -693,7 +690,8 @@ bool internal_query_yn( const char *mes, va_list ap )
         fold_and_print( w, 1, 1, win_width, c_ltred, text + query );
         wrefresh( w );
 
-        ch = getch();
+        // TODO: use input context
+        ch = inp_mngr.get_input_event().get_first_input();
     };
 
     werase( w );
@@ -1108,7 +1106,8 @@ long popup( const std::string &text, PopupFlags flags )
     // Don't wait if not required.
     while( ( flags & PF_NO_WAIT ) == 0 ) {
         wrefresh( w );
-        ch = getch();
+        // TODO: use input context
+        ch = inp_mngr.get_input_event().get_first_input();
         if( ( flags & PF_GET_KEY ) != 0 ) {
             // return the first key that got pressed.
             werase( w );
@@ -1174,7 +1173,7 @@ void full_screen_popup( const char *mes, ... )
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 //@param without_getch don't wait getch, return = (int)' ';
-int draw_item_info( const int iLeft, const int iWidth, const int iTop, const int iHeight,
+input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, const int iHeight,
                     const std::string sItemName, const std::string sTypeName,
                     std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                     int &selected, const bool without_getch, const bool without_border,
@@ -1233,6 +1232,39 @@ std::string replace_colors( std::string text )
     }
 
     return text;
+}
+
+void draw_item_filter_rules( WINDOW *win, int starty, int height, item_filter_type type )
+{
+    // Clear every row, but the leftmost/rightmost pixels intact.
+    const int len = getmaxx( win ) - 2;
+    for( int i = 0; i < height; i++ ) {
+        mvwprintz( win, starty + i, 1, c_black, std::string( len, ' ' ).c_str() );
+    }
+
+    // Not static so that language changes are correctly handled
+    const std::string intros[] = {
+        _( "Type part of an item's name to filter it." ),
+        _( "Type part of an item's name to move nearby items to the bottom." ),
+        _( "Type part of an item's name to move nearby items to the top." )
+    };
+    const int tab_idx = int( type ) - int( item_filter_type::FIRST );
+    starty += 1 + fold_and_print( win, starty, 1, len, c_white, intros[tab_idx] );
+
+    starty += fold_and_print( win, starty, 1, len, c_white, _( "Separate multiple items with ," ) );
+    //~ An example of how to separate multiple items with a comma when filtering items.
+    starty += 1 + fold_and_print( win, starty, 1, len, c_white, _( "Example: back,flash,aid, ,band" ) );
+
+    if( type == item_filter_type::FILTER ) {
+        starty += fold_and_print( win, starty, 1, len, c_white, _( "To exclude items, place - in front." ) );
+        //~ An example of how to exclude items with - when filtering items.
+        starty += 1 + fold_and_print( win, starty, 1, len, c_white, _( "Example: -pipe,-chunk,-steel" ) );
+    }
+
+    starty += fold_and_print( win, starty, 1, len, c_white, _( "Search [c]ategory or [m]aterial:" ) );
+    //~ An example of how to filter items based on category or material.
+    fold_and_print( win, starty, 1, len, c_white, _( "Example: c:food,m:iron" ) );
+    wrefresh( win );
 }
 
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
@@ -1318,7 +1350,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     return buffer.str();
 }
 
-int draw_item_info( WINDOW *win, const std::string sItemName, const std::string sTypeName,
+input_event draw_item_info( WINDOW *win, const std::string sItemName, const std::string sTypeName,
                     std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                     int &selected, const bool without_getch, const bool without_border,
                     const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
@@ -1339,7 +1371,7 @@ int draw_item_info( WINDOW *win, const std::string sItemName, const std::string 
     const auto width = getmaxx( win ) - ( use_full_win ? 1 : b * 2 );
     const auto height = getmaxy( win ) - ( use_full_win ? 0 : 2 );
 
-    int ch = ( int )' ';
+    input_event result;
     while( true ) {
         int iLines = 0;
         if( !buffer.str().empty() ) {
@@ -1369,7 +1401,9 @@ int draw_item_info( WINDOW *win, const std::string sItemName, const std::string 
             break;
         }
 
-        ch = ( int )getch();
+        // TODO: use input context
+        result = inp_mngr.get_input_event();
+        const int ch = ( int )result.get_first_input();
         if( handle_scrolling && ch == KEY_PPAGE ) {
             selected--;
             werase( win );
@@ -1377,17 +1411,17 @@ int draw_item_info( WINDOW *win, const std::string sItemName, const std::string 
             selected++;
             werase( win );
         } else if( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
-            ch = '\n';
+            result = input_event( static_cast<long>( '\n' ), CATA_INPUT_KEYBOARD );
             break;
         } else if( selected == KEY_LEFT ) {
-            ch = ( int )' ';
+            result = input_event( static_cast<long>( ' ' ), CATA_INPUT_KEYBOARD );
             break;
         } else {
             break;
         }
     }
 
-    return ch;
+    return result;
 }
 
 char rand_char()
@@ -1441,15 +1475,30 @@ long special_symbol( long sym )
     }
 }
 
-std::string trim( const std::string &s )
+template<typename Prep>
+std::string trim( const std::string &s, Prep prep )
 {
-    auto wsfront = std::find_if_not( s.begin(), s.end(), []( int c ) {
-        return std::isspace( c );
+    auto wsfront = std::find_if_not( s.begin(), s.end(), [&prep]( int c ) {
+        return prep( c );
     } );
     return std::string( wsfront, std::find_if_not( s.rbegin(),
-    std::string::const_reverse_iterator( wsfront ), []( int c ) {
-        return std::isspace( c );
+    std::string::const_reverse_iterator( wsfront ), [&prep]( int c ) {
+        return prep( c );
     } ).base() );
+}
+
+std::string trim( const std::string &s )
+{
+    return trim( s, []( int c ) {
+        return std::isspace( c );
+    } );
+}
+
+std::string trim_punctuation_marks( const std::string &s )
+{
+    return trim( s, []( int c ) {
+        return std::ispunct( c );
+    } );
 }
 
 typedef std::string::value_type char_t;
@@ -1460,23 +1509,6 @@ std::string to_upper_case( const std::string &s )
         return std::use_facet<std::ctype<char_t>>( std::locale() ).toupper( ch );
     } );
     return res;
-}
-
-std::string ordinal( int val ) {
-    switch( val ) {
-        case 1: return _( "1st" );
-        case 2: return _( "2nd" );
-        case 3: return _( "3rd" );
-        case 4: return _( "4th" );
-        case 5: return _( "5th" );
-        case 6: return _( "6th" );
-        case 7: return _( "7th" );
-        case 8: return _( "8th" );
-        case 9: return _( "9th" );
-
-        // fallback (not translated)
-        default: return string_format( "%ith", val );
-    };
 }
 
 // find the position of each non-printing tag in a string
@@ -1712,9 +1744,10 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile )
     mvwprintz( w_hit, 0, 0, cColor, "%s", cTile.c_str() );
     wrefresh( w_hit );
 
-    timeout( get_option<int>( "ANIMATION_DELAY" ) );
-    getch(); //using this, because holding down a key with nanosleep can get yourself killed
-    timeout( -1 );
+    inp_mngr.set_timeout( get_option<int>( "ANIMATION_DELAY" ) );
+    // Skip input (if any), because holding down a key with nanosleep can get yourself killed
+    inp_mngr.get_input_event();
+    inp_mngr.reset_timeout();
 }
 
 #if defined(_MSC_VER)
@@ -2093,7 +2126,8 @@ void display_table( WINDOW *w, const std::string &title, int columns,
         }
         draw_scrollbar( w, offset, rows, data.size() / 3, 2, 0 );
         wrefresh( w );
-        int ch = getch();
+        // TODO: use input context
+        int ch = inp_mngr.get_input_event().get_first_input();
         if( ch == KEY_DOWN && ( ( offset + 1 ) * columns ) < ( int )data.size() ) {
             offset++;
         } else if( ch == KEY_UP && offset > 0 ) {
@@ -2465,9 +2499,13 @@ std::string wildcard_trim_rule(const std::string &pattern_in)
 
 std::vector<std::string> &wildcard_split(const std::string &text_in, char delim_in, std::vector<std::string> &elems_in)
 {
+    elems_in.clear();
+    if( text_in.empty() ) {
+        return elems_in; // Well, that was easy.
+    }
+
     std::stringstream ss(text_in);
     std::string item;
-    elems_in.clear();
     while (std::getline(ss, item, delim_in)) {
         elems_in.push_back(item);
     }

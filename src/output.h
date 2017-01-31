@@ -6,6 +6,7 @@
 #include "catacharset.h"
 #include "translations.h"
 #include "units.h"
+#include "printf_check.h"
 
 #include <cstdarg>
 #include <sstream>
@@ -15,6 +16,7 @@
 #include <memory>
 #include <map>
 
+struct input_event;
 struct iteminfo;
 enum direction : unsigned;
 class input_context;
@@ -202,7 +204,7 @@ int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_col
  * the height of the window.
  */
 int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes,
-                    ... );
+                    ... ) PRINTF_LIKE(6,7);
 /**
  * Same as other @ref fold_and_print, but does not do any string formatting, the string is uses as is.
  */
@@ -220,7 +222,7 @@ int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color col
  * value for `begin_line`.
  */
 int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
-                         nc_color color, const char *mes, ... );
+                         nc_color color, const char *mes, ... ) PRINTF_LIKE(7,8);
 /**
  * Same as other @ref fold_and_print_from, but does not do any string formatting, the string is uses as is.
  */
@@ -234,10 +236,10 @@ int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int beg
  * @param base_color The initially used color. This can be overridden using color tags.
  */
 void trim_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
-                     const char *mes, ... );
+                     const char *mes, ... ) PRINTF_LIKE(6,7);
 void center_print( WINDOW *w, int y, nc_color FG, const char *mes, ... );
 int right_print( WINDOW *w, const int line, const int right_indent, const nc_color FG,
-                 const char *mes, ... );
+                 const char *mes, ... ) PRINTF_LIKE(5,6);
 void display_table( WINDOW *w, const std::string &title, int columns,
                     const std::vector<std::string> &data );
 void multipage( WINDOW *w, std::vector<std::string> text, std::string caption = "",
@@ -258,8 +260,8 @@ void mvputch_hi( int y, int x, nc_color FG, const std::string &ch );
 // Using long ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, long ch );
 void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, const std::string &ch );
-void mvwprintz( WINDOW *w, int y, int x, nc_color FG, const char *mes, ... );
-void wprintz( WINDOW *w, nc_color FG, const char *mes, ... );
+void mvwprintz( WINDOW *w, int y, int x, nc_color FG, const char *mes, ... ) PRINTF_LIKE(5,6);
+void wprintz( WINDOW *w, nc_color FG, const char *mes, ... ) PRINTF_LIKE( 3, 4 );
 
 void draw_custom_border( WINDOW *w, chtype ls = 1, chtype rs = 1, chtype ts = 1, chtype bs = 1,
                          chtype tl = 1, chtype tr = 1,
@@ -273,8 +275,8 @@ std::string word_rewrap( const std::string &ins, int width );
 std::vector<size_t> get_tag_positions( const std::string &s );
 std::vector<std::string> split_by_color( const std::string &s );
 
-bool query_yn( const char *mes, ... );
-bool query_int( int &result, const char *mes, ... );
+bool query_yn( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
+bool query_int( int &result, const char *mes, ... ) PRINTF_LIKE( 2, 3 );
 
 bool internal_query_yn( const char *mes, va_list ap );
 
@@ -358,36 +360,48 @@ typedef enum {
     PF_NO_WAIT_ON_TOP = PF_NO_WAIT | PF_ON_TOP,
 } PopupFlags;
 
-long popup_getkey( const char *mes, ... );
-void popup_top( const char *mes, ... );
-void popup_nowait( const char *mes, ... );
-void popup_status( const char *title, const char *msg, ... );
-void popup( const char *mes, ... );
+long popup_getkey( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
+void popup_top( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
+void popup_nowait( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
+void popup_status( const char *title, const char *msg, ... ) PRINTF_LIKE( 2, 3 );
+void popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
 long popup( const std::string &text, PopupFlags flags );
-void full_screen_popup( const char *mes, ... );
+void full_screen_popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
 /*@}*/
 
-int draw_item_info( WINDOW *win, const std::string sItemName, const std::string sTypeName,
+input_event draw_item_info( WINDOW *win, const std::string sItemName, const std::string sTypeName,
                     std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                     int &selected, const bool without_getch = false, const bool without_border = false,
                     const bool handle_scrolling = false, const bool scrollbar_left = true,
                     const bool use_full_win = false );
 
-int draw_item_info( const int iLeft, int iWidth, const int iTop, const int iHeight,
+input_event draw_item_info( const int iLeft, int iWidth, const int iTop, const int iHeight,
                     const std::string sItemName, const std::string sTypeName,
                     std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                     int &selected, const bool without_getch = false, const bool without_border = false,
                     const bool handle_scrolling = false, const bool scrollbar_left = true,
                     const bool use_full_win = false );
 
+enum class item_filter_type: int {
+    FIRST = 1, // used for indexing into tables
+    FILTER = 1,
+    LOW_PRIORITY = 2,
+    HIGH_PRIORITY = 3
+};
+/**
+ * Write some tips (such as precede items with - to exclude them) onto the window.
+ *
+ * @param starty: Where to start relative to the top of the window.
+ * @param height: Every row from starty to starty + height - 1 will be cleared before printing the rules.
+*/
+void draw_item_filter_rules( WINDOW *win, int starty, int height, item_filter_type type );
+
 char rand_char();
 long special_symbol( long sym );
 
 std::string trim( const std::string &s ); // Remove spaces from the start and the end of a string
+std::string trim_punctuation_marks( const std::string &s ); // Removes punctuation marks from the start and the end of a string
 std::string to_upper_case( const std::string &s ); // Converts the string to upper case
-
-/** Get value in ordinal form, eg 1st, 2nd, 3rd for values [1,9] */
-std::string ordinal( int val );
 
 /**
  * @name printf-like string formatting.
@@ -406,7 +420,7 @@ std::string ordinal( int val );
  * There are more placeholders and options to them (see documentation of `printf`).
  */
 /*@{*/
-std::string string_format( const char *pattern, ... );
+std::string string_format( const char *pattern, ... ) PRINTF_LIKE( 1, 2 );
 std::string vstring_format( const char *pattern, va_list argptr );
 std::string string_format( std::string pattern, ... );
 std::string vstring_format( std::string const &pattern, va_list argptr );
@@ -661,5 +675,39 @@ void play_music( std::string playlist );
  * delaying the update until the next time we are waiting for user input.
  */
 void refresh_display();
+
+/**
+ * Assigns a custom color to each symbol.
+ * @return Colorized string.
+ * @param func Function that accepts symbols (std::string::value_type) and returns colors.
+ */
+template<typename Pred>
+std::string colorize_symbols( const std::string &str, Pred func )
+{
+    std::ostringstream res;
+    nc_color prev_color = c_unset;
+
+    const auto closing_tag = [ &res, prev_color ]() {
+        if( prev_color != c_unset ) {
+            res << "</color>";
+        }
+    };
+
+    for( const auto &elem : str ) {
+        const nc_color new_color = func( elem );
+
+        if( prev_color != new_color ) {
+            closing_tag();
+            res << "<color_" << get_all_colors().get_name( new_color ) << ">";
+            prev_color = new_color;
+        }
+
+        res << elem;
+    }
+
+    closing_tag();
+
+    return res.str();
+}
 
 #endif

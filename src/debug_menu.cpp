@@ -330,6 +330,7 @@ void npc_edit_menu()
             smenu.return_invalid = true;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), p.get_healthy() );
             smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), p.get_healthy_mod() );
+            smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), p.radiation );
             smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
             smenu.selected = 0;
             smenu.query();
@@ -343,6 +344,11 @@ void npc_edit_menu()
                 case 1:
                     if( query_int( value, _( "Set the value to? Currently: %d" ), p.get_healthy_mod() ) ) {
                         p.set_healthy_mod( value );
+                    }
+                    break;
+                case 2:
+                    if( query_int( value, _( "Set the value to? Currently: %d" ), p.radiation ) ) {
+                        p.radiation = value;
                     }
                     break;
                 default:
@@ -440,7 +446,7 @@ std::string mission_debug::describe( const mission &m )
 void add_header( uimenu &mmenu, const std::string &str )
 {
     mmenu.addentry( -1, false, -1, "" );
-    uimenu_entry header( -1, false, -1, str , c_yellow, c_yellow );
+    uimenu_entry header( -1, false, -1, str, c_yellow, c_yellow );
     header.force_color = true;
     mmenu.entries.push_back( header );
 }

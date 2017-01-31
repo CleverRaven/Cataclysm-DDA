@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include "color.h"
 #include "cursesdef.h"
+#include "printf_check.h"
+
 ////////////////////////////////////////////////////////////////////////////////////
 /*
  * uimenu constants
@@ -15,6 +17,8 @@ const int MENU_ALIGN_CENTER = 0;
 const int MENU_ALIGN_RIGHT = 1;
 const int MENU_WIDTH_ENTRIES = -2;
 const int MENU_AUTOASSIGN = -1;
+
+struct input_event;
 
 /*
  * mvwzstr: line of text with horizontal offset and color
@@ -113,7 +117,7 @@ class uimenu_callback
             myptr = ptr;
         }
         virtual void select( int /*entnum*/, uimenu * ) {};
-        virtual bool key( int /*key*/, int /*entnum*/, uimenu * ) {
+        virtual bool key( const input_event &/*key*/, int /*entnum*/, uimenu * ) {
             return false;
         };
         virtual void refresh( uimenu * ) {};
@@ -185,7 +189,9 @@ class uimenu: public ui_container
         void init();
         void setup();
         void show();
-        bool scrollby( int scrollby = 0, const int key = 0 );
+        bool scrollby( int scrollby );
+        int scroll_amount_from_key( const int key );
+        int scroll_amount_from_action( const std::string &action );
         void query( bool loop = true );
         void filterlist();
         void apply_scrollbar();
@@ -193,13 +199,13 @@ class uimenu: public ui_container
         void refresh( bool refresh_callback = true ) override;
         void redraw( bool redraw_callback = true );
         void addentry( std::string str );
-        void addentry( const char *format, ... );
+        void addentry( const char *format, ... ) PRINTF_LIKE( 2, 3 );
         void addentry( int r, bool e, int k, std::string str );
-        void addentry( int r, bool e, int k, const char *format, ... );
+        void addentry( int r, bool e, int k, const char *format, ... ) PRINTF_LIKE( 5, 6 );
         void addentry_desc( std::string str, std::string desc );
         void addentry_desc( int r, bool e, int k, std::string str, std::string desc );
         void settext( std::string str );
-        void settext( const char *format, ... );
+        void settext( const char *format, ... ) PRINTF_LIKE( 2, 3 );
 
         void reset();
         ~uimenu();

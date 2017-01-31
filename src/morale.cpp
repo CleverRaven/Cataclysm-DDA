@@ -12,6 +12,7 @@
 #include "catacharset.h"
 #include "game.h"
 #include "weather.h"
+#include "input.h"
 
 #include <algorithm>
 #include <set>
@@ -514,7 +515,7 @@ void player_morale::display( double focus_gain )
 
     wrefresh( w );
 
-    getch();
+    inp_mngr.wait_for_any_key();
 
     werase( w );
     delwin( w );

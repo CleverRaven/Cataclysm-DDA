@@ -911,7 +911,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glowiegrow" } ],
-    "flags": [ "TOOL_NONE", "FOLDABLE", "ATOMIC_LIGHT" ]
+    "flags": [ "REACTOR", "TOOL_NONE", "FOLDABLE", "ATOMIC_LIGHT" ]
   },
   {
     "id": "gray_amalgam",
@@ -2723,7 +2723,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "queengrow" } ],
-    "flags": [ "TURRET", "MANUAL", "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "CONTROLS", "SEAT", "BED" ]
+    "flags": [ "TURRET", "MANUAL", "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "SEAT", "BED" ]
   },
   {
     "id": "razorqueen",

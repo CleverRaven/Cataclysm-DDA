@@ -2,6 +2,7 @@
 #include "path_info.h"
 #include "output.h"
 #include "filesystem.h"
+#include "input.h"
 #include <time.h>
 #include <cassert>
 #include <cstdlib>
@@ -89,7 +90,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
                     text.c_str(), funcname, filename, line );
 
     for( bool stop = false; !stop; ) {
-        switch( getch() ) {
+        switch( inp_mngr.get_input_event().get_first_input() ) {
             case 'i':
             case 'I':
                 ignored_messages.insert( msg_key );

@@ -145,11 +145,8 @@ class Item_modifier
          */
         std::pair<long, long> charges;
         /**
-         * Ammo for guns. If NULL the gun spawns
-         * without ammo.
-         * This does not take @ref charges into count. Instead it
-         * assumes that the item returned by that Single_item_creator
-         * contains the charges.
+         * Ammo for guns. If NULL the gun spawns without ammo.
+         * This takes @ref charges and @ref with_ammo into account.
          */
         std::unique_ptr<Item_spawn_data> ammo;
         /**
@@ -214,6 +211,8 @@ class Single_item_creator : public Item_spawn_data
         Type type;
         std::unique_ptr<Item_modifier> modifier;
 
+        void inherit_ammo_mag_chances( const int ammo, const int mag );
+
         virtual ItemList create(int birthday, RecursionList &rec) const override;
         item create_single(int birthday, RecursionList &rec) const override;
         void check_consistency() const override;
@@ -266,7 +265,7 @@ class Item_group : public Item_spawn_data
         /**
          * These aren't directly used. Instead, the values (both with a default value of 0) "trickle down"
          * to apply to every item/group entry within this item group. It's added to the
-         * @ref Single_item_creator's @ref Item_modifier.
+         * @ref Single_item_creator's @ref Item_modifier via @ref Single_item_creator::inherit_ammo_mag_chances.
          */
         /** Every item in this group has this chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
         const int with_ammo;

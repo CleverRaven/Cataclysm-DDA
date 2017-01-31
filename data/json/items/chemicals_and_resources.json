@@ -319,7 +319,12 @@
     "volume" : 1,
     "phase" : "liquid",
     "category" : "chems",
-    "fun" : -30
+    "fun" : -30,
+    "drop_action": {
+        "type": "emit_actor",
+        "emits": [ "emit_acid_splash" ],
+        "scale_qty": true
+    }
    },
    {
     "type" : "COMESTIBLE",
@@ -392,7 +397,12 @@
     "ammo_type" : "components",
     "charges" : 2,
     "phase" : "liquid",
-    "container" : "bottle_glass"
+    "container" : "bottle_glass",
+    "drop_action": {
+        "type": "emit_actor",
+        "emits": [ "emit_acid_drop" ],
+        "scale_qty": true
+    }
    },
 {
     "type" : "AMMO",
@@ -427,7 +437,12 @@
     "ammo_type" : "components",
     "charges" : 2,
     "phase" : "liquid",
-    "container" : "bottle_glass"
+    "container" : "bottle_glass",
+    "drop_action": {
+        "type": "emit_actor",
+        "emits": [ "emit_acid_drop" ],
+        "scale_qty": true
+    }
    },
 {
     "type" : "AMMO",

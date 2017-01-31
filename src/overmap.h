@@ -193,6 +193,7 @@ class overmap
 
     oter_id& ter(const int x, const int y, const int z);
     const oter_id get_ter(const int x, const int y, const int z) const;
+    const oter_id get_ter( const tripoint &p ) const;
     bool&   seen(int x, int y, int z);
     bool&   explored(int x, int y, int z);
     bool is_explored(int const x, int const y, int const z) const;
@@ -388,17 +389,17 @@ public:
   bool build_slimepit(int x, int y, int z, int s);
   void build_mine(int x, int y, int z, int s);
   void place_rifts(int const z);
-  // Connection highways
-  void place_hiways( const std::vector<city> &cities, int z, const std::string &base );
-  void make_hiway(int x1, int y1, int x2, int y2, int z, const std::string &base);
+    // Connection laying
+    void build_connection( const point &source, const point &dest, int z, const int_id<oter_type_t> &type_id );
+    void connect_closest_points( const std::vector<point> &points, int z, const int_id<oter_type_t> &type_id );
   // Polishing
   bool check_ot_type(const std::string &otype, int x, int y, int z) const;
-  bool check_ot_type_road(const std::string &otype, int x, int y, int z);
-  bool is_road(int x, int y, int z);
   void polish(const int z, const std::string &terrain_type="all");
   void chip_rock(int x, int y, int z);
-  oter_id good_road( const oter_type_t &type, int x, int y, int z );
+
+  oter_id good_connection( const oter_t &oter, const tripoint &p );
   void good_river(int x, int y, int z);
+
   // Returns a vector of enabled overmap specials.
   std::vector<const overmap_special *> get_enabled_specials() const;
   // Returns a vector of permuted coordinates of overmap sectors.

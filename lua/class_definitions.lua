@@ -918,7 +918,7 @@ classes = {
             { name = "get_remaining_capacity_for_liquid", rval = "int", args = { "item", "bool" } },
             { name = "get_remaining_chapters", rval = "int", args = { "player" } },
             { name = "get_rot", rval = "int", args = { } },
-            { name = "get_side", rval = "int", args = { } },
+            { name = "get_side", rval = "side", args = { } },
             { name = "get_storage", rval = "volume", args = { } },
             { name = "get_thickness", rval = "int", args = { } },
             { name = "get_usable_item", rval = "item&", args = { "string" } },
@@ -970,9 +970,7 @@ classes = {
             { name = "is_dangerous", rval = "bool", args = { } },
             { name = "is_emissive", rval = "bool", args = { } },
             { name = "is_firearm", rval = "bool", args = { } },
-            { name = "is_food", rval = "bool", args = { "player" } },
             { name = "is_food", rval = "bool", args = { } },
-            { name = "is_food_container", rval = "bool", args = { "player" } },
             { name = "is_food_container", rval = "bool", args = { } },
             { name = "is_going_bad", rval = "bool", args = { } },
             { name = "is_gun", rval = "bool", args = { } },
@@ -1900,7 +1898,7 @@ classes = {
             weight = { type = "int", writable = true },
         },
         functions = {
-            { name = "can_use", rval = "bool", args = { "string" } },
+            { name = "can_use", args = { "string" } },
             { name = "charges_default", rval = "int", args = { } },
             { name = "charges_to_use", rval = "int", args = { } },
             { name = "count_by_charges", rval = "bool", args = { } },
@@ -1977,6 +1975,11 @@ enums = {
         "hp_leg_r",
         "num_hp_parts",
     },
+    side = {
+        "side::BOTH",
+        "side::LEFT",
+        "side::RIGHT"
+    },    
     morale_type = {
         "MORALE_NULL",
         "MORALE_FOOD_GOOD",
@@ -2131,7 +2134,7 @@ enums = {
         "fd_hot_air4",
         "fd_fungicidal_gas",
         "num_fields",
-    },
+    }
 }
 
 global_functions = {

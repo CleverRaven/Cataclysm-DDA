@@ -37,15 +37,7 @@ The format is this:
 `subtype` is optional. It can be "collection" or "distribution". If unspecified, it defaults to `old`,
 which denotes that this item group uses the old format (which is technically a distribution).
 
-`ammo` specifies the percent chance that the entries will spawn fully loaded (if it needs a magazine, it will be added for you).
-`magazine` specifies the percent chance that the entries will spawn with a magazine.
-Both of these default to 0 if unspecified.
-
-Note that `ammo` and `magazine` only apply to tools, guns, and magazines. Furthermore, they don't apply to items whose entry explicitly specifies
-how much ammo (charges) to spawn with, or to tools whose JSON item definition specifies a random amount or a fixed, nonzero amount of
-initial charges.
-
-If the entries array contains an item group, then the outermost ammo and magazine chances are used.
+There are some caveats to watch out for when using `ammo` or `magazine`; see Section 4.
 
 3. The Entries Array
 ====
@@ -84,8 +76,8 @@ Each entry can have more values (shown above as `...`). They allow further prope
 "charges": <number>|<array>,
 "charges-min": <number>,
 "charges-max": <number>,
-"contents-item": "<item-id>",
-"contents-group": "<group-id>",
+"contents-item": "<item-id>" (can be a string or an array of strings),
+"contents-group": "<group-id>" (can be a string or an array of strings),
 "ammo-item": "<ammo-item-id>",
 "ammo-group": "<group-id>",
 "container-item": "<container-item-id>",
@@ -102,10 +94,32 @@ Each entry can have more values (shown above as `...`). They allow further prope
 ```
 This will create 4 items, they can have different damage levels as the damage value is rolled separately for each of these items. Each item has charges (AKA ammo) in the range of 10 to 100 (inclusive); if the item needs a magazine before it can have charges, that will be taken care of for you. Using an array (which must have 2 entries) for charges/count/damage is equivalent to writing explicit min and max values. In other words `"count": [a,b]` is the same as `"count-min": a, "count-max": b`.
 
-The ammo type is checked and applied only to weapon / gunmods.
 The container is checked and the item is put inside the container, and the charges of the item are capped/increased to match the size of the container.
 
-4. Shortcuts:
+4. Ammo and Magazines
+====
+
+Here are some ways to make items spawn with/without ammo/magazines (note that `ammo-item` can
+be specified for guns and magazines in the entries array to use a non-default ammo type):
+
+A)
+Specify an ammo/magazine chance (introduced in Section 2) for the entire item group.
+`ammo` specifies the percent chance that the entries will spawn fully loaded (if it needs a magazine, it will be added for you).
+`magazine` specifies the percent chance that the entries will spawn with a magazine.
+Both of these default to 0 if unspecified.
+
+Note that `ammo` and `magazine` only apply to tools, guns, and magazines. Furthermore, they don't apply to tools whose entry explicitly specifies
+how much ammo (charges) to spawn with, or to tools whose JSON item definition specifies a random amount or a fixed, nonzero amount of
+initial charges.
+
+If any item groups are referenced from your item group, then their ammo/magazine chances are
+ignored, and yours are used instead.
+
+B)
+Use `charges`, `charges-min`, or `charges-max` in the entries array. A default magazine will be
+added for you if needed.
+
+5. Shortcuts:
 ====
 
 This:
@@ -154,7 +168,7 @@ Another example. The group "milk" spawns a container (taken from milk_containers
 },
 ```
 
-5. Inlined item groups
+6. Inlined item groups
 ====
 
 At some places one can define an item group directly instead of giving the id of a group. One can not refer to that group as it has no visible id (it has an unspecific/random id internally). This is most useful when the group is very specific to the place it is used and wont ever appear anywhere else.

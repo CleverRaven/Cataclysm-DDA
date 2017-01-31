@@ -3,16 +3,19 @@
         "type" : "overmap_special",
         "id" : "Fungal Bloom",
         "copy-from" : "Fungal Bloom",
-        "locations" : []
+        "locations" : [],
+        "occurrences" : [0, 0]
     },{
         "type" : "overmap_special",
         "id" : "Fungal Tower",
         "copy-from" : "Fungal Tower",
-        "locations" : []
+        "locations" : [],
+        "occurrences" : [0, 0]
     },{
         "type" : "overmap_special",
         "id" : "Fungal Flowers",
         "copy-from" : "Fungal Flowers",
-        "locations" : []
+        "locations" : [],
+        "occurrences" : [0, 0]
     }
 ]

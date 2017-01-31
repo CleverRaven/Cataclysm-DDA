@@ -96,7 +96,7 @@ player_activity veh_interact::serialize_activity()
     res.values.push_back( -ddx );   // values[4]
     res.values.push_back( -ddy );   // values[5]
     res.values.push_back( veh->index_of_part( pt ) ); // values[6]
-    res.str_values.push_back( vp->id.str() );
+    res.str_values.push_back( vp->get_id().str() );
     res.targets.emplace_back( std::move( target ) );
 
     return res;
@@ -244,7 +244,7 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
     bool ok = reqs.can_make_with_inventory( inv );
 
     msg << _( "<color_white>Time required:</color>\n" );
-    msg << "> " << calendar::print_duration( moves / 100 ) << "\n";
+    msg << "> " << calendar::print_approx_duration( moves / 100 ) << "\n";
 
     msg << _( "<color_white>Skills required:</color>\n" );
     for( const auto& e : skills ) {
@@ -860,11 +860,15 @@ bool veh_interact::do_repair( std::string &msg )
             return false;
 
         case INVALID_TARGET:
-            if( mostDamagedPart != -1 ) {
-                move_cursor( veh->parts[mostDamagedPart].mount.y + ddy, -( veh->parts[mostDamagedPart].mount.x + ddx ) );
-            } else {
-                msg = _( "There are no damaged parts on this vehicle." );
-                return false;
+            {
+                vehicle_part *most_repairable = get_most_repariable_part();
+                if( most_repairable ) {
+                    move_cursor( most_repairable->mount.y + ddy, -( most_repairable->mount.x + ddx ) );
+                    return false;
+                } else {
+                    msg = _( "There are no damaged parts on this vehicle." );
+                    return false;
+                }
             }
 
         case MOVING_VEHICLE:
@@ -969,7 +973,7 @@ bool veh_interact::do_refill( std::string &msg )
 
     auto act = [&]( const vehicle_part &pt ) {
         auto validate = [&]( const item &obj ) {
-            if( pt.is_tank() ) { 
+            if( pt.is_tank() ) {
                 // cannot refill using active liquids (those that rot) due to #18570
                 if( obj.is_watertight_container() && !obj.contents.empty() && !obj.contents.front().active ) {
                     return pt.can_reload( obj.contents.front().typeId() );
@@ -1222,6 +1226,46 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
     werase( w_list );
     wrefresh( w_list );
     return redraw;
+}
+
+
+vehicle_part *veh_interact::get_most_damaged_part() const
+{
+    auto part_damage_comparison = []( const vehicle_part &a, const vehicle_part &b )
+    {
+        return !b.removed && b.base.damage() > a.base.damage();
+    };
+
+    auto high_damage_iterator = std::max_element( veh->parts.begin(),
+                                veh->parts.end(),
+                                part_damage_comparison );
+    if( high_damage_iterator == veh->parts.end() ||
+        high_damage_iterator->removed ) {
+        return nullptr;
+    }
+
+    return &( *high_damage_iterator );
+}
+
+vehicle_part *veh_interact::get_most_repariable_part() const
+{
+    auto part_damage_comparison = []( const vehicle_part &a, const vehicle_part &b )
+    {
+        return !b.removed &&
+               b.info().is_repairable() &&
+               b.base.damage() > a.base.damage();
+    };
+
+    auto high_damage_iterator = std::max_element( veh->parts.begin(),
+                                veh->parts.end(),
+                                part_damage_comparison );
+    if( high_damage_iterator == veh->parts.end() ||
+        high_damage_iterator->removed ||
+        !high_damage_iterator->info().is_repairable() ) {
+        return nullptr;
+    }
+
+    return &( *high_damage_iterator );
 }
 
 bool veh_interact::can_remove_part( int idx ) {
@@ -1534,8 +1578,8 @@ void veh_interact::move_cursor (int dx, int dy)
         int divider_index = 0;
         for( const auto &e : vpart_info::all() ) {
             const vpart_info &vp = e.second;
-            if( veh->can_mount( vdx, vdy, vp.id ) ) {
-                if ( vp.id != vpart_shapes[ vp.name()+ vp.item][0]->id )
+            if( veh->can_mount( vdx, vdy, vp.get_id() ) ) {
+                if ( vp.get_id() != vpart_shapes[ vp.name()+ vp.item][0]->get_id() )
                     continue; // only add first shape to install list
                 if (can_potentially_install(vp)) {
                     can_mount.insert( can_mount.begin() + divider_index++, &vp );
@@ -1554,7 +1598,7 @@ void veh_interact::move_cursor (int dx, int dy)
         for (size_t i = 0; i < parts_here.size(); i++) {
             auto &pt = veh->parts[parts_here[i]];
 
-            if( pt.base.damage() > 0 ) {
+            if( pt.base.damage() > 0 && pt.info().is_repairable() ) {
                 need_repair.push_back( i );
             }
             if( pt.info().has_flag( "WHEEL" ) ) {
@@ -1752,25 +1796,18 @@ void veh_interact::display_stats()
         }
     }
 
-    double max_vel = std::accumulate( veh->parts.begin(), veh->parts.end(), 0.0f,
-                                      [&]( const double lhs, const vehicle_part &rhs ) {
-                                          return std::max( lhs, veh->max_velocity( rhs ) ); } );
-
-    double safe_vel = std::accumulate( veh->parts.begin(), veh->parts.end(), 0.0f,
-                                       [&]( const double lhs, const vehicle_part &rhs ) {
-                                           return std::max( lhs, veh->safe_velocity( rhs ) ); } );
-
-    double optimal_vel = std::accumulate( veh->parts.begin(), veh->parts.end(), 0.0f,
-                                          [&]( const double lhs, const vehicle_part &rhs ) {
-                                              return std::max( lhs, veh->optimal_velocity( rhs ) ); } );
-
     fold_and_print( w_stats, y[0], x[0], w[0], c_ltgray,
-                    _( "Optimal/Safe/Top Speed: <color_ltgreen>%d</color>/<color_yellow>%d</color>/<color_ltred>%d</color> %s" ),
-                    int( convert_velocity( ms_to_display( optimal_vel ), VU_VEHICLE ) ),
-                    int( convert_velocity( ms_to_display( safe_vel ), VU_VEHICLE ) ),
-                    int( convert_velocity( ms_to_display( max_vel ), VU_VEHICLE ) ),
+                    _( "Safe/Top Speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s" ),
+                    int( convert_velocity( veh->safe_velocity( false ), VU_VEHICLE ) ),
+                    int( convert_velocity( veh->max_velocity( false ), VU_VEHICLE ) ),
                     velocity_units( VU_VEHICLE ) );
+    //TODO: extract accelerations units to its own function
 
+    fold_and_print( w_stats, y[1], x[1], w[1], c_ltgray,
+                    //~ /t means per turn
+                    _( "Acceleration: <color_ltblue>%3d</color> %s/t" ),
+                    int( convert_velocity( veh->acceleration( false ), VU_VEHICLE ) ),
+                    velocity_units( VU_VEHICLE ) );
     fold_and_print( w_stats, y[2], x[2], w[2], c_ltgray,
                     _( "Mass: <color_ltblue>%5.0f</color> %s" ),
                     convert_weight( veh->total_mass() * 1000.0f ), weight_units() );
@@ -1786,35 +1823,53 @@ void veh_interact::display_stats()
 
     fold_and_print( w_stats, y[5], x[5], w[5], c_ltgray, wheel_state_description( *veh ).c_str() );
 
-    // Write the most damaged part
-    if (mostDamagedPart != -1) {
-        std::string partName;
-        mvwprintz(w_stats, y[6], x[6], c_ltgray, _("Most damaged:"));
-        const auto iw = utf8_width(_("Most damaged:")) + 1;
-        x[6] += iw;
-        w[6] -= iw;
-        const auto &pt = veh->parts[mostDamagedPart];
-        const auto hoff = fold_and_print( w_stats, y[6], x[6], w[6],
-                                          pt.is_broken() ? c_dkgray : pt.base.damage_color(), pt.name() );
+
+    //This lambda handles printing parts in the "Most damaged" and "Needs repair" cases
+    //for the veh_interact ui
+    auto print_part = [&]( const char * str, int slot, vehicle_part *pt )
+    {
+        mvwprintz( w_stats, y[slot], x[slot], c_ltgray, str);
+        auto iw = utf8_width( str ) + 1;
+        x[slot] += iw;
+        w[slot] -= iw;
+
+        const auto hoff = fold_and_print( w_stats, y[slot], x[slot], w[slot],
+                                          pt->is_broken() ? c_dkgray : pt->base.damage_color(), pt->name() );
+
         // If fold_and_print did write on the next line(s), shift the following entries,
         // hoff == 1 is already implied and expected - one line is consumed at least.
-        for( size_t i = 7; i < sizeof(y) / sizeof(y[0]); ++i) {
+        for( size_t i = slot + 1; i < sizeof( y ) / sizeof( y[0] ); ++i ) {
             y[i] += hoff - 1;
         }
+    };
+
+    vehicle_part *mostDamagedPart = get_most_damaged_part();
+    vehicle_part *most_repairable = get_most_repariable_part();
+
+    // Write the most damaged part
+    if( mostDamagedPart ) {
+        char const *damaged_header = mostDamagedPart == most_repairable ?
+                                            _( "Most damaged:" ) : _( "Most damaged (can't repair):" );
+        print_part( damaged_header, 6, mostDamagedPart );
+    }
+    // Write the part that needs repair the most.
+    if( most_repairable && most_repairable != mostDamagedPart ) {
+        char const * needsRepair = _( "Needs repair:" );
+        print_part( needsRepair, 7, most_repairable );
     }
 
     bool is_boat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
 
-    fold_and_print(w_stats, y[7], x[7], w[7], c_ltgray,
+    fold_and_print(w_stats, y[8], x[8], w[8], c_ltgray,
                    _("K aerodynamics: <color_ltblue>%3d</color>%%"),
                    int(veh->k_aerodynamics() * 100));
-    fold_and_print(w_stats, y[8], x[8], w[8], c_ltgray,
+    fold_and_print(w_stats, y[9], x[9], w[9], c_ltgray,
                    _("K friction:     <color_ltblue>%3d</color>%%"),
                    int(veh->k_friction() * 100));
-    fold_and_print(w_stats, y[9], x[9], w[9], c_ltgray,
+    fold_and_print(w_stats, y[10], x[10], w[10], c_ltgray,
                    _("K mass:         <color_ltblue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
-    fold_and_print( w_stats, y[10], x[10], w[10], c_ltgray,
+    fold_and_print( w_stats, y[11], x[11], w[11], c_ltgray,
                     _("Offroad:        <color_ltblue>%3d</color>%%"),
                     int( veh->k_traction( veh->wheel_area( is_boat ) * 0.5f ) * 100 ) );
 
@@ -2083,19 +2138,6 @@ void veh_interact::countDurability()
     } else {
         totalDurabilityText = _( "destroyed" );
         totalDurabilityColor = c_dkgray;
-    }
-
-    int hi = 0;
-    for( size_t it = 0; it < veh->parts.size(); it++ ) {
-        const auto &pt = veh->parts[it];
-        if( pt.removed ) {
-            continue;
-        }
-        int dmg = pt.base.damage();
-        if( dmg > hi ) {
-            hi = dmg;
-            mostDamagedPart = it;
-        }
     }
 }
 

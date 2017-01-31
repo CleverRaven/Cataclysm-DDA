@@ -19,13 +19,37 @@ static std::vector<const vpart_info *> turret_types() {
     return res;
 }
 
-TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine]" ) {
+const vpart_info *biggest_tank( const ammotype ammo ) {
+    std::vector<const vpart_info *> res;
+
+    for( const auto &e : vpart_info::all() ) {
+        const auto &vp = e.second;
+        if( !item( vp.item ).is_watertight_container() ) {
+            continue;
+        }
+
+        const itype *fuel = item::find_type( vp.fuel_type );
+        if( fuel->ammo && fuel->ammo->type.count( ammo ) ) {
+            res.push_back( &vp );
+        }
+    }
+
+    if( res.empty() ) { 
+        return nullptr;
+    }
+
+    return * std::max_element( res.begin(), res.end(), []( const vpart_info *lhs, const vpart_info *rhs ) {
+        return lhs->size < rhs->size;
+    } );
+}
+
+TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [!mayfail]" ) {
     for( auto e : turret_types() ) {
         SECTION( e->name() ) {
             vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), 65, 65, 270, 0, 0 );
             REQUIRE( veh );
 
-            const int idx = veh->install_part( 0, 0, e->id, true );
+            const int idx = veh->install_part( 0, 0, e->get_id(), true );
             REQUIRE( idx >= 0 );
 
             REQUIRE( veh->install_part( 0,  0, vpart_id( "storage_battery" ), true ) >= 0 );
@@ -34,7 +58,11 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine]" ) {
             auto ammo = veh->turret_query( veh->parts[idx] ).base()->ammo_type();
 
             if( veh->part_flag( idx, "USE_TANKS" ) ) {
-                auto tank_idx = veh->install_part( 0, 0, vpart_id( "tank" ), true );
+                auto *tank = biggest_tank( ammo );
+                REQUIRE( tank );
+                INFO( tank->get_id().str() );
+
+                auto tank_idx = veh->install_part( 0, 0, tank->get_id(), true );
                 REQUIRE( tank_idx >= 0 );
                 REQUIRE( veh->parts[ tank_idx ].ammo_set( default_ammo( ammo ) ) );
 

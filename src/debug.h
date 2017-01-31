@@ -1,6 +1,8 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
+#include "printf_check.h"
+
 /**
  *      debugmsg(msg, ...)
  * varg-style functions: the first argument is the format (see printf),
@@ -63,7 +65,7 @@
 
 // Don't use this, use debugmsg instead.
 void realDebugmsg( const char *filename, const char *line, const char *funcname, const char *mes,
-                   ... );
+                   ... ) PRINTF_LIKE( 4, 5 );
 
 // Enumerations                                                     {{{1
 // ---------------------------------------------------------------------

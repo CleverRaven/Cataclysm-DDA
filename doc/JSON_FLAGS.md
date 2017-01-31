@@ -435,6 +435,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```DIFFICULTY_REMOVE```
 - ```DOME_LIGHT```
 - ```DOOR_MOTOR```
+- ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
 - ```EVENTURN``` Only on during even turns.
 - ```EXTRA_DRAG``` tells the vehicle that the part exerts engine power reduction.
 - ```FAUCET```
@@ -448,6 +449,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```KITCHEN``` Acts as a kitchen unit and heat source for crafting.
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
 - ```MULTISQUARE``` Causes this part and any adjacent parts with the same ID to act as a singular part.
+- ```MUSCLE_ARMS``` Power of the engine with such flag depends on player's strength (it's less effective than ```MUSCLE_LEGS```).
+- ```MUSCLE_LEGS``` Power of the engine with such flag depends on player's strength.
 - ```NAILABLE``` Attached with nails
 - ```NEEDS_BATTERY_MOUNT```
 - ```NOINSTALL``` Cannot be installed.
@@ -792,9 +795,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ## Guns
 
 - ```BACKBLAST``` Causes a small explosion behind the person firing the weapon. Currently not implemented?
-- ```BIPOD``` Handling bonus only applies on MOUNTABLE map/vehicle tiles
+- ```BIPOD``` Handling bonus only applies on MOUNTABLE map/vehicle tiles. Does not include wield time penalty (see SLOW_WIELD).
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
-- ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD).
+- ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun (excluding any mods). Does not include wield time penalty (see NEEDS_UNFOLD).
 - ```DISABLE_SIGHTS``` Prevents use of the base weapon sights
 - ```FIRE_50``` Uses 50 shots per firing.
 - ```FIRE_100``` Uses 100 shots per firing.
@@ -1019,6 +1022,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```GAS_DISCOUNT``` ... Discount cards for the automated gas stations.
 - ```LEAK_ALWAYS``` ... Leaks (may be combined with "RADIOACTIVE").
 - ```LEAK_DAM``` ... Leaks when damaged (may be combined with "RADIOACTIVE").
+- ```NEEDS_UNFOLD``` ... Has an additional time penalty upon wielding. For guns this is offset by the relevant skill. Stacks with "SLOW_WIELD".
 - ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
 - ```NO_SALVAGE``` Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
 - ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components. Implies "TRADER_AVOID".
@@ -1026,7 +1030,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
 - ```REDUCED_BASHING``` ... Gunmod flag; reduces the item's bashing damage by 50%.
 - ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
-- ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill.
+- ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with "NEEDS_UNFOLD".
 - ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
 - ```UNBREAKABLE_MELEE``` ... Does never get damaged when used as melee weapon.
 - ```UNRECOVERABLE``` Cannot be recovered from a disassembly.

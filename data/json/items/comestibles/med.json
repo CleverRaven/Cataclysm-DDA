@@ -1208,6 +1208,28 @@
         }
     },
     {
+        "id" : "calcium_tablet",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "calcium tablet",
+        "description" : "White calcium tablets.  Widely used by elderly people with osteoporosis as a method to supplement calcium before the apocalypse.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 400,
+        "price_postapoc": 4000,
+        "charges" : 20,
+        "stack_size" : 20,
+        "symbol" : "!",
+        "color" : "magenta",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take the %s.",
+            "vitamins": [
+                [ "calcium", 75 ]
+            ]
+        }
+    },
+    {
         "id" : "gummy_vitamins",
         "copy-from": "vitamins",
         "type" : "COMESTIBLE",

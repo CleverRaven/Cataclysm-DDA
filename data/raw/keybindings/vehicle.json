@@ -63,6 +63,13 @@
     "bindings":[ { "input_method": "keyboard", "key": "i" } ]
   },
   {
+    "id": "TOGGLE_CRUISE_CONTROL",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle cruise control",
+    "bindings":[ { "input_method": "keyboard", "key": "c" } ]
+  },
+  {
     "id": "TOGGLE_DOME_LIGHT",
     "type": "keybinding",
     "category": "VEHICLE",

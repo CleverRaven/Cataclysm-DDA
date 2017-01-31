@@ -9,7 +9,6 @@
 #include "enums.h"
 #include "input.h"
 #include "output.h"
-#include "units.h"
 #include "item_location.h"
 
 class Character;
@@ -242,24 +241,22 @@ class inventory_column
         void draw( WINDOW *win, size_t x, size_t y ) const;
 
         void add_entry( const inventory_entry &entry );
-        void remove_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
         void clear();
 
+        /** Selects the specified location. */
+        bool select( const item_location &loc );
+
         void set_multiselect( bool multiselect ) {
             this->multiselect = multiselect;
-        }
-
-        void set_mode( navigation_mode mode ) {
-            this->mode = mode;
         }
 
         void set_visibility( bool visibility ) {
             this->visibility = visibility;
         }
 
-        void set_width( size_t width );
-        void set_height( size_t height );
+        void set_width( size_t new_width );
+        void set_height( size_t new_height );
         size_t get_width() const;
         size_t get_height() const;
         /** Expands the column to fit the new entry. */
@@ -283,6 +280,10 @@ class inventory_column
         /** The column has been deactivated. */
         virtual void on_deactivate() {
             active = false;
+        }
+        /** Selection mode has been changed. */
+        virtual void on_mode_change( navigation_mode mode ) {
+            this->mode = mode;
         }
 
     protected:
@@ -315,7 +316,8 @@ class inventory_column
         /** Sum of the cell widths */
         size_t get_cells_width() const;
 
-        std::string get_entry_denial( const inventory_entry &entry ) const;
+        std::string get_denial( const item_location &loc ) const;
+        std::string get_denial( const inventory_entry &entry ) const;
 
         const inventory_selector_preset &preset;
 
@@ -329,6 +331,7 @@ class inventory_column
         size_t selected_index = 0;
         size_t page_offset = 0;
         size_t entries_per_page = std::numeric_limits<size_t>::max();
+        size_t height = std::numeric_limits<size_t>::max();
         size_t reserved_width = 0;
 
     private:
@@ -365,10 +368,15 @@ class selection_column : public inventory_column
         }
 
         virtual void prepare_paging() override;
+
         virtual void on_change( const inventory_entry &entry ) override;
+        virtual void on_mode_change( navigation_mode ) override {
+            // Intentionally ignore mode change.
+        }
 
     private:
         const std::unique_ptr<item_category> selected_cat;
+        inventory_entry last_changed;
 };
 
 class inventory_selector
@@ -420,6 +428,11 @@ class inventory_selector
                         const std::function<item_location( item * )> &locator,
                         const std::vector<std::list<item *>> &stacks,
                         const item_category *custom_category = nullptr );
+        /**
+         * Selects the @param loc.
+         * @return true on success.
+         */
+        bool select( const item_location &loc );
 
         inventory_input get_input();
 
@@ -429,6 +442,8 @@ class inventory_selector
         void on_change( const inventory_entry &entry );
 
         void prepare_layout( size_t client_width, size_t client_height );
+        void prepare_layout();
+
         size_t get_layout_width() const;
         size_t get_layout_height() const;
 
@@ -518,7 +533,7 @@ class inventory_selector
         inventory_column own_gear_column;    // Column for own gear (weapon, armor) items
         inventory_column map_column;         // Column for map and vehicle items
 
-        int border = 0;                      // Width of the window border
+        const int border = 1;                // Width of the window border
 
         bool display_stats = true;
         bool layout_is_valid = false;
@@ -567,12 +582,14 @@ class inventory_drop_selector : public inventory_multiselector
         std::list<std::pair<int, int>> execute();
 
     protected:
-        std::map<const item *, int> dropping;
-        mutable std::unique_ptr<player> dummy;
-
         const player &get_player_for_stats() const;
         /** Toggle item dropping */
-        void set_drop_count( inventory_entry &entry, size_t count );
+        void set_chosen_count( inventory_entry &entry, size_t count );
+
+    private:
+        std::map<const item *, int> dropping;
+        size_t max_chosen_count;
+        mutable std::unique_ptr<player> dummy;
 };
 
 #endif

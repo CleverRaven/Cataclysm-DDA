@@ -101,6 +101,7 @@
       [ "bandages", 25 ],
       [ "1st_aid", 20 ],
       [ "vitamins", 75 ],
+      [ "calcium_tablet", 75 ],
       [ "aspirin", 45 ],
       [ "caffeine", 50 ],
       [ "pills_sleep", 45 ],
@@ -618,7 +619,8 @@
         { "monster": "GROUP_MALL", "x": [ 8, 20 ], "y": [ 17, 21 ], "density": 0.1 }
       ],
       "place_vehicles": [
-        { "vehicle": "truck_trailer", "x": 0, "y": 15, "chance": 100, "rotation": 180 }
+        { "vehicle": "truck_trailer", "x": 0, "y": 15, "chance": 100, "rotation": 180 },
+        { "vehicle": "warehouse_vehicles", "x": 15, "y": 50, "chance": 75 }
       ]
     }
   },
