@@ -810,6 +810,44 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
         dropped = "null";
     }
 
+    auto check_tent_intact = [&]() -> bool {
+        int radius = dropped == "large_tent_kit" ? 2 : 1;
+        furn_id floor =
+            dropped == "tent_kit" ? f_groundsheet : f_large_groundsheet;
+        furn_id wall =
+            dropped == "tent_kit" ? f_canvas_wall : f_large_canvas_wall;
+        furn_id door =
+            dropped == "tent_kit" ? f_canvas_door : f_large_canvas_door;
+        furn_id door_opened =
+            dropped == "tent_kit" ? f_canvas_door_o : f_large_canvas_door_o;
+        furn_id center_floor =
+            dropped == "large_tent_kit" ? f_center_groundsheet : floor;
+        // Traversing all the tiles this tent occupies
+        for( int i = -radius; i <= radius; i++ ) {
+            for( int j = -radius; j <= radius; j++ ) {
+                const furn_id &furn_here = g->m.furn( examp.x + i, examp.y + j );
+                if( i != -radius && i != radius && j != -radius && j != radius ) {
+                    // So we are inside the tent
+                    if( furn_here != floor && furn_here != center_floor ) {
+                        return false;
+                    }
+                } else if( furn_here != wall && furn_here != door && furn_here != door_opened ) {
+                    // We are on the border of the tent
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
+
+    if( name == "tent" && !check_tent_intact() ) {
+        if( dropped == "tent_kit" ) {
+            dropped = "broketent";
+        } else {
+            dropped = "largebroketent";
+        }
+    }
+
     if( !query_yn(_("Take down the %s?"), name.c_str() ) ) {
         none( p, examp );
         return;
