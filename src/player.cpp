@@ -4839,7 +4839,13 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     } );
     if( filthy && x_in_y( infection_chance, 100 ) )
     {
-        add_effect( effect_bite, 1, bp, true );
+        if( has_effect( effect_bite, bp ) ) {
+            add_effect( effect_bite, 400, bp, true );
+        } else if( has_effect( effect_infected, bp ) ) {
+            add_effect( effect_infected, 250, bp, true );
+        } else {
+            add_effect( effect_bite, 1, bp, true );
+        }
         add_msg_if_player( "Filth from your clothing has implanted deep in the wound." );
     } 
     
