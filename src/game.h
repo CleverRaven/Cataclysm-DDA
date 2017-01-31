@@ -9,6 +9,7 @@
 #include "int_id.h"
 #include "item_location.h"
 #include "cursesdef.h"
+#include "ranged.h"
 
 #include <vector>
 #include <map>
@@ -66,14 +67,6 @@ enum safe_mode_type {
     SAFE_MODE_OFF = 0, // Moving always allowed
     SAFE_MODE_ON = 1, // Moving allowed, but if a new monsters spawns, go to SAFE_MODE_STOP
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
-};
-
-enum target_mode {
-    TARGET_MODE_FIRE,
-    TARGET_MODE_THROW,
-    TARGET_MODE_TURRET,
-    TARGET_MODE_TURRET_MANUAL,
-    TARGET_MODE_REACH
 };
 
 enum body_part : int;
@@ -346,15 +339,13 @@ class game
 
         /**
          * Handles interactive parts of gun firing (target selection, etc.).
-         * If @param weapon or @param tdata->relevant are not null, arguments are stored for use.
-         * Otherwise, it tries using the stored parameters (defaulting to the player's weapon).
-         * @param weapon Pointer to the weapon we began aiming with.
+         * Overload stores targeting parameters for weapon, used for calls to the nullary form.
+         * @param weapon Reference to a weapon we want to start aiming.
          * @param bp_cost The amount by which the player's power reserve is decreased after firing.
-         * @param targeting_data holds parameters which are passed to pl_target_ui on each call.
-         * @param held Whether the weapon to be fired requires the player to wield it.
          * @return Whether an attack was actually performed.
          */
-        bool plfire( item *weapon = nullptr, int bp_cost = 0, targeting_data *tdata = nullptr );
+        bool plfire();
+        bool plfire( item &weapon, int bp_cost = 0 );
 
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also
@@ -363,12 +354,6 @@ class game
         std::vector<tripoint> target( tripoint src, tripoint dst, int range,
                                       std::vector<Creature *> t, int target,
                                       item *relevant, target_mode mode );
-
-        /**
-         * Targetting UI callback is passed the item being targeted (if any)
-         * and should return pointer to effective ammo data (if any)
-         */
-        using target_callback = std::function<const itype *(item *obj)>;
 
         /**
          *  Prompts for target and returns trajectory to it
@@ -384,7 +369,7 @@ class game
                                             const itype *ammo = nullptr,
                                             const target_callback &on_mode_change = target_callback(),
                                             const target_callback &on_ammo_change = target_callback() );
-        std::vector<tripoint> pl_target_ui( targeting_data &args );
+        std::vector<tripoint> pl_target_ui( const targeting_data &args );
 
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();

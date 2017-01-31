@@ -56,6 +56,7 @@
 #include "vitamin.h"
 #include "fault.h"
 #include "recipe_dictionary.h"
+#include "ranged.h"
 
 #include <map>
 #include <iterator>
@@ -163,6 +164,8 @@ const vitamin_id vitamin_iron( "iron" );
 stats player_stats;
 
 static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
+
+static bool should_combine_bps( const player &, size_t, size_t );
 
 player_morale_ptr::player_morale_ptr( const player_morale_ptr &rhs ) :
     std::unique_ptr<player_morale>( rhs ? new player_morale( *rhs ) : nullptr )
@@ -12733,6 +12736,14 @@ void player::on_mission_finished( mission &mission )
             active_mission = active_missions.front();
         }
     }
+}
+
+const targeting_data &player::get_targeting_data() {
+    return *tdata;
+}
+
+void player::set_targeting_data( const targeting_data &td ) {
+    tdata.reset( new targeting_data( td ) );
 }
 
 void player::set_active_mission( mission &mission )

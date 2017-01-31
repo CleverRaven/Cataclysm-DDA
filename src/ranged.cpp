@@ -1,3 +1,5 @@
+#include "ranged.h"
+
 #include <vector>
 #include <string>
 #include <cmath>
