@@ -4,7 +4,7 @@
 #include <functional>
 
 class item;
-class itype;
+struct itype;
 
 /**
  * Targeting UI callback is passed the item being targeted (if any)

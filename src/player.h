@@ -1503,7 +1503,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /**
          * Mutator method for weapon targeting data.
-         * @param targeting data to be set.
+         * @param td targeting data to be set.
          */
         void set_targeting_data( const targeting_data &td );
 
