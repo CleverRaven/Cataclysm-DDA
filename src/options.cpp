@@ -1282,6 +1282,11 @@ void options_manager::init()
         false
         );
 
+    add("ENCODING_CONV", "debug", _("Experimental path name encoding conversion"),
+        _("If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing. Mainly for CJK Windows users."),
+        false
+        );
+
     ////////////////////////////WORLD DEFAULT////////////////////
     add("CORE_VERSION", "world_default", _("Core version data"),
         _("Controls what migrations are applied for legacy worlds"),
