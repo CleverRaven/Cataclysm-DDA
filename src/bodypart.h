@@ -46,8 +46,10 @@ struct body_part_struct {
         std::string name_as_heading_singular;
         std::string name_as_heading_multiple;
         std::string encumb_text;
-        // Untranslated token, essentially string_id
-        std::string token;
+        // string_id, except not yet
+        std::string id_s;
+        // Uppercase id_s
+        std::string legacy_id;
         // @todo Add a separate size value for @ref default_hit_weights
         int hit_size = 0;
         // "Parent" of this part - main parts are their own "parents"

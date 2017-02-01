@@ -9,7 +9,8 @@
     "main_part": "torso",
     "opposite_part": "torso",
     "hit_size": 45,
-    "side": "both"
+    "side": "both",
+    "legacy_id": "TORSO"
   },
   {
     "id": "head",
@@ -21,7 +22,8 @@
     "main_part": "head",
     "opposite_part": "head",
     "hit_size": 6,
-    "side": "both"
+    "side": "both",
+    "legacy_id": "HEAD"
   },
   {
     "id": "eyes",
@@ -33,7 +35,8 @@
     "main_part": "head",
     "opposite_part": "eyes",
     "hit_size": 1,
-    "side": "both"
+    "side": "both",
+    "legacy_id": "EYES"
   },
   {
     "id": "mouth",
@@ -45,7 +48,8 @@
     "main_part": "head",
     "opposite_part": "mouth",
     "hit_size": 1,
-    "side": "both"
+    "side": "both",
+    "legacy_id": "MOUTH"
   },
   {
     "id": "arm_l",
@@ -57,7 +61,8 @@
     "main_part": "arm_l",
     "opposite_part": "arm_r",
     "hit_size": 9,
-    "side": "left"
+    "side": "left",
+    "legacy_id": "ARM_L"
   },
   {
     "id": "arm_r",
@@ -69,7 +74,8 @@
     "main_part": "arm_r",
     "opposite_part": "arm_l",
     "hit_size": 9,
-    "side": "right"
+    "side": "right",
+    "legacy_id": "ARM_R"
   },
   {
     "id": "hand_l",
@@ -81,7 +87,8 @@
     "main_part": "arm_l",
     "opposite_part": "hand_r",
     "hit_size": 3,
-    "side": "left"
+    "side": "left",
+    "legacy_id": "HAND_L"
   },
   {
     "id": "hand_r",
@@ -93,7 +100,8 @@
     "main_part": "arm_r",
     "opposite_part": "hand_l",
     "hit_size": 3,
-    "side": "right"
+    "side": "right",
+    "legacy_id": "HAND_R"
   },
   {
     "id": "leg_l",
@@ -105,7 +113,8 @@
     "main_part": "leg_l",
     "opposite_part": "leg_r",
     "hit_size": 9,
-    "side": "left"
+    "side": "left",
+    "legacy_id": "LEG_L"
   },
   {
     "id": "leg_r",
@@ -117,7 +126,8 @@
     "main_part": "leg_r",
     "opposite_part": "leg_l",
     "hit_size": 9,
-    "side": "right"
+    "side": "right",
+    "legacy_id": "LEG_R"
   },
   {
     "id": "foot_l",
@@ -129,7 +139,8 @@
     "main_part": "leg_l",
     "opposite_part": "foot_r",
     "hit_size": 3,
-    "side": "left"
+    "side": "left",
+    "legacy_id": "FOOT_L"
   },
   {
     "id": "foot_r",
@@ -141,7 +152,8 @@
     "main_part": "leg_r",
     "opposite_part": "foot_l",
     "hit_size": 3,
-    "side": "right"
+    "side": "right",
+    "legacy_id": "FOOT_R"
   },
   {
     "id": "num_bp",
@@ -153,6 +165,7 @@
     "main_part": "num_bp",
     "opposite_part": "num_bp",
     "hit_size": 0,
-    "side": "both"
+    "side": "both",
+    "legacy_id": "NUM_BP"
   }
 ]
