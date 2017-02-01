@@ -248,6 +248,8 @@ void DynamicDataLoader::initialize()
     add( "harvest", []( JsonObject &jo, const std::string &src ) { harvest_list::load( jo, src ); } );
 
     add( "monster_attack", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_monster_attack( jo, src ); } );
+
+    add( "body_part", &body_part_struct::load );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
@@ -373,6 +375,7 @@ void DynamicDataLoader::unload_data()
     gates::reset();
     reset_overlay_ordering();
     npc_class::reset_npc_classes();
+    body_part_struct::reset();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
@@ -383,6 +386,7 @@ void DynamicDataLoader::finalize_loaded_data()
 {
     assert( !finalized && "Can't finalize the data twice." );
 
+    body_part_struct::finalize();
     item_controller->finalize();
     requirement_data::finalize();
     vpart_info::finalize();
