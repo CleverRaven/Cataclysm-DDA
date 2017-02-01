@@ -112,7 +112,6 @@ struct w_point;
 struct explosion_data;
 struct visibility_variables;
 class scent_map;
-struct targeting_data;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here

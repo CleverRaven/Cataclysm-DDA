@@ -10179,7 +10179,7 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
 bool game::plfire()
 {
     const targeting_data &args = u.get_targeting_data();
-    if ( !args.relevant ) {
+    if( !args.relevant ) {
         // args missing a valid weapon, this shouldn't happen.
         debugmsg( "Player tried to fire a null weapon." );
         return false;
