@@ -828,7 +828,7 @@ dirent_mbstowcs_s(
     const char *mbstr,
     size_t count)
 {
-    if( !get_option<bool>("ENCODING_CONV") ) {
+    if( !get_options().has_option("ENCODING_CONV") || !get_option<bool>("ENCODING_CONV") ) {
         return dirent_mbstowcs_s_old( pReturnValue, wcstr, sizeInWords, mbstr, count );
     }
 #if defined(_WIN32) || defined(WINDOWS)
@@ -934,7 +934,7 @@ dirent_wcstombs_s(
     const wchar_t *wcstr,
     size_t count)
 {
-    if( !get_option<bool>("ENCODING_CONV") ) {
+    if( !get_options().has_option("ENCODING_CONV") || !get_option<bool>("ENCODING_CONV") ) {
         return dirent_wcstombs_s_old( pReturnValue, mbstr, sizeInBytes, wcstr, count );
     }
 #if defined(_WIN32) || defined(WINDOWS)
