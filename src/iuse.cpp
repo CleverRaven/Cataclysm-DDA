@@ -58,6 +58,7 @@ const mtype_id mon_bee( "mon_bee" );
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_cat( "mon_cat" );
 const mtype_id mon_dog( "mon_dog" );
+const mtype_id mon_dog_thing( "mon_dog_thing" );
 const mtype_id mon_fly( "mon_fly" );
 const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
 const mtype_id mon_shadow( "mon_shadow" );
@@ -1864,22 +1865,43 @@ int petfood(player *p, item *it, bool is_dogfood)
         return 0;
     }
     p->moves -= 15;
-    int mon_dex = g->mon_at( dirp, true );
-    if (mon_dex != -1) {
-        if (g->zombie(mon_dex).type->id == (is_dogfood ? mon_dog : mon_cat)) {
+    const int mon_idx = g->mon_at( dirp, true );
+    const int npc_idx = g->npc_at( dirp );
+    if(mon_idx != -1) {
+        monster &mon = g->zombie( mon_idx );
+        if(mon.type->id == (is_dogfood ? mon_dog : mon_cat)) {
             p->add_msg_if_player(m_good, is_dogfood
-              ? _("The dog seems to like you!")
-              : _("The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats."));
-            g->zombie(mon_dex).friendly = -1;
-            if (is_dogfood) {
-                g->zombie(mon_dex).add_effect( effect_pet, 1, num_bp, true);
+                ? _("The dog seems to like you!")
+                : _("The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats."));
+            mon.friendly = -1;
+            if( is_dogfood ) {
+                mon.add_effect( effect_pet, 1, num_bp, true );
+            }
+        } else if( is_dogfood && mon.type->id == mon_dog_thing ) {
+            p->deal_damage( &mon, bp_hand_r, damage_instance( DT_CUT, rng( 1, 10 ) ) );
+            p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
+            if( one_in( 5 ) ) {
+                p->add_msg_if_player( _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
             }
         } else {
-            p->add_msg_if_player(_("The %s seems quite unimpressed!"),
-                                 g->zombie(mon_dex).name().c_str());
+            p->add_msg_if_player( _( "The %s seems quite unimpressed!" ), mon.name().c_str() );
+        }
+    } else if( npc_idx != -1 ) {
+        npc &person = *g->active_npc[npc_idx];
+        if( query_yn( is_dogfood ?
+            _( "Are you sure you want to feed a person the dog food?" ) :
+            _( "Are you sure you want to feed a person the cat food?" ) ) ) {
+            p->add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it->tname().c_str(), person.name.c_str() );
+            if( person.is_friend() || x_in_y( 9, 10 ) ) {
+                person.say( _( "Okay, but please, don't give me this again. I don't want to eat dog food in the cataclysm all day." ) );
+            } else {
+                p->add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name.c_str() );
+                person.make_angry();
+            }
         }
     } else {
-        p->add_msg_if_player(m_bad, _("You spill the %s all over the ground."), it->tname().c_str());
+        p->add_msg_if_player( _( "There is nothing to be fed here." ) );
+        return 0;
     }
     return 1;
 }

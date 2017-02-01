@@ -3808,7 +3808,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 ter_set(p, t_floor);
             }
         }
-    } else if( terrain == t_reinforced_glass ) {
+    } else if( terrain == t_reinforced_glass || terrain == t_reinforced_door_glass_c ) {
         // reinforced glass stops most bullets
         // laser beams are attenuated
         if (ammo_effects.count("LASER")) {
@@ -3817,7 +3817,11 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             //Greatly weakens power of bullets
             dam -= 40;
             if( dam <= 0 && g->u.sees( p ) ) {
-                add_msg(_("The shot is stopped by the reinforced glass wall!"));
+                if( terrain == t_reinforced_glass ) {
+                    add_msg( _( "The shot is stopped by the reinforced glass wall!" ) );
+                } else {
+                    add_msg( _( "The shot is stopped by the reinforced glass door!" ) );
+                }
             } else if (dam >= 40) {
                 //high powered bullets penetrate the glass, but only extremely strong
                 // ones (80 before reduction) actually destroy the glass itself.

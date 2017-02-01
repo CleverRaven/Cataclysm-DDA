@@ -307,7 +307,8 @@ mattack_actor *bite_actor::clone() const
     return new bite_actor( *this );
 }
 
-gun_actor::gun_actor()
+gun_actor::gun_actor() : description( _( "The %1$s fires its %2$s!" ) ),
+    targeting_sound( _( "beep-beep-beep!" ) )
 {
 }
 
@@ -344,9 +345,15 @@ void gun_actor::load_internal( JsonObject &obj, const std::string & )
 
     obj.read( "move_cost", move_cost );
 
-    obj.read( "description", description );
-    obj.read( "failure_msg", failure_msg );
-    obj.read( "no_ammo_sound", no_ammo_sound );
+    if( obj.read( "description", description ) ) {
+        description = _( description.c_str() );
+    }
+    if( obj.read( "failure_msg", failure_msg ) ) {
+        failure_msg = _( failure_msg.c_str() );
+    }
+    if( obj.read( "no_ammo_sound", no_ammo_sound ) ) {
+        no_ammo_sound = _( no_ammo_sound.c_str() );
+    }
 
     obj.read( "targeting_cost", targeting_cost );
 
@@ -357,7 +364,9 @@ void gun_actor::load_internal( JsonObject &obj, const std::string & )
     obj.read( "targeting_timeout", targeting_timeout );
     obj.read( "targeting_timeout_extend", targeting_timeout_extend );
 
-    obj.read( "targeting_sound", targeting_sound );
+    if( obj.read( "targeting_sound", targeting_sound ) ) {
+        targeting_sound = _( targeting_sound.c_str() );
+    }
     obj.read( "targeting_volume", targeting_volume );
 
     obj.get_bool( "laser_lock", laser_lock );
@@ -474,7 +483,8 @@ void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) c
     tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
     if( g->u.sees( z ) ) {
-        add_msg( m_warning, _( description.c_str() ), z.name().c_str(), tmp.weapon.gun_type().c_str() );
+        add_msg( m_warning, _( description.c_str() ), z.name().c_str(),
+                 _( tmp.weapon.gun_type().c_str() ) );
     }
 
     z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );
