@@ -1,18 +1,18 @@
 [
     {
-        "type": "profession",
+        "type": "profession_item_substitutions",
         "substitutions": [
             {
                 "trait": "WOOLALLERGY",
                 "sub": [
                     [ "blazer", "jacket_leather_red" ],
-                    [ "hat_hunting", "hat_fur" ],
-                    [ "hat_newsboy", "hat_cotton" ],
+                    [ "hat_hunting", "hat_cotton", 2 ],
+                    [ "hat_newsboy", "hat_cotton", 2 ],
                     [ "peacoat", "jacket_flannel" ],
                     [ "sweater", "sweatshirt" ],
                     [ "boots_winter", "boots_fur" ],
                     [ "cloak_wool", "cloak_leather" ],
-                    [ "gloves_wool", "gloves_winter" ]
+                    [ "gloves_wool", "gloves_leather" ]
                 ]
             },
             {
@@ -55,28 +55,28 @@
                 "item": "cheeseburger",
                 "sub": [
                     [ [ "ANTIWHEAT" ], [ "ANTIJUNK" ], "fries", 4 ],
-                    [ [ "ANTIWHEAT", "ANTIJUNK" ], [ "MEATARIAN" ], "veggy_salad" ],
-                    [ [ "ANTIWHEAT", "ANTIJUNK", "MEATARIAN" ], "fried_spam" ],
+                    [ [ "ANTIWHEAT", "ANTIJUNK" ], [ "MEATARIAN" ], "veggy_salad", "fork" ],
+                    [ [ "ANTIWHEAT", "ANTIJUNK", "MEATARIAN" ], "fried_spam", "fork" ],
                     [ [ "LACTOSE" ], [ "ANTIWHEAT", "VEGETARIAN" ], "hamburger" ],
                     [ [ "LACTOSE", "VEGETARIAN" ], [ "ANTIWHEAT" ], "sandwich_veggy" ],
-                    [ [ "VEGETARIAN" ], [ "ANTIWHEAT", "LACTOSE" ], "sandwich_cheese_grilled" ]
+                    [ [ "VEGETARIAN" ], [ "ANTIWHEAT", "LACTOSE" ], "sandwich_cheese_grilled", 0.5 ]
                 ]
             },
             {
                 "item": "pizza_meat",
                 "sub": [
                     [ [ "VEGETARIAN" ], [ "ANTIWHEAT" ], "pizza_veggy" ],
-                    [ [ "VEGETARIAN", "ANTIWHEAT" ], "veggy_salad" ],
+                    [ [ "VEGETARIAN", "ANTIWHEAT" ], "veggy_salad", "fork" ],
                     [ [ "ANTIWHEAT" ], [ "VEGETARIAN", "ANTIJUNK" ], "fchicken", 3 ],
-                    [ [ "ANTIWHEAT", "ANTIJUNK" ], [ "VEGETARIAN" ], "fish_fried", 2 ]
+                    [ [ "ANTIWHEAT", "ANTIJUNK" ], [ "VEGETARIAN" ], "fish_fried", 2, "fork", 0.5 ]
                 ]
             },
             {
                 "item": "pizza_veggy",
                 "sub": [
-                    [ [ "ANTIWHEAT", "VEGETARIAN" ], "veggy_salad" ],
+                    [ [ "ANTIWHEAT", "VEGETARIAN" ], "veggy_salad", "fork" ],
                     [ [ "ANTIWHEAT" ], [ "VEGETARIAN", "ANTIJUNK" ], "fchicken", 3 ],
-                    [ [ "ANTIWHEAT", "ANTIJUNK" ], [ "VEGETARIAN" ], "fish_fried", 2 ],
+                    [ [ "ANTIWHEAT", "ANTIJUNK" ], [ "VEGETARIAN" ], "fish_fried", 2, "fork", 0.5 ],
                     [ [ "MEATARIAN" ], [ "ANTIWHEAT" ], "pizza_meat" ]
                 ]
             },
@@ -88,29 +88,27 @@
             },
             {
                 "item": "glasses_eye",
-                "sub": [
-                    [ [ "HYPEROPIC" ], "glasses_bifocal" ]
-                ],
-                "bonus": "MYOPIC"
+                "bonus": [ [ "MYOPIC" ], [ "HYPEROPIC" ] ]
+            },
+            {
+                "item": "glasses_bifocal",
+                "bonus": [ [ "HYPEROPIC", "MYOPIC" ] ]
             },
             {
                 "item": "glasses_reading",
-                "sub": [
-                    [ [ "MYOPIC" ], "glasses_bifocal" ]
-                ],
-                "bonus": "HYPEROPIC"
+                "bonus": [ [ "HYPEROPIC" ], [ "MYOPIC" ] ]
             },
             {
                 "item": "inhaler",
-                "bonus": "ASTHMA"
+                "bonus": [ [ "ASTHMA" ] ]
             },
             {
                 "item": "cookbook_human",
-                "bonus": "CANNIBAL"
+                "bonus": [ [ "CANNIBAL" ] ]
             },
             {
                 "item": "teleumbrella",
-                "bonus": "ALBINO"
+                "bonus": [ [ "ALBINO" ] ]
             }
         ]
     },
@@ -2422,6 +2420,7 @@
                 "name": "speech"
             }
         ],
+        "no_bonus": "teleumbrella",
         "items":{
             "both": [
                 "socks",

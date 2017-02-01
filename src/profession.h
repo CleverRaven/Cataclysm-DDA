@@ -18,8 +18,8 @@ class JsonArray;
 class JsonObject;
 class addiction;
 enum add_type : int;
-    class Skill;
-    using skill_id = string_id<Skill>;
+class Skill;
+using skill_id = string_id<Skill>;
 
 class profession
 {
@@ -58,6 +58,7 @@ class profession
         Group_tag _starting_items = "EMPTY_GROUP";
         Group_tag _starting_items_male = "EMPTY_GROUP";
         Group_tag _starting_items_female = "EMPTY_GROUP";
+        itype_id no_bonus; // See profession::items and class json_item_substitution in profession.cpp
 
         std::vector<addiction> _starting_addictions;
         std::vector<std::string> _starting_CBMs;
@@ -74,6 +75,7 @@ class profession
         profession();
 
         static void load_profession( JsonObject &obj, const std::string &src );
+        static void load_item_substitutions( JsonObject &jo );
 
         // these should be the only ways used to get at professions
         static const profession *generic(); // points to the generic, default profession
