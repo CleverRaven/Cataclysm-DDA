@@ -92,6 +92,8 @@
 #ifndef DIRENT_H
 #define DIRENT_H
 
+#include "options.h"
+
 #if !defined(_68K_) && !defined(_MPPC_) && !defined(_X86_) && !defined(_IA64_) && !defined(_AMD64_) && defined(_M_IX86)
 #   define _X86_
 #endif
@@ -770,6 +772,55 @@ rewinddir(
 
 /* Convert multi-byte string to wide character string */
 static int
+dirent_mbstowcs_s_old(
+    size_t *pReturnValue,
+    wchar_t *wcstr,
+    size_t sizeInWords,
+    const char *mbstr,
+    size_t count)
+{
+    int error;
+
+#if defined(_MSC_VER)  &&  _MSC_VER >= 1400
+
+    /* Microsoft Visual Studio 2005 or later */
+    error = mbstowcs_s (pReturnValue, wcstr, sizeInWords, mbstr, count);
+
+#else
+
+    /* Older Visual Studio or non-Microsoft compiler */
+    size_t n;
+
+    /* Convert to wide-character string */
+    n = mbstowcs (wcstr, mbstr, count);
+    if (n < sizeInWords) {
+
+        /* Zero-terminate output buffer */
+        if (wcstr) {
+            wcstr[n] = 0;
+        }
+
+        /* Length of resuting multi-byte string WITH zero terminator */
+        if (pReturnValue) {
+            *pReturnValue = n + 1;
+        }
+
+        /* Success */
+        error = 0;
+
+    } else {
+
+        /* Could not convert string */
+        error = 1;
+
+    }
+
+#endif
+
+    return error;
+}
+
+static int
 dirent_mbstowcs_s(
     size_t *pReturnValue,
     wchar_t *wcstr,
@@ -777,6 +828,9 @@ dirent_mbstowcs_s(
     const char *mbstr,
     size_t count)
 {
+    if( !get_option<bool>("ENCODING_CONV") ) {
+        return dirent_mbstowcs_s_old( pReturnValue, wcstr, sizeInWords, mbstr, count );
+    }
 #if defined(_WIN32) || defined(WINDOWS)
     int required_size = MultiByteToWideChar( CP_ACP, 0, mbstr, -1, NULL, NULL ) + 1;
     if( required_size > sizeInWords ) {
@@ -824,6 +878,55 @@ dirent_mbstowcs_s(
 
 /* Convert wide-character string to multi-byte string */
 static int
+dirent_wcstombs_s_old(
+    size_t *pReturnValue,
+    char *mbstr,
+    size_t sizeInBytes,
+    const wchar_t *wcstr,
+    size_t count)
+{
+    int error;
+
+#if defined(_MSC_VER)  &&  _MSC_VER >= 1400
+
+    /* Microsoft Visual Studio 2005 or later */
+    error = wcstombs_s (pReturnValue, mbstr, sizeInBytes, wcstr, count);
+
+#else
+
+    /* Older Visual Studio or non-Microsoft compiler */
+    size_t n;
+
+    /* Convert to multi-byte string */
+    n = wcstombs (mbstr, wcstr, count);
+    if (n < sizeInBytes) {
+
+        /* Zero-terminate output buffer */
+        if (mbstr) {
+            mbstr[n] = '\0';
+        }
+
+        /* Lenght of resulting multi-bytes string WITH zero-terminator */
+        if (pReturnValue) {
+            *pReturnValue = n + 1;
+        }
+
+        /* Success */
+        error = 0;
+
+    } else {
+
+        /* Cannot convert string */
+        error = 1;
+
+    }
+
+#endif
+
+    return error;
+}
+
+static int
 dirent_wcstombs_s(
     size_t *pReturnValue,
     char *mbstr,
@@ -831,6 +934,9 @@ dirent_wcstombs_s(
     const wchar_t *wcstr,
     size_t count)
 {
+    if( !get_option<bool>("ENCODING_CONV") ) {
+        return dirent_wcstombs_s_old( pReturnValue, mbstr, sizeInBytes, wcstr, count );
+    }
 #if defined(_WIN32) || defined(WINDOWS)
     int required_size = WideCharToMultiByte( CP_ACP, 0, wcstr, -1, NULL, 0, NULL, NULL ) + 1;
     if( required_size > sizeInBytes ) {
