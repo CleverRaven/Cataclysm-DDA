@@ -5,7 +5,7 @@
     "name": "Bright Nights",
     "authors": [ "Coolthulhu" ],
     "description": "More action-centered, sci-fi, experimental, Cataclysm.",
-    "category": "misc_additions",
+    "category": "content",
     "dependencies": [ "dda" ]
   }
 ]
