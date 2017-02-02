@@ -134,6 +134,15 @@ struct stats : public JsonSerializer, public JsonDeserializer {
     }
 };
 
+struct stat_mod {
+    int strength = 0;
+    int dexterity = 0;
+    int intelligence = 0;
+    int perception = 0;
+
+    int speed = 0;
+};
+
 class player : public Character, public JsonSerializer, public JsonDeserializer
 {
     public:
@@ -1056,6 +1065,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
         /** Returns wind resistance provided by armor, etc **/
         int get_wind_resistance(body_part bp) const;
+        /** Returns the effect of pain on stats */
+        stat_mod get_pain_penalty() const;
+        /** Returns the penalty to speed from hunger */
+        static int hunger_speed_penalty( int hunger );
+        /** Returns the penalty to speed from thirst */
+        static int thirst_speed_penalty( int thirst );
 
         int adjust_for_focus(int amount) const;
         void practice( const skill_id &s, int amount, int cap = 99 );
