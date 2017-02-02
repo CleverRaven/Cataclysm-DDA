@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_IO_H
 #define CATA_IO_H
 

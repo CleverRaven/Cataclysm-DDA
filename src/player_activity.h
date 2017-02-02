@@ -1,3 +1,4 @@
+#pragma once
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 

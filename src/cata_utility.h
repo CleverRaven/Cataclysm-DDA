@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_UTILITY_H
 #define CATA_UTILITY_H
 

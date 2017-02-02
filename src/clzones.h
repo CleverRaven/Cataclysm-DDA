@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CLZONES_H
 #define CLZONES_H
 

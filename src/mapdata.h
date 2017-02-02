@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MAPDATA_H
 #define MAPDATA_H
 

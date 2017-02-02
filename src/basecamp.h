@@ -1,3 +1,4 @@
+#pragma once
 #ifndef BASECAMP_H
 #define BASECAMP_H
 

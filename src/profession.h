@@ -1,3 +1,4 @@
+#pragma once
 #ifndef PROFESSION_H
 #define PROFESSION_H
 

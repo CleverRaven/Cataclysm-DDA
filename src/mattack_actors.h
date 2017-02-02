@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MATTACK_ACTORS_H
 #define MATTACK_ACTORS_H
 

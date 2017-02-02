@@ -1,3 +1,4 @@
+#pragma once
 #ifndef TILE_ID_DATA_H
 #define TILE_ID_DATA_H
 

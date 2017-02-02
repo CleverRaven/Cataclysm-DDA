@@ -1,3 +1,4 @@
+#pragma once
 #ifndef VEHICLE_SELECTOR_H
 #define VEHICLE_SELECTOR_H
 

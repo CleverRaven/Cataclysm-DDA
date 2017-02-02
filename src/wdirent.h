@@ -1,3 +1,4 @@
+#pragma once
 /*
  * dirent.h - dirent API for Microsoft Visual Studio
  *

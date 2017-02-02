@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SEFEMODE_UI_H
 #define SEFEMODE_UI_H
 

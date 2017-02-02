@@ -1,3 +1,4 @@
+#pragma once
 #ifndef IUSE_ACTOR_H
 #define IUSE_ACTOR_H
 

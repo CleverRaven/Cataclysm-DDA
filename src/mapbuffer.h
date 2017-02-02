@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MAPBUFFER_H
 #define MAPBUFFER_H
 

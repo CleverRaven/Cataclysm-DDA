@@ -1,3 +1,4 @@
+#pragma once
 #ifndef AUTO_PICKUP_H
 #define AUTO_PICKUP_H
 

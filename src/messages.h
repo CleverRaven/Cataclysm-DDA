@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MESSAGES_H
 #define MESSAGES_H
 

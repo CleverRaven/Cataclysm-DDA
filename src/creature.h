@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CREATURE_H
 #define CREATURE_H
 

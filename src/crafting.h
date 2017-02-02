@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CRAFTING_H
 #define CRAFTING_H
 

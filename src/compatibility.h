@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_COMPATIBILITY_H
 #define CATA_COMPATIBILITY_H
 

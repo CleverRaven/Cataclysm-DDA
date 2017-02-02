@@ -1,3 +1,4 @@
+#pragma once
 #ifndef VEHICLE_GROUP_H
 #define VEHICLE_GROUP_H
 

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MAPGEN_H
 #define MAPGEN_H
 

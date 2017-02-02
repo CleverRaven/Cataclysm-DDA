@@ -1,3 +1,4 @@
+#pragma once
 #ifndef LIGHTMAP_H
 #define LIGHTMAP_H
 
