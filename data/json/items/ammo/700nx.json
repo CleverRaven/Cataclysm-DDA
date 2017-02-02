@@ -7,7 +7,7 @@
     "weight": 80,
     "volume": 1,
     "price": 75000,
-    "material": [ "steel", "powder" ],
+    "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 10,
