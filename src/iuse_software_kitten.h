@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SOFTWARE_KITTEN_H
 #define SOFTWARE_KITTEN_H
 

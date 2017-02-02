@@ -1,3 +1,4 @@
+#pragma once
 #ifndef H_GENERIC_FACTORY
 #define H_GENERIC_FACTORY
 

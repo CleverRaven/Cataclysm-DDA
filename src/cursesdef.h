@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CURSESDEF_H
 #define CURSESDEF_H
 

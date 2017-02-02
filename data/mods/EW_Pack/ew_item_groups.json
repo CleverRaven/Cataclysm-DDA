@@ -8,8 +8,8 @@
     },
     {
         "type": "item_group",
-        "id" : "ammo_rifle_reloaded",
-        "items" :[
+        "id": "ammo_rifle_reloaded",
+        "items": [
           ["reloaded_654", 10]
         ]
     },
@@ -19,6 +19,24 @@
         "items": [
           ["svs-24", 40],
           ["svs-24c", 40]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "mags_rifle_common",
+        "items": [
+            [ "cw24_bigrobomag", 20 ],
+            [ "cw24_robomag", 20 ],
+            [ "cwd-63bigmag", 40 ],
+            [ "cwd-63mag", 20 ]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "mags_obscure",
+        "items": [
+            [ "svs24_robodrum", 10 ],
+            [ "svs24_robomag", 10 ]
         ]
     },
     {

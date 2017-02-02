@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CREATURE_TRACKER_H
 #define CREATURE_TRACKER_H
 

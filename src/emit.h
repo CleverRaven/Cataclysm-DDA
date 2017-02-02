@@ -1,3 +1,4 @@
+#pragma once
 #ifndef EMIT_H
 #define EMIT_H
 

@@ -402,7 +402,7 @@
         "symbol" : "=",
         "color" : "yellow",
         "description" : "An empty casing from a .22 round that hasn't been fired, and still has an intact case with primer.",
-        "material" : "steel",
+        "material" : [ "powder", "brass" ],
         "volume" : 1,
         "weight" : 1,
         "ammo_type" : "components",

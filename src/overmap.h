@@ -1,3 +1,4 @@
+#pragma once
 #ifndef OVERMAP_H
 #define OVERMAP_H
 

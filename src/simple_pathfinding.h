@@ -1,3 +1,4 @@
+#pragma once
 #ifndef PATHFINDIND_H
 #define PATHFINDIND_H
 

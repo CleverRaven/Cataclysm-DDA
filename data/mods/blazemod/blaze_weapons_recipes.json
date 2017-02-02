@@ -53,10 +53,12 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 60000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "chisel", -1 ] ],
       [ [ "anvil", -1 ] ],
       [ [ "forge", 50 ], [ "char_forge", 10 ], [ "oxy_torch", 10 ] ]
     ],
@@ -103,12 +105,10 @@
     "autolearn": true,
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "goggles_welding", -1 ] ],
-      [ [ "welder", 25 ], [ "welder_crude", 50 ], [ "toolset", 50 ], [ "oxy_torch", 2 ] ]
-    ],
+    "tools": [ [ [ "welder", 25 ], [ "welder_crude", 50 ], [ "toolset", 50 ], [ "oxy_torch", 2 ] ] ],
     "components": [
       [ [ "lens", 2 ] ],
       [ [ "scrap", 9 ], [ "steel_chunk", 3 ] ],
@@ -158,12 +158,10 @@
     "autolearn": true,
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "goggles_welding", -1 ] ],
-      [ [ "welder", 25 ], [ "welder_crude", 50 ], [ "toolset", 50 ], [ "oxy_torch", 2 ] ]
-    ],
+    "tools": [ [ [ "welder", 25 ], [ "welder_crude", 50 ], [ "toolset", 50 ], [ "oxy_torch", 2 ] ] ],
     "components": [
       [ [ "UPS_off", 2 ], [ "small_storage_battery", 2 ] ],
       [ [ "lens", 4 ] ],
@@ -257,10 +255,12 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 120000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "chisel", -1 ] ],
       [ [ "anvil", -1 ] ],
       [ [ "forge", 100 ], [ "char_forge", 20 ], [ "oxy_torch", 20 ] ]
     ],
@@ -283,12 +283,10 @@
     "qualities": [
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 }
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "goggles_welding", -1 ] ],
-      [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ]
-    ],
+    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
     "components": [
       [ [ "pipe", 12 ] ],
       [ [ "nail", 100 ], [ "duct_tape", 200 ], [ "superglue", 2 ] ],

@@ -10,11 +10,11 @@
     "time": 8000,
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "tools": [
-      [ [ "goggles_welding", -1 ] ],
-      [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "oxy_torch", 20 ] ]
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 }
     ],
+    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "oxy_torch", 20 ] ] ],
     "components": [
       [ [ "rebar", 4 ] ],
       [ [ "scrap", 3 ] ]
@@ -32,12 +32,10 @@
     "autolearn": true,
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "goggles_welding", -1 ] ],
-      [ [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 300 ], [ "oxy_torch", 30 ] ]
-    ],
+    "tools": [ [ [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 300 ], [ "oxy_torch", 30 ] ] ],
     "components": [
       [ [ "pipe", 24 ], [ "rebar", 12 ] ],
       [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
@@ -57,12 +55,10 @@
     "autolearn": true,
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "goggles_welding", -1 ] ],
-      [ [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 300 ], [ "oxy_torch", 30 ] ]
-    ],
+    "tools": [ [ [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 300 ], [ "oxy_torch", 30 ] ] ],
     "components": [
       [ [ "pipe", 24 ], [ "rebar", 12 ] ],
       [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
@@ -80,10 +76,8 @@
     "time": 15000,
     "reversible": true,
     "autolearn": true,
-    "tools": [
-      [ [ "goggles_welding", -1 ] ],
-      [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "char_forge", 20 ], [ "oxy_torch", 20 ] ]
-    ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "char_forge", 20 ], [ "oxy_torch", 20 ] ] ],
     "components": [
       [ [ "steel_plate", 1 ] ],
       [ [ "spring", 3 ] ]
@@ -100,12 +94,10 @@
     "autolearn": true,
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "goggles_welding", -1 ] ],
-      [ [ "welder", 100 ], [ "welder_crude", 200 ], [ "toolset", 200 ], [ "oxy_torch", 10 ] ]
-    ],
+    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 200 ], [ "toolset", 200 ], [ "oxy_torch", 10 ] ] ],
     "components": [
       [ [ "scrap", 18 ], [ "steel_chunk", 6 ], [ "steel_lump", 2 ] ],
       [ [ "hdframe", 1 ] ],
@@ -126,11 +118,11 @@
     "autolearn": true,
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CUT", "level": 1 }
+      { "id": "CUT", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "chisel", -1 ] ],
       [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 400 ], [ "char_forge", 100 ], [ "oxy_torch", 200 ] ]
@@ -154,11 +146,11 @@
     "autolearn": true,
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CUT", "level": 1 }
+      { "id": "CUT", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "chisel", -1 ] ],
       [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 400 ], [ "char_forge", 100 ], [ "oxy_torch", 200 ] ]
@@ -181,11 +173,11 @@
     "autolearn": true,
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CUT", "level": 1 }
+      { "id": "CUT", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "chisel", -1 ] ],
       [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
       [ [ "forge", 400 ], [ "char_forge", 100 ], [ "oxy_torch", 200 ] ]
@@ -208,12 +200,10 @@
     "autolearn": true,
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 }
     ],
-    "tools": [
-      [ [ "goggles_welding", -1 ] ],
-      [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 100 ], [ "oxy_torch", 10 ] ]
-    ],
+    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 100 ], [ "oxy_torch", 10 ] ] ],
     "components": [
       [ [ "pipe", 8 ], [ "rebar", 4 ] ],
       [ [ "wire", 20 ] ],

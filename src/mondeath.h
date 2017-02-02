@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MONDEATH_H
 #define MONDEATH_H
 

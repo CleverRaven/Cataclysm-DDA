@@ -1,5 +1,31 @@
 [
   {
+    "id": "af2011a1mag",
+    "type": "MAGAZINE",
+    "name": "AF2011A1 magazine",
+    "//": "Provisional",
+    "description": "Two magazines attached to a common base.  Unique to the AF2011A1.",
+    "weight": 140,
+    "volume": 2,
+    "price": 10000,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "38_super",
+    "capacity": 16,
+    "reliability": 7,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "m1991_38smag",
+    "copy-from": "m1911mag",
+    "type": "MAGAZINE",
+    "name": "M1991A1 .38 Super magazine",
+    "description": "A 9-round magazine for the M1991A1 .38 Super pistol.",
+    "ammo_type": "38_super",
+    "capacity": 9
+  },
+  {
     "id": "saiga10mag_410",
     "copy-from": "saiga10mag",
     "type": "MAGAZINE",

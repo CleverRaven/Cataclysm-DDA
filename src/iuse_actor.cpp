@@ -297,7 +297,7 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         }
         return 0;
     }
-    if (it->charges > 0) {
+    if( it->charges > 0 ) {
         if (no_deactivate_msg.empty()) {
             p->add_msg_if_player(m_warning,
                                  _("You've already set the %s's timer you might want to get away from it."), it->tname().c_str());
@@ -3127,4 +3127,42 @@ long place_trap_actor::use( player * const p, item * const it, bool, const tripo
         }
     }
     return 1;
+}
+
+void emit_actor::load( JsonObject &obj )
+{
+    assign( obj, "emits", emits );
+    assign( obj, "scale_qty", scale_qty );
+}
+
+long emit_actor::use( player*, item *it, bool, const tripoint &pos ) const
+{
+    const float scaling = scale_qty ? it->charges : 1;
+    for( const auto &e : emits ) {
+        g->m.emit_field( pos, e, scaling );
+    }
+
+    return 1;
+}
+
+iuse_actor *emit_actor::clone() const
+{
+    return new emit_actor( *this );
+}
+
+void emit_actor::finalize( const itype_id &my_item_type )
+{
+    /*
+    // @todo This must be called after all finalization
+    for( const auto& e : emits ) {
+        if( !e.is_valid() ) {
+            debugmsg( "Item %s has unknown emit source %s", my_item_type.c_str(), e.c_str() );
+        }
+    }
+    */
+
+    if( scale_qty && !item::count_by_charges( my_item_type ) ) {
+        debugmsg( "Item %s has emit_actor with scale_qty, but is not counted by charges", my_item_type.c_str() );
+        scale_qty = false;
+    }
 }

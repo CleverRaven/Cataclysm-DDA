@@ -1,3 +1,4 @@
+#pragma once
 #ifndef GATES_H
 #define GATES_H
 

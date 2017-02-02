@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATACURSE_H
 #define CATACURSE_H
 

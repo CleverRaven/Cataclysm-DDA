@@ -230,7 +230,7 @@ bool player::activate_bionic( int b, bool eff_only )
         mod_moves( -100 );
     } else if( bio.id == "bio_blood_anal" ) {
         static const std::map<efftype_id, std::string> bad_effects = {{
-            { effect_fungus, _( "Fungal Parasite" ) },
+            { effect_fungus, _( "Fungal Infection" ) },
             { effect_dermatik, _( "Insect Parasite" ) },
             { effect_stung, _( "Stung" ) },
             { effect_poison, _( "Poison" ) },
@@ -244,7 +244,7 @@ bool player::activate_bionic( int b, bool eff_only )
             { effect_tapeworm, _( "Intestinal Parasite" ) },
             { effect_bloodworms, _( "Hemolytic Parasites" ) },
             // These little guys are immune to the blood filter too, as they live in your brain.
-            { effect_brainworms, _( "Intracranial Parasite" ) },
+            { effect_brainworms, _( "Intracranial Parasites" ) },
             // These little guys are immune to the blood filter too, as they live in your muscles.
             { effect_paincysts, _( "Intramuscular Parasites" ) },
             // Tetanus infection.

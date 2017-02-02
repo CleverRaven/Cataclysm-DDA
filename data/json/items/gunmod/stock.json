@@ -33,7 +33,7 @@
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
     "min_skills": [ [ "weapon", 3 ] ],
-    "flags": [ "SLOW_WIELD", "COLLAPSIBLE_STOCK" ]
+    "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
   },
   {
     "id": "pistol_stock",

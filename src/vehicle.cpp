@@ -158,6 +158,12 @@ bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
 
 bool vehicle::player_in_control(player const& p) const
 {
+    // Debug switch to prevent vehicles from skidding
+    // without having to place the player in them.
+    if( tags.count( "IN_CONTROL_OVERRIDE" ) ) {
+        return true;
+    }
+
     int veh_part;
 
     if( g->m.veh_at( p.pos(), veh_part ) == this &&
@@ -1208,7 +1214,7 @@ bool vehicle::start_engine( const int e )
 void vehicle::start_engines( const bool take_control )
 {
     bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
-        return !parts[ idx ].is_broken() && parts[ idx ].enabled;
+        return parts[ idx ].enabled && !parts[ idx ].is_broken();
     } );
 
     // if no engines enabled then enable all before trying to start the vehicle
@@ -2092,7 +2098,7 @@ int vehicle::part_with_feature_at_relative (const point &pt, const std::string &
 bool vehicle::has_part( const std::string &flag, bool enabled ) const
 {
     return std::any_of( parts.begin(), parts.end(), [&flag,&enabled]( const vehicle_part &e ) {
-        return !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && e.info().has_flag( flag );
+        return !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && e.info().has_flag( flag );
     } );
 }
 
@@ -2105,7 +2111,7 @@ bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabl
         if( e.precalc[0].x != px || e.precalc[0].y != py ) {
             continue;
         }
-        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && e.info().has_flag( flag ) ) {
+        if( !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && e.info().has_flag( flag ) ) {
             return true;
         }
     }
@@ -2116,7 +2122,7 @@ std::vector<vehicle_part *> vehicle::get_parts( const std::string &flag, bool en
 {
     std::vector<vehicle_part *> res;
     for( auto &e : parts ) {
-        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && e.info().has_flag( flag ) ) {
+        if( !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && e.info().has_flag( flag ) ) {
             res.push_back( &e );
         }
     }
@@ -2127,7 +2133,7 @@ std::vector<const vehicle_part *> vehicle::get_parts( const std::string &flag, b
 {
     std::vector<const vehicle_part *> res;
     for( const auto &e : parts ) {
-        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && e.info().has_flag( flag ) ) {
+        if( !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && e.info().has_flag( flag ) ) {
             res.push_back( &e );
         }
     }
@@ -2142,7 +2148,7 @@ std::vector<vehicle_part *> vehicle::get_parts( const tripoint &pos, const std::
             e.precalc[ 0 ].y != pos.y - global_y() ) {
             continue;
         }
-        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && ( flag.empty() || e.info().has_flag( flag ) ) ) {
+        if( !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && ( flag.empty() || e.info().has_flag( flag ) ) ) {
             res.push_back( &e );
         }
     }
@@ -2157,7 +2163,7 @@ std::vector<const vehicle_part *> vehicle::get_parts( const tripoint &pos, const
             e.precalc[ 0 ].y != pos.y - global_y() ) {
             continue;
         }
-        if( !e.removed && !e.is_broken() && ( !enabled || e.enabled ) && ( flag.empty() || e.info().has_flag( flag ) ) ) {
+        if( !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && ( flag.empty() || e.info().has_flag( flag ) ) ) {
             res.push_back( &e );
         }
     }
@@ -3381,13 +3387,20 @@ void vehicle::consume_fuel( double load = 1.0 )
 
         //get exact amount of fuel needed
         double amnt_precise = double(amnt_fuel_use) / ft.coeff;
-
         amnt_precise *= load * (1.0 + st * st * 100);
         int amnt = int(amnt_precise);
-        // consumption remainder results in chance at additional fuel consumption
-        if( x_in_y(int(amnt_precise*1000) % 1000, 1000) ) {
-            amnt += 1;
+        // Add in the previous remainder if it exists, and then stash anything that is left.
+        double remainder = amnt_precise - amnt;
+        auto previous_remainder = fuel_remainder.find( ft.id );
+        if( previous_remainder != fuel_remainder.end() ) {
+            remainder += previous_remainder->second;
+            if( (int)remainder >= 1 ) {
+                amnt += (int)remainder;
+                remainder -= (int)remainder;
+            }
         }
+        fuel_remainder[ ft.id ] = remainder;
+
         drain( ft.id, amnt );
     }
     //do this with chance proportional to current load
@@ -3413,7 +3426,7 @@ std::vector<vehicle_part *> vehicle::lights( bool active )
 {
     std::vector<vehicle_part *> res;
     for( auto &e : parts ) {
-        if( !e.is_broken() && e.is_light() && ( !active || e.enabled ) ) {
+        if( ( !active || e.enabled ) && !e.is_broken() && e.is_light() ) {
             res.push_back( &e );
         }
     }
@@ -5956,8 +5969,8 @@ vehicle_part::vehicle_part()
 vehicle_part::vehicle_part( const vpart_id& vp, int const dx, int const dy, item&& obj )
     : mount( dx, dy ), id( vp ), base( std::move( obj ) )
 {
-	// Mark base item as being installed as a vehicle part
-	base.item_tags.insert( "VEHICLE" );
+        // Mark base item as being installed as a vehicle part
+        base.item_tags.insert( "VEHICLE" );
 
     if( base.typeId() != vp->item ) {
         debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
@@ -6018,7 +6031,7 @@ int vehicle_part::hp() const
 /** parts are considered broken at zero health */
 bool vehicle_part::is_broken() const
 {
-    return hp() <= 0;
+    return base.damage() >= base.max_damage();
 }
 
 itype_id vehicle_part::ammo_current() const

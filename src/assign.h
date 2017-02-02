@@ -1,3 +1,4 @@
+#pragma once
 #ifndef H_ASSIGN
 #define H_ASSIGN
 

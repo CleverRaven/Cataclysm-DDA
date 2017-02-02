@@ -1,3 +1,4 @@
+#pragma once
 #ifndef OMDATA_H
 #define OMDATA_H
 

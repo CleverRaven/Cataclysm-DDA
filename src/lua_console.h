@@ -1,3 +1,4 @@
+#pragma once
 #ifndef LUA_CONSOLE_H
 #define LUA_CONSOLE_H
 

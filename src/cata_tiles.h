@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 

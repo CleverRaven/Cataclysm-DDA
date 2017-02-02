@@ -75,11 +75,11 @@
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
     {"id":"CUT","level":1},
-    {"id":"HAMMER","level":3}
+    {"id":"HAMMER","level":3},
+    {"id":"CHISEL","level":3}
   ],
   "tools":[
     [ [ "tongs", -1 ] ],
-    [ [ "chisel", -1 ] ],
     [ [ "anvil", -1 ] ],
     [ [ "swage", -1 ] ],
     [
@@ -106,11 +106,11 @@
   "book_learn": [[ "textbook_armwest", 3 ]],
   "qualities": [
     {"id":"CUT","level":1},
-    {"id":"HAMMER","level":3}
+    {"id":"HAMMER","level":3},
+    {"id":"CHISEL","level":3}
   ],
   "tools":[
     [ [ "tongs", -1 ] ],
-    [ [ "chisel", -1 ] ],
     [ [ "anvil", -1 ] ],
     [ [ "swage", -1 ] ],
     [
@@ -174,11 +174,11 @@
   "time": 240000,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
-    {"id":"HAMMER","level":3}
+    {"id":"HAMMER","level":3},
+    { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
-    [ [ "chisel", -1 ] ],
     [ [ "anvil", -1 ] ],
     [ [ "swage", -1 ] ],
     [

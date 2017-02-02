@@ -1,3 +1,4 @@
+#pragma once
 #ifndef OVERMAPBUFFER_H
 #define OVERMAPBUFFER_H
 

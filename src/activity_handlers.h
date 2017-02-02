@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ACTIVITY_HANDLERS_H
 #define ACTIVITY_HANDLERS_H
 

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef WEIGHTED_LIST_H
 #define WEIGHTED_LIST_H
 

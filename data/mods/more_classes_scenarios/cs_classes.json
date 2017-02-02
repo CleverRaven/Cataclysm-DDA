@@ -3,8 +3,21 @@
         "type": "profession",
         "ident": "bio_specops",
         "name": "Bionic Spec-Op",
-        "description": "You were the best of the best, the military's finest.  That's why you're were given standard military augmentation once it cleared field testing.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+        "description": "Once bionic augmentation proved safe, you were choosen for a top secret soldier augmentation program.  As if being a top-tier special forces operator before the procedure wasn't enough, your new enhancememts allow you to handle any combat scenario be it human or not.",
         "points": 12,
+        "CBMs":[
+            "bio_targeting",
+            "bio_purifier",
+            "bio_carbon",
+            "bio_shock",
+            "bio_adrenaline",
+            "bio_night_vision",
+            "bio_ups",
+            "bio_nanobots",
+            "bio_painkiller",
+            "bio_metabolics",
+            "bio_power_storage_mkII"
+        ],
         "skills": [
             {
                 "level": 3,
@@ -16,47 +29,43 @@
             },
             {
                 "level": 2,
-                "name": "cutting"
+                "name": "pistol"
             },
             {
-                "level": 1,
+                "level": 2,
                 "name": "melee"
             },
             {
-                "level": 1,
+                "level": 2,
+                "name": "stabbing"
+            },
+            {
+                "level": 2,
                 "name": "dodge"
-            },
-            {
-                "level": 1,
-                "name": "firstaid"
-            },
-            {
-                "level": 1,
-                "name": "swimming"
-            },
-            {
-                "level": 1,
-                "name": "survival"
             }
         ],
         "items": {
-            "both": [
-                "undershirt",
-                "arm_warmers",
-                "leg_warmers",
-                "pants_army",
-                "jacket_army",
+            "both": {
+                "items": [
                 "balclava",
-                "beret",
+                "army_top",
+                "arm_warmers",
                 "gloves_liner",
-                "gloves_tactical",
+                "leg_warmers",
                 "socks",
+                "beret",
+                "gloves_tactical",
+                "pants_army",
                 "boots_combat",
-                "shoulder_strap",
-                "laser_rifle",
-                "sheath",
-                "kukri"
+                "jacket_army"
             ],
+                "entries": [
+                    { "item": "knife_combat", "container-item": "sheath" },
+                    { "item": "v29", "container-item": "sholster" },
+                    { "item": "rm51_assault_rifle", "ammo-item": "8mm_fmj", "charges": 50, "contents-item": "shoulder_strap" },
+                    { "item": "8mm_fmj", "charges": 50 }
+                ]
+            },
             "male": [
                 "boxer_shorts"
             ],
