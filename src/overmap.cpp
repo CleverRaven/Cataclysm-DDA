@@ -3025,7 +3025,7 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
                 continue;
             }
             // TODO: base this in monster attributes, foremost GOODHEARING.
-            const int d_inter = ( sig_power + 1 - dist ) * 20;
+            const int d_inter = std::max( 35, ( sig_power + 1 - dist ) * 18 );
             const int roll = rng( 0, mg.interest );
             if( roll < d_inter ) {
                 // TODO: Z coord for mongroup targets
@@ -3033,8 +3033,8 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
                 // TODO: Base this on targ_dist:dist ratio.
                 if ( targ_dist < 5 ) {
                     mg.set_target( (mg.target.x + p.x) / 2, (mg.target.y + p.y) / 2 );
-                    mg.inc_interest( d_inter );
-                    add_msg( m_debug, "horde inc interest %d", d_inter);
+                    mg.inc_interest( roll );
+                    add_msg( m_debug, "horde inc interest %d", roll);
                 } else {
                     mg.set_target( p.x, p.y );
                     mg.set_interest( d_inter );
