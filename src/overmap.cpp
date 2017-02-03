@@ -3020,7 +3020,7 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
         if( !mg.horde ) {
             continue;
         }
-            // Horde has 33% chance to ignore signal.
+            // Horde has 33% chance to simply ignore signal.
             if( one_in( 3 ) ) {
                 continue;
             }
@@ -3031,24 +3031,26 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
             }
             // TODO: base this in monster attributes, foremost GOODHEARING.
             const int inter_per_sig_power = 18; //Interest per signal value
-            const int d_inter = ( sig_power + 1 - dist ) * inter_per_sig_power;
+            const int min_initial_inter = 35; //Min initial interest for horde
+            const int calculated_inter = ( sig_power + 1 - dist ) * inter_per_sig_power; // Calculated interest
+            // Minimum capped calculated interest. Used to give horde enough interest to really investigate the target at start.
+            // Also used to bypass horde roaming interest.
+            const int min_capped_inter = std::max( min_initial_inter, calculated_inter );
             const int roll = rng( 0, mg.interest );
-            if( roll < d_inter ) {
+            if( roll < min_capped_inter ) { //If horde interested in signal
                 // TODO: Z coord for mongroup targets
                 const int targ_dist = rl_dist( p, mg.target );
                 // TODO: Base this on targ_dist:dist ratio.
                 if ( targ_dist < 5 ) { // If signal source already pursued by horde
                     mg.set_target( (mg.target.x + p.x) / 2, (mg.target.y + p.y) / 2 );
                     const int min_inc_inter = 3; // Min interest increase to already targeted source
-                    const int inc_roll = rng( min_inc_inter, d_inter );
+                    const int inc_roll = rng( min_inc_inter, calculated_inter );
                     mg.inc_interest( inc_roll );
                     add_msg( m_debug, "horde inc interest %d", inc_roll) ;
                 } else {
                     mg.set_target( p.x, p.y );
-                    const int min_initial_inter = 35; //Min initial inereset for horde
-                    const int initial_inter = std::max( min_initial_inter, d_inter );
-                    mg.set_interest( initial_inter );
-                    add_msg( m_debug, "horde set interest %d", initial_inter );
+                    mg.set_interest( min_capped_inter );
+                    add_msg( m_debug, "horde set interest %d", min_capped_inter );
                 }
             }
     }
