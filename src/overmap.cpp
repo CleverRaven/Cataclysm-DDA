@@ -3020,25 +3020,34 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
         if( !mg.horde ) {
             continue;
         }
+            // Horde has 33% chance to ignore signal.
+            if( one_in( 3 ) ) {
+                continue;
+            }
+
             const int dist = rl_dist( p, mg.pos );
             if( sig_power < dist ) {
                 continue;
             }
             // TODO: base this in monster attributes, foremost GOODHEARING.
-            const int d_inter = std::max( 35, ( sig_power + 1 - dist ) * 18 );
+            const int min_initial_inter = 35; //Min initial inereset for horde
+            const int inter_per_sig_power = 18; //Interest per signal value
+            const int d_inter = std::max( min_initial_inter, ( sig_power + 1 - dist ) * inter_per_sig_power );
             const int roll = rng( 0, mg.interest );
             if( roll < d_inter ) {
                 // TODO: Z coord for mongroup targets
                 const int targ_dist = rl_dist( p, mg.target );
                 // TODO: Base this on targ_dist:dist ratio.
-                if ( targ_dist < 5 ) {
+                if ( targ_dist < 5 ) { // If signal source already pursued by horde
                     mg.set_target( (mg.target.x + p.x) / 2, (mg.target.y + p.y) / 2 );
-                    mg.inc_interest( roll );
-                    add_msg( m_debug, "horde inc interest %d", roll);
+                    const int min_inc_inter = 3; // Min interest increase to already targeted source
+                    const int inc_roll = rng( min_inc_inter, d_inter );
+                    mg.inc_interest( inc_roll );
+                    add_msg( m_debug, "horde inc interest %d", inc_roll) ;
                 } else {
                     mg.set_target( p.x, p.y );
                     mg.set_interest( d_inter );
-                    add_msg( m_debug, "horde set interest %d", d_inter);
+                    add_msg( m_debug, "horde set interest %d", d_inter );
                 }
             }
     }
