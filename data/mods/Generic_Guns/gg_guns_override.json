@@ -155,7 +155,6 @@
     "type": "GUN",
     "name": "battle rifle",
     "description": "A highly modular, selective fire battle rifle used by the US military.  It uses either compact 20-round or bulkier 30-round detachable magazines.",
-    "reload": 550,
     "magazines": [ [ "308", [ "scarhmag", "scarhbigmag" ] ] ]
   },
   {
