@@ -2599,3 +2599,11 @@ void refresh_display()
 }
 #endif
 
+void force_refresh()
+{
+#if defined(TILES)
+    wrefresh(mainwin);
+#else
+    wrefresh(curscr);
+#endif
+}

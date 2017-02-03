@@ -712,3 +712,5 @@ std::string colorize_symbols( const std::string &str, Pred func )
 }
 
 #endif
+
+void force_refresh();
