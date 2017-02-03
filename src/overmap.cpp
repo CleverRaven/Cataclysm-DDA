@@ -3020,11 +3020,6 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
         if( !mg.horde ) {
             continue;
         }
-            // Horde has 33% chance to simply ignore signal.
-            if( one_in( 3 ) ) {
-                continue;
-            }
-
             const int dist = rl_dist( p, mg.pos );
             if( sig_power < dist ) {
                 continue;
@@ -3033,11 +3028,9 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
             const int inter_per_sig_power = 18; //Interest per signal value
             const int min_initial_inter = 35; //Min initial interest for horde
             const int calculated_inter = ( sig_power + 1 - dist ) * inter_per_sig_power; // Calculated interest
-            // Minimum capped calculated interest. Used to give horde enough interest to really investigate the target at start.
-            // Also used to bypass horde roaming interest.
-            const int min_capped_inter = std::max( min_initial_inter, calculated_inter );
-            const int roll = rng( 0, mg.interest );
-            if( roll < min_capped_inter ) { //If horde interested in signal
+            const int roll_bonus = 15; // Bonus for interes roll to prevent guaranteed reaction to more loud signal
+            const int roll = rng( 0, mg.interest + roll_bonus );
+            if( roll < std::max( min_initial_inter, calculated_inter ) ) { //Rolling if horde interested in new signal
                 // TODO: Z coord for mongroup targets
                 const int targ_dist = rl_dist( p, mg.target );
                 // TODO: Base this on targ_dist:dist ratio.
@@ -3049,6 +3042,8 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
                     add_msg( m_debug, "horde inc interest %d", inc_roll) ;
                 } else { // New signal source
                     mg.set_target( p.x, p.y );
+                    // Minimum capped calculated interest. Used to give horde enough interest to really investigate the target at start.
+                    const int min_capped_inter = std::max( min_initial_inter, calculated_inter );
                     mg.set_interest( min_capped_inter );
                     add_msg( m_debug, "horde set interest %d", min_capped_inter );
                 }
