@@ -1250,6 +1250,7 @@
   "time": 270000,
   "autolearn": true,
   "qualities":[
+    {"id":"HAMMER_FINE","level":1},
     {"id":"SAW_M_FINE","level":1},
     {"id":"SCREW_FINE","level":1},
     {"id":"GLARE","level":1}
@@ -1260,12 +1261,12 @@
           [ "welder_crude", 54 ],
           [ "toolset", 54 ],
           [ "small_repairkit", 180 ],
-          [ "large_repairkit", 36 ]
+          [ "large_repairkit", 75 ]
           ]
       ],
       "components": [
     [
-      [ "pipe", 1 ]
+      [ "pipe", 2 ]
     ],
     [
       [ "nail", 2 ]
