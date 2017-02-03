@@ -6127,7 +6127,7 @@
     "covers": [ "MOUTH" ],
     "coverage": 100,
     "encumbrance": 20,
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 2,
     "environmental_protection": 7
   },
