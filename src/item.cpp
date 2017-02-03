@@ -5002,6 +5002,8 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
 
 bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
 {
+    // Remember quantity so that we can unseal self
+    long old_quantity = quantity;
     // First, check contents
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
         if (a->use_amount(it, quantity, used)) {
@@ -5010,6 +5012,11 @@ bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
             ++a;
         }
     }
+
+    if( quantity != old_quantity ) {
+        on_contents_changed();
+    }
+
     // Now check the item itself
     if( typeId() == it && quantity > 0 && allow_crafting_component() ) {
         used.push_back(*this);
@@ -5080,6 +5087,8 @@ bool item::use_charges( const itype_id& what, long& qty, std::list<item>& used, 
 {
     std::vector<item *> del;
 
+    // Remember qty to unseal self
+    long old_qty = qty;
     visit_items( [&what, &qty, &used, &pos, &del] ( item *e ) {
         if( qty == 0 ) {
              // found sufficient charges
@@ -5127,6 +5136,11 @@ bool item::use_charges( const itype_id& what, long& qty, std::list<item>& used, 
             remove_item( *e );
         }
     }
+
+    if( qty != old_qty || !del.empty() ) {
+        on_contents_changed();
+    }
+
     return destroy;
 }
 
