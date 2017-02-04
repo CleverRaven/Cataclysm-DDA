@@ -364,15 +364,11 @@ public:
     static mission_status status_from_string( const std::string &s );
     static const std::string status_to_string( mission_status st );
 
-    /**
-     * When the player_id member was introduced, no steps were taken to ensure compatibility with 0.C saves.
-     * player::deserialize calls this for the player's active missions when loading an old save.
-    */
-    void set_player_id_legacy_0c( int id ) {
-        player_id = id;
-    }
+    /** Used to handle saves from before player_id was a member of mission */
+    void set_player_id_legacy_0c( int id );
 
 private:
+    bool legacy_no_player_id = false;
     // Don't use this, it's only for loading legacy saves.
     void load_info(std::istream &info);
 

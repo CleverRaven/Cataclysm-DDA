@@ -821,17 +821,11 @@ void player::deserialize(JsonIn &jsin)
         }
     }
 
-    if( savegame_loading_version <= 23 && is_player() &&
-        ( get_world_option<bool>( "STATIC_NPC" ) || get_world_option<bool>( "RANDOM_NPC" ) ) ) {
-        // This is pretty horrible, but the only way I know of in case the same NPC assigned missions
-        // to more than one player.
-        popup( _( "WARNING: Your save is from version 0.C or earlier. NPC missions will be broken unless you:\n\
-               \n1: Save the game immediately after it's done loading.\
-               \n2: Load each of the other players in this world, and save before doing anything.\
-               \n\n\nYou have been warned!" ) );
+    if( savegame_loading_version <= 23 && is_player() ) {
         // In 0.C there was no player_id member of mission, so it'll be the default -1.
-        // When the member was introduced, no steps were taken to ensure compatibility with 0.C
-        // It will be impossible to talk about the mission- see npc_chatbin::check_missions and npc::talk_to_u
+        // When the member was introduced, no steps were taken to ensure compatibility with 0.C, so
+        // missions will be buggy for saves between experimental commits bd2088c033 and dd83800.
+        // see npc_chatbin::check_missions and npc::talk_to_u
         for( mission *miss : active_missions ) {
             miss->set_player_id_legacy_0c( g->u.getID() );
         }
@@ -2040,7 +2034,13 @@ void mission::deserialize(JsonIn &jsin)
     jo.read("npc_id", npc_id );
     jo.read("good_fac_id", good_fac_id );
     jo.read("bad_fac_id", bad_fac_id );
-    jo.read("player_id", player_id );
+
+    // Suppose someone had two living players in an 0.C stable world. When loading player 1 in 0.D
+    // (or maybe even creating a new player), the former condition makes legacy_no_player_id true.
+    // When loading player 2, there will be a player_id member in master.gsav, but the bool member legacy_no_player_id
+    // will have been saved as true (unless the mission belongs to a player that's been loaded into 0.D)
+    // See player::deserialize and mission::set_player_id_legacy_0c
+    legacy_no_player_id = !jo.read("player_id", player_id ) || jo.get_bool( "legacy_no_player_id", false );
 }
 
 void mission::serialize(JsonOut &json) const
@@ -2075,6 +2075,7 @@ void mission::serialize(JsonOut &json) const
     json.member("step", step);
     json.member("follow_up", follow_up);
     json.member("player_id", player_id);
+    json.member( "legacy_no_player_id", legacy_no_player_id );
 
     json.end_object();
 }
