@@ -319,7 +319,7 @@ bool Character::move_effects(bool attacking)
             remove_effect( effect_grabbed );
         }
     }
-    return Creature::move_effects( attacking );
+    return true;
 }
 
 void Character::add_effect( const efftype_id &eff_id, int dur, body_part bp,
@@ -1099,6 +1099,7 @@ void Character::normalize()
 // Actual player death is mostly handled in game::is_game_over
 void Character::die(Creature* nkiller)
 {
+    g->set_critter_died();
     set_killer( nkiller );
     set_turn_died(int(calendar::turn));
     if( has_effect( effect_lightsnare ) ) {
@@ -1209,9 +1210,6 @@ void Character::reset_stats()
     if( int_cur < 0 ) {
         int_cur = 0;
     }
-
-    // Does nothing! TODO: Remove
-    Creature::reset_stats();
 }
 
 void Character::reset()

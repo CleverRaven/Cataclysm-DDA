@@ -1748,6 +1748,11 @@ void game::set_npcs_dirty()
     npcs_dirty = true;
 }
 
+void game::set_critter_died()
+{
+    critter_died = true;
+}
+
 void game::update_weather()
 {
     if( weather == WEATHER_NULL || calendar::turn >= nextweather ) {
@@ -4700,10 +4705,16 @@ void game::disp_NPCs()
     mvwprintz( w, 1, 0, c_white, _("Your local position: %d, %d, %d"), lpos.x, lpos.y, lpos.z );
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(100);
     std::sort(npcs.begin(), npcs.end(), npc_dist_to_player() );
-    for (size_t i = 0; i < 20 && i < npcs.size(); i++) {
+    size_t i;
+    for( i = 0; i < 20 && i < npcs.size(); i++ ) {
         const tripoint apos = npcs[i]->global_omt_location();
         mvwprintz(w, i + 3, 0, c_white, "%s: %d, %d, %d", npcs[i]->name.c_str(),
                   apos.x, apos.y, apos.z);
+    }
+    for( size_t j = 0; i + j < 20 && j < num_zombies(); j++ ) {
+        const monster &m = zombie( j );
+        mvwprintz( w, i + j + 3, 0, c_white, "%s: %d, %d, %d", m.name().c_str(),
+                   m.posx(), m.posy(), m.posz() );
     }
     wrefresh(w);
     inp_mngr.wait_for_any_key();
@@ -5863,40 +5874,54 @@ int game::mon_info(WINDOW *w)
 
 void game::cleanup_dead()
 {
+    // For some reason, using creature_tracker::find here is slow
+    // So we'll be accessing the vector directly, at least for the first pass
+    auto &mon_list = critter_tracker->get_monsters_list();
     // Important: `Creature::die` must not be called after creature objects (NPCs, monsters) have
     // been removed, the dying creature could still have a pointer (the killer) to another creature.
-    for( size_t i = 0; i < num_zombies(); i++ ) {
-        monster &critter = critter_tracker->find(i);
+    bool monster_is_dead = false;
+    for( monster *mon : mon_list ) {
+        monster &critter = *mon;
         if( critter.is_dead() ) {
-            dbg(D_INFO) << string_format("cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
-                                         i, critter.posx(), critter.posy(), (critter.is_dead() ? '1' : '0'),
-                                         critter.get_hp(), critter.name().c_str());
+            dbg(D_INFO) << string_format( "cleanup_dead: critter %d,%d,%d hp:%d %s",
+                                          critter.posx(), critter.posy(), critter.posz(),
+                                          critter.get_hp(), critter.name().c_str() );
             critter.die( nullptr );
+            monster_is_dead = true;
         }
     }
 
+    bool npc_is_dead = false;
     for( auto &n : active_npc ) {
         if( n->is_dead() ) {
             n->die( nullptr ); // make sure this has been called to create corpses etc.
+            npc_is_dead = true;
         }
     }
 
-    // From here on, pointers to creatures get invalidated as dead creatures get removed.
-    for( size_t i = 0; i < num_zombies(); ) {
-        if( critter_tracker->find( i ).is_dead() ) {
-            remove_zombie( i );
-        } else {
-            i++;
+    if( monster_is_dead ) {
+        // From here on, pointers to creatures get invalidated as dead creatures get removed.
+        for( size_t i = 0; i < num_zombies(); ) {
+            if( critter_tracker->find( i ).is_dead() ) {
+                remove_zombie( i );
+            } else {
+                i++;
+            }
         }
     }
-    for( auto it = active_npc.begin(); it != active_npc.end(); ) {
-        if( (*it)->is_dead() ) {
-            overmap_buffer.remove_npc( (*it)->getID() );
-            it = active_npc.erase( it );
-        } else {
-            it++;
+
+    if( npc_is_dead ) {
+        for( auto it = active_npc.begin(); it != active_npc.end(); ) {
+            if( (*it)->is_dead() ) {
+                overmap_buffer.remove_npc( (*it)->getID() );
+                it = active_npc.erase( it );
+            } else {
+                it++;
+            }
         }
     }
+
+    critter_died = false;
 }
 
 void game::monmove()

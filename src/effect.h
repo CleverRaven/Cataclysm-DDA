@@ -97,6 +97,9 @@ class effect_type
         // TODO: Once addictions are JSON-ized it should be trivial to convert this to a
         // "generic" addiction reduces value
         bool pkill_addict_reduces;
+        // This flag is hardcoded for specific IDs now
+        // It needs to be set for monster::move_effects
+        bool impairs_movement;
 
         std::vector<std::string> name;
         std::string speed_mod_name;
@@ -242,6 +245,9 @@ class effect : public JsonSerializer, public JsonDeserializer
 
         /** Returns the value used for display on the speed modifier window in the player status menu. */
         std::string get_speed_name() const;
+
+        /** Returns if the effect is supposed to be handed in Creature::movement */
+        bool impairs_movement() const;
 
         /** Returns the effect's matching effect_type id. */
         const efftype_id &get_id() const {

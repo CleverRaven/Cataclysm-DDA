@@ -1969,13 +1969,15 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
 bool map::valid_move( const tripoint &from, const tripoint &to,
                       const bool bash, const bool flying ) const
 {
-    if( abs( from.x - to.x ) > 1 || abs( from.y - to.y ) > 1 || abs( from.z - to.z ) > 1 ||
-        !inbounds( from ) || !inbounds( to ) ) {
+    // Note: no need to check inbounds here, because maptile_at will do that
+    // If oob tile is supplied, the maptile_at will be an unpassable "null" tile
+    if( abs( from.x - to.x ) > 1 || abs( from.y - to.y ) > 1 || abs( from.z - to.z ) > 1 ) {
         return false;
     }
 
     if( from.z == to.z ) {
-        return bash || passable( to );
+        // But here we need to, to prevent bashing critters
+        return passable( to ) || ( bash && inbounds( to ) );
     } else if( !zlevels ) {
         return false;
     }
@@ -1984,20 +1986,26 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     const tripoint &up_p = going_up ? to : from;
     const tripoint &down_p = going_up ? from : to;
-    const maptile up = maptile_at( up_p );
-    const maptile down = maptile_at( down_p );
 
+    const maptile up = maptile_at( up_p );
     const ter_t &up_ter = up.get_ter_t();
+
+    if( up_ter.movecost == 0 ) {
+        // Unpassable tile
+        return false;
+    }
+
+    const maptile down = maptile_at( down_p );
     const ter_t &down_ter = down.get_ter_t();
 
-    if( up_ter.movecost == 0 || down_ter.movecost == 0 ) {
+    if( down_ter.movecost == 0 ) {
         // Unpassable tile
         return false;
     }
 
     if( !up_ter.has_flag( TFLAG_NO_FLOOR ) && !up_ter.has_flag( TFLAG_GOES_DOWN ) ) {
         // Can't move from up to down
-        if( from.x != to.x || from.y != to.y ) {
+        if( abs( from.x - to.x ) == 1 || abs( from.y - to.y ) == 1 ) {
             // Break the move into two - vertical then horizontal
             tripoint midpoint( down_p.x, down_p.y, up_p.z );
             return valid_move( down_p, midpoint, bash, flying ) &&
