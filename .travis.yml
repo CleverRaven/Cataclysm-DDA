@@ -1,11 +1,70 @@
+os: osx
 language: cpp
-compiler:
-  - gcc
+compiler: clang
 
-script: make
+env:
+  global:
+    - TCI_DIR_TEMP=$HOME/Downloads
+    - TCI_DIR_DEPS=$HOME/Thirdparty
+    - TCI_DIR_APPS=$HOME/Bundles
+  matrix:
+    - TCI_USE_TILES=yes
+    - TCI_USE_TILES=no
 
-notifications:
-  irc: "irc.newnet.net#Cataclysm-DDA"
-  irc: "irc.freenode.org#Cataclysm-DDA"
-  use_notice: true
-  skip_join: true
+cache:
+  ccache: true
+  directories:
+    - $HOME/Thirdparty
+
+before_install:
+  - brew update
+  - brew install gettext lua51 luajit
+  - brew link --force gettext
+  - TCI_URLS=(
+      'http://libsdl.org/release/SDL2-2.0.4.dmg'
+      'https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.0.1.dmg'
+      'https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.14.dmg'
+      'https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.1.dmg'
+    )
+  - |
+    mkdir -p $TCI_DIR_DEPS
+    if [[ "$TCI_USE_TILES" == yes ]] \
+        && find "$TCI_DIR_DEPS" -maxdepth 0 -type d -empty
+    then
+      mkdir -p $TCI_DIR_TEMP
+      pushd $TCI_DIR_TEMP
+      for url in "${TCI_URLS[@]}"; do
+        curl -LO --fail --retry 5 $url
+        hdiutil mount -readonly -mountpoint sdl *.dmg
+        cp -R sdl/*.framework $TCI_DIR_DEPS
+        hdiutil unmount sdl
+        rm *.dmg
+      done
+      popd
+    fi
+
+script:
+  - |
+    mkdir -p $TCI_DIR_APPS
+    if [[ "$TCI_USE_TILES" == yes ]]; then
+      TCI_MAKE_OPTIONS=(-j2 RELEASE=1 USE_HOME_DIR=1 NATIVE=osx CLANG=1 CACHE=1 USE_LIBCXX=1 LTO=1 LOCALIZE=1 LANGUAGES=all LUA=1 LUA_BINARY=luajit TILES=1 SOUND=1 FRAMEWORK=1 FRAMEWORKSDIR="$TCI_DIR_DEPS")
+      make "${TCI_MAKE_OPTIONS[@]}"
+      make "${TCI_MAKE_OPTIONS[@]}" app
+      zip -r $TCI_DIR_APPS/CataclysmDDA-Mac-Graphics-$TRAVIS_TAG.zip *.app
+    else                
+      TCI_MAKE_OPTIONS=(-j2 RELEASE=1 USE_HOME_DIR=1 NATIVE=osx CLANG=1 CACHE=1 USE_LIBCXX=1 LTO=1 LOCALIZE=1 LANGUAGES=all LUA=1 LUA_BINARY=luajit)
+      make "${TCI_MAKE_OPTIONS[@]}"
+      make "${TCI_MAKE_OPTIONS[@]}" app
+      zip -r $TCI_DIR_APPS/CataclysmDDA-Mac-Terminal-$TRAVIS_TAG.zip *.app
+    fi
+
+deploy:
+  skip_cleanup: true
+  file_glob: true
+  file: $TCI_DIR_APPS/*.zip
+  provider: releases
+  api_key:
+    # USE YOUR OWN KEY: https://docs.travis-ci.com/user/encryption-keys/
+    secure: 'A5RH/sTarHxKHzOfZe6NC8jlDZlNHU3UuPdp6J2wult2TjZndXqULguNBRD6mX2r641VGaVbJHeNm3aN2vWC6a6VOrh9HVxUNQaMyjNnFyhvtTfvifh8T/ic/760ozMMbf+5MMS9EGZjG/AmgMa4HdXPVMy9AzUM9wtbg4CG4y17ZY+g/eXIVYWRxH2jf4Np3828J/+N/QR55bayMiyOkIzFH7wyTWbeQ3fNOimR4QObJ+9PROvGebq9u75rFhIXXVSc/q5wawckvXCf+BFNm+mOyPomY5GjtP160RgXtNKNwm0Vct3Cc05W7wktNd3RdDeonDEoLDccw2qF3FBlAZm9I3Y2PnUS577G3QQClKukXfHoykwgEZ/ffoysWFCUbQ13HDQcQGCMY/G/KDryzOQRNsQehw3d/FZXXoF4sUPV3YczA9d2J+L8Vr00Y7Q1N44FX0lUOTv9WAN/dWdxTyYrbGjfKCnnBwxf7GwsqF7Z6iJ7PRg6S4ubr/3fbmYdiSF2m7346+zdw691NiW6NLJcOTjQK3bGPXJ/JssU5jC0DkrTOWCw0LNX1fX42YU0A/r5lJN1sy3cJORRHLwzxZc71T8chuEvshfdCr7G1dR5QFYL66UFyTi8s7FNb84aR3xl/1mwIs1ELMOh510/U3Siro/ZKrgE0gC+KLS4I5c='
+  on:
+    tags: true
