@@ -827,7 +827,7 @@ void player::deserialize(JsonIn &jsin)
         // missions will be buggy for saves between experimental commits bd2088c033 and dd83800.
         // see npc_chatbin::check_missions and npc::talk_to_u
         for( mission *miss : active_missions ) {
-            miss->set_player_id_legacy_0c( g->u.getID() );
+            miss->set_player_id_legacy_0c( getID() );
         }
     }
 
