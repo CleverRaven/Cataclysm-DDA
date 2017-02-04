@@ -32,7 +32,7 @@ class Creature_tracker
         /** Swaps the positions of two monsters */
         void swap_positions( monster &first, monster &second );
         /** Gets direct access to monsters_list. Omits checks - do not use unless performance is a concern. */
-        std::vector<monster *> &get_monsters_list() { 
+        std::vector<monster *> &get_monsters_list() {
             return monsters_list;
         }
 
