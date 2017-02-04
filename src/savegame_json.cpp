@@ -776,11 +776,6 @@ void player::deserialize(JsonIn &jsin)
 
     morale->load( data );
 
-    int tmpactive_mission;
-    if( data.read( "active_mission", tmpactive_mission ) && tmpactive_mission != -1 ) {
-        active_mission = mission::find( tmpactive_mission );
-    }
-
     std::vector<int> tmpmissions;
     if( data.read( "active_missions", tmpmissions ) ) {
         active_missions = mission::to_ptr_vector( tmpmissions );
@@ -790,6 +785,23 @@ void player::deserialize(JsonIn &jsin)
     }
     if( data.read( "completed_missions", tmpmissions ) ) {
         completed_missions = mission::to_ptr_vector( tmpmissions );
+    }
+
+    int tmpactive_mission;
+    if( data.read( "active_mission", tmpactive_mission ) ) {
+        if( savegame_loading_version <= 23 ) {
+            // In 0.C, active_mission was an index of the active_missions array (-1 indicated no active mission).
+            // And it would as often as not be out of bounds (e.g. when a questgiver died).
+            // Later, it became a mission * and stored as the mission's uid, and this change broke backward compatability.
+            // Unfortunately, nothing can be done about savegames between the bump to version 24 and 83808a941.
+            if( tmpactive_mission >= 0 && tmpactive_mission < int( active_missions.size() ) ) {
+                active_mission = active_missions[tmpactive_mission];
+            } else if( !active_missions.empty() ) {
+                active_mission = active_missions.back();
+            }
+        } else if( tmpactive_mission != -1 ) {
+            active_mission = mission::find( tmpactive_mission );
+        }
     }
 
     // Normally there is only one player character loaded, so if a mission that is assigned to
@@ -806,6 +818,22 @@ void player::deserialize(JsonIn &jsin)
             active_mission = nullptr;
         } else {
             active_mission = active_missions.front();
+        }
+    }
+
+    if( savegame_loading_version <= 23 && is_player() &&
+        ( get_world_option<bool>( "STATIC_NPC" ) || get_world_option<bool>( "RANDOM_NPC" ) ) ) {
+        // This is pretty horrible, but the only way I know of in case the same NPC assigned missions
+        // to more than one player.
+        popup( _( "WARNING: Your save is from version 0.C or earlier. NPC missions will be broken unless you:\n\
+               \n1: Save the game immediately after it's done loading.\
+               \n2: Load each of the other players in this world, and save before doing anything.\
+               \n\n\nYou have been warned!" ) );
+        // In 0.C there was no player_id member of mission, so it'll be the default -1.
+        // When the member was introduced, no steps were taken to ensure compatibility with 0.C
+        // It will be impossible to talk about the mission- see npc_chatbin::check_missions and npc::talk_to_u
+        for( mission *miss : active_missions ) {
+            miss->set_player_id_legacy_0c( g->u.getID() );
         }
     }
 
@@ -908,12 +936,18 @@ void npc_chatbin::deserialize(JsonIn &jsin)
     std::vector<int> tmpmissions_assigned;
     data.read( "missions_assigned", tmpmissions_assigned );
     missions_assigned = mission::to_ptr_vector( tmpmissions_assigned );
+
     int tmpmission_selected;
     mission_selected = nullptr;
-    if( savegame_loading_version <= 23 ) {
-        mission_selected = nullptr; // player can re-select which mision to talk about in the dialog
-    } else if( data.read( "mission_selected", tmpmission_selected ) && tmpmission_selected != -1 ) {
-        mission_selected = mission::find( tmpmission_selected );
+    if( data.read( "mission_selected", tmpmission_selected ) && tmpmission_selected != -1 ) {
+        if( savegame_loading_version <= 23 ) {
+            // In 0.C, it was an index into the missions_assigned vector
+            if( tmpmission_selected >= 0 && tmpmission_selected < int( missions_assigned.size() ) ) {
+                mission_selected = missions_assigned[tmpmission_selected];
+            }
+        } else {
+            mission_selected = mission::find( tmpmission_selected );
+        }
     }
 }
 
