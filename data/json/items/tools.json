@@ -4753,7 +4753,7 @@
     "type": "TOOL",
     "name": "plastic mold",
     "description": "This is a plastic mold.  It could be shaped and used to craft items made of plastic.",
-    "weight": 2,
+    "weight": 320,
     "volume": 10,
     "price": 1000,
     "to_hit": 1,
