@@ -611,6 +611,12 @@ public:
  bool turned_hostile() const; // True if our anger is at least equal to...
  int hostile_anger_level() const; // ... this value!
  void make_angry(); // Called if the player attacks us
+     /*
+     * Angers and makes the NPC consider the creature an attacker
+     * if the creature is a player and the NPC is not already hostile
+     * towards the player.
+     */
+    void on_attacked( const Creature &attacker );
  int assigned_missions_value();
     /**
      * @return Skills of which this NPC has a higher level than the given player. In other

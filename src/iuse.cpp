@@ -3902,61 +3902,58 @@ int iuse::tazer(player *p, item *it, bool, const tripoint &pos )
     }
 
     tripoint dirp = pos;
-    if( p->pos() == pos && !choose_adjacent( _("Shock where?"), dirp ) ) {
+    if( p->pos() == pos && !choose_adjacent( _( "Shock where?" ), dirp ) ) {
         return 0;
     }
 
     if( dirp == p->pos() ) {
-        p->add_msg_if_player(m_info, _("Umm.  No."));
+        p->add_msg_if_player( m_info, _( "Umm.  No." ) );
         return 0;
     }
 
     Creature *target = g->critter_at( dirp, true );
     if( target == nullptr ) {
-        p->add_msg_if_player(_("There's nothing to zap there!"));
+        p->add_msg_if_player( _( "There's nothing to zap there!" ) );
         return 0;
     }
 
-    // Hacky, there should be a method doing all that when the player willingly hurts someone
     npc *foe = dynamic_cast<npc *>( target );
-    if( foe != nullptr && foe->attitude != NPCATT_KILL && foe->attitude != NPCATT_FLEE ) {
-        if( !p->query_yn( _("Really shock %s"), target->disp_name().c_str() ) ) {
-            return 0;
-        }
-
-        foe->attitude = NPCATT_KILL;
-        foe->hit_by_player = true;
+    if( foe != nullptr &&
+        !foe->is_enemy() &&
+        !p->query_yn( _( "Really shock %s?" ), target->disp_name().c_str() ) ) {
+        return 0;
     }
 
     ///\EFFECT_DEX slightly increases chance of successfully using tazer
-
     ///\EFFECT_MELEE increases chance of successfully using a tazer
-    int numdice = 3 + (p->dex_cur / 2.5) + p->get_skill_level( skill_melee ) * 2;
+    int numdice = 3 + ( p->dex_cur / 2.5 ) + p->get_skill_level( skill_melee ) * 2;
     p->moves -= 100;
 
     ///\EFFECT_DODGE increases chance of dodging a tazer attack
-    int target_dice = target->get_dodge();
-    if( dice( numdice, 10 ) < dice( target_dice, 10 ) ) {
-        // A miss!
-        p->add_msg_player_or_npc( _("You attempt to shock %s, but miss."),
-                                  _("<npcname> attempts to shock %s, but misses."),
-                                  target->disp_name().c_str() );
-        return it->type->charges_to_use();
-    }
-
-    // Maybe-TODO: Execute an attack and maybe zap something other than torso
-    // Maybe, because it's torso (heart) that fails when zapped with electricity
-    int dam = target->deal_damage( p, bp_torso, damage_instance( DT_ELECTRIC, rng( 5, 25 ) ) ).total_damage();
-    if( dam > 0 ) {
-        p->add_msg_player_or_npc( m_good,
-                                  _("You shock %s!"),
-                                  _("<npcname> shocks %s!"),
+    const bool tazer_was_dodged = dice( numdice, 10 ) < dice( target->get_dodge(), 10 );
+    if( tazer_was_dodged ) {
+        p->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
+                                  _( "<npcname> attempts to shock %s, but misses." ),
                                   target->disp_name().c_str() );
     } else {
-        p->add_msg_player_or_npc( m_warning,
-                                  _("You unsuccessfully attempt to shock %s!"),
-                                  _("<npcname> unsuccessfully attempts to shock %s!"),
-                                  target->disp_name().c_str() );
+        // Maybe-TODO: Execute an attack and maybe zap something other than torso
+        // Maybe, because it's torso (heart) that fails when zapped with electricity
+        int dam = target->deal_damage( p, bp_torso, damage_instance( DT_ELECTRIC, rng( 5, 25 ) ) ).total_damage();
+        if( dam > 0 ) {
+            p->add_msg_player_or_npc( m_good,
+                                    _( "You shock %s!" ),
+                                    _( "<npcname> shocks %s!" ),
+                                    target->disp_name().c_str() );
+        } else {
+            p->add_msg_player_or_npc( m_warning,
+                                    _( "You unsuccessfully attempt to shock %s!" ),
+                                    _( "<npcname> unsuccessfully attempts to shock %s!" ),
+                                    target->disp_name().c_str() );
+        }
+    }
+
+    if ( foe != nullptr ) {
+        foe->on_attacked( *p );
     }
 
     return it->type->charges_to_use();

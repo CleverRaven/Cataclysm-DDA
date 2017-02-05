@@ -7629,8 +7629,8 @@ bool game::npc_menu( npc &who )
     amenu.addentry( sort_armor, true, 'r', _("Sort armor") );
     amenu.addentry( attack, true, 'a', _("Attack") );
     if( !who.is_friend() ) {
-        amenu.addentry( disarm, who.is_armed(), 'd', _("Disarm") );
-        amenu.addentry( steal, true, 'S', _("Steal") );
+        amenu.addentry( disarm, who.is_armed(), 'd', _( "Disarm" ) );
+        amenu.addentry( steal, !who.is_enemy(), 'S', _( "Steal" ) );
     }
 
     amenu.query();
@@ -7696,21 +7696,15 @@ bool game::npc_menu( npc &who )
         who.sort_armor();
         u.mod_moves( -100 );
     } else if( choice == attack ) {
-        if(query_yn(_("You may be attacked! Proceed?"))) {
-            //The NPC knows we started the fight, used for morale penalty.
-            if( !who.is_enemy() ) {
-                who.hit_by_player = true;
-            }
-
+        if( who.is_enemy() || query_yn( _( "You may be attacked! Proceed?" ) ) ) {
             u.melee_attack( who, true );
-            who.make_angry();
+            who.on_attacked( u );
         }
     } else if( choice == disarm ) {
-        if( !who.is_enemy() && query_yn( _( "You may be attacked! Proceed?" ) ) )
-        {
+        if( who.is_enemy() || query_yn( _( "You may be attacked! Proceed?" ) ) ) {
             u.disarm( who );
         }
-    } else if( choice == steal ) {
+    } else if( choice == steal && query_yn( _( "You may be attacked! Proceed?" ) ) ) {
         u.steal( who );
     }
 
