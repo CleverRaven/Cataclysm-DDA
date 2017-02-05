@@ -756,7 +756,9 @@ endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
-	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
+ifdef LANGUAGES
+	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh $(LANGUAGES)
+endif
 endif
 
 ifeq ($(TARGETSYSTEM), CYGWIN)
@@ -791,7 +793,9 @@ endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
-	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
+ifdef LANGUAGES
+	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh $(LANGUAGES)
+endif
 endif
 
 
