@@ -717,7 +717,7 @@
       "accepted": "I'll be standing by down here once you are done.",
       "rejected": "I don't know why you would bother wasting your time down here if you can't handle a few small tasks...",
       "advice": "If you could make some sort of directional antenna, it might help locating the radio stations.",
-      "inquire": "Have you had any luck finding a radio tower?",
+      "inquire": "Have you had any luck finding a radio station?",
       "success": "That's one down.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
@@ -738,7 +738,7 @@
       "accepted": "I'll be standing by.",
       "rejected": "I don't know why you would bother wasting your time down here if you can't handle a few small tasks...",
       "advice": "Getting a working vehicle is going to become important as the distance you have to travel increases.",
-      "inquire": "Have you had any luck finding a radio tower?",
+      "inquire": "Have you had any luck finding a radio station?",
       "success": "I'll try and update the captain with any signals that I need investigated.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
