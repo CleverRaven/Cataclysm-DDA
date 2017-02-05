@@ -1404,6 +1404,8 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
             for( const auto &i : prof_items ) {
                 // TODO: If the item group is randomized *at all*, these'll be different each time
                 // and it won't match what you actually start with
+                // TODO: Put like items together like the inventory does, so we don't have to scroll
+                // through a list of a dozen forks.
                 buffer << i.display_name() << "\n";
             }
         }
