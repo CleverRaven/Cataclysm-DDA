@@ -105,7 +105,6 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
     return id;
 }
 
-// Operator overload required by sort interface.
 bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
                                    const std::pair<int, tripoint> &b ) const
 {
@@ -116,14 +115,11 @@ bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
 // This stuff could be moved elsewhere, but there
 // doesn't seem to be a good place to put it right now.
 
-// Basic logistic function.
 double logarithmic( double t )
 {
     return 1 / ( 1 + exp( -t ) );
 }
 
-// Logistic curve [-6,6], flipped and scaled to
-// range from 1 to 0 as pos goes from min to max.
 double logarithmic_range( int min, int max, int pos )
 {
     const double LOGI_CUTOFF = 4;
@@ -212,9 +208,6 @@ const char *volume_units_long()
     }
 }
 
-/**
-* Convert internal velocity units to units defined by user
-*/
 double convert_velocity( int velocity, const units_type vel_units )
 {
     // internal units to mph conversion
@@ -235,9 +228,6 @@ double convert_velocity( int velocity, const units_type vel_units )
     return ret;
 }
 
-/**
-* Convert weight in grams to units defined by user (kg or lbs)
-*/
 double convert_weight( int weight )
 {
     double ret;
@@ -250,18 +240,11 @@ double convert_weight( int weight )
     return ret;
 }
 
-/**
-* Convert volume from ml to units defined by user.
-*/
 double convert_volume( int volume )
 {
     return convert_volume( volume, NULL );
 }
 
-/**
-* Convert volume from ml to units defined by user,
-* optionally returning the units preferred scale.
-*/
 double convert_volume( int volume, int *out_scale )
 {
     double ret = volume;
@@ -293,12 +276,6 @@ double clamp_to_width( double value, int width, int &scale )
     return clamp_to_width( value, width, scale, NULL );
 }
 
-/**
-* Clamp (number and space wise) value to with,
-* taking into account the specified preferred scale,
-* returning the adjusted (shortened) scale that best fit the width,
-* optionally returning a flag that indicate if the value was truncated to fit the width
-*/
 double clamp_to_width( double value, int width, int &scale, bool *out_truncated )
 {
     if( out_truncated != NULL ) {
