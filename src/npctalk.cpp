@@ -709,49 +709,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             return _("Smoke crack to get more shit done.");
         }
 
-    } else if( topic == "TALK_OLD_GUARD_REP" ) {
-        // The rep should know whether you're a sworn officer.
-        // TODO: wearing the badge w/o the trait => Bad Idea
-        if (g->u.has_trait("PROF_FED")) {
-            return _("Marshal...");
-        }
-        return _("Citizen...");
-
-    } else if( topic == "TALK_OLD_GUARD_REP_NEW" ) {
-         return _("I'm the region's federal liaison.  Most people here call us the 'Old Guard' and I rather like the sound of it.  "
-                  "Despite how things currently appear, the federal government was not entirely destroyed.  After the outbreak I was "
-                  "chosen to coordinate civilian and militia efforts in support of military operations.");
-
-    } else if( topic == "TALK_OLD_GUARD_REP_NEW_DOING" ) {
-         return _("I ensure that the citizens here have what they need to survive and protect themselves from raiders.  Keeping "
-                  "some form law is going to be the most important  element in rebuilding the world.  We do what we can to keep the "
-                  "'Free Merchants' here prospering and in return they have provided us with spare men and supplies when they can.");
-
-    } else if( topic == "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" ) {
-         return _("Well... I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the "
-                  " best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain "
-                  "order.  They don't care much about looters since they understand most everyone is dead, but if you have something "
-                  "they need... you WILL give it to them.  Since most survivors have have nothing they want, they are welcomed as champions.");
-
-    } else if( topic == "TALK_OLD_GUARD_REP_WORLD" ) {
-         return _("There isn't much pushed out by public relations that I'd actually believe.  From what I gather, communication "
-                  "between the regional force commands is almost non-existent.  What I do know is that the 'Old Guard' is currently "
-                  "based out of the 2nd Fleet and patrols the Atlantic coast trying to provide support to the remaining footholds.");
-
-    } else if( topic == "TALK_OLD_GUARD_REP_WORLD_2NDFLEET" ) {
-         return _("I don't know much about how it formed but it is the armada of military and commercial ships that's floating off the "
-                  "coast.  They have everything from supertankers and carriers to fishing trawlers... even a few NATO ships.  Most civilians "
-                  "are offered a cabin on one of the liners to retire to if they serve as a federal employee for a few years.");
-
-    } else if( topic == "TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS" ) {
-         return _("They may just be propaganda but apparently one or two cities were successful in 'walling themselves off.' Around "
-                  "here I was told that there were a few places like this one but I couldn't tell you where.");
-
-    } else if( topic == "TALK_OLD_GUARD_REP_ASK_JOIN" ) {
-         return _("You can't actually join unless you go through a recruiter.  We can usually use help though, ask me from time to time "
-                  "if there is any work available.  Completing missions as a contractor is a great way to make a name for yourself among "
-                  "the most powerful men left in the world.");
-
      } else if( topic == "TALK_OLD_GUARD_SOLDIER" ) {
             if (g->u.is_wearing("badge_marshal"))
                 switch (rng(1,4)){
@@ -1695,36 +1652,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
     } else if( topic == "TALK_EVAC_GUARD3_DEAD" ) {
             p->my_fac = g->faction_by_ident("hells_raiders");
-
-    } else if( topic == "TALK_OLD_GUARD_REP" ) {
-            add_response( _("Who are you?"), "TALK_OLD_GUARD_REP_NEW" );
-            add_response( _("Heard anything about the outside world?"), "TALK_OLD_GUARD_REP_WORLD" );
-            add_response( _("Is there any way I can join the 'Old Guard'?"), "TALK_OLD_GUARD_REP_ASK_JOIN" );
-            add_response( _("Does the Old Guard need anything?"), "TALK_MISSION_LIST" );
-            add_response_done( _("Well, bye.") );
-
-    } else if( topic == "TALK_OLD_GUARD_REP_NEW" ) {
-            add_response( _("So what are you actually doing here?"), "TALK_OLD_GUARD_REP_NEW_DOING" );
-            add_response( _("Never mind..."), "TALK_OLD_GUARD_REP" );
-
-    } else if( topic == "TALK_OLD_GUARD_REP_NEW_DOING" ) {
-            add_response( _("Is there a catch?"), "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" );
-            add_response( _("Anything more to it?"), "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" );
-            add_response( _("Never mind..."), "TALK_OLD_GUARD_REP" );
-    } else if( topic == "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" ) {
-            add_response( _("Hmmm..."), "TALK_OLD_GUARD_REP" );
-
-    } else if( topic == "TALK_OLD_GUARD_REP_WORLD" ) {
-            add_response( _("The 2nd Fleet?"), "TALK_OLD_GUARD_REP_WORLD_2NDFLEET" );
-            add_response( _("Tell me about the footholds."), "TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS" );
-            add_response( _("Never mind..."), "TALK_OLD_GUARD_REP" );
-
-    } else if( topic == "TALK_OLD_GUARD_REP_WORLD_2NDFLEET" ) {
-            add_response( _("Hmmm..."), "TALK_OLD_GUARD_REP" );
-    } else if( topic == "TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS" ) {
-            add_response( _("Hmmm..."), "TALK_OLD_GUARD_REP" );
-    } else if( topic == "TALK_OLD_GUARD_REP_ASK_JOIN" ) {
-            add_response( _("Hmmm..."), "TALK_OLD_GUARD_REP" );
 
     } else if( topic == "TALK_OLD_GUARD_SOLDIER" ) {
             add_response_done( _("Don't mind me...") );
