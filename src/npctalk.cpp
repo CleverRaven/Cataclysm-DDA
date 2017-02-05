@@ -686,33 +686,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_MISSION_REWARD" ) {
         return _("Sure, here you go!");
 
-    } else if( topic == "TALK_EVAC_HUNTER" ) {
-        if (g->u.is_wearing("badge_marshal"))
-            return _("I thought I smelled a pig.  I jest... please don't arrest me.");
-        return _("Huh, thought I smelled someone new. Can I help you?");
-
-    } else if( topic == "TALK_EVAC_HUNTER_SMELL" ) {
-        return _("Oh, I didn't mean that in a bad way. Been out in the wilderness "
-                 "so long, I find myself noticing things by scent before sight.");
-
-    } else if( topic == "TALK_EVAC_HUNTER_DO" ) {
-        return _("I trade food here in exchange for a place to crash and general "
-                 "supplies. Well, more specifically I trade food that isn't stale "
-                 "chips and flat cola.");
-
-    } else if( topic == "TALK_EVAC_HUNTER_LIFE" ) {
-        return _("Not really, just trying to lead my life.");
-
-    } else if( topic == "TALK_EVAC_HUNTER_HUNT" ) {
-        return _("Yep. Whatever game I spot, I bag and sell the meat and other "
-                 "parts here. Got the occasional fish and basket full of wild "
-                 "fruit, but nothing comes close to a freshly-cooked moose steak "
-                 "for supper!");
-
-    } else if( topic == "TALK_EVAC_HUNTER_SALE" ) {
-        return _("Sure, just bagged a fresh batch of meat. You may want to grill "
-                 "it up before it gets too, uh... 'tender'. ");
-
     } else if( topic == "TALK_EVAC_HUNTER_ADVICE" ) {
         switch (rng(1,7)){
         case 1:
@@ -735,9 +708,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         case 7:
             return _("Smoke crack to get more shit done.");
         }
-
-    } else if( topic == "TALK_EVAC_HUNTER_BYE" ) {
-        return _("Watch your back out there.");
 
     } else if( topic == "TALK_OLD_GUARD_REP" ) {
         // The rep should know whether you're a sworn officer.
@@ -1744,35 +1714,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
     } else if( topic == "TALK_EVAC_GUARD3_DEAD" ) {
             p->my_fac = g->faction_by_ident("hells_raiders");
-
-    } else if( topic == "TALK_EVAC_HUNTER" ) {
-            add_response( _("You... smelled me?"), "TALK_EVAC_HUNTER_SMELL" );
-            add_response( _("What do you do around here?"), "TALK_EVAC_HUNTER_DO" );
-            add_response( _("Got anything for sale?"), "TALK_EVAC_HUNTER_SALE" );
-            add_response( _("Got any survival advice?"), "TALK_EVAC_HUNTER_ADVICE" );
-            add_response( _("Goodbye."), "TALK_EVAC_HUNTER_BYE" );
-
-    } else if( topic == "TALK_EVAC_HUNTER_SMELL" ) {
-            add_response( _("O..kay..? "), "TALK_EVAC_HUNTER" );
-
-    } else if( topic == "TALK_EVAC_HUNTER_DO" ) {
-            add_response( _("Interesting."), "TALK_EVAC_HUNTER_LIFE" );
-            add_response( _("Oh, so you hunt?"), "TALK_EVAC_HUNTER_HUNT" );
-
-    } else if( topic == "TALK_EVAC_HUNTER_LIFE" ) {
-            add_response( _("..."), "TALK_EVAC_HUNTER" );
-
-    } else if( topic == "TALK_EVAC_HUNTER_HUNT" ) {
-            add_response( _("Great, now my mouth is watering..."), "TALK_EVAC_HUNTER" );
-
-    } else if( topic == "TALK_EVAC_HUNTER_SALE" ) {
-            add_response( _("..."), "TALK_EVAC_HUNTER", &talk_function::start_trade );
-
-    } else if( topic == "TALK_EVAC_HUNTER_ADVICE" ) {
-            add_response( _("..."), "TALK_EVAC_HUNTER" );
-
-    } else if( topic == "TALK_EVAC_HUNTER_BYE" ) {
-            add_response_done( _("...") );
 
     } else if( topic == "TALK_OLD_GUARD_REP" ) {
             add_response( _("Who are you?"), "TALK_OLD_GUARD_REP_NEW" );
