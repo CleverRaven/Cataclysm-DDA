@@ -9576,7 +9576,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                             mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2,
                                      i, BORDER_COLOR, LINE_OXOX); // -
                         }
-                        std::string sSafemode = _("<A>dd do safemode Blacklist");
+                        std::string sSafemode = _("<A>dd to safemode Blacklist");
                         const std::string monName = (type_npc) ? get_safemode().npc_type_name() : m->name();
                         if ( get_safemode().has_rule(monName, Creature::A_ANY) ) {
                             sSafemode = _("<R>emove from safemode Blacklist");
