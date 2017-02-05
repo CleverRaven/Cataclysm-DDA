@@ -344,7 +344,7 @@
     "skill": "rifle",
     "range": 8,
     "ranged_damage": 20,
-    "dispersion": 1500,
+    "dispersion": 1300,
     "sight_dispersion": 150,
     "durability": 5,
     "burst": 25,
