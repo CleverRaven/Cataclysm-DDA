@@ -5874,22 +5874,9 @@ int game::mon_info(WINDOW *w)
 
 void game::cleanup_dead()
 {
-    // For some reason, using creature_tracker::find here is slow
-    // So we'll be accessing the vector directly, at least for the first pass
-    auto &mon_list = critter_tracker->get_monsters_list();
-    // Important: `Creature::die` must not be called after creature objects (NPCs, monsters) have
-    // been removed, the dying creature could still have a pointer (the killer) to another creature.
-    bool monster_is_dead = false;
-    for( monster *mon : mon_list ) {
-        monster &critter = *mon;
-        if( critter.is_dead() ) {
-            dbg(D_INFO) << string_format( "cleanup_dead: critter %d,%d,%d hp:%d %s",
-                                          critter.posx(), critter.posy(), critter.posz(),
-                                          critter.get_hp(), critter.name().c_str() );
-            critter.die( nullptr );
-            monster_is_dead = true;
-        }
-    }
+    // Dead monsters need to stay in the tracker until everything else that needs to die does so
+    // This is because dying monsters can still interact with other dying monsters (@ref Creature::killer)
+    bool monster_is_dead = critter_tracker->kill_marked_for_death();
 
     bool npc_is_dead = false;
     for( auto &n : active_npc ) {
