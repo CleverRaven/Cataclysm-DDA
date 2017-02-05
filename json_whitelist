@@ -32,6 +32,7 @@ data/json/monsters/* id
 data/json/npcs/missiondef.json id
 data/json/npcs/TALK_EVAC_GUARD3.json
 data/json/npcs/TALK_EVAC_MERCHANT.json
+data/json/npcs/TALK_SCAVENGER_MERC.json
 data/json/player_activities.json
 data/json/recipes/armor/*.json result
 data/json/recipes/electronics/*.json result

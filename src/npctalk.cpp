@@ -856,25 +856,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                  "hardware to protect federal secrets and maintain the integrity of the comms network.  We are hoping a few plain "
                  "text messages can get picked up though.");
 
-    } else if( topic == "TALK_SCAVENGER_MERC" ) {
-        if (g->u.is_wearing("badge_marshal"))
-            return _("I haven't done anything wrong...");
-        return _("...");
-
-    } else if( topic == "TALK_SCAVENGER_MERC_NEW" ) {
-         return _("I'm just a hired hand.  Someone pays me and I do what needs to be done.");
-
-    } else if( topic == "TALK_SCAVENGER_MERC_TIPS" ) {
-         return _("If you have to fight your way out of an ambush, the only thing that is going to save you is having a party that can "
-                  "return fire.  People who work alone are easy pickings for monsters and bandits.");
-
-    } else if( topic == "TALK_SCAVENGER_MERC_HIRE" ) {
-         return _("I'm currently waiting for a customer to return... I'll make you a deal though, "
-                  " $8,000 will cover my expenses if I get a small cut of the loot.");
-
-    } else if( topic == "TALK_SCAVENGER_MERC_HIRE_SUCCESS" ) {
-         return _("I guess you're the boss.");
-
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS" ) {
          return _("Hope you're here to trade.");
 
@@ -1854,29 +1835,17 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             p->add_effect( effect_gave_quest_item, 9999);
             add_response( _("Thanks."), "TALK_OLD_GUARD_NEC_COMMO" );
 
-    } else if( topic == "TALK_SCAVENGER_MERC" ) {
-            add_response( _("Who are you?"), "TALK_SCAVENGER_MERC_NEW" );
-            add_response( _("Any tips for surviving?"), "TALK_SCAVENGER_MERC_TIPS" );
-            add_response( _("What would it cost to hire you?"), "TALK_SCAVENGER_MERC_HIRE" );
-            add_response_done( _("Well, bye.") );
-
-    } else if( topic == "TALK_SCAVENGER_MERC_NEW" ) {
-            add_response( _("..."), "TALK_SCAVENGER_MERC" );
-    } else if( topic == "TALK_SCAVENGER_MERC_TIPS" ) {
-            add_response( _("I suppose I should hire a party then?"), "TALK_SCAVENGER_MERC" );
     } else if( topic == "TALK_SCAVENGER_MERC_HIRE" ) {
             if (g->u.cash >= 800000){
                 add_response( _("[$8000] You have a deal."), "TALK_SCAVENGER_MERC_HIRE_SUCCESS" );
-                g->u.cash -= 800000;
-            } else {
-                add_response( _("I might be back."), "TALK_SCAVENGER_MERC" );
             }
 
     } else if( topic == "TALK_SCAVENGER_MERC_HIRE_SUCCESS" ) {
-            RESPONSE(_("Glad to have you aboard."));
-                SUCCESS_ACTION(&talk_function::follow);
-                SUCCESS_OPINION(1, 0, 1, 0, 0);
-                SUCCESS("TALK_DONE");
+        if( g->u.cash < 800000 ) {
+            debugmsg( "Money appeared out of thin air! (or someone accidentally linked to this talk_topic)" );
+        } else {
+            g->u.cash -= 800000;
+        }
 
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS" ) {
             add_response( _("Who are you?"), "TALK_FREE_MERCHANT_STOCKS_NEW" );
