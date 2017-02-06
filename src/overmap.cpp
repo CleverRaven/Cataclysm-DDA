@@ -3025,7 +3025,7 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
                 continue;
             }
             // TODO: base this in monster attributes, foremost GOODHEARING.
-            const int inter_per_sig_power = 18; //Interest per signal value
+            const int inter_per_sig_power = 15; //Interest per signal value
             const int min_initial_inter = 35; //Min initial interest for horde
             const int calculated_inter = ( sig_power + 1 - dist ) * inter_per_sig_power; // Calculated interest
             const int roll_bonus = 15; // Bonus for interes roll to prevent guaranteed reaction to more loud signal
