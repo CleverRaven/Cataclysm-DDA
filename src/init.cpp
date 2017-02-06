@@ -156,6 +156,7 @@ void DynamicDataLoader::initialize()
     add( "material", &materials::load );
     add( "bionic", &load_bionic );
     add( "profession", &profession::load_profession );
+    add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "skill", &Skill::load_skill );
     add( "dream", &load_dream );
     add( "mutation_category", &load_mutation_category );

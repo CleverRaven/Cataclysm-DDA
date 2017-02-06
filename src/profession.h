@@ -19,10 +19,10 @@ class JsonArray;
 class JsonObject;
 class addiction;
 enum add_type : int;
-    class Skill;
-    using skill_id = string_id<Skill>;
+class Skill;
+using skill_id = string_id<Skill>;
 
-    class profession
+class profession
 {
     public:
         typedef std::pair<skill_id, int> StartingSkill;
@@ -40,6 +40,7 @@ enum add_type : int;
         typedef std::vector<itypedec> itypedecvec;
         friend class string_id<profession>;
         friend class generic_factory<profession>;
+
     private:
         string_id<profession> id;
         bool was_loaded = false;
@@ -58,6 +59,7 @@ enum add_type : int;
         Group_tag _starting_items = "EMPTY_GROUP";
         Group_tag _starting_items_male = "EMPTY_GROUP";
         Group_tag _starting_items_female = "EMPTY_GROUP";
+        itype_id no_bonus; // See profession::items and class json_item_substitution in profession.cpp
 
         std::vector<addiction> _starting_addictions;
         std::vector<std::string> _starting_CBMs;
@@ -74,6 +76,7 @@ enum add_type : int;
         profession();
 
         static void load_profession( JsonObject &obj, const std::string &src );
+        static void load_item_substitutions( JsonObject &jo );
 
         // these should be the only ways used to get at professions
         static const profession *generic(); // points to the generic, default profession
@@ -92,7 +95,7 @@ enum add_type : int;
         std::string description( bool male ) const;
         std::string gender_req() const;
         signed int point_cost() const;
-        std::vector<item> items( bool male ) const;
+        std::list<item> items( bool male, const std::vector<std::string> &traits ) const;
         std::vector<addiction> addictions() const;
         std::vector<std::string> CBMs() const;
         std::vector<std::string> traits() const;
