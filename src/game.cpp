@@ -2919,7 +2919,7 @@ bool game::handle_action()
             break;
 
         case ACTION_FIRE:
-            // @todo: Move handling this to a new function
+            // @todo: Move handling ACTION_FIRE to a new function.
             // Use vehicle turret or draw a pistol from a holster if unarmed
             if( !u.is_armed() ) {
 
@@ -2928,7 +2928,7 @@ bool game::handle_action()
 
                 turret_data turret;
                 if( veh && ( turret = veh->turret_query( u.pos() ) ) ) {
-                    // @todo: move this to separate function
+                    // @todo: move direct turret firing from ACTION_FIRE to separate function.
                     switch( turret.query() ) {
                         case turret_data::status::no_ammo:
                             add_msg( m_bad, _( "The %s is out of ammo." ), turret.name().c_str() );
@@ -10061,7 +10061,7 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
-// @todo: Move this and related data/functions to src/ranged.cpp
+// @todo: Move game::pl_target_ui and related data/functions to src/ranged.cpp
 std::vector<tripoint> game::pl_target_ui( const targeting_data &args ) {
     return pl_target_ui( args.mode, args.relevant, args.range,
                          args.ammo, args.on_mode_change, args.on_ammo_change );
@@ -10235,7 +10235,7 @@ bool game::plfire()
 
 bool game::plfire( item &weapon, int bp_cost )
 {
-    // @todo: bio power cost should be derived from a value of the firing weapon.
+    // @todo: bio power cost of firing should be derived from a value of the relevant weapon.
     target_callback empty_func = target_callback();
     item::gun_mode gun = weapon.gun_current_mode();
     int gun_range = u.gun_engagement_range( weapon, player::engagement::maximum );
