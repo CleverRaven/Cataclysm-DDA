@@ -165,8 +165,6 @@ stats player_stats;
 
 static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 
-static bool should_combine_bps( const player &, size_t, size_t );
-
 player_morale_ptr::player_morale_ptr( const player_morale_ptr &rhs ) :
     std::unique_ptr<player_morale>( rhs ? new player_morale( *rhs ) : nullptr )
 {
