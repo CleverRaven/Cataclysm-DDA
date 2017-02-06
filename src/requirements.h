@@ -50,7 +50,7 @@ struct component {
     mutable available_status available;
     bool recoverable;
 
-    component() : type( "null" ) , count( 0 ) , available( a_false ), recoverable( true ) {
+    component() : type( "null" ), count( 0 ), available( a_false ), recoverable( true ) {
     }
     component( const itype_id &TYPE, int COUNT ) : type( TYPE ), count( COUNT ), available( a_false ),
         recoverable( true ) {
