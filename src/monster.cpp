@@ -1741,6 +1741,14 @@ void monster::process_effects()
         add_msg( m_warning, _( "The %s seems a little healthier." ), name().c_str() );
     }
 
+    if( has_flag( MF_REGENERATES_IN_DARK ) ) {
+        const float light = g->m.ambient_light_at( pos() );
+        // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
+        if ( heal ( int( 50.0 *  exp( - light*light / 10000 ) )  > 0 && one_in( 2 ) && g->u.sees( *this ) ) ) {
+            add_msg( m_warning, _( "The %s uses the darkness to regenerate." ), name().c_str() );
+        }
+    }
+
     //Monster will regen morale and aggression if it is on max HP
     //It regens more morale and aggression if is currently fleeing.
     if( has_flag( MF_REGENMORALE ) && hp >= type->hp ) {

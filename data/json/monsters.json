@@ -1364,7 +1364,7 @@
     "luminance": 6,
     "special_attacks": [ [ "DARKMAN", 5 ] ],
     "death_function": [ "DARKMAN" ],
-    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "NO_BREATHE" ]
+    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "REGENERATES_IN_DARK", "NO_BREATHE" ]
   },
   {
     "id": "mon_deer",

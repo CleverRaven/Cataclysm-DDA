@@ -1595,6 +1595,15 @@
         "known_down" : true
     },{
         "type" : "overmap_terrain",
+        "id" : "standing_stones",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 3,
+        "extras" : "field",
+        "spawns" : { "group": "GROUP_STANDING_STONES", "population": [ 1,4 ], "chance": 100 }
+    },{
+        "type" : "overmap_terrain",
         "id" : "temple_stairs",
         "name" : "strange temple",
         "sym" : 84,
