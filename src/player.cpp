@@ -4833,7 +4833,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
     }
     const int infection_chance = dealt_dams.type_damage( DT_BASH ) + ( dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB ) ) * 4 * sum_cover / 100;
-    if( filthy && x_in_y( infection_chance, 100 ) )
+    if( x_in_y( infection_chance, 100 ) )
     {
         if( has_effect( effect_bite, bp ) ) {
             add_effect( effect_bite, 400, bp, true );
