@@ -1249,12 +1249,13 @@
   "difficulty": 7,
   "time": 270000,
   "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER_FINE","level":1},
-    {"id":"SAW_M_FINE","level":1},
-    {"id":"SCREW_FINE","level":1},
-    {"id":"GLARE","level":1}
-  ], "tools": [
+  "qualities": [
+    { "id": "HAMMER_FINE", "level": 1 },
+    { "id": "SAW_M_FINE", "level": 1 },
+    { "id": "SCREW_FINE", "level": 1 },
+    { "id": "GLARE", "level": 1 }
+  ],
+  "tools": [
       [
           [ "oxy_torch", 7 ],
           [ "welder", 36 ],
