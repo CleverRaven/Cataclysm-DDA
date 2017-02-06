@@ -66,25 +66,6 @@ extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
 
-struct delwin_functor {
-    void operator()( WINDOW *w ) const;
-};
-/**
- * A Wrapper around the WINDOW pointer, it automatically deletes the
- * window (see delwin_functor) when the variable gets out of scope.
- * This includes calling werase, wrefresh and delwin.
- * Usage:
- * 1. Acquire a WINDOW pointer via @ref newwin like normal, store it in a pointer variable.
- * 2. Create a variable of type WINDOW_PTR *on the stack*, initialize it with the pointer from 1.
- * 3. Do the usual stuff with window, print, update, etc. but do *not* call delwin on it.
- * 4. When the function is left, the WINDOW_PTR variable is destroyed, and its destructor is called,
- *    it calls werase, wrefresh and most importantly delwin to free the memory associated wit the pointer.
- * To trigger the delwin call earlier call some_window_ptr.reset().
- * To prevent the delwin call when the function is left (because the window is already deleted or, it should
- * not be deleted), call some_window_ptr.release().
- */
-typedef std::unique_ptr<WINDOW, delwin_functor> WINDOW_PTR;
-
 enum game_message_type : int {
     m_good,    /* something good happened to the player character, eg. health boost, increasing in skill */
     m_bad,      /* something bad happened to the player character, eg. damage, decreasing in skill */
@@ -280,44 +261,6 @@ bool query_yn( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
 bool query_int( int &result, const char *mes, ... ) PRINTF_LIKE( 2, 3 );
 
 bool internal_query_yn( const char *mes, va_list ap );
-
-/**
- * Shows a window querying the user for input.
- *
- * Returns the input that was entered. If the user cancels the input (e.g. by pressing escape),
- * an empty string is returned. An empty string may also be returned when the user does not enter
- * any text and confirms the input (by pressing ENTER). It's currently not possible these two
- * situations.
- *
- * @param title The displayed title, describing what to enter. @ref color_tags can be used.
- * @param width Width of the input area where the user input appears.
- * @param input The initially display input. The user can change this.
- * @param desc An optional text (e.h. help or formatting information) which is displayed
- * above the input. Color tags can be used.
- * @param identifier If not empty, this is used to store and retrieve previously entered
- * text. All calls with the same `identifier` share this history, the history is also stored
- * when saving the game (see @ref uistate).
- * @param max_length The maximal length of the text the user can input. More input is simply
- * ignored and the returned string is never longer than this.
- * @param only_digits Whether to only allow digits in the string.
- */
-std::string string_input_popup( std::string title, int width = 0, std::string input = "",
-                                std::string desc = "", std::string identifier = "",
-                                int max_length = -1, bool only_digits = false );
-
-std::string string_input_win( WINDOW *w, std::string input, int max_length, int startx,
-                              int starty, int endx, bool loop, long &key, int &pos,
-                              std::string identifier = "", int w_x = -1, int w_y = -1,
-                              bool dorefresh = true, bool only_digits = false,
-                              std::map<long, std::function<void()>> callbacks = std::map<long, std::function<void()>>(),
-                              std::set<long> ch_code_blacklist = std::set<long>() );
-
-std::string string_input_win_from_context(
-    WINDOW *w, input_context &ctxt, std::string input, int max_length, int startx, int starty,
-    int endx, bool loop, std::string &action, long &ch, int &pos, std::string identifier = "",
-    int w_x = -1, int w_y = -1, bool dorefresh = true, bool only_digits = false, bool draw_only = false,
-    std::map<long, std::function<void()>> callbacks = std::map<long, std::function<void()>>(),
-    std::set<long> ch_code_blacklist = std::set<long>() );
 
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec( bool cancelable, const char *mes, const std::vector<std::string> options );
