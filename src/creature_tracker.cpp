@@ -231,9 +231,9 @@ bool Creature_tracker::kill_marked_for_death()
     for( monster *mon : monsters_list ) {
         monster &critter = *mon;
         if( critter.is_dead() ) {
-            dbg(D_INFO) << string_format( "cleanup_dead: critter %d,%d,%d hp:%d %s",
-                                          critter.posx(), critter.posy(), critter.posz(),
-                                          critter.get_hp(), critter.name().c_str() );
+            dbg( D_INFO ) << string_format( "cleanup_dead: critter %d,%d,%d hp:%d %s",
+                                            critter.posx(), critter.posy(), critter.posz(),
+                                            critter.get_hp(), critter.name().c_str() );
             critter.die( nullptr );
             monster_is_dead = true;
         }
