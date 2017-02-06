@@ -4826,17 +4826,13 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     int sum_cover = 0, coverage = 0;
     for( item &i : worn )
     {
-        if( i.covers( bp ) )
+        if( i.covers( bp ) && i.is_filthy() )
         {
             coverage = i.get_coverage();
             sum_cover += coverage;
         }
     }
     const int infection_chance = dealt_dams.type_damage( DT_BASH ) + ( dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB ) ) * 4 * sum_cover / 100;
-    const bool filthy = std::any_of( worn.begin(), worn.end(), [bp]( const item& e )
-    {
-        return e.covers( bp ) && e.is_filthy();
-    } );
     if( filthy && x_in_y( infection_chance, 100 ) )
     {
         if( has_effect( effect_bite, bp ) ) {
