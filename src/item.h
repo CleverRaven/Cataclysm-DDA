@@ -1340,7 +1340,7 @@ public:
 
         struct gun_mode {
             std::string mode;           /** name of this mode */
-            item *target = nullptr;     /** pointer to base gun or attached gunmod */
+            item *target = nullptr;     /** pointer to item providing this mode - base gun or attached gunmod */
             int qty = 0;                /** burst size or melee range */
 
             /** flags change behavior of gun mode and are **not** equivalent to item flags */
