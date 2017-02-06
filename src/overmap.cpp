@@ -3028,8 +3028,7 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
             const int inter_per_sig_power = 15; //Interest per signal value
             const int min_initial_inter = 30; //Min initial interest for horde
             const int calculated_inter = ( sig_power + 1 - dist ) * inter_per_sig_power; // Calculated interest
-            const int roll_bonus = 15; // Bonus for interes roll to prevent guaranteed reaction to more loud signal
-            const int roll = rng( 0, mg.interest + roll_bonus );
+            const int roll = rng( 0, mg.interest );
             // Minimum capped calculated interest. Used to give horde enough interest to really investigate the target at start.
             const int min_capped_inter = std::max( min_initial_inter, calculated_inter );
             if( roll < min_capped_inter ) { //Rolling if horde interested in new signal
