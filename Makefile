@@ -305,9 +305,11 @@ ifeq ($(NATIVE), osx)
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
   LDFLAGS += -mmacosx-version-min=$(OSX_MIN)
   ifdef FRAMEWORK
-    FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
+    ifeq ($(FRAMEWORKSDIR),)
+      FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
                              $(if $(shell find $(HOME)/Library/Frameworks -name 'SDL2.*'), \
                                $(HOME)/Library/Frameworks,),))
+    endif
     ifeq ($(FRAMEWORKSDIR),)
       FRAMEWORKSDIR := $(strip $(if $(shell find /Library/Frameworks -name 'SDL2.*'), \
                                  /Library/Frameworks,))
