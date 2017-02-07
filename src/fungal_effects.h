@@ -1,5 +1,8 @@
+#pragma once
+#ifndef FUNGAL_EFFECTS_H
+#define FUNGAL_EFFECTS_H
 
-class tripoint;
+struct tripoint;
 class map;
 class game;
 class Creature;
@@ -20,3 +23,5 @@ class fungal_effects
 
         bool spread_fungus( const tripoint &p );
 };
+
+#endif
