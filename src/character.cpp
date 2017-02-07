@@ -2105,100 +2105,83 @@ float Character::mutation_armor( body_part bp, const damage_unit &du ) const
 void Character::close_door( const tripoint &closep )
 {
     bool didit = false;
-    const bool inside = !m.is_outside( u.pos() );
+    const bool inside = !g->m.is_outside( pos() );
 
-    auto items_in_way = m.i_at( closep );
+    const Creature *const mon = g->critter_at( closep );
+    if( mon ) {
+        if( mon->is_player() ) {
+            add_msg( m_info, _( "There's some buffoon in the way!" ) );
+        } else if( mon->is_monster() ) {
+            // TODO: Houseflies, mosquitos, etc shouldn't count
+            add_msg( m_info, _( "The %s is in the way!" ), mon->get_name().c_str() );
+        } else {
+            add_msg( m_info, _( "%s is in the way!" ), mon->disp_name().c_str() );
+        }
+        return;
+    }
+
     int vpart;
-    vehicle *veh = m.veh_at( closep, vpart );
-    int zid = mon_at( closep );
-    if( zid != -1 ) {
-        monster &critter = critter_tracker->find( zid );
-        add_msg( m_info, _( "There's a %s in the way!" ), critter.name().c_str() );
-    } else if( veh ) {
-        int openable = veh->next_part_to_close( vpart );
-        if( openable >= 0 ) {
-            if( closep == u.pos() ) {
-                add_msg( m_info, _( "There's some buffoon in the way!" ) );
-                return;
-            }
-            const std::string name = veh->part_info( openable ).name();
-            if( veh->part_info( openable ).has_flag( "OPENCLOSE_INSIDE" ) ) {
-                const vehicle *in_veh = m.veh_at( u.pos() );
-                if( !in_veh || in_veh != veh ) {
-                    add_msg( m_info, _( "That %s can only closed from the inside." ), name.c_str() );
-                    return;
-                }
-            }
-            if( veh->parts[openable].open ) {
-                veh->close( openable );
-                didit = true;
-            } else {
-                add_msg( m_info, _( "That %s is already closed." ), name.c_str() );
-            }
-        }
-    } else if( closep == u.pos() ) {
-        add_msg( m_info, _( "There's some buffoon in the way!" ) );
-    } else if( m.has_furn( closep ) && !m.furn( closep ).obj().close ) {
-        // check for open crate
-        if( m.furn( closep ) == furn_str_id( "f_crate_o" ) ) {
-            add_msg( m_info, _( "You'll need to construct a seal to close the crate!" ) );
+    vehicle *const veh = g->m.veh_at( closep, vpart );
+    if( veh ) {
+        const int closable = veh->next_part_to_close( vpart, g->m.veh_at( pos() ) != veh );
+        const int inside_closable = veh->next_part_to_close( vpart );
+        const int openable = veh->next_part_to_open( vpart );
+        if( closable >= 0 ) {
+            veh->close( closable );
+            didit = true;
+        } else if( inside_closable >= 0 ) {
+            add_msg( m_info, _( "That %s can only be closed from the inside." ), veh->parts[inside_closable].name().c_str() );
+        } else if( openable >= 0 ) {
+            add_msg( m_info, _( "That %s is already closed." ), veh->parts[openable].name().c_str() );
         } else {
-            add_msg( m_info, _( "There's a %s in the way!" ), m.furnname( closep ).c_str() );
+            add_msg( m_info, _( "You cannot close the %s." ), veh->parts[vpart].name().c_str() );
         }
-    } else if( !m.close_door( closep, inside, true ) ) {
-        // ^^ That checks if the PC could close something there, it
-        // does not actually do anything.
-        std::string door_name;
-        if( m.has_furn( closep ) ) {
-            door_name = m.furn( closep ).obj().name;
-        } else {
-            door_name = m.tername( closep );
-        }
-        // Print a message that we either can not close whatever is there
-        // or (if we're outside) that we can only close it from the
-        // inside.
-        if( !inside && m.close_door( closep, true, true ) ) {
+    } else if( g->m.furn( closep ) == furn_str_id( "f_crate_o" ) ) {
+        add_msg( m_info, _( "You'll need to construct a seal to close the crate!" ) );
+    } else if( !g->m.close_door( closep, inside, true ) ) {
+        if( g->m.close_door( closep, true, true ) ) {
             add_msg( m_info, _( "You cannot close the %s from outside. You must be inside the building." ),
-                     door_name.c_str() );
+                     g->m.name( closep ).c_str() );
         } else {
-            add_msg( m_info, _( "You cannot close the %s." ), door_name.c_str() );
+            add_msg( m_info, _( "You cannot close the %s." ), g->m.name( closep ).c_str() );
         }
     } else {
+        auto items_in_way = g->m.i_at( closep );
         // Scoot up to 25 liters of items out of the way
-        if( m.furn( closep ) != f_safe_o && !items_in_way.empty() ) {
+        if( g->m.furn( closep ) != furn_str_id( "f_safe_o" ) && !items_in_way.empty() ) {
             const units::volume max_nudge = 25000_ml;
-            units::volume total_item_volume = 0;
-            for( auto &elem : items_in_way ) {
-                if( elem.volume() > max_nudge ) {
-                    add_msg( m_info, _( "There's a %s in the way that is too big to just nudge out "
-                                        "of the way." ),
-                             elem.tname().c_str() );
-                    return;
-                }
-                total_item_volume += elem.volume();
-                if( total_item_volume > max_nudge ) {
-                    add_msg( m_info, _( "There is too much stuff in the way." ) );
-                    return;
-                }
-            }
-            add_msg( _( "You push %s out of the way." ), items_in_way.size() == 1 ?
-                     items_in_way[0].tname().c_str() : _( "some stuff" ) );
-            u.moves -= std::min( total_item_volume / ( max_nudge / 50 ), 100 );
-        }
 
-        didit = m.close_door( closep, inside, false );
-        if( didit && m.has_flag_ter_or_furn( "NOITEM", closep ) ) {
-            // Just plopping items back on their origin square will displace them to adjacent squares
-            // since the door is closed now.
-            for( auto &elem : items_in_way ) {
-                m.add_item_or_charges( closep, elem );
+            const auto toobig = std::find_if( items_in_way.begin(), items_in_way.end(), [&max_nudge]( const item &it ) {
+                return it.volume() > max_nudge;
+            } );
+            if( toobig != items_in_way.end() ) {
+                add_msg( m_info, _( "The %s is too big to just nudge out of the way." ), toobig->tname().c_str() );
+            } else if( items_in_way.stored_volume() > max_nudge ) {
+                add_msg( m_info, _( "There is too much stuff in the way." ) );
+            } else {
+                g->m.close_door( closep, inside, false );
+                didit = true;
+                add_msg( m_info, _( "You push the %s out of the way." ), items_in_way.size() == 1 ?
+                         items_in_way[0].tname().c_str() : _( "stuff" ) );
+                mod_moves( -std::min( items_in_way.stored_volume() / ( max_nudge / 50 ), 100 ) );
+
+                if( g->m.has_flag( "NOITEM", closep ) ) {
+                    // Just plopping items back on their origin square will displace them to adjacent squares
+                    // since the door is closed now.
+                    for( auto &elem : items_in_way ) {
+                        g->m.add_item_or_charges( closep, elem );
+                    }
+                    g->m.i_clear( closep );
+                }
             }
-            m.i_clear( closep );
+        } else {
+            g->m.close_door( closep, inside, false );
+            didit = true;
         }
     }
 
     if( didit ) {
-        u.moves -= 90;
+        mod_moves( -90 ); // TODO: Vary this?
     }
 }
 

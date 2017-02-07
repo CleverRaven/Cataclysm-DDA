@@ -785,7 +785,6 @@ class game
         void wait(); // Long wait (player action)  '^'
         void open(); // Open a door  'o'
         void close();
-        void close( const tripoint &p ); // Close a door  'c'
         void smash(); // Smash terrain
 
         void handbrake ();

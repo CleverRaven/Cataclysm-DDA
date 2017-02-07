@@ -2782,7 +2782,7 @@ bool game::handle_action()
             if( u.has_active_mutation( "SHELL2" ) ) {
                 add_msg(m_info, _("You can't close things while you're in your shell."));
             } else if( mouse_target != tripoint_min ) {
-                close( mouse_target );
+                u.close_door( mouse_target );
             } else {
                 close();
             }
@@ -6920,7 +6920,7 @@ void game::close()
 {
     tripoint closep;
     if( choose_adjacent_highlight( _("Close where?"), closep, ACTION_CLOSE ) ) {
-        close( closep );
+        u.close_door( closep );
     }
 }
 
