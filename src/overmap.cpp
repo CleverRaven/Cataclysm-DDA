@@ -3040,11 +3040,11 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
                     const int min_inc_inter = 3; // Min interest increase to already targeted source
                     const int inc_roll = rng( min_inc_inter, calculated_inter );
                     mg.inc_interest( inc_roll );
-                    add_msg( m_debug, "horde inc interest %d", inc_roll) ;
+                    add_msg( m_debug, "horde inc interest %d dist %d", inc_roll, dist ) ;
                 } else { // New signal source
                     mg.set_target( p.x, p.y );
                     mg.set_interest( min_capped_inter );
-                    add_msg( m_debug, "horde set interest %d", min_capped_inter );
+                    add_msg( m_debug, "horde set interest %d dist %d", min_capped_inter, dist );
                 }
             }
     }

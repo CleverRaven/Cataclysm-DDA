@@ -169,7 +169,7 @@ int get_signal_for_hordes( const centroid &centr )
     const int undeground_div = 2;//Coeffficient for volume reduction undeground
     const int hordes_sig_div =  SEEX;//Divider coefficent for hordes
     const int min_sig_cap = 8; //Signal for hordes can't be lower that this if it pass min_vol_cap
-    const int max_sig_cap = 30;//Signal for hordes can't be higher that this
+    const int max_sig_cap = 26;//Signal for hordes can't be higher that this
     //Lower the level - lower the sound
     int vol_hordes = ( ( centr.z < 0 ) ? vol / ( undeground_div * std::abs( centr.z ) ) : vol );
     if( vol_hordes > min_vol_cap ) {
