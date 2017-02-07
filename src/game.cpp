@@ -1654,6 +1654,7 @@ void game::process_activity()
 
     if( calendar::once_every(MINUTES(5)) ) {
         draw();
+        refresh_display();
     }
 
     while( u.moves > 0 && u.activity ) {

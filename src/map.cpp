@@ -669,6 +669,14 @@ float map::vehicle_buoyancy( const vehicle &veh ) const
     return total_wheel_area;
 }
 
+static bool sees_veh( const Creature &c, vehicle &veh, bool force_recalc )
+{
+    const auto &veh_points = veh.get_points( force_recalc );
+    return std::any_of( veh_points.begin(), veh_points.end(), [&c]( const tripoint &pt ) {
+        return c.sees( pt );
+    } );
+}
+
 void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing )
 {
     const bool vertical = dp.z != 0;
@@ -807,6 +815,8 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         }
     }
 
+    const bool seen = sees_veh( g->u, veh, false );
+
     if( can_move ) {
         // Accept new direction
         if( veh.skidding ) {
@@ -836,8 +846,11 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         }
     }
     // Redraw scene
-    // TODO: Make this not happen on unseen vehicles
-    g->draw();
+    // But only if the vehicle was seen before or after the move
+    if( seen || sees_veh( g->u, veh, true ) ) {
+        g->draw();
+        refresh_display();
+    }
 }
 
 int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direction )
