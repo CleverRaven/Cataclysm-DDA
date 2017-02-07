@@ -7,6 +7,7 @@
 #include "mission.h"
 #include "game.h"
 #include "map.h"
+#include "fungal_effects.h"
 #include "debug.h"
 #include "addiction.h"
 #include "inventory.h"
@@ -5425,6 +5426,7 @@ void player::hardcoded_effects(effect &it)
                                               _("<npcname> vomits thousands of live spores!") );
 
                 moves = -500;
+                fungal_effects fe( *g, g->m );
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
                         if (i == 0 && j == 0) {
@@ -5432,7 +5434,7 @@ void player::hardcoded_effects(effect &it)
                         }
 
                         tripoint sporep( posx() + i, posy() + j, posz() );
-                        g->m.fungalize( sporep, this, 0.25 );
+                        fe.fungalize( sporep, this, 0.25 );
                     }
                 }
             // We're fucked
@@ -12650,6 +12652,7 @@ std::vector<std::string> player::get_overlay_ids() const
 
 void player::spores()
 {
+    fungal_effects fe( *g, g->m );
     //~spore-release sound
     sounds::sound( pos(), 10, _("Pouf!"));
     for (int i = -1; i <= 1; i++) {
@@ -12659,7 +12662,7 @@ void player::spores()
             }
 
             tripoint sporep( posx() + i, posy() + j, posz() );
-            g->m.fungalize( sporep, this, 0.25 );
+            fe.fungalize( sporep, this, 0.25 );
         }
     }
 }

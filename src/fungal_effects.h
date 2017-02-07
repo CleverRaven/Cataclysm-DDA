@@ -1,0 +1,22 @@
+
+class tripoint;
+class map;
+class game;
+class Creature;
+
+class fungal_effects
+{
+    private:
+        // Dependency injection to try to be less global
+        game &gm;
+        map &m;
+    public:
+        fungal_effects( game &g, map &mp );
+
+        bool marlossify( const tripoint &p );
+        /** Makes spores at p. source is used for kill counting */
+        void create_spores( const tripoint &p, Creature *source = nullptr );
+        void fungalize( const tripoint &p, Creature *source = nullptr, double spore_chance = 0.0 );
+
+        bool spread_fungus( const tripoint &p );
+};

@@ -3,6 +3,7 @@
 #include "game.h"
 #include "debug.h"
 #include "map.h"
+#include "fungal_effects.h"
 #include "rng.h"
 #include "line.h"
 #include "bodypart.h"
@@ -1451,6 +1452,7 @@ bool mattack::fungus(monster *z)
         }
     }
 
+    fungal_effects fe( *g, g->m );
     for (int i = -radius; i <= radius; i++) {
         for (int j = -radius; j <= radius; j++) {
             if( i == 0 && j == 0 ) {
@@ -1465,7 +1467,7 @@ bool mattack::fungus(monster *z)
                 continue;
             }
 
-            g->m.fungalize( sporep, z, spore_chance );
+            fe.fungalize( sporep, z, spore_chance );
         }
     }
 
@@ -1957,8 +1959,9 @@ bool mattack::dermatik_growth(monster *z)
 
 bool mattack::plant( monster *z)
 {
+    fungal_effects fe( *g, g->m );
     // Spores taking seed and growing into a fungaloid
-    if( !g->spread_fungus( z->pos() ) && one_in( 10 + g->num_zombies() / 5 ) ) {
+    if( !fe.spread_fungus( z->pos() ) && one_in( 10 + g->num_zombies() / 5 ) ) {
         if( g->u.sees( *z ) ) {
             add_msg(m_warning, _("The %s takes seed and becomes a young fungaloid!"),
                     z->name().c_str());
@@ -1974,7 +1977,7 @@ bool mattack::plant( monster *z)
         }
         z->set_hp( 0 );
         // Try fungifying once again
-        g->spread_fungus( z->pos() );
+        fe.spread_fungus( z->pos() );
         return true;
     }
 }

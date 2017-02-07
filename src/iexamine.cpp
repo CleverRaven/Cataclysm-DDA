@@ -2,6 +2,7 @@
 #include "game.h"
 #include "harvest.h"
 #include "map.h"
+#include "fungal_effects.h"
 #include "map_iterator.h"
 #include "debug.h"
 #include "mapdata.h"
@@ -1609,7 +1610,7 @@ void iexamine::egg_sackws( player &p, const tripoint &examp )
 void iexamine::fungus(player &p, const tripoint &examp)
 {
     add_msg(_("The %s crumbles into spores!"), g->m.furnname(examp).c_str());
-    g->m.create_spores( examp, &p );
+    fungal_effects( *g, g->m ).create_spores( examp, &p );
     g->m.furn_set(examp, f_null);
     p.moves -= 50;
 }
