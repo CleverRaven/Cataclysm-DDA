@@ -1579,24 +1579,17 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
     }
 
     if( moved ) {
+        const tripoint old_pos = pos();
+        setpos( p );
         if( in_vehicle ) {
-            g->m.unboard_vehicle( pos() );
+            g->m.unboard_vehicle( old_pos );
         }
 
         // Close doors behind self (if you can)
         if( is_friend() && rules.close_doors ) {
-            if( veh != nullptr ) {
-                vpart = veh->next_part_to_close( vpart );
-                if( vpart >= 0 ) {
-                    veh->close( vpart );
-                    mod_moves( -90 );
-                }
-            } else if( g->m.close_door( pos(), !g->m.is_outside( p ), false ) ) {
-                mod_moves( -90 );
-            }
+            close_door( old_pos );
         }
 
-        setpos( p );
         int part;
         vehicle *veh = g->m.veh_at( p, part );
         if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {

@@ -2110,12 +2110,12 @@ void Character::close_door( const tripoint &closep )
     const Creature *const mon = g->critter_at( closep );
     if( mon ) {
         if( mon->is_player() ) {
-            add_msg( m_info, _( "There's some buffoon in the way!" ) );
+            add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
         } else if( mon->is_monster() ) {
             // TODO: Houseflies, mosquitos, etc shouldn't count
-            add_msg( m_info, _( "The %s is in the way!" ), mon->get_name().c_str() );
+            add_msg_if_player( m_info, _( "The %s is in the way!" ), mon->get_name().c_str() );
         } else {
-            add_msg( m_info, _( "%s is in the way!" ), mon->disp_name().c_str() );
+            add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name().c_str() );
         }
         return;
     }
@@ -2130,20 +2130,20 @@ void Character::close_door( const tripoint &closep )
             veh->close( closable );
             didit = true;
         } else if( inside_closable >= 0 ) {
-            add_msg( m_info, _( "That %s can only be closed from the inside." ), veh->parts[inside_closable].name().c_str() );
+            add_msg_if_player( m_info, _( "That %s can only be closed from the inside." ), veh->parts[inside_closable].name().c_str() );
         } else if( openable >= 0 ) {
-            add_msg( m_info, _( "That %s is already closed." ), veh->parts[openable].name().c_str() );
+            add_msg_if_player( m_info, _( "That %s is already closed." ), veh->parts[openable].name().c_str() );
         } else {
-            add_msg( m_info, _( "You cannot close the %s." ), veh->parts[vpart].name().c_str() );
+            add_msg_if_player( m_info, _( "You cannot close the %s." ), veh->parts[vpart].name().c_str() );
         }
     } else if( g->m.furn( closep ) == furn_str_id( "f_crate_o" ) ) {
-        add_msg( m_info, _( "You'll need to construct a seal to close the crate!" ) );
+        add_msg_if_player( m_info, _( "You'll need to construct a seal to close the crate!" ) );
     } else if( !g->m.close_door( closep, inside, true ) ) {
         if( g->m.close_door( closep, true, true ) ) {
-            add_msg( m_info, _( "You cannot close the %s from outside. You must be inside the building." ),
-                     g->m.name( closep ).c_str() );
+            add_msg_if_player( m_info, _( "You cannot close the %s from outside. You must be inside the building." ),
+                               g->m.name( closep ).c_str() );
         } else {
-            add_msg( m_info, _( "You cannot close the %s." ), g->m.name( closep ).c_str() );
+            add_msg_if_player( m_info, _( "You cannot close the %s." ), g->m.name( closep ).c_str() );
         }
     } else {
         auto items_in_way = g->m.i_at( closep );
@@ -2155,14 +2155,14 @@ void Character::close_door( const tripoint &closep )
                 return it.volume() > max_nudge;
             } );
             if( toobig != items_in_way.end() ) {
-                add_msg( m_info, _( "The %s is too big to just nudge out of the way." ), toobig->tname().c_str() );
+                add_msg_if_player( m_info, _( "The %s is too big to just nudge out of the way." ), toobig->tname().c_str() );
             } else if( items_in_way.stored_volume() > max_nudge ) {
-                add_msg( m_info, _( "There is too much stuff in the way." ) );
+                add_msg_if_player( m_info, _( "There is too much stuff in the way." ) );
             } else {
                 g->m.close_door( closep, inside, false );
                 didit = true;
-                add_msg( m_info, _( "You push the %s out of the way." ), items_in_way.size() == 1 ?
-                         items_in_way[0].tname().c_str() : _( "stuff" ) );
+                add_msg_if_player( m_info, _( "You push the %s out of the way." ), items_in_way.size() == 1 ?
+                                   items_in_way[0].tname().c_str() : _( "stuff" ) );
                 mod_moves( -std::min( items_in_way.stored_volume() / ( max_nudge / 50 ), 100 ) );
 
                 if( g->m.has_flag( "NOITEM", closep ) ) {
