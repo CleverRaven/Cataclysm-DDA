@@ -2762,10 +2762,10 @@
     "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
   },
   {
-    "id": "sickle",
+    "id": "gelrazor",
     "type": "vehicle_part",
     "name": "gel razor",
-    "item": "sickle",
+    "item": "gelrazor",
     "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",
