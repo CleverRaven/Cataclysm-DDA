@@ -1036,7 +1036,7 @@
     "symbol": ";",
     "color": "blue",
     "use_action": {
-      "target": "sickle",
+      "target": "gelrazor",
       "msg": "The blob balloons to full size.",
       "type": "delayed_transform",
       "transform_age": 4800,
