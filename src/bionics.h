@@ -2,7 +2,10 @@
 #ifndef BIONICS_H
 #define BIONICS_H
 
+#include "bodypart.h"
 #include "json.h"
+#include "string_id.h"
+
 #include <string>
 
 class player;

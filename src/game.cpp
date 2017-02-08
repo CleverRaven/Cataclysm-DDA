@@ -799,7 +799,7 @@ bool game::start_game(std::string worldname)
     refresh();
     popup_nowait(_("Please wait as we build your world"));
     // Init some factions.
-    if (!load_master(worldname)) { // Master data record contains factions.
+    if( !load_master( worldname ) || factions.empty() ) { // Master data record contains factions.
         create_factions();
     }
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
@@ -3642,7 +3642,9 @@ void game::load(std::string worldname, std::string name)
     const std::string playerfile = worldpath + name + ".sav";
 
     // Now load up the master game data; factions (and more?)
-    load_master(worldname);
+    if( !load_master( worldname ) || factions.empty() ) {
+        create_factions();
+    }
     u = player();
     u.name = base64_decode(name);
     // This should be initialized more globally (in player/Character constructor)
@@ -11196,8 +11198,12 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         const vehicle *const veh = m.veh_at( dest_loc, vpart );
         const bool boardable = veh && veh->part_with_feature( vpart, "BOARDABLE" ) >= 0;
         // Hack for now, later ledge should stop being a trap
-        if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
-            m.has_floor( dest_loc ) && !boardable ) {
+        // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
+        if( tr.loadid == tr_ledge && m.has_zlevels() ) {
+            if( !boardable && !m.has_floor_or_support( dest_loc ) ) {
+                harmful_stuff.push_back( tr.name.c_str() );
+            }
+        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() ) {
             harmful_stuff.push_back( tr.name.c_str() );
         }
 

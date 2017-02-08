@@ -34,7 +34,7 @@ WORLD::WORLD()
 {
     world_name = get_next_valid_worldname();
     std::ostringstream path;
-    path << FILENAMES["savedir"] << world_name;
+    path << FILENAMES["savedir"] << utf8_to_native( world_name );
     world_path = path.str();
     WORLD_OPTIONS = get_options().get_world_defaults();
 
@@ -89,7 +89,7 @@ WORLDPTR worldfactory::add_world( WORLDPTR retworld )
     all_worldnames.push_back( retworld->world_name );
 
     std::ostringstream path;
-    path << FILENAMES[ "savedir" ] << retworld->world_name;
+    path << FILENAMES[ "savedir" ] << utf8_to_native( retworld->world_name );
     retworld->world_path = path.str();
 
     if( !save_world( retworld ) ) {
@@ -192,7 +192,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
     all_worldnames.push_back(worldname);
 
     std::ostringstream path;
-    path << FILENAMES["savedir"] << worldname;
+    path << FILENAMES["savedir"] << utf8_to_native( worldname );
     special_world->world_path = path.str();
 
     if (!save_world(special_world)) {
@@ -220,7 +220,7 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     newworld->world_name = worldname;
 
     std::ostringstream path;
-    path << FILENAMES["savedir"] << worldname;
+    path << FILENAMES["savedir"] << utf8_to_native( worldname );
     newworld->world_path = path.str();
 
     // save world as conversion world
@@ -325,7 +325,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
         // the directory name is the name of the world
         std::string worldname;
         unsigned name_index = world_dir.find_last_of( "/\\" );
-        worldname = world_dir.substr( name_index + 1 );
+        worldname = native_to_utf8( world_dir.substr( name_index + 1 ) );
 
         // create and store the world
         retworlds[worldname] = new WORLD();
