@@ -6605,7 +6605,7 @@
       ["miner_hat", 10],
       ["bio_blaster", 10],
       ["honey_ant", 30],
-      ["tool_black_powder_charge", 1],
+      ["tool_black_powder_charge", 1]
     ]
   },{
     "type" : "item_group",
