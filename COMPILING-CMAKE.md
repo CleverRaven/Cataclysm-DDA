@@ -31,7 +31,7 @@ order to build CataclysmDDA:
    * `zlib`
    * `bzip2`
  * Optional
-   * `lua51`
+   * `lua52`
    * `gettext`
  * Curses
    * `ncurses`
@@ -70,7 +70,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 	pacman -S mingw-w64-i686-toolchain msys/git \
 		  mingw-w64-i686-cmake \
 		  mingw-w64-i686-SDL2_{image,mixer,ttf} \
-		  mingw-w64-i686-lua51 \
+		  mingw-w64-i686-lua52 \
 		  ncurses-devel \
 		  gettext-devel
  ```
@@ -84,7 +84,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 	pacman -S mingw-w64-x86_64-toolchain msys/git \
 		  mingw-w64-x86_64-cmake \
 		  mingw-w64-x86_64-SDL2_{image,mixer,ttf} \
-		  mingw-w64-x86_64-lua51 \
+		  mingw-w64-x86_64-lua52 \
 		  ncurses-devel \
 		  gettext-devel
  ```
@@ -202,7 +202,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
    * `libiconv-2.dll`
 
  * LUA deps:
-   * `lua51.dll`
+   * `lua52.dll`
 
  * TILES deps:
    * `SDL2.dll`

@@ -41,7 +41,7 @@ There are some general dependencies, optional dependencies and then specific dep
 Rough list based on building on Arch:
 
   * General: `gcc-libs`, `glibc`, `zlib`, `bzip2`
-  * Optional: `lua51`, `gettext`
+  * Optional: `lua52`, `gettext`
   * Curses: `ncurses`
   * Tiles: `sdl2`, `sdl2_image`, `sdl2_ttf`, `sdl2_mixer`, `freetype2`
 
