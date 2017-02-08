@@ -175,7 +175,7 @@
             [ [ "stick", 1 ] ],
             [ [ "string_36", 1 ] ]
         ],
-        "pre_terrain" : "t_door_frame",
+        "pre_special" : "check_empty",
         "post_terrain" : "t_door_curtain_c"
     },{
         "type" : "construction",
