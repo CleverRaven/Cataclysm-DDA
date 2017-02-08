@@ -2437,7 +2437,7 @@ void save_template(player *u)
     if (name.length() == 0) {
         return;
     }
-    std::string playerfile = FILENAMES["templatedir"] + name + ".template";
+    std::string playerfile = FILENAMES["templatedir"] + utf8_to_native( name ) + ".template";
     write_to_file( playerfile, [&]( std::ostream &fout ) {
         fout << u->save_info();
     }, _( "player template" ) );

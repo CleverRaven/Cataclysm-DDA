@@ -386,6 +386,7 @@ bool vehicle::turrets_aim()
     if( !trajectory.empty() ) {
         // set target for any turrets in range
         for( auto e : turrets( trajectory.back() ) ) {
+            e->target.first = global_part_pos3( *e );
             e->target.second = trajectory.back();
         }
         ///\EFFECT_INT speeds up aiming of vehicle turrets
