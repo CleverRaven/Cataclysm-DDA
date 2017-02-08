@@ -6604,7 +6604,8 @@
       ["survivormap", 1],
       ["miner_hat", 10],
       ["bio_blaster", 10],
-      ["tool_black_powder_charge", 1]
+      ["honey_ant", 30],
+      ["tool_black_powder_charge", 1],
     ]
   },{
     "type" : "item_group",
