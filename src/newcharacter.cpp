@@ -1904,15 +1904,6 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
                                              "); // Clear the line
         }
 
-        std::vector<std::string> scen_items = sorted_scens[cur_id]->items();
-        std::vector<std::string> scen_gender_items;
-
-        if (u->male) {
-            scen_gender_items = sorted_scens[cur_id]->items_male();
-        } else {
-            scen_gender_items = sorted_scens[cur_id]->items_female();
-        }
-        scen_items.insert( scen_items.end(), scen_gender_items.begin(), scen_gender_items.end() );
         werase(w_sorting);
         werase(w_profession);
         werase(w_location);
@@ -2083,7 +2074,7 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
     select_location.text = _("Select a starting location.");
     int offset = 0;
     for( const auto &loc : start_location::get_all() ) {
-        if (g->scen->allowed_start(loc.ident()) || g->scen->has_flag("ALL_STARTS")) {
+        if( g->scen->allowed_start( loc.ident() ) ) {
             select_location.entries.push_back( uimenu_entry( loc.name() ) );
             if( loc.ident() == u->start_location ) {
                 select_location.selected = offset;

@@ -52,7 +52,6 @@ enum add_type : int;
         std::string _name_female;
         std::string _description_male;
         std::string _description_female;
-        std::string _gender_req;
         signed int _point_cost;
 
         // TODO: In professions.json, replace lists of itypes (legacy) with item groups
@@ -96,7 +95,6 @@ enum add_type : int;
         const string_id<profession> &ident() const;
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
-        std::string gender_req() const;
         signed int point_cost() const;
         std::list<item> items( bool male, const std::vector<std::string> &traits ) const;
         std::vector<addiction> addictions() const;

@@ -153,6 +153,7 @@ void profession::load( JsonObject &jo, const std::string & )
 
     if( !was_loaded || jo.has_member( "description" ) ) {
         const std::string desc = jo.get_string( "description" );
+        // These also may differ depending on the language settings!
         _description_male = pgettext( "prof_desc_male", desc.c_str() );
         _description_female = pgettext( "prof_desc_female", desc.c_str() );
     }
