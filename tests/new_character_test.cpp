@@ -89,12 +89,9 @@ TEST_CASE( "starting_items" ) {
         "WOOLALLERGY"
     };
     // Prof/scen combinations that need to be checked.
-    std::unordered_map<const scenario *, std::vector<const profession *>> scen_prof_combos;
-    for( const profession &prof : profession::get_all() ) {
-        if( ( scenario::generic()->profsize() == 0 && !prof.has_flag( "SCEN_ONLY" ) ) ||
-            scenario::generic()->profquery( prof.ident() ) ) {
-            scen_prof_combos[scenario::generic()].push_back( &prof );
-        }
+    std::unordered_map<const scenario *, std::vector<string_id<profession>>> scen_prof_combos;
+    for( const auto &id : scenario::generic()->permitted_professions() ) {
+        scen_prof_combos[scenario::generic()].push_back( id );
     }
     /*for( const scenario &scen : scenario::get_all() ) {
         const bool special = std::any_of( mutation_branch::get_all().begin(), mutation_branch::get_all().end(),
@@ -106,10 +103,8 @@ TEST_CASE( "starting_items" ) {
             // the generic scenario
             continue;
         }
-        for( const profession &prof : profession::get_all() ) {
-            if( ( scen.profsize() == 0 && !prof.has_flag( "SCEN_ONLY" ) ) || scen.profquery( prof.ident() ) ) {
-                scen_prof_combos[&scen].push_back( &prof );
-            }
+        for( const auto &id : scen.permitted_professions() ) {
+            scen_prof_combos[&scen].push_back( id );
         }
     }*/
 
@@ -137,8 +132,8 @@ TEST_CASE( "starting_items" ) {
     for( ; !traits.empty(); traits = next_subset( mutations ) ) {
         for( const auto &pair : scen_prof_combos ) {
             g->scen = pair.first;
-            for( const profession *prof : pair.second ) {
-                g->u.prof = prof;
+            for( const string_id<profession> &prof : pair.second ) {
+                g->u.prof = &prof.obj();
                 if( !try_set_traits( traits ) ) {
                     continue; // Trait conflict: this prof/scen/trait combo is impossible to attain
                 }

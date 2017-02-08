@@ -221,16 +221,17 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
     const auto all = profession::get_all();
     std::vector<string_id<profession>> &res = cached_permitted_professions;
     for( const profession &p : all ) {
-        if( profquery( p.ident() ) ) {
+        const bool present = std::find( professions.begin(), professions.end(), p.ident() ) != professions.end();
+        if( blacklist || professions.empty() ) {
+            if( !present && !p.has_flag( "SCEN_ONLY" ) ) {
+                res.push_back( p.ident() );
+            }
+        } else if( present ) {
             res.push_back( p.ident() );
         }
     }
 
-    // Unemployed always goes first
-    const auto first = std::find( res.begin(), res.end(), profession::generic()->ident() );
-    if( first != res.end() ) {
-        std::swap( res.front(), *first );
-    } else if( res.empty() ) {
+    if( res.empty() ) {
         debugmsg( "Why would you blacklist every profession?" );
         res.push_back( profession::generic()->ident() );
     }
@@ -273,16 +274,6 @@ std::string scenario::start_name() const
     return _start_name;
 }
 
-bool scenario::profquery( const string_id<profession> &proff ) const
-{
-    const bool present = std::find( professions.begin(), professions.end(), proff ) !=
-                         professions.end();
-    if( blacklist || professions.empty() ) {
-        return !proff->has_flag( "SCEN_ONLY" ) && !present;
-    }
-    return present;
-}
-
 bool scenario::traitquery( std::string trait ) const
 {
     return _allowed_traits.count( trait ) != 0;
@@ -294,11 +285,6 @@ bool scenario::locked_traits( std::string trait ) const
 bool scenario::forbidden_traits( std::string trait ) const
 {
     return _forbidden_traits.count( trait ) != 0;
-}
-
-int scenario::profsize() const
-{
-    return permitted_professions().size();
 }
 
 bool scenario::has_flag( std::string flag ) const

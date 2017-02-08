@@ -1199,13 +1199,13 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
 struct {
     bool sort_by_points = true;
     bool male;
-    bool operator() (const profession *a, const profession *b)
+    bool operator() ( const string_id<profession> &a, const string_id<profession> &b )
     {
         // The generic ("Unemployed") profession should be listed first.
         const profession *gen = profession::generic();
-        if (b == gen) {
+        if( &b.obj() == gen ) {
             return false;
-        } else if (a == gen) {
+        } else if( &a.obj() == gen ) {
             return true;
         }
 
@@ -1248,20 +1248,15 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
     bool recalc_profs = true;
     int profs_length = 0;
     std::string filterstring;
-    std::vector<const profession *> sorted_profs;
+    std::vector<string_id<profession>> sorted_profs;
 
     do {
         if (recalc_profs) {
-            sorted_profs.clear();
-            for( const auto &prof : profession::get_all() ) {
-                if ((g->scen->profsize() == 0 && prof.has_flag("SCEN_ONLY") == false) ||
-                    g->scen->profquery( prof.ident() ) ) {
-                    if (!lcmatch(prof.gender_appropriate_name(u->male), filterstring)) {
-                        continue;
-                    }
-                    sorted_profs.push_back(&prof);
-                }
-            }
+            sorted_profs = g->scen->permitted_professions();
+            const auto new_end = std::remove_if( sorted_profs.begin(), sorted_profs.end(), [&]( const string_id<profession> &arg ) {
+                return !lcmatch( arg->gender_appropriate_name( u->male ), filterstring );
+            } );
+            sorted_profs.erase( new_end, sorted_profs.end() );
             profs_length = sorted_profs.size();
             if (profs_length == 0) {
                 popup(_("Nothing found.")); // another case of black box in tiles
@@ -1276,7 +1271,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
 
             // Select the current profession, if possible.
             for (int i = 0; i < profs_length; ++i) {
-                if (sorted_profs[i]->ident() == u->prof->ident()) {
+                if( sorted_profs[i] == u->prof->ident() ) {
                     cur_id = i;
                     break;
                 }
@@ -1342,7 +1337,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              "); // Clear the line
             nc_color col;
-            if (u->prof != sorted_profs[i]) {
+            if( u->prof != &sorted_profs[i].obj() ) {
                 col = (sorted_profs[i] == sorted_profs[cur_id] ? h_ltgray : c_ltgray);
             } else {
                 col = (sorted_profs[i] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
@@ -1480,7 +1475,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
             for( const std::string &old_trait : old_traits ) {
                 u->toggle_trait( old_trait );
             }
-            u->prof = sorted_profs[cur_id];
+            u->prof = &sorted_profs[cur_id].obj();
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
             u->add_traits();

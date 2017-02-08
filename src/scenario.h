@@ -43,13 +43,11 @@ private:
      * a bit of work. On subsequent calls, this vector is returned.
     */
     mutable std::vector<string_id<profession>> cached_permitted_professions;
-    std::vector<string_id<profession>> permitted_professions() const;
 
     std::set<std::string> _allowed_traits;
     std::set<std::string> _forced_traits;
     std::set<std::string> _forbidden_traits;
     std::vector<start_location_id> _allowed_locs;
-    std::vector<std::string> traits;
     int _point_cost;
     std::set<std::string> flags; // flags for some special properties of the scenario
     std::string _map_special;
@@ -83,14 +81,13 @@ public:
 
     const profession* get_default_profession() const;
     const profession* weighted_random_profession() const;
-    bool profquery( const string_id<profession> &proff ) const;
+    std::vector<string_id<profession>> permitted_professions() const;
 
     bool traitquery(std::string trait) const;
     bool locked_traits(std::string trait) const;
     bool forbidden_traits(std::string trait) const;
 
     bool allowed_start( const start_location_id &loc ) const;
-    int profsize() const;
     signed int point_cost() const;
     bool has_map_special() const;
     const std::string& get_map_special() const;
@@ -101,12 +98,7 @@ public:
     */
     std::string prof_count_str() const;
 
-
-    /**
-     * Check if this type of scenario has a certain flag set.
-     *
-     * Current flags: none
-     */
+    /** Such as a seasonal start, fiery start, surrounded start, etc. */
     bool has_flag(std::string flag) const;
 
     /**
