@@ -162,7 +162,7 @@
         "post_terrain" : "t_improvised_shelter"
     },{
         "type" : "construction",
-        "description" : "Build Door Curtain",
+        "description" : "Build Door Curtain", "//": "Door frame not required",
         "category" : "CONSTRUCT",
         "difficulty" : 1,
         "time" : 30,
