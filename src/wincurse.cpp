@@ -695,14 +695,14 @@ int curses_start_color(void)
                 load_colors(jo);
                 jo.finish();
             }
-        } catch( const JsonError &err ){
-            throw std::runtime_error( path + ": " + err.what() );
+            return OK;
+        } catch( const JsonError &e ){
+            DebugLog( D_ERROR, DC_ALL ) << "Failed to load color definitions from " << path << ": " << e;
+            return ERR;
         }
     };
 
-    try{
-        load_colorfile(custom_path);
-    } catch ( ... ){
+    if ( load_colorfile(custom_path) == ERR ){
         load_colorfile(default_path);
     }
     if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
