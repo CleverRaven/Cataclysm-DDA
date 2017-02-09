@@ -1078,6 +1078,14 @@ void options_manager::init()
         0, 1000, 0
         );
 
+    //~ aim bar style - bars or numbers
+    optionNames["numbers"] = _("Numbers");
+    optionNames["bars"] = _("Bars");
+    add("ACCURACY_DISPLAY", "interface", _("Aim window display style"),
+        _("How should confidence and steadiness be communicated to the player."),
+        "numbers,bars", "bars"
+        );
+
     mOptionsSort["interface"]++;
 
     add("MOVE_VIEW_OFFSET", "interface", _("Move view offset"),
