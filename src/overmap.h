@@ -297,6 +297,8 @@ public:
   std::vector<city> cities;
   std::vector<city> roads_out;
 
+    std::vector<const overmap_special *> unplaced_mandatory_specials;
+
  private:
     friend class overmapbuffer;
 
@@ -412,6 +414,11 @@ public:
   void place_special( const overmap_special &special, const tripoint &p, om_direction::type dir, const city &cit );
   // Monsters, radios, etc.
   void place_specials();
+  // One pass of placing specials - by default there are 3 (mandatory, mandatory without city distance, optional)
+  void place_specials_pass( std::vector<std::pair<const overmap_special *, int>> &to_place,
+                            std::vector<point> &sectors, bool check_city_distance );
+  bool place_special_attempt( std::vector<std::pair<const overmap_special *, int>> &candidates,
+                              const point &sector, bool check_city_distance );
   void place_mongroups();
   void place_radios();
 
