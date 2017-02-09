@@ -418,7 +418,12 @@ std::string options_manager::cOpt::getValue() const
         return string_format( format, iSet );
 
     } else if (sType == "float") {
-        return string_format( format, fSet );
+        std::ostringstream ssTemp;
+        ssTemp.imbue( std::locale::classic() );
+        ssTemp.precision( 2 );
+        ssTemp.setf( std::ios::fixed, std::ios::floatfield );
+        ssTemp << fSet;
+        return ssTemp.str();
     }
 
     return "";
