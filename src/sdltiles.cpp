@@ -1766,19 +1766,19 @@ inline SDL_Color ccolor( const std::string &color )
 int curses_start_color( void )
 {
     const std::string default_path = FILENAMES["colors"];
-    std::string path = FILENAMES["base_colors"];
+    std::string custom_path = FILENAMES["base_colors"];
     bool use_default_colors = false;
 
-    if ( !file_exist(path) ){
+    if ( !file_exist(custom_path) ){
         std::ifstream src(default_path.c_str(), std::ifstream::in | std::ios::binary);
-        write_to_file_exclusive(path, [&src]( std::ostream &dst ) {
+        write_to_file_exclusive(custom_path, [&src]( std::ostream &dst ) {
             dst << src.rdbuf();
         }, _("base colors") );
         use_default_colors = true;
-        path = default_path;
+        custom_path = default_path;
     }
 
-    std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
+    std::ifstream colorfile( custom_path.c_str(), std::ifstream::in | std::ifstream::binary );
 TRY_COLORFILE:
     try {
         JsonIn jsin( colorfile );
@@ -1790,14 +1790,14 @@ TRY_COLORFILE:
             jo.finish();
         }
     } catch( const JsonError &e ) {
-        dbg( D_ERROR ) << "Failed to load color definitions from " << path << ": " << e;
+        dbg( D_ERROR ) << "Failed to load color definitions from " << custom_path << ": " << e;
         if ( use_default_colors ){
             return ERR;
         } else{
             use_default_colors = true;
-            path = default_path;
+            custom_path = default_path;
             colorfile.close();
-            colorfile.open( path.c_str(), std::ifstream::in | std::ifstream::binary );
+            colorfile.open( custom_path.c_str(), std::ifstream::in | std::ifstream::binary );
             goto TRY_COLORFILE;
         }
     }
