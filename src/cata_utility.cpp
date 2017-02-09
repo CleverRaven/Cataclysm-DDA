@@ -494,12 +494,12 @@ std::string native_to_utf8( const std::string &str )
     }
 #if defined(_WIN32) || defined(WINDOWS)
     // native encoded string --> Unicode sequence --> UTF-8 string
-    int unicode_size = MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, NULL, NULL ) + 1;
+    int unicode_size = MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, NULL, 0 ) + 1;
     std::wstring unicode( unicode_size, '\0' );
     MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, &unicode[0], unicode_size );
-    int utf8_size = WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, NULL, 0, NULL, NULL ) + 1;
+    int utf8_size = WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, NULL, 0, NULL, 0 ) + 1;
     std::string result( utf8_size, '\0' );
-    WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, &result[0], utf8_size, NULL, NULL );
+    WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, &result[0], utf8_size, NULL, 0 );
     while( !result.empty() && result.back() == '\0' ) {
         result.pop_back();
     }
@@ -516,12 +516,12 @@ std::string utf8_to_native( const std::string &str )
     }
 #if defined(_WIN32) || defined(WINDOWS)
     // UTF-8 string --> Unicode sequence --> native encoded string
-    int unicode_size = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, NULL ) + 1;
+    int unicode_size = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, 0 ) + 1;
     std::wstring unicode( unicode_size, '\0' );
     MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &unicode[0], unicode_size );
-    int native_size = WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, NULL, 0, NULL, NULL ) + 1;
+    int native_size = WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, NULL, 0, NULL, 0 ) + 1;
     std::string result( native_size, '\0' );
-    WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, &result[0], native_size, NULL, NULL );
+    WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, &result[0], native_size, NULL, 0 );
     while( !result.empty() && result.back() == '\0' ) {
         result.pop_back();
     }
