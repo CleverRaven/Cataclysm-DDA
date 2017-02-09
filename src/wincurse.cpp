@@ -674,42 +674,37 @@ int curses_start_color(void)
 
     //Load the console colors from colors.json
     const std::string default_path = FILENAMES["colors"];
-    std::string custom_path = FILENAMES["base_colors"];
-    bool use_default_colors = false;
+    const std::string custom_path = FILENAMES["base_colors"];
 
     if ( !file_exist(custom_path) ){
         std::ifstream src(default_path.c_str(), std::ifstream::in | std::ios::binary);
         write_to_file_exclusive(custom_path, [&src]( std::ostream &dst ) {
             dst << src.rdbuf();
         }, _("base colors") );
-        use_default_colors = true;
-        custom_path = default_path;
     }
 
-    std::ifstream colorfile(custom_path.c_str(), std::ifstream::in | std::ifstream::binary);
-TRY_COLORFILE:
+    auto load_colorfile = []( const std::string &path ) {
+        std::ifstream colorfile( custom_path.c_str(), std::ifstream::in | std::ifstream::binary );
+        try{
+            JsonIn jsin(colorfile);
+            // Manually load the colordef object because the json handler isn't loaded yet.
+            jsin.start_array();
+            // find type and dispatch each object until array close
+            while (!jsin.end_array()) {
+                JsonObject jo = jsin.get_object();
+                load_colors(jo);
+                jo.finish();
+            }
+        } catch( const JsonError &err ){
+            throw std::runtime_error( path + ": " + err.what() );
+        }
+    };
+
     try{
-        JsonIn jsin(colorfile);
-        // Manually load the colordef object because the json handler isn't loaded yet.
-        jsin.start_array();
-        // find type and dispatch each object until array close
-        while (!jsin.end_array()) {
-            JsonObject jo = jsin.get_object();
-            load_colors(jo);
-            jo.finish();
-        }
-    } catch( const JsonError &err ){
-        if ( use_default_colors ){
-            throw std::runtime_error( FILENAMES["colors"] + ": " + err.what() );
-        } else{
-            use_default_colors = true;
-            custom_path = default_path;
-            colorfile.close();
-            colorfile.open( custom_path.c_str(), std::ifstream::in | std::ifstream::binary );
-            goto TRY_COLORFILE;
-        }
+        load_colorfile(custom_path);
+    } catch ( ... ){
+        load_colorfile(default_path);
     }
-
     if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
     windowsPalette[0]  = BGR(ccolor("BLACK"));
     windowsPalette[1]  = BGR(ccolor("RED"));
