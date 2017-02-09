@@ -10673,11 +10673,13 @@ void game::reload()
 void game::unload(int pos)
 {
     item *it = nullptr;
+    item_location item_loc;
 
     if( pos == INT_MIN ) {
-        it = inv_map_splice( [&]( const item &it ) {
+        item_loc = inv_map_splice( [&]( const item &it ) {
             return u.rate_action_unload( it ) == HINT_GOOD;
-        }, _( "Unload item" ), 1, _( "You have nothing to unload." ) ).get_item();
+        }, _( "Unload item" ), 1, _( "You have nothing to unload." ) );
+        it = item_loc.get_item();
 
         if( it == nullptr ) {
             add_msg( _("Never mind.") );
@@ -10689,11 +10691,12 @@ void game::unload(int pos)
             debugmsg( "Tried to unload non-existent item" );
             return;
         }
+        item_loc = item_location(u, it);
     }
 
     if( unload( *it ) ) {
         if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
-            u.remove_item( *it );
+            item_loc.remove_item();
         }
     }
 }
