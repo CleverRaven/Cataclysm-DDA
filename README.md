@@ -32,7 +32,7 @@ Forums:
 http://smf.cataclysmdda.com
 
 Wiki:
-http://wiki.cataclysmdda.com/
+http://cddawiki.chezzo.com/cdda_wiki/
 
 GitHub repo:
 https://github.com/CleverRaven/Cataclysm-DDA
