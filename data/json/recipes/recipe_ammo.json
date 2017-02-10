@@ -2539,24 +2539,24 @@
   ],
   "components": [
     [
-      [ "700nx_casing", 30 ]
+      [ "700nx_casing", 1 ]
     ],
     [
-      [ "lgrifle_primer", 30 ]
+      [ "lgrifle_primer", 1 ]
     ],
     [
-      [ "gunpowder", 1150 ]
+      [ "gunpowder", 40 ]
     ],
     [
-      [ "lead", 420 ],
-      [ "gold_small", 420 ],
-      [ "silver_small", 420 ],
-      [ "tin", 420 ],
-      [ "bismuth", 420 ],
-      [ "solder_wire", 420 ]
+      [ "lead", 14 ],
+      [ "gold_small", 14 ],
+      [ "silver_small", 14 ],
+      [ "tin", 14 ],
+      [ "bismuth", 14 ],
+      [ "solder_wire", 14 ]
     ],
     [
-      [ "copper", 210 ]
+      [ "copper", 7 ]
     ]
   ]
 },
