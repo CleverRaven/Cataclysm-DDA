@@ -387,7 +387,7 @@ std::vector<std::string> profession::CBMs() const
     return _starting_CBMs;
 }
 
-std::vector<std::string> profession::traits() const
+std::vector<std::string> profession::get_locked_traits() const
 {
     return _starting_traits;
 }
@@ -411,7 +411,7 @@ bool profession::can_pick( player *u, int points ) const
     return true;
 }
 
-bool profession::locked_traits( const std::string &trait ) const
+bool profession::is_locked_trait( const std::string &trait ) const
 {
     return std::find( _starting_traits.begin(), _starting_traits.end(), trait ) !=
            _starting_traits.end();

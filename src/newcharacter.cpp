@@ -290,7 +290,7 @@ void player::randomize( const bool random_scenario, points_left &points )
                 rn = random_bad_trait();
                 tries++;
             } while( ( has_trait( rn ) || num_btraits - mutation_branch::get( rn ).points > max_trait_points ) &&
-                     tries < 5 && !g->scen->forbidden_traits( rn ) );
+                     tries < 5 );
 
             if (tries < 5 && !has_conflicting_trait(rn)) {
                 toggle_trait(rn);
@@ -341,8 +341,7 @@ void player::randomize( const bool random_scenario, points_left &points )
                 rn = random_good_trait();
                 auto &mdata = mutation_branch::get( rn );
                 if( !has_trait(rn) && points.trait_points_left() >= mdata.points &&
-                    num_gtraits + mdata.points <= max_trait_points && !g->scen->forbidden_traits( rn ) &&
-                    !has_conflicting_trait(rn) ) {
+                    num_gtraits + mdata.points <= max_trait_points && !has_conflicting_trait( rn ) ) {
                     toggle_trait(rn);
                     points.trait_points -= mdata.points;
                     num_gtraits += mdata.points;
@@ -972,7 +971,8 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
     std::vector<std::string> vStartingTraits[2];
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) == true ) {
+        // We show all starting traits, even if we can't pick them, to keep the interface consistent.
+        if( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) ) {
             if( traits_iter.second.points >= 0 ) {
                 vStartingTraits[0].push_back( traits_iter.first );
 
@@ -1141,18 +1141,18 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
 
                 inc_type = -1;
 
-                if( g->scen->locked_traits( cur_trait ) ) {
+                if( g->scen->is_locked_trait( cur_trait ) ) {
                     inc_type = 0;
                     popup( _( "Your scenario of %s prevents you from removing this trait." ),
                            g->scen->gender_appropriate_name( u->male ).c_str() );
-                } else if( u->prof->locked_traits( cur_trait ) ) {
+                } else if( u->prof->is_locked_trait( cur_trait ) ) {
                     inc_type = 0;
                     popup( _( "Your profession of %s prevents you from removing this trait." ),
                            u->prof->gender_appropriate_name( u->male ).c_str() );
                 }
             } else if(u->has_conflicting_trait(cur_trait)) {
                 popup(_("You already picked a conflicting trait!"));
-            } else if(g->scen->forbidden_traits(cur_trait)) {
+            } else if( g->scen->is_forbidden_trait( cur_trait ) ) {
                 popup(_("The scenario you picked prevents you from taking this trait!"));
             } else if (iCurWorkingPage == 0 && num_good + mdata.points >
                        max_trait_points) {
@@ -1364,12 +1364,12 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
         }
 
         // Profession traits
-        const auto prof_traits = sorted_profs[cur_id]->traits();
+        const auto prof_traits = sorted_profs[cur_id]->get_locked_traits();
         buffer << "<color_ltblue>" << _( "Profession traits:" ) << "</color>\n";
         if( prof_traits.empty() ) {
             buffer << pgettext( "set_profession_trait", "None" ) << "\n";
         } else {
-            for( const auto &t : sorted_profs[cur_id]->traits() ) {
+            for( const auto &t : prof_traits ) {
                 buffer << mutation_branch::get_name( t ) << "\n";
             }
         }
@@ -1471,8 +1471,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
             }
         } else if (action == "CONFIRM") {
             // Remove old profession-specific traits (e.g. pugilist for boxers)
-            const auto old_traits = u->prof->traits();
-            for( const std::string &old_trait : old_traits ) {
+            for( const std::string &old_trait : u->prof->get_locked_traits() ) {
                 u->toggle_trait( old_trait );
             }
             u->prof = &sorted_profs[cur_id].obj();
@@ -1910,10 +1909,14 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
         wprintz( w_profession, c_ltgray,
                  string_format( _( "\n%s" ), sorted_scens[cur_id]->prof_count_str().c_str() ).c_str() );
         wprintz(w_profession, c_ltgray, _(", default:\n"));
-        auto const scenario_prof = sorted_scens[cur_id]->get_default_profession();
-        auto const prof_points = scenario_prof->point_cost();
-        auto const prof_color = prof_points > 0 ? c_green : c_ltgray;
-        wprintz(w_profession, prof_color, scenario_prof->gender_appropriate_name(u->male).c_str());
+
+        auto psorter = profession_sorter;
+        psorter.sort_by_points = true;
+        const auto permitted = sorted_scens[cur_id]->permitted_professions();
+        const auto default_prof = *std::min_element( permitted.begin(), permitted.end(), psorter );
+        const int prof_points = default_prof->point_cost();
+        wprintz( w_profession, prof_points > 0 ? c_green : c_ltgray,
+                 default_prof->gender_appropriate_name( u->male ).c_str() );
         if ( prof_points > 0 ) {
             wprintz(w_profession, c_green, " (+%d)", prof_points);
         }
@@ -1989,7 +1992,7 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
             u->int_max = 8;
             u->per_max = 8;
             g->scen = sorted_scens[cur_id];
-            u->prof = g->scen->get_default_profession();
+            u->prof = &default_prof.obj();
             u->empty_traits();
             u->empty_skills();
             u->add_traits();
@@ -2372,15 +2375,14 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
-    // TODO: According to crude profiling (interrupts + backtraces), this function accounts for well over
-    // half of the execution time of the test case in new_character_test.cpp
-    // Refactor to allow permitted/forbidden/required traits/professions to be obtained in one function call.
-    for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( g->scen->locked_traits( traits_iter.first ) && !has_trait( traits_iter.first ) ) {
-            toggle_trait( traits_iter.first );
+    for( const std::string &tr : g->u.prof->get_locked_traits() ) {
+        if( !has_trait( tr ) ) {
+            toggle_trait( tr );
         }
-        if( g->u.prof->locked_traits( traits_iter.first ) && !has_trait( traits_iter.first ) ) {
-            toggle_trait( traits_iter.first );
+    }
+    for( const std::string &tr : g->scen->get_locked_traits() ) {
+        if( !has_trait( tr ) ) {
+            toggle_trait( tr );
         }
     }
 }
@@ -2390,8 +2392,7 @@ std::string Character::random_good_trait()
     std::vector<std::string> vTraitsGood;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.second.points >= 0 &&
-            ( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) ) ) {
+        if( traits_iter.second.points >= 0 && g->scen->traitquery( traits_iter.first ) ) {
             vTraitsGood.push_back( traits_iter.first );
         }
     }
@@ -2404,8 +2405,7 @@ std::string Character::random_bad_trait()
     std::vector<std::string> vTraitsBad;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.second.points < 0 &&
-            ( traits_iter.second.startingtrait || g->scen->traitquery( traits_iter.first ) ) ) {
+        if( traits_iter.second.points < 0 && g->scen->traitquery( traits_iter.first ) ) {
             vTraitsBad.push_back( traits_iter.first );
         }
     }

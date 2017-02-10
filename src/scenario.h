@@ -79,13 +79,13 @@ public:
     start_location_id random_start_location() const;
     std::string start_name() const;
 
-    const profession* get_default_profession() const;
     const profession* weighted_random_profession() const;
     std::vector<string_id<profession>> permitted_professions() const;
 
     bool traitquery(std::string trait) const;
-    bool locked_traits(std::string trait) const;
-    bool forbidden_traits(std::string trait) const;
+    std::set<std::string> get_locked_traits() const;
+    bool is_locked_trait( std::string trait ) const;
+    bool is_forbidden_trait(std::string trait) const;
 
     bool allowed_start( const start_location_id &loc ) const;
     signed int point_cost() const;

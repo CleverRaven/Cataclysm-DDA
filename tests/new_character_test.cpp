@@ -1,7 +1,6 @@
 #include "catch/catch.hpp"
 
 #include "game.h"
-#include "itype.h"
 #include "item.h"
 #include "player.h"
 #include "profession.h"
@@ -34,12 +33,9 @@ static std::vector<std::string> next_subset( const std::vector<std::string> &set
 static bool try_set_traits( const std::vector<std::string> &traits )
 {
     g->u.empty_traits();
-    // TODO: This line accounts for well over half of the execution time of the test case
     g->u.add_traits(); // mandatory prof/scen traits
     for( const std::string &tr : traits ) {
-        if( g->scen->forbidden_traits( tr ) || g->u.has_conflicting_trait( tr ) ) {
-            return false;
-        } else if( !g->scen->traitquery( tr ) && !mutation_branch::get( tr ).startingtrait ) {
+        if( g->u.has_conflicting_trait( tr ) || !g->scen->traitquery( tr ) ) {
             return false;
         } else if( !g->u.has_trait( tr ) ) {
             g->u.set_mutation( tr );
@@ -62,10 +58,9 @@ static player get_sanitized_player()
     return ret;
 }
 
-// TODO: Due to character::add_traits, mutations (ie traits unavailable in the generic scenario)
-// are commented out and not checked.
-// When they're not commented out, the test takes 317 minutes (not a typo!).
-// When they are commented out, the test takes 3 minutes.
+// TODO: According to profiling (interrupt, backtrace, wait a few seconds, repeat) with a sample
+// size of 20, 70% of the time is due to the call to Character::set_mutation in try_set_traits.
+// When the mutation stuff isn't commented out, the test takes 110 minutes (not a typo)!
 
 TEST_CASE( "starting_items" ) {
     // Every starting trait that interferes with food/clothing

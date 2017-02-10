@@ -238,11 +238,6 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
     return res;
 }
 
-const profession *scenario::get_default_profession() const
-{
-    return &permitted_professions().front().obj();
-}
-
 const profession *scenario::weighted_random_profession() const
 {
     // Strategy: 1/3 of the time, return the generic profession (if it's permitted).
@@ -276,13 +271,21 @@ std::string scenario::start_name() const
 
 bool scenario::traitquery( std::string trait ) const
 {
-    return _allowed_traits.count( trait ) != 0;
+    return _allowed_traits.count( trait ) != 0 || is_locked_trait( trait ) ||
+           ( !is_forbidden_trait( trait ) && mutation_branch::get( trait ).startingtrait );
 }
-bool scenario::locked_traits( std::string trait ) const
+
+std::set<std::string> scenario::get_locked_traits() const
+{
+    return _forced_traits;
+}
+
+bool scenario::is_locked_trait( std::string trait ) const
 {
     return _forced_traits.count( trait ) != 0;
 }
-bool scenario::forbidden_traits( std::string trait ) const
+
+bool scenario::is_forbidden_trait( std::string trait ) const
 {
     return _forbidden_traits.count( trait ) != 0;
 }

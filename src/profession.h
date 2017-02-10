@@ -99,7 +99,6 @@ enum add_type : int;
         std::list<item> items( bool male, const std::vector<std::string> &traits ) const;
         std::vector<addiction> addictions() const;
         std::vector<std::string> CBMs() const;
-        std::vector<std::string> traits() const;
         const StartingSkillList skills() const;
 
         /**
@@ -116,8 +115,8 @@ enum add_type : int;
          * @return true, if player can pick profession. Otherwise - false.
          */
         bool can_pick( player *u, int points ) const;
-        bool locked_traits( const std::string &trait ) const;
-
+        bool is_locked_trait( const std::string &trait ) const;
+        std::vector<std::string> get_locked_traits() const;
 };
 
 #endif
