@@ -15,6 +15,9 @@
 
 const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}");
 
+// Full inventory set with h/j/k/l removed for auto-assign blacklisting
+const invlet_wrapper inv_chars_no_vi("abcdefgimnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}");
+
 bool invlet_wrapper::valid( const long invlet ) const
 {
     if( invlet > std::numeric_limits<char>::max() || invlet < std::numeric_limits<char>::min() ) {
@@ -974,6 +977,11 @@ void inventory::assign_empty_invlet(item &it, bool force)
         return;
     }
 
+    const invlet_wrapper *filtered_inv_chars = &inv_chars;
+    if( get_option<bool>( "AUTO_INV_NO_HJKL" ) ) {
+        filtered_inv_chars = &inv_chars_no_vi;
+    }
+
     player *p = &(g->u);
     std::set<char> cur_inv = p->allocated_invlets();
     itype_id target_type = it.typeId();
@@ -983,8 +991,8 @@ void inventory::assign_empty_invlet(item &it, bool force)
             return;
         }
     }
-    if (cur_inv.size() < inv_chars.size()) {
-        for( const auto &inv_char : inv_chars ) {
+    if (cur_inv.size() < filtered_inv_chars->size()) {
+        for( const auto &inv_char : *filtered_inv_chars ) {
             if( p->assigned_invlet.count(inv_char) ) {
                 // don't overwrite assigned keys
                 continue;

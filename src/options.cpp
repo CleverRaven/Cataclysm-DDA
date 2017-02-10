@@ -1103,6 +1103,11 @@ void options_manager::init()
         true
         );
 
+    add("AUTO_INV_NO_HJKL", "interface", _("Never auto assign vi-keys"),
+        _("If true, vi direction keys (h/j/k/l) will not be auto assigned to inventory."),
+        false
+        );
+
     add("ITEM_HEALTH_BAR", "interface", _("Show item health bars"),
         _("If true, show item health bars instead of reinforced, scratched etc. text."),
         true
