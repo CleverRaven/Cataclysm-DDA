@@ -948,7 +948,7 @@ void vehicle::use_controls( const tripoint &pos )
         add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
         add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
         add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
-
+        add_toggle( _( "drill" ), keybind( "TOGGLE_DRILL "), "DRILL" );
         if( has_part( "DOOR_MOTOR" ) ) {
             options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
             actions.push_back( [&]{ control_doors(); } );
@@ -3775,7 +3775,7 @@ void vehicle::idle(bool on_map) {
     }
 }
 
-void vehicle::on_move(){
+void vehicle::on_move(const tripoint& dp1){
     if( has_part( "SCOOP", true ) ) {
         operate_scoop();
     }
@@ -3787,6 +3787,9 @@ void vehicle::on_move(){
     }
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
+    }
+    if( has_part ( "DRILL", true ) ) {
+      operate_drill( dp1 );
     }
 }
 
@@ -3872,6 +3875,24 @@ void vehicle::operate_planter(){
                     i->charges--;
                 }
                 break;
+            }
+        }
+    }
+}
+
+void vehicle::operate_drill( const tripoint &dp1 )
+{
+    const int sound_msg_len = 3;
+    const char *sound_msgs[] = { _("WHRR"), _("CHUNK_CHUNK_CHUNK"),_("MOOrmrmrm")};
+    std::vector<int> drills = all_parts_with_feature( "DRILL" );
+    for( int drill : drills ) {
+        const tripoint &loc  = global_pos3() + parts[drill].precalc[0] + dp1;
+        tripoint endpoint = loc;
+        for( const tripoint &current : g->m.points_in_radius( loc, 1 ) ) {
+            if( g->m.is_bashable_ter_furn( current, false ) ) {
+                sounds::sound( loc, rng( 10,50 ), sound_msgs[ rng( 0, sound_msg_len ) ] );
+                g->m.destroy( current, true );
+                this->damage( drill, rng( 5, 5 * velocity ) );
             }
         }
     }
@@ -5052,6 +5073,9 @@ void vehicle::refresh()
                 extra_drag += vpi.power;
             }
             if( vpi.has_flag( "REAPER" ) ) {
+                extra_drag += vpi.power;
+            }
+            if ( vpi.has_flag( "DRILL" ) ) {
                 extra_drag += vpi.power;
             }
         }
