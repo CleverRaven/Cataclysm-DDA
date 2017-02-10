@@ -323,8 +323,8 @@ std::list<item> profession::items( bool male, const std::vector<std::string> &tr
         }
     };
 
-    add_legacy_items( male ? legacy_starting_items_male : legacy_starting_items_female );
     add_legacy_items( legacy_starting_items );
+    add_legacy_items( male ? legacy_starting_items_male : legacy_starting_items_female );
 
     const std::vector<item> group_both = item_group::items_from( _starting_items );
     const std::vector<item> group_gender = item_group::items_from( male ? _starting_items_male :
@@ -373,7 +373,7 @@ std::list<item> profession::items( bool male, const std::vector<std::string> &tr
         }
     }
 
-    result.sort( [] const item & first, const item & second ) {
+    result.sort( []( const item & first, const item & second ) {
         return first.get_layer() < second.get_layer();
     } );
     return result;
