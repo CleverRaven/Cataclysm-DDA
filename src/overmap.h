@@ -433,9 +433,17 @@ public:
   void place_special( const overmap_special &special, const tripoint &p, om_direction::type dir, const city &cit );
   // Monsters, radios, etc.
   void place_specials();
-  // One pass of placing specials - by default there are 3 (mandatory, mandatory without city distance, optional)
+  /**
+   * One pass of placing specials - by default there are 3 (mandatory, mandatory without city distance, optional)
+   * @param to_place vector of pairs [special, count] to place in this pass. Placed specials are removed/deducted from this.
+   * @param sectors sectors in which placement is possible. Taken sectors will be removed from this vector.
+   * @param check_city_distance If false, the city distance limits of specials are not respected.
+   */
   void place_specials_pass( std::vector<std::pair<const overmap_special *, int>> &to_place,
                             std::vector<point> &sectors, bool check_city_distance );
+  /**
+   * As @ref place_specials_pass, but for only one sector at a time.
+   */
   bool place_special_attempt( std::vector<std::pair<const overmap_special *, int>> &candidates,
                               const point &sector, bool check_city_distance );
   void place_mongroups();
