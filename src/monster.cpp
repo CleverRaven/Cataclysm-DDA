@@ -680,6 +680,7 @@ monster_attitude monster::attitude( const Character *u ) const
         const std::string pheromone_insect( "PHEROMONE_INSECT" );
         const std::string mycus_thresh( "MYCUS_THRESH" );
         const std::string terrifying( "TERRIFYING" );
+        const std::string filthy( "FILTHY" );
         if( faction == faction_bee ) {
             if( u->has_trait( "BEE" ) ) {
                 return MATT_FRIEND;
@@ -690,6 +691,10 @@ monster_attitude monster::attitude( const Character *u ) const
 
         if( type->in_species( FUNGUS ) && u->has_trait( mycus_thresh ) ) {
             return MATT_FRIEND;
+        }
+        
+        if( type->in_species( ZOMBIE ) && u->worn_with_flag( filthy ) ) {
+            return MATT_IGNORE;
         }
 
         if( effective_anger >= 10 &&
