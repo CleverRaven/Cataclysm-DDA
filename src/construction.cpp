@@ -149,10 +149,10 @@ nc_color construction_color( std::string &con_name, bool highlight )
         if( con_first != nullptr ) {
             col = c_white;
             for( const auto &pr : con_first->required_skills ) {
-                int diff = g->u.get_skill_level( pr.first ) - pr.second;
-                if( diff < 0 ) {
+                int s_lvl = g->u.get_skill_level( pr.first );
+                if( s_lvl < pr.second ) {
                     col = c_red;
-                } else if( diff == 0 ) {
+                } else if( s_lvl < pr.second * 1.25 ) {
                     col = c_ltblue;
                 }
             }
@@ -421,11 +421,11 @@ void construction_menu()
                                 enumerate_as_string( current_con->required_skills.begin(),
                                                      current_con->required_skills.end(),
                                                      []( const std::pair<skill_id, int> &skill ) {
-                                int diff = g->u.get_skill_level( skill.first ) - skill.second;
                                 nc_color col;
-                                if( diff < 0 ) {
+                                int s_lvl = g->u.get_skill_level( skill.first );
+                                if( s_lvl < skill.second ) {
                                     col = c_red;
-                                } else if( diff == 0 ) {
+                                } else if( s_lvl < skill.second * 1.25 ) {
                                     col = c_ltblue;
                                 } else {
                                     col = c_white;
@@ -750,11 +750,8 @@ void complete_construction()
 
     const auto award_xp = [&]( player &c ) {
         for( const auto &pr : built.required_skills ) {
-            // If current skill level == skill requirement, practice
-            if( c.get_skill_level( pr.first ) == pr.second ) {
-                c.practice( pr.first, ( int )( ( 10 + 15 * pr.second ) * ( 1 + built.time / 30000.0 ) ),
-                            ( int )( pr.second * 1.25 ) );
-            }
+            c.practice( pr.first, ( int )( ( 10 + 15 * pr.second ) * ( 1 + built.time / 30000.0 ) ),
+                        ( int )( pr.second * 1.25 ) );
         }
     };
 
