@@ -221,7 +221,8 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
     const auto all = profession::get_all();
     std::vector<string_id<profession>> &res = cached_permitted_professions;
     for( const profession &p : all ) {
-        const bool present = std::find( professions.begin(), professions.end(), p.ident() ) != professions.end();
+        const bool present = std::find( professions.begin(), professions.end(),
+                                        p.ident() ) != professions.end();
         if( blacklist || professions.empty() ) {
             if( !present && !p.has_flag( "SCEN_ONLY" ) ) {
                 res.push_back( p.ident() );
