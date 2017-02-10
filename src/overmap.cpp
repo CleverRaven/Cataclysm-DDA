@@ -1221,6 +1221,9 @@ overmap::overmap( int const x, int const y ) : loc( x, y )
     } catch( const std::exception &err ) {
         debugmsg( "overmap (%d,%d) failed to load: %s", loc.x, loc.y, err.what() );
     }
+
+    set_validity_from_settings();
+    current_validity = overmap_valid::invalid;
 }
 
 overmap::overmap()
@@ -1232,10 +1235,25 @@ overmap::overmap()
     }
     settings = rsit->second;
     init_layers();
+
+    set_validity_from_settings();
+    current_validity = overmap_valid::invalid;
 }
 
 overmap::~overmap()
 {
+}
+
+void overmap::set_validity_from_settings()
+{
+    const std::string &opt = get_option<std::string>( "ALLOW_INVALID_OVERMAPS" );
+    if( opt == "allow_invalid" ) {
+        allow_generation = overmap_valid::invalid;
+    } else if( opt == "ask_invalid" ) {
+        allow_generation = overmap_valid::unlimited;
+    } else {
+        allow_generation = overmap_valid::valid;
+    }
 }
 
 void overmap::init_layers()
@@ -4286,7 +4304,9 @@ void overmap::place_specials()
 
     // First a regular mandatory pass
     place_specials_pass( mandatory, sectors, true );
-    if( !mandatory.empty() && get_option<bool>( "ALLOW_INVALID_OVERMAPS" ) ) {
+    if( mandatory.empty() ) {
+        current_validity = overmap_valid::valid;
+    } else if( allow_generation >= overmap_valid::unlimited ) {
         const std::string unplaced = enumerate_as_string( mandatory.begin(), mandatory.end(),
         []( const std::pair<const overmap_special *, int> &elem ) {
             return string_format( "%s (%d)", elem.first->id.c_str(), elem.second );
@@ -4295,12 +4315,14 @@ void overmap::place_specials()
 
         // Couldn't place mandatory specials, try without city checks
         place_specials_pass( mandatory, sectors, false );
+        current_validity = overmap_valid::unlimited;
     }
 
     place_specials_pass( optional, sectors, true );
 
     unplaced_mandatory_specials.clear();
     if( !mandatory.empty() ) {
+        current_validity = overmap_valid::invalid;
         const std::string unplaced = enumerate_as_string( mandatory.begin(), mandatory.end(),
         []( const std::pair<const overmap_special *, int> &elem ) {
             return string_format( "%s (%d)", elem.first->id.c_str(), elem.second );
@@ -4423,6 +4445,26 @@ void overmap::place_radios()
     }
 }
 
+void overmap::clear()
+{
+    clear_mon_groups();
+    init_layers();
+    radios.clear();
+    for( npc *np : npcs ) {
+        delete np;
+    }
+
+    npcs.clear();
+
+    vehicles.clear();
+    cities.clear();
+    roads_out.clear();
+    unplaced_mandatory_specials.clear();
+    scents.clear();
+    monster_map.clear();
+    current_validity = overmap_valid::invalid;
+}
+
 void overmap::open()
 {
     std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
@@ -4441,14 +4483,79 @@ void overmap::open()
         for (int i = -1; i <= 1; i += 2) {
             pointers.push_back(overmap_buffer.get_existing(loc.x+i, loc.y));
         }
+
         // pointers looks like (north, south, west, east)
-        for( int i = 0; i < std::max( 1, get_option<int>( "OVERMAP_GENERATION_TRIES" ) ); i++ ) {
-            generate( pointers[0], pointers[3], pointers[1], pointers[2] );
-            if( unplaced_mandatory_specials.empty() ) {
-                break;
+        generate_outer( pointers[0], pointers[3], pointers[1], pointers[2] );
+    }
+}
+
+void overmap::generate_outer( const overmap* north, const overmap* east, const overmap* south, const overmap* west )
+{
+    // This string is here because it is long and we don't want indents eating up precious space
+    static const std::string menu_s = _(
+"Couldn't generate overmap with current settings.\n"
+"The following specials could not be placed:\n%s");
+    current_validity = overmap_valid::invalid;
+    do {
+        int try_num = std::max( 1, get_option<int>( "OVERMAP_GENERATION_TRIES" ) );
+        for( int i = 0; i < try_num && current_validity != overmap_valid::valid; i++ ) {
+            clear();
+            generate( north, east, south, west );
+        }
+
+        // Note: this should not be checked in a loop - only totally valid maps should exit the loop early
+        if( current_validity >= allow_generation ) {
+            // Good enough
+            break;
+        }
+
+        const auto &opt = get_option<std::string>( "ALLOW_INVALID_OVERMAPS" );
+        if( g != nullptr && ( opt == "ask_invalid" || opt == "ask_unlimited" ) ) {
+            uimenu askmenu;
+            const std::string unplaced = enumerate_as_string( unplaced_mandatory_specials.begin(),
+                unplaced_mandatory_specials.end(), []( const overmap_special *special ) {
+                return special->id.str();
+            } );
+            askmenu.text = string_format( menu_s.c_str(), unplaced.c_str() );
+            askmenu.return_invalid = true;
+            enum aksmenu_rval : int {
+                // Retry as many times as in settings
+                RETRY = 0,
+                // Lift restrictions
+                LIFT = 1,
+                // Open options screen, to allow user to change the world settings
+                SETTINGS = 2,
+                // Just allow bugged map
+                ALLOW = 3
+            };
+            askmenu.addentry( RETRY, true, 'r', _( "Retry %d times" ), try_num );
+            if( allow_generation != overmap_valid::unlimited ) {
+                askmenu.addentry( LIFT, true, 'l', _( "Generate unlimited map" ) );
+            }
+
+            askmenu.addentry( SETTINGS, true, 's', _( "Change settings" ) );
+            askmenu.addentry( ALLOW, true, 'a',
+                              current_validity == overmap_valid::unlimited ?
+                                                  _( "Allow current unlimited map" ) :
+                                                  _( "Allow current invalid map" ) );
+            askmenu.query();
+            switch( askmenu.ret ) {
+                case RETRY:
+                    break;
+                case LIFT:
+                    allow_generation = overmap_valid::unlimited;
+                    break;
+                case SETTINGS:
+                    get_options().show( true );
+                    break;
+                case ALLOW:
+                    allow_generation = current_validity;
+                    break;
+                default:
+                    break;
             }
         }
-    }
+    } while( current_validity < allow_generation );
 }
 
 // Note: this may throw io errors from std::ofstream

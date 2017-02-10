@@ -1302,9 +1302,15 @@ void options_manager::init()
         1, 20, 2
         );
 
+    //~ allow invalid (bugged, bad) maps without asking user
+    optionNames["allow_invalid"] = _("Any");
+    //~ allow any valid map, even if it's "bad"
+    optionNames["ask_invalid"] = _("Valid");
+    //~ ask for lifting restrictions
+    optionNames["ask_unlimited"] = _("Ask");
     add("ALLOW_INVALID_OVERMAPS", "debug", _("Allow invalid overmaps"),
-        _("If false, some mandatory overmap specials may not be generated on some maps. If true, the missing specials may be placed in invalid locations instead."),
-        true
+        _("What to do if world settings/mods prevent valid overmaps. Invalid maps are BUGGED and while playable, may cause errors during missions. Unlimited maps will look ugly, but are fully functional."),
+        "allow_invalid,ask_invalid,ask_unlimited", "ask_invalid"
         );
 
     ////////////////////////////WORLD DEFAULT////////////////////

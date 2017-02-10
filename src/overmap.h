@@ -177,6 +177,7 @@ class overmap
     point const& pos() const { return loc; }
 
     void save() const;
+    void clear();
 
     /**
      * @return The (local) overmap terrain coordinates of a randomly
@@ -317,6 +318,22 @@ public:
     std::unordered_multimap<tripoint, monster> monster_map;
     regional_settings settings;
 
+    // "Valid" map is one that has all mandatory specials
+    // "Limited" map is one where all specials are placed only in allowed places
+    enum class overmap_valid : int {
+        // Invalid map, with no limits
+        invalid = 0,
+        // Valid map, but some parts are without limits
+        unlimited,
+        // Perfectly valid map
+        valid
+    };
+
+    overmap_valid allow_generation = overmap_valid::valid;
+    overmap_valid current_validity = overmap_valid::invalid;
+
+    void set_validity_from_settings();
+
   // Initialise
   void init_layers();
   // open existing overmap, or generate a new one
@@ -335,6 +352,8 @@ public:
   void unserialize_view_legacy(std::istream &fin);
  private:
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
+  // Controls error handling in generation
+  void generate_outer(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
 
     const city &get_nearest_city( const tripoint &p ) const;
