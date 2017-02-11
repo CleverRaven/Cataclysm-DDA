@@ -31,6 +31,8 @@ class Creature_tracker
         const std::vector<monster> &list() const;
         /** Swaps the positions of two monsters */
         void swap_positions( monster &first, monster &second );
+        /** Kills 0 hp monsters. Returns if it killed any. */
+        bool kill_marked_for_death();
 
     private:
         std::vector<monster *> monsters_list;
