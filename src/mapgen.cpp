@@ -176,8 +176,6 @@ void map::generate(const int x, const int y, const int z, const int turn)
     const auto &spawns = terrain_type->get_static_spawns();
     if( spawns.group && x_in_y( spawns.chance, 100 ) ) {
         int pop = rng( spawns.population.min, spawns.population.max );
-        // place_spawns currently depends on the STATIC_SPAWN world option, this
-        // must bypass it.
         for( ; pop > 0; pop-- ) {
             MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
             if( !spawn_details.name ) {
@@ -10214,10 +10212,6 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 void map::place_spawns(const mongroup_id& group, const int chance,
                        const int x1, const int y1, const int x2, const int y2, const float density)
 {
-    if (!get_world_option<bool>( "STATIC_SPAWN" ) ) {
-        return;
-    }
-
     if( !group.is_valid() ) {
         const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );

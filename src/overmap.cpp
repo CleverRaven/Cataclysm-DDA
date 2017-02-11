@@ -4283,10 +4283,6 @@ void overmap::place_mongroups()
                 add_mon_group( m );
             }
         }
-        if( !get_world_option<bool>( "STATIC_SPAWN" ) ) {
-            add_mon_group( mongroup( mongroup_id( "GROUP_ZOMBIE" ), ( elem.x * 2 ), ( elem.y * 2 ), 0,
-                                     int( elem.s * 2.5 ), elem.s * 80 ) );
-        }
     }
 
     if (!get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
