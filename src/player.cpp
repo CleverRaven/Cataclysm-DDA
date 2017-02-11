@@ -3616,51 +3616,54 @@ bool player::immune_to( body_part bp, damage_unit dam ) const
     return dam.amount <= 0;
 }
 
-dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const damage_instance& d)
+dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
+                                           const damage_instance& d )
 {
     if( has_trait( "DEBUG_NODMG" ) ) {
         return dealt_damage_instance();
     }
 
-    dealt_damage_instance dealt_dams = Creature::deal_damage(source, bp, d); //damage applied here
-    int dam = dealt_dams.total_damage(); //block reduction should be by applied this point
+    //damage applied here
+    dealt_damage_instance dealt_dams = Creature::deal_damage( source, bp, d );
+    //block reduction should be by applied this point
+    int dam = dealt_dams.total_damage();
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if(g->u.sees( pos() )) {
-        g->draw_hit_player(*this, dam);
+    if( g->u.sees( pos() ) ) {
+        g->draw_hit_player( *this, dam );
 
-        if (dam > 0 && is_player() && source) {
+        if( dam > 0 && is_player() && source ) {
             //monster hits player melee
-            SCT.add(posx(), posy(),
-                    direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
-                    get_hp_bar(dam, get_hp_max(player::bp_to_hp(bp))).first, m_bad,
-                    body_part_name(bp), m_neutral);
+            SCT.add( posx(), posy(),
+                     direction_from( 0, 0, posx() - source->posx(), posy() - source->posy() ),
+                     get_hp_bar( dam, get_hp_max( player::bp_to_hp( bp ) ) ).first, m_bad,
+                     body_part_name( bp ), m_neutral );
         }
     }
 
     // handle snake artifacts
-    if (has_artifact_with(AEP_SNAKES) && dam >= 6) {
+    if( has_artifact_with( AEP_SNAKES ) && dam >= 6 ) {
         int snakes = dam / 6;
         std::vector<tripoint> valid;
-        for (int x = posx() - 1; x <= posx() + 1; x++) {
-            for (int y = posy() - 1; y <= posy() + 1; y++) {
-                tripoint dest(x, y, posz());
-                if (g->is_empty( dest )) {
+        for( int x = posx() - 1; x <= posx() + 1; x++ ) {
+            for( int y = posy() - 1; y <= posy() + 1; y++ ) {
+                tripoint dest( x, y, posz() );
+                if( g->is_empty( dest ) ) {
                     valid.push_back( dest );
                 }
             }
         }
-        if (snakes > int(valid.size())) {
-            snakes = int(valid.size());
+        if( snakes > int( valid.size() ) ) {
+            snakes = int( valid.size() );
         }
-        if (snakes == 1) {
-            add_msg(m_warning, _("A snake sprouts from your body!"));
-        } else if (snakes >= 2) {
-            add_msg(m_warning, _("Some snakes sprout from your body!"));
+        if( snakes == 1 ) {
+            add_msg( m_warning, _( "A snake sprouts from your body!" ) );
+        } else if( snakes >= 2 ) {
+            add_msg( m_warning, _( "Some snakes sprout from your body!" ) );
         }
-        for (int i = 0; i < snakes && !valid.empty(); i++) {
+        for( int i = 0; i < snakes && !valid.empty(); i++ ) {
             const tripoint target = random_entry_removed( valid );
-            if (g->summon_mon(mon_shadow_snake, target)) {
+            if( g->summon_mon( mon_shadow_snake, target ) ) {
                 monster *snake = g->monster_at( target );
                 snake->friendly = -1;
             }
@@ -3668,21 +3671,21 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
     // And slimespawners too
-    if ((has_trait("SLIMESPAWNER")) && (dam >= 10) && one_in(20 - dam)) {
+    if( ( has_trait( "SLIMESPAWNER" ) ) && ( dam >= 10 ) && one_in( 20 - dam ) ) {
         std::vector<tripoint> valid;
-        for (int x = posx() - 1; x <= posx() + 1; x++) {
-            for (int y = posy() - 1; y <= posy() + 1; y++) {
-                tripoint dest(x, y, posz());
-                if (g->is_empty(dest)) {
+        for( int x = posx() - 1; x <= posx() + 1; x++ ) {
+            for( int y = posy() - 1; y <= posy() + 1; y++ ) {
+                tripoint dest( x, y, posz() );
+                if( g->is_empty( dest ) ) {
                     valid.push_back( dest );
                 }
             }
         }
-        add_msg(m_warning, _("Slime is torn from you, and moves on its own!"));
+        add_msg( m_warning, _( "Slime is torn from you, and moves on its own!" ) );
         int numslime = 1;
-        for (int i = 0; i < numslime && !valid.empty(); i++) {
+        for( int i = 0; i < numslime && !valid.empty(); i++ ) {
             const tripoint target = random_entry_removed( valid );
-            if (g->summon_mon(mon_player_blob, target)) {
+            if( g->summon_mon( mon_player_blob, target ) ) {
                 monster *slime = g->monster_at( target );
                 slime->friendly = -1;
             }
@@ -3690,39 +3693,38 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
     //Acid blood effects.
-    bool u_see = g->u.sees(*this);
-    int cut_dam = dealt_dams.type_damage(DT_CUT);
-    if( source && has_trait("ACIDBLOOD") && !one_in(3) &&
-        (dam >= 4 || cut_dam > 0) && (rl_dist(g->u.pos(), source->pos()) <= 1)) {
-        if (is_player()) {
-            add_msg(m_good, _("Your acidic blood splashes %s in mid-attack!"),
-                            source->disp_name().c_str());
-        } else if (u_see) {
-            add_msg(_("%1$s's acidic blood splashes on %2$s in mid-attack!"),
-                        disp_name().c_str(),
-                        source->disp_name().c_str());
+    bool u_see = g->u.sees( *this );
+    int cut_dam = dealt_dams.type_damage( DT_CUT );
+    if( source && has_trait( "ACIDBLOOD" ) && !one_in( 3 ) &&
+        ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( g->u.pos(), source->pos() ) <= 1) ) {
+        if( is_player() ) {
+            add_msg( m_good, _( "Your acidic blood splashes %s in mid-attack!" ),
+                     source->disp_name().c_str() );
+        } else if( u_see ) {
+            add_msg( _( "%1$s's acidic blood splashes on %2$s in mid-attack!" ),
+                     disp_name().c_str(), source->disp_name().c_str() );
         }
         damage_instance acidblood_damage;
-        acidblood_damage.add_damage(DT_ACID, rng(4,16));
-        if (!one_in(4)) {
-            source->deal_damage(this, bp_arm_l, acidblood_damage);
-            source->deal_damage(this, bp_arm_r, acidblood_damage);
+        acidblood_damage.add_damage( DT_ACID, rng( 4, 16 ) );
+        if( !one_in( 4 ) ) {
+            source->deal_damage( this, bp_arm_l, acidblood_damage );
+            source->deal_damage( this, bp_arm_r, acidblood_damage );
         } else {
-            source->deal_damage(this, bp_torso, acidblood_damage);
-            source->deal_damage(this, bp_head, acidblood_damage);
+            source->deal_damage( this, bp_torso, acidblood_damage );
+            source->deal_damage( this, bp_head, acidblood_damage );
         }
     }
 
     int recoil_mul = 100;
     switch( bp ) {
         case bp_eyes:
-            if (dam > 5 || cut_dam > 0) {
-                int minblind = (dam + cut_dam) / 10;
-                if (minblind < 1) {
+            if( dam > 5 || cut_dam > 0 ) {
+                int minblind = ( dam + cut_dam ) / 10;
+                if( minblind < 1 ) {
                     minblind = 1;
                 }
-                int maxblind = (dam + cut_dam) /  4;
-                if (maxblind > 5) {
+                int maxblind = ( dam + cut_dam ) /  4;
+                if( maxblind > 5 ) {
                     maxblind = 5;
                 }
                 add_effect( effect_blind, rng( minblind, maxblind ) );
@@ -3750,7 +3752,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             // @todo Some daze maybe? Move drain?
             break;
         default:
-            debugmsg("Wacky body part hit!");
+            debugmsg( "Wacky body part hit!" );
     }
 
     // @todo Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
@@ -3758,19 +3760,20 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     //looks like this should be based off of dealtdams, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != nullptr ) {
-        if ( source->has_flag(MF_GRABS) && !source->is_hallucination() ) {
+        if ( source->has_flag( MF_GRABS ) && !source->is_hallucination() ) {
             ///\EFFECT_DEX increases chance to avoid being grabbed, if DEX>STR
 
             ///\EFFECT_STR increases chance to avoid being grabbed, if STR>DEX
             if( has_grab_break_tec() && get_grab_resist() > 0 &&
-                (get_dex() > get_str() ? rng( 0, get_dex() ) : rng( 0, get_str() ) ) > rng( 0, 10 ) ) {
+                ( get_dex() > get_str() ? rng( 0, get_dex() ) : rng( 0, get_str() ) ) >
+                    rng( 0, 10 ) ) {
                 if( has_effect( effect_grabbed ) ) {
                     add_msg_if_player( m_warning ,_("You are being grabbed by %s, but you bat it away!"),
-                                       source->disp_name().c_str());
+                                       source->disp_name().c_str() );
                 } else {
                     add_msg_player_or_npc( m_info, _("You are being grabbed by %s, but you break its grab!"),
                                            _("<npcname> are being grabbed by %s, but they break its grab!"),
-                                           source->disp_name().c_str());
+                                           source->disp_name().c_str() );
                 }
             } else {
                 int prev_effect = get_effect_int( effect_grabbed );
@@ -3782,17 +3785,20 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
     int sum_cover = 0, coverage = 0;
-    for( item &i : worn )
-    {
-        if( i.covers( bp ) && i.is_filthy() )
-        {
+    for( const item &i : worn ) {
+        if( i.covers( bp ) && i.is_filthy() ) {
             coverage = i.get_coverage();
             sum_cover += coverage;
         }
     }
-    const int infection_chance = dealt_dams.type_damage( DT_BASH ) + ( dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB ) ) * 4 * sum_cover / 100;
-    if( x_in_y( infection_chance, 100 ) )
-    {
+
+    // Chance of infection is damage (with cut and stab x4) * sum of coverage on affected body part, in percent.
+    // i.e. if the body part has a sum of 100 coverage from filthy clothing,
+    // each point of damage has a 1% change of causing infection.
+    const int cut_type_dam = dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB );
+    const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
+    const int infection_chance = ( combined_dam * sum_cover ) / 100;
+    if( x_in_y( infection_chance, 100 ) ) {
         if( has_effect( effect_bite, bp ) ) {
             add_effect( effect_bite, 400, bp, true );
         } else if( has_effect( effect_infected, bp ) ) {
