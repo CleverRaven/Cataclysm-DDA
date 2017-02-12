@@ -195,7 +195,7 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "RIVER",      river_tile   },
     { "SIDEWALK",   has_sidewalk },
     { "ALLOW_ROAD", allow_road   },
-    { "ROTATES",    rotates      },
+    { "NO_ROTATE",  no_rotate    },
     { "LINEAR",     line_drawing }
 };
 
@@ -448,7 +448,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     const typed_flag_reader<decltype( oter_flags_map )> flag_reader{ oter_flags_map, "invalid overmap terrain flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
-    set_flag( rotates, jo.get_bool( "rotate", false ) );
+    set_flag( no_rotate, !jo.get_bool( "rotate", false ) );
 
     if( is_rotatable() && has_flag( line_drawing ) ) {
         jo.throw_error( "Can't have \"rotate\" and \"LINEAR\" at the same time." );

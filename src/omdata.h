@@ -112,7 +112,7 @@ enum oter_flags {
     river_tile,
     has_sidewalk,
     allow_road,
-    rotates,      // does this tile have four versions, one for each direction?
+    no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     num_oter_flags
 };
@@ -155,7 +155,7 @@ struct oter_type_t {
         void finalize();
 
         bool is_rotatable() const {
-            return has_flag( rotates );
+            return !has_flag( no_rotate ) && !has_flag( line_drawing );
         }
 
     private:
