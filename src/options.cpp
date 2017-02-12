@@ -1397,11 +1397,6 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    add("STATIC_SPAWN", "world_default", _("Static spawn"),
-        _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
-        true
-        );
-
     add("WANDER_SPAWNS", "world_default", _("Wander spawns"),
         _("Emulation of zombie hordes. Zombie spawn points wander around cities and may go to noise. Must reset world directory after changing for it to take effect."),
         false
