@@ -226,6 +226,8 @@ struct oter_t {
             return type->has_flag( flag );
         }
 
+        bool is_hardcoded() const;
+
     private:
         om_direction::type dir = om_direction::type::none;
         long sym = '\0';         // This is a long, so we can support curses linedrawing.

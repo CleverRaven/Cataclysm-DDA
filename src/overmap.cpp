@@ -592,12 +592,7 @@ bool oter_t::has_connection( om_direction::type dir ) const
     return om_lines::has_segment( line, dir );
 }
 
-void overmap_terrains::load( JsonObject &jo, const std::string &src )
-{
-    terrain_types.load( jo, src );
-}
-
-void overmap_terrains::check_consistency()
+bool oter_t::is_hardcoded() const
 {
     // @todo This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
     static const std::set<std::string> hardcoded_mapgen = {
@@ -680,6 +675,17 @@ void overmap_terrains::check_consistency()
         "triffid_roots",
     };
 
+    return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
+}
+
+void overmap_terrains::load( JsonObject &jo, const std::string &src )
+{
+    terrain_types.load( jo, src );
+}
+
+void overmap_terrains::check_consistency()
+{
+
     for( const auto &elem : terrain_types.get_all() ) {
         if( elem.static_spawns.group && !elem.static_spawns.group.is_valid() ) {
             debugmsg( "Invalid monster group \"%s\" in spawns of \"%s\".", elem.static_spawns.group.c_str(), elem.id.c_str() );
@@ -693,7 +699,7 @@ void overmap_terrains::check_consistency()
             continue;
         }
 
-        const bool exists_hardcoded = hardcoded_mapgen.find( mid ) != hardcoded_mapgen.end();
+        const bool exists_hardcoded = elem.is_hardcoded();
         const bool exists_loaded = oter_mapgen.find( mid ) != oter_mapgen.end();
 
         if( exists_loaded ) {
@@ -1174,21 +1180,39 @@ void overmap_special::finalize()
 
 void overmap_special::check() const
 {
-    // Update and check terrains and connections.
+    std::set<int> invalid_terrains;
+    std::set<int> fixed_terrains;
     std::set<tripoint> points;
 
     for( const auto &elem : terrains ) {
-        if( !elem.terrain.is_valid() ) {
-            debugmsg( "Invalid terrain \"%s\" in overmap special \"%s\".",
-                      elem.terrain.c_str(), id.c_str() );
-            continue;
+        const auto &oter = elem.terrain;
+
+        if( oter.is_valid() ) {
+            if( rotatable ) {
+                // We assume that the hardcoded mapgen takes care of rotation (in most cases it really does).
+                const bool loose_terrain = oter->has_flag( rotates ) || oter->has_flag( line_drawing ) || oter->is_hardcoded();
+
+                if( !loose_terrain && fixed_terrains.count( oter.id() ) == 0 ) {
+                    fixed_terrains.insert( oter.id() );
+                    debugmsg( "In overmap special \"%s\" (which is rotatable), terrain \"%s\" can't be rotated.",
+                              id.c_str(), oter.c_str() );
+                }
+            }
+        } else {
+            if( invalid_terrains.count( oter.id() ) == 0 ) {
+                invalid_terrains.insert( oter.id() );
+                debugmsg( "In overmap special \"%s\", terrain \"%s\" is invalid.",
+                          id.c_str(), oter.c_str() );
+            }
         }
 
-        if( points.count( elem.p ) > 0 ) {
+        const auto &pos = elem.p;
+
+        if( points.count( pos ) > 0 ) {
             debugmsg( "In overmap special \"%s\", point [%d,%d,%d] is duplicated.",
-                      id.c_str(), elem.p.x, elem.p.y, elem.p.z );
+                      id.c_str(), pos.x, pos.y, pos.z );
         } else {
-            points.insert( elem.p );
+            points.insert( pos );
         }
     }
 
