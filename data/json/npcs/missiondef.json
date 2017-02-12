@@ -1501,7 +1501,7 @@
   {
     "id": "MISSION_RANCH_NURSE_5",
     "type": "mission_definition",
-    "name": "Find a Chemistry Sets",
+    "name": "Find a Chemistry Set",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
