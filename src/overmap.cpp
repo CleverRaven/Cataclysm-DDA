@@ -450,7 +450,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
 
     set_flag( rotates, jo.get_bool( "rotate", false ) );
 
-    if( has_flag( rotates ) && has_flag( line_drawing ) ) {
+    if( is_rotatable() && has_flag( line_drawing ) ) {
         jo.throw_error( "Can't have \"rotate\" and \"LINEAR\" at the same time." );
     }
 
@@ -467,7 +467,7 @@ void oter_type_t::finalize()
 {
     directional_peers.clear();  // In case of a second finalization.
 
-    if( has_flag( rotates ) ) {
+    if( is_rotatable() ) {
         for( auto dir : om_direction::all ) {
             register_terrain( oter_t( *this, dir ), static_cast<size_t>( dir ), om_direction::size );
         }
@@ -506,7 +506,7 @@ oter_id oter_type_t::get_rotated( om_direction::type dir ) const
     if( dir == om_direction::type::invalid ) {
         debugmsg( "Invalid rotation was asked from overmap terrain \"%s\".", id.c_str() );
         return ot_null;
-    } else if( dir == om_direction::type::none || !has_flag( rotates ) ) {
+    } else if( dir == om_direction::type::none || !is_rotatable() ) {
         return directional_peers.front();
     }
     assert( directional_peers.size() == om_direction::size );
@@ -1190,7 +1190,7 @@ void overmap_special::check() const
         if( oter.is_valid() ) {
             if( rotatable ) {
                 // We assume that the hardcoded mapgen takes care of rotation (in most cases it really does).
-                const bool loose_terrain = oter->has_flag( rotates ) || oter->has_flag( line_drawing ) || oter->is_hardcoded();
+                const bool loose_terrain = oter->is_rotatable() || oter->has_flag( line_drawing ) || oter->is_hardcoded();
 
                 if( !loose_terrain && fixed_terrains.count( oter.id() ) == 0 ) {
                     fixed_terrains.insert( oter.id() );
@@ -2759,7 +2759,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                     uistate.place_special = oslist[pmenu.ret];
                 }
                 // @todo Unify these things.
-                const bool can_rotate = terrain ? uistate.place_terrain->has_flag( rotates ) : uistate.place_special->rotatable;
+                const bool can_rotate = terrain ? uistate.place_terrain->is_rotatable() : uistate.place_special->rotatable;
 
                 uistate.omedit_rotation = om_direction::type::none;
                 // If user chose an already rotated submap, figure out its direction
@@ -2796,7 +2796,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                     mvwprintz( w_editor, 7, 1, c_red, _("generated. Their overmap") );
                     mvwprintz( w_editor, 8, 1, c_red, _("id will change, but not") );
                     mvwprintz( w_editor, 9, 1, c_red, _("their contents.") );
-                    if( ( terrain && uistate.place_terrain->has_flag( rotates ) ) ||
+                    if( ( terrain && uistate.place_terrain->is_rotatable() ) ||
                         ( !terrain && uistate.place_special->rotatable ) ) {
                         mvwprintz( w_editor, 11, 1, c_white, _("[%s] Rotate"),
                                    ctxt.get_desc( "ROTATE" ).c_str() );

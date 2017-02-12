@@ -154,6 +154,10 @@ struct oter_type_t {
         void check() const;
         void finalize();
 
+        bool is_rotatable() const {
+            return has_flag( rotates );
+        }
+
     private:
         std::bitset<num_oter_flags> flags;
         std::vector<oter_id> directional_peers;
@@ -227,6 +231,10 @@ struct oter_t {
         }
 
         bool is_hardcoded() const;
+
+        bool is_rotatable() const {
+            return type->is_rotatable();
+        }
 
     private:
         om_direction::type dir = om_direction::type::none;
