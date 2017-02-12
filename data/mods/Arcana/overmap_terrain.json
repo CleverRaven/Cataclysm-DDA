@@ -96,9 +96,9 @@
         "type" : "overmap_terrain",
         "id" : "impact_roof_center",
         "name" : "open air",
-        "rotate" : false,
         "sym" : 46,
-        "color" : "blue"
+        "color" : "blue",
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "impact_roof_right",

@@ -448,13 +448,11 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     const typed_flag_reader<decltype( oter_flags_map )> flag_reader{ oter_flags_map, "invalid overmap terrain flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
-    set_flag( no_rotate, !jo.get_bool( "rotate", false ) );
-
-    if( is_rotatable() && has_flag( line_drawing ) ) {
-        jo.throw_error( "Can't have \"rotate\" and \"LINEAR\" at the same time." );
-    }
-
     if( has_flag( line_drawing ) ) {
+        if( has_flag( no_rotate ) ) {
+            jo.throw_error( "Mutually exclusive flags: \"NO_ROTATE\" and \"LINEAR\"." );
+        }
+
         for( const auto &elem : om_lines::mapgen_suffixes ) {
             load_overmap_terrain_mapgens( jo, id.str(), elem );
         }
