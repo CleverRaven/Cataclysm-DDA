@@ -1050,7 +1050,7 @@
         "flags": ["SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR"],
         "examine_action": "vending",
         "bash": {
-            "str_min": 6, "str_max": 20,
+            "str_min": 20, "str_max": 40,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "sound_vol": 16,
@@ -1070,7 +1070,7 @@
         "required_str": 10,
         "flags": ["PLACE_ITEM", "CONTAINER", "BLOCKSDOOR"],
         "bash": {
-            "str_min": 18, "str_max": 50,
+            "str_min": 30, "str_max": 50,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "items": [
