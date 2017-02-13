@@ -206,12 +206,8 @@
   "time": 30000,
   "book_learn": [[ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], ["textbook_armschina", 4]],
   "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 68 ]
-    ]
+    {"id":"CUT","level":1},
+    {"id":"SEW","level":1}
   ],
   "components": [
     [
@@ -224,6 +220,9 @@
       [ "tanned_hide", 7 ],
       [ "fur", 42 ],
       [ "tanned_pelt", 7 ]
+    ],
+    [
+        [ "thread", 68 ], [ "sinew", 68 ], [ "plant_fibre", 68 ]
     ]
   ]
 },{
@@ -238,7 +237,8 @@
   "qualities": [
     {"id":"CUT","level":1},
     {"id":"HAMMER","level":3},
-    {"id":"CHISEL","level":3}
+    {"id":"CHISEL","level":3},
+    {"id":"SEW","level":1}
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
@@ -247,9 +247,6 @@
     [
       [ "forge", 300 ],
       [ "oxy_torch", 60 ]
-    ],
-    [
-      [ "sewing_kit", 18 ]
     ]
   ],
   "components": [
@@ -260,6 +257,9 @@
     [
       [ "fur", 6 ],
       [ "tanned_pelt", 1 ]
+    ],
+    [
+      [ "sinew", 18 ], [ "thread", 18 ], [ "plant_fibre", 18 ]
     ]
   ]
 }
