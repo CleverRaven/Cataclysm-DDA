@@ -486,10 +486,8 @@
   "difficulty": 1,
   "time": 45000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 40 ]
-    ]
+  "qualities": [
+    { "id": "SEW", "level": 1 }
   ],
   "components": [
      [
@@ -505,7 +503,8 @@
       [ "10gal_hat", 1 ],
       [ "straw_hat", 1 ],
       [ "straw_fedora", 1 ]
-     ]
+     ],
+     [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
   ]
 },{
         "type" : "recipe",
@@ -557,17 +556,18 @@
   "time": 5000,
   "autolearn": true,
   "qualities" : [
+    {"id":"SEW","level":1},
     {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 10 ]
-    ]
   ],
   "components": [
     [
       [ "fur", 4 ],
       [ "tanned_pelt", 1 ]
+    ],
+    [
+      [ "thread", 10 ],
+      [ "sinew", 10 ],
+      [ "plant_fibre", 10 ]
     ]
   ]
 },{
