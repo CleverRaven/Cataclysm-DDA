@@ -11933,16 +11933,14 @@
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3},
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1},
+    {"id":"SEW","level":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "toolset", 5 ],
       [ "char_smoker", 5 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "sewing_kit", 2 ]
     ]
   ],
   "components": [
@@ -11964,6 +11962,11 @@
       [ "fat", 1 ],
       [ "tallow", 1 ],
       [ "lard", 1 ]
+    ],
+    [
+      [ "thread", 2 ],
+      [ "sinew", 2 ],
+      [ "plant_fibre", 2 ]
     ]
   ]
 },{
@@ -11980,16 +11983,14 @@
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3},
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1},
+    {"id":"SEW","level":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "toolset", 5 ],
       [ "char_smoker", 5 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "sewing_kit", 2 ]
     ]
   ],
   "components": [
@@ -12017,6 +12018,11 @@
       [ "fat", 1 ],
       [ "tallow", 1 ],
       [ "lard", 1 ]
+    ],
+    [
+      [ "thread", 2 ],
+      [ "sinew", 2 ],
+      [ "plant_fibre", 2 ]
     ]
   ]
 },{
