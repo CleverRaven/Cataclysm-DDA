@@ -9,7 +9,7 @@
     "time": 5000,
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "string_36", 4 ] ],
       [ [ "2x4", 2 ] ],
@@ -40,7 +40,7 @@
     "difficulty": 4,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 }, { "id": "SEW", "level": 1} ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1} ],
     "components": [
       [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ],
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
@@ -89,7 +89,7 @@
     "difficulty": 3,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 }, { "id": "SEW", "level": 1} ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1} ],
     "components": [
       [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
       [ [ "thread", 16 ], [ "sinew", 16 ], [ "plant_fibre", 16 ] ]
@@ -129,7 +129,7 @@
     "time": 30000,
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2, "amount": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [
       [ [ "string_36", 1 ], [ "string_6", 4 ] ],
       [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ]
@@ -229,7 +229,7 @@
     "difficulty": 2,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 }, { "id": "SEW", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [ 
       [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ],
       [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
