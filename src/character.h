@@ -286,12 +286,6 @@ class Character : public Creature, public visitable<Character>
         float mutation_armor( body_part bp, damage_type dt ) const;
         float mutation_armor( body_part bp, const damage_unit &dt ) const;
 
-        /**
-         * Handles deducting moves, printing messages (only non-NPCs cause messages), actually closing it,
-         * checking if it can be closed, etc.
-        */
-        void close_door( const tripoint &closep );
-
         // --------------- Bionic Stuff ---------------
         /** Returns true if the player has the entered bionic id */
         bool has_bionic(const std::string &b) const;

@@ -17,6 +17,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "sounds.h"
+#include "gates.h"
 
 #include <algorithm>
 
@@ -1587,7 +1588,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
 
         // Close doors behind self (if you can)
         if( is_friend() && rules.close_doors ) {
-            close_door( old_pos );
+            doors::close_door( g->m, *this, old_pos );
         }
 
         int part;
