@@ -94,10 +94,10 @@
   "time": 10000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 12 ]
-    ]
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
@@ -105,6 +105,9 @@
     ],
     [
       [ "down_feather", 40]
+    ],
+    [
+      [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ]
     ]
   ]
 },{
@@ -116,10 +119,10 @@
   "time": 10000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 12 ]
-    ]
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
@@ -127,7 +130,8 @@
     ],
     [
       [ "cotton_ball", 8]
-    ]
+    ],
+    [[ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ]]
   ]
 },{
   "type" : "recipe",
@@ -392,12 +396,10 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1},
-    {"id":"SCREW","level":1}
+    {"id":"SCREW","level":1},
+    {"id":"SEW","level":1}
   ],
   "tools": [
-    [
-      [ "sewing_kit", 15 ]
-    ],
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ]
@@ -423,7 +425,8 @@
       [ "string_36", 2 ],
       [ "duct_tape", 20 ],
       [ "medical_tape", 40 ]
-    ]
+    ],
+    [[ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ]]
   ]
 },{
   "type" : "recipe",
@@ -1148,10 +1151,10 @@
   "difficulty": 2,
   "time": 30000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 60 ]
-    ]
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
@@ -1165,7 +1168,8 @@
       [ "tanned_hide", 1 ],
       [ "fur", 6 ],
       [ "tanned_pelt", 1 ]
-    ]
+    ],
+    [[ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ]]
   ]
 },{
   "type" : "recipe",
@@ -1177,11 +1181,11 @@
   "difficulty": 2,
   "time": 30000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 90 ]
-    ]
-  ],
+        "qualities": [{
+                "id": "SEW",
+                "level": 1
+            }
+        ],
   "components": [
     [
       [ "sinew", 40 ],
@@ -1194,7 +1198,8 @@
       [ "tanned_hide", 2 ],
       [ "fur", 14 ],
       [ "tanned_pelt", 2 ]
-    ]
+    ],
+    [[ "thread", 90 ], [ "sinew", 90 ], [ "plant_fibre", 90 ]]
   ]
 },{
   "type" : "recipe",
@@ -1206,10 +1211,10 @@
   "difficulty": 3,
   "time": 30000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 120 ]
-    ]
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
@@ -1223,7 +1228,8 @@
       [ "tanned_hide", 4 ],
       [ "fur", 24 ],
       [ "tanned_pelt", 4 ]
-    ]
+    ],
+    [[ "thread", 120 ], [ "sinew", 120 ], [ "plant_fibre", 120 ]]
   ]
 },{
   "type" : "recipe",
@@ -1255,10 +1261,10 @@
   "difficulty": 2,
   "time": 50000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 200 ]
-    ]
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
@@ -1274,7 +1280,8 @@
       [ "sinew", 500 ],
       [ "thread", 500 ],
       [ "plant_fibre", 500 ]
-    ]
+    ],
+    [[ "thread", 200 ], [ "sinew", 200 ], [ "plant_fibre", 200 ]]
   ]
 },{
   "type" : "recipe",
@@ -1286,10 +1293,10 @@
   "skills_required": [ "tailor", 1 ],
   "time": 20000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 50 ]
-    ]
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
@@ -1308,8 +1315,9 @@
     ],
     [
       [ "damaged_shelter_kit", 1 ]
-    ]
-  ]
+    ],
+    [[ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 5]]
+]
 },{
   "type" : "recipe",
   "result": "fur_rollmat",
@@ -1467,12 +1475,8 @@
     {"id":"HAMMER","level":2},
     {"id":"SAW_M","level":1},
     {"id":"WRENCH","level":1},
-    {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 15 ]
-    ]
+    {"id":"CUT","level":1},
+    {"id":"SEW","level":1}
   ],
   "components": [
     [
@@ -1486,7 +1490,8 @@
     ],
     [
       [ "string_36", 2 ]
-    ]
+    ],
+    [[ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ]]
   ]
 },{
   "type" : "recipe",
@@ -1574,15 +1579,19 @@
   "time": 10000,
   "reversible": true,
   "autolearn": true,
-  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
+        "qualities": [{
+                "id": "GLARE",
+                "level": 2
+            }, {
+                "id": "SEW",
+                "level": 1
+            }
+        ],
   "tools": [
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ]
-    ],
-    [
-      [ "sewing_kit", 50 ]
     ]
   ],
   "components": [
@@ -1599,7 +1608,8 @@
       [ "tanned_hide", 3 ],
       [ "tanned_pelt", 3 ],
       [ "sheet", 1 ]
-    ]
+    ],
+    [[ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ]]
   ]
 },{
   "type" : "recipe",
@@ -1665,12 +1675,11 @@
   "difficulty": 2,
   "time": 6000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "knitting_needles", -1 ],
-      [ "tailors_kit", -1 ]
-    ]
-  ],
+        "qualities": [{
+                "id": "KNIT",
+                "level": 1
+            }
+        ],
   "components": [
     [
       [ "thread", 100 ],
@@ -1727,15 +1736,16 @@
   "skill_used": "tailor",
   "time": 10000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 50 ]
-    ]
-  ],
+  "qualities": [{
+                "id": "SEW",
+                "level": 1
+            }
+        ],
   "components": [
     [
       [ "rag", 20 ]
-    ]
+    ],
+    [[ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ]]
   ]
 },{
   "type" : "recipe",
@@ -5625,12 +5635,8 @@
   "time": 10000,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 20 ]
-    ]
+    {"id":"CUT","level":1},
+    {"id":"SEW","level":1}
   ],
   "components": [
     [
@@ -5638,7 +5644,8 @@
     ],
     [
       [ "string_6", 1 ]
-    ]
+    ],
+    [[ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ]]
   ]
 },
 {
@@ -5650,13 +5657,13 @@
   "difficulty": 3,
   "time": 50000,
   "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 80 ]
-    ]
+  "qualities": [{
+          "id": "CUT",
+          "level": 1
+      }, {
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
@@ -5665,7 +5672,8 @@
     [
       [ "string_36", 1 ],
       [ "string_6", 6 ]
-    ]
+    ],
+    [[ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ]]
   ]
   },{
   "type" : "recipe",
@@ -6162,10 +6170,10 @@
   "difficulty": 2,
   "time": 30000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 60 ]
-    ]
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
@@ -6173,7 +6181,8 @@
       [ "tanned_hide", 1 ],
       [ "fur", 4 ],
       [ "tanned_pelt", 1 ]
-    ]
+    ],
+    [[ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ]]
   ]
   },{
   "type" : "recipe",
@@ -6930,6 +6939,11 @@
   "difficulty": 4,
   "time": 35000,
   "autolearn": true,
+        "qualities": [{
+                "id": "SEW",
+                "level": 1
+            }
+        ],
   "tools": [
     [
       ["mold_plastic", -1]
@@ -6938,9 +6952,6 @@
       ["hotplate", 10],
       ["toolset", 10],
       ["fire", -1]
-    ],
-    [
-      ["sewing_kit", 4]
     ]
   ],
   "components": [
@@ -6951,7 +6962,8 @@
       ["rag", 3],
       ["leather", 3],
       ["fur", 3]
-    ]
+    ],
+    [[ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ]]
   ]
 },{
   "type" : "recipe",
@@ -6962,6 +6974,10 @@
   "difficulty": 4,
   "time": 40000,
   "autolearn": true,
+        "qualities": [{
+                "id": "SEW",
+                "level": 1
+            }],
   "tools": [
     [
       ["mold_plastic", -1]
@@ -6970,9 +6986,6 @@
       ["hotplate", 15],
       ["toolset", 15],
       ["fire", -1]
-    ],
-    [
-      ["sewing_kit", 4]
     ]
   ],
   "components": [
@@ -6983,7 +6996,8 @@
       ["rag", 3],
       ["leather", 3],
       ["fur", 3]
-    ]
+    ],
+    [[ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ]]
   ]
 },{
   "type" : "recipe",
@@ -6995,14 +7009,14 @@
   "difficulty": 6,
   "time": 60000,
   "book_learn": [[ "scots_cookbook", 3 ]],
-  "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 20 ]
-    ]
-  ],
+        "qualities": [{
+                "id": "SEW",
+                "level": 1
+            }, {
+                "id": "CUT",
+                "level": 1
+            }
+        ],
   "components": [
     [
       [ "large_stomach_sealed", 1 ],
@@ -7023,7 +7037,8 @@
       [ "bone_glue", 2 ],
       [ "duct_tape", 25 ],
       [ "medical_tape", 50 ]
-    ]
+    ],
+    [[ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ]]
   ]
 },{
   "type" : "recipe",
