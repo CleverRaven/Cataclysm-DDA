@@ -9,12 +9,12 @@
     "skills_required": [ "pistol", 3 ],
     "time": 15000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "sewing_kit", 40 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 9 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "sinew", 40 ], [ "thread", 40 ], [ "plant_fibre", 40 ] ],
-      [ [ "scrap", 3 ] ]
+      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
     ]
   },
   {
@@ -27,10 +27,11 @@
     "skills_required": [ "gun", 1 ],
     "time": 80000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 40 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 8 ], [ "rag", 8 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "sinew", 20 ], [ "thread", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ],
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
     ]
   },
   {
@@ -43,10 +44,11 @@
     "skills_required": [ "gun", 1 ],
     "time": 18000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 30 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 3 ], [ "string_6", 18 ], [ "sinew", 60 ], [ "thread", 60 ], [ "plant_fibre", 60 ] ]
+      [ [ "string_36", 3 ], [ "string_6", 18 ], [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ] ],
+      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ]
     ]
   },
   {
@@ -58,8 +60,9 @@
     "difficulty": 3,
     "time": 50000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
-    "components": [ [ [ "rag", 20 ] ] ]
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "rag", 20 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ] ]
   },
   {
     "result": "backpack_leather",
@@ -70,10 +73,11 @@
     "difficulty": 3,
     "time": 50000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 20 ], [ "tanned_hide", 3 ] ],
-      [ [ "scrap", 6 ] ]
+      [ [ "scrap", 6 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -107,10 +111,11 @@
     "skills_required": [ [ "gun", 1 ], [ "pistol", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 40 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 8 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ] ],
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
     ]
   },
   {
@@ -123,10 +128,11 @@
     "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 40 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 8 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ] ],
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
     ]
   },
   {
@@ -139,10 +145,11 @@
     "skills_required": [ [ "gun", 1 ], [ "shotgun", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 40 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 8 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ] ],
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
     ]
   },
   {
@@ -155,10 +162,11 @@
     "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 4 ] ],
-      [ [ "string_6", 4 ], [ "thread", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "string_6", 4 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -186,10 +194,11 @@
     "skills_required": [ "stabbing", 1 ],
     "time": 65000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 10 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ] ],
-      [ [ "string_6", 3 ], [ "sinew", 10 ], [ "thread", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ],
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
     ]
   },
   {
@@ -202,10 +211,11 @@
     "skills_required": [ "gun", 1 ],
     "time": 75000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 10 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ] ],
-      [ [ "string_6", 3 ], [ "sinew", 10 ], [ "thread", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ],
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
     ]
   },
   {
@@ -239,10 +249,11 @@
     "skills_required": [ "gun", 1 ],
     "time": 78000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 4 ], [ "rag", 4 ] ],
-      [ [ "string_6", 3 ], [ "sinew", 10 ], [ "thread", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -255,15 +266,16 @@
     "skills_required": [ "fabrication", 2 ],
     "time": 30000,
     "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
-      [ [ "sewing_kit", 25 ] ],
       [ [ "toolset", 5 ], [ "hotplate", 5 ], [ "fire", -1 ] ],
       [ [ "mold_plastic", -1 ] ]
     ],
     "components": [
       [ [ "rag", 16 ] ],
       [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ],
-      [ [ "plastic_chunk", 2 ] ]
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "thread", 25 ], [ "sinew", 25 ], [ "plant_fibre", 25 ] ]
     ]
   },
   {
@@ -275,8 +287,8 @@
     "difficulty": 2,
     "time": 80000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 30 ] ] ],
-    "components": [ [ [ "rag", 40 ], [ "fur", 32 ], [ "tanned_pelt", 6 ], [ "leather", 24 ], [ "tanned_hide", 6 ] ] ]
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "rag", 40 ], [ "fur", 32 ], [ "tanned_pelt", 6 ], [ "leather", 24 ], [ "tanned_hide", 6 ] ], [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ] ]
   },
   {
     "result": "flintlock_pouch",
@@ -288,10 +300,11 @@
     "skills_required": [ [ "gun", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "sinew", 20 ], [ "thread", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -304,14 +317,15 @@
     "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
     "time": 80000,
     "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
-      [ [ "sewing_kit", 20 ] ],
       [ [ "mold_plastic", -1 ] ]
     ],
     "components": [
       [ [ "rag", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "string_6", 2 ], [ "thread", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_6", 2 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ],
+	  [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -324,10 +338,11 @@
     "skills_required": [ "pistol", 1 ],
     "time": 15000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "sinew", 20 ], [ "thread", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -355,9 +370,9 @@
     "skill_used": "tailor",
     "time": 8000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "sewing_kit", 12 ] ] ],
-    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
+      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ] ] ]
   },
   {
     "result": "leather_pouch",
@@ -369,10 +384,11 @@
     "skills_required": [ "survival", 1 ],
     "time": 10000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "sinew", 20 ], [ "thread", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -385,10 +401,11 @@
     "skills_required": [ "gun", 1 ],
     "time": 68000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 10 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ], [ "rag", 3 ] ],
-      [ [ "string_6", 3 ], [ "sinew", 10 ], [ "thread", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ],
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
     ]
   },
   {
@@ -401,10 +418,11 @@
     "skills_required": [ "gun", 1 ],
     "time": 76000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 25 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "rag", 6 ] ],
-      [ [ "string_6", 3 ], [ "sinew", 10 ], [ "thread", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ],
+      [ [ "thread", 25 ], [ "sinew", 25 ], [ "plant_fibre", 25 ] ]
     ]
   },
   {
@@ -417,14 +435,15 @@
     "skills_required": [ "fabrication", 2 ],
     "time": 20000,
     "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
-      [ [ "sewing_kit", 15 ] ],
       [ [ "toolset", 5 ], [ "hotplate", 5 ], [ "fire", -1 ] ],
       [ [ "mold_plastic", -1 ] ]
     ],
     "components": [
       [ [ "rag", 10 ] ],
-      [ [ "plastic_chunk", 2 ] ]
+      [ [ "plastic_chunk", 2 ] ],
+	  [ [ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ] ]
     ]
   },
   {
@@ -482,8 +501,9 @@
     "decomp_learn": 3,
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ] ],
-    "tools": [ [ [ "sewing_kit", 2 ] ] ],
-    "components": [ [ [ "leather", 2 ] ] ]
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "leather", 2 ] ],
+      [ [ "thread", 2 ], [ "sinew", 2 ], [ "plant_fibre", 2 ] ] ]
   },
   {
     "result": "quiver_birchbark",
@@ -515,9 +535,11 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ] ],
     "using": [ [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "sewing_kit", 8 ] ] ],
-    "components": [ [ [ "leather", 8 ], [ "tanned_hide", 1 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SEW", "level": 1 } ],
+    "components": [
+      [ [ "leather", 8 ], [ "tanned_hide", 1 ] ],
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
+    ]
   },
   {
     "result": "quiver_large_birchbark",
@@ -543,10 +565,11 @@
     "skill_used": "tailor",
     "time": 10000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 6 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "sinew", 20 ], [ "thread", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -580,10 +603,11 @@
     "skills_required": [ "cutting", 1 ],
     "time": 15000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "sinew", 20 ], [ "thread", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -596,10 +620,11 @@
     "skills_required": [ "pistol", 2 ],
     "time": 15000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "sinew", 40 ], [ "thread", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -623,14 +648,14 @@
     "skills_required": [ "fabrication", 6 ],
     "time": 100000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "sewing_kit", 200 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 18 ] ],
       [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
       [ [ "molle_pack", 4 ], [ "duffelbag", 2 ], [ "rucksack", 4 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
-      [ [ "duct_tape", 200 ] ]
+      [ [ "duct_tape", 200 ] ],
+      [ [ "thread", 200 ], [ "sinew", 200 ], [ "plant_fibre", 200 ] ]
     ]
   },
   {
@@ -643,14 +668,14 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 80000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "sewing_kit", 120 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 10 ] ],
       [ [ "leather", 10 ], [ "tanned_hide", 2 ] ],
       [ [ "runner_bag", 4 ], [ "backpack", 2 ], [ "backpack_leather", 2 ], [ "mbag", 4 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
-      [ [ "duct_tape", 120 ] ]
+      [ [ "duct_tape", 120 ] ],
+      [ [ "thread", 120 ], [ "sinew", 120 ], [ "plant_fibre", 120 ] ]
     ]
   },
   {
@@ -663,14 +688,14 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 90000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "sewing_kit", 160 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 14 ] ],
       [ [ "leather", 16 ], [ "tanned_hide", 3 ] ],
       [ [ "backpack", 4 ], [ "backpack_leather", 4 ], [ "molle_pack", 2 ], [ "duffelbag", 1 ], [ "rucksack", 2 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
-      [ [ "duct_tape", 160 ] ]
+      [ [ "duct_tape", 160 ] ],
+      [ [ "thread", 160 ], [ "sinew", 160 ], [ "plant_fibre", 160 ] ]
     ]
   },
   {
@@ -683,14 +708,14 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 70000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "sewing_kit", 80 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 6 ] ],
       [ [ "leather", 8 ], [ "tanned_hide", 2 ] ],
       [ [ "runner_bag", 2 ], [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "mbag", 2 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
-      [ [ "duct_tape", 80 ] ]
+      [ [ "duct_tape", 80 ] ],
+      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ] ]
     ]
   },
   {
@@ -703,14 +728,14 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 70000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "sewing_kit", 100 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 6 ] ],
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "holster", 1 ], [ "sholster", 1 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
-      [ [ "duct_tape", 50 ] ]
+      [ [ "duct_tape", 50 ] ],
+      [ [ "thread", 100 ], [ "sinew", 100 ], [ "plant_fibre", 100 ] ]
     ]
   },
   {
@@ -734,10 +759,11 @@
     "difficulty": 3,
     "time": 16000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 8 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ],
-      [ [ "leather_pouch", 1 ] ]
+      [ [ "leather_pouch", 1 ] ],
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
     ]
   }
 ]
