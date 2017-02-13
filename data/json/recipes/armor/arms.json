@@ -25,8 +25,11 @@
     "difficulty": 1,
     "time": 5000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 10 ] ] ],
-    "components": [ [ [ "rag", 4 ] ] ]
+    "qualities": [ { "id": "SEW", "level": 1} ],
+    "components": [ 
+      [ [ "rag", 4 ] ],
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+    ]
   },
   {
     "result": "armguard_bone",
@@ -37,11 +40,11 @@
     "difficulty": 4,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [ [ [ "sewing_kit", 11 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 }, { "id": "SEW", "level": 1} ],
     "components": [
       [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ],
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ]
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
+      [ [ "thread", 11 ], [ "sinew", 11 ], [ "plant_fibre", 11 ] ]
     ]
   },
   {
@@ -67,13 +70,14 @@
     "difficulty": 3,
     "time": 25000,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
+    "qualities": [ { "id": "SEW", "level": 1} ],
     "tools": [
-      [ [ "sewing_kit", 25 ] ],
       [ [ "soldering_iron", 15 ], [ "welder", 15 ], [ "hotplate", 15 ], [ "toolset", 15 ] ]
     ],
     "components": [
       [ [ "neoprene", 6 ] ],
-      [ [ "plastic_chunk", 8 ] ]
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "thread", 25 ], [ "sinew", 25 ], [ "plant_fibre", 25 ] ]
     ]
   },
   {
@@ -85,9 +89,11 @@
     "difficulty": 3,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [ [ [ "sewing_kit", 16 ] ] ],
-    "components": [ [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 }, { "id": "SEW", "level": 1} ],
+    "components": [
+      [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
+      [ [ "thread", 16 ], [ "sinew", 16 ], [ "plant_fibre", 16 ] ]
+    ]
   },
   {
     "result": "armguard_lightplate",
@@ -152,13 +158,14 @@
     "difficulty": 3,
     "time": 15000,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
-      [ [ "sewing_kit", 20 ] ],
       [ [ "soldering_iron", 10 ], [ "welder", 10 ], [ "hotplate", 10 ], [ "toolset", 10 ] ]
     ],
     "components": [
       [ [ "neoprene", 4 ] ],
-      [ [ "rag", 2 ] ]
+      [ [ "rag", 2 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -170,14 +177,15 @@
     "difficulty": 4,
     "time": 35000,
     "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
-      [ [ "sewing_kit", 10 ] ],
       [ [ "mold_plastic", -1 ] ],
       [ [ "hotplate", 15 ], [ "toolset", 15 ], [ "fire", -1 ] ]
     ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
-      [ [ "rag", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+      [ [ "rag", 2 ], [ "leather", 2 ], [ "fur", 2 ] ],
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
     ]
   },
   {
@@ -189,8 +197,11 @@
     "difficulty": 1,
     "time": 60000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 32 ] ] ],
-    "components": [ [ [ "rag", 40 ] ] ]
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [
+      [ [ "rag", 40 ] ],
+      [ [ "thread", 32 ], [ "sinew", 32 ], [ "plant_fibre", 32 ] ]
+    ]
   },
   {
     "result": "stockings_tent_arms",
@@ -202,10 +213,11 @@
     "difficulty": 1,
     "time": 20000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 8 ] ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "stockings", 4 ] ],
-      [ [ "rag", 8 ] ]
+      [ [ "rag", 8 ] ],
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
     ]
   },
   {
@@ -217,8 +229,10 @@
     "difficulty": 2,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [ [ [ "sewing_kit", 8 ] ] ],
-    "components": [ [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 }, { "id": "SEW", "level": 1 } ],
+    "components": [ 
+      [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ],
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
+    ]
   }
 ]
