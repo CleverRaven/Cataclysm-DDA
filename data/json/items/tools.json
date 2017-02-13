@@ -4924,6 +4924,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1300
     },
+    "qualities": [ [ "SEW", 1 ] ],
     "flags": [ "STAB" ]
   },
   {
@@ -4950,6 +4951,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1200
     },
+    "qualities": [ [ "SEW", 1 ] ],
     "flags": [ "STAB" ]
   },
   {
@@ -4976,6 +4978,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1500
     },
+    "qualities": [ [ "SEW", 1 ] ],
     "flags": [ "STAB" ]
   },
   {
@@ -6164,7 +6167,8 @@
       "tool_quality": 0,
       "cost_scaling": 0.1,
       "move_cost": 1000
-    }
+    },
+    "qualities": [ [ "SEW", 1 ] ]
   },
   {
     "id": "shavingkit",
@@ -6832,7 +6836,7 @@
     "initial_charges": 50,
     "max_charges": 400,
     "charges_per_use": 1,
-    "qualities": [ [ "CUT", 1 ] ],
+    "qualities": [ [ "SEW", 1 ], [ "KNIT", 1 ], [ "CUT", 1 ] ],
     "use_action": [
       {
         "type": "repair_item",
@@ -6841,6 +6845,36 @@
         "skill": "tailor",
         "tool_quality": 1,
         "cost_scaling": 0.1,
+        "move_cost": 800
+      },
+      "SEW_ADVANCED"
+    ]
+  },
+  {
+    "id": "sewing_machine",
+    "type": "TOOL",
+    "name": "sewing machine",
+    "description": "Machine with a mechanically driven needle for sewing or stitching cloth. Use a sewing machine to customize your clothing and armor.  This uses your tailoring skill.",
+    "weight": 7000,
+    "volume": 70,
+    "price": 15000,
+    "to_hit": -2,
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": "thread",
+    "sub": "sewing_kit",
+    "max_charges": 2000,
+    "charges_per_use": 1,
+    "qualities": [ [ "SEW", 2 ], [ "CUT", 1 ] ],
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_fabric",
+        "materials": [ "cotton", "leather", "wool", "fur", "nomex", "neoprene" ],
+        "skill": "tailor",
+        "tool_quality": 2,
+        "cost_scaling": 0.2,
         "move_cost": 800
       },
       "SEW_ADVANCED"

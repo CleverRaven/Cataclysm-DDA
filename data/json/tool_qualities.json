@@ -113,5 +113,15 @@
         "type" : "tool_quality",
         "id" : "CHISEL",
         "name" : "chiseling"
+    },
+    {
+        "type" : "tool_quality",
+        "id" : "SEW",
+        "name" : "sewing"
+    },
+    {
+        "type" : "tool_quality",
+        "id" : "KNIT",
+        "name" : "knitting"
     }
 ]
