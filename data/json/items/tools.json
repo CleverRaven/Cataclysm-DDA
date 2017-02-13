@@ -4054,6 +4054,7 @@
     "material": "wood",
     "symbol": ",",
     "color": "brown",
+    "qualities": [ [ "KNIT", 1 ] ],
     "flags": [ "STAB" ]
   },
   {
