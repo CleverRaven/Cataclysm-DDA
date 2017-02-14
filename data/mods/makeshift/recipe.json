@@ -12,9 +12,7 @@
     "autolearn": true,
     "using": [ [ "filament", 30 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "kevlar_plate", 24 ] ]
-    ]
+    "components": [ [ [ "kevlar_plate", 24 ] ] ]
   },
   {
     "result": "makeshift_pistol_bayonet",
