@@ -56,7 +56,7 @@
       [ [ "salt", 50 ] ],
       [ [ "armor_larmor", 1 ] ],
       [ [ "armguard_larmor", 1 ] ],
-      [ [ "sinew", 4 ], [ "thread", 4 ], [ "plant_fibre", 4 ] ]
+      [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ], [ "yarn", 4 ] ]
     ]
   },
   {
@@ -76,7 +76,7 @@
     "components": [
       [ [ "bone", 40 ], [ "bone_human", 40 ], [ "bone_tainted", 80 ] ],
       [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
-      [ [ "sinew", 43 ], [ "thread", 43 ], [ "plant_fibre", 43 ] ]
+      [ [ "thread", 43 ], [ "sinew", 43 ], [ "plant_fibre", 43 ], [ "yarn", 43 ] ]
     ]
   },
   {
@@ -109,7 +109,7 @@
     ],
     "components": [
       [ [ "fur", 48 ], [ "tanned_pelt", 8 ] ],
-      [ [ "sinew", 68 ], [ "thread", 68 ], [ "plant_fibre", 68 ] ]
+      [ [ "thread", 68 ], [ "sinew", 68 ], [ "plant_fibre", 68 ], [ "yarn", 68 ] ]
     ]
   },
   {
@@ -128,7 +128,7 @@
     ],
     "components": [
       [ [ "leather", 30 ], [ "tanned_hide", 5 ], [ "fur", 30 ], [ "tanned_pelt", 5 ] ],
-      [ [ "sinew", 52 ], [ "thread", 52 ], [ "plant_fibre", 52 ] ]
+      [ [ "thread", 52 ], [ "sinew", 52 ], [ "plant_fibre", 52 ], [ "yarn", 52 ] ]
     ]
   },
   {
@@ -191,7 +191,7 @@
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
       [ [ "pants_cargo", 1 ], [ "pants_army", 1 ] ],
       [ [ "leather", 24 ], [ "tanned_hide", 4 ] ],
-      [ [ "sinew", 90 ], [ "thread", 90 ], [ "plant_fibre", 90 ] ]
+      [ [ "thread", 90 ], [ "sinew", 90 ], [ "plant_fibre", 90 ], [ "yarn", 90 ] ]
     ]
   },
   {
@@ -209,7 +209,7 @@
       [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ],
       [ [ "armor_larmor", 1 ] ],
       [ [ "armguard_larmor", 1 ] ],
-      [ [ "sinew", 26 ], [ "thread", 26 ], [ "plant_fibre", 26 ] ]
+      [ [ "thread", 26 ], [ "sinew", 26 ], [ "plant_fibre", 26 ], [ "yarn", 26 ] ]
     ]
   },
   {
@@ -283,7 +283,7 @@
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
       [ [ "pants_army", 1 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
-      [ [ "sinew", 90 ], [ "thread", 90 ], [ "plant_fibre", 90 ] ]
+      [ [ "thread", 90 ], [ "sinew", 90 ], [ "plant_fibre", 90 ], [ "yarn", 90 ] ]
     ]
   },
   {
@@ -332,7 +332,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 20 ] ],
-      [ [ "sinew", 18 ], [ "thread", 18 ], [ "plant_fibre", 18 ] ]
+      [ [ "thread", 18 ], [ "sinew", 18 ], [ "plant_fibre", 18 ], [ "yarn", 18 ] ]
     ]
   },
   {
@@ -350,7 +350,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "fur", 15 ], [ "tanned_pelt", 3 ] ],
-      [ [ "sinew", 18 ], [ "thread", 18 ], [ "plant_fibre", 18 ] ]
+      [ [ "thread", 18 ], [ "sinew", 18 ], [ "plant_fibre", 18 ], [ "yarn", 18 ] ]
     ]
   },
   {
@@ -366,7 +366,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 20 ], [ "tanned_hide", 3 ] ],
-      [ [ "sinew", 18 ], [ "thread", 18 ], [ "plant_fibre", 18 ] ]
+      [ [ "thread", 18 ], [ "sinew", 18 ], [ "plant_fibre", 18 ], [ "yarn", 18 ] ]
     ]
   },
   {
@@ -382,7 +382,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "felt_patch", 18 ] ],
-      [ [ "sinew", 18 ], [ "thread", 18 ], [ "plant_fibre", 18 ] ]
+      [ [ "thread", 18 ], [ "sinew", 18 ], [ "plant_fibre", 18 ], [ "yarn", 18 ] ]
     ]
   },
   {
@@ -406,7 +406,7 @@
       [ [ "mask_bunker", 1 ] ],
       [ [ "duct_tape", 200 ], [ "superglue", 5 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
-      [ [ "sinew", 200 ], [ "thread", 200 ], [ "plant_fibre", 200 ] ]
+      [ [ "thread", 200 ], [ "sinew", 200 ], [ "plant_fibre", 200 ], [ "yarn", 200 ] ]
     ]
   },
   {
@@ -432,7 +432,7 @@
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 6 ], [ "leather_pouch", 4 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 200 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
-      [ [ "sinew", 200 ], [ "thread", 200 ], [ "plant_fibre", 200 ] ]
+      [ [ "thread", 200 ], [ "sinew", 200 ], [ "plant_fibre", 200 ], [ "yarn", 200 ] ]
     ]
   },
   {
@@ -447,7 +447,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 20 ] ],
-      [ [ "sinew", 30 ], [ "thread", 30 ], [ "plant_fibre", 30 ] ]
+      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ], [ "yarn", 30 ] ]
     ]
   },
   {
@@ -471,7 +471,7 @@
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 6 ], [ "leather_pouch", 4 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 400 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
-      [ [ "sinew", 200 ], [ "thread", 200 ], [ "plant_fibre", 200 ] ]
+      [ [ "thread", 200 ], [ "sinew", 200 ], [ "plant_fibre", 200 ], [ "yarn", 200 ] ]
     ]
   },
   {
@@ -497,7 +497,7 @@
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 6 ], [ "leather_pouch", 4 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 300 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
-      [ [ "sinew", 200 ], [ "thread", 200 ], [ "plant_fibre", 200 ] ]
+      [ [ "thread", 200 ], [ "sinew", 200 ], [ "plant_fibre", 200 ], [ "yarn", 200 ] ]
     ]
   },
   {
@@ -512,7 +512,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 30 ] ],
-      [ [ "sinew", 40 ], [ "thread", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
     ]
   },
   {
@@ -529,7 +529,7 @@
     "components": [
       [ [ "jumpsuit", 1 ] ],
       [ [ "rag", 10 ] ],
-      [ [ "sinew", 20 ], [ "thread", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -553,7 +553,7 @@
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 6 ], [ "leather_pouch", 4 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 200 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
-      [ [ "sinew", 100 ], [ "thread", 100 ], [ "plant_fibre", 100 ] ]
+      [ [ "thread", 100 ], [ "sinew", 100 ], [ "plant_fibre", 100 ], [ "yarn", 100 ] ]
     ]
   },
   {
@@ -568,7 +568,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "nomex", 18 ] ],
-      [ [ "sinew", 40 ], [ "thread", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
     ]
   },
   {
@@ -608,7 +608,7 @@
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 6 ], [ "leather_pouch", 4 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 300 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
-      [ [ "sinew", 150 ], [ "thread", 150 ], [ "plant_fibre", 150 ] ]
+      [ [ "thread", 150 ], [ "sinew", 150 ], [ "plant_fibre", 150 ], [ "yarn", 150 ] ]
     ]
   },
   {
@@ -630,7 +630,7 @@
       [ [ "rag", 40 ] ],
       [ [ "element", 18 ] ],
       [ [ "cable", 37 ] ],
-      [ [ "sinew", 52 ], [ "thread", 52 ], [ "plant_fibre", 52 ] ]
+      [ [ "thread", 52 ], [ "sinew", 52 ], [ "plant_fibre", 52 ], [ "yarn", 52 ] ]
     ]
   },
   {
@@ -655,7 +655,7 @@
       [ [ "thermal_socks", 1 ] ],
       [ [ "thermal_mask", 1 ] ],
       [ [ "cable", 5 ] ],
-      [ [ "sinew", 15 ], [ "thread", 15 ], [ "plant_fibre", 15 ] ]
+      [ [ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ], [ "yarn", 15 ] ]
     ]
   },
   {
@@ -677,7 +677,7 @@
       [ [ "rag", 30 ], [ "union_suit", 1 ] ],
       [ [ "element", 12 ] ],
       [ [ "cable", 20 ] ],
-      [ [ "sinew", 30 ], [ "thread", 30 ], [ "plant_fibre", 30 ] ]
+      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ], [ "yarn", 30 ] ]
     ]
   },
   {
@@ -711,7 +711,7 @@
       [ [ "long_undertop", 1 ] ],
       [ [ "long_underpants", 1 ] ],
       [ [ "string_36", 1 ] ],
-      [ [ "sinew", 20 ], [ "thread", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -728,7 +728,7 @@
     "components": [
       [ [ "neoprene", 12 ] ],
       [ [ "rag", 12 ] ],
-      [ [ "sinew", 50 ], [ "thread", 50 ], [ "plant_fibre", 50 ] ]
+      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ], [ "yarn", 50 ] ]
     ]
   },
   {
@@ -745,7 +745,7 @@
     "components": [
       [ [ "neoprene", 8 ] ],
       [ [ "rag", 8 ] ],
-      [ [ "sinew", 40 ], [ "thread", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
     ]
   },
   {
@@ -760,7 +760,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "felt_patch", 24 ] ],
-      [ [ "sinew", 150 ], [ "thread", 150 ], [ "plant_fibre", 150 ] ]
+      [ [ "thread", 150 ], [ "sinew", 150 ], [ "plant_fibre", 150 ], [ "yarn", 150 ] ]
     ]
   },
   {
@@ -786,7 +786,7 @@
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 6 ], [ "leather_pouch", 4 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 300 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
-      [ [ "sinew", 200 ], [ "thread", 200 ], [ "plant_fibre", 200 ] ]
+      [ [ "thread", 200 ], [ "sinew", 200 ], [ "plant_fibre", 200 ], [ "yarn", 200 ] ]
     ]
   },
   {
@@ -812,7 +812,7 @@
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 6 ], [ "leather_pouch", 4 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 400 ] ],
       [ [ "kevlar", 2 ], [ "modularvest", 2 ], [ "swat_armor", 2 ], [ "kevlar_plate", 42 ] ],
-      [ [ "sinew", 200 ], [ "thread", 200 ], [ "plant_fibre", 200 ] ]
+      [ [ "thread", 200 ], [ "sinew", 200 ], [ "plant_fibre", 200 ], [ "yarn", 200 ] ]
     ]
   }
 ]

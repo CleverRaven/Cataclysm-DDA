@@ -137,7 +137,7 @@
     "components": [
       [ ["slime_scrap", 10] ],
       [ ["control_chip", 1] ],
-      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ]
+      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ], [ "yarn", 30 ] ]
     ]
   },{
     "type": "recipe",
@@ -179,7 +179,7 @@
       [ ["meat_tainted", 8], ["human_flesh", 8] ],
       [ ["bone", 4] ],
       [ ["blob_dormant", 1] ],
-      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ]
+      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ], [ "yarn", 30 ] ]
     ]
   },{
     "type" : "item_group",

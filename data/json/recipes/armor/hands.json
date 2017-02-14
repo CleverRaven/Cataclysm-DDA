@@ -17,7 +17,7 @@
       [ [ "string_36", 1 ], [ "string_6", 4 ] ],
       [ [ "bone", 12 ], [ "bone_human", 12 ], [ "bone_tainted", 24 ] ],
       [ [ "leather", 2 ] ],
-      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ] ]
+      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ], [ "yarn", 12 ] ]
     ]
   },
   {
@@ -49,7 +49,7 @@
     ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
-      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ] ]
+      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ], [ "yarn", 12 ] ]
     ]
   },
   {
@@ -88,7 +88,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 2 ] ],
-      [ [ "thread", 5 ], [ "sinew", 5 ], [ "plant_fibre", 5 ] ]
+      [ [ "thread", 5 ], [ "sinew", 5 ], [ "plant_fibre", 5 ], [ "yarn", 5 ] ]
     ]
   },
   {
@@ -108,7 +108,7 @@
     "components": [
       [ [ "gloves_fingerless", 1 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {
@@ -132,7 +132,7 @@
       [ [ "duct_tape", 120 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [ [ "nomex_gloves", 1 ], [ "fire_gauntlets", 1 ] ],
-      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ] ]
+      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ], [ "yarn", 50 ] ]
     ]
   },
   {
@@ -149,7 +149,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "fur", 4 ] ],
-      [ [ "thread", 6 ], [ "sinew", 6 ], [ "plant_fibre", 6 ] ]
+      [ [ "thread", 6 ], [ "sinew", 6 ], [ "plant_fibre", 6 ], [ "yarn", 6 ] ]
     ]
   },
   {
@@ -172,7 +172,7 @@
       [ [ "duct_tape", 120 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [ [ "wetsuit_gloves", 1 ] ],
-      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ] ]
+      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ], [ "yarn", 50 ] ]
     ]
   },
   {
@@ -197,7 +197,7 @@
       [ [ "duct_tape", 50 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [ [ "gloves_leather", 1 ], [ "gloves_light", 1 ], [ "gloves_liner", 1 ], [ "wetsuit_gloves", 1 ], [ "fire_gauntlets", 1 ] ],
-      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
     ]
   },
   {
@@ -213,7 +213,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 2 ] ],
-      [ [ "thread", 6 ], [ "sinew", 6 ], [ "plant_fibre", 6 ] ]
+      [ [ "thread", 6 ], [ "sinew", 6 ], [ "plant_fibre", 6 ], [ "yarn", 6 ] ]
     ]
   },
   {
@@ -228,7 +228,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 4 ] ],
-      [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ] ]
+      [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ], [ "yarn", 4 ] ]
     ]
   },
   {
@@ -243,7 +243,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 2 ] ],
-      [ [ "thread", 2 ], [ "sinew", 2 ], [ "plant_fibre", 2 ] ]
+      [ [ "thread", 2 ], [ "sinew", 2 ], [ "plant_fibre", 2 ], [ "yarn", 2 ] ]
     ]
   },
   {
@@ -267,7 +267,7 @@
       [ [ "duct_tape", 80 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [ [ "gloves_leather", 1 ], [ "gloves_light", 1 ], [ "gloves_liner", 1 ], [ "wetsuit_gloves", 1 ], [ "fire_gauntlets", 1 ] ],
-      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ] ]
+      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ], [ "yarn", 50 ] ]
     ]
   },
   {
@@ -313,7 +313,7 @@
       [ [ "duct_tape", 80 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [ [ "gloves_leather", 1 ], [ "gloves_light", 1 ], [ "gloves_liner", 1 ], [ "wetsuit_gloves", 1 ], [ "fire_gauntlets", 1 ] ],
-      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ] ]
+      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ], [ "yarn", 50 ] ]
     ]
   },
   {
@@ -328,7 +328,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "felt_patch", 4 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -347,7 +347,7 @@
     "components": [
       [ [ "leather", 2 ], [ "gloves_leather", 1 ] ],
       [ [ "rag", 2 ], [ "gloves_light", 1 ] ],
-      [ [ "thread", 6 ], [ "sinew", 6 ], [ "plant_fibre", 6 ] ]
+      [ [ "thread", 6 ], [ "sinew", 6 ], [ "plant_fibre", 6 ], [ "yarn", 6 ] ]
     ]
   },
   {
@@ -419,7 +419,7 @@
       [ [ "duct_tape", 80 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [ [ "gloves_leather", 1 ], [ "gloves_light", 1 ], [ "gloves_liner", 1 ], [ "wetsuit_gloves", 1 ], [ "fire_gauntlets", 1 ] ],
-      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ] ]
+      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ], [ "yarn", 50 ] ]
     ]
   },
   {
@@ -443,7 +443,7 @@
       [ [ "scrap", 2 ] ],
       [ [ "duct_tape", 160 ] ],
       [ [ "gloves_tactical", 2 ], [ "kevlar_plate", 6 ] ],
-      [ [ "thread", 100 ], [ "sinew", 100 ], [ "plant_fibre", 100 ] ]
+      [ [ "thread", 100 ], [ "sinew", 100 ], [ "plant_fibre", 100 ], [ "yarn", 100 ] ]
     ]
   },
   {
@@ -470,7 +470,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "nomex", 6 ] ],
-      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ] ]
+      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ], [ "yarn", 12 ] ]
     ]
   },
   {
@@ -503,7 +503,7 @@
       [ [ "rag", 4 ], [ "gloves_light", 1 ], [ "gloves_liner", 1 ] ],
       [ [ "element", 2 ] ],
       [ [ "cable", 2 ] ],
-      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ], [ "yarn", 8 ] ]
     ]
   },
   {
@@ -520,7 +520,7 @@
     "components": [
       [ [ "neoprene", 1 ] ],
       [ [ "rag", 1 ] ],
-      [ [ "thread", 5 ], [ "sinew", 5 ], [ "plant_fibre", 5 ] ]
+      [ [ "thread", 5 ], [ "sinew", 5 ], [ "plant_fibre", 5 ], [ "yarn", 5 ] ]
     ]
   }
 ]

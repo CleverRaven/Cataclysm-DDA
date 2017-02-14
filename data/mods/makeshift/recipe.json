@@ -13,7 +13,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "kevlar_plate", 24 ] ],
-      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ]
+      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ], [ "yarn", 30 ] ]
     ]
   },
   {

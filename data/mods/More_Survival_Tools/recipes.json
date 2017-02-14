@@ -336,6 +336,7 @@
       [ "plant_fibre", 20 ],
       [ "sinew", 20 ],
       [ "thread", 20 ],
+      [ "yarn", 20 ],
       [ "duct_tape", 20 ]
     ],
     [
@@ -470,6 +471,7 @@
       [ "plant_fibre", 20 ],
       [ "sinew", 20 ],
       [ "thread", 20 ],
+      [ "yarn", 20 ],
       [ "duct_tape", 20 ]
     ],
     [
@@ -502,7 +504,7 @@
       [ "straw_hat", 1 ],
       [ "straw_fedora", 1 ]
      ],
-     [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
+     [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
   ]
 },{
         "type" : "recipe",
@@ -565,7 +567,8 @@
     [
       [ "thread", 10 ],
       [ "sinew", 10 ],
-      [ "plant_fibre", 10 ]
+      [ "plant_fibre", 10 ],
+      [ "yarn", 10 ]
     ]
   ]
 },{
@@ -879,6 +882,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "withered", 2 ]
     ]
   ]
@@ -909,6 +913,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "withered", 1 ]
     ]
   ]
@@ -1088,7 +1093,8 @@
       [ "bone_glue", 1 ],
       [ "thread", 20 ],
       [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "plant_fibre", 20 ],
+      [ "yarn", 20 ]
     ],
     [
       [ "bone", 5 ],

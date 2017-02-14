@@ -107,7 +107,7 @@
       [ "down_feather", 40]
     ],
     [
-      [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ]
+      [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ], [ "yarn", 12 ]
     ]
   ]
 },{
@@ -131,7 +131,7 @@
     [
       [ "cotton_ball", 8]
     ],
-    [[ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ]]
+    [[ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ], [ "yarn", 12 ]]
   ]
 },{
   "type" : "recipe",
@@ -426,7 +426,7 @@
       [ "duct_tape", 20 ],
       [ "medical_tape", 40 ]
     ],
-    [[ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ]]
+    [[ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ], [ "yarn", 15 ]]
   ]
 },{
   "type" : "recipe",
@@ -670,6 +670,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "withered", 2 ]
     ]
   ]
@@ -690,6 +691,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "withered", 2 ]
     ]
   ]
@@ -754,6 +756,7 @@
       [ "sinew", 20 ],
       [ "thread", 20 ],
       [ "plant_fibre", 20 ],
+      [ "yarn", 20 ],
       [ "withered", 1 ]
     ]
   ]
@@ -795,6 +798,7 @@
       [ "sinew", 80 ],
       [ "thread", 80 ],
       [ "plant_fibre", 80 ],
+      [ "yarn", 80 ],
       [ "string_36", 1 ]
     ]
   ]
@@ -825,6 +829,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "withered", 2 ]
     ]
   ]
@@ -896,6 +901,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "withered", 1 ]
     ]
   ]
@@ -928,6 +934,7 @@
         [ "sinew", 40 ],
         [ "thread", 40 ],
         [ "plant_fibre", 40 ],
+        [ "yarn", 40 ],
         [ "withered", 2 ]
       ]
     ]
@@ -1161,6 +1168,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "string_36", 1 ]
     ],
     [
@@ -1169,7 +1177,7 @@
       [ "fur", 6 ],
       [ "tanned_pelt", 1 ]
     ],
-    [[ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ]]
+    [[ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ], [ "yarn", 60 ]]
   ]
 },{
   "type" : "recipe",
@@ -1191,6 +1199,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "string_36", 1 ]
     ],
     [
@@ -1199,7 +1208,7 @@
       [ "fur", 14 ],
       [ "tanned_pelt", 2 ]
     ],
-    [[ "thread", 90 ], [ "sinew", 90 ], [ "plant_fibre", 90 ]]
+    [[ "thread", 90 ], [ "sinew", 90 ], [ "plant_fibre", 90 ], [ "yarn", 90 ]]
   ]
 },{
   "type" : "recipe",
@@ -1221,6 +1230,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "string_36", 1 ]
     ],
     [
@@ -1229,7 +1239,7 @@
       [ "fur", 24 ],
       [ "tanned_pelt", 4 ]
     ],
-    [[ "thread", 120 ], [ "sinew", 120 ], [ "plant_fibre", 120 ]]
+    [[ "thread", 120 ], [ "sinew", 120 ], [ "plant_fibre", 120 ], [ "yarn", 120 ]]
   ]
 },{
   "type" : "recipe",
@@ -1279,9 +1289,10 @@
       [ "string_6", 10 ],
       [ "sinew", 500 ],
       [ "thread", 500 ],
-      [ "plant_fibre", 500 ]
+      [ "plant_fibre", 500 ],
+      [ "yarn", 500 ]
     ],
-    [[ "thread", 200 ], [ "sinew", 200 ], [ "plant_fibre", 200 ]]
+    [[ "thread", 200 ], [ "sinew", 200 ], [ "plant_fibre", 200 ], [ "yarn", 200 ]]
   ]
 },{
   "type" : "recipe",
@@ -1311,12 +1322,13 @@
       [ "sinew", 60 ],
       [ "thread", 60 ],
       [ "plant_fibre", 60 ],
+      [ "yarn", 60 ],
       [ "string_6", 1 ]
     ],
     [
       [ "damaged_shelter_kit", 1 ]
     ],
-    [[ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 5]]
+    [[ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50], [ "yarn", 50 ]]
 ]
 },{
   "type" : "recipe",
@@ -1341,6 +1353,7 @@
       [ "thread", 360 ],
       [ "sinew", 360 ],
       [ "plant_fibre", 360 ],
+      [ "yarn", 360 ],
       [ "string_6", 6 ],
       [ "string_36", 1 ]
     ]
@@ -1491,7 +1504,7 @@
     [
       [ "string_36", 2 ]
     ],
-    [[ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ]]
+    [[ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ], [ "yarn", 15 ]]
   ]
 },{
   "type" : "recipe",
@@ -1609,7 +1622,7 @@
       [ "tanned_pelt", 3 ],
       [ "sheet", 1 ]
     ],
-    [[ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ]]
+    [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ], [ "yarn", 50 ] ]
   ]
 },{
   "type" : "recipe",
@@ -1684,7 +1697,8 @@
     [
       [ "thread", 100 ],
       [ "sinew", 100 ],
-      [ "plant_fibre", 100 ]
+      [ "plant_fibre", 100 ],
+      [ "yarn", 100 ]
     ]
   ]
 },{
@@ -1745,7 +1759,7 @@
     [
       [ "rag", 20 ]
     ],
-    [[ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ]]
+    [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ], [ "yarn", 30 ] ]
   ]
 },{
   "type" : "recipe",
@@ -2112,7 +2126,8 @@
     [
       [ "plant_fibre", 50 ],
       [ "sinew", 50 ],
-      [ "thread", 50 ]
+      [ "thread", 50 ],
+      [ "yarn", 50 ]
     ],
     [
       [ "plastic_chunk", 1 ]
@@ -5645,7 +5660,7 @@
     [
       [ "string_6", 1 ]
     ],
-    [[ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ]]
+    [[ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ]]
   ]
 },
 {
@@ -5673,7 +5688,7 @@
       [ "string_36", 1 ],
       [ "string_6", 6 ]
     ],
-    [[ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ]]
+    [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ], [ "yarn", 80 ] ]
   ]
   },{
   "type" : "recipe",
@@ -6182,7 +6197,7 @@
       [ "fur", 4 ],
       [ "tanned_pelt", 1 ]
     ],
-    [[ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ]]
+    [ [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ], [ "yarn", 60 ] ]
   ]
   },{
   "type" : "recipe",
@@ -6963,7 +6978,7 @@
       ["leather", 3],
       ["fur", 3]
     ],
-    [[ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ]]
+    [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ], [ "yarn", 4 ] ]
   ]
 },{
   "type" : "recipe",
@@ -6997,7 +7012,7 @@
       ["leather", 3],
       ["fur", 3]
     ],
-    [[ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ]]
+    [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ], [ "yarn", 4 ] ]
   ]
 },{
   "type" : "recipe",
@@ -7038,7 +7053,7 @@
       [ "duct_tape", 25 ],
       [ "medical_tape", 50 ]
     ],
-    [[ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ]]
+    [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
   ]
 },{
   "type" : "recipe",

@@ -15,9 +15,9 @@
     ],
     "components": [
       [ [ "leather", 9 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ],
+      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ],
       [ [ "scrap", 3 ] ],
-      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
     ]
   },
   {
@@ -33,8 +33,8 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 8 ], [ "rag", 8 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ],
-      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ],
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
     ]
   },
   {
@@ -50,8 +50,8 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 3 ], [ "string_6", 18 ], [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ] ],
-      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ]
+      [ [ "string_36", 3 ], [ "string_6", 18 ], [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ], [ "yarn", 60 ] ],
+      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ], [ "yarn", 30 ] ]
     ]
   },
   {
@@ -66,7 +66,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 20 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -82,7 +82,7 @@
     "components": [
       [ [ "leather", 20 ], [ "tanned_hide", 3 ] ],
       [ [ "scrap", 6 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -120,7 +120,7 @@
     "components": [
       [ [ "leather", 8 ] ],
       [ [ "string_36", 1 ], [ "string_6", 6 ] ],
-      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
     ]
   },
   {
@@ -137,7 +137,7 @@
     "components": [
       [ [ "leather", 8 ] ],
       [ [ "string_36", 1 ], [ "string_6", 6 ] ],
-      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
     ]
   },
   {
@@ -154,7 +154,7 @@
     "components": [
       [ [ "leather", 8 ] ],
       [ [ "string_36", 1 ], [ "string_6", 6 ] ],
-      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
     ]
   },
   {
@@ -170,8 +170,8 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 4 ] ],
-      [ [ "string_6", 4 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_6", 4 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -202,8 +202,8 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ] ],
-      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ],
-      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ],
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {
@@ -219,8 +219,8 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ] ],
-      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ],
-      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ],
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {
@@ -257,8 +257,8 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 4 ], [ "rag", 4 ] ],
-      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -280,7 +280,7 @@
       [ [ "rag", 16 ] ],
       [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "thread", 25 ], [ "sinew", 25 ], [ "plant_fibre", 25 ] ]
+      [ [ "thread", 25 ], [ "sinew", 25 ], [ "plant_fibre", 25 ], [ "yarn", 25 ] ]
     ]
   },
   {
@@ -295,7 +295,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 40 ], [ "fur", 32 ], [ "tanned_pelt", 6 ], [ "leather", 24 ], [ "tanned_hide", 6 ] ],
-      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ]
+      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ], [ "yarn", 30 ] ]
     ]
   },
   {
@@ -311,8 +311,8 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -330,8 +330,8 @@
     "components": [
       [ [ "rag", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "string_6", 2 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_6", 2 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -347,8 +347,8 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -382,7 +382,7 @@
     ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ] ]
+      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ], [ "yarn", 12 ] ]
     ]
   },
   {
@@ -398,8 +398,8 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -415,8 +415,8 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ], [ "rag", 3 ] ],
-      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ],
-      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ],
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {
@@ -432,8 +432,8 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "rag", 6 ] ],
-      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ],
-      [ [ "thread", 25 ], [ "sinew", 25 ], [ "plant_fibre", 25 ] ]
+      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ],
+      [ [ "thread", 25 ], [ "sinew", 25 ], [ "plant_fibre", 25 ], [ "yarn", 25 ] ]
     ]
   },
   {
@@ -454,7 +454,7 @@
     "components": [
       [ [ "rag", 10 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ] ]
+      [ [ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ], [ "yarn", 15 ] ]
     ]
   },
   {
@@ -515,7 +515,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 2 ] ],
-      [ [ "thread", 2 ], [ "sinew", 2 ], [ "plant_fibre", 2 ] ]
+      [ [ "thread", 2 ], [ "sinew", 2 ], [ "plant_fibre", 2 ], [ "yarn", 2 ] ]
     ]
   },
   {
@@ -554,7 +554,7 @@
     ],
     "components": [
       [ [ "leather", 8 ], [ "tanned_hide", 1 ] ],
-      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ], [ "yarn", 8 ] ]
     ]
   },
   {
@@ -584,8 +584,8 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 6 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -622,8 +622,8 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -639,8 +639,8 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -674,7 +674,7 @@
       [ [ "molle_pack", 4 ], [ "duffelbag", 2 ], [ "rucksack", 4 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 200 ] ],
-      [ [ "thread", 200 ], [ "sinew", 200 ], [ "plant_fibre", 200 ] ]
+      [ [ "thread", 200 ], [ "sinew", 200 ], [ "plant_fibre", 200 ], [ "yarn", 200 ] ]
     ]
   },
   {
@@ -697,7 +697,7 @@
       [ [ "runner_bag", 4 ], [ "backpack", 2 ], [ "backpack_leather", 2 ], [ "mbag", 4 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 120 ] ],
-      [ [ "thread", 120 ], [ "sinew", 120 ], [ "plant_fibre", 120 ] ]
+      [ [ "thread", 120 ], [ "sinew", 120 ], [ "plant_fibre", 120 ], [ "yarn", 120 ] ]
     ]
   },
   {
@@ -720,7 +720,7 @@
       [ [ "backpack", 4 ], [ "backpack_leather", 4 ], [ "molle_pack", 2 ], [ "duffelbag", 1 ], [ "rucksack", 2 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 160 ] ],
-      [ [ "thread", 160 ], [ "sinew", 160 ], [ "plant_fibre", 160 ] ]
+      [ [ "thread", 160 ], [ "sinew", 160 ], [ "plant_fibre", 160 ], [ "yarn", 160 ] ]
     ]
   },
   {
@@ -743,7 +743,7 @@
       [ [ "runner_bag", 2 ], [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "mbag", 2 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 80 ] ],
-      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ] ]
+      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ], [ "yarn", 80 ] ]
     ]
   },
   {
@@ -766,7 +766,7 @@
       [ [ "holster", 1 ], [ "sholster", 1 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 50 ] ],
-      [ [ "thread", 100 ], [ "sinew", 100 ], [ "plant_fibre", 100 ] ]
+      [ [ "thread", 100 ], [ "sinew", 100 ], [ "plant_fibre", 100 ], [ "yarn", 100 ] ]
     ]
   },
   {
@@ -794,7 +794,7 @@
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ],
       [ [ "leather_pouch", 1 ] ],
-      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ], [ "yarn", 8 ] ]
     ]
   }
 ]
