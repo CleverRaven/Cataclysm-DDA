@@ -425,7 +425,7 @@ std::vector<item> recipe::create_byproducts( int batch ) const
         }
 
         if( obj.count_by_charges() ) {
-            obj.charges *= e.second;
+            obj.charges *= e.second * batch;
             bps.push_back( obj );
 
         } else {
