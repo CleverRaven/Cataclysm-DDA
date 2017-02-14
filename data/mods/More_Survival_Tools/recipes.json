@@ -486,9 +486,7 @@
   "difficulty": 1,
   "time": 45000,
   "autolearn": true,
-  "qualities": [
-    { "id": "SEW", "level": 1 }
-  ],
+  "qualities": [ { "id": "SEW", "level": 1 } ],
   "components": [
      [
       [ "rag", 1 ],
@@ -556,8 +554,8 @@
   "time": 5000,
   "autolearn": true,
   "qualities" : [
-    {"id":"SEW","level":1},
-    {"id":"CUT","level":1}
+    { "id" : "SEW" , "level" : 1 },
+    { "id" : "CUT" , "level" : 1 }
   ],
   "components": [
     [
