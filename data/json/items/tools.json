@@ -6855,7 +6855,7 @@
     "id": "sewing_machine",
     "type": "TOOL",
     "name": "sewing machine",
-    "description": "Machine with a mechanically driven needle for sewing or stitching cloth. Use a sewing machine to customize your clothing and armor.  This uses your tailoring skill.",
+    "description": "Machine with a mechanically driven needle for sewing or stitching cloth.  Use a sewing machine to customize your clothing and armor.  This uses your tailoring skill.",
     "weight": 7000,
     "volume": 70,
     "price": 15000,
