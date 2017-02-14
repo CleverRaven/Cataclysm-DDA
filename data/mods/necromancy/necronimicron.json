@@ -130,8 +130,9 @@
     "difficulty": 5,
     "time": 15000,
     "book_learn": [[ "abdul_necro", 4 ]],
+    "using": [ [ "filament", 30 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools":[
-      [ [ "sewing_kit", 30] ],
       [ ["UPS_off", 1], ["adv_UPS_off", 1] ]
     ],
     "components": [
@@ -168,8 +169,9 @@
     "difficulty": 7,
     "time": 120000,
     "book_learn": [["abdul_necro", 6]],
+    "using": [ [ "filament", 30 ] ],
+    "qualities": [ { "id" : "SEW", "level" : 1 } ],
     "tools": [
-      [ ["sewing_kit", 30] ],
       [ ["syringe", -1] ],
       [ ["vacutainer", -1] ]
     ],

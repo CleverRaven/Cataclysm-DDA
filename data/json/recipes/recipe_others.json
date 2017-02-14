@@ -94,10 +94,11 @@
   "time": 10000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 12 ]
-    ]
+  "using": [ [ "filament", 12 ] ],
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
@@ -116,10 +117,11 @@
   "time": 10000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 12 ]
-    ]
+  "using": [ [ "filament", 12 ] ],
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
@@ -390,14 +392,13 @@
   "difficulty": 2,
   "time": 25000,
   "autolearn": true,
+  "using": [ [ "filament", 15 ] ],
   "qualities" : [
     {"id":"CUT","level":1},
-    {"id":"SCREW","level":1}
+    {"id":"SCREW","level":1},
+    {"id":"SEW","level":1}
   ],
   "tools": [
-    [
-      [ "sewing_kit", 15 ]
-    ],
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ]
@@ -667,6 +668,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "withered", 2 ]
     ]
   ]
@@ -687,6 +689,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "withered", 2 ]
     ]
   ]
@@ -751,6 +754,7 @@
       [ "sinew", 20 ],
       [ "thread", 20 ],
       [ "plant_fibre", 20 ],
+      [ "yarn", 20 ],
       [ "withered", 1 ]
     ]
   ]
@@ -792,6 +796,7 @@
       [ "sinew", 80 ],
       [ "thread", 80 ],
       [ "plant_fibre", 80 ],
+      [ "yarn", 80 ],
       [ "string_36", 1 ]
     ]
   ]
@@ -822,6 +827,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "withered", 2 ]
     ]
   ]
@@ -893,6 +899,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "withered", 1 ]
     ]
   ]
@@ -925,6 +932,7 @@
         [ "sinew", 40 ],
         [ "thread", 40 ],
         [ "plant_fibre", 40 ],
+        [ "yarn", 40 ],
         [ "withered", 2 ]
       ]
     ]
@@ -1148,16 +1156,18 @@
   "difficulty": 2,
   "time": 30000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 60 ]
-    ]
+  "using": [ [ "filament", 60 ] ],
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "string_36", 1 ]
     ],
     [
@@ -1177,16 +1187,18 @@
   "difficulty": 2,
   "time": 30000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 90 ]
-    ]
-  ],
+  "using": [ [ "filament", 90 ] ],
+        "qualities": [{
+                "id": "SEW",
+                "level": 1
+            }
+        ],
   "components": [
     [
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "string_36", 1 ]
     ],
     [
@@ -1206,16 +1218,18 @@
   "difficulty": 3,
   "time": 30000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 120 ]
-    ]
+  "using": [ [ "filament", 120 ] ],
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "string_36", 1 ]
     ],
     [
@@ -1255,10 +1269,11 @@
   "difficulty": 2,
   "time": 50000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 200 ]
-    ]
+  "using": [ [ "filament", 200 ] ],
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
@@ -1273,7 +1288,8 @@
       [ "string_6", 10 ],
       [ "sinew", 500 ],
       [ "thread", 500 ],
-      [ "plant_fibre", 500 ]
+      [ "plant_fibre", 500 ],
+      [ "yarn", 500 ]
     ]
   ]
 },{
@@ -1286,10 +1302,11 @@
   "skills_required": [ "tailor", 1 ],
   "time": 20000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 50 ]
-    ]
+  "using": [ [ "filament", 50 ] ],
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
@@ -1304,12 +1321,13 @@
       [ "sinew", 60 ],
       [ "thread", 60 ],
       [ "plant_fibre", 60 ],
+      [ "yarn", 60 ],
       [ "string_6", 1 ]
     ],
     [
       [ "damaged_shelter_kit", 1 ]
     ]
-  ]
+]
 },{
   "type" : "recipe",
   "result": "fur_rollmat",
@@ -1333,6 +1351,7 @@
       [ "thread", 360 ],
       [ "sinew", 360 ],
       [ "plant_fibre", 360 ],
+      [ "yarn", 360 ],
       [ "string_6", 6 ],
       [ "string_36", 1 ]
     ]
@@ -1463,16 +1482,13 @@
   "difficulty": 2,
   "time": 2000,
   "autolearn": true,
+  "using": [ [ "filament", 15 ] ],
   "qualities":[
     {"id":"HAMMER","level":2},
     {"id":"SAW_M","level":1},
     {"id":"WRENCH","level":1},
-    {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 15 ]
-    ]
+    {"id":"CUT","level":1},
+    {"id":"SEW","level":1}
   ],
   "components": [
     [
@@ -1574,15 +1590,20 @@
   "time": 10000,
   "reversible": true,
   "autolearn": true,
-  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
+  "using": [ [ "filament", 50 ] ],
+        "qualities": [{
+                "id": "GLARE",
+                "level": 2
+            }, {
+                "id": "SEW",
+                "level": 1
+            }
+        ],
   "tools": [
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ]
-    ],
-    [
-      [ "sewing_kit", 50 ]
     ]
   ],
   "components": [
@@ -1665,19 +1686,12 @@
   "difficulty": 2,
   "time": 6000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "knitting_needles", -1 ],
-      [ "tailors_kit", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "thread", 100 ],
-      [ "sinew", 100 ],
-      [ "plant_fibre", 100 ]
-    ]
-  ]
+  "using": [ [ "filament", 100 ] ],
+        "qualities": [{
+                "id": "KNIT",
+                "level": 1
+            }
+        ]
 },{
   "type" : "recipe",
   "result": "rag",
@@ -1727,11 +1741,12 @@
   "skill_used": "tailor",
   "time": 10000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 50 ]
-    ]
-  ],
+  "using": [ [ "filament", 50 ] ],
+  "qualities": [{
+                "id": "SEW",
+                "level": 1
+            }
+        ],
   "components": [
     [
       [ "rag", 20 ]
@@ -2082,6 +2097,7 @@
   "difficulty": 3,
   "time": 18000,
   "book_learn": [["textbook_fabrication", 3] , ["textbook_chemistry", 3] , ["adv_chemistry", 3] , ["textbook_mechanics", 5]],
+  "using": [ [ "filament", 50 ] ],
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
@@ -2098,11 +2114,6 @@
     ],
     [
       [ "rag", 6 ]
-    ],
-    [
-      [ "plant_fibre", 50 ],
-      [ "sinew", 50 ],
-      [ "thread", 50 ]
     ],
     [
       [ "plastic_chunk", 1 ]
@@ -5624,13 +5635,10 @@
   "difficulty": 1,
   "time": 10000,
   "autolearn": true,
+  "using": [ [ "filament", 20 ] ],
   "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 20 ]
-    ]
+    {"id":"CUT","level":1},
+    {"id":"SEW","level":1}
   ],
   "components": [
     [
@@ -5650,13 +5658,14 @@
   "difficulty": 3,
   "time": 50000,
   "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 80 ]
-    ]
+  "using": [ [ "filament", 80 ] ],
+  "qualities": [{
+          "id": "CUT",
+          "level": 1
+      }, {
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
@@ -6162,10 +6171,11 @@
   "difficulty": 2,
   "time": 30000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 60 ]
-    ]
+  "using": [ [ "filament", 60 ] ],
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
   ],
   "components": [
     [
@@ -6930,6 +6940,12 @@
   "difficulty": 4,
   "time": 35000,
   "autolearn": true,
+  "using": [ [ "filament", 4 ] ],
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }
+  ],
   "tools": [
     [
       ["mold_plastic", -1]
@@ -6938,9 +6954,6 @@
       ["hotplate", 10],
       ["toolset", 10],
       ["fire", -1]
-    ],
-    [
-      ["sewing_kit", 4]
     ]
   ],
   "components": [
@@ -6962,6 +6975,11 @@
   "difficulty": 4,
   "time": 40000,
   "autolearn": true,
+  "using": [ [ "filament", 4 ] ],
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }],
   "tools": [
     [
       ["mold_plastic", -1]
@@ -6970,9 +6988,6 @@
       ["hotplate", 15],
       ["toolset", 15],
       ["fire", -1]
-    ],
-    [
-      ["sewing_kit", 4]
     ]
   ],
   "components": [
@@ -6995,13 +7010,14 @@
   "difficulty": 6,
   "time": 60000,
   "book_learn": [[ "scots_cookbook", 3 ]],
-  "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 20 ]
-    ]
+  "using": [ [ "filament", 20 ] ],
+  "qualities": [{
+          "id": "SEW",
+          "level": 1
+      }, {
+          "id": "CUT",
+          "level": 1
+      }
   ],
   "components": [
     [

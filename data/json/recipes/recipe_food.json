@@ -1,4 +1,4 @@
-[
+11[
 {
   "type" : "recipe",
   "result": "water_clean",
@@ -11930,19 +11930,18 @@
   "time": 30000,
   "book_learn": [[ "survival_book", 6 ], [ "scots_cookbook", 3 ]],
   "batch_time_factors":[50, 4],
+  "using": [ [ "filament", 2 ] ],
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3},
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1},
+    {"id":"SEW","level":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "toolset", 5 ],
       [ "char_smoker", 5 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "sewing_kit", 2 ]
     ]
   ],
   "components": [
@@ -11977,19 +11976,18 @@
   "time": 30000,
   "book_learn": [[ "cookbook_human", 3 ]],
   "batch_time_factors":[50, 4],
+  "using": [ [ "filament", 2 ] ],
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3},
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1},
+    {"id":"SEW","level":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "toolset", 5 ],
       [ "char_smoker", 5 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "sewing_kit", 2 ]
     ]
   ],
   "components": [
