@@ -10,9 +10,7 @@
     "autolearn": true,
     "using": [ [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 35 ] ]
-    ]
+    "components": [ [ [ "rag", 35 ] ] ]
   },
   {
     "result": "down_blanket",
@@ -166,9 +164,7 @@
     "autolearn": true,
     "using": [ [ "filament", 30 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 30 ] ]
-    ]
+    "components": [ [ [ "rag", 30 ] ] ]
   },
   {
     "result": "sleeping_bag_fur",
@@ -241,8 +237,6 @@
     "autolearn": true,
     "using": [ [ "filament", 7 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 5 ] ]
-    ]
+    "components": [ [ [ "rag", 5 ] ] ]
   }
 ]

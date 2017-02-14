@@ -1824,11 +1824,7 @@
   "autolearn": true,
   "using": [ [ "filament", 4 ] ],
   "qualities": [ { "id": "SEW", "level": 1 } ],
-  "components": [
-    [
-      [ "rag", 4 ]
-    ]
-  ]
+  "components": [ [ [ "rag", 4 ] ] ]
 },{
   "type" : "recipe",
   "result": "adjustable_stock",
