@@ -130,14 +130,14 @@
     "difficulty": 5,
     "time": 15000,
     "book_learn": [[ "abdul_necro", 4 ]],
+    "using": [ [ "filament", 30 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools":[
       [ ["UPS_off", 1], ["adv_UPS_off", 1] ]
     ],
     "components": [
       [ ["slime_scrap", 10] ],
-      [ ["control_chip", 1] ],
-      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ], [ "yarn", 30 ] ]
+      [ ["control_chip", 1] ]
     ]
   },{
     "type": "recipe",
@@ -169,6 +169,7 @@
     "difficulty": 7,
     "time": 120000,
     "book_learn": [["abdul_necro", 6]],
+    "using": [ [ "filament", 30 ] ],
     "qualities": [ { "id" : "SEW", "level" : 1 } ],
     "tools": [
       [ ["syringe", -1] ],
@@ -178,8 +179,7 @@
       [ ["revival_serum", 1] ],
       [ ["meat_tainted", 8], ["human_flesh", 8] ],
       [ ["bone", 4] ],
-      [ ["blob_dormant", 1] ],
-      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ], [ "yarn", 30 ] ]
+      [ ["blob_dormant", 1] ]
     ]
   },{
     "type" : "item_group",

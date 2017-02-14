@@ -11930,6 +11930,7 @@
   "time": 30000,
   "book_learn": [[ "survival_book", 6 ], [ "scots_cookbook", 3 ]],
   "batch_time_factors":[50, 4],
+  "using": [ [ "filament", 2 ] ],
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3},
@@ -11962,12 +11963,6 @@
       [ "fat", 1 ],
       [ "tallow", 1 ],
       [ "lard", 1 ]
-    ],
-    [
-      [ "thread", 2 ],
-      [ "sinew", 2 ],
-      [ "plant_fibre", 2 ],
-      [ "yarn", 2 ]
     ]
   ]
 },{
@@ -11980,7 +11975,8 @@
   "skills_required": [ "tailor", 1 ],
   "time": 30000,
   "book_learn": [[ "cookbook_human", 3 ]],
-  "batch_time_factors":[50, 4],
+  "batch_time_factors":[50, 4],,
+  "using": [ [ "filament", 2 ] ],
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3},
@@ -12019,12 +12015,6 @@
       [ "fat", 1 ],
       [ "tallow", 1 ],
       [ "lard", 1 ]
-    ],
-    [
-      [ "thread", 2 ],
-      [ "sinew", 2 ],
-      [ "plant_fibre", 2 ],
-      [ "yarn", 2 ]
     ]
   ]
 },{

@@ -8,8 +8,8 @@
     "difficulty": 2,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread", 140 ], [ "sinew", 140 ], [ "plant_fibre", 140 ], [ "yarn", 140 ] ] ]
+    "using": [ [ "filament", 140 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
     "result": "boots",
@@ -20,10 +20,10 @@
     "difficulty": 2,
     "time": 35000,
     "autolearn": true,
+    "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "leather", 10 ], [ "tanned_hide", 2 ] ],
-      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "leather", 10 ], [ "tanned_hide", 2 ] ]
     ]
   },
   {
@@ -36,14 +36,14 @@
     "time": 40000,
     "autolearn": true,
     "book_learn": [ [ "manual_tailor", 2 ], [ "textbook_tailor", 2 ] ],
+    "using": [ [ "filament", 18 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
     "components": [
       [ [ "bone", 18 ], [ "bone_human", 18 ], [ "bone_tainted", 36 ] ],
-      [ [ "leather", 6 ], [ "fur", 6 ] ],
-      [ [ "thread", 18 ], [ "sinew", 18 ], [ "plant_fibre", 18 ], [ "yarn", 18 ] ]
+      [ [ "leather", 6 ], [ "fur", 6 ] ]
     ]
   },
   {
@@ -71,6 +71,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": 120000,
     "autolearn": true,
+    "using": [ [ "filament", 80 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
@@ -81,8 +82,7 @@
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 200 ] ],
       [ [ "nomex_socks", 1 ] ],
-      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ],
-      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ], [ "yarn", 80 ] ]
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ]
     ]
   },
   {
@@ -96,11 +96,11 @@
     "time": 40000,
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ] ],
+    "using": [ [ "filament", 13 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 7 ], [ "tanned_hide", 1 ] ],
-      [ [ "fur", 7 ], [ "tanned_pelt", 1 ] ],
-      [ [ "thread", 13 ], [ "sinew", 13 ], [ "plant_fibre", 13 ], [ "yarn", 13 ] ]
+      [ [ "fur", 7 ], [ "tanned_pelt", 1 ] ]
     ]
   },
   {
@@ -113,6 +113,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": 120000,
     "autolearn": true,
+    "using": [ [ "filament", 80 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
@@ -123,8 +124,7 @@
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 200 ] ],
       [ [ "wetsuit_booties", 1 ] ],
-      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ],
-      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ], [ "yarn", 80 ] ]
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ]
     ]
   },
   {
@@ -137,6 +137,7 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 120000,
     "autolearn": true,
+    "using": [ [ "filament", 60 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
@@ -148,8 +149,7 @@
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
-      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ],
-      [ [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ], [ "yarn", 60 ] ]
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
   },
   {
@@ -161,13 +161,13 @@
     "difficulty": 2,
     "time": 40000,
     "autolearn": true,
+    "using": [ [ "filament", 24 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
     "components": [
-      [ [ "leather", 18 ], [ "tanned_hide", 3 ], [ "fur", 18 ], [ "tanned_pelt", 3 ] ],
-      [ [ "thread", 24 ], [ "sinew", 24 ], [ "plant_fibre", 24 ], [ "yarn", 24 ] ]
+      [ [ "leather", 18 ], [ "tanned_hide", 3 ], [ "fur", 18 ], [ "tanned_pelt", 3 ] ]
     ]
   },
   {
@@ -180,6 +180,7 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 120000,
     "autolearn": true,
+    "using": [ [ "filament", 80 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
@@ -189,8 +190,7 @@
       [ [ "rag", 8 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
-      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ],
-      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ], [ "yarn", 80 ] ]
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
   },
   {
@@ -227,6 +227,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 120000,
     "autolearn": true,
+    "using": [ [ "filament", 80 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
@@ -236,8 +237,7 @@
       [ [ "leather", 8 ], [ "tanned_hide", 2 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
-      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ],
-      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ], [ "yarn", 80 ] ]
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
   },
   {
@@ -249,6 +249,7 @@
     "difficulty": 5,
     "time": 35000,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
+    "using": [ [ "filament", 20 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
@@ -264,11 +265,11 @@
     "difficulty": 6,
     "time": 360000,
     "autolearn": true,
+    "using": [ [ "filament", 80 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "felt_patch", 20 ] ],
-      [ [ "bag_plastic", 8 ] ],
-      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ], [ "yarn", 80 ] ]
+      [ [ "bag_plastic", 8 ] ]
     ]
   },
   {
@@ -281,6 +282,7 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 120000,
     "autolearn": true,
+    "using": [ [ "filament", 80 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
@@ -290,8 +292,7 @@
       [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
-      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ],
-      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ], [ "yarn", 80 ] ]
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
   },
   {
@@ -304,6 +305,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 180000,
     "autolearn": true,
+    "using": [ [ "filament", 160 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
@@ -314,8 +316,7 @@
       [ [ "rag", 6 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "boots_combat", 2 ], [ "kevlar_plate", 10 ] ],
-      [ [ "duct_tape", 200 ] ],
-      [ [ "thread", 160 ], [ "sinew", 160 ], [ "plant_fibre", 160 ], [ "yarn", 160 ] ]
+      [ [ "duct_tape", 200 ] ]
     ]
   },
   {
@@ -387,10 +388,10 @@
     "difficulty": 1,
     "time": 20000,
     "autolearn": true,
+    "using": [ [ "filament", 5 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "leather", 3 ] ],
-      [ [ "thread", 5 ], [ "sinew", 5 ], [ "plant_fibre", 5 ], [ "yarn", 5 ] ]
+      [ [ "leather", 3 ] ]
     ]
   },
   {
@@ -403,10 +404,10 @@
     "time": 30000,
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 0 ], [ "pocket_survival", 0 ] ],
+    "using": [ [ "filament", 5 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "fur", 2 ] ],
-      [ [ "thread", 5 ], [ "sinew", 5 ], [ "plant_fibre", 5 ], [ "yarn", 5 ] ]
+      [ [ "fur", 2 ] ]
     ]
   },
   {
@@ -418,10 +419,10 @@
     "difficulty": 6,
     "time": 24000,
     "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "using": [ [ "filament", 12 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "nomex", 9 ] ],
-      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ], [ "yarn", 12 ] ]
+      [ [ "nomex", 9 ] ]
     ]
   },
   {
@@ -445,10 +446,10 @@
     "skill_used": "tailor",
     "time": 10000,
     "autolearn": true,
+    "using": [ [ "filament", 4 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "rag", 2 ] ],
-      [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ], [ "yarn", 4 ] ]
+      [ [ "rag", 2 ] ]
     ]
   },
   {
@@ -483,10 +484,10 @@
     "difficulty": 1,
     "time": 10000,
     "autolearn": true,
+    "using": [ [ "filament", 6 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "rag", 8 ] ],
-      [ [ "thread", 6 ], [ "sinew", 6 ], [ "plant_fibre", 6 ], [ "yarn", 6 ] ]
+      [ [ "rag", 8 ] ]
     ]
   },
   {
@@ -510,6 +511,7 @@
     "skills_required": [ "tailor", 2 ],
     "time": 30000,
     "book_learn": [ [ "mag_swimming", 3 ], [ "manual_swimming", 2 ] ],
+    "using": [ [ "filament", 20 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
@@ -518,8 +520,7 @@
     "components": [
       [ [ "plastic_chunk", 8 ] ],
       [ [ "duct_tape", 80 ], [ "medical_tape", 80 ] ],
-      [ [ "superglue", 1 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "superglue", 1 ] ]
     ]
   },
   {
@@ -532,6 +533,7 @@
     "skills_required": [ "tailor", 2 ],
     "time": 60000,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
+    "using": [ [ "filament", 6 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
@@ -540,8 +542,7 @@
     "components": [
       [ [ "rag", 2 ], [ "socks", 1 ], [ "socks_wool", 1 ] ],
       [ [ "element", 2 ] ],
-      [ [ "cable", 4 ] ],
-      [ [ "thread", 6 ], [ "sinew", 6 ], [ "plant_fibre", 6 ], [ "yarn", 6 ] ]
+      [ [ "cable", 4 ] ]
     ]
   },
   {
@@ -553,12 +554,12 @@
     "difficulty": 4,
     "time": 120000,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
+    "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 5 ], [ "welder", 5 ], [ "hotplate", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "neoprene", 2 ] ],
-      [ [ "rag", 2 ] ],
-      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "rag", 2 ] ]
     ]
   }
 ]

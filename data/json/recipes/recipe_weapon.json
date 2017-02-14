@@ -1822,12 +1822,12 @@
   "time": 65000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "filament", 4 ] ],
   "qualities": [ { "id": "SEW", "level": 1 } ],
   "components": [
     [
       [ "rag", 4 ]
-    ],
-    [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ], [ "yarn", 4 ] ]
+    ]
   ]
 },{
   "type" : "recipe",
