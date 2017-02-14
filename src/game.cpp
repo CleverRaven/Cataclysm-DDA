@@ -14110,44 +14110,35 @@ void game::process_artifact(item *it, player *p)
     p->dex_cur = p->get_dex();
     p->per_cur = p->get_per();
 }
+
 void game::start_calendar()
 {
     calendar::start = HOURS(get_world_option<int>( "INITIAL_TIME" ) );
-    if( scen->has_flag("SPR_START") || scen->has_flag("SUM_START") ||
-        scen->has_flag("AUT_START") || scen->has_flag("WIN_START") ||
-        scen->has_flag("SUM_ADV_START") ) {
-        if( scen->has_flag("SPR_START") ) {
-            ; // Do nothing;
-        } else if( scen->has_flag("SUM_START") ) {
-            calendar::start += DAYS( calendar::season_length() );
-        } else if( scen->has_flag("AUT_START") ) {
-            calendar::start += DAYS( calendar::season_length() * 2 );
-        } else if( scen->has_flag("WIN_START") ) {
-            calendar::start += DAYS( calendar::season_length() * 3 );
-        } else if( scen->has_flag("SUM_ADV_START") ) {
-            calendar::start += DAYS( calendar::season_length() * 5 );
-        } else {
-            debugmsg("The Unicorn");
-        }
+    const bool scen_season = scen->has_flag( "SPR_START" ) || scen->has_flag( "SUM_START" ) ||
+                             scen->has_flag( "AUT_START" ) || scen->has_flag( "WIN_START" ) ||
+                             scen->has_flag( "SUM_ADV_START" );
+    const std::string nonscen_season = get_world_option<std::string>( "INITIAL_SEASON" );
+    if( scen->has_flag( "SPR_START" ) || ( !scen_season && nonscen_season == "spring" ) ) {
+        calendar::initial_season = SPRING;
+    } else if( scen->has_flag( "SUM_START" ) || ( !scen_season && nonscen_season == "summer" ) ) {
+        calendar::initial_season = SUMMER;
+        calendar::start += DAYS( calendar::season_length() );
+    } else if( scen->has_flag( "AUT_START" ) || ( !scen_season && nonscen_season == "autumn" ) ) {
+        calendar::initial_season = AUTUMN;
+        calendar::start += DAYS( calendar::season_length() * 2 );
+    } else if( scen->has_flag( "WIN_START" ) || ( !scen_season && nonscen_season == "winter" ) ) {
+        calendar::initial_season = WINTER;
+        calendar::start += DAYS( calendar::season_length() * 3 );
+    } else if( scen->has_flag( "SUM_ADV_START" ) ) {
+        calendar::initial_season = SUMMER;
+        calendar::start += DAYS( calendar::season_length() * 5 );
     } else {
-        if( get_world_option<std::string>( "INITIAL_SEASON" ) == "spring" ) {
-            calendar::initial_season = SPRING;
-            ; // Do nothing.
-        } else if( get_world_option<std::string>( "INITIAL_SEASON" ) == "summer") {
-            calendar::initial_season = SUMMER;
-            calendar::start += DAYS( calendar::season_length() );
-        } else if( get_world_option<std::string>( "INITIAL_SEASON" ) == "autumn" ) {
-            calendar::initial_season = AUTUMN;
-            calendar::start += DAYS( calendar::season_length() * 2 );
-        } else {
-            calendar::initial_season = WINTER;
-            calendar::start += DAYS( calendar::season_length() * 3 );
-        }
+        debugmsg( "The Unicorn" );
     }
     calendar::turn = calendar::start;
 
-    if ( get_world_option<bool>( "ETERNAL_SEASON" ) ) {
-      calendar::eternal_season = true;
+    if( get_world_option<bool>( "ETERNAL_SEASON" ) ) {
+        calendar::eternal_season = true;
     }
 }
 
