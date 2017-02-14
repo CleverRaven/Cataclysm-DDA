@@ -305,8 +305,10 @@
     "difficulty": 1,
     "time": 40000,
     "autolearn": true,
-    "using": [ [ "filament", 75 ] ],
-    "qualities": [ { "id": "KNIT", "level": 1 } ]
+    "qualities": [ { "id": "KNIT", "level": 1 } ],
+    "components": [
+      [ [ "yarn", 75 ] ]
+    ]
   },
   {
     "result": "hat_noise_cancelling",
@@ -817,8 +819,7 @@
     "time": 20000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
-    "using": [ [ "adhesive", 2 ] ],
-    "using": [ [ "filament", 20 ] ],
+    "using": [ [ "adhesive", 2 ], [ "filament", 20 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
@@ -841,8 +842,7 @@
     "time": 20000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
-    "using": [ [ "adhesive", 2 ] ],
-    "using": [ [ "filament", 20 ] ],
+    "using": [ [ "adhesive", 2 ], [ "filament", 20 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
@@ -1081,7 +1081,7 @@
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ]
     ]
   },
   {
@@ -1240,8 +1240,8 @@
     "difficulty": 1,
     "time": 60000,
     "autolearn": true,
-    "using": [ [ "filament", 150 ] ],
-    "qualities": [ { "id": "KNIT", "level": 1 } ]
+    "qualities": [ { "id": "KNIT", "level": 1 } ],
+    "components": [ [ [ "yarn", 150 ] ] ]
   },
   {
     "result": "scarf_fur",
@@ -1305,8 +1305,8 @@
     "difficulty": 3,
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 300 ] ],
-    "qualities": [ { "id": "KNIT", "level": 1 } ]
+    "qualities": [ { "id": "KNIT", "level": 1 } ],
+    "components": [ [ [ "yarn", 300 ] ] ]
   },
   {
     "result": "straw_fedora",

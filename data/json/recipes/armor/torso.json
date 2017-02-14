@@ -413,7 +413,7 @@
       [ [ "coat_rain", 1 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 2 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 1 ], [ "fanny", 1 ] ],
       [ [ "duct_tape", 150 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 16 ] ],
+      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 16 ] ]
     ]
   },
   {
@@ -539,6 +539,21 @@
     "autolearn": true,
     "using": [ [ "filament", 80 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [
+      [ [ "felt_patch", 30 ] ]
+    ]
+  },
+  {
+    "result": "poncho",
+    "type": "recipe",
+    "id_suffix": "knitted",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": 180000,
+    "autolearn": true,
+    "qualities": [ { "id": "KNIT", "level": 1 } ],
     "components": [
       [ [ "yarn", 300 ] ]
     ]
