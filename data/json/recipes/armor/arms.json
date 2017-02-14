@@ -27,9 +27,7 @@
     "autolearn": true,
     "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 4 ] ]
-    ]
+    "components": [ [ [ "rag", 4 ] ] ]
   },
   {
     "result": "armguard_bone",
@@ -95,9 +93,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "components": [
-      [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ]
-    ]
+    "components": [ [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ] ]
   },
   {
     "result": "armguard_lightplate",
@@ -201,9 +197,7 @@
     "autolearn": true,
     "using": [ [ "filament", 32 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 40 ] ]
-    ]
+    "components": [ [ [ "rag", 40 ] ] ]
   },
   {
     "result": "stockings_tent_arms",
@@ -236,8 +230,6 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "components": [
-      [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ]
-    ]
+    "components": [ [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
   }
 ]

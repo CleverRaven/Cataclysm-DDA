@@ -11,9 +11,7 @@
     "autolearn": true,
     "using": [ [ "filament", 3 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 4 ] ]
-    ]
+    "components": [ [ [ "rag", 4 ] ] ]
   },
   {
     "result": "bandana",
@@ -26,9 +24,7 @@
     "autolearn": true,
     "using": [ [ "filament", 2 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 2 ] ]
-    ]
+    "components": [ [ [ "rag", 2 ] ] ]
   },
   {
     "result": "beret_wool",
@@ -41,9 +37,7 @@
     "autolearn": true,
     "using": [ [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "felt_patch", 4 ] ]
-    ]
+    "components": [ [ [ "felt_patch", 4 ] ] ]
   },
   {
     "result": "blindfold",
@@ -82,9 +76,7 @@
     "autolearn": true,
     "using": [ [ "filament", 16 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 8 ], [ "tanned_hide", 1 ] ]
-    ]
+    "components": [ [ [ "leather", 8 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "cowl_wool",
@@ -97,9 +89,7 @@
     "autolearn": true,
     "using": [ [ "filament", 80 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "felt_patch", 8 ] ]
-    ]
+    "components": [ [ [ "felt_patch", 8 ] ] ]
   },
   {
     "result": "fur_cat_ears",
@@ -217,9 +207,7 @@
     "autolearn": true,
     "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 4 ] ]
-    ]
+    "components": [ [ [ "rag", 4 ] ] ]
   },
   {
     "result": "hat_cotton",
@@ -232,9 +220,7 @@
     "autolearn": true,
     "using": [ [ "filament", 8 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 3 ] ]
-    ]
+    "components": [ [ [ "rag", 3 ] ] ]
   },
   {
     "result": "hat_fur",
@@ -248,9 +234,7 @@
     "autolearn": true,
     "using": [ [ "filament", 8 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "fur", 3 ] ]
-    ]
+    "components": [ [ [ "fur", 3 ] ] ]
   },
   {
     "result": "hat_hard",
@@ -292,9 +276,7 @@
     "autolearn": true,
     "using": [ [ "filament", 50 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "felt_patch", 10 ] ]
-    ]
+    "components": [ [ [ "felt_patch", 10 ] ] ]
   },
   {
     "result": "hat_knit",
@@ -306,9 +288,7 @@
     "time": 40000,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [
-      [ [ "yarn", 75 ] ]
-    ]
+    "components": [ [ [ "yarn", 75 ] ] ]
   },
   {
     "result": "hat_noise_cancelling",
@@ -438,9 +418,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "components": [
-      [ [ "leather", 16 ], [ "tanned_hide", 3 ], [ "fur", 16 ], [ "tanned_pelt", 3 ] ]
-    ]
+    "components": [ [ [ "leather", 16 ], [ "tanned_hide", 3 ], [ "fur", 16 ], [ "tanned_pelt", 3 ] ] ]
   },
   {
     "result": "helmet_nomad",
@@ -785,9 +763,7 @@
     "autolearn": true,
     "using": [ [ "filament", 9 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 12 ] ]
-    ]
+    "components": [ [ [ "rag", 12 ] ] ]
   },
   {
     "result": "mask_filter",
@@ -1021,9 +997,7 @@
     "autolearn": true,
     "using": [ [ "filament", 80 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "felt_patch", 8 ] ]
-    ]
+    "components": [ [ [ "felt_patch", 8 ] ] ]
   },
   {
     "result": "mask_survivor",
@@ -1075,7 +1049,10 @@
     "time": 20000,
     "autolearn": true,
     "using": [ [ "adhesive", 1 ], [ "filament", 10 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [
+      { "id": "SEW", "level": 1 },
+      { "id": "CUT", "level": 1 }
+    ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
@@ -1132,9 +1109,7 @@
     "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
     "using": [ [ "filament", 8 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "nomex", 6 ] ]
-    ]
+    "components": [ [ [ "nomex", 6 ] ] ]
   },
   {
     "result": "patchwork_scarf",
@@ -1147,9 +1122,7 @@
     "autolearn": true,
     "using": [ [ "filament", 3 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 4 ] ]
-    ]
+    "components": [ [ [ "rag", 4 ] ] ]
   },
   {
     "result": "pot_helmet",
@@ -1256,9 +1229,7 @@
     "autolearn": true,
     "using": [ [ "filament", 3 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "fur", 4 ], [ "tanned_pelt", 1 ] ]
-    ]
+    "components": [ [ [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
     "result": "scarf_fur_long",
@@ -1274,9 +1245,7 @@
     "autolearn": true,
     "using": [ [ "filament", 3 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "scarf_fur", 3 ] ]
-    ]
+    "components": [ [ [ "scarf_fur", 3 ] ] ]
   },
   {
     "result": "scarf_fur_long",
@@ -1292,9 +1261,7 @@
     "autolearn": true,
     "using": [ [ "filament", 9 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ]
-    ]
+    "components": [ [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ] ]
   },
   {
     "result": "scarf_long",
