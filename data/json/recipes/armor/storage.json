@@ -547,7 +547,7 @@
     "decomp_learn": 3,
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ] ],
-    "using": [ [ "filament", 8 ], [ "steel_tiny", 1 ] ]
+    "using": [ [ "filament", 8 ], [ "steel_tiny", 1 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SEW", "level": 1 }
