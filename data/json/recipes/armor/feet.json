@@ -9,7 +9,7 @@
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread", 140 ], [ "sinew", 140 ], [ "plant_fibre", 140 ] ] ]
+    "components": [ [ [ "thread", 140 ], [ "sinew", 140 ], [ "plant_fibre", 140 ], [ "yarn", 140 ] ] ]
   },
   {
     "result": "boots",
@@ -23,7 +23,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 10 ], [ "tanned_hide", 2 ] ],
-      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {
@@ -43,7 +43,7 @@
     "components": [
       [ [ "bone", 18 ], [ "bone_human", 18 ], [ "bone_tainted", 36 ] ],
       [ [ "leather", 6 ], [ "fur", 6 ] ],
-      [ [ "thread", 18 ], [ "sinew", 18 ], [ "plant_fibre", 18 ] ]
+      [ [ "thread", 18 ], [ "sinew", 18 ], [ "plant_fibre", 18 ], [ "yarn", 18 ] ]
     ]
   },
   {
@@ -82,7 +82,7 @@
       [ [ "duct_tape", 200 ] ],
       [ [ "nomex_socks", 1 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ],
-      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ] ]
+      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ], [ "yarn", 80 ] ]
     ]
   },
   {
@@ -100,7 +100,7 @@
     "components": [
       [ [ "leather", 7 ], [ "tanned_hide", 1 ] ],
       [ [ "fur", 7 ], [ "tanned_pelt", 1 ] ],
-      [ [ "thread", 13 ], [ "sinew", 13 ], [ "plant_fibre", 13 ] ]
+      [ [ "thread", 13 ], [ "sinew", 13 ], [ "plant_fibre", 13 ], [ "yarn", 13 ] ]
     ]
   },
   {
@@ -124,7 +124,7 @@
       [ [ "duct_tape", 200 ] ],
       [ [ "wetsuit_booties", 1 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ],
-      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ] ]
+      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ], [ "yarn", 80 ] ]
     ]
   },
   {
@@ -149,7 +149,7 @@
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ],
-      [ [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ] ]
+      [ [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ], [ "yarn", 60 ] ]
     ]
   },
   {
@@ -167,7 +167,7 @@
     ],
     "components": [
       [ [ "leather", 18 ], [ "tanned_hide", 3 ], [ "fur", 18 ], [ "tanned_pelt", 3 ] ],
-      [ [ "thread", 24 ], [ "sinew", 24 ], [ "plant_fibre", 24 ] ]
+      [ [ "thread", 24 ], [ "sinew", 24 ], [ "plant_fibre", 24 ], [ "yarn", 24 ] ]
     ]
   },
   {
@@ -190,7 +190,7 @@
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ],
-      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ] ]
+      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ], [ "yarn", 80 ] ]
     ]
   },
   {
@@ -237,7 +237,7 @@
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ],
-      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ] ]
+      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ], [ "yarn", 80 ] ]
     ]
   },
   {
@@ -268,7 +268,7 @@
     "components": [
       [ [ "felt_patch", 20 ] ],
       [ [ "bag_plastic", 8 ] ],
-      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ] ]
+      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ], [ "yarn", 80 ] ]
     ]
   },
   {
@@ -291,7 +291,7 @@
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ],
-      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ] ]
+      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ], [ "yarn", 80 ] ]
     ]
   },
   {
@@ -315,7 +315,7 @@
       [ [ "scrap", 4 ] ],
       [ [ "boots_combat", 2 ], [ "kevlar_plate", 10 ] ],
       [ [ "duct_tape", 200 ] ],
-      [ [ "thread", 160 ], [ "sinew", 160 ], [ "plant_fibre", 160 ] ]
+      [ [ "thread", 160 ], [ "sinew", 160 ], [ "plant_fibre", 160 ], [ "yarn", 160 ] ]
     ]
   },
   {
@@ -390,7 +390,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ] ],
-      [ [ "thread", 5 ], [ "sinew", 5 ], [ "plant_fibre", 5 ] ]
+      [ [ "thread", 5 ], [ "sinew", 5 ], [ "plant_fibre", 5 ], [ "yarn", 5 ] ]
     ]
   },
   {
@@ -406,7 +406,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "fur", 2 ] ],
-      [ [ "thread", 5 ], [ "sinew", 5 ], [ "plant_fibre", 5 ] ]
+      [ [ "thread", 5 ], [ "sinew", 5 ], [ "plant_fibre", 5 ], [ "yarn", 5 ] ]
     ]
   },
   {
@@ -421,7 +421,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "nomex", 9 ] ],
-      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ] ]
+      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ], [ "yarn", 12 ] ]
     ]
   },
   {
@@ -448,7 +448,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 2 ] ],
-      [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ] ]
+      [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ], [ "yarn", 4 ] ]
     ]
   },
   {
@@ -486,7 +486,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 8 ] ],
-      [ [ "thread", 6 ], [ "sinew", 6 ], [ "plant_fibre", 6 ] ]
+      [ [ "thread", 6 ], [ "sinew", 6 ], [ "plant_fibre", 6 ], [ "yarn", 6 ] ]
     ]
   },
   {
@@ -519,7 +519,7 @@
       [ [ "plastic_chunk", 8 ] ],
       [ [ "duct_tape", 80 ], [ "medical_tape", 80 ] ],
       [ [ "superglue", 1 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -541,7 +541,7 @@
       [ [ "rag", 2 ], [ "socks", 1 ], [ "socks_wool", 1 ] ],
       [ [ "element", 2 ] ],
       [ [ "cable", 4 ] ],
-      [ [ "thread", 6 ], [ "sinew", 6 ], [ "plant_fibre", 6 ] ]
+      [ [ "thread", 6 ], [ "sinew", 6 ], [ "plant_fibre", 6 ], [ "yarn", 6 ] ]
     ]
   },
   {
@@ -558,7 +558,7 @@
     "components": [
       [ [ "neoprene", 2 ] ],
       [ [ "rag", 2 ] ],
-      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   }
 ]

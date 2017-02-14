@@ -28,7 +28,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 4 ] ],
-      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {
@@ -47,7 +47,7 @@
     "components": [
       [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ],
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
-      [ [ "thread", 11 ], [ "sinew", 11 ], [ "plant_fibre", 11 ] ]
+      [ [ "thread", 11 ], [ "sinew", 11 ], [ "plant_fibre", 11 ], [ "yarn", 11 ] ]
     ]
   },
   {
@@ -78,7 +78,7 @@
     "components": [
       [ [ "neoprene", 6 ] ],
       [ [ "plastic_chunk", 8 ] ],
-      [ [ "thread", 25 ], [ "sinew", 25 ], [ "plant_fibre", 25 ] ]
+      [ [ "thread", 25 ], [ "sinew", 25 ], [ "plant_fibre", 25 ], [ "yarn", 25 ] ]
     ]
   },
   {
@@ -96,7 +96,7 @@
     ],
     "components": [
       [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
-      [ [ "thread", 16 ], [ "sinew", 16 ], [ "plant_fibre", 16 ] ]
+      [ [ "thread", 16 ], [ "sinew", 16 ], [ "plant_fibre", 16 ], [ "yarn", 16 ] ]
     ]
   },
   {
@@ -167,7 +167,7 @@
     "components": [
       [ [ "neoprene", 4 ] ],
       [ [ "rag", 2 ] ],
-      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -187,7 +187,7 @@
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "rag", 2 ], [ "leather", 2 ], [ "fur", 2 ] ],
-      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {
@@ -202,7 +202,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 40 ] ],
-      [ [ "thread", 32 ], [ "sinew", 32 ], [ "plant_fibre", 32 ] ]
+      [ [ "thread", 32 ], [ "sinew", 32 ], [ "plant_fibre", 32 ], [ "yarn", 32 ] ]
     ]
   },
   {
@@ -219,7 +219,7 @@
     "components": [
       [ [ "stockings", 4 ] ],
       [ [ "rag", 8 ] ],
-      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ], [ "yarn", 8 ] ]
     ]
   },
   {
@@ -237,7 +237,7 @@
     ],
     "components": [
       [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ],
-      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ], [ "yarn", 8 ] ]
     ]
   }
 ]

@@ -177,7 +177,7 @@
       [ [ "string_36", 4 ], [ "string_6", 16 ] ],
       [ [ "rag", 4 ] ],
       [ [ "leather", 42 ], [ "tanned_hide", 7 ], [ "fur", 42 ], [ "tanned_pelt", 7 ] ],
-      [ [ "thread", 68 ], [ "sinew", 68 ], [ "plant_fibre", 68 ] ]
+      [ [ "thread", 68 ], [ "sinew", 68 ], [ "plant_fibre", 68 ], [ "yarn", 68 ] ]
     ]
   },
   {
@@ -204,7 +204,7 @@
     "components": [
       [ [ "steel_chunk", 5 ], [ "scrap", 15 ] ],
       [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
-      [ [ "sinew", 18 ], [ "thread", 18 ], [ "plant_fibre", 18 ] ]
+      [ [ "sinew", 18 ], [ "thread", 18 ], [ "plant_fibre", 18 ], [ "yarn", 18 ] ]
     ]
   }
 ]

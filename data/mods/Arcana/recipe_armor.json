@@ -19,7 +19,7 @@
       [ [ "feather", 20 ] ],
       [ [ "gold_small", 2000 ] ],
       [ [ "essence_dull", 20 ] ],
-      [ [ "thread", 18 ], [ "sinew", 18 ], [ "plant_fibre", 18 ] ]
+      [ [ "thread", 18 ], [ "sinew", 18 ], [ "plant_fibre", 18 ], [ "yarn", 18 ] ]
     ]
   },
   {
@@ -43,7 +43,7 @@
       [ [ "scrap", 2 ] ],
       [ [ "copper", 30 ] ],
       [ [ "essence_dull", 15 ] ],
-      [ [ "thread", 9 ], [ "sinew", 9 ], [ "plant_fibre", 9 ] ]
+      [ [ "thread", 9 ], [ "sinew", 9 ], [ "plant_fibre", 9 ], [ "yarn", 9 ] ]
     ]
   },
   {
@@ -67,7 +67,7 @@
       [ [ "brooch", 1 ] ],
       [ [ "acid", 1 ], [ "water_acid", 2 ], [ "water_acid_weak", 4 ] ],
       [ [ "essence_blood", 4 ] ],
-      [ [ "thread", 22 ], [ "sinew", 22 ], [ "plant_fibre", 22 ] ]
+      [ [ "thread", 22 ], [ "sinew", 22 ], [ "plant_fibre", 22 ], [ "yarn", 22 ] ]
     ]
   },
   {
@@ -144,7 +144,7 @@
       [ [ "fur", 4 ] ],
       [ [ "charcoal", 30 ] ],
       [ [ "essence", 7 ], [ "essence_blood", 21 ] ],
-      [ [ "thread", 24 ], [ "sinew", 24 ], [ "plant_fibre", 24 ] ]
+      [ [ "thread", 24 ], [ "sinew", 24 ], [ "plant_fibre", 24 ], [ "yarn", 24 ] ]
     ]
   }
 ]

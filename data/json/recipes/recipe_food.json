@@ -11966,7 +11966,8 @@
     [
       [ "thread", 2 ],
       [ "sinew", 2 ],
-      [ "plant_fibre", 2 ]
+      [ "plant_fibre", 2 ],
+      [ "yarn", 2 ]
     ]
   ]
 },{
@@ -12022,7 +12023,8 @@
     [
       [ "thread", 2 ],
       [ "sinew", 2 ],
-      [ "plant_fibre", 2 ]
+      [ "plant_fibre", 2 ],
+      [ "yarn", 2 ]
     ]
   ]
 },{
