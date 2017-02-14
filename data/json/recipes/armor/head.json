@@ -10,7 +10,10 @@
     "time": 5000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "thread", 3 ], [ "sinew", 3 ], [ "plant_fibre", 3 ] ] ]
+    "components": [
+      [ [ "rag", 4 ] ],
+      [ [ "thread", 3 ], [ "sinew", 3 ], [ "plant_fibre", 3 ] ]
+    ]
   },
   {
     "result": "bandana",
@@ -22,7 +25,10 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 2 ] ], [ [ "thread", 2 ], [ "sinew", 2 ], [ "plant_fibre", 2 ] ] ]
+    "components": [
+      [ [ "rag", 2 ] ],
+      [ [ "thread", 2 ], [ "sinew", 2 ], [ "plant_fibre", 2 ] ]
+    ]
   },
   {
     "result": "beret_wool",
@@ -34,7 +40,10 @@
     "time": 60000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "felt_patch", 4 ] ], [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ] ]
+    "components": [
+      [ [ "felt_patch", 4 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+    ]
   },
   {
     "result": "blindfold",
@@ -72,7 +81,10 @@
     "time": 50000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 8 ], [ "tanned_hide", 1 ] ], [ [ "thread", 16 ], [ "sinew", 16 ], [ "plant_fibre", 16 ] ] ]
+    "components": [
+      [ [ "leather", 8 ], [ "tanned_hide", 1 ] ],
+      [ [ "thread", 16 ], [ "sinew", 16 ], [ "plant_fibre", 16 ] ]
+    ]
   },
   {
     "result": "cowl_wool",
@@ -84,7 +96,10 @@
     "time": 120000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "felt_patch", 8 ] ], [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ] ] ]
+    "components": [
+      [ [ "felt_patch", 8 ] ],
+      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ] ]
+    ]
   },
   {
     "result": "fur_cat_ears",
@@ -96,13 +111,11 @@
     "time": 20000,
     "book_learn": [ [ "mag_animecon", 3 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
-    ],
+    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "fur", 2 ] ],
       [ [ "plastic_chunk", 3 ] ],
-	  [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
     ]
   },
   {
@@ -203,7 +216,10 @@
     "time": 25000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ] ]
+    "components": [
+      [ [ "rag", 4 ] ],
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+    ]
   },
   {
     "result": "hat_cotton",
@@ -215,7 +231,10 @@
     "time": 40000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 3 ] ], [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ] ]
+    "components": [
+      [ [ "rag", 3 ] ],
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
+    ]
   },
   {
     "result": "hat_fur",
@@ -228,7 +247,10 @@
     "time": 40000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fur", 3 ] ], [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ] ]
+    "components": [
+      [ [ "fur", 3 ] ],
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
+    ]
   },
   {
     "result": "hat_hard",
@@ -269,7 +291,10 @@
     "time": 90000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "felt_patch", 10 ] ], [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ] ] ]
+    "components": [
+      [ [ "felt_patch", 10 ] ],
+      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ] ]
+    ]
   },
   {
     "result": "hat_knit",
@@ -297,7 +322,7 @@
     "components": [
       [ [ "rag", 4 ] ],
       [ [ "string_36", 2 ] ],
-	  [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
     ]
   },
   {
@@ -319,9 +344,7 @@
       [ [ "anvil", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
-    "components": [
-      [ [ "fur", 4 ], [ "leather", 4 ] ]
-    ]
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ]
   },
   {
     "result": "helmet_bone",
@@ -360,10 +383,11 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 45000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
     "components": [
       [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 3 ] ],
       [ [ "tac_helmet", 1 ], [ "tac_fullhelmet", 1 ], [ "helmet_army", 1 ], [ "kevlar_plate", 6 ] ],
@@ -371,7 +395,7 @@
       [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
       [ [ "duct_tape", 75 ] ],
       [ [ "helmet_riot", 1 ], [ "helmet_motor", 1 ], [ "helmet_football", 1 ], [ "helmet_ball", 1 ], [ "helmet_skid", 1 ], [ "helmet_bike", 1 ], [ "hat_hard", 1 ], [ "firehelmet", 1 ], [ "pickelhaube", 1 ], [ "plastic_chunk", 8 ] ],
-	  [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
     ]
   },
   {
@@ -407,8 +431,14 @@
     "difficulty": 4,
     "time": 30000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 16 ], [ "tanned_hide", 3 ], [ "fur", 16 ], [ "tanned_pelt", 3 ] ], [ [ "thread", 18 ], [ "sinew", 18 ], [ "plant_fibre", 18 ] ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
+    "components": [
+      [ [ "leather", 16 ], [ "tanned_hide", 3 ], [ "fur", 16 ], [ "tanned_pelt", 3 ] ],
+      [ [ "thread", 18 ], [ "sinew", 18 ], [ "plant_fibre", 18 ] ]
+    ]
   },
   {
     "result": "helmet_nomad",
@@ -419,12 +449,15 @@
     "difficulty": 5,
     "time": 40000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
       [ [ "glasses_safety", 1 ], [ "glasses_bal", 1 ] ],
       [ [ "leather", 8 ], [ "tanned_hide", 2 ] ],
-	  [ [ "thread", 65 ], [ "sinew", 65 ], [ "plant_fibre", 65 ] ]
+      [ [ "thread", 65 ], [ "sinew", 65 ], [ "plant_fibre", 65 ] ]
     ]
   },
   {
@@ -447,9 +480,7 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 350 ], [ "oxy_torch", 70 ] ]
     ],
-    "components": [
-      [ [ "fur", 4 ], [ "leather", 4 ] ]
-    ]
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ]
   },
   {
     "result": "helmet_scavenger",
@@ -461,16 +492,17 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 40000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "soldering_iron", 8 ], [ "toolset", 8 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "soldering_iron", 8 ], [ "toolset", 8 ] ] ],
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
       [ [ "mask_filter", 1 ] ],
       [ [ "glasses_bal", 1 ], [ "goggles_ski", 1 ] ],
       [ [ "kevlar_plate", 8 ] ],
-	  [ [ "thread", 65 ], [ "sinew", 65 ], [ "plant_fibre", 65 ] ]
+      [ [ "thread", 65 ], [ "sinew", 65 ], [ "plant_fibre", 65 ] ]
     ]
   },
   {
@@ -483,10 +515,11 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 45000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
     "components": [
       [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 3 ] ],
       [ [ "tac_helmet", 1 ], [ "tac_fullhelmet", 1 ], [ "helmet_army", 1 ], [ "kevlar_plate", 6 ] ],
@@ -494,7 +527,7 @@
       [ [ "leather", 8 ], [ "tanned_hide", 2 ] ],
       [ [ "duct_tape", 150 ] ],
       [ [ "helmet_riot", 1 ], [ "helmet_motor", 1 ], [ "helmet_football", 1 ], [ "helmet_ball", 1 ], [ "helmet_skid", 1 ], [ "helmet_bike", 1 ], [ "hat_hard", 1 ], [ "firehelmet", 1 ], [ "pickelhaube", 1 ], [ "plastic_chunk", 8 ] ],
-	  [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
     ]
   },
   {
@@ -507,10 +540,11 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 60000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 84 ], [ "welder_crude", 126 ], [ "soldering_iron", 126 ], [ "toolset", 126 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 84 ], [ "welder_crude", 126 ], [ "soldering_iron", 126 ], [ "toolset", 126 ] ] ],
     "components": [
       [ [ "scrap", 4 ] ],
       [ [ "rag", 6 ] ],
@@ -519,7 +553,7 @@
       [ [ "kevlar_plate", 14 ] ],
       [ [ "hood_rain", 2 ], [ "bag_plastic", 4 ] ],
       [ [ "duct_tape", 300 ] ],
-	  [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -533,16 +567,17 @@
     "time": 45000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
       [ [ "nomex", 8 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "nomex_hood", 1 ] ],
       [ [ "duct_tape", 100 ] ],
-	  [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
     ]
   },
   {
@@ -555,16 +590,17 @@
     "skills_required": [ "fabrication", 6 ],
     "time": 45000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "wetsuit_hood", 1 ] ],
       [ [ "duct_tape", 100 ] ],
-	  [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
     ]
   },
   {
@@ -577,16 +613,17 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 45000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
       [ [ "rag", 8 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
       [ [ "duct_tape", 100 ] ],
-	  [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
     ]
   },
   {
@@ -615,17 +652,18 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 45000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "rag", 2 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
       [ [ "duct_tape", 100 ] ],
-	  [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
     ]
   },
   {
@@ -638,17 +676,18 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 45000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
       [ [ "fur", 8 ], [ "tanned_pelt", 1 ] ],
       [ [ "rag", 2 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
       [ [ "duct_tape", 100 ] ],
-	  [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
+      [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ] ]
     ]
   },
   {
@@ -661,10 +700,11 @@
     "skills_required": [ "fabrication", 4 ],
     "time": 60000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
     "components": [
       [ [ "leather", 14 ], [ "tanned_hide", 3 ] ],
       [ [ "rag", 4 ] ],
@@ -712,13 +752,11 @@
     "time": 20000,
     "book_learn": [ [ "mag_animecon", 3 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
-    ],
+    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "leather", 2 ] ],
       [ [ "plastic_chunk", 3 ] ],
-	[ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
     ]
   },
   {
@@ -744,7 +782,10 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 12 ] ], [ [ "thread", 9 ], [ "sinew", 9 ], [ "plant_fibre", 9 ] ] ]
+    "components": [
+      [ [ "rag", 12 ] ],
+      [ [ "thread", 9 ], [ "sinew", 9 ], [ "plant_fibre", 9 ] ]
+    ]
   },
   {
     "result": "mask_filter",
@@ -777,15 +818,16 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
     "using": [ [ "adhesive", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_bunker", 1 ] ],
       [ [ "nomex", 4 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ],
-	  [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -800,15 +842,16 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fireman", 7 ], [ "atomic_survival", 8 ], [ "textbook_gaswarfare", 9 ] ],
     "using": [ [ "adhesive", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_bunker", 1 ] ],
       [ [ "nomex", 8 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 6 ] ],
-	  [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -880,16 +923,17 @@
     "time": 20000,
     "autolearn": true,
     "using": [ [ "adhesive", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "rebreather", 1 ] ],
       [ [ "goggles_swim", 1 ] ],
       [ [ "plastic_chunk", 4 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ],
-	  [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -903,16 +947,17 @@
     "time": 20000,
     "autolearn": true,
     "using": [ [ "adhesive", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "rebreather", 1 ] ],
       [ [ "goggles_swim", 1 ] ],
       [ [ "plastic_chunk", 8 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 6 ] ],
-	  [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -977,7 +1022,10 @@
     "time": 150000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "felt_patch", 8 ] ], [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ] ] ]	
+    "components": [
+      [ [ "felt_patch", 8 ] ],
+      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ] ]
+    ]
   },
   {
     "result": "mask_survivor",
@@ -1030,15 +1078,13 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
-    ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ],
       [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
-	  [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
     ]
   },
   {
@@ -1052,16 +1098,17 @@
     "time": 20000,
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 4 ] ],
       [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
-	  [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
     ]
   },
   {
@@ -1088,7 +1135,10 @@
     "time": 24000,
     "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "nomex", 6 ] ], [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ] ]
+    "components": [
+      [ [ "nomex", 6 ] ],
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
+    ]
   },
   {
     "result": "patchwork_scarf",
@@ -1100,7 +1150,10 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "thread", 3 ], [ "sinew", 3 ], [ "plant_fibre", 3 ] ] ]
+    "components": [
+      [ [ "rag", 4 ] ],
+      [ [ "thread", 3 ], [ "sinew", 3 ], [ "plant_fibre", 3 ] ]
+    ]
   },
   {
     "result": "pot_helmet",
@@ -1206,7 +1259,10 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fur", 4 ], [ "tanned_pelt", 1 ] ], [ [ "thread", 3 ], [ "sinew", 3 ], [ "plant_fibre", 3 ] ] ]
+    "components": [
+      [ [ "fur", 4 ], [ "tanned_pelt", 1 ] ],
+      [ [ "thread", 3 ], [ "sinew", 3 ], [ "plant_fibre", 3 ] ]
+    ]
   },
   {
     "result": "scarf_fur_long",
@@ -1221,7 +1277,10 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "scarf_fur", 3 ] ], [ [ "thread", 3 ], [ "sinew", 3 ], [ "plant_fibre", 3 ] ] ]
+    "components": [
+      [ [ "scarf_fur", 3 ] ],
+      [ [ "thread", 3 ], [ "sinew", 3 ], [ "plant_fibre", 3 ] ]
+    ]
   },
   {
     "result": "scarf_fur_long",
@@ -1236,7 +1295,10 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ], [ [ "thread", 9 ], [ "sinew", 9 ], [ "plant_fibre", 9 ] ] ]
+    "components": [
+      [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
+      [ [ "thread", 9 ], [ "sinew", 9 ], [ "plant_fibre", 9 ] ]
+    ]
   },
   {
     "result": "scarf_long",
@@ -1283,16 +1345,17 @@
     "time": 20000,
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_welding", 1 ], [ "sunglasses", 1 ], [ "fancy_sunglasses", 1 ], [ "fitover_sunglasses", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
       [ [ "leather", 3 ] ],
       [ [ "kevlar_plate", 2 ] ],
-	  [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
     ]
   },
   {
@@ -1305,15 +1368,16 @@
     "skills_required": [ "tailor", 2 ],
     "time": 80000,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [
       [ [ "rag", 4 ], [ "scarf", 2 ], [ "scarf_long", 1 ], [ "balclava", 1 ] ],
       [ [ "element", 2 ] ],
       [ [ "cable", 6 ] ],
-	  [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
     ]
   },
   {
@@ -1340,7 +1404,7 @@
     "components": [
       [ [ "leather", 8 ], [ "tanned_hide", 1 ] ],
       [ [ "tallow", 1 ], [ "tallow_tainted", 1 ], [ "cooking_oil", 1 ], [ "lamp_oil", 200 ] ],
-	  [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -1365,13 +1429,11 @@
     "time": 120000,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "soldering_iron", 5 ], [ "welder", 5 ], [ "hotplate", 5 ], [ "toolset", 5 ] ]
-    ],
+    "tools": [ [ [ "soldering_iron", 5 ], [ "welder", 5 ], [ "hotplate", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "neoprene", 2 ] ],
       [ [ "rag", 2 ] ],
-	  [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
     ]
   }
 ]

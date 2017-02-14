@@ -59,10 +59,11 @@
     "difficulty": 3,
     "time": 30000,
     "book_learn": [ [ "mag_animecon", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "fur", 4 ] ],
       [ [ "string_36", 1 ] ],
@@ -79,10 +80,11 @@
     "difficulty": 3,
     "time": 20000,
     "book_learn": [ [ "mag_animecon", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "fur", 2 ] ],
       [ [ "scrap", 1 ] ],
@@ -98,10 +100,11 @@
     "difficulty": 3,
     "time": 30000,
     "book_learn": [ [ "mag_animecon", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "leather", 4 ] ],
       [ [ "string_36", 1 ] ],
@@ -118,10 +121,11 @@
     "difficulty": 3,
     "time": 20000,
     "book_learn": [ [ "mag_animecon", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "tools": [
-      [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ]
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "leather", 2 ] ],
       [ [ "scrap", 1 ] ],
@@ -214,7 +218,10 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 80000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 }  ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ],
       [ [ "duct_tape", 100 ] ],
@@ -232,7 +239,7 @@
     "skill_used": "tailor",
     "time": 6000,
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 }  ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 5 ] ],
       [ [ "thread", 7 ], [ "sinew", 7 ], [ "plant_fibre", 7 ] ]

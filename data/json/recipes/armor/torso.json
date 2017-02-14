@@ -9,7 +9,10 @@
     "time": 180000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ] ], [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ] ]
+    "components": [
+      [ [ "leather", 18 ], [ "tanned_hide", 3 ] ],
+      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ]
+    ]
   },
   {
     "result": "bikini_top",
@@ -21,7 +24,10 @@
     "time": 38000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ] ] ]
+    "components": [
+      [ [ "rag", 4 ] ],
+      [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ] ]
+    ]
   },
   {
     "result": "bikini_top_fur",
@@ -33,7 +39,10 @@
     "time": 38000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fur", 3 ] ], [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ] ] ]
+    "components": [
+      [ [ "fur", 3 ] ],
+      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ] ]
+    ]
   },
   {
     "result": "bikini_top_leather",
@@ -45,7 +54,10 @@
     "time": 38000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 3 ] ], [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ] ] ]
+    "components": [
+      [ [ "leather", 3 ] ],
+      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ] ]
+    ]
   },
   {
     "result": "blazer",
@@ -57,7 +69,10 @@
     "time": 180000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "felt_patch", 25 ] ], [ [ "thread", 100 ], [ "sinew", 100 ], [ "plant_fibre", 100 ] ] ]
+    "components": [
+      [ [ "felt_patch", 25 ] ],
+      [ [ "thread", 100 ], [ "sinew", 100 ], [ "plant_fibre", 100 ] ]
+    ]
   },
   {
     "result": "bookplate",
@@ -88,7 +103,7 @@
     "components": [
       [ [ "rag", 2 ] ],
       [ [ "wire", 1 ] ],
-	  [ [ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ] ]
+      [ [ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ] ]
     ]
   },
   {
@@ -154,7 +169,7 @@
     "components": [
       [ [ "rag", 11 ] ],
       [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
-	  [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -207,7 +222,10 @@
     "time": 42000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 24 ] ], [ [ "thread", 32 ], [ "sinew", 32 ], [ "plant_fibre", 32 ] ] ]
+    "components": [
+      [ [ "rag", 24 ] ],
+      [ [ "thread", 32 ], [ "sinew", 32 ], [ "plant_fibre", 32 ] ]
+    ]
   },
   {
     "result": "duster_fur",
@@ -220,7 +238,10 @@
     "time": 200000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fur", 40 ], [ "tanned_pelt", 7 ] ], [ [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ] ] ]
+    "components": [
+      [ [ "fur", 40 ], [ "tanned_pelt", 7 ] ],
+      [ [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ] ]
+    ]
   },
   {
     "result": "duster_leather",
@@ -233,7 +254,10 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 29 ], [ "tanned_hide", 5 ] ], [ [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ] ] ]
+    "components": [
+      [ [ "leather", 29 ], [ "tanned_hide", 5 ] ],
+      [ [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ] ]
+    ]
   },
   {
     "result": "duster_survivor",
@@ -245,7 +269,10 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 70000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "duster_leather", 1 ], [ "jacket_army", 1 ] ],
@@ -253,7 +280,7 @@
       [ [ "rag", 19 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 135 ] ],
-	  [ [ "thread", 135 ], [ "sinew", 135 ], [ "plant_fibre", 135 ] ]
+      [ [ "thread", 135 ], [ "sinew", 135 ], [ "plant_fibre", 135 ] ]
     ]
   },
   {
@@ -266,7 +293,10 @@
     "time": 480000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "felt_patch", 33 ] ], [ [ "thread", 160 ], [ "sinew", 160 ], [ "plant_fibre", 160 ] ] ]
+    "components": [
+      [ [ "felt_patch", 33 ] ],
+      [ [ "thread", 160 ], [ "sinew", 160 ], [ "plant_fibre", 160 ] ]
+    ]
   },
   {
     "result": "hoodie",
@@ -278,7 +308,10 @@
     "time": 40000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 12 ] ], [ [ "thread", 14 ], [ "sinew", 14 ], [ "plant_fibre", 14 ] ] ]
+    "components": [
+      [ [ "rag", 12 ] ],
+      [ [ "thread", 14 ], [ "sinew", 14 ], [ "plant_fibre", 14 ] ]
+    ]
   },
   {
     "result": "house_coat",
@@ -291,7 +324,10 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 15 ] ], [ [ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ] ] ]
+    "components": [
+      [ [ "rag", 15 ] ],
+      [ [ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ] ]
+    ]
   },
   {
     "result": "jacket_leather",
@@ -304,7 +340,10 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 3 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ] ], [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ] ]
+    "components": [
+      [ [ "leather", 18 ], [ "tanned_hide", 3 ] ],
+      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ]
+    ]
   },
   {
     "result": "jacket_leather_mod",
@@ -316,11 +355,14 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 96000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SEW", "level": 1 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ],
       [ [ "scrap", 9 ] ],
-	  [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ]
+      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ]
     ]
   },
   {
@@ -333,7 +375,10 @@
     "time": 35000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 10 ] ], [ [ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ] ] ]
+    "components": [
+      [ [ "rag", 10 ] ],
+      [ [ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ] ]
+    ]
   },
   {
     "result": "longshirt",
@@ -345,7 +390,10 @@
     "time": 42000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 7 ] ], [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ] ]
+    "components": [
+      [ [ "rag", 7 ] ],
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
+    ]
   },
   {
     "result": "lsurvivor_armor",
@@ -358,16 +406,14 @@
     "time": 120000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [
-      [ [ "welder", 18 ], [ "welder_crude", 27 ], [ "soldering_iron", 27 ], [ "toolset", 27 ] ]
-    ],
+    "tools": [ [ [ "welder", 18 ], [ "welder_crude", 27 ], [ "soldering_iron", 27 ], [ "toolset", 27 ] ] ],
     "components": [
       [ [ "rag", 15 ] ],
       [ [ "coat_rain", 1 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 2 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 1 ], [ "fanny", 1 ] ],
       [ [ "duct_tape", 150 ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 16 ] ],
-	  [ [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ] ]
+      [ [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ] ]
     ]
   },
   {
@@ -382,7 +428,10 @@
     "decomp_learn": 4,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "kevlar_plate", 24 ] ], [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ] ]
+    "components": [
+      [ [ "kevlar_plate", 24 ] ],
+      [ [ "thread", 30 ], [ "sinew", 30 ], [ "plant_fibre", 30 ] ]
+    ]
   },
   {
     "result": "modularvestceramic",
@@ -474,7 +523,10 @@
     "time": 480000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "felt_patch", 30 ] ], [ [ "thread", 120 ], [ "sinew", 120 ], [ "plant_fibre", 120 ] ] ]
+    "components": [
+      [ [ "felt_patch", 30 ] ],
+      [ [ "thread", 120 ], [ "sinew", 120 ], [ "plant_fibre", 120 ] ]
+    ]
   },
   {
     "result": "poncho",
@@ -486,7 +538,10 @@
     "time": 180000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "yarn", 300 ] ], [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ] ] ]
+    "components": [
+      [ [ "yarn", 300 ] ],
+      [ [ "thread", 80 ], [ "sinew", 80 ], [ "plant_fibre", 80 ] ]
+    ]
   },
   {
     "result": "sleeveless_duster",
@@ -499,7 +554,10 @@
     "time": 35700,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 19 ] ], [ [ "thread", 27 ], [ "sinew", 27 ], [ "plant_fibre", 27 ] ] ]
+    "components": [
+      [ [ "rag", 19 ] ],
+      [ [ "thread", 27 ], [ "sinew", 27 ], [ "plant_fibre", 27 ] ]
+    ]
   },
   {
     "result": "sleeveless_duster",
@@ -528,7 +586,10 @@
     "time": 200000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fur", 34 ], [ "tanned_pelt", 6 ] ], [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ] ] ]
+    "components": [
+      [ [ "fur", 34 ], [ "tanned_pelt", 6 ] ],
+      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ] ]
+    ]
   },
   {
     "result": "sleeveless_duster_fur",
@@ -557,7 +618,10 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 25 ], [ "tanned_hide", 4 ] ], [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ] ] ]
+    "components": [
+      [ [ "leather", 25 ], [ "tanned_hide", 4 ] ],
+      [ [ "thread", 50 ], [ "sinew", 50 ], [ "plant_fibre", 50 ] ]
+    ]
   },
   {
     "result": "sleeveless_duster_leather",
@@ -600,7 +664,10 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 59500,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "duster_leather", 1 ], [ "jacket_army", 1 ], [ "sleeveless_duster", 1 ] ],
@@ -608,7 +675,7 @@
       [ [ "rag", 14 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 115 ] ],
-	  [ [ "thread", 115 ], [ "sinew", 115 ], [ "plant_fibre", 115 ] ]
+      [ [ "thread", 115 ], [ "sinew", 115 ], [ "plant_fibre", 115 ] ]
     ]
   },
   {
@@ -637,7 +704,10 @@
     "time": 35700,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 16 ] ], [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ] ]
+    "components": [
+      [ [ "rag", 16 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+    ]
   },
   {
     "result": "sleeveless_trenchcoat_fur",
@@ -665,7 +735,10 @@
     "skills_required": [ "survival", 1 ],
     "time": 200000,
     "autolearn": true,
-    "components": [ [ [ "fur", 28 ], [ "tanned_pelt", 5 ] ], [ [ "thread", 38 ], [ "sinew", 38 ], [ "plant_fibre", 38 ] ] ]
+    "components": [
+      [ [ "fur", 28 ], [ "tanned_pelt", 5 ] ],
+      [ [ "thread", 38 ], [ "sinew", 38 ], [ "plant_fibre", 38 ] ]
+    ]
   },
   {
     "result": "sleeveless_trenchcoat_leather",
@@ -694,7 +767,10 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ] ], [ [ "thread", 38 ], [ "sinew", 38 ], [ "plant_fibre", 38 ] ] ]
+    "components": [
+      [ [ "leather", 18 ], [ "tanned_hide", 3 ] ],
+      [ [ "thread", 38 ], [ "sinew", 38 ], [ "plant_fibre", 38 ] ]
+    ]
   },
   {
     "result": "sleeveless_trenchcoat_survivor",
@@ -707,7 +783,10 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 59500,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
@@ -715,7 +794,7 @@
       [ [ "rag", 11 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 85 ] ],
-	  [ [ "thread", 85 ], [ "sinew", 85 ], [ "plant_fibre", 85 ] ]
+      [ [ "thread", 85 ], [ "sinew", 85 ], [ "plant_fibre", 85 ] ]
     ]
   },
   {
@@ -757,7 +836,10 @@
     "time": 40000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 8 ] ], [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ] ]
+    "components": [
+      [ [ "rag", 8 ] ],
+      [ [ "thread", 8 ], [ "sinew", 8 ], [ "plant_fibre", 8 ] ]
+    ]
   },
   {
     "result": "sundress",
@@ -770,7 +852,10 @@
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 6 ] ], [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ] ] ]
+    "components": [
+      [ [ "rag", 6 ] ],
+      [ [ "thread", 12 ], [ "sinew", 12 ], [ "plant_fibre", 12 ] ]
+    ]
   },
   {
     "result": "sweater",
@@ -794,7 +879,10 @@
     "time": 38000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ] ] ]
+    "components": [
+      [ [ "rag", 4 ] ],
+      [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ] ]
+    ]
   },
   {
     "result": "trenchcoat",
@@ -806,7 +894,10 @@
     "time": 42000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 18 ] ], [ [ "thread", 24 ], [ "sinew", 24 ], [ "plant_fibre", 24 ] ] ]
+    "components": [
+      [ [ "rag", 18 ] ],
+      [ [ "thread", 24 ], [ "sinew", 24 ], [ "plant_fibre", 24 ] ]
+    ]
   },
   {
     "result": "trenchcoat_fur",
@@ -819,7 +910,10 @@
     "time": 200000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fur", 30 ], [ "tanned_pelt", 5 ] ], [ [ "thread", 45 ], [ "sinew", 45 ], [ "plant_fibre", 45 ] ] ]
+    "components": [
+      [ [ "fur", 30 ], [ "tanned_pelt", 5 ] ],
+      [ [ "thread", 45 ], [ "sinew", 45 ], [ "plant_fibre", 45 ] ]
+    ]
   },
   {
     "result": "trenchcoat_leather",
@@ -832,7 +926,10 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 22 ], [ "tanned_hide", 4 ] ], [ [ "thread", 45 ], [ "sinew", 45 ], [ "plant_fibre", 45 ] ] ]
+    "components": [
+      [ [ "leather", 22 ], [ "tanned_hide", 4 ] ],
+      [ [ "thread", 45 ], [ "sinew", 45 ], [ "plant_fibre", 45 ] ]
+    ]
   },
   {
     "result": "trenchcoat_survivor",
@@ -844,7 +941,10 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 70000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ] ],
@@ -852,7 +952,7 @@
       [ [ "rag", 14 ] ],
       [ [ "chestrig", 1 ], [ "legrig", 1 ], [ "vest", 1 ], [ "tool_belt", 1 ], [ "ragpouch", 4 ], [ "leather_pouch", 2 ], [ "dump_pouch", 1 ], [ "purse", 2 ], [ "fanny", 2 ] ],
       [ [ "duct_tape", 100 ] ],
-	  [ [ "thread", 100 ], [ "sinew", 100 ], [ "plant_fibre", 100 ] ]
+      [ [ "thread", 100 ], [ "sinew", 100 ], [ "plant_fibre", 100 ] ]
     ]
   },
   {
@@ -865,8 +965,11 @@
     "time": 38000,
     "reversible": true,
     "autolearn": true,
-    "tools": [ ],
-    "components": [ [ [ "rag", 5 ] ], [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ] ]  ]
+    "tools": [],
+    "components": [
+      [ [ "rag", 5 ] ],
+      [ [ "thread", 4 ], [ "sinew", 4 ], [ "plant_fibre", 4 ] ]
+    ]
   },
   {
     "result": "tunic",
@@ -878,7 +981,10 @@
     "time": 45000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 10 ] ], [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ] ]
+    "components": [
+      [ [ "rag", 10 ] ],
+      [ [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ] ]
+    ]
   },
   {
     "result": "undershirt",
@@ -890,7 +996,10 @@
     "time": 35000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ] ] ]
+    "components": [
+      [ [ "rag", 4 ] ],
+      [ [ "thread", 15 ], [ "sinew", 15 ], [ "plant_fibre", 15 ] ]
+    ]
   },
   {
     "result": "vest_leather",
@@ -904,7 +1013,10 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 10 ], [ "tanned_hide", 2 ] ], [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ] ]
+    "components": [
+      [ [ "leather", 10 ], [ "tanned_hide", 2 ] ],
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+    ]
   },
   {
     "result": "vest_leather",
@@ -928,11 +1040,14 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 72000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SEW", "level": 1 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "vest_leather", 1 ] ],
       [ [ "scrap", 5 ] ],
-	  [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
+      [ [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ] ]
     ]
   },
   {
@@ -945,6 +1060,9 @@
     "time": 150000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "felt_patch", 13 ] ], [ [ "thread", 100 ], [ "sinew", 100 ], [ "plant_fibre", 100 ] ]  ]
+    "components": [
+      [ [ "felt_patch", 13 ] ],
+      [ [ "thread", 100 ], [ "sinew", 100 ], [ "plant_fibre", 100 ] ]
+    ]
   }
 ]
