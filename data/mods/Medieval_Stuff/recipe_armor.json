@@ -169,6 +169,7 @@
     "skills_required": [ "tailor", 3 ],
     "time": 30000,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armschina", 4 ] ],
+    "using": [ [ "filament", 68 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
@@ -176,8 +177,7 @@
     "components": [
       [ [ "string_36", 4 ], [ "string_6", 16 ] ],
       [ [ "rag", 4 ] ],
-      [ [ "leather", 42 ], [ "tanned_hide", 7 ], [ "fur", 42 ], [ "tanned_pelt", 7 ] ],
-      [ [ "thread", 68 ], [ "sinew", 68 ], [ "plant_fibre", 68 ], [ "yarn", 68 ] ]
+      [ [ "leather", 42 ], [ "tanned_hide", 7 ], [ "fur", 42 ], [ "tanned_pelt", 7 ] ]
     ]
   },
   {
@@ -189,6 +189,7 @@
     "difficulty": 6,
     "time": 432000,
     "book_learn": [ [ "textbook_armschina", 5 ] ],
+    "using": [ [ "filament", 18 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "HAMMER", "level": 3 },
@@ -203,8 +204,7 @@
     ],
     "components": [
       [ [ "steel_chunk", 5 ], [ "scrap", 15 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
-      [ [ "sinew", 18 ], [ "thread", 18 ], [ "plant_fibre", 18 ], [ "yarn", 18 ] ]
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ]
     ]
   }
 ]

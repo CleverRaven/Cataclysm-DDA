@@ -9,6 +9,7 @@
     "skills_required": [ "tailor", 3 ],
     "time": 30000,
     "book_learn": [ [ "book_hexenhammer", 5 ] ],
+    "using": [ [ "filament", 18 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SEW", "level": 1 }
@@ -18,8 +19,7 @@
       [ [ "cloak_leather", 1 ] ],
       [ [ "feather", 20 ] ],
       [ [ "gold_small", 2000 ] ],
-      [ [ "essence_dull", 20 ] ],
-      [ [ "thread", 18 ], [ "sinew", 18 ], [ "plant_fibre", 18 ], [ "yarn", 18 ] ]
+      [ [ "essence_dull", 20 ] ]
     ]
   },
   {
@@ -32,6 +32,7 @@
     "skills_required": [ "tailor", 3 ],
     "time": 25000,
     "book_learn": [ [ "book_hexenhammer", 6 ] ],
+    "using": [ [ "filament", 9 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "CUT", "level": 1 },
@@ -42,8 +43,7 @@
       [ [ "leather", 4 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "copper", 30 ] ],
-      [ [ "essence_dull", 15 ] ],
-      [ [ "thread", 9 ], [ "sinew", 9 ], [ "plant_fibre", 9 ], [ "yarn", 9 ] ]
+      [ [ "essence_dull", 15 ] ]
     ]
   },
   {
@@ -56,6 +56,7 @@
     "skills_required": [ "tailor", 3 ],
     "time": 25000,
     "book_learn": [ [ "book_bloodmagic", 4 ] ],
+    "using": [ [ "filament", 22 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
       [ [ "book_bloodmagic", -1 ] ],
@@ -66,8 +67,7 @@
       [ [ "armguard_larmor", 1 ] ],
       [ [ "brooch", 1 ] ],
       [ [ "acid", 1 ], [ "water_acid", 2 ], [ "water_acid_weak", 4 ] ],
-      [ [ "essence_blood", 4 ] ],
-      [ [ "thread", 22 ], [ "sinew", 22 ], [ "plant_fibre", 22 ], [ "yarn", 22 ] ]
+      [ [ "essence_blood", 4 ] ]
     ]
   },
   {
@@ -134,6 +134,7 @@
     "skills_required": [ "tailor", 5 ],
     "time": 80000,
     "book_learn": [ [ "book_sacrifice", 7 ] ],
+    "using": [ [ "filament", 24 ] ],  
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
@@ -143,8 +144,7 @@
       [ [ "robe", 1 ], [ "cassock", 1 ], [ "kittel", 1 ], [ "thawb", 1 ], [ "kariginu", 1 ] ],
       [ [ "fur", 4 ] ],
       [ [ "charcoal", 30 ] ],
-      [ [ "essence", 7 ], [ "essence_blood", 21 ] ],
-      [ [ "thread", 24 ], [ "sinew", 24 ], [ "plant_fibre", 24 ], [ "yarn", 24 ] ]
+      [ [ "essence", 7 ], [ "essence_blood", 21 ] ]
     ]
   }
 ]

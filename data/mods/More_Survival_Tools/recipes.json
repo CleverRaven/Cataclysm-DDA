@@ -488,6 +488,7 @@
   "difficulty": 1,
   "time": 45000,
   "autolearn": true,
+  "using": [ [ "filament", 40 ] ],
   "qualities": [ { "id": "SEW", "level": 1 } ],
   "components": [
      [
@@ -503,8 +504,7 @@
       [ "10gal_hat", 1 ],
       [ "straw_hat", 1 ],
       [ "straw_fedora", 1 ]
-     ],
-     [ [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
+     ]
   ]
 },{
         "type" : "recipe",
@@ -555,6 +555,7 @@
   "difficulty": 2,
   "time": 5000,
   "autolearn": true,
+  "using": [ [ "filament", 10 ] ],
   "qualities" : [
     { "id" : "SEW" , "level" : 1 },
     { "id" : "CUT" , "level" : 1 }
@@ -563,12 +564,6 @@
     [
       [ "fur", 4 ],
       [ "tanned_pelt", 1 ]
-    ],
-    [
-      [ "thread", 10 ],
-      [ "sinew", 10 ],
-      [ "plant_fibre", 10 ],
-      [ "yarn", 10 ]
     ]
   ]
 },{
