@@ -101,7 +101,7 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
     }
 
     // TODO: Change this calendar::sunlight "sampling" here into a proper interpolation
-    const float tick_sunlight = turn.sunlight() - weather_data( wtype ).light_modifier;
+    const float tick_sunlight = turn.sunlight() + weather_data( wtype ).light_modifier;
     data.sunlight += std::max<float>( 0.0f, tick_size * tick_sunlight );
 }
 
