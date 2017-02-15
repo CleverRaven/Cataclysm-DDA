@@ -1,0 +1,97 @@
+[
+
+    {
+    "id": "bot_manhack_missile",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "light_green",
+    "name": "revenant rocket",
+    "description": "A revenant's rocket.  Will home in on a target and explode for moderate damage and a small EMP blast.",
+    "price": 60000,
+    "material": ["aluminum", "plastic"],
+    "weight": 330,
+    "volume": 3,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": {
+        "type": "place_monster",
+        "monster_id": "mon_manhack_missile",
+        "difficulty": 6,
+        "skill1": "electronics",
+        "skill2": "computer",
+        "hostile_msg": "You misprogram the missile; it's hostile!",
+        "friendly_msg": "The missile takes off uncertainly!",
+        "place_randomly": true,
+        "moves": 75
+    }
+    },{
+    "id": "rocket_core",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "ltblue",
+    "name": "revenant rocket core",
+    "description": "The core of a revenant's rocket, exposed to the air.  Seems stable enough at the moment, but will likely explode if you mess with it.",
+    "price": 0,
+    "material": ["steel", "plastic"],
+    "weight": 240,
+    "volume": 2,
+    "bashing": 6,
+    "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": {
+        "type": "transform",
+        "target": "rocket_core_act",
+        "target_charges": 3,
+        "active": true,
+        "msg": "You make a puncture in the rocket core!."
+    }
+  },{
+    "id": "rocket_core_act",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "ltred",
+    "name": "unstable revenant rocket core",
+    "description": "The core of a revenant's rocket, exposed to the air.  Will likely explode any moment now.",
+    "price": 0,
+    "material": ["steel", "plastic"],
+    "weight": 240,
+    "volume": 2,
+    "bashing": 6,
+    "to_hit": -1,
+    "max_charges": 3,
+    "initial_charges": 3,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "NULL",
+    "flags": ["BOMB"],
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "explosion": {
+		    "emp_blast_radius": 2,
+			"draw_explosion_radius": 2,
+            "draw_explosion_color": "ltblue",
+            "power": 8
+        }
+    }
+  }
+
+]

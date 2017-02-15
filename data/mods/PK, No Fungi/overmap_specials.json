@@ -1,0 +1,35 @@
+[
+    {
+        "type" : "overmap_special",
+        "id" : "Fungal Bloom",
+        "locations" : [ "never" ],
+        "city_distance" : [0, 0], "//":"how far from a city it should be",
+        "city_sizes" : [0, 0], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 0], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes"
+    },{
+        "type" : "overmap_special",
+        "id" : "Fungal Tower",
+        "locations" : [ "never" ],
+        "city_distance" : [0, 0], "//":"how far from a city it should be",
+        "city_sizes" : [0, 0], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 0], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes"
+    },{
+        "type" : "overmap_special",
+        "id" : "Fungal Flowers",
+        "locations" : [ "never" ],
+        "city_distance" : [0, 0], "//":"how far from a city it should be",
+        "city_sizes" : [0, 0], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 0], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes"
+    }
+]
+
+
