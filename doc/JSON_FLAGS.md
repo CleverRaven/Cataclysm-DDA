@@ -1062,6 +1062,18 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SUR_START``` ... surrounded start, zombies outside the starting shelter.
 - ```WIN_START``` ... start in winter.
 
+## Overmap terrains
+
+### Flags
+
+- ```ALLOW_OVERRIDE``` The terrain can be overriden during mapgen (e.g. with a road tile).
+- ```KNOWN_DOWN``` There's a known way down.
+- ```KNOWN_UP``` There's a known way up.
+- ```LINEAR``` For roads etc, which use ID_straight, ID_curved, ID_tee, ID_four_way.
+- ```NO_ROTATE``` The terrain can't be rotated (ID_north, ID_east, ID_south, and ID_west instances will NOT be generated, just ID).
+- ```RIVER``` It's a river tile.
+- ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
+
 ## TODO
 
 - Descriptions for `Special attacks` under `Monsters` could stand to be more descriptive of exactly what the attack does.
