@@ -190,13 +190,13 @@ generic_factory<overmap_special> specials( "overmap special" );
 }
 
 static const std::map<std::string, oter_flags> oter_flags_map = {
-    { "KNOWN_DOWN", known_down   },
-    { "KNOWN_UP",   known_up     },
-    { "RIVER",      river_tile   },
-    { "SIDEWALK",   has_sidewalk },
-    { "ALLOW_ROAD", allow_road   },
-    { "NO_ROTATE",  no_rotate    },
-    { "LINEAR",     line_drawing }
+    { "KNOWN_DOWN",     known_down     },
+    { "KNOWN_UP",       known_up       },
+    { "RIVER",          river_tile     },
+    { "SIDEWALK",       has_sidewalk   },
+    { "ALLOW_OVERRIDE", allow_override },
+    { "NO_ROTATE",      no_rotate      },
+    { "LINEAR",         line_drawing   }
 };
 
 /*
@@ -377,7 +377,7 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
 
 bool road_allowed(const oter_id &ter)
 {
-    return ter->has_flag( allow_road );
+    return ter->has_flag( allow_override );
 }
 
 oter_id overmap::random_shop() const
@@ -3363,7 +3363,7 @@ void overmap::build_city_street( int x, int y, int cs, om_direction::type dir, c
 
     // Grow in the stated direction, sprouting off sub-roads and placing buildings as we go.
     while( c > 0 && inbounds( x, y, 0, 1 ) &&
-           (ter(x + bias.x, y + bias.y, 0)->has_flag( allow_road ) || c == cs) ) {
+           (ter(x + bias.x, y + bias.y, 0)->has_flag( allow_override ) || c == cs) ) {
         x += bias.x;
         y += bias.y;
         c--;
@@ -3385,15 +3385,15 @@ void overmap::build_city_street( int x, int y, int cs, om_direction::type dir, c
         }
 
         // Look to each side, and branch if the way is clear.
-        if (c < croad - 1 && c >= 2 && ( ter(x + bias.y, y + bias.x, 0)->has_flag( allow_road ) &&
-                                         ter(x - bias.y, y - bias.x, 0)->has_flag( allow_road ) ) ) {
+        if (c < croad - 1 && c >= 2 && ( ter(x + bias.y, y + bias.x, 0)->has_flag( allow_override ) &&
+                                         ter(x - bias.y, y - bias.x, 0)->has_flag( allow_override ) ) ) {
             croad = c;
             build_city_street( x, y, cs - rng( 1, 3 ), om_direction::turn_left( dir ), town );
             build_city_street( x, y, cs - rng( 1, 3 ), om_direction::turn_right( dir ), town );
         }
     }
     // Now we're done growing, if there's a road ahead, add one more road segment to meet it.
-    if( get_ter( x + bias.x, y + bias.y, 0 )->has_flag( allow_road ) &&
+    if( get_ter( x + bias.x, y + bias.y, 0 )->has_flag( allow_override ) &&
         get_ter( x + 2 * bias.x, y + 2 * bias.y, 0 )->can_connect_to( road->get_first() ) ) {
 
         ter( x + bias.x, y + bias.y, 0 ) = road->get_first();

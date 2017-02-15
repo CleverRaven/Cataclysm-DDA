@@ -107,12 +107,12 @@ struct overmap_static_spawns : public overmap_spawns {
 
 //terrain flags enum! this is for tracking the indices of each flag.
 enum oter_flags {
-    known_down = 0,
+    allow_override = 0,
+    known_down,
     known_up,
+    no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
     river_tile,
     has_sidewalk,
-    allow_road,
-    no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     num_oter_flags
 };
