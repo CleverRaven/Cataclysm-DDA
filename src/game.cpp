@@ -2925,7 +2925,6 @@ bool game::handle_action()
             break;
 
         case ACTION_FIRE:
-            // @todo: Move handling ACTION_FIRE to a new function.
             // Use vehicle turret or draw a pistol from a holster if unarmed
             if( !u.is_armed() ) {
 
@@ -2934,7 +2933,6 @@ bool game::handle_action()
 
                 turret_data turret;
                 if( veh && ( turret = veh->turret_query( u.pos() ) ) ) {
-                    // @todo: move direct turret firing from ACTION_FIRE to separate function.
                     switch( turret.query() ) {
                         case turret_data::status::no_ammo:
                             add_msg( m_bad, _( "The %s is out of ammo." ), turret.name().c_str() );
@@ -2967,13 +2965,13 @@ bool game::handle_action()
                                 };
                             }
 
-                            targeting_data args = {
-                                TARGET_MODE_TURRET_MANUAL, &*turret.base(),
-                                turret.range(), 0, false,
-                                turret.ammo_data(), switch_mode, switch_ammo
-                            };
-                            u.set_targeting_data( args );
-                            plfire();
+                            auto trajectory = pl_target_ui( TARGET_MODE_TURRET_MANUAL, &*turret.base(),
+                                                            turret.range(), turret.ammo_data(),
+                                                            switch_mode, switch_ammo );
+
+                            if( !trajectory.empty() ) {
+                                turret.fire( u, trajectory.back() );
+                            }
                             break;
                         }
 
@@ -3017,7 +3015,7 @@ bool game::handle_action()
             }
 
             if( u.weapon.is_gun() ) {
-                plfire( u.weapon );
+                plfire( &u.weapon );
 
             } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
                 int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
@@ -3035,7 +3033,7 @@ bool game::handle_action()
         case ACTION_FIRE_BURST: {
             auto mode = u.weapon.gun_get_mode_id();
             if( u.weapon.gun_set_mode( "AUTO" ) ) {
-                plfire( u.weapon );
+                plfire( &u.weapon );
                 u.weapon.gun_set_mode( mode );
             }
             break;
@@ -9976,12 +9974,6 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
-// @todo: Move game::pl_target_ui and related data/functions to src/ranged.cpp
-std::vector<tripoint> game::pl_target_ui( const targeting_data &args ) {
-    return pl_target_ui( args.mode, args.relevant, args.range,
-                         args.ammo, args.on_mode_change, args.on_ammo_change );
-}
-
 bool game::plfire_check( item &weapon, int &reload_time ) {
     bool okay = true;
     vehicle *veh = nullptr;
@@ -10091,27 +10083,40 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
     return okay;
 }
 
-bool game::plfire()
+bool game::plfire( item *weapon, int bp_cost, bool held )
 {
-    const targeting_data &args = u.get_targeting_data();
-    if( !args.relevant ) {
-        // args missing a valid weapon, this shouldn't happen.
-        debugmsg( "Player tried to fire a null weapon." );
-        return false;
+    static int bio_power_cost = 0;
+    static item *cached_weapon = nullptr;
+    static bool held_weapon = true;
+    
+    if( weapon != nullptr ) {
+        // valid weapon, set the cached weapon and bp_cost to the current values.
+        cached_weapon = weapon;
+        bio_power_cost = bp_cost;
+        held_weapon = held;
+    } else if( !cached_weapon ) {
+        // if no weapon is cached, default to the player's weapon.
+        cached_weapon = &u.weapon;
+        held_weapon = true;
     }
 
     int reload_time = 0;
+    
     // If we were wielding this weapon when we started aiming, make sure we still are.
-    bool lost_weapon = ( args.held && &u.weapon != args.relevant );
-    bool failed_check = !plfire_check( *args.relevant, reload_time );
-    if( lost_weapon || failed_check ) {
+    bool lost_gun = ( held_weapon && &u.weapon != cached_weapon );
+    if( lost_gun || !plfire_check( *cached_weapon, reload_time ) ) {
+        bio_power_cost = 0;
         return false;
     }
 
+    auto gun = cached_weapon->gun_current_mode();
+    int range = gun.melee() ? gun.qty : u.gun_engagement_range( *gun, player::engagement::maximum );
+
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
-    std::vector<tripoint> trajectory = pl_target_ui( args );
-    item::gun_mode gun = args.relevant->gun_current_mode();
+
+    target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+    std::vector<tripoint> trajectory = pl_target_ui( tmode, cached_weapon, range );
 
     if( trajectory.empty() ) {
         bool not_aiming = u.activity.id() != activity_id( "ACT_AIM" );
@@ -10138,30 +10143,15 @@ bool game::plfire()
         // @todo add check for TRIGGERHAPPY
         res = u.fire_gun( trajectory.back(), gun.qty, *gun );
     }
-
-    if( res && args.power_cost ) {
-        u.charge_power( -args.power_cost );
+    
+    if( res && bio_power_cost ) {
+        u.charge_power( -bio_power_cost );
+        bio_power_cost = 0;
     }
 
     reenter_fullscreen();
-
+    
     return res;
-}
-
-bool game::plfire( item &weapon, int bp_cost )
-{
-    // @todo: bio power cost of firing should be derived from a value of the relevant weapon.
-    target_callback empty_func = target_callback();
-    item::gun_mode gun = weapon.gun_current_mode();
-    int gun_range = u.gun_engagement_range( weapon, player::engagement::maximum );
-    targeting_data args = {
-        gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE,
-        &weapon, gun.melee() ? gun.qty : gun_range,
-        bp_cost, &u.weapon == &weapon,
-        gun->ammo_data(), empty_func, empty_func
-    };
-    u.set_targeting_data( args );
-    return plfire();
 }
 
 // Helper for game::butcher
