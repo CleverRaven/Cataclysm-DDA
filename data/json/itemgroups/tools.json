@@ -199,7 +199,6 @@
       [ "scissors", 1000 ],
       [ "sewing_kit", 100 ],
       [ "tailors_kit", 30 ],
-      [ "sewing_machine", 20 ],
       [ "knitting_needles", 20 ]
     ]
   }
