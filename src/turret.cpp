@@ -425,7 +425,8 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     tripoint targ = pos;
     auto &target = pt.target;
-    if( target.first == target.second ) {
+    // Part enabled means auto fire, unless target is set
+    if( pt.enabled && target.first == target.second ) {
         // Manual target not set, find one automatically
         const bool u_see = g->u.sees( pos );
         int boo_hoo;
@@ -453,14 +454,14 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         }
 
         targ = target.second;
-        // Remove the target
-        target.second = target.first;
     } else {
-        // Shouldn't happen
-        target.first = target.second;
+        // Shouldn't happen, but does, so let's tolerate it
+        target = std::make_pair( tripoint_min, tripoint_min );
         return 0;
     }
 
+    // Remove any manually set target
+    target = std::make_pair( tripoint_min, tripoint_min );
     auto shots = gun.fire( tmp, targ );
 
     if( g->u.sees( pos ) && shots ) {
