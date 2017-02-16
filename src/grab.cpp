@@ -10,7 +10,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     int grabbed_part = 0;
     vehicle *grabbed_vehicle = m.veh_at( u.pos() + u.grab_point, grabbed_part );
     if( nullptr == grabbed_vehicle ) {
-        add_msg(m_info, _("No vehicle at grabbed point."));
+        add_msg( m_info, _( "No vehicle at grabbed point." ) );
         u.grab_point = tripoint_zero;
         u.grab_type = OBJECT_NONE;
         return false;
@@ -33,7 +33,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         dp_veh = dp;
     } else if( abs( dp.x + dp_veh.x ) != 2 && abs( dp.y + dp_veh.y ) != 2 ) {
         // Not actually moving the vehicle, don't do the checks
-        u.grab_point = -(dp + dp_veh);
+        u.grab_point = -( dp + dp_veh );
         return false;
     } else if( ( dp.x == prev_grab.x || dp.y == prev_grab.y ) &&
                next_grab.x != 0 && next_grab.y != 0 ) {
@@ -54,15 +54,15 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     //vehicle movement: strength check
     int mc = 0;
-    int str_req = (grabbed_vehicle->total_mass() / 25); //strengh reqired to move vehicle.
+    int str_req = ( grabbed_vehicle->total_mass() / 25 ); //strengh reqired to move vehicle.
 
     //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
 
     // Veh just too big to grab & move; 41-45 lets folks have a bit of a window
     // (Roughly 1.1K kg = danger zone; cube vans are about the max)
-    if (str_req > 45) {
-        add_msg(m_info, _("The %s is too bulky for you to move by hand."),
-                grabbed_vehicle->name.c_str() );
+    if( str_req > 45 ) {
+        add_msg( m_info, _( "The %s is too bulky for you to move by hand." ),
+                 grabbed_vehicle->name.c_str() );
         return true; // No shoving around an RV.
     }
 
@@ -73,11 +73,11 @@ bool game::grabbed_veh_move( const tripoint &dp )
         for( int p : wheel_indices ) {
             const tripoint wheel_pos = vehpos + grabbed_vehicle->parts[p].precalc[0];
             const int mapcost = m.move_cost( wheel_pos, grabbed_vehicle );
-            mc += (str_req / wheel_indices.size()) * mapcost;
+            mc += ( str_req / wheel_indices.size() ) * mapcost;
         }
         //set strength check threshold
         //if vehicle has many or only one wheel (shopping cart), it is as if it had four.
-        if(wheel_indices.size() > 4 || wheel_indices.size() == 1) {
+        if( wheel_indices.size() > 4 || wheel_indices.size() == 1 ) {
             str_req = mc / 4 + 1;
         } else {
             str_req = mc / wheel_indices.size() + 1;
@@ -85,35 +85,35 @@ bool game::grabbed_veh_move( const tripoint &dp )
     } else {
         str_req++;
         //if vehicle has no wheels str_req make a noise.
-        if (str_req <= u.get_str() ) {
+        if( str_req <= u.get_str() ) {
             sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2,
-                _("a scraping noise."));
+                           _( "a scraping noise." ) );
         }
     }
 
     //final strength check and outcomes
     ///\EFFECT_STR determines ability to drag vehicles
-    if (str_req <= u.get_str() ) {
+    if( str_req <= u.get_str() ) {
         //calculate exertion factor and movement penalty
         ///\EFFECT_STR increases speed of dragging vehicles
         u.moves -= 100 * str_req / std::max( 1, u.get_str() );
-        int ex = dice(1, 3) - 1 + str_req;
-        if (ex > u.get_str() ) {
-            add_msg(m_bad, _("You strain yourself to move the %s!"), grabbed_vehicle->name.c_str() );
+        int ex = dice( 1, 3 ) - 1 + str_req;
+        if( ex > u.get_str() ) {
+            add_msg( m_bad, _( "You strain yourself to move the %s!" ), grabbed_vehicle->name.c_str() );
             u.moves -= 200;
-            u.mod_pain(1);
-        } else if (ex == u.get_str() ) {
+            u.mod_pain( 1 );
+        } else if( ex == u.get_str() ) {
             u.moves -= 200;
-            add_msg( _("It takes some time to move the %s."), grabbed_vehicle->name.c_str());
+            add_msg( _( "It takes some time to move the %s." ), grabbed_vehicle->name.c_str() );
         }
     } else {
         u.moves -= 100;
-        add_msg( m_bad, _("You lack the strength to move the %s"), grabbed_vehicle->name.c_str() );
+        add_msg( m_bad, _( "You lack the strength to move the %s" ), grabbed_vehicle->name.c_str() );
         return true;
     }
 
     std::string blocker_name = _( "errors in movement code" );
-    const auto get_move_dir = [&]( const tripoint &dir, const tripoint &from ) {
+    const auto get_move_dir = [&]( const tripoint & dir, const tripoint & from ) {
         tileray mdir;
 
         mdir.init( dir.x, dir.y );
@@ -150,7 +150,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
 
     if( final_dp_veh == tripoint_zero ) {
-        add_msg( _("The %s collides with %s."), grabbed_vehicle->name.c_str(), blocker_name.c_str() );
+        add_msg( _( "The %s collides with %s." ), grabbed_vehicle->name.c_str(), blocker_name.c_str() );
         u.grab_point = prev_grab;
         return true;
     }
@@ -166,7 +166,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
 
     for( int p : wheel_indices ) {
-        if( one_in(2) ) {
+        if( one_in( 2 ) ) {
             tripoint wheel_p = grabbed_vehicle->global_part_pos3( grabbed_part );
             grabbed_vehicle->handle_trap( wheel_p, p );
         }

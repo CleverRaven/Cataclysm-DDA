@@ -30,6 +30,7 @@ src/flag.cpp
 src/game_inventory.cpp
 src/gamemode.cpp
 src/gates.cpp
+src/grab.cpp
 src/help.cpp
 src/input.cpp
 src/item_action.cpp
