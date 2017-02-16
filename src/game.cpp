@@ -11891,25 +11891,23 @@ bool game::grabbed_veh_move( const tripoint &dp )
     tripoint dp_veh = -u.grab_point;
     tripoint prev_grab = u.grab_point;
 
-    // We are not moving around the veh
-    if ((dp_veh.x + dp.x) == 0 && (dp_veh.y + dp.y) == 0) {
+    if( dp == prev_grab ) {
         // We are pushing in the direction of veh
         dp_veh = dp;
+    } else if( ( dp.x == prev_grab.x || dp.y == prev_grab.y ) &&
+        u.grab_point.x != 0 && u.grab_point.y != 0 ) {
+        // We are moving diagonal while veh is diagonal too and one direction is 0
+        dp_veh.x = ( dp.x == -dp_veh.x ) ? 0 : dp_veh.x;
+        dp_veh.y = ( dp.y == -dp_veh.y ) ? 0 : dp_veh.y;
+
+        u.grab_point = -dp_veh;
     } else {
+        // We are pulling the veh
         u.grab_point = -dp;
     }
 
-    if( (abs(dp.x + dp_veh.x) == 0 || abs(dp.y + dp_veh.y) == 0) &&
-        u.grab_point.x != 0 && u.grab_point.y != 0 ) {
-        // We are moving diagonal while veh is diagonal too and one direction is 0
-        dp_veh.x = ((dp.x + dp_veh.x) == 0) ? 0 : dp_veh.x;
-        dp_veh.y = ((dp.y + dp_veh.y) == 0) ? 0 : dp_veh.y;
-
-        u.grab_point = -dp_veh;
-    }
-
-    if( abs(dp.x + dp_veh.x) != 2 && abs(dp.y + dp_veh.y) != 2 &&
-        ((dp_veh.x + dp.x) == 0 || (dp_veh.y + dp.y) == 0) ) {
+    if( abs( dp.x + dp_veh.x ) != 2 && abs( dp.y + dp_veh.y ) != 2 &&
+        ( dp_veh.x == -dp.x || dp_veh.y == -dp.y ) ) {
         // Not actually moving the vehicle, don't do the checks
         u.grab_point = -(dp + dp_veh);
         return false;
@@ -11929,13 +11927,11 @@ bool game::grabbed_veh_move( const tripoint &dp )
     if (str_req > 45) {
         add_msg(m_info, _("The %s is too bulky for you to move by hand."),
                 grabbed_vehicle->name.c_str() );
-        u.moves -= 100;
         return true; // No shoving around an RV.
     }
 
     const auto &wheel_indices = grabbed_vehicle->wheelcache;
-    // If vehicle weighs too much, wheels don't provide a bonus.
-    if( grabbed_vehicle->valid_wheel_config( false ) && str_req <= 40 ) {
+    if( grabbed_vehicle->valid_wheel_config( false ) ) {
         //determine movecost for terrain touching wheels
         const tripoint vehpos = grabbed_vehicle->global_pos3();
         for( int p : wheel_indices ) {
