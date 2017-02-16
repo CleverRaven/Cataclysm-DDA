@@ -645,8 +645,6 @@ void overmap_terrains::check_consistency()
         "prison_9",
         "prison_b",
         "prison_b_entrance",
-        "public_works",
-        "public_works_entrance",
         "radio_tower",
         "school_1",
         "school_2",
