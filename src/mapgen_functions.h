@@ -127,8 +127,6 @@ void mapgen_megastore_entrance(map *m, oter_id terrain_type, mapgendata dat, int
 void mapgen_megastore(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_hospital_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_hospital(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_public_works_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_public_works(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_school_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_school_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_school_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

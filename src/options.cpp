@@ -1461,6 +1461,13 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
+    add("FILTHY_WOUNDS", "world_default", _("Infected wounds from filthy clothing."),
+        _("If true, getting hit in a body part covered in filthy clothing may cause infections."),
+        false, COPT_ALWAYS_HIDE
+        );
+
+    mOptionsSort["world_default"]++;
+
     add("NO_VITAMINS", "world_default", _("Disables tracking vitamins in food items."),
         _("If true, disables vitamin tracking and vitamin disorders."),
         false, COPT_ALWAYS_HIDE

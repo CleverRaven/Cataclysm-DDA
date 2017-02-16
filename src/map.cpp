@@ -4147,28 +4147,26 @@ void map::translate_radius(const ter_id from, const ter_id to, float radi, const
 
 bool map::close_door( const tripoint &p, const bool inside, const bool check_only )
 {
+    if( has_flag( "OPENCLOSE_INSIDE", p ) && !inside ) {
+        return false;
+    }
+
     const auto &ter = this->ter( p ).obj();
- const auto &furn = this->furn( p ).obj();
- if( ter.close ) {
-     if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
-         return false;
-     }
-     if (!check_only) {
-        sounds::sound( p, 10, "", true, "close_door", ter.id.str() );
-        ter_set(p, ter.close );
-     }
-     return true;
- } else if( furn.close ) {
-     if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
-         return false;
-     }
-     if (!check_only) {
-         sounds::sound( p, 10, "", true, "close_door", furn.id.str() );
-         furn_set(p, furn.close );
-     }
-     return true;
- }
- return false;
+    const auto &furn = this->furn( p ).obj();
+    if( ter.close && !furn.id ) {
+        if( !check_only ) {
+            sounds::sound( p, 10, "", true, "close_door", ter.id.str() );
+            ter_set( p, ter.close );
+        }
+        return true;
+    } else if( furn.close ) {
+        if( !check_only ) {
+            sounds::sound( p, 10, "", true, "close_door", furn.id.str() );
+            furn_set( p, furn.close );
+        }
+        return true;
+    }
+    return false;
 }
 
 const std::string map::get_signage( const tripoint &p ) const
