@@ -957,8 +957,8 @@ bool npc::wield( item& it )
     }
 
     moves -= 15;
-    if( inv.has_item( it ) ) {
-        weapon = inv.remove_item( &it );
+    if( has_item( it ) ) {
+        weapon = remove_item( it );
     } else {
         weapon = it;
     }
