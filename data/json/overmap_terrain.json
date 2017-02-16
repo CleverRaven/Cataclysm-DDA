@@ -1560,10 +1560,20 @@
         "name" : "military bunker",
         "sym" : 66,
         "color" : "dark_gray",
+        "rotate": true,
         "see_cost" : 2,
-        "known_down" : true,
-        "known_up" : true
-    },{
+        "known_down" : true
+    },
+    {
+        "type": "overmap_terrain",
+        "id": "bunker_basement",
+        "name": "military bunker",
+        "sym": 66,
+        "color": "dark_gray",
+        "see_cost": 2,
+        "known_up": true
+    },
+    {
         "type" : "overmap_terrain",
         "id" : "outpost",
         "name" : "military outpost",

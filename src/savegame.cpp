@@ -307,7 +307,8 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
         "apartments_mod_tower_1", "apartments_mod_tower_1_entrance",
         "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
         "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
-        "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3"
+        "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3",
+        "bunker"
     };
 
     return obsolete.find( ter ) != obsolete.end();
@@ -425,6 +426,18 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 nearby.push_back( { 0, hotelb + "3", 1, hotelb + "2", hotelb + "3_east" } );
                 nearby.push_back( { -1, hotelb + "2", 0, hotelb + "3", hotelb + "3_south" } );
                 nearby.push_back( { 0, hotelb + "3", -1, hotelb + "2", hotelb + "3_west" } );
+            }
+        } else if( old == "bunker" ) {
+            if( pos.z < 0 ) {
+                new_id = oter_id( "bunker_basement" );
+            } else if( is_ot_type( "road", get_ter( pos.x + 1, pos.y, pos.z ) ) ) {
+                new_id = oter_id( "bunker_west" );
+            } else if( is_ot_type( "road", get_ter( pos.x - 1, pos.y, pos.z ) ) ) {
+                new_id = oter_id( "bunker_east" );
+            } else if( is_ot_type( "road", get_ter( pos.x, pos.y + 1, pos.z ) ) ) {
+                new_id = oter_id( "bunker_north" );
+            } else {
+                new_id = oter_id( "bunker_south" );
             }
         }
 
