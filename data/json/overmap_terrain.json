@@ -924,40 +924,36 @@
         "name" : "public works",
         "sym" : 119,
         "color" : "light_gray",
-        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "public_works_NW",
         "name" : "public works",
         "sym" : 119,
         "color" : "light_gray",
-        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "public_works_SW",
         "name" : "public works",
         "sym" : 87,
         "color" : "light_gray",
-        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK"]
     },{
         "type" : "overmap_terrain",
         "id" : "public_works_SE",
         "name" : "public works",
         "sym" : 119,
         "color" : "light_gray",
-        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "school_1",
