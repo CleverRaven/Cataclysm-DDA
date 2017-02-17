@@ -83,6 +83,13 @@
       ["material_niter", 20],
       ["material_limestone", 5]
     ]
+  },{
+    "type":"item_group",
+    "id":"prison_textile",
+    "subtype": "collection",
+    "entries" : [
+      { "item": "blanket", "prob": 25 },
+      { "item": "jumpsuit", "prob": 35 }
+    ]
   }
 ]
- 
