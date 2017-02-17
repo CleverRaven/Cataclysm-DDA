@@ -1070,7 +1070,7 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
                                             c_white, confidence_s );
 
         std::string steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ), (int)( 100.0 * steadiness ) );
-        mvwprintw( w, line_number++, 1, steadiness_s.c_str() );
+        mvwprintw( w, line_number++, 1, "%s", steadiness_s.c_str() );
 
     } else {
         // Extract pairs from tuples, because get_labeled_bar expects pairs
