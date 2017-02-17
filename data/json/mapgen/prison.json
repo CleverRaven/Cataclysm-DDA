@@ -251,8 +251,8 @@
       ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 15, 20 ], "y": [ 34, 37 ], "repeat": [ 1, 2 ], "density": 0.2 },
-        { "monster": "GROUP_ROBOT_SECUBOT", "x": [ 15, 20 ], "y": [ 39, 42 ],  "density": 0.1 },
-        { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 15, 20 ], "y": [ 44, 37 ], "repeat": [ 1, 2  ], "density": 0.2 },
+        { "monster": "GROUP_ROBOT_SECUBOT", "x": [ 15, 20 ], "y": [ 39, 42 ], "density": 0.1 },
+        { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 15, 20 ], "y": [ 44, 37 ], "repeat": [ 1, 2 ], "density": 0.2 },
         { "monster": "GROUP_ROBOT_SECUBOT", "x": [ 32, 39 ], "y": [ 39, 42 ], "density": 0.1 },
         { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 51, 56 ], "y": [ 34, 37 ], "repeat": [ 1, 2 ], "density": 0.2 },
         { "monster": "GROUP_ROBOT_SECUBOT", "x": [ 51, 56 ], "y": [ 39, 42 ], "density": 0.1 },
