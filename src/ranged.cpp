@@ -1,4 +1,4 @@
-#include "ranged.cpp"
+#include "ranged.h"
 
 #include <vector>
 #include <string>
