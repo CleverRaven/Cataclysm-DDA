@@ -56,6 +56,7 @@
 #include "vitamin.h"
 #include "fault.h"
 #include "recipe_dictionary.h"
+#include "ranged.h"
 
 #include <map>
 #include <iterator>
@@ -12762,6 +12763,14 @@ void player::on_mission_finished( mission &mission )
             active_mission = active_missions.front();
         }
     }
+}
+
+const targeting_data &player::get_targeting_data() {
+    return *tdata;
+}
+
+void player::set_targeting_data( const targeting_data &td ) {
+    tdata.reset( new targeting_data( td ) );
 }
 
 void player::set_active_mission( mission &mission )
