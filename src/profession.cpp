@@ -373,6 +373,9 @@ std::list<item> profession::items( bool male, const std::vector<std::string> &tr
         }
     }
 
+    result.sort( []( const item & first, const item & second ) {
+        return first.get_layer() < second.get_layer();
+    } );
     return result;
 }
 

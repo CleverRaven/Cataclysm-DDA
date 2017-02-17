@@ -3788,6 +3788,8 @@ void vehicle::on_move(){
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
     }
+
+    occupied_cache_turn = -1;
 }
 
 void vehicle::operate_plow(){

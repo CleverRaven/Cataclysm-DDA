@@ -2536,7 +2536,7 @@
     "name": "fertilizer bomb (lit)",
     "name_plural": "fertilizer bombs (lit)",
     "description": "The fuse on this fertilizer bomb is lit and hissing.  It'll explode any moment now.",
-    "weight": 1300,
+    "weight": 1133,
     "volume": 3,
     "price": 0,
     "to_hit": -3,

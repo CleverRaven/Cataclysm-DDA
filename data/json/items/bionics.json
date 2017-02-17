@@ -196,7 +196,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Close Quarters Battle CBM",
-    "description": "Databanks and processors loaded with extensive martial arts combat programs are integrated directly into your spinal column.  Whilst active, you become deadly in hand-to-hand.",
+    "description": "Databanks and processors loaded with extensive martial arts combat programs are integrated directly into your spinal column.  While active, your close combat skills are superseded by the machine's programming.  You have the option of activating Karate, Judo, Muay Thai, or Bio Combatives algorithms.  The cybernetic disconnect prevents you from improving the affected combat skills while this bionic is active.  However, with extended use in combat, it is possible to learn the chosen martial art.",
     "price": 220000,
     "difficulty": 8
   },

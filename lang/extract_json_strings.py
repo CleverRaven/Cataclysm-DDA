@@ -54,6 +54,8 @@ ignorable = {
     "npc",      # FIXME right now this object is unextractable
     "overlay_order",
     "overmap_special",
+    "profession_item_substitutions",
+    "palette",
     "region_overlay",
     "region_settings",
     "requirement",

@@ -709,7 +709,8 @@ bool query_int( int &result, const char *mes, ... )
     va_end( ap );
 
     string_input_popup popup;
-    popup.text( text ).only_digits( true );
+    popup.title( text );
+    popup.text( "" ).only_digits( true );
     popup.query();
     if( popup.canceled() ) {
         return false;

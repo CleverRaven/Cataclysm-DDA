@@ -1405,11 +1405,6 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    add("STATIC_SPAWN", "world_default", _("Static spawn"),
-        _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
-        true
-        );
-
     add("WANDER_SPAWNS", "world_default", _("Wander spawns"),
         _("Emulation of zombie hordes. Zombie spawn points wander around cities and may go to noise. Must reset world directory after changing for it to take effect."),
         false
@@ -1469,6 +1464,13 @@ void options_manager::init()
 
     add("FILTHY_MORALE", "world_default", _("Morale penalty for filthy clothing."),
         _("If true, wearing filthy clothing will cause morale penalties."),
+        false, COPT_ALWAYS_HIDE
+        );
+
+    mOptionsSort["world_default"]++;
+
+    add("FILTHY_WOUNDS", "world_default", _("Infected wounds from filthy clothing."),
+        _("If true, getting hit in a body part covered in filthy clothing may cause infections."),
         false, COPT_ALWAYS_HIDE
         );
 

@@ -16,6 +16,7 @@
 #include "itype.h"
 #include "mapdata.h"
 #include "cata_utility.h"
+#include "vehicle.h"
 
 #include <istream>
 #include <sstream>
@@ -525,9 +526,13 @@ bool can_interact_at( action_id action, const tripoint &p )
         case ACTION_OPEN:
             return g->m.open_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
-        case ACTION_CLOSE:
-            return g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
+        case ACTION_CLOSE: {
+            int vpart;
+            const vehicle *const veh = g->m.veh_at( p, vpart );
+            return ( veh && veh->next_part_to_close( vpart, g->m.veh_at( g->u.pos() ) != veh ) >= 0 ) ||
+                   g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
+        }
         case ACTION_BUTCHER:
             return can_butcher_at( p );
         case ACTION_MOVE_UP:

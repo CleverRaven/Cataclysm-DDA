@@ -4485,7 +4485,7 @@
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
-    "size": "SMALL",
+    "size": "TINY",
     "hp": 20,
     "speed": 110,
     "material": [ "flesh" ],

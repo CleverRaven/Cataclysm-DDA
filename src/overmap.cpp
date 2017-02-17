@@ -645,8 +645,6 @@ void overmap_terrains::check_consistency()
         "prison_9",
         "prison_b",
         "prison_b_entrance",
-        "public_works",
-        "public_works_entrance",
         "radio_tower",
         "school_1",
         "school_2",
@@ -4282,10 +4280,6 @@ void overmap::place_mongroups()
                 m.wander(*this);
                 add_mon_group( m );
             }
-        }
-        if( !get_world_option<bool>( "STATIC_SPAWN" ) ) {
-            add_mon_group( mongroup( mongroup_id( "GROUP_ZOMBIE" ), ( elem.x * 2 ), ( elem.y * 2 ), 0,
-                                     int( elem.s * 2.5 ), elem.s * 80 ) );
         }
     }
 

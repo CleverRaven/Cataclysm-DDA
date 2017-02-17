@@ -1094,10 +1094,29 @@ std::string effect::get_speed_name() const
     }
 }
 
+bool effect::impairs_movement() const
+{
+    return eff_type->impairs_movement;
+}
+
 const effect_type *effect::get_effect_type() const
 {
     return eff_type;
 }
+
+// This contains all the effects checked in move_effects
+// It's here and not in json because it is hardcoded anyway
+static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
+    efftype_id( "beartrap" ),
+    efftype_id( "crushed" ),
+    efftype_id( "downed" ),
+    efftype_id( "grabbed" ),
+    efftype_id( "heavysnare" ),
+    efftype_id( "in_pit" ),
+    efftype_id( "lightsnare" ),
+    efftype_id( "tied" ),
+    efftype_id( "webbed" ),
+}};
 
 void load_effect_type(JsonObject &jo)
 {
@@ -1189,6 +1208,8 @@ void load_effect_type(JsonObject &jo)
 
     new_etype.load_mod_data(jo, "base_mods");
     new_etype.load_mod_data(jo, "scaling_mods");
+
+    new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
     effect_types[new_etype.id] = new_etype;
 

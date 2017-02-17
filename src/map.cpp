@@ -669,6 +669,14 @@ float map::vehicle_buoyancy( const vehicle &veh ) const
     return total_wheel_area;
 }
 
+static bool sees_veh( const Creature &c, vehicle &veh, bool force_recalc )
+{
+    const auto &veh_points = veh.get_points( force_recalc );
+    return std::any_of( veh_points.begin(), veh_points.end(), [&c]( const tripoint &pt ) {
+        return c.sees( pt );
+    } );
+}
+
 void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing )
 {
     const bool vertical = dp.z != 0;
@@ -807,6 +815,8 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         }
     }
 
+    const bool seen = sees_veh( g->u, veh, false );
+
     if( can_move ) {
         // Accept new direction
         if( veh.skidding ) {
@@ -836,8 +846,11 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         }
     }
     // Redraw scene
-    // TODO: Make this not happen on unseen vehicles
-    g->draw();
+    // But only if the vehicle was seen before or after the move
+    if( seen || sees_veh( g->u, veh, true ) ) {
+        g->draw();
+        refresh_display();
+    }
 }
 
 int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direction )
@@ -1969,13 +1982,15 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
 bool map::valid_move( const tripoint &from, const tripoint &to,
                       const bool bash, const bool flying ) const
 {
-    if( abs( from.x - to.x ) > 1 || abs( from.y - to.y ) > 1 || abs( from.z - to.z ) > 1 ||
-        !inbounds( from ) || !inbounds( to ) ) {
+    // Note: no need to check inbounds here, because maptile_at will do that
+    // If oob tile is supplied, the maptile_at will be an unpassable "null" tile
+    if( abs( from.x - to.x ) > 1 || abs( from.y - to.y ) > 1 || abs( from.z - to.z ) > 1 ) {
         return false;
     }
 
     if( from.z == to.z ) {
-        return bash || passable( to );
+        // But here we need to, to prevent bashing critters
+        return passable( to ) || ( bash && inbounds( to ) );
     } else if( !zlevels ) {
         return false;
     }
@@ -1984,20 +1999,26 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     const tripoint &up_p = going_up ? to : from;
     const tripoint &down_p = going_up ? from : to;
-    const maptile up = maptile_at( up_p );
-    const maptile down = maptile_at( down_p );
 
+    const maptile up = maptile_at( up_p );
     const ter_t &up_ter = up.get_ter_t();
+
+    if( up_ter.movecost == 0 ) {
+        // Unpassable tile
+        return false;
+    }
+
+    const maptile down = maptile_at( down_p );
     const ter_t &down_ter = down.get_ter_t();
 
-    if( up_ter.movecost == 0 || down_ter.movecost == 0 ) {
+    if( down_ter.movecost == 0 ) {
         // Unpassable tile
         return false;
     }
 
     if( !up_ter.has_flag( TFLAG_NO_FLOOR ) && !up_ter.has_flag( TFLAG_GOES_DOWN ) ) {
         // Can't move from up to down
-        if( from.x != to.x || from.y != to.y ) {
+        if( abs( from.x - to.x ) == 1 || abs( from.y - to.y ) == 1 ) {
             // Break the move into two - vertical then horizontal
             tripoint midpoint( down_p.x, down_p.y, up_p.z );
             return valid_move( down_p, midpoint, bash, flying ) &&
@@ -4126,28 +4147,26 @@ void map::translate_radius(const ter_id from, const ter_id to, float radi, const
 
 bool map::close_door( const tripoint &p, const bool inside, const bool check_only )
 {
+    if( has_flag( "OPENCLOSE_INSIDE", p ) && !inside ) {
+        return false;
+    }
+
     const auto &ter = this->ter( p ).obj();
- const auto &furn = this->furn( p ).obj();
- if( ter.close ) {
-     if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
-         return false;
-     }
-     if (!check_only) {
-        sounds::sound( p, 10, "", true, "close_door", ter.id.str() );
-        ter_set(p, ter.close );
-     }
-     return true;
- } else if( furn.close ) {
-     if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
-         return false;
-     }
-     if (!check_only) {
-         sounds::sound( p, 10, "", true, "close_door", furn.id.str() );
-         furn_set(p, furn.close );
-     }
-     return true;
- }
- return false;
+    const auto &furn = this->furn( p ).obj();
+    if( ter.close && !furn.id ) {
+        if( !check_only ) {
+            sounds::sound( p, 10, "", true, "close_door", ter.id.str() );
+            ter_set( p, ter.close );
+        }
+        return true;
+    } else if( furn.close ) {
+        if( !check_only ) {
+            sounds::sound( p, 10, "", true, "close_door", furn.id.str() );
+            furn_set( p, furn.close );
+        }
+        return true;
+    }
+    return false;
 }
 
 const std::string map::get_signage( const tripoint &p ) const
