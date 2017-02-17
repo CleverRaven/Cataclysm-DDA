@@ -1,3 +1,4 @@
+#pragma once
 #ifndef NPC_CLASS_H
 #define NPC_CLASS_H
 

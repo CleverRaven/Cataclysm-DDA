@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 

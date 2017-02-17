@@ -1,3 +1,4 @@
+#pragma once
 #ifndef VISITABLE_H
 #define VISITABLE_H
 

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CRAFT_COMMAND_H
 #define CRAFT_COMMAND_H
 

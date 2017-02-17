@@ -1,0 +1,60 @@
+[
+  {
+    "name": "GROUP_STANDING_STONES",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "monsters": [ { "monster": "mon_darkman", "freq": 100, "cost_multiplier": 1, "conditions": [ "NIGHT" ] } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "standing_stones" ],
+    "weight": 500,
+    "object": {
+      "rows": [
+        "ffffffffffffffffffff..ff",
+        ".ffffff....fffffffffff..",
+        "ff.ffffffff.....o...fff.",
+        "ff..f...ffffffff......ff",
+        ".fff.o.........f....ffff",
+        "f.....fff......fff....f.",
+        "f......f........ff......",
+        "ff....................o.",
+        ".f.o........o...........",
+        "...........ss...O.....ff",
+        ".........ossssss.......f",
+        ".......sssssssss.....fff",
+        "fff..Ossss#sOsss.o.....f",
+        "f......sssssssss.....o..",
+        "........ossssssO.......f",
+        "o.......ss..ss.........f",
+        "fff.......o.............",
+        "....................ffff",
+        ".ff....................f",
+        "f....o...............of.",
+        "fff..................f..",
+        "ffffffffff.....o...ffff.",
+        "ff.f.f.f.f....fff..f.f.f",
+        "ffffff..........ffffffff"
+      ],
+      "terrain": {
+        "#": "t_dirt",
+        ".": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt" ],
+        "O": "t_dirt",
+        "f": [ "t_grass", "t_grass", "t_grass", "t_tree", "t_tree_young", "t_underbrush", "t_underbrush", "t_underbrush", "t_dirt" ],
+        "o": "t_dirt",
+        "s": "t_dirt"
+      },
+      "furniture": {
+        "O": "f_boulder_large",
+        "o": "f_boulder_small"
+      },
+      "traps": {
+        "#": "tr_brazier"
+      },
+      "loot": {
+        "#": { "item": "stick", "repeat": [ 1, 2 ] }
+      }
+    }
+  }
+]

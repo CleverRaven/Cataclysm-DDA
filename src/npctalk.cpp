@@ -686,33 +686,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_MISSION_REWARD" ) {
         return _("Sure, here you go!");
 
-    } else if( topic == "TALK_EVAC_HUNTER" ) {
-        if (g->u.is_wearing("badge_marshal"))
-            return _("I thought I smelled a pig.  I jest... please don't arrest me.");
-        return _("Huh, thought I smelled someone new. Can I help you?");
-
-    } else if( topic == "TALK_EVAC_HUNTER_SMELL" ) {
-        return _("Oh, I didn't mean that in a bad way. Been out in the wilderness "
-                 "so long, I find myself noticing things by scent before sight.");
-
-    } else if( topic == "TALK_EVAC_HUNTER_DO" ) {
-        return _("I trade food here in exchange for a place to crash and general "
-                 "supplies. Well, more specifically I trade food that isn't stale "
-                 "chips and flat cola.");
-
-    } else if( topic == "TALK_EVAC_HUNTER_LIFE" ) {
-        return _("Not really, just trying to lead my life.");
-
-    } else if( topic == "TALK_EVAC_HUNTER_HUNT" ) {
-        return _("Yep. Whatever game I spot, I bag and sell the meat and other "
-                 "parts here. Got the occasional fish and basket full of wild "
-                 "fruit, but nothing comes close to a freshly-cooked moose steak "
-                 "for supper!");
-
-    } else if( topic == "TALK_EVAC_HUNTER_SALE" ) {
-        return _("Sure, just bagged a fresh batch of meat. You may want to grill "
-                 "it up before it gets too, uh... 'tender'. ");
-
     } else if( topic == "TALK_EVAC_HUNTER_ADVICE" ) {
         switch (rng(1,7)){
         case 1:
@@ -735,52 +708,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         case 7:
             return _("Smoke crack to get more shit done.");
         }
-
-    } else if( topic == "TALK_EVAC_HUNTER_BYE" ) {
-        return _("Watch your back out there.");
-
-    } else if( topic == "TALK_OLD_GUARD_REP" ) {
-        // The rep should know whether you're a sworn officer.
-        // TODO: wearing the badge w/o the trait => Bad Idea
-        if (g->u.has_trait("PROF_FED")) {
-            return _("Marshal...");
-        }
-        return _("Citizen...");
-
-    } else if( topic == "TALK_OLD_GUARD_REP_NEW" ) {
-         return _("I'm the region's federal liaison.  Most people here call us the 'Old Guard' and I rather like the sound of it.  "
-                  "Despite how things currently appear, the federal government was not entirely destroyed.  After the outbreak I was "
-                  "chosen to coordinate civilian and militia efforts in support of military operations.");
-
-    } else if( topic == "TALK_OLD_GUARD_REP_NEW_DOING" ) {
-         return _("I ensure that the citizens here have what they need to survive and protect themselves from raiders.  Keeping "
-                  "some form law is going to be the most important  element in rebuilding the world.  We do what we can to keep the "
-                  "'Free Merchants' here prospering and in return they have provided us with spare men and supplies when they can.");
-
-    } else if( topic == "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" ) {
-         return _("Well... I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the "
-                  " best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain "
-                  "order.  They don't care much about looters since they understand most everyone is dead, but if you have something "
-                  "they need... you WILL give it to them.  Since most survivors have have nothing they want, they are welcomed as champions.");
-
-    } else if( topic == "TALK_OLD_GUARD_REP_WORLD" ) {
-         return _("There isn't much pushed out by public relations that I'd actually believe.  From what I gather, communication "
-                  "between the regional force commands is almost non-existent.  What I do know is that the 'Old Guard' is currently "
-                  "based out of the 2nd Fleet and patrols the Atlantic coast trying to provide support to the remaining footholds.");
-
-    } else if( topic == "TALK_OLD_GUARD_REP_WORLD_2NDFLEET" ) {
-         return _("I don't know much about how it formed but it is the armada of military and commercial ships that's floating off the "
-                  "coast.  They have everything from supertankers and carriers to fishing trawlers... even a few NATO ships.  Most civilians "
-                  "are offered a cabin on one of the liners to retire to if they serve as a federal employee for a few years.");
-
-    } else if( topic == "TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS" ) {
-         return _("They may just be propaganda but apparently one or two cities were successful in 'walling themselves off.' Around "
-                  "here I was told that there were a few places like this one but I couldn't tell you where.");
-
-    } else if( topic == "TALK_OLD_GUARD_REP_ASK_JOIN" ) {
-         return _("You can't actually join unless you go through a recruiter.  We can usually use help though, ask me from time to time "
-                  "if there is any work available.  Completing missions as a contractor is a great way to make a name for yourself among "
-                  "the most powerful men left in the world.");
 
      } else if( topic == "TALK_OLD_GUARD_SOLDIER" ) {
             if (g->u.is_wearing("badge_marshal"))
@@ -855,25 +782,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                  "replacing the equipment here.  When the facility was being overrun, standard procedure was to destroy encryption "
                  "hardware to protect federal secrets and maintain the integrity of the comms network.  We are hoping a few plain "
                  "text messages can get picked up though.");
-
-    } else if( topic == "TALK_SCAVENGER_MERC" ) {
-        if (g->u.is_wearing("badge_marshal"))
-            return _("I haven't done anything wrong...");
-        return _("...");
-
-    } else if( topic == "TALK_SCAVENGER_MERC_NEW" ) {
-         return _("I'm just a hired hand.  Someone pays me and I do what needs to be done.");
-
-    } else if( topic == "TALK_SCAVENGER_MERC_TIPS" ) {
-         return _("If you have to fight your way out of an ambush, the only thing that is going to save you is having a party that can "
-                  "return fire.  People who work alone are easy pickings for monsters and bandits.");
-
-    } else if( topic == "TALK_SCAVENGER_MERC_HIRE" ) {
-         return _("I'm currently waiting for a customer to return... I'll make you a deal though, "
-                  " $8,000 will cover my expenses if I get a small cut of the loot.");
-
-    } else if( topic == "TALK_SCAVENGER_MERC_HIRE_SUCCESS" ) {
-         return _("I guess you're the boss.");
 
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS" ) {
          return _("Hope you're here to trade.");
@@ -1745,65 +1653,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     } else if( topic == "TALK_EVAC_GUARD3_DEAD" ) {
             p->my_fac = g->faction_by_ident("hells_raiders");
 
-    } else if( topic == "TALK_EVAC_HUNTER" ) {
-            add_response( _("You... smelled me?"), "TALK_EVAC_HUNTER_SMELL" );
-            add_response( _("What do you do around here?"), "TALK_EVAC_HUNTER_DO" );
-            add_response( _("Got anything for sale?"), "TALK_EVAC_HUNTER_SALE" );
-            add_response( _("Got any survival advice?"), "TALK_EVAC_HUNTER_ADVICE" );
-            add_response( _("Goodbye."), "TALK_EVAC_HUNTER_BYE" );
-
-    } else if( topic == "TALK_EVAC_HUNTER_SMELL" ) {
-            add_response( _("O..kay..? "), "TALK_EVAC_HUNTER" );
-
-    } else if( topic == "TALK_EVAC_HUNTER_DO" ) {
-            add_response( _("Interesting."), "TALK_EVAC_HUNTER_LIFE" );
-            add_response( _("Oh, so you hunt?"), "TALK_EVAC_HUNTER_HUNT" );
-
-    } else if( topic == "TALK_EVAC_HUNTER_LIFE" ) {
-            add_response( _("..."), "TALK_EVAC_HUNTER" );
-
-    } else if( topic == "TALK_EVAC_HUNTER_HUNT" ) {
-            add_response( _("Great, now my mouth is watering..."), "TALK_EVAC_HUNTER" );
-
-    } else if( topic == "TALK_EVAC_HUNTER_SALE" ) {
-            add_response( _("..."), "TALK_EVAC_HUNTER", &talk_function::start_trade );
-
-    } else if( topic == "TALK_EVAC_HUNTER_ADVICE" ) {
-            add_response( _("..."), "TALK_EVAC_HUNTER" );
-
-    } else if( topic == "TALK_EVAC_HUNTER_BYE" ) {
-            add_response_done( _("...") );
-
-    } else if( topic == "TALK_OLD_GUARD_REP" ) {
-            add_response( _("Who are you?"), "TALK_OLD_GUARD_REP_NEW" );
-            add_response( _("Heard anything about the outside world?"), "TALK_OLD_GUARD_REP_WORLD" );
-            add_response( _("Is there any way I can join the 'Old Guard'?"), "TALK_OLD_GUARD_REP_ASK_JOIN" );
-            add_response( _("Does the Old Guard need anything?"), "TALK_MISSION_LIST" );
-            add_response_done( _("Well, bye.") );
-
-    } else if( topic == "TALK_OLD_GUARD_REP_NEW" ) {
-            add_response( _("So what are you actually doing here?"), "TALK_OLD_GUARD_REP_NEW_DOING" );
-            add_response( _("Never mind..."), "TALK_OLD_GUARD_REP" );
-
-    } else if( topic == "TALK_OLD_GUARD_REP_NEW_DOING" ) {
-            add_response( _("Is there a catch?"), "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" );
-            add_response( _("Anything more to it?"), "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" );
-            add_response( _("Never mind..."), "TALK_OLD_GUARD_REP" );
-    } else if( topic == "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" ) {
-            add_response( _("Hmmm..."), "TALK_OLD_GUARD_REP" );
-
-    } else if( topic == "TALK_OLD_GUARD_REP_WORLD" ) {
-            add_response( _("The 2nd Fleet?"), "TALK_OLD_GUARD_REP_WORLD_2NDFLEET" );
-            add_response( _("Tell me about the footholds."), "TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS" );
-            add_response( _("Never mind..."), "TALK_OLD_GUARD_REP" );
-
-    } else if( topic == "TALK_OLD_GUARD_REP_WORLD_2NDFLEET" ) {
-            add_response( _("Hmmm..."), "TALK_OLD_GUARD_REP" );
-    } else if( topic == "TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS" ) {
-            add_response( _("Hmmm..."), "TALK_OLD_GUARD_REP" );
-    } else if( topic == "TALK_OLD_GUARD_REP_ASK_JOIN" ) {
-            add_response( _("Hmmm..."), "TALK_OLD_GUARD_REP" );
-
     } else if( topic == "TALK_OLD_GUARD_SOLDIER" ) {
             add_response_done( _("Don't mind me...") );
 
@@ -1854,29 +1703,17 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             p->add_effect( effect_gave_quest_item, 9999);
             add_response( _("Thanks."), "TALK_OLD_GUARD_NEC_COMMO" );
 
-    } else if( topic == "TALK_SCAVENGER_MERC" ) {
-            add_response( _("Who are you?"), "TALK_SCAVENGER_MERC_NEW" );
-            add_response( _("Any tips for surviving?"), "TALK_SCAVENGER_MERC_TIPS" );
-            add_response( _("What would it cost to hire you?"), "TALK_SCAVENGER_MERC_HIRE" );
-            add_response_done( _("Well, bye.") );
-
-    } else if( topic == "TALK_SCAVENGER_MERC_NEW" ) {
-            add_response( _("..."), "TALK_SCAVENGER_MERC" );
-    } else if( topic == "TALK_SCAVENGER_MERC_TIPS" ) {
-            add_response( _("I suppose I should hire a party then?"), "TALK_SCAVENGER_MERC" );
     } else if( topic == "TALK_SCAVENGER_MERC_HIRE" ) {
             if (g->u.cash >= 800000){
                 add_response( _("[$8000] You have a deal."), "TALK_SCAVENGER_MERC_HIRE_SUCCESS" );
-                g->u.cash -= 800000;
-            } else {
-                add_response( _("I might be back."), "TALK_SCAVENGER_MERC" );
             }
 
     } else if( topic == "TALK_SCAVENGER_MERC_HIRE_SUCCESS" ) {
-            RESPONSE(_("Glad to have you aboard."));
-                SUCCESS_ACTION(&talk_function::follow);
-                SUCCESS_OPINION(1, 0, 1, 0, 0);
-                SUCCESS("TALK_DONE");
+        if( g->u.cash < 800000 ) {
+            debugmsg( "Money appeared out of thin air! (or someone accidentally linked to this talk_topic)" );
+        } else {
+            g->u.cash -= 800000;
+        }
 
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS" ) {
             add_response( _("Who are you?"), "TALK_FREE_MERCHANT_STOCKS_NEW" );

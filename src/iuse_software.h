@@ -1,3 +1,4 @@
+#pragma once
 #ifndef IUSE_SOFTWARE_H
 #define IUSE_SOFTWARE_H
 

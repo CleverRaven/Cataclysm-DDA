@@ -3788,6 +3788,8 @@ void vehicle::on_move(){
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
     }
+
+    occupied_cache_turn = -1;
 }
 
 void vehicle::operate_plow(){
@@ -4960,8 +4962,9 @@ void vehicle::gain_moves()
     }
 
     // turrets which are enabled will try to reload and then automatically fire
+    // Turrets which are disabled but have targets set are a special case
     for( auto e : turrets() ) {
-        if( e->enabled ) {
+        if( e->enabled || e->target.second != tripoint_min ) {
             automatic_fire_turret( *e );
         }
     }

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef BODYPART_H
 #define BODYPART_H
 

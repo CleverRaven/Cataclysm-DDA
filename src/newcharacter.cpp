@@ -21,7 +21,7 @@
 #include "ui.h"
 #include "mutation.h"
 #include "crafting.h"
-
+#include "string_input_popup.h"
 
 #ifndef _MSC_VER
 #include <unistd.h>
@@ -531,32 +531,13 @@ bool player::create(character_type type, std::string tempname)
         }
     }
 
-    std::vector<item> prof_items = g->u.prof->items( g->u.male );
-
-    // Those with certain special traits are guaranteed to start with certain items
-    if( has_trait( "HYPEROPIC" ) && has_trait( "MYOPIC" ) ) {
-        prof_items.push_back( item( "glasses_bifocal" ) );
-    }
-    else if( has_trait( "MYOPIC" ) ) {
-        prof_items.push_back( item( "glasses_eye" ) );
-    }
-    else if( has_trait( "HYPEROPIC" ) ) {
-        prof_items.push_back( item( "glasses_reading" ) );
-    }
-
-    if( has_trait( "ASTHMA" ) ) {
-        prof_items.push_back( item( "inhaler", 0, item::default_charges_tag{} ) );
-    }
-    if (has_trait("CANNIBAL")) {
-        prof_items.push_back( item( "cookbook_human", 0 ) );
-    }
-    if( has_trait( "ALBINO" ) ) {
-        prof_items.push_back( item( "teleumbrella", 0 ) );
-    }
+    std::list<item> prof_items = g->u.prof->items( g->u.male, g->u.get_mutations() );
 
     for( item &it : prof_items ) {
+        // TODO: debugmsg if food that isn't a seed is inedible
         if( it.is_armor() ) {
-            wear_item( it, false ); // If wearing fails, we fail silently
+            // TODO: debugmsg if wearing fails
+            wear_item( it, false );
         } else if( it.has_flag( "WET" ) ) {
             it.active = true;
             it.item_counter = 450; // Give it some time to dry off
@@ -1411,7 +1392,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
         }
 
         // Profession items
-        const auto prof_items = sorted_profs[cur_id]->items( u->male );
+        const auto prof_items = sorted_profs[cur_id]->items( u->male, u->get_mutations() );
         if( prof_items.empty() ) {
             buffer << pgettext( "set_profession_item", "None" ) << "\n";
         } else {
@@ -1419,6 +1400,8 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
             for( const auto &i : prof_items ) {
                 // TODO: If the item group is randomized *at all*, these'll be different each time
                 // and it won't match what you actually start with
+                // TODO: Put like items together like the inventory does, so we don't have to scroll
+                // through a list of a dozen forks.
                 buffer << i.display_name() << "\n";
             }
         }
@@ -1516,8 +1499,11 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
             profession_sorter.sort_by_points = !profession_sorter.sort_by_points;
             recalc_profs = true;
         } else if (action == "FILTER") {
-            filterstring = string_input_popup(_("Search:"), 60, filterstring,
-                _("Search by profession name."));
+            string_input_popup()
+            .title( _( "Search:" ) )
+            .width( 60 )
+            .description( _( "Search by profession name." ) )
+            .edit( filterstring );
             recalc_profs = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
@@ -2033,8 +2019,11 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
             scenario_sorter.sort_by_points = !scenario_sorter.sort_by_points;
             recalc_scens = true;
         } else if (action == "FILTER") {
-            filterstring = string_input_popup(_("Search:"), 60, filterstring,
-                _("Search by scenario name."));
+            string_input_popup()
+            .title( _( "Search:" ) )
+            .width( 60 )
+            .description( _( "Search by scenario name." ) )
+            .edit( filterstring );
             recalc_scens = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
@@ -2397,6 +2386,9 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
+    // TODO: According to crude profiling (interrupts + backtraces), this function accounts for well over
+    // half of the execution time of the test case in new_character_test.cpp
+    // Refactor to allow permitted/forbidden/required traits/professions to be obtained in one function call.
     for( auto &traits_iter : mutation_branch::get_all() ) {
         if( g->scen->locked_traits( traits_iter.first ) && !has_trait( traits_iter.first ) ) {
             toggle_trait( traits_iter.first );
@@ -2438,11 +2430,14 @@ std::string Character::random_bad_trait()
 void save_template(player *u)
 {
     std::string title = _("Name of template:");
-    std::string name = string_input_popup( title, FULL_SCREEN_WIDTH - utf8_width(title) - 8 );
+    std::string name = string_input_popup()
+                       .title( title )
+                       .width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 )
+                       .query();
     if (name.length() == 0) {
         return;
     }
-    std::string playerfile = FILENAMES["templatedir"] + name + ".template";
+    std::string playerfile = FILENAMES["templatedir"] + utf8_to_native( name ) + ".template";
     write_to_file( playerfile, [&]( std::ostream &fout ) {
         fout << u->save_info();
     }, _( "player template" ) );

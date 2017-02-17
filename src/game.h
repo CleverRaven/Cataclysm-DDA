@@ -1,3 +1,4 @@
+#pragma once
 #ifndef GAME_H
 #define GAME_H
 
@@ -784,7 +785,6 @@ class game
         void wait(); // Long wait (player action)  '^'
         void open(); // Open a door  'o'
         void close();
-        void close( const tripoint &p ); // Close a door  'c'
         void smash(); // Smash terrain
 
         void handbrake ();
@@ -820,6 +820,8 @@ public:
 
         /** If invoked, NPCs will be reloaded before next turn. */
         void set_npcs_dirty();
+        /** If invoked, dead will be cleaned this turn. */
+        void set_critter_died();
 private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
         void read(); // Read a book  'R' (or 'a')
@@ -949,6 +951,8 @@ private:
         vehicle *remoteveh_cache;
         /** Has a NPC been spawned since last load? */
         bool npcs_dirty;
+        /** Has anything died in this turn and needs to be cleaned up? */
+        bool critter_died;
 
         std::unique_ptr<special_game> gamemode;
 

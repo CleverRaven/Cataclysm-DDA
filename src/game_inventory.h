@@ -1,3 +1,4 @@
+#pragma once
 #ifndef GAME_INVENTORY_H
 #define GAME_INVENTORY_H
 

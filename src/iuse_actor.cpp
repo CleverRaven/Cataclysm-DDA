@@ -27,6 +27,7 @@
 #include "generic_factory.h"
 #include "map_iterator.h"
 #include "cata_utility.h"
+#include "string_input_popup.h"
 
 #include <sstream>
 #include <algorithm>
@@ -1329,23 +1330,28 @@ bool inscribe_actor::item_inscription( item *cut ) const
     }
 
     const bool hasnote = cut->has_var( carving );
-    std::string message = "";
     std::string messageprefix = string_format(hasnote ? _("(To delete, input one '.')\n") : "") +
                                 string_format(_("%1$s on the %2$s is: "),
                                         _( gerund.c_str() ), cut->type_name().c_str());
-    message = string_input_popup(string_format(_("%s what?"), _( verb.c_str() ) ), 64,
-                                 (hasnote ? cut->get_var( carving ) : message),
-                                 messageprefix, "inscribe_item", 128);
 
-    if( !message.empty() )
-    {
-        if( hasnote && message == "." ) {
-            cut->erase_var( carving );
-            cut->erase_var( carving_type );
-        } else {
-            cut->set_var( carving, message );
-            cut->set_var( carving_type, _( gerund.c_str() ) );
-        }
+    string_input_popup popup;
+    popup.title( string_format( _( "%s what?" ), _( verb.c_str() ) ) )
+         .width( 64 )
+         .text( hasnote ? cut->get_var( carving ) : "" )
+         .description( messageprefix )
+         .identifier( "inscribe_item" )
+         .max_length( 128 )
+         .query();
+    if( popup.canceled() ) {
+        return false;
+    }
+    const std::string message = popup.text();
+    if( hasnote && message == "." ) {
+        cut->erase_var( carving );
+        cut->erase_var( carving_type );
+    } else {
+        cut->set_var( carving, message );
+        cut->set_var( carving_type, _( gerund.c_str() ) );
     }
 
     return true;

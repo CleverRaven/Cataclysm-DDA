@@ -11,6 +11,8 @@
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "options.h"
+#include "string_input_popup.h"
+
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -887,7 +889,10 @@ void input_context::display_help()
     std::string filter_phrase;
     std::string action;
     long raw_input_char = 0;
-    int current_search_cursor_pos = -1;
+    string_input_popup spopup;
+    spopup.window( w_help, 4, 8, legwidth )
+    .max_length( legwidth )
+    .context( ctxt );
 
     while( true ) {
         werase( w_help );
@@ -935,18 +940,17 @@ void input_context::display_help()
             mvwprintz( w_help, i + 10, 52, col, "%s", get_desc( action_id ).c_str() );
         }
 
+        spopup.text( filter_phrase );
         if( status == s_show ) {
-            filter_phrase = string_input_win_from_context( w_help, ctxt, filter_phrase, legwidth, 4, 8,
-                            legwidth, false, action, raw_input_char, current_search_cursor_pos, "", -1, -1,
-                            true, false, false, std::map<long, std::function<void()>>(),
-                            bound_character_blacklist );
+            spopup.ch_code_blacklist = bound_character_blacklist;
+            filter_phrase = spopup.query( false );
+            action = ctxt.input_to_action( ctxt.get_raw_input() );
         } else {
-            string_input_win_from_context( w_help, ctxt, filter_phrase, legwidth, 4, 8, legwidth, false,
-                                           action, raw_input_char, current_search_cursor_pos, "", -1, -1,
-                                           true, false, true );
+            spopup.ch_code_blacklist.clear();
+            spopup.query( false, true );
             action = ctxt.handle_input();
-            raw_input_char = ctxt.get_raw_input().get_first_input();
         }
+        raw_input_char = ctxt.get_raw_input().get_first_input();
 
 
         if( scroll_offset > filtered_registered_actions.size() ) {

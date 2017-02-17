@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SHADOWCASTING_H
 #define SHADOWCASTING_H
 

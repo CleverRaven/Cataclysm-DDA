@@ -89,11 +89,9 @@ bool monster::can_move_to( const tripoint &p ) const
         return false;
     }
 
-    const ter_id target = g->m.ter( p );
-    const field &target_field = g->m.field_at( p );
-    const trap &target_trap = g->m.tr_at( p );
     // Various avoiding behaviors
     if( has_flag( MF_AVOID_DANGER_1 ) || has_flag( MF_AVOID_DANGER_2 ) ) {
+        const ter_id target = g->m.ter( p );
         // Don't enter lava ever
         if( target == t_lava ) {
             return false;
@@ -117,8 +115,11 @@ bool monster::can_move_to( const tripoint &p ) const
             }
         }
 
+        const field &target_field = g->m.field_at( p );
+
         // Differently handled behaviors
         if( has_flag( MF_AVOID_DANGER_2 ) ) {
+            const trap &target_trap = g->m.tr_at( p );
             // Don't enter any dangerous fields
             if( is_dangerous_fields( target_field ) ) {
                 return false;
@@ -1405,21 +1406,19 @@ void monster::stumble()
     }
 
     std::vector<tripoint> valid_stumbles;
+    valid_stumbles.reserve( 11 );
     const bool avoid_water = has_flag( MF_NO_BREATHE ) &&
                              !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC );
-    for( int i = -1; i <= 1; i++ ) {
-        for( int j = -1; j <= 1; j++ ) {
-            tripoint dest( posx() + i, posy() + j, posz() );
-            if( ( i || j ) && can_move_to( dest ) &&
-                //Stop zombies and other non-breathing monsters wandering INTO water
-                //(Unless they can swim/are aquatic)
-                //But let them wander OUT of water if they are there.
-                !( avoid_water &&
-                   g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
-                   !g->m.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
-                ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
-                valid_stumbles.push_back( dest );
-            }
+    for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
+        if( dest != pos() && can_move_to( dest ) &&
+            //Stop zombies and other non-breathing monsters wandering INTO water
+            //(Unless they can swim/are aquatic)
+            //But let them wander OUT of water if they are there.
+            !( avoid_water &&
+               g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
+               !g->m.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
+            ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
+            valid_stumbles.push_back( dest );
         }
     }
 
@@ -1430,7 +1429,7 @@ void monster::stumble()
             valid_stumbles.push_back( below );
         }
         // More restrictions for moving up
-        if( one_in( 5 ) && has_flag( MF_FLIES ) &&
+        if( has_flag( MF_FLIES ) && one_in( 5 ) &&
             g->m.valid_move( pos(), above, false, true ) && can_move_to( above ) ) {
             valid_stumbles.push_back( above );
         }

@@ -598,7 +598,7 @@ Creature *monster::attack_target()
 
 bool monster::is_fleeing(player &u) const
 {
-    if( has_effect( effect_run) ) {
+    if( effect_cache[FLEEING] ) {
         return true;
     }
     monster_attitude att = attitude(&u);
@@ -663,7 +663,7 @@ monster_attitude monster::attitude( const Character *u ) const
             return MATT_FRIEND;
         }
     }
-    if( has_effect( effect_run ) ) {
+    if( effect_cache[FLEEING] ) {
         return MATT_FLEE;
     }
     if( has_effect( effect_pacified ) ) {
@@ -1204,8 +1204,15 @@ void monster::die_in_explosion(Creature* source)
     die( source );
 }
 
-bool monster::move_effects(bool attacking)
+bool monster::move_effects(bool)
 {
+    // This function is relatively expensive, we want that cached
+    // IMPORTANT: If adding any new effects here, make SURE to
+    // add them to hardcoded_movement_impairing in effect.cpp
+    if( !effect_cache[MOVEMENT_IMPAIRED] ) {
+        return true;
+    }
+
     bool u_see_me = g->u.sees(*this);
     if (has_effect( effect_tied)) {
         return false;
@@ -1294,7 +1301,7 @@ bool monster::move_effects(bool attacking)
             remove_effect( effect_grabbed);
         }
     }
-    return Creature::move_effects(attacking);
+    return true;
 }
 
 void monster::add_eff_effects(effect e, bool reduced)
@@ -1502,6 +1509,18 @@ int monster::impact( const int force, const tripoint &p )
     return total_dealt;
 }
 
+void monster::reset_bonuses()
+{
+    effect_cache.reset();
+
+    Creature::reset_bonuses();
+}
+
+void monster::reset_stats()
+{
+    // Nothing here yet
+}
+
 void monster::reset_special(const std::string &special_name)
 {
     set_special( special_name, type->special_attacks.at(special_name)->cooldown );
@@ -1563,6 +1582,7 @@ void monster::die(Creature* nkiller)
         // *only* set to true in this function!
         return;
     }
+    g->set_critter_died();
     dead = true;
     set_killer( nkiller );
     if (!no_extra_death_drops) {
@@ -1708,7 +1728,9 @@ void monster::process_effects()
 
             const efftype_id &id = _effect_it.second.get_id();
             // MATERIALS-TODO: use fire resistance
-            if( id == effect_onfire ) {
+            if( it.impairs_movement() ) {
+                effect_cache[MOVEMENT_IMPAIRED] = true;
+            } else if( id == effect_onfire ) {
                 int dam = 0;
                 if( made_of( material_id( "veggy" ) ) ) {
                     dam = rng( 10, 20 );
@@ -1722,6 +1744,8 @@ void monster::process_effects()
                 } else {
                     it.set_duration( 0 );
                 }
+            } else if( id == effect_run ) {
+                effect_cache[FLEEING] = true;
             }
         }
     }
@@ -1739,6 +1763,14 @@ void monster::process_effects()
 
     if( has_flag( MF_REGENERATES_10 ) && heal( 10 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
         add_msg( m_warning, _( "The %s seems a little healthier." ), name().c_str() );
+    }
+
+    if( has_flag( MF_REGENERATES_IN_DARK ) ) {
+        const float light = g->m.ambient_light_at( pos() );
+        // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
+        if ( heal ( int( 50.0 *  exp( - light*light / 10000 ) )  > 0 && one_in( 2 ) && g->u.sees( *this ) ) ) {
+            add_msg( m_warning, _( "The %s uses the darkness to regenerate." ), name().c_str() );
+        }
     }
 
     //Monster will regen morale and aggression if it is on max HP

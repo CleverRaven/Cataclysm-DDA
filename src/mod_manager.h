@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MOD_MANAGER_H
 #define MOD_MANAGER_H
 

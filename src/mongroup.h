@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MONGROUP_H
 #define MONGROUP_H
 

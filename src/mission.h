@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MISSION_H
 #define MISSION_H
 

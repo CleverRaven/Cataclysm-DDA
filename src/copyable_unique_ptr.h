@@ -1,3 +1,4 @@
+#pragma once
 #ifndef COPYABLE_UNIQUE_PTR_H
 #define COPYABLE_UNIQUE_PTR_H
 

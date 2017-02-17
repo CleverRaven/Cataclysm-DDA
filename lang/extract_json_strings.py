@@ -54,6 +54,8 @@ ignorable = {
     "npc",      # FIXME right now this object is unextractable
     "overlay_order",
     "overmap_special",
+    "profession_item_substitutions",
+    "palette",
     "region_overlay",
     "region_settings",
     "requirement",
@@ -367,6 +369,18 @@ def extract_mapgen(item):
                 sign = obj[k].get("signage", None)
                 writestr(outfile, sign, comment="Sign")
 
+def extract_monster_attack(item):
+    outfile = get_outfile("monster_attack")
+    if "hit_dmg_u" in item:
+        writestr(outfile, item.get("hit_dmg_u"))
+    if "hit_dmg_npc" in item:
+        writestr(outfile, item.get("hit_dmg_npc"))
+    if "no_dmg_msg_u" in item:
+        writestr(outfile, item.get("no_dmg_msg_u"))
+    if "no_dmg_msg_npc" in item:
+        writestr(outfile, item.get("no_dmg_msg_npc"))
+
+
 def extract_recipes(item):
     outfile = get_outfile("recipe")
     if "book_learn" in item:
@@ -511,6 +525,7 @@ extract_specials = {
     "martial_art": extract_martial_art,
     "material": extract_material,
     "mission_definition": extract_missiondef,
+    "monster_attack": extract_monster_attack,
     "mutation_category": extract_mutation,
     "profession": extract_professions,
     "recipe_category": extract_recipe_category,

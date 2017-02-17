@@ -1,3 +1,4 @@
+#pragma once
 #ifndef TILERAY_H
 #define TILERAY_H
 

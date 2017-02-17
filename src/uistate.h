@@ -1,3 +1,4 @@
+#pragma once
 #ifndef UISTATE_H
 #define UISTATE_H
 

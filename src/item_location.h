@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ITEM_LOCATION_H
 #define ITEM_LOCATION_H
 

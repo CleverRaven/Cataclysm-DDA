@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ITYPE_H
 #define ITYPE_H
 

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MONATTACK_H
 #define MONATTACK_H
 

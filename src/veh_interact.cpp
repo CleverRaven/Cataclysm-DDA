@@ -20,6 +20,7 @@
 #include "vehicle_selector.h"
 #include "fault.h"
 #include "npc.h"
+#include "string_input_popup.h"
 
 #include <cmath>
 #include <list>
@@ -757,7 +758,12 @@ bool veh_interact::do_install( std::string &msg )
 
         const std::string action = main_context.handle_input();
         if ( action == "FILTER" ){
-            filter = string_input_popup( _( "Search for part" ), 50, filter, "", _( "Filter" ), 100, false );
+            string_input_popup()
+            .title( _( "Search for part" ) )
+            .width( 50 )
+            .description( _( "Filter" ) )
+            .max_length( 100 )
+            .edit( filter );
             tab = 7; // Move to the user filter tab.
             display_grid();
             display_stats();
@@ -1486,7 +1492,10 @@ bool veh_interact::do_assign_crew( std::string &msg )
 
 bool veh_interact::do_rename( std::string & )
 {
-    std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
+    std::string name = string_input_popup()
+                       .title( _( "Enter new vehicle name:" ) )
+                       .width( 20 )
+                       .query();
     if(name.length() > 0) {
         (veh->name = name);
         if (veh->tracking_on) {
@@ -1508,7 +1517,11 @@ bool veh_interact::do_relabel( std::string &msg )
         return false;
     }
 
-    std::string text = string_input_popup(_("New label:"), 20, veh->get_label(-ddx, -ddy));
+    std::string text = string_input_popup()
+                       .title( _( "New label:" ) )
+                       .width( 20 )
+                       .text( veh->get_label( -ddx, -ddy ) )
+                       .query();
     veh->set_label(-ddx, -ddy, text); // empty input removes the label
     // refresh w_disp & w_part windows:
     move_cursor(0, 0);

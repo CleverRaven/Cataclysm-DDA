@@ -1,3 +1,4 @@
+#pragma once
 #ifndef RECIPE_DICTIONARY_H
 #define RECIPE_DICTIONARY_H
 

@@ -30,6 +30,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "filesystem.h"
+#include "string_input_popup.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
@@ -868,6 +869,10 @@ const ter_t &get_terrain_type(int id)
 
 static calendar &get_calendar_turn_wrapper() {
     return calendar::turn;
+}
+
+static std::string string_input_popup_wrapper(std::string title, int width, std::string desc) {
+    return string_input_popup().title(title).width(width).description(desc).query();
 }
 
 /** Create a new monster of the given type. */

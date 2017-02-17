@@ -1,3 +1,4 @@
+#pragma once
 #ifndef VEH_INTERACT_H
 #define VEH_INTERACT_H
 

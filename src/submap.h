@@ -1,3 +1,4 @@
+#pragma once
 #if !defined(SUBMAP_H)
 #define SUBMAP_H
 

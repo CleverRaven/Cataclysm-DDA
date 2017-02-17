@@ -41,6 +41,7 @@
 #include "weather.h"
 #include "cata_utility.h"
 #include "map_iterator.h"
+#include "string_input_popup.h"
 
 #include <vector>
 #include <sstream>
@@ -187,23 +188,29 @@ static bool item_inscription(player *p, item *cut, std::string verb, std::string
     }
 
     const bool hasnote = cut->has_var( "item_note" );
-    std::string message = "";
     std::string messageprefix = string_format(hasnote ? _("(To delete, input one '.')\n") : "") +
                                 string_format(_("%1$s on the %2$s is: "),
                                         gerund.c_str(), cut->type_name().c_str());
-    message = string_input_popup(string_format(_("%s what?"), verb.c_str()), 64,
-                                 (hasnote ? cut->get_var( "item_note" ) : message),
-                                 messageprefix, "inscribe_item", 128);
+    string_input_popup popup;
+    popup.title( string_format( _( "%s what?" ), verb.c_str() ) )
+         .width( 64 )
+         .text( hasnote ? cut->get_var( "item_note" ) : "" )
+         .description( messageprefix )
+         .identifier( "inscribe_item" )
+         .max_length( 128 )
+         .query();
 
-    if (!message.empty()) {
-        if (hasnote && message == ".") {
-            cut->erase_var( "item_note" );
-            cut->erase_var( "item_note_type" );
-            cut->erase_var( "item_note_typez" );
-        } else {
-            cut->set_var( "item_note", message );
-            cut->set_var( "item_note_type", gerund );
-        }
+    if( popup.canceled() ) {
+        return false;
+    }
+    const std::string message = popup.text();
+    if( hasnote && message == "." ) {
+        cut->erase_var( "item_note" );
+        cut->erase_var( "item_note_type" );
+        cut->erase_var( "item_note_typez" );
+    } else {
+        cut->set_var( "item_note", message );
+        cut->set_var( "item_note_type", gerund );
     }
     return true;
 }
@@ -3902,61 +3909,58 @@ int iuse::tazer(player *p, item *it, bool, const tripoint &pos )
     }
 
     tripoint dirp = pos;
-    if( p->pos() == pos && !choose_adjacent( _("Shock where?"), dirp ) ) {
+    if( p->pos() == pos && !choose_adjacent( _( "Shock where?" ), dirp ) ) {
         return 0;
     }
 
     if( dirp == p->pos() ) {
-        p->add_msg_if_player(m_info, _("Umm.  No."));
+        p->add_msg_if_player( m_info, _( "Umm.  No." ) );
         return 0;
     }
 
     Creature *target = g->critter_at( dirp, true );
     if( target == nullptr ) {
-        p->add_msg_if_player(_("There's nothing to zap there!"));
+        p->add_msg_if_player( _( "There's nothing to zap there!" ) );
         return 0;
     }
 
-    // Hacky, there should be a method doing all that when the player willingly hurts someone
     npc *foe = dynamic_cast<npc *>( target );
-    if( foe != nullptr && foe->attitude != NPCATT_KILL && foe->attitude != NPCATT_FLEE ) {
-        if( !p->query_yn( _("Really shock %s"), target->disp_name().c_str() ) ) {
-            return 0;
-        }
-
-        foe->attitude = NPCATT_KILL;
-        foe->hit_by_player = true;
+    if( foe != nullptr &&
+        !foe->is_enemy() &&
+        !p->query_yn( _( "Really shock %s?" ), target->disp_name().c_str() ) ) {
+        return 0;
     }
 
     ///\EFFECT_DEX slightly increases chance of successfully using tazer
-
     ///\EFFECT_MELEE increases chance of successfully using a tazer
-    int numdice = 3 + (p->dex_cur / 2.5) + p->get_skill_level( skill_melee ) * 2;
+    int numdice = 3 + ( p->dex_cur / 2.5 ) + p->get_skill_level( skill_melee ) * 2;
     p->moves -= 100;
 
     ///\EFFECT_DODGE increases chance of dodging a tazer attack
-    int target_dice = target->get_dodge();
-    if( dice( numdice, 10 ) < dice( target_dice, 10 ) ) {
-        // A miss!
-        p->add_msg_player_or_npc( _("You attempt to shock %s, but miss."),
-                                  _("<npcname> attempts to shock %s, but misses."),
-                                  target->disp_name().c_str() );
-        return it->type->charges_to_use();
-    }
-
-    // Maybe-TODO: Execute an attack and maybe zap something other than torso
-    // Maybe, because it's torso (heart) that fails when zapped with electricity
-    int dam = target->deal_damage( p, bp_torso, damage_instance( DT_ELECTRIC, rng( 5, 25 ) ) ).total_damage();
-    if( dam > 0 ) {
-        p->add_msg_player_or_npc( m_good,
-                                  _("You shock %s!"),
-                                  _("<npcname> shocks %s!"),
+    const bool tazer_was_dodged = dice( numdice, 10 ) < dice( target->get_dodge(), 10 );
+    if( tazer_was_dodged ) {
+        p->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
+                                  _( "<npcname> attempts to shock %s, but misses." ),
                                   target->disp_name().c_str() );
     } else {
-        p->add_msg_player_or_npc( m_warning,
-                                  _("You unsuccessfully attempt to shock %s!"),
-                                  _("<npcname> unsuccessfully attempts to shock %s!"),
-                                  target->disp_name().c_str() );
+        // Maybe-TODO: Execute an attack and maybe zap something other than torso
+        // Maybe, because it's torso (heart) that fails when zapped with electricity
+        int dam = target->deal_damage( p, bp_torso, damage_instance( DT_ELECTRIC, rng( 5, 25 ) ) ).total_damage();
+        if( dam > 0 ) {
+            p->add_msg_player_or_npc( m_good,
+                                    _( "You shock %s!" ),
+                                    _( "<npcname> shocks %s!" ),
+                                    target->disp_name().c_str() );
+        } else {
+            p->add_msg_player_or_npc( m_warning,
+                                    _( "You unsuccessfully attempt to shock %s!" ),
+                                    _( "<npcname> unsuccessfully attempts to shock %s!" ),
+                                    target->disp_name().c_str() );
+        }
+    }
+
+    if ( foe != nullptr ) {
+        foe->on_attacked( *p );
     }
 
     return it->type->charges_to_use();
@@ -5093,8 +5097,10 @@ int iuse::spray_can(player *p, item *it, bool, const tripoint& )
 
 int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
 {
-    std::string message = string_input_popup( prefix + " " + _("(To delete, input one '.')"),
-                                              0, "", "", "graffiti" );
+    std::string message = string_input_popup()
+                          .title( prefix + " " + _( "(To delete, input one '.')" ) )
+                          .identifier( "graffiti" )
+                          .query();
 
     if( message.empty() ) {
         return 0;
@@ -7873,12 +7879,6 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", 40 ) && !crafting_inv.has_charges( "water_clean", 40 ) ) {
-        p->add_msg_if_player( _( "You need a large amount of fresh water to use this." ) );
-        return 0;
-    }
-
     const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
     item &mod = p->i_at( pos );
     if( pos == INT_MIN ) {
@@ -7886,9 +7886,16 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
+    const int required_water = 2 * mod.volume() / 250_ml;
+    const inventory &crafting_inv = p->crafting_inventory();
+    if( !crafting_inv.has_charges( "water", required_water ) && !crafting_inv.has_charges( "water_clean", required_water ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash your %2$s." ), required_water, mod.tname().c_str() );
+        return 0;
+    }
+    
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( "water", 40 ) );
-    comps.push_back( item_comp( "water_clean", 40 ) );
+    comps.push_back( item_comp( "water", required_water ) );
+    comps.push_back( item_comp( "water_clean", required_water ) );
     p->consume_items( comps );
 
     p->add_msg_if_player( _( "You washed your clothing." ) );

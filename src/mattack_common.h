@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MATTACK_COMMON_H
 #define MATTACK_COMMON_H
 

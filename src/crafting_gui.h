@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CRAFTING_GUI_H
 #define CRAFTING_GUI_H
 

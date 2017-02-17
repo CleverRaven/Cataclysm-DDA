@@ -1,3 +1,4 @@
+#pragma once
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 

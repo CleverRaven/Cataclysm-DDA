@@ -32,6 +32,7 @@
 #include "mapbuffer.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "string_input_popup.h"
 
 #include <cassert>
 #include <stdlib.h>
@@ -644,8 +645,6 @@ void overmap_terrains::check_consistency()
         "prison_9",
         "prison_b",
         "prison_b_entrance",
-        "public_works",
-        "public_works_entrance",
         "radio_tower",
         "school_1",
         "school_2",
@@ -2597,9 +2596,12 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                                               _(color_pair.second.c_str()) );
             }
             const std::string old_note = overmap_buffer.note(curs);
-            const std::string new_note = string_input_popup(
-                _("Note (X:TEXT for custom symbol, G; for color):"),
-                45, old_note, color_notes); // 45 char max
+            const std::string new_note = string_input_popup()
+                                         .title( _("Note (X:TEXT for custom symbol, G; for color):") )
+                                         .width( 45 )
+                                         .text( old_note )
+                                         .description( color_notes )
+                                         .query();
             if( new_note.empty() && !old_note.empty() ) {
                 // do nothing, the player should be using [D]elete
             } else if( old_note != new_note ) {
@@ -2636,7 +2638,9 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
         } else if (action == "TOGGLE_EXPLORED") {
             overmap_buffer.toggle_explored(curs.x, curs.y, curs.z);
         } else if (action == "SEARCH") {
-            std::string term = string_input_popup(_("Search term:"));
+            std::string term = string_input_popup()
+                              .title( _( "Search term:" ) )
+                              .query();
             if(term.empty()) {
                 continue;
             }
@@ -4276,10 +4280,6 @@ void overmap::place_mongroups()
                 m.wander(*this);
                 add_mon_group( m );
             }
-        }
-        if( !get_world_option<bool>( "STATIC_SPAWN" ) ) {
-            add_mon_group( mongroup( mongroup_id( "GROUP_ZOMBIE" ), ( elem.x * 2 ), ( elem.y * 2 ), 0,
-                                     int( elem.s * 2.5 ), elem.s * 80 ) );
         }
     }
 

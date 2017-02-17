@@ -156,6 +156,7 @@ void DynamicDataLoader::initialize()
     add( "material", &materials::load );
     add( "bionic", &load_bionic );
     add( "profession", &profession::load_profession );
+    add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "skill", &Skill::load_skill );
     add( "dream", &load_dream );
     add( "mutation_category", &load_mutation_category );
@@ -248,7 +249,7 @@ void DynamicDataLoader::initialize()
     add( "harvest", []( JsonObject &jo, const std::string &src ) { harvest_list::load( jo, src ); } );
 
     add( "monster_attack", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_monster_attack( jo, src ); } );
-
+    add( "palette", mapgen_palette::load );
     add( "body_part", &body_part_struct::load );
 }
 

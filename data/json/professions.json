@@ -1,5 +1,118 @@
 [
     {
+        "type": "profession_item_substitutions",
+        "substitutions": [
+            {
+                "trait": "WOOLALLERGY",
+                "sub": [
+                    [ "blazer", "jacket_leather_red" ],
+                    [ "hat_hunting", "hat_cotton", 2 ],
+                    [ "hat_newsboy", "hat_cotton", 2 ],
+                    [ "peacoat", "jacket_flannel" ],
+                    [ "sweater", "sweatshirt" ],
+                    [ "boots_winter", "boots_fur" ],
+                    [ "cloak_wool", "cloak_leather" ],
+                    [ "gloves_wool", "gloves_leather" ]
+                ]
+            },
+            {
+                "item": "hardtack",
+                "sub": [
+                    [ [ "ANTIWHEAT" ], [ "MEATARIAN" ], "cornbread" ],
+                    [ [ "ANTIWHEAT", "MEATARIAN" ], "meat_cooked", 0.72 ]
+                ]
+            },
+            {
+                "item": "gum",
+                "sub": [
+                    [ [ "ANTIJUNK" ], "nic_gum" ]
+                ]
+            },
+            {
+                "item": "sandwich_pbj",
+                "sub": [
+                    [ [ "ANTIFRUIT" ], [ "ANTIWHEAT" ], "sandwich_pbh" ],
+                    [ [ "ANTIWHEAT" ], [ "VEGETARIAN" ], "cracklins", 5.625 ],
+                    [ [ "ANTIWHEAT", "VEGETARIAN" ], "boiled_egg" ]
+                ]
+            },
+            {
+                "item": "granola",
+                "sub": [
+                    [ [ "ANTIFRUIT" ], [ "MEATARIAN" ], "pemmican", 0.838 ],
+                    [ [ "ANTIFRUIT", "MEATARIAN" ], "jerky", 4 ],
+                    [ [ "ANTIWHEAT" ], [ "ANTIFRUIT" ], "boiled_egg", 0.818 ]
+                ]
+            },
+            {
+                "item": "juice",
+                "sub": [
+                    [ [ "ANTIFRUIT" ], [ "ANTIJUNK" ], "lemonlime" ],
+                    [ [ "ANTIFRUIT", "ANTIJUNK" ], "water_clean", 0.4 ]
+                ]
+            },
+            {
+                "item": "cheeseburger",
+                "sub": [
+                    [ [ "ANTIWHEAT" ], [ "ANTIJUNK" ], "fries", 4 ],
+                    [ [ "ANTIWHEAT", "ANTIJUNK" ], [ "MEATARIAN" ], "veggy_salad", "fork" ],
+                    [ [ "ANTIWHEAT", "ANTIJUNK", "MEATARIAN" ], "fried_spam", "fork" ],
+                    [ [ "LACTOSE" ], [ "ANTIWHEAT", "VEGETARIAN" ], "hamburger" ],
+                    [ [ "LACTOSE", "VEGETARIAN" ], [ "ANTIWHEAT" ], "sandwich_veggy" ],
+                    [ [ "VEGETARIAN" ], [ "ANTIWHEAT", "LACTOSE" ], "sandwich_cheese_grilled", 0.5 ]
+                ]
+            },
+            {
+                "item": "pizza_meat",
+                "sub": [
+                    [ [ "VEGETARIAN" ], [ "ANTIWHEAT" ], "pizza_veggy" ],
+                    [ [ "VEGETARIAN", "ANTIWHEAT" ], "veggy_salad", "fork" ],
+                    [ [ "ANTIWHEAT" ], [ "VEGETARIAN", "ANTIJUNK" ], "fchicken", 3 ],
+                    [ [ "ANTIWHEAT", "ANTIJUNK" ], [ "VEGETARIAN" ], "fish_fried", 2, "fork", 0.5 ]
+                ]
+            },
+            {
+                "item": "pizza_veggy",
+                "sub": [
+                    [ [ "ANTIWHEAT", "VEGETARIAN" ], "veggy_salad", "fork" ],
+                    [ [ "ANTIWHEAT" ], [ "VEGETARIAN", "ANTIJUNK" ], "fchicken", 3 ],
+                    [ [ "ANTIWHEAT", "ANTIJUNK" ], [ "VEGETARIAN" ], "fish_fried", 2, "fork", 0.5 ],
+                    [ [ "MEATARIAN" ], [ "ANTIWHEAT" ], "pizza_meat" ]
+                ]
+            },
+            {
+                "item": "can_beans",
+                "sub": [
+                    [ [ "MEATARIAN" ], "can_spam" ]
+                ]
+            },
+            {
+                "item": "glasses_eye",
+                "bonus": [ [ "MYOPIC" ], [ "HYPEROPIC" ] ]
+            },
+            {
+                "item": "glasses_bifocal",
+                "bonus": [ [ "HYPEROPIC", "MYOPIC" ] ]
+            },
+            {
+                "item": "glasses_reading",
+                "bonus": [ [ "HYPEROPIC" ], [ "MYOPIC" ] ]
+            },
+            {
+                "item": "inhaler",
+                "bonus": [ [ "ASTHMA" ] ]
+            },
+            {
+                "item": "cookbook_human",
+                "bonus": [ [ "CANNIBAL" ] ]
+            },
+            {
+                "item": "teleumbrella",
+                "bonus": [ [ "ALBINO" ] ]
+            }
+        ]
+    },
+    {
             "type": "profession",
             "ident": "bionic_prepper",
             "name": "Bionic Prepper",
@@ -32,11 +145,11 @@
             ],
             "items": {
                 "both": [
-                    "shorts_cargo",
+                    "pants_cargo",
                     "boots",
                     "hat_boonie",
-                    "blazer",
                     "tshirt",
+                    "jacket_light",
                     "socks",
                     "backpack",
                     "rope_30",
@@ -866,11 +979,11 @@
             "both": {
                 "items": [
                     "flashlight",
-                    "shorts_cargo",
+                    "pants_cargo",
                     "boots",
                     "hat_boonie",
-                    "blazer",
                     "tshirt",
+                    "jacket_light",
                     "socks",
                     "backpack",
                     "rope_30",
@@ -934,11 +1047,11 @@
         "items": {
             "both": {
                 "items": [
-                    "shorts_cargo",
+                    "pants_cargo",
                     "boots",
                     "hat_boonie",
-                    "blazer",
                     "tshirt",
+                    "jacket_light",
                     "socks",
                     "backpack",
                     "rope_30",
@@ -2294,6 +2407,7 @@
                 "name": "speech"
             }
         ],
+        "no_bonus": "teleumbrella",
         "items":{
             "both": [
                 "socks",

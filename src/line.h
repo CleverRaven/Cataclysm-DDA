@@ -1,3 +1,4 @@
+#pragma once
 #ifndef LINE_H
 #define LINE_H
 
