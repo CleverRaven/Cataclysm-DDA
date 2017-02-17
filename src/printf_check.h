@@ -1,3 +1,4 @@
+#pragma once
 #ifndef PRINTF_CHECK_H
 #define PRINTF_CHECK_H
 

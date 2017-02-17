@@ -1,3 +1,4 @@
+#pragma once
 #ifndef RNG_H
 #define RNG_H
 

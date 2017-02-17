@@ -1,3 +1,4 @@
+#pragma once
 #ifndef OVERLAY_ORDERING_H
 #define OVERLAY_ORDERING_H
 

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ITEM_H
 #define ITEM_H
 
@@ -411,6 +412,14 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * @return true if this item should be deleted (count-by-charges items with no remaining charges)
      */
     bool use_charges( const itype_id& what, long& qty, std::list<item>& used, const tripoint& pos );
+
+    /**
+     * Invokes item type's @ref drop_action.
+     * This function can change the item.
+     * @param pos Where is the item being placed. Note: the item isn't there yet.
+     * @return true if the item was destroyed during placement.
+     */
+    bool on_drop( const tripoint &pos );
 
  /**
   * Consume a specific amount of items of a specific type.
@@ -1330,11 +1339,15 @@ public:
         bool gunmod_compatible( const item& mod, std::string *msg = nullptr ) const;
 
         struct gun_mode {
-            std::string mode;           /** name of this mode */
-            item *target = nullptr;     /** pointer to base gun or attached gunmod */
-            int qty = 0;                /** burst size or melee range */
-
-            /** flags change behavior of gun mode and are **not** equivalent to item flags */
+            /* contents of `modes` for GUN type, `mode_modifier` for GUNMOD type,
+             * `gunmod_data:mode_modifier` for GENERIC or TOOL types */
+            /** name of this mode, e.g. `bayonet` for bayonets, `auto` for automatic fire, etc. */
+            std::string mode;
+            /** pointer to item providing this mode - base gun or attached gunmod */
+            item *target = nullptr;
+            /** burst size for is_gun() firearms, or melee range for is_melee() weapons */
+            int qty = 0;
+            /** flags change behavior of gun mode, e.g. MELEE for bayonets that make a reach attack instead of firing - these are **not** equivalent to item flags! */
             std::set<std::string> flags;
 
             gun_mode() = default;

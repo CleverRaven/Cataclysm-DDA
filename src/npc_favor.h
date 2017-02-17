@@ -1,3 +1,4 @@
+#pragma once
 #ifndef NPC_FAVOR_H
 #define NPC_FAVOR_H
 

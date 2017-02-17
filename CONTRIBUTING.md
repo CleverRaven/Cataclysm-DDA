@@ -28,7 +28,7 @@ This requires two actions:
 - Marking strings that should be translated in the source.
 - Calling translation functions at run time.
 
-The first action allows to automatically extract those strings, which are given to the translator team. They return a file that maps the original string (usually in English) as it appears in the code to the translated string. This is used at run time by the translation functions (the second action).
+The first action allows automatically extracting those strings, which are given to the translator team. They return a file that maps the original string (usually in English) as it appears in the code to the translated string. This is used at run time by the translation functions (the second action).
 
 Note that only extracted strings can get translated. The original string is used to request the translation, in other words: the original string is the identifier used for a specific translation. If the function doesn't know the translation, it returns the original string.
 
@@ -36,7 +36,7 @@ The empty string is always translated into some debug information, not into an e
 
 Error messages (which indicate a bug in the program) and debug messages should not be translated. If they appear, the player is expected to report them *exactly* as they were printed by the game.
 
-Practically, you should use one of the following three functions in the source code to get a translation.
+In practice, you should use one of the following three functions in the source code to get a translation.
 
 String *literals* that are used in any of these functions are automatically extracted. Non-literal strings are translated at run time, but they won't get extracted.
 ```C++
@@ -64,18 +64,18 @@ add_msg( _( "You drop the %s." ), the_item_name );
 
 ### Using `pgettext()`
 
-If the original string is short, or its meaning is not clear (e.g. "blue" can be a color or an emotion, similar for abbreviations), one can add a context to the string. The context is provided to the translators, but is not part of the translated string itself. This is done by calling `pgettext`, its first parameter is the context, the second is the string to be translated.
+If the original string is short or its meaning in isolation is ambiguous (e.g. "blue" can be a color or an emotion), one can add a context to the string. The context is provided to the translators, but is not part of the translated string itself. This is done by calling `pgettext`.  This function's first parameter is the context, the second is the string to be translated.
 ```c++
 const char *translated = pgettext("The direction: East", "E");
 ```
 
 ### Using `ngettext()`
 
-Many languages have plural forms, some have complex rules how to form those. To translate the plural form correctly, use `ngettext`, its first parameter is the untranslated string in singular, the second parameter is the untranslated string in plural form and the third is used to determine the required plural form.
+Many languages have plural forms.  Some have complex rules for how to form these. To translate the plural form correctly, use `ngettext`.  Its first parameter is the untranslated string in singular, the second parameter is the untranslated string in plural form and the third is used to determine the required plural form.
 ```c++
 const char *translated = ngettext( "one zombie.", "many zombies", num_zombies );
 ```
-Some classes (like `itype`, `mtype`) provide a wrapper for those function, named `nname`.
+Some classes (like `itype` and `mtype`) provide a wrapper for these functions, named `nname`.
 
 ## Doxygen Comments
 
@@ -117,7 +117,7 @@ http://www.stack.nl/~dimitri/doxygen/manual/faq.html
 ### Guidelines for adding documentation
 * Doxygen comments should describe behavior towards the outside, not implementation, but since many classes in Cataclysm are intertwined, it's often necessary to describe implementation.
 * Describe things that aren't obvious to newcomers just from the name.
-* Don't describe redundantly, `/** Map **/; map* map;` is not a helpful comment.
+* Don't describe redundantly: `/** Map **/; map* map;` is not a helpful comment.
 * When documenting X, describe how X interacts with other components, not just what X itself does.
 
 ### Building the documentation for viewing it locally
@@ -246,13 +246,13 @@ fixed
 resolve
 resolves
 resolved
-And ??? is the number. This automatically closes the issue when the PR is pulled in, and allows mergers to work slightly faster. To close multiple issues format it as "XXXX #???, XXXX#???".
+The "???" is the issue number. This automatically closes the issue when the PR is pulled in, and allows merges to work slightly faster. To close multiple issues format it as "XXXX #???, XXXX#???".
 
 ## In-game testing, test environment and the debug menu
 
-Whether you are implementing a new feature or whether you are fixing a bug, it is always a good practice to test your changes in-game. It can be a hard task to create the exact conditions by playing a normal game to be able to test your changes which is why there is a debug menu. There is no default key to bring up the menu so you will need to assign one first.
+Whether you are implementing a new feature or whether you are fixing a bug, it is always a good practice to test your changes in-game. It can be a hard task to create the exact conditions by playing a normal game to be able to test your changes, which is why there is a debug menu. There is no default key to bring up the menu so you will need to assign one first.
 
-Bring up the keybindings menu (Press `?` than `1`), scroll down almost to the bottom and press `+` to add a new key binding. Press the letter that correspond to the *Debug menu* item than press the key you want to use to bring up the debug menu. To test your changes, create a new world with a new character. Once you are in that world, press the key you just assigned for the debug menu and you should see something like this:
+Bring up the keybindings menu (press `Escape` then `1`), scroll down almost to the bottom and press `+` to add a new key binding. Press the letter that corresponds to the *Debug menu* item, then press the key you want to use to bring up the debug menu. To test your changes, create a new world with a new character. Once you are in that world, press the key you just assigned for the debug menu and you should see something like this:
 
 ```
 ┌────────────────────────────────────────────┐

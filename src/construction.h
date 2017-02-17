@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CONSTRUCTION_H
 #define CONSTRUCTION_H
 

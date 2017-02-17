@@ -176,8 +176,6 @@ void map::generate(const int x, const int y, const int z, const int turn)
     const auto &spawns = terrain_type->get_static_spawns();
     if( spawns.group && x_in_y( spawns.chance, 100 ) ) {
         int pop = rng( spawns.population.min, spawns.population.max );
-        // place_spawns currently depends on the STATIC_SPAWN world option, this
-        // must bypass it.
         for( ; pop > 0; pop-- ) {
             MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
             if( !spawn_details.name ) {
@@ -1198,7 +1196,7 @@ void jmapgen_objects::load_objects( JsonObject &jsi, const std::string &member_n
 }
 
 template<typename PieceType>
-void load_place_mapings( JsonObject jobj, mapgen_function_json::placing_map::mapped_type &vect )
+void load_place_mapings( JsonObject jobj, mapgen_palette::placing_map::mapped_type &vect )
 {
     vect.emplace_back( new PieceType( jobj ) );
 }
@@ -1212,7 +1210,7 @@ an overload below.
 The mapgen piece is loaded from the member of the json object named key.
 */
 template<typename PieceType>
-void load_place_mapings( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+void load_place_mapings( JsonObject &pjo, const std::string &key, mapgen_palette::placing_map::mapped_type &vect )
 {
     if( pjo.has_object( key ) ) {
         load_place_mapings<PieceType>( pjo.get_object( key ), vect );
@@ -1229,7 +1227,7 @@ This function allows loading the mapgen pieces from a single string, *or* a json
 The mapgen piece is loaded from the member of the json object named key.
 */
 template<typename PieceType>
-void load_place_mapings_string( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+void load_place_mapings_string( JsonObject &pjo, const std::string &key, mapgen_palette::placing_map::mapped_type &vect )
 {
     if( pjo.has_string( key ) ) {
         try {
@@ -1262,7 +1260,7 @@ instance of jmapgen_alternativly which will chose the mapgen piece to apply to t
 Use this with terrain or traps or other things that can not be applied twice to the same place.
 */
 template<typename PieceType>
-void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key, mapgen_palette::placing_map::mapped_type &vect )
 {
     if( !pjo.has_array( key ) ) {
         load_place_mapings_string<PieceType>( pjo, key, vect );
@@ -1287,25 +1285,25 @@ void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key, 
 }
 
 template<>
-void load_place_mapings<jmapgen_trap>( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+void load_place_mapings<jmapgen_trap>( JsonObject &pjo, const std::string &key, mapgen_palette::placing_map::mapped_type &vect )
 {
     load_place_mapings_alternatively<jmapgen_trap>( pjo, key, vect );
 }
 
 template<>
-void load_place_mapings<jmapgen_furniture>( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+void load_place_mapings<jmapgen_furniture>( JsonObject &pjo, const std::string &key, mapgen_palette::placing_map::mapped_type &vect )
 {
     load_place_mapings_alternatively<jmapgen_furniture>( pjo, key, vect );
 }
 
 template<>
-void load_place_mapings<jmapgen_terrain>( JsonObject &pjo, const std::string &key, mapgen_function_json::placing_map::mapped_type &vect )
+void load_place_mapings<jmapgen_terrain>( JsonObject &pjo, const std::string &key, mapgen_palette::placing_map::mapped_type &vect )
 {
     load_place_mapings_alternatively<jmapgen_terrain>( pjo, key, vect );
 }
 
 template<typename PieceType>
-void mapgen_function_json::load_place_mapings( JsonObject &jo, const std::string &member_name, placing_map &format_placings )
+void mapgen_palette::load_place_mapings( JsonObject &jo, const std::string &member_name, placing_map &format_placings )
 {
     if( jo.has_object( "mapping" ) ) {
         JsonObject pjo = jo.get_object( "mapping" );
@@ -1325,7 +1323,7 @@ void mapgen_function_json::load_place_mapings( JsonObject &jo, const std::string
         return;
     }
     /* This is kind of a hack. Loading furniture/terrain from `jo` is already done in
-     * mapgen_function_json::setup, continuing here would load it again and cause trouble.
+     * mapgen_palette::load_temp, continuing here would load it again and cause trouble.
      */
     if( member_name == "terrain" || member_name == "furniture" ) {
         return;
@@ -1338,6 +1336,132 @@ void mapgen_function_json::load_place_mapings( JsonObject &jo, const std::string
         auto &vect = format_placings[ key[0] ];
         ::load_place_mapings<PieceType>( pjo, key, vect );
     }
+}
+
+std::map<std::string, mapgen_palette> palettes;
+
+mapgen_palette mapgen_palette::load_temp( JsonObject &jo, const std::string &src )
+{
+    return load_internal( jo, src, false, true );
+}
+
+void mapgen_palette::load( JsonObject &jo, const std::string &src )
+{
+    mapgen_palette ret = load_internal( jo, src, true, false );
+    if( ret.id.empty() ) {
+        jo.throw_error( "Named palette needs an id" );
+    }
+
+    palettes[ ret.id ] = ret;
+}
+
+const mapgen_palette &mapgen_palette::get( const palette_id &id )
+{
+    const auto iter = palettes.find( id );
+    if( iter != palettes.end() ) {
+        return iter->second;
+    }
+
+    debugmsg( "Requested palette with unknown id %s", id.c_str() );
+    static mapgen_palette dummy;
+    return dummy;
+}
+
+void mapgen_palette::add( const palette_id &rh )
+{
+    add( get( rh ) );
+}
+
+void mapgen_palette::add( const mapgen_palette &rh )
+{
+    for( auto &placing : rh.format_placings ) {
+        format_placings[ placing.first ] = placing.second;
+    }
+    for( auto &placing : rh.format_terrain ) {
+        format_terrain[ placing.first ] = placing.second;
+    }
+    for( auto &placing : rh.format_furniture ) {
+        format_furniture[ placing.first ] = placing.second;
+    }
+}
+
+mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string &, bool require_id, bool allow_recur )
+{
+    mapgen_palette new_pal;
+    auto &format_placings = new_pal.format_placings;
+    auto &format_terrain = new_pal.format_terrain;
+    auto &format_furniture = new_pal.format_furniture;
+    if( require_id ) {
+        new_pal.id = jo.get_string( "id" );
+    }
+
+    if( jo.has_array( "palettes" ) ) {
+        if( allow_recur ) {
+            auto pals = jo.get_string_array( "palettes" );
+            for( auto &p : pals ) {
+                new_pal.add( p );
+            }
+        } else {
+            jo.throw_error( "Recursive palettes are not implemented yet" );
+        }
+    }
+
+    // manditory: every character in rows must have matching entry, unless fill_ter is set
+    // "terrain": { "a": "t_grass", "b": "t_lava" }
+    if( jo.has_object("terrain") ) {
+        JsonObject pjo = jo.get_object("terrain");
+        for( const auto &key : pjo.get_member_names() ) {
+            if( key.size() != 1 ) {
+                pjo.throw_error( "format map key must be 1 character", key );
+            }
+            if( pjo.has_string( key ) ) {
+                format_terrain[key[0]] = ter_id( pjo.get_string( key ) );
+            } else {
+                auto &vect = format_placings[ key[0] ];
+                ::load_place_mapings<jmapgen_terrain>( pjo, key, vect );
+                if( !vect.empty() ) {
+                    // Dummy entry to signal that this terrain is actually defined, because
+                    // the code below checks that each square on the map has a valid terrain
+                    // defined somehow.
+                    format_terrain[key[0]] = t_null;
+                }
+            }
+        }
+    }
+
+    if( jo.has_object("furniture") ) {
+        JsonObject pjo = jo.get_object("furniture");
+        for( const auto &key : pjo.get_member_names() ) {
+            if( key.size() != 1 ) {
+                pjo.throw_error( "format map key must be 1 character", key );
+            }
+            if( pjo.has_string( key ) ) {
+                format_furniture[key[0]] = furn_id( pjo.get_string( key ) );
+            } else {
+                auto &vect = format_placings[ key[0] ];
+                ::load_place_mapings<jmapgen_furniture>( pjo, key, vect );
+            }
+        }
+    }
+    new_pal.load_place_mapings<jmapgen_field>( jo, "fields", format_placings );
+    new_pal.load_place_mapings<jmapgen_npc>( jo, "npcs", format_placings );
+    new_pal.load_place_mapings<jmapgen_sign>( jo, "signs", format_placings );
+    new_pal.load_place_mapings<jmapgen_vending_machine>( jo, "vendingmachines", format_placings );
+    new_pal.load_place_mapings<jmapgen_toilet>( jo, "toilets", format_placings );
+    new_pal.load_place_mapings<jmapgen_gaspump>( jo, "gaspumps", format_placings );
+    new_pal.load_place_mapings<jmapgen_item_group>( jo, "items", format_placings );
+    new_pal.load_place_mapings<jmapgen_monster_group>( jo, "monsters", format_placings );
+    new_pal.load_place_mapings<jmapgen_vehicle>( jo, "vehicles", format_placings );
+    // json member name is not optimal, it should be plural like all the others above, but that conflicts
+    // with the items entry with refers to item groups.
+    new_pal.load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings );
+    new_pal.load_place_mapings<jmapgen_trap>( jo, "traps", format_placings );
+    new_pal.load_place_mapings<jmapgen_monster>( jo, "monster", format_placings );
+    new_pal.load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings );
+    new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
+    new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings );
+
+    return new_pal;
 }
 
 /*
@@ -1360,6 +1484,8 @@ bool mapgen_function_json::setup() {
         JsonArray sparray;
         JsonObject pjo;
 
+        // mapgensize = jo.get_int("mapgensize", 24); // eventually..
+
         // something akin to mapgen fill_background.
         if ( jo.read("fill_ter", tmpval) ) {
             fill_ter = tmpval.id();
@@ -1370,66 +1496,18 @@ bool mapgen_function_json::setup() {
         format.resize( mapgensize * mapgensize );
         // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
         if ( jo.has_array("rows") ) {
-            placing_map format_placings;
-            std::map<int,ter_id> format_terrain;
-            std::map<int,furn_id> format_furniture;
-            // manditory: every character in rows must have matching entry, unless fill_ter is set
-            // "terrain": { "a": "t_grass", "b": "t_lava" }
-            if ( jo.has_object("terrain") ) {
-                pjo = jo.get_object("terrain");
-                for( const auto &key : pjo.get_member_names() ) {
-                    if( key.size() != 1 ) {
-                        pjo.throw_error( "format map key must be 1 character", key );
-                    }
-                    if( pjo.has_string( key ) ) {
-                        format_terrain[key[0]] = ter_id( pjo.get_string( key ) );
-                    } else {
-                        auto &vect = format_placings[ key[0] ];
-                        ::load_place_mapings<jmapgen_terrain>( pjo, key, vect );
-                        if( !vect.empty() ) {
-                            // Dummy entry to signal that this terrain is actually defined, because
-                            // the code below checks that each square on the map has a valid terrain
-                            // defined somehow.
-                            format_terrain[key[0]] = t_null;
-                        }
-                    }
-                }
-            } else {
+            mapgen_palette palette = mapgen_palette::load_temp( jo, "core" );
+            auto &format_terrain = palette.format_terrain;
+            auto &format_furniture = palette.format_furniture;
+            auto &format_placings = palette.format_placings;
+
+            if( format_terrain.empty() ) {
                 jsin.error( "format: no terrain map" );
             }
-            if ( jo.has_object("furniture") ) {
-                pjo = jo.get_object("furniture");
-                for( const auto &key : pjo.get_member_names() ) {
-                    if( key.size() != 1 ) {
-                        pjo.throw_error( "format map key must be 1 character", key );
-                    }
-                    if( pjo.has_string( key ) ) {
-                        format_furniture[key[0]] = furn_id( pjo.get_string( key ) );
-                    } else {
-                        auto &vect = format_placings[ key[0] ];
-                        ::load_place_mapings<jmapgen_furniture>( pjo, key, vect );
-                    }
-                }
-            }
-            load_place_mapings<jmapgen_field>( jo, "fields", format_placings );
-            load_place_mapings<jmapgen_npc>( jo, "npcs", format_placings );
-            load_place_mapings<jmapgen_sign>( jo, "signs", format_placings );
-            load_place_mapings<jmapgen_vending_machine>( jo, "vendingmachines", format_placings );
-            load_place_mapings<jmapgen_toilet>( jo, "toilets", format_placings );
-            load_place_mapings<jmapgen_gaspump>( jo, "gaspumps", format_placings );
-            load_place_mapings<jmapgen_item_group>( jo, "items", format_placings );
-            load_place_mapings<jmapgen_loot>( jo, "loot", format_placings );
-            load_place_mapings<jmapgen_monster_group>( jo, "monsters", format_placings );
-            load_place_mapings<jmapgen_vehicle>( jo, "vehicles", format_placings );
-            // json member name is not optimal, it should be plural like all the others above, but that conflicts
-            // with the items entry with refers to item groups.
-            load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings );
-            load_place_mapings<jmapgen_trap>( jo, "traps", format_placings );
-            load_place_mapings<jmapgen_monster>( jo, "monster", format_placings );
-            load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings );
-            load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
-            load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings );
 
+            // mandatory: 24 rows of 24 character lines, each of which must have a matching key in "terrain",
+            // unless fill_ter is set
+            // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
             parray = jo.get_array( "rows" );
             if ( parray.size() < mapgensize + y_offset ) {
                 parray.throw_error( string_format( "  format: rows: must have at least %d rows, not %d",
@@ -1443,14 +1521,16 @@ bool mapgen_function_json::setup() {
                 }
                 for ( size_t i = x_offset; i < mapgensize + x_offset; i++ ) {
                     const int tmpkey = tmpval[i];
-                    if ( format_terrain.find( tmpkey ) != format_terrain.end() ) {
-                        format[ calc_index( i - x_offset, c - y_offset ) ].ter = format_terrain[ tmpkey ];
+                    auto iter_ter = format_terrain.find( tmpkey );
+                    if ( iter_ter != format_terrain.end() ) {
+                        format[ calc_index( i - x_offset, c - y_offset ) ].ter = iter_ter->second;
                     } else if ( ! qualifies ) { // fill_ter should make this kosher
                         parray.throw_error( string_format( "  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",
                                                            c + 1, i + 1, (char)tmpkey ) );
                     }
-                    if ( format_furniture.find( tmpkey ) != format_furniture.end() ) {
-                        format[ calc_index( i - x_offset, c - y_offset ) ].furn = format_furniture[ tmpkey ];
+                    auto iter_furn = format_furniture.find( tmpkey );
+                    if ( iter_furn != format_furniture.end() ) {
+                        format[ calc_index( i - x_offset, c - y_offset ) ].furn = iter_furn->second;
                     }
                     const auto fpi = format_placings.find( tmpkey );
                     if( fpi != format_placings.end() ) {
@@ -5594,252 +5674,6 @@ ff.......|....|WWWWWWWW|\n\
             rotate(1);
         }
 
-
-    } else if (terrain_type == "public_works_entrance") {
-
-        dat.fill_groundcover();
-        mapf::formatted_set_simple(this, 0, 0,
-                                   "\
- f  ____________________\n\
- f  ____________________\n\
- f  ___________    sssss\n\
- f  ___________    sssss\n\
- f  ___________  |--D---\n\
- f  ___________  |....|.\n\
- f  ___________  |....|.\n\
- f  ___________  |lttl|.\n\
- fFFF_________FFF|----|.\n\
-    ___________ss|..h.|.\n\
-    ___________xs|....+.\n\
-    ___________sswddd.|.\n\
-    ___________ssw.hd.|.\n\
-    ___________ss|l...|.\n\
-    ___________ss|-ww-|-\n\
-    ___________sssssssss\n\
-    ____________,_____,_\n\
-    ____________,_____,_\n\
-    ____________,_____,_\n\
-    ____________,_____,_\n\
-    ____________________\n\
-    ____________________\n\
-    ____________________\n\
-    ____________________\n",
-                                   mapf::ter_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,
-                                           t_grate, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console,
-                                           t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c,
-                                           t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
-                                           t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::furn_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_pool_table,
-                                           f_crate_c, f_null,  f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,
-                                           f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,
-                                           f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
-                                           f_locker, f_null));
-        place_items("tools_construction", 80,  18, 7, 21,  7, false, 0);
-        place_items("office", 80,  18,  11, 20,  11, false, 0);
-        place_items("office", 60,  18,  13, 18,  13, false, 0);
-        place_spawns( GROUP_PUBLICWORKERS, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.2);
-        if (t_north == "public_works" && t_west == "public_works") {
-            rotate(3);
-        } else if (t_north == "public_works" && t_east == "public_works") {
-            rotate(0);
-        } else if (t_south == "public_works" && t_east == "public_works") {
-            rotate(1);
-        } else if (t_west == "public_works" && t_south == "public_works") {
-            rotate(2);
-        }
-
-
-    } else if (terrain_type == "public_works") {
-
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        if ((t_south == "public_works_entrance" && t_east == "public_works") ||
-            (t_north == "public_works" && t_east == "public_works_entrance") || (t_west == "public_works" &&
-                    t_north == "public_works_entrance") ||
-            (t_south == "public_works" && t_west == "public_works_entrance")) {
-            mapf::formatted_set_simple(this, 0, 0,
-                                       "\
-                        \n\
- |---------------|FFFFFF\n\
- |....rrrrrrrr...|      \n\
- |r..............| _____\n\
- |r..............| _____\n\
- |r..............| _____\n\
- |r..............| _____\n\
- |r..............| _____\n\
- |r..............| _____\n\
- |...............| _____\n\
- |--___________--| _____\n\
- f  ___________    _____\n\
- f  ____________________\n\
- f  ____________________\n\
- f  ____________________\n\
- f  ____________________\n\
- f  ____________________\n\
- f  ____________________\n\
- f  ____________________\n\
- f  ____________________\n\
- f  ____________________\n\
- f  ____________________\n\
- f  ____________________\n\
- f  ____________________\n",
-                                       mapf::ter_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,
-                                               t_grate, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console,
-                                               t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c,
-                                               t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
-                                               t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::furn_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_pool_table,
-                                               f_crate_c, f_null,  f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,
-                                               f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,
-                                               f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
-                                               f_locker, f_null));
-            place_items("hardware", 85,  2, 3, 2,  8, false, 0);
-            place_items("hardware", 85,  6,  2, 13,  2, false, 0);
-            spawn_item(21, 2, "log", rng(1, 3));
-            spawn_item(15, 2, "pipe", rng(1, 10));
-            spawn_item(4, 2, "glass_sheet", rng(1, 7));
-            spawn_item(16, 5, "2x4", rng(1, 20));
-            spawn_item(16, 7, "2x4", rng(1, 20));
-            spawn_item(12, 2, "nail");
-            spawn_item(13, 2, "nail");
-            spawn_item(14, 2, "material_sand", rng(1, 10));
-            place_spawns( GROUP_PUBLICWORKERS, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
-            if (t_west == "public_works_entrance") {
-                rotate(1);
-            }
-            if (t_north == "public_works_entrance") {
-                rotate(2);
-            }
-            if (t_east == "public_works_entrance") {
-                rotate(3);
-            }
-        }
-
-        else if ((t_west == "public_works_entrance" && t_north == "public_works") ||
-                 (t_north == "public_works_entrance" && t_east == "public_works") || (t_west == "public_works" &&
-                         t_south == "public_works_entrance") ||
-                 (t_south == "public_works" && t_east == "public_works_entrance")) {
-            mapf::formatted_set_simple(this, 0, 0,
-                                       "\
-__________           f  \n\
-__________           f  \n\
-ss                   f  \n\
-ss                   f  \n\
-+----ww-ww-ww-ww--|GFf  \n\
-.^|..htth.........|     \n\
-..+..........PPP..w     \n\
-..|..........PPP..w     \n\
-..|ccecoS........^|     \n\
-..|---------------|     \n\
-...llllllll|cScScS|     \n\
-...........|......|     \n\
-...........+......|     \n\
-.htth......|..|+|+|     \n\
---ww---|...|.T|T|T|     \n\
-sssssss|...|--|-|-|     \n\
-____sss|.........l|     \n\
-____sss+...c......w     \n\
-____sss+...ch...hdw     \n\
-____sss|^..c...ddd|     \n\
-____sss|-www--www-|     \n\
-____sss                 \n\
-____sss                 \n\
-____sss                 \n",
-                                       mapf::ter_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,
-                                               t_chaingate_l, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console,
-                                               t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c,
-                                               t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
-                                               t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::furn_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_pool_table,
-                                               f_crate_c, f_null,  f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,
-                                               f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,
-                                               f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
-                                               f_locker, f_null));
-            place_items("fridge", 80,  5, 8, 5,  8, false, 0);
-            place_items("pool_table", 80,  13,  6, 15,  7, false, 0);
-            place_items("construction_worker", 90,  3, 10, 10,  10, false, 0);
-            place_items("office", 80,  15,  19, 17,  19, false, 0);
-            place_items("cleaning", 80,  17,  16, 17,  16, false, 0);
-            place_spawns( GROUP_PUBLICWORKERS, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.3);
-            if (t_north == "public_works_entrance") {
-                rotate(1);
-            }
-            if (t_east == "public_works_entrance") {
-                rotate(2);
-            }
-            if (t_south == "public_works_entrance") {
-                rotate(3);
-            }
-        }
-
-        else {
-            mapf::formatted_set_simple(this, 0, 0,
-                                       "\
-                        \n\
-FFFFFFFFF|------------| \n\
-         |..ll..rrr...| \n\
-__________............| \n\
-__________...........c| \n\
-__________...........c| \n\
-__________...........l| \n\
-__________...........l| \n\
-________ |............| \n\
-________ |..O.clc.O...| \n\
-________ |............| \n\
-__________............| \n\
-__________...........c| \n\
-__________...........c| \n\
-__________...........l| \n\
-__________...........l| \n\
-________ |......rr....| \n\
-________ |---+--------| \n\
-________   |..rrrr|  f  \n\
-__________s+......w  f  \n\
-__________ |r....r|  f  \n\
-__________ |r....r|  f  \n\
-__________ |--ww--|  f  \n\
-__________           f  \n",
-                                       mapf::ter_bind("O P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_column, t_floor,
-                                               t_floor,   t_grate, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console,
-                                               t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c,
-                                               t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
-                                               t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::furn_bind("O P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_null,
-                                               f_pool_table, f_crate_c, f_null,  f_null,       f_null,     f_rack,  f_null,         f_null,
-                                               f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,
-                                               f_null,        f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair,
-                                               f_counter, f_desk,  f_locker, f_null));
-            place_items("tools_carpentry", 85,  14, 18, 17,  18, false, 0);
-            place_items("tools_construction", 85,  17,  20, 17,  21, false, 0);
-            place_items("tools_earthworking", 85,  12,  20, 12,  21, false, 0);
-            place_items("mechanics", 85,  21, 12, 21,  15, false, 0);
-            place_items("mechanics", 85,  21,  4, 21,  7, false, 0);
-            place_items("mechanics", 85,  14,  9, 16,  9, false, 0);
-            place_items("electronics", 80,  16,  2, 18,  2, false, 0);
-            place_items("cleaning", 85,  12,  2, 13,  2, false, 0);
-            spawn_item(3, 2, "log", rng(1, 3));
-            place_spawns( GROUP_PUBLICWORKERS, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
-            if (t_west == "public_works" && t_north == "public_works") {
-                rotate(1);
-                if( one_in( 2 ) ) {
-                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 2, 0 }, 90, 0 ,0 );
-                }
-            } else if (t_east == "public_works" && t_north == "public_works") {
-                rotate(2);
-                if( one_in( 2 ) ) {
-                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 23, 10 }, 270, 0, 0 );
-                }
-            } else if (t_east == "public_works" && t_south == "public_works") {
-                rotate(3);
-                if( one_in( 2 ) ) {
-                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 10, 23 }, 0, 0, 0 );
-                }
-            } else {
-                if( one_in( 2 ) ) {
-                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 0, 10 }, 90, 0, 0 );
-                }
-            }
-        }
 
     } else if (terrain_type == "school_1") {
 
@@ -10132,10 +9966,6 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 void map::place_spawns(const mongroup_id& group, const int chance,
                        const int x1, const int y1, const int x2, const int y2, const float density)
 {
-    if (!get_world_option<bool>( "STATIC_SPAWN" ) ) {
-        return;
-    }
-
     if( !group.is_valid() ) {
         const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );

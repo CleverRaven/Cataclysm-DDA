@@ -27,6 +27,7 @@
 #include "generic_factory.h"
 #include "map_iterator.h"
 #include "cata_utility.h"
+#include "string_input_popup.h"
 
 #include <sstream>
 #include <algorithm>
@@ -297,7 +298,7 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         }
         return 0;
     }
-    if (it->charges > 0) {
+    if( it->charges > 0 ) {
         if (no_deactivate_msg.empty()) {
             p->add_msg_if_player(m_warning,
                                  _("You've already set the %s's timer you might want to get away from it."), it->tname().c_str());
@@ -1329,23 +1330,28 @@ bool inscribe_actor::item_inscription( item *cut ) const
     }
 
     const bool hasnote = cut->has_var( carving );
-    std::string message = "";
     std::string messageprefix = string_format(hasnote ? _("(To delete, input one '.')\n") : "") +
                                 string_format(_("%1$s on the %2$s is: "),
                                         _( gerund.c_str() ), cut->type_name().c_str());
-    message = string_input_popup(string_format(_("%s what?"), _( verb.c_str() ) ), 64,
-                                 (hasnote ? cut->get_var( carving ) : message),
-                                 messageprefix, "inscribe_item", 128);
 
-    if( !message.empty() )
-    {
-        if( hasnote && message == "." ) {
-            cut->erase_var( carving );
-            cut->erase_var( carving_type );
-        } else {
-            cut->set_var( carving, message );
-            cut->set_var( carving_type, _( gerund.c_str() ) );
-        }
+    string_input_popup popup;
+    popup.title( string_format( _( "%s what?" ), _( verb.c_str() ) ) )
+         .width( 64 )
+         .text( hasnote ? cut->get_var( carving ) : "" )
+         .description( messageprefix )
+         .identifier( "inscribe_item" )
+         .max_length( 128 )
+         .query();
+    if( popup.canceled() ) {
+        return false;
+    }
+    const std::string message = popup.text();
+    if( hasnote && message == "." ) {
+        cut->erase_var( carving );
+        cut->erase_var( carving_type );
+    } else {
+        cut->set_var( carving, message );
+        cut->set_var( carving_type, _( gerund.c_str() ) );
     }
 
     return true;
@@ -3127,4 +3133,42 @@ long place_trap_actor::use( player * const p, item * const it, bool, const tripo
         }
     }
     return 1;
+}
+
+void emit_actor::load( JsonObject &obj )
+{
+    assign( obj, "emits", emits );
+    assign( obj, "scale_qty", scale_qty );
+}
+
+long emit_actor::use( player*, item *it, bool, const tripoint &pos ) const
+{
+    const float scaling = scale_qty ? it->charges : 1;
+    for( const auto &e : emits ) {
+        g->m.emit_field( pos, e, scaling );
+    }
+
+    return 1;
+}
+
+iuse_actor *emit_actor::clone() const
+{
+    return new emit_actor( *this );
+}
+
+void emit_actor::finalize( const itype_id &my_item_type )
+{
+    /*
+    // @todo This must be called after all finalization
+    for( const auto& e : emits ) {
+        if( !e.is_valid() ) {
+            debugmsg( "Item %s has unknown emit source %s", my_item_type.c_str(), e.c_str() );
+        }
+    }
+    */
+
+    if( scale_qty && !item::count_by_charges( my_item_type ) ) {
+        debugmsg( "Item %s has emit_actor with scale_qty, but is not counted by charges", my_item_type.c_str() );
+        scale_qty = false;
+    }
 }

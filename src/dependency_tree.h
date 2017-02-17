@@ -1,3 +1,4 @@
+#pragma once
 #ifndef DEPENDENCY_TREE_H
 #define DEPENDENCY_TREE_H
 

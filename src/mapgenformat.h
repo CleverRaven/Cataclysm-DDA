@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MAPGENFORMAT_H
 #define MAPGENFORMAT_H
 

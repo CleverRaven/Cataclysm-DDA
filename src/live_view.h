@@ -1,3 +1,4 @@
+#pragma once
 #ifndef LIVE_VIEW_H
 #define LIVE_VIEW_H
 

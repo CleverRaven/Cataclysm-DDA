@@ -73,11 +73,13 @@
   "difficulty": 5,
   "time": 120000,
   "book_learn": [[ "book_sacrifice", 5 ]],
-  "qualities":[{"id":"HAMMER","level":3}],
+  "qualities":[
+    {"id":"HAMMER","level":3},
+    {"id":"CHISEL","level":3}
+  ],
   "tools": [
     [ [ "book_sacrifice", -1 ] ],
     [ [ "tongs", -1 ] ],
-    [ [ "chisel", -1 ] ],
     [ [ "anvil", -1 ] ],
     [ [ "swage", -1 ] ],
     [
@@ -170,12 +172,12 @@
   "book_learn": [[ "book_summoning", 5 ]],
   "qualities":[
     {"id":"HAMMER","level":3},
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1},
+    {"id":"CHISEL","level":3}
   ],
   "tools": [
     [ [ "book_summoning", -1 ] ],
     [ [ "tongs", -1 ] ],
-    [ [ "chisel", -1 ] ],
     [ [ "anvil", -1 ] ],
     [ [ "swage", -1 ] ],
     [

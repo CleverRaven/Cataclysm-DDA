@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MAP_ITERATOR_H
 #define MAP_ITERATOR_H
 

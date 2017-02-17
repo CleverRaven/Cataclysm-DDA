@@ -48,6 +48,7 @@
     "time": 180000,
     "reversible": false,
     "autolearn": true,
+    "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the sweetbreads",
     "qualities": [
       { "id": "SAW_M_FINE", "level": 1, "amount": 1 },
       { "id": "SCREW_FINE", "level": 1, "amount": 1 },

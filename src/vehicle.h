@@ -1,3 +1,4 @@
+#pragma once
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
@@ -1178,7 +1179,7 @@ public:
     std::vector<int> speciality;       // List of parts that will not be on a vehicle very often, or which only one will be present
     std::vector<int> floating;         // List of parts that provide buoyancy to boats
     std::set<std::string> tags;        // Properties of the vehicle
-
+    std::map<itype_id,float> fuel_remainder; // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
     active_item_cache active_items;
 
     /**

@@ -1478,8 +1478,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     auto name_quality = [&info]( const std::pair<quality_id,int>& q ) {
         std::string str;
         if( q.first == quality_jack || q.first == quality_lift ) {
-            str = string_format( _( "Has level <info>%1$d %2$s</info> quality and is rated at <info>%3$dkg</info>" ),
-                                 q.second, q.first.obj().name.c_str(), q.second * TOOL_LIFT_FACTOR / 1000 );
+            str = string_format( _( "Has level <info>%1$d %2$s</info> quality and is rated at <info>%3$d</info> %4$s" ),
+                                 q.second, q.first.obj().name.c_str(), (int)convert_weight( q.second * TOOL_LIFT_FACTOR ),
+                                 weight_units() );
         } else {
             str = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
                                  q.second, q.first.obj().name.c_str() );
@@ -2069,6 +2070,7 @@ void item::on_wield( player &p, int mv )
         g->add_artifact_messages( type->artifact->effects_wielded );
     }
 
+    // weapons with bayonet/bipod or other generic "unhandiness"
     if( has_flag("SLOW_WIELD") && !is_gunmod() ) {
         float d = 32.0; // arbitrary linear scaling factor
         if( is_gun() ) {
@@ -2078,6 +2080,13 @@ void item::on_wield( player &p, int mv )
         }
 
         int penalty = get_var( "volume", type->volume / units::legacy_volume_factor ) * d;
+        p.moves -= penalty;
+        mv += penalty;
+    }
+
+    // weapons with a folding stock
+    if( has_flag( "NEEDS_UNFOLD" ) && !is_gunmod() ) {
+        int penalty = std::max( 0, 300 - p.get_skill_level( gun_skill() ) * 10 );
         p.moves -= penalty;
         mv += penalty;
     }
@@ -2534,12 +2543,12 @@ units::volume item::volume( bool integral ) const
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume", ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
             if     ( tmpvol <=  3 ) ; // intentional NOP
-            else if( tmpvol <=  5 ) ret -=  500_ml;
-            else if( tmpvol <=  6 ) ret -=  750_ml;
-            else if( tmpvol <=  8 ) ret -= 1000_ml;
-            else if( tmpvol <= 11 ) ret -= 1250_ml;
-            else if( tmpvol <= 16 ) ret -= 1500_ml;
-            else                    ret -= 1750_ml;
+            else if( tmpvol <=  5 ) ret -=  250_ml;
+            else if( tmpvol <=  6 ) ret -=  500_ml;
+            else if( tmpvol <=  9 ) ret -=  750_ml;
+            else if( tmpvol <= 12 ) ret -= 1000_ml;
+            else if( tmpvol <= 15 ) ret -= 1250_ml;
+            else                    ret -= 1500_ml;
         }
 
         if( gunmod_find( "barrel_small" ) ) {
@@ -4429,7 +4438,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
         // non-auxiliary gunmods may provide additional modes for the base item
         } else if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( this ),
+                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
                                                        std::get<1>( m.second ), std::get<2>( m.second ) } );
             }
         }
@@ -4994,6 +5003,8 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
 
 bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
 {
+    // Remember quantity so that we can unseal self
+    long old_quantity = quantity;
     // First, check contents
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
         if (a->use_amount(it, quantity, used)) {
@@ -5002,6 +5013,11 @@ bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
             ++a;
         }
     }
+
+    if( quantity != old_quantity ) {
+        on_contents_changed();
+    }
+
     // Now check the item itself
     if( typeId() == it && quantity > 0 && allow_crafting_component() ) {
         used.push_back(*this);
@@ -5072,6 +5088,8 @@ bool item::use_charges( const itype_id& what, long& qty, std::list<item>& used, 
 {
     std::vector<item *> del;
 
+    // Remember qty to unseal self
+    long old_qty = qty;
     visit_items( [&what, &qty, &used, &pos, &del] ( item *e ) {
         if( qty == 0 ) {
              // found sufficient charges
@@ -5119,6 +5137,11 @@ bool item::use_charges( const itype_id& what, long& qty, std::list<item>& used, 
             remove_item( *e );
         }
     }
+
+    if( qty != old_qty || !del.empty() ) {
+        on_contents_changed();
+    }
+
     return destroy;
 }
 
@@ -5929,5 +5952,10 @@ bool item_category::operator!=( const item_category &rhs ) const
 
 bool item::is_filthy() const
 {
-    return has_flag( "FILTHY" ) && ( get_world_option<bool>( "FILTHY_MORALE" ) || g->u.has_trait( "SQUEAMISH" ) );
+    return has_flag( "FILTHY" );
+}
+
+bool item::on_drop( const tripoint &pos )
+{
+    return type->drop_action && type->drop_action.call( &g->u, this, false, pos );
 }

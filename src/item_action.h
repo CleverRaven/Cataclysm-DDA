@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ITEM_ACTION_H
 #define ITEM_ACTION_H
 

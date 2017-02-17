@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MARTIALARTS_H
 #define MARTIALARTS_H
 

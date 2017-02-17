@@ -957,8 +957,8 @@ bool npc::wield( item& it )
     }
 
     moves -= 15;
-    if( inv.has_item( it ) ) {
-        weapon = inv.remove_item( &it );
+    if( has_item( it ) ) {
+        weapon = remove_item( it );
     } else {
         weapon = it;
     }
@@ -1169,7 +1169,10 @@ void npc::make_angry()
         return; // We're already angry!
     }
 
-    add_msg( "%s gets angry", name.c_str() );
+    if( g->u.sees( *this ) ) {
+        add_msg( _( "%s gets angry!" ), name.c_str() );
+    }
+
     // Make associated faction, if any, angry at the player too.
     if( my_fac != nullptr ) {
         my_fac->likes_u = std::max( -50, my_fac->likes_u - 50 );
@@ -1179,6 +1182,14 @@ void npc::make_angry()
         attitude = NPCATT_FLEE; // We don't want to take u on!
     } else {
         attitude = NPCATT_KILL; // Yeah, we think we could take you!
+    }
+}
+
+void npc::on_attacked( const Creature &attacker )
+{
+    if( attacker.is_player() && !is_enemy() ) {
+        make_angry();
+        hit_by_player = true;
     }
 }
 

@@ -1,3 +1,4 @@
+#pragma once
 //
 //  iexamine.h
 //  Cataclysm

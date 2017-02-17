@@ -1,3 +1,4 @@
+#pragma once
 #ifndef TIME_SPEC_H
 #define TIME_SPEC_H
 /* Windows lacks the nanosleep() function. The following code was stuffed

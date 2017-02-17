@@ -1344,7 +1344,7 @@
       "msg": "You activate the flashlight app.",
       "active": true,
       "need_charges": 1,
-      "need_charges_msg": "The cellphones's batteries are dead.",
+      "need_charges_msg": "The cellphone's batteries are dead.",
       "type": "transform"
     },
     "flags": [ "WATCH", "ALARMCLOCK" ]
@@ -2536,7 +2536,7 @@
     "name": "fertilizer bomb (lit)",
     "name_plural": "fertilizer bombs (lit)",
     "description": "The fuse on this fertilizer bomb is lit and hissing.  It'll explode any moment now.",
-    "weight": 1300,
+    "weight": 1133,
     "volume": 3,
     "price": 0,
     "to_hit": -3,
@@ -4746,6 +4746,7 @@
     "initial_charges": 100,
     "max_charges": 200,
     "charges_per_use": 50,
+    "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ] ],
     "use_action": "MISC_REPAIR"
   },
   {
@@ -4753,7 +4754,7 @@
     "type": "TOOL",
     "name": "plastic mold",
     "description": "This is a plastic mold.  It could be shaped and used to craft items made of plastic.",
-    "weight": 2,
+    "weight": 320,
     "volume": 10,
     "price": 1000,
     "to_hit": 1,
@@ -7118,7 +7119,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "ANFO charge",
-    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty turns before it explodes and creates a large fireball",
+    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty turns before it explodes and creates a large fireball.",
     "weight": 77800,
     "volume": 200,
     "price": 75000,

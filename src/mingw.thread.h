@@ -1,3 +1,4 @@
+#pragma once
 /**
 * @file mingw.thread.h
 * @brief std::thread implementation for MinGW

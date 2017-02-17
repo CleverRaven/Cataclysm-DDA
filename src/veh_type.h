@@ -1,3 +1,4 @@
+#pragma once
 #ifndef VEH_TYPE_H
 #define VEH_TYPE_H
 

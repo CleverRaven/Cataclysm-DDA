@@ -90,6 +90,7 @@
 #include "scent_map.h"
 #include "safemode_ui.h"
 #include "game_constants.h"
+#include "string_input_popup.h"
 
 #include <map>
 #include <set>
@@ -798,7 +799,7 @@ bool game::start_game(std::string worldname)
     refresh();
     popup_nowait(_("Please wait as we build your world"));
     // Init some factions.
-    if (!load_master(worldname)) { // Master data record contains factions.
+    if( !load_master( worldname ) || factions.empty() ) { // Master data record contains factions.
         create_factions();
     }
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
@@ -1210,13 +1211,11 @@ bool game::cleanup_at_end()
         mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH / 2) - (sTemp.length() / 2), c_ltgray,
                   sTemp.c_str());
 
-        long cInput = '\n';
-        int iPos = -1;
         int iStartX = (FULL_SCREEN_WIDTH / 2) - ((iMaxWidth - 4) / 2);
-        std::string sLastWords = string_input_win(w_rip, "", iMaxWidth - 4 - 1,
-                                 iStartX, iNameLine, iStartX + iMaxWidth - 4 - 1,
-                                 true, cInput, iPos);
-
+        std::string sLastWords = string_input_popup()
+                                 .window( w_rip, iStartX, iNameLine, iStartX + iMaxWidth - 4 - 1 )
+                                 .max_length( iMaxWidth - 4 - 1 )
+                                 .query();
         death_screen();
         if (uquit == QUIT_SUICIDE) {
             u.add_memorial_log(pgettext("memorial_male", "%s committed suicide."),
@@ -1655,6 +1654,7 @@ void game::process_activity()
 
     if( calendar::once_every(MINUTES(5)) ) {
         draw();
+        refresh_display();
     }
 
     while( u.moves > 0 && u.activity ) {
@@ -1746,6 +1746,11 @@ unsigned int game::get_seed() const
 void game::set_npcs_dirty()
 {
     npcs_dirty = true;
+}
+
+void game::set_critter_died()
+{
+    critter_died = true;
 }
 
 void game::update_weather()
@@ -2782,7 +2787,7 @@ bool game::handle_action()
             if( u.has_active_mutation( "SHELL2" ) ) {
                 add_msg(m_info, _("You can't close things while you're in your shell."));
             } else if( mouse_target != tripoint_min ) {
-                close( mouse_target );
+                doors::close_door( m, u, mouse_target );
             } else {
                 close();
             }
@@ -3643,7 +3648,9 @@ void game::load(std::string worldname, std::string name)
     const std::string playerfile = worldpath + name + ".sav";
 
     // Now load up the master game data; factions (and more?)
-    load_master(worldname);
+    if( !load_master( worldname ) || factions.empty() ) {
+        create_factions();
+    }
     u = player();
     u.name = base64_decode(name);
     // This should be initialized more globally (in player/Character constructor)
@@ -4307,7 +4314,12 @@ void game::debug()
             break;
         case 27: {
             auto set_turn = [&]( const int initial, const int factor, const char * const msg ) {
-                const auto text = string_input_popup( msg, 20, to_string( initial ), "", "", 20, true );
+                const auto text = string_input_popup()
+                                  .title( msg )
+                                  .width( 20 )
+                                  .text( to_string( initial ) )
+                                  .only_digits( true )
+                                  .query();
                 if( text.empty() ) {
                     return;
                 }
@@ -4700,10 +4712,16 @@ void game::disp_NPCs()
     mvwprintz( w, 1, 0, c_white, _("Your local position: %d, %d, %d"), lpos.x, lpos.y, lpos.z );
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(100);
     std::sort(npcs.begin(), npcs.end(), npc_dist_to_player() );
-    for (size_t i = 0; i < 20 && i < npcs.size(); i++) {
+    size_t i;
+    for( i = 0; i < 20 && i < npcs.size(); i++ ) {
         const tripoint apos = npcs[i]->global_omt_location();
         mvwprintz(w, i + 3, 0, c_white, "%s: %d, %d, %d", npcs[i]->name.c_str(),
                   apos.x, apos.y, apos.z);
+    }
+    for( size_t j = 0; i + j < 20 && j < num_zombies(); j++ ) {
+        const monster &m = zombie( j );
+        mvwprintz( w, i + j + 3, 0, c_white, "%s: %d, %d, %d", m.name().c_str(),
+                   m.posx(), m.posy(), m.posz() );
     }
     wrefresh(w);
     inp_mngr.wait_for_any_key();
@@ -5863,40 +5881,41 @@ int game::mon_info(WINDOW *w)
 
 void game::cleanup_dead()
 {
-    // Important: `Creature::die` must not be called after creature objects (NPCs, monsters) have
-    // been removed, the dying creature could still have a pointer (the killer) to another creature.
-    for( size_t i = 0; i < num_zombies(); i++ ) {
-        monster &critter = critter_tracker->find(i);
-        if( critter.is_dead() ) {
-            dbg(D_INFO) << string_format("cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
-                                         i, critter.posx(), critter.posy(), (critter.is_dead() ? '1' : '0'),
-                                         critter.get_hp(), critter.name().c_str());
-            critter.die( nullptr );
-        }
-    }
+    // Dead monsters need to stay in the tracker until everything else that needs to die does so
+    // This is because dying monsters can still interact with other dying monsters (@ref Creature::killer)
+    bool monster_is_dead = critter_tracker->kill_marked_for_death();
 
+    bool npc_is_dead = false;
     for( auto &n : active_npc ) {
         if( n->is_dead() ) {
             n->die( nullptr ); // make sure this has been called to create corpses etc.
+            npc_is_dead = true;
         }
     }
 
-    // From here on, pointers to creatures get invalidated as dead creatures get removed.
-    for( size_t i = 0; i < num_zombies(); ) {
-        if( critter_tracker->find( i ).is_dead() ) {
-            remove_zombie( i );
-        } else {
-            i++;
+    if( monster_is_dead ) {
+        // From here on, pointers to creatures get invalidated as dead creatures get removed.
+        for( size_t i = 0; i < num_zombies(); ) {
+            if( critter_tracker->find( i ).is_dead() ) {
+                remove_zombie( i );
+            } else {
+                i++;
+            }
         }
     }
-    for( auto it = active_npc.begin(); it != active_npc.end(); ) {
-        if( (*it)->is_dead() ) {
-            overmap_buffer.remove_npc( (*it)->getID() );
-            it = active_npc.erase( it );
-        } else {
-            it++;
+
+    if( npc_is_dead ) {
+        for( auto it = active_npc.begin(); it != active_npc.end(); ) {
+            if( (*it)->is_dead() ) {
+                overmap_buffer.remove_npc( (*it)->getID() );
+                it = active_npc.erase( it );
+            } else {
+                it++;
+            }
         }
     }
+
+    critter_died = false;
 }
 
 void game::monmove()
@@ -6920,107 +6939,7 @@ void game::close()
 {
     tripoint closep;
     if( choose_adjacent_highlight( _("Close where?"), closep, ACTION_CLOSE ) ) {
-        close( closep );
-    }
-}
-
-void game::close( const tripoint &closep )
-{
-    bool didit = false;
-    const bool inside = !m.is_outside( u.pos() );
-
-    auto items_in_way = m.i_at(closep);
-    int vpart;
-    vehicle *veh = m.veh_at(closep, vpart);
-    int zid = mon_at(closep);
-    if (zid != -1) {
-        monster &critter = critter_tracker->find(zid);
-        add_msg(m_info, _("There's a %s in the way!"), critter.name().c_str());
-    } else if (veh) {
-        int openable = veh->next_part_to_close(vpart);
-        if (openable >= 0) {
-            if( closep == u.pos() ) {
-                add_msg(m_info, _("There's some buffoon in the way!"));
-                return;
-            }
-            const std::string name = veh->part_info(openable).name();
-            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")) {
-                const vehicle *in_veh = m.veh_at(u.pos());
-                if (!in_veh || in_veh != veh) {
-                    add_msg(m_info, _("That %s can only closed from the inside."), name.c_str());
-                    return;
-                }
-            }
-            if (veh->parts[openable].open) {
-                veh->close(openable);
-                didit = true;
-            } else {
-                add_msg(m_info, _("That %s is already closed."), name.c_str());
-            }
-        }
-    } else if( closep == u.pos() ) {
-        add_msg(m_info, _("There's some buffoon in the way!"));
-    } else if( m.has_furn( closep ) && !m.furn( closep ).obj().close ) {
-        // check for open crate
-        if( m.furn( closep ) == furn_str_id( "f_crate_o" ) ) {
-            add_msg(m_info, _("You'll need to construct a seal to close the crate!"));
-        } else {
-            add_msg(m_info, _("There's a %s in the way!"), m.furnname(closep).c_str());
-        }
-    } else if (!m.close_door( closep, inside, true )) {
-        // ^^ That checks if the PC could close something there, it
-        // does not actually do anything.
-        std::string door_name;
-        if (m.has_furn(closep)) {
-            door_name = m.furn(closep).obj().name;
-        } else {
-            door_name = m.tername( closep );
-        }
-        // Print a message that we either can not close whatever is there
-        // or (if we're outside) that we can only close it from the
-        // inside.
-        if (!inside && m.close_door( closep, true, true )) {
-            add_msg(m_info, _("You cannot close the %s from outside. You must be inside the building."),
-                    door_name.c_str());
-        } else {
-            add_msg(m_info, _("You cannot close the %s."), door_name.c_str());
-        }
-    } else {
-        // Scoot up to 25 liters of items out of the way
-        if (m.furn(closep) != f_safe_o && !items_in_way.empty()) {
-            const units::volume max_nudge = 25000_ml;
-            units::volume total_item_volume = 0;
-            for( auto &elem : items_in_way ) {
-                if( elem.volume() > max_nudge ) {
-                    add_msg( m_info, _( "There's a %s in the way that is too big to just nudge out "
-                                        "of the way." ),
-                             elem.tname().c_str() );
-                    return;
-                }
-                total_item_volume += elem.volume();
-                if (total_item_volume > max_nudge ) {
-                    add_msg(m_info, _("There is too much stuff in the way."));
-                    return;
-                }
-            }
-            add_msg(_("You push %s out of the way."), items_in_way.size() == 1 ?
-                    items_in_way[0].tname().c_str() : _("some stuff"));
-            u.moves -= std::min( total_item_volume / ( max_nudge / 50 ), 100 );
-        }
-
-        didit = m.close_door( closep, inside, false );
-        if (didit && m.has_flag_ter_or_furn("NOITEM", closep)) {
-            // Just plopping items back on their origin square will displace them to adjacent squares
-            // since the door is closed now.
-            for( auto &elem : items_in_way ) {
-                m.add_item_or_charges( closep, elem );
-            }
-            m.i_clear(closep);
-        }
-    }
-
-    if (didit) {
-        u.moves -= 90;
+        doors::close_door( m, u, closep );
     }
 }
 
@@ -7473,7 +7392,10 @@ bool pet_menu(monster *z)
     }
 
     if ( rename == choice ) {
-        std::string unique_name = string_input_popup( _("Enter new pet name:"), 20 );
+        std::string unique_name = string_input_popup()
+                                  .title( _( "Enter new pet name:" ) )
+                                  .width( 20 )
+                                  .query();
         if( unique_name.length() > 0 ) {
             z->unique_name = unique_name;
         }
@@ -7547,7 +7469,7 @@ bool pet_menu(monster *z)
         }
 
         if (max_weight <= 0) {
-            add_msg(_("%1$s is overburdened. You can't transfer your %2$s"),
+            add_msg(_("%1$s is overburdened. You can't transfer your %2$s."),
                     pet_name.c_str(), it->tname(1).c_str());
             return true;
         }
@@ -7629,8 +7551,8 @@ bool game::npc_menu( npc &who )
     amenu.addentry( sort_armor, true, 'r', _("Sort armor") );
     amenu.addentry( attack, true, 'a', _("Attack") );
     if( !who.is_friend() ) {
-        amenu.addentry( disarm, who.is_armed(), 'd', _("Disarm") );
-        amenu.addentry( steal, true, 'S', _("Steal") );
+        amenu.addentry( disarm, who.is_armed(), 'd', _( "Disarm" ) );
+        amenu.addentry( steal, !who.is_enemy(), 'S', _( "Steal" ) );
     }
 
     amenu.query();
@@ -7696,21 +7618,15 @@ bool game::npc_menu( npc &who )
         who.sort_armor();
         u.mod_moves( -100 );
     } else if( choice == attack ) {
-        if(query_yn(_("You may be attacked! Proceed?"))) {
-            //The NPC knows we started the fight, used for morale penalty.
-            if( !who.is_enemy() ) {
-                who.hit_by_player = true;
-            }
-
+        if( who.is_enemy() || query_yn( _( "You may be attacked! Proceed?" ) ) ) {
             u.melee_attack( who, true );
-            who.make_angry();
+            who.on_attacked( u );
         }
     } else if( choice == disarm ) {
-        if( !who.is_enemy() && query_yn( _( "You may be attacked! Proceed?" ) ) )
-        {
+        if( who.is_enemy() || query_yn( _( "You may be attacked! Proceed?" ) ) ) {
             u.disarm( who );
         }
-    } else if( choice == steal ) {
+    } else if( choice == steal && query_yn( _( "You may be attacked! Proceed?" ) ) ) {
         u.steal( who );
     }
 
@@ -9162,10 +9078,14 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             reset = true;
             refresh_all();
         } else if( action == "FILTER" ) {
-            draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
-            sFilter = string_input_popup( _( "Filter:" ), 55, sFilter,
-                                          _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ),
-                                          "item_filter", 256 );
+	  draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
+            string_input_popup()
+            .title( _( "Filter:" ) )
+            .width( 55 )
+            .description( _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ) )
+            .identifier( "item_filter" )
+            .max_length( 256 )
+            .edit( sFilter );
             reset = true;
             refilter = true;
             addcategory = !sort_radius;
@@ -9190,18 +9110,28 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             reset = true;
         } else if( action == "PRIORITY_INCREASE" ) {
             draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::HIGH_PRIORITY );
-            list_item_upvote = string_input_popup( _( "High Priority:" ), 55, list_item_upvote,
-                                                   _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ),
-                                                   "list_item_priority", 256 );
+            list_item_upvote = string_input_popup()
+                               .title( _( "High Priority:" ) )
+                               .width( 55 )
+                               .text( list_item_upvote )
+                               .description( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ) )
+                               .identifier( "list_item_priority" )
+                               .max_length( 256 )
+                               .query();
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
             uistate.list_item_priority_active = !list_item_upvote.empty();
         } else if( action == "PRIORITY_DECREASE" ) {
             draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::LOW_PRIORITY );
-            list_item_downvote = string_input_popup( _( "Low Priority:" ), 55, list_item_downvote,
-                                                     _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ),
-                                                     "list_item_downvote", 256 );
+            list_item_downvote = string_input_popup()
+                                 .title( _( "Low Priority:" ) )
+                                 .width( 55 )
+                                 .text( list_item_downvote )
+                                 .description( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ) )
+                                 .identifier( "list_item_downvote" )
+                                 .max_length( 256 )
+                                 .query();
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
@@ -9576,7 +9506,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                             mvwputch(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2,
                                      i, BORDER_COLOR, LINE_OXOX); // -
                         }
-                        std::string sSafemode = _("<A>dd do safemode Blacklist");
+                        std::string sSafemode = _("<A>dd to safemode Blacklist");
                         const std::string monName = (type_npc) ? get_safemode().npc_type_name() : m->name();
                         if ( get_safemode().has_rule(monName, Creature::A_ANY) ) {
                             sSafemode = _("<R>emove from safemode Blacklist");
@@ -10656,11 +10586,13 @@ void game::reload()
 void game::unload(int pos)
 {
     item *it = nullptr;
+    item_location item_loc;
 
     if( pos == INT_MIN ) {
-        it = inv_map_splice( [&]( const item &it ) {
+        item_loc = inv_map_splice( [&]( const item &it ) {
             return u.rate_action_unload( it ) == HINT_GOOD;
-        }, _( "Unload item" ), 1, _( "You have nothing to unload." ) ).get_item();
+        }, _( "Unload item" ), 1, _( "You have nothing to unload." ) );
+        it = item_loc.get_item();
 
         if( it == nullptr ) {
             add_msg( _("Never mind.") );
@@ -10672,11 +10604,12 @@ void game::unload(int pos)
             debugmsg( "Tried to unload non-existent item" );
             return;
         }
+        item_loc = item_location(u, it);
     }
 
     if( unload( *it ) ) {
         if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
-            u.remove_item( *it );
+            item_loc.remove_item();
         }
     }
 }
@@ -11181,8 +11114,12 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         const vehicle *const veh = m.veh_at( dest_loc, vpart );
         const bool boardable = veh && veh->part_with_feature( vpart, "BOARDABLE" ) >= 0;
         // Hack for now, later ledge should stop being a trap
-        if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
-            m.has_floor( dest_loc ) && !boardable ) {
+        // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
+        if( tr.loadid == tr_ledge && m.has_zlevels() ) {
+            if( !boardable && !m.has_floor_or_support( dest_loc ) ) {
+                harmful_stuff.push_back( tr.name.c_str() );
+            }
+        } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() ) {
             harmful_stuff.push_back( tr.name.c_str() );
         }
 

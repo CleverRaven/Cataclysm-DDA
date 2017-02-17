@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SOFTWARE_MINESWEEPER_H
 #define SOFTWARE_MINESWEEPER_H
 

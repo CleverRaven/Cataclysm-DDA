@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SOFTWARE_SNAKE_H
 #define SOFTWARE_SNAKE_H
 

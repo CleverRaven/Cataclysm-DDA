@@ -85,8 +85,7 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": 2,
-      "dispersion": 555,
+      "dispersion": 180,
       "durability": 6,
       "clip_size": 2,
       "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]

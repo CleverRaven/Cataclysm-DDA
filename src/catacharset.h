@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATACHARSET_H
 #define CATACHARSET_H
 

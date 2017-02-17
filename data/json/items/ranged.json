@@ -15,6 +15,7 @@
     "volume": 6,
     "bashing": 9,
     "to_hit": -1,
+    "range": 12,
     "ranged_damage": 2,
     "dispersion": 150,
     "durability": 7,
@@ -209,7 +210,7 @@
     "symbol": "(",
     "color": "brown",
     "name": "pipe combination gun",
-    "description": "A home-made triple-barreled firearm, one barrel chambered in .30-06 and two other for shotgun shells.  It is simply three pipes attached to a stock, with a trio of hammers to strike the three rounds it holds.",
+    "description": "A home-made triple-barreled firearm, one barrel chambered in .30-06 and two other for shotgun shells.  It is made from pipes and parts cannibalized from a double barrel shotgun.",
     "price": 40000, "//": "Part of price shifted to integral mod.",
     "material": ["steel", "wood"],
     "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
@@ -583,6 +584,6 @@
     "dispersion": 300,
     "durability": 6,
     "clip_size": 1000,
-    "reload": 900
+    "reload": 10
   }
 ]

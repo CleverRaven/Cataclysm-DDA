@@ -127,13 +127,6 @@ void Creature::reset_bonuses()
     throw_resist = 0;
 }
 
-void Creature::reset_stats()
-{
-    // "Creatures" have no stats!
-    // This only exists to simplify cleanup
-    // TODO: Make this not exist
-}
-
 void Creature::process_turn()
 {
     if(is_dead_state()) {
@@ -778,15 +771,6 @@ bool Creature::is_fake() const
 void Creature::set_fake(const bool fake_value)
 {
     fake = fake_value;
-}
-
-/*
- * Effect-related methods
- */
-bool Creature::move_effects(bool attacking)
-{
-    (void)attacking;
-    return true;
 }
 
 void Creature::add_eff_effects(effect e, bool reduced)

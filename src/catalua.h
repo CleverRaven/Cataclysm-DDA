@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATALUA_H
 #define CATALUA_H
 

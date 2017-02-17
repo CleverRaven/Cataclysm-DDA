@@ -62,6 +62,7 @@ src/overlay_ordering.cpp
 src/pathfinding.cpp
 src/pickup.cpp
 src/player_activity.cpp
+src/player_display.cpp
 src/posix_time.cpp
 src/profession.cpp
 src/projectile.cpp
@@ -72,6 +73,7 @@ src/scenario.cpp
 src/scent_map.cpp
 src/speech.cpp
 src/start_location.cpp
+src/string_input_popup.cpp
 src/submap.cpp
 src/text_snippets.cpp
 src/tileray.cpp
@@ -205,6 +207,7 @@ src/sounds.h
 src/speech.h
 src/start_location.h
 src/string_id.h
+src/string_input_popup.h
 src/text_snippets.h
 src/tile_id_data.h
 src/tileray.h

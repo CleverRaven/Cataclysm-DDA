@@ -1,7 +1,11 @@
+#pragma once
 #ifndef MATTACK_ACTORS_H
 #define MATTACK_ACTORS_H
 
 #include "mtype.h"
+#include "damage.h"
+#include "weighted_list.h"
+#include "mattack_common.h"
 #include <tuple>
 #include <vector>
 #include <map>
@@ -26,25 +30,64 @@ class leap_actor : public mattack_actor
         leap_actor() { }
         ~leap_actor() override { }
 
-        void load( JsonObject &jo );
+        void load_internal( JsonObject &jo, const std::string &src ) override;
         bool call( monster & ) const override;
         mattack_actor *clone() const override;
 };
 
-class bite_actor : public mattack_actor
+class melee_actor : public mattack_actor
 {
     public:
-        // Maximum damage (and possible tags) from the attack
-        damage_instance damage_max_instance;
+        // Maximum damage from the attack
+        damage_instance damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
         // Minimum multiplier on damage above (rolled per attack)
-        float min_mul;
+        float min_mul = 0.5f;
         // Maximum multiplier on damage above (also per attack)
-        float max_mul;
+        float max_mul = 1.0f;
         // Cost in moves (for attacker)
-        int move_cost;
-        // If set, the attack will use a different accuracy from mon's
+        int move_cost = 100;
+        // If non-negative, the attack will use a different accuracy from mon's
         // regular melee attack.
-        int accuracy;
+        int accuracy = INT_MIN;
+
+        /**
+         * If empty, regular melee roll body part selection is used.
+         * If non-empty, a body part is selected from the map to be targeted,
+         * with a chance proportional to the value.
+         */
+        weighted_float_list<body_part> body_parts;
+
+        /** Extra effects applied on damaging hit. */
+        std::vector<mon_effect_data> effects;
+
+        /** Message for missed attack against the player. */
+        std::string miss_msg_u;
+        /** Message for 0 damage hit against the player. */
+        std::string no_dmg_msg_u;
+        /** Message for damaging hit against the player. */
+        std::string hit_dmg_u;
+
+        /** Message for missed attack against a non-player. */
+        std::string miss_msg_npc;
+        /** Message for 0 damage hit against a non-player. */
+        std::string no_dmg_msg_npc;
+        /** Message for damaging hit against a non-player. */
+        std::string hit_dmg_npc;
+
+        melee_actor();
+        ~melee_actor() override { }
+
+        virtual Creature *find_target( monster &z ) const;
+        virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;
+
+        void load_internal( JsonObject &jo, const std::string &src ) override;
+        bool call( monster & ) const override;
+        mattack_actor *clone() const override;
+};
+
+class bite_actor : public melee_actor
+{
+    public:
         // one_in( this - damage dealt ) chance of getting infected
         // ie. the higher is this, the lower chance of infection
         int no_infection_chance;
@@ -52,8 +95,9 @@ class bite_actor : public mattack_actor
         bite_actor();
         ~bite_actor() override { }
 
-        void load( JsonObject &jo );
-        bool call( monster & ) const override;
+        void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const override;
+
+        void load_internal( JsonObject &jo, const std::string &src ) override;
         mattack_actor *clone() const override;
 };
 
@@ -81,7 +125,7 @@ class gun_actor : public mattack_actor
         int max_ammo = INT_MAX; /** limited also by monster starting_ammo */
 
         /** Description of the attack being run */
-        std::string description = "The %s fires its %s";
+        std::string description;
 
         /** Message to display (if any) for failures to fire excluding lack of ammo */
         std::string failure_msg;
@@ -104,7 +148,7 @@ class gun_actor : public mattack_actor
         int targeting_timeout = 8; /** Default turns afer which targeting is lsot and needs repeating */
         int targeting_timeout_extend = 3; /** Increase timeout by this many turns after each shot */
 
-        std::string targeting_sound = "beep-beep-beep!";
+        std::string targeting_sound;
         int targeting_volume = 6; /** If set to zero don't emit any targetting sounds */
 
         bool laser_lock = false; /** Does switching between targets incur further targeting penalty */
@@ -118,7 +162,7 @@ class gun_actor : public mattack_actor
         gun_actor();
         ~gun_actor() override { }
 
-        void load( JsonObject &jo );
+        void load_internal( JsonObject &jo, const std::string &src ) override;
         bool call( monster & ) const override;
         mattack_actor *clone() const override;
 };
