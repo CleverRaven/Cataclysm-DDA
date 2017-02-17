@@ -1643,6 +1643,7 @@
         "//": "This sounds weird. We need <bp_affected> tag or something",
         "apply_message": "Your limb breaks!",
         "remove_message": "The broken limb has mended.",
+        "max_duration": 2,
         "rating": "bad"
     }
 ]

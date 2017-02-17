@@ -3932,7 +3932,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
 
     if( hp_cur[hurtpart] <= 0 ) {
         remove_effect( effect_mending, hurt );
-        add_effect( effect_disabled, 0, hurt, true );
+        add_effect( effect_disabled, 1, hurt, true );
     }
 
     lifetime_stats()->damage_taken += dam;
@@ -6623,8 +6623,9 @@ void player::suffer()
 {
     // @todo Remove this section and encapsulate hp_cur
     for( int i = 0; i < num_hp_parts; i++ ) {
+        body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
         if( hp_cur[i] <= 0 ) {
-            add_effect( effect_disabled, 0, hp_to_bp( static_cast<hp_part>( i ) ), true );
+            add_effect( effect_disabled, 1, bp, true );
         }
     }
 
@@ -7413,7 +7414,6 @@ void player::mend( int rate_multiplier )
     // Being under effect is 50% slowdown
     // Being addicted but not under effect scales from 25% slowdown to 75% slowdown
     // The improvement from being intoxicated over withdrawal is intended
-    
     if( has_effect( effect_cig ) ) {
         healing_factor *= 0.5;
     } else {
