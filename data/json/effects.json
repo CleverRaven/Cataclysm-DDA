@@ -1623,5 +1623,16 @@
         "desc": [ "You are carrying a light and can't hide well." ],
         "max_duration": 1,
         "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "mending",
+        "name": [ "Started recovery", "Recovering", "Mostly recovered" ],
+        "desc": [ "Your damaged limb is slowly regaining its functions." ],
+        "//": "Duration is 10 days, but the actual time taken is probabilistic.",
+        "max_duration": 144000,
+        "int_dur_factor": 36000,
+        "max_intensity": 3,
+        "rating": "good"
     }
 ]
