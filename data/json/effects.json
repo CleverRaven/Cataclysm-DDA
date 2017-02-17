@@ -1628,11 +1628,21 @@
         "type": "effect_type",
         "id": "mending",
         "name": [ "Started recovery", "Recovering", "Mostly recovered" ],
-        "desc": [ "Your damaged limb is slowly regaining its functions." ],
+        "desc": [ "This damaged limb is slowly regaining its functions." ],
         "//": "Duration is 10 days, but the actual time taken is probabilistic.",
         "max_duration": 144000,
         "int_dur_factor": 36000,
         "max_intensity": 3,
         "rating": "good"
+    },
+    {
+        "type": "effect_type",
+        "id": "disabled",
+        "name": [ "Disabled" ],
+        "desc": [ "This limb is damaged beyond use and may require a splint to recover." ],
+        "//": "This sounds weird. We need <bp_affected> tag or something",
+        "apply_message": "Your limb breaks!",
+        "remove_message": "The broken limb has mended.",
+        "rating": "bad"
     }
 ]

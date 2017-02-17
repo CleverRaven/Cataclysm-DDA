@@ -110,6 +110,7 @@ const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_dermatik( "dermatik" );
+const efftype_id effect_disabled( "disabled" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_earphones( "earphones" );
@@ -3929,6 +3930,11 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         hp_cur[hurtpart] = 0;
     }
 
+    if( hp_cur[hurtpart] <= 0 ) {
+        remove_effect( effect_mending, hurt );
+        add_effect( effect_disabled, 0, hurt, true );
+    }
+
     lifetime_stats()->damage_taken += dam;
     if( dam > get_painkiller() ) {
         on_hurt( source );
@@ -6573,6 +6579,17 @@ void player::hardcoded_effects(effect &it)
                 }
             }
         }
+    } else if( id == effect_mending ) {
+        // @todo Remove this and encapsulate hp_cur instead
+        if( hp_cur[bp_to_hp( bp )] > 0 ) {
+            it.set_duration( 0 );
+        }
+    } else if( id == effect_disabled ) {
+        // @todo Remove this and encapsulate hp_cur instead
+        if( hp_cur[bp_to_hp( bp )] > 0 ) {
+            // Just unpause, in case someone added it as a temporary effect (numbing poison etc.)
+            it.unpause_effect();
+        }
     }
 }
 
@@ -6604,6 +6621,13 @@ double player::vomit_mod()
 
 void player::suffer()
 {
+    // @todo Remove this section and encapsulate hp_cur
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        if( hp_cur[i] <= 0 ) {
+            add_effect( effect_disabled, 0, hp_to_bp( static_cast<hp_part>( i ) ), true );
+        }
+    }
+
     for (size_t i = 0; i < my_bionics.size(); i++) {
         if (my_bionics[i].powered) {
             process_bionic(i);
@@ -7458,12 +7482,10 @@ void player::mend( int rate_multiplier )
             continue;
         }
 
-        // The effect must tick by at least rate_multiplier or it will time out before next tick
-        // @todo Once effects tick down at rate_multiplier, this math will be wrong
-        int dur_inc = roll_remainder( rate_multiplier * healing_factor ) + rate_multiplier;
+        int dur_inc = roll_remainder( rate_multiplier * healing_factor );
         auto &eff = get_effect( effect_mending, part );
         if( eff.is_null() ) {
-            add_effect( effect_mending, dur_inc, part );
+            add_effect( effect_mending, dur_inc, part, true );
             continue;
         }
 
@@ -7475,7 +7497,7 @@ void player::mend( int rate_multiplier )
             //~ %s is bodypart
             add_memorial_log( pgettext("memorial_male", "Broken %s began to mend."),
                               pgettext("memorial_female", "Broken %s began to mend."),
-                              body_part_name(part).c_str() );
+                              body_part_name( part ).c_str() );
             //~ %s is bodypart
             add_msg_if_player( m_good, _("Your %s has started to mend!"),
                                body_part_name( part ).c_str() );
