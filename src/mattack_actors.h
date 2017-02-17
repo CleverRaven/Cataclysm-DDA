@@ -60,25 +60,27 @@ class melee_actor : public mattack_actor
         /** Extra effects applied on damaging hit. */
         std::vector<mon_effect_data> effects;
 
-        /** Message for missed attack against the player. */
-        std::string miss_msg_u;
-        /** Message for 0 damage hit against the player. */
-        std::string no_dmg_msg_u;
-        /** Message for damaging hit against the player. */
-        std::string hit_dmg_u;
+        enum class attack_result : size_t {
+            miss = 0,
+            no_dmg,
+            hit,
+            num_attack_results
+        };
 
-        /** Message for missed attack against a non-player. */
-        std::string miss_msg_npc;
-        /** Message for 0 damage hit against a non-player. */
-        std::string no_dmg_msg_npc;
-        /** Message for damaging hit against a non-player. */
-        std::string hit_dmg_npc;
+        /** Messages for attacks against the player. */
+        std::array<std::string, (size_t)attack_result::num_attack_results> msgs_u;
+        /** Messages for attacks against non-players. */
+        std::array<std::string, (size_t)attack_result::num_attack_results> msgs_npc;
 
         melee_actor();
         ~melee_actor() override { }
 
         virtual Creature *find_target( monster &z ) const;
         virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;
+
+        void print_miss_message( const monster &m, const Creature &target ) const;
+        void print_message( const monster &m, const Creature &target,
+                            const dealt_damage_instance &dmg, attack_result msg_cat ) const;
 
         void load_internal( JsonObject &jo, const std::string &src ) override;
         bool call( monster & ) const override;
