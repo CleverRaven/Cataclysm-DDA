@@ -68,9 +68,9 @@ class melee_actor : public mattack_actor
         };
 
         /** Messages for attacks against the player. */
-        std::array<std::string, (size_t)attack_result::num_attack_results> msgs_u;
+        std::array<std::string, ( size_t )attack_result::num_attack_results> msgs_u;
         /** Messages for attacks against non-players. */
-        std::array<std::string, (size_t)attack_result::num_attack_results> msgs_npc;
+        std::array<std::string, ( size_t )attack_result::num_attack_results> msgs_npc;
 
         melee_actor();
         ~melee_actor() override { }

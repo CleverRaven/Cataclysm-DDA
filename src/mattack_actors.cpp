@@ -155,17 +155,23 @@ void melee_actor::load_internal( JsonObject &obj, const std::string & )
     move_cost = obj.get_int( "move_cost", 100 );
     accuracy = obj.get_int( "accuracy", INT_MIN );
 
-    optional( obj, was_loaded, "miss_msg_u", msgs_u[(size_t)attack_result::miss], translated_string_reader,
+    optional( obj, was_loaded, "miss_msg_u", msgs_u[( size_t )attack_result::miss],
+              translated_string_reader,
               _( "The <attacker_name> lunges at you, but you dodge!" ) );
-    optional( obj, was_loaded, "no_dmg_msg_u", msgs_u[(size_t)attack_result::no_dmg], translated_string_reader,
+    optional( obj, was_loaded, "no_dmg_msg_u", msgs_u[( size_t )attack_result::no_dmg],
+              translated_string_reader,
               _( "The <attacker_name> bites your <target_part_accusative>, but fails to penetrate armor!" ) );
-    optional( obj, was_loaded, "hit_dmg_u", msgs_u[(size_t)attack_result::hit], translated_string_reader,
+    optional( obj, was_loaded, "hit_dmg_u", msgs_u[( size_t )attack_result::hit],
+              translated_string_reader,
               _( "The <attacker_name> bites your <target_part_accusative>!" ) );
-    optional( obj, was_loaded, "miss_msg_npc", msgs_npc[(size_t)attack_result::miss], translated_string_reader,
+    optional( obj, was_loaded, "miss_msg_npc", msgs_npc[( size_t )attack_result::miss],
+              translated_string_reader,
               _( "The <attacker_name> lunges at <target_name>, but they dodge!" ) );
-    optional( obj, was_loaded, "no_dmg_msg_npc", msgs_npc[(size_t)attack_result::no_dmg], translated_string_reader,
+    optional( obj, was_loaded, "no_dmg_msg_npc", msgs_npc[( size_t )attack_result::no_dmg],
+              translated_string_reader,
               _( "The <attacker_name> bites <target_name>'s <target_part_accusative>, but fails to penetrate armor!" ) );
-    optional( obj, was_loaded, "hit_dmg_npc", msgs_npc[(size_t)attack_result::hit], translated_string_reader,
+    optional( obj, was_loaded, "hit_dmg_npc", msgs_npc[( size_t )attack_result::hit],
+              translated_string_reader,
               _( "The <attacker_name> bites <target_name>'s <target_part_accusative>!" ) );
 
     if( obj.has_array( "body_parts" ) ) {
@@ -229,7 +235,7 @@ void melee_actor::print_miss_message( const monster &attacker, const Creature &t
     }
 
     const auto &arr = target.is_player() ? msgs_u : msgs_npc;
-    std::string msg = arr[(size_t)attack_result::miss];
+    std::string msg = arr[( size_t )attack_result::miss];
 
     replace_attacker_tags( msg, attacker );
     replace_target_tags( msg, target );
@@ -245,7 +251,7 @@ void melee_actor::print_message( const monster &attacker, const Creature &target
     }
 
     const auto &arr = target.is_player() ? msgs_u : msgs_npc;
-    std::string msg = arr[(size_t)msg_cat];
+    std::string msg = arr[( size_t )msg_cat];
 
     replace_attacker_tags( msg, attacker );
     replace_target_tags( msg, target );
