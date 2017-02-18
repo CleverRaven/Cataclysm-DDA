@@ -861,8 +861,11 @@ void Item_factory::check_definitions() const
         for( const auto& typ : type->magazines ) {
             for( const auto& opt : typ.second ) {
                 const itype *mag = find_template( opt );
-                if( !mag->magazine || mag->magazine->type != typ.first ) {
-                    msg << "invalid magazine " << opt << "\n";
+                if( !mag->magazine ) {
+                    msg << "unknown magazine \"" << opt << "\"\n";
+                } else if( mag->magazine->type != typ.first ) {
+                    msg << "magazine \"" << opt << "\" holds incompatible ammo (\""
+                        << mag->magazine->type.str() << "\" instead of \"" << typ.first.str() << "\")\n";
                 }
             }
         }
