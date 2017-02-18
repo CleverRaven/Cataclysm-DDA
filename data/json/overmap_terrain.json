@@ -840,19 +840,91 @@
         "rotate" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "farm",
-        "name" : "farm",
+        "id" : "farm_1",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "rotate" : true,
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_2",
+        "name" : "farm house",
         "sym" : 94,
         "color" : "i_brown",
+        "rotate" : true,
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2
     },{
         "type" : "overmap_terrain",
-        "id" : "farm_field",
+        "id" : "farm_3",
         "name" : "farm field",
         "sym" : 35,
         "color" : "i_brown",
+        "rotate" : true,
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_4",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "rotate" : true,
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_5",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "rotate" : true,
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_6",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "rotate" : true,
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_7",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "rotate" : true,
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_8",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "rotate" : true,
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "farm_9",
+        "name" : "farm field",
+        "sym" : 35,
+        "color" : "i_brown",
+        "rotate" : true,
         "see_cost" : 5,
         "extras" : "field",
         "mondensity" : 2
