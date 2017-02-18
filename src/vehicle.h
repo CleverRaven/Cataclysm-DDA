@@ -240,7 +240,7 @@ public:
     // Coordinates for some kind of target; jumper cables and turrets use this
     // Two coord pairs are stored: actual target point, and target vehicle center.
     // Both cases use absolute coordinates (relative to world origin)
-    std::pair<tripoint, tripoint> target;
+    std::pair<tripoint, tripoint> target = { tripoint_min, tripoint_min };
 
 private:
     /** What type of part is this? */

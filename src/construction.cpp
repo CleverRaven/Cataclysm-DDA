@@ -1198,7 +1198,7 @@ float construction::time_scale() const
     if( get_world_option<int>( "CONSTRUCTION_SCALING" ) == 0 ) {
         return calendar::season_ratio();
     } else {
-        return 100.0 / get_world_option<int>( "CONSTRUCTION_SCALING" );
+        return get_world_option<int>( "CONSTRUCTION_SCALING" ) / 100.0;
     }
 }
 

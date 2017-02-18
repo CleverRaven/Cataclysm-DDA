@@ -1386,7 +1386,7 @@ void options_manager::init()
         );
 
     add("CONSTRUCTION_SCALING", "world_default", _("Construction scaling"),
-        _("Multiplies the speed of construction by the given percentage. '0' automatically scales construction to match the world's season length."),
+        _("Sets the time of construction in percents. '50' is two times faster than default, '200' is two times longer. '0' automatically scales construction time to match the world's season length."),
         0, 1000, 100
         );
 
