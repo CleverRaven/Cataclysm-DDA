@@ -465,6 +465,37 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
     }
 }
 
+void overmap::load_monster_groups( JsonIn &jsin )
+{
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        jsin.start_array();
+
+        mongroup new_group;
+        new_group.deserialize( jsin );
+
+        jsin.start_array();
+        tripoint temp;
+        while( !jsin.end_array() ) {
+            temp.deserialize( jsin );
+            new_group.pos = temp;
+            add_mon_group( new_group );
+        }
+
+        jsin.end_array();
+    }
+}
+
+void overmap::load_legacy_monstergroups( JsonIn &jsin )
+{
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        mongroup new_group;
+        new_group.deserialize( jsin );
+        add_mon_group( new_group );
+    }
+}
+
 // throws std::exception
 void overmap::unserialize( std::istream &fin ) {
 
@@ -533,12 +564,9 @@ void overmap::unserialize( std::istream &fin ) {
                 }
             }
         } else if( name == "mongroups" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                mongroup new_group;
-                new_group.deserialize( jsin );
-                add_mon_group( new_group );
-            }
+            load_legacy_monstergroups( jsin );
+        } else if( name == "monster_groups" ) {
+            load_monster_groups( jsin );
         } else if( name == "cities" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
@@ -813,9 +841,74 @@ void overmap::serialize_view( std::ostream &fout ) const
     json.end_object();
 }
 
+// Compares all fields except position and monsters
+// If any group has monsters, it is never equal to any group (because monsters are unique)
+struct mongroup_bin_eq
+{
+    bool operator()( const mongroup& a, const mongroup& b ) const {
+        return a.monsters.empty() &&
+               b.monsters.empty() &&
+               a.type == b.type &&
+               a.radius == b.radius &&
+               a.population == b.population &&
+               a.target == b.target &&
+               a.interest == b.interest &&
+               a.dying == b.dying &&
+               a.horde == b.horde &&
+               a.horde_behaviour == b.horde_behaviour &&
+               a.diffuse == b.diffuse;
+    }
+};
+
+struct mongroup_hash
+{
+    std::size_t operator()( const mongroup& mg ) const
+    {
+        // Note: not hashing monsters or position
+        size_t ret = std::hash<mongroup_id>()( mg.type );
+        std::hash_combine( ret, mg.radius );
+        std::hash_combine( ret, mg.population );
+        std::hash_combine( ret, mg.target );
+        std::hash_combine( ret, mg.interest );
+        std::hash_combine( ret, mg.dying );
+        std::hash_combine( ret, mg.horde );
+        std::hash_combine( ret, mg.horde_behaviour );
+        std::hash_combine( ret, mg.diffuse );
+        return ret;
+    }
+};
+
+void overmap::save_monster_groups( JsonOut &jout ) const
+{
+    jout.member( "monster_groups" );
+    jout.start_array();
+    // Bin groups by their fields, except positions and monsters
+    std::unordered_map<mongroup, std::list<tripoint>, mongroup_hash, mongroup_bin_eq> binned_groups;
+    binned_groups.reserve( zg.size() );
+    for( const auto &pos_group : zg ) {
+        // Each group in bin adds only position
+        // so that 100 identical groups are 1 group data and 100 tripoints
+        std::list<tripoint> &positions = binned_groups[pos_group.second];
+        positions.emplace_back( pos_group.first );
+    }
+
+    for( auto &group_bin : binned_groups ) {
+        jout.start_array();
+        // Zero the bin position so that it isn't serialized
+        // The position is stored separately, in the list
+        // @todo Do it without the copy
+        mongroup saved_group = group_bin.first;
+        saved_group.pos = tripoint_zero;
+        jout.write( saved_group );
+        jout.write( group_bin.second );
+        jout.end_array();
+    }
+    jout.end_array();
+}
+
 void overmap::serialize( std::ostream &fout ) const
 {
-    static const int first_overmap_json_version = 25;
+    static const int first_overmap_json_version = 26;
     fout << "# version " << first_overmap_json_version << std::endl;
 
     JsonOut json(fout, false);
@@ -858,12 +951,7 @@ void overmap::serialize( std::ostream &fout ) const
     json.member("region_id", settings.id);
     fout << std::endl;
 
-    json.member("mongroups");
-    json.start_array();
-    for( const auto &group : zg ) {
-        json.write(group.second);
-    }
-    json.end_array();
+    save_monster_groups( json );
     fout << std::endl;
 
     json.member("cities");
@@ -952,25 +1040,47 @@ void overmap::serialize( std::ostream &fout ) const
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// mongroup
+
+// @todo Replace with io::archive
 void mongroup::serialize(JsonOut &json) const
 {
     json.start_object();
     json.member("type", type.str());
-    json.member("pos", pos);
-    json.member("radius", radius);
-    json.member("population", population);
-    json.member("diffuse", diffuse);
-    json.member("dying", dying);
-    json.member("horde", horde);
-    json.member("target", target);
-    json.member("interest", interest);
-    json.member("horde_behaviour", horde_behaviour);
-    json.member("monsters");
-    json.start_array();
-    for( auto &i : monsters ) {
-        i.serialize(json);
+    if( pos != tripoint_zero ) {
+        json.member("pos", pos);
     }
-    json.end_array();
+    if( radius != 1 ) {
+        json.member("radius", radius);
+    }
+    if( population != 1 ) {
+        json.member("population", population);
+    }
+    if( diffuse ) {
+        json.member("diffuse", diffuse);
+    }
+    if( dying ) {
+        json.member("dying", dying);
+    }
+    if( horde ) {
+        json.member("horde", horde);
+    }
+    if( target != tripoint_zero ) {
+        json.member("target", target);
+    }
+    if( interest != 0 ) {
+        json.member("interest", interest);
+    }
+    if( !horde_behaviour.empty() ) {
+        json.member("horde_behaviour", horde_behaviour);
+    }
+    if( !monsters.empty() ) {
+        json.member("monsters");
+        json.start_array();
+        for( auto &i : monsters ) {
+            i.serialize(json);
+        }
+        json.end_array();
+    }
     json.end_object();
 }
 
