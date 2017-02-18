@@ -151,7 +151,7 @@ IF (NOT LUA_BINARY)
 ENDIF (NOT LUA_BINARY)
 
 IF(NOT LANGUAGES)
-	SET (LANGUAGES de es_AR es_ES fr it_IT ja ko pt_BR pt_PT ru zh_CN zh_TW)
+	SET (LANGUAGES de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
 ENDIF(NOT LANGUAGES)
 
 IF (GIT_BINARY)
