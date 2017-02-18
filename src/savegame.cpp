@@ -22,6 +22,7 @@
 #include "translations.h"
 #include "mongroup.h"
 #include "scent_map.h"
+#include "io.h"
 
 #include <map>
 #include <set>
@@ -491,7 +492,7 @@ void overmap::load_legacy_monstergroups( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         mongroup new_group;
-        new_group.deserialize( jsin );
+        new_group.deserialize_legacy( jsin );
         add_mon_group( new_group );
     }
 }
@@ -1040,51 +1041,36 @@ void overmap::serialize( std::ostream &fout ) const
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// mongroup
-
-// @todo Replace with io::archive
-void mongroup::serialize(JsonOut &json) const
+template<typename Archive>
+void mongroup::io( Archive& archive )
 {
-    json.start_object();
-    json.member("type", type.str());
-    if( pos != tripoint_zero ) {
-        json.member("pos", pos);
-    }
-    if( radius != 1 ) {
-        json.member("radius", radius);
-    }
-    if( population != 1 ) {
-        json.member("population", population);
-    }
-    if( diffuse ) {
-        json.member("diffuse", diffuse);
-    }
-    if( dying ) {
-        json.member("dying", dying);
-    }
-    if( horde ) {
-        json.member("horde", horde);
-    }
-    if( target != tripoint_zero ) {
-        json.member("target", target);
-    }
-    if( interest != 0 ) {
-        json.member("interest", interest);
-    }
-    if( !horde_behaviour.empty() ) {
-        json.member("horde_behaviour", horde_behaviour);
-    }
-    if( !monsters.empty() ) {
-        json.member("monsters");
-        json.start_array();
-        for( auto &i : monsters ) {
-            i.serialize(json);
-        }
-        json.end_array();
-    }
-    json.end_object();
+    archive.io( "type", type );
+    archive.io( "pos", pos, tripoint_zero );
+    archive.io( "radius", radius, 1u );
+    archive.io( "population", population, 1u );
+    archive.io( "diffuse", diffuse, false );
+    archive.io( "dying", dying, false );
+    archive.io( "dying", dying, false );
+    archive.io( "horde", horde, false );
+    archive.io( "target", target, tripoint_zero );
+    archive.io( "interest", interest, 0 );
+    archive.io( "horde_behaviour", horde_behaviour, io::empty_default_tag() );
+    archive.io( "monsters", monsters, io::empty_default_tag() );
 }
 
-void mongroup::deserialize(JsonIn &json)
+void mongroup::deserialize( JsonIn &data )
+{
+    io::JsonObjectInputArchive archive( data );
+    io( archive );
+}
+
+void mongroup::serialize( JsonOut &json ) const
+{
+    io::JsonObjectOutputArchive archive( json );
+    const_cast<mongroup*>( this )->io( archive );
+}
+
+void mongroup::deserialize_legacy(JsonIn &json)
 {
     json.start_object();
     while( !json.end_object() ) {

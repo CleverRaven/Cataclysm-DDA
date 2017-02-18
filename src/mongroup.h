@@ -25,6 +25,11 @@ struct MonsterGroupEntry;
 typedef std::vector<MonsterGroupEntry> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
 
+namespace io
+{
+struct object_archive_tag;
+}
+
 struct MonsterGroupEntry {
     mtype_id name;
     int frequency;
@@ -82,7 +87,7 @@ struct MonsterGroup {
 struct mongroup : public JsonSerializer, public JsonDeserializer {
     mongroup_id type;
     // Note: position is not saved as such in the json
-    // Instead, a vector of positions is saved for 
+    // Instead, a vector of positions is saved for
     tripoint pos = tripoint_zero;
     unsigned int radius = 1;
     unsigned int population = 1;
@@ -151,8 +156,13 @@ struct mongroup : public JsonSerializer, public JsonDeserializer {
         interest = set;
     }
 
+    template<typename Archive>
+    void io( Archive & );
+    using archive_type_tag = io::object_archive_tag;
+
     using JsonDeserializer::deserialize;
     void deserialize( JsonIn &jsin ) override;
+    void deserialize_legacy( JsonIn &jsin );
 
     using JsonSerializer::serialize;
     void serialize( JsonOut &jsout ) const override;
