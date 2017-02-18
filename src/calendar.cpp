@@ -521,6 +521,8 @@ void calendar::sync()
     year = turn_number / DAYS(sl * 4);
 
     if( eternal_season ) {
+        // If we use calendar::start to determine the initial season, and the user shortens the season length
+        // mid-game, the result could be the wrong season!
         season = initial_season;
     } else {
         season = season_type(turn_number / DAYS(sl) % 4);
