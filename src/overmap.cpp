@@ -597,10 +597,6 @@ void overmap_terrains::check_consistency()
     static const std::set<std::string> hardcoded_mapgen = {
         "anthill",
         "bunker",
-        "cathedral_1",
-        "cathedral_1_entrance",
-        "cathedral_b",
-        "cathedral_b_entrance",
         "farm",
         "farm_field",
         "fema",
