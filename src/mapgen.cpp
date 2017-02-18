@@ -2503,7 +2503,6 @@ ___DEEE|.R.|...,,...|sss\n",
                 }
             }
         }
-    } 
     } else if (terrain_type == "lab" ||
                terrain_type == "lab_stairs" ||
                terrain_type == "lab_core" ||
