@@ -683,7 +683,6 @@ void overmap_terrains::load( JsonObject &jo, const std::string &src )
 
 void overmap_terrains::check_consistency()
 {
-
     for( const auto &elem : terrain_types.get_all() ) {
         if( elem.static_spawns.group && !elem.static_spawns.group.is_valid() ) {
             debugmsg( "Invalid monster group \"%s\" in spawns of \"%s\".", elem.static_spawns.group.c_str(), elem.id.c_str() );
