@@ -2709,6 +2709,11 @@ long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
         p->add_msg_if_player( m_info, _("You can't do that while underwater.") );
         return 0;
     }
+    
+    if( it->is_filthy() ) {
+        p->add_msg_if_player( m_info, _( "You can't use filthy items for healing." ) );
+        return 0;
+    }
 
     player &patient = get_patient( *p, pos );
     const hp_part hpp = use_healing_item( *p, patient, *it, false );
