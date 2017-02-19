@@ -291,12 +291,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  get_armor_type( damage_type dt, body_part bp ) const override;
 
         float get_hit_base() const override;
-        float get_dodge_base() const override;
+        float get_dodge_base( bool include_size = true ) const override;
 
-        float  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
+        float  get_dodge( bool include_size = true ) const override;       // Natural dodge, or 0 if we're occupied
         float  get_melee() const override; // For determining attack skill when awarding dodge practice.
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
-        float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
+        float  dodge_roll( bool include_size = true ) override;  // For the purposes of comparing to player::hit_roll()
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;

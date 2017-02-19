@@ -459,7 +459,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     const bool u_see_this = g->u.sees(*this);
 
-    const int avoid_roll = dodge_roll();
+    const int avoid_roll = dodge_roll( false );
     // Do dice(10, speed) instead of dice(speed, 10) because speed could potentially be > 10000
     const int diff_roll = dice( 10, proj.speed );
     // Partial dodge, capped at [0.0, 1.0], added to missed_by
@@ -1187,9 +1187,9 @@ int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();
 }
-float Creature::get_dodge() const
+float Creature::get_dodge( bool include_size ) const
 {
-    return get_dodge_base() + get_dodge_bonus();
+    return get_dodge_base( include_size ) + get_dodge_bonus();
 }
 float Creature::get_hit() const
 {
