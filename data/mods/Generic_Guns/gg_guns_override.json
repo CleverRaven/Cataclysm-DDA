@@ -100,6 +100,18 @@
     "magazines": [ [ "308", [ "akmmag", "akmbigmag" ] ] ]
   },
   {
+    "id": "arx160",
+    "copy-from": "arx160",
+    "type": "GUN",
+    "name": "Beretta ARX-160",
+    "description": "The Beretta ARX-160 was a Phase II contender in the United States Army Individual Carbine competition to replace the M4 carbine.  It failed to replace it, but it is widely used by military all around the world.",
+    "ammo": "308",
+    "magazines": [
+      [ "223", [ "stanag30", "stanag10", "stanag50" ] ],
+      [ "308", [ "akmmag", "akmbigmag", "g3mag", "g3bigmag" ] ]
+    ]
+  },
+  {
     "id": "m249",
     "copy-from": "m249",
     "type": "GUN",
