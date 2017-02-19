@@ -601,8 +601,6 @@ void overmap_terrains::check_consistency()
         "cathedral_1_entrance",
         "cathedral_b",
         "cathedral_b_entrance",
-        "farm",
-        "farm_field",
         "fema",
         "fema_entrance",
         "haz_sar",
