@@ -2545,7 +2545,9 @@ void npc::heal_self()
     }
 
     long charges_used = used.type->invoke( this, &used, pos(), "heal" );
-    consume_charges( used, charges_used );
+    if( used.is_medication() ) {
+        consume_charges( used, charges_used );
+    }
 }
 
 void npc::use_painkiller()
