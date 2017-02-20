@@ -28,6 +28,7 @@
 #include "map_iterator.h"
 #include "cata_utility.h"
 #include "string_input_popup.h"
+#include "options.h"
 
 #include <sstream>
 #include <algorithm>
