@@ -373,11 +373,11 @@
                     "cloak",
                     "waterskin",
                     "meat_smoked",
+                    "cheese_hard",
                     "brandy"
                 ],
                 "entries": [
-                    { "item": "zweihander", "container-item": "bscabbard" },
-                    { "item": "cheese", "charges": 4, "container-item": "wrapper" }
+                    { "item": "zweihander", "container-item": "bscabbard" }
                 ]
             }
         }
