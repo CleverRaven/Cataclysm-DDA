@@ -2710,9 +2710,11 @@ long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
         return 0;
     }
     
-    if( it->is_filthy() ) {
-        p->add_msg_if_player( m_info, _( "You can't use filthy items for healing." ) );
-        return 0;
+    if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
+        if( it->is_filthy() ) {
+            p->add_msg_if_player( m_info, _( "You can't use filthy items for healing." ) );
+            return 0;
+        }
     }
 
     player &patient = get_patient( *p, pos );
