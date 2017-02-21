@@ -176,7 +176,7 @@ RC  = $(CROSS)windres
 AR  = $(CROSS)ar
 
 # We don't need scientific precision for our math functions, this lets them run much faster.
-CXXFLAGS += -ffast-math
+CXXFLAGS += -ffast-math -fwrapv
 LDFLAGS += $(PROFILE)
 
 # enable optimizations. slow to build
