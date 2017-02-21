@@ -3102,7 +3102,7 @@
         "transforms_into": "t_tree_apricot_harvested",
         "examine_action": "harvest_ter_nectar",
         "harvest_by_season" : [
-            { "seasons": [ "autumn" ], "entries": [ { "drop": "apricot", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+            { "seasons": [ "summer" ], "entries": [ { "drop": "apricot", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3145,7 +3145,7 @@
         "transforms_into": "t_tree_plum_harvested",
         "examine_action": "harvest_ter_nectar",
         "harvest_by_season" : [
-            { "seasons": [ "autumn" ], "entries": [ { "drop": "plums", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+            { "seasons": [ "summer" ], "entries": [ { "drop": "plums", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
