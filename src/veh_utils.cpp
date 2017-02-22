@@ -67,7 +67,7 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_c, bool o
         }
 
         if( info.is_repairable() &&
-                   ( info.repair_requirements() * part.damage() ).can_make_with_inventory( inv ) ) {
+            ( info.repair_requirements() * part.damage() ).can_make_with_inventory( inv ) ) {
             repairable_cache[ &part ] = repairable;
         }
     }
