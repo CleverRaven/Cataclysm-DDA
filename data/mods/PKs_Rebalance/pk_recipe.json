@@ -820,7 +820,7 @@
     "components": [
         [["triffid_sap", 2], ["triffid_sap_thrown", 2]],
         [["plant_sac", 1], ["water_clean", 1], ["water", 1]],
-        [["water_acid", 1], ["water_acid_weak", 2]],
+        [["water_acid", 1]],
         [[ "clay_canister", 1 ], [ "flask_glass", 1 ], [ "bottle_glass", 1 ]]
     ]
     },{
@@ -892,7 +892,7 @@
     "components": [
         [["fighter_sting_juice", 2]],
         [["royal_jelly_sap", 1], ["royal_jelly", 1]],
-        [["water_acid", 2], ["water_acid_weak", 2]]
+        [["water_acid", 2]]
     ]
     },{
     "result": "antidote_badpoison",
@@ -915,7 +915,7 @@
         [["fighter_sting_juice", 3]],
         [["royal_jelly_sap", 1], ["royal_jelly", 1]],
         [["disinfectant", 3], ["chem_hydrogen_peroxide_conc", 1], ["chem_hydrogen_peroxide", 3]],
-        [["water_acid", 2], ["water_acid_weak", 2]]
+        [["water_acid", 2]]
     ]
     },{
     "type" : "recipe",
