@@ -703,35 +703,9 @@ static std::array<char, 256> static_gen_utf_chars()
 
 static const std::array<char, 256> utf_chars = static_gen_utf_chars();
 
-inline int print_char( WINDOW *win, char charcode, bool nonsequential_write )
+inline int sequential_print_char( WINDOW *win, char charcode )
 {
     win->draw = true;
-    if( nonsequential_write ) {
-        // avoid having an invalid cursorx, so that cur_cell will only return nullptr
-        // when the bottom of the window has been reached.
-        // We don't need to check in sequential because addedchar makes sure it doesn't happen
-        if( win->cursorx >= win->width ) {
-            if( newline( win ) == 0 ) {
-                return 0;
-            }
-        }
-
-        if( win->cursory >= win->height || win->cursorx >= win->width ) {
-            return 0;
-        }
-        if( win->cursorx > 0 && win->line[win->cursory].chars[win->cursorx].ch.empty() ) {
-            // start inside a wide character, erase it for good
-            win->line[win->cursory].chars[win->cursorx - 1].ch.assign(" ");
-        }
-
-        // Newline in sequential would be wrong anyway
-        if( charcode == '\n' ) {
-            if( newline( win ) == 0 ) {
-                return 0;
-            }
-            return win->cursory < win->height ? 1 : 0;
-        }
-    }
 
     // cur_cell, but without bounds checks
     cursecell &curcell = win->line[win->cursory].chars[win->cursorx];
@@ -747,17 +721,6 @@ inline int print_char( WINDOW *win, char charcode, bool nonsequential_write )
     curcell.FG = win->FG;
     curcell.BG = win->BG;
     addedchar( win );
-
-    // We only want to do this in sequential writes
-    // Otherwise we clear most tiles just to overwrite them in the next write
-    if( nonsequential_write ) {
-        // a wide character was converted to a narrow character leaving a null in the
-        // following cell ~> clear it
-        cursecell *seccell = cur_cell( win );
-        if( seccell && seccell->ch.empty() ) {
-            seccell->ch.assign(' ', 1);
-        }
-    }
 
     return win->cursory < win->height ? 1 : 0;
 }
@@ -805,7 +768,8 @@ int waddch(WINDOW *win, const chtype ch)
             charcode = (char)ch;
             break;
     }
-    return print_char( win, charcode, false );
+    // Note: this isn't proper for generic waddch, should be moved to own function
+    return sequential_print_char( win, charcode );
 }
 
 //Move the cursor of the main window
