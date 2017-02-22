@@ -1402,11 +1402,11 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             // Use item from components list, or (if not contained)
             // use newit, the default constructed.
             item act_item = newit;
-            
+
             if( filthy ) {
                 act_item.item_tags.insert( "FILTHY" );
             }
-            
+
             for( item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end();
                  ++a ) {
                 if( a->type == newit.type ) {
