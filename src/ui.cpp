@@ -814,7 +814,13 @@ void uimenu::query(bool loop)
         const auto event = ctxt.get_raw_input();
         keypress = event.get_first_input();
 
-        if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
+		if ( callback != nullptr ) {
+			skipkey = callback->key( event, selected, this );
+		}
+
+		if ( skipkey ) { 
+			/* nothing */
+		} else if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
             /* nothing */
         } else if ( filtering && action == "FILTER" ) {
             inputfilter();
@@ -837,9 +843,6 @@ void uimenu::query(bool loop)
         } else if ( action == "QUIT" && return_invalid) { //break loop with ESCAPE key
             break;
         } else {
-            if( callback ) {
-                skipkey = callback->key( event, selected, this );
-            }
             if ( ! skipkey && return_invalid ) {
                 ret = -1;
             }
