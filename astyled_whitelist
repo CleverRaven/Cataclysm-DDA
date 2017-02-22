@@ -85,6 +85,7 @@ src/turret.cpp
 src/tutorial.cpp
 src/vehicle_group.cpp
 src/vehicle_selector.cpp
+src/veh_utils.cpp
 src/version.cpp
 src/vitamin.cpp
 src/weather_gen.cpp
@@ -221,6 +222,7 @@ src/vehicle_group.h
 src/vehicle_selector.h
 src/veh_interact.h
 src/veh_type.h
+src/veh_utils.h
 src/version.h
 src/visitable.h
 src/vitamin.h
