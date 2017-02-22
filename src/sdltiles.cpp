@@ -969,6 +969,9 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
         }
     }
 
+    // @todo Get this from UTF system to make sure it is exactly the kind of space we need
+    static const std::string space_string = " ";
+
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {
         if( !win->line[j].touched ) {
@@ -1003,6 +1006,12 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
 
             if( cell.ch.empty() ) {
                 continue; // second cell of a multi-cell character
+            }
+
+            // Spaces are used a lot, so this does help noticeably
+            if( cell.ch == space_string ) {
+                FillRectDIB( drawx, drawy, fontwidth, fontheight, cell.BG );
+                continue;
             }
             const char *utf8str = cell.ch.c_str();
             int len = cell.ch.length();
