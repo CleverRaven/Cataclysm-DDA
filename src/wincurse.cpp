@@ -344,13 +344,20 @@ void curses_drawwindow(WINDOW *win)
                     // Outside of the display area, would not render anyway
                     continue;
                 }
-                const char* utf8str = cell.ch.c_str();
-                int len = cell.ch.length();
-                tmp = UTF8_getch(&utf8str, &len);
+
                 int FG = cell.FG;
                 int BG = cell.BG;
                 FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
+                static const std::string space_string = " ";
+                // Spaces don't need any drawing except background
+                if( cell.ch == space_string ) {
+                    continue;
+                }
 
+                const char* utf8str = cell.ch.c_str();
+                int len = cell.ch.length();
+
+                tmp = UTF8_getch(&utf8str, &len);
                 if (tmp != UNKNOWN_UNICODE) {
 
                     int color = RGB(windowsPalette[FG].rgbRed,windowsPalette[FG].rgbGreen,windowsPalette[FG].rgbBlue);
