@@ -1219,7 +1219,10 @@
         "type" : "construction",
         "description" : "Build Rope & Pulley System",
         "category" : "CONSTRUCT",
-        "difficulty" : 6,
+        "required_skills" : [
+            [ "carpentry", 5 ],
+            [ "mechanics", 2 ]
+        ],
         "time" : 60,
         "components" : [
             [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
