@@ -61,6 +61,7 @@ class actmenu_cb : public uimenu_callback
             auto itemless_action = am.find( action );
             if( itemless_action != am.end() ) {
                 popup( _( "You do not have an item that can perform this action." ) );
+                return true;
             }
             return false;
         }
