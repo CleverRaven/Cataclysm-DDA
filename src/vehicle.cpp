@@ -6357,3 +6357,18 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         mass_center_no_precalc_dirty = false;
     }
 }
+
+template<> vehicle *PersistentID<vehicle>::find_by_id( PersistentID<vehicle> id )
+{
+    if( !g ) {
+        return nullptr;
+    }
+
+    for( auto &wrapped : g->m.get_vehicles() ) {
+        if( wrapped.v->get_persistent_id() == id ) {
+            return wrapped.v;
+        }
+    }
+
+    return nullptr;
+}

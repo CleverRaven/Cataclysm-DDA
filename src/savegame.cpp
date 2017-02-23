@@ -22,6 +22,7 @@
 #include "translations.h"
 #include "mongroup.h"
 #include "scent_map.h"
+#include "persistent_handle.h"
 
 #include <map>
 #include <set>
@@ -1078,6 +1079,7 @@ void mission::unserialize_all( JsonIn &jsin )
 
 void game::unserialize_master(std::istream &fin) {
     savegame_loading_version = 0;
+    persistent_id_sequence::reset( 0 );
     chkversion(fin);
     if (savegame_loading_version != savegame_version && savegame_loading_version < 11) {
        popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
@@ -1103,6 +1105,8 @@ void game::unserialize_master(std::istream &fin) {
                     fac.deserialize(jsin);
                     factions.push_back(fac);
                 }
+            } else if (name == "next_persistent_id") {
+                persistent_id_sequence::reset( jsin.get_long() );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1128,6 +1132,7 @@ void game::serialize_master(std::ostream &fout) {
         JsonOut json(fout, true); // pretty-print
         json.start_object();
 
+        json.member("next_persistent_id", persistent_id_sequence::next_id_value);
         json.member("next_mission_id", next_mission_id);
         json.member("next_faction_id", next_faction_id);
         json.member("next_npc_id", next_npc_id);

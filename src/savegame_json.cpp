@@ -157,6 +157,7 @@ void player_activity::serialize(JsonOut &json) const
     json.member( "placement", placement );
     json.member( "values", values );
     json.member( "str_values", str_values );
+    json.member( "handle_ids", handle_ids );
     json.member( "auto_resume", auto_resume );
     json.end_object();
 }
@@ -188,6 +189,7 @@ void player_activity::deserialize(JsonIn &jsin)
     data.read( "placement", placement );
     values = data.get_int_array("values");
     str_values = data.get_string_array("str_values");
+    handle_ids = data.get_long_array("handle_ids");
     data.read( "auto_resume", auto_resume );
 }
 
@@ -1803,6 +1805,10 @@ void vehicle::deserialize(JsonIn &jsin)
 
     int fdir, mdir;
 
+    PersistentID<vehicle> id;
+    data.read("id", id);
+    set_persistent_id( id );
+
     data.read("type", type);
     data.read("posx", posx);
     data.read("posy", posy);
@@ -1905,6 +1911,7 @@ void vehicle::deserialize(JsonIn &jsin)
 void vehicle::serialize(JsonOut &json) const
 {
     json.start_object();
+    json.member( "id", get_persistent_id() );
     json.member( "type", type );
     json.member( "posx", posx );
     json.member( "posy", posy );

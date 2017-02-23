@@ -1330,9 +1330,23 @@ void activity_handlers::train_finish( player_activity *act, player *p )
 
 void activity_handlers::vehicle_finish( player_activity *act, player *pl )
 {
+    (void) pl;
+
     //Grab this now, in case the vehicle gets shifted
-    vehicle *veh = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
-    veh_interact::complete_vehicle();
+    vehicle *veh;
+    if( g->u.activity.handle_ids.size() > 0 ) {
+        veh = g->u.activity.get_persistent<vehicle>( 0 );
+    } else {
+        // legacy
+        veh = g->m.veh_at( tripoint( g->u.activity.values[0], g->u.activity.values[1], g->u.posz() ) );
+    }
+
+    if (!veh) {
+        debugmsg ("Activity ACT_VEHICLE: vehicle not found");
+        return;
+    }
+
+    veh_interact::complete_vehicle( veh );
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
     // is to be examined again.
