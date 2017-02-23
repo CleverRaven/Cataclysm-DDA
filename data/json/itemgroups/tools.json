@@ -198,7 +198,8 @@
       [ "needle_curved", 30 ],
       [ "scissors", 1000 ],
       [ "sewing_kit", 100 ],
-      [ "tailors_kit", 30 ]
+      [ "tailors_kit", 30 ],
+      [ "knitting_needles", 20 ]
     ]
   }
 ]

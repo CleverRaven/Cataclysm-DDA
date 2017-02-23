@@ -113,7 +113,8 @@
       [ "string_6", 2 ],
       [ "sinew", 100 ],
       [ "thread", 100 ],
-      [ "plant_fibre", 100 ]
+      [ "plant_fibre", 100 ],
+      [ "yarn", 100 ]
     ],
     [
       [ "spike", 1 ]
@@ -192,7 +193,8 @@
     [
       [ "plant_fibre", 20 ],
       [ "sinew", 20 ],
-      [ "thread", 20 ]
+      [ "thread", 20 ],
+      [ "yarn", 20 ]
     ]
   ]
 },{
@@ -288,6 +290,7 @@
       [ "plant_fibre", 20 ],
       [ "sinew", 20 ],
       [ "thread", 20 ],
+      [ "yarn", 20 ],
       [ "duct_tape", 20 ]
     ]
   ]
@@ -407,6 +410,7 @@
       [ "plant_fibre", 20 ],
       [ "sinew", 20 ],
       [ "thread", 20 ],
+      [ "yarn", 20 ],
       [ "duct_tape", 20 ]
     ]
   ]
@@ -530,7 +534,8 @@
       [ "string_36", 2 ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
-      [ "plant_fibre", 200 ]
+      [ "plant_fibre", 200 ],
+      [ "yarn", 200 ]
     ]
   ]
 },{
@@ -555,7 +560,8 @@
       [ "string_36", 2 ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
-      [ "plant_fibre", 200 ]
+      [ "plant_fibre", 200 ],
+      [ "yarn", 200 ]
     ]
   ]
 },{
@@ -583,7 +589,8 @@
       [ "string_36", 2 ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
-      [ "plant_fibre", 200 ]
+      [ "plant_fibre", 200 ],
+      [ "yarn", 200 ]
     ]
   ]
 },{
@@ -612,7 +619,8 @@
       [ "string_36", 2 ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
-      [ "plant_fibre", 200 ]
+      [ "plant_fibre", 200 ],
+      [ "yarn", 200 ]
     ]
   ]
 },{
@@ -1814,16 +1822,9 @@
   "time": 65000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 4 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "rag", 4 ]
-    ]
-  ]
+  "using": [ [ "filament", 4 ] ],
+  "qualities": [ { "id": "SEW", "level": 1 } ],
+  "components": [ [ [ "rag", 4 ] ] ]
 },{
   "type" : "recipe",
   "result": "adjustable_stock",
@@ -4228,6 +4229,7 @@
       [ "plant_fibre", 20 ],
       [ "sinew", 20 ],
       [ "thread", 20 ],
+      [ "yarn", 20 ],
       [ "duct_tape", 20 ]
      ]
     ]

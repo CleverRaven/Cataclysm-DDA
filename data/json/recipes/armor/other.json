@@ -8,7 +8,8 @@
     "time": 80000,
     "reversible": true,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "using": [ [ "filament", 20 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 35 ] ] ]
   },
   {
@@ -21,7 +22,8 @@
     "time": 85000,
     "reversible": true,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "using": [ [ "filament", 20 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 35 ] ],
       [ [ "down_feather", 160 ] ]
@@ -39,7 +41,8 @@
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 24 ] ] ],
+    "using": [ [ "filament", 24 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 30 ] ],
       [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ]
@@ -54,11 +57,12 @@
     "difficulty": 3,
     "time": 30000,
     "book_learn": [ [ "mag_animecon", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [
-      [ [ "sewing_kit", 10 ] ],
-      [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
+    "using": [ [ "filament", 10 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "fur", 4 ] ],
       [ [ "string_36", 1 ] ],
@@ -74,11 +78,12 @@
     "difficulty": 3,
     "time": 20000,
     "book_learn": [ [ "mag_animecon", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [
-      [ [ "sewing_kit", 5 ] ],
-      [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ]
+    "using": [ [ "filament", 5 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "fur", 2 ] ],
       [ [ "scrap", 1 ] ]
@@ -93,11 +98,12 @@
     "difficulty": 3,
     "time": 30000,
     "book_learn": [ [ "mag_animecon", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [
-      [ [ "sewing_kit", 10 ] ],
-      [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
+    "using": [ [ "filament", 10 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "leather", 4 ] ],
       [ [ "string_36", 1 ] ],
@@ -113,11 +119,12 @@
     "difficulty": 3,
     "time": 20000,
     "book_learn": [ [ "mag_animecon", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [
-      [ [ "sewing_kit", 5 ] ],
-      [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ]
+    "using": [ [ "filament", 5 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
     ],
+    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "leather", 2 ] ],
       [ [ "scrap", 1 ] ]
@@ -135,7 +142,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "textbook_fireman", 4 ], [ "atomic_survival", 4 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "emergency_book", 3 ], [ "textbook_gaswarfare", 4 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "oxy_powder", 50 ] ],
@@ -155,7 +162,8 @@
     "time": 75000,
     "reversible": true,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 30 ] ] ],
+    "using": [ [ "filament", 30 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 30 ] ] ]
   },
   {
@@ -171,7 +179,8 @@
     "decomp_learn": 4,
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ], [ "pocket_survival", 1 ] ],
-    "tools": [ [ [ "sewing_kit", 30 ] ] ],
+    "using": [ [ "filament", 30 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 10 ] ],
       [ [ "fur", 20 ], [ "tanned_pelt", 3 ] ]
@@ -205,8 +214,11 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 80000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [ [ [ "sewing_kit", 140 ] ] ],
+    "using": [ [ "filament", 140 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ],
       [ [ "duct_tape", 100 ] ],
@@ -223,7 +235,8 @@
     "skill_used": "tailor",
     "time": 6000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 7 ] ] ],
+    "using": [ [ "filament", 7 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 5 ] ] ]
   }
 ]
