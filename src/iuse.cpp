@@ -7899,7 +7899,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     p->consume_items( comps );
 
     p->add_msg_if_player( _( "You washed your clothing." ) );
-    p->mod_moves( -3000 );
+    p->mod_moves( -( 1000 * mod.volume() / 250_ml ) );
 
     if( p->is_worn( mod ) ) {
         mod.on_takeoff( g->u );
