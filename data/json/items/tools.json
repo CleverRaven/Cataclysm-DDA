@@ -2348,7 +2348,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD" ]
   },
   {
     "id": "eink_tablet_pc",
@@ -4349,7 +4349,8 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ] ]
+    "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ] ],
+    "flags": [ "NEEDS_UNFOLD" ]
   },
   {
     "id": "machete",
