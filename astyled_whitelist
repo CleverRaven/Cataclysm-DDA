@@ -69,6 +69,7 @@ src/profession.cpp
 src/projectile.cpp
 src/recipe_dictionary.cpp
 src/rng.cpp
+src/rotatable_symbols.cpp
 src/safemode_ui.cpp
 src/scenario.cpp
 src/scent_map.cpp
@@ -198,6 +199,7 @@ src/profession.h
 src/projectile.h
 src/recipe_dictionary.h
 src/requirements.h
+src/rotatable_symbols.h
 src/rng.h
 src/safemode_ui.h
 src/scent_map.h

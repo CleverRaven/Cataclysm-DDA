@@ -32,6 +32,7 @@
 #include "mapbuffer.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "rotatable_symbols.h"
 #include "string_input_popup.h"
 
 #include <cassert>
@@ -3962,30 +3963,7 @@ tripoint om_direction::rotate( const tripoint &p, type dir )
 
 long om_direction::rotate_symbol( long sym, type dir )
 {
-    static const std::map<long, std::array<long, size>> rotated_syms = {{
-        { 60,  {{ 60, 94, 62, 118 }} },
-        { 62,  {{ 62, 118, 60, 94 }} },
-        { 94,  {{ 94, 62, 118, 60 }} },
-        { 118, {{ 118, 60, 94, 62 }} },
-
-        { 4194410, {{ 4194410, 4194413, 4194412, 4194411 }} },
-        { 4194411, {{ 4194411, 4194410, 4194413, 4194412 }} },
-        { 4194412, {{ 4194412, 4194411, 4194410, 4194413 }} },
-        { 4194413, {{ 4194413, 4194412, 4194411, 4194410 }} },
-        { 4194417, {{ 4194417, 4194424, 4194417, 4194424 }} },
-        { 4194421, {{ 4194421, 4194422, 4194420, 4194423 }} },
-        { 4194422, {{ 4194422, 4194420, 4194423, 4194421 }} },
-        { 4194423, {{ 4194423, 4194421, 4194422, 4194420 }} },
-        { 4194424, {{ 4194424, 4194417, 4194424, 4194417 }} }
-    }};
-
-    if( dir == type::invalid ) {
-        debugmsg( "Invalid overmap rotation (%d).", dir );
-        return sym;
-    }
-
-    const auto iter = rotated_syms.find( sym );
-    return iter != rotated_syms.end() ? iter->second[static_cast<size_t>( dir )] : sym;
+    return rotatable_symbols::get( sym, static_cast<int>( dir ) );
 }
 
 point om_direction::displace( type dir, int dist )
