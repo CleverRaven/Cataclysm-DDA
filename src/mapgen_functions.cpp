@@ -4034,6 +4034,87 @@ void mapgen_hospital(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 }
 
 
+void mapgen_school_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
+/*
+
+*/
+}
+
+
+void mapgen_school_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
+/*
+
+*/
+}
+
+
+void mapgen_school_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
+/*
+
+*/
+}
+
+
+void mapgen_school_4(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
+/*
+
+*/
+}
+
+
+void mapgen_school_5(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
+/*
+
+*/
+}
+
+
+void mapgen_school_6(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
+/*
+
+*/
+}
+
+
+void mapgen_school_7(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
+/*
+
+*/
+}
+
+
+void mapgen_school_8(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
+/*
+
+*/
+}
+
+
+void mapgen_school_9(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
+/*
+
+*/
+}
+
+
 void mapgen_prison_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
