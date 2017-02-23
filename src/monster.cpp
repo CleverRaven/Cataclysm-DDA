@@ -1087,6 +1087,13 @@ void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspre
         // Maybe should only be if DT_CUT > 6... Balance question
         target.add_effect( effect_bleed, 60, bp_hit );
     }
+
+    for( item &i : g->u.worn ) {
+        if( i.covers( bp_hit ) && !i.is_filthy() && one_in( 10 ) && type->in_species( ZOMBIE ) ) {
+            target.add_msg_if_player( m_bad, _( "Your clothing has become filthy!" ) );
+            i.item_tags.insert( "FILTHY" );
+        }
+    }
 }
 
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) {
