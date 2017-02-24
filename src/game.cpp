@@ -9983,7 +9983,9 @@ void game::plthrow(int pos)
 
     u.throw_item( trajectory.back(), thrown );
     reenter_fullscreen();
-}// @todo: Move game::pl_target_ui and related data/functions to src/ranged.cpp
+}
+
+// @todo: Move game::pl_target_ui and related data/functions to src/ranged.cpp
 std::vector<tripoint> game::pl_target_ui( const targeting_data &args ) {
     return pl_target_ui( args.mode, args.relevant, args.range,
                          args.ammo, args.on_mode_change, args.on_ammo_change );
@@ -10057,8 +10059,8 @@ bool game::plfire_check( const targeting_data &args ) {
                 u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
                 (u.has_active_bionic( "bio_ups" ) && u.power_level >= ups_drain ) ) ) {
                 add_msg( m_info,
-                        _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
-                        ups_drain, adv_ups_drain );
+                         _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
+                         ups_drain, adv_ups_drain );
                 return false;
             }
         }
