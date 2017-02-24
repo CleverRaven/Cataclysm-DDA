@@ -258,7 +258,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["ice_lab_core"] = &mapgen_ice_lab_core;
     mapgen_cfunction_map["ice_lab_finale"] = &mapgen_ice_lab_finale;
     mapgen_cfunction_map["nuke_plant"] = &mapgen_nuke_plant;
-    mapgen_cfunction_map["bunker"] = &mapgen_bunker;
     mapgen_cfunction_map["outpost"] = &mapgen_outpost;
     mapgen_cfunction_map["silo"] = &mapgen_silo;
     mapgen_cfunction_map["silo_finale"] = &mapgen_silo_finale;
@@ -4467,15 +4466,6 @@ void mapgen_nuke_plant_entrance(map *m, oter_id terrain_type, mapgendata dat, in
 
 
 void mapgen_nuke_plant(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_bunker(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*

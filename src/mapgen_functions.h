@@ -176,7 +176,6 @@ void mapgen_ice_lab_core(map *m, oter_id terrain_type, mapgendata dat, int turn,
 void mapgen_ice_lab_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_nuke_plant_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_nuke_plant(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_bunker(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_outpost(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_silo(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_silo_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
