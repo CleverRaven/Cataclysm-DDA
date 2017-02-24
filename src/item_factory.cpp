@@ -1109,6 +1109,22 @@ void Item_factory::load_wheel( JsonObject &jo, const std::string &src )
     }
 }
 
+void Item_factory::load( islot_fuel &slot, JsonObject &jo, const std::string &src )
+{
+    bool strict = src == "core";
+
+    assign( jo, "energy", slot.energy, strict, 0.001f );
+}
+
+void Item_factory::load_fuel( JsonObject &jo, const std::string &src )
+{
+    itype def;
+    if( load_definition( jo, src, def ) ) {
+        load_slot( def.fuel, jo, src );
+        load_basic_info( jo, def, src );
+    }
+}
+
 void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src )
 {
     bool strict = src == "core";
@@ -1738,6 +1754,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     load_slot_optional( def.seed, jo, "seed_data", src );
     load_slot_optional( def.artifact, jo, "artifact_data", src );
     load_slot_optional( def.brewable, jo, "brewable", src );
+    load_slot_optional( def.fuel, jo, "fuel", src );
 
     // optional gunmod slot may also specify mod data
     load_slot_optional( def.gunmod, jo, "gunmod_data", src );

@@ -37,16 +37,6 @@ float get_collision_factor(float delta_v);
 constexpr int SCATTER_DISTANCE = 3;
 constexpr int k_mvel = 200; //adjust this to balance collision damage
 
-struct fuel_type {
-    /** Id of the item type that represents the fuel. It may not be valid for certain pseudo
-     * fuel types like muscle. */
-    itype_id id;
-    /** See @ref vehicle::consume_fuel */
-    int coeff;
-};
-
-const std::array<fuel_type, 7> &get_fuel_types();
-
 enum veh_coll_type : int {
     veh_coll_nothing,  // 0 - nothing,
     veh_coll_body,     // 1 - monster/player/npc
@@ -793,12 +783,17 @@ public:
 
     // drains a fuel type (e.g. for the kitchen unit)
     // returns amount actually drained, does not engage reactor
-    int drain (const itype_id &ftype, int amount);
+    int drain( const itype_id &ftype, int amount );
 
     // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
     int basic_consumption (const itype_id &ftype) const;
 
     void consume_fuel( double load );
+
+    /**
+     * Maps used fuel to its basic (unscaled by load/strain) consumption.
+     */
+    std::map<itype_id, int> fuel_usage() const;
 
     /**
      * Get all vehicle lights (excluding any that are destroyed)

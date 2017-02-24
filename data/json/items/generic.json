@@ -35,7 +35,10 @@
         "description" : "seeing this is a bug",
         "price" : 0,
         "volume" : 0,
-        "flags": ["PSEUDO"]
+        "flags": ["PSEUDO"],
+        "fuel": {
+            "energy": 1
+        }
     },
     {
         "type":"GENERIC",
