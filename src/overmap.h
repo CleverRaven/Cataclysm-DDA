@@ -416,6 +416,10 @@ public:
   void place_radios();
 
     void add_mon_group(const mongroup &group);
+
+    void load_monster_groups( JsonIn &jo );
+    void load_legacy_monstergroups( JsonIn &jo );
+    void save_monster_groups( JsonOut &jo ) const;
 };
 
 // TODO: readd the stream operators
