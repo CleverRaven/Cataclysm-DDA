@@ -59,6 +59,7 @@ ignorable = {
     "region_overlay",
     "region_settings",
     "requirement",
+    "rotatable_symbol",
     "SPECIES",
     "uncraft",
     "vehicle_group",
