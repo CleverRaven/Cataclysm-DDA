@@ -909,6 +909,10 @@ void Item_factory::check_definitions() const
             }
         }
 
+        if( type->fuel != nullptr && !type->count_by_charges() ) {
+            msg << "fuel value set, but item isn't count_by_charges.\n";
+        }
+
         if (msg.str().empty()) {
             continue;
         }

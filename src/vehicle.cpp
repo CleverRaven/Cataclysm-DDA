@@ -3378,6 +3378,23 @@ std::map<itype_id, int> vehicle::fuel_usage() const
     return ret;
 }
 
+float vehicle::drain_energy( const itype_id &ftype, float energy )
+{
+    float drained = 0.0f;
+    for( auto &p : parts ) {
+        if( energy <= 0.0f ) {
+            break;
+        }
+
+        float consumed = p.consume_energy( ftype, energy );
+        drained += consumed;
+        energy -= consumed;
+    }
+
+    invalidate_mass();
+    return drained;
+}
+
 void vehicle::consume_fuel( double load = 1.0 )
 {
     float st = strain();
@@ -3385,33 +3402,20 @@ void vehicle::consume_fuel( double load = 1.0 )
         auto &ft = fuel_pr.first;
         int amnt_fuel_use = fuel_pr.second;
 
-        // @todo Don't use itype here, expose the fuel item instead
-        const itype *fuel_type = item::find_type( ft );
-        // Those should be guaranteed by finalization, not checked every time
-        assert( fuel_type != nullptr );
-        assert( fuel_type->fuel != nullptr );
-        assert( fuel_type->fuel->energy > 0.0f );
-
-        double amnt_precise = double( amnt_fuel_use ) / fuel_type->fuel->energy;
+        // In kilojoules
+        double amnt_precise = double( amnt_fuel_use );
         amnt_precise *= load * ( 1.0 + st * st * 100.0 );
-        int amnt = int( amnt_precise );
-        // Add in the previous remainder if it exists, and then stash anything that is left.
-        double remainder = amnt_precise - amnt;
-        auto previous_remainder = fuel_remainder.find( ft );
-        if( previous_remainder != fuel_remainder.end() ) {
-            remainder += previous_remainder->second;
-            if( (int)remainder >= 1 ) {
-                amnt += (int)remainder;
-                remainder -= (int)remainder;
-            }
-        }
-        fuel_remainder[ ft ] = remainder;
+        double remainder = fuel_remainder[ ft ];
+        amnt_precise -= remainder;
 
-        if( amnt > 0 ) {
-            drain( ft, amnt );
+        if( amnt_precise > 0.0f ) {
+            fuel_remainder[ ft ] = amnt_precise - drain_energy( ft, amnt_precise );
+        } else {
+            fuel_remainder[ ft ] = -amnt_precise;
         }
 
-        add_msg( m_debug, "%s consumes %s: amnt %d, rem %.2f", name.c_str(), ft.c_str(), amnt, remainder );
+        add_msg( m_debug, "%s consumes %s: amnt %.2f, rem %.2f",
+                 name.c_str(), ft.c_str(), amnt_precise, fuel_remainder[ ft ] );
     }
     //do this with chance proportional to current load
     // But only if the player is actually there!
@@ -6142,6 +6146,30 @@ long vehicle_part::ammo_consume( long qty, const tripoint& pos )
     }
 
     return res;
+}
+
+float vehicle_part::consume_energy( const itype_id &ftype, float energy )
+{
+    if( base.contents.empty() || ( !is_battery() && !is_reactor() && !base.is_watertight_container() ) ) {
+        return 0.0f;
+    }
+
+    item &fuel = base.contents.back();
+    if( fuel.typeId() != ftype ) {
+        return 0.0f;
+    }
+
+    assert( fuel.is_fuel() );
+    float energy_per_unit = fuel.fuel_energy();
+    long charges_to_use = static_cast<int>( std::ceil( energy / energy_per_unit ) );
+    if( charges_to_use > fuel.charges ) {
+        long had_charges = fuel.charges;
+        base.contents.clear();
+        return had_charges * energy_per_unit;
+    }
+
+    fuel.charges -= charges_to_use;
+    return charges_to_use * energy_per_unit;
 }
 
 bool vehicle_part::can_reload( const itype_id &obj ) const
