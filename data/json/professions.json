@@ -224,7 +224,7 @@
             },
             {
                 "level": 2,
-                "name": "carpentry"
+                "name": "fabrication"
             }
         ],
         "items": {
@@ -552,7 +552,7 @@
                 "level": 2
             },
             {
-                    "name": "carpentry",
+                    "name": "fabrication",
                     "level": 1
             }
         ],
@@ -1713,7 +1713,7 @@
         "skills": [
             {
                 "level": 2,
-                "name": "carpentry"
+                "name": "fabrication"
             }
         ],
         "items": {
@@ -2205,12 +2205,8 @@
         "points": 6,
         "skills": [
             {
-                "level": 1,
+                "level": 2,
                 "name": "fabrication"
-            },
-            {
-                "level": 1,
-                "name": "carpentry"
             },
             {
                 "level": 1,

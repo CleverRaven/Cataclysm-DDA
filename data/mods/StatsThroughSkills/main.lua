@@ -3,7 +3,7 @@ local MOD = {}
 
 local version = 2
 
-local str_skills = { "carpentry", "mechanics", "swimming", "bashing", "cutting", "melee", "throw" }
+local str_skills = { "mechanics", "swimming", "bashing", "cutting", "melee", "throw" }
 local dex_skills = { "driving", "survival", "tailor", "traps", "dodge", "stabbing", "unarmed" }
 local int_skills = { "barter", "computer", "cooking", "electronics", "fabrication", "firstaid", "speech" }
 local per_skills = { "archery", "gun", "launcher", "pistol", "rifle", "shotgun", "smg" }
