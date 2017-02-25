@@ -4334,7 +4334,8 @@ void game::debug()
                 smenu.reset();
                 smenu.return_invalid = true;
                 smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), calendar::turn.years() );
-                smenu.addentry( 1, true, 's', "%s: %d", _( "season" ), int( calendar::turn.get_season() ) );
+                smenu.addentry( 1, !get_world_option<bool>( "ETERNAL_SEASON" ), 's', "%s: %d",
+                                _( "season" ), int( calendar::turn.get_season() ) );
                 smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), calendar::turn.days() );
                 smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), calendar::turn.hours() );
                 smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), calendar::turn.minutes() );
@@ -14136,10 +14137,6 @@ void game::start_calendar()
         debugmsg( "The Unicorn" );
     }
     calendar::turn = calendar::start;
-
-    if( get_world_option<bool>( "ETERNAL_SEASON" ) ) {
-        calendar::eternal_season = true;
-    }
 }
 
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)

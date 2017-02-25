@@ -15,7 +15,6 @@ const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
 calendar calendar::start;
 calendar calendar::turn;
 season_type calendar::initial_season;
-bool calendar::eternal_season = false;
 
 // Internal constants, not part of the calendar interface.
 // Times for sunrise, sunset at equinoxes
@@ -407,7 +406,7 @@ std::string calendar::textify_period() const
     if (year > 0) {
         am = year;
         tx = ngettext("%d year", "%d years", am);
-    } else if (season > 0 && !eternal_season) {
+    } else if ( season > 0 && !get_world_option<bool>( "ETERNAL_SEASON" ) ) {
         am = season;
         tx = ngettext("%d season", "%d seasons", am);
     } else if (day > 0) {
@@ -520,7 +519,7 @@ void calendar::sync()
     const int sl = season_length();
     year = turn_number / DAYS(sl * 4);
 
-    if( eternal_season ) {
+    if( get_world_option<bool>( "ETERNAL_SEASON" ) ) {
         // If we use calendar::start to determine the initial season, and the user shortens the season length
         // mid-game, the result could be the wrong season!
         season = initial_season;
