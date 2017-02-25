@@ -7102,7 +7102,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
 
             const auto &furn = this->furn( pnt ).obj();
             // plants contain a seed item which must not be removed under any circumstances
-            if( !furn.has_flag( "PLANT" ) ) {
+            if( !furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
                 remove_rotten_items( tmpsub->itm[x][y], pnt );
             }
 
