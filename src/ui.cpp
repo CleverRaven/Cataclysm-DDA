@@ -813,10 +813,15 @@ void uimenu::query(bool loop)
         const auto action = ctxt.handle_input();
         const auto event = ctxt.get_raw_input();
         keypress = event.get_first_input();
+        const auto iter = keymap.find( keypress );
 
-		if ( callback != nullptr ) {
-			skipkey = callback->key( event, selected, this );
-		}
+        if ( callback != nullptr ) {
+            if( iter == keymap.end() && action == "ANY_INPUT" && event.get_first_input() != '?' ) {
+                skipkey = callback->key( event, -1, this );
+            } else {
+                skipkey = callback->key( event, selected, this );
+            }
+        }
 
 		if ( skipkey ) { 
 			/* nothing */
@@ -825,7 +830,6 @@ void uimenu::query(bool loop)
         } else if ( filtering && action == "FILTER" ) {
             inputfilter();
         } else if( action == "ANY_INPUT" && event.type == CATA_INPUT_KEYBOARD ) {
-            const auto iter = keymap.find( keypress );
             if( iter != keymap.end() ) {
                 selected = iter->second;
             }
