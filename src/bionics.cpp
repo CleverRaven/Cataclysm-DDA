@@ -158,7 +158,7 @@ bool player::activate_bionic( int b, bool eff_only )
         charge_power( bionics[bio.id].power_activate );
         bio_gun = item( bionics[bio.id].fake_item );
         g->refresh_all();
-        g->plfire( &bio_gun, bionics[bio.id].power_activate, false );
+        g->plfire( bio_gun, bionics[bio.id].power_activate );
     } else if( bionics[ bio.id ].weapon_bionic ) {
         if( weapon.has_flag( "NO_UNWIELD" ) ) {
             add_msg( m_info, _( "Deactivate your %s first!" ), weapon.tname().c_str() );
@@ -230,7 +230,7 @@ bool player::activate_bionic( int b, bool eff_only )
         mod_moves( -100 );
     } else if( bio.id == "bio_blood_anal" ) {
         static const std::map<efftype_id, std::string> bad_effects = {{
-            { effect_fungus, _( "Fungal Parasite" ) },
+            { effect_fungus, _( "Fungal Infection" ) },
             { effect_dermatik, _( "Insect Parasite" ) },
             { effect_stung, _( "Stung" ) },
             { effect_poison, _( "Poison" ) },
@@ -244,7 +244,7 @@ bool player::activate_bionic( int b, bool eff_only )
             { effect_tapeworm, _( "Intestinal Parasite" ) },
             { effect_bloodworms, _( "Hemolytic Parasites" ) },
             // These little guys are immune to the blood filter too, as they live in your brain.
-            { effect_brainworms, _( "Intracranial Parasite" ) },
+            { effect_brainworms, _( "Intracranial Parasites" ) },
             // These little guys are immune to the blood filter too, as they live in your muscles.
             { effect_paincysts, _( "Intramuscular Parasites" ) },
             // Tetanus infection.

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MONSTER_H
 #define MONSTER_H
 
@@ -42,6 +43,12 @@ enum monster_attitude {
     MATT_ATTACK,
     MATT_ZLAVE,
     NUM_MONSTER_ATTITUDES
+};
+
+enum monster_effect_cache_fields {
+    MOVEMENT_IMPAIRED = 0,
+    FLEEING,
+    NUM_MEFF
 };
 
 class monster : public Creature, public JsonSerializer, public JsonDeserializer
@@ -321,6 +328,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void disable_special( const std::string &special_name );
 
         void process_turn() override;
+        /** Resets the value of all bonus fields to 0, clears special effect flags. */
+        void reset_bonuses() override;
+        /** Resets stats, and applies effects in an idempotent manner */
+        void reset_stats() override;
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mon
         void drop_items_on_death();
@@ -433,6 +444,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int upgrade_time;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
+        std::bitset<NUM_MEFF> effect_cache;
 
     protected:
         void store( JsonOut &jsout ) const;

@@ -28,6 +28,7 @@
 #include "weather.h"
 #include "sounds.h"
 #include "cata_utility.h"
+#include "string_input_popup.h"
 
 #include <sstream>
 #include <algorithm>
@@ -254,8 +255,12 @@ private:
     //! Prompt for an integral value clamped to [0, max].
     static long prompt_for_amount(char const *const msg, long const max) {
         const std::string formatted = string_format(msg, max);
-        const int amount = std::atol(string_input_popup(
-            formatted, 20, to_string(max), "", "", -1, true).c_str());
+        const int amount = std::atol( string_input_popup()
+                                      .title( formatted )
+                                      .width( 20 )
+                                      .text( to_string( max ) )
+                                      .only_digits( true )
+                                      .query().c_str() );
 
         return (amount > max) ? max : (amount <= 0) ? 0 : amount;
     };
@@ -810,7 +815,45 @@ void iexamine::portable_structure(player &p, const tripoint &examp)
         dropped = "null";
     }
 
-    if( !query_yn(_("Take down the %s?"), name.c_str() ) ) {
+    auto check_tent_intact = [&]() -> bool {
+        int radius = dropped == "large_tent_kit" ? 2 : 1;
+        furn_id floor =
+            dropped == "tent_kit" ? f_groundsheet : f_large_groundsheet;
+        furn_id wall =
+            dropped == "tent_kit" ? f_canvas_wall : f_large_canvas_wall;
+        furn_id door =
+            dropped == "tent_kit" ? f_canvas_door : f_large_canvas_door;
+        furn_id door_opened =
+            dropped == "tent_kit" ? f_canvas_door_o : f_large_canvas_door_o;
+        furn_id center_floor =
+            dropped == "large_tent_kit" ? f_center_groundsheet : floor;
+        // Traversing all the tiles this tent occupies
+        for( int i = -radius; i <= radius; i++ ) {
+            for( int j = -radius; j <= radius; j++ ) {
+                const furn_id &furn_here = g->m.furn( examp.x + i, examp.y + j );
+                if( i != -radius && i != radius && j != -radius && j != radius ) {
+                    // So we are inside the tent
+                    if( furn_here != floor && furn_here != center_floor ) {
+                        return false;
+                    }
+                } else if( furn_here != wall && furn_here != door && furn_here != door_opened ) {
+                    // We are on the border of the tent
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
+
+    if( name == "tent" && !check_tent_intact() ) {
+        if( dropped == "tent_kit" ) {
+            dropped = "broketent";
+        } else {
+            dropped = "largebroketent";
+        }
+    }
+
+    if( !query_yn( _( "Take down the %s?" ), _( name.c_str() ) ) ) {
         none( p, examp );
         return;
     }
@@ -2773,9 +2816,12 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
     //~ Loading fuel or other items into a piece of furniture.
     const std::string popupmsg = string_format(_("Put how many of the %1$s into the %2$s?"),
                                  ammo->nname(max_amount).c_str(), f.name.c_str());
-    long amount = std::atoi( string_input_popup( popupmsg, 20,
-                                  to_string(max_amount),
-                                  "", "", -1, true).c_str() );
+    long amount = std::atoi( string_input_popup()
+                             .title( popupmsg )
+                             .width( 20 )
+                             .text( to_string( max_amount ) )
+                             .only_digits( true )
+                             .query().c_str() );
     if (amount <= 0 || amount > max_amount) {
         return;
     }
@@ -2850,7 +2896,10 @@ void iexamine::sign(player &p, const tripoint &examp)
                                             _("You graffiti a message onto the sign.");
         std::string ignore_message = _("You leave the sign alone.");
         if (query_yn(query_message.c_str())) {
-            std::string signage = string_input_popup(_("Spray what?"), 0, "", "", "signage");
+            std::string signage = string_input_popup()
+                                  .title( _( "Spray what?" ) )
+                                  .identifier( "signage" )
+                                  .query();
             if (signage.empty()) {
                 p.add_msg_if_player(m_neutral, ignore_message.c_str());
             } else {
@@ -3223,8 +3272,12 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         std::string popupmsg = string_format(
                                    _( "How many liters of gasoline to buy? Max: %d L. (0 to cancel) " ), maximum_liters );
-        long liters = std::atoi( string_input_popup( popupmsg, 20,
-                                 to_string( maximum_liters ), "", "", -1, true ).c_str()
+        long liters = std::atoi( string_input_popup()
+                                 .title( popupmsg )
+                                 .width( 20 )
+                                 .text( to_string( maximum_liters ) )
+                                 .only_digits( true )
+                                 .query().c_str()
                                );
         if( liters <= 0 ) {
             return;

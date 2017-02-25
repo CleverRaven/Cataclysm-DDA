@@ -35,6 +35,7 @@ const efftype_id effect_contacts( "contacts" );
 static const std::string fake_recipe_book = "book";
 
 void remove_from_component_lookup( recipe *r );
+void drop_or_handle( const item &newit, player &p );
 
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
@@ -424,7 +425,7 @@ std::vector<item> recipe::create_byproducts( int batch ) const
         }
 
         if( obj.count_by_charges() ) {
-            obj.charges *= e.second;
+            obj.charges *= e.second * batch;
             bps.push_back( obj );
 
         } else {
@@ -859,6 +860,24 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     return selected;
 }
 
+// Prompts player to empty all newly-unsealed containers in inventory
+// Called after something that might have opened containers (making them buckets) but not emptied them
+void empty_buckets( player &p )
+{
+    // First grab (remove) all items that are non-empty buckets and not wielded
+    auto buckets = p.remove_items_with( [&p]( const item & it ) {
+        return it.is_bucket_nonempty() && &it != &p.weapon;
+    }, INT_MAX );
+    for( auto &it : buckets ) {
+        for( const item &in : it.contents ) {
+            drop_or_handle( in, p );
+        }
+
+        it.contents.clear();
+        drop_or_handle( it, p );
+    }
+}
+
 std::list<item> player::consume_items( const comp_selection<item_comp> &is, int batch )
 {
     std::list<item> ret;
@@ -906,6 +925,7 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
         }
     }
     lastconsumed = selected_comp.type;
+    empty_buckets( *this );
     return ret;
 }
 
@@ -1285,6 +1305,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     // Get the proper recipe - the one for disassembly, not assembly
     const auto dis_requirements = dis.disassembly_requirements();
     item &org_item = get_item_for_uncraft( *this, item_pos, loc, from_ground );
+    bool filthy = org_item.is_filthy();
     if( org_item.is_null() ) {
         add_msg( _( "The item has vanished." ) );
         activity.set_to_null();
@@ -1381,6 +1402,11 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             // Use item from components list, or (if not contained)
             // use newit, the default constructed.
             item act_item = newit;
+
+            if( filthy ) {
+                act_item.item_tags.insert( "FILTHY" );
+            }
+
             for( item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end();
                  ++a ) {
                 if( a->type == newit.type ) {

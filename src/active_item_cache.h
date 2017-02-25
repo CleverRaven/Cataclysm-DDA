@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ACTIVE_ITEM_CACHE_H
 #define ACTIVE_ITEM_CACHE_H
 

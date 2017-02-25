@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CREATURE_H
 #define CREATURE_H
 
@@ -82,8 +83,8 @@ class Creature
         virtual void process_turn();
         /** Resets the value of all bonus fields to 0. */
         virtual void reset_bonuses();
-        /** Does NOTHING, exists to simplify cleanup and should be removed */
-        virtual void reset_stats();
+        /** Resets stats, and applies effects in an idempotent manner */
+        virtual void reset_stats() = 0;
         /** Handles stat and bonus reset. */
         virtual void reset();
         /** Adds an appropriate blood splatter. */
@@ -317,7 +318,7 @@ class Creature
         virtual void setpos( const tripoint &pos ) = 0;
 
         /** Processes move stopping effects. Returns false if movement is stopped. */
-        virtual bool move_effects(bool attacking);
+        virtual bool move_effects(bool attacking) = 0;
 
         /** Handles effect application effects. */
         virtual void add_eff_effects(effect e, bool reduced);

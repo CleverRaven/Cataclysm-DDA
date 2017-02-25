@@ -32,6 +32,8 @@
 #include "mapbuffer.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "rotatable_symbols.h"
+#include "string_input_popup.h"
 
 #include <cassert>
 #include <stdlib.h>
@@ -53,6 +55,8 @@
 #define MAX_GOO_SIZE 2
 #define MIN_RIFT_SIZE 6
 #define MAX_RIFT_SIZE 16
+
+const efftype_id effect_pet( "pet" );
 
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
@@ -642,8 +646,6 @@ void overmap_terrains::check_consistency()
         "prison_9",
         "prison_b",
         "prison_b_entrance",
-        "public_works",
-        "public_works_entrance",
         "radio_tower",
         "school_1",
         "school_2",
@@ -2595,9 +2597,12 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                                               _(color_pair.second.c_str()) );
             }
             const std::string old_note = overmap_buffer.note(curs);
-            const std::string new_note = string_input_popup(
-                _("Note (X:TEXT for custom symbol, G; for color):"),
-                45, old_note, color_notes); // 45 char max
+            const std::string new_note = string_input_popup()
+                                         .title( _("Note (X:TEXT for custom symbol, G; for color):") )
+                                         .width( 45 )
+                                         .text( old_note )
+                                         .description( color_notes )
+                                         .query();
             if( new_note.empty() && !old_note.empty() ) {
                 // do nothing, the player should be using [D]elete
             } else if( old_note != new_note ) {
@@ -2634,7 +2639,9 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
         } else if (action == "TOGGLE_EXPLORED") {
             overmap_buffer.toggle_explored(curs.x, curs.y, curs.z);
         } else if (action == "SEARCH") {
-            std::string term = string_input_popup(_("Search term:"));
+            std::string term = string_input_popup()
+                              .title( _( "Search term:" ) )
+                              .query();
             if(term.empty()) {
                 continue;
             }
@@ -2970,6 +2977,7 @@ void overmap::move_hordes()
             if(
                 !type.species.count(species_id("ZOMBIE")) || // Only add zombies to hordes.
                 type.id == mtype_id("mon_jabberwock") || // Jabberwockies are an exception.
+                this_monster.has_effect( effect_pet ) || // "Zombie pet" zlaves are, too.
                 this_monster.mission_id != -1 // We mustn't delete monsters that are related to missions.
             ) {
                 // Don't delete the monster, just increment the iterator.
@@ -3022,20 +3030,26 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
                 continue;
             }
             // TODO: base this in monster attributes, foremost GOODHEARING.
-            const int d_inter = ( sig_power + 1 - dist ) * SEEX;
+            const int inter_per_sig_power = 15; //Interest per signal value
+            const int min_initial_inter = 30; //Min initial interest for horde
+            const int calculated_inter = ( sig_power + 1 - dist ) * inter_per_sig_power; // Calculated interest
             const int roll = rng( 0, mg.interest );
-            if( roll < d_inter ) {
+            // Minimum capped calculated interest. Used to give horde enough interest to really investigate the target at start.
+            const int min_capped_inter = std::max( min_initial_inter, calculated_inter );
+            if( roll < min_capped_inter ) { //Rolling if horde interested in new signal
                 // TODO: Z coord for mongroup targets
                 const int targ_dist = rl_dist( p, mg.target );
                 // TODO: Base this on targ_dist:dist ratio.
-                if ( targ_dist < 5 ) {
+                if ( targ_dist < 5 ) { // If signal source already pursued by horde
                     mg.set_target( (mg.target.x + p.x) / 2, (mg.target.y + p.y) / 2 );
-                    mg.inc_interest( d_inter );
-                    add_msg( m_debug, "horde inc interest %d", d_inter);
-                } else {
+                    const int min_inc_inter = 3; // Min interest increase to already targeted source
+                    const int inc_roll = rng( min_inc_inter, calculated_inter );
+                    mg.inc_interest( inc_roll );
+                    add_msg( m_debug, "horde inc interest %d dist %d", inc_roll, dist ) ;
+                } else { // New signal source
                     mg.set_target( p.x, p.y );
-                    mg.set_interest( d_inter );
-                    add_msg( m_debug, "horde set interest %d", d_inter);
+                    mg.set_interest( min_capped_inter );
+                    add_msg( m_debug, "horde set interest %d dist %d", min_capped_inter, dist );
                 }
             }
     }
@@ -3964,30 +3978,7 @@ tripoint om_direction::rotate( const tripoint &p, type dir )
 
 long om_direction::rotate_symbol( long sym, type dir )
 {
-    static const std::map<long, std::array<long, size>> rotated_syms = {{
-        { 60,  {{ 60, 94, 62, 118 }} },
-        { 62,  {{ 62, 118, 60, 94 }} },
-        { 94,  {{ 94, 62, 118, 60 }} },
-        { 118, {{ 118, 60, 94, 62 }} },
-
-        { 4194410, {{ 4194410, 4194413, 4194412, 4194411 }} },
-        { 4194411, {{ 4194411, 4194410, 4194413, 4194412 }} },
-        { 4194412, {{ 4194412, 4194411, 4194410, 4194413 }} },
-        { 4194413, {{ 4194413, 4194412, 4194411, 4194410 }} },
-        { 4194417, {{ 4194417, 4194424, 4194417, 4194424 }} },
-        { 4194421, {{ 4194421, 4194422, 4194420, 4194423 }} },
-        { 4194422, {{ 4194422, 4194420, 4194423, 4194421 }} },
-        { 4194423, {{ 4194423, 4194421, 4194422, 4194420 }} },
-        { 4194424, {{ 4194424, 4194417, 4194424, 4194417 }} }
-    }};
-
-    if( dir == type::invalid ) {
-        debugmsg( "Invalid overmap rotation (%d).", dir );
-        return sym;
-    }
-
-    const auto iter = rotated_syms.find( sym );
-    return iter != rotated_syms.end() ? iter->second[static_cast<size_t>( dir )] : sym;
+    return rotatable_symbols::get( sym, static_cast<int>( dir ) );
 }
 
 point om_direction::displace( type dir, int dist )
@@ -4273,10 +4264,6 @@ void overmap::place_mongroups()
                 m.wander(*this);
                 add_mon_group( m );
             }
-        }
-        if( !get_world_option<bool>( "STATIC_SPAWN" ) ) {
-            add_mon_group( mongroup( mongroup_id( "GROUP_ZOMBIE" ), ( elem.x * 2 ), ( elem.y * 2 ), 0,
-                                     int( elem.s * 2.5 ), elem.s * 80 ) );
         }
     }
 

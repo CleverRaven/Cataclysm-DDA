@@ -76,7 +76,7 @@
     "barrel_length": 2,
     "built_in_mods": [ "M6_shotgun" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "SLOW_WIELD", "COLLAPSIBLE_STOCK" ]
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
   },
   {
     "id": "colt_saa",

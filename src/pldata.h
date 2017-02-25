@@ -1,3 +1,4 @@
+#pragma once
 #ifndef PLDATA_H
 #define PLDATA_H
 

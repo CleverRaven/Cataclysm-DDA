@@ -1,3 +1,4 @@
+#pragma once
 #ifndef START_LOCATION_H
 #define START_LOCATION_H
 

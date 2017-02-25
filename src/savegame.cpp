@@ -22,6 +22,7 @@
 #include "translations.h"
 #include "mongroup.h"
 #include "scent_map.h"
+#include "io.h"
 
 #include <map>
 #include <set>
@@ -305,6 +306,7 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
     static const std::unordered_set<std::string> obsolete = {
         "apartments_con_tower_1", "apartments_con_tower_1_entrance",
         "apartments_mod_tower_1", "apartments_mod_tower_1_entrance",
+        "public_works", "public_works_entrance",
         "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
         "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
         "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3"
@@ -346,6 +348,30 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         } else if( old == "apartments_con_tower_1" || old == "apartments_mod_tower_1" ) {
             const std::string base = old.substr( 0, old.rfind( "1" ) );
             const std::string entr = base + "1_entrance";
+            nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
+            nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
+            nearby.push_back( { -1, entr, 1, old, base + "NW_east" } );
+            nearby.push_back( { 1, entr, -1, old, base + "NW_west" } );
+            nearby.push_back( { -1, old, 1, old, base + "NE_north" } );
+            nearby.push_back( { 1, old, -1, old, base + "NE_south" } );
+            nearby.push_back( { -1, old, -1, old, base + "NE_east" } );
+            nearby.push_back( { 1, old, 1, old, base + "NE_west" } );
+            nearby.push_back( { -1, entr, -1, old, base + "SE_north" } );
+            nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
+            nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
+            nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
+
+        } else if( old == "public_works_entrance" ) {
+            const std::string base = "public_works_";
+            const std::string other = "public_works";
+            nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
+            nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
+            nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
+            nearby.push_back( { -1, other, -1, other , base + "SW_west" } );
+
+        } else if( old == "public_works" ) {
+            const std::string base = "public_works_";
+            const std::string entr = "public_works_entrance";
             nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
             nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
             nearby.push_back( { -1, entr, 1, old, base + "NW_east" } );
@@ -440,6 +466,37 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
     }
 }
 
+void overmap::load_monster_groups( JsonIn &jsin )
+{
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        jsin.start_array();
+
+        mongroup new_group;
+        new_group.deserialize( jsin );
+
+        jsin.start_array();
+        tripoint temp;
+        while( !jsin.end_array() ) {
+            temp.deserialize( jsin );
+            new_group.pos = temp;
+            add_mon_group( new_group );
+        }
+
+        jsin.end_array();
+    }
+}
+
+void overmap::load_legacy_monstergroups( JsonIn &jsin )
+{
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        mongroup new_group;
+        new_group.deserialize_legacy( jsin );
+        add_mon_group( new_group );
+    }
+}
+
 // throws std::exception
 void overmap::unserialize( std::istream &fin ) {
 
@@ -508,12 +565,9 @@ void overmap::unserialize( std::istream &fin ) {
                 }
             }
         } else if( name == "mongroups" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                mongroup new_group;
-                new_group.deserialize( jsin );
-                add_mon_group( new_group );
-            }
+            load_legacy_monstergroups( jsin );
+        } else if( name == "monster_groups" ) {
+            load_monster_groups( jsin );
         } else if( name == "cities" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
@@ -788,9 +842,74 @@ void overmap::serialize_view( std::ostream &fout ) const
     json.end_object();
 }
 
+// Compares all fields except position and monsters
+// If any group has monsters, it is never equal to any group (because monsters are unique)
+struct mongroup_bin_eq
+{
+    bool operator()( const mongroup& a, const mongroup& b ) const {
+        return a.monsters.empty() &&
+               b.monsters.empty() &&
+               a.type == b.type &&
+               a.radius == b.radius &&
+               a.population == b.population &&
+               a.target == b.target &&
+               a.interest == b.interest &&
+               a.dying == b.dying &&
+               a.horde == b.horde &&
+               a.horde_behaviour == b.horde_behaviour &&
+               a.diffuse == b.diffuse;
+    }
+};
+
+struct mongroup_hash
+{
+    std::size_t operator()( const mongroup& mg ) const
+    {
+        // Note: not hashing monsters or position
+        size_t ret = std::hash<mongroup_id>()( mg.type );
+        std::hash_combine( ret, mg.radius );
+        std::hash_combine( ret, mg.population );
+        std::hash_combine( ret, mg.target );
+        std::hash_combine( ret, mg.interest );
+        std::hash_combine( ret, mg.dying );
+        std::hash_combine( ret, mg.horde );
+        std::hash_combine( ret, mg.horde_behaviour );
+        std::hash_combine( ret, mg.diffuse );
+        return ret;
+    }
+};
+
+void overmap::save_monster_groups( JsonOut &jout ) const
+{
+    jout.member( "monster_groups" );
+    jout.start_array();
+    // Bin groups by their fields, except positions and monsters
+    std::unordered_map<mongroup, std::list<tripoint>, mongroup_hash, mongroup_bin_eq> binned_groups;
+    binned_groups.reserve( zg.size() );
+    for( const auto &pos_group : zg ) {
+        // Each group in bin adds only position
+        // so that 100 identical groups are 1 group data and 100 tripoints
+        std::list<tripoint> &positions = binned_groups[pos_group.second];
+        positions.emplace_back( pos_group.first );
+    }
+
+    for( auto &group_bin : binned_groups ) {
+        jout.start_array();
+        // Zero the bin position so that it isn't serialized
+        // The position is stored separately, in the list
+        // @todo Do it without the copy
+        mongroup saved_group = group_bin.first;
+        saved_group.pos = tripoint_zero;
+        jout.write( saved_group );
+        jout.write( group_bin.second );
+        jout.end_array();
+    }
+    jout.end_array();
+}
+
 void overmap::serialize( std::ostream &fout ) const
 {
-    static const int first_overmap_json_version = 25;
+    static const int first_overmap_json_version = 26;
     fout << "# version " << first_overmap_json_version << std::endl;
 
     JsonOut json(fout, false);
@@ -833,12 +952,7 @@ void overmap::serialize( std::ostream &fout ) const
     json.member("region_id", settings.id);
     fout << std::endl;
 
-    json.member("mongroups");
-    json.start_array();
-    for( const auto &group : zg ) {
-        json.write(group.second);
-    }
-    json.end_array();
+    save_monster_groups( json );
     fout << std::endl;
 
     json.member("cities");
@@ -927,29 +1041,36 @@ void overmap::serialize( std::ostream &fout ) const
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// mongroup
-void mongroup::serialize(JsonOut &json) const
+template<typename Archive>
+void mongroup::io( Archive& archive )
 {
-    json.start_object();
-    json.member("type", type.str());
-    json.member("pos", pos);
-    json.member("radius", radius);
-    json.member("population", population);
-    json.member("diffuse", diffuse);
-    json.member("dying", dying);
-    json.member("horde", horde);
-    json.member("target", target);
-    json.member("interest", interest);
-    json.member("horde_behaviour", horde_behaviour);
-    json.member("monsters");
-    json.start_array();
-    for( auto &i : monsters ) {
-        i.serialize(json);
-    }
-    json.end_array();
-    json.end_object();
+    archive.io( "type", type );
+    archive.io( "pos", pos, tripoint_zero );
+    archive.io( "radius", radius, 1u );
+    archive.io( "population", population, 1u );
+    archive.io( "diffuse", diffuse, false );
+    archive.io( "dying", dying, false );
+    archive.io( "dying", dying, false );
+    archive.io( "horde", horde, false );
+    archive.io( "target", target, tripoint_zero );
+    archive.io( "interest", interest, 0 );
+    archive.io( "horde_behaviour", horde_behaviour, io::empty_default_tag() );
+    archive.io( "monsters", monsters, io::empty_default_tag() );
 }
 
-void mongroup::deserialize(JsonIn &json)
+void mongroup::deserialize( JsonIn &data )
+{
+    io::JsonObjectInputArchive archive( data );
+    io( archive );
+}
+
+void mongroup::serialize( JsonOut &json ) const
+{
+    io::JsonObjectOutputArchive archive( json );
+    const_cast<mongroup*>( this )->io( archive );
+}
+
+void mongroup::deserialize_legacy(JsonIn &json)
 {
     json.start_object();
     while( !json.end_object() ) {

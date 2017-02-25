@@ -105,7 +105,6 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
     return id;
 }
 
-// Operator overload required by sort interface.
 bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
                                    const std::pair<int, tripoint> &b ) const
 {
@@ -116,14 +115,11 @@ bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a,
 // This stuff could be moved elsewhere, but there
 // doesn't seem to be a good place to put it right now.
 
-// Basic logistic function.
 double logarithmic( double t )
 {
     return 1 / ( 1 + exp( -t ) );
 }
 
-// Logistic curve [-6,6], flipped and scaled to
-// range from 1 to 0 as pos goes from min to max.
 double logarithmic_range( int min, int max, int pos )
 {
     const double LOGI_CUTOFF = 4;
@@ -212,9 +208,6 @@ const char *volume_units_long()
     }
 }
 
-/**
-* Convert internal velocity units to units defined by user
-*/
 double convert_velocity( int velocity, const units_type vel_units )
 {
     // internal units to mph conversion
@@ -235,9 +228,6 @@ double convert_velocity( int velocity, const units_type vel_units )
     return ret;
 }
 
-/**
-* Convert weight in grams to units defined by user (kg or lbs)
-*/
 double convert_weight( int weight )
 {
     double ret;
@@ -250,18 +240,11 @@ double convert_weight( int weight )
     return ret;
 }
 
-/**
-* Convert volume from ml to units defined by user.
-*/
 double convert_volume( int volume )
 {
     return convert_volume( volume, NULL );
 }
 
-/**
-* Convert volume from ml to units defined by user,
-* optionally returning the units preferred scale.
-*/
 double convert_volume( int volume, int *out_scale )
 {
     double ret = volume;
@@ -293,12 +276,6 @@ double clamp_to_width( double value, int width, int &scale )
     return clamp_to_width( value, width, scale, NULL );
 }
 
-/**
-* Clamp (number and space wise) value to with,
-* taking into account the specified preferred scale,
-* returning the adjusted (shortened) scale that best fit the width,
-* optionally returning a flag that indicate if the value was truncated to fit the width
-*/
 double clamp_to_width( double value, int width, int &scale, bool *out_truncated )
 {
     if( out_truncated != NULL ) {
@@ -508,4 +485,48 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     return read_from_file_optional_json( path, [&reader]( JsonIn & jsin ) {
         reader.deserialize( jsin );
     } );
+}
+
+std::string native_to_utf8( const std::string &str )
+{
+    if( !get_options().has_option( "ENCODING_CONV" ) || !get_option<bool>( "ENCODING_CONV" ) ) {
+        return str;
+    }
+#if defined(_WIN32) || defined(WINDOWS)
+    // native encoded string --> Unicode sequence --> UTF-8 string
+    int unicode_size = MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, NULL, 0 ) + 1;
+    std::wstring unicode( unicode_size, '\0' );
+    MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, &unicode[0], unicode_size );
+    int utf8_size = WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, NULL, 0, NULL, 0 ) + 1;
+    std::string result( utf8_size, '\0' );
+    WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, &result[0], utf8_size, NULL, 0 );
+    while( !result.empty() && result.back() == '\0' ) {
+        result.pop_back();
+    }
+    return result;
+#else
+    return str;
+#endif
+}
+
+std::string utf8_to_native( const std::string &str )
+{
+    if( !get_options().has_option( "ENCODING_CONV" ) || !get_option<bool>( "ENCODING_CONV" ) ) {
+        return str;
+    }
+#if defined(_WIN32) || defined(WINDOWS)
+    // UTF-8 string --> Unicode sequence --> native encoded string
+    int unicode_size = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, 0 ) + 1;
+    std::wstring unicode( unicode_size, '\0' );
+    MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &unicode[0], unicode_size );
+    int native_size = WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, NULL, 0, NULL, 0 ) + 1;
+    std::string result( native_size, '\0' );
+    WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, &result[0], native_size, NULL, 0 );
+    while( !result.empty() && result.back() == '\0' ) {
+        result.pop_back();
+    }
+    return result;
+#else
+    return str;
+#endif
 }

@@ -5,7 +5,6 @@
     "om_terrain": [ "basement" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock",
       "rotation": [ 0, 3 ],
       "rows": [
         "|----|                  ",
@@ -33,34 +32,9 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        "&": "t_rock_floor",
-        "+": "t_door_c",
-        "-": "t_wall",
-        ".": "t_rock_floor",
-        "<": "t_stairs_up",
-        "a": "t_rock_floor",
-        "b": "t_rock_floor",
-        "c": "t_rock_floor",
-        "f": "t_rock_floor",
-        "i": "t_rock_floor",
-        "p": "t_rock_floor",
-        "r": "t_rock_floor",
-        "s": "t_rock_floor",
-        "t": "t_rock_floor",
-        "|": "t_wall"
-      },
-      "furniture": {
-        "a": "f_armchair",
-        "b": "f_bookcase",
-        "c": "f_counter",
-        "f": "f_fridge",
-        "i": "f_sink",
-        "p": "f_pool_table",
-        "r": "f_rack",
-        "s": "f_sofa",
-        "t": "f_table"
-      },
+      "palettes": [
+        "basement_game"
+      ],
       "toilets": {
         "&": {}
       },
@@ -83,7 +57,6 @@
     "om_terrain": [ "basement" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock",
       "rotation": [ 0, 3 ],
       "rows": [
         "|----|                  ",
@@ -111,38 +84,9 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        "&": "t_rock_floor",
-        "+": "t_door_c",
-        "-": "t_wall",
-        ".": "t_rock_floor",
-        "<": "t_stairs_up",
-        "a": "t_rock_floor",
-        "b": "t_rock_floor",
-        "c": "t_rock_floor",
-        "d": "t_rock_floor",
-        "f": "t_rock_floor",
-        "i": "t_rock_floor",
-        "p": "t_rock_floor",
-        "r": "t_rock_floor",
-        "s": "t_rock_floor",
-        "t": "t_rock_floor",
-        "w": "t_rock_floor",
-        "|": "t_wall"
-      },
-      "furniture": {
-        "a": "f_armchair",
-        "b": "f_bookcase",
-        "c": "f_counter",
-        "d": "f_dryer",
-        "f": "f_fridge",
-        "i": "f_sink",
-        "p": "f_pool_table",
-        "r": "f_rack",
-        "s": "f_sofa",
-        "t": "f_table",
-        "w": "f_washer"
-      },
+      "palettes": [
+        "basement_game"
+      ],
       "toilets": {
         "&": {}
       },
@@ -168,7 +112,6 @@
     "om_terrain": [ "basement" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock",
       "rotation": [ 0, 3 ],
       "rows": [
         "|----|                  ",
@@ -196,32 +139,9 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        "&": "t_rock_floor",
-        "+": "t_door_c",
-        "-": "t_wall",
-        ".": "t_rock_floor",
-        "<": "t_stairs_up",
-        "a": "t_rock_floor",
-        "c": "t_rock_floor",
-        "f": "t_rock_floor",
-        "i": "t_rock_floor",
-        "p": "t_rock_floor",
-        "r": "t_rock_floor",
-        "s": "t_rock_floor",
-        "t": "t_rock_floor",
-        "|": "t_wall"
-      },
-      "furniture": {
-        "a": "f_armchair",
-        "c": "f_counter",
-        "f": "f_fridge",
-        "i": "f_sink",
-        "p": "f_pool_table",
-        "r": "f_rack",
-        "s": "f_sofa",
-        "t": "f_table"
-      },
+      "palettes": [
+        "basement_game"
+      ],
       "toilets": {
         "&": {}
       },
@@ -242,7 +162,6 @@
     "om_terrain": [ "basement" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock",
       "rotation": [ 0, 3 ],
       "rows": [
         "|----|                  ",
@@ -270,36 +189,9 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        "&": "t_rock_floor",
-        "+": "t_door_c",
-        "-": "t_wall",
-        ".": "t_rock_floor",
-        "<": "t_stairs_up",
-        "a": "t_rock_floor",
-        "c": "t_rock_floor",
-        "d": "t_rock_floor",
-        "f": "t_rock_floor",
-        "i": "t_rock_floor",
-        "p": "t_rock_floor",
-        "r": "t_rock_floor",
-        "s": "t_rock_floor",
-        "t": "t_rock_floor",
-        "w": "t_rock_floor",
-        "|": "t_wall"
-      },
-      "furniture": {
-        "a": "f_armchair",
-        "c": "f_counter",
-        "d": "f_dryer",
-        "f": "f_fridge",
-        "i": "f_sink",
-        "p": "f_pool_table",
-        "r": "f_rack",
-        "s": "f_sofa",
-        "t": "f_table",
-        "w": "f_washer"
-      },
+      "palettes": [
+        "basement_game"
+      ],
       "toilets": {
         "&": {}
       },

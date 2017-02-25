@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
@@ -441,7 +442,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player is wearing the item on the given body_part. */
         bool is_wearing_on_bp(const itype_id &it, body_part bp) const;
         /** Returns true if the player is wearing an item with the given flag. */
-        bool worn_with_flag( const std::string &flag ) const;
+        bool worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
 
         // --------------- Skill Stuff ---------------
         SkillLevel &get_skill_level( const skill_id &ident );
@@ -499,6 +500,12 @@ class Character : public Creature, public visitable<Character>
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();
+
+        /**
+         * Returns >0 if character is sitting/lying and relatively inactive.
+         * 1 represents sleep on comfortable bed, so anything above that should be rare.
+         */
+        float rest_quality() const;
 
         /** Color's character's tile's background */
         nc_color symbol_color() const override;

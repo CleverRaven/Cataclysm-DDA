@@ -2054,16 +2054,15 @@
   "difficulty": 3,
   "time": 6000,
   "book_learn": [["adv_chemistry", 3] , ["textbook_chemistry", 3] , ["atomic_survival", 4]],
+  "using": [ [ "filament", 1 ] ],
   "qualities":[
-    {"id":"CHEM","level":2}
+    {"id":"CHEM","level":2},
+    {"id":"SEW","level":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "sewing_kit", 1 ]
     ]
   ],
   "components": [

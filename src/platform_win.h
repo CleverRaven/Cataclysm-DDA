@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_PLATFORM_WIN_H
 #define CATA_PLATFORM_WIN_H
 

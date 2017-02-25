@@ -1,3 +1,4 @@
+#pragma once
 #ifndef GAMEMODE_H
 #define GAMEMODE_H
 

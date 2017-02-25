@@ -12,6 +12,7 @@
 #include "input.h"
 #include "worldfactory.h"
 #include "itype.h"
+#include "string_input_popup.h"
 
 #include <stdlib.h>
 #include <sstream>
@@ -286,7 +287,11 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 
                 draw_border(w_help);
                 wrefresh(w_help);
-                const std::string r = string_input_popup( _( "Pickup Rule:" ), 30, vRules[iTab][iLine].sRule );
+                const std::string r = string_input_popup()
+                                      .title( _( "Pickup Rule:" ) )
+                                      .width( 30 )
+                                      .text( vRules[iTab][iLine].sRule )
+                                      .query();
                 // If r is empty, then either (1) The player ESC'ed from the window (changed their mind), or
                 // (2) Explicitly entered an empty rule- which isn't allowed since "*" should be used
                 // to include/exclude everything

@@ -57,6 +57,7 @@
 #include "weather_gen.h"
 #include "npc_class.h"
 #include "recipe_dictionary.h"
+#include "rotatable_symbols.h"
 #include "harvest.h"
 
 #include <assert.h>
@@ -156,6 +157,7 @@ void DynamicDataLoader::initialize()
     add( "material", &materials::load );
     add( "bionic", &load_bionic );
     add( "profession", &profession::load_profession );
+    add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "skill", &Skill::load_skill );
     add( "dream", &load_dream );
     add( "mutation_category", &load_mutation_category );
@@ -248,6 +250,8 @@ void DynamicDataLoader::initialize()
     add( "harvest", []( JsonObject &jo, const std::string &src ) { harvest_list::load( jo, src ); } );
 
     add( "monster_attack", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_monster_attack( jo, src ); } );
+    add( "palette", mapgen_palette::load );
+    add( "rotatable_symbol", &rotatable_symbols::load );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
@@ -373,6 +377,7 @@ void DynamicDataLoader::unload_data()
     gates::reset();
     reset_overlay_ordering();
     npc_class::reset_npc_classes();
+    rotatable_symbols::reset();
 
     // TODO:
     //    NameGenerator::generator().clear_names();

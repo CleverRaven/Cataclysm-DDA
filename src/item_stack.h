@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ITEM_STACK_H
 #define ITEM_STACK_H
 

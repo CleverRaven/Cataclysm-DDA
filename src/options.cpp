@@ -12,6 +12,7 @@
 #include "worldfactory.h"
 #include "catacharset.h"
 #include "game_constants.h"
+#include "string_input_popup.h"
 
 #ifdef TILES
 #include "cata_tiles.h"
@@ -417,7 +418,12 @@ std::string options_manager::cOpt::getValue() const
         return string_format( format, iSet );
 
     } else if (sType == "float") {
-        return string_format( format, fSet );
+        std::ostringstream ssTemp;
+        ssTemp.imbue( std::locale::classic() );
+        ssTemp.precision( 2 );
+        ssTemp.setf( std::ios::fixed, std::ios::floatfield );
+        ssTemp << fSet;
+        return ssTemp.str();
     }
 
     return "";
@@ -538,9 +544,11 @@ void options_manager::cOpt::setNext()
 
     } else if (sType == "string_input") {
         int iMenuTextLength = sMenuText.length();
-        sSet = string_input_popup("", (iMaxLength > 80) ? 80 : ((iMaxLength < iMenuTextLength) ? iMenuTextLength : iMaxLength+1),
-                                  sSet, sMenuText, "", iMaxLength
-                                 );
+        string_input_popup()
+        .width( ( iMaxLength > 80 ) ? 80 : ( ( iMaxLength < iMenuTextLength ) ? iMenuTextLength : iMaxLength + 1) )
+        .description( sMenuText )
+        .max_length( iMaxLength )
+        .edit( sSet );
 
     } else if (sType == "bool") {
         bSet = !bSet;
@@ -1070,6 +1078,14 @@ void options_manager::init()
         0, 1000, 0
         );
 
+    //~ aim bar style - bars or numbers
+    optionNames["numbers"] = _("Numbers");
+    optionNames["bars"] = _("Bars");
+    add("ACCURACY_DISPLAY", "interface", _("Aim window display style"),
+        _("How should confidence and steadiness be communicated to the player."),
+        "numbers,bars", "bars"
+        );
+
     mOptionsSort["interface"]++;
 
     add("MOVE_VIEW_OFFSET", "interface", _("Move view offset"),
@@ -1282,6 +1298,11 @@ void options_manager::init()
         false
         );
 
+    add("ENCODING_CONV", "debug", _("Experimental path name encoding conversion"),
+        _("If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing. Mainly for CJK Windows users."),
+        false
+        );
+
     ////////////////////////////WORLD DEFAULT////////////////////
     add("CORE_VERSION", "world_default", _("Core version data"),
         _("Controls what migrations are applied for legacy worlds"),
@@ -1373,7 +1394,7 @@ void options_manager::init()
         );
 
     add("CONSTRUCTION_SCALING", "world_default", _("Construction scaling"),
-        _("Multiplies the speed of construction by the given percentage. '0' automatically scales construction to match the world's season length."),
+        _("Sets the time of construction in percents. '50' is two times faster than default, '200' is two times longer. '0' automatically scales construction time to match the world's season length."),
         0, 1000, 100
         );
 
@@ -1383,11 +1404,6 @@ void options_manager::init()
         );
 
     mOptionsSort["world_default"]++;
-
-    add("STATIC_SPAWN", "world_default", _("Static spawn"),
-        _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
-        true
-        );
 
     add("WANDER_SPAWNS", "world_default", _("Wander spawns"),
         _("Emulation of zombie hordes. Zombie spawn points wander around cities and may go to noise. Must reset world directory after changing for it to take effect."),
@@ -1448,6 +1464,13 @@ void options_manager::init()
 
     add("FILTHY_MORALE", "world_default", _("Morale penalty for filthy clothing."),
         _("If true, wearing filthy clothing will cause morale penalties."),
+        false, COPT_ALWAYS_HIDE
+        );
+
+    mOptionsSort["world_default"]++;
+
+    add("FILTHY_WOUNDS", "world_default", _("Infected wounds from filthy clothing."),
+        _("If true, getting hit in a body part covered in filthy clothing may cause infections."),
         false, COPT_ALWAYS_HIDE
         );
 
@@ -1788,8 +1811,12 @@ void options_manager::show(bool ingame)
                 const bool is_int = cur_opt.getType() == "int";
                 const bool is_float = cur_opt.getType() == "float";
                 const std::string old_opt_val = cur_opt.getValueName();
-                const std::string opt_val = string_input_popup(
-                                                cur_opt.getMenuText(), 80, old_opt_val, "", "", -1, is_int);
+                const std::string opt_val = string_input_popup()
+                                            .title( cur_opt.getMenuText() )
+                                            .width( 80 )
+                                            .text( old_opt_val )
+                                            .only_digits( is_int )
+                                            .query();
                 if (!opt_val.empty() && opt_val != old_opt_val) {
                     if (is_float) {
                         std::istringstream ssTemp(opt_val);

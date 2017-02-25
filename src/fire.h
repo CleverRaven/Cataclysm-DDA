@@ -1,3 +1,4 @@
+#pragma once
 #ifndef FIRE_H
 #define FIRE_H
 

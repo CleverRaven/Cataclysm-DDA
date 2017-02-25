@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CONSTRUCTION_H
 #define CONSTRUCTION_H
 
@@ -20,17 +21,17 @@ using requirement_id = string_id<requirement_data>;
 struct construction {
         std::string category; //Construction type category
         std::string description; // how the action is displayed to the player
-        skill_id skill;
         std::string pre_terrain; // beginning terrain for construction
         std::string post_terrain;// final terrain after construction
 
         std::set<std::string> pre_flags; // flags beginning terrain must have
 
+        /** Skill->skill level mapping. Can be empty. */
+        std::map<skill_id, int> required_skills;
         requirement_id requirements;
 
         size_t id; // Index in construction vector
         int time;
-        int difficulty;
 
         bool ( *pre_special )( const tripoint & ); // custom constructability check
         void ( *post_special )( const tripoint & ); // custom after-effects

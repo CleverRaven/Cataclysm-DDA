@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_FILE_SYSTEM_H
 #define CATA_FILE_SYSTEM_H
 

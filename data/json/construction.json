@@ -162,7 +162,7 @@
         "post_terrain" : "t_improvised_shelter"
     },{
         "type" : "construction",
-        "description" : "Build Door Curtain",
+        "description" : "Build Door Curtain", "//": "Door frame not required",
         "category" : "CONSTRUCT",
         "difficulty" : 1,
         "time" : 30,
@@ -175,7 +175,7 @@
             [ [ "stick", 1 ] ],
             [ [ "string_36", 1 ] ]
         ],
-        "pre_terrain" : "t_door_frame",
+        "pre_special" : "check_empty",
         "post_terrain" : "t_door_curtain_c"
     },{
         "type" : "construction",
@@ -1219,7 +1219,10 @@
         "type" : "construction",
         "description" : "Build Rope & Pulley System",
         "category" : "CONSTRUCT",
-        "difficulty" : 6,
+        "required_skills" : [
+            [ "carpentry", 5 ],
+            [ "mechanics", 2 ]
+        ],
         "time" : 60,
         "components" : [
             [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],

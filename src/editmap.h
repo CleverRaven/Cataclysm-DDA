@@ -1,3 +1,4 @@
+#pragma once
 #ifndef EDITMAP_H
 #define EDITMAP_H
 

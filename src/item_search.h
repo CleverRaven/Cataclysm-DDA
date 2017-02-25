@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ITEM_SEARCH_H
 #define ITEM_SEARCH_H
 #include <string>

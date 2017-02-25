@@ -85,6 +85,11 @@ void MonsterGenerator::reset()
     mon_species->insert( species_type() );
 
     hallucination_monsters.clear();
+
+    attack_map.clear();
+    // Hardcode attacks need to be re-added here
+    // @todo Move initialization from constructor to init()
+    init_attack();
 }
 
 static int calc_bash_skill( const mtype &t )
@@ -413,6 +418,7 @@ void MonsterGenerator::init_flags()
     flag_map["NO_BREATHE"] = MF_NO_BREATHE;
     flag_map["REGENERATES_50"] = MF_REGENERATES_50;
     flag_map["REGENERATES_10"] = MF_REGENERATES_10;
+    flag_map["REGENERATES_IN_DARK"] = MF_REGENERATES_IN_DARK;
     flag_map["FLAMMABLE"] = MF_FLAMMABLE;
     flag_map["REVIVES"] = MF_REVIVES;
     flag_map["CHITIN"] = MF_CHITIN;

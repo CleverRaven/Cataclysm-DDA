@@ -113,7 +113,7 @@
     "color": "green",
     "count": 1,
     "stack_size": 2,
-    "ammo_type": "h_projectile",
+    "ammo_type": [ "h_projectile", "mininuke_mod" ],
     "damage": 14,
     "effects": [ "MININUKE_MOD", "NEVER_MISFIRES" ],
     "flags": [ "LEAK_RAD" ]
@@ -381,6 +381,6 @@
     "ammo_type": "BB",
     "damage": 1,
     "pierce": 1,
-    "dispersion": 12
+    "dispersion": 200
   }
 ]

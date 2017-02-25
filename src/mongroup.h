@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MONGROUP_H
 #define MONGROUP_H
 
@@ -23,6 +24,11 @@ struct mtype;
 struct MonsterGroupEntry;
 typedef std::vector<MonsterGroupEntry> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
+
+namespace io
+{
+struct object_archive_tag;
+}
 
 struct MonsterGroupEntry {
     mtype_id name;
@@ -80,13 +86,15 @@ struct MonsterGroup {
 
 struct mongroup : public JsonSerializer, public JsonDeserializer {
     mongroup_id type;
-    tripoint pos;
-    unsigned int radius;
-    unsigned int population;
-    tripoint target; // location the horde is interested in.
-    int interest; //interest to target in percents
-    bool dying;
-    bool horde;
+    // Note: position is not saved as such in the json
+    // Instead, a vector of positions is saved for
+    tripoint pos = tripoint_zero;
+    unsigned int radius = 1;
+    unsigned int population = 1;
+    tripoint target = tripoint_zero; // location the horde is interested in.
+    int interest = 0; //interest to target in percents
+    bool dying = false;
+    bool horde = false;
     /** This property will be ignored if the vector is empty.
      *  Otherwise it will keep track of the individual monsters that
      *  are contained in this horde, and the population property will
@@ -99,8 +107,8 @@ struct mongroup : public JsonSerializer, public JsonDeserializer {
      *  And "roam", who roam around the map randomly, not taking care to return
      *  anywhere.
      */
-    std::string horde_behaviour;
-    bool diffuse;   // group size ind. of dist. from center and radius invariant
+    std::string horde_behaviour = "";
+    bool diffuse = false;   // group size ind. of dist. from center and radius invariant
     mongroup( const mongroup_id &ptype, int pposx, int pposy, int pposz,
               unsigned int prad, unsigned int ppop )
         : type( ptype )
@@ -147,8 +155,14 @@ struct mongroup : public JsonSerializer, public JsonDeserializer {
         }
         interest = set;
     }
+
+    template<typename Archive>
+    void io( Archive & );
+    using archive_type_tag = io::object_archive_tag;
+
     using JsonDeserializer::deserialize;
     void deserialize( JsonIn &jsin ) override;
+    void deserialize_legacy( JsonIn &jsin );
 
     using JsonSerializer::serialize;
     void serialize( JsonOut &jsout ) const override;

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef IUSE_H
 #define IUSE_H
 

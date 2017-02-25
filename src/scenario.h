@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SCENARIO_H
 #define SCENARIO_H
 
@@ -32,7 +33,6 @@ private:
     std::string _name_female;
     std::string _description_male;
     std::string _description_female;
-    std::string _gender_req;
     std::string _start_name;
 
     bool blacklist = false; // If true, professions is a blacklist.
@@ -43,20 +43,12 @@ private:
      * a bit of work. On subsequent calls, this vector is returned.
     */
     mutable std::vector<string_id<profession>> cached_permitted_professions;
-    /** Returns all permitted professions */
-    std::vector<string_id<profession>> permitted_professions() const;
 
     std::set<std::string> _allowed_traits;
     std::set<std::string> _forced_traits;
     std::set<std::string> _forbidden_traits;
     std::vector<start_location_id> _allowed_locs;
-    int _mission;
-    std::vector<std::string> traits;
     int _point_cost;
-//Gender variations left in for translation purposes
-    std::vector<std::string> _starting_items;
-    std::vector<std::string> _starting_items_male;
-    std::vector<std::string> _starting_items_female;
     std::set<std::string> flags; // flags for some special properties of the scenario
     std::string _map_special;
 
@@ -83,23 +75,20 @@ public:
     const string_id<scenario> &ident() const;
     std::string gender_appropriate_name(bool male) const;
     std::string description(bool male) const;
-    std::string gender_req() const;
     start_location_id start_location() const;
     start_location_id random_start_location() const;
     std::string start_name() const;
-    const profession* get_default_profession() const;
+
     const profession* weighted_random_profession() const;
-    bool profquery( const string_id<profession> &proff ) const;
+    std::vector<string_id<profession>> permitted_professions() const;
+
     bool traitquery(std::string trait) const;
-    bool locked_traits(std::string trait) const;
-    bool forbidden_traits(std::string trait) const;
+    std::set<std::string> get_locked_traits() const;
+    bool is_locked_trait( std::string trait ) const;
+    bool is_forbidden_trait(std::string trait) const;
+
     bool allowed_start( const start_location_id &loc ) const;
-    int profsize() const;
-    int mission() const;
     signed int point_cost() const;
-    std::vector<std::string> items() const;
-    std::vector<std::string> items_male() const;
-    std::vector<std::string> items_female() const;
     bool has_map_special() const;
     const std::string& get_map_special() const;
 
@@ -109,12 +98,7 @@ public:
     */
     std::string prof_count_str() const;
 
-
-    /**
-     * Check if this type of scenario has a certain flag set.
-     *
-     * Current flags: none
-     */
+    /** Such as a seasonal start, fiery start, surrounded start, etc. */
     bool has_flag(std::string flag) const;
 
     /**

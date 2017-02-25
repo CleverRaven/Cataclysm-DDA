@@ -17,6 +17,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "sounds.h"
+#include "gates.h"
 
 #include <algorithm>
 
@@ -1579,24 +1580,17 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
     }
 
     if( moved ) {
+        const tripoint old_pos = pos();
+        setpos( p );
         if( in_vehicle ) {
-            g->m.unboard_vehicle( pos() );
+            g->m.unboard_vehicle( old_pos );
         }
 
         // Close doors behind self (if you can)
         if( is_friend() && rules.close_doors ) {
-            if( veh != nullptr ) {
-                vpart = veh->next_part_to_close( vpart );
-                if( vpart >= 0 ) {
-                    veh->close( vpart );
-                    mod_moves( -90 );
-                }
-            } else if( g->m.close_door( pos(), !g->m.is_outside( p ), false ) ) {
-                mod_moves( -90 );
-            }
+            doors::close_door( g->m, *this, old_pos );
         }
 
-        setpos( p );
         int part;
         vehicle *veh = g->m.veh_at( p, part );
         if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
@@ -2551,7 +2545,9 @@ void npc::heal_self()
     }
 
     long charges_used = used.type->invoke( this, &used, pos(), "heal" );
-    consume_charges( used, charges_used );
+    if( used.is_medication() ) {
+        consume_charges( used, charges_used );
+    }
 }
 
 void npc::use_painkiller()

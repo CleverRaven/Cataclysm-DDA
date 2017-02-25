@@ -392,28 +392,5 @@
     "damage_modifier": 80,
     "breaks_into": [ { "item": "watercannon", "prob": 50 } ],
     "flags": [ "TURRET", "NEEDS_BATTERY_MOUNT" ]
-  },
-  {
-    "id": "mininuke_launcher",
-    "type": "GUN",
-    "name": "mininuke launcher",
-    "description": "A powerful handheld spring mortar handcrafted from scrap.  Made to launch modified handheld nuclear weapons, it is an exceedingly powerful weapon.",
-    "weight": 11260,
-    "volume": 11,
-    "price": 750000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "aluminum", "wood" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": "h_projectile",
-    "skill": "launcher",
-    "range": 24,
-    "dispersion": 600,
-    "sight_dispersion": 150,
-    "durability": 7,
-    "clip_size": 1,
-    "reload": 800,
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "NEVER_JAMS" ]
   }
 ]

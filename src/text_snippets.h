@@ -1,3 +1,4 @@
+#pragma once
 #ifndef TEXT_SNIPPET_H
 #define TEXT_SNIPPET_H
 

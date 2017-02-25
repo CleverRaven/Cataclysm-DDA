@@ -26,6 +26,7 @@
 #include "item_group.h"
 #include "cata_utility.h"
 #include "uistate.h"
+#include "string_input_popup.h"
 
 #include <algorithm>
 #include <map>
@@ -146,14 +147,14 @@ nc_color construction_color( std::string &con_name, bool highlight )
             }
         }
         if( con_first != nullptr ) {
-            int pskill = g->u.get_skill_level( con_first->skill );
-            int diff = con_first->difficulty;
-            if( pskill < diff ) {
-                col = c_red;
-            } else if( pskill == diff ) {
-                col = c_ltblue;
-            } else {
-                col = c_white;
+            col = c_white;
+            for( const auto &pr : con_first->required_skills ) {
+                int s_lvl = g->u.get_skill_level( pr.first );
+                if( s_lvl < pr.second ) {
+                    col = c_red;
+                } else if( s_lvl < pr.second * 1.25 ) {
+                    col = c_ltblue;
+                }
             }
         }
     }
@@ -413,12 +414,29 @@ void construction_menu()
 
                         current_line.str( "" );
                         // display required skill and difficulty
-                        int pskill = g->u.get_skill_level( current_con->skill );
-                        int diff = ( current_con->difficulty > 0 ) ? current_con->difficulty : 0;
+                        if( current_con->required_skills.empty() ) {
+                            current_line << _( "N/A" );
+                        } else {
+                            current_line <<
+                                enumerate_as_string( current_con->required_skills.begin(),
+                                                     current_con->required_skills.end(),
+                                                     []( const std::pair<skill_id, int> &skill ) {
+                                nc_color col;
+                                int s_lvl = g->u.get_skill_level( skill.first );
+                                if( s_lvl < skill.second ) {
+                                    col = c_red;
+                                } else if( s_lvl < skill.second * 1.25 ) {
+                                    col = c_ltblue;
+                                } else {
+                                    col = c_white;
+                                }
 
-                        current_line << "<color_" << string_from_color( ( pskill >= diff ? c_white : c_red ) ) << ">" <<
-                                     string_format( _( "Skill Req: %d (%s)" ), diff,
-                                                    current_con->skill.obj().name().c_str() ) << "</color>";
+                                std::string color_s = "<color_" + string_from_color( col ) + ">";
+                                return string_format( "%s%s (%d)</color>", color_s.c_str(),
+                                                      skill.first.obj().name().c_str(), skill.second );
+                            }, false );
+                        }
+
                         current_buffer.push_back( current_line.str() );
                         // TODO: Textify pre_flags to provide a bit more information.
                         // Example: First step of dig pit could say something about
@@ -509,7 +527,12 @@ void construction_menu()
 
         const std::string action = ctxt.handle_input();
         if( action == "FILTER" ){
-            filter = string_input_popup( _( "Search" ), 50, filter, "", _( "Filter" ), 100, false );
+            string_input_popup()
+            .title( _( "Search" ) )
+            .width( 50 )
+            .description( _( "Filter" ) )
+            .max_length( 100 )
+            .edit( filter );
             if( !filter.empty() ){
                 update_info = true;
                 update_cat = true;
@@ -609,13 +632,21 @@ bool player_can_build( player &p, const inventory &pinv, const std::string &desc
     return false;
 }
 
+bool character_has_skill_for( const Character &c, const construction &con )
+{
+    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
+    [&]( const std::pair<skill_id, int> &pr ) {
+        return c.get_skill_level( pr.first ) >= pr.second;
+    } );
+}
+
 bool player_can_build( player &p, const inventory &pinv, const construction &con )
 {
     if( p.has_trait( "DEBUG_HS" ) ) {
         return true;
     }
 
-    if( p.get_skill_level( con.skill ) < con.difficulty ) {
+    if( !character_has_skill_for( p, con ) ) {
         return false;
     }
     return con.requirements->can_make_with_inventory( pinv );
@@ -717,23 +748,25 @@ void complete_construction()
     player &u = g->u;
     const construction &built = constructions[u.activity.index];
 
-    u.practice( built.skill, ( int )( ( 10 + 15 * built.difficulty ) * ( 1 + built.time / 30000.0 ) ),
-                ( int )( built.difficulty * 1.25 ) );
+    const auto award_xp = [&]( player &c ) {
+        for( const auto &pr : built.required_skills ) {
+            c.practice( pr.first, ( int )( ( 10 + 15 * pr.second ) * ( 1 + built.time / 30000.0 ) ),
+                        ( int )( pr.second * 1.25 ) );
+        }
+    };
 
+    award_xp( g->u );
 
     // Friendly NPCs gain exp from assisting or watching...
     for( auto &elem : g->u.get_crafting_helpers() ) {
-        //If the NPC can understand what you are doing, they gain more exp
-        if (elem->get_skill_level(built.skill) >= built.difficulty){
-            elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
-                                (int)(built.difficulty * 1.25) );
+        if( character_has_skill_for( *elem, built ) ) {
             add_msg(m_info, _("%s assists you with the work..."), elem->name.c_str());
-        //NPC near you isn't skilled enough to help
         } else {
-            elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
-                                (int)(built.difficulty * 1.25) );
+            //NPC near you isn't skilled enough to help
             add_msg(m_info, _("%s watches you work..."), elem->name.c_str());
         }
+
+        award_xp( *elem );
     }
 
     for( const auto &it : built.requirements->get_components() ) {
@@ -864,7 +897,10 @@ vpart_id vpart_from_item( const std::string &item_id )
 
 void construct::done_vehicle( const tripoint &p )
 {
-    std::string name = string_input_popup( _( "Enter new vehicle name:" ), 20 );
+    std::string name = string_input_popup()
+                       .title( _( "Enter new vehicle name:" ) )
+                       .width( 20 )
+                       .query();
     if( name.empty() ) {
         name = _( "Car" );
     }
@@ -1047,8 +1083,18 @@ void load_construction(JsonObject &jo)
     con.id = constructions.size();
 
     con.description = _(jo.get_string("description").c_str());
-    con.skill = skill_id( jo.get_string( "skill", skill_carpentry.str() ) );
-    con.difficulty = jo.get_int("difficulty");
+    if( jo.has_member( "required_skills" ) ) {
+        auto sk = jo.get_array( "required_skills" );
+        while( sk.has_more() ) {
+            auto arr = sk.next_array();
+            con.required_skills[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
+        }
+    } else {
+        skill_id legacy_skill( jo.get_string( "skill", skill_carpentry.str() ) );
+        int legacy_diff = jo.get_int( "difficulty" );
+        con.required_skills[ legacy_skill ] = legacy_diff;
+    }
+
     con.category = jo.get_string("category", "OTHER");
     // constructions use different time units in json, this makes it compatible
     // with recipes/requirements, TODO: should be changed in json
@@ -1142,8 +1188,10 @@ void check_constructions()
         const std::string display_name = std::string("construction ") + c->description;
         // Note: print the description as the id is just a generated number,
         // the description can be searched for in the json files.
-        if( !c->skill.is_valid() ) {
-            debugmsg("Unknown skill %s in %s", c->skill.c_str(), display_name.c_str());
+        for( const auto &pr : c->required_skills ) {
+            if( !pr.first.is_valid() ) {
+                debugmsg( "Unknown skill %s in %s", pr.first.c_str(), display_name.c_str() );
+            }
         }
 
         if( !c->requirements.is_valid() ) {
@@ -1189,7 +1237,7 @@ float construction::time_scale() const
     if( get_world_option<int>( "CONSTRUCTION_SCALING" ) == 0 ) {
         return calendar::season_ratio();
     } else {
-        return 100.0 / get_world_option<int>( "CONSTRUCTION_SCALING" );
+        return get_world_option<int>( "CONSTRUCTION_SCALING" ) / 100.0;
     }
 }
 
@@ -1199,7 +1247,7 @@ int construction::adjusted_time() const
     int assistants = 0;
 
     for( auto &elem : g->u.get_crafting_helpers() ) {
-        if( elem->get_skill_level( skill ) >= difficulty ) {
+        if( character_has_skill_for( *elem, *this ) ) {
             assistants++;
         }
     }

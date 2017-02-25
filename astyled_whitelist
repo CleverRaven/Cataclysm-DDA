@@ -31,6 +31,7 @@ src/flag.cpp
 src/game_inventory.cpp
 src/gamemode.cpp
 src/gates.cpp
+src/grab.cpp
 src/help.cpp
 src/input.cpp
 src/item_action.cpp
@@ -63,16 +64,19 @@ src/overlay_ordering.cpp
 src/pathfinding.cpp
 src/pickup.cpp
 src/player_activity.cpp
+src/player_display.cpp
 src/posix_time.cpp
 src/profession.cpp
 src/projectile.cpp
 src/recipe_dictionary.cpp
 src/rng.cpp
+src/rotatable_symbols.cpp
 src/safemode_ui.cpp
 src/scenario.cpp
 src/scent_map.cpp
 src/speech.cpp
 src/start_location.cpp
+src/string_input_popup.cpp
 src/submap.cpp
 src/text_snippets.cpp
 src/tileray.cpp
@@ -196,6 +200,7 @@ src/profession.h
 src/projectile.h
 src/recipe_dictionary.h
 src/requirements.h
+src/rotatable_symbols.h
 src/rng.h
 src/safemode_ui.h
 src/scent_map.h
@@ -206,6 +211,7 @@ src/sounds.h
 src/speech.h
 src/start_location.h
 src/string_id.h
+src/string_input_popup.h
 src/text_snippets.h
 src/tile_id_data.h
 src/tileray.h

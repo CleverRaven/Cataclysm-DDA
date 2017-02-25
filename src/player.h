@@ -1,3 +1,4 @@
+#pragma once
 #ifndef PLAYER_H
 #define PLAYER_H
 
@@ -41,6 +42,7 @@ class start_location;
 using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
+struct targeting_data;
 
 namespace debug_menu
 {
@@ -131,6 +133,15 @@ struct stats : public JsonSerializer, public JsonDeserializer {
         jo.read("damage_healed", damage_healed);
         jo.read("headshots", headshots);
     }
+};
+
+struct stat_mod {
+    int strength = 0;
+    int dexterity = 0;
+    int intelligence = 0;
+    int perception = 0;
+
+    int speed = 0;
 };
 
 class player : public Character, public JsonSerializer, public JsonDeserializer
@@ -1048,6 +1059,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
         /** Returns wind resistance provided by armor, etc **/
         int get_wind_resistance(body_part bp) const;
+        /** Returns the effect of pain on stats */
+        stat_mod get_pain_penalty() const;
+        /** Returns the penalty to speed from hunger */
+        static int hunger_speed_penalty( int hunger );
+        /** Returns the penalty to speed from thirst */
+        static int thirst_speed_penalty( int thirst );
 
         int adjust_for_focus(int amount) const;
         void practice( const skill_id &s, int amount, int cap = 99 );
@@ -1470,6 +1487,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param target Target NPC to steal from
          */
         void steal( npc &target );
+        
+        /**
+         * Accessor method for weapon targeting data, used for interactive weapon aiming.
+         * @return a reference to the data pointed by player's tdata member.
+         */
+        const targeting_data &get_targeting_data();
+
+        /**
+         * Mutator method for weapon targeting data.
+         * @param td targeting data to be set.
+         */
+        void set_targeting_data( const targeting_data &td );
 
     protected:
         // The player's position on the local map.
@@ -1585,6 +1614,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * The currently active mission, or null if no mission is currently in progress.
          */
         mission *active_mission;
+
+        /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
+        std::shared_ptr<targeting_data> tdata;
 
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;

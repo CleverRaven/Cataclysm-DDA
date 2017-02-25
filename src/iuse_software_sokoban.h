@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SOFTWARE_SOKOBAN_H
 #define SOFTWARE_SOKOBAN_H
 
