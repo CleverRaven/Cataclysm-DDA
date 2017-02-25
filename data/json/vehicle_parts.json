@@ -133,7 +133,7 @@
         "difficulty": 2,
         "epower": -63,
         "folded_volume": 2,
-        "flags": ["TOOL_SCREWDRIVER", "TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "flags": ["TOOL_SCREWDRIVER", "TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "ENABLED_DRAINS_EPOWER"],
         "breaks_into": [
             {"item": "scrap", "count": [0, 2]}
         ]
@@ -640,7 +640,7 @@
         "item" : "minifridge",
         "difficulty" : 3,
         "location" : "center",
-        "flags" : ["CARGO", "OBSTACLE", "FRIDGE", "COVERED", "TOOL_WRENCH"],
+        "flags" : ["CARGO", "OBSTACLE", "FRIDGE", "COVERED", "TOOL_WRENCH", "ENABLED_DRAINS_EPOWER"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [8, 13]},
             {"item": "steel_chunk", "count": [8, 13]},
@@ -866,7 +866,7 @@
         "folded_volume": 6,
         "item" : "vehicle_controls",
         "difficulty" : 2,
-        "flags" : ["CONTROLS", "CTRL_ELECTRONIC", "FOLDABLE", "DOME_LIGHT"],
+        "flags" : ["CONTROLS", "CTRL_ELECTRONIC", "FOLDABLE", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER"],
         "breaks_into" : [
             {"item": "steel_lump"},
             {"item": "steel_chunk", "count": [1, 3]},
@@ -887,7 +887,7 @@
         "epower": -25,
         "item" : "vehicle_controls",
         "difficulty" : 3,
-        "flags" : ["CTRL_ELECTRONIC", "DOME_LIGHT"],
+        "flags" : ["CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER"],
         "breaks_into" : [
             {"item": "cable", "charges": [0, 2]},
             {"item": "e_scrap", "count": [0, 2]},
@@ -1537,7 +1537,7 @@
         "item" : "recharge_station",
         "difficulty" : 3,
         "location" : "on_cargo",
-        "flags" : ["INTERNAL", "RECHARGE", "FOLDABLE", "TOOL_SCREWDRIVER"],
+        "flags" : ["INTERNAL", "RECHARGE", "FOLDABLE", "TOOL_SCREWDRIVER", "ENABLED_DRAINS_EPOWER"],
         "folded_volume" : 8,
         "breaks_into" : [
             {"item": "steel_chunk", "count": [0, 2]},
@@ -1590,11 +1590,11 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 0,
         "durability" : 60,
-        "epower" : -2,
+        "epower" : -700,
         "bonus" : 80,
         "item" : "stereo",
         "difficulty" : 2,
-        "flags" : ["STEREO", "TOOL_SCREWDRIVER"],
+        "flags" : ["STEREO", "TOOL_SCREWDRIVER", "ENABLED_DRAINS_EPOWER"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [3, 5]},
             {"item": "steel_chunk", "count": [3, 5]},
@@ -1615,7 +1615,7 @@
         "epower" : -200,
         "item" : "chimes",
         "difficulty" : 2,
-        "flags" : ["CHIMES", "TOOL_SCREWDRIVER"],
+        "flags" : ["CHIMES", "TOOL_SCREWDRIVER", "ENABLED_DRAINS_EPOWER"],
         "location" : "on_roof",
         "breaks_into" : [
             {"item": "steel_lump", "count": [3, 5]},
@@ -1861,7 +1861,7 @@
         "item" : "camera_control",
         "epower": -100,
         "difficulty" : 3,
-        "flags" : ["VISION", "CAMERA", "CAMERA_CONTROL", "TOOL_SCREWDRIVER"],
+        "flags" : ["VISION", "CAMERA", "CAMERA_CONTROL", "TOOL_SCREWDRIVER", "ENABLED_DRAINS_EPOWER"],
         "breaks_into" : [
             {"item": "e_scrap", "count": [4, 10]},
             {"item": "plastic_chunk", "count": [2, 8]}
@@ -1883,7 +1883,7 @@
         "epower": -75,
         "difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["VISION", "CAMERA", "TOOL_SCREWDRIVER"],
+        "flags" : ["VISION", "CAMERA", "TOOL_SCREWDRIVER", "ENABLED_DRAINS_EPOWER"],
         "breaks_into" : [
             {"item": "e_scrap", "count": [4, 16]},
             {"item": "plastic_chunk", "count": [2, 8]}
@@ -2014,7 +2014,7 @@
         "damage_modifier" : 10,
         "item" : "v_scoop_item",
         "difficulty" : 1,
-        "flags" : ["SCOOP","CARGO"],
+        "flags" : ["SCOOP", "CARGO", "ENABLED_DRAINS_EPOWER"],
         "location" : "under",
         "breaks_into" : [
             {"item": "scrap", "count": [ 2, 5 ] },
