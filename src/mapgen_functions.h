@@ -127,15 +127,6 @@ void mapgen_megastore_entrance(map *m, oter_id terrain_type, mapgendata dat, int
 void mapgen_megastore(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_hospital_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_hospital(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_school_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_school_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_school_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_school_4(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_school_5(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_school_6(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_school_7(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_school_8(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_school_9(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_prison_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_prison_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_prison_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

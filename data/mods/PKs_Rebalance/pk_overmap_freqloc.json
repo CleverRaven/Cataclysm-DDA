@@ -607,19 +607,21 @@
         "type" : "overmap_special",
         "id" : "School",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "school_3"},
-            { "point":[1,0,0], "overmap": "school_2"},
-            { "point":[2,0,0], "overmap": "school_1"},
-            { "point":[0,1,0], "overmap": "school_6"},
-            { "point":[1,1,0], "overmap": "school_5"},
-            { "point":[2,1,0], "overmap": "school_4"},
-            { "point":[0,2,0], "overmap": "school_9"},
-            { "point":[1,2,0], "overmap": "school_8"},
-            { "point":[2,2,0], "overmap": "school_7"}
+            { "point":[0,-1,0], "overmap": "road_end_north"},
+            { "point":[0,0,0], "overmap": "school_1_3_north"},
+            { "point":[1,0,0], "overmap": "school_1_2_north"},
+            { "point":[2,0,0], "overmap": "school_1_1_north"},
+            { "point":[0,1,0], "overmap": "school_1_6_north"},
+            { "point":[1,1,0], "overmap": "school_1_5_north"},
+            { "point":[2,1,0], "overmap": "school_1_4_north"},
+            { "point":[0,2,0], "overmap": "school_1_9_north"},
+            { "point":[1,2,0], "overmap": "school_1_8_north"},
+            { "point":[2,2,0], "overmap": "school_1_7_north"},
+            { "point":[1,3,0], "overmap": "road_isolated"}
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" },
-            { "point" : [1,-1,0], "terrain" : "road" }
+            { "point" : [0,-1,0] },
+            { "point" : [1,3,0] }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [0, 12],

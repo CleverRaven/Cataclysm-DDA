@@ -1014,82 +1014,91 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "school_1",
+        "id" : "school_1_1",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
+        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "school_2",
+        "id" : "school_1_2",
         "name" : "regional school",
         "sym" : 83,
         "color" : "light_blue",
+        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "school_3",
+        "id" : "school_1_3",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
+        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "school_4",
+        "id" : "school_1_4",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
+        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "school_5",
+        "id" : "school_1_5",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
+        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "school_6",
+        "id" : "school_1_6",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
+        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "school_7",
+        "id" : "school_1_7",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
+        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "school_8",
+        "id" : "school_1_8",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
+        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "school_9",
+        "id" : "school_1_9",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
+        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true

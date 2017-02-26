@@ -229,5 +229,14 @@
             [ "handjack", 150 ],
             [ "wheelbarrow", 100 ]
         ]
+    },
+    {
+        "id": "school_vehicles",
+        "type": "vehicle_group",
+        "//": "School bus or fire truck found near school locations",
+        "vehicles": [
+            [ "schoolbus", 50 ],
+            [ "fire_truck", 70 ]
+        ]
     }
 ]
