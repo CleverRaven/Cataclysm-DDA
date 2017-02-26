@@ -310,6 +310,8 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
         "school_1", "school_2", "school_3",
         "school_4", "school_5", "school_6",
         "school_7", "school_8", "school_9",
+        "cathedral_1_entrance", "cathedral_1",
+		"cathedral_b_entrance", "cathedral_b",
         "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
         "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
         "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3",
@@ -438,6 +440,54 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 nearby.push_back( { -1, school + "8", 1, school + "6", school_1 + "9_south" } );
                 nearby.push_back( { -1, school + "6", -1, school + "8", school_1 + "9_west" } );
             }
+
+        } else if( old == "cathedral_1_entrance" ) {
+            const std::string base = "cathedral_1_";
+            const std::string other = "cathedral_1";
+            nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
+            nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
+            nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
+            nearby.push_back( { -1, other, -1, other , base + "SW_west" } );
+
+        } else if( old == "cathedral_1" ) {
+            const std::string base = "cathedral_1_";
+            const std::string entr = "cathedral_1_entrance";
+            nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
+            nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
+            nearby.push_back( { -1, entr, 1, old, base + "NW_east" } );
+            nearby.push_back( { 1, entr, -1, old, base + "NW_west" } );
+            nearby.push_back( { -1, old, 1, old, base + "NE_north" } );
+            nearby.push_back( { 1, old, -1, old, base + "NE_south" } );
+            nearby.push_back( { -1, old, -1, old, base + "NE_east" } );
+            nearby.push_back( { 1, old, 1, old, base + "NE_west" } );
+            nearby.push_back( { -1, entr, -1, old, base + "SE_north" } );
+            nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
+            nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
+            nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
+ 
+        } else if( old == "cathedral_b_entrance" ) {
+            const std::string base = "cathedral_b_";
+            const std::string other = "cathedral_b";
+            nearby.push_back( { 1, other, -1, other, base + "SW_north" } );
+            nearby.push_back( { -1, other, 1, other, base + "SW_south" } );
+            nearby.push_back( { 1, other, 1, other, base + "SW_east" } );
+            nearby.push_back( { -1, other, -1, other , base + "SW_west" } );
+
+        } else if( old == "cathedral_b" ) {
+            const std::string base = "cathedral_b_";
+            const std::string entr = "cathedral_b_entrance";
+            nearby.push_back( { 1, old, 1, entr, base + "NW_north" } );
+            nearby.push_back( { -1, old, -1, entr, base + "NW_south" } );
+            nearby.push_back( { -1, entr, 1, old, base + "NW_east" } );
+            nearby.push_back( { 1, entr, -1, old, base + "NW_west" } );
+            nearby.push_back( { -1, old, 1, old, base + "NE_north" } );
+            nearby.push_back( { 1, old, -1, old, base + "NE_south" } );
+            nearby.push_back( { -1, old, -1, old, base + "NE_east" } );
+            nearby.push_back( { 1, old, 1, old, base + "NE_west" } );
+            nearby.push_back( { -1, entr, -1, old, base + "SE_north" } );
+            nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
+            nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
+            nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
 
         } else if( old.compare( 0, 14, "hotel_tower_1_" ) == 0 ) {
             const std::string hotel = "hotel_tower_1_";
