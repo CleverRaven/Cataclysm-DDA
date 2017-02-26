@@ -223,6 +223,9 @@ public:
     /** current part health with range [0,durability] */
     int hp() const;
 
+    /** Current part damage in same units as item::damage. */
+    float damage() const;
+
     /** parts are considered broken at zero health */
     bool is_broken() const;
 

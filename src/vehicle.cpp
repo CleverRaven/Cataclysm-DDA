@@ -6031,6 +6031,11 @@ int vehicle_part::hp() const
     return dur - ( dur * base.damage() / base.max_damage() );
 }
 
+float vehicle_part::damage() const
+{
+    return base.damage();
+}
+
 /** parts are considered broken at zero health */
 bool vehicle_part::is_broken() const
 {
