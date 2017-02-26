@@ -1642,7 +1642,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 signame = "<color_c_green>green</color> radio signal.";
             }
 
-            info.emplace_back( "DESCRIPTION", string_format( _( "* It will be activated by the %s radio signal." ), signame.c_str() ) );
+            info.emplace_back( "DESCRIPTION", string_format( _( "* It will be activated by the %s." ), signame.c_str() ) );
 
             if( has_flag( "RADIO_INVOKE_PROC" ) ) {
                 info.emplace_back( "DESCRIPTION",_( "* Activating this item with a <info>radio signal</info> will <neutral>detonate</neutral> it immediately." ) );
