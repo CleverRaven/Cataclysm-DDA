@@ -313,7 +313,9 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
         "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
         "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
         "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3",
-        "bunker"
+        "bunker",
+        "farm",
+        "farm_field"
     };
 
     return obsolete.find( ter ) != obsolete.end();
@@ -518,6 +520,18 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             } else {
                 new_id = oter_id( "bunker_south" );
             }
+        } else if( old == "farm" ) {
+            new_id = oter_id( "farm_2_north" );
+
+        } else if( old == "farm_field" ) {
+            nearby.push_back( { -1, "farm",        1, "farm_field", "farm_1_north" } );
+            nearby.push_back( {  1, "farm",        1, "farm_field", "farm_3_north" } );
+            nearby.push_back( { -2, "farm_field",  1, "farm_field", "farm_4_north" } );
+            nearby.push_back( {  0, "farm_field", -1, "farm",       "farm_5_north" } );
+            nearby.push_back( {  2, "farm_field",  1, "farm_field", "farm_6_north" } );
+            nearby.push_back( { -2, "farm_field", -2, "farm_field", "farm_7_north" } );
+            nearby.push_back( {  0, "farm_field", -2, "farm",       "farm_8_north" } );
+            nearby.push_back( {  2, "farm_field", -2, "farm_field", "farm_9_north" } );
         }
 
         for( const auto &conv : nearby ) {
