@@ -392,15 +392,17 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                 //    ∫(-∞,∞) x.f(x) dx
                 // See https://en.wikipedia.org/wiki/Expected_value#Univariate_continuous_random_variable
 
+                // Assume the NPC aims at an equal sized opponent
+                const double target_size = who.ranged_target_size();
                 // Find the probability of each type of hit
                 // nb: projectile_attack_chance returns the probabilty of a given accuracy _or better_
                 // but we want the probability of hits within each category separately, so subtract the
                 // probabilities at each edge.
-                double p_headshot = who.projectile_attack_chance( dispersion, range, accuracy_headshot );
-                double p_critical = who.projectile_attack_chance( dispersion, range, accuracy_critical ) - who.projectile_attack_chance( dispersion, range, accuracy_headshot );
-                double p_goodhit  = who.projectile_attack_chance( dispersion, range, accuracy_goodhit )  - who.projectile_attack_chance( dispersion, range, accuracy_critical );
-                double p_standard = who.projectile_attack_chance( dispersion, range, accuracy_standard ) - who.projectile_attack_chance( dispersion, range, accuracy_goodhit );
-                double p_grazing  = who.projectile_attack_chance( dispersion, range, accuracy_grazing )  - who.projectile_attack_chance( dispersion, range, accuracy_standard );
+                double p_headshot = who.projectile_attack_chance( dispersion, range, accuracy_headshot, target_size );
+                double p_critical = who.projectile_attack_chance( dispersion, range, accuracy_critical, target_size ) - who.projectile_attack_chance( dispersion, range, accuracy_headshot, target_size );
+                double p_goodhit  = who.projectile_attack_chance( dispersion, range, accuracy_goodhit, target_size )  - who.projectile_attack_chance( dispersion, range, accuracy_critical, target_size );
+                double p_standard = who.projectile_attack_chance( dispersion, range, accuracy_standard, target_size ) - who.projectile_attack_chance( dispersion, range, accuracy_goodhit, target_size );
+                double p_grazing  = who.projectile_attack_chance( dispersion, range, accuracy_grazing, target_size )  - who.projectile_attack_chance( dispersion, range, accuracy_standard, target_size );
                 // double p_miss = 1.0 - who.projectile_attack_chance( dispersion, range, accuracy_grazing );     not actually used below
 
                 // f(x) is the probabilty density function for the damage multiplier x

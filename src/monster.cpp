@@ -1419,30 +1419,11 @@ float monster::stability_roll() const
 
 float monster::get_dodge() const
 {
-    float ret = 0.0f;
-    switch( type->size ) {
-        case MS_TINY:
-            ret += 6;
-            break;
-        case MS_SMALL:
-            ret += 3;
-            break;
-        case MS_LARGE:
-            ret -= 2;
-            break;
-        case MS_HUGE:
-            ret -= 4;
-            break;
-        case MS_MEDIUM:
-            break; // keep default
-    }
-
     if( has_effect( effect_downed ) ) {
-        // Just the size mod
-        return ret;
+        return 0.0f;
     }
 
-    ret += Creature::get_dodge();
+    float ret = Creature::get_dodge();
     if( has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) || has_effect( effect_beartrap ) || has_effect( effect_tied ) ) {
         ret /= 2;
     }
