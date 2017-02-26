@@ -338,8 +338,8 @@
         "id" : "Military Bunker",
         "overmaps" : [
             { "point":[0,-1,0], "overmap": "road_end_north" },
-            { "point":[0,0,0], "overmap": "bunker" },
-            { "point":[0,0,-1], "overmap": "bunker" }
+            { "point":[0,0,0], "overmap": "bunker_south" },
+            { "point":[0,0,-1], "overmap": "bunker_basement" }
         ],
         "connections" : [
             { "point" : [0,-1,0] }
