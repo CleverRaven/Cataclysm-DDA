@@ -3102,7 +3102,7 @@
         "transforms_into": "t_tree_apricot_harvested",
         "examine_action": "harvest_ter_nectar",
         "harvest_by_season" : [
-            { "seasons": [ "autumn" ], "entries": [ { "drop": "apricot", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+            { "seasons": [ "summer" ], "entries": [ { "drop": "apricot", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3145,7 +3145,7 @@
         "transforms_into": "t_tree_plum_harvested",
         "examine_action": "harvest_ter_nectar",
         "harvest_by_season" : [
-            { "seasons": [ "autumn" ], "entries": [ { "drop": "plums", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+            { "seasons": [ "summer" ], "entries": [ { "drop": "plums", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
         ],
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3268,7 +3268,7 @@
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "examine_action": "harvest_ter",
-        "transforms_into": "t_tree_birch_harvested",
+        "transforms_into": "t_tree_willow_harvested",
         "harvest_by_season" : [
             { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "willowbark", "base_num": [ 1, 2 ] } ] }
         ],

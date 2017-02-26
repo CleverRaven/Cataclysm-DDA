@@ -56,6 +56,7 @@
 #include "vitamin.h"
 #include "fault.h"
 #include "recipe_dictionary.h"
+#include "ranged.h"
 
 #include <map>
 #include <iterator>
@@ -110,6 +111,7 @@ const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_dermatik( "dermatik" );
+const efftype_id effect_disabled( "disabled" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_earphones( "earphones" );
@@ -129,6 +131,7 @@ const efftype_id effect_iodine( "iodine" );
 const efftype_id effect_jetinjector( "jetinjector" );
 const efftype_id effect_lack_sleep( "lack_sleep" );
 const efftype_id effect_lying_down( "lying_down" );
+const efftype_id effect_mending( "mending" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
@@ -3928,6 +3931,11 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         hp_cur[hurtpart] = 0;
     }
 
+    if( hp_cur[hurtpart] <= 0 ) {
+        remove_effect( effect_mending, hurt );
+        add_effect( effect_disabled, 1, hurt, true );
+    }
+
     lifetime_stats()->damage_taken += dam;
     if( dam > get_painkiller() ) {
         on_hurt( source );
@@ -4320,12 +4328,13 @@ void player::update_body( int from, int to )
         check_needs_extremes();
         update_needs( five_mins );
         regen( five_mins );
+        // Note: mend ticks once per 5 mins, but wants rate in TURNS, not 5 min intervals
+        mend( five_mins * MINUTES( 5 ) );
     }
 
     const int thirty_mins = ticks_between( from, to, MINUTES(30) );
     if( thirty_mins > 0 ) {
         get_sick();
-        mend( thirty_mins );
     }
 
     for( const auto& v : vitamin::all() ) {
@@ -6571,6 +6580,17 @@ void player::hardcoded_effects(effect &it)
                 }
             }
         }
+    } else if( id == effect_mending ) {
+        // @todo Remove this and encapsulate hp_cur instead
+        if( hp_cur[bp_to_hp( bp )] > 0 ) {
+            it.set_duration( 0 );
+        }
+    } else if( id == effect_disabled ) {
+        // @todo Remove this and encapsulate hp_cur instead
+        if( hp_cur[bp_to_hp( bp )] > 0 ) {
+            // Just unpause, in case someone added it as a temporary effect (numbing poison etc.)
+            it.unpause_effect();
+        }
     }
 }
 
@@ -6602,6 +6622,14 @@ double player::vomit_mod()
 
 void player::suffer()
 {
+    // @todo Remove this section and encapsulate hp_cur
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+        if( hp_cur[i] <= 0 ) {
+            add_effect( effect_disabled, 1, bp, true );
+        }
+    }
+
     for (size_t i = 0; i < my_bionics.size(); i++) {
         if (my_bionics[i].powered) {
             process_bionic(i);
@@ -7356,6 +7384,17 @@ void player::suffer()
     }
 }
 
+// At minimum level, return at_min, at maximum at_max
+float addiction_scaling( float at_min, float at_max, float add_lvl )
+{
+    // Not addicted
+    if( add_lvl < MIN_ADDICTION_LEVEL ) {
+        return 1.0f;
+    }
+
+    return lerp( at_min, at_max, ( add_lvl - MIN_ADDICTION_LEVEL ) / MAX_ADDICTION_LEVEL );
+}
+
 void player::mend( int rate_multiplier )
 {
     // Wearing splints can slowly mend a broken limb back to 1 hp.
@@ -7371,18 +7410,25 @@ void player::mend( int rate_multiplier )
         return;
     }
 
-    const double mending_odds = 500.0; // ~50% to mend in a week
     double healing_factor = 1.0;
     // Studies have shown that alcohol and tobacco use delay fracture healing time
-    if( has_effect( effect_cig ) || addiction_level(ADD_CIG) > 0 ) {
+    // Being under effect is 50% slowdown
+    // Being addicted but not under effect scales from 25% slowdown to 75% slowdown
+    // The improvement from being intoxicated over withdrawal is intended
+    if( has_effect( effect_cig ) ) {
         healing_factor *= 0.5;
+    } else {
+        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( ADD_CIG ) );
     }
-    if( has_effect( effect_drunk ) || addiction_level(ADD_ALCOHOL) > 0 ) {
+
+    if( has_effect( effect_drunk ) ) {
         healing_factor *= 0.5;
+    } else {
+        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( ADD_ALCOHOL ) );
     }
 
     if( radiation > 0 && !has_trait( "RADIOGENIC" ) ) {
-        healing_factor *= std::max( 0.0f, (1000.0f - radiation) / 1000.0f );
+        healing_factor *= clamp( ( 1000.0f - radiation ) / 1000.0f, 0.0f, 1.0f );
     }
 
     // Bed rest speeds up mending
@@ -7391,22 +7437,26 @@ void player::mend( int rate_multiplier )
     } else if( get_fatigue() > DEAD_TIRED ) {
         // but being dead tired does not...
         healing_factor *= 0.75;
+    } else {
+        // If not dead tired, resting without sleep also helps
+        healing_factor *= 1.0f + rest_quality();
     }
 
     // Being healthy helps.
     healing_factor *= 1.0f + get_healthy() / 200.0f;
 
-    // And being well fed...
-    if( get_hunger() < 0 ) {
-        healing_factor *= 2.0;
-    }
-
-    if( get_thirst() < 0 ) {
-        healing_factor *= 2.0;
-    }
+    // Very hungry starts lowering the chance
+    // Healing stops completely halfway between near starving and starving
+    healing_factor *= 1.0f - clamp( ( get_hunger() - 100.0f ) / 2000.0f, 0.0f, 1.0f );
+    // Similar for thirst - starts at very thirsty, drops to 0 ~halfway between two last statuses
+    healing_factor *= 1.0f - clamp( ( get_thirst() - 80.0f ) / 300.0f, 0.0f, 1.0f );
 
     // Mutagenic healing factor!
-    if( has_trait("REGEN") ) {
+    bool needs_splint = true;
+    if( has_trait("REGEN_LIZ") ) {
+        healing_factor *= 20.0;
+        needs_splint = false;
+    } else if( has_trait("REGEN") ) {
         healing_factor *= 16.0;
     } else if( has_trait("FASTHEALER2") ) {
         healing_factor *= 4.0;
@@ -7416,61 +7466,42 @@ void player::mend( int rate_multiplier )
         healing_factor *= 0.5;
     }
 
-    if( has_trait("REGEN_LIZ") ) {
-        healing_factor = 20.0;
+    add_msg( m_debug, "Limb mend healing factor: %.2f", healing_factor );
+    if( healing_factor <= 0.0f ) {
+        // The section below assumes positive healing rate
+        return;
     }
 
-    for( int iter = 0; iter < rate_multiplier; iter++ ) {
-        bool any_broken = false;
-        for( int i = 0; i < num_hp_parts; i++ ) {
-            const bool broken = (hp_cur[i] <= 0);
-            if( !broken ) {
-                continue;
-            }
-
-            any_broken = true;
-
-            bool mended = false;
-            body_part part;
-            switch(i) {
-                case hp_arm_r:
-                    part = bp_arm_r;
-                    mended = is_wearing_on_bp("arm_splint", bp_arm_r) && x_in_y(healing_factor, mending_odds);
-                    break;
-                case hp_arm_l:
-                    part = bp_arm_l;
-                    mended = is_wearing_on_bp("arm_splint", bp_arm_l) && x_in_y(healing_factor, mending_odds);
-                    break;
-                case hp_leg_r:
-                    part = bp_leg_r;
-                    mended = is_wearing_on_bp("leg_splint", bp_leg_r) && x_in_y(healing_factor, mending_odds);
-                    break;
-                case hp_leg_l:
-                    part = bp_leg_l;
-                    mended = is_wearing_on_bp("leg_splint", bp_leg_l) && x_in_y(healing_factor, mending_odds);
-                    break;
-                default:
-                    // No mending for you!
-                    continue;
-            }
-            if( mended == false && has_trait("REGEN_LIZ") ) {
-                // Splints aren't *strictly* necessary for your anatomy
-                mended = x_in_y(healing_factor * 0.2, mending_odds);
-            }
-            if( mended ) {
-                hp_cur[i] = 1;
-                //~ %s is bodypart
-                add_memorial_log( pgettext("memorial_male", "Broken %s began to mend."),
-                                  pgettext("memorial_female", "Broken %s began to mend."),
-                                  body_part_name(part).c_str() );
-                //~ %s is bodypart
-                add_msg_if_player( m_good, _("Your %s has started to mend!"),
-                    body_part_name(part).c_str());
-            }
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        const bool broken = (hp_cur[i] <= 0);
+        if( !broken ) {
+            continue;
         }
 
-        if( !any_broken ) {
-            return;
+        body_part part = hp_to_bp( static_cast<hp_part>( i ) );
+        if( needs_splint && !worn_with_flag( "SPLINT", part ) ) {
+            continue;
+        }
+
+        int dur_inc = roll_remainder( rate_multiplier * healing_factor );
+        auto &eff = get_effect( effect_mending, part );
+        if( eff.is_null() ) {
+            add_effect( effect_mending, dur_inc, part, true );
+            continue;
+        }
+
+        eff.set_duration( eff.get_duration() + dur_inc );
+
+        if( eff.get_duration() >= eff.get_max_duration() ) {
+            hp_cur[i] = 1;
+            remove_effect( effect_mending, part );
+            //~ %s is bodypart
+            add_memorial_log( pgettext("memorial_male", "Broken %s began to mend."),
+                              pgettext("memorial_female", "Broken %s began to mend."),
+                              body_part_name( part ).c_str() );
+            //~ %s is bodypart
+            add_msg_if_player( m_good, _("Your %s has started to mend!"),
+                               body_part_name( part ).c_str() );
         }
     }
 }
@@ -9870,7 +9901,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
     const std::string &method = std::next( used->type->use_methods.begin(), choice )->first;
     long charges_used = used->type->invoke( this, used, pt, method );
 
-    return used->is_tool() && consume_charges( *used, charges_used );
+    return ( used->is_tool() || used->is_medication() ) && consume_charges( *used, charges_used );
 }
 
 bool player::invoke_item( item* used, const std::string &method )
@@ -9891,7 +9922,7 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     }
 
     long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
-    return used->is_tool() && consume_charges( *actually_used, charges_used );
+    return ( used->is_tool() || used->is_medication() ) && consume_charges( *actually_used, charges_used );
 }
 
 void player::reassign_item( item &it, long invlet )
@@ -12762,6 +12793,14 @@ void player::on_mission_finished( mission &mission )
             active_mission = active_missions.front();
         }
     }
+}
+
+const targeting_data &player::get_targeting_data() {
+    return *tdata;
+}
+
+void player::set_targeting_data( const targeting_data &td ) {
+    tdata.reset( new targeting_data( td ) );
 }
 
 void player::set_active_mission( mission &mission )

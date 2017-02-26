@@ -85,6 +85,11 @@ void MonsterGenerator::reset()
     mon_species->insert( species_type() );
 
     hallucination_monsters.clear();
+
+    attack_map.clear();
+    // Hardcode attacks need to be re-added here
+    // @todo Move initialization from constructor to init()
+    init_attack();
 }
 
 static int calc_bash_skill( const mtype &t )

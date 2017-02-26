@@ -8,7 +8,8 @@
     "difficulty": 3,
     "time": 180000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 30 ] ] ],
+    "using": [ [ "filament", 30 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ] ] ]
   },
   {
@@ -20,7 +21,8 @@
     "difficulty": 2,
     "time": 38000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 4 ] ] ],
+    "using": [ [ "filament", 4 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 4 ] ] ]
   },
   {
@@ -32,7 +34,8 @@
     "difficulty": 2,
     "time": 38000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 12 ] ] ],
+    "using": [ [ "filament", 12 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "fur", 3 ] ] ]
   },
   {
@@ -44,7 +47,8 @@
     "difficulty": 2,
     "time": 38000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 12 ] ] ],
+    "using": [ [ "filament", 12 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "leather", 3 ] ] ]
   },
   {
@@ -56,7 +60,8 @@
     "difficulty": 5,
     "time": 180000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 100 ] ] ],
+    "using": [ [ "filament", 100 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "felt_patch", 25 ] ] ]
   },
   {
@@ -69,7 +74,7 @@
     "time": 10000,
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "paper", 300 ] ],
       [ [ "duct_tape", 150 ] ]
@@ -84,7 +89,8 @@
     "difficulty": 2,
     "time": 35000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 15 ] ] ],
+    "using": [ [ "filament", 15 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 2 ] ],
       [ [ "wire", 1 ] ]
@@ -149,7 +155,8 @@
     "time": 100000,
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ] ],
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "using": [ [ "filament", 20 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 11 ] ],
       [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ]
@@ -204,7 +211,8 @@
     "difficulty": 3,
     "time": 42000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 32 ] ] ],
+    "using": [ [ "filament", 32 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 24 ] ] ]
   },
   {
@@ -217,7 +225,8 @@
     "skills_required": [ "survival", 1 ],
     "time": 200000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 60 ] ] ],
+    "using": [ [ "filament", 60 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "fur", 40 ], [ "tanned_pelt", 7 ] ] ]
   },
   {
@@ -230,7 +239,8 @@
     "time": 200000,
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
-    "tools": [ [ [ "sewing_kit", 60 ] ] ],
+    "using": [ [ "filament", 60 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "leather", 29 ], [ "tanned_hide", 5 ] ] ]
   },
   {
@@ -243,8 +253,11 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 70000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [ [ [ "sewing_kit", 135 ] ] ],
+    "using": [ [ "filament", 135 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "duster_leather", 1 ], [ "jacket_army", 1 ] ],
@@ -263,7 +276,8 @@
     "difficulty": 5,
     "time": 480000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 160 ] ] ],
+    "using": [ [ "filament", 160 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "felt_patch", 33 ] ] ]
   },
   {
@@ -275,7 +289,8 @@
     "difficulty": 3,
     "time": 40000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 14 ] ] ],
+    "using": [ [ "filament", 14 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 12 ] ] ]
   },
   {
@@ -288,7 +303,8 @@
     "time": 20000,
     "reversible": true,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 15 ] ] ],
+    "using": [ [ "filament", 15 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 15 ] ] ]
   },
   {
@@ -301,7 +317,8 @@
     "time": 150000,
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 3 ] ],
-    "tools": [ [ [ "sewing_kit", 30 ] ] ],
+    "using": [ [ "filament", 30 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ] ] ]
   },
   {
@@ -314,8 +331,11 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 96000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2, "amount": 1 } ],
-    "tools": [ [ [ "sewing_kit", 30 ] ] ],
+    "using": [ [ "filament", 30 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ],
       [ [ "scrap", 9 ] ]
@@ -330,7 +350,8 @@
     "difficulty": 2,
     "time": 35000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 15 ] ] ],
+    "using": [ [ "filament", 15 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 10 ] ] ]
   },
   {
@@ -342,7 +363,8 @@
     "difficulty": 2,
     "time": 42000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 8 ] ] ],
+    "using": [ [ "filament", 8 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 7 ] ] ]
   },
   {
@@ -355,11 +377,12 @@
     "skills_required": [ "fabrication", 6 ],
     "time": 120000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [
-      [ [ "welder", 18 ], [ "welder_crude", 27 ], [ "soldering_iron", 27 ], [ "toolset", 27 ] ],
-      [ [ "sewing_kit", 60 ] ]
+    "using": [ [ "filament", 60 ] ],
+    "qualities": [
+      { "id": "SEW", "level": 1 },
+      { "id": "CUT", "level": 1 }
     ],
+    "tools": [ [ [ "welder", 18 ], [ "welder_crude", 27 ], [ "soldering_iron", 27 ], [ "toolset", 27 ] ] ],
     "components": [
       [ [ "rag", 15 ] ],
       [ [ "coat_rain", 1 ] ],
@@ -379,7 +402,8 @@
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 30 ] ] ],
+    "using": [ [ "filament", 30 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "kevlar_plate", 24 ] ] ]
   },
   {
@@ -471,7 +495,8 @@
     "difficulty": 5,
     "time": 480000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 120 ] ] ],
+    "using": [ [ "filament", 120 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "felt_patch", 30 ] ] ]
   },
   {
@@ -483,7 +508,21 @@
     "difficulty": 4,
     "time": 180000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 80 ] ] ],
+    "using": [ [ "filament", 80 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "felt_patch", 30 ] ] ]
+  },
+  {
+    "result": "poncho",
+    "type": "recipe",
+    "id_suffix": "knitted",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": 180000,
+    "autolearn": true,
+    "qualities": [ { "id": "KNIT", "level": 1 } ],
     "components": [ [ [ "yarn", 300 ] ] ]
   },
   {
@@ -496,7 +535,8 @@
     "difficulty": 3,
     "time": 35700,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 27 ] ] ],
+    "using": [ [ "filament", 27 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 19 ] ] ]
   },
   {
@@ -511,7 +551,7 @@
     "time": 21000,
     "autolearn": true,
     "byproducts": [ [ "rag", 5 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "duster", 1 ] ] ]
   },
   {
@@ -525,7 +565,8 @@
     "skills_required": [ "survival", 1 ],
     "time": 200000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 50 ] ] ],
+    "using": [ [ "filament", 50 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "fur", 34 ], [ "tanned_pelt", 6 ] ] ]
   },
   {
@@ -540,7 +581,7 @@
     "time": 100000,
     "autolearn": true,
     "byproducts": [ [ "fur", 6 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "duster_fur", 1 ] ] ]
   },
   {
@@ -554,7 +595,8 @@
     "time": 200000,
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
-    "tools": [ [ [ "sewing_kit", 50 ] ] ],
+    "using": [ [ "filament", 50 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "leather", 25 ], [ "tanned_hide", 4 ] ] ]
   },
   {
@@ -569,7 +611,7 @@
     "time": 100000,
     "autolearn": true,
     "byproducts": [ [ "leather", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "duster_leather", 1 ] ] ]
   },
   {
@@ -584,7 +626,7 @@
     "time": 35000,
     "autolearn": true,
     "byproducts": [ [ "rag", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "duster_survivor", 1 ] ] ]
   },
   {
@@ -598,8 +640,11 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 59500,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [ [ [ "sewing_kit", 115 ] ] ],
+    "using": [ [ "filament", 115 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "duster_leather", 1 ], [ "jacket_army", 1 ], [ "sleeveless_duster", 1 ] ],
@@ -621,7 +666,7 @@
     "time": 21000,
     "autolearn": true,
     "byproducts": [ [ "rag", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "trenchcoat", 1 ] ] ]
   },
   {
@@ -634,7 +679,8 @@
     "difficulty": 3,
     "time": 35700,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "using": [ [ "filament", 20 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 16 ] ] ]
   },
   {
@@ -649,7 +695,7 @@
     "time": 100000,
     "autolearn": true,
     "byproducts": [ [ "fur", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "trenchcoat_fur", 1 ] ] ]
   },
   {
@@ -663,7 +709,8 @@
     "skills_required": [ "survival", 1 ],
     "time": 200000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 38 ] ] ],
+    "using": [ [ "filament", 38 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "fur", 28 ], [ "tanned_pelt", 5 ] ] ]
   },
   {
@@ -678,7 +725,7 @@
     "time": 100000,
     "autolearn": true,
     "byproducts": [ [ "leather", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "trenchcoat_leather", 1 ] ] ]
   },
   {
@@ -692,7 +739,8 @@
     "time": 200000,
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
-    "tools": [ [ [ "sewing_kit", 38 ] ] ],
+    "using": [ [ "filament", 38 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ] ] ]
   },
   {
@@ -706,8 +754,11 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 59500,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [ [ [ "sewing_kit", 85 ] ] ],
+    "using": [ [ "filament", 85 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
@@ -729,7 +780,7 @@
     "time": 35000,
     "autolearn": true,
     "byproducts": [ [ "rag", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "trenchcoat_survivor", 1 ] ] ]
   },
   {
@@ -743,7 +794,7 @@
     "time": 21000,
     "autolearn": true,
     "byproducts": [ [ "rag", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "tunic", 1 ] ] ]
   },
   {
@@ -755,7 +806,8 @@
     "difficulty": 3,
     "time": 40000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 8 ] ] ],
+    "using": [ [ "filament", 8 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 8 ] ] ]
   },
   {
@@ -768,7 +820,8 @@
     "time": 90000,
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
-    "tools": [ [ [ "sewing_kit", 12 ] ] ],
+    "using": [ [ "filament", 12 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 6 ] ] ]
   },
   {
@@ -780,7 +833,7 @@
     "difficulty": 3,
     "time": 360000,
     "autolearn": true,
-    "tools": [ [ [ "knitting_needles", -1 ], [ "tailors_kit", -1 ] ] ],
+    "qualities": [ { "id": "KNIT", "level": 1 } ],
     "components": [ [ [ "yarn", 600 ] ] ]
   },
   {
@@ -792,7 +845,8 @@
     "difficulty": 2,
     "time": 38000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 4 ] ] ],
+    "using": [ [ "filament", 4 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 4 ] ] ]
   },
   {
@@ -804,7 +858,8 @@
     "difficulty": 3,
     "time": 42000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 24 ] ] ],
+    "using": [ [ "filament", 23 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 18 ] ] ]
   },
   {
@@ -817,7 +872,8 @@
     "skills_required": [ "survival", 1 ],
     "time": 200000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 45 ] ] ],
+    "using": [ [ "filament", 45 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "fur", 30 ], [ "tanned_pelt", 5 ] ] ]
   },
   {
@@ -830,7 +886,8 @@
     "time": 200000,
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
-    "tools": [ [ [ "sewing_kit", 45 ] ] ],
+    "using": [ [ "filament", 45 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "leather", 22 ], [ "tanned_hide", 4 ] ] ]
   },
   {
@@ -843,8 +900,11 @@
     "skills_required": [ "fabrication", 5 ],
     "time": 70000,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
-    "tools": [ [ [ "sewing_kit", 100 ] ] ],
+    "using": [ [ "filament", 100 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ] ],
@@ -864,7 +924,8 @@
     "time": 38000,
     "reversible": true,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 4 ] ] ],
+    "using": [ [ "filament", 4 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 5 ] ] ]
   },
   {
@@ -876,7 +937,8 @@
     "difficulty": 3,
     "time": 45000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 10 ] ] ],
+    "using": [ [ "filament", 10 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 10 ] ] ]
   },
   {
@@ -888,7 +950,8 @@
     "difficulty": 2,
     "time": 35000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 15 ] ] ],
+    "using": [ [ "filament", 15 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 4 ] ] ]
   },
   {
@@ -902,7 +965,8 @@
     "time": 80000,
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "using": [ [ "filament", 20 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "leather", 10 ], [ "tanned_hide", 2 ] ] ]
   },
   {
@@ -914,7 +978,7 @@
     "time": 20000,
     "autolearn": true,
     "byproducts": [ [ "leather", 5 ] ],
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "jacket_leather", 1 ] ] ]
   },
   {
@@ -927,8 +991,11 @@
     "skills_required": [ "fabrication", 3 ],
     "time": 72000,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2, "amount": 1 } ],
-    "tools": [ [ [ "sewing_kit", 20 ] ] ],
+    "using": [ [ "filament", 20 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SEW", "level": 1 }
+    ],
     "components": [
       [ [ "vest_leather", 1 ] ],
       [ [ "scrap", 5 ] ]
@@ -943,7 +1010,8 @@
     "difficulty": 5,
     "time": 150000,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 100 ] ] ],
+    "using": [ [ "filament", 100 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "felt_patch", 13 ] ] ]
   }
 ]

@@ -336,6 +336,7 @@
       [ "plant_fibre", 20 ],
       [ "sinew", 20 ],
       [ "thread", 20 ],
+      [ "yarn", 20 ],
       [ "duct_tape", 20 ]
     ],
     [
@@ -470,6 +471,7 @@
       [ "plant_fibre", 20 ],
       [ "sinew", 20 ],
       [ "thread", 20 ],
+      [ "yarn", 20 ],
       [ "duct_tape", 20 ]
     ],
     [
@@ -486,11 +488,8 @@
   "difficulty": 1,
   "time": 45000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 40 ]
-    ]
-  ],
+  "using": [ [ "filament", 40 ] ],
+  "qualities": [ { "id": "SEW", "level": 1 } ],
   "components": [
      [
       [ "rag", 1 ],
@@ -556,13 +555,10 @@
   "difficulty": 2,
   "time": 5000,
   "autolearn": true,
+  "using": [ [ "filament", 10 ] ],
   "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 10 ]
-    ]
+    { "id" : "SEW" , "level" : 1 },
+    { "id" : "CUT" , "level" : 1 }
   ],
   "components": [
     [
@@ -881,6 +877,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "withered", 2 ]
     ]
   ]
@@ -911,6 +908,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "withered", 1 ]
     ]
   ]
@@ -1090,7 +1088,8 @@
       [ "bone_glue", 1 ],
       [ "thread", 20 ],
       [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "plant_fibre", 20 ],
+      [ "yarn", 20 ]
     ],
     [
       [ "bone", 5 ],

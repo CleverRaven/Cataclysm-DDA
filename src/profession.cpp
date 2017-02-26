@@ -153,6 +153,7 @@ void profession::load( JsonObject &jo, const std::string & )
 
     if( !was_loaded || jo.has_member( "description" ) ) {
         const std::string desc = jo.get_string( "description" );
+        // These also may differ depending on the language settings!
         _description_male = pgettext( "prof_desc_male", desc.c_str() );
         _description_female = pgettext( "prof_desc_female", desc.c_str() );
     }
@@ -389,7 +390,7 @@ std::vector<std::string> profession::CBMs() const
     return _starting_CBMs;
 }
 
-std::vector<std::string> profession::traits() const
+std::vector<std::string> profession::get_locked_traits() const
 {
     return _starting_traits;
 }
@@ -413,7 +414,7 @@ bool profession::can_pick( player *u, int points ) const
     return true;
 }
 
-bool profession::locked_traits( const std::string &trait ) const
+bool profession::is_locked_trait( const std::string &trait ) const
 {
     return std::find( _starting_traits.begin(), _starting_traits.end(), trait ) !=
            _starting_traits.end();

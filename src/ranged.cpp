@@ -1,3 +1,5 @@
+#include "ranged.h"
+
 #include <vector>
 #include <string>
 #include <cmath>
@@ -1026,8 +1028,8 @@ double Creature::projectile_attack_chance( double dispersion, double range, doub
     return std::erf( shot_dispersion / ( sigma * sqrt2 ) );
 }
 
-static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *weapon,
-                           Creature *target, double predicted_recoil ) {
+static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
+                      Creature *target, double predicted_recoil ) {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
     // Creature::projectile_attack() into shared methods.
@@ -1042,21 +1044,55 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
     // Fairly arbitrary cap on steadiness...
     const double steadiness = 1.0 - steady_score / MIN_RECOIL;
 
-    const std::array<std::pair<double, char>, 3> confidence_ratings = {{
-        std::make_pair( p.projectile_attack_chance( dispersion, range, accuracy_headshot ), '*' ),
-        std::make_pair( p.projectile_attack_chance( dispersion, range, accuracy_goodhit ), '+' ),
-        std::make_pair( p.projectile_attack_chance( dispersion, range, accuracy_grazing ), '|' ) }};
+    const auto get_chance = [&p, dispersion, range]( double acc ) {
+        return p.projectile_attack_chance( dispersion, range, acc );
+    };
+
+    // This could be extracted, to allow more/less verbose displays
+    using cconf = std::tuple<double, char, std::string>;
+    static const std::array<cconf, 3> confidence_config = {{
+        std::make_tuple( accuracy_headshot, '*', _( "Headshot" ) ),
+        std::make_tuple( accuracy_goodhit, '+', _( "Hit" ) ),
+        std::make_tuple( accuracy_grazing, '|', _( "Graze" ) )
+    }};
 
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
-    const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, _( "Confidence" ),
-                                                         confidence_ratings.begin(),
-                                                         confidence_ratings.end() );
-    const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
-                                                         _( "Steadiness" ), '*' );
 
-    mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
-    mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
-    mvwprintw( w, line_number++, 1, steadiness_bar.c_str() );
+    if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
+        // Chances by get_chance are absolute, meaning graze will always be higher than headshot etc.
+        int last_chance = 0;
+        std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
+        [&]( const cconf &config ) {
+            // @todo Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
+            int chance = std::min<int>( 100, 100.0 * get_chance( std::get<0>( config ) ) ) - last_chance;
+            last_chance += chance;
+            return string_format( "%s: %3d%%", std::get<2>( config ).c_str(), chance );
+        }, false );
+        line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
+                                            c_white, confidence_s );
+
+        std::string steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ), (int)( 100.0 * steadiness ) );
+        mvwprintw( w, line_number++, 1, "%s", steadiness_s.c_str() );
+
+    } else {
+        // Extract pairs from tuples, because get_labeled_bar expects pairs
+        // @todo Update get_labeled_bar to allow tuples
+        std::vector<std::pair<double, char>> confidence_ratings;
+        std::transform( confidence_config.begin(), confidence_config.end(), std::back_inserter( confidence_ratings ),
+        [&]( const cconf &config ) {
+            return std::make_pair( get_chance( std::get<0>( config ) ), std::get<1>( config ) );
+        } );
+
+        const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, _( "Confidence" ),
+                                                             confidence_ratings.begin(),
+                                                             confidence_ratings.end() );
+        const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
+                                                             _( "Steadiness" ), '*' );
+
+        mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
+        mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
+        mvwprintw( w, line_number++, 1, steadiness_bar.c_str() );
+    }
 
     return line_number;
 }
@@ -1087,9 +1123,12 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 {
     static const std::vector<tripoint> empty_result{};
     std::vector<tripoint> ret;
-    
+
+    int sight_dispersion = 0;
     if ( !relevant ) {
         relevant = &u.weapon;
+    } else {
+        sight_dispersion = u.effective_dispersion( relevant->sight_dispersion() );
     }
 
     tripoint src = u.pos();
@@ -1164,7 +1203,6 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
 
     std::vector<aim_type> aim_types;
     std::vector<aim_type>::iterator aim_mode;
-    int sight_dispersion = relevant != nullptr ? u.effective_dispersion( relevant->sight_dispersion() ) : 0;
 
     if( mode == TARGET_MODE_FIRE ) {
         aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
@@ -1357,7 +1395,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 predicted_recoil = u.recoil;
             }
 
-            line_number = print_aim_bars( u, w_target, line_number, &*relevant->gun_current_mode(), critter, predicted_recoil );
+            line_number = print_aim( u, w_target, line_number, &*relevant->gun_current_mode(), critter, predicted_recoil );
 
             if( aim_mode->has_threshold ) {
                 mvwprintw(w_target, line_number++, 1, _("%s Delay: %i"), aim_mode->name.c_str(), predicted_delay );

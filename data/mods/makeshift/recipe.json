@@ -10,7 +10,8 @@
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
-    "tools": [ [ [ "sewing_kit", 30 ] ] ],
+    "using": [ [ "filament", 30 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "kevlar_plate", 24 ] ] ]
   },
   {

@@ -240,7 +240,7 @@ public:
     // Coordinates for some kind of target; jumper cables and turrets use this
     // Two coord pairs are stored: actual target point, and target vehicle center.
     // Both cases use absolute coordinates (relative to world origin)
-    std::pair<tripoint, tripoint> target;
+    std::pair<tripoint, tripoint> target = { tripoint_min, tripoint_min };
 
 private:
     /** What type of part is this? */
@@ -323,7 +323,27 @@ class turret_data {
         /** Maximum range considering current ammo (if any) */
         int range() const;
 
-        /** Fire at @ref target returning number of shots (may be zero) */
+        /**
+         * Prepare the turret for firing, called by firing function.
+         * This sets up vehicle tanks, recoil adjustments, vehicle rooftop status,
+         * and performs any other actions that must be done before firing a turret.
+         * @param p the player that is firing the gun, subject to recoil adjustment.
+         */
+        void prepare_fire( player &p );
+
+        /**
+         * Reset state after firing a prepared turret, called by the firing function.
+         * @param p the player that just fired (or attempted to fire) the turret.
+         * @param shots the number of shots fired by the most recent call to turret::fire.
+         */
+        void post_fire( player &p, int shots );
+
+        /**
+         * Fire the turret's gun at a given @ref target.
+         * @param p the player firing the turret, passed to pre_fire and post_fire calls.
+         * @param target coordinates that will be fired on.
+         * @return the number of shots actually fired (may be zero).
+         */
         int fire( player &p, const tripoint &target );
 
         bool can_reload() const;
@@ -341,6 +361,7 @@ class turret_data {
     private:
         turret_data( vehicle *veh, vehicle_part *part )
             : veh( veh ), part( part ) {}
+        double cached_recoil;
 
     protected:
         vehicle *veh = nullptr;
