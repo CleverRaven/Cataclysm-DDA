@@ -48,8 +48,6 @@
 static const itype_id fuel_type_gasoline("gasoline");
 static const itype_id fuel_type_diesel("diesel");
 static const itype_id fuel_type_battery("battery");
-static const itype_id fuel_type_plutonium("plut_cell");
-static const itype_id fuel_type_plasma("plasma");
 static const itype_id fuel_type_water("water_clean");
 static const itype_id fuel_type_muscle("muscle");
 static const std::string part_location_structure("structure");
@@ -66,22 +64,6 @@ static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 const skill_id skill_mechanics( "mechanics" );
 
 const efftype_id effect_stunned( "stunned" );
-
-const std::array<fuel_type, 7> &get_fuel_types()
-{
-
-    static const std::array<fuel_type, 7> fuel_types = {{
-        fuel_type {fuel_type_gasoline,  100 },
-        fuel_type {fuel_type_diesel,    100 },
-        fuel_type {fuel_type_battery,   1,  },
-        fuel_type {fuel_type_plutonium, 1   },
-        fuel_type {fuel_type_plasma,    100 },
-        fuel_type {fuel_type_water,     1,  },
-        fuel_type {fuel_type_muscle,    0,  }
-    }};
-
-    return fuel_types;
-}
 
 // Vehicle stack methods.
 std::list<item>::iterator vehicle_stack::erase( std::list<item>::iterator it )
@@ -2904,7 +2886,8 @@ int vehicle::fuel_capacity (const itype_id &ftype) const
     } );
 }
 
-int vehicle::drain (const itype_id & ftype, int amount) {
+int vehicle::drain( const itype_id & ftype, int amount )
+{
     if( ftype == fuel_type_battery ) {
         // Batteries get special handling to take advantage of jumper
         // cables -- discharge_battery knows how to recurse properly
@@ -2929,10 +2912,7 @@ int vehicle::drain (const itype_id & ftype, int amount) {
         }
     }
 
-    if( ftype != fuel_type_battery && ftype != fuel_type_plasma ) {
-        invalidate_mass();
-    }
-
+    invalidate_mass();
     return drained;
 }
 
@@ -3042,8 +3022,6 @@ int vehicle::safe_velocity(bool const fueled) const
                 m2c = 60;
             } else if(is_engine_type(e, fuel_type_diesel)) {
                 m2c = 65;
-            } else if(is_engine_type(e, fuel_type_plasma)) {
-                m2c = 75;
             } else if(is_engine_type(e, fuel_type_battery)) {
                 m2c = 90;
             } else if(is_engine_type(e, fuel_type_muscle)) {
@@ -3143,8 +3121,6 @@ void vehicle::noise_and_smoke( double load, double time )
                     mufflesmoke += j;
                 }
                 pwr = (cur_pwr*15 + max_pwr*3 + 5) * muffle;
-            } else if(is_engine_type(e, fuel_type_plasma)) {
-                pwr = (cur_pwr*9 + 1) * muffle;
             } else if(is_engine_type(e, fuel_type_battery)) {
                 pwr = cur_pwr*3;
             } else if(is_engine_type(e, fuel_type_muscle)) {
@@ -3368,40 +3344,78 @@ float vehicle::handling_difficulty() const
     return velocity * diff_mod / tile_per_turn;
 }
 
-/**
- * Power for batteries are in W, but usage for rest is in 0.5*HP, so coeff is 373
- * This does not seem to match up for consumption, as old coeff is 100
- * Keeping coeff of 100, but should probably be adjusted later
- * http://en.wikipedia.org/wiki/Energy_density -> 46MJ/kg, 36MJ/l for gas
- * Gas tanks are 6000 and 30000, assuming that's in milliliters, so 36000J/ml
- * Battery sizes are 1k, 12k, 30k, 50k, and 100k. present day = 53kWh(200MJ) for 450kg
- * Efficiency tank to wheel is roughly 15% for gas, 85% for electric
- */
+std::map<itype_id, int> vehicle::fuel_usage() const
+{
+    std::map<itype_id, int> ret;
+    for( size_t i = 0; i < engines.size(); i++ ) {
+        // Note: functions with "engine" in name do NOT take part indices
+        // @todo Use part indices and not engine vector indices
+        if( !is_engine_on( i ) ) {
+            continue;
+        }
+
+        const size_t e = engines[ i ];
+        const auto &info = part_info( e );
+        static const itype_id null_fuel_type( "null" );
+        if( info.fuel_type == null_fuel_type ) {
+            continue;
+        }
+
+        // @todo Get rid of this special case
+        if( info.fuel_type == fuel_type_battery ) {
+            // Motor epower is in negatives
+            ret[ fuel_type_battery ] -= epower_to_power( part_epower( e ) );
+        } else if( !is_engine_type( i, fuel_type_muscle ) ) {
+            int usage = part_power( e );
+            if( parts[ e ].faults().count( fault_filter_air ) ) {
+                usage *= 2;
+            }
+
+            ret[ info.fuel_type ] += usage;
+        }
+    }
+
+    return ret;
+}
+
+float vehicle::drain_energy( const itype_id &ftype, float energy )
+{
+    float drained = 0.0f;
+    for( auto &p : parts ) {
+        if( energy <= 0.0f ) {
+            break;
+        }
+
+        float consumed = p.consume_energy( ftype, energy );
+        drained += consumed;
+        energy -= consumed;
+    }
+
+    invalidate_mass();
+    return drained;
+}
+
 void vehicle::consume_fuel( double load = 1.0 )
 {
     float st = strain();
-    for( auto &ft : get_fuel_types() ) {
-        // if no engines use this fuel, skip
-        int amnt_fuel_use = basic_consumption( ft.id );
-        if (amnt_fuel_use == 0) continue;
+    for( auto &fuel_pr : fuel_usage() ) {
+        auto &ft = fuel_pr.first;
+        int amnt_fuel_use = fuel_pr.second;
 
-        //get exact amount of fuel needed
-        double amnt_precise = double(amnt_fuel_use) / ft.coeff;
-        amnt_precise *= load * (1.0 + st * st * 100);
-        int amnt = int(amnt_precise);
-        // Add in the previous remainder if it exists, and then stash anything that is left.
-        double remainder = amnt_precise - amnt;
-        auto previous_remainder = fuel_remainder.find( ft.id );
-        if( previous_remainder != fuel_remainder.end() ) {
-            remainder += previous_remainder->second;
-            if( (int)remainder >= 1 ) {
-                amnt += (int)remainder;
-                remainder -= (int)remainder;
-            }
+        // In kilojoules
+        double amnt_precise = double( amnt_fuel_use );
+        amnt_precise *= load * ( 1.0 + st * st * 100.0 );
+        double remainder = fuel_remainder[ ft ];
+        amnt_precise -= remainder;
+
+        if( amnt_precise > 0.0f ) {
+            fuel_remainder[ ft ] = amnt_precise - drain_energy( ft, amnt_precise );
+        } else {
+            fuel_remainder[ ft ] = -amnt_precise;
         }
-        fuel_remainder[ ft.id ] = remainder;
 
-        drain( ft.id, amnt );
+        add_msg( m_debug, "%s consumes %s: amnt %.2f, rem %.2f",
+                 name.c_str(), ft.c_str(), amnt_precise, fuel_remainder[ ft ] );
     }
     //do this with chance proportional to current load
     // But only if the player is actually there!
@@ -5518,8 +5532,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
 
     static const std::map<itype_id, fuel_explosion> explosive_fuels = {{
         { fuel_type_gasoline,   { 2, 5, 1.0f, true, 0.1f } },
-        { fuel_type_diesel,     { 20, 1000, 0.2f, false, 0.1f } },
-        { fuel_type_plasma,     { 1, 2, 1.4f, false, 1.0f } }
+        { fuel_type_diesel,     { 20, 1000, 0.2f, false, 0.1f } }
     }};
 
     const auto iter = explosive_fuels.find( ft );
@@ -6138,6 +6151,30 @@ long vehicle_part::ammo_consume( long qty, const tripoint& pos )
     }
 
     return res;
+}
+
+float vehicle_part::consume_energy( const itype_id &ftype, float energy )
+{
+    if( base.contents.empty() || ( !is_battery() && !is_reactor() && !base.is_watertight_container() ) ) {
+        return 0.0f;
+    }
+
+    item &fuel = base.contents.back();
+    if( fuel.typeId() != ftype ) {
+        return 0.0f;
+    }
+
+    assert( fuel.is_fuel() );
+    float energy_per_unit = fuel.fuel_energy();
+    long charges_to_use = static_cast<int>( std::ceil( energy / energy_per_unit ) );
+    if( charges_to_use > fuel.charges ) {
+        long had_charges = fuel.charges;
+        base.contents.clear();
+        return had_charges * energy_per_unit;
+    }
+
+    fuel.charges -= charges_to_use;
+    return charges_to_use * energy_per_unit;
 }
 
 bool vehicle_part::can_reload( const itype_id &obj ) const

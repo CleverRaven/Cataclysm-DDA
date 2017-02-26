@@ -300,7 +300,6 @@
     "armor_data": {
       "covers": [ "TORSO" ],
       "coverage": 15,
-      "encumbrance": 0,
       "storage": 4,
       "material_thickness": 1
     },
