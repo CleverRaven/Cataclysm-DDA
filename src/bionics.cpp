@@ -804,7 +804,7 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
     }
     //If you are paying the doctor to do it, shouldn't use your supplies
     static const quality_id CUT_FINE( "CUT_FINE" );
-    if( !( crafting_inv.has_quality( quality_id( "CUT_FINE" ) ) && crafting_inv.has_amount( "1st_aid", 1 ) ) &&
+    if( !( crafting_inv.has_quality( CUT_FINE ) && crafting_inv.has_amount( "1st_aid", 1 ) ) &&
         skill_level == -1 ) {
         popup( _( "Removing bionics requires a tool with %s quality, and a first aid kit." ), CUT_FINE.obj().name.c_str() );
         return false;
@@ -835,21 +835,21 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
         return false;
     }
 
-    // removal of bionics adds +2 difficulty over installation
+    // removal of bionics adds +2 difficulty over installation, high quality tool substracts its fine cutting quality amount
     int chance_of_success;
     if( skill_level != -1 ) {
         chance_of_success = bionic_manip_cos( skill_level,
                                               skill_level,
                                               skill_level,
                                               skill_level,
-                                              difficulty + 2 );
+                                              difficulty + 2 - crafting_inv.max_quality( CUT_FINE ) );
     } else {
-        ///\EFFECT_INT increases chance of success removing bionics with unspecified skil level
+        ///\EFFECT_INT increases chance of success removing bionics with unspecified skill level
         chance_of_success = bionic_manip_cos( int_cur,
                                               get_skill_level( skilll_electronics ),
                                               get_skill_level( skilll_firstaid ),
                                               get_skill_level( skilll_mechanics ),
-                                              difficulty + 2 );
+                                              difficulty + 2 - crafting_inv.max_quality( CUT_FINE ) );
     }
 
     if( !query_yn(
