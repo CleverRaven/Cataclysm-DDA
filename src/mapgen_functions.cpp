@@ -3374,42 +3374,6 @@ void mapgen_office_tower_b(map *m, oter_id terrain_type, mapgendata dat, int tur
 }
 
 
-void mapgen_cathedral_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_cathedral_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_cathedral_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_cathedral_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
 void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
