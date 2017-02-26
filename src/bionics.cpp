@@ -803,9 +803,10 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
         return false;
     }
     //If you are paying the doctor to do it, shouldn't use your supplies
-    if( !( crafting_inv.has_quality( quality_id( "CUT" ) ) && crafting_inv.has_amount( "1st_aid", 1 ) ) &&
+    static const quality_id CUT_FINE( "CUT_FINE" );
+    if( !( crafting_inv.has_quality( quality_id( "CUT_FINE" ) ) && crafting_inv.has_amount( "1st_aid", 1 ) ) &&
         skill_level == -1 ) {
-        popup( _( "Removing bionics requires a cutting tool and a first aid kit." ) );
+        popup( _( "Removing bionics requires a tool with %s quality, and a first aid kit." ), CUT_FINE.obj().name.c_str() );
         return false;
     }
 
