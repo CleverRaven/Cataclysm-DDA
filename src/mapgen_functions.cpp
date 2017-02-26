@@ -3521,23 +3521,6 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
         }
 }
 
-void mapgen_farm(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_farm_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
 
 void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int, float density)
 {
