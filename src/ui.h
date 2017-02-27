@@ -9,7 +9,7 @@
 #include "printf_check.h"
 
 ////////////////////////////////////////////////////////////////////////////////////
-/*
+/**
  * uimenu constants
  */
 const int UIMENU_INVALID = -1024;
@@ -21,7 +21,7 @@ const int MENU_AUTOASSIGN = -1;
 
 struct input_event;
 
-/*
+/**
  * mvwzstr: line of text with horizontal offset and color
  */
 
@@ -32,7 +32,7 @@ struct mvwzstr {
     long sym = 0;
 };
 
-/*
+/**
  * uimenu_entry: entry line for uimenu
  */
 struct uimenu_entry {
@@ -70,7 +70,7 @@ struct uimenu_entry {
         hotkey_color( H ), text_color( C ) {};
 };
 
-/*
+/**
  * Virtual base class for windowed ui stuff (like uimenu)
  */
 class ui_container
@@ -84,7 +84,7 @@ class ui_container
         virtual void refresh( bool refresh_children = true ) = 0;
 };
 
-/*
+/**
  * Generic multi-function callback for highlighted items, key presses, and window control. Example:
  *
  * class monmenu_cb: public uimenu_callback {
@@ -110,6 +110,21 @@ class ui_container
  *
  */
 class uimenu;
+/** 
+* In current master, generic uimenu::query() handles most input events first, 
+* and then passes the event to the callback if it can't handle it.
+* 
+* In PR #20347, the logic is reversed. The callback gets the event first, the only condition 
+* being that the callback is set at all. This allows certain menus (mostly the ones that 
+* exhibited various input handling oddities) to use their callback for overriding "default" 
+* handling by uimenu::query().
+* 
+* The callback returninig a boolean false signifies that the callback can't "handle the 
+* event completely". This is unchanged before or after the PR.
+* 
+* https://github.com/CleverRaven/Cataclysm-DDA/pull/20347#issuecomment-282584492
+*/
+///@{
 class uimenu_callback
 {
     public:
@@ -125,7 +140,8 @@ class uimenu_callback
         virtual void redraw( uimenu * ) {};
         virtual ~uimenu_callback() {};
 };
-/*
+///@}
+/**
  * uimenu: scrolling vertical list menu
  */
 class ui_element;
@@ -222,8 +238,10 @@ class uimenu: public ui_container
         std::string hotkeys;
 };
 
-// Callback for uimenu that pairs menu entries with points
-// When an entry is selected, view will be centered on the paired point
+/**
+ * Callback for uimenu that pairs menu entries with points
+ * When an entry is selected, view will be centered on the paired point
+ */
 class pointmenu_cb : public uimenu_callback
 {
     private:
