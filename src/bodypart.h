@@ -4,6 +4,8 @@
 
 #include <string>
 
+class JsonObject;
+
 // The order is important ; pldata.h has to be in the same order
 enum body_part : int {
     bp_torso = 0,
@@ -32,6 +34,57 @@ const constexpr body_part bp_aBodyPart[] = {
     bp_torso, bp_head, bp_eyes, bp_mouth,
     bp_arm_l, bp_arm_r, bp_hand_l, bp_hand_r,
     bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
+};
+
+struct body_part_struct {
+    public:
+        body_part id = num_bp;
+        bool was_loaded = false;
+
+        // Those are stored untranslated
+        // @todo Translate on load
+        std::string name;
+        std::string name_as_heading_singular;
+        std::string name_as_heading_multiple;
+        std::string encumb_text;
+        // string_id, except not yet
+        std::string id_s;
+        // Uppercase id_s
+        std::string legacy_id;
+        // @todo Add a separate size value for @ref default_hit_weights
+        int hit_size = 0;
+        // "Parent" of this part - main parts are their own "parents"
+        // @todo Connect head and limbs to torso
+        body_part main_part = num_bp;
+        // A part that has no opposite is its own opposite (that's pretty Zen)
+        body_part opposite_part = num_bp;
+        // Parts with no opposites have BOTH here
+        side part_side = side::BOTH;
+
+        static void load( JsonObject &jo, const std::string &src );
+
+        // Clears all bps
+        static void reset();
+        // Post-load finalization
+        static void finalize();
+        // Verifies that body parts make sense
+        static void check_consistency();
+
+        // @todo Make this method of a body container, not static
+        static const body_part_struct &random_part();
+    private:
+        // Just for loading
+        std::string main_part_string;
+        std::string opposite_part_string;
+
+        // Summed hit_size of all bps
+        // @todo This won't make sense once there is no "canonical body model"
+        static int size_sum;
+
+        // @todo get_better_name_for_function
+        static const body_part_struct &get_part_with_cumulative_hit_size( int size );
+
+        void load_this( JsonObject &jo, const std::string &src );
 };
 
 /** Returns the opposite side. */
@@ -67,5 +120,6 @@ std::string get_body_part_id( body_part bp );
 
 /** Returns the matching body_part token from the corresponding body_part string. */
 body_part get_body_part_token( const std::string &id );
+
 
 #endif

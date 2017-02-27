@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-18 17:36+0800\n"
-"PO-Revision-Date: 2017-02-19 02:59+0000\n"
+"POT-Creation-Date: 2017-02-24 17:29+0800\n"
+"PO-Revision-Date: 2017-02-25 08:53+0000\n"
 "Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -12030,8 +12030,8 @@ msgid_plural "Adrenaline Pump CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Adrenaline Pump
 #. ~ Description for Adrenaline Pump CBM
+#. ~ Description for Adrenaline Pump
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A stimulator system has been implanted alongside your adrenal glands, "
@@ -12045,8 +12045,8 @@ msgid_plural "Active Defense System CBMs"
 msgstr[0] "CBM sistema di difesa"
 msgstr[1] "CBM sistema di difesa"
 
-#. ~ Description for Active Defense System
 #. ~ Description for Active Defense System CBM
+#. ~ Description for Active Defense System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  Anything"
@@ -12074,8 +12074,8 @@ msgid_plural "Alarm System CBMs"
 msgstr[0] "CBM sistema di allarme"
 msgstr[1] "CBM sistema di allarme"
 
-#. ~ Description for Alarm System
 #. ~ Description for Alarm System CBM
+#. ~ Description for Alarm System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A motion-detecting alarm system will notice almost all movement within a "
@@ -12089,8 +12089,8 @@ msgid_plural "Arms Alloy Plating CBMs"
 msgstr[0] "CBM alluminio corazzato - braccia"
 msgstr[1] "CBM alluminio corazzato - braccia"
 
-#. ~ Description for Alloy Plating - Arms
 #. ~ Description for Arms Alloy Plating CBM
+#. ~ Description for Alloy Plating - Arms
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your arms has been replaced by a strong armor, protecting you "
@@ -12103,8 +12103,8 @@ msgid_plural "Protective Lenses CBMs"
 msgstr[0] "CBM lenti protettive"
 msgstr[1] "CBM lenti protettive"
 
-#. ~ Description for Protective Lenses
 #. ~ Description for Protective Lenses CBM
+#. ~ Description for Protective Lenses
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eye sockets have been sealed with highly protective mirrored lenses and"
@@ -12118,8 +12118,8 @@ msgid_plural "Head Alloy Plating CBMs"
 msgstr[0] "CBM alluminio corazzato - testa"
 msgstr[1] "CBM alluminio corazzato - testa"
 
-#. ~ Description for Alloy Plating - Head
 #. ~ Description for Head Alloy Plating CBM
+#. ~ Description for Alloy Plating - Head
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your head has been replaced by a strong armor, protecting both "
@@ -12132,8 +12132,8 @@ msgid_plural "Legs Alloy Plating CBMs"
 msgstr[0] "CBM alluminio corazzato - gambe"
 msgstr[1] "CBM alluminio corazzato - gambe"
 
-#. ~ Description for Alloy Plating - Legs
 #. ~ Description for Legs Alloy Plating CBM
+#. ~ Description for Alloy Plating - Legs
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your legs has been replaced by a strong armor, protecting you "
@@ -12146,8 +12146,8 @@ msgid_plural "Torso Alloy Plating CBMs"
 msgstr[0] "CBM alluminio corazzato - torso"
 msgstr[1] "CBM alluminio corazzato - torso"
 
-#. ~ Description for Alloy Plating - Torso
 #. ~ Description for Torso Alloy Plating CBM
+#. ~ Description for Alloy Plating - Torso
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your torso has been replaced by a strong armor, protecting you "
@@ -12160,8 +12160,8 @@ msgid_plural "Battery System CBMs"
 msgstr[0] "CBM sistema a batterie"
 msgstr[1] "CBM sistema a batterie"
 
-#. ~ Description for Battery System
 #. ~ Description for Battery System CBM
+#. ~ Description for Battery System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have a battery draining attachment, and thus can make use of the energy "
@@ -12175,8 +12175,8 @@ msgid_plural "Monomolecular Blade CBMs"
 msgstr[0] "CBM lama micro molecolare"
 msgstr[1] "CBM lama micro molecolare"
 
-#. ~ Description for Monomolecular Blade
 #. ~ Description for Monomolecular Blade CBM
+#. ~ Description for Monomolecular Blade
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A deadly foot-long blade made of advanced material now resides inside your "
@@ -12205,8 +12205,8 @@ msgid_plural "Blood Analysis CBMs"
 msgstr[0] "CBM analisi sanguigna"
 msgstr[1] "CBM analizzatore sanguigno"
 
-#. ~ Description for Blood Analysis
 #. ~ Description for Blood Analysis CBM
+#. ~ Description for Blood Analysis
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Small sensors have been implanted in your heart, allowing you to analyze "
@@ -12219,8 +12219,8 @@ msgid_plural "Blood Filter CBMs"
 msgstr[0] "CBM filtro sanguigno"
 msgstr[1] "CBM filtro sanguigno"
 
-#. ~ Description for Blood Filter
 #. ~ Description for Blood Filter CBM
+#. ~ Description for Blood Filter
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A filtration system in your heart allows you to actively filter out chemical"
@@ -12235,8 +12235,8 @@ msgid_plural "Cable Charger System CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Cable Charger System
 #. ~ Description for Cable Charger System CBM
+#. ~ Description for Cable Charger System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have a complex port mounted above your hip.  While active, it will drain"
@@ -12249,8 +12249,8 @@ msgid_plural "Subdermal Carbon Filament CBMs"
 msgstr[0] "CBM nano filamenti in carbonio"
 msgstr[1] "CBM nano filamenti in carbonio"
 
-#. ~ Description for Subdermal Carbon Filament
 #. ~ Description for Subdermal Carbon Filament CBM
+#. ~ Description for Subdermal Carbon Filament
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This"
@@ -12263,8 +12263,8 @@ msgid_plural "Chain Lightning CBMs"
 msgstr[0] "CBM fulmine a catena"
 msgstr[1] "CBM fulmine a catena"
 
-#. ~ Description for Chain Lightning
 #. ~ Description for Chain Lightning CBM
+#. ~ Description for Chain Lightning
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your body is equipped with a chain lightning generator, allowing you to emit"
@@ -12278,8 +12278,8 @@ msgid_plural "Bionic Claws CBMs"
 msgstr[0] "CBM artigli bionici"
 msgstr[1] "CBM artigli bionici"
 
-#. ~ Description for Bionic Claws
 #. ~ Description for Bionic Claws CBM
+#. ~ Description for Bionic Claws
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Vicious claws have been installed inside your fingers, allowing you to "
@@ -12294,8 +12294,8 @@ msgid_plural "Internal Climate Control CBMs"
 msgstr[0] "CBM controllo climatico"
 msgstr[1] "CBM controllo climatico"
 
-#. ~ Description for Internal Climate Control
 #. ~ Description for Internal Climate Control CBM
+#. ~ Description for Internal Climate Control
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Throughout your body lies a network of thermal piping which eases the "
@@ -12308,8 +12308,8 @@ msgid_plural "Cloaking System CBMs"
 msgstr[0] "CBM sistema di invisibilità"
 msgstr[1] "CBM sistema di invisibilità"
 
-#. ~ Description for Cloaking System
 #. ~ Description for Cloaking System CBM
+#. ~ Description for Cloaking System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "This high-power system uses a set of cameras and LEDs to make you blend into"
@@ -12341,8 +12341,8 @@ msgid_plural "Wired Reflexes CBMs"
 msgstr[0] "CBM riflessi augmentati"
 msgstr[1] "CBM riflessi augmentati"
 
-#. ~ Description for Wired Reflexes
 #. ~ Description for Wired Reflexes CBM
+#. ~ Description for Wired Reflexes
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your reaction time has been greatly enhanced with bionic nerve stimulators, "
@@ -12355,8 +12355,8 @@ msgid_plural "Expanded Digestive System CBMs"
 msgstr[0] "CBM apparato digerente espanso"
 msgstr[1] "CBM apparato digerente espanso"
 
-#. ~ Description for Expanded Digestive System
 #. ~ Description for Expanded Digestive System CBM
+#. ~ Description for Expanded Digestive System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have been outfitted with three synthetic stomachs and industrial-grade "
@@ -12402,8 +12402,8 @@ msgid_plural "Ethanol Burner CBMs"
 msgstr[0] "CBM stufa ad etanolo"
 msgstr[1] "CBM stufa ad etanolo"
 
-#. ~ Description for Ethanol Burner
 #. ~ Description for Ethanol Burner CBM
+#. ~ Description for Ethanol Burner
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You burn alcohol as fuel in an extremely efficient reaction.  However, you "
@@ -12416,8 +12416,8 @@ msgid_plural "Aero-Evaporator CBMs"
 msgstr[0] "CBM evaporatore"
 msgstr[1] "CBM evaporatore"
 
-#. ~ Description for Aero-Evaporator
 #. ~ Description for Aero-Evaporator CBM
+#. ~ Description for Aero-Evaporator
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "This unit draws moisture from the surrounding air, which then is poured from"
@@ -12430,8 +12430,8 @@ msgid_plural "Diamond Cornea CBMs"
 msgstr[0] "CBM cornea di diamante"
 msgstr[1] "CBM cornea di diamante"
 
-#. ~ Description for Diamond Cornea
 #. ~ Description for Diamond Cornea CBM
+#. ~ Description for Diamond Cornea
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid "Your vision is greatly enhanced, giving you a +2 bonus to perception."
 msgstr "La tua vista è enormemente migliorata, dandoti un bonus di +2 alla percezione."
@@ -12442,8 +12442,8 @@ msgid_plural "Telescopic Eyes CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Telescopic Eyes
 #. ~ Description for Telescopic Eyes CBM
+#. ~ Description for Telescopic Eyes
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Much of the material in your inner eye has been removed and replaced with an"
@@ -12458,8 +12458,8 @@ msgid_plural "Facial Distortion CBMs"
 msgstr[0] "CBM distorsione del viso"
 msgstr[1] "CBM distorsione del viso"
 
-#. ~ Description for Facial Distortion
 #. ~ Description for Facial Distortion CBM
+#. ~ Description for Facial Distortion
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Through controlled application of electrochemical impulses, you are capable "
@@ -12473,8 +12473,8 @@ msgid_plural "Dielectric Capacitance System CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Dielectric Capacitance System
 #. ~ Description for Dielectric Capacitance System CBM
+#. ~ Description for Dielectric Capacitance System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Throughout your body lies a network of miniature piezoelectric capacitors "
@@ -12488,8 +12488,8 @@ msgid_plural "Fingerhack CBMs"
 msgstr[0] "CBM fingerhack"
 msgstr[1] "CBM fingerhack"
 
-#. ~ Description for Fingerhack
 #. ~ Description for Fingerhack CBM
+#. ~ Description for Fingerhack
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "One of your fingers has an electrohack embedded in it; an all-purpose "
@@ -12504,8 +12504,8 @@ msgid_plural "Flashbang Generator CBMs"
 msgstr[0] "CBM generatore stordente"
 msgstr[1] "CBM generatore stordente"
 
-#. ~ Description for Flashbang Generator
 #. ~ Description for Flashbang Generator CBM
+#. ~ Description for Flashbang Generator
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Light emitting diodes integrated into your skin can release a flash "
@@ -12519,8 +12519,8 @@ msgid_plural "Cranial Flashlight CBMs"
 msgstr[0] "CBM Torcia Elettrica Cranica"
 msgstr[1] "CBM Torcia Elettrica Cranica"
 
-#. ~ Description for Cranial Flashlight
 #. ~ Description for Cranial Flashlight CBM
+#. ~ Description for Cranial Flashlight
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid "Mounted between your eyes is a small but powerful LED flashlight."
 msgstr ""
@@ -12545,8 +12545,8 @@ msgid_plural "Integrated Dosimeter CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Integrated Dosimeter
 #. ~ Description for Integrated Dosimeter CBM
+#. ~ Description for Integrated Dosimeter
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Small radiation sensors have been implanted throughout your body, allowing "
@@ -12560,8 +12560,8 @@ msgid_plural "Oxygenator CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Oxygenator
 #. ~ Description for Oxygenator CBM
+#. ~ Description for Oxygenator
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A complex oxygen delivery system.  Improves the ability to extract oxygen "
@@ -12575,8 +12575,8 @@ msgid_plural "Terranian Sonar CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Terranian Sonar
 #. ~ Description for Terranian Sonar CBM
+#. ~ Description for Terranian Sonar
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your feet are equipped with precision sonar equipment, allowing you to "
@@ -12589,8 +12589,8 @@ msgid_plural "Heat Drain CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Heat Drain
 #. ~ Description for Heat Drain CBM
+#. ~ Description for Heat Drain
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While fighting unarmed against a warm-blooded opponent, there is a chance "
@@ -12604,8 +12604,8 @@ msgid_plural "Thermal Dissipation CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Thermal Dissipation
 #. ~ Description for Thermal Dissipation CBM
+#. ~ Description for Thermal Dissipation
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Powerful heatsinks and supermaterials are woven into your flesh.  While "
@@ -12619,8 +12619,8 @@ msgid_plural "Hydraulic Muscles CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Hydraulic Muscles
 #. ~ Description for Hydraulic Muscles CBM
+#. ~ Description for Hydraulic Muscles
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While activated, your muscles will be greatly enhanced, increasing your "
@@ -12646,8 +12646,8 @@ msgid_plural "Cerebral Booster CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Cerebral Booster
 #. ~ Description for Cerebral Booster CBM
+#. ~ Description for Cerebral Booster
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus"
@@ -12660,8 +12660,8 @@ msgid_plural "Finger-Mounted Laser CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Finger-Mounted Laser
 #. ~ Description for Finger-Mounted Laser CBM
+#. ~ Description for Finger-Mounted Laser
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "One of your fingers has a small high-powered laser embedded in it.  This "
@@ -12675,8 +12675,8 @@ msgid_plural "Leukocyte Breeder System CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Leukocyte Breeder System
 #. ~ Description for Leukocyte Breeder System CBM
+#. ~ Description for Leukocyte Breeder System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You are equipped with bionic stimulators which augment your haematopoiesis "
@@ -12691,8 +12691,8 @@ msgid_plural "Mini-Flamethrower CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Mini-Flamethrower
 #. ~ Description for Mini-Flamethrower CBM
+#. ~ Description for Mini-Flamethrower
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The index fingers of both hands have powerful fire starters which extend "
@@ -12705,8 +12705,8 @@ msgid_plural "Fingerpick CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Fingerpick
 #. ~ Description for Fingerpick CBM
+#. ~ Description for Fingerpick
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "One of your fingers has an electronic lockpick embedded in it.  This "
@@ -12720,8 +12720,8 @@ msgid_plural "Electromagnetic Unit CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Electromagnetic Unit
 #. ~ Description for Electromagnetic Unit CBM
+#. ~ Description for Electromagnetic Unit
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Embedded in your hand is a powerful electromagnet, allowing you to pull "
@@ -12734,8 +12734,8 @@ msgid_plural "Nictating Membrane CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Nictating Membrane
 #. ~ Description for Nictating Membrane CBM
+#. ~ Description for Nictating Membrane
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eyes have a thin membrane that closes over your eyes while underwater, "
@@ -12748,8 +12748,8 @@ msgid_plural "Enhanced Memory Banks CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Enhanced Memory Banks
 #. ~ Description for Enhanced Memory Banks CBM
+#. ~ Description for Enhanced Memory Banks
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your memory has been enhanced with small quantum storage drives.  Any time "
@@ -12763,8 +12763,8 @@ msgid_plural "Metabolic Interchange CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Metabolic Interchange
 #. ~ Description for Metabolic Interchange CBM
+#. ~ Description for Metabolic Interchange
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your digestive system and power supply are interconnected.  Energy drains "
@@ -12778,8 +12778,8 @@ msgid_plural "Weather Reader CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Weather Reader
 #. ~ Description for Weather Reader CBM
+#. ~ Description for Weather Reader
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A multitude of scientific instruments and sensors collect environmental "
@@ -12807,8 +12807,8 @@ msgid_plural "Artificial Night Generator CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Artificial Night Generator
 #. ~ Description for Artificial Night Generator CBM
+#. ~ Description for Artificial Night Generator
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid "Destructive interference eliminates all light within a 15 tile radius."
 msgstr ""
@@ -12819,8 +12819,8 @@ msgid_plural "Implanted Night Vision CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Implanted Night Vision
 #. ~ Description for Implanted Night Vision CBM
+#. ~ Description for Implanted Night Vision
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eyes have been modified to amplify existing light, allowing you to see "
@@ -12833,8 +12833,8 @@ msgid_plural "Offensive Defense System CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Offensive Defense System
 #. ~ Description for Offensive Defense System CBM
+#. ~ Description for Offensive Defense System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
@@ -12848,8 +12848,8 @@ msgid_plural "Sensory Dulling CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Sensory Dulling
 #. ~ Description for Sensory Dulling CBM
+#. ~ Description for Sensory Dulling
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your nervous system is wired to allow you to inhibit the signals of pain, "
@@ -12876,8 +12876,8 @@ msgid_plural "Power Armor Interface CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Power Armor Interface
 #. ~ Description for Power Armor Interface CBM
+#. ~ Description for Power Armor Interface
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Interfaces your power system with the internal charging port on suits of "
@@ -12890,8 +12890,8 @@ msgid_plural "Power Armor Mk. II Interface CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Power Armor Interface Mk. II
 #. ~ Description for Power Armor Mk. II Interface CBM
+#. ~ Description for Power Armor Interface Mk. II
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Interfaces your power system with the internal charging port on suits of "
@@ -12905,8 +12905,8 @@ msgid_plural "Power Storage CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Power Storage
 #. ~ Description for Power Storage CBM
+#. ~ Description for Power Storage
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Compact Bionics Module that upgrades your power capacity by 100 units.  "
@@ -12920,8 +12920,8 @@ msgid_plural "Power Storage CBMs Mk. II"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Power Storage Mk. II
 #. ~ Description for Power Storage CBM Mk. II
+#. ~ Description for Power Storage Mk. II
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Compact Bionics Module developed at DoubleTech Industries as a replacement "
@@ -12935,8 +12935,8 @@ msgid_plural "Probability Travel CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Probability Travel
 #. ~ Description for Probability Travel CBM
+#. ~ Description for Probability Travel
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Increases your body's wavelength, allowing you to quantum tunnel through "
@@ -12963,8 +12963,8 @@ msgid_plural "Radiation Scrubber System CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Radiation Scrubber System
 #. ~ Description for Radiation Scrubber System CBM
+#. ~ Description for Radiation Scrubber System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A system of advanced piezomechanical blood filters have been implanted "
@@ -12978,8 +12978,8 @@ msgid_plural "Railgun CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Railgun
 #. ~ Description for Railgun CBM
+#. ~ Description for Railgun
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "EM field generators in your arms double the range and damage of thrown iron "
@@ -12993,8 +12993,8 @@ msgid_plural "Fingertip Razors CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Fingertip Razors
 #. ~ Description for Fingertip Razors CBM
+#. ~ Description for Fingertip Razors
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You possess razor-sharp retractable claws underneath your fingernails, ten "
@@ -13035,8 +13035,8 @@ msgid_plural "Recycler Unit CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Recycler Unit
 #. ~ Description for Recycler Unit CBM
+#. ~ Description for Recycler Unit
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your digestive system has been outfitted with a series of filters and "
@@ -13050,8 +13050,8 @@ msgid_plural "Remote Controller CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Remote Controller
 #. ~ Description for Remote Controller CBM
+#. ~ Description for Remote Controller
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A small module connected to your brain allows you to interface with nearby "
@@ -13078,8 +13078,8 @@ msgid_plural "Olfactory Mask CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Olfactory Mask
 #. ~ Description for Olfactory Mask CBM
+#. ~ Description for Olfactory Mask
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While this system is powered, your body will produce very little odor, "
@@ -13092,8 +13092,8 @@ msgid_plural "Scent Vision CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Scent Vision
 #. ~ Description for Scent Vision CBM
+#. ~ Description for Scent Vision
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While this system is powered, you're able to visually sense your own scent, "
@@ -13107,8 +13107,8 @@ msgid_plural "Electroshock Unit CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Electroshock Unit
 #. ~ Description for Electroshock Unit CBM
+#. ~ Description for Electroshock Unit
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While fighting unarmed, or with a weapon that conducts electricity, there is"
@@ -13122,8 +13122,8 @@ msgid_plural "Shockwave Generator CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Shockwave Generator
 #. ~ Description for Shockwave Generator CBM
+#. ~ Description for Shockwave Generator
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You generate a powerful shockwave, knocking back all nearby creatures.  "
@@ -13137,8 +13137,8 @@ msgid_plural "Solar Panels CBMs"
 msgstr[0] "CBM Pannello Solare"
 msgstr[1] "CBM Pannelli Solari"
 
-#. ~ Description for Solar Panels
 #. ~ Description for Solar Panels CBM
+#. ~ Description for Solar Panels
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have a few solar panels installed.  While in direct sunlight, your power"
@@ -13151,8 +13151,8 @@ msgid_plural "Synaptic Accelerator CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Synaptic Accelerator
 #. ~ Description for Synaptic Accelerator CBM
+#. ~ Description for Synaptic Accelerator
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 #, no-python-format
 msgid ""
@@ -13166,8 +13166,8 @@ msgid_plural "Internal Storage CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Internal Storage
 #. ~ Description for Internal Storage CBM
+#. ~ Description for Internal Storage
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Space inside your chest cavity has been converted into a storage area.  You "
@@ -13180,8 +13180,8 @@ msgid_plural "Muscle Augmentation CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Muscle Augmentation
 #. ~ Description for Muscle Augmentation CBM
+#. ~ Description for Muscle Augmentation
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your muscular system has been enhanced with myomer fibers, giving you a +2 "
@@ -13209,8 +13209,8 @@ msgid_plural "Targeting System CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Targeting System
 #. ~ Description for Targeting System CBM
+#. ~ Description for Targeting System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eyes are equipped with range finders, and their movement is synced with"
@@ -13224,8 +13224,8 @@ msgid_plural "Teleportation Unit CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Teleportation Unit
 #. ~ Description for Teleportation Unit CBM
+#. ~ Description for Teleportation Unit
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "This highly experimental unit folds space over short distances, instantly "
@@ -13239,8 +13239,8 @@ msgid_plural "Time Dilation CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Time Dilation
 #. ~ Description for Time Dilation CBM
+#. ~ Description for Time Dilation
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "At an immense cost of power, you may increase your body speed and reactions "
@@ -13254,8 +13254,8 @@ msgid_plural "Integrated Toolset CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Integrated Toolset
 #. ~ Description for Integrated Toolset CBM
+#. ~ Description for Integrated Toolset
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Implanted in your hands and fingers is a complete tool set - screwdriver, "
@@ -13269,8 +13269,8 @@ msgid_plural "Joint Torsion Ratchet CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Joint Torsion Ratchet
 #. ~ Description for Joint Torsion Ratchet CBM
+#. ~ Description for Joint Torsion Ratchet
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your joints have been equipped with torsion ratchets that generate power "
@@ -13283,8 +13283,8 @@ msgid_plural "Uncanny Dodge CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Uncanny Dodge
 #. ~ Description for Uncanny Dodge CBM
+#. ~ Description for Uncanny Dodge
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your nervous system has been augmented with bionic processors, allowing you "
@@ -13324,8 +13324,8 @@ msgid_plural "Water Extraction Unit CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Water Extraction Unit
 #. ~ Description for Water Extraction Unit CBM
+#. ~ Description for Water Extraction Unit
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Nanotubes embedded in the palm of your hand will pump any available fluid "
@@ -25591,8 +25591,8 @@ msgstr "fuoco acceso"
 #. ~ Description for nearby fire
 #. ~ Description for muscle
 #. ~ Description for a smoking device and a source of flame
-#. ~ Description for weapon
 #. ~ Description for seeing this is a bug
+#. ~ Description for weapon
 #: lang/json/GENERIC_from_json.py lang/json/GENERIC_from_json.py
 #: lang/json/TOOL_from_json.py lang/json/TOOL_from_json.py
 #: lang/json/skill_from_json.py
@@ -27955,11 +27955,10 @@ msgid "You snap open your baton."
 msgstr ""
 
 #. ~ Description for expandable baton
-#. ~ Description for expandable baton (extended)
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A telescoping baton that collapses for easy storage.  Makes an excellent "
-"melee weapon."
+"melee weapon.  Activate to expand."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -27971,6 +27970,13 @@ msgstr[1] ""
 #. ~ Use action msg for expandable baton (extended).
 #: lang/json/GENERIC_from_json.py
 msgid "You collapse your baton."
+msgstr ""
+
+#. ~ Description for expandable baton (extended)
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A telescoping baton that collapses for easy storage.  Makes an excellent "
+"melee weapon.  Activate to collapse."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -28268,12 +28274,11 @@ msgid "You snap open your PR-24 baton."
 msgstr ""
 
 #. ~ Description for PR-24 baton (retracted)
-#. ~ Description for PR-24 baton (extended)
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "The Monadnock PR-24 baton is a collapsible, lightweight, side-handle baton "
 "used by law enforcement all over the world.  The PR designation is rumored "
-"to mean Public Relations."
+"to mean Public Relations.  Activate to extend."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -28285,6 +28290,14 @@ msgstr[1] ""
 #. ~ Use action msg for PR-24 baton (extended).
 #: lang/json/GENERIC_from_json.py
 msgid "You collapse your PR-24 baton."
+msgstr ""
+
+#. ~ Description for PR-24 baton (extended)
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"The Monadnock PR-24 baton is a collapsible, lightweight, side-handle baton "
+"used by law enforcement all over the world.  The PR designation is rumored "
+"to mean Public Relations.  Activate to retract."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -29089,14 +29102,14 @@ msgid_plural "sealed yeast cultures"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action not_ready_msg for sealed yeast culture.
-#: lang/json/GENERIC_from_json.py
-msgid "The yeast isn't done culturing yet."
-msgstr ""
-
 #. ~ Use action msg for sealed yeast culture.
 #: lang/json/GENERIC_from_json.py
 msgid "You open the flask and harvest the culture."
+msgstr ""
+
+#. ~ Use action not_ready_msg for sealed yeast culture.
+#: lang/json/GENERIC_from_json.py
+msgid "The yeast isn't done culturing yet."
 msgstr ""
 
 #. ~ Description for sealed yeast culture
@@ -29144,17 +29157,17 @@ msgid_plural "lit charcoal kilns"
 msgstr[0] "carbonaia (accesa)"
 msgstr[1] "carbonaie (accese)"
 
-#. ~ Use action not_ready_msg for lit charcoal kiln.
-#: lang/json/GENERIC_from_json.py
-msgid "The kiln is still burning."
-msgstr "La carbonaia sta ancora bruciando."
-
 #. ~ Use action msg for lit charcoal kiln.
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "The kilns embers have died out, you can now disassemble it to harvest the "
 "charcoal."
 msgstr "Le braci della carbonaia si sono spente, ora puoi disassemblarla per recuperare la carbonella."
+
+#. ~ Use action not_ready_msg for lit charcoal kiln.
+#: lang/json/GENERIC_from_json.py
+msgid "The kiln is still burning."
+msgstr "La carbonaia sta ancora bruciando."
 
 #. ~ Description for lit charcoal kiln
 #: lang/json/GENERIC_from_json.py
@@ -29325,16 +29338,16 @@ msgid_plural "fermenting sauerkraut jars"
 msgstr[0] "vasetto di crauti in fermentazione"
 msgstr[1] "vasetti di crauti in fermentazione"
 
-#. ~ Use action not_ready_msg for fermenting sauerkraut jar.
-#: lang/json/GENERIC_from_json.py
-msgid "The sauerkraut isn't done fermenting yet."
-msgstr "I crauti non hanno ancora finito di fermentare."
-
 #. ~ Use action msg for fermenting sauerkraut jar.
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "You test the batch, and it tastes good, so you seal the jar up for storage."
 msgstr ""
+
+#. ~ Use action not_ready_msg for fermenting sauerkraut jar.
+#: lang/json/GENERIC_from_json.py
+msgid "The sauerkraut isn't done fermenting yet."
+msgstr "I crauti non hanno ancora finito di fermentare."
 
 #. ~ Description for fermenting sauerkraut jar
 #: lang/json/GENERIC_from_json.py
@@ -40443,14 +40456,14 @@ msgid ""
 "explosives, and a short time later it will blow.  Virgins not included."
 msgstr ""
 
-#. ~ Use action no_deactivate_msg for zuicide vest.
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid "COWARD!!"
-msgstr ""
-
 #. ~ Use action sound_msg for zuicide vest.
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "-tcka- -tcka-."
+msgstr ""
+
+#. ~ Use action no_deactivate_msg for zuicide vest.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "COWARD!!"
 msgstr ""
 
 #. ~ Description for zuicide vest
@@ -40762,15 +40775,6 @@ msgid_plural "active EMP grenades"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action no_deactivate_msg for active EMP grenade.
-#. ~ Use action no_deactivate_msg for active flashbang.
-#. ~ Use action no_deactivate_msg for active grenade.
-#. ~ Use action no_deactivate_msg for active scrambler grenade.
-#: lang/json/TOOL_from_json.py src/iuse.cpp
-#, c-format, no-python-format
-msgid "You've already pulled the %s's pin, try throwing it instead."
-msgstr ""
-
 #. ~ Use action sound_msg for active EMP grenade.
 #. ~ Use action sound_msg for C-4 explosive (armed).
 #. ~ Use action sound_msg for active flashbang.
@@ -40782,6 +40786,15 @@ msgstr ""
 #. ~ Use action sound_msg for active soulbomb.
 #: lang/json/TOOL_from_json.py
 msgid "Tick."
+msgstr ""
+
+#. ~ Use action no_deactivate_msg for active EMP grenade.
+#. ~ Use action no_deactivate_msg for active flashbang.
+#. ~ Use action no_deactivate_msg for active grenade.
+#. ~ Use action no_deactivate_msg for active scrambler grenade.
+#: lang/json/TOOL_from_json.py src/iuse.cpp
+#, c-format, no-python-format
+msgid "You've already pulled the %s's pin, try throwing it instead."
 msgstr ""
 
 #. ~ Description for active EMP grenade
@@ -41370,15 +41383,15 @@ msgid_plural "firebrands (off)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action lacks_fuel_message for firebrand (off).
-#: lang/json/TOOL_from_json.py
-msgid "No strength to fight!"
-msgstr "Nienete forza per combattere!"
-
 #. ~ Use action success_message for firebrand (off).
 #: lang/json/TOOL_from_json.py
 msgid "Charge!!"
 msgstr "Carica!!"
+
+#. ~ Use action lacks_fuel_message for firebrand (off).
+#: lang/json/TOOL_from_json.py
+msgid "No strength to fight!"
+msgstr "Nienete forza per combattere!"
 
 #. ~ Description for firebrand (off)
 #: lang/json/TOOL_from_json.py
@@ -41394,26 +41407,26 @@ msgid_plural "firebrands (on)"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action charges_extinguish_message for firebrand (on).
+#: lang/json/TOOL_from_json.py
+msgid "Thy strength fades!"
+msgstr "La tua forza svanisce!"
+
 #. ~ Use action noise_message for firebrand (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your blade burns for combat!"
 msgstr "Le tua lame bruciano dal combattimento"
+
+#. ~ Use action voluntary_extinguish_message for firebrand (on).
+#: lang/json/TOOL_from_json.py
+msgid "Run away!"
+msgstr "Scappa via!"
 
 #. ~ Use action water_extinguish_message for firebrand (on).
 #. ~ Use action water_extinguish_message for Rising Sun (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your sword hisses in the water and goes out."
 msgstr ""
-
-#. ~ Use action charges_extinguish_message for firebrand (on).
-#: lang/json/TOOL_from_json.py
-msgid "Thy strength fades!"
-msgstr "La tua forza svanisce!"
-
-#. ~ Use action voluntary_extinguish_message for firebrand (on).
-#: lang/json/TOOL_from_json.py
-msgid "Run away!"
-msgstr "Scappa via!"
 
 #. ~ Description for firebrand (on)
 #: lang/json/TOOL_from_json.py
@@ -42212,15 +42225,6 @@ msgid_plural "dynamites (lit)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action no_deactivate_msg for dynamite (lit).
-#. ~ Use action no_deactivate_msg for fertilizer bomb (lit).
-#. ~ Use action no_deactivate_msg for match head bomb (lit).
-#: lang/json/TOOL_from_json.py lang/json/TOOL_from_json.py src/iuse.cpp
-#: src/iuse.cpp
-#, c-format, no-python-format
-msgid "You've already lit the %s, try throwing it instead."
-msgstr ""
-
 #. ~ the sound of a lit fuse
 #. ~ Use action sound_msg for dynamite (lit).
 #. ~ Use action sound_msg for fertilizer bomb (lit).
@@ -42229,6 +42233,15 @@ msgstr ""
 #: src/iuse.cpp
 msgid "ssss..."
 msgstr "ssss..."
+
+#. ~ Use action no_deactivate_msg for dynamite (lit).
+#. ~ Use action no_deactivate_msg for fertilizer bomb (lit).
+#. ~ Use action no_deactivate_msg for match head bomb (lit).
+#: lang/json/TOOL_from_json.py lang/json/TOOL_from_json.py src/iuse.cpp
+#: src/iuse.cpp
+#, c-format, no-python-format
+msgid "You've already lit the %s, try throwing it instead."
+msgstr ""
 
 #. ~ Description for dynamite (lit)
 #: lang/json/TOOL_from_json.py
@@ -42547,15 +42560,15 @@ msgid_plural "Rising Suns (off)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action lacks_fuel_message for Rising Sun (off).
-#: lang/json/TOOL_from_json.py
-msgid "Time stands still."
-msgstr "Il tempo si ferma."
-
 #. ~ Use action success_message for Rising Sun (off).
 #: lang/json/TOOL_from_json.py
 msgid "The Sun rises."
 msgstr "Il Sole Sorge"
+
+#. ~ Use action lacks_fuel_message for Rising Sun (off).
+#: lang/json/TOOL_from_json.py
+msgid "Time stands still."
+msgstr "Il tempo si ferma."
 
 #. ~ Description for Rising Sun (off)
 #: lang/json/TOOL_from_json.py
@@ -42572,15 +42585,15 @@ msgid_plural "Rising Suns (on)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action noise_message for Rising Sun (on).
-#: lang/json/TOOL_from_json.py
-msgid "The Sun shines brightly."
-msgstr "Il sole brilla con intensita'"
-
 #. ~ Use action charges_extinguish_message for Rising Sun (on).
 #: lang/json/TOOL_from_json.py
 msgid "The Light Fades."
 msgstr "La luce svanisce."
+
+#. ~ Use action noise_message for Rising Sun (on).
+#: lang/json/TOOL_from_json.py
+msgid "The Sun shines brightly."
+msgstr "Il sole brilla con intensita'"
 
 #. ~ Use action voluntary_extinguish_message for Rising Sun (on).
 #: lang/json/TOOL_from_json.py
@@ -42601,16 +42614,16 @@ msgid_plural "No. 9's (off)"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action success_message for No. 9 (off).
+#: lang/json/TOOL_from_json.py
+msgid "Your No. 9 glows!"
+msgstr "Il tuo No. 9 si illumina"
+
 #. ~ Use action lacks_fuel_message for No. 9 (off).
 #. ~ Use action failure_message for No. 9 (off).
 #: lang/json/TOOL_from_json.py src/iuse.cpp
 msgid "Click."
 msgstr "Click."
-
-#. ~ Use action success_message for No. 9 (off).
-#: lang/json/TOOL_from_json.py
-msgid "Your No. 9 glows!"
-msgstr "Il tuo No. 9 si illumina"
 
 #. ~ Description for No. 9 (off)
 #: lang/json/TOOL_from_json.py
@@ -42631,25 +42644,25 @@ msgstr[1] ""
 msgid "Your No. 9 cuts out!"
 msgstr "Il tuo No. 9 si spegne."
 
-#. ~ Use action noise_message for No. 9 (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your No. 9 hisses."
-msgstr "Il tuo No. 9 emette dei sibili."
-
-#. ~ Use action water_extinguish_message for No. 9 (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your No. 9 hisses in the water and goes out."
-msgstr ""
-
 #. ~ Use action charges_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Out of ammo!"
 msgstr "Munizioni esaurite!"
 
+#. ~ Use action noise_message for No. 9 (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your No. 9 hisses."
+msgstr "Il tuo No. 9 emette dei sibili."
+
 #. ~ Use action voluntary_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 goes dark."
 msgstr "Il tuo No. 9 si spegne"
+
+#. ~ Use action water_extinguish_message for No. 9 (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your No. 9 hisses in the water and goes out."
+msgstr ""
 
 #. ~ Description for No. 9 (on)
 #: lang/json/TOOL_from_json.py
@@ -42879,15 +42892,15 @@ msgid_plural "active makeshift gas grenades"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action sound_msg for active makeshift gas grenade.
+#: lang/json/TOOL_from_json.py
+msgid "Hiss."
+msgstr ""
+
 #. ~ Use action no_deactivate_msg for active makeshift gas grenade.
 #: lang/json/TOOL_from_json.py
 #, no-python-format
 msgid "You've already armed the %s, try throwing it instead."
-msgstr ""
-
-#. ~ Use action sound_msg for active makeshift gas grenade.
-#: lang/json/TOOL_from_json.py
-msgid "Hiss."
 msgstr ""
 
 #. ~ Description for active makeshift gas grenade
@@ -44900,6 +44913,11 @@ msgid_plural "shishkebabs (off)"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action success_message for shishkebab (off).
+#: lang/json/TOOL_from_json.py
+msgid "Let's dance, Zeds!"
+msgstr ""
+
 #. ~ Use action lacks_fuel_message for shishkebab (off).
 #: lang/json/TOOL_from_json.py
 msgid "This thing needs some fuel!"
@@ -44908,11 +44926,6 @@ msgstr ""
 #. ~ Use action failure_message for shishkebab (off).
 #: lang/json/TOOL_from_json.py
 msgid "Aw, dangit.  It fails to start!"
-msgstr ""
-
-#. ~ Use action success_message for shishkebab (off).
-#: lang/json/TOOL_from_json.py
-msgid "Let's dance, Zeds!"
 msgstr ""
 
 #. ~ Description for shishkebab (off)
@@ -44935,24 +44948,24 @@ msgstr[1] ""
 msgid "Bummer, man!  Your shishkebab's flame flickers and dies out."
 msgstr ""
 
-#. ~ Use action noise_message for shishkebab (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your shishkebab crackles!"
-msgstr "Il tuo shishkebab crepita!"
-
-#. ~ Use action water_extinguish_message for shishkebab (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your shishkebab hisses in the water and goes out."
-msgstr ""
-
 #. ~ Use action charges_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Uncool, outta gas!  Your shishkebab's flame goes out."
 msgstr ""
 
+#. ~ Use action noise_message for shishkebab (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your shishkebab crackles!"
+msgstr "Il tuo shishkebab crepita!"
+
 #. ~ Use action voluntary_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Peace out.  Your shishkebab's flame dies."
+msgstr ""
+
+#. ~ Use action water_extinguish_message for shishkebab (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your shishkebab hisses in the water and goes out."
 msgstr ""
 
 #. ~ Description for shishkebab (on)
@@ -45363,15 +45376,15 @@ msgid_plural "tanning leather hides"
 msgstr[0] "pelle conciante"
 msgstr[1] "pelle concianti"
 
-#. ~ Use action not_ready_msg for tanning leather hide.
-#: lang/json/TOOL_from_json.py
-msgid "The tanning leather hide isn't done yet."
-msgstr "La conciatura della pelle non è ancora finita."
-
 #. ~ Use action msg for tanning leather hide.
 #: lang/json/TOOL_from_json.py
 msgid "You carefully unfold the tanning leather hide and shake it clean."
 msgstr "Dispieghi accuratamente la pelle che stai conciando e la scuoti per pulirla."
+
+#. ~ Use action not_ready_msg for tanning leather hide.
+#: lang/json/TOOL_from_json.py
+msgid "The tanning leather hide isn't done yet."
+msgstr "La conciatura della pelle non è ancora finita."
 
 #. ~ Description for tanning leather hide
 #: lang/json/TOOL_from_json.py
@@ -45387,14 +45400,14 @@ msgid_plural "tanning fur pelts"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action not_ready_msg for tanning fur pelt.
-#: lang/json/TOOL_from_json.py
-msgid "The tanning fur pelt isn't done yet."
-msgstr ""
-
 #. ~ Use action msg for tanning fur pelt.
 #: lang/json/TOOL_from_json.py
 msgid "You carefully unfold the tanning fur pelt and shake it clean."
+msgstr ""
+
+#. ~ Use action not_ready_msg for tanning fur pelt.
+#: lang/json/TOOL_from_json.py
+msgid "The tanning fur pelt isn't done yet."
 msgstr ""
 
 #. ~ Description for tanning fur pelt
@@ -45589,17 +45602,17 @@ msgid_plural "active black gunpowder bombs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action no_deactivate_msg for active black gunpowder bomb.
-#: lang/json/TOOL_from_json.py
-msgid "You've already lit the fuse - throw it!"
-msgstr ""
-
 #. ~ Use action sound_msg for active black gunpowder bomb.
 #. ~ Use action sound_msg for active black gunpowder charge.
 #. ~ Use action sound_msg for active RDX charge.
 #. ~ Use action sound_msg for active RDX sand bomb.
 #: lang/json/TOOL_from_json.py
 msgid "Kshhh."
+msgstr ""
+
+#. ~ Use action no_deactivate_msg for active black gunpowder bomb.
+#: lang/json/TOOL_from_json.py
+msgid "You've already lit the fuse - throw it!"
 msgstr ""
 
 #. ~ Description for active black gunpowder bomb
@@ -45745,14 +45758,14 @@ msgid_plural "burning rocket candys"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action no_deactivate_msg for burning rocket candy.
-#: lang/json/TOOL_from_json.py
-msgid "You've already lit the fuse – get rid of it immediately!"
-msgstr ""
-
 #. ~ Use action sound_msg for burning rocket candy.
 #: lang/json/TOOL_from_json.py
 msgid "Hsssss."
+msgstr ""
+
+#. ~ Use action no_deactivate_msg for burning rocket candy.
+#: lang/json/TOOL_from_json.py
+msgid "You've already lit the fuse – get rid of it immediately!"
 msgstr ""
 
 #. ~ Description for burning rocket candy
@@ -46158,15 +46171,15 @@ msgid_plural "flammenschwerter (aus)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action lacks_fuel_message for flammenschwert (aus).
-#: lang/json/TOOL_from_json.py
-msgid "Dein Flammenschwert hat keinen Brennstoff mehr."
-msgstr "La tua spada infuocata ha finito la benzina."
-
 #. ~ Use action success_message for flammenschwert (aus).
 #: lang/json/TOOL_from_json.py
 msgid "Die Klinge deines Schwertes brennt!"
 msgstr "La lama della tua spada ha preso fuoco!"
+
+#. ~ Use action lacks_fuel_message for flammenschwert (aus).
+#: lang/json/TOOL_from_json.py
+msgid "Dein Flammenschwert hat keinen Brennstoff mehr."
+msgstr "La tua spada infuocata ha finito la benzina."
 
 #. ~ Description for flammenschwert (aus)
 #. ~ Description for flammenschwert (an)
@@ -46183,25 +46196,25 @@ msgid_plural "flammenschwerter (an)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action noise_message for flammenschwert (an).
-#: lang/json/TOOL_from_json.py
-msgid "Das Feuer um deine Schwertklinge leuchtet hell!"
-msgstr "La fiamma della tua spada infuocata brucia vivamente!"
-
-#. ~ Use action water_extinguish_message for flammenschwert (an).
-#: lang/json/TOOL_from_json.py
-msgid "Dein Schwert zischt und erlischt."
-msgstr ""
-
 #. ~ Use action charges_extinguish_message for flammenschwert (an).
 #: lang/json/TOOL_from_json.py
 msgid "Deinem Flammenschwert ist der Brennstoff ausgegangen!"
 msgstr "La tua spada infuocata sta finendo la benzina!"
 
+#. ~ Use action noise_message for flammenschwert (an).
+#: lang/json/TOOL_from_json.py
+msgid "Das Feuer um deine Schwertklinge leuchtet hell!"
+msgstr "La fiamma della tua spada infuocata brucia vivamente!"
+
 #. ~ Use action voluntary_extinguish_message for flammenschwert (an).
 #: lang/json/TOOL_from_json.py
 msgid "Die Flamme deines Schwertes erlischt."
 msgstr "La fiamma della tua spada si spegne."
+
+#. ~ Use action water_extinguish_message for flammenschwert (an).
+#: lang/json/TOOL_from_json.py
+msgid "Dein Schwert zischt und erlischt."
+msgstr ""
 
 #. ~ Description for zweihänder
 #: lang/json/TOOL_from_json.py
@@ -46678,14 +46691,14 @@ msgid_plural "incorruptible swords"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action lacks_fuel_message for incorruptible sword.
-#: lang/json/TOOL_from_json.py
-msgid "The sword needs energy to serve its purpose."
-msgstr ""
-
 #. ~ Use action success_message for incorruptible sword.
 #: lang/json/TOOL_from_json.py
 msgid "The blade gives off a brilliant glow as you invoke its power!"
+msgstr ""
+
+#. ~ Use action lacks_fuel_message for incorruptible sword.
+#: lang/json/TOOL_from_json.py
+msgid "The sword needs energy to serve its purpose."
 msgstr ""
 
 #. ~ Description for incorruptible sword
@@ -46702,24 +46715,24 @@ msgid_plural "incorruptible swords (on)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action noise_message for incorruptible sword (on).
-#: lang/json/TOOL_from_json.py
-msgid "The glow intensifies, the blade yearning to cleave darkness itself."
-msgstr ""
-
-#. ~ Use action water_extinguish_message for incorruptible sword (on).
-#: lang/json/TOOL_from_json.py
-msgid "The sword shimmers in the water, before the glow fades."
-msgstr ""
-
 #. ~ Use action charges_extinguish_message for incorruptible sword (on).
 #: lang/json/TOOL_from_json.py
 msgid "The sword's radiance fades."
 msgstr ""
 
+#. ~ Use action noise_message for incorruptible sword (on).
+#: lang/json/TOOL_from_json.py
+msgid "The glow intensifies, the blade yearning to cleave darkness itself."
+msgstr ""
+
 #. ~ Use action voluntary_extinguish_message for incorruptible sword (on).
 #: lang/json/TOOL_from_json.py
 msgid "The blade dims as you dispel its effect."
+msgstr ""
+
+#. ~ Use action water_extinguish_message for incorruptible sword (on).
+#: lang/json/TOOL_from_json.py
+msgid "The sword shimmers in the water, before the glow fades."
 msgstr ""
 
 #. ~ Description for incorruptible sword (on)
@@ -47085,14 +47098,14 @@ msgid_plural "glowing veinreavers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action no_deactivate_msg for glowing veinreaver.
-#: lang/json/TOOL_from_json.py
-msgid "You can't dispel the effect.  Might want to try throwing it instead."
-msgstr ""
-
 #. ~ Use action sound_msg for glowing veinreaver.
 #: lang/json/TOOL_from_json.py
 msgid "Drip."
+msgstr ""
+
+#. ~ Use action no_deactivate_msg for glowing veinreaver.
+#: lang/json/TOOL_from_json.py
+msgid "You can't dispel the effect.  Might want to try throwing it instead."
 msgstr ""
 
 #. ~ Description for glowing veinreaver
@@ -47467,13 +47480,6 @@ msgid_plural "small batches of curdling milk"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action not_ready_msg for small batch of curdling milk.
-#. ~ Use action not_ready_msg for batch of curdling milk.
-#. ~ Use action not_ready_msg for large batch of curdling milk.
-#: lang/json/TOOL_from_json.py
-msgid "The milk is still curdling."
-msgstr "Il latte sta ancora cagliando."
-
 #. ~ Use action msg for small batch of curdling milk.
 #. ~ Use action msg for batch of curdling milk.
 #. ~ Use action msg for large batch of curdling milk.
@@ -47482,6 +47488,13 @@ msgid ""
 "The milk appears to have finished curdling, and is ready for further "
 "processing.  Checking on it has exposed the mixture to the atmosphere."
 msgstr ""
+
+#. ~ Use action not_ready_msg for small batch of curdling milk.
+#. ~ Use action not_ready_msg for batch of curdling milk.
+#. ~ Use action not_ready_msg for large batch of curdling milk.
+#: lang/json/TOOL_from_json.py
+msgid "The milk is still curdling."
+msgstr "Il latte sta ancora cagliando."
 
 #. ~ Description for small batch of curdling milk
 #: lang/json/TOOL_from_json.py
@@ -47609,6 +47622,11 @@ msgid ""
 "somewhat larger."
 msgstr ""
 
+#. ~ Use action sound_msg for manhack acidbomb.
+#: lang/json/TOOL_from_json.py
+msgid "pphhhffzzzz"
+msgstr ""
+
 #. ~ Use action no_deactivate_msg for manhack acidbomb.
 #. ~ Use action no_deactivate_msg for medium acidbomb.
 #. ~ Use action no_deactivate_msg for small acidbomb.
@@ -47618,11 +47636,6 @@ msgstr ""
 msgid ""
 "Its a bug that you can see this, but that doesnt mean it won't kill you.  "
 "Throw it!"
-msgstr ""
-
-#. ~ Use action sound_msg for manhack acidbomb.
-#: lang/json/TOOL_from_json.py
-msgid "pphhhffzzzz"
 msgstr ""
 
 #. ~ Description for manhack acidbomb
@@ -47697,15 +47710,15 @@ msgid_plural "biollante sap globs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action no_deactivate_msg for biollante sap glob.
-#: lang/json/TOOL_from_json.py
-msgid "Don't play with it, throw it."
-msgstr ""
-
 #. ~ Use action sound_msg for biollante sap glob.
 #: lang/json/TOOL_from_json.py src/map.cpp
 msgid "glass shattering"
 msgstr "vetri in frantumi"
+
+#. ~ Use action no_deactivate_msg for biollante sap glob.
+#: lang/json/TOOL_from_json.py
+msgid "Don't play with it, throw it."
+msgstr ""
 
 #. ~ Description for biollante sap glob
 #: lang/json/TOOL_from_json.py
@@ -47867,14 +47880,14 @@ msgid_plural "recharging soulcubes"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action not_ready_msg for recharging soulcube.
-#: lang/json/TOOL_from_json.py
-msgid "You fiddle with the cube, but nothing happens."
-msgstr ""
-
 #. ~ Use action msg for recharging soulcube.
 #: lang/json/TOOL_from_json.py
 msgid "\"USE US.\""
+msgstr ""
+
+#. ~ Use action not_ready_msg for recharging soulcube.
+#: lang/json/TOOL_from_json.py
+msgid "You fiddle with the cube, but nothing happens."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -47899,14 +47912,14 @@ msgid_plural "incubating boil bombs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action not_ready_msg for incubating boil bomb.
-#: lang/json/TOOL_from_json.py
-msgid "The boil requires 36 hours to mature.  It is not ready yet."
-msgstr ""
-
 #. ~ Use action msg for incubating boil bomb.
 #: lang/json/TOOL_from_json.py
 msgid "The boil inside matures!"
+msgstr ""
+
+#. ~ Use action not_ready_msg for incubating boil bomb.
+#: lang/json/TOOL_from_json.py
+msgid "The boil requires 36 hours to mature.  It is not ready yet."
 msgstr ""
 
 #. ~ Description for incubating boil bomb
@@ -48280,15 +48293,15 @@ msgid_plural "growing blob frames"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action not_ready_msg for growing blob frame.
-#: lang/json/TOOL_from_json.py
-msgid "You test the frame; it gives easily, it's still not sturdy enough"
-msgstr ""
-
 #. ~ Use action msg for growing blob frame.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "You test the frame; It wiggles, and then collapses into an lump of goo."
+msgstr ""
+
+#. ~ Use action not_ready_msg for growing blob frame.
+#: lang/json/TOOL_from_json.py
+msgid "You test the frame; it gives easily, it's still not sturdy enough"
 msgstr ""
 
 #. ~ Description for growing blob frame
@@ -48304,30 +48317,6 @@ msgid "growing keratinous mass"
 msgid_plural "growing keratinous mass"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Use action not_ready_msg for growing keratinous mass.
-#. ~ Use action not_ready_msg for growing beaded mass.
-#. ~ Use action not_ready_msg for growing icy mass.
-#. ~ Use action not_ready_msg for growing cold mass.
-#. ~ Use action not_ready_msg for growing hairy mass.
-#. ~ Use action not_ready_msg for growing gelatinous mass.
-#. ~ Use action not_ready_msg for growing glowing mass.
-#. ~ Use action not_ready_msg for growing gray mass.
-#. ~ Use action not_ready_msg for growing spike-studded mass.
-#. ~ Use action not_ready_msg for growing gasoline-laced mass.
-#. ~ Use action not_ready_msg for growing acidic mass.
-#. ~ Use action not_ready_msg for growing ooze.
-#. ~ Use action not_ready_msg for growing mass of tendrils.
-#. ~ Use action not_ready_msg for growing spiked mass.
-#. ~ Use action not_ready_msg for growing spiny mass.
-#. ~ Use action not_ready_msg for growing spiky mass.
-#. ~ Use action not_ready_msg for growing bright mass.
-#. ~ Use action not_ready_msg for growing viscous mass.
-#. ~ Use action not_ready_msg for growing warm mass.
-#. ~ Use action not_ready_msg for growing electrified mass.
-#: lang/json/TOOL_from_json.py
-msgid "Whatever it's doing, it's not done yet."
-msgstr ""
 
 #. ~ Use action msg for growing keratinous mass.
 #. ~ Use action msg for growing beaded mass.
@@ -48351,6 +48340,30 @@ msgstr ""
 #. ~ Use action msg for growing electrified mass.
 #: lang/json/TOOL_from_json.py
 msgid "The blob balloons to full size."
+msgstr ""
+
+#. ~ Use action not_ready_msg for growing keratinous mass.
+#. ~ Use action not_ready_msg for growing beaded mass.
+#. ~ Use action not_ready_msg for growing icy mass.
+#. ~ Use action not_ready_msg for growing cold mass.
+#. ~ Use action not_ready_msg for growing hairy mass.
+#. ~ Use action not_ready_msg for growing gelatinous mass.
+#. ~ Use action not_ready_msg for growing glowing mass.
+#. ~ Use action not_ready_msg for growing gray mass.
+#. ~ Use action not_ready_msg for growing spike-studded mass.
+#. ~ Use action not_ready_msg for growing gasoline-laced mass.
+#. ~ Use action not_ready_msg for growing acidic mass.
+#. ~ Use action not_ready_msg for growing ooze.
+#. ~ Use action not_ready_msg for growing mass of tendrils.
+#. ~ Use action not_ready_msg for growing spiked mass.
+#. ~ Use action not_ready_msg for growing spiny mass.
+#. ~ Use action not_ready_msg for growing spiky mass.
+#. ~ Use action not_ready_msg for growing bright mass.
+#. ~ Use action not_ready_msg for growing viscous mass.
+#. ~ Use action not_ready_msg for growing warm mass.
+#. ~ Use action not_ready_msg for growing electrified mass.
+#: lang/json/TOOL_from_json.py
+msgid "Whatever it's doing, it's not done yet."
 msgstr ""
 
 #. ~ Description for growing keratinous mass
@@ -52978,6 +52991,41 @@ msgid "You are carrying a light and can't hide well."
 msgstr ""
 
 #: lang/json/effects_from_json.py
+msgid "Started recovery"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Recovering"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Mostly recovered"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "This damaged limb is slowly regaining its functions."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Disabled"
+msgstr ""
+
+#. ~ Description of effect 'Disabled'.
+#: lang/json/effects_from_json.py
+msgid "This limb is damaged beyond use and may require a splint to recover."
+msgstr ""
+
+#. ~ Apply message for effect(s) 'Disabled'.
+#: lang/json/effects_from_json.py
+msgid "Your limb breaks!"
+msgstr ""
+
+#. ~ Remove message for effect(s) 'Disabled'.
+#: lang/json/effects_from_json.py
+msgid "The broken limb has mended."
+msgstr ""
+
+#: lang/json/effects_from_json.py
 msgid "Offering"
 msgstr ""
 
@@ -53963,64 +54011,64 @@ msgstr ""
 msgid "mounted blade"
 msgstr ""
 
-#. ~ 'pull' action message of some gate object.
+#. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "You turn the handle..."
-msgstr "Giri la manopola..."
+msgid "The gate is closed!"
+msgstr "Il cancello e' chiuso!"
 
 #. ~ 'open' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The gate is opened!"
 msgstr "Il cancello e' aperto!"
 
-#. ~ 'close' action message of some gate object.
+#. ~ 'pull' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "The gate is closed!"
-msgstr "Il cancello e' chiuso!"
+msgid "You turn the handle..."
+msgstr "Giri la manopola..."
 
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The gate can't be closed!"
 msgstr ""
 
-#. ~ 'pull' action message of some gate object.
+#. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "You pull the rope..."
-msgstr "Tiri la corda..."
+msgid "The barn doors closed!"
+msgstr "La porta del fienile e' chiusa!"
 
 #. ~ 'open' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The barn doors opened!"
 msgstr "La porta del fienile si apre!"
 
-#. ~ 'close' action message of some gate object.
+#. ~ 'pull' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "The barn doors closed!"
-msgstr "La porta del fienile e' chiusa!"
+msgid "You pull the rope..."
+msgstr "Tiri la corda..."
 
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The barn doors can't be closed!"
 msgstr ""
 
-#. ~ 'open' action message of some gate object.
-#: lang/json/gates_from_json.py
-msgid "The palisade gate swings open!"
-msgstr "Il cancello della palizzata si spalanca!"
-
 #. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The palisade gate swings closed with a crash!"
 msgstr "Il cancello della palizzata si richiude con un forte tonfo!"
+
+#. ~ 'open' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The palisade gate swings open!"
+msgstr "Il cancello della palizzata si spalanca!"
 
 #. ~ 'fail' action message of some gate object.
 #: lang/json/gates_from_json.py
 msgid "The palisade gate can't be closed!"
 msgstr ""
 
-#. ~ 'pull' action message of some gate object.
+#. ~ 'close' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "You throw the lever..."
+msgid "The door slams shut!"
 msgstr ""
 
 #. ~ 'open' action message of some gate object.
@@ -54028,9 +54076,9 @@ msgstr ""
 msgid "The door rises!"
 msgstr ""
 
-#. ~ 'close' action message of some gate object.
+#. ~ 'pull' action message of some gate object.
 #: lang/json/gates_from_json.py
-msgid "The door slams shut!"
+msgid "You throw the lever..."
 msgstr ""
 
 #. ~ 'fail' action message of some gate object.
@@ -57356,6 +57404,13 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
+msgid ""
+"The Beretta ARX-160 was a Phase II contender in the United States Army "
+"Individual Carbine competition to replace the M4 carbine.  It failed to "
+"replace it, but it is widely used by military all around the world."
+msgstr ""
+
+#: lang/json/gun_from_json.py
 msgid "light machine gun"
 msgid_plural "light machine guns"
 msgstr[0] ""
@@ -59753,8 +59808,8 @@ msgstr ""
 msgid "Drill"
 msgstr ""
 
-#: lang/json/item_action_from_json.py lang/json/item_action_from_json.py
-#: lang/json/keybinding_from_json.py src/game_inventory.cpp
+#: lang/json/item_action_from_json.py lang/json/keybinding_from_json.py
+#: src/game_inventory.cpp src/game_inventory.cpp
 msgid "Read"
 msgstr "Leggi"
 
@@ -61424,12 +61479,12 @@ msgstr ""
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
-msgid "Closed at sunset."
+msgid "Maintained by the the <city> church."
 msgstr ""
 
 #. ~ Sign
 #: lang/json/mapgen_from_json.py
-msgid "Maintained by the the <city> church."
+msgid "Closed at sunset."
 msgstr ""
 
 #. ~ Sign
@@ -64193,7 +64248,7 @@ msgid ""
 "  The easiest way to work around that is to build green houses to supplement"
 " our external fields.  There isn't going to be an easy way to build these, "
 "we are going to need a massive number of glass sheets to enclose the frames."
-"  The first house will need 20 sheets of glass if you are still interested."
+"  The first house will need 30 sheets of glass if you are still interested."
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -64570,7 +64625,7 @@ msgid "Do you have the charcoal water filters?"
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
-msgid "Find a Chemistry Sets"
+msgid "Find a Chemistry Set"
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -75268,7 +75323,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"A street urchin skilled in legerdemain and a deadly with a blade; you are a "
+"A street urchin skilled in legerdemain and deadly with a blade; you are a "
 "rogue, a resourceful trickster and master thief."
 msgstr ""
 
@@ -75281,7 +75336,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"A street urchin skilled in legerdemain and a deadly with a blade; you are a "
+"A street urchin skilled in legerdemain and deadly with a blade; you are a "
 "rogue, a resourceful trickster and master thief."
 msgstr ""
 
@@ -87046,6 +87101,14 @@ msgstr ""
 msgid "chiseling"
 msgstr ""
 
+#: lang/json/tool_quality_from_json.py
+msgid "sewing"
+msgstr ""
+
+#: lang/json/tool_quality_from_json.py
+msgid "knitting"
+msgstr ""
+
 #: lang/json/trap_from_json.py
 msgid "roll mat"
 msgstr ""
@@ -93923,10 +93986,9 @@ msgstr ""
 msgid "Result: %s"
 msgstr "Risultato: %s"
 
-#: src/construction.cpp
-#, c-format
-msgid "Skill Req: %d (%s)"
-msgstr "Abilità richiesta: %d (%s)"
+#: src/construction.cpp src/crafting.cpp src/crafting_gui.cpp
+msgid "N/A"
+msgstr "Nessuna"
 
 #: src/construction.cpp
 #, c-format
@@ -94047,9 +94109,8 @@ msgstr ""
 msgid "You need a %s to consume that!"
 msgstr ""
 
-#: src/consumption.cpp src/iuse.cpp src/iuse.cpp src/iuse.cpp
-#: src/iuse_actor.cpp src/iuse_actor.cpp src/iuse_actor.cpp src/mutation.cpp
-#: src/player.cpp
+#: src/consumption.cpp src/iuse.cpp src/iuse.cpp src/iuse_actor.cpp
+#: src/iuse_actor.cpp src/mutation.cpp src/player.cpp
 msgid "You can't do that while underwater."
 msgstr ""
 
@@ -94515,10 +94576,6 @@ msgstr "Potresti imparare una nuova ricetta se ne disassembli un'altro."
 msgid "If you had better skills, you might learn a recipe next time."
 msgstr "Se solo avessi abilità migliori, potresti imparare una nuova ricetta la prossima volta."
 
-#: src/crafting.cpp src/crafting_gui.cpp
-msgid "N/A"
-msgstr "Nessuna"
-
 #: src/crafting_gui.cpp
 msgid "NONCRAFT"
 msgstr ""
@@ -94615,7 +94672,7 @@ msgstr "Non puoi farlo!"
 msgid "Nothing selected!"
 msgstr ""
 
-#: src/crafting_gui.cpp src/newcharacter.cpp
+#: src/crafting_gui.cpp src/newcharacter.cpp src/newcharacter.cpp
 msgid "Search:"
 msgstr "Cerca:"
 
@@ -100490,39 +100547,6 @@ msgid "You quantum tunnel through the %d-tile wide barrier!"
 msgstr "Crei un tunnel di quanti attraverso una barriera spessa %d caselle"
 
 #: src/game.cpp
-msgid "No vehicle at grabbed point."
-msgstr "Nessun veicolo al punto di presa."
-
-#: src/game.cpp
-#, c-format
-msgid "The %s is too bulky for you to move by hand."
-msgstr ""
-
-#: src/game.cpp
-msgid "a scraping noise."
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "You strain yourself to move the %s!"
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "It takes some time to move the %s."
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "You lack the strength to move the %s"
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "The %s collides with %s."
-msgstr ""
-
-#: src/game.cpp
 msgid "No furniture at grabbed point."
 msgstr "Nessun mobile al punto di presa."
 
@@ -100553,6 +100577,10 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid "It takes some time to move the heavy %s."
+msgstr ""
+
+#: src/game.cpp src/grab.cpp
+msgid "a scraping noise."
 msgstr ""
 
 #: src/game.cpp
@@ -101321,6 +101349,39 @@ msgstr ""
 
 #: src/gates.cpp
 msgid "stuff"
+msgstr ""
+
+#: src/grab.cpp
+msgid "No vehicle at grabbed point."
+msgstr "Nessun veicolo al punto di presa."
+
+#: src/grab.cpp
+#, c-format
+msgid "The %s is too bulky for you to move by hand."
+msgstr ""
+
+#: src/grab.cpp
+#, c-format
+msgid "You strain yourself to move the %s!"
+msgstr ""
+
+#: src/grab.cpp
+#, c-format
+msgid "It takes some time to move the %s."
+msgstr ""
+
+#: src/grab.cpp
+#, c-format
+msgid "You lack the strength to move the %s"
+msgstr ""
+
+#: src/grab.cpp
+msgid "errors in movement code"
+msgstr ""
+
+#: src/grab.cpp
+#, c-format
+msgid "The %s collides with %s."
 msgstr ""
 
 #: src/help.cpp
@@ -104656,6 +104717,11 @@ msgstr "Puoi anche usarlo per craftare: %s"
 
 #: src/item.cpp
 #, c-format
+msgid "It takes you an extremely long time to wield your %s."
+msgstr ""
+
+#: src/item.cpp
+#, c-format
 msgid "It takes you a very long time to wield your %s."
 msgstr ""
 
@@ -104845,27 +104911,27 @@ msgid "right"
 msgstr "destra"
 
 #: src/item.cpp
-msgid "++"
+msgid "(++)"
 msgstr ""
 
 #: src/item.cpp
-msgid "||"
+msgid "(||)"
 msgstr ""
 
 #: src/item.cpp
-msgid ".."
+msgid "(..)"
 msgstr ""
 
 #: src/item.cpp
-msgid "\\."
+msgid "(.)"
 msgstr ""
 
 #: src/item.cpp
-msgid "|."
+msgid "(|.)"
 msgstr ""
 
 #: src/item.cpp
-msgid "|\\"
+msgid "(|)"
 msgstr ""
 
 #: src/item.cpp
@@ -108896,6 +108962,10 @@ msgstr ""
 #: src/iuse_actor.cpp
 #, c-format
 msgid "Repair %s"
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "You can't use filthy items for healing."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -114563,7 +114633,7 @@ msgstr "CARATTERISTICHE"
 msgid "STATS"
 msgstr "STAT"
 
-#: src/newcharacter.cpp src/player_display.cpp
+#: src/newcharacter.cpp src/newcharacter.cpp src/player_display.cpp
 msgid "SKILLS"
 msgstr "ABILITA'"
 
@@ -118348,6 +118418,23 @@ msgid ""
 "'0' disables this option."
 msgstr ""
 
+#. ~ aim bar style - bars or numbers
+#: src/options.cpp
+msgid "Numbers"
+msgstr ""
+
+#: src/options.cpp
+msgid "Bars"
+msgstr ""
+
+#: src/options.cpp
+msgid "Aim window display style"
+msgstr ""
+
+#: src/options.cpp
+msgid "How should confidence and steadiness be communicated to the player."
+msgstr ""
+
 #: src/options.cpp
 msgid "Move view offset"
 msgstr "Spostamento modalità vista"
@@ -118867,8 +118954,9 @@ msgstr ""
 
 #: src/options.cpp
 msgid ""
-"Multiplies the speed of construction by the given percentage. '0' "
-"automatically scales construction to match the world's season length."
+"Sets the time of construction in percents. '50' is two times faster than "
+"default, '200' is two times longer. '0' automatically scales construction "
+"time to match the world's season length."
 msgstr ""
 
 #: src/options.cpp
@@ -122566,11 +122654,23 @@ msgid "Mouse: LMB: Target, Wheel: Cycle, RMB: Fire"
 msgstr ""
 
 #: src/ranged.cpp
-msgid "Confidence"
+msgid "Headshot"
+msgstr ""
+
+#: src/ranged.cpp
+msgid "Hit"
+msgstr ""
+
+#: src/ranged.cpp
+msgid "Graze"
 msgstr ""
 
 #: src/ranged.cpp
 msgid "Steadiness"
+msgstr ""
+
+#: src/ranged.cpp
+msgid "Confidence"
 msgstr ""
 
 #: src/ranged.cpp

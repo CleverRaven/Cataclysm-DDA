@@ -21,6 +21,7 @@
 #include "fault.h"
 #include "npc.h"
 #include "string_input_popup.h"
+#include "veh_utils.h"
 
 #include <cmath>
 #include <list>
@@ -1255,23 +1256,8 @@ vehicle_part *veh_interact::get_most_damaged_part() const
 
 vehicle_part *veh_interact::get_most_repariable_part() const
 {
-    auto part_damage_comparison = []( const vehicle_part &a, const vehicle_part &b )
-    {
-        return !b.removed &&
-               b.info().is_repairable() &&
-               b.base.damage() > a.base.damage();
-    };
-
-    auto high_damage_iterator = std::max_element( veh->parts.begin(),
-                                veh->parts.end(),
-                                part_damage_comparison );
-    if( high_damage_iterator == veh->parts.end() ||
-        high_damage_iterator->removed ||
-        !high_damage_iterator->info().is_repairable() ) {
-        return nullptr;
-    }
-
-    return &( *high_damage_iterator );
+    auto &part = veh_utils::most_repairable_part( *veh, g->u );
+    return part ? &part : nullptr;
 }
 
 bool veh_interact::can_remove_part( int idx ) {
@@ -2255,26 +2241,6 @@ void act_vehicle_siphon(vehicle* veh) {
     g->u.siphon( *veh, fuel );
 }
 
-static int calc_xp_gain( const vpart_info &vp, const skill_id &sk ) {
-    auto iter = vp.install_skills.find( sk );
-    if( iter == vp.install_skills.end() ) {
-        return 0;
-    }
-
-    // how many levels are we above the requirement?
-    int lvl = std::max( g->u.get_skill_level( sk ) - iter->second, 1 );
-
-    // scale xp gain per hour according to relative level
-    // 0-1: 60 xp /h
-    //   2: 15 xp /h
-    //   3:  6 xp /h
-    //   4:  4 xp /h
-    //   5:  3 xp /h
-    //   6:  2 xp /h
-    //  7+:  1 xp /h
-    return std::ceil( double( vp.install_moves ) / MOVES( MINUTES( pow( lvl, 2 ) ) ) );
-}
-
 /**
  * Called when the activity timer for installing parts, repairing, etc times
  * out and the action is complete.
@@ -2375,55 +2341,14 @@ void veh_interact::complete_vehicle()
         add_msg( m_good, _("You install a %1$s into the %2$s." ), veh->parts[ partnum ].name().c_str(), veh->name.c_str() );
 
         for( const auto &sk : vpinfo.install_skills ) {
-            g->u.practice( sk.first, calc_xp_gain( vpinfo, sk.first ) );
+            g->u.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first ) );
         }
 
         break;
     }
 
     case 'r': {
-        auto &pt = veh->parts[ vehicle_part ];
-        auto &vp = pt.info();
-
-        const auto reqs = pt.is_broken() ? vp.install_requirements() : vp.repair_requirements() * pt.base.damage();
-
-        if( !reqs.can_make_with_inventory( g->u.crafting_inventory() ) ) {
-           add_msg( m_info, _( "You don't meet the requirements to repair the %s." ), pt.name().c_str() );
-           break;
-        }
-
-        // consume items extracting any base item (which we will need if replacing broken part)
-        item base( vp.item );
-        for( const auto& e : reqs.get_components() ) {
-            for( auto& obj : g->u.consume_items( e ) ) {
-                if( obj.typeId() == vpinfo.item ) {
-                    base = obj;
-                }
-            }
-        }
-
-        for( const auto& e : reqs.get_tools() ) {
-            g->u.consume_tools( e );
-        }
-
-        g->u.invalidate_crafting_inventory();
-
-        for( const auto &sk : pt.is_broken() ? vp.install_skills : vp.repair_skills ) {
-            g->u.practice( sk.first, calc_xp_gain( vp, sk.first ) );
-        }
-
-        if( pt.is_broken() ) {
-            const int dir = pt.direction;
-            veh->break_part_into_pieces( vehicle_part, g->u.posx(), g->u.posy() );
-            veh->remove_part( vehicle_part );
-            veh->part_removal_cleanup();
-            const int partnum = veh->install_part( dx, dy, part_id, std::move( base ) );
-            veh->parts[partnum].direction = dir;
-        } else {
-            veh->set_hp( pt, pt.info().durability );
-        }
-
-        add_msg( m_good, _( "You repair the %1$s's %2$s." ), veh->name.c_str(), pt.name().c_str() );
+        veh_utils::repair_part( *veh, veh->parts[ vehicle_part ], g->u );
         break;
     }
 
@@ -2508,7 +2433,7 @@ void veh_interact::complete_vehicle()
             g->m.add_item_or_charges( g->u.pos(), veh->parts[vehicle_part].properties_to_item() );
             for( const auto &sk : vpinfo.install_skills ) {
                 // removal is half as educational as installation
-                g->u.practice( sk.first, calc_xp_gain( vpinfo, sk.first ) / 2 );
+                g->u.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first ) / 2 );
             }
 
         } else {

@@ -3638,6 +3638,11 @@ bool item::is_wheel() const
     return type->wheel.get() != nullptr;
 }
 
+bool item::is_fuel() const
+{
+    return type->fuel.get() != nullptr;
+}
+
 bool item::is_toolmod() const
 {
     return !is_gunmod() && type->mod;
@@ -3660,6 +3665,11 @@ std::set<fault_id> item::faults_potential() const
 int item::wheel_area() const
 {
     return is_wheel() ? type->wheel->diameter * type->wheel->width : 0;
+}
+
+float item::fuel_energy() const
+{
+    return is_fuel() ? type->fuel->energy : 0.0f;
 }
 
 bool item::is_container_empty() const

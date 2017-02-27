@@ -319,7 +319,7 @@
   "description" : "Primer for an autocannon shell.  Seems to use an electric ignition.",
   "material" : ["steel", "powder"],
   "volume" : 1,
-  "weight" : 5,
+  "weight" : 40,
   "ammo_type" : "components",
   "count" : 10,
   "effects" : ["COOKOFF"]
@@ -335,7 +335,7 @@
   "description" : "Primer for a tank or artillery shell.  Seems to use an electric ignition.",
   "material" : ["steel", "powder"],
   "volume" : 1,
-  "weight" : 5,
+  "weight" : 80,
   "ammo_type" : "components",
   "count" : 5,
   "effects" : ["COOKOFF"]

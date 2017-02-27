@@ -76,12 +76,6 @@
     "weight": 142,
     "volume": 1,
     "to_hit": -2,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "spare_parts"
   },
   {
@@ -335,8 +329,6 @@
      "price" : 2000,
      "material" : ["cotton"],
      "volume" : 0,
-     "warmth" : 0,
-     "encumbrance" : 0,
      "coverage" : 12,
      "material_thickness" : 1
   },
@@ -555,5 +547,45 @@
         "id" : "dart",
         "name" : "dart",
         "default" : "dart"
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "jam_strawberries",
+        "name" : "strawberry jam",
+        "weight" : 250,
+        "color" : "red",
+        "spoils_in" : 240,
+        "container" : "jar_3l_glass",
+        "comestible_type" : "DRINK",
+        "symbol" : "~",
+        "nutrition" : 10,
+        "description" : "Fresh strawberries, cooked with sugar to make them last longer.",
+        "price" : 80,
+        "material" : "fruit",
+        "volume" : 1,
+        "phase" : "liquid",
+        "charges" : 2,
+        "fun" : 10,
+        "flags" : ["USE_EAT_VERB"]
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "jam_blueberries",
+        "name" : "blueberry jam",
+        "weight" : 250,
+        "color" : "blue",
+        "spoils_in" : 240,
+        "container" : "jar_3l_glass",
+        "comestible_type" : "DRINK",
+        "symbol" : "~",
+        "nutrition" : 10,
+        "description" : "Fresh blueberries, cooked with sugar to make them last longer.",
+        "price" : 80,
+        "material" : "fruit",
+        "volume" : 1,
+        "phase" : "liquid",
+        "charges" : 2,
+        "fun" : 10,
+        "flags" : ["USE_EAT_VERB"]
     }
 ]

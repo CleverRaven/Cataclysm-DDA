@@ -319,6 +319,13 @@ struct islot_wheel
         int width = 0;
 };
 
+struct islot_fuel
+{
+    public:
+        /** Energy of the fuel (kilojoules per charge) */
+        float energy = 0.0f;
+};
+
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_ranged_data {
     /**
@@ -575,6 +582,7 @@ struct itype {
     copyable_unique_ptr<islot_mod> mod;
     copyable_unique_ptr<islot_engine> engine;
     copyable_unique_ptr<islot_wheel> wheel;
+    copyable_unique_ptr<islot_fuel> fuel;
     copyable_unique_ptr<islot_gun> gun;
     copyable_unique_ptr<islot_gunmod> gunmod;
     copyable_unique_ptr<islot_magazine> magazine;
