@@ -2712,7 +2712,6 @@
     "name": "amorphous core",
     "item": "queen",
     "location": "center",
-    "fuel_type": "water",
     "symbol": "O",
     "broken_symbol": "#",
     "color": "red",

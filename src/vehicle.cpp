@@ -6180,12 +6180,18 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
 
     if( is_tank() ) {
         if( !obj.empty() ) {
+            // forbid filling tanks with non-liquids
             if( item::find_type( obj )->phase != LIQUID ) {
-                return false; // forbid filling tanks with non-liquids
+                return false;
             }
+            // prevent mixing of different liquids
             if( ammo_current() != "null" && ammo_current() != obj ) {
-                return false; // prevent mixing of different liquids
+                return false;
             }
+        }
+        // For tanks with set type, prevent filling with different types
+        if( info().fuel_type != fuel_type_none && info().fuel_type != obj ) {
+            return false;
         }
         return ammo_remaining() < ammo_capacity();
     }

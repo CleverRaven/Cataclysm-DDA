@@ -10,13 +10,11 @@
     "to_hit": -3,
     "bashing": 8,
     "material": "flesh",
+    "fuel": { "energy": 1 },
     "symbol": "*",
     "color": "red",
     "count": 25,
-    "ammo_type": "bfeed",
-    "fuel": {
-      "energy": 1
-    }
+    "ammo_type": "bfeed"
   },
   {
     "id": "bframegrow",
@@ -305,6 +303,7 @@
     "phase": "liquid",
     "container": "jerrycan",
     "material": "hydrocarbons",
+    "fuel": { "energy": 35.8 },
     "symbol": "=",
     "color": "light_red",
     "count": 250,
@@ -323,9 +322,6 @@
         "drop": "gasoline",
         "recovery": 100
       }
-    },
-    "fuel": {
-      "energy": 35.8
     }
   },
   {
