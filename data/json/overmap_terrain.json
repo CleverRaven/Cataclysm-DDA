@@ -573,37 +573,81 @@
         ]
     },{
         "type" : "overmap_terrain",
-        "id" : "cathedral_1_entrance",
+        "id" : "cathedral_1_NW",
         "name" : "cathedral",
         "sym" : 67,
         "color" : "i_ltred",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "cathedral_1",
+        "id" : "cathedral_1_NE",
         "name" : "cathedral",
         "sym" : 67,
         "color" : "i_ltred",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "cathedral_b_entrance",
-        "name" : "cathedral basement",
+        "id" : "cathedral_1_SW",
+        "name" : "cathedral",
         "sym" : 67,
         "color" : "i_ltred",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "cathedral_b",
+        "id" : "cathedral_1_SE",
+        "name" : "cathedral",
+        "sym" : 67,
+        "color" : "i_ltred",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cathedral_b_NW",
         "name" : "cathedral basement",
         "sym" : 67,
         "color" : "i_ltred",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cathedral_b_NE",
+        "name" : "cathedral basement",
+        "sym" : 67,
+        "color" : "i_ltred",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cathedral_b_SW",
+        "name" : "cathedral basement",
+        "sym" : 67,
+        "color" : "i_ltred",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cathedral_b_SE",
+        "name" : "cathedral basement",
+        "sym" : 67,
+        "color" : "i_ltred",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true

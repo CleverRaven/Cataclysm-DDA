@@ -201,10 +201,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["office_tower_1"] = &mapgen_office_tower_1;
     mapgen_cfunction_map["office_tower_b_entrance"] = &mapgen_office_tower_b_entrance;
     mapgen_cfunction_map["office_tower_b"] = &mapgen_office_tower_b;
-    mapgen_cfunction_map["cathedral_1_entrance"] = &mapgen_cathedral_1_entrance;
-    mapgen_cfunction_map["cathedral_1"] = &mapgen_cathedral_1;
-    mapgen_cfunction_map["cathedral_b_entrance"] = &mapgen_cathedral_b_entrance;
-    mapgen_cfunction_map["cathedral_b"] = &mapgen_cathedral_b;
 
     mapgen_cfunction_map["megastore_entrance"] = &mapgen_megastore_entrance;
     mapgen_cfunction_map["megastore"] = &mapgen_megastore;
@@ -3356,42 +3352,6 @@ void mapgen_office_tower_b_entrance(map *m, oter_id terrain_type, mapgendata dat
 
 
 void mapgen_office_tower_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_cathedral_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_cathedral_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_cathedral_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_cathedral_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
