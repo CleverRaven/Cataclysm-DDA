@@ -451,7 +451,7 @@ void vpart_info::check()
             debugmsg( "vehicle part %s uses undefined fuel %s", part.id.c_str(), part.item.c_str() );
             part.fuel_type = "null";
         } else if( part.fuel_type != "null" && item::find_type( part.fuel_type )->fuel == nullptr ) {
-            debugmsg( "vehicle part %s uses non-fuel item %s as fuel, setting to null", part.id.c_str(), part.item.c_str() );
+            debugmsg( "vehicle part %s uses non-fuel item %s as fuel, setting to null", part.id.c_str(), part.fuel_type.c_str() );
             part.fuel_type = "null";
         }
         if( part.has_flag( "TURRET" ) && !item::find_type( part.item )->gun ) {

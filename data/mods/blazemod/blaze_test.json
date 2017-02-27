@@ -1266,6 +1266,9 @@
     "symbol": "=",
     "color": "magenta",
     "count": 1,
-    "ammo_type": "vpower"
+    "ammo_type": "vpower",
+    "fuel": {
+      "energy": 1
+    }
   }
 ]
