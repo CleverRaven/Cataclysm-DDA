@@ -3,6 +3,7 @@ src/active_item_cache.cpp
 src/activity_item_handling.cpp
 src/addiction.cpp
 src/ammo.cpp
+src/anatomy.cpp
 src/armor_layers.cpp
 src/basecamp.cpp
 src/bionics_ui.cpp
@@ -100,6 +101,7 @@ src/activity_handlers.h
 src/addiction.h
 src/advanced_inv.h
 src/ammo.h
+src/anatomy.h
 src/animation.h
 src/artifact.h
 src/assign.h
