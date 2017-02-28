@@ -1,24 +1,14 @@
 #include "anatomy.h"
 #include "generic_factory.h"
 #include "rng.h"
+#include "output.h"
+#include "messages.h"
+#include "cata_utility.h"
+#include <numeric>
+#include <algorithm>
+#include <cmath>
 
 anatomy_id human_anatomy( "human_anatomy" );
-
-// @todo Better home
-/**
- * A template for weighted random rolls out of discrete set.
- * Chance to pick an element is size/sum(all_sizes)
- */
-template <typename T>
-class roulette {
-    private:
-        std::vector<std::pair<float, T>> elems;
-    public:
-        /** Adds new element to the roulette. Can be duplicate. */
-        add( float size, const T &new_elem );
-        /** Rolls once and returns a reference to the result. */
-        const T &get() const;
-};
 
 namespace
 {
@@ -60,19 +50,21 @@ void anatomy::reset()
 
 void anatomy::finalize_all()
 {
+    // For some weird reason, generic_factory::finalize doesn't call finalize
     anatomy_factory.finalize();
+    for( const anatomy &an : anatomy_factory.get_all() ) {
+        const_cast<anatomy &>( an ).finalize();
+    }
 }
 
 void anatomy::finalize()
 {
     size_sum = 0.0f;
-    size_relative_sum.fill( 0.0f );
 
     cached_bps.clear();
     for( const auto &id : unloaded_bps ) {
-        const auto &new_bp = bodypart_ids( id );
-        if( new_bp.is_valid() ) {
-            add_body_part( new_bp );
+        if( id.is_valid() ) {
+            add_body_part( id );
         } else {
             debugmsg( "Anatomy %s has invalid body part %s", id.c_str(), id.c_str() );
         }
@@ -92,7 +84,17 @@ void anatomy::check_consistency()
 void anatomy::check() const
 {
     if( !get_part_with_cumulative_hit_size( size_sum ).is_valid() ) {
-        debugmsg( "Invalid size_sum calculation" );
+        debugmsg( "Invalid size_sum calculation for anatomy %s", id.c_str() );
+    }
+
+    for( size_t i = 0; i < 3; i++ ) {
+        float size_all = std::accumulate( cached_bps.begin(), cached_bps.end(), 0.0f, [i]( float acc,
+        const bodypart_id & bp ) {
+            return acc + bp->hit_size_relative[i];
+        } );
+        if( size_all <= 0.0f ) {
+            debugmsg( "Anatomy %s has no part hittable when size difference is %d", id.c_str(), ( int )i - 1 );
+        }
     }
 }
 
@@ -101,9 +103,6 @@ void anatomy::add_body_part( const bodypart_ids &new_bp )
     cached_bps.emplace_back( new_bp.id() );
     const auto &bp_struct = new_bp.obj();
     size_sum += bp_struct.hit_size;
-    for( size_t i = 0; i < size_relative_sum.size(); i++ ) {
-        size_relative_sum[i] += bp_struct.hit_size_relative[i];
-    }
 }
 
 // @todo get_function_with_better_name
@@ -124,9 +123,60 @@ bodypart_id anatomy::random_body_part() const
     return get_part_with_cumulative_hit_size( rng_float( 0.0f, size_sum ) ).id();
 }
 
+// @todo Better home
+/**
+ * Weighted random roll out of discrete set.
+ * Chance to pick an element is size/sum(all_sizes)
+ */
+template <typename Container,
+          typename ElemType = typename Container::value_type,
+          typename Retval = typename ElemType::second_type>
+const Retval & roulette( const Container &all_elems, const Retval &fallback )
+{
+    if( all_elems.empty() ) {
+        return fallback;
+    }
+
+    float size_all = std::accumulate( all_elems.begin(), all_elems.end(), 0.0f, []( float acc,
+    const ElemType & el ) {
+        return acc + el.first;
+    } );
+    float pt = rng_float( 0.0f, size_all );
+    for( const auto &el : all_elems ) {
+        pt -= el.first;
+        if( pt <= 0.0f ) {
+            return el.second;
+        }
+    }
+
+    debugmsg( "Invalid roulette arguments" );
+    return fallback;
+}
+
 bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
 {
-    (void)size_diff;
-    (void)hit_roll;
-    return bodypart_ids(NULL_ID).id();
+    size_t size_diff_index = static_cast<size_t>( 1 + clamp( size_diff, -1, 1 ) );
+    std::vector<std::pair<float, bodypart_id>> hit_weights;
+    for( const auto &bp : cached_bps ) {
+        float weight = bp->hit_size_relative[size_diff_index];
+        if( weight <= 0.0f ) {
+            continue;
+        }
+
+        if( hit_roll != 0 ) {
+            weight *= std::pow( hit_roll, bp->hit_difficulty );
+        }
+
+        hit_weights.emplace_back( weight, bp );
+    }
+
+    // Debug for seeing weights.
+    for( const auto &pr : hit_weights ) {
+        add_msg( m_debug, "%s = %.3f", pr.second->name.c_str(), pr.first );
+    }
+
+    bodypart_id ret = roulette( hit_weights, bodypart_ids( NULL_ID ).id() );
+
+    add_msg( m_debug, "selected part: %s", ret->name.c_str() );
+    return ret;
 }

@@ -161,7 +161,8 @@ void body_part_struct::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "heading_plural", name_as_heading_multiple );
     mandatory( jo, was_loaded, "encumbrance_text", encumb_text );
     mandatory( jo, was_loaded, "hit_size", hit_size );
-    //mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
+    mandatory( jo, was_loaded, "hit_difficulty", hit_difficulty );
+    mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
 
     mandatory( jo, was_loaded, "legacy_id", legacy_id );
     token = legacy_id_to_enum( legacy_id );
@@ -202,7 +203,8 @@ void body_part_struct::check() const
 {
     const auto &under_token = get_bp( token );
     if( this != &under_token ) {
-        debugmsg( "Body part %s has duplicate token %d, mapped to %d", id.c_str(), token, under_token.id.c_str() );
+        debugmsg( "Body part %s has duplicate token %d, mapped to %d", id.c_str(), token,
+                  under_token.id.c_str() );
     }
 
     if( id != NULL_ID && main_part == NULL_ID ) {

@@ -15,14 +15,13 @@ using anatomy_id = string_id<anatomy>;
  * A structure that contains body parts.
  * Keeps caches for weighted selections.
  */
-class anatomy {
+class anatomy
+{
     private:
         std::vector<bodypart_ids> unloaded_bps;
         std::vector<bodypart_id> cached_bps;
         /** Sum of chances to hit a body part randomly, without aiming. */
         float size_sum = 0.0f;
-        /** Sum of body part sizes weighted by relative attacker size. */
-        std::array<float, 3> size_relative_sum = { 0.0f, 0.0f, 0.0f };
 
         // @todo get_better_name_for_function
         bodypart_ids get_part_with_cumulative_hit_size( float size ) const;
