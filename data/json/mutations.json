@@ -281,9 +281,10 @@
         "id" : "GOURMAND",
         "name" : "Gourmand",
         "points" : 2,
-        "description" : "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.",
+        "description" : "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.  Activate to skip prompt for overeating.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "NONADDICTIVE",
@@ -2321,12 +2322,13 @@
         "id" : "EATHEALTH",
         "name" : "Hyper-Metabolism",
         "points" : 15,
-        "description" : "You metabolize nutrients so rapidly that you can convert food directly into useful tissue.  Excess nutrition will convert to HP, rather than being wasted.",
+        "description" : "You metabolize nutrients so rapidly that you can convert food directly into useful tissue.  Excess nutrition will convert to HP, rather than being wasted.  Activate to skip prompt for overeating.",
         "prereqs" : ["HUNGER3"],
         "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4"],
         "threshreq" : ["THRESH_CHIMERA"],
         "category" : ["MUTCAT_CHIMERA"],
-        "valid" : false
+        "valid" : false,
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "HORNS",

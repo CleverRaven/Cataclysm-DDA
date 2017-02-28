@@ -10440,27 +10440,28 @@ void game::butcher()
 
 void game::eat(int pos)
 {
-    if ((u.has_active_mutation("RUMINANT") || u.has_active_mutation("GRAZER")) &&
-        m.ter(u.pos()) == t_underbrush && query_yn(_("Eat underbrush?"))) {
-        u.moves -= 400;
-        u.mod_hunger(-10);
-        m.ter_set(u.pos(), t_grass);
-        add_msg(_("You eat the underbrush."));
-        return;
-    }
-    if (u.has_active_mutation("GRAZER") && m.ter(u.pos()) == t_grass &&
-        query_yn(_("Graze?"))) {
-        u.moves -= 400;
-        ///\EFFECT_INT increases chance of leaving some grass growing when grazing
-        if ((u.get_hunger() < 10) || one_in(20 - u.int_cur)) {
-            add_msg(_("You eat some of the taller grass, careful to leave some growing."));
-            u.mod_hunger(-2);
+    if( ( u.has_active_mutation( "RUMINANT" ) || u.has_active_mutation( "GRAZER" ) ) &&
+        m.ter( u.pos() ) == t_underbrush ) {
+        if( u.get_hunger() < 20 ) {
+            add_msg( _( "You're too full to eat the undershrub." ) );
         } else {
-            add_msg(_("You eat the grass."));
-            u.mod_hunger(-5);
-            m.ter_set(u.pos(), t_dirt);
+            u.moves -= 400;
+            u.mod_hunger( -20 );
+            m.ter_set( u.pos(), t_grass );
+            add_msg( _( "You eat the underbrush." ) );
+            return;
         }
-        return;
+    }
+    if( u.has_active_mutation( "GRAZER" ) && m.ter( u.pos() ) == t_grass ) {
+        if( u.get_hunger() < 8 ) {
+            add_msg( _( "You're too full to graze." ) );
+        } else {
+            u.moves -= 400;
+            add_msg( _("You eat the grass.") );
+            u.mod_hunger( -8 );
+            m.ter_set( u.pos(), t_dirt );
+            return;
+        }
     }
 
     if( pos != INT_MIN ) {

@@ -384,8 +384,16 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
         overfull = !maybe_query( _( "You're full.  Force yourself to eat?" ) );
     } else if( ( ( nutr > 0 && temp_hunger < capacity ) ||
                  ( comest->quench > 0 && temp_thirst < capacity ) ) &&
-               !food.has_infinite_charges() && !eathealth && !slimespawner ) {
-        overfull = !maybe_query( _( "You will not be able to finish it all.  Consume it?" ) );
+               !food.has_infinite_charges() ) {
+        // This first section is only for flavor msg, skip if we wouldn't print anything
+        if( interactive &&
+            ( slimespawner ||
+              ( gourmand && has_active_mutation( "GOURMAND" ) ) ||
+              ( eathealth && has_active_mutation( "EATHEALTH" ) ) ) ) {
+            add_msg_if_player( _( "You're full, but you cram it into your mouth without a second thought." ) );
+        } else {
+            overfull = !maybe_query( _( "You will not be able to finish it all.  Consume it?" ) );
+        }
     }
 
     if( overfull ) {
