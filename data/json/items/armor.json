@@ -563,7 +563,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "covers": [ "TORSO", "LEGS", "ARMS", "HANDS" ],
-    "coverage": 75,
+    "coverage": 85,
     "encumbrance": 25,
     "warmth": 25,
     "material_thickness": 4,
