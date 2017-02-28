@@ -310,6 +310,10 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
         "school_1", "school_2", "school_3",
         "school_4", "school_5", "school_6",
         "school_7", "school_8", "school_9",
+        "prison_1", "prison_2", "prison_3",
+        "prison_4", "prison_5", "prison_6",
+        "prison_7", "prison_8", "prison_9",
+        "prison_b", "prison_b_entrance",
         "cathedral_1_entrance", "cathedral_1",
 		"cathedral_b_entrance", "cathedral_b",
         "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
@@ -440,7 +444,54 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 nearby.push_back( { -1, school + "8", 1, school + "6", school_1 + "9_south" } );
                 nearby.push_back( { -1, school + "6", -1, school + "8", school_1 + "9_west" } );
             }
-
+        } else if( old.compare( 0, 7, "prison_" ) == 0 ) {
+            const std::string prison = "prison_";
+            if( old == prison + "1" ) {
+                nearby.push_back( { -1, prison + "2", 1, prison + "4", prison + "1_north" } );
+                nearby.push_back( { -1, prison + "4", -1, prison + "2", prison + "1_east" } );
+                nearby.push_back( { 1, prison + "2", -1, prison + "4", prison + "1_south" } );
+                nearby.push_back( { 1, prison + "4", 1, prison + "2", prison + "1_west" } );
+            } else if( old == prison + "2" ) {
+                nearby.push_back( { -1, prison + "3", 1, prison + "5", prison + "2_north" } );
+                nearby.push_back( { -1, prison + "5", -1, prison + "3", prison + "2_east" } );
+                nearby.push_back( { 1, prison + "3", -1, prison + "5", prison + "2_south" } );
+                nearby.push_back( { 1, prison + "5", 1, prison + "3", prison + "2_west" } );
+            } else if( old == prison + "3" ) {
+                nearby.push_back( { 1, prison + "2", 1, prison + "6", prison + "3_north" } );
+                nearby.push_back( { -1, prison + "6", 1, prison + "2", prison + "3_east" } );
+                nearby.push_back( { -1, prison + "2", -1, prison + "6", prison + "3_south" } );
+                nearby.push_back( { 1, prison + "6", -1, prison + "2", prison + "3_west" } );
+            } else if( old == prison + "4" ) {
+                nearby.push_back( { -1, prison + "5", 1, prison + "7", prison + "4_north" } );
+                nearby.push_back( { -1, prison + "7", -1, prison + "5", prison + "4_east" } );
+                nearby.push_back( { 1, prison + "5", -1, prison + "7", prison + "4_south" } );
+                nearby.push_back( { 1, prison + "7", 1, prison + "5", prison + "4_west" } );
+            } else if( old == prison + "5" ) {
+                nearby.push_back( { -1, prison + "6", 1, prison + "8", prison + "5_north" } );
+                nearby.push_back( { -1, prison + "8", -1, prison + "6", prison + "5_east" } );
+                nearby.push_back( { 1, prison + "6", -1, prison + "8", prison + "5_south" } );
+                nearby.push_back( { 1, prison + "8", 1, prison + "6", prison + "5_west" } );
+            } else if( old == prison + "6" ) {
+                nearby.push_back( { 1, prison + "5", 1, prison + "9", prison + "6_north" } );
+                nearby.push_back( { -1, prison + "9", 1, prison + "5", prison + "6_east" } );
+                nearby.push_back( { -1, prison + "5", -1, prison + "9", prison + "6_south" } );
+                nearby.push_back( { 1, prison + "9", -1, prison + "5", prison + "6_west" } );
+            } else if( old == prison + "7" ) {
+                nearby.push_back( { -1, prison + "8", -1, prison + "4", prison + "7_north" } );
+                nearby.push_back( { 1, prison + "4", -1, prison + "8", prison + "7_east" } );
+                nearby.push_back( { 1, prison + "8", 1, prison + "4", prison + "7_south" } );
+                nearby.push_back( { -1, prison + "4", 1, prison + "8", prison + "7_west" } );
+            } else if( old == prison + "8" ) {
+                nearby.push_back( { -1, prison + "9", -1, prison + "5", prison + "8_north" } );
+                nearby.push_back( { 1, prison + "5", -1, prison + "9", prison + "8_east" } );
+                nearby.push_back( { 1, prison + "9", 1, prison + "5", prison + "8_south" } );
+                nearby.push_back( { -1, prison + "5", 1, prison + "9", prison + "8_west" } );
+            } else if( old == prison + "9" ) {
+                nearby.push_back( { 1, prison + "8", -1, prison + "6", prison + "9_north" } );
+                nearby.push_back( { 1, prison + "6", 1, prison + "8", prison + "9_east" } );
+                nearby.push_back( { -1, prison + "8", 1, prison + "6", prison + "9_south" } );
+                nearby.push_back( { -1, prison + "6", -1, prison + "8", prison + "9_west" } );
+			}
         } else if( old == "cathedral_1_entrance" ) {
             const std::string base = "cathedral_1_";
             const std::string other = "cathedral_1";
