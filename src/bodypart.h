@@ -60,7 +60,7 @@ struct body_part_struct {
         /** Size of the body part when doing an unweighted selection. */
         float hit_size = 0.0f;
         /** Hit sizes for attackers who are smaller, equal in size, and bigger. */
-        std::array<float, 3> hit_size_relative = { 0.0f, 0.0f, 0.0f };
+        std::array<float, 3> hit_size_relative = {{ 0.0f, 0.0f, 0.0f }};
         /**
          * How hard is it to hit a given body part, assuming "owner" is hit.
          * Higher number means good hits will veer towards this part,
