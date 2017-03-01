@@ -241,15 +241,15 @@
         "type" : "overmap_special",
         "id" : "Farm",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "farm_field"},
-            { "point":[1,0,0], "overmap": "farm"},
-            { "point":[2,0,0], "overmap": "farm_field"},
-            { "point":[0,1,0], "overmap": "farm_field"},
-            { "point":[1,1,0], "overmap": "farm_field"},
-            { "point":[2,1,0], "overmap": "farm_field"},
-            { "point":[0,2,0], "overmap": "farm_field"},
-            { "point":[1,2,0], "overmap": "farm_field"},
-            { "point":[2,2,0], "overmap": "farm_field"}
+            { "point":[0,0,0], "overmap": "farm_3_north"},
+            { "point":[1,0,0], "overmap": "farm_2_north"},
+            { "point":[2,0,0], "overmap": "farm_1_north"},
+            { "point":[0,1,0], "overmap": "farm_6_north"},
+            { "point":[1,1,0], "overmap": "farm_5_north"},
+            { "point":[2,1,0], "overmap": "farm_4_north"},
+            { "point":[0,2,0], "overmap": "farm_9_north"},
+            { "point":[1,2,0], "overmap": "farm_8_north"},
+            { "point":[2,2,0], "overmap": "farm_7_north"}
         ],
         "connections" : [
             { "point" : [1,-1,0], "terrain" : "road" }
@@ -258,7 +258,7 @@
         "city_distance" : [20, -1],
         "city_sizes" : [4, 12],
         "occurrences" : [0, 20],
-        "rotate" : false,
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -341,8 +341,8 @@
         "id" : "Military Bunker",
         "overmaps" : [
             { "point":[0,-1,0], "overmap": "road_end_north" },
-            { "point":[0,0,0], "overmap": "bunker" },
-            { "point":[0,0,-1], "overmap": "bunker" }
+            { "point":[0,0,0], "overmap": "bunker_south" },
+            { "point":[0,0,-1], "overmap": "bunker_basement" }
         ],
         "connections" : [
             { "point" : [0,-1,0] }
@@ -573,18 +573,20 @@
         "type" : "overmap_special",
         "id" : "Cathedral",
         "overmaps" : [
-            { "point":[0,0,0], "overmap": "cathedral_1"},
-            { "point":[1,0,0], "overmap": "cathedral_1_entrance"},
-            { "point":[0,1,0], "overmap": "cathedral_1"},
-            { "point":[1,1,0], "overmap": "cathedral_1"},
-            { "point":[0,0,-1], "overmap": "cathedral_b"},
-            { "point":[1,0,-1], "overmap": "cathedral_b_entrance"},
-            { "point":[0,1,-1], "overmap": "cathedral_b"},
-            { "point":[1,1,-1], "overmap": "cathedral_b"}
+            { "point" : [0,-1,0], "overmap": "road_end_north"},
+            { "point" : [1,-1,0], "overmap": "road_end_north"},
+            { "point" : [0,0,0], "overmap": "cathedral_1_NW_north"},
+            { "point" : [1,0,0], "overmap": "cathedral_1_NE_north"},
+            { "point" : [0,1,0], "overmap": "cathedral_1_SW_north"},
+            { "point" : [1,1,0], "overmap": "cathedral_1_SE_north"},
+            { "point" : [0,0,-1], "overmap": "cathedral_b_NW_north"},
+            { "point" : [1,0,-1], "overmap": "cathedral_b_NE_north"},
+            { "point" : [0,1,-1], "overmap": "cathedral_b_SW_north"},
+            { "point" : [1,1,-1], "overmap": "cathedral_b_SE_north"}
         ],
         "connections" : [
-            { "point" : [0,-1,0], "terrain" : "road" },
-            { "point" : [1,-1,0], "terrain" : "road" }
+            { "point" : [0,-1,0] },
+            { "point" : [1,-1,0] }
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [-1, 2],
@@ -596,15 +598,15 @@
         "id" : "School",
         "overmaps" : [
             { "point":[0,-1,0], "overmap": "road_end_north"},
-            { "point":[0,0,0], "overmap": "school_3"},
-            { "point":[1,0,0], "overmap": "school_2"},
-            { "point":[2,0,0], "overmap": "school_1"},
-            { "point":[0,1,0], "overmap": "school_6"},
-            { "point":[1,1,0], "overmap": "school_5"},
-            { "point":[2,1,0], "overmap": "school_4"},
-            { "point":[0,2,0], "overmap": "school_9"},
-            { "point":[1,2,0], "overmap": "school_8"},
-            { "point":[2,2,0], "overmap": "school_7"},
+            { "point":[0,0,0], "overmap": "school_1_3_north"},
+            { "point":[1,0,0], "overmap": "school_1_2_north"},
+            { "point":[2,0,0], "overmap": "school_1_1_north"},
+            { "point":[0,1,0], "overmap": "school_1_6_north"},
+            { "point":[1,1,0], "overmap": "school_1_5_north"},
+            { "point":[2,1,0], "overmap": "school_1_4_north"},
+            { "point":[0,2,0], "overmap": "school_1_9_north"},
+            { "point":[1,2,0], "overmap": "school_1_8_north"},
+            { "point":[2,2,0], "overmap": "school_1_7_north"},
             { "point":[1,3,0], "overmap": "road_isolated"}
         ],
         "connections" : [

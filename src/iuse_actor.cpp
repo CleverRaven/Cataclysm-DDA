@@ -28,6 +28,7 @@
 #include "map_iterator.h"
 #include "cata_utility.h"
 #include "string_input_popup.h"
+#include "options.h"
 
 #include <sstream>
 #include <algorithm>
@@ -1172,6 +1173,7 @@ bool salvage_actor::try_to_cut_up( player *p, item *it ) const
 // *cut gets cut
 int salvage_actor::cut_up(player *p, item *it, item *cut) const
 {
+    bool filthy = cut->is_filthy();
     int pos = p->get_item_position(cut);
     // total number of raw components == total volume of item.
     // This can go awry if there is a volume / recipe mismatch.
@@ -1246,6 +1248,9 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
         if (amount > 0) {
             add_msg( m_good, ngettext("Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount),
                      amount, result.display_name( amount ).c_str() );
+            if( filthy ) {
+                result.item_tags.insert( "FILTHY" );
+            }
             if( pos != INT_MIN ) {
                 p->i_add_or_drop(result, amount);
             } else {
@@ -2703,6 +2708,11 @@ long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _("You can't do that while underwater.") );
+        return 0;
+    }
+    
+    if( get_option<bool>( "FILTHY_WOUNDS" ) && it->is_filthy() ) {
+        p->add_msg_if_player( m_info, _( "You can't use filthy items for healing." ) );
         return 0;
     }
 

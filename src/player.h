@@ -42,6 +42,7 @@ class start_location;
 using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
+struct targeting_data;
 
 namespace debug_menu
 {
@@ -1493,6 +1494,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param target Target NPC to steal from
          */
         void steal( npc &target );
+        
+        /**
+         * Accessor method for weapon targeting data, used for interactive weapon aiming.
+         * @return a reference to the data pointed by player's tdata member.
+         */
+        const targeting_data &get_targeting_data();
+
+        /**
+         * Mutator method for weapon targeting data.
+         * @param td targeting data to be set.
+         */
+        void set_targeting_data( const targeting_data &td );
 
     protected:
         // The player's position on the local map.
@@ -1608,6 +1621,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * The currently active mission, or null if no mission is currently in progress.
          */
         mission *active_mission;
+
+        /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
+        std::shared_ptr<targeting_data> tdata;
 
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;

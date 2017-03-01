@@ -32,29 +32,30 @@
             }
         ],
         "items": {
-            "both": [
-                "armor_plarmor",
-                "boots_plate",
-                "gloves_plate",
-                "helmet_larmor",
-                "backpack_leather",
-                "scabbard",
-                "sheath",
-                "broadsword",
-                "knife_trench",
-                "bandages",
-                "bandages",
-                "waterskin",
-                "meat_smoked",
-                "hardtack"
-            ]
+            "both": {
+                "items": [
+                    "armor_plarmor",
+                    "boots_plate",
+                    "gloves_plate",
+                    "helmet_larmor",
+                    "backpack_leather",
+                    "waterskin",
+                    "meat_smoked",
+                    "hardtack"
+                ],
+                "entries": [
+                    { "item": "broadsword", "container-item": "scabbard" },
+                    { "item": "knife_trench", "container-item": "sheath" },
+                    { "item": "bandages", "count": 6 }
+                ]
+            }
         }
     },
     {
         "type": "profession",
         "ident": "rogue",
         "name": "Rogue",
-        "description": "A street urchin skilled in legerdemain and a deadly with a blade; you are a rogue, a resourceful trickster and master thief.",
+        "description": "A street urchin skilled in legerdemain and deadly with a blade; you are a rogue, a resourceful trickster and master thief.",
         "points": 0,
         "skills": [
             {
@@ -83,23 +84,25 @@
             }
         ],
         "items": {
-            "both": [
-                "armor_larmor",
-                "armguard_larmor",
-                "boots_larmor",
-                "gauntlets_larmor",
-                "backpack_leather",
-                "knit_scarf",
-                "sheath",
-                "kukri",
-                "picklocks",
-                "throwing_knife",
-                "throwing_knife",
-                "caltrops",
-                "waterskin",
-                "meat_smoked",
-                "dry_veggy"
-            ]
+            "both": {
+                "items": [
+                    "armor_larmor",
+                    "armguard_larmor",
+                    "boots_larmor",
+                    "gauntlets_larmor",
+                    "backpack_leather",
+                    "knit_scarf",
+                    "picklocks",
+                    "caltrops",
+                    "waterskin",
+                    "meat_smoked",
+                    "dry_veggy"
+                ],
+                "entries": [
+                    { "item": "kukri", "container-item": "sheath" },
+                    { "item": "throwing_knife", "count": 10 }
+                ]
+            }
         }
     },
     {
@@ -135,22 +138,25 @@
             }
         ],
         "items": {
-            "both": [
-                "loincloth_fur",
-                "gauntlets_bone",
-                "boots_bone",
-                "backpack_leather",
-                "hat_fur",
-                "sheath",
-                "battleaxe",
-                "knife_trench",
-                "fire_drill",
-                "waterskin",
-                "fish_smoked",
-                "dry_fish",
-                "pemmican",
-                "mead"
-            ],
+            "both": {
+                "items": [
+                    "loincloth_fur",
+                    "gauntlets_bone",
+                    "boots_bone",
+                    "backpack_leather",
+                    "hat_fur",
+                    "battleaxe",
+                    "fire_drill",
+                    "waterskin",
+                    "fish_smoked",
+                    "dry_fish",
+                    "mead"
+                ],
+                "entries": [
+                    { "item": "knife_trench", "container-item": "sheath" },
+                    { "item": "pemmican", "charges": 8, "container-item": "wrapper" }
+                ]
+            },
             "female": [
                 "bikini_top_fur"
             ]
@@ -192,27 +198,29 @@
             "bio_power_storage"
         ],
         "items": {
-            "both": [
-                "kilt",
-                "vest_leather",
-                "cloak",
-                "gauntlets_larmor",
-                "knee_high_boots",
-                "backpack_leather",
-                "sheath",
-                "knife_trench",
-                "broadsword",
-                "scabbard",
-                "bagpipes",
-                "pot",
-                "scots_cookbook",
-                "fire_drill",
-                "bandages",
-                "waterskin",
-                "haggis",
-                "whiskey",
-                "mead"
-            ]
+            "both": {
+                "items": [
+                    "kilt",
+                    "vest_leather",
+                    "cloak",
+                    "gauntlets_larmor",
+                    "knee_high_boots",
+                    "backpack_leather",
+                    "bagpipes",
+                    "pot",
+                    "scots_cookbook",
+                    "fire_drill",
+                    "bandages",
+                    "waterskin",
+                    "haggis",
+                    "whiskey",
+                    "mead"
+                ],
+                "entries": [
+                    { "item": "broadsword", "container-item": "scabbard" },
+                    { "item": "knife_trench", "container-item": "sheath" }
+                ]
+            }
         }
     },
     {
@@ -248,7 +256,8 @@
             }
         ],
         "items": {
-            "both": [
+            "both": {
+                "items": [
                 "armor_larmor",
                 "vambrace_larmor",
                 "gauntlets_larmor",
@@ -257,16 +266,17 @@
                 "backpack_leather",
                 "quiver",
                 "cloak",
-                "sheath",
                 "shortbow",
-                "arrow_wood",
-                "arrow_wood",
-                "knife_combat",
                 "fire_drill",
-                "waterskin",
-                "granola",
-                "pemmican"
-            ]
+                "waterskin"
+                ],
+                "entries": [
+                    { "item": "arrow_wood", "charges": 20, "container-item": "quiver" },
+                    { "item": "knife_combat", "container-item": "sheath" },
+                    { "item": "granola", "charges": 8, "container-item": "wrapper" },
+                    { "item": "pemmican", "charges": 8, "container-item": "wrapper" }
+                ]
+            }
         }
     },
     {
@@ -302,18 +312,22 @@
             }
         ],
         "items": {
-            "both": [
-                "judo_gi",
-                "geta",
-                "backpack_leather",
-                "cloak",
-                "i_staff",
-                "tanto",
-                "1st_aid",
-                "waterskin",
-                "dry_veggy",
-                "dry_veggy"
-            ]
+            "both": {
+                "items": [
+                    "judo_gi",
+                    "geta",
+                    "backpack_leather",
+                    "cloak",
+                    "i_staff",
+                    "1st_aid",
+                    "waterskin",
+                    "dry_veggy",
+                    "dry_veggy"
+                ],
+                "entries": [
+                    { "item": "tanto", "container-item": "sheath" }
+                ]
+            }
         }
     },
     {
@@ -349,20 +363,23 @@
             }
         ],
         "items": {
-            "both": [
-                "armor_lightplate",
-                "boots_plate",
-                "gloves_plate",
-                "helmet_barbute",
-                "backpack_leather",
-                "bscabbard",
-                "cloak",
-                "zweihander",
-                "waterskin",
-                "meat_smoked",
-                "cheese",
-                "brandy"
-            ]
+            "both": {
+                "items": [
+                    "armor_lightplate",
+                    "boots_plate",
+                    "gloves_plate",
+                    "helmet_barbute",
+                    "backpack_leather",
+                    "cloak",
+                    "waterskin",
+                    "meat_smoked",
+                    "cheese_hard",
+                    "brandy"
+                ],
+                "entries": [
+                    { "item": "zweihander", "container-item": "bscabbard" }
+                ]
+            }
         }
     },
     {
@@ -400,20 +417,22 @@
             }
         ],
         "items": {
-            "both": [
+            "both": {
+                "items": [
                 "loincloth_leather",
                 "leathersandals",
                 "backpack_leather",
                 "cloak",
-                "sheath",
-                "kris",
                 "1st_aid",
                 "waterskin",
-                "dry_mushroom",
-                "dry_mushroom",
                 "dandelion_wine",
                 "pine_wine"
-            ],
+                ],
+                "entries": [
+                    { "item": "kris", "container-item": "sheath" },
+                    { "item": "dry_mushroom", "count": 8 }
+                ]
+            },
             "female": [
                 "bikini_top_leather"
             ]

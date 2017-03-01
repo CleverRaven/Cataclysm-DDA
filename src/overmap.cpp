@@ -32,6 +32,7 @@
 #include "mapbuffer.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "rotatable_symbols.h"
 #include "string_input_popup.h"
 
 #include <cassert>
@@ -595,13 +596,6 @@ bool oter_t::is_hardcoded() const
     // @todo This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
     static const std::set<std::string> hardcoded_mapgen = {
         "anthill",
-        "bunker",
-        "cathedral_1",
-        "cathedral_1_entrance",
-        "cathedral_b",
-        "cathedral_b_entrance",
-        "farm",
-        "farm_field",
         "fema",
         "fema_entrance",
         "haz_sar",
@@ -645,15 +639,6 @@ bool oter_t::is_hardcoded() const
         "prison_b",
         "prison_b_entrance",
         "radio_tower",
-        "school_1",
-        "school_2",
-        "school_3",
-        "school_4",
-        "school_5",
-        "school_6",
-        "school_7",
-        "school_8",
-        "school_9",
         "sewage_treatment",
         "sewage_treatment_hub",
         "sewage_treatment_under",
@@ -3056,20 +3041,26 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
                 continue;
             }
             // TODO: base this in monster attributes, foremost GOODHEARING.
-            const int d_inter = ( sig_power + 1 - dist ) * SEEX;
+            const int inter_per_sig_power = 15; //Interest per signal value
+            const int min_initial_inter = 30; //Min initial interest for horde
+            const int calculated_inter = ( sig_power + 1 - dist ) * inter_per_sig_power; // Calculated interest
             const int roll = rng( 0, mg.interest );
-            if( roll < d_inter ) {
+            // Minimum capped calculated interest. Used to give horde enough interest to really investigate the target at start.
+            const int min_capped_inter = std::max( min_initial_inter, calculated_inter );
+            if( roll < min_capped_inter ) { //Rolling if horde interested in new signal
                 // TODO: Z coord for mongroup targets
                 const int targ_dist = rl_dist( p, mg.target );
                 // TODO: Base this on targ_dist:dist ratio.
-                if ( targ_dist < 5 ) {
+                if ( targ_dist < 5 ) { // If signal source already pursued by horde
                     mg.set_target( (mg.target.x + p.x) / 2, (mg.target.y + p.y) / 2 );
-                    mg.inc_interest( d_inter );
-                    add_msg( m_debug, "horde inc interest %d", d_inter);
-                } else {
+                    const int min_inc_inter = 3; // Min interest increase to already targeted source
+                    const int inc_roll = rng( min_inc_inter, calculated_inter );
+                    mg.inc_interest( inc_roll );
+                    add_msg( m_debug, "horde inc interest %d dist %d", inc_roll, dist ) ;
+                } else { // New signal source
                     mg.set_target( p.x, p.y );
-                    mg.set_interest( d_inter );
-                    add_msg( m_debug, "horde set interest %d", d_inter);
+                    mg.set_interest( min_capped_inter );
+                    add_msg( m_debug, "horde set interest %d dist %d", min_capped_inter, dist );
                 }
             }
     }
@@ -3998,30 +3989,7 @@ tripoint om_direction::rotate( const tripoint &p, type dir )
 
 long om_direction::rotate_symbol( long sym, type dir )
 {
-    static const std::map<long, std::array<long, size>> rotated_syms = {{
-        { 60,  {{ 60, 94, 62, 118 }} },
-        { 62,  {{ 62, 118, 60, 94 }} },
-        { 94,  {{ 94, 62, 118, 60 }} },
-        { 118, {{ 118, 60, 94, 62 }} },
-
-        { 4194410, {{ 4194410, 4194413, 4194412, 4194411 }} },
-        { 4194411, {{ 4194411, 4194410, 4194413, 4194412 }} },
-        { 4194412, {{ 4194412, 4194411, 4194410, 4194413 }} },
-        { 4194413, {{ 4194413, 4194412, 4194411, 4194410 }} },
-        { 4194417, {{ 4194417, 4194424, 4194417, 4194424 }} },
-        { 4194421, {{ 4194421, 4194422, 4194420, 4194423 }} },
-        { 4194422, {{ 4194422, 4194420, 4194423, 4194421 }} },
-        { 4194423, {{ 4194423, 4194421, 4194422, 4194420 }} },
-        { 4194424, {{ 4194424, 4194417, 4194424, 4194417 }} }
-    }};
-
-    if( dir == type::invalid ) {
-        debugmsg( "Invalid overmap rotation (%d).", dir );
-        return sym;
-    }
-
-    const auto iter = rotated_syms.find( sym );
-    return iter != rotated_syms.end() ? iter->second[static_cast<size_t>( dir )] : sym;
+    return rotatable_symbols::get( sym, static_cast<int>( dir ) );
 }
 
 point om_direction::displace( type dir, int dist )

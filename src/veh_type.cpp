@@ -70,9 +70,9 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "CARGO", VPFLAG_CARGO },
     { "INTERNAL", VPFLAG_INTERNAL },
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
-    { "VPFLAG_TRACK", VPFLAG_TRACK },
     { "RECHARGE", VPFLAG_RECHARGE },
-    { "VISION", VPFLAG_EXTENDS_VISION }
+    { "VISION", VPFLAG_EXTENDS_VISION },
+    { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
@@ -446,13 +446,43 @@ void vpart_info::check()
         if( !item::type_is_defined( part.item ) ) {
             debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.item.c_str() );
         }
-        if( part.has_flag( "TURRET" ) && !item::find_type( part.item )->gun ) {
+        const itype &base_item_type = *item::find_type( part.item );
+        // Fuel type errors are serious and need fixing now
+        if( !item::type_is_defined( part.fuel_type ) ) {
+            debugmsg( "vehicle part %s uses undefined fuel %s", part.id.c_str(), part.item.c_str() );
+            part.fuel_type = "null";
+        } else if( part.fuel_type != "null" && item::find_type( part.fuel_type )->fuel == nullptr &&
+                   ( base_item_type.container == nullptr || !base_item_type.container->watertight ) ) {
+            // Tanks are allowed to specify non-fuel "fuel",
+            // because currently legacy blazemod uses it as a hack to restrict content types
+            debugmsg( "non-tank vehicle part %s uses non-fuel item %s as fuel, setting to null",
+                      part.id.c_str(), part.fuel_type.c_str() );
+            part.fuel_type = "null";
+        }
+        if( part.has_flag( "TURRET" ) && base_item_type.gun == nullptr ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
         }
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
                 debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
             }
+        }
+        if( part.has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) && part.epower == 0 ) {
+            debugmsg( "%s is set to drain epower, but has epower == 0", part.id.c_str() );
+        }
+        // Parts with non-zero epower must have a flag that affects epower usage
+        static const std::vector<std::string> handled = {{
+            "ENABLED_DRAINS_EPOWER", "SECURITY", "ENGINE",
+            "ALTERNATOR", "SOLAR_PANEL", "POWER_TRANSFER",
+            "REACTOR"
+        }};
+        if( part.epower != 0 &&
+            std::none_of( handled.begin(), handled.end(), [&part]( const std::string &flag ) {
+            return part.has_flag( flag );
+        } ) ) {
+            std::string warnings_are_good_docs = enumerate_as_string( handled );
+            debugmsg( "%s has non-zero epower, but lacks a flag that would make it affect epower (one of %s)",
+                      part.id.c_str(), warnings_are_good_docs.c_str() );
         }
     }
 }

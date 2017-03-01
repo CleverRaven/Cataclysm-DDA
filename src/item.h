@@ -819,6 +819,7 @@ public:
     bool is_brewable() const;
     bool is_engine() const;
     bool is_wheel() const;
+    bool is_fuel() const;
     bool is_toolmod() const;
 
     bool is_faulty() const;
@@ -828,6 +829,9 @@ public:
 
     /** Returns the total area of this wheel or 0 if it isn't one. */
     int wheel_area() const;
+
+    /** Returns energy of one charge of this item as fuel for an engine. */
+    float fuel_energy() const;
 
     /**
      * Can this item have given item/itype as content?
