@@ -7,6 +7,7 @@
         ],
         "locations" : [ "land", "swamp" ],
         "occurrences" : [0, 10],
+        "rotate" : false,
         "flags" : [ "BLOB", "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -108,6 +109,7 @@
         "locations" : [ "water" ],
         "city_sizes" : [1, 12],
         "occurrences" : [0, 1],
+        "rotate" : false,
         "spawns" : { "group" : "GROUP_RAZORCLAW", "population":[30,60], "radius":[2, 10] }
     },{
         "type" : "overmap_special",
@@ -283,7 +285,8 @@
         "locations" : [ "forest"],
         "city_distance" : [20, -1],
         "city_sizes" : [0, 6],
-        "occurrences" : [0, 1]
+        "occurrences" : [0, 1],
+        "rotate" : false
     },{
         "type" : "overmap_special",
         "id" : "Lab",
@@ -347,7 +350,8 @@
         "locations" : [ "wilderness", "swamp" ],
         "city_distance" : [4, -1],
         "city_sizes" : [2, 10],
-        "occurrences" : [0, 5]
+        "occurrences" : [0, 5],
+        "rotate" : false
     },{
         "type" : "overmap_special",
         "id" : "Military Outpost",
@@ -1317,7 +1321,8 @@
         "locations" : [ "wilderness", "swamp" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [2, 14],
-        "occurrences" : [0, 4]
+        "occurrences" : [0, 4],
+        "rotate" : false
     },{
         "type" : "overmap_special",
         "id" : "power_station_small",
@@ -1331,6 +1336,7 @@
         "city_distance" : [-1, 6],
         "city_sizes" : [2, 14],
         "occurrences" : [0, 4],
+        "rotate" : false,
         "spawns" : { "group" : "GROUP_SMALL_STATION", "population":[4, 10], "radius":[2, 4] }
     },{
         "type" : "overmap_special",
@@ -1677,6 +1683,7 @@
         "locations" : [ "field" ],
         "city_distance" : [-1, -1],
         "occurrences" : [0, 15],
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -1687,6 +1694,7 @@
         "locations" : [ "forest" ],
         "city_distance" : [-1, -1],
         "occurrences" : [0, 12],
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
   },{
      "type" : "overmap_special",
@@ -1697,6 +1705,7 @@
     "locations" : [ "swamp" ],
     "city_distance" : [-1, -1],
     "occurrences" : [0, 9],
+    "rotate" : false,
     "flags" : [ "CLASSIC" ]
   },{
     "type": "overmap_special",
@@ -1708,6 +1717,7 @@
     "city_distance": [12, -1],
     "city_sizes": [4, 16],
     "occurrences": [0, 8],
+    "rotate" : false,
     "flags": [ "CLASSIC" ]
   },{
         "type" : "overmap_special",
@@ -1737,6 +1747,7 @@
         "city_distance" : [20, -1],
         "city_sizes" : [1, 12],
         "occurrences" : [0, 1],
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
     }
 ]

@@ -190,6 +190,16 @@ generic_factory<overmap_special> specials( "overmap special" );
 
 }
 
+static const std::map<std::string, oter_flags> oter_flags_map = {
+    { "KNOWN_DOWN",     known_down     },
+    { "KNOWN_UP",       known_up       },
+    { "RIVER",          river_tile     },
+    { "SIDEWALK",       has_sidewalk   },
+    { "ALLOW_OVERRIDE", allow_override },
+    { "NO_ROTATE",      no_rotate      },
+    { "LINEAR",         line_drawing   }
+};
+
 /*
  * Temporary container id_or_id. Stores str for delayed lookup and conversion.
  */
@@ -368,7 +378,7 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
 
 bool road_allowed(const oter_id &ter)
 {
-    return ter->has_flag( allow_road );
+    return ter->has_flag( allow_override );
 }
 
 oter_id overmap::random_shop() const
@@ -436,20 +446,14 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "color", color, color_reader{} );
 
-    set_flag( rotates, jo.get_bool( "rotate", false ) );
-    set_flag( line_drawing, jo.get_bool( "line_drawing", false ) );
-    set_flag( known_down, jo.get_bool( "known_down", false ) );
-    set_flag( known_up, jo.get_bool( "known_up", false ) );
-    set_flag( has_sidewalk, jo.get_bool( "sidewalk", false ) );
-    set_flag( allow_road, jo.get_bool( "allow_road", false ) );
-    set_flag( river_tile, id.str().compare( 0, 5, "river", 5 ) == 0 ||
-                          id.str().compare( 0, 6, "bridge", 6 ) == 0 );
-
-    if( has_flag( rotates ) && has_flag( line_drawing ) ) {
-        jo.throw_error( "Can't have \"rotate\" and \"line_drawing\" at the same time." );
-    }
+    const typed_flag_reader<decltype( oter_flags_map )> flag_reader{ oter_flags_map, "invalid overmap terrain flag" };
+    optional( jo, was_loaded, "flags", flags, flag_reader );
 
     if( has_flag( line_drawing ) ) {
+        if( has_flag( no_rotate ) ) {
+            jo.throw_error( "Mutually exclusive flags: \"NO_ROTATE\" and \"LINEAR\"." );
+        }
+
         for( const auto &elem : om_lines::mapgen_suffixes ) {
             load_overmap_terrain_mapgens( jo, id.str(), elem );
         }
@@ -462,7 +466,7 @@ void oter_type_t::finalize()
 {
     directional_peers.clear();  // In case of a second finalization.
 
-    if( has_flag( rotates ) ) {
+    if( is_rotatable() ) {
         for( auto dir : om_direction::all ) {
             register_terrain( oter_t( *this, dir ), static_cast<size_t>( dir ), om_direction::size );
         }
@@ -501,7 +505,7 @@ oter_id oter_type_t::get_rotated( om_direction::type dir ) const
     if( dir == om_direction::type::invalid ) {
         debugmsg( "Invalid rotation was asked from overmap terrain \"%s\".", id.c_str() );
         return ot_null;
-    } else if( dir == om_direction::type::none || !has_flag( rotates ) ) {
+    } else if( dir == om_direction::type::none || !is_rotatable() ) {
         return directional_peers.front();
     }
     assert( directional_peers.size() == om_direction::size );
@@ -587,12 +591,7 @@ bool oter_t::has_connection( om_direction::type dir ) const
     return om_lines::has_segment( line, dir );
 }
 
-void overmap_terrains::load( JsonObject &jo, const std::string &src )
-{
-    terrain_types.load( jo, src );
-}
-
-void overmap_terrains::check_consistency()
+bool oter_t::is_hardcoded() const
 {
     // @todo This set only exists because so does the monstrous 'if-else' statement in @ref map::draw_map(). Get rid of both.
     static const std::set<std::string> hardcoded_mapgen = {
@@ -659,6 +658,16 @@ void overmap_terrains::check_consistency()
         "triffid_roots",
     };
 
+    return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
+}
+
+void overmap_terrains::load( JsonObject &jo, const std::string &src )
+{
+    terrain_types.load( jo, src );
+}
+
+void overmap_terrains::check_consistency()
+{
     for( const auto &elem : terrain_types.get_all() ) {
         if( elem.static_spawns.group && !elem.static_spawns.group.is_valid() ) {
             debugmsg( "Invalid monster group \"%s\" in spawns of \"%s\".", elem.static_spawns.group.c_str(), elem.id.c_str() );
@@ -672,7 +681,7 @@ void overmap_terrains::check_consistency()
             continue;
         }
 
-        const bool exists_hardcoded = hardcoded_mapgen.find( mid ) != hardcoded_mapgen.end();
+        const bool exists_hardcoded = elem.is_hardcoded();
         const bool exists_loaded = oter_mapgen.find( mid ) != oter_mapgen.end();
 
         if( exists_loaded ) {
@@ -1153,21 +1162,39 @@ void overmap_special::finalize()
 
 void overmap_special::check() const
 {
-    // Update and check terrains and connections.
+    std::set<int> invalid_terrains;
+    std::set<int> fixed_terrains;
     std::set<tripoint> points;
 
     for( const auto &elem : terrains ) {
-        if( !elem.terrain.is_valid() ) {
-            debugmsg( "Invalid terrain \"%s\" in overmap special \"%s\".",
-                      elem.terrain.c_str(), id.c_str() );
-            continue;
+        const auto &oter = elem.terrain;
+
+        if( oter.is_valid() ) {
+            if( rotatable ) {
+                // We assume that the hardcoded mapgen takes care of rotation (in most cases it really does).
+                const bool loose_terrain = oter->is_rotatable() || oter->has_flag( line_drawing ) || oter->is_hardcoded();
+
+                if( !loose_terrain && fixed_terrains.count( oter.id() ) == 0 ) {
+                    fixed_terrains.insert( oter.id() );
+                    debugmsg( "In overmap special \"%s\" (which is rotatable), terrain \"%s\" can't be rotated.",
+                              id.c_str(), oter.c_str() );
+                }
+            }
+        } else {
+            if( invalid_terrains.count( oter.id() ) == 0 ) {
+                invalid_terrains.insert( oter.id() );
+                debugmsg( "In overmap special \"%s\", terrain \"%s\" is invalid.",
+                          id.c_str(), oter.c_str() );
+            }
         }
 
-        if( points.count( elem.p ) > 0 ) {
+        const auto &pos = elem.p;
+
+        if( points.count( pos ) > 0 ) {
             debugmsg( "In overmap special \"%s\", point [%d,%d,%d] is duplicated.",
-                      id.c_str(), elem.p.x, elem.p.y, elem.p.z );
+                      id.c_str(), pos.x, pos.y, pos.z );
         } else {
-            points.insert( elem.p );
+            points.insert( pos );
         }
     }
 
@@ -2714,7 +2741,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                     uistate.place_special = oslist[pmenu.ret];
                 }
                 // @todo Unify these things.
-                const bool can_rotate = terrain ? uistate.place_terrain->has_flag( rotates ) : uistate.place_special->rotatable;
+                const bool can_rotate = terrain ? uistate.place_terrain->is_rotatable() : uistate.place_special->rotatable;
 
                 uistate.omedit_rotation = om_direction::type::none;
                 // If user chose an already rotated submap, figure out its direction
@@ -2751,7 +2778,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                     mvwprintz( w_editor, 7, 1, c_red, _("generated. Their overmap") );
                     mvwprintz( w_editor, 8, 1, c_red, _("id will change, but not") );
                     mvwprintz( w_editor, 9, 1, c_red, _("their contents.") );
-                    if( ( terrain && uistate.place_terrain->has_flag( rotates ) ) ||
+                    if( ( terrain && uistate.place_terrain->is_rotatable() ) ||
                         ( !terrain && uistate.place_special->rotatable ) ) {
                         mvwprintz( w_editor, 11, 1, c_white, _("[%s] Rotate"),
                                    ctxt.get_desc( "ROTATE" ).c_str() );
@@ -3326,7 +3353,7 @@ void overmap::build_city_street( int x, int y, int cs, om_direction::type dir, c
 
     // Grow in the stated direction, sprouting off sub-roads and placing buildings as we go.
     while( c > 0 && inbounds( x, y, 0, 1 ) &&
-           (ter(x + bias.x, y + bias.y, 0)->has_flag( allow_road ) || c == cs) ) {
+           (ter(x + bias.x, y + bias.y, 0)->has_flag( allow_override ) || c == cs) ) {
         x += bias.x;
         y += bias.y;
         c--;
@@ -3348,15 +3375,15 @@ void overmap::build_city_street( int x, int y, int cs, om_direction::type dir, c
         }
 
         // Look to each side, and branch if the way is clear.
-        if (c < croad - 1 && c >= 2 && ( ter(x + bias.y, y + bias.x, 0)->has_flag( allow_road ) &&
-                                         ter(x - bias.y, y - bias.x, 0)->has_flag( allow_road ) ) ) {
+        if (c < croad - 1 && c >= 2 && ( ter(x + bias.y, y + bias.x, 0)->has_flag( allow_override ) &&
+                                         ter(x - bias.y, y - bias.x, 0)->has_flag( allow_override ) ) ) {
             croad = c;
             build_city_street( x, y, cs - rng( 1, 3 ), om_direction::turn_left( dir ), town );
             build_city_street( x, y, cs - rng( 1, 3 ), om_direction::turn_right( dir ), town );
         }
     }
     // Now we're done growing, if there's a road ahead, add one more road segment to meet it.
-    if( get_ter( x + bias.x, y + bias.y, 0 )->has_flag( allow_road ) &&
+    if( get_ter( x + bias.x, y + bias.y, 0 )->has_flag( allow_override ) &&
         get_ter( x + 2 * bias.x, y + 2 * bias.y, 0 )->can_connect_to( road->get_first() ) ) {
 
         ter( x + bias.x, y + bias.y, 0 ) = road->get_first();

@@ -459,13 +459,11 @@
     "type" : "overmap_terrain",
     "id" : "museum",
     "name" : "museum",
-    "rotate" : true,
     "sym" : 77,
     "color" : "white",
     "see_cost" : 5,
     "extras" : "build",
     "mondensity" : 2,
-    "sidewalk" : true,
     "mapgen": [ {
             "method": "json",
             "comment": "stone wall varient",
@@ -558,7 +556,8 @@
                 ]
             }
         }
-    ]
+    ],
+    "flags" : [ "SIDEWALK" ]
     },
     {
         "type" : "mapgen",
@@ -753,13 +752,11 @@
         "type"       : "overmap_terrain",
         "id"         : "bowling_alley",
         "name"       : "bowling alley",
-        "rotate"     : true,
         "sym"        : 66,
         "color"      : "red",
         "see_cost"   : 5,
         "extras"     : "build",
         "mondensity" : 2,
-        "sidewalk"   : true,
         "mapgen":
         [
             {
@@ -861,6 +858,7 @@
                     }
                 }
             }
-        ]
+        ],
+        "flags" : [ "SIDEWALK" ]
     }
 ]

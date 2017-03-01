@@ -72,10 +72,8 @@
     "name": "dojo",
     "sym": 94,
     "color": "i_ltcyan",
-    "rotate": true,
     "see_cost": 5,
     "mondensity": 2,
-    "sidewalk": true,
     "extras": "build",
     "mapgen": [
       {
@@ -151,6 +149,7 @@
           ]
         }
       }
-    ]
+    ],
+    "flags": [ "SIDEWALK" ]
   }
 ]

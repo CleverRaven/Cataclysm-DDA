@@ -1738,7 +1738,7 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
 
     m->rotate( rotation.get() );
 
-    if( terrain_type->has_flag(rotates) ) {
+    if( terrain_type->is_rotatable() ) {
         mapgen_rotate(m, terrain_type, false );
     }
 }
