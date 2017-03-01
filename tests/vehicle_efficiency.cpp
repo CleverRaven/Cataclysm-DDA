@@ -40,8 +40,30 @@ void clear_game( const ter_id &terrain )
 // Returns how much fuel did it provide
 // But contains only fuels actually used by engines
 std::map<itype_id, long> set_vehicle_fuel( vehicle *v, float veh_fuel_mult ) {
-    std::map<itype_id, long> ret;
+    // First we need to find the fuels to set
     std::set<itype_id> actually_used;
+    for( size_t p = 0; p < v->parts.size(); p++ ) {
+        auto &pt = v->parts[ p ];
+        if( pt.is_engine() ) {
+            actually_used.insert( v->type->parts[ p ].fuel );
+            pt.enabled = true;
+        }
+    }
+
+    // We ignore battery when setting fuel because it uses designated "tanks"
+    actually_used.erase( "battery" );
+
+    // Currently only one liquid fuel supported
+    REQUIRE( actually_used.size() <= 1 );
+    itype_id liquid_fuel = "null";
+    for( const auto &ft : actually_used ) {
+        if( item::find_type( ft )->phase == LIQUID ) {
+            liquid_fuel = ft;
+            break;
+        }
+    }
+
+    std::map<itype_id, long> ret;
     for( size_t p = 0; p < v->parts.size(); p++ ) {
         auto &pt = v->parts[ p ];
 
@@ -50,20 +72,17 @@ std::map<itype_id, long> set_vehicle_fuel( vehicle *v, float veh_fuel_mult ) {
             ret[ "battery" ] += pt.ammo_capacity() * veh_fuel_mult;
         }
 
-        if( pt.is_tank() && v->type->parts[p].fuel != "null" ) {
+        if( pt.is_tank() && liquid_fuel != "null" ) {
             float qty = pt.ammo_capacity() * veh_fuel_mult;
-            qty *= std::max( item::find_type( v->type->parts[p].fuel )->stack_size, 1 );
+            qty *= std::max( item::find_type( liquid_fuel )->stack_size, 1 );
             qty /= to_milliliter( units::legacy_volume_factor );
-            pt.ammo_set( v->type->parts[ p ].fuel, qty );
-            ret[ v->type->parts[ p ].fuel ] += qty;
-        }
-
-        if( pt.is_engine() ) {
-            actually_used.insert( v->type->parts[ p ].fuel );
-            pt.enabled = true;
+            pt.ammo_set( liquid_fuel, qty );
+            ret[ liquid_fuel ] += qty;
         }
     }
 
+    // We re-add battery because we want it accounted for, just not in the section above
+    actually_used.insert( "battery" );
     for( auto iter = ret.begin(); iter != ret.end(); ) {
         if( iter->second <= 0 || actually_used.count( iter->first ) == 0 ) {
             iter = ret.erase( iter );
@@ -76,7 +95,7 @@ std::map<itype_id, long> set_vehicle_fuel( vehicle *v, float veh_fuel_mult ) {
 
 // Returns the most used up fuel as percentage
 // ie. 0 means no fuel was used, 1 means at least one dry tank
-float fuel_usage_est( vehicle &v, const std::map<itype_id, long> &started_with ) {
+float fuel_percentage_left( vehicle &v, const std::map<itype_id, long> &started_with ) {
     std::map<itype_id, long> fuel_amount;
     std::map<itype_id, long> fuel_capacity;
     std::set<itype_id> consumed_fuels;
@@ -94,21 +113,21 @@ float fuel_usage_est( vehicle &v, const std::map<itype_id, long> &started_with )
         }
     }
 
-    float ret = 0.0f;
+    float left = 1.0f;
     for( const auto &type : consumed_fuels ) {
         const auto had_at_start = started_with.find( type );
         // Weird - we started without this fuel
         if( had_at_start == started_with.end() ) {
-            return 1.0f;
+            return 0.0f;
         }
-        ret = std::max( ret, (float)( had_at_start->second - fuel_amount[ type ] ) / had_at_start->second );
+        left = std::min( left, (float)( had_at_start->second - fuel_amount[ type ] ) / had_at_start->second );
     }
 
-    return ret;
+    return left;
 }
 
-const float fuel_level = 1.0f;
-const int cycle_limit = 100;
+const float fuel_level = 0.1f;
+const int cycle_limit = 10;
 
 long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
                       int reset_velocity_turn, long target_distance,
@@ -177,11 +196,8 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
         }
     }
 
-    // Very slow moving or very efficient vehicles take a lot of time to run out of fuel
-    // They bloat test times, so it's better to test them only for x turns
-    int cycles_used = std::max( 1, cycle_limit - cycles_left );
-    float fuel_percentage_used = std::max( 0.001f, fuel_usage_est( veh, starting_fuel ) );
-    long adjusted_tiles_travelled = tiles_travelled / fuel_percentage_used * cycle_limit / cycles_used;
+    float fuel_percentage_used = std::max( 0.001f, 1.0f - fuel_percentage_left( veh, starting_fuel ) );
+    long adjusted_tiles_travelled = tiles_travelled / fuel_percentage_used;
     if( target_distance >= 0 ) {
         CHECK( adjusted_tiles_travelled >= min_dist );
         CHECK( adjusted_tiles_travelled <= max_dist );
@@ -271,7 +287,6 @@ void test_vehicle( std::string type,
 
 std::vector<std::string> vehs_to_test = {{
     "beetle",
-    /*
     "car",
     "car_sports",
     "electric_car",
@@ -287,7 +302,6 @@ std::vector<std::string> vehs_to_test = {{
     "tractor_plow",
     "apc",
     "humvee",
-    */
 }};
 
 /** This isn't a test per se, it executes this code to
