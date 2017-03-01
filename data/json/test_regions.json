@@ -64,7 +64,6 @@
       "type" : "overmap_terrain",
       "id" : "s_restaurant_deserted_test",
       "name" : "abandoned drive-through",
-      "rotate" : true,
       "sym" : 94,
       "color" : "dkgray_magenta",
       "see_cost" : 5,

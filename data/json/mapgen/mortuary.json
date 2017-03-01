@@ -40,7 +40,6 @@
     "name": "mortuary",
     "sym": 77,
     "color": "i_blue",
-    "rotate": true,
     "see_cost": 5,
     "mondensity": 6,
     "extras": "build",

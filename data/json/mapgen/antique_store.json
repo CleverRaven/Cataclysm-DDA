@@ -5,7 +5,6 @@
     "name": "antique store",
     "sym": 65,
     "color": "brown",
-    "rotate": true,
     "see_cost": 5,
     "mondensity": 2,
     "extras": "build",

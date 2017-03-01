@@ -171,7 +171,6 @@
         "type": "overmap_terrain",
         "id" : "bankruptpizzeria",
         "name" : "Bankrupt Pizzeria",
-        "rotate" : true,
         "sym" : 94,
         "color" : "dark_gray",
         "see_cost" : 5,

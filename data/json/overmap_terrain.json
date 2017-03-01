@@ -543,80 +543,72 @@
         "name" : "cathedral",
         "sym" : 67,
         "color" : "i_ltred",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "cathedral_1_NE",
         "name" : "cathedral",
         "sym" : 67,
         "color" : "i_ltred",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "cathedral_1_SW",
         "name" : "cathedral",
         "sym" : 67,
         "color" : "i_ltred",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "cathedral_1_SE",
         "name" : "cathedral",
         "sym" : 67,
         "color" : "i_ltred",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "cathedral_b_NW",
         "name" : "cathedral basement",
         "sym" : 67,
         "color" : "i_ltred",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "sidewalk" : true
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "cathedral_b_NE",
         "name" : "cathedral basement",
         "sym" : 67,
         "color" : "i_ltred",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "cathedral_b_SW",
         "name" : "cathedral basement",
         "sym" : 67,
         "color" : "i_ltred",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "cathedral_b_SE",
         "name" : "cathedral basement",
         "sym" : 67,
         "color" : "i_ltred",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "s_grocery",
@@ -839,7 +831,6 @@
         "name" : "farm field",
         "sym" : 35,
         "color" : "i_brown",
-        "rotate" : true,
         "see_cost" : 5,
         "extras" : "field",
         "mondensity" : 2
@@ -849,18 +840,15 @@
         "name" : "farm house",
         "sym" : 94,
         "color" : "i_brown",
-        "rotate" : true,
         "see_cost" : 5,
         "extras" : "build",
-        "mondensity" : 2,
-        "flags" : [ "NO_ROTATE" ]
+        "mondensity" : 2
     },{
         "type" : "overmap_terrain",
         "id" : "farm_3",
         "name" : "farm field",
         "sym" : 35,
         "color" : "i_brown",
-        "rotate" : true,
         "see_cost" : 5,
         "extras" : "field",
         "mondensity" : 2
@@ -870,7 +858,6 @@
         "name" : "farm field",
         "sym" : 35,
         "color" : "i_brown",
-        "rotate" : true,
         "see_cost" : 5,
         "extras" : "field",
         "mondensity" : 2
@@ -880,7 +867,6 @@
         "name" : "farm field",
         "sym" : 35,
         "color" : "i_brown",
-        "rotate" : true,
         "see_cost" : 5,
         "extras" : "field",
         "mondensity" : 2
@@ -890,7 +876,6 @@
         "name" : "farm field",
         "sym" : 35,
         "color" : "i_brown",
-        "rotate" : true,
         "see_cost" : 5,
         "extras" : "field",
         "mondensity" : 2
@@ -900,7 +885,6 @@
         "name" : "farm field",
         "sym" : 35,
         "color" : "i_brown",
-        "rotate" : true,
         "see_cost" : 5,
         "extras" : "field",
         "mondensity" : 2
@@ -910,7 +894,6 @@
         "name" : "farm field",
         "sym" : 35,
         "color" : "i_brown",
-        "rotate" : true,
         "see_cost" : 5,
         "extras" : "field",
         "mondensity" : 2
@@ -920,11 +903,9 @@
         "name" : "farm field",
         "sym" : 35,
         "color" : "i_brown",
-        "rotate" : true,
         "see_cost" : 5,
         "extras" : "field",
-        "mondensity" : 2,
-        "flags" : [ "NO_ROTATE" ]
+        "mondensity" : 2
     },{
         "type" : "overmap_terrain",
         "id" : "police",
@@ -1076,90 +1057,81 @@
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
-        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "school_1_2",
         "name" : "regional school",
         "sym" : 83,
         "color" : "light_blue",
-        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "school_1_3",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
-        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "school_1_4",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
-        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "school_1_5",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
-        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "school_1_6",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
-        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "school_1_7",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
-        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "school_1_8",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
-        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "school_1_9",
         "name" : "regional school",
         "sym" : 115,
         "color" : "light_blue",
-        "rotate": true,
         "see_cost" : 5,
         "mondensity" : 2,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "prison_1",
@@ -1649,7 +1621,7 @@
         "sym": 66,
         "color": "dark_gray",
         "see_cost": 2,
-        "flags" : [ "KNOWN_UP" ]
+        "flags" : [ "KNOWN_UP", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "outpost",

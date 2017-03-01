@@ -29,7 +29,6 @@
     "name": "home improvement store",
     "sym": 94,
     "color": "c_yellow_green",
-    "rotate": true,
     "see_cost": 5,
     "mondensity": 2,
     "extras": "build",

@@ -94,7 +94,6 @@
         "type": "overmap_terrain",
         "id" : "fieldoffice",
         "name" : "wildlife field office",
-        "rotate" : true,
         "sym" : 94,
         "color" : "brown",
         "see_cost" : 5,

@@ -99,7 +99,6 @@
     "name": "veterinarian clinic",
     "sym": 94,
     "color": "i_pink",
-    "rotate": true,
     "see_cost": 5,
     "mondensity": 2,
     "extras": "build",

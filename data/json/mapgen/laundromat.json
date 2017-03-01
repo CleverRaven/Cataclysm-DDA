@@ -143,7 +143,6 @@
     "name": "laundromat",
     "sym": 94,
     "color": "white_white",
-    "rotate": true,
     "see_cost": 5,
     "mondensity": 2,
     "extras": "build",

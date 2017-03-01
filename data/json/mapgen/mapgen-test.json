@@ -21,7 +21,6 @@
     "//": "Its contents make no sense, it is supposed to use all the available mapgen possibilities.",
     "sym": 37,
     "color": "white",
-    "rotate": false,
     "mondensity": 1
   },
   {
