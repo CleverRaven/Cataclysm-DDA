@@ -433,12 +433,22 @@ void mission::set_target( const tripoint &new_target )
 
 bool mission::is_assigned() const
 {
-    return player_id != -1;
+    return player_id != -1 || legacy_no_player_id;
 }
 
 int mission::get_assigned_player_id() const
 {
     return player_id;
+}
+
+void mission::set_player_id_legacy_0c( int id )
+{
+    if( !legacy_no_player_id || player_id != -1 ) {
+        debugmsg( "Not a legacy mission, tried to set id %d", id );
+    } else {
+        player_id = id;
+        legacy_no_player_id = false;
+    }
 }
 
 std::string mission::name()
