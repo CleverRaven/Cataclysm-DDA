@@ -8907,7 +8907,7 @@ bool player::wield( item& target )
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
     bool worn = is_worn( target );
-    mv += item_handling_cost( target, !worn, worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
+    mv += item_handling_cost( target, true, worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
 
     if( worn ) {
         target.on_takeoff( *this );
@@ -9287,8 +9287,8 @@ int player::item_handling_cost( const item& it, bool penalties, int base_cost ) 
 {
     int mv = base_cost;
     if( penalties ) {
-        // 10 moves per liter, up to 100 at 5 liters
-        mv += std::min( 100, it.volume() / 50_ml );
+        // 40 moves per liter, up to 200 at 5 liters
+        mv += std::min( 200, it.volume() / 20_ml );
     }
 
     if( weapon.typeId() == "e_handcuffs" ) {
@@ -9318,7 +9318,7 @@ int player::item_store_cost( const item& it, const item& /* container */, bool p
     ///\EFFECT_CUTTING decreases time taken to store a cutting weapon
     ///\EFFECT_BASHING decreases time taken to store a bashing weapon
     int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
-    return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 5.0f ) / 5.0f );
+    return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 }
 
 int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
@@ -11973,7 +11973,7 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
     ///\EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
     ///\EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
     int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
-    mv += item_handling_cost( weapon, penalties, base_cost ) / ( ( lvl + 5.0f ) / 5.0f );
+    mv += item_handling_cost( weapon, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 
     moves -= mv;
 
