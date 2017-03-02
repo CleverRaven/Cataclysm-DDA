@@ -8906,12 +8906,11 @@ bool player::wield( item& target )
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
-    mv += item_handling_cost( target );
+    bool worn = is_worn( target );
+    mv += item_handling_cost( target, !worn, worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
 
-    if( is_worn( target ) ) {
+    if( worn ) {
         target.on_takeoff( *this );
-    } else {
-        mv *= INVENTORY_HANDLING_FACTOR;
     }
 
     moves -= mv;
@@ -9113,13 +9112,13 @@ bool player::dispose_item( item_location &&obj, const std::string& prompt )
     opts.emplace_back( dispose_option {
         bucket ? _( "Spill contents and store in inventory" ) : _( "Store in inventory" ),
         volume_carried() + obj->volume() <= volume_capacity(), '1',
-        item_handling_cost( *obj ) * INVENTORY_HANDLING_FACTOR,
+        item_handling_cost( *obj ) + INVENTORY_HANDLING_PENALTY,
         [this, bucket, &obj] {
             if( bucket && !obj->spill_contents( *this ) ) {
                 return false;
             }
 
-            moves -= item_handling_cost( *obj ) * INVENTORY_HANDLING_FACTOR;
+            moves -= item_handling_cost( *obj ) + INVENTORY_HANDLING_PENALTY;
             inv.add_item_keep_invlet( *obj );
             inv.unsort();
             obj.remove_item();
@@ -9283,9 +9282,18 @@ void player::mend_item( item_location&& obj, bool interactive )
     }
 }
 
-int player::item_handling_cost( const item& it, bool effects, int factor ) const {
-    // TODO: the volume (250 ml) should be part of the factor, provided by the caller
-    int mv = std::max( 1, it.volume() / 250_ml * factor );
+int player::item_handling_cost( const item& it, bool penalties, int base_cost ) const
+{
+    int mv = base_cost;
+    if( penalties ) {
+        mv += std::min( 50, it.volume() / 500_ml );
+    }
+
+    if( weapon.typeId() == "e_handcuffs" ) {
+        mv *= 4;
+    } else if( penalties && has_effect( effect_grabbed ) ) {
+        mv *= 2;
+    }
 
     // For single handed items use the least encumbered hand
     if( it.is_two_handed( *this ) ) {
@@ -9294,18 +9302,10 @@ int player::item_handling_cost( const item& it, bool effects, int factor ) const
         mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
     }
 
-    if( effects && has_effect( effect_grabbed ) ) {
-        mv *= 2;
-    }
-
-    if( weapon.typeId() == "e_handcuffs" ) {
-        mv *= 4;
-    }
-
     return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
 }
 
-int player::item_store_cost( const item& it, const item& /* container */, bool effects, int factor ) const
+int player::item_store_cost( const item& it, const item& /* container */, bool penalties, int base_cost ) const
 {
     ///\EFFECT_PISTOL decreases time taken to store a pistol
     ///\EFFECT_SMG decreases time taken to store an SMG
@@ -9316,7 +9316,7 @@ int player::item_store_cost( const item& it, const item& /* container */, bool e
     ///\EFFECT_CUTTING decreases time taken to store a cutting weapon
     ///\EFFECT_BASHING decreases time taken to store a bashing weapon
     int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
-    return item_handling_cost( it, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
+    return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 5.0f ) / 5.0f );
 }
 
 int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
@@ -11920,12 +11920,12 @@ std::string player::weapname() const
     }
 }
 
-bool player::wield_contents( item *container, int pos, int factor, bool effects )
+bool player::wield_contents( item &container, int pos, bool penalties, int base_cost )
 {
     // if index not specified and container has multiple items then ask the player to choose one
     if( pos < 0 ) {
         std::vector<std::string> opts;
-        std::transform( container->contents.begin(), container->contents.end(),
+        std::transform( container.contents.begin(), container.contents.end(),
                         std::back_inserter( opts ), []( const item& elem ) {
                             return elem.display_name();
                         } );
@@ -11936,12 +11936,12 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
         }
     }
 
-    if( pos >= static_cast<int>(container->contents.size() ) ) {
+    if( pos >= static_cast<int>(container.contents.size() ) ) {
         debugmsg( "Tried to wield non-existent item from container (player::wield_contents)" );
         return false;
     }
 
-    auto target = std::next( container->contents.begin(), pos );
+    auto target = std::next( container.contents.begin(), pos );
     if( !can_wield( *target ) ) {
         return false;
     }
@@ -11956,8 +11956,8 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     }
 
     weapon = std::move( *target );
-    container->contents.erase( target );
-    container->on_contents_changed();
+    container.contents.erase( target );
+    container.on_contents_changed();
 
     inv.assign_empty_invlet( weapon, true );
     last_item = weapon.typeId();
@@ -11971,7 +11971,7 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     ///\EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
     ///\EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
     int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
-    mv += item_handling_cost( weapon, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
+    mv += item_handling_cost( weapon, penalties, base_cost ) / ( ( lvl + 5.0f ) / 5.0f );
 
     moves -= mv;
 
@@ -11980,10 +11980,10 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     return true;
 }
 
-void player::store(item* container, item* put, int factor, bool effects)
+void player::store( item& container, item& put, bool penalties, int base_cost )
 {
-    moves -= item_store_cost( *put, *container, factor, effects );
-    container->put_in( i_rem( put ) );
+    moves -= item_store_cost( put, container, penalties, base_cost );
+    container.put_in( i_rem( &put ) );
 }
 
 nc_color encumb_color(int level)

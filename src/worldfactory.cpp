@@ -641,6 +641,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     ctxt.register_action("QUIT");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("PREV_TAB");
+    ctxt.register_action("CONFIRM");
     int iStartPos = 0;
     int iCurrentLine = 0;
 
