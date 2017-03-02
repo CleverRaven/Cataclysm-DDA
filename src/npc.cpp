@@ -2214,9 +2214,9 @@ bool npc::dispose_item( item_location &&obj, const std::string & )
 
     if( volume_carried() + obj->volume() <= volume_capacity() ) {
         opts.emplace_back( dispose_option {
-            item_handling_cost( *obj ) + INVENTORY_HANDLING_PENALTY,
+            item_handling_cost( *obj ),
             [this,&obj] {
-                moves -= item_handling_cost( *obj ) + INVENTORY_HANDLING_PENALTY;
+                moves -= item_handling_cost( *obj );
                 inv.add_item_keep_invlet( *obj );
                 obj.remove_item();
                 inv.unsort();

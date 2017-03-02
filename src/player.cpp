@@ -9113,13 +9113,13 @@ bool player::dispose_item( item_location &&obj, const std::string& prompt )
     opts.emplace_back( dispose_option {
         bucket ? _( "Spill contents and store in inventory" ) : _( "Store in inventory" ),
         volume_carried() + obj->volume() <= volume_capacity(), '1',
-        item_handling_cost( *obj ) + INVENTORY_HANDLING_PENALTY,
+        item_handling_cost( *obj ),
         [this, bucket, &obj] {
             if( bucket && !obj->spill_contents( *this ) ) {
                 return false;
             }
 
-            moves -= item_handling_cost( *obj ) + INVENTORY_HANDLING_PENALTY;
+            moves -= item_handling_cost( *obj );
             inv.add_item_keep_invlet( *obj );
             inv.unsort();
             obj.remove_item();
