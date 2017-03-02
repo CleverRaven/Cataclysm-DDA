@@ -8913,6 +8913,7 @@ bool player::wield( item& target )
         target.on_takeoff( *this );
     }
 
+    add_msg( m_debug, "wielding took %d moves", mv );
     moves -= mv;
 
     if( has_item( target ) ) {
@@ -9286,7 +9287,8 @@ int player::item_handling_cost( const item& it, bool penalties, int base_cost ) 
 {
     int mv = base_cost;
     if( penalties ) {
-        mv += std::min( 50, it.volume() / 500_ml );
+        // 10 moves per liter, up to 100 at 5 liters
+        mv += std::min( 100, it.volume() / 50_ml );
     }
 
     if( weapon.typeId() == "e_handcuffs" ) {
