@@ -741,6 +741,13 @@ void add_corpse( const tripoint &p );
                       bool destroy = false, bool bash_floor = false,
                       const vehicle *bashing_vehicle = nullptr );
 
+    /**
+     * If the tile at p is empty, replaces it with roof of tile below (if tile below has a roof).
+     * Note: assumes that the tile needs correcting. If tile was empty before, will bug out in 2D mode.
+     * @param force_roof If true, forces dirt tile if no roof exists.
+     */
+    void correct_roofs( const tripoint &p, bool force_roof );
+
 // Effects of attacks/items
     bool hit_with_acid( const tripoint &p );
     bool hit_with_fire( const tripoint &p );
@@ -1397,7 +1404,7 @@ private:
     // Gets the roof type of the tile at p
     // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
     // or can just return air because we bashed down an entire floor tile
-    ter_id get_roof( const tripoint &p, bool allow_air );
+    ter_id get_roof( const tripoint &p, bool force_roof );
 
  // Iterates over every item on the map, passing each item to the provided function.
  template<typename T>

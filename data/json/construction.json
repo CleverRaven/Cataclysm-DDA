@@ -17,6 +17,14 @@
         "post_special" : "done_deconstruct"
     },{
         "type" : "construction",
+        "description" : "Safely take down walls/roofs",
+        "category" : "FURN",
+        "difficulty" : 2,
+        "time" : 30,
+        "pre_special" : "check_non_essential_roof",
+        "post_special" : "done_clean_destroy"
+    },{
+        "type" : "construction",
         "description" : "Dig Pit", "//": "Step 1: shallow pit",
         "category" : "DIG",
         "difficulty" : 0,
@@ -2090,7 +2098,8 @@
         "time" : 10,
         "//": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a vehicle",
         "pre_special" : "check_empty",
-        "post_special" : "done_vehicle"
+        "post_special" : "done_vehicle",
+        "vehicle_start" : true
     },{
         "type" : "construction",
         "description" : "Build Road Barricade",
