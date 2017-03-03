@@ -17,7 +17,15 @@ using ter_id = int_id<ter_t>;
 
 enum direction : unsigned;
 
-    class roofs
+enum class roof_dir : size_t {
+    west = 0,
+    north,
+    east,
+    south,
+    num_dirs
+};
+
+class roofs
 {
     private:
         game &g;
@@ -32,15 +40,10 @@ enum direction : unsigned;
         ~roofs();
 
         /**
-         * Get weight (in grams) a roof above given tile can hold before collapsing.
+         * Gets weight (in grams) a roof above given tile has of support from a given direction.
          * Returns -1 if there is no roof.
          */
-        int get_support( const tripoint &origin );
-
-        /**
-         * Gets weight (in grams) a roof above given tile has of support from a given direction.
-         */
-        int get_support( const tripoint &origin, direction from_direction );
+        int get_support( const tripoint &origin, roof_dir from_direction = roof_dir::num_dirs );
 
         /**
          * Generates a map of support quality around a given point.
@@ -56,5 +59,9 @@ enum direction : unsigned;
          */
         roofs &replace_tiles( const std::map<tripoint, ter_id> &replacement );
 };
+
+roof_dir convert_directions( direction dir );
+direction convert_directions( roof_dir dir );
+const tripoint &direction_to_offset( roof_dir dir );
 
 #endif

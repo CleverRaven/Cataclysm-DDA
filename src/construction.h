@@ -40,6 +40,7 @@ struct construction {
 
         std::function<bool( const tripoint & )> pre_special; // custom constructability check
         std::function<void( const tripoint & )> post_special; // custom after-effects
+        std::function<void( const tripoint & )> explain_failure; // Custom error message display
 
         bool pre_is_furniture; // whether it's furniture or terrain
         bool post_is_furniture; // whether it's furniture or terrain

@@ -22,7 +22,8 @@
         "difficulty" : 2,
         "time" : 30,
         "pre_special" : "check_non_essential_roof",
-        "post_special" : "done_clean_destroy"
+        "post_special" : "done_clean_destroy",
+        "explain_failure" : "no_support"
     },{
         "type" : "construction",
         "description" : "Dig Pit", "//": "Step 1: shallow pit",

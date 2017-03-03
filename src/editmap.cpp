@@ -30,6 +30,7 @@
 #include "scent_map.h"
 #include "debug_menu.h"
 #include "string_input_popup.h"
+#include "roofs.h"
 
 #include <fstream>
 #include <sstream>
@@ -46,6 +47,11 @@
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 #define maplim 132
 #define pinbounds(p) ( p.x >= 0 && p.x < maplim && p.y >= 0 && p.y < maplim)
+
+enum class edit_drawmode : size_t {
+    def, uber, roof_support,
+    roof_support_north, roof_support_east, roof_support_south, roof_support_west
+};
 
 static const ter_id undefined_ter_id( -1 );
 static const furn_id undefined_furn_id( -1 );
@@ -222,7 +228,7 @@ editmap::editmap()
     hilights["mapgentgt"].color = c_cyan;
     hilights["mapgentgt"].setup();
 
-    uberdraw = false;
+    cur_draw_mode = edit_drawmode::def;
 }
 
 editmap::~editmap()
@@ -371,13 +377,14 @@ tripoint editmap::edit()
     ctxt.register_action( "EDIT_ITEMS" );
     ctxt.register_action( "EDIT_MONSTER" );
     ctxt.register_action( "EDITMAP_SHOW_ALL" );
+    ctxt.register_action( "SHOW_ROOF_SUPPORT" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     // Needed for timeout to be useful
     ctxt.register_action( "ANY_INPUT" );
     std::string action;
 
-    uberdraw = uistate.editmap_nsa_viewmode;
+    cur_draw_mode = uistate.editmap_nsa_viewmode ? edit_drawmode::uber : edit_drawmode::def;
     infoHeight = 14;
 
     w_info = newwin( infoHeight, width, TERMY - infoHeight, offsetX );
@@ -407,7 +414,7 @@ tripoint editmap::edit()
         } else if( action == "EDIT_TRAPS" ) {
             edit_trp();
         } else if( action == "EDITMAP_SHOW_ALL" ) {
-            uberdraw = !uberdraw;
+            cur_draw_mode = cur_draw_mode != edit_drawmode::uber ? edit_drawmode::uber : edit_drawmode::def;
         } else if( action == "EDIT_MONSTER" ) {
             int mon_index = g->mon_at( target );
             int npc_index = g->npc_at( target );
@@ -425,6 +432,13 @@ tripoint editmap::edit()
             target_list.clear();
             origin = target;
             target_list.push_back( target );
+        } else if( action == "SHOW_ROOF_SUPPORT" ) {
+            if( ( size_t )cur_draw_mode < ( size_t )edit_drawmode::roof_support ||
+                ( size_t )cur_draw_mode >= ( size_t )edit_drawmode::roof_support_west ) {
+                cur_draw_mode = edit_drawmode::roof_support;
+            } else {
+                cur_draw_mode = static_cast<edit_drawmode>( ( size_t )cur_draw_mode + 1 );
+            }
         } else if( move_target( action, 1 ) ) {
             recalc_target( editshape );         // target_list must follow movement
             if( target_list.size() > 1 ) {
@@ -435,19 +449,13 @@ tripoint editmap::edit()
         }
     } while( action != "QUIT" );
 
-    uistate.editmap_nsa_viewmode = uberdraw;
+    uistate.editmap_nsa_viewmode = cur_draw_mode == edit_drawmode::uber;
 
     if( action == "CONFIRM" ) {
         return target;
     }
     return tripoint_min;
 }
-
-
-// pending radiation / misc edit
-enum edit_drawmode {
-    drawmode_default, drawmode_radiation,
-};
 
 /*
  * This is like game::draw_ter except it completely ignores line of sight, lighting, boomered, etc.
@@ -469,17 +477,57 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
     */
     bool draw_itm = true;
     bool game_map = ( ( m == &g->m || w == g->w_terrain ) ? true : false );
-    const int msize = SEEX * MAPSIZE;
     if( refresh_mplans == true ) {
         hilights["mplan"].points.clear();
     }
+    roofs rf( *g, *m );
     for( int x = start.x, sx = 0; x <= end.x; x++, sx++ ) {
         for( int y = start.y, sy = 0; y <= end.y; y++, sy++ ) {
             tripoint p{ x, y, target.z };
             nc_color col = c_dkgray;
             long sym = ( game_map ? '%' : ' ' );
-            if( x >= 0 && x < msize && y >= 0 && y < msize ) {
-                if( game_map ) {
+            if( m->inbounds( x, y ) ) {
+                if( game_map &&
+                    ( size_t )cur_draw_mode >= ( size_t )edit_drawmode::roof_support &&
+                    ( size_t )cur_draw_mode <= ( size_t )edit_drawmode::roof_support_west ) {
+                    // Can't display 2 glyphs per tile, so simulate with colors
+                    static const std::array<nc_color, 10> tens_colors = {{
+                            c_dkgray, c_ltgray,
+                            c_brown, c_red, c_ltred,
+                            c_magenta, c_pink, c_green,
+                            c_ltgreen, c_cyan
+                        }
+                    };
+                    int support = -1;
+                    // @todo Less ugly
+                    switch( cur_draw_mode ) {
+                        case edit_drawmode::roof_support_north:
+                            support = rf.get_support( p, roof_dir::north );
+                            break;
+                        case edit_drawmode::roof_support_east:
+                            support = rf.get_support( p, roof_dir::east );
+                            break;
+                        case edit_drawmode::roof_support_south:
+                            support = rf.get_support( p, roof_dir::south );
+                            break;
+                        case edit_drawmode::roof_support_west:
+                            support = rf.get_support( p, roof_dir::west );
+                            break;
+                        default:
+                            support = rf.get_support( p );
+                            break;
+                    }
+
+                    if( support < 0 ) {
+                        mvwputch( w, sy, sx, c_black, ' ' );
+                    } else {
+                        int ones = support % 10;
+                        int tens = std::min( support / 10, 9 );
+                        nc_color col = tens_colors[ tens ];
+                        sym = '0' + ones;
+                        mvwputch( w, sy, sx, col, sym );
+                    }
+                } else if( game_map ) {
                     Creature *critter = g->critter_at( p );
                     if( critter != nullptr ) {
                         critter->draw( w, center.x, center.y, false );
@@ -531,10 +579,10 @@ void editmap::update_view( bool update_info )
     // update map always
     werase( g->w_terrain );
 
-    if( uberdraw ) {
-        uber_draw_ter( g->w_terrain, &g->m ); // Bypassing the usual draw methods; not versatile enough
+    if( cur_draw_mode == edit_drawmode::def ) {
+        g->draw_ter( target );
     } else {
-        g->draw_ter( target ); // But it's optional
+        uber_draw_ter( g->w_terrain, &g->m ); // Bypassing the usual draw methods; not versatile enough
     }
 
     // update target point
@@ -1015,7 +1063,7 @@ int editmap::edit_ter()
                 select_shape( editshape, ( action == "EDITMAP_MOVE" ? 1 : 0 ) );
                 sel_ter = sel_tmp;
             } else if( action == "EDITMAP_SHOW_ALL" ) {
-                uberdraw = !uberdraw;
+                cur_draw_mode = cur_draw_mode != edit_drawmode::uber ? edit_drawmode::uber : edit_drawmode::def;
                 update_view( false );
             }
         } else { // todo: cleanup
@@ -1050,7 +1098,7 @@ int editmap::edit_ter()
                 sel_frn = sel_frn_tmp;
                 sel_ter = sel_ter_tmp;
             } else if( action == "EDITMAP_SHOW_ALL" ) {
-                uberdraw = !uberdraw;
+                cur_draw_mode = cur_draw_mode != edit_drawmode::uber ? edit_drawmode::uber : edit_drawmode::def;
                 update_view( false );
             }
         }
@@ -1207,7 +1255,7 @@ int editmap::edit_fld()
             }
             fmenu.selected = sel_tmp;
         } else if( fmenu.keypress == 'v' ) {
-            uberdraw = !uberdraw;
+            cur_draw_mode = cur_draw_mode != edit_drawmode::uber ? edit_drawmode::uber : edit_drawmode::def;
             update_view( false );
         }
     } while( ! menu_escape( fmenu.keypress ) );
@@ -1291,7 +1339,7 @@ int editmap::edit_trp()
             select_shape( editshape, ( action == "EDITMAP_MOVE" ? 1 : 0 ) );
             trsel = sel_tmp;
         } else if( action == "EDITMAP_SHOW_ALL" ) {
-            uberdraw = !uberdraw;
+            cur_draw_mode = cur_draw_mode != edit_drawmode::uber ? edit_drawmode::uber : edit_drawmode::def;
             update_view( false );
         }
     } while( action != "QUIT" );
@@ -1627,7 +1675,7 @@ int editmap::select_shape( shapetype shape, int mode )
         } else if( action == "EDITMAP_MOVE" ) {
             moveall = true;
         } else if( action == "EDITMAP_SHOW_ALL" ) {
-            uberdraw = !uberdraw;
+            cur_draw_mode = cur_draw_mode != edit_drawmode::uber ? edit_drawmode::uber : edit_drawmode::def;
         } else if( action == "EDITMAP_TAB" ) {
             if( moveall ) {
                 moveall = false;
