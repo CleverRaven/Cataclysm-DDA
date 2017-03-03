@@ -283,6 +283,11 @@ struct ter_t : map_data_common_t {
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
+    // Weight (in grams) of this terrain tile. Currently only makes sense for roofs.
+    int weight;
+    // Maximum weight this tile can support. Currently only makes sense for roofs and roof supporters.
+    int max_support;
+
     ter_t() :
         open( NULL_ID ),
         close( NULL_ID ),

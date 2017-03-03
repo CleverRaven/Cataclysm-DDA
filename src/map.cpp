@@ -37,6 +37,7 @@
 #include "cata_utility.h"
 #include "harvest.h"
 #include "input.h"
+#include "roofs.h"
 
 #include <cmath>
 #include <stdlib.h>

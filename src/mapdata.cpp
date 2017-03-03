@@ -972,6 +972,9 @@ void ter_t::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "transforms_into", transforms_into, NULL_ID );
     optional( jo, was_loaded, "roof", roof, NULL_ID );
 
+    optional( jo, was_loaded, "weight", weight, 1000 );
+    optional( jo, was_loaded, "max_support", max_support, 100000 );
+
     bash.load( jo, "bash", false );
     deconstruct.load( jo, "deconstruct", false );
 }

@@ -27,6 +27,7 @@
 #include "cata_utility.h"
 #include "uistate.h"
 #include "string_input_popup.h"
+#include "roofs.h"
 
 #include <algorithm>
 #include <map>
@@ -849,18 +850,6 @@ bool construct::check_down_OK( const tripoint & )
     return ( g->get_levz() > -OVERMAP_DEPTH );
 }
 
-// Checks if the tile is supported by tiles that do not collapse from 2 orthogonal directions
-bool has_real_support( const tripoint &p )
-{
-    int num_supports = 0;
-    for( const tripoint &nb : get_orthogonal_neighbors( p ) ) {
-        if( g->m.has_flag( "SUPPORTS_ROOF", nb ) && !g->m.has_flag( "COLLAPSES", nb ) ) {
-            num_supports++;
-        }
-    }
-    return num_supports >= 2;
-}
-
 bool construct::check_non_essential_roof( const tripoint &p )
 {
     // Need clear access
@@ -883,15 +872,18 @@ bool construct::check_non_essential_roof( const tripoint &p )
     }
 
     // @todo Forbid taking down (and building) roofs if the player has no ladder-type access
-    if( !ter.has_flag( "SUPPORTS_ROOF" ) && !ter.has_flag( "COLLAPSES" ) ) {
+    if( !ter.has_flag( TFLAG_SUPPORTS_ROOF ) && !ter.has_flag( TFLAG_COLLAPSES ) ) {
         return false;
     }
 
+    roofs rf( *g, g->m );
+    rf.replace_tiles( {{ p, ter.bash.ter_set }} );
     for( const tripoint &surr : g->m.points_in_radius( p, 1 ) ) {
         if( surr == p ) {
             continue;
         }
-        if( g->m.has_flag( "COLLAPSES", surr ) && !has_real_support( surr ) ) {
+
+        if( g->m.has_flag( TFLAG_COLLAPSES, surr ) && rf.get_support( surr ) <= 0 ) {
             return false;
         }
     }
