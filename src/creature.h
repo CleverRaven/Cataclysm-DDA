@@ -199,8 +199,17 @@ class Creature
         dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &target,
                                                    double total_dispersion );
 
-        /** Makes an aiming/attack roll for a single projectile attack shot */
-        projectile_attack_aim projectile_attack_roll( double dispersion, double range ) const;
+        /**
+         * Makes an aiming/attack roll for a single projectile attack shot
+         * @param target_size Ease of hitting target. 1.0 means target occupies entire tile and doesn't dodge.
+         */
+        projectile_attack_aim projectile_attack_roll( double dispersion, double range, double target_size ) const;
+
+        /**
+         * Size of the target this creature presents to ranged weapons.
+         * 0.0 means unhittable, 1.0 means all projectiles going through this creature's tile will hit it.
+         */
+        double ranged_target_size() const;
 
         /**
          * Probability that a projectile attack will hit with at least the given accuracy.
@@ -210,7 +219,8 @@ class Creature
          * @param accuracy the required accuracy, in the range [0..1]
          * @return the probability, in the range (0..1]
          */
-        double projectile_attack_chance( double total_dispersion, double range, double accuracy ) const;
+        double projectile_attack_chance( double total_dispersion, double range,
+                                         double accuracy, double target_size ) const;
 
         // handles blocking of damage instance. mutates &dam
         virtual bool block_hit(Creature *source, body_part &bp_hit,

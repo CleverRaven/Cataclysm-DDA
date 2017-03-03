@@ -117,10 +117,26 @@ size_t blood_trail_len( int damage )
 
 /** How many standard deviations does the dispersion passed to Creature::projectile_attack represent? */
 const double dispersion_sigmas = 2.4;
-/** How much of the target tile is occupied by the target of a projectile attack for hit purposes? */
-const double occupied_tile_fraction = 0.5;
 
-projectile_attack_aim Creature::projectile_attack_roll( double dispersion, double range ) const
+static double occupied_tile_fraction( m_size target_size )
+{
+    switch( target_size ) {
+        case MS_TINY:
+            return 0.1;
+        case MS_SMALL:
+            return 0.25;
+        case MS_MEDIUM:
+            return 0.5;
+        case MS_LARGE:
+            return 0.75;
+        case MS_HUGE:
+            return 1.0;
+    }
+
+    return 0.5;
+}
+
+projectile_attack_aim Creature::projectile_attack_roll( double dispersion, double range, double target_size ) const
 {
     projectile_attack_aim aim;
 
@@ -136,10 +152,19 @@ projectile_attack_aim Creature::projectile_attack_roll( double dispersion, doubl
     aim.missed_by_tiles = iso_tangent( range, aim.dispersion );
 
     // fraction we missed a monster target by (0.0 = perfect hit, 1.0 = miss)
-    // @todo maybe use monster size?
-    aim.missed_by = std::min( 1.0, aim.missed_by_tiles / occupied_tile_fraction );
+    if( target_size > 0.0 ) {
+        aim.missed_by = std::min( 1.0, aim.missed_by_tiles / target_size );
+    } else {
+        // Special case 0 size targets, just to be safe from 0.0/0.0 NaNs
+        aim.missed_by = 1.0;
+    }
 
     return aim;
+}
+
+double Creature::ranged_target_size() const
+{
+    return occupied_tile_fraction( get_size() );
 }
 
 dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg, const tripoint &source,
@@ -149,7 +174,11 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
 
     double range = rl_dist( source, target_arg );
 
-    projectile_attack_aim aim = projectile_attack_roll( dispersion, range );
+    Creature *target_critter = g->critter_at( target_arg );
+    double target_size = target_critter != nullptr ?
+                             target_critter->ranged_target_size() :
+                             g->m.ranged_target_size( target_arg );
+    projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
 
     // TODO: move to-hit roll back in here
 
@@ -328,7 +357,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         // at the start, misses should stay as misses
         if( critter != nullptr && tp != target_arg ) {
             // Unintentional hit
-            cur_missed_by = std::max( rng_float( 0.2, 3.0 - aim.missed_by ), 0.4 );
+            cur_missed_by = std::max( rng_float( 0.1, 1.5 - aim.missed_by ) / critter->ranged_target_size(), 0.4 );
         }
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
@@ -429,7 +458,8 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
     double max_dispersion = erfinv( chance / 100.0 ) * sqrt2 * sigma;
 
     // required iso_tangent value
-    double missed_by_tiles = accuracy * occupied_tile_fraction;
+    // Assume we're displaying ranges against humans and human-sized zombies
+    double missed_by_tiles = accuracy * occupied_tile_fraction( MS_MEDIUM );
 
     // work backwards to range
     //   T = (2*D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
@@ -1002,7 +1032,7 @@ static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
     return cur_target;
 }
 
-double Creature::projectile_attack_chance( double dispersion, double range, double accuracy ) const {
+double Creature::projectile_attack_chance( double dispersion, double range, double accuracy, double target_size ) const {
     // This is essentially the inverse of what Creature::projectile_attack() does.
 
     if( dispersion <= 0 ) {
@@ -1014,7 +1044,7 @@ double Creature::projectile_attack_chance( double dispersion, double range, doub
         return 1.0;
     }
 
-    double missed_by_tiles = accuracy * occupied_tile_fraction;
+    double missed_by_tiles = accuracy * target_size;
 
     //          T = (2*D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
     //      cos V = 1 - T**2 / (2*D**2)
@@ -1029,14 +1059,14 @@ double Creature::projectile_attack_chance( double dispersion, double range, doub
 }
 
 static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
-                      Creature *target, double predicted_recoil ) {
+                      Creature &target, double predicted_recoil ) {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
     // Creature::projectile_attack() into shared methods.
     // Dodge is intentionally not accounted for.
 
     const double dispersion = p.get_weapon_dispersion( *weapon ) + predicted_recoil + p.recoil_vehicle();
-    const double range = rl_dist( p.pos(), target->pos() );
+    const double range = rl_dist( p.pos(), target.pos() );
 
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
@@ -1044,8 +1074,9 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
     // Fairly arbitrary cap on steadiness...
     const double steadiness = 1.0 - steady_score / MIN_RECOIL;
 
-    const auto get_chance = [&p, dispersion, range]( double acc ) {
-        return p.projectile_attack_chance( dispersion, range, acc );
+    const double target_size = target.ranged_target_size();
+    const auto get_chance = [&p, dispersion, range, target_size]( double acc ) {
+        return p.projectile_attack_chance( dispersion, range, acc, target_size );
     };
 
     // This could be extracted, to allow more/less verbose displays
@@ -1395,7 +1426,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 predicted_recoil = u.recoil;
             }
 
-            line_number = print_aim( u, w_target, line_number, &*relevant->gun_current_mode(), critter, predicted_recoil );
+            line_number = print_aim( u, w_target, line_number, &*relevant->gun_current_mode(), *critter, predicted_recoil );
 
             if( aim_mode->has_threshold ) {
                 mvwprintw(w_target, line_number++, 1, _("%s Delay: %i"), aim_mode->name.c_str(), predicted_delay );

@@ -372,6 +372,13 @@ public:
      */
     bool valid_move( const tripoint &from, const tripoint &to,
                      const bool bash = false, const bool flying = false ) const;
+                     
+    /**
+     * Size of map objects at `p` for purposes of ranged combat.
+     * Size is in percentage of tile: if 1.0, all attacks going through tile
+     * should hit map objects on it, if 0.0 there is nothing to be hit (air/water).
+     */
+    double ranged_target_size( const tripoint &p ) const;
 
 
 // 3D Sees:
