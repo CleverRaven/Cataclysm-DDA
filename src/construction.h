@@ -3,17 +3,19 @@
 #define CONSTRUCTION_H
 
 #include "cursesdef.h" // WINDOW
-#include "enums.h" // point
 #include "string_id.h"
 
 #include <string>
 #include <set>
+#include <map>
+#include <vector>
 #include <functional>
 
 class JsonObject;
 typedef int nc_color;
 class Skill;
 struct requirement_data;
+struct tripoint;
 
 using skill_id = string_id<Skill>;
 using requirement_id = string_id<requirement_data>;
@@ -33,8 +35,12 @@ struct construction {
         size_t id; // Index in construction vector
         int time;
 
-        bool ( *pre_special )( const tripoint & ); // custom constructability check
-        void ( *post_special )( const tripoint & ); // custom after-effects
+        // If true, the requirements are generated during finalization
+        bool vehicle_start;
+
+        std::function<bool( const tripoint & )> pre_special; // custom constructability check
+        std::function<void( const tripoint & )> post_special; // custom after-effects
+        std::function<void( const tripoint & )> explain_failure; // Custom error message display
 
         bool pre_is_furniture; // whether it's furniture or terrain
         bool post_is_furniture; // whether it's furniture or terrain
