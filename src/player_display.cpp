@@ -841,7 +841,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 std::string s;
 
                 body_part bp = line <= 11 ? bp_aBodyPart[line] : num_bp;
-                bool combined_here = bp_aiOther[line] == line + 1 && // first of a pair
+                bool combined_here = ( bp_aiOther[line] == line + 1 || bp_aiOther[line] == line - 1 ) && // first of a pair
                                      should_combine_bps( *this, line, bp_aiOther[line] );
                 s += get_encumbrance_description( *this, bp, combined_here );
                 fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
