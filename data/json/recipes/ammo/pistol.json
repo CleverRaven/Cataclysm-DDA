@@ -211,6 +211,44 @@
     ]
   },
   {
+    "result": "reloaded_46mm",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 3 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "46mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 4 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_57mm",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 3 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "57mm_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 4 ] ]
+    ]
+  },
+  {
     "result": "reloaded_762_25",
     "type": "recipe",
     "category": "CC_AMMO",
