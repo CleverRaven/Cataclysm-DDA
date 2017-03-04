@@ -118,28 +118,27 @@ body_part get_body_part_token( const std::string &id )
 
 const bodypart_ids &convert_bp( body_part token )
 {
-    static const std::unordered_map<body_part, bodypart_ids> body_parts = {
-        { bp_torso, bodypart_ids( "torso" ) },
-        { bp_head, bodypart_ids( "head" ) },
-        { bp_eyes, bodypart_ids( "eyes" ) },
-        { bp_mouth, bodypart_ids( "mouth" ) },
-        { bp_arm_l, bodypart_ids( "arm_l" ) },
-        { bp_arm_r, bodypart_ids( "arm_r" ) },
-        { bp_hand_l, bodypart_ids( "hand_l" ) },
-        { bp_hand_r, bodypart_ids( "hand_r" ) },
-        { bp_leg_l, bodypart_ids( "leg_l" ) },
-        { bp_leg_r, bodypart_ids( "leg_r" ) },
-        { bp_foot_l, bodypart_ids( "foot_l" ) },
-        { bp_foot_r, bodypart_ids( "foot_r" ) },
-        { num_bp, bodypart_ids( "num_bp" ) },
+    static const std::vector<bodypart_ids> body_parts = {
+        bodypart_ids( "torso" ),
+        bodypart_ids( "head" ),
+        bodypart_ids( "eyes" ),
+        bodypart_ids( "mouth" ),
+        bodypart_ids( "arm_l" ),
+        bodypart_ids( "arm_r" ),
+        bodypart_ids( "hand_l" ),
+        bodypart_ids( "hand_r" ),
+        bodypart_ids( "leg_l" ),
+        bodypart_ids( "leg_r" ),
+        bodypart_ids( "foot_l" ),
+        bodypart_ids( "foot_r" ),
+        bodypart_ids( "num_bp" ),
     };
-    const auto &iter = body_parts.find( token );
-    if( iter == body_parts.end() ) {
+    if( token > num_bp || token < bp_torso ) {
         debugmsg( "Invalid body part token %d", token );
-        return body_parts.find( num_bp )->second;
+        return body_parts[ num_bp ];
     }
 
-    return iter->second;
+    return body_parts[( size_t )token];
 }
 
 const body_part_struct &get_bp( body_part bp )
