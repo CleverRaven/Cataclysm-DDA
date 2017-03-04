@@ -120,7 +120,7 @@ void DynamicDataLoader::load_deferred( deferred_json& data )
     }
 }
 
-void load_ingored_type(JsonObject &jo)
+void load_ignored_type(JsonObject &jo)
 {
     // This does nothing!
     // This function is used for types that are to be ignored
@@ -230,9 +230,9 @@ void DynamicDataLoader::initialize()
     add( "WORLD_OPTION", &load_world_option );
 
     // loaded earlier.
-    add( "colordef", &load_ingored_type );
+    add( "colordef", &load_ignored_type );
     // mod information, ignored, handled by the mod manager
-    add( "MOD_INFO", &load_ingored_type );
+    add( "MOD_INFO", &load_ignored_type );
 
     add( "faction", &faction::load_faction );
     add( "npc", &npc::load_npc );
