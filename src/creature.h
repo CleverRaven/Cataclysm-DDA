@@ -431,6 +431,11 @@ class Creature
         };
 
         virtual body_part get_random_body_part( bool main = false ) const = 0;
+        /**
+         * Returns body parts in order in which they should be displayed.
+         * @param main If true, only displays parts that can have hit points
+         */
+        virtual std::vector<body_part> get_all_body_parts( bool main = false ) const = 0;
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;
@@ -523,6 +528,8 @@ class Creature
         virtual void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const PRINTF_LIKE( 4, 5 ) {};
 
         virtual void add_memorial_log(const char *, const char *, ...) PRINTF_LIKE( 3, 4 ) {};
+
+        virtual std::string extended_description() const = 0;
 
         virtual nc_color symbol_color() const = 0;
         virtual nc_color basic_symbol_color() const = 0;

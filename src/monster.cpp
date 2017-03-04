@@ -385,6 +385,33 @@ void monster::get_Attitude(nc_color &color, std::string &text) const
     }
 }
 
+std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
+{
+    std::string damage_info;
+    nc_color col;
+    if( cur_hp >= max_hp ) {
+        damage_info = _("It is uninjured");
+        col = c_green;
+    } else if( cur_hp >= max_hp * 0.8 ) {
+        damage_info = _("It is lightly injured");
+        col = c_ltgreen;
+    } else if( cur_hp >= max_hp * 0.6 ) {
+        damage_info = _("It is moderately injured");
+        col = c_yellow;
+    } else if( cur_hp >= max_hp * 0.3 ) {
+        damage_info = _("It is heavily injured");
+        col = c_yellow;
+    } else if( cur_hp >= max_hp * 0.1 ) {
+        damage_info = _("It is severely injured");
+        col = c_ltred;
+    } else {
+        damage_info = _("it is nearly dead");
+        col = c_red;
+    }
+
+    return std::make_pair( damage_info, col );
+}
+
 int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
 {
     const int vEnd = vStart + vLines;
@@ -407,28 +434,9 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
     } else if (has_effect( effect_shrieking)) {
         wprintz(w, h_white, _("Shrieking"));
     }
-    std::string damage_info;
-    nc_color col;
-    if (hp >= type->hp) {
-        damage_info = _("It is uninjured");
-        col = c_green;
-    } else if (hp >= type->hp * .8) {
-        damage_info = _("It is lightly injured");
-        col = c_ltgreen;
-    } else if (hp >= type->hp * .6) {
-        damage_info = _("It is moderately injured");
-        col = c_yellow;
-    } else if (hp >= type->hp * .3) {
-        damage_info = _("It is heavily injured");
-        col = c_yellow;
-    } else if (hp >= type->hp * .1) {
-        damage_info = _("It is severely injured");
-        col = c_ltred;
-    } else {
-        damage_info = _("it is nearly dead");
-        col = c_red;
-    }
-    mvwprintz(w, vStart++, column, col, "%s", damage_info.c_str());
+
+    const auto hp_desc = hp_description( hp, type->hp );
+    mvwprintz( w, vStart++, column, hp_desc.second, "%s", hp_desc.first.c_str() );
 
     std::vector<std::string> lines = foldstring(type->description, getmaxx(w) - 1 - column);
     int numlines = lines.size();
@@ -437,6 +445,16 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
     }
 
     return vStart;
+}
+
+std::string monster::extended_description() const
+{
+    // @todo Add tons of info here
+    std::string ret = string_format( _ ( "This is a %s" ), name().c_str() );
+    ret += "\n--\n";
+    auto hp_bar = hp_description( hp, type->hp );
+    ret += get_tag_from_color( hp_bar.second ) + hp_bar.first;
+    return replace_colors( ret );
 }
 
 const std::string &monster::symbol() const
@@ -2056,6 +2074,11 @@ void monster::on_hit( Creature *source, body_part,
 body_part monster::get_random_body_part( bool ) const
 {
     return bp_torso;
+}
+
+std::vector<body_part> monster::get_all_body_parts( bool ) const
+{
+    return std::vector<body_part>( 1, bp_torso );
 }
 
 int monster::get_hp_max( hp_part ) const

@@ -21,6 +21,7 @@ src/damage.cpp
 src/debug.cpp
 src/debug_menu.cpp
 src/dependency_tree.cpp
+src/descriptions.cpp
 src/drawing_primitives.cpp
 src/editmap.cpp
 src/emit.cpp
