@@ -4,6 +4,7 @@
 #include "omdata.h"
 #include "output.h"
 #include "game.h"
+#include "fungal_effects.h"
 #include "rng.h"
 #include "line.h"
 #include "debug.h"
@@ -10889,10 +10890,11 @@ void mx_portal_in(map &m, const tripoint &abs_sub)
     } };
     int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
     m.add_field({x, y, abs_sub.z}, fd_fatigue, 3, 0);
+    fungal_effects fe( *g, m );
     for (int i = x - 5; i <= x + 5; i++) {
         for (int j = y - 5; j <= y + 5; j++) {
             if (rng(1, 9) >= trig_dist(x, y, i, j)) {
-                m.marlossify( tripoint( i, j, abs_sub.z ) );
+                fe.marlossify( tripoint( i, j, abs_sub.z ) );
                 if (one_in(15)) {
                     m.add_spawn( random_entry( monids ), 1, i, j );
                 }

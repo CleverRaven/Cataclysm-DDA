@@ -2,6 +2,7 @@
 #include "monster.h"
 #include "game.h"
 #include "map.h"
+#include "fungal_effects.h"
 #include "map_iterator.h"
 #include "rng.h"
 #include "line.h"
@@ -292,13 +293,14 @@ void mdeath::fungus(monster *z)
     //~ the sound of a fungus dying
     sounds::sound(z->pos(), 10, _("Pouf!"));
 
+    fungal_effects fe( *g, g->m );
     for( auto &&sporep : g->m.points_in_radius( z->pos(), 1 ) ) {
         if( g->m.impassable( sporep ) ) {
             continue;
         }
         // z is dead, don't credit it with the kill
         // Maybe credit z's killer?
-        g->m.fungalize( sporep, nullptr, 0.25 );
+        fe.fungalize( sporep, nullptr, 0.25 );
     }
 }
 
