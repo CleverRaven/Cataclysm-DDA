@@ -172,11 +172,5 @@
     "ident" : "religous_church",
     "name" : "Church",
     "target" : "church"
-  },
-  {
-    "type" : "start_location",
-    "ident" : "religous_cemetery",
-    "name" : "Religious Cemetery",
-    "target" : "cemetery_4square_10"
   }
 ]
