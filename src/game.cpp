@@ -9247,7 +9247,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 iActive = mSortCategory[0].empty() ? 0 : 1;
             }
         } else if( action == "RIGHT" ) {
-            if( ++page_num >= ( int )activeItem->vIG.size() && !filtered_items.empty() ) {
+            if( !filtered_items.empty() && ++page_num >= ( int )activeItem->vIG.size() ) {
                 page_num = activeItem->vIG.size() - 1;
             }
         } else if( action == "LEFT" ) {
