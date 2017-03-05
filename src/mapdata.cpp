@@ -972,6 +972,10 @@ void ter_t::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "transforms_into", transforms_into, NULL_ID );
     optional( jo, was_loaded, "roof", roof, NULL_ID );
 
+    // @todo Better numbers
+    optional( jo, was_loaded, "weight", weight, 1 );
+    optional( jo, was_loaded, "max_support", max_support, has_flag( TFLAG_SUPPORTS_ROOF ) ? 10 : -1 );
+
     bash.load( jo, "bash", false );
     deconstruct.load( jo, "deconstruct", false );
 }

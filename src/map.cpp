@@ -38,6 +38,7 @@
 #include "cata_utility.h"
 #include "harvest.h"
 #include "input.h"
+#include "roofs.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -3207,7 +3208,7 @@ void map::smash_items(const tripoint &p, const int power)
     }
 }
 
-ter_id map::get_roof( const tripoint &p, const bool allow_air )
+ter_id map::get_roof( const tripoint &p, const bool force_roof )
 {
     // This function should not be called from the 2D mode
     // Just use t_dirt instead
@@ -3223,7 +3224,7 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air )
     if( !roof ) {
         // No roof
         // Not acceptable if the tile is not passable
-        if( !allow_air ) {
+        if( force_roof ) {
             return t_dirt;
         }
 
@@ -3243,6 +3244,24 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air )
     }
 
     return new_ter;
+}
+
+void map::correct_roofs( const tripoint &p, bool force_roof )
+{
+    // We only want to correct empty air tiles and null tiles
+    const auto &old_ter = ter( p );
+    if( old_ter != t_open_air && old_ter != t_null ) {
+        return;
+    }
+
+    if( !zlevels ) {
+        // We destroyed something, so we aren't just "plugging" air with dirt here
+        ter_set( p, t_dirt );
+    } else {
+        tripoint below( p.x, p.y, p.z - 1 );
+        const auto roof = get_roof( below, !force_roof );
+        ter_set( p, roof );
+    }
 }
 
 void map::bash_ter_furn( const tripoint &p, bash_params &params )
@@ -3487,15 +3506,9 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
     }
 
-    if( smash_ter && ter( p ) == t_open_air ) {
-        if( !zlevels ) {
-            // We destroyed something, so we aren't just "plugging" air with dirt here
-            ter_set( p, t_dirt );
-        } else {
-            tripoint below( p.x, p.y, p.z - 1 );
-            const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
-            ter_set( p, roof );
-        }
+    if( smash_ter ) {
+        tripoint below( p.x, p.y, p.z - 1 );
+        correct_roofs( p, !params.bash_floor || !zlevels || ter( below ).obj().movecost == 0 );
     }
 
     if( bash->explosive > 0 ) {

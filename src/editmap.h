@@ -39,7 +39,9 @@ struct editmap_hilight {
     void draw( editmap *em, bool update = false );
 };
 
-class editmap
+enum class edit_drawmode : size_t;
+
+    class editmap
 {
     public:
         void uphelp( std::string txt1 = "", std::string txt2 = "", std::string title = "" );
@@ -112,7 +114,7 @@ class editmap
         bool altblink;
         int tmaxx;
         int tmaxy;
-        bool uberdraw;
+        edit_drawmode cur_draw_mode;
 
         editmap();
         ~editmap();

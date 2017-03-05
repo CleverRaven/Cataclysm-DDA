@@ -1731,6 +1731,12 @@
     },
     {
         "type" : "keybinding",
+        "id": "SHOW_ROOF_SUPPORT",
+        "name": "Show roof support",
+        "bindings":[ { "input_method":"keyboard", "key":"r" } ]
+    },
+    {
+        "type" : "keybinding",
         "id": "CONFIRM_QUIT",
         "category": "EDITMAP_TERRAIN",
         "name": "Confirm & quit",

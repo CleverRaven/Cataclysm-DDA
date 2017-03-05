@@ -27,6 +27,7 @@
 #include "cata_utility.h"
 #include "uistate.h"
 #include "string_input_popup.h"
+#include "roofs.h"
 
 #include <algorithm>
 #include <map>
@@ -50,6 +51,7 @@ bool check_support( const tripoint & ); // at least two orthogonal supports
 bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructable
 bool check_up_OK( const tripoint & ); // tile is empty and you're not on the surface
 bool check_down_OK( const tripoint & ); // tile is empty and you're not on z-10 already
+bool check_non_essential_roof( const tripoint & ); // Surrounding roofs will stay supported without this
 
 // Special actions to be run post-terrain-mod
 void done_nothing( const tripoint & ) {}
@@ -63,6 +65,10 @@ void done_dig_stair( const tripoint & );
 void done_mine_downstair( const tripoint & );
 void done_mine_upstair( const tripoint & );
 void done_window_curtains( const tripoint & );
+void done_clean_destroy( const tripoint & );
+
+void failure_standard( const tripoint & );
+void failure_no_support( const tripoint & );
 };
 
 // Helper functions, nobody but us needs to call these.
@@ -734,7 +740,7 @@ void place_construction( const std::string &desc )
     }
 
     if( valid.find( dirp ) == valid.end() ) {
-        add_msg( m_info, _( "You cannot build there!" ) );
+        cons.front()->explain_failure( dirp );
         return;
     }
 
@@ -801,24 +807,27 @@ bool construct::check_empty( const tripoint &p )
              g->m.i_at( p ).empty() && g->m.veh_at( p ) == NULL );
 }
 
+inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
+{
+    return {{
+        tripoint( p.x, p.y - 1, p.z ),
+        tripoint( p.x, p.y + 1, p.z ),
+        tripoint( p.x - 1, p.y, p.z ),
+        tripoint( p.x + 1, p.y, p.z )
+    }};
+}
+
 bool construct::check_support( const tripoint &p )
 {
     // need two or more orthogonally adjacent supports
-    int num_supports = 0;
     if( g->m.impassable( p ) ) {
         return false;
     }
-    if( g->m.has_flag( "SUPPORTS_ROOF", tripoint( p.x, p.y - 1, p.z ) ) ) {
-        ++num_supports;
-    }
-    if( g->m.has_flag( "SUPPORTS_ROOF", tripoint( p.x, p.y + 1, p.z ) ) ) {
-        ++num_supports;
-    }
-    if( g->m.has_flag( "SUPPORTS_ROOF", tripoint( p.x - 1, p.y, p.z ) ) ) {
-        ++num_supports;
-    }
-    if( g->m.has_flag( "SUPPORTS_ROOF", tripoint( p.x + 1, p.y, p.z ) ) ) {
-        ++num_supports;
+    int num_supports = 0;
+    for( const tripoint &nb : get_orthogonal_neighbors( p ) ) {
+        if( g->m.has_flag( "SUPPORTS_ROOF", nb ) ) {
+            num_supports++;
+        }
     }
     return num_supports >= 2;
 }
@@ -842,6 +851,50 @@ bool construct::check_down_OK( const tripoint & )
 {
     // You're not going below -OVERMAP_DEPTH.
     return ( g->get_levz() > -OVERMAP_DEPTH );
+}
+
+bool construct::check_non_essential_roof( const tripoint &p )
+{
+    // Need clear access
+    if( g->m.has_furn( p ) || g->m.veh_at( p ) != nullptr ) {
+        return false;
+    }
+
+    const auto &ter = g->m.ter( p ).obj();
+    // Indestructible terrain
+    if( ter.bash.str_max < 0 ) {
+        return false;
+    }
+    // Pretty weird check here: we test if the player can bash down the tile
+    // This is to avoid players taking down concrete and steel walls
+    // @todo Non-player bashers
+    const player &u = g->u;
+    ///\EFFECT_STR increases capability to take down walls/roofs
+    if( u.get_str() + u.weapon.damage_melee( DT_BASH ) < ter.bash.str_min ) {
+        return false;
+    }
+
+    // @todo Forbid taking down (and building) roofs if the player has no ladder-type access
+    if( !ter.has_flag( TFLAG_SUPPORTS_ROOF ) && !ter.has_flag( TFLAG_COLLAPSES ) ) {
+        // @todo This is just extended bashing, but we want to handle explosive/loud stuff
+        return false;
+    }
+
+    roofs rf( *g, g->m );
+    rf.replace_tiles( {{ p, ter.bash.ter_set }} );
+    for( size_t i = 0; i < (size_t)roof_dir::num_dirs; i++ ) {
+        roof_dir dir_main = static_cast<roof_dir>( i );
+        const tripoint &surr = p + direction_to_offset( dir_main );
+        if( surr == p ) {
+            continue;
+        }
+
+        if( g->m.has_flag( TFLAG_COLLAPSES, surr ) && rf.get_support( surr ) <= 0 ) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 void construct::done_tree( const tripoint &p )
@@ -1077,6 +1130,101 @@ void construct::done_window_curtains( const tripoint & )
     g->u.add_msg_if_player( _("After boarding up the window the curtains and curtain rod are left.") );
 }
 
+void construct::done_clean_destroy( const tripoint &p )
+{
+    const auto &ter_bash = g->m.ter( p ).obj().bash;
+    if( ter_bash.str_max < 0 ) {
+        debugmsg( "Tried to destroy an indestructible tile" );
+        return;
+    }
+
+    g->u.add_msg_if_player( _("You safely take down the %s."), g->m.tername( p ).c_str() );
+    g->m.ter_set( p, ter_bash.ter_set );
+    g->m.spawn_items( p, item_group::items_from( ter_bash.drop_group, calendar::turn ) );
+    // @todo Don't force roof ever when in 3D mode
+    g->m.correct_roofs( p, !g->m.has_zlevels() || p.z <= 0 );
+}
+
+void construct::failure_standard( const tripoint & )
+{
+    add_msg( m_info, _( "You cannot build there!" ) );
+}
+
+void construct::failure_no_support( const tripoint &p )
+{
+    const auto &ter = g->m.ter( p ).obj();
+    if( ter.bash.str_max < 0 ||
+        ( !ter.has_flag( TFLAG_SUPPORTS_ROOF ) && !ter.has_flag( TFLAG_COLLAPSES ) ) ) {
+        add_msg( m_info, _( "The %s can't be taken down like that." ), ter.name.c_str() );
+        return;
+    }
+
+    std::map<roof_dir, std::vector<direction>> lacks_support_main;
+    roofs rf( *g, g->m );
+    rf.replace_tiles( {{ p, ter.bash.ter_set }} );
+    for( size_t i = 0; i < (size_t)roof_dir::num_dirs; i++ ) {
+        roof_dir dir_main = static_cast<roof_dir>( i );
+        const tripoint &surr = p + direction_to_offset( dir_main );
+
+        if( g->m.has_flag( TFLAG_COLLAPSES, surr ) && rf.get_support( surr ) <= 0 ) {
+            std::vector<direction> lacks_support_sub;
+            for( size_t j = 0; j < (size_t)roof_dir::num_dirs; j++ ) {
+                roof_dir dir_sec = static_cast<roof_dir>( j );
+                if( rf.get_support( surr, dir_sec ) <= 0 ) {
+                    lacks_support_sub.push_back( convert_directions( dir_sec ) );
+                }
+            }
+            if( lacks_support_sub.size() > 1 ) {
+                lacks_support_main[ dir_main ] = lacks_support_sub;
+            }
+        }
+    }
+
+    add_msg( m_info, _( "You can't take down the %s here because:" ), g->m.tername( p ).c_str() );
+
+    bool support_problem = !lacks_support_main.empty();
+    bool too_weak = ter.bash.str_min > g->u.get_str() + g->u.weapon.damage_melee( DT_BASH );
+
+    if( support_problem ) {
+        add_msg( m_info, _( "Some tiles would end up without support:" ),
+                 ter.name.c_str() );
+        for( const auto &pr : lacks_support_main ) {
+            add_msg( m_info, _( "The %s to the %s: %s" ),
+                     g->m.tername( p + direction_to_offset( pr.first ) ).c_str(),
+                     direction_name( convert_directions( pr.first ) ).c_str(),
+                     enumerate_as_string( pr.second.begin(), pr.second.end(),
+            []( const direction &dir_sec ) {
+                return direction_name( dir_sec );
+            } ).c_str() );
+        }
+
+        add_msg( m_info, _( "Each tile with roof needs proper support from at least two directions." ) );
+    }
+    if( too_weak ) {
+        add_msg( m_info, _( "You are too weak to do that with your current weapon." ) );
+    }
+    if( !support_problem && !too_weak ) {
+        add_msg( m_bad, _( "The take-down code is bugged and produces false positives..." ) );
+        add_msg( m_bad, _( "Report that as a bug." ) );
+    }
+}
+
+template <typename T>
+void assign_or_debugmsg( T &dest, const std::string &fun_id, const std::map<std::string, T> &possible )
+{
+    const auto iter = possible.find( fun_id );
+    if( iter != possible.end() ) {
+        dest = iter->second;
+    } else {
+        dest = possible.find( "" )->second;
+        const std::string list_available = enumerate_as_string( possible.begin(), possible.end(),
+        []( const std::pair<std::string, T> &pr ) {
+            return pr.first;
+        } );
+        debugmsg( "Unknown function: %s, available values are %s", fun_id.c_str(), list_available.c_str() );
+    }
+};
+
 void load_construction(JsonObject &jo)
 {
     construction con;
@@ -1128,50 +1276,38 @@ void load_construction(JsonObject &jo)
     }
 
     con.pre_flags = jo.get_tags("pre_flags");
+    
+    static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{
+        { "", construct::check_nothing },
+        { "check_empty", construct::check_empty },
+        { "check_support", construct::check_support },
+        { "check_deconstruct", construct::check_deconstruct },
+        { "check_up_OK", construct::check_up_OK },
+        { "check_down_OK", construct::check_down_OK },
+        { "check_non_essential_roof", construct::check_non_essential_roof },
+    }};
+    static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
+        { "", construct::done_nothing },
+        { "done_tree", construct::done_tree },
+        { "done_trunk_log", construct::done_trunk_log },
+        { "done_trunk_plank", construct::done_trunk_plank },
+        { "done_vehicle", construct::done_vehicle },
+        { "done_deconstruct", construct::done_deconstruct },
+        { "done_dig_stair", construct::done_dig_stair },
+        { "done_mine_downstair", construct::done_mine_downstair },
+        { "done_mine_upstair", construct::done_mine_upstair },
+        { "done_window_curtains", construct::done_window_curtains },
+        { "done_clean_destroy", construct::done_clean_destroy },
+    }};
+    static const std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map = {{
+        { "", construct::failure_standard },
+        { "no_support", construct::failure_no_support },
+    }};
 
-    std::string prefunc = jo.get_string("pre_special", "");
-    if (prefunc == "check_empty") {
-        con.pre_special = &construct::check_empty;
-    } else if (prefunc == "check_support") {
-        con.pre_special = &construct::check_support;
-    } else if (prefunc == "check_deconstruct") {
-        con.pre_special = &construct::check_deconstruct;
-    } else if (prefunc == "check_up_OK") {
-        con.pre_special = &construct::check_up_OK;
-    } else if (prefunc == "check_down_OK") {
-        con.pre_special = &construct::check_down_OK;
-    } else {
-        if (prefunc != "") {
-            debugmsg("Unknown pre_special function: %s", prefunc.c_str());
-        }
-        con.pre_special = &construct::check_nothing;
-    }
-
-    std::string postfunc = jo.get_string("post_special", "");
-    if (postfunc == "done_tree") {
-        con.post_special = &construct::done_tree;
-    } else if (postfunc == "done_trunk_log") {
-        con.post_special = &construct::done_trunk_log;
-    } else if (postfunc == "done_trunk_plank") {
-        con.post_special = &construct::done_trunk_plank;
-    } else if (postfunc == "done_vehicle") {
-        con.post_special = &construct::done_vehicle;
-    } else if (postfunc == "done_deconstruct") {
-        con.post_special = &construct::done_deconstruct;
-    } else if (postfunc == "done_dig_stair") {
-        con.post_special = &construct::done_dig_stair;
-    } else if (postfunc == "done_mine_downstair") {
-        con.post_special = &construct::done_mine_downstair;
-    } else if (postfunc == "done_mine_upstair") {
-        con.post_special = &construct::done_mine_upstair;
-    } else if (postfunc == "done_window_curtains") {
-        con.post_special = &construct::done_window_curtains;
-    } else {
-        if (postfunc != "") {
-            debugmsg("Unknown post_special function: %s", postfunc.c_str());
-        }
-        con.post_special = &construct::done_nothing;
-    }
+    assign_or_debugmsg( con.pre_special, jo.get_string( "pre_special", "" ), pre_special_map );
+    assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );
+    assign_or_debugmsg( con.explain_failure, jo.get_string( "explain_failure", "" ), explain_fail_map );
+    con.vehicle_start = jo.get_bool( "vehicle_start", false );
 
     constructions.push_back(con);
 }
@@ -1311,7 +1447,7 @@ void finalize_constructions()
     }
 
     for( construction &con : constructions ) {
-        if( con.post_special == &construct::done_vehicle ) {
+        if( con.vehicle_start ) {
             const_cast<requirement_data &>( con.requirements.obj() ).get_components().push_back( frame_items );
         }
     }
