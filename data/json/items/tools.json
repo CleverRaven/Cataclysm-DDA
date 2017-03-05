@@ -3889,7 +3889,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 25 ] ],
     "flags": [ "SHEATH_KNIFE" ]
   },
   {
@@ -3916,7 +3916,7 @@
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
     },
     "techniques": "RAPID",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 19 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ]
   },
   {
@@ -3934,7 +3934,7 @@
     "material": [ "steel", "leather" ],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 30 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
     "flags": [ "SHEATH_KNIFE" ]
   },
   {
@@ -3981,7 +3981,7 @@
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
     },
     "techniques": [ "RAPID", "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 19 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD" ]
   },
   {
@@ -3999,7 +3999,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 20 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 20 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
@@ -4037,7 +4037,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 19 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE" ]
   },
   {
@@ -4093,7 +4093,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": "WBLOCK_1",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 18 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
   {
@@ -6005,7 +6005,7 @@
     "symbol": ",",
     "color": "light_gray",
     "techniques": "PRECISE",
-    "qualities": [ [ "CUT", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ] ],
     "flags": [ "SPEAR" ]
   },
   {
@@ -6781,7 +6781,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "flags": [ "STAB" ]
   },
   {
@@ -6936,7 +6936,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": "RAPID",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 18 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
   {
@@ -8112,7 +8112,7 @@
     "symbol": ";",
     "color": "light_gray",
     "techniques": "PRECISE",
-    "qualities": [ [ "CUT", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ] ],
     "flags": [ "SPEAR" ]
   },
   {

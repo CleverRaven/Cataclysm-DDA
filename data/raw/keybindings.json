@@ -1386,6 +1386,17 @@
     },
     {
         "type" : "keybinding",
+        "id":"EXTENDED_DESCRIPTION",
+        "name":"Show extended description",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TRAVEL_TO",
         "name":"Travel to destination",
         "bindings":[

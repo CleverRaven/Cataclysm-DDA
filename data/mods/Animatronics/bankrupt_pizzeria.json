@@ -171,13 +171,11 @@
         "type": "overmap_terrain",
         "id" : "bankruptpizzeria",
         "name" : "Bankrupt Pizzeria",
-        "rotate" : true,
         "sym" : 94,
         "color" : "dark_gray",
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true,
         "mapgen": [
             {
             "method": "json",
@@ -328,7 +326,8 @@
                     { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 1, "y": 13, "density": 0.10 }                ],
             "comment": "end of mapgen json definition ---v"
         },
-        "comment": "end of mapgen entry ---v"
+        "comment": "end of mapgen entry ---v",
+        "flags" : [ "SIDEWALK" ]
     }
     ]
     }

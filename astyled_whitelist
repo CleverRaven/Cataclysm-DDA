@@ -21,12 +21,14 @@ src/damage.cpp
 src/debug.cpp
 src/debug_menu.cpp
 src/dependency_tree.cpp
+src/descriptions.cpp
 src/drawing_primitives.cpp
 src/editmap.cpp
 src/emit.cpp
 src/explosion.cpp
 src/fault.cpp
 src/flag.cpp
+src/fungal_effects.cpp
 src/game_inventory.cpp
 src/gamemode.cpp
 src/gates.cpp
@@ -138,6 +140,7 @@ src/fault.h
 src/filesystem.h
 src/fire.h
 src/flag.h
+src/fungal_effects.h
 src/game_constants.h
 src/game_inventory.h
 src/gates.h

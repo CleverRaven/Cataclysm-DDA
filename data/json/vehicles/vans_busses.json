@@ -6,8 +6,8 @@
     "blueprint": [
       [ "O-++-O>" ],
       [ "|H##'|>" ],
-      [ "t###'t>" ],
-      [ "|H##'|>" ],
+      [ "t###'|>" ],
+      [ "|H#t'|>" ],
       [ "O-++-O>" ]
     ],
     "parts": [
@@ -23,6 +23,7 @@
       { "x": 0, "y": 2, "part": "seatbelt" },
       { "x": 0, "y": 2, "part": "hdroof" },
       { "x": 0, "y": 2, "part": "tank", "fuel": "diesel" },
+      { "x": 0, "y": 2, "part": "m249", "ammo": 80, "ammo_types": [ "556" ], "ammo_qty": [ 30, 150 ] },
       { "x": 0, "y": 0, "part": "hdframe_vertical_2" },
       { "x": 0, "y": 0, "part": "controls" },
       { "x": 0, "y": 0, "part": "vehicle_clock" },
@@ -49,7 +50,6 @@
       { "x": 2, "y": 1, "part": "hdframe_horizontal" },
       { "x": 2, "y": 1, "part": "hdhalfboard_horizontal" },
       { "x": 2, "y": 1, "part": "plating_steel" },
-      { "x": 2, "y": 1, "part": "m249", "ammo": 80, "ammo_types": [ "556" ], "ammo_qty": [ 30, 150 ] },
       { "x": 2, "y": 2, "part": "hdframe_horizontal" },
       { "x": 2, "y": 2, "part": "hdhalfboard_horizontal" },
       { "x": 2, "y": 2, "part": "plating_steel" },
@@ -108,9 +108,9 @@
       { "x": -2, "y": -1, "part": "hdboard_vertical" },
       { "x": -2, "y": -1, "part": "plating_steel" },
       { "x": -3, "y": 1, "part": "hdframe_horizontal" },
-      { "x": -3, "y": 1, "part": "hdboard_horizontal" },
       { "x": -3, "y": 1, "part": "plating_steel" },
       { "x": -3, "y": 1, "part": "m249", "ammo": 60, "ammo_types": [ "556" ] },
+      { "x": -3, "y": 1, "part": "door_opaque" },
       { "x": -3, "y": 2, "part": "hdframe_horizontal" },
       { "x": -3, "y": 2, "part": "hdboard_horizontal" },
       { "x": -3, "y": 2, "part": "plating_steel" },

@@ -45,6 +45,7 @@
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
  */
+static const itype_id fuel_type_none("null");
 static const itype_id fuel_type_gasoline("gasoline");
 static const itype_id fuel_type_diesel("diesel");
 static const itype_id fuel_type_battery("battery");
@@ -1136,7 +1137,7 @@ bool vehicle::start_engine( const int e )
     const vpart_info &einfo = part_info( engines[e] );
     const vehicle_part &eng = parts[ engines[ e ] ];
 
-    if( !fuel_left( einfo.fuel_type ) ) {
+    if( fuel_left( einfo.fuel_type ) <= 0 && einfo.fuel_type != fuel_type_none ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             add_msg( _("The %s's mechanism is out of reach!"), name.c_str() );
         } else {
@@ -1301,11 +1302,6 @@ void vehicle::beeper_sound()
 void vehicle::play_music()
 {
     for( auto e : get_parts( "STEREO", true ) ) {
-        int req = - e->info().epower; // epower is negative for consumers
-        if( drain( fuel_type_battery, req ) != req ) {
-            e->enabled = false;
-            continue;
-        }
         iuse::play_music( &g->u, global_part_pos3( *e ), 15, 30 );
     }
 }
@@ -1317,11 +1313,6 @@ void vehicle::play_chimes()
     }
 
     for( auto e : get_parts( "CHIMES", true ) ) {
-        int req = - e->info().epower; // epower is negative for consumers
-        if( drain( fuel_type_battery, req ) != req ) {
-            e->enabled = false;
-            continue;
-        }
         sounds::sound( global_part_pos3( *e ), 40, _( "a simple melody blaring from the loudspeakers." ) );
     }
 }
@@ -2100,25 +2091,42 @@ bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabl
     return false;
 }
 
+// All 4 functions below look identical except for flag type and consts
+template<typename Vehicle, typename Flag, typename Vector>
+void get_parts_helper( Vehicle &veh, const Flag &flag, Vector &ret, bool enabled )
+{
+    for( auto &e : veh.parts ) {
+        if( !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && e.info().has_flag( flag ) ) {
+            ret.emplace_back( &e );
+        }
+    }
+}
+
 std::vector<vehicle_part *> vehicle::get_parts( const std::string &flag, bool enabled )
 {
     std::vector<vehicle_part *> res;
-    for( auto &e : parts ) {
-        if( !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && e.info().has_flag( flag ) ) {
-            res.push_back( &e );
-        }
-    }
+    get_parts_helper( *this, flag, res, enabled );
     return res;
 }
 
 std::vector<const vehicle_part *> vehicle::get_parts( const std::string &flag, bool enabled ) const
 {
     std::vector<const vehicle_part *> res;
-    for( const auto &e : parts ) {
-        if( !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && e.info().has_flag( flag ) ) {
-            res.push_back( &e );
-        }
-    }
+    get_parts_helper( *this, flag, res, enabled );
+    return res;
+}
+
+std::vector<vehicle_part *> vehicle::get_parts( vpart_bitflags flag, bool enabled )
+{
+    std::vector<vehicle_part *> res;
+    get_parts_helper( *this, flag, res, enabled );
+    return res;
+}
+
+std::vector<const vehicle_part *> vehicle::get_parts( vpart_bitflags flag, bool enabled ) const
+{
+    std::vector<const vehicle_part *> res;
+    get_parts_helper( *this, flag, res, enabled );
     return res;
 }
 
@@ -3451,17 +3459,7 @@ void vehicle::power_parts()
 {
     int epower = 0;
 
-    for( const auto pt : lights( true ) ) {
-        epower += pt->info().epower;
-    }
-
-    for( const auto pt : get_parts( "SCOOP", true ) ) {
-        epower += pt->info().epower;
-    }
-    for( const auto pt : get_parts( "RECHARGE", true ) ) {
-        epower += pt->info().epower;
-    }
-    for( const auto pt : get_parts( "FRIDGE", true ) ) {
+    for( const auto *pt : get_parts( VPFLAG_ENABLED_DRAINS_EPOWER, true ) ) {
         epower += pt->info().epower;
     }
 
@@ -3551,27 +3549,19 @@ void vehicle::power_parts()
     }
 
     if( battery_deficit != 0 ) {
-        for( auto &pt : lights() ) {
-            // atomic lights don't consume epower, so don't turn them off
+        // Scoops need a special case since they consume power during actual use
+        for( auto *pt : get_parts( "SCOOP" ) ) {
+            pt->enabled = false;
+        }
+        // Rechargers need special case since they consume power on demand
+        for( auto *pt : get_parts( "RECHARGE" ) ) {
+            pt->enabled = false;
+        }
+
+        for( auto *pt : get_parts( VPFLAG_ENABLED_DRAINS_EPOWER, true ) ) {
             if( pt->info().epower < 0 ) {
                 pt->enabled = false;
             }
-        }
-
-        for( auto pt : get_parts( "STEREO" ) ) {
-            pt->enabled = false;
-        }
-        for( auto pt : get_parts( "CHIMES" ) ) {
-            pt->enabled = false;
-        }
-        for( auto pt : get_parts( "SCOOP" ) ) {
-            pt->enabled = false;
-        }
-        for( auto pt : get_parts( "RECHARGE" ) ) {
-            pt->enabled = false;
-        }
-        for( auto pt : get_parts( "FRIDGE" ) ) {
-            pt->enabled = false;
         }
 
         is_alarm_on = false;
@@ -6190,12 +6180,18 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
 
     if( is_tank() ) {
         if( !obj.empty() ) {
+            // forbid filling tanks with non-liquids
             if( item::find_type( obj )->phase != LIQUID ) {
-                return false; // forbid filling tanks with non-liquids
+                return false;
             }
+            // prevent mixing of different liquids
             if( ammo_current() != "null" && ammo_current() != obj ) {
-                return false; // prevent mixing of different liquids
+                return false;
             }
+        }
+        // For tanks with set type, prevent filling with different types
+        if( info().fuel_type != fuel_type_none && info().fuel_type != obj ) {
+            return false;
         }
         return ammo_remaining() < ammo_capacity();
     }

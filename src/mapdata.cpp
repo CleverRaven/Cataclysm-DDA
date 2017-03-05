@@ -1061,6 +1061,12 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     deconstruct.load( jo, "deconstruct", true );
 }
 
+std::string map_data_common_t::description() const
+{
+    // @todo Actually describe the darn thing
+    return string_format( _( "That is a %s." ), name.c_str() );
+}
+
 void map_data_common_t::check() const
 {
     for( auto &harvest : harvest_by_season ) {

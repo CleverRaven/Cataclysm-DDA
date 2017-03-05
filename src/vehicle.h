@@ -669,6 +669,13 @@ public:
     std::vector<const vehicle_part *> get_parts( const std::string &flag, bool enabled = false ) const;
 
     /**
+     *  Get all unbroken vehicle parts with cached bitflag @ref flag
+     *  @param enabled if set part must also be enabled to be considered
+     */
+    std::vector<vehicle_part *> get_parts( vpart_bitflags flag, bool enabled = false );
+    std::vector<const vehicle_part *> get_parts( vpart_bitflags flag, bool enabled = false ) const;
+
+    /**
      *  Get all unbroken vehicle parts at @ref pos
      *  @param flag if set only flags with this part will be considered
      *  @param enabled if set part must also be enabled to be considered

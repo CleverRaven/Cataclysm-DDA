@@ -413,7 +413,6 @@ class game
 
         /** Nuke the area at p - global overmap terrain coordinates! */
         void nuke( const tripoint &p );
-        bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
@@ -454,6 +453,9 @@ class game
         void print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
                                   int last_line, bool draw_terrain_indicators,
                                   const visibility_variables &cache );
+
+        /** Long description of (visible) things at tile. */
+        void extended_description( const tripoint &p );
 
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 

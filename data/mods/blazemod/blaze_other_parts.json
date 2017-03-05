@@ -365,7 +365,7 @@
       { "item": "e_scrap", "count": [ 4, 16 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
-    "flags": [ "NEEDS_BATTERY_MOUNT", "VISION", "CAMERA" ]
+    "flags": [ "NEEDS_BATTERY_MOUNT", "VISION", "CAMERA", "ENABLED_DRAINS_EPOWER" ]
   },
   {
     "id": "pebblerack",

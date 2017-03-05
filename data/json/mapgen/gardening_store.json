@@ -5,10 +5,8 @@
     "name": "gardening supply",
     "sym": 71,
     "color": "green",
-    "rotate": true,
     "see_cost": 5,
     "mondensity": 2,
-    "sidewalk": true,
     "extras": "build",
     "mapgen": [
       {
@@ -113,6 +111,7 @@
           ]
         }
       }
-    ]
+    ],
+    "flags": [ "SIDEWALK" ]
   }
 ]

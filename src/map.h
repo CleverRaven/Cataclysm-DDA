@@ -372,6 +372,13 @@ public:
      */
     bool valid_move( const tripoint &from, const tripoint &to,
                      const bool bash = false, const bool flying = false ) const;
+                     
+    /**
+     * Size of map objects at `p` for purposes of ranged combat.
+     * Size is in percentage of tile: if 1.0, all attacks going through tile
+     * should hit map objects on it, if 0.0 there is nothing to be hit (air/water).
+     */
+    double ranged_target_size( const tripoint &p ) const;
 
 
 // 3D Sees:
@@ -737,10 +744,6 @@ void add_corpse( const tripoint &p );
 // Effects of attacks/items
     bool hit_with_acid( const tripoint &p );
     bool hit_with_fire( const tripoint &p );
-    bool marlossify( const tripoint &p );
-    /** Makes spores at p. source is used for kill counting */
-    void create_spores( const tripoint &p, Creature* source = nullptr );
-    void fungalize( const tripoint &p, Creature *source = nullptr, double spore_chance = 0.0 );
 
     bool has_adjacent_furniture( const tripoint &p );
      /** Remove moppable fields/items at this location

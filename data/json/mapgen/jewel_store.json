@@ -5,10 +5,8 @@
     "name": "jewelry store",
     "sym": 74,
     "color": "white",
-    "rotate": true,
     "see_cost": 5,
     "mondensity": 2,
-    "sidewalk": true,
     "extras": "build",
     "mapgen": [
       {
@@ -119,6 +117,7 @@
           ]
         }
       }
-    ]
+    ],
+    "flags": [ "SIDEWALK" ]
   }
 ]

@@ -205,9 +205,6 @@ Default: 1000
 
 ## 1.3 How "overmap_terrain" variables affect mapgen
 "id" is used to determine the required "om_terrain" id for standalone, -except- when the following variables are set in "overmap_terrain":
-* "line_drawing": true - For roads etc, which use ID_straight, ID_curved, ID_tee, ID_four_way
-The following variables also come into play
-* "rotates": true - The terrain will be rotated after generation (to face roads etc). For format mapping, north is always up unless rotated east, etc.
 * "extras" - applies rare, random scenes after mapgen; helicoptor crashes, etc
 * "mondensity" - determines the default 'density' value for *"place_groups": [ { "monster": ...* (json) or *map:place_monster(..)* (lua)
 

@@ -131,7 +131,7 @@
     "type" : "start_location",
     "ident" : "school",
     "name" : "School",
-    "target" : "school_5"
+    "target" : "school_1_5"
   },{
     "type" : "start_location",
     "ident" : "mine_finale",

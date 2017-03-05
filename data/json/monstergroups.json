@@ -1379,5 +1379,32 @@
       { "monster" : "mon_zombie_rot", "freq" : 10, "cost_multiplier" : 1, "pack_size": [1,5] },
       { "monster" : "mon_beekeeper", "freq" : 10, "cost_multiplier" : 1, "pack_size": [1,5] }
       ]
-    }
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_CHURCH_ZOMBIE",
+    "default" : "mon_zombie",
+    "monsters" : [
+      { "monster" : "mon_zombie", "freq" : 1, "cost_multiplier": 7, "pack_size": [5,10]},
+      { "monster" : "mon_zombie", "freq" : 1, "cost_multiplier": 13, "pack_size": [15,20]},
+      { "monster" : "mon_zombie", "freq" : 1, "cost_multiplier": 20, "pack_size": [25,30]},
+      { "monster" : "mon_zombie_fat", "freq" : 75, "cost_multiplier": 2},
+      { "monster" : "mon_zombie_fat", "freq" : 3, "cost_multiplier": 7, "pack_size": [3,5]},
+      { "monster" : "mon_zombie_tough", "freq" : 75, "cost_multiplier": 3},
+      { "monster" : "mon_zombie_child", "freq" : 75, "cost_multiplier" : 1 },
+      { "monster" : "mon_zombie_rot", "freq" : 50, "cost_multiplier": 3},
+      { "monster" : "mon_zombie_crawler", "freq" : 25, "cost_multiplier": 3},
+      { "monster" : "mon_skeleton", "freq" : 30, "cost_multiplier" : 5 },
+      { "monster" : "mon_zombie_shady", "freq" : 10, "cost_multiplier" : 4},
+      { "monster" : "mon_zombie_shady", "freq" : 30, "cost_multiplier" : 15, "pack_size": [4,6]},
+      { "monster" : "mon_zombie_necro", "freq" : 5, "cost_multiplier" : 25 },
+      { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 30 }
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_CHURCH_BLANK",
+      "default" : "mon_blank",
+      "monsters" : [
+        { "monster" : "mon_blank", "freq" : 50, "cost_multiplier" : 0 }
+      ]
+  }
 ]
