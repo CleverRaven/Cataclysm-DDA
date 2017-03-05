@@ -154,6 +154,45 @@
     ]
   },
   {
+    "result": "reloaded_44fmj",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 4 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
+    "components": [
+      [ [ "44_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder", 6 ] ],
+      [ [ "copper", 2 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_44magnum",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 3 ],
+    "time": 5000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 5 ] ],
+    "components": [
+      [ [ "44_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder", 6 ] ]
+    ]
+  },
+  {
     "result": "reloaded_45_acp",
     "type": "recipe",
     "category": "CC_AMMO",
