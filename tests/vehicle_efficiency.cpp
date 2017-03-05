@@ -176,7 +176,7 @@ long test_efficiency( const vproto_id &veh_id, const ter_id &terrain,
     // This is ugly, but improves accuracy: compare the result of fuel approx function
     // rather than the amount of fuel we actually requested
     const float starting_fuel_per = fuel_percentage_left( veh, starting_fuel );
-    REQUIRE( abs( starting_fuel_per - 1.0f ) < 0.001f );
+    REQUIRE( std::abs( starting_fuel_per - 1.0f ) < 0.001f );
 
     const tripoint starting_point = veh.global_pos3();
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
