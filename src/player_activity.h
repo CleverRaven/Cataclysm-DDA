@@ -3,7 +3,6 @@
 #define PLAYER_ACTIVITY_H
 
 #include "enums.h"
-#include "json.h"
 #include "item_location.h"
 #include "string_id.h"
 

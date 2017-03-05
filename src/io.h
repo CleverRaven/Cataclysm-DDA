@@ -4,9 +4,6 @@
 
 #include "json.h"
 
-#include <string>
-#include <type_traits>
-
 /**
  * @name Serialization and deserialization
  *

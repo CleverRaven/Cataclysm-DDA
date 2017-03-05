@@ -2,9 +2,6 @@
 #ifndef IUSE_H
 #define IUSE_H
 
-#include <map>
-#include <string>
-#include <vector>
 #include <memory>
 #include "enums.h"
 

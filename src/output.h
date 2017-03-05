@@ -11,11 +11,7 @@
 
 #include <cstdarg>
 #include <sstream>
-#include <string>
-#include <vector>
-#include <set>
 #include <memory>
-#include <map>
 
 struct input_event;
 struct iteminfo;

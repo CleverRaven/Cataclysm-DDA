@@ -5,8 +5,6 @@
 #include "json.h"
 #include "bodypart.h"
 #include "string_id.h"
-#include <map>
-#include <string>
 
 class martialart;
 using matype_id = string_id<martialart>;

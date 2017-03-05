@@ -2,12 +2,7 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include <vector>
-#include <string>
-#include <set>
-#include <map>
 #include <memory>
-
 #include "game_constants.h"
 #include "cursesdef.h"
 #include "item.h"
@@ -15,9 +10,7 @@
 #include "item_stack.h"
 #include "active_item_cache.h"
 #include "int_id.h"
-#include "string_id.h"
 #include "rng.h"
-#include "enums.h"
 #include "pathfinding.h"
 #include "emit.h"
 

@@ -3,8 +3,6 @@
 #define COLOR_H
 
 #include "json.h"
-#include <array>
-#include <string>
 #include <list>
 #include <unordered_map>
 

@@ -4,23 +4,13 @@
 
 #include "copyable_unique_ptr.h"
 #include "color.h" // nc_color
-#include "enums.h" // point
 #include "iuse.h" // use_function
 #include "pldata.h" // add_type
-#include "bodypart.h" // body_part::num_bp
-#include "string_id.h"
 #include "explosion.h"
 #include "vitamin.h"
 #include "emit.h"
 #include "units.h"
 #include "damage.h"
-
-#include <string>
-#include <vector>
-#include <set>
-#include <map>
-#include <bitset>
-#include <memory>
 
 #ifndef gettext_noop
 #define gettext_noop(x) x

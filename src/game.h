@@ -11,8 +11,6 @@
 #include "cursesdef.h"
 #include "ranged.h"
 
-#include <vector>
-#include <map>
 #include <unordered_map>
 #include <list>
 #include <stdarg.h>

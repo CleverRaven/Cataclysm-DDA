@@ -2,8 +2,6 @@
 #ifndef MAP_SELECTOR_H
 #define MAP_SELECTOR_H
 
-#include <vector>
-
 #include "visitable.h"
 
 class map;

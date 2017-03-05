@@ -5,7 +5,6 @@
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
-#include <vector>
 
 class map;
 class game;

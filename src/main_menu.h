@@ -4,10 +4,6 @@
 
 class player;
 
-#include <string>
-#include <vector>
-
-#include "cursesdef.h"
 #include "input.h"
 
 class main_menu

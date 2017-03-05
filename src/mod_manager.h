@@ -5,11 +5,7 @@
 #include "dependency_tree.h"
 #include "json.h"
 #include "translations.h"
-
 #include "cursesdef.h"
-#include <string>
-#include <vector>
-#include <map>
 #include <memory>
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
