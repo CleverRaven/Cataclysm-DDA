@@ -1,0 +1,14 @@
+[
+  {
+    "id": "frying_oil",
+    "type": "requirement",
+    "//": "Oil usable for frying. Note: the oil is reusable.",
+    "tools": [ [ [ "cooking_oil", -1 ], [ "tallow", -1 ], [ "lard", -1 ] ] ]
+  },
+  {
+    "id": "frying_heat",
+    "type": "requirement",
+    "//": "Tools usable for providing heat for frying.",
+    "tools": [ [ [ "hotplate", 1 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ] ]
+  }
+]
