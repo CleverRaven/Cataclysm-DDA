@@ -689,7 +689,7 @@
   ],
   "tools": [
     [ [ "frying_oil", 1, "LIST" ] ],
-    [ [ "frying", 8, "LIST" ] ]
+    [ [ "frying_heat", 8, "LIST" ] ]
   ],
   "components": [
     [ [ "fish", 3 ] ],
