@@ -713,7 +713,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "vision_night": 3,
-    "special_attacks": [ [ "BOOMER", 20 ] ],
+    "special_attacks": [ [ "BOOMER", 20 ], [ "SCRATCH", 15 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "BOOMER" ],
     "upgrades": {
@@ -747,7 +747,8 @@
     "vision_night": 3,
     "special_attacks": [
       [ "FUNGUS", 100 ],
-      [ "BOOMER", 20 ]
+      [ "BOOMER", 20 ],
+      [ "SCRATCH", 15 ]
     ],
     "death_drops": "default_zombie_items",
     "death_function": [ "FUNGUS", "NORMAL" ],
@@ -777,7 +778,7 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "vision_night": 3,
-    "special_attacks": [ [ "BOOMER_GLOW", 20 ] ],
+    "special_attacks": [ [ "BOOMER_GLOW", 20 ], [ "SCRATCH", 15 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "BOOMER_GLOW" ],
     "flags": [ "SEES", "GOODHEARING", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON", "PATH_AVOID_DANGER_1" ]
@@ -868,6 +869,9 @@
     "melee_cut": 2,
     "dodge": 8,
     "vision_night": 20,
+    "special_attacks": [
+      [ "SCRATCH", 10 ]
+    ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
@@ -926,7 +930,7 @@
     "armor_cut": 6,
     "vision_day": 50,
     "vision_night": 3,
-    "special_attacks": [ [ "LONGSWIPE", 8 ] ],
+    "special_attacks": [ [ "LONGSWIPE", 8 ], [ "SCRATCH", 5 ] ],
     "death_drops": { "groups": [ [ "vault_wanderer", 1 ] ] },
     "death_function": [ "MELT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON" ]
@@ -1039,6 +1043,9 @@
     "melee_cut": 0,
     "dodge": 3,
     "path_settings": { "max_dist": 10 },
+    "special_attacks": [
+      [ "SCRATCH", 15 ]
+    ],
     "death_drops": {
       "subtype": "collection",
       "groups": [
@@ -1113,6 +1120,7 @@
     "vision_night": 10,
     "path_settings": { "max_dist": 10 },
     "special_attacks": [
+      [ "SCRATCH", 10 ],
       {
         "type": "leap",
         "cooldown": 5,
@@ -1362,7 +1370,7 @@
     "armor_cut": 8,
     "vision_day": 50,
     "luminance": 6,
-    "special_attacks": [ [ "DARKMAN", 5 ] ],
+    "special_attacks": [ [ "DARKMAN", 5 ], [ "SCRATCH", 10 ] ],
     "death_function": [ "DARKMAN" ],
     "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "REGENERATES_IN_DARK", "NO_BREATHE" ]
   },
@@ -1415,6 +1423,9 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 1,
+    "special_attacks": [
+      [ "SCRATCH", 15 ],
+    ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "POISON", "REVIVES", "LEATHER", "BONES" ]
@@ -2907,7 +2918,7 @@
     "armor_cut": 12,
     "vision_day": 50,
     "path_settings": { "max_dist": 50 },
-    "special_attacks": [ [ "PARROT", 0 ] ],
+    "special_attacks": [ [ "PARROT", 0 ], [ "SCRATCH", 20 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "ARTHROPOD_BLOOD", "FAT", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
   },
@@ -3690,6 +3701,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "special_attacks": [
+      [ "SCRATCH", 5 ],
       {
         "type": "bite",
         "cooldown": 5
@@ -4666,7 +4678,8 @@
         "type": "bite",
         "cooldown": 5
       },
-      [ "GRAB", 7 ]
+      [ "GRAB", 7 ],
+      [ "SCRATCH", 15 ]
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -4923,7 +4936,8 @@
     "special_attacks": [
       [ "SMASH", 40 ],
       [ "STRETCH_ATTACK", 20 ],
-      [ "LONGSWIPE", 20 ]
+      [ "LONGSWIPE", 20 ],
+      [ "SCRATCH", 20 ]
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -4989,7 +5003,7 @@
     "armor_stab": 6,
     "vision_day": 30,
     "vision_night": 3,
-    "special_attacks": [ [ "GRAB", 7 ] ],
+    "special_attacks": [ [ "GRAB", 7 ], [ "SCRATCH", 15 ] ],
     "death_drops": "mon_zombie_cop_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
@@ -5056,7 +5070,8 @@
       {
         "type": "bite",
         "cooldown": 5
-      }
+      },
+      [ "SCRATCH", 20 ]
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -5150,7 +5165,8 @@
       {
         "type": "bite",
         "cooldown": 5
-      }
+      },
+      [ "SCRATCH", 20 ]
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
@@ -5187,7 +5203,8 @@
         "cooldown": 5,
         "min_mul": 0.75,
         "//": "Fat zombies have stronger jaws"
-      }
+      },
+      [ "SCRATCH", 15 ]
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -5322,7 +5339,7 @@
     "melee_cut": 0,
     "vision_night": 3,
     "emit_fields": [ "emit_toxic_leak" ],
-    "special_attacks": [ [ "SUICIDE", 20 ] ],
+    "special_attacks": [ [ "SUICIDE", 20 ], [ "SCRATCH", 15 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "GAS" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "BONES" ]
@@ -5354,7 +5371,8 @@
       {
         "type": "bite",
         "cooldown": 5
-      }
+      },
+      [ "SCRATCH", 10 ]
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -5394,7 +5412,8 @@
       {
         "type": "bite",
         "cooldown": 5
-      }
+      },
+      [ "SCRATCH", 15 ]
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -5516,6 +5535,7 @@
     "dodge": 3,
     "vision_night": 5,
     "special_attacks": [
+      [ "SCRATCH", 20 ],
       {
         "type": "leap",
         "cooldown": 5,
@@ -5804,7 +5824,8 @@
         "accuracy": 3,
         "no_infection_chance": 10
       },
-      [ "GRAB", 7 ]
+      [ "GRAB", 7 ],
+      [ "SCRATCH", 15 ]
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -5835,6 +5856,7 @@
     "vision_night": 3,
     "path_settings": { "max_dist": 4 },
     "special_attacks": [
+      [ "SCRATCH", 15 ],
       {
         "type": "bite",
         "cooldown": 5,
@@ -5881,7 +5903,7 @@
     "vision_night": 3,
     "starting_ammo": { "bot_manhack": 3 },
     "path_settings": { "max_dist": 5 },
-    "special_attacks": [ [ "SCIENCE", 20 ] ],
+    "special_attacks": [ [ "SCIENCE", 20 ], [ "SCRATCH", 20 ] ],
     "death_drops": "mon_zombie_scientist_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
@@ -5946,7 +5968,8 @@
     "vision_night": 8,
     "special_attacks": [
       [ "SHRIEK_ALERT", 20 ],
-      [ "SHRIEK_STUN", 1 ]
+      [ "SHRIEK_STUN", 1 ],
+      [ "SCRATCH", 15 ]
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -5981,7 +6004,8 @@
         "type": "bite",
         "cooldown": 5
       },
-      [ "GRAB", 7 ]
+      [ "GRAB", 7 ],
+      [ "SCRATCH", 15 ]
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -6013,7 +6037,8 @@
     "vision_night": 4,
     "special_attacks": [
       [ "SHRIEK", 10 ],
-      [ "GRAB", 7 ]
+      [ "GRAB", 7 ],
+      [ "SCRATCH", 15 ]
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -6053,7 +6078,8 @@
       {
         "type": "bite",
         "cooldown": 5
-      }
+      },
+      [ "SCRATCH", 15 ]
     ],
     "death_function": [ "SMOKEBURST" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
@@ -6162,7 +6188,8 @@
         "cooldown": 5,
         "min_mul": 1
       },
-      [ "GRAB", 7 ]
+      [ "GRAB", 7 ],
+      [ "SCRATCH", 15 ]
     ],
     "death_drops": "mon_zombie_survivor_death_drops",
     "death_function": [ "NORMAL" ],
@@ -6196,7 +6223,8 @@
         "type": "bite",
         "cooldown": 5
       },
-      [ "GRAB", 7 ]
+      [ "GRAB", 7 ],
+      [ "SCRATCH", 10 ]
     ],
     "death_drops": "mon_zombie_swimmer_death_drops",
     "death_function": [ "NORMAL" ],
@@ -6274,7 +6302,8 @@
         "cooldown": 5,
         "min_mul": 0.7
       },
-      [ "GRAB", 7 ]
+      [ "GRAB", 7 ],
+      [ "SCRATCH", 15 ]
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
