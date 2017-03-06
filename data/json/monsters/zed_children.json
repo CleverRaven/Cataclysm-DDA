@@ -65,7 +65,7 @@
     "dodge": 2,
     "vision_day": 30,
     "vision_night": 3,
-    "special_attacks": [ [ "SCRATCH", 20 ] ],
+    "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": {
       "subtype": "collection",
       "groups": [
@@ -177,7 +177,7 @@
     "vision_night": 5,
     "special_attacks": [
       [ "SHRIEK", 5 ],
-      [ "SCRATCH", 20 ]
+      [ "scratch", 15 ]
     ],
     "death_drops": {
       "subtype": "collection",
@@ -252,7 +252,7 @@
     "vision_day": 10,
     "vision_night": 10,
     "special_attacks": [
-      [ "SCRATCH", 15 ],
+      [ "scratch", 10 ],
       {
         "type": "leap",
         "cooldown": 10,
@@ -297,7 +297,7 @@
     "vision_night": 5,
     "special_attacks": [
       [ "SHRIEK", 15 ],
-      [ "SCRATCH", 10 ]
+      [ "scratch", 10 ]
     ],
     "death_drops": {
       "subtype": "collection",
