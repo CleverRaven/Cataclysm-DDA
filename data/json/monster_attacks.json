@@ -26,9 +26,15 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
-    "id": "SCRATCH",
-    "cooldown": 10,
+    "id": "scratch",
+    "cooldown": 20,
     "move_cost": 150,
+    "damage_max_instance": [
+      {
+        "damage_type": "cut",
+        "amount": 8
+      }
+    ],
     "body_parts": [ [ "FOOT_L", 2 ],[ "FOOT_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ], [ "HAND_L", 2 ], [ "HAND_R", 2 ], [ "HEAD", 3 ], [ "EYES", 2 ], [ "MOUTH", 1 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "TORSO", 4 ] ],
     "hit_dmg_u": "The %1$s claws at you!",
     "hit_dmg_npc": "The %1$s claws at <npcname>!",
