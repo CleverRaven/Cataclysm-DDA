@@ -48,7 +48,7 @@ struct component {
     // -1 means the player doesn't have the item, 1 means they do,
     // 0 means they have item but not enough for both tool and component
     mutable available_status available = a_false;
-    bool recoverable = false;
+    bool recoverable = true;
     // If true, it's not actually a component but a requirement (list of components)
     bool requirement = false;
 
