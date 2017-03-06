@@ -362,6 +362,7 @@ void print_nested( const T &to_print, std::stringstream &ss )
 template <typename T, typename Getter>
 void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
 {
+    std::set<requirement_id> already_nested;
     for( auto &vec : list ) {
         // We always need to restart from the beginning in case of vector relocation
         while( true ) {
@@ -378,6 +379,13 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
                 return;
             }
 
+            if( already_nested.count( req_id ) > 0 ) {
+                debugmsg( "Tried to inline requirement %s which was inlined before in the same pass (infinite loop?)",
+                          req_id.c_str() );
+                return;
+            }
+
+            already_nested.insert( req_id );
             const auto &req = req_id.obj();
             if( !req.get_qualities().empty() ) {
                 debugmsg( "Tried to inline requirement %s with qualities set (not supported)", req_id.c_str() );
@@ -390,8 +398,7 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
             // @todo Remove the requirement to separate tools and components
             // @todo Remove the requirement to have only one component "family" per inlined requirement
             if( req.get_components().size() + req.get_tools().size() != 1 ) {
-                debugmsg( "Tried to inline requirement %s which has more than one element", req_id.c_str() );
-                debugmsg("%d, %d", req.get_components().size(), req.get_tools().size());
+                debugmsg( "Tried to inline requirement %s which has more than one set of elements", req_id.c_str() );
                 return;
             }
 
