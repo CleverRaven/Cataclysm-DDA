@@ -1376,7 +1376,7 @@
     "vision_day": 50,
     "luminance": 6,
     "special_attacks": [
-      [ "DARKMAN", 5 ]
+      [ "DARKMAN", 5 ],
       [ "SCRATCH", 10 ]
     ],
     "death_function": [ "DARKMAN" ],
