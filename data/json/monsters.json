@@ -713,7 +713,10 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "vision_night": 3,
-    "special_attacks": [ [ "BOOMER", 20 ], [ "SCRATCH", 15 ] ],
+    "special_attacks": [
+      [ "BOOMER", 20 ],
+      [ "SCRATCH", 15 ]
+    ],
     "death_drops": "default_zombie_items",
     "death_function": [ "BOOMER" ],
     "upgrades": {
@@ -778,7 +781,10 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "vision_night": 3,
-    "special_attacks": [ [ "BOOMER_GLOW", 20 ], [ "SCRATCH", 15 ] ],
+    "special_attacks": [
+      [ "BOOMER_GLOW", 20 ],
+      [ "SCRATCH", 15 ]
+    ],
     "death_drops": "default_zombie_items",
     "death_function": [ "BOOMER_GLOW" ],
     "flags": [ "SEES", "GOODHEARING", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT", "PUSH_MON", "PATH_AVOID_DANGER_1" ]
@@ -869,9 +875,7 @@
     "melee_cut": 2,
     "dodge": 8,
     "vision_night": 20,
-    "special_attacks": [
-      [ "SCRATCH", 10 ]
-    ],
+    "special_attacks": [ [ "SCRATCH", 10 ] ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
@@ -930,7 +934,10 @@
     "armor_cut": 6,
     "vision_day": 50,
     "vision_night": 3,
-    "special_attacks": [ [ "LONGSWIPE", 8 ], [ "SCRATCH", 5 ] ],
+    "special_attacks": [
+      [ "LONGSWIPE", 8 ],
+      [ "SCRATCH", 5 ]
+    ],
     "death_drops": { "groups": [ [ "vault_wanderer", 1 ] ] },
     "death_function": [ "MELT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON" ]
@@ -1043,9 +1050,7 @@
     "melee_cut": 0,
     "dodge": 3,
     "path_settings": { "max_dist": 10 },
-    "special_attacks": [
-      [ "SCRATCH", 15 ]
-    ],
+    "special_attacks": [ [ "SCRATCH", 15 ] ],
     "death_drops": {
       "subtype": "collection",
       "groups": [
@@ -1370,7 +1375,10 @@
     "armor_cut": 8,
     "vision_day": 50,
     "luminance": 6,
-    "special_attacks": [ [ "DARKMAN", 5 ], [ "SCRATCH", 10 ] ],
+    "special_attacks": [
+      [ "DARKMAN", 5 ]
+      [ "SCRATCH", 10 ]
+    ],
     "death_function": [ "DARKMAN" ],
     "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "REGENERATES_IN_DARK", "NO_BREATHE" ]
   },
@@ -1423,9 +1431,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 1,
-    "special_attacks": [
-      [ "SCRATCH", 15 ]
-    ],
+    "special_attacks": [ [ "SCRATCH", 15 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "POISON", "REVIVES", "LEATHER", "BONES" ]
@@ -2918,7 +2924,10 @@
     "armor_cut": 12,
     "vision_day": 50,
     "path_settings": { "max_dist": 50 },
-    "special_attacks": [ [ "PARROT", 0 ], [ "SCRATCH", 20 ] ],
+    "special_attacks": [
+      [ "PARROT", 0 ],
+      [ "SCRATCH", 20 ]
+    ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "ARTHROPOD_BLOOD", "FAT", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
   },
@@ -5003,7 +5012,10 @@
     "armor_stab": 6,
     "vision_day": 30,
     "vision_night": 3,
-    "special_attacks": [ [ "GRAB", 7 ], [ "SCRATCH", 15 ] ],
+    "special_attacks": [
+      [ "GRAB", 7 ],
+      [ "SCRATCH", 15 ]
+    ],
     "death_drops": "mon_zombie_cop_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
@@ -5339,7 +5351,10 @@
     "melee_cut": 0,
     "vision_night": 3,
     "emit_fields": [ "emit_toxic_leak" ],
-    "special_attacks": [ [ "SUICIDE", 20 ], [ "SCRATCH", 15 ] ],
+    "special_attacks": [
+      [ "SUICIDE", 20 ],
+      [ "SCRATCH", 15 ]
+    ],
     "death_drops": "default_zombie_items",
     "death_function": [ "GAS" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "BONES" ]
@@ -5903,7 +5918,10 @@
     "vision_night": 3,
     "starting_ammo": { "bot_manhack": 3 },
     "path_settings": { "max_dist": 5 },
-    "special_attacks": [ [ "SCIENCE", 20 ], [ "SCRATCH", 20 ] ],
+    "special_attacks": [
+      [ "SCIENCE", 20 ],
+      [ "SCRATCH", 20 ]
+    ],
     "death_drops": "mon_zombie_scientist_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
