@@ -1424,7 +1424,7 @@
     "melee_cut": 2,
     "dodge": 1,
     "special_attacks": [
-      [ "SCRATCH", 15 ],
+      [ "SCRATCH", 15 ]
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
