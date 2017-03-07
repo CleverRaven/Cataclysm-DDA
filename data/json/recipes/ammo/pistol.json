@@ -74,7 +74,8 @@
     "components": [
       [ [ "smpistol_primer", 1 ] ],
       [ [ "38_casing", 1 ] ],
-      [ [ "gunpowder", 2 ] ]
+      [ [ "gunpowder", 2 ] ],
+      [ [ "copper", 1 ] ]
     ]
   },
   {
@@ -131,7 +132,8 @@
     "components": [
       [ [ "smpistol_primer", 1 ] ],
       [ [ "40_casing", 1 ] ],
-      [ [ "gunpowder", 4 ] ]
+      [ [ "gunpowder", 4 ] ],
+      [ [ "copper", 1 ] ]
     ]
   },
   {
