@@ -1,0 +1,282 @@
+[
+  {
+    "id": "morale_food_good",
+    "type": "morale_type",
+    "text": "Enjoyed %s"
+  },
+  {
+    "id": "morale_food_hot",
+    "type": "morale_type",
+    "text": "Enjoyed a hot meal"
+  },
+  {
+    "id": "morale_music",
+    "type": "morale_type",
+    "text": "Music"
+  },
+  {
+    "id": "morale_honey",
+    "type": "morale_type",
+    "text": "Enjoyed honey"
+  },
+  {
+    "id": "morale_game",
+    "type": "morale_type",
+    "text": "Played Video Game"
+  },
+  {
+    "id": "morale_marloss",
+    "type": "morale_type",
+    "text": "Marloss Bliss"
+  },
+  {
+    "id": "morale_mutagen",
+    "type": "morale_type",
+    "text": "Mutagenic Anticipation"
+  },
+  {
+    "id": "morale_feeling_good",
+    "type": "morale_type",
+    "text": "Good Feeling"
+  },
+  {
+    "id": "morale_support",
+    "type": "morale_type",
+    "text": "Supported"
+  },
+  {
+    "id": "morale_photos",
+    "type": "morale_type",
+    "text": "Looked at photos"
+  },
+  {
+    "id": "morale_craving_nicotine",
+    "type": "morale_type",
+    "text": "Nicotine Craving"
+  },
+  {
+    "id": "morale_craving_caffeine",
+    "type": "morale_type",
+    "text": "Caffeine Craving"
+  },
+  {
+    "id": "morale_craving_alcohol",
+    "type": "morale_type",
+    "text": "Alcohol Craving"
+  },
+  {
+    "id": "morale_craving_opiate",
+    "type": "morale_type",
+    "text": "Opiate Craving"
+  },
+  {
+    "id": "morale_craving_speed",
+    "type": "morale_type",
+    "text": "Speed Craving"
+  },
+  {
+    "id": "morale_craving_cocaine",
+    "type": "morale_type",
+    "text": "Cocaine Craving"
+  },
+  {
+    "id": "morale_craving_crack",
+    "type": "morale_type",
+    "text": "Crack Cocaine Craving"
+  },
+  {
+    "id": "morale_craving_mutagen",
+    "type": "morale_type",
+    "text": "Mutagen Craving"
+  },
+  {
+    "id": "morale_craving_diazepam",
+    "type": "morale_type",
+    "text": "Diazepam Craving"
+  },
+  {
+    "id": "morale_craving_marloss",
+    "type": "morale_type",
+    "text": "Marloss Craving"
+  },
+  {
+    "id": "morale_food_bad",
+    "type": "morale_type",
+    "text": "Disliked %s"
+  },
+  {
+    "id": "morale_cannibal",
+    "type": "morale_type",
+    "text": "Ate Human Flesh"
+  },
+  {
+    "id": "morale_vegetarian",
+    "type": "morale_type",
+    "text": "Ate Meat"
+  },
+  {
+    "id": "morale_meatarian",
+    "type": "morale_type",
+    "text": "Ate Vegetables"
+  },
+  {
+    "id": "morale_antifruit",
+    "type": "morale_type",
+    "text": "Ate Fruit"
+  },
+  {
+    "id": "morale_lactose",
+    "type": "morale_type",
+    "text": "Lactose Intolerance"
+  },
+  {
+    "id": "morale_antijunk",
+    "type": "morale_type",
+    "text": "Ate Junk Food"
+  },
+  {
+    "id": "morale_antiwheat",
+    "type": "morale_type",
+    "text": "Wheat Allergy"
+  },
+  {
+    "id": "morale_no_digest",
+    "type": "morale_type",
+    "text": "Ate Indigestible Food"
+  },
+  {
+    "id": "morale_wet",
+    "type": "morale_type",
+    "text": "Wet"
+  },
+  {
+    "id": "morale_dried_off",
+    "type": "morale_type",
+    "text": "Dried Off"
+  },
+  {
+    "id": "morale_cold",
+    "type": "morale_type",
+    "text": "Cold"
+  },
+  {
+    "id": "morale_hot",
+    "type": "morale_type",
+    "text": "Hot"
+  },
+  {
+    "id": "morale_feeling_bad",
+    "type": "morale_type",
+    "text": "Bad Feeling"
+  },
+  {
+    "id": "morale_killed_innocent",
+    "type": "morale_type",
+    "text": "Killed Innocent"
+  },
+  {
+    "id": "morale_killed_friend",
+    "type": "morale_type",
+    "text": "Killed Friend"
+  },
+  {
+    "id": "morale_killed_monster",
+    "type": "morale_type",
+    "text": "Guilty about Killing"
+  },
+  {
+    "id": "morale_mutilate_corpse",
+    "type": "morale_type",
+    "text": "Guilty about Mutilating Corpse"
+  },
+  {
+    "id": "morale_mutagen_elf",
+    "type": "morale_type",
+    "text": "Fey Mutation"
+  },
+  {
+    "id": "morale_mutagen_chimera",
+    "type": "morale_type",
+    "text": "Chimerical Mutation"
+  },
+  {
+    "id": "morale_mutagen_mutation",
+    "type": "morale_type",
+    "text": "Mutation"
+  },
+  {
+    "id": "morale_moodswing",
+    "type": "morale_type",
+    "text": "Moodswing"
+  },
+  {
+    "id": "morale_book",
+    "type": "morale_type",
+    "text": "Read %s"
+  },
+  {
+    "id": "morale_comfy",
+    "type": "morale_type",
+    "text": "Got comfy"
+  },
+  {
+    "id": "morale_scream",
+    "type": "morale_type",
+    "text": "Heard Disturbing Scream"
+  },
+  {
+    "id": "morale_perm_masochist",
+    "type": "morale_type",
+    "text": "Masochism"
+  },
+  {
+    "id": "morale_perm_hoarder",
+    "type": "morale_type",
+    "text": "Hoarder"
+  },
+  {
+    "id": "morale_perm_fancy",
+    "type": "morale_type",
+    "text": "Stylish"
+  },
+  {
+    "id": "morale_perm_optimist",
+    "type": "morale_type",
+    "text": "Optimist"
+  },
+  {
+    "id": "morale_perm_badtemper",
+    "type": "morale_type",
+    "text": "Bad Tempered"
+  },
+  {
+    "id": "morale_perm_constrained",
+    "type": "morale_type",
+    "text": "Uncomfy Gear"
+  },
+  {
+    "id": "morale_game_found_kitten",
+    "type": "morale_type",
+    "text": "Found kitten <3"
+  },
+  {
+    "id": "morale_haircut",
+    "type": "morale_type",
+    "text": "Got a Haircut"
+  },
+  {
+    "id": "morale_shave",
+    "type": "morale_type",
+    "text": "Freshly Shaven"
+  },
+  {
+    "id": "morale_vomited",
+    "type": "morale_type",
+    "text": "Barfed"
+  },
+  {
+    "id": "morale_perm_filthy",
+    "type": "morale_type",
+    "text": "Filthy Gear"
+  }
+]

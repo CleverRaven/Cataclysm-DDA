@@ -59,6 +59,7 @@
 #include "recipe_dictionary.h"
 #include "rotatable_symbols.h"
 #include "harvest.h"
+#include "morale_types.h"
 
 #include <assert.h>
 #include <string>
@@ -254,6 +255,7 @@ void DynamicDataLoader::initialize()
     add( "palette", mapgen_palette::load );
     add( "rotatable_symbol", &rotatable_symbols::load );
     add( "body_part", &body_part_struct::load );
+    add( "morale_type", &morale_type_data::load_type );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )

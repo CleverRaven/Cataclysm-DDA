@@ -26,7 +26,6 @@ struct trap;
 class mission;
 class profession;
 nc_color encumb_color(int level);
-enum morale_type : int;
 enum game_message_type : int;
 class ma_technique;
 class martialart;
@@ -43,6 +42,8 @@ using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
 struct targeting_data;
+class morale_type_data;
+using morale_type = string_id<morale_type_data>;
 
 namespace debug_menu
 {
