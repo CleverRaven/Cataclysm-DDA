@@ -56,10 +56,6 @@
             {
                 "input_method":"keyboard",
                 "key":"ESC"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"q"
             }
         ]
     },
