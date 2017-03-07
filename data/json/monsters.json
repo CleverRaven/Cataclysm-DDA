@@ -941,11 +941,7 @@
         "damage_max_instance": [
           {
             "damage_type": "cut",
-            "amount": 13
-          },
-          {
-            "damage_type": "stab",
-            "amount": 8
+            "amount": 21
           }
         ]
       }
@@ -2943,12 +2939,7 @@
         "damage_max_instance": [
           {
             "damage_type": "cut",
-            "amount": 15,
-            "armor_multiplier": 0.8
-          },
-          {
-            "damage_type": "stab",
-            "amount": 8,
+            "amount": 23,
             "armor_multiplier": 0.8
           }
         ]
@@ -5579,11 +5570,7 @@
         "damage_max_instance": [
           {
             "damage_type": "cut",
-            "amount": 4
-          },
-          {
-            "damage_type": "stab",
-            "amount": 8
+            "amount": 12
           }
         ]
       },
@@ -6248,11 +6235,7 @@
         "damage_max_instance": [
           {
             "damage_type": "cut",
-            "amount": 10
-          },
-          {
-            "damage_type": "stab",
-            "amount": 6
+            "amount": 16
           }
         ]
       }
