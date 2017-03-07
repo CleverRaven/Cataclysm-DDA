@@ -2951,6 +2951,8 @@
             "amount": 8,
             "armor_multiplier": 0.8
           }
+        ]
+      }
     ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "ARTHROPOD_BLOOD", "FAT", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
@@ -6250,7 +6252,7 @@
           },
           {
             "damage_type": "stab",
-            "amount": 6,
+            "amount": 6
           }
         ]
       }
