@@ -77,7 +77,7 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
         }
     };
 
-    if( lmt >= 0 && (size_t)lmt <= legacy_morale_types.size() ) {
+    if( lmt >= 0 && ( size_t )lmt <= legacy_morale_types.size() ) {
         return legacy_morale_types[ lmt ];
     }
 
@@ -152,7 +152,7 @@ generic_factory<morale_type_data> morale_data( "morale type" );
 }
 
 template<>
-const morale_type_data& morale_type::obj() const
+const morale_type_data &morale_type::obj() const
 {
     return morale_data.obj( *this );
 }
