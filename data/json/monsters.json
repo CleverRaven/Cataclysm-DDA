@@ -936,7 +936,19 @@
     "vision_night": 3,
     "special_attacks": [
       [ "LONGSWIPE", 8 ],
-      [ "scratch", 20 ]
+      {
+        "id": "scratch",
+        "damage_max_instance": [
+          {
+            "damage_type": "cut",
+            "amount": 13
+          },
+          {
+            "damage_type": "stab",
+            "amount": 8
+          }
+        ]
+      }
     ],
     "death_drops": { "groups": [ [ "vault_wanderer", 1 ] ] },
     "death_function": [ "MELT" ],
@@ -2926,7 +2938,19 @@
     "path_settings": { "max_dist": 50 },
     "special_attacks": [
       [ "PARROT", 0 ],
-      [ "scratch", 30 ]
+      {
+        "id": "scratch",
+        "damage_max_instance": [
+          {
+            "damage_type": "cut",
+            "amount": 15,
+            "armor_multiplier": 0.8
+          },
+          {
+            "damage_type": "stab",
+            "amount": 8,
+            "armor_multiplier": 0.8
+          }
     ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "ARTHROPOD_BLOOD", "FAT", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
@@ -5548,7 +5572,19 @@
     "dodge": 3,
     "vision_night": 5,
     "special_attacks": [
-      [ "scratch", 20 ],
+      {
+        "id": "scratch",
+        "damage_max_instance": [
+          {
+            "damage_type": "cut",
+            "amount": 4
+          },
+          {
+            "damage_type": "stab",
+            "amount": 8
+          }
+        ]
+      },
       {
         "type": "leap",
         "cooldown": 5,
@@ -6205,7 +6241,19 @@
         "min_mul": 1
       },
       [ "GRAB", 7 ],
-      [ "scratch", 20 ]
+      {
+        "id": "scratch",
+        "damage_max_instance": [
+          {
+            "damage_type": "cut",
+            "amount": 10
+          },
+          {
+            "damage_type": "stab",
+            "amount": 6,
+          }
+        ]
+      }
     ],
     "death_drops": "mon_zombie_survivor_death_drops",
     "death_function": [ "NORMAL" ],
