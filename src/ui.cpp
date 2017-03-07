@@ -808,7 +808,9 @@ void uimenu::query(bool loop)
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
-    ctxt.register_action( "QUIT" );
+    if( return_invalid ) {
+        ctxt.register_action( "QUIT" );
+    }
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "ANY_INPUT" );
@@ -839,11 +841,11 @@ void uimenu::query(bool loop)
         } else if( action == "ANY_INPUT" && event.type == CATA_INPUT_KEYBOARD ) {
             if( iter != keymap.end() ) {
                 selected = iter->second;
-            }
-            if( entries[ selected ].enabled ) {
-                ret = entries[ selected ].retval; // valid
-            } else if ( return_invalid ) {
-                ret = 0 - entries[ selected ].retval; // disabled
+                if( entries[ selected ].enabled ) {
+                    ret = entries[ selected ].retval; // valid
+                } else if( return_invalid ) {
+                    ret = 0 - entries[ selected ].retval; // disabled
+                }
             }
         } else if ( !fentries.empty() && action == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
@@ -851,7 +853,7 @@ void uimenu::query(bool loop)
             } else if ( return_invalid ) {
                 ret = 0 - entries[ selected ].retval; // disabled
             }
-        } else if ( action == "QUIT" && return_invalid) { //break loop with ESCAPE key
+        } else if( action == "QUIT" ) {
             break;
         } else {
             if ( ! skipkey && return_invalid ) {
