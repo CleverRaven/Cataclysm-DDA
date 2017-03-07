@@ -1,8 +1,0 @@
-[
-  {
-    "type" : "skill",
-    "ident" : "carpentry",
-    "name" : "construction",
-    "description" : "Your general competence in building construction.  This governs the complexity of structures that can be built, and the time required to build them."
-  }
-]
