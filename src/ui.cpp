@@ -21,7 +21,10 @@
 #define dprint(a,...)      void()
 #endif
 
-
+/**
+* \defgroup UI "The UI Menu."
+* @{
+*/
 
 ////////////////////////////////////
 int getfoldedwidth (std::vector<std::string> foldedstring)
@@ -45,7 +48,9 @@ uimenu::uimenu( const std::string &hotkeys_override )
     }
 }
 
-// here we emulate the old int ret=menu(bool, "header", "option1", "option2", ...);
+/**
+ * here we emulate the old int ret=menu(bool, "header", "option1", "option2", ...);
+ */
 uimenu::uimenu(bool, const char * const mes, ...)
 {
     init();
@@ -58,8 +63,9 @@ uimenu::uimenu(bool, const char * const mes, ...)
     va_end(ap);
     query();
 }
-
-// exact usage as menu_vec
+/**
+ * exact usage as menu_vec
+ */ 
 uimenu::uimenu(bool cancelable, const char *mes,
                const std::vector<std::string> options)
 {
@@ -138,7 +144,7 @@ uimenu::operator int() const
     return r;
 }
 
-/*
+/**
  * Sane defaults on initialization
  */
 void uimenu::init()
@@ -199,7 +205,7 @@ void uimenu::init()
     hotkeys = DEFAULT_HOTKEYS;
 }
 
-/*
+/**
  * repopulate filtered entries list (fentries) and set fselected accordingly
  */
 void uimenu::filterlist()
@@ -250,7 +256,7 @@ void uimenu::filterlist()
     }
 }
 
-/*
+/**
  * Call string_input_win / ui_element_input::input_filter and filter the entries list interactively
  */
 std::string uimenu::inputfilter()
@@ -304,7 +310,7 @@ std::string uimenu::inputfilter()
     return filter;
 }
 
-/*
+/**
  * Calculate sizes, populate arrays, initialize window
  */
 void uimenu::setup()
@@ -560,7 +566,7 @@ void uimenu::apply_scrollbar()
     }
 }
 
-/*
+/**
  * Generate and refresh output
  */
 void uimenu::show()
@@ -660,7 +666,7 @@ void uimenu::show()
     this->refresh(true);
 }
 
-/*
+/**
  * wrefresh + wrefresh callback's window
  */
 void uimenu::refresh( bool refresh_callback )
@@ -671,7 +677,7 @@ void uimenu::refresh( bool refresh_callback )
     }
 }
 
-/*
+/**
  * redraw borders, which is required in some cases ( look_around() )
  */
 void uimenu::redraw( bool redraw_callback )
@@ -729,7 +735,7 @@ int uimenu::scroll_amount_from_action( const std::string &action )
     }
 }
 
-/*
+/**
  * check for valid scrolling keypress and handle. return false if invalid keypress
  */
 bool uimenu::scrollby( const int scrollby )
@@ -783,8 +789,9 @@ bool uimenu::scrollby( const int scrollby )
     return true;
 }
 
-/*
+/**
  * Handle input and update display
+ * 
  */
 void uimenu::query(bool loop)
 {
@@ -813,13 +820,23 @@ void uimenu::query(bool loop)
         const auto action = ctxt.handle_input();
         const auto event = ctxt.get_raw_input();
         keypress = event.get_first_input();
+        const auto iter = keymap.find( keypress );
 
-        if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
+        if ( callback != nullptr ) {
+            if( iter == keymap.end() && action == "ANY_INPUT" && event.get_first_input() != '?' ) {
+                skipkey = callback->key( event, -1, this );
+            } else {
+                skipkey = callback->key( event, selected, this );
+            }
+        }
+
+		if ( skipkey ) { 
+			/* nothing */
+		} else if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
             /* nothing */
         } else if ( filtering && action == "FILTER" ) {
             inputfilter();
         } else if( action == "ANY_INPUT" && event.type == CATA_INPUT_KEYBOARD ) {
-            const auto iter = keymap.find( keypress );
             if( iter != keymap.end() ) {
                 selected = iter->second;
             }
@@ -837,9 +854,6 @@ void uimenu::query(bool loop)
         } else if ( action == "QUIT" && return_invalid) { //break loop with ESCAPE key
             break;
         } else {
-            if( callback ) {
-                skipkey = callback->key( event, selected, this );
-            }
             if ( ! skipkey && return_invalid ) {
                 ret = -1;
             }
@@ -849,7 +863,8 @@ void uimenu::query(bool loop)
     } while ( loop && (ret == startret ) );
 }
 
-/*
+///@}
+/**
  * cleanup
  */
 uimenu::~uimenu()

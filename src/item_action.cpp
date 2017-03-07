@@ -50,7 +50,7 @@ class actmenu_cb : public uimenu_callback
         }
         ~actmenu_cb() override { }
 
-        bool key( const input_event &event, int /*num*/, uimenu * /*menu*/ ) override {
+        bool key( const input_event &event, int idx, uimenu * /*menu*/ ) override {
             const std::string action = ctxt.input_to_action( event );
             if( action == "HELP_KEYBINDINGS" ) {
                 ctxt.display_help();
@@ -59,8 +59,9 @@ class actmenu_cb : public uimenu_callback
             // Don't write a message if unknown command was sent
             // Only when an inexistent tool was selected
             auto itemless_action = am.find( action );
-            if( itemless_action != am.end() ) {
+            if( itemless_action != am.end() && idx == -1 ) {
                 popup( _( "You do not have an item that can perform this action." ) );
+                return true;
             }
             return false;
         }
