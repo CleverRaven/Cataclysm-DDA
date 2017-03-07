@@ -121,7 +121,9 @@ std::string map_data_common_t::extended_description() const
     ss << "<header>" << string_format( _( "That is a %s." ), name.c_str() ) << "</header>" << std::endl;
     ss << description << std::endl;
     bool has_any_harvest = std::any_of( harvest_by_season.begin(), harvest_by_season.end(),
-                                        []( const harvest_id &hv ) { return !hv.obj().empty(); } );
+    []( const harvest_id & hv ) {
+        return !hv.obj().empty();
+    } );
 
     if( has_any_harvest ) {
         ss << "--" << std::endl;
