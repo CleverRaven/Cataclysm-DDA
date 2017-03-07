@@ -222,7 +222,7 @@ void profession::check_item_definitions( const itypedecvec &items ) const
 {
     for( auto &itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
-            debugmsg( "profession %s: item %s does not exist", id.c_str() , itd.type_id.c_str() );
+            debugmsg( "profession %s: item %s does not exist", id.c_str(), itd.type_id.c_str() );
         } else if( !itd.snippet_id.empty() ) {
             const itype *type = item::find_type( itd.type_id );
             if( type->snippet_category.empty() ) {

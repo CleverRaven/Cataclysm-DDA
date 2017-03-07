@@ -600,7 +600,7 @@ void editmap::update_view( bool update_info )
         int off = 1;
         draw_border( w_info );
 
-        mvwprintz( w_info, 0, 2 , c_ltgray, "< %d,%d >", target.x, target.y );
+        mvwprintz( w_info, 0, 2, c_ltgray, "< %d,%d >", target.x, target.y );
         for( int i = 1; i < infoHeight - 2; i++ ) { // clear window
             mvwprintz( w_info, i, 1, c_white, padding.c_str() );
         }
@@ -825,7 +825,7 @@ int editmap::edit_ter()
             for( int x = xmin; x < pickw && cur_t < ( int ) ter_t::count(); x++, cur_t++ ) {
                 const ter_id tid( cur_t );
                 const ter_t &ttype = tid.obj();
-                mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color() : c_dkgray ) , ttype.symbol() );
+                mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color() : c_dkgray ), ttype.symbol() );
                 if( tid == sel_ter ) {
                     sel_terp = tripoint( x, y, target.z );
                 } else if( tid == lastsel_ter ) {
