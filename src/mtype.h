@@ -305,6 +305,8 @@ struct mtype {
         itype_id get_meat_itype() const;
         int get_meat_chunks_count() const;
 
+        itype_id get_corpse_itype() const;
+
         // Historically located in monstergenerator.cpp
         void load( JsonObject &jo, const std::string &src );
 };

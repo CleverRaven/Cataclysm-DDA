@@ -62,9 +62,6 @@ const skill_id skill_unarmed( "unarmed" );
 const quality_id quality_jack( "JACK" );
 const quality_id quality_lift( "LIFT" );
 
-const species_id FISH( "FISH" );
-const species_id BIRD( "BIRD" );
-const species_id INSECT( "INSECT" );
 const species_id ROBOT( "ROBOT" );
 
 const efftype_id effect_cig( "cig" );
@@ -114,7 +111,7 @@ item::item()
 item::item( const itype *type, int turn, long qty ) : type( type )
 {
     bday = turn >= 0 ? turn : int( calendar::turn );
-    corpse = typeId() == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
+    corpse = is_corpse() ? &mtype_id::NULL_ID.obj() : nullptr;
     item_counter = type->countdown_interval;
 
     if( qty >= 0 ) {
@@ -180,7 +177,7 @@ item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    item result( "corpse", turn >= 0 ? turn : int( calendar::turn ) );
+    item result( mt.obj().get_corpse_itype(), turn >= 0 ? turn : int( calendar::turn ) );
     result.corpse = &mt.obj();
 
     result.active = result.corpse->has_flag( MF_REVIVES );
@@ -188,6 +185,7 @@ item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
         result.item_tags.insert( "REVIVE_SPECIAL" );
     }
 
+    // @todo Get rid of this
     // This is unconditional because the item constructor above sets result.name to
     // "human corpse".
     result.corpse_name = name;
@@ -2163,7 +2161,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             } else {
                 damtext = pgettext( "damage adjective", "reinforced " );
             }
-        } else if( typeId() == "corpse" ) {
+        } else if( is_corpse() ) {
             if( damage() > 0 ) {
                 switch( damage() ) {
                     case 1:
@@ -2373,9 +2371,6 @@ nc_color item::color() const
 {
     if( is_null() )
         return c_black;
-    if( is_corpse() ) {
-        return corpse->color;
-    }
     return type->color;
 }
 
@@ -2430,23 +2425,6 @@ int item::weight( bool include_contents ) const
     if( count_by_charges() ) {
         ret *= charges;
 
-    } else if( is_corpse() ) {
-        switch( corpse->size ) {
-            case MS_TINY:   ret =   1000;  break;
-            case MS_SMALL:  ret =  40750;  break;
-            case MS_MEDIUM: ret =  81500;  break;
-            case MS_LARGE:  ret = 120000;  break;
-            case MS_HUGE:   ret = 200000;  break;
-        }
-        if( made_of( material_id( "veggy" ) ) ) {
-            ret /= 3;
-        }
-        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) || made_of( material_id( "bone" ) ) ) {
-            ret /= 8;
-        } else if ( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) ) ) {
-            ret *= 7;
-        }
-
     } else if( magazine_integral() && !is_magazine() ) {
         if ( ammo_type() == ammotype( "plutonium" ) ) {
             ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / PLUTONIUM_CHARGES;
@@ -2479,27 +2457,10 @@ int item::weight( bool include_contents ) const
     return ret;
 }
 
-static units::volume corpse_volume( m_size corpse_size )
-{
-    switch( corpse_size ) {
-        case MS_TINY:    return    750_ml;
-        case MS_SMALL:   return  30000_ml;
-        case MS_MEDIUM:  return  62500_ml;
-        case MS_LARGE:   return  92500_ml;
-        case MS_HUGE:    return 875000_ml;
-    }
-    debugmsg( "unknown monster size for corpse" );
-    return 0;
-}
-
 units::volume item::base_volume() const
 {
     if( is_null() ) {
         return 0;
-    }
-
-    if( is_corpse() ) {
-        return corpse_volume( corpse->size );
     }
 
     return type->volume;
@@ -2512,7 +2473,7 @@ units::volume item::volume( bool integral ) const
     }
 
     if( is_corpse() ) {
-        return corpse_volume( corpse->size );
+        return base_volume();
     }
 
     const int local_volume = get_var( "volume", -1 );
@@ -3379,9 +3340,6 @@ bool item::is_two_handed( const player &u ) const
 
 const std::vector<material_id> &item::made_of() const
 {
-    if( is_corpse() ) {
-        return corpse->mat;
-    }
     return type->materials;
 }
 
@@ -3533,7 +3491,8 @@ bool item::is_food_container() const
 
 bool item::is_corpse() const
 {
-    return typeId() == "corpse" && corpse != nullptr;
+    static const std::string corpse_s( "CORPSE" );
+    return corpse != nullptr && has_flag( corpse_s );
 }
 
 const mtype *item::get_mtype() const
@@ -5841,7 +5800,7 @@ bool item::is_reloadable() const
 std::string item::type_name( unsigned int quantity ) const
 {
     const auto iter = item_vars.find( "name" );
-    if( corpse != nullptr && typeId() == "corpse" ) {
+    if( is_corpse() ) {
         if( corpse_name.empty() ) {
             return string_format( npgettext( "item name", "%s corpse",
                                          "%s corpses", quantity ),
