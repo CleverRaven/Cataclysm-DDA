@@ -7,6 +7,7 @@
 #include "mission.h"
 #include "game.h"
 #include "map.h"
+#include "filesystem.h"
 #include "fungal_effects.h"
 #include "debug.h"
 #include "addiction.h"
@@ -1971,11 +1972,8 @@ std::string player::save_info() const
 
 void player::memorial( std::ostream &memorial_file, std::string epitaph )
 {
-#ifdef _WIN32
-    static const char eol[] = "\r\n";
-#else
-    static const char eol[] = "\n";
-#endif
+    static const char *eol = cata_files::eol();
+
     //Size of indents in the memorial file
     const std::string indent = "  ";
 
@@ -2306,11 +2304,7 @@ void player::load_memorial_file( std::istream &fin )
  */
 std::string player::dump_memorial() const
 {
-#ifdef _WIN32
-    static const char eol[] = "\r\n";
-#else
-    static const char eol[] = "\n";
-#endif
+    static const char *eol = cata_files::eol();
     std::stringstream output;
 
     for( auto &elem : memorial_log ) {

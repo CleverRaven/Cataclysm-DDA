@@ -13,6 +13,10 @@ bool remove_file( const std::string &path );
 // Rename a file, overriding the target!
 bool rename_file( const std::string &old_path, const std::string &new_path );
 
+namespace cata_files {
+  const char *eol();
+}
+
 //--------------------------------------------------------------------------------------------------
 /**
  * Returns a vector of files or directories matching pattern at @p root_path.
