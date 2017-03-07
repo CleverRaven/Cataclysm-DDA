@@ -1169,18 +1169,7 @@ void overmap_special::check() const
     for( const auto &elem : terrains ) {
         const auto &oter = elem.terrain;
 
-        if( oter.is_valid() ) {
-            if( rotatable ) {
-                // We assume that the hardcoded mapgen takes care of rotation (in most cases it really does).
-                const bool loose_terrain = oter->is_rotatable() || oter->has_flag( line_drawing ) || oter->is_hardcoded();
-
-                if( !loose_terrain && fixed_terrains.count( oter.id() ) == 0 ) {
-                    fixed_terrains.insert( oter.id() );
-                    debugmsg( "In overmap special \"%s\" (which is rotatable), terrain \"%s\" can't be rotated.",
-                              id.c_str(), oter.c_str() );
-                }
-            }
-        } else {
+        if( !oter.is_valid() ) {
             if( invalid_terrains.count( oter.id() ) == 0 ) {
                 invalid_terrains.insert( oter.id() );
                 debugmsg( "In overmap special \"%s\", terrain \"%s\" is invalid.",
