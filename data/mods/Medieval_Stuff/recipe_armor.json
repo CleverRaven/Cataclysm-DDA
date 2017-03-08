@@ -15,7 +15,7 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 300 ], [ "oxy_torch", 60 ] ]
     ],
     "components": [
@@ -32,11 +32,11 @@
     "difficulty": 6,
     "time": 70000,
     "book_learn": [ [ "textbook_armwest", 5 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "using": [ [ "forging_standard", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "crucible", -1 ] ],
-      [ [ "forge", 350 ], [ "oxy_torch", 70 ] ]
+      [ [ "anvil", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [
       [ [ "scrap_bronze", 7 ] ],
@@ -59,7 +59,7 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 300 ], [ "oxy_torch", 60 ] ]
     ],
     "components": [
@@ -108,11 +108,11 @@
     "difficulty": 5,
     "time": 280000,
     "book_learn": [ [ "textbook_armwest", 8 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "using": [ [ "forging_standard", 14 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "crucible", -1 ] ],
-      [ [ "forge", 500 ], [ "oxy_torch", 100 ] ]
+      [ [ "anvil", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [ [ [ "scrap_bronze", 28 ] ] ]
   },
@@ -150,9 +150,11 @@
     "time": 120000,
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 2 }
+    "using": [ [ "forging_standard", 6 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [
+      [ [ "anvil", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [
       [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ],
@@ -199,7 +201,7 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 300 ], [ "oxy_torch", 60 ] ]
     ],
     "components": [
