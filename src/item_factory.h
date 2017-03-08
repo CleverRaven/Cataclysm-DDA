@@ -251,7 +251,7 @@ class Item_factory
         std::unordered_map<itype_id, itype> m_templates;
 
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
-        
+
         // Tools that have at least one repair action
         std::set<itype_id> repair_tools;
 

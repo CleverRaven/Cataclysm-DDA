@@ -217,17 +217,29 @@ int mtype::intact_corpse_weight() const
     int ret = 0;
     // @todo Get rid of this hardcoded crap, use material density * volume instead
     switch( size ) {
-        case MS_TINY:   ret =   1000;  break;
-        case MS_SMALL:  ret =  40750;  break;
-        case MS_MEDIUM: ret =  81500;  break;
-        case MS_LARGE:  ret = 120000;  break;
-        case MS_HUGE:   ret = 200000;  break;
+        case MS_TINY:
+            ret =   1000;
+            break;
+        case MS_SMALL:
+            ret =  40750;
+            break;
+        case MS_MEDIUM:
+            ret =  81500;
+            break;
+        case MS_LARGE:
+            ret = 120000;
+            break;
+        case MS_HUGE:
+            ret = 200000;
+            break;
     }
     if( made_of( material_id( "veggy" ) ) ) {
         ret /= 3;
-    } else if( in_species( FISH ) || in_species( BIRD ) || in_species( INSECT ) || made_of( material_id( "bone" ) ) ) {
+    } else if( in_species( FISH ) || in_species( BIRD ) || in_species( INSECT ) ||
+               made_of( material_id( "bone" ) ) ) {
         ret /= 8;
-    } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) ) ) {
+    } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ||
+               made_of( material_id( "stone" ) ) ) {
         ret *= 7;
     }
 
@@ -237,11 +249,16 @@ int mtype::intact_corpse_weight() const
 units::volume mtype::intact_corpse_volume() const
 {
     switch( size ) {
-        case MS_TINY:    return    750_ml;
-        case MS_SMALL:   return  30000_ml;
-        case MS_MEDIUM:  return  62500_ml;
-        case MS_LARGE:   return  92500_ml;
-        case MS_HUGE:    return 875000_ml;
+        case MS_TINY:
+            return    750_ml;
+        case MS_SMALL:
+            return  30000_ml;
+        case MS_MEDIUM:
+            return  62500_ml;
+        case MS_LARGE:
+            return  92500_ml;
+        case MS_HUGE:
+            return 875000_ml;
     }
 
     // Shouldn't ever happen
