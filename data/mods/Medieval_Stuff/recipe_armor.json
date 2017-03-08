@@ -8,6 +8,7 @@
     "difficulty": 5,
     "time": 432000,
     "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "forging_standard", 7 ], [ "steel_standard", 7 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
@@ -15,13 +16,9 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 300 ], [ "oxy_torch", 60 ] ]
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
-    "components": [
-      [ [ "steel_lump", 8 ], [ "steel_chunk", 32 ] ],
-      [ [ "fur", 3 ], [ "leather", 3 ] ]
-    ]
+    "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
   {
     "result": "helmet_corinthian",
@@ -32,12 +29,7 @@
     "difficulty": 6,
     "time": 70000,
     "book_learn": [ [ "textbook_armwest", 5 ] ],
-    "using": [ [ "forging_standard", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
-    ],
+    "using": [ [ "forging_standard", 3 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [
       [ [ "scrap_bronze", 7 ] ],
       [ [ "fur", 4 ], [ "leather", 4 ] ]
@@ -52,6 +44,7 @@
     "difficulty": 7,
     "time": 432000,
     "book_learn": [ [ "textbook_armwest", 5 ] ],
+    "using": [ [ "forging_standard", 8 ], [ "steel_standard", 8 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
@@ -59,13 +52,9 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 300 ], [ "oxy_torch", 60 ] ]
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
-    "components": [
-      [ [ "steel_lump", 10 ], [ "steel_chunk", 40 ] ],
-      [ [ "fur", 4 ], [ "leather", 4 ] ]
-    ]
+    "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ]
   },
   {
     "result": "chainmail_hauberk",
@@ -108,12 +97,7 @@
     "difficulty": 5,
     "time": 280000,
     "book_learn": [ [ "textbook_armwest", 8 ] ],
-    "using": [ [ "forging_standard", 14 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
-    ],
+    "using": [ [ "forging_standard", 14 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 28 ] ] ]
   },
   {
@@ -125,6 +109,7 @@
     "difficulty": 7,
     "time": 448000,
     "book_learn": [ [ "textbook_armwest", 8 ] ],
+    "using": [ [ "forging_standard", 15 ], [ "steel_standard", 15 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
@@ -132,13 +117,9 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "forge", 450 ], [ "oxy_torch", 90 ] ]
+      [ [ "swage", -1 ] ]
     ],
-    "components": [
-      [ [ "steel_lump", 15 ] ],
-      [ [ "fur", 12 ], [ "tanned_pelt", 2 ], [ "leather", 12 ], [ "tanned_hide", 2 ] ]
-    ]
+    "components": [ [ [ "fur", 12 ], [ "tanned_pelt", 2 ], [ "leather", 12 ], [ "tanned_hide", 2 ] ] ]
   },
   {
     "result": "legguard_bronze",
@@ -150,12 +131,7 @@
     "time": 120000,
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "forging_standard", 6 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [
-      [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
-    ],
+    "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [
       [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "scrap_bronze", 12 ] ]
@@ -191,7 +167,7 @@
     "difficulty": 6,
     "time": 432000,
     "book_learn": [ [ "textbook_armschina", 5 ] ],
-    "using": [ [ "filament", 18 ] ],
+    "using": [ [ "filament", 18 ], [ "forging_standard", 5 ], [ "steel_standard", 5 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "HAMMER", "level": 3 },
@@ -201,12 +177,8 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 300 ], [ "oxy_torch", 60 ] ]
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
-    "components": [
-      [ [ "steel_chunk", 5 ], [ "scrap", 15 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ]
-    ]
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
   }
 ]
