@@ -111,7 +111,7 @@ item::item()
 item::item( const itype *type, int turn, long qty ) : type( type )
 {
     bday = turn >= 0 ? turn : int( calendar::turn );
-    corpse = is_corpse() ? &mtype_id::NULL_ID.obj() : nullptr;
+    corpse = is_corpse() ? &type->corpse->default_monster_type.obj() : nullptr;
     item_counter = type->countdown_interval;
 
     if( qty >= 0 ) {
@@ -154,6 +154,13 @@ item::item( const itype *type, int turn, long qty ) : type( type )
     if( !type->snippet_category.empty() ) {
         note = SNIPPET.assign( type->snippet_category );
     }
+
+    if( is_corpse() && corpse->has_flag( MF_REVIVES ) ) {
+        active = true;
+        if( one_in( 20 ) ) {
+            item_tags.insert( "REVIVE_SPECIAL" );
+        }
+    }
 }
 
 item::item( const itype_id& id, int turn, long qty )
@@ -179,11 +186,6 @@ item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
 
     item result( mt.obj().get_corpse_itype(), turn >= 0 ? turn : int( calendar::turn ) );
     result.corpse = &mt.obj();
-
-    result.active = result.corpse->has_flag( MF_REVIVES );
-    if( result.active && one_in( 20 ) ) {
-        result.item_tags.insert( "REVIVE_SPECIAL" );
-    }
 
     // @todo Get rid of this
     // This is unconditional because the item constructor above sets result.name to
@@ -3491,8 +3493,7 @@ bool item::is_food_container() const
 
 bool item::is_corpse() const
 {
-    static const std::string corpse_s( "CORPSE" );
-    return corpse != nullptr && has_flag( corpse_s );
+    return type->corpse != nullptr;
 }
 
 const mtype *item::get_mtype() const
@@ -5390,22 +5391,14 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
-                if( corpse->in_species( ROBOT ) ) {
-                    add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
-                } else {
-                    add_msg( m_warning, _( "A nearby corpse rises and moves towards you!" ) );
-                }
+                add_msg( m_warning, "%s", type->corpse->revive_msg.c_str() );
             }
         } else {
             //~ %s is corpse name
             carrier->add_memorial_log( pgettext( "memorial_male", "Had a %s revive while carrying it." ),
                                        pgettext( "memorial_female", "Had a %s revive while carrying it." ),
                                        tname().c_str() );
-            if( corpse->in_species( ROBOT ) ) {
-                carrier->add_msg_if_player( m_warning, _( "Oh dear god, a robot you're carrying has started moving!" ) );
-            } else {
-                carrier->add_msg_if_player( m_warning, _( "Oh dear god, a corpse you're carrying has started moving!" ) );
-            }
+            add_msg( m_warning, "%s", type->corpse->revive_carried_msg.c_str() );
         }
         // Destroy this corpse item
         return true;

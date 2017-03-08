@@ -178,6 +178,7 @@ struct mon_effect_data
 struct mtype {
     private:
         friend class MonsterGenerator;
+        friend class Item_factory;
         std::string name;
         std::string name_plural;
 

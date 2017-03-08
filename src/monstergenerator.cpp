@@ -144,8 +144,13 @@ void MonsterGenerator::finalize_mtypes()
         mon.hp = std::max( mon.hp, 1 ); // lower bound for hp scaling
 
         finalize_pathfinding_settings( mon );
+        // For now don't generate corpses for monsters that have "weird" death functions
 
-        mon.corpse_type = item_controller->generate_corpse_type( mon );
+        if( std::find( mon.dies.begin(), mon.dies.end(), &mdeath::normal ) != mon.dies.end() ) {
+            mon.corpse_type = item_controller->generate_corpse_type( mon );
+        } else {
+            mon.corpse_type = "null";
+        }
     }
 
     for( const auto &mon : mon_templates->get_all() ) {

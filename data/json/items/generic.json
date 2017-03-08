@@ -9,7 +9,8 @@
         "//": "most of the properties depend on the monster type and are created at runtime!",
         "price": 0,
         "volume": 0,
-        "flags": ["NO_UNLOAD", "TRADER_AVOID", "CORPSE"]
+        "flags": ["NO_UNLOAD", "TRADER_AVOID"],
+        "corpse": {}
     },
     {
         "type":"GENERIC",

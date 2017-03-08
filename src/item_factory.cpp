@@ -32,6 +32,8 @@
 #include <sstream>
 #include <cassert>
 
+const species_id ROBOT( "ROBOT" );
+
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 
@@ -2415,16 +2417,41 @@ Item_tag Item_factory::generate_corpse_type( const mtype &mt )
     Item_tag new_type_id = Item_tag( "corpse_" ) + mt.id.str();
     if( has_template( new_type_id ) ) {
         // Nothing to generate - we got that already
+        // Note: this corpse item doesn't need to be a real corpse
         return new_type_id;
     }
+
+    // Corpse is in statics
+    // @todo Move it to abstracts
+    const auto iter = m_templates.find( "corpse" );
+    if( iter == m_templates.end() ) {
+        debugmsg( "\"corpse\" item type must exist, must not be abstract and must be defined statically (ie. not runtime)" );
+        return "null";
+    }
+
     // We make a copy of the corpse definition to ensure everything is initialized properly
-    // @todo Allow corpses that don't copy "corpse"
-    itype corpse = *find_template( "corpse" );
+    itype corpse = iter->second;
     // @todo Something like this line below, but that actually works
     corpse.id = new_type_id;
+    // Note: not translated
+    corpse.name = string_format( "corpse of %s", mt.name );
+    // @todo Some non-English languages will not like that
+    corpse.name_plural = string_format( "corpses of %s", mt.name_plural );
     corpse.color = mt.color;
     corpse.weight = mt.intact_corpse_weight();
     corpse.volume = mt.intact_corpse_volume();
+    if( corpse.corpse == nullptr ) {
+        corpse.corpse.reset( new islot_corpse() );
+    }
+
+    corpse.corpse->default_monster_type = mt.id;
+    if( mt.in_species( ROBOT ) ) {
+        corpse.corpse->revive_msg = _( "A nearby robot has repaired itself and stands up!" );
+        corpse.corpse->revive_carried_msg = _( "Oh dear god, a robot you're carrying has started moving!" );
+    } else {
+        corpse.corpse->revive_msg = _( "A nearby corpse rises and moves towards you!" );
+        corpse.corpse->revive_carried_msg = _( "Oh dear god, a corpse you're carrying has started moving!" );
+    }
 
     corpse.materials = mt.mat;
     add_item_type( corpse );

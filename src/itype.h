@@ -49,6 +49,8 @@ class fault;
 using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
+struct mtype;
+using mtype_id = string_id<mtype>;
 
 enum field_id : int;
 
@@ -565,6 +567,18 @@ struct islot_artifact {
     std::vector<art_effect_passive> effects_worn;
 };
 
+struct islot_corpse {
+    /**
+     * The monster type to assign to corpses of this type if no type is provided.
+     * @todo Create proper "human" type, even if just for corpses.
+     */
+    mtype_id default_monster_type = mtype_id( "null" );
+    /** Translated "this corpse rises" message. */
+    std::string revive_msg;
+    /** Translated "this corpse rises while you're carrying it" message. */
+    std::string revive_carried_msg;
+};
+
 struct itype {
     friend class Item_factory;
 
@@ -590,6 +604,7 @@ struct itype {
     copyable_unique_ptr<islot_ammo> ammo;
     copyable_unique_ptr<islot_seed> seed;
     copyable_unique_ptr<islot_artifact> artifact;
+    copyable_unique_ptr<islot_corpse> corpse;
     /*@}*/
 
 protected:

@@ -1568,6 +1568,16 @@ void item::io( Archive& archive )
     if( is_tool() || is_toolmod() ) {
         migrate_toolmod( *this );
     }
+
+    // Migrate legacy hardcoded corpses
+    if( typeId() == "corpse" ) {
+        if( corpse == nullptr ) {
+            // Null corpse means it's a human corpse - make it one
+            corpse = &mtype_id::NULL_ID.obj();
+        }
+
+        convert( corpse->get_corpse_itype() );
+    }
 }
 
 static void migrate_toolmod( item &it )
