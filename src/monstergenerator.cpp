@@ -24,10 +24,6 @@
 
 #include <algorithm>
 
-const species_id FISH( "FISH" );
-const species_id BIRD( "BIRD" );
-const species_id INSECT( "INSECT" );
-
 extern bool test_mode;
 
 const mtype_id mon_generator( "mon_generator" );
@@ -112,44 +108,6 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
-// @todo Move to separate file to avoid mixing mtype/itype generators
-void generate_corpse( mtype &mt )
-{
-    // @todo Don't request corpses for monsters that don't need them
-    // We make a copy of the corpse definition to ensure everything is initialized properly
-    // @todo Allow corpses that don't copy "corpse"
-    itype corpse = *item_controller->find_template( "corpse" );
-    // @todo Something like this line below, but that actually works
-    corpse.id = "corpse_" + mt.id;
-    corpse.color = mt.color;
-    // @todo Get rid of this hardcoded crap
-    switch( mt.size ) {
-        case MS_TINY:   corpse.weight =   1000;  break;
-        case MS_SMALL:  corpse.weight =  40750;  break;
-        case MS_MEDIUM: corpse.weight =  81500;  break;
-        case MS_LARGE:  corpse.weight = 120000;  break;
-        case MS_HUGE:   corpse.weight = 200000;  break;
-    }
-    if( mt.made_of( material_id( "veggy" ) ) ) {
-        corpse.weight /= 3;
-    } else if( mt.in_species( FISH ) || mt.in_species( BIRD ) || mt.in_species( INSECT ) || mt.made_of( material_id( "bone" ) ) ) {
-        corpse.weight /= 8;
-    } else if( mt.made_of( material_id( "iron" ) ) || mt.made_of( material_id( "steel" ) ) || mt.made_of( material_id( "stone" ) ) ) {
-        corpse.weight *= 7;
-    }
-
-    switch( mt.size ) {
-        case MS_TINY:    corpse.volume =    750_ml;
-        case MS_SMALL:   corpse.volume =  30000_ml;
-        case MS_MEDIUM:  corpse.volume =  62500_ml;
-        case MS_LARGE:   corpse.volume =  92500_ml;
-        case MS_HUGE:    corpse.volume = 875000_ml;
-    }
-
-    corpse.materials = mt.mat;
-    item_controller->add_item_type( corpse );
-}
-
 void MonsterGenerator::finalize_mtypes()
 {
     mon_templates->finalize();
@@ -186,6 +144,8 @@ void MonsterGenerator::finalize_mtypes()
         mon.hp = std::max( mon.hp, 1 ); // lower bound for hp scaling
 
         finalize_pathfinding_settings( mon );
+
+        mon.corpse_type = item_controller->generate_corpse_type( mon );
     }
 
     for( const auto &mon : mon_templates->get_all() ) {

@@ -11,6 +11,7 @@
 #include "damage.h"
 #include "pathfinding.h"
 #include "mattack_common.h"
+#include "units.h"
 
 #include <bitset>
 #include <string>
@@ -188,6 +189,8 @@ struct mtype {
         void add_special_attack( JsonArray jarr, const std::string &src );
         void add_special_attack( JsonObject jo, const std::string &src );
 
+        itype_id corpse_type;
+
     public:
         mtype_id id;
         // TODO: maybe make this private as well? It must be set to `true` only once,
@@ -306,6 +309,8 @@ struct mtype {
         int get_meat_chunks_count() const;
 
         itype_id get_corpse_itype() const;
+        int intact_corpse_weight() const;
+        units::volume intact_corpse_volume() const;
 
         // Historically located in monstergenerator.cpp
         void load( JsonObject &jo, const std::string &src );
