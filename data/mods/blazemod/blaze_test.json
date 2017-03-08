@@ -397,10 +397,10 @@
   },
   {
     "id": "charcoal",
+    "copy-from": "charcoal",
     "type": "AMMO",
     "category": "spare_parts",
     "name": "charcoal",
-    "copy-from": "charcoal",
     "casing": "dcluster"
   },
   {
