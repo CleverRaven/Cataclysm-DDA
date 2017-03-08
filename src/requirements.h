@@ -43,21 +43,19 @@ struct quality {
 };
 
 struct component {
-    itype_id type;
-    int count;
+    itype_id type = "null";
+    int count = 0;
     // -1 means the player doesn't have the item, 1 means they do,
     // 0 means they have item but not enough for both tool and component
-    mutable available_status available;
-    bool recoverable;
+    mutable available_status available = a_false;
+    bool recoverable = true;
+    // If true, it's not actually a component but a requirement (list of components)
+    bool requirement = false;
 
-    component() : type( "null" ) , count( 0 ) , available( a_false ), recoverable( true ) {
-    }
-    component( const itype_id &TYPE, int COUNT ) : type( TYPE ), count( COUNT ), available( a_false ),
-        recoverable( true ) {
-    }
-    component( const itype_id &TYPE, int COUNT, bool RECOVERABLE ) : type( TYPE ), count( COUNT ),
-        available( a_false ), recoverable( RECOVERABLE ) {
-    }
+    component() { }
+    component( const itype_id &TYPE, int COUNT ) : type( TYPE ), count( COUNT ) { }
+    component( const itype_id &TYPE, int COUNT, bool RECOVERABLE ) :
+        type( TYPE ), count( COUNT ), recoverable( RECOVERABLE ) { }
     void check_consistency( const std::string &display_name ) const;
 };
 
@@ -83,16 +81,15 @@ struct item_comp : public component {
 };
 
 struct quality_requirement {
-    quality_id type;
-    int count;
-    int level;
-    mutable available_status available;
+    quality_id type = quality_id( "UNKNOWN" );
+    int count = 1;
+    int level = 1;
+    mutable available_status available = a_false;
+    bool requirement = false; // Currently unused, but here for consistency and templates
 
-    quality_requirement() : type( "UNKNOWN" ), count( 0 ), level( 0 ), available( a_false ) {
-    }
+    quality_requirement() { }
     quality_requirement( const quality_id &TYPE, int COUNT, int LEVEL ) : type( TYPE ), count( COUNT ),
-        level( LEVEL ), available( a_false ) {
-    }
+        level( LEVEL ) { }
 
     void load( JsonArray &jarr );
     bool has( const inventory &crafting_inv, int = 0 ) const;

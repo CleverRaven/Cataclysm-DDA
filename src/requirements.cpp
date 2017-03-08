@@ -134,6 +134,7 @@ void tool_comp::load( JsonArray &ja )
         JsonArray comp = ja.next_array();
         type = comp.get_string( 0 );
         count = comp.get_int( 1 );
+        requirement = comp.size() > 2 && comp.get_string( 2 ) == "LIST";
     }
     if( count == 0 ) {
         ja.throw_error( "tool count must not be 0" );
@@ -146,9 +147,14 @@ void item_comp::load( JsonArray &ja )
     JsonArray comp = ja.next_array();
     type = comp.get_string( 0 );
     count = comp.get_int( 1 );
-    // Recoverable is true by default.
-    if( comp.size() > 2 ) {
-        recoverable = comp.get_string( 2 ) == "NO_RECOVER" ? false : true;
+    size_t handled = 2;
+    while( comp.size() > handled ) {
+        const std::string &flag = comp.get_string( handled++ );
+        if( flag == "NO_RECOVER" ) {
+            recoverable = false;
+        } else if( flag == "LIST" ) {
+            requirement = true;
+        }
     }
     if( count <= 0 ) {
         ja.throw_error( "item count must be a positive number" );
@@ -318,6 +324,10 @@ void requirement_data::check_consistency( const std::vector< std::vector<T> > &v
 {
     for( const auto &list : vec ) {
         for( const auto &comp : list ) {
+            if( comp.requirement ) {
+                debugmsg( "Finalization failed to inline %s in %s", comp.type.c_str(), display_name.c_str() );
+            }
+
             comp.check_consistency( display_name );
         }
     }
@@ -338,9 +348,74 @@ void requirement_data::check_consistency()
     }
 }
 
+template <typename T>
+void print_nested( const T &to_print, std::stringstream &ss )
+{
+    ss << "\n[ ";
+    for( auto &p : to_print ) {
+        print_nested( p, ss );
+        ss << " ";
+    }
+    ss << " ]\n";
+}
+
+template <typename T, typename Getter>
+void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
+{
+    std::set<requirement_id> already_nested;
+    for( auto &vec : list ) {
+        // We always need to restart from the beginning in case of vector relocation
+        while( true ) {
+            auto iter = std::find_if( vec.begin(), vec.end(), []( const T &req ) {
+                return req.requirement;
+            } );
+            if( iter == vec.end() ) {
+                break;
+            }
+
+            const auto req_id = requirement_id( iter->type );
+            if( !req_id.is_valid() ) {
+                debugmsg( "Tried to inline unknown requirement %s", req_id.c_str() );
+                return;
+            }
+
+            if( already_nested.count( req_id ) > 0 ) {
+                debugmsg( "Tried to inline requirement %s which was inlined before in the same pass (infinite loop?)",
+                          req_id.c_str() );
+                return;
+            }
+
+            already_nested.insert( req_id );
+            const auto &req = req_id.obj();
+            if( !req.get_qualities().empty() ) {
+                debugmsg( "Tried to inline requirement %s with qualities set (not supported)", req_id.c_str() );
+                return;
+            }
+
+            // The inlined requirement must have ONLY the type of component we are inlining
+            // That is, tools or components, not both (nor neither)
+            // Also, it must only offer alternatives, not more than one component "family" at a time
+            // @todo Remove the requirement to separate tools and components
+            // @todo Remove the requirement to have only one component "family" per inlined requirement
+            if( req.get_components().size() + req.get_tools().size() != 1 ) {
+                debugmsg( "Tried to inline requirement %s which has more than one set of elements", req_id.c_str() );
+                return;
+            }
+
+            const requirement_data multiplied = req * iter->count;
+            iter = vec.erase( iter );
+
+            const auto &to_inline = getter( multiplied );
+            vec.insert( iter, to_inline.front().begin(), to_inline.front().end() );
+        }
+    }
+}
+
 void requirement_data::finalize()
 {
     for( auto &r : const_cast<std::map<requirement_id, requirement_data> &>( all() ) ) {
+        inline_requirements( r.second.tools, []( const requirement_data &d ) { return d.get_tools(); } );
+        inline_requirements( r.second.components, []( const requirement_data &d ) { return d.get_components(); } );
         auto &vec = r.second.tools;
         for( auto &list : vec ) {
             std::vector<tool_comp> new_list;

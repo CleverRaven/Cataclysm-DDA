@@ -621,6 +621,7 @@ use_action_msgs = {
     "deactive_msg",
     "out_of_power_msg",
     "msg",
+    "menu_text",
     "message",
     "friendly_msg",
     "hostile_msg",

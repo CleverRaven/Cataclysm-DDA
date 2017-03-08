@@ -18,15 +18,7 @@
        [ [ "thermometer", -1 ] ]
      ],
      "components": [ [
-        [ "moonshine", 14 ],
-        [ "vodka", 14 ],
-        [ "whiskey", 14 ],
-        [ "single_malt_whiskey", 14 ],
-        [ "brandy", 14 ],
-        [ "rum", 14 ],
-        [ "gin", 14 ],
-        [ "tequila", 14 ],
-        [ "mixed_alcohol_strong", 14 ],
+        [ "hard_liquor", 14, "LIST" ],
         [ "bum_wine", 56 ],
         [ "fruit_wine", 56 ],
         [ "wash_moonshine", 42 ],
@@ -53,17 +45,9 @@
        [ [ "fire", -1 ], [ "hotplate", 60 ], [ "toolset", 60 ] ]
      ],
      "components": [ [
-       [ "vodka", 14 ],
-       [ "whiskey", 14 ],
-       [ "single_malt_whiskey", 14 ],
-       [ "brandy", 14 ],
-       [ "rum", 14 ],
-       [ "gin", 14 ],
-       [ "tequila", 14 ],
+       [ "hard_liquor", 14, "LIST" ],
        [ "bum_wine", 56 ],
-       [ "fruit_wine", 56 ],
-       [ "moonshine", 14 ],
-       [ "mixed_alcohol_strong", 14 ]
+       [ "fruit_wine", 56 ]
     ] ]
   },
   {

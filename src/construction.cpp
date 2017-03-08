@@ -32,8 +32,8 @@
 #include <map>
 #include <sstream>
 
+static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_carpentry( "carpentry" );
 static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_throw( "throw" );
 
@@ -1116,7 +1116,7 @@ void load_construction(JsonObject &jo)
             con.required_skills[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
         }
     } else {
-        skill_id legacy_skill( jo.get_string( "skill", skill_carpentry.str() ) );
+        skill_id legacy_skill( jo.get_string( "skill", skill_fabrication.str() ) );
         int legacy_diff = jo.get_int( "difficulty" );
         con.required_skills[ legacy_skill ] = legacy_diff;
     }

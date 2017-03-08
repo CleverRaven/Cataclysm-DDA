@@ -1169,18 +1169,7 @@ void overmap_special::check() const
     for( const auto &elem : terrains ) {
         const auto &oter = elem.terrain;
 
-        if( oter.is_valid() ) {
-            if( rotatable ) {
-                // We assume that the hardcoded mapgen takes care of rotation (in most cases it really does).
-                const bool loose_terrain = oter->is_rotatable() || oter->has_flag( line_drawing ) || oter->is_hardcoded();
-
-                if( !loose_terrain && fixed_terrains.count( oter.id() ) == 0 ) {
-                    fixed_terrains.insert( oter.id() );
-                    debugmsg( "In overmap special \"%s\" (which is rotatable), terrain \"%s\" can't be rotated.",
-                              id.c_str(), oter.c_str() );
-                }
-            }
-        } else {
+        if( !oter.is_valid() ) {
             if( invalid_terrains.count( oter.id() ) == 0 ) {
                 invalid_terrains.insert( oter.id() );
                 debugmsg( "In overmap special \"%s\", terrain \"%s\" is invalid.",
@@ -4297,6 +4286,9 @@ void overmap::place_specials()
 
     // First a regular mandatory pass
     place_specials_pass( mandatory, sectors, true );
+    // Keep the mandatory vector to inform player about limits properly
+    // Otherwise unplaced vector can be empty while the map is invalid, leading to WTF
+    std::vector<std::pair<const overmap_special *, int>> mandatory_unlimited = mandatory;
     if( mandatory.empty() ) {
         current_validity = overmap_valid::valid;
     } else if( allow_generation >= overmap_valid::unlimited ) {
@@ -4316,12 +4308,16 @@ void overmap::place_specials()
     unplaced_mandatory_specials.clear();
     if( !mandatory.empty() ) {
         current_validity = overmap_valid::invalid;
-        const std::string unplaced = enumerate_as_string( mandatory.begin(), mandatory.end(),
+    }
+
+    const auto &unplaced = mandatory.empty() ? mandatory_unlimited : mandatory;
+    if( !unplaced.empty() ) {
+        const std::string unplaced_s = enumerate_as_string( mandatory.begin(), mandatory.end(),
         []( const std::pair<const overmap_special *, int> &elem ) {
             return string_format( "%s (%d)", elem.first->id.c_str(), elem.second );
         } );
-        dbg( D_WARNING ) << string_format( "couldn't place mandatory overmap specials: %s.", unplaced.c_str() );
-        std::transform( mandatory.begin(), mandatory.end(), std::back_inserter( unplaced_mandatory_specials ),
+        dbg( D_WARNING ) << string_format( "couldn't place mandatory overmap specials: %s.", unplaced_s.c_str() );
+        std::transform( unplaced.begin(), unplaced.end(), std::back_inserter( unplaced_mandatory_specials ),
         []( const std::pair<const overmap_special *, int> &pr ) {
             return pr.first;
         } );
@@ -4501,6 +4497,9 @@ void overmap::generate_outer( const overmap* north, const overmap* east, const o
         const auto &opt = get_option<std::string>( "ALLOW_INVALID_OVERMAPS" );
         if( g != nullptr && ( opt == "ask_invalid" || opt == "ask_unlimited" ) ) {
             uimenu askmenu;
+            if( unplaced_mandatory_specials.empty() ) {
+                debugmsg( "Map is invalid (%d < %d) but all mandatory specials are placed", (int)current_validity, (int)allow_generation );
+            }
             const std::string unplaced = enumerate_as_string( unplaced_mandatory_specials.begin(),
                 unplaced_mandatory_specials.end(), []( const overmap_special *special ) {
                 return special->id.str();
