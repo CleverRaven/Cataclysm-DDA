@@ -2434,9 +2434,9 @@ Item_tag Item_factory::generate_corpse_type( const mtype &mt )
     // @todo Something like this line below, but that actually works
     corpse.id = new_type_id;
     // Note: not translated
-    corpse.name = string_format( "corpse of %s", mt.name );
+    corpse.name = string_format( "corpse of %s", mt.name.c_str() );
     // @todo Some non-English languages will not like that
-    corpse.name_plural = string_format( "corpses of %s", mt.name_plural );
+    corpse.name_plural = string_format( "corpses of %s", mt.name_plural.c_str() );
     corpse.color = mt.color;
     corpse.weight = mt.intact_corpse_weight();
     corpse.volume = mt.intact_corpse_volume();
