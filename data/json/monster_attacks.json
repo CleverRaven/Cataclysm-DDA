@@ -38,7 +38,7 @@
     "body_parts": [ [ "FOOT_L", 2 ],[ "FOOT_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ], [ "HAND_L", 2 ], [ "HAND_R", 2 ], [ "HEAD", 3 ], [ "EYES", 2 ], [ "MOUTH", 1 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "TORSO", 4 ] ],
     "hit_dmg_u": "The %1$s claws at you!",
     "hit_dmg_npc": "The %1$s claws at <npcname>!",
-    "no_dmg_msg_u": "The %1$s tries to claw at you but fails.",
+    "no_dmg_msg_u": "The %1$s tries to claw at you, but fails to.",
     "no_dmg_msg_npc": "The %1$s tries to claw <npcname>, but fails to."
   }
 ]
