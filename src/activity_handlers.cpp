@@ -1531,11 +1531,13 @@ repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
 {
     uimenu rmenu;
     rmenu.text = title;
+    rmenu.return_invalid = true;
+    
     rmenu.addentry( REPEAT_ONCE, true, '1', _("Repeat once") );
     rmenu.addentry( REPEAT_FOREVER, true, '2', _("Repeat as long as you can") );
     rmenu.addentry( REPEAT_FULL, true, '3', _("Repeat until fully repaired, but don't reinforce") );
     rmenu.addentry( REPEAT_EVENT, true, '4', _("Repeat until success/failure/level up") );
-    rmenu.addentry( REPEAT_CANCEL, true, 'q', _("Cancel") );
+    
     rmenu.selected = last_selection;
 
     rmenu.query();
