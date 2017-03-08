@@ -564,7 +564,7 @@
     "color": "dark_gray",
     "covers": [ "TORSO", "LEGS", "ARMS", "HANDS" ],
     "coverage": 85,
-    "encumbrance": 25,
+    "encumbrance": 15,
     "warmth": 25,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
