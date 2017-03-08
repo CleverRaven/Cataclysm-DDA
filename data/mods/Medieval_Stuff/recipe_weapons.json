@@ -8,17 +8,14 @@
   "difficulty": 6,
   "time": 50000,
   "book_learn": [[ "textbook_armschina", 5 ]],
+  "using": [ [ "forging_standard", 2 ] ],
   "qualities":[
-    {"id":"HAMMER","level":3}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":2}
   ],
   "tools": [
-    [ [ "tongs", -1 ] ],
-    [ [ "crucible", -1 ] ],
-    [
-      [ "forge", 200 ],
-      [ "char_forge", 40 ],
-      [ "oxy_torch", 40 ]
-    ]
+    [ [ "anvil", -1 ] ],
+    [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
   ],
   "components": [
     [ [ "scrap_bronze", 4 ] ],
@@ -40,17 +37,13 @@
   "difficulty": 7,
   "time": 55000,
   "book_learn": [[ "textbook_armschina", 5 ]],
+  "using": [ [ "forging_standard", 2 ] ],
   "qualities": [
-    {"id":"HAMMER","level":1}
+    {"id":"HAMMER","level":2}
   ],
   "tools": [
-    [ [ "tongs", -1 ] ],
-    [ [ "crucible", -1 ] ],
-    [
-      [ "forge", 250 ],
-      [ "char_forge", 50 ],
-      [ "oxy_torch", 50 ]
-    ]
+    [ [ "anvil", -1 ] ],
+    [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
   ],
   "components": [
     [
@@ -92,17 +85,13 @@
   "difficulty": 6,
   "time": 45000,
   "book_learn": [[ "textbook_weapwest", 4 ]],
+  "using": [ [ "forging_standard", 2 ] ],
   "qualities": [
-    {"id":"HAMMER","level":1}
+    {"id":"HAMMER","level":2}
   ],
   "tools": [
-    [ [ "tongs", -1 ] ],
-    [ [ "crucible", -1 ] ],
-    [
-      [ "forge", 200 ],
-      [ "char_forge", 40 ],
-      [ "oxy_torch", 40 ]
-    ]
+    [ [ "anvil", -1 ] ],
+    [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
   ],
   "components": [
     [
@@ -124,17 +113,13 @@
   "difficulty": 7,
   "time": 55000,
   "book_learn": [[ "textbook_weapwest", 5 ]],
+  "using": [ [ "forging_standard", 2 ] ],
   "qualities": [
-    {"id":"HAMMER","level":1}
+    {"id":"HAMMER","level":2}
   ],
   "tools": [
-    [ [ "tongs", -1 ] ],
-    [ [ "crucible", -1 ] ],
-    [
-      [ "forge", 250 ],
-      [ "char_forge", 50 ],
-      [ "oxy_torch", 50 ]
-    ]
+    [ [ "anvil", -1 ] ],
+    [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
   ],
   "components": [
     [
@@ -156,17 +141,14 @@
   "difficulty": 4,
   "time": 30000,
   "book_learn": [[ "textbook_weapwest", 4 ]],
+  "using": [ [ "forging_standard", 1 ] ],
   "qualities":[
-    {"id":"HAMMER","level":3}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":2}
   ],
   "tools": [
-    [ [ "tongs", -1 ] ],
-    [ [ "crucible", -1 ] ],
-    [
-      [ "forge", 100 ],
-      [ "char_forge", 20 ],
-      [ "oxy_torch", 20 ]
-    ]
+    [ [ "anvil", -1 ] ],
+    [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
   ],
   "components": [
     [ [ "scrap_bronze", 2 ] ],
