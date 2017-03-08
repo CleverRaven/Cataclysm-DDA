@@ -49,6 +49,18 @@
     },
     {
         "type" : "keybinding",
+        "id" : "FILTER",
+        "category" : "UIMENU",
+        "name" : "Filter",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"/"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "QUIT",
         "category": "UIMENU",
         "name": "Cancel menu",
