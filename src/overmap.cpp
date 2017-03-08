@@ -4495,7 +4495,7 @@ void overmap::generate_outer( const overmap* north, const overmap* east, const o
         }
 
         const auto &opt = get_option<std::string>( "ALLOW_INVALID_OVERMAPS" );
-        if( g != nullptr && ( opt == "ask_invalid" || opt == "ask_unlimited" ) ) {
+        if( g != nullptr && !test_mode && ( opt == "ask_invalid" || opt == "ask_unlimited" ) {
             uimenu askmenu;
             if( unplaced_mandatory_specials.empty() ) {
                 debugmsg( "Map is invalid (%d < %d) but all mandatory specials are placed", (int)current_validity, (int)allow_generation );
