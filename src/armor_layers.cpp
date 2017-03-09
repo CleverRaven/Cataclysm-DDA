@@ -238,7 +238,7 @@ void player::sort_armor()
     int middle_w = ( win_w - 4 ) - left_w - right_w;
 
     int tabindex = num_bp;
-    int tabcount = num_bp + 1;
+    const int tabcount = num_bp + 1;
 
     int leftListSize;
     int leftListIndex  = 0;
@@ -249,10 +249,12 @@ void player::sort_armor()
     int rightListOffset = 0;
 
     std::vector<item *> tmp_worn;
-    std::string  armor_cat[] = {_( "Torso" ), _( "Head" ), _( "Eyes" ), _( "Mouth" ), _( "L. Arm" ), _( "R. Arm" ),
-                                _( "L. Hand" ), _( "R. Hand" ), _( "L. Leg" ), _( "R. Leg" ), _( "L. Foot" ),
-                                _( "R. Foot" ), _( "All" )
-                               };
+    std::array<std::string, 13> armor_cat = {{
+            _( "Torso" ), _( "Head" ), _( "Eyes" ), _( "Mouth" ), _( "L. Arm" ), _( "R. Arm" ),
+            _( "L. Hand" ), _( "R. Hand" ), _( "L. Leg" ), _( "R. Leg" ), _( "L. Foot" ),
+            _( "R. Foot" ), _( "All" )
+        }
+    };
 
     // Layout window
     WINDOW *w_sort_armor = newwin( win_h, win_w, win_y, win_x );

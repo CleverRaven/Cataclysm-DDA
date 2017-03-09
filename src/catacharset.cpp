@@ -288,7 +288,7 @@ std::string utf8_truncate(std::string s, size_t length)
     return s.substr(0, last_pos);
 }
 
-static const char base64_encoding_table[] = {
+static const std::array<char, 64> base64_encoding_table = {{
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
     'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
     'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
@@ -297,10 +297,10 @@ static const char base64_encoding_table[] = {
     'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
     'w', 'x', 'y', 'z', '0', '1', '2', '3',
     '4', '5', '6', '7', '8', '9', '+', '-'
-};
+}};
 
-static char base64_decoding_table[256];
-static const  int mod_table[] = {0, 2, 1};
+static       std::array<char, 256> base64_decoding_table;
+static const std::array<int, 3> mod_table = {{0, 2, 1}};
 
 static void build_base64_decoding_table()
 {
