@@ -219,6 +219,8 @@ public:
     int movecost;   // The amount of movement points required to pass this terrain by default.
     units::volume max_volume; // Maximal volume of items that can be stored in/on this furniture
 
+    std::string description;
+
     std::array<nc_color, SEASONS_PER_YEAR> color_; //The color the sym will draw in on the GUI.
     void load_symbol( JsonObject &jo );
 
@@ -264,7 +266,7 @@ public:
      */
     const std::set<std::string> &get_harvest_names() const;
 
-    std::string description() const;
+    std::string extended_description() const;
 
     virtual void load( JsonObject &jo, const std::string &src );
     virtual void check() const;

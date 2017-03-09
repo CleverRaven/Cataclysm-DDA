@@ -1,5 +1,10 @@
 [
   {
+    "id": "null",
+    "type": "harvest",
+    "entries": []
+  },
+  {
     "id": "fish_small",
     "type": "harvest",
     "entries": [
