@@ -704,113 +704,97 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     return curshot;
 }
 
+// @todo Method
+int throw_cost( const Character &c, const item &to_throw )
+{
+    // Very similar to player::attack_speed
+    // @todo Extract into a function?
+    // Differences:
+    // Dex is more (2x) important for throwing speed
+    // At 10 skill, the cost is down to 0.75%, not 0.66%
+    const int base_move_cost = to_throw.attack_time() / 2;
+    const int throw_skill = c.has_active_bionic( "bio_cqb" ) ? BIO_CQB_LEVEL :
+                            ( int )std::min( MAX_SKILL, c.get_skill_level( skill_throw ) );
+    ///\EFFECT_THROW increases throwing speed
+    const int skill_cost = ( int )( base_move_cost * ( 20 - throw_skill ) / 20 );
+    ///\EFFECT_DEX increases throwing speed
+    const int dexbonus = c.get_dex();
+    const int encumbrance_penalty = c.encumb( bp_torso ) +
+                                    ( c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) ) / 2;
+    const float stamina_ratio = ( float )c.get_stamina() / c.get_stamina_max();
+    const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
+
+    int move_cost = base_move_cost;
+    // Stamina penalty only affects base/2 and encumbrance parts of the cost
+    move_cost += encumbrance_penalty;
+    move_cost *= stamina_penalty;
+    move_cost += skill_cost;
+    move_cost -= dexbonus;
+
+    if( c.has_trait("LIGHT_BONES") ) {
+        move_cost *= .9;
+    }
+    if( c.has_trait("HOLLOW_BONES") ) {
+        move_cost *= .8;
+    }
+
+    return std::max( 25, move_cost );
+}
+
 dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw )
 {
     // Copy the item, we may alter it before throwing
     item thrown = to_throw;
 
-    // Base move cost on moves per turn of the weapon
-    // and our skill.
-    int move_cost = thrown.attack_time() / 2;
-    ///\EFFECT_THROW speeds up throwing items
-    int skill_cost = (int)(move_cost / (std::pow(get_skill_level( skill_throw ), 3.0f) / 400.0 + 1.0));
-    ///\EFFECT_DEX speeds up throwing items
-    const int dexbonus = (int)(std::pow(std::max(dex_cur - 8, 0), 0.8) * 3.0);
+    const int move_cost = throw_cost( *this, to_throw );
+    mod_moves( -move_cost );
 
-    move_cost += skill_cost;
-    move_cost += 2 * encumb(bp_torso);
-    move_cost -= dexbonus;
-
-    if( has_trait("LIGHT_BONES") ) {
-        move_cost *= .9;
-    }
-    if( has_trait("HOLLOW_BONES") ) {
-        move_cost *= .8;
-    }
-
-    if( move_cost < 25 ) {
-        move_cost = 25;
-    }
-
-    moves -= move_cost;
-
-    const int stamina_cost = ( (thrown.weight() / 100 ) + 20) * -1;
-    mod_stat("stamina", stamina_cost);
-
-    tripoint targ = target;
-    int deviation = 0;
+    const int stamina_cost = ( ( thrown.weight() / 100 ) + 20 ) * -1;
+    mod_stat( "stamina", stamina_cost );
 
     const skill_id &skill_used = skill_throw;
-    // Throwing attempts below "Basic Competency" level are extra-bad
     int skill_level = get_skill_level( skill_throw );
 
-    ///\EFFECT_THROW <8 randomly increases throwing deviation
-    if( skill_level < 3 ) {
-        deviation += rng(0, 8 - skill_level);
+    ///\EFFECT_THROW increases throwing accuracy
+    int dispersion = 1500 - skill_level * 100;
+    dispersion += ( encumb( bp_hand_l ) + encumb( bp_hand_r ) + encumb( bp_eyes ) ) * 100;
+    // 100 penalty for every liter after the first
+    // @todo Except javelin type items
+    dispersion += std::max<int>( 0, ( vol - 1000_ml ) / 10 );
+    // ~500 penalty for trying to throwing a single pill
+    dispersion += std::max<int>( 0, 2 * ( 250_ml - vol ) );
+
+    // 100 penalty for 1kg above str*100 grams
+    ///\EFFECT_STR randomly decreases throwing dispersion
+    dispersion += std::max( 0, thrown.weight() / 1000 - get_str() * 100 );
+
+    // If the target is a creature, it moves around and ruins aim
+    // Dodginess depends on proximity to player - if adjacent, full dodge
+    // @todo Inform projectile functions if the attacker actually aims for the critter or just the tile
+    const int range = rl_dist( pos(), target );
+    Creature *critter = g->m.critter_at( target );
+    if( critter != nullptr ) {
+        dispersion += std::max( 0, ( critter->get_dodge() - range ) * 100 );
     }
 
-    if( skill_level < 8 ) {
-        deviation += rng(0, 8 - skill_level);
-    ///\EFFECT_THROW >7 decreases throwing deviation
-    } else {
-        deviation -= skill_level - 6;
-    }
-
-    deviation += throw_dex_mod();
-
-    ///\EFFECT_PER <6 randomly increases throwing deviation
-    if (per_cur < 6) {
-        deviation += rng(0, 8 - per_cur);
-    ///\EFFECT_PER >8 decreases throwing deviation
-    } else if (per_cur > 8) {
-        deviation -= per_cur - 8;
-    }
-
-    const int vol = thrown.volume() / 250_ml;
-
-    deviation += rng(0, ((encumb(bp_hand_l) + encumb(bp_hand_r)) + encumb(bp_eyes) + 1) / 10);
-    if (vol > 5) {
-        deviation += rng(0, 1 + (vol - 5) / 4);
-    }
-    if (vol == 0) {
-        deviation += rng(0, 3);
-    }
-
-    ///\EFFECT_STR randomly decreases throwing deviation
-    deviation += rng(0, std::max( 0, thrown.weight() / 113 - str_cur ) );
-    deviation = std::max( 0, deviation );
-
-    // Rescaling to use the same units as projectile_attack
-    const double shot_dispersion = deviation * (.01 / 0.00021666666666666666);
-    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
-
-    bool do_railgun = has_active_bionic("bio_railgun") &&
-                      thrown.made_of_any( ferric );
-
-    // The damage dealt due to item's weight and player's strength
-    ///\EFFECT_STR increases throwing damage
-    int real_dam = ( (thrown.weight() / 452)
-                     + (thrown.damage_melee(DT_BASH) / 2)
-                     + (str_cur / 2) )
-                   / (2.0 + (vol / 4.0));
-    if( real_dam > thrown.weight() / 40 ) {
-        real_dam = thrown.weight() / 40;
-    }
-    if( real_dam < 1 ) {
-        // Need at least 1 dmg or projectile attack will stop due to no momentum
-        real_dam = 1;
-    }
-    if( do_railgun ) {
-        real_dam *= 2;
-    }
+    dispersion = std::max( 0, dispersion );
 
     // We'll be constructing a projectile
     projectile proj;
+    proj.impace = thrown.base_damage_thrown();
     proj.speed = 10 + skill_level;
     auto &impact = proj.impact;
     auto &proj_effects = proj.proj_effects;
 
-    impact.add_damage( DT_BASH, real_dam );
+    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
+
+    bool do_railgun = has_active_bionic( "bio_railgun" ) && thrown.made_of_any( ferric );
+
+    // The damage dealt due to item's weight and player's strength
+    // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
+    // Railgun doubles the effective strength
+    ///\EFFECT_STR increases throwing damage
+    impact.add_damage( DT_BASH, std::min( weight / 100.0f, do_railgun ? get_str() : ( get_str() / 2.0f ) ) );
 
     if( thrown.has_flag( "ACT_ON_RANGED_HIT" ) ) {
         proj_effects.insert( "ACT_ON_RANGED_HIT" );
@@ -820,11 +804,13 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     ///\EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE)
     const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
-                         rng(0, vol + 8) - rng(0, str_cur) < vol;
+                         rng( 0, 2000 - volume ) < get_str() * 100;
 
     // Add some flags to the projectile
-    // TODO: Add this flag only when the item is heavy
-    proj_effects.insert( "HEAVY_HIT" );
+    if( weight > 500 ) {
+        proj_effects.insert( "HEAVY_HIT" );
+    }
+
     proj_effects.insert( "NO_ITEM_DAMAGE" );
 
     if( thrown.active ) {
@@ -837,22 +823,24 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "LIGHTNING" );
     }
 
-    if( vol > 2 ) {
+    if( volume > 500_ml ) {
         proj_effects.insert( "WIDE" );
     }
 
     // Deal extra cut damage if the item breaks
     if( shatter ) {
-        const int glassdam = rng( 0, vol * 2 );
+        const int glassdam = rng( 0, volume / 500_ml );
         impact.add_damage( DT_CUT, glassdam );
         proj_effects.insert( "SHATTER_SELF" );
     }
 
-    if( rng(0, 100) < 20 + skill_level * 12 ) {
-        int cut = thrown.damage_melee( DT_CUT );
-        int stab = thrown.damage_melee( DT_STAB );
-        if( cut > 0 || stab > 0 ) {
-            proj.impact.add_damage( cut > stab ? DT_CUT : DT_STAB, std::max( cut, stab ) );
+    // Skilled throwers can sometimes replace thrown damage with melee damage
+    // This doesn't affect good thrown weapons, but allows Spetsnaz hatchet throwing shenanigans
+    if( rng( 0, 100 ) < skill_level * 10 ) {
+        damage_instance melee = thrown.base_damage_melee();
+        // @todo Have this check depend on target
+        if( melee.total_damage() > impact.total_damage() ) {
+            impact = melee;
         }
     }
 
@@ -861,33 +849,21 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     if( thrown.has_flag( "CUSTOM_EXPLOSION" ) ) {
         proj.set_custom_explosion( thrown.type->explosion );
     }
-    const int range = rl_dist( pos(), target );
+
     proj.range = range;
 
-    auto dealt_attack = projectile_attack( proj, target, shot_dispersion );
+    auto dealt_attack = projectile_attack( proj, target, dispersion );
 
     const double missed_by = dealt_attack.missed_by;
-
-    // Copied from the shooting function
-    const int range_multiplier = std::min( range, 3 * ( get_skill_level( skill_used ) + 1 ) );
-    constexpr int damage_factor = 21;
-
-    if( missed_by <= .1 ) {
+    if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
         practice( skill_used, damage_factor * range_multiplier );
         // TODO: Check target for existence of head
-        if( dealt_attack.hit_critter != nullptr ) {
-            lifetime_stats()->headshots++;
-        }
-    } else if( missed_by <= .2 ) {
-        practice( skill_used, damage_factor * range_multiplier / 2 );
-    } else if( missed_by <= .4 ) {
-        practice( skill_used, damage_factor * range_multiplier / 3 );
-    } else if( missed_by <= .6 ) {
-        practice( skill_used, damage_factor * range_multiplier / 4 );
-    } else if( missed_by <= 1.0 ) {
-        practice( skill_used, damage_factor * range_multiplier / 5 );
+        lifetime_stats()->headshots++;
+    } else if( dealt_attack.hit_critter != nullptr ) {
+        
     } else {
-        practice( skill_used, 10 );
+        // Pure grindy practice - cap gain at lvl 2
+        practice( skill_used, move_cost / 10, 2 );
     }
 
     return dealt_attack;

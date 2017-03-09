@@ -3693,12 +3693,12 @@ void map::crush( const tripoint &p )
 void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 {
     // TODO: Make bashing count fully, but other types much less
-    const int initial_damage = proj.impact.total_damage();
+    const float initial_damage = proj.impact.total_damage();
     if( initial_damage < 0 ) {
         return;
     }
 
-    int dam = initial_damage;
+    float dam = initial_damage;
     const auto &ammo_effects = proj.proj_effects;
 
     if( has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED) ) {
@@ -3872,7 +3872,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         bash( p, dam, false );
         dam = 0; // TODO: Preserve some residual damage when it makes sense.
     } else {
-        dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
+        dam -= proj.momentum_loss;
     }
 
     if (ammo_effects.count("TRAIL") && !one_in(4)) {
@@ -3903,10 +3903,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         add_field(p, fd_laser, 2, 0 );
     }
 
-    // Set damage to 0 if it's less
-    if( dam < 0 ) {
-        dam = 0;
-    }
+    dam = std::max( 0.0f, dam );
 
     // Check fields?
     const field_entry *fieldhit = get_field( p, fd_web );

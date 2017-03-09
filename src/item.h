@@ -46,6 +46,7 @@ using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
 struct fire_data;
+struct damage_instance;
 
 enum damage_type : int;
 
@@ -372,6 +373,11 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
     /** Damage of given type caused when this item is used as melee weapon */
     int damage_melee( damage_type dt ) const;
+
+    /** All damage types this item deals when used in melee (no skill modifiers etc. applied). */
+    damage_instance base_damage_melee() const;
+    /** All damage types this item deals when thrown (no skill modifiers etc. applied). */
+    damage_instance base_damage_thrown() const;
 
     /**
      * Whether the character needs both hands to wield this item.
