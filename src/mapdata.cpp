@@ -941,6 +941,8 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
             }
         }
     }
+
+    optional( jo, false, "description", description, translated_string_reader );
 }
 
 void ter_t::load( JsonObject &jo, const std::string &src )
@@ -1059,12 +1061,6 @@ void furn_t::load( JsonObject &jo, const std::string &src )
 
     bash.load( jo, "bash", true );
     deconstruct.load( jo, "deconstruct", true );
-}
-
-std::string map_data_common_t::description() const
-{
-    // @todo Actually describe the darn thing
-    return string_format( _( "That is a %s." ), name.c_str() );
 }
 
 void map_data_common_t::check() const

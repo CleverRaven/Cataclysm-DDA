@@ -44,17 +44,14 @@
   "difficulty": 5,
   "time": 60000,
   "book_learn": [[ "textbook_armwest", 4 ]],
+  "using": [ [ "forging_standard", 2 ] ],
   "qualities": [
     {"id":"CUT","level":1},
-    {"id":"HAMMER","level":3}
+    {"id":"HAMMER","level":2}
   ],
   "tools":[
-    [ [ "tongs", -1 ] ],
-    [ [ "crucible", -1 ] ],
-    [
-      [ "forge", 200 ],
-      [ "oxy_torch", 40 ]
-    ]
+    [ [ "anvil", -1 ] ],
+    [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
   ],
   "components": [
     [ [ "scrap_bronze", 4 ] ],

@@ -397,21 +397,10 @@
   },
   {
     "id": "charcoal",
+    "copy-from": "charcoal",
     "type": "AMMO",
     "category": "spare_parts",
     "name": "charcoal",
-    "name_plural": "charcoal",
-    "description": "Charcoal is a flammable carbon based material obtained by removing water and other volatile constituents from animal and vegetation substances.  It is produced by slowly heating wood or other substances in the absence of oxygen.",
-    "weight": 220,
-    "volume": 5,
-    "price": 1000,
-    "bashing": 1,
-    "phase": "solid",
-    "material": "wood",
-    "symbol": "=",
-    "color": "dark_gray",
-    "count": 10,
-    "ammo_type": "charcoal",
     "casing": "dcluster"
   },
   {

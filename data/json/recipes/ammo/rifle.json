@@ -14,7 +14,7 @@
     "using": [ [ "ammo_bullet", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "chem_black_powder", 10 ], [ "gunpowder", 5 ] ],
+      [ [ "chem_black_powder", 5 ], [ "gunpowder", 5 ] ],
       [ [ "paper", 1 ] ]
     ]
   },
@@ -33,7 +33,7 @@
     "using": [ [ "ammo_bullet", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "chem_black_powder", 10 ], [ "gunpowder", 5 ] ],
+      [ [ "chem_black_powder", 5 ], [ "gunpowder", 5 ] ],
       [ [ "paper", 1 ] ]
     ]
   }
