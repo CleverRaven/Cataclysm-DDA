@@ -291,7 +291,9 @@ void sounds::process_sound_markers( player *p )
         }
 
         const std::string &description = sound.description;
-        if( !sound.ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, distance_to_sound ) ) {
+        if( !sound.ambient && ( pos != p->pos() ) &&
+            !g->m.pl_sees( pos, distance_to_sound ) && p->activity ) {
+            p->activity.on_noise( *p, sound );
             if( !p->activity.ignore_trivial ) {
                 const std::string query = description.empty()
                                           ? _( "Heard a noise!" )

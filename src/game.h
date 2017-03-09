@@ -122,6 +122,8 @@ typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 
 typedef std::function<bool( const item & )> item_filter;
 
+using creature_id = unsigned int;
+
 class game
 {
         friend class editmap;
@@ -373,9 +375,6 @@ class game
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
         bool cancel_activity_query(const char *message, ...);
-        /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
-         *  if the player wants to ignore further distractions. */
-        bool cancel_activity_or_ignore_query(const char *reason, ...);
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &p );
 
@@ -813,6 +812,8 @@ public:
         void set_npcs_dirty();
         /** If invoked, dead will be cleaned this turn. */
         void set_critter_died();
+
+        creature_id next_creature_id();
 private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
         void read(); // Read a book  'R' (or 'a')
@@ -961,6 +962,8 @@ private:
 
         // Preview for auto move route
         std::vector<tripoint> destination_preview;
+
+        creature_id next_cid;
 
         Creature *is_hostile_within(int distance);
 

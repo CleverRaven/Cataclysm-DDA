@@ -9,13 +9,17 @@
 
 #include <climits>
 #include <vector>
+#include <set>
 
 class player;
 class Character;
 class player_activity;
 class activity_type;
+struct sound_event;
 
 using activity_id = string_id<activity_type>;
+
+using creature_id = unsigned int;
 
 template<>
 const activity_type &string_id<activity_type>::obj() const;
@@ -71,6 +75,22 @@ class activity_type
         static void reset();
 };
 
+class danger_warning
+{
+    private:
+        // Noise that isn't footsteps
+        bool ignore_noise = false;
+        // Noise that is footsteps
+        bool ignore_footstep = false;
+        bool ignore_all_critters = false;
+        std::set<creature_id> ignored_critters;
+    public:
+        /** Returns true if character cares. */
+        bool warn_noise( Character &c, const sound_event &s );
+        /** Returns true if character cares. */
+        bool warn_critter( Character &c, const Creature &critter );
+}
+
 class player_activity : public JsonSerializer, public JsonDeserializer
 {
     private:
@@ -88,15 +108,12 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         /** An activity specific value. */
         std::string name;
         std::vector<item_location> targets;
-        bool ignore_trivial;
         std::vector<int> values;
         std::vector<std::string> str_values;
         std::vector<tripoint> coords;
         tripoint placement;
-        /** If true, the player has been warned of dangerously close monsters with
-         * respect to this activity.
-         */
-        bool warned_of_proximity;
+        /** Cares about warnings. Should not be saved. */
+        danger_warning warning;
         /** If true, the activity will be auto-resumed next time the player attempts
          *  an identical activity. This value is set dynamically.
          */
@@ -149,6 +166,14 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          */
         bool is_suspendable() const {
             return type->suspendable();
+        }
+
+        bool on_noise( player &p, const sound_event &s ) {
+            return warning.warn_noise( p, s );
+        }
+
+        bool on_critter_near( player &p, const Creature &c ) {
+            return warning.warn_critter( p, c );
         }
 
         using JsonSerializer::serialize;
