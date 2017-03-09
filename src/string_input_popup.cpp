@@ -343,7 +343,6 @@ void string_input_popup::edit( std::string &value )
 void string_input_popup::edit( long &value )
 {
     only_digits( true );
-    text( to_string( value ) );
     query();
     if( !canceled() ) {
         value = std::atol( text().c_str() );
