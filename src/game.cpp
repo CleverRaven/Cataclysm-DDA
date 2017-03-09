@@ -5212,16 +5212,16 @@ void game::draw_HP()
         }
     }
 
-    static const std::array<std::string, 7> body_parts = {{
+    const size_t num_parts = 7;
+    static const std::array<std::string, num_parts> body_parts = {{
         _("HEAD"), _("TORSO"), _("L ARM"),
         _("R ARM"), _("L LEG"), _("R LEG"), _("POWER")
     }};
-    static std::array<body_part, 7> part = {{
+    static std::array<body_part, num_parts> part = {{
         bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, num_bp
     }};
-    size_t num_parts = body_parts.size() / body_parts[0].size();
     for (size_t i = 0; i < num_parts; i++) {
-        const std::string str = body_parts[i];
+        const std::string &str = body_parts[i];
         wmove(w_HP, i * dy, 0);
         if (wide) {
             wprintz(w_HP, u.limb_color(part[i], true, true, true), " ");
