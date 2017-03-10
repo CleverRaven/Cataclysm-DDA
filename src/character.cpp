@@ -826,6 +826,10 @@ units::volume Character::volume_carried() const
 
 int Character::weight_capacity() const
 {
+    if( has_trait( "DEBUG_STORAGE" ) ) {
+        // Infinite enough
+        return INT_MAX;
+    }
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
     int ret = Creature::weight_capacity();
@@ -859,6 +863,10 @@ units::volume Character::volume_capacity() const
 
 units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
 {
+    if( has_trait( "DEBUG_STORAGE" ) ) {
+        return units::volume_max;
+    }
+
     units::volume ret = -mod;
     for (auto &i : worn) {
         ret += i.get_storage();
