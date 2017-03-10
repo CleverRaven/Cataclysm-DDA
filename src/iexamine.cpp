@@ -3419,6 +3419,15 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
+void iexamine::converter( player &p, const tripoint &examp )
+{
+    if (!query_yn(_("Use the %s?"), g->m.furn( examp ).c_str())) {
+        none( p, examp );
+        return;
+    }
+    g->interact_with_processor( &examp );
+}
+
 /**
 * Given then name of one of the above functions, returns the matching function
 * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -3493,7 +3502,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "locked_object", &iexamine::locked_object },
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },
-        { "climb_down", &iexamine::climb_down }
+        { "climb_down", &iexamine::climb_down },
+        { "converter", &iexamine::converter }
+        }
     }};
 
     auto iter = function_map.find( function_name );

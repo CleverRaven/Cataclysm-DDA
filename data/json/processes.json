@@ -1,0 +1,12 @@
+[
+	{
+        "type" : "process",
+        "id" : "fire_clay_bricks",
+		"name" : "Fire clay bricks",
+        "components" :  "crude_brick",
+        "output" : "brick",
+        "fuel_intake" : "60",
+        "duration" : 6000,
+		"skill_used" : "",
+    }
+]

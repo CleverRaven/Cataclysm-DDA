@@ -2580,7 +2580,7 @@
                 { "item": "rock", "count": 40 }
             ]
         },
-        "examine_action": "reload_furniture",
+        "examine_action": "converter",
         "bash": {
             "str_min": 18, "str_max": 50,
             "sound": "crunch!",
@@ -2589,7 +2589,33 @@
                 { "item": "rock", "count": [20, 30] }
             ]
         }
-    },{
+    },
+	{
+        "type" : "furniture",
+        "id" : "f_clay_kiln_on",
+        "name": "clay kiln",
+        "symbol": "^",
+        "color": "ltred",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "crafting_pseudo_item": "brick_kiln",
+        "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
+        "deconstruct": {
+            "items": [
+                { "item": "rock", "count": 40 }
+            ]
+        },
+        "examine_action": "converter",
+        "bash": {
+            "str_min": 18, "str_max": 50,
+            "sound": "crunch!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "rock", "count": [20, 30] }
+            ]
+        }
+    },
+	{
         "type" : "furniture",
         "id" : "f_ladder",
         "name": "stepladder",

@@ -106,6 +106,7 @@ void curtains( player &p, const tripoint &examp );
 void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
 void climb_down( player &p, const tripoint &examp );
+void converter(player &p, const tripoint &examp);
 hack_result hack_attempt( player &p );
 
 /**
