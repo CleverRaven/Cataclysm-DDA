@@ -2148,10 +2148,11 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         if(amount <= 0) {
            popup(_("The destination is already full!"));
         } else {
-            string_input_popup()
-            .title( popupmsg )
-            .width( 20 )
-            .edit( amount );
+            amount = std::atoi( string_input_popup()
+                                    .title( popupmsg )
+                                    .width( 20 )
+                                    .only_digits( true )
+                                    .query().c_str() );
         }
         if( amount <= 0 ) {
             redraw = true;
