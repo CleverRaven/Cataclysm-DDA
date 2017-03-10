@@ -105,30 +105,27 @@ void set_language()
 }
 
 // sanitized message cache
-std::map<const char *, std::string> &sanitized_messages()
+std::map<std::string, std::string> &sanitized_messages()
 {
-    static std::map<const char *, std::string> sanitized_messages;
+    static std::map<std::string, std::string> sanitized_messages;
     return sanitized_messages;
 }
 
 const char *strip_positional_formatting( const char *msgid )
 {
     // first check if we have it cached
-    if( sanitized_messages().find( msgid ) != sanitized_messages().end() ) {
-        if( sanitized_messages()[msgid] == "" ) {
-            return msgid;
-        } else {
-            return sanitized_messages()[msgid].c_str();
-        }
-    }
     std::string s( msgid );
+    auto iter = sanitized_messages().find( s );
+    if( iter != sanitized_messages().end() ) {
+        return iter->second.c_str();
+    }
+
     // basic usage is just to change all "%{number}$" to "%".
     // thus for example "%2$s" will change to simply "%s".
     // strings must have their parameters in strict order,
     // or else this will not work correctly.
     size_t pos = 0;
     size_t len = s.length();
-    bool changed = false;
     while( pos < len ) {
         pos = s.find( '%', pos );
         if( pos == std::string::npos || pos + 2 >= len ) {
@@ -147,18 +144,12 @@ const char *strip_positional_formatting( const char *msgid )
         }
         s.erase( pos + 1, dollarpos - pos );
         len = s.length(); // because it ain't da same no more
-        changed = true;
         ++pos;
     }
 
-    if( !changed ) {
-        sanitized_messages()[msgid] = "";
-        return msgid;
-    } else {
-        sanitized_messages()[msgid] = s;
-        return sanitized_messages()[msgid].c_str();
-    }
-    return msgid;
+    std::string &ret_msg = sanitized_messages()[std::string( msgid )];
+    ret_msg = s;
+    return ret_msg.c_str();
 }
 
 #endif // LOCALIZE

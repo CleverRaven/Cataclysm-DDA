@@ -57,6 +57,7 @@ src/mondefense.cpp
 src/monfaction.cpp
 src/monmove.cpp
 src/morale.cpp
+src/morale_types.cpp
 src/mtype.cpp
 src/mutation_ui.cpp
 src/name.cpp

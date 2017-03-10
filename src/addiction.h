@@ -5,10 +5,13 @@
 #include <string>
 #include <functional>
 
+#include "string_id.h"
+
 class addiction;
 class player;
 enum add_type : int;
-    enum morale_type : int;
+    class morale_type_data;
+    using morale_type = string_id<morale_type_data>;
 
     constexpr int MIN_ADDICTION_LEVEL = 3; // Minimum intensity before effects are seen
     constexpr int MAX_ADDICTION_LEVEL = 20;

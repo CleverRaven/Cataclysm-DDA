@@ -2279,7 +2279,9 @@ void Creature::load( JsonObject &jsin )
 void player_morale::morale_point::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    type = static_cast<morale_type>( jo.get_int( "type_enum" ) );
+    if( !jo.read( "type", type ) ) {
+        type = morale_type_data::convert_legacy( jo.get_int( "type_enum" ) );
+    }
     std::string tmpitype;
     if( jo.read( "item_type", tmpitype ) && item::type_is_defined( tmpitype ) ) {
         item_type = item::find_type( tmpitype );
@@ -2293,7 +2295,7 @@ void player_morale::morale_point::deserialize( JsonIn &jsin )
 void player_morale::morale_point::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "type_enum", static_cast<int>( type ) );
+    json.member( "type", type );
     if( item_type != NULL ) {
         // @todo refactor player_morale to not require this hack
         json.member( "item_type", item_type->get_id() );
