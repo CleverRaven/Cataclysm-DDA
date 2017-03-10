@@ -11714,6 +11714,7 @@ void game::place_player( const tripoint &dest_loc )
     // Move the player
     // Start with z-level, to make make it less likely that old functions (2D ones) freak out
     if( m.has_zlevels() && dest_loc.z != get_levz() ) {
+        despawn_monsters( 0, 0, dest_loc.z - get_levz() );
         vertical_shift( dest_loc.z );
     }
 
@@ -12512,6 +12513,29 @@ void game::vertical_move(int movez, bool force)
         return;
     }
 
+    // Save all monsters that can reach the stairs, remove them from the tracker,
+    // then despawn the remaining monsters. Because it's a vertical shift, all
+    // monsters are out of the bounds of the map and will despawn.
+    if( !m.has_zlevels() ) {
+        const int to_x = u.posx();
+        const int to_y = u.posy();
+        for (unsigned int i = 0; i < num_zombies();) {
+            monster &critter = zombie(i);
+            int turns = critter.turns_to_reach(to_x, to_y);
+            if (turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach(to_x, to_y)
+                && !slippedpast) {
+                critter.staircount = 10 + turns;
+                critter.on_unload();
+                coming_to_stairs.push_back(critter);
+                remove_zombie(i);
+            } else {
+                i++;
+            }
+        }
+
+        despawn_monsters(0, 0, movez);
+    }
+
     // Shift the map up or down
 
     std::unique_ptr<map> tmp_map_ptr;
@@ -12541,28 +12565,6 @@ void game::vertical_move(int movez, bool force)
 
     if( !force ) {
         monstairz = z_before;
-    }
-    // Save all monsters that can reach the stairs, remove them from the tracker,
-    // then despawn the remaining monsters. Because it's a vertical shift, all
-    // monsters are out of the bounds of the map and will despawn.
-    if( !m.has_zlevels() ) {
-        const int to_x = u.posx();
-        const int to_y = u.posy();
-        for( unsigned int i = 0; i < num_zombies(); ) {
-            monster &critter = zombie(i);
-            int turns = critter.turns_to_reach( to_x, to_y );
-            if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( to_x, to_y )
-                && !slippedpast) {
-                critter.staircount = 10 + turns;
-                critter.on_unload();
-                coming_to_stairs.push_back(critter);
-                remove_zombie( i );
-            } else {
-                i++;
-            }
-        }
-
-        shift_monsters( 0, 0, movez );
     }
 
     std::vector<npc *> npcs_to_bring;
@@ -12859,6 +12861,9 @@ void game::update_map(int &x, int &y)
         // Not actually shifting the submaps, all the stuff below would do nothing
         return;
     }
+
+    // Remove monsters that will end up outside of the reality bubble after the shift.
+    despawn_monsters( shiftx, shifty, 0 );
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
     m.shift( shiftx, shifty );
@@ -13166,39 +13171,86 @@ void game::update_stair_monsters()
     }
 }
 
+bool game::creature_can_roam(const monster& critter) {
+    if (!get_world_option<bool>( "WANDER_SPAWNS" )) {
+        return false;
+    }
+
+    // Check if the creature can roam (move across the overmap while outside the reality bubble).
+    // For now, we simply check whether the creature is on an inside tile. Later this might be extended
+    // to pathing toward the submap edges (to check if the creature can leave the submap). For instance,
+    // monsters locked in a closed building upon leaving the reality bubble shouldn't start roaming out
+    // of them.
+    if (m.has_flag_ter_or_furn( TFLAG_INDOORS, critter.pos())) {
+        return false;
+    }
+
+    // Only zombies on z-level 0 may join hordes.
+    if ( critter.posz() != 0 ) {
+        return false;
+    }
+
+    // Check if the monster is a zombie. Only zombies can roam for now.
+    auto& type = *(critter.type);
+    if(
+            !type.species.count(species_id("ZOMBIE")) || // Only add zombies to hordes.
+            type.id == mtype_id("mon_jabberwock") || // Jabberwockies are an exception.
+            critter.has_effect( effect_pet ) || // "Zombie pet" zlaves are, too.
+            critter.mission_id != -1 // We mustn't delete monsters that are related to missions.
+            ) {
+        return false;
+    }
+
+    return true;
+}
+
 void game::despawn_monster(int mondex)
 {
     monster &critter = zombie( mondex );
     if( !critter.is_hallucination() ) {
         // hallucinations aren't stored, they come and go as they like,
-        overmap_buffer.despawn_monster( critter );
+        if (creature_can_roam(critter)) {
+            overmap_buffer.add_roamer( critter );
+        } else {
+            overmap_buffer.despawn_monster( critter );
+        }
     }
 
     critter.on_unload();
     remove_zombie( mondex );
 }
 
-void game::shift_monsters( const int shiftx, const int shifty, const int shiftz )
+void game::despawn_monsters( const int shiftx, const int shifty, const int shiftz )
 {
     // If either shift argument is non-zero, we're shifting.
     if( shiftx == 0 && shifty == 0 && shiftz == 0 ) {
         return;
     }
-    for( unsigned int i = 0; i < num_zombies(); ) {
+    for( unsigned int i = 0; i < num_zombies();) {
         monster &critter = zombie( i );
-        if( shiftx != 0 || shifty != 0 ) {
-            critter.shift( shiftx, shifty );
-        }
+        tripoint pos_after_shift = critter.pos() + tripoint(shiftx, shifty, shiftz);
 
-        if( m.inbounds( critter.pos() ) && ( shiftz == 0 || m.has_zlevels() ) ) {
+        if( !m.inbounds( pos_after_shift ) || ( shiftz != 0 && !m.has_zlevels() ) ) {
+            // Either a vertical shift or the critter is now outside of the reality bubble,
+            // anyway: it must be saved and removed.
+            despawn_monster( i );
+        } else {
             i++;
-            // We're inbounds, so don't despawn after all.
-            // No need to shift z coords, they are absolute
-            continue;
         }
-        // Either a vertical shift or the critter is now outside of the reality bubble,
-        // anyway: it must be saved and removed.
-        despawn_monster( i );
+    }
+}
+
+void game::shift_monsters( const int shiftx, const int shifty, const int shiftz )
+{
+    // If either shift argument is non-zero, we're shifting.
+    if( shiftx == 0 && shifty == 0 ) {
+        return;
+    }
+    for( unsigned int i = 0; i < num_zombies(); i++) {
+        monster &critter = zombie(i);
+        if (shiftx != 0 || shifty != 0) {
+            critter.shift(shiftx, shifty);
+        }
     }
     // The order in which zombies are shifted may cause zombies to briefly exist on
     // the same square. This messes up the mon_at cache, so we need to rebuild it.

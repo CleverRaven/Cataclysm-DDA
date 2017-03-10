@@ -2972,64 +2972,33 @@ void overmap::move_hordes()
     }
     // and now back into the monster group map.
     zg.insert( tmpzg.begin(), tmpzg.end() );
+}
 
+void overmap::add_roamer(const monster& critter, tripoint sm) {
+    // Scan for compatible hordes in this area.
+    mongroup *add_to_group = NULL;
+    auto group_bucket = zg.equal_range(sm);
 
-    if(get_world_option<bool>( "WANDER_SPAWNS" ) ) {
-        static const mongroup_id GROUP_ZOMBIE("GROUP_ZOMBIE");
+    static const mongroup_id GROUP_ZOMBIE("GROUP_ZOMBIE");
+    std::for_each( group_bucket.first, group_bucket.second,
+                   [&](std::pair<const tripoint, mongroup> &horde_entry ) {
+                       mongroup &horde = horde_entry.second;
 
-        // Re-absorb zombies into hordes.
-        // Scan over monsters outside the player's view and place them back into hordes.
-        auto monster_map_it = monster_map.begin();
-        while(monster_map_it != monster_map.end()) {
-            const auto& p = monster_map_it->first;
-            auto& this_monster = monster_map_it->second;
+                       // We only absorb zombies into GROUP_ZOMBIE hordes
+                       if(horde.horde && !horde.monsters.empty() && horde.type == GROUP_ZOMBIE) {
+                           add_to_group = &horde;
+                       }
+                   });
 
-            // Only zombies on z-level 0 may join hordes.
-            if( p.z != 0 ) {
-                monster_map_it++;
-                continue;
-            }
-
-            // Check if the monster is a zombie.
-            auto& type = *(this_monster.type);
-            if(
-                !type.species.count(species_id("ZOMBIE")) || // Only add zombies to hordes.
-                type.id == mtype_id("mon_jabberwock") || // Jabberwockies are an exception.
-                this_monster.has_effect( effect_pet ) || // "Zombie pet" zlaves are, too.
-                this_monster.mission_id != -1 // We mustn't delete monsters that are related to missions.
-            ) {
-                // Don't delete the monster, just increment the iterator.
-                monster_map_it++;
-                continue;
-            }
-
-            // Scan for compatible hordes in this area.
-            mongroup *add_to_group = NULL;
-            auto group_bucket = zg.equal_range(p);
-            std::for_each( group_bucket.first, group_bucket.second,
-                [&](std::pair<const tripoint, mongroup> &horde_entry ) {
-                mongroup &horde = horde_entry.second;
-
-                // We only absorb zombies into GROUP_ZOMBIE hordes
-                if(horde.horde && !horde.monsters.empty() && horde.type == GROUP_ZOMBIE) {
-                    add_to_group = &horde;
-                }
-            });
-
-            // If there is no horde to add the monster to, create one.
-            if(add_to_group == NULL) {
-                mongroup m(GROUP_ZOMBIE, p.x, p.y, p.z, 1, 0);
-                m.horde = true;
-                m.monsters.push_back(this_monster);
-                m.interest = 0; // Ensures that we will select a new target.
-                add_mon_group( m );
-            } else {
-                add_to_group->monsters.push_back(this_monster);
-            }
-
-            // Delete the monster, continue iterating.
-            monster_map_it = monster_map.erase(monster_map_it);
-        }
+    // If there is no horde to add the monster to, create one.
+    if(add_to_group == NULL) {
+        mongroup m(GROUP_ZOMBIE, sm.x, sm.y, sm.z, 1, 0);
+        m.horde = true;
+        m.monsters.push_back(critter);
+        m.interest = 0; // Ensures that we will select a new target.
+        add_mon_group( m );
+    } else {
+        add_to_group->monsters.push_back(critter);
     }
 }
 

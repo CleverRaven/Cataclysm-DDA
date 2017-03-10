@@ -815,6 +815,17 @@ void overmapbuffer::spawn_monster(const int x, const int y, const int z)
     om.monster_map.erase( current_submap_loc );
 }
 
+void overmapbuffer::add_roamer(const monster &critter)
+{
+    // Get absolute coordinates of the monster in map squares, translate to submap position
+    tripoint sm = ms_to_sm_copy( g->m.getabs( critter.pos() ) );
+    // Get the overmap coordinates and get the overmap, sm is now local to that overmap
+    const point omp = sm_to_om_remain( sm.x, sm.y );
+    overmap &om = get( omp.x, omp.y );
+
+    om.add_roamer(critter, sm);
+}
+
 void overmapbuffer::despawn_monster(const monster &critter)
 {
     // Get absolute coordinates of the monster in map squares, translate to submap position
