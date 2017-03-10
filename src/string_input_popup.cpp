@@ -333,7 +333,9 @@ string_input_popup &string_input_popup::context( input_context &ctxt )
 void string_input_popup::edit( std::string &value )
 {
     only_digits( false );
-    text( value );
+    if( _useDefaultValue ) {
+        text( value );
+    }
     query();
     if( !canceled() ) {
         value = text();
@@ -343,6 +345,9 @@ void string_input_popup::edit( std::string &value )
 void string_input_popup::edit( long &value )
 {
     only_digits( true );
+    if( _useDefaultValue ) {
+        text( to_string( value ) );
+    }
     query();
     if( !canceled() ) {
         value = std::atol( text().c_str() );
@@ -352,7 +357,9 @@ void string_input_popup::edit( long &value )
 void string_input_popup::edit( int &value )
 {
     only_digits( true );
-    text( to_string( value ) );
+    if( _useDefaultValue ) {
+        text( to_string( value ) );
+    }
     query();
     if( !canceled() ) {
         value = std::atoi( text().c_str() );

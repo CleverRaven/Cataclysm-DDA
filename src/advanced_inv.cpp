@@ -2151,6 +2151,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             string_input_popup()
             .title( popupmsg )
             .width( 20 )
+            .useDefaultValue( false )
             .edit( amount );
         }
         if( amount <= 0 ) {

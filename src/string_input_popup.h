@@ -53,6 +53,7 @@ class string_input_popup
         int _starty = 0;
         int _endx = 0;
         int _position = 0;
+        bool _useDefaultValue = true;
 
         WINDOW_PTR w_ptr;
         WINDOW *w = nullptr;
@@ -170,12 +171,21 @@ class string_input_popup
             return _canceled;
         }
         /**
+         * Whether the input box should use the value that is passed to it from
+         * the calling function. Defaults is TRUE
+         */
+        string_input_popup &useDefaultValue( bool value ) {
+            _useDefaultValue = value;;
+            return *this;
+        }
+        /**
          * Edit values in place. This combines: calls to @ref text to set the
          * current value, @ref query to get user input and setting the
          * value back into the parameter object (when the popup was not
          * canceled). Cancelling the popup keeps the value unmodified.
          */
         /**@{*/
+
         void edit( std::string &text );
         void edit( long &value );
         void edit( int &value );
